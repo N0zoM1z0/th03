@@ -20,5 +20,12 @@ uses a separately validated stateless instance and a proxy switch, while
 existing MCP and worker processes remain alive. Paths, binding hashes, port
 and endpoint configuration belong only to ignored operator state.
 
-TH03 exact-unit replay is deliberately unavailable until a target-specific
-driver, complete extent contract and cold-source replay are implemented.
+Native TH03 receipt replay is unavailable until a Factory driver is implemented
+and the worker is migrated. The checked-in local
+`scripts/replay_th03_main_exact_units.py` can run through Factory's repository
+shell; its exact owner ledgers remain imported claims, separate from Truth
+Kernel acceptance.
+
+TH03's allowlisted TH04 reference is discoverable at `/references/th04` inside
+the repository shell. For example, `cat /references/th04/src/shared/math/vector.cpp`
+reads real maintained source without requiring the host path. Writes are denied.

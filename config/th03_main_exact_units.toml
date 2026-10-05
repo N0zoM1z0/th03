@@ -1,0 +1,95 @@
+schema_version = 1
+artifact = "th03-main"
+target_sha256 = "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b"
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+segment = 0x0e8f
+scope = "reviewed-main-owned-extents"
+determinism_object_roots = ["obj/th01", "obj/th02", "obj/th03", "obj/th04", "obj/th05"]
+determinism_object_count = 350
+generated_object_count = 416
+
+[[units]]
+id = "th03-main-polar"
+source = "src/main/math/polar.cpp"
+header = "src/main/math/polar.hpp"
+object = "polar"
+start = 0x016d
+size = 26
+
+[[units]]
+id = "th03-main-input-modes"
+source = "src/main/hardware/input_modes.cpp"
+header = "src/main/hardware/input.hpp"
+object = "inp_m_w"
+start = 0x0464
+size = 367
+
+[[functions]]
+name = "polar"
+object = "polar"
+offset = 0x016d
+size = 26
+abi = "far cdecl; three signed words; caller removes six bytes"
+
+[[functions]]
+name = "input_mode_interface"
+object = "inp_m_w"
+offset = 0x0464
+size = 36
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_mode_key_vs_key"
+object = "inp_m_w"
+offset = 0x0488
+size = 10
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_mode_joy_vs_key"
+object = "inp_m_w"
+offset = 0x0492
+size = 34
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_mode_key_vs_joy"
+object = "inp_m_w"
+offset = 0x04b4
+size = 34
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_mode_1p_vs_cpu"
+object = "inp_m_w"
+offset = 0x04d6
+size = 42
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_mode_cpu_vs_1p"
+object = "inp_m_w"
+offset = 0x0500
+size = 45
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_mode_cpu_vs_cpu"
+object = "inp_m_w"
+offset = 0x052d
+size = 42
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_mode_attract"
+object = "inp_m_w"
+offset = 0x0557
+size = 48
+abi = "far Pascal; no arguments"
+
+[[functions]]
+name = "input_wait_for_change"
+object = "inp_m_w"
+offset = 0x0587
+size = 76
+abi = "far Pascal; signed word at BP+6; RETF 2"
