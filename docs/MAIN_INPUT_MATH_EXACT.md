@@ -1,25 +1,29 @@
-# MAIN input and polar ownership
+# MAIN foundation exact ownership
 
-The maintained sources implement twelve exact functions in four reviewed
-authored extents totaling 831 bytes. Scope is the pinned Japanese MAIN.EXE.
-Reuse by packed OP and MAINL remains a reference hypothesis, so these sources
-stay under `src/main`.
+The maintained sources implement fourteen exact functions in five reviewed
+authored extents totaling 951 bytes. Scope is the pinned Japanese MAIN.EXE.
+The accepted frontier now covers polar math, frame timing, keyboard/input mode
+sensing, and the complete sound-effect play/update translation-unit
+contribution. Reuse by packed OP and MAINL remains a reference hypothesis, so
+these sources stay under `src/main`.
 
 | Owner | Relative segment:offset | Bytes | Functions | Maintained source |
 | --- | --- | ---: | ---: | --- |
 | `th03-main-polar` | `0E8F:016D` | 26 | 1 | `src/main/math/polar.cpp` |
 | `th03-main-frame-delay` | `0E8F:0187` | 21 | 1 | `src/main/hardware/frame_delay.cpp` |
 | `th03-main-input-sense` | `0E8F:019C` | 417 | 1 | `src/main/hardware/input_sense.cpp` |
+| `th03-main-snd-se` | `0E8F:034A` | 120 | 2 | `src/main/sound/se.cpp` |
 | `th03-main-input-modes` | `0E8F:0464` | 367 | 9 | `src/main/hardware/input_modes.cpp` |
 
 ## Target review
 
-Independent MZ parsing gives a 6240-byte target header. The four accepted
-payload starts are `0xEA5D`, `0xEA77`, `0xEA8C`, and `0xED54`; Ghidra's load
-base adds `0x10000` to those addresses. The independently attested headless
-database reports twelve complete bodies at the reviewed starts, with exact
-ends and sizes checked against independent 16-bit decoding. Every accepted
-function ends in a far return, with no shared epilogue outside its owned span.
+Independent MZ parsing gives a 6240-byte target header. The five accepted
+payload starts are `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`, and `0xED54`;
+Ghidra's load base adds `0x10000` to those addresses. The independently
+attested headless database reports fourteen complete bodies at the reviewed
+starts, with exact ends and sizes checked against independent 16-bit decoding.
+Every accepted function ends in a far return, with no shared epilogue outside
+its owned span.
 
 `frame_delay` is a complete 21-byte far Pascal function through `RETF 2`.
 `input_reset_sense_key_held` is one large 417-byte far cdecl body with no
@@ -30,6 +34,15 @@ owns 417 bytes rather than the historical 418-byte object contribution. It does
 not add a `codestring` merely to claim that padding byte. The linker still
 places the following object at `SHARED:033E`, so excluding the NOP does not move
 any later accepted owner.
+
+`snd_se_play` and `snd_se_update` are adjacent 60-byte bodies at
+`SHARED:034A` and `SHARED:0386`. Together they exactly cover the 120-byte
+`th03/snd_se.cpp` MAP contribution through `SHARED:03C1`; the next owner starts
+at `03C2`. The play entry is far Pascal and returns with `RETF 2`; the update
+entry is far cdecl. Target disassembly confirms the PMD `INT 60h` path, the
+`0xFF` no-effect sentinel, and byte tables/state at the observed DGROUP offsets.
+The owner has no MZ relocation sites. Ghidra reports 55 direct callers of play
+and three of update, so this is not a leaf-only expansion.
 
 `input_wait_for_change` owns both loops through `RETF 2`; no padding or data is
 assigned to its body. The full input-mode contribution is the contiguous union
@@ -57,7 +70,7 @@ labels do not override the target ABI.
 
 ## Source and replay
 
-The four maintained translation units use local ABI headers and no ReC98
+The five maintained translation units use local ABI headers and no ReC98
 includes. They were developed from the pinned TH03 reference as hypotheses and
 then checked independently against TH03 target instructions, compiler objects,
 link-map placement, relocations, and final linked bytes. `input_sense.cpp` uses
@@ -72,6 +85,7 @@ from modern source-relative compilers.
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-snd-se
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
 ```
@@ -99,17 +113,21 @@ Each round also keeps the existing DOS behavior probe passing. Its explicit
 hardware test doubles exercise the accepted input-mode and polar behavior:
 joystick/keyboard routing, cancel/OK normalization, finite release/press waits,
 0 and 9999 unlimited waits, negative wait parameters, negative fixed-point
-rounding, and 16-bit result wraparound. `frame_delay` and `input_sense` are not
-claimed as directly exercised by that probe; their acceptance here is based on
-complete target-boundary review plus exact compiler/link/MAP/relocation/raw-byte
-replay. This is not PC-98 game runtime certification.
+rounding, and 16-bit result wraparound. `frame_delay`, `input_sense`, and
+`snd_se` are not claimed as directly exercised by that probe; their acceptance
+here is based on complete target-boundary review plus exact
+compiler/link/MAP/relocation/raw-byte replay. This is not PC-98 game runtime
+certification.
 
 Portable Oracle controls reject changed final bytes, changed relocated words,
 relocation order/multiplicity changes, split relocation words, invalid MZ
 containers and out-of-range extents. Header-size differences are accounted for
 through each image's own payload mapping. Outside bytes receive no local credit.
 
-Factory repository-shell execution runs this same checked-in Oracle. Native
-TH03 Truth Kernel replay is still unregistered; local exact ledger claims do
+Post-promotion repository-shell run `gpt-web-main-five-owner-final-20261005-a`
+began with all five current owners already accepted and passed the full two-round
+aggregate again. Factory repository-shell execution runs this same checked-in
+Oracle. Native TH03 Truth Kernel replay is still unregistered; local exact ledger
+claims do
 not become Factory-accepted receipts through source inspection or shell success.
 Whole-game product closure remains open.

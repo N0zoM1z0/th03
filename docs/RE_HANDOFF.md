@@ -3,11 +3,12 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Four maintained exact owners now contain twelve exact functions / 831 exact
+Five maintained exact owners now contain fourteen exact functions / 951 exact
 authored bytes: `th03-main-polar` (26), `th03-main-frame-delay` (21),
-`th03-main-input-sense` (417), and `th03-main-input-modes` (367). Target-first
-boundaries, far/cdecl/Pascal ABI, full unnormalized bytes, MAP contributions
-and ordered MZ relocation sites/values are reviewed. The whole-product graph
+`th03-main-input-sense` (417), `th03-main-snd-se` (120), and
+`th03-main-input-modes` (367). Target-first boundaries, far/cdecl/Pascal
+ABI, full unnormalized bytes, MAP contributions and ordered MZ relocation
+sites/values are reviewed. The whole-product graph
 remains open in `config/build.toml`.
 
 ## Verified local inputs
@@ -46,6 +47,7 @@ python3 scripts/ghidra.py th03-main check
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-snd-se
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 ```
 
@@ -64,7 +66,7 @@ the hot deployment; the Factory fix is committed separately.
 The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
 All 20 configured outputs and 350 game objects are deterministic, all 416 OMF
-objects are valid, all four accepted owners and all twelve full bodies match,
+objects are valid, all five accepted owners and all fourteen full bodies match,
 and the existing DOS ABI/behavior probe stays passing. The maintained sources
 have no upstream includes or copied target-byte payloads. The 417-byte
 `input_reset_sense_key_held` body deliberately excludes the target's following
@@ -79,20 +81,29 @@ TH04 all-game calibration mismatch; its old hashes have not been changed.
 Local exact-owner evidence does not publish Factory Truth Kernel acceptance.
 
 The earlier post-promotion run `factory-main-input-math-exact` remains the
-baseline receipt for the original polar/input-mode pair. The current expansion
-was independently re-screened against the TH03 target: `frame_delay` is one
-complete 21-byte body with three direct callers, while
-`input_reset_sense_key_held` is one complete 417-byte body with ten direct
-callers and no callees. Post-promotion aggregate run
-`gptweb-main-four-owner-final-20261005-a` began with all four owners already
-accepted and passed two fresh full builds, identical 20-product and 350-game-
-object vectors, all 416 valid OMF objects, complete raw/MAP/relocation checks,
-and the maintained DOS probe. Its receipt is the current four-owner replay
-evidence; native TH03 Truth Kernel publication remains unavailable.
+baseline receipt for the original polar/input-mode pair. The next expansion
+independently re-screened `frame_delay` as one complete 21-byte body with three
+direct callers and `input_reset_sense_key_held` as one complete 417-byte body
+with ten direct callers and no callees. The new `th03-main-snd-se` owner adds
+the complete adjacent 60-byte `SND_SE_PLAY` and 60-byte `_snd_se_update`
+bodies. Their target owner is exactly the 120-byte MAP contribution, with 55
+and three direct callers respectively and no owner relocation sites. Development
+probe `gpt-web-snd-se-probe3` passed two fresh full builds, identical
+20-product and 350-game-object vectors, all 416 valid OMF objects, and complete
+raw/MAP/relocation checks. The existing DOS probe also stayed passing, but it
+does not directly exercise the new sound owner. Post-promotion aggregate
+`gpt-web-main-five-owner-final-20261005-a` then began with all five owners
+already accepted and independently passed the same two-round vector plus all
+14 function / 951-byte exact checks. Native TH03 Truth Kernel publication
+remains unavailable.
 
 ## Next bounded work
 
-Continue MAIN first. The next bounded math candidate is the 160-byte
+Continue MAIN first. Do not restrict the frontier to tiny leaves. The next
+low-dependency candidates immediately around the recovered foundation are
+`th03/snd_kaja.cpp` (30 bytes), `th03/initmain.cpp` (62 bytes, seven callees),
+and `th03/pi_load.cpp` (70 bytes, two callees); `initmain` is the preferred
+non-leaf control-flow owner. The bounded math candidate remains the 160-byte
 `th03/vector.cpp` SHARED contribution at `0E8F:008A`: target-local comparison
 shows the pinned reference contribution is byte/relocation exact, but the
 historical source relies on raw inline opcode bytes and a `codestring` NOP.

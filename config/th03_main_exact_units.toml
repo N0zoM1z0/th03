@@ -37,6 +37,14 @@ start = 0x019c
 size = 417
 
 [[units]]
+id = "th03-main-snd-se"
+source = "src/main/sound/se.cpp"
+header = "src/main/sound/se.hpp"
+object = "snd_se"
+start = 0x034a
+size = 120
+
+[[units]]
 id = "th03-main-input-modes"
 source = "src/main/hardware/input_modes.cpp"
 header = "src/main/hardware/input.hpp"
@@ -65,6 +73,22 @@ object = "input_s"
 offset = 0x019c
 size = 417
 abi = "far cdecl; no arguments; no stack frame"
+
+[[functions]]
+name = "snd_se_play"
+object = "snd_se"
+offset = 0x034a
+size = 60
+map_public = "SND_SE_PLAY"
+abi = "far Pascal; signed word argument; RETF 2"
+
+[[functions]]
+name = "snd_se_update"
+object = "snd_se"
+offset = 0x0386
+size = 60
+map_public = "_snd_se_update"
+abi = "far cdecl; no arguments"
 
 [[functions]]
 name = "input_mode_interface"
