@@ -1,10 +1,10 @@
 # MAIN foundation exact ownership
 
-The maintained sources implement fifteen exact functions in six reviewed
-authored extents totaling 1013 bytes. Scope is the pinned Japanese MAIN.EXE.
+The maintained sources implement sixteen exact functions in seven reviewed
+authored extents totaling 1083 bytes. Scope is the pinned Japanese MAIN.EXE.
 The accepted frontier now covers polar math, frame timing, keyboard/input mode
-sensing, the complete sound-effect play/update contribution, and the non-leaf
-main initialization owner. Reuse by packed OP and MAINL remains a reference
+sensing, the complete sound-effect play/update contribution, main initialization,
+and PI slot loading. Reuse by packed OP and MAINL remains a reference
 hypothesis, so these sources stay under `src/main`.
 
 | Owner | Relative segment:offset | Bytes | Functions | Maintained source |
@@ -14,14 +14,15 @@ hypothesis, so these sources stay under `src/main`.
 | `th03-main-input-sense` | `0E8F:019C` | 417 | 1 | `src/main/hardware/input_sense.cpp` |
 | `th03-main-snd-se` | `0E8F:034A` | 120 | 2 | `src/main/sound/se.cpp` |
 | `th03-main-initmain` | `0E8F:03E0` | 62 | 1 | `src/main/core/initmain.cpp` |
+| `th03-main-pi-load` | `0E8F:041E` | 70 | 1 | `src/main/formats/pi_load.cpp` |
 | `th03-main-input-modes` | `0E8F:0464` | 367 | 9 | `src/main/hardware/input_modes.cpp` |
 
 ## Target review
 
-Independent MZ parsing gives a 6240-byte target header. The six accepted
-payload starts are `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`, `0xECD0`, and
-`0xED54`; Ghidra's load base adds `0x10000` to those addresses. The
-independently attested headless database reports fifteen complete bodies at the
+Independent MZ parsing gives a 6240-byte target header. The seven accepted
+payload starts are `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`, `0xECD0`,
+`0xED0E`, and `0xED54`; Ghidra's load base adds `0x10000` to those addresses. The
+independently attested headless database reports sixteen complete bodies at the
 starts, with exact ends and sizes checked against independent 16-bit decoding.
 Every accepted function ends in a far return, with no shared epilogue outside
 its owned span.
@@ -55,6 +56,17 @@ relocations occur at owner-relative sites 9, 30, 35, 40, 45, and 54. The
 `vram_planes_set` call is linker-relaxed to `NOP; PUSH CS; CALL near` and therefore
 has no segment relocation.
 
+`pi_load` is a complete 70-byte far Pascal body at `SHARED:041E`. The target
+loads the slot word from `BP+A`, scales it by `0x48` to address `PiHeader`, and
+indexes the parallel far-pointer buffer array with `slot*4`. It first calls
+`GRAPH_PI_FREE(&pi_headers[slot], pi_buffers[slot])`, then calls
+`GRAPH_PI_LOAD_PACK(fn, &pi_headers[slot], &pi_buffers[slot])`, stores the
+returned word in its local, and returns it through `RETF 6`. The filename is a
+far pointer at `BP+6`. The two far-call segment words are the only owner MZ
+relocations, at relative sites 31 and 60. Ghidra reports two direct callees and
+no direct callers; the latter is recorded only as an analyzer observation, not
+as proof that the routine is unreachable.
+
 `input_wait_for_change` owns both loops through `RETF 2`; no padding or data is
 assigned to its body. The full input-mode contribution is the contiguous union
 of all nine bodies. `polar` has no calls and owns its final `RETF`.
@@ -81,7 +93,7 @@ labels do not override the target ABI.
 
 ## Source and replay
 
-The six maintained translation units use local ABI headers and no ReC98
+The seven maintained translation units use local ABI headers and no ReC98
 includes. They were developed from the pinned TH03 reference as hypotheses and
 then checked independently against TH03 target instructions, compiler objects,
 link-map placement, relocations, and final linked bytes. `input_sense.cpp` uses
@@ -98,6 +110,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-snd-se
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-initmain
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
 ```
@@ -125,8 +138,8 @@ Each round also keeps the existing DOS behavior probe passing. Its explicit
 hardware test doubles exercise the accepted input-mode and polar behavior:
 joystick/keyboard routing, cancel/OK normalization, finite release/press waits,
 0 and 9999 unlimited waits, negative wait parameters, negative fixed-point
-rounding, and 16-bit result wraparound. `frame_delay`, `input_sense`, and
-`snd_se`, and `initmain` are not claimed as directly exercised by that probe;
+rounding, and 16-bit result wraparound. `frame_delay`, `input_sense`, `snd_se`, `initmain`, and
+`pi_load` are not claimed as directly exercised by that probe;
 their acceptance here is based on complete target-boundary review plus exact
 compiler/link/MAP/relocation/raw-byte replay. This is not PC-98 game runtime
 certification.
@@ -136,10 +149,11 @@ relocation order/multiplicity changes, split relocation words, invalid MZ
 containers and out-of-range extents. Header-size differences are accounted for
 through each image's own payload mapping. Outside bytes receive no local credit.
 
-Post-promotion repository-shell run
-`gpt-web-main-six-owner-final-20261005-b` began with all six current owners
-already accepted and passed the full two-round aggregate again: all 15 accepted
-function bodies / 1013 owned bytes, MAP placement and ordered relocation checks
+Development replay `gpt-web-pi-load-probe1-0948` expanded the checked set to
+16 functions / 1083 bytes. Post-promotion repository-shell run
+`gpt-web-main-seven-owner-final-20261005-a` then began with all seven owners
+already accepted and passed the full two-round aggregate again: all 16 accepted
+function bodies / 1083 owned bytes, MAP placement and ordered relocation checks
 matched while the 20-product and 350-game-object vectors stayed deterministic.
 Factory repository-shell execution runs this same checked-in Oracle. Native TH03
 Truth Kernel replay is still unregistered; local exact ledger claims do not

@@ -3,10 +3,11 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Six maintained exact owners now contain fifteen exact functions / 1013 exact
+Seven maintained exact owners now contain sixteen exact functions / 1083 exact
 authored bytes: `th03-main-polar` (26), `th03-main-frame-delay` (21),
 `th03-main-input-sense` (417), `th03-main-snd-se` (120),
-`th03-main-initmain` (62), and `th03-main-input-modes` (367). Target-first boundaries, far/cdecl/Pascal
+`th03-main-initmain` (62), `th03-main-pi-load` (70), and
+`th03-main-input-modes` (367). Target-first boundaries, far/cdecl/Pascal
 ABI, full unnormalized bytes, MAP contributions and ordered MZ relocation
 sites/values are reviewed. The whole-product graph
 remains open in `config/build.toml`.
@@ -49,6 +50,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-snd-se
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-initmain
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 ```
 
@@ -67,7 +69,7 @@ the hot deployment; the Factory fix is committed separately.
 The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
 All 20 configured outputs and 350 game objects are deterministic, all 416 OMF
-objects are valid, all six accepted owners and all fifteen full bodies match,
+objects are valid, all seven accepted owners and all sixteen full bodies match,
 and the existing DOS ABI/behavior probe stays passing. The maintained sources
 have no upstream includes or copied target-byte payloads. The 417-byte
 `input_reset_sense_key_held` body deliberately excludes the target's following
@@ -106,13 +108,23 @@ already accepted and passed the same two-round product/object vector plus all
 function, MAP and ordered-relocation checks. Native TH03 Truth Kernel
 publication remains unavailable.
 
+The next data-flow owner `th03-main-pi-load` is one complete 70-byte far
+Pascal body. Target instructions independently confirm the 0x48-byte
+`PiHeader` stride, parallel four-byte far-pointer buffer slots, two master.lib
+callees, `RETF 6`, and owner relocation sites 31 and 60. Development replay
+`gpt-web-pi-load-probe1-0948` passed two fresh full builds with the aggregate
+expanded to 16 functions / 1083 bytes. Post-promotion aggregate
+`gpt-web-main-seven-owner-final-20261005-a` then began with all seven owners
+already accepted and independently passed the same two-round product/object,
+full-function, MAP and ordered-relocation checks.
+
 ## Next bounded work
 
-Continue MAIN first. Do not restrict the frontier to tiny leaves. The next
-low-dependency candidates immediately around the recovered foundation are
-`th03/snd_kaja.cpp` (30 bytes) and `th03/pi_load.cpp` (70 bytes, two callees);
-`pi_load` is the preferred next non-leaf/data-flow owner. The bounded math candidate
-remains the 160-byte
+Continue MAIN first. Do not restrict the frontier to tiny leaves. The immediate
+low-dependency candidate around the recovered foundation is `th03/snd_kaja.cpp`
+(30 bytes). After closing it, continue into the 160-byte vector math owner and
+then broader timing/state/gameplay dependencies rather than staying on tiny
+leaves. The bounded math candidate remains the 160-byte
 `th03/vector.cpp` SHARED contribution at `0E8F:008A`: target-local comparison
 shows the pinned reference contribution is byte/relocation exact, but the
 historical source relies on raw inline opcode bytes and a `codestring` NOP.
