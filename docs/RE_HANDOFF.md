@@ -3,13 +3,14 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Eight maintained exact owners now contain seventeen exact functions / 1113 exact
-authored bytes: `th03-main-polar` (26), `th03-main-frame-delay` (21),
+Nine maintained exact owners now contain nineteen exact functions / 1273 exact
+owned bytes: `th03-main-vector-far` (160, including one alignment byte),
+`th03-main-polar` (26), `th03-main-frame-delay` (21),
 `th03-main-input-sense` (417), `th03-main-snd-se` (120),
-`th03-main-snd-kaja` (30), `th03-main-initmain` (62), `th03-main-pi-load` (70), and
-`th03-main-input-modes` (367). Target-first boundaries, far/cdecl/Pascal
-ABI, full unnormalized bytes, MAP contributions and ordered MZ relocation
-sites/values are reviewed. The whole-product graph
+`th03-main-snd-kaja` (30), `th03-main-initmain` (62), `th03-main-pi-load` (70),
+and `th03-main-input-modes` (367). Target-first boundaries,
+far/cdecl/Pascal ABI, full unnormalized bytes, MAP contributions and ordered
+MZ relocation sites/values are reviewed. The whole-product graph
 remains open in `config/build.toml`.
 
 ## Verified local inputs
@@ -45,6 +46,7 @@ python3 scripts/ci.py
 python3 scripts/build.py --status
 python3 scripts/build.py --reference --run-id NEW_UNIQUE_ID
 python3 scripts/ghidra.py th03-main check
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-vector-far
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
@@ -69,10 +71,13 @@ the hot deployment; the Factory fix is committed separately.
 
 The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
-All 20 configured outputs and 350 game objects are deterministic, all 416 OMF
-objects are valid, all eight accepted owners and all seventeen full bodies match,
+All 20 configured outputs and 351 game objects are deterministic, all 417 OMF
+objects are valid, all nine accepted owners and all nineteen full bodies match,
 and the existing DOS ABI/behavior probe stays passing. The maintained sources
-have no upstream includes or copied target-byte payloads. The 417-byte
+have no upstream includes or copied target-byte payloads. The vector owner uses
+symbolic TASM and `EVEN` rather than the historical raw opcode bytes / C++
+`codestring`; its 159 function bytes plus one alignment byte match as one
+160-byte owner. The 417-byte
 `input_reset_sense_key_held` body deliberately excludes the target's following
 one-byte NOP at `SHARED:033D`; no `codestring` is used to manufacture ownership.
 Portable positive/negative Oracle tests cover full-byte and relocation failures.
@@ -123,21 +128,34 @@ full-function, MAP and ordered-relocation checks. The next complete owner,
 INT 60h/61h dispatch selected by snd_midi_active, two direct callers, `RETF 2`,
 and zero owner relocation sites. Development replay `gpt-web-snd-kaja-probe1-1005`
 and post-promotion aggregate `gpt-web-main-eight-owner-final-20261005-a` both
-passed, bringing the maintained frontier to 17 functions / 1113 bytes.
+passed, bringing that frontier to 17 functions / 1113 bytes. The next
+`th03-main-vector-far` owner replaces MAIN's historical raw-inline-opcode
+translation unit with symbolic TASM: `VECTOR2` is 69 bytes, `EVEN` contributes
+one reviewed NOP, and `VECTOR2_BETWEEN_PLUS` is 90 bytes. Target review confirms
+15/4 direct callers, the sole `IATAN2` callee in the between-plus body, far
+Pascal cleanup, and the single owner relocation at relative site 94.
+Development replay `gpt-web-vector-far-probe1-20261005-1828` passed two fresh
+full builds, expanding the maintained aggregate to 19 functions / 1272 function
+bytes and 1273 owned bytes. MAIN now links `vectorfar.obj`; the deterministic
+all-game vector is 351 game objects / 417 generated OMF objects because the
+historical `th03/vector.obj` remains required by other products.
+
+Post-promotion aggregate `gpt-web-main-nine-owner-final-20261005-a` began with
+all nine owners already accepted and independently passed the same full two-round
+20-product / 351-game-object vector, all 417 OMF validations, all 19 function
+bodies / 1272 function bytes, the one declared alignment byte, the 1273-byte
+owned aggregate, MAP placement, and ordered relocations.
 
 ## Next bounded work
 
-Continue MAIN first. Do not restrict the frontier to tiny leaves. KAJA is now
-closed; the immediate candidate is the 160-byte vector math owner, followed by
-broader timing/state/gameplay dependencies rather than staying on tiny leaves.
-The bounded math candidate remains the 160-byte
-`th03/vector.cpp` SHARED contribution at `0E8F:008A`: target-local comparison
-shows the pinned reference contribution is byte/relocation exact, but the
-historical source relies on raw inline opcode bytes and a `codestring` NOP.
-Ghidra splits it into a 69-byte `VECTOR2` body, one intervening padding byte,
-and a 90-byte `VECTOR2_BETWEEN_PLUS` body. Treat that as routing evidence only;
-recover acceptable natural source or justified original-style ASM and keep the
-padding ownership separate rather than promoting the historical trick.
+Continue MAIN first and do not restrict the frontier to tiny leaves. Vector math
+is now closed with a symbolic-assembly owner; do not regress to the historical
+raw-opcode/codestring implementation. Re-survey the immediately adjacent
+`SHARED:012A` 67-byte function and its owner boundaries, but also rank broader
+timing/state update and two-player dispatch candidates by full owner extent,
+call graph, dependencies, and TH04 correspondence before selecting the next
+promotion. Treat the 012A adjacency as a routing hint rather than an assumption
+that the next object is automatically the best target.
 
 After the input/math frontier, proceed into timing/state update and then
 two-player dispatch/game-object logic. Determine packed/decoded ownership for

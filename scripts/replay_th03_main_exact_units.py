@@ -102,6 +102,31 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
     if accepted - owner_ids:
         raise ValueError("aggregate omits an accepted owner")
     image = parse_mz(target)
+    # Every owned byte must be classified exactly once as a reviewed function
+    # body or as explicit producer-owned padding. This prevents alignment bytes
+    # from being silently promoted as authored function bytes.
+    for unit in config["units"]:
+        coverage = [None] * unit["size"]
+        for function in config["functions"]:
+            if function["object"] != unit["object"]:
+                continue
+            relative = function["offset"] - unit["start"]
+            if relative < 0 or relative + function["size"] > unit["size"]:
+                raise ValueError(f"function escapes owner: {function['name']}")
+            for index in range(relative, relative + function["size"]):
+                if coverage[index] is not None:
+                    raise ValueError(f"overlapping owner coverage: {unit['id']}")
+                coverage[index] = f"function:{function['name']}"
+        for relative, size in unit.get("padding_ranges", []):
+            if relative < 0 or size <= 0 or relative + size > unit["size"]:
+                raise ValueError(f"invalid padding range: {unit['id']}")
+            for index in range(relative, relative + size):
+                if coverage[index] is not None:
+                    raise ValueError(f"padding overlaps function: {unit['id']}")
+                coverage[index] = "padding"
+        holes = [index for index, owner in enumerate(coverage) if owner is None]
+        if holes:
+            raise ValueError(f"unclassified owner bytes in {unit['id']}: {holes[:8]}")
     for unit in config["units"]:
         rows = [row for row in unit_rows if row["id"] == unit["id"]]
         if rows:
@@ -174,9 +199,24 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
                 destination = work / module[key]
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(snapshot / module[key], destination)
-            wrapper = work / module.get("wrapper", f"th03/{module['object']}.cpp")
-            wrapper.parent.mkdir(parents=True, exist_ok=True)
-            wrapper.write_text(f'#include "{module["source"]}"\n')
+            if "overlay_path" in module:
+                overlay = work / module["overlay_path"]
+                overlay.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(snapshot / module["source"], overlay)
+            else:
+                wrapper = work / module.get("wrapper", f"th03/{module['object']}.cpp")
+                wrapper.parent.mkdir(parents=True, exist_ok=True)
+                wrapper.write_text(f'#include "{module["source"]}"\n')
+        for module in config["units"]:
+            if "build_file" not in module:
+                continue
+            build_path = work / module["build_file"]
+            build_text = build_path.read_text()
+            anchor = module["build_anchor"]
+            replacement = module["build_replacement"]
+            if build_text.count(anchor) != 1:
+                raise ValueError(f"build replacement anchor drifted: {module['id']}")
+            build_path.write_text(build_text.replace(anchor, replacement, 1))
         build_command = ["wine", "cmd", "/d", "/c",
                          r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
                          r"&&set PROCESSOR_ARCHITECTURE=AMD64"
@@ -199,9 +239,11 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
         if (len(products) != 20 or len(all_objects) != config["generated_object_count"]
             or len(game_objects) != config["determinism_object_count"]):
             raise ValueError("cold build output/object vector incomplete")
-        for obj in objects.values():
-            if "TC86 Borland C++ 4.02" not in obj["translator_comments"]:
-                raise ValueError("owned object producer differs")
+        for module in config["units"]:
+            obj = objects[module["object"]]
+            producer = module.get("translator_comment", "TC86 Borland C++ 4.02")
+            if producer not in obj["translator_comments"]:
+                raise ValueError(f"owned object producer differs: {module['id']}")
         candidate = (work / "bin/th03/main.exe").read_bytes()
         # Confirm link-map publics cover exactly the reviewed starts and ends.
         map_text = (work / "obj/th03/main.map").read_text(errors="replace")
@@ -234,8 +276,19 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
                 raise ValueError(f"link-map public moved: {spelling}")
             result = compare_extent(target, candidate, config["segment"] * 16 + function["offset"], function["size"])
             functions.append({"name": function["name"], "abi": function["abi"], **result})
-        modules = [{"id": m["id"], **compare_extent(target, candidate, config["segment"] * 16 + m["start"], m["size"])}
-                   for m in config["units"]]
+        modules = []
+        padding = []
+        for m in config["units"]:
+            modules.append({"id": m["id"], **compare_extent(
+                target, candidate, config["segment"] * 16 + m["start"], m["size"]
+            )})
+            for relative, size in m.get("padding_ranges", []):
+                if relative < 0 or size <= 0 or relative + size > m["size"]:
+                    raise ValueError(f"invalid padding range: {m['id']}")
+                padding.append({"id": m["id"], "relative": relative, **compare_extent(
+                    target, candidate,
+                    config["segment"] * 16 + m["start"] + relative, size
+                )})
         probe = prefix / "drive_c" / f"{stem}{number}"
         probe.mkdir(exist_ok=False)
         shutil.copy2(snapshot / "probes/main/input_math_behavior.cpp", probe / "behavior.cpp")
@@ -258,6 +311,7 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
             "objects": objects, "all_objects": all_objects, "game_objects": game_objects,
             "products": products,
             "map_contributions": contributions, "functions": functions, "units": modules,
+            "padding_ranges": padding,
             "link_response_sha256": sha((work / "obj/th03/main.@l").read_bytes()),
             "candidate_sha256": sha(candidate), "behavior_pass": True})
     first, second = report["rounds"]
@@ -271,6 +325,10 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
     report["diagnostic_object_drift"] = sorted(name for name, digest in first["all_objects"].items()
                                               if digest != second["all_objects"].get(name))
     report["full_function_bytes"] = sum(f["size"] for f in config["functions"])
+    report["declared_padding_bytes"] = sum(
+        size for unit in config["units"] for _, size in unit.get("padding_ranges", [])
+    )
+    report["owned_extent_bytes"] = sum(unit["size"] for unit in config["units"])
     report["pass"] = (report["objects_metadata_normalized_equal"] and report["candidate_equal"]
                       and report["all_products_equal"] and report["game_objects_metadata_normalized_equal"]
                       and all(f["raw_equal"] and f["relocations_equal"] for r in report["rounds"]
@@ -295,7 +353,9 @@ def main() -> int:
         print(
             f"th03-main-exact: {'PASS' if report['pass'] else 'FAIL'}; "
             f"{len(report['rounds'][0]['functions'])} functions, "
-            f"{report['full_function_bytes']} bytes; "
+            f"{report['full_function_bytes']} function bytes / "
+            f"{report['owned_extent_bytes']} owned bytes "
+            f"(including {report['declared_padding_bytes']} declared padding); "
             "two fresh compilations/links and DOS behavior probes"
         )
         print(f"receipt: .analysis/th03-main-exact/{args.run_id}/receipt.json")

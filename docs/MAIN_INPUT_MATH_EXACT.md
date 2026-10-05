@@ -1,14 +1,16 @@
 # MAIN foundation exact ownership
 
-The maintained sources implement seventeen exact functions in eight reviewed
-authored extents totaling 1113 bytes. Scope is the pinned Japanese MAIN.EXE.
-The accepted frontier now covers polar math, frame timing, keyboard/input mode
-sensing, the complete sound-effect play/update and KAJA interrupt contributions,
-main initialization, and PI slot loading. Reuse by packed OP and MAINL remains a reference
+The maintained sources implement nineteen exact functions in nine reviewed
+authored extents totaling 1273 owned bytes: 1272 function-body bytes plus one
+explicit assembler alignment byte. Scope is the pinned Japanese MAIN.EXE.
+The accepted frontier now covers vector/polar math, frame timing, keyboard/input
+mode sensing, the complete sound-effect play/update and KAJA interrupt
+contributions, main initialization, and PI slot loading. Reuse by packed OP and MAINL remains a reference
 hypothesis, so these sources stay under `src/main`.
 
 | Owner | Relative segment:offset | Bytes | Functions | Maintained source |
 | --- | --- | ---: | ---: | --- |
+| `th03-main-vector-far` | `0E8F:008A` | 160 | 2 | `src/main/math/vector_far.asm` |
 | `th03-main-polar` | `0E8F:016D` | 26 | 1 | `src/main/math/polar.cpp` |
 | `th03-main-frame-delay` | `0E8F:0187` | 21 | 1 | `src/main/hardware/frame_delay.cpp` |
 | `th03-main-input-sense` | `0E8F:019C` | 417 | 1 | `src/main/hardware/input_sense.cpp` |
@@ -20,14 +22,28 @@ hypothesis, so these sources stay under `src/main`.
 
 ## Target review
 
-Independent MZ parsing gives a 6240-byte target header. The eight accepted
-payload starts are `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`, `0xECB2`,
-`0xECD0`,
-`0xED0E`, and `0xED54`; Ghidra's load base adds `0x10000` to those addresses. The
-independently attested headless database reports seventeen complete bodies at the
-starts, with exact ends and sizes checked against independent 16-bit decoding.
+Independent MZ parsing gives a 6240-byte target header. The nine accepted
+payload starts are `0xE97A`, `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`,
+`0xECB2`, `0xECD0`, `0xED0E`, and `0xED54`; Ghidra's load base
+adds `0x10000` to those addresses. The independently attested headless
+database reports nineteen complete bodies inside the accepted owners, with exact
+ends and sizes checked against independent 16-bit decoding.
 Every accepted function ends in a far return, with no shared epilogue outside
 its owned span.
+
+`vector2` is the complete 69-byte far Pascal body at `SHARED:008A`; it is
+followed by one assembler alignment `NOP` at `SHARED:00CF`, outside either
+function body but inside the reviewed 160-byte owner. `vector2_between_plus`
+then occupies the complete 90-byte body at `SHARED:00D0..0129`. TH03 target
+instructions confirm the signed 16-bit length, byte angle, far output references,
+32-bit `MOVSX`/`IMUL`/`SAR` fixed-point arithmetic, and `RETF 0x0C` / `RETF 0x14`. The between-plus form computes
+`IATAN2(y2-y1, x2-x1) + plus_angle`; it has the owner's only MZ relocation,
+the segment word of that far call at owner-relative site 94 (function-relative
+site 24). Ghidra reports 15 direct callers / no callees for `vector2`, and
+four direct callers / one `IATAN2` callee for `vector2_between_plus`.
+The maintained source expresses these operations as symbolic TASM instructions
+and `EVEN`; it contains neither the historical raw opcode byte array nor a
+C++ `codestring` used to manufacture the alignment byte.
 
 `frame_delay` is a complete 21-byte far Pascal function through `RETF 2`.
 `input_reset_sense_key_held` is one large 417-byte far cdecl body with no
@@ -102,10 +118,15 @@ labels do not override the target ABI.
 
 ## Source and replay
 
-The eight maintained translation units use local ABI headers and no ReC98
+The nine maintained translation units use local ABI headers and no ReC98
 includes. They were developed from the pinned TH03 reference as hypotheses and
-then checked independently against TH03 target instructions, compiler objects,
-link-map placement, relocations, and final linked bytes. `input_sense.cpp` uses
+then checked independently against TH03 target instructions, compiler/assembler
+objects, link-map placement, relocations, and final linked bytes. The vector
+owner deliberately uses a symbolic TASM translation unit because TC4J's inline
+assembler cannot express the target's 32-bit register forms without raw opcode
+bytes. The replay replaces only MAIN's `th03/vector.cpp` build-list entry
+with `th03/vectorfar.asm`; the historical C++ object remains built where
+MAINL/TH04/TH05 still require it. `input_sense.cpp` uses
 Borland symbolic register/inline-assembly syntax for the zero-distance control
 edge and the PC-98 delay-port `OUT`/`LOOP`; it contains no copied opcode array or
 target-derived trailing padding byte. TC4J is invoked with the same large-model,
@@ -114,6 +135,7 @@ repository-root paths because TC4J resolves nested wrapper includes differently
 from modern source-relative compilers.
 
 ```sh
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-vector-far
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
@@ -136,7 +158,7 @@ unowned `input_sense` tail NOP is intentionally outside exact authored-byte
 credit.
 
 The declared determinism vector includes the 20 configured game outputs and
-350 game objects under `obj/th01` through `obj/th05`. All 416 generated objects,
+351 game objects under `obj/th01` through `obj/th05`. All 417 generated objects,
 including non-game objects, are independently validated as OMF. Nine Research
 blitting benchmark objects embed `__DATE__/__TIME__` in LEDATA and differ
 between rounds; their differences remain diagnostic and are never normalized
@@ -149,7 +171,8 @@ hardware test doubles exercise the accepted input-mode and polar behavior:
 joystick/keyboard routing, cancel/OK normalization, finite release/press waits,
 0 and 9999 unlimited waits, negative wait parameters, negative fixed-point
 rounding, and 16-bit result wraparound. `frame_delay`, `input_sense`, `snd_se`, `initmain`, and
-`pi_load` and `snd_kaja_interrupt` are not claimed as directly exercised by that probe;
+`pi_load`, `snd_kaja_interrupt`, `vector2`, and `vector2_between_plus` are not
+claimed as directly exercised by that probe;
 their acceptance here is based on complete target-boundary review plus exact
 compiler/link/MAP/relocation/raw-byte replay. This is not PC-98 game runtime
 certification.
@@ -169,6 +192,18 @@ development replay `gpt-web-snd-kaja-probe1-1005` expanded the checked set to
 and again matched every function/owner byte, MAP contribution and ordered
 relocation vector while the 20-product and 350-game-object vectors stayed
 deterministic.
+Vector development replay `gpt-web-vector-far-probe1-20261005-1828`
+expanded the aggregate to 19 functions / 1272 function-body bytes and 1273
+owned bytes including the single declared alignment NOP. Both cold rounds
+matched the full 160-byte owner, both function bodies, MAP placement, and the
+owner relocation vector. The all-game deterministic object vector is now 351
+game objects / 417 generated OMF objects because MAIN adds `vectorfar.obj`
+while other products still build the historical `th03/vector.obj`.
+Post-promotion aggregate `gpt-web-main-nine-owner-final-20261005-a`
+then began with all nine owners already accepted and independently passed the
+same two-round 20-product / 351-game-object vector, all 417 OMF validations,
+all 19 function bodies / 1272 function bytes, the declared alignment byte,
+full 1273-byte owner aggregate, MAP placement, and ordered relocations.
 Factory repository-shell execution runs this same checked-in Oracle. Native TH03
 Truth Kernel replay is still unregistered; local exact ledger claims do not
 become Factory-accepted receipts through source inspection or shell success.

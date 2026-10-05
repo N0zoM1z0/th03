@@ -5,8 +5,24 @@ reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
 segment = 0x0e8f
 scope = "reviewed-main-owned-extents"
 determinism_object_roots = ["obj/th01", "obj/th02", "obj/th03", "obj/th04", "obj/th05"]
-determinism_object_count = 350
-generated_object_count = 416
+determinism_object_count = 351
+generated_object_count = 417
+
+[[units]]
+id = "th03-main-vector-far"
+source = "src/main/math/vector_far.asm"
+header = "src/main/math/vector_far.hpp"
+object = "vectorfar"
+overlay_path = "th03/vectorfar.asm"
+object_path = "obj/th03/vectorfar.obj"
+map_module = "th03\\vectorfar.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th02/snd_pmdr.c\",\n\t\"th03/vector.cpp\",\n\t\"th03/exit.cpp\",\n"
+build_replacement = "\t\"th02/snd_pmdr.c\",\n\t\"th03/vectorfar.asm\",\n\t\"th03/exit.cpp\",\n"
+start = 0x008a
+size = 160
+padding_ranges = [[0x45, 1]]
 
 [[units]]
 id = "th03-main-polar"
@@ -75,6 +91,22 @@ header = "src/main/hardware/input.hpp"
 object = "inp_m_w"
 start = 0x0464
 size = 367
+
+[[functions]]
+name = "vector2"
+object = "vectorfar"
+offset = 0x008a
+size = 69
+map_public = "VECTOR2"
+abi = "far Pascal; ret_x/ret_y far references, unsigned byte angle, signed word length; RETF 0x0C"
+
+[[functions]]
+name = "vector2_between_plus"
+object = "vectorfar"
+offset = 0x00d0
+size = 90
+map_public = "VECTOR2_BETWEEN_PLUS"
+abi = "far Pascal; four signed coordinates, byte plus_angle, two far references, signed length; RETF 0x14"
 
 [[functions]]
 name = "polar"
