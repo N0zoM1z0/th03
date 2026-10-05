@@ -19,6 +19,8 @@ def main() -> int:
         run("-m", "compileall", "-q", "scripts", "tests")
         run("scripts/validate_tracking.py")
         run("scripts/progress.py", "--check")
+        if (ROOT / "_reference/ReC98/.git").exists():
+            run("scripts/inventory_rec98_th03.py", "--check")
         targets = tomllib.loads((ROOT / "config/targets.toml").read_text())["artifacts"]
         if all((ROOT / a["private_path"]).is_file() for a in targets if a["required"]):
             run("scripts/verify_targets.py", "--game", "th03")

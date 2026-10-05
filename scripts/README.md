@@ -12,6 +12,7 @@
 | Validate OMF | `python3 scripts/inspect_omf.py OBJECT` |
 | Raw artifact comparison | `python3 scripts/compare_artifacts.py --help` |
 | Cold reference build | `python3 scripts/build.py --reference --run-id UNIQUE` |
+| Check frozen ReC98 TH03 intake queue | `python3 scripts/inventory_rec98_th03.py --check` |
 | Replay all maintained MAIN exact owners | `python3 scripts/replay_th03_main_exact_units.py --run-id UNIQUE` |
 | Inspect open product graph | `python3 scripts/build.py --status` |
 | Survey reference output | `python3 scripts/survey_rec98_outputs.py SOURCE --compact` |

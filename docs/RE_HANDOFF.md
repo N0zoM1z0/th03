@@ -81,3 +81,12 @@ logic. For OP, MAINL and ZUN, establish stored-code versus decoded-code mapping
 before treating storage inventories as source functions. Keep the OMF
 calibration drift investigation separate from source reconstruction and replay
 the complete existing MAIN aggregate after every new owner.
+
+The frozen ReC98 intake now has a replayable 504-file conservative review queue
+in `config/rec98_th03_inventory.csv`, including dedicated/unlinked TH03 files,
+the four product source roots and transitive includes. Scoped existing MAIN
+CODE decisions are in `config/rec98_th03_reviews.csv`; the remaining review is
+open. See `docs/REC98_TH03_REVIEW.md`. The thirteen existing owners passed the
+fresh two-round `sol-rec98-baseline-20261005` replay. Initial `e_enemy.cpp`
+analysis found equal CODE bytes but a different relocation order in
+ENEMY_2_TEXT; source/producer ordering is under investigation.
