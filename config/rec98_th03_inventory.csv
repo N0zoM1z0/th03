@@ -305,7 +305,7 @@ th03/formats/enedat.hpp,7533cfe5dfe2f6c129450206068e5cfacd33fc56c133d9c6e266c8bd
 th03/formats/hfliplut.asm,e3699335fb3c682f2bdf997f8c35eacac34dbd75897d378eed4f9773364bffd9,translation-unit,th03-main;th03-mainl;th03-op,,,,
 th03/formats/hfliplut.h,c3e25ebfe74ae12a3a2773f1ba935adea457ce6ea08e97695604cd1cb45c8085,include,th03-main;th03-op,,,,
 th03/formats/hfliplut[bss].asm,7ce20d5b7a6b5da8064c992c97396f8f6ca4de16b627d719a2f23d74aac1520f,translation-unit,th03-main;th03-mainl;th03-op,,,,
-th03/formats/mrs.cpp,a4a1aea84522071dde836e8cac8b73a8e51c3b65e2207b10f66446fca9a8a39b,translation-unit,th03-main,,,,
+th03/formats/mrs.cpp,a4a1aea84522071dde836e8cac8b73a8e51c3b65e2207b10f66446fca9a8a39b,translation-unit,th03-main,,,th03-main,th03-main
 th03/formats/mrs.hpp,df997131752b02ab84f5a0262417c55e277ce57b70efd9bca18808982fd9976d,include,th03-main,,,,
 th03/formats/pfopen.asm,913ba45575ed3578efc959a9d3383b2407edb1042d856651cda59b5e701f70ab,translation-unit,th03-main;th03-mainl;th03-op,,,,
 th03/formats/pi.hpp,5f85dd06427f855315f9831b3fe43951644b7a974172a4e4583aa0622abe3fc5,include,th03-mainl;th03-op,,,,
@@ -421,7 +421,7 @@ th03/math/randring_fill.asm,47651ba3050ed8d72c89b08e42b325b0606e6027826f40a3b919
 th03/math/subpixel.inc,ff7144a239f8ce89b9247fc81336a3400bb48994d27d40d2067a67f5c4ae70ce,include,th03-main,,,,
 th03/math/vector.cpp,66fe3480e381f16afbb071c257428d8fac87778d80646cc644874f3003c79d35,translation-unit,th03-main;th03-mainl,,,th03-main,th03-main
 th03/math/vector.hpp,84427a48a136f0054b85114c4260ce484f84123dbf9e374643fc4659e2dbea16,include,th03-main;th03-mainl,,,,
-th03/mrs.cpp,7c441037903d8d18d5afe5abe06d6224d602e85f030e60787a1046124adc451d,translation-unit,th03-main,th03-main,,,
+th03/mrs.cpp,7c441037903d8d18d5afe5abe06d6224d602e85f030e60787a1046124adc451d,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/op/m_main.cpp,05e2a170a09bb5aa08cec1e7a6d3eb9484a86c1914b7e34f70dc853886c604df,translation-unit,th03-op,,,,
 th03/op/m_main.hpp,96812354e09ca05eeb5d617d8f404ff2049bad765823bf07d70d9cd61f411d3c,include,th03-op,,,,
 th03/op/m_select.cpp,0842bbde2df401a7ca2d9d22790a92b7527b1d2bd5d7868ce02b4ec5324706d2,translation-unit,th03-op,,,,

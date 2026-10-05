@@ -1069,3 +1069,71 @@ offset = 0x08e2
 size = 40
 map_public = "SPRITE16_PUT_NOCLIP"
 abi = "far Pascal; three words (left, top, sprite offset); DI preserved; RETF 6"
+
+[[units]]
+id = "th03-main-mrs"
+source = "src/main/formats/mrs.asm"
+header = "src/main/formats/mrs.hpp"
+object = "mrs"
+overlay_path = "th03/mrs.asm"
+object_path = "obj/th03/mrs.obj"
+map_module = "th03\\mrs.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/mrs.cpp\",\n"
+build_replacement = "\t\"th03/mrs.asm\",\n"
+support_files = [
+  "compat/rec98/pc98.h",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-mrs", segment = 0x0e8f, start = 0x05f2, size = 524, map_segment = "SHARED", map_group = "(none)", producer_ranges = [{ relative = 99, size = 1, kind = "padding" }, { relative = 273, size = 1, kind = "padding" }, { relative = 451, size = 1, kind = "padding" }, { relative = 523, size = 1, kind = "padding" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bee, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8dfa, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "mrs_load"
+object = "mrs"
+segment = 0x0e8f
+offset = 0x05f2
+size = 58
+map_public = "mrs_load(int,const char far*)"
+abi = "far Pascal; word slot and four-byte far filename; RETF 6"
+
+[[functions]]
+name = "mrs_free"
+object = "mrs"
+segment = 0x0e8f
+offset = 0x062c
+size = 41
+map_public = "mrs_free(int)"
+abi = "far Pascal; word slot; incoming DX and OR flags retained; RETF 2"
+
+[[functions]]
+name = "mrs_put_8"
+object = "mrs"
+segment = 0x0e8f
+offset = 0x0656
+size = 173
+map_public = "mrs_put_8(int,unsigned int,int)"
+abi = "far Pascal; signed left, unsigned top and word slot; SI/DI/DS preserved; FS/GS changed; RETF 6"
+
+[[functions]]
+name = "mrs_put_noalpha_8"
+object = "mrs"
+segment = 0x0e8f
+offset = 0x0704
+size = 177
+map_public = "mrs_put_noalpha_8(int,unsigned int,int,unsigned char)"
+abi = "far Pascal; signed left, unsigned top, word slot and byte bool in word slot; SI/DI/DS preserved; FS/GS changed; RETF 8"
+
+[[functions]]
+name = "mrs_hflip"
+object = "mrs"
+segment = 0x0e8f
+offset = 0x07b6
+size = 71
+map_public = "mrs_hflip(int)"
+abi = "far Pascal; word slot; SI/DI preserved; RETF 2"
