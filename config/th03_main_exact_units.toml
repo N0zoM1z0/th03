@@ -5,8 +5,8 @@ reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
 segment = 0x0e8f
 scope = "reviewed-main-owned-extents"
 determinism_object_roots = ["obj/th01", "obj/th02", "obj/th03", "obj/th04", "obj/th05"]
-determinism_object_count = 351
-generated_object_count = 417
+determinism_object_count = 354
+generated_object_count = 420
 
 [[units]]
 id = "th03-main-vector-far"
@@ -1137,3 +1137,186 @@ offset = 0x07b6
 size = 71
 map_public = "mrs_hflip(int)"
 abi = "far Pascal; word slot; SI/DI preserved; RETF 2"
+
+[[units]]
+id = "th03-main-vram-planes"
+source = "src/main/hardware/vram_planes.cpp"
+header = "src/main/hardware/vram_planes.hpp"
+object = "vplanset"
+object_path = "obj/th01/vplanset.obj"
+map_module = "th01/vplanset.cpp"
+wrapper = "th01/vplanset.cpp"
+support_files = ["compat/rec98/planar.h"]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-vram-planes", segment = 0x0e8f, start = 0x0008, size = 41, map_segment = "SHARED", map_group = "(none)", map_acbp = 28, producer_ranges = [] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "vram_planes_set"
+object = "vplanset"
+segment = 3727
+offset = 8
+size = 41
+map_public = "vram_planes_set()"
+abi = "far cdecl; no arguments; RETF"
+
+[[units]]
+id = "th03-main-sound-mode"
+source = "src/main/sound/mode.asm"
+header = "src/main/sound/mode.hpp"
+object = "snd_mode_main"
+object_path = "obj/th03/snd_mode_main.obj"
+map_module = "th03\\snd_mode_main.asm"
+overlay_path = "th03/snd_mode_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th02/snd_mode.c\",\n\t\"th02/snd_pmdr.c\",\n\t\"th03/vectorfar.asm\",\n"
+build_replacement = "\t\"th03/snd_mode_main.asm\",\n\t\"th02/snd_pmdr.c\",\n\t\"th03/vectorfar.asm\",\n"
+support_files = ["compat/rec98/platform.h"]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-sound-mode", segment = 0x0e8f, start = 0x0032, size = 30, map_segment = "SHARED", map_group = "(none)", map_acbp = 48, producer_ranges = [{ relative = 29, size = 1, kind = "padding" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "snd_determine_mode"
+object = "snd_mode_main"
+segment = 3727
+offset = 50
+size = 29
+map_public = "_snd_determine_mode"
+abi = "far cdecl; no arguments; AX bool16; RETF"
+
+[[units]]
+id = "th03-main-pmd-resident"
+source = "src/main/sound/pmd.asm"
+header = "src/main/sound/pmd.hpp"
+object = "snd_pmdr_main"
+object_path = "obj/th03/snd_pmdr_main.obj"
+map_module = "th03\\snd_pmdr_main.asm"
+overlay_path = "th03/snd_pmdr_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th02/snd_pmdr.c\",\n\t\"th03/vectorfar.asm\",\n"
+build_replacement = "\t\"th03/snd_pmdr_main.asm\",\n\t\"th03/vectorfar.asm\",\n"
+support_files = ["compat/rec98/platform.h"]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-pmd-resident", segment = 0x0e8f, start = 0x0050, size = 58, map_segment = "SHARED", map_group = "(none)", map_acbp = 28, producer_ranges = [{ relative = 57, size = 1, kind = "padding" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "snd_pmd_resident"
+object = "snd_pmdr_main"
+segment = 3727
+offset = 80
+size = 57
+map_public = "_snd_pmd_resident"
+abi = "far cdecl; no arguments; AX bool16; two RETF returns"
+
+[[units]]
+id = "th03-main-se-reset"
+source = "src/main/sound/reset.asm"
+header = "src/main/sound/reset.hpp"
+object = "snd_se_r_main"
+object_path = "obj/th03/snd_se_r_main.obj"
+map_module = "th03\\snd_se_r_main.asm"
+overlay_path = "th03/snd_se_r_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th02/snd_se_r.cpp\",\n\t\"th03/snd_se.cpp\",\n\t\"th03/snd_kaja.cpp\",\n\t\"th03/initmain.cpp\",\n\t\"th03/pi_load.cpp\",\n"
+build_replacement = "\t\"th03/snd_se_r_main.asm\",\n\t\"th03/snd_se.cpp\",\n\t\"th03/snd_kaja.cpp\",\n\t\"th03/initmain.cpp\",\n\t\"th03/pi_load.cpp\",\n"
+support_files = ["compat/rec98/platform.h"]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-se-reset", segment = 0x0e8f, start = 0x033e, size = 12, map_segment = "SHARED", map_group = "(none)", map_acbp = 48, producer_ranges = [{ relative = 11, size = 1, kind = "padding" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "snd_se_reset"
+object = "snd_se_r_main"
+segment = 3727
+offset = 830
+size = 11
+map_public = "_snd_se_reset"
+abi = "far cdecl; no arguments; RETF"
+
+[[units]]
+id = "th03-main-hflip-lut"
+source = "src/main/formats/hfliplut.asm"
+header = "src/main/formats/hfliplut.hpp"
+object = "hfliplut"
+object_path = "obj/th03/hfliplut.obj"
+map_module = "th03\\hfliplut.asm"
+overlay_path = "th03/hfliplut.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+support_files = ["compat/rec98/planar.h"]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-hflip-lut", segment = 0x0e8f, start = 0x05d4, size = 30, map_segment = "SHARED", map_group = "(none)", map_acbp = 48, producer_ranges = [] },
+]
+
+[[functions]]
+name = "hflip_lut_generate"
+object = "hfliplut"
+segment = 3727
+offset = 1492
+size = 30
+map_public = "_hflip_lut_generate"
+abi = "far cdecl; no arguments; DI preserved; RETF"
+
+[[units]]
+id = "th03-main-collision-map"
+source = "src/main/collision/map.asm"
+header = "src/main/collision/map.hpp"
+object = "collmap"
+object_path = "obj/th03/collmap.obj"
+map_module = "th03\\collmap.asm"
+overlay_path = "th03/collmap.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+support_files = ["compat/rec98/libs/master.lib/macros.inc", "compat/rec98/th01/math/subpixel.inc", "compat/rec98/th03/common.inc", "compat/rec98/th03/main/playfld.inc", "compat/rec98/th03/main/collmap.inc", "src/main/playfield/playfld.hpp", "compat/rec98/th01/math/subpixel.hpp", "compat/rec98/th03/common.h"]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-collision-map", segment = 0x139d, start = 0x009e, size = 432, map_segment = "COLLMAP_TEXT", map_group = "MAIN_04", map_acbp = 48, producer_ranges = [{ relative = 299, size = 1, kind = "padding" }, { relative = 431, size = 1, kind = "padding" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "collmap_set_rect_striped"
+object = "collmap"
+segment = 5021
+offset = 158
+size = 212
+map_public = "collmap_set_rect_striped()"
+abi = "far cdecl; global inputs; self-modifying immediates; RETF"
+
+[[functions]]
+name = "collmap_set_vline"
+object = "collmap"
+segment = 5021
+offset = 370
+size = 87
+map_public = "collmap_set_vline()"
+abi = "far cdecl; global inputs; RETF"
+
+[[functions]]
+name = "collmap_set_slope_striped"
+object = "collmap"
+segment = 5021
+offset = 458
+size = 131
+map_public = "collmap_set_slope_striped()"
+abi = "far cdecl; global inputs; SI/DI preserved; self-modifying immediates; RETF"

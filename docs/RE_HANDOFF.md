@@ -2,9 +2,9 @@
 
 ## Current state
 
-MAIN has twenty-six maintained exact source owners represented by thirty
-reviewed CODE extents: seventy-nine complete functions and 10329 owned bytes,
-comprising 10199 function-body bytes and 130 classified producer-owned
+MAIN has thirty-two maintained exact source owners represented by thirty-six
+reviewed CODE extents: eighty-seven complete functions and 10932 owned bytes,
+comprising 10797 function-body bytes and 135 classified producer-owned
 switch-table/alignment bytes. `config/th03_main_exact_units.toml`,
 `config/units.csv` and `docs/PROGRESS.md` define the current scope and counts.
 
@@ -43,25 +43,30 @@ git diff --check
 The replay materializes two independent source trees, rebuilds every game
 object, validates OMF and deterministic vectors, and checks every accepted
 owner/function byte, MAP contribution and original ordered relocation site.
-Its current vector is 20 configured products, 351 game objects and 417 OMF
-objects. Nine Research objects with `__DATE__/__TIME__` LEDATA remain diagnostic
+Its current vector is 20 configured products, 354 game objects and 420 OMF
+objects. The three independent MAIN sound objects expand the previous
+351/417 vector while other products retain their original shared objects.
+Nine Research objects with `__DATE__/__TIME__` LEDATA remain diagnostic
 and outside the game-object vector. Inputs are frozen during each replay;
-do not mutate source/config/ledgers until its process exits.
+do not mutate source/config/ledgers until its process exits. Native assembler `.inc`
+forwarders use one `include` directive; the tracking gate also checks product
+assembler includes for the same reference boundary as C/C++.
 
 The latest final accepted-state receipt is
-`sol-mrs-final-20261006`, covering the full 26-owner / 30-extent / 79-function /
-10329-byte aggregate in both cold rounds. All prior accepted owners remain in
+`sol-main-shared-final-20261006`, covering the full 32-owner / 36-extent / 87-function /
+10932-byte aggregate in both cold rounds. All prior accepted owners remain in
 the replay. The enemy candidate keeps its separate failed receipt and manifest.
-See `docs/reconstruction/MAIN_MRS_REVIEW.md` for this complete owner's evidence.
+See `docs/reconstruction/MAIN_SHARED_SOUND_HARDWARE_ASM_REVIEW.md` for this batch.
 Factory repository-shell success remains distinct from Factory-accepted
 receipts: native TH03 Truth Kernel replay is not registered.
 
 ## Next bounded work
 
-Continue the complete ReC98 intake queue. Remaining directly linked MAIN roots
-include shared sound/hardware, collision-map and reversal-table assembly, and
-`th03_main.asm`. Review the latter's original code, data, resources and generated
-scaffold separately. Do not count the reference build as authored progress.
+Continue the complete ReC98 intake queue. The remaining directly linked MAIN root
+is `th03_main.asm`, alongside the separately failed enemy candidate. Shared
+sound/hardware, collision-map and reversal-table owners have passed the complete
+replay. Review the root's original code, data, resources and generated scaffold
+separately. Do not count the reference build as authored progress.
 For OP, MAINL and ZUN, establish stored-code versus decoded-code mappings before
 accepting storage inventories as source functions. Keep other-artifact,
 header/dependency and data acceptance separate from MAIN CODE decisions.
@@ -76,7 +81,7 @@ Their bounded reviews live under `docs/reconstruction/`. This does not resolve
 the separate enemy relocation failure.
 
 The frozen intake has a replayable 504-file conservative queue in
-`config/rec98_th03_inventory.csv`; fifty-one paths now have scoped CODE review
+`config/rec98_th03_inventory.csv`; sixty-three paths now have scoped CODE review
 in `config/rec98_th03_reviews.csv`. Remaining file/artifact review is open.
 See `docs/REC98_TH03_REVIEW.md`. Re-run the complete MAIN aggregate after every
 new owner and keep observed facts, compiler output, inference and acceptance
