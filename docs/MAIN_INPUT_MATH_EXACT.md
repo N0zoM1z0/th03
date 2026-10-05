@@ -1,11 +1,12 @@
 # MAIN foundation exact ownership
 
-The maintained sources implement twenty exact functions in ten reviewed
-authored extents totaling 1340 owned bytes: 1339 function-body bytes plus one
+The maintained sources implement twenty-one exact functions in eleven reviewed
+authored extents totaling 1970 owned bytes: 1969 function-body bytes plus one
 explicit assembler alignment byte. Scope is the pinned Japanese MAIN.EXE.
 The accepted frontier now covers vector/polar math, frame timing, keyboard/input
 mode sensing, the complete sound-effect play/update and KAJA interrupt
-contributions, main initialization, and PI slot loading. Reuse by packed OP and MAINL remains a reference
+contributions, main initialization, PI slot loading, and the first complete
+gameplay collision owner. Reuse by packed OP and MAINL remains a reference
 hypothesis, so these sources stay under `src/main`.
 
 | Owner | Relative segment:offset | Bytes | Functions | Maintained source |
@@ -20,17 +21,17 @@ hypothesis, so these sources stay under `src/main`.
 | `th03-main-initmain` | `0E8F:03E0` | 62 | 1 | `src/main/core/initmain.cpp` |
 | `th03-main-pi-load` | `0E8F:041E` | 70 | 1 | `src/main/formats/pi_load.cpp` |
 | `th03-main-input-modes` | `0E8F:0464` | 367 | 9 | `src/main/hardware/input_modes.cpp` |
+| th03-main-explosion-collision | 139D:2D3D | 630 | 1 | src/main/enemy/expl.cpp |
 
 ## Target review
 
-Independent MZ parsing gives a 6240-byte target header. The ten accepted
-payload starts are `0xE97A`, `0xEA1A`, `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`,
-`0xECB2`, `0xECD0`, `0xED0E`, and `0xED54`; Ghidra's load base
-adds `0x10000` to those addresses. The independently attested headless
-database reports twenty complete bodies inside the accepted owners, with exact
-ends and sizes checked against independent 16-bit decoding.
-Every accepted function ends in a far return, with no shared epilogue outside
-its owned span.
+Independent MZ parsing gives a 6240-byte target header. The eleven accepted
+payload starts are 0xE97A, 0xEA1A, 0xEA5D, 0xEA77, 0xEA8C, 0xEC3A, 0xECB2,
+0xECD0, 0xED0E, 0xED54, and 0x1670D; Ghidra's load base adds 0x10000 to those
+addresses. The independently attested headless database reports twenty-one
+complete bodies inside the accepted owners, with exact ends and sizes checked
+against independent 16-bit decoding. Every accepted function ends in a far
+return, with no shared epilogue outside its owned span.
 
 `vector2` is the complete 69-byte far Pascal body at `SHARED:008A`; it is
 followed by one assembler alignment `NOP` at `SHARED:00CF`, outside either
@@ -127,9 +128,23 @@ direct callers for other modes does not establish dead code because input modes
 are also selected through function pointers. Analyzer-generated convention
 labels do not override the target ABI.
 
+### Explosion collision owner
+
+explosions_hittest is the complete 630-byte far-cdecl body at
+E_EXPL_TEXT:2D3D..2FB2, and the entire th03/e_expl.cpp linker contribution is
+that one function. Independent TH03 analysis reports two direct callers and
+five unique direct callees. The body walks all 64 48-byte
+enemy/fireball/explosion records, checks explosion state, playfield ownership,
+frame cadence and hitbox overlap, updates chain hit/charge state, applies the
+round-speed bonus scaling, and returns the collision count in AL. The target's
+only MZ segment relocation in the owner is the far score_add call at
+owner-relative site 342; the four other helper calls are near. The maintained
+local types preserve the observed 0x30-byte record stride and near/far ABI
+without including ReC98 headers.
+
 ## Source and replay
 
-The ten maintained translation units use local ABI headers and no ReC98
+The eleven maintained translation units use local ABI headers and no ReC98
 includes. They were developed from the pinned TH03 reference as hypotheses and
 then checked independently against TH03 target instructions, compiler/assembler
 objects, link-map placement, relocations, and final linked bytes. The vector
@@ -156,6 +171,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-snd-kaja
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-initmain
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-explosion-collision
 python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
 ```
 
@@ -163,8 +179,9 @@ Each invocation freezes source/configuration/tool/Oracle inputs, materializes
 the pinned ReC98 revision twice through `git archive`, overlays local source,
 and performs two serial full cold builds. No game objects are copied. ReC98 is
 the open link graph's scaffold; only the maintained, reviewed owners receive
-exact credit. Link-map contribution starts, lengths, segment, alignment and
-all function publics must agree. Every accepted owner and every full function
+exact credit. Link-map contribution starts, lengths, code-segment names, groups, alignment
+and all function publics must agree. Each owner/function is bound to its
+reviewed segment:offset instead of assuming that every owner lives in SHARED. Every accepted owner and every full function
 body must match the original bytes and ordered overlapping MZ relocations. The
 unowned `input_sense` tail NOP is intentionally outside exact authored-byte
 credit.
@@ -188,6 +205,10 @@ rounding, and 16-bit result wraparound. `frame_delay`, `input_sense`, `snd_se`, 
 their acceptance here is based on complete target-boundary review plus exact
 compiler/link/MAP/relocation/raw-byte replay. This is not PC-98 game runtime
 certification.
+
+The explosion-collision owner is likewise not directly exercised by the DOS
+behavior probe; its acceptance is target-boundary plus exact compiler/link/MAP/
+relocation/raw-byte evidence.
 
 Portable Oracle controls reject changed final bytes, changed relocated words,
 relocation order/multiplicity changes, split relocation words, invalid MZ
@@ -225,6 +246,15 @@ then began with all ten owners already accepted and passed the same two-round
 20-product / 351-game-object vector, all 417 OMF validations, all 20 function
 bodies / 1339 function bytes, the declared alignment byte, the 1340-byte owned
 aggregate, MAP placement, and ordered relocations.
+Explosion-collision development replay gpt-web-expl-probe-20261005-2
+expanded the aggregate with one complete 630-byte gameplay function, bringing
+the frontier to 21 functions / 1969 function bytes / 1970 owned bytes. Its
+full E_EXPL_TEXT contribution, sole relocation at owner-relative site 342, and
+MAIN_04 MAP group matched in both cold rounds. Post-promotion aggregate
+gpt-web-main-eleven-owner-final-20261005-1 began with all eleven owners
+accepted and independently passed the complete 20-product / 351-game-object /
+417-OMF vector and every accepted byte/relocation check.
+
 Factory repository-shell execution runs this same checked-in Oracle. Native TH03
 Truth Kernel replay is still unregistered; local exact ledger claims do not
 become Factory-accepted receipts through source inspection or shell success.

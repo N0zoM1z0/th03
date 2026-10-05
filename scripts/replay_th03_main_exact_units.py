@@ -131,7 +131,8 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
         rows = [row for row in unit_rows if row["id"] == unit["id"]]
         if rows:
             row = rows[0]
-            expected_offset = config["segment"] * 16 + unit["start"] + image.header.header_size
+            unit_segment = unit.get("segment", config["segment"])
+            expected_offset = unit_segment * 16 + unit["start"] + image.header.header_size
             if (row["artifact"] != config["artifact"] or row["source"] != unit["source"]
                 or int(row["file_offset"], 0) != expected_offset
                 or int(row["size"], 0) != unit["size"]
@@ -254,9 +255,13 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
                 "map_module", unit.get("wrapper", f"th03/{unit['object']}.cpp")
             )
             map_acbp = unit.get("map_acbp", 28)
+            unit_segment = unit.get("segment", config["segment"])
+            map_segment = unit.get("map_segment", "SHARED")
+            map_group = unit.get("map_group", "(none)")
             pattern = (
-                rf"^\s*{config['segment']:04X}:{unit['start']:04X}\s+{map_size:04X}"
-                rf"\s+C=CODE\s+S=SHARED\s+G=\(none\)\s+M={re.escape(map_module)}"
+                rf"^\s*{unit_segment:04X}:{unit['start']:04X}\s+{map_size:04X}"
+                rf"\s+C=CODE\s+S={re.escape(map_segment)}"
+                rf"\s+G={re.escape(map_group)}\s+M={re.escape(map_module)}"
                 rf"\s+ACBP={map_acbp}\s*$"
             )
             found = re.findall(pattern, map_text, re.MULTILINE)
@@ -271,23 +276,28 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
                     "(int)" if function["name"] == "input_wait_for_change" else "()"
                 )
             )
-            pattern = rf"^\s*{config['segment']:04X}:{function['offset']:04X}\s+(?:idle\s+)?{re.escape(spelling)}\s*$"
+            function_segment = function.get("segment", config["segment"])
+            pattern = rf"^\s*{function_segment:04X}:{function['offset']:04X}\s+(?:idle\s+)?{re.escape(spelling)}\s*$"
             if not re.search(pattern, map_text, re.MULTILINE):
                 raise ValueError(f"link-map public moved: {spelling}")
-            result = compare_extent(target, candidate, config["segment"] * 16 + function["offset"], function["size"])
+            result = compare_extent(
+                target, candidate,
+                function_segment * 16 + function["offset"], function["size"]
+            )
             functions.append({"name": function["name"], "abi": function["abi"], **result})
         modules = []
         padding = []
         for m in config["units"]:
+            unit_segment = m.get("segment", config["segment"])
             modules.append({"id": m["id"], **compare_extent(
-                target, candidate, config["segment"] * 16 + m["start"], m["size"]
+                target, candidate, unit_segment * 16 + m["start"], m["size"]
             )})
             for relative, size in m.get("padding_ranges", []):
                 if relative < 0 or size <= 0 or relative + size > m["size"]:
                     raise ValueError(f"invalid padding range: {m['id']}")
                 padding.append({"id": m["id"], "relative": relative, **compare_extent(
                     target, candidate,
-                    config["segment"] * 16 + m["start"] + relative, size
+                    unit_segment * 16 + m["start"] + relative, size
                 )})
         probe = prefix / "drive_c" / f"{stem}{number}"
         probe.mkdir(exist_ok=False)

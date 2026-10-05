@@ -101,6 +101,20 @@ object = "inp_m_w"
 start = 0x0464
 size = 367
 
+
+
+[[units]]
+id = "th03-main-explosion-collision"
+source = "src/main/enemy/expl.cpp"
+header = "src/main/enemy/expl.hpp"
+object = "e_expl"
+segment = 0x139d
+start = 0x2d3d
+size = 0x0276
+map_module = "th03/e_expl.cpp"
+map_segment = "E_EXPL_TEXT"
+map_group = "MAIN_04"
+
 [[functions]]
 name = "vector2"
 object = "vectorfar"
@@ -249,3 +263,13 @@ object = "inp_m_w"
 offset = 0x0587
 size = 76
 abi = "far Pascal; signed word at BP+6; RETF 2"
+
+
+[[functions]]
+name = "explosions_hittest"
+object = "e_expl"
+segment = 0x139d
+offset = 0x2d3d
+size = 0x0276
+map_public = "explosions_hittest()"
+abi = "far cdecl; no arguments; returns unsigned byte; two direct callers and five unique direct callees; RETF"
