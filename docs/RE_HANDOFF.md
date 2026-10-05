@@ -2,13 +2,13 @@
 
 ## Current state
 
-MAIN has sixteen maintained exact source owners represented by twenty
-reviewed CODE extents. They contain forty-seven complete functions and 7509 exact
-owned CODE bytes: 7402 function-body bytes plus 107 classified producer-owned
+MAIN has eighteen maintained exact source owners represented by twenty-two
+reviewed CODE extents. They contain fifty-one complete functions and 7978 exact
+owned CODE bytes: 7856 function-body bytes plus 122 classified producer-owned
 switch-table/alignment bytes. The owner set is vector-far, exit, polar,
 frame-delay, input-sense, snd-se, snd-kaja, initmain, pi-load, input-modes,
 explosion-collision, fireballs, and the two CODE contributions of the complete
-`bullet.cpp` source owner, hitbox, the four combo contributions, and gauge.
+`bullet.cpp` source owner, hitbox, the four combo contributions, gauge, player movement and ordinary shots.
 
 The complete enemy owner is also maintained as a structural candidate: three
 reviewed CODE extents, nineteen functions and 3325 bytes. Its separate manifest
@@ -82,8 +82,8 @@ Continue the complete ReC98 intake queue. Investigate the enemy owner's single
 ordered relocation failure without rewriting its MZ entries or weakening the
 Oracle. The original OMF producer record partition remains unknown; moving
 declarations or function definitions did not change the candidate's ordering.
-Hitbox, combo and gauge have passed the complete cold replay. Continue player
-movement, shot update/render, and the player-state owner while the independent
+Hitbox, combo, gauge, player movement and shot update/render have passed the
+complete cold replay. Continue the player-state owner while the independent
 enemy question remains open. The player-state stock source has 34 differing
 bytes in its collision function: alternative encodings of the same decoded
 register operations. Its damage and story-skill functions compare raw-exact.
@@ -110,3 +110,12 @@ segment. See `docs/reconstruction/MAIN_COLLISION_COMBO_GAUGE_REVIEW.md` and the
 raw target export script. The final accepted-state aggregate
 `sol-hitbox-combo-gauge-final-20261005-b` also passed after promotion. The open
 enemy candidate retains its separate manifest and failure.
+
+The complete movement and ordinary-shot owners passed
+`sol-player-move-shots-probe-20261005-b`: four functions, two CODE extents,
+469 bytes, including the movement dispatch table and natural alignment.
+The movement automatic Ghidra function had merged an unrelated range; its
+reviewed raw boundary is recorded separately. See
+`docs/reconstruction/MAIN_PLAYER_MOVE_SHOTS_REVIEW.md`.
+The final accepted-state replay `sol-player-move-shots-final-20261005`
+also passed both cold rounds with the promoted ledger state frozen.

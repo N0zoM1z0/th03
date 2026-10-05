@@ -636,3 +636,75 @@ offset = 0x24d4
 size = 55
 map_public = "gauge_avail_add(unsigned char,unsigned char)"
 abi = "near Pascal; byte pid and charge in word slots; RET 4"
+
+[[units]]
+id = "th03-main-player-move"
+source = "src/main/player/move.cpp"
+header = "src/main/player/move.hpp"
+object = "player_m"
+support_files = [
+  "compat/rec98/th01/math/clamp.hpp",
+  "compat/rec98/th03/main/chars/speed.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/hardware/input.h",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-player-move", segment = 0x096e, start = 0x3ff4, size = 284, map_module = "th03/player_m.cpp", map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", producer_ranges = [{ relative = 269, size = 1, kind = "padding" }, { relative = 270, size = 14, kind = "switch-table" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[units]]
+id = "th03-main-shots"
+source = "src/main/player/shot.cpp"
+header = "src/main/player/shot.hpp"
+object = "p_shot"
+support_files = [
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-shots", segment = 0x096e, start = 0x515f, size = 185, map_module = "th03/p_shot.cpp", map_segment = "P_SHOT_TEXT", map_group = "MAIN_01" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "player_pos_update_and_clamp"
+object = "player_m"
+segment = 0x096e
+offset = 0x3ff4
+size = 74
+map_public = "player_pos_update_and_clamp(sppoint near&)"
+abi = "near Pascal; near center reference; signed byte velocity; RET 2"
+
+[[functions]]
+name = "player_move"
+object = "player_m"
+segment = 0x096e
+offset = 0x403e
+size = 195
+map_public = "player_move(unsigned int)"
+abi = "near Pascal; input word; AL enum result; three RET 2 exits; 14-byte dispatch table follows one alignment byte"
+
+[[functions]]
+name = "shots_update"
+object = "p_shot"
+segment = 0x096e
+offset = 0x515f
+size = 43
+map_public = "shots_update()"
+abi = "near cdecl; no arguments; RET"
+
+[[functions]]
+name = "shots_render"
+object = "p_shot"
+segment = 0x096e
+offset = 0x518a
+size = 142
+map_public = "shots_render()"
+abi = "near cdecl; no arguments; same-segment far-return coordinate helper and two far sprite calls; RET"

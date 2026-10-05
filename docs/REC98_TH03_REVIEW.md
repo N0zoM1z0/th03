@@ -36,3 +36,9 @@ The existing thirteen MAIN source owners were rechecked in two cold builds
 by `sol-rec98-baseline-20261005`: all forty functions and fourteen extents
 passed the configured local gates. The baseline remains a bounded replay,
 not a complete maintained game build.
+
+Current MAIN acceptance contains eighteen maintained source owners / twenty-two
+CODE extents / fifty-one functions / 7978 owned bytes. Thirty-five intake paths
+have scoped CODE decisions, including the frozen wrappers and implementations
+for hitbox, combo, gauge, movement and ordinary shots. Header/dependency and
+other-artifact review remains separate.
