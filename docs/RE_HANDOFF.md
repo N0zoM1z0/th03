@@ -86,6 +86,16 @@ credit or a fabricated file offset. Packing/stub ownership remains open. See
 `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`. Keep header/dependency,
 data and other-artifact acceptance separate from MAIN CODE decisions.
 
+`scripts/review_th03_decoded_code.py` now replays diagnostics for every OP
+and MAINL direct-link file (27/33) against both pinned cold scaffold rounds.
+Program images differ by 4867/340 bytes; compiler-coordinate matches grant
+no ownership. Three MAINL functions (configuration resident load and two win
+screen functions, 387 bytes) have complete decoded boundary/ABI/source review
+in `config/units.csv`, with blank stored-file offsets and no maintained source.
+MAINL pi_put coordinates expose a natural-producer boundary still to recover;
+its generated STAFF_TEXT has equal bytes but different relocation order.
+See `docs/reconstruction/OP_MAINL_DECODED_CODE_REVIEW.md`. No new exact owner.
+
 Player state preserves its collision algorithm in symbolic inline assembly
 with compiler-owned locals/prologue; its companions retain C++. Hit circles
 use symbolic XOR to preserve the observed encoding. Complete playfield,

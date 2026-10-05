@@ -14,6 +14,8 @@ from pathlib import Path
 import re
 import tomllib
 
+from capstone import Cs, CS_ARCH_X86, CS_MODE_16
+
 from inventory_rec98_th03 import frozen_files, link_roots
 from lib.pc98 import parse_mz
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
@@ -89,6 +91,26 @@ def extent_observation(target, candidate, row: dict) -> dict:
                 target_boundary_reviewed=False, source_acceptance=False)
 
 
+def function_observation(target, candidate, function: dict, files: dict) -> dict:
+    start = function["segment"] * 16 + function["offset"]
+    row = dict(start=start, size=function["size"])
+    observed = extent_observation(target, candidate, row)
+    data = target.program_image[start:start + function["size"]]
+    instructions = list(Cs(CS_ARCH_X86, CS_MODE_16).disasm(data, function["offset"]))
+    if sum(i.size for i in instructions) != len(data):
+        raise ValueError("function does not fully decode")
+    if not instructions or bytes(instructions[-1].bytes).hex() != function["return_hex"]:
+        raise ValueError("function does not end at its reviewed return")
+    return dict(observed, **function,
+                carrier_sha256=sha(files[function["carrier"]]),
+                implementation_sha256=sha(files[function["implementation"]]),
+                target_boundary_reviewed=True,
+                instructions=[dict(offset=i.address, bytes=i.bytes.hex(),
+                                   mnemonic=i.mnemonic, operands=i.op_str)
+                              for i in instructions],
+                scope="Decoded target function review; no maintained source or acceptance")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
@@ -156,7 +178,19 @@ def main() -> int:
                       for path in sorted(roots[aid])}
             if any(not values for values in direct.values()):
                 raise ValueError("direct link source absent from detailed CODE MAP")
+            functions = []
+            for function in artifact.get("functions", []):
+                values = direct.get(function["carrier"], [])
+                start = function["segment"] * 16 + function["offset"]
+                if not any(o["start"] <= start and
+                           start + function["size"] <= o["start"] + o["size"] for o in values):
+                    raise ValueError("reviewed function is outside its carrier contribution")
+                public = f" {function['segment']:04X}:{function['offset']:04X}       {function['public']}"
+                if public not in map_bytes.decode("ascii").splitlines():
+                    raise ValueError("function entry differs from candidate MAP public")
+                functions.append(function_observation(target, candidate, function, files))
             rounds.append(dict(round=entry["round"], contributions=observations,
+                               functions=functions,
                                direct_sources=[dict(path=path, source_sha256=sha(files[path]),
                                                     contributions=values)
                                                for path, values in direct.items()],
@@ -168,7 +202,8 @@ def main() -> int:
                                program_raw_different_bytes=sum(a != b for a, b in zip(
                                    target.program_image, candidate.program_image)) + abs(
                                        len(target.program_image) - len(candidate.program_image))))
-        if rounds[0]["contributions"] != rounds[1]["contributions"]:
+        if (rounds[0]["contributions"] != rounds[1]["contributions"] or
+                rounds[0]["functions"] != rounds[1]["functions"]):
             raise ValueError("cold rounds disagree on CODE observations")
         products.append(dict(artifact=aid, canonical_stored_sha256=sha(stored),
                              decoded_sha256=sha(decoded), rounds=rounds))

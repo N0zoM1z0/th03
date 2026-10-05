@@ -29,6 +29,39 @@ map_sha256 = "b1bf78f02aa402becc8be805a04cf7c0cff8bba7261b42165ee45a8ebeb926e9"
 id = "th03-mainl"
 decoded_path = ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe"
 
+[[artifacts.functions]]
+id = "th03-mainl-decoded-cfg-resident"
+public = "cfg_load_resident_ptr()"
+carrier = "th03/cfg_lres.cpp"
+implementation = "th03/formats/cfg_lres.cpp"
+segment = 0x095f
+offset = 0x0003
+size = 49
+return_hex = "c3"
+abi = "near, no arguments, AX returns resident segment; ENTER 8; SI saved; far Pascal library calls"
+
+[[artifacts.functions]]
+id = "th03-mainl-decoded-win-load"
+public = "win_load()"
+carrier = "th03/mainl_sc.cpp"
+implementation = "th03/mainl/screens.cpp"
+segment = 0x095f
+offset = 0x0034
+size = 282
+return_hex = "c3"
+abi = "near, no arguments; ENTER 2; scalar byte locals at BP-1/BP-2; far Pascal library calls"
+
+[[artifacts.functions]]
+id = "th03-mainl-decoded-win-text"
+public = "win_text_put()"
+carrier = "th03/mainl_sc.cpp"
+implementation = "th03/mainl/screens.cpp"
+segment = 0x095f
+offset = 0x014e
+size = 56
+return_hex = "c3"
+abi = "near, no arguments; BP saved; three far Pascal graph_putsa_fx calls"
+
 [[artifacts.rounds]]
 round = 1
 candidate_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th03/mainl.exe"

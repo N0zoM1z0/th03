@@ -5,7 +5,7 @@ from types import SimpleNamespace
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
-from review_th03_decoded_code import code_rows, extent_observation
+from review_th03_decoded_code import code_rows, extent_observation, function_observation
 
 
 def image(data, records=()):
@@ -54,6 +54,18 @@ class DecodedCodeReviewTests(unittest.TestCase):
                                dict(start=2, size=2))
         with self.assertRaisesRegex(ValueError, "exceed"):
             extent_observation(image(b"12"), image(b"12"), dict(start=1, size=2))
+
+    def test_complete_function_requires_the_reviewed_return(self):
+        function = dict(segment=0, offset=0, size=2, return_hex="c3",
+                        carrier="a.cpp", implementation="b.cpp")
+        files = {"a.cpp": b"include", "b.cpp": b"function"}
+        with self.assertRaisesRegex(ValueError, "reviewed return"):
+            function_observation(image(b"\x90\xcb"), image(b"\x90\xcb"), function, files)
+        with self.assertRaisesRegex(ValueError, "fully decode"):
+            function_observation(image(b"\x90\x0f"), image(b"\x90\x0f"), function, files)
+        observed = function_observation(image(b"\x90\xc3"), image(b"\x90\xc3"),
+                                        function, files)
+        self.assertFalse(observed["source_acceptance"])
 
 
 if __name__ == "__main__":
