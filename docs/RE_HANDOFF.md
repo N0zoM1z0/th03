@@ -2,13 +2,13 @@
 
 ## Current state
 
-MAIN has eighteen maintained exact source owners represented by twenty-two
-reviewed CODE extents. They contain fifty-one complete functions and 7978 exact
-owned CODE bytes: 7856 function-body bytes plus 122 classified producer-owned
+MAIN has nineteen maintained exact source owners represented by twenty-three
+reviewed CODE extents. They contain fifty-four complete functions and 8345 exact
+owned CODE bytes: 8223 function-body bytes plus 122 classified producer-owned
 switch-table/alignment bytes. The owner set is vector-far, exit, polar,
 frame-delay, input-sense, snd-se, snd-kaja, initmain, pi-load, input-modes,
 explosion-collision, fireballs, and the two CODE contributions of the complete
-`bullet.cpp` source owner, hitbox, the four combo contributions, gauge, player movement and ordinary shots.
+`bullet.cpp` source owner, hitbox, the four combo contributions, gauge, player movement, ordinary shots and player state.
 
 The complete enemy owner is also maintained as a structural candidate: three
 reviewed CODE extents, nineteen functions and 3325 bytes. Its separate manifest
@@ -82,15 +82,23 @@ Continue the complete ReC98 intake queue. Investigate the enemy owner's single
 ordered relocation failure without rewriting its MZ entries or weakening the
 Oracle. The original OMF producer record partition remains unknown; moving
 declarations or function definitions did not change the candidate's ordering.
-Hitbox, combo, gauge, player movement and shot update/render have passed the
-complete cold replay. Continue the player-state owner while the independent
-enemy question remains open. The player-state stock source has 34 differing
-bytes in its collision function: alternative encodings of the same decoded
-register operations. Its damage and story-skill functions compare raw-exact.
-The upstream function-order warning is not evidence of a current order mismatch.
+Hitbox, combo, gauge, player movement, ordinary shots and player state have
+passed the complete cold replay. The player-state owner now uses a reviewed
+symbolic inline-assembly collision routine with natural compiler-owned locals
+and prologue/epilogue; the damage and story-skill routines retain C++ bodies.
+This resolves the stock source's 34 register-opcode encoding differences.
+See `docs/reconstruction/MAIN_PLAYER_STATE_REVIEW.md`. The separate enemy
+ordered-relocation question remains open.
 
-After that, continue through timing/state update and two-player/game-object
-logic. For OP, MAINL and ZUN, establish stored-code versus decoded-code mapping
+Next, review the remaining directly linked MAIN candidates, beginning with
+cfg-lres, extra attack, sprite16, static HUD, playfield and hit circles.
+The playfield upstream uses explicit `codestring` NOPs; review those producer
+bytes before deciding on a natural accepted source. A preliminary scaffold
+comparison finds a register-XOR encoding difference at hitcircle 096E:220D
+and an ordered-relocation mismatch in MRS despite equal raw owner bytes.
+These are diagnostic intake questions, not accepted boundaries or source
+progress. Then continue original assembly, timing/state and two-player logic.
+For OP, MAINL and ZUN, establish stored-code versus decoded-code mapping
 before treating storage inventories as source functions. Keep the OMF
 calibration drift investigation separate from source reconstruction and replay
 the complete existing MAIN aggregate after every new owner.
@@ -104,18 +112,16 @@ fresh two-round `sol-rec98-baseline-20261005` replay. The enemy wrapper and
 implementation have a scoped boundary-review decision; all remaining intake
 review is still open.
 
-The `sol-hitbox-combo-gauge-probe-20261005` replay accepted the complete three
-new owners (1299 bytes / seven functions / six extents), including every combo
-segment. See `docs/reconstruction/MAIN_COLLISION_COMBO_GAUGE_REVIEW.md` and the
-raw target export script. The final accepted-state aggregate
-`sol-hitbox-combo-gauge-final-20261005-b` also passed after promotion. The open
-enemy candidate retains its separate manifest and failure.
+Recent final accepted-state aggregate receipts all passed two cold rounds:
 
-The complete movement and ordinary-shot owners passed
-`sol-player-move-shots-probe-20261005-b`: four functions, two CODE extents,
-469 bytes, including the movement dispatch table and natural alignment.
-The movement automatic Ghidra function had merged an unrelated range; its
-reviewed raw boundary is recorded separately. See
-`docs/reconstruction/MAIN_PLAYER_MOVE_SHOTS_REVIEW.md`.
-The final accepted-state replay `sol-player-move-shots-final-20261005`
-also passed both cold rounds with the promoted ledger state frozen.
+- `sol-hitbox-combo-gauge-final-20261005-b`: hitbox/combo/gauge;
+  see `docs/reconstruction/MAIN_COLLISION_COMBO_GAUGE_REVIEW.md`.
+- `sol-player-move-shots-final-20261005`: movement and ordinary shots;
+  see `docs/reconstruction/MAIN_PLAYER_MOVE_SHOTS_REVIEW.md`.
+- `sol-player-state-final-20261005`: collision, damage and skill;
+  see `docs/reconstruction/MAIN_PLAYER_STATE_REVIEW.md`.
+
+The last receipt covers the current full nineteen-owner / twenty-three-extent
+/ fifty-four-function / 8345-byte aggregate and complete configured
+product/game-object deterministic vector. The enemy candidate retains its
+separate manifest and recorded failure.

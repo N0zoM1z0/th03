@@ -708,3 +708,56 @@ offset = 0x518a
 size = 142
 map_public = "shots_render()"
 abi = "near cdecl; no arguments; same-segment far-return coordinate helper and two far sprite calls; RET"
+
+[[units]]
+id = "th03-main-player-state"
+source = "src/main/player/stuff.cpp"
+header = "src/main/player/stuff.hpp"
+object = "main_010"
+support_files = [
+  "compat/rec98/th03/hardware/input.h",
+  "compat/rec98/th03/main/chars/speed.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/player/ch_shot.hpp",
+  "compat/rec98/th03/main/player/cpu.hpp",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gauge.hpp",
+  "compat/rec98/th03/main/player/hearts.hpp",
+  "compat/rec98/th03/main/player/shot.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/resident.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-player-state", segment = 0x096e, start = 0x4a17, size = 367, map_module = "th03/main_010.cpp", map_segment = "MAIN_010_TEXT", map_group = "MAIN_01" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "player_hittest"
+object = "main_010"
+segment = 0x096e
+offset = 0x4a17
+size = 222
+map_public = "player_hittest(int)"
+abi = "near Pascal; signed tile-size word; compiler-owned four-byte local frame and SI/DI preservation; RET 2"
+
+[[functions]]
+name = "players_hit_damage_update"
+object = "main_010"
+segment = 0x096e
+offset = 0x4af5
+size = 118
+map_public = "players_hit_damage_update(player_stuff_t near&)"
+abi = "near Pascal; near player reference; signed byte damage result in AL; RET 2"
+
+[[functions]]
+name = "story_skill_decrement"
+object = "main_010"
+segment = 0x096e
+offset = 0x4b6b
+size = 27
+map_public = "story_skill_decrement()"
+abi = "near cdecl; no arguments; far resident pointer; RET"

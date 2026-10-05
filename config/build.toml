@@ -1,7 +1,7 @@
 schema_version = 1
 phase = "exact-owned-units"
 status = "open"
-source_graph = "partial: eighteen exact MAIN owners / twenty-two CODE extents; complete enemy candidate adds one owner / three reviewed extents in config/th03_main_enemy_candidate.toml"
+source_graph = "partial: nineteen exact MAIN owners / twenty-three CODE extents; complete enemy candidate adds one owner / three reviewed extents in config/th03_main_enemy_candidate.toml"
 startup = "unknown"
 link_order = "unknown"
 initialized_data = "unknown"

@@ -399,7 +399,7 @@ th03/main/player/score_add.asm,a856e9f0fe66d97c1d5b0abab81bd6fec2a81b0b7db9d1baa
 th03/main/player/shot.cpp,c5a780b99470da985e467cfb2afdeb28e47fdd72e7772fa79dd741cc9296a869,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/player/shot.hpp,18d0b52745a30d12ba4c199a9ca6e4e616744d6f02973f48ab51540b009d67b9,include,th03-main,,,,
 th03/main/player/shots[bss].asm,45da3222cf4364cc7e9e180ad21ce5c61c6b1005519c1bea5e8870e5ef61b5a3,translation-unit,th03-main,,,,
-th03/main/player/stuff.cpp,7172c09149a1746bbbf911507be2f6b8a33edd774b3bb9d276f44d24308f10bf,translation-unit,th03-main,,,,
+th03/main/player/stuff.cpp,7172c09149a1746bbbf911507be2f6b8a33edd774b3bb9d276f44d24308f10bf,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/player/stuff.hpp,60725a4b73c5b56dc041b95210a6a284fbf29d4a66e61804074902a46c110a15,include,th03-main,,,,
 th03/main/playfield_fg_x[bss].asm,b3c567857d2cee9dafb4b56918b95581d27492675b90173a1fb1420aeb609622,translation-unit,th03-main,,,,
 th03/main/playfld.cpp,00991cd6bde89c2816c39bdec31f0b74998c166f361451f30e9d9a4aa594fdf3,translation-unit,th03-main,,,,
@@ -410,7 +410,7 @@ th03/main/score.hpp,5768d5773d13a57650aabb66390ae31b47c1317790f0ac0f38e8d31eb6c1
 th03/main/sprite16.cpp,4d6078a1bec9415895ef840bbba77cc20750fa4214a96c7c8d7564a42717131c,translation-unit,th03-main,,,,
 th03/main/sprite16.hpp,01d4fca0265de54306d02d6c5d5b2f4d598df9e21d415a6cfad451ac561001ca,include,th03-main,,,,
 th03/main/v_colors.hpp,e99b417ecfee390383f510baebb5b07b18e269d5091ade12f2dd748f2db0e3d3,include,th03-main,,,,
-th03/main_010.cpp,e5422afbecf874b0458dc83731941a39230d60628fd05d236465a8e2069d37a0,translation-unit,th03-main,th03-main,,,
+th03/main_010.cpp,e5422afbecf874b0458dc83731941a39230d60628fd05d236465a8e2069d37a0,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/mainl/screens.cpp,a9de3cac6a0fee5c0d9e01e1e0479cf9e3dd6d39edb1f4ae07247b65aaa3ca3e,translation-unit,th03-mainl,,,,
 th03/mainl_sc.cpp,160916a9dc037655e03a8f87f51ce5990e934e177302bacfdfb225677c068ca0,translation-unit,th03-mainl,th03-mainl,,,
 th03/math/polar.cpp,6200a559c5e9b5bc8b2b20df62c159fc6f71342b54f61bbe07dab85147830d5f,translation-unit,th03-main;th03-op,,,th03-main,th03-main
