@@ -33,7 +33,7 @@ th03:link("mainl", {
     }
     for path in ("th02_zuninit.asm", "th01/zunsoft.cpp",
                  "libs/sprite16/sprite16.asm", "th03/res_yume.cpp",
-                 "Pipeline/zungen.c", "Pipeline/zun_stub.asm"):
+                 "Pipeline/zungen.c", "Pipeline/zun_stub.asm", "libs/kaja/ongchk.com"):
         files[path] = b''
     return files
 
@@ -47,6 +47,8 @@ class IntakeTests(unittest.TestCase):
         self.assertEqual(rows["th04/branch.hpp"]["unresolved_includes"], "generated.asm")
         self.assertIn("th03/shared.inc", rows)
         self.assertFalse(any(r["reviewed_code_artifacts"] for r in rows.values()))
+        self.assertEqual(rows["libs/kaja/ongchk.com"]["artifacts"], "th03-zun")
+        self.assertEqual(rows["libs/kaja/ongchk.com"]["kind"], "asset-metadata-only")
 
     def test_main_owner_cannot_grant_mainl_credit(self):
         with self.assertRaisesRegex(ValueError, "artifact differs"):

@@ -52,6 +52,7 @@ def link_roots(files: dict[str, bytes]) -> dict[str, set[str]]:
     roots["th03-zun"] = {
         "th02_zuninit.asm", "th01/zunsoft.cpp", "libs/sprite16/sprite16.asm",
         "th03/res_yume.cpp", "Pipeline/zungen.c", "Pipeline/zun_stub.asm",
+        "libs/kaja/ongchk.com",
     }
     if any(path not in files for paths in roots.values() for path in paths):
         raise ValueError("frozen link root missing")
