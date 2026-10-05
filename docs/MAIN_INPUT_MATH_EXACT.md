@@ -1,7 +1,7 @@
 # MAIN foundation exact ownership
 
-The maintained sources implement nineteen exact functions in nine reviewed
-authored extents totaling 1273 owned bytes: 1272 function-body bytes plus one
+The maintained sources implement twenty exact functions in ten reviewed
+authored extents totaling 1340 owned bytes: 1339 function-body bytes plus one
 explicit assembler alignment byte. Scope is the pinned Japanese MAIN.EXE.
 The accepted frontier now covers vector/polar math, frame timing, keyboard/input
 mode sensing, the complete sound-effect play/update and KAJA interrupt
@@ -11,6 +11,7 @@ hypothesis, so these sources stay under `src/main`.
 | Owner | Relative segment:offset | Bytes | Functions | Maintained source |
 | --- | --- | ---: | ---: | --- |
 | `th03-main-vector-far` | `0E8F:008A` | 160 | 2 | `src/main/math/vector_far.asm` |
+| `th03-main-exit` | `0E8F:012A` | 67 | 1 | `src/main/core/exit.cpp` |
 | `th03-main-polar` | `0E8F:016D` | 26 | 1 | `src/main/math/polar.cpp` |
 | `th03-main-frame-delay` | `0E8F:0187` | 21 | 1 | `src/main/hardware/frame_delay.cpp` |
 | `th03-main-input-sense` | `0E8F:019C` | 417 | 1 | `src/main/hardware/input_sense.cpp` |
@@ -22,11 +23,11 @@ hypothesis, so these sources stay under `src/main`.
 
 ## Target review
 
-Independent MZ parsing gives a 6240-byte target header. The nine accepted
-payload starts are `0xE97A`, `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`,
+Independent MZ parsing gives a 6240-byte target header. The ten accepted
+payload starts are `0xE97A`, `0xEA1A`, `0xEA5D`, `0xEA77`, `0xEA8C`, `0xEC3A`,
 `0xECB2`, `0xECD0`, `0xED0E`, and `0xED54`; Ghidra's load base
 adds `0x10000` to those addresses. The independently attested headless
-database reports nineteen complete bodies inside the accepted owners, with exact
+database reports twenty complete bodies inside the accepted owners, with exact
 ends and sizes checked against independent 16-bit decoding.
 Every accepted function ends in a far return, with no shared epilogue outside
 its owned span.
@@ -44,6 +45,16 @@ four direct callers / one `IATAN2` callee for `vector2_between_plus`.
 The maintained source expresses these operations as symbolic TASM instructions
 and `EVEN`; it contains neither the historical raw opcode byte array nor a
 C++ `codestring` used to manufacture the alignment byte.
+
+`game_exit` is the complete 67-byte far-cdecl body at `SHARED:012A..016C`.
+TH03 itself confirms one direct caller, seven unique direct callees, and eight
+far-call sites because `graph_clear` is called twice. The body shuts down the
+playfield, clears both graphics pages through ports `0xA6`/`0xA4`, then calls
+`vsync_end`, `mem_unassign`, `text_clear`, `js_end`, and `egc_start`.
+The final page-select deliberately reuses AL=0 from the preceding access-page
+write; assigning AL again grows the owner by two bytes and fails the MAP gate.
+All eight ordered MZ segment relocations are checked at owner-relative sites
+6, 17, 28, 43, 48, 53, 58, and 63.
 
 `frame_delay` is a complete 21-byte far Pascal function through `RETF 2`.
 `input_reset_sense_key_held` is one large 417-byte far cdecl body with no
@@ -118,7 +129,7 @@ labels do not override the target ABI.
 
 ## Source and replay
 
-The nine maintained translation units use local ABI headers and no ReC98
+The ten maintained translation units use local ABI headers and no ReC98
 includes. They were developed from the pinned TH03 reference as hypotheses and
 then checked independently against TH03 target instructions, compiler/assembler
 objects, link-map placement, relocations, and final linked bytes. The vector
@@ -136,6 +147,7 @@ from modern source-relative compilers.
 
 ```sh
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-vector-far
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-exit
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
@@ -171,8 +183,8 @@ hardware test doubles exercise the accepted input-mode and polar behavior:
 joystick/keyboard routing, cancel/OK normalization, finite release/press waits,
 0 and 9999 unlimited waits, negative wait parameters, negative fixed-point
 rounding, and 16-bit result wraparound. `frame_delay`, `input_sense`, `snd_se`, `initmain`, and
-`pi_load`, `snd_kaja_interrupt`, `vector2`, and `vector2_between_plus` are not
-claimed as directly exercised by that probe;
+`pi_load`, `snd_kaja_interrupt`, `vector2`, `vector2_between_plus`, and
+`game_exit` are not claimed as directly exercised by that probe;
 their acceptance here is based on complete target-boundary review plus exact
 compiler/link/MAP/relocation/raw-byte replay. This is not PC-98 game runtime
 certification.
@@ -204,6 +216,15 @@ then began with all nine owners already accepted and independently passed the
 same two-round 20-product / 351-game-object vector, all 417 OMF validations,
 all 19 function bodies / 1272 function bytes, the declared alignment byte,
 full 1273-byte owner aggregate, MAP placement, and ordered relocations.
+Exit development replay `gpt-web-exit-probe3-20261005` expanded the
+aggregate to 20 functions / 1339 function-body bytes and 1340 owned bytes.
+Both cold rounds matched the full 67-byte owner, all eight relocation sites,
+MAP placement, and the unchanged 20-product / 351-game-object vector.
+Post-promotion aggregate `gpt-web-main-ten-owner-final-20261005-a`
+then began with all ten owners already accepted and passed the same two-round
+20-product / 351-game-object vector, all 417 OMF validations, all 20 function
+bodies / 1339 function bytes, the declared alignment byte, the 1340-byte owned
+aggregate, MAP placement, and ordered relocations.
 Factory repository-shell execution runs this same checked-in Oracle. Native TH03
 Truth Kernel replay is still unregistered; local exact ledger claims do not
 become Factory-accepted receipts through source inspection or shell success.

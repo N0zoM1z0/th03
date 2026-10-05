@@ -3,9 +3,9 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Nine maintained exact owners now contain nineteen exact functions / 1273 exact
+Ten maintained exact owners now contain twenty exact functions / 1340 exact
 owned bytes: `th03-main-vector-far` (160, including one alignment byte),
-`th03-main-polar` (26), `th03-main-frame-delay` (21),
+`th03-main-exit` (67), `th03-main-polar` (26), `th03-main-frame-delay` (21),
 `th03-main-input-sense` (417), `th03-main-snd-se` (120),
 `th03-main-snd-kaja` (30), `th03-main-initmain` (62), `th03-main-pi-load` (70),
 and `th03-main-input-modes` (367). Target-first boundaries,
@@ -47,6 +47,7 @@ python3 scripts/build.py --status
 python3 scripts/build.py --reference --run-id NEW_UNIQUE_ID
 python3 scripts/ghidra.py th03-main check
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-vector-far
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-exit
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
@@ -72,7 +73,7 @@ the hot deployment; the Factory fix is committed separately.
 The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
 All 20 configured outputs and 351 game objects are deterministic, all 417 OMF
-objects are valid, all nine accepted owners and all nineteen full bodies match,
+objects are valid, all ten accepted owners and all twenty full bodies match,
 and the existing DOS ABI/behavior probe stays passing. The maintained sources
 have no upstream includes or copied target-byte payloads. The vector owner uses
 symbolic TASM and `EVEN` rather than the historical raw opcode bytes / C++
@@ -146,16 +147,29 @@ all nine owners already accepted and independently passed the same full two-roun
 bodies / 1272 function bytes, the one declared alignment byte, the 1273-byte
 owned aggregate, MAP placement, and ordered relocations.
 
+The adjacent `th03-main-exit` owner is now independently reconstructed as
+natural C++: one complete 67-byte far-cdecl body, one caller, seven unique
+callees / eight far calls, and the exact PC-98 A6/A4 port sequence. Development
+replay `gpt-web-exit-probe3-20261005` passed two fresh full builds and
+expanded the frontier to 20 functions / 1339 function bytes / 1340 owned bytes.
+
+Post-promotion aggregate `gpt-web-main-ten-owner-final-20261005-a` began with
+all ten owners already accepted and passed the same two-round 20-product /
+351-game-object vector, all 417 OMF validations, all 20 function bodies /
+1339 function bytes, the one declared alignment byte, the 1340-byte owned
+aggregate, MAP placement, and ordered relocations.
+
 ## Next bounded work
 
 Continue MAIN first and do not restrict the frontier to tiny leaves. Vector math
-is now closed with a symbolic-assembly owner; do not regress to the historical
-raw-opcode/codestring implementation. Re-survey the immediately adjacent
-`SHARED:012A` 67-byte function and its owner boundaries, but also rank broader
-timing/state update and two-player dispatch candidates by full owner extent,
-call graph, dependencies, and TH04 correspondence before selecting the next
-promotion. Treat the 012A adjacency as a routing hint rather than an assumption
-that the next object is automatically the best target.
+and the adjacent exit owner are now closed. Rank the next gameplay owners by
+their complete linker extents rather than adjacency: `e_expl.cpp` contributes a
+single 0x276-byte (630-byte) C++ block; `e_fireb.cpp` contributes 0x613
+(1555) bytes; `bullet.cpp` contributes 0x53 + 0xA2A (2685) bytes across
+two segments; and `e_enemy.cpp` contributes multiple blocks totaling more than
+3 KiB. Prefer a complete several-hundred-byte owner next, then escalate to the
+multi-segment bullet/enemy owners once their shared segment/data dependencies
+and function boundaries are explicitly mapped.
 
 After the input/math frontier, proceed into timing/state update and then
 two-player dispatch/game-object logic. Determine packed/decoded ownership for

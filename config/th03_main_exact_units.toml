@@ -25,6 +25,15 @@ size = 160
 padding_ranges = [[0x45, 1]]
 
 [[units]]
+id = "th03-main-exit"
+source = "src/main/core/exit.cpp"
+header = "src/main/core/exit.hpp"
+object = "exit"
+start = 0x012a
+size = 67
+map_module = "th03/exit.cpp"
+
+[[units]]
 id = "th03-main-polar"
 source = "src/main/math/polar.cpp"
 header = "src/main/math/polar.hpp"
@@ -107,6 +116,14 @@ offset = 0x00d0
 size = 90
 map_public = "VECTOR2_BETWEEN_PLUS"
 abi = "far Pascal; four signed coordinates, byte plus_angle, two far references, signed length; RETF 0x14"
+
+[[functions]]
+name = "game_exit"
+object = "exit"
+offset = 0x012a
+size = 67
+map_public = "game_exit()"
+abi = "far cdecl; no arguments; seven direct far callees; RETF"
 
 [[functions]]
 name = "polar"
