@@ -339,7 +339,7 @@ th03/hiscore/regist.hpp,03f49d417df57ae851fc3fd88d11653103f5a97804b767b77d754975
 th03/hiscore/regist[bss].asm,0ddc8cecf1cba6e670901b783f48c3624dfb7ff13e1d15f4c7905cede454c01b,translation-unit,th03-mainl,,,,
 th03/hitbox.cpp,c74cda1d08097e340b270caab1a8de3ead451e60d13b1b6e3da3774fa9d8ac65,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/hitcirc.cpp,5e6b10dc33afc9a07e9cdff73b3a71683b4dcc347eeec79e06de35f05253791b,translation-unit,th03-main,th03-main,,th03-main,th03-main
-th03/hud_stat.cpp,91359b568701c779a5d8bdf7d954e4ee1a2910bd806d7178dfb55776b311c263,translation-unit,th03-main,th03-main,,,
+th03/hud_stat.cpp,91359b568701c779a5d8bdf7d954e4ee1a2910bd806d7178dfb55776b311c263,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/initmain.cpp,191ef28660b771c290fbeb21f46b33457a2e2d29327f6b5bb2a04c58343cbc38,translation-unit,th03-main;th03-mainl,th03-main;th03-mainl,,th03-main,th03-main
 th03/initop.cpp,72d6ac8c44bf4cee2cf3abb1a10aa39043415469c94a85678b5474885cde5a87,translation-unit,th03-op,th03-op,,,
 th03/inp_m_w.cpp,71bc78fc62690c1379610fdffdabebe1e620e2af4faead6a9772c790c2e59fae,translation-unit,th03-main;th03-mainl;th03-op,th03-main;th03-mainl;th03-op,,th03-main,th03-main
@@ -372,7 +372,7 @@ th03/main/hitcirc.cpp,e7a0f31961a9b5720deb2845b30edf4360eed4ad329000abc8b72ecf5c
 th03/main/hitcirc.hpp,a2bdd97f6dc4c88d0c751c0bd2677002aa0df827cfc5064135d151625962ab2c,include,th03-main,,,,
 th03/main/hud/dynamic.hpp,f3fba40dd95afdd3000a0497144abdc038460f333af868b567e8ba5e802ab5e0,include,th03-main,,,,
 th03/main/hud/start.hpp,93796ee22b5d1f9a7cf5df4a3ff1613c9d9da8244dbec384ebe2a1fcc577ed33,include,th03-main,,,,
-th03/main/hud/static.cpp,127929bf2ef7b7d07aca9df619de061d7613364f6455e2d0738a03e11f0436c9,translation-unit,th03-main,,,,
+th03/main/hud/static.cpp,127929bf2ef7b7d07aca9df619de061d7613364f6455e2d0738a03e11f0436c9,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/hud/static.hpp,5b242b81d14368b071c32a6099c2c6c9917dd9669f2163c8fa81a4a4c9ae8e82,include,th03-main,,,,
 th03/main/hud/warning.hpp,6fb28c6b965a8379fcff18f9774d9d69d21c83053f791a8af0609ba28927fa6f,include,th03-main,,,,
 th03/main/player/bomb.hpp,4fe5e0b1356744c377fa462dbfe7d138fdd74da198d4acd80b976e5fc60038f2,include,th03-main,,,,

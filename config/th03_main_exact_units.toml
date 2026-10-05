@@ -872,3 +872,87 @@ offset = 0x212b
 size = 236
 map_public = "hitcircles_render()"
 abi = "near cdecl; no arguments; INT 42 driver protocol and two far sprite calls; RET"
+
+[[units]]
+id = "th03-main-static-hud"
+source = "src/main/hud/static.cpp"
+header = "src/main/hud/static.hpp"
+object = "hud_stat"
+support_files = [
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/gaiji/gaiji.h",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/resident.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-static-hud", segment = 0x096e, start = 0x2217, size = 539, map_module = "th03/hud_stat.cpp", map_segment = "HUD_STAT_TEXT", map_group = "MAIN_01" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "hud_wipe"
+object = "hud_stat"
+segment = 0x096e
+offset = 0x2217
+size = 56
+map_public = "hud_wipe()"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "hud_static_halfhearts_put"
+object = "hud_stat"
+segment = 0x096e
+offset = 0x224f
+size = 124
+map_public = "hud_static_halfhearts_put(unsigned char)"
+abi = "far Pascal; byte pid in word stack slot; RETF 2"
+
+[[functions]]
+name = "hud_static_bombs_put"
+object = "hud_stat"
+segment = 0x096e
+offset = 0x22cb
+size = 103
+map_public = "hud_static_bombs_put(unsigned char)"
+abi = "far Pascal; byte pid in word stack slot; RETF 2"
+
+[[functions]]
+name = "hud_static_rounds_won_put"
+object = "hud_stat"
+segment = 0x096e
+offset = 0x2332
+size = 73
+map_public = "hud_static_rounds_won_put(unsigned char)"
+abi = "near Pascal; byte pid in word stack slot; RET 2"
+
+[[functions]]
+name = "hud_static_story_lives_put"
+object = "hud_stat"
+segment = 0x096e
+offset = 0x237b
+size = 54
+map_public = "hud_static_story_lives_put()"
+abi = "near cdecl; no arguments; far resident pointer; RET"
+
+[[functions]]
+name = "hud_static_gauge_levels_put"
+object = "hud_stat"
+segment = 0x096e
+offset = 0x23b1
+size = 79
+map_public = "hud_static_gauge_levels_put(int)"
+abi = "far Pascal; word pid; RETF 2"
+
+[[functions]]
+name = "hud_static_put"
+object = "hud_stat"
+segment = 0x096e
+offset = 0x2400
+size = 50
+map_public = "hud_static_put()"
+abi = "far cdecl; no arguments; RETF"

@@ -2,14 +2,14 @@
 
 ## Current state
 
-MAIN has twenty-two maintained exact source owners represented by twenty-six
-reviewed CODE extents. They contain sixty complete functions and 8880 exact
-owned CODE bytes: 8758 function-body bytes plus 122 classified producer-owned
+MAIN has twenty-three maintained exact source owners represented by twenty-seven
+reviewed CODE extents. They contain sixty-seven complete functions and 9419 exact
+owned CODE bytes: 9297 function-body bytes plus 122 classified producer-owned
 switch-table/alignment bytes. The owner set is vector-far, exit, polar,
 frame-delay, input-sense, snd-se, snd-kaja, initmain, pi-load, input-modes,
 explosion-collision, fireballs, and the two CODE contributions of the complete
 `bullet.cpp` source owner, hitbox, the four combo contributions, gauge, player movement, ordinary shots, player state, resident pointer,
-extra-attack wrapper and hit circles.
+extra-attack wrapper, hit circles and static HUD.
 
 The complete enemy owner is also maintained as a structural candidate: three
 reviewed CODE extents, nineteen functions and 3325 bytes. Its separate manifest
@@ -91,8 +91,8 @@ This resolves the stock source's 34 register-opcode encoding differences.
 See `docs/reconstruction/MAIN_PLAYER_STATE_REVIEW.md`. The separate enemy
 ordered-relocation question remains open.
 
-Next, review the remaining directly linked MAIN candidates: static HUD,
-playfield, sprite16, MRS, shared config/sound/hardware and original assembly.
+Next, review the remaining directly linked MAIN candidates: playfield,
+sprite16, MRS, shared config/sound/hardware and original assembly.
 The playfield, sprite16 and MRS upstream use explicit `codestring` NOPs; review
 those producer bytes before deciding on a natural accepted source. MRS has a
 preliminary ordered-relocation mismatch despite equal raw owner bytes; this
@@ -126,7 +126,10 @@ Recent final accepted-state aggregate receipts all passed two cold rounds:
   extra-attack wrapper and hit circles; see
   `docs/reconstruction/MAIN_CFG_EXATT_HITCIRCLE_REVIEW.md`.
 
-The last receipt covers the current full twenty-two-owner / twenty-six-extent
-/ sixty-function / 8880-byte aggregate and complete configured
+- `sol-static-hud-final-20261005`: complete static HUD; see
+  `docs/reconstruction/MAIN_STATIC_HUD_REVIEW.md`.
+
+The last receipt covers the current full twenty-three-owner / twenty-seven-extent
+/ sixty-seven-function / 9419-byte aggregate and complete configured
 product/game-object deterministic vector. The enemy candidate retains its
 separate manifest and recorded failure.
