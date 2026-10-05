@@ -307,7 +307,7 @@ th03/formats/hfliplut.h,c3e25ebfe74ae12a3a2773f1ba935adea457ce6ea08e97695604cd1c
 th03/formats/hfliplut[bss].asm,7ce20d5b7a6b5da8064c992c97396f8f6ca4de16b627d719a2f23d74aac1520f,translation-unit,th03-main;th03-mainl;th03-op,,,,
 th03/formats/mrs.cpp,a4a1aea84522071dde836e8cac8b73a8e51c3b65e2207b10f66446fca9a8a39b,translation-unit,th03-main,,,th03-main,th03-main
 th03/formats/mrs.hpp,df997131752b02ab84f5a0262417c55e277ce57b70efd9bca18808982fd9976d,include,th03-main,,,,
-th03/formats/pfopen.asm,913ba45575ed3578efc959a9d3383b2407edb1042d856651cda59b5e701f70ab,translation-unit,th03-main;th03-mainl;th03-op,,,,
+th03/formats/pfopen.asm,913ba45575ed3578efc959a9d3383b2407edb1042d856651cda59b5e701f70ab,translation-unit,th03-main;th03-mainl;th03-op,,,th03-main,th03-main
 th03/formats/pi.hpp,5f85dd06427f855315f9831b3fe43951644b7a974172a4e4583aa0622abe3fc5,include,th03-mainl;th03-op,,,,
 th03/formats/pi_put_i.cpp,7308db32adab1e6d2fdd2ee810544589151c276272f5d453c2e312f524ce17c1,translation-unit,th03-mainl,,,,
 th03/formats/pi_put_masked[data].asm,ca56aa60b1e8561e41eb255d99572f6110994d59f9430a3dfd1bee0b212e0b70,translation-unit,th03-mainl,,,,
@@ -331,7 +331,7 @@ th03/hardware/input_modes[bss].asm,9b37eeab18af63e0785239a7da90e0006163d4f7a9045
 th03/hardware/input_s.cpp,6ae7cf8c133164d4572186f1623888f9843b7bb709b9167ecd46c1e2215a1467,translation-unit,th03-main;th03-mainl;th03-op,,,th03-main,th03-main
 th03/hardware/palette.hpp,f3259df66790fbd9afcccce7ae04e9db7686bc0094ec384e5394e3a6c583979f,include,unassigned,,,,
 th03/hardware/palette_changed[bss].asm,f1dea82fe9eccae7c4eeb3057fa093b3d20c4bd094b81a2dcd25ff23650ee661,translation-unit,th03-main,,,,
-th03/hardware/sprite16_copy.asm,5f7ac1d3a2cb3fa6344dc13c7144d0e984f977e05a2e7aeb75ef034dd76c3240,translation-unit,th03-main,,,,
+th03/hardware/sprite16_copy.asm,5f7ac1d3a2cb3fa6344dc13c7144d0e984f977e05a2e7aeb75ef034dd76c3240,translation-unit,th03-main,,,th03-main,th03-main
 th03/hardware/vram.hpp,049f9a43b2ffcf3aca79db0035bd036be430eb17f55dc2e43171c217a38a50d4,include,th03-main,,,,
 th03/hfliplut.asm,ccb5f6014932e25d554d54d20db88d1284498f13964cc3e24d6a47e74e34289c,translation-unit,th03-main;th03-mainl;th03-op,th03-main;th03-mainl;th03-op,,th03-main,th03-main
 th03/hiscore/regist.cpp,15355e761d8999b091c9c5b7405879ff371ef67909380e9aa2f58637657f345e,translation-unit,th03-mainl,,,,
@@ -353,7 +353,7 @@ th03/main/chars/speeds[data].asm,21652f069b33b83c3bf8006f96a697fa83d2d6c965263c8
 th03/main/collmap.asm,d1fd9a1514597aac5d355bb05a411668b6810b39959c28f526adf52132bb848e,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/collmap.hpp,c4991603e39820a6057e63250d199378ef3de6533754b34da19f4cfbed454fac,include,th03-main,,,,
 th03/main/collmap.inc,b26f9b2c46a1fd56b21f6b9afb85b83cfeed625f8a34b12c436433a0fb2be227,include,th03-main,,,,
-th03/main/collmap_reset.asm,b77fad1e7e2a42899880ff9b832df06845f4e590b665678c999781b3503e6a81,translation-unit,th03-main,,,,
+th03/main/collmap_reset.asm,b77fad1e7e2a42899880ff9b832df06845f4e590b665678c999781b3503e6a81,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/defeat.hpp,81f3eaca9e083c35aaeb2405558328fef7defd3c496a23b8af5dbb24b8d6b74b,include,th03-main,,,,
 th03/main/demo.h,deaa6afd2fc3e8662620ef0ea55fa00e5ea6b6651a77ca5dc37c7ef89166fba6,include,unassigned,,,,
 th03/main/demo[bss].asm,03fe7010103a8c855ae83347a0a2a80dc50de82d9658c97f6ca525e9bab177b4,translation-unit,th03-main,,,,
@@ -395,7 +395,7 @@ th03/main/player/move.cpp,505bfaf4a8b81e62df03163c95f8f4b893f0a9541f2396a3207a40
 th03/main/player/move.hpp,cc159b82e2382ef0edad33b8213a6533ef9ecfffeecb6ee710bc408ab38456b7,include,th03-main,,,,
 th03/main/player/players[bss].asm,955129ea9d74445d99df04675d7b8f92ea4f411b3436ca9d2a8143f6b8430d0a,translation-unit,th03-main,,,,
 th03/main/player/score[bss].asm,662db6fefbe17f3bda43d8a593365b17c8f63414a05731c955f4ac9988164535,translation-unit,th03-main,,,,
-th03/main/player/score_add.asm,a856e9f0fe66d97c1d5b0abab81bd6fec2a81b0b7db9d1baa23c7b787591fc66,translation-unit,th03-main,,,,
+th03/main/player/score_add.asm,a856e9f0fe66d97c1d5b0abab81bd6fec2a81b0b7db9d1baa23c7b787591fc66,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/player/shot.cpp,c5a780b99470da985e467cfb2afdeb28e47fdd72e7772fa79dd741cc9296a869,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/player/shot.hpp,18d0b52745a30d12ba4c199a9ca6e4e616744d6f02973f48ab51540b009d67b9,include,th03-main,,,,
 th03/main/player/shots[bss].asm,45da3222cf4364cc7e9e180ad21ce5c61c6b1005519c1bea5e8870e5ef61b5a3,translation-unit,th03-main,,,,
@@ -417,7 +417,7 @@ th03/math/polar.cpp,6200a559c5e9b5bc8b2b20df62c159fc6f71342b54f61bbe07dab8514783
 th03/math/polar.hpp,7eef0c0ff708b06d13ca542443c05075f38207d85d171ac2bec2c4ffd3673079,include,th03-main;th03-op,,,,
 th03/math/randring.hpp,3e9bd5bd0e4ef6cac87cf00c12c0031869c084471295c26d89486b4f0bd3133f,include,th03-main,,,,
 th03/math/randring.inc,183a40da222e445a62893a623b0350ce0151af55336dc1fe8e56e5f1eb8d181f,include,th03-main;th03-mainl,,,,
-th03/math/randring_fill.asm,47651ba3050ed8d72c89b08e42b325b0606e6027826f40a3b919bd79c637f85b,translation-unit,th03-main,,,,
+th03/math/randring_fill.asm,47651ba3050ed8d72c89b08e42b325b0606e6027826f40a3b919bd79c637f85b,translation-unit,th03-main,,,th03-main,th03-main
 th03/math/subpixel.inc,ff7144a239f8ce89b9247fc81336a3400bb48994d27d40d2067a67f5c4ae70ce,include,th03-main,,,,
 th03/math/vector.cpp,66fe3480e381f16afbb071c257428d8fac87778d80646cc644874f3003c79d35,translation-unit,th03-main;th03-mainl,,,th03-main,th03-main
 th03/math/vector.hpp,84427a48a136f0054b85114c4260ce484f84123dbf9e374643fc4659e2dbea16,include,th03-main;th03-mainl,,,,

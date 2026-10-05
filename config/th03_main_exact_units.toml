@@ -1320,3 +1320,138 @@ offset = 458
 size = 131
 map_public = "collmap_set_slope_striped()"
 abi = "far cdecl; global inputs; SI/DI preserved; self-modifying immediates; RETF"
+
+[[units]]
+id = "th03-main-randring-fill"
+source = "src/main/math/randring_fill.inl"
+header = "src/main/math/randring_fill.hpp"
+object = "randring_fill"
+ownership = "bounded-include"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+overlay_path = "th03/math/randring_fill.asm"
+object_path = "obj/th03/main.obj"
+map_module = "th03_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-randring-fill", segment = 0x096e, start = 0x0d1a, size = 18, map_start = 0x0c98, map_size = 0x13c2, map_acbp = 48, map_segment = "HITCIRC_TEXT", map_group = "MAIN_01", producer_ranges = [] },
+]
+
+[[functions]]
+name = "randring_fill"
+object = "randring_fill"
+segment = 0x096e
+offset = 0x0d1a
+size = 18
+map_public = "randring_fill()"
+abi = "near cdecl; no arguments; preserves SI; calls IRand far; leaves ring index unchanged"
+
+[[units]]
+id = "th03-main-collision-reset"
+source = "src/main/collision/reset.inl"
+header = "src/main/collision/reset.hpp"
+object = "collision_reset"
+ownership = "bounded-include"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+overlay_path = "th03/main/collmap_reset.asm"
+object_path = "obj/th03/main.obj"
+map_module = "th03_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-collision-reset", segment = 0x096e, start = 0x0d58, size = 20, map_start = 0x0c98, map_size = 0x13c2, map_acbp = 48, map_segment = "HITCIRC_TEXT", map_group = "MAIN_01", producer_ranges = [{ relative = 19, size = 1, kind = "padding" }] },
+]
+
+[[functions]]
+name = "collmap_reset"
+object = "collision_reset"
+segment = 0x096e
+offset = 0x0d58
+size = 19
+map_public = "_collmap_reset"
+abi = "near cdecl; preserves DI; ES=DS; 1656 dword stores; assumes forward DF"
+
+[[units]]
+id = "th03-main-score-add"
+source = "src/main/player/score_add.inl"
+header = "src/main/player/score_add.hpp"
+object = "score_add"
+ownership = "bounded-include"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+overlay_path = "th03/main/player/score_add.asm"
+object_path = "obj/th03/main.obj"
+map_module = "th03_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-score-add", segment = 0x096e, start = 0x3ed0, size = 88, map_start = 0x2432, map_size = 0x1bc2, map_acbp = 28, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", producer_ranges = [] },
+]
+
+[[functions]]
+name = "score_add"
+object = "score_add"
+segment = 0x096e
+offset = 0x3ed0
+size = 88
+map_public = "score_add(unsigned int,unsigned char)"
+abi = "far Pascal; unsigned score word then byte pid in word slot; RETF 4; preserves BP/SI"
+
+[[units]]
+id = "th03-main-sprite16-copy"
+source = "src/main/graphics/sprite16_copy.inl"
+header = "src/main/graphics/sprite16_copy.hpp"
+object = "sprite16_copy"
+ownership = "bounded-include"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+overlay_path = "th03/hardware/sprite16_copy.asm"
+object_path = "obj/th03/main.obj"
+map_module = "th03_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-sprite16-copy", segment = 0, start = 0x2c2c, size = 96, map_start = 0x0272, map_size = 0x2c3e, map_acbp = 48, map_segment = "_TEXT", map_group = "(none)", producer_ranges = [{ relative = 21, size = 1, kind = "padding" }] },
+]
+
+[[functions]]
+name = "sprite16_sprites_copy_page"
+object = "sprite16_copy"
+segment = 0
+offset = 0x2c42
+size = 74
+map_public = "SPRITE16_SPRITES_COPY_PAGE"
+abi = "far Pascal; page word; RETF 2; preserves DS/SI/DI on success; allocation CF failure returns AX=0"
+
+[[functions]]
+name = "sprite16_page_blit"
+object = "sprite16_copy"
+segment = 0
+offset = 0x2c2c
+size = 21
+boundary = "private-near-calls"
+private_callers = [{ name = "sprite16_sprites_copy_page", count = 8 }]
+abi = "private near register call; AL page; BX source / DX destination segments; swaps BX/DX; DS/ES/SI/DI/CX clobbered; RET"
+
+[[units]]
+id = "th03-main-pfopen"
+source = "src/main/formats/pfopen.inl"
+header = "src/main/formats/pfopen.hpp"
+object = "pfopen"
+ownership = "bounded-include"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+overlay_path = "th03/formats/pfopen.asm"
+object_path = "obj/th03/main.obj"
+map_module = "th03_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-pfopen", segment = 0, start = 0x2d5e, size = 282, map_start = 0x0272, map_size = 0x2c3e, map_acbp = 48, map_segment = "_TEXT", map_group = "(none)", producer_ranges = [{ relative = 281, size = 1, kind = "padding" }] },
+]
+
+[[functions]]
+name = "pfopen"
+object = "pfopen"
+segment = 0
+offset = 0x2d5e
+size = 281
+map_public = "PFOPEN"
+abi = "far Pascal; archive/file far pointers; RETF 8; preserves BP/SI/DI; FS/ES clobbered; AX segment or zero"
