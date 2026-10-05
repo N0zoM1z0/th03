@@ -3,8 +3,48 @@ import struct
 import unittest
 
 from test_pc98 import synthetic_mz, synthetic_mz_with_relocations
-from replay_th03_main_exact_units import compare_extent
+from replay_th03_main_exact_units import compare_extent, normalized_code_extents
 from lib.pc98 import parse_mz
+
+
+class MainExactManifestTests(unittest.TestCase):
+    def test_legacy_owner_normalizes_to_one_code_extent(self):
+        unit = {
+            "id": "legacy", "object": "legacy", "start": 0x20, "size": 4,
+            "padding_ranges": [[2, 1]],
+        }
+        extents = normalized_code_extents(unit, 0x1234)
+        self.assertEqual(len(extents), 1)
+        self.assertEqual(extents[0]["ledger_id"], "legacy")
+        self.assertEqual(extents[0]["segment"], 0x1234)
+        self.assertEqual(
+            extents[0]["producer_ranges"],
+            [{"relative": 2, "size": 1, "kind": "padding"}],
+        )
+
+    def test_split_owner_keeps_discontiguous_extents_separate(self):
+        unit = {
+            "id": "split", "object": "split",
+            "code_extents": [
+                {
+                    "name": "a", "ledger_id": "split-a", "segment": 0x1000,
+                    "start": 0x10, "size": 2, "map_segment": "A",
+                },
+                {
+                    "name": "b", "ledger_id": "split-b", "segment": 0x1000,
+                    "start": 0x30, "size": 8, "map_segment": "B",
+                    "producer_ranges": [
+                        {"relative": 2, "size": 2, "kind": "switch-table"}
+                    ],
+                },
+            ],
+        }
+        extents = normalized_code_extents(unit, 0x9999)
+        self.assertEqual(
+            [(e["name"], e["ledger_id"], e["start"], e["size"]) for e in extents],
+            [("a", "split-a", 0x10, 2), ("b", "split-b", 0x30, 8)],
+        )
+        self.assertEqual(extents[1]["producer_ranges"][0]["kind"], "switch-table")
 
 
 class MainExactOracleTests(unittest.TestCase):

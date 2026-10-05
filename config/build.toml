@@ -1,7 +1,7 @@
 schema_version = 1
 phase = "exact-owned-units"
 status = "open"
-source_graph = "partial: two MAIN owners in config/th03_main_exact_units.toml"
+source_graph = "partial: thirteen MAIN source owners / fourteen exact CODE extents in config/th03_main_exact_units.toml"
 startup = "unknown"
 link_order = "unknown"
 initialized_data = "unknown"

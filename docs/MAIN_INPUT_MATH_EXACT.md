@@ -1,13 +1,14 @@
 # MAIN foundation exact ownership
 
-The maintained sources implement twenty-nine exact functions in twelve reviewed
-authored extents totaling 3525 owned bytes: 3524 function-body bytes plus one
-explicit assembler alignment byte. Scope is the pinned Japanese MAIN.EXE.
-The accepted frontier now covers vector/polar math, frame timing, keyboard/input
-mode sensing, the complete sound-effect play/update and KAJA interrupt
-contributions, main initialization, PI slot loading, and the first complete
-gameplay collision owner. Reuse by packed OP and MAINL remains a reference
-hypothesis, so these sources stay under `src/main`.
+The maintained sources implement forty exact functions in thirteen complete
+source owners represented by fourteen reviewed CODE extents totaling 6210 owned
+bytes: 6103 function-body bytes plus 107 explicitly classified producer-owned
+bytes (104 switch-table bytes and three alignment bytes). Scope is the pinned
+Japanese MAIN.EXE. The accepted frontier now covers vector/polar math, frame
+timing, keyboard/input mode sensing, sound, initialization, PI loading, and the
+complete explosion-collision, fireball, and bullet gameplay owners. Reuse by
+packed OP and MAINL remains a reference hypothesis, so these sources stay under
+`src/main`.
 
 | Owner | Relative segment:offset | Bytes | Functions | Maintained source |
 | --- | --- | ---: | ---: | --- |
@@ -23,16 +24,19 @@ hypothesis, so these sources stay under `src/main`.
 | `th03-main-input-modes` | `0E8F:0464` | 367 | 9 | `src/main/hardware/input_modes.cpp` |
 | th03-main-explosion-collision | 139D:2D3D | 630 | 1 | src/main/enemy/expl.cpp |
 | th03-main-fireballs | 139D:43DE | 1555 | 8 | src/main/enemy/fireball.cpp |
+| th03-main-bullets-pellet-put | 139D:3620 | 83 | 1 | src/main/bullet/bullet.cpp |
+| th03-main-bullets-text | 139D:39B4 | 2602 | 10 | src/main/bullet/bullet.cpp |
 
 ## Target review
 
-Independent MZ parsing gives a 6240-byte target header. The twelve accepted
+Independent MZ parsing gives a 6240-byte target header. The fourteen accepted
 payload starts are 0xE97A, 0xEA1A, 0xEA5D, 0xEA77, 0xEA8C, 0xEC3A, 0xECB2,
-0xECD0, 0xED0E, 0xED54, 0x1670D, and 0x17DAE; Ghidra's load base adds 0x10000 to those
-addresses. The independently attested headless database reports twenty-nine
-complete bodies inside the accepted owners, with exact ends and sizes checked
-against independent 16-bit decoding. Every accepted function ends in a far
-return, with no shared epilogue outside its owned span.
+0xECD0, 0xED0E, 0xED54, 0x1670D, 0x16FF0, 0x17384, and 0x17DAE; Ghidra's load
+base adds 0x10000 to those addresses. Target review records forty complete
+function bodies inside the accepted extents, with exact ends and sizes checked
+against independent 16-bit decoding, MAP adjacency, and raw return boundaries.
+Each accepted function terminates at its reviewed near/far return with no
+unowned shared epilogue.
 
 `vector2` is the complete 69-byte far Pascal body at `SHARED:008A`; it is
 followed by one assembler alignment `NOP` at `SHARED:00CF`, outside either
@@ -165,11 +169,45 @@ both DATA/BSS MAP contributions. The intentionally uninitialized chain_slot
 path in fireballs_hittest is preserved because it is target behavior, not
 silently repaired during reconstruction.
 
+## Complete bullet gameplay owner
+
+`th03/main/bullet/bullet.cpp` is one complete source owner with two separate
+CODE contributions. `PELLET_PUT:3620` contributes 83 bytes containing
+`grcg_pellet_put`; `BULLET_TEXT:39B4` contributes 2602 bytes containing ten
+reviewed function bodies. Those eleven functions total 2579 bytes. The remaining
+106 bullet-owned CODE bytes are explicitly classified as two switch tables
+(90 + 14 bytes) and two one-byte alignments, so compiler-generated tables are
+not counted as functions. The translation unit also owns a zero-length DATA
+contribution and a 0x251C-byte BSS contribution fixed by MAP checks.
+
+Target-first review deliberately rejects Ghidra's automatic body maxima for
+`group_velocity_set` and `bullets_add`: 16-bit switch recovery follows table
+targets into unrelated addresses. Raw RET/RETF boundaries, MAP adjacency, the
+dispatch operands pointing at 139D:3D06 and 139D:3F93, and the target bytes fix
+the natural bodies at 0x333 and 0x232 bytes respectively. `BULLET_TEXT` has 16
+ordered owner-relative MZ relocation sites; `PELLET_PUT` has none.
+
+The maintained C++ preserves natural control flow and data structures. One
+two-byte `__emit__(0x30, 0xE4)` is retained inside `bullets_render` solely to
+select the target's `XOR AH,AH` ModR/M direction inside a comma expression:
+TC4J either rejects symbolic inline asm there or emits the semantically
+equivalent opposite encoding and/or perturbs argument order/register allocation.
+This is a local instruction-encoding workaround, not a copied target byte block.
+Fresh replay `gptweb-bullet-fresh-20261005-2044-a` independently reproduced
+both complete CODE extents, all function bodies, producer ranges, MAP ownership,
+and ordered relocations in two cold builds. Post-promotion aggregate
+`gpt-web-main-thirteen-owner-final-20261005-b` then started with all fourteen
+extents already exact, froze the byte/evidence/function ledgers plus progress
+outputs into its replay input set, and passed the full 20-product /
+351-game-object aggregate again.
+
 ## Source and replay
 
-The twelve maintained translation units use local ABI headers and no ReC98
-includes. They were developed from the pinned TH03 reference as hypotheses and
-then checked independently against TH03 target instructions, compiler/assembler
+The thirteen maintained source owners use local ABI headers. Direct ReC98
+dependency exposure is avoided; the bullet owner uses explicit
+`compat/rec98/` forwarding headers that are themselves frozen as replay inputs.
+The sources were developed from the pinned TH03 reference as hypotheses and then
+checked independently against TH03 target instructions, compiler/assembler
 objects, link-map placement, relocations, and final linked bytes. The vector
 owner deliberately uses a symbolic TASM translation unit because TC4J's inline
 assembler cannot express the target's 32-bit register forms without raw opcode
@@ -196,6 +234,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-explosion-collision
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-fireballs
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-bullets
 python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
 ```
 
@@ -230,10 +269,12 @@ their acceptance here is based on complete target-boundary review plus exact
 compiler/link/MAP/relocation/raw-byte replay. This is not PC-98 game runtime
 certification.
 
-The explosion-collision and fireball gameplay owners are likewise not directly
-exercised by the DOS behavior probe; their acceptance is target-boundary plus
-exact compiler/link/MAP/relocation/raw-byte evidence. Fireballs additionally
-bind their one-byte DATA/BSS producer contributions through the MAP.
+The explosion-collision, fireball, and bullet gameplay owners are likewise not
+directly exercised by the DOS behavior probe; their acceptance is target-boundary
+plus exact compiler/link/MAP/relocation/raw-byte evidence. Fireballs additionally
+bind their one-byte DATA/BSS producer contributions through the MAP; the bullet
+owner binds its 0x251C-byte BSS contribution and its two discontiguous CODE
+segments, switch tables, and alignment bytes.
 
 Portable Oracle controls reject changed final bytes, changed relocated words,
 relocation order/multiplicity changes, split relocation words, invalid MZ

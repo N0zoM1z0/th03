@@ -131,6 +131,46 @@ aux_map = [
   { segment = 0x1d56, start = 0x8df8, size = 1, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", map_acbp = 48, raw_compare = false },
 ]
 
+[[units]]
+id = "th03-main-bullets"
+source = "src/main/bullet/bullet.cpp"
+header = "src/main/bullet/bullet.hpp"
+object = "bullet"
+support_files = [
+  "compat/rec98/th03/main/player/bomb.hpp",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/main/enemy/expl.hpp",
+  "compat/rec98/th03/main/difficul.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th03/sprites/pellet.h",
+  "compat/rec98/th02/main/bullet/impl.hpp",
+  "compat/rec98/th02/sprites/bullet16.h",
+  "compat/rec98/th02/v_colors.hpp",
+  "compat/rec98/th01/hardware/grcg.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/libs/sprite16/sprite16.h",
+  "compat/rec98/platform/x86real/flags.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/sprites/main_s16.hpp",
+]
+code_extents = [
+  { name = "pellet-put", ledger_id = "th03-main-bullets-pellet-put", segment = 0x139d, start = 0x3620, size = 0x0053, map_module = "th03/bullet.cpp", map_segment = "PELLET_PUT", map_group = "MAIN_04" },
+  { name = "bullet-text", ledger_id = "th03-main-bullets-text", segment = 0x139d, start = 0x39b4, size = 0x0a2a, map_module = "th03/bullet.cpp", map_segment = "BULLET_TEXT", map_group = "MAIN_04", producer_ranges = [
+    { relative = 0x0351, size = 1, kind = "padding" },
+    { relative = 0x0352, size = 0x005a, kind = "switch-table" },
+    { relative = 0x05de, size = 1, kind = "padding" },
+    { relative = 0x05df, size = 0x000e, kind = "switch-table" },
+  ] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", map_acbp = 48, raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0x251c, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", map_acbp = 48, raw_compare = false },
+]
+
 [[functions]]
 name = "vector2"
 object = "vectorfar"
@@ -361,3 +401,102 @@ offset = 0x49ac
 size = 0x0045
 map_public = "fireballs_hittest_and_render()"
 abi = "far cdecl; no arguments; hittest then renders all active fireballs; RETF"
+
+[[functions]]
+name = "grcg_pellet_put"
+object = "bullet"
+segment = 0x139d
+offset = 0x3620
+size = 0x0053
+map_public = "grcg_pellet_put(int,unsigned int,int)"
+abi = "near fastcall; AX=left, DX=cel_offset, BX=top; RET"
+
+[[functions]]
+name = "bullets_reset"
+object = "bullet"
+segment = 0x139d
+offset = 0x39b4
+size = 0x001e
+map_public = "bullets_reset()"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "group_velocity_set"
+object = "bullet"
+segment = 0x139d
+offset = 0x39d2
+size = 0x0333
+map_public = "group_velocity_set(int)"
+abi = "near Pascal; one signed word argument; RET 2; associated 90-byte switch table follows one alignment byte"
+
+[[functions]]
+name = "bullets_add"
+object = "bullet"
+segment = 0x139d
+offset = 0x3d60
+size = 0x0232
+map_public = "bullets_add()"
+abi = "far cdecl; no arguments; RETF; associated 14-byte switch table follows one alignment byte"
+
+[[functions]]
+name = "bullets_add_transfer_pellet"
+object = "bullet"
+segment = 0x139d
+offset = 0x3fa1
+size = 0x000e
+map_public = "bullets_add_transfer_pellet()"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "bullet_template_reset_stuff"
+object = "bullet"
+segment = 0x139d
+offset = 0x3faf
+size = 0x001e
+map_public = "bullet_template_reset_stuff()"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "bullet_trail_update_and_clip"
+object = "bullet"
+segment = 0x139d
+offset = 0x3fcd
+size = 0x0038
+map_public = "bullet_trail_update_and_clip(int,int,bullet_trail_coords_t near*)"
+abi = "near fastcall; register arguments include BX=coords and preserved SI bullet pointer; carry flag returns clip state; RET"
+
+[[functions]]
+name = "bullets_add_next_from_p"
+object = "bullet"
+segment = 0x139d
+offset = 0x4005
+size = 0x0028
+map_public = "bullets_add_next_from_p()"
+abi = "near cdecl; no arguments; SI carries current bullet pointer; RET"
+
+[[functions]]
+name = "bullet_update_velocity_y"
+object = "bullet"
+segment = 0x139d
+offset = 0x402d
+size = 0x001e
+map_public = "bullet_update_velocity_y()"
+abi = "near cdecl; no arguments; SI carries current bullet pointer; RET"
+
+[[functions]]
+name = "bullets_update"
+object = "bullet"
+segment = 0x139d
+offset = 0x404b
+size = 0x01b6
+map_public = "bullets_update()"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "bullets_render"
+object = "bullet"
+segment = 0x139d
+offset = 0x4201
+size = 0x01dd
+map_public = "bullets_render()"
+abi = "far cdecl; no arguments; RETF"

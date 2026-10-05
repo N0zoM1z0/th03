@@ -78,6 +78,58 @@ def execute(argv: list[str], work: Path, env: dict, log: Path) -> dict:
             "log_sha256": sha(result.stdout)}
 
 
+def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
+    """Return one or more discontiguous CODE contributions for one source owner."""
+    raw_extents = unit.get("code_extents")
+    if raw_extents is None:
+        raw_extents = [{
+            "name": "code",
+            "ledger_id": unit["id"],
+            "segment": unit.get("segment", default_segment),
+            "start": unit["start"],
+            "size": unit["size"],
+            "map_size": unit.get("map_size", unit["size"]),
+            "map_module": unit.get(
+                "map_module", unit.get("wrapper", f"th03/{unit['object']}.cpp")
+            ),
+            "map_acbp": unit.get("map_acbp", 28),
+            "map_segment": unit.get("map_segment", "SHARED"),
+            "map_group": unit.get("map_group", "(none)"),
+            "producer_ranges": [
+                {"relative": relative, "size": size, "kind": "padding"}
+                for relative, size in unit.get("padding_ranges", [])
+            ],
+        }]
+    elif "start" in unit or "size" in unit:
+        raise ValueError(f"split owner also declares legacy start/size: {unit['id']}")
+
+    result = []
+    names = set()
+    ledger_ids = set()
+    for index, raw in enumerate(raw_extents):
+        extent = dict(raw)
+        extent.setdefault("name", f"code-{index + 1}")
+        extent.setdefault("ledger_id", unit["id"])
+        extent.setdefault("segment", unit.get("segment", default_segment))
+        extent.setdefault(
+            "map_module",
+            unit.get("map_module", unit.get("wrapper", f"th03/{unit['object']}.cpp")),
+        )
+        extent.setdefault("map_acbp", unit.get("map_acbp", 28))
+        extent.setdefault("map_segment", unit.get("map_segment", "SHARED"))
+        extent.setdefault("map_group", unit.get("map_group", "(none)"))
+        extent.setdefault("map_size", extent["size"])
+        extent.setdefault("producer_ranges", [])
+        if extent["name"] in names or extent["ledger_id"] in ledger_ids:
+            raise ValueError(f"duplicate split owner extent identity: {unit['id']}")
+        names.add(extent["name"])
+        ledger_ids.add(extent["ledger_id"])
+        if extent["start"] < 0 or extent["size"] <= 0:
+            raise ValueError(f"invalid CODE extent: {unit['id']}:{extent['name']}")
+        result.append(extent)
+    return result
+
+
 def replay(run_id: str, selected_units: list[str]) -> dict:
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     if not re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", run_id):
@@ -95,49 +147,98 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
     owner_ids = {unit["id"] for unit in config["units"]}
     if set(selected_units) - owner_ids:
         raise ValueError("unknown exact owner selection")
+    extents_by_owner = {
+        unit["id"]: normalized_code_extents(unit, config["segment"])
+        for unit in config["units"]
+    }
+    extent_count = sum(len(extents) for extents in extents_by_owner.values())
+    ledger_ids = {
+        extent["ledger_id"]
+        for extents in extents_by_owner.values()
+        for extent in extents
+    }
+    if len(ledger_ids) != extent_count:
+        raise ValueError("duplicate ledger identity across CODE extents")
     with (ROOT / "config/units.csv").open(newline="") as stream:
         unit_rows = list(csv.DictReader(stream))
     accepted = {row["id"] for row in unit_rows
                 if row["artifact"] == config["artifact"] and row["state"] == "exact"}
-    if accepted - owner_ids:
-        raise ValueError("aggregate omits an accepted owner")
+    if accepted - ledger_ids:
+        raise ValueError("aggregate omits an accepted owner extent")
     image = parse_mz(target)
-    # Every owned byte must be classified exactly once as a reviewed function
-    # body or as explicit producer-owned padding. This prevents alignment bytes
-    # from being silently promoted as authored function bytes.
+
+    # Every owned CODE byte must be classified exactly once as a reviewed
+    # function body or as an explicit producer-owned non-function range.
+    # Split owners such as th03/bullet.cpp may contribute multiple CODE
+    # segments without claiming the unrelated bytes between them.
     for unit in config["units"]:
-        coverage = [None] * unit["size"]
+        extents = extents_by_owner[unit["id"]]
+        coverage = {
+            extent["name"]: [None] * extent["size"]
+            for extent in extents
+        }
         for function in config["functions"]:
             if function["object"] != unit["object"]:
                 continue
-            relative = function["offset"] - unit["start"]
-            if relative < 0 or relative + function["size"] > unit["size"]:
-                raise ValueError(f"function escapes owner: {function['name']}")
+            function_segment = function.get("segment", config["segment"])
+            matches = [
+                extent for extent in extents
+                if extent["segment"] == function_segment
+                and extent["start"] <= function["offset"]
+                and function["offset"] + function["size"]
+                    <= extent["start"] + extent["size"]
+            ]
+            if len(matches) != 1:
+                raise ValueError(f"function does not map to exactly one owner extent: {function['name']}")
+            extent = matches[0]
+            relative = function["offset"] - extent["start"]
             for index in range(relative, relative + function["size"]):
-                if coverage[index] is not None:
+                if coverage[extent["name"]][index] is not None:
                     raise ValueError(f"overlapping owner coverage: {unit['id']}")
-                coverage[index] = f"function:{function['name']}"
-        for relative, size in unit.get("padding_ranges", []):
-            if relative < 0 or size <= 0 or relative + size > unit["size"]:
-                raise ValueError(f"invalid padding range: {unit['id']}")
-            for index in range(relative, relative + size):
-                if coverage[index] is not None:
-                    raise ValueError(f"padding overlaps function: {unit['id']}")
-                coverage[index] = "padding"
-        holes = [index for index, owner in enumerate(coverage) if owner is None]
-        if holes:
-            raise ValueError(f"unclassified owner bytes in {unit['id']}: {holes[:8]}")
+                coverage[extent["name"]][index] = f"function:{function['name']}"
+        for extent in extents:
+            for producer_range in extent["producer_ranges"]:
+                relative = producer_range["relative"]
+                size = producer_range["size"]
+                kind = producer_range["kind"]
+                if relative < 0 or size <= 0 or relative + size > extent["size"]:
+                    raise ValueError(
+                        f"invalid producer range: {unit['id']}:{extent['name']}:{kind}"
+                    )
+                for index in range(relative, relative + size):
+                    if coverage[extent["name"]][index] is not None:
+                        raise ValueError(
+                            f"producer range overlaps reviewed bytes: {unit['id']}"
+                        )
+                    coverage[extent["name"]][index] = f"producer:{kind}"
+            holes = [
+                index for index, owner in enumerate(coverage[extent["name"]])
+                if owner is None
+            ]
+            if holes:
+                raise ValueError(
+                    f"unclassified owner bytes in {unit['id']}:{extent['name']}: "
+                    f"{holes[:8]}"
+                )
+
     for unit in config["units"]:
-        rows = [row for row in unit_rows if row["id"] == unit["id"]]
-        if rows:
+        for extent in extents_by_owner[unit["id"]]:
+            rows = [row for row in unit_rows if row["id"] == extent["ledger_id"]]
+            if len(rows) != 1:
+                raise ValueError(
+                    f"ledger row missing or duplicated: {unit['id']}:{extent['name']}"
+                )
             row = rows[0]
-            unit_segment = unit.get("segment", config["segment"])
-            expected_offset = unit_segment * 16 + unit["start"] + image.header.header_size
+            expected_offset = (
+                extent["segment"] * 16 + extent["start"] + image.header.header_size
+            )
             if (row["artifact"] != config["artifact"] or row["source"] != unit["source"]
                 or int(row["file_offset"], 0) != expected_offset
-                or int(row["size"], 0) != unit["size"]
-                or int(row["compare_size"], 0) != unit["size"]):
-                raise ValueError(f"ledger/manifest owner mismatch: {unit['id']}")
+                or int(row["size"], 0) != extent["size"]
+                or int(row["compare_size"], 0) != extent["size"]):
+                raise ValueError(
+                    f"ledger/manifest owner mismatch: {unit['id']}:{extent['name']}"
+                )
     for script in ("scripts/validate_tracking.py", "scripts/progress.py"):
         argv = [sys.executable, script] + (["--check"] if script.endswith("progress.py") else [])
         subprocess.run(argv, cwd=ROOT, stdout=subprocess.DEVNULL, check=True)
@@ -153,15 +254,32 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
     dos = ["wine", str(ROOT / tool["paths"]["msdos_player"]), "-e", "-x"]
     inputs = {}
     for module in config["units"]:
-        for key in ("source", "header"):
-            path = ROOT / module[key]
-            inputs[module[key]] = sha(path.read_bytes())
+        for name in [
+            module["source"], module["header"], *module.get("support_files", [])
+        ]:
+            path = ROOT / name
+            inputs[name] = sha(path.read_bytes())
     inputs["probes/main/input_math_behavior.cpp"] = sha((ROOT / "probes/main/input_math_behavior.cpp").read_bytes())
     inputs["config/th03_main_exact_units.toml"] = sha((ROOT / "config/th03_main_exact_units.toml").read_bytes())
     inputs["scripts/replay_th03_main_exact_units.py"] = sha(Path(__file__).read_bytes())
-    for name in ("config/targets.toml", "config/toolchain.toml", "config/oracles.toml",
-                 "scripts/attest_toolchain.py", "scripts/validate_tracking.py",
-                 "scripts/progress.py", "tests/test_main_exact_oracle.py"):
+    # Freeze every ledger/control input consulted by the pre-replay acceptance
+    # checks. Otherwise an exact-state or evidence edit during a long cold build
+    # could escape the end-of-replay mutation guard.
+    for name in (
+        "config/targets.toml",
+        "config/toolchain.toml",
+        "config/oracles.toml",
+        "config/units.csv",
+        "config/evidence.csv",
+        "config/th03_main_authored_functions.csv",
+        "config/th03_function_boundaries.csv",
+        "docs/PROGRESS.md",
+        "resources/progress.svg",
+        "scripts/attest_toolchain.py",
+        "scripts/validate_tracking.py",
+        "scripts/progress.py",
+        "tests/test_main_exact_oracle.py",
+    ):
         inputs[name] = sha((ROOT / name).read_bytes())
     for path in (ROOT / "scripts/lib").glob("*.py"):
         inputs[path.relative_to(ROOT).as_posix()] = sha(path.read_bytes())
@@ -196,10 +314,12 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
         if list(work.rglob("*.obj")) or list((work / "bin").glob("th0[1-5]/*.exe")):
             raise ValueError("cold scaffold contains cached game objects or products")
         for module in config["units"]:
-            for key in ("source", "header"):
-                destination = work / module[key]
+            for name in [
+                module["source"], module["header"], *module.get("support_files", [])
+            ]:
+                destination = work / name
                 destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copy2(snapshot / module[key], destination)
+                shutil.copy2(snapshot / name, destination)
             if "overlay_path" in module:
                 overlay = work / module["overlay_path"]
                 overlay.parent.mkdir(parents=True, exist_ok=True)
@@ -250,24 +370,27 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
         map_text = (work / "obj/th03/main.map").read_text(errors="replace")
         contributions = []
         for unit in config["units"]:
-            map_size = unit.get("map_size", unit["size"])
-            map_module = unit.get(
-                "map_module", unit.get("wrapper", f"th03/{unit['object']}.cpp")
-            )
-            map_acbp = unit.get("map_acbp", 28)
-            unit_segment = unit.get("segment", config["segment"])
-            map_segment = unit.get("map_segment", "SHARED")
-            map_group = unit.get("map_group", "(none)")
-            pattern = (
-                rf"^\s*{unit_segment:04X}:{unit['start']:04X}\s+{map_size:04X}"
-                rf"\s+C=CODE\s+S={re.escape(map_segment)}"
-                rf"\s+G={re.escape(map_group)}\s+M={re.escape(map_module)}"
-                rf"\s+ACBP={map_acbp}\s*$"
-            )
-            found = re.findall(pattern, map_text, re.MULTILINE)
-            if len(found) != 1:
-                raise ValueError(f"map ownership, size, segment or alignment moved: {unit['id']}")
-            contributions.append({"id": unit["id"], "map": found[0].strip()})
+            for extent in extents_by_owner[unit["id"]]:
+                pattern = (
+                    rf"^\s*{extent['segment']:04X}:{extent['start']:04X}"
+                    rf"\s+{extent['map_size']:04X}"
+                    rf"\s+C=CODE\s+S={re.escape(extent['map_segment'])}"
+                    rf"\s+G={re.escape(extent['map_group'])}"
+                    rf"\s+M={re.escape(extent['map_module'])}"
+                    rf"\s+ACBP={extent['map_acbp']}\s*$"
+                )
+                found = re.findall(pattern, map_text, re.MULTILINE)
+                if len(found) != 1:
+                    raise ValueError(
+                        f"map ownership, size, segment or alignment moved: "
+                        f"{unit['id']}:{extent['name']}"
+                    )
+                contributions.append({
+                    "id": unit["id"],
+                    "extent": extent["name"],
+                    "ledger_id": extent["ledger_id"],
+                    "map": found[0].strip(),
+                })
         auxiliary_contributions = []
         for unit in config["units"]:
             for aux in unit.get("aux_map", []):
@@ -315,19 +438,36 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
             )
             functions.append({"name": function["name"], "abi": function["abi"], **result})
         modules = []
+        producer_ranges = []
         padding = []
-        for m in config["units"]:
-            unit_segment = m.get("segment", config["segment"])
-            modules.append({"id": m["id"], **compare_extent(
-                target, candidate, unit_segment * 16 + m["start"], m["size"]
-            )})
-            for relative, size in m.get("padding_ranges", []):
-                if relative < 0 or size <= 0 or relative + size > m["size"]:
-                    raise ValueError(f"invalid padding range: {m['id']}")
-                padding.append({"id": m["id"], "relative": relative, **compare_extent(
-                    target, candidate,
-                    unit_segment * 16 + m["start"] + relative, size
-                )})
+        for unit in config["units"]:
+            for extent in extents_by_owner[unit["id"]]:
+                modules.append({
+                    "id": unit["id"],
+                    "extent": extent["name"],
+                    "ledger_id": extent["ledger_id"],
+                    **compare_extent(
+                        target, candidate,
+                        extent["segment"] * 16 + extent["start"], extent["size"]
+                    ),
+                })
+                for producer_range in extent["producer_ranges"]:
+                    relative = producer_range["relative"]
+                    size = producer_range["size"]
+                    result = {
+                        "id": unit["id"],
+                        "extent": extent["name"],
+                        "kind": producer_range["kind"],
+                        "relative": relative,
+                        **compare_extent(
+                            target, candidate,
+                            extent["segment"] * 16 + extent["start"] + relative,
+                            size,
+                        ),
+                    }
+                    producer_ranges.append(result)
+                    if producer_range["kind"] == "padding":
+                        padding.append(result)
         probe = prefix / "drive_c" / f"{stem}{number}"
         probe.mkdir(exist_ok=False)
         shutil.copy2(snapshot / "probes/main/input_math_behavior.cpp", probe / "behavior.cpp")
@@ -352,6 +492,7 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
             "map_contributions": contributions,
             "auxiliary_map_contributions": auxiliary_contributions,
             "functions": functions, "units": modules,
+            "producer_ranges": producer_ranges,
             "padding_ranges": padding,
             "link_response_sha256": sha((work / "obj/th03/main.@l").read_bytes()),
             "candidate_sha256": sha(candidate), "behavior_pass": True})
@@ -366,14 +507,28 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
     report["diagnostic_object_drift"] = sorted(name for name, digest in first["all_objects"].items()
                                               if digest != second["all_objects"].get(name))
     report["full_function_bytes"] = sum(f["size"] for f in config["functions"])
-    report["declared_padding_bytes"] = sum(
-        size for unit in config["units"] for _, size in unit.get("padding_ranges", [])
+    report["declared_producer_bytes"] = sum(
+        producer_range["size"]
+        for unit in config["units"]
+        for extent in extents_by_owner[unit["id"]]
+        for producer_range in extent["producer_ranges"]
     )
-    report["owned_extent_bytes"] = sum(unit["size"] for unit in config["units"])
+    report["declared_padding_bytes"] = sum(
+        producer_range["size"]
+        for unit in config["units"]
+        for extent in extents_by_owner[unit["id"]]
+        for producer_range in extent["producer_ranges"]
+        if producer_range["kind"] == "padding"
+    )
+    report["owned_extent_bytes"] = sum(
+        extent["size"]
+        for unit in config["units"]
+        for extent in extents_by_owner[unit["id"]]
+    )
     report["pass"] = (report["objects_metadata_normalized_equal"] and report["candidate_equal"]
                       and report["all_products_equal"] and report["game_objects_metadata_normalized_equal"]
                       and all(f["raw_equal"] and f["relocations_equal"] for r in report["rounds"]
-                              for f in r["functions"] + r["units"])
+                              for f in r["functions"] + r["units"] + r["producer_ranges"])
                       and all(
                           (not aux["raw_compare"]) or (
                               aux["raw_equal"] and aux["relocations_equal"]
@@ -403,7 +558,8 @@ def main() -> int:
             f"{len(report['rounds'][0]['functions'])} functions, "
             f"{report['full_function_bytes']} function bytes / "
             f"{report['owned_extent_bytes']} owned bytes "
-            f"(including {report['declared_padding_bytes']} declared padding); "
+            f"(including {report['declared_producer_bytes']} producer-owned "
+            f"non-function bytes, {report['declared_padding_bytes']} padding); "
             "two fresh compilations/links and DOS behavior probes"
         )
         print(f"receipt: .analysis/th03-main-exact/{args.run_id}/receipt.json")

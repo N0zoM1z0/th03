@@ -3,14 +3,17 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Twelve maintained exact owners now contain twenty-nine exact functions / 3525
-exact owned bytes. The owner sizes are: vector-far 160 (including one alignment
-byte), exit 67, polar 26, frame-delay 21, input-sense 417, snd-se 120,
-snd-kaja 30, initmain 62, pi-load 70, input-modes 367, explosion-collision 630,
-and the new fireball gameplay owner 1555. Target-first boundaries,
-far/cdecl/Pascal ABI, full unnormalized bytes, MAP contributions and ordered
-MZ relocation sites/values are reviewed. The whole-product graph
-remains open in `config/build.toml`.
+Thirteen maintained exact source owners now span fourteen exact CODE extents and
+contain forty exact functions / 6210 exact owned bytes. The prior twelve owner
+sizes remain vector-far 160 (including one alignment byte), exit 67, polar 26,
+frame-delay 21, input-sense 417, snd-se 120, snd-kaja 30, initmain 62, pi-load
+70, input-modes 367, explosion-collision 630, and fireballs 1555. The new
+complete bullet source owner adds 2685 CODE bytes split across PELLET_PUT (83)
+and BULLET_TEXT (2602), plus a 0x251C-byte BSS MAP contribution. Target-first
+boundaries, near/far/cdecl/Pascal/register ABIs, full unnormalized bytes, MAP
+contributions, compiler switch tables/alignment, and ordered MZ relocation
+sites/values are reviewed. The whole-product graph remains open in
+`config/build.toml`.
 
 ## Verified local inputs
 
@@ -57,6 +60,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-explosion-collision
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-fireballs
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-bullets
 ```
 
 Use the shared Factory repository `th03`; four native provider IDs are
@@ -74,13 +78,15 @@ the hot deployment; the Factory fix is committed separately.
 The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
 All 20 configured outputs and 351 game objects are deterministic, all 417 OMF
-objects are valid, all twelve accepted owners and all twenty-nine full bodies
-match,
-and the existing DOS ABI/behavior probe stays passing. The maintained sources
-have no upstream includes or copied target-byte payloads. The vector owner uses
-symbolic TASM and `EVEN` rather than the historical raw opcode bytes / C++
-`codestring`; its 159 function bytes plus one alignment byte match as one
-160-byte owner. The 417-byte
+objects are valid, all fourteen accepted CODE extents and all forty full bodies
+match, and the existing DOS ABI/behavior probe stays passing. The bullet owner
+uses explicit frozen `compat/rec98/` forwarders rather than direct upstream
+includes. There are no bulk copied target-byte payloads; `bullets_render`
+retains one two-byte `__emit__` solely to select TC4J's target XOR AH,AH ModR/M
+direction without changing argument order or register allocation. The vector
+owner uses symbolic TASM and `EVEN` rather than the historical raw opcode bytes
+/ C++ `codestring`; its 159 function bytes plus one alignment byte match as
+one 160-byte owner. The 417-byte
 `input_reset_sense_key_held` body deliberately excludes the target's following
 one-byte NOP at `SHARED:033D`; no `codestring` is used to manufacture ownership.
 Portable positive/negative Oracle tests cover full-byte and relocation failures.
@@ -187,16 +193,32 @@ Post-promotion aggregate gpt-web-main-twelve-owner-final-20261005-1 began with
 all twelve owners accepted and passed all 29 function bodies / 3524 function
 bytes plus the one declared alignment byte for 3525 exact owned bytes.
 
+The complete bullet gameplay source owner is now closed as the first
+multi-segment maintained owner. Target review separates the 83-byte PELLET_PUT
+extent from the 2602-byte BULLET_TEXT extent and identifies eleven function
+bodies totaling 2579 bytes. BULLET_TEXT additionally owns two switch tables
+(90 + 14 bytes) and two alignment bytes; these are producer-owned but are not
+counted as functions. Its 16 ordered MZ relocation sites match, PELLET_PUT has
+none, and MAP fixes the zero-length DATA plus 0x251C-byte BSS contributions.
+Ghidra's polluted switch-recovery body maxima for group_velocity_set and
+bullets_add were explicitly rejected in favor of RET boundaries, dispatch-table
+operands, MAP adjacency, and original target bytes. Fresh two-round replay
+`gptweb-bullet-fresh-20261005-2044-a` passed all 40 functions / 6103 function
+bytes and all 6210 owned bytes before final aggregate promotion. Post-promotion
+aggregate `gpt-web-main-thirteen-owner-final-20261005-b` then began with both
+bullet extents already accepted, froze the tracking/evidence/function ledgers
+as replay inputs, and independently passed the same two-round 20-product /
+351-game-object / 40-function / 6210-byte checks.
+
 ## Next bounded work
 
 Continue MAIN first and do not restrict the frontier to tiny leaves. Vector
-math, exit, and the 630-byte explosion-collision gameplay owner are now closed.
-The full e_fireb.cpp owner is now closed, including its one-byte DATA/BSS
-contributions. Continue directly into the larger multi-segment gameplay owners:
-bullet.cpp contributes 0x53 + 0xA2A (2685) code bytes across two segments plus
-substantial BSS, while e_enemy.cpp contributes multiple code blocks totaling
-more than 3 KiB. Build explicit segment/data dependency maps first, then take
-complete owner extents rather than retreating to another small leaf.
+math, exit, explosion-collision, fireballs, and the complete multi-segment
+bullet.cpp gameplay owner are now closed. Continue directly into the next large
+gameplay source owner: e_enemy.cpp contributes multiple code blocks totaling
+more than 3 KiB. Rebuild its segment/data dependency map from the TH03 target
+first, use TH04/ReC98 only to propose semantics, and take complete owner extents
+rather than retreating to another small leaf.
 
 After the input/math frontier, proceed into timing/state update and then
 two-player dispatch/game-object logic. Determine packed/decoded ownership for
