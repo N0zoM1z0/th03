@@ -130,8 +130,26 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
     return result
 
 
-def replay(run_id: str, selected_units: list[str]) -> dict:
+def add_candidate_owners(config: dict, candidate: dict) -> dict:
+    """Add reviewed candidates without replacing acceptance inputs or owners."""
+    if set(candidate) != {"schema_version", "units", "functions"} or candidate["schema_version"] != 1:
+        raise ValueError("candidate manifest may only add units and functions")
+    for key, identity in (("units", "id"), ("units", "object"), ("functions", "name")):
+        existing = {item[identity] for item in config[key]}
+        additions = [item[identity] for item in candidate[key]]
+        if len(set(additions)) != len(additions) or existing.intersection(additions):
+            raise ValueError(f"candidate repeats existing {key} {identity}")
+    return {**config, "units": config["units"] + candidate["units"],
+            "functions": config["functions"] + candidate["functions"]}
+
+
+def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | None = None) -> dict:
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+    if candidate_manifest is not None:
+        candidate_manifest = candidate_manifest.resolve()
+        if not candidate_manifest.is_relative_to(ROOT / "config"):
+            raise ValueError("candidate manifest must be inside repository config/")
+        config = add_candidate_owners(config, tomllib.loads(candidate_manifest.read_text()))
     if not re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", run_id):
         raise ValueError("run-id must use 1-64 ASCII letters, digits, underscores or hyphens")
     output = ROOT / ".analysis/th03-main-exact" / run_id
@@ -262,6 +280,9 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
     inputs["probes/main/input_math_behavior.cpp"] = sha((ROOT / "probes/main/input_math_behavior.cpp").read_bytes())
     inputs["config/th03_main_exact_units.toml"] = sha((ROOT / "config/th03_main_exact_units.toml").read_bytes())
     inputs["scripts/replay_th03_main_exact_units.py"] = sha(Path(__file__).read_bytes())
+    if candidate_manifest is not None:
+        name = candidate_manifest.relative_to(ROOT).as_posix()
+        inputs[name] = sha(candidate_manifest.read_bytes())
     # Freeze every ledger/control input consulted by the pre-replay acceptance
     # checks. Otherwise an exact-state or evidence edit during a long cold build
     # could escape the end-of-replay mutation guard.
@@ -304,6 +325,9 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
               "toolchain_receipt_sha256": sha((ROOT / ".analysis/toolchain/attestation.json").read_bytes()),
               "environment": {key: env[key] for key in ("DISPLAY", "WAYLAND_DISPLAY", "WINEDEBUG", "MSDOS_PATH")},
               "rounds": []}
+    report["candidate_manifest"] = (
+        candidate_manifest.relative_to(ROOT).as_posix() if candidate_manifest else None
+    )
     stem = "P" + sha(run_id.encode())[:5].upper()
     for number in (1, 2):
         logs = output / f"round{number}"
@@ -550,9 +574,11 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default=datetime.now(timezone.utc).strftime("exact-%Y%m%dT%H%M%S"))
     parser.add_argument("--unit", action="append", default=[])
+    parser.add_argument("--candidate-manifest", type=Path,
+                        help="add candidates to the complete accepted-owner replay; gates stay unchanged")
     args = parser.parse_args()
     try:
-        report = replay(args.run_id, args.unit)
+        report = replay(args.run_id, args.unit, args.candidate_manifest)
         print(
             f"th03-main-exact: {'PASS' if report['pass'] else 'FAIL'}; "
             f"{len(report['rounds'][0]['functions'])} functions, "

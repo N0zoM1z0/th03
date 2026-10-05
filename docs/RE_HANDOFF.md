@@ -10,6 +10,15 @@ frame-delay, input-sense, snd-se, snd-kaja, initmain, pi-load, input-modes,
 explosion-collision, fireballs, and the two CODE contributions of the complete
 `bullet.cpp` source owner.
 
+The complete enemy owner is also maintained as a structural candidate: three
+reviewed CODE extents, nineteen functions and 3325 bytes. Its separate manifest
+is `config/th03_main_enemy_candidate.toml`. The two-round
+`sol-enemy-candidate-20261005` replay reproduced every candidate byte, all MAP
+contributions and the configured deterministic vectors, but failed ordered
+relocations in ENEMY_2_TEXT. The remaining accepted owners passed their checks.
+No enemy extent or function is exact. See
+`docs/reconstruction/MAIN_ENEMY_REVIEW.md` for the bounded evidence and probes.
+
 These are repository-local exact results for bounded reviewed extents. They do
 not imply a complete maintained MAIN build, whole-game closure, or Factory
 Truth Kernel acceptance. `config/build.toml` still records an open product
@@ -69,12 +78,12 @@ exact ledgers therefore remain distinct from Factory-accepted receipts.
 
 ## Next bounded work
 
-Continue MAIN and include large owners, not only leaves. The next useful target
-is the `e_enemy.cpp` gameplay owner, whose multiple code contributions total
-more than 3 KiB. Rebuild its TH03 segment/data dependency map and function
-boundaries from the original target first; use TH04/ReC98 only to propose
-semantics, then recover the complete owner rather than cherry-picking easy
-functions.
+Continue the complete ReC98 intake queue. Investigate the enemy owner's single
+ordered relocation failure without rewriting its MZ entries or weakening the
+Oracle. The original OMF producer record partition remains unknown; moving
+declarations or function definitions did not change the candidate's ordering.
+Independent MAIN owners such as hitbox and player combo/gauge can proceed
+while this question remains open; keep complete owner coverage.
 
 After that, continue through timing/state update and two-player/game-object
 logic. For OP, MAINL and ZUN, establish stored-code versus decoded-code mapping
@@ -87,6 +96,6 @@ in `config/rec98_th03_inventory.csv`, including dedicated/unlinked TH03 files,
 the four product source roots and transitive includes. Scoped existing MAIN
 CODE decisions are in `config/rec98_th03_reviews.csv`; the remaining review is
 open. See `docs/REC98_TH03_REVIEW.md`. The thirteen existing owners passed the
-fresh two-round `sol-rec98-baseline-20261005` replay. Initial `e_enemy.cpp`
-analysis found equal CODE bytes but a different relocation order in
-ENEMY_2_TEXT; source/producer ordering is under investigation.
+fresh two-round `sol-rec98-baseline-20261005` replay. The enemy wrapper and
+implementation have a scoped boundary-review decision; all remaining intake
+review is still open.

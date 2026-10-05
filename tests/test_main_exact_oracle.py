@@ -3,11 +3,28 @@ import struct
 import unittest
 
 from test_pc98 import synthetic_mz, synthetic_mz_with_relocations
-from replay_th03_main_exact_units import compare_extent, normalized_code_extents
+from replay_th03_main_exact_units import add_candidate_owners, compare_extent, normalized_code_extents
 from lib.pc98 import parse_mz
 
 
 class MainExactManifestTests(unittest.TestCase):
+    def test_candidates_cannot_replace_accepted_inputs_or_owners(self):
+        config = {"target_sha256": "pinned", "units": [{"id": "accepted", "object": "owned"}],
+                  "functions": [{"name": "accepted_function"}]}
+        for candidate in (
+            {"schema_version": 1, "units": [], "functions": [], "target_sha256": "changed"},
+            {"schema_version": 1, "units": [{"id": "accepted", "object": "new"}], "functions": []},
+            {"schema_version": 1, "units": [{"id": "new", "object": "owned"}], "functions": []},
+            {"schema_version": 1, "units": [], "functions": [{"name": "accepted_function"}]},
+        ):
+            with self.assertRaises(ValueError):
+                add_candidate_owners(config, candidate)
+        result = add_candidate_owners(config, {"schema_version": 1,
+            "units": [{"id": "candidate", "object": "candidate"}], "functions": []})
+        self.assertEqual(result["target_sha256"], "pinned")
+        self.assertEqual(result["units"][0], config["units"][0])
+        self.assertEqual(len(config["units"]), 1)
+
     def test_legacy_owner_normalizes_to_one_code_extent(self):
         unit = {
             "id": "legacy", "object": "legacy", "start": 0x20, "size": 4,

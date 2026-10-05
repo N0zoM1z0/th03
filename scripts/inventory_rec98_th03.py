@@ -23,7 +23,7 @@ INVENTORY = ROOT / "config/rec98_th03_inventory.csv"
 REVIEWS = ROOT / "config/rec98_th03_reviews.csv"
 SOURCE_SUFFIXES = {".c", ".cpp", ".asm", ".h", ".hpp", ".inc", ".inl"}
 FIELDS = ["path", "sha256", "kind", "artifacts", "direct_link_artifacts",
-          "unresolved_includes", "reviewed_code_artifacts"]
+          "unresolved_includes", "reviewed_code_artifacts", "boundary_review_artifacts"]
 REVIEWED_REVISION = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
 
 
@@ -99,9 +99,16 @@ def inventory(files: dict[str, bytes], reviews: list[dict[str, str]]) -> list[di
             else:
                 pending.append((artifact, resolved))
     accepted: dict[str, set[str]] = {}
+    boundaries: dict[str, set[str]] = {}
     keys = set()
     manifest = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     units = {u["id"]: u for u in manifest["units"]}
+    candidate_path = ROOT / "config/th03_main_enemy_candidate.toml"
+    if candidate_path.is_file():
+        for unit in tomllib.loads(candidate_path.read_text())["units"]:
+            if unit["id"] in units:
+                raise ValueError("candidate replaces an accepted intake owner")
+            units[unit["id"]] = unit
     with (ROOT / "config/units.csv").open(newline="") as stream:
         ledger = {r["id"]: r for r in csv.DictReader(stream)}
     with (ROOT / "config/evidence.csv").open(newline="") as stream:
@@ -113,7 +120,7 @@ def inventory(files: dict[str, bytes], reviews: list[dict[str, str]]) -> list[di
         keys.add(key)
         if row["artifact"] not in membership[row["path"]]:
             raise ValueError(f"artifact outside conservative include closure: {key}")
-        if row["state"] != "accepted-code-extents":
+        if row["state"] not in {"accepted-code-extents", "boundary-reviewed"}:
             raise ValueError(f"unknown review state: {row['state']}")
         if row["artifact"] != manifest["artifact"]:
             raise ValueError(f"review artifact differs from replay manifest: {key}")
@@ -123,15 +130,19 @@ def inventory(files: dict[str, bytes], reviews: list[dict[str, str]]) -> list[di
             owner = units[owner_id]
             extent_ids = [e["ledger_id"] for e in owner.get(
                 "code_extents", [{"ledger_id": owner_id}])]
-            if any(ledger[e]["state"] != "exact" or
-                   ledger[e]["source"] != row["source"] for e in extent_ids):
+            if any(ledger[e]["source"] != row["source"] or
+                   ledger[e]["boundary_state"] != "reviewed" or
+                   (row["state"] == "accepted-code-extents" and ledger[e]["state"] != "exact")
+                   for e in extent_ids):
                 raise ValueError(f"review owner is not locally accepted: {key}")
         if not row["evidence_ids"] or not row["notes"]:
             raise ValueError(f"review lacks evidence or scope: {key}")
         if any(e not in evidence or evidence[e]["result"] != "pass"
                for e in row["evidence_ids"].split(";")):
             raise ValueError(f"review evidence is missing or failed: {key}")
-        accepted.setdefault(row["path"], set()).add(row["artifact"])
+        boundaries.setdefault(row["path"], set()).add(row["artifact"])
+        if row["state"] == "accepted-code-extents":
+            accepted.setdefault(row["path"], set()).add(row["artifact"])
     rows = []
     for path, artifacts in sorted(membership.items()):
         if artifacts != {"unassigned"}:
@@ -146,6 +157,7 @@ def inventory(files: dict[str, bytes], reviews: list[dict[str, str]]) -> list[di
                 a for a, paths in roots.items() if path in paths)),
             "unresolved_includes": ";".join(sorted(unresolved.get(path, set()))),
             "reviewed_code_artifacts": ";".join(sorted(accepted.get(path, set()))),
+            "boundary_review_artifacts": ";".join(sorted(boundaries.get(path, set()))),
         })
     return rows
 

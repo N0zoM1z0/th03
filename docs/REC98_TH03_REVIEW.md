@@ -24,6 +24,10 @@ with `reviewed_code_artifacts` records only the local CODE extent review for
 that artifact, backed by `config/units.csv` and the maintained replay manifest.
 It does not close other artifacts, headers, initialized data, BSS layouts,
 resources, packing, startup, scaffold assembly, or complete product ownership.
+`boundary_review_artifacts` also records candidate boundary reviews; it grants
+no exact credit. The enemy owner is a complete maintained candidate whose
+ordered relocation gate remains unresolved, as documented in
+`docs/reconstruction/MAIN_ENEMY_REVIEW.md`.
 All remaining file/artifact review is open. Upstream exactness is never
 inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
