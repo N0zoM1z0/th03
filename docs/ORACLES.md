@@ -19,10 +19,10 @@ For a reviewed artifact or owned extent, every required gate must pass:
 9. Cold aggregate replay covering every affected accepted owner.
 
 `python3 scripts/replay_th03_main_exact_units.py` implements the maintained
-MAIN owner replay. `--unit` selects the requested owner for routing; both
-maintained owners are always rebuilt and checked together so focused work
-cannot omit the accepted aggregate. The full product graph is still open and
-uses a pinned, freshly compiled ReC98 scaffold for unmaintained link inputs.
+MAIN owner replay. `--unit` selects the requested owner for routing; every
+currently reviewed MAIN owner is rebuilt and checked together so focused work
+cannot omit the existing exact aggregate. The full product graph is still open
+and uses a pinned, freshly compiled ReC98 scaffold for unmaintained link inputs.
 Only reviewed maintained owners receive local exact credit.
 
 The declared object roots and counts live in `config/th03_main_exact_units.toml`.

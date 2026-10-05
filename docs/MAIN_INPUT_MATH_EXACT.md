@@ -1,10 +1,12 @@
-# MAIN foundation exact ownership
+# MAIN exact ownership
 
 The maintained sources implement forty exact functions in thirteen complete
 source owners represented by fourteen reviewed CODE extents totaling 6210 owned
 bytes: 6103 function-body bytes plus 107 explicitly classified producer-owned
 bytes (104 switch-table bytes and three alignment bytes). Scope is the pinned
-Japanese MAIN.EXE. The accepted frontier now covers vector/polar math, frame
+Japanese MAIN.EXE. Here, "exact" means the repository-local reviewed Oracle
+result; it does not mean Factory Truth Kernel acceptance. The current frontier
+covers vector/polar math, frame
 timing, keyboard/input mode sensing, sound, initialization, PI loading, and the
 complete explosion-collision, fireball, and bullet gameplay owners. Reuse by
 packed OP and MAINL remains a reference hypothesis, so these sources stay under
@@ -193,13 +195,9 @@ select the target's `XOR AH,AH` ModR/M direction inside a comma expression:
 TC4J either rejects symbolic inline asm there or emits the semantically
 equivalent opposite encoding and/or perturbs argument order/register allocation.
 This is a local instruction-encoding workaround, not a copied target byte block.
-Fresh replay `gptweb-bullet-fresh-20261005-2044-a` independently reproduced
-both complete CODE extents, all function bodies, producer ranges, MAP ownership,
-and ordered relocations in two cold builds. Post-promotion aggregate
-`gpt-web-main-thirteen-owner-final-20261005-b` then started with all fourteen
-extents already exact, froze the byte/evidence/function ledgers plus progress
-outputs into its replay input set, and passed the full 20-product /
-351-game-object aggregate again.
+The aggregate replay reproduces both complete bullet CODE extents, all
+function bodies, producer ranges, MAP ownership and ordered relocations in two
+cold builds together with every earlier reviewed MAIN owner.
 
 ## Source and replay
 
@@ -281,45 +279,13 @@ relocation order/multiplicity changes, split relocation words, invalid MZ
 containers and out-of-range extents. Header-size differences are accounted for
 through each image's own payload mapping. Outside bytes receive no local credit.
 
-Development replay `gpt-web-pi-load-probe1-0948` expanded the checked set to
-16 functions / 1083 bytes. Post-promotion repository-shell run
-`gpt-web-main-seven-owner-final-20261005-a` then began with all seven owners
-already accepted and passed the full two-round aggregate. The subsequent KAJA
-development replay `gpt-web-snd-kaja-probe1-1005` expanded the checked set to
-17 functions / 1113 bytes. Post-promotion run
-`gpt-web-main-eight-owner-final-20261005-a` began with all eight owners accepted
-and again matched every function/owner byte, MAP contribution and ordered
-relocation vector while the 20-product and 350-game-object vectors stayed
-deterministic.
-Vector development replay `gpt-web-vector-far-probe1-20261005-1828`
-expanded the aggregate to 19 functions / 1272 function-body bytes and 1273
-owned bytes including the single declared alignment NOP. Both cold rounds
-matched the full 160-byte owner, both function bodies, MAP placement, and the
-owner relocation vector. The all-game deterministic object vector is now 351
-game objects / 417 generated OMF objects because MAIN adds `vectorfar.obj`
-while other products still build the historical `th03/vector.obj`.
-Post-promotion aggregate `gpt-web-main-nine-owner-final-20261005-a`
-then began with all nine owners already accepted and independently passed the
-same two-round 20-product / 351-game-object vector, all 417 OMF validations,
-all 19 function bodies / 1272 function bytes, the declared alignment byte,
-full 1273-byte owner aggregate, MAP placement, and ordered relocations.
-Exit development replay `gpt-web-exit-probe3-20261005` expanded the
-aggregate to 20 functions / 1339 function-body bytes and 1340 owned bytes.
-Both cold rounds matched the full 67-byte owner, all eight relocation sites,
-MAP placement, and the unchanged 20-product / 351-game-object vector.
-Post-promotion aggregate `gpt-web-main-ten-owner-final-20261005-a`
-then began with all ten owners already accepted and passed the same two-round
-20-product / 351-game-object vector, all 417 OMF validations, all 20 function
-bodies / 1339 function bytes, the declared alignment byte, the 1340-byte owned
-aggregate, MAP placement, and ordered relocations.
-Explosion-collision development replay gpt-web-expl-probe-20261005-2
-expanded the aggregate with one complete 630-byte gameplay function, bringing
-the frontier to 21 functions / 1969 function bytes / 1970 owned bytes. Its
-full E_EXPL_TEXT contribution, sole relocation at owner-relative site 342, and
-MAIN_04 MAP group matched in both cold rounds. Post-promotion aggregate
-gpt-web-main-eleven-owner-final-20261005-1 began with all eleven owners
-accepted and independently passed the complete 20-product / 351-game-object /
-417-OMF vector and every accepted byte/relocation check.
+At the current frontier, the aggregate replay checks all fourteen CODE
+extents, forty complete function bodies, and 6210 owned bytes. Both cold rounds
+must keep the 20 configured products and 351 game objects deterministic and
+must validate all 417 generated OMF objects. Owner-specific MAP contributions,
+producer-owned switch/alignment bytes and ordered relocation vectors remain
+part of the gate; a focused `--unit` invocation never drops the existing
+aggregate from verification.
 
 Factory repository-shell execution runs this same checked-in Oracle. Native TH03
 Truth Kernel replay is still unregistered; local exact ledger claims do not

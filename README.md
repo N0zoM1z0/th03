@@ -17,11 +17,11 @@ Phantasmagoria of Dim.Dream**. The active goal is to reconstruct `MAIN.EXE`,
 reviewed ownership and exact byte comparison against the original targets.
 
 [Current state and remaining work](docs/RE_HANDOFF.md) is the working entrypoint.
-MAIN currently has **10 exact functions / 393 exact authored bytes** in two
-complete owners: polar arithmetic and input modes/waiting. These local exact
-extents are separate from whole-game product closure, which remains open.
-The progress graphic shows the reviewed subset; whole-game denominators are
-still unknown.
+MAIN currently has **40 exact functions / 6210 exact owned bytes** across
+**13 maintained source owners and 14 reviewed CODE extents**. These are
+repository-local exact results for the reviewed extents, not whole-game product
+closure or Factory Truth Kernel acceptance. Whole-game denominators remain
+unknown until ownership is reviewed.
 
 ## Current products and navigation
 
@@ -39,8 +39,7 @@ With your local inputs and pinned toolchain installed:
 ```sh
 python3 scripts/preflight.py
 python3 scripts/ghidra.py th03-main check
-python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
-python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
+python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
 python3 scripts/status.py
 python3 scripts/ci.py
 ```
@@ -51,9 +50,12 @@ full owned bytes, MAP placement, ordered MZ relocations, OMF validity and cold
 output determinism. An isolated DOS probe checks input routing/wait behavior
 and signed fixed-point arithmetic using the actual maintained objects.
 
-All compiler and analyzer invocations are headless. Builds and receipts stay
-under `.analysis/`. `python3 scripts/build.py --status` reports the open product
-graph; a complete playable maintained game build is not available yet.
+All compiler and analyzer invocations are headless. Private state and replay
+outputs stay under `.analysis/`; `python3 scripts/clean_generated.py --apply`
+prunes disposable builds, probes and caches while retaining required private
+state and ledger-referenced evidence. `python3 scripts/build.py --status`
+reports the open product graph; a complete playable maintained game build is
+not available yet.
 
 ## Setup
 

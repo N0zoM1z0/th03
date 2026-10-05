@@ -16,6 +16,7 @@
 | Inspect open product graph | `python3 scripts/build.py --status` |
 | Survey reference output | `python3 scripts/survey_rec98_outputs.py SOURCE --compact` |
 | Check ledgers/progress | `python3 scripts/validate_tracking.py` / `scripts/status.py` |
+| Prune disposable local outputs | `python3 scripts/clean_generated.py --apply` |
 | Regenerate progress Markdown/SVG | `python3 scripts/progress.py` |
 | Available private/public checks | `python3 scripts/ci.py` |
 

@@ -13,6 +13,13 @@ and configuration. `.analysis/toolchain/wineprefix` is game-bound mutable
 state. `.tools/ghidra` and `.tools/jdk` select physical local copies of the
 same pinned TH04 tools. No mutable TH04 prefix or project is shared.
 
+Ignored local state is intentionally split from disposable output. Preserve
+`.analysis/toolchain`, `.analysis/targets`, `.analysis/runtime`,
+`.analysis/ghidra`, and evidence files referenced by `config/evidence.csv`.
+Cold-build trees, replay work directories, development probes, logs and Python
+caches are disposable and can be pruned with
+`python3 scripts/clean_generated.py --apply`.
+
 `scripts/lib/pc98.py`, `omf.py` and `ghidra.py` preserve the TH04 container,
 relocation and database-checking methods. `scripts/factory_ghidra.py` combines
 a read-only query and nonce-bound full MZ export in one headless process.
