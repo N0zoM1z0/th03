@@ -116,6 +116,19 @@ native Ghidra providers. Its repository shell can read allowlisted TH04 source
 at `/references/th04` and run the checked-in exact Oracle. Local exact claims
 remain separate from Factory Truth Kernel receipt acceptance.
 
+## Credits
+
+- [Our TH04 reconstruction repository](https://github.com/N0zoM1z0/th04)
+  provides the reference workflow, directory organization, headless compiler
+  and analyzer setup, and cold-build exact Oracle approach used by this project.
+- [ReC98 by Nmlgc and contributors](https://github.com/nmlgc/ReC98)
+  provides foundational PC-98 Touhou reverse-engineering work and the pinned
+  source/build scaffold used in our compiler and full cold-build comparisons.
+
+TH03's maintained sources and exact ownership are checked independently against
+its original Japanese targets. Referenced work retains its own authorship and
+licensing.
+
 ## License
 
 Repository-authored code and documentation are provided under the MIT License.
