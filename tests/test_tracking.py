@@ -166,6 +166,30 @@ class ExactTrackingTests(unittest.TestCase):
             forwarder.write_text("int copied_declaration;\n", encoding="utf-8")
             self.assertEqual(self.run_fixture(root, units, evidence), 1)
 
+    def test_assembly_reference_includes_require_native_forwarders(self) -> None:
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            units, evidence = self.make_fixture(root)
+            source = root / "src" / "main" / "unit.asm"
+            source.write_text("include compat/rec98/th03/main/playfld.inc\n")
+            forwarder = root / "compat" / "rec98" / "th03" / "main" / "playfld.inc"
+            forwarder.parent.mkdir(parents=True)
+            forwarder.write_text("include th03/main/playfld.inc\n")
+            self.assertEqual(self.run_fixture(root, units, evidence), 0)
+            forwarder.write_text("include th03/main/playfld.inc\nPLAYFIELD_W = 288\n")
+            self.assertEqual(self.run_fixture(root, units, evidence), 1)
+            forwarder.unlink()
+            self.assertEqual(self.run_fixture(root, units, evidence), 1)
+
+    def test_direct_assembly_reference_include_is_rejected(self) -> None:
+        for include in ("th03/main/playfld.inc", '"libs/master.lib/macros.inc"',
+                        "platform\\x86real\\types.inc"):
+            with self.subTest(include=include), TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                units, evidence = self.make_fixture(root)
+                (root / "src" / "main" / "unit.asm").write_text(f"INCLUDE {include}\n")
+                self.assertEqual(self.run_fixture(root, units, evidence), 1)
+
     def test_adversarial_exact_claims_fail_closed(self) -> None:
         mutations = {
             "evidence reused by another unit": lambda units, evidence: next(

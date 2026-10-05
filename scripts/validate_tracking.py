@@ -62,6 +62,7 @@ SOURCE_ROOTS = {"main", "op", "mainl", "zun", "shared"}
 SOURCE_STATE_DIRECTORIES = {"exact", "partial", "partials", "module", "modules"}
 REC98_INCLUDE_PREFIXES = ("libs/", "platform/", "th01/", "th02/", "th03/", "th04/", "th05/")
 INCLUDE_PATTERN = re.compile(r'^\s*#include\s+["<]([^">]+)[">]')
+ASM_INCLUDE_PATTERN = re.compile(r'^\s*include\s+("[^"]+"|[^\s;]+)', re.IGNORECASE)
 
 
 def read_csv(
@@ -239,15 +240,17 @@ def validate_source_tree(root: Path) -> None:
                 f"{path.relative_to(root)}: reconstruction state directory "
                 f"{state!r} is forbidden"
             )
-        if path.suffix.lower() not in {".c", ".cpp", ".h", ".hpp", ".inl"}:
+        suffix = path.suffix.lower()
+        if suffix not in {".c", ".cpp", ".h", ".hpp", ".inl", ".asm", ".inc"}:
             continue
+        pattern = ASM_INCLUDE_PATTERN if suffix in {".asm", ".inc"} else INCLUDE_PATTERN
         for line_number, line in enumerate(
             path.read_text(encoding="utf-8").splitlines(), start=1
         ):
-            match = INCLUDE_PATTERN.match(line)
+            match = pattern.match(line)
             if not match:
                 continue
-            include = match.group(1)
+            include = match.group(1).strip('"').replace("\\", "/")
             if include.startswith(REC98_INCLUDE_PREFIXES):
                 raise ValueError(
                     f"{path.relative_to(root)}:{line_number}: direct ReC98 include "
@@ -272,7 +275,8 @@ def validate_source_tree(root: Path) -> None:
         if not path.is_file() or path.name == "README.md":
             continue
         relative = path.relative_to(compat_root).as_posix()
-        expected = f'#include "{relative}"\n'
+        expected = (f'include {relative}\n' if path.suffix.lower() == ".inc"
+                    else f'#include "{relative}"\n')
         if path.read_text(encoding="utf-8") != expected:
             raise ValueError(
                 f"{path.relative_to(root)}: forwarding header must contain only "
