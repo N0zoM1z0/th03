@@ -115,6 +115,22 @@ map_module = "th03/e_expl.cpp"
 map_segment = "E_EXPL_TEXT"
 map_group = "MAIN_04"
 
+[[units]]
+id = "th03-main-fireballs"
+source = "src/main/enemy/fireball.cpp"
+header = "src/main/enemy/fireball.hpp"
+object = "e_fireb"
+segment = 0x139d
+start = 0x43de
+size = 0x0613
+map_module = "th03/e_fireb.cpp"
+map_segment = "E_FIREB_TEXT"
+map_group = "MAIN_04"
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 1, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", map_acbp = 48, raw_compare = true },
+  { segment = 0x1d56, start = 0x8df8, size = 1, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", map_acbp = 48, raw_compare = false },
+]
+
 [[functions]]
 name = "vector2"
 object = "vectorfar"
@@ -273,3 +289,75 @@ offset = 0x2d3d
 size = 0x0276
 map_public = "explosions_hittest()"
 abi = "far cdecl; no arguments; returns unsigned byte; two direct callers and five unique direct callees; RETF"
+
+[[functions]]
+name = "fireballs_add"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x43de
+size = 0x0149
+map_public = "fireballs_add()"
+abi = "far cdecl; no arguments; spawns one free fireball and returns with RETF"
+
+[[functions]]
+name = "fireball_put"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x4527
+size = 0x00a8
+map_public = "fireball_put()"
+abi = "near cdecl; no arguments; renders current fireball through efe_p; RET"
+
+[[functions]]
+name = "fireball_explosion_flag_update"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x45cf
+size = 0x0030
+map_public = "fireball_explosion_flag_update()"
+abi = "near cdecl; no arguments; updates explosion flag keyframes; RET"
+
+[[functions]]
+name = "fireball_explosion_put"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x45ff
+size = 0x008a
+map_public = "fireball_explosion_put()"
+abi = "near cdecl; no arguments; renders current fireball explosion; RET"
+
+[[functions]]
+name = "fireballs_update"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x4689
+size = 0x0114
+map_public = "fireballs_update()"
+abi = "far cdecl; no arguments; updates all 24 fireballs and collision stripes; RETF"
+
+[[functions]]
+name = "chain_fire_charged_exatt"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x479d
+size = 0x0056
+map_public = "chain_fire_charged_exatt(unsigned char,unsigned int)"
+abi = "near Pascal; pid and slot occupy two words; callee pops four bytes with RET 4"
+
+[[functions]]
+name = "fireballs_hittest"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x47f3
+size = 0x01b9
+map_public = "fireballs_hittest()"
+abi = "near cdecl; no arguments; reverse-scans 24 fireballs and preserves original uninitialized chain-slot landmine; RET"
+
+[[functions]]
+name = "fireballs_hittest_and_render"
+object = "e_fireb"
+segment = 0x139d
+offset = 0x49ac
+size = 0x0045
+map_public = "fireballs_hittest_and_render()"
+abi = "far cdecl; no arguments; hittest then renders all active fireballs; RETF"

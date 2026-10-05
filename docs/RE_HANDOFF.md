@@ -3,11 +3,11 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Eleven maintained exact owners now contain twenty-one exact functions / 1970
+Twelve maintained exact owners now contain twenty-nine exact functions / 3525
 exact owned bytes. The owner sizes are: vector-far 160 (including one alignment
 byte), exit 67, polar 26, frame-delay 21, input-sense 417, snd-se 120,
-snd-kaja 30, initmain 62, pi-load 70, input-modes 367, and the new
-explosion-collision gameplay owner 630. Target-first boundaries,
+snd-kaja 30, initmain 62, pi-load 70, input-modes 367, explosion-collision 630,
+and the new fireball gameplay owner 1555. Target-first boundaries,
 far/cdecl/Pascal ABI, full unnormalized bytes, MAP contributions and ordered
 MZ relocation sites/values are reviewed. The whole-product graph
 remains open in `config/build.toml`.
@@ -56,6 +56,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-initmain
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-explosion-collision
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-fireballs
 ```
 
 Use the shared Factory repository `th03`; four native provider IDs are
@@ -73,7 +74,7 @@ the hot deployment; the Factory fix is committed separately.
 The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
 All 20 configured outputs and 351 game objects are deterministic, all 417 OMF
-objects are valid, all eleven accepted owners and all twenty-one full bodies
+objects are valid, all twelve accepted owners and all twenty-nine full bodies
 match,
 and the existing DOS ABI/behavior probe stays passing. The maintained sources
 have no upstream includes or copied target-byte payloads. The vector owner uses
@@ -173,18 +174,29 @@ gpt-web-main-eleven-owner-final-20261005-1 began with all eleven owners
 accepted and passed all 21 function bodies / 1969 function bytes plus the one
 declared alignment byte for 1970 exact owned bytes.
 
+The next complete gameplay owner is now closed as well. th03-main-fireballs
+covers the full E_FIREB_TEXT:43DE..49F0 contribution: eight contiguous
+functions totaling 1555 code bytes. Independent target review corrected the
+initial seven-public reading by identifying a separate 86-byte near-Pascal
+chain_fire_charged_exatt at 139D:479D. The owner has eleven ordered MZ
+relocations. Its initialized variant byte at 1D56:0BEC is raw-exact, while the
+Oracle also fixes that one-byte DATA contribution and the one-byte
+generation_prev BSS contribution at 1D56:8DF8 through MAP checks. Development
+replay gpt-web-fireball-probe-20261005-1 passed both cold rounds.
+Post-promotion aggregate gpt-web-main-twelve-owner-final-20261005-1 began with
+all twelve owners accepted and passed all 29 function bodies / 3524 function
+bytes plus the one declared alignment byte for 3525 exact owned bytes.
+
 ## Next bounded work
 
 Continue MAIN first and do not restrict the frontier to tiny leaves. Vector
 math, exit, and the 630-byte explosion-collision gameplay owner are now closed.
-The next candidate by complete linker extent is e_fireb.cpp at 0x613 (1555)
-code bytes plus one byte each of DATA/BSS; bullet.cpp contributes 0x53 + 0xA2A
-(2685) code bytes across two segments plus substantial BSS, and e_enemy.cpp
-contributes multiple code blocks totaling more than 3 KiB. Map e_fireb.cpp's
-function/data ownership next; if its one-byte globals can be reproduced
-naturally, take the full owner rather than retreating to another small leaf.
-Then escalate to the multi-segment bullet/enemy owners with explicit
-segment/data dependency maps.
+The full e_fireb.cpp owner is now closed, including its one-byte DATA/BSS
+contributions. Continue directly into the larger multi-segment gameplay owners:
+bullet.cpp contributes 0x53 + 0xA2A (2685) code bytes across two segments plus
+substantial BSS, while e_enemy.cpp contributes multiple code blocks totaling
+more than 3 KiB. Build explicit segment/data dependency maps first, then take
+complete owner extents rather than retreating to another small leaf.
 
 After the input/math frontier, proceed into timing/state update and then
 two-player dispatch/game-object logic. Determine packed/decoded ownership for

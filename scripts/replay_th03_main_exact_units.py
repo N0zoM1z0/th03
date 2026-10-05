@@ -268,6 +268,35 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
             if len(found) != 1:
                 raise ValueError(f"map ownership, size, segment or alignment moved: {unit['id']}")
             contributions.append({"id": unit["id"], "map": found[0].strip()})
+        auxiliary_contributions = []
+        for unit in config["units"]:
+            for aux in unit.get("aux_map", []):
+                map_module = aux.get("map_module", unit.get(
+                    "map_module", unit.get("wrapper", f"th03/{unit['object']}.cpp")
+                ))
+                map_acbp = aux.get("map_acbp", 48)
+                pattern = (
+                    rf"^\s*{aux['segment']:04X}:{aux['start']:04X}\s+{aux['size']:04X}"
+                    rf"\s+C={re.escape(aux['class'])}\s+S={re.escape(aux['map_segment'])}"
+                    rf"\s+G={re.escape(aux['map_group'])}\s+M={re.escape(map_module)}"
+                    rf"\s+ACBP={map_acbp}\s*$"
+                )
+                found = re.findall(pattern, map_text, re.MULTILINE)
+                if len(found) != 1:
+                    raise ValueError(
+                        f"auxiliary MAP contribution moved: {unit['id']} "
+                        f"{aux['class']}:{aux['start']:04X}"
+                    )
+                item = {
+                    "id": unit["id"], "class": aux["class"],
+                    "map": found[0].strip(), "raw_compare": aux.get("raw_compare", False),
+                }
+                if item["raw_compare"]:
+                    item.update(compare_extent(
+                        target, candidate,
+                        aux["segment"] * 16 + aux["start"], aux["size"]
+                    ))
+                auxiliary_contributions.append(item)
         functions = []
         for function in config["functions"]:
             spelling = function.get("map_public") or (
@@ -320,7 +349,9 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
             "commands": [compile_result, behavior_compile, behavior_link, behavior_run],
             "objects": objects, "all_objects": all_objects, "game_objects": game_objects,
             "products": products,
-            "map_contributions": contributions, "functions": functions, "units": modules,
+            "map_contributions": contributions,
+            "auxiliary_map_contributions": auxiliary_contributions,
+            "functions": functions, "units": modules,
             "padding_ranges": padding,
             "link_response_sha256": sha((work / "obj/th03/main.@l").read_bytes()),
             "candidate_sha256": sha(candidate), "behavior_pass": True})
@@ -342,7 +373,14 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
     report["pass"] = (report["objects_metadata_normalized_equal"] and report["candidate_equal"]
                       and report["all_products_equal"] and report["game_objects_metadata_normalized_equal"]
                       and all(f["raw_equal"] and f["relocations_equal"] for r in report["rounds"]
-                              for f in r["functions"] + r["units"]))
+                              for f in r["functions"] + r["units"])
+                      and all(
+                          (not aux["raw_compare"]) or (
+                              aux["raw_equal"] and aux["relocations_equal"]
+                          )
+                          for r in report["rounds"]
+                          for aux in r["auxiliary_map_contributions"]
+                      ))
     # Guard against source and target mutation during the replay.
     if any(sha((ROOT / name).read_bytes()) != digest for name, digest in inputs.items()):
         raise ValueError("source changed during replay")

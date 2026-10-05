@@ -1,7 +1,7 @@
 # MAIN foundation exact ownership
 
-The maintained sources implement twenty-one exact functions in eleven reviewed
-authored extents totaling 1970 owned bytes: 1969 function-body bytes plus one
+The maintained sources implement twenty-nine exact functions in twelve reviewed
+authored extents totaling 3525 owned bytes: 3524 function-body bytes plus one
 explicit assembler alignment byte. Scope is the pinned Japanese MAIN.EXE.
 The accepted frontier now covers vector/polar math, frame timing, keyboard/input
 mode sensing, the complete sound-effect play/update and KAJA interrupt
@@ -22,13 +22,14 @@ hypothesis, so these sources stay under `src/main`.
 | `th03-main-pi-load` | `0E8F:041E` | 70 | 1 | `src/main/formats/pi_load.cpp` |
 | `th03-main-input-modes` | `0E8F:0464` | 367 | 9 | `src/main/hardware/input_modes.cpp` |
 | th03-main-explosion-collision | 139D:2D3D | 630 | 1 | src/main/enemy/expl.cpp |
+| th03-main-fireballs | 139D:43DE | 1555 | 8 | src/main/enemy/fireball.cpp |
 
 ## Target review
 
-Independent MZ parsing gives a 6240-byte target header. The eleven accepted
+Independent MZ parsing gives a 6240-byte target header. The twelve accepted
 payload starts are 0xE97A, 0xEA1A, 0xEA5D, 0xEA77, 0xEA8C, 0xEC3A, 0xECB2,
-0xECD0, 0xED0E, 0xED54, and 0x1670D; Ghidra's load base adds 0x10000 to those
-addresses. The independently attested headless database reports twenty-one
+0xECD0, 0xED0E, 0xED54, 0x1670D, and 0x17DAE; Ghidra's load base adds 0x10000 to those
+addresses. The independently attested headless database reports twenty-nine
 complete bodies inside the accepted owners, with exact ends and sizes checked
 against independent 16-bit decoding. Every accepted function ends in a far
 return, with no shared epilogue outside its owned span.
@@ -142,9 +143,31 @@ owner-relative site 342; the four other helper calls are near. The maintained
 local types preserve the observed 0x30-byte record stride and near/far ABI
 without including ReC98 headers.
 
+### Fireball owner
+
+th03-main-fireballs is the complete 1555-byte E_FIREB_TEXT:43DE..49F0
+contribution from th03/e_fireb.cpp. Target-first analysis finds eight
+contiguous bodies, not seven: fireballs_add (329), fireball_put (168),
+fireball_explosion_flag_update (48), fireball_explosion_put (138),
+fireballs_update (276), the independently identified 86-byte near-Pascal
+chain_fire_charged_exatt, fireballs_hittest (441), and
+fireballs_hittest_and_render (69). Their sizes sum exactly to the 0x613-byte
+linker contribution. The helper at 139D:479D ends in RET 4, matching its
+two-word Pascal ABI.
+
+The owner has eleven ordered MZ relocation sites at relative offsets 169, 228,
+287, 304, 452, 491, 646, 678, 1038, 1309, and 1425. The maintained source
+also naturally reproduces variant = FV_BLUE as the one initialized DATA byte
+at 1D56:0BEC; the uninitialized generation_prev occupies the one-byte BSS
+contribution at 1D56:8DF8. The replay Oracle therefore checks CODE bytes and
+relocations, raw-compares the initialized DATA byte, and separately requires
+both DATA/BSS MAP contributions. The intentionally uninitialized chain_slot
+path in fireballs_hittest is preserved because it is target behavior, not
+silently repaired during reconstruction.
+
 ## Source and replay
 
-The eleven maintained translation units use local ABI headers and no ReC98
+The twelve maintained translation units use local ABI headers and no ReC98
 includes. They were developed from the pinned TH03 reference as hypotheses and
 then checked independently against TH03 target instructions, compiler/assembler
 objects, link-map placement, relocations, and final linked bytes. The vector
@@ -172,6 +195,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-initmain
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-explosion-collision
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-fireballs
 python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
 ```
 
@@ -206,9 +230,10 @@ their acceptance here is based on complete target-boundary review plus exact
 compiler/link/MAP/relocation/raw-byte replay. This is not PC-98 game runtime
 certification.
 
-The explosion-collision owner is likewise not directly exercised by the DOS
-behavior probe; its acceptance is target-boundary plus exact compiler/link/MAP/
-relocation/raw-byte evidence.
+The explosion-collision and fireball gameplay owners are likewise not directly
+exercised by the DOS behavior probe; their acceptance is target-boundary plus
+exact compiler/link/MAP/relocation/raw-byte evidence. Fireballs additionally
+bind their one-byte DATA/BSS producer contributions through the MAP.
 
 Portable Oracle controls reject changed final bytes, changed relocated words,
 relocation order/multiplicity changes, split relocation words, invalid MZ
