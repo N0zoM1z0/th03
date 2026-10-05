@@ -1,0 +1,1 @@
+id,artifact,segment_identity,segment_offset,analysis_linear,payload_offset,body_size,body_span,boundary_state,origin,work_queue,accepted_state,name,map_public,map_module,map_segment,source_form,source_ref,observation,tasm_proc,tasm_distance,tasm_listing_line,ghidra_contiguous,ghidra_range_count,caller_count,callee_count,evidence_basis,notes

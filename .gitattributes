@@ -1,0 +1,5 @@
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+# Pinned compiler fixture bytes include their original final blank line.
+probes/toolchain/* whitespace=-blank-at-eof

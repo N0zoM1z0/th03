@@ -1,0 +1,11 @@
+schema_version = 1
+phase = "infrastructure"
+status = "open"
+source_graph = "unknown"
+startup = "unknown"
+link_order = "unknown"
+initialized_data = "unknown"
+resource_ownership = "unknown"
+packaging = "unknown"
+products = ["OP.EXE", "MAIN.EXE", "MAINL.EXE", "ZUN.COM"]
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
