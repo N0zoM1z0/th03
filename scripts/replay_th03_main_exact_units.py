@@ -22,6 +22,8 @@ import subprocess
 import sys
 import tomllib
 
+import capstone
+
 from lib.omf import describe_omf, normalize_dependency_timestamps
 from lib.pc98 import parse_mz
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
@@ -89,6 +91,7 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
             "start": unit["start"],
             "size": unit["size"],
             "map_size": unit.get("map_size", unit["size"]),
+            "map_start": unit.get("map_start", unit["start"]),
             "map_module": unit.get(
                 "map_module", unit.get("wrapper", f"th03/{unit['object']}.cpp")
             ),
@@ -119,6 +122,7 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
         extent.setdefault("map_segment", unit.get("map_segment", "SHARED"))
         extent.setdefault("map_group", unit.get("map_group", "(none)"))
         extent.setdefault("map_size", extent["size"])
+        extent.setdefault("map_start", extent["start"])
         extent.setdefault("producer_ranges", [])
         if extent["name"] in names or extent["ledger_id"] in ledger_ids:
             raise ValueError(f"duplicate split owner extent identity: {unit['id']}")
@@ -126,7 +130,77 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
         ledger_ids.add(extent["ledger_id"])
         if extent["start"] < 0 or extent["size"] <= 0:
             raise ValueError(f"invalid CODE extent: {unit['id']}:{extent['name']}")
+        if not (0 <= extent["map_start"] <= extent["start"]
+                and extent["start"] + extent["size"]
+                <= extent["map_start"] + extent["map_size"]):
+            raise ValueError(f"CODE extent escapes MAP contribution: {unit['id']}")
+        if unit.get("ownership") == "bounded-include":
+            if (Path(unit["source"]).suffix != ".inl"
+                or not all(unit.get(key) for key in
+                           ("carrier_path", "carrier_sha256", "overlay_path", "object_path"))):
+                raise ValueError(f"invalid bounded include: {unit['id']}")
+        elif extent["map_start"] != extent["start"]:
+            raise ValueError(f"interior CODE requires a bounded include: {unit['id']}")
         result.append(extent)
+    return result
+
+
+def verify_include_carrier(unit: dict, work: Path) -> None:
+    """Bind an include to its frozen, uncredited generated translation unit."""
+    if unit.get("ownership") != "bounded-include":
+        return
+    carrier = work / unit["carrier_path"]
+    if sha(carrier.read_bytes()) != unit["carrier_sha256"]:
+        raise ValueError(f"bounded include carrier drifted: {unit['id']}")
+    pattern = rf"^\s*include\s+{re.escape(unit['overlay_path'])}\s*$"
+    # Frozen assembly contains legacy Japanese comment bytes. Include names
+    # are ASCII; preserve arbitrary comment bytes without lossy transcoding.
+    text = carrier.read_bytes().decode("ascii", errors="surrogateescape")
+    if len(re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)) != 1:
+        raise ValueError(f"bounded include must occur once in carrier: {unit['id']}")
+
+
+def verify_disjoint_ownership(extents_by_owner: dict[str, list[dict]]) -> None:
+    """Containing MAP ranges may overlap; credited CODE extents must not."""
+    ranges = sorted((e["segment"], e["start"], e["start"] + e["size"], owner)
+                    for owner, extents in extents_by_owner.items() for e in extents)
+    for previous, current in zip(ranges, ranges[1:]):
+        if previous[0] == current[0] and previous[2] > current[1]:
+            raise ValueError(f"overlapping CODE ownership: {previous[3]} / {current[3]}")
+
+
+def verify_private_calls(function: dict, functions: list[dict], payload: bytes,
+                         default_segment: int) -> list[dict]:
+    """Prove a private near entry through calls from complete owned callers."""
+    if function.get("map_public") or not function.get("private_callers"):
+        raise ValueError(f"private function requires call-based ownership: {function['name']}")
+    segment = function.get("segment", default_segment)
+    decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_16)
+    decoder.detail = True
+    result = []
+    seen = set()
+    for declaration in function["private_callers"]:
+        name, expected = declaration["name"], declaration["count"]
+        callers = [f for f in functions if f["name"] == name
+                   and f["object"] == function["object"]
+                   and f.get("segment", default_segment) == segment
+                   and f.get("map_public")]
+        if len(callers) != 1 or name in seen or expected <= 0:
+            raise ValueError(f"invalid private caller declaration: {function['name']}")
+        seen.add(name)
+        caller = callers[0]
+        start = segment * 16 + caller["offset"]
+        instructions = list(decoder.disasm(payload[start:start + caller["size"]], caller["offset"]))
+        if (sum(i.size for i in instructions) != caller["size"] or not instructions
+            or instructions[-1].mnemonic not in {"ret", "retf"}):
+            raise ValueError(f"incomplete private caller decode: {name}")
+        sites = [i.address for i in instructions
+                 if i.mnemonic == "call" and len(i.operands) == 1
+                 and i.operands[0].type == capstone.x86.X86_OP_IMM
+                 and i.operands[0].imm == function["offset"]]
+        if len(sites) != expected:
+            raise ValueError(f"private entry call count moved: {function['name']}")
+        result.append({"caller": name, "direct_near_call_sites": sites})
     return result
 
 
@@ -169,6 +243,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         unit["id"]: normalized_code_extents(unit, config["segment"])
         for unit in config["units"]
     }
+    verify_disjoint_ownership(extents_by_owner)
     extent_count = sum(len(extents) for extents in extents_by_owner.values())
     ledger_ids = {
         extent["ledger_id"]
@@ -338,6 +413,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         if list(work.rglob("*.obj")) or list((work / "bin").glob("th0[1-5]/*.exe")):
             raise ValueError("cold scaffold contains cached game objects or products")
         for module in config["units"]:
+            verify_include_carrier(module, work)
             for name in [
                 module["source"], module["header"], *module.get("support_files", [])
             ]:
@@ -396,7 +472,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         for unit in config["units"]:
             for extent in extents_by_owner[unit["id"]]:
                 pattern = (
-                    rf"^\s*{extent['segment']:04X}:{extent['start']:04X}"
+                    rf"^\s*{extent['segment']:04X}:{extent['map_start']:04X}"
                     rf"\s+{extent['map_size']:04X}"
                     rf"\s+C=CODE\s+S={re.escape(extent['map_segment'])}"
                     rf"\s+G={re.escape(extent['map_group'])}"
@@ -413,6 +489,10 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                     "id": unit["id"],
                     "extent": extent["name"],
                     "ledger_id": extent["ledger_id"],
+                    "ownership": unit.get("ownership", "translation-unit"),
+                    "object_path": unit.get("object_path", f"obj/th03/{unit['object']}.obj"),
+                    "owned_start": extent["start"],
+                    "owned_size": extent["size"],
                     "map": found[0].strip(),
                 })
         auxiliary_contributions = []
@@ -446,6 +526,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 auxiliary_contributions.append(item)
         functions = []
         for function in config["functions"]:
+            private_calls = None
             spelling = function.get("map_public") or (
                 "polar(int,int,int)" if function["name"] == "polar" else
                 function["name"] + (
@@ -454,13 +535,22 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             )
             function_segment = function.get("segment", config["segment"])
             pattern = rf"^\s*{function_segment:04X}:{function['offset']:04X}\s+(?:idle\s+)?{re.escape(spelling)}\s*$"
-            if not re.search(pattern, map_text, re.MULTILINE):
+            if function.get("boundary") == "private-near-calls":
+                private_calls = verify_private_calls(
+                    function, config["functions"], parse_mz(candidate).program_image, config["segment"]
+                )
+                if private_calls != verify_private_calls(
+                    function, config["functions"], image.program_image, config["segment"]
+                ):
+                    raise ValueError(f"private call sites moved: {function['name']}")
+            elif not re.search(pattern, map_text, re.MULTILINE):
                 raise ValueError(f"link-map public moved: {spelling}")
             result = compare_extent(
                 target, candidate,
                 function_segment * 16 + function["offset"], function["size"]
             )
-            functions.append({"name": function["name"], "abi": function["abi"], **result})
+            functions.append({"name": function["name"], "abi": function["abi"],
+                              "private_calls": private_calls, **result})
         modules = []
         producer_ranges = []
         padding = []

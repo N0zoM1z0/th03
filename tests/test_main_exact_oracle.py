@@ -1,13 +1,77 @@
 """Negative controls for complete, unnormalized owned-extent comparison."""
 import struct
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from test_pc98 import synthetic_mz, synthetic_mz_with_relocations
-from replay_th03_main_exact_units import add_candidate_owners, compare_extent, normalized_code_extents
+from replay_th03_main_exact_units import (
+    add_candidate_owners, compare_extent, normalized_code_extents, sha, verify_include_carrier,
+    verify_disjoint_ownership,
+    verify_private_calls,
+)
 from lib.pc98 import parse_mz
 
 
 class MainExactManifestTests(unittest.TestCase):
+    def test_private_near_entry_requires_complete_owned_public_callers(self):
+        private = {"name": "helper", "object": "include", "offset": 0,
+                   "private_callers": [{"name": "wrapper", "count": 2}]}
+        wrapper = {"name": "wrapper", "object": "include", "offset": 1,
+                   "size": 7, "map_public": "WRAPPER"}
+        payload = b"\xc3\xe8\xfc\xff\xe8\xf9\xff\xcb"
+        self.assertEqual(verify_private_calls(private, [wrapper], payload, 0),
+                         [{"caller": "wrapper", "direct_near_call_sites": [1, 4]}])
+        for caller in ({**wrapper, "object": "unowned"}, {**wrapper, "map_public": ""},
+                       {**wrapper, "size": 6}, {**wrapper, "segment": 1}):
+            with self.subTest(caller=caller), self.assertRaises(ValueError):
+                verify_private_calls(private, [caller], payload, 0)
+        with self.assertRaises(ValueError):
+            verify_private_calls(private, [wrapper], b"\xc3\xe8\xfd\xff" + payload[4:], 0)
+        with self.assertRaises(ValueError):
+            verify_private_calls({**private, "map_public": "FAKE_HELPER"}, [wrapper], payload, 0)
+
+    def test_shared_map_carrier_does_not_allow_duplicate_code_credit(self):
+        a = {"segment": 1, "start": 0x20, "size": 4, "map_start": 0, "map_size": 0x100}
+        b = {**a, "start": 0x24}
+        verify_disjoint_ownership({"a": [a], "b": [b]})
+        with self.assertRaisesRegex(ValueError, "overlapping CODE ownership"):
+            verify_disjoint_ownership({"a": [a], "b": [{**b, "start": 0x23}]})
+        verify_disjoint_ownership({"a": [a], "other_segment": [{**a, "segment": 2}]})
+
+    def test_interior_owner_requires_explicit_contained_include(self):
+        unit = {"id": "include", "object": "logical-include", "source": "src/main/unit.inl",
+                "start": 0x20, "size": 4, "map_start": 0x10, "map_size": 0x30,
+                "ownership": "bounded-include", "carrier_path": "carrier.asm",
+                "carrier_sha256": "pinned", "overlay_path": "th03/unit.asm",
+                "object_path": "obj/th03/main.obj"}
+        extent = normalized_code_extents(unit, 0x1234)[0]
+        self.assertEqual((extent["start"], extent["size"]), (0x20, 4))
+        self.assertEqual((extent["map_start"], extent["map_size"]), (0x10, 0x30))
+        for mutation in ({"map_size": 0x12}, {"map_start": 0x21},
+                         {"source": "src/main/unit.asm"}, {"ownership": "translation-unit"},
+                         {"carrier_sha256": ""}, {"object_path": ""}):
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                normalized_code_extents({**unit, **mutation}, 0x1234)
+
+    def test_include_carrier_is_frozen_and_contains_one_include(self):
+        with TemporaryDirectory() as temporary:
+            work = Path(temporary)
+            carrier = work / "carrier.asm"
+            unit = {"id": "include", "ownership": "bounded-include",
+                    "carrier_path": "carrier.asm", "overlay_path": "th03/unit.asm"}
+            carrier.write_bytes(b"; legacy comment \x96\nINCLUDE th03/unit.asm\n")
+            unit["carrier_sha256"] = sha(carrier.read_bytes())
+            verify_include_carrier(unit, work)
+            carrier.write_text("include th03/other.asm\n")
+            with self.assertRaisesRegex(ValueError, "drifted"):
+                verify_include_carrier(unit, work)
+            for text in ("include th03/other.asm\n", "include th03/unit.asm\n" * 2):
+                carrier.write_text(text)
+                unit["carrier_sha256"] = sha(carrier.read_bytes())
+                with self.assertRaisesRegex(ValueError, "occur once"):
+                    verify_include_carrier(unit, work)
+
     def test_candidates_cannot_replace_accepted_inputs_or_owners(self):
         config = {"target_sha256": "pinned", "units": [{"id": "accepted", "object": "owned"}],
                   "functions": [{"name": "accepted_function"}]}

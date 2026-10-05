@@ -190,6 +190,15 @@ class ExactTrackingTests(unittest.TestCase):
                 (root / "src" / "main" / "unit.asm").write_text(f"INCLUDE {include}\n")
                 self.assertEqual(self.run_fixture(root, units, evidence), 1)
 
+    def test_bounded_include_checks_c_and_assembly_dependencies(self) -> None:
+        for line in ('#include "th03/main/playfld.inc"',
+                     'INCLUDE "th03\\main\\playfld.inc"'):
+            with self.subTest(line=line), TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                units, evidence = self.make_fixture(root)
+                (root / "src" / "main" / "unit.inl").write_text(line + "\n")
+                self.assertEqual(self.run_fixture(root, units, evidence), 1)
+
     def test_adversarial_exact_claims_fail_closed(self) -> None:
         mutations = {
             "evidence reused by another unit": lambda units, evidence: next(

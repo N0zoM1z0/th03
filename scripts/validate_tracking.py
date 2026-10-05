@@ -243,11 +243,13 @@ def validate_source_tree(root: Path) -> None:
         suffix = path.suffix.lower()
         if suffix not in {".c", ".cpp", ".h", ".hpp", ".inl", ".asm", ".inc"}:
             continue
-        pattern = ASM_INCLUDE_PATTERN if suffix in {".asm", ".inc"} else INCLUDE_PATTERN
+        patterns = ((ASM_INCLUDE_PATTERN, INCLUDE_PATTERN) if suffix == ".inl"
+                    else (ASM_INCLUDE_PATTERN,) if suffix in {".asm", ".inc"}
+                    else (INCLUDE_PATTERN,))
         for line_number, line in enumerate(
             path.read_text(encoding="utf-8").splitlines(), start=1
         ):
-            match = pattern.match(line)
+            match = next((m for pattern in patterns if (m := pattern.match(line))), None)
             if not match:
                 continue
             include = match.group(1).strip('"').replace("\\", "/")
