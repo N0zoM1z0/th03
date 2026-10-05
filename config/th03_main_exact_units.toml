@@ -1007,3 +1007,65 @@ offset = 0x0c30
 size = 53
 map_public = "playfield_clip(subpixelbase<int,int>,subpixelbase<int,int>)"
 abi = "far Pascal; two subpixel word objects; AL clipped boolean, AH zero; RETF 4"
+
+[[units]]
+id = "th03-main-sprite16"
+source = "src/main/graphics/sprite16.asm"
+header = "src/main/graphics/sprite16.hpp"
+object = "sprite16"
+overlay_path = "th03/sprite16.asm"
+object_path = "obj/th03/sprite16.obj"
+map_module = "th03\\sprite16.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/sprite16.cpp\",\n"
+build_replacement = "\t\"th03/sprite16.asm\",\n"
+support_files = [
+  "src/main/playfield/playfld.hpp",
+  "compat/rec98/th01/math/subpixel.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/hardware/vram.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-sprite16", segment = 0x0e8f, start = 0x07fe, size = 268, map_segment = "SHARED", map_group = "(none)", producer_ranges = [{ relative = 115, size = 1, kind = "padding" }, { relative = 227, size = 1, kind = "padding" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bee, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8dfa, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "sprite16_sprites_commit"
+object = "sprite16"
+segment = 0x0e8f
+offset = 0x07fe
+size = 18
+map_public = "SPRITE16_SPRITES_COMMIT"
+abi = "far Pascal; no arguments; RETF; one far sprite-copy call plus OUT A6h and INT 42h"
+
+[[functions]]
+name = "sprite16_put"
+object = "sprite16"
+segment = 0x0e8f
+offset = 0x0810
+size = 97
+map_public = "SPRITE16_PUT"
+abi = "far Pascal; three words (left, top, sprite offset); SI/DI preserved; RETF 6"
+
+[[functions]]
+name = "sprite16_putx"
+object = "sprite16"
+segment = 0x0e8f
+offset = 0x0872
+size = 111
+map_public = "SPRITE16_PUTX"
+abi = "far Pascal; four words (left, top, sprite offset, drawing function); SI/DI preserved; RETF 8"
+
+[[functions]]
+name = "sprite16_put_noclip"
+object = "sprite16"
+segment = 0x0e8f
+offset = 0x08e2
+size = 40
+map_public = "SPRITE16_PUT_NOCLIP"
+abi = "far Pascal; three words (left, top, sprite offset); DI preserved; RETF 6"

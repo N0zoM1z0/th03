@@ -407,7 +407,7 @@ th03/main/playfld.hpp,ab56f703295695528d350249d99b19805e21daff7550c1a5789f3f70df
 th03/main/playfld.inc,b0c28298bc17eabb451e8c0de82387c6c762e42de55316a487e34f3bfec961be,include,th03-main,,,,
 th03/main/round.hpp,1ea2aec4060066443e35f2303ab131d09b569ab3dad2441fa0c7ab22865cbbd7,include,th03-main,,,,
 th03/main/score.hpp,5768d5773d13a57650aabb66390ae31b47c1317790f0ac0f38e8d31eb6c1a51f,include,th03-main,,,,
-th03/main/sprite16.cpp,4d6078a1bec9415895ef840bbba77cc20750fa4214a96c7c8d7564a42717131c,translation-unit,th03-main,,,,
+th03/main/sprite16.cpp,4d6078a1bec9415895ef840bbba77cc20750fa4214a96c7c8d7564a42717131c,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/sprite16.hpp,01d4fca0265de54306d02d6c5d5b2f4d598df9e21d415a6cfad451ac561001ca,include,th03-main,,,,
 th03/main/v_colors.hpp,e99b417ecfee390383f510baebb5b07b18e269d5091ade12f2dd748f2db0e3d3,include,th03-main,,,,
 th03/main_010.cpp,e5422afbecf874b0458dc83731941a39230d60628fd05d236465a8e2069d37a0,translation-unit,th03-main,th03-main,,th03-main,th03-main
@@ -461,7 +461,7 @@ th03/snd/snd.h,6027d1e02d4f99596eeb5fb0316929ae7366e87446203824acf32e82ff16f8c3,
 th03/snd_dlym.cpp,10884d0b7849385cbef5f30da325e0adc9e7956e7d6a192e534128e6a10d0e5b,translation-unit,th03-mainl,th03-mainl,,,
 th03/snd_kaja.cpp,24e9756fbbe975c04d07ca9d14b518e22899821eff7a10b63ae9ffedb98a5d8f,translation-unit,th03-main;th03-mainl;th03-op,th03-main;th03-mainl;th03-op,,th03-main,th03-main
 th03/snd_se.cpp,ec7df9acc78e58e85c12cac2d06728359e9017328df048cefbf30ed074d3f97b,translation-unit,th03-main;th03-mainl,th03-main;th03-mainl,,th03-main,th03-main
-th03/sprite16.cpp,56b2754db7374fbadc99ec07a6fc4599650e0d110904c9fec56cff22c3d2d1b7,translation-unit,th03-main,th03-main,,,
+th03/sprite16.cpp,56b2754db7374fbadc99ec07a6fc4599650e0d110904c9fec56cff22c3d2d1b7,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/sprite16.inc,d109daf05a7579869998b8a396e597b918e0d7fc573bae72ca89526eaa6fd917,include,th03-main,,,,
 th03/sprite16[bss].asm,3c22729848c2c9c032a32e1c6e403afbadab4edb551b434ee5ace8b4a7bee36b,translation-unit,th03-main,,,,
 th03/sprites/flake.bmp,4a7e711c90e0a225455699e5105e73d35c01e8ee39e3392b0a97528da768e99c,asset-metadata-only,unassigned,,,,
