@@ -402,7 +402,7 @@ th03/main/player/shots[bss].asm,45da3222cf4364cc7e9e180ad21ce5c61c6b1005519c1bea
 th03/main/player/stuff.cpp,7172c09149a1746bbbf911507be2f6b8a33edd774b3bb9d276f44d24308f10bf,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/player/stuff.hpp,60725a4b73c5b56dc041b95210a6a284fbf29d4a66e61804074902a46c110a15,include,th03-main,,,,
 th03/main/playfield_fg_x[bss].asm,b3c567857d2cee9dafb4b56918b95581d27492675b90173a1fb1420aeb609622,translation-unit,th03-main,,,,
-th03/main/playfld.cpp,00991cd6bde89c2816c39bdec31f0b74998c166f361451f30e9d9a4aa594fdf3,translation-unit,th03-main,,,,
+th03/main/playfld.cpp,00991cd6bde89c2816c39bdec31f0b74998c166f361451f30e9d9a4aa594fdf3,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/playfld.hpp,ab56f703295695528d350249d99b19805e21daff7550c1a5789f3f70df350e90,include,th03-main,,,,
 th03/main/playfld.inc,b0c28298bc17eabb451e8c0de82387c6c762e42de55316a487e34f3bfec961be,include,th03-main,,,,
 th03/main/round.hpp,1ea2aec4060066443e35f2303ab131d09b569ab3dad2441fa0c7ab22865cbbd7,include,th03-main,,,,
@@ -441,7 +441,7 @@ th03/pi_put_i.cpp,82a9a9f925f15731ae9c64fe66077d7a61ac9d099a866feca031e9770e22f0
 th03/pi_put_q.cpp,b6bbaa55c2784be98118c900de39def9822e116baacbd4edb1ce879db3405341,translation-unit,th03-mainl,th03-mainl,,,
 th03/playchar.hpp,3575e375751362269c69af4d95b1f2044fe4a8a39c6eec2cb77e750e64d414a3,include,th03-main;th03-mainl;th03-op;th03-zun,,,,
 th03/player_m.cpp,e6771863689b8eed43ece08b9f0fe40e7addbbe7d57945ac85384be5aeec3244,translation-unit,th03-main,th03-main,,th03-main,th03-main
-th03/playfld.cpp,e625e8017b45c40aa3f3d9bf2c08cd0201f985b3b49ccde5bae5e1c97984adc7,translation-unit,th03-main,th03-main,,,
+th03/playfld.cpp,e625e8017b45c40aa3f3d9bf2c08cd0201f985b3b49ccde5bae5e1c97984adc7,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/polar.cpp,8c6065f1446148e6812816747fabe5bbb1be3a2b71f69061c00bc7a6295a1a86,translation-unit,th03-main;th03-op,th03-main;th03-op,,th03-main,th03-main
 th03/regist.cpp,f5143dc61106d80e7d8cb6806ae720ca54547180459f12753cc64cc7a2218976,translation-unit,th03-mainl,th03-mainl,,,
 th03/res_yume.cpp,c66c09511fe49bfa7a02cbb6640558bc4939da91636f3b39505917bcddc5e8bc,translation-unit,th03-zun,th03-zun,,,

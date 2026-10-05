@@ -956,3 +956,54 @@ offset = 0x2400
 size = 50
 map_public = "hud_static_put()"
 abi = "far cdecl; no arguments; RETF"
+
+[[units]]
+id = "th03-main-playfield"
+source = "src/main/playfield/playfld.asm"
+header = "src/main/playfield/playfld.hpp"
+object = "playfld"
+overlay_path = "th03/playfld.asm"
+object_path = "obj/th03/playfld.obj"
+map_module = "th03\\playfld.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/playfld.cpp\",\n"
+build_replacement = "\t\"th03/playfld.asm\",\n"
+support_files = [
+  "compat/rec98/th01/math/subpixel.hpp",
+  "compat/rec98/th03/common.h",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-playfield", segment = 0x096e, start = 0x0bf0, size = 118, map_segment = "PLAYFLD_TEXT", map_group = "MAIN_01", producer_ranges = [{ relative = 33, size = 1, kind = "padding" }, { relative = 117, size = 1, kind = "padding" }] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "playfield_fg_x_to_screen"
+object = "playfld"
+segment = 0x096e
+offset = 0x0bf0
+size = 33
+map_public = "playfield_fg_x_to_screen(int,int)"
+abi = "far Pascal; signed subpixel word plus word pid; AX signed screen word; RETF 4"
+
+[[functions]]
+name = "screen_x_to_playfield"
+object = "playfld"
+segment = 0x096e
+offset = 0x0c12
+size = 30
+map_public = "screen_x_to_playfield(int,int)"
+abi = "far Pascal; signed screen word plus word pid; AX signed subpixel word; RETF 4"
+
+[[functions]]
+name = "playfield_clip"
+object = "playfld"
+segment = 0x096e
+offset = 0x0c30
+size = 53
+map_public = "playfield_clip(subpixelbase<int,int>,subpixelbase<int,int>)"
+abi = "far Pascal; two subpixel word objects; AL clipped boolean, AH zero; RETF 4"

@@ -2,14 +2,14 @@
 
 ## Current state
 
-MAIN has twenty-three maintained exact source owners represented by twenty-seven
-reviewed CODE extents. They contain sixty-seven complete functions and 9419 exact
-owned CODE bytes: 9297 function-body bytes plus 122 classified producer-owned
+MAIN has twenty-four maintained exact source owners represented by twenty-eight
+reviewed CODE extents. They contain seventy complete functions and 9537 exact
+owned CODE bytes: 9413 function-body bytes plus 124 classified producer-owned
 switch-table/alignment bytes. The owner set is vector-far, exit, polar,
 frame-delay, input-sense, snd-se, snd-kaja, initmain, pi-load, input-modes,
 explosion-collision, fireballs, and the two CODE contributions of the complete
 `bullet.cpp` source owner, hitbox, the four combo contributions, gauge, player movement, ordinary shots, player state, resident pointer,
-extra-attack wrapper, hit circles and static HUD.
+extra-attack wrapper, hit circles, static HUD and playfield.
 
 The complete enemy owner is also maintained as a structural candidate: three
 reviewed CODE extents, nineteen functions and 3325 bytes. Its separate manifest
@@ -91,10 +91,11 @@ This resolves the stock source's 34 register-opcode encoding differences.
 See `docs/reconstruction/MAIN_PLAYER_STATE_REVIEW.md`. The separate enemy
 ordered-relocation question remains open.
 
-Next, review the remaining directly linked MAIN candidates: playfield,
-sprite16, MRS, shared config/sound/hardware and original assembly.
-The playfield, sprite16 and MRS upstream use explicit `codestring` NOPs; review
-those producer bytes before deciding on a natural accepted source. MRS has a
+Next, review the remaining directly linked MAIN candidates: sprite16, MRS, shared config/sound/hardware and original assembly.
+The playfield owner passed with complete symbolic TASM procedures and genuine
+word alignment in place of codestring NOPs; see
+`docs/reconstruction/MAIN_PLAYFIELD_REVIEW.md`. Sprite16 and MRS still use explicit
+`codestring` NOPs; review their producer bytes before accepting natural source. MRS has a
 preliminary ordered-relocation mismatch despite equal raw owner bytes; this
 is a diagnostic intake question, not accepted source progress. The hit-circle
 XOR direction difference is resolved with symbolic inline assembly. Then
@@ -129,7 +130,10 @@ Recent final accepted-state aggregate receipts all passed two cold rounds:
 - `sol-static-hud-final-20261005`: complete static HUD; see
   `docs/reconstruction/MAIN_STATIC_HUD_REVIEW.md`.
 
-The last receipt covers the current full twenty-three-owner / twenty-seven-extent
-/ sixty-seven-function / 9419-byte aggregate and complete configured
+- `sol-playfield-final-20261005`: complete playfield; see
+  `docs/reconstruction/MAIN_PLAYFIELD_REVIEW.md`.
+
+The last receipt covers the current full twenty-four-owner / twenty-eight-extent
+/ seventy-function / 9537-byte aggregate and complete configured
 product/game-object deterministic vector. The enemy candidate retains its
 separate manifest and recorded failure.
