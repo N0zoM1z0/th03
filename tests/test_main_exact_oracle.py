@@ -59,7 +59,8 @@ class MainExactManifestTests(unittest.TestCase):
             work = Path(temporary)
             carrier = work / "carrier.asm"
             unit = {"id": "include", "ownership": "bounded-include",
-                    "carrier_path": "carrier.asm", "overlay_path": "th03/unit.asm"}
+                    "carrier_path": "carrier.asm", "overlay_path": "th03/unit.asm",
+                    "map_module": "carrier.asm"}
             carrier.write_bytes(b"; legacy comment \x96\nINCLUDE th03/unit.asm\n")
             unit["carrier_sha256"] = sha(carrier.read_bytes())
             verify_include_carrier(unit, work)
@@ -71,6 +72,28 @@ class MainExactManifestTests(unittest.TestCase):
                 unit["carrier_sha256"] = sha(carrier.read_bytes())
                 with self.assertRaisesRegex(ValueError, "occur once"):
                     verify_include_carrier(unit, work)
+
+    def test_nested_include_chain_reaches_the_actual_map_module(self):
+        with TemporaryDirectory() as temporary:
+            work = Path(temporary)
+            (work / "root.asm").write_text("include context.inc\n")
+            (work / "context.inc").write_text("include getters.inc\n")
+            parent = {"path": "root.asm", "sha256": sha((work / "root.asm").read_bytes())}
+            unit = {"id": "getters", "ownership": "bounded-include",
+                    "carrier_path": "context.inc", "overlay_path": "getters.inc",
+                    "carrier_sha256": sha((work / "context.inc").read_bytes()),
+                    "parent_carriers": [parent], "map_module": "root.asm"}
+            verify_include_carrier(unit, work)
+            with self.assertRaisesRegex(ValueError, "MAP module"):
+                verify_include_carrier({**unit, "parent_carriers": []}, work)
+            with self.assertRaisesRegex(ValueError, "cycle"):
+                verify_include_carrier({**unit, "parent_carriers": [parent, parent]}, work)
+            (work / "root.asm").write_text("include unrelated.inc\n")
+            with self.assertRaisesRegex(ValueError, "drifted"):
+                verify_include_carrier(unit, work)
+            parent["sha256"] = sha((work / "root.asm").read_bytes())
+            with self.assertRaisesRegex(ValueError, "occur once"):
+                verify_include_carrier(unit, work)
 
     def test_candidates_cannot_replace_accepted_inputs_or_owners(self):
         config = {"target_sha256": "pinned", "units": [{"id": "accepted", "object": "owned"}],

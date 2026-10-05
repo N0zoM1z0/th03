@@ -2,7 +2,12 @@
 
 The product boundary follows TH04 with TH03's actual four artifacts:
 OP.EXE (menu), MAIN.EXE (gameplay), MAINL.EXE (ending), and ZUN.COM (launcher).
-All four supplied targets are MZ containers, including ZUN.COM.
+All four supplied stored targets are MZ containers, including ZUN.COM.
+OP, MAINL and ZUN use DIET storage envelopes. The guarded private restoration
+recipe in `scripts/review_th03_diet.py` yields MZ images for OP/MAINL and a flat
+COM launcher for ZUN. These are separate decoded analysis namespaces, not
+replacement canonical files or source/whole-product acceptance. The canonical
+Ghidra projects continue to attest the stored images.
 
 `config/targets.toml` pins the Japanese HDI, FAT partition and artifact bytes.
 The required products are TH03 only. Optional TH01/02/04/05 targets remain

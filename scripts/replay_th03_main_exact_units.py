@@ -149,15 +149,26 @@ def verify_include_carrier(unit: dict, work: Path) -> None:
     """Bind an include to its frozen, uncredited generated translation unit."""
     if unit.get("ownership") != "bounded-include":
         return
-    carrier = work / unit["carrier_path"]
-    if sha(carrier.read_bytes()) != unit["carrier_sha256"]:
-        raise ValueError(f"bounded include carrier drifted: {unit['id']}")
-    pattern = rf"^\s*include\s+{re.escape(unit['overlay_path'])}\s*$"
-    # Frozen assembly contains legacy Japanese comment bytes. Include names
-    # are ASCII; preserve arbitrary comment bytes without lossy transcoding.
-    text = carrier.read_bytes().decode("ascii", errors="surrogateescape")
-    if len(re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)) != 1:
-        raise ValueError(f"bounded include must occur once in carrier: {unit['id']}")
+    child = unit["overlay_path"]
+    carriers = [{"path": unit["carrier_path"], "sha256": unit["carrier_sha256"]},
+                *unit.get("parent_carriers", [])]
+    seen = {child}
+    for declaration in carriers:
+        path = declaration["path"]
+        if path in seen:
+            raise ValueError(f"bounded include carrier cycle: {unit['id']}")
+        seen.add(path)
+        carrier = work / path
+        if sha(carrier.read_bytes()) != declaration["sha256"]:
+            raise ValueError(f"bounded include carrier drifted: {unit['id']}")
+        pattern = rf"^\s*include\s+{re.escape(child)}\s*$"
+        # Include names are ASCII; preserve legacy Japanese comment bytes.
+        text = carrier.read_bytes().decode("ascii", errors="surrogateescape")
+        if len(re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)) != 1:
+            raise ValueError(f"bounded include must occur once in carrier: {unit['id']}")
+        child = path
+    if child.replace("\\", "/") != unit["map_module"].replace("\\", "/"):
+        raise ValueError(f"bounded include chain does not reach MAP module: {unit['id']}")
 
 
 def verify_disjoint_ownership(extents_by_owner: dict[str, list[dict]]) -> None:

@@ -1,0 +1,34 @@
+schema_version = 1
+scope = "Private DIET restoration diagnostics; no source or exact acceptance"
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+
+[tool]
+path = ".analysis/toolchain/media/diet145f/DIET.EXE"
+sha256 = "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803"
+size = 26370
+version = "1.45f"
+
+[[artifacts]]
+id = "th03-op"
+filename = "OP.EXE"
+decoded_format = "mz"
+decoded_size = 63866
+decoded_sha256 = "efd858aef69a240af3a27c747a5beae150f55f0b41b8afdd1eda1760a759ecc0"
+reference_root = "th03_op.asm"
+reference_input_md5 = "661f4f8ffaf1f3274f503d154133def0"
+
+[[artifacts]]
+id = "th03-mainl"
+filename = "MAINL.EXE"
+decoded_format = "mz"
+decoded_size = 67372
+decoded_sha256 = "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a"
+reference_root = "th03_mainl.asm"
+reference_input_md5 = "ce44aa7a114237c6b3cd67eea9c0225a"
+
+[[artifacts]]
+id = "th03-zun"
+filename = "ZUN.COM"
+decoded_format = "com"
+decoded_size = 22812
+decoded_sha256 = "83b034a59fabfd0c4dd48e44a4be5287ac1ea6ea0c0e9677311071113eff9e26"
