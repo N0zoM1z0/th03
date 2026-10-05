@@ -17,6 +17,26 @@ start = 0x016d
 size = 26
 
 [[units]]
+id = "th03-main-frame-delay"
+source = "src/main/hardware/frame_delay.cpp"
+header = "src/main/hardware/frame_delay.hpp"
+object = "frmdely1"
+wrapper = "th02/frmdely1.cpp"
+object_path = "obj/th02/frmdely1.obj"
+map_module = "th02/frmdely1.cpp"
+start = 0x0187
+size = 21
+
+[[units]]
+id = "th03-main-input-sense"
+source = "src/main/hardware/input_sense.cpp"
+header = "src/main/hardware/input.hpp"
+object = "input_s"
+map_acbp = 48
+start = 0x019c
+size = 417
+
+[[units]]
 id = "th03-main-input-modes"
 source = "src/main/hardware/input_modes.cpp"
 header = "src/main/hardware/input.hpp"
@@ -30,6 +50,21 @@ object = "polar"
 offset = 0x016d
 size = 26
 abi = "far cdecl; three signed words; caller removes six bytes"
+
+[[functions]]
+name = "frame_delay"
+object = "frmdely1"
+offset = 0x0187
+size = 21
+map_public = "frame_delay(int)"
+abi = "far Pascal; signed word argument, unsigned volatile counter comparison; RETF 2"
+
+[[functions]]
+name = "input_reset_sense_key_held"
+object = "input_s"
+offset = 0x019c
+size = 417
+abi = "far cdecl; no arguments; no stack frame"
 
 [[functions]]
 name = "input_mode_interface"

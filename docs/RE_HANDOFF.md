@@ -3,11 +3,12 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Two complete maintained owners contain ten exact functions / 393 exact authored
-bytes: `th03-main-polar` (26 bytes) and `th03-main-input-modes` (367 bytes).
-Target-first boundaries, far/cdecl/Pascal ABI, full unnormalized bytes, MAP
-contributions and ordered MZ relocation sites/values are reviewed. The
-whole-product graph remains open in `config/build.toml`.
+Four maintained exact owners now contain twelve exact functions / 831 exact
+authored bytes: `th03-main-polar` (26), `th03-main-frame-delay` (21),
+`th03-main-input-sense` (417), and `th03-main-input-modes` (367). Target-first
+boundaries, far/cdecl/Pascal ABI, full unnormalized bytes, MAP contributions
+and ordered MZ relocation sites/values are reviewed. The whole-product graph
+remains open in `config/build.toml`.
 
 ## Verified local inputs
 
@@ -43,6 +44,8 @@ python3 scripts/build.py --status
 python3 scripts/build.py --reference --run-id NEW_UNIQUE_ID
 python3 scripts/ghidra.py th03-main check
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
 ```
 
@@ -58,14 +61,16 @@ the hot deployment; the Factory fix is committed separately.
 
 ## Exact replay observations
 
-`input-math-owned-candidate` performs two independent full `git archive`
+The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
-All 20 configured outputs and 350 game objects are deterministic, all 416
-OMF objects are valid, both full owners and all ten full bodies match, and
-both DOS ABI/behavior probes pass. The maintained sources have no upstream
-includes or target-byte payloads. Seven portable positive/negative Oracle
-tests cover full-byte and relocation failures. See
-`docs/MAIN_INPUT_MATH_EXACT.md` and the scoped CSV evidence rows.
+All 20 configured outputs and 350 game objects are deterministic, all 416 OMF
+objects are valid, all four accepted owners and all twelve full bodies match,
+and the existing DOS ABI/behavior probe stays passing. The maintained sources
+have no upstream includes or copied target-byte payloads. The 417-byte
+`input_reset_sense_key_held` body deliberately excludes the target's following
+one-byte NOP at `SHARED:033D`; no `codestring` is used to manufacture ownership.
+Portable positive/negative Oracle tests cover full-byte and relocation failures.
+See `docs/MAIN_INPUT_MATH_EXACT.md` and the scoped CSV evidence rows.
 
 Nine auxiliary Research benchmark objects differ because their LEDATA embeds
 `__DATE__/__TIME__`; preserve those differences as diagnostics. They are outside
@@ -73,19 +78,33 @@ the declared game object vector. This is separate from the unresolved imported
 TH04 all-game calibration mismatch; its old hashes have not been changed.
 Local exact-owner evidence does not publish Factory Truth Kernel acceptance.
 
-Post-promotion run `factory-main-input-math-exact` executed the same checked-in
-Oracle through the public Factory repository shell. It covered both accepted
-owners, passed the full two-cold vector and DOS probes, and preserved HEAD and
-visible source state. Its two scoped aggregate evidence rows bind the current
-source/configuration/Oracle hashes. The public native Ghidra query also returned
-the expected 26- and 76-byte target bodies. The broader Factory validation
-passed 166 tests; flexible addresses and read-only TH04 references are hot-live.
+The earlier post-promotion run `factory-main-input-math-exact` remains the
+baseline receipt for the original polar/input-mode pair. The current expansion
+was independently re-screened against the TH03 target: `frame_delay` is one
+complete 21-byte body with three direct callers, while
+`input_reset_sense_key_held` is one complete 417-byte body with ten direct
+callers and no callees. Post-promotion aggregate run
+`gptweb-main-four-owner-final-20261005-a` began with all four owners already
+accepted and passed two fresh full builds, identical 20-product and 350-game-
+object vectors, all 416 valid OMF objects, complete raw/MAP/relocation checks,
+and the maintained DOS probe. Its receipt is the current four-owner replay
+evidence; native TH03 Truth Kernel publication remains unavailable.
 
 ## Next bounded work
 
-Determine packed/decoded ownership for OP/MAINL/ZUN before treating their
-storage inventories as game functions. MAIN has 1553 MZ relocations; the
-other three containers have zero. This is observed structure, not a proof
-of packer identity. Extend the maintained MAIN graph one reviewed owner at a
-time, always replaying the accepted aggregate. Investigate OMF identity drift
-using isolated repeated builds before establishing a new local calibration.
+Continue MAIN first. The next bounded math candidate is the 160-byte
+`th03/vector.cpp` SHARED contribution at `0E8F:008A`: target-local comparison
+shows the pinned reference contribution is byte/relocation exact, but the
+historical source relies on raw inline opcode bytes and a `codestring` NOP.
+Ghidra splits it into a 69-byte `VECTOR2` body, one intervening padding byte,
+and a 90-byte `VECTOR2_BETWEEN_PLUS` body. Treat that as routing evidence only;
+recover acceptable natural source or justified original-style ASM and keep the
+padding ownership separate rather than promoting the historical trick.
+
+After the input/math frontier, proceed into timing/state update and then
+two-player dispatch/game-object logic. Determine packed/decoded ownership for
+OP/MAINL/ZUN before treating their storage inventories as game functions.
+MAIN has 1553 MZ relocations; the other three containers have zero. This is
+observed structure, not proof of packer identity. Keep replaying the entire
+accepted MAIN aggregate after every new owner, and investigate OMF identity
+drift separately without changing the imported calibration hashes.

@@ -174,14 +174,20 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
                 destination = work / module[key]
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(snapshot / module[key], destination)
-            (work / f"th03/{module['object']}.cpp").write_text(f'#include "{module["source"]}"\n')
+            wrapper = work / module.get("wrapper", f"th03/{module['object']}.cpp")
+            wrapper.parent.mkdir(parents=True, exist_ok=True)
+            wrapper.write_text(f'#include "{module["source"]}"\n')
         build_command = ["wine", "cmd", "/d", "/c",
                          r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
                          r"&&set PROCESSOR_ARCHITECTURE=AMD64"
                          r"&&set PROCESSOR_ARCHITEW6432=AMD64&&build.bat"]
         compile_result = execute(build_command, work, env, logs / "cold-build.log")
-        objects = {m["object"]: describe_omf((work / f"obj/th03/{m['object']}.obj").read_bytes())
-                   for m in config["units"]}
+        objects = {
+            m["object"]: describe_omf(
+                (work / m.get("object_path", f"obj/th03/{m['object']}.obj")).read_bytes()
+            )
+            for m in config["units"]
+        }
         all_objects = {p.relative_to(work).as_posix(): sha(normalize_dependency_timestamps(p.read_bytes()))
                        for p in sorted((work / "obj").rglob("*.obj"))}
         products = {}
@@ -201,16 +207,28 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
         map_text = (work / "obj/th03/main.map").read_text(errors="replace")
         contributions = []
         for unit in config["units"]:
-            pattern = (rf"^\s*{config['segment']:04X}:{unit['start']:04X}\s+{unit['size']:04X}"
-                       rf"\s+C=CODE\s+S=SHARED\s+G=\(none\)\s+M=th03/{unit['object']}\.cpp\s+ACBP=28\s*$")
+            map_size = unit.get("map_size", unit["size"])
+            map_module = unit.get(
+                "map_module", unit.get("wrapper", f"th03/{unit['object']}.cpp")
+            )
+            map_acbp = unit.get("map_acbp", 28)
+            pattern = (
+                rf"^\s*{config['segment']:04X}:{unit['start']:04X}\s+{map_size:04X}"
+                rf"\s+C=CODE\s+S=SHARED\s+G=\(none\)\s+M={re.escape(map_module)}"
+                rf"\s+ACBP={map_acbp}\s*$"
+            )
             found = re.findall(pattern, map_text, re.MULTILINE)
             if len(found) != 1:
                 raise ValueError(f"map ownership, size, segment or alignment moved: {unit['id']}")
             contributions.append({"id": unit["id"], "map": found[0].strip()})
         functions = []
         for function in config["functions"]:
-            spelling = ("polar(int,int,int)" if function["name"] == "polar" else
-                        function["name"] + ("(int)" if function["name"] == "input_wait_for_change" else "()"))
+            spelling = function.get("map_public") or (
+                "polar(int,int,int)" if function["name"] == "polar" else
+                function["name"] + (
+                    "(int)" if function["name"] == "input_wait_for_change" else "()"
+                )
+            )
             pattern = rf"^\s*{config['segment']:04X}:{function['offset']:04X}\s+(?:idle\s+)?{re.escape(spelling)}\s*$"
             if not re.search(pattern, map_text, re.MULTILINE):
                 raise ValueError(f"link-map public moved: {spelling}")
@@ -223,7 +241,10 @@ def replay(run_id: str, selected_units: list[str]) -> dict:
         shutil.copy2(snapshot / "probes/main/input_math_behavior.cpp", probe / "behavior.cpp")
         for module in config["units"]:
             shutil.copy2(snapshot / module["header"], probe / Path(module["header"]).name)
-            shutil.copy2(work / f"obj/th03/{module['object']}.obj", probe / f"{module['object']}.obj")
+            object_path = work / module.get(
+                "object_path", f"obj/th03/{module['object']}.obj"
+            )
+            shutil.copy2(object_path, probe / f"{module['object']}.obj")
         behavior_compile = execute(dos + ["tcc", *FLAGS, "-n.", "behavior.cpp"], probe, env, logs / "behavior-compile.log")
         (probe / "probe.rsp").write_bytes(b"-c c0l.obj behavior.obj polar.obj inp_m_w.obj, probe.exe, probe.map, emu.lib mathl.lib cl.lib\r\n")
         behavior_link = execute(dos + ["tlink", "@probe.rsp"], probe, env, logs / "behavior-link.log")
@@ -271,8 +292,12 @@ def main() -> int:
     args = parser.parse_args()
     try:
         report = replay(args.run_id, args.unit)
-        print(f"th03-main-exact: {'PASS' if report['pass'] else 'FAIL'}; 10 functions, "
-              f"{report['full_function_bytes']} bytes; two fresh compilations/links and DOS behavior probes")
+        print(
+            f"th03-main-exact: {'PASS' if report['pass'] else 'FAIL'}; "
+            f"{len(report['rounds'][0]['functions'])} functions, "
+            f"{report['full_function_bytes']} bytes; "
+            "two fresh compilations/links and DOS behavior probes"
+        )
         print(f"receipt: .analysis/th03-main-exact/{args.run_id}/receipt.json")
         return 0 if report["pass"] else 1
     except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
