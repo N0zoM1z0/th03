@@ -1,0 +1,44 @@
+schema_version = 1
+scope = "Compiler-coordinate diagnostics only; no source or exact acceptance"
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+replay_receipt = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/receipt.json"
+replay_receipt_sha256 = "dbbc466385c12dd4a46121db5c1e5478d8a3a6a0e275e6165bdaeffe97281be3"
+
+diet_receipt = ".analysis/th03-diet/sol-diet-restoration-20261006-b/receipt.json"
+diet_receipt_sha256 = "ca533176a0ce89ccc7a782ff397965a781d4a60fdcf750e1b5fcbc3ead85d71d"
+
+[[artifacts]]
+id = "th03-op"
+decoded_path = ".analysis/th03-diet/sol-diet-restoration-20261006-b/op.exe"
+
+[[artifacts.rounds]]
+round = 1
+candidate_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th03/op.exe"
+candidate_sha256 = "5f04e62a6dd3893b1bbff9cdaeaf7e991fb0cbc449092eb3bccec32faad077e8"
+map_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/obj/th03/op.map"
+map_sha256 = "b1bf78f02aa402becc8be805a04cf7c0cff8bba7261b42165ee45a8ebeb926e9"
+
+[[artifacts.rounds]]
+round = 2
+candidate_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/bin/th03/op.exe"
+candidate_sha256 = "5f04e62a6dd3893b1bbff9cdaeaf7e991fb0cbc449092eb3bccec32faad077e8"
+map_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/obj/th03/op.map"
+map_sha256 = "b1bf78f02aa402becc8be805a04cf7c0cff8bba7261b42165ee45a8ebeb926e9"
+
+[[artifacts]]
+id = "th03-mainl"
+decoded_path = ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe"
+
+[[artifacts.rounds]]
+round = 1
+candidate_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th03/mainl.exe"
+candidate_sha256 = "ff315af6f9cd197f78292d8c834a90afad7b4d6c9bda0a9f8b09d4bdbc12a1ad"
+map_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/obj/th03/mainl.map"
+map_sha256 = "f262e1d8e78d353f29e5f2d9a1cd39be91f934d48b0839b5ab55be6d9e033568"
+
+[[artifacts.rounds]]
+round = 2
+candidate_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/bin/th03/mainl.exe"
+candidate_sha256 = "ff315af6f9cd197f78292d8c834a90afad7b4d6c9bda0a9f8b09d4bdbc12a1ad"
+map_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/obj/th03/mainl.map"
+map_sha256 = "f262e1d8e78d353f29e5f2d9a1cd39be91f934d48b0839b5ab55be6d9e033568"
