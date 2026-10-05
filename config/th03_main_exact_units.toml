@@ -45,6 +45,14 @@ start = 0x034a
 size = 120
 
 [[units]]
+id = "th03-main-initmain"
+source = "src/main/core/initmain.cpp"
+header = "src/main/core/initmain.hpp"
+object = "initmain"
+start = 0x03e0
+size = 62
+
+[[units]]
 id = "th03-main-input-modes"
 source = "src/main/hardware/input_modes.cpp"
 header = "src/main/hardware/input.hpp"
@@ -89,6 +97,14 @@ offset = 0x0386
 size = 60
 map_public = "_snd_se_update"
 abi = "far cdecl; no arguments"
+
+[[functions]]
+name = "game_init_main"
+object = "initmain"
+offset = 0x03e0
+size = 62
+map_public = "game_init_main(const unsigned char far*)"
+abi = "far Pascal; far pointer at BP+6; RETF 4"
 
 [[functions]]
 name = "input_mode_interface"
