@@ -1455,3 +1455,93 @@ offset = 0x2d5e
 size = 281
 map_public = "PFOPEN"
 abi = "far Pascal; archive/file far pointers; RETF 8; preserves BP/SI/DI; FS/ES clobbered; AX segment or zero"
+
+[[units]]
+id = "th03-main-randring-getters"
+source = "src/main/math/randring_getters.inl"
+header = "src/main/math/randring_getters.hpp"
+object = "randring_getters"
+ownership = "bounded-include"
+carrier_path = "th03/th03.inc"
+carrier_sha256 = "8fe390f050f785440c55bd7c320c9f57c9f9fdc04c1fc9fa819d41c4e1ab7920"
+parent_carriers = [{ path = "th03_main.asm", sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62" }]
+overlay_path = "th03/math/randring.inc"
+object_path = "obj/th03/main.obj"
+map_module = "th03_main.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+code_extents = [
+  { name = "hitcirc", ledger_id = "th03-main-randring-getters-hitcirc", segment = 0x096e, start = 0x0d2c, size = 44, map_start = 0x0c98, map_size = 0x13c2, map_acbp = 48, map_segment = "HITCIRC_TEXT", map_group = "MAIN_01", producer_ranges = [{ relative = 17, size = 1, kind = "padding" }] },
+  { name = "main04", ledger_id = "th03-main-randring-getters-main04", segment = 0x139d, start = 0x000a, size = 148, map_size = 0x0094, map_acbp = 28, map_segment = "MAIN_04_TEXT", map_group = "MAIN_04", producer_ranges = [{ relative = 17, size = 1, kind = "padding" }, { relative = 91, size = 1, kind = "padding" }] },
+]
+
+[[functions]]
+name = "randring1_next16"
+object = "randring_getters"
+segment = 0x096e
+offset = 0x0d2c
+size = 17
+map_public = "randring1_next16()"
+abi = "near cdecl; no arguments; RET; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered"
+
+[[functions]]
+name = "randring1_next16_and"
+object = "randring_getters"
+segment = 0x096e
+offset = 0x0d3e
+size = 26
+map_public = "randring1_next16_and(unsigned int)"
+abi = "near Pascal; unsigned mask/divisor word; RET 2; preserves BP; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered"
+
+[[functions]]
+name = "randring2_next16"
+object = "randring_getters"
+segment = 0x139d
+offset = 0x000a
+size = 17
+map_public = "randring2_next16()"
+abi = "near cdecl; no arguments; RET; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered"
+
+[[functions]]
+name = "randring2_next16_and"
+object = "randring_getters"
+segment = 0x139d
+offset = 0x001c
+size = 26
+map_public = "randring2_next16_and(unsigned int)"
+abi = "near Pascal; unsigned mask/divisor word; RET 2; preserves BP; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered"
+
+[[functions]]
+name = "randring2_next16_mod"
+object = "randring_getters"
+segment = 0x139d
+offset = 0x0036
+size = 30
+map_public = "randring2_next16_mod(unsigned int)"
+abi = "near Pascal; unsigned mask/divisor word; RET 2; preserves BP; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered; unsigned DIV, DX remainder clobbered, zero divisor faults"
+
+[[functions]]
+name = "randring_far_next16"
+object = "randring_getters"
+segment = 0x139d
+offset = 0x0054
+size = 17
+map_public = "randring_far_next16()"
+abi = "far cdecl; no arguments; RETF; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered"
+
+[[functions]]
+name = "randring_far_next16_and"
+object = "randring_getters"
+segment = 0x139d
+offset = 0x0066
+size = 26
+map_public = "randring_far_next16_and(unsigned int)"
+abi = "far Pascal; unsigned mask/divisor word; RETF 2; preserves BP; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered"
+
+[[functions]]
+name = "randring_far_next16_mod"
+object = "randring_getters"
+segment = 0x139d
+offset = 0x0080
+size = 30
+map_public = "randring_far_next16_mod(unsigned int)"
+abi = "far Pascal; unsigned mask/divisor word; RETF 2; preserves BP; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered; unsigned DIV, DX remainder clobbered, zero divisor faults"

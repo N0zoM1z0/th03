@@ -416,7 +416,7 @@ th03/mainl_sc.cpp,160916a9dc037655e03a8f87f51ce5990e934e177302bacfdfb225677c068c
 th03/math/polar.cpp,6200a559c5e9b5bc8b2b20df62c159fc6f71342b54f61bbe07dab85147830d5f,translation-unit,th03-main;th03-op,,,th03-main,th03-main
 th03/math/polar.hpp,7eef0c0ff708b06d13ca542443c05075f38207d85d171ac2bec2c4ffd3673079,include,th03-main;th03-op,,,,
 th03/math/randring.hpp,3e9bd5bd0e4ef6cac87cf00c12c0031869c084471295c26d89486b4f0bd3133f,include,th03-main,,,,
-th03/math/randring.inc,183a40da222e445a62893a623b0350ce0151af55336dc1fe8e56e5f1eb8d181f,include,th03-main;th03-mainl,,,,
+th03/math/randring.inc,183a40da222e445a62893a623b0350ce0151af55336dc1fe8e56e5f1eb8d181f,include,th03-main;th03-mainl,,,th03-main,th03-main
 th03/math/randring_fill.asm,47651ba3050ed8d72c89b08e42b325b0606e6027826f40a3b919bd79c637f85b,translation-unit,th03-main,,,th03-main,th03-main
 th03/math/subpixel.inc,ff7144a239f8ce89b9247fc81336a3400bb48994d27d40d2067a67f5c4ae70ce,include,th03-main,,,,
 th03/math/vector.cpp,66fe3480e381f16afbb071c257428d8fac87778d80646cc644874f3003c79d35,translation-unit,th03-main;th03-mainl,,,th03-main,th03-main
