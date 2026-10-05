@@ -500,3 +500,139 @@ offset = 0x4201
 size = 0x01dd
 map_public = "bullets_render()"
 abi = "far cdecl; no arguments; RETF"
+
+[[units]]
+id = "th03-main-hitbox"
+source = "src/main/collision/hitbox.cpp"
+header = "src/main/collision/hitbox.hpp"
+object = "hitbox"
+support_files = [
+  "compat/rec98/th03/main/defeat.hpp",
+  "compat/rec98/th03/main/enemy/efe.hpp",
+  "compat/rec98/th03/main/enemy/expl.hpp",
+  "compat/rec98/th03/main/hitcirc.hpp",
+  "compat/rec98/th03/main/player/bomb.hpp",
+  "compat/rec98/th03/main/player/ch_shot.hpp",
+  "compat/rec98/th03/main/player/shot.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/round.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-hitbox", segment = 0x139d, start = 0x1f25, size = 0x010a, map_module = "th03/hitbox.cpp", map_segment = "HITBOX_TEXT", map_group = "MAIN_04" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[units]]
+id = "th03-main-combo"
+source = "src/main/player/combo.cpp"
+header = "src/main/player/combo.hpp"
+object = "p_combo"
+support_files = [
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/gaiji/gaiji.h",
+  "compat/rec98/th03/main/difficul.hpp",
+  "compat/rec98/th03/main/enemy/efe.hpp",
+  "compat/rec98/th03/main/enemy/expl.hpp",
+  "compat/rec98/th03/main/hud/dynamic.hpp",
+  "compat/rec98/th03/main/hud/warning.hpp",
+  "compat/rec98/th03/main/player/chain.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/main/round.hpp",
+  "compat/rec98/th03/main/score.hpp",
+  "compat/rec98/th03/main/v_colors.hpp",
+]
+code_extents = [
+  { name = "main", ledger_id = "th03-main-combo-main", segment = 0x139d, start = 0x22e9, size = 0x01eb, map_module = "th03/p_combo.cpp", map_segment = "P_COMBO_TEXT", map_group = "MAIN_04" },
+  { name = "wrapper", ledger_id = "th03-main-combo-wrapper", segment = 0x139d, start = 0x2765, size = 0x0028, map_module = "th03/p_combo.cpp", map_segment = "E_ENEMY_TEXT", map_group = "MAIN_04" },
+  { name = "fireball", ledger_id = "th03-main-combo-fireball", segment = 0x139d, start = 0x2b7e, size = 0x0067, map_module = "th03/p_combo.cpp", map_segment = "ENEMY_PUT", map_group = "MAIN_04" },
+  { name = "boss", ledger_id = "th03-main-combo-boss", segment = 0x139d, start = 0x2be5, size = 0x0158, map_module = "th03/p_combo.cpp", map_segment = "E_EXPL_TEXT", map_group = "MAIN_04" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[units]]
+id = "th03-main-gauge"
+source = "src/main/player/gauge.cpp"
+header = "src/main/player/gauge.hpp"
+object = "p_gauge"
+support_files = [
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/stuff.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-gauge", segment = 0x139d, start = 0x24d4, size = 0x0037, map_module = "th03/p_gauge.cpp", map_segment = "P_GAUGE_TEXT", map_group = "MAIN_04" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "hitbox_hittest"
+object = "hitbox"
+segment = 0x139d
+offset = 0x1f25
+size = 266
+map_public = "hitbox_hittest()"
+abi = "far cdecl; no arguments; AL damage result; RETF"
+
+[[functions]]
+name = "combo_add_raw"
+object = "p_combo"
+segment = 0x139d
+offset = 0x22e9
+size = 154
+map_public = "combo_add_raw(unsigned char,unsigned char,unsigned int)"
+abi = "far Pascal; hits and pid bytes in word slots plus unsigned word bonus; AX result; RETF 6"
+
+[[functions]]
+name = "combos_update_and_render"
+object = "p_combo"
+segment = 0x139d
+offset = 0x2383
+size = 337
+map_public = "combos_update_and_render()"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "combo_add"
+object = "p_combo"
+segment = 0x139d
+offset = 0x2765
+size = 40
+map_public = "combo_add(unsigned char,unsigned char,unsigned int)"
+abi = "near Pascal; byte pid and chain_slot in word slots plus unsigned word bonus; AX result; RET 6"
+
+[[functions]]
+name = "explosion_collision_chain_slot_fire_charged_fireball"
+object = "p_combo"
+segment = 0x139d
+offset = 0x2b7e
+size = 103
+map_public = "explosion_collision_chain_slot_f(unsigned char,efe_t near*)"
+abi = "near Pascal; byte pid in word slot plus near efe pointer; RET 4"
+
+[[functions]]
+name = "fire_point_based_boss_attack_or_panic"
+object = "p_combo"
+segment = 0x139d
+offset = 0x2be5
+size = 344
+map_public = "fire_point_based_boss_attack_or_(unsigned int,unsigned char)"
+abi = "near Pascal; unsigned word points plus byte pid in word slot; RET 4"
+
+[[functions]]
+name = "gauge_avail_add"
+object = "p_gauge"
+segment = 0x139d
+offset = 0x24d4
+size = 55
+map_public = "gauge_avail_add(unsigned char,unsigned char)"
+abi = "near Pascal; byte pid and charge in word slots; RET 4"

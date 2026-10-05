@@ -2,13 +2,13 @@
 
 ## Current state
 
-MAIN has thirteen maintained exact source owners represented by fourteen
-reviewed CODE extents. They contain forty complete functions and 6210 exact
-owned CODE bytes: 6103 function-body bytes plus 107 classified producer-owned
+MAIN has sixteen maintained exact source owners represented by twenty
+reviewed CODE extents. They contain forty-seven complete functions and 7509 exact
+owned CODE bytes: 7402 function-body bytes plus 107 classified producer-owned
 switch-table/alignment bytes. The owner set is vector-far, exit, polar,
 frame-delay, input-sense, snd-se, snd-kaja, initmain, pi-load, input-modes,
 explosion-collision, fireballs, and the two CODE contributions of the complete
-`bullet.cpp` source owner.
+`bullet.cpp` source owner, hitbox, the four combo contributions, and gauge.
 
 The complete enemy owner is also maintained as a structural candidate: three
 reviewed CODE extents, nineteen functions and 3325 bytes. Its separate manifest
@@ -82,8 +82,12 @@ Continue the complete ReC98 intake queue. Investigate the enemy owner's single
 ordered relocation failure without rewriting its MZ entries or weakening the
 Oracle. The original OMF producer record partition remains unknown; moving
 declarations or function definitions did not change the candidate's ordering.
-Independent MAIN owners such as hitbox and player combo/gauge can proceed
-while this question remains open; keep complete owner coverage.
+Hitbox, combo and gauge have passed the complete cold replay. Continue player
+movement, shot update/render, and the player-state owner while the independent
+enemy question remains open. The player-state stock source has 34 differing
+bytes in its collision function: alternative encodings of the same decoded
+register operations. Its damage and story-skill functions compare raw-exact.
+The upstream function-order warning is not evidence of a current order mismatch.
 
 After that, continue through timing/state update and two-player/game-object
 logic. For OP, MAINL and ZUN, establish stored-code versus decoded-code mapping
@@ -99,3 +103,10 @@ open. See `docs/REC98_TH03_REVIEW.md`. The thirteen existing owners passed the
 fresh two-round `sol-rec98-baseline-20261005` replay. The enemy wrapper and
 implementation have a scoped boundary-review decision; all remaining intake
 review is still open.
+
+The `sol-hitbox-combo-gauge-probe-20261005` replay accepted the complete three
+new owners (1299 bytes / seven functions / six extents), including every combo
+segment. See `docs/reconstruction/MAIN_COLLISION_COMBO_GAUGE_REVIEW.md` and the
+raw target export script. The final accepted-state aggregate
+`sol-hitbox-combo-gauge-final-20261005-b` also passed after promotion. The open
+enemy candidate retains its separate manifest and failure.

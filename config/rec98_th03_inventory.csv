@@ -337,7 +337,7 @@ th03/hfliplut.asm,ccb5f6014932e25d554d54d20db88d1284498f13964cc3e24d6a47e74e3428
 th03/hiscore/regist.cpp,15355e761d8999b091c9c5b7405879ff371ef67909380e9aa2f58637657f345e,translation-unit,th03-mainl,,,,
 th03/hiscore/regist.hpp,03f49d417df57ae851fc3fd88d11653103f5a97804b767b77d7549758e1c8d25,include,th03-mainl,,,,
 th03/hiscore/regist[bss].asm,0ddc8cecf1cba6e670901b783f48c3624dfb7ff13e1d15f4c7905cede454c01b,translation-unit,th03-mainl,,,,
-th03/hitbox.cpp,c74cda1d08097e340b270caab1a8de3ead451e60d13b1b6e3da3774fa9d8ac65,translation-unit,th03-main,th03-main,,,
+th03/hitbox.cpp,c74cda1d08097e340b270caab1a8de3ead451e60d13b1b6e3da3774fa9d8ac65,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/hitcirc.cpp,5e6b10dc33afc9a07e9cdff73b3a71683b4dcc347eeec79e06de35f05253791b,translation-unit,th03-main,th03-main,,,
 th03/hud_stat.cpp,91359b568701c779a5d8bdf7d954e4ee1a2910bd806d7178dfb55776b311c263,translation-unit,th03-main,th03-main,,,
 th03/initmain.cpp,191ef28660b771c290fbeb21f46b33457a2e2d29327f6b5bb2a04c58343cbc38,translation-unit,th03-main;th03-mainl,th03-main;th03-mainl,,th03-main,th03-main
@@ -366,7 +366,7 @@ th03/main/enemy/expl.hpp,5fae0ee10e00cd359cb34e65b6deb25fdc4bf1704a2d6d24b62504b
 th03/main/enemy/fireball.cpp,bce30da7c987c64774c9c14c38666bbb8af24230b7324e3d9db8591b1d90b65c,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/enemy/fireball.hpp,05a3a831682b31eaab76fe0112fbe3f5260c4f40aba14c48fdfe713c5c15b4f6,include,th03-main,,,,
 th03/main/frame_mod[bss].asm,e533849c1b13a14a51d662cf1262a4bad2d055de997169888397351a4cd3c880,translation-unit,th03-main,,,,
-th03/main/hitbox.cpp,ca3cc4cf4fdaa91dd292d205321f990a94027b4fab878efeedc511f783924e76,translation-unit,th03-main,,,,
+th03/main/hitbox.cpp,ca3cc4cf4fdaa91dd292d205321f990a94027b4fab878efeedc511f783924e76,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/hitbox.hpp,cdff7cc07d4325c80654f2b5e685bb21d090a234bdde945a1e2890f57f06763e,include,th03-main,,,,
 th03/main/hitcirc.cpp,e7a0f31961a9b5720deb2845b30edf4360eed4ad329000abc8b72ecf5cbdbf11,translation-unit,th03-main,,,,
 th03/main/hitcirc.hpp,a2bdd97f6dc4c88d0c751c0bd2677002aa0df827cfc5064135d151625962ab2c,include,th03-main,,,,
@@ -379,7 +379,7 @@ th03/main/player/bomb.hpp,4fe5e0b1356744c377fa462dbfe7d138fdd74da198d4acd80b976e
 th03/main/player/ch_shot.hpp,43931056d569f5e0d0283c7453eb17bc0f9ad51c33b01694999771aa906759a4,include,th03-main,,,,
 th03/main/player/chain.hpp,7f33ee99319dccd38b4495bbf4f732385e65ce9ec8b51c0c7ebd7c200c395618,include,th03-main,,,,
 th03/main/player/combo.asm,d0512ea4c6dce761a23dbeb816de39db4259b2c4b8ff6a818229ad378fe888c1,translation-unit,unassigned,,,,
-th03/main/player/combo.cpp,d5b621afa0ff3472d95c25169d0c7759bbc0e4d203397034b7ac18fb2068fc9e,translation-unit,th03-main,,,,
+th03/main/player/combo.cpp,d5b621afa0ff3472d95c25169d0c7759bbc0e4d203397034b7ac18fb2068fc9e,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/player/combo.hpp,a2723bdbf5a0f6063a893cf79e1e59145f4d4951ab6698fd6dfa62cf69d0843c,include,th03-main,,,,
 th03/main/player/combo[bss].asm,53ae5e2fa09823ebaa76ea26e391c51657142bc7512901fd06cd7cc25ab4e9c5,translation-unit,th03-main,,,,
 th03/main/player/combo[data].asm,3fea8f4bce78ee39c3dc471fe49e711ce3a0324afc06fbe16689ecb0146cacac,translation-unit,th03-main,,,,
@@ -387,7 +387,7 @@ th03/main/player/cpu.hpp,4aa9d8fab9360d16753852d70c9b9deeba08bf3b9965ed1e39819d1
 th03/main/player/cur.hpp,4551f143dfd619b27a74cd7f5367f3d68cbebf4a073e1e5d3e33f0f818017d73,include,th03-main,,,,
 th03/main/player/exatt.cpp,947e1e56f4c94944937ab01f32f5fd7d165ae7becf3c857599546fe80fda0235,translation-unit,th03-main,,,,
 th03/main/player/exatt.hpp,184cb3fc841c61bf4fb6b49d088a6bdbd75b060c904769f7efd4da1a9e0c57ea,include,th03-main,,,,
-th03/main/player/gauge.cpp,2a55de0d1e1e8b6bab4148f4abbcca024fae324f27150c7f2021b0268cd87408,translation-unit,th03-main,,,,
+th03/main/player/gauge.cpp,2a55de0d1e1e8b6bab4148f4abbcca024fae324f27150c7f2021b0268cd87408,translation-unit,th03-main,,,th03-main,th03-main
 th03/main/player/gauge.hpp,4a848ccb63e44a411bf3a00fd19086336b613078d00e48d0873cb0a865a63690,include,th03-main,,,,
 th03/main/player/gba.hpp,6431a75534bb6ec9bfaf5aad5e8eab81052fb43405d6d4def56673c19e51394e,include,th03-main,,,,
 th03/main/player/hearts.hpp,623a19adfae5e12393a122d3a96c37bcc8a6a7969fdcd051f09f048c1d57c1d1,include,th03-main,,,,
@@ -431,9 +431,9 @@ th03/op_02.cpp,a3e757419f8bf912a07f15ea8388b9de9fdbd9293fcc33958b50f2b52ba3e6d6,
 th03/op_main.cpp,807cb44ce818484617448ba4d87418567f380d53a600634f13e29b909c41c852,translation-unit,th03-op,th03-op,,,
 th03/op_music.cpp,6af2dc1efe4aed790dc5bc1dd760b56ed59e227b55f4476411848f0b0ff3680a,translation-unit,th03-op,th03-op,,,
 th03/op_sel.cpp,856dd8584c8d2c94ea5ba6f26b2263b0d0f9de16bd74e4684f54a660ebd779fc,translation-unit,th03-op,th03-op,,,
-th03/p_combo.cpp,cf75d37be524b094af21d77391603fb7917838d9a259a54a8b9cab63d8be8c59,translation-unit,th03-main,th03-main,,,
+th03/p_combo.cpp,cf75d37be524b094af21d77391603fb7917838d9a259a54a8b9cab63d8be8c59,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/p_exatt.cpp,49b0f8dd84fab674b883edb0a92739dafeb34428de60f4ad2cee3bbda282489d,translation-unit,th03-main,th03-main,,,
-th03/p_gauge.cpp,751bc45c365c28fae34bd8f4632064cc2b5121b3c24077fcac01c69dd651255f,translation-unit,th03-main,th03-main,,,
+th03/p_gauge.cpp,751bc45c365c28fae34bd8f4632064cc2b5121b3c24077fcac01c69dd651255f,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/p_shot.cpp,92bd119a6cf7bb8d90eacbb03da504c7996fb536d4fe62de4deaa73c5b8d237e,translation-unit,th03-main,th03-main,,,
 th03/pi_load.cpp,5e4b56bef17c2671542243af73db8c2b4007bc0fcc77fecc62893d5fb910f221,translation-unit,th03-main;th03-mainl;th03-op,th03-main;th03-mainl;th03-op,,th03-main,th03-main
 th03/pi_put.cpp,7018617d0d2e1128fd45de4ca578ce42027e5fa56be7393e6259a8f9a0ec2c6f,translation-unit,th03-mainl;th03-op,th03-mainl;th03-op,,,

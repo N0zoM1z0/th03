@@ -16,6 +16,7 @@
 | Replay all maintained MAIN exact owners | `python3 scripts/replay_th03_main_exact_units.py --run-id UNIQUE` |
 | Replay enemy candidate with all accepted MAIN owners | `python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_enemy_candidate.toml --run-id UNIQUE` |
 | Review raw enemy boundaries and dispatch table | `python3 scripts/review_th03_main_enemy.py --output .analysis/REVIEW/raw-review.json` |
+| Export complete raw MAIN owner observations | `python3 scripts/review_th03_main_code.py --owner OWNER_ID --output .analysis/REVIEW/raw-review.json` |
 | Inspect open product graph | `python3 scripts/build.py --status` |
 | Survey reference output | `python3 scripts/survey_rec98_outputs.py SOURCE --compact` |
 | Check ledgers/progress | `python3 scripts/validate_tracking.py` / `scripts/status.py` |
