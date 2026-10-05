@@ -761,3 +761,114 @@ offset = 0x4b6b
 size = 27
 map_public = "story_skill_decrement()"
 abi = "near cdecl; no arguments; far resident pointer; RET"
+
+[[units]]
+id = "th03-main-cfg-resident"
+source = "src/main/formats/cfg_lres.cpp"
+header = "src/main/formats/cfg_lres.hpp"
+object = "cfg_lres"
+support_files = [
+  "compat/rec98/platform.h",
+  "compat/rec98/th03/formats/cfg_impl.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-cfg-resident", segment = 0x096e, start = 0x0c66, size = 49, map_module = "th03/cfg_lres.cpp", map_segment = "CFG_LRES_TEXT", map_group = "MAIN_01" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[units]]
+id = "th03-main-extra-attack"
+source = "src/main/player/exatt.cpp"
+header = "src/main/player/exatt.hpp"
+object = "p_exatt"
+support_files = [
+  "compat/rec98/th01/math/subpixel.hpp",
+  "compat/rec98/th03/common.h",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-extra-attack", segment = 0x18fe, start = 0x119e, size = 41, map_module = "th03/p_exatt.cpp", map_segment = "P_EXATT_TEXT", map_group = "MAIN_06" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bee, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8dfa, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[units]]
+id = "th03-main-hitcircles"
+source = "src/main/collision/hitcircle.cpp"
+header = "src/main/collision/hitcircle.hpp"
+object = "hitcirc"
+support_files = [
+  "compat/rec98/libs/sprite16/sprite16.h",
+  "compat/rec98/th01/math/subpixel.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/round.hpp",
+  "compat/rec98/th03/main/v_colors.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th03/sprites/main_s16.hpp",
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-hitcircles", segment = 0x096e, start = 0x205a, size = 445, map_module = "th03/hitcirc.cpp", map_segment = "HITCIRC_TEXT", map_group = "MAIN_01" },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x68dc, size = 0, class = "BSS", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "cfg_load_resident_ptr"
+object = "cfg_lres"
+segment = 0x096e
+offset = 0x0c66
+size = 49
+map_public = "cfg_load_resident_ptr()"
+abi = "near cdecl; no arguments; AX returns segment-only resident pointer; eight-byte configuration local; RET"
+
+[[functions]]
+name = "exatt_add"
+object = "p_exatt"
+segment = 0x18fe
+offset = 0x119e
+size = 41
+map_public = "exatt_add(subpixelbase<int,int>,subpixelbase<int,int>,unsigned char)"
+abi = "far Pascal; two subpixel word objects plus byte pid in word slot; two indirect far callbacks; RETF 6"
+
+[[functions]]
+name = "hitcircles_enemy_add"
+object = "hitcirc"
+segment = 0x096e
+offset = 0x205a
+size = 121
+map_public = "hitcircles_enemy_add(int,int,int)"
+abi = "far Pascal; signed subpixel words and word pid; RETF 6"
+
+[[functions]]
+name = "hitcircles_player_add"
+object = "hitcirc"
+segment = 0x096e
+offset = 0x20d3
+size = 50
+map_public = "hitcircles_player_add(int,int,int)"
+abi = "far Pascal; signed subpixel words and word pid; RETF 6"
+
+[[functions]]
+name = "hitcircles_update"
+object = "hitcirc"
+segment = 0x096e
+offset = 0x2105
+size = 38
+map_public = "hitcircles_update()"
+abi = "near cdecl; no arguments; thirteen six-byte records; RET"
+
+[[functions]]
+name = "hitcircles_render"
+object = "hitcirc"
+segment = 0x096e
+offset = 0x212b
+size = 236
+map_public = "hitcircles_render()"
+abi = "near cdecl; no arguments; INT 42 driver protocol and two far sprite calls; RET"
