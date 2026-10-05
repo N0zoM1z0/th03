@@ -45,6 +45,14 @@ start = 0x034a
 size = 120
 
 [[units]]
+id = "th03-main-snd-kaja"
+source = "src/main/sound/kaja.cpp"
+header = "src/main/sound/kaja.hpp"
+object = "snd_kaja"
+start = 0x03c2
+size = 30
+
+[[units]]
 id = "th03-main-initmain"
 source = "src/main/core/initmain.cpp"
 header = "src/main/core/initmain.hpp"
@@ -105,6 +113,14 @@ offset = 0x0386
 size = 60
 map_public = "_snd_se_update"
 abi = "far cdecl; no arguments"
+
+[[functions]]
+name = "snd_kaja_interrupt"
+object = "snd_kaja"
+offset = 0x03c2
+size = 30
+map_public = "SND_KAJA_INTERRUPT"
+abi = "far Pascal; signed word at BP+6; RETF 2"
 
 [[functions]]
 name = "game_init_main"

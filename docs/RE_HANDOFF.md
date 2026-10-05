@@ -3,10 +3,10 @@
 ## Phase
 
 Formal MAIN exact reconstruction using the TH04 cold-source overlay method.
-Seven maintained exact owners now contain sixteen exact functions / 1083 exact
+Eight maintained exact owners now contain seventeen exact functions / 1113 exact
 authored bytes: `th03-main-polar` (26), `th03-main-frame-delay` (21),
 `th03-main-input-sense` (417), `th03-main-snd-se` (120),
-`th03-main-initmain` (62), `th03-main-pi-load` (70), and
+`th03-main-snd-kaja` (30), `th03-main-initmain` (62), `th03-main-pi-load` (70), and
 `th03-main-input-modes` (367). Target-first boundaries, far/cdecl/Pascal
 ABI, full unnormalized bytes, MAP contributions and ordered MZ relocation
 sites/values are reviewed. The whole-product graph
@@ -49,6 +49,7 @@ python3 scripts/replay_th03_main_exact_units.py --unit th03-main-polar
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-frame-delay
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-sense
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-snd-se
+python3 scripts/replay_th03_main_exact_units.py --unit th03-main-snd-kaja
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-initmain
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-pi-load
 python3 scripts/replay_th03_main_exact_units.py --unit th03-main-input-modes
@@ -69,7 +70,7 @@ the hot deployment; the Factory fix is committed separately.
 The maintained exact replay performs two independent full `git archive`
 materializations, overlays frozen local source and recompiles every object.
 All 20 configured outputs and 350 game objects are deterministic, all 416 OMF
-objects are valid, all seven accepted owners and all sixteen full bodies match,
+objects are valid, all eight accepted owners and all seventeen full bodies match,
 and the existing DOS ABI/behavior probe stays passing. The maintained sources
 have no upstream includes or copied target-byte payloads. The 417-byte
 `input_reset_sense_key_held` body deliberately excludes the target's following
@@ -116,15 +117,20 @@ callees, `RETF 6`, and owner relocation sites 31 and 60. Development replay
 expanded to 16 functions / 1083 bytes. Post-promotion aggregate
 `gpt-web-main-seven-owner-final-20261005-a` then began with all seven owners
 already accepted and independently passed the same two-round product/object,
-full-function, MAP and ordered-relocation checks.
+full-function, MAP and ordered-relocation checks. The next complete owner,
+`th03-main-snd-kaja`, is the 30-byte far Pascal KAJA interrupt bridge at
+`SHARED:03C2`; TH03 confirms the snd_active early return, AX argument load,
+INT 60h/61h dispatch selected by snd_midi_active, two direct callers, `RETF 2`,
+and zero owner relocation sites. Development replay `gpt-web-snd-kaja-probe1-1005`
+and post-promotion aggregate `gpt-web-main-eight-owner-final-20261005-a` both
+passed, bringing the maintained frontier to 17 functions / 1113 bytes.
 
 ## Next bounded work
 
-Continue MAIN first. Do not restrict the frontier to tiny leaves. The immediate
-low-dependency candidate around the recovered foundation is `th03/snd_kaja.cpp`
-(30 bytes). After closing it, continue into the 160-byte vector math owner and
-then broader timing/state/gameplay dependencies rather than staying on tiny
-leaves. The bounded math candidate remains the 160-byte
+Continue MAIN first. Do not restrict the frontier to tiny leaves. KAJA is now
+closed; the immediate candidate is the 160-byte vector math owner, followed by
+broader timing/state/gameplay dependencies rather than staying on tiny leaves.
+The bounded math candidate remains the 160-byte
 `th03/vector.cpp` SHARED contribution at `0E8F:008A`: target-local comparison
 shows the pinned reference contribution is byte/relocation exact, but the
 historical source relies on raw inline opcode bytes and a `codestring` NOP.
