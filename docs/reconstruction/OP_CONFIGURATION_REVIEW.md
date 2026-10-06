@@ -146,3 +146,29 @@ Continue the rest of `op_01.cpp`, OP music/main/selection/score carriers and
 root/library intervals. Keep headers, dependencies, DATA/BSS, source encoding,
 canonical DIET storage and full Oracle acceptance separate. The505-file intake
 remains open; this cohort does not redefine completion around selected CODE.
+
+## Original interval and cold carrier accounting
+
+`scripts/review_th03_op_coverage.py` measures original decoded unit intervals
+against the pinned cold MAP. Its100 nonzero CODE carriers total55,261 bytes:
+472 reviewed interval bytes,54,789 gaps and zero overlap. Configuration covers
+271 of the3,094-byte `op_01.cpp` carrier. Exit, planes and sound match the
+complete25/41/30-byte cold carriers. The original initializer's105-byte body
+covers104 cold initializer bytes, leaving its leading byte uncovered and
+intersecting the next cold CDG carrier by one byte. This is a coordinate
+comparison, not a review of that CDG source byte or a correction of original
+carrier ownership. The compiler helper is context without independent credit.
+
+Receipt: `.analysis/sol-op-map-unit-coverage-after-configuration-20261006.json`,
+SHA-256 `a619d6c40c2f9ebb939d3cc66707a174037de771d91c561002af5556a944f5c5`.
+Three interval controls check shifted crossing, filters, overlap and bounds.
+
+```sh
+python3 scripts/review_th03_op_coverage.py --output .analysis/NEW_OP_COVERAGE.json
+python3 -m unittest discover -s tests -p test_op_coverage_review.py
+```
+
+Full repository CI passes437 tests and all available private headless gates.
+Log: `.analysis/sol-op-configuration-full-ci.log`, SHA-256
+`79390752bef0ea42e26e428dd60bbbc73250c23f43309e813baf8d7ee79ea409`. OP remains without maintained source/exact acceptance;
+MAIN remains38owners/43CODEextents/101functions/11,628ownedbytes.

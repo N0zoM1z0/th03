@@ -24,7 +24,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes426 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes437 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
@@ -281,3 +281,18 @@ metadata/generated-probe input paths are not archived source evidence. See
 `docs/reconstruction/OP_CONFIGURATION_REVIEW.md` and
 `scripts/review_th03_op_configuration.py`. Remaining OP menus/root/score and
 all headers/DATA/BSS/devices/canonical storage gates stay open.
+
+OP interval comparison against coldMAP has100nonzeroCODEcarriers55261bytes:
+472originalunitbytes/54789gaps/zerooverlap. Shiftedinit has104/105coldcarrier
+bytes and one-byte intersection into the next coldCDGcarrier; this does not
+prove original/sourcecarrier ownership. Use
+`scripts/review_th03_op_coverage.py --output .analysis/NEW_OP_COVERAGE.json`;
+three negative/accounting tests preserve that distinction.
+
+Latest full check: `.analysis/sol-op-configuration-full-ci.log`, SHA-256
+`79390752bef0ea42e26e428dd60bbbc73250c23f43309e813baf8d7ee79ea409`, passes437 tests and all available private headless gates.
+Tracking is216units/2018evidence/219knowledge. OP7 decoded candidate units
+retain zero maintained source/exact owner credit; MAIN and MAINL acceptance
+are unchanged. Next bounded OP source cohort: `th03/op_02.cpp`,
+`th03/scoredat.cpp` and their complete public score-loader callers. Preserve
+all frozen source branches, raw coordinates and original relocation lists.
