@@ -12,14 +12,14 @@
 </p>
 
 This repository reconstructs the original Japanese PC-98 **Touhou 3:
-Phantasmagoria of Dim.Dream**. Reconstruction work stopped at the owner's
-request on 2026-10-06. This repository preserves maintained source and reviewed
-evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the complete game
+Phantasmagoria of Dim.Dream**. Reconstruction resumed on 2026-10-07 after the
+2026-10-06 closeout snapshot. This repository preserves maintained source and
+reviewed evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the complete game
 reconstruction and the 505-file intake remain unfinished.
 
-[Final handoff](docs/RE_HANDOFF.md) and [closeout record](docs/CLOSEOUT.md)
-are the entrypoints. MAIN has **101 exact functions / 11628 exact owned bytes**
-across **38 maintained source owners and 43 reviewed CODE extents**. These are
+[Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
+are the entrypoints. MAIN has **120 exact functions / 14953 exact owned bytes**
+across **39 maintained source owners and 46 reviewed CODE extents**. These are
 repository-local exact results for the reviewed extents, not whole-game product
 closure or Factory Truth Kernel acceptance. Whole-game denominators remain
 unknown until ownership is reviewed.

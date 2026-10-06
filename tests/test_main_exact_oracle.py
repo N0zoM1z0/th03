@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 from test_pc98 import synthetic_mz, synthetic_mz_with_relocations
 from replay_th03_main_exact_units import (
-    add_candidate_owners, compare_extent, normalized_code_extents, sha, verify_include_carrier,
+    add_candidate_owners, compare_extent, normalized_code_extents, physical_objects, sha, verify_include_carrier,
     verify_disjoint_ownership,
     verify_private_calls,
 )
@@ -125,6 +125,57 @@ class MainExactManifestTests(unittest.TestCase):
             extents[0]["producer_ranges"],
             [{"relative": 2, "size": 1, "kind": "padding"}],
         )
+
+    def test_semantic_owner_can_use_multiple_physical_objects(self):
+        unit = {
+            "id": "multi", "object": "legacy",
+            "physical_objects": [
+                {"object": "part_a", "wrapper": "th03/a.cpp",
+                 "wrapper_prefix": "#define PART 1\n"},
+                {"object": "part_b", "wrapper": "th03/b.cpp",
+                 "wrapper_prefix": "#define PART 2\n"},
+            ],
+            "code_extents": [{
+                "name": "code", "ledger_id": "multi-code",
+                "segment": 0x1234, "start": 0x20, "size": 8,
+                "map_segment": "CODE", "map_group": "GROUP",
+                "map_parts": [
+                    {"object": "part_a", "start": 0x20, "size": 3},
+                    {"object": "part_b", "start": 0x23, "size": 5},
+                ],
+            }],
+        }
+        producers = physical_objects(unit)
+        self.assertEqual([p["object"] for p in producers], ["part_a", "part_b"])
+        self.assertEqual(producers[0]["object_path"], "obj/th03/part_a.obj")
+        extent = normalized_code_extents(unit, 0x9999)[0]
+        self.assertEqual(
+            [(p["object"], p["start"], p["size"]) for p in extent["map_parts"]],
+            [("part_a", 0x20, 3), ("part_b", 0x23, 5)],
+        )
+        with self.assertRaisesRegex(ValueError, "exactly cover"):
+            normalized_code_extents({
+                **unit,
+                "code_extents": [{
+                    **unit["code_extents"][0],
+                    "map_parts": [
+                        {"object": "part_a", "start": 0x20, "size": 2},
+                        {"object": "part_b", "start": 0x23, "size": 5},
+                    ],
+                }],
+            }, 0x9999)
+        with self.assertRaisesRegex(ValueError, "unknown physical object"):
+            normalized_code_extents({
+                **unit,
+                "code_extents": [{
+                    **unit["code_extents"][0],
+                    "map_parts": [{"object": "missing", "start": 0x20, "size": 8}],
+                }],
+            }, 0x9999)
+        with self.assertRaisesRegex(ValueError, "duplicate physical object"):
+            physical_objects({**unit, "physical_objects": [
+                {"object": "dup"}, {"object": "dup"},
+            ]})
 
     def test_split_owner_keeps_discontiguous_extents_separate(self):
         unit = {

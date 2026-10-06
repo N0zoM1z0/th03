@@ -1,5 +1,7 @@
 # TH03 reconstruction closeout
 
+> **Historical snapshot (2026-10-06).** Reconstruction resumed on 2026-10-07; current counts and active instructions live in RE_HANDOFF.md and PROGRESS.md.
+
 Work stopped at the owner's request on 2026-10-06. No additional reconstruction
 is queued. The repository retains its verified partial source and evidence;
 the 505-file intake and the whole maintained game build are unfinished.

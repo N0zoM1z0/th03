@@ -33,8 +33,15 @@ def main():
     image = parse_mz(target)
     if not image.valid:
         raise ValueError("invalid target MZ")
-    manifest_path = ROOT / "config/th03_main_enemy_candidate.toml"
-    config = tomllib.loads(manifest_path.read_text())
+    manifest_path = ROOT / "config/th03_main_exact_units.toml"
+    manifest = tomllib.loads(manifest_path.read_text())
+    units = [u for u in manifest["units"] if u["id"] == "th03-main-enemies"]
+    if len(units) != 1:
+        raise ValueError("accepted enemy owner missing or duplicated")
+    config = {"units": units, "functions": [
+        f for f in manifest["functions"]
+        if f.get("object") == "e_enemy"
+    ]}
     decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_16)
     functions = []
     disassembly = []

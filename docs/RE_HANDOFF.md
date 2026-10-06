@@ -1,28 +1,29 @@
-# TH03 final handoff
+# TH03 reconstruction handoff
 
-Reconstruction work stopped at the owner's request on 2026-10-06. No further
-reconstruction is queued. This is an incomplete, verified repository snapshot;
-a complete maintained game build and the 505-file intake are unfinished.
-See [closeout](CLOSEOUT.md) for cleanup and final verification.
+Reconstruction resumed on 2026-10-07 after the historical 2026-10-06 closeout.
+This remains an incomplete, verified repository state: the reviewed MAIN authored
+frontier advanced, but a complete maintained game build and the 505-file intake
+are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 ## Preserved state
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 38 source owners, 43 CODE extents, 101 functions, 11628 owned bytes | Scoped repository-local exact |
+| MAIN | 39 source owners, 46 CODE extents, 120 functions, 14953 owned bytes | Scoped repository-local exact |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 11628 bytes comprise 11487 function bytes and 141 producer/table/alignment
-bytes. Its latest accepted full-owner aggregate is
-`.analysis/th03-main-exact/sol-main-restored-aggregate-20261006/receipt.json`.
-Its149unchanged source/input guards remain matched; three later-updated
-ledger/progress hashes are historical and predate closeout. The audit records
-that drift without rebasing the receipt or claiming a fresh cold aggregate.
-The complete enemy candidate remains non-exact: three extents / 19 functions /
-3325 bytes, with original ordered ENEMY_2_TEXT relocations failing. See
-[enemy review](reconstruction/MAIN_ENEMY_REVIEW.md).
+MAIN's 14953 bytes comprise 14747 function bytes and 206 explicitly classified
+producer/table/alignment bytes. The latest accepted full-owner aggregate is
+.analysis/th03-main-exact/gpt-web-enemy-promoted-final-20261007/receipt.json.
+It passes two fresh compilations/links and the maintained DOS behavior probes
+with 20 product outputs, 355 game objects and 421 validated generated OMF objects.
+The complete enemy owner is now exact: three extents / 19 functions / 3325 bytes.
+A consecutive two-producer reconstruction split reproduces the previously failing
+ordered ENEMY_2_TEXT relocation list without changing CODE bytes or weakening the
+comparison. Historical source filenames remain unknown; see
+reconstruction/MAIN_ENEMY_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -31,7 +32,7 @@ is unknown. Frozen ReC98 revision:
 is never inherited. Stored OP/MAINL/ZUN and restored diagnostic namespaces
 remain distinct; decoded rows do not invent packed-file offsets.
 
-The intake has 505 files. MAIN has 69 paths with scoped CODE review; MAINL has
+The intake has 505 files. MAIN has 70 paths with scoped CODE review; MAINL has
 33 direct-source CODE-only index rows, with source/exact acceptance false.
 Those different scopes must not be added into a completed-file count.
 [Review index](REC98_TH03_REVIEW.md), CSV ledgers and [progress](PROGRESS.md)
@@ -78,19 +79,35 @@ from cleanup or a reference/compiler smoke build.
 
 ## Maintenance and evidence
 
-Product source and Oracle-bearing scripts stay at their attested paths.
-Detailed history lives in [bounded notes](reconstruction/README.md), ledgers
-and Git; this handoff records final status rather than repeating every probe.
-Targets, runtime images, the game-local Wine prefix, Ghidra projects, referenced
-proof inputs, cold receipt trees and meaningful failed transcripts are kept.
-Retired unreferenced preliminary diagnostics are recorded in the closeout
-cleanup receipt; historical fingerprint inventories are not rewritten.
+Product source and Oracle-bearing scripts stay at their attested paths. Detailed
+history lives in reconstruction/README.md, the CSV ledgers and Git. Targets,
+runtime images, the game-local Wine prefix, Ghidra projects, referenced proof
+inputs, cold receipt trees and meaningful failed transcripts are retained.
 
-For verification, run `python3 scripts/preflight.py`, focused checks,
-`python3 scripts/ci.py` and `git diff --check`. Use headless tools and one
-Borland/Wine writer. Re-attest a selected Ghidra database before any new target
-observations. New reconstruction would require a separate instruction.
+For verification, run:
 
-Final closeout CI:607tests /50.517seconds, available private headless gates PASS.
-Log `.analysis/closeout/sol-closeout-20261006/ci-final.log`; tracking now
-249units/2342evidence/293knowledge/120MAIN authored-function rows.
+    python3 scripts/preflight.py
+    python3 scripts/replay_th03_main_exact_units.py --run-id UNIQUE_ID
+    python3 scripts/ci.py
+    git diff --check
+
+Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
+database before new target observations. Continue MAIN by reviewing additional
+root code/data ownership and the maintained build graph; do not treat the 100%
+reviewed-authored frontier as whole-product completion.
+
+Historical closeout CI was 607 tests / 50.517 seconds with available private
+headless gates passing at the 2026-10-06 snapshot. Current tracking after the
+enemy promotion has 249 units / 2360 evidence rows / 294 knowledge rows /
+120 MAIN authored-function rows.
+
+The current Factory host no longer has the historical Conda Python/Unicorn
+installation. A fresh /usr/bin/python3 CI attempt runs 608 tests but reports
+125 errors, all from missing Python module unicorn, with 167 skips; its log is
+.analysis/th03-main-exact/gpt-web-enemy-promoted-final-20261007/ci-current-host.log.
+No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
+The remaining CI steps were rerun individually and pass: compileall, tracking,
+progress, MAINL intake policy, TH03 inventory, target verification, Oracle smoke,
+toolchain and analysis-toolchain attestations, TH03-MAIN Ghidra database check,
+Ghidra negative controls, and git diff --check. This is an explicit host
+dependency block, not a full-CI PASS.

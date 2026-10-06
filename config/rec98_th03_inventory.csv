@@ -282,7 +282,7 @@ th03/cutscene/cutscene.cpp,49fbde7cc661dda1d8a290debe285d625f4d274abb9c68c42d281
 th03/cutscene/cutscene.hpp,d049daefdc5341b40c4437da941b944531a0f11cb12146ce3ee648002d59d182,include,th03-mainl,,,,
 th03/cutscene/cutscene[bss].asm,c30db2003f0dc1a0305da0dc917a2f98d5793b05878618f3cf7d1427b440f6cd,translation-unit,th03-mainl,,,,
 th03/cutscene/cutscene[data].asm,fe327ef28f8ca7dc49b50d89f1d749545847c1261061b6c343bfa34e2af8e0ba,translation-unit,unassigned,,,,
-th03/e_enemy.cpp,9e01eb76a02b0ab90f93c74ee8e54935070230405ab2ef2bca0a44c6696bfd23,translation-unit,th03-main,th03-main,,,th03-main
+th03/e_enemy.cpp,9e01eb76a02b0ab90f93c74ee8e54935070230405ab2ef2bca0a44c6696bfd23,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/e_expl.cpp,117da9fead09a987d32eaae2b2c23ce4183fdd1c260a64b59f7f786be0c46683,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/e_fireb.cpp,77542381a5426525483cf570c396fcaa42e4ba43f93c0036539865fb0fb47438,translation-unit,th03-main,th03-main,,th03-main,th03-main
 th03/end/staff.cpp,081d5b24c9cbf830dd85c79a5190d9e74953ab5c92ccf2664c2063bbb61c6596,translation-unit,th03-mainl,,,,

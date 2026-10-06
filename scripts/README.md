@@ -14,7 +14,6 @@
 | Cold reference build | `python3 scripts/build.py --reference --run-id UNIQUE` |
 | Check frozen ReC98 TH03 intake queue | `python3 scripts/inventory_rec98_th03.py --check` |
 | Replay all maintained MAIN exact owners | `python3 scripts/replay_th03_main_exact_units.py --run-id UNIQUE` |
-| Replay enemy candidate with all accepted MAIN owners | `python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_enemy_candidate.toml --run-id UNIQUE` |
 | Review raw enemy boundaries and dispatch table | `python3 scripts/review_th03_main_enemy.py --output .analysis/REVIEW/raw-review.json` |
 | Export complete raw MAIN owner observations | `python3 scripts/review_th03_main_code.py --owner OWNER_ID --output .analysis/REVIEW/raw-review.json` |
 | Inspect open product graph | `python3 scripts/build.py --status` |
@@ -30,8 +29,8 @@
 Only one Borland writer may run. All tools are headless. Private artifacts
 remain ignored, and diagnostic builds never count as game-source progress.
 
-Reconstruction is stopped. The [final handoff](../docs/RE_HANDOFF.md) and
-[closeout record](../docs/CLOSEOUT.md) describe the preserved snapshot.
+Reconstruction resumed on 2026-10-07. The current handoff records active state;
+the closeout record is the historical 2026-10-06 snapshot.
 
 `closeout_cleanup.py` defaults to an audited dry run. It preserves the existing
 cleanup policy plus literal tracked private references, freezes references and

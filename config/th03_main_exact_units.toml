@@ -1545,3 +1545,227 @@ offset = 0x0080
 size = 30
 map_public = "randring_far_next16_mod(unsigned int)"
 abi = "far Pascal; unsigned mask/divisor word; RETF 2; preserves BP; shared byte index increments before unaligned word load; AX unsigned word; BX clobbered; unsigned DIV, DX remainder clobbered, zero divisor faults"
+
+[[units]]
+id = "th03-main-enemies"
+source = "src/main/enemy/enemy.cpp"
+header = "src/main/enemy/enemy.hpp"
+object = "e_enemy"
+physical_objects = [
+  { object = "e_ena", wrapper = "th03/e_ena.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 1\n" },
+  { object = "e_enb", wrapper = "th03/e_enb.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 2\n" },
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/bullet.cpp\",\n\t\"th03/e_enemy.cpp\",\n\t\"th03/hitbox.cpp\",\n"
+build_replacement = "\t\"th03/bullet.cpp\",\n\t\"th03/e_ena.cpp\",\n\t\"th03/e_enb.cpp\",\n\t\"th03/hitbox.cpp\",\n"
+support_files = [
+  "compat/rec98/th03/main/enemy/efe.hpp",
+  "compat/rec98/th03/main/enemy/expl.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/hud/start.hpp",
+  "compat/rec98/th03/main/player/bomb.hpp",
+  "compat/rec98/th03/main/player/chain.hpp",
+  "compat/rec98/th03/main/player/combo.hpp",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/main/difficul.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/score.hpp",
+  "compat/rec98/th03/formats/enedat.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th03/snd/snd.h",
+  "compat/rec98/th03/sprites/player.hpp",
+  "compat/rec98/th01/math/polar.hpp",
+  "compat/rec98/libs/master.lib/master.hpp",
+  "compat/rec98/x86real.h",
+  "compat/rec98/th03/common.h",
+]
+code_extents = [
+  { name = "formations", ledger_id = "th03-main-enemies-formations", segment = 0x139d, start = 0x024e, size = 0x06b2, map_segment = "ENEMY_2_TEXT", map_group = "MAIN_04", map_parts = [
+    { object = "e_ena", start = 0x024e, size = 0x028a },
+    { object = "e_enb", start = 0x04d8, size = 0x0428 },
+  ], producer_ranges = [{ relative = 0x0671, size = 1, kind = "padding" }, { relative = 0x0672, size = 64, kind = "switch-table" }] },
+  { name = "update", ledger_id = "th03-main-enemies-update", segment = 0x139d, start = 0x250b, size = 0x025a, map_segment = "E_ENEMY_TEXT", map_group = "MAIN_04", map_parts = [
+    { object = "e_ena", start = 0x250b, size = 0x01c3 },
+    { object = "e_enb", start = 0x26ce, size = 0x0097 },
+  ] },
+  { name = "render", ledger_id = "th03-main-enemies-render", segment = 0x139d, start = 0x278d, size = 0x03f1, map_segment = "ENEMY_PUT", map_group = "MAIN_04", map_parts = [
+    { object = "e_enb", start = 0x278d, size = 0x03f1 },
+  ] },
+]
+aux_map = [
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_module = "th03/e_ena.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_module = "th03/e_enb.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_module = "th03/e_ena.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_module = "th03/e_enb.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+]
+
+[[functions]]
+name = "enemy_formation_spawn"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x024e
+size = 70
+map_public = "enemy_formation_spawn(int,unsigned char,unsigned char)"
+abi = "near Pascal; word formation_type and byte pid/pos_type occupy three words; RET 6"
+
+[[functions]]
+name = "enemy_formations_update_for"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x0294
+size = 99
+map_public = "enemy_formations_update_for(unsigned char)"
+abi = "near Pascal; byte pid in word slot; RET 2"
+
+[[functions]]
+name = "enemy_formations_update"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x02f7
+size = 22
+map_public = "enemy_formations_update()"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "enemy_formations_load"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x030d
+size = 191
+map_public = "enemy_formations_load()"
+abi = "far cdecl; local four-byte formation header; RETF"
+
+[[functions]]
+name = "enemy_formations_randomize"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x03cc
+size = 93
+map_public = "enemy_formations_randomize()"
+abi = "far cdecl; prev byte is read uninitialized; RETF"
+
+[[functions]]
+name = "enemy_formations_free"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x0429
+size = 41
+map_public = "enemy_formations_free()"
+abi = "far cdecl; four segment-handle frees; RETF"
+
+[[functions]]
+name = "enemy_move_and_clip"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x0452
+size = 134
+map_public = "enemy_move_and_clip()"
+abi = "near cdecl; AL boolean result; RET"
+
+[[functions]]
+name = "enemy_velocity_set_from_angle_and_speed"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x04d8
+size = 41
+map_public = "enemy_velocity_set_from_angle_an()"
+abi = "near cdecl; saves ES around far Pascal VECTOR2; RET"
+
+[[functions]]
+name = "enemy_angle_update"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x0501
+size = 46
+map_public = "enemy_angle_update()"
+abi = "near cdecl; signed word arithmetic; RET"
+
+[[functions]]
+name = "chain_pellet_speed"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x052f
+size = 45
+map_public = "chain_pellet_speed(unsigned char)"
+abi = "near Pascal; byte base in word slot; AL result; RET 2"
+
+[[functions]]
+name = "enemy_run"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x055c
+size = 867
+map_public = "enemy_run()"
+abi = "near cdecl; ES script pointer; AL boolean result; RET"
+
+[[functions]]
+name = "enemies_add"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x250b
+size = 79
+map_public = "enemies_add(unsigned char near*,unsigned char,unsigned char)"
+abi = "far Pascal; near script pointer and two byte arguments in word slots; RETF 6"
+
+[[functions]]
+name = "enemy_put"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x255a
+size = 115
+map_public = "enemy_put()"
+abi = "near cdecl; no arguments; RET"
+
+[[functions]]
+name = "enemy_explosion_flag_update"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x25cd
+size = 55
+map_public = "enemy_explosion_flag_update()"
+abi = "near cdecl; no arguments; RET"
+
+[[functions]]
+name = "enemy_explosion_put"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x2604
+size = 202
+map_public = "enemy_explosion_put()"
+abi = "near cdecl; no arguments; RET"
+
+[[functions]]
+name = "enemies_update"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x26ce
+size = 151
+map_public = "enemies_update()"
+abi = "far cdecl; near helpers and far-return collmap trampoline; RETF"
+
+[[functions]]
+name = "enemy_hittest"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x278d
+size = 848
+map_public = "enemy_hittest()"
+abi = "near cdecl; near helpers and far-return hitbox/bullet trampolines; RET"
+
+[[functions]]
+name = "enemies_hittest"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x2add
+size = 45
+map_public = "enemies_hittest()"
+abi = "near cdecl; reverse iteration of 40 enemies; RET"
+
+[[functions]]
+name = "enemies_render"
+object = "e_enemy"
+segment = 0x139d
+offset = 0x2b0a
+size = 116
+map_public = "enemies_render()"
+abi = "far cdecl; forward iteration of 40 enemies; RETF"

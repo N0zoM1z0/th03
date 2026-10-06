@@ -37,6 +37,48 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def physical_objects(unit: dict) -> list[dict]:
+    """Return the physical OMF producers backing one semantic source owner."""
+    declared = unit.get("physical_objects")
+    if declared is None:
+        return [{
+            "object": unit["object"],
+            "object_path": unit.get("object_path", f"obj/th03/{unit['object']}.obj"),
+            "wrapper": unit.get("wrapper", f"th03/{unit['object']}.cpp"),
+            "wrapper_prefix": "",
+            "translator_comment": unit.get("translator_comment", "TC86 Borland C++ 4.02"),
+        }]
+    if not declared or "overlay_path" in unit:
+        raise ValueError(f"invalid physical object split: {unit['id']}")
+    result = []
+    names = set()
+    paths = set()
+    for raw in declared:
+        item = dict(raw)
+        name = item.get("object")
+        if not name or name in names:
+            raise ValueError(f"duplicate physical object: {unit['id']}")
+        item.setdefault("object_path", f"obj/th03/{name}.obj")
+        item.setdefault("wrapper", f"th03/{name}.cpp")
+        item.setdefault("wrapper_prefix", "")
+        item.setdefault(
+            "translator_comment", unit.get("translator_comment", "TC86 Borland C++ 4.02")
+        )
+        if item["object_path"] in paths or not isinstance(item["wrapper_prefix"], str):
+            raise ValueError(f"invalid physical object declaration: {unit['id']}")
+        names.add(name)
+        paths.add(item["object_path"])
+        result.append(item)
+    return result
+
+
+def physical_object_for(unit: dict, name: str) -> dict:
+    matches = [item for item in physical_objects(unit) if item["object"] == name]
+    if len(matches) != 1:
+        raise ValueError(f"unknown physical object {name}: {unit['id']}")
+    return matches[0]
+
+
 def compare_extent(target: bytes, candidate: bytes, start: int, size: int) -> dict:
     """Compare an entire payload extent and its relocation multiplicities."""
     left, right = parse_mz(target), parse_mz(candidate)
@@ -130,16 +172,57 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
         ledger_ids.add(extent["ledger_id"])
         if extent["start"] < 0 or extent["size"] <= 0:
             raise ValueError(f"invalid CODE extent: {unit['id']}:{extent['name']}")
-        if not (0 <= extent["map_start"] <= extent["start"]
-                and extent["start"] + extent["size"]
-                <= extent["map_start"] + extent["map_size"]):
-            raise ValueError(f"CODE extent escapes MAP contribution: {unit['id']}")
+
+        raw_parts = extent.get("map_parts")
+        if raw_parts is None:
+            default_physical = physical_objects(unit)[0]
+            extent["map_parts"] = [{
+                "object": default_physical["object"],
+                "start": extent["map_start"],
+                "size": extent["map_size"],
+                "map_module": extent["map_module"],
+                "map_acbp": extent["map_acbp"],
+                "map_segment": extent["map_segment"],
+                "map_group": extent["map_group"],
+            }]
+            if not (0 <= extent["map_start"] <= extent["start"]
+                    and extent["start"] + extent["size"]
+                    <= extent["map_start"] + extent["map_size"]):
+                raise ValueError(f"CODE extent escapes MAP contribution: {unit['id']}")
+        else:
+            if unit.get("ownership") == "bounded-include" or not raw_parts:
+                raise ValueError(f"invalid multi-contribution owner: {unit['id']}")
+            parts = []
+            for raw_part in raw_parts:
+                part = dict(raw_part)
+                producer = physical_object_for(unit, part["object"])
+                part.setdefault("map_module", producer["wrapper"])
+                part.setdefault("map_acbp", extent["map_acbp"])
+                part.setdefault("map_segment", extent["map_segment"])
+                part.setdefault("map_group", extent["map_group"])
+                if part["start"] < 0 or part["size"] <= 0:
+                    raise ValueError(f"invalid MAP part: {unit['id']}:{extent['name']}")
+                parts.append(part)
+            parts.sort(key=lambda part: part["start"])
+            cursor = extent["start"]
+            for part in parts:
+                if part["start"] != cursor:
+                    raise ValueError(
+                        f"MAP parts do not exactly cover owner: {unit['id']}:{extent['name']}"
+                    )
+                cursor += part["size"]
+            if cursor != extent["start"] + extent["size"]:
+                raise ValueError(
+                    f"MAP parts do not exactly cover owner: {unit['id']}:{extent['name']}"
+                )
+            extent["map_parts"] = parts
+
         if unit.get("ownership") == "bounded-include":
             if (Path(unit["source"]).suffix != ".inl"
                 or not all(unit.get(key) for key in
                            ("carrier_path", "carrier_sha256", "overlay_path", "object_path"))):
                 raise ValueError(f"invalid bounded include: {unit['id']}")
-        elif extent["map_start"] != extent["start"]:
+        elif raw_parts is None and extent["map_start"] != extent["start"]:
             raise ValueError(f"interior CODE requires a bounded include: {unit['id']}")
         result.append(extent)
     return result
@@ -436,9 +519,12 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 overlay.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(snapshot / module["source"], overlay)
             else:
-                wrapper = work / module.get("wrapper", f"th03/{module['object']}.cpp")
-                wrapper.parent.mkdir(parents=True, exist_ok=True)
-                wrapper.write_text(f'#include "{module["source"]}"\n')
+                for producer in physical_objects(module):
+                    wrapper = work / producer["wrapper"]
+                    wrapper.parent.mkdir(parents=True, exist_ok=True)
+                    wrapper.write_text(
+                        producer["wrapper_prefix"] + f'#include "{module["source"]}"\n'
+                    )
         for module in config["units"]:
             if "build_file" not in module:
                 continue
@@ -454,12 +540,14 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                          r"&&set PROCESSOR_ARCHITECTURE=AMD64"
                          r"&&set PROCESSOR_ARCHITEW6432=AMD64&&build.bat"]
         compile_result = execute(build_command, work, env, logs / "cold-build.log")
-        objects = {
-            m["object"]: describe_omf(
-                (work / m.get("object_path", f"obj/th03/{m['object']}.obj")).read_bytes()
-            )
-            for m in config["units"]
-        }
+        objects = {}
+        for module in config["units"]:
+            for producer in physical_objects(module):
+                if producer["object"] in objects:
+                    continue
+                objects[producer["object"]] = describe_omf(
+                    (work / producer["object_path"]).read_bytes()
+                )
         all_objects = {p.relative_to(work).as_posix(): sha(normalize_dependency_timestamps(p.read_bytes()))
                        for p in sorted((work / "obj").rglob("*.obj"))}
         products = {}
@@ -468,44 +556,59 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             products[relative.as_posix()] = sha((work / relative).read_bytes())
         game_objects = {name: digest for name, digest in all_objects.items()
                         if any(name.startswith(directory + "/") for directory in config["determinism_object_roots"])}
-        if (len(products) != 20 or len(all_objects) != config["generated_object_count"]
-            or len(game_objects) != config["determinism_object_count"]):
+        legacy_paths = {
+            module.get("object_path", f"obj/th03/{module['object']}.obj")
+            for module in config["units"]
+        }
+        physical_paths = {
+            producer["object_path"]
+            for module in config["units"]
+            for producer in physical_objects(module)
+        }
+        object_count_delta = len(physical_paths) - len(legacy_paths)
+        if (len(products) != 20
+            or len(all_objects) != config["generated_object_count"] + object_count_delta
+            or len(game_objects) != config["determinism_object_count"] + object_count_delta):
             raise ValueError("cold build output/object vector incomplete")
         for module in config["units"]:
-            obj = objects[module["object"]]
-            producer = module.get("translator_comment", "TC86 Borland C++ 4.02")
-            if producer not in obj["translator_comments"]:
-                raise ValueError(f"owned object producer differs: {module['id']}")
+            for producer in physical_objects(module):
+                obj = objects[producer["object"]]
+                if producer["translator_comment"] not in obj["translator_comments"]:
+                    raise ValueError(f"owned object producer differs: {module['id']}")
         candidate = (work / "bin/th03/main.exe").read_bytes()
         # Confirm link-map publics cover exactly the reviewed starts and ends.
         map_text = (work / "obj/th03/main.map").read_text(errors="replace")
         contributions = []
         for unit in config["units"]:
             for extent in extents_by_owner[unit["id"]]:
-                pattern = (
-                    rf"^\s*{extent['segment']:04X}:{extent['map_start']:04X}"
-                    rf"\s+{extent['map_size']:04X}"
-                    rf"\s+C=CODE\s+S={re.escape(extent['map_segment'])}"
-                    rf"\s+G={re.escape(extent['map_group'])}"
-                    rf"\s+M={re.escape(extent['map_module'])}"
-                    rf"\s+ACBP={extent['map_acbp']}\s*$"
-                )
-                found = re.findall(pattern, map_text, re.MULTILINE)
-                if len(found) != 1:
-                    raise ValueError(
-                        f"map ownership, size, segment or alignment moved: "
-                        f"{unit['id']}:{extent['name']}"
+                for part_index, part in enumerate(extent["map_parts"], 1):
+                    pattern = (
+                        rf"^\s*{extent['segment']:04X}:{part['start']:04X}"
+                        rf"\s+{part['size']:04X}"
+                        rf"\s+C=CODE\s+S={re.escape(part['map_segment'])}"
+                        rf"\s+G={re.escape(part['map_group'])}"
+                        rf"\s+M={re.escape(part['map_module'])}"
+                        rf"\s+ACBP={part['map_acbp']}\s*$"
                     )
-                contributions.append({
-                    "id": unit["id"],
-                    "extent": extent["name"],
-                    "ledger_id": extent["ledger_id"],
-                    "ownership": unit.get("ownership", "translation-unit"),
-                    "object_path": unit.get("object_path", f"obj/th03/{unit['object']}.obj"),
-                    "owned_start": extent["start"],
-                    "owned_size": extent["size"],
-                    "map": found[0].strip(),
-                })
+                    found = re.findall(pattern, map_text, re.MULTILINE)
+                    if len(found) != 1:
+                        raise ValueError(
+                            f"map ownership, size, segment or alignment moved: "
+                            f"{unit['id']}:{extent['name']}:part-{part_index}"
+                        )
+                    producer = physical_object_for(unit, part["object"])
+                    contributions.append({
+                        "id": unit["id"],
+                        "extent": extent["name"],
+                        "part": part_index,
+                        "ledger_id": extent["ledger_id"],
+                        "ownership": unit.get("ownership", "translation-unit"),
+                        "object": producer["object"],
+                        "object_path": producer["object_path"],
+                        "owned_start": part["start"],
+                        "owned_size": part["size"],
+                        "map": found[0].strip(),
+                    })
         auxiliary_contributions = []
         for unit in config["units"]:
             for aux in unit.get("aux_map", []):
@@ -598,10 +701,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         shutil.copy2(snapshot / "probes/main/input_math_behavior.cpp", probe / "behavior.cpp")
         for module in config["units"]:
             shutil.copy2(snapshot / module["header"], probe / Path(module["header"]).name)
-            object_path = work / module.get(
-                "object_path", f"obj/th03/{module['object']}.obj"
-            )
-            shutil.copy2(object_path, probe / f"{module['object']}.obj")
+            for producer in physical_objects(module):
+                object_path = work / producer["object_path"]
+                shutil.copy2(object_path, probe / f"{producer['object']}.obj")
         behavior_compile = execute(dos + ["tcc", *FLAGS, "-n.", "behavior.cpp"], probe, env, logs / "behavior-compile.log")
         (probe / "probe.rsp").write_bytes(b"-c c0l.obj behavior.obj polar.obj inp_m_w.obj, probe.exe, probe.map, emu.lib mathl.lib cl.lib\r\n")
         behavior_link = execute(dos + ["tlink", "@probe.rsp"], probe, env, logs / "behavior-link.log")

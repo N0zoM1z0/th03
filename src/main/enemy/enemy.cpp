@@ -1,4 +1,6 @@
+#ifndef TH03_ENEMY_PRODUCER_PART
 #pragma option -zPmain_04
+#endif
 
 #include "src/main/enemy/enemy.hpp"
 #include "compat/rec98/th03/main/enemy/efe.hpp"
@@ -146,6 +148,21 @@ extern enemy_pos_type_t __seg *formation_pos_type_ring;
 extern uint8_t formation_p[PLAYER_COUNT];
 extern uint8_t formation_count;
 // -----
+
+#ifndef TH03_ENEMY_PRODUCER_PART
+#error TH03_ENEMY_PRODUCER_PART must select the physical enemy producer
+#endif
+#if (TH03_ENEMY_PRODUCER_PART != 1) && (TH03_ENEMY_PRODUCER_PART != 2)
+#error TH03_ENEMY_PRODUCER_PART must be 1 or 2
+#endif
+
+// A two-object producer split before
+// enemy_velocity_set_from_angle_and_speed() naturally reproduces the target's
+// otherwise-unmatched relocation ordering. Both parts remain one semantic
+// source owner; the exact replay compiles them as consecutive objects. The
+// original source filenames are unknown.
+#if TH03_ENEMY_PRODUCER_PART == 1
+#pragma codeseg E_ENEMY_TEXT main_04
 
 void pascal enemies_add(
 	uint8_t near *script_base, pid_t pid, enemy_pos_type_t pos_type
@@ -368,6 +385,8 @@ void enemy_formations_free(void)
 	hmem_free(formation_pos_type_ring);
 }
 
+#endif
+
 // ZUN quirk: The addition of these two expressions is a convoluted, slow, and
 // bizarrely inaccurate way of expressing
 //
@@ -384,6 +403,7 @@ inline subpixel_t enemy_speedtune_2(subpixel_t v) {
 	return ((2 * v) / 3);
 }
 
+#if TH03_ENEMY_PRODUCER_PART == 1
 bool near enemy_move_and_clip(void)
 {
 	enemy_t near& p = *efe_p.enemy;
@@ -419,6 +439,15 @@ clip:
 	p.flag = EFF_FREE;
 	return true;
 }
+
+#else
+// Cross-object declarations for the second physical producer contribution.
+void near enemy_put(void);
+void near enemy_explosion_flag_update(void);
+void near enemy_explosion_put(void);
+bool near enemy_move_and_clip(void);
+
+#pragma codeseg ENEMY_2_TEXT main_04
 
 void near enemy_velocity_set_from_angle_and_speed(void)
 {
@@ -975,3 +1004,5 @@ void enemies_update(void)
 	enemies_hittest();
 	#undef p
 }
+
+#endif /* TH03_ENEMY_PRODUCER_PART */

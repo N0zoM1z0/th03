@@ -104,12 +104,6 @@ def inventory(files: dict[str, bytes], reviews: list[dict[str, str]]) -> list[di
     keys = set()
     manifest = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     units = {u["id"]: u for u in manifest["units"]}
-    candidate_path = ROOT / "config/th03_main_enemy_candidate.toml"
-    if candidate_path.is_file():
-        for unit in tomllib.loads(candidate_path.read_text())["units"]:
-            if unit["id"] in units:
-                raise ValueError("candidate replaces an accepted intake owner")
-            units[unit["id"]] = unit
     with (ROOT / "config/units.csv").open(newline="") as stream:
         ledger = {r["id"]: r for r in csv.DictReader(stream)}
     with (ROOT / "config/evidence.csv").open(newline="") as stream:

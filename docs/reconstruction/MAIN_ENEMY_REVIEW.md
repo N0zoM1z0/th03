@@ -1,11 +1,13 @@
 # MAIN enemy owner review
 
-The complete `th03/e_enemy.cpp` intake is maintained in
-`src/main/enemy/enemy.cpp` with its public declarations in `enemy.hpp`.
-`config/th03_main_enemy_candidate.toml` adds this owner to the complete accepted
-MAIN aggregate through `--candidate-manifest`. It cannot replace the target,
-accepted units, functions, or gate policy. The three extents and nineteen
-functions stay structural / boundary-reviewed until every owner gate passes.
+The complete th03/e_enemy.cpp intake is maintained in
+src/main/enemy/enemy.cpp with its public declarations in enemy.hpp. It is now a
+normal owner in config/th03_main_exact_units.toml: three complete CODE extents,
+nineteen functions, and 3325 owned bytes. The accepted replay uses two
+consecutive physical OMF producers for this single semantic source owner. That
+producer model is independently checked against TH03 target bytes, MAP ownership,
+and ordered relocations; it does not claim the unavailable historical source
+filenames.
 
 ## Observed Japanese target boundaries
 
@@ -64,42 +66,54 @@ verified with runtime or asset observations here. Those source annotations
 remain upstream hypotheses; no corrective initialization or script bug fix
 has been applied.
 
-## Compiler observations and failed acceptance dimension
+## Compiler observations, historical failure, and exact resolution
 
-The pinned TC4J/TLINK diagnostic probe reproduces all 3325 raw CODE bytes.
-The complete `sol-enemy-candidate-20261005` replay confirms this in two
-independent source materializations: 20 products, 351 game objects and all 417
-generated OMF objects have the required integrity; the declared product and
-game-object deterministic vectors pass. All 59 configured function checks and
-all 17 CODE extent byte checks pass. The overall verdict correctly remains
-FAIL because the formation extent fails ordered relocation comparison.
-The ENEMY_2_TEXT relocation multiset matches, but ordered relocations differ:
+The 2026-10-05 one-object compiler model was intentionally not accepted even
+though it reproduced all 3325 raw CODE bytes. Its ENEMY_2_TEXT relocation
+multiset matched but the ordered list did not:
 
-```text
-target:    512 503 494 485 431 394 282 277 257 246 235 224 216 204 686
-candidate: 686 512 503 494 485 431 394 282 277 257 246 235 224 216 204
-```
+    target:           512 503 494 485 431 394 282 277 257 246 235 224 216 204 686
+    one-object model: 686 512 503 494 485 431 394 282 277 257 246 235 224 216 204
 
-Site 686 is the vector call. The other fourteen relocated words contain
-segment zero; this word contains SHARED's segment 0E8F. The other two CODE
-extents have equal bytes and equal ordered relocations. This does not grant
-them independent exact credit while the complete source owner is unresolved.
+Site 686 is the segment relocation for the far vector call. Moving declarations,
+assigning the known SHARED declaration segment, and source-order experiments did
+not repair the ordering. Those failures remain in config/evidence.csv; no
+ordered-relocation gate was weakened or replaced by a sorted/multiset check.
 
-The candidate OMF emits ENEMY_2_TEXT LEDATA records of 1024 and 690 bytes.
-Moving the vector declaration after library declarations, assigning its
-known SHARED declaration segment, and moving `enemies_update` between the
-formation and motion definitions did not change the failed ordering. These
-experiments were private probes and are absent from maintained source.
-The original object's record partition/order is unknown; it cannot be
-recovered from a hypothetical historical source claim alone.
+The successful maintained model splits physical production immediately before
+enemy_velocity_set_from_angle_and_speed() while retaining one natural semantic
+source file. The first generated wrapper, e_ena, contributes 650 bytes to
+ENEMY_2_TEXT and 451 bytes to E_ENEMY_TEXT. The second, e_enb, contributes
+1064 bytes to ENEMY_2_TEXT, 151 bytes to E_ENEMY_TEXT, and all 1009 bytes of
+ENEMY_PUT. Explicit codeseg declarations keep the real contributions in MAIN_04;
+the wrappers' zero-length default text segments stay ungrouped so they do not
+perturb later logical groups.
 
-The next investigation should determine which natural producer input explains
-the target ordering. Do not rewrite the relocation table, fabricate padding,
-copy opcodes, or weaken ordered relocation comparison to accept this owner.
-The full owner is replayable with:
+This layout does not alter the target CODE bytes. It changes which physical OMF
+producer owns the fixups, causing TLINK to emit the target relocation order
+naturally. Both fresh accepted rounds now produce exactly:
 
-```sh
-python3 scripts/replay_th03_main_exact_units.py \
-  --candidate-manifest config/th03_main_enemy_candidate.toml \
-  --run-id NEW_UNIQUE_ID
-```
+    target: 512 503 494 485 431 394 282 277 257 246 235 224 216 204 686
+    round1: 512 503 494 485 431 394 282 277 257 246 235 224 216 204 686
+    round2: 512 503 494 485 431 394 282 277 257 246 235 224 216 204 686
+
+The default maintained replay, with no candidate overlay, passes 120 functions,
+14747 function bytes, and 14953 owned bytes, including the enemy owner's
+19 functions / 3260 function bytes plus its one alignment byte and 64-byte
+sparse switch table. Each round records 20 products, 355 deterministic game
+objects, and 421 valid generated OMF objects; existing DOS behavior probes pass.
+The raw target review independently checks all nineteen function boundaries and
+the sparse dispatch table.
+
+The split is therefore accepted as the maintained reconstruction producer model.
+It is strong compiler/linker evidence for the physical boundary needed to
+reproduce this target, but the original object names and historical source
+filenames are unavailable and are not asserted.
+
+Replay the complete accepted MAIN frontier with:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
+
+Review the enemy target boundaries independently with:
+
+    python3 scripts/review_th03_main_enemy.py --output .analysis/th03-main-exact/NEW_ENEMY_REVIEW.json
