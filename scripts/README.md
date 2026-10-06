@@ -15,6 +15,7 @@
 | Check frozen ReC98 TH03 intake queue | `python3 scripts/inventory_rec98_th03.py --check` |
 | Replay all maintained MAIN exact owners | `python3 scripts/replay_th03_main_exact_units.py --run-id UNIQUE` |
 | Review raw enemy boundaries and dispatch table | `python3 scripts/review_th03_main_enemy.py --output .analysis/REVIEW/raw-review.json` |
+| Review complete MAIN character charge/gauge boundaries | `python3 scripts/review_th03_main_charge_gauge.py --output .analysis/REVIEW/charge-gauge.json` |
 | Export complete raw MAIN owner observations | `python3 scripts/review_th03_main_code.py --owner OWNER_ID --output .analysis/REVIEW/raw-review.json` |
 | Inspect open product graph | `python3 scripts/build.py --status` |
 | Survey reference output | `python3 scripts/survey_rec98_outputs.py SOURCE --compact` |

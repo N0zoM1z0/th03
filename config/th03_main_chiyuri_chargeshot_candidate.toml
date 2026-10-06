@@ -1,0 +1,96 @@
+schema_version = 1
+artifact = "th03-main"
+target_sha256 = "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b"
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+segment = 0x1b26
+scope = "candidate-complete-main07-chiyuri-owner"
+
+[[units]]
+id = "th03-main-charge-gauge-chiyuri"
+source = "src/main/player/chargeshot_chiyuri.cpp"
+header = "src/main/player/chargeshot_chiyuri.hpp"
+object = "chiyuri_chargeshot"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-chiyuri-chargeshot", segment = 0x1b26, start = 0x0000, size = 0x03f3, map_segment = "MAIN_07_TEXT", map_group = "(none)", map_acbp = 28 },
+]
+
+[[functions]]
+name = "chiyuri_charge_setup"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x0000
+size = 23
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_add_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x0017
+size = 75
+boundary = "owner-linear-span"
+abi = "far Pascal; two Subpixel words; RETF 4"
+
+[[functions]]
+name = "chargeshot_update_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x0062
+size = 157
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "chiyuri_chargeshot_private"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x00ff
+size = 81
+boundary = "owner-linear-span"
+abi = "near cdecl; no arguments; RET"
+
+[[functions]]
+name = "chargeshot_hittest_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x0150
+size = 119
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; AL hit count; RETF"
+
+[[functions]]
+name = "chargeshot_render_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x01c7
+size = 101
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "gauge_pattern_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x022c
+size = 407
+boundary = "owner-linear-span"
+abi = "near Pascal; bullet type byte in word slot; RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x03c3
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x03db
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"

@@ -46,6 +46,15 @@ Only the CODE extent is promoted here: historical physical BSS producer
 ownership remains a separate open question. See
 reconstruction/MAIN_BOMBS_REVIEW.md.
 
+The next authored frontier is now target-reviewed rather than guessed.
+MAIN_07_TEXT through MAIN_11_TEXT form five complete character-local
+charge-shot/gauge owners: Chiyuri 1011 bytes / 9 functions, Ellen 1530 / 10,
+Kana 1291 / 9, Kotohime 690 / 9, and Rikako 1280 / 11. Together this adds
+5802 boundary-reviewed bytes / 48 functions and records all 60 in-owner
+relocations without granting source or exact credit. Chiyuri MAIN_07_TEXT is
+the first natural-TC4 reconstruction target. See
+reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
+
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
 is unknown. Frozen ReC98 revision:
@@ -118,9 +127,10 @@ root code/data ownership and the maintained build graph; do not treat the 100%
 reviewed-authored frontier as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
-headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 250 units / 2369 evidence rows / three
-hypotheses / 296 knowledge rows / 127 MAIN authored-function rows; all 127
-reviewed MAIN authored-function rows are now in the scoped exact subset.
+headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 255 units / 2374 evidence rows / three
+hypotheses / 297 knowledge rows / 175 MAIN authored-function rows. The scoped
+exact subset remains 127 functions; the newly reviewed 48 charge-shot/gauge
+functions are the active reconstruction frontier.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 612 tests but reports
