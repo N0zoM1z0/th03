@@ -97,11 +97,13 @@ naturally. Both fresh accepted rounds now produce exactly:
     round1: 512 503 494 485 431 394 282 277 257 246 235 224 216 204 686
     round2: 512 503 494 485 431 394 282 277 257 246 235 224 216 204 686
 
-The default maintained replay, with no candidate overlay, passes 120 functions,
-14747 function bytes, and 14953 owned bytes, including the enemy owner's
-19 functions / 3260 function bytes plus its one alignment byte and 64-byte
-sparse switch table. Each round records 20 products, 355 deterministic game
-objects, and 421 valid generated OMF objects; existing DOS behavior probes pass.
+At the enemy-owner promotion checkpoint, the default maintained replay passed
+120 functions, 14747 function bytes, and 14953 owned bytes, including the enemy
+owner's 19 functions / 3260 function bytes plus its one alignment byte and
+64-byte sparse switch table. That checkpoint recorded 20 products, 355
+deterministic game objects, and 421 valid generated OMF objects. The current
+aggregate has since advanced to 127 functions / 18066 owned bytes through the
+separately reviewed MAIN_05_TEXT bomb owner; the enemy evidence remains unchanged.
 The raw target review independently checks all nineteen function boundaries and
 the sparse dispatch table.
 

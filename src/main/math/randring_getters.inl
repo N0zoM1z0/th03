@@ -1,18 +1,27 @@
 ; Complete TH03 getter macro definitions, expanded three times in MAIN.
 ; The root/context carrier chain and all CODE expansions are reviewed.
-; Turbo C++ emits Pascal-mangled external names in uppercase. Keep the PROC
-; spelling uppercase as well so TASM exports the historical OMF public name;
-; this changes no generated instructions or final linked bytes.
+; Turbo C++ Pascal-mangled external names are uppercase, while the no-arg
+; cdecl FAR getter is lowercase. Preserve both spellings at their real PROC
+; definitions so external C++ producers link without changing code bytes.
 RANDRING_NEXT_DEF_NOMOD macro instance, dist
-	public @randring&instance&_next16$qv
-	@randring&instance&_next16$qv proc dist
+	ifidni <instance>, <_FAR>
+		public @randring_far_next16$qv
+		@randring_far_next16$qv proc dist
+	else
+		public @randring&instance&_next16$qv
+		@randring&instance&_next16$qv proc dist
+	endif
 		xor	bh, bh
 		mov	bl, _randring_p
 		add	bx, offset _randring
 		inc	_randring_p
 		mov	ax, [bx]
 		ret
-	@randring&instance&_next16$qv endp
+	ifidni <instance>, <_FAR>
+		@randring_far_next16$qv endp
+	else
+		@randring&instance&_next16$qv endp
+	endif
 		even
 
 	public @RANDRING&instance&_NEXT16_AND$QUI

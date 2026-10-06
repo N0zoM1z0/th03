@@ -13,7 +13,11 @@
 #include "compat/rec98/libs/master.lib/master.hpp"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 
-static unsigned char angle;
+#ifdef TH03_BOMB_EXTERNAL_STORAGE
+extern unsigned char kana_bomb_angle;
+#else
+static unsigned char kana_bomb_angle;
+#endif
 
 extern "C" void far pascal bomb_palette_step(int level, pid_t pid);
 extern "C" void far pascal bomb_center_add(int x, int y, int pid);
@@ -34,7 +38,7 @@ void far kana_bomb(void)
 		if((frame % 8) == 0) {
 			bomb_center_add(TO_SP(144), TO_SP(184), pid_current);
 		}
-		angle = 0;
+		kana_bomb_angle = 0;
 		return;
 	}
 
@@ -52,17 +56,17 @@ void far kana_bomb(void)
 		if((frame % 4) == 0) {
 			int x;
 			int y;
-			x = polar(144, 144, CosTable8[angle]);
-			y = polar(184, 144, SinTable8[angle]);
+			x = polar(144, 144, CosTable8[kana_bomb_angle]);
+			y = polar(184, 144, SinTable8[kana_bomb_angle]);
 			bomb_explosion_add((x << 4), (y << 4), pid_current);
 
-			angle = (0x80 - angle);
-			x = polar(144, 144, CosTable8[angle]);
-			y = polar(184, 144, SinTable8[angle]);
+			kana_bomb_angle = (0x80 - kana_bomb_angle);
+			x = polar(144, 144, CosTable8[kana_bomb_angle]);
+			y = polar(184, 144, SinTable8[kana_bomb_angle]);
 			bomb_explosion_add((x << 4), (y << 4), pid_current);
 
-			angle = (0x80 - angle);
-			angle += 0x10;
+			kana_bomb_angle = (0x80 - kana_bomb_angle);
+			kana_bomb_angle += 0x10;
 		}
 
 		int left = PLAYFIELD_LEFT;

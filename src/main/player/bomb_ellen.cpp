@@ -20,10 +20,17 @@ struct ellen_bomb_particle_t {
 };
 
 // The target places these three private objects consecutively at DGROUP
-// 25DC, 25DE..265D, and 265E. Their order is therefore significant.
-static int particle_spawn_count;
-static ellen_bomb_particle_t particles[PLAYER_COUNT][8];
-static ellen_bomb_particle_t near *particle_p;
+// 25DC, 25DE..265D, and 265E. Object-level probes keep them local; aggregate
+// reconstruction binds the same semantic names to the frozen carrier storage.
+#ifdef TH03_BOMB_EXTERNAL_STORAGE
+extern int ellen_bomb_particle_spawn_count;
+extern ellen_bomb_particle_t ellen_bomb_particles[PLAYER_COUNT][8];
+extern ellen_bomb_particle_t near *ellen_bomb_particle_p;
+#else
+static int ellen_bomb_particle_spawn_count;
+static ellen_bomb_particle_t ellen_bomb_particles[PLAYER_COUNT][8];
+static ellen_bomb_particle_t near *ellen_bomb_particle_p;
+#endif
 
 // Semantic names for three still-unreconstructed helpers. The current
 // monolithic scaffold labels the corresponding entries sub_B39E, sub_CDBD,
@@ -43,7 +50,7 @@ void far ellen_bomb_update(void)
 		bomb_flag[pid_current] = BF_ACTIVE;
 		bomb_frame[pid_current] = 0;
 		for(i = 0; i < 8; i++) {
-			particles[pid_current][i].center.x.v = 19999;
+			ellen_bomb_particles[pid_current][i].center.x.v = 19999;
 		}
 		snd_se_play(17);
 	}
@@ -51,27 +58,27 @@ void far ellen_bomb_update(void)
 	bomb_frame[pid_current]++;
 	playfield_clip_negative_radius.x.v = TO_SP(-32);
 	playfield_clip_negative_radius.y.v = TO_SP(-32);
-	particle_p = &particles[pid_current][0];
+	ellen_bomb_particle_p = &ellen_bomb_particles[pid_current][0];
 
-	for(i = 0; i < 8; (i++, particle_p++)) {
-		if(particle_p->center.x.v == 9999) {
+	for(i = 0; i < 8; (i++, ellen_bomb_particle_p++)) {
+		if(ellen_bomb_particle_p->center.x.v == 9999) {
 			goto respawn;
 		}
-		if(particle_p->center.x.v == 19999) {
+		if(ellen_bomb_particle_p->center.x.v == 19999) {
 			continue;
 		}
-		particle_p->center.x.v += particle_p->velocity.x.v;
-		particle_p->center.y.v += particle_p->velocity.y.v;
-		if(!playfield_clip(particle_p->center.x, particle_p->center.y)) {
+		ellen_bomb_particle_p->center.x.v += ellen_bomb_particle_p->velocity.x.v;
+		ellen_bomb_particle_p->center.y.v += ellen_bomb_particle_p->velocity.y.v;
+		if(!playfield_clip(ellen_bomb_particle_p->center.x, ellen_bomb_particle_p->center.y)) {
 			continue;
 		}
 
 	respawn:
-		particle_p->center.x.v = TO_SP(144);
-		particle_p->center.y.v = TO_SP(184);
+		ellen_bomb_particle_p->center.x.v = TO_SP(144);
+		ellen_bomb_particle_p->center.y.v = TO_SP(184);
 		vector2(
-			particle_p->velocity.x.v,
-			particle_p->velocity.y.v,
+			ellen_bomb_particle_p->velocity.x.v,
+			ellen_bomb_particle_p->velocity.y.v,
 			randring_far_next16(),
 			224
 		);
@@ -85,7 +92,7 @@ void far ellen_bomb_update(void)
 
 void near ellen_bomb_render(void)
 {
-	particle_p = &particles[pid_current][0];
+	ellen_bomb_particle_p = &ellen_bomb_particles[pid_current][0];
 	sprite16_put_size.set(64, 64);
 	sprite16_clip_set_for_pid(pid_current);
 
@@ -93,19 +100,19 @@ void near ellen_bomb_render(void)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset = (pid.so_attack + 0x29C);
 
-	for(int i = 0; i < 8; (i++, particle_p++)) {
+	for(int i = 0; i < 8; (i++, ellen_bomb_particle_p++)) {
 		// Keeping these as two source-level conditions is material: TC4J
-		// reloads [particle_p] for the second comparison, as in the target.
-		if(particle_p->center.x.v == 19999) {
+		// reloads [ellen_bomb_particle_p] for the second comparison, as in the target.
+		if(ellen_bomb_particle_p->center.x.v == 19999) {
 			continue;
 		}
-		if(particle_p->center.x.v == 9999) {
+		if(ellen_bomb_particle_p->center.x.v == 9999) {
 			continue;
 		}
 		left = (
-			playfield_fg_x_to_screen(particle_p->center.x.v, pid_current) - 32
+			playfield_fg_x_to_screen(ellen_bomb_particle_p->center.x.v, pid_current) - 32
 		);
-		top = (particle_p->center.y.to_pixel() - 16);
+		top = (ellen_bomb_particle_p->center.y.to_pixel() - 16);
 		sprite16_put(left, top, sprite_offset);
 	}
 }
@@ -136,7 +143,7 @@ void far ellen_bomb(void)
 		Palettes[pid_current].c.g = color;
 		Palettes[pid_current].c.b = color;
 		palette_changed = true;
-		particle_spawn_count = 0;
+		ellen_bomb_particle_spawn_count = 0;
 	} else if(frame < 128) {
 		if(frame & 1) {
 			snd_se_play(10);
@@ -171,9 +178,9 @@ void far ellen_bomb(void)
 
 		if((frame % 4) == 0) {
 			bomb_explosion_add(TO_SP(144), TO_SP(184), pid_current);
-			if(particle_spawn_count < 8) {
-				particles[pid_current][particle_spawn_count].center.x.v = 9999;
-				particle_spawn_count++;
+			if(ellen_bomb_particle_spawn_count < 8) {
+				ellen_bomb_particles[pid_current][ellen_bomb_particle_spawn_count].center.x.v = 9999;
+				ellen_bomb_particle_spawn_count++;
 			}
 		}
 	} else {

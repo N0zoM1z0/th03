@@ -10,7 +10,11 @@
 #include "compat/rec98/th02/snd/snd.h"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 
-static int explosion_y;
+#ifdef TH03_BOMB_EXTERNAL_STORAGE
+extern int kotohime_bomb_explosion_y;
+#else
+static int kotohime_bomb_explosion_y;
+#endif
 
 extern "C" void far bomb_bg_fill(void);
 extern "C" void far pascal bomb_explosion_add(int x, int y, int pid);
@@ -45,8 +49,8 @@ void far kotohime_bomb(void)
 
 		if((frame % 8) == 0) {
 			x = (0x11B8 - (frame * 0x48));
-			explosion_y = ((frame * 0x5C) + 0x5C);
-			bomb_explosion_add(x, explosion_y, pid_current);
+			kotohime_bomb_explosion_y = ((frame * 0x5C) + 0x5C);
+			bomb_explosion_add(x, kotohime_bomb_explosion_y, pid_current);
 		}
 	} else if(frame < 128) {
 		palette_changed = true;
@@ -65,9 +69,9 @@ void far kotohime_bomb(void)
 			x = 0;
 			i = ((frame % 16) / 2);
 			for(; x <= 0x1200; (x += 0x600, i++)) {
-				bomb_explosion_add(x, explosion_y, pid_current);
+				bomb_explosion_add(x, kotohime_bomb_explosion_y, pid_current);
 			}
-			explosion_y -= 0x2E0;
+			kotohime_bomb_explosion_y -= 0x2E0;
 		}
 
 		x = PLAYFIELD_LEFT;

@@ -227,10 +227,10 @@ The retained current object receipt is
 The retained full-link diagnostic is
 .analysis/th03-main-bombs-kana-link-probe/review.json.
 
-No aggregate exact credit is claimed yet. Chiyuri, Ellen and Kana now reproduce
-the target TC4J relocation behavior; Ellen and Kana still require their
-historical private-BSS placement. Kotohime is handled below; Rikako remains
-the final unreconstructed TC4J producer.
+At the Kana checkpoint, no aggregate exact credit was claimed yet. Chiyuri,
+Ellen and Kana reproduced the target TC4J relocation behavior while their
+historical private-BSS placement remained open. Kotohime and Rikako were still
+pending at that stage.
 
 ## Kotohime Turbo C++ producer reconstruction
 
@@ -265,10 +265,10 @@ The retained current object receipt is
 The retained full-link diagnostic is
 .analysis/th03-main-bombs-kotohime-link-probe/review.json.
 
-No aggregate exact credit is claimed yet. Chiyuri, Ellen, Kana and Kotohime now
-all reproduce their target TC4J relocation groups. Ellen/Kana/Kotohime still
-require historical private-BSS placement, and Rikako remains the final
-character CODE producer to reconstruct.
+At the Kotohime checkpoint, no aggregate exact credit was claimed yet.
+Chiyuri, Ellen, Kana and Kotohime reproduced their target TC4J relocation
+groups, while private-BSS placement remained open and Rikako was still the
+final character CODE producer to reconstruct.
 
 ## Rikako Turbo C++ producer reconstruction
 
@@ -300,35 +300,58 @@ eight 16-bit DS operands for its private word: the target symbolic storage
 word_220EC is DGROUP:4B8C, while the mixed link appends the C++ word at
 DGROUP:6964.
 
-A final storage-binding experiment then separated CODE exactness from unresolved
+A final storage-binding experiment separated CODE exactness from unresolved
 physical BSS ownership without hard-coding any address. The four C++ producers
-with private state were compiled against semantic extern names, and the frozen
-monolithic carrier exported those names as labels at the already-symbolized
+with private state compile against semantic extern names, and the frozen
+monolithic carrier exports those names as labels at the already-symbolized
 TH03 storage locations: Ellen 25DC/25DE/265E, Kana 2674, Kotohime 28F6, and
-Rikako 4B8C. Chiyuri needs no private BSS. This full MAIN link produces:
+Rikako 4B8C. Chiyuri needs no private BSS. This model produces:
 
 - all 3113 MAIN_05_TEXT owner bytes equal,
 - all 71 relocation sites equal,
 - the complete 71-entry relocation order equal, and
 - zero byte mismatches in each of the seven reviewed functions.
 
-The retained exact-CODE experiment is
+The exploratory storage-binding result is retained at
 .analysis/th03-main-bombs-rikako-link-probe-e23/review-storage-bind.json.
-It does not transfer ownership of the surrounding monolithic BSS to these C++
-files. The historical BSS producer split remains open and must be tracked
-separately. The immediate next step is to encode this symbolic storage binding
-and five-producer CODE model in the maintained Oracle, keeping BSS ownership
-explicitly unaccepted.
+It does not transfer ownership of the surrounding monolithic BSS to the C++
+files. The historical physical BSS producer split remains open and is tracked
+separately from this CODE promotion.
 
-The reproducible object probe is:
+## Exact aggregate promotion
+
+The five-producer model and symbolic storage bindings are now encoded directly
+in config/th03_main_exact_units.toml. The old candidate manifest has been
+retired. A default replay with no candidate overlay passes two fresh full cold
+builds:
+
+    python3 scripts/replay_th03_main_exact_units.py       --run-id gpt-web-bombs-promoted-final-f02-20261007
+
+The accepted receipt is
+.analysis/th03-main-exact/gpt-web-bombs-promoted-final-f02-20261007/receipt.json.
+It reports 127 exact functions, 17860 function bytes and 18066 owned bytes,
+with 20 deterministic products, 360 deterministic game objects and 426 valid
+generated OMF objects in each round. The complete MAIN_05_TEXT owner has
+zero differing bytes and exact ordered relocations in both rounds, while all
+pre-existing exact owners and the DOS behavior probe remain green.
+
+The promotion also repaired a previously hidden source-linkage detail in the
+already-exact randring getter carrier. Turbo C++ expects the no-argument far
+cdecl symbol as @randring_far_next16$qv but Pascal AND/MOD exports use uppercase
+mangling. The maintained TASM macro now spells those real PROC definitions
+accordingly; the function bodies and previously accepted linked bytes remain
+unchanged.
+
+The symbolic TASM bomb result remains recorded as a negative control rather
+than being overwritten: it proved raw bytes and relocation sites but failed
+relocation order. Exact acceptance therefore rests on the five natural TC4J
+producers, strict ordered-relocation comparison, frozen symbolic BSS bindings,
+MAP ownership, OMF validation and two-round cold determinism—not on target-byte
+patching or a weakened Oracle.
+
+The reproducible Rikako object probe remains:
 
     python3 scripts/probe_th03_main_bomb_rikako_cpp.py --run-id UNIQUE_ID
 
-The retained object receipt is
+Its retained object receipt is
 .analysis/th03-main-bomb-rikako-cpp/gpt-web-rikako-v2-f03-20261007/receipt.json.
-
-This document intentionally does not claim exact acceptance yet. The candidate
-lives in config/th03_main_bombs_candidate.toml so the default accepted aggregate
-remains green. Promotion requires the normal two-round aggregate cold replay to
-prove raw bytes, ordered relocations, MAP contribution, generated-object
-integrity, determinism, and all pre-existing exact owners.

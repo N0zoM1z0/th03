@@ -7,7 +7,8 @@ from tempfile import TemporaryDirectory
 from test_pc98 import synthetic_mz, synthetic_mz_with_relocations
 from replay_th03_main_exact_units import (
     add_candidate_owners, apply_carrier_edits, compare_extent, normalized_code_extents,
-    physical_objects, sha, verify_include_carrier,
+    physical_object_count_delta, physical_objects, sha, unit_source_paths,
+    verify_include_carrier,
     verify_disjoint_ownership, verify_owner_linear_span, verify_private_calls,
 )
 from lib.pc98 import parse_mz
@@ -249,6 +250,96 @@ class MainExactManifestTests(unittest.TestCase):
             physical_objects({**unit, "physical_objects": [
                 {"object": "dup"}, {"object": "dup"},
             ]})
+
+    def test_additive_physical_objects_bind_distinct_sources(self):
+        unit = {
+            "id": "carved",
+            "object": "legacy",
+            "source": "src/main/semantic.inl",
+            "header": "src/main/semantic.hpp",
+            "physical_objects_additive": True,
+            "physical_objects": [
+                {"object": "part_a", "source": "src/main/a.cpp"},
+                {"object": "part_b", "source": "src/main/b.cpp"},
+            ],
+        }
+        producers = physical_objects(unit)
+        self.assertEqual(
+            [producer["source"] for producer in producers],
+            ["src/main/a.cpp", "src/main/b.cpp"],
+        )
+        self.assertEqual(
+            unit_source_paths(unit),
+            [
+                "src/main/semantic.inl",
+                "src/main/semantic.hpp",
+                "src/main/a.cpp",
+                "src/main/b.cpp",
+            ],
+        )
+        self.assertEqual(physical_object_count_delta(unit), 2)
+        self.assertEqual(
+            physical_object_count_delta({
+                **unit,
+                "physical_objects_additive": False,
+            }),
+            1,
+        )
+        with self.assertRaisesRegex(ValueError, "count mode"):
+            physical_object_count_delta({
+                **unit,
+                "physical_objects_additive": "yes",
+            })
+        with self.assertRaisesRegex(ValueError, "physical object declaration"):
+            physical_objects({
+                **unit,
+                "physical_objects": [
+                    {"object": "part_a", "source": ""},
+                ],
+            })
+
+    def test_carved_producer_owner_requires_frozen_carrier_and_additive_objects(self):
+        unit = {
+            "id": "carved",
+            "object": "legacy",
+            "source": "src/main/semantic.inl",
+            "header": "src/main/semantic.hpp",
+            "ownership": "carved-producers",
+            "carrier_path": "carrier.asm",
+            "carrier_sha256": "0" * 64,
+            "physical_objects_additive": True,
+            "physical_objects": [
+                {"object": "part_a", "source": "src/main/a.cpp"},
+                {"object": "part_b", "source": "src/main/b.cpp"},
+            ],
+            "carrier_edits": [
+                {
+                    "kind": "replace-once",
+                    "path": "carrier.asm",
+                    "before": "old",
+                    "after": "new",
+                }
+            ],
+            "code_extents": [{
+                "name": "code",
+                "ledger_id": "carved",
+                "segment": 0x1234,
+                "start": 0x20,
+                "size": 8,
+                "map_segment": "CODE",
+                "map_group": "(none)",
+                "map_parts": [
+                    {"object": "part_a", "start": 0x20, "size": 3},
+                    {"object": "part_b", "start": 0x23, "size": 5},
+                ],
+            }],
+        }
+        self.assertEqual(normalized_code_extents(unit, 0x9999)[0]["size"], 8)
+        with self.assertRaisesRegex(ValueError, "invalid carved producer owner"):
+            normalized_code_extents({
+                **unit,
+                "physical_objects_additive": False,
+            }, 0x9999)
 
     def test_split_owner_keeps_discontiguous_extents_separate(self):
         unit = {

@@ -12,7 +12,11 @@
 #include "compat/rec98/th02/snd/snd.h"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 
-static int line_offset;
+#ifdef TH03_BOMB_EXTERNAL_STORAGE
+extern int rikako_bomb_line_offset;
+#else
+static int rikako_bomb_line_offset;
+#endif
 
 extern "C" void far bomb_bg_fill(void);
 extern "C" void far pascal bomb_palette_step(int level, pid_t pid);
@@ -41,7 +45,7 @@ void far rikako_bomb(void)
 
 		color = (frame << 2);
 		bomb_palette_step(color, pid_current);
-		line_offset = 0;
+		rikako_bomb_line_offset = 0;
 	} else if(frame < 128) {
 		if((frame & 3) < 2) {
 			playfield_fg_shift_x[pid_current] = 4;
@@ -63,28 +67,28 @@ void far rikako_bomb(void)
 		grcg_setcolor(GC_RMW, V_WHITE);
 
 		x = playfield_fg_x_to_screen(
-			(TO_SP(144) - line_offset), pid_current
+			(TO_SP(144) - rikako_bomb_line_offset), pid_current
 		);
 		grcg_vline(x, 8, 192);
 
 		x = playfield_fg_x_to_screen(
-			(line_offset + TO_SP(144)), pid_current
+			(rikako_bomb_line_offset + TO_SP(144)), pid_current
 		);
 		grcg_vline(x, 8, 192);
 
 		x = playfield_fg_x_to_screen(
-			(TO_SP(144) - (line_offset * 2)), pid_current
+			(TO_SP(144) - (rikako_bomb_line_offset * 2)), pid_current
 		);
 		grcg_vline(x, 8, 192);
 
 		x = playfield_fg_x_to_screen(
-			((line_offset * 2) + TO_SP(144)), pid_current
+			((rikako_bomb_line_offset * 2) + TO_SP(144)), pid_current
 		);
 		grcg_vline(x, 8, 192);
 
-		line_offset += 0x41;
-		if(line_offset >= 0x480) {
-			line_offset = 0;
+		rikako_bomb_line_offset += 0x41;
+		if(rikako_bomb_line_offset >= 0x480) {
+			rikako_bomb_line_offset = 0;
 		}
 
 		grcg_off();

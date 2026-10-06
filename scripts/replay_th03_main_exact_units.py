@@ -41,13 +41,16 @@ def physical_objects(unit: dict) -> list[dict]:
     """Return the physical OMF producers backing one semantic source owner."""
     declared = unit.get("physical_objects")
     if declared is None:
-        return [{
+        item = {
             "object": unit["object"],
             "object_path": unit.get("object_path", f"obj/th03/{unit['object']}.obj"),
             "wrapper": unit.get("wrapper", f"th03/{unit['object']}.cpp"),
             "wrapper_prefix": "",
             "translator_comment": unit.get("translator_comment", "TC86 Borland C++ 4.02"),
-        }]
+        }
+        if "source" in unit:
+            item["source"] = unit["source"]
+        return [item]
     if not declared or "overlay_path" in unit:
         raise ValueError(f"invalid physical object split: {unit['id']}")
     result = []
@@ -61,10 +64,18 @@ def physical_objects(unit: dict) -> list[dict]:
         item.setdefault("object_path", f"obj/th03/{name}.obj")
         item.setdefault("wrapper", f"th03/{name}.cpp")
         item.setdefault("wrapper_prefix", "")
+        if "source" in unit:
+            item.setdefault("source", unit["source"])
         item.setdefault(
             "translator_comment", unit.get("translator_comment", "TC86 Borland C++ 4.02")
         )
-        if item["object_path"] in paths or not isinstance(item["wrapper_prefix"], str):
+        if (
+            item["object_path"] in paths
+            or not isinstance(item["wrapper_prefix"], str)
+            or ("source" in item and (
+                not isinstance(item["source"], str) or not item["source"]
+            ))
+        ):
             raise ValueError(f"invalid physical object declaration: {unit['id']}")
         names.add(name)
         paths.add(item["object_path"])
@@ -78,6 +89,27 @@ def physical_object_for(unit: dict, name: str) -> dict:
         raise ValueError(f"unknown physical object {name}: {unit['id']}")
     return matches[0]
 
+
+def unit_source_paths(unit: dict) -> list[str]:
+    """Return every repository source/support input required by one owner."""
+    names = [unit["source"], unit["header"], *unit.get("support_files", [])]
+    names.extend(
+        producer["source"]
+        for producer in physical_objects(unit)
+        if producer.get("source")
+    )
+    return list(dict.fromkeys(names))
+
+
+def physical_object_count_delta(unit: dict) -> int:
+    """Count generated objects added by a physical producer model."""
+    if "physical_objects" not in unit:
+        return 0
+    count = len(physical_objects(unit))
+    additive = unit.get("physical_objects_additive", False)
+    if not isinstance(additive, bool):
+        raise ValueError(f"invalid physical object count mode: {unit['id']}")
+    return count if additive else count - 1
 
 def compare_extent(target: bytes, candidate: bytes, start: int, size: int) -> dict:
     """Compare an entire payload extent and its relocation multiplicities."""
@@ -222,6 +254,15 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
                 or not all(unit.get(key) for key in
                            ("carrier_path", "carrier_sha256", "overlay_path", "object_path"))):
                 raise ValueError(f"invalid bounded include: {unit['id']}")
+        elif unit.get("ownership") == "carved-producers":
+            if (
+                not all(unit.get(key) for key in ("carrier_path", "carrier_sha256"))
+                or "overlay_path" in unit
+                or "physical_objects" not in unit
+                or not unit.get("carrier_edits")
+                or not unit.get("physical_objects_additive")
+            ):
+                raise ValueError(f"invalid carved producer owner: {unit['id']}")
         elif raw_parts is None and extent["map_start"] != extent["start"]:
             raise ValueError(f"interior CODE requires a bounded include: {unit['id']}")
         result.append(extent)
@@ -277,18 +318,14 @@ def apply_carrier_edits(unit: dict, work: Path) -> None:
 def verify_include_carrier(
     unit: dict, work: Path, *, require_include: bool = True, verify_hash: bool = True
 ) -> None:
-    """Bind an include to its frozen, uncredited generated translation unit.
-
-    A carved owner is verified once before its declarative carrier edit
-    (hash/chain only), then again after the edit (include chain only). This
-    keeps shared-carrier verification order-independent.
-    """
-    if unit.get("ownership") != "bounded-include":
+    """Bind a maintained owner to a frozen generated carrier."""
+    ownership = unit.get("ownership")
+    if ownership not in {"bounded-include", "carved-producers"}:
         return
-    child = unit["overlay_path"]
+    child = unit.get("overlay_path")
     carriers = [{"path": unit["carrier_path"], "sha256": unit["carrier_sha256"]},
                 *unit.get("parent_carriers", [])]
-    seen = {child}
+    seen = {child} if child else set()
     for declaration in carriers:
         path = declaration["path"]
         if path in seen:
@@ -298,15 +335,17 @@ def verify_include_carrier(
         data = carrier.read_bytes()
         if verify_hash and sha(data) != declaration["sha256"]:
             raise ValueError(f"bounded include carrier drifted: {unit['id']}")
-        if require_include:
+        if ownership == "bounded-include" and require_include:
             pattern = rf"^\s*include\s+{re.escape(child)}\s*$"
             text = data.decode("ascii", errors="surrogateescape")
             if len(re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)) != 1:
                 raise ValueError(f"bounded include must occur once in carrier: {unit['id']}")
         child = path
-    if child.replace("\\", "/") != unit["map_module"].replace("\\", "/"):
+    if (
+        ownership == "bounded-include"
+        and child.replace("\\", "/") != unit["map_module"].replace("\\", "/")
+    ):
         raise ValueError(f"bounded include chain does not reach MAP module: {unit['id']}")
-
 
 def verify_disjoint_ownership(extents_by_owner: dict[str, list[dict]]) -> None:
     """Containing MAP ranges may overlap; credited CODE extents must not."""
@@ -530,9 +569,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     dos = ["wine", str(ROOT / tool["paths"]["msdos_player"]), "-e", "-x"]
     inputs = {}
     for module in config["units"]:
-        for name in [
-            module["source"], module["header"], *module.get("support_files", [])
-        ]:
+        for name in unit_source_paths(module):
             path = ROOT / name
             inputs[name] = sha(path.read_bytes())
     inputs["probes/main/input_math_behavior.cpp"] = sha((ROOT / "probes/main/input_math_behavior.cpp").read_bytes())
@@ -610,9 +647,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 verify_include_carrier(module, work, verify_hash=False)
 
         for module in config["units"]:
-            for name in [
-                module["source"], module["header"], *module.get("support_files", [])
-            ]:
+            for name in unit_source_paths(module):
                 destination = work / name
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(snapshot / name, destination)
@@ -625,7 +660,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                     wrapper = work / producer["wrapper"]
                     wrapper.parent.mkdir(parents=True, exist_ok=True)
                     wrapper.write_text(
-                        producer["wrapper_prefix"] + f'#include "{module["source"]}"\n'
+                        producer["wrapper_prefix"] + f'#include "{producer["source"]}"\n'
                     )
         for module in config["units"]:
             if "build_file" not in module:
@@ -658,16 +693,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             products[relative.as_posix()] = sha((work / relative).read_bytes())
         game_objects = {name: digest for name, digest in all_objects.items()
                         if any(name.startswith(directory + "/") for directory in config["determinism_object_roots"])}
-        legacy_paths = {
-            module.get("object_path", f"obj/th03/{module['object']}.obj")
-            for module in config["units"]
-        }
-        physical_paths = {
-            producer["object_path"]
-            for module in config["units"]
-            for producer in physical_objects(module)
-        }
-        object_count_delta = len(physical_paths) - len(legacy_paths)
+        object_count_delta = sum(
+            physical_object_count_delta(module) for module in config["units"]
+        )
         if (len(products) != 20
             or len(all_objects) != config["generated_object_count"] + object_count_delta
             or len(game_objects) != config["determinism_object_count"] + object_count_delta):

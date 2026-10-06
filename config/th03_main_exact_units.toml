@@ -1769,3 +1769,130 @@ offset = 0x2b0a
 size = 116
 map_public = "enemies_render()"
 abi = "far cdecl; forward iteration of 40 enemies; RETF"
+
+[[units]]
+id = "th03-main-bombs"
+source = "src/main/player/bombs.inl"
+header = "src/main/player/bombs.hpp"
+object = "bombs"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03_main.asm"
+physical_objects_additive = true
+physical_objects = [
+  { object = "b_chiyu", wrapper = "th03/b_chiyu.cpp", source = "src/main/player/bomb_chiyuri.cpp", wrapper_prefix = "#define TH03_BOMB_EXTERNAL_STORAGE 1\n" },
+  { object = "b_ellen", wrapper = "th03/b_ellen.cpp", source = "src/main/player/bomb_ellen.cpp", wrapper_prefix = "#define TH03_BOMB_EXTERNAL_STORAGE 1\n" },
+  { object = "b_kana", wrapper = "th03/b_kana.cpp", source = "src/main/player/bomb_kana.cpp", wrapper_prefix = "#define TH03_BOMB_EXTERNAL_STORAGE 1\n" },
+  { object = "b_koto", wrapper = "th03/b_koto.cpp", source = "src/main/player/bomb_kotohime.cpp", wrapper_prefix = "#define TH03_BOMB_EXTERNAL_STORAGE 1\n" },
+  { object = "b_rika", wrapper = "th03/b_rika.cpp", source = "src/main/player/bomb_rikako.cpp", wrapper_prefix = "#define TH03_BOMB_EXTERNAL_STORAGE 1\n" },
+]
+support_files = [
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/bomb.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/v_colors.hpp",
+  "compat/rec98/th03/formats/mrs.hpp",
+  "compat/rec98/th03/hardware/palette.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th03/math/polar.hpp",
+  "compat/rec98/th02/snd/snd.h",
+  "compat/rec98/libs/master.lib/master.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t{ \"th03_main.asm\", extra_inputs = {\n\t\tth03_sprites[\"pellet\"],\n\t\tth03_sprites[\"score\"],\n\t} },\n\t\"th03/playfld.asm\",\n"
+build_replacement = "\t{ \"th03_main.asm\", extra_inputs = {\n\t\tth03_sprites[\"pellet\"],\n\t\tth03_sprites[\"score\"],\n\t} },\n\t\"th03/b_chiyu.cpp\",\n\t\"th03/b_ellen.cpp\",\n\t\"th03/b_kana.cpp\",\n\t\"th03/b_koto.cpp\",\n\t\"th03/b_rika.cpp\",\n\t\"th03/playfld.asm\",\n"
+carrier_edits = [
+  { kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern @chiyuri_bomb$qv:proc\r\n\textern @ellen_bomb_update$qv:proc\r\n\textern @ellen_bomb$qv:proc\r\n\textern @kana_bomb$qv:proc\r\n\textern @kotohime_bomb$qv:proc\r\n\textern @rikako_bomb$qv:proc\r\n\tpublic sub_B39E, sub_A3D2, sub_CE0C, sub_CE5B, sub_A3A8, sub_CDBD\r\n\tpublic _pid_PID_so_attack\r\n\tpublic _sprite16_put_w, _sprite16_put_h\r\n\tpublic _sprite16_clip_left, _sprite16_clip_right\r\n\tpublic _bomb_bg_fill, BOMB_EXPLOSION_ADD, PALETTE_RESTORE_FOR_PID\r\n\tpublic BOMB_PALETTE_STEP, BOMB_CENTER_ADD, BOMB_AXIS_ADD\r\n_bomb_bg_fill = sub_B39E\r\nBOMB_EXPLOSION_ADD = sub_CDBD\r\nPALETTE_RESTORE_FOR_PID = sub_A3A8\r\nBOMB_PALETTE_STEP = sub_A3D2\r\nBOMB_CENTER_ADD = sub_CE0C\r\nBOMB_AXIS_ADD = sub_CE5B\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tp1_205CE, ellen_185AB\r\n", after = "\t\tsetfarfp\tp1_205CE, @ellen_bomb_update$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, ellen_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @ellen_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tp2_205D2, ellen_185AB\r\n", after = "\t\tsetfarfp\tp2_205D2, @ellen_bomb_update$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, ellen_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @ellen_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, kana_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @kana_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, kana_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @kana_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, kotohime_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @kotohime_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, kotohime_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @kotohime_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, chiyuri_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @chiyuri_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, chiyuri_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @chiyuri_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, rikako_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @rikako_bomb$qv\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, rikako_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @rikako_bomb$qv\r\n" },
+  { kind = "remove-between", path = "th03_main.asm", start_marker = "chiyuri_bomb\tproc far\r\n", end_marker = "rikako_bomb\tendp\r\n", replacement = "; bomb owner moved to five physical MAIN_05_TEXT producers\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "word_1FB3C\tdw ?\r\n\t\tdb 128 dup(?)\r\nword_1FBBE\tdw ?\r\n", after = "public _ellen_bomb_particle_spawn_count, _ellen_bomb_particles\r\npublic _ellen_bomb_particle_p\r\n_ellen_bomb_particle_spawn_count label word\r\nword_1FB3C\tdw ?\r\n_ellen_bomb_particles label byte\r\n\t\tdb 128 dup(?)\r\n_ellen_bomb_particle_p label word\r\nword_1FBBE\tdw ?\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "angle_1FBD4\tdb ?\r\n", after = "public _kana_bomb_angle\r\n_kana_bomb_angle label byte\r\nangle_1FBD4\tdb ?\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "word_1FE56\tdw ?\r\n", after = "public _kotohime_bomb_explosion_y\r\n_kotohime_bomb_explosion_y label word\r\nword_1FE56\tdw ?\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "word_220EC\tdw ?\r\n", after = "public _rikako_bomb_line_offset\r\n_rikako_bomb_line_offset label word\r\nword_220EC\tdw ?\r\n" },
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-bombs", segment = 0x183c, start = 0x0001, size = 0x0c29, map_segment = "MAIN_05_TEXT", map_group = "(none)", map_acbp = 28, map_parts = [
+    { object = "b_chiyu", start = 0x0001, size = 0x01ea },
+    { object = "b_ellen", start = 0x01eb, size = 0x03ff },
+    { object = "b_kana", start = 0x05ea, size = 0x020e },
+    { object = "b_koto", start = 0x07f8, size = 0x0210 },
+    { object = "b_rika", start = 0x0a08, size = 0x0222 },
+  ] },
+]
+
+[[functions]]
+name = "chiyuri_bomb"
+object = "bombs"
+segment = 0x183c
+offset = 0x0001
+size = 490
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF; complete MAIN_05_TEXT owner span"
+
+[[functions]]
+name = "ellen_bomb_update"
+object = "bombs"
+segment = 0x183c
+offset = 0x01eb
+size = 280
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF; historical source label ellen_185AB"
+
+[[functions]]
+name = "ellen_bomb_render"
+object = "bombs"
+segment = 0x183c
+offset = 0x0303
+size = 163
+boundary = "owner-linear-span"
+abi = "near cdecl; no arguments; RET; historical source label ellen_bomb_186C3"
+
+[[functions]]
+name = "ellen_bomb"
+object = "bombs"
+segment = 0x183c
+offset = 0x03a6
+size = 580
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "kana_bomb"
+object = "bombs"
+segment = 0x183c
+offset = 0x05ea
+size = 526
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "kotohime_bomb"
+object = "bombs"
+segment = 0x183c
+offset = 0x07f8
+size = 528
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "rikako_bomb"
+object = "bombs"
+segment = 0x183c
+offset = 0x0a08
+size = 546
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"

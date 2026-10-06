@@ -9,50 +9,42 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 39 source owners, 46 CODE extents, 120 functions, 14953 owned bytes | Scoped repository-local exact |
+| MAIN | 40 source owners, 47 CODE extents, 127 functions, 18066 owned bytes | Scoped repository-local exact |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 14953 bytes comprise 14747 function bytes and 206 explicitly classified
+MAIN's 18066 bytes comprise 17860 function bytes and 206 explicitly classified
 producer/table/alignment bytes. The latest accepted full-owner aggregate is
-.analysis/th03-main-exact/gpt-web-enemy-promoted-final-20261007/receipt.json.
-It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 355 game objects and 421 validated generated OMF objects.
-The complete enemy owner is now exact: three extents / 19 functions / 3325 bytes.
+.analysis/th03-main-exact/gpt-web-bombs-promoted-final-f02-20261007/receipt.json.
+A post-ledger final-worktree regression also passes at
+.analysis/th03-main-exact/gpt-web-bombs-final-worktree-f03-20261007/receipt.json.
+The promotion replay passes two fresh compilations/links and the maintained DOS behavior probes
+with 20 product outputs, 360 game objects and 426 validated generated OMF objects.
+The complete enemy owner remains exact: three extents / 19 functions / 3325 bytes.
 A consecutive two-producer reconstruction split reproduces the previously failing
 ordered ENEMY_2_TEXT relocation list without changing CODE bytes or weakening the
 comparison. Historical source filenames remain unknown; see
 reconstruction/MAIN_ENEMY_REVIEW.md.
 
-MAIN_05_TEXT character bombs remain outside the accepted aggregate, but their
-CODE reconstruction is now complete enough for formal Oracle integration. All
-five physical character producers have maintained natural TC4 C++:
-Chiyuri 490 bytes / 169 instructions, Ellen 1023 / 347 across three functions,
-Kana 526 / 184, Kotohime 528 / 185, and Rikako 546 / 186. Their full-link CODE
-contributions land consecutively at 183C:0001..0C29.
+The complete MAIN_05_TEXT character-bomb CODE owner is now exact: one 3113-byte
+extent / seven functions produced by five consecutive natural TC4 C++ objects.
+Chiyuri contributes 490 bytes, Ellen 1023 across three functions, Kana 526,
+Kotohime 528, and Rikako 546. Their MAP contributions cover
+183C:0001..0C29 exactly, all 3113 linked bytes match the immutable target, and
+the complete 71-entry MZ relocation order matches in both fresh default replay
+rounds.
 
-The previous relocation blocker is solved. Restoring TC4's uppercase Pascal OMF
-public spelling for the maintained randring AND/MOD getters preserves the
-existing exact 120-function aggregate while allowing the Rikako producer to
-link naturally. A five-C++-producer MAIN experiment then reproduces every one
-of the bomb owner's 71 relocation entries in target order. With private state
-still emitted by each C++ object, the only 62 owner-byte differences are
-DS-relative operands caused by BSS placement: Ellen 22 bytes, Kana 18,
-Kotohime 6 and Rikako 16.
-
-A symbolic storage-binding experiment removes even those differences without
-hard-coded addresses: semantic externs are bound to the already-symbolized
-monolithic TH03 BSS labels at Ellen 25DC/25DE/265E, Kana 2674, Kotohime 28F6
-and Rikako 4B8C. The resulting full MAIN link has 3113/3113 bomb-owner bytes
-equal, all 71 relocation sites equal, the 71-entry order equal, and zero
-mismatches in all seven functions. Retained evidence:
-.analysis/th03-main-bombs-rikako-link-probe-e23/review-storage-bind.json.
-This proves the CODE owner model but does not claim the monolithic BSS as
-physically reconstructed ownership. Next encode the five producers plus
-symbolic storage bindings in the checked-in Oracle, promote the CODE extent if
-the two-round aggregate stays green, and keep the historical BSS split as a
-separate open ownership task. See reconstruction/MAIN_BOMBS_REVIEW.md.
+This promotion preserves the failed symbolic-TASM attempt as a negative control.
+Five TASM pieces reproduce the bytes and relocation sites but not relocation
+order; the exact result requires the observed TC4J producer/FIXUPP behavior.
+The C++ producers refer to semantic private-state names, while the frozen
+carrier exports those names at the already-symbolized TH03 BSS locations:
+Ellen 25DC/25DE/265E, Kana 2674, Kotohime 28F6, and Rikako 4B8C. That binding
+restores the original references without hard-coded target addresses in C++.
+Only the CODE extent is promoted here: historical physical BSS producer
+ownership remains a separate open question. See
+reconstruction/MAIN_BOMBS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -126,17 +118,19 @@ root code/data ownership and the maintained build graph; do not treat the 100%
 reviewed-authored frontier as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
-headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 250 units / 2363 evidence rows / three
-hypotheses / 295 knowledge rows / 127 MAIN authored-function rows; the accepted
-exact subset remains 120 functions.
+headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 250 units / 2369 evidence rows / three
+hypotheses / 296 knowledge rows / 127 MAIN authored-function rows; all 127
+reviewed MAIN authored-function rows are now in the scoped exact subset.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
-installation. The latest /usr/bin/python3 CI attempt runs 610 tests but reports
-125 errors, all from missing Python module unicorn, with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-bombs-tc4-proof-checkpoint-20261007/ci.log.
+installation. The latest /usr/bin/python3 CI attempt runs 612 tests but reports
+125 errors, all 125 ending in ModuleNotFoundError for the missing unicorn module,
+with 167 skips; its log is
+.analysis/th03-main-exact/gpt-web-bombs-promoted-final-f02-20261007/ci-current-host.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
-The remaining CI steps were rerun individually and pass: compileall, tracking,
-progress, MAINL intake policy, TH03 inventory, target verification, Oracle smoke,
-toolchain and analysis-toolchain attestations, TH03-MAIN Ghidra database check,
-Ghidra negative controls, and git diff --check. This is an explicit host
-dependency block, not a full-CI PASS.
+The CI steps after unittest were rerun individually and pass: compileall,
+tracking, progress, MAINL intake policy, TH03 inventory, target verification,
+Oracle smoke, toolchain and analysis-toolchain attestations, TH03-MAIN Ghidra
+database check, Ghidra negative controls, and git diff --check. Their log is
+.analysis/th03-main-exact/gpt-web-bombs-promoted-final-f02-20261007/ci-non-unicorn-gates.log.
+This is an explicit host dependency block, not a full-CI PASS.
