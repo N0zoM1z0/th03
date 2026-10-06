@@ -29,8 +29,17 @@ resources, packing, startup, scaffold assembly, or complete product ownership.
 no exact credit. The enemy owner is a complete maintained candidate whose
 ordered relocation gate remains unresolved, as documented in
 `docs/reconstruction/MAIN_ENEMY_REVIEW.md`.
-All remaining file/artifact review is open. Upstream exactness is never
-inherited. Compatibility forwarders retain explicitly declared dependencies
+Remaining whole-file/artifact review is open. A separate MAINL CODE diagnostic
+index now records all 33 frozen direct source paths in
+`config/rec98_th03_candidate_reviews.csv`. Their 36 nonzero carriers contain
+27,753 bytes: 27,752 independently reviewed, one unowned PI neighbor byte
+and zero overlap. Thirty-two rows have complete CODE interval coverage;
+five retain raw differences and three retain ordered relocation failures.
+Failed evidence is preserved explicitly. See
+`docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and run
+`python3 scripts/review_rec98_th03_mainl_intake.py --check`.
+This index grants no whole-file, source or exact acceptance and does not change
+the 69 scoped maintained MAIN paths. Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
 
 The existing thirteen MAIN source owners were rechecked in two cold builds

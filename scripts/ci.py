@@ -19,6 +19,7 @@ def main() -> int:
         run("-m", "compileall", "-q", "scripts", "tests")
         run("scripts/validate_tracking.py")
         run("scripts/progress.py", "--check")
+        run("scripts/review_rec98_th03_mainl_intake.py", "--check")
         if (ROOT / "_reference/ReC98/.git").exists():
             run("scripts/inventory_rec98_th03.py", "--check")
         targets = tomllib.loads((ROOT / "config/targets.toml").read_text())["artifacts"]

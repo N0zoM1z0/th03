@@ -24,7 +24,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes412 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes426 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
@@ -67,7 +67,9 @@ structural/runtime observations and complete exact gates remain distinct.
 
 The frozen queue has 505 files in `config/rec98_th03_inventory.csv`; 69 paths
 have scoped MAIN CODE review in `config/rec98_th03_reviews.csv`. Remaining
-file/artifact review is open. See `REC98_TH03_REVIEW.md`. Headers, dependencies,
+file/artifact review is open. MAINL now also has33 CODE-only candidate rows
+in `config/rec98_th03_candidate_reviews.csv`, separate from accepted MAIN.
+See `REC98_TH03_REVIEW.md`. Headers, dependencies,
 data/resources, libraries, startup/CRT and packing require separate decisions.
 The remaining directly linked MAIN root is `th03_main.asm`, alongside the
 failed enemy candidate. Five root `.inl` owners and random getters are accepted
@@ -82,9 +84,10 @@ Ghidra databases remain packed. Current exact policy requires canonical
 file-backed extents: decoded rows have no invented stored offsets or exact
 credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Continue MAINL complete malloc/free/realloc/new/delete, startup/exception,
-remaining physical carriers and root DATA/BSS layout, then remaining
-OP/ZUN/shared intake. Current MAP/ledger
+Continue the remaining frozen MAIN/OP/ZUN/shared file intake and MAINL
+DATA/BSS/header/dependency review. Resolve the unowned PI neighbor and source
+Oracle gates; keep complete malloc/free/realloc/new/delete, startup/exception
+and remaining compiled CRT carriers as separate dependency work. Current MAP/ledger
 interval comparison covers10944/10944 root _TEXT bytes, with zero independent
 gaps and zero overlapping ownership. This closes the decoded root interval
 union; complete carrier/artifact/source ownership remains open.
@@ -247,3 +250,17 @@ direct source providers are bound, with ten MAIN forwarders and one ASM copy
 explicitly declared. Source/exact acceptance stays false. See
 `docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and
 `scripts/review_th03_mainl_linked_tail.py`.
+
+MAINL direct-source candidate indexing covers33 frozen TUs/36 nonzero CODE
+carriers27753bytes:27752 independently reviewed,1unownedPIneighbor,overlap0.
+Five raw and three ordered-relocation failures remain explicit;32 source rows
+have complete CODE coverage but no whole-file/source/exact acceptance.
+The updated full MAP union is28380/58339bytes,gaps29959,overlap0. Replay
+`scripts/review_rec98_th03_mainl_intake.py --check` for portable policy or
+`--output .analysis/NEW_MAINL_CANDIDATE_INDEX.json` for pinned private carrier
+and selected evidence output replay. Full CI includes the portable policy.
+
+Latest full check: `.analysis/sol-mainl-linked-code-full-ci.log`, SHA-256
+`617cbfe1e85d44c61df0d0ab0887fa4ce0db1544a42bfeb3458d7fa3d1822e8d`, passes426 tests and all available private headless gates.
+Tracking is209units/1996evidence/213knowledge; MAINL145 decoded candidate rows
+still grant zero maintained-source/exact owner credit.
