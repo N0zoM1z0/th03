@@ -343,3 +343,9 @@ Next: remaining OP main/options/character-selection and Music Room complete
 callers, then root/header/DATA/BSS/resource/library and canonical packing/Oracle
 review. The505-file full review goal remains open across all four artifacts;
 MAIN exact ownership and MAINL/ZUN acceptance remain unchanged.
+
+Private analysis cleanup removed16182 unreferenced files/189572651 bytes from
+seven abandoned no-receipt cold runs. All1494 retained private receipt input
+path states/hashes are unchanged; failure logs/canonical targets/toolchain and
+accepted snapshots preserved. See `docs/reconstruction/ANALYSIS_CLEANUP.md` and
+`scripts/clean_th03_failed_analysis.py`. Historical stale inputs remain separate.
