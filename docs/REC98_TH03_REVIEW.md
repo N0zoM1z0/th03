@@ -39,15 +39,15 @@ Failed evidence is preserved explicitly. See
 `docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and run
 `python3 scripts/review_rec98_th03_mainl_intake.py --check`.
 This index grants no whole-file, source or exact acceptance and does not change
-the 69 scoped maintained MAIN paths. Sixteen MAINL CDG/text/math rows now have independently
+the 69 scoped maintained MAIN paths. Seventeen MAINL CDG/text/math/sound rows now have independently
 proved source presence in `src/shared/formats/cdg_load.cpp`, `cdg_put.asm` and
-`cdg_noalpha.asm`, `src/shared/graphics/text.cpp`, `src/shared/math/vector_far.asm`
-and `src/shared/formats/hfliplut.asm`; index acceptance stays false and their1892-byte interval
-credit is preserved without duplication. Shared CDG, text and LUT objects have
+`cdg_noalpha.asm`, `src/shared/graphics/text.cpp`, `src/shared/math/vector_far.asm`,
+`src/shared/formats/hfliplut.asm` and `src/shared/sound/load.cpp`; index acceptance stays false and their2004-byte interval
+credit is preserved without duplication. Shared CDG, text, LUT and sound-loader objects have
 independent OP bindings; the vector carrier is linked in MAINL only. Both artifacts pass two
 fresh cold carrier/raw/original-relocation/native replays; complete products
 retain their own failures. See `reconstruction/SHARED_CDG_LOAD_REVIEW.md` and
-`reconstruction/SHARED_CDG_DRAW_REVIEW.md` and `reconstruction/SHARED_TEXT_REVIEW.md` and `reconstruction/SHARED_MATH_REVIEW.md`.
+`reconstruction/SHARED_CDG_DRAW_REVIEW.md` and `reconstruction/SHARED_TEXT_REVIEW.md` and `reconstruction/SHARED_MATH_REVIEW.md` and `reconstruction/SHARED_SND_LOAD_REVIEW.md`.
 Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
 
@@ -268,6 +268,19 @@ filename scans, MIDI nonzero versus exactly1 routes and unsigned measure waits.
 See `MAINL_SOUND_REVIEW.md` and `scripts/review_th03_mainl_sound.py`. Nine decoded
 rows add no source/exact or accepted-intake credit; actual devices/files/payloads,
 DATA/BSS/CRT, cold localized ownership and canonical packaging Oracles stay open.
+
+The later `SHARED_SND_LOAD_REVIEW.md` independently binds the complete loader112
+in OP and MAINL. Each decoded target/two prior math cold images passes214calls,
+213far C returns/one bounded scan prefix/all45positions. Two final maintained
+cold rounds each repeat99calls/98returns/one prefix, with full physical1MiB
+including saved-stack aliases, ordered native stores and declared INT requests.
+The physical GAME2 object and original ordinal remain unchanged. Complete
+original raw/empty ordered relocations/public/MAP/TC86 records match; all20
+products equal preceding math and350othergameobjects remain unchanged. Both20
+product/351game-object vectors are deterministic; nine Research differences
+remain separate. One existing MAINL row gains source presence without new
+interval credit. DOS/driver ISRs, headers/inline dependencies/BSS/buffer sizes,
+assets/canonical storage/full products/exact remain open.
 
 Complete MAINL graph_putsa_fx review covers613bytes /226instructions plus native
 GRCG46 /24 helper diagnostics; allraw and3ordered relocations match both caches.

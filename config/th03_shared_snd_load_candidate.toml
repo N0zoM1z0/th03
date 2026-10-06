@@ -1,0 +1,14 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+support_files = ["compat/rec98/th02/snd/impl.hpp"]
+
+[[carriers]]
+source = "src/shared/sound/load.cpp"
+wrapper = "th02/snd_load.cpp"
+object = "obj/th02/snd_load.obj"
+original_wrapper_sha256 = "ce040c0142283320ef06c36942f2cee14de69132b23a019957485a2b46ab85a2"
+size = 112
+artifacts = ["op", "mainl"]
+op_segment = 3051
+op_offset = 162
+mainl_segment = 3198
+mainl_offset = 160

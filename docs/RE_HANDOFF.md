@@ -17,10 +17,10 @@ ordered ENEMY_2_TEXT relocations. Moving declarations did not repair that
 producer partition. Keep its separate manifest/receipt and
 `docs/reconstruction/MAIN_ENEMY_REVIEW.md`; do not absorb its exactness claim.
 
-OP has25 reviewed decoded units totaling11622 bytes:18 source-present extents,
-11255 bytes in three OP CPP TUs, two shared CPP, three shared ASM and seven bounded includes;
-seven other candidates367 bytes. OP exact0. MAINL has145 decoded rows, sixteen
-source-present extents1892bytes in two shared CPP/four ASM, and exact0. ZUN has18
+OP has26 reviewed decoded units totaling11734 bytes:19 source-present extents,
+11367 bytes in three OP CPP TUs, three shared CPP, three shared ASM and seven bounded includes;
+seven other candidates367 bytes. OP exact0. MAINL has145 decoded rows, seventeen
+source-present extents2004bytes in three shared CPP/four ASM, and exact0. ZUN has18
 rows/three source-present wrapper TUs,234 bytes/exact0.
 Japanese YUMEZIKU targets in `config/targets.toml` remain
 candidate-local-attested; independent pristine-dump provenance is unknown.
@@ -28,9 +28,9 @@ The frozen ReC98 candidate revision is
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47`. Never inherit cross-game exactness.
 
 Execution/Git permissions are restored. Historical restricted-execution
-failures remain evidence. Latest full CI: `.analysis/sol-shared-math-complete-ci-20261006.log`,
-SHA256 `7d49397fd6a760fed5270282ceae786642f0c38238b5681ea8821ac88fa4c52a`, passes557tests and all available private
-headless gates. Tracking:234units/2253evidence/280knowledge/120MAIN
+failures remain evidence. Latest full CI: `.analysis/sol-shared-snd-load-complete-ci-20261006.log`,
+SHA256 `ae0e5246b39ac55f068bdf553d5fb04f5b5c167c3f0a26e4a98f5aa83bcee17d`, passes567tests and all available private
+headless gates. Tracking:235units/2283evidence/284knowledge/120MAIN
 authored-function rows.
 Save progress in English `gpt-6.1-sol:` commits.
 
@@ -43,7 +43,7 @@ That index is MAINL-only. The full505-file review/migration goal remains open
 across all four artifacts. See `docs/REC98_TH03_REVIEW.md`.
 
 Next: continue remaining OP/shared carriers and declarations. Shared CDG
-load/free593, drawing496, text613 and LUT30 have independent OP/MAINL bindings;
+load/free593, drawing496, text613, LUT30 and sound loader112 have independent OP/MAINL bindings;
 MAINL vector160 is localized through a separately recorded natural ASM producer.
 Select3013
 carrier review and2906sourceinl migration are complete within bounded scope;
@@ -55,6 +55,30 @@ random getters are accepted within it; remaining root code/data and physical
 main.obj ownership remain open. Repeat the whole MAIN aggregate for new owners.
 
 ## Current OP evidence
+
+Shared sound loader112/45positions: independent OP/MAINL target and two prior
+math cold images each214calls/213far C returns/one bounded scan prefix. Full
+physical1MiB including saved-stack aliases, ordered copy/extension stores and
+INT requests, live MIDI recheck, DS:DX/BX flow, incoming IFDF and persistent
+filename state checked under declared DOS/driver replies. Physical
+obj/th02/snd_load.obj remains compiled GAME2/large/O and reused at original
+ordinals; no inherited TH02 exactness. Two final source rounds each99calls/
+98returns/one prefix/all45positions pass. Source receipt
+`.analysis/th03-shared-snd-load/sol-shared-snd-load-source-20261006-d/receipt.json`,
+SHA256 `0f54d49eb2f0f9c6db517fe6f367bf784826544a15b26860497f13b2f0dafdf9`,597guards.
+Original raw/empty ordered relocations/public/MAP/nondependency TC86 OMF match,
+CODE112/DATA0/BSS0. Both20product/351game-object vectors deterministic/all417OMF
+recorded; all20products equal preceding math/350othergameobjects unchanged.
+Nine Research differences remain separate. Existing MAINL112 row upgraded
+without duplicate interval credit. Whole OP6/MAINL21-byte and relocation-order
+failures remain; exact0. See `SHARED_SND_LOAD_REVIEW.md`.
+Cleanup removed4038files/46571507bytes from two stopped preparations; all1924
+retained private input states unchanged. Both failed transcripts/compiler log/
+forwarder/replay snapshots retained. Receipt
+`.analysis/sol-shared-snd-load-temporary-cleanup-20261006.json`, SHA256
+`a77b7fc18f74a790d4348748935d875fd6e7cfba23d1c4880748a0d119940a5f`.
+The source-c compiler proof remains historical after removal of its forwarder
+comment to satisfy the pure-include policy; its tracked guard is not rebased.
 
 Shared math: OP onlyLUT30/16positions; MAINLvector160+LUT30, nativeIATAN107
 context. Eachtarget/two priorcoldimages OP4cases/MAINL7424cases pass, with30
@@ -187,10 +211,10 @@ All six freshOP raw inequalities remain: Music Room two XOR bytes, title three
 ADD/XOR bytes, one candidateEVEN data byte atDGROUP05A5. All607 relocation sites
 have the same multiset, but313 original ordered rows differ. No normalization.
 The historical MAIN-overlay4867-byte/init1-byte failures remain separate.
-Current OP MAP interval comparison:100 CODE carriers/55262 bytes;11622 reviewed,
-43640gaps/zerooverlap. Current receipt
-`.analysis/sol-current-decoded-coverage-after-shared-math-20261006.json`, SHA256
-`563f3089fda8c53ac1f21fd0f9a200f5a65e42e6141d699e5dbc70e48c91f7da`,565guards.
+Current OP MAP interval comparison:100 CODE carriers/55262 bytes;11734 reviewed,
+43528gaps/zerooverlap. Current receipt
+`.analysis/sol-current-decoded-coverage-after-shared-snd-load-20261006.json`, SHA256
+`4a086460d41dd2951382ce6294a78270791c97938a7b091ca1e4d5ac44394c18`,612guards.
 Replay `scripts/review_th03_current_decoded_coverage.py` with the pinned shared
 source receipt. Older `review_th03_op_coverage.py` uses shifted init0570/CDG05D9
 MAP; its one-byte intersection gives no newCDG credit. Current init0571/CDG05DA
@@ -205,7 +229,7 @@ ordered-relocation failures remain;32 source rows have complete CODE coverage,
 with no wholefile/source/exact acceptance. Root_TEXT union10944/10944 complete;
 compiledCRT break/pointer substrate adds628CODE/111DATA diagnostics. Overall
 Current108MAP CODEcarriers have reviewed union28381/58340bytes,29959gaps/zerooverlap;
-sixteenCDG/text/math source-present rows preserve their previous interval credit. Historical
+seventeenCDG/text/math/sound source-present rows preserve their previous interval credit. Historical
 coverage28310/58339 remains separate.
 See `config/rec98_th03_candidate_reviews.csv`, `MAINL_ROOT_TAIL_REVIEW.md`,
 `MAINL_CRT_BREAK_REVIEW.md` and `scripts/review_th03_mainl_coverage.py`.

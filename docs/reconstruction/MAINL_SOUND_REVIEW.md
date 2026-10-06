@@ -1,5 +1,12 @@
 # Complete MAINL shared sound candidate review
 
+This historical sound-chain review is supplemented by
+[the complete shared loader review](SHARED_SND_LOAD_REVIEW.md). The loader has
+independent OP/MAINL bindings and complete physical-memory checks including
+saved-stack aliases. The physical GAME2 object association is recorded
+separately from target facts. Native driver/DOS ISRs and full sound ownership
+remain open; previous caller fixtures are not upgraded by this supplement.
+
 Eight complete candidate TUs contain nine functions: 535 decoded CODE bytes /
 163 instructions, plus four observed trailing NOPs, totaling 539 bytes. All raw
 bytes match both cached products; all eight contributions have no MZ relocation

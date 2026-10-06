@@ -1,5 +1,16 @@
 # Private analysis cleanup
 
+The shared sound-loader cleanup removes two unreferenced stopped preparations:
+4,038 files/46,571,507 bytes (44.4 MiB), with all 1,924 retained private input
+states unchanged. The first ASM hash-convention failure, subsequent compiler
+include failure, old forwarder and replay snapshots remain outside deletion.
+Complete successful source-c and final source-d trees remain; source-c's
+tracked forwarder guard is deliberately historical after the pure-include fix.
+Receipt `.analysis/sol-shared-snd-load-temporary-cleanup-20261006.json`, SHA256
+`a77b7fc18f74a790d4348748935d875fd6e7cfba23d1c4880748a0d119940a5f`, nine guards.
+No target/tool/prefix/database, successful proof tree or historical missing/
+stale input state was changed or rebased.
+
 The shared math migration removed one unreferenced stopped precompiler
 preparation after two corrected cold rounds passed:1928files/21507828bytes
 (about20.5MiB). All1871 retained private input states stayed unchanged. The
