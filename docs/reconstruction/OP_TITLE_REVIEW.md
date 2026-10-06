@@ -38,8 +38,8 @@ candidate source/carrier lineage. Automatic Ghidra boundaries remain provisional
 the canonical packed OP database is independently re-attested. Decoded coordinates
 are analysis positions, with no invented canonical stored-file offsets.
 
-Receipt: `.analysis/th03-op-title/sol-op-title-source-20261006/receipt.json`; SHA-256
-`4b0389d8acebc93a0ef6fe0fa7958c81225ee8c84bc38769f0c78c4219c83944`; 76 guarded inputs.
+Receipt: `.analysis/th03-op-title/sol-op-title-source-20261006-b/receipt.json`; SHA-256
+`626257123d424e373e7e1c051b168f305e57e1f3e9fc35a0894e63ca0ef2eea5`; 76 guarded inputs.
 
 Two new independent cold source trees compile the maintained score sources and
 title include, with no cached game objects or products. Each fresh OP passes
@@ -87,8 +87,8 @@ passes 28 tests. Encoded fixtures remain control data only.
 
 ## Whole decoded inequalities
 
-Receipt: `.analysis/sol-op-inequalities-20261006.json`; SHA-256
-`c747edd94abb2f7176b1b2dfd95992e76c997cf69133d3fd9084301ec7bdc715`; 94 guarded inputs.
+Receipt: `.analysis/sol-op-inequalities-after-whitespace-20261006.json`; SHA-256
+`aa71740248b61ea9ab3f94d85b82e1a3bc06d93f3d0038d3237c2cb3646ea81b`; 94 guarded inputs.
 
 All six raw unequal program bytes remain. Five bytes encode four register
 operations: XOR DI,DI and XOR SI,SI in the Music Room helper at 0990:0CF6, and
@@ -112,5 +112,12 @@ review and the complete Oracle set remain open across the 505-file queue.
 Independent interval coverage is 1,917 / 55,261 decoded CODE bytes,
 53,344 gaps and zero overlap across 100 nonzero compiler carriers. This
 counts 13 OP units: four source-present owners / 1,309 bytes and nine other
-candidates / 608 bytes. Receipt: `.analysis/sol-op-map-unit-coverage-after-title-20261006.json`; SHA-256
-`738f471e61de0136f226accf5bf8ae76d588cf797130b841063c94db58cc46d4`.
+candidates / 608 bytes. Receipt: `.analysis/sol-op-map-unit-coverage-after-title-whitespace-20261006.json`; SHA-256
+`1a2f42fc45c4cebdb9ba04c3913d37894b16d9f73ab6a71c75fc381fe9abc5bd`.
+
+The original staged check reported an extra EOF blank line that was committed
+before correction. A readonly comparison of that commit reproduces the failure.
+The corrected include is bound by the new two-round cold receipt above; its
+20-product and 350-gameobject vectors match the earlier replay. Historical
+receipts and the original failed check remain evidence. Current source, staged
+whitespace and full CI are verified separately.

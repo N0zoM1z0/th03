@@ -327,10 +327,17 @@ Source-present intervals retain diagnostic coverage only. The old shifted
 initializer crosses the next cold carrier by one byte, without proving
 original/source carrier ownership. Replay `scripts/review_th03_op_coverage.py`.
 
-Latest full check: `.analysis/sol-op-title-full-ci.log`, SHA-256
-`be063f48f9be5e71a927de13783f371714e98bfa6ae2f679aab2c0ab3f5bd130`, passes454 tests and all available private headless gates.
-Tracking before the CI evidence row:222units/2059evidence/234knowledge.
-OP exact acceptance remains0; MAIN and MAINL/ZUN acceptance unchanged.
+The title include's extra EOF blank line was caught at staging but initially
+committed. It is corrected and recompiled in two fresh
+`sol-op-title-source-20261006-b` rounds: same20product/350gameobject vectors,
+808 raw/ordered title bytes and96 native calls perOP. Keep the original
+commit/check/receipt as historical evidence. Current inequality replay pins
+this new receipt; no acceptance normalization.
+
+Latest full check: `.analysis/sol-op-title-corrected-full-ci.log`, SHA-256
+`8e0b665e4671a10d6c56d44fd1f8217331572c7c0efcc9363136092f30f9e649`, passes454 tests and all available private headless gates.
+Tracking is222units/2065evidence/234knowledge; current staged/worktree whitespace
+checks pass. OP exact0; MAIN and MAINL/ZUN acceptance remain unchanged.
 
 Next: remaining OP main/options/character-selection and Music Room complete
 callers, then root/header/DATA/BSS/resource/library and canonical packing/Oracle

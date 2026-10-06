@@ -13,8 +13,8 @@ from lib.pc98 import parse_mz
 from review_th03_mainl_cutscene import REVISION,sha
 
 ROOT=Path(__file__).resolve().parents[1]
-PROOF='.analysis/th03-op-title/sol-op-title-source-20261006/receipt.json'
-PROOF_SHA='4b0389d8acebc93a0ef6fe0fa7958c81225ee8c84bc38769f0c78c4219c83944'
+PROOF='.analysis/th03-op-title/sol-op-title-source-20261006-b/receipt.json'
+PROOF_SHA='626257123d424e373e7e1c051b168f305e57e1f3e9fc35a0894e63ca0ef2eea5'
 PROVIDERS=['th03/op_music.cpp','th02/op/m_music.cpp','th03/op/m_main.cpp',
            'th03_op.asm','libs/master.lib/vs[data].asm','libs/master.lib/wordmask[data].asm']
 

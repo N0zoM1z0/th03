@@ -197,4 +197,3 @@ void near box_submenu_to_main_animate(void)
 		frame_delay(1);
 	}
 }
-
