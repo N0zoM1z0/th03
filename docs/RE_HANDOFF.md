@@ -24,7 +24,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes391 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes401 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
@@ -82,16 +82,16 @@ Ghidra databases remain packed. Current exact policy requires canonical
 file-backed extents: decoded rows have no invented stored offsets or exact
 credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Continue MAINL remaining root helpers/alignment, CRT allocation and generated
-root CODE/DATA/BSS, then remaining OP/ZUN/shared intake. Current MAP/ledger interval comparison
-covers10222/10944 root _TEXT bytes and leaves722 without independent
-unit rows, with zero overlap, including
-some previously reviewed native context; separate CRT modules remain open.
+Continue MAINL startup/CRT allocation, remaining physical carriers and root
+DATA/BSS layout, then remaining OP/ZUN/shared intake. Current MAP/ledger
+interval comparison covers10944/10944 root _TEXT bytes, with zero independent
+gaps and zero overlapping ownership. This closes the decoded root interval
+union; complete carrier/artifact/source ownership remains open.
 Replay `scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`;
-see `.analysis/sol-mainl-map-unit-coverage-after-pi-decoder-20261006.json`. CODE-resident
-read-only tables count as owned bytes, not additional instructions. Prior
-coverage snapshots are preserved. Use context evidence
-before assigning another owner, avoiding duplicate credit.
+see `.analysis/sol-mainl-map-unit-coverage-after-root-tail-20261006.json`.
+CODE-resident read-only tables count as owned bytes, not additional instructions.
+Prior coverage snapshots are preserved. Use context evidence before assigning
+another owner, avoiding duplicate credit.
 EGC/box fills/public near GDC add475 independent decoded bytes; their raw
 bytes/relocations/public MAP entries/native CPU behavior agree with both fresh
 MAINL products from the pinned complete MAIN cold replay. Eleven providers,
@@ -107,8 +107,8 @@ Gaiji backup/load/read/write add434 independent bytes; private font helpers
 run through complete public callers with native heap/stack/BFNT/open context.
 All1257 scoped CODE/producer and10DATA bytes match both cold products.
 Single transfers force IF; ALL first ADC inherits Carry; DF is retained.
-BFNT Carry1/AX8192 reads can still register stale data. C71 is00 outside the
-verified C72 entry and remains uncredited. Device/DOS models grant no exactness.
+BFNT Carry1/AX8192 reads can still register stale data. The gaiji receipt excludes
+C71; root-tail review now records it as explicit db0. Device/DOS models grant no exactness.
 Screen mode/clear/page copy add222 independent bytes; all926 scoped CODE /
 producer and28DATA bytes match both cold products. Native private near plane
 and heap/stack calls pass3600 terminal calls plus12 assignment prefixes.
@@ -132,6 +132,17 @@ Preserve ignored DOS read status/length, error handle/temp leaks, failed
 extension parsing, zero-height decode, position-dependent high-length handling
 and zero-progress aligned-copy cycles. Heap BSS has runtime comparison only,
 with no invented file slice. Actual DOS/complete callers/DIET/full Oracles open.
+
+Remaining root helpers/producers add722 independent bytes in sixteen extents;
+all1003 scoped CODE/producer bytes including prior PFOPEN281 and290 initialized
+DATA bytes match both cold products with empty ordered relocations.39 frozen
+providers/root OMF/thirteen public MAP entries bind lineage.25335 tail calls
+have25305 returns/30 native DIV stops, with72 separate semantic prefixes.
+Native STR_IEQ runs through318 legacy PFOPEN calls:312 returns/six budgets.
+344/351 positions execute; one atan NOP and dead private SAJOUT retain raw/
+structural coverage. Preserve absent-stick SI/AX, unchecked second resident
+allocation, MCB cycles, palette alias ordering and text DF/BIOS geometry.
+Root interval completion grants no maintained MAINL source or exact credit.
 
 ## MAINL candidate evidence index
 
@@ -173,6 +184,7 @@ original interface models even after a separate library review.
 | [Screen mode/clear/page copy](reconstruction/MAINL_SCREEN_REVIEW.md) | 222 | 3600 terminal calls plus12 assignment prefixes; native private plane/heap/stack |
 | [Gaiji/PACK drawing/scroll/show](reconstruction/MAINL_DRAW_REVIEW.md) | 656 CODE +1024 table | 21636 terminal calls plus48 polling budgets; native shared tails/GDC |
 | [Root PI decoder/free](reconstruction/MAINL_PI_DECODER_REVIEW.md) |1600|3420 terminal calls plus60 semantic prefixes; native private helpers/heap/stack/open and successful borrower supplement|
+| [Remaining root helpers/producers](reconstruction/MAINL_ROOT_TAIL_REVIEW.md) |722|25335 calls incl.30 DIV stops,72 prefixes; separate318 native-compare PFOPEN calls|
 
 OP has three configuration/win-screen boundary rows totaling 387 decoded
 bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL

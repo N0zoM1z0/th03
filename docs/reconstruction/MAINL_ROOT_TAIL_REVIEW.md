@@ -177,7 +177,11 @@ are test fixtures, never product source.
 
 ## Remaining acceptance and artifact scope
 
-The refreshed interval coverage is recorded separately after this review.
+The refreshed MAP/unit coverage receipt is `.analysis/sol-mainl-map-unit-coverage-after-root-tail-20261006.json`, SHA-256
+`7218eb0b090ebd7e10e2caaf5f0714f3edf45f6d18500be9815c9462bff5b318`. Independent root _TEXT coverage is10944/10944 bytes,
+with zero gaps and zero overlapping ownership. All108 nonzero MAP carriers
+are inventoried; this closes only the root decoded interval union. Earlier
+coverage snapshots and hashes are preserved.
 
 Complete root decoded interval coverage is not a whole MAINL build or source
 acceptance. Startup and remaining CRT carriers, root DATA/BSS layout, complete
