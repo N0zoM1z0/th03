@@ -12,13 +12,14 @@
 </p>
 
 This repository reconstructs the original Japanese PC-98 **Touhou 3:
-Phantasmagoria of Dim.Dream**. The active goal is to reconstruct `MAIN.EXE`,
-`OP.EXE`, `MAINL.EXE` and `ZUN.COM` from maintained natural source, with
-reviewed ownership and exact byte comparison against the original targets.
+Phantasmagoria of Dim.Dream**. Reconstruction work stopped at the owner's
+request on 2026-10-06. This repository preserves maintained source and reviewed
+evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the complete game
+reconstruction and the 505-file intake remain unfinished.
 
-[Current state and remaining work](docs/RE_HANDOFF.md) is the working entrypoint.
-MAIN currently has **40 exact functions / 6210 exact owned bytes** across
-**13 maintained source owners and 14 reviewed CODE extents**. These are
+[Final handoff](docs/RE_HANDOFF.md) and [closeout record](docs/CLOSEOUT.md)
+are the entrypoints. MAIN has **101 exact functions / 11628 exact owned bytes**
+across **38 maintained source owners and 43 reviewed CODE extents**. These are
 repository-local exact results for the reviewed extents, not whole-game product
 closure or Factory Truth Kernel acceptance. Whole-game denominators remain
 unknown until ownership is reviewed.
@@ -26,7 +27,8 @@ unknown until ownership is reviewed.
 ## Current products and navigation
 
 - [Progress and exact ownership counts](docs/PROGRESS.md).
-- [MAIN input/math extent, ABI and Oracle review](docs/MAIN_INPUT_MATH_EXACT.md).
+- [Earlier MAIN input/math checkpoint](docs/MAIN_INPUT_MATH_EXACT.md).
+- [Complete review index](docs/REC98_TH03_REVIEW.md) and [bounded notes](docs/reconstruction/README.md).
 - [Reconstruction workflow](docs/RE_WORKFLOW.md) and [Oracle contract](docs/ORACLES.md).
 - [Headless compiler tools](docs/TOOLCHAIN.md) and [Ghidra analysis](docs/GHIDRA.md).
 - [Shared Factory MCP and read-only TH04 reference](docs/FACTORY.md).
@@ -53,7 +55,8 @@ and signed fixed-point arithmetic using the actual maintained objects.
 All compiler and analyzer invocations are headless. Private state and replay
 outputs stay under `.analysis/`; `python3 scripts/clean_generated.py --apply`
 prunes disposable builds, probes and caches while retaining required private
-state and ledger-referenced evidence. `python3 scripts/build.py --status`
+state and ledger-referenced evidence. For recorded cleanup that also protects
+documented paths, use `scripts/closeout_cleanup.py`; see the closeout record. `python3 scripts/build.py --status`
 reports the open product graph; a complete playable maintained game build is
 not available yet.
 

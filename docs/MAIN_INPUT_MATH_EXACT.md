@@ -1,11 +1,16 @@
-# MAIN exact ownership
+# Historical MAIN input/math checkpoint
+
+This note records the earlier 13-owner / 40-function checkpoint. The final
+aggregate has 38 owners / 101 functions / 11628 owned bytes; see
+[the final handoff](RE_HANDOFF.md) and [progress](PROGRESS.md). The scoped
+observations below retain their original meaning and are not the final totals.
 
 The maintained sources implement forty exact functions in thirteen complete
 source owners represented by fourteen reviewed CODE extents totaling 6210 owned
 bytes: 6103 function-body bytes plus 107 explicitly classified producer-owned
 bytes (104 switch-table bytes and three alignment bytes). Scope is the pinned
 Japanese MAIN.EXE. Here, "exact" means the repository-local reviewed Oracle
-result; it does not mean Factory Truth Kernel acceptance. The current frontier
+result; it does not mean Factory Truth Kernel acceptance. The frontier at this checkpoint
 covers vector/polar math, frame
 timing, keyboard/input mode sensing, sound, initialization, PI loading, and the
 complete explosion-collision, fireball, and bullet gameplay owners. Reuse by

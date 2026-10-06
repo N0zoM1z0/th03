@@ -1,5 +1,18 @@
 # Private analysis cleanup
 
+Owner-requested closeout removes32,600unusedfiles/450,320,719bytes (429.5MiB).
+The first pass removes32409files, including3superseded unaccepted diagnostic
+matrices, with2957retained states unchanged. Final post-CI cleanup removes191
+regenerated cache files/4,263,838bytes, with2968retained states unchanged.
+Product/compat/target/MAIN-owner inputs206also remain unchanged.
+
+Original cleanup-tool/control-source snapshots and historical MAIN guard drift
+are preserved; the final tool rejects escaped JSON dependencies. See
+[closeout](../CLOSEOUT.md),
+`.analysis/closeout/sol-closeout-20261006/receipt.json` and
+`.analysis/closeout/sol-closeout-post-ci-20261007/receipt.json`. Meaningful cold,
+proof, target, runtime, tool and failure state remains; acceptance is unchanged.
+
 After input/timing replacement cold rounds passed, one failed post-compiler
 validation build tree and two obsolete preparation scripts were removed:
 2555files/31,309,403bytes (29.9MiB). All2052retained private input states are
