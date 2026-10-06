@@ -151,6 +151,11 @@ root DATA/BSS, physical source ownership, link layout and DIET packaging
 remain open. Observed target, compiler, model runtime and inference stay
 separate. MAINL maintained source0/exact0 is unchanged.
 
+The refreshed MAP/unit coverage receipt is `.analysis/sol-mainl-map-unit-coverage-after-pi-decoder-20261006.json`, SHA-256
+`b10beb1dbff463df09beb4d8fa7d8e21d12af3182983b309ac6948739daefa0a`. It covers10222/10944 root bytes, with722
+uncredited and zero overlapping ownership. Earlier coverage receipts remain
+unchanged. CRT carriers and the remaining file/artifact queue stay open.
+
 ## Successful borrower and failed-refill supplement
 
 Receipt: `.analysis/sol-mainl-pi-decoder-borrow-review-20261006.json`, SHA-256

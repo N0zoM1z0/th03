@@ -24,7 +24,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes379 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes391 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
@@ -82,14 +82,13 @@ Ghidra databases remain packed. Current exact policy requires canonical
 file-backed extents: decoded rows have no invented stored offsets or exact
 credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Continue MAINL remaining root helpers/tables and PI decoder ownership,
-CRT allocation and generated root CODE/DATA/BSS, then remaining OP/ZUN/shared
-intake. Current MAP/ledger interval comparison
-covers8622/10944 root _TEXT bytes and leaves2322 without independent
+Continue MAINL remaining root helpers/alignment, CRT allocation and generated
+root CODE/DATA/BSS, then remaining OP/ZUN/shared intake. Current MAP/ledger interval comparison
+covers10222/10944 root _TEXT bytes and leaves722 without independent
 unit rows, with zero overlap, including
 some previously reviewed native context; separate CRT modules remain open.
 Replay `scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`;
-see `.analysis/sol-mainl-map-unit-coverage-after-draw-20261006.json`. CODE-resident
+see `.analysis/sol-mainl-map-unit-coverage-after-pi-decoder-20261006.json`. CODE-resident
 read-only tables count as owned bytes, not additional instructions. Prior
 coverage snapshots are preserved. Use context evidence
 before assigning another owner, avoiding duplicate credit.
@@ -122,6 +121,17 @@ products;21636 terminal calls plus48 independently counted GDC budgets pass.
 ADC uses full character Carry; negative packed X moves the source backwards;
 PACK clears DF only after rejection paths. Scroll clamps line to VramLines
 and polls bit04. Actual CG/GRCG/GDC/BIOS and unusual V30 shifts remain open.
+Root PI decoder/free add1600 independent bytes with730 prior native heap/stack/open
+context. All2330CODE/producer and10DATA raw/empty relocations match both cold
+products;22 frozen providers/root OMF/public MAP bound. Immutable base and
+successful-borrow/refill supplement total3420 terminal calls/1284381 native
+entries plus60 semantic prefixes.706/711 positions execute; five unreachable
+EVEN NOPs retain structural/raw coverage. Initial post-wrap fixtures failed
+allocation; the supplement requires success and actual borrower branches.
+Preserve ignored DOS read status/length, error handle/temp leaks, failed
+extension parsing, zero-height decode, position-dependent high-length handling
+and zero-progress aligned-copy cycles. Heap BSS has runtime comparison only,
+with no invented file slice. Actual DOS/complete callers/DIET/full Oracles open.
 
 ## MAINL candidate evidence index
 
@@ -162,6 +172,7 @@ original interface models even after a separate library review.
 | [Gaiji backup/load/read/write](reconstruction/MAINL_GAIJI_REVIEW.md) | 434 | 6966 terminal calls plus12 budgets; native font helpers/heap/stack/BFNT |
 | [Screen mode/clear/page copy](reconstruction/MAINL_SCREEN_REVIEW.md) | 222 | 3600 terminal calls plus12 assignment prefixes; native private plane/heap/stack |
 | [Gaiji/PACK drawing/scroll/show](reconstruction/MAINL_DRAW_REVIEW.md) | 656 CODE +1024 table | 21636 terminal calls plus48 polling budgets; native shared tails/GDC |
+| [Root PI decoder/free](reconstruction/MAINL_PI_DECODER_REVIEW.md) |1600|3420 terminal calls plus60 semantic prefixes; native private helpers/heap/stack/open and successful borrower supplement|
 
 OP has three configuration/win-screen boundary rows totaling 387 decoded
 bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL
