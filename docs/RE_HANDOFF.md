@@ -25,6 +25,18 @@ ordered ENEMY_2_TEXT relocation list without changing CODE bytes or weakening th
 comparison. Historical source filenames remain unknown; see
 reconstruction/MAIN_ENEMY_REVIEW.md.
 
+MAIN_05_TEXT character bombs remain outside the exact aggregate, but the
+producer blocker has materially narrowed. The complete Ellen contribution now
+has maintained natural C++ in src/main/player/bomb_ellen.cpp: TC4J emits the
+target's exact 1023-byte 280/163/580 function partition and all 347 instruction
+offset/size/mnemonic shapes, plus a 132-byte private BSS that maps directly to
+the target's Ellen-only DGROUP hole. This gives direct compiler evidence for
+the previously inferred per-character producer split. The retained probe is
+.analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-compat-20261007/receipt.json.
+It is source/codegen evidence only, not exact credit; full TLINK placement and
+ordered MZ relocations are still open. See
+reconstruction/MAIN_BOMBS_REVIEW.md.
+
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
 is unknown. Frozen ReC98 revision:
@@ -97,9 +109,9 @@ root code/data ownership and the maintained build graph; do not treat the 100%
 reviewed-authored frontier as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
-headless gates passing at the 2026-10-06 snapshot. Current tracking after the
-enemy promotion has 249 units / 2360 evidence rows / 294 knowledge rows /
-120 MAIN authored-function rows.
+headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 250 units / 2363 evidence rows / three
+hypotheses / 295 knowledge rows / 127 MAIN authored-function rows; the accepted
+exact subset remains 120 functions.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. A fresh /usr/bin/python3 CI attempt runs 608 tests but reports

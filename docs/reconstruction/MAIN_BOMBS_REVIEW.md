@@ -72,6 +72,46 @@ ordered_relocations_equal=false for the full owner and for each of its seven
 functions. The pre-carve baseline candidate emits the same wrong ordering,
 which rules out the new include as the source of this drift.
 
+## Ellen Turbo C++ producer reconstruction
+
+The five-producer hypothesis is no longer based only on the MZ relocation
+shape. src/main/player/bomb_ellen.cpp now reconstructs the complete Ellen
+producer as natural Turbo C++: the 280-byte update function, 163-byte near
+render helper, and 580-byte bomb function. A fresh pinned-ReC98 TC4J compile
+produces exactly 1023 CODE bytes and 347 decoded instructions. Every candidate
+instruction has the same offset, size, and mnemonic as the corresponding
+immutable-target instruction, and the three return boundaries are exactly
+279/RETF, 442/RET, and 1022/RETF.
+
+This result required source-level compiler archaeology rather than byte
+patching. In particular, the render helper needs two independent sentinel
+tests to reproduce TC4J's second pointer reload; the update function needs one
+loop variable reused across both loops to avoid an extra DI save/restore; the
+first four-frame phase test is naturally (frame & 3) < 2 while the later
+zero-remainder test is the distinct % 4 expression emitted as IDIV; and the
+MRS altered-color argument uses the repository's existing _AX register
+pseudo-variable idiom to preserve the target's integer-promotion sequence
+without inventing a stack local.
+
+The same object independently strengthens the physical-producer model through
+its private data. TC4J emits CODE/DATA/BSS segment sizes 1023/0/132. The
+132-byte BSS is exactly particle_spawn_count (2), two players by eight
+8-byte position/velocity particles (128), and particle_p (2). Their relative
+offsets 0/2/130 map directly onto the otherwise anonymous target DGROUP region
+25DC, 25DE..265D, and 265E referenced by the Ellen code.
+
+The reproducible object-level probe is:
+
+    python3 scripts/probe_th03_main_bomb_ellen_cpp.py --run-id UNIQUE_ID
+
+The retained maintained-source receipt is
+.analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-compat-20261007/receipt.json.
+It intentionally records exact_acceptance=false: the 252 pre-link raw-byte
+differences are unresolved OMF data/fixup operands and must not be normalized
+away as an exact result. The next gate is to reproduce the historical
+MAIN_05_TEXT physical producer placement, the private DGROUP placement, and
+the final TLINK/MZ relocation order in a full-owner link.
+
 This document intentionally does not claim exact acceptance yet. The candidate
 lives in config/th03_main_bombs_candidate.toml so the default accepted aggregate
 remains green. Promotion requires the normal two-round aggregate cold replay to
