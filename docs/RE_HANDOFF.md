@@ -1,36 +1,44 @@
 # TH03 current handoff
 
-## Current state
+## Accepted state and open gates
 
-MAIN has thirty-eight maintained exact source owners represented by forty-three
-reviewed CODE extents: 101 complete functions and 11628 owned bytes,
-comprising 11487 function-body bytes and 141 classified producer-owned
-switch-table/alignment bytes. `config/th03_main_exact_units.toml`,
-`config/units.csv` and `docs/PROGRESS.md` define the current scope and counts.
+MAIN has 38 maintained exact source owners, 43 reviewed CODE extents,
+101 complete functions and 11628 owned bytes: 11487 body bytes plus 141
+producer table/alignment bytes. See `config/th03_main_exact_units.toml`,
+`config/units.csv` and `docs/PROGRESS.md`. The final accepted receipt is
+`sol-main-randring-final-20261006`, covering the whole aggregate in both cold
+rounds. These are bounded repository results; the whole product graph and
+Factory Truth Kernel acceptance remain open.
 
-The complete enemy owner remains a structural candidate: three CODE extents,
-nineteen functions and 3325 bytes in `config/th03_main_enemy_candidate.toml`.
-The two-round `sol-enemy-candidate-20261005` replay reproduced all candidate
-bytes, MAP contributions and configured deterministic vectors, but failed
-ordered relocations in ENEMY_2_TEXT. No enemy function or extent is exact.
-Moving declarations/definitions did not resolve the ordering; the original
-OMF producer record partition is still unknown. See
-`docs/reconstruction/MAIN_ENEMY_REVIEW.md`.
+The complete enemy candidate remains non-exact: three extents, nineteen
+functions, 3325 bytes. Its two-round `sol-enemy-candidate-20261005` replay
+matches bytes, MAP contributions and deterministic vectors but fails original
+ordered ENEMY_2_TEXT relocations. Moving declarations did not repair that
+producer partition. Keep its separate manifest/receipt and
+`docs/reconstruction/MAIN_ENEMY_REVIEW.md`; do not absorb its exactness claim.
 
-These are repository-local exact results for bounded reviewed extents, not a
-complete maintained MAIN/game build or Factory Truth Kernel acceptance.
-`config/build.toml` records the open product graph. OP, MAINL and ZUN have no
-maintained exact owner yet. The four Japanese YUMEZIKU artifacts remain pinned
-with `candidate-local-attested` provenance; independent pristine-dump
-attestation is unknown. The pinned TC4J/TASM/TLINK and Ghidra/JDK setups pass
-headless attestation. ReC98 revision
-`b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen build/link scaffold,
-not an independent exactness Oracle. The older all-game dependency-normalized
-OMF calibration mismatch remains isolated; never rewrite its imported hashes.
+OP and MAINL have no maintained source/exact owner. ZUN has three maintained
+wrapper TUs totaling 234 decoded bytes, without exact acceptance. Japanese
+YUMEZIKU targets remain pinned as `candidate-local-attested`; independent
+pristine-dump attestation is unknown. ReC98 revision
+`b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
+Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-## Validation
+Execution permissions were restored on 2026-10-06. Full CI passes343 tests,
+tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
+all four stored databases and byte/database mutant controls. Selected MAINL
+was independently re-attested before further target work. Historical restricted
+execution failures remain evidence, without current blocker status. Two fresh
+ZUN wrapper cold rounds now pass compiler/link/runtime diagnostics; decoded
+full-image equality still fails10 unowned driver bytes. Git metadata is writable;
+review batches are saved with English `gpt-6.1-sol:` commits. The prior combined
+source-only patch and pending messages remain historical recovery backups.
 
-Run Borland/Wine work serially and keep all tools headless.
+## Replay and ownership discipline
+
+Read `ARCHITECTURE.md`, `RE_WORKFLOW.md` and the local `th03-re` skill. Inspect
+Git and preflight before target work; attest the selected stored database
+before using its observations. Run tools headlessly and Borland/Wine serially.
 
 ```sh
 python3 scripts/preflight.py
@@ -40,88 +48,116 @@ python3 scripts/ci.py
 git diff --check
 ```
 
-The replay materializes two independent source trees, rebuilds every game
-object, validates OMF and deterministic vectors, and checks every accepted
-owner/function byte, MAP contribution and original ordered relocation site.
-Its current vector is 20 configured products, 354 game objects and 420 OMF
-objects. The three independent MAIN sound objects expand the previous
-351/417 vector while other products retain their original shared objects.
-Nine Research objects with `__DATE__/__TIME__` LEDATA remain diagnostic
-and outside the game-object vector. Inputs are frozen during each replay;
-do not mutate source/config/ledgers until its process exits. Native assembler `.inc`
-forwarders use one `include` directive; the tracking gate also checks product
-assembler includes for the same reference boundary as C/C++. Bounded `.inl`
-files check both include syntaxes. Interior CODE ownership pins the generated
-carrier, proves exact MAP containment and prohibits duplicate byte credit;
-private near entries are proved through complete owned public callers. Nested
-include chains must reach the frozen MAP module, with every link pinned.
+The accepted MAIN replay uses two independent source trees and checks every
+owner/function, OMF object, MAP contribution, raw byte and ordered relocation.
+Its current vector is 20 products, 354 game objects and 420 OMF objects; nine
+Research objects with date/time data remain diagnostic. Freeze source/config/
+ledgers while a replay is live. Native ASM forwarders use one include, bounded
+`.inl` forwarding checks both syntaxes, and nested chains must reach the pinned
+MAP carrier. Interior ownership prohibits duplicate byte credit. Private near
+entries require complete public callers; shared physical carriers and surrounding
+unreviewed bytes do not become accepted through a bounded include.
 
-The latest final accepted-state receipt is
-`sol-main-randring-final-20261006`, covering the full 38-owner / 43-extent / 101-function /
-11628-byte aggregate in both cold rounds. All prior accepted owners remain in
-the replay. The enemy candidate keeps its separate failed receipt and manifest.
-See `docs/reconstruction/MAIN_RANDRING_GETTERS_REVIEW.md` for this batch.
-Factory repository-shell success remains distinct from Factory-accepted
-receipts: native TH03 Truth Kernel replay is not registered.
+Natural C++/symbolic assembly retains target encodings, real compiler locals,
+ABIs, switch tables and EVEN alignment; target arrays, opaque code strings,
+padding and fake ABIs cannot manufacture acceptance. Source presence,
+structural/runtime observations and complete exact gates remain distinct.
 
-## Next bounded work
+## Complete intake and next work
 
-Continue the complete ReC98 intake queue. The remaining directly linked MAIN root
-is `th03_main.asm`, alongside the separately failed enemy candidate. Shared
-sound/hardware, collision-map and reversal-table owners have passed the complete
-replay. Five full handwritten root includes now pass as `.inl` owners (sprite-page copy,
-archive open, random fill, collision reset, score add). Their shared physical
-main.obj and surrounding generated bytes remain unaccepted. The random-getter
-macros now pass all eight functions with natural EVEN alignment. Remaining root
-code, data and resources need separate review.
-Do not count the reference build as authored progress.
-OP, MAINL and ZUN have a verified private DIET restoration recipe in
-`scripts/review_th03_diet.py` and `config/th03_diet.toml`. Two fresh runs restore
-identical bytes without changing the canonical targets: OP/MAINL become MZ
-images matching the frozen root input MD5s; ZUN becomes a 22812-byte flat COM.
-Stored Ghidra databases remain packed. Review decoded source boundaries and
-ABI/layout/relocations next, with explicit stored-target lineage. Current exact
-policy requires canonical file-backed extents; no decoded function gets exact
-credit or a fabricated file offset. Packing/stub ownership remains open. See
-`docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`. Keep header/dependency,
-data and other-artifact acceptance separate from MAIN CODE decisions.
+The frozen queue has 505 files in `config/rec98_th03_inventory.csv`; 69 paths
+have scoped MAIN CODE review in `config/rec98_th03_reviews.csv`. Remaining
+file/artifact review is open. See `REC98_TH03_REVIEW.md`. Headers, dependencies,
+data/resources, libraries, startup/CRT and packing require separate decisions.
+The remaining directly linked MAIN root is `th03_main.asm`, alongside the
+failed enemy candidate. Five root `.inl` owners and random getters are accepted
+within it; remaining generated root code/data and physical main.obj are not.
+Re-run the entire MAIN aggregate whenever accepting another owner.
 
-`scripts/review_th03_decoded_code.py` now replays diagnostics for every OP
-and MAINL direct-link file (27/33) against both pinned cold scaffold rounds.
-Program images differ by 4867/340 bytes; compiler-coordinate matches grant
-no ownership. Three MAINL functions (configuration resident load and two win
-screen functions, 387 bytes) have complete decoded boundary/ABI/source review
-in `config/units.csv`, with blank stored-file offsets and no maintained source.
-MAINL pi_put coordinates expose a natural-producer boundary still to recover;
-its generated STAFF_TEXT has equal bytes but different relocation order.
-See `docs/reconstruction/OP_MAINL_DECODED_CODE_REVIEW.md`. No new exact owner.
+OP, MAINL and ZUN have a private DIET restoration recipe in
+`scripts/review_th03_diet.py` and `config/th03_diet.toml`. Two fresh historical
+runs restore identical bytes without replacing stored targets; OP/MAINL yield
+MZ images matching frozen root input MD5s, ZUN a 22812-byte flat COM. Stored
+Ghidra databases remain packed. Current exact policy requires canonical
+file-backed extents: decoded rows have no invented stored offsets or exact
+credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Player state preserves its collision algorithm in symbolic inline assembly
-with compiler-owned locals/prologue; its companions retain C++. Hit circles
-use symbolic XOR to preserve the observed encoding. Complete playfield,
-sprite16 and MRS owners use symbolic TASM with genuine alignment in place of
-codestring NOPs and opaque codegen emissions. MRS naturally reproduces the
-ascending target relocation order, resolving its stock C++ reverse ordering.
-Their bounded reviews live under `docs/reconstruction/`. This does not resolve
-the separate enemy relocation failure.
+Continue remaining linked MAINL graphics, CRT allocation
+and remaining generated root code, then the remaining OP/ZUN/shared intake.
+BFNT/super and VSYNC/vector/mode now have native candidate review; physical display/DOS,
+asynchronous IRQ eligibility, lifetime and complete combined game callers
+remain open. Cached ASM/INC comparisons normalize only LF/CRLF. Prior maintained
+MAIN forwarders and seven MAIN-only Tupfile substitutions are explicit compiler
+lineage, never inherited MAINL acceptance. The full ending image retains 340
+changed bytes, classified as PI region300, caller operands19, native encoding20
+and unowned DGROUP0849byte1; equal remaining bytes still require ownership.
 
-The frozen intake has a replayable 504-file conservative queue in
-`config/rec98_th03_inventory.csv`; sixty-nine paths now have scoped CODE review
-in `config/rec98_th03_reviews.csv`. Remaining file/artifact review is open.
-See `docs/REC98_TH03_REVIEW.md`. Re-run the complete MAIN aggregate after every
-new owner and keep observed facts, compiler output, inference and acceptance
-separate in the ledgers.
+## MAINL candidate evidence index
+
+Replay scripts use `scripts/review_th03_mainl_NAME.py`; each linked note records
+its exact command, receipt, providers, scope, fixtures, limits and hazards.
+Counts below are diagnostics, not source or complete Oracle acceptance.
+Native context is never credited twice; earlier caller receipts retain their
+original interface models even after a separate library review.
+
+| Review note in `docs/reconstruction/` | New decoded bytes | CPU scope |
+| --- | ---: | --- |
+| [STAFF](reconstruction/MAINL_STAFF_REVIEW.md) | 424 | 1947 calls; root relocation ordering fails |
+| [Cutscene](reconstruction/MAINL_CUTSCENE_REVIEW.md) | 3195 | 195 calls; three raw PI operands differ |
+| [Box](reconstruction/MAINL_BOX_REVIEW.md), [animate](reconstruction/MAINL_ANIMATE_REVIEW.md), [picture](reconstruction/MAINL_PICTURE_REVIEW.md) | prior context | 72/90/72 calls; animate budgets, picture far transitions modeled |
+| [Registration](reconstruction/MAINL_REGIST_REVIEW.md) | 2949 | 456 calls; six raw PI operands differ |
+| [Snow](reconstruction/MAINL_SNOW_REVIEW.md) | 464 | 918 calls; clear encodings/relocations differ |
+| [Transitions](reconstruction/MAINL_TRANSITIONS_REVIEW.md) | 2875 | 393 calls incl. budgets/divide traps; encodings/relocations differ |
+| [Root CUTSCENE_TEXT](reconstruction/MAINL_ROOT_REVIEW.md) | 2488 | 1368 calls; PI operands/relocation ordering differ |
+| [Lifecycle](reconstruction/MAINL_LIFECYCLE_REVIEW.md) | 169 | 153 calls incl. caller prefixes; native plane context |
+| [CDG drawing](reconstruction/MAINL_CDG_PUT_REVIEW.md) | 496 | 261 calls; actual mutable CODE/flat stores |
+| [CDG loading](reconstruction/MAINL_CDG_LOAD_REVIEW.md) | 593 | 936 calls; file/heap models |
+| [PI](reconstruction/MAINL_PI_REVIEW.md) | 555 | 708 calls; shifted entries/callers and whole340-byte diff classified |
+| [Input](reconstruction/MAINL_INPUT_REVIEW.md) | 910 | 762 calls; native frame helper and device/IRQ fixtures |
+| [Sound](reconstruction/MAINL_SOUND_REVIEW.md) | 539 | 6975 calls incl. budgets; all33x33 priority pairs |
+| [Text](reconstruction/MAINL_TEXT_REVIEW.md) | 613 | 1980 calls; native GRCG context, synthetic ROM/device |
+| [Math](reconstruction/MAINL_MATH_REVIEW.md) | 190 | 22221 calls incl.90 divide stops; native atan context |
+| [PF open](reconstruction/MAINL_PFOPEN_REVIEW.md) | 281 | 318 calls incl. budgets; native compare context |
+| [PF read/RLE/seek](reconstruction/MAINL_PFREAD_REVIEW.md) | 356 | 4482 calls incl. budgets; buffered interfaces |
+| [Buffered files](reconstruction/MAINL_BUFFER_REVIEW.md) | 504 | 5328 calls; native DOS-open, DOS/heap models |
+| [Archive INT21 hook](reconstruction/MAINL_PFINT21_REVIEW.md) | 605 | 4194 calls; connected native archive/buffer and real IRET |
+| [File library/helpers](reconstruction/MAINL_FILE_REVIEW.md) | 866 | 6363 calls; sole DOS models |
+| [Heap](reconstruction/MAINL_HEAP_REVIEW.md) | 628 | 3906 terminal calls plus12 cycle budgets |
+| [Stack](reconstruction/MAINL_SMEM_REVIEW.md) | 76 | 1746 calls; native heap collisions and128 release flag cases |
+| [Palette/fades/wait](reconstruction/MAINL_PALETTE_REVIEW.md) | 692 | 7512 terminal calls plus24 budgets; native SMC and DOS-open |
+| [VSYNC/vector/mode](reconstruction/MAINL_VSYNC_REVIEW.md) | 368 | 41556 terminal calls plus60 budgets; native RETFs/IRETs/WAIT |
+| [BFNT/super sprites](reconstruction/MAINL_SUPER_REVIEW.md) | 1542 | 2892 terminal calls plus30 budgets; native conversion/SMC/heap/stack |
+
+OP has three configuration/win-screen boundary rows totaling 387 decoded
+bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL
+files against both caches; program images differ by 4867/340 bytes. See
+`docs/reconstruction/OP_MAINL_DECODED_CODE_REVIEW.md` and its guarded replay.
+
+## ZUN candidate evidence index
+
+- [Launcher](reconstruction/ZUN_LAUNCHER_REVIEW.md): maintained wrappers223/3/8
+  decoded bytes, fourteen wrapper cases; two fresh cold rounds pass, exact stays open.
+- [Driver -4](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md): all4224 bytes /
+  55 provisional procedures, ten encoding differences and nine bounded cases.
+- [Driver -2](reconstruction/ZUN_INIT_REVIEW.md): all1390 bytes /nine procedures,
+  raw matching payload and54 native/interface cases; TH02 label grants no exactness.
+- [Resident -5](reconstruction/ZUN_RESIDENT_REVIEW.md): two root functions97/225
+  and eleven helpers423, whole5618-byte cached match, sixty root-only cases;
+  fallback allocation carry, terminator and unchecked I/O hazards remain.
+- [Logo -3](reconstruction/ZUN_SOFT_REVIEW.md): ten root bodies1299, whole10096
+  cached bytes match,3900 CPU/model calls; graphics/BFNT/assets/CRT stay open.
+- [ONGCHK -1](reconstruction/ZUN_ONGCHK_REVIEW.md): binary-only926 bytes
+  (CODE892/DATA34), thirty terminal/four polling budgets; no source/compiler credit.
+
+No payload/root review adds maintained source or exact credit. Replay with
+`scripts/replay_th03_zun_launcher.py`, `scripts/review_th03_zun_{driver,init,resident}.py`,
+`scripts/review_th03_zunsoft.py` and `scripts/review_th03_ongchk.py`. Frozen providers,
+root OMF and byte matches are candidate observations, not full dependencies,
+startup/runtime/device or canonical packaging Oracles.
 
 ## Local state and cleanup
 
 Preserve targets/runtime images, the game-local Wine prefix, Ghidra state and
-private evidence paths referenced by `config/evidence.csv`. Cold-build trees,
-probes, logs and caches are disposable. Use:
-
-```sh
-python3 scripts/clean_generated.py          # dry run
-python3 scripts/clean_generated.py --apply  # prune disposable output
-```
-
-Cleanup derives protected paths from the ledger and can reduce old replay trees
-to referenced receipts/reviews. Do not run it against an active replay.
+private evidence referenced by `config/evidence.csv`. Cold trees/probes/caches
+are disposable. `python3 scripts/clean_generated.py` previews protected cleanup;
+`--apply` prunes disposable output. Never clean against a live replay.
