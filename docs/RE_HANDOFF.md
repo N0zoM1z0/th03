@@ -236,3 +236,14 @@ Preserve targets/runtime images, the game-local Wine prefix, Ghidra state and
 private evidence referenced by `config/evidence.csv`. Cold trees/probes/caches
 are disposable. `python3 scripts/clean_generated.py` previews protected cleanup;
 `--apply` prunes disposable output. Never clean against a live replay.
+
+The MAINL direct-link tail adds70 independent decoded bytes: planes41,
+frame delay21 and eight producer NOPs. Three-image493-call matrices per image
+execute all16 new instructions and native no-callback VSYNC IRQ/IRET context.
+IF0/accumulator-carry waits retain open frames; negative delay parameters use
+unsigned counts. The target PI neighbor0C7E:0529 remains unowned and differs
+from cold PUSH BP; do not close it as matching producer padding. All33 cold
+direct source providers are bound, with ten MAIN forwarders and one ASM copy
+explicitly declared. Source/exact acceptance stays false. See
+`docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and
+`scripts/review_th03_mainl_linked_tail.py`.
