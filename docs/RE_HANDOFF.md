@@ -17,9 +17,9 @@ ordered ENEMY_2_TEXT relocations. Moving declarations did not repair that
 producer partition. Keep its separate manifest/receipt and
 `docs/reconstruction/MAIN_ENEMY_REVIEW.md`; do not absorb its exactness claim.
 
-OP has19 reviewed decoded units totaling6984 bytes:12 source-present extents,
-6617 bytes in three CPP TUs and five bounded includes; seven other candidates
-367 bytes. OP exact0. MAINL has145 candidate rows and no maintained source or
+OP has20 reviewed decoded units totaling9890 bytes:12 source-present extents,
+6617 bytes in three CPP TUs and five bounded includes; eight other candidates
+3273 bytes. OP exact0. MAINL has145 candidate rows and no maintained source or
 exact owner. ZUN has18 rows/three source-present wrapper TUs,234 bytes/exact0.
 Japanese YUMEZIKU targets in `config/targets.toml` remain
 candidate-local-attested; independent pristine-dump provenance is unknown.
@@ -29,7 +29,7 @@ The frozen ReC98 candidate revision is
 Execution/Git permissions are restored. Historical restricted-execution
 failures remain evidence. Latest full CI: `.analysis/sol-op-music-complete-ci-20261006.log`,
 SHA256 `fd6f6ba9ee676948e0b5415a404fd231e5642a1c5e96d001b65e3a0f03b720e3`, passes484tests and all available private
-headless gates. Tracking:228units/2123evidence/253knowledge/120MAIN
+headless gates. Tracking:229units/2134evidence/258knowledge/120MAIN
 authored-function rows.
 Save progress in English `gpt-6.1-sol:` commits.
 
@@ -41,14 +41,26 @@ has33 CODE-only candidate rows in `config/rec98_th03_candidate_reviews.csv`.
 That index is MAINL-only. The full505-file review/migration goal remains open
 across all four artifacts. See `docs/REC98_TH03_REVIEW.md`.
 
-Next: complete OP character-selection carrier3013 bytes,107 previous score
-loader bytes/2906 remaining. Then continue remaining MAIN/OP/ZUN/shared intake,
+Next: finish two fresh OP character-selection source cold replays for the
+2906-byte18-function inl under private unowned DATA/BSS prefix;107 previous
+loader bytes retain their own source. Complete3013-byte19-function native
+review haspassed; curves351/versus407 original relocation-order failures stay
+open. No product source padding declaration is accepted. Then continue remaining MAIN/OP/ZUN/shared intake,
 MAINL DATA/BSS/dependencies, CRT/root/header/library/resource/canonical packing
 Oracles. MAIN's remaining linked root is `th03_main.asm`: five root inls and
 random getters are accepted within it; remaining root code/data and physical
 main.obj ownership remain open. Repeat the whole MAIN aggregate for new owners.
 
 ## Current OP evidence
+
+Complete Select carrier3013/19functions: three prior images each440cases/all1239
+positions pass; all3475 native/context bytes and227DATA rawequal, butcurves351
+andversus407 original ordered relocations differ. Frozen compiler control
+removing candidatepadding1/2 changes BSS23->21. Localize bounded2906inl; retain
+private unowned DATA/BSS prefix through19compat forwarders. Receipt
+`.analysis/sol-op-select-review-20261006.json`, SHA256
+`7e8d58a346b49abfefe74b976aa86efc5728a509a858dc5096fbd50def39c722`,
+325guarded inputs. See `OP_SELECT_REVIEW.md`; source cold replay still pending.
 
 Complete Music Room carrier2244 bytes/14 functions: maintained prefix216 and
 tail1998 in `src/op/music/`,14 explicit compatibility forwarders; private
@@ -88,8 +100,8 @@ All six freshOP raw inequalities remain: Music Room two XOR bytes, title three
 ADD/XOR bytes, one candidateEVEN data byte atDGROUP05A5. All607 relocation sites
 have the same multiset, but313 original ordered rows differ. No normalization.
 The historical MAIN-overlay4867-byte/init1-byte failures remain separate.
-OP MAP interval comparison:100 nonzeroCODE carriers/55261 bytes;6984 reviewed,
-48277gaps/zerooverlap. Replay `scripts/review_th03_op_coverage.py` and
+OP MAP interval comparison:100 nonzeroCODE carriers/55261 bytes;9890 reviewed,
+45371gaps/zerooverlap. Replay `scripts/review_th03_op_coverage.py` and
 `scripts/review_th03_op_inequalities.py`. Original title EOF whitespace/check
 failure and corrected two-round title-b receipt remain historical evidence.
 
@@ -201,3 +213,6 @@ remained unchanged. Later Music Room preparation cleanup removed3files/2165bytes
 with197parent input hashes unchanged. See `ANALYSIS_CLEANUP.md` and
 `scripts/clean_th03_failed_analysis.py` (defaultdryrun; explicit `--apply`).
 Historical missing/stale inputs were not repaired or claimed current.
+Generated cleanup now preserves JSON input guards/aliases/complete coldreceipt
+trees and guarded caches; nine isolated deletion controls pass. No broad
+cleanup runs during a live replay.
