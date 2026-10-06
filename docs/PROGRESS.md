@@ -5,7 +5,7 @@
 | th03-op | 36041 | 0 | 0 | 0 | 0 |
 | th03-main | 130882 | 46 | 43 | 101 | 11628 |
 | th03-mainl | 37975 | 0 | 0 | 0 | 0 |
-| th03-zun | 16242 | 0 | 0 | 0 | 0 |
+| th03-zun | 16242 | 3 | 0 | 0 | 0 |
 
 Reviewed authored-byte denominator: unknown until ownership is reviewed.
 Infrastructure and reference builds do not count as game reconstruction.

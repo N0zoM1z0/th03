@@ -1,0 +1,48 @@
+schema_version = 1
+scope = "Maintained decoded wrapper candidate; private unowned payloads and stored packaging remain open"
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+stub_size = 223
+cached_launcher_before_empty_line_cleanup_sha256 = "5597fd4d4c3ceb873811207e86ca1f9e02ad5f7959635e25e3cf9f3cedf14670"
+cold_receipt = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/receipt.json"
+cold_receipt_sha256 = "dbbc466385c12dd4a46121db5c1e5478d8a3a6a0e275e6165bdaeffe97281be3"
+diet_receipt = ".analysis/th03-diet/sol-diet-restoration-20261006-b/receipt.json"
+diet_receipt_sha256 = "ca533176a0ce89ccc7a782ff397965a781d4a60fdcf750e1b5fcbc3ead85d71d"
+decoded_path = ".analysis/th03-diet/sol-diet-restoration-20261006-b/zun.com"
+scaffold_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th03/zun.com"
+second_scaffold_path = ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/bin/th03/zun.com"
+scaffold_sha256 = "c036f2df54f81ff9e9950d2a397576a4c6c08314ed601c8f972fc83e5bf384b8"
+encoding_difference_offsets = [0x353a, 0x35ae, 0x35bf, 0x3a53]
+
+[[payloads]]
+option = "-1"
+filename = "ongchk.com"
+reference_path = "libs/kaja/ongchk.com"
+sha256 = "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0"
+
+[[payloads]]
+option = "-2"
+filename = "zuninit.com"
+reference_path = "bin/th02/zuninit.com"
+sha256 = "27fe52738878c1fa267c5dc82b0d70957d72dca5a6da375620a74d163b61e2d8"
+cold_paths = [".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th02/zuninit.com", ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/bin/th02/zuninit.com"]
+
+[[payloads]]
+option = "-3"
+filename = "zunsoft.com"
+reference_path = "bin/th01/zunsoft.com"
+sha256 = "beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297"
+cold_paths = [".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th01/zunsoft.com", ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/bin/th01/zunsoft.com"]
+
+[[payloads]]
+option = "-4"
+filename = "zunsp.com"
+reference_path = "bin/th03/zunsp.com"
+sha256 = "bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c"
+cold_paths = [".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th03/zunsp.com", ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/bin/th03/zunsp.com"]
+
+[[payloads]]
+option = "-5"
+filename = "res_yume.com"
+reference_path = "bin/th03/res_yume.com"
+sha256 = "cfe11aff09ae2bb92e6775c3d0aead8ae610e6bc2ad7e0551ec9f42e838734b8"
+cold_paths = [".analysis/th03-main-exact/sol-main-randring-probe-20261006/round1/source/bin/th03/res_yume.com", ".analysis/th03-main-exact/sol-main-randring-probe-20261006/round2/source/bin/th03/res_yume.com"]
