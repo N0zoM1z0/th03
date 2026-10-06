@@ -51,9 +51,11 @@ MAIN_07_TEXT through MAIN_11_TEXT form five complete character-local
 charge-shot/gauge owners: Chiyuri 1011 bytes / 9 functions, Ellen 1530 / 10,
 Kana 1291 / 9, Kotohime 690 / 9, and Rikako 1280 / 11. Together this adds
 5802 boundary-reviewed bytes / 48 functions and records all 60 in-owner
-relocations without granting source or exact credit. Chiyuri MAIN_07_TEXT is
-the first natural-TC4 reconstruction target. See
-reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
+relocations without granting exact credit. Chiyuri MAIN_07_TEXT now has a
+natural TC4J producer candidate that independently matches the complete
+1011-byte / 382-instruction / 9-function target shape and emits no private BSS.
+Full-link MAP, historical state ownership and ordered-relocation acceptance
+remain open. See reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation

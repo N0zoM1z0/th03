@@ -84,3 +84,35 @@ For each character owner:
 Chiyuri is the first implementation target. Ellen/Kana/Kotohime/Rikako stay
 reviewed candidates until their natural source and producer evidence pass the
 same gates.
+
+## Chiyuri natural TC4 producer
+
+src/main/player/chargeshot_chiyuri.cpp now reconstructs the complete
+MAIN_07_TEXT owner as natural Turbo C++. A fresh pinned TC4J object compile
+produces one MAIN_07_TEXT CODE segment of exactly 1011 bytes, no private BSS,
+382 decoded instructions, and all nine target return boundaries. Every
+instruction offset, size and mnemonic matches the immutable target.
+
+Three source-level details were material to reproducing TC4J's target shape:
+
+- copying the charge-shot center as two independent 16-bit X/Y assignments
+  rather than one struct assignment prevents -3 from collapsing it into
+  32-bit EAX moves and also restores the target near conditional jump;
+- initializing the hittest loop variable before the byte hit counter preserves
+  the target XOR DI,DI / stack-byte-clear ordering;
+- assigning flag_expected = flag_expected + ... rather than using +=
+  prevents TC4J from folding the target load/add/store sequence into one memory
+  ADD.
+
+The reproducible object probe is:
+
+    python3 scripts/probe_th03_main_chargeshot_chiyuri_cpp.py --run-id UNIQUE_ID
+
+The retained receipt is
+.analysis/th03-main-chargeshot-chiyuri-cpp/gpt-web-chiyuri-charge-v5-20261007/receipt.json.
+
+This is intentionally not exact acceptance yet. The object contains 211 raw
+pre-link byte differences, as expected for unresolved data/fixup operands.
+The next gate is a full MAIN link that places this producer at
+1B26:0000..03F2, restores the historical state bindings, and reproduces all
+nine ordered owner relocations without weakening the existing aggregate.
