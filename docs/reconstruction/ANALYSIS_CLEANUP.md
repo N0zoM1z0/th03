@@ -1,5 +1,16 @@
 # Private analysis cleanup
 
+The shared CDG migration subsequently removed two unreferenced failed cold
+preparations after the successful two-round source proof:4962 files,
+61841191 bytes (about59MiB). Complete failure/cold transcripts remain separate,
+as do current source/diagnostic/coverage/OMF proof inputs. All1723 retained
+private input path states stayed unchanged across deletion. Receipt
+`.analysis/sol-shared-cdg-load-temporary-cleanup-20261006.json`, SHA256
+`3bb5b89e62d752348f237c736972e0e1cc2c4aa1572983f662395ca1af414bf3`.
+Canonical targets, toolchain/Wine prefix, Ghidra, accepted receipts and their
+archives/snapshots were excluded; historical missing/stale inputs were not
+repaired. Current372 diagnostic,378 source and393 coverage guards still match.
+
 The2026-10-06 cleanup removed16182 unreferenced files (189572651 bytes,
 approximately181 MiB) from seven explicitly selected abandoned cold build runs
 without `receipt.json`. It retained failure transcripts, review helpers and

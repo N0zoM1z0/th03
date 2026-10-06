@@ -1,5 +1,11 @@
 # Complete MAINL CDG loading candidate review
 
+This historical cached review is now supplemented by independent OP/MAINL
+bindings and two fresh maintained shared-source cold replays in
+[SHARED_CDG_LOAD_REVIEW.md](SHARED_CDG_LOAD_REVIEW.md). The five existing MAINL
+rows have source presence in one shared CPP, without duplicate byte credit or
+exact acceptance. The restrictions below describe this original cached proof.
+
 The complete frozen `th03/cdg_load.cpp` TU contributes 593 decoded CODE bytes:
 five functions / 219 instructions, without intervening unclassified bytes.
 Both cached products match all raw bytes and the 24 original ordered relocation

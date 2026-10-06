@@ -39,7 +39,13 @@ Failed evidence is preserved explicitly. See
 `docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and run
 `python3 scripts/review_rec98_th03_mainl_intake.py --check`.
 This index grants no whole-file, source or exact acceptance and does not change
-the 69 scoped maintained MAIN paths. Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
+the 69 scoped maintained MAIN paths. Five MAINL CDG rows now have independently
+proved source presence in `src/shared/formats/cdg_load.cpp`; index acceptance
+stays false and their593-byte interval credit is preserved without duplication.
+The same physical TU has an independent OP binding. Both artifacts pass two
+fresh cold carrier/raw/original-relocation/native replays; complete products
+retain their own failures. See `reconstruction/SHARED_CDG_LOAD_REVIEW.md`.
+Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
 
 The existing thirteen MAIN source owners were rechecked in two cold builds

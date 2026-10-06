@@ -1,0 +1,24 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+source = "src/shared/formats/cdg_load.cpp"
+wrapper = "th03/cdg_load.cpp"
+carrier = "th03/formats/cdg_load.cpp"
+object = "obj/th03/cdg_load.obj"
+original_wrapper_sha256 = "74995cf9737da98f3ec0081873979e0d9d26fd14a2632a484722dc42d7be1e24"
+original_carrier_sha256 = "185a666e817d96f8030d682e28e60b77bb21e8c241be24b1c22b2aee3728d889"
+artifacts = ["th03-op", "th03-mainl"]
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/th03/formats/cdg.h"]
+
+# One physical SHARED CODE producer; its five functions bind independently
+# to OP and MAINL. This TU defines no DATA/BSS. External declarations remain
+# explicit frozen compatibility dependencies, without header/layout ownership.
+[[units]]
+artifact = "th03-op"
+segment = 0x0beb
+offset = 0x05da
+size = 593
+
+[[units]]
+artifact = "th03-mainl"
+segment = 0x0c7e
+offset = 0x073e
+size = 593
