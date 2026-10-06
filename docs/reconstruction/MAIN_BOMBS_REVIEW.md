@@ -187,8 +187,50 @@ full-link diagnostic is
 
 No aggregate exact credit is claimed yet because MAIN_05_TEXT is accepted as
 one complete seven-function owner. Ellen still has 22 DS-relative high-byte
-mismatches from the +0x4300 private-BSS displacement, and
-Kana/Kotohime/Rikako still need their TC4J producer reconstruction.
+mismatches from the +0x4300 private-BSS displacement. Kana is handled below.
+
+## Kana Turbo C++ producer reconstruction
+
+src/main/player/bomb_kana.cpp reconstructs the complete 526-byte Kana
+single-function producer as natural Turbo C++. The first direct translation
+compiled to 531 bytes even though its first 133 instructions were already
+target-shaped. The only structural cause was source lifetime: keeping the two
+polar results in function scope prevented TC4J from reusing SI for the later
+playfield-left value and forced a BP-relative local. Moving those temporaries
+back into the polar conditional makes TC4J reuse SI exactly as the target does.
+
+The resulting object is 526 bytes / 184 instructions with one byte of private
+BSS for the rotating angle. Every decoded instruction offset, size and mnemonic
+matches the immutable target, including both cdecl polar calls, both SI/DI
+explosion-coordinate pairs, and the final RETF.
+
+The full-link experiment places Kana exactly at 183C:05EA..07F7 and keeps the
+complete owner's 71 relocation sites unchanged. Kana's complete 14-entry
+relocation group now exactly matches the target order:
+
+    1942,1937,1886,1858,1829,1799,1771,1742,1701,1658,1646,1626,1605,1573
+
+Kana's remaining 18 linked-byte mismatches are not code-generation drift.
+They are exactly nine 16-bit DS operands referencing the one-byte private
+angle. The target uses DGROUP:2674 at all nine sites, while the mixed link
+places Kana's byte at DGROUP:6960. The mismatching operand locations are
+function-relative 96, 208, 237, 292, 295, 324, 379, 382 and 387. This separates
+the solved TC4 producer/relocation question from the still-open physical BSS
+ownership graph.
+
+The reproducible object probe is:
+
+    python3 scripts/probe_th03_main_bomb_kana_cpp.py --run-id UNIQUE_ID
+
+The retained current object receipt is
+.analysis/th03-main-bomb-kana-cpp/gpt-web-kana-precommit-b1-20261007/receipt.json.
+The retained full-link diagnostic is
+.analysis/th03-main-bombs-kana-link-probe/review.json.
+
+No aggregate exact credit is claimed yet. Chiyuri, Ellen and Kana now reproduce
+the target TC4J relocation behavior; Ellen and Kana still require their
+historical private-BSS placement, and Kotohime/Rikako remain to be reconstructed
+as TC4J producers.
 
 This document intentionally does not claim exact acceptance yet. The candidate
 lives in config/th03_main_bombs_candidate.toml so the default accepted aggregate
