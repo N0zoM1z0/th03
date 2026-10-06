@@ -39,15 +39,16 @@ Failed evidence is preserved explicitly. See
 `docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and run
 `python3 scripts/review_rec98_th03_mainl_intake.py --check`.
 This index grants no whole-file, source or exact acceptance and does not change
-the 69 scoped maintained MAIN paths. Seventeen MAINL CDG/text/math/sound rows now have independently
+the 69 scoped maintained MAIN paths. Twenty-two MAINL CDG/text/math/sound/PI rows now have independently
 proved source presence in `src/shared/formats/cdg_load.cpp`, `cdg_put.asm` and
 `cdg_noalpha.asm`, `src/shared/graphics/text.cpp`, `src/shared/math/vector_far.asm`,
-`src/shared/formats/hfliplut.asm` and `src/shared/sound/load.cpp`; index acceptance stays false and their2004-byte interval
-credit is preserved without duplication. Shared CDG, text, LUT and sound-loader objects have
-independent OP bindings; the vector carrier is linked in MAINL only. Both artifacts pass two
+`src/shared/formats/hfliplut.asm`, `src/shared/sound/load.cpp`, shared PI put/load
+and ending PI interlace/quarter CPP; index acceptance stays false and their2559-byte interval
+credit is preserved without duplication. Shared CDG, text, LUT, sound-loader and ordinary PI objects have
+independent OP bindings; the vector and PI interlace/quarter carriers are linked in MAINL only. Both artifacts pass two
 fresh cold carrier/raw/original-relocation/native replays; complete products
 retain their own failures. See `reconstruction/SHARED_CDG_LOAD_REVIEW.md` and
-`reconstruction/SHARED_CDG_DRAW_REVIEW.md` and `reconstruction/SHARED_TEXT_REVIEW.md` and `reconstruction/SHARED_MATH_REVIEW.md` and `reconstruction/SHARED_SND_LOAD_REVIEW.md`.
+`reconstruction/SHARED_CDG_DRAW_REVIEW.md` and `reconstruction/SHARED_TEXT_REVIEW.md` and `reconstruction/SHARED_MATH_REVIEW.md` and `reconstruction/SHARED_SND_LOAD_REVIEW.md` and `reconstruction/SHARED_PI_REVIEW.md`.
 Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
 
@@ -245,6 +246,20 @@ slot/top and retained pointers. Five decoded rows grant no source/intake/exact
 credit. All340 cached program-byte failures are now classified across reviewed
 scopes; equal-byte owners, DATA/BSS/resources/libraries/CRT and packing remain
 open. No actual PIdecoder, allocator or physical graphics acceptance is claimed.
+
+The later `SHARED_PI_REVIEW.md` independently binds all four complete CPP
+carriers555bytes/five functions to current MAINL coordinates, and the shared
+243byte/three-function subset to OP. Native free76/memcpy36 remains contextual.
+Two fresh maintained cold rounds match original raw/ordered/public/MAP/TC86 OMF
+and complete segment records; all20products equal preceding sound loader and347
+othergameobjects remain unchanged. Each source OP283calls/MAINL451calls covers
+all144/250 native positions, including direct odd memcpy/free alignments, with
+full1MiB outside caller stack/ordered stores/declared callback requests/native
+frames/IFDF/live headers/far normalization/overlap/counter/repeated load checks.
+Five existing MAINL rows gain source presence without extra interval credit.
+Historical shifted PI/caller failures and neighbor0529 remain separate. Headers,
+DATA/BSS, native graphics/heap/decoder/assets/canonical storage/full products
+and exact acceptance remain open.
 
 `MAINL_INPUT_REVIEW.md` covers the complete three-TU input chain: twelve
 functions,910 bytes/313 instructions and a21-byte native frame-helper diagnostic.

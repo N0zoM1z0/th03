@@ -1,5 +1,13 @@
 # Complete MAINL PI wrapper chain candidate review
 
+This historical shifted-cache review is supplemented by
+[the complete shared/ending PI review](SHARED_PI_REVIEW.md). Current independent
+OP/MAINL bindings and four maintained CPP carriers pass two cold rounds and
+original raw/ordered/MAP/OMF gates. Five existing MAINL rows gain source presence
+without extra interval credit. The old shifted-cache failures and unowned
+neighbor0529 remain historical; no old receipt or operand is normalized. Native
+graphics/heap/decoder/device/asset and full product/exact gates remain open.
+
 Four complete candidate TUs contain five functions, 555 decoded CODE bytes /
 197 instructions. Their complete bodies agree with both caches at separately
 reviewed entry coordinates. Palette/ordinary/interlace entries are displaced

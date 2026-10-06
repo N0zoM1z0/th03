@@ -1,0 +1,50 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+support_files = ["compat/rec98/th03/formats/pi.hpp"]
+
+[[carriers]]
+source = "src/shared/formats/pi_put.cpp"
+wrapper = "th03/pi_put.cpp"
+object = "obj/th03/pi_put.obj"
+original_wrapper_sha256 = "7018617d0d2e1128fd45de4ca578ce42027e5fa56be7393e6259a8f9a0ec2c6f"
+size = 173
+segments = ["28ad00020301", "480000040501", "480000060701"]
+artifacts = ["op", "mainl"]
+op_segment = 3051
+op_offset = 1190
+mainl_segment = 3198
+mainl_offset = 1322
+
+[[carriers]]
+source = "src/shared/formats/pi_load.cpp"
+wrapper = "th03/pi_load.cpp"
+object = "obj/th03/pi_load.obj"
+original_wrapper_sha256 = "5e4b56bef17c2671542243af73db8c2b4007bc0fcc77fecc62893d5fb910f221"
+size = 70
+segments = ["284600020301", "480000040501", "480000060701"]
+artifacts = ["op", "mainl"]
+op_segment = 3051
+op_offset = 2704
+mainl_segment = 3198
+mainl_offset = 3275
+
+[[carriers]]
+source = "src/mainl/formats/pi_put_interlace.cpp"
+wrapper = "th03/pi_put_i.cpp"
+object = "obj/th03/pi_put_i.obj"
+original_wrapper_sha256 = "82a9a9f925f15731ae9c64fe66077d7a61ac9d099a866feca031e9770e22f03e"
+size = 135
+segments = ["288700020301", "480000040501", "480000060701"]
+artifacts = ["mainl"]
+mainl_segment = 3198
+mainl_offset = 1495
+
+[[carriers]]
+source = "src/mainl/formats/pi_put_quarter.cpp"
+wrapper = "th03/pi_put_q.cpp"
+object = "obj/th03/pi_put_q.obj"
+original_wrapper_sha256 = "b6bbaa55c2784be98118c900de39def9822e116baacbd4edb1ce879db3405341"
+size = 177
+segments = ["28b100020301", "480000040501", "480000060701"]
+artifacts = ["mainl"]
+mainl_segment = 3198
+mainl_offset = 3345

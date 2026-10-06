@@ -1,5 +1,15 @@
 # Private analysis cleanup
 
+The PI source replay passed both cold rounds without a failed preparation.
+Five unreferenced successful source-preflight logs (10,051 bytes) are removed;
+all 1,992 retained private input states are unchanged. Selection requires a
+successful terminal preflight status and absence from ledger/proof references,
+guarded inputs or protected directories. Complete successful receipt trees,
+failed logs, targets/tools/prefix/databases remain. Receipt
+`.analysis/sol-pi-redundant-preflight-cleanup-20261006.json`, SHA256
+`f31cf94e9594617a2e535c45251f49cabcc31424fbe35f3e3724b18aa343d4a3`, three guards.
+Historical missing/stale inputs are preserved without repair or rebasing.
+
 The shared sound-loader cleanup removes two unreferenced stopped preparations:
 4,038 files/46,571,507 bytes (44.4 MiB), with all 1,924 retained private input
 states unchanged. The first ASM hash-convention failure, subsequent compiler
