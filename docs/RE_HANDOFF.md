@@ -41,8 +41,16 @@ placement. The retained object probe is
 .analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-main05-v2-20261007/receipt.json;
 the mixed-link diagnostic is
 .analysis/th03-main-bombs-split-probe/ellen-cpp-review-v5.json. No exact credit
-is claimed yet; recover the four remaining TC4J character producers and
-historical DATA/BSS boundaries next. See reconstruction/MAIN_BOMBS_REVIEW.md.
+is claimed yet. Chiyuri is now independently reconstructed too: its natural
+TC4J producer is 490 bytes / 169 instructions, lands exactly at
+183C:0001..01EA in a full MAIN link, has zero linked-byte mismatches, and emits
+the target 13-entry relocation order. Thus the first two character groups
+(Chiyuri and Ellen) now have the target TC4J relocation behavior; Ellen still
+needs its private BSS restored to DGROUP:25DC, and Kana/Kotohime/Rikako remain
+to be reconstructed as TC4J producers. Retained Chiyuri evidence:
+.analysis/th03-main-bomb-chiyuri-cpp/gpt-web-chiyuri-precommit-a9-20261007/receipt.json
+and .analysis/th03-main-bombs-chiyuri-link-probe/review.json. See
+reconstruction/MAIN_BOMBS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation

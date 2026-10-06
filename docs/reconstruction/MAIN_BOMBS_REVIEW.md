@@ -132,22 +132,63 @@ The enhanced candidate mode in scripts/review_th03_main_bombs.py records raw
 owner/function equality, mismatch offsets and byte values, relocation-site
 multisets, and relocation order separately so these properties cannot be
 conflated again. The retained mixed-link diagnostic is
-.analysis/th03-main-bombs-split-probe/ellen-cpp-review-v5.json. The next
-physical reconstruction step is therefore to recover the remaining four TC4J
-character producers and the historical DATA/BSS producer boundaries rather
-than manipulating the final MZ relocation table.
+.analysis/th03-main-bombs-split-probe/ellen-cpp-review-v5.json. This result
+made the next step unambiguous: recover the remaining TC4J character producers
+and historical DATA/BSS producer boundaries rather than manipulating the final
+MZ relocation table.
 
-The reproducible object-level probe is:
+The reproducible object-level Ellen probe is:
 
     python3 scripts/probe_th03_main_bomb_ellen_cpp.py --run-id UNIQUE_ID
 
-The retained maintained-source receipt is
+The retained Ellen maintained-source receipt is
 .analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-main05-v2-20261007/receipt.json.
-It intentionally records exact_acceptance=false: the 252 pre-link raw-byte
+It intentionally records exact_acceptance=false: the pre-link raw-byte
 differences are unresolved OMF data/fixup operands and must not be normalized
-away as an exact result. The next gate is to reproduce the historical
-MAIN_05_TEXT physical producer placement, the private DGROUP placement, and
-the final TLINK/MZ relocation order in a full-owner link.
+away as an exact result.
+
+## Chiyuri Turbo C++ producer reconstruction
+
+src/main/player/bomb_chiyuri.cpp reconstructs the complete 490-byte
+single-function Chiyuri producer as natural Turbo C++. A fresh pinned-ReC98
+TC4J compile emits exactly 490 bytes in MAIN_05_TEXT, no nonempty private BSS,
+169 decoded instructions, and the target far-return boundary. Every instruction
+offset, size, and mnemonic matches the immutable TH03 target.
+
+The source-level details that matter to code generation were checked rather
+than guessed. The two byte locals preserve the target stack layout. Integer
+promotion is required for the palette intensity but not its pid parameter,
+while the center/axis helper pid parameters do require integer promotion. The
+distance expression must remain ((frame - 64) * 2) << 4 so TC4J emits the
+target ADD AX,AX; SHL AX,4 rather than folding it to SHL AX,5.
+
+The reproducible object-level probe is:
+
+    python3 scripts/probe_th03_main_bomb_chiyuri_cpp.py --run-id UNIQUE_ID
+
+The retained current source receipt is
+.analysis/th03-main-bomb-chiyuri-cpp/gpt-web-chiyuri-precommit-a9-20261007/receipt.json.
+
+Chiyuri also passes the full-link physical-code experiment. Replacing the first
+TASM character contribution with this TC4J object places it exactly at
+183C:0001..01EA, length 0x01EA, with no DATA/BSS contribution. All 490 linked
+Chiyuri bytes match the target. The complete bomb owner still has the same 71
+relocation sites, and Chiyuri's 13 relocation entries become exactly the target
+descending sequence:
+
+    485,378,341,322,302,283,248,143,109,81,76,58,24
+
+With Chiyuri and Ellen both produced by TC4J, the first two character
+relocation groups match the target. Chiyuri itself therefore has target-exact
+linked bytes, target-exact MAP placement, target-exact relocation sites, and
+target-exact relocation order in a full MAIN link. The retained current
+full-link diagnostic is
+.analysis/th03-main-bombs-chiyuri-link-probe/review.json.
+
+No aggregate exact credit is claimed yet because MAIN_05_TEXT is accepted as
+one complete seven-function owner. Ellen still has 22 DS-relative high-byte
+mismatches from the +0x4300 private-BSS displacement, and
+Kana/Kotohime/Rikako still need their TC4J producer reconstruction.
 
 This document intentionally does not claim exact acceptance yet. The candidate
 lives in config/th03_main_bombs_candidate.toml so the default accepted aggregate
