@@ -26,7 +26,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes454 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes462 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL and OP
 were independently re-attested before further target work. Historical restricted
@@ -308,6 +308,18 @@ its older1168-call contract proof is retained without claiming a new rerun.
 See `docs/reconstruction/OP_TITLE_REVIEW.md`, `config/th03_op_title_candidate.toml`
 and `scripts/replay_th03_op_title.py --run-id NEW_OP_TITLE`.
 
+OP main/option menu review adds1338 complete decoded bytes in one bounded
+`src/op/menu/menu_state.inl`: five functions and their original switch tables.
+Three prior images and two fresh maintained-menu products each pass4160 cases,
+all438 native instruction positions. Real near Pascal drawing callbacks,
+input release gates, simultaneous button order, signed-byte selection and
+screen-return/cancel ordering are preserved. Foreign screen/text/sound replies
+remain modeled. Each new cold OP also reruns96 title cases; previous543 score
+bytes are checked raw/ordered without rerunning the old1168 score matrix.
+The20products/350gameobjects agree across both rounds; all416 OMF recorded.
+See `docs/reconstruction/OP_MENU_REVIEW.md`, `config/th03_op_menu_candidate.toml`
+and `scripts/replay_th03_op_menu.py --run-id NEW_OP_MENU`.
+
 Preserve title brightness/frame limits and unsigned column arithmetic. The
 renderer attempts384 rows for normal input despite the128-row box, reaching
 ROM ranges; the writable flat-memory fixture does not prove actual VRAM banking
@@ -321,8 +333,8 @@ acceptance. Keep these separate from historicalMAIN-overlay4867-byte/init failur
 Replay `scripts/review_th03_op_inequalities.py` for bounded classification.
 
 OP interval comparison against the old cold MAP has100nonzeroCODEcarriers,
-55261 bytes:1917 reviewed original unit bytes/53344 gaps/zero overlap. There
-are13 OP units:4 source-present1309 bytes and9 other candidates608 bytes.
+55261 bytes:3255 reviewed original unit bytes/52006 gaps/zero overlap. There
+are14 OP units:5 source-present2647 bytes and9 other candidates608 bytes.
 Source-present intervals retain diagnostic coverage only. The old shifted
 initializer crosses the next cold carrier by one byte, without proving
 original/source carrier ownership. Replay `scripts/review_th03_op_coverage.py`.
@@ -334,14 +346,14 @@ committed. It is corrected and recompiled in two fresh
 commit/check/receipt as historical evidence. Current inequality replay pins
 this new receipt; no acceptance normalization.
 
-Latest full check: `.analysis/sol-op-title-corrected-full-ci.log`, SHA-256
-`8e0b665e4671a10d6c56d44fd1f8217331572c7c0efcc9363136092f30f9e649`, passes454 tests and all available private headless gates.
-Tracking is222units/2065evidence/234knowledge; current staged/worktree whitespace
+Latest full check: `.analysis/sol-op-menu-complete-ci-20261006.log`, SHA-256
+`c630c05aaeeace535ee5d202121b3d6fbb216a082f34062262813808e88c139d`, passes462 tests and all available private headless gates.
+Tracking is223units/2084evidence/240knowledge; current staged/worktree whitespace
 checks pass. OP exact0; MAIN and MAINL/ZUN acceptance remain unchanged.
 
-Next: remaining OP main/options/character-selection and Music Room complete
-callers, then root/header/DATA/BSS/resource/library and canonical packing/Oracle
-review. The505-file full review goal remains open across all four artifacts;
+Next: OP entry carrier still has1485 unreviewed bytes after configuration271
+and menu1338: story/VS/demo/wait/score/startup callers. Then character selection,
+Music Room and root/header/DATA/BSS/resource/library/canonical packing Oracles. The505-file full review goal remains open across all four artifacts;
 MAIN exact ownership and MAINL/ZUN acceptance remain unchanged.
 
 Private analysis cleanup removed16182 unreferenced files/189572651 bytes from

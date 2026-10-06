@@ -1,0 +1,11 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+source = "src/op/menu/menu_state.inl"
+carrier = "th03/op_01.cpp"
+object = "obj/th03/op_01.obj"
+start_anchor = "// Must be non-`const` for data ordering reasons."
+end_anchor = "void main(void)"
+owned_original_sha256 = "d065a90570f10f37cf294ed5af2b9e5bde03bc65b7bc41d3cdaef203346a9bb9"
+support_files = []
+# Five complete native functions1338 bytes include22 switch-table/producer bytes.
+# Original entry/configuration/story/VS/demo tail and foreign APIs remain private
+# candidate context; no canonical storage/exact or maintained startup credit.
