@@ -1,4 +1,6 @@
 import contextlib
+import csv
+import hashlib
 import io
 import json
 from pathlib import Path
@@ -67,6 +69,36 @@ class CleanupProofControls(unittest.TestCase):
         target=self.put('.analysis/real/proof.log');alias=self.analysis/'alias.log';alias.symlink_to(target)
         self.evidence.write_text('location\n.analysis/alias.log\n');self.clean()
         self.assertTrue(alias.is_symlink());self.assertTrue(target.exists())
+
+    def factory_query(self,location='.analysis/functions.json'):
+        output=self.put(location,'address: 0x0001A40C\nname: FUN_196e_0d2c\n')
+        row=dict(location=location,tool='Factory-native-same-process-attested-headless-Ghidra-query',
+                 command=f'python3 scripts/factory_ghidra.py --artifact th03-main query {location} function 196E:0D2C',
+                 output_sha256=hashlib.sha256(output.read_bytes()).hexdigest())
+        return output,row
+    def record_query(self,row):
+        with self.evidence.open('w',newline='') as f:
+            writer=csv.DictWriter(f,list(row));writer.writeheader();writer.writerow(row)
+    def test_hash_bound_factory_text_json_name_is_retained(self):
+        output,row=self.factory_query();self.record_query(row);junk=self.put('.analysis/junk')
+        self.clean();self.assertTrue(output.exists());self.assertFalse(junk.exists())
+    def test_changed_factory_text_stops_before_deletion(self):
+        output,row=self.factory_query();self.record_query(row);output.write_text('changed')
+        junk=self.put('.analysis/junk')
+        with self.assertRaisesRegex(ValueError,'retained proof'):self.clean()
+        self.assertTrue(junk.exists())
+    def test_factory_text_requires_the_recorded_output_and_query_kind(self):
+        output,row=self.factory_query();junk=self.put('.analysis/junk')
+        for command in [row['command'].replace('function','decompile'),row['command'].replace('query .analysis/functions.json','query .analysis/other.json')]:
+            with self.subTest(command=command):
+                changed=dict(row,command=command);self.record_query(changed)
+                with self.assertRaisesRegex(ValueError,'retained proof'):self.clean()
+                self.assertTrue(junk.exists());self.assertTrue(output.exists())
+    def test_factory_metadata_cannot_exempt_a_broken_cold_receipt(self):
+        output,row=self.factory_query('.analysis/cold/receipt.json');self.record_query(row)
+        junk=self.put('.analysis/junk')
+        with self.assertRaisesRegex(ValueError,'retained proof'):self.clean()
+        self.assertTrue(output.exists());self.assertTrue(junk.exists())
 
 
 if __name__=='__main__':unittest.main()

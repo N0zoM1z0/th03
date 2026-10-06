@@ -5,7 +5,9 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
+import shlex
 import shutil
 from pathlib import Path
 
@@ -81,6 +83,7 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
     if not ANALYSIS.exists():
         return files, roots
     ledger_files = ledger_preserved_paths()
+    text_queries = ledger_text_query_paths()
     for path in ANALYSIS.rglob("*.json"):
         # Never follow a private-state or external symlink to discover proofs.
         if path.is_symlink() or any(is_under(path, root) for root in PRESERVED_ANALYSIS_ROOTS):
@@ -88,6 +91,11 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
         try:
             value = json.loads(path.read_text(encoding="utf-8"))
         except (ValueError, UnicodeError, OSError):
+            if path.name != "receipt.json" and path in text_queries:
+                # Factory function queries intentionally emit plain text, even
+                # when a historical caller chose a .json output name.
+                files.add(path)
+                continue
             if path.name == "receipt.json" or path in ledger_files:
                 raise ValueError(f"cannot inspect retained proof: {path.relative_to(ROOT)}")
             continue
@@ -118,6 +126,31 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
 
         visit(value)
     return files, roots
+
+
+def ledger_text_query_paths() -> set[Path]:
+    """Recognize unchanged, explicitly recorded Factory text query outputs."""
+    outputs: set[Path] = set()
+    if not EVIDENCE.is_file():
+        return outputs
+    with EVIDENCE.open(newline="", encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            if row.get("tool") != "Factory-native-same-process-attested-headless-Ghidra-query":
+                continue
+            try:
+                command = shlex.split(row.get("command", ""))
+                query = command.index("query")
+            except ValueError:
+                continue
+            location = row.get("location", "")
+            if "scripts/factory_ghidra.py" not in command[:query] or command[query+1:query+3] != [location, "function"]:
+                continue
+            path = normalized_local_path(location)
+            if path is None or path.name == "receipt.json" or not path.is_file():
+                continue
+            if hashlib.sha256(path.read_bytes()).hexdigest() == row.get("output_sha256"):
+                outputs.add(path)
+    return outputs
 
 
 def is_under(path: Path, parent: Path) -> bool:
