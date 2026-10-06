@@ -39,9 +39,31 @@ proofs, their lexical aliases and resolved local destinations. Entire cold
 directories containing `receipt.json` are preserved, including archives,
 snapshots and outputs absent from the input dictionary. Guarded cache inputs
 outside `.analysis/` also survive. Unreadable receipts stop before deletion;
-missing historical inputs remain missing. Nine isolated deletion controls
-pass in `.analysis/sol-proof-cleanup-controls-20261006.log`.
+missing historical inputs remain missing. Eleven isolated deletion controls
+pass in `.analysis/sol-proof-cleanup-controls-20261006-final.log`, including
+malformed ledger JSON and ledger symlink aliases. The preceding nine-case
+control log remains separate historical evidence.
 
 The default remains a dry run. No broad cleanup is executed while selection
 review/cold compilation is active. Direct evidence-ledger protection alone was
 insufficient to preserve receipt dependencies; this change closes that gap.
+
+## Character-selection preparation cleanup
+
+After two independent source cold replays completed,7128unreferenced files
+(71733816bytes, about68.4MiB) were removed from three failed/superseded layout
+preparations and five temporary outputs. The current frozen-source layout
+probe supersedes the earlier full-CPP preparation probe. Its complete proof
+tree is retained, together with current source cold outputs, archives, targets,
+toolchain, Ghidra and every referenced proof dependency. The candidate CPP
+draft was discarded outside product ownership; only the bounded CODE inl is
+maintained. The first macro-escaping compiler failure was copied verbatim to
+`.analysis/sol-op-select-layout-first-compiler-failure-20261006.log`.
+
+Cleanup receipt `.analysis/sol-op-select-temporary-cleanup-20261006.json`,
+SHA256 `5712b574d06d817102fcd9b3c579053c6ddce4a37f089fe59e85968f4baa88de`, records all1843retained input states
+unchanged across deletion, with333current source and5current layout guards
+rechecked. A separate `.analysis/sol-op-select-retained-input-states-20261006.json`
+keeps the post-cleanup hash/missing map. This records cleanup-time state; later
+authorized ledger updates can make older ledger-input snapshots historical.
+Existing missing/stale inputs were not repaired. No broad `--apply` was run.

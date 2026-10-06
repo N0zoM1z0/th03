@@ -1,5 +1,4 @@
 import contextlib
-import csv
 import io
 import json
 from pathlib import Path
@@ -59,6 +58,15 @@ class CleanupProofControls(unittest.TestCase):
         with patch.object(c,'CACHE_ROOTS',[]),contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(c.clean_caches(False),0)
         self.assertTrue(cache.exists())
+    def test_broken_ledger_json_stops_before_deletion(self):
+        self.evidence.write_text('location\n.analysis/retained.json\n')
+        self.put('.analysis/retained.json','{bad');junk=self.put('.analysis/junk')
+        with self.assertRaisesRegex(ValueError,'retained proof'):self.clean()
+        self.assertTrue(junk.exists())
+    def test_ledger_symlink_alias_and_destination_survive(self):
+        target=self.put('.analysis/real/proof.log');alias=self.analysis/'alias.log';alias.symlink_to(target)
+        self.evidence.write_text('location\n.analysis/alias.log\n');self.clean()
+        self.assertTrue(alias.is_symlink());self.assertTrue(target.exists())
 
 
 if __name__=='__main__':unittest.main()

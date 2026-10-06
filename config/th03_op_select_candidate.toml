@@ -1,0 +1,20 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+wrapper = "th03/op_sel.cpp"
+object = "obj/th03/op_sel.obj"
+carrier = "th03/op/m_select.cpp"
+source = "src/op/menu/character_selection.inl"
+original_wrapper_sha256 = "856dd8584c8d2c94ea5ba6f26b2263b0d0f9de16bd74e4684f54a660ebd779fc"
+original_carrier_sha256 = "0842bbde2df401a7ca2d9d22790a92b7527b1d2bd5d7868ce02b4ec5324706d2"
+anchor = "unsigned char near playchars_available_load(void)"
+prefix_sha256 = "c9028b752cbb270a16bf6919269ee591febc6399fc361ad33713760ca8220f6a"
+support_files = ["compat/rec98/th03/op/m_select.hpp", "compat/rec98/decomp.hpp", "compat/rec98/libs/master.lib/master.hpp", "compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/th01/math/clamp.hpp", "compat/rec98/th02/v_colors.hpp", "compat/rec98/th02/hardware/frmdelay.h", "compat/rec98/th02/formats/bfnt.h", "compat/rec98/th03/common.h", "compat/rec98/th03/resident.hpp", "compat/rec98/th03/formats/cdg.h", "compat/rec98/th03/formats/hfliplut.h", "compat/rec98/th03/formats/scoredat.hpp", "compat/rec98/th03/gaiji/gaiji.h", "compat/rec98/th03/hardware/input.h", "compat/rec98/th03/math/polar.hpp", "compat/rec98/th03/shiftjis/fns.hpp", "compat/rec98/th03/snd/snd.h", "compat/rec98/th03/sprites/op_cdg.hpp"]
+
+[[units]]
+id = "character_selection"
+source = "src/op/menu/character_selection.inl"
+segment = 0x0990
+offset = 0x1a5d
+size = 2906
+
+# The preceding107-byte loader remains owned by score_load.inl.
+# Complete carrier3013 bytes/19functions; this owner adds18functions.

@@ -52,7 +52,13 @@ def ledger_preserved_paths() -> set[Path]:
         return preserved
     with EVIDENCE.open(newline="", encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
-            path = normalized_local_path(row.get("location", ""))
+            raw = row.get("location", "")
+            lexical = Path(raw)
+            if raw and not lexical.is_absolute() and ".." not in lexical.parts:
+                lexical = ROOT / lexical
+                if is_under(lexical, ANALYSIS):
+                    preserved.add(lexical)
+            path = normalized_local_path(raw)
             if path is None:
                 continue
             try:
@@ -74,6 +80,7 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
     roots: set[Path] = set()
     if not ANALYSIS.exists():
         return files, roots
+    ledger_files = ledger_preserved_paths()
     for path in ANALYSIS.rglob("*.json"):
         # Never follow a private-state or external symlink to discover proofs.
         if path.is_symlink() or any(is_under(path, root) for root in PRESERVED_ANALYSIS_ROOTS):
@@ -81,8 +88,8 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
         try:
             value = json.loads(path.read_text(encoding="utf-8"))
         except (ValueError, UnicodeError, OSError):
-            if path.name == "receipt.json":
-                raise ValueError(f"cannot inspect retained receipt: {path.relative_to(ROOT)}")
+            if path.name == "receipt.json" or path in ledger_files:
+                raise ValueError(f"cannot inspect retained proof: {path.relative_to(ROOT)}")
             continue
         if path.name == "receipt.json":
             roots.add(path.parent)
@@ -93,7 +100,7 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
                 if isinstance(guards, dict):
                     files.add(path)
                     for raw in guards:
-                        if not isinstance(raw, str):
+                        if not isinstance(raw, str) or not raw:
                             continue
                         lexical = Path(raw)
                         if lexical.is_absolute() or ".." in lexical.parts:

@@ -17,9 +17,9 @@ ordered ENEMY_2_TEXT relocations. Moving declarations did not repair that
 producer partition. Keep its separate manifest/receipt and
 `docs/reconstruction/MAIN_ENEMY_REVIEW.md`; do not absorb its exactness claim.
 
-OP has20 reviewed decoded units totaling9890 bytes:12 source-present extents,
-6617 bytes in three CPP TUs and five bounded includes; eight other candidates
-3273 bytes. OP exact0. MAINL has145 candidate rows and no maintained source or
+OP has20 reviewed decoded units totaling9890 bytes:13 source-present extents,
+9523 bytes in three CPP TUs and six bounded includes; seven other candidates
+367 bytes. OP exact0. MAINL has145 candidate rows and no maintained source or
 exact owner. ZUN has18 rows/three source-present wrapper TUs,234 bytes/exact0.
 Japanese YUMEZIKU targets in `config/targets.toml` remain
 candidate-local-attested; independent pristine-dump provenance is unknown.
@@ -27,9 +27,9 @@ The frozen ReC98 candidate revision is
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47`. Never inherit cross-game exactness.
 
 Execution/Git permissions are restored. Historical restricted-execution
-failures remain evidence. Latest full CI: `.analysis/sol-op-music-complete-ci-20261006.log`,
-SHA256 `fd6f6ba9ee676948e0b5415a404fd231e5642a1c5e96d001b65e3a0f03b720e3`, passes484tests and all available private
-headless gates. Tracking:229units/2134evidence/258knowledge/120MAIN
+failures remain evidence. Latest full CI: `.analysis/sol-op-select-complete-ci-20261006.log`,
+SHA256 `820559d9aafa23df8bdb24ba926bfa80abef31a546b0d78be267079d8d945e34`, passes508tests and all available private
+headless gates. Tracking:229units/2141evidence/259knowledge/120MAIN
 authored-function rows.
 Save progress in English `gpt-6.1-sol:` commits.
 
@@ -41,11 +41,10 @@ has33 CODE-only candidate rows in `config/rec98_th03_candidate_reviews.csv`.
 That index is MAINL-only. The full505-file review/migration goal remains open
 across all four artifacts. See `docs/REC98_TH03_REVIEW.md`.
 
-Next: finish two fresh OP character-selection source cold replays for the
-2906-byte18-function inl under private unowned DATA/BSS prefix;107 previous
-loader bytes retain their own source. Complete3013-byte19-function native
-review haspassed; curves351/versus407 original relocation-order failures stay
-open. No product source padding declaration is accepted. Then continue remaining MAIN/OP/ZUN/shared intake,
+Next: continue remaining OP/shared carriers and declarations. Select3013
+carrier review and2906sourceinl migration are complete within bounded scope;
+private DATA/BSS prefix/padding and two original relocation-order failures
+remain open. Then continue remaining MAIN/OP/ZUN/shared intake,
 MAINL DATA/BSS/dependencies, CRT/root/header/library/resource/canonical packing
 Oracles. MAIN's remaining linked root is `th03_main.asm`: five root inls and
 random getters are accepted within it; remaining root code/data and physical
@@ -60,7 +59,11 @@ removing candidatepadding1/2 changes BSS23->21. Localize bounded2906inl; retain
 private unowned DATA/BSS prefix through19compat forwarders. Receipt
 `.analysis/sol-op-select-review-20261006.json`, SHA256
 `7e8d58a346b49abfefe74b976aa86efc5728a509a858dc5096fbd50def39c722`,
-325guarded inputs. See `OP_SELECT_REVIEW.md`; source cold replay still pending.
+325guarded inputs. Source receipt
+`.analysis/th03-op-select/sol-op-select-source-20261006/receipt.json`, SHA256
+`885ecb011fd829c9da2d1272f2f571415f49e0ec71303ec9ec9e4b8d5c06b0b2`,333guards; two fresh20product/350gameobject
+vectors equal precedingMusic/all416OMF recorded. Each112sourcecases/all1239
+positions pass; source9523/9890reviewed/exact0. See `OP_SELECT_REVIEW.md`.
 
 Complete Music Room carrier2244 bytes/14 functions: maintained prefix216 and
 tail1998 in `src/op/music/`,14 explicit compatibility forwarders; private
@@ -214,5 +217,7 @@ with197parent input hashes unchanged. See `ANALYSIS_CLEANUP.md` and
 `scripts/clean_th03_failed_analysis.py` (defaultdryrun; explicit `--apply`).
 Historical missing/stale inputs were not repaired or claimed current.
 Generated cleanup now preserves JSON input guards/aliases/complete coldreceipt
-trees and guarded caches; nine isolated deletion controls pass. No broad
-cleanup runs during a live replay.
+trees and guarded caches; eleven isolated deletion controls pass. Later Select preparation cleanup
+removed7128files/71733816bytes; all1843retained input states unchanged across
+deletion, withcurrent333source/5layout guards rechecked. Meaningfulfirstcompiler
+failure retained; see `ANALYSIS_CLEANUP.md`. No broad cleanup during live replays.

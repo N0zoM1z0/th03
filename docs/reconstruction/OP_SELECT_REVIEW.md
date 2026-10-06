@@ -121,3 +121,38 @@ SHA256 `e8b71faf1ba9fb6ce004444697c7f3caa71904fc213469ef618a0f39a34ed09c`. The e
 compiler invocation escaped the character macro incorrectly; the corrected
 frozen-source probe supplies the compiler observation above. No result is
 inferred from that failed invocation.
+
+The bounded owner is now source-present. Replay with
+`python3 scripts/replay_th03_op_select.py --run-id NEW_OP_SELECT`. Two fresh
+frozen trees each build20products/350gameobjects, recording all416normalized
+OMF outputs. Both product vectors equal the preceding Music Room proof and
+each other. Each new OP reruns112selectedcases/all1239positions, with449246
+native entries,19392stores and230779orderedforeign/portevents. Previous
+entry/menu/title/Music/score raw and ordered results are retained without
+repeating their unchanged old matrices.
+
+Source receipt: `.analysis/th03-op-select/sol-op-select-source-20261006/receipt.json`,
+SHA256 `885ecb011fd829c9da2d1272f2f571415f49e0ec71303ec9ec9e4b8d5c06b0b2`,333guarded inputs. Complete3013-byte carrier
+and2906-byte remaining-owner raw slices match; both aggregate original ordered
+relocation lists fail, together with the curves/versus perfunction failures.
+DATA227raw/originalorder matches remain diagnostic. Whole OP still differs in
+six raw bytes and its original relocation order. No producer or canonical
+packing cause is inferred. OP now has13source-present extents/9523bytes in
+three CPP TUs and six bounded inls;9890decoded bytes reviewed,exact0.
+
+After both writers completed, guarded cleanup retired7128files/71733816bytes
+of unreferenced failed/superseded layout preparations and temporary outputs.
+The full-CPP draft was discarded; its unproved padding declarations were never
+admitted to product source. Current frozen-layout/source/target/toolchain/DB
+proofs survive, all1843retained input states match across deletion, and the
+meaningful first compiler macro-escaping failure is kept verbatim. Cleanup
+receipt `.analysis/sol-op-select-temporary-cleanup-20261006.json`, SHA256
+`5712b574d06d817102fcd9b3c579053c6ddce4a37f089fe59e85968f4baa88de`; the separate retained-state audit records the hash/missing map
+atcleanup time. See `ANALYSIS_CLEANUP.md`.
+
+Final verification:508tests/all available private headless gates pass in
+`.analysis/sol-op-select-complete-ci-20261006.log`, SHA256
+`820559d9aafa23df8bdb24ba926bfa80abef31a546b0d78be267079d8d945e34`. `git diff --check` passes.
+MAIN/MAINL/ZUN acceptance is unchanged. The505-file intake remains open; this
+is complete bounded Select CODE review/source presence, not a whole OP build
+or a complete header/DATA/BSS/CRT/runtime/canonical-packing Oracle result.
