@@ -166,3 +166,10 @@ requires status bit04; unrelated status bits alone do not release the loop.
 The public procedure retains IF/DF and never times out on its own. SHOW emits
 the native BIOS request and returns with the declared response; the void ABI
 does not promise a success result.
+
+The separate MAP/ledger interval union now covers8,622 of10,944 root _TEXT
+bytes, leaving2,322 without independent unit rows and zero overlap. This
+includes read-only CODE data, not just function instructions. Replay
+`scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`.
+Prior snapshots remain historical evidence. Gaps can include prior native
+context/alignment/CRT and are not an unknown semantic byte count.
