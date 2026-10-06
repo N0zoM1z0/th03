@@ -432,3 +432,20 @@ MCB cycles, palette alias store/read order and text DF/BIOS geometry. See
 add no maintained source/exact or accepted MAIN intake credit. Remaining
 startup/CRT/DATA/BSS/device/complete callers and full artifact Oracles stay
 open;505 files and69 scoped MAIN CODE paths retain their separate scope.
+
+Complete MAINL CRT break/pointer substrate review covers six linked compiler
+CODE carriers, 628 bytes /277 instruction positions, plus111 bounded
+initialized DATA bytes. All raw slices/empty ordered relocations match both
+cold products. Six locally pinned CL.LIB members, twelve public MAP entries,
+two DATA contributions and39 symbolic fixups reproduce the linked CODE,
+including one same-CODE far-call relaxation. Six stale A3 naming-comment
+checksums are reported without repair; all other selected records are checked.
+All33,741 terminal calls /77,142 native entries agree with independent
+integer/address models and whole physical memory outside the stack. Preserve
+signed negative-MiB sbrk aliases, DOS BXFFFF/success collisions, word-wrapped
+paragraph rounding, failure heap-top changes and INT_MIN errno conversion.
+See `reconstruction/MAINL_CRT_BREAK_REVIEW.md` and
+`scripts/review_th03_mainl_crt_break.py`. Compiled Borland dependencies are
+separate from ReC98 authored source; six decoded rows add no maintained
+source/exact or accepted MAIN intake credit. Complete allocators/new/delete,
+startup/exception/DATA/BSS/lifetime and all-artifact Oracles remain open.
