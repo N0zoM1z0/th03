@@ -25,34 +25,34 @@ ordered ENEMY_2_TEXT relocation list without changing CODE bytes or weakening th
 comparison. Historical source filenames remain unknown; see
 reconstruction/MAIN_ENEMY_REVIEW.md.
 
-MAIN_05_TEXT character bombs remain outside the exact aggregate, but the
-producer blocker is now experimentally isolated. The complete Ellen
-contribution has maintained natural C++ in src/main/player/bomb_ellen.cpp:
-TC4J emits the target's exact 1023-byte 280/163/580 function partition and all
-347 instruction offset/size/mnemonic shapes. A full MAIN link places this C++
-producer exactly at 183C:01EB..05E9 and reproduces Ellen's target 15-entry MZ
-relocation order while preserving the complete 71-site owner multiset. A
-five-way TASM split does not reproduce that order, so TC4J producer/FIXUPP
-behavior, not object boundaries alone, is now proven material. The mixed link
-has only 22 Ellen byte mismatches; every one is a DS-relative high byte shifted
-by +0x43 because the 0x84-byte private BSS lands at DGROUP:68DC instead of the
-target 25DC (+0x4300). The remaining Ellen blocker is therefore physical BSS
-placement. The retained object probe is
-.analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-main05-v2-20261007/receipt.json;
-the mixed-link diagnostic is
-.analysis/th03-main-bombs-split-probe/ellen-cpp-review-v5.json. No exact credit
-is claimed yet. Chiyuri is now independently reconstructed too: its natural
-TC4J producer is 490 bytes / 169 instructions, lands exactly at
-183C:0001..01EA in a full MAIN link, has zero linked-byte mismatches, and emits
-the target 13-entry relocation order. The first four character groups
-(Chiyuri, Ellen, Kana and Kotohime) now have target TC4J relocation behavior.
-Kotohime is 528 bytes / 185 instructions and its nine-entry relocation group is
-exact in a full link; its only six linked-byte differences are three private
-word offsets, candidate DGROUP:6962 versus target DGROUP:28F6. Kana similarly
-has 18 private-angle operand mismatches (6960 versus 2674), and Ellen still
-needs its 0x84-byte private BSS restored to DGROUP:25DC. Rikako is now the final
-character CODE producer left to reconstruct before the work can focus entirely
-on historical BSS placement. See reconstruction/MAIN_BOMBS_REVIEW.md.
+MAIN_05_TEXT character bombs remain outside the accepted aggregate, but their
+CODE reconstruction is now complete enough for formal Oracle integration. All
+five physical character producers have maintained natural TC4 C++:
+Chiyuri 490 bytes / 169 instructions, Ellen 1023 / 347 across three functions,
+Kana 526 / 184, Kotohime 528 / 185, and Rikako 546 / 186. Their full-link CODE
+contributions land consecutively at 183C:0001..0C29.
+
+The previous relocation blocker is solved. Restoring TC4's uppercase Pascal OMF
+public spelling for the maintained randring AND/MOD getters preserves the
+existing exact 120-function aggregate while allowing the Rikako producer to
+link naturally. A five-C++-producer MAIN experiment then reproduces every one
+of the bomb owner's 71 relocation entries in target order. With private state
+still emitted by each C++ object, the only 62 owner-byte differences are
+DS-relative operands caused by BSS placement: Ellen 22 bytes, Kana 18,
+Kotohime 6 and Rikako 16.
+
+A symbolic storage-binding experiment removes even those differences without
+hard-coded addresses: semantic externs are bound to the already-symbolized
+monolithic TH03 BSS labels at Ellen 25DC/25DE/265E, Kana 2674, Kotohime 28F6
+and Rikako 4B8C. The resulting full MAIN link has 3113/3113 bomb-owner bytes
+equal, all 71 relocation sites equal, the 71-entry order equal, and zero
+mismatches in all seven functions. Retained evidence:
+.analysis/th03-main-bombs-rikako-link-probe-e23/review-storage-bind.json.
+This proves the CODE owner model but does not claim the monolithic BSS as
+physically reconstructed ownership. Next encode the five producers plus
+symbolic storage bindings in the checked-in Oracle, promote the CODE extent if
+the two-round aggregate stays green, and keep the historical BSS split as a
+separate open ownership task. See reconstruction/MAIN_BOMBS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation

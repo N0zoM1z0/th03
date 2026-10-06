@@ -270,6 +270,63 @@ all reproduce their target TC4J relocation groups. Ellen/Kana/Kotohime still
 require historical private-BSS placement, and Rikako remains the final
 character CODE producer to reconstruct.
 
+## Rikako Turbo C++ producer reconstruction
+
+src/main/player/bomb_rikako.cpp reconstructs the final 546-byte Rikako
+single-function producer as natural Turbo C++. A fresh TC4J object is exactly
+546 bytes / 186 decoded instructions with a single RETF boundary and a two-byte
+private BSS word. Every instruction offset, size and mnemonic matches the
+immutable TH03 target. The only initial compile issue was a missing include for
+TH03's V_WHITE enum; no code-shape workaround was required.
+
+The first full-link attempt exposed a separate physical-build fact that had
+been hidden by the monolithic assembler carrier. TC4J references the far Pascal
+getter as @RANDRING_FAR_NEXT16_AND$QUI, while the maintained TASM macro used an
+uppercase PUBLIC but a lowercase PROC spelling and therefore emitted a
+lowercase OMF PUBDEF. Spelling the Pascal AND/MOD PROC labels in their uppercase
+TC4 ABI form leaves every accepted randring instruction byte unchanged. Both a
+focused randring replay and the complete 120-function accepted MAIN aggregate
+pass two fresh cold builds after this correction.
+
+With that OMF ABI repaired, Rikako links exactly at 183C:0A08..0C29 and its
+complete 20-entry relocation group becomes the target sequence:
+
+    3108,3012,2980,2961,2938,2914,2900,2880,2866,2844,
+    2830,2812,2798,2779,2768,2669,2648,2643,2625,2605
+
+At this point all five character groups reproduce the target's complete
+71-entry relocation order. Rikako's remaining 16 linked-byte differences are
+eight 16-bit DS operands for its private word: the target symbolic storage
+word_220EC is DGROUP:4B8C, while the mixed link appends the C++ word at
+DGROUP:6964.
+
+A final storage-binding experiment then separated CODE exactness from unresolved
+physical BSS ownership without hard-coding any address. The four C++ producers
+with private state were compiled against semantic extern names, and the frozen
+monolithic carrier exported those names as labels at the already-symbolized
+TH03 storage locations: Ellen 25DC/25DE/265E, Kana 2674, Kotohime 28F6, and
+Rikako 4B8C. Chiyuri needs no private BSS. This full MAIN link produces:
+
+- all 3113 MAIN_05_TEXT owner bytes equal,
+- all 71 relocation sites equal,
+- the complete 71-entry relocation order equal, and
+- zero byte mismatches in each of the seven reviewed functions.
+
+The retained exact-CODE experiment is
+.analysis/th03-main-bombs-rikako-link-probe-e23/review-storage-bind.json.
+It does not transfer ownership of the surrounding monolithic BSS to these C++
+files. The historical BSS producer split remains open and must be tracked
+separately. The immediate next step is to encode this symbolic storage binding
+and five-producer CODE model in the maintained Oracle, keeping BSS ownership
+explicitly unaccepted.
+
+The reproducible object probe is:
+
+    python3 scripts/probe_th03_main_bomb_rikako_cpp.py --run-id UNIQUE_ID
+
+The retained object receipt is
+.analysis/th03-main-bomb-rikako-cpp/gpt-web-rikako-v2-f03-20261007/receipt.json.
+
 This document intentionally does not claim exact acceptance yet. The candidate
 lives in config/th03_main_bombs_candidate.toml so the default accepted aggregate
 remains green. Promotion requires the normal two-round aggregate cold replay to
