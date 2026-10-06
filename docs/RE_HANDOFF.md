@@ -24,7 +24,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes401 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes412 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
@@ -82,8 +82,9 @@ Ghidra databases remain packed. Current exact policy requires canonical
 file-backed extents: decoded rows have no invented stored offsets or exact
 credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Continue MAINL startup/CRT allocation, remaining physical carriers and root
-DATA/BSS layout, then remaining OP/ZUN/shared intake. Current MAP/ledger
+Continue MAINL complete malloc/free/realloc/new/delete, startup/exception,
+remaining physical carriers and root DATA/BSS layout, then remaining
+OP/ZUN/shared intake. Current MAP/ledger
 interval comparison covers10944/10944 root _TEXT bytes, with zero independent
 gaps and zero overlapping ownership. This closes the decoded root interval
 union; complete carrier/artifact/source ownership remains open.
@@ -144,6 +145,21 @@ structural coverage. Preserve absent-stick SI/AX, unchecked second resident
 allocation, MCB cycles, palette alias ordering and text DF/BIOS geometry.
 Root interval completion grants no maintained MAINL source or exact credit.
 
+CRT break/pointer substrate adds628 independent decoded CODE bytes in six
+carriers, plus111 bounded initialized DATA bytes; raw/empty ordered relocations
+match both cold products. Six locally pinned CL.LIB members/twelve public MAP
+sites/two DATA contributions and39 symbolic fixups reproduce all linked CODE,
+including one TLINK far-call relaxation. Six A3 librarian naming comments
+retain reported stale checksums; no repair or strict OMF validity is claimed.
+All33741 terminal calls/77142 native entries agree;277/277 positions execute.
+Preserve negative-MiB sbrk aliases, raw-word/granule wrapping, failed resize
+heap-top updates/BXFFFF success collisions and INT_MIN errno conversion.
+DOS replies and shifts above31 remain emulator/model observations. Compiled
+CRT is separate from ReC98 authored source; full allocator/lifetime stays open.
+Current108 MAP CODE carriers have reviewed unit union28310/58339 bytes,
+gaps30029/overlap0; root10944 remains complete. See
+`.analysis/sol-mainl-map-unit-coverage-after-crt-break-20261006.json`.
+
 ## MAINL candidate evidence index
 
 Replay scripts use `scripts/review_th03_mainl_NAME.py`; each linked note records
@@ -185,6 +201,7 @@ original interface models even after a separate library review.
 | [Gaiji/PACK drawing/scroll/show](reconstruction/MAINL_DRAW_REVIEW.md) | 656 CODE +1024 table | 21636 terminal calls plus48 polling budgets; native shared tails/GDC |
 | [Root PI decoder/free](reconstruction/MAINL_PI_DECODER_REVIEW.md) |1600|3420 terminal calls plus60 semantic prefixes; native private helpers/heap/stack/open and successful borrower supplement|
 | [Remaining root helpers/producers](reconstruction/MAINL_ROOT_TAIL_REVIEW.md) |722|25335 calls incl.30 DIV stops,72 prefixes; separate318 native-compare PFOPEN calls|
+| [CRT break/pointer substrate](reconstruction/MAINL_CRT_BREAK_REVIEW.md) |628|33741 terminal calls; native near/far bridges, private resize, pointer/error helpers|
 
 OP has three configuration/win-screen boundary rows totaling 387 decoded
 bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL

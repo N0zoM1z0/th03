@@ -142,7 +142,13 @@ fixup ownership, signed errors and failure-state effects.
 
 ## Remaining artifact scope
 
-The refreshed MAP/unit interval union is recorded separately after this review.
+The refreshed coverage receipt is `.analysis/sol-mainl-map-unit-coverage-after-crt-break-20261006.json`, SHA-256
+`f0237fb4fec92cc36d4cdc2351152301d1ef42220b86c64e31b0fbb51c280fd3`. The six CRT carriers add 628 independent bytes
+without overlap. Across 108 nonzero MAP CODE carriers, the reviewed decoded
+union covers 28,310 of 58,339 bytes, leaving 30,029 without independent
+unit rows and zero overlapping bytes. Root _TEXT remains complete at
+10,944 bytes. Tables remain data, and gaps can contain previously reviewed
+context. Earlier coverage receipts keep their original bytes and hashes.
 
 MAINL maintained source/exact counts remain zero. This candidate CRT substrate
 does not accept complete malloc/free/realloc/new/delete, CRT startup/exception
