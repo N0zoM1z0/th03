@@ -311,7 +311,7 @@ original/source carrier ownership. Replay `scripts/review_th03_op_coverage.py`.
 
 Latest full check: `.analysis/sol-op-score-full-ci.log`, SHA-256
 `575817c4f3380f7c6e6efe11827fa184ec02fc94981923b0889b7170ed261582`, passes446 tests and all available private headless gates.
-Tracking before the CI evidence row:220units/2039evidence/225knowledge. MAIN
+Tracking is220units/2040evidence/225knowledge. MAIN
 exact ownership and MAINL/ZUN acceptance remain unchanged.
 
 Next: remaining OP menu and root CODE/carrier ownership, the six fresh-scaffold
