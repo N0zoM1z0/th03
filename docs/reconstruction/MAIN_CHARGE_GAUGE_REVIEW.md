@@ -1,7 +1,8 @@
 # MAIN character charge-shot / gauge owner review
 
-This review expands the TH03 MAIN authored frontier beyond the currently exact
-owners. It does not claim source or exact acceptance for these five modules yet.
+This review expands the TH03 MAIN authored frontier beyond the earlier exact
+owners. Chiyuri is now accepted exact; Ellen, Kana, Kotohime and Rikako remain
+boundary-reviewed source-reconstruction targets.
 
 ## Target owner boundaries
 
@@ -81,9 +82,9 @@ For each character owner:
 6. rerun the full accepted MAIN aggregate twice and retain all existing exact
    owners.
 
-Chiyuri is the first implementation target. Ellen/Kana/Kotohime/Rikako stay
+Chiyuri has completed all six gates above. Ellen/Kana/Kotohime/Rikako stay
 reviewed candidates until their natural source and producer evidence pass the
-same gates.
+same gates; Ellen is the next implementation target.
 
 ## Chiyuri natural TC4 producer
 
@@ -108,11 +109,41 @@ The reproducible object probe is:
 
     python3 scripts/probe_th03_main_chargeshot_chiyuri_cpp.py --run-id UNIQUE_ID
 
-The retained receipt is
-.analysis/th03-main-chargeshot-chiyuri-cpp/gpt-web-chiyuri-charge-v5-20261007/receipt.json.
+The current object-shape receipt is
+.analysis/th03-main-chargeshot-chiyuri-cpp/gpt-web-chiyuri-charge-linkfix-v7-20261007/receipt.json.
 
-This is intentionally not exact acceptance yet. The object contains 211 raw
-pre-link byte differences, as expected for unresolved data/fixup operands.
-The next gate is a full MAIN link that places this producer at
-1B26:0000..03F2, restores the historical state bindings, and reproduces all
-nine ordered owner relocations without weakening the existing aggregate.
+## Chiyuri exact full-link promotion
+
+The full-link integration keeps an empty MAIN_07_TEXT anchor in the frozen
+carrier and adds one cs_chiyu.cpp TC4J producer. Anonymous historical carrier
+storage is not moved: the 102-byte block starting at DGROUP:1F54 is split into
+semantic aliases for the two-word X array, two-byte frame array and 96-byte
+charge-shot array; word_1F51A gains the render-pointer alias; and the first
+eight bytes at DGROUP:2D58 gain the two-entry gauge timing alias.
+
+The first full-link candidate was already structurally correct: MAP placement
+and all nine ordered relocations matched, and 1010/1011 bytes were equal. Its
+single mismatch was the render height immediate: sprite16_put_size.set(32, 24)
+stores 12 because the helper converts pixel height to VRAM height. Using
+set(32, 48) preserves the natural helper call while storing the target raw
+height 24.
+
+After that correction, the two-round candidate replay passes all 1011 owner
+bytes, MAP placement, ordered relocations and all previously accepted owners:
+
+    .analysis/th03-main-exact/gpt-web-chiyuri-charge-full-link-v2-20261007/receipt.json
+
+The owner was then merged into the default exact manifest and a replay with no
+candidate overlay also passes:
+
+    .analysis/th03-main-exact/gpt-web-chiyuri-charge-promoted-default-v1-20261007/receipt.json
+
+A post-ledger final-worktree default replay also passes:
+
+    .analysis/th03-main-exact/gpt-web-chiyuri-charge-promoted-final-v2-20261007/receipt.json
+
+The default aggregate is now 136 exact functions / 18871 function bytes /
+19077 owned bytes. Both fresh rounds keep 20 products and 361 game objects
+deterministic and retain the maintained DOS behavior probe. Chiyuri therefore
+has formal scoped exact CODE acceptance; this does not claim that the
+surrounding anonymous BSS was historically produced by the C++ object.

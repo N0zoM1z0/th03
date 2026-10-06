@@ -58,7 +58,7 @@ void far pascal chargeshot_add_chiyuri(Subpixel center_x, Subpixel center_y)
 	}
 }
 
-void far chargeshot_update_chiyuri(void)
+void far pascal chargeshot_update_chiyuri(void)
 {
 	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[pid_current][7];
 	if(p->age == 0) {
@@ -137,10 +137,10 @@ uint8_t far chargeshot_hittest_chiyuri(void)
 	return hits;
 }
 
-void far chargeshot_render_chiyuri(void)
+void far pascal chargeshot_render_chiyuri(void)
 {
 	chiyuri_chargeshot_p = &chiyuri_chargeshots[pid_current][7];
-	sprite16_put_size.set(32, 24);
+	sprite16_put_size.set(32, 48);
 	sprite16_clip_set_for_pid(pid_current);
 
 	for(int i = 0; i < 8; (i++, chiyuri_chargeshot_p--)) {

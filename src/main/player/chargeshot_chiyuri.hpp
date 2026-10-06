@@ -5,11 +5,15 @@
 #include "compat/rec98/th03/main/bullet/bullet.hpp"
 
 void far chargeshots_reset_chiyuri(void);
+
+extern "C" {
 void far pascal chargeshot_add_chiyuri(Subpixel center_x, Subpixel center_y);
-void far chargeshot_update_chiyuri(void);
-uint8_t far chargeshot_hittest_chiyuri(void);
-void far chargeshot_render_chiyuri(void);
+void far pascal chargeshot_update_chiyuri(void);
+void far pascal chargeshot_render_chiyuri(void);
 void far gba_gauge_pattern_pellet_chiyuri(void);
 void far gba_gauge_pattern_bullet_chiyuri(void);
+}
+
+uint8_t far chargeshot_hittest_chiyuri(void);
 
 #endif

@@ -1896,3 +1896,134 @@ offset = 0x0a08
 size = 546
 boundary = "owner-linear-span"
 abi = "far cdecl; no arguments; RETF"
+
+[[units]]
+id = "th03-main-charge-gauge-chiyuri"
+source = "src/main/player/chargeshot_chiyuri.cpp"
+header = "src/main/player/chargeshot_chiyuri.hpp"
+object = "chiyuri_chargeshot"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/cs_chiyu.cpp"
+physical_objects_additive = true
+physical_objects = [
+  { object = "cs_chiyu", wrapper = "th03/cs_chiyu.cpp" },
+]
+support_files = [
+  "compat/rec98/th03/main/player/ch_shot.hpp",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/hitcirc.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th02/snd/snd.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/b_rika.cpp\",\n\t\"th03/playfld.asm\",\n"
+build_replacement = "\t\"th03/b_rika.cpp\",\n\t\"th03/cs_chiyu.cpp\",\n\t\"th03/playfld.asm\",\n"
+carrier_edits = [
+  { kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern CHARGESHOT_ADD_CHIYURI:proc\r\n\textern CHARGESHOT_UPDATE_CHIYURI:proc\r\n\textern @chargeshot_hittest_chiyuri$qv:proc\r\n\textern CHARGESHOT_RENDER_CHIYURI:proc\r\n\textern _gba_gauge_pattern_pellet_chiyuri:proc\r\n\textern _gba_gauge_pattern_bullet_chiyuri:proc\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p1.chargeshot_add, chargeshot_add_chiyuri\r\n", after = "\t\tsetfarfp\t_p1.chargeshot_add, CHARGESHOT_ADD_CHIYURI\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p1, chargeshot_update_chiyuri\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p1, CHARGESHOT_UPDATE_CHIYURI\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p1, chargeshot_render_chiyuri\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p1, CHARGESHOT_RENDER_CHIYURI\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, gba_gauge_pattern_pellet_chiyuri\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, _gba_gauge_pattern_pellet_chiyuri\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, gba_gauge_pattern_bullet_chiyuri\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, _gba_gauge_pattern_bullet_chiyuri\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p2.chargeshot_add, chargeshot_add_chiyuri\r\n", after = "\t\tsetfarfp\t_p2.chargeshot_add, CHARGESHOT_ADD_CHIYURI\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p2, chargeshot_update_chiyuri\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p2, CHARGESHOT_UPDATE_CHIYURI\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p2, chargeshot_render_chiyuri\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p2, CHARGESHOT_RENDER_CHIYURI\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, gba_gauge_pattern_pellet_chiyuri\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, _gba_gauge_pattern_pellet_chiyuri\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, gba_gauge_pattern_bullet_chiyuri\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, _gba_gauge_pattern_bullet_chiyuri\r\n" },
+  { kind = "remove-between", path = "th03_main.asm", start_marker = "sub_1B260\tproc far\r\n", end_marker = "gba_gauge_pattern_bullet_chiyuri endp\r\n", replacement = "; Chiyuri charge/gauge owner moved to natural TC4 producer\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "include th02/math/randring[bss].asm\r\n\t\tdb 102 dup(?)\r\nword_1F51A\tdw ?\r\n", after = "include th02/math/randring[bss].asm\r\npublic _chiyuri_gauge_x, _chiyuri_gauge_frame, _chiyuri_chargeshots\r\npublic _chiyuri_chargeshot_p\r\n_chiyuri_gauge_x label word\r\n\t\tdw PLAYER_COUNT dup(?)\r\n_chiyuri_gauge_frame label byte\r\n\t\tdb PLAYER_COUNT dup(?)\r\n_chiyuri_chargeshots label byte\r\n\t\tdb 96 dup(?)\r\n_chiyuri_chargeshot_p label word\r\nword_1F51A\tdw ?\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "_gba_gauge_level\tdb PLAYER_COUNT dup(?)\r\n\t\tdb 786 dup(?)\r\n", after = "_gba_gauge_level\tdb PLAYER_COUNT dup(?)\r\npublic _gauge_pattern_timing\r\n_gauge_pattern_timing label byte\r\n\t\tdb 8 dup(?)\r\n\t\tdb 778 dup(?)\r\n" },
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-charge-gauge-chiyuri", segment = 0x1b26, start = 0x0000, size = 0x03f3, map_segment = "MAIN_07_TEXT", map_group = "(none)", map_acbp = 28, map_parts = [
+    { object = "cs_chiyu", start = 0x0000, size = 0x03f3 },
+  ] },
+]
+
+[[functions]]
+name = "chiyuri_charge_setup"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x0
+size = 23
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_add_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x17
+size = 75
+boundary = "owner-linear-span"
+abi = "far Pascal; two Subpixel words; RETF 4"
+
+[[functions]]
+name = "chargeshot_update_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x62
+size = 157
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "chiyuri_chargeshot_private"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0xff
+size = 81
+boundary = "owner-linear-span"
+abi = "near cdecl; no arguments; RET"
+
+[[functions]]
+name = "chargeshot_hittest_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x150
+size = 119
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; AL hit count; RETF"
+
+[[functions]]
+name = "chargeshot_render_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x1c7
+size = 101
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "gauge_pattern_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x22c
+size = 407
+boundary = "owner-linear-span"
+abi = "near Pascal; bullet type byte in word slot; RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x3c3
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl C linkage; no arguments; RETF"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_chiyuri"
+object = "chiyuri_chargeshot"
+segment = 0x1b26
+offset = 0x3db
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl C linkage; no arguments; RETF"
