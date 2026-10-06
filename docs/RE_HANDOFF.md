@@ -17,17 +17,19 @@ ordered ENEMY_2_TEXT relocations. Moving declarations did not repair that
 producer partition. Keep its separate manifest/receipt and
 `docs/reconstruction/MAIN_ENEMY_REVIEW.md`; do not absorb its exactness claim.
 
-OP and MAINL have no maintained source/exact owner. ZUN has three maintained
+OP has two source-present score TUs and one bounded loader include,501 decoded
+bytes, with no exact acceptance. MAINL has no maintained source/exact owner.
+ZUN has three maintained
 wrapper TUs totaling 234 decoded bytes, without exact acceptance. Japanese
 YUMEZIKU targets remain pinned as `candidate-local-attested`; independent
 pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes437 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes446 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
-all four stored databases and byte/database mutant controls. Selected MAINL
-was independently re-attested before further target work. Historical restricted
+all four stored databases and byte/database mutant controls. Selected MAINL and OP
+were independently re-attested before further target work. Historical restricted
 execution failures remain evidence, without current blocker status. Two fresh
 ZUN wrapper cold rounds now pass compiler/link/runtime diagnostics; decoded
 full-image equality still fails10 unowned driver bytes. Git metadata is writable.
@@ -279,20 +281,40 @@ active bytes. Source lineage uses22 frozen providers,127 archived source
 inputs per round and six original normalized OMF objects;25 historical
 metadata/generated-probe input paths are not archived source evidence. See
 `docs/reconstruction/OP_CONFIGURATION_REVIEW.md` and
-`scripts/review_th03_op_configuration.py`. Remaining OP menus/root/score and
+`scripts/review_th03_op_configuration.py`. Other OP menus/root and
 all headers/DATA/BSS/devices/canonical storage gates stay open.
 
-OP interval comparison against coldMAP has100nonzeroCODEcarriers55261bytes:
-472originalunitbytes/54789gaps/zerooverlap. Shiftedinit has104/105coldcarrier
-bytes and one-byte intersection into the next coldCDGcarrier; this does not
-prove original/sourcecarrier ownership. Use
-`scripts/review_th03_op_coverage.py --output .analysis/NEW_OP_COVERAGE.json`;
-three negative/accounting tests preserve that distinction.
+OP score review adds543 independent decoded bytes: two complete C++ carriers
+394, public loader107 and native IRAND42. Three original images each pass1168
+terminal calls/all210 instruction positions. Two fresh OP-only frozen compiler
+scaffolds independently compile the maintained score TUs/loader and pass the
+same1168-call contracts. Their20 products/350 gameobjects are deterministic;
+all416 OMF objects are recorded, Research date/time objects diagnostic.
+Three OP units totaling501 bytes are source-present, with compatibility
+headers and surrounding menu/root dependencies still unowned. Preserve
+16-bit rank multiplication, native LCG/near/far/Pascal frames, byte format and
+unchecked short-read/stale-buffer behavior. See
+`docs/reconstruction/OP_SCORE_REVIEW.md`, `config/th03_op_score_candidate.toml`
+and `scripts/replay_th03_op_score.py --run-id NEW_OP_SCORE`.
 
-Latest full check: `.analysis/sol-op-configuration-full-ci.log`, SHA-256
-`79390752bef0ea42e26e428dd60bbbc73250c23f43309e813baf8d7ee79ea409`, passes437 tests and all available private headless gates.
-Tracking is216units/2018evidence/219knowledge. OP7 decoded candidate units
-retain zero maintained source/exact owner credit; MAIN and MAINL acceptance
-are unchanged. Next bounded OP source cohort: `th03/op_02.cpp`,
-`th03/scoredat.cpp` and their complete public score-loader callers. Preserve
-all frozen source branches, raw coordinates and original relocation lists.
+The new OP-only scaffold differs from the target by six decoded program bytes
+and original607-relocation order. Keep this separate from the historical
+MAIN-overlay4867-byte/shifted-initializer failures. No normalization or whole
+OP/source/exact acceptance. The complete505-file review goal remains open.
+
+OP interval comparison against the old cold MAP has100nonzeroCODEcarriers,
+55261 bytes:1015 reviewed original unit bytes/54246 gaps/zero overlap. There
+are11 OP units:3 source-present501 bytes and8 other candidates514 bytes.
+Source-present intervals retain diagnostic coverage only. The old shifted
+initializer crosses the next cold carrier by one byte, without proving
+original/source carrier ownership. Replay `scripts/review_th03_op_coverage.py`.
+
+Latest full check: `.analysis/sol-op-score-full-ci.log`, SHA-256
+`575817c4f3380f7c6e6efe11827fa184ec02fc94981923b0889b7170ed261582`, passes446 tests and all available private headless gates.
+Tracking before the CI evidence row:220units/2039evidence/225knowledge. MAIN
+exact ownership and MAINL/ZUN acceptance remain unchanged.
+
+Next: remaining OP menu and root CODE/carrier ownership, the six fresh-scaffold
+inequalities, then continued natural-source localization where reviewed
+contracts permit it. Full frozen-file/header/DATA/BSS/resource/dependency and
+canonical packing/Oracle review remains required across all artifacts.

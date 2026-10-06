@@ -18,7 +18,7 @@ def coverage(units,carriers,image_size):
     intervals=[]
     for row in units:
         if row['artifact']!='th03-op' or not row['segment'].startswith('decoded:'):continue
-        if row['boundary_state']!='reviewed' or row['state']!='boundary-reviewed':continue
+        if row['boundary_state']!='reviewed' or row['state'] not in ('boundary-reviewed','source-present'):continue
         segment=int(row['segment'].split(':',1)[1],16);offset=int(row['offset'],0);size=int(row['size'],0)
         start=segment*16+offset
         if not 0<=segment<=65535 or not 0<=offset<=65535 or size<0 or start+size>image_size:raise ValueError('OP decoded unit exceeds bounds')

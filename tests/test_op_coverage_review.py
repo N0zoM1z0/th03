@@ -25,6 +25,9 @@ class CoverageTests(unittest.TestCase):
         rows=d.coverage([unit(),unit(name='v')],carrier,30)
         self.assertEqual(rows[0]['overlapping_unit_bytes'],4)
         self.assertEqual(rows[0]['independent_unit_bytes'],4)
+        rows=d.coverage([unit(state='source-present')],carrier,30)
+        self.assertEqual(rows[0]['independent_unit_bytes'],4)
+        self.assertEqual(rows[0]['overlapping_unit_bytes'],0)
 
     def test_unit_and_carrier_bounds_are_rejected(self):
         for u in (unit(start=-1),unit(start=65536),unit(size=-1),unit(start=28,size=4)):

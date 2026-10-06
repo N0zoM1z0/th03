@@ -1,0 +1,29 @@
+schema_version = 1
+artifact = "th03-op"
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+scope = "Two full score C++ carriers and one bounded loader include; decoded candidate source presence only"
+source_acceptance = false
+exact_acceptance = false
+support_files = ["src/op/formats/scorecrypt.hpp", "compat/rec98/libs/master.lib/master.hpp", "compat/rec98/th03/common.h", "compat/rec98/th03/formats/scoredat.hpp"]
+
+[[units]]
+id = "encode"
+source = "src/op/formats/score_encode.cpp"
+wrapper = "th03/op_02.cpp"
+object = "obj/th03/op_02.obj"
+functions = ["encode"]
+
+[[units]]
+id = "score-data"
+source = "src/op/formats/score_data.cpp"
+wrapper = "th03/scoredat.cpp"
+object = "obj/th03/scoredat.obj"
+functions = ["decode", "recreate", "sum"]
+
+[[units]]
+id = "load"
+source = "src/op/formats/score_load.inl"
+carrier = "th03/op/m_select.cpp"
+anchor = '#include "th03/formats/score_ld.cpp"'
+object = "obj/th03/op_sel.obj"
+functions = ["load"]
