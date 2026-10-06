@@ -24,7 +24,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes355 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes363 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
@@ -83,14 +83,15 @@ Ghidra databases remain packed. Current exact policy requires canonical
 file-backed extents: decoded rows have no invented stored offsets or exact
 credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Continue remaining linked MAINL graphics, CRT allocation and generated root
+Continue MAINL GRAPH_400LINE/CLEAR/COPY_PAGE, remaining linked graphics,
+CRT allocation and generated root
 code, then the remaining OP/ZUN/shared intake. Current MAP/ledger interval
-comparison covers6286/10944 root _TEXT bytes and leaves4658 without independent
+comparison covers6720/10944 root _TEXT bytes and leaves4224 without independent
 unit rows, with zero overlap, including
 some previously reviewed native context; separate CRT modules remain open.
 Replay `scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`;
-see `.analysis/sol-mainl-map-unit-coverage-after-graphics-20261006.json`. The old
-5133-gap snapshot is preserved. Use context evidence
+see `.analysis/sol-mainl-map-unit-coverage-after-gaiji-20261006.json`. The old
+5133/4658-gap snapshots are preserved. Use context evidence
 before assigning another owner, avoiding duplicate credit.
 EGC/box fills/public near GDC add475 independent decoded bytes; their raw
 bytes/relocations/public MAP entries/native CPU behavior agree with both fresh
@@ -103,6 +104,12 @@ MAIN forwarders and seven MAIN-only Tupfile substitutions are explicit compiler
 lineage, never inherited MAINL acceptance. The full ending image retains 340
 changed bytes, classified as PI region300, caller operands19, native encoding20
 and unowned DGROUP0849byte1; equal remaining bytes still require ownership.
+Gaiji backup/load/read/write add434 independent bytes; private font helpers
+run through complete public callers with native heap/stack/BFNT/open context.
+All1257 scoped CODE/producer and10DATA bytes match both cold products.
+Single transfers force IF; ALL first ADC inherits Carry; DF is retained.
+BFNT Carry1/AX8192 reads can still register stale data. C71 is00 outside the
+verified C72 entry and remains uncredited. Device/DOS models grant no exactness.
 
 ## MAINL candidate evidence index
 
@@ -140,6 +147,7 @@ original interface models even after a separate library review.
 | [VSYNC/vector/mode](reconstruction/MAINL_VSYNC_REVIEW.md) | 368 | 41556 terminal calls plus60 budgets; native RETFs/IRETs/WAIT |
 | [BFNT/super sprites](reconstruction/MAINL_SUPER_REVIEW.md) | 1542 | 2892 terminal calls plus30 budgets; native conversion/SMC/heap/stack |
 | [EGC/box fills/near GDC](reconstruction/MAINL_GRAPHICS_REVIEW.md) | 475 | 9720 terminal calls plus12 budgets; native ports/stores/flags/frames |
+| [Gaiji backup/load/read/write](reconstruction/MAINL_GAIJI_REVIEW.md) | 434 | 6966 terminal calls plus12 budgets; native font helpers/heap/stack/BFNT |
 
 OP has three configuration/win-screen boundary rows totaling 387 decoded
 bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL

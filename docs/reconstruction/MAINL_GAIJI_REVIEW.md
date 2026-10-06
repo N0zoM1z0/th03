@@ -143,3 +143,10 @@ outside the preceding procedure; its producer attribution remains an
 inference. That byte is observed separately and receives no function or
 independent-unit credit. Decoding from0C71 would cross the verified XOR at
 0C72. The complete gaiji bodies begin at their actual instruction boundaries.
+
+The separate MAP/ledger interval union now covers 6,720 of 10,944 root _TEXT
+bytes, leaving 4,224 without independent unit rows and zero overlap. Replay
+`scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`.
+The previous 5,133/4,658-gap snapshots remain historical evidence. Gaps can
+include prior native context, alignment and CRT; they are not an unknown
+semantic byte count.
