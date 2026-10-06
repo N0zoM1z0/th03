@@ -44,9 +44,18 @@ def references(row, units, evidence):
     for name in names:
         unit = units.get(name)
         if (not unit or unit['artifact'] != 'th03-mainl' or not unit['segment'].startswith('decoded:')
-                or unit['boundary_state'] != 'reviewed' or unit['state'] != 'boundary-reviewed'
-                or unit['source'] or unit['file_offset']):
+                or unit['boundary_state'] != 'reviewed' or unit['state'] not in ('boundary-reviewed', 'source-present')
+                or bool(unit['source']) != (unit['state'] == 'source-present') or unit['file_offset']):
             raise ValueError('candidate unit namespace/state/source differs')
+        if unit['state'] == 'source-present':
+            source = Path(unit['source'])
+            if (source.is_absolute() or '..' in source.parts or source.suffix not in ('.cpp', '.c', '.asm', '.inl')
+                    or source.parts[:2] not in (('src', 'shared'), ('src', 'mainl'))):
+                raise ValueError('candidate maintained source ownership differs')
+            passes = {evidence[n].get('evidence_class') for n in unit['evidence_ids'].split(';')
+                      if n in evidence and evidence[n]['result'] == 'pass'}
+            if not {'compiler', 'runtime', 'reproducibility'} <= passes or not unit.get('replay_command', '').startswith('python3 scripts/replay_'):
+                raise ValueError('candidate maintained source lacks independent cold/runtime/reproducibility evidence')
         expected.update(unit['evidence_ids'].split(';'))
     if set(refs) != expected:
         raise ValueError('candidate evidence reference union differs')
@@ -68,7 +77,7 @@ def references(row, units, evidence):
 
 
 def validate(rows, expected_hashes, units, evidence):
-    """Portable index policy: diagnostic credit cannot turn into source acceptance."""
+    """Keep this CODE index diagnostic even after independent source migration."""
     paths = [r['path'] for r in rows]
     if len(paths) != len(set(paths)) or set(paths) != set(expected_hashes):
         raise ValueError('candidate direct-source membership differs')

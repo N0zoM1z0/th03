@@ -76,5 +76,25 @@ class CandidateIntakeTests(unittest.TestCase):
         observed[0]['overlapping_unit_bytes']=1
         with self.assertRaisesRegex(ValueError,'ownership overlaps'):d.summarize(['a.cpp'],observed,comps,h,u,e)
 
+    def test_independent_source_presence_keeps_index_acceptance_false(self):
+        rows,h,u,e,*_ = self.fixture()
+        u['u'].update(state='source-present', source='src/shared/formats/cdg_load.cpp',
+                      replay_command='python3 scripts/replay_th03_shared_cdg_load.py --run-id NEW')
+        refs=['e']
+        for i, klass in enumerate(('compiler','runtime','reproducibility')):
+            name=f'cold{i}';refs.append(name)
+            e[name]=dict(e['e'],id=name,evidence_class=klass)
+        u['u']['evidence_ids']=rows[0]['evidence_ids']=';'.join(refs)
+        d.validate(rows,h,u,e)
+        self.assertEqual(rows[0]['source_accepted'],'false')
+        self.assertEqual(rows[0]['exact_accepted'],'false')
+        for source in ('src/op/cdg.cpp','../cdg.cpp','src/shared/a.hpp'):
+            bad=deepcopy(u);bad['u']['source']=source
+            with self.assertRaisesRegex(ValueError,'source ownership'):d.validate(rows,h,bad,e)
+        bad=deepcopy(e);bad['cold2']['evidence_class']='upstream'
+        with self.assertRaisesRegex(ValueError,'independent cold'):d.validate(rows,h,u,bad)
+        bad=deepcopy(u);bad['u']['replay_command']='python3 scripts/review_th03_shared_cdg_load.py'
+        with self.assertRaisesRegex(ValueError,'independent cold'):d.validate(rows,h,bad,e)
+
 
 if __name__=='__main__':unittest.main()

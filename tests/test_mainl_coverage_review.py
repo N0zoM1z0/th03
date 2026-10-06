@@ -32,5 +32,12 @@ class CoverageTests(unittest.TestCase):
         for carrier in (dict(start=-1,size=1),dict(start=99,size=2)):
             with self.assertRaisesRegex(ValueError,'carrier exceeds'):coverage([], [carrier],100)
 
+    def test_source_migration_preserves_interval_credit_without_duplication(self):
+        before=coverage([unit('a',10,3),unit('b',13,4)],[dict(start=10,size=7)],100)
+        after=coverage([unit('a',10,3,state='source-present',source='src/shared/a.cpp'),
+                        unit('b',13,4)],[dict(start=10,size=7)],100)
+        self.assertEqual(before,after)
+        self.assertEqual(after[0]['overlapping_unit_bytes'],0)
+
 
 if __name__=='__main__':unittest.main()
