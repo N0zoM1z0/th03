@@ -1,0 +1,19 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+source = "src/shared/graphics/text.cpp"
+glyph_include = "src/shared/graphics/text_glyph.inl"
+wrapper = "th03/grppsafx.cpp"
+carrier = "th02/hardware/grppsafx.cpp"
+object = "obj/th03/grppsafx.obj"
+original_wrapper_sha256 = "4c72dd176fefd8390ecba4c1f3f17a7b8b786d6163f3560de55cd64a5fb2baf3"
+original_carrier_sha256 = "fdf9f1c41ddc8e757f3fd15bcf97d3e2bfee7f4a4727f06da7fb51616e969bc2"
+original_glyph_sha256 = "ea6de98660cc9761593b37a9458ea9f5399ccc5dd7707ec88e0d3a86c6be77b6"
+size = 613
+op_segment = 3051
+op_offset = 2091
+mainl_segment = 3198
+mainl_offset = 2487
+support_files = [
+  "compat/rec98/planar.h",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/th01/hardware/grppsafx.h",
+]

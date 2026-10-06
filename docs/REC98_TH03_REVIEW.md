@@ -39,14 +39,14 @@ Failed evidence is preserved explicitly. See
 `docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and run
 `python3 scripts/review_rec98_th03_mainl_intake.py --check`.
 This index grants no whole-file, source or exact acceptance and does not change
-the 69 scoped maintained MAIN paths. Eleven MAINL CDG rows now have independently
+the 69 scoped maintained MAIN paths. Twelve MAINL CDG/text rows now have independently
 proved source presence in `src/shared/formats/cdg_load.cpp`, `cdg_put.asm` and
-`cdg_noalpha.asm`; index acceptance stays false and their1089-byte interval
+`cdg_noalpha.asm` and `src/shared/graphics/text.cpp`; index acceptance stays false and their1702-byte interval
 credit is preserved without duplication. The same physical objects have
 independent OP bindings. Both artifacts pass two
 fresh cold carrier/raw/original-relocation/native replays; complete products
 retain their own failures. See `reconstruction/SHARED_CDG_LOAD_REVIEW.md` and
-`reconstruction/SHARED_CDG_DRAW_REVIEW.md`.
+`reconstruction/SHARED_CDG_DRAW_REVIEW.md` and `reconstruction/SHARED_TEXT_REVIEW.md`.
 Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
 
@@ -278,6 +278,16 @@ bytes, pointer wrap, right-clip-after-consumption and narrow weight arithmetic.
 See `MAINL_TEXT_REVIEW.md` and `scripts/review_th03_mainl_text.py`. One decoded
 row adds no source/exact or accepted-intake credit; physical font/GRCG/pages,
 CRT/data ownership, cold localization and canonical packaging Oracles open.
+
+The subsequent `SHARED_TEXT_REVIEW.md` independently binds OP and MAINL and
+localizes the complete613-byte CPP plus one bounded glyph macro include. Two
+fresh cold rounds match original raw bytes, three ordered relocations, complete
+original nondependency OMF records and public/MAP ownership. Each artifact/image
+runs673 invocations/all250 positions, including three independently checked
+nonterminal prefixes and persistent VRAM reentry. The single MAINL row gains
+source presence without duplicate interval credit. All20products equal the
+preceding drawing proof;349othergameobjects remain unchanged. Actual CRT/font/
+GRCG/pages, global DATA/BSS, complete products and exact acceptance stay open.
 
 Complete MAINL vector/flip-table review covers twoTUs190bytes: three bodies189 /
 70instructions and one diagnostic producer byte. All raw/1ordered relocation

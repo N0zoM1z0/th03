@@ -1,5 +1,11 @@
 # Complete MAINL graph_putsa_fx candidate review
 
+This historical cached/interface review is supplemented by the later
+[shared text review](SHARED_TEXT_REVIEW.md): independent OP/MAINL bindings,
+localized CPP/glyph macros and two fresh cold producer/native replays. The
+existing613-byte MAINL row gains source presence without duplicate interval
+credit; complete product/exact gates remain open. The scope below is historical.
+
 The complete `th03/grppsafx.cpp` contribution is one613-byte /226-instruction
 far Pascal function at decoded0C7E:09B7..0C1B, with RET10. All raw bytes and
 three original ordered relocation sites match both cached products. Native

@@ -1,5 +1,23 @@
 # Private analysis cleanup
 
+The shared text migration removed one unreferenced first cold preparation:
+2504files/31040136bytes (about29.6MiB), after the corrected two-round proof passed.
+All1823 retained private input states remained unchanged. The complete first
+failure/cold transcripts and original replay script remain separate, as do both
+successful cold trees and every current proof input. Receipt
+`.analysis/sol-shared-text-temporary-cleanup-20261006.json`, SHA256
+`69dd12272b91686f8259af848e695b5200f0297de4f0da4b875c4b4c21b68e51`,6guards.
+
+The generic cleaner initially stopped at three historical Factory function
+query transcripts named `.json`; inspection confirmed plain text, unchanged
+against their explicit ledger output hashes. The cleaner now recognizes only
+the recorded Factory tool, function-query command/output binding and exact
+current SHA. Changed text, other query kinds/output names and malformed
+`receipt.json` still stop before deletion. Fifteen isolated destructive controls
+pass, including four new exception/negative checks. The three historical text
+files themselves stay unchanged. Earlier cleanup receipts retain their original
+helper hashes; subsequent authorized helper changes do not rebase those guards.
+
 The shared CDG migration subsequently removed two unreferenced failed cold
 preparations after the successful two-round source proof:4962 files,
 61841191 bytes (about59MiB). Complete failure/cold transcripts remain separate,
