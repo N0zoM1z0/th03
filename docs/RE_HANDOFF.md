@@ -361,3 +361,10 @@ seven abandoned no-receipt cold runs. All1494 retained private receipt input
 path states/hashes are unchanged; failure logs/canonical targets/toolchain and
 accepted snapshots preserved. See `docs/reconstruction/ANALYSIS_CLEANUP.md` and
 `scripts/clean_th03_failed_analysis.py`. Historical stale inputs remain separate.
+
+Complete OP entry diagnostic now bounds3094 bytes plusIRAND42/SCOPY28context.
+Three original/priorcoldimages each2236 cases/all1037 instructionpositions pass.
+Static story seen state is not reset after a returning exec; reentry exhausts
+its budget. Wait can launch demo again at frame522 even on newly supplied input.
+See `scripts/review_th03_op_entry.py` and10 new controls. Source-present
+promotion waits for the two fresh maintained-entry cold builds; exact remains0.
