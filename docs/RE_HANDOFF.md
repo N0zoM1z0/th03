@@ -5,9 +5,9 @@
 MAIN has 38 maintained exact source owners, 43 reviewed CODE extents,
 101 complete functions and 11628 owned bytes: 11487 body bytes plus 141
 producer table/alignment bytes. See `config/th03_main_exact_units.toml`,
-`config/units.csv` and `docs/PROGRESS.md`. The final accepted receipt is
-`sol-main-randring-final-20261006`, covering the whole aggregate in both cold
-rounds. These are bounded repository results; the whole product graph and
+`config/units.csv` and `docs/PROGRESS.md`. The latest complete accepted-owner receipt is
+`sol-main-restored-aggregate-20261006`, covering the whole aggregate in two
+fresh cold rounds after execution restoration. These are bounded repository results; the whole product graph and
 Factory Truth Kernel acceptance remain open.
 
 The complete enemy candidate remains non-exact: three extents, nineteen
@@ -31,7 +31,8 @@ was independently re-attested before further target work. Historical restricted
 execution failures remain evidence, without current blocker status. Two fresh
 ZUN wrapper cold rounds now pass compiler/link/runtime diagnostics; decoded
 full-image equality still fails10 unowned driver bytes. Git metadata is writable;
-review batches are saved with English `gpt-6.1-sol:` commits. The prior combined
+33 scoped reviews plus cross-scope reconciliation are saved in34 English
+`gpt-6.1-sol:` commits (2458813..fe136a4). The prior combined
 source-only patch and pending messages remain historical recovery backups.
 
 ## Replay and ownership discipline
@@ -82,8 +83,12 @@ Ghidra databases remain packed. Current exact policy requires canonical
 file-backed extents: decoded rows have no invented stored offsets or exact
 credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Continue remaining linked MAINL graphics, CRT allocation
-and remaining generated root code, then the remaining OP/ZUN/shared intake.
+Continue remaining linked MAINL graphics, CRT allocation and generated root
+code, then the remaining OP/ZUN/shared intake. Current MAP/ledger interval
+comparison leaves5133 root _TEXT bytes without independent unit rows, including
+some previously reviewed native context; separate CRT modules remain open.
+See `.analysis/sol-mainl-map-unit-coverage-20261006.json`. Use context evidence
+before assigning another owner, avoiding duplicate credit.
 BFNT/super and VSYNC/vector/mode now have native candidate review; physical display/DOS,
 asynchronous IRQ eligibility, lifetime and complete combined game callers
 remain open. Cached ASM/INC comparisons normalize only LF/CRLF. Prior maintained
