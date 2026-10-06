@@ -121,3 +121,9 @@ row progression and termination. Signed-extreme X can wrap the inclusive
 width to zero orFFFF; the FFFF case is recorded as a checked execution prefix.
 Preserve these observed behaviors when recovering natural source; do not
 replace them with clipping or ABI improvements under an exactness claim.
+
+The separate replayable MAP/ledger interval union now covers6286 of10944
+root _TEXT bytes, leaving4658 without independent unit rows and zero overlap.
+Run `scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`.
+The old5133-gap snapshot is preserved; these gaps can contain prior native
+context and producer alignment, so they are not an unknown-semantics count.

@@ -24,7 +24,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes343 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes355 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
@@ -85,11 +85,18 @@ credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
 Continue remaining linked MAINL graphics, CRT allocation and generated root
 code, then the remaining OP/ZUN/shared intake. Current MAP/ledger interval
-comparison leaves5133 root _TEXT bytes without independent unit rows, including
+comparison covers6286/10944 root _TEXT bytes and leaves4658 without independent
+unit rows, with zero overlap, including
 some previously reviewed native context; separate CRT modules remain open.
-See `.analysis/sol-mainl-map-unit-coverage-20261006.json`. Use context evidence
+Replay `scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`;
+see `.analysis/sol-mainl-map-unit-coverage-after-graphics-20261006.json`. The old
+5133-gap snapshot is preserved. Use context evidence
 before assigning another owner, avoiding duplicate credit.
-BFNT/super and VSYNC/vector/mode now have native candidate review; physical display/DOS,
+EGC/box fills/public near GDC add475 independent decoded bytes; their raw
+bytes/relocations/public MAP entries/native CPU behavior agree with both fresh
+MAINL products from the pinned complete MAIN cold replay. Eleven providers,
+root OMF hashes and152 archived inputs bind lineage; no new build or MAINL
+source/exact credit. BFNT/super and VSYNC/vector/mode also have native candidate review; physical display/DOS,
 asynchronous IRQ eligibility, lifetime and complete combined game callers
 remain open. Cached ASM/INC comparisons normalize only LF/CRLF. Prior maintained
 MAIN forwarders and seven MAIN-only Tupfile substitutions are explicit compiler
@@ -132,6 +139,7 @@ original interface models even after a separate library review.
 | [Palette/fades/wait](reconstruction/MAINL_PALETTE_REVIEW.md) | 692 | 7512 terminal calls plus24 budgets; native SMC and DOS-open |
 | [VSYNC/vector/mode](reconstruction/MAINL_VSYNC_REVIEW.md) | 368 | 41556 terminal calls plus60 budgets; native RETFs/IRETs/WAIT |
 | [BFNT/super sprites](reconstruction/MAINL_SUPER_REVIEW.md) | 1542 | 2892 terminal calls plus30 budgets; native conversion/SMC/heap/stack |
+| [EGC/box fills/near GDC](reconstruction/MAINL_GRAPHICS_REVIEW.md) | 475 | 9720 terminal calls plus12 budgets; native ports/stores/flags/frames |
 
 OP has three configuration/win-screen boundary rows totaling 387 decoded
 bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL
