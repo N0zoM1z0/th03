@@ -28,7 +28,7 @@ def main():
     if sha(raw) != args.receipt_sha256:
         raise ValueError('current coverage pinned compiler receipt differs')
     proof = json.loads(raw)
-    if proof['kind'] != 'th03-shared-cdg-loading-maintained-cold-probes' or not proof['diagnostic_checks_pass'] or proof['exact_acceptance'] or len(proof['rounds']) != 2:
+    if proof['kind'] not in ('th03-shared-cdg-loading-maintained-cold-probes', 'th03-shared-cdg-drawing-maintained-cold-probes') or not proof['diagnostic_checks_pass'] or proof['exact_acceptance'] or len(proof['rounds']) != 2:
         raise ValueError('current coverage compiler scope differs')
     inputs = {**proof['inputs'], str(path): sha(raw)}
     for p in ('config/units.csv', 'scripts/review_th03_current_decoded_coverage.py',
@@ -60,7 +60,7 @@ def main():
             raise ValueError('current coverage input changed: '+p)
     report = dict(kind='th03-current-OP-MAINL-decoded-interval-vs-cold-MAP', observed_utc=datetime.now(timezone.utc).isoformat(),
                   inputs=inputs, observations=observations, source_acceptance=False, exact_acceptance=False,
-                  notes='Union of current reviewed/source-present decoded intervals, using both pinned current shared-CDG source cold MAPs. No source/exact/whole-file/semantic-gap credit. Historical shifted OP MAP coverage remains separate; source migration must not erase MAINL interval credit or duplicate its five existing CDG rows.')
+                  notes='Union of current reviewed/source-present decoded intervals, using both pinned current shared-CDG source cold MAPs. No source/exact/whole-file/semantic-gap credit. Historical shifted OP MAP coverage remains separate; source migration must not erase MAINL interval credit or duplicate existing CDG function/producer rows.')
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2)+'\n')
     for art, rows in observations.items():
