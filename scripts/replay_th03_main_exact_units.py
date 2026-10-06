@@ -228,8 +228,61 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
     return result
 
 
-def verify_include_carrier(unit: dict, work: Path) -> None:
-    """Bind an include to its frozen, uncredited generated translation unit."""
+def apply_carrier_edits(unit: dict, work: Path) -> None:
+    """Apply declarative, single-hit edits to a frozen reference carrier.
+
+    These edits change source organization only. Exact credit remains limited
+    to the declared owner extent, which is compared against the immutable target
+    after linking.
+    """
+    for index, edit in enumerate(unit.get("carrier_edits", []), 1):
+        allowed = {
+            "replace-once": {"kind", "path", "before", "after"},
+            "remove-between": {
+                "kind", "path", "start_marker", "end_marker", "replacement"
+            },
+        }
+        kind = edit.get("kind")
+        if kind not in allowed or set(edit) != allowed[kind]:
+            raise ValueError(f"invalid carrier edit {unit['id']}:{index}")
+        path = work / edit["path"]
+        data = path.read_bytes()
+
+        if kind == "replace-once":
+            before = edit["before"].encode("ascii")
+            after = edit["after"].encode("ascii")
+            if not before or data.count(before) != 1:
+                raise ValueError(
+                    f"carrier replacement anchor drifted: {unit['id']}:{index}"
+                )
+            data = data.replace(before, after, 1)
+        else:
+            start_marker = edit["start_marker"].encode("ascii")
+            end_marker = edit["end_marker"].encode("ascii")
+            replacement = edit["replacement"].encode("ascii")
+            if (not start_marker or not end_marker
+                or data.count(start_marker) != 1 or data.count(end_marker) != 1):
+                raise ValueError(
+                    f"carrier removal anchor drifted: {unit['id']}:{index}"
+                )
+            start = data.index(start_marker)
+            end = data.index(end_marker, start) + len(end_marker)
+            if end <= start:
+                raise ValueError(f"invalid carrier removal range: {unit['id']}:{index}")
+            data = data[:start] + replacement + data[end:]
+
+        path.write_bytes(data)
+
+
+def verify_include_carrier(
+    unit: dict, work: Path, *, require_include: bool = True, verify_hash: bool = True
+) -> None:
+    """Bind an include to its frozen, uncredited generated translation unit.
+
+    A carved owner is verified once before its declarative carrier edit
+    (hash/chain only), then again after the edit (include chain only). This
+    keeps shared-carrier verification order-independent.
+    """
     if unit.get("ownership") != "bounded-include":
         return
     child = unit["overlay_path"]
@@ -242,13 +295,14 @@ def verify_include_carrier(unit: dict, work: Path) -> None:
             raise ValueError(f"bounded include carrier cycle: {unit['id']}")
         seen.add(path)
         carrier = work / path
-        if sha(carrier.read_bytes()) != declaration["sha256"]:
+        data = carrier.read_bytes()
+        if verify_hash and sha(data) != declaration["sha256"]:
             raise ValueError(f"bounded include carrier drifted: {unit['id']}")
-        pattern = rf"^\s*include\s+{re.escape(child)}\s*$"
-        # Include names are ASCII; preserve legacy Japanese comment bytes.
-        text = carrier.read_bytes().decode("ascii", errors="surrogateescape")
-        if len(re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)) != 1:
-            raise ValueError(f"bounded include must occur once in carrier: {unit['id']}")
+        if require_include:
+            pattern = rf"^\s*include\s+{re.escape(child)}\s*$"
+            text = data.decode("ascii", errors="surrogateescape")
+            if len(re.findall(pattern, text, re.MULTILINE | re.IGNORECASE)) != 1:
+                raise ValueError(f"bounded include must occur once in carrier: {unit['id']}")
         child = path
     if child.replace("\\", "/") != unit["map_module"].replace("\\", "/"):
         raise ValueError(f"bounded include chain does not reach MAP module: {unit['id']}")
@@ -296,6 +350,41 @@ def verify_private_calls(function: dict, functions: list[dict], payload: bytes,
             raise ValueError(f"private entry call count moved: {function['name']}")
         result.append({"caller": name, "direct_near_call_sites": sites})
     return result
+
+
+def verify_owner_linear_span(
+    function: dict, payload: bytes, default_segment: int
+) -> dict:
+    """Validate one function boundary inside a complete owned CODE extent.
+
+    This mode is for monolithic assembly functions that were not PUBDEF/MAP
+    publics in the original object. It does not invent symbol visibility:
+    the declared span must decode linearly without gaps and end at a real
+    near/far return in the immutable target and in every replayed candidate.
+    """
+    if function.get("map_public") or function.get("private_callers"):
+        raise ValueError(
+            f"owner-linear-span forbids public/private-call metadata: {function['name']}"
+        )
+    segment = function.get("segment", default_segment)
+    start = segment * 16 + function["offset"]
+    decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_16)
+    instructions = list(
+        decoder.disasm(payload[start:start + function["size"]], function["offset"])
+    )
+    if (
+        not instructions
+        or sum(instruction.size for instruction in instructions) != function["size"]
+        or instructions[-1].address + instructions[-1].size
+            != function["offset"] + function["size"]
+        or instructions[-1].mnemonic not in {"ret", "retf"}
+    ):
+        raise ValueError(f"incomplete owner-linear function span: {function['name']}")
+    return {
+        "instruction_count": len(instructions),
+        "last_instruction": instructions[-1].mnemonic,
+        "last_instruction_address": instructions[-1].address,
+    }
 
 
 def add_candidate_owners(config: dict, candidate: dict) -> dict:
@@ -506,8 +595,21 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         subprocess.run(["tar", "-xf", str(archive), "-C", str(work)], check=True)
         if list(work.rglob("*.obj")) or list((work / "bin").glob("th0[1-5]/*.exe")):
             raise ValueError("cold scaffold contains cached game objects or products")
+        # Freeze-check every shared carrier before any owner is allowed to
+        # reorganize it. A carved owner gains its include only in the next
+        # phase, and then its include chain is checked without reusing the old
+        # whole-carrier digest.
         for module in config["units"]:
-            verify_include_carrier(module, work)
+            verify_include_carrier(
+                module, work, require_include=not bool(module.get("carrier_edits"))
+            )
+        for module in config["units"]:
+            apply_carrier_edits(module, work)
+        for module in config["units"]:
+            if module.get("carrier_edits"):
+                verify_include_carrier(module, work, verify_hash=False)
+
+        for module in config["units"]:
             for name in [
                 module["source"], module["header"], *module.get("support_files", [])
             ]:
@@ -649,6 +751,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             )
             function_segment = function.get("segment", config["segment"])
             pattern = rf"^\s*{function_segment:04X}:{function['offset']:04X}\s+(?:idle\s+)?{re.escape(spelling)}\s*$"
+            span_check = None
             if function.get("boundary") == "private-near-calls":
                 private_calls = verify_private_calls(
                     function, config["functions"], parse_mz(candidate).program_image, config["segment"]
@@ -657,14 +760,25 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                     function, config["functions"], image.program_image, config["segment"]
                 ):
                     raise ValueError(f"private call sites moved: {function['name']}")
+            elif function.get("boundary") == "owner-linear-span":
+                target_span = verify_owner_linear_span(
+                    function, image.program_image, config["segment"]
+                )
+                span_check = verify_owner_linear_span(
+                    function, parse_mz(candidate).program_image, config["segment"]
+                )
+                if span_check != target_span:
+                    raise ValueError(f"owner-linear function span moved: {function['name']}")
             elif not re.search(pattern, map_text, re.MULTILINE):
                 raise ValueError(f"link-map public moved: {spelling}")
             result = compare_extent(
                 target, candidate,
                 function_segment * 16 + function["offset"], function["size"]
             )
-            functions.append({"name": function["name"], "abi": function["abi"],
-                              "private_calls": private_calls, **result})
+            functions.append({
+                "name": function["name"], "abi": function["abi"],
+                "private_calls": private_calls, "span_check": span_check, **result
+            })
         modules = []
         producer_ranges = []
         padding = []

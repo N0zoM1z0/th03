@@ -6,14 +6,32 @@ from tempfile import TemporaryDirectory
 
 from test_pc98 import synthetic_mz, synthetic_mz_with_relocations
 from replay_th03_main_exact_units import (
-    add_candidate_owners, compare_extent, normalized_code_extents, physical_objects, sha, verify_include_carrier,
-    verify_disjoint_ownership,
-    verify_private_calls,
+    add_candidate_owners, apply_carrier_edits, compare_extent, normalized_code_extents,
+    physical_objects, sha, verify_include_carrier,
+    verify_disjoint_ownership, verify_owner_linear_span, verify_private_calls,
 )
 from lib.pc98 import parse_mz
 
 
 class MainExactManifestTests(unittest.TestCase):
+    def test_owner_linear_span_requires_full_decode_and_real_return(self):
+        payload = b"\x90\x90\xcb\x90"
+        function = {
+            "name": "monolithic", "object": "owner", "offset": 0,
+            "size": 3, "boundary": "owner-linear-span",
+        }
+        result = verify_owner_linear_span(function, payload, 0)
+        self.assertEqual(result["last_instruction"], "retf")
+        self.assertEqual(result["instruction_count"], 3)
+
+        for mutation in (
+            {**function, "size": 2},
+            {**function, "map_public": "invented"},
+            {**function, "private_callers": [{"name": "x", "count": 1}]},
+        ):
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                verify_owner_linear_span(mutation, payload, 0)
+
     def test_private_near_entry_requires_complete_owned_public_callers(self):
         private = {"name": "helper", "object": "include", "offset": 0,
                    "private_callers": [{"name": "wrapper", "count": 2}]}
@@ -72,6 +90,61 @@ class MainExactManifestTests(unittest.TestCase):
                 unit["carrier_sha256"] = sha(carrier.read_bytes())
                 with self.assertRaisesRegex(ValueError, "occur once"):
                     verify_include_carrier(unit, work)
+
+            # A carved owner is bound to the frozen carrier first, then the
+            # edit introduces exactly one maintained include.
+            carrier.write_text("legacy body\n")
+            unit["carrier_sha256"] = sha(carrier.read_bytes())
+            unit["carrier_edits"] = [{
+                "kind": "remove-between", "path": "carrier.asm",
+                "start_marker": "legacy", "end_marker": "body\n",
+                "replacement": "include th03/unit.asm\n",
+            }]
+            verify_include_carrier(unit, work, require_include=False)
+            apply_carrier_edits(unit, work)
+            verify_include_carrier(unit, work, verify_hash=False)
+
+    def test_carrier_edits_are_single_hit_and_binary_safe(self):
+        with TemporaryDirectory() as temporary:
+            work = Path(temporary)
+            carrier = work / "carrier.asm"
+            carrier.write_bytes(
+                b"head\r\npublic _main\r\nbody \x96\r\n_main\t\tendp\r\ntail\r\n"
+            )
+            unit = {
+                "id": "root",
+                "carrier_edits": [
+                    {
+                        "kind": "remove-between",
+                        "path": "carrier.asm",
+                        "start_marker": "public _main\r\n",
+                        "end_marker": "_main\t\tendp\r\n",
+                        "replacement": "; carved\r\n",
+                    },
+                    {
+                        "kind": "replace-once",
+                        "path": "carrier.asm",
+                        "before": "tail\r\n",
+                        "after": "alias\r\ntail\r\n",
+                    },
+                ],
+            }
+            apply_carrier_edits(unit, work)
+            self.assertEqual(
+                carrier.read_bytes(),
+                b"head\r\n; carved\r\nalias\r\ntail\r\n",
+            )
+
+            carrier.write_text("dup\ndup\n")
+            bad = {
+                "id": "root",
+                "carrier_edits": [{
+                    "kind": "replace-once", "path": "carrier.asm",
+                    "before": "dup\n", "after": "one\n",
+                }],
+            }
+            with self.assertRaisesRegex(ValueError, "anchor drifted"):
+                apply_carrier_edits(bad, work)
 
     def test_nested_include_chain_reaches_the_actual_map_module(self):
         with TemporaryDirectory() as temporary:
