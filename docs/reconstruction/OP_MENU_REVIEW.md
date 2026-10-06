@@ -106,3 +106,7 @@ Full verification: `.analysis/sol-op-menu-complete-ci-20261006.log`, SHA-256
 `c630c05aaeeace535ee5d202121b3d6fbb216a082f34062262813808e88c139d`, passes462 tests and all available private headless gates. The initial CI
 progress-snapshot failure is preserved in the evidence ledger; the generated
 snapshot was refreshed before the complete passing rerun.
+
+Subsequent full entry review localizes the carrier remainder and configuration
+in `src/op/entry.cpp`; see `OP_ENTRY_REVIEW.md`. The earlier1338-byte menu owner
+and its receipt remain unchanged, without duplicate byte credit.

@@ -1,0 +1,8 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+source = "src/op/entry.cpp"
+wrapper = "th03/op_01.cpp"
+object = "obj/th03/op_01.obj"
+original_source_sha256 = "cf75e67ced76e6dd6600d3d1d16e9fc8b37fb1eb74c3859fef9b6cf56d0042cc"
+support_files = ["compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/th01/rank.h", "compat/rec98/th01/math/clamp.hpp", "compat/rec98/th01/core/initexit.hpp", "compat/rec98/th02/hardware/frmdelay.h", "compat/rec98/th02/gaiji/str.hpp", "compat/rec98/th02/op/menu.hpp", "compat/rec98/th02/op/m_music.hpp", "compat/rec98/th03/common.h", "compat/rec98/th03/resident.hpp", "compat/rec98/th03/hardware/input.h", "compat/rec98/th03/formats/cfg_impl.hpp", "compat/rec98/th03/core/initexit.h", "compat/rec98/th03/gaiji/gaiji.h", "compat/rec98/th03/snd/snd.h", "compat/rec98/th03/shiftjis/fns.hpp", "compat/rec98/th03/shiftjis/main.hpp", "compat/rec98/th03/op/m_main.hpp", "compat/rec98/th03/op/m_select.hpp"]
+# Entry3094 = new1485 + previous configuration271 + maintained menu1338.
+# The menu include keeps its previous owner; do not duplicate extent credit.

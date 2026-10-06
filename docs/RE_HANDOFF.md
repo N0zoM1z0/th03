@@ -26,7 +26,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes462 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes472 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL and OP
 were independently re-attested before further target work. Historical restricted
@@ -333,8 +333,8 @@ acceptance. Keep these separate from historicalMAIN-overlay4867-byte/init failur
 Replay `scripts/review_th03_op_inequalities.py` for bounded classification.
 
 OP interval comparison against the old cold MAP has100nonzeroCODEcarriers,
-55261 bytes:3255 reviewed original unit bytes/52006 gaps/zero overlap. There
-are14 OP units:5 source-present2647 bytes and9 other candidates608 bytes.
+55261 bytes:4740 reviewed original unit bytes/50521 gaps/zero overlap. There
+are16 OP units:10 source-present4403 bytes and6 other candidates337 bytes.
 Source-present intervals retain diagnostic coverage only. The old shifted
 initializer crosses the next cold carrier by one byte, without proving
 original/source carrier ownership. Replay `scripts/review_th03_op_coverage.py`.
@@ -346,14 +346,13 @@ committed. It is corrected and recompiled in two fresh
 commit/check/receipt as historical evidence. Current inequality replay pins
 this new receipt; no acceptance normalization.
 
-Latest full check: `.analysis/sol-op-menu-complete-ci-20261006.log`, SHA-256
-`c630c05aaeeace535ee5d202121b3d6fbb216a082f34062262813808e88c139d`, passes462 tests and all available private headless gates.
-Tracking is223units/2084evidence/240knowledge; current staged/worktree whitespace
+Latest full check: `.analysis/sol-op-entry-complete-ci-20261006.log`, SHA-256
+`2c416556f580e50dcc6ac7690f819df6a971d167d4ab2bc82013f38e6be84626`, passes472 tests and all available private headless gates.
+Tracking is225units/2104evidence/246knowledge; current staged/worktree whitespace
 checks pass. OP exact0; MAIN and MAINL/ZUN acceptance remain unchanged.
 
-Next: OP entry carrier still has1485 unreviewed bytes after configuration271
-and menu1338: story/VS/demo/wait/score/startup callers. Then character selection,
-Music Room and root/header/DATA/BSS/resource/library/canonical packing Oracles. The505-file full review goal remains open across all four artifacts;
+Next: character-selection/Music Room complete carriers and CRT/root/header/
+DATA/BSS/resource/library/canonical packaging Oracles. The505-file full review goal remains open across all four artifacts;
 MAIN exact ownership and MAINL/ZUN acceptance remain unchanged.
 
 Private analysis cleanup removed16182 unreferenced files/189572651 bytes from
@@ -362,9 +361,20 @@ path states/hashes are unchanged; failure logs/canonical targets/toolchain and
 accepted snapshots preserved. See `docs/reconstruction/ANALYSIS_CLEANUP.md` and
 `scripts/clean_th03_failed_analysis.py`. Historical stale inputs remain separate.
 
-Complete OP entry diagnostic now bounds3094 bytes plusIRAND42/SCOPY28context.
-Three original/priorcoldimages each2236 cases/all1037 instructionpositions pass.
-Static story seen state is not reset after a returning exec; reentry exhausts
-its budget. Wait can launch demo again at frame522 even on newly supplied input.
-See `scripts/review_th03_op_entry.py` and10 new controls. Source-present
-promotion waits for the two fresh maintained-entry cold builds; exact remains0.
+Complete OP entry3094-byte carrier is now maintained in `src/op/entry.cpp`
+with19explicit compatibility forwarders and the existing1338-byte menu inl.
+New screen1222/startup263 bytes and previousCFG271 add1756 source-present
+bytes, without duplicate coverage. Three priorimages and two freshcoldOPs
+pass2236 cases/all1037 nativepositions with realCFG/menu/IRAND/SCOPY helpers.
+Both newOPs also rerun4160 menu and96 title cases; previous543 score/helper
+raw/ordered comparisons pass without rerunning its old1168 cases. The
+20products/350gameobjects are deterministic; all416 normalizedOMF recorded.
+Wholeproducts match prior menu, retaining six OP raw inequalities and original
+relocation-order failure. See `docs/reconstruction/OP_ENTRY_REVIEW.md`,
+`config/th03_op_entry_candidate.toml`, `scripts/replay_th03_op_entry.py`.
+Static story seen state is not reset on a returning exec; reentry exhausts
+its budget. Wait can launch demo again at frame522 even with newly supplied
+input. OrdinaryCFG byte3 remains opaque native stackdata; no scalar value or
+actual DOS/heap/device/clock/fullproduct/exact claim. OP exact0; other artifact
+acceptance unchanged. Next: full character selection and Music Room carriers,
+then CRT/root/header/DATA/BSS/library/resource/canonicalpacking Oracles.
