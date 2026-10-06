@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import json
 import shutil
 from pathlib import Path
 
@@ -62,6 +63,56 @@ def ledger_preserved_paths() -> set[Path]:
     return preserved
 
 
+def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
+    """Keep retained JSON input guards and complete cold receipt directories.
+
+    Receipts also describe outputs and frozen archives outside their input
+    dictionaries. Preserve the entire receipt directory, rather than guessing
+    which producer files will be needed for the next ownership question.
+    """
+    files: set[Path] = set()
+    roots: set[Path] = set()
+    if not ANALYSIS.exists():
+        return files, roots
+    for path in ANALYSIS.rglob("*.json"):
+        # Never follow a private-state or external symlink to discover proofs.
+        if path.is_symlink() or any(is_under(path, root) for root in PRESERVED_ANALYSIS_ROOTS):
+            continue
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError, UnicodeError, OSError):
+            if path.name == "receipt.json":
+                raise ValueError(f"cannot inspect retained receipt: {path.relative_to(ROOT)}")
+            continue
+        if path.name == "receipt.json":
+            roots.add(path.parent)
+
+        def visit(node):
+            if isinstance(node, dict):
+                guards = node.get("inputs")
+                if isinstance(guards, dict):
+                    files.add(path)
+                    for raw in guards:
+                        if not isinstance(raw, str):
+                            continue
+                        lexical = Path(raw)
+                        if lexical.is_absolute() or ".." in lexical.parts:
+                            continue
+                        lexical = ROOT / lexical
+                        files.add(lexical)
+                        resolved = normalized_local_path(raw)
+                        if resolved is not None:
+                            files.add(resolved)
+                for child in node.values():
+                    visit(child)
+            elif isinstance(node, list):
+                for child in node:
+                    visit(child)
+
+        visit(value)
+    return files, roots
+
+
 def is_under(path: Path, parent: Path) -> bool:
     try:
         path.relative_to(parent)
@@ -98,15 +149,17 @@ def clean_analysis(dry_run: bool) -> int:
     if not ANALYSIS.exists():
         return 0
 
-    protected_files = ledger_preserved_paths() | PRESERVED_ANALYSIS_FILES
+    proof_files, proof_roots = proof_preserved_paths()
+    protected_files = ledger_preserved_paths() | PRESERVED_ANALYSIS_FILES | proof_files
+    protected_roots = PRESERVED_ANALYSIS_ROOTS | proof_roots
 
     def protected_below(path: Path) -> bool:
         return any(is_under(protected, path) for protected in protected_files) or any(
-            is_under(root, path) for root in PRESERVED_ANALYSIS_ROOTS
+            is_under(root, path) for root in protected_roots
         )
 
     def prune(path: Path) -> int:
-        if any(is_under(path, root) for root in PRESERVED_ANALYSIS_ROOTS):
+        if any(is_under(path, root) for root in protected_roots):
             return 0
         if path in protected_files:
             return 0
@@ -134,14 +187,22 @@ def clean_analysis(dry_run: bool) -> int:
 
 def clean_caches(dry_run: bool) -> int:
     removed = 0
+    proof_files, proof_roots = proof_preserved_paths()
+    protected = proof_files | proof_roots | ledger_preserved_paths()
+
+    def guarded(path: Path) -> bool:
+        return any(is_under(p, path) or is_under(path, p) for p in protected)
+
     for path in CACHE_ROOTS:
-        removed += remove_path(path, dry_run)
+        if not guarded(path):
+            removed += remove_path(path, dry_run)
 
     for base in (ROOT / "scripts", ROOT / "tests"):
         if not base.exists():
             continue
         for path in sorted(base.rglob("__pycache__")):
-            removed += remove_path(path, dry_run)
+            if not guarded(path):
+                removed += remove_path(path, dry_run)
     return removed
 
 
@@ -149,7 +210,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
             "Prune disposable local build/replay/cache output while preserving "
-            "required private state and ledger-referenced evidence."
+            "required private state, guarded proof inputs and receipt trees."
         )
     )
     parser.add_argument(
@@ -165,7 +226,8 @@ def main() -> int:
     print(f"{verb} approximately {removed / (1024 * 1024):.1f} MiB")
     print(
         "preserved .analysis/toolchain, .analysis/targets, .analysis/runtime, "
-        ".analysis/ghidra, target-import.json, and ledger-referenced evidence"
+        ".analysis/ghidra, target-import.json, ledger evidence, guarded inputs "
+        "and cold receipt trees"
     )
     return 0
 

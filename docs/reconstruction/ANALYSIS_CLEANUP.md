@@ -31,3 +31,17 @@ receipt inputs retained their hashes. The corrected58-test log, diagnostic and
 compiler proof inputs, and the incomplete native-budget failure log remain.
 Receipt: `.analysis/sol-op-music-temp-cleanup-20261006.json`; SHA-256
 `cae22ce2c578370d58f542b9e0cf3fe796621885b5411cce4e3ed1a9fb803d54`. No acceptance credit is assigned for cleanup.
+
+## Guarded generated cleanup
+
+`scripts/clean_generated.py` now protects input dictionaries in retained JSON
+proofs, their lexical aliases and resolved local destinations. Entire cold
+directories containing `receipt.json` are preserved, including archives,
+snapshots and outputs absent from the input dictionary. Guarded cache inputs
+outside `.analysis/` also survive. Unreadable receipts stop before deletion;
+missing historical inputs remain missing. Nine isolated deletion controls
+pass in `.analysis/sol-proof-cleanup-controls-20261006.log`.
+
+The default remains a dry run. No broad cleanup is executed while selection
+review/cold compilation is active. Direct evidence-ledger protection alone was
+insufficient to preserve receipt dependencies; this change closes that gap.
