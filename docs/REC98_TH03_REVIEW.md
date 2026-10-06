@@ -401,3 +401,17 @@ See `MAINL_SUPER_REVIEW.md` and `scripts/review_th03_mainl_super.py`.
 Three decoded module rows add no source/exact or accepted-intake credit.
 Physical GRCG/DOS/resources/character cleanup, remaining CRT/root/DATA/BSS,
 complete callers/cold source and canonical packaging/full Oracles stay open.
+
+Complete root MAINL PI decoder/release review covers1600 independent decoded
+bytes, including the shared loader error tail and private color/byte/refill
+helpers.22 frozen providers/root OMF/public MAP and2330 scoped CODE/producer
+plus10DATA bytes agree with both fresh cold products. The immutable base
+receipt and successful borrower/refill supplement total3420 terminal calls
+and60 semantic prefixes;706/711 instruction positions execute, with five
+unreachable EVEN NOPs retained in raw/structural coverage. Resource leaks,
+ignored read status/length, failed-extension parsing and zero-copy cycles
+remain observed behavior. See `reconstruction/MAINL_PI_DECODER_REVIEW.md`,
+`scripts/review_th03_mainl_pi_decoder.py` and its borrower supplement. Two
+independent decoded rows add no maintained source/exact or accepted intake
+CODE-path credit. ROOT/CRT/DATA/BSS/other-artifact/packing/full Oracles remain
+open; previous wrapper and coverage receipts keep their original scope.
