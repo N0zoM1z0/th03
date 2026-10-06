@@ -28,7 +28,7 @@ def main():
     if sha(raw) != args.receipt_sha256:
         raise ValueError('current coverage pinned compiler receipt differs')
     proof = json.loads(raw)
-    if proof['kind'] not in ('th03-shared-cdg-loading-maintained-cold-probes', 'th03-shared-cdg-drawing-maintained-cold-probes', 'th03-shared-text-maintained-cold-probes', 'th03-shared-math-maintained-cold-probes', 'th03-shared-snd-load-maintained-cold-probes', 'th03-shared-pi-maintained-cold-probes') or not proof['diagnostic_checks_pass'] or proof['exact_acceptance'] or len(proof['rounds']) != 2:
+    if proof['kind'] not in ('th03-shared-cdg-loading-maintained-cold-probes', 'th03-shared-cdg-drawing-maintained-cold-probes', 'th03-shared-text-maintained-cold-probes', 'th03-shared-math-maintained-cold-probes', 'th03-shared-snd-load-maintained-cold-probes', 'th03-shared-pi-maintained-cold-probes', 'th03-shared-input-maintained-cold-probes') or not proof['diagnostic_checks_pass'] or proof['exact_acceptance'] or len(proof['rounds']) != 2:
         raise ValueError('current coverage compiler scope differs')
     inputs = {**proof['inputs'], str(path): sha(raw)}
     for p in ('config/units.csv', 'scripts/review_th03_current_decoded_coverage.py',
