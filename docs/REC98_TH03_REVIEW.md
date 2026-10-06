@@ -458,3 +458,15 @@ See `reconstruction/MAINL_CRT_BREAK_REVIEW.md` and
 separate from ReC98 authored source; six decoded rows add no maintained
 source/exact or accepted MAIN intake credit. Complete allocators/new/delete,
 startup/exception/DATA/BSS/lifetime and all-artifact Oracles remain open.
+
+`OP_CONFIGURATION_REVIEW.md` adds seven decoded OP candidate units totaling
+472 bytes: three complete near configuration functions and whole far
+DOS-exit/plane/mode/init functions. Across target/two cold products12,960
+terminal calls execute every selected instruction, with native compiler-copy
+context and explicit file/driver/library reply models. Unshifted367 bytes
+match, while original initialization0571 versus cold0570 retains raw and
+ordered relocation failure. Four direct source carriers have bounded complete
+CODE-body review; `op_01.cpp` has only its271-byte configuration portion.
+Frozen sound codestring remains candidate producer evidence, not imported
+encoding. No maintained OP source/exact or complete file/header/storage
+acceptance follows; the complete intake goal remains open.

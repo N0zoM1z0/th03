@@ -206,8 +206,9 @@ original interface models even after a separate library review.
 | [Remaining root helpers/producers](reconstruction/MAINL_ROOT_TAIL_REVIEW.md) |722|25335 calls incl.30 DIV stops,72 prefixes; separate318 native-compare PFOPEN calls|
 | [CRT break/pointer substrate](reconstruction/MAINL_CRT_BREAK_REVIEW.md) |628|33741 terminal calls; native near/far bridges, private resize, pointer/error helpers|
 
-OP has three configuration/win-screen boundary rows totaling 387 decoded
-bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL
+MAINL has three configuration/win-screen boundary observations totaling387
+decoded bytes, included in its candidate ledger. OP had no decoded unit row
+before the configuration cohort; the former OP attribution was incorrect. Direct-link review compares 27 OP and 33 MAINL
 files against both caches; program images differ by 4867/340 bytes. See
 `docs/reconstruction/OP_MAINL_DECODED_CODE_REVIEW.md` and its guarded replay.
 
@@ -264,3 +265,19 @@ Latest full check: `.analysis/sol-mainl-linked-code-full-ci.log`, SHA-256
 `617cbfe1e85d44c61df0d0ab0887fa4ce0db1544a42bfeb3458d7fa3d1822e8d`, passes426 tests and all available private headless gates.
 Tracking is209units/1996evidence/213knowledge; MAINL145 decoded candidate rows
 still grant zero maintained-source/exact owner credit.
+
+OP configuration/lifecycle review adds472 independent decoded bytes in seven
+units: three near config functions271, DOS exit25, planes41, sound mode29+1
+producer and initializer105. Three images each execute4320 terminal calls and
+all170 instruction positions, including native compiler SCOPY28 context.
+Unshifted367 bytes agree raw/ordered relocations; initializer target0571/cold
+0570 fails94 fixed bytes and eleven ordered sites, with one paired native
+call displacement difference. No shifted equality, maintained OP source or
+exact credit. Preserve short-read stale/null resident fields, uninitialized
+ordinary-save byte3, complete exit-save zeroing/native DF clear and raw MIDI
+active bytes. Source lineage uses22 frozen providers,127 archived source
+inputs per round and six original normalized OMF objects;25 historical
+metadata/generated-probe input paths are not archived source evidence. See
+`docs/reconstruction/OP_CONFIGURATION_REVIEW.md` and
+`scripts/review_th03_op_configuration.py`. Remaining OP menus/root/score and
+all headers/DATA/BSS/devices/canonical storage gates stay open.
