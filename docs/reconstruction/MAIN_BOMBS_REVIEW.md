@@ -100,12 +100,49 @@ its private data. TC4J emits CODE/DATA/BSS segment sizes 1023/0/132. The
 offsets 0/2/130 map directly onto the otherwise anonymous target DGROUP region
 25DC, 25DE..265D, and 265E referenced by the Ellen code.
 
+A full-link split-producer experiment now distinguishes the two parts of the
+remaining blocker. First, splitting MAIN_05_TEXT into five separate TASM
+objects preserves the exact 3113 bytes, the exact 71 relocation sites, and the
+five exact MAP contribution boundaries, but TLINK still emits the relocation
+entries in ascending address order. Physical object boundaries alone therefore
+do not explain the target.
+
+Replacing only the 1023-byte Ellen TASM contribution with the maintained TC4J
+producer changes the result decisively. With #pragma codeseg MAIN_05_TEXT,
+main.map places the C++ contribution at exactly 183C:01EB..05E9 and keeps the
+other four character contributions at their original offsets. The 71
+relocation sites remain identical as a multiset, while Ellen's 15 relocation
+entries become exactly the target sequence
+1446,1320,1286,1107,1014,1009,991,957,917,883,765,719,710,672,586.
+The still-TASM Chiyuri/Kana/Kotohime/Rikako groups remain ascending. This
+falsifies the earlier weaker idea that a five-object split by itself was
+sufficient and directly identifies the TC4J producer/FIXUPP behavior as the
+source of the target ordering.
+
+The mixed full link has only 22 byte mismatches inside the Ellen functions.
+Every mismatch is the high byte of a DS-relative reference and every candidate
+byte is exactly target+0x43. main.map explains the constant delta: the current
+monolithic scaffold owns BSS through DGROUP:68DC, so Ellen's 0x84-byte BSS is
+appended there, while the immutable target references the same private layout
+at DGROUP:25DC. The difference is exactly +0x4300. Thus Ellen's remaining
+linked-byte blocker is specifically private-BSS physical placement, not CODE
+generation, ABI shape, relocation-site selection, or relocation ordering.
+
+The enhanced candidate mode in scripts/review_th03_main_bombs.py records raw
+owner/function equality, mismatch offsets and byte values, relocation-site
+multisets, and relocation order separately so these properties cannot be
+conflated again. The retained mixed-link diagnostic is
+.analysis/th03-main-bombs-split-probe/ellen-cpp-review-v5.json. The next
+physical reconstruction step is therefore to recover the remaining four TC4J
+character producers and the historical DATA/BSS producer boundaries rather
+than manipulating the final MZ relocation table.
+
 The reproducible object-level probe is:
 
     python3 scripts/probe_th03_main_bomb_ellen_cpp.py --run-id UNIQUE_ID
 
 The retained maintained-source receipt is
-.analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-compat-20261007/receipt.json.
+.analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-main05-v2-20261007/receipt.json.
 It intentionally records exact_acceptance=false: the 252 pre-link raw-byte
 differences are unresolved OMF data/fixup operands and must not be normalized
 away as an exact result. The next gate is to reproduce the historical

@@ -1,7 +1,8 @@
 // Natural Turbo C++ reconstruction candidate for the Ellen contribution to
-// TH03 MAIN_05_TEXT. This file is kept out of the accepted build graph until
-// its physical producer placement, private BSS placement, and final linked
-// relocations are proven exact by the full-owner Oracle.
+// TH03 MAIN_05_TEXT. Full-link experiments prove its CODE placement and TC4J
+// relocation ordering; exact promotion still requires the historical private
+// BSS placement and the remaining four character producers.
+#pragma codeseg MAIN_05_TEXT
 
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/player/bomb.hpp"

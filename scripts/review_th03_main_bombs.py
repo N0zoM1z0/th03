@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -123,12 +124,68 @@ def review(candidate: Path | None = None) -> dict:
     if candidate is not None:
         candidate_data = candidate.read_bytes()
         candidate_image = parse_mz(candidate_data)
+        if not candidate_image.valid:
+            raise ValueError("candidate is not a valid MZ image")
+        if payload_end > len(candidate_image.program_image):
+            raise ValueError("owner exceeds candidate program image")
+
+        candidate_payload = candidate_image.program_image[payload_start:payload_end]
+        target_payload = image.program_image[payload_start:payload_end]
+        candidate_relocations = [
+            relocation.linear - payload_start
+            for relocation in candidate_image.relocations
+            if payload_start <= relocation.linear <= payload_end - 2
+        ]
         candidate_order = relocation_order(candidate_image)
+        candidate_functions = []
+        owner_mismatches = [
+            {
+                "offset": index,
+                "target": target_byte,
+                "candidate": candidate_byte,
+            }
+            for index, (target_byte, candidate_byte) in enumerate(
+                zip(target_payload, candidate_payload)
+            )
+            if target_byte != candidate_byte
+        ]
+        for row in rows:
+            start = SEGMENT * 16 + int(row["segment_offset"])
+            size = int(row["size"])
+            target_code = image.program_image[start:start + size]
+            code = candidate_image.program_image[start:start + size]
+            mismatch_offsets = [
+                index
+                for index, (target_byte, candidate_byte) in enumerate(
+                    zip(target_code, code)
+                )
+                if target_byte != candidate_byte
+            ]
+            candidate_functions.append({
+                "name": row["name"],
+                "sha256": sha(code),
+                "bytes_equal": sha(code) == row["sha256"],
+                "byte_mismatch_count": len(mismatch_offsets),
+                "byte_mismatch_offsets": mismatch_offsets,
+            })
+        target_relocation_counts = Counter(result["relocation_sites"])
+        candidate_relocation_counts = Counter(candidate_relocations)
+        missing_relocations = list((target_relocation_counts - candidate_relocation_counts).elements())
+        extra_relocations = list((candidate_relocation_counts - target_relocation_counts).elements())
         result["candidate"] = {
             "path": candidate.as_posix(),
             "sha256": sha(candidate_data),
+            "owner_sha256": sha(candidate_payload),
+            "owner_bytes_equal": candidate_payload == target_payload,
+            "owner_byte_mismatch_count": len(owner_mismatches),
+            "owner_byte_mismatches": owner_mismatches,
+            "relocation_sites": candidate_relocations,
+            "relocation_sites_equal": candidate_relocation_counts == target_relocation_counts,
+            "missing_relocation_sites": sorted(missing_relocations),
+            "extra_relocation_sites": sorted(extra_relocations),
             "relocation_order": candidate_order,
             "relocation_order_equal": candidate_order == result["relocation_order"],
+            "functions": candidate_functions,
         }
     return result
 

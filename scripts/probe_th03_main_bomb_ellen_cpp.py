@@ -56,7 +56,47 @@ def omf_index(data: bytes, pos: int = 0) -> tuple[int, int]:
     return (first, pos + 1)
 
 
-def code_bytes(raw: bytes) -> tuple[bytes, list[dict]]:
+def segment_definitions(raw: bytes) -> list[dict]:
+    names = [""]
+    records = parse_omf(raw)
+    for record in records:
+        if record.name != "LNAMES":
+            continue
+        pos = 0
+        while pos < len(record.data):
+            size = record.data[pos]
+            pos += 1
+            end = pos + size
+            if end > len(record.data):
+                raise ValueError("truncated OMF LNAMES entry")
+            names.append(record.data[pos:end].decode("ascii", errors="strict"))
+            pos = end
+
+    result = []
+    for record in records:
+        if record.name != "SEGDEF":
+            continue
+        if len(record.data) < 3:
+            raise ValueError("truncated OMF SEGDEF")
+        size = int.from_bytes(record.data[1:3], "little")
+        pos = 3
+        name_index, pos = omf_index(record.data, pos)
+        class_index, pos = omf_index(record.data, pos)
+        overlay_index, pos = omf_index(record.data, pos)
+        for index in (name_index, class_index, overlay_index):
+            if index >= len(names):
+                raise ValueError("OMF SEGDEF references missing LNAME")
+        result.append({
+            "index": len(result) + 1,
+            "name": names[name_index],
+            "class": names[class_index],
+            "overlay": names[overlay_index],
+            "size": size,
+        })
+    return result
+
+
+def code_bytes(raw: bytes, segment_index: int) -> tuple[bytes, list[dict]]:
     parts = []
     for record_index, record in enumerate(parse_omf(raw)):
         if record.name != "LEDATA":
@@ -68,11 +108,11 @@ def code_bytes(raw: bytes) -> tuple[bytes, list[dict]]:
     by_segment: dict[int, list[tuple[int, bytes, int]]] = {}
     for segment, offset, payload, record_index in parts:
         by_segment.setdefault(segment, []).append((offset, payload, record_index))
-    # TC4J emits this module's code in segment index 1. Keep this assertion
-    # explicit so a producer-shape change cannot silently move the evidence.
-    selected = by_segment.get(1)
+    selected = by_segment.get(segment_index)
     if not selected:
-        raise ValueError("Ellen object has no TC4J code LEDATA in segment index 1")
+        raise ValueError(
+            f"Ellen object has no TC4J code LEDATA in segment index {segment_index}"
+        )
     end = max(offset + len(payload) for offset, payload, _ in selected)
     image = bytearray(end)
     coverage = bytearray(end)
@@ -171,15 +211,28 @@ def main() -> None:
     omf = describe_omf(raw)
     if "TC86 Borland C++ 4.02" not in omf["translator_comments"]:
         raise ValueError("Ellen probe used the wrong compiler producer")
-    segdef_sizes = [
-        int.from_bytes(record.data[1:3], "little")
-        for record in parse_omf(raw)
-        if record.name == "SEGDEF"
+    segments = segment_definitions(raw)
+    nonempty_code = [
+        segment for segment in segments
+        if segment["class"] == "CODE" and segment["size"]
     ]
-    if segdef_sizes != [1023, 0, 132]:
-        raise ValueError(f"unexpected Ellen CODE/DATA/BSS segment sizes: {segdef_sizes}")
+    if nonempty_code != [{
+        "index": nonempty_code[0]["index"] if nonempty_code else -1,
+        "name": "MAIN_05_TEXT",
+        "class": "CODE",
+        "overlay": "",
+        "size": 1023,
+    }]:
+        raise ValueError(f"unexpected Ellen nonempty CODE segments: {nonempty_code}")
+    bss = [
+        segment for segment in segments
+        if segment["class"] == "BSS" and segment["size"]
+    ]
+    if len(bss) != 1 or bss[0]["name"] != "_BSS" or bss[0]["size"] != 132:
+        raise ValueError(f"unexpected Ellen BSS segments: {bss}")
 
-    candidate, ledata = code_bytes(raw)
+    code_segment = nonempty_code[0]
+    candidate, ledata = code_bytes(raw, int(code_segment["index"]))
     target_raw = read_verified_artifact(
         ROOT,
         find_artifact(load_target_manifest(ROOT / "config/targets.toml"), "th03-main"),
@@ -248,10 +301,10 @@ def main() -> None:
             "module_name": omf["module_name"],
             "translator_comments": omf["translator_comments"],
             "record_counts": omf["record_counts"],
+            "segments": segments,
             "segment_sizes": {
-                "code": segdef_sizes[0],
-                "data": segdef_sizes[1],
-                "bss": segdef_sizes[2],
+                "code": code_segment["size"],
+                "bss": bss[0]["size"],
             },
             "private_bss_layout": {
                 "particle_spawn_count": [0, 2],
@@ -281,8 +334,10 @@ def main() -> None:
             "candidate exactly matches the target's decoded instruction offsets, "
             "sizes, mnemonics, and three ABI boundaries. Unresolved OMF fixup/data "
             "operands are intentionally not treated as raw linked equality. "
-            "Promotion still requires private-BSS placement plus full MAIN_05_TEXT "
-            "link/MAP/MZ relocation-order acceptance."
+            "A separate full-link producer experiment has since proven exact "
+            "MAIN_05_TEXT CODE placement and Ellen relocation ordering. Promotion "
+            "still requires the historical private-BSS placement and the remaining "
+            "four character producers."
         ),
     }
     (out / "receipt.json").write_text(json.dumps(report, indent=2) + "\n")

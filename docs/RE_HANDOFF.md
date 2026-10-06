@@ -26,16 +26,23 @@ comparison. Historical source filenames remain unknown; see
 reconstruction/MAIN_ENEMY_REVIEW.md.
 
 MAIN_05_TEXT character bombs remain outside the exact aggregate, but the
-producer blocker has materially narrowed. The complete Ellen contribution now
-has maintained natural C++ in src/main/player/bomb_ellen.cpp: TC4J emits the
-target's exact 1023-byte 280/163/580 function partition and all 347 instruction
-offset/size/mnemonic shapes, plus a 132-byte private BSS that maps directly to
-the target's Ellen-only DGROUP hole. This gives direct compiler evidence for
-the previously inferred per-character producer split. The retained probe is
-.analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-compat-20261007/receipt.json.
-It is source/codegen evidence only, not exact credit; full TLINK placement and
-ordered MZ relocations are still open. See
-reconstruction/MAIN_BOMBS_REVIEW.md.
+producer blocker is now experimentally isolated. The complete Ellen
+contribution has maintained natural C++ in src/main/player/bomb_ellen.cpp:
+TC4J emits the target's exact 1023-byte 280/163/580 function partition and all
+347 instruction offset/size/mnemonic shapes. A full MAIN link places this C++
+producer exactly at 183C:01EB..05E9 and reproduces Ellen's target 15-entry MZ
+relocation order while preserving the complete 71-site owner multiset. A
+five-way TASM split does not reproduce that order, so TC4J producer/FIXUPP
+behavior, not object boundaries alone, is now proven material. The mixed link
+has only 22 Ellen byte mismatches; every one is a DS-relative high byte shifted
+by +0x43 because the 0x84-byte private BSS lands at DGROUP:68DC instead of the
+target 25DC (+0x4300). The remaining Ellen blocker is therefore physical BSS
+placement. The retained object probe is
+.analysis/th03-main-bomb-ellen-cpp/gpt-web-ellen-main05-v2-20261007/receipt.json;
+the mixed-link diagnostic is
+.analysis/th03-main-bombs-split-probe/ellen-cpp-review-v5.json. No exact credit
+is claimed yet; recover the four remaining TC4J character producers and
+historical DATA/BSS boundaries next. See reconstruction/MAIN_BOMBS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -114,9 +121,9 @@ hypotheses / 295 knowledge rows / 127 MAIN authored-function rows; the accepted
 exact subset remains 120 functions.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
-installation. A fresh /usr/bin/python3 CI attempt runs 608 tests but reports
+installation. The latest /usr/bin/python3 CI attempt runs 610 tests but reports
 125 errors, all from missing Python module unicorn, with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-enemy-promoted-final-20261007/ci-current-host.log.
+.analysis/th03-main-exact/gpt-web-bombs-tc4-proof-checkpoint-20261007/ci.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
 The remaining CI steps were rerun individually and pass: compileall, tracking,
 progress, MAINL intake policy, TH03 inventory, target verification, Oracle smoke,
