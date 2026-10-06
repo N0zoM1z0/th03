@@ -1,0 +1,26 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+wrapper = "th03/op_music.cpp"
+object = "obj/th03/op_music.obj"
+carrier = "th02/op/m_music.cpp"
+original_wrapper_sha256 = "6af2dc1efe4aed790dc5bc1dd760b56ed59e227b55f4476411848f0b0ff3680a"
+original_carrier_sha256 = "85440d4778240ef183a90134db9969111fef1d24681e8abea5c538242509643f"
+unowned_anchor = "void near nopoly_B_put(void)"
+unowned_end_anchor = "void pascal near polygon_build("
+support_files = ["compat/rec98/planar.h", "compat/rec98/libs/master.lib/master.hpp", "compat/rec98/game/coords.hpp", "compat/rec98/th02/v_colors.hpp", "compat/rec98/th02/hardware/frmdelay.h", "compat/rec98/th02/formats/musiccmt.hpp", "compat/rec98/th03/hardware/input.h", "compat/rec98/th01/hardware/grppsafx.h", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/formats/cdg.h", "compat/rec98/th03/math/polar.hpp", "compat/rec98/th02/op/m_music.hpp", "compat/rec98/th02/formats/pi.h", "compat/rec98/th03/shiftjis/music.hpp"]
+
+[[units]]
+id = "state_and_tracks"
+source = "src/op/music/state_and_tracks.inl"
+segment = 0x0990
+offset = 0xc1e
+size = 216
+
+[[units]]
+id = "animation_and_menu"
+source = "src/op/music/animation_and_menu.inl"
+segment = 0x0990
+offset = 0xd14
+size = 1998
+
+# The complete2244-byte original carrier is reviewed. Frozen private copy30
+# remains between the two maintained includes; its two raw inequalities persist.

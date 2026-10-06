@@ -23,3 +23,11 @@ stops cleanup. It freezes the reference corpus and validates candidates before
 deleting, then compares all retained private input states. Further reclamation
 must inspect references first: large native-observation JSON files and completed
 compiler snapshots still supply evidence.
+
+Music Room preparation cleanup subsequently removed three unreferenced files,
+2165 bytes: two intermediate extraction lists and a superseded draft test log.
+Literal reference scans found no retained dependencies; all197 preceding entry
+receipt inputs retained their hashes. The corrected58-test log, diagnostic and
+compiler proof inputs, and the incomplete native-budget failure log remain.
+Receipt: `.analysis/sol-op-music-temp-cleanup-20261006.json`; SHA-256
+`cae22ce2c578370d58f542b9e0cf3fe796621885b5411cce4e3ed1a9fb803d54`. No acceptance credit is assigned for cleanup.

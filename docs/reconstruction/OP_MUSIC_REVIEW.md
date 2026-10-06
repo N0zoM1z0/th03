@@ -72,11 +72,22 @@ observation, separate from target facts; no replacement return is emulated.
 
 Diagnostic receipt: `.analysis/sol-op-music-review-20261006.json`; SHA-256
 `22dc12eb9cb250c6bcd1f6febcd98198d651ac4c9f551572324c8e471350f1f2`; 244 guarded inputs. Three images each pass276
-cases/all807 native instruction positions. Maintained-source verification is
-pending the two fresh cold builds. The exact state remains open, including the whole
+cases/all807 native instruction positions. Maintained-source receipt: `.analysis/th03-op-music/sol-op-music-source-20261006/receipt.json`;
+SHA-256 `4f83a27f4c10adafdedfb1baee615c55153169ea549a82b55aeb1a69f8c24d25`; 257 guarded inputs.
+Two fresh cold builds produce the same20products/350gameobjects; all416OMF
+are recorded. Each new OP reruns44 selected source cases covering all807
+native positions. Previous entry/menu/title and543score/helper raw/ordered
+comparisons pass; their unchanged old native matrices are not repeated.
+
+`src/op/music/state_and_tracks.inl` owns216 bytes and
+`src/op/music/animation_and_menu.inl` owns1998 bytes. Both select the original
+GAME3 branches and explicitly forward14 compatibility headers. The private
+wrapper retains the natural frozen unowned copy30 between these includes.
+DATA/BSS observations remain separate from CODE ownership. OP source-present
+coverage becomes6617 bytes; reviewed decoded coverage6984, exact0. The exact state remains open, including the whole
 OP's six raw unequal bytes, original relocation order, CRT/root/library/header/
 DATA/BSS/resource ownership, physical runtime and canonical packing Oracles.
 MAIN, MAINL and ZUN acceptance do not change.
 
 Replay with `scripts/review_th03_op_music.py --output .analysis/NEW_OP_MUSIC.json`
-and, after source verification, `scripts/replay_th03_op_music.py --run-id NEW_OP_MUSIC`.
+and `scripts/replay_th03_op_music.py --run-id NEW_OP_MUSIC`.
