@@ -1,5 +1,12 @@
 # Complete MAINL CDG blitter candidate review
 
+This is the historical cached MAINL/interface review. The later
+[shared drawing review](SHARED_CDG_DRAW_REVIEW.md) independently binds OP and
+MAINL, localizes both complete ASM carriers and passes two fresh cold producer
+and native replays. Six existing function/producer rows gain source presence
+without duplicate interval credit; exact acceptance remains open. The cached
+scope and limits below remain a separate observation.
+
 The two complete handwritten CDG drawing TUs contribute 496 decoded bytes:
 three complete functions (493 bytes / 200 instructions) and three observed
 EVEN bytes. Both cached products match every original raw byte and the two

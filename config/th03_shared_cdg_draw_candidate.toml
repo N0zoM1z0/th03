@@ -1,0 +1,30 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+artifacts = ["th03-op", "th03-mainl"]
+support_files = ["compat/rec98/pc98.inc", "compat/rec98/libs/master.lib/master.inc", "compat/rec98/th03/formats/cdg.inc"]
+
+# Two SHARED assembler producers, independently bound to OP and MAINL.
+# Preserve their naturally emitted EVEN directives and physical link order.
+# Compatibility macro/layout declarations, globals and device ownership stay open.
+[[carriers]]
+source = "src/shared/formats/cdg_put.asm"
+wrapper = "th03/cdg_put.asm"
+carrier = "th03/formats/cdg_put.asm"
+object = "obj/th03/cdg_put.obj"
+original_wrapper_sha256 = "51560f98850b7a59bf7d4378b1efde8d851847d1a3553ffa9dc924141a652683"
+original_carrier_sha256 = "cca8a595731a3f223f11550cb7d0c3beb23287b51b490f3018b81b415dd6ce56"
+size = 382
+op_segment = 0x0beb
+op_offset = 0x0170
+mainl_segment = 0x0c7e
+mainl_offset = 0x01f4
+
+[[carriers]]
+source = "src/shared/formats/cdg_noalpha.asm"
+wrapper = "th03/cdg_p_na.asm"
+object = "obj/th03/cdg_p_na.obj"
+original_wrapper_sha256 = "37f3f62ecfef76b78944bf902df17cae670fbcb1da90db9ff2c98b6021379d58"
+size = 114
+op_segment = 0x0beb
+op_offset = 0x0c46
+mainl_segment = 0x0c7e
+mainl_offset = 0x0f32

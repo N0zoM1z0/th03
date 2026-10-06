@@ -39,12 +39,14 @@ Failed evidence is preserved explicitly. See
 `docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and run
 `python3 scripts/review_rec98_th03_mainl_intake.py --check`.
 This index grants no whole-file, source or exact acceptance and does not change
-the 69 scoped maintained MAIN paths. Five MAINL CDG rows now have independently
-proved source presence in `src/shared/formats/cdg_load.cpp`; index acceptance
-stays false and their593-byte interval credit is preserved without duplication.
-The same physical TU has an independent OP binding. Both artifacts pass two
+the 69 scoped maintained MAIN paths. Eleven MAINL CDG rows now have independently
+proved source presence in `src/shared/formats/cdg_load.cpp`, `cdg_put.asm` and
+`cdg_noalpha.asm`; index acceptance stays false and their1089-byte interval
+credit is preserved without duplication. The same physical objects have
+independent OP bindings. Both artifacts pass two
 fresh cold carrier/raw/original-relocation/native replays; complete products
-retain their own failures. See `reconstruction/SHARED_CDG_LOAD_REVIEW.md`.
+retain their own failures. See `reconstruction/SHARED_CDG_LOAD_REVIEW.md` and
+`reconstruction/SHARED_CDG_DRAW_REVIEW.md`.
 Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
 
@@ -208,6 +210,17 @@ width, negative-top/left, slot/offset wrap and DF behavior. GRCG/lookup/source/
 plane fixtures are explicit models; real RMW/pages/assets remain unproved.
 Three decoded function rows add no maintained source, accepted intake path or
 exact credit; cold ownership, DATA/BSS/devices and packaging Oracles stay open.
+
+The subsequent `SHARED_CDG_DRAW_REVIEW.md` independently binds OP and MAINL,
+localizes both complete ASM carriers and proves two fresh cold rounds. All496
+raw bytes, original ordered relocations and original nondependency OMF records
+match. Each source image runs120 invocations/all200 instruction positions,
+including two independently checked nonterminal width0 prefixes. Persistent
+SMC/VRAM reentry, full physical1MiB outside stack, frames and ordered effects
+are checked. Six existing MAINL rows gain source presence without new interval
+credit. Source vectors cover20products/350gameobjects; nine Research changes
+remain separately recorded. Physical graphics/IRQ, global declarations,
+complete products and exact acceptance remain open.
 
 `MAINL_CDG_LOAD_REVIEW.md` covers the complete593-byte loading/freeing C++ TU:
 five functions/219instructions with equal cached raw bytes and24 original

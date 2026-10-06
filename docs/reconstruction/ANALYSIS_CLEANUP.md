@@ -9,7 +9,11 @@ private input path states stayed unchanged across deletion. Receipt
 `3bb5b89e62d752348f237c736972e0e1cc2c4aa1572983f662395ca1af414bf3`.
 Canonical targets, toolchain/Wine prefix, Ghidra, accepted receipts and their
 archives/snapshots were excluded; historical missing/stale inputs were not
-repaired. Current372 diagnostic,378 source and393 coverage guards still match.
+repaired. The372 diagnostic,378 source and393 coverage guards matched at cleanup
+time. Subsequent authorized ledger/helper changes make the old coverage receipt
+historical; its guards are not rebased. The later shared drawing migration
+passed both cold rounds on its first run, with no failed preparation trees to
+remove; its successful proof trees and input snapshots are retained.
 
 The2026-10-06 cleanup removed16182 unreferenced files (189572651 bytes,
 approximately181 MiB) from seven explicitly selected abandoned cold build runs
