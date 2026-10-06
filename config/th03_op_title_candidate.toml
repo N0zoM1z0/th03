@@ -1,0 +1,13 @@
+schema_version = 1
+artifact = "th03-op"
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+scope = "Four complete contiguous title/menu animation functions; unowned column renderer stays in the original carrier"
+source_acceptance = false
+exact_acceptance = false
+source = "src/op/menu/title_animation.inl"
+carrier = "th03/op/m_main.cpp"
+wrapper = "th03/op_main.cpp"
+object = "obj/th03/op_main.obj"
+anchor = "void pascal near box_column16_unput(uscreen_x_t left)"
+prefix_sha256 = "a83972495321d5273f1101848c725d07c1a645ac3e53bef9ef772a23ca82ddb9"
+support_files = ["compat/rec98/th03/op/m_main.hpp", "compat/rec98/th02/hardware/frmdelay.h", "compat/rec98/th02/formats/pi.h", "compat/rec98/th03/snd/snd.h", "compat/rec98/th03/op/m_select.hpp", "compat/rec98/th03/shiftjis/fns.hpp", "compat/rec98/libs/master.lib/master.hpp", "compat/rec98/platform/x86real/pc98/page.hpp", "compat/rec98/platform/x86real/flags.hpp", "compat/rec98/planar.h"]

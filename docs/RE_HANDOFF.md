@@ -17,8 +17,8 @@ ordered ENEMY_2_TEXT relocations. Moving declarations did not repair that
 producer partition. Keep its separate manifest/receipt and
 `docs/reconstruction/MAIN_ENEMY_REVIEW.md`; do not absorb its exactness claim.
 
-OP has two source-present score TUs and one bounded loader include,501 decoded
-bytes, with no exact acceptance. MAINL has no maintained source/exact owner.
+OP has two source-present score TUs and two bounded loader/title includes,
+1309 decoded bytes, with no exact acceptance. MAINL has no maintained source/exact owner.
 ZUN has three maintained
 wrapper TUs totaling 234 decoded bytes, without exact acceptance. Japanese
 YUMEZIKU targets remain pinned as `candidate-local-attested`; independent
@@ -26,7 +26,7 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes446 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes454 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL and OP
 were independently re-attested before further target work. Historical restricted
@@ -274,7 +274,7 @@ producer and initializer105. Three images each execute4320 terminal calls and
 all170 instruction positions, including native compiler SCOPY28 context.
 Unshifted367 bytes agree raw/ordered relocations; initializer target0571/cold
 0570 fails94 fixed bytes and eleven ordered sites, with one paired native
-call displacement difference. No shifted equality, maintained OP source or
+call displacement difference. That cohort grants no shifted equality, maintained source or
 exact credit. Preserve short-read stale/null resident fields, uninitialized
 ordinary-save byte3, complete exit-save zeroing/native DF clear and raw MIDI
 active bytes. Source lineage uses22 frozen providers,127 archived source
@@ -297,24 +297,42 @@ unchecked short-read/stale-buffer behavior. See
 `docs/reconstruction/OP_SCORE_REVIEW.md`, `config/th03_op_score_candidate.toml`
 and `scripts/replay_th03_op_score.py --run-id NEW_OP_SCORE`.
 
-The new OP-only scaffold differs from the target by six decoded program bytes
-and original607-relocation order. Keep this separate from the historical
-MAIN-overlay4867-byte/shifted-initializer failures. No normalization or whole
-OP/source/exact acceptance. The complete505-file review goal remains open.
+OP title review adds902 decoded bytes: four contiguous animation functions808
+are source-present in `src/op/menu/title_animation.inl`; column94 remains
+unowned with three raw unequal encoding bytes. The complete902-byte compiler
+carrier and near/Pascal frames are reviewed. Three prior images and two new
+cold OP products each pass96 terminal calls/all304 instruction positions.
+The fresh20-product/350-gameobject vectors are deterministic; all416 OMF
+objects recorded. Previous543-byte score/helper raw/ordered comparisons pass;
+its older1168-call contract proof is retained without claiming a new rerun.
+See `docs/reconstruction/OP_TITLE_REVIEW.md`, `config/th03_op_title_candidate.toml`
+and `scripts/replay_th03_op_title.py --run-id NEW_OP_TITLE`.
+
+Preserve title brightness/frame limits and unsigned column arithmetic. The
+renderer attempts384 rows for normal input despite the128-row box, reaching
+ROM ranges; the writable flat-memory fixture does not prove actual VRAM banking
+or ROM writes. The supplied clock-field update establishes no real ISR liveness.
+
+All six fresh OP raw inequalities remain: five bytes in four register-operation
+encodings across Music Room/title functions and one data byte associated with
+candidate EVEN alignment atDGROUP05A5. Targetproducer unknown. All607 relocation
+sites share a multiset, but313 original ordered rows differ; no sorted/normalized
+acceptance. Keep these separate from historicalMAIN-overlay4867-byte/init failures.
+Replay `scripts/review_th03_op_inequalities.py` for bounded classification.
 
 OP interval comparison against the old cold MAP has100nonzeroCODEcarriers,
-55261 bytes:1015 reviewed original unit bytes/54246 gaps/zero overlap. There
-are11 OP units:3 source-present501 bytes and8 other candidates514 bytes.
+55261 bytes:1917 reviewed original unit bytes/53344 gaps/zero overlap. There
+are13 OP units:4 source-present1309 bytes and9 other candidates608 bytes.
 Source-present intervals retain diagnostic coverage only. The old shifted
 initializer crosses the next cold carrier by one byte, without proving
 original/source carrier ownership. Replay `scripts/review_th03_op_coverage.py`.
 
-Latest full check: `.analysis/sol-op-score-full-ci.log`, SHA-256
-`575817c4f3380f7c6e6efe11827fa184ec02fc94981923b0889b7170ed261582`, passes446 tests and all available private headless gates.
-Tracking is220units/2040evidence/225knowledge. MAIN
-exact ownership and MAINL/ZUN acceptance remain unchanged.
+Latest full check: `.analysis/sol-op-title-full-ci.log`, SHA-256
+`be063f48f9be5e71a927de13783f371714e98bfa6ae2f679aab2c0ab3f5bd130`, passes454 tests and all available private headless gates.
+Tracking before the CI evidence row:222units/2059evidence/234knowledge.
+OP exact acceptance remains0; MAIN and MAINL/ZUN acceptance unchanged.
 
-Next: remaining OP menu and root CODE/carrier ownership, the six fresh-scaffold
-inequalities, then continued natural-source localization where reviewed
-contracts permit it. Full frozen-file/header/DATA/BSS/resource/dependency and
-canonical packing/Oracle review remains required across all artifacts.
+Next: remaining OP main/options/character-selection and Music Room complete
+callers, then root/header/DATA/BSS/resource/library and canonical packing/Oracle
+review. The505-file full review goal remains open across all four artifacts;
+MAIN exact ownership and MAINL/ZUN acceptance remain unchanged.

@@ -1,7 +1,7 @@
 schema_version = 1
 phase = "exact-owned-units"
 status = "open"
-source_graph = "partial: thirty-eight exact MAIN owners / forty-three CODE extents; complete enemy candidate adds one owner / three reviewed extents; OP score has two source-present TUs and one bounded include / 501 decoded bytes; ZUN wrapper has three source-present TUs with unowned payloads; both lack exact acceptance"
+source_graph = "partial: thirty-eight exact MAIN owners / forty-three CODE extents; complete enemy candidate adds one owner / three reviewed extents; OP score/title has two source-present TUs and two bounded includes / 1309 decoded bytes; ZUN wrapper has three source-present TUs with unowned payloads; both lack exact acceptance"
 startup = "unknown"
 link_order = "unknown"
 initialized_data = "unknown"
