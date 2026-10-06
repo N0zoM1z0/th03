@@ -378,3 +378,12 @@ input. OrdinaryCFG byte3 remains opaque native stackdata; no scalar value or
 actual DOS/heap/device/clock/fullproduct/exact claim. OP exact0; other artifact
 acceptance unchanged. Next: full character selection and Music Room carriers,
 then CRT/root/header/DATA/BSS/library/resource/canonicalpacking Oracles.
+
+Music Room complete2244-byte/14-function diagnostic passes three images, each
+276cases/all807nativepositions, with realIRAND42/POLAR26context. Copy30 retains
+two rawencoding inequalities; prefix216/tail1998 migration awaits two cold
+builds. Commentseekwrap/shortread, DF-sensitivecopy, persistentpolygon/song
+state and fullinput/release behavior recorded in `OP_MUSIC_REVIEW.md`.
+Unicorn1.0.2rc4 readhooks breaknativefarreturns; standalonecontrol retained,
+mainprobe traces bulkoperandreads at originalCODEsites withoutreadhooks.
+OP19units/6984revieweddecodedbytes; source-present remains4403, exact0.
