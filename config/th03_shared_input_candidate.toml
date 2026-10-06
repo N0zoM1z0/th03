@@ -1,0 +1,54 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+support_files = ["compat/rec98/th03/hardware/input.h", "compat/rec98/th02/hardware/frmdelay.h", "compat/rec98/th02/snd/measure.hpp"]
+
+[[carriers]]
+source = "src/shared/hardware/input_modes.cpp"
+wrapper = "th03/inp_m_w.cpp"
+object = "obj/th03/inp_m_w.obj"
+original_wrapper_sha256 = "71bc78fc62690c1379610fdffdabebe1e620e2af4faead6a9772c790c2e59fae"
+physical_game_macro = 3
+size = 367
+segments = ["286f01020301", "480000040501", "480000060701"]
+artifacts = ["op", "mainl"]
+op_segment = 3051
+op_offset = 2774
+mainl_segment = 3198
+mainl_offset = 3522
+
+[[carriers]]
+source = "src/shared/hardware/frame_delay.cpp"
+wrapper = "th02/frmdely1.cpp"
+object = "obj/th02/frmdely1.obj"
+original_wrapper_sha256 = "8d72ee835bea035f9136092e1733c5a39b71401444d72c252ed38fc9fbec0f92"
+physical_game_macro = 2
+size = 21
+segments = ["281500020301", "480000040501", "480000060701"]
+artifacts = ["op", "mainl"]
+op_segment = 3051
+op_offset = 750
+mainl_segment = 3198
+mainl_offset = 882
+
+[[carriers]]
+source = "src/op/hardware/frame_delay_2.cpp"
+wrapper = "th02/frmdely2.cpp"
+object = "obj/th02/frmdely2.obj"
+original_wrapper_sha256 = "f864ae41ed22b19f4c09397566d7fd0b10a65e072cc90c9cf8d09601fe7e7948"
+physical_game_macro = 2
+size = 21
+segments = ["281500020301", "480000040501", "480000060701"]
+artifacts = ["op"]
+op_segment = 3051
+op_offset = 3286
+
+[[carriers]]
+source = "src/mainl/hardware/input_wait.cpp"
+wrapper = "th03/inp_wait.cpp"
+object = "obj/th03/inp_wait.obj"
+original_wrapper_sha256 = "ec3f25576ec74a8bd094f4bb6b0db9fd1605a2b3b8b26e62e2c58864cb9770b2"
+physical_game_macro = 3
+size = 126
+segments = ["287e00020301", "480000040501", "480000060701"]
+artifacts = ["mainl"]
+mainl_segment = 3198
+mainl_offset = 3149

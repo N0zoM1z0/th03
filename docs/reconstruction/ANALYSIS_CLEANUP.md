@@ -1,5 +1,15 @@
 # Private analysis cleanup
 
+After input/timing replacement cold rounds passed, one failed post-compiler
+validation build tree and two obsolete preparation scripts were removed:
+2555files/31,309,403bytes (29.9MiB). All2052retained private input states are
+unchanged. Original failed replay snapshot, compiler log and traceback remain
+under `.analysis/sol-shared-input-first-validator-failure-20261006/`. All
+successful cold trees, target/assets/tools/Ghidra and historical missing/stale
+guards are preserved. Receipt
+`.analysis/sol-shared-input-temporary-cleanup-20261006.json`, SHA256
+`00b3678c714438b6d5486d19602c3a8fc707eb387a3db07fdde2ece595858b96`. No broad cleanup or input repair was used.
+
 The PI source replay passed both cold rounds without a failed preparation.
 Five unreferenced successful source-preflight logs (10,051 bytes) are removed;
 all 1,992 retained private input states are unchanged. Selection requires a

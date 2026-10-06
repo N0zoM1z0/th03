@@ -17,10 +17,10 @@ ordered ENEMY_2_TEXT relocations. Moving declarations did not repair that
 producer partition. Keep its separate manifest/receipt and
 `docs/reconstruction/MAIN_ENEMY_REVIEW.md`; do not absorb its exactness claim.
 
-OP has29 reviewed decoded units totaling11977 bytes:22 source-present extents,
-11610 bytes in three OP CPP TUs, five shared CPP, three shared ASM and seven bounded includes;
-seven other candidates367 bytes. OP exact0. MAINL has145 decoded rows, twenty-two
-source-present extents2559bytes in five shared CPP/two MAINL CPP/four ASM, and exact0. ZUN has18
+OP has40 reviewed decoded units totaling12386 bytes:33 source-present extents,
+12019 bytes in four OP CPP TUs, seven shared CPP, three shared ASM and seven bounded includes;
+seven other candidates367 bytes. OP exact0. MAINL has145 decoded rows, thirty-four
+source-present extents3073bytes in seven shared CPP/three MAINL CPP/four ASM, and exact0. ZUN has18
 rows/three source-present wrapper TUs,234 bytes/exact0.
 Japanese YUMEZIKU targets in `config/targets.toml` remain
 candidate-local-attested; independent pristine-dump provenance is unknown.
@@ -28,9 +28,9 @@ The frozen ReC98 candidate revision is
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47`. Never inherit cross-game exactness.
 
 Execution/Git permissions are restored. Historical restricted-execution
-failures remain evidence. Latest full CI: `.analysis/sol-shared-pi-complete-ci-20261006.log`,
-SHA256 `ff7fd223e52d6fa5b4721afea9e440f16e13b12d3ca6eb399860273ad1c65b7f`, passes581tests and all available private
-headless gates. Tracking:238units/2310evidence/288knowledge/120MAIN
+failures remain evidence. Latest full CI: `.analysis/sol-shared-input-complete-ci-20261006.log`,
+SHA256 `50c7f30a507f3d3570176ce8b9d8a61fc750ba4bd8bca3259dc8003861c438af`, passes593tests and all available private
+headless gates. Tracking:249units/2336evidence/292knowledge/120MAIN
 authored-function rows.
 Save progress in English `gpt-6.1-sol:` commits.
 
@@ -46,7 +46,9 @@ Next: continue remaining OP/shared carriers and declarations. Shared CDG
 load/free593, drawing496, text613, LUT30 and sound loader112 have independent OP/MAINL bindings;
 MAINL vector160 is localized through a separately recorded natural ASM producer.
 PI shared palette/put/load243 plus MAINL interlace/quarter312 are localized;
-PI decoder/assets/headers remain open. Continue input/timing/library carriers.
+Input/timing carriers535 are localized (shared388/OP21/MAINL126); native
+scanner417/NOP remains unowned context. PI decoder/assets/headers and native
+input devices/IRQ/time remain open. Continue remaining library and shared carriers.
 Select3013
 carrier review and2906sourceinl migration are complete within bounded scope;
 private DATA/BSS prefix/padding and two original relocation-order failures
@@ -57,6 +59,29 @@ random getters are accepted within it; remaining root code/data and physical
 main.obj ownership remain open. Repeat the whole MAIN aggregate for new owners.
 
 ## Current OP evidence
+
+Complete input/timing535/four CPP carriers: independently bound OP409/MAINL514.
+Twelve existing MAINL rows upgraded, including linked-tail-delay; eleven OP
+functions newly reviewed. Each target/prior/source image executes OP268calls/
+264returns/4prefixes/all278positions and MAINL275calls/262returns/13prefixes/
+all321positions. Full terminal DGROUP scalar/ordered native stores+events/
+physical memory outside caller stack with declared BIOS bank/far ABI/IFDF checked.
+Unsigned frame counts, release-before-negative-timeout, zero/9999 prefixes and
+measure AX clobber preserved. BIOS/joystick/driver/IRQ counter scheduling remain
+explicit models; scanner417/trailing NOP has no migration credit. Two source
+rounds pass original GAME2/GAME3 large/O-or-L TC86/nondependency OMF/CODE/DATA0/
+BSS0/public/MAP/raw/original ordered relocations. Source receipt
+`.analysis/th03-shared-input/sol-shared-input-source-20261006-b/receipt.json`,
+SHA256 `37d956f61667d1ba35589989286aaa54d55b9cc8ee121743c0d70dd63d32cbeb`,733guards.
+Both20product351gameobject vectors deterministic; all417OMF recorded,347other
+gameobjects unchanged/all20products equal PI; nine Research differences separate.
+Initial post-compiler output-directory validator failure retains original
+replay/compiler log/traceback. Cleanup removes2555files/31,309,403bytes, all2052
+retained input states unchanged; receipt
+`.analysis/sol-shared-input-temporary-cleanup-20261006.json`, SHA256
+`00b3678c714438b6d5486d19602c3a8fc707eb387a3db07fdde2ece595858b96`. Complete successful trees and historical failures retained.
+MAIN owners/aggregate unchanged; whole OP6/MAINL21-byte and original-order
+failures remain, exact0. See `SHARED_INPUT_REVIEW.md`.
 
 Complete PI chain555/four CPP TUs: OP243 shared subset, MAINL includes ending312.
 Each target/two prior sound-loader cold images OP331calls/327returns/4prefixes,
@@ -236,10 +261,10 @@ All six freshOP raw inequalities remain: Music Room two XOR bytes, title three
 ADD/XOR bytes, one candidateEVEN data byte atDGROUP05A5. All607 relocation sites
 have the same multiset, but313 original ordered rows differ. No normalization.
 The historical MAIN-overlay4867-byte/init1-byte failures remain separate.
-Current OP MAP interval comparison:100 CODE carriers/55262 bytes;11977 reviewed,
-43285gaps/zerooverlap. Current receipt
-`.analysis/sol-current-decoded-coverage-after-shared-pi-20261006.json`, SHA256
-`6cb884e6889f7743dad6ceb5d6b8df38b8bcdca6705d329aa1d7747c91ae9efb`,683guards.
+Current OP MAP interval comparison:100 CODE carriers/55262 bytes;12386 reviewed,
+42876gaps/zerooverlap. Current receipt
+`.analysis/sol-current-decoded-coverage-after-shared-input-20261006.json`, SHA256
+`efdd19c333d0d41ccb8a46d3297de7816cade5cd632a2ff64d26e6deb6209f8b`,748guards.
 Replay `scripts/review_th03_current_decoded_coverage.py` with the pinned shared
 source receipt. Older `review_th03_op_coverage.py` uses shifted init0570/CDG05D9
 MAP; its one-byte intersection gives no newCDG credit. Current init0571/CDG05DA

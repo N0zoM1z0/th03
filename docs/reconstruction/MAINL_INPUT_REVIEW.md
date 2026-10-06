@@ -1,5 +1,13 @@
 # Complete MAINL input and wait candidate review
 
+Current input modes367, confirmation/measure waits126 and frame delay21 are
+now maintained complete natural CPP carriers with independent OP/MAINL bindings
+and two fresh cold rounds. Twelve existing MAINL rows are upgraded without
+duplicate interval credit. Native scanner417 and the complete418-byte carrier
+with trailing NOP remain contextual; its codestring is not imported. See
+[SHARED_INPUT_REVIEW.md](SHARED_INPUT_REVIEW.md). The cached MAIN-remapped
+observations and historical database failure below remain separate.
+
 Three complete candidate TUs contain twelve functions, 910 decoded CODE bytes /
 313 instructions. All raw bytes and six original ordered relocation sites match
 both cached products. The actual 21-byte / eight-instruction frame-delay helper
