@@ -415,3 +415,20 @@ remain observed behavior. See `reconstruction/MAINL_PI_DECODER_REVIEW.md`,
 independent decoded rows add no maintained source/exact or accepted intake
 CODE-path credit. ROOT/CRT/DATA/BSS/other-artifact/packing/full Oracles remain
 open; previous wrapper and coverage receipts keep their original scope.
+
+Complete remaining MAINL root-helper/producer review covers sixteen decoded
+gaps722 bytes:701 body bytes/351 positions and21 producers. All1003 scoped
+CODE/producer bytes including prior PFOPEN281 context and290 initialized
+DATA bytes match both cold products with empty ordered relocations.39 frozen
+providers/root OMF/thirteen public MAP entries bind lineage. The25335 tail
+calls return25305 times and stop at30 actual DIV faults;72 separate semantic
+prefixes retain open frames. Native STR_IEQ separately executes through318
+legacy PFOPEN calls, with312 returns/six search budgets.344/351 positions
+execute; an atan NOP and unreferenced SAJOUT retain structural/raw coverage.
+Preserve absent-joystick entry SI, unchecked second resident allocation,
+MCB cycles, palette alias store/read order and text DF/BIOS geometry. See
+`reconstruction/MAINL_ROOT_TAIL_REVIEW.md` and
+`scripts/review_th03_mainl_root_tail.py`. Sixteen independent decoded rows
+add no maintained source/exact or accepted MAIN intake credit. Remaining
+startup/CRT/DATA/BSS/device/complete callers and full artifact Oracles stay
+open;505 files and69 scoped MAIN CODE paths retain their separate scope.
