@@ -44,15 +44,15 @@ the mixed-link diagnostic is
 is claimed yet. Chiyuri is now independently reconstructed too: its natural
 TC4J producer is 490 bytes / 169 instructions, lands exactly at
 183C:0001..01EA in a full MAIN link, has zero linked-byte mismatches, and emits
-the target 13-entry relocation order. The first three character groups
-(Chiyuri, Ellen and Kana) now have the target TC4J relocation behavior. Kana is
-526 bytes / 184 instructions and its 14-entry relocation group is exact in a
-full link; its only 18 linked-byte differences are nine private-angle offsets,
-candidate DGROUP:6960 versus target DGROUP:2674. Ellen likewise still needs its
-private BSS restored to DGROUP:25DC. Kotohime and Rikako remain to be
-reconstructed as TC4J producers. Retained current evidence includes
-.analysis/th03-main-bombs-kana-link-probe/review.json and the per-producer
-receipts described in reconstruction/MAIN_BOMBS_REVIEW.md.
+the target 13-entry relocation order. The first four character groups
+(Chiyuri, Ellen, Kana and Kotohime) now have target TC4J relocation behavior.
+Kotohime is 528 bytes / 185 instructions and its nine-entry relocation group is
+exact in a full link; its only six linked-byte differences are three private
+word offsets, candidate DGROUP:6962 versus target DGROUP:28F6. Kana similarly
+has 18 private-angle operand mismatches (6960 versus 2674), and Ellen still
+needs its 0x84-byte private BSS restored to DGROUP:25DC. Rikako is now the final
+character CODE producer left to reconstruct before the work can focus entirely
+on historical BSS placement. See reconstruction/MAIN_BOMBS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation

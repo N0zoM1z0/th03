@@ -229,8 +229,46 @@ The retained full-link diagnostic is
 
 No aggregate exact credit is claimed yet. Chiyuri, Ellen and Kana now reproduce
 the target TC4J relocation behavior; Ellen and Kana still require their
-historical private-BSS placement, and Kotohime/Rikako remain to be reconstructed
-as TC4J producers.
+historical private-BSS placement. Kotohime is handled below; Rikako remains
+the final unreconstructed TC4J producer.
+
+## Kotohime Turbo C++ producer reconstruction
+
+src/main/player/bomb_kotohime.cpp reconstructs the complete 528-byte Kotohime
+single-function producer as natural Turbo C++. The first translation was only
+two bytes short: source spelling color += color let TC4J combine the intended
+read/modify/write into one memory ADD. Writing the target semantics as
+color = color * 2 preserves the deliberately uninitialized local read while
+emitting the observed MOV AL,[BP-2]; ADD AL,AL; MOV [BP-2],AL sequence.
+
+The final object is 528 bytes / 185 instructions and owns one two-byte private
+BSS word used as the persistent explosion Y coordinate. Every decoded
+instruction offset, size and mnemonic matches the immutable target.
+
+The full-link experiment places Kotohime exactly at 183C:07F8..0A07 and keeps
+the owner's 71 relocation sites unchanged. Kotohime's complete nine-entry
+relocation group exactly matches the target:
+
+    2561,2454,2400,2291,2255,2123,2118,2100,2064
+
+Its only six linked-byte mismatches are three 16-bit DS operands for that
+private word. The target uses DGROUP:28F6; the current mixed link places the
+word at DGROUP:6962. Thus, as with Ellen and Kana, the code producer and
+relocation behavior are solved independently of the still-open BSS graph.
+
+The reproducible object probe is:
+
+    python3 scripts/probe_th03_main_bomb_kotohime_cpp.py --run-id UNIQUE_ID
+
+The retained current object receipt is
+.analysis/th03-main-bomb-kotohime-cpp/gpt-web-kotohime-final-d17-20261007/receipt.json.
+The retained full-link diagnostic is
+.analysis/th03-main-bombs-kotohime-link-probe/review.json.
+
+No aggregate exact credit is claimed yet. Chiyuri, Ellen, Kana and Kotohime now
+all reproduce their target TC4J relocation groups. Ellen/Kana/Kotohime still
+require historical private-BSS placement, and Rikako remains the final
+character CODE producer to reconstruct.
 
 This document intentionally does not claim exact acceptance yet. The candidate
 lives in config/th03_main_bombs_candidate.toml so the default accepted aggregate
