@@ -1,5 +1,16 @@
 # Private analysis cleanup
 
+The shared math migration removed one unreferenced stopped precompiler
+preparation after two corrected cold rounds passed:1928files/21507828bytes
+(about20.5MiB). All1871 retained private input states stayed unchanged. The
+complete failure transcript and original replay snapshot remain separate;
+there was no compiler execution or cold-build log in that failed preparation.
+Successful source/diagnostic/coverage trees and all protected targets/tools/
+Ghidra states remain intact. Receipt
+`.analysis/sol-shared-math-temporary-cleanup-20261006.json`, SHA256
+`bad213f06dfc5e2a790e194e8b13cdbd180936bc8c6317620428c7242ff74e39`,5guards.
+Historical missing/stale input states were unchanged; no proof rebasing.
+
 The shared text migration removed one unreferenced first cold preparation:
 2504files/31040136bytes (about29.6MiB), after the corrected two-round proof passed.
 All1823 retained private input states remained unchanged. The complete first

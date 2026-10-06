@@ -1,5 +1,14 @@
 # Complete MAINL vector and flip-table candidate review
 
+This historical cached review is supplemented by the later
+[shared math review](SHARED_MATH_REVIEW.md): independently bound OP/MAINL LUT,
+localized symbolic MAINL vector ASM, and two fresh cold producer/native rounds.
+Four existing rows gain source presence without duplicate interval credit.
+A CFG audit shows IATAN2+3B is an unreachable alignment NOP; the earlier
+description below of executing internal alignment is superseded. Complete
+product/exact gates remain open, and original TC86/TASM producer differences
+are explicitly retained.
+
 Two complete TUs contain three functions:189 decoded CODE bytes /
 70 instructions, plus one observed vector-producer NOP, totaling190bytes.
 All raw bytes and the vector's one ordered MZ relocation agree in both caches;

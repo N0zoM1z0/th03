@@ -1,0 +1,29 @@
+reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
+original_tup_sha256 = "abe0ec2beebfcd3b0b9e6dbf9d9891cebf70c07b322e3f390ad5628071c5ac66"
+support_files = []
+
+[[carriers]]
+source = "src/shared/math/vector_far.asm"
+original_wrapper = "th03/vector.cpp"
+wrapper = "th03/vector_far.asm"
+object = "obj/th03/vector_far.obj"
+original_object = "obj/th03/vector.obj"
+original_wrapper_sha256 = "66a494fb59a4a26d045e42949806d0a747dc00aa0753bbaf48753258c0dafc3b"
+size = 160
+artifacts = ["mainl"]
+mainl_segment = 3198
+mainl_offset = 272
+
+[[carriers]]
+source = "src/shared/formats/hfliplut.asm"
+wrapper = "th03/hfliplut.asm"
+original_wrapper = "th03/hfliplut.asm"
+object = "obj/th03/hfliplut.obj"
+original_object = "obj/th03/hfliplut.obj"
+original_wrapper_sha256 = "52c25b7a548f79113d407732a53e4c1b69021ce4c63c133f92c28d0eea7a7aa7"
+size = 30
+artifacts = ["op", "mainl"]
+op_segment = 3051
+op_offset = 3256
+mainl_segment = 3198
+mainl_offset = 4004

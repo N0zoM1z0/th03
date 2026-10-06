@@ -39,14 +39,15 @@ Failed evidence is preserved explicitly. See
 `docs/reconstruction/MAINL_LINKED_CODE_INTAKE_REVIEW.md` and run
 `python3 scripts/review_rec98_th03_mainl_intake.py --check`.
 This index grants no whole-file, source or exact acceptance and does not change
-the 69 scoped maintained MAIN paths. Twelve MAINL CDG/text rows now have independently
+the 69 scoped maintained MAIN paths. Sixteen MAINL CDG/text/math rows now have independently
 proved source presence in `src/shared/formats/cdg_load.cpp`, `cdg_put.asm` and
-`cdg_noalpha.asm` and `src/shared/graphics/text.cpp`; index acceptance stays false and their1702-byte interval
-credit is preserved without duplication. The same physical objects have
-independent OP bindings. Both artifacts pass two
+`cdg_noalpha.asm`, `src/shared/graphics/text.cpp`, `src/shared/math/vector_far.asm`
+and `src/shared/formats/hfliplut.asm`; index acceptance stays false and their1892-byte interval
+credit is preserved without duplication. Shared CDG, text and LUT objects have
+independent OP bindings; the vector carrier is linked in MAINL only. Both artifacts pass two
 fresh cold carrier/raw/original-relocation/native replays; complete products
 retain their own failures. See `reconstruction/SHARED_CDG_LOAD_REVIEW.md` and
-`reconstruction/SHARED_CDG_DRAW_REVIEW.md` and `reconstruction/SHARED_TEXT_REVIEW.md`.
+`reconstruction/SHARED_CDG_DRAW_REVIEW.md` and `reconstruction/SHARED_TEXT_REVIEW.md` and `reconstruction/SHARED_MATH_REVIEW.md`.
 Upstream exactness is never inherited. Compatibility forwarders retain explicitly declared dependencies
 on the frozen scaffold until the declarations can be localized and attested.
 
@@ -299,6 +300,22 @@ far outputs/alias order, all angles/quadrants, rounded table bytes and all256 LU
 stores. See `MAINL_MATH_REVIEW.md` and `scripts/review_th03_mainl_math.py`. Three
 decoded rows add no source/exact credit; generated root/data/CRT ownership,
 localized cold production and canonical packaging/complete Oracles remain open.
+
+
+The subsequent `SHARED_MATH_REVIEW.md` independently binds the sharedLUT30 toOP
+andMAINL and the completevector160 toMAINL. SymbolicASM replaces the reference
+C++ opcode fragments/codestring; originalCPPvector.obj remains for other products.
+OnlyMAINL's input is replaced at the original link ordinal. Two fresh cold
+rounds pass original raw/ordered/public/MAP gates and all reachable native
+positions: OP4calls/all16positions; MAINL468calls/438returns/30DIVstops/all123
+reachable positions. IATAN2's internal alignment NOP is separately decoded and
+proved unreachable, correcting the old description of its execution. Four
+existing MAINL rows gain source presence without new interval credit. Both20
+product/351game-object vectors are deterministic; all20products equal the
+preceding text proof and349otheroriginalgameobjects remain unchanged. LUT
+nondependency OMF records match; vector TC86-to-TASM and empty DATA/BSS producer
+differences remain explicit. Global tables/headers/CRT/fault handlers, physical
+runtime, complete products and exact acceptance stay open.
 
 
 Complete MAINL PFOPEN review covers the TH03 bounded include281bytes /97
