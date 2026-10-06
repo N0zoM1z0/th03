@@ -133,3 +133,9 @@ after the first leg; subsequent legs transfer0. Count32769 similarly reduces
 later legs to1. Sequential scalar accesses retain overlapping temporary/video
 buffers instead of incorrectly snapshotting source bytes. These observations
 do not establish that complete game callers violate the helper precondition.
+
+The separate MAP/ledger interval union now covers 6,942 of 10,944 root _TEXT
+bytes, leaving 4,002 without independent unit rows and zero overlap. Replay
+`scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`.
+Prior coverage snapshots remain historical evidence. Gaps can include prior
+native context, alignment and CRT; they are not an unknown semantic byte count.

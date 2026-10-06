@@ -24,15 +24,14 @@ pristine-dump attestation is unknown. ReC98 revision
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47` is a frozen candidate scaffold.
 Never inherit cross-game exactness or rewrite imported calibration hashes.
 
-Execution permissions were restored on 2026-10-06. Full CI passes363 tests,
+Execution permissions were restored on 2026-10-06. Full CI passes371 tests,
 tracking/intake, target identity, Wine compiler/linker probes, Ghidra toolchain,
 all four stored databases and byte/database mutant controls. Selected MAINL
 was independently re-attested before further target work. Historical restricted
 execution failures remain evidence, without current blocker status. Two fresh
 ZUN wrapper cold rounds now pass compiler/link/runtime diagnostics; decoded
 full-image equality still fails10 unowned driver bytes. Git metadata is writable;
-33 scoped reviews plus cross-scope reconciliation are saved in34 English
-`gpt-6.1-sol:` commits (2458813..fe136a4). The prior combined
+Review progress is saved in English `gpt-6.1-sol:` commits. The prior combined
 source-only patch and pending messages remain historical recovery backups.
 
 ## Replay and ownership discipline
@@ -83,15 +82,15 @@ Ghidra databases remain packed. Current exact policy requires canonical
 file-backed extents: decoded rows have no invented stored offsets or exact
 credit. See `docs/reconstruction/TH03_DIET_STORAGE_REVIEW.md`.
 
-Continue MAINL GRAPH_400LINE/CLEAR/COPY_PAGE, remaining linked graphics,
+Continue MAINL GRAPH_GAIJI_PUTC, PACK drawing, SCROLLUP/SHOW,
 CRT allocation and generated root
 code, then the remaining OP/ZUN/shared intake. Current MAP/ledger interval
-comparison covers6720/10944 root _TEXT bytes and leaves4224 without independent
+comparison covers6942/10944 root _TEXT bytes and leaves4002 without independent
 unit rows, with zero overlap, including
 some previously reviewed native context; separate CRT modules remain open.
 Replay `scripts/review_th03_mainl_coverage.py --output .analysis/NEW_MAINL_COVERAGE.json`;
-see `.analysis/sol-mainl-map-unit-coverage-after-gaiji-20261006.json`. The old
-5133/4658-gap snapshots are preserved. Use context evidence
+see `.analysis/sol-mainl-map-unit-coverage-after-screen-20261006.json`. Prior
+coverage snapshots are preserved. Use context evidence
 before assigning another owner, avoiding duplicate credit.
 EGC/box fills/public near GDC add475 independent decoded bytes; their raw
 bytes/relocations/public MAP entries/native CPU behavior agree with both fresh
@@ -110,6 +109,12 @@ All1257 scoped CODE/producer and10DATA bytes match both cold products.
 Single transfers force IF; ALL first ADC inherits Carry; DF is retained.
 BFNT Carry1/AX8192 reads can still register stale data. C71 is00 outside the
 verified C72 entry and remains uncredited. Device/DOS models grant no exactness.
+Screen mode/clear/page copy add222 independent bytes; all926 scoped CODE /
+producer and28DATA bytes match both cold products. Native private near plane
+and heap/stack calls pass3600 terminal calls plus12 assignment prefixes.
+CLEAR preserves IF, contrary to its comment. COPY retains DF; the private
+helper requires DF0, and wrapped DI changes subsequent counts. BIOS/GRCG /
+two-bank aperture models grant no hardware, maintained source or exact credit.
 
 ## MAINL candidate evidence index
 
@@ -148,6 +153,7 @@ original interface models even after a separate library review.
 | [BFNT/super sprites](reconstruction/MAINL_SUPER_REVIEW.md) | 1542 | 2892 terminal calls plus30 budgets; native conversion/SMC/heap/stack |
 | [EGC/box fills/near GDC](reconstruction/MAINL_GRAPHICS_REVIEW.md) | 475 | 9720 terminal calls plus12 budgets; native ports/stores/flags/frames |
 | [Gaiji backup/load/read/write](reconstruction/MAINL_GAIJI_REVIEW.md) | 434 | 6966 terminal calls plus12 budgets; native font helpers/heap/stack/BFNT |
+| [Screen mode/clear/page copy](reconstruction/MAINL_SCREEN_REVIEW.md) | 222 | 3600 terminal calls plus12 assignment prefixes; native private plane/heap/stack |
 
 OP has three configuration/win-screen boundary rows totaling 387 decoded
 bytes, no maintained source. Direct-link review compares 27 OP and 33 MAINL
