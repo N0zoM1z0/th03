@@ -90,3 +90,46 @@ layout before any full-link exact promotion.
 The shared helper owner and the remaining eight character owners stay
 boundary-reviewed only. Physical producer grouping, DATA/BSS ownership and
 historical filenames remain open until compiler/link evidence establishes them.
+
+## Marisa natural TC4 producer
+
+src/main/boss/marisa.cpp now reconstructs the complete 1431-byte Marisa
+logical owner as natural Turbo C++. The owner contains all nine reviewed
+functions plus the compiler-generated 81-byte switch-table range following
+gba_boss_update_marisa; the object emits no private DATA/BSS.
+
+The source reconstruction was driven by compiler evidence rather than copied
+target bytes. Several details were material:
+
+- gba_boss_update_marisa must switch directly on the shared mode byte.
+  Caching it in an explicit local makes TC4 allocate a duplicate switch
+  temporary and grows the update by three bytes.
+- The spread pattern source control flow is the less-than-0x50 body followed by
+  the reset path, which restores the target conditional-branch direction.
+- Case blocks are written in the target producer order: spread, wide, ring,
+  narrow, fall. The key array stays sorted, while this source ordering fixes
+  the generated destination table.
+- The historical producer requires TC4J -a2. With -a1, the same natural source
+  emits 1430 bytes and an 80-byte switch range; -a2 naturally emits the
+  target one-byte alignment and exact 1431-byte owner layout. A separate parity
+  probe with a temporary preceding natural function did not create that byte
+  under -a1, rejecting the simpler translation-unit parity explanation.
+- One five-byte object-level far call in the 269-byte update is relaxed by
+  TLINK to the target NOP; PUSH CS; CALL near sequence without changing span
+  or semantics. The probe records this linker transformation explicitly rather
+  than masking bytes.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_marisa_cpp.py \
+      --run-id gpt-web-marisa-boss-proof-v08-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-marisa-cpp/gpt-web-marisa-boss-proof-v08-20261007/receipt.json
+
+It passes all nine function starts and sizes, linker-normalized instruction
+shape, the 81-byte switch alignment/key/destination structure, and zero private
+DATA/BSS. This is source/producer evidence only. Full-link MAP placement,
+ordered MZ relocations, final linked bytes, historical physical producer
+grouping and state ownership are still separate gates.

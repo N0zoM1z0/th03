@@ -88,10 +88,12 @@ owner plus nine character-local owners, with 93 complete functions / 17683
 function bytes and nine explicitly classified Turbo C++ switch tables / 717
 producer-owned bytes. All 326 in-owner MZ relocations are recorded and no
 relocation crosses an owner edge. This is boundary evidence only: none of these
-ten new owners receives source or exact credit yet. The next implementation
-target is the complete 1431-byte Marisa owner, including its 269-byte
-gba_boss_update_marisa, 94-byte render and 81-byte compiler switch table.
-See reconstruction/MAIN_BOSS_REVIEW.md.
+ten new owners receives exact credit yet. The complete 1431-byte Marisa owner
+now has natural TC4J source/producer-shape evidence: all nine function
+starts/sizes and the 81-byte compiler switch-table structure match, with zero
+private DATA/BSS. The target table alignment requires TC4J -a2; -a1 is a
+retained 1430-byte negative control. Full-link MAP/relocation/raw-byte
+acceptance remains open. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -167,10 +169,11 @@ whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-265 units / 2419 evidence rows / three hypotheses / 308 knowledge rows / 268
+265 units / 2420 evidence rows / three hypotheses / 309 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset remains 175 functions;
 the new 93-function MAIN_03_TEXT boss frontier is boundary-reviewed rather
-than exact. The next MAIN source target is the complete Marisa boss owner.
+than exact. Marisa has reached natural-source/object-shape acceptance; its
+full-link carve is the next MAIN gate.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 619 tests but reports
