@@ -284,3 +284,31 @@ historical 28F8/28FA/290A state slots and the existing Kotohime gauge-spawn
 helper, prove the exact MAIN_10_TEXT MAP contribution, all 690 linked bytes and
 the eight-entry ordered relocation sequence, and retain all previously accepted
 owners.
+
+
+## Kotohime exact full-link promotion
+
+The accepted manifest keeps the historical MAIN_10_TEXT segment anchor in the
+frozen carrier and adds one cs_koto.cpp TC4J producer. The C++ object emits no
+private DATA/BSS. Carrier aliases preserve the historical gauge frame, charge
+object and scratch-pointer storage at DGROUP:28F8/28FA/290A, while the existing
+Kotohime gauge-spawn helper is exported under a semantic name.
+
+The default accepted replay with no candidate overlay passes all 690 owner bytes,
+the exact MAIN_10_TEXT MAP contribution and ordered relocations:
+
+65,176,210,307,493,574,585,625
+
+Accepted technical receipt:
+
+    .analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-default-f02x-20261007/receipt.json
+
+Post-ledger final-worktree regression:
+
+    .analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-final-f03-20261007/receipt.json
+
+The aggregate is now 164 exact functions / 22382 function bytes / 22588 owned
+bytes, with 20 deterministic products, 364 deterministic game objects and the
+maintained DOS behavior probe. Kotohime therefore has formal scoped exact CODE
+acceptance. Physical historical ownership of the surrounding anonymous carrier
+BSS remains separate from this CODE claim.

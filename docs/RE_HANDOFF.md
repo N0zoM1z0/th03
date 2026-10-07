@@ -9,18 +9,18 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 43 source owners, 50 CODE extents, 155 functions, 21898 owned bytes | Scoped repository-local exact |
+| MAIN | 44 source owners, 51 CODE extents, 164 functions, 22588 owned bytes | Scoped repository-local exact |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 21898 bytes comprise 21692 function bytes and 206 explicitly classified
+MAIN's 22588 bytes comprise 22382 function bytes and 206 explicitly classified
 producer/table/alignment bytes. The latest accepted full-owner aggregate is
-.analysis/th03-main-exact/gpt-web-kana-charge-promoted-default-d01-20261007/receipt.json.
+.analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-default-f02x-20261007/receipt.json.
 A post-ledger final-worktree regression also passes at
-.analysis/th03-main-exact/gpt-web-kana-charge-promoted-final-d02-20261007/receipt.json.
+.analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-final-f03-20261007/receipt.json.
 The promotion replay passes two fresh compilations/links and the maintained DOS
-behavior probes with 20 product outputs, 363 game objects and 429 validated
+behavior probes with 20 product outputs, 364 game objects and 430 validated
 generated OMF objects.
 The complete enemy owner remains exact: three extents / 19 functions / 3325 bytes.
 A consecutive two-producer reconstruction split reproduces the previously failing
@@ -65,12 +65,13 @@ TC4J producer reproduces all 1291 linked bytes, the exact MAP contribution and
 the ordered relocation sequence 228,467,500,646,1073,1090,1115,1132,1226.
 Neither C++ object emits private DATA/BSS. The frozen carrier exports semantic
 aliases at the unchanged historical state slots. The default aggregate therefore
-reaches 155 exact functions / 21898 owned bytes. Kotohime MAIN_10_TEXT is the
-next active complete owner and now has a natural TC4J source candidate whose
-complete 690-byte / 250-instruction / 9-function object shape matches the
-target with no private DATA/BSS. Full-link MAP/state/ordered-relocation
-acceptance remains open. Rikako remains boundary-reviewed. See
-reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
+reaches 164 exact functions / 22588 owned bytes. Kotohime MAIN_10_TEXT is now
+exact as well: one natural TC4J producer reproduces all 690 linked bytes, its
+exact MAP contribution, and ordered relocations
+65,176,210,307,493,574,585,625. The producer emits no private DATA/BSS; frozen
+carrier aliases preserve the historical 28F8/28FA/290A state and existing
+gauge-spawn helper. Rikako MAIN_11_TEXT is the remaining active complete
+charge-shot/gauge owner. See reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -145,9 +146,9 @@ reviewed-authored frontier as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-255 units / 2395 evidence rows / three hypotheses / 303 knowledge rows / 175
-MAIN authored-function rows. The scoped exact subset is now 155 functions;
-Kotohime/Rikako remain on the active charge-shot/gauge reconstruction frontier.
+255 units / 2402 evidence rows / three hypotheses / 305 knowledge rows / 175
+MAIN authored-function rows. The scoped exact subset is now 164 functions;
+Rikako remains on the active charge-shot/gauge reconstruction frontier.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 615 tests but reports

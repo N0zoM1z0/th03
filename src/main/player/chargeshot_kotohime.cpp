@@ -69,11 +69,17 @@ void far pascal chargeshot_update_kotohime(void)
 
 void near kotohime_chargeshot_private(void)
 {
-	sprite16_offset_t sprite_offset = (pid.so_attack + 0x1188);
-	screen_x_t left = (
+	// TC4 allocates these locals in declaration order from BP-2 downward.
+	// The target layout is left=-2, top=-4, sprite_offset=-6.
+	screen_x_t left;
+	screen_y_t top;
+	sprite16_offset_t sprite_offset;
+
+	sprite_offset = (pid.so_attack + 0x1188);
+	left = (
 		playfield_fg_x_to_screen(kotohime_chargeshot_p->center.x.v, pid_current) - 48
 	);
-	screen_y_t top = (kotohime_chargeshot_p->center.y.to_pixel() + 8);
+	top = (kotohime_chargeshot_p->center.y.to_pixel() + 8);
 	sprite16_put(left, top, sprite_offset);
 }
 
