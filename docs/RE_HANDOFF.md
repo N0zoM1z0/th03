@@ -9,7 +9,7 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 62 units / 268 functions / 42268 bytes | Reviewed authored frontier fully exact within its current scope |
+| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 62 units / 268 functions / 42268 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
@@ -126,6 +126,17 @@ bytes at their observed historical locations. Therefore the complete
 18400-byte MAIN_03_TEXT boss-attack segment is exact within the repository
 Oracle scope. See reconstruction/MAIN_BOSS_REVIEW.md.
 
+The reviewed frontier now expands into the complete remaining character Extra
+Attack family around the already exact 41-byte generic P_EXATT_TEXT owner.
+Target-first review partitions 8781 additional bytes into ten complete owners:
+five P_EXATT_TEXT character owners and a MAIN_06_TEXT shared/Reimu/Mima/Yumemi/
+Rikako family. They contain 52 complete functions and all 140 in-owner MZ
+relocations; no relocation crosses an owner edge. The largest function is
+Yumemi's 1150-byte helper, alongside 470-byte Ellen and 398-byte Mima updates.
+These ten owners are boundary-reviewed only: natural source, compiler producer
+identity and exact acceptance remain open. See
+reconstruction/MAIN_EXATT_REVIEW.md.
+
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
 is unknown. Frozen ReC98 revision:
@@ -193,19 +204,20 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. The currently reviewed MAIN authored
-frontier and the complete MAIN_03_TEXT boss segment are now exact; continue by
-expanding reviewed ownership into additional root code/data and maintained
-build-graph dependencies. Do not treat 100% of the current reviewed frontier as
-whole-product completion.
+database before new target observations. The complete MAIN_03_TEXT boss segment
+remains exact. The active reconstruction frontier is now the ten boundary-reviewed
+Extra Attack owners in P_EXATT_TEXT and MAIN_06_TEXT; reconstruct complete owners
+rather than isolated leaves, while continuing to expand root code/data and the
+maintained build graph. Do not treat reviewed coverage as whole-product
+completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-265 units / 2499 evidence rows / three hypotheses / 328 knowledge rows / 268
-MAIN authored-function rows. The scoped exact subset is now all 268 reviewed
-authored functions / 42268 owned bytes. No currently reviewed authored function
-remains non-exact; the next task is to expand the reviewed frontier into
-additional root CODE/DATA and maintained build-graph ownership.
+275 units / 2509 evidence rows / three hypotheses / 329 knowledge rows / 320
+MAIN authored-function rows. The scoped exact subset remains 268 functions /
+42268 owned bytes, while the broader reviewed authored frontier is now 320
+functions / 51049 bytes. The ten new Extra Attack owners account for the
+52-function / 8781-byte boundary-reviewed delta.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports
