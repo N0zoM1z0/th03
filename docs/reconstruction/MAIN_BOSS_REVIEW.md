@@ -485,3 +485,28 @@ them.
 
 The next complete MAIN_03_TEXT character owner is Kotohime: 1840 bytes / 11
 functions, including a 332-byte update and an 80-byte switch table.
+
+
+## Kotohime natural TC4 producer
+
+src/main/boss/kotohime.cpp reconstructs the complete 1840-byte Kotohime
+logical owner as natural Turbo C++. The producer covers all eleven reviewed
+functions, including the 302-byte radial-burst pattern, 332-byte update,
+188-byte ring renderer and the compiler-generated 80-byte switch table. It
+emits zero private DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_kotohime_cpp.py --run-id gpt-web-kotohime-boss-v05x-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-kotohime-cpp/gpt-web-kotohime-boss-v05x-20261007/receipt.json
+
+All eleven starts/sizes and the switch key/destination structure match.
+Compiler-guided corrections included preserving signed radius comparisons,
+forcing the target AL load/add/store form for negative angle increments,
+restoring the ring renderer's 8-byte local-frame declaration order, and
+passing the pid expression directly to the clip macro so the far renderer
+keeps its no-local stack frame. Full-link MAP, raw bytes and ordered
+relocations remain the next gate.
