@@ -358,3 +358,24 @@ argument push to reimu_extra_add, target-order case grouping for the 18-entry
 switch table, original renderer local-frame ordering, +0xFFF4 sprite-offset
 arithmetic, and the loop increment ordering that emits inc i before angle
 advance. Full-link MAP, raw bytes and ordered relocations remain the next gate.
+
+
+## Reimu full-link candidate
+
+The complete Reimu source passed the full-link candidate gate on the first
+carrier carve:
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_boss_reimu_candidate.toml --run-id gpt-web-reimu-boss-full-link-c01z-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-reimu-boss-full-link-c01z-20261007/receipt.json
+
+Both cold rounds match the complete 2020-byte owner byte-for-byte. MAIN_03_TEXT
+maps Reimu exactly to ba_reimu at 1A0E..21F1, and all 30 target relocation
+records match in their original order. The 72-byte switch table remains
+TC4-generated. The aggregate remains deterministic with 20 products and 372
+game objects and passes the maintained DOS behavior probe.
+
+This is still candidate evidence. Default-aggregate promotion is a separate
+gate and is required before exact credit.
