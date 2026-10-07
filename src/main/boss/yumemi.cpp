@@ -95,7 +95,7 @@ void far pascal boss_yumemi_template_init(int player_id)
 	p->center_y = 0x500;
 	p->velocity_x = -0x20;
 	p->velocity_y = 0;
-	p->pattern_count = 0;
+	p->angle = 0;
 	p->hit = 0;
 	p->mode = 0;
 	p->hp = 0x82;
@@ -514,13 +514,13 @@ void near yumemi_render_main(void)
 
 void near yumemi_render_arrival(void)
 {
-	unsigned char phase;
-	pid_t pid_other = (1 - pid_current);
 	screen_y_t top;
+	pid_t pid_other = (1 - pid_current);
+	unsigned char phase;
 	register screen_x_t left;
 	register screen_x_t right;
 
-	_DX = 0;
+	asm { xor dx, dx }
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 
