@@ -16,6 +16,7 @@
 | Replay all maintained MAIN exact owners | `python3 scripts/replay_th03_main_exact_units.py --run-id UNIQUE` |
 | Review raw enemy boundaries and dispatch table | `python3 scripts/review_th03_main_enemy.py --output .analysis/REVIEW/raw-review.json` |
 | Review complete MAIN character charge/gauge boundaries | `python3 scripts/review_th03_main_charge_gauge.py --output .analysis/REVIEW/charge-gauge.json` |
+| Review complete MAIN boss-attack boundaries and TC4 switch tables | `python3 scripts/review_th03_main_boss.py --output .analysis/REVIEW/boss.json` |
 | Probe Chiyuri charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_chiyuri_cpp.py --run-id UNIQUE` |
 | Probe Ellen charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_ellen_cpp.py --run-id UNIQUE` |
 | Probe Kana charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_kana_cpp.py --run-id UNIQUE` |

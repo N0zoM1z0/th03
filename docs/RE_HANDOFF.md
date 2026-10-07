@@ -9,7 +9,7 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 45 source owners, 52 CODE extents, 175 functions, 23868 owned bytes | Scoped repository-local exact |
+| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 52 units / 175 functions / 23868 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
@@ -24,7 +24,10 @@ behavior probes with 20 product outputs, 365 game objects and 431 validated
 generated OMF objects. After local artifact cleanup and source-comment/document
 normalization, the current source tree was replayed again successfully at
 .analysis/th03-main-exact/gpt-web-housekeeping-final-h02-20261007/receipt.json;
-the exact counts and binary outputs are unchanged.
+the exact counts and binary outputs are unchanged. After expanding the reviewed
+frontier into MAIN_03_TEXT, the unchanged 175-function exact subset was replayed
+again successfully at
+.analysis/th03-main-exact/gpt-web-main-boss-boundary-r01-20261007/receipt.json.
 The complete enemy owner remains exact: three extents / 19 functions / 3325 bytes.
 A consecutive two-producer reconstruction split reproduces the previously failing
 ordered ENEMY_2_TEXT relocation list without changing CODE bytes or weakening the
@@ -78,6 +81,17 @@ aliases bind gauge-frame/charge state at unchanged DGROUP offsets
 charge-shot/gauge owners are therefore all exact, and the default aggregate
 reaches 175 exact functions / 23868 owned bytes. See
 reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
+
+The reviewed frontier now expands into the complete MAIN_03_TEXT boss-attack
+segment. Target-first review partitions all 18400 bytes into one shared helper
+owner plus nine character-local owners, with 93 complete functions / 17683
+function bytes and nine explicitly classified Turbo C++ switch tables / 717
+producer-owned bytes. All 326 in-owner MZ relocations are recorded and no
+relocation crosses an owner edge. This is boundary evidence only: none of these
+ten new owners receives source or exact credit yet. The next implementation
+target is the complete 1431-byte Marisa owner, including its 269-byte
+gba_boss_update_marisa, 94-byte render and 81-byte compiler switch table.
+See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -146,22 +160,23 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN by reviewing additional
-root code/data ownership and the maintained build graph; do not treat the 100%
-reviewed-authored frontier as whole-product completion.
+database before new target observations. Continue MAIN by reconstructing the
+newly reviewed boss owners and expanding root code/data ownership and the
+maintained build graph; do not treat the reviewed authored frontier as
+whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-255 units / 2409 evidence rows / three hypotheses / 307 knowledge rows / 175
-MAIN authored-function rows. The scoped exact subset is now all 175 reviewed
-authored functions. The next MAIN step is to expand reviewed ownership into
-additional root code/data and maintained build-graph dependencies.
+265 units / 2419 evidence rows / three hypotheses / 308 knowledge rows / 268
+MAIN authored-function rows. The scoped exact subset remains 175 functions;
+the new 93-function MAIN_03_TEXT boss frontier is boundary-reviewed rather
+than exact. The next MAIN source target is the complete Marisa boss owner.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
-installation. The latest /usr/bin/python3 CI attempt runs 615 tests but reports
+installation. The latest /usr/bin/python3 CI attempt runs 619 tests but reports
 125 errors, all 125 ending in ModuleNotFoundError for the missing unicorn module,
 with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-rikako-charge-promoted-final-b02-20261007/ci-current-host.log.
+.analysis/th03-main-boss/boundary-ci-r01-20261007/ci-current-host.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
 The CI steps after unittest were rerun individually and pass: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
