@@ -697,3 +697,32 @@ records in their original order. The 80-byte switch table remains TC4-generated.
 The aggregate is deterministic at 20 products and 376 game objects and passes
 the maintained DOS behavior probe. This is candidate proof; default-aggregate
 promotion remains a separate gate.
+
+
+## Kana full-link exact promotion
+
+Kana is now part of the default maintained aggregate. The promotion replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-kana-boss-promote-default-p01x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-kana-boss-promote-default-p01x-20261007/receipt.json
+
+Both cold rounds pass 260 functions / 39749 function bytes / 40591 owned bytes.
+The complete 1874-byte Kana owner is raw-byte identical in both rounds and all
+35 MZ relocation records match in their original order. The 80-byte TC4 switch
+table is producer-owned, while the nine function bodies account for 1794 bytes.
+The aggregate produces 20 deterministic products and 376 deterministic game
+objects and passes the maintained DOS behavior probe. The current promotion
+state was replayed again successfully with no candidate manifest at:
+
+    .analysis/th03-main-exact/gpt-web-kana-boss-promote-final-p02z-20261007/receipt.json
+
+ba_kana emits no private DATA/BSS. Carrier aliases keep the seven level-derived
+parameters at 1F39F..1F3A5, the private rotating angle/delta at 23DE6..23DE7,
+and expose the existing kana_19896 entity helper under the semantic producer
+name without moving storage.
+
+The final remaining MAIN_03_TEXT character owner is Rikako: 1677 bytes / 8
+functions, including a 285-byte update and an 81-byte switch table.
