@@ -83,6 +83,41 @@ def physical_objects(unit: dict) -> list[dict]:
     return result
 
 
+def ordering_objects(unit: dict) -> list[dict]:
+    """Return zero-owned-byte OMF scaffolds used only to preserve link order."""
+    declared = unit.get("ordering_objects", [])
+    if not isinstance(declared, list):
+        raise ValueError(f"invalid ordering object list: {unit['id']}")
+    result = []
+    names = {item["object"] for item in physical_objects(unit)}
+    paths = {item["object_path"] for item in physical_objects(unit)}
+    overlays = set()
+    for raw in declared:
+        if not isinstance(raw, dict):
+            raise ValueError(f"invalid ordering object declaration: {unit['id']}")
+        allowed = {"object", "source", "overlay_path", "object_path", "translator_comment"}
+        if set(raw) - allowed or not {"object", "source", "overlay_path"} <= set(raw):
+            raise ValueError(f"invalid ordering object declaration: {unit['id']}")
+        item = dict(raw)
+        name = item["object"]
+        item.setdefault("object_path", f"obj/th03/{name}.obj")
+        item.setdefault("translator_comment", "Turbo Assembler  Version 5.0")
+        if (
+            not isinstance(name, str) or not name
+            or name in names
+            or not isinstance(item["source"], str) or not item["source"]
+            or not isinstance(item["overlay_path"], str) or not item["overlay_path"]
+            or item["object_path"] in paths
+            or item["overlay_path"] in overlays
+        ):
+            raise ValueError(f"invalid ordering object declaration: {unit['id']}")
+        names.add(name)
+        paths.add(item["object_path"])
+        overlays.add(item["overlay_path"])
+        result.append(item)
+    return result
+
+
 def physical_object_for(unit: dict, name: str) -> dict:
     matches = [item for item in physical_objects(unit) if item["object"] == name]
     if len(matches) != 1:
@@ -98,18 +133,20 @@ def unit_source_paths(unit: dict) -> list[str]:
         for producer in physical_objects(unit)
         if producer.get("source")
     )
+    names.extend(item["source"] for item in ordering_objects(unit))
     return list(dict.fromkeys(names))
 
 
 def physical_object_count_delta(unit: dict) -> int:
-    """Count generated objects added by a physical producer model."""
+    """Count generated producer/scaffold objects added by one owner model."""
+    ordering_count = len(ordering_objects(unit))
     if "physical_objects" not in unit:
-        return 0
+        return ordering_count
     count = len(physical_objects(unit))
     additive = unit.get("physical_objects_additive", False)
     if not isinstance(additive, bool):
         raise ValueError(f"invalid physical object count mode: {unit['id']}")
-    return count if additive else count - 1
+    return (count if additive else count - 1) + ordering_count
 
 def compare_extent(target: bytes, candidate: bytes, start: int, size: int) -> dict:
     """Compare an entire payload extent and its relocation multiplicities."""
@@ -663,6 +700,11 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                         producer["wrapper_prefix"] + f'#include "{producer["source"]}"\n'
                     )
         for module in config["units"]:
+            for ordering in ordering_objects(module):
+                overlay = work / ordering["overlay_path"]
+                overlay.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(snapshot / ordering["source"], overlay)
+        for module in config["units"]:
             if "build_file" not in module:
                 continue
             build_path = work / module["build_file"]
@@ -679,7 +721,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         compile_result = execute(build_command, work, env, logs / "cold-build.log")
         objects = {}
         for module in config["units"]:
-            for producer in physical_objects(module):
+            for producer in [*physical_objects(module), *ordering_objects(module)]:
                 if producer["object"] in objects:
                     continue
                 objects[producer["object"]] = describe_omf(
@@ -701,10 +743,10 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             or len(game_objects) != config["determinism_object_count"] + object_count_delta):
             raise ValueError("cold build output/object vector incomplete")
         for module in config["units"]:
-            for producer in physical_objects(module):
+            for producer in [*physical_objects(module), *ordering_objects(module)]:
                 obj = objects[producer["object"]]
                 if producer["translator_comment"] not in obj["translator_comments"]:
-                    raise ValueError(f"owned object producer differs: {module['id']}")
+                    raise ValueError(f"owned/scaffold object producer differs: {module['id']}")
         candidate = (work / "bin/th03/main.exe").read_bytes()
         # Confirm link-map publics cover exactly the reviewed starts and ends.
         map_text = (work / "obj/th03/main.map").read_text(errors="replace")

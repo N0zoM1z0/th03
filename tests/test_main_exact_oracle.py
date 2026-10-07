@@ -7,7 +7,7 @@ from tempfile import TemporaryDirectory
 from test_pc98 import synthetic_mz, synthetic_mz_with_relocations
 from replay_th03_main_exact_units import (
     add_candidate_owners, apply_carrier_edits, compare_extent, normalized_code_extents,
-    physical_object_count_delta, physical_objects, sha, unit_source_paths,
+    ordering_objects, physical_object_count_delta, physical_objects, sha, unit_source_paths,
     verify_include_carrier,
     verify_disjoint_ownership, verify_owner_linear_span, verify_private_calls,
 )
@@ -185,6 +185,50 @@ class MainExactManifestTests(unittest.TestCase):
         self.assertEqual(result["target_sha256"], "pinned")
         self.assertEqual(result["units"][0], config["units"][0])
         self.assertEqual(len(config["units"]), 1)
+
+    def test_ordering_objects_are_zero_credit_scaffolds(self):
+        unit = {
+            "id": "owner",
+            "object": "owned",
+            "source": "src/owned.cpp",
+            "header": "src/owned.hpp",
+            "physical_objects": [
+                {"object": "owned", "source": "src/owned.cpp", "wrapper": "th03/owned.cpp"},
+            ],
+            "physical_objects_additive": True,
+            "ordering_objects": [
+                {
+                    "object": "shim",
+                    "source": "src/order.asm",
+                    "overlay_path": "th03/order.asm",
+                    "translator_comment": "Turbo Assembler  Version 5.0",
+                },
+            ],
+        }
+        self.assertEqual(ordering_objects(unit)[0]["object_path"], "obj/th03/shim.obj")
+        self.assertIn("src/order.asm", unit_source_paths(unit))
+        self.assertEqual(physical_object_count_delta(unit), 2)
+
+        for mutation in (
+            {"ordering_objects": "bad"},
+            {"ordering_objects": [{"object": "shim", "source": "src/order.asm"}]},
+            {"ordering_objects": [{"object": "owned", "source": "src/order.asm",
+                                    "overlay_path": "th03/order.asm"}]},
+            {"ordering_objects": [{"object": "shim", "source": "src/order.asm",
+                                    "overlay_path": "th03/order.asm", "extra": 1}]},
+        ):
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                ordering_objects({**unit, **mutation})
+
+    def test_ordering_object_count_is_additive_without_owned_bytes(self):
+        legacy = {
+            "id": "legacy", "object": "legacy", "source": "src/legacy.cpp",
+            "header": "src/legacy.hpp",
+            "ordering_objects": [{
+                "object": "shim", "source": "src/order.asm", "overlay_path": "th03/order.asm"
+            }],
+        }
+        self.assertEqual(physical_object_count_delta(legacy), 1)
 
     def test_legacy_owner_normalizes_to_one_code_extent(self):
         unit = {
