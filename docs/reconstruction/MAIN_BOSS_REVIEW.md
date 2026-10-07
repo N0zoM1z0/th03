@@ -777,3 +777,39 @@ The candidate aggregate reaches all 268 reviewed authored functions / 41345
 function bytes / 42268 owned bytes, with 20 deterministic products and 377
 deterministic game objects, and passes the maintained DOS behavior probe.
 Default-aggregate promotion remains a separate gate.
+
+
+## Rikako full-link exact promotion
+
+Rikako is now part of the default maintained aggregate. The promotion replay
+is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-rikako-boss-promote-default-p01zz-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-rikako-boss-promote-default-p01zz-20261007/receipt.json
+
+Both cold rounds pass all 268 reviewed authored functions / 41345 function
+bytes / 42268 owned bytes. The complete 1677-byte Rikako owner is raw-byte
+identical in both rounds and all 30 MZ relocation records match in their
+original order. The 81-byte padded TC4 switch table is producer-owned, while
+the eight function bodies account for 1596 bytes. The aggregate produces 20
+deterministic products and 377 deterministic game objects and passes the
+maintained DOS behavior probe.
+
+The completed promotion state was replayed again successfully with no candidate
+manifest at:
+
+    .analysis/th03-main-exact/gpt-web-rikako-boss-promote-final-p02zz-20261007/receipt.json
+
+ba_rikak emits no private DATA/BSS. Carrier aliases keep the five level-derived
+parameters at 1F39F..1F3A3, the signed spin-delta field at 1F358 and the private
+random-angle/type bytes at 23DE8..23DE9. The existing rikako_1B006 entity helper
+is exposed under a semantic alias without moving storage.
+
+With this promotion, all ten logical MAIN_03_TEXT boss owners are exact. The
+entire reviewed 18400-byte boss-attack segment, including all 93 functions and
+all nine compiler switch tables, now passes raw-byte, MAP and ordered-relocation
+acceptance. This completes the current reviewed boss frontier, not the whole
+MAIN product; further work must expand root CODE/DATA and build-graph ownership.

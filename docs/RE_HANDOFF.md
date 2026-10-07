@@ -9,12 +9,12 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 61 units / 260 functions / 40591 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 62 units / 268 functions / 42268 bytes | Reviewed authored frontier fully exact within its current scope |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 40591 exact bytes comprise 39749 function bytes and 842 explicitly
+MAIN's 42268 exact bytes comprise 41345 function bytes and 923 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
 .analysis/th03-main-exact/gpt-web-kana-boss-promote-final-p02z-20261007/receipt.json.
@@ -92,7 +92,7 @@ function bytes and nine explicitly classified Turbo C++ switch tables / 717
 producer-owned bytes. All 326 in-owner MZ relocations are recorded and no
 relocation crosses an owner edge.
 
-The first nine logical boss owners are now exact. The 949-byte shared prefix /
+All ten logical boss owners are now exact. The 949-byte shared prefix /
 eight functions is maintained as one semantic natural source but uses two
 consecutive TC4J physical producers to preserve historical FIXUPP ordering; a
 zero-byte TASM scaffold preserves TLINK first-seen segment order and owns no
@@ -117,8 +117,14 @@ natural ba_kana producer matches every linked byte, exact MAP placement and all
 35 ordered relocations in two default cold builds, including the 321-byte
 staged-ring pattern, 316-byte update and 219-byte intro renderer. The object
 emits zero private DATA/BSS and carrier aliases preserve the seven shared
-parameters plus the private rotating angle/delta without moving storage. See
-reconstruction/MAIN_BOSS_REVIEW.md.
+parameters plus the private rotating angle/delta without moving storage.
+Rikako completes the segment with 1677 exact bytes / eight functions plus an
+81-byte padded switch table. Its natural ba_rikak producer matches every linked
+byte, exact MAP placement and all 30 ordered relocations; carrier aliases keep
+the five shared parameters, signed spin-delta field and private random/type
+bytes at their observed historical locations. Therefore the complete
+18400-byte MAIN_03_TEXT boss-attack segment is exact within the repository
+Oracle scope. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -187,29 +193,29 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with Rikako default-aggregate promotion, the final reviewed
-MAIN_03_TEXT character owner, while expanding root code/data ownership and the
-maintained build graph; do not treat the reviewed authored frontier as
+database before new target observations. The currently reviewed MAIN authored
+frontier and the complete MAIN_03_TEXT boss segment are now exact; continue by
+expanding reviewed ownership into additional root code/data and maintained
+build-graph dependencies. Do not treat 100% of the current reviewed frontier as
 whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-265 units / 2491 evidence rows / three hypotheses / 326 knowledge rows / 268
-MAIN authored-function rows. The scoped exact subset is now 260 functions /
-40591 owned bytes. Only the Rikako MAIN_03_TEXT character owner remains non-exact; it now has
-natural source/object proof plus a passing two-round full-link candidate with
-zero differing linked bytes and all 30 ordered relocations matching. Default
-aggregate promotion is the next gate.
+265 units / 2499 evidence rows / three hypotheses / 328 knowledge rows / 268
+MAIN authored-function rows. The scoped exact subset is now all 268 reviewed
+authored functions / 42268 owned bytes. No currently reviewed authored function
+remains non-exact; the next task is to expand the reviewed frontier into
+additional root CODE/DATA and maintained build-graph ownership.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports
 125 errors, all 125 ending in ModuleNotFoundError for the missing unicorn module,
 with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-kana-boss-promote-final-p02z-20261007/ci-current-host.log.
+.analysis/th03-main-exact/gpt-web-rikako-boss-promote-final-p02zz-20261007/ci-current-host.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
 The CI steps after unittest were rerun individually and pass: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log is
-.analysis/th03-main-exact/gpt-web-kana-boss-promote-final-p02z-20261007/ci-post-unittest-gates.log.
+.analysis/th03-main-exact/gpt-web-rikako-boss-promote-final-p02zz-20261007/ci-post-unittest-gates.log.
 This is an explicit host dependency block, not a full-CI PASS.
