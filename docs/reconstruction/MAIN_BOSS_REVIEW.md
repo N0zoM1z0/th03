@@ -172,6 +172,32 @@ consecutive TC4J physical producers from the same maintained semantic source:
 348 bytes for boss_explosion_ring, then 601 bytes for the remaining seven
 helpers. Historical physical filenames are unknown.
 
+
+
+## Mima natural TC4 producer
+
+src/main/boss/mima.cpp now reconstructs the complete 1922-byte Mima logical
+owner as natural Turbo C++. The producer covers all nine reviewed functions,
+including the 298-byte update and 305-byte render helper, plus the
+compiler-generated 81-byte switch table after the update. It emits zero
+private DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_mima_cpp.py       --run-id gpt-web-mima-boss-v06-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-mima-cpp/gpt-web-mima-boss-v06-20261007/receipt.json
+
+Material source-level details recovered from TC4 codegen include the common AL
+store for Mima's plus/minus 7 orbit delta, deliberate recomputation of
+1 - pid_current after the shared target helper, the Pascal distance/angle
+split-render argument order, and the mode-2-first render control flow that lets
+TC4 merge the historical draw tails naturally. All nine starts/sizes and the
+switch key/destination structure match. Full-link MAP, raw bytes and ordered
+relocations remain the next gate.
+
 ## Shared + Marisa full-link exact promotion
 
 The default maintained replay now includes both owners without a candidate

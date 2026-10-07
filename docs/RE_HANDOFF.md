@@ -100,8 +100,7 @@ A zero-byte TASM order scaffold preserves TLINK first-seen segment order and
 owns no game bytes. The 1431-byte Marisa owner is one natural TC4J producer with
 nine functions plus its compiler-generated 81-byte switch table. Both owners
 match raw linked bytes, MAP placement and ordered relocations in two default
-cold builds. Mima (1922 bytes / nine functions, including its 298-byte update)
-is the next complete boss owner. See reconstruction/MAIN_BOSS_REVIEW.md.
+cold builds. Mima (1922 bytes / nine functions, including its 298-byte update) now has natural TC4J object-shape proof for all nine functions and its 81-byte switch table, with zero private DATA/BSS. Its full-link carve is the next gate. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
