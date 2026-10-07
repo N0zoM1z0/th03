@@ -1,8 +1,8 @@
 # MAIN character charge-shot / gauge owner review
 
 This review expands the TH03 MAIN authored frontier beyond the earlier exact
-owners. Chiyuri and Ellen are now accepted exact; Kana, Kotohime and Rikako
-remain boundary-reviewed source-reconstruction targets.
+owners. Chiyuri, Ellen, Kana and Kotohime are accepted exact; Rikako is the
+remaining boundary-reviewed source-reconstruction target in this five-owner set.
 
 ## Target owner boundaries
 
@@ -29,7 +29,7 @@ The five owner ranges are disjoint. Each owner is a complete segment
 contribution, so there is no unclassified tail/padding inside these reviewed
 extents.
 
-## Chiyuri first reconstruction target
+## Chiyuri boundary record (historical first target)
 
 Chiyuri's complete MAIN_07_TEXT owner is 1011 bytes / 382 decoded instructions
 / 9 functions. Its exact function partition is:
@@ -50,10 +50,10 @@ The ordered owner relocation sequence is:
 
 956, 892, 879, 794, 775, 434, 331, 299, 199
 
-The current reconstruction hypothesis is a natural Turbo C++ character module,
-not a TASM copy. Existing TH03 declarations already expose the player,
-charge-shot function-pointer, hitbox, hit-circle, bullet-template, sprite16 and
-gauge interfaces needed by this owner.
+At the boundary-review checkpoint, the reconstruction hypothesis was a natural
+Turbo C++ character module rather than a TASM copy. Existing TH03 declarations
+already exposed the player, charge-shot function-pointer, hitbox, hit-circle,
+bullet-template, sprite16 and gauge interfaces needed by this owner.
 
 Target state indexing also gives useful source constraints before compiling:
 
@@ -64,9 +64,8 @@ Target state indexing also gives useful source constraints before compiling:
 - 1F51A: a separate near render scratch pointer
 - 2D58: a per-player gauge timing record with stride 4
 
-These are structural hypotheses for natural source recovery. They must be
-confirmed by TC4 object shape and full-link behavior; no exact credit is
-inferred from address arithmetic alone.
+These structural hypotheses were later confirmed by TC4 object shape and
+full-link behavior. No exact credit was inferred from address arithmetic alone.
 
 ## Acceptance plan
 
@@ -82,9 +81,9 @@ For each character owner:
 6. rerun the full accepted MAIN aggregate twice and retain all existing exact
    owners.
 
-Chiyuri and Ellen have completed all six gates above. Kana/Kotohime/Rikako
-stay reviewed candidates until their natural source and producer evidence pass
-the same gates; Kana is the next implementation target.
+Chiyuri, Ellen, Kana and Kotohime have completed all six gates above. Rikako
+remains reviewed until its natural source and producer evidence pass the same
+gates; it is the next implementation target.
 
 ## Chiyuri natural TC4 producer
 
@@ -279,11 +278,11 @@ Retained receipt:
 
     .analysis/th03-main-chargeshot-kotohime-cpp/gpt-web-kotohime-charge-v5-20261007/receipt.json
 
-This is source/producer-shape evidence only. Full-link acceptance must bind the
-historical 28F8/28FA/290A state slots and the existing Kotohime gauge-spawn
-helper, prove the exact MAIN_10_TEXT MAP contribution, all 690 linked bytes and
-the eight-entry ordered relocation sequence, and retain all previously accepted
-owners.
+At the object-shape checkpoint this was source/producer evidence only; full-link
+acceptance was still open. The following promotion section records the later
+successful binding of historical 28F8/28FA/290A state, exact MAIN_10_TEXT MAP
+placement, all 690 linked bytes, the eight-entry ordered relocation sequence,
+and preservation of every previously accepted owner.
 
 
 ## Kotohime exact full-link promotion

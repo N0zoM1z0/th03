@@ -1,4 +1,4 @@
-// Natural Turbo C++ reconstruction candidate for TH03 MAIN_09_TEXT.
+// Maintained exact natural Turbo C++ reconstruction of TH03 MAIN_09_TEXT.
 #pragma codeseg MAIN_09_TEXT
 
 #include "src/main/player/chargeshot_kana.hpp"

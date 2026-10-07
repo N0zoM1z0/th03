@@ -1,7 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the Ellen contribution to
-// TH03 MAIN_05_TEXT. Full-link experiments prove its CODE placement and TC4J
-// relocation ordering; exact promotion still requires the historical private
-// BSS placement and the remaining four character producers.
+// Maintained exact natural Turbo C++ reconstruction of Ellen's contribution
+// to TH03 MAIN_05_TEXT. Historical private state remains at frozen carrier
+// offsets and is bound through semantic extern names by the accepted manifest.
 #pragma codeseg MAIN_05_TEXT
 
 #include "compat/rec98/th03/main/player/cur.hpp"

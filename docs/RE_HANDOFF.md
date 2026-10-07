@@ -21,7 +21,10 @@ A post-ledger final-worktree regression also passes at
 .analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-final-f03-20261007/receipt.json.
 The promotion replay passes two fresh compilations/links and the maintained DOS
 behavior probes with 20 product outputs, 364 game objects and 430 validated
-generated OMF objects.
+generated OMF objects. After local artifact cleanup and source-comment/document
+normalization, the current source tree was replayed again successfully at
+.analysis/th03-main-exact/gpt-web-housekeeping-final-h02-20261007/receipt.json;
+the exact counts and binary outputs are unchanged.
 The complete enemy owner remains exact: three extents / 19 functions / 3325 bytes.
 A consecutive two-producer reconstruction split reproduces the previously failing
 ordered ENEMY_2_TEXT relocation list without changing CODE bytes or weakening the

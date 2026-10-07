@@ -1,6 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the Rikako contribution to
-// TH03 MAIN_05_TEXT. Producer-local storage placement remains outside accepted
-// exactness until the complete character-bomb ownership graph is reconstructed.
+// Maintained exact natural Turbo C++ reconstruction of Rikako's contribution
+// to TH03 MAIN_05_TEXT. Historical private state remains at the frozen carrier
+// offset and is bound through a semantic extern name by the accepted manifest.
 #pragma codeseg MAIN_05_TEXT
 
 #include "compat/rec98/th03/main/player/cur.hpp"

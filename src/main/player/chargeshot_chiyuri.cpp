@@ -1,4 +1,4 @@
-// Natural Turbo C++ reconstruction candidate for TH03 MAIN_07_TEXT.
+// Maintained exact natural Turbo C++ reconstruction of TH03 MAIN_07_TEXT.
 #pragma codeseg MAIN_07_TEXT
 
 #include "src/main/player/chargeshot_chiyuri.hpp"
