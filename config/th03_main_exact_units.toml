@@ -2435,3 +2435,154 @@ offset = 0x2a2
 size = 24
 boundary = "owner-linear-span"
 abi = "far cdecl C linkage; no arguments; RETF"
+
+[[units]]
+id = "th03-main-charge-gauge-rikako"
+source = "src/main/player/chargeshot_rikako.cpp"
+header = "src/main/player/chargeshot_rikako.hpp"
+object = "rikako_chargeshot"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/cs_rika.cpp"
+physical_objects_additive = true
+physical_objects = [
+  { object = "cs_rika", wrapper = "th03/cs_rika.cpp" },
+]
+support_files = [
+  "compat/rec98/th03/main/player/ch_shot.hpp",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/hitcirc.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/math/polar.hpp",
+  "compat/rec98/libs/master.lib/master.hpp",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/cs_koto.cpp\",\n\t\"th03/playfld.asm\",\n"
+build_replacement = "\t\"th03/cs_koto.cpp\",\n\t\"th03/cs_rika.cpp\",\n\t\"th03/playfld.asm\",\n"
+carrier_edits = [
+  { kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern CHARGESHOT_ADD_RIKAKO:proc\r\n\textern RIKAKO_CHARGE_ADD_PRIVATE:proc\r\n\textern _rikako_chargeshot_cancel:proc\r\n\textern CHARGESHOT_UPDATE_RIKAKO:proc\r\n\textern @chargeshot_hittest_rikako$qv:proc\r\n\textern CHARGESHOT_RENDER_RIKAKO:proc\r\n\textern _gba_gauge_pattern_pellet_rikako:proc\r\n\textern _gba_gauge_pattern_bullet_rikako:proc\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p1.chargeshot_add, chargeshot_add_rikako\r\n", after = "\t\tsetfarfp\t_p1.chargeshot_add, CHARGESHOT_ADD_RIKAKO\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p1, chargeshot_update_rikako\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p1, CHARGESHOT_UPDATE_RIKAKO\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p1, chargeshot_render_rikako\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p1, CHARGESHOT_RENDER_RIKAKO\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, gba_gauge_pattern_pellet_rikako\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, _gba_gauge_pattern_pellet_rikako\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, gba_gauge_pattern_bullet_rikako\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, _gba_gauge_pattern_bullet_rikako\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p2.chargeshot_add, chargeshot_add_rikako\r\n", after = "\t\tsetfarfp\t_p2.chargeshot_add, CHARGESHOT_ADD_RIKAKO\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p2, chargeshot_update_rikako\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p2, CHARGESHOT_UPDATE_RIKAKO\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p2, chargeshot_render_rikako\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p2, CHARGESHOT_RENDER_RIKAKO\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, gba_gauge_pattern_pellet_rikako\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, _gba_gauge_pattern_pellet_rikako\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, gba_gauge_pattern_bullet_rikako\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, _gba_gauge_pattern_bullet_rikako\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tcall\trikako_hyper_1C4B4\r\n", after = "\t\tcall\t_rikako_chargeshot_cancel\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tcall\trikako_1C497 pascal, word ptr [bx], word ptr [bx+2]\r\n", after = "\t\tcall\tRIKAKO_CHARGE_ADD_PRIVATE pascal, word ptr [bx], word ptr [bx+2]\r\n" },
+  { kind = "remove-between", path = "th03_main.asm", start_marker = "sub_1C40A\tproc far\r\n", end_marker = "gba_gauge_pattern_bullet_rikako endp\r\n", replacement = "; Rikako charge/gauge owner moved to natural TC4 producer\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "word_20E52\tdw ?\r\n\t\tdb 50 dup(?)\r\nword_20E86\tdw ?\r\nbyte_20E88\tdb ?\r\nbyte_20E89\tdb ?\r\n\t\tdb 18 dup(?)\r\n", after = "word_20E52\tdw ?\r\npublic _rikako_gauge_frame, _rikako_chargeshots\r\npublic _rikako_chargeshot_p, _rikako_active, _rikako_frame\r\npublic _rikako_radius, _rikako_center_x, _rikako_center_y\r\n_rikako_gauge_frame label byte\r\n\t\tdb PLAYER_COUNT dup(?)\r\n_rikako_chargeshots label byte\r\n\t\tdb 48 dup(?)\r\n_rikako_chargeshot_p label word\r\nword_20E86\tdw ?\r\n_rikako_active label byte\r\nbyte_20E88\tdb ?\r\nbyte_20E89\tdb ?\r\n_rikako_frame label byte\r\n\t\tdb PLAYER_COUNT dup(?)\r\n_rikako_radius label word\r\n\t\tdw PLAYER_COUNT dup(?)\r\n_rikako_center_x label word\r\n\t\tdw PLAYER_COUNT dup(?)\r\n_rikako_center_y label word\r\n\t\tdw PLAYER_COUNT dup(?)\r\n\t\tdb 4 dup(?)\r\n" },
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-charge-gauge-rikako", segment = 0x1c40, start = 0x000a, size = 0x0500, map_segment = "MAIN_11_TEXT", map_group = "(none)", map_acbp = 28, map_parts = [
+    { object = "cs_rika", start = 0x000a, size = 0x0500 },
+  ] },
+]
+
+[[functions]]
+name = "rikako_charge_setup"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x000a
+size = 15
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_add_rikako"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x0019
+size = 126
+boundary = "owner-linear-span"
+abi = "far Pascal; two Subpixel words; RETF 4"
+
+[[functions]]
+name = "rikako_charge_add_private"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x0097
+size = 29
+boundary = "owner-linear-span"
+abi = "far Pascal; two Subpixel words; RETF 4"
+
+[[functions]]
+name = "rikako_hyper"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x00b4
+size = 17
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_update_rikako"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x00c5
+size = 357
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "rikako_chargeshot_private"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x022a
+size = 65
+boundary = "owner-linear-span"
+abi = "near cdecl; no arguments; RET"
+
+[[functions]]
+name = "chargeshot_hittest_rikako"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x026b
+size = 125
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; AL hit count; RETF"
+
+[[functions]]
+name = "chargeshot_render_rikako"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x02e8
+size = 97
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "gauge_pattern_rikako"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x0349
+size = 401
+boundary = "owner-linear-span"
+abi = "near Pascal; bullet type byte in word slot; internal and final RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_rikako"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x04da
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl C linkage; no arguments; RETF"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_rikako"
+object = "rikako_chargeshot"
+segment = 0x1c40
+offset = 0x04f2
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl C linkage; no arguments; RETF"

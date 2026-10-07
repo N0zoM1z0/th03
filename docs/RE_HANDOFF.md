@@ -9,18 +9,18 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 44 source owners, 51 CODE extents, 164 functions, 22588 owned bytes | Scoped repository-local exact |
+| MAIN | 45 source owners, 52 CODE extents, 175 functions, 23868 owned bytes | Scoped repository-local exact |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 22588 bytes comprise 22382 function bytes and 206 explicitly classified
+MAIN's 23868 bytes comprise 23662 function bytes and 206 explicitly classified
 producer/table/alignment bytes. The latest accepted full-owner aggregate is
-.analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-default-f02x-20261007/receipt.json.
+.analysis/th03-main-exact/gpt-web-rikako-charge-promoted-default-b01-20261007/receipt.json.
 A post-ledger final-worktree regression also passes at
-.analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-final-f03-20261007/receipt.json.
+.analysis/th03-main-exact/gpt-web-rikako-charge-promoted-final-b02-20261007/receipt.json.
 The promotion replay passes two fresh compilations/links and the maintained DOS
-behavior probes with 20 product outputs, 364 game objects and 430 validated
+behavior probes with 20 product outputs, 365 game objects and 431 validated
 generated OMF objects. After local artifact cleanup and source-comment/document
 normalization, the current source tree was replayed again successfully at
 .analysis/th03-main-exact/gpt-web-housekeeping-final-h02-20261007/receipt.json;
@@ -63,18 +63,21 @@ BSS; the frozen carrier exposes semantic names at the unchanged historical
 
 Ellen MAIN_08_TEXT is exact as well: one natural TC4J producer reproduces all
 1530 linked bytes, the exact MAIN_08_TEXT MAP contribution, and all 22 ordered
-relocations. Kana MAIN_09_TEXT has now completed the same gate: one natural
-TC4J producer reproduces all 1291 linked bytes, the exact MAP contribution and
-the ordered relocation sequence 228,467,500,646,1073,1090,1115,1132,1226.
-Neither C++ object emits private DATA/BSS. The frozen carrier exports semantic
-aliases at the unchanged historical state slots. The default aggregate therefore
-reaches 164 exact functions / 22588 owned bytes. Kotohime MAIN_10_TEXT is now
-exact as well: one natural TC4J producer reproduces all 690 linked bytes, its
-exact MAP contribution, and ordered relocations
-65,176,210,307,493,574,585,625. The producer emits no private DATA/BSS; frozen
-carrier aliases preserve the historical 28F8/28FA/290A state and existing
-gauge-spawn helper. Rikako MAIN_11_TEXT is the remaining active complete
-charge-shot/gauge owner. See reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
+relocations. Kana MAIN_09_TEXT and Kotohime MAIN_10_TEXT complete the same gate:
+their natural producers reproduce all 1291 and 690 linked bytes respectively,
+their exact MAP contributions, and all ordered relocations. None of these C++
+objects emits private DATA/BSS; frozen-carrier aliases preserve the historical
+state slots.
+
+Rikako MAIN_11_TEXT is now exact too. One natural TC4J cs_rika producer
+reproduces all 1280 linked bytes / 11 functions, the exact 1C40:000A..0509
+MAP contribution and all 12 ordered relocations. Its 476-instruction object
+shape matches the immutable target and emits zero private DATA/BSS. Carrier
+aliases bind gauge-frame/charge state at unchanged DGROUP offsets
+38F4/38F6/3926/3928/392A/392C/3930/3934. The five reviewed
+charge-shot/gauge owners are therefore all exact, and the default aggregate
+reaches 175 exact functions / 23868 owned bytes. See
+reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -149,15 +152,16 @@ reviewed-authored frontier as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-255 units / 2402 evidence rows / three hypotheses / 305 knowledge rows / 175
-MAIN authored-function rows. The scoped exact subset is now 164 functions;
-Rikako remains on the active charge-shot/gauge reconstruction frontier.
+255 units / 2409 evidence rows / three hypotheses / 307 knowledge rows / 175
+MAIN authored-function rows. The scoped exact subset is now all 175 reviewed
+authored functions. The next MAIN step is to expand reviewed ownership into
+additional root code/data and maintained build-graph dependencies.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 615 tests but reports
 125 errors, all 125 ending in ModuleNotFoundError for the missing unicorn module,
 with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-kana-charge-promoted-final-d02-20261007/ci-current-host.log.
+.analysis/th03-main-exact/gpt-web-rikako-charge-promoted-final-b02-20261007/ci-current-host.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
 The CI steps after unittest were rerun individually and pass: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,

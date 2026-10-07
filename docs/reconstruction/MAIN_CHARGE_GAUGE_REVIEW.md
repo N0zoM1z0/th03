@@ -1,8 +1,8 @@
 # MAIN character charge-shot / gauge owner review
 
 This review expands the TH03 MAIN authored frontier beyond the earlier exact
-owners. Chiyuri, Ellen, Kana and Kotohime are accepted exact; Rikako is the
-remaining boundary-reviewed source-reconstruction target in this five-owner set.
+owners. Chiyuri, Ellen, Kana, Kotohime and Rikako are all accepted exact;
+this five-owner charge-shot/gauge set is now closed at the scoped CODE level.
 
 ## Target owner boundaries
 
@@ -81,9 +81,9 @@ For each character owner:
 6. rerun the full accepted MAIN aggregate twice and retain all existing exact
    owners.
 
-Chiyuri, Ellen, Kana and Kotohime have completed all six gates above. Rikako
-remains reviewed until its natural source and producer evidence pass the same
-gates; it is the next implementation target.
+All five character owners have completed all six gates above. The review now
+serves as the retained boundary and producer record rather than an open
+implementation queue.
 
 ## Chiyuri natural TC4 producer
 
@@ -306,8 +306,71 @@ Post-ledger final-worktree regression:
 
     .analysis/th03-main-exact/gpt-web-kotohime-charge-promoted-final-f03-20261007/receipt.json
 
-The aggregate is now 164 exact functions / 22382 function bytes / 22588 owned
-bytes, with 20 deterministic products, 364 deterministic game objects and the
-maintained DOS behavior probe. Kotohime therefore has formal scoped exact CODE
-acceptance. Physical historical ownership of the surrounding anonymous carrier
-BSS remains separate from this CODE claim.
+At the Kotohime checkpoint the aggregate reached 164 exact functions / 22382
+function bytes / 22588 owned bytes. Physical historical ownership of the
+surrounding anonymous carrier BSS remains separate from this CODE claim.
+
+## Rikako natural TC4 producer and exact acceptance
+
+src/main/player/chargeshot_rikako.cpp reconstructs the complete MAIN_11_TEXT
+owner as natural Turbo C++. The pinned TC4J object-shape probe emits one
+1280-byte CODE contribution, zero private DATA/BSS, 476 decoded instructions
+and all 11 reviewed final function boundaries. Every instruction offset, size
+and mnemonic matches the immutable target. This includes the two largest
+routines in the owner: the 357-byte charge-shot update and the 401-byte gauge
+pattern, including its internal early RET 2.
+
+The recovered charge-shot state is structural rather than raw storage copying.
+Each player owns four six-byte elements containing X, Y, angle and one unused
+byte. The frozen carrier exports semantic aliases at the unchanged historical
+DGROUP offsets:
+
+- 38F4: two gauge-frame bytes;
+- 38F6: the 48-byte two-player / four-shot array;
+- 3926: near render scratch pointer;
+- 3928: two active-state bytes;
+- 392A: two frame counters;
+- 392C: two radius words;
+- 3930: two center-X words;
+- 3934: two center-Y words.
+
+The C++ producer uses these symbols and emits no private replacement state.
+The root carrier's two Rikako-hyper calls are rebound symbolically to the
+natural producer's charge-add-private and cancel routines before the old
+MAIN_11_TEXT body is removed. No absolute target address is embedded in the
+C++ source.
+
+Fresh producer probe:
+
+    python3 scripts/probe_th03_main_chargeshot_rikako_cpp.py --run-id gpt-web-rikako-charge-v7-20261007
+
+Object-shape receipt:
+
+    .analysis/th03-main-chargeshot-rikako-cpp/gpt-web-rikako-charge-v7-20261007/receipt.json
+
+The first full candidate aggregate already passed two cold builds. Promotion
+then moved the same owner into the default maintained exact manifest and reran
+the complete aggregate without any candidate manifest. Both fresh rounds map
+the owner exactly as:
+
+    1C40:000A 0500 C=CODE S=MAIN_11_TEXT G=(none) M=th03/cs_rika.cpp ACBP=28
+
+All 1280 linked bytes match the immutable target in both rounds. The complete
+12-entry target relocation order is retained:
+
+    713, 605, 574, 412, 375, 1215, 1177, 1160, 1146, 1135, 1122, 1111
+
+Accepted technical receipt:
+
+    .analysis/th03-main-exact/gpt-web-rikako-charge-promoted-default-b01-20261007/receipt.json
+
+Post-ledger final-worktree regression:
+
+    .analysis/th03-main-exact/gpt-web-rikako-charge-promoted-final-b02-20261007/receipt.json
+
+The maintained aggregate is now 175 exact functions / 23662 function bytes /
+23868 owned bytes, with 20 deterministic products, 365 deterministic game
+objects and the DOS behavior probe passing in both rounds. All five reviewed
+character charge-shot/gauge CODE owners are therefore accepted exact. Physical
+historical ownership of the anonymous carrier BSS remains a separate question
+from these CODE claims.
