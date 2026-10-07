@@ -221,7 +221,33 @@ Retained receipt:
 
     .analysis/th03-main-chargeshot-kana-cpp/gpt-web-kana-charge-v2-20261007/receipt.json
 
-This is source/producer-shape evidence only. Full-link acceptance must bind the
-historical 2676/267A/267C/282C/282E/2830 state slots, prove the exact
-MAIN_09_TEXT MAP contribution, all 1291 linked bytes and the nine-entry ordered
-relocation sequence, and retain all previously accepted owners.
+## Kana exact full-link promotion
+
+The accepted manifest now keeps the historical MAIN_09_TEXT segment anchor in
+the frozen carrier and adds one cs_kana.cpp TC4J producer. The C++ object emits
+no private DATA/BSS. Carrier aliases preserve the historical 2676/267A/267C/
+282C/282E/2830 state slots without moving storage.
+
+The two-round full-link candidate first passed all 1291 bytes, MAP placement
+and the ordered relocation sequence:
+
+228,467,500,646,1073,1090,1115,1132,1226
+
+Retained candidate receipt:
+
+    .analysis/th03-main-exact/gpt-web-kana-charge-full-link-f41a-20261007/receipt.json
+
+After merging the owner into the accepted manifest, a replay with no candidate
+overlay also passes:
+
+    .analysis/th03-main-exact/gpt-web-kana-charge-promoted-default-d01-20261007/receipt.json
+
+Post-ledger final-worktree regression:
+
+    .analysis/th03-main-exact/gpt-web-kana-charge-promoted-final-d02-20261007/receipt.json
+
+The aggregate is now 155 exact functions / 21692 function bytes / 21898 owned
+bytes, with 20 deterministic products, 363 deterministic game objects and the
+maintained DOS behavior probe. Kana therefore has formal scoped exact CODE
+acceptance. Physical historical ownership of the surrounding anonymous carrier
+BSS remains separate from this CODE claim.

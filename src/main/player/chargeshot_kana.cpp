@@ -73,6 +73,7 @@ void far pascal chargeshot_update_kana(void)
 	int vector_y;
 	int point;
 	unsigned char state;
+	register kana_chargeshot_t near *p;
 	register int group;
 
 	if(kana_active[pid_current] == 0) {
@@ -81,7 +82,7 @@ void far pascal chargeshot_update_kana(void)
 	players[pid_current].gauge_charged = 0;
 	state = kana_active[pid_current];
 
-	kana_chargeshot_t near *p = &kana_chargeshots[pid_current][0];
+	p = &kana_chargeshots[pid_current][0];
 	for(group = 0; group < 4; (group++, p++)) {
 		vector2(vector_x, vector_y, p->angle, p->length);
 
@@ -168,7 +169,7 @@ void far pascal chargeshot_render_kana(void)
 	sprite16_put_size.set(32, 32);
 	sprite16_clip_set_for_pid(pid_current);
 
-	_DX = 0;
+	asm xor dx, dx;
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 
