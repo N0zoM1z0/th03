@@ -18,8 +18,8 @@ reviewed evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the compl
 reconstruction and the 505-file intake remain unfinished.
 
 [Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
-are the entrypoints. MAIN has **192 exact functions / 26248 exact owned bytes**
-across **47 maintained source owners and 54 reviewed CODE extents**. These are
+are the entrypoints. MAIN has **201 exact functions / 28170 exact owned bytes**
+across **48 maintained source owners and 55 reviewed CODE extents**. These are
 repository-local exact results for the reviewed extents, not whole-game product
 closure or Factory Truth Kernel acceptance. Whole-game denominators remain
 unknown until ownership is reviewed.

@@ -195,8 +195,8 @@ store for Mima's plus/minus 7 orbit delta, deliberate recomputation of
 1 - pid_current after the shared target helper, the Pascal distance/angle
 split-render argument order, and the mode-2-first render control flow that lets
 TC4 merge the historical draw tails naturally. All nine starts/sizes and the
-switch key/destination structure match. Full-link MAP, raw bytes and ordered
-relocations remain the next gate.
+switch key/destination structure match. The subsequent default full-link replay
+promotes this owner to exact.
 
 ## Shared + Marisa full-link exact promotion
 
@@ -231,3 +231,30 @@ storage locations.
 This raises the maintained default exact aggregate from 175 to 192 functions
 and from 23868 to 26248 owned bytes. The remaining MAIN_03_TEXT frontier starts
 with Mima.
+
+
+## Mima full-link exact promotion
+
+Mima is now part of the default maintained aggregate. The fresh promotion
+replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-mima-boss-promote-default-p01x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-mima-boss-promote-default-p01x-20261007/receipt.json
+
+Both cold rounds pass 201 functions / 27802 function bytes / 28170 owned bytes.
+The complete 1922-byte Mima owner is raw-byte identical in both rounds and all
+32 MZ relocation records match in their original order. The 81-byte TC4 switch
+table is producer-owned, while the nine function bodies account for 1841 bytes.
+The aggregate produces 20 deterministic products and 370 deterministic game
+objects and passes the maintained DOS behavior probe.
+
+ba_mima emits no private DATA/BSS. Carrier aliases keep boss_render_frame at
+the existing 1F354 byte, map Mima's seven level-derived parameters onto the
+existing 1F39F..1F3A5 scratch bytes, and bind spread/pellet/orbit state to the
+observed 20E28..20E2B bytes. No historical state storage is moved.
+
+The next complete MAIN_03_TEXT character owner is Yumemi: 2358 bytes / 10
+functions, including a 368-byte update and an 80-byte switch table.

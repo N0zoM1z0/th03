@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 54 units / 192 functions / 26248 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 55 units / 201 functions / 28170 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 26248 exact bytes comprise 25961 function bytes and 287 explicitly
+MAIN's 28170 exact bytes comprise 27802 function bytes and 368 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-boss-prefix-promote-final-p02-20261007/receipt.json.
+.analysis/th03-main-exact/gpt-web-mima-boss-promote-final-p02x-20261007/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 369 deterministic game objects and 435 validated
+with 20 product outputs, 370 deterministic game objects and 436 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -92,15 +92,18 @@ function bytes and nine explicitly classified Turbo C++ switch tables / 717
 producer-owned bytes. All 326 in-owner MZ relocations are recorded and no
 relocation crosses an owner edge.
 
-The first two boss owners are now exact. The 949-byte shared prefix / eight
-functions is maintained as one semantic natural source but uses two consecutive
-TC4J physical producers (348-byte explosion ring + 601-byte remainder) because
-the one-object model reversed the two historical FIXUPP relocation groups.
-A zero-byte TASM order scaffold preserves TLINK first-seen segment order and
-owns no game bytes. The 1431-byte Marisa owner is one natural TC4J producer with
-nine functions plus its compiler-generated 81-byte switch table. Both owners
-match raw linked bytes, MAP placement and ordered relocations in two default
-cold builds. Mima (1922 bytes / nine functions, including its 298-byte update) now has natural TC4J object-shape proof for all nine functions and its 81-byte switch table, with zero private DATA/BSS. Its full-link carve is the next gate. See reconstruction/MAIN_BOSS_REVIEW.md.
+The first three logical boss owners are now exact. The 949-byte shared prefix /
+eight functions is maintained as one semantic natural source but uses two
+consecutive TC4J physical producers (348-byte explosion ring + 601-byte
+remainder) because the one-object model reversed the two historical FIXUPP
+relocation groups. A zero-byte TASM order scaffold preserves TLINK first-seen
+segment order and owns no game bytes. Marisa contributes 1431 bytes / nine
+functions plus an 81-byte switch table. Mima now contributes 1922 bytes / nine
+functions plus its 81-byte switch table, including the 298-byte update and
+305-byte render helper. Mima matches all linked bytes and all 32 ordered
+relocations in two default cold builds, emits no private DATA/BSS, and aliases
+render/parameter/orbit state at the observed carrier storage. The next complete
+character owner is Yumemi. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -169,27 +172,27 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the complete Mima boss owner, then the remaining reviewed
+database before new target observations. Continue MAIN with the complete Yumemi boss owner, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-265 units / 2435 evidence rows / three hypotheses / 312 knowledge rows / 268
-MAIN authored-function rows. The scoped exact subset is now 192 functions /
-26248 owned bytes. The remaining eight MAIN_03_TEXT character owners stay
-boundary-reviewed; Mima is the next complete source/full-link target.
+265 units / 2443 evidence rows / three hypotheses / 314 knowledge rows / 268
+MAIN authored-function rows. The scoped exact subset is now 201 functions /
+28170 owned bytes. The remaining seven MAIN_03_TEXT character owners stay
+boundary-reviewed; Yumemi is the next complete source/full-link target.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports
 125 errors, all 125 ending in ModuleNotFoundError for the missing unicorn module,
 with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-boss-prefix-promote-final-p02-20261007/ci-current-host.log.
+.analysis/th03-main-exact/gpt-web-mima-boss-promote-final-p02x-20261007/ci-current-host.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
 The CI steps after unittest were rerun individually and pass: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log is
-.analysis/th03-main-exact/gpt-web-boss-prefix-promote-final-p02-20261007/ci-post-unittest-gates.log.
+.analysis/th03-main-exact/gpt-web-mima-boss-promote-final-p02x-20261007/ci-post-unittest-gates.log.
 This is an explicit host dependency block, not a full-CI PASS.
