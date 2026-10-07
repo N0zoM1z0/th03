@@ -752,3 +752,28 @@ loop-update order in the main renderer, and expressing the intro renderer's
 vertical adjustment as add -8 rather than an equivalent subtract. Those changes
 also restore the target one-byte alignment before the 81-byte TC4 switch table.
 Full-link MAP, raw bytes and ordered relocations remain the next gate.
+
+
+## Rikako full-link candidate
+
+The complete Rikako source producer passes the full-link carve without byte
+patches. Carrier edits only add semantic labels to the existing shared
+parameter bytes 1F39F..1F3A3, the signed boss-state spin delta at 1F358, the
+private 23DE8/23DE9 angle/type bytes, and the existing far-Pascal rikako_1B006
+entity helper. No DATA/BSS storage is moved.
+
+The candidate replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_boss_rikako_candidate.toml --run-id gpt-web-rikako-boss-full-link-c01zz-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-rikako-boss-full-link-c01zz-20261007/receipt.json
+
+Both cold rounds pass the complete 1677-byte Rikako owner with zero differing
+linked bytes, exact MAIN_03_TEXT MAP ownership and all 30 target relocation
+records in their original order. The 81-byte switch table remains TC4-generated.
+The candidate aggregate reaches all 268 reviewed authored functions / 41345
+function bytes / 42268 owned bytes, with 20 deterministic products and 377
+deterministic game objects, and passes the maintained DOS behavior probe.
+Default-aggregate promotion remains a separate gate.

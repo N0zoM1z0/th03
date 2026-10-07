@@ -187,9 +187,9 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the Rikako boss full-link carve, the final reviewed MAIN_03_TEXT
-character owner, while expanding root code/data ownership and the maintained build
-graph; do not treat the reviewed authored frontier as
+database before new target observations. Continue MAIN with Rikako default-aggregate promotion, the final reviewed
+MAIN_03_TEXT character owner, while expanding root code/data ownership and the
+maintained build graph; do not treat the reviewed authored frontier as
 whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
@@ -197,7 +197,9 @@ headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
 265 units / 2491 evidence rows / three hypotheses / 326 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset is now 260 functions /
 40591 owned bytes. Only the Rikako MAIN_03_TEXT character owner remains non-exact; it now has
-natural source/object producer proof and is the next full-link target.
+natural source/object proof plus a passing two-round full-link candidate with
+zero differing linked bytes and all 30 ordered relocations matching. Default
+aggregate promotion is the next gate.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports
