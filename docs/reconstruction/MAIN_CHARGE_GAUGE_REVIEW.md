@@ -1,8 +1,8 @@
 # MAIN character charge-shot / gauge owner review
 
 This review expands the TH03 MAIN authored frontier beyond the earlier exact
-owners. Chiyuri is now accepted exact; Ellen, Kana, Kotohime and Rikako remain
-boundary-reviewed source-reconstruction targets.
+owners. Chiyuri and Ellen are now accepted exact; Kana, Kotohime and Rikako
+remain boundary-reviewed source-reconstruction targets.
 
 ## Target owner boundaries
 
@@ -82,9 +82,9 @@ For each character owner:
 6. rerun the full accepted MAIN aggregate twice and retain all existing exact
    owners.
 
-Chiyuri has completed all six gates above. Ellen/Kana/Kotohime/Rikako stay
-reviewed candidates until their natural source and producer evidence pass the
-same gates; Ellen is the next implementation target.
+Chiyuri and Ellen have completed all six gates above. Kana/Kotohime/Rikako
+stay reviewed candidates until their natural source and producer evidence pass
+the same gates; Kana is the next implementation target.
 
 ## Chiyuri natural TC4 producer
 
@@ -142,11 +142,11 @@ A post-ledger final-worktree default replay also passes:
 
     .analysis/th03-main-exact/gpt-web-chiyuri-charge-promoted-final-v2-20261007/receipt.json
 
-The default aggregate is now 136 exact functions / 18871 function bytes /
-19077 owned bytes. Both fresh rounds keep 20 products and 361 game objects
-deterministic and retain the maintained DOS behavior probe. Chiyuri therefore
-has formal scoped exact CODE acceptance; this does not claim that the
-surrounding anonymous BSS was historically produced by the C++ object.
+At the Chiyuri promotion checkpoint, the default aggregate reached 136 exact
+functions / 18871 function bytes / 19077 owned bytes with 20 products and 361
+game objects deterministic. Chiyuri therefore has formal scoped exact CODE
+acceptance; this does not claim that the surrounding anonymous BSS was
+historically produced by the C++ object.
 
 ## Ellen natural TC4 producer
 
@@ -160,7 +160,37 @@ Reproducible object probe:
 
     python3 scripts/probe_th03_main_chargeshot_ellen_cpp.py --run-id UNIQUE_ID
 
-Retained receipt:
-.analysis/th03-main-chargeshot-ellen-cpp/gpt-web-ellen-charge-v9-20261007/receipt.json.
+Current object-shape receipt:
+.analysis/th03-main-chargeshot-ellen-cpp/gpt-web-ellen-charge-linkfinal-b01-20261007/receipt.json.
 
-This is source/producer-shape evidence only. The C++ object intentionally emits no private state. Full-link acceptance must bind Ellen historical 1FFE/2002/2006/2008/2308 state slots plus the existing target-selection helper/coordinates, then prove the exact MAIN_08_TEXT MAP contribution, all 1530 linked bytes, and the 22-entry ordered relocation sequence in the complete MAIN aggregate.
+## Ellen exact full-link promotion
+
+The default exact manifest keeps the historical MAIN_08_TEXT segment anchor in
+the frozen carrier and adds one cs_ellen.cpp TC4J producer. Ellen's C++ object
+emits no private DATA/BSS. Carrier aliases preserve the target storage layout:
+two gauge X words at DGROUP:1FFE, two gauge Y words at 2002, two frame bytes at
+2006, the 768-byte two-player charge-shot array at 2008, and the shared near
+scratch pointer at 2308. The existing target-selection helper sub_16983 is
+exported under a semantic Ellen name, while its two output coordinates remain
+at their historical carrier words.
+
+A default replay with no candidate overlay passes all 1530 owner bytes, the
+exact MAIN_08_TEXT MAP contribution, and this 22-entry ordered relocation
+sequence in both fresh rounds:
+
+87,177,277,437,476,510,527,561,655,680,772,1218,1223,1257,1262,1304,1377,1382,1415,1420,1425,1465
+
+Accepted technical receipt:
+
+    .analysis/th03-main-exact/gpt-web-ellen-charge-default-b01-20261007/receipt.json
+
+Post-ledger final-worktree regression:
+
+    .analysis/th03-main-exact/gpt-web-ellen-charge-promoted-final-b02-20261007/receipt.json
+
+That replay raises the aggregate to 146 exact functions / 20401 function bytes /
+20607 owned bytes, with 20 deterministic products, 362 deterministic game
+objects and the maintained DOS behavior probe. Ellen therefore has formal
+scoped exact CODE acceptance. Physical historical ownership of the anonymous
+carrier BSS remains a separate question, exactly as for the preceding character
+owners.

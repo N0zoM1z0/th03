@@ -2027,3 +2027,148 @@ offset = 0x3db
 size = 24
 boundary = "owner-linear-span"
 abi = "far cdecl C linkage; no arguments; RETF"
+
+[[units]]
+id = "th03-main-charge-gauge-ellen"
+source = "src/main/player/chargeshot_ellen.cpp"
+header = "src/main/player/chargeshot_ellen.hpp"
+object = "ellen_chargeshot"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/cs_ellen.cpp"
+physical_objects_additive = true
+physical_objects = [
+  { object = "cs_ellen", wrapper = "th03/cs_ellen.cpp" },
+]
+support_files = [
+  "compat/rec98/th03/main/player/ch_shot.hpp",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/hitcirc.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th02/snd/snd.h",
+  "compat/rec98/libs/master.lib/master.hpp",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/cs_chiyu.cpp\",\n\t\"th03/playfld.asm\",\n"
+build_replacement = "\t\"th03/cs_chiyu.cpp\",\n\t\"th03/cs_ellen.cpp\",\n\t\"th03/playfld.asm\",\n"
+carrier_edits = [
+  { kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern CHARGESHOTS_RESET_ELLEN:proc\r\n\textern CHARGESHOT_ADD_ELLEN:proc\r\n\textern ELLEN_HYPER:proc\r\n\textern CHARGESHOT_UPDATE_ELLEN:proc\r\n\textern @chargeshot_hittest_ellen$qv:proc\r\n\textern CHARGESHOT_RENDER_ELLEN:proc\r\n\textern _gba_gauge_pattern_pellet_ellen:proc\r\n\textern _gba_gauge_pattern_bullet_ellen:proc\r\n\tpublic sub_16983, ELLEN_TARGET_SET\r\nELLEN_TARGET_SET = sub_16983\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tcall\tsub_1B653\r\n", after = "\t\tcall\tCHARGESHOTS_RESET_ELLEN\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tcall\tellen_hyper_1B6CA\r\n", after = "\t\tcall\tELLEN_HYPER\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p1.chargeshot_add, chargeshot_add_ellen\r\n", after = "\t\tsetfarfp\t_p1.chargeshot_add, CHARGESHOT_ADD_ELLEN\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p1, chargeshot_update_ellen\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p1, CHARGESHOT_UPDATE_ELLEN\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p1, chargeshot_render_ellen\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p1, CHARGESHOT_RENDER_ELLEN\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, gba_gauge_pattern_pellet_ellen\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, _gba_gauge_pattern_pellet_ellen\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, gba_gauge_pattern_bullet_ellen\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, _gba_gauge_pattern_bullet_ellen\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p2.chargeshot_add, chargeshot_add_ellen\r\n", after = "\t\tsetfarfp\t_p2.chargeshot_add, CHARGESHOT_ADD_ELLEN\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p2, chargeshot_update_ellen\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p2, CHARGESHOT_UPDATE_ELLEN\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p2, chargeshot_render_ellen\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p2, CHARGESHOT_RENDER_ELLEN\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, gba_gauge_pattern_pellet_ellen\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, _gba_gauge_pattern_pellet_ellen\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, gba_gauge_pattern_bullet_ellen\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, _gba_gauge_pattern_bullet_ellen\r\n" },
+  { kind = "remove-between", path = "th03_main.asm", start_marker = "sub_1B653\tproc far\r\n", end_marker = "gba_gauge_pattern_bullet_ellen endp\r\n", replacement = "; Ellen charge/gauge owner moved to natural TC4 producer\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "\t\tdb 779 dup(?)\r\nword_1F868\tdw ?\r\n", after = "\t\tdb ?\r\npublic _ellen_gauge_x, _ellen_gauge_y, _ellen_gauge_frame\r\npublic _ellen_chargeshots, _ellen_chargeshot_p\r\n_ellen_gauge_x label word\r\n\t\tdw PLAYER_COUNT dup(?)\r\n_ellen_gauge_y label word\r\n\t\tdw PLAYER_COUNT dup(?)\r\n_ellen_gauge_frame label byte\r\n\t\tdb PLAYER_COUNT dup(?)\r\n_ellen_chargeshots label byte\r\n\t\tdb 768 dup(?)\r\n_ellen_chargeshot_p label word\r\nword_1F868\tdw ?\r\n" },
+  { kind = "replace-once", path = "th03_main.asm", before = "word_2142E\tdw ?\r\nword_21430\tdw ?\r\n", after = "public _ellen_target_x, _ellen_target_y\r\n_ellen_target_x label word\r\nword_2142E\tdw ?\r\n_ellen_target_y label word\r\nword_21430\tdw ?\r\n" },
+]
+code_extents = [
+  { name = "code", ledger_id = "th03-main-charge-gauge-ellen", segment = 0x1b65, start = 0x0003, size = 0x05fa, map_segment = "MAIN_08_TEXT", map_group = "(none)", map_acbp = 28, map_parts = [
+    { object = "cs_ellen", start = 0x0003, size = 0x05fa },
+  ] },
+]
+
+[[functions]]
+name = "ellen_charge_setup"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x3
+size = 33
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_add_ellen"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x24
+size = 86
+boundary = "owner-linear-span"
+abi = "far Pascal; two Subpixel words; RETF 4"
+
+[[functions]]
+name = "ellen_hyper"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x7a
+size = 89
+boundary = "owner-linear-span"
+abi = "far Pascal; two Subpixel words; RETF 4"
+
+[[functions]]
+name = "chargeshot_update_ellen"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0xd3
+size = 387
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "ellen_chargeshot_private"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x256
+size = 93
+boundary = "owner-linear-span"
+abi = "near Pascal; two Subpixel words; RET 4"
+
+[[functions]]
+name = "chargeshot_hittest_ellen"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x2b3
+size = 118
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; AL hit count; RETF"
+
+[[functions]]
+name = "chargeshot_render_ellen"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x329
+size = 103
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "gauge_pattern_ellen"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x390
+size = 573
+boundary = "owner-linear-span"
+abi = "near Pascal; bullet type byte in word slot; internal and final RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_ellen"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x5cd
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl C linkage; no arguments; RETF"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_ellen"
+object = "ellen_chargeshot"
+segment = 0x1b65
+offset = 0x5e5
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl C linkage; no arguments; RETF"

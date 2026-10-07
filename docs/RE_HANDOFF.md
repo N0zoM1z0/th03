@@ -9,18 +9,19 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 41 source owners, 48 CODE extents, 136 functions, 19077 owned bytes | Scoped repository-local exact |
+| MAIN | 42 source owners, 49 CODE extents, 146 functions, 20607 owned bytes | Scoped repository-local exact |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 19077 bytes comprise 18871 function bytes and 206 explicitly classified
+MAIN's 20607 bytes comprise 20401 function bytes and 206 explicitly classified
 producer/table/alignment bytes. The latest accepted full-owner aggregate is
-.analysis/th03-main-exact/gpt-web-chiyuri-charge-promoted-default-v1-20261007/receipt.json.
+.analysis/th03-main-exact/gpt-web-ellen-charge-default-b01-20261007/receipt.json.
 A post-ledger final-worktree regression also passes at
-.analysis/th03-main-exact/gpt-web-chiyuri-charge-promoted-final-v2-20261007/receipt.json.
-The promotion replay passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 361 game objects and 427 validated generated OMF objects.
+.analysis/th03-main-exact/gpt-web-ellen-charge-promoted-final-b02-20261007/receipt.json.
+The promotion replay passes two fresh compilations/links and the maintained DOS
+behavior probes with 20 product outputs, 362 game objects and 428 validated
+generated OMF objects.
 The complete enemy owner remains exact: three extents / 19 functions / 3325 bytes.
 A consecutive two-producer reconstruction split reproduces the previously failing
 ordered ENEMY_2_TEXT relocation list without changing CODE bytes or weakening the
@@ -51,17 +52,20 @@ MAIN_07_TEXT through MAIN_11_TEXT form five complete character-local
 charge-shot/gauge owners: Chiyuri 1011 bytes / 9 functions, Ellen 1530 / 10,
 Kana 1291 / 9, Kotohime 690 / 9, and Rikako 1280 / 11. Together they cover
 5802 reviewed bytes / 48 functions with all 60 in-owner relocations recorded.
-Chiyuri MAIN_07_TEXT is now exact: one natural TC4J producer reproduces all
+Chiyuri MAIN_07_TEXT is exact: one natural TC4J producer reproduces all
 1011 linked bytes, the exact MAP contribution and the ordered relocation
 sequence 956,892,879,794,775,434,331,299,199. Its C++ object emits no private
 BSS; the frozen carrier exposes semantic names at the unchanged historical
 1F54/1F58/1F5A/1F51A/2D58 state slots.
 
-Ellen MAIN_08_TEXT now also has a complete natural TC4J producer candidate:
-1530 bytes / 534 instructions / 10 functions match the immutable target shape
-with no private DATA/BSS, including the gauge helper's real internal early
-RET 2. Its full-link MAP, historical state binding and 22 ordered relocations
-remain open. Kana/Kotohime/Rikako remain boundary-reviewed only. See
+Ellen MAIN_08_TEXT is now exact as well: one natural TC4J producer reproduces
+all 1530 linked bytes, the exact MAIN_08_TEXT MAP contribution, and all 22
+ordered relocations. The C++ object emits no private DATA/BSS. The frozen
+carrier exports semantic aliases for the historical 1FFE/2002/2006/2008/2308
+state plus the existing target-selection helper/coordinates without moving
+storage. The default aggregate therefore reaches 146 exact functions / 20607
+owned bytes. Kana MAIN_09_TEXT is the next active complete owner;
+Kotohime/Rikako remain boundary-reviewed. See
 reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
@@ -136,21 +140,21 @@ root code/data ownership and the maintained build graph; do not treat the 100%
 reviewed-authored frontier as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
-headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 255 units / 2382 evidence rows / three
-hypotheses / 300 knowledge rows / 175 MAIN authored-function rows. The scoped
-exact subset is now 136 functions; Ellen's 10-function natural producer is
-source-shaped but not yet exact, and the remaining charge-shot/gauge owners
-stay on the active reconstruction frontier.
+headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
+255 units / 2388 evidence rows / three hypotheses / 301 knowledge rows / 175
+MAIN authored-function rows. The scoped exact subset is now 146 functions;
+Kana/Kotohime/Rikako remain on the active charge-shot/gauge reconstruction
+frontier.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 615 tests but reports
 125 errors, all 125 ending in ModuleNotFoundError for the missing unicorn module,
 with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-chiyuri-charge-promoted-final-v2-20261007/ci-current-host.log.
+.analysis/th03-main-exact/gpt-web-ellen-charge-promoted-final-b02-20261007/ci-current-host.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
 The CI steps after unittest were rerun individually and pass: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, TH03-MAIN Ghidra
 database check, Ghidra negative controls, and git diff --check. Their log is
-.analysis/th03-main-exact/gpt-web-chiyuri-charge-promoted-final-v2-20261007/ci-non-unicorn-gates.log.
+.analysis/th03-main-exact/gpt-web-ellen-charge-promoted-final-b02-20261007/ci-non-unicorn-gates.log.
 This is an explicit host dependency block, not a full-CI PASS.

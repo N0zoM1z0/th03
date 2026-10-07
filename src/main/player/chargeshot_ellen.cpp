@@ -43,7 +43,7 @@ extern "C" void far pascal ellen_target_set(pid_t pid);
 extern "C" void far pascal bomb_center_add(int x, int y, int pid);
 extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 
-void far chargeshots_reset_ellen(void)
+void far pascal chargeshots_reset_ellen(void)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[0][0];
 	for(int i = 0; i < 64; (i++, ellen_chargeshot_p++)) {
@@ -171,7 +171,7 @@ void near pascal ellen_chargeshot_private(Subpixel x, Subpixel y)
 	_AX += 8;
 	_DI = _AX;
 	#undef _AX
-	sprite16_put(_SI, _DI, sprite_offset);
+	sprite16_put(_SI, _AX, sprite_offset);
 }
 
 uint8_t far chargeshot_hittest_ellen(void)
