@@ -646,3 +646,28 @@ No historical storage is moved.
 
 The next complete MAIN_03_TEXT character owner is Kana: 1874 bytes / 9
 functions, including a 316-byte update and an 80-byte switch table.
+
+
+## Kana natural TC4 producer
+
+src/main/boss/kana.cpp reconstructs the complete 1874-byte Kana logical owner
+as natural Turbo C++. The producer covers all nine reviewed functions,
+including the 321-byte staged-ring pattern, 316-byte update, 219-byte intro
+renderer and the compiler-generated 80-byte switch table. It emits zero private
+DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_kana_cpp.py --run-id gpt-web-kana-boss-v03x-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-kana-cpp/gpt-web-kana-boss-v03x-20261007/receipt.json
+
+All nine starts/sizes and the switch key/destination structure match.
+Compiler-guided corrections included removing an unnecessary other-player PID
+local in the accel-ring pattern, preserving the target SUB AL,10h encoding for
+the cloud angle, storing the rotating-ring random selector in its historical
+private byte before branching, and restoring the intro renderer's local-frame
+order and loop-update expression. Full-link MAP, raw bytes and ordered
+relocations remain the next gate.

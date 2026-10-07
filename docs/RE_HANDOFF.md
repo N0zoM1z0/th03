@@ -111,8 +111,7 @@ MAP placement and all 49 ordered relocations in two default cold builds. The
 352-byte cardinal pattern, 528-byte fan pattern and 613-byte update are all
 maintained as natural source; the object emits zero private DATA/BSS. Carrier
 aliases preserve the seven shared parameters, two private direction bytes and
-five-position coordinate table without moving storage. Kana is the next
-complete character owner. See reconstruction/MAIN_BOSS_REVIEW.md.
+five-position coordinate table without moving storage. Kana (1874 bytes / nine functions) now has natural TC4J object-shape proof, including its 321-byte staged-ring pattern, 316-byte update, 219-byte intro renderer and 80-byte compiler switch table, with zero private DATA/BSS. Its full-link carve is the next gate. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -181,7 +180,7 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the complete Kana boss owner, then the remaining reviewed
+database before new target observations. Continue MAIN with the Kana boss full-link carve, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.
@@ -191,7 +190,7 @@ headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
 265 units / 2483 evidence rows / three hypotheses / 324 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset is now 251 functions /
 38717 owned bytes. The remaining two MAIN_03_TEXT character owners stay
-boundary-reviewed; Kana is the next complete source/full-link target.
+boundary-reviewed; Kana now has source/object proof and is the next full-link target.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports
