@@ -147,3 +147,20 @@ The default aggregate is now 136 exact functions / 18871 function bytes /
 deterministic and retain the maintained DOS behavior probe. Chiyuri therefore
 has formal scoped exact CODE acceptance; this does not claim that the
 surrounding anonymous BSS was historically produced by the C++ object.
+
+## Ellen natural TC4 producer
+
+src/main/player/chargeshot_ellen.cpp now reconstructs the complete MAIN_08_TEXT owner as natural Turbo C++. A fresh pinned TC4J compile emits one 1530-byte MAIN_08_TEXT CODE segment, no private DATA/BSS, 534 decoded instructions, and all ten reviewed function end boundaries. Every instruction offset, size, and mnemonic matches the immutable target.
+
+This owner required source-level compiler-shape corrections rather than byte patches: Ellen hyper keeps the shared near pointer as a global reload instead of caching it; the update routine preserves target local lifetimes and direct preliminary-scan exit; the hittest uses one compound four-bound comparison; the private renderer explicitly expresses the target SI/DI/AX lifetimes with the same Borland register-pseudo idiom already used by accepted src/main/bullet/bullet.cpp; and mirrored gauge X is preserved in DX so the helper call uses the target PUSH DX sequence.
+
+The gauge helper contains a real internal early RET 2 on its initialization path in addition to its final RET 2. The object probe checks the complete target/candidate return sequence as well as each function final boundary, rather than assuming one return instruction per function.
+
+Reproducible object probe:
+
+    python3 scripts/probe_th03_main_chargeshot_ellen_cpp.py --run-id UNIQUE_ID
+
+Retained receipt:
+.analysis/th03-main-chargeshot-ellen-cpp/gpt-web-ellen-charge-v9-20261007/receipt.json.
+
+This is source/producer-shape evidence only. The C++ object intentionally emits no private state. Full-link acceptance must bind Ellen historical 1FFE/2002/2006/2008/2308 state slots plus the existing target-selection helper/coordinates, then prove the exact MAIN_08_TEXT MAP contribution, all 1530 linked bytes, and the 22-entry ordered relocation sequence in the complete MAIN aggregate.

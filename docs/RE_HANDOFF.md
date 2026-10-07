@@ -55,9 +55,14 @@ Chiyuri MAIN_07_TEXT is now exact: one natural TC4J producer reproduces all
 1011 linked bytes, the exact MAP contribution and the ordered relocation
 sequence 956,892,879,794,775,434,331,299,199. Its C++ object emits no private
 BSS; the frozen carrier exposes semantic names at the unchanged historical
-1F54/1F58/1F5A/1F51A/2D58 state slots. Ellen/Kana/Kotohime/Rikako remain
-boundary-reviewed only, totaling 4791 bytes / 39 functions / 51 relocations.
-See reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
+1F54/1F58/1F5A/1F51A/2D58 state slots.
+
+Ellen MAIN_08_TEXT now also has a complete natural TC4J producer candidate:
+1530 bytes / 534 instructions / 10 functions match the immutable target shape
+with no private DATA/BSS, including the gauge helper's real internal early
+RET 2. Its full-link MAP, historical state binding and 22 ordered relocations
+remain open. Kana/Kotohime/Rikako remain boundary-reviewed only. See
+reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -131,10 +136,11 @@ root code/data ownership and the maintained build graph; do not treat the 100%
 reviewed-authored frontier as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
-headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 255 units / 2381 evidence rows / three
-hypotheses / 299 knowledge rows / 175 MAIN authored-function rows. The scoped
-exact subset is now 136 functions; the remaining 39 reviewed
-charge-shot/gauge functions are the active reconstruction frontier.
+headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is 255 units / 2382 evidence rows / three
+hypotheses / 300 knowledge rows / 175 MAIN authored-function rows. The scoped
+exact subset is now 136 functions; Ellen's 10-function natural producer is
+source-shaped but not yet exact, and the remaining charge-shot/gauge owners
+stay on the active reconstruction frontier.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 615 tests but reports
