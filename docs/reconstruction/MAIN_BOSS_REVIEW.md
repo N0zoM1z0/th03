@@ -407,3 +407,28 @@ orbit arrays without moving storage.
 
 The next complete MAIN_03_TEXT character owner is Ellen: 1675 bytes / nine
 functions, including a 269-byte update and an 81-byte switch table.
+
+
+## Ellen natural TC4 producer
+
+src/main/boss/ellen.cpp now reconstructs the complete 1675-byte Ellen logical
+owner as natural Turbo C++. The producer covers all nine reviewed functions,
+including the 270-byte spread pattern, 269-byte update, 247-byte intro renderer,
+and the compiler-generated 81-byte switch table. It emits zero private
+DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_ellen_cpp.py --run-id gpt-web-ellen-boss-v05x-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-ellen-cpp/gpt-web-ellen-boss-v05x-20261007/receipt.json
+
+All nine starts/sizes and the switch key/destination structure match. Material
+source-level details recovered from TC4 codegen include the target branch
+polarity in the spread pattern, direct split assignments for SPRITE16 width and
+height to avoid a compiler temporary, explicit decrement/test ordering in the
+three-strip renderer, and preserving AX across the intro renderer's top
+subpixel-to-pixel conversion. Full-link MAP, raw bytes and ordered relocations
+remain the next gate.
