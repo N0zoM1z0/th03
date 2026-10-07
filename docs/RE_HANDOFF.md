@@ -92,8 +92,11 @@ ten new owners receives exact credit yet. The complete 1431-byte Marisa owner
 now has natural TC4J source/producer-shape evidence: all nine function
 starts/sizes and the 81-byte compiler switch-table structure match, with zero
 private DATA/BSS. The target table alignment requires TC4J -a2; -a1 is a
-retained 1430-byte negative control. Full-link MAP/relocation/raw-byte
-acceptance remains open. See reconstruction/MAIN_BOSS_REVIEW.md.
+retained 1430-byte negative control. The preceding 949-byte shared boss-helper
+owner now also has natural TC4J producer-shape evidence for all eight functions,
+including its 348-byte explosion-ring and 178-byte startup/state-copy routines,
+with zero private DATA/BSS. Full-link MAP/relocation/raw-byte acceptance remains
+open for both. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -169,10 +172,11 @@ whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-265 units / 2420 evidence rows / three hypotheses / 309 knowledge rows / 268
+265 units / 2421 evidence rows / three hypotheses / 310 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset remains 175 functions;
 the new 93-function MAIN_03_TEXT boss frontier is boundary-reviewed rather
-than exact. Marisa has reached natural-source/object-shape acceptance; its
+than exact. The shared prefix and Marisa have both reached
+natural-source/object-shape acceptance; their three-contribution MAIN_03_TEXT
 full-link carve is the next MAIN gate.
 
 The current Factory host no longer has the historical Conda Python/Unicorn

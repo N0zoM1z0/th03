@@ -133,3 +133,39 @@ shape, the 81-byte switch alignment/key/destination structure, and zero private
 DATA/BSS. This is source/producer evidence only. Full-link MAP placement,
 ordered MZ relocations, final linked bytes, historical physical producer
 grouping and state ownership are still separate gates.
+
+## Shared boss-helper natural TC4 producer
+
+src/main/boss/shared.cpp now reconstructs the complete 949-byte shared prefix
+of MAIN_03_TEXT as natural Turbo C++. A fresh pinned TC4J compile emits one
+949-byte CODE contribution, zero private DATA/BSS and all eight reviewed
+function boundaries with linker-normalized instruction shape matching the
+immutable target.
+
+This owner includes two substantial routines rather than only leaf helpers:
+boss_explosion_ring is 348 bytes and boss_update_start is 178 bytes. Two
+source-level compiler details were material:
+
+- The explosion ring must branch directly on pid_current when selecting the
+  opposite playfield clipping bounds. Expressing this as the generic
+  sprite16_clip_set_for_pid(1 - pid_current) macro makes TC4 calculate the
+  opposite PID through a temporary and grows the function by five bytes.
+- The startup routine copies the fixed 32-byte character boss template into
+  the active boss state with SI/DI, ES=DS and REP MOVSW. A normal C++ struct
+  assignment selects a different runtime-copy shape, so the maintained source
+  expresses the target's fixed-size copy through Borland register pseudos and
+  symbolic REP MOVSW rather than copying target opcodes.
+
+Reproducible object probe:
+
+    python3 scripts/probe_th03_main_boss_shared_cpp.py \
+      --run-id gpt-web-boss-shared-v03-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-shared-cpp/gpt-web-boss-shared-v03-20261007/receipt.json
+
+This is source/producer evidence only. The next gate is full-link reconstruction
+of MAIN_03_TEXT as three consecutive contributions: shared natural C++, Marisa
+natural C++, and a frozen Mima-through-Rikako tail while those later owners
+remain unreconstructed.
