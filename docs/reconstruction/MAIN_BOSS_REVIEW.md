@@ -726,3 +726,29 @@ name without moving storage.
 
 The final remaining MAIN_03_TEXT character owner is Rikako: 1677 bytes / 8
 functions, including a 285-byte update and an 81-byte switch table.
+
+
+## Rikako natural TC4 producer
+
+src/main/boss/rikako.cpp reconstructs the complete 1677-byte Rikako logical
+owner as natural Turbo C++. The producer covers all eight reviewed functions,
+including the 261-byte orbit-spread pattern, 250-byte entity/pellet pattern,
+285-byte update, 228-byte main renderer, 216-byte intro renderer and the
+compiler-generated 81-byte padded switch table. It emits zero private
+DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_rikako_cpp.py --run-id gpt-web-rikako-boss-v02z-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-rikako-cpp/gpt-web-rikako-boss-v02z-20261007/receipt.json
+
+All eight starts/sizes and the switch key/destination structure match.
+Compiler-guided corrections included recovering the two-byte local order and
+conditional expression for the orbit-spread angle delta, preserving the target
+loop-update order in the main renderer, and expressing the intro renderer's
+vertical adjustment as add -8 rather than an equivalent subtract. Those changes
+also restore the target one-byte alignment before the 81-byte TC4 switch table.
+Full-link MAP, raw bytes and ordered relocations remain the next gate.
