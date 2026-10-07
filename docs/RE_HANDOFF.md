@@ -108,7 +108,10 @@ bytes / ten functions plus its 80-byte compiler switch table, including the
 natural TC4J producer matches all linked bytes, exact MAP placement and all 61
 ordered relocations in two default cold builds and emits zero private DATA/BSS.
 Carrier aliases preserve the observed boss, parameter, fixed table and private
-scratch storage. Reimu is the next complete owner. See
+scratch storage. Reimu (2020 bytes / nine functions) now also has natural TC4J
+object-shape proof, including its 443-byte orbit-burst pattern, 296-byte update,
+two 259-byte render helpers and 72-byte compiler switch table, with zero private
+DATA/BSS. Its full-link carve is the next gate. See
 reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
@@ -178,7 +181,7 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the complete Reimu boss owner, then the remaining reviewed
+database before new target observations. Continue MAIN with the Reimu boss full-link carve, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.
@@ -188,7 +191,7 @@ headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
 265 units / 2451 evidence rows / three hypotheses / 316 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset is now 211 functions /
 30528 owned bytes. The remaining six MAIN_03_TEXT character owners stay
-boundary-reviewed; Reimu is the next complete source/full-link target.
+boundary-reviewed; Reimu now has source/object proof and is the next full-link target.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports

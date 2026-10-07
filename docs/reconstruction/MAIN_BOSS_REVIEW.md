@@ -334,3 +334,27 @@ observed historical storage. No state storage is moved.
 
 The next complete MAIN_03_TEXT character owner is Reimu: 2020 bytes / 9
 functions, including a 296-byte update and a 72-byte switch table.
+
+
+## Reimu natural TC4 producer
+
+src/main/boss/reimu.cpp now reconstructs the complete 2020-byte Reimu logical
+owner as natural Turbo C++. The producer covers all nine reviewed functions,
+including the 443-byte orbit-burst pattern, 296-byte update, two 259-byte
+render helpers and the compiler-generated 72-byte switch table. It emits zero
+private DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_reimu_cpp.py --run-id gpt-web-reimu-boss-v03x-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-reimu-cpp/gpt-web-reimu-boss-v03x-20261007/receipt.json
+
+All nine starts/sizes and the switch key/destination structure match. Material
+source-level details recovered from TC4 codegen include the direct byte third
+argument push to reimu_extra_add, target-order case grouping for the 18-entry
+switch table, original renderer local-frame ordering, +0xFFF4 sprite-offset
+arithmetic, and the loop increment ordering that emits inc i before angle
+advance. Full-link MAP, raw bytes and ordered relocations remain the next gate.
