@@ -22,10 +22,19 @@ proof of a reconstructed TH03 product.
 .analysis/ is an ignored replay/work directory, not source control. Keep the
 specific receipt/review/log files referenced by tracked config or documentation,
 plus the offline toolchain/runtime/Ghidra attestation trees required to replay
-them. Once a receipt and replay command are retained, intermediate cold-build
-copies (source/, obj/, bin/, reference.tar) and failed/duplicate probe runs may
-be deleted. Build/cache directories such as build/, dist/, out/, .cache/,
-Python __pycache__, pytest and mypy caches are disposable.
+them. A retained receipt run is kept as a complete proof tree, including its
+frozen source/object/output/reference material; do not hollow out a receipt that
+current evidence or documentation still names. Failed or duplicate receipt runs
+that are no longer reachable from current evidence/docs may be removed as whole
+runs. Build/cache directories such as build/, dist/, out/, .cache/, Python
+__pycache__, pytest and mypy caches are disposable.
+
+Use `python3 scripts/clean_generated.py` for a conservative dry run and add
+`--apply` only after reviewing it. To include complete unreferenced receipt runs
+in the cleanup, use `--prune-unreferenced-receipts`; this remains a dry run
+unless `--apply` is also present. If an active experimental run is not yet
+recorded in tracked evidence/docs, protect it explicitly with
+`--keep-analysis .analysis/PATH` before applying aggressive pruning.
 
 Do not delete _reference/, .tools/, ghidra-project/, the retained runtime
 images, or the active toolchain merely to reduce disk usage. Protected

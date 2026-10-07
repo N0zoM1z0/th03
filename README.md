@@ -55,12 +55,15 @@ output determinism. An isolated DOS probe checks input routing/wait behavior
 and signed fixed-point arithmetic using the actual maintained objects.
 
 All compiler and analyzer invocations are headless. Private state and replay
-outputs stay under `.analysis/`; `python3 scripts/clean_generated.py --apply`
-prunes disposable builds, probes and caches while retaining required private
-state and ledger-referenced evidence. For recorded cleanup that also protects
-documented paths, use `scripts/closeout_cleanup.py`; see the closeout record. `python3 scripts/build.py --status`
-reports the open product graph; a complete playable maintained game build is
-not available yet.
+outputs stay under `.analysis/`. `python3 scripts/clean_generated.py` is a
+conservative dry run; add `--apply` after review. The optional
+`--prune-unreferenced-receipts` mode also removes complete receipt runs that are
+unreachable from current evidence/docs and retained JSON input guards; use
+`--keep-analysis .analysis/PATH` for an active run that is not tracked yet.
+Required toolchain/runtime/Ghidra state and referenced proof trees are retained.
+For recorded closeout cleanup, use `scripts/closeout_cleanup.py`.
+`python3 scripts/build.py --status` reports the open product graph; a complete
+playable maintained game build is not available yet.
 
 ## Setup
 

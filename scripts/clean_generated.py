@@ -7,8 +7,10 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 import shlex
 import shutil
+import subprocess
 from pathlib import Path
 
 
@@ -29,6 +31,7 @@ CACHE_ROOTS = [
     ROOT / "build",
     ROOT / "dist",
     ROOT / "out",
+    ROOT / ".cache",
     ROOT / ".pytest_cache",
     ROOT / ".mypy_cache",
 ]
@@ -69,6 +72,146 @@ def ledger_preserved_paths() -> set[Path]:
                 continue
             preserved.add(path)
     return preserved
+
+
+def documented_analysis_paths() -> set[Path]:
+    """Return concrete .analysis files named by tracked text.
+
+    Generic directory mentions do not pin every descendant forever. Only paths
+    that resolve to files (plus an explicitly named receipt.json) participate
+    in the aggressive receipt-pruning keep set.
+    """
+    preserved: set[Path] = set()
+    try:
+        tracked = subprocess.check_output(
+            ["git", "ls-files", "-z"],
+            cwd=ROOT,
+            stderr=subprocess.DEVNULL,
+        ).decode().split("\0")
+    except (OSError, subprocess.CalledProcessError, UnicodeDecodeError):
+        return preserved
+
+    for name in tracked:
+        if not name:
+            continue
+        path = ROOT / name
+        if not path.is_file() or path.is_symlink():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeError, OSError):
+            continue
+        for raw in re.findall(r"\.analysis/[A-Za-z0-9_./-]+", text):
+            raw = raw.rstrip(".,;:)")
+            candidate = normalized_local_path(raw)
+            if candidate is None:
+                continue
+            try:
+                candidate.relative_to(ANALYSIS)
+            except ValueError:
+                continue
+            if candidate.is_file() or candidate.name == "receipt.json":
+                preserved.add(candidate)
+    return preserved
+
+
+def referenced_analysis_closure(extra: set[Path] | None = None) -> set[Path]:
+    """Follow retained JSON input guards from current ledger/document references."""
+    ledger_files = ledger_preserved_paths()
+    text_queries = ledger_text_query_paths()
+    retained = ledger_files | documented_analysis_paths() | text_queries
+    retained |= PRESERVED_ANALYSIS_FILES
+    if extra:
+        retained |= extra
+
+    visited: set[Path] = set()
+    queue = list(retained)
+    while queue:
+        path = queue.pop()
+        if path in visited:
+            continue
+        visited.add(path)
+        retained.add(path)
+        if not path.is_file() or path.suffix.lower() != ".json":
+            continue
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError, UnicodeError, OSError):
+            # Factory function queries are intentionally plain text even when a
+            # historical caller chose a .json output name.
+            if path.name != "receipt.json" and path in text_queries:
+                continue
+            # A retained receipt or other ledger JSON must remain inspectable.
+            if path.name == "receipt.json" or path in ledger_files:
+                raise ValueError(
+                    f"cannot inspect retained proof: {path.relative_to(ROOT)}"
+                )
+            continue
+
+        stack = [value]
+        while stack:
+            node = stack.pop()
+            if isinstance(node, dict):
+                guards = node.get("inputs")
+                if isinstance(guards, dict):
+                    for raw in guards:
+                        if not isinstance(raw, str) or not raw:
+                            continue
+                        lexical = Path(raw)
+                        if lexical.is_absolute() or ".." in lexical.parts:
+                            continue
+                        lexical = ROOT / lexical
+                        try:
+                            lexical.relative_to(ANALYSIS)
+                        except ValueError:
+                            pass
+                        else:
+                            if lexical not in retained:
+                                retained.add(lexical)
+                                queue.append(lexical)
+                        resolved = normalized_local_path(raw)
+                        if resolved is not None and is_under(resolved, ANALYSIS):
+                            if resolved not in retained:
+                                retained.add(resolved)
+                                queue.append(resolved)
+                stack.extend(node.values())
+            elif isinstance(node, list):
+                stack.extend(node)
+    return retained
+
+
+def prune_unreferenced_receipts(
+    dry_run: bool,
+    extra_preserved: set[Path] | None = None,
+) -> int:
+    """Optionally remove cold receipt runs unreachable from current proof refs."""
+    if not ANALYSIS.exists():
+        return 0
+
+    retained = referenced_analysis_closure(extra_preserved)
+    receipt_roots: set[Path] = set()
+    for receipt in ANALYSIS.rglob("receipt.json"):
+        if receipt.is_symlink():
+            continue
+        root = receipt.parent
+        if any(is_under(root, protected) for protected in PRESERVED_ANALYSIS_ROOTS):
+            continue
+        receipt_roots.add(root)
+
+    candidates = [
+        root
+        for root in receipt_roots
+        if not any(is_under(path, root) for path in retained)
+    ]
+
+    # A parent receipt run subsumes nested receipt runs.
+    top_level: list[Path] = []
+    for root in sorted(candidates, key=lambda x: len(x.parts)):
+        if any(is_under(root, parent) for parent in top_level):
+            continue
+        top_level.append(root)
+
+    return sum(remove_path(root, dry_run) for root in top_level)
 
 
 def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
@@ -258,16 +401,48 @@ def main() -> int:
         action="store_true",
         help="perform deletions; without this flag only report what would be removed",
     )
+    parser.add_argument(
+        "--prune-unreferenced-receipts",
+        action="store_true",
+        help=(
+            "also remove receipt runs that are unreachable from current evidence, "
+            "tracked concrete .analysis references and retained JSON input guards"
+        ),
+    )
+    parser.add_argument(
+        "--keep-analysis",
+        action="append",
+        default=[],
+        metavar="PATH",
+        help=(
+            "extra repository-relative .analysis path to preserve during aggressive "
+            "receipt pruning; repeat for multiple active runs"
+        ),
+    )
     args = parser.parse_args()
 
+    extra_preserved: set[Path] = set()
+    for raw in args.keep_analysis:
+        path = normalized_local_path(raw)
+        if path is None or not is_under(path, ANALYSIS):
+            parser.error(f"--keep-analysis must stay under .analysis/: {raw}")
+        extra_preserved.add(path)
+
     dry_run = not args.apply
-    removed = clean_analysis(dry_run) + clean_caches(dry_run)
+    removed = 0
+    if args.prune_unreferenced_receipts:
+        removed += prune_unreferenced_receipts(dry_run, extra_preserved)
+    removed += clean_analysis(dry_run) + clean_caches(dry_run)
     verb = "would remove" if dry_run else "removed"
     print(f"{verb} approximately {removed / (1024 * 1024):.1f} MiB")
     print(
         "preserved .analysis/toolchain, .analysis/targets, .analysis/runtime, "
-        ".analysis/ghidra, target-import.json, ledger evidence, guarded inputs "
-        "and cold receipt trees"
+        ".analysis/ghidra, target-import.json, ledger evidence and guarded inputs; "
+        + (
+            "unreferenced receipt trees were eligible because aggressive pruning was requested"
+            if args.prune_unreferenced_receipts
+            else "all cold receipt trees were preserved"
+        )
     )
     return 0
 

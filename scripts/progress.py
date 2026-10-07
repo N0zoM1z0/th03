@@ -69,8 +69,13 @@ def main() -> int:
         exact_functions = sum(f["state"] == "exact" for f in functions if f["artifact"] == target["id"])
         exact_bytes = sum(int(u["size"], 0) for u in rows if u["state"] == "exact")
         lines.append(f"| {target['id']} | {target['size']} | {present} | {exact} | {exact_functions} | {exact_bytes} |")
-    lines.extend(["", "Reviewed authored-byte denominator: unknown until ownership is reviewed.",
-                  "Infrastructure and reference builds do not count as game reconstruction.", ""])
+    lines.extend([
+        "",
+        "Reviewed authored-byte coverage is scoped to currently reviewed file-backed unit extents; "
+        "the whole-product authored denominator remains unknown.",
+        "Infrastructure and reference builds do not count as game reconstruction.",
+        "",
+    ])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions)

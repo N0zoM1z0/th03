@@ -7,5 +7,5 @@
 | th03-mainl | 37975 | 34 | 0 | 0 | 0 |
 | th03-zun | 16242 | 3 | 0 | 0 | 0 |
 
-Reviewed authored-byte denominator: unknown until ownership is reviewed.
+Reviewed authored-byte coverage is scoped to currently reviewed file-backed unit extents; the whole-product authored denominator remains unknown.
 Infrastructure and reference builds do not count as game reconstruction.

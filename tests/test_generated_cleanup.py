@@ -34,6 +34,51 @@ class CleanupProofControls(unittest.TestCase):
         self.put('.analysis/cold/run/receipt.json','{}')
         archive=self.put('.analysis/cold/run/reference.tar');output=self.put('.analysis/cold/run/source/obj/owner.obj')
         self.assertEqual(self.clean(),0);self.assertTrue(archive.exists());self.assertTrue(output.exists())
+
+    def prune_receipts(self,dry=False,extra=None,documented=None):
+        with patch.object(c,'documented_analysis_paths',return_value=documented or set()),contextlib.redirect_stdout(io.StringIO()):
+            return c.prune_unreferenced_receipts(dry,extra or set())
+
+    def test_aggressive_prune_removes_unreferenced_receipt_tree(self):
+        receipt=self.put('.analysis/cold/run/receipt.json','{}')
+        output=self.put('.analysis/cold/run/source/obj/owner.obj')
+        self.assertGreater(self.prune_receipts(),0)
+        self.assertFalse(receipt.exists());self.assertFalse(output.exists())
+
+    def test_aggressive_prune_keeps_ledger_receipt_tree(self):
+        self.evidence.write_text('location\n.analysis/cold/run/receipt.json\n')
+        receipt=self.put('.analysis/cold/run/receipt.json','{}')
+        output=self.put('.analysis/cold/run/source/obj/owner.obj')
+        self.assertEqual(self.prune_receipts(),0)
+        self.assertTrue(receipt.exists());self.assertTrue(output.exists())
+
+    def test_aggressive_prune_keeps_documented_receipt_tree(self):
+        receipt=self.put('.analysis/cold/run/receipt.json','{}')
+        output=self.put('.analysis/cold/run/source/obj/owner.obj')
+        self.assertEqual(self.prune_receipts(documented={receipt}),0)
+        self.assertTrue(receipt.exists());self.assertTrue(output.exists())
+
+    def test_aggressive_prune_keeps_explicit_active_run(self):
+        receipt=self.put('.analysis/cold/run/receipt.json','{}')
+        output=self.put('.analysis/cold/run/source/obj/owner.obj')
+        self.assertEqual(self.prune_receipts(extra={receipt.parent}),0)
+        self.assertTrue(receipt.exists());self.assertTrue(output.exists())
+
+    def test_aggressive_prune_dry_run_never_deletes_receipt(self):
+        receipt=self.put('.analysis/cold/run/receipt.json','{}')
+        self.put('.analysis/cold/run/source/obj/owner.obj')
+        self.assertGreater(self.prune_receipts(dry=True),0)
+        self.assertTrue(receipt.exists())
+
+    def test_aggressive_prune_accepts_hash_bound_text_with_json_name(self):
+        output,row=self.factory_query('.analysis/functions.json')
+        self.record_query(row)
+        receipt=self.put('.analysis/cold/run/receipt.json','{}')
+        self.put('.analysis/cold/run/source/obj/owner.obj')
+        with patch.object(c,'documented_analysis_paths',return_value=set()),contextlib.redirect_stdout(io.StringIO()):
+            self.assertGreater(c.prune_unreferenced_receipts(False,set()),0)
+        self.assertTrue(output.exists());self.assertFalse(receipt.exists())
+
     def test_nested_guards_and_transitive_receipts_remain(self):
         self.put('.analysis/top.json',json.dumps({'observations':[{'inputs':{'.analysis/child.json':'sha'}}]}))
         child=self.put('.analysis/child.json',json.dumps({'inputs':{'.analysis/image.exe':'sha'}}));image=self.put('.analysis/image.exe')

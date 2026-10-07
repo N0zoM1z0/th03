@@ -56,7 +56,7 @@ Only the CODE extent is promoted here: historical physical BSS producer
 ownership remains a separate open question. See
 reconstruction/MAIN_BOMBS_REVIEW.md.
 
-The next authored frontier is target-reviewed rather than guessed.
+At that checkpoint, the next authored frontier was target-reviewed rather than guessed.
 MAIN_07_TEXT through MAIN_11_TEXT form five complete character-local
 charge-shot/gauge owners: Chiyuri 1011 bytes / 9 functions, Ellen 1530 / 10,
 Kana 1291 / 9, Kotohime 690 / 9, and Rikako 1280 / 11. Together they cover
@@ -208,15 +208,16 @@ For verification, run:
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
 database before new target observations. The complete MAIN_03_TEXT boss segment
-remains exact. The active reconstruction frontier is now the ten boundary-reviewed
-Extra Attack owners in P_EXATT_TEXT and MAIN_06_TEXT; reconstruct complete owners
-rather than isolated leaves, while continuing to expand root code/data and the
-maintained build graph. Do not treat reviewed coverage as whole-product
-completion.
+remains exact. The active frontier is the Extra Attack family in P_EXATT_TEXT
+and MAIN_06_TEXT: eight owners remain source-open, while the Yumemi+Rikako
+2398-byte suffix already has natural TC4 producers and a passing two-round
+full-link candidate. Its next exactness gate is default-aggregate promotion.
+Continue reconstructing complete owners rather than isolated leaves, and do not
+treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2509 evidence rows / three hypotheses / 329 knowledge rows / 320
+275 units / 2511 evidence rows / three hypotheses / 331 knowledge rows / 320
 MAIN authored-function rows. The scoped exact subset remains 268 functions /
 42268 owned bytes, while the broader reviewed authored frontier is now 320
 functions / 51049 bytes. The ten new Extra Attack owners account for the

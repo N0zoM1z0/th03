@@ -58,9 +58,12 @@ by `sol-rec98-baseline-20261005`: all forty functions and fourteen extents
 passed the configured local gates. The baseline remains a bounded replay,
 not a complete maintained game build.
 
-Current MAIN acceptance contains fifty-five maintained source owners / sixty-two
-CODE extents / 268 functions / 42268 owned bytes. Seventy intake paths
-have scoped CODE decisions, including the frozen wrappers and implementations
+Current exact MAIN acceptance contains fifty-five maintained source owners /
+sixty-two exact CODE extents / 268 functions / 42268 owned bytes. The broader
+reviewed authored frontier contains 72 units / 320 functions / 51049 bytes;
+the ten Extra Attack owners account for the reviewed-but-not-yet-exact delta,
+with Yumemi and Rikako already at full-link candidate proof. Seventy intake
+paths have scoped CODE decisions, including the frozen wrappers and implementations
 for hitbox, combo, gauge, movement, ordinary shots, player state, resident pointer,
 extra-attack wrapper, hit circles, static HUD, playfield, sprite16 wrappers, MRS,
 shared sound/hardware, original collision/reversal assembly, the complete
