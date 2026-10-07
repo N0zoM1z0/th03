@@ -147,6 +147,20 @@ class MainExactManifestTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "anchor drifted"):
                 apply_carrier_edits(bad, work)
 
+            carrier.write_text("call old\ncall old\ncall old\n")
+            exact = {
+                "id": "root",
+                "carrier_edits": [{
+                    "kind": "replace-exact-count", "path": "carrier.asm",
+                    "before": "call old\n", "after": "call new\n", "count": 3,
+                }],
+            }
+            apply_carrier_edits(exact, work)
+            self.assertEqual(carrier.read_text(), "call new\n" * 3)
+            carrier.write_text("call old\ncall old\n")
+            with self.assertRaisesRegex(ValueError, "anchor drifted"):
+                apply_carrier_edits(exact, work)
+
     def test_nested_include_chain_reaches_the_actual_map_module(self):
         with TemporaryDirectory() as temporary:
             work = Path(temporary)

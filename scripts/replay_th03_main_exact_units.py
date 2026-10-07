@@ -316,6 +316,7 @@ def apply_carrier_edits(unit: dict, work: Path) -> None:
     for index, edit in enumerate(unit.get("carrier_edits", []), 1):
         allowed = {
             "replace-once": {"kind", "path", "before", "after"},
+            "replace-exact-count": {"kind", "path", "before", "after", "count"},
             "remove-between": {
                 "kind", "path", "start_marker", "end_marker", "replacement"
             },
@@ -326,14 +327,20 @@ def apply_carrier_edits(unit: dict, work: Path) -> None:
         path = work / edit["path"]
         data = path.read_bytes()
 
-        if kind == "replace-once":
+        if kind in {"replace-once", "replace-exact-count"}:
             before = edit["before"].encode("ascii")
             after = edit["after"].encode("ascii")
-            if not before or data.count(before) != 1:
+            expected = 1 if kind == "replace-once" else edit["count"]
+            if (
+                not before
+                or not isinstance(expected, int)
+                or expected <= 0
+                or data.count(before) != expected
+            ):
                 raise ValueError(
                     f"carrier replacement anchor drifted: {unit['id']}:{index}"
                 )
-            data = data.replace(before, after, 1)
+            data = data.replace(before, after, expected)
         else:
             start_marker = edit["start_marker"].encode("ascii")
             end_marker = edit["end_marker"].encode("ascii")
