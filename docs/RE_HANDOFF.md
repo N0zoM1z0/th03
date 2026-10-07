@@ -106,9 +106,11 @@ and all 24 ordered relocations in two default cold builds and emits zero private
 DATA/BSS. Carrier aliases preserve the seven shared level-derived parameters
 and the existing boss-state radius/angle/frame storage without moving data.
 Chiyuri (2654 bytes / eleven functions) now has natural TC4J object-shape
-proof, including its 352-byte cardinal pattern, 528-byte fan pattern, 613-byte
-update and 81-byte compiler switch table, with zero private DATA/BSS. Its
-full-link carve is the next gate. See reconstruction/MAIN_BOSS_REVIEW.md.
+proof and a passing two-round full-link candidate: zero differing linked bytes,
+exact MAP ownership and all 49 ordered relocations match, including its
+352-byte cardinal pattern, 528-byte fan pattern, 613-byte update and 81-byte
+compiler switch table. The C++ object emits zero private DATA/BSS.
+Default-aggregate promotion is the next gate. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -177,7 +179,7 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the Chiyuri boss full-link carve, then the remaining reviewed
+database before new target observations. Continue MAIN with Chiyuri default-aggregate promotion, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.
@@ -187,7 +189,7 @@ headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
 265 units / 2475 evidence rows / three hypotheses / 322 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset is now 240 functions /
 36063 owned bytes. The remaining three MAIN_03_TEXT character owners stay
-boundary-reviewed; Chiyuri now has source/object proof and is the next full-link target.
+boundary-reviewed; Chiyuri now has source/object/full-link candidate proof and is the next promotion target.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports

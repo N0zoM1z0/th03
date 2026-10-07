@@ -576,11 +576,11 @@ emits zero private DATA/BSS.
 
 The retained object-shape replay is:
 
-    python3 scripts/probe_th03_main_boss_chiyuri_cpp.py --run-id gpt-web-chiyuri-boss-v08x-20261007
+    python3 scripts/probe_th03_main_boss_chiyuri_cpp.py --run-id gpt-web-chiyuri-boss-v09x-20261007
 
 Receipt:
 
-    .analysis/th03-main-boss-chiyuri-cpp/gpt-web-chiyuri-boss-v08x-20261007/receipt.json
+    .analysis/th03-main-boss-chiyuri-cpp/gpt-web-chiyuri-boss-v09x-20261007/receipt.json
 
 All eleven starts/sizes and the switch key/destination structure match.
 Target-first compiler-guided corrections included preserving the frame-1 jump
@@ -596,3 +596,27 @@ verified 81-byte compiler switch table immediately before the next public
 function. This avoids misclassifying valid update code as producer data.
 
 Full-link MAP, raw bytes and ordered relocations remain the next gate.
+
+
+## Chiyuri full-link candidate
+
+The first full-link candidate differed in only four linked bytes while MAP
+ownership and all 49 relocation sites already matched. All four bytes came
+from the local-word order in the monochrome renderer: the target frame is
+left at BP-2, top at BP-4 and sprite offset at BP-6. Restoring the source
+declaration order lets TC4 emit that exact stack layout without byte patches.
+
+The corrected candidate replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_boss_chiyuri_candidate.toml --run-id gpt-web-chiyuri-boss-full-link-c03x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-chiyuri-boss-full-link-c03x-20261007/receipt.json
+
+Both cold rounds pass the complete 2654-byte Chiyuri owner with zero differing
+linked bytes, exact MAIN_03_TEXT MAP ownership and all 49 target relocation
+records in their original order. The 81-byte switch table remains TC4-generated.
+The aggregate is deterministic at 20 products and passes the maintained DOS
+behavior probe. This is candidate proof; default-aggregate promotion remains
+a separate gate.

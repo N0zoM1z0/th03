@@ -652,9 +652,9 @@ void near chiyuri_render_intro(void)
 
 void near pascal chiyuri_render_mono(int color)
 {
-	sprite16_offset_t sprite_offset;
-	screen_y_t top;
 	screen_x_t left;
+	screen_y_t top;
+	sprite16_offset_t sprite_offset;
 
 	sprite16_put_size.w = 128;
 	sprite16_put_size.h = 64;
