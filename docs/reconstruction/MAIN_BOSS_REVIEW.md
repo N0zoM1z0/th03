@@ -564,3 +564,35 @@ No historical state storage is moved.
 
 The next complete MAIN_03_TEXT character owner is Chiyuri: 2654 bytes / 11
 functions, including a 613-byte update and an 81-byte switch table.
+
+
+## Chiyuri natural TC4 producer
+
+src/main/boss/chiyuri.cpp reconstructs the complete 2654-byte Chiyuri logical
+owner as natural Turbo C++. The producer covers all eleven reviewed functions,
+including the 352-byte cardinal pattern, 528-byte fan pattern, 613-byte update,
+205-byte main renderer and the compiler-generated 81-byte switch table. It
+emits zero private DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_chiyuri_cpp.py --run-id gpt-web-chiyuri-boss-v08x-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-chiyuri-cpp/gpt-web-chiyuri-boss-v08x-20261007/receipt.json
+
+All eleven starts/sizes and the switch key/destination structure match.
+Target-first compiler-guided corrections included preserving the frame-1 jump
+around the cardinal-pattern end check, restoring fan arithmetic evaluation
+order, representing the five random boss positions as two overlapping word
+views at the historical DATA addresses, restoring the boolean render-frame
+addition in AX, and keeping the target physical renderer order.
+
+Chiyuri's 613-byte update contains an intentional case-255 early RETF before
+the common post-switch tail. The object probe therefore does not use the first
+RETF as the function boundary; it derives the update end from the independently
+verified 81-byte compiler switch table immediately before the next public
+function. This avoids misclassifying valid update code as producer data.
+
+Full-link MAP, raw bytes and ordered relocations remain the next gate.
