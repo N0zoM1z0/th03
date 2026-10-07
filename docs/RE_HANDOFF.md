@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 56 units / 211 functions / 30528 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 62 reviewed authored units / 268 functions / 42268 bytes; exact subset 57 units / 220 functions / 32548 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 30528 exact bytes comprise 30080 function bytes and 448 explicitly
+MAIN's 32548 exact bytes comprise 32028 function bytes and 520 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-yumemi-boss-promote-final-p03x-20261007/receipt.json.
+.analysis/th03-main-exact/gpt-web-reimu-boss-promote-final-p04z-20261007/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 371 deterministic game objects and 437 validated
+with 20 product outputs, 372 deterministic game objects and 438 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -92,29 +92,19 @@ function bytes and nine explicitly classified Turbo C++ switch tables / 717
 producer-owned bytes. All 326 in-owner MZ relocations are recorded and no
 relocation crosses an owner edge.
 
-The first three logical boss owners are now exact. The 949-byte shared prefix /
+The first five logical boss owners are now exact. The 949-byte shared prefix /
 eight functions is maintained as one semantic natural source but uses two
-consecutive TC4J physical producers (348-byte explosion ring + 601-byte
-remainder) because the one-object model reversed the two historical FIXUPP
-relocation groups. A zero-byte TASM order scaffold preserves TLINK first-seen
-segment order and owns no game bytes. Marisa contributes 1431 bytes / nine
-functions plus an 81-byte switch table. Mima now contributes 1922 bytes / nine
-functions plus its 81-byte switch table, including the 298-byte update and
-305-byte render helper. Mima matches all linked bytes and all 32 ordered
-relocations in two default cold builds, emits no private DATA/BSS, and aliases
-render/parameter/orbit state at the observed carrier storage. The first four logical boss owners are now exact. Yumemi contributes 2358
-bytes / ten functions plus its 80-byte compiler switch table, including the
-368-byte update, 333-byte main renderer and 404-byte arrival renderer. Its one
-natural TC4J producer matches all linked bytes, exact MAP placement and all 61
-ordered relocations in two default cold builds and emits zero private DATA/BSS.
-Carrier aliases preserve the observed boss, parameter, fixed table and private
-scratch storage. Reimu (2020 bytes / nine functions) now has natural TC4J object-shape proof
-and a passing two-round full-link candidate: zero differing linked bytes, exact
-MAP ownership and all 30 ordered relocations match, including its 443-byte
-orbit-burst pattern, 296-byte update, two 259-byte render helpers and 72-byte
-compiler switch table. The C++ object emits zero private DATA/BSS.
-Default-aggregate promotion is the next gate. See
-reconstruction/MAIN_BOSS_REVIEW.md.
+consecutive TC4J physical producers to preserve historical FIXUPP ordering; a
+zero-byte TASM scaffold preserves TLINK first-seen segment order and owns no
+game bytes. Marisa contributes 1431 bytes / nine functions plus an 81-byte
+switch table; Mima contributes 1922 / nine plus 81; Yumemi contributes 2358 /
+ten plus 80; and Reimu contributes 2020 / nine plus 72. Reimu includes the
+443-byte orbit-burst pattern, 296-byte update and two 259-byte render helpers.
+Its natural ba_reimu producer matches all 2020 linked bytes, exact MAP placement
+and all 30 ordered relocations in two default cold builds and emits zero private
+DATA/BSS. Carrier aliases preserve the observed shared parameters and Reimu's
+private orbit state/point arrays. Ellen is the next complete character owner.
+See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -183,27 +173,27 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with Reimu default-aggregate promotion, then the remaining reviewed
+database before new target observations. Continue MAIN with the complete Ellen boss owner, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-265 units / 2451 evidence rows / three hypotheses / 316 knowledge rows / 268
-MAIN authored-function rows. The scoped exact subset is now 211 functions /
-30528 owned bytes. The remaining six MAIN_03_TEXT character owners stay
-boundary-reviewed; Reimu now has source/object/full-link candidate proof and is the next promotion target.
+265 units / 2459 evidence rows / three hypotheses / 318 knowledge rows / 268
+MAIN authored-function rows. The scoped exact subset is now 220 functions /
+32548 owned bytes. The remaining five MAIN_03_TEXT character owners stay
+boundary-reviewed; Ellen is the next complete source/full-link target.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports
 125 errors, all 125 ending in ModuleNotFoundError for the missing unicorn module,
 with 167 skips; its log is
-.analysis/th03-main-exact/gpt-web-yumemi-boss-promote-final-p03x-20261007/ci-current-host.log.
+.analysis/th03-main-exact/gpt-web-reimu-boss-promote-final-p04z-20261007/ci-current-host.log.
 No local wheel, egg, apt cache, or alternate Python with Unicorn is present.
 The CI steps after unittest were rerun individually and pass: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log is
-.analysis/th03-main-exact/gpt-web-yumemi-boss-promote-final-p03x-20261007/ci-post-unittest-gates.log.
+.analysis/th03-main-exact/gpt-web-reimu-boss-promote-final-p04z-20261007/ci-post-unittest-gates.log.
 This is an explicit host dependency block, not a full-CI PASS.

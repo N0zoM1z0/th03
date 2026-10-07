@@ -58,8 +58,8 @@ by `sol-rec98-baseline-20261005`: all forty functions and fourteen extents
 passed the configured local gates. The baseline remains a bounded replay,
 not a complete maintained game build.
 
-Current MAIN acceptance contains forty-nine maintained source owners / fifty-six
-CODE extents / 211 functions / 30528 owned bytes. Seventy intake paths
+Current MAIN acceptance contains fifty maintained source owners / fifty-seven
+CODE extents / 220 functions / 32548 owned bytes. Seventy intake paths
 have scoped CODE decisions, including the frozen wrappers and implementations
 for hitbox, combo, gauge, movement, ordinary shots, player state, resident pointer,
 extra-attack wrapper, hit circles, static HUD, playfield, sprite16 wrappers, MRS,
