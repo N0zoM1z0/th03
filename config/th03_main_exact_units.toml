@@ -3870,3 +3870,244 @@ offset = 0x2f50
 size = 93
 boundary = "owner-linear-span"
 abi = "far cdecl; RETF"
+
+# MAIN_03_TEXT Chiyuri boss exact owner
+[[units]]
+id = "th03-main-boss-chiyuri"
+source = "src/main/boss/chiyuri.cpp"
+header = "src/main/boss/chiyuri.hpp"
+object = "boss_chiyuri"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ba_chiyu.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ba_chiyu", wrapper = "th03/ba_chiyu.cpp", source = "src/main/boss/chiyuri.cpp" }]
+support_files = [
+  "src/main/boss/shared.hpp",
+  "src/main/math/polar.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/round.hpp",
+  "compat/rec98/th03/main/v_colors.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th02/snd/snd.h",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ba_koto.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/ba_koto.cpp\",\n\t\"th03/ba_chiyu.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-boss-chiyuri", segment = 0x0f1f, start = 0x2fad, size = 0x0a5e, map_segment = "MAIN_03_TEXT", map_group = "(none)", map_acbp = 28, producer_ranges = [{ relative = 0x0770, size = 0x51, kind = "tc4-switch-table" }], map_parts = [
+    { object = "ba_chiyu", start = 0x2fad, size = 0x0a5e },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern _execl:proc\r\n"
+after = "\textern _execl:proc\r\n\textern BOSS_CHIYURI_TEMPLATE_INIT:far\r\n\textern _gba_boss_update_chiyuri:far\r\n\textern _gba_boss_render_chiyuri:far\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tchiyuri_1219D\r\n"
+after = "\t\tcall\tBOSS_CHIYURI_TEMPLATE_INIT\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p1, gba_boss_update_chiyuri\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p1, _gba_boss_update_chiyuri\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p1, gba_boss_render_chiyuri\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p1, _gba_boss_render_chiyuri\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p2, gba_boss_update_chiyuri\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p2, _gba_boss_update_chiyuri\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p2, gba_boss_render_chiyuri\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p2, _gba_boss_render_chiyuri\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "chiyuri_1219D\tproc far\r\n"
+end_marker = "gba_boss_render_chiyuri endp\r\n"
+replacement = "; Chiyuri boss owner moved to natural TC4 producer\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "public _kotohime_pellet_speed, _kotohime_pellet_interval, _kotohime_burst_count\r\n"
+after = "public _kotohime_pellet_speed, _kotohime_pellet_interval, _kotohime_burst_count\r\npublic _chiyuri_cardinal_speed, _chiyuri_cardinal_interval, _chiyuri_ring_speed\r\npublic _chiyuri_ring_interval, _chiyuri_trail_speed, _chiyuri_fan_speed, _chiyuri_fan_count\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_kotohime_random_ring_speed label byte\r\nbyte_1F39F\tdb ?\r\n"
+after = "_kotohime_random_ring_speed label byte\r\n_chiyuri_cardinal_speed label byte\r\nbyte_1F39F\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_kotohime_orbit_count label byte\r\nbyte_1F3A0\tdb ?\r\n"
+after = "_kotohime_orbit_count label byte\r\n_chiyuri_cardinal_interval label byte\r\nbyte_1F3A0\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_kotohime_aimed_speed_slow label byte\r\nbyte_1F3A1\tdb ?\r\n"
+after = "_kotohime_aimed_speed_slow label byte\r\n_chiyuri_ring_speed label byte\r\nbyte_1F3A1\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_kotohime_aimed_speed_fast label byte\r\nbyte_1F3A2\tdb ?\r\n"
+after = "_kotohime_aimed_speed_fast label byte\r\n_chiyuri_ring_interval label byte\r\nbyte_1F3A2\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_kotohime_pellet_speed label byte\r\nbyte_1F3A3\tdb ?\r\n"
+after = "_kotohime_pellet_speed label byte\r\n_chiyuri_trail_speed label byte\r\nbyte_1F3A3\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_kotohime_pellet_interval label byte\r\nbyte_1F3A4\tdb ?\r\n"
+after = "_kotohime_pellet_interval label byte\r\n_chiyuri_fan_speed label byte\r\nbyte_1F3A4\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_kotohime_burst_count label byte\r\nbyte_1F3A5\tdb ?\r\n"
+after = "_kotohime_burst_count label byte\r\n_chiyuri_fan_count label byte\r\nbyte_1F3A5\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_ellen_pellet_angle label byte\r\nbyte_23DE3\tdb ?\r\nbyte_23DE4\tdb ?\r\nbyte_23DE5\tdb ?\r\n"
+after = "_ellen_pellet_angle label byte\r\nbyte_23DE3\tdb ?\r\npublic _chiyuri_cardinal_angle, _chiyuri_cardinal_reverse\r\n_chiyuri_cardinal_angle label byte\r\nbyte_23DE4\tdb ?\r\n_chiyuri_cardinal_reverse label byte\r\nbyte_23DE5\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_ellen_render_heights label word\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    0\r\n\t\tdb    3\r\n\t\tdb    0\r\n\t\tdb    7\r\n"
+after = "_ellen_render_heights label word\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    0\r\npublic _chiyuri_boss_x_words, _chiyuri_boss_y_words\r\n_chiyuri_boss_x_words label word\r\n\t\tdb    0\r\n\t\tdb    3\r\n_chiyuri_boss_y_words label word\r\n\t\tdb    0\r\n\t\tdb    7\r\n"
+
+[[functions]]
+name = "boss_chiyuri_template_init"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x2fad
+size = 88
+boundary = "owner-linear-span"
+abi = "far Pascal; word pid; RETF 2"
+
+[[functions]]
+name = "chiyuri_pattern_cardinal"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x3005
+size = 352
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "chiyuri_pattern_rings"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x3165
+size = 208
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "chiyuri_pattern_trail_ring"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x3235
+size = 115
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "chiyuri_pattern_fans"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x32a8
+size = 528
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "gba_boss_update_chiyuri"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x34b8
+size = 613
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "chiyuri_render_ring"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x376e
+size = 178
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "chiyuri_render_main"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x3820
+size = 205
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "chiyuri_render_intro"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x38ed
+size = 91
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "chiyuri_render_mono"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x3948
+size = 97
+boundary = "owner-linear-span"
+abi = "near Pascal; word color; RET 2"
+
+[[functions]]
+name = "gba_boss_render_chiyuri"
+object = "boss_chiyuri"
+segment = 0x0f1f
+offset = 0x39a9
+size = 98
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"

@@ -620,3 +620,29 @@ records in their original order. The 81-byte switch table remains TC4-generated.
 The aggregate is deterministic at 20 products and passes the maintained DOS
 behavior probe. This is candidate proof; default-aggregate promotion remains
 a separate gate.
+
+
+## Chiyuri full-link exact promotion
+
+Chiyuri is now part of the default maintained aggregate. The promotion replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-chiyuri-boss-promote-default-p01x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-chiyuri-boss-promote-default-p01x-20261007/receipt.json
+
+Both cold rounds pass 251 functions / 37955 function bytes / 38717 owned bytes.
+The complete 2654-byte Chiyuri owner is raw-byte identical in both rounds and
+all 49 MZ relocation records match in their original order. The 81-byte TC4
+switch table is producer-owned, while the eleven function bodies account for
+2573 bytes. The aggregate produces 20 deterministic products and 375
+deterministic game objects and passes the maintained DOS behavior probe.
+
+ba_chiyu emits no private DATA/BSS. Carrier aliases keep the seven level-derived
+parameters at 1F39F..1F3A5, the two private direction bytes at 23DE4..23DE5,
+and the five interleaved boss positions at the existing DATA 08D6..08E9 bytes.
+No historical storage is moved.
+
+The next complete MAIN_03_TEXT character owner is Kana: 1874 bytes / 9
+functions, including a 316-byte update and an 80-byte switch table.
