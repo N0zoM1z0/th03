@@ -251,3 +251,36 @@ bytes, with 20 deterministic products, 363 deterministic game objects and the
 maintained DOS behavior probe. Kana therefore has formal scoped exact CODE
 acceptance. Physical historical ownership of the surrounding anonymous carrier
 BSS remains separate from this CODE claim.
+
+
+## Kotohime natural TC4 producer
+
+src/main/player/chargeshot_kotohime.cpp now reconstructs the complete
+MAIN_10_TEXT owner as natural Turbo C++. A fresh pinned TC4J compile emits one
+690-byte MAIN_10_TEXT CODE segment, no private DATA/BSS, 250 decoded
+instructions, and all nine reviewed function boundaries. Every instruction
+offset, size and mnemonic matches the immutable target.
+
+The owner has a compact state model: two eight-byte per-player charge objects,
+a two-byte gauge frame array, a shared near scratch pointer, and the already
+shared four-byte-per-player gauge timing record. The hittest target contains a
+material BX lifetime: after testing the active byte, TC4J reloads the shared
+near pointer into BX before the coordinate comparisons. Pure expression
+rewrites either retained BX across the branch or introduced an SI register
+local. The accepted source uses the same Borland register-pseudo idiom already
+present elsewhere in maintained natural source to express that one reload
+without copying target assembly.
+
+Reproducible object probe:
+
+    python3 scripts/probe_th03_main_chargeshot_kotohime_cpp.py --run-id UNIQUE_ID
+
+Retained receipt:
+
+    .analysis/th03-main-chargeshot-kotohime-cpp/gpt-web-kotohime-charge-v5-20261007/receipt.json
+
+This is source/producer-shape evidence only. Full-link acceptance must bind the
+historical 28F8/28FA/290A state slots and the existing Kotohime gauge-spawn
+helper, prove the exact MAIN_10_TEXT MAP contribution, all 690 linked bytes and
+the eight-entry ordered relocation sequence, and retain all previously accepted
+owners.

@@ -66,7 +66,10 @@ the ordered relocation sequence 228,467,500,646,1073,1090,1115,1132,1226.
 Neither C++ object emits private DATA/BSS. The frozen carrier exports semantic
 aliases at the unchanged historical state slots. The default aggregate therefore
 reaches 155 exact functions / 21898 owned bytes. Kotohime MAIN_10_TEXT is the
-next active complete owner; Rikako remains boundary-reviewed. See
+next active complete owner and now has a natural TC4J source candidate whose
+complete 690-byte / 250-instruction / 9-function object shape matches the
+target with no private DATA/BSS. Full-link MAP/state/ordered-relocation
+acceptance remains open. Rikako remains boundary-reviewed. See
 reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
