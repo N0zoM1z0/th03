@@ -258,3 +258,27 @@ observed 20E28..20E2B bytes. No historical state storage is moved.
 
 The next complete MAIN_03_TEXT character owner is Yumemi: 2358 bytes / 10
 functions, including a 368-byte update and an 80-byte switch table.
+
+
+## Yumemi natural TC4 producer
+
+src/main/boss/yumemi.cpp now reconstructs the complete 2358-byte Yumemi logical
+owner as natural Turbo C++. The producer covers all ten reviewed functions,
+including the 368-byte update, 333-byte main renderer and 404-byte arrival
+renderer, plus the compiler-generated 80-byte switch table. It emits zero
+private DATA/BSS.
+
+The retained object-shape replay is:
+
+    python3 scripts/probe_th03_main_boss_yumemi_cpp.py --run-id gpt-web-yumemi-boss-v05x-20261007
+
+Receipt:
+
+    .analysis/th03-main-boss-yumemi-cpp/gpt-web-yumemi-boss-v05x-20261007/receipt.json
+
+All ten starts/sizes and the switch key/destination structure match. Material
+source-level details recovered from TC4 codegen include the local 128-byte
+player view needed for the pid<<7 center lookup, the stack-resident sprite
+offset in the main renderer, the separate line-target locals, and the four-stage
+arrival sweep that lets TC4 reproduce the original SI/DI loop shape naturally.
+Full-link MAP, raw bytes and ordered relocations remain the next gate.

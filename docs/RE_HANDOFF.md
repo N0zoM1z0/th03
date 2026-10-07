@@ -102,8 +102,10 @@ functions plus an 81-byte switch table. Mima now contributes 1922 bytes / nine
 functions plus its 81-byte switch table, including the 298-byte update and
 305-byte render helper. Mima matches all linked bytes and all 32 ordered
 relocations in two default cold builds, emits no private DATA/BSS, and aliases
-render/parameter/orbit state at the observed carrier storage. The next complete
-character owner is Yumemi. See reconstruction/MAIN_BOSS_REVIEW.md.
+render/parameter/orbit state at the observed carrier storage. Yumemi (2358 bytes / ten functions) now also has natural TC4J object-shape
+proof, including its 368-byte update, 333-byte main renderer, 404-byte arrival
+renderer and 80-byte compiler switch table, with zero private DATA/BSS. Its
+full-link carve is the next gate. See reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation
@@ -172,7 +174,7 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the complete Yumemi boss owner, then the remaining reviewed
+database before new target observations. Continue MAIN with the Yumemi boss full-link carve, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.
@@ -182,7 +184,7 @@ headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
 265 units / 2443 evidence rows / three hypotheses / 314 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset is now 201 functions /
 28170 owned bytes. The remaining seven MAIN_03_TEXT character owners stay
-boundary-reviewed; Yumemi is the next complete source/full-link target.
+boundary-reviewed; Yumemi now has source/object proof and is the next full-link target.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports
