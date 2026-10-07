@@ -269,7 +269,7 @@ def main() -> int:
         "wine", "cmd", "/d", "/c",
         r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
         r"&&bin\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml "
-        r"-nobj/th03/ th03/ba_maris.cpp",
+        r"-a2 -nobj/th03/ th03/ba_maris.cpp",
     ]
     build = execute(command, work, env, out / "compiler.log")
 

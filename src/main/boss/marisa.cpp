@@ -357,9 +357,9 @@ void near pascal marisa_render_split(int offset)
 {
 	screen_y_t top;
 	pid_t pid_other;
-	register int offset_reg = offset;
 	register screen_x_t left;
 
+	_SI = offset;
 	pid_other = (1 - pid_current);
 	sprite16_put_size.set(176, 96);
 	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 88);
@@ -368,12 +368,12 @@ void near pascal marisa_render_split(int offset)
 	_AH = SPRITE16_SET_MASK;
 	_DX = 0xAAAA;
 	geninterrupt(SPRITE16);
-	sprite16_put((left - offset_reg), top, boss_sprite_offset);
+	sprite16_put((left - _SI), top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
 	_DX = 0x5555;
 	geninterrupt(SPRITE16);
-	sprite16_put((left + offset_reg), top, boss_sprite_offset);
+	sprite16_put((left + _SI), top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
 	_DX = 0xFFFF;
