@@ -658,11 +658,11 @@ DATA/BSS.
 
 The retained object-shape replay is:
 
-    python3 scripts/probe_th03_main_boss_kana_cpp.py --run-id gpt-web-kana-boss-v03x-20261007
+    python3 scripts/probe_th03_main_boss_kana_cpp.py --run-id gpt-web-kana-boss-v04x-20261007
 
 Receipt:
 
-    .analysis/th03-main-boss-kana-cpp/gpt-web-kana-boss-v03x-20261007/receipt.json
+    .analysis/th03-main-boss-kana-cpp/gpt-web-kana-boss-v04x-20261007/receipt.json
 
 All nine starts/sizes and the switch key/destination structure match.
 Compiler-guided corrections included removing an unnecessary other-player PID
@@ -671,3 +671,29 @@ the cloud angle, storing the rotating-ring random selector in its historical
 private byte before branching, and restoring the intro renderer's local-frame
 order and loop-update expression. Full-link MAP, raw bytes and ordered
 relocations remain the next gate.
+
+
+## Kana full-link candidate
+
+The first full-link attempt differed in only two linked bytes while MAP
+placement and all ordered relocation sites already matched. Both bytes were
+short-branch displacements, not data or relocation values. Target control-flow
+showed two missing source-level early returns: one in the staged-ring range
+0x28..0x4F and one in the rotating-ring range 0x20..0x6B. Adding those returns
+keeps the TC4 object at the same 1874-byte size and makes the branch targets
+match the original.
+
+The corrected candidate replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_boss_kana_candidate.toml --run-id gpt-web-kana-boss-full-link-c02x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-kana-boss-full-link-c02x-20261007/receipt.json
+
+Both cold rounds pass the complete 1874-byte Kana owner with zero differing
+linked bytes, exact MAIN_03_TEXT MAP ownership and all 35 target relocation
+records in their original order. The 80-byte switch table remains TC4-generated.
+The aggregate is deterministic at 20 products and 376 game objects and passes
+the maintained DOS behavior probe. This is candidate proof; default-aggregate
+promotion remains a separate gate.

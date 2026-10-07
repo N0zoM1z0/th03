@@ -216,6 +216,7 @@ void near kana_pattern_staged_ring(void)
 			snd_se_play(10);
 			return;
 		}
+		return;
 	}
 
 	if(boss_frame > 0x60) {
@@ -306,6 +307,7 @@ void near kana_pattern_rotating_ring(void)
 			kana_rotating_angle += kana_rotating_delta;
 			return;
 		}
+		return;
 	}
 
 	if(boss_frame > 0x70) {

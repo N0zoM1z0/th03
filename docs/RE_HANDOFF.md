@@ -180,7 +180,7 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the Kana boss full-link carve, then the remaining reviewed
+database before new target observations. Continue MAIN with Kana default-aggregate promotion, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.

@@ -1,0 +1,215 @@
+schema_version = 1
+
+[[units]]
+id = "th03-main-boss-kana"
+source = "src/main/boss/kana.cpp"
+header = "src/main/boss/kana.hpp"
+object = "boss_kana"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ba_kana.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ba_kana", wrapper = "th03/ba_kana.cpp", source = "src/main/boss/kana.cpp" }]
+support_files = [
+  "src/main/boss/shared.hpp",
+  "src/main/math/polar.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/round.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th02/snd/snd.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ba_chiyu.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/ba_chiyu.cpp\",\n\t\"th03/ba_kana.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-boss-kana", segment = 0x0f1f, start = 0x3a0b, size = 0x0752, map_segment = "MAIN_03_TEXT", map_group = "(none)", map_acbp = 28, producer_ranges = [{ relative = 0x0529, size = 0x50, kind = "tc4-switch-table" }], map_parts = [
+    { object = "ba_kana", start = 0x3a0b, size = 0x0752 },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern _execl:proc\r\n"
+after = "\textern _execl:proc\r\n\textern BOSS_KANA_TEMPLATE_INIT:far\r\n\textern _gba_boss_update_kana:far\r\n\textern _gba_boss_render_kana:far\r\n\tpublic KANA_EXTRA_ADD\r\nKANA_EXTRA_ADD = kana_19896\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tkana_12BFB\r\n"
+after = "\t\tcall\tBOSS_KANA_TEMPLATE_INIT\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p1, gba_boss_update_kana\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p1, _gba_boss_update_kana\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p1, gba_boss_render_kana\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p1, _gba_boss_render_kana\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p2, gba_boss_update_kana\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p2, _gba_boss_update_kana\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p2, gba_boss_render_kana\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p2, _gba_boss_render_kana\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "kana_12BFB\tproc far\r\n"
+end_marker = "gba_boss_render_kana endp\r\n"
+replacement = "; Kana boss owner moved to natural TC4 producer\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "public _chiyuri_ring_interval, _chiyuri_trail_speed, _chiyuri_fan_speed, _chiyuri_fan_count\r\n"
+after = "public _chiyuri_ring_interval, _chiyuri_trail_speed, _chiyuri_fan_speed, _chiyuri_fan_count\r\npublic _kana_accel_count, _kana_ring_count_slow, _kana_ring_count_mid, _kana_ring_count_fast\r\npublic _kana_cloud_interval, _kana_cloud_count, _kana_rotating_speed\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_cardinal_speed label byte\r\nbyte_1F39F\tdb ?\r\n"
+after = "_chiyuri_cardinal_speed label byte\r\n_kana_accel_count label byte\r\nbyte_1F39F\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_cardinal_interval label byte\r\nbyte_1F3A0\tdb ?\r\n"
+after = "_chiyuri_cardinal_interval label byte\r\n_kana_ring_count_slow label byte\r\nbyte_1F3A0\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_ring_speed label byte\r\nbyte_1F3A1\tdb ?\r\n"
+after = "_chiyuri_ring_speed label byte\r\n_kana_ring_count_mid label byte\r\nbyte_1F3A1\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_ring_interval label byte\r\nbyte_1F3A2\tdb ?\r\n"
+after = "_chiyuri_ring_interval label byte\r\n_kana_ring_count_fast label byte\r\nbyte_1F3A2\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_trail_speed label byte\r\nbyte_1F3A3\tdb ?\r\n"
+after = "_chiyuri_trail_speed label byte\r\n_kana_cloud_interval label byte\r\nbyte_1F3A3\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_fan_speed label byte\r\nbyte_1F3A4\tdb ?\r\n"
+after = "_chiyuri_fan_speed label byte\r\n_kana_cloud_count label byte\r\nbyte_1F3A4\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_fan_count label byte\r\nbyte_1F3A5\tdb ?\r\n"
+after = "_chiyuri_fan_count label byte\r\n_kana_rotating_speed label byte\r\nbyte_1F3A5\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_chiyuri_cardinal_reverse label byte\r\nbyte_23DE5\tdb ?\r\nbyte_23DE6\tdb ?\r\nbyte_23DE7\tdb ?\r\n"
+after = "_chiyuri_cardinal_reverse label byte\r\nbyte_23DE5\tdb ?\r\npublic _kana_rotating_angle, _kana_rotating_delta\r\n_kana_rotating_angle label byte\r\nbyte_23DE6\tdb ?\r\n_kana_rotating_delta label byte\r\nbyte_23DE7\tdb ?\r\n"
+
+[[functions]]
+name = "boss_kana_template_init"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x3a0b
+size = 84
+boundary = "owner-linear-span"
+abi = "far Pascal; word pid; RETF 2"
+
+[[functions]]
+name = "kana_pattern_accel_ring"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x3a5f
+size = 232
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kana_pattern_staged_ring"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x3b47
+size = 321
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kana_pattern_cloud_ring"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x3c88
+size = 142
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kana_pattern_rotating_ring"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x3d16
+size = 226
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "gba_boss_update_kana"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x3df8
+size = 316
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "kana_render_main"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x3f84
+size = 175
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kana_render_intro"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x4033
+size = 219
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "gba_boss_render_kana"
+object = "boss_kana"
+segment = 0x0f1f
+offset = 0x410e
+size = 79
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
