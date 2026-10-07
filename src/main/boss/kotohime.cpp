@@ -91,8 +91,8 @@ void far pascal boss_kotohime_template_init(int player_id)
 
 void near pascal kotohime_ring_emit(int randomize_angle)
 {
-	int y;
 	int x;
+	int y;
 	unsigned char angle;
 	register int i;
 
@@ -235,8 +235,8 @@ void near kotohime_pattern_pellet_arc(void)
 
 void near kotohime_pattern_radial_burst(void)
 {
-	int y;
 	int x;
+	int y;
 	unsigned char center_angle;
 	register int bullet_i;
 	register int center_i;
@@ -413,7 +413,7 @@ void near pascal kotohime_render_ring(int count)
 		sprite_offset += 0xA00;
 	}
 
-	sprite16_put_size.w = (32 / 16);
+	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 
 	for(i = 0; i < count; i++) {
@@ -444,7 +444,7 @@ void near kotohime_render_main(void)
 	screen_y_t top;
 	register sprite16_offset_t sprite_offset;
 
-	sprite16_put_size.w = (128 / 16);
+	sprite16_put_size.w = 128;
 	sprite16_put_size.h = 48;
 
 	left = (
@@ -472,7 +472,7 @@ void near pascal kotohime_render_intro(int radius)
 		return;
 	}
 
-	sprite16_put_size.w = (32 / 16);
+	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 	boss_render_mode = 1;
 	boss_move_phase += 2;

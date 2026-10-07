@@ -1,0 +1,185 @@
+schema_version = 1
+
+[[units]]
+id = "th03-main-boss-kotohime"
+source = "src/main/boss/kotohime.cpp"
+header = "src/main/boss/kotohime.hpp"
+object = "boss_kotohime"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ba_koto.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ba_koto", wrapper = "th03/ba_koto.cpp", source = "src/main/boss/kotohime.cpp" }]
+support_files = [
+  "src/main/boss/shared.hpp",
+  "src/main/math/polar.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/round.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th02/snd/snd.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ba_ellen.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/ba_ellen.cpp\",\n\t\"th03/ba_koto.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-boss-kotohime", segment = 0x0f1f, start = 0x287d, size = 0x0730, map_segment = "MAIN_03_TEXT", map_group = "(none)", map_acbp = 28, producer_ranges = [{ relative = 0x0527, size = 0x50, kind = "tc4-switch-table" }], map_parts = [
+    { object = "ba_koto", start = 0x287d, size = 0x0730 },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern _execl:proc\r\n"
+after = "\textern _execl:proc\r\n\textern BOSS_KOTOHIME_TEMPLATE_INIT:far\r\n\textern _gba_boss_update_kotohime:far\r\n\textern _gba_boss_render_kotohime:far\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tkotohime_11A6D\r\n"
+after = "\t\tcall\tBOSS_KOTOHIME_TEMPLATE_INIT\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p1, gba_boss_update_kotohime\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p1, _gba_boss_update_kotohime\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p1, gba_boss_render_kotohime\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p1, _gba_boss_render_kotohime\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p2, gba_boss_update_kotohime\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p2, _gba_boss_update_kotohime\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p2, gba_boss_render_kotohime\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p2, _gba_boss_render_kotohime\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "kotohime_11A6D\tproc far\r\n"
+end_marker = "gba_boss_render_kotohime endp\r\n"
+replacement = "; Kotohime boss owner moved to natural TC4 producer\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "public _marisa_bullet_speed, _marisa_cloud_count_low, _marisa_cloud_speed\r\npublic _marisa_ring_speed, _marisa_ring_count, _marisa_cloud_count_high\r\npublic _mima_bullet_speed, _mima_random_count, _mima_random_speed\r\npublic _mima_trail_interval, _mima_pellet_speed, _mima_pellet_until, _mima_orbit_speed\r\npublic _yumemi_ring_speed, _yumemi_ring_count, _yumemi_aimed_speed_base\r\npublic _yumemi_cross_interval, _yumemi_chase_until, _yumemi_rain_interval\r\npublic _reimu_cloud_interval, _reimu_unused_param, _reimu_bullet_speed\r\npublic _reimu_orbit_count, _reimu_ring_speed, _reimu_ring_count\r\npublic _ellen_bullet_speed, _ellen_extra_count, _ellen_pellet_speed, _ellen_pellet_interval\r\n_marisa_bullet_speed label byte\r\n_mima_bullet_speed label byte\r\n_yumemi_ring_speed label byte\r\n_reimu_cloud_interval label byte\r\n_ellen_bullet_speed label byte\r\nbyte_1F39F\tdb ?\r\n_marisa_cloud_count_low label byte\r\n_mima_random_count label byte\r\n_yumemi_ring_count label byte\r\n_reimu_unused_param label byte\r\n_ellen_extra_count label byte\r\nbyte_1F3A0\tdb ?\r\n_marisa_cloud_speed label byte\r\n_mima_random_speed label byte\r\n_yumemi_aimed_speed_base label byte\r\n_reimu_bullet_speed label byte\r\n_ellen_pellet_speed label byte\r\nbyte_1F3A1\tdb ?\r\n_marisa_ring_speed label byte\r\n_mima_trail_interval label byte\r\n_yumemi_cross_interval label byte\r\n_reimu_orbit_count label byte\r\n_ellen_pellet_interval label byte\r\nbyte_1F3A2\tdb ?\r\n_marisa_ring_count label byte\r\n_mima_pellet_speed label byte\r\n_yumemi_chase_until label byte\r\n_reimu_ring_speed label byte\r\nbyte_1F3A3\tdb ?\r\n_marisa_cloud_count_high label byte\r\n_mima_pellet_until label byte\r\n_yumemi_rain_interval label byte\r\n_reimu_ring_count label byte\r\nbyte_1F3A4\tdb ?\r\n_mima_orbit_speed label byte\r\nbyte_1F3A5\tdb ?\r\n"
+after = "public _marisa_bullet_speed, _marisa_cloud_count_low, _marisa_cloud_speed\r\npublic _marisa_ring_speed, _marisa_ring_count, _marisa_cloud_count_high\r\npublic _mima_bullet_speed, _mima_random_count, _mima_random_speed\r\npublic _mima_trail_interval, _mima_pellet_speed, _mima_pellet_until, _mima_orbit_speed\r\npublic _yumemi_ring_speed, _yumemi_ring_count, _yumemi_aimed_speed_base\r\npublic _yumemi_cross_interval, _yumemi_chase_until, _yumemi_rain_interval\r\npublic _reimu_cloud_interval, _reimu_unused_param, _reimu_bullet_speed\r\npublic _reimu_orbit_count, _reimu_ring_speed, _reimu_ring_count\r\npublic _ellen_bullet_speed, _ellen_extra_count, _ellen_pellet_speed, _ellen_pellet_interval\r\npublic _kotohime_random_ring_speed, _kotohime_orbit_count\r\npublic _kotohime_aimed_speed_slow, _kotohime_aimed_speed_fast\r\npublic _kotohime_pellet_speed, _kotohime_pellet_interval, _kotohime_burst_count\r\n_marisa_bullet_speed label byte\r\n_mima_bullet_speed label byte\r\n_yumemi_ring_speed label byte\r\n_reimu_cloud_interval label byte\r\n_ellen_bullet_speed label byte\r\n_kotohime_random_ring_speed label byte\r\nbyte_1F39F\tdb ?\r\n_marisa_cloud_count_low label byte\r\n_mima_random_count label byte\r\n_yumemi_ring_count label byte\r\n_reimu_unused_param label byte\r\n_ellen_extra_count label byte\r\n_kotohime_orbit_count label byte\r\nbyte_1F3A0\tdb ?\r\n_marisa_cloud_speed label byte\r\n_mima_random_speed label byte\r\n_yumemi_aimed_speed_base label byte\r\n_reimu_bullet_speed label byte\r\n_ellen_pellet_speed label byte\r\n_kotohime_aimed_speed_slow label byte\r\nbyte_1F3A1\tdb ?\r\n_marisa_ring_speed label byte\r\n_mima_trail_interval label byte\r\n_yumemi_cross_interval label byte\r\n_reimu_orbit_count label byte\r\n_ellen_pellet_interval label byte\r\n_kotohime_aimed_speed_fast label byte\r\nbyte_1F3A2\tdb ?\r\n_marisa_ring_count label byte\r\n_mima_pellet_speed label byte\r\n_yumemi_chase_until label byte\r\n_reimu_ring_speed label byte\r\n_kotohime_pellet_speed label byte\r\nbyte_1F3A3\tdb ?\r\n_marisa_cloud_count_high label byte\r\n_mima_pellet_until label byte\r\n_yumemi_rain_interval label byte\r\n_reimu_ring_count label byte\r\n_kotohime_pellet_interval label byte\r\nbyte_1F3A4\tdb ?\r\n_mima_orbit_speed label byte\r\n_kotohime_burst_count label byte\r\nbyte_1F3A5\tdb ?\r\n"
+
+[[functions]]
+name = "boss_kotohime_template_init"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x287d
+size = 84
+boundary = "owner-linear-span"
+abi = "far Pascal; word pid; RETF 2"
+
+[[functions]]
+name = "kotohime_ring_emit"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x28d1
+size = 144
+boundary = "owner-linear-span"
+abi = "near Pascal; word flag; RET 2"
+
+[[functions]]
+name = "kotohime_pattern_random_ring"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2961
+size = 117
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kotohime_pattern_aimed_ring"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x29d6
+size = 153
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kotohime_pattern_pellet_arc"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2a6f
+size = 187
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kotohime_pattern_radial_burst"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2b2a
+size = 302
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "gba_boss_update_kotohime"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2c58
+size = 332
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "kotohime_render_ring"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2df4
+size = 188
+boundary = "owner-linear-span"
+abi = "near Pascal; word count; RET 2"
+
+[[functions]]
+name = "kotohime_render_main"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2eb0
+size = 99
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kotohime_render_intro"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2f13
+size = 61
+boundary = "owner-linear-span"
+abi = "near Pascal; word radius; RET 2"
+
+[[functions]]
+name = "gba_boss_render_kotohime"
+object = "boss_kotohime"
+segment = 0x0f1f
+offset = 0x2f50
+size = 93
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"

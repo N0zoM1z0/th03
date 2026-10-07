@@ -104,7 +104,7 @@ nine plus 81. Ellen includes the 270-byte spread pattern, 269-byte update and
 bytes, exact MAP placement and all 26 ordered relocations in two default cold
 builds and emits zero private DATA/BSS. Carrier aliases preserve Ellen's shared
 parameters, private angles and two historical anonymous renderer tables without
-moving storage. Kotohime (1840 bytes / eleven functions) now has natural TC4J object-shape proof, including its 302-byte radial-burst pattern, 332-byte update, 188-byte ring renderer and 80-byte compiler switch table, with zero private DATA/BSS. Its full-link carve is the next gate. See
+moving storage. Kotohime (1840 bytes / eleven functions) now has natural TC4J object-shape proof and a passing two-round full-link candidate: zero differing linked bytes, exact MAP ownership and all 24 ordered relocations match, including its 302-byte radial-burst pattern, 332-byte update, 188-byte ring renderer and 80-byte compiler switch table. The C++ object emits zero private DATA/BSS. Default-aggregate promotion is the next gate. See
 reconstruction/MAIN_BOSS_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
@@ -174,7 +174,7 @@ For verification, run:
     git diff --check
 
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
-database before new target observations. Continue MAIN with the Kotohime boss full-link carve, then the remaining reviewed
+database before new target observations. Continue MAIN with Kotohime default-aggregate promotion, then the remaining reviewed
 boss owners, while expanding root code/data ownership and the maintained build
 graph; do not treat the reviewed authored frontier as
 whole-product completion.
@@ -184,7 +184,7 @@ headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
 265 units / 2467 evidence rows / three hypotheses / 320 knowledge rows / 268
 MAIN authored-function rows. The scoped exact subset is now 229 functions /
 34223 owned bytes. The remaining four MAIN_03_TEXT character owners stay
-boundary-reviewed; Kotohime now has source/object proof and is the next full-link target.
+boundary-reviewed; Kotohime now has source/object/full-link candidate proof and is the next promotion target.
 
 The current Factory host no longer has the historical Conda Python/Unicorn
 installation. The latest /usr/bin/python3 CI attempt runs 621 tests but reports

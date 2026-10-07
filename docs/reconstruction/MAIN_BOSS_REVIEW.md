@@ -497,11 +497,11 @@ emits zero private DATA/BSS.
 
 The retained object-shape replay is:
 
-    python3 scripts/probe_th03_main_boss_kotohime_cpp.py --run-id gpt-web-kotohime-boss-v05x-20261007
+    python3 scripts/probe_th03_main_boss_kotohime_cpp.py --run-id gpt-web-kotohime-boss-v06x-20261007
 
 Receipt:
 
-    .analysis/th03-main-boss-kotohime-cpp/gpt-web-kotohime-boss-v05x-20261007/receipt.json
+    .analysis/th03-main-boss-kotohime-cpp/gpt-web-kotohime-boss-v06x-20261007/receipt.json
 
 All eleven starts/sizes and the switch key/destination structure match.
 Compiler-guided corrections included preserving signed radius comparisons,
@@ -510,3 +510,29 @@ restoring the ring renderer's 8-byte local-frame declaration order, and
 passing the pid expression directly to the clip macro so the far renderer
 keeps its no-local stack frame. Full-link MAP, raw bytes and ordered
 relocations remain the next gate.
+
+
+## Kotohime full-link candidate
+
+The first full-link candidate localized 11 linked-byte differences despite
+exact MAP placement and exact ordered relocation sites. Eight bytes were only
+the x/y local-word order in the ring emitter and radial burst; the other three
+were renderer width values. The ReC98 VRAMWord assignment operator already
+converts pixel widths to VRAM words, so assigning 32/128 pixels directly
+reproduces the target values while a second manual division incorrectly
+produced zero.
+
+The corrected candidate replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_boss_kotohime_candidate.toml --run-id gpt-web-kotohime-boss-full-link-c02x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-kotohime-boss-full-link-c02x-20261007/receipt.json
+
+Both cold rounds pass the complete 1840-byte Kotohime owner with zero differing
+linked bytes, exact MAIN_03_TEXT MAP ownership and all 24 target relocation
+records in their original order. The 80-byte switch table remains TC4-generated.
+The aggregate is deterministic at 20 products and 374 game objects and passes
+the maintained DOS behavior probe. This is candidate proof; default-aggregate
+promotion remains a separate gate.
