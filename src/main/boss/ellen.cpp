@@ -375,7 +375,8 @@ void near ellen_render_main(void)
 	register int i;
 	register sprite16_offset_t sprite_offset;
 
-	sprite16_put_size.set(64, 48);
+	sprite16_put_size.w = 64;
+	sprite16_put_size.h = 48;
 	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 32);
 	top = ((boss_center_y >> 4) - 32);
 
@@ -431,7 +432,8 @@ void near pascal ellen_render_intro(
 		return;
 	}
 
-	sprite16_put_size.set(32, 16);
+	sprite16_put_size.w = 32;
+	sprite16_put_size.h = 16;
 	sprite_offset = (pid.so_attack + 0x28C);
 
 	for(i = 0; i < 4; i++) {

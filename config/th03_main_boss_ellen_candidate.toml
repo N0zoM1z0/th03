@@ -1,0 +1,204 @@
+schema_version = 1
+
+[[units]]
+id = "th03-main-boss-ellen"
+source = "src/main/boss/ellen.cpp"
+header = "src/main/boss/ellen.hpp"
+object = "boss_ellen"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ba_ellen.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ba_ellen", wrapper = "th03/ba_ellen.cpp", source = "src/main/boss/ellen.cpp" }]
+support_files = [
+  "src/main/boss/shared.hpp",
+  "src/main/math/polar.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/round.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th02/snd/snd.h",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ba_reimu.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/ba_reimu.cpp\",\n\t\"th03/ba_ellen.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-boss-ellen", segment = 0x0f1f, start = 0x21f2, size = 0x068b, map_segment = "MAIN_03_TEXT", map_group = "(none)", map_acbp = 28, producer_ranges = [{ relative = 0x03e1, size = 0x51, kind = "tc4-switch-table" }], map_parts = [
+    { object = "ba_ellen", start = 0x21f2, size = 0x068b },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern _execl:proc\r\n"
+after = "\textern _execl:proc\r\n\textern BOSS_ELLEN_TEMPLATE_INIT:far\r\n\textern _gba_boss_update_ellen:far\r\n\textern _gba_boss_render_ellen:far\r\n\tpublic ELLEN_EXTRA_ADD\r\nELLEN_EXTRA_ADD = ellen_194A9\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tellen_113E2\r\n"
+after = "\t\tcall\tBOSS_ELLEN_TEMPLATE_INIT\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p1, gba_boss_update_ellen\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p1, _gba_boss_update_ellen\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p1, gba_boss_render_ellen\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p1, _gba_boss_render_ellen\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p2, gba_boss_update_ellen\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p2, _gba_boss_update_ellen\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p2, gba_boss_render_ellen\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p2, _gba_boss_render_ellen\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "ellen_113E2\tproc far\r\n"
+end_marker = "gba_boss_render_ellen endp\r\n"
+replacement = "; Ellen boss owner moved to natural TC4 producer\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "public _reimu_orbit_count, _reimu_ring_speed, _reimu_ring_count\r\n_marisa_bullet_speed label byte\r\n"
+after = "public _reimu_orbit_count, _reimu_ring_speed, _reimu_ring_count\r\npublic _ellen_bullet_speed, _ellen_extra_count, _ellen_pellet_speed, _ellen_pellet_interval\r\n_marisa_bullet_speed label byte\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_reimu_cloud_interval label byte\r\nbyte_1F39F\tdb ?\r\n"
+after = "_reimu_cloud_interval label byte\r\n_ellen_bullet_speed label byte\r\nbyte_1F39F\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_reimu_unused_param label byte\r\nbyte_1F3A0\tdb ?\r\n"
+after = "_reimu_unused_param label byte\r\n_ellen_extra_count label byte\r\nbyte_1F3A0\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_reimu_bullet_speed label byte\r\nbyte_1F3A1\tdb ?\r\n"
+after = "_reimu_bullet_speed label byte\r\n_ellen_pellet_speed label byte\r\nbyte_1F3A1\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_reimu_orbit_count label byte\r\nbyte_1F3A2\tdb ?\r\n"
+after = "_reimu_orbit_count label byte\r\n_ellen_pellet_interval label byte\r\nbyte_1F3A2\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "byte_23DE2\tdb ?\r\nbyte_23DE3\tdb ?\r\n"
+after = "public _ellen_spread_angle, _ellen_pellet_angle\r\n_ellen_spread_angle label byte\r\nbyte_23DE2\tdb ?\r\n_ellen_pellet_angle label byte\r\nbyte_23DE3\tdb ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "include th03/main/5_powers_of_10[data].asm\r\n\t\tdb  6Ch\t; l\r\n\t\tdb    0\r\n\t\tdb  60h\r\n\t\tdb    0\r\n\t\tdb  50h\t; P\r\n\t\tdb    0\r\n\t\tdb  40h\r\n\t\tdb    0\r\n\t\tdb  30h\t; 0\r\n\t\tdb    0\r\n\t\tdb  20h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    0\r\n"
+after = "include th03/main/5_powers_of_10[data].asm\r\npublic _ellen_render_y_offsets, _ellen_render_heights\r\n_ellen_render_y_offsets label word\r\n\t\tdb  6Ch\t; l\r\n\t\tdb    0\r\n\t\tdb  60h\r\n\t\tdb    0\r\n\t\tdb  50h\t; P\r\n\t\tdb    0\r\n\t\tdb  40h\r\n\t\tdb    0\r\n\t\tdb  30h\t; 0\r\n\t\tdb    0\r\n\t\tdb  20h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n_ellen_render_heights label word\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb  10h\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    0\r\n"
+
+[[functions]]
+name = "boss_ellen_template_init"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x21f2
+size = 87
+boundary = "owner-linear-span"
+abi = "far Pascal; word pid; RETF 2"
+
+[[functions]]
+name = "ellen_pattern_spread"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x2249
+size = 270
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "ellen_pattern_extra"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x2357
+size = 217
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "ellen_pattern_pellets"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x2430
+size = 150
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "gba_boss_update_ellen"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x24c6
+size = 269
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "ellen_render_strip"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x2624
+size = 113
+boundary = "owner-linear-span"
+abi = "near Pascal; word frame index; RET 2"
+
+[[functions]]
+name = "ellen_render_main"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x2695
+size = 133
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "ellen_render_intro"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x271a
+size = 247
+boundary = "owner-linear-span"
+abi = "near Pascal; word length + byte frame + byte angle in word slots; RET 6"
+
+[[functions]]
+name = "gba_boss_render_ellen"
+object = "boss_ellen"
+segment = 0x0f1f
+offset = 0x2811
+size = 108
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
