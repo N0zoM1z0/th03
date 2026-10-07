@@ -3,6 +3,8 @@
 
 #include "compat/rec98/th03/common.h"
 
+signed char near pascal boss_explosion_ring(int x, int y, int length);
+
 extern "C" {
 unsigned char near boss_update_start(void);
 void near boss_move_sine(void);

@@ -58,6 +58,9 @@ extern int boss_target_y;
 
 extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 
+signed char near pascal boss_explosion_ring(int x, int y, int length);
+
+#ifndef TH03_BOSS_SHARED_REST_ONLY
 signed char near pascal boss_explosion_ring(
 	int x, int y, int length
 )
@@ -105,6 +108,9 @@ signed char near pascal boss_explosion_ring(
 	return -1;
 }
 
+#endif
+
+#ifndef TH03_BOSS_SHARED_RING_ONLY
 extern "C" void near boss_move_sine(void)
 {
 	boss_center_x += boss_velocity_x;
@@ -235,3 +241,4 @@ extern "C" void near boss_explosion_render(void)
 		gba_boss_launched_by = PID_NONE;
 	}
 }
+#endif
