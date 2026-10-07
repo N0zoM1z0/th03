@@ -133,8 +133,11 @@ five P_EXATT_TEXT character owners and a MAIN_06_TEXT shared/Reimu/Mima/Yumemi/
 Rikako family. They contain 52 complete functions and all 140 in-owner MZ
 relocations; no relocation crosses an owner edge. The largest function is
 Yumemi's 1150-byte helper, alongside 470-byte Ellen and 398-byte Mima updates.
-These ten owners are boundary-reviewed only: natural source, compiler producer
-identity and exact acceptance remain open. See
+Eight of these owners remain boundary-reviewed only. Yumemi and Rikako now
+have complete natural TC4J producers, and their final 2398-byte MAIN_06_TEXT
+suffix passes a two-round full-link candidate with raw bytes, MAP placement and
+all 45 ordered relocations matching. Those two owners are still non-exact until
+a fresh default aggregate replay passes after promotion. See
 reconstruction/MAIN_EXATT_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with

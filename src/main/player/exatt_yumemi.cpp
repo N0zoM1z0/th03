@@ -87,7 +87,7 @@ void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 	}
 }
 
-void far pascal yumemi_exatt_add_secondary(int x, int y)
+void far pascal yumemi_extra_add(int x, int y)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_current][8];
 	int i = 8;

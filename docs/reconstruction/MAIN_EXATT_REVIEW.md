@@ -58,24 +58,24 @@ MAIN_06 helpers remain external; the C++ object emits no private DATA/BSS.
 Object-shape replay:
 
     python3 scripts/probe_th03_main_exatt_yumemi_cpp.py \
-      --run-id gpt-web-exatt-yumemi-v03x-20261007
+      --run-id gpt-web-exatt-yumemi-v04x-20261007
 
 Receipt:
 
-    .analysis/th03-main-exatt-yumemi-cpp/gpt-web-exatt-yumemi-v03x-20261007/receipt.json
+    .analysis/th03-main-exatt-yumemi-cpp/gpt-web-exatt-yumemi-v04x-20261007/receipt.json
 
 The TC4J object is exactly 1696 bytes and all five function starts, lengths,
-instruction shapes and RET/RETF contracts match the TH03 target. Two
+instruction shapes and RET/RETF contracts match the TH03 target. The 81-byte
+secondary helper is exported directly as YUMEMI_EXTRA_ADD so the already-exact
+Yumemi boss owner can bind to the natural producer without a carrier alias. Two
 compiler-guided source corrections were needed after the first successful
 compile: preserve the original grouped radius/top evaluation in the large
 renderer, and delay the update loop-index initialization until after the
 pid/collision-map setup.
 
-This is object proof only. Yumemi is followed immediately by Rikako inside the
-same physical MAIN_06_TEXT segment, so an honest linker carve cannot insert the
-Yumemi object alone between carrier contributions. The next full-link path is
-to reconstruct Rikako as well and replace the complete Yumemi+Rikako suffix
-with two consecutive TC4J objects.
+Yumemi is followed immediately by Rikako inside the same physical
+MAIN_06_TEXT segment, so the accepted linker strategy is a two-producer suffix
+carve rather than inserting Yumemi alone between carrier contributions.
 
 ## Rikako natural TC4 producer and suffix strategy
 
@@ -95,7 +95,28 @@ Receipt:
 
 All 702 bytes / five function starts, lengths, instruction shapes and return
 contracts match. Together, the proven Yumemi and Rikako sources cover the final
-2398 bytes of MAIN_06_TEXT. This permits an honest physical carve: retain the
-shared/Reimu/Mima prefix in th03_main.asm, remove the Yumemi+Rikako suffix, then
-link ex_yume followed by ex_rika immediately after the carrier. No interleaving
-inside one ASM object is required.
+2398 bytes of MAIN_06_TEXT. The physical carve retains the shared/Reimu/Mima
+prefix in th03_main.asm, removes the Yumemi+Rikako suffix, then links ex_yume
+followed by ex_rika immediately after the carrier. No interleaving inside one
+ASM object is required.
+
+## Yumemi + Rikako suffix full-link candidate
+
+The combined suffix carve now passes the repository full-link oracle:
+
+    python3 scripts/replay_th03_main_exact_units.py       --candidate-manifest config/th03_main_exatt_yumemi_rikako_candidate.toml       --run-id gpt-web-exatt-yumemi-rikako-full-link-c01x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-exatt-yumemi-rikako-full-link-c01x-20261007/receipt.json
+
+Both cold rounds are raw-byte identical for Yumemi (1696 bytes) and Rikako
+(702 bytes), with exact MAIN_06_TEXT MAP placement and all 36 + 9 target
+relocations in their original order. The aggregate reaches 44666 owned bytes /
+43743 function bytes, produces 20 deterministic products / 379 game objects /
+445 validated objects, and passes the maintained DOS behavior probe.
+
+The receipt hashes match the current Yumemi/Rikako sources, headers and
+candidate manifest. This is full-link candidate proof only; neither owner is
+promoted exact until the same carve is merged into the default manifest and a
+fresh no-candidate replay passes.

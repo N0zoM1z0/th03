@@ -50,7 +50,7 @@ SUPPORT = (
 # semantic name, owner-relative start, size, return mnemonic, operand
 FUNCTIONS = (
     ("exatt_add_yumemi", 0x0000, 93, "retf", "6"),
-    ("yumemi_exatt_add_secondary", 0x005D, 81, "retf", "4"),
+    ("yumemi_extra_add", 0x005D, 81, "retf", "4"),
     ("yumemi_exatt_render_one", 0x00AE, 1150, "ret", ""),
     ("exatt_update_yumemi", 0x052C, 324, "retf", ""),
     ("exatt_render_yumemi", 0x0670, 48, "retf", ""),
