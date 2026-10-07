@@ -2586,3 +2586,346 @@ offset = 0x04f2
 size = 24
 boundary = "owner-linear-span"
 abi = "far cdecl C linkage; no arguments; RETF"
+
+# MAIN_03_TEXT boss prefix exact owners
+[[units]]
+id = "th03-main-boss-shared"
+source = "src/main/boss/shared.cpp"
+header = "src/main/boss/shared.hpp"
+object = "boss_shared"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ba_share.cpp"
+physical_objects_additive = true
+physical_objects = [
+  { object = "ba_sring", wrapper = "th03/ba_sring.cpp", source = "src/main/boss/shared.cpp", wrapper_prefix = "#define TH03_BOSS_SHARED_RING_ONLY 1\n" },
+  { object = "ba_srest", wrapper = "th03/ba_srest.cpp", source = "src/main/boss/shared.cpp", wrapper_prefix = "#define TH03_BOSS_SHARED_REST_ONLY 1\n" },
+]
+ordering_objects = [{ object = "bo_shim", source = "src/main/boss/order.asm", overlay_path = "th03/bo_shim.asm", translator_comment = "Turbo Assembler  Version 5.0" }]
+support_files = [
+  "src/main/math/polar.hpp",
+  "src/main/player/combo.hpp",
+  "src/main/player/score_add.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/th02/snd/snd.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "th03:branch(MODEL_LARGE, { cflags = \"-DBINARY='M'\" }):link(\"main\", {\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "th03:branch(MODEL_LARGE, { cflags = \"-DBINARY='M'\" }):link(\"main\", {\n\t\"th03/bo_shim.asm\",\n\t\"th03/ba_sring.cpp\",\n\t\"th03/ba_srest.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-boss-shared", segment = 0x0f1f, start = 0x000a, size = 0x03b5, map_segment = "MAIN_03_TEXT", map_group = "(none)", map_acbp = 28, map_parts = [
+    { object = "ba_sring", start = 0x000a, size = 0x015c },
+    { object = "ba_srest", start = 0x0166, size = 0x0259 },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern _execl:proc\r\n"
+after = "\textern _execl:proc\r\n\textern @BOSS_EXPLOSION_RING$QIII:proc\r\n\textern _boss_move_sine:near\r\n\textern _boss_fall:near\r\n\textern _boss_update_start:near\r\n\textern _boss_hittest_end:far\r\n\textern _boss_target_update:near\r\n\textern _boss_pattern_next:near\r\n\textern _boss_explosion_render:near\r\n"
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_F356"
+after = "\t\tcall\t_boss_move_sine"
+count = 19
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_F3A9"
+after = "\t\tcall\t_boss_fall"
+count = 9
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_F402"
+after = "\t\tcall\t_boss_update_start"
+count = 9
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tnopcall\tsub_F4B4"
+after = "\t\tcall\t_boss_hittest_end"
+count = 9
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_F512"
+after = "\t\tcall\t_boss_target_update"
+count = 9
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_F52D"
+after = "\t\tcall\t_boss_pattern_next"
+count = 8
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_F58C"
+after = "\t\tcall\t_boss_explosion_render"
+count = 9
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "sub_F1FA\tproc near\r\n"
+end_marker = "sub_F58C\tendp\r\n"
+replacement = "; shared boss helper owner moved to natural TC4 producer\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "palette_1F2F4\tpalette_t <?>\r\nbyte_1F324\tdb ?\r\n\t\tdb ?\r\nword_1F326\tdw ?\r\nword_1F328\tdw ?\r\nword_1F32A\tdw ?\r\nword_1F32C\tdw ?\r\n"
+after = "palette_1F2F4\tpalette_t <?>\r\npublic _boss_pattern_previous, _boss_target_x, _boss_target_y, _boss_active\r\n_boss_pattern_previous label byte\r\nbyte_1F324\tdb ?\r\n\t\tdb ?\r\n_boss_target_x label word\r\nword_1F326\tdw ?\r\n_boss_target_y label word\r\nword_1F328\tdw ?\r\n_boss_active label word\r\nword_1F32A\tdw ?\r\nword_1F32C\tdw ?\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "word_1F33E\tdw ?\r\nword_1F340\tdw ?\r\npoint_1F342\tPoint <?>\r\nword_1F346\tdw ?\r\nword_1F348\tdw ?\r\nword_1F34A\tdw ?\r\nsprite_1F34C\tdw ?\r\nbyte_1F34E\tdb ?\r\nbyte_1F34F\tdb ?\r\nangle_1F350\tdb ?\r\nbyte_1F351\tdb ?\r\nbyte_1F352\tdb ?\r\nbyte_1F353\tdb ?\r\n"
+after = "public _boss_state, _boss_center_x, _boss_center_y\r\npublic _boss_velocity_x, _boss_velocity_y, _boss_hp, _boss_sprite_offset\r\npublic _boss_hit, _boss_mode, _boss_angle, _boss_pattern_i, _boss_pattern_count\r\npublic _boss_render_mode\r\n_boss_state label byte\r\n_boss_center_x label word\r\nword_1F33E\tdw ?\r\n_boss_center_y label word\r\nword_1F340\tdw ?\r\npoint_1F342\tPoint <?>\r\n_boss_velocity_x label word\r\nword_1F346\tdw ?\r\n_boss_velocity_y label word\r\nword_1F348\tdw ?\r\n_boss_hp label word\r\nword_1F34A\tdw ?\r\n_boss_sprite_offset label word\r\nsprite_1F34C\tdw ?\r\n_boss_hit label byte\r\nbyte_1F34E\tdb ?\r\n_boss_mode label byte\r\nbyte_1F34F\tdb ?\r\n_boss_angle label byte\r\nangle_1F350\tdb ?\r\n_boss_pattern_i label byte\r\nbyte_1F351\tdb ?\r\n_boss_pattern_count label byte\r\nbyte_1F352\tdb ?\r\n_boss_render_mode label byte\r\nbyte_1F353\tdb ?\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "byte_1F358\tdb ?\r\n\t\tdb 69 dup(?)\r\npublic _gba_boss_level\r\n"
+after = "byte_1F358\tdb ?\r\n\t\tdb 5 dup(?)\r\npublic _boss_character_template\r\n_boss_character_template label byte\r\n\t\tdb 64 dup(?)\r\npublic _gba_boss_level\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "word_1F3B0\tdw ?\r\n"
+after = "public _boss_frame\r\n_boss_frame label word\r\nword_1F3B0\tdw ?\r\n"
+[[units]]
+id = "th03-main-boss-marisa"
+source = "src/main/boss/marisa.cpp"
+header = "src/main/boss/marisa.hpp"
+object = "boss_marisa"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ba_maris.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ba_maris", wrapper = "th03/ba_maris.cpp", source = "src/main/boss/marisa.cpp" }]
+support_files = [
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th02/snd/snd.h",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ba_srest.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/ba_srest.cpp\",\n\t\"th03/ba_maris.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-boss-marisa", segment = 0x0f1f, start = 0x03bf, size = 0x0597, map_segment = "MAIN_03_TEXT", map_group = "(none)", map_acbp = 28, producer_ranges = [{ relative = 0x03a6, size = 0x51, kind = "tc4-switch-table" }], map_parts = [
+    { object = "ba_maris", start = 0x03bf, size = 0x0597 },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern _execl:proc\r\n"
+after = "\textern _execl:proc\r\n\textern BOSS_MARISA_TEMPLATE_INIT:far\r\n\textern _gba_boss_update_marisa:far\r\n\textern _gba_boss_render_marisa:far\r\n\tpublic MARISA_EXATT_ADD\r\nMARISA_EXATT_ADD = marisa_19B06\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tmarisa_F5AF\r\n"
+after = "\t\tcall\tBOSS_MARISA_TEMPLATE_INIT\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p1, gba_boss_update_marisa\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p1, _gba_boss_update_marisa\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_update_p2, gba_boss_update_marisa\r\n"
+after = "\t\tsetfarfp\tgba_boss_update_p2, _gba_boss_update_marisa\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p1, gba_boss_render_marisa\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p1, _gba_boss_render_marisa\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\tgba_boss_render_p2, gba_boss_render_marisa\r\n"
+after = "\t\tsetfarfp\tgba_boss_render_p2, _gba_boss_render_marisa\r\n"
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "marisa_F5AF\tproc far\r\n"
+end_marker = "gba_boss_render_marisa endp\r\n"
+replacement = "; Marisa boss owner moved to natural TC4 producer\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_gba_boss_level\tdb ?\r\nbyte_1F39F\tdb ?\r\nbyte_1F3A0\tdb ?\r\nbyte_1F3A1\tdb ?\r\nbyte_1F3A2\tdb ?\r\nbyte_1F3A3\tdb ?\r\nbyte_1F3A4\tdb ?\r\n"
+after = "_gba_boss_level\tdb ?\r\npublic _marisa_bullet_speed, _marisa_cloud_count_low, _marisa_cloud_speed\r\npublic _marisa_ring_speed, _marisa_ring_count, _marisa_cloud_count_high\r\n_marisa_bullet_speed label byte\r\nbyte_1F39F\tdb ?\r\n_marisa_cloud_count_low label byte\r\nbyte_1F3A0\tdb ?\r\n_marisa_cloud_speed label byte\r\nbyte_1F3A1\tdb ?\r\n_marisa_ring_speed label byte\r\nbyte_1F3A2\tdb ?\r\n_marisa_ring_count label byte\r\nbyte_1F3A3\tdb ?\r\n_marisa_cloud_count_high label byte\r\nbyte_1F3A4\tdb ?\r\n"
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "word_1FE4E\tdw ?\r\nbyte_1FE50\tdb ?\r\n"
+after = "word_1FE4E\tdw ?\r\npublic _marisa_bullet_angle\r\n_marisa_bullet_angle label byte\r\nbyte_1FE50\tdb ?\r\n"
+[[functions]]
+name = "boss_explosion_ring"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x000a
+size = 348
+boundary = "owner-linear-span"
+abi = "near Pascal; three word arguments; RET 6"
+
+[[functions]]
+name = "boss_move_sine"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x0166
+size = 83
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "boss_fall"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x01b9
+size = 89
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "boss_update_start"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x0212
+size = 178
+boundary = "owner-linear-span"
+abi = "near cdecl; AL boolean; RET"
+
+[[functions]]
+name = "boss_hittest_end"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x02c4
+size = 94
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "boss_target_update"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x0322
+size = 27
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "boss_pattern_next"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x033d
+size = 95
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "boss_explosion_render"
+object = "boss_shared"
+segment = 0x0f1f
+offset = 0x039c
+size = 35
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "boss_marisa_template_init"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x03bf
+size = 79
+boundary = "owner-linear-span"
+abi = "far Pascal; word pid; RETF 2"
+
+[[functions]]
+name = "marisa_pattern_spread"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x040e
+size = 135
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "marisa_pattern_columns_wide"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x0495
+size = 168
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "marisa_pattern_ring"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x053d
+size = 144
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "marisa_pattern_columns_narrow"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x05cd
+size = 139
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "gba_boss_update_marisa"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x0658
+size = 269
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "marisa_render_main"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x07b6
+size = 203
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "marisa_render_split"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x0881
+size = 119
+boundary = "owner-linear-span"
+abi = "near Pascal; word offset; RET 2"
+
+[[functions]]
+name = "gba_boss_render_marisa"
+object = "boss_marisa"
+segment = 0x0f1f
+offset = 0x08f8
+size = 94
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"

@@ -368,9 +368,11 @@ Post-ledger final-worktree regression:
 
     .analysis/th03-main-exact/gpt-web-rikako-charge-promoted-final-b02-20261007/receipt.json
 
-The maintained aggregate is now 175 exact functions / 23662 function bytes /
-23868 owned bytes, with 20 deterministic products, 365 deterministic game
-objects and the DOS behavior probe passing in both rounds. All five reviewed
-character charge-shot/gauge CODE owners are therefore accepted exact. Physical
+At the completion of this charge/gauge family, the maintained aggregate reached
+175 exact functions / 23662 function bytes / 23868 owned bytes, with 20
+deterministic products, 365 deterministic game objects and the DOS behavior
+probe passing in both rounds. Later MAIN_03_TEXT boss promotion supersedes
+these aggregate counts; all five reviewed character charge-shot/gauge CODE
+owners remain accepted exact. Physical
 historical ownership of the anonymous carrier BSS remains a separate question
 from these CODE claims.

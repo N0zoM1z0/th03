@@ -1,7 +1,7 @@
 # Historical MAIN input/math checkpoint
 
 This note records the earlier 13-owner / 40-function checkpoint. The current
-aggregate has 45 source owners / 52 CODE extents / 175 functions / 23868 owned
+aggregate has 47 source owners / 54 CODE extents / 192 functions / 26248 owned
 bytes; see [the current handoff](RE_HANDOFF.md) and [progress](PROGRESS.md). The scoped
 observations below retain their original meaning and are not the final totals.
 

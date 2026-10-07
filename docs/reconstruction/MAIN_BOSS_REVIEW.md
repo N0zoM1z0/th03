@@ -1,9 +1,10 @@
 # MAIN boss-attack owner review
 
 This review expands the TH03 MAIN authored frontier into the complete
-MAIN_03_TEXT boss-attack segment. It is a target-boundary review, not a
-source or exactness claim. The immutable Japanese MAIN.EXE is the byte
-oracle; frozen ReC98 labels and MAP publics are corroborating names only.
+MAIN_03_TEXT boss-attack segment. The boundary partition is target-derived;
+source and exact acceptance are recorded separately below. The immutable
+Japanese MAIN.EXE is the byte oracle; frozen ReC98 labels and MAP publics are
+corroborating names only.
 
 ## Complete segment partition
 
@@ -80,16 +81,15 @@ membership is intentionally not used as the ownership oracle.
 
 ## Reconstruction frontier
 
-The next implementation target is the complete 1431-byte Marisa owner, not an
-isolated leaf. It contains nine functions, including the 269-byte boss update,
-the 94-byte render, several substantial private helpers, and the 81-byte
-compiler switch table. Source reconstruction must recover natural Turbo C++
-that reproduces both the function instruction shape and producer-owned table
-layout before any full-link exact promotion.
+The shared prefix and Marisa are now exact. The next implementation target is
+the complete 1922-byte Mima owner, not an isolated leaf. It contains nine
+functions, including the 298-byte gba_boss_update_mima, 101-byte render,
+multiple 200–300-byte private helpers, and an 81-byte compiler switch table.
 
-The shared helper owner and the remaining eight character owners stay
+Yumemi, Reimu, Ellen, Kotohime, Chiyuri, Kana and Rikako stay
 boundary-reviewed only. Physical producer grouping, DATA/BSS ownership and
-historical filenames remain open until compiler/link evidence establishes them.
+historical filenames remain open until compiler/link evidence establishes
+them.
 
 ## Marisa natural TC4 producer
 
@@ -130,9 +130,9 @@ Receipt:
 
 It passes all nine function starts and sizes, linker-normalized instruction
 shape, the 81-byte switch alignment/key/destination structure, and zero private
-DATA/BSS. This is source/producer evidence only. Full-link MAP placement,
-ordered MZ relocations, final linked bytes, historical physical producer
-grouping and state ownership are still separate gates.
+DATA/BSS. Full-link acceptance is now proved by the default aggregate described
+below. Historical physical filenames and DATA/BSS producer ownership remain
+separate questions.
 
 ## Shared boss-helper natural TC4 producer
 
@@ -165,7 +165,43 @@ Receipt:
 
     .analysis/th03-main-boss-shared-cpp/gpt-web-boss-shared-v03-20261007/receipt.json
 
-This is source/producer evidence only. The next gate is full-link reconstruction
-of MAIN_03_TEXT as three consecutive contributions: shared natural C++, Marisa
-natural C++, and a frozen Mima-through-Rikako tail while those later owners
-remain unreconstructed.
+The single-object shared producer was a useful negative control: it produced
+all 949 target bytes and the same relocation sites, but emitted the relocation
+table in the opposite two-group order. Full-link acceptance therefore uses two
+consecutive TC4J physical producers from the same maintained semantic source:
+348 bytes for boss_explosion_ring, then 601 bytes for the remaining seven
+helpers. Historical physical filenames are unknown.
+
+## Shared + Marisa full-link exact promotion
+
+The default maintained replay now includes both owners without a candidate
+manifest:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-boss-prefix-promote-final-p02-20261007
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-boss-prefix-promote-final-p02-20261007/receipt.json
+
+Both fresh rounds pass 192 functions / 25961 function bytes / 26248 owned
+bytes, 20 product outputs, 369 deterministic game objects, 435 validated OMF
+objects and the maintained DOS behavior probe. Nine Research benchmark objects
+retain normalized diagnostic drift outside the declared game-object vector.
+
+The shared owner contributes exactly 949 bytes and all 16 ordered relocations.
+Its physical producer model is ba_sring (348 bytes) followed by ba_srest
+(601 bytes). A zero-byte bo_shim TASM object preserves historical TLINK
+first-seen segment order because the C++ object metadata otherwise introduces
+an empty E_EXPL_TEXT segment too early; the shim owns no game bytes. Carrier
+calls to the far boss_hittest_end helper use a normal external call rather than
+the historical same-segment nopcall spelling, allowing TLINK's far-to-near
+relaxation to reproduce the original single NOP + PUSH CS + CALL near sequence.
+
+Marisa contributes exactly 1431 bytes, including the 81-byte compiler switch
+table, and all 23 ordered relocations. No private C++ DATA/BSS is emitted by
+either semantic owner; carrier aliases retain the already-observed historical
+storage locations.
+
+This raises the maintained default exact aggregate from 175 to 192 functions
+and from 23868 to 26248 owned bytes. The remaining MAIN_03_TEXT frontier starts
+with Mima.
