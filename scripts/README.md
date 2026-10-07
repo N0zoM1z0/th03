@@ -18,6 +18,7 @@
 | Review complete MAIN character charge/gauge boundaries | `python3 scripts/review_th03_main_charge_gauge.py --output .analysis/REVIEW/charge-gauge.json` |
 | Probe Chiyuri charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_chiyuri_cpp.py --run-id UNIQUE` |
 | Probe Ellen charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_ellen_cpp.py --run-id UNIQUE` |
+| Probe Kana charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_kana_cpp.py --run-id UNIQUE` |
 | Export complete raw MAIN owner observations | `python3 scripts/review_th03_main_code.py --owner OWNER_ID --output .analysis/REVIEW/raw-review.json` |
 | Inspect open product graph | `python3 scripts/build.py --status` |
 | Survey reference output | `python3 scripts/survey_rec98_outputs.py SOURCE --compact` |

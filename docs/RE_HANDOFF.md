@@ -64,9 +64,11 @@ ordered relocations. The C++ object emits no private DATA/BSS. The frozen
 carrier exports semantic aliases for the historical 1FFE/2002/2006/2008/2308
 state plus the existing target-selection helper/coordinates without moving
 storage. The default aggregate therefore reaches 146 exact functions / 20607
-owned bytes. Kana MAIN_09_TEXT is the next active complete owner;
-Kotohime/Rikako remain boundary-reviewed. See
-reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
+owned bytes. Kana MAIN_09_TEXT is the next active complete owner and now has a
+natural TC4J source candidate whose complete 1291-byte / 489-instruction /
+9-function object shape matches the target with no private DATA/BSS. Full-link
+MAP/state/ordered-relocation acceptance remains open. Kotohime/Rikako remain
+boundary-reviewed. See reconstruction/MAIN_CHARGE_GAUGE_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
 candidate-local-attested provenance; independent pristine-dump confirmation

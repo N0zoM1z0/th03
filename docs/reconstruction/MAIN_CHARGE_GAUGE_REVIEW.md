@@ -194,3 +194,34 @@ objects and the maintained DOS behavior probe. Ellen therefore has formal
 scoped exact CODE acceptance. Physical historical ownership of the anonymous
 carrier BSS remains a separate question, exactly as for the preceding character
 owners.
+
+## Kana natural TC4 producer
+
+src/main/player/chargeshot_kana.cpp now reconstructs the complete MAIN_09_TEXT
+owner as natural Turbo C++. A fresh pinned TC4J compile emits one 1291-byte
+MAIN_09_TEXT CODE segment, no private DATA/BSS, 489 decoded instructions, and
+all nine reviewed function boundaries. Every instruction offset, size and
+mnemonic matches the immutable target.
+
+The target indexing recovers a concrete trail layout rather than an anonymous
+byte blob: each player owns four 54-byte trails, each trail stores thirteen X
+words, thirteen Y words, one angle byte and one length byte. Rendering and
+hittest sample history points 12/8/4/0 while update shifts the complete
+12-point history. The only first-pass compiler-shape mismatch was register
+allocation in update(): TC4J needed the outer four-trail loop to remain in DI
+and the history-copy index to remain the stack word at BP-6. Declaring the
+outer loop as register restores the exact target shape without assembly or
+byte patching.
+
+Reproducible object probe:
+
+    python3 scripts/probe_th03_main_chargeshot_kana_cpp.py --run-id UNIQUE_ID
+
+Retained receipt:
+
+    .analysis/th03-main-chargeshot-kana-cpp/gpt-web-kana-charge-v2-20261007/receipt.json
+
+This is source/producer-shape evidence only. Full-link acceptance must bind the
+historical 2676/267A/267C/282C/282E/2830 state slots, prove the exact
+MAIN_09_TEXT MAP contribution, all 1291 linked bytes and the nine-entry ordered
+relocation sequence, and retain all previously accepted owners.
