@@ -76,3 +76,26 @@ same physical MAIN_06_TEXT segment, so an honest linker carve cannot insert the
 Yumemi object alone between carrier contributions. The next full-link path is
 to reconstruct Rikako as well and replace the complete Yumemi+Rikako suffix
 with two consecutive TC4J objects.
+
+## Rikako natural TC4 producer and suffix strategy
+
+src/main/player/exatt_rikako.cpp reconstructs the complete 702-byte Rikako
+owner as five natural TC4 functions, including the 300-byte update and 171-byte
+renderer. The object also exports the 84-byte semantic rikako_extra_add helper
+used by the already exact Rikako boss producer. It emits no private DATA/BSS.
+
+Object-shape replay:
+
+    python3 scripts/probe_th03_main_exatt_rikako_cpp.py \
+      --run-id gpt-web-exatt-rikako-v03x-20261007
+
+Receipt:
+
+    .analysis/th03-main-exatt-rikako-cpp/gpt-web-exatt-rikako-v03x-20261007/receipt.json
+
+All 702 bytes / five function starts, lengths, instruction shapes and return
+contracts match. Together, the proven Yumemi and Rikako sources cover the final
+2398 bytes of MAIN_06_TEXT. This permits an honest physical carve: retain the
+shared/Reimu/Mima prefix in th03_main.asm, remove the Yumemi+Rikako suffix, then
+link ex_yume followed by ex_rika immediately after the carrier. No interleaving
+inside one ASM object is required.
