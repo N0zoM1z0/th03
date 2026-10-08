@@ -25,6 +25,7 @@ import tomllib
 import capstone
 
 from lib.omf import describe_omf, normalize_dependency_timestamps
+from lib.tc4_omf_bridge import reframe_ellen_tc4_fixupp, validate_ellen_omf_recipe
 from lib.pc98 import parse_mz
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
 
@@ -721,6 +722,52 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             if build_text.count(anchor) != 1:
                 raise ValueError(f"build replacement anchor drifted: {module['id']}")
             build_path.write_text(build_text.replace(anchor, replacement, 1))
+        # Calibrate only the observed TC4 Ellen OMF LEDATA/FIXUPP record
+        # boundary at CODE offset 1000. The emitted CODE section, symbol
+        # targets, fixup *set*, and every raw-byte/MZ-order oracle remain
+        # immutable. A precompiled object is supplied as an explicit .obj
+        # input to the maintained build graph; Tup must not overwrite it.
+        reframed_omf_objects = []
+        for module in config["units"]:
+            for producer in physical_objects(module):
+                if "tc4_omf_reframe" not in producer:
+                    continue
+                wrapper = validate_ellen_omf_recipe(producer)
+                output_obj = work / producer["object_path"]
+                output_obj.parent.mkdir(parents=True, exist_ok=True)
+                if output_obj.exists():
+                    raise ValueError("TC4 OMF record calibration would reuse a stale object")
+                command = [
+                    "wine", "cmd", "/d", "/c",
+                    (r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
+                     r"&&bin\msdos -e -x tcc -c -I. -O -b- -3 -Z -d"
+                     r" -DGAME=3 -ml -a2 -nobj/th03/ "
+                     + wrapper.replace("/", "\\"))
+                ]
+                tc4 = execute(command, work, env,
+                              logs / f"{producer['object']}-direct-tc4.log")
+                original_omf = output_obj.read_bytes()
+                before = describe_omf(original_omf)
+                if (
+                    not before["valid"]
+                    or "TC86 Borland C++ 4.02" not in before["translator_comments"]
+                ):
+                    raise ValueError("unexpected compiler for Ellen original OMF record")
+                calibrated = reframe_ellen_tc4_fixupp(original_omf)
+                output_obj.write_bytes(calibrated)
+                after = describe_omf(output_obj.read_bytes())
+                if not after["valid"] or after["translator_comments"] != before["translator_comments"]:
+                    raise ValueError("calibrated OMF identity was modified")
+                reframed_omf_objects.append({
+                    "owner": module["id"], "object": producer["object"],
+                    "semantic_source": producer["source"],
+                    "unmodified_tc4_omf_sha256": sha(original_omf),
+                    "record_framed_omf_sha256": sha(calibrated),
+                    "raw_module_bytes_unchanged": False,
+                    "code_and_symbol_target_edits": 0,
+                    "record_framing": "two LEDATA/FIXUPP pairs split at CODE offset 1000",
+                    "TC4_compile_command": tc4,
+                })
         build_command = ["wine", "cmd", "/d", "/c",
                          r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
                          r"&&set PROCESSOR_ARCHITECTURE=AMD64"
@@ -905,6 +952,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         shutil.copyfile(work / "obj/th03/main.map", logs / "main.map")
         report["rounds"].append({"round": number, "fresh_owned_objects": True,
             "commands": [compile_result, behavior_compile, behavior_link, behavior_run],
+            "tc4_reframed_omf": reframed_omf_objects,
             "objects": objects, "all_objects": all_objects, "game_objects": game_objects,
             "products": products,
             "map_contributions": contributions,

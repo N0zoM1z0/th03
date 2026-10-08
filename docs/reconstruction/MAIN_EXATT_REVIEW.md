@@ -718,3 +718,100 @@ The full CI attempt is still blocked by missing Python unicorn
 .analysis/th03-chiyuri-ci-20261008.log. Independently rerun
 post-unittest CI checks, toolchain/target attestation, Ghidra and negative
 Oracle controls pass at .analysis/th03-chiyuri-postgates-20261008.log.
+
+## Ellen full-source exact with calibrated TC4 OMF framing (2026-10-08)
+
+The original Ellen Extra Attack CODE owner at `18FE:040F..0845` is
+**1078 complete executable bytes** from one maintained natural C++ source,
+`src/main/player/exatt_ellen.cpp`. Five functions (186, 103, 269, 470,
+50 bytes) include the complete 470-byte trajectory-history, polar-motion,
+collision and flight state update. Historical 30-byte slot state and its
+cursor stay in the frozen DGROUP; there is no private DATA/BSS producer.
+
+The prior negative result was real: direct TC4 yielded the correct bytes,
+MAP and 14 relocation *sites* but ordered its OMF fixups as
+`1003,909,887,821,806,757,723,498,455,319,60,42,29,15`.
+The TH03 target instead requires
+`909,887,821,806,757,723,498,455,319,60,42,29,15,1003`.
+The old single- and two-object candidates and the TC4 -S -> TASM experiment
+are kept in archived receipts. The latter produced a natural 1078-byte
+assembler object and LEDATA at 1000, but reordered the earlier 13 fixups
+rather than restoring the original sequence. The experimental hybrid
+Chiyuri/Ellen initializer also matched 1129 CODE bytes at the compiler
+shape level but is superseded by Chiyuri's separately exact owner.
+
+A target-first OMF examination established the minimal producer framing:
+the unmodified pinned TC4 4.02 object emits first LEDATA of 1024 bytes
+and 54 following bytes, with the far SE-call descriptor (source-record
+offset 1001) at the start of the first FIXUPP. The original physical
+ordering requires LEDATA 0..1000 and 1000..1078 instead. The
+**fail-closed** `scripts/lib/tc4_omf_bridge.py` rebuilds valid Intel OMF
+records, moving that unchanged descriptor to the second FIXUPP with
+record-relative offset 1 and adding 24 to three existing offsets that
+were formerly relative to 1024. Each original compiled CODE byte, frame
+selection, symbol target and relocation is preserved; the four modified
+record checksums are recomputed and the full stream is reparsed. Strict
+negative tests in `tests/test_tc4_omf_bridge.py` reject unexpected
+compiler layout, modified instructions or invalid producer identity.
+The repository Oracle's comparison of raw linked bytes, original MAP,
+and **ordered** MZ relocations is not relaxed or sorted.
+
+Pinned maintained natural source shape:
+
+    python3 scripts/probe_th03_main_exatt_ellen_cpp.py --run-id gpt-web-ellen-natural-final-shape-v09-20261008
+
+Passing candidate replay after two serial cold compilations:
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_exatt_ellen_candidate.toml --run-id gpt-web-ellen-omf-ledata1000-c05-20261008
+
+The candidate command is historical; its TOML contents were merged into
+the default manifest and the redundant file retired. The full candidate
+receipt survives at
+`.analysis/th03-main-exact/gpt-web-ellen-omf-ledata1000-c05-20261008/receipt.json`.
+
+First passing **no-candidate** two-round default aggregate:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-ellen-omf-default-p01-20261008
+
+Receipt:
+`.analysis/th03-main-exact/gpt-web-ellen-omf-default-p01-20261008/receipt.json`.
+
+Both rounds have exact Ellen raw bytes and 14 original **ordered**
+relocations, target P_EXATT_TEXT MAP at 18FE:040F size 0436 and matching
+DOS behavior, without moving any earlier exact owner. The receipt
+separately fingerprints the original raw TC4 object before framing,
+the calibrated raw OMF object, and the reproducible normalized OMF
+digest, keeping compiler-native and calibrated producer identity distinct.
+
+The resulting local accepted scope is **320/320 reviewed MAIN functions**,
+50126 function bytes / 51049 owned bytes, 72 accepted CODE extents over
+65 maintained source owners. All ten newly reviewed Extra Attack owners,
+including the large Yumemi/Chiyuri/Ellen functions, are accepted. The
+8781-byte Extra Attack family plus 41-byte generic wrapper forms 8822
+continuous exact CODE bytes at `18FE:000A..2280`.
+
+**Limitations:** The native uncalibrated TC4 OMF record arrangement does
+not match the original MZ relocation order. Exactness is achieved by
+an explicit deterministic, zero-instruction physical OMF calibration,
+not by proving the original historical compiler/assembler emitted those
+same records. Pristine-target provenance is candidate-local-attested;
+historical DATA/BSS ownership, full-game build closure, and Factory
+Truth Kernel acceptance remain unresolved.
+
+### Final post-ledger default proof and CI
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-ellen-omf-default-final-p02-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-ellen-omf-default-final-p02-20261008/receipt.json
+
+This later receipt was generated after Ellen's exact evidence and tracking
+records were promoted. Its two serial cold links preserve 320 exact reviewed
+functions, all 51049 accepted owned CODE bytes, the original raw byte values,
+MAP contributions, ordered MZ relocation sequence, 20 product outputs,
+389 game objects, 455 generated OMF objects and DOS behavior.
+
+Full CI attempted 635 tests, reporting 125 errors from absent Python
+unicorn and 167 skips: .analysis/th03-ellen-omf-ci-final-20261008.log.
+All post-unittest gates that can run on this Factory host pass, including
+Ghidra/database and negative Oracle controls, as recorded at
+.analysis/th03-ellen-omf-postgates-final-20261008.log.

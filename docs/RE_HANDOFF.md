@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 71 units / 315 functions / 49971 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 72 units / 320 functions / 51049 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 49971 exact bytes comprise 49048 function bytes and 923 explicitly
+MAIN's 51049 exact bytes comprise 50126 function bytes and 923 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-chiyuri-default-final-p02-20261008/receipt.json.
+.analysis/th03-main-exact/gpt-web-ellen-omf-default-final-p02-20261008/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 388 deterministic game objects and 454 validated
+with 20 product outputs, 389 deterministic game objects and 455 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -133,7 +133,7 @@ five P_EXATT_TEXT character owners and a MAIN_06_TEXT shared/Reimu/Mima/Yumemi/
 Rikako family. They contain 52 complete functions and all 140 in-owner MZ
 relocations; no relocation crosses an owner edge. The largest function is
 Yumemi's 1150-byte helper, alongside 470-byte Ellen and 398-byte Mima updates.
-Only Ellen remains boundary-reviewed without linked exact. Chiyuri (1029
+All ten reviewed Extra Attack character/shared owners are now CODE exact. Chiyuri (1029
 bytes / five functions, including its 518-byte beam renderer, 298-byte
 paired updater and the 51-byte Ellen-slot initializer) is now exact as a
 real TC4J producer before the frozen carrier. A zero-byte TASM ordering
@@ -152,10 +152,17 @@ segment, including two consecutive producers for Reimu to preserve original
 FIXUPP order. Raw bytes, MAP and all 4 + 14 + 10 + 36 + 9 ordered MZ
 relocations match in two default cold links. The earlier single-producer
 Reimu failure and initial shared-helper shape experiments are preserved as
-negative controls. Together these owners cover 6715 contiguous exact
-CODE bytes at 18FE:0845..2280; the Kotohime charge-gauge caller now binds
+negative controls. Together with Ellen (1078 / five functions including the 470-byte update)
+and Chiyuri (1029 / five including the 518-byte renderer), the ten complete
+Extra Attack owners plus the 41-byte generic owner now cover **8822 contiguous
+exact CODE bytes** at 18FE:000A..2280; the Kotohime charge-gauge caller now binds
 the natural far Pascal helper instead of the obsolete frozen-ASM alias.
-No raw byte carrier or relaxed comparator was used.
+No raw game instruction carrier or relaxed comparator was used. Ellen
+requires an explicit compiler OMF record-boundary calibration at owner offset
+1000: unmodified TC4 CODE and all fixup target/frame descriptors are retained,
+while the three following record-relative fixup offsets are rebased by +24.
+This establishes scoped exact linked CODE through the maintained local Oracle;
+it does not independently recover historical native OMF producer identity.
 Historical physical DATA/BSS producer ownership remains open. See
 reconstruction/MAIN_EXATT_REVIEW.md.
 
@@ -240,26 +247,26 @@ producer. Kana (663 / five functions, including the 244-byte vector2/
 bullet update) is now exact in the immediately preceding segment with all
 eight original ordered relocations. Chiyuri (1029 bytes / five functions)
 is now exact, with the original 23 ordered relocations and the 51-byte
-Ellen BSS-slot initializer moved to maintained source. Only Ellen (1078
-bytes / five functions) remains boundary-reviewed: its full natural source
-and immutable linked CODE bytes match, but the late far sound call site
-1003 still fails the strict original FIXUPP order gate. Do not promote
-Ellen until the required physical producer ordering is independently proved.
+Ellen BSS-slot initializer moved to maintained source. Ellen (1078 bytes / five functions) is also exact through an explicit
+TC4 OMF LEDATA/FIXUPP frame calibration that preserves all 1078 CODE bytes and all fourteen
+original MZ relocation sites in their original order. Earlier single TC4,
+two-producer and TC4 -S -> TASM experiments failed the strict order gate and
+remain documented as negative controls. The final Oracle is unchanged.
 Continue reconstructing complete owners rather than isolated leaves, and do not
 treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2585 evidence rows / three hypotheses / 349 knowledge rows / 320
-MAIN authored-function rows. The scoped exact subset is now 315 functions /
-49971 owned bytes, while the broader reviewed authored frontier is now 320
-functions / 51049 bytes. The ten new Extra Attack owners account for the
-52-function / 8781-byte boundary-reviewed delta.
+275 units / 2594 evidence rows / three hypotheses / 351 knowledge rows / 320
+MAIN authored-function rows. The scoped exact subset now covers all 320
+reviewed functions / 51049 owned bytes. The whole-game denominator is still
+unknown, and OP/MAINL/ZUN are not accepted exact. The ten new Extra Attack owners account for the
+52-function / 8781-byte now-exact extension of the reviewed CODE frontier.
 
 The current Factory host does not provide the Python `unicorn` module.
-The 2026-10-08 /usr/bin/python3 CI attempt runs 632 tests but reports 125
+The 2026-10-08 /usr/bin/python3 CI attempt runs 635 tests but reports 125
 errors importing this missing module, with 167 skips; the latest full CI
-failure is retained at `.analysis/th03-chiyuri-ci-20261008.log` (the earlier
+failure is retained at `.analysis/th03-ellen-omf-ci-final-20261008.log` (the earlier
 Yumemi/Rikako promotion failure remains at `.analysis/th03-ci-exatt-20261008.log`). The interpreter reports
 `importlib.util.find_spec("unicorn") is None`. As before, this is a host
 dependency block, not a full-CI PASS or an owner-byte mismatch.
@@ -268,7 +275,7 @@ The CI steps after unittest were rerun independently and **pass**: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log
-is `.analysis/th03-chiyuri-postgates-20261008.log`; its final line confirms
+is `.analysis/th03-ellen-omf-postgates-final-20261008.log`; its final line confirms
 `POST-UNITTEST GATES: PASS`. The earlier suffix post-gates log is retained too.
 The final Kana default exact receipt after ledger updates is
 .analysis/th03-main-exact/gpt-web-exatt-kana-default-final-p03-20261008/receipt.json.
@@ -311,17 +318,78 @@ historical first-seen MAIN_04, MAIN_05 and P_EXATT_TEXT layout.
 No Factory Truth Kernel acceptance is implied by this repository-local result.
 
 
-Non-exact Ellen diagnostic: raw 1078-byte CODE, exact MAP, and all fourteen
-relocation sites are reproduced in two candidate cold links, but site 1003
-is last in the target relocation order and first in the TC4/TLINK candidate.
+Historical **negative Ellen diagnostic** (before the final record framing):
+unmodified TC4 and two-object TASM candidates reproduced raw 1078-byte CODE
+and MAP, but placed the sound-call relocation site 1003 before the other 13.
 Receipt: .analysis/th03-main-exact/gpt-web-ellen-raw-blocker-link-v09-20261008/receipt.json.
-Strict full-link exact remains open; the 310-function / 48942-byte exact
-subset is unchanged. See reconstruction/MAIN_EXATT_REVIEW.md.
+The pinned natural TC4 OMF framing correction now makes this owner pass the
+**unchanged** ordered-relocation gate in default replay. See
+reconstruction/MAIN_EXATT_REVIEW.md for raw compiler and calibrated OMF SHA
+evidence; no historical native-toolchain equivalence is claimed.
 
-The unchanged 310-function default acceptance remains PASS through two
-additional cold links and DOS probes at
+Historical 310-function default acceptance (before Chiyuri and Ellen)
+passed two additional cold links and DOS probes at
 .analysis/th03-main-exact/gpt-web-ellen-blocker-default-baseline-b01-20261008/receipt.json.
 Full /usr/bin/python3 CI is blocked by the missing host unicorn module:
-632 tests with 125 import errors and 167 skips. Retained log:
-.analysis/th03-ellen-blocker-ci-20261008.log. The five focused Extra Attack
+Historical 632-test CI attempt reported 125 import errors and 167 skips;
+retained log: .analysis/th03-ellen-blocker-ci-20261008.log. The five focused Extra Attack
 review tests, preflight, tracking, progress and git diff --check pass.
+
+## Reviewed Extra Attack owner family complete in scoped CODE (2026-10-08)
+
+The full reviewed P_EXATT_TEXT plus MAIN_06_TEXT Extra Attack CODE interval
+at `18FE:000A..2280` now has 8822 contiguous accepted bytes: ten complete
+logical character/shared owners (8781 bytes) and the existing 41-byte
+generic object. The largest 1150-byte Yumemi renderer, 518-byte Chiyuri
+beam renderer, and 470-byte Ellen update are included.
+
+The Ellen source is natural `src/main/player/exatt_ellen.cpp`; pinned TC4
+compiled all 1078 original executable bytes and correct symbol/fixup
+targets, but used a 1024-byte LEDATA boundary that reordered the late
+SE-call relocation (owner offset 1003) ahead of the earlier sites.
+The documented `scripts/lib/tc4_omf_bridge.py` changes only valid Intel
+OMF LEDATA/FIXUPP record framing, at owner offset 1000, and rebases the
+three remaining record-local offsets. It emits no bytecode, does not
+change code/data storage or symbol targets, and cannot be generalized
+without its strict input assertions and negative controls. This is an
+explicit producer-layout calibration, **not** a claim that historical
+uncalibrated TC4 or TASM emitted identical OMF records.
+
+First passing no-candidate default aggregate:
+`.analysis/th03-main-exact/gpt-web-ellen-omf-default-p01-20261008/receipt.json`.
+Both cold links match all 320 functions, 50126 function bytes / 51049
+owned bytes, all ordered MZ relocations and MAP contributions, 20 product
+hashes and DOS behavior. The physical global storage and full MAIN build
+closure remain open; OP, MAINL, and ZUN still require stored/decoded CODE
+mapping before exact reconstruction.
+
+## Latest full reviewed-CODE acceptance after Ellen (2026-10-08)
+
+The authoritative post-ledger **no-candidate** two-round replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-ellen-omf-default-final-p02-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-ellen-omf-default-final-p02-20261008/receipt.json
+
+Both rounds pass all **320 currently reviewed** MAIN functions, 50126 function
+bytes / 51049 owned CODE bytes, 72 owned extents and 65 source owners.
+The 1078-byte Ellen CODE span matches the immutable target byte-for-byte,
+all 14 original ordered MZ relocations, MAP, existing owners, two complete
+cold object/output vectors and maintained DOS behavior. Snapshot source
+hashes for source, manifest, Oracle, OMF calibration bridge and ledgers
+were independently checked against the live worktree.
+
+The Ellen source is natural C++, but the native TC4 object is not claimed
+historically exact at the OMF-record level. A narrow fail-closed OMF
+LEDATA/FIXUPP framing correction preserves exact instructions and relocation
+targets while restoring their original link order. The native and
+calibrated object SHA-256 values are independently retained in the receipt.
+
+Full CI attempt: .analysis/th03-ellen-omf-ci-final-20261008.log
+(**635 tests, 125 errors importing the absent host unicorn module,
+167 skips; full CI FAIL**). The post-unittest gates pass independently
+at .analysis/th03-ellen-omf-postgates-final-20261008.log,
+including toolchain, target, Ghidra and negative controls. This is
+not complete MAIN source-product closure, historical DATA/BSS ownership
+or independently pristine target provenance; OP, MAINL and ZUN exactness
+remain unresolved. Factory Truth Kernel acceptance is not implied.

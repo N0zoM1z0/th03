@@ -1,6 +1,8 @@
-// Natural TC4 reconstruction candidate for the complete TH03 Ellen
-// Extra Attack P_EXATT_TEXT owner. The 30-byte trailing-history slot array
-// and each referenced 32-byte entity remain in the frozen historical BSS.
+// Maintained natural TC4 reconstruction of the complete TH03 Ellen Extra
+// Attack P_EXATT_TEXT owner. The 30-byte trailing-history slots and each
+// referenced 32-byte entity stay in historical DGROUP. Exact linked bytes
+// require a documented zero-instruction OMF LEDATA/FIXUPP record reframe;
+// no executable instruction, target symbol or relocation is invented.
 #pragma codeseg P_EXATT_TEXT
 
 #include "src/main/player/exatt_ellen.hpp"
@@ -54,12 +56,11 @@ extern "C" void near pascal exatt_render_state_other(
     screen_x_t left, screen_y_t top, unsigned char frame
 );
 
-// The optional two-producer carve is an OMF-order diagnostic: it reproduces
-// all 1078 target CODE bytes and the exact map, but still fails the original
-// ordered MZ relocation list. No final CODE exactness is claimed here.
+// The canonical semantic owner is compiled as one natural C++ source.
+// Conditional two-object and hybrid-initializer experiments are preserved
+// by archived receipts, not by maintaining alternate duplicate source.
 void near ellen_exatt_render_one(void);
 
-#ifndef TH03_EXATT_ELLEN_RENDER_ONLY
 void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
 {
     int target_x;
@@ -245,9 +246,7 @@ void far pascal exatt_update_ellen(void)
     }
 }
 
-#endif // !TH03_EXATT_ELLEN_RENDER_ONLY
 
-#ifndef TH03_EXATT_ELLEN_PREFIX_ONLY
 void far pascal exatt_render_ellen(void)
 {
     register ellen_exatt_slot_t near *p = &ellen_exatt_slots[pid_current][0];
@@ -259,5 +258,3 @@ void far pascal exatt_render_ellen(void)
         }
     }
 }
-
-#endif // !TH03_EXATT_ELLEN_PREFIX_ONLY
