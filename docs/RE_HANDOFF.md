@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 64 units / 278 functions / 44666 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 65 units / 282 functions / 45393 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 44666 exact bytes comprise 43743 function bytes and 923 explicitly
+MAIN's 45393 exact bytes comprise 44470 function bytes and 923 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-exatt-suffix-default-final-p02-20261008/receipt.json.
+.analysis/th03-main-exact/gpt-web-mima-default-final-p03-20261008/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 379 deterministic game objects and 445 validated
+with 20 product outputs, 380 deterministic game objects and 446 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -133,13 +133,14 @@ five P_EXATT_TEXT character owners and a MAIN_06_TEXT shared/Reimu/Mima/Yumemi/
 Rikako family. They contain 52 complete functions and all 140 in-owner MZ
 relocations; no relocation crosses an owner edge. The largest function is
 Yumemi's 1150-byte helper, alongside 470-byte Ellen and 398-byte Mima updates.
-Eight of these owners remain boundary-reviewed only. Yumemi (1696 bytes /
-five functions, including the 1150-byte renderer) and Rikako (702 bytes / five
-functions) are now exact through the default two-round full-link Oracle. Their
-consecutive 2398-byte MAIN_06_TEXT suffix matches raw target bytes, MAP
-placement and all 36 + 9 ordered relocations, and adds two real C++ objects
-without moving private DATA/BSS. Historical physical DATA/BSS producers remain
-unresolved. See
+Seven of these owners remain boundary-reviewed only. Yumemi (1696 bytes /
+five functions, including the 1150-byte renderer), Rikako (702 bytes / five
+functions) and Mima (727 bytes / four functions, including its 398-byte update)
+are exact through the default two-round full-link Oracle. The consecutive
+3125-byte MAIN_06_TEXT suffix now consists of three natural TC4J producers,
+with target bytes, MAP contributions and all 10 + 36 + 9 ordered relocations
+matching. Existing carrier DATA/BSS positions remain unchanged; physical
+DATA/BSS producer ownership is not implied by CODE exactness. See
 reconstruction/MAIN_EXATT_REVIEW.md.
 
 Japanese YUMEZIKU targets remain pinned in `config/targets.toml`, with
@@ -211,25 +212,26 @@ For verification, run:
 Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
 database before new target observations. The complete MAIN_03_TEXT boss segment
 remains exact. The active frontier is the Extra Attack family in P_EXATT_TEXT
-and MAIN_06_TEXT: eight owners remain source-open after Yumemi+Rikako default
-exact promotion. The next contiguous MAIN_06_TEXT candidates are the 215-byte
-shared helper, 941-byte Reimu, and 727-byte Mima owners; they must each pass
-target-first ABI/relocation and physical-producer analysis before promotion.
+and MAIN_06_TEXT: seven owners remain source-open after Mima, Yumemi and Rikako
+default exact promotion. The next contiguous MAIN_06_TEXT candidates are the
+215-byte shared helper and 941-byte Reimu owner (eight functions); these still
+require natural TC4 source, ABI/relocation and physical-producer proof.
 Continue reconstructing complete owners rather than isolated leaves, and do not
 treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2525 evidence rows / three hypotheses / 333 knowledge rows / 320
-MAIN authored-function rows. The scoped exact subset is now 278 functions /
-44666 owned bytes, while the broader reviewed authored frontier is now 320
+275 units / 2533 evidence rows / three hypotheses / 335 knowledge rows / 320
+MAIN authored-function rows. The scoped exact subset is now 282 functions /
+45393 owned bytes, while the broader reviewed authored frontier is now 320
 functions / 51049 bytes. The ten new Extra Attack owners account for the
 52-function / 8781-byte boundary-reviewed delta.
 
 The current Factory host does not provide the Python `unicorn` module.
 The 2026-10-08 /usr/bin/python3 CI attempt runs 632 tests but reports 125
-errors importing this missing module, with 167 skips; its complete log is
-`.analysis/th03-ci-exatt-20261008.log`. The interpreter reports
+errors importing this missing module, with 167 skips; the latest full CI
+failure is retained at `.analysis/th03-mima-ci-20261008.log` (the earlier
+Yumemi/Rikako promotion failure remains at `.analysis/th03-ci-exatt-20261008.log`). The interpreter reports
 `importlib.util.find_spec("unicorn") is None`. As before, this is a host
 dependency block, not a full-CI PASS or an owner-byte mismatch.
 
@@ -237,7 +239,10 @@ The CI steps after unittest were rerun independently and **pass**: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log
-is `.analysis/th03-ci-post-gates-exatt-20261008.log`.
-The final default exact receipt is
+is `.analysis/th03-mima-ci-postgates-20261008.log`; its final line confirms
+`POST-UNITTEST GATES: PASS`. The earlier suffix post-gates log is retained too.
+The final Mima-source default exact receipt after updating source and ledgers is
+`.analysis/th03-main-exact/gpt-web-mima-default-p02-20261008/receipt.json`.
+The prior Yumemi+Rikako closeout stays preserved at
 `.analysis/th03-main-exact/gpt-web-exatt-suffix-default-final-p02-20261008/receipt.json`.
 No Factory Truth Kernel acceptance is implied by this repository-local result.

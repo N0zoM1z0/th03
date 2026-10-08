@@ -172,3 +172,59 @@ Oracle, not whole-game closure, independently attested pristine target origin,
 historical physical DATA/BSS ownership, or Factory Truth Kernel acceptance.
 The remaining eight Extra Attack owners are boundary-reviewed only. The
 contiguous shared/Reimu/Mima MAIN_06 prefix is the next physical-carve target.
+
+## Mima complete natural source and exact promotion (2026-10-08)
+
+The adjacent **Mima** owner at `18FE:164B..1922` (727 bytes) is now complete,
+including its 398-byte update, 193-byte renderer helper, 89-byte add and
+47-byte render dispatcher. It is reconstructed as natural TC4J source in
+`src/main/player/exatt_mima.cpp`; the producer exports all four function
+boundaries, near/far returns and ten relocation sites. No private DATA/BSS
+is emitted, and the frozen entity storage remains separate.
+
+The compiler-guided reconstruction deliberately included the 398-byte update.
+Initial natural code produced 733 bytes; adjusting register allocation and
+source branch grouping produced all 727 target-sized bytes with matching
+instruction shape. The first full-link candidate still showed eight byte
+differences, all in the renderer's BP-relative stack offsets. Swapping the
+declaration order of `left` and `top` restored those offsets without using
+literal target bytes or relaxing the comparison. The full-link candidate
+`gpt-web-exatt-mima-link-c03-20261008` then passed both rounds: all raw
+bytes, MAIN_06 MAP `M=th03/ex_mima.cpp`, ordered relocation sites
+`43,52,111,244,432,525,563,591,614,657`, and maintained DOS behavior.
+
+Independent pinned TC4 object-shape proof for the final maintained source:
+
+    python3 scripts/probe_th03_main_exatt_mima_cpp.py \
+      --run-id gpt-web-mima-shape-final-v06-20261008
+
+Final no-candidate default source replay:
+
+    python3 scripts/replay_th03_main_exact_units.py \
+      --run-id gpt-web-mima-default-p02-20261008
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-mima-default-p02-20261008/receipt.json
+
+The Mima carve removes only the frozen Mima CODE range from the carrier.
+The real `ex_mima` object links before the existing `ex_yume` and
+`ex_rika` producers. The resulting contiguous 3125-byte MAIN_06_TEXT
+suffix (`164B..2280`) is exact within the repository Oracle scope.
+The default aggregate now covers **282 functions, 44470 function bytes and
+45393 owned bytes** (923 classified non-function producer bytes), 65 exact
+CODE extents / 58 maintained source owners; both cold builds produce
+20 deterministic products, 380 game objects and 446 generated OMF objects.
+All remaining seven character Extra Attack owners retain boundary-only state.
+
+This is not a claim of historical physical DATA/BSS producer ownership,
+whole-product closure, independent pristine-target provenance, or Factory
+Truth Kernel acceptance. The next contiguous frontier is Reimu plus the
+shared 215-byte MAIN_06_TEXT helper prefix.
+
+Post-ledger final no-candidate replay also passes both cold rounds:
+
+    python3 scripts/replay_th03_main_exact_units.py \
+      --run-id gpt-web-mima-default-final-p03-20261008
+
+Receipt: `.analysis/th03-main-exact/gpt-web-mima-default-final-p03-20261008/receipt.json`.

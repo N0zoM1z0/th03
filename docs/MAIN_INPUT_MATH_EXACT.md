@@ -1,8 +1,8 @@
 # Historical MAIN input/math checkpoint
 
 This note records the earlier 13-owner / 40-function checkpoint. The current
-default exact aggregate has 57 maintained source owners / 64 exact CODE extents /
-278 exact functions / 44666 owned bytes. The broader reviewed authored frontier
+default exact aggregate has 58 maintained source owners / 65 exact CODE extents /
+282 exact functions / 45393 owned bytes. The broader reviewed authored frontier
 is 72 units / 320 functions / 51049 bytes; see [the current handoff](RE_HANDOFF.md)
 and [progress](PROGRESS.md). The scoped observations below retain their original
 meaning and are not the final totals.
