@@ -5115,3 +5115,75 @@ offset = 0x1619
 size = 50
 boundary = "owner-linear-span"
 abi = "far cdecl; RETF"
+
+[[units]]
+id = "th03-main-exatt-shared-main06"
+source = "src/main/player/exatt_shared.cpp"
+header = "src/main/player/exatt_shared.hpp"
+object = "ex_shfly"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ex_shfly.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ex_shfly", wrapper = "th03/ex_shfly.cpp", source = "src/main/player/exatt_shared.cpp" }]
+support_files = [
+  "src/main/math/vector_far.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/difficul.hpp",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ex_repre.cpp\",\n"
+build_replacement = "\t\"th03/ex_shfly.cpp\",\n\t\"th03/ex_repre.cpp\",\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-exatt-shared-main06", segment = 0x18fe, start = 0x11c7, size = 0x00d7, map_segment = "MAIN_06_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
+    { object = "ex_shfly", start = 0x11c7, size = 0x00d7 },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern EXATT_RENDER_RIKAKO:far\r\n"
+after = "\textern EXATT_RENDER_RIKAKO:far\r\n\textern _exatt_fly_update:near\r\n\textern EXATT_FLY_INIT:near\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_1A1A7\r\n"
+after = "\t\tcall\t_exatt_fly_update\r\n"
+count = 6
+
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_1A1ED\r\n"
+after = "\t\tcall\tEXATT_FLY_INIT\r\n"
+count = 7
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "public _exatt_fly_update\r\n_exatt_fly_update label near\r\nsub_1A1A7\tproc near\r\n"
+end_marker = "sub_1A1ED\tendp\r\n"
+replacement = "; shared Extra Attack flight owner moved to natural TC4 producer\r\n"
+
+[[functions]]
+name = "exatt_fly_update"
+object = "ex_shfly"
+segment = 0x18fe
+offset = 0x11c7
+size = 70
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "exatt_fly_init"
+object = "ex_shfly"
+segment = 0x18fe
+offset = 0x120d
+size = 145
+boundary = "owner-linear-span"
+abi = "near Pascal; x/y, target x/y, word pid, speed; RET 0x0C"

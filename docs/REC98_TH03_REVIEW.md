@@ -58,11 +58,12 @@ by `sol-rec98-baseline-20261005`: all forty functions and fourteen extents
 passed the configured local gates. The baseline remains a bounded replay,
 not a complete maintained game build.
 
-Current exact MAIN acceptance contains fifty-nine maintained source owners /
-sixty-six exact CODE extents / 290 functions / 46334 owned bytes. The broader
+Current exact MAIN acceptance contains sixty maintained source owners /
+sixty-seven exact CODE extents / 292 functions / 46549 owned bytes. The broader
 reviewed authored frontier contains 72 units / 320 functions / 51049 bytes;
-of the ten reviewed Extra Attack owners, Reimu, Mima, Yumemi and Rikako are
-now exact via the default two-round full-link Oracle; six remain boundary-reviewed. Seventy intake
+of the ten reviewed Extra Attack owners, the shared flight helper, Reimu,
+Mima, Yumemi and Rikako are exact via the default two-round full-link Oracle;
+five character-local P_EXATT_TEXT owners remain boundary-reviewed. Seventy intake
 paths have scoped CODE decisions, including the frozen wrappers and implementations
 for hitbox, combo, gauge, movement, ordinary shots, player state, resident pointer,
 extra-attack wrapper, hit circles, static HUD, playfield, sprite16 wrappers, MRS,

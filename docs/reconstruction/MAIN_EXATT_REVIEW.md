@@ -307,3 +307,62 @@ The available post-unittest CI gates pass (see the retained
 .analysis/th03-reimu-ci-postgates-20261008.log), but full CI remains
 blocked by missing Python unicorn: 632 tests with 125 import errors
 and 167 skips (.analysis/th03-reimu-ci-20261008.log).
+
+## Shared flight owner exact (2026-10-08)
+
+The complete remaining shared MAIN_06_TEXT prefix at 18FE:11C7..129E
+is reconstructed as a natural Turbo C++ source under
+src/main/player/exatt_shared.cpp (215 CODE bytes / 2 complete functions).
+It exports a 70-byte near cdecl exatt_fly_update with plain near RET
+and a 145-byte near Pascal exatt_fly_init with RET 0x0C. The calls from
+still-carried P_EXATT_TEXT code and the already exact character producers
+bind directly to the natural object. Frozen 32-byte entity storage stays
+unchanged. There is no newly produced private BSS.
+
+The first candidate compiled to precisely 215 bytes but had divergent
+control-flow shape in exatt_fly_update. Reorganizing the signed boundary
+comparison and branch targets into the observed semantic arrival/movement
+paths restored the original 70-instruction-byte shape without target-byte
+carriers. The 145-byte initializer already matched the full target
+instruction shape. The final independent TC4J shape probe is:
+
+    python3 scripts/probe_th03_main_exatt_shared_cpp.py --run-id gpt-web-exatt-shared-shape-final-v04-20261008
+
+The two-round full-link candidate gpt-web-exatt-shared-link-c01-20261008
+passed raw bytes, exact MAIN_06 map contribution ex_shfly at
+18FE:11C7 with size 00D7, all four ordered MZ relocation sites
+116,139,192,204 and maintained DOS behavior. The same natural producer
+now precedes both Reimu physical producers in the maintained default
+manifest. Initial no-candidate default replay:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-exatt-shared-default-p01-20261008
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-exatt-shared-default-p01-20261008/receipt.json
+
+The default scoped exact aggregate now reaches 292 functions /
+45626 function bytes / 46549 owned CODE bytes, with 67 exact extents
+and 60 maintained semantic source owners. Both cold builds preserve
+20 products, 383 game objects, 449 generated OMF objects and
+passing DOS behavior. All 4281 contiguous bytes at
+18FE:11C7..2280 now come from natural C++ compiled by TC4J
+across six physical producers: shared flight, two Reimu,
+Mima, Yumemi and Rikako. The remaining five reviewed Extra
+Attack character owners are within P_EXATT_TEXT and are *not*
+promoted exact here. Whole-game build closure, independently
+pristine original target provenance, physical DATA/BSS producer
+ownership and Factory Truth Kernel acceptance remain open.
+
+Post-ledger final no-candidate replay:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-exatt-shared-default-final-p02-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-exatt-shared-default-final-p02-20261008/receipt.json
+
+Both cold builds still pass with the source/evidence ledger and full
+existing-owner acceptance frozen. The available CI checks after
+unittest pass (.analysis/th03-exatt-shared-ci-postgates-20261008.log).
+Full CI remains blocked by the missing host Python unicorn
+module: 632 tests, 125 import errors and 167 skips. The failed
+CI output is retained at .analysis/th03-exatt-shared-ci-20261008.log.
