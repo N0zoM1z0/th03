@@ -601,3 +601,36 @@ module: 632 tests, 125 import errors and 167 skips; log
 .analysis/th03-exatt-kana-ci-20261008.log. All available post-unittest
 gates (including Ghidra and negative controls) pass independently; log
 .analysis/th03-exatt-kana-postgates-20261008.log.
+
+## Ellen full-link raw acceptance boundary and remaining FIXUPP blocker (2026-10-08)
+
+The maintained natural src/main/player/exatt_ellen.cpp compiles all five
+functions (186/103/269/470/50 bytes), including the complete 470-byte
+history, polar-motion and collision update.
+
+    python3 scripts/probe_th03_main_exatt_ellen_cpp.py --run-id gpt-web-ellen-raw-blocker-shape-v08-20261008
+
+Candidate config/th03_main_exatt_ellen_candidate.toml places the first 1028
+CODE bytes in ex_elpre and the 50-byte dispatcher in ex_elrnd, ahead of the
+accepted Kana producer. Original DGROUP slots at 0x230A (720 bytes) and
+the cursor at 0x25DA are aliased without allocating storage. The existing
+Ellen boss call binds to the natural ELLEN_EXTRA_ADD far Pascal exporter.
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_exatt_ellen_candidate.toml --run-id gpt-web-ellen-raw-blocker-link-v09-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-ellen-raw-blocker-link-v09-20261008/receipt.json
+
+Both full cold links reproduce 1078 raw target CODE bytes, exact P_EXATT_TEXT
+MAP contributions, all 14 relocation site offsets, all existing accepted
+owners and DOS behavior. **This is not an exact promotion.** The strict Oracle
+fails the original ordered MZ relocation vector:
+
+    target:     909 887 821 806 757 723 498 455 319 60 42 29 15 1003
+    candidate: 1003 909 887 821 806 757 723 498 455 319 60 42 29 15
+
+Site 1003 is the far sound-effect call late in exatt_update_ellen.
+Single TC4 producer, two-producer and Borland inline far-call trials all
+reproduced the target bytes without restoring FIXUPP order. Failed receipts
+are preserved. No ordered-relocation comparison has been weakened or sorted.
+Ellen remains boundary-reviewed until the original OMF producer ordering can
+be demonstrated.

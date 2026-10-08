@@ -242,7 +242,7 @@ treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2574 evidence rows / three hypotheses / 346 knowledge rows / 320
+275 units / 2577 evidence rows / three hypotheses / 347 knowledge rows / 320
 MAIN authored-function rows. The scoped exact subset is now 310 functions /
 48942 owned bytes, while the broader reviewed authored frontier is now 320
 functions / 51049 bytes. The ten new Extra Attack owners account for the
@@ -292,3 +292,19 @@ tracked separately from Research-only timestamp drift and must not be
 masked by weakening the existing OMF comparator.
 
 No Factory Truth Kernel acceptance is implied by this repository-local result.
+
+
+Non-exact Ellen diagnostic: raw 1078-byte CODE, exact MAP, and all fourteen
+relocation sites are reproduced in two candidate cold links, but site 1003
+is last in the target relocation order and first in the TC4/TLINK candidate.
+Receipt: .analysis/th03-main-exact/gpt-web-ellen-raw-blocker-link-v09-20261008/receipt.json.
+Strict full-link exact remains open; the 310-function / 48942-byte exact
+subset is unchanged. See reconstruction/MAIN_EXATT_REVIEW.md.
+
+The unchanged 310-function default acceptance remains PASS through two
+additional cold links and DOS probes at
+.analysis/th03-main-exact/gpt-web-ellen-blocker-default-baseline-b01-20261008/receipt.json.
+Full /usr/bin/python3 CI is blocked by the missing host unicorn module:
+632 tests with 125 import errors and 167 skips. Retained log:
+.analysis/th03-ellen-blocker-ci-20261008.log. The five focused Extra Attack
+review tests, preflight, tracking, progress and git diff --check pass.

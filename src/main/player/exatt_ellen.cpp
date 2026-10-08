@@ -54,16 +54,22 @@ extern "C" void near pascal exatt_render_state_other(
     screen_x_t left, screen_y_t top, unsigned char frame
 );
 
+// The optional two-producer carve is an OMF-order diagnostic: it reproduces
+// all 1078 target CODE bytes and the exact map, but still fails the original
+// ordered MZ relocation list. No final CODE exactness is claimed here.
+void near ellen_exatt_render_one(void);
+
+#ifndef TH03_EXATT_ELLEN_RENDER_ONLY
 void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
 {
-    int target_y;
     int target_x;
+    int target_y;
     unsigned char added;
     signed char spin;
     unsigned char angle;
     added = 0;
-    target_y = randring_far_next16_mod(0x0C80) + 0x2C0;
-    target_x = randring_far_next16_mod(0x0C80) + 0x500;
+    target_x = randring_far_next16_mod(0x0C80) + 0x2C0;
+    target_y = randring_far_next16_mod(0x0C80) + 0x500;
     spin = (randring_far_next16_and(1) == 0) ? -1 : 1;
     angle = (unsigned char)randring_far_next16();
 
@@ -112,8 +118,8 @@ void near ellen_exatt_render_one(void)
 {
     screen_x_t left;
     screen_y_t top;
-    screen_x_t trail_left;
     screen_y_t trail_top;
+    screen_x_t trail_left;
     unsigned char frame;
     register int i;
     register sprite16_offset_t sprite_offset;
@@ -154,9 +160,9 @@ void near ellen_exatt_render_one(void)
 
 void far pascal exatt_update_ellen(void)
 {
-    unsigned char pid_other;
-    int j;
     int i;
+    int j;
+    unsigned char pid_other;
     register ellen_exatt_slot_t near *slot = &ellen_exatt_slots[pid_current][0];
 
     pid_other = (1 - pid_current);
@@ -239,6 +245,9 @@ void far pascal exatt_update_ellen(void)
     }
 }
 
+#endif // !TH03_EXATT_ELLEN_RENDER_ONLY
+
+#ifndef TH03_EXATT_ELLEN_PREFIX_ONLY
 void far pascal exatt_render_ellen(void)
 {
     register ellen_exatt_slot_t near *p = &ellen_exatt_slots[pid_current][0];
@@ -250,3 +259,5 @@ void far pascal exatt_render_ellen(void)
         }
     }
 }
+
+#endif // !TH03_EXATT_ELLEN_PREFIX_ONLY
