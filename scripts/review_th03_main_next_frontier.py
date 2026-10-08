@@ -29,12 +29,6 @@ ROOT = Path(__file__).resolve().parents[1]
 # The exact-review priority is set by game-state dependencies and subsystem
 # boundaries, not byte count. Every range is a target LOAD-image offset.
 CANDIDATES = (
-    dict(id="main-player-hud-intro-prefix", start=0xBB12, end=0xBE5D,
-         terminal="ret", subsystem="HUD state/intro / life-display initializer",
-         caution="three provisional functions; external HUD/resident globals"),
-    dict(id="main-player-hud-render", start=0xBE5D, end=0xC0D8,
-         terminal="ret", subsystem="HUD/lives sprite-state renderer",
-         caution="large render function, shared draw helpers / display state"),
     dict(id="main-marisa-charge-hitbox-prefix", start=0x142D0, end=0x14A76,
          terminal="retf", subsystem="Marisa charge-shot, hyper and hitbox prefix",
          caution="many far/near functions, sprite/shot/gauge deps; no trusted owner partition yet"),
@@ -118,7 +112,7 @@ def review() -> dict:
         "kind":"th03-main-next-frontier-target-interval-review",
         "artifact":"th03-main",
         "target_sha256":sha(target),
-        "scope":"four remaining provisional unowned CODE intervals; Hyper owner exact in default manifest",
+        "scope":"two remaining provisional unowned CODE intervals; Hyper and complete HUD owners exact in default manifest",
         "existing_exact_function_count":len(manifest["functions"]),
         "existing_exact_extent_count":len(accepted),
         "candidates":spans,
@@ -132,7 +126,7 @@ def review() -> dict:
 
 def main() -> int:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",default=".analysis/th03-main-next-frontier/target-review-v2.json")
+    parser.add_argument("--output",default=".analysis/th03-main-next-frontier/target-review-v3.json")
     args=parser.parse_args()
     p=(ROOT / args.output).resolve()
     if not p.is_relative_to((ROOT / ".analysis").resolve()):

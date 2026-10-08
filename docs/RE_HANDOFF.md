@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 73 reviewed authored units / 330 functions / 51644 bytes; exact subset 73 units / 330 functions / 51644 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 74 reviewed authored units / 334 functions / 53122 bytes; exact subset 74 units / 334 functions / 53122 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 51644 exact bytes comprise 50721 function bytes and 923 explicitly
+MAIN's 53122 exact bytes comprise 52199 function bytes and 923 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-hyper-main010-default-p01-20261008/receipt.json.
+.analysis/th03-main-exact/gpt-web-hud-main-default-final-p02-20261008/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 390 deterministic game objects and 456 validated
+with 20 product outputs, 391 deterministic game objects and 457 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -257,9 +257,9 @@ treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-276 units / 2603 evidence rows / three hypotheses / 353 knowledge rows / 330
-MAIN authored-function rows. The scoped exact subset now covers all 330
-reviewed functions / 51644 owned bytes. The whole-game denominator is still
+277 units / 2613 evidence rows / three hypotheses / 355 knowledge rows / 334
+MAIN authored-function rows. The scoped exact subset now covers all 334
+reviewed functions / 53122 owned bytes. The whole-game denominator is still
 unknown, and OP/MAINL/ZUN are not accepted exact. The ten new Extra Attack owners account for the
 52-function / 8781-byte now-exact extension of the reviewed CODE frontier.
 
@@ -429,18 +429,88 @@ The independently runnable post-unittest gates all PASS at
 Ghidra, negative controls, tracking and compile checks. No full CI PASS is
 claimed and the repository Oracle is not Factory Truth Kernel acceptance.
 
-The next target-first intake is now **four remaining provisional, non-exact
-intervals totaling 3609 bytes**, independently replayable with:
+## New exact complete PLAYER_M_TEXT HUD round-start owner
+
+The 1478-byte/four-function HUD round-intro update and renderer is exact
+from two natural pinned Turbo C++ 4.02 source functions (688 and 635
+bytes) and complete 104+51-byte symbolic PC-98 TASM display helpers.
+Every game instruction comes from fresh source builds rather than
+stored target bytes. The compiler emits two complete function bodies;
+the pinned TASM emitter combines them in original order. A narrowly
+validated OMF FIXUPP order correction reverses only the two independent
+87/57-subrecord FIXUPP descriptor lists, preserving source CODE, frame
+and target symbols, and restores the **original ordered 20 MZ sites**.
+This is not a claim that the unmodified TASM output matches original
+historic OMF layout.
+
+The first default no-candidate two-round replay is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-hud-main-default-p01-20261008
+
+Receipt:
+.analysis/th03-main-exact/gpt-web-hud-main-default-p01-20261008/receipt.json
+
+The two cold builds match all 1478 HUD original linked bytes,
+PLAYER_M_TEXT MAP at 096E:2432 size 05C6, all 20 relocation sites
+in original order, prior 330 exact functions, the complete product
+vector, 391 game / 457 total generated OMF objects and DOS probes.
+Old score_add CODE remains at original 096E:3ED0 in the residual
+frozen carrier 096E:29F8..3FF4; the historical particle history
+array, pointer and 1280-byte overlapping BSS aliases are unchanged.
+
+The accepted scoped total is now **334 complete reviewed functions /
+52199 function bytes / 53122 CODE owned bytes**, 74 accepted extents
+and 67 maintained source owners. All source-shape, OMF calibration and
+failed alternative LINK receipts are preserved in
+docs/reconstruction/MAIN_HUD_ROUND_INTRO_REVIEW.md.
+
+The next target-first intake is **two still-unreviewed intervals totaling
+2131 bytes**, independently replayable with:
 
     python3 scripts/review_th03_main_next_frontier.py
 
-The current v2 review is in docs/reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md.
-Priority is the two adjacent **843- and 635-byte HUD state/renderer blocks**
-as a complete subsystem, followed by the **1958-byte Marisa charge/hyper/
-hitbox prefix**, with the 173-byte ordinary-shot producer kept in its
-larger dependency chain. The historical v1 five-interval review is
-preserved; Hyper must not be counted as unreviewed again. No new exact
-credit is assigned to those four intervals until original complete
-function boundaries, DATA/BSS and ABI ownership, source and two full
-serial cold links are proved. The full MAIN game and OP/MAINL/ZUN remain
-incomplete; Factory Truth Kernel acceptance is not implied.
+The current v3 review is in
+docs/reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md. Priority is a
+**1958-byte Marisa charge/hyper/hitbox gameplay subsystem** (30 target
+relocation sites) together with the ordinary-shot hardware producer
+prefix (173 bytes). Earlier v1/v2 review receipts are preserved.
+Neither next region receives exact credit before full target-first
+function, physical DATA/BSS and source/ABI review plus two strict
+serial cold links. Complete MAIN game source closure, independent
+pristine target provenance and OP/MAINL/ZUN remain open; local CODE
+exactness is not Factory Truth Kernel acceptance.
+
+## HUD final post-ledger replay and CI results — 2026-10-08
+
+The authoritative final default **no-candidate** two-round replay after
+all 334 function, boundary and exact evidence ledger updates is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-hud-main-default-final-p02-20261008
+
+Receipt:
+.analysis/th03-main-exact/gpt-web-hud-main-default-final-p02-20261008/receipt.json
+
+PASS with 334 complete currently reviewed functions, 52199 function
+bytes and 53122 owned CODE bytes; original HUD 1478/1478 bytes,
+single physical 096E:2432 MAP and all 20 ordered MZ relocation
+entries, all prior exact owners, 20 original product outputs, 391
+game OMF objects, 457 total generated OMF objects and DOS probes.
+No opaque game instruction carrier or weaker comparison was used.
+The raw TASM OMF and calibrated FIXUPP-order OMF are separately
+hashed, with original target/frame metadata and bytes preserved.
+The independently existing DATA/BSS pointer/particle storage is
+retained at original target locations, not re-credited as reconstructed.
+
+Full CI was executed (643 tests, 125 errors due to the missing
+host Python unicorn module, 167 skips); therefore **full CI FAIL**:
+.analysis/th03-hud-ci-final-20261008.log.
+All independently runnable post-unittest gates PASS, including
+toolchain attestation, target checks, source/tracking/progress,
+Ghidra/database and negative controls:
+.analysis/th03-hud-postgates-final-20261008.log.
+
+The reviewed CODE fraction is 334/334, not a whole-product percentage.
+Next target-first candidates total 2131 non-exact bytes in the Marisa
+charge/hyper/hitbox and ordinary-shot dependencies. Full MAIN,
+physical historic DATA/BSS producers, OP/MAINL/ZUN, pristine-target
+provenance and Factory Truth Kernel acceptance remain incomplete.

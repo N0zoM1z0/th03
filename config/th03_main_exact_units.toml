@@ -1384,7 +1384,7 @@ object_path = "obj/th03/main.obj"
 map_module = "th03_main.asm"
 translator_comment = "Turbo Assembler  Version 5.0"
 code_extents = [
-  { name = "code", ledger_id = "th03-main-score-add", segment = 0x096e, start = 0x3ed0, size = 88, map_start = 0x2432, map_size = 0x1bc2, map_acbp = 28, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", producer_ranges = [] },
+  { name = "code", ledger_id = "th03-main-score-add", segment = 0x096e, start = 0x3ed0, size = 88, map_start = 0x29f8, map_size = 0x15fc, map_acbp = 28, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", producer_ranges = [] },
 ]
 
 [[functions]]
@@ -6049,3 +6049,104 @@ offset = 0x4313
 size = 80
 boundary = "owner-linear-span"
 abi = "near Pascal; no arguments; RET"
+
+[[units]]
+id = "th03-main-hud-round-intro"
+source = "src/main/hud/start_anim.cpp"
+header = "src/main/hud/start_anim.hpp"
+object = "h_stitch"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/h_stitch.asm"
+physical_objects_additive = true
+physical_objects = [
+  { object = "h_stitch", wrapper = "th03/h_stitch.asm", source = "src/main/hud/start_anim.cpp", translator_comment = "Turbo Assembler  Version 5.0", hud_tc4_stitch = "hud-roundintro-1478" },
+]
+support_files = [
+  "src/main/hud/start_anim.hpp",
+  "src/main/hud/start_render.cpp",
+  "src/main/hud/start_lowlevel.asm",
+  "src/main/hud/start_render.hpp",
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/resident.hpp",
+  "src/main/math/randring_getters.hpp",
+  "src/main/math/polar.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/libs/master.lib/master.hpp",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/p_hyper.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"obj/th03/h_stitch.obj\",\n\t\"th03/p_hyper.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-hud-round-intro", segment = 0x096e, start = 0x2432, size = 0x05c6, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", map_acbp = 28, map_parts = [
+    { object = "h_stitch", start = 0x2432, size = 0x05c6, map_module = "th03\\h_stitch.asm" },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_BB12\r\n"
+after = "\t\tcall\t_hud_start_anim_update\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_BE5D\r\n"
+after = "\t\tcall\t_hud_start_anim_render\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "_round_id\tdb ?\r\n\r\n\t\tdb 150 dup(?)\r\nword_2087A\tdw ?\r\n\t\tdb 1128 dup(?)\r\nword_20CE4\tdw ?\r\nbyte_20CE6\tdb ?\r\n\t\tdb ?\r\nword_20CE8\tdw ?\r\nword_20CEA\tdw ?\r\nx_20CEC\tdw ?\r\n"
+after = "_round_id\tdb ?\r\n\r\npublic _hud_start_particles\r\n_hud_start_particles label byte\r\n\t\tdb 150 dup(?)\r\npublic _hud_intro_destination_x\r\n_hud_intro_destination_x label word\r\nword_2087A\tdw ?\r\n\t\tdb 1128 dup(?)\r\npublic _hud_start_particle_p\r\n_hud_start_particle_p label word\r\nword_20CE4\tdw ?\r\npublic _hud_intro_phase\r\n_hud_intro_phase label byte\r\nbyte_20CE6\tdb ?\r\n\t\tdb ?\r\npublic _hud_intro_frame, _hud_intro_sprite, _hud_intro_x\r\n_hud_intro_frame label word\r\nword_20CE8\tdw ?\r\n_hud_intro_sprite label word\r\nword_20CEA\tdw ?\r\n_hud_intro_x label word\r\nx_20CEC\tdw ?\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "sub_BB12\tproc near\r\n"
+end_marker = "sub_BE5D\tendp\r\n"
+replacement = "; HUD round-start CODE 1478 bytes restored via generated TC4 to symbolic TASM OMF\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern EXATT_RENDER_RIKAKO:far\r\n"
+after = "\textern EXATT_RENDER_RIKAKO:far\r\n\textern _hud_start_anim_update:near\r\n\textern _hud_start_anim_render:near\r\n"
+
+[[functions]]
+name = "hud_start_anim_update"
+object = "h_stitch"
+segment = 0x096e
+offset = 0x2432
+size = 688
+boundary = "owner-linear-span"
+abi = "near cdecl; no args; RET"
+
+[[functions]]
+name = "hud_start_sprite_strip_put"
+object = "h_stitch"
+segment = 0x096e
+offset = 0x26e2
+size = 104
+boundary = "owner-linear-span"
+abi = "near Pascal; x/y, pat/column; RET 8"
+
+[[functions]]
+name = "hud_start_particle_pixel_put"
+object = "h_stitch"
+segment = 0x096e
+offset = 0x274a
+size = 51
+boundary = "owner-linear-span"
+abi = "near Pascal; x/y; RET 4"
+
+[[functions]]
+name = "hud_start_anim_render"
+object = "h_stitch"
+segment = 0x096e
+offset = 0x277d
+size = 635
+boundary = "owner-linear-span"
+abi = "near cdecl; no args; RET"
