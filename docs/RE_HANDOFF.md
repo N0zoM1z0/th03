@@ -235,7 +235,7 @@ functions / 51049 bytes. The ten new Extra Attack owners account for the
 The current Factory host does not provide the Python `unicorn` module.
 The 2026-10-08 /usr/bin/python3 CI attempt runs 632 tests but reports 125
 errors importing this missing module, with 167 skips; the latest full CI
-failure is retained at `.analysis/th03-exatt-shared-ci-20261008.log` (the earlier
+failure is retained at `.analysis/th03-shared-flight-ci-20261008.log` (the earlier
 Yumemi/Rikako promotion failure remains at `.analysis/th03-ci-exatt-20261008.log`). The interpreter reports
 `importlib.util.find_spec("unicorn") is None`. As before, this is a host
 dependency block, not a full-CI PASS or an owner-byte mismatch.
@@ -244,7 +244,7 @@ The CI steps after unittest were rerun independently and **pass**: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log
-is `.analysis/th03-exatt-shared-ci-postgates-20261008.log`; its final line confirms
+is `.analysis/th03-shared-flight-postgates-20261008.log`; its final line confirms
 `POST-UNITTEST GATES: PASS`. The earlier suffix post-gates log is retained too.
 The final shared-flight default exact receipt after all ledger updates is
 `.analysis/th03-main-exact/gpt-web-exatt-shared-default-final-p02-20261008/receipt.json`.

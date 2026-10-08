@@ -362,7 +362,7 @@ Receipt: .analysis/th03-main-exact/gpt-web-exatt-shared-default-final-p02-202610
 
 Both cold builds still pass with the source/evidence ledger and full
 existing-owner acceptance frozen. The available CI checks after
-unittest pass (.analysis/th03-exatt-shared-ci-postgates-20261008.log).
+unittest pass (.analysis/th03-shared-flight-postgates-20261008.log).
 Full CI remains blocked by the missing host Python unicorn
 module: 632 tests, 125 import errors and 167 skips. The failed
-CI output is retained at .analysis/th03-exatt-shared-ci-20261008.log.
+CI output is retained at .analysis/th03-shared-flight-ci-20261008.log.
