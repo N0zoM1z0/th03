@@ -94,12 +94,13 @@ a denominator for the whole MAIN program.
 
 ## Next dependency closure
 
-The original target-first exploratory v1 interval review included Hyper
-among five candidates. After this source promotion, v2 deliberately
-excludes Hyper and reviews only four non-exact intervals (3609 bytes):
-the two contiguous HUD intro/render blocks, the 1958-byte Marisa
-charge/hyper/hitbox prefix and the low-level P_SHOT prefix. See
-MAIN_NEXT_FRONTIER_REVIEW.md.
+The original target-first exploratory v1 review included Hyper among five
+candidates. At the **Hyper promotion checkpoint**, v2 correctly excluded it
+and reviewed four non-exact intervals (3609 bytes), including HUD. Since the
+subsequent full HUD exact promotion, the **current v3** has only **two
+non-exact intervals / 2131 bytes**: Marisa charge/hyper/hitbox and the
+ordinary-shot producer. See MAIN_NEXT_FRONTIER_REVIEW.md. Historical
+v1/v2 observations are not current queue entries.
 
 Independent pristine-original provenance, whole-game source closure,
 historical physical DATA/BSS ownership, full CI on a host with unicorn,

@@ -87,6 +87,25 @@ class CleanupProofControls(unittest.TestCase):
         junk=self.put('.analysis/a-junk');self.put('.analysis/z/receipt.json','{bad')
         with self.assertRaisesRegex(ValueError,'receipt'):self.clean()
         self.assertTrue(junk.exists())
+    def test_documented_nonreceipt_review_file_stays_live(self):
+        """A tracked concrete JSON review must not be removed by cleanup."""
+        report=self.put('.analysis/next-frontier/v3.json', '{"provisional":true}')
+        junk=self.put('.analysis/next-frontier/superseded.json', '{"provisional":true}')
+        expected=len(junk.read_bytes())
+        with patch.object(c,'documented_analysis_paths',return_value={report}):
+            self.assertEqual(self.clean(),expected)
+        self.assertTrue(report.is_file())
+        self.assertFalse(junk.exists())
+
+    def test_documented_source_binary_path_survives_replay_cache_cleanup(self):
+        """A real artifact referred to by tracked config pins that byte path."""
+        exe=self.put('.analysis/cold/build/source/bin/game.exe','game code')
+        temp=self.put('.analysis/cold/build/source/bin/other.exe','junk')
+        with patch.object(c,'documented_analysis_paths',return_value={exe}):
+            self.clean()
+        self.assertTrue(exe.is_file())
+        self.assertFalse(temp.exists())
+
     def test_dry_run_never_deletes(self):
         junk=self.put('.analysis/junk');self.assertEqual(self.clean(True),4);self.assertTrue(junk.exists())
     def test_ledger_and_private_state_still_survive(self):

@@ -1,157 +1,136 @@
-# Private analysis cleanup
+# Private reconstruction artifact retention and cleanup
 
-Owner-requested closeout removes32,600unusedfiles/450,320,719bytes (429.5MiB).
-The first pass removes32409files, including3superseded unaccepted diagnostic
-matrices, with2957retained states unchanged. Final post-CI cleanup removes191
-regenerated cache files/4,263,838bytes, with2968retained states unchanged.
-Product/compat/target/MAIN-owner inputs206also remain unchanged.
+**Current maintenance checkpoint: 2026-10-08.** `.analysis/` is ignored
+private working state, not source control. Its size includes original target
+observations, attested compiler/Ghidra tooling, diagnostic images, complete
+successful cold replay proofs and disposable temporary builds. **Age and size
+alone do not prove that a file is disposable.** Old 2026-10-06 closeout
+statistics and earlier smaller cleanup campaigns are historical, not a
+statement of the present source/Oracle baseline.
 
-Original cleanup-tool/control-source snapshots and historical MAIN guard drift
-are preserved; the final tool rejects escaped JSON dependencies. See
-[closeout](../CLOSEOUT.md),
+## Required / guarded material
+
+Retain:
+
+- Immutable Japanese TH03 target and derived/stored/decoded reference input
+  bytes used by current evidence. Do not alter the original byte provenance.
+- `.analysis/toolchain/`, `.analysis/targets/`, `.analysis/runtime/`,
+  `.analysis/ghidra/`, `.tools/`, `ghidra-project/` and `_reference/` **in full**.
+  Wine prefix files, linkers/compilers, Ghidra databases and symlinked
+  runtime state cannot be recovered merely by leaving one receipt behind.
+- All concrete `.analysis` paths used by tracked configuration and current
+  Markdown (not just paths appearing in the evidence CSV), transitive JSON
+  input guards, and any hash-bound recorded Factory text query. The earliest
+  randring cold scaffold's OP/MAINL/ZUN generated EXE/MAP files are live
+  inputs of `config/th03_decoded_code_review.toml` and
+  `config/th03_zun_launcher.toml` and must not be removed.
+- Entire completed cold receipt trees that are still referenced by the
+  evidence ledger/docs, including frozen source, reference archive, object
+  outputs and complete logs. Preserve meaningful referenced compiler and
+  failed-gate transcripts; never weaken the accepted byte/MAP/ordered-MZ
+  Oracle to accommodate a cleanup.
+
+Disposable: unreferenced completed/failed receipt **directories as units**,
+unused experimental objects/source trees, build/dist/out/cache directories
+and unguarded Python/pytest/mypy caches. Do not strip files out of a
+**referenced** receipt tree. A current dry run/rebuild must finish before any
+new apply. `scripts/clean_generated.py` follows these constraints; concrete
+tracked-document references are protected in both aggressive receipt
+pruning **and** ordinary cleanup (a 2026-10-08 protection fix with tests).
+
+## Owner-authorized 2026-10-08 cleanup
+
+Initial `.analysis/` disk allocation: approximately **14 GiB**; MAIN exact
+replays used approximately **7.2 GiB**, much of it unrelated historic cold
+workspace duplication. The audited first pass was:
+
+    python3 -B scripts/clean_generated.py --prune-unreferenced-receipts --keep-analysis .analysis/cleanup-20261008
+    python3 -B scripts/clean_generated.py --prune-unreferenced-receipts --keep-analysis .analysis/cleanup-20261008 --apply
+
+It removed **275 whole-tree/file/cache entries**, accounting for roughly
+**4,376 MiB (4.27 GiB)**. The normalized dry-run and actual deletion path
+sets matched exactly. **12 protected SHA-256 input guards matched before and
+after**, including the current HUD/Hyper exact receipts, historic diagnostic
+cold EXEs/MAPs, active Marisa and frontier reviews and original targets.
+Target/toolchain/runtime/Ghidra directories were unchanged. A one-line
+bookkeeping error in the *audit* initially included the dry-run summary in the
+candidate count; that was corrected and the path list and protected hashes
+were reverified, without reapplying any deletion.
+
+Audit and path-by-path logs:
+
+    .analysis/cleanup-20261008/receipt.json
+    .analysis/cleanup-20261008/plan.log
+    .analysis/cleanup-20261008/applied.log
+
+A second guarded pass was performed **after the handoff was condensed**:
+
+    python3 -B scripts/clean_generated.py --prune-unreferenced-receipts --keep-analysis .analysis/cleanup-20261008 --keep-analysis .analysis/cleanup-20261008-followup --apply
+
+Its plan was reviewed before deletion. It pruned exactly **five** newly
+unreferenced historic checkpoint directories/logs, another **111.2 MiB**,
+and reverified the exact deletion path set plus the same 12 SHA-256 guards.
+Follow-up audit:
+`.analysis/cleanup-20261008-followup/receipt.json`.
+The two major 2026-10-08 passes removed **280 file/tree entries and
+approximately 4,487.2 MiB (4.38 GiB)**. After post-cleanup verification,
+three regenerated Python cache trees (another 4.8 MiB) were removed by
+conservative **non-aggressive** cleanup; exact plan and apply logs are stored
+in `.analysis/cleanup-20261008-followup/`. **Grand total: 283 entries,
+approximately 4,492.0 MiB (4.39 GiB) reclaimed.** Re-running the final
+original-code Oracle creates one intentionally retained 73 MiB full proof
+tree, so the current `.analysis/` is approximately **7.8 GiB**, down from
+roughly 14 GiB before cleanup.
+
+The remaining `.analysis/` is still large because referenced complete cold
+proof trees, the required Wine toolchain and large original-target diagnostic
+JSON data are **not** equivalent to stale build caches. Do not blindly delete
+these to make disk usage smaller. If more space is needed, first examine
+live ledger/docs/JSON dependencies and explicitly update retention proof
+contracts before any guarded second pass.
+
+Run the **dry run** after further source or documentation edits; it makes no
+changes without `--apply`. If an active experimental run has no recorded
+ledger/doc reference yet, pin it explicitly:
+
+    python3 -B scripts/clean_generated.py --prune-unreferenced-receipts --keep-analysis .analysis/ACTIVE_RUN
+
+The receipt and tests, not filesystem timestamps, determine what can go.
+
+## Historical cleanup checkpoints
+
+The **2026-10-06 closeout** removed 32,600 obsolete files / 450,320,719
+bytes (429.5 MiB) under its own earlier guard policy. It is recorded in
+[the historical closeout](../CLOSEOUT.md) and the preserved receipts at
 `.analysis/closeout/sol-closeout-20261006/receipt.json` and
-`.analysis/closeout/sol-closeout-post-ci-20261007/receipt.json`. Meaningful cold,
-proof, target, runtime, tool and failure state remains; acceptance is unchanged.
+`.analysis/closeout/sol-closeout-post-ci-20261007/receipt.json`.
+Other earlier shared PI, music, CDG, input and terminal-source cleanup
+experiments are retained in historical Git and bounded subsystem reviews;
+they do **not** supply the live 2026-10-08 source/Oracle denominator.
 
-After input/timing replacement cold rounds passed, one failed post-compiler
-validation build tree and two obsolete preparation scripts were removed:
-2555files/31,309,403bytes (29.9MiB). All2052retained private input states are
-unchanged. Original failed replay snapshot, compiler log and traceback remain
-under `.analysis/sol-shared-input-first-validator-failure-20261006/`. All
-successful cold trees, target/assets/tools/Ghidra and historical missing/stale
-guards are preserved. Receipt
-`.analysis/sol-shared-input-temporary-cleanup-20261006.json`, SHA256
-`00b3678c714438b6d5486d19602c3a8fc707eb387a3db07fdde2ece595858b96`. No broad cleanup or input repair was used.
+## Post-cleanup source/Oracle integrity check
 
-The PI source replay passed both cold rounds without a failed preparation.
-Five unreferenced successful source-preflight logs (10,051 bytes) are removed;
-all 1,992 retained private input states are unchanged. Selection requires a
-successful terminal preflight status and absence from ledger/proof references,
-guarded inputs or protected directories. Complete successful receipt trees,
-failed logs, targets/tools/prefix/databases remain. Receipt
-`.analysis/sol-pi-redundant-preflight-cleanup-20261006.json`, SHA256
-`f31cf94e9594617a2e535c45251f49cabcc31424fbe35f3e3724b18aa343d4a3`, three guards.
-Historical missing/stale inputs are preserved without repair or rebasing.
+No accepted source, manifest, exact-function/extent ledger, pinned original
+byte file or previously accepted physical owner was replaced by cleanup.
+The first and follow-up cleanup audits together verified the live files and
+12 protected SHA-256 invariants across both passes. The current exact Oracle
+was then replayed against the real post-cleanup worktree:
 
-The shared sound-loader cleanup removes two unreferenced stopped preparations:
-4,038 files/46,571,507 bytes (44.4 MiB), with all 1,924 retained private input
-states unchanged. The first ASM hash-convention failure, subsequent compiler
-include failure, old forwarder and replay snapshots remain outside deletion.
-Complete successful source-c and final source-d trees remain; source-c's
-tracked forwarder guard is deliberately historical after the pure-include fix.
-Receipt `.analysis/sol-shared-snd-load-temporary-cleanup-20261006.json`, SHA256
-`a77b7fc18f74a790d4348748935d875fd6e7cfba23d1c4880748a0d119940a5f`, nine guards.
-No target/tool/prefix/database, successful proof tree or historical missing/
-stale input state was changed or rebased.
+    python3 -B scripts/replay_th03_main_exact_units.py --run-id gpt-web-cleanup-maintenance-default-final-20261008
 
-The shared math migration removed one unreferenced stopped precompiler
-preparation after two corrected cold rounds passed:1928files/21507828bytes
-(about20.5MiB). All1871 retained private input states stayed unchanged. The
-complete failure transcript and original replay snapshot remain separate;
-there was no compiler execution or cold-build log in that failed preparation.
-Successful source/diagnostic/coverage trees and all protected targets/tools/
-Ghidra states remain intact. Receipt
-`.analysis/sol-shared-math-temporary-cleanup-20261006.json`, SHA256
-`bad213f06dfc5e2a790e194e8b13cdbd180936bc8c6317620428c7242ff74e39`,5guards.
-Historical missing/stale input states were unchanged; no proof rebasing.
+Result: **PASS**, two serial cold builds, 334 reviewed exact functions /
+52,199 function bytes / 53,122 owned CODE bytes, original MAP, original
+ordered MZ fixups, 20 build outputs, all 391 game OMF objects and DOS
+behavior probes. Receipt:
+`.analysis/th03-main-exact/gpt-web-cleanup-maintenance-default-final-20261008/receipt.json`.
 
-The shared text migration removed one unreferenced first cold preparation:
-2504files/31040136bytes (about29.6MiB), after the corrected two-round proof passed.
-All1823 retained private input states remained unchanged. The complete first
-failure/cold transcripts and original replay script remain separate, as do both
-successful cold trees and every current proof input. Receipt
-`.analysis/sol-shared-text-temporary-cleanup-20261006.json`, SHA256
-`69dd12272b91686f8259af848e695b5200f0297de4f0da4b875c4b4c21b68e51`,6guards.
+A fresh complete CI attempt has **648 tests / 125 missing-Unicorn
+import errors / 167 skips**; it does **not** pass on this host. The
+remaining post-unittest gates were rerun separately and PASS, including
+headless Ghidra/target/toolchain identity and the negative controls. Logs:
+`.analysis/cleanup-20261008-followup/ci.log` and
+`.analysis/cleanup-20261008-followup/postgates.log`.
 
-The generic cleaner initially stopped at three historical Factory function
-query transcripts named `.json`; inspection confirmed plain text, unchanged
-against their explicit ledger output hashes. The cleaner now recognizes only
-the recorded Factory tool, function-query command/output binding and exact
-current SHA. Changed text, other query kinds/output names and malformed
-`receipt.json` still stop before deletion. Fifteen isolated destructive controls
-pass, including four new exception/negative checks. The three historical text
-files themselves stay unchanged. Earlier cleanup receipts retain their original
-helper hashes; subsequent authorized helper changes do not rebase those guards.
-
-The shared CDG migration subsequently removed two unreferenced failed cold
-preparations after the successful two-round source proof:4962 files,
-61841191 bytes (about59MiB). Complete failure/cold transcripts remain separate,
-as do current source/diagnostic/coverage/OMF proof inputs. All1723 retained
-private input path states stayed unchanged across deletion. Receipt
-`.analysis/sol-shared-cdg-load-temporary-cleanup-20261006.json`, SHA256
-`3bb5b89e62d752348f237c736972e0e1cc2c4aa1572983f662395ca1af414bf3`.
-Canonical targets, toolchain/Wine prefix, Ghidra, accepted receipts and their
-archives/snapshots were excluded; historical missing/stale inputs were not
-repaired. The372 diagnostic,378 source and393 coverage guards matched at cleanup
-time. Subsequent authorized ledger/helper changes make the old coverage receipt
-historical; its guards are not rebased. The later shared drawing migration
-passed both cold rounds on its first run, with no failed preparation trees to
-remove; its successful proof trees and input snapshots are retained.
-
-The2026-10-06 cleanup removed16182 unreferenced files (189572651 bytes,
-approximately181 MiB) from seven explicitly selected abandoned cold build runs
-without `receipt.json`. It retained failure transcripts, review helpers and
-all literal file references found in tracked files or retained JSON proofs.
-The1494 private receipt input paths had identical existence and SHA-256 states
-before and after deletion. Existing historical missing/stale inputs were not
-changed or claimed repaired.
-
-Receipt: `.analysis/sol-abandoned-build-cleanup-20261006.json`; SHA-256
-`7fb6b1a306fb17f81180ebe9b64e8d584af223795c58bb3abeb923ebcbcce61a`.
-Its manifest records each removed path, size and hash, the retained reference
-corpus hashes and selected directories. Original targets, attestation inputs,
-accepted/compiler receipts, diagnostic observations, toolchain/Wine prefix and
-current menu cold builds are outside the deletion scope. No code or acceptance
-progress is credited for cleanup.
-
-Replay `python3 scripts/clean_th03_failed_analysis.py --output
-.analysis/NEW_CLEANUP_PLAN.json` for a fresh dry run; `--apply` deletes only the
-unreferenced files selected by that run. A new receipt in any selected directory
-stops cleanup. It freezes the reference corpus and validates candidates before
-deleting, then compares all retained private input states. Further reclamation
-must inspect references first: large native-observation JSON files and completed
-compiler snapshots still supply evidence.
-
-Music Room preparation cleanup subsequently removed three unreferenced files,
-2165 bytes: two intermediate extraction lists and a superseded draft test log.
-Literal reference scans found no retained dependencies; all197 preceding entry
-receipt inputs retained their hashes. The corrected58-test log, diagnostic and
-compiler proof inputs, and the incomplete native-budget failure log remain.
-Receipt: `.analysis/sol-op-music-temp-cleanup-20261006.json`; SHA-256
-`cae22ce2c578370d58f542b9e0cf3fe796621885b5411cce4e3ed1a9fb803d54`. No acceptance credit is assigned for cleanup.
-
-## Guarded generated cleanup
-
-`scripts/clean_generated.py` now protects input dictionaries in retained JSON
-proofs, their lexical aliases and resolved local destinations. Entire cold
-directories containing `receipt.json` are preserved, including archives,
-snapshots and outputs absent from the input dictionary. Guarded cache inputs
-outside `.analysis/` also survive. Unreadable receipts stop before deletion;
-missing historical inputs remain missing. Eleven isolated deletion controls
-pass in `.analysis/sol-proof-cleanup-controls-20261006-final.log`, including
-malformed ledger JSON and ledger symlink aliases. The preceding nine-case
-control log remains separate historical evidence.
-
-The default remains a dry run. No broad cleanup is executed while selection
-review/cold compilation is active. Direct evidence-ledger protection alone was
-insufficient to preserve receipt dependencies; this change closes that gap.
-
-## Character-selection preparation cleanup
-
-After two independent source cold replays completed,7128unreferenced files
-(71733816bytes, about68.4MiB) were removed from three failed/superseded layout
-preparations and five temporary outputs. The current frozen-source layout
-probe supersedes the earlier full-CPP preparation probe. Its complete proof
-tree is retained, together with current source cold outputs, archives, targets,
-toolchain, Ghidra and every referenced proof dependency. The candidate CPP
-draft was discarded outside product ownership; only the bounded CODE inl is
-maintained. The first macro-escaping compiler failure was copied verbatim to
-`.analysis/sol-op-select-layout-first-compiler-failure-20261006.log`.
-
-Cleanup receipt `.analysis/sol-op-select-temporary-cleanup-20261006.json`,
-SHA256 `5712b574d06d817102fcd9b3c579053c6ddce4a37f089fe59e85968f4baa88de`, records all1843retained input states
-unchanged across deletion, with333current source and5current layout guards
-rechecked. A separate `.analysis/sol-op-select-retained-input-states-20261006.json`
-keeps the post-cleanup hash/missing map. This records cleanup-time state; later
-authorized ledger updates can make older ledger-input snapshots historical.
-Existing missing/stale inputs were not repaired. No broad `--apply` was run.
+The authenticated code reconstruction baseline stays unchanged by this
+housekeeping work; the historical cleanup receipts and current cold
+acceptance proof remain accessible and are not obsolete build caches.

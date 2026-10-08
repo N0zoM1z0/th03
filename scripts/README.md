@@ -18,6 +18,10 @@
 | Review complete MAIN character charge/gauge boundaries | `python3 scripts/review_th03_main_charge_gauge.py --output .analysis/REVIEW/charge-gauge.json` |
 | Review complete MAIN boss-attack boundaries and TC4 switch tables | `python3 scripts/review_th03_main_boss.py --output .analysis/REVIEW/boss.json` |
 | Probe Marisa boss TC4 object shape | `python3 scripts/probe_th03_main_boss_marisa_cpp.py --run-id UNIQUE` |
+| Review unaccepted Marisa HITBOX gameplay ten-function boundaries | `python3 scripts/review_th03_main_marisa_gameplay.py --run-id UNIQUE` |
+| Review current unaccepted original MAIN gameplay frontier | `python3 scripts/review_th03_main_next_frontier.py --output .analysis/REVIEW/frontier.json` |
+| Probe complete HUD 688-byte state update / 635-byte renderer TC4 shapes | `python3 scripts/probe_th03_main_hud_start_cpp.py --run-id UNIQUE` / `scripts/probe_th03_main_hud_render_cpp.py --run-id UNIQUE` |
+| Probe full Hyper near-Pascal dispatcher TC4 shape | `python3 scripts/probe_th03_main_hyper_cpp.py --run-id UNIQUE` |
 | Probe shared boss helper TC4 object shape | `python3 scripts/probe_th03_main_boss_shared_cpp.py --run-id UNIQUE` |
 | Probe Chiyuri charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_chiyuri_cpp.py --run-id UNIQUE` |
 | Probe Ellen charge/gauge TC4 object shape | `python3 scripts/probe_th03_main_chargeshot_ellen_cpp.py --run-id UNIQUE` |
@@ -28,7 +32,9 @@
 | Inspect open product graph | `python3 scripts/build.py --status` |
 | Survey reference output | `python3 scripts/survey_rec98_outputs.py SOURCE --compact` |
 | Check ledgers/progress | `python3 scripts/validate_tracking.py` / `scripts/status.py` |
-| Preview disposable outputs | `python3 scripts/clean_generated.py` |
+| Preview safe disposable generated output (dry run) | `python3 -B scripts/clean_generated.py` |
+| Preview guarded cleanup of *unreferenced complete* replay receipts | `python3 -B scripts/clean_generated.py --prune-unreferenced-receipts --keep-analysis .analysis/ACTIVE_RUN` |
+| Apply only after inspecting plan and guarding active runs | Append `--apply`; protect all concrete tracked docs/config/evidence paths and private toolchains |
 | Audited cleanup with documented-path protection | `python3 scripts/closeout_cleanup.py --output .analysis/closeout/UNIQUE/receipt.json --apply` |
 | Replay latest shared input/timing carrier proof | `python3 scripts/replay_th03_shared_input.py --run-id UNIQUE` |
 | Check MAINL candidate index policy | `python3 scripts/review_rec98_th03_mainl_intake.py --check` |
@@ -41,6 +47,9 @@ remain ignored, and diagnostic builds never count as game-source progress.
 Reconstruction resumed on 2026-10-07. The current handoff records active state;
 the closeout record is the historical 2026-10-06 snapshot.
 
+`closeout_cleanup.py` is the **historical 2026-10-06 closeout tool**, not
+an automatic new-session command. For current work, prefer guarded
+`clean_generated.py` as documented in [the retention policy](../docs/RE_WORKFLOW.md).
 `closeout_cleanup.py` defaults to an audited dry run. It preserves the existing
 cleanup policy plus literal tracked private references, freezes references and
 candidates before deletion, and records retained input states. Optional

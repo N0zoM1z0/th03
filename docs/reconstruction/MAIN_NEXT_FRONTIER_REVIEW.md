@@ -27,8 +27,13 @@ not prove interior function starts/shared tails or DATA/BSS origins.
 | HITBOX Marisa charge/hyper prefix | 0x142D0..0x14A76 | 1958 | 30 | far RETF |
 | P_SHOT ordinary-shot producer prefix | 0x0E266..0x0E313 | 173 | 12 | near RET |
 
-The v1 historic five-interval intake of 4204 bytes and v2 four-interval
-intake of 3609 bytes remain under the corresponding .analysis receipts.
+The previous v1 five-interval intake (4204 bytes) and v2 four-interval
+intake (3609 bytes) are **historical checkpoints**, not a current frontier.
+The v2 receipt is retained at
+`.analysis/th03-main-next-frontier/target-review-v2.json`; the redundant
+unreferenced v1 JSON was removed by the guarded 2026-10-08 cleanup. Its source/commit and
+subsequent accepted owner proofs are still versioned. Re-run the current
+v3 review command above for the latest boundary checks.
 The full ten-function Hyper handler (595 bytes) and the complete four-function
 HUD round-intro/renderer (1478 bytes) are **no longer provisional**:
 they pass exact raw CODE, physical MAP, ordered MZ relocation and

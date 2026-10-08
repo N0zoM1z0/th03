@@ -1,5 +1,13 @@
 # TH03 MAIN Extra Attack target review
 
+
+> **Historical owner-family checkpoint (2026-10-08).** This review records
+> when the complete Extra Attack family brought MAIN to 320 accepted functions
+> / 51,049 owned bytes. Subsequent Hyper and HUD promotions brought the
+> **current** scoped aggregate to **334 functions / 53,122 owned bytes**.
+> The latest authority is [RE_HANDOFF.md](../RE_HANDOFF.md) and the default
+> Oracle; do not treat the old 320-function statements below as current.
+
 This review expands the authored MAIN frontier beyond the already exact
 41-byte generic P_EXATT_TEXT owner. It is target-boundary evidence only:
 the immutable TH03 MAIN.EXE is the byte oracle, while frozen ReC98 labels

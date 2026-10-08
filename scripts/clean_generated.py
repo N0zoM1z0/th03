@@ -333,7 +333,14 @@ def clean_analysis(dry_run: bool) -> int:
         return 0
 
     proof_files, proof_roots = proof_preserved_paths()
-    protected_files = ledger_preserved_paths() | PRESERVED_ANALYSIS_FILES | proof_files
+    # Files referenced concretely by tracked documentation and configuration
+    # remain evidence even when their path is not repeated in evidence.csv.
+    # Aggressive receipt pruning already consults these references, but the
+    # subsequent ordinary cleanup must protect them as well.
+    protected_files = (
+        ledger_preserved_paths() | documented_analysis_paths()
+        | PRESERVED_ANALYSIS_FILES | proof_files
+    )
     protected_roots = PRESERVED_ANALYSIS_ROOTS | proof_roots
 
     def protected_below(path: Path) -> bool:
@@ -371,7 +378,10 @@ def clean_analysis(dry_run: bool) -> int:
 def clean_caches(dry_run: bool) -> int:
     removed = 0
     proof_files, proof_roots = proof_preserved_paths()
-    protected = proof_files | proof_roots | ledger_preserved_paths()
+    protected = (
+        proof_files | proof_roots | ledger_preserved_paths()
+        | documented_analysis_paths()
+    )
 
     def guarded(path: Path) -> bool:
         return any(is_under(p, path) or is_under(path, p) for p in protected)

@@ -34,7 +34,11 @@ exact physical MAP contributions and all 20 relocation sites, but
 HUD relocation 874 before 565, 532, 413, 395, 320 and 302, then the
 renderer tail locations in descending order. Three separate objects and
 a naive single TASM assembly did not reproduce that historical order.
-Failed evidence is retained in the c03..c11 full-link receipts.
+These c03–c11 were rejected compiler/link experiments. Following the
+guarded owner-authorized analysis cleanup, some **unreferenced duplicate
+cold worktrees/receipts were pruned**; the successful complete c12 and
+latest default receipts and the maintained negative-control tests remain.
+Do not assume every old c03–c11 intermediate tree is still present.
 
 The maintained source-to-OMF recipe in scripts/lib/hud_tc4_bridge.py
 now regenerates the entire physical owner in **each fresh cold build**:

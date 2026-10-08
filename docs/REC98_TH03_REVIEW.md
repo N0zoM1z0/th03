@@ -496,8 +496,9 @@ complete callers/cold source and canonical packaging/full Oracles stay open.
 
 Complete root MAINL PI decoder/release review covers1600 independent decoded
 bytes, including the shared loader error tail and private color/byte/refill
-helpers.22 frozen providers/root OMF/public MAP and2330 scoped CODE/producer
-plus10DATA bytes agree with both fresh cold products. The immutable base
+helpers. Twenty-two frozen provider/root OMF and public-MAP checks, and
+2,330 scoped CODE/producer bytes plus 10 DATA bytes, agree with both
+fresh cold products at that historical checkpoint. The immutable base
 receipt and successful borrower/refill supplement total3420 terminal calls
 and60 semantic prefixes;706/711 instruction positions execute, with five
 unreachable EVEN NOPs retained in raw/structural coverage. Resource leaks,

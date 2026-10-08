@@ -22,7 +22,11 @@ proof of a reconstructed TH03 product.
 .analysis/ is an ignored replay/work directory, not source control. Keep the
 specific receipt/review/log files referenced by tracked config or documentation,
 plus the offline toolchain/runtime/Ghidra attestation trees required to replay
-them. A retained receipt run is kept as a complete proof tree, including its
+them. Protect *every concrete existing file named by tracked documentation or
+configuration*, including standalone review JSON outside a receipt tree, as well
+as transitive JSON input guards and ledger locations. The regular cache cleanup
+must protect those concrete references as well as the optional aggressive
+receipt-pruning step. A retained receipt run is kept as a complete proof tree, including its
 frozen source/object/output/reference material; do not hollow out a receipt that
 current evidence or documentation still names. Failed or duplicate receipt runs
 that are no longer reachable from current evidence/docs may be removed as whole
@@ -35,6 +39,11 @@ in the cleanup, use `--prune-unreferenced-receipts`; this remains a dry run
 unless `--apply` is also present. If an active experimental run is not yet
 recorded in tracked evidence/docs, protect it explicitly with
 `--keep-analysis .analysis/PATH` before applying aggressive pruning.
+
+The owner-authorized guarded 2026-10-08 run and its path-by-path before/after
+hash audit live in `.analysis/cleanup-20261008/receipt.json`; see
+[analysis cleanup policy](reconstruction/ANALYSIS_CLEANUP.md). A cleanup
+changes neither exact source credit nor prior binary comparison rules.
 
 Do not delete _reference/, .tools/, ghidra-project/, the retained runtime
 images, or the active toolchain merely to reduce disk usage. Protected
