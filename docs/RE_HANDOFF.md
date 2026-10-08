@@ -393,3 +393,23 @@ including toolchain, target, Ghidra and negative controls. This is
 not complete MAIN source-product closure, historical DATA/BSS ownership
 or independently pristine target provenance; OP, MAINL and ZUN exactness
 remain unresolved. Factory Truth Kernel acceptance is not implied.
+
+## Next MAIN target-first frontier after reviewed Extra Attack closure
+
+All 320 reviewed MAIN CODE functions / 51049 reviewed owned bytes are exact,
+but the full MAIN source and product are incomplete. A new immutable-target
+review in docs/reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md identifies five
+non-exact candidate intervals totaling 4204 additional bytes:
+the MAIN_010 595-byte character hyper/input-state dispatch prefix (first
+priority); PLAYER_M 843-byte HUD intro/state and 635-byte renderer; the
+1958-byte Marisa charge/hyper/hitbox prefix; and a 173-byte ordinary-shot
+hardware producer dependency. The replayable review command is:
+
+    python3 scripts/review_th03_main_next_frontier.py
+
+It checks original raw bytes, full 16-bit linear decode, terminal returns,
+relocation edge containment and disjointness from accepted extents. Interior
+function/shared-tail boundaries, natural sources, ABI and physical DATA/BSS
+ownership still need verification; no new exact functions/bytes are claimed.
+TH04 remains hypothesis-only. The next priority is complete gameplay owner
+reconstruction, not a misleading 100%-of-entire-game claim.
