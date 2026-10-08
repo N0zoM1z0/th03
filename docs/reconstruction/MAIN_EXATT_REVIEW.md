@@ -476,3 +476,61 @@ and the DOS probe. The available CI post-unittest gates pass at
 Oracle negative controls. Full CI remains blocked by the missing unicorn
 host module (632 tests, 125 import errors and 167 skips), recorded at
 .analysis/th03-kotohime-exatt-ci-20261008.log. Do not report full CI PASS.
+
+## Marisa complete natural-source promotion (2026-10-08)
+
+Marisa's contiguous P_EXATT_TEXT owner spans 18FE:0ADC..0D80: all 676 CODE
+bytes and five complete functions (74, 73, 231, 251, 47). Maintained natural
+src/main/player/exatt_marisa.cpp implements both far Pascal add functions,
+the 231-byte renderer with downward-column sprite drawing, the 251-byte
+state/collision-map updater (including the bomb-center transition), and the
+47-byte render dispatcher. No private DATA/BSS is emitted.
+
+The pinned Turbo C++ 4.02 object-shape probe reproduces all five natural
+function starts, sizes, instruction shapes and RET/RETF contracts:
+
+    python3 scripts/probe_th03_main_exatt_marisa_cpp.py --run-id gpt-web-exatt-marisa-shape-final-20261008
+
+The frozen ASM carrier is split directly before the already accepted
+Kotohime owner; the real ex_maris object links before ex_koto in the
+maintained MAIN_06 group. The existing exact Marisa boss source's
+MARISA_EXATT_ADD far Pascal import now binds directly to the natural
+Marisa producer, and the obsolete carrier export is removed. No change
+to an existing boss CODE byte is tolerated or necessary.
+
+Two serial candidate cold links
+gpt-web-exatt-marisa-link-c01-20261008 match all 676 immutable-target raw
+bytes, exact P_EXATT_TEXT MAP at 18FE:0ADC 02A4, and seven ordered MZ
+relocation sites 43, 169, 275, 340, 536, 590, 606. All existing exact
+owners, both complete game output vectors and the DOS behavior probes
+remain passing. The default no-candidate aggregate also passes:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-exatt-marisa-default-p01-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-exatt-marisa-default-p01-20261008/receipt.json
+
+The default scoped exact aggregate now covers 305 functions /
+47356 function bytes / 48279 owned bytes, 69 exact CODE extents and
+62 maintained source owners. There are 20 output products, 385 game objects
+and 451 validated OMF objects in both cold builds. Together Marisa,
+Kotohime, generic Extra Attack and all five MAIN_06 owners form a
+contiguous exact 6052-byte CODE interval at 18FE:0ADC..2280.
+
+The remaining unpromoted reviewed owners are Kana, Ellen and Chiyuri,
+in that physical order from the current end of the frozen P_EXATT_TEXT
+prefix. Ellen's 470-byte update source-shape proof alone is not yet
+full-link exact. Full-game closure, independent pristine target provenance,
+historical physical DATA/BSS producer identity and Factory Truth Kernel
+acceptance remain open.
+
+Final post-ledger Marisa default aggregate replay:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-exatt-marisa-default-final-p02-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-exatt-marisa-default-final-p02-20261008/receipt.json
+
+Both fresh cold builds and DOS probes remain PASS for the complete 305 exact
+functions. Full CI remains blocked by missing Python unicorn: 632 tests,
+125 import errors, 167 skips; log .analysis/th03-marisa-exatt-ci-20261008.log.
+All executable post-unittest gates, including Ghidra/database and negative
+Oracle controls, PASS; log .analysis/th03-marisa-exatt-postgates-20261008.log.
