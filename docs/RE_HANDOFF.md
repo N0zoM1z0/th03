@@ -514,3 +514,29 @@ Next target-first candidates total 2131 non-exact bytes in the Marisa
 charge/hyper/hitbox and ordinary-shot dependencies. Full MAIN,
 physical historic DATA/BSS producers, OP/MAINL/ZUN, pristine-target
 provenance and Factory Truth Kernel acceptance remain incomplete.
+
+## Marisa HITBOX target-first ten-function intake (non-exact)
+
+The original 1958-byte Marisa charge/hyper/hitbox + bomb prefix at
+target 0x142D0..0x14A76 has a newly rerunnable **ten-function**
+original-target boundary proof. It accounts for all 1958 instructions'
+CODE bytes and 30 in-interval ordered MZ sites, including the large
+414-byte renderer, 470-byte near Pascal gauge pattern and 449-byte
+bomb function. The 201-byte chargeshot update has an early near-body
+RETF at target 0x14464: **do not mistakenly split it** into two
+independent functions.
+
+    python3 scripts/review_th03_main_marisa_gameplay.py --run-id UNIQUE_ID
+
+Receipt:
+.analysis/th03-main-marisa-gameplay/gpt-web-marisa-gameplay-target-v01-20261008.json
+
+Semantic relationships to the already exact MAIN_010 Hyper handler,
+12-point-per-player charge trails, GRCG hardware and shot data remain
+open for *full* natural source reconstruction. The reviewed interval
+is the original HITBOX_TEXT prefix before Reimu/Mima, **not yet a
+proven physical compiler owner**. The intact function boundaries,
+far/near return contracts and relocation sites are recorded in
+docs/reconstruction/MAIN_MARISA_GAMEPLAY_REVIEW.md. No exact bytes or
+function numerator is added. All 334 previously exact reviewed MAIN
+functions remain the authoritative accepted baseline.

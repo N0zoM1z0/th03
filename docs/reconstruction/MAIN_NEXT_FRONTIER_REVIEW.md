@@ -44,6 +44,10 @@ MAIN_HUD_ROUND_INTRO_REVIEW.md, respectively.
    original boundaries and shared tails against the immutable target
    before declaring logical or physical owners. Existing charge/boss
    source is a reference, not automatic proof.
+The full ten-body target breakdown, including 470-byte gauge and
+449-byte bomb functions, is in MAIN_MARISA_GAMEPLAY_REVIEW.md.
+No Marisa CODE exact promotion is claimed by that analysis.
+
 2. Bring in the 173-byte P_SHOT hardware producer with its larger ordinary-
    shot dependency graph, rather than spending the session on small
    leaves alone.
