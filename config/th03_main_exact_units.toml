@@ -5619,3 +5619,142 @@ offset = 0x0aad
 size = 47
 boundary = "owner-linear-span"
 abi = "far cdecl; RETF"
+
+[[units]]
+id = "th03-main-exatt-chiyuri"
+source = "src/main/player/exatt_chiyuri.cpp"
+header = "src/main/player/exatt_chiyuri.hpp"
+object = "ex_chyu"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ex_chyu.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ex_chyu", wrapper = "th03/ex_chyu.cpp", source = "src/main/player/exatt_chiyuri.cpp" }]
+ordering_objects = [{ object = "ex_ord", source = "src/main/player/exatt_order.asm", overlay_path = "th03/ex_ord.asm", translator_comment = "Turbo Assembler  Version 5.0" }]
+support_files = [
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/v_colors.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th02/snd/snd.h",
+  "compat/rec98/libs/master.lib/master.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/ex_ord.asm\",\n\t\"th03/ex_chyu.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-exatt-chiyuri", segment = 0x18fe, start = 0x000a, size = 0x0405, map_segment = "P_EXATT_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
+    { object = "ex_chyu", start = 0x000a, size = 0x0405 },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern EXATT_RENDER_RIKAKO:far\r\n"
+after = "\textern EXATT_RENDER_RIKAKO:far\r\n\textern EXATT_ADD_CHIYURI:far\r\n\textern EXATT_UPDATE_CHIYURI:far\r\n\textern EXATT_RENDER_CHIYURI:far\r\n\textern EXATT_ELLEN_SLOTS_INIT:far\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tcall\tsub_193BC\r\n"
+after = "\t\tcall\tEXATT_ELLEN_SLOTS_INIT\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "word_1F868\tdw ?\r\n\t\tdb 720 dup(?)\r\nword_1FB3A\tdw ?\r\n"
+after = "word_1F868\tdw ?\r\npublic _ellen_exatt_slots\r\n_ellen_exatt_slots label byte\r\n\t\tdb 720 dup(?)\r\nword_1FB3A\tdw ?\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p1, @exatt_add_chiyuri$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p1, EXATT_ADD_CHIYURI\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p1, @exatt_update_chiyuri$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p1, EXATT_UPDATE_CHIYURI\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p1, @exatt_render_chiyuri$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p1, EXATT_RENDER_CHIYURI\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p2, @exatt_add_chiyuri$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p2, EXATT_ADD_CHIYURI\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p2, @exatt_update_chiyuri$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p2, EXATT_UPDATE_CHIYURI\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p2, @exatt_render_chiyuri$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p2, EXATT_RENDER_CHIYURI\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "public @EXATT_ADD_CHIYURI$QIIUC\r\n"
+end_marker = "sub_193BC\tendp\r\n"
+replacement = "; Chiyuri Extra Attack CODE and Ellen slot initializer moved to natural TC4J producer\r\n"
+
+[[functions]]
+name = "exatt_add_chiyuri"
+object = "ex_chyu"
+segment = 0x18fe
+offset = 0x000a
+size = 112
+boundary = "owner-linear-span"
+abi = "far Pascal x/y/pid; RETF 6"
+
+[[functions]]
+name = "chiyuri_exatt_render_one"
+object = "ex_chyu"
+segment = 0x18fe
+offset = 0x007a
+size = 518
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "exatt_update_chiyuri"
+object = "ex_chyu"
+segment = 0x18fe
+offset = 0x0280
+size = 298
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "exatt_render_chiyuri"
+object = "ex_chyu"
+segment = 0x18fe
+offset = 0x03aa
+size = 50
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "exatt_ellen_slots_init"
+object = "ex_chyu"
+segment = 0x18fe
+offset = 0x03dc
+size = 51
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"

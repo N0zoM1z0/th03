@@ -634,3 +634,87 @@ reproduced the target bytes without restoring FIXUPP order. Failed receipts
 are preserved. No ordered-relocation comparison has been weakened or sorted.
 Ellen remains boundary-reviewed until the original OMF producer ordering can
 be demonstrated.
+
+## Chiyuri complete natural-source exact promotion (2026-10-08)
+
+Chiyuri is the leading, otherwise frozen P_EXATT_TEXT CODE owner at
+18FE:000A..040F: 1029 original bytes across five complete functions
+(112 add, **518 beam renderer**, **298 paired state updater**, 50 render
+dispatcher, 51 Ellen slot initializer). The beam renderer contains the
+GRCG trapezoid expansion/plateau/taper and cross-playfield line drawing;
+the updater owns the two-entity state machine and flight/collision
+coordination. All are reconstructed in readable Turbo C++ with narrowly
+scoped register/short-branch idioms; no raw target instruction byte
+stream or byte carrier is emitted.
+
+The complete original 51-byte initializer (former frozen sub_193BC)
+also moves to natural exatt_ellen_slots_init: it initializes both
+twelve-element, 30-byte Ellen trajectory-slot pointer tables to the
+historical Extra Attack entity arrays without adding BSS. The frozen
+DGROUP is still authoritative for the 720-byte slot storage and cursor.
+
+Pinned TC4J function-shape proof for the maintained source:
+
+    python3 scripts/probe_th03_main_exatt_chiyuri_cpp.py --run-id gpt-web-chiyuri-natural-shape-final-v10-20261008
+
+The first full-link attempt inserted the real ex_chyu producer before the
+frozen main.obj. It failed the strict MAP gate because TLINK encountered
+P_EXATT_TEXT before the preceding MAIN_04 and MAIN_05 CODE segments.
+Rather than moving old owners or weakening the MAP, a **zero-game-byte
+TASM segment-order scaffold** was added at
+src/main/player/exatt_order.asm, declaring PELLET_PUT, BULLET_TEXT,
+E_FIREB_TEXT, main_05_TEXT and P_EXATT_TEXT in the original order.
+This ordering object is linked before the new TC4J producer.
+
+The next candidate initially had only three raw-byte differences
+despite correct MAP and 23 original ordered relocations. Two were
+semantically identical x86 encodings of AX minus DX in the GRCG taper;
+the last exposed an unsafe compiler-emitted oversized short jump in
+the 298-byte update. Natural C++ register expression and a label at
+the original shared continuation removed those discrepancies,
+preserving the actual state transitions instead of accepting broken
+branch destinations.
+
+Two serial cold full links then passed all strict gates:
+
+    python3 scripts/replay_th03_main_exact_units.py --candidate-manifest config/th03_main_exatt_chiyuri_candidate.toml --run-id gpt-web-chiyuri-order-scaffold-c04-20261008
+
+The candidate overlay is superseded by the same physical producer in
+the default manifest. Initial default no-candidate replay:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-chiyuri-default-p01-20261008
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-chiyuri-default-p01-20261008/receipt.json
+
+Each full cold build generates the exact original 1029 bytes, MAP
+18FE:000A 0405, **all 23 ordered MZ relocations**, 20 game products,
+388 deterministic game objects, 454 validated OMF objects and the
+maintained DOS behavior probes. The scoped MAIN aggregate increases
+to **315 exact functions / 49048 function bytes / 49971 owned bytes**,
+71 exact CODE extents and 64 maintained source owners, while every
+earlier exact extent remains passing.
+
+Ellen's five natural TC4J functions are the only reviewed Extra Attack
+owner still not accepted exact. The strict original Ellen relocation
+vector places the far SE call site 1003 *after* its other 13 owner
+relocations; the current all-raw-equal natural producer model fails
+only that ordering gate. Chiyuri's success does not weaken that limit,
+claim historical physical DATA/BSS ownership, close the whole game, or
+imply Factory Truth Kernel acceptance.
+
+Final post-ledger no-candidate aggregate:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-chiyuri-default-final-p02-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-chiyuri-default-final-p02-20261008/receipt.json
+
+Both serial cold links retain all 315 exact functions, raw target bytes,
+CODE MAP contributions, original ordered MZ relocations, complete output
+vectors and DOS behavior. The focused Extra Attack five-test suite passes.
+The full CI attempt is still blocked by missing Python unicorn
+(632 tests, 125 import errors, 167 skips), recorded at
+.analysis/th03-chiyuri-ci-20261008.log. Independently rerun
+post-unittest CI checks, toolchain/target attestation, Ghidra and negative
+Oracle controls pass at .analysis/th03-chiyuri-postgates-20261008.log.

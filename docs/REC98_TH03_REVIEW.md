@@ -58,13 +58,12 @@ by `sol-rec98-baseline-20261005`: all forty functions and fourteen extents
 passed the configured local gates. The baseline remains a bounded replay,
 not a complete maintained game build.
 
-Current exact MAIN acceptance contains sixty-three maintained source owners /
-seventy exact CODE extents / 310 functions / 48942 owned bytes. The broader
+Current exact MAIN acceptance contains sixty-four maintained source owners /
+seventy-one exact CODE extents / 315 functions / 49971 owned bytes. The broader
 reviewed authored frontier contains 72 units / 320 functions / 51049 bytes;
-of the ten reviewed Extra Attack owners, shared flight, Reimu, Mima, Yumemi,
-Rikako, Kotohime, Marisa and the complete 663-byte Kana P_EXATT_TEXT owner
-are exact via the default two-round full-link Oracle; only Ellen and Chiyuri
-remain boundary-reviewed without linked exact acceptance. Seventy intake
+all complete reviewed Extra Attack owners except Ellen are accepted exact by
+the default two-round full-link Oracle. Chiyuri adds 1029 bytes, a 518-byte
+GRCG beam renderer, 298-byte update and its 51-byte Ellen-slot initializer. Seventy intake
 paths have scoped CODE decisions, including the frozen wrappers and implementations
 for hitbox, combo, gauge, movement, ordinary shots, player state, resident pointer,
 extra-attack wrapper, hit circles, static HUD, playfield, sprite16 wrappers, MRS,
