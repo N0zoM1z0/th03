@@ -5487,3 +5487,135 @@ offset = 0x0d51
 size = 47
 boundary = "owner-linear-span"
 abi = "far cdecl; RETF"
+
+[[units]]
+id = "th03-main-exatt-kana"
+source = "src/main/player/exatt_kana.cpp"
+header = "src/main/player/exatt_kana.hpp"
+object = "ex_kana"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ex_kana.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ex_kana", wrapper = "th03/ex_kana.cpp", source = "src/main/player/exatt_kana.cpp" }]
+support_files = [
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/libs/master.lib/master.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ex_maris.cpp\",\n"
+build_replacement = "\t\"th03/ex_kana.cpp\",\n\t\"th03/ex_maris.cpp\",\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-exatt-kana", segment = 0x18fe, start = 0x0845, size = 0x0297, map_segment = "P_EXATT_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
+    { object = "ex_kana", start = 0x0845, size = 0x0297 },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern EXATT_RENDER_RIKAKO:far\r\n"
+after = "\textern EXATT_RENDER_RIKAKO:far\r\n\textern EXATT_ADD_KANA:far\r\n\textern EXATT_UPDATE_KANA:far\r\n\textern EXATT_RENDER_KANA:far\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\tpublic KANA_EXTRA_ADD\r\nKANA_EXTRA_ADD = kana_19896\r\n"
+after = ""
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p1, @exatt_add_kana$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p1, EXATT_ADD_KANA\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p1, @exatt_update_kana$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p1, EXATT_UPDATE_KANA\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p1, @exatt_render_kana$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p1, EXATT_RENDER_KANA\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p2, @exatt_add_kana$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p2, EXATT_ADD_KANA\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p2, @exatt_update_kana$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p2, EXATT_UPDATE_KANA\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p2, @exatt_render_kana$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p2, EXATT_RENDER_KANA\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "public @EXATT_ADD_KANA$QIIUC\r\n"
+end_marker = "@exatt_render_kana$qv endp\r\n"
+replacement = "; Kana Extra Attack CODE restored via natural TC4J producer\r\n"
+
+[[functions]]
+name = "exatt_add_kana"
+object = "ex_kana"
+segment = 0x18fe
+offset = 0x0845
+size = 113
+boundary = "owner-linear-span"
+abi = "far Pascal x/y/pid; RETF 6"
+
+[[functions]]
+name = "kana_extra_add"
+object = "ex_kana"
+segment = 0x18fe
+offset = 0x08b6
+size = 71
+boundary = "owner-linear-span"
+abi = "far Pascal x/y/angle; RETF 6"
+
+[[functions]]
+name = "kana_exatt_render_one"
+object = "ex_kana"
+segment = 0x18fe
+offset = 0x08fd
+size = 188
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "exatt_update_kana"
+object = "ex_kana"
+segment = 0x18fe
+offset = 0x09b9
+size = 244
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "exatt_render_kana"
+object = "ex_kana"
+segment = 0x18fe
+offset = 0x0aad
+size = 47
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"

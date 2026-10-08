@@ -534,3 +534,70 @@ functions. Full CI remains blocked by missing Python unicorn: 632 tests,
 125 import errors, 167 skips; log .analysis/th03-marisa-exatt-ci-20261008.log.
 All executable post-unittest gates, including Ghidra/database and negative
 Oracle controls, PASS; log .analysis/th03-marisa-exatt-postgates-20261008.log.
+
+## Kana complete natural-source exact promotion (2026-10-08)
+
+Kana now has a complete natural Turbo C++ 4.02 CODE owner in
+src/main/player/exatt_kana.cpp, 663 bytes across five original functions:
+113-byte add, 71-byte boss-facing secondary add, 188-byte renderer,
+244-byte update and 47-byte dispatcher. The 244-byte updater includes
+vector2 motion, acceleration, custom 16x16 bullets, sprite offset, target
+PID and clipping/state transitions. No private DATA/BSS is emitted.
+
+The five-function pinned TC4 producer-shape proof:
+
+    python3 scripts/probe_th03_main_exatt_kana_cpp.py --run-id gpt-web-exatt-kana-shape-final-20261008
+
+The first candidate full-link replay reproduced the exact 663-byte CODE
+shape and all eight relocation sites in original order but differed in
+five linked bytes. Four were BP-relative stack operand displacements
+for vector_x and pid_other; the final byte was the bullet type. The
+original game uses BT_BULLET16_CUSTOM_WITH_ACCEL (type 8), not the
+default-with-acceleration type 7. Rearranging the natural local variable
+declarations and correcting the semantic bullet type resolved all five
+differences without a byte patch.
+
+The two-round candidate gpt-web-exatt-kana-link-c02-20261008 passes
+exact target bytes, P_EXATT_TEXT MAP at 18FE:0845 size 0297, and all eight
+ordered MZ relocations (12,58,74,206,333,457,546,557), while all
+previously accepted owner CODE, the Marisa/Kotohime/boss call graph and
+DOS behavior probes remain passing. The frozen carrier retains global
+storage and the original Kana boss caller now binds to the natural
+far Pascal kana_extra_add export.
+
+Initial default no-candidate aggregate:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-exatt-kana-default-p01-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-exatt-kana-default-p01-20261008/receipt.json
+
+With this owner, the scoped MAIN exact aggregate reaches 310 functions /
+48019 function bytes / 48942 owned bytes, 70 exact CODE extents / 63
+maintained semantic source owners, 20 products, 386 game objects and 452
+generated OMF objects. The contiguous accepted Kana-through-Rikako
+interval now covers 6715 bytes at 18FE:0845..2280. The only remaining
+reviewed but non-exact Extra Attack owners are Ellen (whose five-function
+natural producer shape is already proven) and Chiyuri. Historical
+DATA/BSS producer attribution, whole-game closure, independent pristine
+target origin and Factory Truth Kernel acceptance are still open.
+
+Final post-ledger default aggregate replay:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-exatt-kana-default-final-p03-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-exatt-kana-default-final-p03-20261008/receipt.json
+
+The immediately previous full replay gpt-web-exatt-kana-default-final-p02-20261008
+did not pass the unchanged normalized OMF-object determinism gate, even
+though all linked products and accepted target CODE/MAP/relocations passed.
+The two cold TASM main.obj files were the same size and differed in 77
+raw bytes, 71 after the existing narrowly scoped dependency timestamp
+normalization, with the first remaining difference in a PUBDEF record.
+The post-ledger p03 replay then passed all unchanged acceptance gates;
+both results are preserved, without broadening the normalization rule.
+
+Full /usr/bin/python3 CI remains blocked by the missing host unicorn
+module: 632 tests, 125 import errors and 167 skips; log
+.analysis/th03-exatt-kana-ci-20261008.log. All available post-unittest
+gates (including Ghidra and negative controls) pass independently; log
+.analysis/th03-exatt-kana-postgates-20261008.log.

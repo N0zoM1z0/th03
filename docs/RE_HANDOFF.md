@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 69 units / 305 functions / 48279 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 70 units / 310 functions / 48942 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 48279 exact bytes comprise 47356 function bytes and 923 explicitly
+MAIN's 48942 exact bytes comprise 48019 function bytes and 923 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-exatt-marisa-default-final-p02-20261008/receipt.json.
+.analysis/th03-main-exact/gpt-web-exatt-kana-default-final-p03-20261008/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 385 deterministic game objects and 451 validated
+with 20 product outputs, 386 deterministic game objects and 452 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -133,9 +133,10 @@ five P_EXATT_TEXT character owners and a MAIN_06_TEXT shared/Reimu/Mima/Yumemi/
 Rikako family. They contain 52 complete functions and all 140 in-owner MZ
 relocations; no relocation crosses an owner edge. The largest function is
 Yumemi's 1150-byte helper, alongside 470-byte Ellen and 398-byte Mima updates.
-Three of these owners remain boundary-reviewed only. The natural-source
-Marisa (676 bytes / five functions including a 251-byte update) and Kotohime
-(1054 bytes / eight including the 351-byte update) P_EXATT_TEXT suffix are
+Two of these owners remain boundary-reviewed only. The natural-source
+Kana (663 bytes / five including 244-byte update), Marisa (676 bytes / five
+including a 251-byte update) and Kotohime (1054 bytes / eight including the
+351-byte update) P_EXATT_TEXT suffix are
 exact, as is the immediately following 41-byte generic owner and contiguous
 4281-byte MAIN_06_TEXT family: shared flight (215 / two functions),
 Reimu (941 / eight including shared renderer/collision helpers), Mima
@@ -145,8 +146,8 @@ segment, including two consecutive producers for Reimu to preserve original
 FIXUPP order. Raw bytes, MAP and all 4 + 14 + 10 + 36 + 9 ordered MZ
 relocations match in two default cold links. The earlier single-producer
 Reimu failure and initial shared-helper shape experiments are preserved as
-negative controls. Together these owners cover 6052 contiguous exact
-CODE bytes at 18FE:0ADC..2280; the Kotohime charge-gauge caller now binds
+negative controls. Together these owners cover 6715 contiguous exact
+CODE bytes at 18FE:0845..2280; the Kotohime charge-gauge caller now binds
 the natural far Pascal helper instead of the obsolete frozen-ASM alias.
 No raw byte carrier or relaxed comparator was used.
 Historical physical DATA/BSS producer ownership remains open. See
@@ -229,26 +230,28 @@ was rebound from an old ASM alias to the natural far Pascal helper, without
 regressing existing exact bytes. Marisa (676 / five functions including the
 251-byte update) is also exact in the immediately preceding P_EXATT_TEXT
 segment; its boss-facing far Pascal symbol binds directly to the new TC4J
-producer. Three complete P_EXATT_TEXT owners remain: Kana (663), Ellen (1078),
-Chiyuri (1029). Ellen has five-function natural TC4 source-shape proof
-including its 470-byte update, but no linked exact credit. The suffix-first
-physical carve order is Kana -> Ellen -> Chiyuri. Each owner still
+producer. Kana (663 / five functions, including the 244-byte vector2/
+bullet update) is now exact in the immediately preceding segment with all
+eight original ordered relocations. Two P_EXATT_TEXT owners remain: Ellen
+(1078 bytes) and Chiyuri (1029). Ellen has five-function natural TC4 shape
+proof including its 470-byte update, but no linked exact credit. Physical
+carve order continues Ellen -> Chiyuri. Each owner still
 requires independent raw-byte, MAP and ordered-relocation acceptance.
 Continue reconstructing complete owners rather than isolated leaves, and do not
 treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2566 evidence rows / three hypotheses / 344 knowledge rows / 320
-MAIN authored-function rows. The scoped exact subset is now 305 functions /
-48279 owned bytes, while the broader reviewed authored frontier is now 320
+275 units / 2574 evidence rows / three hypotheses / 346 knowledge rows / 320
+MAIN authored-function rows. The scoped exact subset is now 310 functions /
+48942 owned bytes, while the broader reviewed authored frontier is now 320
 functions / 51049 bytes. The ten new Extra Attack owners account for the
 52-function / 8781-byte boundary-reviewed delta.
 
 The current Factory host does not provide the Python `unicorn` module.
 The 2026-10-08 /usr/bin/python3 CI attempt runs 632 tests but reports 125
 errors importing this missing module, with 167 skips; the latest full CI
-failure is retained at `.analysis/th03-marisa-exatt-ci-20261008.log` (the earlier
+failure is retained at `.analysis/th03-exatt-kana-ci-20261008.log` (the earlier
 Yumemi/Rikako promotion failure remains at `.analysis/th03-ci-exatt-20261008.log`). The interpreter reports
 `importlib.util.find_spec("unicorn") is None`. As before, this is a host
 dependency block, not a full-CI PASS or an owner-byte mismatch.
@@ -257,9 +260,11 @@ The CI steps after unittest were rerun independently and **pass**: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log
-is `.analysis/th03-marisa-exatt-postgates-20261008.log`; its final line confirms
+is `.analysis/th03-exatt-kana-postgates-20261008.log`; its final line confirms
 `POST-UNITTEST GATES: PASS`. The earlier suffix post-gates log is retained too.
-The final Marisa-source default exact receipt after all ledger updates is
+The final Kana default exact receipt after ledger updates is
+.analysis/th03-main-exact/gpt-web-exatt-kana-default-final-p03-20261008/receipt.json.
+The previous Marisa-source default exact receipt after all ledger updates is
 .analysis/th03-main-exact/gpt-web-exatt-marisa-default-final-p02-20261008/receipt.json.
 The earlier Kotohime-source default exact receipt after ledger updates is
 .analysis/th03-main-exact/gpt-web-kotohime-exatt-default-final-p02-20261008/receipt.json.
@@ -271,4 +276,19 @@ The preceding Mima closeout is retained at
 `.analysis/th03-main-exact/gpt-web-mima-default-final-p03-20261008/receipt.json`.
 The prior Yumemi+Rikako closeout stays preserved at
 `.analysis/th03-main-exact/gpt-web-exatt-suffix-default-final-p02-20261008/receipt.json`.
+A strict diagnostic replay gpt-web-exatt-kana-default-final-p02-20261008
+failed determinism without any changed source inputs, target CODE bytes, MZ
+relocations, MAP, game executable product hashes or DOS behavior:
+the frozen TASM-generated main.obj has 77 different raw bytes in the two
+cold compilations. Dependency timestamp normalization removes six of those
+differences, leaving 71, beginning inside a PUBDEF OMF record; the scoped
+main.obj and six carrier aliases therefore fail the unchanged normalized
+object-hash gate. Receipt preserved in .analysis/th03-main-exact/
+gpt-web-exatt-kana-default-final-p02-20261008/receipt.json. The next
+independent full default two-round replay
+gpt-web-exatt-kana-default-final-p03-20261008 passes all gates with the same
+source/manifest hash. This nondeterministic TASM PUBDEF observation is
+tracked separately from Research-only timestamp drift and must not be
+masked by weakening the existing OMF comparator.
+
 No Factory Truth Kernel acceptance is implied by this repository-local result.
