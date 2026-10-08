@@ -58,9 +58,9 @@ by `sol-rec98-baseline-20261005`: all forty functions and fourteen extents
 passed the configured local gates. The baseline remains a bounded replay,
 not a complete maintained game build.
 
-Current exact MAIN acceptance contains sixty-five maintained source owners /
-seventy-two exact CODE extents / 320 functions / 51049 owned bytes. The reviewed
-authored frontier contains 72 units / 320 functions / 51049 bytes, and all ten
+Current exact MAIN acceptance contains sixty-six maintained source owners /
+seventy-three exact CODE extents / 330 functions / 51644 owned bytes. The reviewed
+authored frontier contains 73 units / 330 functions / 51644 bytes, and all ten
 complete reviewed Extra Attack owners now pass the strict two-round default
 full-link Oracle. Ellen adds its complete 1078-byte owner, including a 470-byte
 update, via a documented TC4 LEDATA/FIXUPP record calibration that changes no

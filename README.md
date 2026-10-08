@@ -18,9 +18,9 @@ reviewed evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the compl
 reconstruction and the 505-file intake remain unfinished.
 
 [Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
-are the entrypoints. MAIN has **320 exact functions / 51049 exact owned bytes**
-across **65 maintained source owners and 72 exact CODE extents**. The broader
-target-reviewed authored frontier is **320 functions / 51049 bytes across 72
+are the entrypoints. MAIN has **330 exact functions / 51644 exact owned bytes**
+across **66 maintained source owners and 73 exact CODE extents**. The broader
+target-reviewed authored frontier is **330 functions / 51644 bytes across 73
 owners**, after adding the ten Extra Attack owners in P_EXATT_TEXT and
 MAIN_06_TEXT. These are scoped repository-local results, not whole-game product
 closure or Factory Truth Kernel acceptance. Whole-game denominators remain

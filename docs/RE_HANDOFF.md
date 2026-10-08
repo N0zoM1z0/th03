@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 72 units / 320 functions / 51049 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 73 reviewed authored units / 330 functions / 51644 bytes; exact subset 73 units / 330 functions / 51644 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 51049 exact bytes comprise 50126 function bytes and 923 explicitly
+MAIN's 51644 exact bytes comprise 50721 function bytes and 923 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-ellen-omf-default-final-p02-20261008/receipt.json.
+.analysis/th03-main-exact/gpt-web-hyper-main010-default-p01-20261008/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 389 deterministic game objects and 455 validated
+with 20 product outputs, 390 deterministic game objects and 456 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -257,9 +257,9 @@ treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2594 evidence rows / three hypotheses / 351 knowledge rows / 320
-MAIN authored-function rows. The scoped exact subset now covers all 320
-reviewed functions / 51049 owned bytes. The whole-game denominator is still
+276 units / 2603 evidence rows / three hypotheses / 353 knowledge rows / 330
+MAIN authored-function rows. The scoped exact subset now covers all 330
+reviewed functions / 51644 owned bytes. The whole-game denominator is still
 unknown, and OP/MAINL/ZUN are not accepted exact. The ten new Extra Attack owners account for the
 52-function / 8781-byte now-exact extension of the reviewed CODE frontier.
 
@@ -394,22 +394,53 @@ not complete MAIN source-product closure, historical DATA/BSS ownership
 or independently pristine target provenance; OP, MAINL and ZUN exactness
 remain unresolved. Factory Truth Kernel acceptance is not implied.
 
-## Next MAIN target-first frontier after reviewed Extra Attack closure
+## New exact MAIN_010 Hyper/character-state owner
 
-All 320 reviewed MAIN CODE functions / 51049 reviewed owned bytes are exact,
-but the full MAIN source and product are incomplete. A new immutable-target
-review in docs/reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md identifies five
-non-exact candidate intervals totaling 4204 additional bytes:
-the MAIN_010 595-byte character hyper/input-state dispatch prefix (first
-priority); PLAYER_M 843-byte HUD intro/state and 635-byte renderer; the
-1958-byte Marisa charge/hyper/hitbox prefix; and a 173-byte ordinary-shot
-hardware producer dependency. The replayable review command is:
+The full 595-byte, ten near-Pascal-callback Hyper dispatcher at target
+0D7F0..0DA43 / TLINK 096E:4110..4363 has now been rebuilt from natural
+Turbo C++ 4.02 source. The compiler emits **unmodified native OMF**.
+Critical ABI details are a MAIN_01 code-group declaration, 1-byte packing
+for historical player_stuff_t (shot_mode at +0x0D and hyper callback at
++0x64), and BYTE alignment of the residual frozen carrier after the
+odd-length TC4 object. Earlier ungrouped and inaccurate-structure-layout
+trials are preserved as negative controls, not accepted as exact.
+
+The scoped native-TC4 default two-round result is:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-hyper-main010-default-final-p02-20261008
+
+Receipt:
+.analysis/th03-main-exact/gpt-web-hyper-main010-default-final-p02-20261008/receipt.json
+
+Both rounds passed all 595 linked bytes, original MAP, all four **ordered**
+MZ sites, previously accepted 320 functions, object/output vectors and
+maintained DOS behavior. The accepted total is now 330 reviewed functions /
+50721 function-body bytes / 51644 owned CODE bytes, 73 reviewed extents
+and 66 maintained owners. There was no Hyper-specific OMF normalization
+or machine-code byte patch. Details and failed experiments are recorded
+in docs/reconstruction/MAIN_HYPER_DISPATCH_REVIEW.md.
+
+The post-ledger final receipt is PASS and was checked against the current
+source, manifest and evidence/progress hashes. Full CI executed 638 tests but
+is blocked on the host's absent `unicorn` dependency (125 import errors,
+167 skipped); .analysis/th03-hyper-ci-20261008.log preserves that failure.
+The independently runnable post-unittest gates all PASS at
+.analysis/th03-hyper-postgates-20261008.log, including target, toolchain,
+Ghidra, negative controls, tracking and compile checks. No full CI PASS is
+claimed and the repository Oracle is not Factory Truth Kernel acceptance.
+
+The next target-first intake is now **four remaining provisional, non-exact
+intervals totaling 3609 bytes**, independently replayable with:
 
     python3 scripts/review_th03_main_next_frontier.py
 
-It checks original raw bytes, full 16-bit linear decode, terminal returns,
-relocation edge containment and disjointness from accepted extents. Interior
-function/shared-tail boundaries, natural sources, ABI and physical DATA/BSS
-ownership still need verification; no new exact functions/bytes are claimed.
-TH04 remains hypothesis-only. The next priority is complete gameplay owner
-reconstruction, not a misleading 100%-of-entire-game claim.
+The current v2 review is in docs/reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md.
+Priority is the two adjacent **843- and 635-byte HUD state/renderer blocks**
+as a complete subsystem, followed by the **1958-byte Marisa charge/hyper/
+hitbox prefix**, with the 173-byte ordinary-shot producer kept in its
+larger dependency chain. The historical v1 five-interval review is
+preserved; Hyper must not be counted as unreviewed again. No new exact
+credit is assigned to those four intervals until original complete
+function boundaries, DATA/BSS and ABI ownership, source and two full
+serial cold links are proved. The full MAIN game and OP/MAINL/ZUN remain
+incomplete; Factory Truth Kernel acceptance is not implied.

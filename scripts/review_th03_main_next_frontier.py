@@ -35,9 +35,6 @@ CANDIDATES = (
     dict(id="main-player-hud-render", start=0xBE5D, end=0xC0D8,
          terminal="ret", subsystem="HUD/lives sprite-state renderer",
          caution="large render function, shared draw helpers / display state"),
-    dict(id="main-hyper-dispatch-prefix", start=0xD7F0, end=0xDA43,
-         terminal="ret", subsystem="per-character hyper/input-state dispatch",
-         caution="ten provisional near functions, shared mutable player speed"),
     dict(id="main-marisa-charge-hitbox-prefix", start=0x142D0, end=0x14A76,
          terminal="retf", subsystem="Marisa charge-shot, hyper and hitbox prefix",
          caution="many far/near functions, sprite/shot/gauge deps; no trusted owner partition yet"),
@@ -121,7 +118,7 @@ def review() -> dict:
         "kind":"th03-main-next-frontier-target-interval-review",
         "artifact":"th03-main",
         "target_sha256":sha(target),
-        "scope":"five provisional unowned CODE intervals; not function/owner acceptance",
+        "scope":"four remaining provisional unowned CODE intervals; Hyper owner exact in default manifest",
         "existing_exact_function_count":len(manifest["functions"]),
         "existing_exact_extent_count":len(accepted),
         "candidates":spans,
@@ -135,7 +132,7 @@ def review() -> dict:
 
 def main() -> int:
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",default=".analysis/th03-main-next-frontier/target-review-v1.json")
+    parser.add_argument("--output",default=".analysis/th03-main-next-frontier/target-review-v2.json")
     args=parser.parse_args()
     p=(ROOT / args.output).resolve()
     if not p.is_relative_to((ROOT / ".analysis").resolve()):

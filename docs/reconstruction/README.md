@@ -8,7 +8,7 @@ retain scoped observations, replay commands, hazards and incomplete Oracles.
 
 | Scope | Entry points |
 | --- | --- |
-| MAIN | [Next target-first gameplay frontier](MAIN_NEXT_FRONTIER_REVIEW.md), [Historical input/math checkpoint](../MAIN_INPUT_MATH_EXACT.md), [enemy](MAIN_ENEMY_REVIEW.md), [source layout](../SOURCE_LAYOUT.md), MAIN-specific notes listed in the review index |
+| MAIN | [Exact full Hyper dispatcher](MAIN_HYPER_DISPATCH_REVIEW.md), [Next target-first gameplay frontier](MAIN_NEXT_FRONTIER_REVIEW.md), [Historical input/math checkpoint](../MAIN_INPUT_MATH_EXACT.md), [enemy](MAIN_ENEMY_REVIEW.md), [source layout](../SOURCE_LAYOUT.md), MAIN-specific notes listed in the review index |
 | OP | [Entry](OP_ENTRY_REVIEW.md), [select](OP_SELECT_REVIEW.md), [music](OP_MUSIC_REVIEW.md), [score](OP_SCORE_REVIEW.md), [title](OP_TITLE_REVIEW.md), [menu](OP_MENU_REVIEW.md) |
 | Shared OP/MAINL source | [CDG load](SHARED_CDG_LOAD_REVIEW.md), [CDG draw](SHARED_CDG_DRAW_REVIEW.md), [text](SHARED_TEXT_REVIEW.md), [math](SHARED_MATH_REVIEW.md), [sound load](SHARED_SND_LOAD_REVIEW.md), [PI](SHARED_PI_REVIEW.md), [input/timing](SHARED_INPUT_REVIEW.md) |
 | MAINL candidates | [Linked intake](MAINL_LINKED_CODE_INTAKE_REVIEW.md), [root tail](MAINL_ROOT_TAIL_REVIEW.md), [CRT](MAINL_CRT_BREAK_REVIEW.md); the review index links every subsystem |

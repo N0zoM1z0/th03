@@ -5900,3 +5900,152 @@ offset = 0x0813
 size = 50
 boundary = "owner-linear-span"
 abi = "far cdecl; RETF"
+
+[[units]]
+id = "th03-main-hyper-dispatch"
+source = "src/main/player/hyper.cpp"
+header = "src/main/player/hyper.hpp"
+object = "p_hyper"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/p_hyper.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "p_hyper", wrapper = "th03/p_hyper.cpp", source = "src/main/player/hyper.cpp" }]
+support_files = [
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/stuff.hpp",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/chars/speed.hpp",
+  "compat/rec98/th03/main/player/shot.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/player/ch_shot.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/hardware/input.h",
+  "compat/rec98/libs/master.lib/master.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ex_chyu.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/ex_chyu.cpp\",\n\t\"th03/p_hyper.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-hyper-dispatch", segment = 0x096e, start = 0x4110, size = 0x0253, map_segment = "MAIN_010_TEXT", map_group = "MAIN_01", map_acbp = 28, map_parts = [
+    { object = "p_hyper", start = 0x4110, size = 0x0253, map_module = "th03/p_hyper.cpp" },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern EXATT_RENDER_RIKAKO:far\r\n"
+after = "\textern EXATT_RENDER_RIKAKO:far\r\n\textern HYPER_STANDBY:near\r\n\textern HYPER_REIMU:near\r\n\textern HYPER_MIMA:near\r\n\textern HYPER_MARISA:near\r\n\textern HYPER_ELLEN:near\r\n\textern HYPER_KOTOHIME:near\r\n\textern HYPER_CHIYURI:near\r\n\textern HYPER_YUMEMI:near\r\n\textern HYPER_KANA:near\r\n\textern HYPER_RIKAKO:near\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "marisa_hyper_14340\tproc far\r\n"
+after = "public MARISA_HYPER_14340\r\nmarisa_hyper_14340\tproc far\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "public HYPER_STANDBY\r\nhyper_standby\tproc near\r\n"
+end_marker = "hyper_rikako\tendp\r\n"
+replacement = "; Hyper state dispatch complete CODE producer moved to natural TC4 C++\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "main_010_TEXT\tsegment\tword public 'CODE' use16\r\n"
+after = "main_010_TEXT\tsegment\tbyte public 'CODE' use16\r\n"
+
+[[functions]]
+name = "hyper_standby"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x4110
+size = 25
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_reimu"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x4129
+size = 62
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_mima"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x4167
+size = 66
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_marisa"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x41a9
+size = 67
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_ellen"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x41ec
+size = 47
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_kotohime"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x421b
+size = 62
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_chiyuri"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x4259
+size = 62
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_yumemi"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x4297
+size = 62
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_kana"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x42d5
+size = 62
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
+
+[[functions]]
+name = "hyper_rikako"
+object = "p_hyper"
+segment = 0x096e
+offset = 0x4313
+size = 80
+boundary = "owner-linear-span"
+abi = "near Pascal; no arguments; RET"
