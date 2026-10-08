@@ -218,15 +218,19 @@ remains exact. The active frontier is the Extra Attack family in P_EXATT_TEXT
 and MAIN_06_TEXT: the entire shared/Reimu/Mima/Yumemi/Rikako MAIN_06_TEXT
 family is exact after default replay. The next frontier is the five still-open
 P_EXATT_TEXT complete character owners: Chiyuri (1029 bytes), Ellen (1078),
-Kana (663), Marisa (676), Kotohime (1054). Ellen has a 470-byte update and
-Kotohime a 351-byte update; keep these large functions in scope. All 5 must
-independently pass ABI, physical-producer order and exact acceptance.
+Kana (663), Marisa (676), Kotohime (1054). Ellen's complete natural TC4J
+source (including its 470-byte update) now passes pinned five-function
+instruction-shape proof, but no default full-link exact claim is made. Because
+Ellen occupies an interior P_EXATT_TEXT interval, the physical carve should
+advance from the segment tail: Kotohime -> Marisa -> Kana -> Ellen -> Chiyuri.
+The 351-byte Kotohime update remains in scope. Every owner still requires
+independent raw-byte, exact MAP and original ordered-relocation acceptance.
 Continue reconstructing complete owners rather than isolated leaves, and do not
 treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2549 evidence rows / three hypotheses / 339 knowledge rows / 320
+275 units / 2550 evidence rows / three hypotheses / 340 knowledge rows / 320
 MAIN authored-function rows. The scoped exact subset is now 292 functions /
 46549 owned bytes, while the broader reviewed authored frontier is now 320
 functions / 51049 bytes. The ten new Extra Attack owners account for the
@@ -235,7 +239,7 @@ functions / 51049 bytes. The ten new Extra Attack owners account for the
 The current Factory host does not provide the Python `unicorn` module.
 The 2026-10-08 /usr/bin/python3 CI attempt runs 632 tests but reports 125
 errors importing this missing module, with 167 skips; the latest full CI
-failure is retained at `.analysis/th03-shared-flight-ci-20261008.log` (the earlier
+failure is retained at `.analysis/th03-ellen-shape-ci-20261008.log` (the earlier
 Yumemi/Rikako promotion failure remains at `.analysis/th03-ci-exatt-20261008.log`). The interpreter reports
 `importlib.util.find_spec("unicorn") is None`. As before, this is a host
 dependency block, not a full-CI PASS or an owner-byte mismatch.
@@ -244,7 +248,7 @@ The CI steps after unittest were rerun independently and **pass**: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log
-is `.analysis/th03-shared-flight-postgates-20261008.log`; its final line confirms
+is `.analysis/th03-ellen-shape-postgates-20261008.log`; its final line confirms
 `POST-UNITTEST GATES: PASS`. The earlier suffix post-gates log is retained too.
 The final shared-flight default exact receipt after all ledger updates is
 `.analysis/th03-main-exact/gpt-web-exatt-shared-default-final-p02-20261008/receipt.json`.

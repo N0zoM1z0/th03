@@ -366,3 +366,46 @@ unittest pass (.analysis/th03-shared-flight-postgates-20261008.log).
 Full CI remains blocked by the missing host Python unicorn
 module: 632 tests, 125 import errors and 167 skips. The failed
 CI output is retained at .analysis/th03-shared-flight-ci-20261008.log.
+
+## Ellen natural TC4J producer shape (2026-10-08; not exact)
+
+The complete Ellen character Extra Attack owner at P_EXATT_TEXT
+18FE:040F..0845 has now been reconstructed as natural C++ in
+src/main/player/exatt_ellen.cpp and exatt_ellen.hpp.
+The original five functions total 1078 CODE bytes: add 186,
+boss-facing secondary add 103, renderer 269, update 470 and dispatcher 50.
+
+The 470-byte update is deliberately in scope. It moves seven x/y history
+samples for each of twelve 30-byte trajectory slots, computes polar
+coordinates and velocity, processes playfield clipping and hitbox/collmap
+events, and advances the original flight/state machine. The source
+declares historical slot storage and the global cursor as external;
+no private DATA/BSS is emitted. The original compiler's local variable
+placement, branch form and slot dereference sequence were calibrated
+against the immutable TH03 instructions, not guessed from ReC98 labels.
+
+Pinned TC4 object-shape proof:
+
+    python3 scripts/probe_th03_main_exatt_ellen_cpp.py --run-id gpt-web-exatt-ellen-v04-20261008
+
+Receipt: .analysis/th03-main-exatt-ellen-cpp/gpt-web-exatt-ellen-v04-20261008/receipt.json
+
+The object contains exactly 1078 CODE bytes, all five correct function
+starts/lengths/instruction shapes/RET contracts and zero private BSS.
+This does not establish exact linked bytes, MAP placement or ordered MZ
+relocations. The owner remains boundary-reviewed and no exact byte
+credit was added.
+
+Important physical-link constraint: Ellen is in the middle of
+P_EXATT_TEXT. Simply appending an Ellen object after the frozen carrier
+would shift the Kana/Marisa/Kotohime suffix and existing generic P_EXATT
+object. Planned suffix-to-prefix carve order: Kotohime, Marisa, Kana,
+Ellen, Chiyuri, retaining the original P_EXATT_TEXT group layout at
+each stage. Failed trials must not weaken existing owner comparisons.
+
+At this source-shape checkpoint, preflight and the focused five-test
+Extra Attack review suite pass. Full /usr/bin/python3 CI is still blocked
+by the absent host unicorn module (632 tests, 125 import errors,
+167 skips). Logs: .analysis/th03-ellen-shape-ci-20261008.log and
+.analysis/th03-ellen-shape-postgates-20261008.log. All available
+post-unittest CI gates pass, including the Ghidra/Oracle controls.
