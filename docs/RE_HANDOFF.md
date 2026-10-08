@@ -9,17 +9,17 @@ are unfinished. See CLOSEOUT.md for the earlier frozen snapshot.
 
 | Artifact | Preserved reviewed result | Acceptance |
 | --- | --- | --- |
-| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 67 units / 292 functions / 46549 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
+| MAIN | 72 reviewed authored units / 320 functions / 51049 bytes; exact subset 68 units / 300 functions / 47603 bytes | Boundary-reviewed frontier with scoped repository-local exact subset |
 | OP | 40 reviewed decoded units / 12386 bytes; 33 source-present extents / 12019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3073 bytes | exact0 |
 | ZUN | 18 rows; three source-present wrapper TUs / 234 bytes | exact0 |
 
-MAIN's 46549 exact bytes comprise 45626 function bytes and 923 explicitly
+MAIN's 47603 exact bytes comprise 46680 function bytes and 923 explicitly
 classified producer/table/alignment bytes. The latest accepted default aggregate
 is
-.analysis/th03-main-exact/gpt-web-exatt-shared-default-final-p02-20261008/receipt.json.
+.analysis/th03-main-exact/gpt-web-kotohime-exatt-default-final-p02-20261008/receipt.json.
 It passes two fresh compilations/links and the maintained DOS behavior probes
-with 20 product outputs, 383 deterministic game objects and 449 validated
+with 20 product outputs, 384 deterministic game objects and 450 validated
 generated OMF objects. Nine Research-only benchmark objects retain normalized
 diagnostic drift outside the declared game vector and do not affect this
 acceptance. The earlier Rikako charge/gauge promotion remains preserved at
@@ -133,8 +133,10 @@ five P_EXATT_TEXT character owners and a MAIN_06_TEXT shared/Reimu/Mima/Yumemi/
 Rikako family. They contain 52 complete functions and all 140 in-owner MZ
 relocations; no relocation crosses an owner edge. The largest function is
 Yumemi's 1150-byte helper, alongside 470-byte Ellen and 398-byte Mima updates.
-Five of these owners remain boundary-reviewed only. The entire contiguous
-4281-byte MAIN_06_TEXT family is exact: shared flight (215 / two functions),
+Four of these owners remain boundary-reviewed only. The complete 1054-byte
+Kotohime P_EXATT_TEXT suffix (eight functions including the 351-byte update)
+is exact, as is the immediately following 41-byte generic owner and contiguous
+4281-byte MAIN_06_TEXT family: shared flight (215 / two functions),
 Reimu (941 / eight including shared renderer/collision helpers), Mima
 (727 / four), Yumemi (1696 / five including the 1150-byte renderer), and
 Rikako (702 / five). Six physical natural TC4J objects reconstruct that
@@ -142,7 +144,10 @@ segment, including two consecutive producers for Reimu to preserve original
 FIXUPP order. Raw bytes, MAP and all 4 + 14 + 10 + 36 + 9 ordered MZ
 relocations match in two default cold links. The earlier single-producer
 Reimu failure and initial shared-helper shape experiments are preserved as
-negative controls. No raw byte carrier or relaxed comparator was used.
+negative controls. Together these owners cover 5376 contiguous exact
+CODE bytes at 18FE:0D80..2280; the Kotohime charge-gauge caller now binds
+the natural far Pascal helper instead of the obsolete frozen-ASM alias.
+No raw byte carrier or relaxed comparator was used.
 Historical physical DATA/BSS producer ownership remains open. See
 reconstruction/MAIN_EXATT_REVIEW.md.
 
@@ -216,30 +221,31 @@ Use headless tools and one Borland/Wine writer. Re-attest a selected Ghidra
 database before new target observations. The complete MAIN_03_TEXT boss segment
 remains exact. The active frontier is the Extra Attack family in P_EXATT_TEXT
 and MAIN_06_TEXT: the entire shared/Reimu/Mima/Yumemi/Rikako MAIN_06_TEXT
-family is exact after default replay. The next frontier is the five still-open
-P_EXATT_TEXT complete character owners: Chiyuri (1029 bytes), Ellen (1078),
-Kana (663), Marisa (676), Kotohime (1054). Ellen's complete natural TC4J
-source (including its 470-byte update) now passes pinned five-function
-instruction-shape proof, but no default full-link exact claim is made. Because
-Ellen occupies an interior P_EXATT_TEXT interval, the physical carve should
-advance from the segment tail: Kotohime -> Marisa -> Kana -> Ellen -> Chiyuri.
-The 351-byte Kotohime update remains in scope. Every owner still requires
-independent raw-byte, exact MAP and original ordered-relocation acceptance.
+family remains exact. Kotohime (1054 bytes / 8 functions, including the
+351-byte update) is additionally exact through a natural TC4J P_EXATT_TEXT
+producer with all 15 original ordered relocations. Its charge-gauge caller
+was rebound from an old ASM alias to the natural far Pascal helper, without
+regressing existing exact bytes. Four complete P_EXATT_TEXT owners remain:
+Marisa (676 bytes), Kana (663), Ellen (1078), Chiyuri (1029). Ellen already
+has five-function natural TC4 source-shape proof including its 470-byte
+update, but no linked exact credit. Physical carve order should continue
+from the segment tail: Marisa -> Kana -> Ellen -> Chiyuri. Each owner still
+requires independent raw-byte, MAP and ordered-relocation acceptance.
 Continue reconstructing complete owners rather than isolated leaves, and do not
 treat reviewed coverage as whole-product completion.
 
 Historical closeout CI was 607 tests / 50.517 seconds with available private
 headless gates passing at the 2026-10-06 snapshot. Current preflight tracking is
-275 units / 2550 evidence rows / three hypotheses / 340 knowledge rows / 320
-MAIN authored-function rows. The scoped exact subset is now 292 functions /
-46549 owned bytes, while the broader reviewed authored frontier is now 320
+275 units / 2558 evidence rows / three hypotheses / 342 knowledge rows / 320
+MAIN authored-function rows. The scoped exact subset is now 300 functions /
+47603 owned bytes, while the broader reviewed authored frontier is now 320
 functions / 51049 bytes. The ten new Extra Attack owners account for the
 52-function / 8781-byte boundary-reviewed delta.
 
 The current Factory host does not provide the Python `unicorn` module.
 The 2026-10-08 /usr/bin/python3 CI attempt runs 632 tests but reports 125
 errors importing this missing module, with 167 skips; the latest full CI
-failure is retained at `.analysis/th03-ellen-shape-ci-20261008.log` (the earlier
+failure is retained at `.analysis/th03-kotohime-exatt-ci-20261008.log` (the earlier
 Yumemi/Rikako promotion failure remains at `.analysis/th03-ci-exatt-20261008.log`). The interpreter reports
 `importlib.util.find_spec("unicorn") is None`. As before, this is a host
 dependency block, not a full-CI PASS or an owner-byte mismatch.
@@ -248,9 +254,11 @@ The CI steps after unittest were rerun independently and **pass**: compileall,
 tracking, progress, MAINL intake policy, TH03 inventory, target verification,
 Oracle smoke, toolchain and analysis-toolchain attestations, all available TH03
 Ghidra database checks and negative controls, and git diff --check. Their log
-is `.analysis/th03-ellen-shape-postgates-20261008.log`; its final line confirms
+is `.analysis/th03-kotohime-exatt-postgates-20261008.log`; its final line confirms
 `POST-UNITTEST GATES: PASS`. The earlier suffix post-gates log is retained too.
-The final shared-flight default exact receipt after all ledger updates is
+The final Kotohime-source default exact receipt after ledger updates is
+.analysis/th03-main-exact/gpt-web-kotohime-exatt-default-final-p02-20261008/receipt.json.
+The preceding shared-flight default exact checkpoint is
 `.analysis/th03-main-exact/gpt-web-exatt-shared-default-final-p02-20261008/receipt.json`.
 The preceding Reimu exact checkpoint stays preserved at
 `.analysis/th03-main-exact/gpt-web-reimu-default-final-p02-20261008/receipt.json`.

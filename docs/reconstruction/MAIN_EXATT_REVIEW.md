@@ -409,3 +409,70 @@ by the absent host unicorn module (632 tests, 125 import errors,
 167 skips). Logs: .analysis/th03-ellen-shape-ci-20261008.log and
 .analysis/th03-ellen-shape-postgates-20261008.log. All available
 post-unittest CI gates pass, including the Ghidra/Oracle controls.
+
+## Kotohime complete P_EXATT_TEXT natural-source exact promotion (2026-10-08)
+
+Kotohime is the final complete character CODE owner in P_EXATT_TEXT, at
+18FE:0D80..119E. All 1054 bytes now come from natural maintained
+src/main/player/exatt_kotohime.cpp. This includes eight complete original
+functions (115 + 87 + 207 + 38 + 104 + 104 + 351 + 48 bytes) and the
+351-byte update with shot patterns, hitbox/collision and flight-state logic.
+The source uses external historical 32-byte Extra Attack entities,
+player state and Kotohime pattern settings; it emits no private DATA/BSS.
+
+Pinned compiler-shape proof:
+
+    python3 scripts/probe_th03_main_exatt_kotohime_cpp.py --run-id gpt-web-exatt-kotohime-shape-v05-20261008
+
+The original P_EXATT_TEXT suffix was removed from the frozen ASM carrier
+without shifting other owners or changing the CODE comparator. ex_koto.cpp
+was inserted immediately before p_exatt.cpp in the maintained linker list.
+The existing exact charge-gauge source previously invoked the carrier
+KOTOHIME_GAUGE_SPAWN alias. It is now rebound directly to the original
+far Pascal helper kotohime_extra_add, so the obsolete ASM alias is removed
+rather than left as a dangling export. No change to accepted CODE bytes was
+needed. The historical DGROUP pattern parameters are exposed as a
+location-preserving alias of the existing gauge_pattern_timing storage.
+
+The first complete candidate produced the correct 1054-byte CODE shape,
+all 15 ordered MZ relocation sites and correct MAP placement, but differed
+from the original in eight linked bytes in kotohime_extra_add. Comparing
+the full-link target showed reversed SI/DI register initialization; the
+natural source initialization order was corrected, not patched with raw
+machine code. A later two-round candidate
+gpt-web-exatt-kotohime-link-c04-20261008 passed full raw bytes, exact
+P_EXATT_TEXT MAP at 18FE:0D80 size 041E, and all 15 ordered relocation
+sites, while all previously exact owners and DOS probes remained passing.
+
+First no-candidate default aggregate:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-kotohime-exatt-default-p01-20261008
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-kotohime-exatt-default-p01-20261008/receipt.json
+
+The local exact aggregate increases to 300 functions / 46680 function bytes
+and 47603 owned bytes, across 68 exact CODE extents and 61 maintained
+semantic source owners. Two fresh cold builds produce 20 product outputs,
+384 game objects and 450 generated OMF objects. Four reviewed P_EXATT_TEXT
+character owners remain non-exact: Marisa, Kana, Ellen and Chiyuri.
+Ellen's complete five-function 1078-byte TC4 source shape is already proven,
+including its 470-byte update, but it must not be promoted before the
+intervening physical objects and original ordered relocations are resolved.
+Historical physical DATA/BSS producer identity, whole-game closure and
+Factory Truth Kernel acceptance remain open.
+
+Final default aggregate after source, evidence and ledger updates:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-kotohime-exatt-default-final-p02-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-kotohime-exatt-default-final-p02-20261008/receipt.json
+
+Both cold compilations and links continue to pass exact bytes, MAP and all
+15 ordered Kotohime relocation sites alongside previously accepted owners
+and the DOS probe. The available CI post-unittest gates pass at
+.analysis/th03-kotohime-exatt-postgates-20261008.log, including Ghidra and
+Oracle negative controls. Full CI remains blocked by the missing unicorn
+host module (632 tests, 125 import errors and 167 skips), recorded at
+.analysis/th03-kotohime-exatt-ci-20261008.log. Do not report full CI PASS.

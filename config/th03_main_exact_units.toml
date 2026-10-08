@@ -5187,3 +5187,171 @@ offset = 0x120d
 size = 145
 boundary = "owner-linear-span"
 abi = "near Pascal; x/y, target x/y, word pid, speed; RET 0x0C"
+
+[[units]]
+id = "th03-main-exatt-kotohime"
+source = "src/main/player/exatt_kotohime.cpp"
+header = "src/main/player/exatt_kotohime.hpp"
+object = "ex_koto"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ex_koto.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "ex_koto", wrapper = "th03/ex_koto.cpp", source = "src/main/player/exatt_kotohime.cpp" }]
+support_files = [
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/player/gba.hpp",
+  "compat/rec98/th03/main/bullet/bullet.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th02/snd/snd.h",
+  "compat/rec98/libs/master.lib/master.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/p_exatt.cpp\",\n"
+build_replacement = "\t\"th03/ex_koto.cpp\",\n\t\"th03/p_exatt.cpp\",\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-exatt-kotohime", segment = 0x18fe, start = 0x0d80, size = 0x041e, map_segment = "P_EXATT_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
+    { object = "ex_koto", start = 0x0d80, size = 0x041e },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern EXATT_RENDER_RIKAKO:far\r\n"
+after = "\textern EXATT_RENDER_RIKAKO:far\r\n\textern EXATT_ADD_KOTOHIME:far\r\n\textern EXATT_UPDATE_KOTOHIME:far\r\n\textern EXATT_RENDER_KOTOHIME:far\r\n\textern KOTOHIME_EXTRA_ADD:far\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "public _gauge_pattern_timing\r\n_gauge_pattern_timing label byte\r\n"
+after = "public _gauge_pattern_timing\r\npublic _kotohime_exatt_pattern\r\n_kotohime_exatt_pattern label byte\r\n_gauge_pattern_timing label byte\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\tpublic kotohime_19DD3, KOTOHIME_GAUGE_SPAWN\r\nKOTOHIME_GAUGE_SPAWN = kotohime_19DD3\r\n"
+after = ""
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p1, @exatt_add_kotohime$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p1, EXATT_ADD_KOTOHIME\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p1, @exatt_update_kotohime$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p1, EXATT_UPDATE_KOTOHIME\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p1, @exatt_render_kotohime$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p1, EXATT_RENDER_KOTOHIME\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p2, @exatt_add_kotohime$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p2, EXATT_ADD_KOTOHIME\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p2, @exatt_update_kotohime$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p2, EXATT_UPDATE_KOTOHIME\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p2, @exatt_render_kotohime$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p2, EXATT_RENDER_KOTOHIME\r\n"
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "public @EXATT_ADD_KOTOHIME$QIIUC\r\n"
+end_marker = "@exatt_render_kotohime$qv endp\r\n"
+replacement = "; Kotohime Extra Attack CODE restored via natural TC4J object\r\n"
+
+[[functions]]
+name = "exatt_add_kotohime"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x0d80
+size = 115
+boundary = "owner-linear-span"
+abi = "far Pascal x/y/pid; RETF 6"
+
+[[functions]]
+name = "kotohime_extra_add"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x0df3
+size = 87
+boundary = "owner-linear-span"
+abi = "far Pascal target_x/target_y; RETF 4"
+
+[[functions]]
+name = "kotohime_exatt_render_one"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x0e4a
+size = 207
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kotohime_exatt_effect"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x0f19
+size = 38
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kotohime_exatt_pattern_four"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x0f3f
+size = 104
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "kotohime_exatt_pattern_ten"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x0fa7
+size = 104
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "exatt_update_kotohime"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x100f
+size = 351
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "exatt_render_kotohime"
+object = "ex_koto"
+segment = 0x18fe
+offset = 0x116e
+size = 48
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"

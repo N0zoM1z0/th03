@@ -32,7 +32,7 @@ extern kotohime_chargeshot_t kotohime_chargeshots[PLAYER_COUNT];
 extern kotohime_chargeshot_t near *kotohime_chargeshot_p;
 extern gauge_pattern_timing_t gauge_pattern_timing[PLAYER_COUNT];
 
-extern "C" void far pascal kotohime_gauge_spawn(int x, int y);
+extern "C" void far pascal kotohime_extra_add(int x, int y);
 extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 
 void far chargeshots_reset_kotohime(void)
@@ -143,7 +143,7 @@ void near pascal gauge_pattern_kotohime(bullet_type_t type)
 	}
 
 	if(kotohime_gauge_frame[pid_current] == 0) {
-		kotohime_gauge_spawn(
+		kotohime_extra_add(
 			(randring_far_next16_mod(0xA00) + 0x400),
 			0
 		);
