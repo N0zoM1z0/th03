@@ -4936,3 +4936,182 @@ offset = 0x18f3
 size = 47
 boundary = "owner-linear-span"
 abi = "far cdecl; RETF"
+
+[[units]]
+id = "th03-main-exatt-reimu"
+source = "src/main/player/exatt_reimu.cpp"
+header = "src/main/player/exatt_reimu.hpp"
+object = "ex_reimu"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/ex_repre.cpp"
+physical_objects_additive = true
+physical_objects = [
+  { object = "ex_repre", wrapper = "th03/ex_repre.cpp", source = "src/main/player/exatt_reimu.cpp", wrapper_prefix = "#define TH03_EXATT_REIMU_PREFIX_ONLY 1\n" },
+  { object = "ex_reup", wrapper = "th03/ex_reup.cpp", source = "src/main/player/exatt_reimu.cpp", wrapper_prefix = "#define TH03_EXATT_REIMU_UPDATE_ONLY 1\n" },
+]
+support_files = [
+  "compat/rec98/th03/common.h",
+  "compat/rec98/th03/main/player/cur.hpp",
+  "compat/rec98/th03/main/collmap.hpp",
+  "compat/rec98/th03/main/hitbox.hpp",
+  "compat/rec98/th03/main/sprite16.hpp",
+  "compat/rec98/th03/main/playfld.hpp",
+  "compat/rec98/th03/main/difficul.hpp",
+  "compat/rec98/th03/math/randring.hpp",
+  "compat/rec98/th03/math/vector.hpp",
+  "compat/rec98/libs/master.lib/master.hpp",
+  "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+  "compat/rec98/libs/sprite16/sprite16.h",
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/ex_mima.cpp\",\n"
+build_replacement = "\t\"th03/ex_repre.cpp\",\n\t\"th03/ex_reup.cpp\",\n\t\"th03/ex_mima.cpp\",\n"
+code_extents = [
+  { name = "code", ledger_id = "th03-main-exatt-reimu", segment = 0x18fe, start = 0x129e, size = 0x03ad, map_segment = "MAIN_06_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
+    { object = "ex_repre", start = 0x129e, size = 0x0262 },
+    { object = "ex_reup", start = 0x1500, size = 0x014b },
+  ] },
+]
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\tpublic REIMU_EXTRA_ADD\r\nREIMU_EXTRA_ADD = reimu_1A2CE\r\n"
+after = ""
+
+[[units.carrier_edits]]
+kind = "remove-between"
+path = "th03_main.asm"
+start_marker = "public @EXATT_ADD_REIMU$QIIUC\r\n"
+end_marker = "@exatt_render_reimu$qv endp\r\n"
+replacement = "; Reimu Extra Attack CODE moved to natural TC4 producer\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\tcall\tsub_1A32A\r\n"
+after = "\tcall\tEXATT_RENDER_STATE2\r\n"
+count = 6
+
+[[units.carrier_edits]]
+kind = "replace-exact-count"
+path = "th03_main.asm"
+before = "\tcall\tsub_1A377\r\n"
+after = "\tcall\tEXATT_RENDER_STATE_OTHER\r\n"
+count = 6
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\textern EXATT_RENDER_MIMA:far\r\n"
+after = "\textern EXATT_RENDER_MIMA:far\r\n\textern EXATT_ADD_REIMU:far\r\n\textern EXATT_UPDATE_REIMU:far\r\n\textern EXATT_RENDER_REIMU:far\r\n\textern EXATT_RENDER_STATE2:near\r\n\textern EXATT_RENDER_STATE_OTHER:near\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p1, @exatt_add_reimu$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p1, EXATT_ADD_REIMU\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p1, @exatt_update_reimu$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p1, EXATT_UPDATE_REIMU\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p1, @exatt_render_reimu$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p1, EXATT_RENDER_REIMU\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_add_p2, @exatt_add_reimu$qiiuc\r\n"
+after = "\t\tsetfarfp\texatt_add_p2, EXATT_ADD_REIMU\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_update_p2, @exatt_update_reimu$qv\r\n"
+after = "\t\tsetfarfp\texatt_update_p2, EXATT_UPDATE_REIMU\r\n"
+
+[[units.carrier_edits]]
+kind = "replace-once"
+path = "th03_main.asm"
+before = "\t\tsetfarfp\texatt_render_p2, @exatt_render_reimu$qv\r\n"
+after = "\t\tsetfarfp\texatt_render_p2, EXATT_RENDER_REIMU\r\n"
+
+[[functions]]
+name = "exatt_add_reimu"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x129e
+size = 80
+boundary = "owner-linear-span"
+abi = "far Pascal; x/y words and word pid; RETF 6"
+
+[[functions]]
+name = "reimu_extra_add"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x12ee
+size = 92
+boundary = "owner-linear-span"
+abi = "far Pascal; x/y words and angle; RETF 6"
+
+[[functions]]
+name = "exatt_render_state2"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x134a
+size = 77
+boundary = "owner-linear-span"
+abi = "near Pascal; left/top/frame; RET 6"
+
+[[functions]]
+name = "exatt_render_state_other"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x1397
+size = 77
+boundary = "owner-linear-span"
+abi = "near Pascal; left/top/frame; RET 6"
+
+[[functions]]
+name = "reimu_exatt_render_one"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x13e4
+size = 205
+boundary = "owner-linear-span"
+abi = "near cdecl; RET"
+
+[[functions]]
+name = "exatt_collmap_set"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x14b1
+size = 79
+boundary = "owner-linear-span"
+abi = "near Pascal; x/y; RET 4"
+
+[[functions]]
+name = "exatt_update_reimu"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x1500
+size = 281
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"
+
+[[functions]]
+name = "exatt_render_reimu"
+object = "ex_reimu"
+segment = 0x18fe
+offset = 0x1619
+size = 50
+boundary = "owner-linear-span"
+abi = "far cdecl; RETF"

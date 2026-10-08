@@ -228,3 +228,82 @@ Post-ledger final no-candidate replay also passes both cold rounds:
       --run-id gpt-web-mima-default-final-p03-20261008
 
 Receipt: `.analysis/th03-main-exact/gpt-web-mima-default-final-p03-20261008/receipt.json`.
+
+## Reimu two-producer exact promotion (2026-10-08)
+
+The complete **Reimu** MAIN_06_TEXT owner is reconstructed in natural
+`src/main/player/exatt_reimu.cpp`: 941 CODE bytes, eight complete functions.
+It includes the 281-byte game-state update, 205-byte renderer, an 80-byte
+add function, the 92-byte far helper used by the already exact Reimu boss,
+both shared 77-byte near renderer helpers, the 79-byte near collision-map
+helper, and the 50-byte render dispatcher. Those shared routines are
+owned by this original CODE interval rather than being duplicated in
+their callers. Both near Pascal RET 6 and far Pascal RETF 6 contracts
+remain explicit, as do the C++ far cdecl update/render calls.
+
+Natural TC4J source reconstruction was compiler-guided against the
+immutable TH03 target. The 941-byte compiled semantic object passed all
+eight function starts, sizes, instruction shapes, and RET/RETF contracts.
+The pinned object-shape command is:
+
+    python3 scripts/probe_th03_main_exatt_reimu_cpp.py \
+      --run-id gpt-web-reimu-exatt-shape-final-v06-20261008
+
+The first full-link candidate `gpt-web-reimu-exatt-link-c01-20261008`
+reproduced all 941 raw target bytes, exact MAP placement and all fourteen
+relocation **sites**, but failed the original relocation **order**. The
+single TC4J object produced the order in two swapped groups, so byte/site
+identity was deliberately not accepted as exact.
+
+The corrected source has two conditional physical producer builds, *not*
+two unrelated semantic owners: `ex_repre` produces the first 610 bytes
+(`18FE:129E..1500`, six functions), and `ex_reup` produces the final
+331 bytes (`18FE:1500..164B`, update and dispatcher). Both objects use
+the same maintained natural C++ source with only preprocessor visibility
+controlled; their combined CODE and ABI are identical to the earlier
+single-producer source. They precede the existing Mima/Yumemi/Rikako
+physical producers in linker order. The original ordered MZ relocation
+sequence for Reimu is:
+
+    604, 593, 570, 493, 348, 319, 242, 153, 52, 43,
+    855, 811, 801, 767
+
+Candidate two-round cold replay `gpt-web-reimu-exatt-link-c03-20261008`
+passed all raw bytes, both exact MAP contributions, the complete ordered
+relocation sequence, existing exact owners, and the maintained DOS behavior
+probe. The default manifest now contains the same tested physical carve:
+
+    python3 scripts/replay_th03_main_exact_units.py \
+      --run-id gpt-web-reimu-default-p01-20261008
+
+Receipt:
+
+    .analysis/th03-main-exact/gpt-web-reimu-default-p01-20261008/receipt.json
+
+The default aggregate at this checkpoint has 290 exact functions /
+45411 function bytes / 46334 owned CODE bytes (923 classified
+producer-owned non-function bytes), 66 exact CODE extents / 59 maintained
+source owners. All 20 game products, 382 game objects and 448 validated
+OMF objects are present in each cold build. The contiguous Reimu+Mima+
+Yumemi+Rikako suffix now covers **4066 exact CODE bytes** at
+`18FE:129E..2280` across five physical producers. Six Extra Attack
+owners remain boundary-reviewed without exact acceptance.
+
+The physical identity of original DATA/BSS producers, independently
+pristine target provenance, whole-game build closure and Factory
+Truth Kernel acceptance remain explicitly open. No emulator/device
+model or byte patch is treated as a substitute for the repository
+raw/MAP/ordered-relocation Oracle.
+
+Final post-ledger no-candidate aggregate replay:
+
+    python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-reimu-default-final-p02-20261008
+
+Receipt: .analysis/th03-main-exact/gpt-web-reimu-default-final-p02-20261008/receipt.json
+
+Both cold rounds pass all earlier exact owners and the new Reimu owner with
+raw bytes, exact MAP, ordered relocations and maintained DOS behavior.
+The available post-unittest CI gates pass (see the retained
+.analysis/th03-reimu-ci-postgates-20261008.log), but full CI remains
+blocked by missing Python unicorn: 632 tests with 125 import errors
+and 167 skips (.analysis/th03-reimu-ci-20261008.log).
