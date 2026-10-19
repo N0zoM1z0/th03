@@ -1,0 +1,96 @@
+{
+  "kind": "compact-Marisa-native-results",
+  "checkpoint": "5b9511a3645d2dd915970f0f58f32fc72d4bb91c",
+  "candidate_state": "source-present",
+  "factory_accepted": false,
+  "factory_durable_submission_configured": false,
+  "receipts": {
+    "candidate": {
+      "path": ".analysis/th03-main-exact/gpt-dots-marisa-split-cold-v01/receipt.json",
+      "sha256": "a33083180015439eb05e381614ce69af557dcce17da11b94dfe2997982772d19"
+    },
+    "baseline": {
+      "path": ".analysis/th03-main-exact/gpt-dots-marisa-default-cold-v01/receipt.json",
+      "sha256": "bedd69d1933b51e37c44005d958a127feb8a70bee3ad382dc7b6d168bb3552b7"
+    },
+    "preservation": {
+      "path": ".analysis/gpt-dots-marisa-source-v01/four-output-preservation-v01.json",
+      "sha256": "93332f6c42d6b102cdb131c2867f980b5cdb5eb83b335e1d695812e0c36479fe"
+    }
+  },
+  "commands": {
+    "candidate": ".venv/bin/python -B .analysis/gpt-dots-marisa-source-v01/durable-runner/runner_schedule.py --foreground --run-id gpt-dots-marisa-split-cold-v01 --candidate-manifest config/th03_main_marisa_candidate.toml",
+    "baseline": ".venv/bin/python -B .analysis/gpt-dots-marisa-source-v01/durable-runner/runner_schedule.py --foreground --run-id gpt-dots-marisa-default-cold-v01",
+    "preservation": ".venv/bin/python -B .analysis/gpt-dots-marisa-source-v01/verify_four_output_preservation.py --default-receipt .analysis/th03-main-exact/gpt-dots-marisa-default-cold-v01/receipt.json --candidate-receipt .analysis/th03-main-exact/gpt-dots-marisa-split-cold-v01/receipt.json --default-completion .analysis/gpt-dots-marisa-source-v01/durable-runner/runs/gpt-dots-marisa-default-cold-v01/completion-evidence.json --candidate-completion .analysis/gpt-dots-marisa-source-v01/durable-runner/runs/gpt-dots-marisa-split-cold-v01/completion-evidence.json --launch-plan .analysis/gpt-dots-marisa-source-v01/fresh-four-output-plan-v01.json --launch-plan-sha256 f0d6f90d5f05bcd967763e9b6c226d89a1df2a71f15c1fe8901de3be3d359a54 --not-before 2026-10-19T05:07:22.115506+00:00 --report .analysis/gpt-dots-marisa-source-v01/four-output-preservation-v01.json"
+  },
+  "candidate": {
+    "rounds": 2,
+    "functions": 344,
+    "function_bytes": 54157,
+    "owned_bytes": 55080,
+    "marisa_functions": 10,
+    "marisa_bytes": 1958,
+    "ordered_mz_entries": 30,
+    "physical_code_bytes": [
+      1509,
+      449
+    ],
+    "new_data_bytes": 0,
+    "new_bss_bytes": 0,
+    "behavior_pass_both": true
+  },
+  "baseline": {
+    "rounds": 2,
+    "functions": 334,
+    "owned_bytes": 53122
+  },
+  "preservation": {
+    "outside_marisa_load_payload_equal": true,
+    "outside_marisa_ordered_relocations_equal": true,
+    "data_bss_metadata_and_file_backed_contents_preserved": true,
+    "allocation_rows": 33,
+    "target_remainder_exact": false,
+    "authored_credit": 0
+  },
+  "determinism": {
+    "all_products_equal": true,
+    "game_objects_metadata_normalized_equal": true,
+    "all_objects_metadata_normalized_equal": false,
+    "non_game_drift": [
+      "obj/Research/086/if_shift.obj",
+      "obj/Research/086/wide.obj",
+      "obj/Research/086/xfade.obj",
+      "obj/Research/286/if_shift.obj",
+      "obj/Research/286/wide.obj",
+      "obj/Research/286/xfade.obj",
+      "obj/Research/386/if_shift.obj",
+      "obj/Research/386/wide.obj",
+      "obj/Research/386/xfade.obj"
+    ]
+  },
+  "accepted_ledgers_unchanged": {
+    "extents": 74,
+    "functions": 334,
+    "owned_bytes": 53122
+  },
+  "portable_suite": {
+    "tests": 656,
+    "result": "pass",
+    "provenance": "Factory command 6097ae976d7a48268b048138f5b671db; separate from native replay"
+  },
+  "transport": "Original Factory launch responses lost; no original command IDs asserted. Readback baseline c022ba8dc984486bac6a4e5db904a722, candidate 0b8cc1aaf4544fe1914c94c309c62316.",
+  "cross_run_products": {
+    "unchanged": 19,
+    "changed": [
+      "bin/th03/main.exe"
+    ],
+    "candidate_main_sha256": "be31d4ecb803f17a56c69059701bed85fd1a1cac36f81d456521b417719a809d"
+  },
+  "tracked_export_validation": {
+    "portable_tests": 709,
+    "pass": true,
+    "command_id": "repository-command:7803ce5c41a9495e807075a03f2417c8",
+    "native_export_execution": false
+  },
+  "target_provenance": "candidate-local-attested; independent pristine-dump provenance unconfirmed"
+}
