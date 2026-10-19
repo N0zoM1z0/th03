@@ -1,5 +1,11 @@
 # MAIN Reimu gameplay and shared bomb lifecycle
 
+Current update (2026-10-19): fresh cumulative v02 cold replays and strict
+four-output preservation PASS. See [the combined proof](MAIN_COMBINED_COLD_PROOF.md).
+The checkpoint narrative below records the earlier retained-Reimu failure and
+is preserved as history; its pending-cold statements are historical. Source-
+present status and zero formal exact credit remain unchanged.
+
 ## Scope and current result
 
 This candidate reconstructs 14 complete routines in the original Japanese

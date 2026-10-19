@@ -2,8 +2,11 @@
 
 Status: **source-present only, zero accepted exact credit**. Two complete
 natural C++ producers cover 13 routines and 2,171 original CODE bytes. Native
-compilation and a retained-input diagnostic link succeeded; the full independent
-two-round cold replay, behavior gates and whole-product acceptance remain open.
+compilation and retained-input diagnostics succeeded. Fresh v02 default and
+combined two-round cold replays and strict four-output preservation now PASS;
+see [the bounded combined proof](MAIN_COMBINED_COLD_PROOF.md). Formal acceptance
+and whole-product coverage remain open. The following retained-link evidence
+is preserved as historical context.
 
 ## Ownership and target
 
@@ -75,7 +78,7 @@ not an AX-parameter ABI. BX use at the VRAM fill helper is a real hardware ABI.
 No target-byte arrays, fake ABI, padding, OMF calibration or order forcing is
 used for these Mima producers.
 
-## Required next verification
+## Historical checkpoint reproduction plan
 
 The installed candidate manifest composes Marisa, Reimu/shared and Mima:
 `config/th03_main_mima_gameplay_candidate.toml`.
@@ -87,3 +90,10 @@ This command is a reproduction plan, **not a recorded successful run**. It must
 complete the original cold/behavior/ownership gates and supplemental outside-
 combined preservation checks before any exact promotion. Historical failed
 compile-driver HEAD assertion and retained-Reimu order mismatch remain evidence.
+
+## Fresh combined verification
+
+The v02 four-output proof supersedes the cold-pending status above, without
+erasing the historical retained-Reimu order mismatch or granting exact credit.
+Results, control pins, reproducible commands, v01 MAP-check failure and remaining
+limitations are recorded in [MAIN_COMBINED_COLD_PROOF.md](MAIN_COMBINED_COLD_PROOF.md).
