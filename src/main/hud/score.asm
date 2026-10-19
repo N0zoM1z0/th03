@@ -1,4 +1,4 @@
-; Research source proposal, not compiled, installed or credited.
+; Maintained score HUD assembly; acceptance is recorded in the ledgers.
 ; Genuine AL/CX/ES glyph interface and writable-CS immediate are intentional.
 .386
 .model use16 large _TEXT

@@ -1,6 +1,6 @@
 """Bounded score-only physical binding and conjunctive preservation checks.
 
-No default migration, symbol normalization, generic owner override, or acceptance
+No symbol normalization, generic owner override, or acceptance
 state mutation. The eight public display ties are the independently reviewed
 retained diagnostic rule; all other ordering remains literal.
 """
@@ -37,7 +37,8 @@ BINDING = {
  dict(segment=0x96E,start=0x29F8,size=0x1436,map_module='th03_main.asm',map_segment='PLAYER_M_TEXT',map_group='MAIN_01',map_acbp=28),
  dict(segment=0x96E,start=0x3E2E,size=454,map_module=MODULE,map_segment='PLAYER_M_TEXT',map_group='MAIN_01',map_acbp=28)],
  'accepted_semantic_extent':dict(segment=0x96E,start=0x3ED0,size=88),
- 'candidate_object_path':'obj/th03/score_hud.obj','default_consults_binding':False,
+ 'candidate_object_path':'obj/th03/score_hud.obj',
+ 'default_binding':'separately digest-validated physical descriptor',
  'new_credit_bytes':366,'new_raw_exclusion_spans':SPANS}
 
 def require(value, message):
@@ -144,9 +145,34 @@ BASELINE = '.analysis/th03-main-exact/gpt-dots-gameplay-promoted-default-cold-v0
 SCORE_OMF_NORMALIZED_SHA = 'b07127fbb34727ef1558b95c2d5325ee6c7dedb07b58a6ba1fef3a7afe55db73'
 
 
+
+# The original root descriptor is retained only as a pre-transformation guard.
+# The default manifest itself must describe the real maintained physical carrier.
+ORIGINAL_OWNER = {'id': 'th03-main-score-add', 'source': 'src/main/player/score_add.inl', 'header': 'src/main/player/score_add.hpp', 'object': 'score_add', 'ownership': 'bounded-include', 'carrier_path': 'th03_main.asm', 'carrier_sha256': '94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62', 'overlay_path': 'th03/main/player/score_add.asm', 'object_path': 'obj/th03/main.obj', 'map_module': 'th03_main.asm', 'translator_comment': 'Turbo Assembler  Version 5.0', 'code_extents': [{'name': 'code', 'ledger_id': 'th03-main-score-add', 'segment': 2414, 'start': 16080, 'size': 88, 'map_start': 10744, 'map_size': 5628, 'map_acbp': 28, 'map_segment': 'PLAYER_M_TEXT', 'map_group': 'MAIN_01', 'producer_ranges': []}]}
+PRE_SCORE_CONFIG_DIGEST = '85b8c9eb0b197b1289387ac9a61c9d13d6959abba32e3406a8e16176bce6710c'
+DEFAULT_SCORE_UNIT_DIGEST = 'dde08ee406a33505429cdef89c4b61bc163137dd601b3b3c5de5f58fbe9a24ac'
+DEFAULT_CONFIG_DIGEST = '8ede8dc00460e93dfd5699141249a11605dd61127290190eacbff98fbd9f5fe8'
+
+def bind_default(config):
+    """Validate the one reviewed default transition; never rewrite its metadata."""
+    import copy
+    require(digest(config) == DEFAULT_CONFIG_DIGEST, 'default score configuration drift')
+    result = copy.deepcopy(config)
+    owners = [u for u in result['units'] if u['id'] == BINDING['owner']]
+    require(len(owners) == 1, 'default score_add missing/duplicate')
+    # All fields, including logical source, ABI and extent, are covered by the
+    # complete default digest and independently reversed historical digest.
+    result['units'] = [copy.deepcopy(ORIGINAL_OWNER) if u['id'] == BINDING['owner'] else u
+                       for u in result['units'] if u['id'] != 'th03-main-score-hud']
+    result['functions'] = [f for f in result['functions'] if f['object'] != 'score_hud']
+    require(digest(result) == PRE_SCORE_CONFIG_DIGEST, 'default changed prior ownership')
+    validate_binding_manifest(result)
+    return copy.deepcopy(config), copy.deepcopy(ORIGINAL_OWNER)
+
+
 def is_score_owner(unit):
     """Only this complete reviewed descriptor may use disjoint physical CODE."""
-    return unit.get('id') == 'th03-main-score-hud' and digest(unit) == SCORE_UNIT_DIGEST
+    return unit.get('id') == 'th03-main-score-hud' and digest(unit) in (SCORE_UNIT_DIGEST, DEFAULT_SCORE_UNIT_DIGEST)
 
 
 def bind_candidate(config, candidate, manifest_name):
@@ -167,9 +193,11 @@ def bind_candidate(config, candidate, manifest_name):
     return result, original
 
 
-def check_stage(work):
+DEFAULT_SCORE_SOURCE_SHA = 'ec13b2fb32376e0b068ab6fbb49183bbfcad4487bdc0e06a7e7b9bc8356ae62e'
+
+def check_stage(work, *, default=False):
     work = Path(work)
-    for name, expected in [('th03_main.asm', REDUCED_ROOT_SHA), (MODULE, SCORE_SOURCE_SHA),
+    for name, expected in [('th03_main.asm', REDUCED_ROOT_SHA), (MODULE, DEFAULT_SCORE_SOURCE_SHA if default else SCORE_SOURCE_SHA),
                            ('src/main/player/score_add.inl', INCLUDE_SHA)]:
         require(hashlib.sha256((work/name).read_bytes()).hexdigest() == expected, 'score staged source drift: '+name)
     require(not re.search(rb'^\s*include\s+[^\r\n]*score_add\.(?:asm|inl)\s*$',

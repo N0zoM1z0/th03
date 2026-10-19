@@ -503,6 +503,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             config, score_original = score_candidate.bind_candidate(
                 config, additions, candidate_manifest.relative_to(ROOT).as_posix())
             score_proof = score_candidate.guard_baseline(ROOT)
+    elif any(u.get('id') == 'th03-main-score-hud' for u in config['units']):
+        config, score_original = score_candidate.bind_default(config)
+        score_proof = score_candidate.guard_baseline(ROOT)
     if not re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", run_id):
         raise ValueError("run-id must use 1-64 ASCII letters, digits, underscores or hyphens")
     output = ROOT / ".analysis/th03-main-exact" / run_id
@@ -739,7 +742,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                             producer["wrapper_prefix"] + f'#include "{producer["source"]}"\n'
                         )
         if score_original is not None:
-            score_candidate.check_stage(work)
+            score_candidate.check_stage(work, default=candidate_manifest is None)
             verify_include_carrier(next(u for u in config["units"]
                                         if u["id"] == score_original["id"]), work)
         for module in config["units"]:

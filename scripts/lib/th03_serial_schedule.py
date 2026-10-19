@@ -18,12 +18,12 @@ ROOT = HERE.parents[1]
 STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
-    "scripts/replay_th03_main_exact_units.py": "e29b1d723dceb4acc48db6926955bc45e2a17f3534a7780d9c12a23e7a366ef0",
-    "config/th03_main_exact_units.toml": "e5130f08cef59426096f2ce40bc31862128c7523005cd3594dfec7240bf42df4",
+    "scripts/replay_th03_main_exact_units.py": "5aa9a4521f0aa5f05666389f1b24cbf63a2c250c4bcb578646a8281182295498",
+    "config/th03_main_exact_units.toml": "85da82057bba1278cc5f62fba9d6dbbdb198e4dd7494e9d99a20cf351a18403d",
     "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
 }
 PINS.update({
-    "scripts/lib/th03_score_candidate.py": "010f3ddf0fcd8d3ac6daf4747e62eebbd29f28b05041faf9c79d3b094420cc41",
+    "scripts/lib/th03_score_candidate.py": "d407cf98a7d5a8b1009e4289563a337b200d23b3f18fadc50257c0f873582434",
     "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
     "scripts/lib/analysis.py": "5f3edcf4b4e3b958976288aa07900a15a91e95276c2305470f6669fdcb95d7bd",
     "scripts/lib/ghidra.py": "7032827832aae949aed20794cb36a292052476d6b0f886c20caea53f353aea85",

@@ -125,16 +125,22 @@ accepted score_add88B retains its original ownership. Maintained-layout native
 assembly and independent faithful-frame resolution match454 bytes including
 that existing include;14 DGROUP data fixups/22 total and the predicted six-site
 order pass. The historical MODEL-less BSS-frame failure is preserved. Nine
-alignment warnings, reset intent/DS provenance, actual link/default/cold and
-runtime gates remain open. Accepted totals and default exact inputs are unchanged.
+alignment warnings and reset intent/DS provenance remain disclosed.
 
-The subsequent score-only retained diagnostic and independently reviewed eight-tie
-MAP supplement pass their scoped raw/order/layout/product checks; the original
-literal public-order failure remains preserved. The maintained cold candidate
-and dedicated score_add physical-binding gates are now installed, but two fresh
-cold rounds and acceptance remain pending. Accepted totals stay78/371/59,624;
-the existing input/math DOS probe remains required, with no new score/device
-runtime claim. See the [score review](reconstruction/MAIN_SCORE_HUD_REVIEW.md).
+The score candidate subsequently passed two fresh cold rounds, required input/math
+runtime and all bounded preservation gates. The independent audit rechecked all
+four baseline comparisons and 928 object hashes. Nine Research objects differ in
+three compile-time __TIME__ ASCII digits inside LEDATA banner payload plus checksum,
+not merely metadata; game objects/products remain deterministic. No banner
+normalization is allowed. The failed retained receipt and reviewed eight-tie MAP
+supplement remain preserved.
+
+The default-integration checkpoint makes the actual score_add physical carrier
+explicit and retains strict original-root prechecks and maintained include checks.
+Fresh no-candidate two-cold regression and final metadata audit remain pending.
+Score ledger rows stay source-present; accepted totals remain 78/371/59,624.
+See the [score review](reconstruction/MAIN_SCORE_HUD_REVIEW.md) for pinned evidence,
+the default command and unchanged runtime/device/global-interposition limits.
 
 The [warning/HUD source milestone](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
 adds seven complete functions / **1,560 target bytes**. The isolated native

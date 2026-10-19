@@ -25,7 +25,8 @@ class GameplayDefaultProposal(ScheduleTests):
     def test_exact_additive_default_scope(self):
         old=tomllib.loads((ROOT/'tests/fixtures/th03_main_exact_units_pre_gameplay.toml').read_text())
         prop=tomllib.loads((ROOT/'config/th03_main_mima_gameplay_candidate.toml').read_text())
-        new=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        from test_main_score_candidate import ACCEPTED as new, DEFAULT
+        self.assertEqual(len(DEFAULT['functions']),377)
         self.assertEqual(new['functions'],old['functions']+prop['functions'])
         self.assertEqual(new['units'][:len(old['units'])],old['units'])
         self.assertEqual(len(new['functions']),371)

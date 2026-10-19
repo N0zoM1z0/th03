@@ -17,7 +17,13 @@ ROOT = Path(__file__).resolve().parents[1]
 PRIVATE = Path(os.environ.get('TH03_SCORE_PRIVATE_ROOT', str(ROOT)))
 BASE = PRIVATE/c.BASELINE
 CANDIDATE = tomllib.loads((ROOT/c.CANDIDATE_PATH).read_text())
-ACCEPTED = tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+DEFAULT = tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+ACCEPTED = copy.deepcopy(DEFAULT)
+ACCEPTED['units'] = [copy.deepcopy(c.ORIGINAL_OWNER) if u['id']==c.BINDING['owner'] else u
+                     for u in ACCEPTED['units'] if u['id']!='th03-main-score-hud']
+ACCEPTED['functions'] = [f for f in ACCEPTED['functions'] if f['object']!='score_hud']
+assert c.digest(ACCEPTED) == c.PRE_SCORE_CONFIG_DIGEST
+
 
 
 class ScoreDescriptor(unittest.TestCase):
@@ -40,7 +46,7 @@ class ScoreDescriptor(unittest.TestCase):
         self.assertEqual(owner['object'],'score_add')
         self.assertEqual(owner['source'],'src/main/player/score_add.inl')
 
-    def test_default_descriptor_unchanged(self):
+    def test_historical_descriptor_unchanged(self):
         unit=next(u for u in ACCEPTED['units'] if u['id']==c.BINDING['owner'])
         extent=normalized_code_extents(unit,ACCEPTED['segment'])[0]
         self.assertEqual((extent['map_start'],extent['map_size']),(0x29F8,0x15FC))
@@ -52,7 +58,7 @@ class ScoreDescriptor(unittest.TestCase):
             with self.assertRaises(ValueError):
                 add_candidate_owners(ACCEPTED,dict(schema_version=1,units=units,functions=functions))
 
-    def test_default_receipt_has_no_score_field(self):
+    def test_receipt_score_field_remains_conditionally_conjunctive(self):
         import ast
         tree=ast.parse((ROOT/'scripts/replay_th03_main_exact_units.py').read_text())
         receipts=[node for node in ast.walk(tree) if isinstance(node,ast.Dict)
@@ -99,6 +105,54 @@ class ScoreDescriptor(unittest.TestCase):
         for field in ('abi','map_public','offset','size'):
             x=copy.deepcopy(ACCEPTED);f=next(f for f in x['functions'] if f['object']=='score_add');f[field]='changed'
             with self.subTest(field=field),self.assertRaises(ValueError):self.bind(accepted=x)
+
+class DefaultScoreControls(unittest.TestCase):
+    def test_exact_default_transition(self):
+        effective, original = c.bind_default(DEFAULT)
+        self.assertEqual(effective, DEFAULT)
+        self.assertEqual(original, c.ORIGINAL_OWNER)
+        expected, _ = ScoreDescriptor().bind()
+        owner = next(u for u in expected['units'] if u['id']=='th03-main-score-hud')
+        owner['carrier_edits'] = [e for e in owner['carrier_edits'] if e['path']!='build.bat']
+        next(u for u in expected['units'] if u['id']==c.BINDING['owner'])['carrier_sha256']=c.DEFAULT_SCORE_SOURCE_SHA
+        self.assertEqual(DEFAULT, expected)
+        self.assertTrue(c.is_score_owner(owner))
+        self.assertEqual(c.digest(owner),c.DEFAULT_SCORE_UNIT_DIGEST)
+
+    def test_comment_only_source_transition(self):
+        import hashlib
+        raw=(ROOT/c.MODULE).read_bytes()
+        new=b'; Maintained score HUD assembly; acceptance is recorded in the ledgers.'
+        old=b'; Research source proposal, not compiled, installed or credited.'
+        self.assertTrue(raw.startswith(new))
+        prior=raw.replace(new,old,1)
+        self.assertEqual(prior.split(b'\n',1)[1],raw.split(b'\n',1)[1])
+        self.assertEqual(hashlib.sha256(prior).hexdigest(),c.SCORE_SOURCE_SHA)
+        self.assertEqual(hashlib.sha256(raw).hexdigest(),c.DEFAULT_SCORE_SOURCE_SHA)
+
+    def test_duplicate_candidate_rejected(self):
+        with self.assertRaises(ValueError):add_candidate_owners(DEFAULT,CANDIDATE)
+
+    def test_no_stale_or_generic_default_binding(self):
+        for field in ('carrier_path','carrier_sha256','object_path','overlay_path','map_module','source','object'):
+            bad=copy.deepcopy(DEFAULT)
+            owner=next(u for u in bad['units'] if u['id']==c.BINDING['owner'])
+            owner[field]=c.ORIGINAL_OWNER[field] if owner[field]!=c.ORIGINAL_OWNER[field] else 'changed'
+            with self.subTest(field=field),self.assertRaises(ValueError):c.bind_default(bad)
+        for field in ('size','map_start','map_size'):
+            bad=copy.deepcopy(DEFAULT)
+            next(u for u in bad['units'] if u['id']==c.BINDING['owner'])['code_extents'][0][field]+=1
+            with self.assertRaises(ValueError):c.bind_default(bad)
+        bad=copy.deepcopy(DEFAULT);bad['functions'][0]['abi']='changed'
+        with self.assertRaises(ValueError):c.bind_default(bad)
+        bad=copy.deepcopy(DEFAULT);bad['units'][-1]['carrier_edits'].append(CANDIDATE['units'][0]['carrier_edits'][-1])
+        with self.assertRaises(ValueError):c.bind_default(bad)
+
+    def test_default_activation_and_precheck_order(self):
+        text=(ROOT/'scripts/replay_th03_main_exact_units.py').read_text()
+        self.assertIn('config, score_original = score_candidate.bind_default(config)',text)
+        self.assertLess(text.index('verify_include_carrier(score_original, work)'),text.index('apply_carrier_edits(module, work)'))
+        self.assertLess(text.index('shutil.copy2(snapshot / module["source"], overlay)'),text.index('score_candidate.check_stage(work, default=candidate_manifest is None)'))
 
 
 class LiteralControls(unittest.TestCase):
@@ -147,7 +201,11 @@ class RetainedReadOnlyControls(unittest.TestCase):
             apply_carrier_edits(CANDIDATE['units'][0],work)
             self.assertIn(b'bin\\tup -j1', (work/'build.bat').read_bytes())
             for n in ('src/main/hud/score.asm','src/main/player/score_add.inl'):
-                p=work/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((ROOT/n).read_bytes())
+                p=work/n;p.parent.mkdir(parents=True,exist_ok=True)
+                raw=(ROOT/n).read_bytes()
+                if n==c.MODULE:
+                    raw=raw.replace(b'; Maintained score HUD assembly; acceptance is recorded in the ledgers.',b'; Research source proposal, not compiled, installed or credited.',1)
+                p.write_bytes(raw)
             c.check_stage(work)
             effective,_=ScoreDescriptor().bind()
             verify_include_carrier(next(u for u in effective['units'] if u['id']==c.BINDING['owner']),work)
@@ -157,6 +215,41 @@ class RetainedReadOnlyControls(unittest.TestCase):
         self.assertEqual(text.count(unit['build_anchor']),1)
         replaced=text.replace(unit['build_anchor'],unit['build_replacement'])
         self.assertEqual(replaced.count('{ "src/main/hud/score.asm", o = "score_hud.obj" }'),1)
+
+    def test_default_stage_and_original_binding(self):
+        with tempfile.TemporaryDirectory() as d:
+            work=Path(d)
+            (work/'th03_main.asm').write_bytes((BASE/'round1/source/th03_main.asm').read_bytes())
+            build=(BASE/'round1/source/build.bat').read_bytes().replace(
+                b':tup\r\nbin\\tup -j1\r\ngoto return_from_tup\r\n',
+                b':tup\r\nbin\\tup\r\ngoto return_from_tup\r\n')
+            (work/'build.bat').write_bytes(build)
+            c.check_original_build(work)
+            # Historical carrier include is checked against its original hash
+            # before applying the default extraction.
+            original=work/c.ORIGINAL_OWNER['overlay_path']
+            original.parent.mkdir(parents=True,exist_ok=True)
+            original.write_bytes((ROOT/c.ORIGINAL_OWNER['source']).read_bytes())
+            import tarfile
+            prepared_root=(work/'th03_main.asm').read_bytes()
+            with tarfile.open(BASE/'reference.tar') as archive:
+                original_root=archive.extractfile('th03_main.asm').read()
+            (work/'th03_main.asm').write_bytes(original_root)
+            verify_include_carrier(c.ORIGINAL_OWNER,work)
+            (work/'th03_main.asm').write_bytes(original_root+b'; drift')
+            with self.assertRaises(ValueError):verify_include_carrier(c.ORIGINAL_OWNER,work)
+            # The historical accepted root already contains preceding owners'
+            # transformations. Test score extraction on that exact cached input.
+            (work/'th03_main.asm').write_bytes(prepared_root)
+            apply_carrier_edits(DEFAULT['units'][-1],work)
+            self.assertEqual((work/'build.bat').read_bytes(),build)
+            for name in (c.MODULE,c.ORIGINAL_OWNER['source']):
+                p=work/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((ROOT/name).read_bytes())
+            c.check_stage(work,default=True)
+            verify_include_carrier(next(u for u in DEFAULT['units'] if u['id']==c.BINDING['owner']),work)
+            with self.assertRaises(ValueError):c.check_stage(work)
+            (work/c.MODULE).write_bytes((work/c.MODULE).read_bytes()+b'\ninclude src/main/player/score_add.inl\n')
+            with self.assertRaises(ValueError):c.check_stage(work,default=True)
 
     def test_complete_cached_fixture_preserves_raw_crlf_maps(self):
         import hashlib,re

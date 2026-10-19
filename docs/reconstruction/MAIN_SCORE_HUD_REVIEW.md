@@ -73,7 +73,7 @@ Frozen target audit `.analysis/gpt-dots-tail-score-proposal-v01/audit.json` and
 That historical audit.py writes its sibling JSON; regenerate only in fresh
 copied evidence directories, never overwrite frozen evidence.
 
-## Maintained cold candidate, not acceptance
+## Historical maintained cold candidate
 
 The two genuine HUD import/call spellings now match the existing lowercase
 `@hud_static_story_lives_put$qv` export literally. The earlier uppercase-import
@@ -99,8 +99,8 @@ score-only adapter preserves the old score_add semantic owner and 88-byte raw
 extent while explicitly validating the new physical carrier. The original
 root/include is checked before extraction, and the staged root, score source
 and single unchanged score_add include are hash-bound afterward. Generic
-candidate additions still cannot replace accepted owners. The default replay
-never activates the score migration or its public-tie treatment.
+candidate additions still cannot replace accepted owners. At that historical checkpoint the default replay did not activate the score
+migration or its public-tie treatment.
 
 The conjunctive supplement compares both fresh rounds against both retained
 accepted rounds: all 31 game products, all 43 MAP files, prior non-root game
@@ -114,7 +114,7 @@ Historical proof inventories are guarded in place, not copied recursively.
 
 After installation and full CI, the proposed cold command is:
 
-    python3 scripts/replay_th03_main_serial.py --foreground --run-id UNIQUE_SCORE_ID --candidate-manifest config/th03_main_score_candidate.toml
+    .venv/bin/python -B scripts/replay_th03_main_serial.py --foreground --run-id UNIQUE_SCORE_ID --candidate-manifest config/th03_main_score_candidate.toml
 
 Two actual independent cold rounds and all configured required gates must pass
 before any deliberate promotion/default integration and subsequent fresh
@@ -130,3 +130,65 @@ glyph interface, DF/carry loop (including x640), BCD/story extends, distinct
 GRCG effects, writable-CS credit immediate, or overlapping clears. Reset intent,
 transitive DS provenance, physical VRAM/GRCG timing and cross-emulator behavior
 remain explicit semantic limitations rather than being inferred from raw bytes.
+
+
+## Candidate cold proof and default-integration checkpoint
+
+Candidate run `gpt-dots-score-candidate-cold-v01` passed both fresh cold rounds
+and the configured input/math DOS probe. Its receipt is
+`.analysis/th03-main-exact/gpt-dots-score-candidate-cold-v01/receipt.json`,
+SHA256 `9bd8e7750ae87a776c73297fa814389a671bfc26b306d15578e55226ef98dcce`.
+Supervisor completion is
+`.analysis/th03-main-serial/runs/gpt-dots-score-candidate-cold-v01/completion-evidence.json`,
+SHA256 `5b253ef6e18a9f18e431c43c1b5f27bf29658769a4847110aee700a14a9bf0c3`.
+Independent audit rechecked all four fresh/historical baseline comparisons and
+928 object hashes. Game products and game objects are deterministic. Nine
+Research objects (if_shift, wide and xfade under 086/286/386) differ in actual
+LEDATA banner payload: three ASCII compile-time `__TIME__` digits and their
+record checksum. These are not merely dependency metadata. All-object equality
+remains false; no banner payload normalization is permitted.
+
+Default preparation now includes the same score owner and genuine extraction,
+but omits the candidate-only build.bat scheduling edit: the existing default
+adapter keeps build.bat unchanged and uses .tup/options. The score_add logical
+owner, source, function, ABI and 88-byte credit stay unchanged; the accepted
+build manifest explicitly describes its actual maintained score.asm physical
+carrier, score_hud.obj and 454-byte MAP contribution. A dedicated validator
+pins the entire default configuration and independently reverses only this
+physical transition plus the new score addition to recover the pinned complete
+historical configuration. This is not a generic replacement mechanism.
+
+The frozen candidate configuration remains historical evidence; supplying it
+again to the default aggregate fails duplicate ownership. Original root/include
+checks still precede every transformation, and the maintained single include
+and reduced root are validated after staging. All score-preservation checks
+remain conjunctive in default mode, including the exact eight public ties.
+
+No ledger promotion is made by this checkpoint. The two score rows remain
+source-present, six functions remain boundary-reviewed and accepted totals stay
+78 extents / 371 functions / 59,624 bytes. Fresh no-candidate regression, its
+independent audit and final metadata validation are still required:
+
+    .venv/bin/python -B scripts/replay_th03_main_serial.py --foreground --run-id UNIQUE_SCORE_DEFAULT_ID
+
+The existing configured runtime gate is unchanged. DS/reset intent, device
+timing, original global interposition and Factory acceptance remain open under
+their previously documented scopes. Preserve all failed and successful proof
+trees and source snapshots; later metadata must not rebind historical proof.
+
+
+The first score.asm comment now says maintained assembly rather than incorrectly
+claiming it was never compiled or installed. Every byte after that first line
+is unchanged. Historical candidate source SHA remains
+`838cad4521b431e4c287173ef6dcc29c2958ef4cafad30643688c1a5cd1e0a8b`;
+the default source SHA is `ec13b2fb32376e0b068ab6fbb49183bbfcad4487bdc0e06a7e7b9bc8356ae62e`.
+The original normalized OMF gate
+`b07127fbb34727ef1558b95c2d5325ee6c7dedb07b58a6ba1fef3a7afe55db73`
+remains mandatory in the future default run. No fresh default object identity
+is claimed from a source-only comment comparison.
+
+
+Independent cold audit is retained in Factory command evidence
+`repository-command:21802d789e6c406eb03e025ba1bff1bc` and
+`repository-command:be0a4b754b3f4dc085066ab472a5bc35`; no separate audit
+file is implied. Reproduction uses the documented repository .venv interpreter.
