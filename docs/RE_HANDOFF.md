@@ -16,15 +16,15 @@ TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 83 source-present reviewed CODE extents; 398 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
+| MAIN | 85 source-present reviewed CODE extents; 404 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
 MAIN's reviewed exact extent comprises **58,701 function bytes** and **923
 explicitly classified non-function producer bytes**, across **70 maintained
-semantic source owners**. The reviewed source-present scope totals **65,232
-CODE bytes**; Yumemi, CPU, effects and warning/HUD add **27 functions / 5,608 bytes** that are not exact.
+semantic source owners**. The reviewed source-present scope totals **65,598
+CODE bytes**; Yumemi, CPU, effects, warning/HUD and score HUD add **33 functions across 5,974 CODE extent bytes** that are not exact.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -52,8 +52,8 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **286 units, 2,739 evidence rows, 365 knowledge
-rows, three hypotheses, 398 authored-function rows** (all values scoped to
+Latest tracking snapshot: **288 units, 2,747 evidence rows, 367 knowledge
+rows, three hypotheses, 404 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
 `config/th03_main_authored_functions.csv`, and
@@ -104,6 +104,16 @@ allocation remains at original addresses; its physical original compiler
 ownership has not been closed.
 
 ## Current non-exact gameplay frontier
+
+The [score HUD source milestone](reconstruction/MAIN_SCORE_HUD_REVIEW.md) adds
+six complete assembly-reconstructed functions / **362 body bytes** plus four
+separately classified EVEN producer bytes in two nonoverlapping bands. Existing
+accepted score_add88B retains its original ownership. Maintained-layout native
+assembly and independent faithful-frame resolution match454 bytes including
+that existing include;14 DGROUP data fixups/22 total and the predicted six-site
+order pass. The historical MODEL-less BSS-frame failure is preserved. Nine
+alignment warnings, reset intent/DS provenance, actual link/default/cold and
+runtime gates remain open. Accepted totals and default exact inputs are unchanged.
 
 The [warning/HUD source milestone](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
 adds seven complete functions / **1,560 target bytes**. The isolated native
@@ -181,11 +191,14 @@ changes and their meaningful failure evidence; do not reset away blockers.
     python3 scripts/ci.py
     git diff --check
 
-Latest completed full CI for the warning milestone: **PASS, 810 tests**,
-2026-10-19 18:16:10–18:18:40 UTC, with all 733 input hashes/modes unchanged.
-Log and result: `.analysis/gpt-dots-tail-warning-milestone-v03/full-ci/ci.log`
-and `ci.json`. This paragraph was updated afterward to record that result;
-source, ledgers and build inputs remain identical to the tested batch.
+Latest completed full CI for the score HUD milestone: **PASS, 810 tests**,
+2026-10-19 19:03:00–19:06:02 UTC, with all 735 input hashes/modes unchanged.
+Log and result: `.analysis/gpt-dots-tail-score-milestone-final-v05/full-ci/ci.log`
+and `ci.json`. This handoff was updated afterward to record that result and
+clarify extent-byte wording; source, ledgers and build inputs remain identical
+to the tested batch. The earlier warning CI passed at 18:16:10–18:18:40 UTC
+with 733 unchanged inputs; its log and result remain in
+`.analysis/gpt-dots-tail-warning-milestone-v03/full-ci/`.
 The earlier effects CI passed at 17:04:57–17:08:06 UTC with 730 unchanged inputs;
 its log and result remain in
 `.analysis/gpt-dots-tail-effects-milestone-v02/full-ci/`.
