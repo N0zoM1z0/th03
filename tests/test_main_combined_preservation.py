@@ -87,7 +87,7 @@ class Gates(unittest.TestCase):
         with self.assertRaises(ValueError):v.receipt_shape(bad,True,now)
     def actual_fixture(self):
         # Synthetic in-memory payload only, never saved as an output/receipt.
-        base=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        base=tomllib.loads((ROOT/'tests/fixtures/th03_main_exact_units_pre_gameplay.toml').read_text())
         prop=tomllib.loads((ROOT/'config/th03_main_mima_gameplay_candidate.toml').read_text())
         us,fs,ps=c.scope(base);u,f,p=c.scope(prop);us+=u;fs+=f;ps+=p
         rd={'units':[dict(zip(('id','extent','ledger_id','payload_offset','size'),x)) for x in us], 'functions':[dict(zip(('name','payload_offset','size'),x)) for x in fs], 'producer_ranges':[dict(zip(('id','extent','kind','relative','payload_offset','size'),x)) for x in ps]}
@@ -133,7 +133,7 @@ class Gates(unittest.TestCase):
         rd['functions'][-1]=rd['functions'][-2].copy()
         with self.assertRaises(ValueError):c.check_actual(im,target,rd,base,prop,True)
     def test_real_manifest_scope(self):
-        base=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        base=tomllib.loads((ROOT/'tests/fixtures/th03_main_exact_units_pre_gameplay.toml').read_text())
         prop=tomllib.loads((ROOT/'config/th03_main_mima_gameplay_candidate.toml').read_text())
         bu,bf,bp=c.scope(base);pu,pf,pp=c.scope(prop)
         self.assertEqual((len(bu),len(bf),sum(x[-1] for x in bu)),(74,334,53122))
@@ -182,7 +182,7 @@ class Gates(unittest.TestCase):
         with self.assertRaises(ValueError):c.check_launch(plan,ROOT,lambda p:p.read_bytes())
 
     def split_owner_fixture(self):
-        base=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        base=tomllib.loads((ROOT/'tests/fixtures/th03_main_exact_units_pre_gameplay.toml').read_text())
         unit=next(u for u in base['units'] if u['object']=='e_enemy')
         config=dict(base,units=[unit])
         rows=[]
@@ -227,7 +227,7 @@ class Gates(unittest.TestCase):
         c.check_map_scope([row],[config])
         with self.assertRaises(ValueError):c.check_map_scope([(*row[:6],'physical.asm',row[7])],[config])
     def test_existing_ordering_producer_is_assembly(self):
-        base=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        base=tomllib.loads((ROOT/'tests/fixtures/th03_main_exact_units_pre_gameplay.toml').read_text())
         order=next(o for u in base['units'] for o in u.get('ordering_objects',[]) if o['object']=='ex_ord')
         self.assertEqual(order['overlay_path'],'th03/ex_ord.asm')
         c.check_layout(self.rows)

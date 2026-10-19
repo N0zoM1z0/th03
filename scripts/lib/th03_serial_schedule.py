@@ -18,7 +18,7 @@ STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
     "scripts/replay_th03_main_exact_units.py": "5f48d81ddc3e53c63f4e6bd45511e566245201444657616a1435653e736511d8",
-    "config/th03_main_exact_units.toml": "7bdb2fbbc70ffbb6d628e1cafe9749cbf256bd53fd19b64361b82d7e9535bc6b",
+    "config/th03_main_exact_units.toml": "e5130f08cef59426096f2ce40bc31862128c7523005cd3594dfec7240bf42df4",
     "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
 }
 PINS.update({

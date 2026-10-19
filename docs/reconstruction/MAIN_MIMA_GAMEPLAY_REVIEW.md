@@ -1,5 +1,7 @@
 # MAIN Mima charge/gauge and bomb checkpoint
 
+Current bounded CODE acceptance checkpoint (2026-10-19): the complete Marisa/Reimu/Mima source owners passed the fresh default two-cold replay and strict comparison against both historical combined rounds. The acceptance metadata records 78 extents / 371 complete functions / 59,624 reviewed CODE bytes overall, including the 6,502-byte /37-function gameplay addition. See [the acceptance note](MAIN_GAMEPLAY_ACCEPTANCE_PROPOSAL.md). Existing DATA/BSS physical ownership, whole-game completion and Factory acceptance remain open; configured behavior tests cover input/math only. The earlier checkpoint narrative below is retained as history, including superseded source-present statements and failed experiments.
+
 Status: **source-present only, zero accepted exact credit**. Two complete
 natural C++ producers cover 13 routines and 2,171 original CODE bytes. Native
 compilation and retained-input diagnostics succeeded. Fresh v02 default and

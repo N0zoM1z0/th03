@@ -1,5 +1,7 @@
 # TH03 Marisa: native reconstruction result
 
+Current bounded CODE acceptance checkpoint (2026-10-19): the complete Marisa/Reimu/Mima source owners passed the fresh default two-cold replay and strict comparison against both historical combined rounds. The acceptance metadata records 78 extents / 371 complete functions / 59,624 reviewed CODE bytes overall, including the 6,502-byte /37-function gameplay addition. See [the acceptance note](MAIN_GAMEPLAY_ACCEPTANCE_PROPOSAL.md). Existing DATA/BSS physical ownership, whole-game completion and Factory acceptance remain open; configured behavior tests cover input/math only. The earlier checkpoint narrative below is retained as history, including superseded source-present statements and failed experiments.
+
 Checkpoint: `5b9511a3645d2dd915970f0f58f32fc72d4bb91c` (source-present checkpoint, not Factory acceptance).
 
 Two fresh candidate cold builds pass the original gates: 344 complete functions, 54,157 function bytes, and 55,080 owned bytes. Marisa contributes ten complete functions / 1,958 bytes, emitted naturally as charge/gauge 1,509 plus bomb 449. All Marisa bytes, both MAP contributions, and all 30 original ordered MZ entries match. New DATA/BSS allocation is zero. Both configured behavior runs pass.

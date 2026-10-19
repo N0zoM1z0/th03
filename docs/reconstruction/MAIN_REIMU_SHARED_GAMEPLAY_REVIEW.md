@@ -1,5 +1,7 @@
 # MAIN Reimu gameplay and shared bomb lifecycle
 
+Current bounded CODE acceptance checkpoint (2026-10-19): the complete Marisa/Reimu/Mima source owners passed the fresh default two-cold replay and strict comparison against both historical combined rounds. The acceptance metadata records 78 extents / 371 complete functions / 59,624 reviewed CODE bytes overall, including the 6,502-byte /37-function gameplay addition. See [the acceptance note](MAIN_GAMEPLAY_ACCEPTANCE_PROPOSAL.md). Existing DATA/BSS physical ownership, whole-game completion and Factory acceptance remain open; configured behavior tests cover input/math only. The earlier checkpoint narrative below is retained as history, including superseded source-present statements and failed experiments.
+
 Current update (2026-10-19): fresh cumulative v02 cold replays and strict
 four-output preservation PASS. See [the combined proof](MAIN_COMBINED_COLD_PROOF.md).
 The checkpoint narrative below records the earlier retained-Reimu failure and
