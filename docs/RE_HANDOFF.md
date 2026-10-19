@@ -28,7 +28,7 @@ CODE bytes**; Yumemi and CPU add **15 functions / 3,420 bytes** that are not exa
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
-The latest accepted default no-candidate replay is
+The historical accepted default no-candidate replay is
 `.analysis/th03-main-exact/gpt-dots-gameplay-promoted-default-cold-v01/receipt.json`
 (observed 2026-10-19). Both serial cold rounds passed. The
 [gameplay acceptance record](reconstruction/MAIN_GAMEPLAY_ACCEPTANCE_PROPOSAL.md)
@@ -128,14 +128,27 @@ evidence and accepted metadata remain unchanged. The 664-byte copied prefix is
 uncredited reference support. Maintained-path cold and runtime acceptance remain
 open. Existing stage/round and round-loop blockers also remain outside acceptance.
 
-Post-install full CI passed **783 tests**. The unchanged-default regression
-`gpt-dots-cpu-guards-default-cold-v01` stopped in its first round at the existing
-180-second build timeout while reference Research/286 objects were still compiling.
-All 31 fresh game outputs matched the accepted default first round, but no second
-round or canonical receipt exists: **the two-cold regression has not passed**.
-Source guards and cleanup passed. This operational limitation is separate from
-the CPU candidate's known strict blockers. A retry needs a fresh reviewed plan;
-historical controls and failed runs are never rebound or overwritten.
+The fresh unchanged-default retry `gpt-dots-cpu-guards-default-cold-v02`
+**passed both cold rounds** at clean `c58e2b2`, 13:54:13–14:01:31 UTC.
+The original replay gates still cover **78 extents / 371 functions / 59,624 bytes**.
+A separate strict report passed at 14:01:47: each fresh round matches both
+historical accepted rounds (four comparisons), including all **31 game products**,
+complete MAIN raw bytes and literal MZ order, **43 MAP files** and **254 allocation
+rows**. Source guards, cleanup and claim release passed. This closes the two
+compatibility-header guards' default regression; CPU/Yumemi remain source-present.
+
+The canonical receipt is
+`.analysis/th03-main-exact/gpt-dots-cpu-guards-default-cold-v02/receipt.json`,
+SHA256 `732ac39217a7dd24224412ad22d7f900ba91985b5c2fe8c71612264bfab39af2`.
+The [CPU review](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) records completion and
+supplemental-report pins. Only the exact two cold builds received the reviewed
+300-second allowance; nonbuild calls stayed at 180 seconds, outer supervision at
+900 seconds, with one CPU/nice>=10/Tup1 and the full game/research graph unchanged.
+
+Failed v01 remains preserved: its first build exhausted the old 180-second bound
+during Research/286 compilation after producing matching game outputs; it had no
+second round or canonical receipt. The new proof neither rewrites that history nor
+waives the combined CPU candidate's outside-order and MAP blockers.
 
 OP/MAINL/ZUN still need original stored-versus-decoded CODE mapping and
 independent exact reconstruction. Full MAIN, resource/heap/IRQ/device behavior,
@@ -154,14 +167,13 @@ changes and their meaningful failure evidence; do not reset away blockers.
     python3 scripts/ci.py
     git diff --check
 
-Latest completed full CI: **PASS, 783 tests, zero errors/failures/skips**,
-followed by all available target/toolchain/Ghidra identity, ledger/progress
-and Oracle negative gates. It ran on 2026-10-19 13:12–13:16 UTC for the CPU
-source-present milestone (85.551 seconds for the test suite). All 725 tracked
-and proposed input hashes/modes stayed unchanged. Log and result:
-`.analysis/gpt-dots-player-cpu-milestone-v01/full-ci/ci.log` and `ci.json`.
-This result/status note was added afterward; source and validation inputs were
-unchanged, and final documentation links and whitespace were checked separately.
+Latest completed full CI: **PASS, 798 tests**, 2026-10-19 13:38:56–13:42:28 UTC,
+with all 725 input hashes/modes unchanged. Log and result:
+`.analysis/gpt-dots-default-build-timeout-v01/full-ci/ci.log` and `ci.json`.
+The scheduling-only recovery was then committed as `c58e2b2` before the fresh
+regression. This documentation-only closeout follows those checks; no source,
+accepted manifest or comparator changes are included. The prior 783-test CPU
+milestone CI remains at `.analysis/gpt-dots-player-cpu-milestone-v01/full-ci/`.
 The earlier clean-worktree 776-test CI remains retained under
 `.analysis/gpt-dots-dirty-worktree-closeout-v01/final-ci/`.
 The previous source-milestone CI remains retained under

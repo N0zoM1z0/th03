@@ -44,8 +44,8 @@ Native-v01 failed on an include diamond: stuff.hpp and move.hpp both reached
 unguarded speed/input definitions. Two explicit compatibility guards preserve
 the original first definitions under the intended packing. The validator permits
 the guarded form only for those two reviewed paths and still rejects extra
-content, wrong targets and guard mismatches. Regression of existing producers
-is required; the CPU-only native probe is not sufficient evidence for all users.
+content, wrong targets and guard mismatches. The fresh unchanged-default regression below covers existing accepted producers;
+the CPU-only native probe does not establish new CPU cold/runtime acceptance.
 
 Native-v02 emitted 1075 bytes. Two signed-byte comparisons shortened by 3 bytes
 each; a ternary hit-test argument added 3, followed by an extra natural zero.
@@ -150,6 +150,46 @@ The supervisor completion record is
 `.analysis/th03-main-serial/runs/gpt-dots-cpu-guards-default-cold-v01/completion-evidence.json`,
 SHA256 58ceeab6047bd0dbba9d1b47740085dfc71d8cd0497667345497bb1f62ab06e2.
 Independent partial-output observation: repository-command:1732d9054f2349218357a1b4e1f88308.
-The timeout run is preserved; a fresh reviewed operational recovery remains open.
-No regression pass, new exact acceptance or CPU runtime proof is inferred.
+The timeout run is preserved and has no regression-pass verdict.
+The separate fresh recovery below closes only the unchanged-default regression.
 These documentation-only result notes were recorded after the successful CI run.
+
+
+## Fresh unchanged-default regression after guard installation
+
+At clean HEAD `c58e2b2fe53d64b990ca04abf41e5502ecc1bdae`,
+`gpt-dots-cpu-guards-default-cold-v02` ran 13:54:13–14:01:31 UTC on
+2026-10-19. Both genuinely cold rounds passed the original replay, with unchanged
+source guards and clear cleanup/claim release. The reviewed scheduling adapter
+allowed only those two exact cold builds 300 seconds each; other calls retained
+180 seconds and outer supervision 900 seconds, one CPU/nice>=10/Tup1. The complete
+game/research build graph and original replay SHA5f48 remained unchanged.
+Prelaunch full CI passed 798 tests with all 725 input hashes/modes stable.
+
+The supplemental default/default verifier passed at 14:01:47 UTC. Its four
+fresh/historical round comparisons cover all 31 game outputs (20 declared plus
+11 auxiliary), complete MAIN raw file/payload/header/overlay and literal ordered
+MZ relocations, all 43 ordered MAP inventories, and 254 DATA/BSS/STACK allocation
+rows including zero-size rows. Both fresh rounds also retain the original target
+scope, object, behavior, source/tool and determinism gates. Failed-v01 proof trees
+remain byte/mode/file-set guarded.
+
+| Fresh proof | Retained path | SHA256 |
+| --- | --- | --- |
+| Two-cold canonical receipt | .analysis/th03-main-exact/gpt-dots-cpu-guards-default-cold-v02/receipt.json | 732ac39217a7dd24224412ad22d7f900ba91985b5c2fe8c71612264bfab39af2 |
+| Supervisor completion | .analysis/th03-main-serial/runs/gpt-dots-cpu-guards-default-cold-v02/completion-evidence.json | 67233db11f65c5207a8b58f82ba36635d114264c299f300479258903f47dea98 |
+| Strict supplemental report | .analysis/gpt-dots-player-cpu-milestone-v01/postrun-default-verifier-v01/report-first-v01.json | 1ad80ee5906c7bda0abc216b3cc9650320d2604e83dab9569c92a2ffe6fa1aa3 |
+
+The frozen launch plan is
+`.analysis/gpt-dots-player-cpu-milestone-v01/default-cold-plan-v02/launch-plan-v01.json`
+(SHA256 ef8701765a93bda2e183a6a0f8c2455fb3189501a0e965cd9359e2921b2dd319).
+Replayable supplemental invocation:
+
+    PYTHONPATH="$PWD/.venv/lib/python3.12/site-packages" python3 -B .analysis/gpt-dots-player-cpu-milestone-v01/postrun-default-verifier-v01/launch.py --report .analysis/NEW_UNUSED_REPORT.json
+
+That verifier intentionally requires the frozen clean HEAD/source identities;
+later documentation commits do not retroactively rebind this completed proof.
+The two header guards therefore preserve the accepted default **78 extents /
+371 functions / 59,624 bytes**. CPU and Yumemi remain source-present only;
+combined outside literal-order/MAP blockers, maintained candidate cold/runtime
+proof, original provenance and whole-game acceptance remain open.
