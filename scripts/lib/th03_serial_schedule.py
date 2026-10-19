@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 import sys
 
 sys.dont_write_bytecode = True
@@ -140,7 +141,9 @@ class Schedule:
             raise ValueError("cold workspace tool/build pin drift")
         row = dict(round=number, policy="local-tup-num-jobs-1", build_before_sha256=sha(build_bytes),
                    tup_sha256=TUP_SHA, options_sha256=sha(OPTIONS), exact_acceptance=False,
-                   phase="initializing", completed=False)
+                   phase="initializing", completed=False,
+                   original_build_timeout_seconds=180, effective_build_timeout_seconds=300,
+                   nonbuild_timeout_seconds=180, outer_supervisor_timeout_seconds=900)
         self.rounds.append(row)  # Repeated attempt cannot enter this round.
         sidecar = expected / "scheduling.json"
         atomic(sidecar, row)
@@ -169,7 +172,24 @@ class Schedule:
                 raise ValueError("scheduling inputs changed before cold build")
             row["phase"] = "building"
             atomic(sidecar, row)
-            result = self.original(argv, work, env, log)
+            # Only this fully validated, one-shot cold-build branch receives
+            # the larger wall allowance. Other commands retain original execute().
+            try:
+                completed = subprocess.run(argv, cwd=work, env=env, stdout=subprocess.PIPE,
+                                           stderr=subprocess.STDOUT, timeout=300)
+            except subprocess.TimeoutExpired as exc:
+                # subprocess.run kills/waits its direct child; the unchanged
+                # owning supervisor cleans the remaining owned process group.
+                partial = exc.output if exc.output is not None else b""
+                log.write_bytes(partial)
+                row["partial_timeout_log_sha256"] = sha(partial)
+                row["partial_timeout_log_bytes"] = len(partial)
+                raise
+            log.write_bytes(completed.stdout)
+            if completed.returncode:
+                raise ValueError(f"tool exit {completed.returncode}; see {log.relative_to(self.root)}")
+            result = {"argv": argv, "exit_code": completed.returncode,
+                      "log_sha256": sha(completed.stdout)}
             row["completed"] = True
             row["phase"] = "finished"
             return result

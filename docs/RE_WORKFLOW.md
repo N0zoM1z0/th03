@@ -55,3 +55,15 @@ including empty Wine user directories and symlinks; deleting only their files
 is not sufficient. If a tracked document intentionally shows an output path
 for a command, that path need not already exist; do not rewrite historical
 commands just to make every literal .analysis/ path resolve.
+
+### Serial cold-build wall allowance
+
+The foreground MAIN serial adapter permits 300 seconds only for each of its
+two exact, round/path/command-validated cold `build.bat` calls. The original
+replay stays byte-identical; all other calls retain its 180-second limit.
+The outer 900-second supervisor, one CPU, nice>=10, local Tup jobs1 and owned
+process cleanup remain unchanged. Scheduling sidecars record original/effective
+limits; inner build timeouts preserve captured partial stdout before failing.
+The full game and research graph is still built, with all original acceptance
+gates. No timeout, partial output or completed game products imply replay PASS.
+A fresh run ID and fresh pinned plan are required after a failed run.

@@ -1,5 +1,8 @@
 """Mock-only scheduling tests; no subprocess, Wine or compiler is started."""
 import importlib.util
+import json
+import subprocess
+from types import SimpleNamespace
 from pathlib import Path
 import sys
 import tempfile
@@ -25,6 +28,16 @@ class ScheduleTests(unittest.TestCase):
         # Assert no accidental production subprocess entry can be introduced.
         p = patch("subprocess.Popen",side_effect=AssertionError("native process forbidden"))
         p.start();self.addCleanup(p.stop)
+        p = patch.object(m.subprocess, "run", side_effect=self.build)
+        self.build_run = p.start();self.addCleanup(p.stop)
+
+    def build(self, argv, *, cwd, env, stdout, stderr, timeout):
+        self.assertEqual(argv,m.BUILD_ARGV)
+        self.assertEqual(timeout,300)
+        self.assertEqual(stdout,m.subprocess.PIPE)
+        self.assertEqual(stderr,m.subprocess.STDOUT)
+        self.execute(argv,cwd,env,cwd.parent/"cold-build.log")
+        return SimpleNamespace(returncode=0,stdout=b"build succeeded")
 
     def workspace(self, n=1, candidate=False):
         work = self.output / ("round"+str(n)) / "source"
@@ -74,7 +87,48 @@ class ScheduleTests(unittest.TestCase):
         result=s(argv,work,{},work.parent/"hud.log")
         self.assertEqual(result["argv"],argv)
         self.assertEqual(len(self.events),1)
+        self.build_run.assert_not_called()
         self.assertFalse((work/".tup").exists())
+
+    def test_timeout_retains_partial_output_and_never_completes(self):
+        work=self.workspace();s=m.Schedule(self.execute,self.root,"unique")
+        self.build_run.side_effect=subprocess.TimeoutExpired(m.BUILD_ARGV,300,output=b"partial compiler output")
+        with self.assertRaises(subprocess.TimeoutExpired):self.call(s,work)
+        self.assertEqual((work.parent/"cold-build.log").read_bytes(),b"partial compiler output")
+        row=json.loads((work.parent/"scheduling.json").read_text())
+        self.assertFalse(row["completed"])
+        self.assertEqual(row["original_build_timeout_seconds"],180)
+        self.assertEqual(row["effective_build_timeout_seconds"],300)
+        self.assertEqual(row["nonbuild_timeout_seconds"],180)
+        self.assertEqual(row["outer_supervisor_timeout_seconds"],900)
+        self.assertEqual(row["partial_timeout_log_sha256"],m.sha(b"partial compiler output"))
+        with self.assertRaises(ValueError):self.call(s,work)
+        self.assertEqual(self.build_run.call_count,1)
+
+    def test_timeout_without_output_retains_empty_log(self):
+        work=self.workspace()
+        self.build_run.side_effect=subprocess.TimeoutExpired(m.BUILD_ARGV,300)
+        with self.assertRaises(subprocess.TimeoutExpired):self.call(m.Schedule(self.execute,self.root,"unique"),work)
+        self.assertEqual((work.parent/"cold-build.log").read_bytes(),b"")
+
+    def test_nonzero_build_preserves_log_and_fails(self):
+        work=self.workspace()
+        self.build_run.return_value=SimpleNamespace(returncode=7,stdout=b"failure")
+        self.build_run.side_effect=None
+        with self.assertRaisesRegex(ValueError,"tool exit 7"):self.call(m.Schedule(self.execute,self.root,"unique"),work)
+        self.assertEqual((work.parent/"cold-build.log").read_bytes(),b"failure")
+
+    def test_third_round_never_reaches_executor(self):
+        s=m.Schedule(self.execute,self.root,"unique")
+        for n in (1,2):self.call(s,self.workspace(n))
+        with self.assertRaises(ValueError):self.call(s,self.workspace(3))
+        self.assertEqual(self.build_run.call_count,2)
+
+    def test_deceptive_command_never_reaches_executor(self):
+        work=self.workspace();s=m.Schedule(self.execute,self.root,"unique")
+        with self.assertRaises(ValueError):
+            s(m.BUILD_ARGV[:-1]+[m.BUILD_ARGV[-1]+" && extra"],work,{},work.parent/"cold-build.log")
+        self.build_run.assert_not_called()
 
     def test_existing_tup_refused(self):
         work=self.workspace();(work/".tup").mkdir()
@@ -132,12 +186,13 @@ class ScheduleTests(unittest.TestCase):
 
     def test_post_build_options_drift_fails(self):
         work=self.workspace()
-        def execute(argv,*rest):
-            result=self.execute(argv,*rest)
-            if argv==m.BUILD_ARGV:(work/".tup/options").write_bytes(b"bad")
+        def build(*args,**kwargs):
+            result=self.build(*args,**kwargs)
+            (work/".tup/options").write_bytes(b"bad")
             return result
+        self.build_run.side_effect=build
         with self.assertRaisesRegex(ValueError,"during cold build"):
-            self.call(m.Schedule(execute,self.root,"unique"),work)
+            self.call(m.Schedule(self.execute,self.root,"unique"),work)
 
     def test_options_missing_db_and_preexisting_options(self):
         for kind in ("missing-db","existing-options"):
