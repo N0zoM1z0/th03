@@ -67,3 +67,12 @@ limits; inner build timeouts preserve captured partial stdout before failing.
 The full game and research graph is still built, with all original acceptance
 gates. No timeout, partial output or completed game products imply replay PASS.
 A fresh run ID and fresh pinned plan are required after a failed run.
+
+## Bounded replay staging and historical proof guards
+
+Preserve historical proof trees in place and guard their bytes and modes before
+and after a run. Materialize only the current build/import dependency closure
+into a new runtime; do not recursively copy older frozen proof trees into each
+new replay. Keep full historical guards and referenced evidence protected under
+the existing retention rules. Per-run guard inventories remain ignored evidence,
+not duplicated maintained runner frameworks or large committed manifests.

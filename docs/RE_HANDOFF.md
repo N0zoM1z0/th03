@@ -16,15 +16,15 @@ TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 82 source-present reviewed CODE extents; 391 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
+| MAIN | 83 source-present reviewed CODE extents; 398 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
 MAIN's reviewed exact extent comprises **58,701 function bytes** and **923
 explicitly classified non-function producer bytes**, across **70 maintained
-semantic source owners**. The reviewed source-present scope totals **63,672
-CODE bytes**; Yumemi, CPU and effects add **20 functions / 4,048 bytes** that are not exact.
+semantic source owners**. The reviewed source-present scope totals **65,232
+CODE bytes**; Yumemi, CPU, effects and warning/HUD add **27 functions / 5,608 bytes** that are not exact.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -52,8 +52,8 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **285 units, 2,734 evidence rows, 363 knowledge
-rows, three hypotheses, 391 authored-function rows** (all values scoped to
+Latest tracking snapshot: **286 units, 2,739 evidence rows, 365 knowledge
+rows, three hypotheses, 398 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
 `config/th03_main_authored_functions.csv`, and
@@ -104,6 +104,12 @@ allocation remains at original addresses; its physical original compiler
 ownership has not been closed.
 
 ## Current non-exact gameplay frontier
+
+The [warning/HUD source milestone](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
+adds seven complete functions / **1,560 target bytes**. The isolated native
+producer resolves all bytes under reviewed bindings and predicts the original
+37-site order, but actual linking, outside preservation and cold replay remain
+open. It changes no accepted totals or default exact build inputs.
 
 The [visual-effects source milestone](reconstruction/MAIN_PLAYER_EFFECTS_REVIEW.md)
 adds five complete natural functions / **628 target bytes**, including the
@@ -175,8 +181,17 @@ changes and their meaningful failure evidence; do not reset away blockers.
     python3 scripts/ci.py
     git diff --check
 
-Latest completed full CI: **PASS, 798 tests**, 2026-10-19 13:38:56–13:42:28 UTC,
-with all 725 input hashes/modes unchanged. Log and result:
+Latest completed full CI for the warning milestone: **PASS, 810 tests**,
+2026-10-19 18:16:10–18:18:40 UTC, with all 733 input hashes/modes unchanged.
+Log and result: `.analysis/gpt-dots-tail-warning-milestone-v03/full-ci/ci.log`
+and `ci.json`. This paragraph was updated afterward to record that result;
+source, ledgers and build inputs remain identical to the tested batch.
+The earlier effects CI passed at 17:04:57–17:08:06 UTC with 730 unchanged inputs;
+its log and result remain in
+`.analysis/gpt-dots-tail-effects-milestone-v02/full-ci/`.
+
+The earlier scheduling-recovery CI passed **798 tests**, with all 725 input
+hashes/modes unchanged. Its historical log and result:
 `.analysis/gpt-dots-default-build-timeout-v01/full-ci/ci.log` and `ci.json`.
 The scheduling-only recovery was then committed as `c58e2b2` before the fresh
 regression. This documentation-only closeout follows those checks; no source,

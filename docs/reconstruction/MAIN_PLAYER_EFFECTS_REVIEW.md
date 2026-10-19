@@ -12,8 +12,11 @@ remains unknown. Existing score_add 88 bytes receive no new credit.
 `src/main/player/effects.cpp` and `effects.hpp` preserve frozen source-v04 text
 byte-for-byte (SHA256 e13e5f8f30fd0922d7999ab3e8f63b1a3d973bd58516c345d47bf1e07e795139
 and c2f5f7037369b331a33b2b2678d4a625d58eef98d2ace7f5d6d9d180e5b34ea5).
-The local quoted header resolves beside the maintained CPP; no source rewriting
-or compatibility-header change is needed. Its introductory uncompiled-proposal
+The documented staged root-header recipe compiled this source successfully.
+The earlier claim that the quoted header resolves beside the maintained CPP
+was unsupported: a later warning maintained-path probe demonstrated that this
+pinned invocation does not search that sibling directory. Direct maintained-path
+compilation of effects remains unverified; effects source is unchanged. Its introductory uncompiled-proposal
 comment is retained historical provenance, not a claim that the later probe
 never ran. Maintained-path native reproduction remains unrun.
 

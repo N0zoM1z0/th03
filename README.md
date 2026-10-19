@@ -23,8 +23,8 @@ reconstruction and the 505-file intake remain unfinished.
 [Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
 are the entrypoints. MAIN has **371 exact functions / 59,624 exact owned bytes**
 across **70 maintained source owners and 78 exact CODE extents**. The broader
-source-present reviewed scope is **391 functions / 63,672 owned bytes in
-82 complete CODE extents**. Yumemi and CPU state remain source-present only.
+source-present reviewed scope is **398 functions / 65,232 owned bytes in
+83 complete CODE extents**. Yumemi and CPU state remain source-present only.
 The separate combined retained link matches their raw bytes and new-owner order,
 but outside relocation order and a carrier MAP expectation remain blocked; see
 [CPU review](docs/reconstruction/MAIN_PLAYER_CPU_REVIEW.md) and the historical
@@ -33,6 +33,10 @@ The [visual-effects milestone](docs/reconstruction/MAIN_PLAYER_EFFECTS_REVIEW.md
 adds five source-present functions / 628 target bytes. Its 629-byte native
 producer retains an unresolved renderer hardware-port convention; no exact
 promotion or full-tail closure is claimed.
+The [warning/HUD milestone](docs/reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
+adds seven source-present functions / 1,560 target bytes. Its compile-only
+producer resolves completely under reviewed symbols; actual full-link order,
+outside preservation, cold replay and exact acceptance remain open.
 These are scoped repository-local results, not whole-game product closure or
 Factory Truth Kernel acceptance. Whole-game denominators remain unknown until
 ownership is reviewed.
