@@ -3,8 +3,8 @@
 The owner's requested worktree review is complete. CI/dependency maintenance
 and proof-retention fixes are recorded in `ed653cb` and `095e54b`; this
 documentation checkpoint reconciles the remaining maintenance changes.
-The latest source milestone is commit `30f1564`; accepted gameplay CODE was
-recorded in `38a6248`. The 2026-10-06 closeout and 2026-10-08 maintenance pass
+The CPU source-present milestone extends the prior Yumemi commit `30f1564`;
+accepted gameplay CODE remains the scope recorded in `38a6248`. The 2026-10-06 closeout and 2026-10-08 maintenance pass
 are historical checkpoints. This is a
 **scoped, repository-local reconstruction**, not a finished, playable game or
 native Factory Truth Kernel acceptance. Original Japanese target provenance is
@@ -16,15 +16,15 @@ TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 80 source-present reviewed CODE extents; 382 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
+| MAIN | 81 source-present reviewed CODE extents; 386 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
 MAIN's reviewed exact extent comprises **58,701 function bytes** and **923
 explicitly classified non-function producer bytes**, across **70 maintained
-semantic source owners**. The reviewed source-present scope totals **61,967
-CODE bytes**; Yumemi's additional **11 functions / 2,343 bytes** are not exact.
+semantic source owners**. The reviewed source-present scope totals **63,044
+CODE bytes**; Yumemi and CPU add **15 functions / 3,420 bytes** that are not exact.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -52,8 +52,8 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **283 units, 2,717 evidence rows, 358 knowledge
-rows, three hypotheses, 382 authored-function rows** (all values scoped to
+Latest tracking snapshot: **284 units, 2,728 evidence rows, 361 knowledge
+rows, three hypotheses, 386 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
 `config/th03_main_authored_functions.csv`, and
@@ -117,12 +117,25 @@ remains a historical 2,131-byte intake. Its 1,958-byte Marisa owner is now
 accepted; the 173-byte ordinary-shot hardware prefix remains unaccepted and
 needs review with its complete shooting/graphics dependency chain.
 
-The **1,077-byte CPU-state proposal** remains ignored and isolated-object
-reviewed only: it is not installed, linked, cold-replayed or accepted. Existing
-stage/round and round-loop research blockers also remain outside acceptance.
-The next CPU/Yumemi retained-link plan must be regenerated against this
-checkpoint. Its earlier worktree-bound controls are historical and must not be
-rebound in place; native work still requires a reviewed execution plan.
+The [CPU-state milestone](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds four
+complete source-present functions / **1,077 bytes**, including two switch tables
+and a natural zero. A separate corrected retained CPU/Yumemi link matches all
+81 authored extents and the new 34-site CPU/bomb/charge order. Full outside payload,
+storage and generated-baseline header fields pass, but outside literal relocation
+order and score_add containing-carrier MAP metadata remain failed gates. The
+actual score_add address and 88 bytes still match target. Historical Yumemi v01
+evidence and accepted metadata remain unchanged. The 664-byte copied prefix is
+uncredited reference support. Maintained-path cold and runtime acceptance remain
+open. Existing stage/round and round-loop blockers also remain outside acceptance.
+
+Post-install full CI passed **783 tests**. The unchanged-default regression
+`gpt-dots-cpu-guards-default-cold-v01` stopped in its first round at the existing
+180-second build timeout while reference Research/286 objects were still compiling.
+All 31 fresh game outputs matched the accepted default first round, but no second
+round or canonical receipt exists: **the two-cold regression has not passed**.
+Source guards and cleanup passed. This operational limitation is separate from
+the CPU candidate's known strict blockers. A retry needs a fresh reviewed plan;
+historical controls and failed runs are never rebound or overwritten.
 
 OP/MAINL/ZUN still need original stored-versus-decoded CODE mapping and
 independent exact reconstruction. Full MAIN, resource/heap/IRQ/device behavior,
@@ -141,14 +154,16 @@ changes and their meaningful failure evidence; do not reset away blockers.
     python3 scripts/ci.py
     git diff --check
 
-Latest completed full CI: **PASS, 776 tests, zero errors/failures/skips**,
+Latest completed full CI: **PASS, 783 tests, zero errors/failures/skips**,
 followed by all available target/toolchain/Ghidra identity, ledger/progress
-and Oracle negative gates. It ran on 2026-10-19 12:20–12:25 UTC for this worktree maintenance checkpoint
-(103.319 seconds for the test suite). All 716 tracked input hashes/modes stayed
-unchanged during CI. Log and result:
-`.analysis/gpt-dots-dirty-worktree-closeout-v01/final-ci/ci.log` and `ci.json`.
+and Oracle negative gates. It ran on 2026-10-19 13:12–13:16 UTC for the CPU
+source-present milestone (85.551 seconds for the test suite). All 725 tracked
+and proposed input hashes/modes stayed unchanged. Log and result:
+`.analysis/gpt-dots-player-cpu-milestone-v01/full-ci/ci.log` and `ci.json`.
 This result/status note was added afterward; source and validation inputs were
 unchanged, and final documentation links and whitespace were checked separately.
+The earlier clean-worktree 776-test CI remains retained under
+`.analysis/gpt-dots-dirty-worktree-closeout-v01/final-ci/`.
 The previous source-milestone CI remains retained under
 `.analysis/gpt-dots-yumemi-gameplay-milestone-v01/final-ci/`.
 

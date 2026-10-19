@@ -20,6 +20,7 @@ from validate_tracking import (
     KNOWLEDGE_HEADER,
     UNIT_HEADER,
     main as validate_tracking,
+    validate_source_tree,
 )
 
 
@@ -281,6 +282,153 @@ class ExactTrackingTests(unittest.TestCase):
                 )
                 function.update(mutation)
                 self.assertEqual(self.run_fixture(root, units, evidence, [function]), 1)
+
+
+class Rec98ForwarderTests(unittest.TestCase):
+    GUARDED_HEADERS = (
+        ("th03/main/chars/speed.hpp", "TH03_COMPAT_REC98_MAIN_CHARS_SPEED_HPP"),
+        ("th03/hardware/input.h", "TH03_COMPAT_REC98_HARDWARE_INPUT_H"),
+    )
+
+    @staticmethod
+    def guarded_content(relative: str, guard: str) -> str:
+        return f'#ifndef {guard}\n#define {guard}\n\n#include "{relative}"\n\n#endif\n'
+
+    @staticmethod
+    def make_forwarder(root: Path, relative: str, content: str) -> Path:
+        source = root / "src/main/unit.c"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        if relative.endswith(".inc"):
+            source = source.with_suffix(".asm")
+            include = f"include compat/rec98/{relative}\n"
+        else:
+            include = f'#include "compat/rec98/{relative}"\n'
+        source.write_text(include, encoding="utf-8")
+        forwarder = root / "compat/rec98" / relative
+        forwarder.parent.mkdir(parents=True, exist_ok=True)
+        forwarder.write_text(content, encoding="utf-8")
+        return forwarder
+
+    def test_unguarded_cpp_and_assembly_forwarders_still_pass(self) -> None:
+        for relative in (
+            *(relative for relative, _ in self.GUARDED_HEADERS),
+            "th03/core/initexit.h", "th03/main/playfld.inc",
+        ):
+            with self.subTest(relative=relative), TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                content = (f"include {relative}\n" if relative.endswith(".inc")
+                           else f'#include "{relative}"\n')
+                self.make_forwarder(root, relative, content)
+                validate_source_tree(root)
+
+    def test_reviewed_guards_accept_only_line_padding_and_blank_lines(self) -> None:
+        for relative, guard in self.GUARDED_HEADERS:
+            content = self.guarded_content(relative, guard)
+            variants = (
+                content,
+                "\n \t\n" + "\n".join(" \t" + line + " \t"
+                                          for line in content.split("\n")),
+                content.rstrip("\n"),
+            )
+            for index, variant in enumerate(variants):
+                with self.subTest(relative=relative, variant=index), TemporaryDirectory() as temporary:
+                    root = Path(temporary)
+                    self.make_forwarder(root, relative, variant)
+                    validate_source_tree(root)
+
+    def test_guarded_forwarders_reject_extra_or_malformed_content(self) -> None:
+        for relative, guard in self.GUARDED_HEADERS:
+            content = self.guarded_content(relative, guard)
+            include = f'#include "{relative}"'
+            other_guard = next(value for _, value in self.GUARDED_HEADERS if value != guard)
+            mutations = {
+                "empty": "",
+                "missing define": content.replace(f"#define {guard}\n", ""),
+                "mismatched guard": content.replace(f"#define {guard}", "#define OTHER_GUARD"),
+                "unapproved matching guard": content.replace(guard, "OTHER_GUARD"),
+                "other reviewed guard": content.replace(guard, other_guard),
+                "valued guard": content.replace(f"#define {guard}", f"#define {guard} 1"),
+                "function-like guard": content.replace(f"#define {guard}", f"#define {guard}()"),
+                "wrong include": content.replace(include, '#include "th03/other.h"'),
+                "traversal include": content.replace(include, f'#include "../{relative}"'),
+                "angle include": content.replace(include, f"#include <{relative}>"),
+                "duplicate include": content.replace(include, include + "\n" + include),
+                "additional include": content.replace(include, include + '\n#include "other.h"'),
+                "extra definition": content.replace(include, "#define EXTRA\n" + include),
+                "nested conditional": content.replace(include, "#if ENABLED\n" + include + "\n#endif"),
+                "conditional alternate": content.replace("#endif", '#else\n#include "other.h"\n#endif'),
+                "conditional elif": content.replace("#endif", "#elif ENABLED\n#endif"),
+                "undefinition": content.replace("#endif", f"#undef {guard}\n#endif"),
+                "layout pragma": content.replace(include, "#pragma pack(1)\n" + include),
+                "declaration": content.replace(include, include + "\nint extra;"),
+                "code outside guard": content + "int extra;\n",
+                "comment": content.replace("#endif", "#endif // guard"),
+                "line continuation": content.replace(f"#ifndef {guard}\n", f"#ifndef {guard}\\\n"),
+                "missing endif": content.replace("#endif", ""),
+                "duplicate endif": content + "#endif\n",
+                "endif tokens": content.replace("#endif", "#endif extra"),
+                "non-newline separator": content.replace("\n", "\v"),
+            }
+            for name, mutated in mutations.items():
+                with self.subTest(relative=relative, mutation=name), TemporaryDirectory() as temporary:
+                    root = Path(temporary)
+                    self.make_forwarder(root, relative, mutated)
+                    with self.assertRaisesRegex(ValueError, "forwarding header must contain only"):
+                        validate_source_tree(root)
+
+    def test_other_paths_cannot_use_guards(self) -> None:
+        for relative in ("th03/core/initexit.h", "th03/main/playfld.inc"):
+            with self.subTest(relative=relative), TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                content = self.guarded_content(relative, self.GUARDED_HEADERS[0][1])
+                if relative.endswith(".inc"):
+                    content = content.replace(f'#include "{relative}"', f"include {relative}")
+                self.make_forwarder(root, relative, content)
+                with self.assertRaisesRegex(ValueError, "forwarding header must contain only"):
+                    validate_source_tree(root)
+
+    def test_unguarded_forwarders_still_require_exact_content(self) -> None:
+        for relative in ("th03/core/initexit.h", "th03/main/playfld.inc"):
+            content = (f"include {relative}\n" if relative.endswith(".inc")
+                       else f'#include "{relative}"\n')
+            for mutated in (content.rstrip("\n"), "\n" + content, content + "int extra;\n",
+                            content.replace(relative, "th03/wrong.h")):
+                with self.subTest(relative=relative, content=mutated), TemporaryDirectory() as temporary:
+                    root = Path(temporary)
+                    self.make_forwarder(root, relative, mutated)
+                    with self.assertRaisesRegex(ValueError, "forwarding header must contain only"):
+                        validate_source_tree(root)
+
+    def test_guarded_headers_do_not_allow_direct_product_includes(self) -> None:
+        for relative, guard in self.GUARDED_HEADERS:
+            with self.subTest(relative=relative), TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                self.make_forwarder(root, relative, self.guarded_content(relative, guard))
+                (root / "src/main/unit.c").write_text(f'#include "{relative}"\n', encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "direct ReC98 include"):
+                    validate_source_tree(root)
+
+    def test_guarded_forwarders_still_reject_missing_files_and_symlinks(self) -> None:
+        relative, guard = self.GUARDED_HEADERS[0]
+        for mode in ("missing", "referenced symlink", "unreferenced symlink", "directory symlink"):
+            with self.subTest(mode=mode), TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                content = self.guarded_content(relative, guard)
+                forwarder = self.make_forwarder(root, relative, content)
+                if mode == "directory symlink":
+                    (root / "compat/rec98/linked").symlink_to(root / "src", target_is_directory=True)
+                else:
+                    forwarder.unlink()
+                    if mode != "missing":
+                        target = root / "header.h"
+                        target.write_text(content, encoding="utf-8")
+                        forwarder.symlink_to(target)
+                    if mode == "unreferenced symlink":
+                        (root / "src/main/unit.c").write_text("int unit;\n", encoding="utf-8")
+                message = ("forbids symlinks" if mode in {"unreferenced symlink", "directory symlink"}
+                           else "missing checked-in ReC98 forwarding header")
+                with self.assertRaisesRegex(ValueError, message):
+                    validate_source_tree(root)
 
 
 if __name__ == "__main__":

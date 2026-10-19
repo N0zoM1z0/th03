@@ -61,6 +61,12 @@ KNOWLEDGE_KINDS = {
 SOURCE_ROOTS = {"main", "op", "mainl", "zun", "shared"}
 SOURCE_STATE_DIRECTORIES = {"exact", "partial", "partials", "module", "modules"}
 REC98_INCLUDE_PREFIXES = ("libs/", "platform/", "th01/", "th02/", "th03/", "th04/", "th05/")
+# Only these reviewed headers may suppress duplicate reference declarations.
+# Pin both path and guard: arbitrary guard macros could suppress unrelated input.
+REC98_GUARDED_FORWARDERS = {
+    "th03/main/chars/speed.hpp": "TH03_COMPAT_REC98_MAIN_CHARS_SPEED_HPP",
+    "th03/hardware/input.h": "TH03_COMPAT_REC98_HARDWARE_INPUT_H",
+}
 INCLUDE_PATTERN = re.compile(r'^\s*#include\s+["<]([^">]+)[">]')
 ASM_INCLUDE_PATTERN = re.compile(r'^\s*include\s+("[^"]+"|[^\s;]+)', re.IGNORECASE)
 
@@ -279,10 +285,17 @@ def validate_source_tree(root: Path) -> None:
         relative = path.relative_to(compat_root).as_posix()
         expected = (f'include {relative}\n' if path.suffix.lower() == ".inc"
                     else f'#include "{relative}"\n')
-        if path.read_text(encoding="utf-8") != expected:
+        content = path.read_text(encoding="utf-8")
+        guard = REC98_GUARDED_FORWARDERS.get(relative)
+        # A guarded forwarder has exactly four nonblank lines. Strip only
+        # horizontal ASCII whitespace; comments and line continuations fail closed.
+        guarded = guard is not None and [
+            line.strip(" \t") for line in content.split("\n") if line.strip(" \t")
+        ] == [f"#ifndef {guard}", f"#define {guard}", expected.rstrip("\n"), "#endif"]
+        if content != expected and not guarded:
             raise ValueError(
                 f"{path.relative_to(root)}: forwarding header must contain only "
-                f"{expected.strip()!r}"
+                f"{expected.strip()!r}, optionally inside its approved include guard"
             )
 
 

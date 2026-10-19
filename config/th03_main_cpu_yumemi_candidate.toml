@@ -1,0 +1,172 @@
+# SOURCE-PRESENT diagnostic only; known outside-order and score_add MAP gates fail.
+# Historical Yumemi v01 remains unchanged; this separate recipe uses tested CPU/bomb/charge order.
+schema_version = 1
+
+[[units]]
+id = "th03-main-yumemi-gameplay"
+object = "cs_yume"
+ownership = "carved-producers"
+physical_objects_additive = true
+source = "src/main/player/chargeshot_yumemi.cpp"
+header = "src/main/player/yumemi_gameplay.hpp"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+physical_objects = [{ object = "bm_yume", wrapper = "th03/bm_yume.cpp", source = "src/main/player/bomb_yumemi.cpp" }, { object = "cs_yume", wrapper = "th03/cs_yume.cpp", source = "src/main/player/chargeshot_yumemi.cpp" }]
+map_module = "th03/cs_yume.cpp"
+code_extents = [{ name = "bomb", ledger_id = "th03-main-yumemi-bomb", segment = 5021, start = 8239, size = 698, map_segment = "P_COMBO_TEXT", map_group = "MAIN_04", map_acbp = 28, map_parts = [{ object = "bm_yume", start = 8239, size = 698, map_module = "th03/bm_yume.cpp" }] }, { name = "charge", ledger_id = "th03-main-yumemi-charge", segment = 5021, start = 12211, size = 1645, map_segment = "PELLET_PUT", map_group = "MAIN_04", map_acbp = 28, map_parts = [{ object = "cs_yume", start = 12211, size = 1645, map_module = "th03/cs_yume.cpp" }], producer_ranges = [{ relative = 1565, size = 32, kind = "tc4-switch-table" }] }]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/bm_mima.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/bm_mima.cpp\",\n\t\"th03/p_cpre.asm\",\n\t\"th03/p_cpu.cpp\",\n\t\"th03/bm_yume.cpp\",\n\t\"th03/cs_yume.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/bullet/bullet.hpp", "compat/rec98/th03/main/enemy/efe.hpp", "compat/rec98/th03/main/hitbox.hpp", "compat/rec98/th03/main/hitcirc.hpp", "compat/rec98/th03/main/player/bomb.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/sprite16.hpp", "src/main/enemy/target_record.hpp", "src/main/math/polar.hpp"]
+carrier_edits = [{ kind = "replace-once", path = "th03_main.asm", before = "\tpublic sub_16983, ELLEN_TARGET_SET\r\nELLEN_TARGET_SET = sub_16983\r\n", after = "\textern ELLEN_TARGET_SET:far\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern YUMEMI_CHARGESHOTS_RESET:far\r\n\textern CHARGESHOT_ADD_YUMEMI:far\r\n\textern CHARGESHOT_UPDATE_YUMEMI:far\r\n\textern CHARGESHOT_RENDER_YUMEMI:far\r\n\textern @chargeshot_hittest_yumemi$qv:far\r\n\textern _gba_gauge_pattern_pellet_yumemi:far\r\n\textern _gba_gauge_pattern_bullet_yumemi:far\r\n\textern @yumemi_bomb$qv:far\r\n" }, { kind = "remove-between", path = "th03_main.asm", start_marker = "yumemi_bomb\tproc far\r\n", end_marker = "yumemi_bomb\tendp\r\n", replacement = "; Complete Yumemi bomb moved to natural TC4 bm_yume producer\r\n" }, { kind = "remove-between", path = "th03_main.asm", start_marker = "sub_16983\tproc far\r\n", end_marker = "gba_gauge_pattern_bullet_yumemi endp\r\n", replacement = "; Complete shared targeting and Yumemi charge/gauge moved to natural TC4 cs_yume producer\r\n" }, { kind = "replace-exact-count", path = "th03_main.asm", before = "\t\tcall\tsub_16983\r\n", after = "\t\tcall\tELLEN_TARGET_SET\r\n", count = 2 }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p1.chargeshot_add, chargeshot_add_yumemi\r\n", after = "\t\tsetfarfp\t_p1.chargeshot_add, CHARGESHOT_ADD_YUMEMI\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p1, chargeshot_update_yumemi\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p1, CHARGESHOT_UPDATE_YUMEMI\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p1, chargeshot_render_yumemi\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p1, CHARGESHOT_RENDER_YUMEMI\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, gba_gauge_pattern_pellet_yumemi\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, _gba_gauge_pattern_pellet_yumemi\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, gba_gauge_pattern_bullet_yumemi\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, _gba_gauge_pattern_bullet_yumemi\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, yumemi_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @yumemi_bomb$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p2.chargeshot_add, chargeshot_add_yumemi\r\n", after = "\t\tsetfarfp\t_p2.chargeshot_add, CHARGESHOT_ADD_YUMEMI\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p2, chargeshot_update_yumemi\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p2, CHARGESHOT_UPDATE_YUMEMI\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p2, chargeshot_render_yumemi\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p2, CHARGESHOT_RENDER_YUMEMI\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, gba_gauge_pattern_pellet_yumemi\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, _gba_gauge_pattern_pellet_yumemi\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, gba_gauge_pattern_bullet_yumemi\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, _gba_gauge_pattern_bullet_yumemi\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, yumemi_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @yumemi_bomb$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "byte_20E48\tdb ?\r\n", after = "public _target_formation_marker\r\n_target_formation_marker label byte\r\nbyte_20E48\tdb ?\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "_extends_gained\tdb ?\r\n\t\tdb 3 dup(?)\r\nbyte_220E0\tdb ?\r\n", after = "_extends_gained\tdb ?\r\n\t\tdb ?\r\npublic _yumemi_gauge_frame, _yumemi_chargeshots\r\n_yumemi_gauge_frame label byte\r\n\t\tdb 2 dup(?)\r\n_yumemi_chargeshots label byte\r\nbyte_220E0\tdb ?\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tdb 0C0h\r\n\t\tdb  15h\r\n\t\tdb  6Bh\t; k\r\n\t\tdb  40h\r\n\t\tdb 0EBh\r\n\t\tdb  95h\r\npublic _yumemi_groups\r\n", after = "public _yumemi_bomb_triangle_angles\r\n_yumemi_bomb_triangle_angles label byte\r\n\t\tdb 0C0h\r\n\t\tdb  15h\r\n\t\tdb  6Bh\t; k\r\n\t\tdb  40h\r\n\t\tdb 0EBh\r\n\t\tdb  95h\r\npublic _yumemi_groups\r\n" }]
+
+[[functions]]
+name = "yumemi_bomb"
+object = "cs_yume"
+segment = 5021
+offset = 8239
+size = 698
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "ellen_target_set"
+object = "cs_yume"
+segment = 5021
+offset = 12211
+size = 210
+boundary = "owner-linear-span"
+abi = "far Pascal; pid low byte in word carrier at BP+6; RETF 2; shared ordinary aiming callers"
+
+[[functions]]
+name = "yumemi_chargeshots_reset"
+object = "cs_yume"
+segment = 5021
+offset = 12421
+size = 15
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_add_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12436
+size = 41
+boundary = "owner-linear-span"
+abi = "far Pascal; signed subpixel x BP+8 and y BP+6; RETF 4"
+
+[[functions]]
+name = "chargeshot_update_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12477
+size = 127
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_hittest_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12604
+size = 169
+boundary = "owner-linear-span"
+abi = "far cdecl; uint8 result AL; RETF"
+
+[[functions]]
+name = "yumemi_chargeshot_ring_render"
+object = "cs_yume"
+segment = 5021
+offset = 12773
+size = 176
+boundary = "owner-linear-span"
+abi = "near Pascal; unsigned16 sprite BP+8, signed16 radius BP+6, uint8 phase in word BP+4; RET 6"
+
+[[functions]]
+name = "chargeshot_render_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12949
+size = 355
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "gauge_pattern_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 13304
+size = 472
+boundary = "owner-linear-span"
+abi = "near Pascal; unsigned16 bullet type BP+4; RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 13808
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 13832
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+# p_cpre is a retained reference carrier: zero authored bytes/functions.
+[[units]]
+id = "th03-main-player-cpu"
+object = "p_cpu"
+ownership = "carved-producers"
+physical_objects_additive = true
+source = "src/main/player/cpu.cpp"
+header = "src/main/player/cpu.hpp"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+physical_objects = [{ object = "p_cpre", wrapper = "th03/p_cpre.asm", source = "src/main/player/cpu_prefix.asm", translator_comment = "Turbo Assembler  Version 5.0" }, { object = "p_cpu", wrapper = "th03/p_cpu.cpp", source = "src/main/player/cpu.cpp" }]
+map_module = "th03/p_cpu.cpp"
+code_extents = [{ name = "cpu", ledger_id = "th03-main-player-cpu", segment = 2414, start = 11408, size = 1077, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", map_acbp = 28, map_parts = [{ object = "p_cpu", start = 11408, size = 1077, map_module = "th03/p_cpu.cpp" }], producer_ranges = [{ relative = 453, size = 1, kind = "tc4-natural-zero" }, { relative = 454, size = 20, kind = "tc4-switch-table" }, { relative = 1057, size = 20, kind = "tc4-switch-table" }] }]
+support_files = ["compat/rec98/ReC98.inc", "compat/rec98/th03/hardware/input.h", "compat/rec98/th03/main/chars/speed.hpp", "compat/rec98/th03/main/collmap.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "compat/rec98/th03/main/player/gauge.hpp", "compat/rec98/th03/main/player/hearts.hpp", "compat/rec98/th03/main/player/shot.hpp", "compat/rec98/th03/main/playfld.hpp", "compat/rec98/th03/main/playfld.inc", "compat/rec98/th03/main/round.hpp", "compat/rec98/th03/math/subpixel.inc", "compat/rec98/th03/th03.inc", "src/main/math/randring_getters.hpp", "src/main/player/cpu_prefix_types.inc", "src/main/player/move.hpp", "src/main/player/stuff.hpp"]
+carrier_edits = [{ kind = "remove-between", path = "th03_main.asm", start_marker = "sub_C0D8\tproc near\r\n", end_marker = "sub_C7A5\tproc near\r\n", replacement = "; Retained prefix moved unchanged to p_cpre.asm; natural CPU in p_cpu.obj.\r\nextern sub_C0D8:near, sub_C248:near, sub_C2F9:near\r\nextern @PLAYER_CPU_UPDATE$QP14PLAYER_STUFF_T:near\r\n\r\nsub_C7A5\tproc near\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "call\tsub_C54A", after = "call\t@PLAYER_CPU_UPDATE$QP14PLAYER_STUFF_T" }, { kind = "replace-once", path = "th03_main.asm", before = "public _defeat_flag\r\n", after = "public _pid_PID_current, byte_20E3D, byte_23AF9, word_20E3E, word_20E40, word_20E42\r\npublic _defeat_flag\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "word_20E4A\tdw ?", after = "public _cpu_dodge_pattern\r\n_cpu_dodge_pattern label word\r\nword_20E4A\tdw ?" }, { kind = "replace-once", path = "th03_main.asm", before = "angles_1DBD8\tdb 192, 182, 202, 192, 176, 208\r\n", after = "angles_1DBD8\tdb 192, 182, 202, 192, 176, 208\r\npublic _cpu_dodge_patterns\r\n_cpu_dodge_patterns label word\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    1\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    1\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    1\r\n\t\tdb    0\r\n", after = "\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    8\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    0\r\n\t\tdb    2\r\n\t\tdb    0\r\n\t\tdb    1\r\n\t\tdb    0\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    1\r\n\t\tdb    4\r\n\t\tdb    0\r\n\t\tdb    1\r\n\t\tdb    0\r\npublic _cpu_retry_directions\r\n_cpu_retry_directions label word\r\n" }]
+
+[[functions]]
+name = "player_cpu_direction_for_collision"
+object = "p_cpu"
+segment = 2414
+offset = 11408
+size = 195
+boundary = "owner-linear-span"
+abi = "near Pascal; signed16 collision dy BP+8, player x BP+6, player y BP+4; input_t AX; RET 6"
+
+[[functions]]
+name = "player_cpu_approach_target"
+object = "p_cpu"
+segment = 2414
+offset = 11603
+size = 258
+boundary = "owner-linear-span"
+abi = "near Pascal; player_stuff_t near pointer BP+4; RET 2"
+
+[[functions]]
+name = "player_cpu_update"
+object = "p_cpu"
+segment = 2414
+offset = 11882
+size = 30
+boundary = "owner-linear-span"
+abi = "near Pascal; player_stuff_t near pointer BP+4; RET 2"
+
+[[functions]]
+name = "player_cpu_dodge_and_aim"
+object = "p_cpu"
+segment = 2414
+offset = 11912
+size = 553
+boundary = "owner-linear-span"
+abi = "near Pascal; player_stuff_t near pointer BP+4; RET 2"
