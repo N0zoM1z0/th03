@@ -94,6 +94,28 @@ bytes/public/ownership, and review its physical contribution binding separately.
 The old 34-site diagnostic cannot stand in for a future 123-site union. No gate
 change or integration launch is authorized by this analysis.
 
+## Rejected whole owned-cursor experiment
+
+A separate complete periodic-loop cursor proposal was tested after the narrow
+pointer alias. Both TUs compiled successfully with stable guards and clear
+cleanup, but produced 1,301 CODE bytes versus 1,245 target bytes. Seven other
+function bodies remained unchanged. The real DI synchronization was correct;
+stack spills still prevented the intended address lowering.
+
+This proposal is rejected for behavior as well as layout: ENTER 6 moves the
+uninitialized `changed` flag from BP-3 to BP-5 on the same 416 unassigned paths.
+Those paths can now read a different incoming stack byte. Agreement on phase
+assignments therefore does not establish semantic equivalence. No cursor source
+is installed, and no initialization, artificial stack slot or gate relaxation is
+introduced to conceal that failure. The shared-phase source remains maintained.
+
+Receipt: `.analysis/gpt-dots-tail-background-owned-cursor-probe-v01/compile-first-v01/receipt.json`,
+SHA256 `a7b11747cede5e2f5356addb91a6616311cd8a9ba80cf11d6c309c586ef8a971`.
+Independent audit: `.analysis/gpt-dots-tail-background-independent-owned-cursor-v01/report.json`,
+SHA256 `086ecfb8eb8466ea89155ef020712be8e4a0df3534247e92ee46660b2d9ab7a2`.
+The adjacent `REVIEW.md` records the actual BP-5 load and rejection. This result
+changes neither source metrics nor exact acceptance.
+
 ## Retained evidence
 
 - Rejected pointer audit: `.analysis/gpt-dots-tail-background-independent-pointer-v01/report.json`,

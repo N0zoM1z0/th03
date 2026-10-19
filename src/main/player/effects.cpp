@@ -1,6 +1,6 @@
 // Complete target-derived CDBD..D031 source proposal; not compiled or accepted.
 #pragma codeseg PLAYER_M_TEXT main_01
-#include "effects.hpp"
+#include "src/main/player/effects.hpp"
 #include "src/main/math/polar.hpp"
 #include "src/main/math/randring_getters.hpp"
 #include "compat/rec98/libs/master.lib/master.hpp"
@@ -111,7 +111,13 @@ void far player_effects_render(void)
             }
         }
     }
-    // Target uses word OUT, unlike the common byte-oriented grcg_off macro.
-    outport(0x7C, 0);
+    // Complete hardware operation: disable GRCG using the observed word write.
+    // AX is the I/O accumulator; DX is untouched. No C result is exposed.
+    // Original source spelling is unknown; compiler owns surrounding code.
+    enum { GRCG_MODE_PORT = 0x7C };
+    asm {
+        xor ax, ax
+        out GRCG_MODE_PORT, ax
+    }
     grc_setclip(0, 0, 639, 199);
 }

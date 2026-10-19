@@ -30,9 +30,11 @@ but outside relocation order and a carrier MAP expectation remain blocked; see
 [CPU review](docs/reconstruction/MAIN_PLAYER_CPU_REVIEW.md) and the historical
 [Yumemi review](docs/reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md).
 The [visual-effects milestone](docs/reconstruction/MAIN_PLAYER_EFFECTS_REVIEW.md)
-adds five source-present functions / 628 target bytes. Its 629-byte native
-producer retains an unresolved renderer hardware-port convention; no exact
-promotion or full-tail closure is claimed.
+retains five source-present functions / 628 target bytes. The complete symbolic
+WORD GRCG-disable operation passes both root-staged and actual maintained-path
+object diagnostics: all five bodies, 33 fixups and 11 predicted literal relocation
+pairs match under reviewed bindings. Actual linkage, MAP/name placement, outside
+preservation, cold replay and exact acceptance remain open.
 The [warning/HUD milestone](docs/reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
 adds seven source-present functions / 1,560 target bytes. Its compile-only
 producer resolves completely under reviewed symbols; actual full-link order,

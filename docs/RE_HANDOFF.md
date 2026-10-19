@@ -52,7 +52,7 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2,767 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 2,773 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
@@ -135,11 +135,13 @@ producer resolves all bytes under reviewed bindings and predicts the original
 open. It changes no accepted totals or default exact build inputs.
 
 The [visual-effects source milestone](reconstruction/MAIN_PLAYER_EFFECTS_REVIEW.md)
-adds five complete natural functions / **628 target bytes**, including the
-337-byte renderer. Native probes emitted 637/646/629 bytes; final first-four
-sizes match, but renderer 338 retains a distinct hardware-port/DX/XOR sequence.
-No full link, runtime or exact acceptance is claimed. Existing DATA/BSS stays
-external; all 3,887 tail bytes and the CPU placement obstruction remain open.
+retains five complete functions / **628 target bytes**. A complete symbolic
+WORD GRCG-disable operation now yields all five target body sizes and all 628
+bytes under independent object binding, including 33 fixups, 18 branches and
+11 predicted literal relocation pairs. Both the historical root-staged recipe and a separate actual maintained-path
+compile now pass. The latter uses a root-qualified header include; its zero-size
+default segment name changes to EFFECTS_TEXT, leaving later MAP/name gates open. Actual linking, outside
+preservation, cold and runtime gates remain open; no exact credit is added.
 
 
 The [Yumemi gameplay review](reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md)
@@ -192,6 +194,12 @@ independent exact reconstruction. Full MAIN, resource/heap/IRQ/device behavior,
 DATA/BSS physical ownership, complete product graph and original provenance
 remain open.
 
+The subsequent whole owned-cursor background probe is rejected: 1,301 versus
+1,245 CODE bytes, and ENTER 6 moves the unassigned flag read from BP-3 to BP-5
+on 416 paths. Seven other bodies remain unchanged. Its source is not installed;
+the complete negative receipt and independent review remain preserved in the
+[background review](reconstruction/MAIN_BACKGROUND_REVIEW.md).
+
 ## Build, CI and private artifact retention
 
 All edits, reads, Python, Ghidra queries, Oracle and builds go through the
@@ -204,11 +212,13 @@ changes and their meaningful failure evidence; do not reset away blockers.
     python3 scripts/ci.py
     git diff --check
 
-Latest completed full CI for the pointer diagnostic closeout: **PASS, 810 tests**,
-2026-10-19 20:39:59–20:42:51 UTC, with all 740 input hashes/modes unchanged.
-Log and result: `.analysis/gpt-dots-tail-background-pointer-closeout-v01/full-ci/ci.log`
+Latest completed full CI for the effects word-disable refinement: **PASS, 810 tests**,
+2026-10-19 21:35:42–21:38:14 UTC, with all 740 input hashes/modes unchanged.
+Log and result: `.analysis/gpt-dots-effects-word-disable-install-v03/full-ci/ci.log`
 and `ci.json`. This handoff was updated afterward to record that result;
 source, ledgers and build inputs remain identical to the tested batch.
+The pointer diagnostic closeout CI passed at 20:39:59–20:42:51 UTC; its results
+remain in `.analysis/gpt-dots-tail-background-pointer-closeout-v01/full-ci/`.
 The shared-phase CI passed at 20:11:03–20:13:39 UTC; its results remain in
 `.analysis/gpt-dots-tail-background-shared-phase-install-v02/full-ci/`.
 The preceding background milestone CI passed at 19:37:57–19:40:37 UTC;

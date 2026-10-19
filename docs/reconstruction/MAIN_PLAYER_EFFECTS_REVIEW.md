@@ -1,26 +1,33 @@
 # MAIN visual-effects source milestone
 
-2026-10-19: source-present only. Five complete natural C++ functions cover
+2026-10-19: source-present only. Five complete reconstructed C++ functions cover
 original load CDBD..D031: 628 target CODE bytes, including the 337-byte renderer.
 No exact promotion, full link, runtime or whole-tail closure is claimed.
-Accepted MAIN remains 78 extents / 371 functions / 59,624 bytes. Reviewed source
-scope becomes 82 extents / 391 functions / 63,672 bytes; the whole-game denominator
+Accepted MAIN remains 78 extents / 371 functions / 59,624 bytes. At the initial milestone, reviewed source
+scope became 82 extents / 391 functions / 63,672 bytes; the whole-game denominator
 remains unknown. Existing score_add 88 bytes receive no new credit.
 
 ## Source, state and ABI
 
-`src/main/player/effects.cpp` and `effects.hpp` preserve frozen source-v04 text
-byte-for-byte (SHA256 e13e5f8f30fd0922d7999ab3e8f63b1a3d973bd58516c345d47bf1e07e795139
-and c2f5f7037369b331a33b2b2678d4a625d58eef98d2ace7f5d6d9d180e5b34ea5).
-The documented staged root-header recipe compiled this source successfully.
-The earlier claim that the quoted header resolves beside the maintained CPP
-was unsupported: a later warning maintained-path probe demonstrated that this
-pinned invocation does not search that sibling directory. Direct maintained-path
-compilation of effects remains unverified; effects source is unchanged. Its introductory uncompiled-proposal
-comment is retained historical provenance, not a claim that the later probe
-never ran. Maintained-path native reproduction remains unrun.
+`src/main/player/effects.cpp` now contains the reviewed complete symbolic GRCG
+word-disable operation (SHA256
+f9dc41b9c6508bfa060257d8704dbe3d799907a34d23e6dfa0d7b7eef2c55134).
+The other four functions are unchanged from frozen source-v04; `effects.hpp`
+is unchanged (SHA256
+c2f5f7037369b331a33b2b2678d4a625d58eef98d2ace7f5d6d9d180e5b34ea5).
+The old CPP hash e13e5f8f30fd0922d7999ab3e8f63b1a3d973bd58516c345d47bf1e07e795139
+remains the historical v04 source identity.
 
-Candidate physical producer p_eff: PLAYER_M_TEXT / MAIN_01, 096E:36DD,
+The initial positive native diagnostic staged the complete CPP as `th03/p_eff.cpp`
+and the header as root `effects.hpp` in an isolated include overlay. A subsequent
+separate native diagnostic compiled the actual `src/main/player/effects.cpp`
+path using `#include "src/main/player/effects.hpp"`. This include spelling is
+the only source change from the root-staged positive version; reversing it gives
+byte-identical full source, and the header is unchanged. Direct-path success is
+therefore measured separately rather than inferred from staging. The introductory
+uncompiled-proposal comment remains historical text, not current build status.
+
+Historical root-staged producer p_eff: PLAYER_M_TEXT / MAIN_01, 096E:36DD,
 original file E61D, length 0274. Names are semantic proposals, not recovered
 original identifiers. Existing caller symbols still need integration bindings.
 
@@ -53,7 +60,7 @@ polar remains far cdecl with caller cleanup of 6 bytes. Reuse maintained playfie
 randring declarations and explicit master graphics compatibility forwarders.
 No sprite register ABI is invented. Existing trig storage at DS:0316/0396 is reused.
 
-## Three native outcomes and remaining blocker
+## Historical three native outcomes
 
 All runs compiled the entire five-function owner once, with zero DATA/BSS,
 verified inputs, one CPU, nice 10, a 90-second compile bound, clean owned-process
@@ -73,7 +80,7 @@ not cold-link acceptance. Receipts retained under
   after genuine symbolic binding and three same-CS far-call lowerings.
   This does not independently accept those functions or the owner.
 
-Renderer remains one byte longer: MOV DX, 7C; XOR AX, AX; OUT DX, AX adds 2 bytes
+The historical v04 renderer remains one byte longer: MOV DX, 7C; XOR AX, AX; OUT DX, AX adds 2 bytes
 versus the original immediate-port word OUT sequence; two PUSH AX zeros save 1
 versus original dword PUSH immediate zero. Native XOR 33 C0 also differs from
 original 31 C0. Native additionally clobbers DX; original immediate OUT preserves
@@ -94,7 +101,7 @@ Target boundary audit is `.analysis/gpt-dots-player-tail-map-v01/audit.json`.
 Negative compiler analysis and accepted postfix precedent are retained in
 `.analysis/gpt-dots-tail-effects-native-review-v03/REPORT.md` and
 `.analysis/gpt-dots-tail-effects-native-review-v03/native.json`.
-Final object-level audit and replayable reader are
+Historical v04 object-level audit and replayable reader are
 `.analysis/gpt-dots-tail-effects-independent-review-v04/report.json` and
 `.analysis/gpt-dots-tail-effects-independent-review-v04/audit.py` (report SHA256
 3e30419b1106404a8c2b94fdc4ad349f1cff9458cfb4b4bdfc2dfa0b1de7ce7e).
@@ -107,22 +114,99 @@ Target observation generators write their output files. Treat recorded generator
 commands as historical evidence; reproduce observations only in a fresh scratch
 copy, never by rerunning them over a frozen source/proof directory.
 
+## Complete word-disable operation: positive object diagnostic
+
+The new operation writes zero to the named GRCG mode port with the observed
+16-bit width. AX is the actual I/O accumulator; DX is untouched locally. It has
+no C result, extra call ABI, stack manipulation, dead scratch, padding or emitted
+bytes. Surrounding frames, arguments and calls remain compiler-generated. This
+is a complete architecture-dependent operation, not an empty optimizer barrier.
+The historical source spelling remains unknown; reference wrappers support the
+operation's meaning, not TH03 source provenance or inherited exactness.
+
+One root-staged complete-TU native compile produced **628 CODE bytes**, with
+spans **79 / 79 / 87 / 46 / 337**, zero DATA/BSS, clean guards and process cleanup.
+Independent scratch symbol resolution and three genuine same-group far-call
+lowerings match all five complete target bodies, all 18 branches and 33 fixups.
+Public ABI, actual fixup frame bases, zero addends and the predicted literal
+11 offset/segment pairs pass; every segment carrier is 096E. The site list above
+is unchanged. This is not an actual linked-MZ, maintained-path or cold proof.
+
+The final sequence naturally contains XOR AX, AX / immediate-port WORD OUT /
+DWORD immediate-zero push / packed 639,199 push / GRC_SETCLIP. The assembler
+selects the XOR encoding; no encoding is forced. The earlier two PUSH AX zeros
+were 16-bit register pushes, not immediate-zero instructions. The separate
+639,199 pair is identical. This result supports the opaque hardware-operation
+hypothesis without recovering the original spelling. No shared wrapper changes.
+
+Receipt: `.analysis/gpt-dots-effects-word-disable-probe-v02/compile-first-v01/receipt.json`,
+SHA256 `ddd890a30746028edda6e712de3368a2b473c59b92b7f588fd430954ee3f5fbe`.
+Object: the same run's `source/obj/th03/p_eff.obj`, SHA256
+`82bfc9033ea55776095b42f38c5dcf2c61eb1c94941996c0e12f64a2db02c8db`.
+Independent report: `.analysis/gpt-dots-effects-word-disable-independent-v01/report.json`,
+SHA256 `d88a576bf00acb3f22946c30b3510f509cd74ff5ce321ac5228c34322362db7d`.
+Its `audit.py` and `REVIEW.md` retain complete binding/frame/relocation checks.
+Original provenance remains candidate-local-attested. Source metrics and exact
+credit are unchanged; actual linkage, outside preservation, cold replay, runtime,
+DATA/BSS ownership and whole-tail acceptance remain open.
+
+## Actual maintained-path diagnostic
+
+The exact maintained-layout proposal compiled once through
+`src/main/player/effects.cpp` with the root-qualified header. Its complete
+628-byte owner again passes independent scratch binding of all 33 fixups,
+three genuine same-group lowerings, all 18 branches, five public identities
+and ABIs, zero DATA/BSS and the 11 predicted literal relocation pairs.
+The renderer retains ENTER 20 and the complete WORD-disable/clip/return sequence.
+
+Receipt: `.analysis/gpt-dots-effects-maintained-layout-probe-v01/compile-first-v01/receipt.json`,
+SHA256 `34c13e8d107970e2294ecc6e2944f9c81cd7c45381f5ad5bafb000e801e315a3`.
+Object: the same run's `source/obj/th03/effects.obj`, SHA256
+`3a70c9755f4902a8c6d6f1bb033ecf26644966b2cde9553015a4e9ed58a14b7f`.
+Independent report: `.analysis/gpt-dots-effects-maintained-layout-independent-v01/report.json`,
+SHA256 `0751948434def8cca3b88232f88ab1a6745b3ba07988c009edd183ee3fec2b32`.
+Its `audit.py` and `REVIEW.md` record the complete comparison and differences.
+
+LEDATA, FIXUPP, SEGDEF, EXTDEF, PUBDEF, GRPDEF and MODEND records match the
+root-staged positive object byte-for-byte. THEADR and ten COMENT differences
+are individually classified source/dependency paths or timestamps. Separately,
+LNAMES changes the linker-visible zero-length default segment from P_EFF_TEXT
+to EFFECTS_TEXT. This is a real name change, not generic metadata: it emits no
+bytes here, but later MAP/name placement and group ordering remain unproved.
+No blanket record mask or comparator relaxation is used. Actual linkage,
+outside preservation, full storage/MAP, default/cold regression and runtime
+remain open, and accepted exact counts are unchanged.
+
 ## Reproduction and next coherent work
 
-Core pinned TC4J command inside a fresh isolated source/include overlay:
+Historical root-staged TC4J command inside a fresh isolated source/include overlay:
 
     bin\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M' -nobj/th03/ th03/p_eff.cpp
 
-Stage the maintained CPP text unchanged as th03/p_eff.cpp and its local header
-as effects.hpp in the overlay, using the verified compatibility include closure.
-The retained v04 launcher/driver/manifest record the exact supervised envelope;
+For this historical command, stage the exact frozen
+`.analysis/gpt-dots-effects-word-disable-proposal-v01/effects.cpp` as
+`th03/p_eff.cpp` (SHA256
+0ce25866d48a1ff1815ec33edcc9cb9b77c0a3bfff2471963a2d236115865ac7), and its
+`effects.hpp` as root `effects.hpp` (SHA256
+c2f5f7037369b331a33b2b2678d4a625d58eef98d2ace7f5d6d9d180e5b34ea5).
+Use the verified compatibility include closure. This is the historical source
+with the short quoted include, not the current root-qualified maintained CPP.
+The retained word-disable v02 launcher/driver/manifest record the successful
+root-staged supervised envelope;
 future runs require a fresh pinned plan rather than reusing its completed path.
 No extra -G/-a2, fake definitions, source bytes or OMF modifications are needed.
 Native outputs and exact length mismatches must be retained, not overwritten.
 
-Next source scope remains the whole C7A5..D6D4 tail, including both background
-animation chains, warning/gauge/pause and score HUD. Effects alone does not
-remove the CPU translation-unit placement obstruction. Resolve the authentic
-renderer hardware contract separately, then genuinely link complete owners,
-check original literal relocations/storage/outside preservation, and satisfy
-all cold/runtime/ledger gates before any exact promotion.
+The later actual maintained-path diagnostic uses the same pinned options and
+output directory, replacing the source argument with `src/main/player/effects.cpp`.
+Its fresh overlay preserves that repository path and the root-qualified header;
+it does not copy the source to `th03/p_eff.cpp`. Use a new pinned plan for any
+reproduction and preserve both historical recipes and their receipts.
+
+Next integration scope remains the whole C7A5..D6D4 tail. Both background
+chains, warning/gauge/pause, score HUD and effects already have maintained source;
+background's complete-body raw mismatches and stack-dependent phase behavior
+remain open. Effects alone does not remove the CPU translation-unit placement
+obstruction. Genuinely link complete owners, check original literal relocation
+order, storage/MAP and outside preservation, and satisfy all cold/runtime/ledger
+gates before any exact promotion.
