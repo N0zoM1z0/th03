@@ -128,6 +128,14 @@ order pass. The historical MODEL-less BSS-frame failure is preserved. Nine
 alignment warnings, reset intent/DS provenance, actual link/default/cold and
 runtime gates remain open. Accepted totals and default exact inputs are unchanged.
 
+The subsequent score-only retained diagnostic and independently reviewed eight-tie
+MAP supplement pass their scoped raw/order/layout/product checks; the original
+literal public-order failure remains preserved. The maintained cold candidate
+and dedicated score_add physical-binding gates are now installed, but two fresh
+cold rounds and acceptance remain pending. Accepted totals stay78/371/59,624;
+the existing input/math DOS probe remains required, with no new score/device
+runtime claim. See the [score review](reconstruction/MAIN_SCORE_HUD_REVIEW.md).
+
 The [warning/HUD source milestone](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
 adds seven complete functions / **1,560 target bytes**. The isolated native
 producer resolves all bytes under reviewed bindings and predicts the original

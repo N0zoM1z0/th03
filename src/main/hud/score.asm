@@ -28,7 +28,7 @@ extrn _background_particles:byte
 _BSS ends
 DGROUP group _DATA, _BSS
 HUD_STAT_TEXT segment byte public 'CODE' use16
-extrn @HUD_STATIC_STORY_LIVES_PUT$QV:near
+extrn @hud_static_story_lives_put$qv:near
 HUD_STAT_TEXT ends
 main_01 group HUD_STAT_TEXT, PLAYER_M_TEXT
 extrn GRCG_SETCOLOR:far, GRCG_OFF:far, SND_SE_PLAY:far
@@ -104,7 +104,7 @@ score_credit_instruction:
  call SND_SE_PLAY
  les bx, _resident
  inc byte ptr es:[bx+RESIDENT_STORY_LIVES]
- call @HUD_STATIC_STORY_LIVES_PUT$QV
+ call @hud_static_story_lives_put$qv
  inc _extends_gained
  cmp _extends_gained, EXTENDS_MAX
  jnz short score_render_done

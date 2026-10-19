@@ -1,0 +1,72 @@
+# Source-present candidate only. No accepted owner replacement or exact promotion.
+schema_version = 1
+
+[[units]]
+id = "th03-main-score-hud"
+source = "src/main/hud/score.asm"
+header = "src/main/player/score_add.hpp"
+support_files = ["src/main/player/score_add.inl"]
+object = "score_hud"
+map_module = "src\\main\\hud\\score.asm"
+translator_comment = "Turbo Assembler  Version 5.0"
+physical_objects_additive = true
+physical_objects = [{ object = "score_hud", source = "src/main/hud/score.asm", wrapper = "src/main/hud/score.asm", object_path = "obj/th03/score_hud.obj", translator_comment = "Turbo Assembler  Version 5.0" }]
+build_file = "Tupfile.lua"
+build_anchor = "\t{ \"th03_main.asm\", extra_inputs = {\n\t\tth03_sprites[\"pellet\"],\n\t\tth03_sprites[\"score\"],\n\t} },\n"
+build_replacement = "\t{ \"th03_main.asm\", extra_inputs = {\n\t\tth03_sprites[\"pellet\"],\n\t\tth03_sprites[\"score\"],\n\t} },\n\t{ \"src/main/hud/score.asm\", o = \"score_hud.obj\" },\n"
+carrier_edits = [{ kind = "remove-between", path = "th03_main.asm", start_marker = "sub_D50E\tproc near\r\n", end_marker = "MOVE_INVALID = 0\r\n", replacement = "MOVE_INVALID = 0\r\n" }, { kind = "replace-exact-count", path = "th03_main.asm", before = "sub_D52E", after = "score_hud_render", count = 1 }, { kind = "replace-exact-count", path = "th03_main.asm", before = "sub_D5A2", after = "background_overlap_clear", count = 1 }, { kind = "replace-exact-count", path = "th03_main.asm", before = "sub_D668", after = "score_bonus_digits_put", count = 1 }, { kind = "replace-exact-count", path = "th03_main.asm", before = "sub_D6C0", after = "score_credit_digit_set", count = 1 }, { kind = "replace-exact-count", path = "th03_main.asm", before = "@hud_dynamic_5_digit_points_put$qiiuiuc", after = "@HUD_DYNAMIC_5_DIGIT_POINTS_PUT$QIIUIUC", count = 10 }, { kind = "replace-exact-count", path = "th03_main.asm", before = "@score_add$quiuc", after = "@SCORE_ADD$QUIUC", count = 2 }, { kind = "replace-once", path = "th03_main.asm", before = "PLAYER_M_TEXT\tsegment\tbyte public 'CODE' use16\r\n", after = "PLAYER_M_TEXT\tsegment\tbyte public 'CODE' use16\r\n\r\n; Genuine imports from the complete semantic score TU.\r\nextern score_hud_render:near\r\nextern background_overlap_clear:far\r\nextern score_bonus_digits_put:far\r\nextern score_credit_digit_set:far\r\nextern @HUD_DYNAMIC_5_DIGIT_POINTS_PUT$QIIUIUC:far\r\nextern @SCORE_ADD$QUIUC:far\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "farfp_20F28\tdd ?\r\n\t\tdb 1280 dup(?)\r\nangle_2142C\tdb ?\r\n", after = "farfp_20F28\tdd ?\r\n; Zero-byte alias to existing, nonexclusive DGROUP storage.\r\npublic _background_particles\r\n_background_particles label byte\r\n\t\tdb 1280 dup(?)\r\nangle_2142C\tdb ?\r\n" }, { kind = "replace-once", path = "build.bat", before = ":tup\r\nbin\\tup\r\ngoto return_from_tup\r\n", after = ":tup\r\nbin\\tup -j1\r\ngoto return_from_tup\r\n" }]
+code_extents = [{ name = "render", ledger_id = "th03-main-score-hud-render", segment = 2414, start = 15918, size = 162, map_start = 15918, map_size = 454, map_acbp = 28, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", producer_ranges = [{ relative = 31, size = 1, kind = "even-alignment" }, { relative = 147, size = 1, kind = "even-alignment" }] }, { name = "points", ledger_id = "th03-main-score-hud-points", segment = 2414, start = 16168, size = 204, map_start = 15918, map_size = 454, map_acbp = 28, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", producer_ranges = [{ relative = 183, size = 1, kind = "even-alignment" }, { relative = 203, size = 1, kind = "even-alignment" }] }]
+
+[[functions]]
+name = "score_glyph_put"
+object = "score_hud"
+segment = 2414
+offset = 15918
+size = 31
+map_public = "score_glyph_put"
+abi = "near AL/CX/ES register interface; DF0; preserves SI/DI"
+
+[[functions]]
+name = "score_hud_render"
+object = "score_hud"
+segment = 2414
+offset = 15950
+size = 115
+map_public = "score_hud_render"
+abi = "near no args; story extends and writable CS digit"
+
+[[functions]]
+name = "background_overlap_clear"
+object = "score_hud"
+segment = 2414
+offset = 16066
+size = 14
+map_public = "background_overlap_clear"
+abi = "far no args; fourteen overlapping WORD stores stride1; DS provenance and intent open"
+
+[[functions]]
+name = "hud_dynamic_5_digit_points_put"
+object = "score_hud"
+segment = 2414
+offset = 16168
+size = 96
+map_public = "hud_dynamic_5_digit_points_put(int,int,unsigned int,unsigned char)"
+abi = "far Pascal; RETF8; implicit trailing zero; GRCG off"
+
+[[functions]]
+name = "score_bonus_digits_put"
+object = "score_hud"
+segment = 2414
+offset = 16264
+size = 87
+map_public = "score_bonus_digits_put"
+abi = "far Pascal; RETF8; suppress zero; leaves GRCG on"
+
+[[functions]]
+name = "score_credit_digit_set"
+object = "score_hud"
+segment = 2414
+offset = 16352
+size = 19
+map_public = "score_credit_digit_set"
+abi = "far Pascal byte in word slot; RETF2; writes renderer CS MOV AL immediate"

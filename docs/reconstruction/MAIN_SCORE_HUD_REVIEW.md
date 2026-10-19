@@ -72,3 +72,61 @@ Frozen target audit `.analysis/gpt-dots-tail-score-proposal-v01/audit.json` and
 `.analysis/gpt-dots-tail-score-review-v02/ADDENDUM.md` retain boundary/ABI evidence.
 That historical audit.py writes its sibling JSON; regenerate only in fresh
 copied evidence directories, never overwrite frozen evidence.
+
+## Maintained cold candidate, not acceptance
+
+The two genuine HUD import/call spellings now match the existing lowercase
+`@hud_static_story_lives_put$qv` export literally. The earlier uppercase-import
+object remains historical isolated evidence, not a link-ready object to reuse.
+The source-only candidate is `config/th03_main_score_candidate.toml`; the
+accepted manifest, source-present ledger state and 78/371/59,624 totals are
+unchanged. No cold result is claimed by installing this candidate.
+
+The retained three-phase native diagnostic is preserved at
+`.analysis/gpt-dots-score-retained-diagnostic-v02/run-first-v01/receipt.json`
+(SHA256 `cbecdf01d884eb7a67a75c41df94c12c6dc35817d1e686300dbb2c17af9ea8eb`).
+Its sole strict failure was eight same-literal-address public display ties.
+The independently reviewed read-only supplement
+`.analysis/gpt-dots-score-public-ties-review-v01/report.json`
+(SHA256 `cd7c65bd8141e1ee7233b8d9b471397928eaeb84183533872fe116b7e218e531`)
+passes the exact bounded tie rule while retaining the failed original receipt.
+This is retained-link feasibility, not cold or exact acceptance.
+
+The candidate uses the existing serial replay and native Tup build graph, one
+additional symbolic ASM object at the actual maintained path, a 454-byte root
+extraction and exact-count caller/import/storage-alias edits. Its dedicated
+score-only adapter preserves the old score_add semantic owner and 88-byte raw
+extent while explicitly validating the new physical carrier. The original
+root/include is checked before extraction, and the staged root, score source
+and single unchanged score_add include are hash-bound afterward. Generic
+candidate additions still cannot replace accepted owners. The default replay
+never activates the score migration or its public-tie treatment.
+
+The conjunctive supplement compares both fresh rounds against both retained
+accepted rounds: all 31 game products, all 43 MAP files, prior non-root game
+objects using the existing dependency-timestamp comparator, complete MAIN
+outside bytes and 1,547 literal relocation pairs, the original six-site new
+union, DATA/BSS/STACK, headers and full ordered contribution/public inventories.
+Only the two new bands are excluded from outside comparison; score_add remains
+outside. The eight enumerated public display ties do not permit arbitrary
+sorting, case folding, changed symbol multiplicity or changed addresses.
+Historical proof inventories are guarded in place, not copied recursively.
+
+After installation and full CI, the proposed cold command is:
+
+    python3 scripts/replay_th03_main_serial.py --foreground --run-id UNIQUE_SCORE_ID --candidate-manifest config/th03_main_score_candidate.toml
+
+Two actual independent cold rounds and all configured required gates must pass
+before any deliberate promotion/default integration and subsequent fresh
+no-candidate regression. Keep assembler logs, including the nine historical
+BYTE/EVEN alignment warnings; no warning suppression or alignment compensation
+is introduced. Whole-original global relocation interposition remains separate
+and unclosed.
+
+The existing input/math DOS probe remains required. Dedicated score/device
+traces are supporting Oracles under `config/oracles.toml`, not newly invented
+universal acceptance gates. No new behavior proof is claimed for the AL/CX/ES
+glyph interface, DF/carry loop (including x640), BCD/story extends, distinct
+GRCG effects, writable-CS credit immediate, or overlapping clears. Reset intent,
+transitive DS provenance, physical VRAM/GRCG timing and cross-emulator behavior
+remain explicit semantic limitations rather than being inferred from raw bytes.

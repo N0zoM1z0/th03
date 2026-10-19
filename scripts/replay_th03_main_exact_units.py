@@ -30,6 +30,7 @@ from lib.hud_tc4_bridge import (
     stitch_hud_compiler_asm, reverse_hud_fixupp_order, validate_hud_stitch_recipe,
 )
 from lib.pc98 import parse_mz
+from lib import th03_score_candidate as score_candidate
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -304,7 +305,8 @@ def normalized_code_extents(unit: dict, default_segment: int) -> list[dict]:
                 or not unit.get("physical_objects_additive")
             ):
                 raise ValueError(f"invalid carved producer owner: {unit['id']}")
-        elif raw_parts is None and extent["map_start"] != extent["start"]:
+        elif (raw_parts is None and extent["map_start"] != extent["start"]
+              and not score_candidate.is_score_owner(unit)):
             raise ValueError(f"interior CODE requires a bounded include: {unit['id']}")
         result.append(extent)
     return result
@@ -489,11 +491,18 @@ def add_candidate_owners(config: dict, candidate: dict) -> dict:
 
 def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | None = None) -> dict:
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+    score_original = None
+    score_proof = None
     if candidate_manifest is not None:
         candidate_manifest = candidate_manifest.resolve()
         if not candidate_manifest.is_relative_to(ROOT / "config"):
             raise ValueError("candidate manifest must be inside repository config/")
-        config = add_candidate_owners(config, tomllib.loads(candidate_manifest.read_text()))
+        additions = tomllib.loads(candidate_manifest.read_text())
+        config = add_candidate_owners(config, additions)
+        if any(u.get("id") == "th03-main-score-hud" for u in additions["units"]):
+            config, score_original = score_candidate.bind_candidate(
+                config, additions, candidate_manifest.relative_to(ROOT).as_posix())
+            score_proof = score_candidate.guard_baseline(ROOT)
     if not re.fullmatch(r"[a-zA-Z0-9_-]{1,64}", run_id):
         raise ValueError("run-id must use 1-64 ASCII letters, digits, underscores or hyphens")
     output = ROOT / ".analysis/th03-main-exact" / run_id
@@ -684,7 +693,12 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         # reorganize it. A carved owner gains its include only in the next
         # phase, and then its include chain is checked without reusing the old
         # whole-carrier digest.
+        if score_original is not None:
+            verify_include_carrier(score_original, work)
+            score_candidate.check_original_build(work)
         for module in config["units"]:
+            if score_original is not None and module["id"] == score_original["id"]:
+                continue
             verify_include_carrier(
                 module, work, require_include=not bool(module.get("carrier_edits"))
             )
@@ -724,6 +738,10 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                         wrapper.write_text(
                             producer["wrapper_prefix"] + f'#include "{producer["source"]}"\n'
                         )
+        if score_original is not None:
+            score_candidate.check_stage(work)
+            verify_include_carrier(next(u for u in config["units"]
+                                        if u["id"] == score_original["id"]), work)
         for module in config["units"]:
             for ordering in ordering_objects(module):
                 overlay = work / ordering["overlay_path"]
@@ -1040,6 +1058,12 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                     producer_ranges.append(result)
                     if producer_range["kind"] == "padding":
                         padding.append(result)
+        score_preservation = None
+        if score_original is not None:
+            score_preservation = score_candidate.check_round(ROOT, work, target, score_proof)
+            if not score_preservation["pass_"]:
+                (logs / "score-preservation.json").write_text(json.dumps(score_preservation, indent=2) + "\n")
+                raise ValueError("score candidate strict preservation failed")
         probe = prefix / "drive_c" / f"{stem}{number}"
         probe.mkdir(exist_ok=False)
         shutil.copy2(snapshot / "probes/main/input_math_behavior.cpp", probe / "behavior.cpp")
@@ -1069,6 +1093,8 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             "padding_ranges": padding,
             "link_response_sha256": sha((work / "obj/th03/main.@l").read_bytes()),
             "candidate_sha256": sha(candidate), "behavior_pass": True})
+        if score_preservation is not None:
+            report["rounds"][-1]["score_candidate_preservation"] = score_preservation
     first, second = report["rounds"]
     report["objects_metadata_normalized_equal"] = all(
         first["objects"][name]["dependency_timestamp_normalized_sha256"] ==
@@ -1109,6 +1135,12 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                           for r in report["rounds"]
                           for aux in r["auxiliary_map_contributions"]
                       ))
+    if score_original is not None:
+        report["pass"] = report["pass"] and all(
+            r["score_candidate_preservation"]["pass_"] for r in report["rounds"])
+        report["score_candidate_exact_acceptance"] = False
+        if score_candidate.guard_baseline(ROOT) != score_proof:
+            raise ValueError("historical score preservation proof changed")
     # Guard against source and target mutation during the replay.
     if any(sha((ROOT / name).read_bytes()) != digest for name, digest in inputs.items()):
         raise ValueError("source changed during replay")
