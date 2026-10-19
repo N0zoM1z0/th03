@@ -1,0 +1,111 @@
+# Conditional two-producer Marisa proposal; one unaccepted complete logical owner.
+schema_version = 1
+
+[[units]]
+id = "th03-main-marisa-gameplay"
+source = "src/main/player/chargeshot_marisa.cpp"
+header = "src/main/player/chargeshot_marisa.hpp"
+object = "cs_mari"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/cs_mari.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "cs_mari", wrapper = "th03/cs_mari.cpp", source = "src/main/player/chargeshot_marisa.cpp" }, { object = "bm_mari", wrapper = "th03/bm_mari.cpp", source = "src/main/player/bomb_marisa.cpp" }]
+support_files = ["compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/bullet/bullet.hpp", "compat/rec98/th03/main/hitbox.hpp", "compat/rec98/th03/main/hitcirc.hpp", "compat/rec98/th03/main/player/bomb.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/sprite16.hpp", "compat/rec98/th03/main/v_colors.hpp", "compat/rec98/th03/math/randring.hpp"]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/p_hyper.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/p_hyper.cpp\",\n\t\"th03/cs_mari.cpp\",\n\t\"th03/bm_mari.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [{ name = "code", ledger_id = "th03-main-marisa-gameplay", segment = 5021, start = 2304, size = 1958, map_segment = "HITBOX_TEXT", map_group = "MAIN_04", map_acbp = 28, map_parts = [{ object = "cs_mari", start = 2304, size = 1509, map_module = "th03/cs_mari.cpp" }, { object = "bm_mari", start = 3813, size = 449, map_module = "th03/bm_mari.cpp" }] }]
+carrier_edits = [{ kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern MARISA_CHARGESHOT_STATE_RESET:far\r\n\textern CHARGESHOT_ADD_MARISA:far\r\n\textern MARISA_HYPER_14340:far\r\n\textern CHARGESHOT_UPDATE_MARISA:far\r\n\textern CHARGESHOT_RENDER_MARISA:far\r\n\textern @chargeshot_hittest_marisa$qv:far\r\n\textern _gba_gauge_pattern_pellet_marisa:far\r\n\textern _gba_gauge_pattern_bullet_marisa:far\r\n\textern @marisa_bomb$qv:far\r\n" }, { kind = "remove-between", path = "th03_main.asm", start_marker = "sub_142D0\tproc far\r\n", end_marker = "marisa_bomb\tendp\r\n", replacement = "; Complete Marisa gameplay CODE prefix moved to natural TC4 cs_mari producer\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tcall\tsub_142D0\r\n", after = "\t\tcall\tMARISA_CHARGESHOT_STATE_RESET\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p1.chargeshot_add, chargeshot_add_marisa\r\n", after = "\t\tsetfarfp\t_p1.chargeshot_add, CHARGESHOT_ADD_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p1, chargeshot_update_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p1, CHARGESHOT_UPDATE_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p1, chargeshot_render_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p1, CHARGESHOT_RENDER_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, gba_gauge_pattern_pellet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, _gba_gauge_pattern_pellet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, gba_gauge_pattern_bullet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, _gba_gauge_pattern_bullet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, marisa_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @marisa_bomb$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p2.chargeshot_add, chargeshot_add_marisa\r\n", after = "\t\tsetfarfp\t_p2.chargeshot_add, CHARGESHOT_ADD_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p2, chargeshot_update_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p2, CHARGESHOT_UPDATE_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p2, chargeshot_render_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p2, CHARGESHOT_RENDER_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, gba_gauge_pattern_pellet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, _gba_gauge_pattern_pellet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, gba_gauge_pattern_bullet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, _gba_gauge_pattern_bullet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, marisa_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @marisa_bomb$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "_hitcircles_enemy_add_do_not_rand\tdb ?\r\n\t\tdb 8 dup(?)\r\nbyte_1FDEA\tdb ?\r\n", after = "_hitcircles_enemy_add_do_not_rand\tdb ?\r\n\t\tdb 2 dup(?)\r\npublic _marisa_gauge_y, _marisa_gauge_frame, _marisa_chargeshots\r\n_marisa_gauge_y label word\r\n\t\tdw 2 dup(?)\r\n_marisa_gauge_frame label byte\r\n\t\tdb 2 dup(?)\r\n_marisa_chargeshots label byte\r\nbyte_1FDEA\tdb ?\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "word_1FE4E\tdw ?\r\n", after = "public _marisa_chargeshot_p\r\n_marisa_chargeshot_p label word\r\nword_1FE4E\tdw ?\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "point_1FE52\tPoint <?>\r\n", after = "public _marisa_bomb_point\r\n_marisa_bomb_point label word\r\npoint_1FE52\tPoint <?>\r\n" }, { kind = "replace-once", path = "build.bat", before = ":tup\r\nbin\\tup\r\ngoto return_from_tup\r\n", after = ":tup\r\nbin\\tup -j1\r\ngoto return_from_tup\r\n" }]
+parent_carriers = [{ path = "build.bat", sha256 = "400349385d38fcb72d17f14c0e4680d677d8d704c15bcfbabb17725a6f2c9a95" }]
+
+[[functions]]
+name = "marisa_chargeshot_state_reset"
+object = "cs_mari"
+segment = 5021
+offset = 2304
+size = 15
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "chargeshot_add_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2319
+size = 97
+boundary = "owner-linear-span"
+abi = "far Pascal; two subpixel word arguments; RETF 4"
+
+[[functions]]
+name = "marisa_hyper_14340"
+object = "cs_mari"
+segment = 5021
+offset = 2416
+size = 126
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "chargeshot_update_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2542
+size = 201
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf; internal early RETF remains in this body"
+
+[[functions]]
+name = "chargeshot_hittest_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2743
+size = 138
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "chargeshot_render_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2881
+size = 414
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "gauge_pattern_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 3295
+size = 470
+boundary = "owner-linear-span"
+abi = "near Pascal; byte-valued argument in one word slot; RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 3765
+size = 24
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 3789
+size = 24
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "marisa_bomb"
+object = "cs_mari"
+segment = 5021
+offset = 3813
+size = 449
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
