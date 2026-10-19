@@ -18,7 +18,7 @@ class Gates(unittest.TestCase):
     def setUp(self):
         self.rows=[(0x139D,o,n,'CODE','HITBOX_TEXT','MAIN_04',m,28) for o,n,m in c.PARTS]
         self.rows += [(0x1D56,0,0,k,'_DATA' if k=='DATA' else '_BSS','DGROUP',m,48) for _,_,m in c.PARTS[:5] for k in ('DATA','BSS')]
-        self.rows += [(0x139D,0x1F25,0,'CODE','HITBOX_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x3673,0,'CODE','BULLET_TEXT','MAIN_04','th03/ex_ord.cpp',28),(0x139D,0x3673,833,'CODE','BULLET_TEXT','MAIN_04','th03/bm_mima.cpp',28),(0x139D,0x39B4,0,'CODE','BULLET_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x39B4,0xA2A,'CODE','BULLET_TEXT','MAIN_04','th03/bullet.cpp',28)]
+        self.rows += [(0x139D,0x1F25,0,'CODE','HITBOX_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x3673,0,'CODE','BULLET_TEXT','MAIN_04','th03/ex_ord.asm',28),(0x139D,0x3673,833,'CODE','BULLET_TEXT','MAIN_04','th03/bm_mima.cpp',28),(0x139D,0x39B4,0,'CODE','BULLET_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x39B4,0xA2A,'CODE','BULLET_TEXT','MAIN_04','th03/bullet.cpp',28)]
         self.rows += [(0x1D56,0,0,k,'_DATA' if k=='DATA' else '_BSS','DGROUP','th03/bm_mima.cpp',48) for k in ('DATA','BSS')]
     def test_good_layout(self):c.check_layout(self.rows)
     def test_shift_each_producer(self):
@@ -180,4 +180,58 @@ class Gates(unittest.TestCase):
         import json
         plan={'launch_ready':False,'unresolved':['fresh inventories, authorization and scheduling pins']}
         with self.assertRaises(ValueError):c.check_launch(plan,ROOT,lambda p:p.read_bytes())
+
+    def split_owner_fixture(self):
+        base=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        unit=next(u for u in base['units'] if u['object']=='e_enemy')
+        config=dict(base,units=[unit])
+        rows=[]
+        for extent in unit['code_extents']:
+            for part in extent['map_parts']:
+                producer=next(p for p in unit['physical_objects'] if p['object']==part['object'])
+                module=part.get('map_module',producer.get('wrapper',f"th03/{producer['object']}.cpp"))
+                rows.append((extent.get('segment',base['segment']),part['start'],part['size'],'CODE',part.get('map_segment',extent.get('map_segment','SHARED')),part.get('map_group',extent.get('map_group','(none)')),module.replace(chr(92),'/'),part.get('map_acbp',extent.get('map_acbp',28))))
+        return config,rows
+    def test_real_pinned_split_owner_map(self):
+        config,rows=self.split_owner_fixture()
+        self.assertIn('th03/e_ena.cpp',[r[6] for r in rows])
+        self.assertIn('th03/e_enb.cpp',[r[6] for r in rows])
+        c.check_map_scope(rows,[config])
+    def test_real_split_owner_wrong_logical_module(self):
+        config,rows=self.split_owner_fixture()
+        for i,row in enumerate(rows):
+            altered=rows[:];altered[i]=(*row[:6],'th03/e_enemy.cpp',row[7])
+            with self.assertRaises(ValueError):c.check_map_scope(altered,[config])
+    def test_real_split_owner_swapped_objects(self):
+        config,rows=self.split_owner_fixture()
+        parts=[p for e in config['units'][0]['code_extents'] for p in e['map_parts']]
+        self.assertGreaterEqual(len(parts),2)
+        parts[0]['object'],parts[1]['object']=parts[1]['object'],parts[0]['object']
+        with self.assertRaises(ValueError):c.check_map_scope(rows,[config])
+    def test_split_module_precedence_and_missing_producer(self):
+        config,rows=self.split_owner_fixture()
+        unit=config['units'][0];unit['map_module']='wrong-logical.cpp'
+        for e in unit['code_extents']:e['map_module']='wrong-extent.cpp'
+        c.check_map_scope(rows,[config])
+        part=unit['code_extents'][0]['map_parts'][0]
+        part['map_module']='explicit.cpp'
+        altered=rows[:];altered[0]=(*rows[0][:6],'explicit.cpp',rows[0][7])
+        c.check_map_scope(altered,[config])
+        part['object']='missing'
+        with self.assertRaises(ValueError):c.check_map_scope(altered,[config])
+
+
+    def test_implicit_part_preserves_logical_map_module(self):
+        config={'segment':1,'units':[{'id':'logical','object':'logical','start':2,'size':4,'map_module':'logical-map.cpp','physical_objects':[{'object':'physical','wrapper':'physical.asm'}]}]}
+        row=(1,2,4,'CODE','SHARED','(none)','logical-map.cpp',28)
+        c.check_map_scope([row],[config])
+        with self.assertRaises(ValueError):c.check_map_scope([(*row[:6],'physical.asm',row[7])],[config])
+    def test_existing_ordering_producer_is_assembly(self):
+        base=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        order=next(o for u in base['units'] for o in u.get('ordering_objects',[]) if o['object']=='ex_ord')
+        self.assertEqual(order['overlay_path'],'th03/ex_ord.asm')
+        c.check_layout(self.rows)
+        rows=[(*r[:6],'th03/ex_ord.cpp',r[7]) if r[6]=='th03/ex_ord.asm' else r for r in self.rows]
+        with self.assertRaises(ValueError):c.check_layout(rows)
+
 if __name__=='__main__':unittest.main()

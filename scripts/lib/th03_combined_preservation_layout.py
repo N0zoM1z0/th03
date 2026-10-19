@@ -24,7 +24,7 @@ def check_layout(rows,split=True):
         for kind in ('DATA','BSS'):
             found=[r for r in rows if r[6]==module and r[3]==kind]
             require(bool(found) and all(r[2]==0 for r in found),'missing/nonzero '+kind+': '+module)
-    for row in [(0x139D,0x1F25,0,'CODE','HITBOX_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x3673,0,'CODE','BULLET_TEXT','MAIN_04','th03/ex_ord.cpp',28),(0x139D,0x3673,833,'CODE','BULLET_TEXT','MAIN_04','th03/bm_mima.cpp',28),(0x139D,0x39B4,0,'CODE','BULLET_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x39B4,0xA2A,'CODE','BULLET_TEXT','MAIN_04','th03/bullet.cpp',28)]:
+    for row in [(0x139D,0x1F25,0,'CODE','HITBOX_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x3673,0,'CODE','BULLET_TEXT','MAIN_04','th03/ex_ord.asm',28),(0x139D,0x3673,833,'CODE','BULLET_TEXT','MAIN_04','th03/bm_mima.cpp',28),(0x139D,0x39B4,0,'CODE','BULLET_TEXT','MAIN_04','th03_main.asm',28),(0x139D,0x39B4,0xA2A,'CODE','BULLET_TEXT','MAIN_04','th03/bullet.cpp',28)]:
         require(rows.count(row)==1,'Mima bomb/tail MAP mismatch: '+repr(row))
     overlap=[r for r in rows if r[3]=='CODE' and r[2] and r[0]*16+r[1]<0x17384 and r[0]*16+r[1]+r[2]>0x17043]
     require(len(overlap)==1,'unexpected bomb contributor')
@@ -122,7 +122,18 @@ def check_map_scope(rows,configs):
                 default=dict(start=extent.get('map_start',extent['start']),size=extent.get('map_size',extent['size']))
                 for part in extent.get('map_parts',[default]):
                     def value(key,fallback):return part.get(key,extent.get(key,unit.get(key,fallback)))
-                    row=(seg,part['start'],part['size'],'CODE',value('map_segment','SHARED'),value('map_group','(none)'),value('map_module',unit.get('wrapper',f"th03/{unit['object']}.cpp")).replace(chr(92),'/'),value('map_acbp',28))
+                    if 'map_parts' in extent:
+                        # Explicit parts select their physical producer, matching
+                        # normalized_code_extents. Logical-owner defaults do not
+                        # override the selected producer's wrapper.
+                        producers=unit.get('physical_objects',[{'object':unit['object'],'wrapper':unit.get('wrapper',f"th03/{unit['object']}.cpp")}])
+                        selected=[p for p in producers if p['object']==part['object']]
+                        require(len(selected)==1,'missing/duplicate physical MAP producer: '+str(part['object']))
+                        producer=selected[0]
+                        module=part.get('map_module',producer.get('wrapper',f"th03/{producer['object']}.cpp"))
+                    else:
+                        module=value('map_module',unit.get('wrapper',f"th03/{unit['object']}.cpp"))
+                    row=(seg,part['start'],part['size'],'CODE',value('map_segment','SHARED'),value('map_group','(none)'),module.replace(chr(92),'/'),value('map_acbp',28))
                     require(rows.count(row)==1,'independent pinned MAP mismatch: '+repr(row))
 def publics(text):
     result={}

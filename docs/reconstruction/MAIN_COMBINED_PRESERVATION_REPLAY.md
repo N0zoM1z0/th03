@@ -24,4 +24,10 @@ The report field target_hitbox_tail_exact and target_comparison_scope refer only
 
 ## Installed entrypoints
 
-The CLI imports scripts/lib/th03_combined_preservation_layout.py and binds both files in its input guards. It retains the immutable scripts/lib/th03_preservation_layout.py helper and scripts/lib/pc98.py parser. A reviewed fresh launch plan must bind these actual tracked paths and SHA-256 values after the source/control checkpoint, together with complete default/candidate frozen inventories. The portable 28-test suite uses committed config manifests and a synthetic unresolved plan; it does not require ignored launch templates or invoke native tools.
+The CLI imports scripts/lib/th03_combined_preservation_layout.py and binds both files in its input guards. It retains the immutable scripts/lib/th03_preservation_layout.py helper and scripts/lib/pc98.py parser. A reviewed fresh launch plan must bind these actual tracked paths and SHA-256 values after the source/control checkpoint, together with complete default/candidate frozen inventories. The portable 34-test suite uses committed config manifests and a synthetic unresolved plan; it does not require ignored launch templates or invoke native tools.
+
+## Physical MAP producer regression
+
+The first combined cold pair passed the original native Oracle, but its supplemental verifier failed on a previously accepted split owner: an explicit MAP part must use its declared physical producer wrapper, not the logical owner name. A second diagnostic found that the existing ordering producer is ex_ord.asm, as declared in the pinned manifest, rather than ex_ord.cpp. Both metadata-resolution defects are covered by positive and negative regressions, including all four retained MAPs. No byte, relocation-order, ownership or preservation gate was relaxed.
+
+The failed cold-plan-v01/four-output-preservation.json and original native receipts remain immutable. Diagnostic checks on those outputs do not backfill historical success. The corrected helper requires a new pinned launch plan and fresh default/candidate pair before claiming the complete supplemental preservation result.
