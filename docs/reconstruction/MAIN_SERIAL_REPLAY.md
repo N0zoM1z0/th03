@@ -20,6 +20,14 @@ Default, no candidate:
 Add the reviewed Marisa candidate, retaining every default gate:
     python3 scripts/replay_th03_main_serial.py --foreground --run-id UNIQUE_CANDIDATE_ID --candidate-manifest config/th03_main_marisa_candidate.toml
 
+The exact hash-pinned candidate allowlist also includes the cumulative Reimu/shared and Mima manifests. Their presence in the allowlist does not imply acceptance.
+
+Cumulative Marisa + Reimu/shared:
+    python3 scripts/replay_th03_main_serial.py --foreground --run-id UNIQUE_REIMU_ID --candidate-manifest config/th03_main_reimu_shared_candidate.toml
+
+Cumulative Marisa + Reimu/shared + Mima:
+    python3 scripts/replay_th03_main_serial.py --foreground --run-id UNIQUE_MIMA_ID --candidate-manifest config/th03_main_mima_gameplay_candidate.toml
+
 The adapter is an internal entrypoint; do not invoke scripts/lib/th03_serial_schedule.py directly. It requires the owning supervisor status, claim and script pins.
 
 The supervisor allows 900 seconds for its replay child, followed by bounded owned-process cleanup and final evidence capture. Original per-command limits, including the Oracle's 180-second execute limit, are not extended. A transport timeout does not prove the backend stopped. Never resubmit after uncertainty: inspect the named status and claim instead.

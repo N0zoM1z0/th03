@@ -167,5 +167,57 @@ class OptionParser(unittest.TestCase):
         ):
             with self.assertRaises(ValueError):m.verify_options(text.encode())
 
+class CandidatePins(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(prefix="th03-candidate-pins-")
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        (self.root / "control.txt").write_bytes(b"control")
+        self.control = {"control.txt": m.sha(b"control")}
+        p = patch.object(m, "PINS", self.control)
+        p.start(); self.addCleanup(p.stop)
+
+    def test_reviewed_allowlist_is_exact(self):
+        self.assertEqual(m.CANDIDATE_PINS, {
+            "config/th03_main_marisa_candidate.toml":
+                "fd9722b0f16a8bfe305b7782697b729f2ea1ef3d7b13ea1f83ba21af0eaf908d",
+            "config/th03_main_reimu_shared_candidate.toml":
+                "8294faefad6ca71e8d9cc684070e043e43a65bbd9b3e856c178b0cdce08752d1",
+            "config/th03_main_mima_gameplay_candidate.toml":
+                "855730e3d9943ef8afa4117c3b5a4ebe0c22ae12de56049f847e69c6182c270d",
+        })
+
+    def test_default_needs_no_candidate_file(self):
+        self.assertEqual(m.check_pins(self.root, None), self.control)
+
+    def test_each_candidate_checks_only_selected_manifest(self):
+        fixture = {name: m.sha(name.encode()) for name in m.CANDIDATE_PINS}
+        with patch.object(m, "CANDIDATE_PINS", fixture):
+            for name, expected in fixture.items():
+                path = self.root / name
+                path.parent.mkdir(exist_ok=True)
+                path.write_bytes(name.encode())
+                self.assertEqual(m.check_pins(self.root, name),
+                                 {**self.control, name: expected})
+                path.unlink()
+
+    def test_manifest_drift_fails_closed(self):
+        name = next(iter(m.CANDIDATE_PINS))
+        path = self.root / name
+        path.parent.mkdir(); path.write_bytes(b"changed")
+        with self.assertRaisesRegex(ValueError, "input pin drift"):
+            m.check_pins(self.root, name)
+
+    def test_unreviewed_manifest_rejected(self):
+        with self.assertRaisesRegex(ValueError, "unreviewed candidate"):
+            m.check_pins(self.root, "config/unreviewed_candidate.toml")
+
+    def test_candidate_symlink_rejected(self):
+        name = next(iter(m.CANDIDATE_PINS))
+        path = self.root / name
+        path.parent.mkdir(); path.symlink_to(self.root / "control.txt")
+        with self.assertRaisesRegex(ValueError, "symlink"):
+            m.check_pins(self.root, name)
+
 if __name__=="__main__":
     unittest.main()

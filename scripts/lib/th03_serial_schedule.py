@@ -34,8 +34,14 @@ PINS.update({
     "scripts/lib/toolchain.py": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
     "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501"
 })
-CANDIDATE = "config/th03_main_marisa_candidate.toml"
-CANDIDATE_SHA = "fd9722b0f16a8bfe305b7782697b729f2ea1ef3d7b13ea1f83ba21af0eaf908d"
+CANDIDATE_PINS = {
+    "config/th03_main_marisa_candidate.toml":
+        "fd9722b0f16a8bfe305b7782697b729f2ea1ef3d7b13ea1f83ba21af0eaf908d",
+    "config/th03_main_reimu_shared_candidate.toml":
+        "8294faefad6ca71e8d9cc684070e043e43a65bbd9b3e856c178b0cdce08752d1",
+    "config/th03_main_mima_gameplay_candidate.toml":
+        "855730e3d9943ef8afa4117c3b5a4ebe0c22ae12de56049f847e69c6182c270d",
+}
 BUILD_SHA = "400349385d38fcb72d17f14c0e4680d677d8d704c15bcfbabb17725a6f2c9a95"
 TUP_SHA = "441f516765ee1fbad1672a5a31e484c979d5fd12f61efe2348c521bdab659cd1"
 EMPTY_SHA = hashlib.sha256(b"").hexdigest()
@@ -66,9 +72,9 @@ def check_regular(path):
 def check_pins(root, candidate):
     pins = dict(PINS)
     if candidate:
-        if candidate != CANDIDATE:
+        if candidate not in CANDIDATE_PINS:
             raise ValueError("unreviewed candidate manifest")
-        pins[candidate] = CANDIDATE_SHA
+        pins[candidate] = CANDIDATE_PINS[candidate]
     for name, expected in pins.items():
         p = root / name
         check_regular(p)
@@ -180,7 +186,7 @@ class Schedule:
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--run-id", required=True)
-    ap.add_argument("--candidate-manifest", choices=[CANDIDATE])
+    ap.add_argument("--candidate-manifest", choices=sorted(CANDIDATE_PINS))
     ap.add_argument("--supervisor-state", type=Path, required=True,
                     help="owning durable supervisor status; no standalone launch")
     args = ap.parse_args()
