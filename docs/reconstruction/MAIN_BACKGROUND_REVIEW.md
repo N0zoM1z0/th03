@@ -60,7 +60,55 @@ Vector argument lowering still differs, including an additional adjacent-byte
 read and unused stack padding; full-machine equivalence remains unproved.
 No exact credit, full link, cold replay or runtime acceptance is added.
 
+## Rejected typed-pointer experiment and integration limits
+
+A branch-local typed near pointer was tested only around the two periodic
+VECTOR2 calls. The successful diagnostic compiled each TU once, with both exits
+0 and all guards/cleanup clear, but emitted 704 + 562 = 1,266 CODE bytes.
+Each periodic body grew by five bytes from the committed shared-phase baseline:
+TC4 stored DI at BP-6, reloaded AX twice and still used ADD AX,4/6. ENTER 4 became
+ENTER 6. The unchanged-frame and no-new-spill gates therefore reject this
+hypothesis; the proposed source is not installed. The seven other bodies remain
+identical to the preceding native objects. All 86 bindings and 59 branches were
+checked; the same 4,096 phase assignments and 416 unassigned cases remain, but
+stack layout differs. Reference values and Pascal argument order are preserved.
+Five complete bodies still match 348 target bytes, and 16 projected literal
+relocation sites still differ. This result adds no exact credit.
+
+The first pointer launch failed before any compiler invocation because its
+captured include-closure loader retained an old plan path. Its receipt and
+cleanup_uncertain=true launcher record remain unchanged. A separately reviewed
+recovery archived the exact live marker under the writer lock, rechecked the
+zero-spawn failure and absence of native writers, and cleared only that marker.
+The fresh plan resolves its own captured closure and tests actual capture-to-
+loader execution, including missing-current/old-present and drift failures.
+No compiler, source, byte, frame or relocation requirement was relaxed.
+
+A separate necessary-order analysis found a prospective complete-tail object
+sequence that preserves accepted object precedence and required placement while
+matching the new-only relocation union. This is a staging witness, not a linked
+result or full-original-stream equality. Original interposition of accepted
+combo/enemy objects still creates a cycle. Any future candidate must preserve
+all accepted and outside-baseline bytes/literal order, retain score_add's raw
+bytes/public/ownership, and review its physical contribution binding separately.
+The old 34-site diagnostic cannot stand in for a future 123-site union. No gate
+change or integration launch is authorized by this analysis.
+
 ## Retained evidence
+
+- Rejected pointer audit: `.analysis/gpt-dots-tail-background-independent-pointer-v01/report.json`,
+  SHA256 `21bdb1ab46826e8589fa49559414ec82db8301de97985524f1e67c48a64d9590`.
+  Its `baseline-comparison.json` and `REVIEW.md` retain the frame/spill comparison.
+- Successful pointer diagnostic: `.analysis/gpt-dots-tail-background-pointer-probe-v02/compile-first-v01/receipt.json`,
+  SHA256 `cb8681904b96157b0fd3ba8bf7fcafe32835abaac54abbde25a5de064fdfb3bf`.
+- Precompile failure: `.analysis/gpt-dots-tail-background-pointer-probe-v01/compile-first-v01/receipt.json`,
+  SHA256 `d260392e10f7f32f3b4d732b3d55e331fb88b939e1fd5bdb2e4a05df5825ff18`.
+  Recovery: `.analysis/gpt-dots-tail-background-pointer-zero-spawn-recovery-v01/archive-first-v01/completed.json`;
+  the same directory preserves the exact marker and before-clear verification.
+- Necessary-order analysis: `.analysis/gpt-dots-complete-tail-link-plan-v01/audit.json`,
+  SHA256 `282e97cc70947a0c590e9bbecbb2af2c3cc8e6329363c5a8b7e2d406bd2266aa`.
+  Scope and comparator locations: `.analysis/gpt-dots-complete-tail-link-plan-v01/REPORT.md`,
+  SHA256 `b1dc1e1ca6e20f9564b5b683728bffd1d6a9fd51ba3d8b146c7ececeac2f7646`.
 
 - Shared-phase native audit: `.analysis/gpt-dots-tail-background-independent-shared-phase-v01/report.json`,
   SHA256 `25835ec078d91607fecec979254f2caed313ee0628d8c32da5e80637581abcfd`.

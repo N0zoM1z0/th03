@@ -52,7 +52,7 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2,763 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 2,767 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
@@ -66,6 +66,11 @@ original 104-byte prefixes, while total native CODE is 1256 versus 1245 target
 bytes; full-body encoding differences, 16 projected relocation-site mismatches,
 stack-dependent phase behavior and external INT42 remain open. The negative
 unmodified compiler-to-assembler experiment is preserved.
+The later typed-pointer experiment is rejected: it adds a BP-6 spill and
+changes both periodic frames to ENTER 6. The committed source remains unchanged.
+A complete-tail order witness is only a prospective staging constraint; actual
+linking, accepted-owner preservation and original interposition remain separate
+gates, with the stronger original-interposition cycle still unresolved.
 
 ## Accepted large gameplay and shared owners
 
@@ -199,11 +204,13 @@ changes and their meaningful failure evidence; do not reset away blockers.
     python3 scripts/ci.py
     git diff --check
 
-Latest completed full CI for the shared-phase refinement: **PASS, 810 tests**,
-2026-10-19 20:11:03–20:13:39 UTC, with all 740 input hashes/modes unchanged.
-Log and result: `.analysis/gpt-dots-tail-background-shared-phase-install-v02/full-ci/ci.log`
+Latest completed full CI for the pointer diagnostic closeout: **PASS, 810 tests**,
+2026-10-19 20:39:59–20:42:51 UTC, with all 740 input hashes/modes unchanged.
+Log and result: `.analysis/gpt-dots-tail-background-pointer-closeout-v01/full-ci/ci.log`
 and `ci.json`. This handoff was updated afterward to record that result;
 source, ledgers and build inputs remain identical to the tested batch.
+The shared-phase CI passed at 20:11:03–20:13:39 UTC; its results remain in
+`.analysis/gpt-dots-tail-background-shared-phase-install-v02/full-ci/`.
 The preceding background milestone CI passed at 19:37:57–19:40:37 UTC;
 its results remain in `.analysis/gpt-dots-tail-background-milestone-v04/full-ci/`.
 The preceding score HUD CI passed at 19:03:00–19:06:02 UTC with 735 unchanged
