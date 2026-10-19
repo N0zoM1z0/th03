@@ -21,8 +21,8 @@ are invented. MAIN's noclip wrapper saves DI; the external INT42 handler's SI
 preservation remains outside this proof. Unsigned32 thresholds, modulo16 update,
 RNG48/40 call domains and the four sprite offsets in eight-frame steps remain.
 
-Normal v07 compilation emits1252 bytes versus1245 target bytes; five complete
-bodies totaling348 bytes match under reviewed bindings. Six XOR-SI encodings,
+Historical normal v07 compilation emits 1252 bytes versus 1245 target bytes;
+five complete bodies totaling 348 bytes match under reviewed bindings. Six XOR-SI encodings,
 phase/vector lowering and conditional-expression differences remain. The
 unmodified -S then TASM experiment emits1271 bytes (706+565), a negative result,
 not an excuse to edit generated assembly. It is separate from ordinary C++.
@@ -43,8 +43,29 @@ The negative -S/TASM producer also changes callback frame policy and emits the
 roles. All generated assembly bytes/inodes/modes remained untouched. No assembly
 patch, FIXUPP repair, flags sweep or manual stack ABI was used.
 
+The shared-phase refinement uses forward source labels into one increment,
+one decrement and one changed=1 tail, following both original CFGs. The guarded
+direct TC4 probe emits 699 + 557 = 1256 bytes versus 1245 target bytes, four
+bytes more than the previous 1252-byte producer. Both 104-byte phase prefixes now match the
+original under reviewed bindings, including ENTER 4, BP-2 frame, BP-3 changed
+and forward shared tails. All 4096 phases agree, including 416 paths that retain
+the incoming flag; byte-angle wrap is preserved. This does not make the later
+indeterminate C++ read portable or defined. The 59-byte helper and five matching
+complete bodies totaling 348 bytes remain unchanged. Four complete bodies still
+fail raw equality; six XOR-SI encodings, vector lowering and chain2 conditional
+scratch operands remain. All 86 fixups and 59 native branches validate, and the 35
+symbolic segment-fixup roles retain their 19 + 16 order, but 16 projected literal
+sites differ. Independent object projection is not simultaneous linked layout.
+Vector argument lowering still differs, including an additional adjacent-byte
+read and unused stack padding; full-machine equivalence remains unproved.
+No exact credit, full link, cold replay or runtime acceptance is added.
+
 ## Retained evidence
 
+- Shared-phase native audit: `.analysis/gpt-dots-tail-background-independent-shared-phase-v01/report.json`,
+  SHA256 `25835ec078d91607fecec979254f2caed313ee0628d8c32da5e80637581abcfd`.
+- Shared-phase compile receipt: `.analysis/gpt-dots-tail-background-shared-phase-probe-v01/compile-first-v01/receipt.json`,
+  SHA256 `f7f38290343d3fe571fb20ce351c455d1e9aa3662220b7666fae9eb4568d25eb`.
 - Target/CFG: `.analysis/gpt-dots-tail-background-source-v01/audit.json`.
 - Source freeze: `.analysis/gpt-dots-tail-background-source-v07/source-pins.json`.
 - Maintained-path receipt: `.analysis/gpt-dots-tail-background-maintained-probe-v01/compile-first-v01/receipt.json`,

@@ -10,22 +10,22 @@ if(frame < 1024) {
     changed = 0;
 } else if(frame < 1280) {
     if((frame & 7) == 0) {
-        background_angle++;
-        changed = 1;
+        goto background_phase_increment;
     }
 } else if(frame < 2048) {
     changed = 0;
 } else if(frame < 2304) {
     if((frame & 3) == 0) {
-        background_angle--;
-        changed = 1;
+        goto background_phase_decrement;
     }
 } else if(frame < 3072) {
     changed = 0;
 } else if(frame < 4064) {
     if((frame & 127) < 64) {
+background_phase_increment:
         background_angle++;
     } else {
+background_phase_decrement:
         background_angle--;
     }
     changed = 1;
