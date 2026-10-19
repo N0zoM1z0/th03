@@ -2,6 +2,7 @@
 """Run portable TH03 checks and available private headless identity gates."""
 
 from pathlib import Path
+from importlib.util import find_spec
 import subprocess
 import sys
 import tomllib
@@ -15,6 +16,12 @@ def run(*arguments: str) -> None:
 
 def main() -> int:
     try:
+        missing = [name for name in ("capstone", "unicorn") if find_spec(name) is None]
+        if missing:
+            raise ValueError(
+                f"missing CI dependencies for {sys.executable}: {', '.join(missing)}. "
+                "Create/activate .venv, install requirements-ci.txt, then run scripts/ci.py."
+            )
         run("-m", "unittest", "discover", "-s", "tests", "-q")
         run("-m", "compileall", "-q", "scripts", "tests")
         run("scripts/validate_tracking.py")

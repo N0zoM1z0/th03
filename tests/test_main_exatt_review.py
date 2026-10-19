@@ -14,6 +14,10 @@ assert SPEC.loader is not None
 SPEC.loader.exec_module(MODULE)
 
 
+@unittest.skipUnless(
+    (ROOT / '.analysis/targets/th03/main.exe').is_file(),
+    'private attested TH03 MAIN target unavailable',
+)
 class MainExtraAttackReviewTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
