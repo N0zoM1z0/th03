@@ -1,0 +1,544 @@
+{
+  "status": "research only; no exactness or accepted source credit",
+  "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+  "runs": [
+    {
+      "experiment": "stage_v01",
+      "receipt": ".analysis/gpt-dots-stage-setup-source-v01/probe-v01/compile-first-v01/receipt.json",
+      "receipt_sha256": "fc47e39bc30a1ad9730b6acc2110f10e56521fd1b0e91ce298a7c51fa3d709dc",
+      "driver_success": false,
+      "error": "ValueError: compile/process cleanup failed: st_setup",
+      "compiles": [
+        {
+          "object": "st_setup",
+          "command": [
+            "/usr/bin/wine-stable",
+            "cmd",
+            "/d",
+            "/c",
+            "set PATH=C:\\TASM50\\BIN;C:\\TC4\\BIN;%PATH%&&bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M' -nobj/th03/ th03/st_setup.cpp"
+          ],
+          "compiler_exit": 1,
+          "timed_out": false,
+          "cleanup_survivors": [],
+          "cleanup_error": null
+        }
+      ],
+      "objects": {},
+      "source_inputs": {
+        ".analysis/gpt-dots-stage-setup-source-v01/probe-v01/probe_compile_stage_setup.py": "0f06818b59838f72d97e756dd8fb5cf37b3450f4d680675e378cafee54681cc7",
+        ".analysis/gpt-dots-stage-setup-source-v01/setup.cpp": "396ecd0364ef1b1b241f3e7e3bc03c89eeade5221fd6353b853851df4c386821",
+        ".analysis/gpt-dots-stage-setup-source-v01/record.py": "9a4fe4da0e4875e238c36c990ee5a3a2ae7d2d71256124c9d5dc31cbc00f24ad"
+      },
+      "head": "e8a1ed73d0971af2ed00c869ea8ac877cf0220c7",
+      "guards": {
+        "head_unchanged": true,
+        "git_status_unchanged": true,
+        "input_drift": [],
+        "input_mode_drift": [],
+        "staged_input_drift": []
+      }
+    },
+    {
+      "experiment": "stage_v02",
+      "receipt": ".analysis/gpt-dots-stage-setup-source-v02/probe-v01/compile-first-v02/receipt.json",
+      "receipt_sha256": "757a865dcade7f1d23611897ea8b0f0240bf0f8e9bebc9d815c0d547f71410e9",
+      "driver_success": false,
+      "error": "ValueError: duplicate or missing public across physical producers",
+      "compiles": [
+        {
+          "object": "st_setup",
+          "command": [
+            "/usr/bin/wine-stable",
+            "cmd",
+            "/d",
+            "/c",
+            "set PATH=C:\\TASM50\\BIN;C:\\TC4\\BIN;%PATH%&&bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M' -nobj/th03/ th03/st_setup.cpp"
+          ],
+          "compiler_exit": 0,
+          "timed_out": false,
+          "cleanup_survivors": [],
+          "cleanup_error": null
+        }
+      ],
+      "objects": {
+        "st_setup": {
+          "path": ".analysis/gpt-dots-stage-setup-source-v02/probe-v01/compile-first-v02/source/obj/th03/st_setup.obj",
+          "sha256": "62358a3a6415bb747a576e499472217e73376451592437ab49c5bb4912a52804",
+          "actual_code_size": 936,
+          "segments": [
+            {
+              "index": 1,
+              "name": "ST_SETUP_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 2,
+              "name": "_DATA",
+              "class_name": "DATA",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 3,
+              "name": "_BSS",
+              "class_name": "BSS",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 4,
+              "name": "MAIN_01_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 936
+            }
+          ],
+          "public_names": [
+            {
+              "name": "@stage_setup$qv",
+              "segment": 4,
+              "group": 2,
+              "offset": 0
+            }
+          ],
+          "public_spans": [
+            {
+              "name": "@stage_setup$qv",
+              "offset": 0,
+              "next_public_or_code_end": 936,
+              "span_bytes": 936,
+              "tail_hex": "9e009e00a500a500",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            }
+          ],
+          "framing": [
+            {
+              "kind": "LEDATA",
+              "segment": 4,
+              "offset": 0,
+              "size": 936
+            },
+            {
+              "kind": "FIXUPP",
+              "size": 659,
+              "sha256": "083aebc3ee7f504ef11d8a9d0008e17e36da6d57411ad745a4e5373da1a3541b"
+            }
+          ]
+        }
+      },
+      "source_inputs": {
+        ".analysis/gpt-dots-stage-setup-source-v02/probe-v01/probe_compile_stage_setup.py": "af189b18db549e21b0905995d3f54aa69ee6094c334a0baadc6273fb9174b8e9",
+        ".analysis/gpt-dots-stage-setup-source-v02/setup.cpp": "0936a316db683e0c513e0c9d74e20c92ec05f943a1e5ab08d7efac0aabcdf20a",
+        ".analysis/gpt-dots-stage-setup-source-v02/record.py": "0572533691af16bfde3231b07a0ae37d824c91877377df264dbf6212e61348b3"
+      },
+      "head": "e8a1ed73d0971af2ed00c869ea8ac877cf0220c7",
+      "guards": {
+        "head_unchanged": true,
+        "git_status_unchanged": true,
+        "input_drift": [],
+        "input_mode_drift": [],
+        "staged_input_drift": []
+      }
+    },
+    {
+      "experiment": "stage_v03",
+      "receipt": ".analysis/gpt-dots-stage-setup-source-v03/probe-v01/compile-first-v03/receipt.json",
+      "receipt_sha256": "20ba24d4f4374c83da17247b513d7861ccabdb7eb50c27076726680d572063c0",
+      "driver_success": true,
+      "error": null,
+      "compiles": [
+        {
+          "object": "st_setup",
+          "command": [
+            "/usr/bin/wine-stable",
+            "cmd",
+            "/d",
+            "/c",
+            "set PATH=C:\\TASM50\\BIN;C:\\TC4\\BIN;%PATH%&&bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M' -nobj/th03/ th03/st_setup.cpp"
+          ],
+          "compiler_exit": 0,
+          "timed_out": false,
+          "cleanup_survivors": [],
+          "cleanup_error": null
+        }
+      ],
+      "objects": {
+        "st_setup": {
+          "path": ".analysis/gpt-dots-stage-setup-source-v03/probe-v01/compile-first-v03/source/obj/th03/st_setup.obj",
+          "sha256": "fbf805aeb66c905bdafd54b8c391a780d20153e5bc761ab530c58f999f4fd3d8",
+          "actual_code_size": 938,
+          "segments": [
+            {
+              "index": 1,
+              "name": "ST_SETUP_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 2,
+              "name": "_DATA",
+              "class_name": "DATA",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 3,
+              "name": "_BSS",
+              "class_name": "BSS",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 4,
+              "name": "MAIN_01_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 938
+            }
+          ],
+          "public_names": [
+            {
+              "name": "@stage_setup$qv",
+              "segment": 4,
+              "group": 2,
+              "offset": 0
+            }
+          ],
+          "public_spans": [
+            {
+              "name": "@stage_setup$qv",
+              "offset": 0,
+              "next_public_or_code_end": 938,
+              "span_bytes": 938,
+              "tail_hex": "9e009e00a500a500",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            }
+          ],
+          "framing": [
+            {
+              "kind": "LEDATA",
+              "segment": 4,
+              "offset": 0,
+              "size": 938
+            },
+            {
+              "kind": "FIXUPP",
+              "size": 659,
+              "sha256": "2e4c7d2146f97e11c927bd21ad26467c875b0e5ef58b88cc7dbd1471f4f372b7"
+            }
+          ]
+        }
+      },
+      "source_inputs": {
+        ".analysis/gpt-dots-stage-setup-source-v03/probe-v01/probe_compile_stage_setup.py": "40838adfa518c42b84ef603b5a79783e63a5545e3c7f2645ca7348764597bcfc",
+        ".analysis/gpt-dots-stage-setup-source-v03/setup.cpp": "68d793f8a41e8a8d3ef44cdb8d8710852f16357430936ddb670b592c2e654e43",
+        ".analysis/gpt-dots-stage-setup-source-v03/record.py": "7bfc319e1496e14fad96b5647ee41f9c6e9275b354662eefafa877bedabd99c0"
+      },
+      "head": "e8a1ed73d0971af2ed00c869ea8ac877cf0220c7",
+      "guards": {
+        "head_unchanged": true,
+        "git_status_unchanged": true,
+        "input_drift": [],
+        "input_mode_drift": [],
+        "staged_input_drift": []
+      }
+    },
+    {
+      "experiment": "combined_v01",
+      "receipt": ".analysis/gpt-dots-stage-round-owner-source-v01/probe-v01/compile-first-v01/receipt.json",
+      "receipt_sha256": "e34ea80aef07622444e5db808b122f926dd0f9672d57af5189e06dd628554ed6",
+      "driver_success": false,
+      "error": "ValueError: unexpected hook/stage/round public identity",
+      "compiles": [
+        {
+          "object": "st_round",
+          "command": [
+            "/usr/bin/wine-stable",
+            "cmd",
+            "/d",
+            "/c",
+            "set PATH=C:\\TASM50\\BIN;C:\\TC4\\BIN;%PATH%&&bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M' -nobj/th03/ th03/st_round.cpp"
+          ],
+          "compiler_exit": 0,
+          "timed_out": false,
+          "cleanup_survivors": [],
+          "cleanup_error": null
+        }
+      ],
+      "objects": {
+        "st_round": {
+          "path": ".analysis/gpt-dots-stage-round-owner-source-v01/probe-v01/compile-first-v01/source/obj/th03/st_round.obj",
+          "sha256": "1d72216e3e59c8501c6de5977a902b719c52b6c1a0c6a1499e4ac4df25ee31df",
+          "actual_code_size": 1806,
+          "segments": [
+            {
+              "index": 1,
+              "name": "ST_ROUND_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 2,
+              "name": "_DATA",
+              "class_name": "DATA",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 3,
+              "name": "_BSS",
+              "class_name": "BSS",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 4,
+              "name": "MAIN_01_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 1806
+            }
+          ],
+          "public_names": [
+            {
+              "name": "_round_initialize",
+              "segment": 4,
+              "group": 2,
+              "offset": 943
+            },
+            {
+              "name": "_stage_demo_update_none",
+              "segment": 4,
+              "group": 2,
+              "offset": 0
+            },
+            {
+              "name": "@stage_setup$qv",
+              "segment": 4,
+              "group": 2,
+              "offset": 5
+            }
+          ],
+          "public_spans": [
+            {
+              "name": "_stage_demo_update_none",
+              "offset": 0,
+              "next_public_or_code_end": 5,
+              "span_bytes": 5,
+              "tail_hex": "558bec5dc3",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            },
+            {
+              "name": "@stage_setup$qv",
+              "offset": 5,
+              "next_public_or_code_end": 943,
+              "span_bytes": 938,
+              "tail_hex": "a300a300aa00aa00",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            },
+            {
+              "name": "_round_initialize",
+              "offset": 943,
+              "next_public_or_code_end": 1806,
+              "span_bytes": 863,
+              "tail_hex": "04053c056605a105",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            }
+          ],
+          "framing": [
+            {
+              "kind": "LEDATA",
+              "segment": 4,
+              "offset": 0,
+              "size": 1023
+            },
+            {
+              "kind": "FIXUPP",
+              "size": 703,
+              "sha256": "bccfd64a2eca8ecc31e8da5253cb2d6b2b5674e74740147d190fe85ee56440f7"
+            },
+            {
+              "kind": "LEDATA",
+              "segment": 4,
+              "offset": 1023,
+              "size": 783
+            },
+            {
+              "kind": "FIXUPP",
+              "size": 383,
+              "sha256": "3747348e4a5cba0e3c788f8cbde983077ab0660dc9334627b9c59650e2f939b6"
+            }
+          ]
+        }
+      },
+      "source_inputs": {
+        ".analysis/gpt-dots-stage-round-owner-source-v01/probe-v01/probe_compile_stage_round.py": "ab84c5bd4d49d8fb29cdf289ea0d835a3563204b07a4cec5392914efa0e5e18d",
+        ".analysis/gpt-dots-stage-round-owner-source-v01/stage_round.cpp": "c7dd7defd3a3fe43a562fac8f5ee7502b4dfb55331919a10779e7e50c0cea5b2",
+        ".analysis/gpt-dots-stage-round-owner-source-v01/initialize.hpp": "c9d4e5c07694858a342435a3b8bd11b9425d41ea1eb5229ae3f41e7e7e14fc36",
+        ".analysis/gpt-dots-stage-setup-source-v03/setup.cpp": "68d793f8a41e8a8d3ef44cdb8d8710852f16357430936ddb670b592c2e654e43",
+        ".analysis/gpt-dots-round-initializer-source-v04/initialize.cpp": "73717fc392e7f025c938a59b8a6ea6a9d471db5d740cbf758d6e7321c069c639",
+        ".analysis/gpt-dots-round-initializer-source-v04/initialize.hpp": "c9d4e5c07694858a342435a3b8bd11b9425d41ea1eb5229ae3f41e7e7e14fc36"
+      },
+      "head": "e8a1ed73d0971af2ed00c869ea8ac877cf0220c7",
+      "guards": {
+        "head_unchanged": true,
+        "git_status_unchanged": true,
+        "input_drift": [],
+        "input_mode_drift": [],
+        "staged_input_drift": []
+      }
+    },
+    {
+      "experiment": "combined_v02",
+      "receipt": ".analysis/gpt-dots-stage-round-owner-source-v02/probe-v01/compile-first-v02/receipt.json",
+      "receipt_sha256": "06042fb3716402e60e5a8eaf5b3bb034e2aea301d3ab462077592a1ebf083a6e",
+      "driver_success": true,
+      "error": null,
+      "compiles": [
+        {
+          "object": "st_round",
+          "command": [
+            "/usr/bin/wine-stable",
+            "cmd",
+            "/d",
+            "/c",
+            "set PATH=C:\\TASM50\\BIN;C:\\TC4\\BIN;%PATH%&&bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M' -nobj/th03/ th03/st_round.cpp"
+          ],
+          "compiler_exit": 0,
+          "timed_out": false,
+          "cleanup_survivors": [],
+          "cleanup_error": null
+        }
+      ],
+      "objects": {
+        "st_round": {
+          "path": ".analysis/gpt-dots-stage-round-owner-source-v02/probe-v01/compile-first-v02/source/obj/th03/st_round.obj",
+          "sha256": "16105fe1f01b773f9fce8f9e40e5d81026b6d585961318190309d1139057f8b0",
+          "actual_code_size": 1807,
+          "segments": [
+            {
+              "index": 1,
+              "name": "ST_ROUND_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 2,
+              "name": "_DATA",
+              "class_name": "DATA",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 3,
+              "name": "_BSS",
+              "class_name": "BSS",
+              "overlay": "",
+              "size": 0
+            },
+            {
+              "index": 4,
+              "name": "MAIN_01_TEXT",
+              "class_name": "CODE",
+              "overlay": "",
+              "size": 1807
+            }
+          ],
+          "public_names": [
+            {
+              "name": "_round_initialize",
+              "segment": 4,
+              "group": 2,
+              "offset": 943
+            },
+            {
+              "name": "_stage_demo_update_none",
+              "segment": 4,
+              "group": 2,
+              "offset": 0
+            },
+            {
+              "name": "@stage_setup$qv",
+              "segment": 4,
+              "group": 2,
+              "offset": 5
+            }
+          ],
+          "public_spans": [
+            {
+              "name": "_stage_demo_update_none",
+              "offset": 0,
+              "next_public_or_code_end": 5,
+              "span_bytes": 5,
+              "tail_hex": "558bec5dc3",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            },
+            {
+              "name": "@stage_setup$qv",
+              "offset": 5,
+              "next_public_or_code_end": 943,
+              "span_bytes": 938,
+              "tail_hex": "a300a300aa00aa00",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            },
+            {
+              "name": "_round_initialize",
+              "offset": 943,
+              "next_public_or_code_end": 1807,
+              "span_bytes": 864,
+              "tail_hex": "04053c056605a105",
+              "note": "Span may include compiler alignment; tail bytes are not instruction-decoded return evidence"
+            }
+          ],
+          "framing": [
+            {
+              "kind": "LEDATA",
+              "segment": 4,
+              "offset": 0,
+              "size": 1023
+            },
+            {
+              "kind": "FIXUPP",
+              "size": 703,
+              "sha256": "bccfd64a2eca8ecc31e8da5253cb2d6b2b5674e74740147d190fe85ee56440f7"
+            },
+            {
+              "kind": "LEDATA",
+              "segment": 4,
+              "offset": 1023,
+              "size": 784
+            },
+            {
+              "kind": "FIXUPP",
+              "size": 383,
+              "sha256": "ef8b771fdf22a7c6511f45629c32deac84cdadd71052f887932ae38765064db9"
+            }
+          ]
+        }
+      },
+      "source_inputs": {
+        ".analysis/gpt-dots-stage-round-owner-source-v02/probe-v01/probe_compile_stage_round.py": "fd5f8d1a8c5c6eb35de84353ad6899891428602bfbffea732696e2823f3bd3e6",
+        ".analysis/gpt-dots-stage-round-owner-source-v02/stage_round.cpp": "ccbb5c845c0b1c8d187eccf2db261283a2a64dc904a9653da7269cbdfb05e699",
+        ".analysis/gpt-dots-stage-round-owner-source-v02/initialize.hpp": "c9d4e5c07694858a342435a3b8bd11b9425d41ea1eb5229ae3f41e7e7e14fc36",
+        ".analysis/gpt-dots-stage-setup-source-v03/setup.cpp": "68d793f8a41e8a8d3ef44cdb8d8710852f16357430936ddb670b592c2e654e43",
+        ".analysis/gpt-dots-round-initializer-source-v04/initialize.cpp": "73717fc392e7f025c938a59b8a6ea6a9d471db5d740cbf758d6e7321c069c639",
+        ".analysis/gpt-dots-round-initializer-source-v04/initialize.hpp": "c9d4e5c07694858a342435a3b8bd11b9425d41ea1eb5229ae3f41e7e7e14fc36"
+      },
+      "head": "e8a1ed73d0971af2ed00c869ea8ac877cf0220c7",
+      "guards": {
+        "head_unchanged": true,
+        "git_status_unchanged": true,
+        "input_drift": [],
+        "input_mode_drift": [],
+        "staged_input_drift": []
+      }
+    }
+  ],
+  "evidence_collection_native_invocations": 0
+}
