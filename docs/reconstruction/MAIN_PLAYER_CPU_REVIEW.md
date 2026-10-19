@@ -87,6 +87,65 @@ failure remain untouched. The new combined recipe records the later tested
 CPU-before-bomb-before-charge order separately. Full strict match, maintained-path
 cold replay, runtime and complete Oracle acceptance remain open.
 
+## Translation-unit ordering obstruction (2026-10-19)
+
+Read-only OMF/MAP/MZ analysis explains why another object-order permutation
+cannot repair the retained candidate. Each module's relocation entries form one
+contiguous run in both images. Baseline root has 532 sites at 452..983; its
+prefix 10 lies inside that run at 818..827. Excluding CPU/Yumemi 34 leaves 366
+root sites before the prefix and 122 after it. Moving the prefix to p_cpre would
+require **main < p_cpre < main** to preserve outside order. Physical BYTE PUBLIC
+PLAYER_M_TEXT placement also requires p_cpre < p_cpu < main. These constraints
+are contradictory for the current partition and observed TLINK traversal, not a
+claim about all future producers or undocumented linker modes.
+
+The internal changes already exist in native OMF. Extraction changes two
+PALETTE_SHOW and four SUPER_PUT fixups from same-module _TEXT targets to EXTDEFs,
+and the prefix's literal FIXUPP list differs at five positions. These observations
+do not prove that the six symbol changes alone caused the scheduling difference.
+Removing prefix+CPU also changes native root LEDATA sizes from
+1007/1003/1007/1007/1007/597 to 1007/1006/992/882; the unchanged suffix's 56 changes
+are present in FIXUPP traversal. TASM's internal ordering rule remains unproved.
+TLINK's surviving far-fixup traversal matches the literal MZ lists; no relocation
+sorting, record calibration or declaration trick is justified.
+
+Keeping baseline framing in one root TU is insufficient too: C452 belongs to
+LEDATA record 930 (C0D8..C4C7), before C5BB in record 932 (C4C7..C8B2), whereas
+original CPU order requires **C5BB before C452**. A fixed-framing TC4 -S splice
+cannot pass that gate; no native run was made merely to confirm the contradiction.
+
+The next live question is genuine source recovery of the full trailing
+C7A5..D6D4 contribution (3,887 bytes), retaining the authentic prefix in root.
+The tail has 27 explicit procedures plus the existing 88-byte score_add include;
+score_add receives no new credit. Natural tail TUs could follow CPU, with the
+original selected union CPU 2 → bomb 20 → tail 89 → charge 12. This removes the
+current middle-insertion cycle but does not prove new code or remaining-root
+scheduling. Complete boundary/ABI/storage review comes first; copied tail assembly
+cannot widen authored exclusions. All current acceptance gates remain unchanged.
+
+The separate candidate-only score_add MAP prototype under
+`.analysis/gpt-dots-score-carrier-metadata-v01` explains 92 retained MAP checks;
+it remains uninstalled and cannot repair outside order.
+
+### Reproduce this bounded diagnosis
+
+    python3 -B scripts/review_th03_cpu_link_order.py
+
+The read-only script validates all 13 historical input hashes before analysis
+and again before reporting. Defaults are checkout-relative, independent of CWD.
+`--baseline-root`, `--candidate-root` and `--target` can locate the same retained
+files elsewhere; their hashes remain mandatory. The script prints JSON only,
+invokes no native tools and changes no acceptance comparator. Missing private
+inputs produce a concise failure. A public clone alone does not contain the
+retained objects, MAPs, response files, executables or original target.
+
+The readable derivation is
+`.analysis/gpt-dots-player-cpu-order-mechanism-v03/DERIVATION.md`.
+The full retained report is
+`.analysis/gpt-dots-player-cpu-order-mechanism-v03/report.json`,
+SHA256 432ecc27b9bbff4839fdf658cf6d98c87e00a68addd804b9939941b9dde714ff.
+Independent module-cycle evidence: repository-command:b80757cfb0b549fdb10bf1f78ba4b6bf.
+
 ## Compact reproducible integration recipe
 
 `config/th03_main_cpu_yumemi_candidate.toml` is a separate additive diagnostic
