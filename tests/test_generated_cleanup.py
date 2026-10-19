@@ -70,6 +70,94 @@ class CleanupProofControls(unittest.TestCase):
         self.assertGreater(self.prune_receipts(dry=True),0)
         self.assertTrue(receipt.exists())
 
+    def test_main_source_inputs_keep_transitive_cold_receipt(self):
+        top = self.put('.analysis/current/receipt.json', json.dumps({
+            'source_inputs': {'.analysis/prior/receipt.json': 'sha'},
+        }))
+        prior = self.put('.analysis/prior/receipt.json', json.dumps({
+            'inputs': {'.analysis/required/image.exe': 'sha'},
+        }))
+        image = self.put('.analysis/required/image.exe')
+        output = self.put('.analysis/prior/unlisted.obj')
+        junk = self.put('.analysis/obsolete/receipt.json', '{}')
+        self.prune_receipts(documented={top})
+        self.clean()
+        for path in (top, prior, image, output):
+            self.assertTrue(path.exists())
+        self.assertFalse(junk.exists())
+
+    def test_source_inputs_keep_standalone_proof_and_guarded_cache(self):
+        cache = self.put('scripts/__pycache__/required.pyc')
+        report = self.put('.analysis/main.json', json.dumps({
+            'source_inputs': {'scripts/__pycache__/required.pyc': 'sha'},
+        }))
+        self.clean()
+        with patch.object(c, 'CACHE_ROOTS', []), contextlib.redirect_stdout(io.StringIO()):
+            c.clean_caches(False)
+        self.assertTrue(report.exists())
+        self.assertTrue(cache.exists())
+
+    def test_standalone_guarded_diagnostic_keeps_input_receipt_without_doc_link(self):
+        report = self.put('.analysis/diagnostic.json', json.dumps({
+            'source_inputs': {'.analysis/provider/receipt.json': 'sha'},
+        }))
+        provider = self.put('.analysis/provider/receipt.json', '{}')
+        output = self.put('.analysis/provider/unlisted.exe')
+        junk = self.put('.analysis/obsolete/receipt.json', '{}')
+        self.prune_receipts()
+        self.clean()
+        for path in (report, provider, output):
+            self.assertTrue(path.exists())
+        self.assertFalse(junk.exists())
+
+    def test_retained_parent_keeps_nested_receipt_and_report_dependencies(self):
+        top = self.put('.analysis/current/receipt.json', '{}')
+        nested = self.put('.analysis/current/nested/receipt.json', '{}')
+        report = self.put('.analysis/current/report.json', json.dumps({
+            'inputs': {'.analysis/provider/receipt.json': 'sha'},
+        }))
+        provider = self.put('.analysis/provider/receipt.json', '{}')
+        output = self.put('.analysis/provider/source/input.obj')
+        self.assertEqual(self.prune_receipts(documented={top}), 0)
+        for path in (top, nested, report, provider, output):
+            self.assertTrue(path.exists())
+
+    def test_keep_analysis_protects_nonreceipt_active_tree_through_full_cli(self):
+        active = self.put('.analysis/active/unrecorded.obj')
+        child = self.put('.analysis/active/nested/receipt.json', '{}')
+        junk = self.put('.analysis/obsolete/receipt.json', '{}')
+        with patch.object(sys, 'argv', ['clean_generated.py', '--apply',
+                '--prune-unreferenced-receipts', '--keep-analysis', '.analysis/active']), \
+                patch.object(c, 'CACHE_ROOTS', []), \
+                patch.object(c, 'documented_analysis_paths', return_value=set()), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(c.main(), 0)
+        self.assertTrue(active.exists())
+        self.assertTrue(child.exists())
+        self.assertFalse(junk.exists())
+
+    def test_keep_analysis_protects_standalone_file_in_conservative_cli(self):
+        active = self.put('.analysis/active.obj')
+        junk = self.put('.analysis/obsolete.obj')
+        with patch.object(sys, 'argv', ['clean_generated.py', '--apply',
+                '--keep-analysis', '.analysis/active.obj']), \
+                patch.object(c, 'CACHE_ROOTS', []), \
+                patch.object(c, 'documented_analysis_paths', return_value=set()), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(c.main(), 0)
+        self.assertTrue(active.exists())
+        self.assertFalse(junk.exists())
+
+    def test_documented_symlink_alias_and_destination_survive(self):
+        target = self.put('.analysis/real/report.json', '{}')
+        alias = self.analysis / 'alias.json'
+        alias.symlink_to(target)
+        self.put('README.md', 'Current proof: .analysis/alias.json\n')
+        with patch.object(c.subprocess, 'check_output', return_value=b'README.md\0'):
+            self.clean()
+        self.assertTrue(alias.is_symlink())
+        self.assertTrue(target.exists())
+
     def test_aggressive_prune_accepts_hash_bound_text_with_json_name(self):
         output,row=self.factory_query('.analysis/functions.json')
         self.record_query(row)

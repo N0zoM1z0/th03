@@ -111,6 +111,7 @@ def documented_analysis_paths() -> set[Path]:
             except ValueError:
                 continue
             if candidate.is_file() or candidate.name == "receipt.json":
+                preserved.add(ROOT / raw)
                 preserved.add(candidate)
     return preserved
 
@@ -126,12 +127,36 @@ def referenced_analysis_closure(extra: set[Path] | None = None) -> set[Path]:
 
     visited: set[Path] = set()
     queue = list(retained)
+    receipt_roots = {
+        p.parent for p in ANALYSIS.rglob("receipt.json")
+        if not p.is_symlink()
+        and not any(is_under(p, root) for root in PRESERVED_ANALYSIS_ROOTS)
+    }
+    # Ordinary cleanup retains standalone guarded diagnostics too. Their input
+    # receipts must survive aggressive pruning even without a ledger/doc link.
+    proof_files, _ = proof_preserved_paths()
+    retained |= {
+        p for p in proof_files
+        if p.suffix.lower() == ".json" and is_under(p, ANALYSIS)
+        and not any(is_under(p, root) for root in receipt_roots)
+    }
+    queue.extend(retained)
+    expanded_roots: set[Path] = set()
     while queue:
         path = queue.pop()
         if path in visited:
             continue
         visited.add(path)
         retained.add(path)
+        # A retained receipt owns its entire proof tree. Its nested receipts and
+        # JSON reports can themselves guard inputs in other replay directories.
+        for root in receipt_roots:
+            if root not in expanded_roots and is_under(path, root):
+                expanded_roots.add(root)
+                retained.add(root)
+                queue.extend(p for p in root.rglob("*.json") if not p.is_symlink())
+        if path.is_dir() and not path.is_symlink():
+            queue.extend(p for p in path.rglob("*.json") if not p.is_symlink())
         if not path.is_file() or path.suffix.lower() != ".json":
             continue
         try:
@@ -152,8 +177,9 @@ def referenced_analysis_closure(extra: set[Path] | None = None) -> set[Path]:
         while stack:
             node = stack.pop()
             if isinstance(node, dict):
-                guards = node.get("inputs")
-                if isinstance(guards, dict):
+                for guards in (node.get("inputs"), node.get("source_inputs")):
+                    if not isinstance(guards, dict):
+                        continue
                     for raw in guards:
                         if not isinstance(raw, str) or not raw:
                             continue
@@ -201,7 +227,7 @@ def prune_unreferenced_receipts(
     candidates = [
         root
         for root in receipt_roots
-        if not any(is_under(path, root) for path in retained)
+        if not any(is_under(path, root) or is_under(root, path) for path in retained)
     ]
 
     # A parent receipt run subsumes nested receipt runs.
@@ -247,8 +273,9 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
 
         def visit(node):
             if isinstance(node, dict):
-                guards = node.get("inputs")
-                if isinstance(guards, dict):
+                for guards in (node.get("inputs"), node.get("source_inputs")):
+                    if not isinstance(guards, dict):
+                        continue
                     files.add(path)
                     for raw in guards:
                         if not isinstance(raw, str) or not raw:
@@ -328,7 +355,7 @@ def remove_path(path: Path, dry_run: bool) -> int:
     return size
 
 
-def clean_analysis(dry_run: bool) -> int:
+def clean_analysis(dry_run: bool, extra_preserved: set[Path] | None = None) -> int:
     if not ANALYSIS.exists():
         return 0
 
@@ -342,6 +369,8 @@ def clean_analysis(dry_run: bool) -> int:
         | PRESERVED_ANALYSIS_FILES | proof_files
     )
     protected_roots = PRESERVED_ANALYSIS_ROOTS | proof_roots
+    protected_roots |= {p for p in extra_preserved or set() if p.is_dir()}
+    protected_files |= extra_preserved or set()
 
     def protected_below(path: Path) -> bool:
         return any(is_under(protected, path) for protected in protected_files) or any(
@@ -375,13 +404,14 @@ def clean_analysis(dry_run: bool) -> int:
     return removed
 
 
-def clean_caches(dry_run: bool) -> int:
+def clean_caches(dry_run: bool, extra_preserved: set[Path] | None = None) -> int:
     removed = 0
     proof_files, proof_roots = proof_preserved_paths()
     protected = (
         proof_files | proof_roots | ledger_preserved_paths()
         | documented_analysis_paths()
     )
+    protected |= extra_preserved or set()
 
     def guarded(path: Path) -> bool:
         return any(is_under(p, path) or is_under(path, p) for p in protected)
@@ -425,8 +455,8 @@ def main() -> int:
         default=[],
         metavar="PATH",
         help=(
-            "extra repository-relative .analysis path to preserve during aggressive "
-            "receipt pruning; repeat for multiple active runs"
+            "extra repository-relative .analysis file or tree to preserve through "
+            "every cleanup phase; repeat for multiple active runs"
         ),
     )
     args = parser.parse_args()
@@ -436,13 +466,14 @@ def main() -> int:
         path = normalized_local_path(raw)
         if path is None or not is_under(path, ANALYSIS):
             parser.error(f"--keep-analysis must stay under .analysis/: {raw}")
+        extra_preserved.add(ROOT / raw)
         extra_preserved.add(path)
 
     dry_run = not args.apply
     removed = 0
     if args.prune_unreferenced_receipts:
         removed += prune_unreferenced_receipts(dry_run, extra_preserved)
-    removed += clean_analysis(dry_run) + clean_caches(dry_run)
+    removed += clean_analysis(dry_run, extra_preserved) + clean_caches(dry_run, extra_preserved)
     verb = "would remove" if dry_run else "removed"
     print(f"{verb} approximately {removed / (1024 * 1024):.1f} MiB")
     print(
