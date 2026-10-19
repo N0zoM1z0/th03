@@ -16,15 +16,15 @@ TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 81 source-present reviewed CODE extents; 386 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
+| MAIN | 82 source-present reviewed CODE extents; 391 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
 MAIN's reviewed exact extent comprises **58,701 function bytes** and **923
 explicitly classified non-function producer bytes**, across **70 maintained
-semantic source owners**. The reviewed source-present scope totals **63,044
-CODE bytes**; Yumemi and CPU add **15 functions / 3,420 bytes** that are not exact.
+semantic source owners**. The reviewed source-present scope totals **63,672
+CODE bytes**; Yumemi, CPU and effects add **20 functions / 4,048 bytes** that are not exact.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -52,8 +52,8 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **284 units, 2,728 evidence rows, 361 knowledge
-rows, three hypotheses, 386 authored-function rows** (all values scoped to
+Latest tracking snapshot: **285 units, 2,734 evidence rows, 363 knowledge
+rows, three hypotheses, 391 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
 `config/th03_main_authored_functions.csv`, and
@@ -104,6 +104,14 @@ allocation remains at original addresses; its physical original compiler
 ownership has not been closed.
 
 ## Current non-exact gameplay frontier
+
+The [visual-effects source milestone](reconstruction/MAIN_PLAYER_EFFECTS_REVIEW.md)
+adds five complete natural functions / **628 target bytes**, including the
+337-byte renderer. Native probes emitted 637/646/629 bytes; final first-four
+sizes match, but renderer 338 retains a distinct hardware-port/DX/XOR sequence.
+No full link, runtime or exact acceptance is claimed. Existing DATA/BSS stays
+external; all 3,887 tail bytes and the CPU placement obstruction remain open.
+
 
 The [Yumemi gameplay review](reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md)
 records two source-present extents / **11 functions / 2,343 CODE bytes**.
