@@ -1,0 +1,498 @@
+{
+  "status": "Proposed symbolic bindings only, not linker activation or ownership acceptance",
+  "code_address_convention": "plain hex = MZ load offset; segment:offset = original MZ far call operand, before DOS relocation",
+  "code": {
+    "round_loop": {
+      "address": "9778",
+      "abi": "near, AL byte return"
+    },
+    "collmap_reset": {
+      "address": "A438",
+      "abi": "near"
+    },
+    "round_bullet_template_reset": {
+      "address": "139D:3FAF",
+      "abi": "far"
+    },
+    "round_hitcircles_update": {
+      "address": "B7E5",
+      "abi": "near"
+    },
+    "round_shots_update": {
+      "address": "E83F",
+      "abi": "near"
+    },
+    "hud_start_anim_update": {
+      "address": "BB12",
+      "abi": "near"
+    },
+    "round_formations_update": {
+      "address": "139D:02F7",
+      "abi": "far"
+    },
+    "round_bullets_update": {
+      "address": "139D:404B",
+      "abi": "far"
+    },
+    "round_enemies_update": {
+      "address": "139D:26CE",
+      "abi": "far"
+    },
+    "round_fireballs_update": {
+      "address": "139D:4689",
+      "abi": "far"
+    },
+    "round_CEB2": {
+      "address": "CEB2",
+      "abi": "far, relaxed push CS/call"
+    },
+    "round_player_update": {
+      "address": "DA43",
+      "abi": "near Pascal RET 4; push input then player near pointer"
+    },
+    "round_sound_update": {
+      "address": "0E8F:0386",
+      "abi": "far"
+    },
+    "round_pause_or_quit": {
+      "address": "C7A5",
+      "abi": "near, two RETs"
+    },
+    "round_CA3C": {
+      "address": "CA3C",
+      "abi": "far, relaxed push CS/call"
+    },
+    "round_CB81": {
+      "address": "CB81",
+      "abi": "far Pascal RETF 2; byte player in word stack slot"
+    },
+    "round_egc_on": {
+      "address": "0000:0704",
+      "abi": "far"
+    },
+    "round_egc_off": {
+      "address": "0000:071A",
+      "abi": "far"
+    },
+    "round_shots_render": {
+      "address": "E86A",
+      "abi": "near"
+    },
+    "round_enemies_render": {
+      "address": "139D:2B0A",
+      "abi": "far"
+    },
+    "round_fireballs_hittest_and_render": {
+      "address": "139D:49AC",
+      "abi": "far"
+    },
+    "round_hitcircles_render": {
+      "address": "B80B",
+      "abi": "near"
+    },
+    "round_player_render": {
+      "address": "DE95",
+      "abi": "near Pascal RET 2; player near pointer"
+    },
+    "round_DF18": {
+      "address": "DF18",
+      "abi": "near Pascal RET 2; player near pointer"
+    },
+    "round_CEE0": {
+      "address": "CEE0",
+      "abi": "far, relaxed push CS/call"
+    },
+    "round_bullets_render": {
+      "address": "139D:4201",
+      "abi": "far"
+    },
+    "round_defeat_banner_render": {
+      "address": "C2F9",
+      "abi": "near"
+    },
+    "round_match_result_render": {
+      "address": "E3F2",
+      "abi": "near"
+    },
+    "round_score_store_winner": {
+      "address": "A289",
+      "abi": "near Pascal RET 2; unsigned winner zero-extended in word slot",
+      "source_owner": "src/main/round/round_loop.cpp; complete body appended after loop in experimental TU"
+    },
+    "round_background_finish": {
+      "address": "B4A8",
+      "abi": "near, address taken as CS:1DC8"
+    },
+    "round_C830": {
+      "address": "C830",
+      "abi": "near"
+    },
+    "round_C8C4": {
+      "address": "C8C4",
+      "abi": "near"
+    },
+    "round_D52E": {
+      "address": "D52E",
+      "abi": "near"
+    },
+    "round_C9FE": {
+      "address": "C9FE",
+      "abi": "far Pascal RETF 2; byte player in word stack slot"
+    },
+    "hud_start_anim_render": {
+      "address": "BE5D",
+      "abi": "near"
+    },
+    "round_combos_update_and_render": {
+      "address": "139D:2383",
+      "abi": "far"
+    },
+    "round_palette_show": {
+      "address": "0000:1C7E",
+      "abi": "far"
+    },
+    "round_grcg_setcolor": {
+      "address": "0000:0F5C",
+      "abi": "far Pascal; mode word then color word; callee pop 4"
+    },
+    "round_grcg_off": {
+      "address": "0000:0F86",
+      "abi": "far"
+    },
+    "round_playfield_clear": {
+      "address": "B37C",
+      "abi": "near; BX VRAM offset register; ES clobbered, DI preserved; distinct B39E far wrapper"
+    },
+    "round_randring_fill": {
+      "address": "A3FA",
+      "abi": "near"
+    }
+  },
+  "data": {
+    "pid_current": {
+      "DS_offset": "2928",
+      "bytes": 1
+    },
+    "pid.current / pid.so_attack": {
+      "DS_offset": "6590",
+      "bytes": 1
+    },
+    "players": {
+      "DS_offset": "65A6",
+      "bytes": 256
+    },
+    "resident": {
+      "DS_offset": "1D90",
+      "bytes": 4
+    },
+    "input_mp_p1": {
+      "DS_offset": "1A96",
+      "bytes": 2
+    },
+    "input_mp_p2": {
+      "DS_offset": "1A98",
+      "bytes": 2
+    },
+    "input_sp": {
+      "DS_offset": "1A9A",
+      "bytes": 2
+    },
+    "stage_render_timing_flag": {
+      "DS_offset": "659A",
+      "bytes": 1
+    },
+    "stage_vsync_wait_frames": {
+      "DS_offset": "6599",
+      "bytes": 1
+    },
+    "round_quit_requested": {
+      "DS_offset": "65A0",
+      "bytes": 1
+    },
+    "round_background_complete": {
+      "DS_offset": "2663",
+      "bytes": 1
+    },
+    "round_speed": {
+      "DS_offset": "6598",
+      "bytes": 1
+    },
+    "palette_changed": {
+      "DS_offset": "65A1",
+      "bytes": 1
+    },
+    "page_front": {
+      "DS_offset": "658F",
+      "bytes": 1
+    },
+    "page_back": {
+      "DS_offset": "658E",
+      "bytes": 1
+    },
+    "defeat_flag": {
+      "DS_offset": "38DC",
+      "bytes": 1
+    },
+    "stage_result_wait_frames": {
+      "DS_offset": "1188",
+      "bytes": 2
+    },
+    "round_vsync_count": {
+      "DS_offset": "11EA",
+      "bytes": 2
+    },
+    "stage_demo_update": {
+      "DS_offset": "118A",
+      "bytes": 2
+    },
+    "stage_background_update": {
+      "DS_offset": "2660",
+      "bytes": 2
+    },
+    "round_frame": {
+      "DS_offset": "6592",
+      "bytes": 4
+    },
+    "round_or_result_frame": {
+      "DS_offset": "6596",
+      "bytes": 2
+    },
+    "round_frame_mod16": {
+      "DS_offset": "65A5",
+      "bytes": 1
+    },
+    "round_frame_mod8": {
+      "DS_offset": "65A4",
+      "bytes": 1
+    },
+    "round_frame_mod4": {
+      "DS_offset": "65A3",
+      "bytes": 1
+    },
+    "round_frame_mod2": {
+      "DS_offset": "65A2",
+      "bytes": 1
+    },
+    "score_lebcd": {
+      "DS_offset": "4B64",
+      "bytes": 16
+    }
+  },
+  "far_callbacks": {
+    "round_exatt_update_p1": {
+      "DS_offset": "2910",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_exatt_update_p2": {
+      "DS_offset": "291C",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_boss_update_p1": {
+      "DS_offset": "1DCE",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_boss_update_p2": {
+      "DS_offset": "1DD2",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_player_hook_p1": {
+      "DS_offset": "306E",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_player_hook_p2": {
+      "DS_offset": "3072",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_chargeshot_update_p1": {
+      "DS_offset": "2D2C",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_chargeshot_update_p2": {
+      "DS_offset": "2D30",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_gauge_pellet_p1": {
+      "DS_offset": "2D44",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_gauge_pellet_p2": {
+      "DS_offset": "2D48",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_gauge_bullet_p1": {
+      "DS_offset": "2D4C",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_gauge_bullet_p2": {
+      "DS_offset": "2D50",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "input_mode": {
+      "DS_offset": "1182",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_render_hook": {
+      "DS_offset": "39C4",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_bomb_p1": {
+      "DS_offset": "3076",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_bomb_p2": {
+      "DS_offset": "307A",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_boss_render_p1": {
+      "DS_offset": "1DD6",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_boss_render_p2": {
+      "DS_offset": "1DDA",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_exatt_render_p1": {
+      "DS_offset": "2914",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_exatt_render_p2": {
+      "DS_offset": "2920",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_chargeshot_render_p1": {
+      "DS_offset": "2D34",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    },
+    "round_chargeshot_render_p2": {
+      "DS_offset": "2D38",
+      "bytes": 4,
+      "type": "far Pascal function pointer stored near in DGROUP"
+    }
+  },
+  "observed_latest_object_EXTDEF": [
+    "_input_mp_p1",
+    "_input_mp_p2",
+    "_input_sp",
+    "_input_mode",
+    "_players",
+    "_resident",
+    "_pid_current",
+    "_pid",
+    "_round_frame",
+    "_round_frame_mod2",
+    "_round_frame_mod4",
+    "_round_frame_mod8",
+    "_round_frame_mod16",
+    "_round_or_result_frame",
+    "_round_speed",
+    "_defeat_flag",
+    "_palette_changed",
+    "_stage_render_timing_flag",
+    "_stage_vsync_wait_frames",
+    "_round_quit_requested",
+    "_round_background_complete",
+    "_page_front",
+    "_page_back",
+    "_stage_result_wait_frames",
+    "_round_vsync_count",
+    "_stage_demo_update",
+    "_stage_background_update",
+    "_round_exatt_update_p1",
+    "_round_exatt_update_p2",
+    "_round_boss_update_p1",
+    "_round_boss_update_p2",
+    "_round_player_hook_p1",
+    "_round_player_hook_p2",
+    "_round_chargeshot_update_p1",
+    "_round_chargeshot_update_p2",
+    "_round_gauge_pellet_p1",
+    "_round_gauge_pellet_p2",
+    "_round_gauge_bullet_p1",
+    "_round_gauge_bullet_p2",
+    "_round_render_hook",
+    "_round_bomb_p1",
+    "_round_bomb_p2",
+    "_round_boss_render_p1",
+    "_round_boss_render_p2",
+    "_round_exatt_render_p1",
+    "_round_exatt_render_p2",
+    "_round_chargeshot_render_p1",
+    "_round_chargeshot_render_p2",
+    "_collmap_reset",
+    "_round_bullet_template_reset",
+    "_round_hitcircles_update",
+    "_round_shots_update",
+    "_hud_start_anim_update",
+    "_round_formations_update",
+    "_round_bullets_update",
+    "_round_enemies_update",
+    "_round_fireballs_update",
+    "_round_CEB2",
+    "ROUND_PLAYER_UPDATE",
+    "_round_sound_update",
+    "_round_pause_or_quit",
+    "_round_CA3C",
+    "ROUND_CB81",
+    "_round_egc_on",
+    "_round_egc_off",
+    "_round_shots_render",
+    "_round_enemies_render",
+    "_round_fireballs_hittest_and_rend",
+    "_round_hitcircles_render",
+    "ROUND_PLAYER_RENDER",
+    "ROUND_DF18",
+    "_round_CEE0",
+    "_round_bullets_render",
+    "_round_defeat_banner_render",
+    "_round_match_result_render",
+    "_round_background_finish",
+    "_round_C830",
+    "_round_C8C4",
+    "_round_D52E",
+    "ROUND_C9FE",
+    "_hud_start_anim_render",
+    "_round_combos_update_and_render",
+    "_round_palette_show",
+    "ROUND_GRCG_SETCOLOR",
+    "_round_grcg_off",
+    "_round_playfield_clear",
+    "_round_randring_fill",
+    "_score_lebcd"
+  ],
+  "observed_latest_object_PUBDEF": [
+    {
+      "name": "_round_loop",
+      "segment": 4,
+      "group": 2,
+      "offset": 0
+    },
+    {
+      "name": "ROUND_SCORE_STORE_WINNER",
+      "segment": 4,
+      "group": 2,
+      "offset": 857
+    }
+  ],
+  "link_symbol_warning": "Use observed names, not inferred source identifiers. Pascal uppercase; long C names truncated, e.g. _round_fireballs_hittest_and_rend."
+}
