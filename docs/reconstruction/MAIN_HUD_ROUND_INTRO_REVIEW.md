@@ -119,7 +119,9 @@ vector and DOS behavior retained. Result: **PASS**, 334 functions,
 Full CI was attempted (643 tests, 125 errors importing missing host
 Python unicorn, 167 skips); log:
 .analysis/th03-hud-ci-final-20261008.log.
-Full CI does not pass on the current Factory host. All available
+At that checkpoint full CI did not pass with the Factory host interpreter. All available
 post-unittest CI controls pass separately, including Ghidra and
 negative Oracle controls; log:
 .analysis/th03-hud-postgates-final-20261008.log.
+The later dependency repair and current CI outcome are recorded in
+[the current handoff](../RE_HANDOFF.md); these logs remain historical.

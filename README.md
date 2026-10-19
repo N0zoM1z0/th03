@@ -13,18 +13,23 @@
 
 This repository reconstructs the original Japanese PC-98 **Touhou 3:
 Phantasmagoria of Dim.Dream**. Reconstruction resumed on 2026-10-07 after the
-2026-10-06 closeout snapshot. This repository preserves maintained source and
+2026-10-06 closeout snapshot and progressed beyond the 2026-10-08 maintenance
+checkpoint. The 2026-10-19 worktree review preserves and records the pending
+maintenance changes.
+This repository preserves maintained source and
 reviewed evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the complete game
 reconstruction and the 505-file intake remain unfinished.
 
 [Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
-are the entrypoints. MAIN has **334 exact functions / 53122 exact owned bytes**
-across **67 maintained source owners and 74 exact CODE extents**. The broader
-target-reviewed authored frontier is **334 functions / 53122 owned bytes in
-74 complete CODE extents**, after completing the large boss, Extra Attack,
-Hyper and HUD owner families. These are scoped repository-local results, not whole-game product
-closure or Factory Truth Kernel acceptance. Whole-game denominators remain
-unknown until ownership is reviewed.
+are the entrypoints. MAIN has **371 exact functions / 59,624 exact owned bytes**
+across **70 maintained source owners and 78 exact CODE extents**. The broader
+source-present reviewed scope is **382 functions / 61,967 owned bytes in
+80 complete CODE extents**. The additional Yumemi owner remains source-present:
+its strict relocation-order blockers are documented in the
+[Yumemi review](docs/reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md).
+These are scoped repository-local results, not whole-game product closure or
+Factory Truth Kernel acceptance. Whole-game denominators remain unknown until
+ownership is reviewed.
 
 ## Current products and navigation
 
@@ -41,12 +46,19 @@ unknown until ownership is reviewed.
 With your local inputs and pinned toolchain installed:
 
 ```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install --no-cache-dir -r requirements-ci.txt
 python3 scripts/preflight.py
 python3 scripts/ghidra.py th03-main check
 python3 scripts/replay_th03_main_exact_units.py --run-id NEW_UNIQUE_ID
 python3 scripts/status.py
 python3 scripts/ci.py
 ```
+
+Use the same activated Python environment for verification. The pinned public
+decoder/emulator dependencies are required for CI; a different host interpreter
+does not inherit them. GitHub Actions installs this requirements file too.
 
 Run one Borland/Wine build at a time. Exact replay freezes maintained inputs,
 materializes the pinned scaffold twice, recompiles all game objects, and checks

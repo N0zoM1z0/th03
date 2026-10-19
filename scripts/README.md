@@ -44,12 +44,15 @@
 Only one Borland writer may run. All tools are headless. Private artifacts
 remain ignored, and diagnostic builds never count as game-source progress.
 
-Reconstruction resumed on 2026-10-07. The current handoff records active state;
-the closeout record is the historical 2026-10-06 snapshot.
+Reconstruction progressed beyond the 2026-10-08 maintenance checkpoint. The
+2026-10-19 worktree review is complete; the current handoff records
+accepted CODE, source-present additions and remaining blockers;
+`docs/CLOSEOUT.md` is the historical 2026-10-06 snapshot.
 
-`closeout_cleanup.py` is the **historical 2026-10-06 closeout tool**, not
-an automatic new-session command. For current work, prefer guarded
-`clean_generated.py` as documented in [the retention policy](../docs/RE_WORKFLOW.md).
+`closeout_cleanup.py` was introduced for the **2026-10-06 closeout** and
+can still audit conservative maintenance cleanup. It retains all receipt trees;
+use `clean_generated.py` for optional pruning of whole unreferenced runs, as
+documented in [the retention policy](../docs/RE_WORKFLOW.md).
 `closeout_cleanup.py` defaults to an audited dry run. It preserves the existing
 cleanup policy plus literal tracked private references, freezes references and
 candidates before deletion, and records retained input states. Optional
@@ -57,3 +60,7 @@ candidates before deletion, and records retained input states. Optional
 any live ledger/document/JSON dependency rejects retirement. Historical corpus
 fingerprints remain records of past existence. Use a fresh receipt path and
 finish all builds/replays before cleanup. Never delete evidence by age alone.
+
+CI requires an activated environment with `requirements-ci.txt` installed.
+See [setup and validation](../README.md#build-and-validate); dependencies must
+be installed into the same interpreter that runs `scripts/ci.py`.

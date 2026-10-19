@@ -124,8 +124,8 @@ ordered MZ fixups, 20 build outputs, all 391 game OMF objects and DOS
 behavior probes. Receipt:
 `.analysis/th03-main-exact/gpt-web-cleanup-maintenance-default-final-20261008/receipt.json`.
 
-A fresh complete CI attempt has **648 tests / 125 missing-Unicorn
-import errors / 167 skips**; it does **not** pass on this host. The
+A previous complete CI attempt had **648 tests / 125 missing-Unicorn
+import errors / 167 skips**; that attempt failed with the host interpreter. The
 remaining post-unittest gates were rerun separately and PASS, including
 headless Ghidra/target/toolchain identity and the negative controls. Logs:
 `.analysis/cleanup-20261008-followup/ci.log` and
@@ -134,3 +134,39 @@ headless Ghidra/target/toolchain identity and the negative controls. Logs:
 The authenticated code reconstruction baseline stays unchanged by this
 housekeeping work; the historical cleanup receipts and current cold
 acceptance proof remain accessible and are not obsolete build caches.
+
+## Historical maintenance and CI repair (2026-10-08)
+
+At this checkpoint, the missing-dependency block was resolved in the documented
+`.venv` environment. Counts and guard matches below describe that historical
+maintenance audit; use [the current handoff](../RE_HANDOFF.md) for later results.
+Public CI installs `requirements-ci.txt`, including Unicorn 1.0.3 and its
+setuptools compatibility dependency. A Unicorn 2.1.4 attempt failed 34 existing
+repeat-run budget/terminal negative controls; the verified 1.0.3 pin passes
+them without changing those assertions. Its logs and environment observations
+remain in `.analysis/closeout/sol-maintenance-20261008/`.
+
+Two target-review test classes now explicitly require the private MAIN image.
+They run all nine tests when it is present, and skip when absent in a
+public checkout. Runtime/Oracle assertions and target identity rules are unchanged.
+
+- Full local CI: **PASS, 656 tests, no failures/errors/skips**, followed by
+  all available private headless gates; `ci.log` in the audit directory.
+- Clean public checkout: **CI PASS, 656 tests / 131 private-input skips**;
+  `portable-ci.log` in the audit directory. This reproduces public-file CI
+  locally; it is not a claim that a remote GitHub job was run.
+- Cleanup controls: **44 PASS**, plus the missing-dependency startup control.
+- **278 product/compatibility/ownership/ledger inputs unchanged**;
+  **235/235 current MAIN receipt input guards match**. Historical receipt
+  contents/hashes were not rebased.
+
+Cleanup protection now recognizes both `inputs` and MAIN `source_inputs`,
+follows report guards throughout retained trees, preserves nested receipts and
+documented symlink aliases, and honors `--keep-analysis` through all phases.
+Standalone guarded diagnostics also keep their input receipt trees, even
+without a separate ledger or documentation link.
+The initial dry run found only a Python cache; no additional whole replay tree
+was unreferenced after the earlier 4.39 GiB cleanup. Post-verification caches
+are removed under the conservative frozen-plan audit at
+`.analysis/closeout/sol-maintenance-20261008/receipt.json`.
+The required `.venv` is retained for reproducible CI; it is not a temporary build.

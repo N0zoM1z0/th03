@@ -24,14 +24,14 @@ specific receipt/review/log files referenced by tracked config or documentation,
 plus the offline toolchain/runtime/Ghidra attestation trees required to replay
 them. Protect *every concrete existing file named by tracked documentation or
 configuration*, including standalone review JSON outside a receipt tree, as well
-as transitive JSON input guards and ledger locations. The regular cache cleanup
+as transitive JSON `inputs` / `source_inputs` guards and ledger locations. The regular cache cleanup
 must protect those concrete references as well as the optional aggressive
 receipt-pruning step. A retained receipt run is kept as a complete proof tree, including its
 frozen source/object/output/reference material; do not hollow out a receipt that
 current evidence or documentation still names. Failed or duplicate receipt runs
 that are no longer reachable from current evidence/docs may be removed as whole
-runs. Build/cache directories such as build/, dist/, out/, .cache/, Python
-__pycache__, pytest and mypy caches are disposable.
+runs. Unguarded build/cache directories such as build/, dist/, out/, .cache/,
+Python __pycache__, pytest and mypy caches are disposable.
 
 Use `python3 scripts/clean_generated.py` for a conservative dry run and add
 `--apply` only after reviewing it. To include complete unreferenced receipt runs
@@ -39,6 +39,9 @@ in the cleanup, use `--prune-unreferenced-receipts`; this remains a dry run
 unless `--apply` is also present. If an active experimental run is not yet
 recorded in tracked evidence/docs, protect it explicitly with
 `--keep-analysis .analysis/PATH` before applying aggressive pruning.
+This pin also protects standalone files and non-receipt directories through
+ordinary cleanup. A retained receipt tree's nested receipts/reports contribute
+their own transitive guards; nested runs are never pruned out of a retained tree.
 
 The owner-authorized guarded 2026-10-08 run and its path-by-path before/after
 hash audit live in `.analysis/cleanup-20261008/receipt.json`; see

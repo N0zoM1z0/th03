@@ -33,3 +33,22 @@ Cold reference builds are calibration candidates, not maintained products.
 Use `survey_rec98_outputs.py SOURCE --gate exact --compact` for strict raw
 comparison; `--gate calibration` also requires the imported object identities.
 Never update calibration hashes merely because a local check fails.
+
+## Python verification environment
+
+Install public CI dependencies into the interpreter used for verification:
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install --no-cache-dir -r requirements-ci.txt
+python3 scripts/ci.py
+```
+
+The requirements pin Capstone 5.0.6, Unicorn 1.0.3 and setuptools 80.9.0.
+Unicorn's 1.x bindings need setuptools' `distutils` and `pkg_resources`
+compatibility on Python 3.12+. The tested 1.0.3 engine passes the existing
+repeat-run instruction-budget negative controls; a 2.1.4 verification attempt
+failed 34 of those controls. Changing the engine requires rerunning those
+controls, not relaxing the terminal/budget assertions. This Python environment
+is separate from the pinned Borland/Wine toolchain and binary exact Oracle.

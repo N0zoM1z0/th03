@@ -97,13 +97,15 @@ a denominator for the whole MAIN program.
 The original target-first exploratory v1 review included Hyper among five
 candidates. At the **Hyper promotion checkpoint**, v2 correctly excluded it
 and reviewed four non-exact intervals (3609 bytes), including HUD. Since the
-subsequent full HUD exact promotion, the **current v3** has only **two
+subsequent full HUD exact promotion, the **historical v3 checkpoint** had **two
 non-exact intervals / 2131 bytes**: Marisa charge/hyper/hitbox and the
-ordinary-shot producer. See MAIN_NEXT_FRONTIER_REVIEW.md. Historical
-v1/v2 observations are not current queue entries.
+ordinary-shot producer. See MAIN_NEXT_FRONTIER_REVIEW.md. Marisa has since
+been accepted in the [gameplay milestone](MAIN_GAMEPLAY_ACCEPTANCE_PROPOSAL.md);
+use the [current handoff](../RE_HANDOFF.md) for the remaining blockers.
+These historical frontier observations are not current queue entries.
 
 Independent pristine-original provenance, whole-game source closure,
-historical physical DATA/BSS ownership, full CI on a host with unicorn,
+historical physical DATA/BSS ownership,
 and Factory Truth Kernel exact acceptance remain open.
 
 ## Final post-ledger acceptance and CI limitation
@@ -118,8 +120,10 @@ Source, manifest, Oracle, unit/evidence ledger and progress snapshot hashes
 were checked against the receipt and remain identical.
 
 Full CI was attempted (638 tests, 125 import errors for missing Python
-unicorn, 167 skips): .analysis/th03-hyper-ci-20261008.log. It does not pass
-on the current host. All available post-unittest gates were independently
+unicorn, 167 skips): .analysis/th03-hyper-ci-20261008.log. That attempt did not pass
+with the host interpreter. All available post-unittest gates were independently
 executed and PASS, with retained
 .analysis/th03-hyper-postgates-20261008.log. Factory Truth Kernel
 replay and the full game product still remain open.
+The later dependency repair and current CI outcome are recorded in
+[the current handoff](../RE_HANDOFF.md); these logs remain historical.

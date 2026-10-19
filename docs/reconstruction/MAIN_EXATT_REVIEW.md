@@ -4,9 +4,11 @@
 > **Historical owner-family checkpoint (2026-10-08).** This review records
 > when the complete Extra Attack family brought MAIN to 320 accepted functions
 > / 51,049 owned bytes. Subsequent Hyper and HUD promotions brought the
-> **current** scoped aggregate to **334 functions / 53,122 owned bytes**.
+> then-accepted scoped aggregate to **334 functions / 53,122 owned bytes**.
 > The latest authority is [RE_HANDOFF.md](../RE_HANDOFF.md) and the default
-> Oracle; do not treat the old 320-function statements below as current.
+> Oracle; neither historical count is the current aggregate.
+> Missing-Unicorn CI failures below are historical attempts. The current
+> verification environment and maintenance outcome are recorded in the handoff.
 
 This review expands the authored MAIN frontier beyond the already exact
 41-byte generic P_EXATT_TEXT owner. It is target-boundary evidence only:

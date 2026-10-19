@@ -1,6 +1,11 @@
-# TH03 reconstruction handoff — current state (2026-10-08)
+# TH03 reconstruction handoff — current state (2026-10-19)
 
-Reconstruction resumed after the historical 2026-10-06 closeout. This is a
+The owner's requested worktree review is complete. CI/dependency maintenance
+and proof-retention fixes are recorded in `ed653cb` and `095e54b`; this
+documentation checkpoint reconciles the remaining maintenance changes.
+The latest source milestone is commit `30f1564`; accepted gameplay CODE was
+recorded in `38a6248`. The 2026-10-06 closeout and 2026-10-08 maintenance pass
+are historical checkpoints. This is a
 **scoped, repository-local reconstruction**, not a finished, playable game or
 native Factory Truth Kernel acceptance. Original Japanese target provenance is
 `candidate-local-attested`; an independently pristine original dump has not
@@ -11,32 +16,44 @@ TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 74 complete reviewed CODE extents; 334 complete functions | **74 exact extents; 334 exact functions; 53,122 bytes** |
+| MAIN | 80 source-present reviewed CODE extents; 382 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
-MAIN's reviewed exact extent comprises **52,199 function bytes** and **923
-explicitly classified non-function producer bytes**, across **67 maintained
-semantic source owners**. All 334 reviewed functions are exact; the denominator
-is **only the currently reviewed CODE**, not the complete MAIN program. The
-whole-game owned-code denominator and 505-file intake are unfinished.
+MAIN's reviewed exact extent comprises **58,701 function bytes** and **923
+explicitly classified non-function producer bytes**, across **70 maintained
+semantic source owners**. The reviewed source-present scope totals **61,967
+CODE bytes**; Yumemi's additional **11 functions / 2,343 bytes** are not exact.
+These denominators cover **only the currently reviewed CODE**, not the complete
+MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
-Authoritative final default no-candidate replay at this checkpoint:
+The latest accepted default no-candidate replay is
+`.analysis/th03-main-exact/gpt-dots-gameplay-promoted-default-cold-v01/receipt.json`
+(observed 2026-10-19). Both serial cold rounds passed. The
+[gameplay acceptance record](reconstruction/MAIN_GAMEPLAY_ACCEPTANCE_PROPOSAL.md)
+retains the frozen proof and strict supplemental comparison: complete MAIN,
+ordered relocations, MAP/storage layout, all 20 declared products and 31 total
+executable outputs. Nine Research-only object metadata drifts remain outside
+the accepted game vector. Later metadata and Yumemi source installation do not
+rebind that historical proof or grant additional acceptance.
+
+Historical 2026-10-08 default no-candidate replay (74 extents / 334 functions /
+53,122 CODE bytes):
 
     python3 scripts/replay_th03_main_exact_units.py --run-id gpt-web-cleanup-maintenance-default-final-20261008
 
 Receipt:
 `.analysis/th03-main-exact/gpt-web-cleanup-maintenance-default-final-20261008/receipt.json`.
-Two **serial independent cold builds PASS** the immutable original target's
-owned CODE bytes, original MAP placements, **ordered MZ relocations**, all
-previously accepted owners, maintained DOS behavior probes, **20 product
-outputs, 391 game OMF objects and 457 total generated OMF objects**. This
-acceptance is bounded to the repository Oracle; it is not native Factory
-Truth Kernel replay or whole-game product closure.
+At that checkpoint, two **serial independent cold builds passed** the immutable
+original target's owned CODE bytes, original MAP placements, **ordered MZ
+relocations**, all previously accepted owners, maintained DOS behavior probes,
+**20 product outputs, 391 game OMF objects and 457 total generated OMF objects**.
+Both checkpoints are bounded to the repository Oracle; neither is native
+Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **277 units, 2,613 evidence rows, 355 knowledge
-rows, three hypotheses, 334 authored-function rows** (all values scoped to
+Latest tracking snapshot: **283 units, 2,717 evidence rows, 358 knowledge
+rows, three hypotheses, 382 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
 `config/th03_main_authored_functions.csv`, and
@@ -67,6 +84,9 @@ These original modules have all passed their own strict full-link boundaries:
   source reconstruction, comprising **688-byte update**, **635-byte renderer**
   and two complete symbolic graphics helpers (104 and 51 bytes).
   See [HUD](reconstruction/MAIN_HUD_ROUND_INTRO_REVIEW.md).
+- **Marisa, Reimu/shared and Mima gameplay:** **6,502 bytes / 37 functions**
+  accepted across four extents. See the
+  [gameplay acceptance record](reconstruction/MAIN_GAMEPLAY_ACCEPTANCE_PROPOSAL.md).
 - The complete enemy code owner, input/math, movement, shot updates, collision,
   static HUD and other accepted modules retain their original bytes, MAP and
   relocations in the same replay. See the
@@ -85,28 +105,29 @@ ownership has not been closed.
 
 ## Current non-exact gameplay frontier
 
-The [target-first next-frontier review](reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md)
-contains **two unaccepted intervals, totaling 2,131 original CODE bytes**:
+The [Yumemi gameplay review](reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md)
+records two source-present extents / **11 functions / 2,343 CODE bytes**.
+Retained linking matched their bytes, extent-local relocation lists and MAP,
+but **combined-owner relocation order and outside-owner relocation order fail**.
+Localized maintained sources have not received a fresh cold acceptance replay.
+Preserve those failures and all existing comparators; no exact promotion is made.
 
-- **Marisa charge-shot, Hyper, gauge, hitbox and bomb prefix:** 1,958 bytes,
-  30 original MZ relocation entries. Ten actual complete logical function
-  bodies have been independently reviewed, including **414-, 470- and
-  449-byte** functions. The 201-byte update has an **internal early RETF**:
-  do not miscount it as two functions. Semantic ABI, shared data and the
-  physical producer remain unaccepted. See
-  [Marisa gameplay review](reconstruction/MAIN_MARISA_GAMEPLAY_REVIEW.md),
-  replayable with `python3 scripts/review_th03_main_marisa_gameplay.py --run-id UNIQUE_ID`.
-- **Ordinary shot hardware producer prefix:** 173 bytes, 12 relocation
-  entries. Review with its full shooting/graphics dependency chain, not
-  just its short entry functions.
+The older [target-first frontier review](reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md)
+remains a historical 2,131-byte intake. Its 1,958-byte Marisa owner is now
+accepted; the 173-byte ordinary-shot hardware prefix remains unaccepted and
+needs review with its complete shooting/graphics dependency chain.
 
-Both intervals are *target-boundary research*, **not additional exact
-functions or bytes**. Next steps are natural maintained source for whole
-owners, complete original near/far ABI and shared tails, DATA/BSS/linker
-ownership and two fresh full cold links including all prior exact owners.
-OP/MAINL/ZUN additionally need original stored-versus-decoded CODE mapping
-and independent exact reconstruction. Full MAIN, resource/heap/IRQ/device
-behavior, complete product graph and original provenance are still open.
+The **1,077-byte CPU-state proposal** remains ignored and isolated-object
+reviewed only: it is not installed, linked, cold-replayed or accepted. Existing
+stage/round and round-loop research blockers also remain outside acceptance.
+The next CPU/Yumemi retained-link plan must be regenerated against this
+checkpoint. Its earlier worktree-bound controls are historical and must not be
+rebound in place; native work still requires a reviewed execution plan.
+
+OP/MAINL/ZUN still need original stored-versus-decoded CODE mapping and
+independent exact reconstruction. Full MAIN, resource/heap/IRQ/device behavior,
+DATA/BSS physical ownership, complete product graph and original provenance
+remain open.
 
 ## Build, CI and private artifact retention
 
@@ -120,14 +141,29 @@ changes and their meaningful failure evidence; do not reset away blockers.
     python3 scripts/ci.py
     git diff --check
 
-Post-cleanup full CI attempt: **648 tests, 125 errors importing unavailable
-host `unicorn`, 167 skipped; full CI FAIL**. This is the documented host
-missing-dependency block, not a game-source exact mismatch and not a CI pass.
-Log: `.analysis/cleanup-20261008-followup/ci.log`. All independently
-runnable post-unittest gates separately **PASS**, including compileall,
-target/toolchain/Ghidra attestations, ledger/progress, Oracle and negative
-controls; log `.analysis/cleanup-20261008-followup/postgates.log`. The
-prior full HUD acceptance is separately documented in the HUD review.
+Latest completed full CI: **PASS, 776 tests, zero errors/failures/skips**,
+followed by all available target/toolchain/Ghidra identity, ledger/progress
+and Oracle negative gates. It ran on 2026-10-19 12:20–12:25 UTC for this worktree maintenance checkpoint
+(103.319 seconds for the test suite). All 716 tracked input hashes/modes stayed
+unchanged during CI. Log and result:
+`.analysis/gpt-dots-dirty-worktree-closeout-v01/final-ci/ci.log` and `ci.json`.
+This result/status note was added afterward; source and validation inputs were
+unchanged, and final documentation links and whitespace were checked separately.
+The previous source-milestone CI remains retained under
+`.analysis/gpt-dots-yumemi-gameplay-milestone-v01/final-ci/`.
+
+Historical 2026-10-08 full CI passed **656 tests, zero errors/failures/skips**;
+log: `.analysis/closeout/sol-maintenance-20261008/ci.log`.
+The clean public-checkout reproduction at that checkpoint passed **656 tests
+with 131 private-input-dependent skips**; log:
+`.analysis/closeout/sol-maintenance-20261008/portable-ci.log`.
+This historical portable run is not a current-checkout or remote GitHub result.
+Use the activated `.venv` described in [the toolchain guide](TOOLCHAIN.md).
+`requirements-ci.txt` now pins the verified decoder/emulator dependencies;
+GitHub Actions installs them before verification. Missing dependencies fail
+once with setup instructions, before tests or private tools execute.
+The earlier 648-test missing-Unicorn failure and separate post-gates logs
+under `.analysis/cleanup-20261008-followup/` remain historical records.
 
 Private replay receipts/referenced proof inputs, original targets,
 Ghidra projects, runtime images and Wine/toolchain state are protected.
@@ -141,6 +177,16 @@ current evidence retain their entire proof trees. Audits:
 `.analysis/cleanup-20261008-followup/receipt.json`. See
 [retention workflow](RE_WORKFLOW.md) and
 [cleanup review](reconstruction/ANALYSIS_CLEANUP.md).
+
+The historical follow-up maintenance audit is
+`.analysis/closeout/sol-maintenance-20261008/receipt.json`.
+It preserved targets, complete proof trees and the evidence at that checkpoint.
+Cleanup protects MAIN `source_inputs`, nested retained receipts/reports,
+documented symlink aliases and explicit active-run pins in every cleanup phase.
+That audit found **278 product/compatibility/ownership/ledger inputs unchanged**
+and **235 source/input guards matching** the then-current MAIN cold receipt;
+these are historical guard observations, not claims about the later worktree.
+Game source and exact scope were unchanged by that maintenance pass.
 
 Detailed chronological technical checkpoints (including the 2026-10-06
 stopped-state figures) remain in the versioned subsystem reviews and
