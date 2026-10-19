@@ -1,0 +1,256 @@
+# Conditional two-producer Marisa proposal; one unaccepted complete logical owner.
+schema_version = 1
+
+[[units]]
+id = "th03-main-marisa-gameplay"
+source = "src/main/player/chargeshot_marisa.cpp"
+header = "src/main/player/chargeshot_marisa.hpp"
+object = "cs_mari"
+ownership = "carved-producers"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+map_module = "th03/cs_mari.cpp"
+physical_objects_additive = true
+physical_objects = [{ object = "cs_mari", wrapper = "th03/cs_mari.cpp", source = "src/main/player/chargeshot_marisa.cpp" }, { object = "bm_mari", wrapper = "th03/bm_mari.cpp", source = "src/main/player/bomb_marisa.cpp" }]
+support_files = ["compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/bullet/bullet.hpp", "compat/rec98/th03/main/hitbox.hpp", "compat/rec98/th03/main/hitcirc.hpp", "compat/rec98/th03/main/player/bomb.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/sprite16.hpp", "compat/rec98/th03/main/v_colors.hpp", "compat/rec98/th03/math/randring.hpp"]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/p_hyper.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/p_hyper.cpp\",\n\t\"th03/cs_mari.cpp\",\n\t\"th03/bm_mari.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [{ name = "code", ledger_id = "th03-main-marisa-gameplay", segment = 5021, start = 2304, size = 1958, map_segment = "HITBOX_TEXT", map_group = "MAIN_04", map_acbp = 28, map_parts = [{ object = "cs_mari", start = 2304, size = 1509, map_module = "th03/cs_mari.cpp" }, { object = "bm_mari", start = 3813, size = 449, map_module = "th03/bm_mari.cpp" }] }]
+carrier_edits = [{ kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern MARISA_CHARGESHOT_STATE_RESET:far\r\n\textern CHARGESHOT_ADD_MARISA:far\r\n\textern MARISA_HYPER_14340:far\r\n\textern CHARGESHOT_UPDATE_MARISA:far\r\n\textern CHARGESHOT_RENDER_MARISA:far\r\n\textern @chargeshot_hittest_marisa$qv:far\r\n\textern _gba_gauge_pattern_pellet_marisa:far\r\n\textern _gba_gauge_pattern_bullet_marisa:far\r\n\textern @marisa_bomb$qv:far\r\n" }, { kind = "remove-between", path = "th03_main.asm", start_marker = "sub_142D0\tproc far\r\n", end_marker = "marisa_bomb\tendp\r\n", replacement = "; Complete Marisa gameplay CODE prefix moved to natural TC4 cs_mari producer\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tcall\tsub_142D0\r\n", after = "\t\tcall\tMARISA_CHARGESHOT_STATE_RESET\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p1.chargeshot_add, chargeshot_add_marisa\r\n", after = "\t\tsetfarfp\t_p1.chargeshot_add, CHARGESHOT_ADD_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p1, chargeshot_update_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p1, CHARGESHOT_UPDATE_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p1, chargeshot_render_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p1, CHARGESHOT_RENDER_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, gba_gauge_pattern_pellet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, _gba_gauge_pattern_pellet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, gba_gauge_pattern_bullet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, _gba_gauge_pattern_bullet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, marisa_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @marisa_bomb$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p2.chargeshot_add, chargeshot_add_marisa\r\n", after = "\t\tsetfarfp\t_p2.chargeshot_add, CHARGESHOT_ADD_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p2, chargeshot_update_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p2, CHARGESHOT_UPDATE_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p2, chargeshot_render_marisa\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p2, CHARGESHOT_RENDER_MARISA\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, gba_gauge_pattern_pellet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, _gba_gauge_pattern_pellet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, gba_gauge_pattern_bullet_marisa\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, _gba_gauge_pattern_bullet_marisa\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, marisa_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @marisa_bomb$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "_hitcircles_enemy_add_do_not_rand\tdb ?\r\n\t\tdb 8 dup(?)\r\nbyte_1FDEA\tdb ?\r\n", after = "_hitcircles_enemy_add_do_not_rand\tdb ?\r\n\t\tdb 2 dup(?)\r\npublic _marisa_gauge_y, _marisa_gauge_frame, _marisa_chargeshots\r\n_marisa_gauge_y label word\r\n\t\tdw 2 dup(?)\r\n_marisa_gauge_frame label byte\r\n\t\tdb 2 dup(?)\r\n_marisa_chargeshots label byte\r\nbyte_1FDEA\tdb ?\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "word_1FE4E\tdw ?\r\n", after = "public _marisa_chargeshot_p\r\n_marisa_chargeshot_p label word\r\nword_1FE4E\tdw ?\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "point_1FE52\tPoint <?>\r\n", after = "public _marisa_bomb_point\r\n_marisa_bomb_point label word\r\npoint_1FE52\tPoint <?>\r\n" }, { kind = "replace-once", path = "build.bat", before = ":tup\r\nbin\\tup\r\ngoto return_from_tup\r\n", after = ":tup\r\nbin\\tup -j1\r\ngoto return_from_tup\r\n" }]
+parent_carriers = [{ path = "build.bat", sha256 = "400349385d38fcb72d17f14c0e4680d677d8d704c15bcfbabb17725a6f2c9a95" }]
+
+[[functions]]
+name = "marisa_chargeshot_state_reset"
+object = "cs_mari"
+segment = 5021
+offset = 2304
+size = 15
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "chargeshot_add_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2319
+size = 97
+boundary = "owner-linear-span"
+abi = "far Pascal; two subpixel word arguments; RETF 4"
+
+[[functions]]
+name = "marisa_hyper_14340"
+object = "cs_mari"
+segment = 5021
+offset = 2416
+size = 126
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "chargeshot_update_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2542
+size = 201
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf; internal early RETF remains in this body"
+
+[[functions]]
+name = "chargeshot_hittest_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2743
+size = 138
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "chargeshot_render_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 2881
+size = 414
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "gauge_pattern_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 3295
+size = 470
+boundary = "owner-linear-span"
+abi = "near Pascal; byte-valued argument in one word slot; RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 3765
+size = 24
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_marisa"
+object = "cs_mari"
+segment = 5021
+offset = 3789
+size = 24
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+[[functions]]
+name = "marisa_bomb"
+object = "cs_mari"
+segment = 5021
+offset = 3813
+size = 449
+boundary = "owner-linear-span"
+abi = "far; no arguments; retf"
+
+# Unactivated Reimu/shared proposal: exactness requires all native gates.
+[[units]]
+id = "th03-main-reimu-shared-gameplay"
+object = "cs_reimu"
+ownership = "carved-producers"
+physical_objects_additive = true
+source = "src/main/player/chargeshot_reimu.cpp"
+header = "src/main/player/reimu_gameplay.hpp"
+carrier_path = "th03_main.asm"
+carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
+physical_objects = [{ object = "cs_reimu", wrapper = "th03/cs_reimu.cpp", source = "src/main/player/chargeshot_reimu.cpp" }, { object = "bm_reish", wrapper = "th03/bm_reish.cpp", source = "src/main/player/bomb_reimu_shared.cpp" }]
+code_extents = [{ name = "code", ledger_id = "th03-main-reimu-shared-gameplay", segment = 5021, start = 4262, size = 2373, map_segment = "HITBOX_TEXT", map_group = "MAIN_04", map_acbp = 28, map_parts = [{ object = "cs_reimu", start = 4262, size = 1448, map_module = "th03/cs_reimu.cpp" }, { object = "bm_reish", start = 5710, size = 925, map_module = "th03/bm_reish.cpp" }] }]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/bm_mari.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"th03/bm_mari.cpp\",\n\t\"th03/cs_reimu.cpp\",\n\t\"th03/bm_reish.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+map_module = "th03/cs_reimu.cpp"
+support_files = ["compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/libs/sprite16/sprite16.h", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/bullet/bullet.hpp", "compat/rec98/th03/main/hitbox.hpp", "compat/rec98/th03/main/hitcirc.hpp", "compat/rec98/th03/main/player/bomb.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/round.hpp", "compat/rec98/th03/main/sprite16.hpp", "compat/rec98/th03/math/randring.hpp", "compat/rec98/th03/math/vector.hpp"]
+carrier_edits = [{ kind = "replace-once", path = "th03_main.asm", before = "\textern _execl:proc\r\n", after = "\textern _execl:proc\r\n\textern REIMU_CHARGESHOTS_RESET:far\r\n\textern CHARGESHOT_ADD_REIMU:far\r\n\textern REIMU_HYPER_SHOT_ADD:far\r\n\textern CHARGESHOT_UPDATE_REIMU:far\r\n\textern @chargeshot_hittest_reimu$qv:far\r\n\textern CHARGESHOT_RENDER_REIMU:far\r\n\textern _gba_gauge_pattern_pellet_reimu:far\r\n\textern _gba_gauge_pattern_bullet_reimu:far\r\n\textern @shared_bomb_lifecycle_update$qv:far\r\n\textern @reimu_bomb_update$qv:far\r\n\textern @reimu_bomb$qv:far\r\n" }, { kind = "remove-between", path = "th03_main.asm", start_marker = "sub_14A76\tproc far\r\n", end_marker = "reimu_bomb\tendp\r\n", replacement = "; Complete Reimu/shared gameplay CODE moved to natural TC4 producers\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tcall\tsub_14A76\r\n", after = "\t\tcall\tREIMU_CHARGESHOTS_RESET\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p1.chargeshot_add, chargeshot_add_reimu\r\n", after = "\t\tsetfarfp\t_p1.chargeshot_add, CHARGESHOT_ADD_REIMU\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_p2.chargeshot_add, chargeshot_add_reimu\r\n", after = "\t\tsetfarfp\t_p2.chargeshot_add, CHARGESHOT_ADD_REIMU\r\n" }, { kind = "replace-exact-count", path = "th03_main.asm", before = "\t\tcall\tsub_14B0A\r\n", after = "\t\tcall\tREIMU_HYPER_SHOT_ADD\r\n", count = 2 }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p1, chargeshot_update_reimu\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p1, CHARGESHOT_UPDATE_REIMU\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_update_p2, chargeshot_update_reimu\r\n", after = "\t\tsetfarfp\t_chargeshot_update_p2, CHARGESHOT_UPDATE_REIMU\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p1, chargeshot_render_reimu\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p1, CHARGESHOT_RENDER_REIMU\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\t_chargeshot_render_p2, chargeshot_render_reimu\r\n", after = "\t\tsetfarfp\t_chargeshot_render_p2, CHARGESHOT_RENDER_REIMU\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, gba_gauge_pattern_pellet_reimu\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p1, _gba_gauge_pattern_pellet_reimu\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, gba_gauge_pattern_pellet_reimu\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_pellet_p2, _gba_gauge_pattern_pellet_reimu\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, gba_gauge_pattern_bullet_reimu\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p1, _gba_gauge_pattern_bullet_reimu\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, gba_gauge_pattern_bullet_reimu\r\n", after = "\t\tsetfarfp\tgba_gauge_pattern_bullet_p2, _gba_gauge_pattern_bullet_reimu\r\n" }, { kind = "replace-exact-count", path = "th03_main.asm", before = "\t\tsetfarfp\tp1_205CE, sub_1501E\r\n", after = "\t\tsetfarfp\tp1_205CE, @shared_bomb_lifecycle_update$qv\r\n", count = 6 }, { kind = "replace-exact-count", path = "th03_main.asm", before = "\t\tsetfarfp\tp2_205D2, sub_1501E\r\n", after = "\t\tsetfarfp\tp2_205D2, @shared_bomb_lifecycle_update$qv\r\n", count = 6 }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tp1_205CE, reimu_1508C\r\n", after = "\t\tsetfarfp\tp1_205CE, @reimu_bomb_update$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tp2_205D2, reimu_1508C\r\n", after = "\t\tsetfarfp\tp2_205D2, @reimu_bomb_update$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p1, reimu_bomb\r\n", after = "\t\tsetfarfp\tbomb_p1, @reimu_bomb$qv\r\n" }, { kind = "replace-once", path = "th03_main.asm", before = "\t\tsetfarfp\tbomb_p2, reimu_bomb\r\n", after = "\t\tsetfarfp\tbomb_p2, @reimu_bomb$qv\r\n" }, { kind = "replace-once", before = "_gauge_pattern_timing label byte\r\n\t\tdb 8 dup(?)\r\n\t\tdb 778 dup(?)\r\nword_205CA\tdw ?\r\nbyte_205CC\tdb ?\r\n", after = "_gauge_pattern_timing label byte\r\n\t\tdb 8 dup(?)\r\n\t\tdb 8 dup(?)\r\npublic _reimu_gauge_frame, _reimu_chargeshots\r\n_reimu_gauge_frame label byte\r\n\t\tdb 2 dup(?)\r\n_reimu_chargeshots label byte\r\n\t\tdb 768 dup(?)\r\npublic _reimu_chargeshot_p, _reimu_chargeshot_alternate_hit_f\r\n_reimu_chargeshot_p label word\r\nword_205CA\tdw ?\r\n_reimu_chargeshot_alternate_hit_f label byte\r\nbyte_205CC\tdb ?\r\n", path = "th03_main.asm" }, { kind = "replace-once", before = "_bomb_frame\tdb PLAYER_COUNT dup(?)\r\n\t\tdb 512 dup(?)\r\nword_207E0\tdw ?\r\n", after = "_bomb_frame\tdb PLAYER_COUNT dup(?)\r\npublic _reimu_bomb_particles\r\n_reimu_bomb_particles label byte\r\n\t\tdb 512 dup(?)\r\npublic _reimu_bomb_particle_p\r\n_reimu_bomb_particle_p label word\r\nword_207E0\tdw ?\r\n", path = "th03_main.asm" }]
+
+[[functions]]
+name = "reimu_chargeshots_reset"
+object = "cs_reimu"
+segment = 5021
+offset = 4262
+size = 33
+boundary = "owner-linear-span"
+abi = "far"
+
+[[functions]]
+name = "chargeshot_add_reimu"
+object = "cs_reimu"
+segment = 5021
+offset = 4295
+size = 115
+boundary = "owner-linear-span"
+abi = "far Pascal"
+
+[[functions]]
+name = "reimu_hyper_shot_add"
+object = "cs_reimu"
+segment = 5021
+offset = 4410
+size = 114
+boundary = "owner-linear-span"
+abi = "far Pascal"
+
+[[functions]]
+name = "chargeshot_update_reimu"
+object = "cs_reimu"
+segment = 5021
+offset = 4524
+size = 272
+boundary = "owner-linear-span"
+abi = "far"
+
+[[functions]]
+name = "reimu_chargeshot_sprite_put"
+object = "cs_reimu"
+segment = 5021
+offset = 4796
+size = 87
+boundary = "owner-linear-span"
+abi = "near Pascal"
+
+[[functions]]
+name = "chargeshot_hittest_reimu"
+object = "cs_reimu"
+segment = 5021
+offset = 4883
+size = 160
+boundary = "owner-linear-span"
+abi = "far; AL result"
+
+[[functions]]
+name = "chargeshot_render_reimu"
+object = "cs_reimu"
+segment = 5021
+offset = 5043
+size = 184
+boundary = "owner-linear-span"
+abi = "far"
+
+[[functions]]
+name = "gauge_pattern_reimu"
+object = "cs_reimu"
+segment = 5021
+offset = 5227
+size = 435
+boundary = "owner-linear-span"
+abi = "near Pascal; byte in word slot"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_reimu"
+object = "cs_reimu"
+segment = 5021
+offset = 5662
+size = 24
+boundary = "owner-linear-span"
+abi = "far"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_reimu"
+object = "cs_reimu"
+segment = 5021
+offset = 5686
+size = 24
+boundary = "owner-linear-span"
+abi = "far"
+
+[[functions]]
+name = "shared_bomb_lifecycle_update"
+object = "cs_reimu"
+segment = 5021
+offset = 5710
+size = 110
+boundary = "owner-linear-span"
+abi = "far"
+
+[[functions]]
+name = "reimu_bomb_update"
+object = "cs_reimu"
+segment = 5021
+offset = 5820
+size = 209
+boundary = "owner-linear-span"
+abi = "far"
+
+[[functions]]
+name = "reimu_bomb_particles_render"
+object = "cs_reimu"
+segment = 5021
+offset = 6029
+size = 132
+boundary = "owner-linear-span"
+abi = "near"
+
+[[functions]]
+name = "reimu_bomb"
+object = "cs_reimu"
+segment = 5021
+offset = 6161
+size = 474
+boundary = "owner-linear-span"
+abi = "far"
