@@ -173,6 +173,32 @@ class RetainedControls(unittest.TestCase):
             self.assertEqual((work/bomb.OBJECT).read_bytes(),self.object)
             self.assertFalse((work/bomb.ALIAS).exists());self.assertTrue(result['byte_identical_move'])
 
+    def test_precompile_creates_fresh_output_parent_before_runner(self):
+        with tempfile.TemporaryDirectory() as d:
+            work=Path(d);self.staging(work)
+            (work/'obj/th03').rmdir();(work/'obj').rmdir()
+            self.assertFalse((work/'obj').exists())
+            self.assertFalse((work/'obj/th03').exists())
+            calls=[]
+            def simulated(argv,cwd,env,log):
+                self.assertTrue((cwd/'obj/th03').is_dir())
+                self.assertEqual(list((cwd/'obj/th03').iterdir()),[])
+                calls.append(argv);(cwd/bomb.ALIAS).write_bytes(self.object)
+                return {'exit_code':0,'simulated_test_only':True}
+            result=bomb.precompile(work,{},work,simulated)
+            self.assertEqual(len(calls),1)
+            self.assertTrue(result['byte_identical_move'])
+            self.assertEqual((work/bomb.OBJECT).read_bytes(),self.object)
+
+    def test_precompile_rejects_symlink_output_parent(self):
+        with tempfile.TemporaryDirectory() as d:
+            work=Path(d)/'stage';work.mkdir();self.staging(work)
+            (work/'obj/th03').rmdir();(work/'obj').rmdir()
+            outside=Path(d)/'outside';outside.mkdir();(work/'obj').symlink_to(outside,target_is_directory=True)
+            with self.assertRaises(ValueError):
+                bomb.precompile(work,{},work,lambda *a:self.fail('must not execute'))
+            self.assertEqual(list(outside.iterdir()),[])
+
     def test_precompile_cached_object_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             work=Path(d);self.staging(work);(work/bomb.OBJECT).write_bytes(self.object)

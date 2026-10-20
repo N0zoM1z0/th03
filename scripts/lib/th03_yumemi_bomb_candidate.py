@@ -110,6 +110,13 @@ def precompile(work, env, logs, execute):
     require(sha((work/'th03_main.asm').read_bytes()) == ROOT_AFTER, 'bomb root not staged')
     for name in (ALIAS,OBJECT,'obj/th03/bm_yume.obj'):
         require(not (work/name).exists(), 'cached/duplicate bomb object: '+name)
+    # This direct producer runs before Tup or the other direct producers have
+    # created obj/th03. Create only the reviewed output parent inside this stage.
+    for directory in (work, work/'obj', work/'obj/th03'):
+        require(not directory.is_symlink() and (not directory.exists() or directory.is_dir()),
+                'bomb output parent is not an owned stage directory')
+    require(work.is_dir(), 'bomb stage directory missing')
+    (work/OBJECT).parent.mkdir(parents=True, exist_ok=True)
     before = {p.relative_to(work).as_posix():sha(p.read_bytes()) for p in work.rglob('*.obj')}
     command = ['wine','cmd','/d','/c',
         r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%&&bin\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M' -nobj/th03/ src/main/player/bomb_yumemi.cpp"]

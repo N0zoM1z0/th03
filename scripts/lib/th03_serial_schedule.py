@@ -23,7 +23,7 @@ PINS = {
     "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
 }
 PINS.update({
-    "scripts/lib/th03_yumemi_bomb_candidate.py": "f1c8e91158d0b45458028f65b7dbba69c5004e89ee08b6407ecc73a21a624f4f",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "082b7ca1dd5260c766b5e68dcd611b9a1aa1492acb9636ba279ce3b4fba50619",
     "scripts/lib/th03_score_candidate.py": "d407cf98a7d5a8b1009e4289563a337b200d23b3f18fadc50257c0f873582434",
     "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
     "scripts/lib/analysis.py": "5f3edcf4b4e3b958976288aa07900a15a91e95276c2305470f6669fdcb95d7bd",
