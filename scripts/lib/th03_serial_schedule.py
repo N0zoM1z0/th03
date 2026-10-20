@@ -19,8 +19,8 @@ STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
     'scripts/review_th03_cpu_link_order.py': '0b96a855a823aa749cc35ab0b8d4a80b5740bf42a7996a7c934881981df5ba82',
-    "scripts/replay_th03_main_exact_units.py": "9e11e4dcbaa518d9189707128bd7e238a4a3b3f8c28cfc33aede03be6c673a9b",
-    "config/th03_main_exact_units.toml": "b125066ad367a0b04e6f4be69bc62ee45fd20abd3eb47bf2dbb9518d208fed90",
+    "scripts/replay_th03_main_exact_units.py": "aba51fe913fa0eed7923b35a9ff432bf2e6db60312a0ecef6dfc51d8576615e5",
+    "config/th03_main_exact_units.toml": "001a6d04b0a7b35667b452d85e288935622597cf051c7c4646e66a5964cbf3c8",
     "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
 }
 PINS.update({
@@ -46,7 +46,7 @@ PINS.update({
     'scripts/lib/th03_tail_public_display.json': '3219df80ac6d56269c1c83af0d5fd4e43286a304ca93bcea09606496cf1b7cb9',
     'scripts/lib/th03_tail_warning_gate.py': 'ef3a348181ec5887f96582cb052442ee54f50126cb85e49c9d190378b97c922f',
 })
-PINS.update({'scripts/lib/th03_cpu_gates.py': 'e56f59fc7890db4094e460a18763e846b1d7b960b035a01a221cbfa68ca95709', 'scripts/lib/th03_cpu_map_expectation.json': 'fb4cc0b26827e0c668c1ed2d791df20361307debc1fffd6de0fd95d6648426bc', 'scripts/lib/th03_cpu_map.py': 'fe015bc5deefa26ef273b7967ff75c71bc04a6605d1172187e55c223fa24476d', 'scripts/lib/th03_cpu_display.py': 'f1ca1d9f4f8c258a4fd3ed35ffebfa332ff5587c1e1e5cfe0ae89097498daf15', 'scripts/lib/th03_cpu_expectation.json': 'b1f1bdad5ba163955ec5a1ef4f1578316272c3b766fac342746b5b57af7be34e', 'scripts/lib/th03_cpu_binding.json': '5d683b43ed121a070315d0597dbf1839178982d67875e7c4d10f56767cb813af', 'scripts/lib/th03_cpu_dependencies.json': '0497317cea02dd84d806e1e3aa6faf65df065ff2f996f7ff5507cbedbb4b7152', 'scripts/lib/th03_cpu_baseline_pins.json': '0c5d11db2450fbb8ff1e3623d4d73c2051c87d6882728e14a74e745967812923', 'scripts/lib/th03_cpu_object.py': 'e01420bbebbcb4d44d01cd8e9601d717c92d20b77c996960e11e7d5e5bb019f4', 'scripts/lib/th03_cpu_model.py': '8c5902103d334fc3762b323e929a9a6ccd86339b62baac22101d001c3e7d5cd6', 'scripts/lib/th03_player_cpu_candidate.py': '051fa265392688a69d58a4b13986e99b0c4800f71fb4bb890bbcefe6721a3ae5'})
+PINS.update({'scripts/lib/th03_cpu_gates.py': 'e56f59fc7890db4094e460a18763e846b1d7b960b035a01a221cbfa68ca95709', 'scripts/lib/th03_cpu_map_expectation.json': 'fb4cc0b26827e0c668c1ed2d791df20361307debc1fffd6de0fd95d6648426bc', 'scripts/lib/th03_cpu_map.py': 'fe015bc5deefa26ef273b7967ff75c71bc04a6605d1172187e55c223fa24476d', 'scripts/lib/th03_cpu_display.py': 'f1ca1d9f4f8c258a4fd3ed35ffebfa332ff5587c1e1e5cfe0ae89097498daf15', 'scripts/lib/th03_cpu_expectation.json': 'b1f1bdad5ba163955ec5a1ef4f1578316272c3b766fac342746b5b57af7be34e', 'scripts/lib/th03_cpu_binding.json': '5d683b43ed121a070315d0597dbf1839178982d67875e7c4d10f56767cb813af', 'scripts/lib/th03_cpu_dependencies.json': '0497317cea02dd84d806e1e3aa6faf65df065ff2f996f7ff5507cbedbb4b7152', 'scripts/lib/th03_cpu_baseline_pins.json': '0c5d11db2450fbb8ff1e3623d4d73c2051c87d6882728e14a74e745967812923', 'scripts/lib/th03_cpu_object.py': 'e01420bbebbcb4d44d01cd8e9601d717c92d20b77c996960e11e7d5e5bb019f4', 'scripts/lib/th03_cpu_model.py': '8c5902103d334fc3762b323e929a9a6ccd86339b62baac22101d001c3e7d5cd6', 'scripts/lib/th03_player_cpu_candidate.py': '053edbabe6c9a3dc3a90e1f421e275c5d372490a1d5d5b27a4e5f2427f460fe6'})
 CANDIDATE_PINS = {
     "config/th03_main_player_cpu_candidate.toml": "2420db4423b3f7269799ac1631f04cffd2ad322c7f3dda687600de27c22400f5",
     "config/th03_main_player_tail_candidate.toml": "a44ab5667b7f3da1cc4bc26efe7fdc48e60d9bcc40802d6fa13f5c8b33ff8ee3",

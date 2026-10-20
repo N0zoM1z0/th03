@@ -8,6 +8,7 @@ import tomllib
 import unittest
 from types import SimpleNamespace
 
+from lib import th03_player_cpu_candidate as cpu
 from lib import th03_score_candidate as c
 from replay_th03_main_exact_units import (
     add_candidate_owners, apply_carrier_edits, normalized_code_extents,
@@ -21,7 +22,7 @@ CANDIDATE = tomllib.loads((ROOT/c.CANDIDATE_PATH).read_text())
 # inverse of the separately pinned, source-present bomb default addition.
 from lib import th03_player_tail_candidate as tail
 from lib import th03_yumemi_bomb_candidate as bomb
-DEFAULT = bomb.pre_bomb_config(tail.pre_tail_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())))
+DEFAULT = bomb.pre_bomb_config(tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()))))
 ACCEPTED = copy.deepcopy(DEFAULT)
 ACCEPTED['units'] = [copy.deepcopy(c.ORIGINAL_OWNER) if u['id']==c.BINDING['owner'] else u
                      for u in ACCEPTED['units'] if u['id']!='th03-main-score-hud']

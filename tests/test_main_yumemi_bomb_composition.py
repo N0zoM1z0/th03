@@ -6,11 +6,12 @@ import tomllib
 import unittest
 from unittest.mock import patch
 import replay_th03_main_exact_units as replay
+from lib import th03_player_cpu_candidate as cpu
 from lib import th03_score_candidate as score
 from lib import th03_player_tail_candidate as tail
 from lib import th03_yumemi_bomb_candidate as bomb
 ROOT=Path(__file__).resolve().parents[1]
-NEW_DEFAULT=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+NEW_DEFAULT=cpu.pre_cpu_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()))
 DEFAULT=tail.pre_tail_config(NEW_DEFAULT)
 SCORE_BASE=bomb.pre_bomb_config(DEFAULT)
 CANDIDATE=tomllib.loads((ROOT/bomb.CANDIDATE_PATH).read_text())
@@ -36,7 +37,7 @@ def setup_only(candidate, config_override=None):
 class BombComposition(unittest.TestCase):
     def test_new_tail_default_keeps_bomb_and_score_proofs(self):
         with patch.object(score,'guard_baseline',return_value={'score':'proof'}),patch.object(bomb,'guard_baseline',return_value={'bomb':'proof'}),patch.object(tail,'guard_baseline',return_value={'tail':'proof'}) as tg,patch.object(tail,'freeze_expected',return_value={'stream':'frozen'}) as tf:
-            config,original,scoreproof,bombproof,default=setup_only(None)
+            config,original,scoreproof,bombproof,default=setup_only(None,NEW_DEFAULT)
         self.assertEqual(config,NEW_DEFAULT);self.assertEqual(original,score.ORIGINAL_OWNER)
         self.assertEqual(scoreproof,{'score':'proof'});self.assertEqual(bombproof,{'bomb':'proof'});self.assertTrue(default)
         tg.assert_called_once_with(ROOT);tf.assert_called_once_with(ROOT)

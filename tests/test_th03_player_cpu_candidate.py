@@ -7,7 +7,7 @@ sys.path.insert(0,str(ROOT/'scripts'));import lib
 lib.__path__.insert(0,str(SHADOW/'scripts/lib'))
 from lib import th03_cpu_object as obj,th03_cpu_model as model,th03_cpu_gates as gates,th03_cpu_display as display,th03_player_cpu_candidate as cpu
 from lib.omf import parse_omf
-C=tomllib.loads((SHADOW/cpu.CANDIDATE_PATH).read_text());A=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+C=tomllib.loads((SHADOW/cpu.CANDIDATE_PATH).read_text());NEW_DEFAULT=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text());A=cpu.pre_cpu_config(NEW_DEFAULT)
 WORK=ROOT/'.analysis/gpt-dots-player-cpu-only-retained-proposal-v14/run-first-v01/source'
 def frame(kind,d):
  b=bytes([kind])+(len(d)+1).to_bytes(2,'little')+d;return b+bytes([-sum(b)%256])
@@ -85,19 +85,59 @@ class CPU(unittest.TestCase):
    if 'build_file' not in unit:continue
    self.assertEqual(unit['build_file'],'Tupfile.lua');self.assertEqual(tup.count(unit['build_anchor']),1);tup=tup.replace(unit['build_anchor'],unit['build_replacement'],1)
   self.assertIn('"obj/th03/p_cpu.obj",\n\t"obj/th03/warning.obj"',tup);self.assertNotIn('p_cpre',tup)
- def test_default_not_promoted(self):
-  default=ROOT/'config/th03_main_exact_units.toml'
-  self.assertEqual(hashlib.sha256(default.read_bytes()).hexdigest(),'b125066ad367a0b04e6f4be69bc62ee45fd20abd3eb47bf2dbb9518d208fed90')
-  if SHADOW.resolve()!=ROOT.resolve():self.assertFalse((SHADOW/'config/th03_main_exact_units.toml').exists())
-  self.assertNotIn('th03-main-player-cpu',{u['id'] for u in A['units']})
-  self.assertNotIn('p_cpu',{u['object'] for u in A['units']})
-  self.assertNotIn('p_cpu',{f['object'] for f in A['functions']})
-  self.assertNotIn('p_cpre',json.dumps(C));self.assertEqual(len(A['functions']),399)
+ def test_default_source_descriptor_no_acceptance(self):
+  self.assertEqual(hashlib.sha256((ROOT/'config/th03_main_exact_units.toml').read_bytes()).hexdigest(),'001a6d04b0a7b35667b452d85e288935622597cf051c7c4646e66a5964cbf3c8')
+  self.assertEqual(cpu.bind_default(NEW_DEFAULT)[0],NEW_DEFAULT)
+  self.assertEqual((len(NEW_DEFAULT['units']),len(NEW_DEFAULT['functions'])),(77,403))
+  self.assertEqual(cpu.pre_cpu_config(NEW_DEFAULT),A);self.assertEqual(len(A['functions']),399)
+  self.assertEqual(cpu.tail.digest(A),cpu.tail.DEFAULT_CONFIG_DIGEST)
+  self.assertNotIn('p_cpre',json.dumps(C))
+class DefaultBinding(unittest.TestCase):
+ def test_exact_inverse_and_accounting(self):
+  import replay_th03_main_exact_units as replay
+  before=copy.deepcopy(NEW_DEFAULT);bound,original=cpu.bind_default(NEW_DEFAULT)
+  self.assertEqual(bound,before);self.assertEqual(NEW_DEFAULT,before);self.assertEqual(original,cpu.score.ORIGINAL_OWNER)
+  extents=[e for u in bound['units'] for e in replay.normalized_code_extents(u,bound['segment'])]
+  self.assertEqual((len(extents),len(bound['functions']),sum(e['size'] for e in extents)),(86,403,65198))
+  self.assertEqual(sum(f['size'] for f in C['functions']),1036)
+  self.assertEqual(sum(p['size'] for p in C['units'][0]['code_extents'][0]['producer_ranges']),41)
+ def test_reject_default_drift(self):
+  for mutate in [lambda c:c['units'].reverse(),lambda c:c['functions'].pop(),lambda c:c['units'].append(copy.deepcopy(c['units'][-1])),lambda c:c['units'][-1].update(object='p_cpre'),lambda c:c['functions'][-1].update(size=554),lambda c:c['units'][0].update(size=1)]:
+   value=copy.deepcopy(NEW_DEFAULT);mutate(value)
+   with self.assertRaises(ValueError):cpu.bind_default(value)
+  with self.assertRaises(ValueError):cpu.bind_default(A)
+ def test_candidate_default_mixing_rejected(self):
+  with self.assertRaises(ValueError):cpu.bind_candidate(NEW_DEFAULT,C,cpu.CANDIDATE_PATH)
+ def setup_only(self,candidate):
+  import replay_th03_main_exact_units as replay
+  tree=ast.parse((SHADOW/'scripts/replay_th03_main_exact_units.py').read_text());f=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='replay');prefix=[]
+  for node in f.body:
+   if isinstance(node,ast.If) and ast.unparse(node.test).startswith('not re.fullmatch'):break
+   prefix.append(node)
+  names=['config','score_original','score_proof','bomb_proof','tail_proof','cpu_proof','bomb_default','tail_default','cpu_default']
+  prefix.append(ast.Return(ast.Tuple(elts=[ast.Name(id=n,ctx=ast.Load()) for n in names],ctx=ast.Load())));f.body=prefix;env=dict(replay.__dict__);env['ROOT']=ROOT
+  exec(compile(ast.fix_missing_locations(ast.Module(body=[f],type_ignores=[])),'<CPU-setup-only>','exec'),env)
+  return env['replay']('offline-no-native',[],candidate)
+ def test_no_candidate_dispatch_all_proofs(self):
+  with patch('subprocess.Popen',side_effect=AssertionError('native forbidden')),patch.object(cpu.score,'guard_baseline',return_value={'score':1}),patch.object(cpu.bomb,'guard_baseline',return_value={'bomb':1}),patch.object(cpu.tail,'guard_baseline',return_value={'tail':1}),patch.object(cpu.tail,'freeze_expected',return_value={'tail_expected':1}),patch.object(cpu,'guard_baseline',return_value={'cpu':1}) as cg,patch.object(cpu,'freeze_expected',return_value={'cpu_expected':1}) as ce:
+   row=self.setup_only(None)
+  self.assertEqual(row[0],NEW_DEFAULT);self.assertEqual(row[2:6],({'score':1},{'bomb':1},{'tail':1},{'cpu':1}));self.assertEqual(row[6:],(True,True,True));cg.assert_called_once_with(ROOT);ce.assert_called_once_with(ROOT)
+ def test_mixed_dispatch_fails_before_proof(self):
+  with patch.object(cpu,'guard_baseline') as guard:
+   with self.assertRaises(ValueError):self.setup_only(ROOT/cpu.CANDIDATE_PATH)
+  guard.assert_not_called()
+ def test_mode_threaded_and_acceptance_not_claimed(self):
+  s=(SHADOW/'scripts/replay_th03_main_exact_units.py').read_text()
+  self.assertIn('cpu_candidate.precompile_and_stage(work, env, logs, execute, default=cpu_default)',s)
+  self.assertIn('cpu_candidate.check_round(ROOT, work, target, cpu_proof, cpu_expected, default=cpu_default)',s)
+  self.assertIn("report['cpu_default_staging'] = cpu_default",s);self.assertIn("report['cpu_candidate_exact_acceptance'] = False",s)
+
 class Stage(unittest.TestCase):
+ default_mode=False
  def setUp(self):
   from lib import th03_serial_schedule as schedule
   self.schedule=schedule;self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name).resolve();self.events=[];self.mutate=None
-  self.scheduler=schedule.Schedule(self.execute,self.root,'cpu-offline',candidate=True)
+  self.scheduler=schedule.Schedule(self.execute,self.root,'cpu-offline',candidate=not self.default_mode)
   p=patch('subprocess.Popen',side_effect=AssertionError('native forbidden'));p.start();self.addCleanup(p.stop)
   p=patch.object(schedule.subprocess,'run',side_effect=self.build);p.start();self.addCleanup(p.stop)
  def stage(self,n=1):
@@ -106,7 +146,7 @@ class Stage(unittest.TestCase):
    p=w/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((ROOT/name).read_bytes())
   (w/'th03').mkdir(exist_ok=True);(w/'th03/p_cpu.cpp').write_text(obj.contract()['wrapper_bytes'])
   (w/'th03_main.asm').write_bytes((model.B/'th03_main.asm').read_bytes())
-  (w/'build.bat').write_bytes((model.B/'build.bat').read_bytes().replace(self.schedule.BEFORE,self.schedule.AFTER))
+  (w/'build.bat').write_bytes((model.B/'build.bat').read_bytes() if self.default_mode else (model.B/'build.bat').read_bytes().replace(self.schedule.BEFORE,self.schedule.AFTER))
   for name in ('bin/tup.exe','Tupfile.ini'):
    p=w/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((model.B/name).read_bytes())
   (w/'obj/th03').mkdir(parents=True);(w/'obj/th03/unchanged.obj').write_bytes(b'offline inventory sentinel')
@@ -124,16 +164,23 @@ class Stage(unittest.TestCase):
   self.assertEqual(argv,self.schedule.BUILD_ARGV);self.assertEqual(kw['timeout'],300);w=kw['cwd'];self.assertEqual((w/'.tup/options').read_bytes(),self.schedule.OPTIONS);self.assertEqual(model.sha((w/'th03_main.asm').read_bytes()),cpu.ROOT_AFTER);self.events.append('build');return SimpleNamespace(returncode=0,stdout=b'offline')
  def test_two_fresh_stages_real_schedule(self):
   for n in (1,2):
-   w=self.stage(n);r=cpu.precompile_and_stage(w,{},w.parent,self.scheduler);self.assertEqual(r['fresh_native_compilations'],1);self.scheduler(self.schedule.BUILD_ARGV,w,{},w.parent/'cold-build.log')
+   w=self.stage(n);r=cpu.precompile_and_stage(w,{},w.parent,self.scheduler,default=self.default_mode);self.assertEqual(r['fresh_native_compilations'],1);self.scheduler(self.schedule.BUILD_ARGV,w,{},w.parent/'cold-build.log')
   self.assertEqual(self.events,['compile','init','options','build']*2)
  def test_stale_object_rejected(self):
   w=self.stage();(w/cpu.OBJECT).write_bytes(b'stale')
-  with self.assertRaises(ValueError):cpu.precompile_and_stage(w,{},w.parent,self.scheduler)
+  with self.assertRaises(ValueError):cpu.precompile_and_stage(w,{},w.parent,self.scheduler,default=self.default_mode)
   self.assertEqual(self.events,[])
  def test_non_cpu_object_mutation_rejected(self):
   w=self.stage();self.mutate=lambda w:(w/'obj/th03/unchanged.obj').write_bytes(b'changed')
-  with self.assertRaises(ValueError):cpu.precompile_and_stage(w,{},w.parent,self.scheduler)
+  with self.assertRaises(ValueError):cpu.precompile_and_stage(w,{},w.parent,self.scheduler,default=self.default_mode)
  def test_source_mutation_rejected(self):
   w=self.stage();self.mutate=lambda w:(w/'src/main/player/cpu.hpp').write_bytes(b'changed')
-  with self.assertRaises(ValueError):cpu.precompile_and_stage(w,{},w.parent,self.scheduler)
+  with self.assertRaises(ValueError):cpu.precompile_and_stage(w,{},w.parent,self.scheduler,default=self.default_mode)
+class DefaultStage(Stage):
+ default_mode=True
+ def test_candidate_carrier_not_default(self):
+  w=self.stage();p=w/'build.bat';p.write_bytes(p.read_bytes().replace(self.schedule.BEFORE,self.schedule.AFTER))
+  with self.assertRaises(ValueError):cpu.precompile_and_stage(w,{},w.parent,self.scheduler,default=True)
+  self.assertEqual(self.events,[])
+
 if __name__=='__main__':unittest.main(verbosity=2)

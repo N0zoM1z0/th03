@@ -1,4 +1,4 @@
-"""Opt-in CPU-only owner on the accepted tail. No acceptance or native runner."""
+"""CPU-only candidate/default staging on the accepted tail. No acceptance credit."""
 from pathlib import Path
 import json,re,tomllib
 from lib import th03_player_tail_candidate as tail,th03_yumemi_bomb_candidate as bomb,th03_score_candidate as score
@@ -21,6 +21,20 @@ def bind_candidate(accepted,additions,name):
  need(len(additions['units'])==1 and len(additions['functions'])==4,'one CPU owner/four functions')
  return tail.bind_default(accepted)
 
+
+def pre_cpu_config(accepted):
+ import copy
+ result=copy.deepcopy(accepted);spec=json.loads((HERE/'th03_cpu_binding.json').read_text())['candidate']
+ need(result['units'][-1:]==spec['units'] and result['functions'][-4:]==spec['functions'],'exact final CPU default descriptor')
+ del result['units'][-1:];del result['functions'][-4:]
+ tail.bind_default(result)
+ return result
+
+def bind_default(accepted):
+ import copy
+ _,original=tail.bind_default(pre_cpu_config(accepted))
+ return copy.deepcopy(accepted),original
+
 def guard_baseline(root):
  pins=json.loads((HERE/'th03_cpu_baseline_pins.json').read_text())
  for n,h in pins.items():
@@ -34,8 +48,8 @@ def freeze_expected(root):
  need(sha(literal)=='32f532c22b20e3e415d66c1cc4e3c4183088b9091a5ba1494a5ee45193e6163c','frozen finite display contract')
  return {'stream':result['complete_literal_pairs'],'outside':result['outside_literal_pairs'],'map_sha256':sha(literal),'display_groups':16,'timing':'frozen before either cold round; observed display metadata, not a sorting algorithm'}
 
-def precompile_and_stage(work,env,logs,execute):
- work=Path(work);cpu.source_gate(work);tail.check_sources(work);bomb.check_build(work,default=False)
+def precompile_and_stage(work,env,logs,execute,default=False):
+ work=Path(work);cpu.source_gate(work);tail.check_sources(work);bomb.check_build(work,default=default)
  need(sha((work/'th03_main.asm').read_bytes())==tail.ROOT_AFTER,'accepted tail source boundary')
  output=work/OBJECT;need(not output.exists() and not output.is_symlink(),'fresh CPU object absence')
  need(not (work/'obj/th03/p_cpre.obj').exists() and not (work/'th03/p_cpre.asm').exists(),'no extracted prefix producer')
@@ -48,10 +62,10 @@ def precompile_and_stage(work,env,logs,execute):
  cpu.source_gate(work);proof=cpu.validate(output)
  raw=(work/'th03_main.asm').read_bytes();new=model.transform(raw);need(sha(new)==ROOT_AFTER,'CPU transformed root')
  (work/'th03_main.asm').write_bytes(new)
- return {'fresh_native_compilations':1,'cached_object_used':False,'compile':result,'object':proof,'prefix664_retained_uncredited':True,'source_sha256':ROOT_AFTER}
+ return {'default_staging':default,'fresh_native_compilations':1,'cached_object_used':False,'compile':result,'object':proof,'prefix664_retained_uncredited':True,'source_sha256':ROOT_AFTER}
 
-def check_round(root,work,target,proof,expected):
- root,work=Path(root),Path(work);cpu.source_gate(work);tail.check_sources(work);bomb.check_sources(work);bomb.check_build(work,default=False)
+def check_round(root,work,target,proof,expected,default=False):
+ root,work=Path(root),Path(work);cpu.source_gate(work);tail.check_sources(work);bomb.check_sources(work);bomb.check_build(work,default=default)
  need(sha((work/'th03_main.asm').read_bytes())==ROOT_AFTER,'cold CPU root source')
  need(sha((work/'obj/th03/main.@l').read_bytes())==RESPONSE_AFTER,'complete literal CPU response')
  need(not (work/'obj/th03/p_cpre.obj').exists() and not (work/'obj/th03/bm_yume.obj').exists() and not (work/bomb.ALIAS).exists(),'no extra prefix/bomb producers')
@@ -83,4 +97,4 @@ def check_round(root,work,target,proof,expected):
   # Full program-image equality already proves all DATA/BSS/STACK storage and
   # score/bomb/tail bytes; the full literal model preserves all outside1551.
   checks.append({'baseline_round':number,'pass_':True,'other30_products':True,'other42_maps':True,'prior_nonroot_objects':True,'all_storage_raw_equal':True})
- return {'pass_':True,'root':structure,'cpu':producer,'linked':linked,'map':mapped,'producer_schemas':tail_producers,'accepted_bomb_providers':providers,'baselines':checks,'score_preservation':{'pass_':True,'baselines':checks},'bomb_preservation':{'pass_':True,'baselines':checks},'exact_acceptance':False,'fresh_structural_timing':'CPU object pre-build; actual root FIXUPP post-build, as established tail pipeline; no prelink-root claim'}
+ return {'pass_':True,'default_staging':default,'root':structure,'cpu':producer,'linked':linked,'map':mapped,'producer_schemas':tail_producers,'accepted_bomb_providers':providers,'baselines':checks,'score_preservation':{'pass_':True,'baselines':checks},'bomb_preservation':{'pass_':True,'baselines':checks},'exact_acceptance':False,'fresh_structural_timing':'CPU object pre-build; actual root FIXUPP post-build, as established tail pipeline; no prelink-root claim'}

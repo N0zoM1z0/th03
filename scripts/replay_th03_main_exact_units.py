@@ -503,6 +503,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     tail_default = False
     cpu_proof = None
     cpu_expected = None
+    cpu_default = False
     if candidate_manifest is not None:
         candidate_manifest = candidate_manifest.resolve()
         if not candidate_manifest.is_relative_to(ROOT / "config"):
@@ -541,6 +542,17 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 config, score_original = score_candidate.bind_candidate(
                     config, additions, manifest_name)
                 score_proof = score_candidate.guard_baseline(ROOT)
+    elif any(u.get('id') == 'th03-main-player-cpu' for u in config['units']):
+        config, score_original = cpu_candidate.bind_default(config)
+        score_proof = score_candidate.guard_baseline(ROOT)
+        bomb_proof = bomb_candidate.guard_baseline(ROOT)
+        tail_proof = tail_candidate.guard_baseline(ROOT)
+        tail_expected = tail_candidate.freeze_expected(ROOT)
+        cpu_proof = cpu_candidate.guard_baseline(ROOT)
+        cpu_expected = cpu_candidate.freeze_expected(ROOT)
+        bomb_default = True
+        tail_default = True
+        cpu_default = True
     elif any(u.get('id') in tail_candidate.UNIT_DIGESTS for u in config['units']):
         config, score_original = tail_candidate.bind_default(config)
         score_proof = score_candidate.guard_baseline(ROOT)
@@ -837,7 +849,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             tail_compilation = tail_candidate.precompile_and_stage(work, env, logs, execute, default=tail_default)
         cpu_compilation = None
         if cpu_proof is not None:
-            cpu_compilation = cpu_candidate.precompile_and_stage(work, env, logs, execute)
+            cpu_compilation = cpu_candidate.precompile_and_stage(work, env, logs, execute, default=cpu_default)
         # The HUD intro has two fully shaped natural TC4 C++ functions
         # separated by 155 exact symbolic TASM device-helper bytes.
         # Source-emitted assembly is stitched in original logical function
@@ -1143,7 +1155,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         bomb_preservation = None
         tail_preservation = None
         if cpu_proof is not None:
-            tail_preservation = cpu_candidate.check_round(ROOT, work, target, cpu_proof, cpu_expected)
+            tail_preservation = cpu_candidate.check_round(ROOT, work, target, cpu_proof, cpu_expected, default=cpu_default)
             score_preservation = tail_preservation['score_preservation']
             bomb_preservation = tail_preservation['bomb_preservation']
             (logs / 'cpu-preservation.json').write_text(json.dumps(tail_preservation, indent=2) + '\n')
@@ -1271,6 +1283,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             raise ValueError('historical tail baseline proof changed')
     if cpu_proof is not None:
         report['cpu_candidate_exact_acceptance'] = False
+        report['cpu_default_staging'] = cpu_default
         report['pass'] = report['pass'] and all(r['cpu_candidate_preservation']['pass_'] for r in report['rounds'])
         if cpu_candidate.guard_baseline(ROOT) != cpu_proof:
             raise ValueError('historical CPU/tail proof changed')

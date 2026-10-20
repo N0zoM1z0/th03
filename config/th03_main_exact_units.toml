@@ -7016,3 +7016,54 @@ offset = 15641
 size = 277
 boundary = "owner-linear-span"
 abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+# CPU source-present default integration; two default cold rounds and acceptance pending.
+[[units]]
+id = "th03-main-player-cpu"
+object = "p_cpu"
+physical_objects_additive = true
+source = "src/main/player/cpu.cpp"
+header = "src/main/player/cpu.hpp"
+physical_objects = [{ object = "p_cpu", wrapper = "th03/p_cpu.cpp", source = "src/main/player/cpu.cpp" }]
+map_module = "th03/p_cpu.cpp"
+code_extents = [{ name = "cpu", ledger_id = "th03-main-player-cpu", segment = 2414, start = 11408, size = 1077, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", map_acbp = 28, map_parts = [{ object = "p_cpu", start = 11408, size = 1077, map_module = "th03/p_cpu.cpp" }], producer_ranges = [{ relative = 453, size = 1, kind = "tc4-natural-zero" }, { relative = 454, size = 20, kind = "tc4-switch-table" }, { relative = 1057, size = 20, kind = "tc4-switch-table" }] }]
+support_files = ["compat/rec98/th03/hardware/input.h", "compat/rec98/th03/main/chars/speed.hpp", "compat/rec98/th03/main/collmap.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "compat/rec98/th03/main/player/gauge.hpp", "compat/rec98/th03/main/player/hearts.hpp", "compat/rec98/th03/main/player/shot.hpp", "compat/rec98/th03/main/playfld.hpp", "compat/rec98/th03/main/round.hpp", "src/main/math/randring_getters.hpp", "src/main/player/move.hpp", "src/main/player/stuff.hpp"]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"obj/th03/warning.obj\",\n"
+build_replacement = "\t\"obj/th03/p_cpu.obj\",\n\t\"obj/th03/warning.obj\",\n"
+
+[[functions]]
+name = "player_cpu_direction_for_collision"
+object = "p_cpu"
+segment = 2414
+offset = 11408
+size = 195
+boundary = "owner-linear-span"
+abi = "near Pascal; signed16 collision dy BP+8, player x BP+6, player y BP+4; input_t AX; RET 6"
+
+[[functions]]
+name = "player_cpu_approach_target"
+object = "p_cpu"
+segment = 2414
+offset = 11603
+size = 258
+boundary = "owner-linear-span"
+abi = "near Pascal; player_stuff_t near pointer BP+4; RET 2"
+
+[[functions]]
+name = "player_cpu_update"
+object = "p_cpu"
+segment = 2414
+offset = 11882
+size = 30
+boundary = "owner-linear-span"
+abi = "near Pascal; player_stuff_t near pointer BP+4; RET 2"
+
+[[functions]]
+name = "player_cpu_dodge_and_aim"
+object = "p_cpu"
+segment = 2414
+offset = 11912
+size = 553
+boundary = "owner-linear-span"
+abi = "near Pascal; player_stuff_t near pointer BP+4; RET 2"

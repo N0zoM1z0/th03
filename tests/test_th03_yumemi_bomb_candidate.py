@@ -6,6 +6,7 @@ import struct
 import tempfile
 import tomllib
 import unittest
+from lib import th03_player_cpu_candidate as cpu
 from lib import th03_player_tail_candidate as tail
 from lib import th03_yumemi_bomb_candidate as bomb
 from lib import th03_score_candidate as score
@@ -18,7 +19,7 @@ RETAINED = PRIVATE/'.analysis/gpt-dots-yumemi-bomb-retained-continuation-v01/run
 
 class Composition(unittest.TestCase):
     def setUp(self):
-        self.default = tail.pre_tail_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()))
+        self.default = tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())))
         self.accepted = bomb.pre_bomb_config(self.default)
         self.candidate = tomllib.loads((ROOT/bomb.CANDIDATE_PATH).read_text())
 
@@ -342,6 +343,12 @@ class RetainedControls(unittest.TestCase):
             (fixture/'.analysis').symlink_to((PRIVATE/'.analysis').resolve(),target_is_directory=True)
             (fixture/'config/toolchain.toml').write_bytes((PRIVATE/'config/toolchain.toml').read_bytes())
             full=(ROOT/'config/th03_main_exact_units.toml').read_text()
+            cpu_candidate=(ROOT/cpu.CANDIDATE_PATH).read_text()
+            cpu_suffix=cpu_candidate[cpu_candidate.index('[[units]]'):]
+            self.assertTrue(full.endswith(cpu_suffix));current_cpu=tomllib.loads(full);full=full[:-len(cpu_suffix)]
+            self.assertEqual(tomllib.loads(full),cpu.pre_cpu_config(current_cpu))
+            cpu_note='\n# CPU source-present default integration; two default cold rounds and acceptance pending.\n'
+            self.assertTrue(full.endswith(cpu_note));full=full[:-len(cpu_note)]
             tail_candidate=(ROOT/tail.CANDIDATE_PATH).read_text()
             tail_suffix=tail_candidate[tail_candidate.index('[[units]]'):]
             self.assertTrue(full.endswith(tail_suffix))

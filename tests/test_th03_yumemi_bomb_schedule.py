@@ -15,6 +15,7 @@ import unittest
 from unittest.mock import patch
 
 import replay_th03_main_exact_units as replay
+from lib import th03_player_cpu_candidate as cpu
 from lib import th03_score_candidate as score
 from lib import th03_serial_schedule as schedule
 from lib import th03_player_tail_candidate as tail
@@ -37,7 +38,7 @@ class FreshBombSchedule(unittest.TestCase):
         self.root = Path(self.tmp.name).resolve()
         self.events = []
         self.env = {'WINEPREFIX': 'source-only-no-native'}
-        self.full_default = tail.pre_tail_config(tomllib.loads((ROOT / 'config/th03_main_exact_units.toml').read_text()))
+        self.full_default = tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads((ROOT / 'config/th03_main_exact_units.toml').read_text())))
         self.accepted = bomb.pre_bomb_config(self.full_default)
         self.candidate = tomllib.loads((ROOT / bomb.CANDIDATE_PATH).read_text())
         bomb.bind_candidate(self.accepted, self.candidate, bomb.CANDIDATE_PATH)
