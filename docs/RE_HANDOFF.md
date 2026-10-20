@@ -53,7 +53,7 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2801 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 2803 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
@@ -160,6 +160,11 @@ bytes under independent object binding, including 33 fixups, 18 branches and
 compile now pass. The latter uses a root-qualified header include; its zero-size
 default segment name changes to EFFECTS_TEXT, leaving later MAP/name gates open. Actual linking, outside
 preservation, cold and runtime gates remain open; no exact credit is added.
+The three spawn functions now expose genuine established bomb caller names through
+extern-C far-Pascal linkage. A fresh whole-TU diagnostic and strict review pass
+628 projected bytes, 33 fixups, 11 literal relocation pairs and complete ABI/public
+boundaries. The three expected same-group call lowerings still need actual linking;
+no outside/cold/runtime or exact acceptance is inferred. Historical evidence remains.
 
 
 The [Yumemi gameplay review](reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md)

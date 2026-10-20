@@ -6,7 +6,7 @@
 #include "compat/rec98/libs/master.lib/master.hpp"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 
-void far pascal player_effect_circle_expand(
+extern "C" void far pascal bomb_explosion_add(
     playfield_subpixel_t x, playfield_subpixel_t y, pid2 pid
 )
 {
@@ -24,7 +24,7 @@ void far pascal player_effect_circle_expand(
     effect->radius_delta = 8;
 }
 
-void far pascal player_effect_circle_shrink(
+extern "C" void far pascal bomb_center_add(
     playfield_subpixel_t x, playfield_subpixel_t y, pid2 pid
 )
 {
@@ -42,7 +42,7 @@ void far pascal player_effect_circle_shrink(
     effect->radius_delta = -8;
 }
 
-void far pascal player_effect_quad_shrink(
+extern "C" void far pascal bomb_axis_add(
     playfield_subpixel_t x, playfield_subpixel_t y, pid2 pid
 )
 {

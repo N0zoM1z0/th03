@@ -26,13 +26,13 @@ struct player_effect_t {
 extern player_effect_t player_effects[PLAYER_EFFECT_COUNT];
 extern uint8_t player_effect_cursor;
 
-void far pascal player_effect_circle_expand(
+extern "C" void far pascal bomb_explosion_add(
     playfield_subpixel_t x, playfield_subpixel_t y, pid2 pid
 );
-void far pascal player_effect_circle_shrink(
+extern "C" void far pascal bomb_center_add(
     playfield_subpixel_t x, playfield_subpixel_t y, pid2 pid
 );
-void far pascal player_effect_quad_shrink(
+extern "C" void far pascal bomb_axis_add(
     playfield_subpixel_t x, playfield_subpixel_t y, pid2 pid
 );
 void far player_effects_update(void);

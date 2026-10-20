@@ -1,5 +1,45 @@
 # MAIN visual-effects source milestone
 
+## Established caller linkage checkpoint (2026-10-20)
+
+Source remains present/boundary-reviewed, not exact. The three spawn declarations
+and definitions now use genuine extern-C far-Pascal names bomb_explosion_add,
+bomb_center_add and bomb_axis_add, matching the established BOMB_EXPLOSION_ADD,
+BOMB_CENTER_ADD and BOMB_AXIS_ADD caller imports. Parameter types, bodies, ordering,
+record storage and the other two functions are unchanged. No alias object,
+wrapper, OMF rename or caller patch is introduced. The three function ledger IDs,
+bounds, owners and states remain unchanged; only their source names/evidence change.
+
+The fresh maintained-path object is
+ d37d84309d2cc4d66ef62e67c2685839ac05c74bc1ea90be60d408cb4272d13a.
+All five bodies project to 628 original bytes after genuine symbol binding and
+three expected same-group linker call lowerings. All 33 fixups, 11 literal ordered
+relocation pairs, five exact publics at 0/79/158/245/291, three RETF 6 argument
+contracts at BP+10/+8/+6, and renderer ENTER 20 pass. DATA/BSS remain zero.
+Actual linker lowering and complete outside preservation are not yet observed.
+
+The terminal receipt is
+`.analysis/gpt-dots-effects-established-linkage-probe-v01/compile-first-v01/receipt.json`
+(SHA256 28641d7f2e6385bb2dbc1981ea2c15161f23ded46308c06c625c2350ea3a64b3).
+The strict result review is
+`.analysis/gpt-dots-effects-established-linkage-result-review-v01/report.json`
+(SHA256 d87741784281c94f6440bbe0a81e07828040fe8159722e53118031f85c4e0994).
+A separate independent audit also passed in durable Factory repository command
+`repository-command:c4a835a526e040329b3f4122b23855f8`, against the same
+receipt/object pins. Its persisted report is
+`.analysis/gpt-dots-effects-established-linkage-independent-v01/report.json`
+(SHA256 244da31bdafca45361bbe9c9e9812ef876d5bf8fbb542bdaa35d1c957d84fc41).
+All 48 OMF records were reviewed: exactly three PUBDEF name changes, nine dependency
+timestamps and one source timestamp differ; other record payloads remain unchanged.
+Nothing was normalized or rewritten. Historical failed and positive probes below
+remain immutable descriptions of their respective sources.
+
+Current accepted MAIN remains 81 extents / 378 functions / 60,688 bytes. No exact
+manifest, status or progress numerator changes. Retained actual link, accepted-owner
+preservation, cold/default and runtime gates remain separate obligations.
+
+## Historical source-present milestone
+
 2026-10-19: source-present only. Five complete reconstructed C++ functions cover
 original load CDBD..D031: 628 target CODE bytes, including the 337-byte renderer.
 No exact promotion, full link, runtime or whole-tail closure is claimed.
