@@ -10,12 +10,88 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]]) -> str:
+MAINL_HEAP_UNIT = "th03-mainl-decoded-heap-manager"
+MAINL_HEAP_RETAINED = {
+    "ev-th03-mainl-heap-retained-structural": (
+        "binary", "cb3379b976fd189e5e419c1d0aa6cec8d8e5821f49268b411f28050645680eb3"),
+    "ev-th03-mainl-heap-retained-runtime": (
+        "runtime", "c9d3ead4db8db4b311e658350c0c33ad28e027de07802508f94048ce0c89c003"),
+}
+
+
+def mainl_unit_progress(units: list[dict[str, str]]) -> dict[str, int]:
+    """MAINL has mixed function/module extents, not an authored-function inventory."""
+    rows = [u for u in units if u["artifact"] == "th03-mainl"
+            and u["state"] != "excluded"]
+    if len({u["id"] for u in rows}) != len(rows):
+        raise ValueError("duplicate MAINL unit would inflate the tracked denominator")
+    present = [u for u in rows if u["state"] in {"source-present", "structural", "exact"}
+               and u["source"]]
+    return {
+        "total": len(rows),
+        "reviewed": sum(u["boundary_state"] in {"reviewed", "shared"} for u in rows),
+        "source": len(present),
+        "source_bytes": sum(int(u["size"], 0) for u in present),
+        "exact": sum(u["state"] == "exact" for u in rows),
+    }
+
+
+def mainl_heap_retained(units: list[dict[str, str]],
+                        evidence: list[dict[str, str]]) -> bool:
+    """A separate diagnostic annotation; never feeds source or exact counts."""
+    heaps = [u for u in units if u["id"] == MAINL_HEAP_UNIT]
+    if len(heaps) != 1:
+        return False
+    heap = heaps[0]
+    if (heap["artifact"], heap["segment"], heap["offset"], heap["size"],
+            heap["boundary_state"], heap["state"], heap["source"]) != (
+            "th03-mainl", "decoded:0000", "0x210a", "628", "reviewed",
+            "source-present", "src/mainl/memory/heap.inl"):
+        return False
+    linked = heap["evidence_ids"].split(";")
+    for evidence_id, (kind, digest) in MAINL_HEAP_RETAINED.items():
+        matches = [e for e in evidence if e["id"] == evidence_id]
+        if evidence_id not in linked or len(matches) != 1:
+            return False
+        row = matches[0]
+        if (row["oracle"], row["artifact"], row["unit_id"], row["extent_start"],
+                row["extent_size"], row["evidence_class"], row["result"],
+                row["output_sha256"]) != (
+                "analysis-bundle", "th03-mainl", MAINL_HEAP_UNIT, "0x210a",
+                "628", kind, "pass", digest):
+            return False
+    return True
+
+
+def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
+               evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
     for index, (artifact, label) in enumerate((
         ("th03-op", "OP.EXE"), ("th03-main", "MAIN.EXE"),
         ("th03-mainl", "MAINL.EXE"), ("th03-zun", "ZUN.COM"),
     )):
+        if artifact == "th03-mainl":
+            counts = mainl_unit_progress(units)
+            total = counts["total"]
+            reviewed = counts["reviewed"]
+            source = counts["source"]
+            exact = counts["exact"]
+            y = 128 + index * 62
+            retained = (" · Heap: 8 procedures / 628 B retained-only"
+                        if mainl_heap_retained(units, evidence or []) else "")
+            rows.append(f"""  <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
+  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
+  <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{total} tracked unit extents</text>
+  <rect x="200" y="{y-7}" width="250" height="12" rx="4" fill="#353b52"/>
+  <rect x="488" y="{y-7}" width="270" height="12" rx="4" fill="#353b52"/>
+  <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="5" fill="#9b6de3"/>
+  <rect x="200" y="{y}" width="{250*source/total if total else 0:.2f}" height="5" fill="#e0af68"/>
+  <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
+  <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Source {source}/{total}</text>
+  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact {exact}/{total}</text>
+  <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
+  </g>""")
+            continue
         candidates = [f for f in functions if f["artifact"] == artifact]
         reviewed = sum(f["boundary_state"] in {"reviewed", "shared"} for f in candidates)
         exact = sum(f["state"] == "exact" for f in candidates)
@@ -58,6 +134,8 @@ def main() -> int:
         units = list(csv.DictReader(stream))
     with (ROOT / "config/th03_main_authored_functions.csv").open(newline="") as stream:
         functions = list(csv.DictReader(stream))
+    with (ROOT / "config/evidence.csv").open(newline="") as stream:
+        evidence = list(csv.DictReader(stream))
     targets = tomllib.loads((ROOT / "config/targets.toml").read_text())["artifacts"]
     lines = ["# TH03 reconstruction progress", "",
              "| Artifact | Target bytes | Source-present units | Exact units | Exact functions | Exact owned bytes |",
@@ -78,7 +156,7 @@ def main() -> int:
     ])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
-    svg = render_svg(units, functions)
+    svg = render_svg(units, functions, evidence)
     svg_path = ROOT / "resources/progress.svg"
     if args.check:
         return 0 if (destination.is_file() and destination.read_text() == content

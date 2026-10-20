@@ -35,6 +35,82 @@ def csv_rows(path):
         return list(csv.DictReader(stream))
 
 
+# This source checkpoint is not a cold-integrated library owner. Keep its
+# admission exact and separate; every other maintained source uses the cold gate.
+RETAINED_HEAP_UNIT = 'th03-mainl-decoded-heap-manager'
+RETAINED_HEAP_SOURCE = 'src/mainl/memory/heap.inl'
+RETAINED_HEAP_SHA = '3960b8f2ff1821475f86d947b82380957a35ce4c7169a518689e857560774432'
+RETAINED_HEAP_REVIEW = 'python3 scripts/review_th03_mainl_heap.py --output .analysis/NEW_HEAP_REVIEW.json'
+RETAINED_HEAP_EVIDENCE = {
+    'ev-th03-mainl-heap-maintained-source': (
+        'upstream', 'pass', RETAINED_HEAP_SOURCE, RETAINED_HEAP_SHA),
+    'ev-th03-mainl-heap-native-attempt-failed': (
+        'control-plane', 'fail',
+        '.analysis/th03-mainl-heap-native/mainl-heap-feasibility-20261020-v01/receipt.json',
+        '476c40fc05d320075cc0a627aefcbe38eeb489060323f7f66a151110e71f1329'),
+    'ev-th03-mainl-heap-retained-structural': (
+        'binary', 'pass', '.analysis/mainl-heap-retained-validation-20261020-v01/structural.json',
+        'cb3379b976fd189e5e419c1d0aa6cec8d8e5821f49268b411f28050645680eb3'),
+    'ev-th03-mainl-heap-retained-runtime': (
+        'runtime', 'pass', '.analysis/mainl-heap-retained-validation-20261020-v01/behavior.json',
+        'c9d3ead4db8db4b311e658350c0c33ad28e027de07802508f94048ce0c89c003'),
+    'ev-th03-mainl-heap-retained-completion': (
+        'control-plane', 'pass', '.analysis/mainl-heap-retained-validation-20261020-v01/completion.json',
+        '61e83cf52a067e02cf743856ee029b6835d1fd5787b063b1b005fa807ca83c51'),
+}
+RETAINED_HEAP_LEGACY = {
+    'ev-th03-mainl-heap-complete-analysis', 'ev-th03-mainl-heap-cached-producers',
+    'ev-th03-mainl-heap-cached-raw', 'ev-th03-mainl-heap-cpu-contracts',
+    'ev-th03-mainl-heap-controls',
+}
+
+
+def retained_heap_source_checkpoint(row, unit, evidence):
+    """Admit only pinned source presence; this cannot satisfy a cold/accepted gate."""
+    expected_unit = {
+        'id': RETAINED_HEAP_UNIT, 'artifact': 'th03-mainl',
+        'kind': 'module-candidate', 'segment': 'decoded:0000', 'offset': '0x210a',
+        'file_offset': '', 'size': '628', 'compare_size': '628',
+        'boundary_state': 'reviewed', 'origin': 'library', 'state': 'source-present',
+        'source': RETAINED_HEAP_SOURCE, 'replay_command': RETAINED_HEAP_REVIEW,
+    }
+    if any(unit.get(key) != value for key, value in expected_unit.items()):
+        raise ValueError('retained heap checkpoint identity/source/scope differs')
+    if (row.get('artifact'), row.get('path'), row.get('frozen_revision'),
+            row.get('frozen_sha256'), row.get('scope'), row.get('receipt'),
+            row.get('source_accepted'), row.get('exact_accepted')) != (
+            'th03-mainl', 'th03_mainl.asm', REVISION,
+            '0144b4c14d948a993d5da4f9591ea39c0f17772cba9cd47a6eda1e8e52a283d6',
+            SCOPE, PROOF, 'false', 'false'):
+        raise ValueError('retained heap checkpoint diagnostic provenance/acceptance differs')
+    refs = unit['evidence_ids'].split(';')
+    if (len(refs) != len(set(refs))
+            or set(refs) != RETAINED_HEAP_LEGACY | set(RETAINED_HEAP_EVIDENCE)):
+        raise ValueError('retained heap checkpoint evidence IDs differ')
+    if any(evidence.get(name, {}).get('evidence_class') == 'reproducibility' for name in refs):
+        raise ValueError('retained heap checkpoint cannot claim cold reproducibility')
+    for name, (kind, result, location, digest) in RETAINED_HEAP_EVIDENCE.items():
+        item = evidence.get(name, {})
+        expected = {
+            'id': name, 'oracle': 'analysis-bundle', 'artifact': 'th03-mainl',
+            'unit_id': RETAINED_HEAP_UNIT, 'extent_start': '0x210a', 'extent_size': '628',
+            'evidence_class': kind, 'result': result, 'location': location,
+            'input_sha256': RETAINED_HEAP_SHA, 'output_sha256': digest,
+        }
+        if any(item.get(key) != value for key, value in expected.items()):
+            raise ValueError('retained heap checkpoint evidence binding differs: ' + name)
+    source = Path(RETAINED_HEAP_SOURCE)
+    if any((ROOT / Path(*source.parts[:i])).is_symlink()
+           for i in range(1, len(source.parts) + 1)):
+        raise ValueError('retained heap checkpoint source cannot traverse a symlink')
+    try:
+        source_bytes = (ROOT / source).read_bytes()
+    except OSError as error:
+        raise ValueError('retained heap checkpoint source missing') from error
+    if sha(source_bytes) != RETAINED_HEAP_SHA:
+        raise ValueError('retained heap checkpoint source SHA-256 differs')
+
+
 def references(row, units, evidence):
     names = row['unit_ids'].split(';') if row['unit_ids'] else []
     refs = row['evidence_ids'].split(';') if row['evidence_ids'] else []
@@ -52,10 +128,14 @@ def references(row, units, evidence):
             if (source.is_absolute() or '..' in source.parts or source.suffix not in ('.cpp', '.c', '.asm', '.inl')
                     or source.parts[:2] not in (('src', 'shared'), ('src', 'mainl'))):
                 raise ValueError('candidate maintained source ownership differs')
-            passes = {evidence[n].get('evidence_class') for n in unit['evidence_ids'].split(';')
-                      if n in evidence and evidence[n]['result'] == 'pass'}
-            if not {'compiler', 'runtime', 'reproducibility'} <= passes or not unit.get('replay_command', '').startswith('python3 scripts/replay_'):
-                raise ValueError('candidate maintained source lacks independent cold/runtime/reproducibility evidence')
+            if (name == RETAINED_HEAP_UNIT
+                    and unit.get('replay_command') == RETAINED_HEAP_REVIEW):
+                retained_heap_source_checkpoint(row, unit, evidence)
+            else:
+                passes = {evidence[n].get('evidence_class') for n in unit['evidence_ids'].split(';')
+                          if n in evidence and evidence[n]['result'] == 'pass'}
+                if not {'compiler', 'runtime', 'reproducibility'} <= passes or not unit.get('replay_command', '').startswith('python3 scripts/replay_'):
+                    raise ValueError('candidate maintained source lacks independent cold/runtime/reproducibility evidence')
         expected.update(unit['evidence_ids'].split(';'))
     if set(refs) != expected:
         raise ValueError('candidate evidence reference union differs')
