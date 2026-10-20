@@ -67,8 +67,11 @@ class ScoreDescriptor(unittest.TestCase):
         self.assertNotIn('score_candidate_preservation',[k.value for k in receipts[0].keys if isinstance(k,ast.Constant)])
         guarded=[node for node in ast.walk(tree) if isinstance(node,ast.If)
                  and ast.unparse(node.test)=='score_preservation is not None']
-        self.assertEqual(len(guarded),1)
-        self.assertIn("report['rounds'][-1]['score_candidate_preservation'] = score_preservation",ast.unparse(guarded[0]))
+        self.assertEqual(len(guarded),2)
+        receipt_guards=[node for node in guarded if "report['rounds'][-1]['score_candidate_preservation'] = score_preservation" in ast.unparse(node)]
+        failure_guards=[node for node in guarded if "if not score_preservation['pass_']:" in ast.unparse(node)]
+        self.assertEqual(len(receipt_guards),1)
+        self.assertEqual(len(failure_guards),1)
 
     def test_scope_and_object_count_are_additive(self):
         effective,_=self.bind()
@@ -152,7 +155,7 @@ class DefaultScoreControls(unittest.TestCase):
         text=(ROOT/'scripts/replay_th03_main_exact_units.py').read_text()
         self.assertIn('config, score_original = score_candidate.bind_default(config)',text)
         self.assertLess(text.index('verify_include_carrier(score_original, work)'),text.index('apply_carrier_edits(module, work)'))
-        self.assertLess(text.index('shutil.copy2(snapshot / module["source"], overlay)'),text.index('score_candidate.check_stage(work, default=candidate_manifest is None)'))
+        self.assertLess(text.index('shutil.copy2(snapshot / module["source"], overlay)'),text.index('score_candidate.check_stage(work, default=candidate_manifest is None or bomb_proof is not None)'))
 
 
 class LiteralControls(unittest.TestCase):

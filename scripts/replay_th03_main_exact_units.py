@@ -31,6 +31,7 @@ from lib.hud_tc4_bridge import (
 )
 from lib.pc98 import parse_mz
 from lib import th03_score_candidate as score_candidate
+from lib import th03_yumemi_bomb_candidate as bomb_candidate
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -493,16 +494,26 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     score_original = None
     score_proof = None
+    bomb_proof = None
     if candidate_manifest is not None:
         candidate_manifest = candidate_manifest.resolve()
         if not candidate_manifest.is_relative_to(ROOT / "config"):
             raise ValueError("candidate manifest must be inside repository config/")
         additions = tomllib.loads(candidate_manifest.read_text())
-        config = add_candidate_owners(config, additions)
-        if any(u.get("id") == "th03-main-score-hud" for u in additions["units"]):
-            config, score_original = score_candidate.bind_candidate(
-                config, additions, candidate_manifest.relative_to(ROOT).as_posix())
+        manifest_name = candidate_manifest.relative_to(ROOT).as_posix()
+        if manifest_name == bomb_candidate.CANDIDATE_PATH:
+            # Validate the accepted score graph before the strictly additive bomb.
+            config, score_original = score_candidate.bind_default(config)
+            bomb_candidate.bind_candidate(config, additions, manifest_name)
+            config = add_candidate_owners(config, additions)
             score_proof = score_candidate.guard_baseline(ROOT)
+            bomb_proof = bomb_candidate.guard_baseline(ROOT)
+        else:
+            config = add_candidate_owners(config, additions)
+            if any(u.get("id") == "th03-main-score-hud" for u in additions["units"]):
+                config, score_original = score_candidate.bind_candidate(
+                    config, additions, manifest_name)
+                score_proof = score_candidate.guard_baseline(ROOT)
     elif any(u.get('id') == 'th03-main-score-hud' for u in config['units']):
         config, score_original = score_candidate.bind_default(config)
         score_proof = score_candidate.guard_baseline(ROOT)
@@ -724,7 +735,12 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 for producer in physical_objects(module):
                     wrapper = work / producer["wrapper"]
                     wrapper.parent.mkdir(parents=True, exist_ok=True)
-                    if "hud_tc4_stitch" in producer:
+                    if bomb_proof is not None and bomb_candidate.is_bomb_owner(module):
+                        # This one genuine maintained C++ file is compiled directly;
+                        # do not overwrite it with an include of itself.
+                        if wrapper != work / module["source"]:
+                            raise ValueError("bomb maintained source wrapper drift")
+                    elif "hud_tc4_stitch" in producer:
                         # The verified bridge materializes one compiler-ASM
                         # TASM module before Tup/TLINK. Nothing is copied
                         # from a prior binary/object or from the target.
@@ -742,9 +758,11 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                             producer["wrapper_prefix"] + f'#include "{producer["source"]}"\n'
                         )
         if score_original is not None:
-            score_candidate.check_stage(work, default=candidate_manifest is None)
+            score_candidate.check_stage(work, default=candidate_manifest is None or bomb_proof is not None)
             verify_include_carrier(next(u for u in config["units"]
                                         if u["id"] == score_original["id"]), work)
+        if bomb_proof is not None:
+            bomb_candidate.stage_bomb(work)
         for module in config["units"]:
             for ordering in ordering_objects(module):
                 overlay = work / ordering["overlay_path"]
@@ -760,6 +778,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             if build_text.count(anchor) != 1:
                 raise ValueError(f"build replacement anchor drifted: {module['id']}")
             build_path.write_text(build_text.replace(anchor, replacement, 1))
+        bomb_compilation = None
+        if bomb_proof is not None:
+            bomb_compilation = bomb_candidate.precompile(work, env, logs, execute)
         # The HUD intro has two fully shaped natural TC4 C++ functions
         # separated by 155 exact symbolic TASM device-helper bytes.
         # Source-emitted assembly is stitched in original logical function
@@ -1062,8 +1083,16 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                     if producer_range["kind"] == "padding":
                         padding.append(result)
         score_preservation = None
-        if score_original is not None:
+        bomb_preservation = None
+        if bomb_proof is not None:
+            bomb_preservation = bomb_candidate.check_round(ROOT, work, target, bomb_proof)
+            (logs / "bomb-preservation.json").write_text(json.dumps(bomb_preservation, indent=2) + "\n")
+            if not bomb_preservation["pass_"]:
+                raise ValueError("bomb candidate conjunctive preservation failed")
+            score_preservation = bomb_preservation["score_preservation"]
+        elif score_original is not None:
             score_preservation = score_candidate.check_round(ROOT, work, target, score_proof)
+        if score_preservation is not None:
             if not score_preservation["pass_"]:
                 (logs / "score-preservation.json").write_text(json.dumps(score_preservation, indent=2) + "\n")
                 raise ValueError("score candidate strict preservation failed")
@@ -1098,6 +1127,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             "candidate_sha256": sha(candidate), "behavior_pass": True})
         if score_preservation is not None:
             report["rounds"][-1]["score_candidate_preservation"] = score_preservation
+        if bomb_preservation is not None:
+            report["rounds"][-1]["bomb_candidate_preservation"] = bomb_preservation
+            report["rounds"][-1]["bomb_maintained_compilation"] = bomb_compilation
     first, second = report["rounds"]
     report["objects_metadata_normalized_equal"] = all(
         first["objects"][name]["dependency_timestamp_normalized_sha256"] ==
@@ -1144,6 +1176,12 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         report["score_candidate_exact_acceptance"] = False
         if score_candidate.guard_baseline(ROOT) != score_proof:
             raise ValueError("historical score preservation proof changed")
+    if bomb_proof is not None:
+        report["pass"] = report["pass"] and all(
+            r["bomb_candidate_preservation"]["pass_"] for r in report["rounds"])
+        report["bomb_candidate_exact_acceptance"] = False
+        if bomb_candidate.guard_baseline(ROOT) != bomb_proof:
+            raise ValueError("historical bomb composition proof changed")
     # Guard against source and target mutation during the replay.
     if any(sha((ROOT / name).read_bytes()) != digest for name, digest in inputs.items()):
         raise ValueError("source changed during replay")
