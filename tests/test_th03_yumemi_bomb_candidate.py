@@ -17,8 +17,63 @@ RETAINED = PRIVATE/'.analysis/gpt-dots-yumemi-bomb-retained-continuation-v01/run
 
 class Composition(unittest.TestCase):
     def setUp(self):
-        self.accepted = tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        self.default = tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        self.accepted = bomb.pre_bomb_config(self.default)
         self.candidate = tomllib.loads((ROOT/bomb.CANDIDATE_PATH).read_text())
+
+    def test_default_exact_inverse_and_unchanged_return(self):
+        before = copy.deepcopy(self.default)
+        result, original = bomb.bind_default(self.default)
+        self.assertEqual(result, before)
+        self.assertEqual(self.default, before)
+        self.assertEqual(original, score.ORIGINAL_OWNER)
+        self.assertEqual(bomb.digest(self.accepted), score.DEFAULT_CONFIG_DIGEST)
+        expected = copy.deepcopy(self.accepted)
+        expected['units'] += copy.deepcopy(self.candidate['units'])
+        expected['functions'] += copy.deepcopy(self.candidate['functions'])
+        self.assertEqual(expected, self.default)
+        result['units'][-1]['source'] += '.changed'
+        self.assertEqual(self.default, before)
+
+    def test_default_rejects_prior_candidate_and_duplicate_candidate(self):
+        with self.assertRaises(ValueError): bomb.bind_default(self.accepted)
+        with self.assertRaises(ValueError):
+            bomb.bind_candidate(self.default, self.candidate, bomb.CANDIDATE_PATH)
+
+    def test_default_every_append_and_prior_graph_change_rejected(self):
+        mutations = [
+            lambda c: c['units'][-1].update(source='other.cpp'),
+            lambda c: c['functions'][-1].update(size=697),
+            lambda c: c['units'][0].update(source='other.cpp'),
+            lambda c: c['units'].reverse(),
+            lambda c: c['functions'].reverse(),
+            lambda c: c['units'].append(copy.deepcopy(c['units'][-1])),
+            lambda c: c['functions'].append(copy.deepcopy(c['functions'][-1])),
+            lambda c: c['units'].pop(),
+            lambda c: c['functions'].pop(),
+        ]
+        for mutate in mutations:
+            with self.subTest(mutation=mutate):
+                changed = copy.deepcopy(self.default)
+                mutate(changed)
+                with self.assertRaises(ValueError): bomb.pre_bomb_config(changed)
+                with self.assertRaises(ValueError): bomb.bind_default(changed)
+
+    def test_inverse_checks_independent_of_outer_digest(self):
+        # Prove descriptor and inverse gates independently, even if a mistaken
+        # future edit were to repin the full-default digest.
+        from unittest.mock import patch
+        for field in ('units', 'functions'):
+            changed = copy.deepcopy(self.default)
+            changed[field][-1]['extra'] = 'drift'
+            with patch.object(bomb, 'DEFAULT_CONFIG_DIGEST', bomb.digest(changed)):
+                with self.assertRaisesRegex(ValueError, 'final bomb'):
+                    bomb.pre_bomb_config(changed)
+        changed = copy.deepcopy(self.default)
+        changed['units'][0]['source'] += '.changed'
+        with patch.object(bomb, 'DEFAULT_CONFIG_DIGEST', bomb.digest(changed)):
+            with self.assertRaisesRegex(ValueError, 'prior score ownership'):
+                bomb.pre_bomb_config(changed)
 
     def test_binding_does_not_modify(self):
         before = copy.deepcopy(self.accepted),copy.deepcopy(self.candidate)
@@ -154,12 +209,54 @@ class RetainedControls(unittest.TestCase):
             with self.assertRaises(ValueError):bomb.check_providers(PRIVATE,work)
 
 
-    def staging(self,work):
+    def staging(self,work,default=False):
         for n in bomb.SOURCE_PINS:
             p=work/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((PRIVATE/n).read_bytes())
         (work/'th03_main.asm').write_bytes((BASE/'th03_main.asm').read_bytes())
         (work/'build.bat').write_bytes((BASE/'build.bat').read_bytes())
-        (work/'obj/th03').mkdir(parents=True);bomb.stage_bomb(work)
+        (work/'obj/th03').mkdir(parents=True);bomb.stage_bomb(work,default=default)
+
+    def test_default_stage_keeps_original_build_and_checks_mode(self):
+        with tempfile.TemporaryDirectory() as d:
+            work=Path(d);self.staging(work,default=True)
+            self.assertEqual((work/'build.bat').read_bytes(), (BASE/'build.bat').read_bytes())
+            self.assertEqual(bomb.sha((work/'th03_main.asm').read_bytes()), bomb.ROOT_AFTER)
+            bomb.check_build(work, default=True)
+            with self.assertRaises(ValueError): bomb.check_build(work)
+            with self.assertRaises(ValueError): bomb.stage_bomb(work, default=True)
+            (work/'build.bat').write_bytes((work/'build.bat').read_bytes()+b' ')
+            with self.assertRaises(ValueError): bomb.check_build(work, default=True)
+        with tempfile.TemporaryDirectory() as d:
+            work=Path(d);self.staging(work)
+            bomb.check_build(work)
+            with self.assertRaises(ValueError): bomb.check_build(work, default=True)
+
+    def test_default_precompile_original_build_and_fresh_output(self):
+        with tempfile.TemporaryDirectory() as d:
+            work=Path(d);self.staging(work,default=True)
+            original=(work/'build.bat').read_bytes()
+            def simulated(argv,cwd,env,log):
+                (cwd/bomb.ALIAS).write_bytes(self.object)
+                return {'exit_code':0,'simulated_test_only':True}
+            result=bomb.precompile(work,{},work,simulated,default=True)
+            self.assertTrue(result['byte_identical_move'])
+            self.assertEqual((work/'build.bat').read_bytes(),original)
+            with self.assertRaises(ValueError):
+                bomb.precompile(work,{},work,lambda *a:self.fail('cached'),default=True)
+
+    def test_both_modes_reject_wrong_root_before_writing_build(self):
+        for default in (False,True):
+            with tempfile.TemporaryDirectory() as d:
+                work=Path(d)
+                for n in bomb.SOURCE_PINS:
+                    p=work/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((PRIVATE/n).read_bytes())
+                raw=(BASE/'th03_main.asm').read_bytes()+b' '
+                build=(BASE/'build.bat').read_bytes()
+                (work/'th03_main.asm').write_bytes(raw)
+                (work/'build.bat').write_bytes(build)
+                with self.assertRaises(ValueError): bomb.stage_bomb(work,default=default)
+                self.assertEqual((work/'th03_main.asm').read_bytes(),raw)
+                self.assertEqual((work/'build.bat').read_bytes(),build)
 
     def test_precompile_contract_simulated_callback_only(self):
         calls=[]
@@ -214,6 +311,12 @@ class RetainedControls(unittest.TestCase):
             with self.assertRaises(ValueError):bomb.precompile(work,{},work,simulated)
 
     def test_complete_round_model_both_baselines_and_extra_object(self):
+        self.complete_round_model(default=False)
+
+    def test_default_complete_round_model_both_baselines_and_extra_object(self):
+        self.complete_round_model(default=True)
+
+    def complete_round_model(self,default):
         # This is a source-only model assembled from already-frozen evidence,
         # not a native/cold execution or evidence for fresh object provenance.
         import json
@@ -232,13 +335,31 @@ class RetainedControls(unittest.TestCase):
                 if p.is_symlink():p.unlink()
                 origin=PRIVATE/n if n in bomb.SOURCE_PINS else RETAINED/n
                 p.write_bytes(origin.read_bytes())
-            # Model the candidate-only scheduling carrier without changing retained evidence.
-            (work/'build.bat').write_bytes((BASE/'build.bat').read_bytes().replace(bomb.BUILD_BEFORE,bomb.BUILD_AFTER,1))
-            result=bomb.check_round(PRIVATE,work,self.target,proof)
+            # Source-only fixture root: the historical proof/library surfaces stay
+            # read-only and only the selected config and build carrier vary.
+            fixture=work/'fixture-root';(fixture/'config').mkdir(parents=True)
+            (fixture/'.analysis').symlink_to((PRIVATE/'.analysis').resolve(),target_is_directory=True)
+            (fixture/'config/toolchain.toml').write_bytes((PRIVATE/'config/toolchain.toml').read_bytes())
+            full=(ROOT/'config/th03_main_exact_units.toml').read_text()
+            prior=bomb.pre_bomb_config(tomllib.loads(full))
+            if not default:
+                # Exact final candidate text only, followed by parsed inverse
+                # equality. This is fixture setup, never production binding.
+                candidate=(ROOT/bomb.CANDIDATE_PATH).read_text()
+                suffix=candidate[candidate.index('[[units]]'):]
+                self.assertTrue(full.endswith(suffix))
+                full=full[:-len(suffix)]
+                self.assertEqual(tomllib.loads(full),prior)
+            (fixture/'config/th03_main_exact_units.toml').write_text(full)
+            build=(BASE/'build.bat').read_bytes()
+            if not default: build=build.replace(bomb.BUILD_BEFORE,bomb.BUILD_AFTER,1)
+            (work/'build.bat').write_bytes(build)
+            result=bomb.check_round(fixture,work,self.target,proof,default=default)
             self.assertTrue(result['pass_']);self.assertTrue(result['score_preservation']['pass_'])
             self.assertEqual([x['baseline_round'] for x in result['baselines']],[1,2])
             (work/'obj/th03/extra.obj').write_bytes(self.object)
-            with self.assertRaisesRegex(ValueError,'inventory'):bomb.check_round(PRIVATE,work,self.target,proof)
+            with self.assertRaisesRegex(ValueError,'inventory'):
+                bomb.check_round(fixture,work,self.target,proof,default=default)
 
     def test_stage_requires_accepted_score(self):
         with tempfile.TemporaryDirectory() as d:

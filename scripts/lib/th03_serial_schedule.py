@@ -18,12 +18,12 @@ ROOT = HERE.parents[1]
 STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
-    "scripts/replay_th03_main_exact_units.py": "fa38f160419f117867647639402a68a195d7dbbbe7999abcc4f2ca1b7884310a",
-    "config/th03_main_exact_units.toml": "85da82057bba1278cc5f62fba9d6dbbdb198e4dd7494e9d99a20cf351a18403d",
+    "scripts/replay_th03_main_exact_units.py": "f4df09017064fc3d54c3cd8ff4643e8ceacd77a413e32c13a51844ed9e6a66cf",
+    "config/th03_main_exact_units.toml": "014a9de1409da6b605fc00e986f26bc33e61d23022660f8319e38f4df19b141d",
     "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
 }
 PINS.update({
-    "scripts/lib/th03_yumemi_bomb_candidate.py": "3c9f2d75321c7677a3afc8a605476c328df61b7a9928cd092745735d0e04f522",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "57222be5b9f43297dce65b24b178ef1aae9e106a8526c72d8c40b611ab97ff89",
     "scripts/lib/th03_score_candidate.py": "d407cf98a7d5a8b1009e4289563a337b200d23b3f18fadc50257c0f873582434",
     "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
     "scripts/lib/analysis.py": "5f3edcf4b4e3b958976288aa07900a15a91e95276c2305470f6669fdcb95d7bd",

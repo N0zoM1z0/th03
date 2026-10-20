@@ -17,7 +17,10 @@ ROOT = Path(__file__).resolve().parents[1]
 PRIVATE = Path(os.environ.get('TH03_SCORE_PRIVATE_ROOT', str(ROOT)))
 BASE = PRIVATE/c.BASELINE
 CANDIDATE = tomllib.loads((ROOT/c.CANDIDATE_PATH).read_text())
-DEFAULT = tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+# Preserve the exact historical score-only contract through the validated
+# inverse of the separately pinned, source-present bomb default addition.
+from lib import th03_yumemi_bomb_candidate as bomb
+DEFAULT = bomb.pre_bomb_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()))
 ACCEPTED = copy.deepcopy(DEFAULT)
 ACCEPTED['units'] = [copy.deepcopy(c.ORIGINAL_OWNER) if u['id']==c.BINDING['owner'] else u
                      for u in ACCEPTED['units'] if u['id']!='th03-main-score-hud']

@@ -495,6 +495,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     score_original = None
     score_proof = None
     bomb_proof = None
+    bomb_default = False
     if candidate_manifest is not None:
         candidate_manifest = candidate_manifest.resolve()
         if not candidate_manifest.is_relative_to(ROOT / "config"):
@@ -514,6 +515,11 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 config, score_original = score_candidate.bind_candidate(
                     config, additions, manifest_name)
                 score_proof = score_candidate.guard_baseline(ROOT)
+    elif any(u.get('id') == 'th03-main-yumemi-bomb' for u in config['units']):
+        config, score_original = bomb_candidate.bind_default(config)
+        score_proof = score_candidate.guard_baseline(ROOT)
+        bomb_proof = bomb_candidate.guard_baseline(ROOT)
+        bomb_default = True
     elif any(u.get('id') == 'th03-main-score-hud' for u in config['units']):
         config, score_original = score_candidate.bind_default(config)
         score_proof = score_candidate.guard_baseline(ROOT)
@@ -762,7 +768,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             verify_include_carrier(next(u for u in config["units"]
                                         if u["id"] == score_original["id"]), work)
         if bomb_proof is not None:
-            bomb_candidate.stage_bomb(work)
+            bomb_candidate.stage_bomb(work, default=bomb_default)
         for module in config["units"]:
             for ordering in ordering_objects(module):
                 overlay = work / ordering["overlay_path"]
@@ -780,7 +786,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             build_path.write_text(build_text.replace(anchor, replacement, 1))
         bomb_compilation = None
         if bomb_proof is not None:
-            bomb_compilation = bomb_candidate.precompile(work, env, logs, execute)
+            bomb_compilation = bomb_candidate.precompile(work, env, logs, execute, default=bomb_default)
         # The HUD intro has two fully shaped natural TC4 C++ functions
         # separated by 155 exact symbolic TASM device-helper bytes.
         # Source-emitted assembly is stitched in original logical function
@@ -1085,7 +1091,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         score_preservation = None
         bomb_preservation = None
         if bomb_proof is not None:
-            bomb_preservation = bomb_candidate.check_round(ROOT, work, target, bomb_proof)
+            bomb_preservation = bomb_candidate.check_round(ROOT, work, target, bomb_proof, default=bomb_default)
             (logs / "bomb-preservation.json").write_text(json.dumps(bomb_preservation, indent=2) + "\n")
             if not bomb_preservation["pass_"]:
                 raise ValueError("bomb candidate conjunctive preservation failed")
@@ -1180,6 +1186,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         report["pass"] = report["pass"] and all(
             r["bomb_candidate_preservation"]["pass_"] for r in report["rounds"])
         report["bomb_candidate_exact_acceptance"] = False
+        report["bomb_default_staging"] = bomb_default
         if bomb_candidate.guard_baseline(ROOT) != bomb_proof:
             raise ValueError("historical bomb composition proof changed")
     # Guard against source and target mutation during the replay.

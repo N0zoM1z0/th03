@@ -36,7 +36,8 @@ class FreshBombSchedule(unittest.TestCase):
         self.root = Path(self.tmp.name).resolve()
         self.events = []
         self.env = {'WINEPREFIX': 'source-only-no-native'}
-        self.accepted = tomllib.loads((ROOT / 'config/th03_main_exact_units.toml').read_text())
+        self.full_default = tomllib.loads((ROOT / 'config/th03_main_exact_units.toml').read_text())
+        self.accepted = bomb.pre_bomb_config(self.full_default)
         self.candidate = tomllib.loads((ROOT / bomb.CANDIDATE_PATH).read_text())
         bomb.bind_candidate(self.accepted, self.candidate, bomb.CANDIDATE_PATH)
         self.object = (RETAINED / bomb.OBJECT).read_bytes()
@@ -83,14 +84,17 @@ class FreshBombSchedule(unittest.TestCase):
         self.assertEqual(list(work.rglob('*.obj')), [])
         return work
 
-    def bomb_stage(self, number=1):
+    def bomb_stage(self, number=1, *, default=False):
         work = self.source_stage(number)
-        bomb.stage_bomb(work)
+        bomb.stage_bomb(work, default=default)
         self.assertEqual(bomb.sha((work / 'th03_main.asm').read_bytes()), bomb.ROOT_AFTER)
-        self.assertEqual((work / 'build.bat').read_bytes(),
-                         (BASE / 'build.bat').read_bytes().replace(schedule.BEFORE, schedule.AFTER, 1))
+        original_build = (BASE / 'build.bat').read_bytes()
+        expected_build = original_build if default else original_build.replace(schedule.BEFORE, schedule.AFTER, 1)
+        self.assertEqual((work / 'build.bat').read_bytes(), expected_build)
         # Match the replay's literal candidate Tup insertion, after stage_bomb.
-        unit = self.candidate['units'][0]
+        unit = (next(u for u in self.full_default['units'] if bomb.is_bomb_owner(u))
+                if default else self.candidate['units'][0])
+        self.assertEqual(unit, self.candidate['units'][0])
         path = work / unit['build_file']
         before = path.read_text()
         self.assertEqual(before.count(unit['build_anchor']), 1)
@@ -140,14 +144,19 @@ class FreshBombSchedule(unittest.TestCase):
     def cold(self, work):
         return self.scheduler(schedule.BUILD_ARGV, work, self.env, work.parent / 'cold-build.log')
 
-    def test_two_fresh_stages_real_schedule_and_pins(self):
+    def check_two_rounds(self, *, default):
+        self.scheduler = schedule.Schedule(self.execute, self.root, "bomb-stage", candidate=not default)
         for number in (1, 2):
-            work = self.bomb_stage(number)
-            result = bomb.precompile(work, self.env, work.parent, self.scheduler)
+            work = self.bomb_stage(number, default=default)
+            original_build = (work / "build.bat").read_bytes()
+            result = bomb.precompile(work, self.env, work.parent, self.scheduler, default=default)
             self.assertTrue(result['byte_identical_move'])
             self.assertFalse(result['cached_object_used'])
             self.assertEqual((work / bomb.OBJECT).read_bytes(), self.object)
             self.assertEqual(self.cold(work)['exit_code'], 0)
+            self.assertEqual((work / 'build.bat').read_bytes(), original_build)
+            if default:
+                self.assertEqual(bomb.sha(original_build), schedule.BUILD_SHA)
             self.assertEqual([kind for kind, path in self.events if path == work],
                              ['compile', 'init', 'options', 'build'])
             row = json.loads((work.parent / 'scheduling.json').read_text())
@@ -157,6 +166,57 @@ class FreshBombSchedule(unittest.TestCase):
             self.assertFalse(row['exact_acceptance'])
         self.assertEqual(len(self.scheduler.rounds), 2)
         self.assertEqual(self.build_run.call_count, 2)
+
+    def test_two_fresh_stages_real_schedule_and_pins(self):
+        self.check_two_rounds(default=False)
+
+    def test_default_two_fresh_stages_real_schedule_original_build(self):
+        self.check_two_rounds(default=True)
+
+    def test_cross_mode_builds_rejected_before_compile(self):
+        for number, staged_default in enumerate((False, True), 1):
+            with self.subTest(staged_default=staged_default):
+                work = self.bomb_stage(number, default=staged_default)
+                with self.assertRaises(ValueError):
+                    bomb.precompile(work, self.env, work.parent, self.scheduler,
+                                    default=not staged_default)
+                self.assertFalse((work / 'obj').exists())
+        self.assertEqual(self.events, [])
+        self.build_run.assert_not_called()
+
+    def test_cross_mode_builds_rejected_by_real_schedule_before_native(self):
+        for number, staged_default in enumerate((False, True), 1):
+            with self.subTest(staged_default=staged_default):
+                # Each independent scheduler begins at round1 in its own root.
+                root = self.root / ('cross-mode-' + str(number))
+                self.scheduler = schedule.Schedule(self.execute, root, 'bomb-stage',
+                                                   candidate=staged_default)
+                work = self.bomb_stage(default=staged_default)
+                with self.assertRaises(ValueError):
+                    self.cold(work)
+                self.assertEqual(self.scheduler.rounds, [])
+                self.assertFalse((work / '.tup').exists())
+        self.assertEqual(self.events, [])
+        self.build_run.assert_not_called()
+
+    def test_duplicate_historical_candidate_on_new_default_rejected(self):
+        import copy
+        before = copy.deepcopy(self.full_default)
+        with self.assertRaises(ValueError):
+            bomb.bind_candidate(self.full_default, self.candidate, bomb.CANDIDATE_PATH)
+        self.assertEqual(before, self.full_default)
+
+    def test_default_original_build_drift_or_candidate_form_rejected(self):
+        for number, change in enumerate(('drift', 'candidate-form'), 1):
+            with self.subTest(change=change):
+                work = self.source_stage(number)
+                path = work / 'build.bat'
+                raw = path.read_bytes()
+                path.write_bytes(raw + b' ' if change == 'drift' else raw.replace(schedule.BEFORE, schedule.AFTER, 1))
+                with self.assertRaises(ValueError):
+                    bomb.stage_bomb(work, default=True)
+        self.assertEqual(self.events, [])
+        self.build_run.assert_not_called()
 
     def test_original_build_drift_or_prealtered_carrier_rejected(self):
         for number, change in enumerate(('drift', 'prealtered'), 1):

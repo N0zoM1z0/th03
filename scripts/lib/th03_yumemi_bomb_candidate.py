@@ -22,6 +22,8 @@ OBJECT = 'obj/th03/bomb_yumemi.obj'
 ALIAS = 'obj/th03/bomb~cxk.obj'
 CANDIDATE_PATH = 'config/th03_main_yumemi_bomb_candidate.toml'
 CANDIDATE_DIGEST = 'cebea0d601d071ef1beda425c80b3ad19685f13116e9eb43c4198b28e049f6a6'
+DEFAULT_CONFIG_DIGEST = '3bcf88bd22eacb4ca08ae8d5f9ec0e0d2d17da3ec470fc747427e917533908d9'
+FUNCTION_DIGEST = 'f7761767dab569cdaf18c3e8102f214b3d9e4e8d3719a5653b33eeb5279e3e26'
 UNIT_DIGEST = '8d3db710ef2b91d6f70e6f99cc079d7eef14e11f8caeb8891e8f86ec5bd2761a'
 SOURCE_PINS = {
  SOURCE:'215fbce1405f4a807314b45bf2d87ffb70631859ccc43077a5d676b7506e6cc9',
@@ -52,6 +54,29 @@ TIES = {
  (0x1D56,0x11EA):(('_vsync_Count1','vsync_Count1'),('vsync_Count1','_vsync_Count1'))}
 
 def sha(raw): return hashlib.sha256(raw).hexdigest()
+
+def pre_bomb_config(accepted):
+    """Reverse only the exact final bomb descriptors of the reviewed default."""
+    import copy
+    require(digest(accepted) == DEFAULT_CONFIG_DIGEST, 'default bomb configuration drift')
+    result = copy.deepcopy(accepted)
+    require(result['units'] and is_bomb_owner(result['units'][-1]),
+            'default final bomb owner changed')
+    require(result['functions'] and digest(result['functions'][-1]) == FUNCTION_DIGEST,
+            'default final bomb function changed')
+    del result['units'][-1]
+    del result['functions'][-1]
+    require(digest(result) == score.DEFAULT_CONFIG_DIGEST, 'default changed prior score ownership')
+    score.bind_default(result)
+    return result
+
+
+def bind_default(accepted):
+    """Keep the new default graph unchanged and retain the original score owner."""
+    import copy
+    _, original = score.bind_default(pre_bomb_config(accepted))
+    return copy.deepcopy(accepted), original
+
 
 def bind_candidate(accepted, additions, manifest_name):
     score.bind_default(accepted)  # Validate BEFORE adding any descriptor.
@@ -91,7 +116,7 @@ def transform_root(raw):
     return out
 
 
-def stage_bomb(work):
+def stage_bomb(work, default=False):
     work = Path(work)
     score.check_stage(work, default=True)
     check_sources(work)
@@ -100,6 +125,9 @@ def stage_bomb(work):
     build = work/'build.bat'
     require(build.is_file() and not build.is_symlink(), 'bomb build carrier missing or symlink')
     score.check_original_build(work)
+    if default:
+        path.write_bytes(transformed)
+        return
     raw = build.read_bytes()
     require(raw.count(BUILD_BEFORE) == 1 and BUILD_AFTER not in raw, 'bomb build carrier boundary')
     staged = raw.replace(BUILD_BEFORE, BUILD_AFTER, 1)
@@ -108,8 +136,12 @@ def stage_bomb(work):
     build.write_bytes(staged)
 
 
-def check_build(work):
+def check_build(work, default=False):
     path = Path(work)/'build.bat'
+    require(path.is_file() and not path.is_symlink(), 'bomb build carrier missing or symlink')
+    if default:
+        score.check_original_build(work)
+        return
     require(path.is_file() and not path.is_symlink() and sha(path.read_bytes()) == BUILD_STAGED_SHA,
             'bomb candidate scheduling carrier changed')
 
@@ -122,10 +154,10 @@ def validate_object(raw):
                 module=MODULE, empty_segment='BOMB~CXK_TEXT')
 
 
-def precompile(work, env, logs, execute):
+def precompile(work, env, logs, execute, default=False):
     work,logs = Path(work),Path(logs)
     check_sources(work)
-    check_build(work)
+    check_build(work, default=default)
     require(sha((work/'th03_main.asm').read_bytes()) == ROOT_AFTER, 'bomb root not staged')
     for name in (ALIAS,OBJECT,'obj/th03/bm_yume.obj'):
         require(not (work/name).exists(), 'cached/duplicate bomb object: '+name)
@@ -142,7 +174,7 @@ def precompile(work, env, logs, execute):
     result = execute(command,work,env,logs/'bomb-maintained-compile.log')
     require(result.get('exit_code') == 0, 'bomb compile not successful')
     check_sources(work)
-    check_build(work)
+    check_build(work, default=default)
     require(sha((work/'th03_main.asm').read_bytes()) == ROOT_AFTER, 'compile modified root')
     after = {p.relative_to(work).as_posix():sha(p.read_bytes()) for p in work.rglob('*.obj')}
     require(set(after)-set(before) == {ALIAS} and all(after.get(n)==h for n,h in before.items()),
@@ -263,11 +295,11 @@ def compare_main(target, candidate, baseline, oldmap, newmap):
                 pass_=all(checks.values()) and score_checks['pass_'])
 
 
-def check_round(root, work, target, proof):
+def check_round(root, work, target, proof, default=False):
     root,work = Path(root),Path(work)
     def old(name): return score.read_pinned(root/BASELINE/name,proof[name])
     check_sources(work)
-    check_build(work)
+    check_build(work, default=default)
     require(sha((work/'th03_main.asm').read_bytes()) == ROOT_AFTER, 'root changed after staging')
     validate_object((work/OBJECT).read_bytes())
     require(not (work/ALIAS).exists() and not (work/'obj/th03/bm_yume.obj').exists(), 'extra bomb object')
@@ -276,7 +308,7 @@ def check_round(root, work, target, proof):
     newmap = (work/'obj/th03/main.map').read_bytes().decode('ascii')
     import tomllib
     accepted = tomllib.loads((root/'config/th03_main_exact_units.toml').read_text())
-    score.bind_default(accepted)
+    (bind_default if default else score.bind_default)(accepted)
     object_roots = accepted['determinism_object_roots']
     current_objects = {p.relative_to(work).as_posix() for p in (work/'obj').rglob('*.obj')}
     current_game = {n for n in current_objects if any(n.startswith(d+'/') for d in object_roots)}

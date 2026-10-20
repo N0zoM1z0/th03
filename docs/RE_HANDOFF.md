@@ -171,6 +171,21 @@ but **combined-owner relocation order and outside-owner relocation order fail**.
 Localized maintained sources have not received a fresh cold acceptance replay.
 Preserve those failures and all existing comparators; no exact promotion is made.
 
+The standalone [Yumemi bomb review](reconstruction/MAIN_YUMEMI_BOMB_REVIEW.md)
+now pins candidate `gpt-dots-yumemi-bomb-candidate-cold-v03`: its canonical
+foreground receipt reports two cold rounds PASS, and completion records unchanged
+input guards with no exact acceptance. Independent full candidate audit passed
+the bounded byte/layout/ownership/preservation/runtime gates. Nine Research
+objects each differ in FOUR ASCII time digits in one LEDATA record (36 payload
+bytes total), retained visibly without payload normalization. This default source/control
+checkpoint appends only the unchanged standalone 698-byte bomb declaration. Historical
+candidate/source pins and failed aggregate evidence remain preserved. Two fresh
+no-candidate default cold rounds, required input/math runtime,
+full preservation gates and independent audit remain prerequisites. No ledger
+promotion is made: accepted totals stay **80 / 377 / 59,990** and both Yumemi
+units and their functions remain source-present. The existing probe is not new bomb-runtime
+coverage; whole-game/device/DATA/BSS ownership limits are unchanged.
+
 The older [target-first frontier review](reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md)
 remains a historical 2,131-byte intake. Its 1,958-byte Marisa owner is now
 accepted; the 173-byte ordinary-shot hardware prefix remains unaccepted and

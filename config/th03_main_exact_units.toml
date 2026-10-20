@@ -6751,3 +6751,27 @@ offset = 16352
 size = 19
 map_public = "score_credit_digit_set"
 abi = "far Pascal byte in word slot; RETF2; writes renderer CS MOV AL immediate"
+
+[[units]]
+id = "th03-main-yumemi-bomb"
+source = "src/main/player/bomb_yumemi.cpp"
+header = "src/main/player/yumemi_gameplay.hpp"
+object = "bm_yume"
+map_module = "src/main/player/bomb~cxk.cpp"
+translator_comment = "TC86 Borland C++ 4.02"
+physical_objects_additive = true
+physical_objects = [{ object = "bm_yume", source = "src/main/player/bomb_yumemi.cpp", wrapper = "src/main/player/bomb_yumemi.cpp", object_path = "obj/th03/bomb_yumemi.obj", translator_comment = "TC86 Borland C++ 4.02" }]
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/bullet/bullet.hpp", "compat/rec98/th03/main/player/bomb.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "src/main/math/polar.hpp"]
+build_file = "Tupfile.lua"
+build_anchor = "\t{ \"th03_main.asm\", extra_inputs = {\n"
+build_replacement = "\t\"obj/th03/bomb_yumemi.obj\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
+code_extents = [{ name = "bomb", ledger_id = "th03-main-yumemi-bomb", segment = 5021, start = 8239, size = 698, map_start = 8239, map_size = 698, map_segment = "P_COMBO_TEXT", map_group = "MAIN_04", map_acbp = 28 }]
+
+[[functions]]
+name = "yumemi_bomb"
+object = "bm_yume"
+segment = 5021
+offset = 8239
+size = 698
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"

@@ -8,12 +8,64 @@ Ten support files comprise the reachable maintained C++ dependency closure: nine
 
 Only the currently unaccepted bomb unit/function ledger source fields change from the charge TU to the standalone bomb TU. All status, evidence, ABI, sizes, and charge rows remain unchanged. This intentionally supersedes the historical aggregate candidate's live ledger ownership binding without rewriting its manifest or immutable proofs. Historical replay-command text remains history, not the current acceptance command.
 
-## Required execution sequence
+## Historical candidate execution sequence
 
-After independent review and installation of the complete helper/core package, the parent may run:
+Before default integration, the initial candidate command was (its failed v01 run is immutable and must not be resumed):
 
 `.venv/bin/python -B scripts/replay_th03_main_serial.py --foreground --candidate-manifest config/th03_main_yumemi_bomb_candidate.toml --run-id gpt-dots-yumemi-bomb-candidate-cold-v01`
 
 This document does not authorize execution. Two candidate cold rounds must freshly compile the maintained path and check raw 698-byte equality, all 53 OMF fixups and 20 far-pointer relocations, complete ordered outside relocation preservation, MAP/public/provider bindings, storage, and every accepted-owner gate. Validate accepted score staging before applying the exact bomb transform. Score preservation and required runtime/inputmath gates remain mandatory. Candidate success does not permit metadata promotion: review receipts, integrate the approved default path, run two default cold rounds with all preservation/runtime gates, then consider acceptance.
 
 The retained fixed-slot relocation failure remains immutable. The independently reviewed producer-boundary supplement supports only its scoped relocation model and negative controls. It does not erase that failure, establish original global interposition, or constitute cold/default/runtime acceptance. Preserve the complete literal stream, including C7F1 and charge/CPU fixups outside the bomb. Source-present correction adds zero exact credit.
+
+
+## Candidate v03 and proposed default integration (2026-10-20)
+
+The completed canonical foreground candidate command was:
+
+    .venv/bin/python -B scripts/replay_th03_main_serial.py --foreground --candidate-manifest config/th03_main_yumemi_bomb_candidate.toml --run-id gpt-dots-yumemi-bomb-candidate-cold-v03
+
+Receipt: `.analysis/th03-main-exact/gpt-dots-yumemi-bomb-candidate-cold-v03/receipt.json`,
+SHA-256 `eb857301bae43cb1d08d6172dd202e6f705fbaa5cfce37db6da22ac56fc4b6f5`.
+Completion: `.analysis/th03-main-serial/runs/gpt-dots-yumemi-bomb-candidate-cold-v03/completion-evidence.json`,
+SHA-256 `81bdd6c9e1a9d24aa78d9457e8c32a393cc693736a7756acd2077a9e8941079f`.
+The receipt reports PASS for two cold rounds, equal candidate/product outputs,
+and equal game-object metadata-normalized hashes. Completion records exit 0,
+unchanged input guards, and exact_acceptance=false. The independent full candidate audit passed both fresh compilations and DOS
+alias identity, strict OMF/boundary checks, full MAP ties/providers, accepted-score
+preservation, raw/storage comparisons, required runtime, schedule and cleanup
+gates. Its candidate proof covers 81 extents / 378 functions / 60,688 CODE bytes
+(delta 698 bytes / one function), with 465 total and 399 game objects. These are
+observed candidate scope, not accepted ledger totals. Nine Research objects each
+have one differing LEDATA record with FOUR changed ASCII time digits: 36 payload
+bytes total, visible rather than normalized away. The full audit is recorded by
+Factory commands `repository-command:86a44c4d6a3a4b06b60609aca2408092` and
+`repository-command:10b049db91694de4bd5ebc2048d51302`. No new runtime coverage beyond the existing
+input/math probe, device behavior, original global interposition, DATA/BSS
+physical ownership, or whole-game acceptance is inferred.
+
+This checkpoint prepares the default source/control path, not default cold
+acceptance. It appends the historical standalone bomb unit and function
+unchanged to `config/th03_main_exact_units.toml`; the candidate manifest and
+maintained source/header pins remain immutable. The source header's natural
+complete-function proposal wording remains accurate and is not changed.
+The explicit prior-score graph inverse and hash validation must remain in the
+default helper. Preserve the default original build.bat and retain the historical
+candidate's separately pinned -j1 carrier; do not silently transplant that carrier
+into the default graph. No generic fallback, target-byte materialization or
+historical receipt rewrite is permitted.
+
+After independent review, installation and focused/full CI of the complete
+package, the next gate is a fresh foreground run with NO candidate argument:
+
+    .venv/bin/python -B scripts/replay_th03_main_serial.py --foreground --run-id gpt-dots-yumemi-bomb-default-cold-v01
+
+This proposed command has not run and does not authorize execution. It must
+produce two fresh cold rounds and pass the reviewed scoped raw/layout/literal-
+order and exact producer-boundary full-stream contracts, accepted-score/owner
+preservation, storage/product/object, source guard and required input/math
+runtime gates. Independently audit the retained outputs and any Research drift before considering metadata acceptance.
+Until then, unit/function ledger status remains source-present and accepted
+totals remain 80 extents / 377 functions / 59,990 bytes. The historical failed
+fixed-slot and aggregate CPU/charge evidence remains preserved, not superseded
+by a broader claim from this standalone candidate.
