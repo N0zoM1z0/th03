@@ -60,18 +60,16 @@ their individual artifact/ledger, not additive file counts). Use
 `config/th03_main_authored_functions.csv`, and
 `config/th03_function_boundaries.csv` for the machine-readable current view.
 
-The [background source milestone](reconstruction/MAIN_BACKGROUND_REVIEW.md) adds
-two source-present bands / nine functions / 1,245 target bytes. The genuine
-DI helper register contract passes. Shared forward phase tails now match both
-original 104-byte prefixes, while total native CODE is 1256 versus 1245 target
-bytes; full-body encoding differences, 16 projected relocation-site mismatches,
-stack-dependent phase behavior and external INT42 remain open. The negative
-unmodified compiler-to-assembler experiment is preserved.
-The later typed-pointer experiment is rejected: it adds a BP-6 spill and
-changes both periodic frames to ENTER 6. The committed source remains unchanged.
-A complete-tail order witness is only a prospective staging constraint; actual
-linking, accepted-owner preservation and original interposition remain separate
-gates, with the stronger original-interposition cycle still unresolved.
+The [background source milestone](reconstruction/MAIN_BACKGROUND_REVIEW.md) remains
+two source-present bands / nine functions / 1,245 target bytes. Complete symbolic
+maintained-path objects now match all 695+550 bytes under genuine symbol bindings,
+43+43 fixups and all 19+16 literal segment-relocation sites/order. Both periodic
+frames retain ENTER 4, BP-2/BP-3 and the same 416 unassigned cases per 4,096 phases.
+Independent audits passed; no linked/cold/runtime acceptance or exact promotion.
+Historical failed pointer, operand and producer experiments remain preserved.
+Actual tail integration must preserve accepted owners and the complete outside
+baseline; the older full-original-interposition cycle remains a separate open
+constraint, not permission to reorder accepted objects or weaken comparison.
 
 ## Accepted large gameplay and shared owners
 

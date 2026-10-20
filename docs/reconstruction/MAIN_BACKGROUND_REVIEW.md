@@ -1,5 +1,42 @@
 # MAIN background animation: source-present only
 
+## Complete symbolic producer observation (2026-10-20)
+
+The maintained-path candidate TUs compile to 695 and 550 CODE bytes. Independent
+object audits bind genuine symbols and compare every byte of all nine complete
+functions against the original: 1,245/1,245 bytes, 43+43 OMF fixups, and all
+19+16 literal segment-relocation sites in original order. Both objects allocate
+zero DATA/BSS/common storage. The five existing helper/reset/init bodies remain
+unchanged. This is isolated object evidence, not an accepted linked or cold build.
+
+The four complete renderer bodies use symbolic inline instructions with genuine
+near helper and far external call distances. Ordinary typed graphics setup and
+unsigned-long C++ threshold/callback tails are retained. The shared phase include
+is unchanged: ENTER 4, frame at BP-2, changed at BP-3, all 4,096 phase inputs and
+the same 416 unassigned-byte paths are observed. The later chain2 frame reload
+and sprite-delta sequence also match. No padding, embedded target bytes, manual
+stack ABI, object rewriting or generated-assembly editing was used.
+
+Evidence remains immutable under these ignored paths:
+- gpt-dots-background-cpp-tail-probe-v01 and cpp-tail-review-v01: chain1 object
+  5f88e781027458dfa4cefbcf59097e31d2cf57396074cd7d43845e448c16eb76;
+  report 29adc5a60e611d440ed48376354d51736d98c4f75340c8f9394523c54ca2ce72.
+- gpt-dots-background-chain2-typed-probe-v02 and chain2-typed-review-v01: chain2
+  object 867773a6a70739f6494bf50b01a17b0fcd581170e0fef741c5feee9c3725d775;
+  report 228384619a01d354d614a6f75544ab6a418a14e141cecb77b1497fadc25efc0c.
+
+The compiler failures and diagnostic reductions remain negative evidence.
+Bare inline external calls failed; explicit far calls were measured against a
+successful typed C++ control. The attempted inline DWORD comparison failed;
+ordinary C++ unsigned-long comparison produced the required DWORD instruction.
+Neither failure is inferred solely from a compiler-reported line number.
+
+Status remains source-present/boundary-reviewed. No accepted ledger, exact-unit
+manifest, raw exclusion or progress numerator changes. Actual root/link placement,
+accepted-owner and outside-stream preservation, independent cold reproducibility,
+external INT42 behavior and required runtime gates remain open. Historical
+observations below describe their respective frozen producers, not this candidate.
+
 Two coherent TUs under src/main/background own the proposed source view of
 D031..D2E8 (695 target bytes, six functions) and D2E8..D50E (550 bytes,
 three functions). The bounded phase include and shared header retain the
