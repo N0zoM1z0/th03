@@ -234,6 +234,7 @@ class CandidatePins(unittest.TestCase):
 
     def test_reviewed_allowlist_is_exact(self):
         self.assertEqual(m.CANDIDATE_PINS, {
+            "config/th03_main_player_cpu_candidate.toml": "2420db4423b3f7269799ac1631f04cffd2ad322c7f3dda687600de27c22400f5",
             "config/th03_main_player_tail_candidate.toml": "a44ab5667b7f3da1cc4bc26efe7fdc48e60d9bcc40802d6fa13f5c8b33ff8ee3",
             "config/th03_main_yumemi_bomb_candidate.toml": "579736dc74c88de408575e0e94f9141c2ebf498f099e783424de3879cc82cad8",
             "config/th03_main_score_candidate.toml": "81aa3026afb3e15c6bff3d1ee79863ee0f95aa113ccf8856171ea8e695b7a347",
