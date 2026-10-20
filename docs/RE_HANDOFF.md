@@ -13,34 +13,32 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
-## Complete PLAYER_M tail default integration
+## Complete PLAYER_M tail CODE acceptance
 
-The [tail cold integration](reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md)
-now has independently reviewed two-cold candidate proof for all 3,433 bytes,
-1,553 ordered relocations, full MAP/provider equality, accepted score and bomb
-preservation, behavior, and all 403 scoped game objects. Its receipt is
-`.analysis/th03-main-exact/gpt-dots-player-tail-candidate-cold-v01/receipt.json`
-(SHA256 `6984e856b50d9c1028ba8668d0a07d90dfd392970727de2c147246db587bc683`).
-The default replay graph adds exactly four final owners/21 functions, with
-an exact reverse binding to the previous accepted graph. Default staging keeps
-the original carrier and unchanged no-candidate scheduler contract; actual
-fresh post-build OMF and every linked gate remain mandatory. Fresh default
-two-cold reproduction is pending. Ledger statuses and accepted totals below
-remain unchanged; this source checkpoint grants no exactness credit.
+The [tail acceptance](reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md) now has
+independently reviewed candidate and no-candidate default two-cold proof for
+all 3,433 bytes, 1,553 ordered relocations, complete MAP/provider equality,
+accepted score and bomb preservation, existing behavior, and all403 scoped
+game objects. Default receipt:
+`.analysis/th03-main-exact/gpt-dots-player-tail-default-cold-v01/receipt.json`,
+SHA256 `03e5be6b3df62eacab100d06a673bbc55d6ed745231199ecf0bf2b2cfe70b8ac`.
+Exactly four extents and21 complete functions are promoted. No source, default
+graph, comparator, runtime or toolchain changes occur in this metadata checkpoint.
 
 ## Accepted baseline
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **81 exact extents; 378 exact functions; 60,688 bytes** |
+| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **85 exact extents; 399 exact functions; 64,121 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
-MAIN's reviewed exact extent comprises **59,761 function bytes** and **927
-explicitly classified non-function producer bytes**, across **72 maintained
+MAIN's reviewed exact extent comprises **63,194 function bytes** and **927
+explicitly classified non-function producer bytes**, across **76 maintained
 semantic source owners**. The reviewed source-present scope totals **66,843
-CODE bytes**; Yumemi, CPU, effects, warning/HUD and background add **35 functions across 6,155 CODE extent bytes** that are not exact.
+CODE bytes**; Yumemi charge and CPU retain **14 functions across 2,722 CODE extent bytes** that are not exact.
+The accepted fraction is **95.93% of reviewed MAIN CODE**, not the whole game.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -68,31 +66,22 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2805 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 2835 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
 `config/th03_main_authored_functions.csv`, and
 `config/th03_function_boundaries.csv` for the machine-readable current view.
 
-The [background source milestone](reconstruction/MAIN_BACKGROUND_REVIEW.md) remains
-two source-present bands / nine functions / 1,245 target bytes. Complete symbolic
-maintained-path objects now match all 695+550 bytes under genuine symbol bindings,
-43+43 fixups and all 19+16 literal segment-relocation sites/order. Both periodic
-frames retain ENTER 4, BP-2/BP-3 and the same 416 unassigned cases per 4,096 phases.
-Independent audits passed; no linked/cold/runtime acceptance or exact promotion.
-Historical failed pointer, operand and producer experiments remain preserved.
-Actual tail integration must preserve accepted owners and the complete outside
-baseline; the older full-original-interposition cycle remains a separate open
-constraint, not permission to reorder accepted objects or weaken comparison.
-
-The warning four-call source checkpoint now has actual retained-link proof:
-all 1,560 warning bytes and the complete 3,433-byte tail match target, with
-full 1,553/owned 83/outside 1,470 literal relocation order and accepted score/bomb
-preserved. TC++ target-frame56 calls are resolved by actual linked bytes, not
-assumed equivalent to root TASM frame16. The original diagnostic remains
-HOLD_FULL_MAP; cold/runtime/acceptance and exact totals are unchanged. See
-[warning review](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md).
+The historical [background](reconstruction/MAIN_BACKGROUND_REVIEW.md),
+[warning](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md) and
+[effects](reconstruction/MAIN_PLAYER_EFFECTS_REVIEW.md) source/probe checkpoints
+remain preserved. Their former object-only and retained-link limitations are
+superseded only by the separately audited complete tail default proof above.
+The original HOLD_FULL_MAP receipt, failed declaration/encoding/schema probes,
+and the independent CPU/charge aggregate failures remain unchanged evidence.
+Compiler-native TC++ frame56 and root TASM frame16 calls retain their distinct
+proved contracts; no OMF rewriting or post-link normalization was introduced.
 
 ## Accepted large gameplay and shared owners
 

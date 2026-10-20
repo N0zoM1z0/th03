@@ -21,36 +21,24 @@ reviewed evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the compl
 reconstruction and the 505-file intake remain unfinished.
 
 [Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
-are the entrypoints. MAIN has **378 exact functions / 60,688 exact owned bytes**
-across **72 maintained source owners and 81 exact CODE extents**. The broader
-source-present reviewed scope is **413 functions / 66,843 owned bytes in
-87 complete CODE extents**. Yumemi charge and CPU state remain source-present only. The standalone
-[Yumemi bomb](docs/reconstruction/MAIN_YUMEMI_BOMB_REVIEW.md) adds one complete
-698-byte function after two audited no-candidate default cold rounds.
-The separate combined retained link matches their raw bytes and new-owner order,
-but outside relocation order and a carrier MAP expectation remain blocked; see
-[CPU review](docs/reconstruction/MAIN_PLAYER_CPU_REVIEW.md) and the historical
-[Yumemi review](docs/reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md).
-The [visual-effects milestone](docs/reconstruction/MAIN_PLAYER_EFFECTS_REVIEW.md)
-retains five source-present functions / 628 target bytes. The complete symbolic
-WORD GRCG-disable operation passes both root-staged and actual maintained-path
-object diagnostics: all five bodies, 33 fixups and 11 predicted literal relocation
-pairs match under reviewed bindings. Actual linkage, MAP/name placement, outside
-preservation, cold replay and exact acceptance remain open.
-The [warning/HUD milestone](docs/reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
-adds seven source-present functions / 1,560 target bytes. Its compile-only
-producer resolves completely under reviewed symbols; actual full-link order,
-outside preservation, cold replay and exact acceptance remain open.
+are the entrypoints. MAIN has **399 exact functions / 64,121 exact owned bytes**
+across **76 maintained source owners and 85 exact CODE extents**. The broader
+source-present reviewed scope remains **413 functions / 66,843 owned bytes in
+87 complete CODE extents**. This is **95.93% of reviewed MAIN CODE only**, not
+whole-game completion. Yumemi charge and CPU state remain source-present:
+14 functions / 2,722 bytes are not accepted.
+The [complete player tail acceptance](docs/reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md)
+adds four extents / 21 complete functions / 3,433 bytes after two independently
+audited no-candidate default cold rounds. Warning, effects and both background
+producers preserve every outside byte, ordered relocation and accepted owner.
+Historical failed probes and the older CPU/charge aggregate remain preserved;
+they are not retroactively passed by the narrower tail proof.
 The [score HUD acceptance](docs/reconstruction/MAIN_SCORE_HUD_REVIEW.md) adds
 six complete assembly functions / 362 body bytes plus four separately classified
 EVEN bytes after two audited default cold builds. Existing score_add ownership
 and 88-byte credit remain unchanged in the new physical carrier. This is bounded
 MAIN CODE acceptance, not whole-game or Factory acceptance; runtime coverage
 remains the existing input/math probe, with DS/reset intent and device timing open.
-The [background animation milestone](docs/reconstruction/MAIN_BACKGROUND_REVIEW.md) adds
-nine source-present functions / 1,245 target bytes in two coherent TUs.
-Direct native output retains seven extra bytes and equal-length encoding differences;
-register-helper correctness does not grant linked or exact acceptance.
 These are scoped repository-local results, not whole-game product closure or
 Factory Truth Kernel acceptance. Whole-game denominators remain unknown until
 ownership is reviewed.

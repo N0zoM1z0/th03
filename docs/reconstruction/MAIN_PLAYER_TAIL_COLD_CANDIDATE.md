@@ -1,10 +1,10 @@
-# Complete PLAYER_M tail cold integration
+# Complete PLAYER_M tail CODE acceptance
 
-Source-present integration, not acceptance. Accepted MAIN remains 81 extents,
-378 functions and 60,688 bytes; no ledger statuses or totals change here.
+Bounded repository-local acceptance adds four extents and21 complete functions.
+Accepted MAIN is85 extents,399 functions and64,121 CODE bytes.
 The four maintained producers own 21 functions across 3,433 bytes.
 
-## Proven candidate and pending default
+## Historical source integration and candidate proof
 
 The opt-in two-cold run on clean `49f909e0` passed independently in both rounds:
 `.analysis/th03-main-exact/gpt-dots-player-tail-candidate-cold-v01/receipt.json`,
@@ -33,7 +33,8 @@ unchanged `Schedule(candidate=False)` supplies its established jobs1 behavior.
 The historical opt-in path retains its exact -j1 transition; attempting to add
 those owners again to the integrated default graph fails closed.
 
-Fresh default two-cold reproduction is still pending. It must use a new run ID,
+At the historical source integration checkpoint, fresh default two-cold
+reproduction was pending. It must use a new run ID,
 no candidate manifest, the reviewed supervisor and complete immutable guards.
 Both rounds must reproduce all predicates below, including actual fresh OMF
 structure and complete literal MAP display vectors. Candidate success does not
@@ -102,6 +103,53 @@ original HOLD receipt remains immutable. The separate MAP supplement v02 passed
 allocations, 14 explicit display ties and two provider-backed active flags.
 Observed display ordering is not claimed as a derived TLINK algorithm. Both
 candidate cold rounds reproduced it; both future default rounds must do so too.
-The original failed predictions and probes remain preserved. This checkpoint
-changes only source integration and its default graph, not ledger statuses or
-accepted totals.
+The original failed predictions and probes remain preserved. That source-only checkpoint changed integration and its default graph without
+changing ledger statuses or accepted totals.
+
+
+## Default cold acceptance and metadata checkpoint (2026-10-20)
+
+The fresh no-candidate default run completed both rounds with the original
+carrier and unchanged Schedule(candidate=False) lifecycle:
+
+    .venv/bin/python -B scripts/replay_th03_main_serial.py --foreground --run-id gpt-dots-player-tail-default-cold-v01
+
+Receipt: `.analysis/th03-main-exact/gpt-dots-player-tail-default-cold-v01/receipt.json`, SHA256
+`03e5be6b3df62eacab100d06a673bbc55d6ed745231199ecf0bf2b2cfe70b8ac`.
+Completion: `.analysis/th03-main-serial/runs/gpt-dots-player-tail-default-cold-v01/completion-evidence.json`, SHA256
+`5b1e2b9972e17f8033f63ebcc4aa8767192e48b348553524f8306e6350f692fe`.
+The receipt observed PASS at08:53:12 UTC; the guarded wrapper completed08:55:07
+with one invocation, unchanged proof/source/control/host identities and certain
+owned cleanup. Its exact_acceptance=false remains the immutable execution
+checkpoint, not a retroactive claim that execution itself edited ledgers.
+
+Both fresh default rounds prove all3433 raw bytes,244 OMF fixups,83 owned and
+1470 outside literal sites, and the exact frozen1553 full stream. Complete MAP
+vectors reproduce the12 zero contributions,14 explicitly observed alias-tie
+permutations and two provider-backed idle flags. All four warning near calls
+resolve to their real far-return targets; no generic frame equivalence is used.
+Accepted score/bomb gates, all outside raw and storage,31 products/43 MAPs,
+403 scoped game objects and469 total object accounting remain conjunctive.
+Existing mandatory input/math runtime passes; no new graphics/device behavior
+coverage is claimed. The nine Research-only timestamp LEDATA differences retain
+the existing narrow scope and are not silently normalized into game proof.
+
+Exactly4 extents/21 functions/3433 CODE bytes are added:85 exact extents,
+399 functions,64121 bytes =63194 function bytes +unchanged927 producer bytes.
+Reviewed MAIN remains87 extents/413 functions/66843 bytes;64121/66843 is95.93%
+only for this reviewed CODE subset. Remaining source-present Yumemi charge1645
+and CPU1077 total2722 bytes/14 functions. OP/MAINL/ZUN exact credit is unchanged.
+Original global interposition, physical DATA/BSS ownership, pristine provenance,
+whole-game/source-link-product closure and device semantics remain unproved.
+
+All previous failed source/OMF/order/schema probes and the v06 HOLD receipt
+remain immutable. Separate exact MAP supplements and fresh cold reproduction
+supersede their limited outcome, not their historical records. Metadata snapshot
+A/B validation binds only the four units and21 functions; full installation CI
+is separate and does not rebind historical native outputs.
+
+Independent default audit commands: `b588931b18604e1f8cd5456c74106a7f`
+(actual two-round predicates/call targets), `71bbd2d727544e99bd731cffe950865b`
+(objects, probes and narrowly scoped Research timestamp differences), and
+`6c74c25cf45a43ccb5c7a756d56de929` (all 171,902 historical guards and logs).
+All passed without native execution or artifact edits by the reviewer.
