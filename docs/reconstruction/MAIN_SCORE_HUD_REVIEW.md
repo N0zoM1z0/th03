@@ -192,3 +192,59 @@ Independent cold audit is retained in Factory command evidence
 `repository-command:21802d789e6c406eb03e025ba1bff1bc` and
 `repository-command:be0a4b754b3f4dc085066ab472a5bc35`; no separate audit
 file is implied. Reproduction uses the documented repository .venv interpreter.
+
+
+## Bounded default CODE acceptance
+
+Fresh no-candidate run `gpt-dots-score-default-cold-v01` passed both cold rounds.
+Receipt `.analysis/th03-main-exact/gpt-dots-score-default-cold-v01/receipt.json`
+has SHA256 `40ce4dc50d432dfa4de815a0929b9d522ad0193f924e84fd67c51fec241cd9ff`.
+Completion `.analysis/th03-main-serial/runs/gpt-dots-score-default-cold-v01/completion-evidence.json`
+has SHA256 `750bd41229bc012f752c2f8ff7e52aec08cdb4f49da7566aaec3d7dee68c527d`.
+Independent audit is retained as Factory command
+`repository-command:c459c77e7ddc44ea9099991e6bfba588`.
+It rechecked all four historical comparisons, 743 source inputs, 12,418 evidence
+files, 5,602 historical files, 249 receipt raw records, 86 MAP copies and 928
+object hashes, required runtime and schedule receipts. Both genuine score OMFs
+retain normalized SHA256
+`b07127fbb34727ef1558b95c2d5325ee6c7dedb07b58a6ba1fef3a7afe55db73`
+despite the comment-only source transition.
+
+This accepts exactly two score extents / six complete functions / 366 CODE bytes:
+362 function bytes plus four natural EVEN producer bytes. Existing score_add88B
+retains its source/semantic ownership and credit; only its physical carrier has
+moved, explicitly recorded in the default manifest. MAIN totals become 80 exact
+extents / 377 functions / 59,990 bytes, comprising 59,063 function bytes and 927
+producer bytes across 71 semantic owners. These are reviewed CODE totals, never
+a whole-game percentage. Other artifacts and surrounding DATA/BSS receive no
+new acceptance.
+
+Default game products/objects are deterministic. The same nine Research paths
+(if_shift, wide and xfade under 086/286/386) differ in FOUR ASCII compile-time
+`__TIME__` digits in actual LEDATA payload plus record checksum. The preceding
+candidate had three changed digits. Neither is metadata-only drift, and neither
+is normalized away. All-object equality remains false.
+
+The existing input/math DOS runtime probe passed; no new score-specific device
+trace is claimed. DS provenance/reset intent, physical VRAM/GRCG timing, original
+global interposition and whole-game closure remain open. Provenance is still
+candidate-local-attested; this is not native Factory acceptance. Retain the
+historical MODEL-less and literal-public-order failures and the bounded eight-tie
+supplement unchanged.
+
+Metadata validation uses retained snapshot A with inherited ledger evidence, then
+a new ledger-consistency row referencing A's actual inventory and validation log,
+followed by snapshot B validation. Both are under
+`.analysis/gpt-dots-score-metadata-promotion-proposal-v01/`.
+No snapshot claims to validate later metadata. Source, manifests, scheduling,
+runtime and comparison controls remain byte-identical to the successful default
+proof. Final installation CI and clean metadata commit remain separate results.
+
+Recorded successful invocation:
+
+    .venv/bin/python -B scripts/replay_th03_main_serial.py --foreground --run-id gpt-dots-score-default-cold-v01
+
+Use a new run ID for reproduction. Unit ledger driver fields use `python3`
+within an activated repository .venv because the existing shell-free driver
+validator does not parse interpreter flags; the actual evidence command above
+is retained literally.

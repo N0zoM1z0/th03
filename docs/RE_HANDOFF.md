@@ -4,7 +4,8 @@ The owner's requested worktree review is complete. CI/dependency maintenance
 and proof-retention fixes are recorded in `ed653cb` and `095e54b`; this
 documentation checkpoint reconciles the remaining maintenance changes.
 The CPU source-present milestone extends the prior Yumemi commit `30f1564`;
-accepted gameplay CODE remains the scope recorded in `38a6248`. The 2026-10-06 closeout and 2026-10-08 maintenance pass
+accepted gameplay CODE from `38a6248` now includes the bounded score addition
+recorded in the score review. The 2026-10-06 closeout and 2026-10-08 maintenance pass
 are historical checkpoints. This is a
 **scoped, repository-local reconstruction**, not a finished, playable game or
 native Factory Truth Kernel acceptance. Original Japanese target provenance is
@@ -16,15 +17,15 @@ TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **78 exact extents; 371 exact functions; 59,624 bytes** |
+| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **80 exact extents; 377 exact functions; 59,990 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
-MAIN's reviewed exact extent comprises **58,701 function bytes** and **923
-explicitly classified non-function producer bytes**, across **70 maintained
+MAIN's reviewed exact extent comprises **59,063 function bytes** and **927
+explicitly classified non-function producer bytes**, across **71 maintained
 semantic source owners**. The reviewed source-present scope totals **66,843
-CODE bytes**; Yumemi, CPU, effects, warning/HUD, score HUD and background add **42 functions across 7,219 CODE extent bytes** that are not exact.
+CODE bytes**; Yumemi, CPU, effects, warning/HUD and background add **36 functions across 6,853 CODE extent bytes** that are not exact.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -135,12 +136,17 @@ not merely metadata; game objects/products remain deterministic. No banner
 normalization is allowed. The failed retained receipt and reviewed eight-tie MAP
 supplement remain preserved.
 
-The default-integration checkpoint makes the actual score_add physical carrier
-explicit and retains strict original-root prechecks and maintained include checks.
-Fresh no-candidate two-cold regression and final metadata audit remain pending.
-Score ledger rows stay source-present; accepted totals remain 78/371/59,624.
-See the [score review](reconstruction/MAIN_SCORE_HUD_REVIEW.md) for pinned evidence,
-the default command and unchanged runtime/device/global-interposition limits.
+Fresh default run `gpt-dots-score-default-cold-v01` subsequently passed both
+rounds and independent audit, including unchanged normalized score OMF after the
+one-line comment correction. Score contributes exactly 366 new bytes / six
+functions; score_add retains its old 88-byte ownership. The default Research
+differences are FOUR __TIME__ digits inside LEDATA plus checksum (the historical
+candidate differed in three). Game objects/products remain deterministic.
+
+The score metadata acceptance records 80 extents / 377 functions / 59,990 bytes.
+See the [score review](reconstruction/MAIN_SCORE_HUD_REVIEW.md) for receipt and
+completion pins, audit evidence and unchanged runtime/device/global limits.
+Final metadata installation CI is a distinct checkpoint, not a cold replay.
 
 The [warning/HUD source milestone](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
 adds seven complete functions / **1,560 target bytes**. The isolated native

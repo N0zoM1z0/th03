@@ -21,8 +21,8 @@ reviewed evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the compl
 reconstruction and the 505-file intake remain unfinished.
 
 [Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
-are the entrypoints. MAIN has **371 exact functions / 59,624 exact owned bytes**
-across **70 maintained source owners and 78 exact CODE extents**. The broader
+are the entrypoints. MAIN has **377 exact functions / 59,990 exact owned bytes**
+across **71 maintained source owners and 80 exact CODE extents**. The broader
 source-present reviewed scope is **413 functions / 66,843 owned bytes in
 87 complete CODE extents**. Yumemi and CPU state remain source-present only.
 The separate combined retained link matches their raw bytes and new-owner order,
@@ -39,10 +39,12 @@ The [warning/HUD milestone](docs/reconstruction/MAIN_PLAYER_WARNING_REVIEW.md)
 adds seven source-present functions / 1,560 target bytes. Its compile-only
 producer resolves completely under reviewed symbols; actual full-link order,
 outside preservation, cold replay and exact acceptance remain open.
-The [score HUD milestone](docs/reconstruction/MAIN_SCORE_HUD_REVIEW.md) adds
-six source-present functions / 362 body bytes plus four separately classified
-EVEN bytes. Faithful native-object resolution passes after restoring the genuine
-MODEL ambient; actual link, placement, cold replay and exact acceptance remain open.
+The [score HUD acceptance](docs/reconstruction/MAIN_SCORE_HUD_REVIEW.md) adds
+six complete assembly functions / 362 body bytes plus four separately classified
+EVEN bytes after two audited default cold builds. Existing score_add ownership
+and 88-byte credit remain unchanged in the new physical carrier. This is bounded
+MAIN CODE acceptance, not whole-game or Factory acceptance; runtime coverage
+remains the existing input/math probe, with DS/reset intent and device timing open.
 The [background animation milestone](docs/reconstruction/MAIN_BACKGROUND_REVIEW.md) adds
 nine source-present functions / 1,245 target bytes in two coherent TUs.
 Direct native output retains seven extra bytes and equal-length encoding differences;
