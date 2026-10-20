@@ -53,7 +53,7 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2803 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 2805 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
@@ -70,6 +70,14 @@ Historical failed pointer, operand and producer experiments remain preserved.
 Actual tail integration must preserve accepted owners and the complete outside
 baseline; the older full-original-interposition cycle remains a separate open
 constraint, not permission to reorder accepted objects or weaken comparison.
+
+The warning four-call source checkpoint now has actual retained-link proof:
+all 1,560 warning bytes and the complete 3,433-byte tail match target, with
+full 1,553/owned 83/outside 1,470 literal relocation order and accepted score/bomb
+preserved. TC++ target-frame56 calls are resolved by actual linked bytes, not
+assumed equivalent to root TASM frame16. The original diagnostic remains
+HOLD_FULL_MAP; cold/runtime/acceptance and exact totals are unchanged. See
+[warning review](reconstruction/MAIN_PLAYER_WARNING_REVIEW.md).
 
 ## Accepted large gameplay and shared owners
 

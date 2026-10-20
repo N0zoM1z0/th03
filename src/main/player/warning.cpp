@@ -146,8 +146,20 @@ void far round_CA3C(void)
     snd_se_reset();
     snd_se_play(19);
     snd_se_update();
-    hud_static_gauge_levels_put(0);
-    hud_static_gauge_levels_put(1);
+    // Original PC-98 same-group far-return call, without linker lowering.
+    asm {
+        push 0
+        nop
+        push cs
+        call near ptr hud_static_gauge_levels_put
+    }
+    // Original PC-98 same-group far-return call, without linker lowering.
+    asm {
+        push 1
+        nop
+        push cs
+        call near ptr hud_static_gauge_levels_put
+    }
     if(warning_flag[0] == WF_FLASH_WHITE) {
         warning_flag[0] = WF_FLASH_RED;
         warning_text_put(0, TX_WHITE);
@@ -209,7 +221,13 @@ void far pascal round_CB81(pid_t player)
                 else if(gba_flag_next[player] == GBAF_GAUGE_BULLET_INIT)
                     attribute_or_y = 0x61;
                 else attribute_or_y = 0x41;
-                palette_restore_for_pid(attacked);
+                // Preserve the original word push; the far-Pascal callee uses its low byte.
+                asm {
+                    push word ptr attacked
+                    nop
+                    push cs
+                    call near ptr palette_restore_for_pid
+                }
             } else {
                 if(gba_flag_next[player] == GBAF_GAUGE_PELLET_INIT)
                     Palettes[attacked].c.b = 120;
@@ -230,7 +248,13 @@ void far pascal round_CB81(pid_t player)
                 i++;
                 attribute_or_y++;
             }
-            palette_restore_for_pid(attacked);
+            // Preserve the original word push; the far-Pascal callee uses its low byte.
+            asm {
+                push word ptr attacked
+                nop
+                push cs
+                call near ptr palette_restore_for_pid
+            }
             warning_flag_bytes[player] = WF_NONE;
             gba_flag_active[player] = gba_flag_next[player];
             warning_brightness[player] = 0;

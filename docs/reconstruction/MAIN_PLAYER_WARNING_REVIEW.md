@@ -6,6 +6,40 @@ load C7A5..CDBD, 1,560 CODE bytes. Accepted MAIN remains 78 exact extents /
 scope becomes 83 extents / 398 functions / 65,232 bytes. No full-link, cold,
 runtime, whole-tail or Factory acceptance is implied.
 
+## Actual retained-link four-call checkpoint (2026-10-20)
+
+Source-present only; accepted MAIN remains 81 exact extents / 378 functions / 60,688
+bytes. Four warning calls now express the original argument push followed by
+NOP, PUSH CS and a real near call to the unchanged far-return callee. Two HUD
+calls preserve 6A00/6A01; two palette calls preserve FF76FD and the BP-3 byte PID.
+No header, type, storage, prologue, other body or shared-phase changes.
+
+The fresh maintained-path warning object is
+`.analysis/gpt-dots-player-tail-retained-probe-v05/run-first-v01/source/obj/th03/warning.obj`
+(SHA256 5a1e39d9f20455f5b329dbcfe57f64cba9f5a978e09e73ab27ba98559a33549b).
+It retains 1,560 CODE bytes, 125 fixups, 37 literal segment sites in original order,
+seven publics and zero storage. The first schema prediction failed because
+TC++ emitted exact four self-relative target-frame56 OFFSET16 calls, rather
+than the TASM-root group-frame16 form. That failure is preserved unchanged;
+no object normalization or accept-either gate was introduced.
+
+The separately reviewed v06 link-only diagnostic reused that object unchanged.
+Actual calls at CA61/CA68/CC46/CCD6 are 900EE82BF0/900EE824F0/900EE85DD7/900EE8CDD6,
+resolving to BA91/BA91/A3A8/A3A8. All 3,433 contiguous tail bytes now equal the
+original target, with full 1,553/owned 83/outside 1,470 literal order, all outside
+raw bytes, accepted score/bomb/root, header and overlay preserved. Receipt:
+`.analysis/gpt-dots-player-tail-retained-probe-v06/run-first-v01/receipt.json`.
+Independent audit: `.analysis/gpt-dots-player-tail-linked-independent-v01/report.json`,
+attributing completed command f3d1cea0aa9f4acc82c2911a5ae34e3d.
+
+The original v06 receipt remains HOLD_FULL_MAP for complete zero-contribution
+and public-tie display order; a separate supplement does not rewrite it.
+Earlier four projected linker lowerings are not evidence of actual lowering:
+v04 observed all four still FAR. The explicit source calls above now have actual
+linked-byte proof. No cold/runtime/Factory acceptance, ledger status promotion,
+whole-original global interposition or exactness credit follows from this
+source checkpoint. Historical failed roots, schemas and native runs stay intact.
+
 ## Source layout and ABI
 
 `src/main/player/warning.cpp` is one coherent translation unit; warning.hpp
