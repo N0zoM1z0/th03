@@ -13,6 +13,16 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## CPU CODE acceptance
+The [CPU acceptance](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds one complete
+extent / four functions / 1,077 bytes after two fresh default cold rounds and
+independent raw/order/MAP/provider audit. Receipt:
+`.analysis/th03-main-exact/gpt-dots-player-cpu-default-cold-v01/receipt.json`,
+SHA256 `e61154d1405bd68df85292385d752c273fcc819f03e4a315877a38eeece36940`.
+This metadata checkpoint changes no source/runtime/default graph. The root
+prefix664 remains uncredited, charge remains source-present, and all failed
+earlier probes and the nine Research-only metadata drifts remain preserved.
+
 ## Complete PLAYER_M tail CODE acceptance
 
 The [tail acceptance](reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md) now has
@@ -29,16 +39,16 @@ graph, comparator, runtime or toolchain changes occur in this metadata checkpoin
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **85 exact extents; 399 exact functions; 64,121 bytes** |
+| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **86 exact extents; 403 exact functions; 65,198 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
-MAIN's reviewed exact extent comprises **63,194 function bytes** and **927
-explicitly classified non-function producer bytes**, across **76 maintained
+MAIN's reviewed exact extent comprises **64,230 function bytes** and **968
+explicitly classified non-function producer bytes**, across **77 maintained
 semantic source owners**. The reviewed source-present scope totals **66,843
-CODE bytes**; Yumemi charge and CPU retain **14 functions across 2,722 CODE extent bytes** that are not exact.
-The accepted fraction is **95.93% of reviewed MAIN CODE**, not the whole game.
+CODE bytes**; Yumemi charge retains **10 functions across 1,645 CODE extent bytes** that are not exact.
+The accepted fraction is **97.54% of reviewed MAIN CODE**, not the whole game.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -66,7 +76,7 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2835 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 2849 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,

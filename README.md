@@ -21,12 +21,14 @@ reviewed evidence for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`; the compl
 reconstruction and the 505-file intake remain unfinished.
 
 [Current handoff](docs/RE_HANDOFF.md) and the [historical closeout record](docs/CLOSEOUT.md)
-are the entrypoints. MAIN has **399 exact functions / 64,121 exact owned bytes**
-across **76 maintained source owners and 85 exact CODE extents**. The broader
+are the entrypoints. MAIN has **403 exact functions / 65,198 exact owned bytes**
+across **77 maintained source owners and 86 exact CODE extents**. The broader
 source-present reviewed scope remains **413 functions / 66,843 owned bytes in
-87 complete CODE extents**. This is **95.93% of reviewed MAIN CODE only**, not
-whole-game completion. Yumemi charge and CPU state remain source-present:
-14 functions / 2,722 bytes are not accepted.
+87 complete CODE extents**. This is **97.54% of reviewed MAIN CODE only**, not
+whole-game completion. Yumemi charge remains source-present: 10 functions / 1,645 bytes are not accepted.
+The [CPU acceptance](docs/reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds one extent,
+four complete functions and 1,077 bytes after two audited no-candidate default
+cold rounds. Its 664-byte root prefix receives no credit.
 The [complete player tail acceptance](docs/reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md)
 adds four extents / 21 complete functions / 3,433 bytes after two independently
 audited no-candidate default cold rounds. Warning, effects and both background

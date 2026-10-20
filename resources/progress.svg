@@ -21,9 +21,9 @@
   <rect x="200" y="183" width="250" height="12" rx="4" fill="#353b52"/>
   <rect x="488" y="183" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="183" width="250.00" height="12" fill="#9b6de3"/>
-  <rect x="488" y="183" width="260.85" height="12" fill="#55c7a6"/>
+  <rect x="488" y="183" width="263.46" height="12" fill="#55c7a6"/>
   <text x="200" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 413 · Pending 0</text>
-  <text x="488" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 399 · Pending 14</text>
+  <text x="488" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 403 · Pending 10</text>
   <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="252" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAINL.EXE</text>
   <text x="24" y="272" fill="#c8cad2" font-family="monospace" font-size="11">145 tracked unit extents</text>
@@ -45,6 +45,6 @@
   <text x="200" y="336" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 0 · Pending 0</text>
   <text x="488" y="336" fill="#c8cad2" font-family="monospace" font-size="11">Exact 0 · Pending 0</text>
   <path d="M24 366 H764" stroke="#4b526d"/>
-  <text x="24" y="391" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 64,121 bytes · 85 owners</text>
+  <text x="24" y="391" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 65,198 bytes · 86 owners</text>
   <text x="24" y="414" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
 </svg>

@@ -1,3 +1,52 @@
+# MAIN CPU player-state CODE acceptance
+
+2026-10-20: one bounded maintained CODE extent / four complete functions accepted
+after independent candidate and no-candidate two-cold audits. CPU1,077 bytes =
+1,036 function bytes + two20-byte switch tables + one natural zero. No padding,
+fake ABI, OMF rewriting, generic symbol/frame normalization or target-byte arrays
+were introduced. The genuine664-byte root prefix remains uncredited.
+
+## Default cold proof
+Receipt: `.analysis/th03-main-exact/gpt-dots-player-cpu-default-cold-v01/receipt.json`
+SHA256 `e61154d1405bd68df85292385d752c273fcc819f03e4a315877a38eeece36940`.
+Completion: `.analysis/th03-main-serial/runs/gpt-dots-player-cpu-default-cold-v01/completion-evidence.json`
+SHA256 `600bb9cad8003d1ede605605c6783f0abc3fdb58ba7362a09c4d1113bf66b4b4`.
+
+Both rounds freshly compile maintained CPU source with the original default
+carrier. All86 extents/403 functions/65,198 CODE bytes, full1553 relocation order,
+outside1551 literal order, complete load image and fixed16-group/33-record
+MAP alias display supplement pass. The alias permutations are observed display
+metadata supported by exact providers/PUBDEF classes, not a generalized TLINK
+sort rule. All other MAP bytes stay literal. Relevant library OMF checksums are
+validated; explicitly bounded unrelated historical COMENT checksum failures
+remain disclosed in the retained provider evidence, not rewritten or ignored
+by a broader library parser policy.
+
+All prior tail/score/bomb raw, ABI/layout and provider gates pass, including
+other30 products and42 MAPs per round.404 scoped game objects are deterministic.
+The nine pre-existing Research-only 086/286/386 if_shift/wide/xfade metadata
+drifts remain diagnostic: all_objects_metadata_normalized_equal is false.
+Existing behavior checks pass; there is no new physical-device coverage.
+The actual root structural check occurs post-build, despite its historical
+pass_prelink_root field name. Object-only producer reports retain their original
+PENDING wording; separate actual linked full-body/raw/order gates now pass.
+
+MAIN accepted totals are86 extents/403 functions/65,198 bytes =
+64,230 function bytes +968 classified producer bytes. Reviewed scope remains
+87 extents/413 functions/66,843 bytes.65,198/66,843=97.54% is only reviewed MAIN
+CODE, not whole-game progress. Charge1,645 bytes/10 functions stays unaccepted.
+The historical declared_padding_bytes24 field belongs to existing aggregate
+accounting; CPU adds no padding. OP/MAINL/ZUN exact totals remain unchanged.
+Original pristine provenance remains candidate-local-attested; physical
+DATA/BSS ownership, original global interposition, whole-game product closure
+and native Factory Truth Kernel acceptance are not inferred.
+
+The immutable run still records exact_acceptance=false: execution did not edit
+ledgers. This separate metadata checkpoint binds actual audited proof. Earlier
+MAP/order/schema failures, candidate/default integration and pin-repair commits
+remain historical facts, not retroactively successful executions.
+
+## Historical source milestone (unchanged record)
 # MAIN CPU player-state source milestone
 
 2026-10-19: **source-present only, no exact promotion**. Four complete natural
