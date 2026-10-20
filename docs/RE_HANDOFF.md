@@ -1,4 +1,4 @@
-# TH03 reconstruction handoff — current state (2026-10-19)
+# TH03 reconstruction handoff — current state (2026-10-20)
 
 The owner's requested worktree review is complete. CI/dependency maintenance
 and proof-retention fixes are recorded in `ed653cb` and `095e54b`; this
@@ -17,15 +17,15 @@ TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **80 exact extents; 377 exact functions; 59,990 bytes** |
+| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **81 exact extents; 378 exact functions; 60,688 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
-MAIN's reviewed exact extent comprises **59,063 function bytes** and **927
-explicitly classified non-function producer bytes**, across **71 maintained
+MAIN's reviewed exact extent comprises **59,761 function bytes** and **927
+explicitly classified non-function producer bytes**, across **72 maintained
 semantic source owners**. The reviewed source-present scope totals **66,843
-CODE bytes**; Yumemi, CPU, effects, warning/HUD and background add **36 functions across 6,853 CODE extent bytes** that are not exact.
+CODE bytes**; Yumemi, CPU, effects, warning/HUD and background add **35 functions across 6,155 CODE extent bytes** that are not exact.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -53,7 +53,7 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2,773 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 2801 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,
@@ -168,23 +168,20 @@ The [Yumemi gameplay review](reconstruction/MAIN_YUMEMI_GAMEPLAY_REVIEW.md)
 records two source-present extents / **11 functions / 2,343 CODE bytes**.
 Retained linking matched their bytes, extent-local relocation lists and MAP,
 but **combined-owner relocation order and outside-owner relocation order fail**.
-Localized maintained sources have not received a fresh cold acceptance replay.
-Preserve those failures and all existing comparators; no exact promotion is made.
+The historical aggregate remains failed. Only the separately staged standalone bomb
+subsequently passed default acceptance; charge and aggregate failures remain open.
 
 The standalone [Yumemi bomb review](reconstruction/MAIN_YUMEMI_BOMB_REVIEW.md)
-now pins candidate `gpt-dots-yumemi-bomb-candidate-cold-v03`: its canonical
-foreground receipt reports two cold rounds PASS, and completion records unchanged
-input guards with no exact acceptance. Independent full candidate audit passed
-the bounded byte/layout/ownership/preservation/runtime gates. Nine Research
-objects each differ in FOUR ASCII time digits in one LEDATA record (36 payload
-bytes total), retained visibly without payload normalization. This default source/control
-checkpoint appends only the unchanged standalone 698-byte bomb declaration. Historical
-candidate/source pins and failed aggregate evidence remain preserved. Two fresh
-no-candidate default cold rounds, required input/math runtime,
-full preservation gates and independent audit remain prerequisites. No ledger
-promotion is made: accepted totals stay **80 / 377 / 59,990** and both Yumemi
-units and their functions remain source-present. The existing probe is not new bomb-runtime
-coverage; whole-game/device/DATA/BSS ownership limits are unchanged.
+records two audited no-candidate default cold rounds and the bounded metadata
+acceptance of one whole 698-byte function. Accepted totals are now
+**81 extents / 378 functions / 60,688 CODE bytes**; Yumemi charge remains
+source-present and all other owner/source/control/runtime pins are unchanged.
+All four baseline comparisons, 930 object hashes and seven exact MAP ties pass.
+The default Research drift is six 086/286 objects with FOUR changed ASCII __TIME__ LEDATA digits each and three 386 objects with THREE each: 33 payload bytes total plus record checksums. The historical candidate had 36 payload bytes. Neither banner payload is normalized away.
+This is bounded repository-local CODE acceptance only. Existing mandatory input/math runtime passes but is not new bomb-runtime coverage. Original global interposition, independently pristine target provenance, physical DATA/BSS ownership, whole-game closure and device semantics remain unproved.
+Historical candidate v01/v02 failures, the strict retained fixed-slot failure
+and aggregate CPU/charge failures are preserved. The full 1553-entry
+producer-boundary model remains distinct from original global interposition.
 
 The older [target-first frontier review](reconstruction/MAIN_NEXT_FRONTIER_REVIEW.md)
 remains a historical 2,131-byte intake. Its 1,958-byte Marisa owner is now
