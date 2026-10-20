@@ -10,9 +10,21 @@ lib.__path__.insert(0,str(ROOT/'scripts/lib'))
 from lib import th03_player_tail_candidate as tail,th03_yumemi_bomb_candidate as bomb,th03_score_candidate as score,th03_serial_schedule as schedule
 spec=importlib.util.spec_from_file_location('tail_test_replay',ROOT/'scripts/replay_th03_main_exact_units.py');replay=importlib.util.module_from_spec(spec);spec.loader.exec_module(replay)
 BASE=PRIVATE/tail.BASELINE/'round1/source';RETAINED=PRIVATE/'.analysis/gpt-dots-player-tail-retained-probe-v06/run-first-v01/source'
-DEFAULT=tomllib.loads((PRIVATE/'config/th03_main_exact_units.toml').read_text());CANDIDATE=tomllib.loads((ROOT/tail.CANDIDATE_PATH).read_text())
+NEW_DEFAULT=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text());DEFAULT=tail.pre_tail_config(NEW_DEFAULT);CANDIDATE=tomllib.loads((ROOT/tail.CANDIDATE_PATH).read_text())
 HAS_PRIVATE=(BASE/'obj/th03/main.obj').is_file() and (RETAINED/'obj/th03/main.obj').is_file()
 class Binding(unittest.TestCase):
+ def test_default_exact_inverse(self):
+  before=copy.deepcopy(NEW_DEFAULT);bound,original=tail.bind_default(NEW_DEFAULT)
+  self.assertEqual(bound,before);self.assertEqual(NEW_DEFAULT,before);self.assertEqual(original,score.ORIGINAL_OWNER)
+  reconstructed=copy.deepcopy(DEFAULT);reconstructed['units']+=CANDIDATE['units'];reconstructed['functions']+=CANDIDATE['functions']
+  self.assertEqual(reconstructed,NEW_DEFAULT);self.assertEqual((len(bound['units']),len(bound['functions'])),(76,399))
+ def test_default_inverse_rejects_all_descriptor_drift(self):
+  for mutate in (lambda x:x['units'].reverse(),lambda x:x['functions'][-1].update(size=1),lambda x:x['units'][-1].update(source='wrong.cpp'),lambda x:x['functions'].pop(),lambda x:x['units'].append(copy.deepcopy(x['units'][-1]))):
+   changed=copy.deepcopy(NEW_DEFAULT);mutate(changed)
+   with self.assertRaises(ValueError):tail.pre_tail_config(changed)
+  with self.assertRaises(ValueError):tail.bind_default(DEFAULT)
+  with self.assertRaises(ValueError):tail.bind_candidate(NEW_DEFAULT,CANDIDATE,tail.CANDIDATE_PATH)
+
  def test_transitive_runtime_closure(self):
   text=(ROOT/'scripts/replay_th03_main_exact_units.py').read_text()
   for name in ('scripts/review_th03_cpu_link_order.py','scripts/lib/th03_tail_public_display.json'):
@@ -42,9 +54,10 @@ class Binding(unittest.TestCase):
   with self.assertRaises(ValueError):tail.scoped_game_objects(extra,extra)
 @unittest.skipUnless(HAS_PRIVATE,'private retained proof fixtures unavailable')
 class StageSchedule(unittest.TestCase):
+ default_mode=False
  def setUp(self):
   self.tmp=tempfile.TemporaryDirectory(prefix='tail-contract-',dir=ROOT.parent);self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name).resolve();self.env={'WINEPREFIX':'offline-only'};self.events=[];self.mutation=None
-  self.scheduler=schedule.Schedule(self.execute,self.root,'stage',candidate=True)
+  self.scheduler=schedule.Schedule(self.execute,self.root,'stage',candidate=not self.default_mode)
   a=patch('subprocess.Popen',side_effect=AssertionError('native forbidden'));a.start();self.addCleanup(a.stop)
   a=patch.object(schedule.subprocess,'run',side_effect=self.build);a.start();self.addCleanup(a.stop)
   # Match future installed module's repository location; only data-root lookup changes.
@@ -76,39 +89,44 @@ class StageSchedule(unittest.TestCase):
   else:self.fail('unexpected execute '+repr(argv))
   return {'exit_code':0,'simulated_test_only':True}
  def build(self,argv,*,cwd,env,stdout,stderr,timeout):
-  self.assertEqual(argv,schedule.BUILD_ARGV);self.assertEqual(timeout,300);self.assertEqual((cwd/'.tup/options').read_bytes(),schedule.OPTIONS);self.assertEqual(tail.sha((cwd/'th03_main.asm').read_bytes()),tail.ROOT_AFTER);self.assertEqual(tail.sha((cwd/'build.bat').read_bytes()),bomb.BUILD_STAGED_SHA);self.events.append('build');return SimpleNamespace(returncode=0,stdout=b'offline no native')
+  self.assertEqual(argv,schedule.BUILD_ARGV);self.assertEqual(timeout,300);self.assertEqual((cwd/'.tup/options').read_bytes(),schedule.OPTIONS);self.assertEqual(tail.sha((cwd/'th03_main.asm').read_bytes()),tail.ROOT_AFTER);self.assertEqual(tail.sha((cwd/'build.bat').read_bytes()),schedule.BUILD_SHA if self.default_mode else bomb.BUILD_STAGED_SHA);self.events.append('build');return SimpleNamespace(returncode=0,stdout=b'offline no native')
  def bomb_first(self,work):return bomb.precompile(work,self.env,work.parent,self.scheduler,default=True)
  def test_two_fresh_stages_real_schedule(self):
   for n in (1,2):
-   work=self.source(n);self.bomb_first(work);result=tail.precompile_and_stage(work,self.env,work.parent,self.scheduler);self.assertEqual(result['fresh_native_compilations'],4);self.assertEqual(self.scheduler(schedule.BUILD_ARGV,work,self.env,work.parent/'cold-build.log')['exit_code'],0)
+   work=self.source(n);self.bomb_first(work);result=tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode);self.assertEqual(result['fresh_native_compilations'],4);self.assertEqual(self.scheduler(schedule.BUILD_ARGV,work,self.env,work.parent/'cold-build.log')['exit_code'],0)
   self.assertEqual(self.events,['bomb','warning','effects','chain1','chain2','init','options','build']*2);self.assertEqual(len(self.scheduler.rounds),2)
  def test_missing_bomb_boundary_rejected(self):
   work=self.source()
-  with self.assertRaises((ValueError,FileNotFoundError)):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler)
+  with self.assertRaises((ValueError,FileNotFoundError)):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode)
   self.assertEqual(self.events,[])
  def test_stale_tail_rejected(self):
   work=self.source();self.bomb_first(work);(work/tail.OBJECTS['warning']).write_bytes(b'stale')
-  with self.assertRaises(ValueError):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler)
+  with self.assertRaises(ValueError):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode)
   self.assertEqual(self.events,['bomb'])
  def test_existing_output_mutation_rejected(self):
   work=self.source();self.bomb_first(work);self.mutation=lambda w,n:(w/bomb.OBJECT).write_bytes(b'mutated')
-  with self.assertRaisesRegex(ValueError,'outputs/mutation'):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler)
+  with self.assertRaisesRegex(ValueError,'outputs/mutation'):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode)
  def test_extra_output_rejected(self):
   work=self.source();self.bomb_first(work);self.mutation=lambda w,n:(w/'obj/extra.obj').write_bytes(b'extra')
-  with self.assertRaisesRegex(ValueError,'outputs/mutation'):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler)
+  with self.assertRaisesRegex(ValueError,'outputs/mutation'):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode)
  def test_source_mutation_rejected(self):
   work=self.source();self.bomb_first(work);self.mutation=lambda w,n:(w/'src/main/player/warning.cpp').write_bytes(b'changed')
-  with self.assertRaisesRegex(ValueError,'source changed'):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler)
+  with self.assertRaisesRegex(ValueError,'source changed'):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode)
  def test_crossmode_prestaged_build_rejected(self):
   work=self.source();self.bomb_first(work);p=work/'build.bat';p.write_bytes(p.read_bytes().replace(schedule.BEFORE,schedule.AFTER,1))
-  with self.assertRaises(ValueError):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler)
+  with self.assertRaises(ValueError):tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode)
   self.assertEqual(self.events,['bomb'])
  def test_default_schedule_rejects_tail_candidate_carrier(self):
-  work=self.source();self.bomb_first(work);tail.precompile_and_stage(work,self.env,work.parent,self.scheduler);self.scheduler.candidate=False
+  work=self.source();self.bomb_first(work);tail.precompile_and_stage(work,self.env,work.parent,self.scheduler,default=self.default_mode);self.scheduler.candidate=self.default_mode
   with self.assertRaises(ValueError):self.scheduler(schedule.BUILD_ARGV,work,self.env,work.parent/'cold-build.log')
   self.assertNotIn('init',self.events)
 @unittest.skipUnless(HAS_PRIVATE,'private retained proof fixtures unavailable')
+class DefaultStageSchedule(StageSchedule):
+ default_mode=True
+
+@unittest.skipUnless(HAS_PRIVATE,'private retained proof fixtures unavailable')
 class CompleteRetainedRound(unittest.TestCase):
+ default_mode=False
  def test_full_round_with_explicit_artifact_fixture(self):
   # Offline fixture only: individual known manifest artifacts, never a recursive
   # proof-tree copy, and never an input to a native build.
@@ -124,25 +142,39 @@ class CompleteRetainedRound(unittest.TestCase):
     dest=work/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(source.read_bytes())
    for name in ('th03_main.asm','obj/th03/main.obj','obj/th03/main.@l','obj/th03/main.map','bin/th03/main.exe',*tail.OBJECTS.values()):
     dest=work/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes((RETAINED/name).read_bytes())
-   build=work/'build.bat';build.write_bytes(build.read_bytes().replace(schedule.BEFORE,schedule.AFTER,1))
+   build=work/'build.bat'
+   if not self.default_mode:build.write_bytes(build.read_bytes().replace(schedule.BEFORE,schedule.AFTER,1))
    expected=tail.freeze_expected(PRIVATE)
+   current_text=(ROOT/'config/th03_main_exact_units.toml').read_text()
+   candidate_text=(ROOT/tail.CANDIDATE_PATH).read_text();suffix=candidate_text[candidate_text.index('[[units]]'):]
+   self.assertTrue(current_text.endswith(suffix));historical_text=current_text[:-len(suffix)]
+   self.assertEqual(tomllib.loads(historical_text),DEFAULT)
+   original_read=Path.read_text
+   def run_round():
+    selected=current_text if self.default_mode else historical_text
+    with patch.object(Path,'read_text',lambda path,*a,**k:selected if path==PRIVATE/'config/th03_main_exact_units.toml' else original_read(path,*a,**k)):
+     return tail.check_round(PRIVATE,work,(PRIVATE/'.analysis/targets/th03/main.exe').read_bytes(),proof,expected,default=self.default_mode)
+
    with patch('subprocess.Popen',side_effect=AssertionError('native forbidden')):
-    result=tail.check_round(PRIVATE,work,(PRIVATE/'.analysis/targets/th03/main.exe').read_bytes(),proof,expected)
+    result=run_round()
    self.assertTrue(result['pass_']);self.assertEqual([r['baseline_round'] for r in result['baselines']],[1,2]);self.assertTrue(all(r['pass_'] for r in result['baselines']))
    mp=work/'obj/th03/main.map';text=mp.read_text('latin1');group=bomb.groups(text)
    self.assertEqual(group,'\n  Address         ');changed=group.replace('Address','Addresses',1)
    raw=mp.read_bytes();mp.write_bytes(raw.replace(group.replace('\n','\r\n').encode(),changed.replace('\n','\r\n').encode(),1))
    self.assertEqual(score.map_rows(mp.read_text('latin1')),score.map_rows(text))
    with self.assertRaisesRegex(ValueError,'group'):
-    tail.check_round(PRIVATE,work,(PRIVATE/'.analysis/targets/th03/main.exe').read_bytes(),proof,expected)
+    run_round()
    mp.write_bytes(raw)
    for name in (next(n for n in sorted(names) if n.startswith('bin/') and n.endswith('.exe') and n!='bin/th03/main.exe'),next(n for n in sorted(receipt['rounds'][0]['game_objects']) if n not in ('obj/th03/main.obj',bomb.OBJECT,'obj/th03/score_hud.obj'))):
     dest=work/name;saved=dest.read_bytes();changed=bytearray(saved);changed[-1]^=1;dest.write_bytes(changed)
     with self.subTest(mutation=name),self.assertRaises((ValueError,AssertionError)):
-     tail.check_round(PRIVATE,work,(PRIVATE/'.analysis/targets/th03/main.exe').read_bytes(),proof,expected)
+     run_round()
     dest.write_bytes(saved)
    with patch.object(bomb,'check_providers',return_value={'pass_':False}),self.assertRaisesRegex(ValueError,'providers'):
-    tail.check_round(PRIVATE,work,(PRIVATE/'.analysis/targets/th03/main.exe').read_bytes(),proof,expected)
+    run_round()
 
+
+class DefaultCompleteRetainedRound(CompleteRetainedRound):
+ default_mode=True
 
 if __name__=='__main__':unittest.main(verbosity=2)

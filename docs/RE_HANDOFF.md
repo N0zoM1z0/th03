@@ -13,16 +13,20 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
-## Opt-in complete PLAYER_M tail candidate
+## Complete PLAYER_M tail default integration
 
-The source-only [tail cold candidate](reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md)
-adds a separately pinned four-producer/21-function/3,433-byte replay mode. It
-keeps accepted score and Yumemi bomb checks conjunctive, freezes the full 1,553
-relocation model before native work, and requires fresh post-build OMF structure
-plus complete linked raw/order/MAP/provider equality. The unchanged scheduler
-sees the exact existing -j1 carrier only after accepted bomb precompile.
-Retained linked and supplemental MAP proofs do not substitute for two fresh
-cold rounds. Default dispatch, ledger status and accepted totals are unchanged.
+The [tail cold integration](reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md)
+now has independently reviewed two-cold candidate proof for all 3,433 bytes,
+1,553 ordered relocations, full MAP/provider equality, accepted score and bomb
+preservation, behavior, and all 403 scoped game objects. Its receipt is
+`.analysis/th03-main-exact/gpt-dots-player-tail-candidate-cold-v01/receipt.json`
+(SHA256 `6984e856b50d9c1028ba8668d0a07d90dfd392970727de2c147246db587bc683`).
+The default replay graph adds exactly four final owners/21 functions, with
+an exact reverse binding to the previous accepted graph. Default staging keeps
+the original carrier and unchanged no-candidate scheduler contract; actual
+fresh post-build OMF and every linked gate remain mandatory. Fresh default
+two-cold reproduction is pending. Ledger statuses and accepted totals below
+remain unchanged; this source checkpoint grants no exactness credit.
 
 ## Accepted baseline
 

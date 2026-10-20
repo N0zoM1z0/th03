@@ -7,9 +7,11 @@ import unittest
 from unittest.mock import patch
 import replay_th03_main_exact_units as replay
 from lib import th03_score_candidate as score
+from lib import th03_player_tail_candidate as tail
 from lib import th03_yumemi_bomb_candidate as bomb
 ROOT=Path(__file__).resolve().parents[1]
-DEFAULT=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+NEW_DEFAULT=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+DEFAULT=tail.pre_tail_config(NEW_DEFAULT)
 SCORE_BASE=bomb.pre_bomb_config(DEFAULT)
 CANDIDATE=tomllib.loads((ROOT/bomb.CANDIDATE_PATH).read_text())
 
@@ -32,9 +34,16 @@ def setup_only(candidate, config_override=None):
     return env['replay']('source-only-never-native',[],candidate)
 
 class BombComposition(unittest.TestCase):
+    def test_new_tail_default_keeps_bomb_and_score_proofs(self):
+        with patch.object(score,'guard_baseline',return_value={'score':'proof'}),patch.object(bomb,'guard_baseline',return_value={'bomb':'proof'}),patch.object(tail,'guard_baseline',return_value={'tail':'proof'}) as tg,patch.object(tail,'freeze_expected',return_value={'stream':'frozen'}) as tf:
+            config,original,scoreproof,bombproof,default=setup_only(None)
+        self.assertEqual(config,NEW_DEFAULT);self.assertEqual(original,score.ORIGINAL_OWNER)
+        self.assertEqual(scoreproof,{'score':'proof'});self.assertEqual(bombproof,{'bomb':'proof'});self.assertTrue(default)
+        tg.assert_called_once_with(ROOT);tf.assert_called_once_with(ROOT)
+
     def test_default_bomb_and_score_are_conjunctive(self):
         with patch.object(score,'guard_baseline',return_value={'score':'proof'}),patch.object(bomb,'guard_baseline',return_value={'bomb':'proof'}) as guard,patch.object(bomb,'bind_candidate') as candidate:
-            config,original,proof,bombproof,default=setup_only(None)
+            config,original,proof,bombproof,default=setup_only(None,DEFAULT)
         self.assertEqual(config,DEFAULT);self.assertEqual(original,score.ORIGINAL_OWNER)
         self.assertEqual(proof,{'score':'proof'});self.assertEqual(bombproof,{'bomb':'proof'})
         self.assertTrue(default);guard.assert_called_once_with(ROOT);candidate.assert_not_called()
@@ -59,7 +68,7 @@ class BombComposition(unittest.TestCase):
 
     def test_duplicate_candidate_after_default_is_rejected_before_proofs(self):
         with patch.object(score,'guard_baseline') as scoreguard,patch.object(bomb,'guard_baseline') as bombguard:
-            with self.assertRaises(ValueError):setup_only(ROOT/bomb.CANDIDATE_PATH)
+            with self.assertRaises(ValueError):setup_only(ROOT/bomb.CANDIDATE_PATH,DEFAULT)
         scoreguard.assert_not_called();bombguard.assert_not_called()
         with self.assertRaises(ValueError):replay.add_candidate_owners(DEFAULT,CANDIDATE)
 

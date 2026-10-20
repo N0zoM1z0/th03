@@ -97,6 +97,24 @@ def bind_candidate(accepted, additions, manifest_name):
     require(len(additions['units'])==4 and all(is_tail_owner(u) for u in additions['units']),'exact four tail owners')
     require(len(additions['functions'])==21 and sum(f['size'] for f in additions['functions'])==3433,'exact tail functions/bytes')
 
+DEFAULT_CONFIG_DIGEST = '8830005f5c1429d04cf49a79fbd0e703eb0667ec42d815548c440c76cc298c05'
+
+def pre_tail_config(accepted):
+    """Reverse only the exact final four tail owners and 21 functions."""
+    import copy
+    require(digest(accepted)==DEFAULT_CONFIG_DIGEST,'default tail configuration drift')
+    result=copy.deepcopy(accepted)
+    additions={'schema_version':1,'units':result['units'][-4:],'functions':result['functions'][-21:]}
+    require(digest(additions)==CANDIDATE_DIGEST,'default exact tail descriptors drift')
+    del result['units'][-4:];del result['functions'][-21:]
+    bomb.bind_default(result)
+    return result
+
+def bind_default(accepted):
+    import copy
+    _,original=bomb.bind_default(pre_tail_config(accepted))
+    return copy.deepcopy(accepted),original
+
 def check_sources(work):
     for n,h in SOURCE_PINS.items():
         p=Path(work)/n
@@ -123,7 +141,7 @@ def freeze_expected(root):
     pairs=expected['full_literal_stream'];require(len(pairs)==1553 and sha(b''.join(struct.pack('<HH',o,s) for s,o in pairs))==EXPECTED_STREAM_SHA,'frozen expected stream')
     return {'stream':pairs,'stream_sha256':EXPECTED_STREAM_SHA,'timing':'Frozen before cold native; actual fresh OMF structure is mandatory post-build, not prelink actual-root proof'}
 
-def precompile_and_stage(work,env,logs,execute):
+def precompile_and_stage(work,env,logs,execute,default=False):
     from lib import th03_tail_compare as compare
     work,logs=Path(work),Path(logs);check_sources(work);bomb.check_sources(work);bomb.check_build(work,default=True)
     require(sha((work/'th03_main.asm').read_bytes())==ROOT_SHA,'tail must follow accepted bomb stage')
@@ -148,18 +166,26 @@ def precompile_and_stage(work,env,logs,execute):
         rows.append({'name':name,'path':path,'source':source,'compile':result,'schema':proof,'normalized_sha256':sha(normalize_dependency_timestamps(output.read_bytes())),'cached_object_used':False})
     raw=(work/'th03_main.asm').read_bytes();new,_=transform(raw);require(sha(new)==ROOT_AFTER,'tail transformed root pin')
     build=work/'build.bat';rawbuild=build.read_bytes();require(rawbuild.count(bomb.BUILD_BEFORE)==1 and bomb.BUILD_AFTER not in rawbuild,'tail scheduling carrier boundary')
-    changed=rawbuild.replace(bomb.BUILD_BEFORE,bomb.BUILD_AFTER,1);require(sha(changed)==bomb.BUILD_STAGED_SHA,'tail scheduling carrier pin')
-    (work/'th03_main.asm').write_bytes(new);build.write_bytes(changed);bomb.check_build(work,default=False)
-    return {'producers':rows,'root_sha256':ROOT_AFTER,'build_sha256':bomb.BUILD_STAGED_SHA,'fresh_native_compilations':4,'root_assembler':'unchanged Tup rule and generated sprite dependencies','cached_objects_used':False}
+    if default:
+        # Default Schedule requires the original carrier and local jobs=1.
+        changed=rawbuild
+    else:
+        changed=rawbuild.replace(bomb.BUILD_BEFORE,bomb.BUILD_AFTER,1)
+        require(sha(changed)==bomb.BUILD_STAGED_SHA,'tail scheduling carrier pin')
+    (work/'th03_main.asm').write_bytes(new)
+    if not default:build.write_bytes(changed)
+    bomb.check_build(work,default=default)
+    return {'producers':rows,'root_sha256':ROOT_AFTER,'build_sha256':sha(changed),'fresh_native_compilations':4,'root_assembler':'unchanged Tup rule and generated sprite dependencies','cached_objects_used':False,'default_staging':default}
+
 
 def scoped_game_objects(game_objects,all_objects):
     require(all(n in all_objects and n not in game_objects for n in EXTRA_GAME_PATHS),'two explicit background object paths')
     return {**game_objects,**{n:all_objects[n] for n in EXTRA_GAME_PATHS}}
 
-def check_round(root,work,target,proof,expected):
+def check_round(root,work,target,proof,expected,default=False):
     from lib import th03_tail_model as model,th03_tail_compare as compare,pc98
     from lib import th03_score_candidate as parser
-    root,work=Path(root),Path(work);check_sources(work);bomb.check_sources(work);bomb.check_build(work,default=False)
+    root,work=Path(root),Path(work);check_sources(work);bomb.check_sources(work);bomb.check_build(work,default=default)
     require(sha((work/'th03_main.asm').read_bytes())==ROOT_AFTER,'tail root source changed')
     require(sha((work/'obj/th03/main.@l').read_bytes())==RESPONSE_AFTER,'tail literal response changed')
     bomb.validate_object((work/bomb.OBJECT).read_bytes())
@@ -173,7 +199,9 @@ def check_round(root,work,target,proof,expected):
     linked=compare.check_link(work,root,base,actual_model,pc98,parser)
     require(linked['pass_'],'complete tail raw/order/MAP/provider conjunction')
     def old(n):return score.read_pinned(root/BASELINE/n,proof[n])
-    receipt=json.loads(old('receipt.json'));accepted=tomllib.loads((root/'config/th03_main_exact_units.toml').read_text());bomb.bind_default(accepted)
+    receipt=json.loads(old('receipt.json'));accepted=tomllib.loads((root/'config/th03_main_exact_units.toml').read_text())
+    if default:accepted=pre_tail_config(accepted)
+    bomb.bind_default(accepted)
     allpaths={p.relative_to(work).as_posix() for p in (work/'obj').rglob('*.obj')};game={n for n in allpaths if any(n.startswith(d+'/') for d in accepted['determinism_object_roots'])}
     checks=[]
     for number in (1,2):

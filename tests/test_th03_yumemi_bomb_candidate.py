@@ -6,6 +6,7 @@ import struct
 import tempfile
 import tomllib
 import unittest
+from lib import th03_player_tail_candidate as tail
 from lib import th03_yumemi_bomb_candidate as bomb
 from lib import th03_score_candidate as score
 from lib.pc98 import parse_mz
@@ -17,7 +18,7 @@ RETAINED = PRIVATE/'.analysis/gpt-dots-yumemi-bomb-retained-continuation-v01/run
 
 class Composition(unittest.TestCase):
     def setUp(self):
-        self.default = tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+        self.default = tail.pre_tail_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()))
         self.accepted = bomb.pre_bomb_config(self.default)
         self.candidate = tomllib.loads((ROOT/bomb.CANDIDATE_PATH).read_text())
 
@@ -341,6 +342,13 @@ class RetainedControls(unittest.TestCase):
             (fixture/'.analysis').symlink_to((PRIVATE/'.analysis').resolve(),target_is_directory=True)
             (fixture/'config/toolchain.toml').write_bytes((PRIVATE/'config/toolchain.toml').read_bytes())
             full=(ROOT/'config/th03_main_exact_units.toml').read_text()
+            tail_candidate=(ROOT/tail.CANDIDATE_PATH).read_text()
+            tail_suffix=tail_candidate[tail_candidate.index('[[units]]'):]
+            self.assertTrue(full.endswith(tail_suffix))
+            current=tomllib.loads(full);full=full[:-len(tail_suffix)]
+            self.assertEqual(tomllib.loads(full),tail.pre_tail_config(current))
+            integration_note='\n# Complete PLAYER_M tail: source-present default integration; cold proof pending.\n'
+            self.assertTrue(full.endswith(integration_note));full=full[:-len(integration_note)]
             prior=bomb.pre_bomb_config(tomllib.loads(full))
             if not default:
                 # Exact final candidate text only, followed by parsed inverse

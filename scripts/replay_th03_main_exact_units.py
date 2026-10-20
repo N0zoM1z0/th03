@@ -499,6 +499,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     bomb_default = False
     tail_proof = None
     tail_expected = None
+    tail_default = False
     if candidate_manifest is not None:
         candidate_manifest = candidate_manifest.resolve()
         if not candidate_manifest.is_relative_to(ROOT / "config"):
@@ -527,6 +528,14 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 config, score_original = score_candidate.bind_candidate(
                     config, additions, manifest_name)
                 score_proof = score_candidate.guard_baseline(ROOT)
+    elif any(u.get('id') in tail_candidate.UNIT_DIGESTS for u in config['units']):
+        config, score_original = tail_candidate.bind_default(config)
+        score_proof = score_candidate.guard_baseline(ROOT)
+        bomb_proof = bomb_candidate.guard_baseline(ROOT)
+        tail_proof = tail_candidate.guard_baseline(ROOT)
+        tail_expected = tail_candidate.freeze_expected(ROOT)
+        bomb_default = True
+        tail_default = True
     elif any(u.get('id') == 'th03-main-yumemi-bomb' for u in config['units']):
         config, score_original = bomb_candidate.bind_default(config)
         score_proof = score_candidate.guard_baseline(ROOT)
@@ -807,7 +816,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
             bomb_compilation = bomb_candidate.precompile(work, env, logs, execute, default=bomb_default)
         tail_compilation = None
         if tail_proof is not None:
-            tail_compilation = tail_candidate.precompile_and_stage(work, env, logs, execute)
+            tail_compilation = tail_candidate.precompile_and_stage(work, env, logs, execute, default=tail_default)
         # The HUD intro has two fully shaped natural TC4 C++ functions
         # separated by 155 exact symbolic TASM device-helper bytes.
         # Source-emitted assembly is stitched in original logical function
@@ -1113,7 +1122,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         bomb_preservation = None
         tail_preservation = None
         if tail_proof is not None:
-            tail_preservation = tail_candidate.check_round(ROOT, work, target, tail_proof, tail_expected)
+            tail_preservation = tail_candidate.check_round(ROOT, work, target, tail_proof, tail_expected, default=tail_default)
             if not tail_preservation['pass_']:
                 raise ValueError('tail candidate complete conjunction failed')
             score_preservation = tail_preservation['score_preservation']
@@ -1227,6 +1236,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         report['legacy_game_root_count'] = len(first['game_objects'])
         report['scoped_game_object_count'] = len(first['scoped_game_objects'])
         report['tail_candidate_exact_acceptance'] = False
+        report['tail_default_staging'] = tail_default
         report['pass'] = report['pass'] and report['scoped_game_objects_equal'] and all(r['tail_candidate_preservation']['pass_'] for r in report['rounds'])
         if tail_candidate.guard_baseline(ROOT) != tail_proof:
             raise ValueError('historical tail baseline proof changed')
