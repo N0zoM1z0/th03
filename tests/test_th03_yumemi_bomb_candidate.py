@@ -158,6 +158,7 @@ class RetainedControls(unittest.TestCase):
         for n in bomb.SOURCE_PINS:
             p=work/n;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((PRIVATE/n).read_bytes())
         (work/'th03_main.asm').write_bytes((BASE/'th03_main.asm').read_bytes())
+        (work/'build.bat').write_bytes((BASE/'build.bat').read_bytes())
         (work/'obj/th03').mkdir(parents=True);bomb.stage_bomb(work)
 
     def test_precompile_contract_simulated_callback_only(self):
@@ -231,6 +232,8 @@ class RetainedControls(unittest.TestCase):
                 if p.is_symlink():p.unlink()
                 origin=PRIVATE/n if n in bomb.SOURCE_PINS else RETAINED/n
                 p.write_bytes(origin.read_bytes())
+            # Model the candidate-only scheduling carrier without changing retained evidence.
+            (work/'build.bat').write_bytes((BASE/'build.bat').read_bytes().replace(bomb.BUILD_BEFORE,bomb.BUILD_AFTER,1))
             result=bomb.check_round(PRIVATE,work,self.target,proof)
             self.assertTrue(result['pass_']);self.assertTrue(result['score_preservation']['pass_'])
             self.assertEqual([x['baseline_round'] for x in result['baselines']],[1,2])

@@ -30,6 +30,9 @@ SOURCE_PINS = {
  'src/main/player/score_add.inl':score.INCLUDE_SHA}
 ROOT_AFTER = '356b650b19c833abbbc3e8daf381879c1519df1e83a460723c3e83f386401446'
 OMF_SHA = '9fd137f830a133c0711bcf31123f20ea01993977dbf3961c495f6b30769ca7fb'
+BUILD_BEFORE = b':tup\r\nbin\\tup\r\ngoto return_from_tup\r\n'
+BUILD_AFTER = b':tup\r\nbin\\tup -j1\r\ngoto return_from_tup\r\n'
+BUILD_STAGED_SHA = '4089cc3863c7bdf709f9c66d99824037dc650dcc5d86e0a5bda47ae115d390c9'
 SPANS = [[0x159FF,0x15CB9]]
 PAIRS = [[0x139D,0x202F+n] for n in (692,609,596,502,489,472,461,428,423,409,360,319,291,257,208,167,135,111,87,25)]
 RAW_SHA = '5e65f17d18f4ff0478df6aa2239fdaad2685366b40a34951c25a824147dcafee'
@@ -93,7 +96,22 @@ def stage_bomb(work):
     score.check_stage(work, default=True)
     check_sources(work)
     path = work/'th03_main.asm'
-    path.write_bytes(transform_root(path.read_bytes()))
+    transformed = transform_root(path.read_bytes())
+    build = work/'build.bat'
+    require(build.is_file() and not build.is_symlink(), 'bomb build carrier missing or symlink')
+    score.check_original_build(work)
+    raw = build.read_bytes()
+    require(raw.count(BUILD_BEFORE) == 1 and BUILD_AFTER not in raw, 'bomb build carrier boundary')
+    staged = raw.replace(BUILD_BEFORE, BUILD_AFTER, 1)
+    require(sha(staged) == BUILD_STAGED_SHA, 'bomb staged build carrier identity')
+    path.write_bytes(transformed)
+    build.write_bytes(staged)
+
+
+def check_build(work):
+    path = Path(work)/'build.bat'
+    require(path.is_file() and not path.is_symlink() and sha(path.read_bytes()) == BUILD_STAGED_SHA,
+            'bomb candidate scheduling carrier changed')
 
 
 def validate_object(raw):
@@ -107,6 +125,7 @@ def validate_object(raw):
 def precompile(work, env, logs, execute):
     work,logs = Path(work),Path(logs)
     check_sources(work)
+    check_build(work)
     require(sha((work/'th03_main.asm').read_bytes()) == ROOT_AFTER, 'bomb root not staged')
     for name in (ALIAS,OBJECT,'obj/th03/bm_yume.obj'):
         require(not (work/name).exists(), 'cached/duplicate bomb object: '+name)
@@ -123,6 +142,7 @@ def precompile(work, env, logs, execute):
     result = execute(command,work,env,logs/'bomb-maintained-compile.log')
     require(result.get('exit_code') == 0, 'bomb compile not successful')
     check_sources(work)
+    check_build(work)
     require(sha((work/'th03_main.asm').read_bytes()) == ROOT_AFTER, 'compile modified root')
     after = {p.relative_to(work).as_posix():sha(p.read_bytes()) for p in work.rglob('*.obj')}
     require(set(after)-set(before) == {ALIAS} and all(after.get(n)==h for n,h in before.items()),
@@ -247,6 +267,7 @@ def check_round(root, work, target, proof):
     root,work = Path(root),Path(work)
     def old(name): return score.read_pinned(root/BASELINE/name,proof[name])
     check_sources(work)
+    check_build(work)
     require(sha((work/'th03_main.asm').read_bytes()) == ROOT_AFTER, 'root changed after staging')
     validate_object((work/OBJECT).read_bytes())
     require(not (work/ALIAS).exists() and not (work/'obj/th03/bm_yume.obj').exists(), 'extra bomb object')
