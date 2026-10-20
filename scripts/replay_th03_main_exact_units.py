@@ -32,6 +32,7 @@ from lib.hud_tc4_bridge import (
 from lib.pc98 import parse_mz
 from lib import th03_score_candidate as score_candidate
 from lib import th03_yumemi_bomb_candidate as bomb_candidate
+from lib import th03_player_tail_candidate as tail_candidate
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -496,13 +497,24 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     score_proof = None
     bomb_proof = None
     bomb_default = False
+    tail_proof = None
+    tail_expected = None
     if candidate_manifest is not None:
         candidate_manifest = candidate_manifest.resolve()
         if not candidate_manifest.is_relative_to(ROOT / "config"):
             raise ValueError("candidate manifest must be inside repository config/")
         additions = tomllib.loads(candidate_manifest.read_text())
         manifest_name = candidate_manifest.relative_to(ROOT).as_posix()
-        if manifest_name == bomb_candidate.CANDIDATE_PATH:
+        if manifest_name == tail_candidate.CANDIDATE_PATH:
+            config, score_original = bomb_candidate.bind_default(config)
+            tail_candidate.bind_candidate(config, additions, manifest_name)
+            config = add_candidate_owners(config, additions)
+            score_proof = score_candidate.guard_baseline(ROOT)
+            bomb_proof = bomb_candidate.guard_baseline(ROOT)
+            tail_proof = tail_candidate.guard_baseline(ROOT)
+            tail_expected = tail_candidate.freeze_expected(ROOT)
+            bomb_default = True
+        elif manifest_name == bomb_candidate.CANDIDATE_PATH:
             # Validate the accepted score graph before the strictly additive bomb.
             config, score_original = score_candidate.bind_default(config)
             bomb_candidate.bind_candidate(config, additions, manifest_name)
@@ -676,6 +688,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         inputs[name] = sha((ROOT / name).read_bytes())
     for path in (ROOT / "scripts/lib").glob("*.py"):
         inputs[path.relative_to(ROOT).as_posix()] = sha(path.read_bytes())
+    if tail_proof is not None:
+        inputs["scripts/lib/th03_tail_public_display.json"] = sha((ROOT / "scripts/lib/th03_tail_public_display.json").read_bytes())
+        inputs["scripts/review_th03_cpu_link_order.py"] = sha((ROOT / "scripts/review_th03_cpu_link_order.py").read_bytes())
     snapshot = output / "repository-inputs"
     for name, digest in inputs.items():
         destination = snapshot / name
@@ -700,6 +715,8 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     report["candidate_manifest"] = (
         candidate_manifest.relative_to(ROOT).as_posix() if candidate_manifest else None
     )
+    if tail_proof is not None:
+        report["tail_expected_before_native"] = tail_expected
     stem = "P" + sha(run_id.encode())[:5].upper()
     for number in (1, 2):
         logs = output / f"round{number}"
@@ -741,7 +758,8 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 for producer in physical_objects(module):
                     wrapper = work / producer["wrapper"]
                     wrapper.parent.mkdir(parents=True, exist_ok=True)
-                    if bomb_proof is not None and bomb_candidate.is_bomb_owner(module):
+                    if ((bomb_proof is not None and bomb_candidate.is_bomb_owner(module))
+                        or (tail_proof is not None and tail_candidate.is_tail_owner(module))):
                         # This one genuine maintained C++ file is compiled directly;
                         # do not overwrite it with an include of itself.
                         if wrapper != work / module["source"]:
@@ -787,6 +805,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         bomb_compilation = None
         if bomb_proof is not None:
             bomb_compilation = bomb_candidate.precompile(work, env, logs, execute, default=bomb_default)
+        tail_compilation = None
+        if tail_proof is not None:
+            tail_compilation = tail_candidate.precompile_and_stage(work, env, logs, execute)
         # The HUD intro has two fully shaped natural TC4 C++ functions
         # separated by 155 exact symbolic TASM device-helper bytes.
         # Source-emitted assembly is stitched in original logical function
@@ -948,7 +969,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         )
         if (len(products) != 20
             or len(all_objects) != config["generated_object_count"] + object_count_delta
-            or len(game_objects) != config["determinism_object_count"] + object_count_delta):
+            or len(game_objects) != config["determinism_object_count"] + object_count_delta - (len(tail_candidate.EXTRA_GAME_PATHS) if tail_proof is not None else 0)):
             raise ValueError("cold build output/object vector incomplete")
         for module in config["units"]:
             for producer in [*physical_objects(module), *ordering_objects(module)]:
@@ -1090,7 +1111,15 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                         padding.append(result)
         score_preservation = None
         bomb_preservation = None
-        if bomb_proof is not None:
+        tail_preservation = None
+        if tail_proof is not None:
+            tail_preservation = tail_candidate.check_round(ROOT, work, target, tail_proof, tail_expected)
+            if not tail_preservation['pass_']:
+                raise ValueError('tail candidate complete conjunction failed')
+            score_preservation = tail_preservation['score_preservation']
+            bomb_preservation = tail_preservation['bomb_preservation']
+            (logs / 'tail-preservation.json').write_text(json.dumps(tail_preservation, indent=2) + '\n')
+        elif bomb_proof is not None:
             bomb_preservation = bomb_candidate.check_round(ROOT, work, target, bomb_proof, default=bomb_default)
             (logs / "bomb-preservation.json").write_text(json.dumps(bomb_preservation, indent=2) + "\n")
             if not bomb_preservation["pass_"]:
@@ -1136,6 +1165,10 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         if bomb_preservation is not None:
             report["rounds"][-1]["bomb_candidate_preservation"] = bomb_preservation
             report["rounds"][-1]["bomb_maintained_compilation"] = bomb_compilation
+        if tail_proof is not None:
+            report["rounds"][-1]["tail_candidate_preservation"] = tail_preservation
+            report["rounds"][-1]["tail_maintained_compilation"] = tail_compilation
+            report["rounds"][-1]["scoped_game_objects"] = tail_candidate.scoped_game_objects(game_objects, all_objects)
     first, second = report["rounds"]
     report["objects_metadata_normalized_equal"] = all(
         first["objects"][name]["dependency_timestamp_normalized_sha256"] ==
@@ -1189,6 +1222,14 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         report["bomb_default_staging"] = bomb_default
         if bomb_candidate.guard_baseline(ROOT) != bomb_proof:
             raise ValueError("historical bomb composition proof changed")
+    if tail_proof is not None:
+        report['scoped_game_objects_equal'] = first['scoped_game_objects'] == second['scoped_game_objects']
+        report['legacy_game_root_count'] = len(first['game_objects'])
+        report['scoped_game_object_count'] = len(first['scoped_game_objects'])
+        report['tail_candidate_exact_acceptance'] = False
+        report['pass'] = report['pass'] and report['scoped_game_objects_equal'] and all(r['tail_candidate_preservation']['pass_'] for r in report['rounds'])
+        if tail_candidate.guard_baseline(ROOT) != tail_proof:
+            raise ValueError('historical tail baseline proof changed')
     # Guard against source and target mutation during the replay.
     if any(sha((ROOT / name).read_bytes()) != digest for name, digest in inputs.items()):
         raise ValueError("source changed during replay")

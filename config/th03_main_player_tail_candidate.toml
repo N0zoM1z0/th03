@@ -1,0 +1,242 @@
+# Complete four-producer PLAYER_M tail candidate; no acceptance promotion.
+schema_version = 1
+
+[[units]]
+id = "th03-main-player-warning"
+source = "src/main/player/warning.cpp"
+header = "src/main/player/warning.hpp"
+object = "warning"
+map_module = "src/main/player/warning.cpp"
+translator_comment = "TC86 Borland C++ 4.02"
+physical_objects_additive = true
+physical_objects = [{ object = "warning", source = "src/main/player/warning.cpp", wrapper = "src/main/player/warning.cpp", object_path = "obj/th03/warning.obj", translator_comment = "TC86 Borland C++ 4.02" }]
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/platform.h", "compat/rec98/th01/math/subpixel.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/common.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/hud/warning.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/round.hpp", "compat/rec98/th03/main/sprite16.hpp", "compat/rec98/th03/resident.hpp", "src/main/background/background.hpp", "src/main/background/chain1.cpp", "src/main/background/chain2.cpp", "src/main/background/phase.inl", "src/main/hardware/frame_delay.hpp", "src/main/hud/static.hpp", "src/main/math/polar.hpp", "src/main/math/randring_getters.hpp", "src/main/math/vector_far.hpp", "src/main/player/effects.cpp", "src/main/player/effects.hpp", "src/main/playfield/playfld.hpp"]
+build_file = "Tupfile.lua"
+build_anchor = "\t{ \"src/main/hud/score.asm\", o = \"score_hud.obj\" },\n"
+build_replacement = "\t\"obj/th03/warning.obj\",\n\t\"obj/th03/effects.obj\",\n\t\"obj/chain1.obj\",\n\t\"obj/chain2.obj\",\n\t{ \"src/main/hud/score.asm\", o = \"score_hud.obj\" },\n"
+code_extents = [{ name = "code", ledger_id = "th03-main-player-warning", segment = 2414, start = 12485, size = 1560, map_start = 12485, map_size = 1560, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", map_acbp = 28 }]
+
+[[units]]
+id = "th03-main-player-effects"
+source = "src/main/player/effects.cpp"
+header = "src/main/player/effects.hpp"
+object = "effects"
+map_module = "src/main/player/effects.cpp"
+translator_comment = "TC86 Borland C++ 4.02"
+physical_objects_additive = true
+physical_objects = [{ object = "effects", source = "src/main/player/effects.cpp", wrapper = "src/main/player/effects.cpp", object_path = "obj/th03/effects.obj", translator_comment = "TC86 Borland C++ 4.02" }]
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/platform.h", "compat/rec98/th01/math/subpixel.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/common.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/hud/warning.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/round.hpp", "compat/rec98/th03/main/sprite16.hpp", "compat/rec98/th03/resident.hpp", "src/main/background/background.hpp", "src/main/background/chain1.cpp", "src/main/background/chain2.cpp", "src/main/background/phase.inl", "src/main/hardware/frame_delay.hpp", "src/main/hud/static.hpp", "src/main/math/polar.hpp", "src/main/math/randring_getters.hpp", "src/main/math/vector_far.hpp", "src/main/player/warning.cpp", "src/main/player/warning.hpp", "src/main/playfield/playfld.hpp"]
+code_extents = [{ name = "code", ledger_id = "th03-main-player-effects", segment = 2414, start = 14045, size = 628, map_start = 14045, map_size = 628, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", map_acbp = 28 }]
+
+[[units]]
+id = "th03-main-background-chain1"
+source = "src/main/background/chain1.cpp"
+header = "src/main/background/background.hpp"
+object = "chain1"
+map_module = "src/main/background/chain1.cpp"
+translator_comment = "TC86 Borland C++ 4.02"
+physical_objects_additive = true
+physical_objects = [{ object = "chain1", source = "src/main/background/chain1.cpp", wrapper = "src/main/background/chain1.cpp", object_path = "obj/chain1.obj", translator_comment = "TC86 Borland C++ 4.02" }]
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/platform.h", "compat/rec98/th01/math/subpixel.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/common.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/hud/warning.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/round.hpp", "compat/rec98/th03/main/sprite16.hpp", "compat/rec98/th03/resident.hpp", "src/main/background/chain2.cpp", "src/main/background/phase.inl", "src/main/hardware/frame_delay.hpp", "src/main/hud/static.hpp", "src/main/math/polar.hpp", "src/main/math/randring_getters.hpp", "src/main/math/vector_far.hpp", "src/main/player/effects.cpp", "src/main/player/effects.hpp", "src/main/player/warning.cpp", "src/main/player/warning.hpp", "src/main/playfield/playfld.hpp"]
+code_extents = [{ name = "code", ledger_id = "th03-main-background-chain1", segment = 2414, start = 14673, size = 695, map_start = 14673, map_size = 695, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", map_acbp = 28 }]
+
+[[units]]
+id = "th03-main-background-chain2"
+source = "src/main/background/chain2.cpp"
+header = "src/main/background/background.hpp"
+object = "chain2"
+map_module = "src/main/background/chain2.cpp"
+translator_comment = "TC86 Borland C++ 4.02"
+physical_objects_additive = true
+physical_objects = [{ object = "chain2", source = "src/main/background/chain2.cpp", wrapper = "src/main/background/chain2.cpp", object_path = "obj/chain2.obj", translator_comment = "TC86 Borland C++ 4.02" }]
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/libs/master.lib/pc98_gfx.hpp", "compat/rec98/platform.h", "compat/rec98/th01/math/subpixel.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/common.h", "compat/rec98/th03/formats/mrs.hpp", "compat/rec98/th03/hardware/palette.hpp", "compat/rec98/th03/main/hud/warning.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/round.hpp", "compat/rec98/th03/main/sprite16.hpp", "compat/rec98/th03/resident.hpp", "src/main/background/chain1.cpp", "src/main/background/phase.inl", "src/main/hardware/frame_delay.hpp", "src/main/hud/static.hpp", "src/main/math/polar.hpp", "src/main/math/randring_getters.hpp", "src/main/math/vector_far.hpp", "src/main/player/effects.cpp", "src/main/player/effects.hpp", "src/main/player/warning.cpp", "src/main/player/warning.hpp", "src/main/playfield/playfld.hpp"]
+code_extents = [{ name = "code", ledger_id = "th03-main-background-chain2", segment = 2414, start = 15368, size = 550, map_start = 15368, map_size = 550, map_segment = "PLAYER_M_TEXT", map_group = "MAIN_01", map_acbp = 28 }]
+
+[[functions]]
+name = "round_pause_or_quit"
+object = "warning"
+segment = 2414
+offset = 12485
+size = 139
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "round_C830"
+object = "warning"
+segment = 2414
+offset = 12624
+size = 148
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "round_C8C4"
+object = "warning"
+segment = 2414
+offset = 12772
+size = 314
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "round_C9FE"
+object = "warning"
+segment = 2414
+offset = 13086
+size = 62
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "round_CA3C"
+object = "warning"
+segment = 2414
+offset = 13148
+size = 143
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "warning_text_put"
+object = "warning"
+segment = 2414
+offset = 13291
+size = 182
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "round_CB81"
+object = "warning"
+segment = 2414
+offset = 13473
+size = 572
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "bomb_explosion_add"
+object = "effects"
+segment = 2414
+offset = 14045
+size = 79
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "bomb_center_add"
+object = "effects"
+segment = 2414
+offset = 14124
+size = 79
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "bomb_axis_add"
+object = "effects"
+segment = 2414
+offset = 14203
+size = 87
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "player_effects_update"
+object = "effects"
+segment = 2414
+offset = 14290
+size = 46
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "player_effects_render"
+object = "effects"
+segment = 2414
+offset = 14336
+size = 337
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_pixel_di"
+object = "chain1"
+segment = 2414
+offset = 14673
+size = 44
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_velocity_reset"
+object = "chain1"
+segment = 2414
+offset = 14717
+size = 53
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_chain1_init"
+object = "chain1"
+segment = 2414
+offset = 14770
+size = 104
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_update_di"
+object = "chain1"
+segment = 2414
+offset = 14874
+size = 59
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_chain1_accelerate"
+object = "chain1"
+segment = 2414
+offset = 14933
+size = 178
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_chain1_periodic"
+object = "chain1"
+segment = 2414
+offset = 15111
+size = 257
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_chain2_init"
+object = "chain2"
+segment = 2414
+offset = 15368
+size = 88
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_chain2_accelerate"
+object = "chain2"
+segment = 2414
+offset = 15456
+size = 185
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"
+
+[[functions]]
+name = "background_chain2_periodic"
+object = "chain2"
+segment = 2414
+offset = 15641
+size = 277
+boundary = "owner-linear-span"
+abi = "Reviewed exact retained producer ABI; complete return-delimited body"

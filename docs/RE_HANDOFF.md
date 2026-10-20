@@ -13,6 +13,17 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## Opt-in complete PLAYER_M tail candidate
+
+The source-only [tail cold candidate](reconstruction/MAIN_PLAYER_TAIL_COLD_CANDIDATE.md)
+adds a separately pinned four-producer/21-function/3,433-byte replay mode. It
+keeps accepted score and Yumemi bomb checks conjunctive, freezes the full 1,553
+relocation model before native work, and requires fresh post-build OMF structure
+plus complete linked raw/order/MAP/provider equality. The unchanged scheduler
+sees the exact existing -j1 carrier only after accepted bomb precompile.
+Retained linked and supplemental MAP proofs do not substitute for two fresh
+cold rounds. Default dispatch, ledger status and accepted totals are unchanged.
+
 ## Accepted baseline
 
 | Artifact | Reviewed/source scope | Accepted original CODE |

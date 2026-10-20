@@ -18,7 +18,8 @@ ROOT = HERE.parents[1]
 STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
-    "scripts/replay_th03_main_exact_units.py": "f4df09017064fc3d54c3cd8ff4643e8ceacd77a413e32c13a51844ed9e6a66cf",
+    'scripts/review_th03_cpu_link_order.py': '0b96a855a823aa749cc35ab0b8d4a80b5740bf42a7996a7c934881981df5ba82',
+    "scripts/replay_th03_main_exact_units.py": "5e469da965fa818f5aeb54f8d7d68622c80ed8cd62b5a6ca02beac0bb930ec56",
     "config/th03_main_exact_units.toml": "014a9de1409da6b605fc00e986f26bc33e61d23022660f8319e38f4df19b141d",
     "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
 }
@@ -37,7 +38,16 @@ PINS.update({
     "scripts/lib/toolchain.py": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
     "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501"
 })
+PINS.update({
+    'scripts/lib/th03_player_tail_candidate.py': '7cea2c769c20014584a61eb8e5490ca698d23d51a9dc0491341b26670b8deef3',
+    'scripts/lib/th03_tail_compare.py': '9d96fdc4db8eb910233c19fa146e3c2472b28b30c55026408a9c10e8a74078ce',
+    'scripts/lib/th03_tail_map.py': 'ce3f8cc70b35a46f5898dab8ca442aa73648ee561a6abb83460eaa2caf17be40',
+    'scripts/lib/th03_tail_model.py': '0485b5f3bab8825a0c0d3e10dfe15345d83dda3528ac1979e6b423f9fdaae0f6',
+    'scripts/lib/th03_tail_public_display.json': '3219df80ac6d56269c1c83af0d5fd4e43286a304ca93bcea09606496cf1b7cb9',
+    'scripts/lib/th03_tail_warning_gate.py': 'ef3a348181ec5887f96582cb052442ee54f50126cb85e49c9d190378b97c922f',
+})
 CANDIDATE_PINS = {
+    "config/th03_main_player_tail_candidate.toml": "a44ab5667b7f3da1cc4bc26efe7fdc48e60d9bcc40802d6fa13f5c8b33ff8ee3",
     "config/th03_main_yumemi_bomb_candidate.toml": "579736dc74c88de408575e0e94f9141c2ebf498f099e783424de3879cc82cad8",
     "config/th03_main_score_candidate.toml": "81aa3026afb3e15c6bff3d1ee79863ee0f95aa113ccf8856171ea8e695b7a347",
     "config/th03_main_marisa_candidate.toml":
