@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL root DATA backend diagnostic
+
+The opt-in root DATA producer owns 112 initialized bytes through 28 genuine far-pointer definitions alongside the proven 1,930-byte CODE prefix. Four fresh MRDL02 compile/prefix/root/link phases pass all 37 gates, preserving full target/prior program, headers, BSS186, all677 relocation members, CODE86, DATA28, mixed114, continue20, registration71, STAFF107 and suffix149..676. Only the approved title/name public views migrate to mainl_char_info+0/+4 at their exact old addresses. Global order differences change from101 to102, with34 positions changed, not an aggregate improvement. MRDL01 missing alignment-origin failure is preserved; a zero-storage local label restores identical parity after an even130-byte split. No count/default/exact/repeat/cold/runtime/packing credit. MAINL remains145/145 source units,28,381 bytes,exact0. See [root DATA backend proof](reconstruction/MAINL_ROOT_DATA_BACKEND_REVIEW.md).
+
 ## MAINL root shot-helper backend diagnostic
 
 The opt-in root shot-helper producer adds two complete near-Pascal helpers totaling 204 bytes to the prior 1,726-byte source, reaching 1,930 bytes. Three fresh compile/root/link phases pass all 32 linked gates: full target/prior program, headers, every prior public, BSS186, 677 relocation members, root86, continue20, registration71, STAFF107 and literal suffix indices149 through676. Global ordered differences remain 101, with 94 positions changed versus MRI02. The remaining root main body is 528 bytes; the future complete extent is 2,458, not the earlier rough 2,461 paragraph-based estimate. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [root shot-helper backend proof](reconstruction/MAINL_ROOT_SHOTS_BACKEND_REVIEW.md).

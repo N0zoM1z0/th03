@@ -419,6 +419,10 @@ def mainl_root_intro_backend_proven():
     path = ROOT / "config/mainl_root_intro_backend/proof.json"
     return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "0b0f8e70d43fbd03f116800a607465e83123db503c3df854c67a9af1058409c8"
 
+def mainl_root_data_backend_proven():
+    path = ROOT / "config/mainl_root_data_backend/proof.json"
+    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "5d7be0ccd06352297ca04f76854079edb83dc30a50d940213b130b3222a10fa6"
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -520,7 +524,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</text>' if mainl_regdata_backend_proven() and not mainl_continue_backend_proven() else '')}
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 144 · prior DIET 1,212 differences · exact 0</text>' if mainl_continue_backend_proven() and not mainl_root_prefix_backend_proven() else '')}
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_prefix_backend_proven() and not mainl_root_intro_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_intro_backend_proven() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_data_backend_proven() else '')}
 </svg>
 '''
 
@@ -589,6 +594,8 @@ def main() -> int:
         lines.extend(['The opt-in root-prefix producer combines genuine CFG 49, win 338 and four complete root procedures 694 into 1,081 CODE bytes with the original 186-byte BSS. Three fresh native phases pass all 32 linked gates: full target/prior program, headers, all prior publics, 677 relocation members, prefix 48, continue 20, registration 71, STAFF 107 and literal suffix indices 149 through 676. Global ordered differences decrease from 144 to 102, with 134 positions changed versus MCM04. The 1,077-byte early-return hypothesis and lowercase external link failure remain preserved. A distinct verifier correction excludes only decoded fixup bytes at the boundary, retaining truncation and return checks. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL remains 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MRP05. See [root-prefix backend proof](reconstruction/MAINL_ROOT_PREFIX_BACKEND_REVIEW.md).', ""])
     if mainl_root_intro_backend_proven():
         lines.extend(['The opt-in stage-introduction producer extends the genuine root prefix to 1,726 bytes, including the complete 627-byte introduction and its naturally generated 18-byte switch table. Three fresh integration phases pass all 32 linked gates: full target/prior program, headers, all prior publics, BSS186, 677 relocation members, root80, continue20, registration71, STAFF107 and literal suffix indices149 through676. Global ordered differences decrease from 102 to 101, with 87 positions changed versus MRP05. MRI01 compiler success but harness completion=false remains preserved: its long basename produced a DOS8.3 object name, verified in a separate read-only actual-product report. Fresh integration uses identical source bytes under rootint.cpp. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL remains 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MRI02. See [stage-introduction backend proof](reconstruction/MAINL_ROOT_INTRO_BACKEND_REVIEW.md).', ""])
+    if mainl_root_data_backend_proven():
+        lines.extend(['The opt-in root DATA producer owns 112 initialized bytes through 28 genuine far-pointer definitions alongside the proven 1,930-byte CODE prefix. Four fresh MRDL02 compile/prefix/root/link phases pass all 37 gates, preserving full target/prior program, headers, BSS186, all677 relocation members, CODE86, DATA28, mixed114, continue20, registration71, STAFF107 and suffix149..676. Only the approved title/name public views migrate to mainl_char_info+0/+4 at their exact old addresses. Global order differences change from101 to102, with34 positions changed, not an aggregate improvement. MRDL01 missing alignment-origin failure is preserved; a zero-storage local label restores identical parity after an even130-byte split. No count/default/exact/repeat/cold/runtime/packing credit. MAINL remains145/145 source units,28,381 bytes,exact0. See [root DATA backend proof](reconstruction/MAINL_ROOT_DATA_BACKEND_REVIEW.md).', ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)
