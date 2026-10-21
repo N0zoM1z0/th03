@@ -21,7 +21,7 @@ class MainlColdSourceTests(unittest.TestCase):
     def test_no_retained_project_binaries(self):
         forbidden = {'.obj', '.exe', '.map', '.lib', '.dll', '.com'}
         self.assertFalse(any(Path(n).suffix.lower() in forbidden for n in self.files))
-        self.assertEqual(len(self.files), 1881)
+        self.assertEqual(len(self.files), 1883)
 
     def test_original_order_and_first_use_flags(self):
         self.assertEqual(self.graph, json.loads((CONTEXT / 'object_graph.json').read_text()))
@@ -37,7 +37,8 @@ class MainlColdSourceTests(unittest.TestCase):
         for name in ('maintained heap', 'maintained graphics and staff split',
                      'maintained root', 'maintained PI decoder', 'maintained resources',
                      'maintained archive_io', 'maintained display_hardware',
-                     'maintained root_tail', 'maintained linked game'):
+                     'maintained root_tail', 'maintained linked game',
+                     'maintained historical VSync and ordinary DATA alignment'):
             self.assertIn(name, names)
         self.assertLess(names.index('maintained heap'), names.index('maintained linked game'))
         text = (PAYLOAD / 'scripts/stage_th03_mainl_cold.py').read_text()

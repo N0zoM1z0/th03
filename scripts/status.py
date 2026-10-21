@@ -80,6 +80,8 @@ def artifact_report(
         "exact_authored_percent": (
             round(exact_authored * 100 / known_authored, 6) if known_authored else None
         ),
+        # Authored-origin subset only; state_bytes separately includes maintained
+        # library-origin owners. Preserve this JSON key for existing consumers.
         "decoded_only_source_owner_bytes": sum(int(row["size"], 0) for row in decoded_only),
         # The separate function ledger currently covers MAIN only. A zero for
         # another artifact would incorrectly imply that no functions exist.
@@ -168,7 +170,7 @@ def main() -> int:
                 f"file-backed-authored={report['exact_authored_bytes']}/"
                 f"{report['known_authored_bytes']} ({percent_text}) "
                 f"main-function-ledger={function_text} "
-                f"decoded-source-owner-bytes={report['decoded_only_source_owner_bytes']}"
+                f"decoded-authored-owner-bytes={report['decoded_only_source_owner_bytes']}"
             )
             candidate_states = report["authored_candidate_states"]
             boundary_states = report["authored_boundary_states"]

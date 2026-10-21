@@ -37,7 +37,7 @@
   <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 28,381 B · Heap: 8 procedures / 628 B retained-only</text>
   </g>
 <text x="200" y="304" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>
-<text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · 1 DATA byte / relocation order open</text>
+<text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · full program equal / order open</text>
   <text x="24" y="328" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>
   <text x="24" y="348" fill="#c8cad2" font-family="monospace" font-size="11">Inventory pending</text>
   <rect x="200" y="321" width="250" height="12" rx="4" fill="#353b52"/>
@@ -51,5 +51,6 @@
   <path d="M24 398 H764" stroke="#4b526d"/>
   <text x="24" y="423" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 65,198 bytes · 86 owners</text>
   <text x="24" y="446" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
-<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>
+
+<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</text>
 </svg>

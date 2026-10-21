@@ -399,6 +399,10 @@ def mainl_diet_packing_diagnostic():
     path = ROOT / "config/mainl_diet_packing/proof.json"
     return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "aecaba2d80de4d140699d44c7e9bfece1cddb4ade579c08dd07bd49f66b62416"
 
+def mainl_vsync_alignment_proven():
+    path = ROOT / "config/mainl_vsync_alignment/proof.json"
+    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "671f024d1a3b9ad0ca9fc1615a9f170ea984186836c182a1311e0b4418e073c9"
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -439,7 +443,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
             if mainl_crt_source_proven(units, evidence or []) and mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · 1 DATA byte / relocation order open</text>')
+                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · {'full program equal / order open' if mainl_vsync_alignment_proven() else '1 DATA byte / relocation order open'}</text>')
             elif mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked game + prior source: 24,052 B target-equal · 1 DATA byte / relocation order open</text>')
             elif mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
@@ -495,7 +499,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <path d="M24 398 H764" stroke="#4b526d"/>
   <text x="24" y="423" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
   <text x="24" y="446" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>' if mainl_diet_packing_diagnostic() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>' if mainl_diet_packing_diagnostic() and not mainl_vsync_alignment_proven() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</text>' if mainl_vsync_alignment_proven() else '')}
 </svg>
 '''
 
@@ -554,6 +559,8 @@ def main() -> int:
         lines.extend(["MAINL graphics producer checkpoint: three complete functions / 355 compiled bytes; 333 non-fixup bytes match target. Nine genuine symbolic fixups covering 22 bytes await a legitimate link. These candidates are not counted as source-present units or exact acceptance; existing totals remain unchanged.", ""])
     if mainl_diet_packing_diagnostic():
         lines.extend(['MAINL DIET diagnostic: default DIET packs the decoded target twice to the exact canonical37,975-byte stored image, validating the packing control. The maintained-source MCO02 image packs twice to38,048 bytes, with2,259 packed differences; both source roundtrips restore its exact input. The461 decoded relocation-order differences and one DATA byte remain. Same-tool restoration is a separate invocation, not an independent decoder proof. Source145/145 and28,381 bytes remain unchanged; formal exact credit stays0.', ""])
+    if mainl_vsync_alignment_proven():
+        lines.extend(['MAINL natural VSync DATA alignment now yields the complete decoded target program, without byte injection. Independent root/link repeats have identical raw OBJ/EXE/MAP. Aligned-source DIET packing repeats and roundtrips, but produces38,050 bytes versus canonical37,975 (+75), with1,212 packed differences;677 relocation entries retain membership with461 ordered differences. This is not a full cold-build or new runtime proof. Source145/145 and28,381 bytes remain unchanged, formal exact0. Status CLI distinguishes27,753 decoded authored-owner bytes plus628 library-origin heap bytes; aggregation and JSON are unchanged. Historical pre-alignment DATA and2,259 packed-difference receipts remain preserved.', ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)

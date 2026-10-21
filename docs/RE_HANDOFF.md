@@ -13,6 +13,11 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL natural DATA alignment and packing
+
+MAINL natural VSync DATA alignment now yields the complete decoded target program, without byte injection. Independent root/link repeats have identical raw OBJ/EXE/MAP. Aligned-source DIET packing repeats and roundtrips, but produces38,050 bytes versus canonical37,975 (+75), with1,212 packed differences;677 relocation entries retain membership with461 ordered differences. This is not a full cold-build or new runtime proof. Source145/145 and28,381 bytes remain unchanged, formal exact0. Status CLI distinguishes27,753 decoded authored-owner bytes plus628 library-origin heap bytes; aggregation and JSON are unchanged. Historical pre-alignment DATA and2,259 packed-difference receipts remain preserved.
+See [alignment proof](mainl-vsync-alignment.md).
+
 ## MAINL DIET packing diagnostic
 
 MAINL DIET diagnostic: default DIET packs the decoded target twice to the exact canonical37,975-byte stored image, validating the packing control. The maintained-source MCO02 image packs twice to38,048 bytes, with2,259 packed differences; both source roundtrips restore its exact input. The461 decoded relocation-order differences and one DATA byte remain. Same-tool restoration is a separate invocation, not an independent decoder proof. Source145/145 and28,381 bytes remain unchanged; formal exact credit stays0.

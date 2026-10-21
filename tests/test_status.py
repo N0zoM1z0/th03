@@ -44,6 +44,18 @@ class ReviewedAuthoredRowsTests(unittest.TestCase):
         self.assertIsNone(report["exact_authored_percent"])
         self.assertIsNone(report["reviewed_authored_functions"])
 
+    def test_authored_decoded_subset_keeps_library_source_total_separate(self) -> None:
+        rows = [
+            {"artifact": "th03-mainl", "id": "crt-helper", "state": "source-present",
+             "size": "33", "origin": "authored", "boundary_state": "reviewed", "file_offset": ""},
+            {"artifact": "th03-mainl", "id": "heap-manager", "state": "source-present",
+             "size": "628", "origin": "library", "boundary_state": "reviewed", "file_offset": ""},
+        ]
+        report = status.artifact_report({"id": "th03-mainl", "size": 37975}, rows, [], [])
+        self.assertEqual(report["decoded_only_source_owner_bytes"], 33)
+        self.assertEqual(report["state_bytes"]["source-present"], 661)
+        self.assertEqual(report["states"]["source-present"], 2)
+
     def test_main_file_backed_extent_keeps_its_exact_percentage(self) -> None:
         report = status.artifact_report(
             {"id": "th03-main", "size": 156258},
