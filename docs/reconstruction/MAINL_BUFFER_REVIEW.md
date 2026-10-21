@@ -1,9 +1,9 @@
 # Complete MAINL buffered-file candidate review
 
-Seven frozen buffer-library contributions own 474 decoded function-body bytes
-and four observed alignment NOPs, totaling478bytes. The complete DOS_ROPEN /
-FONTFILE_OPEN alias body adds26bytes. These eight functions have500body bytes /
-162instructions; all504raw bytes and empty original ordered MZ relocation
+Seven frozen buffer-library contributions own 374 decoded function-body bytes
+and four observed alignment NOPs, totaling378bytes. The complete DOS_ROPEN /
+FONTFILE_OPEN alias body adds26bytes. These eight functions have400body bytes /
+162instructions; all404raw bytes and empty original ordered MZ relocation
 sets agree with both cached candidates. No maintained MAINL source, canonical
 stored offset or exact acceptance is added.
 
@@ -152,3 +152,11 @@ Eight decoded rows add no maintained source, exact or accepted-intake credit.
 Combined archive/hook execution, generated root DATA/BSS/CRT ownership, cold
 localization and canonical DIET packaging/full Oracles remain open, alongside
 the full505-file intake and requested English commits.
+
+## Arithmetic correction (2026-10-21)
+
+The original prose overstated the seven buffer bodies by100bytes. The existing
+entry table and ledger sum to374, with four gaps and26 DOS-open context bytes
+for404 total. This corrects prose only; historical receipts are unchanged and
+no additional acceptance or byte credit is inferred. See the separate
+[maintained source checkpoint](MAINL_ARCHIVE_IO_SOURCE_REVIEW.md).

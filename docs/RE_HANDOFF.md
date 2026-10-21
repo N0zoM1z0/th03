@@ -13,6 +13,15 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL archive/file source checkpoint
+
+Twenty-five symbolic includes localize 19 existing archive/file units /2,479
+bytes with complete root statement identity. Native consumption is pending;
+MAINL source65/145 (20,671 bytes), exact0 remains unchanged. Historical buffer
+prose is corrected from474 to374 bytes and related totals adjusted; no phantom
+100 bytes are credited and retained receipts remain unchanged. See
+[archive/file source](reconstruction/MAINL_ARCHIVE_IO_SOURCE_REVIEW.md).
+
 ## MAINL graphics/resources source proof
 
 Fourteen existing units /3,475 bytes are now source-present: MAINL source

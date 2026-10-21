@@ -1,0 +1,480 @@
+{
+  "schema": "mainl-archive-io-symbolic-source-v1",
+  "previous_generated_root": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/th03_mainl.asm",
+    "sha256": "352dbaad5df5ad8fa66d7da880e8b4dc5e25ab68250e5f455422090c1de6ae3f"
+  },
+  "composer": {
+    "path": "scripts/lib/mainl_archive_io_source.py",
+    "sha256": "754a85808e921bdf549a8f23306d2aa3e2424ffc99d6f6c183a2fdcdba31abf1"
+  },
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-file-library",
+      "segment": 0,
+      "offset": 1926,
+      "bytes": 786,
+      "providers": [
+        {
+          "name": "file_append",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_append.asm",
+            "sha256": "0c68713fd2677e8098b5e52332858a4a3d13703500f72bd8a72d321250a90fd9"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_append.asm",
+            "sha256": "6d04c9f4d88f7dfba8d1c7bb2c0b96800ae61c3da843891acb617b01ce7cb6e7"
+          }
+        },
+        {
+          "name": "file_close",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_close.asm",
+            "sha256": "6683a73f10045ed8885962763c92675d73f690c277b3de45168a914c0ab690ed"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_close.asm",
+            "sha256": "72bc79a5fad325975e8a810f2e0c20f95de052da38110249fee67977cd735af8"
+          }
+        },
+        {
+          "name": "file_create",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_create.asm",
+            "sha256": "be8bf713d07814d2e7443a118b1758a7f2a8683dbb8c992052c7aaf4a5961330"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_create.asm",
+            "sha256": "37cc0ea9f2dfe04e24315f5b3cd86376bcd9cc728fbda49a6d532a417cd7d12e"
+          }
+        },
+        {
+          "name": "file_exist",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_exist.asm",
+            "sha256": "82d8b541b6cb72ca1f52cf01369607f5b47375f302848258e0a9a975b92b5ec2"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_exist.asm",
+            "sha256": "ec1b20d33cced692891e11059f0f37103f4a3742c3ab411f506b8b175d36c35f"
+          }
+        },
+        {
+          "name": "file_read",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_read.asm",
+            "sha256": "a1cade5ba6d3c49f876df11dd94386004508a6e63bc764c4966e88c08f127a31"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_read.asm",
+            "sha256": "454557efbd13df77528abef849d34338a55bdd3aecb1896683fc7b3de72d781f"
+          }
+        },
+        {
+          "name": "file_ropen",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_ropen.asm",
+            "sha256": "77259b5a6cb915d6376df836101a0655152cea0166bbc4570dfb0cdd792bf8dc"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_ropen.asm",
+            "sha256": "263c79886fdd63d9e2f50f31e243bdba2a68f0fcf29c89041c71613fdbfc68e3"
+          }
+        },
+        {
+          "name": "file_seek",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_seek.asm",
+            "sha256": "4f1d8a008f0fe6f8caa28024ef5efa08d2d8fd0b6d3c4ddd9f47747af9e3a5a3"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_seek.asm",
+            "sha256": "e9bf53a55221400ee8d325e15950c1d109e5716083474b47f98817f576fc2823"
+          }
+        },
+        {
+          "name": "file_size",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_size.asm",
+            "sha256": "3f42aadaf3f7030b87e69cd0e9d437f63eff98a0ce41d7c360a5074439a53f6a"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_size.asm",
+            "sha256": "548a755f8133a5a9e019b646095c3616e996194a74d76f19e24551210dca4676"
+          }
+        },
+        {
+          "name": "file_write",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_write.asm",
+            "sha256": "77dbd982aaec0e724a5b3e772d014aee6a838321842af67eca8d54d021074e3d"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/file_write.asm",
+            "sha256": "cc5a23662a88d48779c78cf38072d347946db753f399ce08f382039934caf6dd"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-file-dos-helpers",
+      "segment": 0,
+      "offset": 1710,
+      "bytes": 80,
+      "providers": [
+        {
+          "name": "dos_axdx",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/dos_axdx.asm",
+            "sha256": "aa359927f77212353bed030739d3b5f9b947a1eb3b3ec2ca91278774ef8046d3"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/dos_axdx.asm",
+            "sha256": "34dd1853811b5b7529737d0c4b70cc211ce5e20a37a24dc39b47c7137e9a23b9"
+          }
+        },
+        {
+          "name": "dos_filesize",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/dos_filesize.asm",
+            "sha256": "a83fbab8da462ab430c569d217d90f35ede41f7d0279fd8c65cb63ad55603cb7"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/dos_filesize.asm",
+            "sha256": "f1182b974bed98ebbd8c0df4d32e0d1c10cedba5fa4852347b9d267428f2f4ad"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfint21",
+      "segment": 0,
+      "offset": 10320,
+      "bytes": 605,
+      "providers": [
+        {
+          "name": "pfint21",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfint21.asm",
+            "sha256": "8890dfae0e43677fa52dc0c2892def28214eb5c7cf9748f6c201410b19b89c8e"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfint21.asm",
+            "sha256": "d2b07b25b4076ee9e74618a94268ae020571620e72e6124b9897b6e94eb11bf8"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfopen",
+      "segment": 0,
+      "offset": 11030,
+      "bytes": 281,
+      "providers": [
+        {
+          "name": "pfopen",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/th03/formats/pfopen.asm",
+            "sha256": "913ba45575ed3578efc959a9d3383b2407edb1042d856651cda59b5e701f70ab"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfopen.asm",
+            "sha256": "454440084e822e0a6c6aeb4374ac84383387666f1522b8b1a58289b6e1b531e1"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-close",
+      "segment": 0,
+      "offset": 6362,
+      "bytes": 26,
+      "providers": [
+        {
+          "name": "pfclose",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfclose.asm",
+            "sha256": "c554e6d0649207a339cf523b144f59afc4ccf999f6a42cffedc9422b8c2f179f"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfclose.asm",
+            "sha256": "559c045ded7ca688d35338d4025b3180136cb2a0586cfc699ad2178bfa4be526"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-getc",
+      "segment": 0,
+      "offset": 6388,
+      "bytes": 15,
+      "providers": [
+        {
+          "name": "pfgetc",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfgetc.asm",
+            "sha256": "119b9827ce6886c77449fe77025fab149542d8916f9edde862562954a6f3c8bd"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfgetc.asm",
+            "sha256": "16ba4b1c4a36ef31f75c4bab8ece73db8de8ab0727dda18b6df07ebb0c915f93"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-len",
+      "segment": 0,
+      "offset": 6404,
+      "bytes": 78,
+      "providers": [
+        {
+          "name": "pfgetc",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfgetc.asm",
+            "sha256": "119b9827ce6886c77449fe77025fab149542d8916f9edde862562954a6f3c8bd"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfgetc.asm",
+            "sha256": "16ba4b1c4a36ef31f75c4bab8ece73db8de8ab0727dda18b6df07ebb0c915f93"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-plain",
+      "segment": 0,
+      "offset": 6482,
+      "bytes": 68,
+      "providers": [
+        {
+          "name": "pfgetc",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfgetc.asm",
+            "sha256": "119b9827ce6886c77449fe77025fab149542d8916f9edde862562954a6f3c8bd"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfgetc.asm",
+            "sha256": "16ba4b1c4a36ef31f75c4bab8ece73db8de8ab0727dda18b6df07ebb0c915f93"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-keyed",
+      "segment": 0,
+      "offset": 6550,
+      "bytes": 13,
+      "providers": [
+        {
+          "name": "pfgetc",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfgetc.asm",
+            "sha256": "119b9827ce6886c77449fe77025fab149542d8916f9edde862562954a6f3c8bd"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfgetc.asm",
+            "sha256": "16ba4b1c4a36ef31f75c4bab8ece73db8de8ab0727dda18b6df07ebb0c915f93"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-read",
+      "segment": 0,
+      "offset": 6564,
+      "bytes": 46,
+      "providers": [
+        {
+          "name": "pfread",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfread.asm",
+            "sha256": "20d594a2355a5380719cee2f2b19229ae072b02afe470e57115c0a34c3580894"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfread.asm",
+            "sha256": "d02a25cb01a38c77d47ca6e706180936aab860ba4adcfd9ec4fb9a280196e1ff"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-rewind",
+      "segment": 0,
+      "offset": 6610,
+      "bytes": 59,
+      "providers": [
+        {
+          "name": "pfrewind",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfrewind.asm",
+            "sha256": "ff21821866cc51ce3fb48503458d75ce90b1480784312d43875543a1175c5f5a"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfrewind.asm",
+            "sha256": "698c5e8efd4e2047618091fa1946b8ff239861770495676577d298c73d6dfe87"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-seek",
+      "segment": 0,
+      "offset": 6670,
+      "bytes": 48,
+      "providers": [
+        {
+          "name": "pfseek",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfseek.asm",
+            "sha256": "30668e2fb6ac1c9ffe0258a6bd50cdbd4a2a527d9beaf634c99d7ce4cb89e6d4"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/pfseek.asm",
+            "sha256": "22232ad34f4ab74b5f3b3e5fee402dcf3c88372d58898b2c2ca91e3dc1b1eea6"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-close",
+      "segment": 0,
+      "offset": 1138,
+      "bytes": 24,
+      "providers": [
+        {
+          "name": "bcloser",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bcloser.asm",
+            "sha256": "5a345a8e7c1f6a74c97896f0a81e3f5a2ebb19e6250ce550f74682bd85f7244e"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/bcloser.asm",
+            "sha256": "aac2305dd2db012d5c6c9b1f894391ce7f04934e02fa46316a34a9af1669a766"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-fill",
+      "segment": 0,
+      "offset": 1162,
+      "bytes": 59,
+      "providers": [
+        {
+          "name": "bfill",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bfill.asm",
+            "sha256": "a1280f7bcd803d1eea93fed903b2c7ec2cd1963b7ccced5cb6c755d003fdfda4"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/bfill.asm",
+            "sha256": "20cd7979dff9a3d6c61b01ebd073f4872a5deb085b0d02d3b7fba629065cf007"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-getc",
+      "segment": 0,
+      "offset": 1286,
+      "bytes": 48,
+      "providers": [
+        {
+          "name": "bgetc",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bgetc.asm",
+            "sha256": "46e386c45a46eace934bfb1fd37b543d02b58afc616f0dcc7545efa82307a240"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/bgetc.asm",
+            "sha256": "f5c3f0e92b95d9c2b9ad2a695c30e8c7ce56338f61e7d541a755b18444758842"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-open",
+      "segment": 0,
+      "offset": 1464,
+      "bytes": 83,
+      "providers": [
+        {
+          "name": "bopenr",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bopenr.asm",
+            "sha256": "f20b08ce2e0174e38e3d97621aabcb3a4d83812d714456485945af044e07674e"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/bopenr.asm",
+            "sha256": "5b103a0046d50dfbf1ef0997507a275913740d3a35f3a0e5f28a5582258430a9"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-read",
+      "segment": 0,
+      "offset": 1548,
+      "bytes": 48,
+      "providers": [
+        {
+          "name": "bread",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bread.asm",
+            "sha256": "ebc390de3abd1308a4fdd8be64c7eeca20ffaa8271cc8c0ce3e5b8a8a539d56e"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/bread.asm",
+            "sha256": "e2e41688089d1db41dd370a08c8b70d9f15e72ebb885f15a05004cb0c7e51b0a"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-seek",
+      "segment": 0,
+      "offset": 1596,
+      "bytes": 65,
+      "providers": [
+        {
+          "name": "bseek",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bseek.asm",
+            "sha256": "d3d277008ccd2c6c9b1c0d3a43d7a7a9393f706f963affb7fdd596437c5c1b65"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/bseek.asm",
+            "sha256": "c2c831ac6f1df828a718c8fcfbaea0bc779d61fbbaed47a78c2a29cf4fccea26"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-seek-base",
+      "segment": 0,
+      "offset": 1662,
+      "bytes": 47,
+      "providers": [
+        {
+          "name": "bseek_",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bseek_.asm",
+            "sha256": "7af87d66044c92482b8374227dde8eb0e67f244109f9687204363a36659885b5"
+          },
+          "source": {
+            "path": "src/mainl/archive_io/bseek_.asm",
+            "sha256": "c882e696635c9fd553ca6081e2ce6f1f832364c4489fa7cf69c60ccb5965ba50"
+          }
+        }
+      ]
+    }
+  ],
+  "unit_count": 19,
+  "decoded_bytes": 2479,
+  "include_count": 25,
+  "native_fragment_consumption_proven": false,
+  "source_progress_changed": false,
+  "exact_acceptance": false,
+  "excluded_scope": "Seven separately ledgered PF/buffer gap bytes, already-owned DOS_ROPEN and DOS_CLOSE, and optional STR_IEQ producer are not credited."
+}

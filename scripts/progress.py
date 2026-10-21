@@ -335,7 +335,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
             if mainl_pi_composed(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Composed: 6,144 B target-equal · 9 PI gaps closed · exact acceptance still open</text>')
+                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>')
             elif mainl_regist_source_pending(units):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</text>')
             elif mainl_regist_hybrid_source(units, evidence or []):
@@ -424,7 +424,7 @@ def main() -> int:
         "",
     ])
     if mainl_pi_composed(units, evidence):
-        lines.extend(["MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. This historical composition did not change source or exact counts.", ""])
+        lines.extend(["Historical MAINL PI composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. That image retained 21 other byte differences and relocation-order differences. This historical composition did not change source or exact counts.", ""])
     if mainl_resources_source_proven(units, evidence) and mainl_pi_decoder_source_proven(units, evidence) and mainl_root_source_proven(units, evidence) and mainl_staff_source_proven(units, evidence):
         lines.extend(["MAINL resource source promotion: 14 existing units /3,475 bytes added, now source 65/145 (20,671 bytes), exact 0. RotTbl's 1,024 bytes are generated semantic table data, not functions; retained heap is not credited again. Two fresh include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP. All 16,970 scoped maintained bytes match target; resource relocation sets are empty. One DATA byte and 461 global relocation-order differences remain. Ten fresh model phase receipts plus PI_FREE lifecycle proof are retained by complete EXE identity, not rerun by fast replay; no cold aggregate.", ""])
     elif mainl_pi_decoder_source_proven(units, evidence) and mainl_root_source_proven(units, evidence) and mainl_staff_source_proven(units, evidence):
