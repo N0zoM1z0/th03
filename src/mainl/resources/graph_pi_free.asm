@@ -1,0 +1,90 @@
+; Maintained TH03 MAINL resource source.
+; Conditional comment/machine/image segment frees; retain header zeroing and original nopcall ABI.
+; Original symbolic statements, EVEN directives, macros and aliases are retained.
+; DATA/BSS declarations and imported routines remain contextual unless separately owned.
+; Native target proof and device models are separate from source token identity.
+
+; master library - Pi - free
+;
+; Description:
+;	読み込まれたPi情報を開放する
+;
+; Function/Procedures:
+;	void graph_pi_free( PiHeader * header, void far * image ) ;
+;
+; Parameters:
+;	header	すでに画像(とコメント)が読み込まれたPiヘッダ
+;	image	画像データの先頭アドレス(NULLなら無視)
+;
+; Returns:
+;	none
+;
+; Binding Target:
+;	Microsoft-C / Turbo-C / Turbo Pascal
+;
+; Running Target:
+;	8086
+;
+; Requiring Resources:
+;	CPU: 8086
+;
+; Notes:
+;	
+;
+; Assembly Language Note:
+;	
+;
+; Compiler/Assembler:
+;	TASM 3.0
+;	OPTASM 1.6
+;
+; Author:
+;	恋塚昭彦
+;
+; Revision History:
+;	93/11/24 Initial: grppifre.asm/master.lib 0.21
+
+func GRAPH_PI_FREE	; graph_pi_free() {
+	push	BP
+	mov	BP,SP
+	; 引数
+	@@header = (RETSIZE+3)*2
+	@@image_segment = (RETSIZE+2)*2
+	@@image_offset = (RETSIZE+1)*2
+
+	xor	CX,CX
+
+    s_ <push	DS>
+    s_ <pop	ES>
+	_les	BX,[BP+@@header]
+	mov	AX,(PiHeader ptr ES:[BX]).comment_segment
+	test	AX,AX
+	jz	short NO_COMMENT
+	push	AX
+	nopcall	HMEM_FREE
+	mov	(PiHeader ptr ES:[BX]).commentlen,CX
+	mov	(PiHeader ptr ES:[BX]).comment_segment,CX
+	mov	(PiHeader ptr ES:[BX]).comment_offset,CX
+
+NO_COMMENT:
+	mov	AX,(PiHeader ptr ES:[BX]).maex_segment
+	test	AX,AX
+	jz	short NO_MACHINEINFO
+	push	AX
+	nopcall	HMEM_FREE
+	mov	(PiHeader ptr ES:[BX]).maexlen,CX
+	mov	(PiHeader ptr ES:[BX]).maex_segment,CX
+	mov	(PiHeader ptr ES:[BX]).maex_offset,CX
+
+NO_MACHINEINFO:
+	mov	AX,[BP+@@image_segment]
+	test	AX,AX
+	jz	short NO_IMAGE
+	push	AX
+	nopcall	HMEM_FREE
+
+NO_IMAGE:
+
+	pop	BP
+	ret	(DATASIZE+2)*2
+endfunc		; }

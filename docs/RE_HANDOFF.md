@@ -13,6 +13,14 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL graphics/resources source checkpoint
+
+Twenty-three symbolic includes localize 14 existing units /3,475 bytes across
+graphics, BFNT/super resources, allocator and DOS helpers. RotTbl is generated
+from its 256-entry bit-plane formula, not copied target bytes. Source-only
+whole-expansion and mutation tests pass; native include consumption is pending.
+MAINL source51/145 (17,196 bytes), exact0 and the existing SVG are unchanged.
+
 ## MAINL PI decoder source proof
 
 One existing decoder unit /1,524 bytes is now source-present: MAINL source
