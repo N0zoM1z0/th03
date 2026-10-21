@@ -1,29 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="788" height="496" viewBox="0 0 788 496" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+<svg xmlns="http://www.w3.org/2000/svg" width="788" height="550" viewBox="0 0 788 550" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
-  <desc>Boundary review and exact function acceptance for the tracked subset. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="496" rx="8" fill="#1f2335"/>
+  <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. MAINL decoded acceptance is a separate published axis, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
+  <rect width="788" height="550" rx="8" fill="#1f2335"/>
   <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
   <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
-  <text x="488" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Function acceptance</text>
-  <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed contiguous bodies</text>
+  <text x="488" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Exact acceptance</text>
+  <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed units / MAIN functions</text>
   <text x="488" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Complete raw bytes and relocations</text>
+  <g aria-label="OP.EXE bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="128" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">OP.EXE</text>
-  <text x="24" y="148" fill="#c8cad2" font-family="monospace" font-size="11">Inventory pending</text>
+  <text x="24" y="148" fill="#c8cad2" font-family="monospace" font-size="11">40 tracked unit extents</text>
   <rect x="200" y="121" width="250" height="12" rx="4" fill="#353b52"/>
   <rect x="488" y="121" width="270" height="12" rx="4" fill="#353b52"/>
-  <rect x="200" y="121" width="0.00" height="12" fill="#9b6de3"/>
+  <rect x="200" y="121" width="250.00" height="5" fill="#9b6de3"/>
+  <rect x="200" y="128" width="206.25" height="5" fill="#e0af68"/>
   <rect x="488" y="121" width="0.00" height="12" fill="#55c7a6"/>
-  <text x="200" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 0 · Pending 0</text>
-  <text x="488" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Exact 0 · Pending 0</text>
+  <text x="200" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 40 · Source 33/40</text>
+  <text x="488" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact 0/40</text>
+  </g>
   <text x="24" y="190" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAIN.EXE</text>
-  <text x="24" y="210" fill="#c8cad2" font-family="monospace" font-size="11">413 tracked functions</text>
-  <rect x="200" y="183" width="250" height="12" rx="4" fill="#353b52"/>
-  <rect x="488" y="183" width="270" height="12" rx="4" fill="#353b52"/>
-  <rect x="200" y="183" width="250.00" height="12" fill="#9b6de3"/>
-  <rect x="488" y="183" width="270.00" height="12" fill="#55c7a6"/>
-  <text x="200" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 413 · Pending 0</text>
-  <text x="488" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 413 · Pending 0</text>
+      <text x="24" y="210" fill="#c8cad2" font-family="monospace" font-size="11">413 tracked functions</text>
+      <rect x="200" y="183" width="250" height="12" rx="4" fill="#353b52"/>
+      <rect x="488" y="183" width="270" height="12" rx="4" fill="#353b52"/>
+      <rect x="200" y="183" width="250.00" height="12" fill="#9b6de3"/>
+      <rect x="488" y="183" width="270.00" height="12" fill="#55c7a6"/>
+      <text x="200" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 413 · Pending 0</text>
+      <text x="488" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 413 · Pending 0</text>
   <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="252" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAINL.EXE</text>
   <text x="24" y="272" fill="#c8cad2" font-family="monospace" font-size="11">145 tracked unit extents</text>
@@ -34,23 +37,26 @@
   <rect x="488" y="245" width="270.00" height="12" fill="#55c7a6"/>
   <text x="200" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 145 · Source 145/145</text>
   <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Decoded acceptance: exact 145/145</text>
-  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 28,381 B · Heap: 8 procedures / 628 B retained-only</text>
+  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 28,381 B</text>
   </g>
 <text x="200" y="304" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>
-<text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · full program equal / order open</text>
-  <text x="24" y="328" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>
-  <text x="24" y="348" fill="#c8cad2" font-family="monospace" font-size="11">Inventory pending</text>
-  <rect x="200" y="321" width="250" height="12" rx="4" fill="#353b52"/>
-  <rect x="488" y="321" width="270" height="12" rx="4" fill="#353b52"/>
-  <rect x="200" y="321" width="0.00" height="12" fill="#9b6de3"/>
-  <rect x="488" y="321" width="0.00" height="12" fill="#55c7a6"/>
-  <text x="200" y="350" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 0 · Pending 0</text>
-  <text x="488" y="350" fill="#c8cad2" font-family="monospace" font-size="11">Exact 0 · Pending 0</text>
-<text x="200" y="368" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>
-<text x="200" y="384" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>
-  <path d="M24 398 H764" stroke="#4b526d"/>
-  <text x="24" y="423" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 66,843 bytes · 87 owners</text>
-  <text x="24" y="446" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
+  <g aria-label="ZUN.COM bars count tracked unit extents, not functions; source-present is not exact">
+  <text x="24" y="354" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>
+  <text x="24" y="374" fill="#c8cad2" font-family="monospace" font-size="11">18 tracked unit extents</text>
+  <rect x="200" y="347" width="250" height="12" rx="4" fill="#353b52"/>
+  <rect x="488" y="347" width="270" height="12" rx="4" fill="#353b52"/>
+  <rect x="200" y="347" width="250.00" height="5" fill="#9b6de3"/>
+  <rect x="200" y="354" width="180.56" height="5" fill="#e0af68"/>
+  <rect x="488" y="347" width="0.00" height="12" fill="#55c7a6"/>
+  <text x="200" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 18 · Source 13/18</text>
+  <text x="488" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact 0/18</text>
+  </g>
+<text x="200" y="394" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>
+<text x="200" y="410" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>
+<text x="200" y="426" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</text>
+  <path d="M24 452 H764" stroke="#4b526d"/>
+  <text x="24" y="477" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 66,843 bytes · 87 owners</text>
+  <text x="24" y="500" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
 
 
 
@@ -60,5 +66,5 @@
 
 
 
-<text x="24" y="472" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · 145 units · mixed 37,975 B · whole-game % unknown</text>
+<text x="24" y="526" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · 145 units · mixed 37,975 B · whole-game % unknown</text>
 </svg>

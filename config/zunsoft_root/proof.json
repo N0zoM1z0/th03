@@ -1,0 +1,1020 @@
+{
+  "schema": "zunsoft-maintained-root-proof-v1",
+  "native_phases": 2,
+  "root_procedures": 10,
+  "root_code_bytes": 1299,
+  "root_data_bytes": 15,
+  "root_bss_bytes": 293,
+  "runtime_images": 2,
+  "runtime_calls": 2600,
+  "manifest_sha256": "a1eead9202ec501fc79c9eac7aca25507bd8426ba9c55af3c28dee3844ad2796",
+  "verifier_sha256": "812ad68b11f7e7fb9625366590c3f5408c896e84c8770f914d6caaa4aa0e4c6d",
+  "maintained_sources": {
+    "compat/rec98/platform/x86real/pc98/page.hpp": {
+      "sha256": "b2527e4419d12b4665f2a2eea0e36b94644c44dd40d787ffd4e31c47a4d79b88",
+      "bytes": 42
+    },
+    "compat/rec98/platform/x86real/pc98/egc.hpp": {
+      "sha256": "eb8062816311e86cab1fbe4e7bdd2108d47f37689f834d37d25db043b70f0ffc",
+      "bytes": 41
+    },
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp": {
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "bytes": 40
+    },
+    "compat/rec98/th01/math/polar.hpp": {
+      "sha256": "0878c308b919dc9bd39c788a267200294a6f54feb2936527dfd7a2530854adcf",
+      "bytes": 31
+    },
+    "compat/rec98/th01/hardware/grcg.hpp": {
+      "sha256": "b1f8216ec026ae03f7e384d1d9a01702343724fe42157d28c2f1c58ea6182060",
+      "bytes": 34
+    },
+    "src/zun/zunsoft.cpp": {
+      "sha256": "5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057",
+      "bytes": 5658
+    }
+  },
+  "pins": [
+    {
+      "path": ".analysis/gpt-dots-player-cpu-acceptance-install-v01/support.py",
+      "sha256": "fd19475aea02ec5aa6ae8e4c48f6ab88170f1d73e0f6ee7dbfa7231d50dc8c68",
+      "bytes": 5324
+    },
+    {
+      "path": ".analysis/mainl-cutscene-native-proposal-20261021-v01/reference.tar",
+      "sha256": "9f7a4eb17f24ae2d99adaba4320f6c46f4fc8d659f9b784f6d8e5f3af99bf705",
+      "bytes": 11079680
+    },
+    {
+      "path": ".analysis/targets/th03/zun.com",
+      "sha256": "5896bbd673aeb10f0df9c1e34716c64fda83655a788ae1ac0fcf58e3616add27",
+      "bytes": 16242
+    },
+    {
+      "path": ".analysis/th03-diet/sol-diet-restoration-20261006-b/receipt.json",
+      "sha256": "ca533176a0ce89ccc7a782ff397965a781d4a60fdcf750e1b5fcbc3ead85d71d",
+      "bytes": 192413
+    },
+    {
+      "path": ".analysis/th03-diet/sol-diet-restoration-20261006-b/zun.com",
+      "sha256": "83b034a59fabfd0c4dd48e44a4be5287ac1ea6ea0c0e9677311071113eff9e26",
+      "bytes": 22812
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/BUILTINS.MAK",
+      "sha256": "9642847db6493b9cadabe79afceddf3cfaacaae58de9651ad24af576de6d36c2",
+      "bytes": 496
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/CPP.EXE",
+      "sha256": "7f0ba72316971bb47de40888249b2cda5dbbf8483dd39542d192060f3ad1fde4",
+      "bytes": 132608
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/DPMI16BI.OVL",
+      "sha256": "8cbd449979801b74771c8f651450f0b029b311410d0fd7703e7c7c2a295830c8",
+      "bytes": 51296
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/GREP.COM",
+      "sha256": "7aa4922dc9ebab5faae7ba2117964f661b71c0eeb871779c86cdd452e8a380a0",
+      "bytes": 8411
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/GREP2MSG.EXE",
+      "sha256": "8c1da1c781ca2a0fcab522329efe2011483b7aed2689f4aa162e5810a0392467",
+      "bytes": 8242
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/LOCALE.BLL",
+      "sha256": "e6562cc032a4abc1f144dbc3a1d3e1f8b40292eab82dc6d0ccb74a271f1e2806",
+      "bytes": 95246
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/MAKE.EXE",
+      "sha256": "74a315480be7617444dbdb982a302bc8972f5d6a19f706f4daf6c5c79d180865",
+      "bytes": 126500
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/MAKER.EXE",
+      "sha256": "51b460771945eb7765649a909b0a3d90bfad3396a8e88f1f1efb101a6e19ed5d",
+      "bytes": 63052
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/OBJXREF.COM",
+      "sha256": "4ccad3c4b1760dbaba8b430c3f0109380d4d17ebf87a4e6d5e8331434f1ebe37",
+      "bytes": 44875
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/PRJ2MAK.EXE",
+      "sha256": "2149c33d49e7d91f0556e97a7619f101630b448ac479258437ea79deeddc544c",
+      "bytes": 55504
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/RTM.EXE",
+      "sha256": "11ea23bebfdbe1eefb4faced127d07000089c89954da4a2fa597b4ac98fd9488",
+      "bytes": 121749
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TASM2MSG.EXE",
+      "sha256": "c6ba49711a851cb3de2f436120df8480e7b12f2717cdc56027e3b103d99f37c2",
+      "bytes": 9258
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE",
+      "sha256": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+      "bytes": 767002
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TEMC.EXE",
+      "sha256": "658fcd9e4f84da90a494e0843bebc17067c54aec4e1c8aa19dabf5ca071a1e22",
+      "bytes": 44784
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLIB.EXE",
+      "sha256": "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2",
+      "bytes": 43860
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.CFG",
+      "sha256": "677ca5df17c5e42911889d311b745ea1d78aa0a7f243d1b3aec52805de9cde6b",
+      "bytes": 13
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE",
+      "sha256": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+      "bytes": 157626
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TOUCH.COM",
+      "sha256": "06e7606c5e9d21a0362b7f968df4b061ee950cf44a942e146f18ea1f7299bdf2",
+      "bytes": 5528
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TRIGRAPH.EXE",
+      "sha256": "e79eecca41bc8c9507cf947f1501dd00e2e98bb6edc7db65a043c6f6606fcb99",
+      "bytes": 16460
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TURBOC.CFG",
+      "sha256": "34196b4452717826fb01b770d86e3b1f47a079daa727002e566c21f4663f4138",
+      "bytes": 30
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/ALLOC.H",
+      "sha256": "d9f1630e098804a24cad19b7cc63456225576d4ee3da6137c13054ae7c95bb3d",
+      "bytes": 5295
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/ASSERT.H",
+      "sha256": "02e0c20804a8d7a5e41275e498718fbef761bcf8f56648f003c2b981550ed374",
+      "bytes": 1794
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/BCD.H",
+      "sha256": "e2e444dde041c2ed544910096d0170cbdaa72391b357d11ea001a8b7ffcdab9f",
+      "bytes": 10793
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/BIOS.H",
+      "sha256": "c207bdb773cad346513fe6e182e650e47dd0ede48b3438a0a16ff9764dfb36cb",
+      "bytes": 18717
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/CHECKS.H",
+      "sha256": "037683fa31618d629cf2de8fb1a4a717d8c31ca7c4c2568d8fb331efe8a2fcbd",
+      "bytes": 8713
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/COMPLEX.H",
+      "sha256": "f13dee8347926291cb1825c5d7fa922d000d10172f3d846c2b1a42dbad60478d",
+      "bytes": 8775
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/CONIO.H",
+      "sha256": "8ab3b57c8fe7cd16fa619c28f3e1c0df4ff9285bfb780d204d63f884d72bef4a",
+      "bytes": 10617
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/CONSTREA.H",
+      "sha256": "0ffbf11d71afa0c7c3a53aa6e4f4cfa1dcd81d4eeba30d47200fdc9a3bd45e75",
+      "bytes": 6091
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/CSTRING.H",
+      "sha256": "4656a2b4aa690c2ec79cb2c61afce00e4088116f6b309f783d0d3687cac18e73",
+      "bytes": 36577
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/CTYPE.H",
+      "sha256": "0cdf54e239611256fd182ca877799b7f241393e48f809f40a82991499557d931",
+      "bytes": 6094
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/DIR.H",
+      "sha256": "eaa62ab86de2d5ffbb8340e0bcc358da269becb7cd71443f6ffa90e76b13ae2d",
+      "bytes": 3287
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/DIRECT.H",
+      "sha256": "b81997ac16bb78f10edc24cbd7ad32e10be0b394b1e29f5355786d09551b463c",
+      "bytes": 1147
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/DIRENT.H",
+      "sha256": "6172224ea7bc1f5598fcace2747eabfb82034ca85f687910581b511726958c4e",
+      "bytes": 2759
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/DOS.H",
+      "sha256": "defd0ff47a0c0486adbb223f56a7a6aaa7b9a8c4ec506290fdf7b69907537369",
+      "bytes": 26508
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/DOSV.H",
+      "sha256": "fb91b9132413fd2c1baeedc238ebc10de252465d93b05a0375d152502c467b73",
+      "bytes": 3391
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/ERRNO.H",
+      "sha256": "2e65096f10e59a5816993454f9fe628c976827ca07cd7a148a47717dd3b829da",
+      "bytes": 4881
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/EXCEPT.H",
+      "sha256": "42eaa698fd9bc75f100148fbf6fb08048b6956c1eba4b51e5e75ae4be9aa4f2d",
+      "bytes": 2747
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/FCNTL.H",
+      "sha256": "ecdd92d264507f8174049243f42bbd9977f309f7efa002272d8915b0403ca229",
+      "bytes": 2203
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/FLOAT.H",
+      "sha256": "757a0b270071cbe542d7e5e52bae19b79ab3d43b2a4099d1d1e5ada4034f5338",
+      "bytes": 5705
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/FSTREAM.H",
+      "sha256": "cdba4589380510aaa8784d833a440492da54cdd0f1d1b74b606f371d7f1882d0",
+      "bytes": 6583
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/GENERIC.H",
+      "sha256": "93b1d002434a567a7f38c966c8bc46d372db0bfa0c50dd28f01b4d5b06ca91b0",
+      "bytes": 1858
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/GRAPHICS.H",
+      "sha256": "ace48b15cef1a7ac60cb40ac752fded40b9d5db1daea74c1e266b2ace019c5f0",
+      "bytes": 18508
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/IO.H",
+      "sha256": "594babab7349bf459cddf9664257fb9c3d29dd95b9eed98326ddba580a77ba77",
+      "bytes": 5621
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/IOMANIP.H",
+      "sha256": "938b877ec3d63622af93917667e9b7a723cabf2538de9c98d5f82acb326a7c8a",
+      "bytes": 5012
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/IOSTREAM.H",
+      "sha256": "d3c34c72b8e9e2fc35c3c25396905b88e587c1290e4c2dfc71a516af630f419e",
+      "bytes": 35181
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/JCTYPE.H",
+      "sha256": "83a1895958dbaec463712a18a17f8c7a5a5a9d09b3f4bffd3338513d185d44e2",
+      "bytes": 3322
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/JSTRING.H",
+      "sha256": "26efd1c8555f7973859ec1b445d83394ec5612465d714021b42997c37a9c3c78",
+      "bytes": 7423
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/LIMITS.H",
+      "sha256": "dc0a54eced490b7874e896b61898dd7a4f60e42ff4dd5274891c338af97357c3",
+      "bytes": 2922
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/LOCALE.H",
+      "sha256": "01c4ec2f596b5f54e1263dc0aa3b055b77b1cc8acd9f0f3abe0f11848e065c3f",
+      "bytes": 2848
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/MALLOC.H",
+      "sha256": "5a7ea5d0f3933a22bf81033d835bf886424d89a0983bf689f92b642368dbd1b4",
+      "bytes": 3415
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/MATH.H",
+      "sha256": "abefbfaf5627e533e7a42cda52e1a48c6f63bbf94a9dfabc39d92de1581bf8b9",
+      "bytes": 11336
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/MBCTYPE.H",
+      "sha256": "6b2d850d3068eb8230bbea72af27536602da7047d56030fe6ca31d905b891fbf",
+      "bytes": 2876
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/MBSTRING.H",
+      "sha256": "fedfbb136f0bf9f17187237bb933d7d56d6d847dbd6fd44ca0d544a2b0952b15",
+      "bytes": 10903
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/MEM.H",
+      "sha256": "e4beea2052d88ffff7a1727b6c13278a226675a427aac3d48d63532c34be552b",
+      "bytes": 4835
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/MEMORY.H",
+      "sha256": "fcb1f9cbce452eda6eea95723ea9ca552d9dac720d5d580cfffd835d4b3fdc74",
+      "bytes": 234
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/NEW.H",
+      "sha256": "838d03e03904471ee933cf4d93fd03c014239921b50251675ca663769164e8b0",
+      "bytes": 946
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/PC98.H",
+      "sha256": "64395279d1a76fe64b9f3f6254f428cec36600103e0225c50c2a98a1a889c996",
+      "bytes": 4897
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/PROCESS.H",
+      "sha256": "c1e4a0abcd7077971ccc15d610c3daa36b69ce11e39f2af055d3f33ba80d3bae",
+      "bytes": 5818
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/REF.H",
+      "sha256": "b6020999e37cf0cc4a8872e82bd98f5703613a1591770ef15151449d1a110d31",
+      "bytes": 2369
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/REGEXP.H",
+      "sha256": "fa3563bfe23e874b5d9fca4126152eb36119d202c05f4cfb7d4f9fa97f862cbe",
+      "bytes": 2528
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SEARCH.H",
+      "sha256": "4a2c3c9c95e7dcde5fc00209db1e85f8212d2c578223c4990757edf68407c154",
+      "bytes": 1592
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SETJMP.H",
+      "sha256": "4eded9c625237f1fe00fc349e9f6594117d55efcae2f7c017fc858b3f6a372c0",
+      "bytes": 1859
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SHARE.H",
+      "sha256": "95d64e7aa0ad9b450806f1d9ed802c40d4cf1d0f0ee58d0422ce91780382ba0d",
+      "bytes": 709
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SIGNAL.H",
+      "sha256": "8449d0b4f786c2b0d96c0ef73361d2ad76943cbf3aed4a320e29c189ef22bb02",
+      "bytes": 1992
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/STDARG.H",
+      "sha256": "d37fc44647ee3383116497afd45e34ae4f4fe86bddcde405f4b225684622892d",
+      "bytes": 882
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/STDDEF.H",
+      "sha256": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
+      "bytes": 1316
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/STDIO.H",
+      "sha256": "567f942410c861ce64cf8fa4fe42bd4cbc9076fa6a751eb483ff4ddcc6da981b",
+      "bytes": 15556
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/STDIOSTR.H",
+      "sha256": "38675e93aafc5956ca214c5934e4f6c2446049595bf9fd4f1a021481399c2014",
+      "bytes": 2246
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/STDLIB.H",
+      "sha256": "73a522bb6e4381f1c800a4fdd192b183768888675ebb8601a0263daac5a36a45",
+      "bytes": 19246
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/STRING.H",
+      "sha256": "83cbde927ae26beacb55935410ab2bd68a72137f0f73c1b1b062e878d3b8a4db",
+      "bytes": 13025
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/STRSTREA.H",
+      "sha256": "5654dca7428a9b106e1193e5125eba8933b703b7201b4f55a09adaf1a1b2c61c",
+      "bytes": 4629
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SYS/LOCKING.H",
+      "sha256": "712a349e6da60e85e66aec9da362a534e4b5d3efc40e81ba99426192d6e5fb3d",
+      "bytes": 592
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SYS/STAT.H",
+      "sha256": "d683e457c04790058e3df8c124f2e53dc260ea77aac760dbe6430632d0b8ade1",
+      "bytes": 2693
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SYS/TIMEB.H",
+      "sha256": "4cbaa88088d61e998276599bf020ad51e6958b10786b5775143dec9f8588d9d2",
+      "bytes": 948
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SYS/TYPES.H",
+      "sha256": "8d57ed75b9771aa9bea1dc8fd5f2a9e454da8e9a56ed084d3605ca9c278f4084",
+      "bytes": 561
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/SYSTYPES.H",
+      "sha256": "fe20952f985a8c14558e43a52a49eeb9baede40ebeff74dbc3fc7e2445d22f1e",
+      "bytes": 791
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/TIME.H",
+      "sha256": "4e0a2a9a79e82f626836471d5dcf00ab3686237c642571d6df9eb47997be2cf3",
+      "bytes": 3085
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/TYPEINFO.H",
+      "sha256": "7340d6a19dd2f02d2903620010c6b29d1eb1cfd0f6ebe61fae7609973c5a1374",
+      "bytes": 1964
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/UTIME.H",
+      "sha256": "3d57e2f05431ac0a4f640e915cd99c7218a5e89eac7887ec1dba9dd8115f0239",
+      "bytes": 1308
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/VALUES.H",
+      "sha256": "65081618e5edfb93abc82ee7922969a28bac1d1fbc407f9e900839c778522e07",
+      "bytes": 1274
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/VARARGS.H",
+      "sha256": "0a574f13bae53420b3cd287121b1ba7d83becc0495a4a14c852e71f38a8674b6",
+      "bytes": 912
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/_DEFS.H",
+      "sha256": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
+      "bytes": 4648
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/_NFILE.H",
+      "sha256": "9bfbb508efa6fcb5aea1a6f991cabe0a3facb073492974e48e7a019d6b227878",
+      "bytes": 352
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE/_NULL.H",
+      "sha256": "76bbba0949f023c327f34ae498d3cbbf0fb8c4592f8b8936ccd1acadd840ddf1",
+      "bytes": 546
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/LIB/C0T.OBJ",
+      "sha256": "27169f062a9b77bf4accfb9550ca4ccbf0fd710d4b1232768630d53bb6305f7c",
+      "bytes": 2236
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/LIB/CT.LIB",
+      "sha256": "b665d5d30f0d3bafe3023ee45eeef183811c87201e9a1876f011acf5699261af",
+      "bytes": 395358
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/LIB/EMU.LIB",
+      "sha256": "e702f1f5dc95d61bdb1689af746d69ac5e303e38ebf77175cd6fd600eb3edc74",
+      "bytes": 17600
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/LIB/MATHS.LIB",
+      "sha256": "ad76cb7f5b81105d4cc83691c74c030a6f5e1a56be0d1f5b5eca43f3124693cd",
+      "bytes": 35778
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/bin/masters.lib",
+      "sha256": "6be41dbcfcf4504977165ccc44443525a29a01f85a1580e6ad0c620bf802faf6",
+      "bytes": 273721
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/bin/th01/zunsoft.com",
+      "sha256": "beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297",
+      "bytes": 10096
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/compat/rec98/libs/master.lib/pc98_gfx.hpp",
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "bytes": 40
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/compat/rec98/platform/x86real/pc98/egc.hpp",
+      "sha256": "eb8062816311e86cab1fbe4e7bdd2108d47f37689f834d37d25db043b70f0ffc",
+      "bytes": 41
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/compat/rec98/platform/x86real/pc98/page.hpp",
+      "sha256": "b2527e4419d12b4665f2a2eea0e36b94644c44dd40d787ffd4e31c47a4d79b88",
+      "bytes": 42
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/compat/rec98/th01/hardware/grcg.hpp",
+      "sha256": "b1f8216ec026ae03f7e384d1d9a01702343724fe42157d28c2f1c58ea6182060",
+      "bytes": 34
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/compat/rec98/th01/math/polar.hpp",
+      "sha256": "0878c308b919dc9bd39c788a267200294a6f54feb2936527dfd7a2530854adcf",
+      "bytes": 31
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/libs/master.lib/func.hpp",
+      "sha256": "b3ccc8c8cea3c8976fa9cb55402c753dd84387b667e355df99d9b8cc8e76ee57",
+      "bytes": 1066
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/libs/master.lib/master.hpp",
+      "sha256": "2219b5ff8d1c8a54add5c2f6f360b7d175a051c0419b4a9b2f397a07da3d11bd",
+      "bytes": 7960
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/libs/master.lib/pc98_gfx.hpp",
+      "sha256": "0b63531f61811081b17eea3d1d93164547e11d0f360ddd18be0d8268efa40b2a",
+      "bytes": 10750
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/obj/th01/zunsoft.@l",
+      "sha256": "77087b0c68d303652c565ffa485384905674a0a80a6ec5239fa45bd1d2867dc1",
+      "bytes": 125
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/obj/th01/zunsoft.map",
+      "sha256": "882ac7e3fba775f9225aa55adc276e17604620fa2e7608ae7cc18aa9081bc3ed",
+      "bytes": 28657
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/obj/th01/zunsoft.obj",
+      "sha256": "845de18164def1d384eadc59be287a22ca47b99a6d4d989c0dfa407c094a08a5",
+      "bytes": 4133
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/pc98.h",
+      "sha256": "8d385a46f50f095bafce550bf1139336b428d5a54eb4672e991e58e57af9a061",
+      "bytes": 5621
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/planar.h",
+      "sha256": "f45c9ee47b5f5db4bb6263cabcd220f492d1195fdb99e0f576612a6d45805f8d",
+      "bytes": 7624
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/platform/x86real/pc98/egc.hpp",
+      "sha256": "b1e09f1b321074a816349f5c76f22fee456d7ae83ec86ed8966c1d4e8813551b",
+      "bytes": 2907
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/platform/x86real/pc98/grcg.hpp",
+      "sha256": "743522b71bf781e7982d170702228fdb2bc8f946090d63dabd82d99a7938080d",
+      "bytes": 2119
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/platform/x86real/pc98/page.hpp",
+      "sha256": "c2ccda6ac3948c25edf823b3797c8efabd438c349dbc25db7a5ce2d6e8c89921",
+      "bytes": 165
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/platform.h",
+      "sha256": "0f1b8685fe84e7d34b5d66921081367b969971e44385a7bfd3eaa1eaf8ce1906",
+      "bytes": 1863
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/src/zun/zunsoft.cpp",
+      "sha256": "5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057",
+      "bytes": 5658
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/th01/hardware/grcg.hpp",
+      "sha256": "00ffbb57ef134803f97226e55cd19e6818567bba36c4b22261fac2bab26efbf5",
+      "bytes": 234
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/th01/math/polar.hpp",
+      "sha256": "38e65c62e44d3be1051f9447eedb440709cb595cf5ca76fc7138566792092567",
+      "bytes": 1645
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/th01/zunsoft.cpp",
+      "sha256": "7954669606bdcada6b99943727bfd8b518e7561d55de37b49a2f1b858428435c",
+      "bytes": 31
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/ZS0101/x86real.h",
+      "sha256": "677ec374af7a6b5887132a926e2d6b20c54ddf9be1b3fff325478b41207e4d4d",
+      "bytes": 4337
+    },
+    {
+      "path": ".analysis/zun-init-native-adapter-20261020-v18/bounded_process.py",
+      "sha256": "b54574c8941b682a7ef6abd8c72be65e621a89b8c068dc285df541d1a9d2e902",
+      "bytes": 7246
+    },
+    {
+      "path": ".analysis/zun-init-native-adapter-20261020-v18/owned_process.py",
+      "sha256": "97414ef2d2de685b6af6275e175081ae02209a99bf6358963d937f3007412cd0",
+      "bytes": 4632
+    },
+    {
+      "path": ".analysis/zun-init-retained-continuation-20261021-v01/registry_policy.py",
+      "sha256": "1ed9aa60a8ef1c619d9cadf01a62fffb5a1f17d9c93764fbd30b503fbaf597c7",
+      "bytes": 19404
+    },
+    {
+      "path": ".analysis/zunsoft-native-20261021-v01/prepare.py",
+      "sha256": "d830580c6f381d51c0194336ba9f4f1e7ab6d90db19c7b39453a0fdae8d18883",
+      "bytes": 6176
+    },
+    {
+      "path": ".analysis/zunsoft-native-20261021-v01/run_group.py",
+      "sha256": "258f325d9df9e0f8b309be066ad785be1b099a4590fe02bd246abdea27a4dd11",
+      "bytes": 12573
+    },
+    {
+      "path": ".analysis/zunsoft-native-20261021-v02/parent-runtime-verification.json",
+      "sha256": "f8752459ef15cc49d1a59b580e7545888b2de58ba8b784c612b61fb2b7ade4b1",
+      "bytes": 458748
+    },
+    {
+      "path": ".analysis/zunsoft-native-20261021-v02/verify.py",
+      "sha256": "812ad68b11f7e7fb9625366590c3f5408c896e84c8770f914d6caaa4aa0e4c6d",
+      "bytes": 10197
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/accumulated-objects.json",
+      "sha256": "cf12e91966928954291a8b7926c991e76548baf3ee6d18f6d968e88b8c4a8d47",
+      "bytes": 455
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-after-registry.json",
+      "sha256": "2c92ac1fbc5b204dc447f614d8931b492ceca730cac3269d20cbeb27dce7e5cd",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-after-system.reg",
+      "sha256": "ab0e3b52140b5edd5121a472c017387de4082697d938a81235f8535b37c285f6",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-after-user.reg",
+      "sha256": "630ea18bdd1dbad0dfc8e6b1c576b22da274e131a49fa10f1c3c7cd4b85de225",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-before-registry.json",
+      "sha256": "56c977bce9ed8a1fbbe2e1dadedd6de08e4ce433b4380ba11c74e0ec1a055cb9",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-before-system.reg",
+      "sha256": "4f680d9adc18f110b75bef3267fb46d1f356b466abe8fa78f237a341bed72f50",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-before-user.reg",
+      "sha256": "b09b5da12e687949ed20a31e1b3760f50a6f0e580c8a3c932849f4fe70e04590",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-finished.json",
+      "sha256": "662b1403b3356703eca5a734d10146d1109f88d6bac1e7e66649dccb158d9deb",
+      "bytes": 338
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-output.json",
+      "sha256": "6eec416a3438f39c4b12efad177b3a10a5fb4fecd56e23d71b0f78921688deda",
+      "bytes": 115
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-registry-transition.json",
+      "sha256": "78340964d6a1c4851a6a5b169b3f0dadc869da90d2c579203e7ee33e1ff30b7d",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile-started.json",
+      "sha256": "aece08e162f8f862697949a19449e4c49bbdcd21e64c245ef7284a37ba1f1015",
+      "bytes": 877
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/compile.log",
+      "sha256": "497d405f17d3f6c12dcf57cf97c45fe9243e865db8c1e06a8a4ffaaaf49e9b4a",
+      "bytes": 84
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/completion.json",
+      "sha256": "9c4c8fd1cb1ef75378e43fc420bf526f163d324326fa93d59c98da672cbb2919",
+      "bytes": 357
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/environment.json",
+      "sha256": "2bf828585e514ba96d3acbc3581f5425dc12d9572307a5246e4560a981a1f969",
+      "bytes": 384
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-after-registry.json",
+      "sha256": "587a8c295d2fdc9273ab673b3c5d8bf60d9a4357a161040cab3ae7988580ad19",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-after-system.reg",
+      "sha256": "05840f85e4ef4ecff7f3f82bfe950c2f8b39df627a07c69196e4885825f4facc",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-after-user.reg",
+      "sha256": "920a096d31b7b2d7af7272575f444829e4f34d13ed9a536de595f795582c070d",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-before-registry.json",
+      "sha256": "2c92ac1fbc5b204dc447f614d8931b492ceca730cac3269d20cbeb27dce7e5cd",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-before-system.reg",
+      "sha256": "ab0e3b52140b5edd5121a472c017387de4082697d938a81235f8535b37c285f6",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-before-user.reg",
+      "sha256": "630ea18bdd1dbad0dfc8e6b1c576b22da274e131a49fa10f1c3c7cd4b85de225",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-finished.json",
+      "sha256": "a5de730866fdb3a8aaa6155ecf750a6b9d0411d6e3d5ab170d7a8fb9d3d4a708",
+      "bytes": 338
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-map-output.json",
+      "sha256": "7abd7a26e302414f77d0a8fade7cf432abb4c050ce71ade575452e364fbb795e",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-output.json",
+      "sha256": "a752ec1d800357d2a58427cd3fe0d9462768ee26a50c47781fb7e2657ae72a51",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-registry-transition.json",
+      "sha256": "e536011dcbee194065fee8aa10b79720da3567ab8a5d501860dfa724409ac465",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link-started.json",
+      "sha256": "5950d9f2377da4e473a1797c50d70ccdbc5a8dd61a2b1686f7bc71b9e8031b2d",
+      "bytes": 767
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/link.log",
+      "sha256": "0b9229c5c72b1f3b50ddec5d65718b39f3ec1bff491043d5a52a1c723eed820a",
+      "bytes": 79
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/manifest.json",
+      "sha256": "a1eead9202ec501fc79c9eac7aca25507bd8426ba9c55af3c28dee3844ad2796",
+      "bytes": 272252
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/materialized-inputs.json",
+      "sha256": "d356d75f034a4226e0ca2ce41b0ba621a9743b24e95d0aa03f35fd2b65078a2e",
+      "bytes": 3224
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/next-registry-baseline.json",
+      "sha256": "8a8e7ec9a124e7066cd51bf0f8920c5ecaaa8bc94b8df3213a4dcd2064ddea6c",
+      "bytes": 285
+    },
+    {
+      "path": ".analysis/zunsoft-native-output-20261021-v01/source-mtimes.json",
+      "sha256": "ba6ae2795fe23ceedc1090028589e0a9b0c48445fe0a12185a15e9e5eea79dda",
+      "bytes": 1052
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/launch.sh",
+      "sha256": "d2e4f078461898c2565ddcc44516ea8e4b2ce2acade67904c5864e888448a8e6",
+      "bytes": 802
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/manifest.json",
+      "sha256": "a1eead9202ec501fc79c9eac7aca25507bd8426ba9c55af3c28dee3844ad2796",
+      "bytes": 272252
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/overlay/source_inventory.json",
+      "sha256": "5802f62047a30fa1db081a650b7ad2bbf27138a7423a0f69d0593c71029a193c",
+      "bytes": 3188
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/run_group.py",
+      "sha256": "258f325d9df9e0f8b309be066ad785be1b099a4590fe02bd246abdea27a4dd11",
+      "bytes": 12573
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/bin/masters.lib",
+      "sha256": "6be41dbcfcf4504977165ccc44443525a29a01f85a1580e6ad0c620bf802faf6",
+      "bytes": 273721
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/compat/rec98/libs/master.lib/pc98_gfx.hpp",
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "bytes": 40
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/compat/rec98/platform/x86real/pc98/egc.hpp",
+      "sha256": "eb8062816311e86cab1fbe4e7bdd2108d47f37689f834d37d25db043b70f0ffc",
+      "bytes": 41
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/compat/rec98/platform/x86real/pc98/page.hpp",
+      "sha256": "b2527e4419d12b4665f2a2eea0e36b94644c44dd40d787ffd4e31c47a4d79b88",
+      "bytes": 42
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/compat/rec98/th01/hardware/grcg.hpp",
+      "sha256": "b1f8216ec026ae03f7e384d1d9a01702343724fe42157d28c2f1c58ea6182060",
+      "bytes": 34
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/compat/rec98/th01/math/polar.hpp",
+      "sha256": "0878c308b919dc9bd39c788a267200294a6f54feb2936527dfd7a2530854adcf",
+      "bytes": 31
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/libs/master.lib/func.hpp",
+      "sha256": "b3ccc8c8cea3c8976fa9cb55402c753dd84387b667e355df99d9b8cc8e76ee57",
+      "bytes": 1066
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/libs/master.lib/master.hpp",
+      "sha256": "2219b5ff8d1c8a54add5c2f6f360b7d175a051c0419b4a9b2f397a07da3d11bd",
+      "bytes": 7960
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/libs/master.lib/pc98_gfx.hpp",
+      "sha256": "0b63531f61811081b17eea3d1d93164547e11d0f360ddd18be0d8268efa40b2a",
+      "bytes": 10750
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/obj/th01/zunsoft.@l",
+      "sha256": "77087b0c68d303652c565ffa485384905674a0a80a6ec5239fa45bd1d2867dc1",
+      "bytes": 125
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/pc98.h",
+      "sha256": "8d385a46f50f095bafce550bf1139336b428d5a54eb4672e991e58e57af9a061",
+      "bytes": 5621
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/planar.h",
+      "sha256": "f45c9ee47b5f5db4bb6263cabcd220f492d1195fdb99e0f576612a6d45805f8d",
+      "bytes": 7624
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/platform/x86real/pc98/egc.hpp",
+      "sha256": "b1e09f1b321074a816349f5c76f22fee456d7ae83ec86ed8966c1d4e8813551b",
+      "bytes": 2907
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/platform/x86real/pc98/grcg.hpp",
+      "sha256": "743522b71bf781e7982d170702228fdb2bc8f946090d63dabd82d99a7938080d",
+      "bytes": 2119
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/platform/x86real/pc98/page.hpp",
+      "sha256": "c2ccda6ac3948c25edf823b3797c8efabd438c349dbc25db7a5ce2d6e8c89921",
+      "bytes": 165
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/platform.h",
+      "sha256": "0f1b8685fe84e7d34b5d66921081367b969971e44385a7bfd3eaa1eaf8ce1906",
+      "bytes": 1863
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/src/zun/zunsoft.cpp",
+      "sha256": "5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057",
+      "bytes": 5658
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/th01/hardware/grcg.hpp",
+      "sha256": "00ffbb57ef134803f97226e55cd19e6818567bba36c4b22261fac2bab26efbf5",
+      "bytes": 234
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/th01/math/polar.hpp",
+      "sha256": "38e65c62e44d3be1051f9447eedb440709cb595cf5ca76fc7138566792092567",
+      "bytes": 1645
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/th01/zunsoft.cpp",
+      "sha256": "7954669606bdcada6b99943727bfd8b518e7561d55de37b49a2f1b858428435c",
+      "bytes": 31
+    },
+    {
+      "path": ".analysis/zunsoft-native-proposal-20261021-v01/sources/x86real.h",
+      "sha256": "677ec374af7a6b5887132a926e2d6b20c54ddf9be1b3fff325478b41207e4d4d",
+      "bytes": 4337
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/compat/rec98/libs/master.lib/pc98_gfx.hpp",
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "bytes": 40
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/compat/rec98/platform/x86real/pc98/egc.hpp",
+      "sha256": "eb8062816311e86cab1fbe4e7bdd2108d47f37689f834d37d25db043b70f0ffc",
+      "bytes": 41
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/compat/rec98/platform/x86real/pc98/page.hpp",
+      "sha256": "b2527e4419d12b4665f2a2eea0e36b94644c44dd40d787ffd4e31c47a4d79b88",
+      "bytes": 42
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/compat/rec98/th01/hardware/grcg.hpp",
+      "sha256": "b1f8216ec026ae03f7e384d1d9a01702343724fe42157d28c2f1c58ea6182060",
+      "bytes": 34
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/compat/rec98/th01/math/polar.hpp",
+      "sha256": "0878c308b919dc9bd39c788a267200294a6f54feb2936527dfd7a2530854adcf",
+      "bytes": 31
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/frozen_dependencies.json",
+      "sha256": "51cc0608248bdf4917aa883288a0e77cdb87184374c134e0c80a503a3bad90dd",
+      "bytes": 3754
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/src/zun/zunsoft.cpp",
+      "sha256": "5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057",
+      "bytes": 5658
+    },
+    {
+      "path": ".analysis/zunsoft-source-proposal-20261021/stage_th03_zunsoft.py",
+      "sha256": "94cb712decc830b2eb71c0d58f50f3170c524d03c5b260a2f528db66928180a1",
+      "bytes": 5143
+    },
+    {
+      "path": "_reference/ReC98/bin/msdos.exe",
+      "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+      "bytes": 686592
+    },
+    {
+      "path": "config/targets.toml",
+      "sha256": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+      "bytes": 6791
+    },
+    {
+      "path": "config/th03_diet.toml",
+      "sha256": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+      "bytes": 1048
+    },
+    {
+      "path": "config/th03_zun_launcher.toml",
+      "sha256": "ab7fd72077a59e889df27cf310801b98da36125638247d3b6284b14d8c715845",
+      "bytes": 2792
+    },
+    {
+      "path": "scripts/lib/omf.py",
+      "sha256": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+      "bytes": 6862
+    },
+    {
+      "path": "scripts/lib/targets.py",
+      "sha256": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+      "bytes": 1969
+    },
+    {
+      "path": "scripts/lib/zun.py",
+      "sha256": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+      "bytes": 9063
+    },
+    {
+      "path": "scripts/review_th03_zunsoft.py",
+      "sha256": "25936ee88769ec8310198f9cb0c9b70a24d09fbf799d63e483dcc388432b3f29",
+      "bytes": 18082
+    }
+  ],
+  "exact_acceptance": false,
+  "whole_payload_ownership": false,
+  "launcher_ownership": false,
+  "two_cold_builds": false,
+  "runtime_rerun": false
+}

@@ -1,5 +1,10 @@
 # Complete ZUN -3 logo root candidate review
 
+The following remains the historical frozen/cached review. The maintained root
+now has a separate one-build source-bound proof; see
+[maintained logo root producer](ZUN_SOFT_ROOT_PRODUCER_REVIEW.md). Its ten source
+units do not claim the remaining payload libraries or formal exact acceptance.
+
 The complete frozen `th01/zunsoft.cpp` root has been reviewed, including all
 ten procedures, initialized data, BSS declarations, inlined page/hardware and
 polar operations, direct calls, exits and near/Pascal ABI. Its 1299 CODE bytes

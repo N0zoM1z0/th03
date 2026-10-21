@@ -434,6 +434,53 @@ def mainl_fullcold_current_proven():
     path = ROOT / "config/mainl_fullcold_current/proof.json"
     return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "54bfd57109c4892b05aead8d6f56323b5d8d8e1c27d5025080a08afa2cac71a1"
 
+
+ZUNSOFT_ROOT_PROOF_SHA = "cfca06c722642d62b32bb0930a42d49dce8b02a4ab3d6878902174f812bdb877"
+ZUNSOFT_ROOT_UNITS = {'th03-zun-decoded-logo-graph-clear-both': ('0x367', '29'), 'th03-zun-decoded-logo-zunsoft-init': ('0x384', '76'), 'th03-zun-decoded-logo-zunsoft-exit': ('0x3d0', '20'), 'th03-zun-decoded-logo-zunsoft-vector2': ('0x3e4', '85'), 'th03-zun-decoded-logo-objects-setup': ('0x439', '201'), 'th03-zun-decoded-logo-circles-render-and-update': ('0x502', '180'), 'th03-zun-decoded-logo-stars-render-and-update': ('0x5b6', '205'), 'th03-zun-decoded-logo-wait': ('0x683', '21'), 'th03-zun-decoded-logo-logo-render-and-update': ('0x698', '309'), 'th03-zun-decoded-logo-main': ('0x7cd', '173')}
+
+def zunsoft_root_source_proven(units, evidence):
+    """Ten maintained root bodies only; never claims library or exact credit."""
+    rows = [u for u in units if u['id'].startswith('th03-zun-decoded-logo-')]
+    if len(rows) != 10 or {u['id'] for u in rows} != set(ZUNSOFT_ROOT_UNITS):
+        return False
+    ids = {'ev-th03-zunsoft-maintained-compiler': 'compiler',
+           'ev-th03-zunsoft-maintained-runtime': 'runtime'}
+    for u in rows:
+        if (u['offset'], u['size']) != ZUNSOFT_ROOT_UNITS[u['id']]:
+            return False
+        if any(u.get(k) != v for k, v in {
+            'artifact': 'th03-zun', 'segment': 'decoded:-3', 'file_offset': '',
+            'origin': 'authored', 'state': 'source-present',
+            'boundary_state': 'reviewed', 'source': 'src/zun/zunsoft.cpp'
+        }.items()) or not set(ids).issubset(u['evidence_ids'].split(';')):
+            return False
+    for eid, kind in ids.items():
+        found = [e for e in evidence if e['id'] == eid]
+        if len(found) != 1 or any(found[0].get(k) != v for k, v in {
+            'artifact': 'th03-zun', 'evidence_class': kind, 'result': 'pass',
+            'location': 'config/zunsoft_root/proof.json', 'extent_size': '1299',
+            'output_sha256': ZUNSOFT_ROOT_PROOF_SHA
+        }.items()):
+            return False
+    for name, digest in [('config/zunsoft_root/proof.json', ZUNSOFT_ROOT_PROOF_SHA),
+                         ('src/zun/zunsoft.cpp', '5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057')]:
+        path = ROOT / name
+        if not path.is_file() or path.is_symlink() or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            return False
+    return True
+
+def tracked_unit_progress(units, artifact):
+    """Unit extent inventory, not a recovered authored-function denominator."""
+    rows = [u for u in units if u['artifact'] == artifact and u['state'] != 'excluded']
+    if len({u['id'] for u in rows}) != len(rows):
+        raise ValueError('duplicate unit would inflate the tracked denominator')
+    return dict(total=len(rows),
+                reviewed=sum(u.get('boundary_state') in {'reviewed', 'shared'} for u in rows),
+                source=sum(u['state'] in {'source-present', 'structural', 'exact'}
+                           and bool(u.get('source')) for u in rows),
+                exact=sum(u['state'] == 'exact' for u in rows))
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     from status import mainl_product_status
@@ -453,7 +500,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             acceptance_label = "Decoded acceptance" if product["product_exact"] else "Unit acceptance"
             y = 128 + index * 62
             retained = (" · Heap: 8 procedures / 628 B retained-only"
-                        if mainl_heap_retained(units, evidence or []) else "")
+                        if not product["product_exact"] and mainl_heap_retained(units, evidence or []) else "")
             rows.append(f"""  <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
   <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{total} tracked unit extents</text>
@@ -476,73 +523,92 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
-            if mainl_crt_source_proven(units, evidence or []) and mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · {'full program equal / order open' if mainl_vsync_alignment_proven() else '1 DATA byte / relocation order open'}</text>')
-            elif mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked game + prior source: 24,052 B target-equal · 1 DATA byte / relocation order open</text>')
-            elif mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Root-tail + prior source: 22,287 B target-equal · 1 DATA byte / relocation order open</text>')
-            elif mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Display + prior source: 21,565 B target-equal · 1 DATA byte / relocation order open</text>')
-            elif mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Archive + prior source: 19,449 B target-equal · 1 DATA byte / relocation order open</text>')
-            elif mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Resources + prior source: 16,970 B target-equal · 1 DATA byte / relocation order open</text>')
-            elif mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">PI + root + staff: composed 13,495 B target-equal · 1 DATA byte / relocation order open</text>')
-            elif mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Root + staff source: composed 11,971 B target-equal · 1 DATA byte / relocation order open</text>')
-            elif mainl_staff_source_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Staff + graphics: 3,339 B source · composed 9,483 B target-equal · exact acceptance open</text>')
-            elif mainl_graphics_linked():
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</text>')
-            elif graphics_pending:
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</text>')
+            if not product["product_exact"]:
+                if mainl_crt_source_proven(units, evidence or []) and mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · {'full program equal / order open' if mainl_vsync_alignment_proven() else '1 DATA byte / relocation order open'}</text>')
+                elif mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked game + prior source: 24,052 B target-equal · 1 DATA byte / relocation order open</text>')
+                elif mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Root-tail + prior source: 22,287 B target-equal · 1 DATA byte / relocation order open</text>')
+                elif mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Display + prior source: 21,565 B target-equal · 1 DATA byte / relocation order open</text>')
+                elif mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Archive + prior source: 19,449 B target-equal · 1 DATA byte / relocation order open</text>')
+                elif mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Resources + prior source: 16,970 B target-equal · 1 DATA byte / relocation order open</text>')
+                elif mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">PI + root + staff: composed 13,495 B target-equal · 1 DATA byte / relocation order open</text>')
+                elif mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Root + staff source: composed 11,971 B target-equal · 1 DATA byte / relocation order open</text>')
+                elif mainl_staff_source_proven(units, evidence or []):
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Staff + graphics: 3,339 B source · composed 9,483 B target-equal · exact acceptance open</text>')
+                elif mainl_graphics_linked():
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</text>')
+                elif graphics_pending:
+                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</text>')
             continue
-        candidates = [f for f in functions if f["artifact"] == artifact]
-        reviewed = sum(f["boundary_state"] in {"reviewed", "shared"} for f in candidates)
-        exact = sum(f["state"] == "exact" for f in candidates)
-        total = len(candidates)
-        y = 128 + index * 62 + (14 if graphics_pending and index > 2 else 0)
-        inventory = f"{total} tracked functions" if total else "Inventory pending"
-        rows.append(f'''  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
-  <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{inventory}</text>
+        # Reserve the complete MAINL annotation block before the ZUN row.
+        y = 354 if artifact == 'th03-zun' else 128 + index * 62
+        if artifact in {'th03-op', 'th03-zun'}:
+            counts = tracked_unit_progress(units, artifact)
+            total, reviewed, source, exact = (counts[k] for k in ('total', 'reviewed', 'source', 'exact'))
+            rows.append(f'''  <g aria-label="{label} bars count tracked unit extents, not functions; source-present is not exact">
+  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
+  <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{total} tracked unit extents</text>
   <rect x="200" y="{y-7}" width="250" height="12" rx="4" fill="#353b52"/>
   <rect x="488" y="{y-7}" width="270" height="12" rx="4" fill="#353b52"/>
-  <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="12" fill="#9b6de3"/>
+  <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="5" fill="#9b6de3"/>
+  <rect x="200" y="{y}" width="{250*source/total if total else 0:.2f}" height="5" fill="#e0af68"/>
   <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
-  <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
-  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
+  <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Source {source}/{total}</text>
+  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact {exact}/{total}</text>
+  </g>''')
+        else:
+            candidates = [f for f in functions if f["artifact"] == artifact]
+            reviewed = sum(f["boundary_state"] in {"reviewed", "shared"} for f in candidates)
+            exact = sum(f["state"] == "exact" for f in candidates)
+            total = len(candidates)
+            inventory = f"{total} tracked functions" if total else "Inventory pending"
+            rows.append(f'''  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
+      <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{inventory}</text>
+      <rect x="200" y="{y-7}" width="250" height="12" rx="4" fill="#353b52"/>
+      <rect x="488" y="{y-7}" width="270" height="12" rx="4" fill="#353b52"/>
+      <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="12" fill="#9b6de3"/>
+      <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
+      <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
+      <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
+        if artifact == "th03-zun" and zunsoft_root_source_proven(units, evidence or []):
+            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="496" viewBox="0 0 788 496" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="550" viewBox="0 0 788 550" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
-  <desc>Boundary review and exact function acceptance for the tracked subset. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="496" rx="8" fill="#1f2335"/>
+  <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. MAINL decoded acceptance is a separate published axis, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
+  <rect width="788" height="550" rx="8" fill="#1f2335"/>
   <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
   <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
-  <text x="488" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Function acceptance</text>
-  <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed contiguous bodies</text>
+  <text x="488" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Exact acceptance</text>
+  <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed units / MAIN functions</text>
   <text x="488" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Complete raw bytes and relocations</text>
 {chr(10).join(rows)}
-  <path d="M24 398 H764" stroke="#4b526d"/>
-  <text x="24" y="423" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
-  <text x="24" y="446" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>' if mainl_diet_packing_diagnostic() and not mainl_vsync_alignment_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</text>' if mainl_vsync_alignment_proven() and not mainl_regdata_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</text>' if mainl_regdata_backend_proven() and not mainl_continue_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 144 · prior DIET 1,212 differences · exact 0</text>' if mainl_continue_backend_proven() and not mainl_root_prefix_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_prefix_backend_proven() and not mainl_root_intro_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</text>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() and not mainl_fullcold_current_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>' if mainl_fullcold_current_proven() and not product['product_exact'] else '')}
-{('<text x="24" y="472" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · 145 units · mixed 37,975 B · whole-game % unknown</text>' if product['product_exact'] else '')}
+  <path d="M24 452 H764" stroke="#4b526d"/>
+  <text x="24" y="477" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
+  <text x="24" y="500" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>' if mainl_diet_packing_diagnostic() and not mainl_vsync_alignment_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</text>' if mainl_vsync_alignment_proven() and not mainl_regdata_backend_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</text>' if mainl_regdata_backend_proven() and not mainl_continue_backend_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 144 · prior DIET 1,212 differences · exact 0</text>' if mainl_continue_backend_proven() and not mainl_root_prefix_backend_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_prefix_backend_proven() and not mainl_root_intro_backend_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</text>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() and not mainl_fullcold_current_proven() else '')}
+{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>' if mainl_fullcold_current_proven() and not product['product_exact'] else '')}
+{('<text x="24" y="526" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · 145 units · mixed 37,975 B · whole-game % unknown</text>' if product['product_exact'] else '')}
 </svg>
 '''
 
@@ -576,6 +642,8 @@ def main() -> int:
         "The table preserves original canonical-ledger counters. Separate source-bound MAINL decoded/product acceptance is reported below and does not add authored ownership.",
         "",
     ])
+    if zunsoft_root_source_proven(units, evidence):
+        lines.extend(["ZUN logo root: ten maintained source units / 1,299 CODE bytes; ZUN source presence 13/18 tracked units and 1,533 scoped CODE bytes including the prior 234 wrapper bytes. DATA15/BSS293 are layout evidence, not extra CODE credit. One fresh compile/context-link and 2,600 modeled calls pass; vendor context unowned, no second cold build or exact acceptance.", ""])
     if mainl_pi_composed(units, evidence):
         lines.extend(["Historical MAINL PI composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. That image retained 21 other byte differences and relocation-order differences. This historical composition did not change source or exact counts.", ""])
     if mainl_crt_source_proven(units, evidence) and mainl_linked_game_source_proven(units, evidence) and mainl_root_tail_source_proven(units, evidence) and mainl_display_hardware_source_proven(units, evidence) and mainl_archive_io_source_proven(units, evidence) and mainl_resources_source_proven(units, evidence) and mainl_pi_decoder_source_proven(units, evidence) and mainl_root_source_proven(units, evidence) and mainl_staff_source_proven(units, evidence):

@@ -1,4 +1,4 @@
-"""Historical ZUN standalone proof stays outside all progress denominators."""
+"""Historical ZUN diagnostics do not confer source or exact unit acceptance."""
 
 from importlib.util import module_from_spec, spec_from_file_location
 from pathlib import Path
@@ -23,7 +23,7 @@ def driver():
 
 
 class ZunProgressTests(unittest.TestCase):
-    def test_standalone_annotation_changes_no_acceptance_or_inventory(self):
+    def test_standalone_annotation_changes_unit_inventory_not_acceptance(self):
         row = initializer()
         main = {"id": "main-exact", "artifact": "th03-main", "state": "exact", "size": "10"}
         before = progress.render_svg([main], [], [])
@@ -31,7 +31,10 @@ class ZunProgressTests(unittest.TestCase):
         added = [line for line in after.splitlines() if "Retained standalone init:" in line]
         self.assertEqual(len(added), 1)
         self.assertIn("2 materializations · 9 procedures / 1,390 B · no exact credit", added[0])
-        self.assertEqual(after.replace(added[0] + "\n", ""), before)
+        self.assertEqual(progress.tracked_unit_progress([row], "th03-zun"),
+                         {"total": 1, "reviewed": 1, "source": 0, "exact": 0})
+        self.assertIn("0 tracked unit extents", before)
+        self.assertIn("Unit acceptance: exact 0/1", after)
         self.assertIn("Inventory pending", after)
         self.assertNotIn("9 tracked functions", after)
         self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
@@ -50,7 +53,7 @@ class ZunProgressTests(unittest.TestCase):
                 self.assertFalse(progress.zun_init_standalone_retained([row]))
                 self.assertNotIn("Retained standalone init:", progress.render_svg([row], [], []))
 
-    def test_composition_annotation_changes_no_acceptance_or_inventory(self):
+    def test_composition_annotation_changes_unit_inventory_not_acceptance(self):
         main = {"id": "main-exact", "artifact": "th03-main", "state": "exact", "size": "10"}
         before = progress.render_svg([main, initializer()], [], [])
         after = progress.render_svg([main, initializer(), driver()], [], [])
@@ -64,7 +67,10 @@ class ZunProgressTests(unittest.TestCase):
         self.assertIn("Fourteen wrapper-only observations and wrong-transfer negative pass", added[0])
         self.assertIn("no payload execution or native composition build", added[0])
         self.assertIn("no exact acceptance or DIET closure", added[0])
-        self.assertEqual(after.replace(added[0] + "\n", ""), before)
+        self.assertEqual(progress.tracked_unit_progress([initializer(), driver()], "th03-zun"),
+                         {"total": 2, "reviewed": 2, "source": 0, "exact": 0})
+        self.assertIn("Unit acceptance: exact 0/1", before)
+        self.assertIn("Unit acceptance: exact 0/2", after)
         self.assertIn("Retained standalone init:", after)
         self.assertIn("Inventory pending", after)
         self.assertNotIn("55 tracked functions", after)

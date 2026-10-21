@@ -1,6 +1,7 @@
 import csv
 from pathlib import Path
 import unittest
+from unittest.mock import patch
 import progress
 ROOT=Path(__file__).resolve().parents[1]
 class CrtProgressTests(unittest.TestCase):
@@ -14,7 +15,11 @@ class CrtProgressTests(unittest.TestCase):
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
         self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(145,28381,0,145))
-        self.assertIn("24,680 B target-equal",progress.render_svg(units,[],evidence))
+        # This assertion concerns the historical pending-publication caption.
+        # Published acceptance intentionally suppresses it (tested separately).
+        with patch('status.mainl_product_status', return_value={
+                'product_exact': False, 'decoded_exact_units': 0}):
+            self.assertIn("24,680 B target-equal",progress.render_svg(units,[],evidence))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_CRT_SOURCE_UNITS.values()),628)
     def test_missing_repeat_evidence_rejects_caption(self):
         units,evidence=self.data()

@@ -1,5 +1,22 @@
 # TH03 reconstruction handoff — current state (2026-10-21)
 
+## ZUN -3 maintained logo root producer
+
+The maintained tiny-model logo root now compiles and context-links once with
+TC4J. All ten procedures / 1,299 CODE bytes, fifteen initialized DATA bytes,
+293-byte BSS layout, exact 25 OMF publics, MAP addresses, near/Pascal ABI and
+original import boundaries pass fifteen gates. The 10,096-byte linked payload
+matches the decoded target byte-for-byte, SHA-256
+beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297.
+One target and one fresh candidate each pass 1,300 modeled root calls (2,600
+combined). Only the ten existing logo units gain maintained source presence;
+ZUN source units become 13/18 and scoped source CODE becomes 1,533 bytes.
+Vendor C0T/master/emu/maths/ct remain unowned context. No second cold build,
+real graphics/BFNT/device runtime, launcher integration, packing, whole-payload
+ownership or formal exact credit is claimed. See
+[logo root producer](reconstruction/ZUN_SOFT_ROOT_PRODUCER_REVIEW.md).
+
+
 The owner's requested worktree review is complete. CI/dependency maintenance
 and proof-retention fixes are recorded in `ed653cb` and `095e54b`; this
 documentation checkpoint reconciles the remaining maintenance changes.
