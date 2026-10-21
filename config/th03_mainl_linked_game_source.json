@@ -1,0 +1,956 @@
+{
+  "schema": "mainl-linked-game-source-v1",
+  "carrier": ".analysis/toolchain/wineprefix/drive_c/MTL02",
+  "previous_generated_root": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03_mainl.asm",
+    "sha256": "b2697d417c5c01441688c8b7c847dcdd5a5a660b63ec2b0d396bddecc41a957c"
+  },
+  "tupfile": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/Tupfile.lua",
+    "sha256": "abe0ec2beebfcd3b0b9e6dbf9d9891cebf70c07b322e3f390ad5628071c5ac66"
+  },
+  "providers": [
+    {
+      "name": "planes",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th01/vplanset.cpp",
+        "sha256": "811b8b745103801f5a08fe2066aa1d8a90f5a698b4b3f29a12828e96d07cb00b"
+      },
+      "wrapper_relative": "th01/vplanset.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th01/hardware/vplanset.cpp",
+        "sha256": "d309adf3597b93f99d6534249d363386422f2377a70cae0f4de6a5c2614b69e7"
+      },
+      "provider_relative": "th01/hardware/vplanset.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/planes.cpp",
+        "sha256": "3de8e04c76667de849ad5e91744534c69c5c1a65893bfcc723305f1257a77224"
+      },
+      "game": 1,
+      "binary": "O",
+      "object": "obj/th01/vplanset.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=1",
+        "-ml",
+        "-DBINARY='O'",
+        "-nobj/th01/"
+      ],
+      "units": [
+        "th03-mainl-decoded-linked-tail-planes"
+      ]
+    },
+    {
+      "name": "sound_mode",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd_mode.c",
+        "sha256": "165169c113e769b21ac46229b6115e1e968cb8b358aa62ed845286ba101613f9"
+      },
+      "wrapper_relative": "th02/snd_mode.c",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd/detmode.c",
+        "sha256": "a457488f26fcc30dd74c9bcba8e8f55bd1847da45625678219eeb2abe7765913"
+      },
+      "provider_relative": "th02/snd/detmode.c",
+      "source": {
+        "path": "src/mainl/linked_game/sound_mode.c",
+        "sha256": "1ce1b9ad5bb5d025def07d136fe23f63d2f25b8405ba74ac63183b4e574002e7"
+      },
+      "game": 2,
+      "binary": "O",
+      "object": "obj/th02/snd_mode.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=2",
+        "-ml",
+        "-DBINARY='O'",
+        "-nobj/th02/"
+      ],
+      "units": [
+        "th03-mainl-decoded-sound-mode",
+        "th03-mainl-decoded-linked-tail-producer-0049"
+      ]
+    },
+    {
+      "name": "sound_pmd",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd_pmdr.c",
+        "sha256": "02b50a0f820c19f5523d28ad4b7e3f16e2f9dd7d75273059e3e22c46bdc26bba"
+      },
+      "wrapper_relative": "th02/snd_pmdr.c",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd/pmd_res.c",
+        "sha256": "4b33fa2ab3c3f838e717880a1e455bb1934ff8f4396d4b5c1a370ece5bb6f77d"
+      },
+      "provider_relative": "th02/snd/pmd_res.c",
+      "source": {
+        "path": "src/mainl/linked_game/sound_pmd.c",
+        "sha256": "e48ae78a83e96567f4b8e03f8c8df6f4c1eb1672d1eb80ce5d63991e9deffe23"
+      },
+      "game": 2,
+      "binary": "O",
+      "object": "obj/th02/snd_pmdr.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=2",
+        "-ml",
+        "-DBINARY='O'",
+        "-nobj/th02/"
+      ],
+      "units": [
+        "th03-mainl-decoded-sound-pmd",
+        "th03-mainl-decoded-linked-tail-producer-0083"
+      ]
+    },
+    {
+      "name": "sound_volume",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd_dlyv.c",
+        "sha256": "fa852c02f348b88ab89a517862f1ce3dc66dbcff08fd3a266ac6415a80e1d6c3"
+      },
+      "wrapper_relative": "th02/snd_dlyv.c",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd/delayvol.c",
+        "sha256": "d5a20af0802458ede6ec7aefd539183419495ae85252dc4546f5f342d70027c4"
+      },
+      "provider_relative": "th02/snd/delayvol.c",
+      "source": {
+        "path": "src/mainl/linked_game/sound_volume.c",
+        "sha256": "e985e50dda75d8a7d8feea5856357b71e541bf0bdb0549d9ec82fccd17ace2bb"
+      },
+      "game": 2,
+      "binary": "M",
+      "object": "obj/th02/snd_dlyv.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=2",
+        "-ml",
+        "-DBINARY='M'",
+        "-nobj/th02/"
+      ],
+      "units": [
+        "th03-mainl-decoded-sound-volume",
+        "th03-mainl-decoded-linked-tail-producer-009f"
+      ]
+    },
+    {
+      "name": "sound_reset",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd_se_r.cpp",
+        "sha256": "70fb8ccaf7b0203cc5f4e1662b826714b79bc758a3ae92a9fb7a3e7aa35b8f2d"
+      },
+      "wrapper_relative": "th02/snd_se_r.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd/se_reset.cpp",
+        "sha256": "be06ff1731cf5a6e4ec985565209db9a729c5afd7f570009bc05b4ecf047e94b"
+      },
+      "provider_relative": "th02/snd/se_reset.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/sound_reset.cpp",
+        "sha256": "222d50842637dcf84fa799fa2afd2df9398ae8e9a02b0d5829445b714366e845"
+      },
+      "game": 2,
+      "binary": "O",
+      "object": "obj/th02/snd_se_r.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=2",
+        "-ml",
+        "-DBINARY='O'",
+        "-nobj/th02/"
+      ],
+      "units": [
+        "th03-mainl-decoded-sound-reset",
+        "th03-mainl-decoded-linked-tail-producer-0669"
+      ]
+    },
+    {
+      "name": "exit",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/exit.cpp",
+        "sha256": "13183f846ac74026e831cc666fbf7b3cd63a18f48fe2b7747203aa408c1f278b"
+      },
+      "wrapper_relative": "th03/exit.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/core/exit.cpp",
+        "sha256": "dac2cc3be90eaaebf5c8a86a7912dcbb91957a00f080cfd50b2f0da38df2bb33"
+      },
+      "provider_relative": "th02/core/exit.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/exit.cpp",
+        "sha256": "cec9e269e8b37b94c39dce50c72bb15e4e6cc4d3654a435b2a3d50cff3027e63"
+      },
+      "game": 3,
+      "binary": "O",
+      "object": "obj/th03/exit.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='O'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-lifecycle-exit"
+      ]
+    },
+    {
+      "name": "input_sense",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/input_s.cpp",
+        "sha256": "2478edb686a5fb6573b5cd2e9b3a1c39ef099e9d90a3696095e926737a9130ba"
+      },
+      "wrapper_relative": "th03/input_s.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/hardware/input_s.cpp",
+        "sha256": "6ae7cf8c133164d4572186f1623888f9843b7bb709b9167ecd46c1e2215a1467"
+      },
+      "provider_relative": "th03/hardware/input_s.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/input_sense.cpp",
+        "sha256": "d47b7cbf98203d685c79e26945d6c0c315e1e5d3804b28223098bdbe327be34c"
+      },
+      "game": 3,
+      "binary": "O",
+      "object": "obj/th03/input_s.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='O'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-input-sense"
+      ],
+      "context_only": "Original trailing codestring 0x90 at 0C7E:0529 is retained but has no unit credit."
+    },
+    {
+      "name": "sound_kaja",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/snd_kaja.cpp",
+        "sha256": "24e9756fbbe975c04d07ca9d14b518e22899821eff7a10b63ae9ffedb98a5d8f"
+      },
+      "wrapper_relative": "th03/snd_kaja.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd/kajaint.cpp",
+        "sha256": "5320ae10909ffe7841cba69cd7d7e95627d10084383295e5c4d8b4fc007e6496"
+      },
+      "provider_relative": "th02/snd/kajaint.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/sound_kaja.cpp",
+        "sha256": "de1a4687fbf5f2202d5a32c1047a3388055f897cb770417bbd2d869692bdec16"
+      },
+      "game": 3,
+      "binary": "O",
+      "object": "obj/th03/snd_kaja.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='O'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-sound-kaja"
+      ]
+    },
+    {
+      "name": "cfg_resident",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/cfg_lres.cpp",
+        "sha256": "49f32c8c08a1d425ec54a13880e2faf7875f68cf736b8ebd0795432e587eb071"
+      },
+      "wrapper_relative": "th03/cfg_lres.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/formats/cfg_lres.cpp",
+        "sha256": "e17d773ac1ed2671c4f3ccefc3946567d8ec05ba16676b5912a58c408cf6054a"
+      },
+      "provider_relative": "th03/formats/cfg_lres.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/cfg_resident.cpp",
+        "sha256": "ec3bb09e545a0fa33488e2cf59565d7696f2dfddb21ac2b334b0eb357fa83c1d"
+      },
+      "game": 3,
+      "binary": "M",
+      "object": "obj/th03/cfg_lres.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='M'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-cfg-resident"
+      ]
+    },
+    {
+      "name": "init",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/initmain.cpp",
+        "sha256": "191ef28660b771c290fbeb21f46b33457a2e2d29327f6b5bb2a04c58343cbc38"
+      },
+      "wrapper_relative": "th03/initmain.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/core/initmain.cpp",
+        "sha256": "c7ebbaed9ec3706a112b0a0161d035595afe3e817601d824ee3d18b5d7dfe138"
+      },
+      "provider_relative": "th03/core/initmain.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/init.cpp",
+        "sha256": "3e1193fec8bb34c0879e42414fe26e272c0bd6c9ea7b313f92160d43c1177672"
+      },
+      "game": 3,
+      "binary": "M",
+      "object": "obj/th03/initmain.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='M'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-lifecycle-init"
+      ]
+    },
+    {
+      "name": "sound_se",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/snd_se.cpp",
+        "sha256": "ec7df9acc78e58e85c12cac2d06728359e9017328df048cefbf30ed074d3f97b"
+      },
+      "wrapper_relative": "th03/snd_se.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th02/snd/se.cpp",
+        "sha256": "3c8648ea60fa7fbae8c10068bb1ac1178e8481b3841eac297356b956109970df"
+      },
+      "provider_relative": "th02/snd/se.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/sound_se.cpp",
+        "sha256": "6c848a7eb595564b417ec9caf7f00258b03ed3cf64e654a540c750f07226ba2d"
+      },
+      "game": 3,
+      "binary": "M",
+      "object": "obj/th03/snd_se.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='M'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-sound-play",
+        "th03-mainl-decoded-sound-update"
+      ]
+    },
+    {
+      "name": "win",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/mainl_sc.cpp",
+        "sha256": "160916a9dc037655e03a8f87f51ce5990e934e177302bacfdfb225677c068ca0"
+      },
+      "wrapper_relative": "th03/mainl_sc.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/mainl/screens.cpp",
+        "sha256": "a9de3cac6a0fee5c0d9e01e1e0479cf9e3dd6d39edb1f4ae07247b65aaa3ca3e"
+      },
+      "provider_relative": "th03/mainl/screens.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/win.cpp",
+        "sha256": "09dd9c39294c7cd67e7d18c1c5d32b6bbd049b5becc72025a70233e8a93a63d0"
+      },
+      "game": 3,
+      "binary": "L",
+      "object": "obj/th03/mainl_sc.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='L'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-win-load",
+        "th03-mainl-decoded-win-text"
+      ]
+    },
+    {
+      "name": "flake",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/staff.cpp",
+        "sha256": "4e2fb5ce24cb1df5cdeb6ee458f1552d3ddfcf2821eca2d0a69c80449a70844c"
+      },
+      "wrapper_relative": "th03/staff.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/end/staff.cpp",
+        "sha256": "081d5b24c9cbf830dd85c79a5190d9e74953ab5c92ccf2664c2063bbb61c6596"
+      },
+      "provider_relative": "th03/end/staff.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/flake.cpp",
+        "sha256": "c437bb454752375077d85f4b8c72e4db1b48426e43307890c3168ada8d22c3f0"
+      },
+      "game": 3,
+      "binary": "L",
+      "object": "obj/th03/staff.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='L'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-staff-flake"
+      ]
+    },
+    {
+      "name": "exit_to_main",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/exitmain.cpp",
+        "sha256": "8a027612842694031097285813c1850a5986bac4abe84141f48adc28edbc488e"
+      },
+      "wrapper_relative": "th03/exitmain.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/core/exitmain.cpp",
+        "sha256": "c4ecbda61aa56010f9fcfa11f6f641a637f6eb274b96f5d28fe21c13e8249991"
+      },
+      "provider_relative": "th03/core/exitmain.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/exit_to_main.cpp",
+        "sha256": "b3680af0021d5b18f0095362612e1ba1eeb122ade75a439b10523afe274efd6b"
+      },
+      "game": 3,
+      "binary": "L",
+      "object": "obj/th03/exitmain.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='L'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-lifecycle-exit-to-main"
+      ]
+    },
+    {
+      "name": "sound_measure",
+      "wrapper": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/snd_dlym.cpp",
+        "sha256": "10884d0b7849385cbef5f30da325e0adc9e7956e7d6a192e534128e6a10d0e5b"
+      },
+      "wrapper_relative": "th03/snd_dlym.cpp",
+      "provider": {
+        "path": ".analysis/toolchain/wineprefix/drive_c/MTL02/th03/snd/delaymea.cpp",
+        "sha256": "79c903a8164efcc973c7e2d88ef37af0fd61d7e8fd7c2501b005383a6e985d0c"
+      },
+      "provider_relative": "th03/snd/delaymea.cpp",
+      "source": {
+        "path": "src/mainl/linked_game/sound_measure.cpp",
+        "sha256": "c1272a1dae9fe1d97441686aaf9ec5907bae7b1f20d3ac3f5a6058e344c015b4"
+      },
+      "game": 3,
+      "binary": "L",
+      "object": "obj/th03/snd_dlym.obj",
+      "compiler_flags": [
+        "-c",
+        "-I.",
+        "-O",
+        "-b-",
+        "-3",
+        "-Z",
+        "-d",
+        "-DGAME=3",
+        "-ml",
+        "-DBINARY='L'",
+        "-nobj/th03/"
+      ],
+      "units": [
+        "th03-mainl-decoded-sound-measure"
+      ]
+    }
+  ],
+  "staff_source": {
+    "path": "src/mainl/linked_game/staff_flow.asm",
+    "sha256": "d7a5c15c8b7507601f2621bcd47f739073dede4787424a3d1a538752be9db30f"
+  },
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-linked-tail-planes",
+      "segment": 3198,
+      "offset": 2,
+      "bytes": 41,
+      "source_paths": [
+        "src/mainl/linked_game/planes.cpp"
+      ],
+      "producer": "planes"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-mode",
+      "segment": 3198,
+      "offset": 44,
+      "bytes": 29,
+      "source_paths": [
+        "src/mainl/linked_game/sound_mode.c"
+      ],
+      "producer": "sound_mode"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-linked-tail-producer-0049",
+      "segment": 3198,
+      "offset": 73,
+      "bytes": 1,
+      "source_paths": [
+        "src/mainl/linked_game/sound_mode.c"
+      ],
+      "producer": "sound_mode",
+      "ownership": "One original explicit trailing codestring declaration; not synthesized alignment or a new instruction body."
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-pmd",
+      "segment": 3198,
+      "offset": 74,
+      "bytes": 57,
+      "source_paths": [
+        "src/mainl/linked_game/sound_pmd.c"
+      ],
+      "producer": "sound_pmd"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-linked-tail-producer-0083",
+      "segment": 3198,
+      "offset": 131,
+      "bytes": 1,
+      "source_paths": [
+        "src/mainl/linked_game/sound_pmd.c"
+      ],
+      "producer": "sound_pmd",
+      "ownership": "One original explicit trailing codestring declaration; not synthesized alignment or a new instruction body."
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-volume",
+      "segment": 3198,
+      "offset": 132,
+      "bytes": 27,
+      "source_paths": [
+        "src/mainl/linked_game/sound_volume.c"
+      ],
+      "producer": "sound_volume"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-linked-tail-producer-009f",
+      "segment": 3198,
+      "offset": 159,
+      "bytes": 1,
+      "source_paths": [
+        "src/mainl/linked_game/sound_volume.c"
+      ],
+      "producer": "sound_volume",
+      "ownership": "One original explicit trailing codestring declaration; not synthesized alignment or a new instruction body."
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-reset",
+      "segment": 3198,
+      "offset": 1630,
+      "bytes": 11,
+      "source_paths": [
+        "src/mainl/linked_game/sound_reset.cpp"
+      ],
+      "producer": "sound_reset"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-linked-tail-producer-0669",
+      "segment": 3198,
+      "offset": 1641,
+      "bytes": 1,
+      "source_paths": [
+        "src/mainl/linked_game/sound_reset.cpp"
+      ],
+      "producer": "sound_reset",
+      "ownership": "One original explicit trailing codestring declaration; not synthesized alignment or a new instruction body."
+    },
+    {
+      "unit_id": "th03-mainl-decoded-lifecycle-exit",
+      "segment": 3198,
+      "offset": 432,
+      "bytes": 67,
+      "source_paths": [
+        "src/mainl/linked_game/exit.cpp"
+      ],
+      "producer": "exit"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-input-sense",
+      "segment": 3198,
+      "offset": 904,
+      "bytes": 417,
+      "source_paths": [
+        "src/mainl/linked_game/input_sense.cpp"
+      ],
+      "producer": "input_sense"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-kaja",
+      "segment": 3198,
+      "offset": 1762,
+      "bytes": 30,
+      "source_paths": [
+        "src/mainl/linked_game/sound_kaja.cpp"
+      ],
+      "producer": "sound_kaja"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-cfg-resident",
+      "segment": 2399,
+      "offset": 3,
+      "bytes": 49,
+      "source_paths": [
+        "src/mainl/linked_game/cfg_resident.cpp"
+      ],
+      "producer": "cfg_resident"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-lifecycle-init",
+      "segment": 3198,
+      "offset": 1792,
+      "bytes": 62,
+      "source_paths": [
+        "src/mainl/linked_game/init.cpp"
+      ],
+      "producer": "init"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-play",
+      "segment": 3198,
+      "offset": 1642,
+      "bytes": 60,
+      "source_paths": [
+        "src/mainl/linked_game/sound_se.cpp"
+      ],
+      "producer": "sound_se"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-update",
+      "segment": 3198,
+      "offset": 1702,
+      "bytes": 60,
+      "source_paths": [
+        "src/mainl/linked_game/sound_se.cpp"
+      ],
+      "producer": "sound_se"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-win-load",
+      "segment": 2399,
+      "offset": 52,
+      "bytes": 282,
+      "source_paths": [
+        "src/mainl/linked_game/win.cpp"
+      ],
+      "producer": "win"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-win-text",
+      "segment": 2399,
+      "offset": 334,
+      "bytes": 56,
+      "source_paths": [
+        "src/mainl/linked_game/win.cpp"
+      ],
+      "producer": "win"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-flake",
+      "segment": 2399,
+      "offset": 9370,
+      "bytes": 76,
+      "source_paths": [
+        "src/mainl/linked_game/flake.cpp"
+      ],
+      "producer": "flake"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-lifecycle-exit-to-main",
+      "segment": 3198,
+      "offset": 2447,
+      "bytes": 40,
+      "source_paths": [
+        "src/mainl/linked_game/exit_to_main.cpp"
+      ],
+      "producer": "exit_to_main"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-sound-measure",
+      "segment": 3198,
+      "offset": 3100,
+      "bytes": 49,
+      "source_paths": [
+        "src/mainl/linked_game/sound_measure.cpp"
+      ],
+      "producer": "sound_measure"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-music",
+      "segment": 2399,
+      "offset": 9022,
+      "bytes": 68,
+      "source_paths": [
+        "src/mainl/linked_game/staff_flow.asm"
+      ],
+      "producer": "staff_flow"
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-ending",
+      "segment": 2399,
+      "offset": 9090,
+      "bytes": 280,
+      "source_paths": [
+        "src/mainl/linked_game/staff_flow.asm"
+      ],
+      "producer": "staff_flow"
+    }
+  ],
+  "unit_count": 23,
+  "decoded_bytes": 1765,
+  "body_bytes": 1761,
+  "explicit_producer_bytes": 4,
+  "compiler_slot_count": 15,
+  "native_fragment_consumption_proven": false,
+  "source_progress_changed": false,
+  "exact_acceptance": false,
+  "excluded_scope": "CRT 6/628, unowned scanner NOP, whole-image relocation ordering, DATA mismatch and packed target/cold aggregate remain open. Source checkpoint alone gives no source-present credit.",
+  "compatibility_inputs": [
+    {
+      "path": "compat/rec98/libs/master.lib/master.hpp",
+      "sha256": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+      "text": "#include \"libs/master.lib/master.hpp\"\n",
+      "original_include": "libs/master.lib/master.hpp"
+    },
+    {
+      "path": "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "text": "#include \"libs/master.lib/pc98_gfx.hpp\"\n",
+      "original_include": "libs/master.lib/pc98_gfx.hpp"
+    },
+    {
+      "path": "compat/rec98/platform/x86real/flags.hpp",
+      "sha256": "410756ddb266e8a4a51767fffcf9724c5b6967c02901481a26335da0c20dfba2",
+      "text": "#include \"platform/x86real/flags.hpp\"\n",
+      "original_include": "platform/x86real/flags.hpp"
+    },
+    {
+      "path": "compat/rec98/platform/x86real/pc98/keyboard.hpp",
+      "sha256": "dcb649e854e438a69679f79381e0af5da78f2ffb242a724bd6daced0b08e281b",
+      "text": "#include \"platform/x86real/pc98/keyboard.hpp\"\n",
+      "original_include": "platform/x86real/pc98/keyboard.hpp"
+    },
+    {
+      "path": "compat/rec98/th01/hardware/grppsafx.h",
+      "sha256": "c5c038ac451f606a9f341d3064403647f6d18e7e27d0fa388706c4ab22214f1c",
+      "text": "#include \"th01/hardware/grppsafx.h\"\n",
+      "original_include": "th01/hardware/grppsafx.h"
+    },
+    {
+      "path": "compat/rec98/th01/hardware/vplanset.h",
+      "sha256": "0aacf78e0be0e16c3d80a80ff79dba1f7a8ddfebcc3302f853019fa423920a2b",
+      "text": "#include \"th01/hardware/vplanset.h\"\n",
+      "original_include": "th01/hardware/vplanset.h"
+    },
+    {
+      "path": "compat/rec98/th01/math/subpixel.hpp",
+      "sha256": "e36a587c8e6b88d1ce71fb3f891c45f0511c8fcfe118ca2a5c6fbe7b082e33bf",
+      "text": "#include \"th01/math/subpixel.hpp\"\n",
+      "original_include": "th01/math/subpixel.hpp"
+    },
+    {
+      "path": "compat/rec98/th02/core/initexit.h",
+      "sha256": "ef988ac741c84daa3b8efa0f48eda7cf89eeb26a6cc7bec60c2dd8abb64b5b69",
+      "text": "#include \"th02/core/initexit.h\"\n",
+      "original_include": "th02/core/initexit.h"
+    },
+    {
+      "path": "compat/rec98/th02/hardware/frmdelay.h",
+      "sha256": "77a4e4b0d94b8b095568ad9775756796f41226b8c8e94e7b102d6cdda820e4c1",
+      "text": "#include \"th02/hardware/frmdelay.h\"\n",
+      "original_include": "th02/hardware/frmdelay.h"
+    },
+    {
+      "path": "compat/rec98/th02/snd/impl.hpp",
+      "sha256": "4f148230187e9769a0ce8f55800eb2a4c5853f279a112f4d1400fffef5517206",
+      "text": "#include \"th02/snd/impl.hpp\"\n",
+      "original_include": "th02/snd/impl.hpp"
+    },
+    {
+      "path": "compat/rec98/th02/snd/measure.hpp",
+      "sha256": "2eb1a1af6dbc5f2af13318bf0e932cffc90047c673beb253658230cc6e5a6119",
+      "text": "#include \"th02/snd/measure.hpp\"\n",
+      "original_include": "th02/snd/measure.hpp"
+    },
+    {
+      "path": "compat/rec98/th02/snd/snd.h",
+      "sha256": "3a19e42a01b74089c5420729316bcb4c3bd5b135a8ceb5b12ec50e3ba96a2f4f",
+      "text": "#include \"th02/snd/snd.h\"\n",
+      "original_include": "th02/snd/snd.h"
+    },
+    {
+      "path": "compat/rec98/th02/v_colors.hpp",
+      "sha256": "e60e927238e06feb5c5dd4a2614362040171c4804638edabdc0b4cf4f687a2c7",
+      "text": "#include \"th02/v_colors.hpp\"\n",
+      "original_include": "th02/v_colors.hpp"
+    },
+    {
+      "path": "compat/rec98/th03/common.h",
+      "sha256": "0960e997cd75fafc79df7b8626ebd71eaf90023215f5f90d66ebd0f5c15cb349",
+      "text": "#include \"th03/common.h\"\n",
+      "original_include": "th03/common.h"
+    },
+    {
+      "path": "compat/rec98/th03/core/initexit.h",
+      "sha256": "0770fc1792938dc89787d6b39aad974d3bfd55e61547d975272f81211b4767e2",
+      "text": "#include \"th03/core/initexit.h\"\n",
+      "original_include": "th03/core/initexit.h"
+    },
+    {
+      "path": "compat/rec98/th03/formats/cdg.h",
+      "sha256": "3b5140499bd56861bd01f37611152a812522768f8a8ac06f2d8591d1eb011265",
+      "text": "#include \"th03/formats/cdg.h\"\n",
+      "original_include": "th03/formats/cdg.h"
+    },
+    {
+      "path": "compat/rec98/th03/formats/cfg_impl.hpp",
+      "sha256": "9a28f0443e8c26aa9c840c3c2bf8cc995babedaea76f5d12b1797ddf3ea117d7",
+      "text": "#include \"th03/formats/cfg_impl.hpp\"\n",
+      "original_include": "th03/formats/cfg_impl.hpp"
+    },
+    {
+      "path": "compat/rec98/th03/formats/win.hpp",
+      "sha256": "c75f4b6dbad01a88e9cd5d7db69234deb9ac392ac91adb953f6b8f27688a5a4d",
+      "text": "#include \"th03/formats/win.hpp\"\n",
+      "original_include": "th03/formats/win.hpp"
+    },
+    {
+      "path": "compat/rec98/th03/hardware/input.h",
+      "sha256": "84b0ca85929d0de82bc4ada8503fb226806f87869d473c4c865bf81509c1b18e",
+      "text": "#ifndef TH03_COMPAT_REC98_HARDWARE_INPUT_H\n#define TH03_COMPAT_REC98_HARDWARE_INPUT_H\n\n#include \"th03/hardware/input.h\"\n\n#endif\n",
+      "original_include": "th03/hardware/input.h"
+    },
+    {
+      "path": "compat/rec98/th03/resident.hpp",
+      "sha256": "a0b051bae0d91f8d2c557e1832d33eb5c46cbef89a8c8f4eda63964893402e76",
+      "text": "#include \"th03/resident.hpp\"\n",
+      "original_include": "th03/resident.hpp"
+    },
+    {
+      "path": "compat/rec98/th03/score.hpp",
+      "sha256": "205f0dc9764c8a3708c17a7f1f12b6977d2f0fedf4a334571600102ba02e7576",
+      "text": "#include \"th03/score.hpp\"\n",
+      "original_include": "th03/score.hpp"
+    },
+    {
+      "path": "compat/rec98/th03/sprites/flake.h",
+      "sha256": "7f4a1005a64477d885c79916aa990c3a8a0c53428c88391aa46ae1bef4a0f9b8",
+      "text": "#include \"th03/sprites/flake.h\"\n",
+      "original_include": "th03/sprites/flake.h"
+    },
+    {
+      "path": "compat/rec98/th03/sprites/playchar.hpp",
+      "sha256": "6f3046ed64ef946e25e976650b49510c44b83076d4aa1dc6e29bba13375fec58",
+      "text": "#include \"th03/sprites/playchar.hpp\"\n",
+      "original_include": "th03/sprites/playchar.hpp"
+    },
+    {
+      "path": "compat/rec98/th04/snd/snd.h",
+      "sha256": "84a0dc14c4bc38ffd615a3d921f4f0cb8ce0b9ceb2edec298d5ada54143c4739",
+      "text": "#include \"th04/snd/snd.h\"\n",
+      "original_include": "th04/snd/snd.h"
+    }
+  ]
+}
