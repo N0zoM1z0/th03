@@ -57,9 +57,15 @@ def prepare(inputs):
  for n in (DATA,HARDWARE,*MODULES):
   need(not re.search(r'(?im)^\s*(include|incbin|org)\b',text[n]),'unexpected transitive include or origin')
  need('_reference' not in '\n'.join(text.values()) and 'incbin' not in text[LAYOUT].lower(),'no retained source or raw blob')
- files={'driver.asm':dos_text(text[LAYOUT]),DATA:dos_text(text[DATA]),HARDWARE:dos_text(text[HARDWARE]),
+ # Avoid the suspected TASM32 long-include-filename crash with short aliases.
+ # Only generated transport names change; semantic names stay intact.
+ aliases={DATA:'data.inc',HARDWARE:'hardware.inc'}
+ aliases.update({'procs/'+name+'.inc':'procs/p%03d.inc'%i for i,name in enumerate(functions)})
+ layout=text[LAYOUT]
+ for name,dest in aliases.items():layout=layout.replace('include '+name.replace('/','\\'),'include '+dest.replace('/','\\'))
+ files={'driver.asm':dos_text(layout),'data.inc':dos_text(text[DATA]),'hardware.inc':dos_text(text[HARDWARE]),
         'link.rsp':b'-c -s -t -3 driver.obj,driver.com,driver.map,\r\n'}
- files.update({'procs/'+n+'.inc':dos_text(body) for n,body in functions.items()})
+ files.update({aliases['procs/'+n+'.inc']:dos_text(body) for n,body in functions.items()})
  return files
 def stage(output,root=ROOT):
  root=Path(root);output=Path(output).absolute();plain(output.parent);need(output.parent.is_dir(),'stage parent missing')

@@ -84,6 +84,21 @@ class StandaloneDriverTests(unittest.TestCase):
    'sprite16_option_table':0x101c,'sprite16_service_table':0x103e,
    'sprite16_argument_vector':0x1072,'sprite16_argument_cursor':0x10f2,
    'sprite16_switch_on':0x1170,'sprite16_switch_off':0x1173}.items():self.assertEqual(labels[name],address,name)
+ def test_compiler_include_names_are_short_and_bodies_unchanged(self):
+  raw=inputs();files=s.prepare(raw)
+  names=re.findall(r'^include (.+)$',files['driver.asm'].decode('shift_jis').replace('\r\n','\n'),re.M)
+  expected={}
+  for module in s.MODULES:expected.update(s.bodies(raw[module].decode()))
+  seen=set()
+  self.assertEqual(len(names),len(set(names)))
+  for name in names:
+   self.assertLessEqual(len(name),16)
+   for part in name.split('\\'):self.assertRegex(part,r'^[a-z0-9_]{1,8}(?:\.[a-z0-9_]{1,3})?$')
+   data=files[name.replace('\\','/')]
+   if name.startswith('procs'):
+    text=data.decode('shift_jis').replace('\r\n','\n');proc=text.splitlines()[0].split()[1]
+    self.assertEqual(text,expected[proc]);seen.add(proc)
+  self.assertEqual(seen,set(expected));self.assertEqual(len(seen),55)
  def test_native_recipe_remains_two_commands(self):
   a,b=s.native_commands('/wine','/msdos')
   self.assertEqual(a[-1],'driver.asm,driver.obj');self.assertEqual(b[-3:],['-x','tlink','@link.rsp'])
