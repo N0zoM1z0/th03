@@ -210,3 +210,55 @@ scoped bytes/four ordered relocations, a second raw OBJ/EXE/MAP repeat and
 current-image models remain required. MAINL exact acceptance remains zero;
 whole cold aggregate, one decoded DATA-byte mismatch, relocation ordering and
 packed canonical file mapping remain open.
+
+
+## Fresh consumed-source proof (2026-10-21)
+
+The pending-source checkpoint above is now followed by actual MPI01 and MPI02
+root TASM plus TLINK runs, two invocations each. Both completed with owned
+cleanup and lock release. MPI02 starts from the explicitly observed MPI01
+input bytes and mtimes, excluding root OBJ, EXE and MAP. The raw root OBJ,
+complete EXE and MAP repeat exactly. This is a fresh include-consumption
+hybrid link, not a whole-program cold rebuild.
+
+The maintained loader's 1,524 bytes equal the decoded target, SHA-256
+901790670a82c4b2978ad7bb305f14e6d4b978d412054ea2efe6376aef9ea5ae.
+All four scoped relocations match in order. Both full EXE and MAP equal the
+previous MRT01 carrier. The earlier root OBJ differs only at two COMENT E9
+records: root source mtime and the PI include path/mtime. Every other record
+type and payload matches; no object or executable was rewritten or normalized.
+
+Actual existing scalar/native models ran against target and fresh MPI01:
+985 terminal scenarios, 20 semantic prefixes and 7 successful borrower/refill
+scenarios per image, taking 244.45 seconds overall. The immutable full receipt
+is .analysis/mainl-pi-fresh-models-20261021-v01.json, SHA-256
+addec0e9c80ae53d99ef5dd66143fae862d779e2ce0748ef78cbf24951ec44bd.
+The original Factory terminal response was lost at transport; a later read
+verified the complete durable success receipt and all 210 input identities.
+No second full model pass was performed. Each per-image independent model
+still compares full 1 MiB except stack; cross-image comparison excludes only
+the two existing whole-memory before/after hashes, because contextual
+executable bytes differ. DOS remains modeled. The 711-instruction review
+scope includes unowned FREE76, executes706, and retains five unreachable
+EVEN NOPs without fabricated execution.
+
+config/th03_mainl_pi_link.json binds source, consumed includes, native
+manifests/commands/logs/cleanup, products, input mtimes and full model proof.
+scripts/replay_th03_mainl_pi_link.py is a read-only fast replay: it executes
+no compiler and reruns no expensive model. It verifies pinned full EXE
+identity and retained observations, explicitly returning models_rerun=false.
+No byte/function denominator changes: only the existing loader unit gains
+1,524 source-present bytes. This supports MAINL 51/145 source units and17,196
+source bytes, with exact acceptance still zero. The full decoded image still
+has one DATA-byte difference and461 global relocation-order differences
+(677 relocation sites with equal membership); packed canonical mapping,
+whole cold aggregate and genuine runtime remain open.
+
+
+The initial proof proposal over-pinned unrelated current Python presentation
+scripts from the historical model inventory. The corrected live replay guard
+uses the actual transitive imported model/composer/native-verifier dependencies.
+The original full model receipt and native manifests remain immutable, including
+their full historical input inventories. A regression permits a changed
+progress renderer while rejecting changes to the actual PI model or native
+receipts; this does not waive any consumed-source or model dependency check.

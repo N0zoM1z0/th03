@@ -268,6 +268,25 @@ def mainl_root_source_proven(units, evidence):
     return True
 
 
+MAINL_PI_DECODER_PROOF_SHA = '9017ab9b5a8f85debdf0c73553acd817505ceb8977fdd8bd531a11364489df9e'
+MAINL_PI_DECODER_EVIDENCE = ['ev-th03-mainl-pi-decoder-source-compiler', 'ev-th03-mainl-pi-decoder-source-runtime', 'ev-th03-mainl-pi-decoder-source-reproducibility']
+def mainl_pi_decoder_source_proven(units, evidence):
+    found = [u for u in units if u["id"] == "th03-mainl-decoded-pi-decoder-load"]
+    if len(found) != 1:
+        return False
+    u = found[0]
+    if (u.get("state"), u.get("source"), u.get("size")) != ("source-present", "src/mainl/formats/pi_decode.asm", "1524"):
+        return False
+    by = {e["id"]: e for e in evidence}
+    for eid, kind in zip(MAINL_PI_DECODER_EVIDENCE, ("compiler", "runtime", "reproducibility")):
+        e = by.get(eid, {})
+        if eid not in u.get("evidence_ids", "").split(";") or any(e.get(k) != v for k, v in {
+            "unit_id": u["id"], "artifact": "th03-mainl", "result": "pass", "extent_size": "1524",
+            "evidence_class": kind, "output_sha256": MAINL_PI_DECODER_PROOF_SHA}.items()):
+            return False
+    return True
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -307,7 +326,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
-            if mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+            if mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
+                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">PI + root + staff: composed 13,495 B target-equal · 1 DATA byte / relocation order open</text>')
+            elif mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Root + staff source: composed 11,971 B target-equal · 1 DATA byte / relocation order open</text>')
             elif mainl_staff_source_proven(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Staff + graphics: 3,339 B source · composed 9,483 B target-equal · exact acceptance open</text>')
@@ -384,7 +405,9 @@ def main() -> int:
     ])
     if mainl_pi_composed(units, evidence):
         lines.extend(["MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. This historical composition did not change source or exact counts.", ""])
-    if mainl_root_source_proven(units, evidence) and mainl_staff_source_proven(units, evidence):
+    if mainl_pi_decoder_source_proven(units, evidence) and mainl_root_source_proven(units, evidence) and mainl_staff_source_proven(units, evidence):
+        lines.extend(["MAINL PI decoder source promotion: one existing 1,524-byte unit added, now source 51/145 (17,196 bytes), exact 0. Two fresh include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP. All 13,495 scoped maintained bytes match target; four ordered PI relocations match. One DATA byte and 461 global relocation-order differences remain. Full decoder models passed and are retained by complete EXE identity in fast replay, not rerun. Other objects remain contextual, not a cold aggregate.", ""])
+    elif mainl_root_source_proven(units, evidence) and mainl_staff_source_proven(units, evidence):
         lines.extend(["MAINL root source promotion: one existing 2,488-byte unit added, now source 50/145 (15,672 bytes), exact 0. Two fresh include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP. All 11,971 scoped maintained bytes match target. Root 114 relocation entries retain membership but 112 ordered positions differ; one DATA byte and 461 global relocation-order differences remain. Root CPU models rerun; prior staff models retained by complete EXE identity. Other objects remain contextual, not a cold aggregate.", ""])
     elif mainl_staff_source_proven(units, evidence):
         lines.extend(["MAINL staff/graphics source promotion: 11 existing units / 3,339 bytes added, now source 49/145 (13,184 bytes), exact 0. Two fresh include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP; second link retains the first two graphics objects and 32 contextual objects, not a cold aggregate. All 9,483 scoped maintained bytes match target. Existing 112 ordered relocation words remain equal; new snow/staff relocation membership matches but ordering differs. One DATA byte and 461 global relocation-order differences remain. Full runtime models are retained by complete EXE identity, not rerun in fast replay.", ""])

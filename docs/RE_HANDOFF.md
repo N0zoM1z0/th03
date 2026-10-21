@@ -13,19 +13,23 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
-## MAINL PI decoder source checkpoint
+## MAINL PI decoder source proof
 
-A maintained symbolic decoder include now expresses the existing 1,524-byte
-unit, including its two natural EVEN bytes. Source-only equivalence tests bind
-the original provider and root. The review now correctly identifies four real
-relocation sites; historical receipts remain unchanged. Native consumption is
-pending: MAINL source50/145 (15,672 bytes), exact0 and SVG are unchanged. See
-[decoder review](reconstruction/MAINL_PI_DECODER_REVIEW.md).
+One existing decoder unit /1,524 bytes is now source-present: MAINL source
+**51/145 units,17,196 bytes**, exact **0**. Two independent include-consuming
+root assemblies and fresh hybrid links have identical raw root OBJ/EXE/MAP.
+All13,495 composed maintained bytes match target; four ordered PI relocation
+sites match. The whole image retains one DATA byte and461 relocation-order
+differences. Full target/candidate decoder models passed985+20+7 cases each;
+fast replay retains them by complete EXE identity without rerunning models.
+Original Factory model terminal status is unavailable after transport timeout;
+durable model success is verified. Historical receipts stay unchanged. See
+[decoder proof](reconstruction/MAINL_PI_DECODER_REVIEW.md).
 
 ## MAINL root source proof
 
 One existing root unit / 2,488 bytes is now source-present: MAINL source
-**50/145 units, 15,672 bytes**, exact **0**. Two independent include-consuming
+**50/145 units, 15,672 bytes**, exact **0** at that earlier root checkpoint. Two independent include-consuming
 root assemblies and fresh hybrid links have identical raw root OBJ/EXE/MAP.
 All 11,971 composed maintained bytes match target. Root114 relocation entries
 retain membership, but112 ordered positions differ; the whole image retains
