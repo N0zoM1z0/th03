@@ -13,6 +13,15 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL staff/snow source checkpoint
+
+Maintained symbolic snow and staff fragments now cover 14 complete procedures /
+2,984 bytes. Full statement/token and expanded-root equivalence preserve the
+successful source-level graphics composition (3,339-byte coherent contribution).
+Native assembler include consumption remains pending; source/exact counts and
+the existing linked 6,499-byte SVG annotation are unchanged. See the
+[staff source review](reconstruction/MAINL_STAFF_SOURCE_REVIEW.md).
+
 ## MAINL opt-in linked graphics checkpoint
 
 The source-level split and real TC4/TASM/TLINK composition now prove all 355

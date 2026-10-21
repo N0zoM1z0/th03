@@ -1,0 +1,35 @@
+{
+  "schema": "mainl-staff-symbolic-source-v1",
+  "graphics_recipe": "config/th03_mainl_graphics_link.json",
+  "graphics_recipe_sha256": "309d695609b2a13a1e3cbf70e1071895d311a68cf7378f5d0ba82b80de7f600f",
+  "original_root": ".analysis/toolchain/wineprefix/drive_c/MPC01/R1/th03_mainl.asm",
+  "original_root_sha256": "0144b4c14d948a993d5da4f9591ea39c0f17772cba9cd47a6eda1e8e52a283d6",
+  "previous_generated_root": ".analysis/toolchain/wineprefix/drive_c/MGL03/th03_mainl.asm",
+  "previous_generated_root_sha256": "853bb0e3c9ccc304f50ca4d81e3efba6ce6a370e727e0a74774c9487d27152d0",
+  "fragments": {
+    "snow": {
+      "path": "src/mainl/staff/snow.asm",
+      "sha256": "faa5f056630d6d05753ae10668494a467071c821fd33db46f19b91e949904d0e",
+      "decoded_segment": 2399,
+      "decoded_offset": 9590,
+      "decoded_bytes": 443,
+      "complete_procedures": 6
+    },
+    "staff": {
+      "path": "src/mainl/staff/staff.asm",
+      "sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "decoded_segment": 2399,
+      "decoded_offset": 10244,
+      "decoded_bytes": 2541,
+      "complete_procedures": 8
+    }
+  },
+  "composer": "scripts/lib/mainl_staff_source.py",
+  "composer_sha256": "e780918d10091e9c2582bb695faf1ebca776f552083d1895c1c9aa8df2f6f48b",
+  "previous_graphics_bytes": 355,
+  "new_symbolic_bytes": 2984,
+  "coherent_contribution_bytes": 3339,
+  "native_fragment_consumption_proven": false,
+  "source_progress_changed": false,
+  "exact_acceptance": false
+}
