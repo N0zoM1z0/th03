@@ -1,0 +1,23 @@
+; TC4 errno ABI constants, checked against the installed ERRNO.H.
+EZERO equ 0
+ENOENT equ 2
+EMFILE equ 4
+EACCES equ 5
+EBADF equ 6
+ENOMEM equ 8
+EFAULT equ 14
+ENODEV equ 15
+ENOTSAM equ 17
+EINVAL equ 19
+E2BIG equ 20
+ENOEXEC equ 21
+ENFILE equ 23
+EFBIG equ 27
+ENOSPC equ 28
+EROFS equ 30
+EEXIST equ 35
+EPERM equ 37
+EIO equ 40
+ENXIO equ 41
+EAGAIN equ 42
+EBUSY equ 44

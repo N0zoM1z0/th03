@@ -1,0 +1,78 @@
+{
+  "status": "source-only candidate; ledger and exact acceptance unchanged",
+  "origin": "semantic reconstruction from decoded behavior, compiler-helper ABI and independent scalar/CPU model; not imported library source or OMF",
+  "library_sha256": "7d53ed1864b8b778040aa8203ebe4e01385112d9b3f134744a461aec0b171ba7",
+  "model": "scripts/review_th03_mainl_crt_break.py",
+  "historical_model_scenarios": 7858,
+  "model_rerun_for_new_sources": false,
+  "source_sha256": {
+    "dos_error_map.inc": "6f5774bd94516c1514259599a8e74af8a5abaee1e02c24edb6c4f9fe9e343b6b",
+    "n_pcmp.asm": "97fe43141ba11f511793421e0128945997a6b7fd80d4d39ff2b3040939fd809b",
+    "h_padd.asm": "4f8f74c4cd8f614b9f3bd807c5cc5da1b29f25e2a6a64390750f92a239fbda74",
+    "ioerror.asm": "f9ce283efd309450f41fb506ee482b17aaa199f9af73d6b5fd818a582d59943b",
+    "h_llsh.asm": "8c02feea9752b01c42f677a264346379c90c3a182edd17844765bf5b0dac5453",
+    "setblock.asm": "46138d5557c3ffe5a470394a3c38bc7b09f9db8af5f0ebf5a7762c628e32c7f0",
+    "crt_errno.inc": "efb6097850e551b05d5f8f6a8718270f37e1e95c04713a03d21a4a1148cb8cb2",
+    "fbrk.c": "cfa49e269d40c1df30f784d7c34cbc2d74c22b2e9337103a4e7efba8d80f3406"
+  },
+  "first_native_probe": {
+    "path": ".analysis/mainl-crt-asm-probe-output-20261021-v02/omf-verification.json",
+    "naturally_matching_code_bytes": 194,
+    "matching_modules": [
+      "h_llsh",
+      "h_padd",
+      "n_pcmp",
+      "setblock"
+    ],
+    "ioerror_data_bytes_equal": 91,
+    "ioerror_code_bytes_observed": 84,
+    "ioerror_code_bytes_expected": 82,
+    "ioerror_cause": "data EXTRNs incorrectly scoped to CODE inserted two CS overrides",
+    "ioerror_successor": "Corrected82-byte CODE/91-byte DATA/publics verified; two fixup entries reordered",
+    "fbrk_native": "Successful later C probe emits336 rather than352 bytes; see native_status"
+  },
+  "historical_comment_checksums": "six original A3 names stale; no repair or validity credit",
+  "tests": "source-only contracts, not runtime equivalence",
+  "native_status": {
+    "asm_code_bytes_equal": 276,
+    "asm_modules": [
+      "h_llsh",
+      "h_padd",
+      "n_pcmp",
+      "ioerror",
+      "setblock"
+    ],
+    "ioerror": {
+      "code_bytes": 82,
+      "data_bytes": 91,
+      "public_contract_equal": true,
+      "fixups": "same five entries, two reordered",
+      "receipt": ".analysis/mainl-crt-c-probe-output-20261021-v01/ioerror-readonly-diagnostic.json"
+    },
+    "fbrk": {
+      "failed_first_flags": "-0 rejected before compilation",
+      "successful_flags": [
+        "-c",
+        "-ms",
+        "-3-",
+        "-2-",
+        "-1-",
+        "-O"
+      ],
+      "code_bytes": 336,
+      "historical_code_bytes": 352,
+      "data_bytes_equal": 2,
+      "public_offsets": {
+        "__brk": 126,
+        "__sbrk": 189
+      },
+      "historical_public_offsets": {
+        "__brk": 142,
+        "__sbrk": 209
+      },
+      "helper_and_far_call_abi_emitted": true,
+      "receipt": ".analysis/mainl-crt-c-probe-output-20261021-v02/omf-verification.json"
+    },
+    "composed_link_runtime_repeat": "pending"
+  }
+}
