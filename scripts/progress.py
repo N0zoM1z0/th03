@@ -63,6 +63,22 @@ def mainl_heap_retained(units: list[dict[str, str]],
     return True
 
 
+def zun_init_standalone_retained(units: list[dict[str, str]]) -> bool:
+    """Historical standalone diagnostic only; never feeds any progress count."""
+    # Reviewed checkpoint: docs/reconstruction/ZUN_INIT_STANDALONE_FEASIBILITY.md.
+    # Completion: .analysis/zun-init-cold-continuation-output-20261021-v01/completion.json
+    # SHA256: 4fb3cf03ef57da9ae3da738f0f650da385b546abb3fff35975760d75449f70c8.
+    # src/zun/init.asm: 078525c35dfa4b499feb661980733964e16fa5654e8403ee55b0de221e828dc2.
+    # Two distinct assembler invocations/materializations; first OBJ retained
+    # after date-only registry rejection and linked by reviewed continuation.
+    # Raw OMF/COM/MAP equal, no normalization. Original transport exit unknown.
+    rows = [u for u in units if u["id"] == "th03-zun-decoded-init"]
+    return len(rows) == 1 and all(rows[0].get(key) == value for key, value in {
+        "artifact": "th03-zun", "segment": "decoded-COM", "offset": "0x6c4",
+        "size": "1390", "boundary_state": "reviewed", "state": "boundary-reviewed",
+    }.items())
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -106,6 +122,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
   <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
   <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
+        if artifact == "th03-zun" and zun_init_standalone_retained(units):
+            rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="440" viewBox="0 0 788 440" role="img" aria-label="TH03 reviewed subset reconstruction progress">

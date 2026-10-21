@@ -1,4 +1,4 @@
-# TH03 reconstruction handoff — current state (2026-10-20)
+# TH03 reconstruction handoff — current state (2026-10-21)
 
 The owner's requested worktree review is complete. CI/dependency maintenance
 and proof-retention fixes are recorded in `ed653cb` and `095e54b`; this
@@ -12,6 +12,19 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 `candidate-local-attested`; an independently pristine original dump has not
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
+
+## ZUN standalone initializer proof
+
+The [standalone initializer checkpoint](reconstruction/ZUN_INIT_STANDALONE_FEASIBILITY.md)
+now retains two independent materializations with equal raw OBJ/COM/MAP and
+complete 1,390-byte -2 payload equality: nine procedures / 607 CODE + 783 data.
+Round 1's fresh assembly was linked through a separately recorded continuation;
+round 2 assembled and linked freshly. Completion SHA256
+`4fb3cf03ef57da9ae3da738f0f650da385b546abb3fff35975760d75449f70c8`
+records successful native cleanup and owned lock release. The original failed
+receipt remains immutable and outer Factory exit is unknown. The maintained
+recipe/verifier/schema and source-only regression tests do not alter the default
+wrapper graph, accepted ledgers, whole ZUN status, or whole-game denominator.
 
 ## CPU CODE acceptance
 The [CPU acceptance](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds one complete
