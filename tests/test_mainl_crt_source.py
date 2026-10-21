@@ -38,7 +38,7 @@ class MainlCrtSourceTests(unittest.TestCase):
         self.assertEqual(owners, {'_errno': '_DATA', '__sys_nerr': '_DATA'})
 
     def test_executable_segments_have_no_encoded_data_or_padding(self):
-        for name in ('h_llsh', 'h_padd', 'n_pcmp', 'ioerror', 'setblock'):
+        for name in ('h_llsh', 'h_padd', 'n_pcmp', 'ioerror', 'setblock', 'fbrk'):
             in_code = False
             for line in (SOURCE / (name + '.asm')).read_text().splitlines():
                 line = line.split(';', 1)[0].strip()
@@ -58,6 +58,35 @@ class MainlCrtSourceTests(unittest.TestCase):
         self.assertIn('typedef char huge *heap_pointer;', text)
         self.assertEqual((SOURCE / 'ioerror.asm').read_text().count('    ret 2'), 2)
         self.assertIn('_setblock proc far', (SOURCE / 'setblock.asm').read_text())
+
+    def test_fbrk_far_import_has_unknown_segment(self):
+        # Regression for the351-byte probe: binding this imported far function
+        # to _TEXT allowed assembler-side shortening before the real linker.
+        segment = None
+        declarations = []
+        for line in (SOURCE / 'fbrk.asm').read_text().splitlines():
+            line = line.split(';', 1)[0].strip()
+            m = re.match(r'(\w+) segment\b', line, re.I)
+            if m:
+                segment = m.group(1)
+            if re.match(r'\w+ ends$', line, re.I):
+                segment = None
+            if line == 'extrn _setblock:far':
+                declarations.append(segment)
+        self.assertEqual(declarations, [None])
+        source = (SOURCE / 'fbrk.asm').read_text()
+        self.assertIn('    call _setblock', source)
+        self.assertNotRegex(source, r'(?im)^\s*(nop|push cs)\s*(;.*)?$')
+
+    def test_fbrk_assembly_has_explicit_cleanup_and_data(self):
+        source = (SOURCE / 'fbrk.asm').read_text()
+        self.assertIn('grow_break proc near', source)
+        self.assertIn('__brk proc near', source)
+        self.assertIn('__sbrk proc near', source)
+        self.assertEqual(source.count('    ret 4'), 1)
+        self.assertEqual(source.count('    push si'), 3)
+        self.assertEqual(source.count('    push di'), 3)
+        self.assertIn('granule_count dw 0', source)
 
     def test_pointer_helpers_keep_all_public_aliases(self):
         for filename, names in {

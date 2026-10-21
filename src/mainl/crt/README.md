@@ -10,7 +10,9 @@ remains unchanged until actual linked/runtime/repeat proof is accepted.
 - ioerror.asm: signed DOS/System-V error translation and original-code return, with named
   errno mapping constants in the actual DATA table.
 - setblock.asm: far cdecl DOS memory resize and failure maximum-size return.
-- fbrk.c: near heap-break functions, huge pointers,16-bit PSP rounding and cached granules.
+- fbrk.c: retained high-level C candidate, including its336-byte native result.
+- fbrk.asm: semantic assembly provider with explicit near/far ABI and16-bit PSP invariants.
+  Use one FBRK provider, never link both implementations together.
 
 IOERROR/DOSERROR are near callee-pop; setblock is far caller-pop. The private C growth helper
 is near Pascal, and brk/sbrk are near cdecl. Pointer arithmetic intentionally clobbers ES.
@@ -29,7 +31,14 @@ probe used -c -ms -3- -2- -1- -O, following the compiler's documented switch-dis
 It naturally emitted the intended near helper externs and far setblock call, plus matching
 DATA2, but FBRK CODE is336 rather than352 bytes. Public offsets are __brk126/__sbrk189,
 versus historical142/209. Register allocation, prologues and epilogue arrangement differ.
-No composed link, runtime matrix or independent repeat has yet established the new source.
+The first semantic FBRK ASM probe emitted351 bytes because CODE-scoping the far external
+let TASM shorten the call prematurely. Declaring that imported far code outside all segments
+produces the genuine five-byte far call. The corrected native ASM result is352 CODE bytes,
+DATA2 and public offsets142/209, all raw-equal to the historical member. All six ASM
+providers therefore match628 raw CODE bytes and93 owned DATA bytes in isolated objects.
+FIXUPP indices/order differ, and actual linking must resolve them. Both earlier C336 and
+ASM351 attempts remain retained. No composed link, runtime matrix or independent repeat
+has yet established the new source.
 These probes are diagnostic results, not exact/source-ledger acceptance.
 
 Source-only tests validate named DATA, absence of encoded instructions/padding, public

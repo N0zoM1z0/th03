@@ -13,7 +13,8 @@
     "h_llsh.asm": "8c02feea9752b01c42f677a264346379c90c3a182edd17844765bf5b0dac5453",
     "setblock.asm": "46138d5557c3ffe5a470394a3c38bc7b09f9db8af5f0ebf5a7762c628e32c7f0",
     "crt_errno.inc": "efb6097850e551b05d5f8f6a8718270f37e1e95c04713a03d21a4a1148cb8cb2",
-    "fbrk.c": "cfa49e269d40c1df30f784d7c34cbc2d74c22b2e9337103a4e7efba8d80f3406"
+    "fbrk.c": "cfa49e269d40c1df30f784d7c34cbc2d74c22b2e9337103a4e7efba8d80f3406",
+    "fbrk.asm": "7cd190fc49e64460de5c24918ca06de0a52f7550fd671ab4ada0105001fa2e1d"
   },
   "first_native_probe": {
     "path": ".analysis/mainl-crt-asm-probe-output-20261021-v02/omf-verification.json",
@@ -73,6 +74,25 @@
       "helper_and_far_call_abi_emitted": true,
       "receipt": ".analysis/mainl-crt-c-probe-output-20261021-v02/omf-verification.json"
     },
-    "composed_link_runtime_repeat": "pending"
-  }
+    "composed_link_runtime_repeat": "pending",
+    "fbrk_asm": {
+      "source": "fbrk.asm",
+      "first_code_bytes": 351,
+      "first_shortening": "CODE-scoped far external allowed TASM PUSH CS/near CALL shortening",
+      "correction": "imported far external declared outside any segment",
+      "corrected_code_bytes_equal": 352,
+      "data_bytes_equal": 2,
+      "public_offsets_equal": {
+        "__brk": 142,
+        "__sbrk": 209
+      },
+      "genuine_far_call_and_fixup": true,
+      "fresh_object_sha256": "cb4466de4b84311401c214b866749c9b9fb4a6ed1e3126e2462218e4a8b9bed9",
+      "receipt": ".analysis/mainl-crt-fbrk-asm-probe-output-20261021-v03/omf-verification.json",
+      "fixups": "symbolic indices/order differ; linked resolution remains pending"
+    },
+    "all_six_asm_isolated_code_bytes_equal": 628,
+    "all_six_asm_isolated_owned_data_bytes_equal": 93
+  },
+  "provider_selection": "fbrk.asm is the ABI-explicit assembly candidate; fbrk.c remains retained as a high-level candidate, not linked simultaneously"
 }
