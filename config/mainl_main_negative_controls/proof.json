@@ -1,0 +1,123 @@
+{
+  "schema": "mainl-main-negative-controls-v1",
+  "baseline_head": "bb187e206e094ef83b781bc638ea8e5022a60e8d",
+  "exact_acceptance": false,
+  "product_source_credit": false,
+  "progress_changed": false,
+  "native_replay_invocations": 0,
+  "cases": [
+    {
+      "case": "MRC06",
+      "output": ".analysis/mainl-root-complete-output-20261021-v06",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MRC06",
+      "object": "rootall.obj",
+      "verifier": ".analysis/mainl-root-complete-source-20261021-v06/verify.py"
+    },
+    {
+      "case": "MRA01",
+      "output": ".analysis/mainl-root-symbolic-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MRA01",
+      "object": "rootall.obj",
+      "verifier": ".analysis/mainl-root-symbolic-source-20261021-v01/verify.py"
+    },
+    {
+      "case": "MPL01",
+      "output": ".analysis/mainl-push-long-control-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MPL01",
+      "object": "pushctl.obj",
+      "verifier": ".analysis/mainl-push-long-control-source-20261021-v01/verify.py"
+    },
+    {
+      "case": "MPD01",
+      "output": ".analysis/mainl-push-dword-control-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MPD01",
+      "object": "pushctl.obj",
+      "verifier": ".analysis/mainl-push-dword-control-source-20261021-v01/verify.py"
+    },
+    {
+      "case": "MHC01",
+      "output": ".analysis/mainl-exec-hybrid-control-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MHC01",
+      "object": "tailctl.obj",
+      "verifier": ".analysis/mainl-exec-hybrid-control-source-20261021-v01/verify.py"
+    },
+    {
+      "case": "MHR01",
+      "output": ".analysis/mainl-exec-hybrid-return-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MHR01",
+      "object": "tailctl.obj",
+      "verifier": ".analysis/mainl-exec-hybrid-return-source-20261021-v01/verify.py"
+    },
+    {
+      "case": "MTR01",
+      "output": ".analysis/mainl-root-transfers-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MTR01",
+      "object": "rootall.obj",
+      "verifier": ".analysis/mainl-root-transfers-source-20261021-v01/verify.py"
+    }
+  ],
+  "pins": {
+    ".analysis/mainl-root-complete-output-20261021-v06/manifest.json": "2d24e07eba85bed3b4ad2b32b4db4c2484444838137bcc8c6d2e63b05c4685d3",
+    ".analysis/mainl-root-complete-output-20261021-v06/completion.json": "c884562be0706b013b47c9a4c8c0baa1f3725d71dff3b2efcdcdb900e7da2ded",
+    ".analysis/mainl-root-complete-output-20261021-v06/compile.log": "d59b9357220b2ad4a7879c15b3ea19d66d8b49ac51e6e2ff1c2c76bd773d2a42",
+    ".analysis/mainl-root-complete-output-20261021-v06/compile-finished.json": "dec82ce35a6e2f1d2b13908bc4a0d9d6158f5ae1579f9c445b190195f17210f8",
+    ".analysis/mainl-root-complete-source-20261021-v06/verify.py": "91ac6794ec61f5a805ab056356a039a246453391ad5313ae45408075e992cfdd",
+    ".analysis/mainl-root-complete-source-20261021-v06/rootall.cpp": "117a4710d6da029642bb0a5d2987b4f58ae1d52f4bb35cc023f5f03cbc78ec7d",
+    ".analysis/mainl-root-complete-output-20261021-v06/linked-verification.json": "0d8ae6645f8948be51bd30c9b0146cc3f73e616b03a9d67b305bd30b8a7b492d",
+    ".analysis/mainl-root-complete-output-20261021-v06/compile-output.json": "f14c8b7e5ac74e772ba69630a19df085daf3a894d2226faa97f50f85b955c26b",
+    ".analysis/toolchain/wineprefix/drive_c/MRC06/rootall.obj": "ecd2b3fb4099c1c39509395ac3d124a4e7f031f554d03b532ca13c8f45c42838",
+    ".analysis/mainl-root-symbolic-output-20261021-v01/manifest.json": "92655e80994de4da5907d882715618f355911c092908021ee2d14a58d58e6c54",
+    ".analysis/mainl-root-symbolic-output-20261021-v01/completion.json": "450ecab4bb58bc506b29b03cc1ee69970fbe75d50fb39bc6f7bd6fc3e77f6902",
+    ".analysis/mainl-root-symbolic-output-20261021-v01/compile.log": "b388e4e26be563385c9dfec512246f2d96ec24c14048133703aac93f4afb9bf3",
+    ".analysis/mainl-root-symbolic-output-20261021-v01/compile-finished.json": "4cd8fe47f29d5760ee1e5ebb420e0476ff7b084835c575dc9ab5cc09895a5344",
+    ".analysis/mainl-root-symbolic-source-20261021-v01/verify.py": "91ac6794ec61f5a805ab056356a039a246453391ad5313ae45408075e992cfdd",
+    ".analysis/mainl-root-symbolic-source-20261021-v01/rootall.cpp": "b61259d15139f22a2694ad70ffd961a9edf55cb1c5caee407c39a8f0fdd9e562",
+    ".analysis/mainl-push-long-control-output-20261021-v01/manifest.json": "a90d99b1807ad172f42816da9a28f852942c773bc439a99bd74b51222917195d",
+    ".analysis/mainl-push-long-control-output-20261021-v01/completion.json": "0ac672fa715f027773bf36acb9e2d23acba6e574c849f1cda9c8020751280abc",
+    ".analysis/mainl-push-long-control-output-20261021-v01/compile.log": "712ee075e70098e9186415228dbc061f8e93c670bae3a320c18d0d2c796e1ad9",
+    ".analysis/mainl-push-long-control-output-20261021-v01/compile-finished.json": "aeeaddda6aff52b89adb934eb284ae84b5622f754f6d2be7b31eb0ffabb2effa",
+    ".analysis/mainl-push-long-control-source-20261021-v01/verify.py": "d5072077e59c098cfcc67867d386f33b364ae5c00ae9b024959a8667fe553ccc",
+    ".analysis/mainl-push-long-control-source-20261021-v01/pushctl.cpp": "39a488804b92ac118a6adbff174fe4b8df2f3c0897bc178b5a1bb0148cb2218d",
+    ".analysis/mainl-push-dword-control-output-20261021-v01/manifest.json": "33b241c157d1a2d8c92325055162b3ad63fb7fda5dd6b5bf8b6e6ed57a1e3cc8",
+    ".analysis/mainl-push-dword-control-output-20261021-v01/completion.json": "b7d1d2f068c1b2dbfd5c173364cc9260ae9ebc7e714aa2d6242fa8c55653fba6",
+    ".analysis/mainl-push-dword-control-output-20261021-v01/compile.log": "ecaa293e3dee8907b7b24e4c0b994a45d2a001d87af236663ba675eb09b2ec59",
+    ".analysis/mainl-push-dword-control-output-20261021-v01/compile-finished.json": "f08ea35a58fda44079336ce54163e01c04fb40b074837821db02f32da6b3f3ba",
+    ".analysis/mainl-push-dword-control-source-20261021-v01/verify.py": "d5072077e59c098cfcc67867d386f33b364ae5c00ae9b024959a8667fe553ccc",
+    ".analysis/mainl-push-dword-control-source-20261021-v01/pushctl.cpp": "49f6bc8ea7a40ce65b18cf60259a6085330e0f4ff9a1e226494803ef94e89d2a",
+    ".analysis/mainl-exec-hybrid-control-output-20261021-v01/manifest.json": "b350edd3b36201e7386ecb49f574c6d800d1529f6ddb3f49cedaf7544fa2cdb3",
+    ".analysis/mainl-exec-hybrid-control-output-20261021-v01/completion.json": "ac9d02eee355166ff28ee0dd45ddf410dca1ccd49b78eacd413d34407a9f559f",
+    ".analysis/mainl-exec-hybrid-control-output-20261021-v01/compile.log": "56628c0a866667085331ae015ddad117a3ed9f24c6ac6d346920ffb398d365b1",
+    ".analysis/mainl-exec-hybrid-control-output-20261021-v01/compile-finished.json": "1ef7d1ce3b678b8e959f673104be13daca7bdf0f2bb59ba516151a2d4cf17a31",
+    ".analysis/mainl-exec-hybrid-control-source-20261021-v01/verify.py": "cc19ac5067f28b04949af94048d3507e8aac980b2a39cfccc5edc4a93462f1b9",
+    ".analysis/mainl-exec-hybrid-control-source-20261021-v01/tailctl.cpp": "4286725bf39f03ef4e60ccb0c1e2290e69b7ae34eb8f6217fc2322e52ec8cb82",
+    ".analysis/mainl-exec-hybrid-control-output-20261021-v01/linked-verification.json": "3ede209aee5478bdc1aac3c30653e7b1aac0a9be0d3ed1395e640ed917b4f6b1",
+    ".analysis/mainl-exec-hybrid-control-output-20261021-v01/compile-output.json": "7064df73dd71ee29a7d5d73cf51c92de3dcace394c6b3206451020002758c2c0",
+    ".analysis/toolchain/wineprefix/drive_c/MHC01/tailctl.obj": "dfabc28a376513ac9304aaedeea67372f208652c1d8eb1be07a7fcaf1e1582df",
+    ".analysis/mainl-exec-hybrid-return-output-20261021-v01/manifest.json": "b374d4a7bdd3792129954957aabec27394dabf553fc6fb363b83cf75d60989d9",
+    ".analysis/mainl-exec-hybrid-return-output-20261021-v01/completion.json": "e55bc622b422a11fe8cf5f5ad53053cb28f7949f0c89e8207db908e6673f2816",
+    ".analysis/mainl-exec-hybrid-return-output-20261021-v01/compile.log": "56628c0a866667085331ae015ddad117a3ed9f24c6ac6d346920ffb398d365b1",
+    ".analysis/mainl-exec-hybrid-return-output-20261021-v01/compile-finished.json": "77fffd149a566803aa31d56caad1706f74dccd71b345fb72e4c4d8a2109488f0",
+    ".analysis/mainl-exec-hybrid-return-source-20261021-v01/verify.py": "0442526f091a93a4ab9e3eb0581c1033316d6c1ba57eddcb965872694558cf52",
+    ".analysis/mainl-exec-hybrid-return-source-20261021-v01/tailctl.cpp": "fd30230893015ba5ab5dd783dc131b08122dc5d5b9c4c6be8ff8f5711a94f737",
+    ".analysis/mainl-exec-hybrid-return-output-20261021-v01/linked-verification.json": "629671d8e864d7e8f24a657faee727f461f5576d1aa498b22bb65757cae7db44",
+    ".analysis/mainl-exec-hybrid-return-output-20261021-v01/compile-output.json": "12dafb4e25d3d0bc2c82147023494df7b6191c2731a346d1a477eb658222a494",
+    ".analysis/toolchain/wineprefix/drive_c/MHR01/tailctl.obj": "28a367d97feb5794057904ce40f72fb67f267a50e51422433fe588177b18a0a4",
+    ".analysis/mainl-root-transfers-output-20261021-v01/manifest.json": "d49ab3c6dab1de8d11eb317f7ecfab86a8971ac2fba7273e1b0441b3f4851083",
+    ".analysis/mainl-root-transfers-output-20261021-v01/completion.json": "0c05dbbe4ad25ffe2f9bc15b477edd5355e290d827bdb0c28741f3f916e5bc62",
+    ".analysis/mainl-root-transfers-output-20261021-v01/compile.log": "d59b9357220b2ad4a7879c15b3ea19d66d8b49ac51e6e2ff1c2c76bd773d2a42",
+    ".analysis/mainl-root-transfers-output-20261021-v01/compile-finished.json": "1d79e3e1a8969b76d2a6b3f7009dfaecd78401edd1a4dd331b4d7b52452ad9f0",
+    ".analysis/mainl-root-transfers-source-20261021-v01/verify.py": "91ac6794ec61f5a805ab056356a039a246453391ad5313ae45408075e992cfdd",
+    ".analysis/mainl-root-transfers-source-20261021-v01/rootall.cpp": "a26cfc0468d13aabb24b8093b9ea25fe89e91d279812ed9e1f025ff2b9fa8a6e",
+    ".analysis/mainl-root-transfers-output-20261021-v01/linked-verification.json": "6b748eaa4a31cbae3ca3b6e4c27219fde7621005fdaa240530cb723a0147a1ea",
+    ".analysis/mainl-root-transfers-output-20261021-v01/compile-output.json": "83f91bd86f4ef1aa39d9e19689808af1aa3179e34acca43943ef84505513178e",
+    ".analysis/toolchain/wineprefix/drive_c/MTR01/rootall.obj": "89fa983becbff9bc5daaf01e6ff0e001c23fe3c32f4459308fc68859c04fd918",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030"
+  },
+  "critical_mtr01": {
+    "branch_main_offset": 9,
+    "bytes": "7401",
+    "decoded_destination": 12,
+    "intended_final_return": 524,
+    "destination_skips_push_ds": true
+  }
+}
