@@ -282,3 +282,53 @@ Immediate next step is the same bounded two-command parent-owned hybrid build,
 now verifying all 14 public procedure boundaries and all 600 owned bytes.
 No accepted ledger/default-wrapper/DIET change or real DOS/device/TSR behavior
 claim is implied by either the six-setter proof or this larger source group.
+
+## 2026-10-21 resident/services native proof and command-source continuation
+
+The second parent-owned hybrid build, drive_c/ZDHYB02, successfully assembled
+and linked the 14-procedure resident/services source. Complete raw COM equality
+with the same 4,224-byte candidate is preserved, as are exactly the ten target
+differences. All 14 procedure boundaries agree in OMF and both MAP public tables;
+all 600 complete owned body bytes equal the target. Both native exits were zero,
+with certain owned cleanup, no errors and released shared lock. This is one
+materialization of the expanded source, not a two-cold acceptance claim.
+
+Retained completion .analysis/zun-driver-hybrid-output-20261021-v02/completion.json:
+f2a1e7413270b3254a61c4a28e61a23625fe020fa0e876f8670b23a25b184831.
+Raw driver.obj SHA256 b422bb0e22193c8f48a494fc26724895904b28cf8abdb60c4b4b3b4faee7867a;
+driver.map 7346d1437a1a5c0afdef6592e16a6d4bbc0ef6d2a85b76448fad4e4b27386ba2;
+driver.com remains bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c.
+The SVG now annotates this actual 14-procedure / 600-byte hybrid proof, not the
+additional source-only work below. Accepted counts and bars remain unchanged.
+
+The next source group is substantial but bounded: 16 complete procedures /
+725 bytes, consumed through three logical maintained includes:
+- driver_command.inl: nine tokenization, argument and option procedures,
+  0920–0A88, 361 bytes.
+- driver_numbers.inl: five number/switch parsers, 0A90–0BC5, 310 bytes.
+- driver_strings.inl: length and folded comparison, 0C40–0C75, 54 bytes.
+
+The stage now consumes 30 procedures / 1,325 instruction bytes in total. It
+preserves the complete expanded instruction/data token stream and leaves every
+inter-group gap in the retained scaffold. The new command group's native proof
+is pending. The verifier's explicit command-resident-services scope requires
+all 30 OMF/MAP boundaries and complete owned body equality after the next build.
+
+Comments preserve observed contracts rather than improving them: optional-number
+A24 consumes a present argument but returns zero, while absence parses the
+caller's previous SI; hexadecimal parsing accepts some punctuation; numeric
+overflow wraps at 16 bits. Semicolon ends parsing only at a token's beginning,
+text adjacent to a closing quote is skipped, and dispatch reads/advances a
+pointer before checking the remaining count. No capacity checks or safer
+malformed-input semantics are silently added. Numeric suffix parsing requires
+writable strings, relevant LODSB paths require DF=0, and string comparison returns
+CMP flags rather than an integer. These are source observations, not new runtime
+coverage or DOS/device safety claims.
+
+Remaining procedure ownership is two logical groups: 12 graphics/EGC procedures
+(814 bytes) and 13 text-format/output procedures (705 bytes). Separate remaining
+layout ownership includes the 2-byte entry jump, 10-byte signature/version,
+88 bytes of labelled inter-procedure gaps and 1,280 bytes of trailing data.
+The four instruction-encoding choices/ten target bytes, full data/layout ownership,
+whole decoded wrapper, outer DIET and real DOS/TSR/device behavior remain distinct
+open obligations. No default graph or accepted ledger is changed here.

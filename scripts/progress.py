@@ -80,14 +80,16 @@ def zun_init_standalone_retained(units: list[dict[str, str]]) -> bool:
 
 
 def zun_driver_hybrid_retained(units: list[dict[str, str]]) -> bool:
-    """Historical six-setter hybrid diagnostic; never feeds progress counts."""
+    """Historical resident/services hybrid diagnostic; never feeds progress counts."""
     # Reviewed checkpoint: docs/reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md.
-    # Completion: .analysis/zun-driver-hybrid-output-20261021-v01/completion.json
-    # SHA256: d3183376b6f415823614512f92255d25d15d22758145b65c697a708f493d8e11.
+    # Completion: .analysis/zun-driver-hybrid-output-20261021-v02/completion.json
+    # SHA256: f2a1e7413270b3254a61c4a28e61a23625fe020fa0e876f8670b23a25b184831.
     # src/zun/driver_services.inl: d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af.
+    # src/zun/driver_resident.inl: 7782efb60da5d9fe90ef5dffcc781f32d109a9ce81f780224fc3f8b9d03d2512.
     # One assembly plus one link, not a two-cold-round proof. All 4,224 bytes
     # equal the retained candidate, NOT target: ten differences remain.
-    # Only six setters / 36 bytes are maintained; no full-driver ownership.
+    # Proven maintained scope: 14 complete resident/service procedures / 600 B.
+    # No full-driver ownership or credit for later source-only groups.
     rows = [u for u in units if u["id"] == "th03-zun-decoded-sprite16-driver"]
     return len(rows) == 1 and all(rows[0].get(key) == value for key, value in {
         "artifact": "th03-zun", "segment": "decoded-COM", "offset": "0x33a2",
@@ -141,7 +143,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
-            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 6 maintained setters / 36 B · 10 target differences · no exact credit</text>')
+            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 14 resident/service procedures / 600 B · 10 target differences · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="458" viewBox="0 0 788 458" role="img" aria-label="TH03 reviewed subset reconstruction progress">

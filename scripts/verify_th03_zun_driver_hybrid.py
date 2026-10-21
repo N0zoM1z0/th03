@@ -3,6 +3,22 @@ import hashlib,re
 NAMES=('sprite16_set_mono_enabled','sprite16_set_mono_color','sprite16_set_overlap','sprite16_set_access_plane','sprite16_set_rop','sprite16_set_mask')
 PUBLICS=dict(start=0x100,**dict(zip(NAMES,range(0x340,0x364,6))))
 RESIDENT_PROCS=(('sprite16_entry', 268, 412), ('sprite16_allocate_buffers', 412, 471), ('sprite16_set_interrupt_argument', 471, 478), ('sprite16_mask_test_command', 478, 513), ('sprite16_draw_command', 513, 554), ('sprite16_interrupt_dispatch', 554, 579), ('sprite16_install', 579, 685), ('sprite16_uninstall', 685, 832))
+COMMAND_PROCS=(('sprite16_tokenize_command', 2336, 2434),
+ ('sprite16_skip_separators', 2434, 2457),
+ ('sprite16_find_token_end', 2457, 2485),
+ ('sprite16_find_quote_end', 2485, 2509),
+ ('sprite16_require_argument', 2509, 2543),
+ ('sprite16_optional_argument', 2543, 2570),
+ ('sprite16_require_number', 2570, 2596),
+ ('sprite16_optional_number_legacy', 2596, 2614),
+ ('sprite16_dispatch_options', 2614, 2697),
+ ('sprite16_parse_number', 2704, 2821),
+ ('sprite16_parse_decimal', 2821, 2891),
+ ('sprite16_parse_hex', 2891, 2933),
+ ('sprite16_parse_binary', 2933, 2978),
+ ('sprite16_parse_switch', 2978, 3014),
+ ('sprite16_string_length', 3136, 3154),
+ ('sprite16_string_equal_folded', 3154, 3190))
 DIFFS=[0x298,0x299,0x30c,0x30d,0x30e,0x31d,0x31e,0x31f,0x7b1,0x7b2]
 CANDIDATE='bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c'
 TARGET='9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb'
@@ -50,9 +66,10 @@ def map_boundaries(raw,expected_publics=PUBLICS):
   need(rows==expected_publics,'MAP complete public boundaries');tables.append(rows)
  return tables
 def verify(obj,com,map_raw,candidate,target,scope="setters"):
- need(scope in ("setters","resident-services"),"unknown ownership scope")
+ need(scope in ("setters","resident-services","command-resident-services"),"unknown ownership scope")
  procedures=[(n,a,a+6) for n,a in PUBLICS.items() if n!="start"]
- if scope=="resident-services":procedures=list(RESIDENT_PROCS)+procedures
+ if scope!="setters":procedures=list(RESIDENT_PROCS)+procedures
+ if scope=="command-resident-services":procedures+=list(COMMAND_PROCS)
  expected_publics=dict(start=0x100,**{n:a for n,a,b in procedures})
  need(len(com)==len(candidate)==len(target)==4224,'full driver length')
  need(sha(candidate)==CANDIDATE and sha(target)==TARGET,'candidate/target identity')

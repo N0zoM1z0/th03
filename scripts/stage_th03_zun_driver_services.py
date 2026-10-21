@@ -1,4 +1,4 @@
-"""Opt-in hybrid driver source stage: fourteen maintained procedures, retained remainder.
+"""Opt-in hybrid driver source stage: thirty maintained procedures, retained remainder.
 
 This is NOT a maintained whole-driver build or default integration. Reference
 scaffold and two includes stay explicitly pinned diagnostic inputs. No target
@@ -55,6 +55,89 @@ RESIDENT_SYMBOLS={'word_F40': 'sprite16_int40_signature_found',
  'loc_331': 'uninstall_removed',
  'loc_339': 'uninstall_not_present',
  'locret_33F': 'uninstall_return'}
+COMMAND_GROUPS=(('src/zun/driver_command.inl',
+  (('sub_920', 'sprite16_tokenize_command', 2336, 2434),
+   ('sub_982', 'sprite16_skip_separators', 2434, 2457),
+   ('sub_999', 'sprite16_find_token_end', 2457, 2485),
+   ('sub_9B5', 'sprite16_find_quote_end', 2485, 2509),
+   ('sub_9CD', 'sprite16_require_argument', 2509, 2543),
+   ('sub_9EF', 'sprite16_optional_argument', 2543, 2570),
+   ('sub_A0A', 'sprite16_require_number', 2570, 2596),
+   ('sub_A24', 'sprite16_optional_number_legacy', 2596, 2614),
+   ('sub_A36', 'sprite16_dispatch_options', 2614, 2697))),
+ ('src/zun/driver_numbers.inl',
+  (('sub_A90', 'sprite16_parse_number', 2704, 2821),
+   ('sub_B05', 'sprite16_parse_decimal', 2821, 2891),
+   ('sub_B4B', 'sprite16_parse_hex', 2891, 2933),
+   ('sub_B75', 'sprite16_parse_binary', 2933, 2978),
+   ('sub_BA2', 'sprite16_parse_switch', 2978, 3014))),
+ ('src/zun/driver_strings.inl',
+  (('sub_C40', 'sprite16_string_length', 3136, 3154),
+   ('sub_C52', 'sprite16_string_equal_folded', 3154, 3190))))
+COMMAND_SYMBOLS={'byte_1072': 'sprite16_argument_vector',
+ 'word_10F2': 'sprite16_argument_cursor',
+ 'off_101C': 'sprite16_option_table',
+ 'aSVVVsVkmivVivs': 'sprite16_missing_quote_message',
+ 'aI_0': 'sprite16_missing_argument_message',
+ 'aRftlvVCVvtlvko': 'sprite16_invalid_number_message',
+ 'aGigvgvgzguvkcM': 'sprite16_invalid_option_message',
+ 'aOn': 'sprite16_switch_on',
+ 'aOff': 'sprite16_switch_off',
+ 'loc_92F': 'tokenize_next',
+ 'loc_940': 'tokenize_terminate',
+ 'loc_945': 'tokenize_check_quote',
+ 'loc_964': 'tokenize_close_quote',
+ 'loc_96D': 'tokenize_plain',
+ 'loc_97B': 'tokenize_return',
+ 'loc_992': 'skip_separator',
+ 'locret_998': 'skip_separators_return',
+ 'loc_9AF': 'find_token_done',
+ 'loc_9B1': 'find_token_advance',
+ 'locret_9B4': 'find_token_return',
+ 'loc_9BE': 'find_quote_check_end',
+ 'loc_9C6': 'find_quote_missing',
+ 'loc_9C9': 'find_quote_advance',
+ 'locret_9CC': 'find_quote_return',
+ 'loc_9DF': 'require_argument_consume',
+ 'loc_9F9': 'optional_argument_consume',
+ 'locret_A09': 'optional_argument_return',
+ 'loc_A21': 'require_number_return',
+ 'loc_A33': 'optional_number_return',
+ 'loc_A3C': 'dispatch_option_next',
+ 'loc_A50': 'dispatch_option_consume',
+ 'loc_A5E': 'dispatch_option_begin',
+ 'loc_A61': 'dispatch_option_search',
+ 'loc_A71': 'dispatch_option_compare',
+ 'loc_A81': 'dispatch_option_advance',
+ 'loc_A86': 'dispatch_option_continue',
+ 'locret_A88': 'dispatch_option_return',
+ 'loc_AA8': 'parse_number_two_chars',
+ 'loc_AB6': 'parse_number_invalid_quote',
+ 'loc_ABB': 'parse_number_prefix',
+ 'loc_AC6': 'parse_number_suffix',
+ 'loc_AE6': 'parse_number_binary_suffix',
+ 'loc_AF9': 'parse_number_decimal_or_switch',
+ 'loc_B01': 'parse_number_return',
+ 'loc_B1B': 'parse_decimal_plus',
+ 'loc_B21': 'parse_decimal_digit',
+ 'loc_B30': 'parse_decimal_accumulate',
+ 'loc_B3E': 'parse_decimal_sign',
+ 'loc_B45': 'parse_decimal_success',
+ 'loc_B46': 'parse_decimal_return',
+ 'loc_B4F': 'parse_hex_digit',
+ 'loc_B5A': 'parse_hex_value',
+ 'loc_B66': 'parse_hex_accumulate',
+ 'loc_B6F': 'parse_hex_invalid',
+ 'loc_B70': 'parse_hex_return',
+ 'loc_B85': 'parse_binary_digit',
+ 'loc_B94': 'parse_binary_accumulate',
+ 'loc_B99': 'parse_binary_test_end',
+ 'loc_B9E': 'parse_binary_return',
+ 'loc_BC2': 'parse_switch_success',
+ 'loc_BC3': 'parse_switch_return',
+ 'loc_C47': 'string_length_next',
+ 'loc_C56': 'string_compare_next',
+ 'loc_C6F': 'string_compare_return'}
 SETTERS=(
  ('sub_340','sprite16_set_mono_enabled','word_1064','sprite16_mono_enabled'),
  ('sub_346','sprite16_set_mono_color','word_1066','sprite16_mono_color'),
@@ -80,7 +163,7 @@ def rename_symbols(text):
  for old,new,field,name in SETTERS:
   text=re.sub(r'\b'+old+r'\b',new,text,flags=re.I)
   text=re.sub(r'\b'+field+r'\b',name,text,flags=re.I)
- for old,new in [(a,b) for a,b,_,_ in RESIDENT_PROCS]+list(RESIDENT_SYMBOLS.items()):
+ for old,new in [(a,b) for a,b,_,_ in RESIDENT_PROCS]+list(RESIDENT_SYMBOLS.items())+[(a,b) for _,group in COMMAND_GROUPS for a,b,_,_ in group]+list(COMMAND_SYMBOLS.items()):
   text=re.sub(r'\b'+old+r'\b',new,text,flags=re.I)
  return text
 def compose(reference,services):
@@ -112,6 +195,18 @@ def compose_resident(reference,resident):
  for a,b in zip(spans,spans[1:]):need(not tokens(reference[a[1]:b[0]]),'unowned code/data between resident procedures')
  first,last=spans[0][0],spans[-1][1]
  return reference[:first]+'include src\\zun\\driver_resident.inl'+reference[last:]
+def compose_command_group(reference,owned,path,procedures):
+ """Replace one contiguous code group only; all following zero gaps stay retained."""
+ spans=[];expected=[]
+ for old,name,start,end in procedures:
+  found=list(re.finditer(r'(?im)^'+old+r'\s+proc near\b.*?^'+old+r'\s+endp\b[^\n]*',reference,flags=re.S))
+  need(len(found)==1,'unique command procedure '+old)
+  match=found[0];spans.append(match.span());expected+=['public '+name]+tokens(rename_symbols(match.group()))
+ need(tokens(owned)==expected,'command procedure instruction/ABI contract differs')
+ need(all(a[1]<=b[0] for a,b in zip(spans,spans[1:])),'command order/overlap')
+ for a,b in zip(spans,spans[1:]):need(not tokens(reference[a[1]:b[0]]),'unowned code/data between command procedures')
+ first,last=spans[0][0],spans[-1][1]
+ return reference[:first]+'include '+path.replace('/','\\')+reference[last:]
 def dos_text(text):
  text=text.replace('\r\n','\n')
  need('\r' not in text and text.endswith('\n'),'strict LF text with final newline required')
@@ -131,6 +226,10 @@ def stage(output,root=ROOT):
  own=read(root/SERVICES);need(b'\r' not in own,'maintained source must be UTF8 LF')
  resident=read(root/RESIDENT);need(b'\r' not in resident,'maintained resident source must be UTF8 LF')
  text=compose_resident(reference.decode('shift_jis'),resident.decode('utf-8'))
+ command_inputs={}
+ for path,procedures in COMMAND_GROUPS:
+  raw=read(root/path);need(b'\r' not in raw,'maintained command source must be UTF8 LF');command_inputs[path]=raw
+  text=compose_command_group(text,raw.decode('utf-8'),path,procedures)
  text=compose(text,own.decode('utf-8'))
  for old,new in (('libs/master.lib/macros.inc','retained\\master.inc'),('th01/hardware/egc.inc','retained\\egc.inc')):
   need(text.count('include '+old)==1,'retained include statement differs')
@@ -138,7 +237,9 @@ def stage(output,root=ROOT):
  files={'driver.asm':dos_text(text),SERVICES:dos_text(own.decode('utf-8')),
         RESIDENT:dos_text(resident.decode('utf-8')),
         'link.rsp':b'-c -s -t -3 driver.obj,driver.com,driver.map,\r\n'}
+ files.update({path:dos_text(raw.decode('utf-8')) for path,raw in command_inputs.items()})
  inputs={REFERENCE:sha(reference),SERVICES:sha(own),RESIDENT:sha(resident)}
+ inputs.update({path:sha(raw) for path,raw in command_inputs.items()})
  for source,expected,dest in INCLUDES:
   raw=read(root/source);need(sha(raw)==expected,'retained include identity')
   need(not re.search(rb'(?im)^\s*include\b',raw),'unexpected transitive retained include')
@@ -148,8 +249,8 @@ def stage(output,root=ROOT):
   path=output/name;path.parent.mkdir(parents=True,exist_ok=True)
   with path.open('xb') as f:f.write(raw)
  for name,expected in inputs.items():need(sha(read(root/name))==expected,'input changed during stage')
- result=dict(kind='zun-driver-resident-services-hybrid-stage',inputs=inputs,
-             outputs={n:sha(v) for n,v in files.items()},maintained_procedures=14,maintained_instruction_bytes=600,
+ result=dict(kind='zun-driver-command-resident-services-hybrid-stage',inputs=inputs,
+             outputs={n:sha(v) for n,v in files.items()},maintained_procedures=30,maintained_instruction_bytes=1325,
              complete_driver_source_owned=False,native_invocations=0,exact_acceptance=False)
  with (output/'stage.json').open('x') as f:json.dump(result,f,indent=2);f.write('\n')
  return result

@@ -56,12 +56,12 @@ class ZunProgressTests(unittest.TestCase):
         after = progress.render_svg([main, initializer(), driver()], [], [])
         added = [line for line in after.splitlines() if "Retained hybrid driver:" in line]
         self.assertEqual(len(added), 1)
-        self.assertIn("6 maintained setters / 36 B · 10 target differences · no exact credit", added[0])
+        self.assertIn("14 resident/service procedures / 600 B · 10 target differences · no exact credit", added[0])
         self.assertIn("not two cold rounds or full-driver ownership", added[0])
         self.assertEqual(after.replace(added[0] + "\n", ""), before)
         self.assertIn("Retained standalone init:", after)
         self.assertIn("Inventory pending", after)
-        self.assertNotIn("6 tracked functions", after)
+        self.assertNotIn("14 tracked functions", after)
         self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
         self.assertIn("no whole-game completion percentage", after)
 
@@ -69,7 +69,7 @@ class ZunProgressTests(unittest.TestCase):
         self.assertFalse(progress.zun_driver_hybrid_retained([]))
         self.assertFalse(progress.zun_driver_hybrid_retained([driver(), driver()]))
         changes = {"id": "other", "artifact": "th03-main", "segment": "decoded:-4",
-                   "offset": "0x33a3", "size": "36", "boundary_state": "provisional",
+                   "offset": "0x33a3", "size": "600", "boundary_state": "provisional",
                    "state": "exact"}
         for field, value in changes.items():
             with self.subTest(field=field):

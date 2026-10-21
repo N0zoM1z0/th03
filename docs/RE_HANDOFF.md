@@ -28,19 +28,21 @@ wrapper graph, accepted ledgers, whole ZUN status, or whole-game denominator.
 
 ## ZUN driver ownership continuation
 
-The [driver review](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md) retains one
-fresh hybrid TASM/TLINK result: all 4,224 candidate bytes equal, six maintained
-setter boundaries/bodies verified, and the same ten target differences remain.
-Completion d3183376b6f415823614512f92255d25d15d22758145b65c697a708f493d8e11
-records two zero exits and certain owned cleanup. The maintained verifier and
-SVG preserve this diagnostic scope, with no two-cold or acceptance credit.
+The [driver review](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md) retains a
+fresh resident/services hybrid TASM/TLINK result: all 4,224 candidate bytes
+match, all 14 maintained procedure boundaries and 600 owned bytes match the
+target, and the same ten other target differences remain. Completion
+f2a1e7413270b3254a61c4a28e61a23625fe020fa0e876f8670b23a25b184831
+records two zero exits and certain cleanup. SVG annotates only this actual
+proof, without two-cold or accepted-ledger credit.
 
-Eight startup/resident-lifecycle procedures are now a second consumed include:
-564 additional bytes, making 14 procedures / 600 bytes of maintained source.
-Complete expanded instruction/data tokens remain unchanged. Their fresh native
-boundary/raw proof is next; only the earlier six setters have that proof so far.
-The four-instruction/ten-byte encoding gap, unowned data/gaps and DOS/device/TSR
-behavior remain open. No default wrapper, DIET or whole-game denominator change.
+Three new consumed command/numeric/string includes add 16 procedures / 725 bytes:
+30 procedures / 1,325 instruction bytes are now maintained source. Their full
+expanded instruction/data tokens are unchanged; the new group's native proof
+is next. Remaining procedure groups are graphics/EGC (12 / 814 bytes) and
+text formatting/output (13 / 705 bytes), plus separate data/gap/layout ownership.
+The ten-byte encoding gap and DOS/device/TSR behavior remain open. No default
+wrapper, DIET or whole-game denominator change.
 
 ## CPU CODE acceptance
 The [CPU acceptance](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds one complete

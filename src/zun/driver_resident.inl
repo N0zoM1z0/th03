@@ -58,10 +58,10 @@ entry_parse_command_tail:
 		repne scasb
 		mov	byte ptr [di-1], 0
 		mov	si, 81h
-		call	sub_920
+		call	sprite16_tokenize_command
 		cmp	sprite16_argument_count, 0
 		jbe	short entry_no_arguments
-		call	sub_A36
+		call	sprite16_dispatch_options
 		mov	ax, 4C00h
 		int	21h
 
@@ -116,11 +116,11 @@ allocate_buffers_done:
 		retn
 sprite16_allocate_buffers		endp
 
-; Option adapter: consume one parsed number through retained sub_A0A.
+; Option adapter: consume one parsed number through retained sprite16_require_number.
 ; Stores only AL as the software-interrupt number. Near caller owns arguments.
 public sprite16_set_interrupt_argument
 sprite16_set_interrupt_argument		proc near
-		call	sub_A0A
+		call	sprite16_require_number
 		mov	sprite16_interrupt_number, al
 		retn
 sprite16_set_interrupt_argument		endp
@@ -157,15 +157,15 @@ public sprite16_draw_command
 sprite16_draw_command		proc near
 		call	sprite16_allocate_buffers
 		call	sub_540
-		call	sub_A0A
+		call	sprite16_require_number
 		mov	dx, ax
-		call	sub_A0A
+		call	sprite16_require_number
 		mov	bx, ax
-		call	sub_A0A
+		call	sprite16_require_number
 		mov	di, ax
-		call	sub_A0A
+		call	sprite16_require_number
 		push	ax
-		call	sub_A0A
+		call	sprite16_require_number
 		mov	cx, ax
 		pop	ax
 		call	sub_BD0

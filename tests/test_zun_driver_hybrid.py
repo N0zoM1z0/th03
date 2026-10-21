@@ -23,6 +23,11 @@ class HybridTests(unittest.TestCase):
   rows=v.PUBLICS|{n:a for n,a,b in v.RESIDENT_PROCS}
   self.assertEqual(v.omf(object_fixture(rows),rows)['publics'],rows)
   self.assertEqual(v.map_boundaries(map_fixture(rows),rows),[rows,rows])
+ def test_thirty_boundaries(self):
+  rows=v.PUBLICS|{n:a for n,a,b in v.RESIDENT_PROCS+v.COMMAND_PROCS}
+  self.assertEqual(len(rows),31)
+  self.assertEqual(v.omf(object_fixture(rows),rows)['publics'],rows)
+  self.assertEqual(v.map_boundaries(map_fixture(rows),rows),[rows,rows])
  def test_bad_checksums_and_truncation(self):
   for raw in (object_fixture()[:-1],object_fixture()[:-1]+b'\x55'):
    with self.assertRaises(ValueError):v.omf(raw)
