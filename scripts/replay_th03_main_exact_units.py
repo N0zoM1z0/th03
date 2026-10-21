@@ -34,6 +34,7 @@ from lib import th03_score_candidate as score_candidate
 from lib import th03_yumemi_bomb_candidate as bomb_candidate
 from lib import th03_player_tail_candidate as tail_candidate
 from lib import th03_player_cpu_candidate as cpu_candidate
+from lib import th03_yumemi_charge_candidate as charge_candidate
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -504,13 +505,28 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     cpu_proof = None
     cpu_expected = None
     cpu_default = False
+    charge_proof = None
+    charge_expected = None
+    charge_default = False
     if candidate_manifest is not None:
         candidate_manifest = candidate_manifest.resolve()
         if not candidate_manifest.is_relative_to(ROOT / "config"):
             raise ValueError("candidate manifest must be inside repository config/")
         additions = tomllib.loads(candidate_manifest.read_text())
         manifest_name = candidate_manifest.relative_to(ROOT).as_posix()
-        if manifest_name == cpu_candidate.CANDIDATE_PATH:
+        if manifest_name == charge_candidate.CANDIDATE_PATH:
+            config, score_original = charge_candidate.bind_candidate(config, additions, manifest_name)
+            config = add_candidate_owners(config, additions)
+            score_proof = score_candidate.guard_baseline(ROOT)
+            bomb_proof = bomb_candidate.guard_baseline(ROOT)
+            tail_proof = tail_candidate.guard_baseline(ROOT)
+            tail_expected = tail_candidate.freeze_expected(ROOT)
+            cpu_proof = cpu_candidate.guard_baseline(ROOT)
+            cpu_expected = cpu_candidate.freeze_expected(ROOT)
+            charge_proof = charge_candidate.guard_baseline(ROOT)
+            charge_expected = charge_candidate.freeze_expected(ROOT)
+            bomb_default = tail_default = cpu_default = True
+        elif manifest_name == cpu_candidate.CANDIDATE_PATH:
             config, score_original = cpu_candidate.bind_candidate(config, additions, manifest_name)
             config = add_candidate_owners(config, additions)
             score_proof = score_candidate.guard_baseline(ROOT)
@@ -542,6 +558,18 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                 config, score_original = score_candidate.bind_candidate(
                     config, additions, manifest_name)
                 score_proof = score_candidate.guard_baseline(ROOT)
+    elif any(u.get('id') == 'th03-main-yumemi-charge' for u in config['units']):
+        config, score_original = charge_candidate.bind_default(config)
+        score_proof = score_candidate.guard_baseline(ROOT)
+        bomb_proof = bomb_candidate.guard_baseline(ROOT)
+        tail_proof = tail_candidate.guard_baseline(ROOT)
+        tail_expected = tail_candidate.freeze_expected(ROOT)
+        cpu_proof = cpu_candidate.guard_baseline(ROOT)
+        cpu_expected = cpu_candidate.freeze_expected(ROOT)
+        charge_proof = charge_candidate.guard_baseline(ROOT)
+        charge_expected = charge_candidate.freeze_expected(ROOT)
+        bomb_default = tail_default = cpu_default = True
+        charge_default = True
     elif any(u.get('id') == 'th03-main-player-cpu' for u in config['units']):
         config, score_original = cpu_candidate.bind_default(config)
         score_proof = score_candidate.guard_baseline(ROOT)
@@ -728,6 +756,11 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
     if cpu_proof is not None:
         for path in (ROOT / "scripts/lib").glob("th03_cpu_*.json"):
             inputs[path.relative_to(ROOT).as_posix()] = sha(path.read_bytes())
+    if charge_proof is not None:
+        for name in ("scripts/review_th03_main_yumemi_charge_runtime.py", "scripts/compare_th03_main_yumemi_charge_runtime.py"):
+            inputs[name] = sha((ROOT / name).read_bytes())
+        for path in (ROOT / "scripts/lib").glob("th03_charge_*.json"):
+            inputs[path.relative_to(ROOT).as_posix()] = sha(path.read_bytes())
     snapshot = output / "repository-inputs"
     for name, digest in inputs.items():
         destination = snapshot / name
@@ -756,6 +789,8 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         report["tail_expected_before_native"] = tail_expected
     if cpu_proof is not None:
         report["cpu_expected_before_native"] = cpu_expected
+    if charge_proof is not None:
+        report['charge_expected_before_native'] = charge_expected
     stem = "P" + sha(run_id.encode())[:5].upper()
     for number in (1, 2):
         logs = output / f"round{number}"
@@ -850,6 +885,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         cpu_compilation = None
         if cpu_proof is not None:
             cpu_compilation = cpu_candidate.precompile_and_stage(work, env, logs, execute, default=cpu_default)
+        charge_compilation = None
+        if charge_proof is not None:
+            charge_compilation = charge_candidate.precompile_and_stage(work, env, logs, execute)
         # The HUD intro has two fully shaped natural TC4 C++ functions
         # separated by 155 exact symbolic TASM device-helper bytes.
         # Source-emitted assembly is stitched in original logical function
@@ -1154,7 +1192,13 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         score_preservation = None
         bomb_preservation = None
         tail_preservation = None
-        if cpu_proof is not None:
+        if charge_proof is not None:
+            tail_preservation = charge_candidate.check_round(ROOT, work, target, charge_proof, charge_expected, default=charge_default)
+            score_preservation = tail_preservation['score_preservation']
+            bomb_preservation = tail_preservation['bomb_preservation']
+            (logs / 'charge-preservation.json').write_text(json.dumps(tail_preservation, indent=2) + '\n')
+            charge_runtime = charge_candidate.runtime_pair(ROOT, work, logs, env, execute)
+        elif cpu_proof is not None:
             tail_preservation = cpu_candidate.check_round(ROOT, work, target, cpu_proof, cpu_expected, default=cpu_default)
             score_preservation = tail_preservation['score_preservation']
             bomb_preservation = tail_preservation['bomb_preservation']
@@ -1219,6 +1263,10 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         if cpu_proof is not None:
             report["rounds"][-1]["cpu_candidate_preservation"] = tail_preservation
             report["rounds"][-1]["cpu_maintained_compilation"] = cpu_compilation
+        if charge_proof is not None:
+            report["rounds"][-1]["charge_candidate_preservation"] = tail_preservation
+            report["rounds"][-1]["charge_maintained_compilation"] = charge_compilation
+            report["rounds"][-1]["charge_native_runtime"] = charge_runtime
     first, second = report["rounds"]
     report["objects_metadata_normalized_equal"] = all(
         first["objects"][name]["dependency_timestamp_normalized_sha256"] ==
@@ -1287,6 +1335,12 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         report['pass'] = report['pass'] and all(r['cpu_candidate_preservation']['pass_'] for r in report['rounds'])
         if cpu_candidate.guard_baseline(ROOT) != cpu_proof:
             raise ValueError('historical CPU/tail proof changed')
+    if charge_proof is not None:
+        report['charge_candidate_exact_acceptance'] = False
+        report['charge_default_staging'] = charge_default
+        report['pass'] = report['pass'] and all(r['charge_candidate_preservation']['pass_'] and r['charge_native_runtime']['pass_'] for r in report['rounds'])
+        if charge_candidate.guard_baseline(ROOT) != charge_proof:
+            raise ValueError('historical charge/CPU proof changed')
     # Guard against source and target mutation during the replay.
     if any(sha((ROOT / name).read_bytes()) != digest for name, digest in inputs.items()):
         raise ValueError("source changed during replay")

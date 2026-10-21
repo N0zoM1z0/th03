@@ -1,0 +1,28 @@
+{
+  "kind": "historical-ignored-path-yumemi-charge-runtime-proof",
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "installed_helper_executed": false,
+  "inputs": {
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/target-runtime-v01.json": "4b0f05a0a8aa75044fa4378903245663a4d1f8124d0ec36dac32ab91dc5750f9",
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/candidate-runtime-v01.json": "49b8114494bfb2449567b509c5e0a7939a32a5f5455a9ae0469db8894581715f",
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/target-controls-v01.json": "2898356fbb0e79978621218a3d7f9eca0452f91837952ca7bf4365cb5e62c0dc",
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/candidate-controls-v01.json": "3dbb7962920910a42b794013209648f4e025e187a6ea83a5a080d76e56dcaa73",
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/review_charge_runtime.py": "dd5e17f0869845a3971f280dfa50bb5d39b8e92c5afa350b60dcd636d954ea4b",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/test_charge_runtime.py": "0a3d2a16a3b3a56a91ed27dbc1d50e677e18574e193d4b3395a35645dde582d9",
+    ".analysis/targets/th03/main.exe": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    ".analysis/toolchain/wineprefix/drive_c/MCY01/bin/th03/main.exe": "f0b910f41c074015585a41682dc141bd29e22db6e61f1a5beaa23ec5f45ab916",
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/comparison-v01.json": "4fa1a751fe1d89f2ab5fba1129e9925bd097309cbc584c4ac44dbdc71ba9bfdd",
+    ".analysis/main-yumemi-charge-runtime-model-20261021-v01/compare_charge_runtime.py": "3d24dd5795e32bb5e48448fe9ccabf8ec8a26805ddba8678c9bb5abfac07d4f0"
+  },
+  "observed": {
+    "cases_per_image": 2546,
+    "instruction_positions_per_image": 583,
+    "functions": 10,
+    "negative_controls_per_image": 10,
+    "observations_sha256": "773c807a54a6fc268fdfd3adb50b777c0f6961ff0dc5874606c98757d130f8a8"
+  },
+  "note": "These receipts executed ignored-path helpers before the maintained helper existed. Future installed-path or cold-image evidence requires fresh executions with the actual installed closure; do not relabel these receipts."
+}

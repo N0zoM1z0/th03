@@ -19,7 +19,7 @@ STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
     'scripts/review_th03_cpu_link_order.py': '0b96a855a823aa749cc35ab0b8d4a80b5740bf42a7996a7c934881981df5ba82',
-    "scripts/replay_th03_main_exact_units.py": "aba51fe913fa0eed7923b35a9ff432bf2e6db60312a0ecef6dfc51d8576615e5",
+    "scripts/replay_th03_main_exact_units.py": "d3e87808e57e11efa2e09fbc5b5b4cf9aa97f77db2063195791da63e43a76caf",
     "config/th03_main_exact_units.toml": "001a6d04b0a7b35667b452d85e288935622597cf051c7c4646e66a5964cbf3c8",
     "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
 }
@@ -47,7 +47,9 @@ PINS.update({
     'scripts/lib/th03_tail_warning_gate.py': 'ef3a348181ec5887f96582cb052442ee54f50126cb85e49c9d190378b97c922f',
 })
 PINS.update({'scripts/lib/th03_cpu_gates.py': 'e56f59fc7890db4094e460a18763e846b1d7b960b035a01a221cbfa68ca95709', 'scripts/lib/th03_cpu_map_expectation.json': 'fb4cc0b26827e0c668c1ed2d791df20361307debc1fffd6de0fd95d6648426bc', 'scripts/lib/th03_cpu_map.py': 'fe015bc5deefa26ef273b7967ff75c71bc04a6605d1172187e55c223fa24476d', 'scripts/lib/th03_cpu_display.py': 'f1ca1d9f4f8c258a4fd3ed35ffebfa332ff5587c1e1e5cfe0ae89097498daf15', 'scripts/lib/th03_cpu_expectation.json': 'b1f1bdad5ba163955ec5a1ef4f1578316272c3b766fac342746b5b57af7be34e', 'scripts/lib/th03_cpu_binding.json': '5d683b43ed121a070315d0597dbf1839178982d67875e7c4d10f56767cb813af', 'scripts/lib/th03_cpu_dependencies.json': '0497317cea02dd84d806e1e3aa6faf65df065ff2f996f7ff5507cbedbb4b7152', 'scripts/lib/th03_cpu_baseline_pins.json': '0c5d11db2450fbb8ff1e3623d4d73c2051c87d6882728e14a74e745967812923', 'scripts/lib/th03_cpu_object.py': 'e01420bbebbcb4d44d01cd8e9601d717c92d20b77c996960e11e7d5e5bb019f4', 'scripts/lib/th03_cpu_model.py': '8c5902103d334fc3762b323e929a9a6ccd86339b62baac22101d001c3e7d5cd6', 'scripts/lib/th03_player_cpu_candidate.py': '053edbabe6c9a3dc3a90e1f421e275c5d372490a1d5d5b27a4e5f2427f460fe6'})
+PINS.update({'scripts/lib/th03_charge_root.py': 'f3d11020a51ceb35f97e08edc0c7ad211b91691bbdd142352f263cafd1e56bd4', 'scripts/lib/th03_charge_contract.json': '76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd', 'scripts/lib/th03_charge_verify.py': '1f635f6afd83dce924c24fceb55247ec2d0262b90db6f105d2925423f14d8d32', 'scripts/lib/th03_charge_map.py': '7f547a8a769e35961c9df2f258cb20c599ce74dc5599ea2a1b8bbacbaa470892', 'scripts/lib/th03_yumemi_charge_candidate.py': '167a1f3bda150190366d3b22b947d7860cc3267cb70d477de3ea802372e1ee4a', 'scripts/lib/th03_charge_map_contract.json': 'd670c354729d27b266218f1cb45c84eefe1a0c1fbf95a7e483aa8e30c9aad95b', 'scripts/lib/th03_charge_root_contract.json': 'b5ac26eacea68a8ba25313dbc894f70bf88d16dd6e9327e72aeb5b17baecad40', 'scripts/review_th03_main_yumemi_charge_runtime.py': 'bf0a1fe18b7436789fc9d5045a5a3ab97fa1102005913dd1676644b9582749f3', 'scripts/compare_th03_main_yumemi_charge_runtime.py': 'a5d378e57f3f9345ad2c35759f462fcdb77586cfd646e6caff4c5459f956f10c'})
 CANDIDATE_PINS = {
+    "config/th03_main_yumemi_charge_candidate.toml": "738adfd7eed18609c45eee7a95fa100b9d8659f214875b58305da62bd7bcd4bc",
     "config/th03_main_player_cpu_candidate.toml": "2420db4423b3f7269799ac1631f04cffd2ad322c7f3dda687600de27c22400f5",
     "config/th03_main_player_tail_candidate.toml": "a44ab5667b7f3da1cc4bc26efe7fdc48e60d9bcc40802d6fa13f5c8b33ff8ee3",
     "config/th03_main_yumemi_bomb_candidate.toml": "579736dc74c88de408575e0e94f9141c2ebf498f099e783424de3879cc82cad8",

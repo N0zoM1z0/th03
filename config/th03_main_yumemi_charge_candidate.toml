@@ -1,0 +1,105 @@
+schema_version = 1
+
+[[units]]
+id = "th03-main-yumemi-charge"
+object = "cs_yume"
+physical_objects_additive = true
+source = "src/main/player/chargeshot_yumemi.cpp"
+header = "src/main/player/yumemi_gameplay.hpp"
+physical_objects = [{ object = "cs_yume", wrapper = "th03/cs_yume.cpp", source = "src/main/player/chargeshot_yumemi.cpp" }]
+map_module = "th03/cs_yume.cpp"
+code_extents = [{ name = "charge", ledger_id = "th03-main-yumemi-charge", segment = 5021, start = 12211, size = 1645, map_segment = "PELLET_PUT", map_group = "MAIN_04", map_acbp = 28, map_parts = [{ object = "cs_yume", start = 12211, size = 1645, map_module = "th03/cs_yume.cpp" }], producer_ranges = [{ relative = 1565, size = 32, kind = "tc4-switch-table" }] }]
+support_files = ["compat/rec98/libs/master.lib/master.hpp", "compat/rec98/th02/snd/snd.h", "compat/rec98/th03/main/bullet/bullet.hpp", "compat/rec98/th03/main/enemy/efe.hpp", "compat/rec98/th03/main/hitbox.hpp", "compat/rec98/th03/main/hitcirc.hpp", "compat/rec98/th03/main/player/ch_shot.hpp", "compat/rec98/th03/main/player/cur.hpp", "compat/rec98/th03/main/player/gba.hpp", "compat/rec98/th03/main/player/stuff.hpp", "compat/rec98/th03/main/sprite16.hpp", "src/main/enemy/target_record.hpp", "src/main/math/polar.hpp"]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"obj/th03/p_cpu.obj\",\n"
+build_replacement = "\t\"obj/th03/cs_yume.obj\",\n\t\"obj/th03/p_cpu.obj\",\n"
+
+[[functions]]
+name = "ellen_target_set"
+object = "cs_yume"
+segment = 5021
+offset = 12211
+size = 210
+boundary = "owner-linear-span"
+abi = "far Pascal; pid low byte in word carrier at BP+6; RETF 2; shared ordinary aiming callers"
+
+[[functions]]
+name = "yumemi_chargeshots_reset"
+object = "cs_yume"
+segment = 5021
+offset = 12421
+size = 15
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_add_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12436
+size = 41
+boundary = "owner-linear-span"
+abi = "far Pascal; signed subpixel x BP+8 and y BP+6; RETF 4"
+
+[[functions]]
+name = "chargeshot_update_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12477
+size = 127
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "chargeshot_hittest_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12604
+size = 169
+boundary = "owner-linear-span"
+abi = "far cdecl; uint8 result AL; RETF"
+
+[[functions]]
+name = "yumemi_chargeshot_ring_render"
+object = "cs_yume"
+segment = 5021
+offset = 12773
+size = 176
+boundary = "owner-linear-span"
+abi = "near Pascal; unsigned16 sprite BP+8, signed16 radius BP+6, uint8 phase in word BP+4; RET 6"
+
+[[functions]]
+name = "chargeshot_render_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 12949
+size = 355
+boundary = "owner-linear-span"
+abi = "far Pascal; no arguments; RETF"
+
+[[functions]]
+name = "gauge_pattern_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 13304
+size = 472
+boundary = "owner-linear-span"
+abi = "near Pascal; unsigned16 bullet type BP+4; RET 2"
+
+[[functions]]
+name = "gba_gauge_pattern_pellet_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 13808
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"
+
+[[functions]]
+name = "gba_gauge_pattern_bullet_yumemi"
+object = "cs_yume"
+segment = 5021
+offset = 13832
+size = 24
+boundary = "owner-linear-span"
+abi = "far cdecl; no arguments; RETF"

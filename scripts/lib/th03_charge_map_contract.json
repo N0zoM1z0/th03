@@ -1,0 +1,519 @@
+{
+  "scope": "finite literal observed MAP transition; no general name/order normalization",
+  "baseline": ".analysis/th03-main-exact/gpt-dots-player-cpu-default-cold-v01/round1/source/obj/th03/main.map",
+  "baseline_sha256": "32f532c22b20e3e415d66c1cc4e3c4183088b9091a5ba1494a5ee45193e6163c",
+  "candidate": ".analysis/toolchain/wineprefix/drive_c/MCY01/obj/th03/main.map",
+  "candidate_sha256": "05c0762f95aa5a2c37dc367a6e3b23c03da03d57927f0d61d2d6b5114fb8c245",
+  "literal_changes": [
+    {
+      "tag": "insert",
+      "old_start": 53,
+      "old_end": 53,
+      "new_start": 53,
+      "new_end": 54,
+      "old_lines": [],
+      "new_lines": [
+        " 1C90AH 1C90AH 00000H CS_YUME_TEXT       CODE\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 295,
+      "old_end": 296,
+      "new_start": 296,
+      "new_end": 298,
+      "old_lines": [
+        " 139D:2FB3 066D C=CODE   S=PELLET_PUT     G=MAIN_04 M=th03_main.asm ACBP=28\r\n"
+      ],
+      "new_lines": [
+        " 139D:2FB3 0000 C=CODE   S=PELLET_PUT     G=MAIN_04 M=th03_main.asm ACBP=28\r\n",
+        " 139D:2FB3 066D C=CODE   S=PELLET_PUT     G=MAIN_04 M=th03/cs_yume.cpp ACBP=28\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 345,
+      "old_end": 345,
+      "new_start": 347,
+      "new_end": 348,
+      "old_lines": [],
+      "new_lines": [
+        " 1C90:000A 0000 C=CODE   S=CS_YUME_TEXT   G=(none)  M=th03/cs_yume.cpp ACBP=28\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 402,
+      "old_end": 402,
+      "new_start": 405,
+      "new_end": 406,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:0BEC 0000 C=DATA   S=_DATA          G=DGROUP  M=th03/cs_yume.cpp ACBP=48\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 567,
+      "old_end": 567,
+      "new_start": 571,
+      "new_end": 572,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:68DC 0000 C=BSS    S=_BSS           G=DGROUP  M=th03/cs_yume.cpp ACBP=48\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 697,
+      "old_end": 698,
+      "new_start": 702,
+      "new_end": 703,
+      "old_lines": [
+        " 139D:313C idle  chargeshot_hittest_yumemi()\r\n"
+      ],
+      "new_lines": [
+        " 139D:313C       chargeshot_hittest_yumemi()\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 768,
+      "old_end": 768,
+      "new_start": 773,
+      "new_end": 774,
+      "old_lines": [],
+      "new_lines": [
+        " 139D:33F8 idle  gauge_pattern_yumemi(unsigned int)\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 936,
+      "old_end": 936,
+      "new_start": 942,
+      "new_end": 943,
+      "old_lines": [],
+      "new_lines": [
+        " 139D:31E5 idle  yumemi_chargeshot_ring_render(unsigned int,int,unsigned char)\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 996,
+      "old_end": 997,
+      "new_start": 1003,
+      "new_end": 1004,
+      "old_lines": [
+        " 139D:3094 idle  CHARGESHOT_ADD_YUMEMI\r\n"
+      ],
+      "new_lines": [
+        " 139D:3094       CHARGESHOT_ADD_YUMEMI\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 1005,
+      "old_end": 1006,
+      "new_start": 1012,
+      "new_end": 1013,
+      "old_lines": [
+        " 139D:3295 idle  CHARGESHOT_RENDER_YUMEMI\r\n"
+      ],
+      "new_lines": [
+        " 139D:3295       CHARGESHOT_RENDER_YUMEMI\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 1014,
+      "old_end": 1015,
+      "new_start": 1021,
+      "new_end": 1022,
+      "old_lines": [
+        " 139D:30BD idle  CHARGESHOT_UPDATE_YUMEMI\r\n"
+      ],
+      "new_lines": [
+        " 139D:30BD       CHARGESHOT_UPDATE_YUMEMI\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 1103,
+      "old_end": 1105,
+      "new_start": 1110,
+      "new_end": 1110,
+      "old_lines": [
+        " 139D:3608 idle  gba_gauge_pattern_bullet_yumemi\r\n",
+        " 139D:35F0 idle  gba_gauge_pattern_pellet_yumemi\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "delete",
+      "old_start": 1241,
+      "old_end": 1242,
+      "new_start": 1246,
+      "new_end": 1246,
+      "old_lines": [
+        " 139D:2FB3 idle  sub_16983\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 1281,
+      "old_end": 1281,
+      "new_start": 1285,
+      "new_end": 1286,
+      "old_lines": [],
+      "new_lines": [
+        " 139D:3085       YUMEMI_CHARGESHOTS_RESET\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 1489,
+      "old_end": 1489,
+      "new_start": 1494,
+      "new_end": 1495,
+      "old_lines": [],
+      "new_lines": [
+        " 139D:3608       _gba_gauge_pattern_bullet_yumemi\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 1498,
+      "old_end": 1498,
+      "new_start": 1504,
+      "new_end": 1505,
+      "old_lines": [],
+      "new_lines": [
+        " 139D:35F0       _gba_gauge_pattern_pellet_yumemi\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 1743,
+      "old_end": 1743,
+      "new_start": 1750,
+      "new_end": 1751,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:38E8       _target_formation_marker\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 1778,
+      "old_end": 1778,
+      "new_start": 1786,
+      "new_end": 1787,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:4B80       _yumemi_chargeshots\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 1780,
+      "old_end": 1780,
+      "new_start": 1789,
+      "new_end": 1790,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:4B7E       _yumemi_gauge_frame\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 1927,
+      "old_end": 1927,
+      "new_start": 1937,
+      "new_end": 1938,
+      "old_lines": [],
+      "new_lines": [
+        " 0000:073A idle  EGC_END\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 1928,
+      "old_end": 1929,
+      "new_start": 1939,
+      "new_end": 1939,
+      "old_lines": [
+        " 0000:073A idle  EGC_END\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 1933,
+      "old_end": 1933,
+      "new_start": 1943,
+      "new_end": 1944,
+      "old_lines": [],
+      "new_lines": [
+        " 0000:08D2 idle  DOS_CLOSE\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 1934,
+      "old_end": 1935,
+      "new_start": 1945,
+      "new_end": 1945,
+      "old_lines": [
+        " 0000:08D2 idle  DOS_CLOSE\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 2035,
+      "old_end": 2035,
+      "new_start": 2045,
+      "new_end": 2046,
+      "old_lines": [],
+      "new_lines": [
+        " 0000:321C idle  F_LUDIV@\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 2036,
+      "old_end": 2037,
+      "new_start": 2047,
+      "new_end": 2047,
+      "old_lines": [
+        " 0000:321C idle  F_LUDIV@\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 2041,
+      "old_end": 2041,
+      "new_start": 2051,
+      "new_end": 2052,
+      "old_lines": [],
+      "new_lines": [
+        " 0000:322C idle  LUMOD@\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 2042,
+      "old_end": 2043,
+      "new_start": 2053,
+      "new_end": 2053,
+      "old_lines": [
+        " 0000:322C idle  LUMOD@\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "replace",
+      "old_start": 2436,
+      "old_end": 2443,
+      "new_start": 2446,
+      "new_end": 2455,
+      "old_lines": [
+        " 139D:2FB3 idle  sub_16983\r\n",
+        " 139D:3094 idle  CHARGESHOT_ADD_YUMEMI\r\n",
+        " 139D:30BD idle  CHARGESHOT_UPDATE_YUMEMI\r\n",
+        " 139D:313C idle  chargeshot_hittest_yumemi()\r\n",
+        " 139D:3295 idle  CHARGESHOT_RENDER_YUMEMI\r\n",
+        " 139D:35F0 idle  gba_gauge_pattern_pellet_yumemi\r\n",
+        " 139D:3608 idle  gba_gauge_pattern_bullet_yumemi\r\n"
+      ],
+      "new_lines": [
+        " 139D:3085       YUMEMI_CHARGESHOTS_RESET\r\n",
+        " 139D:3094       CHARGESHOT_ADD_YUMEMI\r\n",
+        " 139D:30BD       CHARGESHOT_UPDATE_YUMEMI\r\n",
+        " 139D:313C       chargeshot_hittest_yumemi()\r\n",
+        " 139D:31E5 idle  yumemi_chargeshot_ring_render(unsigned int,int,unsigned char)\r\n",
+        " 139D:3295       CHARGESHOT_RENDER_YUMEMI\r\n",
+        " 139D:33F8 idle  gauge_pattern_yumemi(unsigned int)\r\n",
+        " 139D:35F0       _gba_gauge_pattern_pellet_yumemi\r\n",
+        " 139D:3608       _gba_gauge_pattern_bullet_yumemi\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 2604,
+      "old_end": 2604,
+      "new_start": 2616,
+      "new_end": 2617,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:007C idle  __osmajor\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 2606,
+      "old_end": 2607,
+      "new_start": 2619,
+      "new_end": 2619,
+      "old_lines": [
+        " 1D56:007C idle  __osmajor\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 2678,
+      "old_end": 2678,
+      "new_start": 2690,
+      "new_end": 2691,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:0312 idle  _random_seed\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 2679,
+      "old_end": 2680,
+      "new_start": 2692,
+      "new_end": 2692,
+      "old_lines": [
+        " 1D56:0312 idle  _random_seed\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 2682,
+      "old_end": 2682,
+      "new_start": 2694,
+      "new_end": 2695,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:0596 idle  _TextVramAdr\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 2683,
+      "old_end": 2684,
+      "new_start": 2696,
+      "new_end": 2697,
+      "old_lines": [
+        " 1D56:0596 idle  _TextVramAdr\r\n"
+      ],
+      "new_lines": [
+        " 1D56:0598 idle  TextVramSeg\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 2685,
+      "old_end": 2686,
+      "new_start": 2698,
+      "new_end": 2699,
+      "old_lines": [
+        " 1D56:0598 idle  TextVramSeg\r\n"
+      ],
+      "new_lines": [
+        " 1D56:059A idle  TextVramWidth\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 2687,
+      "old_end": 2688,
+      "new_start": 2700,
+      "new_end": 2700,
+      "old_lines": [
+        " 1D56:059A idle  TextVramWidth\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 2690,
+      "old_end": 2690,
+      "new_start": 2702,
+      "new_end": 2703,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:059E idle  vsync_Proc\r\n"
+      ]
+    },
+    {
+      "tag": "replace",
+      "old_start": 2691,
+      "old_end": 2692,
+      "new_start": 2704,
+      "new_end": 2705,
+      "old_lines": [
+        " 1D56:059E idle  vsync_Proc\r\n"
+      ],
+      "new_lines": [
+        " 1D56:05A2 idle  _vsync_Delay\r\n"
+      ]
+    },
+    {
+      "tag": "delete",
+      "old_start": 2693,
+      "old_end": 2694,
+      "new_start": 2706,
+      "new_end": 2706,
+      "old_lines": [
+        " 1D56:05A2 idle  _vsync_Delay\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "delete",
+      "old_start": 2900,
+      "old_end": 2901,
+      "new_start": 2912,
+      "new_end": 2912,
+      "old_lines": [
+        " 1D56:1E41       _rikako_pellet_count\r\n"
+      ],
+      "new_lines": []
+    },
+    {
+      "tag": "insert",
+      "old_start": 2909,
+      "old_end": 2909,
+      "new_start": 2920,
+      "new_end": 2921,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:1E41       _rikako_pellet_count\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 3029,
+      "old_end": 3029,
+      "new_start": 3041,
+      "new_end": 3042,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:38E8       _target_formation_marker\r\n"
+      ]
+    },
+    {
+      "tag": "insert",
+      "old_start": 3069,
+      "old_end": 3069,
+      "new_start": 3082,
+      "new_end": 3084,
+      "old_lines": [],
+      "new_lines": [
+        " 1D56:4B7E       _yumemi_gauge_frame\r\n",
+        " 1D56:4B80       _yumemi_chargeshots\r\n"
+      ]
+    }
+  ],
+  "old_lines": 3137,
+  "new_lines": 3152
+}
