@@ -416,11 +416,17 @@ at 095F:140A/1414/144B. Use `scripts/replay_th03_mainl_cutscene.py` for the
 retained proof replay and `scripts/stage_th03_mainl_cutscene.py` for opt-in
 source staging; see `docs/reconstruction/MAINL_CUTSCENE_SOURCE.md`.
 
-## MAINL registration source preparation (2026-10-21)
+## MAINL registration source proof (2026-10-21)
 
-Registration and score-data now have opt-in maintained owners and a source-only
-stager at `scripts/stage_th03_mainl_regist.py`. Their 17 bodies / 2,949 bytes
-remain native-pending, uncounted in source/exact ledgers. See
-`docs/reconstruction/MAINL_REGIST_SOURCE.md` for original-slot flags, unchecked
-behavior and two-object/31-retained-object proof recipe. Six known PI operand
-differences remain explicit; do not manufacture caller addresses or padding.
+Registration and score-data now own 17 bodies / 2,949 bytes with current TCC
+baseline comparison, independently compiled raw object pairs, two hybrid links
+and retained replay. MAINL source is 38/145 units / 9,845 bytes; exact stays 0.
+The two owned replacements use 31 retained other objects. Full EXE/MAP pairs
+match the carrier and 677 relocations are unchanged. Score229 bytes match the
+decoded target; registration retains six PI operand differences with all54
+scoped relocation words equal. 456 selected model calls agree:453 terminal
+and three deliberate budget observations. No whole-program cold-build claim.
+Use `scripts/replay_th03_mainl_regist.py` and the opt-in stager. Details and
+open DATA/BSS, physical-device and DIET packaging scope are documented in
+`docs/reconstruction/MAINL_REGIST_SOURCE.md`. Never patch caller operands or
+invent PI padding to erase the remaining mismatch.

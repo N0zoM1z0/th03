@@ -24,14 +24,31 @@ archive of revision b6ba5b0a529edbb31efdf8c0e939263804f8ee47; compile the origin
 Keep the original MAINL flags: `-c -I. -O -b- -3 -Z -d -DGAME=3 -ml
 -DBINARY='L' -nobj/th03/`. Preserve module order and group_01 pragmas.
 
-Focused source-token/staging/progress tests are source-only evidence. Native
-proof is pending, so no unit ledger or exactness count is advanced. The SVG
-shows this pending work without credit. Baseline and maintained compiles must
-be compared, then two independent maintained compiles/links can replace these
-two objects alongside 31 retained carrier objects. Preserve all raw results.
+Focused source-token/staging/progress tests bind the frozen source. Independent
+baseline/maintained TCC compiles now prove all ordered nondependency OMF records
+equal for both slots. A second independent maintained compile of each slot
+produces raw-identical objects, with source timestamps declared from the first
+materialization before compiling. Two fresh hybrid TLINK runs use these two
+owned objects plus 31 retained others and preserve the entire carrier EXE/MAP.
+This is source-present evidence, not a whole-program cold build or exact credit.
+The SVG now counts both extents: MAINL 38/145 source units, 9,845 source bytes.
 
-Cached score-data bytes match the decoded target; registration still differs
+`python3 scripts/replay_th03_mainl_regist.py --output .analysis/NEW_REGIST_SOURCE_REPLAY.json`
+rechecks retained source/phase/product identities and reruns the selected CPU
+models without invoking any native tool. Two linked images and the decoded
+target each execute 152 calls: 151 terminal plus one deliberate budget case.
+All 456 observations agree (453 terminal, three budget observations). File,
+input, graphics, RNG, timing and sound interfaces remain explicit models.
+
+Earned object hashes: scoredat 1,335 bytes, dec2723fc4e7d9d178cb9ce16a479430134ce00d12529d750a62825b8ec50649;
+regist 7,269 bytes, bf0d49d2125c6fde80d5f2c3faa7ece9ef29f311cf7f46f6b0ef6977fa44493f.
+Both EXEs are 67,372 bytes, ff315af6f9cd197f78292d8c834a90afad7b4d6c9bda0a9f8b09d4bdbc12a1ad;
+both MAPs are f262e1d8e78d353f29e5f2d9a1cd39be91f934d48b0839b5ab55be6d9e033568.
+All 677 ordered image relocations remain unchanged. This separately retained
+success does not erase historical failures or grant whole-file source acceptance.
+
+Fresh linked score-data bytes match the decoded target; registration still differs
 at six PI operand bytes: 19E2, 19EC, 22D8, 22E2, 230F and 2319. All 54 ordered
 registration relocations agree in the existing candidate. These facts do not
-establish current native proof. Do not patch callers or invent PI padding.
+establish canonical exact acceptance. Do not patch callers or invent PI padding.
 Canonical packaging, full DATA/BSS, physical devices and whole-game proof remain open.

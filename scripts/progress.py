@@ -166,6 +166,34 @@ def mainl_cutscene_hybrid_source(units, evidence):
     return True
 
 
+MAINL_REGIST_SOURCE_RECEIPT = "5927d4c368c38e5871a641155bece6b47ff6b54ca54ce0a416a7970622963be7"
+MAINL_REGIST_SOURCE_EVIDENCE = {unit: {
+    "ev-th03-mainl-" + unit + "-source-compiler": "compiler",
+    "ev-th03-mainl-" + unit + "-source-runtime": "runtime",
+    "ev-th03-mainl-" + unit + "-source-reproducible": "reproducibility",
+} for unit in ("regist", "scoredat")}
+
+def mainl_regist_hybrid_source(units, evidence):
+    for unit, offset, size in (("regist", "0x189e", "2720"), ("scoredat", "0x17b9", "229")):
+        rows = [u for u in units if u["id"] == "th03-mainl-decoded-" + unit]
+        if len(rows) != 1 or any(rows[0].get(k) != v for k, v in {
+            "artifact": "th03-mainl", "segment": "decoded:095F", "offset": offset,
+            "size": size, "boundary_state": "reviewed", "state": "source-present",
+            "source": "src/mainl/" + unit + ".cpp",
+        }.items()):
+            return False
+        linked = rows[0].get("evidence_ids", "").split(";")
+        for name, kind in MAINL_REGIST_SOURCE_EVIDENCE[unit].items():
+            records = [e for e in evidence if e["id"] == name]
+            if name not in linked or len(records) != 1 or any(records[0].get(k) != v for k, v in {
+                "artifact": "th03-mainl", "unit_id": rows[0]["id"], "oracle": "analysis-bundle",
+                "extent_start": offset, "extent_size": size, "evidence_class": kind,
+                "result": "pass", "output_sha256": MAINL_REGIST_SOURCE_RECEIPT,
+            }.items()):
+                return False
+    return True
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -196,6 +224,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   </g>""")
             if mainl_regist_source_pending(units):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</text>')
+            elif mainl_regist_hybrid_source(units, evidence or []):
+                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Regist + score: 2,949 B source · repeat OBJ/EXE/MAP · 6 PI bytes still differ</text>')
             elif mainl_cutscene_source_pending(units):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):

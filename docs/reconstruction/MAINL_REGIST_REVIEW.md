@@ -4,8 +4,8 @@ The complete frozen registration and score-data CODE contributions have bounded
 source/control-flow/ABI analysis: fourteen registration functions (2720 bytes)
 and three score-data functions (229 bytes). All seventeen bodies execute in
 selected CPU/interface cases. Registration retains six raw PI call-operand
-differences; score-data has cached raw equality. Neither receives maintained
-source or exact acceptance. Canonical stored MAINL remains the pinned Japanese
+differences; score-data has cached raw equality. The later maintained-source checkpoint is documented in MAINL_REGIST_SOURCE.md;
+this historical candidate receipt itself grants no source or exact acceptance. Canonical stored MAINL remains the pinned Japanese
 DIET image; the coordinates below belong only to its guarded decoded lineage.
 
 ```sh
