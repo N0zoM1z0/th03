@@ -1,0 +1,387 @@
+{
+  "schema": "mainl-root-tail-symbolic-source-v1",
+  "previous_generated_root": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/th03_mainl.asm",
+    "sha256": "e41e6ec7959bc012a9798ce48ed825999d78e2e2ae3f660a61a5be4bf1af377f"
+  },
+  "composer": {
+    "path": "scripts/lib/mainl_root_tail_source.py",
+    "sha256": "315efc0b8d6595fd1026f59122fde3843c5ada32edf03696cf865a0919ccf7be"
+  },
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-align-bfnt",
+      "segment": 0,
+      "offset": 1221,
+      "bytes": 1,
+      "providers": [],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/bfill.asm",
+          "sha256": "20cd7979dff9a3d6c61b01ebd073f4872a5deb085b0d02d3b7fba629065cf007"
+        },
+        "recipe": "endfunc",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-align-bread",
+      "segment": 0,
+      "offset": 1547,
+      "bytes": 1,
+      "providers": [],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/bopenr.asm",
+          "sha256": "5b103a0046d50dfbf1ef0997507a275913740d3a35f3a0e5f28a5582258430a9"
+        },
+        "recipe": "endfunc",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-align-bseek",
+      "segment": 0,
+      "offset": 1661,
+      "bytes": 1,
+      "providers": [],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/bseek.asm",
+          "sha256": "c2c831ac6f1df828a718c8fcfbaea0bc779d61fbbaed47a78c2a29cf4fccea26"
+        },
+        "recipe": "endfunc",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-align-filesize",
+      "segment": 0,
+      "offset": 1709,
+      "bytes": 1,
+      "providers": [],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/bseek_.asm",
+          "sha256": "c882e696635c9fd553ca6081e2ce6f1f832364c4489fa7cf69c60ccb5965ba50"
+        },
+        "recipe": "endfunc",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-keyclear",
+      "segment": 0,
+      "offset": 1790,
+      "bytes": 6,
+      "providers": [
+        {
+          "name": "dos_keyclear",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/dos_keyclear.asm",
+            "sha256": "9990b11334e91ac14ee91c89a0fb0cfbabccf8512a144425116c3d2d9406d623"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/dos_keyclear.asm",
+            "sha256": "a761c99388120e0e74dd00e9d43d7de490ffe1fc4dcc311a4c458a5748ac3047"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-grcg",
+      "segment": 0,
+      "offset": 3126,
+      "bytes": 48,
+      "providers": [
+        {
+          "name": "grcg_setcolor",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/grcg_setcolor.asm",
+            "sha256": "cfc0e194c0b218b76572b57bc1368abfbc5cabf021a35512d4485323933ab09e"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/grcg_setcolor.asm",
+            "sha256": "b38f112e089b2785bd2e619eefb8bf535802ec206834a9396c510abd1ac03f90"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-root-zero-font",
+      "segment": 0,
+      "offset": 3185,
+      "bytes": 1,
+      "providers": [
+        {
+          "name": "root_zero_font",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/th03_mainl.asm",
+            "sha256": "e41e6ec7959bc012a9798ce48ed825999d78e2e2ae3f660a61a5be4bf1af377f"
+          },
+          "root_anchor": "include src/mainl/resources/gdc_outpw.asm",
+          "source": {
+            "path": "src/mainl/root_tail/root_zero_font.asm",
+            "sha256": "45c902a19cdd678d1129f7244bff375e1099deb12da5c3ba2ed8e8e970057052"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-atan-end",
+      "segment": 0,
+      "offset": 5982,
+      "bytes": 114,
+      "providers": [
+        {
+          "name": "iatan2",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/iatan2.asm",
+            "sha256": "e56477c2b566000d18a808ef4882b4c14354178c945d9d03062fb98d9ea71e3d"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/iatan2.asm",
+            "sha256": "52c970a194a3334ce60eddf94923f09ed1a10e6242b00bb2316e44a3146c97e3"
+          }
+        },
+        {
+          "name": "js_end",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/js_end.asm",
+            "sha256": "6f0cefb45506e97123a6ce1530b76b832935e324c6c6d7373e9a315e7ea04d15"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/js_end.asm",
+            "sha256": "37ba44e1c210d21d25dfdc213c644aeb9b7a34c68a906fd7417524100993eb03"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-align-pfgetc",
+      "segment": 0,
+      "offset": 6403,
+      "bytes": 1,
+      "providers": [],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/pfgetc.asm",
+          "sha256": "16ba4b1c4a36ef31f75c4bab8ece73db8de8ab0727dda18b6df07ebb0c915f93"
+        },
+        "recipe": "endfunc",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-pfgetc-zero",
+      "segment": 0,
+      "offset": 6563,
+      "bytes": 1,
+      "providers": [],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/pfgetc.asm",
+          "sha256": "16ba4b1c4a36ef31f75c4bab8ece73db8de8ab0727dda18b6df07ebb0c915f93"
+        },
+        "recipe": "db 0",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-align-pfread",
+      "segment": 0,
+      "offset": 6669,
+      "bytes": 1,
+      "providers": [],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/pfrewind.asm",
+          "sha256": "698c5e8efd4e2047618091fa1946b8ff239861770495676577d298c73d6dfe87"
+        },
+        "recipe": "endfunc",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-rand",
+      "segment": 0,
+      "offset": 6718,
+      "bytes": 42,
+      "providers": [
+        {
+          "name": "random",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/random.asm",
+            "sha256": "a2759dae92008b72845c67e6caa183d54c22f9b2c8199de2101b82daf35aab82"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/random.asm",
+            "sha256": "ee9b2a020eeaf35c0ef684d937d78a58727c02abd24d12b30aa4b61437cb170b"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-sound-text",
+      "segment": 0,
+      "offset": 7926,
+      "bytes": 116,
+      "providers": [
+        {
+          "name": "soundio",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/soundio.asm",
+            "sha256": "69a4d31369cf05261fb290cb2075c2e2f3f511151ee23ad1e9540bed33d5d69c"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/soundio.asm",
+            "sha256": "be1171ff47d5f7bfe6f86acd323495e09b2acf93af6381d2d65816419b12c321"
+          }
+        },
+        {
+          "name": "text_clear",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/text_clear.asm",
+            "sha256": "9524152bd1e459e9282f6d45bd1c9f72ffc566aab35cb141baecf3db7268c9db"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/text_clear.asm",
+            "sha256": "5ef154db3c5d7222eb2d26bbae8acab19c3daeed610b842dd47728c7a1b99797"
+          }
+        },
+        {
+          "name": "text_fillca",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/text_fillca.asm",
+            "sha256": "fbc8a57941eb454ea29fac0ae5ceb3420a387e9e58d4e8f398dea264c464373a"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/text_fillca.asm",
+            "sha256": "fbb2b099d359df4de6653ed6f20269c85e02ad178a1f3484ecb62728ada0e512"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-resident",
+      "segment": 0,
+      "offset": 10094,
+      "bytes": 226,
+      "providers": [
+        {
+          "name": "respal_exist",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/respal_exist.asm",
+            "sha256": "d1b9f19417ce514cf88edf2bf8260ccfc547a1ef29027607937f19e7579cbfed"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/respal_exist.asm",
+            "sha256": "2ed2a116966f4e645f76d8373b1f4523d4e0894454711583be1c1b8227b87f36"
+          }
+        },
+        {
+          "name": "respal_set_palettes",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/respal_set_palettes.asm",
+            "sha256": "22876ac1b2aca5bb19c52427accb9d0f58ab0595db6d65f7df87b04e90f50e7d"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/respal_set_palettes.asm",
+            "sha256": "35982aea99c0114aa74239e0951b2bb7f83130c55be64eafdac1604bb8819b93"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-joystick",
+      "segment": 0,
+      "offset": 10925,
+      "bytes": 105,
+      "providers": [
+        {
+          "name": "joystick_prefix",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/th03_mainl.asm",
+            "sha256": "e41e6ec7959bc012a9798ce48ed825999d78e2e2ae3f660a61a5be4bf1af377f"
+          },
+          "root_anchor": "include src/mainl/archive_io/pfint21.asm",
+          "source": {
+            "path": "src/mainl/root_tail/joystick_prefix.asm",
+            "sha256": "45c902a19cdd678d1129f7244bff375e1099deb12da5c3ba2ed8e8e970057052"
+          }
+        },
+        {
+          "name": "js_start",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/js_start.asm",
+            "sha256": "9108253a1ce57bab97b64f9504196dc5a0d2d510a2d121f94a71f0698063aa03"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/js_start.asm",
+            "sha256": "bbb7216ee9e95be988be48492fa95d5ae653c66c1280c6a438089837dae43977"
+          }
+        },
+        {
+          "name": "js_sense",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/js_sense.asm",
+            "sha256": "6f9c91f30d50cfd75f9b6025737cf3f5edefe9a38fb4f90cc447b11f4e9e4456"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/js_sense.asm",
+            "sha256": "bd8379cd5f271363777f0fc736ddcd7aaafcb9536941fdb83e0f4df20773ca9a"
+          }
+        },
+        {
+          "name": "joystick_suffix",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/th03_mainl.asm",
+            "sha256": "e41e6ec7959bc012a9798ce48ed825999d78e2e2ae3f660a61a5be4bf1af377f"
+          },
+          "root_anchor": "include libs/master.lib/js_sense.asm",
+          "source": {
+            "path": "src/mainl/root_tail/joystick_suffix.asm",
+            "sha256": "45c902a19cdd678d1129f7244bff375e1099deb12da5c3ba2ed8e8e970057052"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root-tail-compare-align",
+      "segment": 0,
+      "offset": 11311,
+      "bytes": 57,
+      "providers": [
+        {
+          "name": "pf_str_ieq",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MDH02/libs/master.lib/pf_str_ieq.asm",
+            "sha256": "d25abb53eb1b9b689af519ae7526595d76c86b4362dd2e5ac146cd2165283ac8"
+          },
+          "source": {
+            "path": "src/mainl/root_tail/pf_str_ieq.asm",
+            "sha256": "deac519f7f2f230665e6b01c1d936a9a95cfd0baeb4e2d4c94da83313daf6042"
+          }
+        }
+      ],
+      "existing_producer": {
+        "source": {
+          "path": "src/mainl/archive_io/pfopen.asm",
+          "sha256": "454440084e822e0a6c6aeb4374ac84383387666f1522b8b1a58289b6e1b531e1"
+        },
+        "recipe": "endfunc",
+        "scope": "Only the listed producer byte; preceding procedure body is already owned, no duplicate credit."
+      }
+    }
+  ],
+  "unit_count": 16,
+  "decoded_bytes": 722,
+  "body_bytes": 701,
+  "producer_bytes": 21,
+  "include_count": 16,
+  "library_include_count": 13,
+  "native_fragment_consumption_proven": false,
+  "source_progress_changed": false,
+  "exact_acceptance": false,
+  "excluded_scope": "No duplicate PFOPEN281 or archive body credit; CRT, linked C++, DATA/BSS and full artifact acceptance remain open. SAJOUT is structurally retained and unreferenced, not claimed executed."
+}
