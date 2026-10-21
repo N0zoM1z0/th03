@@ -13,10 +13,15 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL display/hardware source proof
+
+MAINL display/hardware source promotion: 16 existing units / 2,116 bytes added, now source 100/145 (25,266 bytes), exact 0. Two independent include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP. All 21,565 scoped maintained bytes match target. Eight fresh VSYNC/graphics/gaiji/screen model phases passed; palette contract retained by complete EXE identity. Fast replay does not rerun models. Target screen outer terminal status is unknown after transport timeout; durable success is verified. One DATA byte and 461 global relocation-order differences remain. Retained objects are contextual, not a cold aggregate.
+See [display/hardware proof](reconstruction/MAINL_DISPLAY_HARDWARE_SOURCE_REVIEW.md).
+
 ## MAINL archive/file source proof
 
 Nineteen existing units /2,479 bytes are now source-present: MAINL source
-**84/145 units,23,150 bytes**, exact **0**. Two independent include-consuming
+**84/145 units,23,150 bytes**, exact **0** at that historical checkpoint. Two independent include-consuming
 root assemblies and hybrid links have identical raw root OBJ/EXE/MAP. All19,449
 composed maintained bytes match target; one ordered archive relocation matches.
 Eight fresh target/candidate model phases passed; buffer1754's model contract

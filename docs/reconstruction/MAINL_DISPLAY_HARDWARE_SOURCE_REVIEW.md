@@ -1,39 +1,71 @@
-# MAINL display/hardware source ownership
+# MAINL display/hardware consumed-source proof
 
-## Source checkpoint, not acceptance
+Sixteen existing decoded units / 2,116 bytes are source-present after the
+reviewed intake promotion: MAINL source **100/145 units, 25,266 bytes**, exact
+**0**. Twenty complete maintained symbolic includes are consumed by two fresh
+root assemblies and hybrid links. This is source ownership and scoped proof,
+not whole-product cold or packed acceptance.
 
-Twenty complete symbolic include providers cover sixteen existing decoded units /
-2,116 bytes. The current MIA02 root consumes each old provider once; the composer
-replaces only that include path with maintained TH03 product source. Expanded
-statements, macro definitions, aliases, conditionals and alignment are unchanged.
-Current source progress remains 84/145 units and 23,150 bytes; exact remains 0
-until separate native consumption, runtime and intake proof is reviewed.
+## Source and ABI contracts
 
-## ABI and behavioral contracts
+The composer replaces each unique old provider include in the current MIA02
+root with its maintained TH03 path. Expanded statements, macros, aliases,
+conditionals and alignment are unchanged. Tests reject missing, duplicated or
+already consumed includes, opcode/branch/IRET/CLI/EVEN/self-modifying mutations,
+and overwriting an existing staging destination.
 
-- Palette preserves signed fade speed, clamped tone, partial RGB reads, explicit
-  ports and the mutable CS LCD XOR immediate.
-- VSYNC preserves saved CS interrupt vectors, real IRET frames, IF-gated delivery,
-  delay overflow and bounded waiting. DOS_SETVECT retains far address parameters
-  and six-byte Pascal stack cleanup.
-- EGC and graphics preserve register order, shared entries, signed clipping,
-  stack CLI/STI sequences, caller DF, edge masks and zero-width wrapping.
-- Gaiji preserves font ports, actual heap cycles, malformed BFNT/read handling,
-  original failure cleanup and caller DF. Screen retains BIOS/VRAM context,
-  plane order and allocation failure behavior.
+- Palette retains signed fade speed, tone clamping, partial RGB reads and the
+  mutable CS LCD XOR immediate, with explicit hardware ports.
+- VSYNC retains saved CS interrupt vectors, real IRET frames, IF-gated delivery,
+  delay overflow and bounded waits. DOS_SETVECT retains its far address and
+  six-byte Pascal cleanup.
+- Graphics retains EGC port order and shared entry, signed clipping, edge masks,
+  stack CLI/STI sequences, zero-width wrapping and inherited DF.
+- Gaiji retains font port order, heap cycles, malformed BFNT/read behavior and
+  original error cleanup. Screen retains BIOS/VRAM context, inherited DF,
+  allocation failure and plane-copy ordering.
 
-## Proof plan and boundaries
+## Observed native and runtime evidence
 
-First and repeat native root assemblies/links must consume these includes,
-produce equal raw OBJ/EXE/MAP and prove all 2,116 scoped bytes against target.
-The sole scoped relocation is VSYNC 0000:1FE5. Palette runtime proof may only be
-retained via complete EXE identity plus actual model dependencies; VSYNC,
-graphics, gaiji and screen require fresh serial target/candidate model phases.
-Each model independently checks actual memory; cross-image comparison omits
-only its existing top-level before/after memory digest fields.
+Parent commands 3a5213cf0c394f28ae1bf68f72dbddfe and
+4f87e9e6fb2a4dcbbc3f58e97c43326e completed with exit 0. All four native phases
+have certain cleanup, no survivors or poison, and both owned locks released.
+The MDH02 repeat declares 1,867 actual MDH01 input timestamps; it is not a claim
+that the first run was a predeclared cold pair. Both freshly produced raw files
+are identical:
 
-Already-owned BFNT, DOS open, GDC and heap receive no second credit. Other
-objects and hardware models remain explicit context. DATA EVEN 0E3F:0849
-(target 90/current 00), global relocation ordering, cold aggregate ownership
-and canonical packed equality remain open. No literal byte repair, output
-normalization, new denominator or whole-product exactness is claimed.
+- Root OBJ, 40,081 bytes: 61860eafb6c490b8163bc0533fdaa00bb99114202b011f4d429dd89952bda86f
+- EXE, 67,372 bytes: 6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63
+- MAP, 68,389 bytes: ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363
+
+All new 2,116 bytes match target, with the sole scoped ordered relocation at
+0000:1FE5. Prior 19,449 scoped bytes are retained through complete EXE identity:
+**21,565 total scoped target-equal bytes**. Contextual objects are not rebuilt
+or credited as new ownership.
+
+Eight fresh serial target/candidate model phases pass, per image:
+VSYNC 9,664 terminal + 20 bounded; graphics 3,220 + 4; gaiji 2,302 + 4;
+screen 1,188 + 4. Palette 2,498 + 8 is retained, not rerun, only through complete
+raw target/candidate EXE identity and verified actual dependency hashes.
+Independent scalar/native actual-memory checks remain unchanged; cross-image
+comparison omits only each model's existing top-level before/after memory
+digest fields. Model comparison receipt:
+`.analysis/mainl-display-hardware-source-20261021-v01/model-comparison.json`,
+SHA256 `c201ecc60f49bbb8d20e2fb28ddec75a838a6181c46e2b933cf8df1b12df6a57`.
+Seven fresh phases have original Factory exit 0; screen target's original
+outer terminal status is unavailable after transport returned no structured
+result. Its complete successful durable receipt was independently verified;
+no phase was retried. Fast replay rechecks retained proof, not model matrices.
+
+## Replay and remaining boundaries
+
+Recipe: `config/th03_mainl_display_hardware_link.json`.
+Fast verifier: `scripts/replay_th03_mainl_display_hardware_link.py`.
+The recipe binds consumed source, actual native manifests and outputs, cleanup,
+observed source timestamps, model receipts and their actual dependencies.
+
+Already-owned BFNT, DOS open, GDC and heap receive no duplicate credit.
+One DATA byte remains at 0E3F:0849 (target 90/current 00), with all 677 relocation
+members present but 461 global order-index differences. No literal fill patch,
+OMF rewrite or output normalization is used. Aggregate cold ownership and
+canonical packed equality remain open; exact acceptance remains 0.

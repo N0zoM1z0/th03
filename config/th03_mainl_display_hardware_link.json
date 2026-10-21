@@ -1,0 +1,311 @@
+{
+  "schema": "mainl-display-hardware-consumed-source-v1",
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-palette-black-fades",
+      "segment": 0,
+      "offset": 1334,
+      "bytes": 130,
+      "source_paths": [
+        "src/mainl/display_hardware/palette_black_in.asm",
+        "src/mainl/display_hardware/palette_black_out.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-palette-show",
+      "segment": 0,
+      "offset": 6096,
+      "bytes": 266,
+      "source_paths": [
+        "src/mainl/display_hardware/palette_show.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-palette-rgb",
+      "segment": 0,
+      "offset": 6760,
+      "bytes": 66,
+      "source_paths": [
+        "src/mainl/display_hardware/palette_entry_rgb.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-palette-wait-white-fades",
+      "segment": 0,
+      "offset": 8292,
+      "bytes": 166,
+      "source_paths": [
+        "src/mainl/display_hardware/vsync_wait.asm",
+        "src/mainl/display_hardware/palette_white_in.asm",
+        "src/mainl/display_hardware/palette_white_out.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-vsync-library",
+      "segment": 0,
+      "offset": 8042,
+      "bytes": 250,
+      "source_paths": [
+        "src/mainl/display_hardware/vsync.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-dos-setvect",
+      "segment": 0,
+      "offset": 1796,
+      "bytes": 32,
+      "source_paths": [
+        "src/mainl/display_hardware/dos_setvect.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-graph-extmode",
+      "segment": 0,
+      "offset": 3842,
+      "bytes": 86,
+      "source_paths": [
+        "src/mainl/display_hardware/graph_extmode.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-egc-library",
+      "segment": 0,
+      "offset": 1828,
+      "bytes": 98,
+      "source_paths": [
+        "src/mainl/display_hardware/egc.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-grcg-box-library",
+      "segment": 0,
+      "offset": 2760,
+      "bytes": 366,
+      "source_paths": [
+        "src/mainl/display_hardware/grcg_boxfill.asm",
+        "src/mainl/display_hardware/grcg_byteboxfill_x.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-backup",
+      "segment": 0,
+      "offset": 3186,
+      "bytes": 64,
+      "source_paths": [
+        "src/mainl/display_hardware/gaiji_backup.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-load",
+      "segment": 0,
+      "offset": 3250,
+      "bytes": 150,
+      "source_paths": [
+        "src/mainl/display_hardware/gaiji_entry_bfnt.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-read",
+      "segment": 0,
+      "offset": 3400,
+      "bytes": 108,
+      "source_paths": [
+        "src/mainl/display_hardware/gaiji_read.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-write",
+      "segment": 0,
+      "offset": 3508,
+      "bytes": 112,
+      "source_paths": [
+        "src/mainl/display_hardware/gaiji_write.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-screen-mode",
+      "segment": 0,
+      "offset": 3620,
+      "bytes": 78,
+      "source_paths": [
+        "src/mainl/display_hardware/graph_400line.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-screen-clear",
+      "segment": 0,
+      "offset": 3698,
+      "bytes": 36,
+      "source_paths": [
+        "src/mainl/display_hardware/graph_clear.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-screen-copy",
+      "segment": 0,
+      "offset": 3734,
+      "bytes": 108,
+      "source_paths": [
+        "src/mainl/display_hardware/graph_copy_page.asm"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "work": ".analysis/toolchain/wineprefix/drive_c/MDH01",
+      "proposal": ".analysis/mainl-display-hardware-link-proposal-20261021-v01",
+      "output": ".analysis/mainl-display-hardware-link-output-20261021-v01"
+    },
+    {
+      "work": ".analysis/toolchain/wineprefix/drive_c/MDH02",
+      "proposal": ".analysis/mainl-display-hardware-repeat-proposal-20261021-v01",
+      "output": ".analysis/mainl-display-hardware-repeat-output-20261021-v01",
+      "repeat": true
+    }
+  ],
+  "decoded_target": ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe",
+  "previous_exe": ".analysis/toolchain/wineprefix/drive_c/MIA02/bin/th03/mainl.exe",
+  "previous_map": ".analysis/toolchain/wineprefix/drive_c/MIA02/obj/th03/mainl.map",
+  "model_phases": {
+    "vsync": {
+      "target": ".analysis/mainl-display-hardware-source-20261021-v01/model-vsync-target.json",
+      "candidate": ".analysis/mainl-display-hardware-source-20261021-v01/model-vsync-candidate.json"
+    },
+    "graphics": {
+      "target": ".analysis/mainl-display-hardware-source-20261021-v01/model-graphics-target.json",
+      "candidate": ".analysis/mainl-display-hardware-source-20261021-v01/model-graphics-candidate.json"
+    },
+    "gaiji": {
+      "target": ".analysis/mainl-display-hardware-source-20261021-v01/model-gaiji-target.json",
+      "candidate": ".analysis/mainl-display-hardware-source-20261021-v01/model-gaiji-candidate.json"
+    },
+    "screen": {
+      "target": ".analysis/mainl-display-hardware-source-20261021-v01/model-screen-target.json",
+      "candidate": ".analysis/mainl-display-hardware-source-20261021-v01/model-screen-candidate.json"
+    }
+  },
+  "palette_models": {
+    "target": ".analysis/mainl-resources-source-20261021-v01/model-palette-target.json",
+    "candidate": ".analysis/mainl-resources-source-20261021-v01/model-palette-candidate.json"
+  },
+  "proof_inputs_sha256": {
+    "config/th03_mainl_display_hardware_source.json": "b84b2a609d0dd29e892aa35e544ef7b765afe58a5845f229ac6be5c2b45789ee",
+    "scripts/lib/mainl_display_hardware_source.py": "0408967d0f180478193a4bbf316a9e4d3cd99fdfb6d5663a8fed979fd430de4f",
+    "scripts/lib/mainl_staff_source.py": "e780918d10091e9c2582bb695faf1ebca776f552083d1895c1c9aa8df2f6f48b",
+    "scripts/lib/mainl_graphics_source.py": "d5ab687731d0648827a75ece94eff739b205f6963ebf896802dfba82dc5c6ddb",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
+    "config/th03_mainl_archive_io_link.json": "31bdb5f7da6fa29c64e482caff91d82c37dea254a3e50b32cd94a54281740328",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/th03_mainl.asm": "41e726e4c7d2b1dcb5ab65031e8cc867720ab5d30a7759bc4920a5babd6eeac9",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_black_in.asm": "c7407bfb9aabe9a5127a1dc3510779444a3d507eacd9bc2fdfe48ee9cfc2481e",
+    "src/mainl/display_hardware/palette_black_in.asm": "c4119c6dad2fff0b6336bf2bb9b93a978cc8482ac06418c3d1a19d1ae52ec38f",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_black_out.asm": "522eafd6463b52c9893ed7f71d3322a6ca9a5dd7ff32a9265307ba095d0fd54f",
+    "src/mainl/display_hardware/palette_black_out.asm": "f3f8eff020396aa76e3fef12b2bdec9fde5f26c2895c907935541d7526431f06",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_show.asm": "c40574ccfd1c224e9e4562bc4cc6bb35243cb9970a4c832dd7c3e982a7425c30",
+    "src/mainl/display_hardware/palette_show.asm": "08d2accfe32d9c190a469edf6f5f20c90fd12f29286030bad4cda6bcf77db3bc",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_entry_rgb.asm": "db55520eafba7b5799fcb8fd236473891fb87eab47d5a3b02856cf7670625325",
+    "src/mainl/display_hardware/palette_entry_rgb.asm": "e6c7e0bd52ed23a5581e06981c0d6ebac5025fbc7ebb18c54ac470e76db13f3b",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/vsync_wait.asm": "2186df31026448095f165528d8cbc3c653dbbc5f4be90b27bdd3acee95d04b2b",
+    "src/mainl/display_hardware/vsync_wait.asm": "670098368a93f2bd85bebdd21d003b8630adcaae0192c83006c9035716accf3f",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_white_in.asm": "d22a8491c095ed7d2d4b117cd74d549d43df68807a79dfc6e257401a2bddfb34",
+    "src/mainl/display_hardware/palette_white_in.asm": "1ba734e7b7b09b57f93d41245adac61a83d77e984b92c3e71b3860484242e191",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_white_out.asm": "40904043b508e68d5ad31ed152ba770236597e6a2fcee0074cc5db2f066d46b4",
+    "src/mainl/display_hardware/palette_white_out.asm": "93ffbdc1477bfc092336f10470d87374f3dea42025a18405fd22a13908ffc699",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/vsync.asm": "5d3c205d6d6ff7d9c0f8079200624ff1bfdf4f785e7a5b7c501c0b2269dafed7",
+    "src/mainl/display_hardware/vsync.asm": "adc11a7fa661b145db4bcc47d1ff9329e9cbae684c13e6f17f510475e155be7a",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/dos_setvect.asm": "72c7d13cb301fabdfc698581a34d883bb477515cf4713a14ef815a8e7d08537b",
+    "src/mainl/display_hardware/dos_setvect.asm": "d76ec8ccfeb92772b84eb4953a32cdec2c63ed225e5fb41897a32a2c482ce1b2",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_extmode.asm": "3e1df894829c07cba4b59b6fe08c631e670312b42a60ae790faa5c4cd0f1d970",
+    "src/mainl/display_hardware/graph_extmode.asm": "fc12522f59b6e2813dc77a3b29bd0f65087df90dd953a10da51419f6b0f23fd5",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/egc.asm": "4f95898cc37b4ca0fa7879b4f36fdbf0663452ef3175703f225bde9a25f00643",
+    "src/mainl/display_hardware/egc.asm": "938bdf7290f1becf1ea5e5e4e9d830f2f4320552fb9325cc0d50665287703901",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/grcg_boxfill.asm": "74db99990e4064c0d028674c97e2e07717ca21e0177037cedf0ea58cd88b7fa4",
+    "src/mainl/display_hardware/grcg_boxfill.asm": "f74b9e5ff8ab596a58042b280840e6aab3a64d00c821e819adaa002d9c40327f",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/grcg_byteboxfill_x.asm": "b549049f0379a0eab9e8f5d2de0c04946e6454c8edd4ecf87c9f407ca323503b",
+    "src/mainl/display_hardware/grcg_byteboxfill_x.asm": "0ef562ab616ee6e85ef1bb8306820645f4b0405e27a8d714d01acddd7416142d",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_backup.asm": "8154b76fc72e32af4e9e58b6ea4b3b83a6d0a72987544434e8a098d872d5516a",
+    "src/mainl/display_hardware/gaiji_backup.asm": "14450208ef13f7b9209b21fe0f6fef9410211f6b57db76cbe44fe397539e83f7",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_entry_bfnt.asm": "d365f1aee432134fff021a015f59ace31a8d07655c00ce7cff988e788e2e5534",
+    "src/mainl/display_hardware/gaiji_entry_bfnt.asm": "5e9af7ec507b787d92c543d6661834776ae88ca893e93ac2846940ba3cbc1f1c",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_read.asm": "76f96834714f89ceb0b04536b67c0920f71621e622a86dd8f881cd158afdbb32",
+    "src/mainl/display_hardware/gaiji_read.asm": "70624da671f2aa50270586d53ee0a80f416f59ed39f0f8087407398904faab94",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_write.asm": "8ba36f346ea8a2f4bd3f6a3f44b2034e78d8ff87f0e16414c17e3fcf59ddcb47",
+    "src/mainl/display_hardware/gaiji_write.asm": "59f2bc983a6898600c366c9fbd00c9f105b837a6e98a5cc18e478a32c3dd8066",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_400line.asm": "a4cc370c6827cd5f91928d8f1f1dcb49dcb1d582e2dba3e7b6f33b18ea877494",
+    "src/mainl/display_hardware/graph_400line.asm": "bedf940bdb34dd0c32747cbda1ba72d6267177c4214cb03a7191f7a732f28e32",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_clear.asm": "90be0ac27c63cf09b7bab977ab3787c5e64ede39d8c86c0393920c82991d7d12",
+    "src/mainl/display_hardware/graph_clear.asm": "6356a3e1eea06c618b537d547545bfdf3122564c7a9794eecc0b3a238d37dc93",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_copy_page.asm": "6e99953780d53444267c34fa48331ccf3535f0d4e4b4b7dc9c32291806e271dc",
+    "src/mainl/display_hardware/graph_copy_page.asm": "7fc297324c44c2189ce5fd9349d28e080a5751e7813a7b0a5f768a85986a6bf4",
+    ".analysis/mainl-display-hardware-link-proposal-20261021-v01/verify_link.py": "e7e00f7b8f44dc306485acd418b0ac3f710c5760c8b411c773184f00958ec2e4",
+    ".analysis/mainl-display-hardware-link-proposal-20261021-v01/compose_sources.py": "e80e3020dee0761872e0e1b097e999c2f010b313fe52e503401c5d47e19bdc42",
+    ".analysis/mainl-display-hardware-link-proposal-20261021-v01/launch.sh": "97f76e4fe002ec7fe4b53c4d0d15b09bfe5c4419ba0c39b3758728ee782f6a59",
+    ".analysis/mainl-display-hardware-link-proposal-20261021-v01/run_links.py": "f58ffa5dcbbc7316c3586106c8e96c1aaa303dea0ea35037186aee538ea4b5fc",
+    ".analysis/mainl-display-hardware-link-proposal-20261021-v01/preflight-verification.json": "1f6caf019654c86f9da25f9c56eb82ad01d086326e65f34fbd3adae18cb17bb6",
+    ".analysis/mainl-display-hardware-link-proposal-20261021-v01/finalize.py": "4b7b7c85ca2a30c6a0f7dedf426ef6317c65e85f966875552699e1f423262bcf",
+    ".analysis/mainl-display-hardware-link-proposal-20261021-v01/manifest.json": "0e8af755ed9dc1fc96edbc49c78ea39e1242dafc7234f75a81f4ef007e04162f",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/completion.json": "95187c9407f263d03a357f20c52ac5cd377cf676a11effa4156a87616be7c7dc",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/linked-verification.json": "1f6caf019654c86f9da25f9c56eb82ad01d086326e65f34fbd3adae18cb17bb6",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/root-started.json": "2c48eb44fc69cf6e8748c15d651c25a44630c1fcd2d6e9c156f8db5f1bb00725",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/root-finished.json": "f009b154230b06d8a1eb21cab453e997cec0e42af179e92bee289fa0aa29c26d",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/root-registry-transition.json": "dd7a447c5b2b9cc65295033a60058c2024b664179bf96835e36c28fe584f4ab2",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/link-started.json": "3a1df55c3240ef5601f51522850a3e49779bb9de634cdbab3a75d0b1efb4b22a",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/link-finished.json": "fb898187ba9cbe53bf343b6d09905d14c148a83b314959acccbc5517f7fb5aa7",
+    ".analysis/mainl-display-hardware-link-output-20261021-v01/link-registry-transition.json": "a6f63954ed30674a3d64177a2361825f1d72a1201169d7081645faffc22944c7",
+    ".analysis/toolchain/wineprefix/drive_c/MDH01/obj/th03/mainl.obj": "61860eafb6c490b8163bc0533fdaa00bb99114202b011f4d429dd89952bda86f",
+    ".analysis/toolchain/wineprefix/drive_c/MDH01/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MDH01/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-display-hardware-repeat-proposal-20261021-v01/verify_link.py": "467609796623b504dad7a6bebfb5b2d2b9c167e8849dd29c5dec2f522abf948c",
+    ".analysis/mainl-display-hardware-repeat-proposal-20261021-v01/compose_sources.py": "d42cdf0091e263ecd02d535d644a71af55dde95727085734141e82b745a806f2",
+    ".analysis/mainl-display-hardware-repeat-proposal-20261021-v01/launch.sh": "11269a29b43f238fc83326b2ea7d54296c463fa08a2ece37312722434f8eb7b5",
+    ".analysis/mainl-display-hardware-repeat-proposal-20261021-v01/run_links.py": "42c29c4504edcec83139952448794be7f5f3b8ae5c2de2dc9fe923738e431d25",
+    ".analysis/mainl-display-hardware-repeat-proposal-20261021-v01/manifest.json": "d4b439496c79d2a5ffcf7849bff9b373851c16bf264b3aff133564ba631c4bf0",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/completion.json": "200ead502fbc042c4c8ebaa93e1def015a60bea959333d06ef5a4a85e4a9a3e4",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/linked-verification.json": "d215476660c793f052ecb94722bfe9ea02ace560754cb87c223b96a0e4420dee",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/root-started.json": "ddf9ab89869ea236f1224a8e7ef7013e93f124dcd4e8e359200304b60f944c00",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/root-finished.json": "fd5fdec94d972b06cbc12159ddb9909f1ac6b2dce51651b0f299d9ac5f8a01fb",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/root-registry-transition.json": "15c5434dbc76aa30e4ad07057fde1e700f7a6c39b18c37a94f6dd23513a5f6c2",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/link-started.json": "a8565b3f1afa737754a19b3e888d08213412852684553ff4868ccecd2a5d4882",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/link-finished.json": "3518b0de85289cb550d7b921e3f14cafc6e8b8c8281f83a9d5b988fb4a553000",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/link-registry-transition.json": "de6af7ca50028792afd2e5bd1590b2ae7aa4ab38b55aed1c4a0f4b7a4d55a1fa",
+    ".analysis/mainl-display-hardware-repeat-output-20261021-v01/source-mtimes.json": "9409938729aaa40e00cea6337dc894c633bc660cd6296f4766f7fcf3b4d2311c",
+    ".analysis/toolchain/wineprefix/drive_c/MDH02/obj/th03/mainl.obj": "61860eafb6c490b8163bc0533fdaa00bb99114202b011f4d429dd89952bda86f",
+    ".analysis/toolchain/wineprefix/drive_c/MDH02/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MDH02/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-vsync-target.json": "2c172d7a8748bf2ce4f73a8e7ffc87c7fcb15d98da0f4a35c2a1b8176b0adfe0",
+    ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/inventory_rec98_th03.py": "b73ffb8d8b8897a08d02acda03d9fa2e5ebe88b5eda8a6caf4fe899a054a7fb7",
+    "scripts/review_th03_decoded_code.py": "b32874a22aae18d55ae695ce6361e84a1a4a617985c71391d082709319c4ddff",
+    "scripts/review_th03_mainl_cutscene.py": "b3a74f30e0cdacf66072a4eca441eb7f0daae22cde22564faa03b0551c70f795",
+    "scripts/review_th03_mainl_snow.py": "0d2800d398e0a3e801c2b5069b13fd86e8fa433f9ae72cb932714113e7f3c4c6",
+    "scripts/review_th03_mainl_heap.py": "8a46fc1c593429541c35220c1f159c38af4c64e8788b9f06ec3ec3d19b7f45b6",
+    "scripts/review_th03_mainl_palette.py": "429707c63dd9f4fa119a74fd5bfe00a499ca6e6cc7e2468a545fe6ddbf021aa9",
+    "scripts/review_th03_mainl_vsync.py": "e738670f29ef0c208e49d45c654b32138a31b6afdbd586fc0fd225ac9e1213b1",
+    "/home/pentester/coding/codex_ida/th03-reconstruction/th03/.analysis/mainl-display-hardware-source-20261021-v01/run_model.py": "ed1e848ceb0e448b4243ad12d3699f623485ea5a4b7aeedf18542e31bc1f8db2",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-vsync-candidate.json": "b7b0ac9130558dcdaa184b055553ae5926fa25af7d06d2dd419d8a856ca48492",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-graphics-target.json": "3bd845cc6bcb51c8feadc0b9782468bc79cabf2abbf31c5dd39de96552a438c9",
+    "scripts/review_th03_mainl_graphics.py": "6e09bbfe86369d1c46d4c2bb3ea8b19d4eb5556337cdf11a1d55817f0aad720a",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-graphics-candidate.json": "6c66a6b2db357196a6bef3ac3e0e7f135f0f1c223d24c035ace55218279d9887",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-gaiji-target.json": "185c41a0d1b420a157d5dcbde67afb8601ef0003f2f2935b4e6761949892405e",
+    "scripts/review_th03_mainl_smem.py": "f74a6e2c80d9267bc27150c12f29f801702eb51a833b60bd8b81bb97429907db",
+    "scripts/review_th03_mainl_super.py": "e768f8ff14f1364c9cac553d6c0af9c69d56cde061f370ea6fd13ccee6bd7b47",
+    "scripts/review_th03_mainl_gaiji.py": "b6eccf0f12759cfc8a27cd3073c1dc5b3dd45afa202c20bd63ae17e837f3d8c2",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-gaiji-candidate.json": "47ad05e561c13ee47c174c60e3aa4c2de5a8ba1816b605cd5c85f1d8d01307a4",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-screen-target.json": "d84ddd7b0d4b22bccea13456817ce44035eb690064a0fceaefb15b1834cb211e",
+    "scripts/review_th03_mainl_screen.py": "6902ef7b5992e1c977db31f90583b6202803c5459f0446a8542dcb152d8c8f18",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-screen-candidate.json": "bcde2bd72a9fb38d12901cdeb2630e2f92aa1e2a0b95cb4e3fcb4866d5599dd6",
+    ".analysis/mainl-resources-source-20261021-v01/model-palette-target.json": "81ca730ce8f8f85c5585e31b1a31804168ed2b19979de8b77528dba18d661c00",
+    "/home/pentester/coding/codex_ida/th03-reconstruction/th03/.analysis/mainl-resources-source-20261021-v01/run_fresh_model.py": "170d0ab930f139a0a447fdc2983bbe9fb5d8771305bce59cf3ddb645a836f060",
+    ".analysis/mainl-resources-source-20261021-v01/model-palette-candidate.json": "df72f26e1437fe54a145ed0b47ba7bc275d3e80c5186d135815d42e588a8b33e",
+    ".analysis/toolchain/wineprefix/drive_c/MRS01/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-display-hardware-source-20261021-v01/model-comparison.json": "c201ecc60f49bbb8d20e2fb28ddec75a838a6181c46e2b933cf8df1b12df6a57"
+  },
+  "cold_aggregate": false,
+  "exact_acceptance": false,
+  "model_proof": ".analysis/mainl-display-hardware-source-20261021-v01/model-comparison.json",
+  "model_transport_note": "All eight fresh display/hardware phases have verified durable success. Seven original Factory commands completed with exit 0; screen target original terminal status is unavailable after transport returned no structured result, and its complete success receipt was verified by read-only command ec95e6a05af44a40ab1d8758a673688e. No phase was retried. Fast replay does not rerun matrices; palette proof is retained only by complete raw EXE identity and actual dependency hashes."
+}
