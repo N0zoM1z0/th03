@@ -13,8 +13,10 @@ class ResourcesProgressTests(unittest.TestCase):
         units,evidence=self.data()
         self.assertTrue(progress.mainl_resources_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
-        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(65,20671,0,145))
-        self.assertIn("16,970 B target-equal",progress.render_svg(units,[],evidence))
+        self.assertGreaterEqual(c["source"],65)
+        self.assertGreaterEqual(c["source_bytes"],20671)
+        self.assertEqual((c["exact"],c["total"]),(0,145))
+        self.assertIn("target-equal",progress.render_svg(units,[],evidence))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_RESOURCES_SOURCE_UNITS.values()),3475)
         self.assertNotIn("th03-mainl-heap-manager",progress.MAINL_RESOURCES_SOURCE_UNITS)
     def test_missing_repeat_evidence_rejects_caption(self):

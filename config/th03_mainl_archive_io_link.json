@@ -1,0 +1,350 @@
+{
+  "schema": "mainl-archive-io-consumed-source-v1",
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-file-library",
+      "segment": 0,
+      "offset": 1926,
+      "bytes": 786,
+      "source_paths": [
+        "src/mainl/archive_io/file_append.asm",
+        "src/mainl/archive_io/file_close.asm",
+        "src/mainl/archive_io/file_create.asm",
+        "src/mainl/archive_io/file_exist.asm",
+        "src/mainl/archive_io/file_read.asm",
+        "src/mainl/archive_io/file_ropen.asm",
+        "src/mainl/archive_io/file_seek.asm",
+        "src/mainl/archive_io/file_size.asm",
+        "src/mainl/archive_io/file_write.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-file-dos-helpers",
+      "segment": 0,
+      "offset": 1710,
+      "bytes": 80,
+      "source_paths": [
+        "src/mainl/archive_io/dos_axdx.asm",
+        "src/mainl/archive_io/dos_filesize.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfint21",
+      "segment": 0,
+      "offset": 10320,
+      "bytes": 605,
+      "source_paths": [
+        "src/mainl/archive_io/pfint21.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfopen",
+      "segment": 0,
+      "offset": 11030,
+      "bytes": 281,
+      "source_paths": [
+        "src/mainl/archive_io/pfopen.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-close",
+      "segment": 0,
+      "offset": 6362,
+      "bytes": 26,
+      "source_paths": [
+        "src/mainl/archive_io/pfclose.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-getc",
+      "segment": 0,
+      "offset": 6388,
+      "bytes": 15,
+      "source_paths": [
+        "src/mainl/archive_io/pfgetc.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-len",
+      "segment": 0,
+      "offset": 6404,
+      "bytes": 78,
+      "source_paths": [
+        "src/mainl/archive_io/pfgetc.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-plain",
+      "segment": 0,
+      "offset": 6482,
+      "bytes": 68,
+      "source_paths": [
+        "src/mainl/archive_io/pfgetc.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-keyed",
+      "segment": 0,
+      "offset": 6550,
+      "bytes": 13,
+      "source_paths": [
+        "src/mainl/archive_io/pfgetc.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-read",
+      "segment": 0,
+      "offset": 6564,
+      "bytes": 46,
+      "source_paths": [
+        "src/mainl/archive_io/pfread.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-rewind",
+      "segment": 0,
+      "offset": 6610,
+      "bytes": 59,
+      "source_paths": [
+        "src/mainl/archive_io/pfrewind.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pfread-seek",
+      "segment": 0,
+      "offset": 6670,
+      "bytes": 48,
+      "source_paths": [
+        "src/mainl/archive_io/pfseek.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-close",
+      "segment": 0,
+      "offset": 1138,
+      "bytes": 24,
+      "source_paths": [
+        "src/mainl/archive_io/bcloser.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-fill",
+      "segment": 0,
+      "offset": 1162,
+      "bytes": 59,
+      "source_paths": [
+        "src/mainl/archive_io/bfill.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-getc",
+      "segment": 0,
+      "offset": 1286,
+      "bytes": 48,
+      "source_paths": [
+        "src/mainl/archive_io/bgetc.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-open",
+      "segment": 0,
+      "offset": 1464,
+      "bytes": 83,
+      "source_paths": [
+        "src/mainl/archive_io/bopenr.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-read",
+      "segment": 0,
+      "offset": 1548,
+      "bytes": 48,
+      "source_paths": [
+        "src/mainl/archive_io/bread.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-seek",
+      "segment": 0,
+      "offset": 1596,
+      "bytes": 65,
+      "source_paths": [
+        "src/mainl/archive_io/bseek.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-seek-base",
+      "segment": 0,
+      "offset": 1662,
+      "bytes": 47,
+      "source_paths": [
+        "src/mainl/archive_io/bseek_.asm"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "work": ".analysis/toolchain/wineprefix/drive_c/MIA01",
+      "proposal": ".analysis/mainl-archive-io-link-proposal-20261021-v01",
+      "output": ".analysis/mainl-archive-io-link-output-20261021-v01"
+    },
+    {
+      "work": ".analysis/toolchain/wineprefix/drive_c/MIA02",
+      "proposal": ".analysis/mainl-archive-io-repeat-proposal-20261021-v01",
+      "output": ".analysis/mainl-archive-io-repeat-output-20261021-v01",
+      "repeat": true
+    }
+  ],
+  "decoded_target": ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe",
+  "previous_exe": ".analysis/toolchain/wineprefix/drive_c/MRS02/bin/th03/mainl.exe",
+  "previous_map": ".analysis/toolchain/wineprefix/drive_c/MRS02/obj/th03/mainl.map",
+  "model_phases": {
+    "pfopen": {
+      "target": ".analysis/mainl-archive-io-source-20261021-v01/model-pfopen-target.json",
+      "candidate": ".analysis/mainl-archive-io-source-20261021-v01/model-pfopen-candidate.json"
+    },
+    "pfread": {
+      "target": ".analysis/mainl-archive-io-source-20261021-v01/model-pfread-target.json",
+      "candidate": ".analysis/mainl-archive-io-source-20261021-v01/model-pfread-candidate.json"
+    },
+    "pfint21": {
+      "target": ".analysis/mainl-archive-io-source-20261021-v01/model-pfint21-target.json",
+      "candidate": ".analysis/mainl-archive-io-source-20261021-v01/model-pfint21-candidate.json"
+    },
+    "file": {
+      "target": ".analysis/mainl-archive-io-source-20261021-v01/model-file-target.json",
+      "candidate": ".analysis/mainl-archive-io-source-20261021-v01/model-file-candidate.json"
+    }
+  },
+  "buffer_models": {
+    "target": ".analysis/mainl-resources-source-20261021-v01/model-buffer-target.json",
+    "candidate": ".analysis/mainl-resources-source-20261021-v01/model-buffer-candidate.json"
+  },
+  "proof_inputs_sha256": {
+    "config/th03_mainl_archive_io_source.json": "f9e725e90dd22ed0fe5d23fc2d816dc18833ebde86d4d49585f5f35ef5b9bd9b",
+    "scripts/lib/mainl_archive_io_source.py": "754a85808e921bdf549a8f23306d2aa3e2424ffc99d6f6c183a2fdcdba31abf1",
+    "scripts/lib/mainl_staff_source.py": "e780918d10091e9c2582bb695faf1ebca776f552083d1895c1c9aa8df2f6f48b",
+    "scripts/lib/mainl_graphics_source.py": "d5ab687731d0648827a75ece94eff739b205f6963ebf896802dfba82dc5c6ddb",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
+    "config/th03_mainl_resources_link.json": "ee875ef769dd9fe113f8ece261378f7b646d1ecc6c824c38f02d0009114a2463",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/th03_mainl.asm": "352dbaad5df5ad8fa66d7da880e8b4dc5e25ab68250e5f455422090c1de6ae3f",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_append.asm": "0c68713fd2677e8098b5e52332858a4a3d13703500f72bd8a72d321250a90fd9",
+    "src/mainl/archive_io/file_append.asm": "6d04c9f4d88f7dfba8d1c7bb2c0b96800ae61c3da843891acb617b01ce7cb6e7",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_close.asm": "6683a73f10045ed8885962763c92675d73f690c277b3de45168a914c0ab690ed",
+    "src/mainl/archive_io/file_close.asm": "72bc79a5fad325975e8a810f2e0c20f95de052da38110249fee67977cd735af8",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_create.asm": "be8bf713d07814d2e7443a118b1758a7f2a8683dbb8c992052c7aaf4a5961330",
+    "src/mainl/archive_io/file_create.asm": "37cc0ea9f2dfe04e24315f5b3cd86376bcd9cc728fbda49a6d532a417cd7d12e",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_exist.asm": "82d8b541b6cb72ca1f52cf01369607f5b47375f302848258e0a9a975b92b5ec2",
+    "src/mainl/archive_io/file_exist.asm": "ec1b20d33cced692891e11059f0f37103f4a3742c3ab411f506b8b175d36c35f",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_read.asm": "a1cade5ba6d3c49f876df11dd94386004508a6e63bc764c4966e88c08f127a31",
+    "src/mainl/archive_io/file_read.asm": "454557efbd13df77528abef849d34338a55bdd3aecb1896683fc7b3de72d781f",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_ropen.asm": "77259b5a6cb915d6376df836101a0655152cea0166bbc4570dfb0cdd792bf8dc",
+    "src/mainl/archive_io/file_ropen.asm": "263c79886fdd63d9e2f50f31e243bdba2a68f0fcf29c89041c71613fdbfc68e3",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_seek.asm": "4f1d8a008f0fe6f8caa28024ef5efa08d2d8fd0b6d3c4ddd9f47747af9e3a5a3",
+    "src/mainl/archive_io/file_seek.asm": "e9bf53a55221400ee8d325e15950c1d109e5716083474b47f98817f576fc2823",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_size.asm": "3f42aadaf3f7030b87e69cd0e9d437f63eff98a0ce41d7c360a5074439a53f6a",
+    "src/mainl/archive_io/file_size.asm": "548a755f8133a5a9e019b646095c3616e996194a74d76f19e24551210dca4676",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/file_write.asm": "77dbd982aaec0e724a5b3e772d014aee6a838321842af67eca8d54d021074e3d",
+    "src/mainl/archive_io/file_write.asm": "cc5a23662a88d48779c78cf38072d347946db753f399ce08f382039934caf6dd",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/dos_axdx.asm": "aa359927f77212353bed030739d3b5f9b947a1eb3b3ec2ca91278774ef8046d3",
+    "src/mainl/archive_io/dos_axdx.asm": "34dd1853811b5b7529737d0c4b70cc211ce5e20a37a24dc39b47c7137e9a23b9",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/dos_filesize.asm": "a83fbab8da462ab430c569d217d90f35ede41f7d0279fd8c65cb63ad55603cb7",
+    "src/mainl/archive_io/dos_filesize.asm": "f1182b974bed98ebbd8c0df4d32e0d1c10cedba5fa4852347b9d267428f2f4ad",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfint21.asm": "8890dfae0e43677fa52dc0c2892def28214eb5c7cf9748f6c201410b19b89c8e",
+    "src/mainl/archive_io/pfint21.asm": "d2b07b25b4076ee9e74618a94268ae020571620e72e6124b9897b6e94eb11bf8",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/th03/formats/pfopen.asm": "913ba45575ed3578efc959a9d3383b2407edb1042d856651cda59b5e701f70ab",
+    "src/mainl/archive_io/pfopen.asm": "454440084e822e0a6c6aeb4374ac84383387666f1522b8b1a58289b6e1b531e1",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfclose.asm": "c554e6d0649207a339cf523b144f59afc4ccf999f6a42cffedc9422b8c2f179f",
+    "src/mainl/archive_io/pfclose.asm": "559c045ded7ca688d35338d4025b3180136cb2a0586cfc699ad2178bfa4be526",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfgetc.asm": "119b9827ce6886c77449fe77025fab149542d8916f9edde862562954a6f3c8bd",
+    "src/mainl/archive_io/pfgetc.asm": "16ba4b1c4a36ef31f75c4bab8ece73db8de8ab0727dda18b6df07ebb0c915f93",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfread.asm": "20d594a2355a5380719cee2f2b19229ae072b02afe470e57115c0a34c3580894",
+    "src/mainl/archive_io/pfread.asm": "d02a25cb01a38c77d47ca6e706180936aab860ba4adcfd9ec4fb9a280196e1ff",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfrewind.asm": "ff21821866cc51ce3fb48503458d75ce90b1480784312d43875543a1175c5f5a",
+    "src/mainl/archive_io/pfrewind.asm": "698c5e8efd4e2047618091fa1946b8ff239861770495676577d298c73d6dfe87",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/pfseek.asm": "30668e2fb6ac1c9ffe0258a6bd50cdbd4a2a527d9beaf634c99d7ce4cb89e6d4",
+    "src/mainl/archive_io/pfseek.asm": "22232ad34f4ab74b5f3b3e5fee402dcf3c88372d58898b2c2ca91e3dc1b1eea6",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bcloser.asm": "5a345a8e7c1f6a74c97896f0a81e3f5a2ebb19e6250ce550f74682bd85f7244e",
+    "src/mainl/archive_io/bcloser.asm": "aac2305dd2db012d5c6c9b1f894391ce7f04934e02fa46316a34a9af1669a766",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bfill.asm": "a1280f7bcd803d1eea93fed903b2c7ec2cd1963b7ccced5cb6c755d003fdfda4",
+    "src/mainl/archive_io/bfill.asm": "20cd7979dff9a3d6c61b01ebd073f4872a5deb085b0d02d3b7fba629065cf007",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bgetc.asm": "46e386c45a46eace934bfb1fd37b543d02b58afc616f0dcc7545efa82307a240",
+    "src/mainl/archive_io/bgetc.asm": "f5c3f0e92b95d9c2b9ad2a695c30e8c7ce56338f61e7d541a755b18444758842",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bopenr.asm": "f20b08ce2e0174e38e3d97621aabcb3a4d83812d714456485945af044e07674e",
+    "src/mainl/archive_io/bopenr.asm": "5b103a0046d50dfbf1ef0997507a275913740d3a35f3a0e5f28a5582258430a9",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bread.asm": "ebc390de3abd1308a4fdd8be64c7eeca20ffaa8271cc8c0ce3e5b8a8a539d56e",
+    "src/mainl/archive_io/bread.asm": "e2e41688089d1db41dd370a08c8b70d9f15e72ebb885f15a05004cb0c7e51b0a",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bseek.asm": "d3d277008ccd2c6c9b1c0d3a43d7a7a9393f706f963affb7fdd596437c5c1b65",
+    "src/mainl/archive_io/bseek.asm": "c2c831ac6f1df828a718c8fcfbaea0bc779d61fbbaed47a78c2a29cf4fccea26",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/libs/master.lib/bseek_.asm": "7af87d66044c92482b8374227dde8eb0e67f244109f9687204363a36659885b5",
+    "src/mainl/archive_io/bseek_.asm": "c882e696635c9fd553ca6081e2ce6f1f832364c4489fa7cf69c60ccb5965ba50",
+    ".analysis/mainl-archive-io-link-proposal-20261021-v01/verify_link.py": "cb42929203c78ab99e5edf2c78be8415973f4422c60577019e024df8ed380ea6",
+    ".analysis/mainl-archive-io-link-proposal-20261021-v01/compose_sources.py": "8731ffe24cd71526d50c077695cfca2247189cc89dc6c957890305b0db19a55a",
+    ".analysis/mainl-archive-io-link-proposal-20261021-v01/launch.sh": "f6e6b51ee926494c78ba819dfeb3e7ab84c56d85b0cc3f0a613b43ac39cf3a8d",
+    ".analysis/mainl-archive-io-link-proposal-20261021-v01/run_links.py": "352d3bb40c6d86d54c43ff961a5649cb3b3d3d2f72daaa8bba299290a55dbb03",
+    ".analysis/mainl-archive-io-link-proposal-20261021-v01/preflight-verification.json": "6a35fd1d10218396dca42d007e35dd09638fcf5056a99ece4aba2a7a2ae1fa6a",
+    ".analysis/mainl-archive-io-link-proposal-20261021-v01/finalize.py": "1c68dc20da1114e9ed67bc79086dd83420bb1736ff17c7773376854f5d17f991",
+    ".analysis/mainl-archive-io-link-proposal-20261021-v01/manifest.json": "d04f7aa950f520ef4e5e2417f2eb09a19096648c86f78d7d96265b93a766aa88",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/completion.json": "2eb0de04bb1e8ef17f3eedc3f802a09870fa57b7f435509b2a79e3774fe7b594",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/linked-verification.json": "6a35fd1d10218396dca42d007e35dd09638fcf5056a99ece4aba2a7a2ae1fa6a",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/root-started.json": "4fbd3cc9f322458fc9435f0cebdd88d554f7dfe6325967999cd9be4be9ba20ab",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/root-finished.json": "e5028678bb385f380b7f920c0d7abb09e221e5f5c7f2964a7bb3ee440a0c405a",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/root-registry-transition.json": "4db623bf24a2394ac6c36264be6d78eacd71cd4aa03fc77773c9158735fc1297",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/link-started.json": "f0e1c968c5cf97e7fea3ca6e8c6bd1871d22cd941400c29d3085f4ec96c417c9",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/link-finished.json": "d9abc0b3bb28994a1e53cb08a50d929b27ef3ce6b03801354de2bac83411c6c5",
+    ".analysis/mainl-archive-io-link-output-20261021-v01/link-registry-transition.json": "1e91a187f96bbcb28bf33a0455335fab595059e5baadd331284240e2496340f6",
+    ".analysis/toolchain/wineprefix/drive_c/MIA01/obj/th03/mainl.obj": "7ea13f052e9f7f7ff11612f3c5ff013e18610fc9e01cd35b31af5ebb47f0d7b0",
+    ".analysis/toolchain/wineprefix/drive_c/MIA01/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MIA01/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-archive-io-repeat-proposal-20261021-v01/verify_link.py": "2d152ab96102e9a9919266b05eda30e36251e1e2445ef798b78e8335840fb2ce",
+    ".analysis/mainl-archive-io-repeat-proposal-20261021-v01/compose_sources.py": "d42cdf0091e263ecd02d535d644a71af55dde95727085734141e82b745a806f2",
+    ".analysis/mainl-archive-io-repeat-proposal-20261021-v01/launch.sh": "5c2886b082e11648e5dd2d2cce3245cd372992c55120fc78e7b2b6c87b77e86a",
+    ".analysis/mainl-archive-io-repeat-proposal-20261021-v01/run_links.py": "36c95202041be1bdd5c025913ebd0bbca881f0ec8bc95a2b4b37c0788f9d7d41",
+    ".analysis/mainl-archive-io-repeat-proposal-20261021-v01/manifest.json": "1fb1bacf8bf1f559bdb8adc4e1601236dbc2c53ce3128a8b3fd0a522f95a2951",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/completion.json": "01dd249ae5746fda8c55c8a89bc3e883996eb87fd13432d40da3aa708b44ac4c",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/linked-verification.json": "85e62456f2040f2f3a190e00f5c63ffc03391939e2fd8cc2e121f47f24efc6b2",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/root-started.json": "aab15203b8200296ee85b5faea7e07711c5945fcde9a73d8f2796e3bcfd3a81e",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/root-finished.json": "46db90a034ad07167296868c8ef75ea4a4fcb2bbb02756919bf6e4c26de01e74",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/root-registry-transition.json": "a582e3b41dc09194d17ff3aa030cb0f5c8094766e8ce9af6a4fbda559ff71685",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/link-started.json": "5592247ac2daf0da131e58f1ed0d73f6320e5ad85d0dc285f189487b8cff77f7",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/link-finished.json": "968a11d3ddc9c83e0e2e8fcf16a4b03a4527c19f33a9f0b8059a853bbc578d2e",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/link-registry-transition.json": "384937ba107511e3a9d3efa981b2d57c838bbc69d5dd4bb680cfc0afc5e029ca",
+    ".analysis/mainl-archive-io-repeat-output-20261021-v01/source-mtimes.json": "2ac4a81e1cbba6a6058c1ccba253eb9f46c660b75cb8884395e223e278d3fd91",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/obj/th03/mainl.obj": "7ea13f052e9f7f7ff11612f3c5ff013e18610fc9e01cd35b31af5ebb47f0d7b0",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MIA02/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-pfopen-target.json": "663b07a632f2daf8ba2beb90aa7c9ebdede232c51c7bcd69f3d7b1e86a2e932f",
+    ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+    "/home/pentester/coding/codex_ida/th03-reconstruction/th03/.analysis/mainl-archive-io-source-20261021-v01/run_model.py": "2edb3b1e50a5b2e4715b5edd12677687d6702a7a29680b70ab1cbff18e1b3273",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/inventory_rec98_th03.py": "b73ffb8d8b8897a08d02acda03d9fa2e5ebe88b5eda8a6caf4fe899a054a7fb7",
+    "scripts/review_th03_decoded_code.py": "b32874a22aae18d55ae695ce6361e84a1a4a617985c71391d082709319c4ddff",
+    "scripts/review_th03_mainl_cutscene.py": "b3a74f30e0cdacf66072a4eca441eb7f0daae22cde22564faa03b0551c70f795",
+    "scripts/review_th03_mainl_snow.py": "0d2800d398e0a3e801c2b5069b13fd86e8fa433f9ae72cb932714113e7f3c4c6",
+    "scripts/review_th03_mainl_pfopen.py": "a649112bd89b0620e8a585b407159196b43b0057549a7cb220059a952a7179c6",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-pfopen-candidate.json": "c6711fc80373ca1b23c5226fea043065a9f160e5d6e31129e4495731ee995fe2",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-pfread-target.json": "b71399eb94aa6ddd0a0db7ee292085f0b05378b1d6fd4f98abbc36de13af3295",
+    "scripts/review_th03_mainl_pfread.py": "a1e6c7d54d9db5452dc5e5ab0e166835cf50995a50e89dd9f6dd32a1e5ef56c0",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-pfread-candidate.json": "954f9565270fb6899d27f17fbc367cc0ecf87bb764c8d62eae2f3e3eabf08caa",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-pfint21-target.json": "0ccd52f580c367fb605e957e56006d46ba5b4907b17df84a9eb27ae24b02a308",
+    "scripts/review_th03_mainl_buffer.py": "baca968e916be5cb18bc5ce66b859c7abffd911f546a8a8ad4c9336192fd9431",
+    "scripts/review_th03_mainl_pfint21.py": "0ce3f03aa63a6fa52c5b52f0d1a821ddc8acc3eda71c77bd6c9b5f28356eb333",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-pfint21-candidate.json": "750109cabbec1a725028d6a803515988df9352321ae71d59fae01e446d6f015b",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-file-target.json": "5cd814f62edbbd63116e6691b73cea57aef791d623c7a7b09576850ec1d6ea84",
+    "scripts/review_th03_mainl_file.py": "e0f77d2d04df9b0f27b4587477056f0e8ddedb40ec2a04561b6981a6103fa078",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-file-candidate.json": "7cf32b3118f511bb64b08049fdd78841f9dd7b65d409c07195c72b94d8004d85",
+    ".analysis/mainl-resources-source-20261021-v01/model-buffer-target.json": "eaab2eb693acc910ac7008c72f3a8a907a8b10ab5aae284f079452e2e11de1a5",
+    "/home/pentester/coding/codex_ida/th03-reconstruction/th03/.analysis/mainl-resources-source-20261021-v01/run_fresh_model.py": "170d0ab930f139a0a447fdc2983bbe9fb5d8771305bce59cf3ddb645a836f060",
+    ".analysis/mainl-resources-source-20261021-v01/model-buffer-candidate.json": "b8b6b35a2d82580e874b1342d5039a5c97ae1736b4cfab23fdfa00a4ae368817",
+    ".analysis/toolchain/wineprefix/drive_c/MRS01/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-archive-io-source-20261021-v01/model-comparison.json": "ecf2acabfee86a90199957b5468ee9e8f89cb4e5d8f61b04dd716de22d0492ae"
+  },
+  "cold_aggregate": false,
+  "exact_acceptance": false,
+  "model_proof": ".analysis/mainl-archive-io-source-20261021-v01/model-comparison.json",
+  "model_transport_note": "FILE target and candidate durable successful records verified; original Factory terminal statuses unavailable after MCP timeout. No model retry or rerun during fast replay."
+}
