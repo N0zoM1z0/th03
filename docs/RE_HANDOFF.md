@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL STAFF-extension backend diagnostic
+
+The opt-in STAFF extension consolidates 1,154 bytes of genuine compiler source, including the prior prefix, snow suffix and dissolve behavior. One fresh compile/root/link diagnostic preserves the full target program, headers, public addresses, all 677 relocation members, registration71 and STAFF22 target-order streams. The complete EXE is raw-identical to MSL03: global ordered differences remain 460 and zero positions changed. Actual compiler records are 1,021/133 bytes; the earlier 1,020/134 prediction remains false in its preserved receipt. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [STAFF extension backend proof](reconstruction/MAINL_STAFF_EXTENSION_BACKEND_REVIEW.md).
+
 ## MAINL STAFF-prefix backend diagnostic
 
 The opt-in STAFF-prefix producer now compiles 695 bytes at B972 while retaining the 248-byte snow suffix at BC29. One fresh compile/root/tail/link diagnostic preserves the complete target program, prior public addresses, header fields, all 677 relocation members, STAFF20 target-order pairs and prior registration mixed71 pairs. Global ordered differences remain 460, with 81 positions changed from MRD04. The failed MSL02 root assembly is retained; its successor restores only the original shared snow geometry constants. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL remains 145/145 source units, 28,381 source bytes and exact zero. See [STAFF-prefix backend proof](reconstruction/MAINL_STAFF_PREFIX_BACKEND_REVIEW.md).
