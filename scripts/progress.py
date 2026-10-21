@@ -3,6 +3,7 @@
 
 import argparse
 import csv
+import hashlib
 from pathlib import Path
 import sys
 import tomllib
@@ -210,9 +211,19 @@ def mainl_pi_composed(units, evidence):
     return True
 
 
+MAINL_GRAPHICS_PRODUCER_PINS = {'src/mainl/formats/cdg_effects.cpp': '5e3be578cc77c6a7b9de786b069266b32fe54b7f5fcf1884f2aabbc13e4ef024', 'config/th03_mainl_graphics_producer.json': '805154cfcb4121e3404c9b6b8a51a61532b9c998602e8d93e835cb40e7ead43a'}
+def mainl_graphics_producer_pending(root=None):
+    """Compiler-only annotation; never feeds a ledger count or exact acceptance."""
+    root = ROOT if root is None else root
+    return all((root / path).is_file() and
+               hashlib.sha256((root / path).read_bytes()).hexdigest() == digest
+               for path, digest in MAINL_GRAPHICS_PRODUCER_PINS.items())
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
+    graphics_pending = mainl_graphics_producer_pending()
     for index, (artifact, label) in enumerate((
         ("th03-op", "OP.EXE"), ("th03-main", "MAIN.EXE"),
         ("th03-mainl", "MAINL.EXE"), ("th03-zun", "ZUN.COM"),
@@ -248,12 +259,14 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
+            if graphics_pending:
+                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</text>')
             continue
         candidates = [f for f in functions if f["artifact"] == artifact]
         reviewed = sum(f["boundary_state"] in {"reviewed", "shared"} for f in candidates)
         exact = sum(f["state"] == "exact" for f in candidates)
         total = len(candidates)
-        y = 128 + index * 62
+        y = 128 + index * 62 + (14 if graphics_pending and index > 2 else 0)
         inventory = f"{total} tracked functions" if total else "Inventory pending"
         rows.append(f'''  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
   <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{inventory}</text>
@@ -269,10 +282,10 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="458" viewBox="0 0 788 458" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="472" viewBox="0 0 788 472" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>Boundary review and exact function acceptance for the tracked subset. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="458" rx="8" fill="#1f2335"/>
+  <rect width="788" height="472" rx="8" fill="#1f2335"/>
   <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
   <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
@@ -280,9 +293,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed contiguous bodies</text>
   <text x="488" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Complete raw bytes and relocations</text>
 {chr(10).join(rows)}
-  <path d="M24 384 H764" stroke="#4b526d"/>
-  <text x="24" y="409" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
-  <text x="24" y="432" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
+  <path d="M24 398 H764" stroke="#4b526d"/>
+  <text x="24" y="423" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
+  <text x="24" y="446" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
 </svg>
 '''
 
@@ -317,6 +330,8 @@ def main() -> int:
     ])
     if mainl_pi_composed(units, evidence):
         lines.extend(["MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. Source 38/145 (9,845 bytes), exact 0 remain unchanged.", ""])
+    if mainl_graphics_producer_pending():
+        lines.extend(["MAINL graphics producer checkpoint: three complete functions / 355 compiled bytes; 333 non-fixup bytes match target. Nine genuine symbolic fixups covering 22 bytes await a legitimate link. These candidates are not counted as source-present units or exact acceptance; existing totals remain unchanged.", ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)
