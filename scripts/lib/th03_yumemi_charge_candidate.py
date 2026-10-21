@@ -50,6 +50,21 @@ def precompile_and_stage(work,env,logs,execute):
  c=contract();old=verify.pinned(verify.ROOT,c['diagnostic_inputs']['historical_charge_object']);obj=verify.object_contract((work/OBJECT).read_bytes(),old,work/OBJECT);source_gate(work)
  raw=(work/'th03_main.asm').read_bytes();(work/'th03_main.asm').write_bytes(transform(raw))
  return dict(compile=result,object=obj,retained_object_used=False,fresh_native_compilations=1)
+def complete_literal_transition(current,baseline,target):
+ # Comparison-only finite reference transition. Never mutates executable bytes.
+ before=[(5021,12924),(5021,12544),(5021,12574),(5021,12693),(5021,12762),(5021,12850),(5021,12882),(5021,12900),(5021,13061),(5021,13086),(5021,13711),(5021,13738)]
+ after=[(5021,13086),(5021,13061),(5021,12924),(5021,12900),(5021,12882),(5021,12850),(5021,12762),(5021,12693),(5021,12574),(5021,12544),(5021,13738),(5021,13711)]
+ need(len(current)==len(baseline)==1553,'complete literal population')
+ need([i for i,q in enumerate(baseline) if verify.inside(q)]==list(range(881,893)),'baseline charge block placement')
+ need(baseline[881:893]==before,'pinned baseline charge order')
+ need([q for q in target if verify.inside(q)]==after,'pinned canonical charge order')
+ need(len(before)==len(after)==len(set(before))==12 and set(before)==set(after),'finite owner relocation membership')
+ expected=baseline[:881]+after+baseline[893:]
+ need(current==expected,'complete1553 finite charge literal transition')
+ need([i for i,q in enumerate(current) if verify.inside(q)]==list(range(881,893)),'actual charge block interposition')
+ need([q for q in current if not verify.inside(q)]==[q for q in baseline if not verify.inside(q)],'outside1541 exact literal order')
+ return dict(pass_=True,whole_literal_count=1553,unchanged_outside_count=1541,charge_block=[881,893],before=before,after=after,executable_mutation=False)
+
 def check_round(root,work,target,proof,expected,default=False):
  from lib import th03_cpu_object,th03_tail_compare,th03_charge_root
  root,work=Path(root),Path(work);c=contract();source_gate(work);tail.check_sources(work);bomb.check_sources(work);bomb.check_build(work,default=True)
@@ -67,7 +82,7 @@ def check_round(root,work,target,proof,expected,default=False):
   prior=receipt['rounds'][number-1];old=base/f'round{number}/source';need(actual==set(prior['all_objects'])|{OBJECT},'whole cold object inventory plus only charge')
   raw=(work/'bin/th03/main.exe').read_bytes();previous=(old/'bin/th03/main.exe').read_bytes();current=parse_mz(raw);previous_mz=parse_mz(previous)
   need(current.program_image==previous_mz.program_image and current.header==previous_mz.header,'complete baseline loaded bytes/header')
-  need(verify.pairs(current)==verify.pairs(previous_mz),'complete baseline literal relocation order')
+  literal_transition=complete_literal_transition(verify.pairs(current),verify.pairs(previous_mz),verify.pairs(parse_mz(target)))
   need(th03_tail_compare.header_parts(raw)==th03_tail_compare.header_parts(previous) and len(raw)==len(previous),'all nonrelocation header bytes/file size')
   hb=struct.unpack_from('<H',raw,8)[0]*16;ha=struct.unpack_from('<H',previous,8)[0]*16
   need(raw[hb+len(current.program_image):]==previous[ha+len(previous_mz.program_image):],'all overlay bytes')
@@ -77,7 +92,7 @@ def check_round(root,work,target,proof,expected,default=False):
   need(len(products)==31 and len(maps)==43,'baseline complete product/map inventory')
   newproducts=sorted(p.relative_to(work).as_posix() for p in (work/'bin').rglob('*') if p.is_file() and re.fullmatch(r'bin/th0[1-5]/[^/]+\.(?:exe|com)',p.relative_to(work).as_posix()));need(newproducts==products and sorted(p.relative_to(work).as_posix() for p in work.rglob('*.map'))==maps,'fresh product/map inventory')
   need(all((work/n).read_bytes()==(old/n).read_bytes() for n in products if n!='bin/th03/main.exe'),'other30products');need(all((work/n).read_bytes()==(old/n).read_bytes() for n in maps if n!='obj/th03/main.map'),'other42maps')
-  checks.append(dict(baseline_round=number,pass_=True,prior_nonroot_objects=True,other30_products=True,other42_maps=True))
+  checks.append(dict(baseline_round=number,pass_=True,prior_nonroot_objects=True,other30_products=True,other42_maps=True,literal_transition=literal_transition))
  preserved=dict(pass_=True,baselines=checks,full_loaded_image_equal=True,outside1541_literal_equal=True)
  return dict(pass_=True,root=rootproof,charge=objproof,map=mapproof,cpu=cpuproved,tail=tailproved,bomb_providers=providers,baselines=checks,score_preservation=preserved,bomb_preservation=preserved,exact_acceptance=False,default_staging=default)
 
