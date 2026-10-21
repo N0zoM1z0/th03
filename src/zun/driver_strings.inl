@@ -33,10 +33,10 @@ sprite16_string_equal_folded		proc near
 
 string_compare_next:
 		mov	al, [si]
-		call	sub_69D
+		call	sprite16_ascii_upper
 		mov	dl, al
 		mov	al, es:[di]
-		call	sub_69D
+		call	sprite16_ascii_upper
 		mov	dh, al
 		inc	si
 		inc	di

@@ -28,21 +28,20 @@ wrapper graph, accepted ledgers, whole ZUN status, or whole-game denominator.
 
 ## ZUN driver ownership continuation
 
-The [driver review](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md) retains a
-fresh resident/services hybrid TASM/TLINK result: all 4,224 candidate bytes
-match, all 14 maintained procedure boundaries and 600 owned bytes match the
-target, and the same ten other target differences remain. Completion
-f2a1e7413270b3254a61c4a28e61a23625fe020fa0e876f8670b23a25b184831
-records two zero exits and certain cleanup. SVG annotates only this actual
-proof, without two-cold or accepted-ledger credit.
+The [driver review](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md) retains the
+fresh command/resident/services hybrid: all 30 maintained boundaries and 1,325
+owned bytes match the target; all 4,224 candidate bytes match, with the same ten
+other target differences. Completion
+59d7faa1b27c5a6f5af7f1c76d23772a1722428647c3f02869aaa7dc5ebe64f2
+records two zero exits and certain cleanup. SVG annotates this actual proof only.
 
-Three new consumed command/numeric/string includes add 16 procedures / 725 bytes:
-30 procedures / 1,325 instruction bytes are now maintained source. Their full
-expanded instruction/data tokens are unchanged; the new group's native proof
-is next. Remaining procedure groups are graphics/EGC (12 / 814 bytes) and
-text formatting/output (13 / 705 bytes), plus separate data/gap/layout ownership.
-The ten-byte encoding gap and DOS/device/TSR behavior remain open. No default
-wrapper, DIET or whole-game denominator change.
+The final 25 graphics and formatting procedures are now consumed maintained
+source: all 55 procedures / 2,844 instruction bytes. Their native proof is next.
+The new groups contain the ten known nonexact target bytes; all-procedures
+verification explicitly reports them, without normalization or target fallback.
+Entry/signature, inter-procedure data/gaps, trailing data and retained macros
+still need ownership. No full-driver, two-cold, default-wrapper, DIET, real
+DOS/device/TSR or whole-game acceptance claim is made.
 
 ## CPU CODE acceptance
 The [CPU acceptance](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds one complete

@@ -1,4 +1,4 @@
-"""Opt-in hybrid driver source stage: thirty maintained procedures, retained remainder.
+"""Opt-in hybrid driver source stage: all fifty-five maintained procedures, retained remainder.
 
 This is NOT a maintained whole-driver build or default integration. Reference
 scaffold and two includes stay explicitly pinned diagnostic inputs. No target
@@ -138,6 +138,102 @@ COMMAND_SYMBOLS={'byte_1072': 'sprite16_argument_vector',
  'loc_C47': 'string_length_next',
  'loc_C56': 'string_compare_next',
  'loc_C6F': 'string_compare_return'}
+SCATTERED_GROUPS=(('src/zun/driver_graphics.inl',
+  (('sub_364', 'sprite16_draw_clipped', 868, 1026),
+   ('sub_402', 'sprite16_blit_egc', 1026, 1271),
+   ('sub_4F8', 'sprite16_copy_rows', 1272, 1302),
+   ('sub_520', 'sprite16_prepare_vram', 1312, 1344),
+   ('sub_540', 'sprite16_build_mask', 1344, 1424),
+   ('sub_590', 'sprite16_accumulate_plane', 1424, 1444),
+   ('sub_5A4', 'sprite16_copy_lower_page', 1444, 1488),
+   ('sub_5D0', 'sprite16_compress_rows', 1488, 1527),
+   ('sub_5F7', 'sprite16_copy_upper_to_lower', 1527, 1552),
+   ('sub_610', 'sprite16_clear_upper', 1552, 1585),
+   ('sub_BD0', 'sprite16_egc_begin', 3024, 3088),
+   ('sub_C10', 'sprite16_egc_end', 3088, 3132))),
+ ('src/zun/driver_format.inl',
+  (('sub_640', 'sprite16_format_print', 1600, 1632),
+   ('sub_660', 'sprite16_print_string', 1632, 1654),
+   ('sub_676', 'sprite16_print_stack_string', 1654, 1673),
+   ('sub_689', 'sprite16_is_decimal_digit', 1673, 1684),
+   ('sub_694', 'sprite16_is_ascii_lower', 1684, 1693),
+   ('sub_69D', 'sprite16_ascii_upper', 1693, 1701),
+   ('sub_6B0', 'sprite16_format_into', 1712, 2173),
+   ('sub_87D', 'sprite16_pad_zeroes', 2173, 2179),
+   ('sub_883', 'sprite16_pad_spaces', 2179, 2185),
+   ('sub_889', 'sprite16_pad_field', 2185, 2199),
+   ('sub_897', 'sprite16_append_string', 2199, 2207),
+   ('sub_89F', 'sprite16_format_unsigned', 2207, 2268),
+   ('sub_8EC', 'sprite16_reverse_string', 2284, 2332))))
+SCATTERED_SYMBOLS={'word_1050': 'sprite16_bit_shift',
+ 'word_1052': 'sprite16_has_shift',
+ 'word_1054': 'sprite16_clipped_rows',
+ 'word_1056': 'sprite16_row_skip_bytes',
+ 'word_1058': 'sprite16_row_words',
+ 'word_105A': 'sprite16_draw_x',
+ 'word_105C': 'sprite16_draw_y',
+ 'word_105E': 'sprite16_draw_source_offset',
+ 'word_1060': 'sprite16_draw_width',
+ 'word_1062': 'sprite16_draw_height',
+ 'loc_3A1': 'draw_clip_top',
+ 'loc_3C1': 'draw_check_bottom',
+ 'loc_3CD': 'draw_clip_bottom',
+ 'loc_3EE': 'draw_apply_clipping',
+ 'loc_3F8': 'draw_restore',
+ 'loc_49C': 'draw_color_mode',
+ 'loc_4CB': 'draw_no_overlap',
+ 'loc_4DA': 'draw_color_copy',
+ 'loc_4EB': 'draw_copy_mask',
+ 'loc_508': 'copy_next_row',
+ 'loc_586': 'mask_invert_next',
+ 'loc_597': 'mask_accumulate_next',
+ 'loc_5B9': 'copy_page_next_word',
+ 'loc_5E4': 'compress_next_row',
+ 'var_D0': 'print_buffer',
+ 'arg_0': 'print_string_argument',
+ 'var_50': 'format_number_buffer',
+ 'var_18': 'format_lowercase',
+ 'var_14': 'format_radix',
+ 'var_10': 'format_zero_pad',
+ 'var_C': 'format_left_align',
+ 'var_8': 'format_output_length',
+ 'var_4': 'format_field_width',
+ 'loc_665': 'print_next_character',
+ 'loc_672': 'print_string_return',
+ 'loc_692': 'digit_not_decimal',
+ 'loc_69B': 'character_not_lower',
+ 'locret_6A4': 'uppercase_return',
+ 'loc_6BC': 'format_next',
+ 'loc_6E3': 'format_check_zero_pad',
+ 'loc_6EE': 'format_width_begin',
+ 'loc_6F4': 'format_width_digit',
+ 'loc_701': 'format_width_test',
+ 'loc_70B': 'format_check_unsigned',
+ 'loc_723': 'format_convert_number',
+ 'loc_74D': 'format_leading_spaces',
+ 'loc_750': 'format_append_number',
+ 'loc_75F': 'format_left_number',
+ 'loc_779': 'format_check_signed',
+ 'loc_796': 'format_signed_radix',
+ 'loc_7A3': 'format_check_lower_hex',
+ 'loc_7C3': 'format_check_upper_hex',
+ 'loc_7E3': 'format_check_binary',
+ 'loc_802': 'format_check_string',
+ 'loc_826': 'format_left_string',
+ 'loc_82C': 'format_string_restore',
+ 'loc_830': 'format_check_character',
+ 'loc_83F': 'format_check_newline',
+ 'loc_850': 'format_check_carriage',
+ 'loc_85E': 'format_check_tab',
+ 'loc_86C': 'format_literal',
+ 'loc_86D': 'format_test_end',
+ 'locret_896': 'padding_return',
+ 'loc_8AB': 'unsigned_next_digit',
+ 'loc_8C2': 'unsigned_store_digit',
+ 'a0123456789abcd': 'sprite16_hex_digits',
+ 'loc_904': 'reverse_swap',
+ 'loc_90C': 'reverse_test',
+ 'loc_915': 'reverse_return'}
 SETTERS=(
  ('sub_340','sprite16_set_mono_enabled','word_1064','sprite16_mono_enabled'),
  ('sub_346','sprite16_set_mono_color','word_1066','sprite16_mono_color'),
@@ -163,7 +259,7 @@ def rename_symbols(text):
  for old,new,field,name in SETTERS:
   text=re.sub(r'\b'+old+r'\b',new,text,flags=re.I)
   text=re.sub(r'\b'+field+r'\b',name,text,flags=re.I)
- for old,new in [(a,b) for a,b,_,_ in RESIDENT_PROCS]+list(RESIDENT_SYMBOLS.items())+[(a,b) for _,group in COMMAND_GROUPS for a,b,_,_ in group]+list(COMMAND_SYMBOLS.items()):
+ for old,new in [(a,b) for a,b,_,_ in RESIDENT_PROCS]+list(RESIDENT_SYMBOLS.items())+[(a,b) for _,group in COMMAND_GROUPS for a,b,_,_ in group]+list(COMMAND_SYMBOLS.items())+[(a,b) for _,group in SCATTERED_GROUPS for a,b,_,_ in group]+list(SCATTERED_SYMBOLS.items()):
   text=re.sub(r'\b'+old+r'\b',new,text,flags=re.I)
  return text
 def compose(reference,services):
@@ -207,6 +303,20 @@ def compose_command_group(reference,owned,path,procedures):
  for a,b in zip(spans,spans[1:]):need(not tokens(reference[a[1]:b[0]]),'unowned code/data between command procedures')
  first,last=spans[0][0],spans[-1][1]
  return reference[:first]+'include '+path.replace('/','\\')+reference[last:]
+def compose_scattered(reference,owned,procedures):
+ """Place actual maintained procedure source, never surrounding retained data/gaps."""
+ replacements=[];expected=[]
+ for old,name,start,end in procedures:
+  pattern=lambda n:r'(?im)^'+n+r'\s+proc near\b.*?^'+n+r'\s+endp\b[^\n]*'
+  retained=list(re.finditer(pattern(old),reference,flags=re.S))
+  maintained=list(re.finditer(pattern(name),owned,flags=re.S))
+  need(len(retained)==len(maintained)==1,'unique scattered procedure '+name)
+  original=retained[0];body=maintained[0].group()
+  expected+=['public '+name]+tokens(rename_symbols(original.group()))
+  replacements.append((original.start(),original.end(),'public '+name+'\n'+body))
+ need(tokens(owned)==expected,'scattered complete instruction/ABI contract differs')
+ for start,end,body in sorted(replacements,reverse=True):reference=reference[:start]+body+reference[end:]
+ return reference
 def dos_text(text):
  text=text.replace('\r\n','\n')
  need('\r' not in text and text.endswith('\n'),'strict LF text with final newline required')
@@ -230,6 +340,10 @@ def stage(output,root=ROOT):
  for path,procedures in COMMAND_GROUPS:
   raw=read(root/path);need(b'\r' not in raw,'maintained command source must be UTF8 LF');command_inputs[path]=raw
   text=compose_command_group(text,raw.decode('utf-8'),path,procedures)
+ scattered_inputs={}
+ for path,procedures in SCATTERED_GROUPS:
+  raw=read(root/path);need(b'\r' not in raw,'maintained scattered source must be UTF8 LF');scattered_inputs[path]=raw
+  text=compose_scattered(text,raw.decode('utf-8'),procedures)
  text=compose(text,own.decode('utf-8'))
  for old,new in (('libs/master.lib/macros.inc','retained\\master.inc'),('th01/hardware/egc.inc','retained\\egc.inc')):
   need(text.count('include '+old)==1,'retained include statement differs')
@@ -237,9 +351,9 @@ def stage(output,root=ROOT):
  files={'driver.asm':dos_text(text),SERVICES:dos_text(own.decode('utf-8')),
         RESIDENT:dos_text(resident.decode('utf-8')),
         'link.rsp':b'-c -s -t -3 driver.obj,driver.com,driver.map,\r\n'}
- files.update({path:dos_text(raw.decode('utf-8')) for path,raw in command_inputs.items()})
+ files.update({path:dos_text(raw.decode('utf-8')) for path,raw in (command_inputs|scattered_inputs).items()})
  inputs={REFERENCE:sha(reference),SERVICES:sha(own),RESIDENT:sha(resident)}
- inputs.update({path:sha(raw) for path,raw in command_inputs.items()})
+ inputs.update({path:sha(raw) for path,raw in (command_inputs|scattered_inputs).items()})
  for source,expected,dest in INCLUDES:
   raw=read(root/source);need(sha(raw)==expected,'retained include identity')
   need(not re.search(rb'(?im)^\s*include\b',raw),'unexpected transitive retained include')
@@ -249,8 +363,8 @@ def stage(output,root=ROOT):
   path=output/name;path.parent.mkdir(parents=True,exist_ok=True)
   with path.open('xb') as f:f.write(raw)
  for name,expected in inputs.items():need(sha(read(root/name))==expected,'input changed during stage')
- result=dict(kind='zun-driver-command-resident-services-hybrid-stage',inputs=inputs,
-             outputs={n:sha(v) for n,v in files.items()},maintained_procedures=30,maintained_instruction_bytes=1325,
+ result=dict(kind='zun-driver-all-procedures-hybrid-stage',inputs=inputs,
+             outputs={n:sha(v) for n,v in files.items()},maintained_procedures=55,maintained_instruction_bytes=2844,all_driver_procedures_owned=True,
              complete_driver_source_owned=False,native_invocations=0,exact_acceptance=False)
  with (output/'stage.json').open('x') as f:json.dump(result,f,indent=2);f.write('\n')
  return result

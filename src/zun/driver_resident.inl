@@ -12,7 +12,7 @@ sprite16_entry		proc near
 
 		cld
 		push	offset aHeader
-		call	sub_676
+		call	sprite16_print_stack_string
 		push	es
 		mov	ax, 0
 		mov	es, ax
@@ -47,7 +47,7 @@ entry_resize_block:
 
 		jnb	short entry_parse_command_tail
 		push	offset sprite16_resize_failed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
@@ -69,7 +69,7 @@ entry_parse_command_tail:
 
 entry_no_arguments:
 		push	offset aUsage
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
@@ -93,7 +93,7 @@ sprite16_allocate_buffers		proc near
 
 		jnb	short allocate_solid_buffer
 		push	offset sprite16_memory_failed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
@@ -106,7 +106,7 @@ allocate_solid_buffer:
 
 		jnb	short allocate_buffers_done
 		push	offset sprite16_memory_failed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
@@ -131,9 +131,9 @@ sprite16_set_interrupt_argument		endp
 public sprite16_mask_test_command
 sprite16_mask_test_command		proc near
 		call	sprite16_allocate_buffers
-		call	sub_520
-		call	sub_540
-		call	sub_610
+		call	sprite16_prepare_vram
+		call	sprite16_build_mask
+		call	sprite16_clear_upper
 		push	ds
 		push	es
 		mov	ds, sprite16_mask_buffer_segment
@@ -156,7 +156,7 @@ sprite16_mask_test_command		endp
 public sprite16_draw_command
 sprite16_draw_command		proc near
 		call	sprite16_allocate_buffers
-		call	sub_540
+		call	sprite16_build_mask
 		call	sprite16_require_number
 		mov	dx, ax
 		call	sprite16_require_number
@@ -168,9 +168,9 @@ sprite16_draw_command		proc near
 		call	sprite16_require_number
 		mov	cx, ax
 		pop	ax
-		call	sub_BD0
-		call	sub_364
-		call	sub_C10
+		call	sprite16_egc_begin
+		call	sprite16_draw_clipped
+		call	sprite16_egc_end
 		retn
 sprite16_draw_command		endp
 
@@ -231,7 +231,7 @@ sprite16_install		proc near
 		push	eax
 		mov	bx, sp
 		mov	dx, offset sprite16_installed_message
-		call	sub_640
+		call	sprite16_format_print
 		add	sp, 4
 		mov	dx, sprite16_resident_paragraphs
 		mov	ax, 3100h
@@ -241,7 +241,7 @@ sprite16_install		proc near
 
 install_already_present:
 		push	offset sprite16_already_installed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 
 install_return:
 		retn
@@ -286,7 +286,7 @@ sprite16_uninstall		proc near
 
 		jnb	short uninstall_free_mask
 		push	offset sprite16_environment_free_failed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 
 uninstall_free_mask:
 		pop	es
@@ -297,7 +297,7 @@ uninstall_free_mask:
 
 		jnb	short uninstall_free_solid
 		push	offset sprite16_mask_free_failed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 
 uninstall_free_solid:
 		pop	es
@@ -308,7 +308,7 @@ uninstall_free_solid:
 
 		jnb	short uninstall_free_code
 		push	offset sprite16_solid_free_failed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 
 uninstall_free_code:
 		pop	es
@@ -317,17 +317,17 @@ uninstall_free_code:
 
 		jnb	short uninstall_removed
 		push	offset sprite16_code_free_failed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		jmp	short uninstall_return
 
 uninstall_removed:
 		push	offset sprite16_removed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		jmp	short uninstall_return
 
 uninstall_not_present:
 		push	offset sprite16_not_installed_message
-		call	sub_676
+		call	sprite16_print_stack_string
 
 uninstall_return:
 		retn

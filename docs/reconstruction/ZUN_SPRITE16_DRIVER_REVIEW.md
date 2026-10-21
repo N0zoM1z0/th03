@@ -332,3 +332,57 @@ layout ownership includes the 2-byte entry jump, 10-byte signature/version,
 The four instruction-encoding choices/ten target bytes, full data/layout ownership,
 whole decoded wrapper, outer DIET and real DOS/TSR/device behavior remain distinct
 open obligations. No default graph or accepted ledger is changed here.
+
+## 2026-10-21 command-group native proof and all-procedure source ownership
+
+The third parent-owned hybrid materialization, drive_c/ZDHYB03, passes all 30
+maintained procedure boundaries and complete 1,325-byte owned-body target checks.
+Its entire 4,224-byte COM still equals the retained candidate, with exactly the
+same ten other target differences. Both native commands exited zero with
+certain cleanup, no errors and shared-lock release. Completion:
+.analysis/zun-driver-hybrid-output-20261021-v03/completion.json,
+SHA256 59d7faa1b27c5a6f5af7f1c76d23772a1722428647c3f02869aaa7dc5ebe64f2.
+Raw OBJ:3314fc5f886978b3fec8d9b6c31431a427fb9b66248106266cbe5d88a7398670;
+MAP:6e80a9a20193b093e3c72237059e9befb35c76077749000877c53f385f0d330c;
+COM:bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c.
+SVG now annotates this actual 30/1,325 proof only, not the pending source below.
+
+Two final logical procedure groups are now maintained source:
+- driver_graphics.inl:12 complete graphics/EGC procedures,814 bytes.
+- driver_format.inl:13 complete formatting/output helpers,705 bytes.
+
+Together with the prior groups, all 55 complete procedures / 2,844 instruction
+bytes now have semantic maintained source. Because these two groups are separated
+by still-unowned gaps, the source stager places each actual maintained procedure
+at its original source position, rather than moving procedures or copying gaps
+into their ownership. The owned files remain explicit input/output dependencies.
+Every outside instruction/data token, including the digit table, stays retained.
+Expanding the five contiguous includes plus these placed bodies preserves the
+full 1,581-token original active stream after inverse symbol mapping. No target
+bytes, guessed padding or binary output rewriting is used.
+
+This is all-procedure ownership, not complete-driver source ownership: the
+2-byte entry jump,10-byte signature/version,88 inter-procedure bytes (including
+the digit table),1,280 trailing data bytes and retained macro includes still need
+separate ownership. Native proof for the final 25 procedures is pending.
+
+The final groups contain all ten known target differences: CMP AX,0 in draw,
+two AND AX immediate forms in EGC blit, and prefix order in unsigned formatting.
+The verifier's all-procedures scope therefore reports owned target equality
+false and exactly ten owned differing offsets. It still requires the complete
+raw 4,224-byte candidate identity and all 55 OMF/MAP boundaries, and rejects any
+additional changed byte. Nothing is normalized or excused as target-exact.
+
+Source contracts preserve original behavior: top clipping does not also clip
+bottom on the negative-Y path; zero-height row copying underflows; EGC must be
+prepared before drawing; page-copy helpers retain their page side effects.
+EGC begin/end use CLI followed by unconditional STI, not saved-IF restoration.
+String operations inherit DF. Formatting keeps shared BP-frame helpers,
+4-byte argument slots, callee-popped printing, unbounded output buffers and its
+original numeric/prefix instructions. These are observations and maintained
+contracts, not hardware, DOS, TSR-concurrency or malformed-input safety proof.
+
+Next is one bounded parent-owned all 55-procedure hybrid build, followed by
+explicit data/layout and macro ownership. Full target equality, two-cold proof,
+wrapper/DIET integration and real DOS/device behavior remain separate obligations.
+No accepted ledger, default graph, whole-ZUN or whole-game percentage changes.

@@ -19,6 +19,31 @@ COMMAND_PROCS=(('sprite16_tokenize_command', 2336, 2434),
  ('sprite16_parse_switch', 2978, 3014),
  ('sprite16_string_length', 3136, 3154),
  ('sprite16_string_equal_folded', 3154, 3190))
+SCATTERED_PROCS=(('sprite16_draw_clipped', 868, 1026),
+ ('sprite16_blit_egc', 1026, 1271),
+ ('sprite16_copy_rows', 1272, 1302),
+ ('sprite16_prepare_vram', 1312, 1344),
+ ('sprite16_build_mask', 1344, 1424),
+ ('sprite16_accumulate_plane', 1424, 1444),
+ ('sprite16_copy_lower_page', 1444, 1488),
+ ('sprite16_compress_rows', 1488, 1527),
+ ('sprite16_copy_upper_to_lower', 1527, 1552),
+ ('sprite16_clear_upper', 1552, 1585),
+ ('sprite16_egc_begin', 3024, 3088),
+ ('sprite16_egc_end', 3088, 3132),
+ ('sprite16_format_print', 1600, 1632),
+ ('sprite16_print_string', 1632, 1654),
+ ('sprite16_print_stack_string', 1654, 1673),
+ ('sprite16_is_decimal_digit', 1673, 1684),
+ ('sprite16_is_ascii_lower', 1684, 1693),
+ ('sprite16_ascii_upper', 1693, 1701),
+ ('sprite16_format_into', 1712, 2173),
+ ('sprite16_pad_zeroes', 2173, 2179),
+ ('sprite16_pad_spaces', 2179, 2185),
+ ('sprite16_pad_field', 2185, 2199),
+ ('sprite16_append_string', 2199, 2207),
+ ('sprite16_format_unsigned', 2207, 2268),
+ ('sprite16_reverse_string', 2284, 2332))
 DIFFS=[0x298,0x299,0x30c,0x30d,0x30e,0x31d,0x31e,0x31f,0x7b1,0x7b2]
 CANDIDATE='bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c'
 TARGET='9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb'
@@ -66,20 +91,24 @@ def map_boundaries(raw,expected_publics=PUBLICS):
   need(rows==expected_publics,'MAP complete public boundaries');tables.append(rows)
  return tables
 def verify(obj,com,map_raw,candidate,target,scope="setters"):
- need(scope in ("setters","resident-services","command-resident-services"),"unknown ownership scope")
+ need(scope in ("setters","resident-services","command-resident-services","all-procedures"),"unknown ownership scope")
  procedures=[(n,a,a+6) for n,a in PUBLICS.items() if n!="start"]
  if scope!="setters":procedures=list(RESIDENT_PROCS)+procedures
- if scope=="command-resident-services":procedures+=list(COMMAND_PROCS)
+ if scope in ("command-resident-services","all-procedures"):procedures+=list(COMMAND_PROCS)
+ if scope=="all-procedures":procedures+=list(SCATTERED_PROCS)
  expected_publics=dict(start=0x100,**{n:a for n,a,b in procedures})
  need(len(com)==len(candidate)==len(target)==4224,'full driver length')
  need(sha(candidate)==CANDIDATE and sha(target)==TARGET,'candidate/target identity')
  need(com==candidate,'complete cached-candidate raw inequality')
  need([i for i,(a,b) in enumerate(zip(com,target)) if a!=b]==DIFFS,'known ten target differences changed')
  layout=omf(obj,expected_publics);tables=map_boundaries(map_raw,expected_publics)
+ owned_diffs=[]
  for name,address,end in procedures:
-  at=address-0x100;stop=end-0x100;need(com[at:stop]==target[at:stop],'maintained raw body differs '+name)
+  at=address-0x100;stop=end-0x100;owned_diffs.extend(i for i in range(at,stop) if com[i]!=target[i])
+ need(sorted(owned_diffs)==(DIFFS if scope=='all-procedures' else []),'maintained target difference set changed')
  return dict(complete_candidate_raw_equal=True,raw_bytes=4224,target_raw_equal=False,target_differing_bytes=10,
              target_difference_offsets=DIFFS,scope=scope,maintained_procedures=len(procedures),maintained_instruction_bytes=sum(b-a for n,a,b in procedures),
-             maintained_bodies_target_raw_equal=True,object=layout,map_publics=tables,
+             maintained_bodies_target_raw_equal=not owned_diffs,maintained_target_differing_bytes=len(owned_diffs),
+             maintained_target_difference_offsets=sorted(owned_diffs),all_driver_procedures_owned=scope=="all-procedures",object=layout,map_publics=tables,
              object_sha256=sha(obj),com_sha256=sha(com),map_sha256=sha(map_raw),
              complete_driver_source_owned=False,exact_acceptance=False)

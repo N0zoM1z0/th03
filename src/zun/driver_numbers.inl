@@ -46,7 +46,7 @@ parse_number_suffix:
 		call	sprite16_string_length
 		mov	bx, ax
 		mov	al, [bx+si-1]
-		call	sub_69D
+		call	sprite16_ascii_upper
 		cmp	al, 48h
 		jnz	short parse_number_binary_suffix
 		mov	dl, [bx+si-1]
@@ -104,7 +104,7 @@ parse_decimal_digit:
 		inc	si
 		or	dl, dl
 		jz	short parse_decimal_sign
-		call	sub_689
+		call	sprite16_is_decimal_digit
 		jb	short parse_decimal_accumulate
 		stc
 		jmp	short parse_decimal_return

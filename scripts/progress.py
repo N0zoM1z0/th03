@@ -80,15 +80,18 @@ def zun_init_standalone_retained(units: list[dict[str, str]]) -> bool:
 
 
 def zun_driver_hybrid_retained(units: list[dict[str, str]]) -> bool:
-    """Historical resident/services hybrid diagnostic; never feeds progress counts."""
+    """Historical command/resident/services hybrid diagnostic; no progress counts."""
     # Reviewed checkpoint: docs/reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md.
-    # Completion: .analysis/zun-driver-hybrid-output-20261021-v02/completion.json
-    # SHA256: f2a1e7413270b3254a61c4a28e61a23625fe020fa0e876f8670b23a25b184831.
+    # Completion: .analysis/zun-driver-hybrid-output-20261021-v03/completion.json
+    # SHA256: 59d7faa1b27c5a6f5af7f1c76d23772a1722428647c3f02869aaa7dc5ebe64f2.
     # src/zun/driver_services.inl: d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af.
-    # src/zun/driver_resident.inl: 7782efb60da5d9fe90ef5dffcc781f32d109a9ce81f780224fc3f8b9d03d2512.
+    # src/zun/driver_resident.inl: 0a76c07baf8967e87243483e949d5238f92b6d7275cad0fc1d58d9c79588e9be.
+    # src/zun/driver_command.inl: abe3e0c30a24d476175be7623e77ef68990d8945723d47a488e5960f61b147bc.
+    # src/zun/driver_strings.inl: 590ae84825d219a25e9a15db3f6c1857637e7b206733f4349546dacc05faff18.
+    # src/zun/driver_numbers.inl: 65556f30a5a2eaf952e09e37ab27b257b6ecd5044e1a354334269c73752ce2ad.
     # One assembly plus one link, not a two-cold-round proof. All 4,224 bytes
     # equal the retained candidate, NOT target: ten differences remain.
-    # Proven maintained scope: 14 complete resident/service procedures / 600 B.
+    # Proven maintained scope: 30 complete procedures / 1,325 B.
     # No full-driver ownership or credit for later source-only groups.
     rows = [u for u in units if u["id"] == "th03-zun-decoded-sprite16-driver"]
     return len(rows) == 1 and all(rows[0].get(key) == value for key, value in {
@@ -143,7 +146,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
-            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 14 resident/service procedures / 600 B · 10 target differences · no exact credit</text>')
+            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 30 maintained procedures / 1,325 B · 10 target differences · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="458" viewBox="0 0 788 458" role="img" aria-label="TH03 reviewed subset reconstruction progress">

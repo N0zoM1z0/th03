@@ -42,7 +42,7 @@ tokenize_check_quote:
 		call	sprite16_find_quote_end
 		jnb	short tokenize_close_quote
 		push	offset sprite16_missing_quote_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
@@ -153,7 +153,7 @@ sprite16_require_argument		proc near
 		cmp	sprite16_argument_count, 0
 		jnz	short require_argument_consume
 		push	offset sprite16_missing_argument_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
@@ -196,7 +196,7 @@ sprite16_require_number		proc near
 		call	sprite16_parse_number
 		jnb	short require_number_return
 		push	offset sprite16_invalid_number_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
@@ -256,7 +256,7 @@ dispatch_option_search:
 		cmp	word ptr [bx], 0
 		jnz	short dispatch_option_compare
 		push	offset sprite16_invalid_option_message
-		call	sub_676
+		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
 
