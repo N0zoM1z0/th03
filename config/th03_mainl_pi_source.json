@@ -1,0 +1,53 @@
+{
+  "schema": "mainl-pi-symbolic-source-v1",
+  "previous_generated_root": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MRT01/th03_mainl.asm",
+    "sha256": "97283914341fd76aac1a1a81c9be7c649b563d8c515221ba48179ff179d7042a"
+  },
+  "provider": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MRT01/libs/master.lib/graph_pi_load_pack.asm",
+    "sha256": "291fb72bb0d3af3cab081913f39d23b084f15958aa362f205128f73df3cfefc0"
+  },
+  "frozen_provider_lf_sha256": "c6568769dc34a4cb23e0a8a95c1d6f9c569eff4514c881cd8d2703306efd6034",
+  "frozen_provider_revision": "b6ba5b0a529edbb31efdf8c0e939263804f8ee47",
+  "source": {
+    "path": "src/mainl/formats/pi_decode.asm",
+    "sha256": "9a05ad9b530d051ddaec438a787e2a1533cca78315eed121d1cea4add14a02ee"
+  },
+  "composer": {
+    "path": "scripts/lib/mainl_pi_source.py",
+    "sha256": "d4a5e6d4f96f92f58eea60c89fdefa757a8ec5b41843d0c7dddfc1d4c4a87e7e"
+  },
+  "unit_id": "th03-mainl-decoded-pi-decoder-load",
+  "decoded_segment": 0,
+  "decoded_offset": 4152,
+  "decoded_bytes": 1524,
+  "body_bytes": 1522,
+  "outer_even_offsets": [
+    4163,
+    5375
+  ],
+  "ordered_relocations": [
+    [
+      0,
+      4156
+    ],
+    [
+      0,
+      4384
+    ],
+    [
+      0,
+      4473
+    ],
+    [
+      0,
+      5356
+    ]
+  ],
+  "unowned_context_bytes": 730,
+  "free_unit_bytes_excluded": 76,
+  "native_fragment_consumption_proven": false,
+  "source_progress_changed": false,
+  "exact_acceptance": false
+}

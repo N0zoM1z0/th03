@@ -13,6 +13,15 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL PI decoder source checkpoint
+
+A maintained symbolic decoder include now expresses the existing 1,524-byte
+unit, including its two natural EVEN bytes. Source-only equivalence tests bind
+the original provider and root. The review now correctly identifies four real
+relocation sites; historical receipts remain unchanged. Native consumption is
+pending: MAINL source50/145 (15,672 bytes), exact0 and SVG are unchanged. See
+[decoder review](reconstruction/MAINL_PI_DECODER_REVIEW.md).
+
 ## MAINL root source proof
 
 One existing root unit / 2,488 bytes is now source-present: MAINL source

@@ -32,7 +32,9 @@ function. Loader ownership is `1038..162B`,1524 bytes; FREE owns76.
 Prior native heap628, stack76 and DOS-open26 contribute730 context bytes
 without duplicate unit credit. All2330 scoped CODE/producer bytes and10
 sharing/heap DATA bytes match both fresh cold products, with matching
-empty ordered relocations. No stored-file offset is invented for decoded code.
+scoped ordered relocations. The loader scope has four sites,
+0000:103C, 0000:1120, 0000:1179 and 0000:14EC; the previous prose
+incorrectly called them empty. The immutable original receipts are retained. No stored-file offset is invented for decoded code.
 
 The receipt pins22 consulted frozen providers at ReC98
 `b6ba5b0a529edbb31efdf8c0e939263804f8ee47`, both public MAP entries,
@@ -185,3 +187,26 @@ Heap BSS at DGROUP1458..145F lies beyond the file program image; it is
 compared through explicit runtime state and full memory, not a raw file
 slice or a proved BSS linker-layout claim. Initialized DATA comparison
 remains10 bytes. The immutable parent receipt keeps all original hashes.
+
+
+## Maintained loader source checkpoint (2026-10-21)
+
+The complete symbolic provider is localized in src/mainl/formats/pi_decode.asm:
+the shared error tail, loader, private color/byte/refill procedures, all macros,
+equates, conditional branches and original EVEN directives. The generated root
+replaces only the loader provider include. GRAPH_PI_FREE's 76 bytes and the
+730 contextual heap/stack/open bytes are excluded from this unit's ownership.
+The 22 reviewed providers remain explicitly contextual; this is not a standalone
+assembler unit or a claim that the entire root dependency tree is owned.
+
+config/th03_mainl_pi_source.json pins the existing MRT01 carrier, original
+provider, maintained source and composer. Full statement comparison preserves
+quoted data, case, operands, branches and directive boundaries. Source tests
+reject instruction, branch, body, padding and include-boundary changes, and
+staging refuses an existing destination. Runtime quirks above are intentional.
+
+This source checkpoint grants no progress yet. Fresh native include consumption,
+scoped bytes/four ordered relocations, a second raw OBJ/EXE/MAP repeat and
+current-image models remain required. MAINL exact acceptance remains zero;
+whole cold aggregate, one decoded DATA-byte mismatch, relocation ordering and
+packed canonical file mapping remain open.
