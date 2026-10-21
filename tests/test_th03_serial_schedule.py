@@ -155,8 +155,16 @@ class ScheduleTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.call(s,work)
         self.assertEqual(len(self.events),n)
 
+    def test_build_carrier_identity_drift_refused(self):
+        work=self.workspace()
+        (work/"build.bat").write_bytes(b"drift")
+        with self.assertRaisesRegex(ValueError,"^exact original build carrier identity$"):
+            self.call(m.Schedule(self.execute,self.root,"unique"),work)
+        self.assertFalse(self.events)
+        self.build_run.assert_not_called()
+
     def test_build_tool_and_ini_drift_refused(self):
-        for name in ("build.bat","bin/tup.exe","Tupfile.ini"):
+        for name in ("bin/tup.exe","Tupfile.ini"):
             case=self.root/name.replace("/","_")
             case.mkdir()
             self.output=case/".analysis/th03-main-exact/unique"
@@ -234,6 +242,7 @@ class CandidatePins(unittest.TestCase):
 
     def test_reviewed_allowlist_is_exact(self):
         self.assertEqual(m.CANDIDATE_PINS, {
+            "config/th03_main_yumemi_charge_candidate.toml": "738adfd7eed18609c45eee7a95fa100b9d8659f214875b58305da62bd7bcd4bc",
             "config/th03_main_player_cpu_candidate.toml": "2420db4423b3f7269799ac1631f04cffd2ad322c7f3dda687600de27c22400f5",
             "config/th03_main_player_tail_candidate.toml": "a44ab5667b7f3da1cc4bc26efe7fdc48e60d9bcc40802d6fa13f5c8b33ff8ee3",
             "config/th03_main_yumemi_bomb_candidate.toml": "579736dc74c88de408575e0e94f9141c2ebf498f099e783424de3879cc82cad8",

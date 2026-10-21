@@ -41,7 +41,7 @@ class CompositionCaptionTests(unittest.TestCase):
     def test_evidence_caption_does_not_grant_exact(self):
         units,evidence=fixture();self.assertTrue(progress.mainl_pi_composed(units,evidence))
         svg=progress.render_svg(units,[],evidence)
-        self.assertIn('6,144 B target-equal',svg);self.assertIn('9 PI gaps closed',svg)
+        self.assertIn('6,144 B target-equal',svg);self.assertIn('Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total',svg)
         self.assertIn('Source 3/3',svg);self.assertIn('exact 0/3',svg)
     def test_incomplete_mutated_or_wrong_source_hides_caption(self):
         units,evidence=fixture();self.assertFalse(progress.mainl_pi_composed(units,evidence[:-1]))

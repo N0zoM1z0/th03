@@ -115,14 +115,17 @@ class DefaultBinding(unittest.TestCase):
   for node in f.body:
    if isinstance(node,ast.If) and ast.unparse(node.test).startswith('not re.fullmatch'):break
    prefix.append(node)
-  names=['config','score_original','score_proof','bomb_proof','tail_proof','cpu_proof','bomb_default','tail_default','cpu_default']
+  names=['config','score_original','score_proof','bomb_proof','tail_proof','cpu_proof','bomb_default','tail_default','cpu_default','charge_proof','charge_expected','charge_default']
   prefix.append(ast.Return(ast.Tuple(elts=[ast.Name(id=n,ctx=ast.Load()) for n in names],ctx=ast.Load())));f.body=prefix;env=dict(replay.__dict__);env['ROOT']=ROOT
   exec(compile(ast.fix_missing_locations(ast.Module(body=[f],type_ignores=[])),'<CPU-setup-only>','exec'),env)
   return env['replay']('offline-no-native',[],candidate)
  def test_no_candidate_dispatch_all_proofs(self):
-  with patch('subprocess.Popen',side_effect=AssertionError('native forbidden')),patch.object(cpu.score,'guard_baseline',return_value={'score':1}),patch.object(cpu.bomb,'guard_baseline',return_value={'bomb':1}),patch.object(cpu.tail,'guard_baseline',return_value={'tail':1}),patch.object(cpu.tail,'freeze_expected',return_value={'tail_expected':1}),patch.object(cpu,'guard_baseline',return_value={'cpu':1}) as cg,patch.object(cpu,'freeze_expected',return_value={'cpu_expected':1}) as ce:
+  from lib import th03_yumemi_charge_candidate as charge
+  current_default=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())
+  self.assertEqual(charge.bind_default(current_default)[0],current_default)
+  with patch('subprocess.Popen',side_effect=AssertionError('native forbidden')),patch.object(cpu.score,'guard_baseline',return_value={'score':1}),patch.object(cpu.bomb,'guard_baseline',return_value={'bomb':1}),patch.object(cpu.tail,'guard_baseline',return_value={'tail':1}),patch.object(cpu.tail,'freeze_expected',return_value={'tail_expected':1}),patch.object(cpu,'guard_baseline',return_value={'cpu':1}) as cg,patch.object(cpu,'freeze_expected',return_value={'cpu_expected':1}) as ce,patch.object(charge,'guard_baseline',return_value={'charge':1}) as chg,patch.object(charge,'freeze_expected',return_value={'charge_expected':1}) as che:
    row=self.setup_only(None)
-  self.assertEqual(row[0],NEW_DEFAULT);self.assertEqual(row[2:6],({'score':1},{'bomb':1},{'tail':1},{'cpu':1}));self.assertEqual(row[6:],(True,True,True));cg.assert_called_once_with(ROOT);ce.assert_called_once_with(ROOT)
+  self.assertEqual(row[0],current_default);self.assertEqual(row[2:6],({'score':1},{'bomb':1},{'tail':1},{'cpu':1}));self.assertEqual(row[6:9],(True,True,True));self.assertEqual(row[9:],({'charge':1},{'charge_expected':1},True));cg.assert_called_once_with(ROOT);ce.assert_called_once_with(ROOT);chg.assert_called_once_with(ROOT);che.assert_called_once_with(ROOT)
  def test_mixed_dispatch_fails_before_proof(self):
   with patch.object(cpu,'guard_baseline') as guard:
    with self.assertRaises(ValueError):self.setup_only(ROOT/cpu.CANDIDATE_PATH)
