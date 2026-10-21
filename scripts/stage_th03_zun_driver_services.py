@@ -19,7 +19,7 @@ RESIDENT_PROCS=(('sub_10C', 'sprite16_entry', 268, 412),
  ('sub_22A', 'sprite16_interrupt_dispatch', 554, 579),
  ('sub_243', 'sprite16_install', 579, 685),
  ('sub_2AD', 'sprite16_uninstall', 685, 832))
-RESIDENT_SYMBOLS={'word_F40': 'sprite16_int40_signature_found',
+RESIDENT_SYMBOLS={'aSprite16':'sprite16_signature','aHeader':'sprite16_banner','aUsage':'sprite16_usage','word_F40': 'sprite16_int40_signature_found',
  'word_F43': 'sprite16_resident_paragraphs',
  'word_F38': 'sprite16_previous_vector_segment',
  'word_F3A': 'sprite16_previous_vector_offset',

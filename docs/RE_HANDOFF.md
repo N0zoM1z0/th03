@@ -371,3 +371,14 @@ Detailed chronological technical checkpoints (including the 2026-10-06
 stopped-state figures) remain in the versioned subsystem reviews and
 [historical closeout](CLOSEOUT.md); do **not** mistake those checkpoint
 numbers or old CI outcomes for the current accepted baseline above.
+
+## 2026-10-21 ZUN driver standalone source checkpoint
+
+All 55 procedures / 2,844 bytes now have a successful hybrid assembly/link proof;
+full COM equals the 4,224-byte candidate, with ten target differences inside owned
+procedures. SVG is candidate-only, no exact credit. The new opt-in
+`stage_th03_zun_driver.py` removes all retained source/macro dependencies using
+named data, explicit source-recorded reserves, and the existing authored bodies.
+Source tests work without any reference tree or target file. Standalone native
+proof is the next two-command step, not already claimed. See the dated section in
+`docs/reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md`. No default or acceptance change.

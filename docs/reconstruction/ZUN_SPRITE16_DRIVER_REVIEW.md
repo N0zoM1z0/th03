@@ -386,3 +386,43 @@ Next is one bounded parent-owned all 55-procedure hybrid build, followed by
 explicit data/layout and macro ownership. Full target equality, two-cold proof,
 wrapper/DIET integration and real DOS/device behavior remain separate obligations.
 No accepted ledger, default graph, whole-ZUN or whole-game percentage changes.
+
+## 2026-10-21: all procedures proved; standalone data/layout source owned
+
+The all-procedure hybrid native run completed both assembly and link with certain
+owned cleanup. All 55 procedure boundaries / 2,844 instruction bytes passed the
+maintained OMF/MAP verifier. The full 4,224-byte COM equals the cached candidate
+(`bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c`),
+but exactly ten target differences now lie inside owned procedures. This is
+candidate equality, not target equality or exact acceptance. Receipt:
+`.analysis/zun-driver-hybrid-output-20261021-v04/completion.json`, SHA-256
+`300cc269aa9fb142a3ba44c9fc3d56c3f364893ad588af737722f14dcf3997d0`.
+
+The new opt-in `scripts/stage_th03_zun_driver.py` reads only ten maintained source
+files. It places complete authored bodies from the seven logical modules through
+explicit per-procedure includes in `src/zun/driver.asm`; no reference assembly,
+retained macro include, target binary, object, or fallback is read. The old hybrid
+route remains available. Native commands stay TASM32 + TLINK, with the existing
+bounded parent supervisor; no native proof of this new standalone route is claimed
+by this source checkpoint. Immediate next step is its two-command candidate check.
+
+The remaining 1,380 bytes have an explicit source representation:
+- 12-byte entry/signature/version header. The signature also aliases INT40 vector
+  addresses when ES=0; its position must not move.
+- 88 interprocedure bytes: one source-recorded NOP, the 16-character hexadecimal
+  alphabet, and 71 source-recorded zero reserve bytes. Their producer/purpose is
+  not established; the source does not invent ALIGN rules or fit padding.
+- 1,280 bytes of named trailing data: Japanese messages; 512-byte initialized
+  startup stack; packed resident fields (F43/F45 are deliberately unaligned);
+  TH03 banner/usage; eight option/handler pairs plus one zero WORD; nine service
+  offsets without sentinel; graphics state/defaults; 64 initialized near-pointer
+  slots and parser state/messages; ON/OFF strings and explicit reserved tail.
+  The startup stack is not an ISR private stack. Unknown reserve purpose and
+  version interpretation are not promoted into runtime claims.
+
+`driver_hardware.inc` owns only six consumed macros and eleven constants. Their
+actual expressions and instruction order match the retained source, including
+MOV DX before MOV AX in OUTW. Device semantics, original producer choices, packed
+DIET bytes, the ten instruction-encoding differences, whole wrapper acceptance,
+and the whole-game denominator remain separate. The SVG records only the actual
+55-procedure hybrid proof, explicitly candidate-only and without exact credit.

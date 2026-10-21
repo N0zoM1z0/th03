@@ -11,14 +11,14 @@ public sprite16_entry
 sprite16_entry		proc near
 
 		cld
-		push	offset aHeader
+		push	offset sprite16_banner
 		call	sprite16_print_stack_string
 		push	es
 		mov	ax, 0
 		mov	es, ax
 		assume es:_TEXT
 		mov	bx, word ptr es:start
-		mov	es, word ptr es:aSprite16
+		mov	es, word ptr es:sprite16_signature
 		assume es:nothing
 		mov	ax, es:[bx+2]
 		xchg	al, ah
@@ -68,7 +68,7 @@ entry_parse_command_tail:
 		jmp	short entry_optional_int40
 
 entry_no_arguments:
-		push	offset aUsage
+		push	offset sprite16_usage
 		call	sprite16_print_stack_string
 		mov	ax, 4C01h
 		int	21h
