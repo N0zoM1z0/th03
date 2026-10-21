@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL registration/music backend diagnostic
+
+The opt-in registration/music producer combines the genuine maintained registration translation unit with the complete 68-byte music transition. One fresh compile/root/link diagnostic preserves the full decoded target program, all 61 registration/music relocation pairs in target order and the prior six snow pairs. Global ordered differences remain 461; this is a producer-grouping result, not global-order closure. The earlier compiler-only public-name truncation failure remains preserved. No repeat, runtime, full cold build, default graph, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [registration/music backend proof](reconstruction/MAINL_REGMUSIC_BACKEND_REVIEW.md).
+
 ## MAINL semantic snow backend diagnostic
 
 The opt-in maintained TC4 snow-spawn producer now generates the complete 169-byte procedure naturally. One fresh compile/root/link diagnostic preserves the full decoded target program and all six scoped relocation pairs in target order. The original post-link checker failure remains recorded; a separate bound read-only correction verifies the products. Global relocation-order differences remain 461. This is not a repeat, fresh runtime run, default graph change, packed equality or new credit: MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [snow backend proof](reconstruction/MAINL_SNOW_BACKEND_REVIEW.md).
