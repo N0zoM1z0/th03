@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## Yumemi charge CODE acceptance
+
+The [charge acceptance](reconstruction/MAIN_YUMEMI_CHARGE_ACCEPTANCE.md) adds one extent, ten complete functions and 1,645 bytes after two fresh no-candidate default cold rounds. MAIN now has 87 accepted extents / 413 functions / 66,843 reviewed CODE bytes. All previous 86 extents remain unchanged. This is 100% of the currently reviewed MAIN CODE, not the whole game. MAINL retains 145/145 source functions and zero stored exact credit. Earlier checkpoint statements below are historical.
+
 ## MAINL natural DATA alignment and packing
 
 MAINL natural VSync DATA alignment now yields the complete decoded target program, without byte injection. Independent root/link repeats have identical raw OBJ/EXE/MAP. Aligned-source DIET packing repeats and roundtrips, but produces38,050 bytes versus canonical37,975 (+75), with1,212 packed differences;677 relocation entries retain membership with461 ordered differences. This is not a full cold-build or new runtime proof. Source145/145 and28,381 bytes remain unchanged, formal exact0. Status CLI distinguishes27,753 decoded authored-owner bytes plus628 library-origin heap bytes; aggregation and JSON are unchanged. Historical pre-alignment DATA and2,259 packed-difference receipts remain preserved.
@@ -188,16 +192,16 @@ graph, comparator, runtime or toolchain changes occur in this metadata checkpoin
 
 | Artifact | Reviewed/source scope | Accepted original CODE |
 | --- | --- | --- |
-| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **86 exact extents; 403 exact functions; 65,198 bytes** |
+| MAIN | 87 source-present reviewed CODE extents; 413 complete functions | **87 exact extents; 413 exact functions; 66,843 bytes** |
 | OP | 40 reviewed decoded units; 33 source-present extents / 12,019 bytes | exact0 |
 | MAINL | 145 decoded rows; 34 source-present extents / 3,073 bytes | exact0 |
 | ZUN | 18 rows; 3 source-present wrapper units / 234 bytes | exact0 |
 
-MAIN's reviewed exact extent comprises **64,230 function bytes** and **968
-explicitly classified non-function producer bytes**, across **77 maintained
+MAIN's reviewed exact extent comprises **65,843 function bytes** and **1,000
+explicitly classified non-function producer bytes**, across **78 maintained
 semantic source owners**. The reviewed source-present scope totals **66,843
-CODE bytes**; Yumemi charge retains **10 functions across 1,645 CODE extent bytes** that are not exact.
-The accepted fraction is **97.54% of reviewed MAIN CODE**, not the whole game.
+CODE bytes**; Yumemi charge now contributes **10 functions across 1,645 exact CODE extent bytes**.
+The accepted fraction is **100% of reviewed MAIN CODE**, not the whole game.
 These denominators cover **only the currently reviewed CODE**, not the complete
 MAIN program. The whole-game owned-code denominator and 505-file intake are unfinished.
 
@@ -225,7 +229,7 @@ relocations**, all previously accepted owners, maintained DOS behavior probes,
 Both checkpoints are bounded to the repository Oracle; neither is native
 Factory Truth Kernel replay or whole-game product closure.
 
-Latest tracking snapshot: **290 units, 2849 evidence rows, 370 knowledge
+Latest tracking snapshot: **290 units, 3191 evidence rows, 370 knowledge
 rows, three hypotheses, 413 authored-function rows** (all values scoped to
 their individual artifact/ledger, not additive file counts). Use
 `docs/PROGRESS.md`, `config/units.csv`, `config/evidence.csv`,

@@ -3,7 +3,7 @@
 | Artifact | Target bytes | Source-present units | Exact units | Exact functions | Exact owned bytes |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | th03-op | 36041 | 33 | 0 | 0 | 0 |
-| th03-main | 130882 | 87 | 86 | 403 | 65198 |
+| th03-main | 130882 | 87 | 87 | 413 | 66843 |
 | th03-mainl | 37975 | 145 | 0 | 0 | 0 |
 | th03-zun | 16242 | 3 | 0 | 0 | 0 |
 
