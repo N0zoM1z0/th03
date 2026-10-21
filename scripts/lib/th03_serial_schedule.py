@@ -113,6 +113,24 @@ def verify_options(raw):
     if len(parsed) != 1:
         raise ValueError("local Tup options parse marker absent or ambiguous")
 
+def candidate_uses_staged_carrier(candidate):
+    # Charge adds an owner after the complete accepted-default staging chain.
+    # Its original carrier is still serialized by verified local num_jobs=1.
+    if candidate is not None and candidate not in CANDIDATE_PINS:
+        raise ValueError("unreviewed candidate carrier mode")
+    return candidate is not None and candidate != "config/th03_main_yumemi_charge_candidate.toml"
+
+def original_build_carrier(raw, staged):
+    if staged:
+        if raw.count(AFTER) != 1 or BEFORE in raw:
+            raise ValueError("candidate scheduling carrier is not the reviewed -j1 form")
+        original = raw.replace(AFTER, BEFORE, 1)
+    else:
+        original = raw
+    if sha(original) != BUILD_SHA:
+        raise ValueError("exact original build carrier identity")
+    return original
+
 class Schedule:
     def __init__(self, original_execute, root, run_id, candidate=False):
         if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", run_id):
@@ -149,12 +167,7 @@ class Schedule:
         for p in (build, tup, ini):
             check_regular(p)
         build_bytes = build.read_bytes()
-        if self.candidate:
-            if build_bytes.count(AFTER) != 1 or BEFORE in build_bytes:
-                raise ValueError("candidate scheduling carrier is not the reviewed -j1 form")
-            original_build = build_bytes.replace(AFTER, BEFORE, 1)
-        else:
-            original_build = build_bytes
+        original_build = original_build_carrier(build_bytes, self.candidate)
         if sha(original_build) != BUILD_SHA or sha(tup.read_bytes()) != TUP_SHA or sha(ini.read_bytes()) != EMPTY_SHA:
             raise ValueError("cold workspace tool/build pin drift")
         row = dict(round=number, policy="local-tup-num-jobs-1", build_before_sha256=sha(build_bytes),
@@ -247,7 +260,7 @@ def main():
     spec = importlib.util.spec_from_file_location("original_th03_replay", REPLAY)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    schedule = Schedule(module.execute, ROOT, args.run_id, bool(args.candidate_manifest))
+    schedule = Schedule(module.execute, ROOT, args.run_id, candidate_uses_staged_carrier(args.candidate_manifest))
     module.execute = schedule
     argv = [str(REPLAY), "--run-id", args.run_id]
     if args.candidate_manifest:
