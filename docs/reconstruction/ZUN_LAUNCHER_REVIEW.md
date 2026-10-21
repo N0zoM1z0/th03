@@ -190,3 +190,35 @@ passes. Full decoded equality still fails the same ten unowned `-4` encoding
 bytes. Payload source, full runtime, canonical stored-file ownership/DIET
 packaging and complete Oracles remain open; exact stays false. This fresh
 wrapper result is separate from a complete game build.
+
+## Maintained -2 retained integration (2026-10-21)
+
+The opt-in `--compose-maintained-init` route takes the two independently produced
+TH03 initializer outputs from the 2026-10-21 standalone proof and composes them
+with the source-bound retained launcher/transfer modules using the existing
+`compose_launcher` operation. It does not patch a target or rerun native tools.
+The four other private payloads are taken unchanged from the hash-bound retained
+scaffold; legacy full-build payload paths are not required by this opt-in route.
+The ordinary replay route remains unchanged.
+
+Opt-in invocation:
+
+`python3 -B scripts/replay_th03_zun_launcher.py --run-id zun-init-wrapper-minus2-20261021-v01 --review-cached-run sol-zun-launcher-20261006-final --compose-maintained-init`
+
+This is a retained composition/runtime diagnostic, not a new full-wrapper cold
+build or acceptance. All bytes outside -2 must remain identical, both complete
+22,812-byte compositions must match the prior scaffold, and the exact ten target
+differences must remain inside -4. The 16,242-byte packed original, DIET rebuild,
+real DOS/device/TSR behavior and whole-game denominator remain separate. The parent executed this diagnostic successfully with no native invocations.
+The two composed outputs are raw-identical to the retained scaffold. Fourteen
+wrapper-only observations pass, including all five dispatches, and the deliberate
+wrong-transfer negative control rejects. Owned shared-lock release is complete.
+
+Receipt: `.analysis/zun-init-wrapper-composition/zun-init-wrapper-minus2-20261021-v01/receipt.json`
+
+SHA256 `39490223a696083e6729e01c7855da1b4f84ba5a3ecb380e33f0aa2da760f924`.
+
+Post-release completion SHA256
+`ce41829b6e038dd881e4f09e2a49cac05284d21676f3fbbdd3c043cb39a076a1`.
+The short parent Factory command completed exit0; the earlier standalone
+continuation's unrecovered outer transport status remains unknown.

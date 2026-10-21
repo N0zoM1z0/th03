@@ -22,7 +22,10 @@ from lib.zun import PSP_SIZE, digest, parse_launcher, dispatch_observation, comp
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def replay(run_id, cached_run=None):
+def replay(run_id, cached_run=None, maintained_init=False):
+    if maintained_init:
+        from compose_th03_zun_init import replay as compose_init
+        return compose_init(ROOT, run_id, cached_run)
     if not re.fullmatch(r"[A-Za-z0-9_-]{1,64}", run_id):
         raise ValueError("unsafe run ID")
     freeze_paths = ["config/th03_zun_launcher.toml", "config/th03_diet.toml",
@@ -262,5 +265,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--review-cached-run", help="Read existing source-bound outputs; never grants cold acceptance")
+    parser.add_argument("--compose-maintained-init", action="store_true", help="Compose the proven maintained -2 pair into retained wrapper modules; no native tools")
     args = parser.parse_args()
-    replay(args.run_id, args.review_cached_run)
+    replay(args.run_id, args.review_cached_run, args.compose_maintained_init)
