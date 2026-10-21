@@ -1,0 +1,368 @@
+{
+  "schema": "mainl-display-hardware-symbolic-source-v1",
+  "previous_generated_root": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/th03_mainl.asm",
+    "sha256": "41e726e4c7d2b1dcb5ab65031e8cc867720ab5d30a7759bc4920a5babd6eeac9"
+  },
+  "composer": {
+    "path": "scripts/lib/mainl_display_hardware_source.py",
+    "sha256": "0408967d0f180478193a4bbf316a9e4d3cd99fdfb6d5663a8fed979fd430de4f"
+  },
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-palette-black-fades",
+      "segment": 0,
+      "offset": 1334,
+      "bytes": 130,
+      "providers": [
+        {
+          "name": "palette_black_in",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_black_in.asm",
+            "sha256": "c7407bfb9aabe9a5127a1dc3510779444a3d507eacd9bc2fdfe48ee9cfc2481e"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/palette_black_in.asm",
+            "sha256": "c4119c6dad2fff0b6336bf2bb9b93a978cc8482ac06418c3d1a19d1ae52ec38f"
+          }
+        },
+        {
+          "name": "palette_black_out",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_black_out.asm",
+            "sha256": "522eafd6463b52c9893ed7f71d3322a6ca9a5dd7ff32a9265307ba095d0fd54f"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/palette_black_out.asm",
+            "sha256": "f3f8eff020396aa76e3fef12b2bdec9fde5f26c2895c907935541d7526431f06"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-palette-show",
+      "segment": 0,
+      "offset": 6096,
+      "bytes": 266,
+      "providers": [
+        {
+          "name": "palette_show",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_show.asm",
+            "sha256": "c40574ccfd1c224e9e4562bc4cc6bb35243cb9970a4c832dd7c3e982a7425c30"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/palette_show.asm",
+            "sha256": "08d2accfe32d9c190a469edf6f5f20c90fd12f29286030bad4cda6bcf77db3bc"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-palette-rgb",
+      "segment": 0,
+      "offset": 6760,
+      "bytes": 66,
+      "providers": [
+        {
+          "name": "palette_entry_rgb",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_entry_rgb.asm",
+            "sha256": "db55520eafba7b5799fcb8fd236473891fb87eab47d5a3b02856cf7670625325"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/palette_entry_rgb.asm",
+            "sha256": "e6c7e0bd52ed23a5581e06981c0d6ebac5025fbc7ebb18c54ac470e76db13f3b"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-palette-wait-white-fades",
+      "segment": 0,
+      "offset": 8292,
+      "bytes": 166,
+      "providers": [
+        {
+          "name": "vsync_wait",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/vsync_wait.asm",
+            "sha256": "2186df31026448095f165528d8cbc3c653dbbc5f4be90b27bdd3acee95d04b2b"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/vsync_wait.asm",
+            "sha256": "670098368a93f2bd85bebdd21d003b8630adcaae0192c83006c9035716accf3f"
+          }
+        },
+        {
+          "name": "palette_white_in",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_white_in.asm",
+            "sha256": "d22a8491c095ed7d2d4b117cd74d549d43df68807a79dfc6e257401a2bddfb34"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/palette_white_in.asm",
+            "sha256": "1ba734e7b7b09b57f93d41245adac61a83d77e984b92c3e71b3860484242e191"
+          }
+        },
+        {
+          "name": "palette_white_out",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/palette_white_out.asm",
+            "sha256": "40904043b508e68d5ad31ed152ba770236597e6a2fcee0074cc5db2f066d46b4"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/palette_white_out.asm",
+            "sha256": "93ffbdc1477bfc092336f10470d87374f3dea42025a18405fd22a13908ffc699"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-vsync-library",
+      "segment": 0,
+      "offset": 8042,
+      "bytes": 250,
+      "providers": [
+        {
+          "name": "vsync",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/vsync.asm",
+            "sha256": "5d3c205d6d6ff7d9c0f8079200624ff1bfdf4f785e7a5b7c501c0b2269dafed7"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/vsync.asm",
+            "sha256": "adc11a7fa661b145db4bcc47d1ff9329e9cbae684c13e6f17f510475e155be7a"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-dos-setvect",
+      "segment": 0,
+      "offset": 1796,
+      "bytes": 32,
+      "providers": [
+        {
+          "name": "dos_setvect",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/dos_setvect.asm",
+            "sha256": "72c7d13cb301fabdfc698581a34d883bb477515cf4713a14ef815a8e7d08537b"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/dos_setvect.asm",
+            "sha256": "d76ec8ccfeb92772b84eb4953a32cdec2c63ed225e5fb41897a32a2c482ce1b2"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-graph-extmode",
+      "segment": 0,
+      "offset": 3842,
+      "bytes": 86,
+      "providers": [
+        {
+          "name": "graph_extmode",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_extmode.asm",
+            "sha256": "3e1df894829c07cba4b59b6fe08c631e670312b42a60ae790faa5c4cd0f1d970"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/graph_extmode.asm",
+            "sha256": "fc12522f59b6e2813dc77a3b29bd0f65087df90dd953a10da51419f6b0f23fd5"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-egc-library",
+      "segment": 0,
+      "offset": 1828,
+      "bytes": 98,
+      "providers": [
+        {
+          "name": "egc",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/egc.asm",
+            "sha256": "4f95898cc37b4ca0fa7879b4f36fdbf0663452ef3175703f225bde9a25f00643"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/egc.asm",
+            "sha256": "938bdf7290f1becf1ea5e5e4e9d830f2f4320552fb9325cc0d50665287703901"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-grcg-box-library",
+      "segment": 0,
+      "offset": 2760,
+      "bytes": 366,
+      "providers": [
+        {
+          "name": "grcg_boxfill",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/grcg_boxfill.asm",
+            "sha256": "74db99990e4064c0d028674c97e2e07717ca21e0177037cedf0ea58cd88b7fa4"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/grcg_boxfill.asm",
+            "sha256": "f74b9e5ff8ab596a58042b280840e6aab3a64d00c821e819adaa002d9c40327f"
+          }
+        },
+        {
+          "name": "grcg_byteboxfill_x",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/grcg_byteboxfill_x.asm",
+            "sha256": "b549049f0379a0eab9e8f5d2de0c04946e6454c8edd4ecf87c9f407ca323503b"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/grcg_byteboxfill_x.asm",
+            "sha256": "0ef562ab616ee6e85ef1bb8306820645f4b0405e27a8d714d01acddd7416142d"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-backup",
+      "segment": 0,
+      "offset": 3186,
+      "bytes": 64,
+      "providers": [
+        {
+          "name": "gaiji_backup",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_backup.asm",
+            "sha256": "8154b76fc72e32af4e9e58b6ea4b3b83a6d0a72987544434e8a098d872d5516a"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/gaiji_backup.asm",
+            "sha256": "14450208ef13f7b9209b21fe0f6fef9410211f6b57db76cbe44fe397539e83f7"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-load",
+      "segment": 0,
+      "offset": 3250,
+      "bytes": 150,
+      "providers": [
+        {
+          "name": "gaiji_entry_bfnt",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_entry_bfnt.asm",
+            "sha256": "d365f1aee432134fff021a015f59ace31a8d07655c00ce7cff988e788e2e5534"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/gaiji_entry_bfnt.asm",
+            "sha256": "5e9af7ec507b787d92c543d6661834776ae88ca893e93ac2846940ba3cbc1f1c"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-read",
+      "segment": 0,
+      "offset": 3400,
+      "bytes": 108,
+      "providers": [
+        {
+          "name": "gaiji_read",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_read.asm",
+            "sha256": "76f96834714f89ceb0b04536b67c0920f71621e622a86dd8f881cd158afdbb32"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/gaiji_read.asm",
+            "sha256": "70624da671f2aa50270586d53ee0a80f416f59ed39f0f8087407398904faab94"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gaiji-write",
+      "segment": 0,
+      "offset": 3508,
+      "bytes": 112,
+      "providers": [
+        {
+          "name": "gaiji_write",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/gaiji_write.asm",
+            "sha256": "8ba36f346ea8a2f4bd3f6a3f44b2034e78d8ff87f0e16414c17e3fcf59ddcb47"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/gaiji_write.asm",
+            "sha256": "59f2bc983a6898600c366c9fbd00c9f105b837a6e98a5cc18e478a32c3dd8066"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-screen-mode",
+      "segment": 0,
+      "offset": 3620,
+      "bytes": 78,
+      "providers": [
+        {
+          "name": "graph_400line",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_400line.asm",
+            "sha256": "a4cc370c6827cd5f91928d8f1f1dcb49dcb1d582e2dba3e7b6f33b18ea877494"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/graph_400line.asm",
+            "sha256": "bedf940bdb34dd0c32747cbda1ba72d6267177c4214cb03a7191f7a732f28e32"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-screen-clear",
+      "segment": 0,
+      "offset": 3698,
+      "bytes": 36,
+      "providers": [
+        {
+          "name": "graph_clear",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_clear.asm",
+            "sha256": "90be0ac27c63cf09b7bab977ab3787c5e64ede39d8c86c0393920c82991d7d12"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/graph_clear.asm",
+            "sha256": "6356a3e1eea06c618b537d547545bfdf3122564c7a9794eecc0b3a238d37dc93"
+          }
+        }
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-screen-copy",
+      "segment": 0,
+      "offset": 3734,
+      "bytes": 108,
+      "providers": [
+        {
+          "name": "graph_copy_page",
+          "provider": {
+            "path": ".analysis/toolchain/wineprefix/drive_c/MIA02/libs/master.lib/graph_copy_page.asm",
+            "sha256": "6e99953780d53444267c34fa48331ccf3535f0d4e4b4b7dc9c32291806e271dc"
+          },
+          "source": {
+            "path": "src/mainl/display_hardware/graph_copy_page.asm",
+            "sha256": "7fc297324c44c2189ce5fd9349d28e080a5751e7813a7b0a5f768a85986a6bf4"
+          }
+        }
+      ]
+    }
+  ],
+  "unit_count": 16,
+  "decoded_bytes": 2116,
+  "include_count": 20,
+  "native_fragment_consumption_proven": false,
+  "source_progress_changed": false,
+  "exact_acceptance": false,
+  "excluded_scope": "Already-owned BFNT, DOS open, GDC and heap; contextual hardware/models and DATA EVEN0849; no extra byte or exact credit."
+}
