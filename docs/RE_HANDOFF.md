@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL semantic snow backend diagnostic
+
+The opt-in maintained TC4 snow-spawn producer now generates the complete 169-byte procedure naturally. One fresh compile/root/link diagnostic preserves the full decoded target program and all six scoped relocation pairs in target order. The original post-link checker failure remains recorded; a separate bound read-only correction verifies the products. Global relocation-order differences remain 461. This is not a repeat, fresh runtime run, default graph change, packed equality or new credit: MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [snow backend proof](reconstruction/MAINL_SNOW_BACKEND_REVIEW.md).
+
 ## Yumemi charge CODE acceptance
 
 The [charge acceptance](reconstruction/MAIN_YUMEMI_CHARGE_ACCEPTANCE.md) adds one extent, ten complete functions and 1,645 bytes after two fresh no-candidate default cold rounds. MAIN now has 87 accepted extents / 413 functions / 66,843 reviewed CODE bytes. All previous 86 extents remain unchanged. This is 100% of the currently reviewed MAIN CODE, not the whole game. MAINL retains 145/145 source functions and zero stored exact credit. Earlier checkpoint statements below are historical.
