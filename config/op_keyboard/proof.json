@@ -1,0 +1,50 @@
+{
+  "schema": "th03-op-keyboard-source-proof-v1",
+  "manifest_sha256": "ea038d64d8802987e25e310d30060dbb180cccc186dddf57ac52ee865afdb3d7",
+  "verifier_sha256": "62f710c1ee7726d93b783338c2385bd554ee94af06d5f75964c07f03985421ac",
+  "stage_sha256": "d2ab66b2732c37d0d038f7736752d388b4187189162f7dc8f64c0999f4289667",
+  "native_phases": 2,
+  "scanner_bytes": 417,
+  "carrier_context_bytes": 418,
+  "runtime_images": 2,
+  "runtime_calls": 536,
+  "maintained_sources": {
+    "compat/rec98/libs/master.lib/master.hpp": {
+      "sha256": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+      "bytes": 38
+    },
+    "compat/rec98/platform/x86real/flags.hpp": {
+      "sha256": "410756ddb266e8a4a51767fffcf9724c5b6967c02901481a26335da0c20dfba2",
+      "bytes": 38
+    },
+    "compat/rec98/platform/x86real/pc98/keyboard.hpp": {
+      "sha256": "dcb649e854e438a69679f79381e0af5da78f2ffb242a724bd6daced0b08e281b",
+      "bytes": 46
+    },
+    "compat/rec98/th03/hardware/input.h": {
+      "sha256": "84b0ca85929d0de82bc4ada8503fb226806f87869d473c4c865bf81509c1b18e",
+      "bytes": 128
+    },
+    "src/op/hardware/input_sense.cpp": {
+      "sha256": "852cbd97be885063d93aa37135429b6b62fcf771658724fa608e8d61ac84521e",
+      "bytes": 3495
+    }
+  },
+  "exact_acceptance": false,
+  "whole_product_ownership": false,
+  "maintained_cohort_preserved": false,
+  "two_cold_builds": false,
+  "runtime_rerun": false,
+  "inventory": {
+    "path": ".analysis/op-keyboard-native-output-v01/source-proof.json",
+    "sha256": "ebe809af3309d32f40707c60f111ec00f3c0391b914510610628af3f2717e5ae",
+    "bytes": 784552
+  },
+  "pins": [
+    {
+      "path": ".analysis/op-keyboard-native-output-v01/source-proof.json",
+      "sha256": "ebe809af3309d32f40707c60f111ec00f3c0391b914510610628af3f2717e5ae",
+      "bytes": 784552
+    }
+  ]
+}

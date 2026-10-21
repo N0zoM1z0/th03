@@ -1,5 +1,17 @@
 # TH03 reconstruction handoff — current state (2026-10-21)
 
+## OP keyboard scanner source checkpoint
+
+One fresh compile/context-link yields a target-equal 417-byte scanner at
+`0BEB:0304`; the original trailing NOP at `04A5` is unowned 418-byte carrier
+context. The target and candidate each pass 268 modeled scenarios (536 combined,
+264 returns plus four bounded prefixes per image). OP source presence is now
+34/41 units and 12,436 bytes; exact remains zero. Frozen reference context is
+not the maintained 33-unit OP cohort. Whole 59,770-byte program still differs
+by six bytes, and whole-file / ordered-relocation equality remain false.
+No full cold repeat, real-device runtime, packing or whole OP claim. See
+[keyboard scanner review](reconstruction/OP_KEYBOARD_SOURCE_REVIEW.md).
+
 ## ZUN -3 maintained logo root producer
 
 The maintained tiny-model logo root now compiles and context-links once with
