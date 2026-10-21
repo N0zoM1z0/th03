@@ -1,0 +1,915 @@
+{
+  "schema": "mainl-diet-packing-diagnostic-v1",
+  "runs": [
+    {
+      "label": "target_control",
+      "proposal": ".analysis/mainl-diet-calibration-proposal-20261021-v01",
+      "output": ".analysis/mainl-diet-calibration-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MDI01",
+      "result": {
+        "path": ".analysis/mainl-diet-calibration-output-20261021-v01/calibration-verification.json",
+        "sha256": "a613165f54da88938b72f67942e7867b498fd3afb307e1400c9e019d45a6e3d1",
+        "bytes": 971
+      }
+    },
+    {
+      "label": "source_product",
+      "proposal": ".analysis/mainl-diet-source-pack-proposal-20261021-v01",
+      "output": ".analysis/mainl-diet-source-pack-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MDI02",
+      "result": {
+        "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/calibration-verification.json",
+        "sha256": "7aa5ac80cefdbee53cd92ec450ffc2b4a417b4e39efab68647feb8ab8cdb2097",
+        "bytes": 180349
+      }
+    }
+  ],
+  "pins": [
+    {
+      "path": ".analysis/mainl-diet-calibration-proposal-20261021-v01/manifest.json",
+      "sha256": "056a972ba971b4decf6dc340943a5e1465bafe162b25b2461188c45fc6e1f334",
+      "bytes": 193709
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-proposal-20261021-v01/run_probe.py",
+      "sha256": "63d89cef1c18dafda142213b8ac77384e30158da16bf5534eb8010b39cdaf4fe",
+      "bytes": 11764
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-proposal-20261021-v01/verify_calibration.py",
+      "sha256": "cc5f76e22d391f33541cabb0f8bd7f3b59d9035398723b5a40140adae3b1b84b",
+      "bytes": 2330
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-proposal-20261021-v01/launch.sh",
+      "sha256": "5b6b7b979581f2569b949a862e04ba5c1cde35d26b6810590b1f697b6f1da5c3",
+      "bytes": 848
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-registry-transition.json",
+      "sha256": "d4e9efd3df96f3a0cc6e3c417a60295afbacb25f57713344b5aa1ed65aa01150",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-after-registry.json",
+      "sha256": "f42726073d54857be226e278aeb6ee4e328f683bdfdaa53b9740b57ef35872c3",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-before-user.reg",
+      "sha256": "db2e6252c2d9c4bf5af6114a4a0bb3252d341fc828759c0c931c8b212eed3699",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-after-system.reg",
+      "sha256": "fd9345349d0c57e980670b4201fd8e447f08401b4bc4c8b866d88d047513ecd5",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-output.json",
+      "sha256": "04d4399e06255507f59b071574890d5b37d0a08e74089e19e22e364ce256e1b1",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-semantic-check.json",
+      "sha256": "4a4fda789663cd1ed88da74e39425f46f2b1d359a5ee142b1aec714c4da740c1",
+      "bytes": 358
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-registry-transition.json",
+      "sha256": "fee2926c7bdc0c31ef95bd7c4fefcbba16ea4dd01e174f1417ab72d312c6249b",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-after-registry.json",
+      "sha256": "6a3d37e04e943f62fd227aec69f937891322f77f2bfb850069c26f7649afda46",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-after-system.reg",
+      "sha256": "3f1bc503268fc63a990855cc28d5d96d8edb18db4da502cfda9c42fd13aeb83a",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck.log",
+      "sha256": "673ce2eb5299c343c6eea83b3d7fea2d166e1918ee74dc48298b060da0a9ca20",
+      "bytes": 153
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/environment.json",
+      "sha256": "2bf828585e514ba96d3acbc3581f5425dc12d9572307a5246e4560a981a1f969",
+      "bytes": 384
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-finished.json",
+      "sha256": "6c9642ef4e1754dc2cd4d08a99c7612cd95cfd50c76cac9f2a1eb2bc3b4a0903",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-started.json",
+      "sha256": "4677e7b74d32364a288965b9117f0d15a574b9f5eb40759b8c32cd9ad7b361f1",
+      "bytes": 752
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-before-registry.json",
+      "sha256": "b90881d9ff2b764aed91440a59856e89b6ea479d6952362fcd42e0d0a5c9cd5e",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-after-registry.json",
+      "sha256": "6e70cb5fcaf78738adbb76ae1c18e4ebbc91acf23c017ecce2014f38f5a3be46",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-output.json",
+      "sha256": "04d4399e06255507f59b071574890d5b37d0a08e74089e19e22e364ce256e1b1",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-before-registry.json",
+      "sha256": "133336a014c1835e2eb5381602fe352a26cfb9d3573ab7eeea17a9159066dd0b",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2.log",
+      "sha256": "e2e8ca6559fe8ce64854394050dadf7b9d8e311b80eda2c193a25ead009f81de",
+      "bytes": 199
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-semantic-check.json",
+      "sha256": "77d544f4ec759ffcce83467353eab2b67a4551f221d924a63f4286755d238f0c",
+      "bytes": 358
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-before-registry.json",
+      "sha256": "6e70cb5fcaf78738adbb76ae1c18e4ebbc91acf23c017ecce2014f38f5a3be46",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-before-registry.json",
+      "sha256": "f42726073d54857be226e278aeb6ee4e328f683bdfdaa53b9740b57ef35872c3",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-after-user.reg",
+      "sha256": "850a55b46142da991bcce40e11e293315d69470ed5e53847317bf7d9b8c53c79",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-registry-transition.json",
+      "sha256": "f358f5d1ed12efd336afaabe0a8809692661607860ed9a7507a8b76d5961e956",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-semantic-check.json",
+      "sha256": "4b1404c53bf66c652150ede71528036360c10e76b4173a684f4ec7e62700b029",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1.log",
+      "sha256": "e2e8ca6559fe8ce64854394050dadf7b9d8e311b80eda2c193a25ead009f81de",
+      "bytes": 199
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-after-user.reg",
+      "sha256": "db2e6252c2d9c4bf5af6114a4a0bb3252d341fc828759c0c931c8b212eed3699",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-before-user.reg",
+      "sha256": "510aee7a9e57b30f26bdda3d04c8928e3520020398d3c4a0e57681b3642d7be5",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-finished.json",
+      "sha256": "189275dadf20561ae2f15bd361ec01fb5fd34aaa573f77ab8569506484b48260",
+      "bytes": 338
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/next-registry-baseline.json",
+      "sha256": "cda58604d4dde89818105d6e2c5ec797c3589e2108907ad88361c6baf168464c",
+      "bytes": 285
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-after-registry.json",
+      "sha256": "133336a014c1835e2eb5381602fe352a26cfb9d3573ab7eeea17a9159066dd0b",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-after-user.reg",
+      "sha256": "1d8bdcebdd39090eb56f1bd4c3e1f2a65354dc47ee8b87d438e03663ff659116",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-after-system.reg",
+      "sha256": "c34bbb733fe677c3f626f6c5db618095e4e09a674d5a3db5f8377de247011093",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-after-user.reg",
+      "sha256": "510aee7a9e57b30f26bdda3d04c8928e3520020398d3c4a0e57681b3642d7be5",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2.log",
+      "sha256": "9ec77efbef58ee2f55fa2c23296f53de4739acbb8a6a8b2ddc675120df4557d1",
+      "bytes": 182
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-finished.json",
+      "sha256": "e652b8b7e15d41248be9dd24daaaf52a3e6a6c70ad2500a9c4ef31cb5c72a754",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-started.json",
+      "sha256": "aebfa16245a0f7c3bbf708c4d03a7bf117d727c8a51fbd86c1d077aad31f8fa8",
+      "bytes": 770
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-output.json",
+      "sha256": "5d31f46faa86cb56fb546784272b60bf4d72db6d9f08aaf8283cf6a15c50a8e1",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/source-mtimes.json",
+      "sha256": "aea970e1c5258f94089d1a1ca497e779254231ff4cf6da8832494dfef6ce7f68",
+      "bytes": 189
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-before-user.reg",
+      "sha256": "714279be6525c7ccba6d00bcf92e52076c664095e9bc6dc0ba21132e00f94337",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-after-system.reg",
+      "sha256": "df17f47e7ed3f7d9c465f787b840563c29b6d1dd2a6f239041192d6c87223a1b",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-semantic-check.json",
+      "sha256": "fbfb4ca9ac7d1060997d21b222366e392518674cc5f435060da09a43edeea9b5",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-before-system.reg",
+      "sha256": "3f1bc503268fc63a990855cc28d5d96d8edb18db4da502cfda9c42fd13aeb83a",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/materialized-inputs.json",
+      "sha256": "c736168a2e45af51af458627027d4f45d33e03099741c2105bd1b21c375f1e88",
+      "bytes": 713
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-before-registry.json",
+      "sha256": "7e8808b177fcf5c01c5b76f0812aa5e61365c53410366d4070124154eb2dd327",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-finished.json",
+      "sha256": "ea0e4bf1dc96d6a36c352f04527b3a2e82f4f68e5f5b779e879f5725fa8e152d",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-registry-transition.json",
+      "sha256": "2d924adb01aeda295ac914a4f1ff7b13d0b1618f5f114f3f7663d7b69ba33635",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-before-user.reg",
+      "sha256": "ef0afbf6abba47b357c04ec058df9dbb7d1f48f74930b6c748f2c7f1c8145dd9",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/accumulated-objects.json",
+      "sha256": "6b6c31309496e6c213cae9d50b42e75420f2124f4b62055d71ce86ce08239749",
+      "bytes": 575
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-semantic-check.json",
+      "sha256": "75cd887baf78d01111e4ea28e5eaf1a325c0cf3017eefb24ad3b5cb8a1515073",
+      "bytes": 171
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-after-user.reg",
+      "sha256": "714279be6525c7ccba6d00bcf92e52076c664095e9bc6dc0ba21132e00f94337",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-before-user.reg",
+      "sha256": "1d8bdcebdd39090eb56f1bd4c3e1f2a65354dc47ee8b87d438e03663ff659116",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/calibration-verification.json",
+      "sha256": "a613165f54da88938b72f67942e7867b498fd3afb307e1400c9e019d45a6e3d1",
+      "bytes": 971
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/completion.json",
+      "sha256": "b3941f41205df9ee60b9fd956ee657468af9db6e7a53c5d4f885b740da8ba929",
+      "bytes": 433
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-after-system.reg",
+      "sha256": "5aa196edba8e6ff4dcc4dd2ebf9d497335c390d304f45239b5fe01315f82e387",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-before-system.reg",
+      "sha256": "df17f47e7ed3f7d9c465f787b840563c29b6d1dd2a6f239041192d6c87223a1b",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-after-registry.json",
+      "sha256": "b90881d9ff2b764aed91440a59856e89b6ea479d6952362fcd42e0d0a5c9cd5e",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1.log",
+      "sha256": "9ec77efbef58ee2f55fa2c23296f53de4739acbb8a6a8b2ddc675120df4557d1",
+      "bytes": 182
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack1-started.json",
+      "sha256": "74f0e4f9705a386cd17653135899f9d158d075c1a90b2b5892fe774ebb579d36",
+      "bytes": 759
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-output.json",
+      "sha256": "5d31f46faa86cb56fb546784272b60bf4d72db6d9f08aaf8283cf6a15c50a8e1",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-started.json",
+      "sha256": "a4ca6badc289bc08eed3d94ff8cbe9391ede307ee6db23165358c0943cbcb025",
+      "bytes": 759
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-started.json",
+      "sha256": "c26c70fb44aa8b707a92da85d517f3cb2c22336fbefc237a4cdc8c949a275bbe",
+      "bytes": 770
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/manifest.json",
+      "sha256": "056a972ba971b4decf6dc340943a5e1465bafe162b25b2461188c45fc6e1f334",
+      "bytes": 193709
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/selfcheck-before-system.reg",
+      "sha256": "013176854f6de7c4fea7c1b9dc951efa8bb97e57855bb902f4a93c8b8d0f7ee2",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore2-registry-transition.json",
+      "sha256": "b6c536695d6821913bf50051d4de87e3621d4b3abcd562b411bef5f3487bbe37",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-before-system.reg",
+      "sha256": "fd9345349d0c57e980670b4201fd8e447f08401b4bc4c8b866d88d047513ecd5",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/restore1-before-system.reg",
+      "sha256": "c34bbb733fe677c3f626f6c5db618095e4e09a674d5a3db5f8377de247011093",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-output-20261021-v01/pack2-finished.json",
+      "sha256": "8bec1f9ac2bf89031ea6c281f49f71e76acc5800fda6b84fdbfe2e1a3e2d4d04",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/DECODED.EXE",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/P1/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/P2/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/R1/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/R2/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/P1/MAINL.EXE",
+      "sha256": "5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c",
+      "bytes": 37975
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/P2/MAINL.EXE",
+      "sha256": "5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c",
+      "bytes": 37975
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/R1/MAINL.EXE",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI01/R2/MAINL.EXE",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/zun-init-native-adapter-20261020-v18/owned_process.py",
+      "sha256": "97414ef2d2de685b6af6275e175081ae02209a99bf6358963d937f3007412cd0",
+      "bytes": 4632
+    },
+    {
+      "path": ".analysis/zun-init-native-adapter-20261020-v18/bounded_process.py",
+      "sha256": "b54574c8941b682a7ef6abd8c72be65e621a89b8c068dc285df541d1a9d2e902",
+      "bytes": 7246
+    },
+    {
+      "path": ".analysis/zun-init-retained-continuation-20261021-v01/registry_policy.py",
+      "sha256": "1ed9aa60a8ef1c619d9cadf01a62fffb5a1f17d9c93764fbd30b503fbaf597c7",
+      "bytes": 19404
+    },
+    {
+      "path": ".analysis/gpt-dots-player-cpu-acceptance-install-v01/support.py",
+      "sha256": "fd19475aea02ec5aa6ae8e4c48f6ab88170f1d73e0f6ee7dbfa7231d50dc8c68",
+      "bytes": 5324
+    },
+    {
+      "path": ".analysis/mainl-diet-calibration-proposal-20261021-v01/compose_sources.py",
+      "sha256": "14d837ae041aa402ee95a555992ef337f4019ae39d88784211c57ca244b00942",
+      "bytes": 100
+    },
+    {
+      "path": ".analysis/targets/th03/mainl.exe",
+      "sha256": "5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c",
+      "bytes": 37975
+    },
+    {
+      "path": ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/media/diet145f/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": "_reference/ReC98/bin/msdos.exe",
+      "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02",
+      "bytes": 686592
+    },
+    {
+      "path": ".analysis/toolchain/media/diet145f/DIET145F.DOC",
+      "sha256": "52829021beeb92a31d698223e5bac3d58c09209ed9a2dd5003eaf9fa65dfd996",
+      "bytes": 30963
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-proposal-20261021-v01/manifest.json",
+      "sha256": "7015561b0c2b41fa644ede9dbc9aeff1717d00e2cea77601e8ddc1862ea74da7",
+      "bytes": 195607
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-proposal-20261021-v01/run_probe.py",
+      "sha256": "f30728c88c2dd22ca7e35e22e2fc5a382f2347dc838128814fab7d8a1e8b246a",
+      "bytes": 11755
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-proposal-20261021-v01/verify_calibration.py",
+      "sha256": "b704bf7b2e260bb2fa80a1d63e11f69c48b0449203f8c510735cb6561af9daed",
+      "bytes": 3721
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-proposal-20261021-v01/launch.sh",
+      "sha256": "daf188fb568134d062bc23ee43d7f291ef890c85e7534a6b149593187bad8104",
+      "bytes": 848
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-registry-transition.json",
+      "sha256": "cedf0c28b34de0e679e60fa0d5239294bf7ed848b6f329fee70ac1bbfcb5489a",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-after-registry.json",
+      "sha256": "c90f1f0a8432081d389980c07c9f4293830f938265bb423300b8717c219b18ce",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-before-user.reg",
+      "sha256": "90d5c0261556a44860af4d453d51ec0f5ebe14038e43705408d732e4ea530201",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-after-system.reg",
+      "sha256": "64d7ab9ec61097fe4d0217584566e20d093bd4a1faca1a2284bae01b4f4ef4bb",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-output.json",
+      "sha256": "7ac1c3797687ccaa2d603c9dda2a6d9df01b013f0fc9a55510636d3825980d1f",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-semantic-check.json",
+      "sha256": "1c46d06053e9026f00ef88aaf475f560d9e67e28a0dd943cf1536e1ca7adaf4b",
+      "bytes": 371
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-registry-transition.json",
+      "sha256": "af3d1975644e14cf67dc7c604489d00871f17295c2637590db496505829f0206",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-after-registry.json",
+      "sha256": "8b16991335a3f9ed5aaefc0d7537eedf04729005ef6b0cb85d74bd80d2f8a28b",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-after-system.reg",
+      "sha256": "00d751dd70c2cd7830d89746fdf646d6d610ef3615dfa9f7c1e2877c05e101c6",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck.log",
+      "sha256": "673ce2eb5299c343c6eea83b3d7fea2d166e1918ee74dc48298b060da0a9ca20",
+      "bytes": 153
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/environment.json",
+      "sha256": "2bf828585e514ba96d3acbc3581f5425dc12d9572307a5246e4560a981a1f969",
+      "bytes": 384
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-finished.json",
+      "sha256": "e65e34cbb87bf01504a7a2eeecd6e9ffd9d7b9aa3e5777894149c096e452cf73",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-started.json",
+      "sha256": "b0b19a2f7fb7f0cc7d6e86b8b1d22e00717f9de817c08fc5213c88f0d6f10a23",
+      "bytes": 752
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-before-registry.json",
+      "sha256": "ba68f0991b6e84c0a24295696e8cfa9112d4f26e488aeedf95a2a695f2be01ae",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-after-registry.json",
+      "sha256": "22b90f86bd80b8fc4c4b20924c436da8598023b16d2777253f0e23f7dcac8fed",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-output.json",
+      "sha256": "7ac1c3797687ccaa2d603c9dda2a6d9df01b013f0fc9a55510636d3825980d1f",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-before-registry.json",
+      "sha256": "c2d43d0c9f1a7c7db1dd7815becfcb26b243b0d5d75fe949ae60d6550b2ebb42",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2.log",
+      "sha256": "8a0b9339a146b5f0ac2336bc9be9440b1dec59074d2b880b9be8f85b7e74bbf4",
+      "bytes": 199
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-semantic-check.json",
+      "sha256": "cd90a438b16f25751b7b13a8cb80ecfeda294a865645a3188169f03594d8ad15",
+      "bytes": 371
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-before-registry.json",
+      "sha256": "22b90f86bd80b8fc4c4b20924c436da8598023b16d2777253f0e23f7dcac8fed",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-before-registry.json",
+      "sha256": "c90f1f0a8432081d389980c07c9f4293830f938265bb423300b8717c219b18ce",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-after-user.reg",
+      "sha256": "d894cd7efa4e7234098992661a645c34b9049ff4179fb3a37a09ed03240e73a7",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-registry-transition.json",
+      "sha256": "ca116aeedde1b98c547fd9d1afa3a7d189f5d482fba7456da77fd4ebb65e175b",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-semantic-check.json",
+      "sha256": "3ae36a94438722a6f7b9a764255c5f35e8b6744d6c85361274d52cd561d05188",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1.log",
+      "sha256": "8a0b9339a146b5f0ac2336bc9be9440b1dec59074d2b880b9be8f85b7e74bbf4",
+      "bytes": 199
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-after-user.reg",
+      "sha256": "90d5c0261556a44860af4d453d51ec0f5ebe14038e43705408d732e4ea530201",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-before-user.reg",
+      "sha256": "783c4433e3e794641c8a55f10bc992ceb6ae38680a96ea637c110279cca7c566",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-finished.json",
+      "sha256": "3609e29f65701586d30f3dda9a5e69ee9fbf7cdae70870467a823265c5ac747b",
+      "bytes": 338
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/next-registry-baseline.json",
+      "sha256": "ed19deedaf7edde3464bf9f36ac52ea3428a09cd376a2fc949fa25f34a1c5c0b",
+      "bytes": 285
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-after-registry.json",
+      "sha256": "c2d43d0c9f1a7c7db1dd7815becfcb26b243b0d5d75fe949ae60d6550b2ebb42",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-after-user.reg",
+      "sha256": "59909eb1482cd074fa0e2df3d2bbeeb9085f5233a54c69a1c8abb40503bd6626",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-after-system.reg",
+      "sha256": "963128728c37529e4f27642c8df288045605396cc7c0888d634c5cba7cc13180",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-after-user.reg",
+      "sha256": "783c4433e3e794641c8a55f10bc992ceb6ae38680a96ea637c110279cca7c566",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2.log",
+      "sha256": "921de44a8b2c200a89281650adedf6e68dd95953c594976df3b8fd5ebecc49ed",
+      "bytes": 182
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-finished.json",
+      "sha256": "97cc00654db4c280a9be3cead62c452dbc4dd35fc8d627a6ada7af733552f3ff",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-started.json",
+      "sha256": "acde61d429ada9ed954b4c390b340818f2d1f5a3478684d53eb83fe87f9adadb",
+      "bytes": 770
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-output.json",
+      "sha256": "86b676900e15f6ac0aa13aa7c3e2e8ed261063484618886387a3f7950a405314",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/source-mtimes.json",
+      "sha256": "286736a1c2c2e734672f30d61423cfd338dadd6962f8ff4157ae8cafce075af1",
+      "bytes": 189
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-before-user.reg",
+      "sha256": "3afaa351901c9913e46d1dfa2d1e9c1dc0f8ad4c333505164a76b84b58fec345",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-after-system.reg",
+      "sha256": "e148bfea27d8761f778ccd7b99be3947a4e068c72b09a201ba67b84fb9473a6d",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-semantic-check.json",
+      "sha256": "1adba8a64b7d2caa1d7105b57b2d78b7f521da4fa5702a1d79937db4a48f5f1e",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-before-system.reg",
+      "sha256": "00d751dd70c2cd7830d89746fdf646d6d610ef3615dfa9f7c1e2877c05e101c6",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/materialized-inputs.json",
+      "sha256": "7389209ad4f41d04296735e428abc67dd363354a3453383148c9319b8521325f",
+      "bytes": 713
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-before-registry.json",
+      "sha256": "6a3d37e04e943f62fd227aec69f937891322f77f2bfb850069c26f7649afda46",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-finished.json",
+      "sha256": "c038babb7127b8ce1abdacf8063df4f3ec99fd943a16876ef05d38777e30fbab",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-registry-transition.json",
+      "sha256": "05ff7855fabec63c5dffc6e9da03211c5c3ccf1c2ad103e4c3f3597f044a9115",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-before-user.reg",
+      "sha256": "850a55b46142da991bcce40e11e293315d69470ed5e53847317bf7d9b8c53c79",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/accumulated-objects.json",
+      "sha256": "a79718661c05b99edc1faa9ab706d5581c2ac66044a521e9ea08002c97900a52",
+      "bytes": 575
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-semantic-check.json",
+      "sha256": "75cd887baf78d01111e4ea28e5eaf1a325c0cf3017eefb24ad3b5cb8a1515073",
+      "bytes": 171
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-after-user.reg",
+      "sha256": "3afaa351901c9913e46d1dfa2d1e9c1dc0f8ad4c333505164a76b84b58fec345",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-before-user.reg",
+      "sha256": "59909eb1482cd074fa0e2df3d2bbeeb9085f5233a54c69a1c8abb40503bd6626",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/calibration-verification.json",
+      "sha256": "7aa5ac80cefdbee53cd92ec450ffc2b4a417b4e39efab68647feb8ab8cdb2097",
+      "bytes": 180349
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/completion.json",
+      "sha256": "621f907b6ebc6e6a027808d7869ed110317bf66e025a445a9102573285c81f12",
+      "bytes": 429
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-after-system.reg",
+      "sha256": "55a1691181c595f247f88199916de144a5bbccdbcb1a57011d8898fe90df9b79",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-before-system.reg",
+      "sha256": "e148bfea27d8761f778ccd7b99be3947a4e068c72b09a201ba67b84fb9473a6d",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-after-registry.json",
+      "sha256": "ba68f0991b6e84c0a24295696e8cfa9112d4f26e488aeedf95a2a695f2be01ae",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1.log",
+      "sha256": "921de44a8b2c200a89281650adedf6e68dd95953c594976df3b8fd5ebecc49ed",
+      "bytes": 182
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack1-started.json",
+      "sha256": "5f699028a175969676d84bbc204cc8949acdf60ae6607af7caab7878e7f3b3f1",
+      "bytes": 759
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-output.json",
+      "sha256": "86b676900e15f6ac0aa13aa7c3e2e8ed261063484618886387a3f7950a405314",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-started.json",
+      "sha256": "1d1376b5e4ba2e03c95fe63d7da4b8d434564d6c4fc59f7d524a83a033c442f8",
+      "bytes": 759
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-started.json",
+      "sha256": "e3fee58b7d2dac4189a95f73b49ca7236f02189e064c1564d39bef567284c7f5",
+      "bytes": 770
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/manifest.json",
+      "sha256": "7015561b0c2b41fa644ede9dbc9aeff1717d00e2cea77601e8ddc1862ea74da7",
+      "bytes": 195607
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/selfcheck-before-system.reg",
+      "sha256": "5aa196edba8e6ff4dcc4dd2ebf9d497335c390d304f45239b5fe01315f82e387",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore2-registry-transition.json",
+      "sha256": "d001205f004c2cfc311032f48d6817b7ae2eab989717e7ab6d2f3f5257b82cd2",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-before-system.reg",
+      "sha256": "64d7ab9ec61097fe4d0217584566e20d093bd4a1faca1a2284bae01b4f4ef4bb",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/restore1-before-system.reg",
+      "sha256": "963128728c37529e4f27642c8df288045605396cc7c0888d634c5cba7cc13180",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-output-20261021-v01/pack2-finished.json",
+      "sha256": "d76c42dce2d7f835f2b743b72fbbadbfa254ceaccc6606ecfc3ec81014f5d981",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/DECODED.EXE",
+      "sha256": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/P1/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/P2/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/R1/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/R2/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/P1/MAINL.EXE",
+      "sha256": "c87a7ace64a9a6c3356921df2eeee41f645d2f850a46e651f9bc60df840a5567",
+      "bytes": 38048
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/P2/MAINL.EXE",
+      "sha256": "c87a7ace64a9a6c3356921df2eeee41f645d2f850a46e651f9bc60df840a5567",
+      "bytes": 38048
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/R1/MAINL.EXE",
+      "sha256": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI02/R2/MAINL.EXE",
+      "sha256": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/mainl-diet-source-pack-proposal-20261021-v01/compose_sources.py",
+      "sha256": "14d837ae041aa402ee95a555992ef337f4019ae39d88784211c57ca244b00942",
+      "bytes": 100
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MCO02/bin/th03/mainl.exe",
+      "sha256": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/mainl-crt-source-repeat-b-20261021-v01-output/linked-verification.json",
+      "sha256": "0f6ea287fc4655d78cbb425c51cd6bf10a1de239c0ad3f4882b35aa0d201f0d7",
+      "bytes": 30602
+    },
+    {
+      "path": ".analysis/mainl-crt-source-repeat-b-20261021-v01-output/completion.json",
+      "sha256": "213f17c25a6404251a1a410211f11daf26ca73b5467ff3cf9889b1809a4d2f24",
+      "bytes": 404
+    },
+    {
+      "path": ".analysis/mainl-crt-source-repeat-b-20261021-v01-output/manifest.json",
+      "sha256": "64da97248e3b160cf05ee531bb365b13f05d00174b5c1dac370250dcf4e9b5b0",
+      "bytes": 313386
+    }
+  ],
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "source_progress_changed": false,
+  "source_units": 145,
+  "source_bytes": 28381,
+  "limitations": [
+    "Target-fed calibration is a positive control, not authored reconstruction.",
+    "Source packing consumes a composed source product with retained cold-built context, not a new whole cold build.",
+    "Restoration uses separate invocations of the same DIET tool, not an independent decoder.",
+    "One DATA byte,461 ordered relocation differences, canonical packed inequality remain."
+  ]
+}

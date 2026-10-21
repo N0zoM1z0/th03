@@ -395,6 +395,10 @@ def mainl_crt_source_proven(units, evidence):
                 return False
     return True
 
+def mainl_diet_packing_diagnostic():
+    path = ROOT / "config/mainl_diet_packing/proof.json"
+    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "aecaba2d80de4d140699d44c7e9bfece1cddb4ade579c08dd07bd49f66b62416"
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -477,10 +481,10 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="472" viewBox="0 0 788 472" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="496" viewBox="0 0 788 496" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>Boundary review and exact function acceptance for the tracked subset. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="472" rx="8" fill="#1f2335"/>
+  <rect width="788" height="496" rx="8" fill="#1f2335"/>
   <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
   <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
@@ -491,6 +495,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <path d="M24 398 H764" stroke="#4b526d"/>
   <text x="24" y="423" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
   <text x="24" y="446" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>' if mainl_diet_packing_diagnostic() else '')}
 </svg>
 '''
 
@@ -547,6 +552,8 @@ def main() -> int:
         lines.extend(["MAINL opt-in linked graphics: 355 target-equal bytes and two scoped ordered relocations preserve the earlier 6,144 bytes / 110 relocations, totaling 6,499 scoped bytes / 112 relocations. One decoded DATA byte remains; all 677 relocation entries retain membership with 461 order differences. One mixed-source link with 32 retained objects, not two cold products; original segment identity is not preserved. Source and exact counts remain unchanged.", ""])
     elif mainl_graphics_producer_pending():
         lines.extend(["MAINL graphics producer checkpoint: three complete functions / 355 compiled bytes; 333 non-fixup bytes match target. Nine genuine symbolic fixups covering 22 bytes await a legitimate link. These candidates are not counted as source-present units or exact acceptance; existing totals remain unchanged.", ""])
+    if mainl_diet_packing_diagnostic():
+        lines.extend(['MAINL DIET diagnostic: default DIET packs the decoded target twice to the exact canonical37,975-byte stored image, validating the packing control. The maintained-source MCO02 image packs twice to38,048 bytes, with2,259 packed differences; both source roundtrips restore its exact input. The461 decoded relocation-order differences and one DATA byte remain. Same-tool restoration is a separate invocation, not an independent decoder proof. Source145/145 and28,381 bytes remain unchanged; formal exact credit stays0.', ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)
