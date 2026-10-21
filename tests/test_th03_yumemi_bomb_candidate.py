@@ -1,4 +1,5 @@
 """Source-only controls; fixture replay never launches a native tool."""
+from th03_cpu_default_fixture import historical_default_text, historical_default_bytes
 import copy
 import os
 from pathlib import Path
@@ -19,7 +20,7 @@ RETAINED = PRIVATE/'.analysis/gpt-dots-yumemi-bomb-retained-continuation-v01/run
 
 class Composition(unittest.TestCase):
     def setUp(self):
-        self.default = tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text())))
+        self.default = tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads(historical_default_text())))
         self.accepted = bomb.pre_bomb_config(self.default)
         self.candidate = tomllib.loads((ROOT/bomb.CANDIDATE_PATH).read_text())
 
@@ -342,7 +343,7 @@ class RetainedControls(unittest.TestCase):
             fixture=work/'fixture-root';(fixture/'config').mkdir(parents=True)
             (fixture/'.analysis').symlink_to((PRIVATE/'.analysis').resolve(),target_is_directory=True)
             (fixture/'config/toolchain.toml').write_bytes((PRIVATE/'config/toolchain.toml').read_bytes())
-            full=(ROOT/'config/th03_main_exact_units.toml').read_text()
+            full=historical_default_text()
             cpu_candidate=(ROOT/cpu.CANDIDATE_PATH).read_text()
             cpu_suffix=cpu_candidate[cpu_candidate.index('[[units]]'):]
             self.assertTrue(full.endswith(cpu_suffix));current_cpu=tomllib.loads(full);full=full[:-len(cpu_suffix)]

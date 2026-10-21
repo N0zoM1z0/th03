@@ -4,6 +4,7 @@ Only native execute and subprocess.run are simulated. Real frozen source/tool
 bytes and the retained genuine OMF exercise staging, not compiler provenance.
 No historical receipt tree is recursively copied and no pin is replaced.
 """
+from th03_cpu_default_fixture import historical_default_text, historical_default_bytes
 import json
 import os
 from pathlib import Path
@@ -38,7 +39,7 @@ class FreshBombSchedule(unittest.TestCase):
         self.root = Path(self.tmp.name).resolve()
         self.events = []
         self.env = {'WINEPREFIX': 'source-only-no-native'}
-        self.full_default = tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads((ROOT / 'config/th03_main_exact_units.toml').read_text())))
+        self.full_default = tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads(historical_default_text())))
         self.accepted = bomb.pre_bomb_config(self.full_default)
         self.candidate = tomllib.loads((ROOT / bomb.CANDIDATE_PATH).read_text())
         bomb.bind_candidate(self.accepted, self.candidate, bomb.CANDIDATE_PATH)

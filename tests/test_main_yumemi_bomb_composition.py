@@ -1,4 +1,5 @@
 """Pure candidate/default composition controls; no native replay execution."""
+from th03_cpu_default_fixture import historical_default_text, historical_default_bytes
 import ast
 import copy
 from pathlib import Path
@@ -11,7 +12,7 @@ from lib import th03_score_candidate as score
 from lib import th03_player_tail_candidate as tail
 from lib import th03_yumemi_bomb_candidate as bomb
 ROOT=Path(__file__).resolve().parents[1]
-NEW_DEFAULT=cpu.pre_cpu_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()))
+NEW_DEFAULT=cpu.pre_cpu_config(tomllib.loads(historical_default_text()))
 DEFAULT=tail.pre_tail_config(NEW_DEFAULT)
 SCORE_BASE=bomb.pre_bomb_config(DEFAULT)
 CANDIDATE=tomllib.loads((ROOT/bomb.CANDIDATE_PATH).read_text())

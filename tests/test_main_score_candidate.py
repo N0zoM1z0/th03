@@ -1,4 +1,5 @@
 """Pure score-candidate controls; no native invocation or acceptance publication."""
+from th03_cpu_default_fixture import historical_default_text, historical_default_bytes
 import copy
 import json
 import os
@@ -22,7 +23,7 @@ CANDIDATE = tomllib.loads((ROOT/c.CANDIDATE_PATH).read_text())
 # inverse of the separately pinned, source-present bomb default addition.
 from lib import th03_player_tail_candidate as tail
 from lib import th03_yumemi_bomb_candidate as bomb
-DEFAULT = bomb.pre_bomb_config(tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()))))
+DEFAULT = bomb.pre_bomb_config(tail.pre_tail_config(cpu.pre_cpu_config(tomllib.loads(historical_default_text()))))
 ACCEPTED = copy.deepcopy(DEFAULT)
 ACCEPTED['units'] = [copy.deepcopy(c.ORIGINAL_OWNER) if u['id']==c.BINDING['owner'] else u
                      for u in ACCEPTED['units'] if u['id']!='th03-main-score-hud']

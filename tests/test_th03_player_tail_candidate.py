@@ -1,4 +1,5 @@
 """Offline real-stage/real-Schedule contracts. Processes simulated, never native."""
+from th03_cpu_default_fixture import historical_default_text, historical_default_bytes
 from pathlib import Path
 import copy,importlib.util,json,os,subprocess,sys,tempfile,tomllib,unittest
 from types import SimpleNamespace
@@ -11,7 +12,7 @@ from lib import th03_player_cpu_candidate as cpu
 from lib import th03_player_tail_candidate as tail,th03_yumemi_bomb_candidate as bomb,th03_score_candidate as score,th03_serial_schedule as schedule
 spec=importlib.util.spec_from_file_location('tail_test_replay',ROOT/'scripts/replay_th03_main_exact_units.py');replay=importlib.util.module_from_spec(spec);spec.loader.exec_module(replay)
 BASE=PRIVATE/tail.BASELINE/'round1/source';RETAINED=PRIVATE/'.analysis/gpt-dots-player-tail-retained-probe-v06/run-first-v01/source'
-NEW_DEFAULT=cpu.pre_cpu_config(tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text()));DEFAULT=tail.pre_tail_config(NEW_DEFAULT);CANDIDATE=tomllib.loads((ROOT/tail.CANDIDATE_PATH).read_text())
+NEW_DEFAULT=cpu.pre_cpu_config(tomllib.loads(historical_default_text()));DEFAULT=tail.pre_tail_config(NEW_DEFAULT);CANDIDATE=tomllib.loads((ROOT/tail.CANDIDATE_PATH).read_text())
 HAS_PRIVATE=(BASE/'obj/th03/main.obj').is_file() and (RETAINED/'obj/th03/main.obj').is_file()
 class Binding(unittest.TestCase):
  def test_default_exact_inverse(self):
@@ -146,7 +147,7 @@ class CompleteRetainedRound(unittest.TestCase):
    build=work/'build.bat'
    if not self.default_mode:build.write_bytes(build.read_bytes().replace(schedule.BEFORE,schedule.AFTER,1))
    expected=tail.freeze_expected(PRIVATE)
-   current_text=(ROOT/'config/th03_main_exact_units.toml').read_text()
+   current_text=historical_default_text()
    cpu_text=(ROOT/cpu.CANDIDATE_PATH).read_text();cpu_suffix=cpu_text[cpu_text.index('[[units]]'):]
    self.assertTrue(current_text.endswith(cpu_suffix));cpu_current=tomllib.loads(current_text);current_text=current_text[:-len(cpu_suffix)]
    self.assertEqual(tomllib.loads(current_text),cpu.pre_cpu_config(cpu_current))

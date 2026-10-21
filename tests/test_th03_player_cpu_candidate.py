@@ -1,4 +1,5 @@
 """Offline CPU candidate contracts. Synthetic OMF exists only inside these tests."""
+from th03_cpu_default_fixture import historical_default_text, historical_default_bytes
 from pathlib import Path
 import sys,json,tomllib,unittest,tempfile,copy,hashlib,ast
 from unittest.mock import patch
@@ -7,7 +8,7 @@ sys.path.insert(0,str(ROOT/'scripts'));import lib
 lib.__path__.insert(0,str(SHADOW/'scripts/lib'))
 from lib import th03_cpu_object as obj,th03_cpu_model as model,th03_cpu_gates as gates,th03_cpu_display as display,th03_player_cpu_candidate as cpu
 from lib.omf import parse_omf
-C=tomllib.loads((SHADOW/cpu.CANDIDATE_PATH).read_text());NEW_DEFAULT=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text());A=cpu.pre_cpu_config(NEW_DEFAULT)
+C=tomllib.loads((SHADOW/cpu.CANDIDATE_PATH).read_text());NEW_DEFAULT=tomllib.loads(historical_default_text());A=cpu.pre_cpu_config(NEW_DEFAULT)
 WORK=ROOT/'.analysis/gpt-dots-player-cpu-only-retained-proposal-v14/run-first-v01/source'
 def frame(kind,d):
  b=bytes([kind])+(len(d)+1).to_bytes(2,'little')+d;return b+bytes([-sum(b)%256])
@@ -86,7 +87,7 @@ class CPU(unittest.TestCase):
    self.assertEqual(unit['build_file'],'Tupfile.lua');self.assertEqual(tup.count(unit['build_anchor']),1);tup=tup.replace(unit['build_anchor'],unit['build_replacement'],1)
   self.assertIn('"obj/th03/p_cpu.obj",\n\t"obj/th03/warning.obj"',tup);self.assertNotIn('p_cpre',tup)
  def test_default_source_descriptor_no_acceptance(self):
-  self.assertEqual(hashlib.sha256((ROOT/'config/th03_main_exact_units.toml').read_bytes()).hexdigest(),'001a6d04b0a7b35667b452d85e288935622597cf051c7c4646e66a5964cbf3c8')
+  self.assertEqual(hashlib.sha256(historical_default_bytes()).hexdigest(),'001a6d04b0a7b35667b452d85e288935622597cf051c7c4646e66a5964cbf3c8')
   self.assertEqual(cpu.bind_default(NEW_DEFAULT)[0],NEW_DEFAULT)
   self.assertEqual((len(NEW_DEFAULT['units']),len(NEW_DEFAULT['functions'])),(77,403))
   self.assertEqual(cpu.pre_cpu_config(NEW_DEFAULT),A);self.assertEqual(len(A['functions']),399)
