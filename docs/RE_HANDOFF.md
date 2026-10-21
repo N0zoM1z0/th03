@@ -13,9 +13,14 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL root-tail source proof
+
+MAINL root-tail source promotion: 16 existing units / 722 bytes added, now source 116/145 (25,988 bytes), exact 0. Two independent include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP. All 22,287 scoped maintained bytes match target; root-tail scopes have empty relocations. The 722 bytes are 701 bodies plus 21 actual source-traced producers, with no duplicate archive body credit. Target and candidate models each passed 3,895 scenarios / 8,445 calls, including 10 actual DIV stops. SAJOUT remains private/unreferenced and structural-only. Fast replay retains models, not reruns. One DATA0849 byte and 461 global relocation-order differences remain; retained objects are contextual, not a cold aggregate.
+See [root-tail proof](reconstruction/MAINL_ROOT_TAIL_SOURCE_REVIEW.md).
+
 ## MAINL display/hardware source proof
 
-MAINL display/hardware source promotion: 16 existing units / 2,116 bytes added, now source 100/145 (25,266 bytes), exact 0. Two independent include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP. All 21,565 scoped maintained bytes match target. Eight fresh VSYNC/graphics/gaiji/screen model phases passed; palette contract retained by complete EXE identity. Fast replay does not rerun models. Target screen outer terminal status is unknown after transport timeout; durable success is verified. One DATA byte and 461 global relocation-order differences remain. Retained objects are contextual, not a cold aggregate.
+MAINL display/hardware source promotion: 16 existing units / 2,116 bytes added, at that historical checkpoint source 100/145 (25,266 bytes), exact 0. Two independent include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP. All 21,565 scoped maintained bytes match target. Eight fresh VSYNC/graphics/gaiji/screen model phases passed; palette contract retained by complete EXE identity. Fast replay does not rerun models. Target screen outer terminal status is unknown after transport timeout; durable success is verified. One DATA byte and 461 global relocation-order differences remain. Retained objects are contextual, not a cold aggregate.
 See [display/hardware proof](reconstruction/MAINL_DISPLAY_HARDWARE_SOURCE_REVIEW.md).
 
 ## MAINL archive/file source proof
