@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL STAFF-paired backend diagnostic
+
+The opt-in STAFF paired/hold producer now contains 2,326 bytes, adding two complete high-level procedures totaling 497 bytes while preserving the prior 1,829-byte source. One fresh compile/root/link diagnostic passes all 18 linked gates: full target/prior program, headers, previous public addresses, all 677 relocation members, registration mixed71 and STAFF40 target-order streams. Global ordered differences remain 460, with 83 positions changed versus MST05; this is not global equality. The remaining 1,369-byte STAFF contribution is preserved apart from two declared near call names. Actual records measure 1,021/1,024/281 bytes; no exact split prediction was made. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [STAFF paired/hold backend proof](reconstruction/MAINL_STAFF_PAIRED_BACKEND_REVIEW.md).
+
 ## MAINL STAFF-transition backend diagnostic
 
 The opt-in STAFF transition producer now contains 1,829 bytes, adding four complete high-level procedures totaling 675 bytes while preserving the prior 1,154-byte source. One fresh compile/root/link diagnostic passes all 18 linked gates: full target/prior program, headers, previous public addresses, all 677 relocation members, registration mixed71 and STAFF31 target-order streams. Global ordered differences remain 460, with 81 positions changed versus MSE02; this is not global equality. The remaining 1,866-byte STAFF contribution is preserved apart from the declared near call operands. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [STAFF transition backend proof](reconstruction/MAINL_STAFF_TRANSITION_BACKEND_REVIEW.md).
