@@ -13,18 +13,22 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
-## MAINL root source checkpoint
+## MAINL root source proof
 
-A maintained symbolic root fragment now expresses nine complete procedures and
-its 18-byte switch table (2,488 bytes total). Source-only equivalence tests bind
-the previously linked root and free-all provider. Native include consumption is
-still pending, so MAINL remains source49/145 (13,184 bytes), exact0; the existing
-SVG proof caption is unchanged. See [root source](reconstruction/MAINL_ROOT_SOURCE.md).
+One existing root unit / 2,488 bytes is now source-present: MAINL source
+**50/145 units, 15,672 bytes**, exact **0**. Two independent include-consuming
+root assemblies and fresh hybrid links have identical raw root OBJ/EXE/MAP.
+All 11,971 composed maintained bytes match target. Root114 relocation entries
+retain membership, but112 ordered positions differ; the whole image retains
+one DATA byte and461 relocation-order differences. Root target/candidate models
+rerun (455 records/456calls each); prior staff models are retained by complete
+EXE identity. Other objects remain contextual, not a whole cold build. See
+[root linked proof](reconstruction/MAINL_ROOT_LINK.md).
 
 ## MAINL staff/graphics source proof
 
 Eleven existing units / 3,339 bytes now have maintained source ownership:
-MAINL source **49/145 units, 13,184 bytes**, exact **0**. Snow's 464-byte unit
+At that earlier checkpoint MAINL source was **49/145 units, 13,184 bytes**, exact **0**. Snow's 464-byte unit
 binds clear21 in cdg_effects.cpp plus snow443 in snow.asm; no new denominator.
 Two independent include-consuming root assemblies and hybrid links have equal
 raw root OBJ/EXE/MAP. The second retains the first two graphics objects and
