@@ -13,14 +13,21 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
-## MAINL staff/snow source checkpoint
+## MAINL staff/graphics source proof
 
-Maintained symbolic snow and staff fragments now cover 14 complete procedures /
-2,984 bytes. Full statement/token and expanded-root equivalence preserve the
-successful source-level graphics composition (3,339-byte coherent contribution).
-Native assembler include consumption remains pending; source/exact counts and
-the existing linked 6,499-byte SVG annotation are unchanged. See the
-[staff source review](reconstruction/MAINL_STAFF_SOURCE_REVIEW.md).
+Eleven existing units / 3,339 bytes now have maintained source ownership:
+MAINL source **49/145 units, 13,184 bytes**, exact **0**. Snow's 464-byte unit
+binds clear21 in cdg_effects.cpp plus snow443 in snow.asm; no new denominator.
+Two independent include-consuming root assemblies and hybrid links have equal
+raw root OBJ/EXE/MAP. The second retains the first two graphics objects and
+32 contextual objects; this is not a whole-product cold repeat. Original native
+Factory terminal status is unknown, while durable per-phase success and cleanup
+are verified. Full runtime models passed and are retained by complete EXE
+identity in fast replay, not freshly rerun. Combined 9,483 scoped maintained
+bytes match target; existing112 ordered relocations remain equal, but new
+snow/staff ordering differs despite matching membership. One DATA byte and
+461 global relocation-order differences remain. See the
+[staff source proof](reconstruction/MAINL_STAFF_SOURCE_REVIEW.md).
 
 ## MAINL opt-in linked graphics checkpoint
 
@@ -31,7 +38,7 @@ and 112 scoped relocations. The decoded image now differs at one DATA byte,
 down from 21. Global 677-entry relocation membership matches; 461 ordering
 differences remain. This single mixed-source link retains 32 other objects and
 does not preserve original segment identity or establish two cold products.
-MAINL source remains 38/145 (9,845 bytes), exact 0. No ledger promotion.
+At that earlier graphics checkpoint MAINL source was 38/145 (9,845 bytes), exact 0; it made no ledger promotion.
 See [linked producer proof](reconstruction/MAINL_GRAPHICS_PRODUCER_REVIEW.md).
 
 ## ZUN maintained payload integration checkpoint

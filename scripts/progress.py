@@ -229,6 +229,25 @@ def mainl_graphics_linked(root=None):
                for path, digest in MAINL_GRAPHICS_LINK_PINS.items())
 
 
+MAINL_STAFF_PROOF_SHA = 'ba7de2dedab11e959ab867f0ffcfb7ed008109db4c45cbf4e3b80ca328887b4e'
+MAINL_STAFF_SOURCE_UNITS = {'th03-mainl-decoded-staff-unput': {'source': 'src/mainl/formats/cdg_effects.cpp', 'size': '123', 'evidence': ['ev-th03-mainl-decoded-staff-unput-maintained-compiler', 'ev-th03-mainl-decoded-staff-unput-maintained-runtime', 'ev-th03-mainl-decoded-staff-unput-maintained-reproducibility']}, 'th03-mainl-decoded-snow-cluster': {'source': 'src/mainl/formats/cdg_effects.cpp', 'size': '464', 'evidence': ['ev-th03-mainl-decoded-snow-cluster-maintained-compiler', 'ev-th03-mainl-decoded-snow-cluster-maintained-runtime', 'ev-th03-mainl-decoded-snow-cluster-maintained-reproducibility']}, 'th03-mainl-decoded-staff-dissolve': {'source': 'src/mainl/formats/cdg_effects.cpp', 'size': '211', 'evidence': ['ev-th03-mainl-decoded-staff-dissolve-maintained-compiler', 'ev-th03-mainl-decoded-staff-dissolve-maintained-runtime', 'ev-th03-mainl-decoded-staff-dissolve-maintained-reproducibility']}, 'th03-mainl-decoded-staff-entrance': {'source': 'src/mainl/staff/staff.asm', 'size': '211', 'evidence': ['ev-th03-mainl-decoded-staff-entrance-maintained-compiler', 'ev-th03-mainl-decoded-staff-entrance-maintained-runtime', 'ev-th03-mainl-decoded-staff-entrance-maintained-reproducibility']}, 'th03-mainl-decoded-staff-leave': {'source': 'src/mainl/staff/staff.asm', 'size': '183', 'evidence': ['ev-th03-mainl-decoded-staff-leave-maintained-compiler', 'ev-th03-mainl-decoded-staff-leave-maintained-runtime', 'ev-th03-mainl-decoded-staff-leave-maintained-reproducibility']}, 'th03-mainl-decoded-staff-gallery': {'source': 'src/mainl/staff/staff.asm', 'size': '52', 'evidence': ['ev-th03-mainl-decoded-staff-gallery-maintained-compiler', 'ev-th03-mainl-decoded-staff-gallery-maintained-runtime', 'ev-th03-mainl-decoded-staff-gallery-maintained-reproducibility']}, 'th03-mainl-decoded-staff-normal': {'source': 'src/mainl/staff/staff.asm', 'size': '229', 'evidence': ['ev-th03-mainl-decoded-staff-normal-maintained-compiler', 'ev-th03-mainl-decoded-staff-normal-maintained-runtime', 'ev-th03-mainl-decoded-staff-normal-maintained-reproducibility']}, 'th03-mainl-decoded-staff-double': {'source': 'src/mainl/staff/staff.asm', 'size': '358', 'evidence': ['ev-th03-mainl-decoded-staff-double-maintained-compiler', 'ev-th03-mainl-decoded-staff-double-maintained-runtime', 'ev-th03-mainl-decoded-staff-double-maintained-reproducibility']}, 'th03-mainl-decoded-staff-hold': {'source': 'src/mainl/staff/staff.asm', 'size': '139', 'evidence': ['ev-th03-mainl-decoded-staff-hold-maintained-compiler', 'ev-th03-mainl-decoded-staff-hold-maintained-runtime', 'ev-th03-mainl-decoded-staff-hold-maintained-reproducibility']}, 'th03-mainl-decoded-staff-verdict': {'source': 'src/mainl/staff/staff.asm', 'size': '389', 'evidence': ['ev-th03-mainl-decoded-staff-verdict-maintained-compiler', 'ev-th03-mainl-decoded-staff-verdict-maintained-runtime', 'ev-th03-mainl-decoded-staff-verdict-maintained-reproducibility']}, 'th03-mainl-decoded-staff-staff': {'source': 'src/mainl/staff/staff.asm', 'size': '980', 'evidence': ['ev-th03-mainl-decoded-staff-staff-maintained-compiler', 'ev-th03-mainl-decoded-staff-staff-maintained-runtime', 'ev-th03-mainl-decoded-staff-staff-maintained-reproducibility']}}
+def mainl_staff_source_proven(units, evidence):
+    by_unit = {r["id"]: r for r in units}
+    by_evidence = {r["id"]: r for r in evidence}
+    for name, expected in MAINL_STAFF_SOURCE_UNITS.items():
+        u = by_unit.get(name, {})
+        if (u.get("state"), u.get("source"), u.get("size")) != ("source-present", expected["source"], expected["size"]):
+            return False
+        for eid, kind in zip(expected["evidence"], ("compiler", "runtime", "reproducibility")):
+            e = by_evidence.get(eid, {})
+            if eid not in u.get("evidence_ids", "").split(";") or any(e.get(k) != v for k, v in {
+                "unit_id": name, "artifact": "th03-mainl", "result": "pass",
+                "extent_size": expected["size"], "evidence_class": kind,
+                "output_sha256": MAINL_STAFF_PROOF_SHA}.items()):
+                return False
+    return True
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -268,7 +287,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
-            if mainl_graphics_linked():
+            if mainl_staff_source_proven(units, evidence or []):
+                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Staff + graphics: 3,339 B source · composed 9,483 B target-equal · exact acceptance open</text>')
+            elif mainl_graphics_linked():
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</text>')
             elif graphics_pending:
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</text>')
@@ -340,8 +361,10 @@ def main() -> int:
         "",
     ])
     if mainl_pi_composed(units, evidence):
-        lines.extend(["MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. Source 38/145 (9,845 bytes), exact 0 remain unchanged.", ""])
-    if mainl_graphics_linked():
+        lines.extend(["MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. This historical composition did not change source or exact counts.", ""])
+    if mainl_staff_source_proven(units, evidence):
+        lines.extend(["MAINL staff/graphics source promotion: 11 existing units / 3,339 bytes added, now source 49/145 (13,184 bytes), exact 0. Two fresh include-consuming root assemblies and hybrid links have equal raw root OBJ/EXE/MAP; second link retains the first two graphics objects and 32 contextual objects, not a cold aggregate. All 9,483 scoped maintained bytes match target. Existing 112 ordered relocation words remain equal; new snow/staff relocation membership matches but ordering differs. One DATA byte and 461 global relocation-order differences remain. Full runtime models are retained by complete EXE identity, not rerun in fast replay.", ""])
+    elif mainl_graphics_linked():
         lines.extend(["MAINL opt-in linked graphics: 355 target-equal bytes and two scoped ordered relocations preserve the earlier 6,144 bytes / 110 relocations, totaling 6,499 scoped bytes / 112 relocations. One decoded DATA byte remains; all 677 relocation entries retain membership with 461 order differences. One mixed-source link with 32 retained objects, not two cold products; original segment identity is not preserved. Source and exact counts remain unchanged.", ""])
     elif mainl_graphics_producer_pending():
         lines.extend(["MAINL graphics producer checkpoint: three complete functions / 355 compiled bytes; 333 non-fixup bytes match target. Nine genuine symbolic fixups covering 22 bytes await a legitimate link. These candidates are not counted as source-present units or exact acceptance; existing totals remain unchanged.", ""])

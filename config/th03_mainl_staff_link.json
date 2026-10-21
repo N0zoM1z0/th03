@@ -1,0 +1,203 @@
+{
+  "schema": "mainl-coherent-graphics-snow-staff-link-v1",
+  "source": "src/mainl/formats/cdg_effects.cpp",
+  "source_sha256": "5e3be578cc77c6a7b9de786b069266b32fe54b7f5fcf1884f2aabbc13e4ef024",
+  "composer": "scripts/lib/mainl_staff_source.py",
+  "composer_sha256": "e780918d10091e9c2582bb695faf1ebca776f552083d1895c1c9aa8df2f6f48b",
+  "verifier": "scripts/lib/mainl_staff_link.py",
+  "verifier_sha256": "dc9c112782cb5d88a2315b0f9fd1f71d8c3a067fb150a2e96f311107aa470f51",
+  "native_proposal": ".analysis/mainl-staff-link-proposal-20261021-v01",
+  "native_output": ".analysis/mainl-staff-link-output-20261021-v01",
+  "native_work": ".analysis/toolchain/wineprefix/drive_c/MSF01",
+  "original_root_source": ".analysis/toolchain/wineprefix/drive_c/MPC01/R1/th03_mainl.asm",
+  "source_recipe": "config/th03_mainl_staff_source.json",
+  "source_recipe_sha256": "ae7fa8fc5a2d6a87489cbd5e9adf776033f757f0455cdc0edc4468e1c52b99e7",
+  "proof_inputs_sha256": {
+    ".analysis/mainl-staff-link-proposal-20261021-v01/manifest.json": "0738a5fb702e95392c8dd914b0b59f2861966d6017d16fed7ebe2edefd2f2d2a",
+    ".analysis/mainl-staff-link-proposal-20261021-v01/run_links.py": "4f9f3293721c9dc26ab152c78a26b5da5d4d1ddda6f0e0138f88dad80ce5210c",
+    ".analysis/mainl-staff-link-proposal-20261021-v01/compose_sources.py": "05aaf04c3ce71d496993cf2b65174e64648b8f9f9e3576961dcfd3582210c6cd",
+    ".analysis/mainl-staff-link-proposal-20261021-v01/verify_link.py": "dc9c112782cb5d88a2315b0f9fd1f71d8c3a067fb150a2e96f311107aa470f51",
+    ".analysis/mainl-staff-link-output-20261021-v01/manifest.json": "0738a5fb702e95392c8dd914b0b59f2861966d6017d16fed7ebe2edefd2f2d2a",
+    ".analysis/mainl-staff-link-output-20261021-v01/completion.json": "6edd39dd7ecabfef441900fc80c6274f6ecc85f519932c3951e84f01b627fdaf",
+    ".analysis/mainl-staff-link-output-20261021-v01/materialized-inputs.json": "794723856958d5de3cc02438ef67c08a67a084e6ec63d60faf63b0f36c11ed52",
+    ".analysis/mainl-staff-link-output-20261021-v01/source-split.json": "0d6295957edf5a09c729946a998d4c4afcacdd4a567f26ea5cf7b11484dd3c85",
+    ".analysis/mainl-staff-link-output-20261021-v01/linked-verification.json": "b72921b3c7e9bb451c13bfe6c247eea875b0eeda7e1cd737c366a0d9721830ae",
+    ".analysis/toolchain/wineprefix/drive_c/MPC01/R1/th03_mainl.asm": "0144b4c14d948a993d5da4f9591ea39c0f17772cba9cd47a6eda1e8e52a283d6",
+    "config/th03_mainl_staff_source.json": "ae7fa8fc5a2d6a87489cbd5e9adf776033f757f0455cdc0edc4468e1c52b99e7",
+    "scripts/lib/mainl_graphics_source.py": "d5ab687731d0648827a75ece94eff739b205f6963ebf896802dfba82dc5c6ddb",
+    "scripts/lib/mainl_graphics_link.py": "e664c5c49c5c690e795103bd4b5df658075330e8f463e9721e5f0d6f938a199d",
+    "scripts/review_th03_mainl_snow.py": "0d2800d398e0a3e801c2b5069b13fd86e8fa433f9ae72cb932714113e7f3c4c6",
+    "scripts/review_th03_mainl_transitions.py": "97b32152caef04c030ed17d0286077af64a1b67b41d4a391d20d097fe347dcd3",
+    ".analysis/mainl-staff-link-output-20261021-v01/root-started.json": "412b2c8b09f05338a1e9478fb3475b4e8d9e5b757dd0a4b163c9a50467e09527",
+    ".analysis/mainl-staff-link-output-20261021-v01/root-finished.json": "bea6bfb2059fd1c6415ea54eada3992eb15c142c3536acf85ceb7e93eaf9a47e",
+    ".analysis/mainl-staff-link-output-20261021-v01/root-registry-transition.json": "e2b2e6fbaf00274754041e4bf2839a4ee58570a1124ef8600d76fe46f4772132",
+    ".analysis/mainl-staff-link-output-20261021-v01/root-output.json": "dda6574070a93579b92fa1287367791694b2442058515d3187522d99c84ec0e8",
+    ".analysis/mainl-staff-link-output-20261021-v01/prefix-started.json": "133c682e0b7f1f71195cb0f51b6fb64e95ecf7458fcc427cab44b05a852936f9",
+    ".analysis/mainl-staff-link-output-20261021-v01/prefix-finished.json": "8d69714d05e19a5184d27c7ed8e5d7530b02af684668d802dc5d0d24b77445bb",
+    ".analysis/mainl-staff-link-output-20261021-v01/prefix-registry-transition.json": "6175b6edba26e9bece9422a4d5ede54df95dffb3a07e857ec4becb420bdc8e36",
+    ".analysis/mainl-staff-link-output-20261021-v01/prefix-output.json": "f04a7c6b17275c391450feb64d600ab40e61257a108e49048e2dd5058d6f54aa",
+    ".analysis/mainl-staff-link-output-20261021-v01/dissolve-started.json": "7bae67816cdd0c67f1b73a5a7e502c6bb0c38df4e8a9839d3aead0c80d5df9e0",
+    ".analysis/mainl-staff-link-output-20261021-v01/dissolve-finished.json": "f482a0bf86137886522e37eb438750e79049aa9be2e3e7a2d18d834b81342fe1",
+    ".analysis/mainl-staff-link-output-20261021-v01/dissolve-registry-transition.json": "3617e05f2921674b91e585a1bf90e288c42ca8d7c1f98b151dc5c59596572192",
+    ".analysis/mainl-staff-link-output-20261021-v01/dissolve-output.json": "b0db133e0c226546dfac62bd577af71df56c7007c0ba0a1388fa3c5af10e66bc",
+    ".analysis/mainl-staff-link-output-20261021-v01/link-started.json": "50d1eb648d6247864dd4890113d86eb25dc32fc91a4c568ea4cca709b26c7a51",
+    ".analysis/mainl-staff-link-output-20261021-v01/link-finished.json": "85fb81c913918edb77919933dffb76d74c8dc917092817080d343a68568c9b29",
+    ".analysis/mainl-staff-link-output-20261021-v01/link-registry-transition.json": "917b618e0e1319bd8b129bc0cac2751ee4b188cb3c0ac8038af17c3edc8f37f6",
+    ".analysis/mainl-staff-link-output-20261021-v01/link-output.json": "86b676900e15f6ac0aa13aa7c3e2e8ed261063484618886387a3f7950a405314",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/th03_mainl.asm": "f1e8170bcf43f7047ab1489b5acea5f4ae4e702ec87ebdb14df0d74242bbb398",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/gfxpre.cpp": "380096df916fd278e881b92d944e3228d785a883a6b7151e6bed488ba821a9b1",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/gfxdis.cpp": "95a911415e984a33ba7083f99d3c4a7dffb6764ba8815a7a810b8e7a884cb2ad",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/src/mainl/staff/snow.asm": "dfadad454198ce7835fae7766f16a5b0c3f6dfe1f80b8978a4832a8017dc42cc",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/src/mainl/staff/staff.asm": "78287d447508d172489ef224c4cb742a9716a37234a15d13b4e88c13eaaa3e5c",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/obj/th03/mainl.@l": "769dfa0c918d82b5cf8cea240aedbfac44bd762eafaf0e980949a64f2c069e7a",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/obj/th03/mainl.obj": "e9bc90d6d79bfb55e81e0aa798a1e91d76dbb33eb01368f790020fc0a9a3aac2",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/obj/th03/gfxpre.obj": "82da626f8f00500dde612f3b768662a49d435bcf63e33d7c6d8a7bfc42eae7b5",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/obj/th03/gfxdis.obj": "930d1222378e30c4e4608abefafb7dbf5422263f5c27a7043cc8c8d2a1236212",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MSF01/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    "src/mainl/staff/snow.asm": "faa5f056630d6d05753ae10668494a467071c821fd33db46f19b91e949904d0e",
+    "src/mainl/staff/staff.asm": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+    ".analysis/mainl-staff-repeat-proposal-20261021-v01/manifest.json": "0279da03c834ab03f791db23b78afc197dc2cd5c062d72c9d11fe88741001429",
+    ".analysis/mainl-staff-repeat-proposal-20261021-v01/run_links.py": "8a16711b586fec42deee9f076b7cf26e21fa1226b672e2d3999e0dcb2460f396",
+    ".analysis/mainl-staff-repeat-proposal-20261021-v01/compose_sources.py": "05aaf04c3ce71d496993cf2b65174e64648b8f9f9e3576961dcfd3582210c6cd",
+    ".analysis/mainl-staff-repeat-proposal-20261021-v01/verify_link.py": "d5eae901f1b79345de423dd05e93113fb6527bf91d2df8afb26f330ec725343a",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/manifest.json": "0279da03c834ab03f791db23b78afc197dc2cd5c062d72c9d11fe88741001429",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/completion.json": "37b881d708b202eede96b6d8e24e0372d304806ca4dfd480412a2d4c7df06a35",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/materialized-inputs.json": "320472f87dbe0bb0182687dec653bba91c9f341b91fd115e7127e73658529d4a",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/source-mtimes.json": "8bce7fb5f1571197a8a45cc92c196c6ab940c41ded47d72b7a31f2b20119fae1",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/linked-verification.json": "7ccb934fafcc5410edbd3369e1153fb1bbbb33f4e9b6dbaa08fbd0364fbfcd64",
+    ".analysis/mainl-staff-linked-files-20261021-v01/full-replay.json": "08c652aa342f42989ba7f8e9311f2abf4aff971b9997984c671ddb4e3ace840a",
+    ".analysis/mainl-staff-linked-files-20261021-v01/files/config/th03_mainl_staff_link.json": "feaac566863ae0df856c720f57a6e4dc6db599432320db466854e1a87fcdb447",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/root-started.json": "eefcc85085465c7403198fc9f98a12ab77968baba653ce4482ad018b4043a057",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/root-finished.json": "28354a43248b7157173afe55b6f250cb0d2e560a621ff9b62a6d582c80481723",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/root-registry-transition.json": "4d41285cfe4ef57897c51b02ee4d729f6be37b0e484d3bb4d33d1344151c3dce",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/root-output.json": "dda6574070a93579b92fa1287367791694b2442058515d3187522d99c84ec0e8",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/link-started.json": "7885e1d19a209162f50ce66c59a5b6cee88c7221b2c2a6139753de0299d2c61b",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/link-finished.json": "2932a544c3f9cea4776175da3713c3c0bc70a67bffb6a4cb4b4838fbd8b401f4",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/link-registry-transition.json": "f5e0d00b40a536e73907f1de3048083714370debda5981539caef83d6584595c",
+    ".analysis/mainl-staff-repeat-output-20261021-v01/link-output.json": "86b676900e15f6ac0aa13aa7c3e2e8ed261063484618886387a3f7950a405314",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/th03_mainl.asm": "f1e8170bcf43f7047ab1489b5acea5f4ae4e702ec87ebdb14df0d74242bbb398",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/gfxpre.cpp": "380096df916fd278e881b92d944e3228d785a883a6b7151e6bed488ba821a9b1",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/gfxdis.cpp": "95a911415e984a33ba7083f99d3c4a7dffb6764ba8815a7a810b8e7a884cb2ad",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/src/mainl/staff/snow.asm": "dfadad454198ce7835fae7766f16a5b0c3f6dfe1f80b8978a4832a8017dc42cc",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/src/mainl/staff/staff.asm": "78287d447508d172489ef224c4cb742a9716a37234a15d13b4e88c13eaaa3e5c",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/obj/th03/mainl.@l": "769dfa0c918d82b5cf8cea240aedbfac44bd762eafaf0e980949a64f2c069e7a",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/obj/th03/mainl.obj": "e9bc90d6d79bfb55e81e0aa798a1e91d76dbb33eb01368f790020fc0a9a3aac2",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/obj/th03/gfxpre.obj": "82da626f8f00500dde612f3b768662a49d435bcf63e33d7c6d8a7bfc42eae7b5",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/obj/th03/gfxdis.obj": "930d1222378e30c4e4608abefafb7dbf5422263f5c27a7043cc8c8d2a1236212",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MSF02/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363"
+  },
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-staff-unput",
+      "segment": 2399,
+      "offset": 9446,
+      "bytes": 123,
+      "source_paths": [
+        "src/mainl/formats/cdg_effects.cpp"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-snow-cluster",
+      "segment": 2399,
+      "offset": 9569,
+      "bytes": 464,
+      "source_paths": [
+        "src/mainl/formats/cdg_effects.cpp",
+        "src/mainl/staff/snow.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-dissolve",
+      "segment": 2399,
+      "offset": 10033,
+      "bytes": 211,
+      "source_paths": [
+        "src/mainl/formats/cdg_effects.cpp"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-entrance",
+      "segment": 2399,
+      "offset": 10244,
+      "bytes": 211,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-leave",
+      "segment": 2399,
+      "offset": 10455,
+      "bytes": 183,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-gallery",
+      "segment": 2399,
+      "offset": 10638,
+      "bytes": 52,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-normal",
+      "segment": 2399,
+      "offset": 10690,
+      "bytes": 229,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-double",
+      "segment": 2399,
+      "offset": 10919,
+      "bytes": 358,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-hold",
+      "segment": 2399,
+      "offset": 11277,
+      "bytes": 139,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-verdict",
+      "segment": 2399,
+      "offset": 11416,
+      "bytes": 389,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-staff",
+      "segment": 2399,
+      "offset": 11805,
+      "bytes": 980,
+      "source_paths": [
+        "src/mainl/staff/staff.asm"
+      ]
+    }
+  ],
+  "native_fragment_consumption_proven": true,
+  "cold_aggregate": false,
+  "exact_acceptance": false,
+  "repeat_proposal": ".analysis/mainl-staff-repeat-proposal-20261021-v01",
+  "repeat_output": ".analysis/mainl-staff-repeat-output-20261021-v01",
+  "repeat_work": ".analysis/toolchain/wineprefix/drive_c/MSF02",
+  "full_model_replay_receipt": ".analysis/mainl-staff-linked-files-20261021-v01/full-replay.json",
+  "full_model_replay_receipt_sha256": "08c652aa342f42989ba7f8e9311f2abf4aff971b9997984c671ddb4e3ace840a",
+  "full_model_replay_recipe_sha256": "feaac566863ae0df856c720f57a6e4dc6db599432320db466854e1a87fcdb447",
+  "reproducibility_scope": "Two fresh include-consuming root assemblies and links; second retains first two C++ objects and32 contextual objects. Graphics C++ was independently compiled in prior graphics and first staff links. No complete cold aggregate."
+}
