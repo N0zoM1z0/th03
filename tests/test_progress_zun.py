@@ -50,18 +50,20 @@ class ZunProgressTests(unittest.TestCase):
                 self.assertFalse(progress.zun_init_standalone_retained([row]))
                 self.assertNotIn("Retained standalone init:", progress.render_svg([row], [], []))
 
-    def test_standalone_driver_annotation_changes_no_acceptance_or_inventory(self):
+    def test_composition_annotation_changes_no_acceptance_or_inventory(self):
         main = {"id": "main-exact", "artifact": "th03-main", "state": "exact", "size": "10"}
         before = progress.render_svg([main, initializer()], [], [])
         after = progress.render_svg([main, initializer(), driver()], [], [])
-        added = [line for line in after.splitlines() if "Maintained standalone driver:" in line]
+        added = [line for line in after.splitlines() if "Maintained -2/-4 composition:" in line]
         self.assertEqual(len(added), 1)
-        self.assertIn("4,224 B · candidate-only · 10 target differences · no exact credit", added[0])
-        self.assertIn("not two cold rounds or exact acceptance", added[0])
-        self.assertIn("Candidate raw equality, not target equality", added[0])
-        self.assertIn("Ten maintained sources own the complete driver", added[0])
-        self.assertIn("55 procedures / 2,844 bytes plus 1,380 data/layout bytes", added[0])
-        self.assertIn("all ten differences are in owned procedure bodies", added[0])
+        self.assertIn("22,812 B · mixed retained inputs · 10 target differences · no exact credit", added[0])
+        self.assertIn("three retained other payloads and retained wrapper scaffold", added[0])
+        self.assertIn("raw OBJ/COM/MAP equality, no normalization or object reuse", added[0])
+        self.assertIn("first was not a predeclared pair", added[0])
+        self.assertIn("second source mtimes were declared from observed first inputs", added[0])
+        self.assertIn("Fourteen wrapper-only observations and wrong-transfer negative pass", added[0])
+        self.assertIn("no payload execution or native composition build", added[0])
+        self.assertIn("no exact acceptance or DIET closure", added[0])
         self.assertEqual(after.replace(added[0] + "\n", ""), before)
         self.assertIn("Retained standalone init:", after)
         self.assertIn("Inventory pending", after)
@@ -69,9 +71,11 @@ class ZunProgressTests(unittest.TestCase):
         self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
         self.assertIn("no whole-game completion percentage", after)
 
-    def test_standalone_driver_annotation_requires_unique_unchanged_reviewed_scope(self):
+    def test_composition_annotation_requires_unique_unchanged_reviewed_scope(self):
         self.assertFalse(progress.zun_driver_hybrid_retained([]))
-        self.assertFalse(progress.zun_driver_hybrid_retained([driver(), driver()]))
+        self.assertFalse(progress.zun_driver_hybrid_retained([driver()]))
+        self.assertFalse(progress.zun_driver_hybrid_retained([initializer(), driver(), driver()]))
+        self.assertFalse(progress.zun_driver_hybrid_retained([initializer(), initializer(), driver()]))
         changes = {"id": "other", "artifact": "th03-main", "segment": "decoded:-4",
                    "offset": "0x33a3", "size": "2844", "boundary_state": "provisional",
                    "state": "exact"}
@@ -79,8 +83,8 @@ class ZunProgressTests(unittest.TestCase):
             with self.subTest(field=field):
                 row = driver()
                 row[field] = value
-                self.assertFalse(progress.zun_driver_hybrid_retained([row]))
-                self.assertNotIn("Maintained standalone driver:", progress.render_svg([row], [], []))
+                self.assertFalse(progress.zun_driver_hybrid_retained([initializer(), row]))
+                self.assertNotIn("Maintained -2/-4 composition:", progress.render_svg([initializer(), row], [], []))
 
 
 if __name__ == "__main__":

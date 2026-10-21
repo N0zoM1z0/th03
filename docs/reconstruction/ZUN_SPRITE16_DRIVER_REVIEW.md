@@ -460,3 +460,29 @@ from the actual produced driver paths. The other four payloads and wrapper code
 must stay unchanged. No wrapper cold-build, DIET, DOS device/TSR behavior or whole-
 game percentage is claimed here. SVG now identifies this standalone candidate
 proof without changing accepted totals.
+
+
+### Second independent standalone materialization and wrapper composition
+
+The second fresh standalone assembly/link in `ZDSA03` succeeds from the same ten
+maintained sources without retained object or reference-source reuse. Both runs
+produce identical raw OBJ (7,837 bytes), COM (4,224 bytes), and MAP (5,085 bytes):
+
+- OBJ SHA-256: `e01fc72e8baa3a5a1c3e22f140f2d1187fc5b2114c5e0b667535d90394180a1b`.
+- COM SHA-256: `bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c`.
+- MAP SHA-256: `00543d5b843008c6dc0ad97c17c4216a0cd712c60b7e9db89ffffb69b38e5a00`.
+
+The second run declares the first run's observed 59 staged source timestamps
+before native execution, and applies them only to fresh staged inputs. The first
+run was not a predeclared cold pair. Neither produced outputs nor OMF dependency
+records are normalized, and no produced object is reused. The complete 55 public
+procedure boundaries and full candidate equality pass again; ten target bytes
+still differ. The successful second receipt is
+`.analysis/zun-driver-standalone-native-output-20261021-v03/completion.json`
+(SHA-256 `4ed2bafe36a4a3ab8e0be2f344158c6e66cd2fa2eabe6ec3ec5ab618799b47e4`).
+
+The opt-in [launcher composition](ZUN_LAUNCHER_REVIEW.md) now consumes each actual
+driver COM alongside the corresponding maintained initializer COM. Both complete
+22,812-byte candidates match; the other three payloads and scaffold stay retained
+and unchanged. This closes the retained -2/-4 composition step, not a full cold
+wrapper, DIET packer, real DOS driver behavior or exact acceptance gate.

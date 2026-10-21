@@ -222,3 +222,38 @@ Post-release completion SHA256
 `ce41829b6e038dd881e4f09e2a49cac05284d21676f3fbbdd3c043cb39a076a1`.
 The short parent Factory command completed exit0; the earlier standalone
 continuation's unrecovered outer transport status remains unknown.
+
+
+## Maintained initializer and driver composition (2026-10-21)
+
+The opt-in `--compose-maintained-init-driver` route consumes the two actual
+maintained initializer COMs and two independently assembled/linked maintained
+driver COMs. The 55-procedure driver owns all 4,224 bytes (2,844 procedure bytes
+plus 1,380 layout/data bytes) through ten maintained inputs, without a retained
+reference-source producer. Its two raw OBJ, COM and MAP files match. The second
+materialization declares the first run's observed source timestamps as inputs;
+the first run was not a predeclared cold pair. No output normalization or object
+reuse is used.
+
+Composition replaces only -4 in each already maintained -2 composition. The
+three other payloads, directory, launcher and transfer scaffold remain retained
+and byte-identical. Both actual produced inputs are required; target fallback
+is forbidden. The full decoded candidate remains 22,812 bytes with the same
+ten target differences in four natural TASM instructions in -4. This is not
+full-wrapper cold provenance, DIET packaging, DOS device/TSR proof, or an exact
+acceptance change. The default replay and initializer-only option are unchanged.
+
+Eight focused positive/negative tests pass. The parent-owned short composition
+check also passes: both 22,812-byte outputs have SHA-256
+`c036f2df54f81ff9e9950d2a397576a4c6c08314ed601c8f972fc83e5bf384b8`.
+All fourteen wrapper dispatch observations and the wrong-transfer negative
+control pass; observations stop before payload entry, not DOS device execution.
+The retained receipt is
+`.analysis/zun-driver-wrapper-composition/zun-init-driver-wrapper-20261021-v01/receipt.json`
+(SHA-256 `3830777630d3c719765a7ab522a068203e10e452e4e7f6072f140995ed31469b`),
+with successful owned release and no errors. No compiler or Wine was invoked.
+
+Replay the opt-in retained composition with:
+`python3 scripts/replay_th03_zun_launcher.py --run-id UNIQUE_ID --review-cached-run sol-zun-launcher-20261006-final --compose-maintained-init-driver`.
+The required actual retained output inputs are deliberately explicit and must
+remain available; this is not a standalone distribution build command.

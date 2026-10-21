@@ -80,10 +80,11 @@ def zun_init_standalone_retained(units: list[dict[str, str]]) -> bool:
 
 
 def zun_driver_hybrid_retained(units: list[dict[str, str]]) -> bool:
-    """Historical maintained standalone candidate; never feeds progress counts."""
+    """Historical mixed-source wrapper composition; never feeds progress counts."""
     # Reviewed checkpoint: docs/reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md.
-    # Completion: .analysis/zun-driver-standalone-native-output-20261021-v02/completion.json
-    # SHA256: 52d3c3f8722e254fa3ab73963c228453fd39b488ee507d470b8ee681a5138a08.
+    # Completion: .analysis/zun-driver-wrapper-composition/zun-init-driver-wrapper-20261021-v01/completion.json
+    # SHA256: 07719382277e33709bc9b7c5f15992060a8b4b910ae621e9fc8e98277e452d93.
+    # Composition receipt SHA256: 3830777630d3c719765a7ab522a068203e10e452e4e7f6072f140995ed31469b.
     # src/zun/driver_services.inl: d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af.
     # src/zun/driver_resident.inl: 258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa.
     # src/zun/driver_command.inl: 9a49039df84a1c4bde277687b1a35dfd5a9f558a4cd20ff4c46a870b1fa593fc.
@@ -94,12 +95,17 @@ def zun_driver_hybrid_retained(units: list[dict[str, str]]) -> bool:
     # src/zun/driver.asm: 895751c4e7398a581f10c03ced0462fc1cc404b7fdda4a459cdc4eafc2e56c85.
     # src/zun/driver_data.inl: 656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c.
     # src/zun/driver_hardware.inc: 50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6.
-    # One assembly plus one link, not a two-cold-round proof. All 4,224 bytes
-    # equal the retained candidate, NOT target: ten differences remain.
+    # Two independent driver materializations have equal raw OBJ/COM/MAP,
+    # no normalization/object reuse. First was not a predeclared pair; second
+    # source mtimes were declared from observed first inputs. Not target-exact.
     # Ten maintained sources own the complete 4,224-byte standalone driver:
     # 55 procedures / 2,844 B plus 1,380 B data/layout; candidate only.
     # All ten target differences are inside maintained bodies, not target-exact.
-    # No retained source scaffold; stored packaging/default graph stay open.
+    # Two equal 22,812-byte -2/-4 compositions retain three other payloads
+    # and wrapper scaffold. Fourteen wrapper-only observations and wrong-transfer
+    # negative pass; no payload execution/native build. Packaging/default stay open.
+    if not zun_init_standalone_retained(units):
+        return False
     rows = [u for u in units if u["id"] == "th03-zun-decoded-sprite16-driver"]
     return len(rows) == 1 and all(rows[0].get(key) == value for key, value in {
         "artifact": "th03-zun", "segment": "decoded-COM", "offset": "0x33a2",
@@ -153,7 +159,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
-            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained sources own the complete driver: 55 procedures / 2,844 bytes plus 1,380 data/layout bytes. Candidate raw equality, not target equality; all ten differences are in owned procedure bodies. One standalone assembly/link run, not two cold rounds or exact acceptance">Maintained standalone driver: 4,224 B · candidate-only · 10 target differences · no exact credit</text>')
+            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="458" viewBox="0 0 788 458" role="img" aria-label="TH03 reviewed subset reconstruction progress">

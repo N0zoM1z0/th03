@@ -13,6 +13,17 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## ZUN maintained payload integration checkpoint
+
+Both independently materialized maintained 4,224-byte drivers now match in raw
+OBJ/COM/MAP. The second declares the first run's observed source timestamps; the
+first was not a predeclared pair. The opt-in `--compose-maintained-init-driver`
+route consumes the actual -2/-4 outputs, preserves three retained payloads and
+wrapper scaffold, and passes all fourteen wrapper-only dispatch observations.
+The 22,812-byte candidate still has ten target differences in -4. This adds no
+exact credit, whole-game percentage, DIET rebuild or real DOS TSR claim. See the
+[launcher review](reconstruction/ZUN_LAUNCHER_REVIEW.md) for receipt and replay.
+
 ## ZUN standalone initializer proof
 
 The [standalone initializer checkpoint](reconstruction/ZUN_INIT_STANDALONE_FEASIBILITY.md)
