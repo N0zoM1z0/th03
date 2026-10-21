@@ -1,0 +1,293 @@
+{
+  "schema": "mainl-resources-consumed-source-v1",
+  "units": [
+    {
+      "unit_id": "th03-mainl-decoded-draw-gaiji",
+      "segment": 0,
+      "offset": 3928,
+      "bytes": 148,
+      "source_paths": [
+        "src/mainl/resources/graph_gaiji_putc.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-draw-pack",
+      "segment": 0,
+      "offset": 5676,
+      "bytes": 212,
+      "source_paths": [
+        "src/mainl/resources/graph_pack_put_8.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-draw-scroll",
+      "segment": 0,
+      "offset": 5888,
+      "bytes": 88,
+      "source_paths": [
+        "src/mainl/resources/graph_scrollup.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-draw-show",
+      "segment": 0,
+      "offset": 5976,
+      "bytes": 6,
+      "source_paths": [
+        "src/mainl/resources/graph_show.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-draw-noclip",
+      "segment": 0,
+      "offset": 11368,
+      "bytes": 202,
+      "source_paths": [
+        "src/mainl/resources/graph_pack_put_8_noclip.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-draw-table",
+      "segment": 0,
+      "offset": 6826,
+      "bytes": 1024,
+      "source_paths": [
+        "src/mainl/resources/rottbl.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-bfnt-library",
+      "segment": 0,
+      "offset": 626,
+      "bytes": 512,
+      "source_paths": [
+        "src/mainl/resources/bfnt_entry_pat.asm",
+        "src/mainl/resources/bfnt_extend_header_skip.asm",
+        "src/mainl/resources/bfnt_header_read.asm",
+        "src/mainl/resources/bfnt_header_analysis.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-super-library",
+      "segment": 0,
+      "offset": 9086,
+      "bytes": 1008,
+      "source_paths": [
+        "src/mainl/resources/super_free.asm",
+        "src/mainl/resources/super_entry_pat.asm",
+        "src/mainl/resources/super_entry_at.asm",
+        "src/mainl/resources/super_entry_bfnt.asm",
+        "src/mainl/resources/super_cancel_pat.asm",
+        "src/mainl/resources/super_put.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-dos-close",
+      "segment": 0,
+      "offset": 2712,
+      "bytes": 22,
+      "source_paths": [
+        "src/mainl/resources/dos_close.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-gdc-outpw",
+      "segment": 0,
+      "offset": 3174,
+      "bytes": 11,
+      "source_paths": [
+        "src/mainl/resources/gdc_outpw.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-pi-decoder-free",
+      "segment": 0,
+      "offset": 4076,
+      "bytes": 76,
+      "source_paths": [
+        "src/mainl/resources/graph_pi_free.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-stack-memory",
+      "segment": 0,
+      "offset": 7850,
+      "bytes": 76,
+      "source_paths": [
+        "src/mainl/resources/smem_release.asm",
+        "src/mainl/resources/smem_wget.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-palette-bfnt",
+      "segment": 0,
+      "offset": 1222,
+      "bytes": 64,
+      "source_paths": [
+        "src/mainl/resources/bfnt_palette_set.asm"
+      ]
+    },
+    {
+      "unit_id": "th03-mainl-decoded-buffer-dos-open",
+      "segment": 0,
+      "offset": 2734,
+      "bytes": 26,
+      "source_paths": [
+        "src/mainl/resources/dos_ropen.asm"
+      ]
+    }
+  ],
+  "builds": [
+    {
+      "work": ".analysis/toolchain/wineprefix/drive_c/MRS01",
+      "proposal": ".analysis/mainl-resources-link-proposal-20261021-v01",
+      "output": ".analysis/mainl-resources-link-output-20261021-v01"
+    },
+    {
+      "work": ".analysis/toolchain/wineprefix/drive_c/MRS02",
+      "proposal": ".analysis/mainl-resources-repeat-proposal-20261021-v01",
+      "output": ".analysis/mainl-resources-repeat-output-20261021-v01",
+      "repeat": true
+    }
+  ],
+  "decoded_target": ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe",
+  "previous_exe": ".analysis/toolchain/wineprefix/drive_c/MPI02/bin/th03/mainl.exe",
+  "previous_map": ".analysis/toolchain/wineprefix/drive_c/MPI02/obj/th03/mainl.map",
+  "model_proof": ".analysis/mainl-resources-source-20261021-v01/model-comparison.json",
+  "pi_model_proof": ".analysis/mainl-pi-fresh-models-20261021-v01.json",
+  "proof_inputs_sha256": {
+    "config/th03_mainl_resources_source.json": "68dce320823b260eea85ef0ed10544bf2e2351e5198d0ef61023b5afb2ceb09f",
+    "scripts/lib/mainl_resources_source.py": "52ad594d42a1e3105b8e229a4531712dde99b2af431fb19bc4a33e66d2784b5e",
+    "scripts/lib/mainl_staff_source.py": "e780918d10091e9c2582bb695faf1ebca776f552083d1895c1c9aa8df2f6f48b",
+    "scripts/lib/mainl_graphics_source.py": "d5ab687731d0648827a75ece94eff739b205f6963ebf896802dfba82dc5c6ddb",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
+    "config/th03_mainl_pi_link.json": "c63859bdd646bbc2460453e092ceef856affbde3e199b1f11cf7eb7c2644f7cc",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/th03_mainl.asm": "99ed65e7422ce0dc54821ac9600fa2d390fe530842507da3f26df70f3a7cf288",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/graph_gaiji_putc.asm": "70c6a2a0bf6497ae04bc8729d7363bf1a1f7b47ec2eed6d46d59525e80ccfcb0",
+    "src/mainl/resources/graph_gaiji_putc.asm": "5704b40f52ae6e799cc26e73f7d2dc368602d8215e75d29668f4b3e9ef186ebd",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/graph_pack_put_8.asm": "75be81de1b67e4c2b80d9046e2d5bc9cafba7b59bfefefd612daa44324c841c3",
+    "src/mainl/resources/graph_pack_put_8.asm": "b14f8585a5bcf8e47cff403e28802f9bb5a87a8ce3ae4298fb0e6fb511890ab6",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/graph_scrollup.asm": "fe4966d0d92dd20e8711f15410f4b6b34785abb92fbffb8a08ba8d07e3bd9e80",
+    "src/mainl/resources/graph_scrollup.asm": "c098eac8da2b88d605979834f8b9b865fcd97d5ea270a553048a01925d9f338c",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/graph_show.asm": "6056411cf8d4c84cc236c9ae7de7f4776aeb908bea03d991258b4a7f79c5c5b3",
+    "src/mainl/resources/graph_show.asm": "030d205d5bd620fe4527fb9eafab3027430358fe37919b5f29db317eae878fa3",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/graph_pack_put_8_noclip.asm": "419eb81126c20a665bdd61241f1e2fdf0f99c6a9273a3abf615befde57b40948",
+    "src/mainl/resources/graph_pack_put_8_noclip.asm": "9ea610ea7eae288af25768747ae8b5c33fdb91a98a95f0df82b2b27cf206fa5c",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/rottbl.asm": "56a671daeada6846e6ade5b6a68f4caa6dcc1565c284732a9a5c95616af81ba1",
+    "src/mainl/resources/rottbl.asm": "dda7fa87a888b84df7bfd09052d781e8490a02e73e8820a60d9964b54db19594",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/bfnt_entry_pat.asm": "c8f5d19c2fc6008b4a8043b888f399724b14359799718fab57bbd6baa99cd413",
+    "src/mainl/resources/bfnt_entry_pat.asm": "9390432a00613abe89666476f01579ebe30d3a0622cd307cccde82e1226a7c40",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/bfnt_extend_header_skip.asm": "0afb92514610f1eaef74cd2de21cf91b40b1a8a2530038f3ea32ebc59633ba49",
+    "src/mainl/resources/bfnt_extend_header_skip.asm": "2071753e7764b27626c808f3f533845486858188ff922625bef716deb7ef4eca",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/bfnt_header_read.asm": "b9d78de5498b6adb53a86f8833e548d37113bf717db5db542d5ed40501961d65",
+    "src/mainl/resources/bfnt_header_read.asm": "975122009b1258861c4047f67efeccf3dcffc0b4d1810d1e01b5ff70a53e09e7",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/bfnt_header_analysis.asm": "9cf997fbf19c7c9628cb8a8c3108af0c05aeeefe243319057a595032aa1974a9",
+    "src/mainl/resources/bfnt_header_analysis.asm": "918fdd9166ff2314771c65d6b8f7532a5cb65a5922c744a5efb4ada9ca01856b",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/super_free.asm": "a1e83689386210f935452bacb1a9f64c16bccfa31a84e6958f37ab28b644f092",
+    "src/mainl/resources/super_free.asm": "bbed093f9646fecec555c96deb834603692e889afaf42958b045604027b97b6d",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/super_entry_pat.asm": "b648deee82e0579c66be92d4ff595465401b8d130408c64c9724af5bed69df7e",
+    "src/mainl/resources/super_entry_pat.asm": "97e5057b9d8f6147b99830167029fce5c65848cbe03a0600343520eff22055f7",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/super_entry_at.asm": "a27d0851c372b66a63e1968550135ae5de4d3487ce7638f4d079b7711405df94",
+    "src/mainl/resources/super_entry_at.asm": "dfa517a0060106c163279fb4ccd7646f6829714e16c04e0ed5064fd76d2ad794",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/super_entry_bfnt.asm": "8098efc312d0d217bee12402428a9624186725f4413bd5d8aef67f0c6fdd891d",
+    "src/mainl/resources/super_entry_bfnt.asm": "b824bd84c2ece061829918901bd5d38adcd73ce29ca2f24fc064215fd36466e1",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/super_cancel_pat.asm": "59a3856deb289b9b52c724e6be1f5c2db338e59883894f30af21c1667d8fda97",
+    "src/mainl/resources/super_cancel_pat.asm": "f351f2d0263bd5111c88ba137f8f60017f80ad23debd6d37d681322c4154110f",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/super_put.asm": "97c50aafee01cff2c59357f2a215b59a1bb50cea88f94e2ee370a49764311ffc",
+    "src/mainl/resources/super_put.asm": "c274e7f8a758b729439d86bbc926d8536d2cfe9d7d96166b5ce7fdcce61cd1f9",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/dos_close.asm": "406b7438e25866c50fb3fa3e1897bdd9a8722f0d5d4562672c8a32cf3b72cd1c",
+    "src/mainl/resources/dos_close.asm": "9f55acf79d54db75d4b1bed849fc4c1f2234f08bc7fe08d351d09b935aa346fb",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/gdc_outpw.asm": "095306f5c80257f967c462881e45d68becd5ec886a91a4641e0f622b97b80f4a",
+    "src/mainl/resources/gdc_outpw.asm": "569283909aada763c779e9747156c484946765155a044de627c0450f41ca79a0",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/graph_pi_free.asm": "1fb1f9568866bfaae7f5c91e4ab986e147d87df5df639322582c0ea55eed0591",
+    "src/mainl/resources/graph_pi_free.asm": "97cefb6c45b79c7478705c48ce0f3d0899ead76fd7a118c9a80001fa837288d3",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/smem_release.asm": "e9e750705de05e3aa6114a92de30f73509479fb526d844ec8fd29eb6c13137f3",
+    "src/mainl/resources/smem_release.asm": "31a73b0f8c97c616ac2adb7c7efbfbea8ae10df01b91158db266526ccf136fd2",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/smem_wget.asm": "427339049dedbbdafbeaa5092d8f620cdf94b915841b78321ebb6c68ad7701c0",
+    "src/mainl/resources/smem_wget.asm": "aa678268b781ebb8b841e681dfe3892eefb53294aab3c297924560decb5efd5c",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/bfnt_palette_set.asm": "e292593490dcfbb9a0f4f0988a5a08224f490a348c209adc2347e02f2ecbcef7",
+    "src/mainl/resources/bfnt_palette_set.asm": "79508b9036cc8a330aee84e40d5e99614c13edd395a3d28e474531489f06016e",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/libs/master.lib/dos_ropen.asm": "b3f23ab1abae22e03aa31e45b1601db3bc276c684272261398a550181998b1a9",
+    "src/mainl/resources/dos_ropen.asm": "7fed0f314497aefa86544f112b78ad1ade6b10c1955bc34645bece81def64b57",
+    ".analysis/mainl-resources-link-proposal-20261021-v01/verify_link.py": "384669b434a3589fc08254c984670a3cd0f4b7e81878db1078fe53488809fd68",
+    ".analysis/mainl-resources-link-proposal-20261021-v01/compose_sources.py": "b961d84b15d85e5ff29c4432bbd18665c83e4e6d644f45e45eeadc867648e60b",
+    ".analysis/mainl-resources-link-proposal-20261021-v01/launch.sh": "900ffbc621486b3e18e079e805ace25ff65d6162adf86679c440edc06a0031c3",
+    ".analysis/mainl-resources-link-proposal-20261021-v01/run_links.py": "6257abefdcd065f5392449abad83c0d6807f1095375dae8664e7f1481666f21a",
+    ".analysis/mainl-resources-link-proposal-20261021-v01/preflight-verification.json": "de1f976fc435bd072c1e0a9b2e0e18e14a77b19365a4090a6194466e1fb9f4af",
+    ".analysis/mainl-resources-link-proposal-20261021-v01/finalize.py": "7c2ef9e6e9bb0d8594892b03fac5a28c11de303067e7421d54d5f27bfacbdcb3",
+    ".analysis/mainl-resources-link-proposal-20261021-v01/manifest.json": "a7b93ee22c5de016068d881d6b4c174a929f794de9460fcbd4d6c928a9c500cb",
+    ".analysis/mainl-resources-link-output-20261021-v01/completion.json": "9380fbca4f1f91f33cf56c654a0ce21f42d422a4b1db743465a3e58e36ebf610",
+    ".analysis/mainl-resources-link-output-20261021-v01/linked-verification.json": "de1f976fc435bd072c1e0a9b2e0e18e14a77b19365a4090a6194466e1fb9f4af",
+    ".analysis/mainl-resources-link-output-20261021-v01/root-started.json": "16abd3cd093b2d330d022a3114c63fdf7a159161eca0766f89b755bfcba3876b",
+    ".analysis/mainl-resources-link-output-20261021-v01/root-finished.json": "6602ff15f7bf53aff6df65531094ed9f3180b8bd74d37dc793fe2fe076241c09",
+    ".analysis/mainl-resources-link-output-20261021-v01/root-registry-transition.json": "1a079851cbeef2bb95cad85eda0a498245e0a2d80b56cdec494e4fbd7d5c1b91",
+    ".analysis/mainl-resources-link-output-20261021-v01/link-started.json": "692118863bfffddd65716d2386496ac23771c2fc49ee6ee52b2839542b58c5d9",
+    ".analysis/mainl-resources-link-output-20261021-v01/link-finished.json": "969bad7ba29455fa3eff22616407b28f5bab0beb10b8449f47c6cd2a16c30e41",
+    ".analysis/mainl-resources-link-output-20261021-v01/link-registry-transition.json": "88d71f908418aa386b5be7213f72dbc2f21f1e23a7c87f7f8a49d5d425c44c3d",
+    ".analysis/toolchain/wineprefix/drive_c/MRS01/obj/th03/mainl.obj": "02e4d7cc6a5d5745787fb1b387d968b48289aba11b6fe697515d89a17ccffb12",
+    ".analysis/toolchain/wineprefix/drive_c/MRS01/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MRS01/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-resources-repeat-proposal-20261021-v01/verify_link.py": "ce31b765be87a36b513e4160a9a3073cc9bc7ee210695039d5de4d47b3dbefc3",
+    ".analysis/mainl-resources-repeat-proposal-20261021-v01/compose_sources.py": "d42cdf0091e263ecd02d535d644a71af55dde95727085734141e82b745a806f2",
+    ".analysis/mainl-resources-repeat-proposal-20261021-v01/launch.sh": "66f7ac7d9a2c75f7dc0cceb0e873b17d6d9592e6c89696a308c2b4b74ef253a8",
+    ".analysis/mainl-resources-repeat-proposal-20261021-v01/run_links.py": "777cbf9f9ba626988dd5fa7b87df651e9aa97d9282f137a552d7f54d449d9f5d",
+    ".analysis/mainl-resources-repeat-proposal-20261021-v01/manifest.json": "61f0c3020bc3f2c7d53650e7190072ed315c2aa34e474e068802a2e532bb9ba5",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/completion.json": "45eed62fa356963a04f720a015f344ac07a81418d484cc0bc3df3a8a0d676fd8",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/linked-verification.json": "7ac52b36c718baea6d8c0dc49da8617046653b5745f5172d5fdbb779fbfe2b35",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/root-started.json": "344997b7c988888493c0f8c5d9510cceeb3e85135a9fc63cb82395cd433cf651",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/root-finished.json": "398ebd19f8d915df6e178892661b9647a6b4b5991926d233fff0da4d02fd6608",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/root-registry-transition.json": "c3bee8b0c2a6e984ba05edb6731546445b49cdc5f398f7776a7d9045e8680af2",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/link-started.json": "76a0df0ca877fbc9e07e8b0da51b63a75cec53a51a467022bb8108fd78952c92",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/link-finished.json": "d2c30730600550de62db6cea1d04516e354ffc2b1cc71d740e591d4cd259e334",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/link-registry-transition.json": "0982e76579107fd22a343dedef46f32493fc7b13e4846f69b7fc45a338505788",
+    ".analysis/mainl-resources-repeat-output-20261021-v01/source-mtimes.json": "992a59af95b220e441b4001c6bc7cfb8fcf769a620700cba8e8cdfc856b672bc",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/obj/th03/mainl.obj": "02e4d7cc6a5d5745787fb1b387d968b48289aba11b6fe697515d89a17ccffb12",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MRS02/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363",
+    ".analysis/mainl-resources-source-20261021-v01/model-comparison.json": "3b396341238d7cd8f0ec64f88de615ffe1bb2bc6801f602aab91a825c8be5445",
+    ".analysis/mainl-resources-source-20261021-v01/model-draw-target.json": "018fd86b29891149e28ffea862e9739775de18c1926f1d56eee913a0d484889c",
+    ".analysis/th03-diet/sol-diet-restoration-20261006-b/mainl.exe": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/inventory_rec98_th03.py": "b73ffb8d8b8897a08d02acda03d9fa2e5ebe88b5eda8a6caf4fe899a054a7fb7",
+    "scripts/review_th03_decoded_code.py": "b32874a22aae18d55ae695ce6361e84a1a4a617985c71391d082709319c4ddff",
+    "scripts/review_th03_mainl_cutscene.py": "b3a74f30e0cdacf66072a4eca441eb7f0daae22cde22564faa03b0551c70f795",
+    "scripts/review_th03_mainl_snow.py": "0d2800d398e0a3e801c2b5069b13fd86e8fa433f9ae72cb932714113e7f3c4c6",
+    "scripts/review_th03_mainl_heap.py": "8a46fc1c593429541c35220c1f159c38af4c64e8788b9f06ec3ec3d19b7f45b6",
+    "scripts/review_th03_mainl_smem.py": "f74a6e2c80d9267bc27150c12f29f801702eb51a833b60bd8b81bb97429907db",
+    "scripts/review_th03_mainl_palette.py": "429707c63dd9f4fa119a74fd5bfe00a499ca6e6cc7e2468a545fe6ddbf021aa9",
+    "scripts/review_th03_mainl_vsync.py": "e738670f29ef0c208e49d45c654b32138a31b6afdbd586fc0fd225ac9e1213b1",
+    "scripts/review_th03_mainl_super.py": "e768f8ff14f1364c9cac553d6c0af9c69d56cde061f370ea6fd13ccee6bd7b47",
+    "scripts/review_th03_mainl_graphics.py": "6e09bbfe86369d1c46d4c2bb3ea8b19d4eb5556337cdf11a1d55817f0aad720a",
+    "scripts/review_th03_mainl_draw.py": "cab16411c7698a5374c8811375c5e7aa0170a5236401fa4a7163bf4e03958b99",
+    "/home/pentester/coding/codex_ida/th03-reconstruction/th03/.analysis/mainl-resources-source-20261021-v01/run_model.py": "9be8fc763762801c23f4ee2c31def9123325bcd4fcd3c2cb2a4fc95920dfa427",
+    ".analysis/mainl-resources-source-20261021-v01/model-draw-candidate.json": "d481897545b7108dc7b57c240e62f38dcc5db4c3f7c5ddbc744898bc5a39bf02",
+    "/home/pentester/coding/codex_ida/th03-reconstruction/th03/.analysis/mainl-resources-source-20261021-v01/run_fresh_model.py": "170d0ab930f139a0a447fdc2983bbe9fb5d8771305bce59cf3ddb645a836f060",
+    ".analysis/mainl-resources-source-20261021-v01/model-super-target.json": "4b9bd23145381f28f146bb333949440233f562f19510bb721bf163d0a7459939",
+    ".analysis/mainl-resources-source-20261021-v01/model-super-candidate.json": "83a3e7285bebc2f12c1cd2eb35d698134c60649dad1877e3e9d3ac253faab4a4",
+    ".analysis/mainl-resources-source-20261021-v01/model-smem-target.json": "345dfa34a50fe1816948b5b1ff896df1eaf7845a9a372c62c3bdefb8e92a677c",
+    ".analysis/mainl-resources-source-20261021-v01/model-smem-candidate.json": "63dc92d6d062f3735665243bc0fb476c3d21291012781106c333723eb9cea112",
+    ".analysis/mainl-resources-source-20261021-v01/model-palette-target.json": "81ca730ce8f8f85c5585e31b1a31804168ed2b19979de8b77528dba18d661c00",
+    ".analysis/mainl-resources-source-20261021-v01/model-palette-candidate.json": "df72f26e1437fe54a145ed0b47ba7bc275d3e80c5186d135815d42e588a8b33e",
+    ".analysis/mainl-resources-source-20261021-v01/model-buffer-target.json": "eaab2eb693acc910ac7008c72f3a8a907a8b10ab5aae284f079452e2e11de1a5",
+    "scripts/review_th03_mainl_buffer.py": "baca968e916be5cb18bc5ce66b859c7abffd911f546a8a8ad4c9336192fd9431",
+    ".analysis/mainl-resources-source-20261021-v01/model-buffer-candidate.json": "b8b6b35a2d82580e874b1342d5039a5c97ae1736b4cfab23fdfa00a4ae368817",
+    ".analysis/mainl-pi-fresh-models-20261021-v01.json": "addec0e9c80ae53d99ef5dd66143fae862d779e2ce0748ef78cbf24951ec44bd",
+    "scripts/lib/mainl_graphics_link.py": "e664c5c49c5c690e795103bd4b5df658075330e8f463e9721e5f0d6f938a199d",
+    "scripts/lib/mainl_pi_source.py": "d4a5e6d4f96f92f58eea60c89fdefa757a8ec5b41843d0c7dddfc1d4c4a87e7e",
+    "scripts/lib/mainl_root_source.py": "f48be1a1edce4aece74a6a25c60cd7e87635cfa13d28d5c87950f880a04f8a0e",
+    "scripts/replay_th03_mainl_cutscene.py": "fddd2d4e28fc0b760f694d1be154505d8beb1069fbb648a095e335988fbabcc3",
+    "scripts/replay_th03_mainl_regist.py": "8e2d920a6c40065c91a7d91a0331742acd373deb231f88d6d9d92c2b4fcdbe0b",
+    "scripts/replay_th03_mainl_root_link.py": "fe31b951cd681e3406737c54f757b3447c1e9d521cc4ee62f76b49f4a7f8a574",
+    "scripts/review_th03_mainl_pi_decoder.py": "8823a8d6456a28fa594e981b46dac092923b086accfc284923cffc61a02f5315",
+    "scripts/review_th03_mainl_pi_decoder_borrow.py": "757aeb7ec7dbd1359187cde398826e329f40c82d167115b47f5a5e3466f69eb8",
+    "scripts/review_th03_mainl_regist.py": "54b5355f541396d642ec88c17f31985b6898203025816f69c9d1b715f98e33c2",
+    "scripts/review_th03_mainl_root.py": "65d650f6c78dd254f3af182cceb95ba25c007bcbcb9ada7868e47a513b32173b",
+    "scripts/review_th03_mainl_transitions.py": "97b32152caef04c030ed17d0286077af64a1b67b41d4a391d20d097fe347dcd3",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/bin/th03/mainl.exe": "6d159b90fffe0d0ac00d587429204fa616228abc7244ee4c4e184449a2fdde63",
+    ".analysis/toolchain/wineprefix/drive_c/MPI02/obj/th03/mainl.map": "ec8f9b4d397f7194253fdc45b2c4fd1ad4d30b794bdd7f601b387227c3340363"
+  },
+  "cold_aggregate": false,
+  "exact_acceptance": false
+}

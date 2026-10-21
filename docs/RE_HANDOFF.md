@@ -13,18 +13,22 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
-## MAINL graphics/resources source checkpoint
+## MAINL graphics/resources source proof
 
-Twenty-three symbolic includes localize 14 existing units /3,475 bytes across
-graphics, BFNT/super resources, allocator and DOS helpers. RotTbl is generated
-from its 256-entry bit-plane formula, not copied target bytes. Source-only
-whole-expansion and mutation tests pass; native include consumption is pending.
-MAINL source51/145 (17,196 bytes), exact0 and the existing SVG are unchanged.
+Fourteen existing units /3,475 bytes are now source-present: MAINL source
+**65/145 units,20,671 bytes**, exact **0**. Two independent include-consuming
+root assemblies and hybrid links have identical raw root OBJ/EXE/MAP. All16,970
+composed maintained bytes match target; resource relocation sets are empty.
+RotTbl1024 is generated semantic table data, not functions; retained heap is
+not credited again. Ten fresh target/candidate model phases passed; PI_FREE
+lifecycle proof is retained by complete EXE identity. Fast replay does not rerun
+matrices. One DATA byte and461 global relocation-order differences remain.
+See [resource source proof](reconstruction/MAINL_RESOURCES_SOURCE_REVIEW.md).
 
 ## MAINL PI decoder source proof
 
 One existing decoder unit /1,524 bytes is now source-present: MAINL source
-**51/145 units,17,196 bytes**, exact **0**. Two independent include-consuming
+**51/145 units,17,196 bytes**, exact **0** at that earlier decoder checkpoint. Two independent include-consuming
 root assemblies and fresh hybrid links have identical raw root OBJ/EXE/MAP.
 All13,495 composed maintained bytes match target; four ordered PI relocation
 sites match. The whole image retains one DATA byte and461 relocation-order
