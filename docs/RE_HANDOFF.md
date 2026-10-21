@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL registration DATA backend diagnostic
+
+The opt-in registration pointer-array producer now supplies the genuine ten-pointer DATA array. Four fresh MRD04 compiler/root/tail/link phases preserve the complete decoded target program, all 71 mixed registration/music/DATA relocation pairs and six prior snow pairs. Global ordered differences decrease from 461 to 460. Exact DATA ownership remains root2166 + compiler40 + tail888 bytes; no extra CODE credit is granted. The failed MRD03 duplicate _address_0 link remains preserved. This is not a repeat, runtime, full cold build, default graph or packed-product proof. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MRD04. See [registration DATA backend proof](reconstruction/MAINL_REGDATA_BACKEND_REVIEW.md).
+
 ## MAINL registration/music backend diagnostic
 
 The opt-in registration/music producer combines the genuine maintained registration translation unit with the complete 68-byte music transition. One fresh compile/root/link diagnostic preserves the full decoded target program, all 61 registration/music relocation pairs in target order and the prior six snow pairs. Global ordered differences remain 461; this is a producer-grouping result, not global-order closure. The earlier compiler-only public-name truncation failure remains preserved. No repeat, runtime, full cold build, default graph, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [registration/music backend proof](reconstruction/MAINL_REGMUSIC_BACKEND_REVIEW.md).
