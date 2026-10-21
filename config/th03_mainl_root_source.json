@@ -1,0 +1,29 @@
+{
+  "schema": "mainl-root-symbolic-source-v1",
+  "previous_generated_root": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MSF01/th03_mainl.asm",
+    "sha256": "f1e8170bcf43f7047ab1489b5acea5f4ae4e702ec87ebdb14df0d74242bbb398"
+  },
+  "free_all_provider": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MSF01/th03/formats/cdg_free_all.asm",
+    "sha256": "6bacbbff6d1ac2d47331323909c81065f0fdf2eaaade828b8089ade9d4f26934"
+  },
+  "source": {
+    "path": "src/mainl/root/root.asm",
+    "sha256": "04382ad4969b9e6b34d92106e07285c9ec55aa98cc72330c8f611efff373eb3c"
+  },
+  "composer": {
+    "path": "scripts/lib/mainl_root_source.py",
+    "sha256": "f48be1a1edce4aece74a6a25c60cd7e87635cfa13d28d5c87950f880a04f8a0e"
+  },
+  "unit_id": "th03-mainl-decoded-root",
+  "decoded_segment": 2399,
+  "decoded_offset": 390,
+  "decoded_bytes": 2488,
+  "procedure_bytes": 2470,
+  "switch_table_bytes": 18,
+  "complete_procedures": 9,
+  "native_fragment_consumption_proven": false,
+  "source_progress_changed": false,
+  "exact_acceptance": false
+}

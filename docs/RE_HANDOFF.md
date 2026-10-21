@@ -13,6 +13,14 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL root source checkpoint
+
+A maintained symbolic root fragment now expresses nine complete procedures and
+its 18-byte switch table (2,488 bytes total). Source-only equivalence tests bind
+the previously linked root and free-all provider. Native include consumption is
+still pending, so MAINL remains source49/145 (13,184 bytes), exact0; the existing
+SVG proof caption is unchanged. See [root source](reconstruction/MAINL_ROOT_SOURCE.md).
+
 ## MAINL staff/graphics source proof
 
 Eleven existing units / 3,339 bytes now have maintained source ownership:
