@@ -1,0 +1,15 @@
+# MAINL continue-menu producer checkpoint
+
+The maintained high-level source reconstructs the complete417-byte sub_9F8D continue-menu procedure, including score clearing before zero-credit return, directional latch, confirm-before-cancel precedence, mutable glyph/credit updates, palette/PI/sound cleanup and resident stage/lives updates. Compiler owns locals, register saves and near-C return ABI. Existing digit and image-name strings remain in original ASM storage with two zero-storage aliases.
+
+MCM01 compiled414 bytes. Disassembly identified compound addition as ADD ES:[BX],AL3 bytes, while target uses ADD AL,ES:[BX] plus MOV ES:[BX],AL6 bytes. MCM02 changes only to explicit credit-plus-glyph assignment, retaining byte wrap semantics. It naturally emits417 bytes, one417-byte LEDATA record, zero non-fixup differences and exact20 FAR sites with correct public/frame gates. No compensation or padding was inserted. Keep the failed MCM01 hypothesis and product intact.
+
+Integration uses the existing CUTSCENE_TEXT segment: root2071 at9776, compiler417 at9F8D, existing cutscene3195 atA12E. The only compiler/interface change from MCM02 is its segment pragma; the compiler helper requires the same corresponding segment name. A whole unchanged shared-object group moves before the new continue object and existing cutscene, preserving its internal order and all genuine DATA contribution order. No OMF transformation or relocation sorting is used.
+
+MCM03 root assembly failed because V01 composer selected unspecialized maintained root body, losing two earlier caller migrations. V02 pins actual MSD03 consumed source, preserving calls to _mainl_ending and _mainl_reg_music. These are independently verified as the only normalized differences from maintained root source; do not regress them when extending this chain. Original failed compile0/root1 receipt, no-link outcome and source remain preserved.
+
+Actual MCM04 all three native phases and25 linked gates pass. Full target and prior program bytes, header,677 membership, all prior publics, registration mixed71, STAFF mixed107 and continue20 literal order match. Existing MSD03 five-name historical migration is inherited, with no additional migration or relaxed public exemption. The three new publics are function095F:099D, digit0E3F:08D8 and image-name0E3F:08DA.
+
+Global ordered differences drop460 to144;321 positions change relative MSD03. Remaining CFG/win/root-prefix producer ordering is unresolved. EXE SHA2566742a76da36e6105bbc81865e33283fccb2b43d31d163d572b8c76bcd85cd334; MAP SHA256b3a0c8c5e23ffa67855622b3cc8e1e5654e71801c27e6b29c8521b7e46939999; root OBJ SHA25611a74ecc4e541c66e72ddcef7ba76d61dbf46c9c87711cf9a8da42b241b77519.
+
+Pure generate(root,response,root_body,cpp) replays four source inputs into four consumed overlays. Root remains a contextual source owner; this checkpoint does not change default graph, source counts, exact acceptance or SVG numeric progress. No repeat, cold build, runtime or packing identity is claimed.

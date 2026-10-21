@@ -407,6 +407,10 @@ def mainl_regdata_backend_proven():
     path = ROOT / "config/mainl_regdata_backend/proof.json"
     return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "b36ff9508ade648c81d28825ec0e6d12be241900db57891ec42cf3197cda528d"
 
+def mainl_continue_backend_proven():
+    path = ROOT / "config/mainl_continue_backend/proof.json"
+    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "c26a9420ab0147934d161f8a9c6b8a26c31f760e808d4a44606ca7805058b9c9"
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -505,7 +509,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="24" y="446" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>' if mainl_diet_packing_diagnostic() and not mainl_vsync_alignment_proven() else '')}
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</text>' if mainl_vsync_alignment_proven() and not mainl_regdata_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</text>' if mainl_regdata_backend_proven() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</text>' if mainl_regdata_backend_proven() and not mainl_continue_backend_proven() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 144 · prior DIET 1,212 differences · exact 0</text>' if mainl_continue_backend_proven() else '')}
 </svg>
 '''
 
@@ -568,6 +573,8 @@ def main() -> int:
         lines.extend(['MAINL natural VSync DATA alignment now yields the complete decoded target program, without byte injection. Independent root/link repeats have identical raw OBJ/EXE/MAP. Aligned-source DIET packing repeats and roundtrips, but produces38,050 bytes versus canonical37,975 (+75), with1,212 packed differences;677 relocation entries retain membership with461 ordered differences. This is not a full cold-build or new runtime proof. Source145/145 and28,381 bytes remain unchanged, formal exact0. Status CLI distinguishes27,753 decoded authored-owner bytes plus628 library-origin heap bytes; aggregation and JSON are unchanged. Historical pre-alignment DATA and2,259 packed-difference receipts remain preserved.', ""])
     if mainl_regdata_backend_proven():
         lines.extend(['The opt-in registration pointer-array producer now supplies the genuine ten-pointer DATA array. Four fresh MRD04 compiler/root/tail/link phases preserve the complete decoded target program, all 71 mixed registration/music/DATA relocation pairs and six prior snow pairs. Global ordered differences decrease from 461 to 460. Exact DATA ownership remains root2166 + compiler40 + tail888 bytes; no extra CODE credit is granted. The failed MRD03 duplicate _address_0 link remains preserved. This is not a repeat, runtime, full cold build, default graph or packed-product proof. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MRD04. See [registration DATA backend proof](reconstruction/MAINL_REGDATA_BACKEND_REVIEW.md).', ""])
+    if mainl_continue_backend_proven():
+        lines.extend(['The opt-in 417-byte continue-menu producer and whole unchanged shared-object placement reduce global relocation-order differences from 460 to 144, with 321 positions changed versus MSD03. Three fresh native phases pass all 25 linked gates: full target/prior program bytes, headers, all prior publics, 677 relocation members, registration71, STAFF mixed107 and continue20 target-order streams. MCM01 naturally emitted 414 bytes; its failed hypothesis is preserved beside the genuine explicit-assignment correction. MCM03 missing-call root failure is also retained, with the successor preserving the two existing caller migrations from actual consumed source. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MCM04. See [continue-menu backend proof](reconstruction/MAINL_CONTINUE_BACKEND_REVIEW.md).', ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)
