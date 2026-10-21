@@ -21,6 +21,6 @@ class DietPackingProofTests(unittest.TestCase):
   self.proof['pins'].append(copy.deepcopy(self.proof['pins'][0]))
   with self.assertRaises(ValueError):module.validate_proof(self.proof)
  def test_negative_canonical_result_is_bound(self):
-  self.assertEqual([r['label'] for r in self.proof['runs']],['target_control','source_product'])
+  self.assertEqual([r['label'] for r in self.proof['runs']],['target_control','source_product','complete_source_product'])
   self.assertTrue(all(r['result']['path'] in {p['path'] for p in self.proof['pins']} for r in self.proof['runs']))
 if __name__=='__main__':unittest.main()

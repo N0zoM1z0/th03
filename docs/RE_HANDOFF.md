@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL canonical packing equality
+
+The actual complete-root MCDL03 linked source product now packs twice with DIET to the canonical 37,975-byte file, SHA-256 5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c, with zero byte differences. Both separate -RA restorations reproduce its exact 67,372-byte decoded input, SHA-256 92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a. Five clean native phases and fifteen recorded phases across three chronological runs replay without native execution. The older partial-source negative remains preserved. Source input is the actual linked product, never the equal-hash decoded comparator. Full cold-build and runtime acceptance remain open; same-tool restoration is not an independent decoder. Source 145/145 and 28,381 bytes, formal exact credit 0, remain unchanged.
+
 ## MAINL decoded target file equality
 
 The opt-in complete root producer now supplies genuine 2,458-byte CODE and 112-byte pointer DATA. Four fresh MCDL03 compiler/prefix/root/link phases pass all 39 gates. The complete decoded EXE SHA-256 is 92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a, identical to the decoded target file, including its header and literal order of all 677 relocations. Global ordered differences decrease from 102 to 0 without output rewriting or sorting. CODE111, DATA28, mixed139, BSS186, existing public addresses and the finite title/name views are preserved. The distinct root OP string keeps its original address through mainl_root_op_name; the existing registration mainl_op_name remains unchanged. Missing-header and duplicate-symbol failures are preserved. This is an opt-in retained-object link, not a full cold build or new runtime/repeat/packing proof. Formal exact credit remains 0; source counts remain 145/145 and 28,381 bytes. See [complete root backend proof](reconstruction/MAINL_ROOT_COMPLETE_DATA_BACKEND_REVIEW.md).

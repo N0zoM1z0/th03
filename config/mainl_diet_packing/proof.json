@@ -22,6 +22,17 @@
         "sha256": "7aa5ac80cefdbee53cd92ec450ffc2b4a417b4e39efab68647feb8ab8cdb2097",
         "bytes": 180349
       }
+    },
+    {
+      "label": "complete_source_product",
+      "proposal": ".analysis/mainl-diet-exact-source-proposal-20261021-v01",
+      "output": ".analysis/mainl-diet-exact-source-output-20261021-v01",
+      "work": ".analysis/toolchain/wineprefix/drive_c/MDI04",
+      "result": {
+        "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/calibration-verification.json",
+        "sha256": "31beef9545568c00ae4bfe9c0a006985f888f7eb7f842da73041e40e0899e2d5",
+        "bytes": 1588
+      }
     }
   ],
   "pins": [
@@ -899,6 +910,436 @@
       "path": ".analysis/mainl-crt-source-repeat-b-20261021-v01-output/manifest.json",
       "sha256": "64da97248e3b160cf05ee531bb365b13f05d00174b5c1dac370250dcf4e9b5b0",
       "bytes": 313386
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-proposal-20261021-v01/verify_calibration.py",
+      "sha256": "50944031fd06c5a3af74734e0c771e87cfbc53eb6757a9dd93ca3cfa77ed3094",
+      "bytes": 4468
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-proposal-20261021-v01/compose_sources.py",
+      "sha256": "14d837ae041aa402ee95a555992ef337f4019ae39d88784211c57ca244b00942",
+      "bytes": 100
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-proposal-20261021-v01/launch.sh",
+      "sha256": "b915ab1564c17eb0988e7690bcd9d1cad1296ec5bd8c1a5db66466b87f72b984",
+      "bytes": 851
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-proposal-20261021-v01/prepare.py",
+      "sha256": "d8815a070e3ead2358207d31e7b246434490804002c8cb60d5b6aefabe5cbcc8",
+      "bytes": 5271
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-proposal-20261021-v01/manifest.json",
+      "sha256": "9c0f1539dbbf1ccaebbe10c7412c83e42935536b56a916386aad88c0eefe4776",
+      "bytes": 217962
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-proposal-20261021-v01/run_probe.py",
+      "sha256": "f30728c88c2dd22ca7e35e22e2fc5a382f2347dc838128814fab7d8a1e8b246a",
+      "bytes": 11755
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-registry-transition.json",
+      "sha256": "f3dd5504321068308f2a2c9163a432c048e4dd42e32d6db7d3b11248b2efe4eb",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-after-registry.json",
+      "sha256": "0a880be06141514dae283815be40d17fdfd96c52b7de28b661b1b665fc27e6be",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-before-user.reg",
+      "sha256": "5d762fb327969afb557111cc14c8f77d3eb2e24990efb05ea68967a0a1ac0258",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-after-system.reg",
+      "sha256": "ddb151371d9c52ec687f820f3b59f99b4100ce96263eaf674eac195a0eac3337",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-output.json",
+      "sha256": "af9abb37b707acb1702293aee34f43034e525cf08f96f39ff78895eb8fedf413",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-semantic-check.json",
+      "sha256": "a3e4603f163f271b52a0604c5897fc7556310b67968de997ee0ec2672a24d42b",
+      "bytes": 371
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-registry-transition.json",
+      "sha256": "aef865e60ce34efcd905dc53adb75fd800849de961aaee7475214cadffb0b27c",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-after-registry.json",
+      "sha256": "ac4f07eb602ef77bdc4e45b45700652eb37f645e25f8d28ebbd765850a1b5e42",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-after-system.reg",
+      "sha256": "954bd2c30442f3a8e68a6e07d1cc1719be9f6b4fff737cb0cccb662f56fc9eb6",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck.log",
+      "sha256": "673ce2eb5299c343c6eea83b3d7fea2d166e1918ee74dc48298b060da0a9ca20",
+      "bytes": 153
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/environment.json",
+      "sha256": "2bf828585e514ba96d3acbc3581f5425dc12d9572307a5246e4560a981a1f969",
+      "bytes": 384
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-finished.json",
+      "sha256": "834e023874a4f28168251e4a754c6dd5c245e6a1234271a14cb2bd459dde8a04",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-started.json",
+      "sha256": "d42e4af77a61522ec173ec92179bc71d0ada3ef7f2241e1fef0d67701ef298cd",
+      "bytes": 752
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-before-registry.json",
+      "sha256": "030be615d977ee50d60d46364ca16fa98324ebfb31f5e25dd901dc8678862e0b",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-after-registry.json",
+      "sha256": "9c67cad6d3e47fe28fc8df05ddb89abd51e9a8e08f203110906f832243740c2b",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-output.json",
+      "sha256": "af9abb37b707acb1702293aee34f43034e525cf08f96f39ff78895eb8fedf413",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-before-registry.json",
+      "sha256": "59e285d5c3975d534c5c2c7958d63824f7fd1fcd8910f5ed3d63efe41057b19f",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2.log",
+      "sha256": "e2e8ca6559fe8ce64854394050dadf7b9d8e311b80eda2c193a25ead009f81de",
+      "bytes": 199
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-semantic-check.json",
+      "sha256": "36e81a23463b21279c845ec3b243b38142e6dac1185b19c499f5880d7da94ef3",
+      "bytes": 371
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-before-registry.json",
+      "sha256": "9c67cad6d3e47fe28fc8df05ddb89abd51e9a8e08f203110906f832243740c2b",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-before-registry.json",
+      "sha256": "0a880be06141514dae283815be40d17fdfd96c52b7de28b661b1b665fc27e6be",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-after-user.reg",
+      "sha256": "d04ba087233e8a7c4268778360fd12362640752626a0860a534204ee6856e1de",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-registry-transition.json",
+      "sha256": "44c5c3957954b6e054eed8b210e88ad2cc8868371020cac92a77fbb97f37b200",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-semantic-check.json",
+      "sha256": "4b1404c53bf66c652150ede71528036360c10e76b4173a684f4ec7e62700b029",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1.log",
+      "sha256": "e2e8ca6559fe8ce64854394050dadf7b9d8e311b80eda2c193a25ead009f81de",
+      "bytes": 199
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-after-user.reg",
+      "sha256": "5d762fb327969afb557111cc14c8f77d3eb2e24990efb05ea68967a0a1ac0258",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-before-user.reg",
+      "sha256": "5fdb62fe90d79c46f27571630d7b5ebf7535de55d6e6453d7116cda3304422f9",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-finished.json",
+      "sha256": "665ad416dc5ca0847a23d5ad5f31f7be9722153f67efffd65f2e7af074f9b67e",
+      "bytes": 338
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/next-registry-baseline.json",
+      "sha256": "41123c7eeae4a9e32f45ab46ac850fe220ff4864bc9d4ad38f5e16e69b18aa96",
+      "bytes": 285
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-after-registry.json",
+      "sha256": "59e285d5c3975d534c5c2c7958d63824f7fd1fcd8910f5ed3d63efe41057b19f",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-after-user.reg",
+      "sha256": "baa1518c563ef3138ec6157e73fadc6db7fbfd9dbf0cffc6d356737315590407",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-after-system.reg",
+      "sha256": "6b17b0185bb3254dfdbe5a4f85337af14d13614f76f390bab3329d9b17873772",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-after-user.reg",
+      "sha256": "5fdb62fe90d79c46f27571630d7b5ebf7535de55d6e6453d7116cda3304422f9",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2.log",
+      "sha256": "9ec77efbef58ee2f55fa2c23296f53de4739acbb8a6a8b2ddc675120df4557d1",
+      "bytes": 182
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-finished.json",
+      "sha256": "fae92da354895d9d3fa90d23a44e3bbb923502b7b1fe9ed0f34b4c31be1a1a30",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-started.json",
+      "sha256": "1a308fc4211d102ef5c0cc997b8849b59db67e4195579c1205becc42c2d9fafd",
+      "bytes": 770
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-output.json",
+      "sha256": "8e2461e210781e7464cabcf200e3b8a58d142aff2500ff6ae51966987f089ef8",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/source-mtimes.json",
+      "sha256": "61173ee6f721d7e3a307ae982405dbd0c5ee395de61b70f9a0211d65806c5edf",
+      "bytes": 189
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-before-user.reg",
+      "sha256": "27d428f8d08b44147ec22284e28c7117a5b5749af24fdcc1532b971a03a4e73a",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-after-system.reg",
+      "sha256": "934e966af5d76680c455232a6fb043d7baa8480674337c88f1e46132ed160729",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-semantic-check.json",
+      "sha256": "fbfb4ca9ac7d1060997d21b222366e392518674cc5f435060da09a43edeea9b5",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-before-system.reg",
+      "sha256": "954bd2c30442f3a8e68a6e07d1cc1719be9f6b4fff737cb0cccb662f56fc9eb6",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/materialized-inputs.json",
+      "sha256": "cc884d39d4f8eeaf6f802f35f9b342417a06dce25c1092cc3f94784ed03a220b",
+      "bytes": 713
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-before-registry.json",
+      "sha256": "a0c5a68d4b6316ffb247a19afe4a85e100297957fa228ce7fc7a1fcf0b5c8ddf",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-finished.json",
+      "sha256": "10d8042305d0784f699db8ffd0409b30a19fb7feb5fc0f12bc8ebfa3fb001317",
+      "bytes": 339
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-registry-transition.json",
+      "sha256": "9defac5046c4aef0593e41f0b5a40b655de9ccb992e0dab8bd1e8f83d8713466",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-before-user.reg",
+      "sha256": "89acbe1bf3df3e611f91206adecf83fd5129f164d5ea36d703fdc5449d67604b",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/accumulated-objects.json",
+      "sha256": "624addcf6372b7b6f3a130108352e1b1090939bad43949c6ed4a4cfb1730f11e",
+      "bytes": 575
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-semantic-check.json",
+      "sha256": "75cd887baf78d01111e4ea28e5eaf1a325c0cf3017eefb24ad3b5cb8a1515073",
+      "bytes": 171
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-after-user.reg",
+      "sha256": "27d428f8d08b44147ec22284e28c7117a5b5749af24fdcc1532b971a03a4e73a",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-before-user.reg",
+      "sha256": "baa1518c563ef3138ec6157e73fadc6db7fbfd9dbf0cffc6d356737315590407",
+      "bytes": 46546
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/calibration-verification.json",
+      "sha256": "31beef9545568c00ae4bfe9c0a006985f888f7eb7f842da73041e40e0899e2d5",
+      "bytes": 1588
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/completion.json",
+      "sha256": "9792244d20f310d1d3544506cc36c1632ef360f4aa5443529bf0b581931bab25",
+      "bytes": 429
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-after-system.reg",
+      "sha256": "c5b0662acfc048d1de3eb3e9561fea3aea9bfd7c88aca31c642103b4b21550f1",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-before-system.reg",
+      "sha256": "934e966af5d76680c455232a6fb043d7baa8480674337c88f1e46132ed160729",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-after-registry.json",
+      "sha256": "030be615d977ee50d60d46364ca16fa98324ebfb31f5e25dd901dc8678862e0b",
+      "bytes": 169
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1.log",
+      "sha256": "9ec77efbef58ee2f55fa2c23296f53de4739acbb8a6a8b2ddc675120df4557d1",
+      "bytes": 182
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack1-started.json",
+      "sha256": "1d6f13dad364b5d7147b0552ae7c45b49c3231603dd2fb21de055931524445a0",
+      "bytes": 759
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-output.json",
+      "sha256": "8e2461e210781e7464cabcf200e3b8a58d142aff2500ff6ae51966987f089ef8",
+      "bytes": 116
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-started.json",
+      "sha256": "837d3b40b6255f79a4b4e427c605fe752b05f83dc9c33b68bb6aa09433657e5f",
+      "bytes": 759
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-started.json",
+      "sha256": "e2ed3b361d9fcc3561ef57d2edf753bd58e5cdb619df9948cd7f30f0bb53ee1b",
+      "bytes": 770
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/manifest.json",
+      "sha256": "9c0f1539dbbf1ccaebbe10c7412c83e42935536b56a916386aad88c0eefe4776",
+      "bytes": 217962
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/selfcheck-before-system.reg",
+      "sha256": "ac2253123e90064203f16b5c9a63f70f469820526fea556819ce3648defc3c92",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore2-registry-transition.json",
+      "sha256": "42798538ca0c1192c6686a2f5c4f9d648723513ab4f196af5860b5e893976d8a",
+      "bytes": 22390
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-before-system.reg",
+      "sha256": "ddb151371d9c52ec687f820f3b59f99b4100ce96263eaf674eac195a0eac3337",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/restore1-before-system.reg",
+      "sha256": "6b17b0185bb3254dfdbe5a4f85337af14d13614f76f390bab3329d9b17873772",
+      "bytes": 3117166
+    },
+    {
+      "path": ".analysis/mainl-diet-exact-source-output-20261021-v01/pack2-finished.json",
+      "sha256": "3f7503138cbfb04b0b45167aeca612dd312cdbd57a37f98228f7d3e0deaf7822",
+      "bytes": 341
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MCDL03/bin/th03/mainl.exe",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/mainl-root-complete-data-link-output-20261021-v03/linked-verification.json",
+      "sha256": "4d005b5987c0089c144e5bedca7d14e7f82f13d64311650d3f30b86b65db3e9c",
+      "bytes": 308321
+    },
+    {
+      "path": ".analysis/mainl-root-complete-data-link-output-20261021-v03/completion.json",
+      "sha256": "463e4fdfbc6aa8387bf023eb2fc67dcd7a57f749196fae647e3202d75228ab45",
+      "bytes": 407
+    },
+    {
+      "path": ".analysis/mainl-root-complete-data-link-output-20261021-v03/manifest.json",
+      "sha256": "2f8d9ad48a85f2fa57bfc4381ae52eb7375d6e9ac5bfecb8537e3d0008172944",
+      "bytes": 1259498
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/DECODED.EXE",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/R2/MAINL.EXE",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/R2/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/P2/MAINL.EXE",
+      "sha256": "5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c",
+      "bytes": 37975
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/P2/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/P1/MAINL.EXE",
+      "sha256": "5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c",
+      "bytes": 37975
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/P1/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/R1/MAINL.EXE",
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a",
+      "bytes": 67372
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/MDI04/R1/DIET.EXE",
+      "sha256": "a3fabbb9e4209ca6654c34f1d0945868732422dff6fe0a7fe0f5bcd2d48d2803",
+      "bytes": 26370
     }
   ],
   "source_acceptance": false,
@@ -910,6 +1351,6 @@
     "Target-fed calibration is a positive control, not authored reconstruction.",
     "Source packing consumes a composed source product with retained cold-built context, not a new whole cold build.",
     "Restoration uses separate invocations of the same DIET tool, not an independent decoder.",
-    "One DATA byte,461 ordered relocation differences, canonical packed inequality remain."
+    "The earlier partial-source negative run remains recorded; the complete-root source product now matches the canonical packed file literally. Whole cold-build and runtime acceptance remain open."
   ]
 }

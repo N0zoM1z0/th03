@@ -397,7 +397,10 @@ def mainl_crt_source_proven(units, evidence):
 
 def mainl_diet_packing_diagnostic():
     path = ROOT / "config/mainl_diet_packing/proof.json"
-    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "aecaba2d80de4d140699d44c7e9bfece1cddb4ade579c08dd07bd49f66b62416"
+    return path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == "230c82dce87ddf8f28e1edfb4a453c832bd05df16a75602b96e3842716939429"
+
+def mainl_diet_exact_packing_proven():
+    return mainl_diet_packing_diagnostic()
 
 def mainl_vsync_alignment_proven():
     path = ROOT / "config/mainl_vsync_alignment/proof.json"
@@ -530,7 +533,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_prefix_backend_proven() and not mainl_root_intro_backend_proven() else '')}
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL decoded EXE equal · order 0 / 677 · cold/packing pending · exact 0</text>' if mainl_root_complete_data_backend_proven() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</text>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() else '')}
 </svg>
 '''
 
@@ -603,6 +606,8 @@ def main() -> int:
         lines.extend(['The opt-in root DATA producer owns 112 initialized bytes through 28 genuine far-pointer definitions alongside the proven 1,930-byte CODE prefix. Four fresh MRDL02 compile/prefix/root/link phases pass all 37 gates, preserving full target/prior program, headers, BSS186, all677 relocation members, CODE86, DATA28, mixed114, continue20, registration71, STAFF107 and suffix149..676. Only the approved title/name public views migrate to mainl_char_info+0/+4 at their exact old addresses. Global order differences change from101 to102, with34 positions changed, not an aggregate improvement. MRDL01 missing alignment-origin failure is preserved; a zero-storage local label restores identical parity after an even130-byte split. No count/default/exact/repeat/cold/runtime/packing credit. MAINL remains145/145 source units,28,381 bytes,exact0. See [root DATA backend proof](reconstruction/MAINL_ROOT_DATA_BACKEND_REVIEW.md).', ""])
     if mainl_root_complete_data_backend_proven():
         lines.extend(['The opt-in complete root producer now supplies genuine 2,458-byte CODE and 112-byte pointer DATA. Four fresh MCDL03 compiler/prefix/root/link phases pass all 39 gates. The complete decoded EXE SHA-256 is 92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a, identical to the decoded target file, including its header and literal order of all 677 relocations. Global ordered differences decrease from 102 to 0 without output rewriting or sorting. CODE111, DATA28, mixed139, BSS186, existing public addresses and the finite title/name views are preserved. The distinct root OP string keeps its original address through mainl_root_op_name; the existing registration mainl_op_name remains unchanged. Missing-header and duplicate-symbol failures are preserved. This is an opt-in retained-object link, not a full cold build or new runtime/repeat/packing proof. Formal exact credit remains 0; source counts remain 145/145 and 28,381 bytes. See [complete root backend proof](reconstruction/MAINL_ROOT_COMPLETE_DATA_BACKEND_REVIEW.md).', ""])
+    if mainl_diet_exact_packing_proven():
+        lines.extend(['The actual complete-root MCDL03 linked source product now packs twice with DIET to the canonical 37,975-byte file, SHA-256 5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c, with zero byte differences. Both separate -RA restorations reproduce its exact 67,372-byte decoded input, SHA-256 92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a. Five clean native phases and fifteen recorded phases across three chronological runs replay without native execution. The older partial-source negative remains preserved. Source input is the actual linked product, never the equal-hash decoded comparator. Full cold-build and runtime acceptance remain open; same-tool restoration is not an independent decoder. Source 145/145 and 28,381 bytes, formal exact credit 0, remain unchanged.', ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)

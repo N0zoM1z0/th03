@@ -10,7 +10,7 @@ def load_json(path):return json.loads(path.read_text())
 def validate_proof(proof):
  need(proof['schema']=='mainl-diet-packing-diagnostic-v1','schema')
  need(not any(proof[k] for k in ['source_acceptance','exact_acceptance','source_progress_changed']),'diagnostic cannot grant credit')
- need([r['label'] for r in proof['runs']]==['target_control','source_product'],'two distinct input roles required')
+ need([r['label'] for r in proof['runs']]==['target_control','source_product','complete_source_product'],'three chronological input roles required')
  paths=[p['path'] for p in proof['pins']];need(len(paths)==len(set(paths)),'duplicate pins')
 def replay(root,proof):
  validate_proof(proof);root=root.resolve();pins={r['path']:r for r in proof['pins']}
@@ -46,9 +46,14 @@ def replay(root,proof):
   if run['label']=='target_control':need(result['target_fed'] and result['canonical_packed_equal'],'positive control differs')
   else:
    need(not result['target_fed'] and result['source_fed'] and not result['full_cold_build'],'source role differs')
-   source=json.loads(read(m['source_proof']['path']));need(source['exe_sha256']==result['decoded_sha256'] and len(source['raw_repeat_pairs'])==9 and all(r['raw_equal'] for r in source['raw_repeat_pairs']),'actual source provenance')
+   source=json.loads(read(m['source_proof']['path']))
+   if run['label']=='complete_source_product':
+    need(source['exe_sha256']==result['decoded_sha256'] and source['diagnostic_checks_pass'] and all(source['checks'].values()) and source['global_ordered_difference_count']==0 and source['global_relocation_count']==677,'complete source provenance')
+    need(result['canonical_packed_equal'] and result['packed_difference_count']==0 and all(result['exact_packing_checks'].values()),'literal complete-source packing')
+    need(m['decoded']['path']=='.analysis/toolchain/wineprefix/drive_c/MCDL03/bin/th03/mainl.exe','actual linked source seed required')
+   else:need(source['exe_sha256']==result['decoded_sha256'] and len(source['raw_repeat_pairs'])==9 and all(r['raw_equal'] for r in source['raw_repeat_pairs']),'actual source provenance')
   rows.append(dict(label=run['label'],phases=phases,packed_sha256=result['packed_first_sha256'],packed_bytes=result['packed_first_bytes'],canonical_packed_equal=result['canonical_packed_equal'],packed_difference_count=result['packed_difference_count'],raw_repeat_equal=result['raw_repeat_equal'],both_roundtrips_equal=result['first_roundtrip_equal'] and result['second_roundtrip_equal']))
- return dict(schema=proof['schema'],pass_checks=True,pinned_files=len(pins),native_phases_replayed=10,native_invocations_now=0,runs=rows,source_acceptance=False,exact_acceptance=False,source_progress_changed=False)
+ return dict(schema=proof['schema'],pass_checks=True,pinned_files=len(pins),native_phases_replayed=5*len(rows),native_invocations_now=0,runs=rows,source_acceptance=False,exact_acceptance=False,source_progress_changed=False)
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--repo-root',type=Path,default=Path(__file__).resolve().parents[1]);ap.add_argument('--proof',type=Path);ap.add_argument('--output',type=Path);a=ap.parse_args();proof=a.proof or a.repo_root/'config/mainl_diet_packing/proof.json';result=replay(a.repo_root,load_json(proof));raw=json.dumps(result,indent=2)+'\n'
  if a.output:a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(raw)
