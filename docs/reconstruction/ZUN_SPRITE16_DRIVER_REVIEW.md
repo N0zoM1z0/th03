@@ -150,7 +150,7 @@ truncated code, bad return distance, source overlaps, branches into operands
 or gaps, and direct calls into procedure interiors. None of these CPU cases
 establishes DOS, resident concurrency, PC-98 hardware or game runtime behavior.
 
-## Acceptance and remaining work
+## Historical acceptance and environment limits (before 2026-10-21)
 
 The bounded payload is boundary-reviewed with no maintained source and blank
 canonical file offset. New evidence distinguishes upstream metadata, local
@@ -228,3 +228,57 @@ hybrid assembly/link, verify all six boundaries and complete candidate raw
 equality, and preserve the known ten target differences. Later groups can then
 migrate behind the same explicit driver layout. Default replay, wrapper/DIET
 acceptance, hardware/TSR claims and the whole-game denominator remain unchanged.
+
+## 2026-10-21 fresh six-setter hybrid proof
+
+The parent executed the maintained stage's two native commands, TASM assembly
+and TLINK tiny-COM linking, in fresh drive_c/ZDHYB01. Both exited zero with
+certain owned cleanup and lock release. This is a single hybrid materialization,
+not two-cold or complete-driver ownership. Its complete 4,224-byte COM equals
+the retained candidate, SHA256
+bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c.
+The known ten target differences remain at payload-relative offsets 0298, 0299,
+030C, 030D, 030E, 031D, 031E, 031F, 07B1 and 07B2. No bytes were rewritten.
+
+The six semantic procedure boundaries agree in checksummed OMF and both raw
+MAP public tables. All six complete 6-byte bodies equal the target. Retained
+output under .analysis/zun-driver-hybrid-output-20261021-v01/ includes:
+- completion.json: d3183376b6f415823614512f92255d25d15d22758145b65c697a708f493d8e11
+- validation.json: 211b9b918cfa8003ab6e83fa24db3bb67d73814d411c02f36c2e2e5c5b3625b8
+- driver.obj in ZDHYB01: bb435c9e075efebffeae466fed5b2e6487043432232c54a50aa175713de67bf4
+- driver.map in ZDHYB01: de21ee5eb46ef6d7b0bbf4801378a79314e57ebb4ea5c7ddb25d902abae7eb83
+
+scripts/verify_th03_zun_driver_hybrid.py preserves complete candidate/target
+identities, raw comparison, the ten differing offsets and exact OMF/MAP
+boundaries. Its explicit setters scope revalidates these retained artifacts;
+resident-services scope additionally requires all eight new boundaries and
+complete bodies below. It is a diagnostic verifier, not an acceptance gate
+or a full driver relocation audit. The SVG annotates only the proven six
+setters / 36 bytes, with no change to bars, accepted counts or denominator.
+
+## Consumed resident lifecycle group: source-only continuation
+
+src/zun/driver_resident.inl owns the eight contiguous complete procedures
+at 010C–033F, 564 instruction bytes: entry, two-buffer allocation, interrupt
+number option, MASKTEST adapter, SPRITE adapter, interrupt dispatch, resident
+install and uninstall. The existing opt-in stager now requires this include
+as well as driver_services.inl: 14 maintained procedures / 600 instruction
+bytes in total. The first 12 payload bytes, all remaining procedures, fields,
+messages, tables, zero gaps and retained macro includes remain outside this
+ownership claim. This is not a whole-driver translation unit.
+
+All eight procedures have semantic public names and documented call/interrupt
+contracts. Symbolic references in the retained scaffold are renamed consistently;
+expanding both maintained includes and reversing those names preserves the
+complete active instruction/data token stream. No storage or padding is added.
+The interrupt dispatcher remains far/IRET, keeps its unchecked AH service-table
+index and shared target slot, and preserves its original STI. The uninstaller's
+XOR AX discards the previously loaded saved vector offset before storing it;
+that observed behavior is deliberately preserved, not silently repaired.
+
+The new group has source-level composition and staging checks only in this
+checkpoint. Its native OMF/MAP and complete raw-byte proof are still pending.
+Immediate next step is the same bounded two-command parent-owned hybrid build,
+now verifying all 14 public procedure boundaries and all 600 owned bytes.
+No accepted ledger/default-wrapper/DIET change or real DOS/device/TSR behavior
+claim is implied by either the six-setter proof or this larger source group.

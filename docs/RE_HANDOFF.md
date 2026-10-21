@@ -28,14 +28,19 @@ wrapper graph, accepted ledgers, whole ZUN status, or whole-game denominator.
 
 ## ZUN driver ownership continuation
 
-The [driver review](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md) now records
-native negative encoding findings: SMART/signed constants and BYTE PTR do not
-fix the four instructions/ten bytes; failed probe evidence remains unchanged.
-Six resident service setters have semantic maintained source, actually consumed
-by an opt-in hybrid source stager with pinned retained scaffold/includes.
-This is source consumption only, not a fresh driver build or exactness credit.
-Next: parent-owned hybrid assembly/link and six-boundary/full-candidate checks,
-then migrate larger groups without inventing padding or hardware behavior.
+The [driver review](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md) retains one
+fresh hybrid TASM/TLINK result: all 4,224 candidate bytes equal, six maintained
+setter boundaries/bodies verified, and the same ten target differences remain.
+Completion d3183376b6f415823614512f92255d25d15d22758145b65c697a708f493d8e11
+records two zero exits and certain owned cleanup. The maintained verifier and
+SVG preserve this diagnostic scope, with no two-cold or acceptance credit.
+
+Eight startup/resident-lifecycle procedures are now a second consumed include:
+564 additional bytes, making 14 procedures / 600 bytes of maintained source.
+Complete expanded instruction/data tokens remain unchanged. Their fresh native
+boundary/raw proof is next; only the earlier six setters have that proof so far.
+The four-instruction/ten-byte encoding gap, unowned data/gaps and DOS/device/TSR
+behavior remain open. No default wrapper, DIET or whole-game denominator change.
 
 ## CPU CODE acceptance
 The [CPU acceptance](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds one complete

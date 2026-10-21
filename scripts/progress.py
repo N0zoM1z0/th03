@@ -79,6 +79,22 @@ def zun_init_standalone_retained(units: list[dict[str, str]]) -> bool:
     }.items())
 
 
+def zun_driver_hybrid_retained(units: list[dict[str, str]]) -> bool:
+    """Historical six-setter hybrid diagnostic; never feeds progress counts."""
+    # Reviewed checkpoint: docs/reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md.
+    # Completion: .analysis/zun-driver-hybrid-output-20261021-v01/completion.json
+    # SHA256: d3183376b6f415823614512f92255d25d15d22758145b65c697a708f493d8e11.
+    # src/zun/driver_services.inl: d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af.
+    # One assembly plus one link, not a two-cold-round proof. All 4,224 bytes
+    # equal the retained candidate, NOT target: ten differences remain.
+    # Only six setters / 36 bytes are maintained; no full-driver ownership.
+    rows = [u for u in units if u["id"] == "th03-zun-decoded-sprite16-driver"]
+    return len(rows) == 1 and all(rows[0].get(key) == value for key, value in {
+        "artifact": "th03-zun", "segment": "decoded-COM", "offset": "0x33a2",
+        "size": "4224", "boundary_state": "reviewed", "state": "boundary-reviewed",
+    }.items())
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -124,12 +140,14 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
+        if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
+            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 6 maintained setters / 36 B · 10 target differences · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="440" viewBox="0 0 788 440" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="458" viewBox="0 0 788 458" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>Boundary review and exact function acceptance for the tracked subset. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="440" rx="8" fill="#1f2335"/>
+  <rect width="788" height="458" rx="8" fill="#1f2335"/>
   <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
   <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
@@ -137,9 +155,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed contiguous bodies</text>
   <text x="488" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Complete raw bytes and relocations</text>
 {chr(10).join(rows)}
-  <path d="M24 366 H764" stroke="#4b526d"/>
-  <text x="24" y="391" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
-  <text x="24" y="414" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
+  <path d="M24 384 H764" stroke="#4b526d"/>
+  <text x="24" y="409" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
+  <text x="24" y="432" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
 </svg>
 '''
 

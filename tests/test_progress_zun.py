@@ -16,6 +16,12 @@ def initializer():
             "boundary_state": "reviewed", "state": "boundary-reviewed"}
 
 
+def driver():
+    return {"id": "th03-zun-decoded-sprite16-driver", "artifact": "th03-zun",
+            "segment": "decoded-COM", "offset": "0x33a2", "size": "4224",
+            "boundary_state": "reviewed", "state": "boundary-reviewed"}
+
+
 class ZunProgressTests(unittest.TestCase):
     def test_standalone_annotation_changes_no_acceptance_or_inventory(self):
         row = initializer()
@@ -43,6 +49,34 @@ class ZunProgressTests(unittest.TestCase):
                 row[field] = value
                 self.assertFalse(progress.zun_init_standalone_retained([row]))
                 self.assertNotIn("Retained standalone init:", progress.render_svg([row], [], []))
+
+    def test_hybrid_annotation_changes_no_acceptance_or_inventory(self):
+        main = {"id": "main-exact", "artifact": "th03-main", "state": "exact", "size": "10"}
+        before = progress.render_svg([main, initializer()], [], [])
+        after = progress.render_svg([main, initializer(), driver()], [], [])
+        added = [line for line in after.splitlines() if "Retained hybrid driver:" in line]
+        self.assertEqual(len(added), 1)
+        self.assertIn("6 maintained setters / 36 B · 10 target differences · no exact credit", added[0])
+        self.assertIn("not two cold rounds or full-driver ownership", added[0])
+        self.assertEqual(after.replace(added[0] + "\n", ""), before)
+        self.assertIn("Retained standalone init:", after)
+        self.assertIn("Inventory pending", after)
+        self.assertNotIn("6 tracked functions", after)
+        self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
+        self.assertIn("no whole-game completion percentage", after)
+
+    def test_hybrid_annotation_requires_unique_unchanged_reviewed_scope(self):
+        self.assertFalse(progress.zun_driver_hybrid_retained([]))
+        self.assertFalse(progress.zun_driver_hybrid_retained([driver(), driver()]))
+        changes = {"id": "other", "artifact": "th03-main", "segment": "decoded:-4",
+                   "offset": "0x33a3", "size": "36", "boundary_state": "provisional",
+                   "state": "exact"}
+        for field, value in changes.items():
+            with self.subTest(field=field):
+                row = driver()
+                row[field] = value
+                self.assertFalse(progress.zun_driver_hybrid_retained([row]))
+                self.assertNotIn("Retained hybrid driver:", progress.render_svg([row], [], []))
 
 
 if __name__ == "__main__":

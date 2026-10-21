@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="788" height="440" viewBox="0 0 788 440" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+<svg xmlns="http://www.w3.org/2000/svg" width="788" height="458" viewBox="0 0 788 458" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>Boundary review and exact function acceptance for the tracked subset. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="440" rx="8" fill="#1f2335"/>
+  <rect width="788" height="458" rx="8" fill="#1f2335"/>
   <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
   <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
@@ -45,7 +45,8 @@
   <text x="200" y="336" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 0 · Pending 0</text>
   <text x="488" y="336" fill="#c8cad2" font-family="monospace" font-size="11">Exact 0 · Pending 0</text>
 <text x="200" y="354" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>
-  <path d="M24 366 H764" stroke="#4b526d"/>
-  <text x="24" y="391" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 65,198 bytes · 86 owners</text>
-  <text x="24" y="414" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
+<text x="200" y="370" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 6 maintained setters / 36 B · 10 target differences · no exact credit</text>
+  <path d="M24 384 H764" stroke="#4b526d"/>
+  <text x="24" y="409" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 65,198 bytes · 86 owners</text>
+  <text x="24" y="432" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
 </svg>
