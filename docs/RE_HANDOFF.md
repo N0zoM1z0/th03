@@ -415,3 +415,12 @@ whole-program cold build or exact credit. Three PI operand differences remain
 at 095F:140A/1414/144B. Use `scripts/replay_th03_mainl_cutscene.py` for the
 retained proof replay and `scripts/stage_th03_mainl_cutscene.py` for opt-in
 source staging; see `docs/reconstruction/MAINL_CUTSCENE_SOURCE.md`.
+
+## MAINL registration source preparation (2026-10-21)
+
+Registration and score-data now have opt-in maintained owners and a source-only
+stager at `scripts/stage_th03_mainl_regist.py`. Their 17 bodies / 2,949 bytes
+remain native-pending, uncounted in source/exact ledgers. See
+`docs/reconstruction/MAINL_REGIST_SOURCE.md` for original-slot flags, unchecked
+behavior and two-object/31-retained-object proof recipe. Six known PI operand
+differences remain explicit; do not manufacture caller addresses or padding.

@@ -1,0 +1,584 @@
+// Maintained TH03 MAINL owner. Original unchecked behavior is intentional.
+#pragma option -zPgroup_01
+
+#include "src/mainl/hiscore/regist.hpp"
+#include "compat/rec98/libs/master.lib/master.hpp"
+#include "compat/rec98/game/input.hpp"
+#include "compat/rec98/th01/hardware/grppsafx.h"
+#include "compat/rec98/th02/hardware/frmdelay.h"
+#include "compat/rec98/th03/common.h"
+#include "compat/rec98/th03/resident.hpp"
+#include "compat/rec98/th03/formats/cdg.h"
+#include "compat/rec98/th03/formats/pi.hpp"
+#include "compat/rec98/th03/hardware/input.h"
+#include "compat/rec98/th03/snd/snd.h"
+#include "src/mainl/hiscore/regist_text.hpp"
+#include "src/mainl/hiscore/scoredat.hpp"
+
+#include "src/mainl/hiscore/score_load.inl"
+#include "src/mainl/hiscore/score_save.inl"
+
+extern regi_patnum_t REGI_PLAYCHAR[PLAYCHAR_COUNT][SCOREDAT_NAME_LEN];
+
+static const int PLACE_NONE = -1;
+
+/// Coordinates
+/// -----------
+
+// REGI_W and REGI_H are already used for, well, regi_patnum_t members...
+#define REGI_GLYPH_W 32
+#define REGI_GLYPH_H 32
+static const int REGI_DOUBLEWIDE_X = REGI_SP;
+
+static const screen_x_t TABLE_LEFT = 24;
+static const screen_y_t TABLE_TOP = 104;
+static const pixel_t TABLE_ROW_SPACING = 20;
+
+static const pixel_t NAME_SPACING = 24;
+static const pixel_t SCORE_SPACING = 16;
+static const pixel_t CELL_PADDING_X = 16;
+static const pixel_t PLACE_NUMBER_PADDED_W = (REGI_GLYPH_W + CELL_PADDING_X);
+
+inline screen_x_t place_left(const unsigned char& name_cursor_backwards) {
+	return (TABLE_LEFT + PLACE_NUMBER_PADDED_W +
+		(((SCOREDAT_NAME_LEN - 1) - name_cursor_backwards) * NAME_SPACING)
+	);
+}
+
+inline screen_y_t place_top(int place) {
+	return (TABLE_TOP + (place * TABLE_ROW_SPACING));
+}
+
+static const int ALPHABET_ROWS = 3;
+static const int ALPHABET_GLYPHS = REGI_ALL;
+static const int ALPHABET_GLYPHS_PER_ROW = (ALPHABET_GLYPHS / ALPHABET_ROWS);
+static const pixel_t ALPHABET_ROW_W = (ALPHABET_GLYPHS_PER_ROW * REGI_GLYPH_W);
+static const pixel_t ALPHABET_ROW_SPACING = 24;
+
+static const screen_x_t ALPHABET_LEFT = 64;
+static const screen_y_t ALPHABET_TOP = 320;
+static const screen_x_t ALPHABET_RIGHT = (ALPHABET_LEFT + ALPHABET_ROW_W);
+
+inline screen_y_t alphabet_top_for_row(int row) {
+	return (ALPHABET_TOP + (row * ALPHABET_ROW_SPACING));
+}
+/// -----------
+
+/// Function ordering fails
+/// -----------------------
+
+// [regi] should, obviously, be a regi_patnum_t.
+void pascal near regi_put(
+	screen_x_t left, screen_y_t top, int regi, bool16 highlight
+);
+/// -----------------------
+
+/// State
+/// -----
+
+extern int entered_place;
+/// -----
+
+void near regist_load_and_put_initial_both(void)
+{
+	enum {
+		RANK_IMAGE_W = 320,
+		RANK_IMAGE_H = 88,
+	};
+
+	extern unsigned char near *rank_image_fn;
+	extern const char regib_pi[];
+	extern const char regi2_bft[];
+	extern const char regi1_bft[];
+
+	palette_settone(0);
+	graph_accesspage(0);
+	graph_showpage(0);
+
+	pi_fullres_load_palette_apply_put_free(0, regib_pi);
+
+	// Kind of assumes that we only show this screen once for the lifetime of
+	// the process.
+	rank_image_fn[3] += resident->rank;
+
+	cdg_load_single(0, rank_image_fn, 0);
+	cdg_put_8((RES_X - RANK_IMAGE_W), (RES_Y - RANK_IMAGE_H), 0);
+	cdg_free(0);
+
+	super_entry_bfnt(regi2_bft);
+	super_entry_bfnt(regi1_bft);
+
+	graph_copy_page(1);
+	graph_accesspage(0);
+}
+
+inline int score_digit_as_regi(int digit) {
+	return (REGI_0 + resident->score_last[0].digits[digit]);
+}
+
+int near regist_score_enter_from_resident(void)
+{
+	int place;
+	int shift;
+	int c;
+
+	// ZUN bug: This sort loop does not consider the 9th digit, i.e., the
+	// number of continues used. Identical scores with a different number of
+	// used continues will therefore always appear in the order they were
+	// inserted into the list.
+	for(place = 0; place < SCOREDAT_PLACES; place++) {
+		for(c = (SCORE_DIGITS - 1); c >= 0; c--) {
+			if(score_digit_as_regi(c) > hi.score.score[place][c + 1]) {
+				goto found;
+			} else if(score_digit_as_regi(c) < hi.score.score[place][c + 1]) {
+				break;
+			}
+		}
+	}
+	if(place == SCOREDAT_PLACES) {
+		return PLACE_NONE;
+	}
+
+found:
+	if(place < (SCOREDAT_PLACES - 1)) {
+		for(shift = (SCOREDAT_PLACES - 2); shift >= place; shift--) {
+			for(c = 0; c < SCOREDAT_NAME_LEN; c++) {
+				hi.score.name[shift + 1][c] = hi.score.name[shift][c];
+			}
+			for(c = 0; c < sizeof(hi.score.score[0]); c++) {
+				hi.score.score[shift + 1][c] = hi.score.score[shift][c];
+			}
+			hi.score.stage[shift + 1] = hi.score.stage[shift];
+			hi.score.playchar[shift + 1] = hi.score.playchar[shift];
+		}
+	}
+
+	// regist_rows_unput_and_put() also blits the currently inserted row, so we
+	// must explicitly blank it first. Since we blit all names to both pages,
+	// this ensures that regi_unput() can actually unblit the currently edited
+	// name (and no other one).
+	for(c = 0; c < SCOREDAT_NAME_LEN; c++) {
+		hi.score.name[place][c] = REGI_ASCII(' ');
+	}
+
+	for(c = 1; c < (SCORE_DIGITS + 1); c++) {
+		hi.score.score[place][c] = REGI_DIGIT(
+			resident->score_last[0].digits[c - 1]
+		);
+	}
+	hi.score.score[place][0] = static_cast<regi_patnum_t>(
+		REGI_3 - resident->rem_credits
+	);
+
+	if(resident->story_stage == STAGE_ALL) {
+		hi.score.stage[place] = REGI_ALL;
+	} else {
+		hi.score.stage[place] = REGI_DIGIT(resident->story_stage);
+	}
+
+	hi.score.playchar[place].v = (resident->playchar_paletted[0].char_id() + 1);
+	return place;
+}
+
+void near alphabet_put_initial(void)
+{
+	screen_x_t left;
+	screen_y_t top;
+	int regi = REGI_A; // regi_patnum_t
+
+	top = alphabet_top_for_row(0);
+	while(top <= alphabet_top_for_row(ALPHABET_ROWS - 1)) {
+		left = ALPHABET_LEFT;
+		while(left < ALPHABET_RIGHT) {
+			super_put(left, top, regi);
+			left += REGI_GLYPH_W;
+			regi++;
+		}
+		top += ALPHABET_ROW_SPACING;
+	}
+}
+
+// [regi] should, obviously, be a regi_patnum_t.
+void pascal near alphabet_putca(int regi, bool16 highlight)
+{
+	screen_x_t left = (
+		((regi % ALPHABET_GLYPHS_PER_ROW) * REGI_GLYPH_W) + ALPHABET_LEFT
+	);
+	screen_y_t top = (
+		((regi / ALPHABET_GLYPHS_PER_ROW) * ALPHABET_ROW_SPACING) + ALPHABET_TOP
+	);
+	regi_put(left, top, regi, highlight);
+}
+
+// What's a EGC?
+void pascal near regi_unput(screen_x_t left, screen_y_t top)
+{
+	vram_offset_t vo = vram_offset_shift(left, top);
+	for(unsigned long y = 0; y < REGI_GLYPH_H; y++) {
+		Planar<dots_t(REGI_GLYPH_W)> row;
+		graph_accesspage(1);	VRAM_SNAP_PLANAR(row, vo, REGI_GLYPH_W);
+		graph_accesspage(0);	VRAM_PUT_PLANAR(vo, row, REGI_GLYPH_W);
+		vo += ROW_SIZE;
+	}
+}
+
+void pascal near regi_put(
+	screen_x_t left, screen_y_t top, int regi, bool16 highlight
+)
+{
+	// ZUN bug: A bounds check either here or in super_put() would be nice, to
+	// prevent uninitialized data from being accessed once a score reaches
+	// 8,000,000,000 points.
+	int patnum = regi;
+	if(highlight) {
+		patnum += REGI_COUNT;
+	}
+	super_put(left, top, patnum);
+	if((regi % ALPHABET_GLYPHS_PER_ROW) == REGI_DOUBLEWIDE_X) {
+		super_put((left + REGI_GLYPH_W), top, (patnum + 1));
+	}
+}
+
+void pascal near regist_row_put_at(screen_x_t left, screen_y_t top, int place)
+{
+	int c;
+	int score_digit_first_nonzero; // regi_patnum_t
+	bool16 highlight = (entered_place == place);
+	unsigned char col = (entered_place == place) ? 0xF : 0x4;
+
+	if(entered_place == PLACE_NONE) {
+		highlight = true;
+		col = 0xF;
+	}
+
+	// Place number
+	if(place != 9) { // If the 10 is hardcoded in the branch below anyway...
+		regi_put(left, top, (REGI_1 + place), highlight);
+	} else {
+		regi_put((left - (REGI_GLYPH_W / 4)), top, REGI_1, highlight);
+		regi_put((left + (REGI_GLYPH_W / 4)), top, REGI_0, highlight);
+	}
+	left += PLACE_NUMBER_PADDED_W;
+
+	// Name
+	c = (SCOREDAT_NAME_LEN - 1);
+	while(c >= 0) {
+		if(hi.score.name[place][c] != REGI_ASCII(' ')) {
+			regi_put(left, top, hi.score.name[place][c], highlight);
+		}
+		c--;
+		left += NAME_SPACING;
+	}
+	left += CELL_PADDING_X;
+
+	// Score
+	score_digit_first_nonzero = REGI_0;
+	c = (sizeof(hi.score.score[0]) - 1);
+	while(c >= 0) {
+		if(score_digit_first_nonzero == REGI_0) {
+			score_digit_first_nonzero = hi.score.score[place][c];
+		}
+		if(score_digit_first_nonzero != REGI_0) {
+			regi_put(left, top, hi.score.score[place][c], highlight);
+		}
+		c--;
+		left += SCORE_SPACING;
+	}
+	left += CELL_PADDING_X;
+
+	// Player character
+	graph_putsa_fx(
+		left,
+		(top + ((REGI_GLYPH_H - GLYPH_H) / 2)),
+		(col | FX_WEIGHT_BOLD),
+		REGIST_PLAYCHARS[hi.score.playchar[place].v]
+	);
+	left += (REGIST_PLAYCHAR_W + CELL_PADDING_X);
+
+	// Stage
+	regi_put(left, top, hi.score.stage[place], highlight);
+}
+
+void near regist_rows_unput_and_put(void)
+{
+	// ZUN bloat: Way too excessive. The names are the only thing we possibly
+	// change throughout this screen.
+	graph_copy_page(0);
+
+	int place = 0;
+	screen_y_t top = TABLE_TOP;
+	while(place < SCOREDAT_PLACES) {
+		regist_row_put_at(TABLE_LEFT, top, place);
+		place++;
+		top += TABLE_ROW_SPACING;
+	}
+}
+
+void pascal near regist_row_put(int place)
+{
+	regist_row_put_at(TABLE_LEFT, place_top(place), place);
+}
+
+void near regist_name_enter_menu(void)
+{
+	#define cursor_blank(cursor_backwards, top) { \
+		regi_unput(place_left(cursor_backwards), top); \
+		hi.score.name[entered_place][cursor_backwards] = REGI_ASCII(' '); \
+	}
+
+	#define cursor_backspace(cursor_backwards, top) { \
+		cursor_blank(cursor_backwards, top); \
+		if(cursor_backwards < (SCOREDAT_NAME_LEN - 1)) { \
+			cursor_backwards++; \
+		} \
+	}
+
+	#define on_direction(condition, hold_frame, func) { \
+		if(condition) { \
+			if( \
+				(hold_frame == 0) || \
+				((hold_frame >= 30) && ((hold_frame % 4) == 0)) \
+			) { \
+				func \
+			} \
+			hold_frame++; \
+		} else { \
+			hold_frame = 0; \
+		} \
+	}
+
+	struct input_hold_frame_t {
+		int up;
+		int down;
+		int left;
+		int right;
+	};
+	extern const input_hold_frame_t REGIST_INPUT_HOLD_INIT;
+
+	screen_y_t top;
+	int regi = REGI_A; // regi_patnum_t
+	input_hold_frame_t hold_frame = REGIST_INPUT_HOLD_INIT;
+	bool done = false;
+	bool rerender = true;
+	bool enter_locked = false;
+	unsigned char cursor_backwards = (SCOREDAT_NAME_LEN - 1);
+	bool back_locked = false;
+	top = place_top(entered_place);
+
+	while(!done) {
+		input_mode_interface();
+
+		on_direction((input_sp & INPUT_UP), hold_frame.up, {
+			if(regi != REGI_QUESTION) {
+				alphabet_putca(regi, false);
+				regi -= ALPHABET_GLYPHS_PER_ROW;
+				if(regi < 0) {
+					regi += ALPHABET_GLYPHS;
+				}
+				rerender = true;
+			}
+		});
+		on_direction((input_sp & INPUT_DOWN), hold_frame.down, {
+			if(regi != REGI_QUESTION) {
+				alphabet_putca(regi, false);
+				regi += ALPHABET_GLYPHS_PER_ROW;
+				if(regi >= ALPHABET_GLYPHS) {
+					regi -= ALPHABET_GLYPHS;
+				}
+				rerender = true;
+			}
+		});
+		on_direction((input_sp & INPUT_LEFT), hold_frame.left, {
+			alphabet_putca(regi, false);
+			if((regi % ALPHABET_GLYPHS_PER_ROW) == 0) {
+				regi += REGI_DOUBLEWIDE_X;
+			} else if((regi == REGI_BS) || (regi == REGI_SP)) {
+				regi -= 2;
+			} else {
+				regi--;
+			}
+			rerender = true;
+		});
+		on_direction((input_sp & INPUT_RIGHT), hold_frame.right, {
+			alphabet_putca(regi, false);
+			if((regi % ALPHABET_GLYPHS_PER_ROW) == REGI_DOUBLEWIDE_X) {
+				regi -= REGI_DOUBLEWIDE_X;
+			} else if((regi == REGI_M) || (regi == REGI_Z)) {
+				regi += 2;
+			} else {
+				regi++;
+			}
+			rerender = true;
+		});
+
+		on_condition_if_not_locked(
+			((input_sp & INPUT_OK) || (input_sp & INPUT_SHOT)), enter_locked, {
+				if(regi == REGI_BS) {
+					cursor_backspace(cursor_backwards, top);
+				} else if(regi == REGI_END) {
+					done = true;
+				} else {
+					hi.score.name[entered_place][cursor_backwards] =
+						static_cast<regi_patnum_t>(regi);
+					if(cursor_backwards == 0) {
+						done = true;
+					}
+					cursor_backwards--;
+				}
+				rerender = true;
+			}
+		);
+
+		on_condition_if_not_locked((input_sp & INPUT_BOMB), back_locked, { \
+			cursor_backspace(cursor_backwards, top);
+			rerender = true;
+		});
+
+		if(rerender == true) {
+			alphabet_putca(regi, true);
+
+			// Any potential glyph at this cursor position will be overwritten
+			// anyway, both on screen (by the preview) and in the name buffer
+			// (by actually selecting a character). The backspace feature also
+			// requires any previously set glyph to be erased here, due to...
+			cursor_blank(cursor_backwards, top);
+
+			// ... this full row rendering call. ZUN apparently considered it
+			// necessary because the name glyphs overlap each other due to
+			// NAME_SPACING < REGI_GLYPH_W. But even then, rendering only the
+			// previous glyph would have been enough.
+			regist_row_put(entered_place);
+
+			// Preview the selected glyph in the place row
+			if((regi % ALPHABET_GLYPHS_PER_ROW) != REGI_DOUBLEWIDE_X) {
+				regi_put(place_left(cursor_backwards), top, regi, false);
+			}
+			rerender = false;
+		}
+
+		frame_delay(1);
+	}
+
+	#undef on_direction
+	#undef cursor_backspace
+	#undef cursor_blank
+}
+
+void near regist_replace_same_letter_name_with_default_for_playchar(void)
+{
+	int i;
+	regi_patnum_t near *def_p;
+
+	// ZUN bloat: "Name is all spaces" is a subset of "all name letters are
+	// identical". By removing this loop and only keeping the one at the
+	// bottom, there's also no need to jump around using `goto`.
+	for(i = 0; i < SCOREDAT_NAME_LEN; i++) {
+		if(hi.score.name[entered_place][i] != REGI_ASCII(' ')) {
+			goto name_is_not_just_spaces;
+		}
+	}
+
+write_default_name_for_playchar:
+	def_p = REGI_PLAYCHAR[resident->playchar_paletted[0].char_id_16()];
+	for(i = (SCOREDAT_NAME_LEN - 1); i >= 0; (i--, def_p++)) {
+		hi.score.name[entered_place][i] = *def_p;
+	}
+	return;
+
+name_is_not_just_spaces:
+	uint8_t first_c = hi.score.name[entered_place][0];
+	for(i = 0; i < SCOREDAT_NAME_LEN; i++) {
+		if(hi.score.name[entered_place][i] != first_c) {
+			return;
+		}
+	}
+	goto write_default_name_for_playchar;
+}
+
+void near regist_menu(void)
+{
+	extern const char score_m[];
+	extern const char conti_pi[];
+	extern const char conti_cd2[];
+	#undef GAMEOVER_BG_FN
+	extern const char GAMEOVER_BG_FN[];
+
+	random_seed = resident->rand; // YUME.NEM key generation uses this RNG!
+
+	snd_load(score_m, SND_LOAD_SONG);
+	snd_kaja_func(KAJA_SONG_PLAY, 0);
+
+	scoredat_load_and_decode(static_cast<rank_t>(resident->rank));
+
+	// ZUN bloat: Checking for [resident->show_score_menu] is clearer and would
+	// remove the need for the [STAGE_NONE] constant.
+	if(resident->story_stage == STAGE_NONE) {
+		entered_place = PLACE_NONE;
+	} else {
+		entered_place = regist_score_enter_from_resident();
+	}
+
+	regist_load_and_put_initial_both();
+	if(entered_place == PLACE_NONE) {
+		regist_rows_unput_and_put();
+		palette_black_in(2);
+	} else {
+		regist_rows_unput_and_put();
+
+		// Necessary here because the rows overlap due to [TABLE_ROW_SPACING] <
+		// [REGI_GLYPH_H]. regi_unput() therefore must include name pixels from
+		// the rows above and below, and can't just blit the background image.
+		// ZUN bloat: Rendering all rows in regist_load_and_put_initial_both()
+		// would have avoided the need for that copy.
+		graph_copy_page(1);
+
+		graph_accesspage(0);
+		alphabet_put_initial();
+		palette_black_in(2);
+
+		regist_name_enter_menu();
+		regist_replace_same_letter_name_with_default_for_playchar();
+		regist_rows_unput_and_put();
+	}
+	input_wait_for_change(0);
+
+	// ZUN quirk: If we're just viewing high scores, we only get the fade if
+	// [resident->rem_credits] either hasn't been initialized yet or happens to
+	// be 0 as a result of previous Story Mode gameplay. Compare viewing high
+	// scores as the first thing you do after starting the process (→ fade)
+	// with viewing high scores after launching into Story Mode and immediately
+	// quitting (→ no fade).
+	if((resident->rem_credits == 0) || (resident->story_stage == STAGE_ALL)) {
+		snd_kaja_func(KAJA_SONG_FADE, 16);
+	}
+
+	palette_black_out(2);
+	scoredat_encode_and_save(static_cast<rank_t>(resident->rank));
+	super_free();
+
+	graph_accesspage(0);
+	graph_showpage(0);
+	palette_settone(0); // ZUN bloat: We've just blacked out.
+
+	// These load calls look like they belong to the respective call site
+	// rather than here. However, loading and blitting that image while the BGM
+	// is fading out is actually a *good* idea because it can completely hide
+	// the usual loading lag if the image loads and blits faster than the BGM
+	// takes to fade out. Since we only get the long BGM fade-out with 0
+	// remaining credits, this is worth the duplication and functional
+	// overreach. (The Continue screen fades rather quickly and doesn't get to
+	// hide its .PI load call.)
+	// ZUN bloat: The same can't be said for the Continue branch though, whose
+	// images should definitely be loaded within the function they belong to.
+	// Inverting the logic here would also avoid needlessly loading the Game
+	// Over image when we're in view-only mode and are about to quit back to
+	// the main menu anyway.
+	if(resident->rem_credits && (resident->story_stage != STAGE_ALL)) {
+		pi_fullres_load_palette_apply_put_free(0, conti_pi);
+		cdg_load_all(0, conti_cd2);
+	} else {
+		pi_fullres_load_palette_apply_put_free(0, GAMEOVER_BG_FN);
+		snd_delay_until_volume(-1);
+		snd_kaja_func(KAJA_SONG_STOP, 0);
+	}
+}

@@ -126,6 +126,19 @@ def mainl_cutscene_source_pending(units: list[dict[str, str]]) -> bool:
     )))
 
 
+def mainl_regist_source_pending(units):
+    """Pending source files annotate progress without acceptance credit."""
+    scopes = {"regist": ("0x189e", "2720"), "scoredat": ("0x17b9", "229")}
+    for name, (offset, size) in scopes.items():
+        rows = [u for u in units if u["id"] == "th03-mainl-decoded-" + name]
+        if len(rows) != 1 or any(rows[0].get(k) != v for k, v in {
+            "artifact": "th03-mainl", "segment": "decoded:095F", "offset": offset,
+            "size": size, "boundary_state": "reviewed", "state": "boundary-reviewed", "source": "",
+        }.items()):
+            return False
+    return all((ROOT / p).is_file() for p in ('src/mainl/regist.cpp', 'src/mainl/scoredat.cpp', 'src/mainl/hiscore/regist.hpp', 'src/mainl/hiscore/scoredat.hpp', 'src/mainl/hiscore/score_load.inl', 'src/mainl/hiscore/score_save.inl', 'src/mainl/hiscore/scorecry.hpp', 'src/mainl/hiscore/regi.h', 'src/mainl/hiscore/regist_text.hpp'))
+
+
 MAINL_CUTSCENE_SOURCE_EVIDENCE = {
     "ev-th03-mainl-cutscene-source-compiler": "compiler",
     "ev-th03-mainl-cutscene-source-runtime": "runtime",
@@ -181,7 +194,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact {exact}/{total}</text>
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
-            if mainl_cutscene_source_pending(units):
+            if mainl_regist_source_pending(units):
+                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</text>')
+            elif mainl_cutscene_source_pending(units):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
