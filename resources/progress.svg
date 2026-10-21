@@ -45,7 +45,7 @@
   <text x="200" y="336" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 0 · Pending 0</text>
   <text x="488" y="336" fill="#c8cad2" font-family="monospace" font-size="11">Exact 0 · Pending 0</text>
 <text x="200" y="354" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>
-<text x="200" y="370" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Candidate raw equality, not target equality; all ten differences are in owned procedure bodies. One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 55 procedures / 2,844 B · candidate-only · 10 target differences · no exact credit</text>
+<text x="200" y="370" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained sources own the complete driver: 55 procedures / 2,844 bytes plus 1,380 data/layout bytes. Candidate raw equality, not target equality; all ten differences are in owned procedure bodies. One standalone assembly/link run, not two cold rounds or exact acceptance">Maintained standalone driver: 4,224 B · candidate-only · 10 target differences · no exact credit</text>
   <path d="M24 384 H764" stroke="#4b526d"/>
   <text x="24" y="409" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 65,198 bytes · 86 owners</text>
   <text x="24" y="432" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>

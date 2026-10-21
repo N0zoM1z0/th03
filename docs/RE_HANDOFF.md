@@ -382,3 +382,13 @@ named data, explicit source-recorded reserves, and the existing authored bodies.
 Source tests work without any reference tree or target file. Standalone native
 proof is the next two-command step, not already claimed. See the dated section in
 `docs/reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md`. No default or acceptance change.
+
+## 2026-10-21 standalone driver build proved
+
+The ten-maintained-source driver route now assembles/links successfully: full
+4,224-byte candidate equality,55 procedures/2,844 instruction bytes,1,380 data/layout
+bytes, and the same ten target differences. Two native exits0, certain cleanup,
+released lock. Completion52d3c3f8722e254fa3ab73963c228453fd39b488ee507d470b8ee681a5138a08.
+SVG reports a maintained standalone candidate, not exact credit. Next is an
+independent timestamp-declared materialization and -4-only wrapper composition
+from actual produced outputs; no default/acceptance promotion yet.

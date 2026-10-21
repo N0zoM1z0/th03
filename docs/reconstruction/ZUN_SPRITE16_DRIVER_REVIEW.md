@@ -426,3 +426,37 @@ MOV DX before MOV AX in OUTW. Device semantics, original producer choices, packe
 DIET bytes, the ten instruction-encoding differences, whole wrapper acceptance,
 and the whole-game denominator remain separate. The SVG records only the actual
 55-procedure hybrid proof, explicitly candidate-only and without exact credit.
+
+## 2026-10-21: maintained standalone native proof
+
+The reference-free source producer now assembled and linked successfully. Run
+`.analysis/zun-driver-standalone-native-output-20261021-v02/completion.json`
+(SHA-256 `52d3c3f8722e254fa3ab73963c228453fd39b488ee507d470b8ee681a5138a08`)
+records two zero native exits, certain owned cleanup, released shared lock and no
+errors. Only the ten maintained `src/zun/driver*` inputs supplied assembly source.
+The maintained recipe remains `stage_th03_zun_driver.stage()` followed by its
+`native_commands()` pair; the bounded parent supervisor owns actual execution.
+The original compiler/linker and target/candidate verification inputs are still
+explicitly pinned, but neither target nor retained source supplies producer bytes.
+
+Results: 55 procedures / 2,844 instruction bytes plus 1,380 source-owned layout and
+data bytes, total 4,224. All public OMF/MAP boundaries passed. COM SHA-256
+`bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c` equals
+the prior candidate; OBJ `e01fc72e8baa3a5a1c3e22f140f2d1187fc5b2114c5e0b667535d90394180a1b`,
+MAP `00543d5b843008c6dc0ad97c17c4216a0cd712c60b7e9db89ffffb69b38e5a00`.
+Exactly ten target bytes still differ at the four documented natural instruction
+encodings. This is complete maintained source ownership and candidate equality,
+not target exactness or executable acceptance.
+
+The preceding V01 TASM crash and cleanup evidence remain immutable. Generated
+short 8.3 include aliases resolved the observed build failure; the fully expanded
+assembly text stayed identical. This supports the long-filename explanation but
+is not a separate analysis of TASM's internal defect.
+
+This is one successful fresh standalone materialization. Next is an independent
+fresh build with explicitly declared source-timestamp inputs (TASM records them
+in OMF), followed by raw artifact comparison and opt-in wrapper -4 composition
+from the actual produced driver paths. The other four payloads and wrapper code
+must stay unchanged. No wrapper cold-build, DIET, DOS device/TSR behavior or whole-
+game percentage is claimed here. SVG now identifies this standalone candidate
+proof without changing accepted totals.

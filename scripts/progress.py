@@ -80,22 +80,26 @@ def zun_init_standalone_retained(units: list[dict[str, str]]) -> bool:
 
 
 def zun_driver_hybrid_retained(units: list[dict[str, str]]) -> bool:
-    """Historical all-procedure candidate diagnostic; never feeds progress counts."""
+    """Historical maintained standalone candidate; never feeds progress counts."""
     # Reviewed checkpoint: docs/reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md.
-    # Completion: .analysis/zun-driver-hybrid-output-20261021-v04/completion.json
-    # SHA256: 300cc269aa9fb142a3ba44c9fc3d56c3f364893ad588af737722f14dcf3997d0.
+    # Completion: .analysis/zun-driver-standalone-native-output-20261021-v02/completion.json
+    # SHA256: 52d3c3f8722e254fa3ab73963c228453fd39b488ee507d470b8ee681a5138a08.
     # src/zun/driver_services.inl: d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af.
-    # src/zun/driver_resident.inl: 5501f6a061fc0d1f30a6017f76c93a377b24955f3a2eba9c4070ec2781e9ad08.
+    # src/zun/driver_resident.inl: 258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa.
     # src/zun/driver_command.inl: 9a49039df84a1c4bde277687b1a35dfd5a9f558a4cd20ff4c46a870b1fa593fc.
     # src/zun/driver_strings.inl: 06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a.
     # src/zun/driver_numbers.inl: de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0.
     # src/zun/driver_graphics.inl: 173dbbb12f3d8e2eb25f417acf5ef194551eff4296592878e5cb15104e271ebc.
     # src/zun/driver_format.inl: 1ee883086ae9045f451e57d9da5ff74ccf6f25980d8228bed2885087cfb94d5e.
+    # src/zun/driver.asm: 895751c4e7398a581f10c03ced0462fc1cc404b7fdda4a459cdc4eafc2e56c85.
+    # src/zun/driver_data.inl: 656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c.
+    # src/zun/driver_hardware.inc: 50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6.
     # One assembly plus one link, not a two-cold-round proof. All 4,224 bytes
     # equal the retained candidate, NOT target: ten differences remain.
-    # Proven maintained scope: 55 complete procedures / 2,844 B; candidate only.
+    # Ten maintained sources own the complete 4,224-byte standalone driver:
+    # 55 procedures / 2,844 B plus 1,380 B data/layout; candidate only.
     # All ten target differences are inside maintained bodies, not target-exact.
-    # Data/scaffold ownership is still open; no full-driver source credit.
+    # No retained source scaffold; stored packaging/default graph stay open.
     rows = [u for u in units if u["id"] == "th03-zun-decoded-sprite16-driver"]
     return len(rows) == 1 and all(rows[0].get(key) == value for key, value in {
         "artifact": "th03-zun", "segment": "decoded-COM", "offset": "0x33a2",
@@ -149,7 +153,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
-            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Candidate raw equality, not target equality; all ten differences are in owned procedure bodies. One hybrid assembly/link attempt, not two cold rounds or full-driver ownership">Retained hybrid driver: 55 procedures / 2,844 B · candidate-only · 10 target differences · no exact credit</text>')
+            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained sources own the complete driver: 55 procedures / 2,844 bytes plus 1,380 data/layout bytes. Candidate raw equality, not target equality; all ten differences are in owned procedure bodies. One standalone assembly/link run, not two cold rounds or exact acceptance">Maintained standalone driver: 4,224 B · candidate-only · 10 target differences · no exact credit</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="458" viewBox="0 0 788 458" role="img" aria-label="TH03 reviewed subset reconstruction progress">

@@ -50,15 +50,17 @@ class ZunProgressTests(unittest.TestCase):
                 self.assertFalse(progress.zun_init_standalone_retained([row]))
                 self.assertNotIn("Retained standalone init:", progress.render_svg([row], [], []))
 
-    def test_hybrid_annotation_changes_no_acceptance_or_inventory(self):
+    def test_standalone_driver_annotation_changes_no_acceptance_or_inventory(self):
         main = {"id": "main-exact", "artifact": "th03-main", "state": "exact", "size": "10"}
         before = progress.render_svg([main, initializer()], [], [])
         after = progress.render_svg([main, initializer(), driver()], [], [])
-        added = [line for line in after.splitlines() if "Retained hybrid driver:" in line]
+        added = [line for line in after.splitlines() if "Maintained standalone driver:" in line]
         self.assertEqual(len(added), 1)
-        self.assertIn("55 procedures / 2,844 B · candidate-only · 10 target differences · no exact credit", added[0])
-        self.assertIn("not two cold rounds or full-driver ownership", added[0])
+        self.assertIn("4,224 B · candidate-only · 10 target differences · no exact credit", added[0])
+        self.assertIn("not two cold rounds or exact acceptance", added[0])
         self.assertIn("Candidate raw equality, not target equality", added[0])
+        self.assertIn("Ten maintained sources own the complete driver", added[0])
+        self.assertIn("55 procedures / 2,844 bytes plus 1,380 data/layout bytes", added[0])
         self.assertIn("all ten differences are in owned procedure bodies", added[0])
         self.assertEqual(after.replace(added[0] + "\n", ""), before)
         self.assertIn("Retained standalone init:", after)
@@ -67,7 +69,7 @@ class ZunProgressTests(unittest.TestCase):
         self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
         self.assertIn("no whole-game completion percentage", after)
 
-    def test_hybrid_annotation_requires_unique_unchanged_reviewed_scope(self):
+    def test_standalone_driver_annotation_requires_unique_unchanged_reviewed_scope(self):
         self.assertFalse(progress.zun_driver_hybrid_retained([]))
         self.assertFalse(progress.zun_driver_hybrid_retained([driver(), driver()]))
         changes = {"id": "other", "artifact": "th03-main", "segment": "decoded:-4",
@@ -78,7 +80,7 @@ class ZunProgressTests(unittest.TestCase):
                 row = driver()
                 row[field] = value
                 self.assertFalse(progress.zun_driver_hybrid_retained([row]))
-                self.assertNotIn("Retained hybrid driver:", progress.render_svg([row], [], []))
+                self.assertNotIn("Maintained standalone driver:", progress.render_svg([row], [], []))
 
 
 if __name__ == "__main__":
