@@ -113,6 +113,19 @@ def zun_driver_hybrid_retained(units: list[dict[str, str]]) -> bool:
     }.items())
 
 
+def mainl_cutscene_source_pending(units: list[dict[str, str]]) -> bool:
+    """Annotation only: a maintained owner does not promote source/exact counts."""
+    rows = [u for u in units if u["id"] == "th03-mainl-decoded-cutscene"]
+    return (len(rows) == 1 and all(rows[0].get(k) == v for k, v in {
+        "artifact": "th03-mainl", "segment": "decoded:095F", "offset": "0xb3e",
+        "size": "3195", "boundary_state": "reviewed", "state": "boundary-reviewed",
+        "source": "",
+    }.items()) and all((ROOT / p).is_file() for p in (
+        "src/mainl/cutscene.cpp", "src/mainl/cutscene/cutscene.hpp",
+        "src/mainl/cutscene/script.inl", "src/mainl/cutscene/egc_start_copy.inl",
+    )))
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -141,6 +154,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact {exact}/{total}</text>
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
+            if mainl_cutscene_source_pending(units):
+                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             continue
         candidates = [f for f in functions if f["artifact"] == artifact]
         reviewed = sum(f["boundary_state"] in {"reviewed", "shared"} for f in candidates)
