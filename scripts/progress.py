@@ -126,6 +126,33 @@ def mainl_cutscene_source_pending(units: list[dict[str, str]]) -> bool:
     )))
 
 
+MAINL_CUTSCENE_SOURCE_EVIDENCE = {
+    "ev-th03-mainl-cutscene-source-compiler": "compiler",
+    "ev-th03-mainl-cutscene-source-runtime": "runtime",
+    "ev-th03-mainl-cutscene-source-reproducible": "reproducibility",
+}
+MAINL_CUTSCENE_SOURCE_RECEIPT = "7f68b341f72bff5814593ca4291043ab9c22b3e3ef58f27517d4af0b0a94c82b"
+
+def mainl_cutscene_hybrid_source(units, evidence):
+    rows = [u for u in units if u["id"] == "th03-mainl-decoded-cutscene"]
+    if len(rows) != 1 or any(rows[0].get(k) != v for k, v in {
+        "artifact": "th03-mainl", "segment": "decoded:095F", "offset": "0xb3e",
+        "size": "3195", "boundary_state": "reviewed", "state": "source-present",
+        "source": "src/mainl/cutscene.cpp",
+    }.items()):
+        return False
+    linked = rows[0].get("evidence_ids", "").split(";")
+    for name, kind in MAINL_CUTSCENE_SOURCE_EVIDENCE.items():
+        records = [e for e in evidence if e["id"] == name]
+        if name not in linked or len(records) != 1 or any(records[0].get(k) != v for k, v in {
+            "artifact": "th03-mainl", "unit_id": rows[0]["id"], "oracle": "analysis-bundle",
+            "extent_start": "0xb3e", "extent_size": "3195", "evidence_class": kind,
+            "result": "pass", "output_sha256": MAINL_CUTSCENE_SOURCE_RECEIPT,
+        }.items()):
+            return False
+    return True
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -156,6 +183,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   </g>""")
             if mainl_cutscene_source_pending(units):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
+            elif mainl_cutscene_hybrid_source(units, evidence or []):
+                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
             continue
         candidates = [f for f in functions if f["artifact"] == artifact]
         reviewed = sum(f["boundary_state"] in {"reviewed", "shared"} for f in candidates)

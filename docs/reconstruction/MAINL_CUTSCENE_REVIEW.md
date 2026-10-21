@@ -1,3 +1,7 @@
+> 2026-10-21 update: maintained source and hybrid producer proof now live in
+> [MAINL_CUTSCENE_SOURCE.md](MAINL_CUTSCENE_SOURCE.md). This historical review
+> remains diagnostic evidence; the three PI operand mismatches are still open.
+
 # Whole MAINL cutscene candidate analysis
 
 The complete frozen TH03 cutscene translation unit has source/control-flow/ABI

@@ -403,3 +403,15 @@ released lock. Completion52d3c3f8722e254fa3ab73963c228453fd39b488ee507d470b8ee68
 SVG reports a maintained standalone candidate, not exact credit. Next is an
 independent timestamp-declared materialization and -4-only wrapper composition
 from actual produced outputs; no default/acceptance promotion yet.
+
+
+## MAINL cutscene source checkpoint (2026-10-21)
+
+`src/mainl/cutscene.cpp` and its three local includes now own the reviewed
+3,195-byte cutscene extent. Two independently compiled objects and two hybrid
+links are raw-identical; 32 other objects remain retained. Selected runtime
+passes 53 scenarios / 65 entry calls per linked image. Source-present only, no
+whole-program cold build or exact credit. Three PI operand differences remain
+at 095F:140A/1414/144B. Use `scripts/replay_th03_mainl_cutscene.py` for the
+retained proof replay and `scripts/stage_th03_mainl_cutscene.py` for opt-in
+source staging; see `docs/reconstruction/MAINL_CUTSCENE_SOURCE.md`.
