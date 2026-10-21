@@ -13,9 +13,14 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL CRT source proof
+
+MAINL CRT source promotion: six existing units / 628 bytes added, now source 145/145 (28,381 bytes), exact 0. Six fresh semantic ASM producers replace only six members in the original893-member private library order;887 contextual members remain unchanged. Independent repeated producers/library/link yield nine raw-identical products. All24,680 scoped maintained CODE bytes and93 CRT DATA bytes match target; DATA is not extra CODE ledger credit. Fresh target and final-repeat candidate runtime runs each passed7,858 scenarios and277 instruction positions; first/repeat EXE identity avoids a redundant third run. Fast replay retains the two actual model receipts without rerunning. Known DATA linear60473 (90 to00),461 global relocation-order differences and canonical packed/full cold aggregate gates remain open. Source145/145 is not whole-game exact completion.
+See [CRT proof](reconstruction/MAINL_CRT_SOURCE_REVIEW.md).
+
 ## MAINL linked-game source proof
 
-MAINL linked-game source promotion: 23 existing units / 1,765 bytes added, now source 139/145 (27,753 bytes), exact 0. Two actual rounds each rebuilt 15 C/C++ providers plus root and link: 34 successful native phases and 18 raw-identical repeat products. Nineteen contextual objects per round remain retained, not a cold whole program. All 24,052 scoped maintained bytes match target. Six model families cover 3,496 cases per image and nine CFG/window mutants; fast replay retains results without rerunning matrices. STAFF music/ending retain relocation membership but seven/thirteen ordered positions differ. Four original sound producer bytes are owned; scanner NOP remains context. One DATA byte and 461 global relocation-order differences, full cold aggregate and canonical packing remain open.
+MAINL linked-game source promotion: 23 existing units / 1,765 bytes added, at that historical checkpoint source 139/145 (27,753 bytes), exact 0. Two actual rounds each rebuilt 15 C/C++ providers plus root and link: 34 successful native phases and 18 raw-identical repeat products. Nineteen contextual objects per round remain retained, not a cold whole program. All 24,052 scoped maintained bytes match target. Six model families cover 3,496 cases per image and nine CFG/window mutants; fast replay retains results without rerunning matrices. STAFF music/ending retain relocation membership but seven/thirteen ordered positions differ. Four original sound producer bytes are owned; scanner NOP remains context. One DATA byte and 461 global relocation-order differences, full cold aggregate and canonical packing remain open.
 See [linked-game proof](reconstruction/MAINL_LINKED_GAME_SOURCE_REVIEW.md).
 
 ## MAINL root-tail source proof

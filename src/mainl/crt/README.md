@@ -1,8 +1,8 @@
-# MAINL CRT reconstruction candidates
+# MAINL semantic CRT reconstruction
 
-These six providers are readable semantic reconstruction candidates, not accepted source
-coverage, exact acceptance, or a copied compiler-library implementation. The source ledger
-remains unchanged until actual linked/runtime/repeat proof is accepted.
+These six semantic ASM providers have actual source-consumption, native repetition, linked
+image and CPU-model evidence. They are not copied library implementations. Source coverage
+is distinct from formal exact or canonical packed acceptance; neither is claimed here.
 
 - h_llsh.asm: DX:AX left shift, including near/far return bridge and CPU count masking.
 - h_padd.asm: signed huge-pointer addition/subtraction, paired cross-branches and bridges.
@@ -36,10 +36,23 @@ let TASM shorten the call prematurely. Declaring that imported far code outside 
 produces the genuine five-byte far call. The corrected native ASM result is352 CODE bytes,
 DATA2 and public offsets142/209, all raw-equal to the historical member. All six ASM
 providers therefore match628 raw CODE bytes and93 owned DATA bytes in isolated objects.
-FIXUPP indices/order differ, and actual linking must resolve them. Both earlier C336 and
-ASM351 attempts remain retained. No composed link, runtime matrix or independent repeat
-has yet established the new source.
-These probes are diagnostic results, not exact/source-ledger acceptance.
+FIXUPP indices/order differ; actual TLINK resolves them naturally, including its far-call
+relaxation. Both earlier C336 and ASM351 attempts remain retained.
+
+Normal TLIB extraction/rebuild preserves all893 original A3 member positions, retaining887
+contextual payloads and substituting only the six freshly assembled providers. A second
+actual assembly of all six produces identical raw objects; the second private library, EXE
+and MAP also match exactly. The full EXE matches the prior cold aggregate carrier. Two fresh
+actual-image CPU runs, decoded target and final repeat, each pass7858 scenarios across13
+partitions and cover277 instruction positions. Complete CPU observations match except the
+pre-existing before/after whole-memory hash fields. Raw EXE equality bridges the first link
+to the tested repeat without a redundant third CPU run.
+
+Replay: scripts/replay_th03_mainl_crt_link.py, recipe config/th03_mainl_crt_link.json.
+The fast replay checks retained evidence; it does not rerun native tools or CPU matrices.
+Known whole-image differences remain: DATA linear60473 is target90h/candidate00h, and461
+relocation ordering positions differ although all677 relocation members match. Formal exact
+acceptance remains zero and canonical packed acceptance is still separate.
 
 Source-only tests validate named DATA, absence of encoded instructions/padding, public
 aliases, explicit calling conventions, and the actual external-segment regression. They do

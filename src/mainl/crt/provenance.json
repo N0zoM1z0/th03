@@ -1,10 +1,10 @@
 {
-  "status": "source-only candidate; ledger and exact acceptance unchanged",
+  "status": "six semantic ASM providers eligible for source ownership by actual consumed native, repeat, linked and runtime evidence; formal exact acceptance unchanged",
   "origin": "semantic reconstruction from decoded behavior, compiler-helper ABI and independent scalar/CPU model; not imported library source or OMF",
   "library_sha256": "7d53ed1864b8b778040aa8203ebe4e01385112d9b3f134744a461aec0b171ba7",
   "model": "scripts/review_th03_mainl_crt_break.py",
   "historical_model_scenarios": 7858,
-  "model_rerun_for_new_sources": false,
+  "model_rerun_for_new_sources": true,
   "source_sha256": {
     "dos_error_map.inc": "6f5774bd94516c1514259599a8e74af8a5abaee1e02c24edb6c4f9fe9e343b6b",
     "n_pcmp.asm": "97fe43141ba11f511793421e0128945997a6b7fd80d4d39ff2b3040939fd809b",
@@ -94,5 +94,24 @@
     "all_six_asm_isolated_code_bytes_equal": 628,
     "all_six_asm_isolated_owned_data_bytes_equal": 93
   },
-  "provider_selection": "fbrk.asm is the ABI-explicit assembly candidate; fbrk.c remains retained as a high-level candidate, not linked simultaneously"
+  "provider_selection": "fbrk.asm is the ABI-explicit assembly candidate; fbrk.c remains retained as a high-level candidate, not linked simultaneously",
+  "accepted_provider": "fbrk.asm; fbrk.c remains an unaccepted high-level alternative",
+  "composed_proof": {
+    "recipe": "config/th03_mainl_crt_link.json",
+    "replay": "scripts/replay_th03_mainl_crt_link.py",
+    "first_link": ".analysis/mainl-crt-ordered-link-output-20261021-v01/linked-verification.json",
+    "repeat_link": ".analysis/mainl-crt-source-repeat-b-20261021-v01-output/linked-verification.json",
+    "runtime_comparison": ".analysis/mainl-crt-runtime-output-20261021-v01/comparison.json",
+    "fresh_model_images": 2,
+    "scenarios_per_image": 7858,
+    "instruction_positions": 277,
+    "raw_repeat_objects": 6,
+    "all_893_member_order_equal": true,
+    "contextual_members_unchanged": 887,
+    "first_repeat_exe_equal": true,
+    "owned_code_bytes": 628,
+    "owned_data_bytes": 93,
+    "exact_acceptance": false,
+    "canonical_packed_acceptance": false
+  }
 }
