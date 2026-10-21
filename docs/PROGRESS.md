@@ -9,3 +9,5 @@
 
 Reviewed authored-byte coverage is scoped to currently reviewed file-backed unit extents; the whole-product authored denominator remains unknown.
 Infrastructure and reference builds do not count as game reconstruction.
+
+MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. Source 38/145 (9,845 bytes), exact 0 remain unchanged.

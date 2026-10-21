@@ -194,6 +194,22 @@ def mainl_regist_hybrid_source(units, evidence):
     return True
 
 
+MAINL_PI_COMPOSITION_RECEIPT = "ee68c2cd2d34f3efb87310c09521133f184168a25d177162df43995c6dc610ee"
+def mainl_pi_composed(units, evidence):
+    for unit, offset, size in (("cutscene","0xb3e","3195"),("scoredat","0x17b9","229"),("regist","0x189e","2720")):
+        uid="th03-mainl-decoded-"+unit; eid="ev-th03-mainl-"+unit+"-pi-composition-raw"
+        rows=[u for u in units if u["id"]==uid]
+        if len(rows)!=1 or rows[0].get("state")!="source-present" or rows[0].get("source")!="src/mainl/"+unit+".cpp" or eid not in rows[0].get("evidence_ids", "").split(";"):
+            return False
+        records=[e for e in evidence if e["id"]==eid]
+        if len(records)!=1 or any(records[0].get(k)!=v for k,v in {
+            "artifact":"th03-mainl","unit_id":uid,"oracle":"analysis-bundle","extent_start":offset,
+            "extent_size":size,"evidence_class":"binary","result":"pass","output_sha256":MAINL_PI_COMPOSITION_RECEIPT,
+        }.items()):
+            return False
+    return True
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -222,7 +238,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact {exact}/{total}</text>
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
-            if mainl_regist_source_pending(units):
+            if mainl_pi_composed(units, evidence or []):
+                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Composed: 6,144 B target-equal · 9 PI gaps closed · exact acceptance still open</text>')
+            elif mainl_regist_source_pending(units):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</text>')
             elif mainl_regist_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Regist + score: 2,949 B source · repeat OBJ/EXE/MAP · 6 PI bytes still differ</text>')
@@ -297,6 +315,8 @@ def main() -> int:
         "Infrastructure and reference builds do not count as game reconstruction.",
         "",
     ])
+    if mainl_pi_composed(units, evidence):
+        lines.extend(["MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. Source 38/145 (9,845 bytes), exact 0 remain unchanged.", ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)

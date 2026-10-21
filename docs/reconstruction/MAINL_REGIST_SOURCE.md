@@ -52,3 +52,11 @@ at six PI operand bytes: 19E2, 19EC, 22D8, 22E2, 230F and 2319. All 54 ordered
 registration relocations agree in the existing candidate. These facts do not
 establish canonical exact acceptance. Do not patch callers or invent PI padding.
 Canonical packaging, full DATA/BSS, physical devices and whole-game proof remain open.
+
+## Later composed-link result (2026-10-21)
+
+The supplemental `MAINL_PI_COMPOSITION.md` proof closes all nine historical PI
+caller gaps across 6,144 owned cutscene/score/registration bytes. A freshly
+compiled frozen418-byte scanner is context only, including its original unowned
+codestring. Historical receipts remain unchanged. Whole-image21-byte and
+relocation-order differences remain; source/exact counters do not change.

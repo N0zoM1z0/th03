@@ -152,3 +152,11 @@ path or exact credit. Remaining input data/BSS ownership, real devices/clocks,
 whole libraries/CRT, localized cold builds, original producer records and
 canonical DIET packaging/full Oracles remain open. The complete 505-file intake
 and requested actual English commits are still unfinished.
+
+## Later composed-link result (2026-10-21)
+
+The supplemental `MAINL_PI_COMPOSITION.md` proof closes all nine historical PI
+caller gaps across 6,144 owned cutscene/score/registration bytes. A freshly
+compiled frozen418-byte scanner is context only, including its original unowned
+codestring. Historical receipts remain unchanged. Whole-image21-byte and
+relocation-order differences remain; source/exact counters do not change.

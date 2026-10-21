@@ -109,3 +109,11 @@ Proof roots: `.analysis/mainl-cutscene-native-output-20261021-v01` and
 Historical review: `.analysis/sol-mainl-cutscene-review-20261006.json` and
 `docs/reconstruction/MAINL_CUTSCENE_REVIEW.md`. The source ledger and SVG count
 only the disjoint 3,195-byte source extent, not the retained carrier or exactness.
+
+## Later composed-link result (2026-10-21)
+
+The supplemental `MAINL_PI_COMPOSITION.md` proof closes all nine historical PI
+caller gaps across 6,144 owned cutscene/score/registration bytes. A freshly
+compiled frozen418-byte scanner is context only, including its original unowned
+codestring. Historical receipts remain unchanged. Whole-image21-byte and
+relocation-order differences remain; source/exact counters do not change.

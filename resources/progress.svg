@@ -36,7 +36,7 @@
   <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact 0/145</text>
   <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 9,845 B · Heap: 8 procedures / 628 B retained-only</text>
   </g>
-<text x="200" y="304" fill="#e0af68" font-family="sans-serif" font-size="10">Regist + score: 2,949 B source · repeat OBJ/EXE/MAP · 6 PI bytes still differ</text>
+<text x="200" y="304" fill="#e0af68" font-family="sans-serif" font-size="10">Composed: 6,144 B target-equal · 9 PI gaps closed · exact acceptance still open</text>
   <text x="24" y="314" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>
   <text x="24" y="334" fill="#c8cad2" font-family="monospace" font-size="11">Inventory pending</text>
   <rect x="200" y="307" width="250" height="12" rx="4" fill="#353b52"/>
