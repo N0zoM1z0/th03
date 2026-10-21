@@ -2,8 +2,9 @@
 
 The complete frozen `libs/sprite16/sprite16.asm` candidate was reviewed:
 2120 lines, 55 complete procedures, startup, mixed code/data, command parser,
-resident interrupt interface and hardware helpers. It remains reference
-material. No maintained driver source, exact extent or function is added.
+resident interrupt interface and hardware helpers. The complete driver remains reference
+material except for the bounded six-setter source migration described below.
+No exact extent or accepted function is added.
 The cached driver differs from the decoded target in ten bytes. Its literal
 zero gaps also need producer ownership before migration; reproducing them as
 unexplained padding would violate this repository's source policy.
@@ -128,8 +129,8 @@ diagnostics. 52 bodies are raw equal; the other three contain four differences:
 | `08B1` | `089F` | `67 2E 8A 92 DC 08 00 00` | `2E 67 8A 92 DC 08 00 00` | MOV DL,CS:[EDX+08DCh] |
 
 Full raw equality fails. No semantic comparison, prefix normalization, filler
-or target-byte emission is used to promote acceptance. Wine is unavailable
-in the current sandbox, so natural assembler remedies have not been tested.
+or target-byte emission is used to promote acceptance. That 2026-10-06 cached review did not execute Wine. The later native
+encoding probes below were executed under the working Factory toolchain.
 
 Three constructed Unicorn CPU cases run against the target and each cached
 candidate (nine observations). They preserve two source-visible hazards:
@@ -163,3 +164,67 @@ complete raw equality, stored packaging lineage/ownership and the complete
 Oracle set. Current Wine and Ghidra execution probes fail under the restricted
 sandbox, and `.git` is read-only. These environment failures cannot turn this
 cached diagnostic into a successful fresh replay or requested commit.
+
+## 2026-10-21 encoding probes: closed without a remedy
+
+The parent ran bounded TASM 5 probes, not a full driver rebuild. Raw checksummed
+OMF from V03 proves that SMART and explicit signed constants retain the same
+AX-special encodings: 3D 00 00, 25 FE FF, 25 0F 00. Its ordinary CS/EDX
+load still emits 2E 67. V04 proves that BYTE PTR on those immediate constants
+does not change the encodings either. Do not claim these spellings fix the driver.
+
+The V03 object is 288 bytes, SHA256
+3909a790f52f02f18d51853e76b5b5f723cd7e722a559c4c4eab76c21c2a5354;
+V04 is 242 bytes, SHA256
+26fa2d7df51ae604e3b9b03a1ba4ce34c6e7f1d66ba158649d450b14077f8ab2.
+They are retained in drive_c/ZDENC03/probe.obj and ZDENC04/probe.obj
+under .analysis/toolchain/wineprefix.
+
+Completion receipts under .analysis/zun-driver-encoding-output-20261021-vNN/:
+- V03: 562e7e5971490f3d99ecc4b845acfe0212c59b7f42998086b05fe83c530ab2a4.
+- V04: f0ec59e79363f4f072191a31097df84dcc89930f356438536b258ddca463e1d0.
+- V01 stopped before Popen because its exact-boundary supervisor allowance was
+  too short. Its premature native counter is corrected only in a separate
+  disposition, never by editing that failed receipt.
+- V02's mixed syntax/listing probe and V05's IDEAL/SEGCS probe crashed inside
+  TASM before producing an object. Neither supplies usable encoding evidence.
+  Both retained certain owned cleanup, valid raw registry transitions and lock
+  release. All failed logs and receipts remain unchanged.
+
+The original sprite16.doc identifies Promisence Soft, SPRITE16 v0.04
+(1996-03-14), and the API, but does not identify the original compiler/assembler.
+The IDA-derived assembly is not evidence of that producer. No alternative tool
+is selected merely to manufacture matching bytes. The bounded spelling
+investigation is closed pending concrete producer evidence; the ten-byte
+whole-driver gap remains.
+
+## First consumed maintained group: six resident setters
+
+src/zun/driver_services.inl now owns the six complete AH=3..8 setters at
+driver IP 0340–0363, corresponding to 36 bytes in the reviewed candidate.
+They write DX to six WORD fields through CS and return near, preserving flags
+and all general registers. The fields remain owned by the containing driver:
+mono enable 1064, mono color 1066, overlap 1068, access plane 106E,
+ROP 106A, and mask 106C. No resident allocation, device operation, data
+storage or padding is synthesized by this include.
+
+This is consumed by the explicit opt-in source stage:
+
+    python3 scripts/stage_th03_zun_driver_services.py --output .analysis/FRESH_STAGE
+
+The stage replaces exactly those six procedure definitions in the raw-pinned
+reference scaffold, renames every corresponding service-table and state
+reference, and emits six public semantic procedure symbols. The rest of the
+driver, including its still-unowned zero gaps, remains explicitly retained
+candidate material. Two hash-pinned retained macro includes are staged under
+retained/; the maintained include has no reference-game dependencies.
+The source-only check expands the include and verifies unchanged complete
+instruction/data tokens apart from the deliberate symbol names/public entries.
+
+The stager supplies a fixed assembly/link recipe with /dTHIEF, but does not
+execute it. This checkpoint proves source consumption and unchanged source
+semantics, not new machine output. Immediate next step: one parent-owned fresh
+hybrid assembly/link, verify all six boundaries and complete candidate raw
+equality, and preserve the known ten target differences. Later groups can then
+migrate behind the same explicit driver layout. Default replay, wrapper/DIET
+acceptance, hardware/TSR claims and the whole-game denominator remain unchanged.

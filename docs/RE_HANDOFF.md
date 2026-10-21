@@ -26,6 +26,17 @@ receipt remains immutable and outer Factory exit is unknown. The maintained
 recipe/verifier/schema and source-only regression tests do not alter the default
 wrapper graph, accepted ledgers, whole ZUN status, or whole-game denominator.
 
+## ZUN driver ownership continuation
+
+The [driver review](reconstruction/ZUN_SPRITE16_DRIVER_REVIEW.md) now records
+native negative encoding findings: SMART/signed constants and BYTE PTR do not
+fix the four instructions/ten bytes; failed probe evidence remains unchanged.
+Six resident service setters have semantic maintained source, actually consumed
+by an opt-in hybrid source stager with pinned retained scaffold/includes.
+This is source consumption only, not a fresh driver build or exactness credit.
+Next: parent-owned hybrid assembly/link and six-boundary/full-candidate checks,
+then migrate larger groups without inventing padding or hardware behavior.
+
 ## CPU CODE acceptance
 The [CPU acceptance](reconstruction/MAIN_PLAYER_CPU_REVIEW.md) adds one complete
 extent / four functions / 1,077 bytes after two fresh default cold rounds and
