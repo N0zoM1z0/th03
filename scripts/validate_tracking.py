@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import csv
+import importlib.util
+import json
 from datetime import datetime
 from pathlib import Path
 import re
@@ -299,7 +301,7 @@ def validate_source_tree(root: Path) -> None:
             )
 
 
-def main(repository_root: Path = ROOT) -> int:
+def main(repository_root: Path = ROOT, *, validate_product: bool = True) -> int:
     try:
         validate_source_tree(repository_root)
         config = repository_root / "config"
@@ -548,6 +550,16 @@ def main(repository_root: Path = ROOT) -> int:
                 )
                 if not boundary_pass:
                     raise ValueError(f"{context}: exact function lacks target-analysis boundary evidence")
+
+        # MAINL's compressed mixed product and decoded owners are a separate
+        # source-bound sidecar. They never relax canonical file_offset rules.
+        publication = repository_root / "config/mainl_product_acceptance/publication.json"
+        if validate_product and publication.exists():
+            helper = Path(__file__).resolve().parent / "lib/mainl_product_acceptance.py"
+            spec = importlib.util.spec_from_file_location("tracking_mainl_product", helper)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            module.verify(repository_root, json.loads(publication.read_text()), allow_review=True)
 
         print(
             "tracking OK: "

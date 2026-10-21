@@ -436,6 +436,8 @@ def mainl_fullcold_current_proven():
 
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
+    from status import mainl_product_status
+    product = mainl_product_status(ROOT, units)
     rows = []
     graphics_pending = mainl_graphics_producer_pending()
     for index, (artifact, label) in enumerate((
@@ -447,7 +449,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             total = counts["total"]
             reviewed = counts["reviewed"]
             source = counts["source"]
-            exact = counts["exact"]
+            exact = product["decoded_exact_units"] if product["product_exact"] else counts["exact"]
+            acceptance_label = "Decoded acceptance" if product["product_exact"] else "Unit acceptance"
             y = 128 + index * 62
             retained = (" · Heap: 8 procedures / 628 B retained-only"
                         if mainl_heap_retained(units, evidence or []) else "")
@@ -460,7 +463,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <rect x="200" y="{y}" width="{250*source/total if total else 0:.2f}" height="5" fill="#e0af68"/>
   <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
   <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Source {source}/{total}</text>
-  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact {exact}/{total}</text>
+  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">{acceptance_label}: exact {exact}/{total}</text>
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
             if mainl_pi_composed(units, evidence or []):
@@ -538,7 +541,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
 {('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</text>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() and not mainl_fullcold_current_proven() else '')}
-{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>' if mainl_fullcold_current_proven() else '')}
+{('<text x="24" y="472" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>' if mainl_fullcold_current_proven() and not product['product_exact'] else '')}
+{('<text x="24" y="472" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · 145 units · mixed 37,975 B · whole-game % unknown</text>' if product['product_exact'] else '')}
 </svg>
 '''
 
@@ -555,7 +559,7 @@ def main() -> int:
         evidence = list(csv.DictReader(stream))
     targets = tomllib.loads((ROOT / "config/targets.toml").read_text())["artifacts"]
     lines = ["# TH03 reconstruction progress", "",
-             "| Artifact | Target bytes | Source-present units | Exact units | Exact functions | Exact owned bytes |",
+             "| Artifact | Target bytes | Source-present units | Ledger exact units | Exact functions | Ledger exact owned bytes |",
              "| --- | ---: | ---: | ---: | ---: | ---: |"]
     for target in (a for a in targets if a["game"] == "th03"):
         rows = [u for u in units if u["artifact"] == target["id"] and u["state"] != "excluded"]
@@ -569,6 +573,7 @@ def main() -> int:
         "Reviewed authored-byte coverage is scoped to currently reviewed file-backed unit extents; "
         "the whole-product authored denominator remains unknown.",
         "Infrastructure and reference builds do not count as game reconstruction.",
+        "The table preserves original canonical-ledger counters. Separate source-bound MAINL decoded/product acceptance is reported below and does not add authored ownership.",
         "",
     ])
     if mainl_pi_composed(units, evidence):
@@ -605,6 +610,7 @@ def main() -> int:
         lines.extend(['The opt-in 417-byte continue-menu producer and whole unchanged shared-object placement reduce global relocation-order differences from 460 to 144, with 321 positions changed versus MSD03. Three fresh native phases pass all 25 linked gates: full target/prior program bytes, headers, all prior publics, 677 relocation members, registration71, STAFF mixed107 and continue20 target-order streams. MCM01 naturally emitted 414 bytes; its failed hypothesis is preserved beside the genuine explicit-assignment correction. MCM03 missing-call root failure is also retained, with the successor preserving the two existing caller migrations from actual consumed source. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MCM04. See [continue-menu backend proof](reconstruction/MAINL_CONTINUE_BACKEND_REVIEW.md).', ""])
     if mainl_root_prefix_backend_proven():
         lines.extend(['The opt-in root-prefix producer combines genuine CFG 49, win 338 and four complete root procedures 694 into 1,081 CODE bytes with the original 186-byte BSS. Three fresh native phases pass all 32 linked gates: full target/prior program, headers, all prior publics, 677 relocation members, prefix 48, continue 20, registration 71, STAFF 107 and literal suffix indices 149 through 676. Global ordered differences decrease from 144 to 102, with 134 positions changed versus MCM04. The 1,077-byte early-return hypothesis and lowercase external link failure remain preserved. A distinct verifier correction excludes only decoded fixup bytes at the boundary, retaining truncation and return checks. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL remains 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MRP05. See [root-prefix backend proof](reconstruction/MAINL_ROOT_PREFIX_BACKEND_REVIEW.md).', ""])
+    lines.extend(["### Historical proof milestones (acceptance counts below are as recorded)", ""])
     if mainl_root_intro_backend_proven():
         lines.extend(['The opt-in stage-introduction producer extends the genuine root prefix to 1,726 bytes, including the complete 627-byte introduction and its naturally generated 18-byte switch table. Three fresh integration phases pass all 32 linked gates: full target/prior program, headers, all prior publics, BSS186, 677 relocation members, root80, continue20, registration71, STAFF107 and literal suffix indices149 through676. Global ordered differences decrease from 102 to 101, with 87 positions changed versus MRP05. MRI01 compiler success but harness completion=false remains preserved: its long basename produced a DOS8.3 object name, verified in a separate read-only actual-product report. Fresh integration uses identical source bytes under rootint.cpp. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL remains 145/145 source units, 28,381 source bytes and exact zero. The earlier DIET 38,050-byte/1,212-difference result belongs to the prior alignment product, not MRI02. See [stage-introduction backend proof](reconstruction/MAINL_ROOT_INTRO_BACKEND_REVIEW.md).', ""])
     if mainl_root_data_backend_proven():
@@ -615,6 +621,13 @@ def main() -> int:
         lines.extend(['The actual complete-root MCDL03 linked source product now packs twice with DIET to the canonical 37,975-byte file, SHA-256 5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c, with zero byte differences. Both separate -RA restorations reproduce its exact 67,372-byte decoded input, SHA-256 92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a. Five clean native phases and fifteen recorded phases across three chronological runs replay without native execution. The older partial-source negative remains preserved. Source input is the actual linked product, never the equal-hash decoded comparator. Full cold-build and runtime acceptance remain open; same-tool restoration is not an independent decoder. Source 145/145 and 28,381 bytes, formal exact credit 0, remain unchanged.', ""])
     if mainl_fullcold_current_proven():
         lines.extend(['Two isolated current-source MAINL cold rounds now rebuild all 36 project objects and six authored CRT members, extract 893 declared vendor library members, rebuild the private library in original order, link, and directly pack and restore each result. All 94 native phases across 20 groups pass. Both decoded 67,372-byte EXEs equal target SHA-256 92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a; both packed 37,975-byte files equal canonical SHA-256 5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c. All 940 declared products, including objects, private library, extracted context, MAP, EXE and packed/restored copies, repeat byte-for-byte. The source snapshots and fixed timestamps are identical; no retained project or private CRT object is used. Vendor startup C0L and remaining library members remain explicit context, not claimed reassembled source. All 39 linked gates and literal order of 677 relocations pass. The V01 extracted-filename case mismatch is preserved as a harness failure, not silently repaired in its carrier. Runtime is not rerun; formal oracle publication, ownership/default integration and exact ledger credit remain separate. Source counts remain 145/145 and 28,381 bytes; formal exact stays 0. See [current full-cold proof](reconstruction/MAINL_FULLCOLD_CURRENT_REVIEW.md).', ""])
+    lines.extend(['### Current separate product/decoded acceptance', ''])
+    from status import mainl_product_status
+    accepted = mainl_product_status(ROOT, units)
+    if accepted['product_exact']:
+        lines.extend(['MAINL repository-local acceptance is published: the 37,975-byte mixed stored product matches the candidate-local-attested canonical target, and all 145 existing decoded owner units are accepted through source-bound scoped evidence. These cover 27,753 authored bytes and 628 library-origin bytes. This adds no authored byte ownership, does not alter canonical file-backed ledger counters, and does not establish a whole-game completion percentage or Factory acceptance. Two isolated cold rounds and direct packing/restoration are bound to the publication. See [product acceptance](reconstruction/MAINL_PRODUCT_ACCEPTANCE_REVIEW.md).', ''])
+    else:
+        lines.extend(['MAINL product acceptance publication is pending or invalid; the separate decoded/product axis contributes zero. Existing canonical ledger counters are unchanged.', ''])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence)

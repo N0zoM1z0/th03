@@ -15,6 +15,27 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def mainl_product_status(root, units):
+    """Separate accepted decoded/product axes; never alter file-backed counters.
+
+    The source-bound publication must cover the identical active unit inventory
+    supplied by this caller. Synthetic fixtures cannot inherit live acceptance.
+    """
+    from lib.mainl_product_acceptance import load_status
+    result = load_status(root)
+    ids = [u['id'] for u in units if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
+    accepted_ids = result.get('decoded_exact_unit_ids', [])
+    if (not result.get('product_exact') or len(ids) != 145 or len(set(ids)) != 145
+            or len(accepted_ids) != 145 or len(set(accepted_ids)) != 145
+            or set(ids) != set(accepted_ids) or result.get('decoded_exact_units') != 145):
+        result = dict(result, product_exact=False, decoded_exact_units=0,
+                      decoded_exact_unit_ids=[], decoded_authored_exact_units=0,
+                      decoded_library_exact_units=0, decoded_authored_bytes=0,
+                      decoded_library_bytes=0, mixed_physical_exact_bytes=0,
+                      mixed_authored_credit_bytes=0)
+    return result
+
+
 def reviewed_authored_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     """Return current reviewed authored byte owners for denominator accounting.
 
@@ -139,6 +160,7 @@ def main() -> int:
         per_artifact[artifact["id"]] = artifact_report(
             artifact, units, functions, boundaries
         )
+    per_artifact["th03-mainl"]["product_acceptance"] = mainl_product_status(ROOT, units)
     output = {
         "schema_version": 1,
         "canonicality": manifest["source"]["canonicality"],
@@ -187,6 +209,12 @@ def main() -> int:
                 f"asm-attest={report['original_asm_attestation_candidates']:2} "
                 f"asm-provisional={report['original_asm_provisional_boundaries']:2}"
             )
+        product = per_artifact['th03-mainl']['product_acceptance']
+        print('MAINL repository-local mixed product: ' + ('accepted' if product['product_exact'] else 'pending'))
+        print(f"MAINL decoded accepted units={product['decoded_exact_units']}/145 "
+              f"authored={product['decoded_authored_bytes']} B library={product['decoded_library_bytes']} B; "
+              f"mixed stored product={product['mixed_physical_exact_bytes']} B, additional authored credit=0; "
+              "whole-game percentage=unknown; Factory acceptance=false")
         print(output["warning"])
     return 0
 

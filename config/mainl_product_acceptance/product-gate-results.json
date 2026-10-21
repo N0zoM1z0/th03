@@ -1,0 +1,52 @@
+{
+  "full_replay_executed_now": false,
+  "input_bindings_sha256": "6972973a50c2473731535a164c4bddd4bb6ccfd9442550b1796a2c97d7214fef",
+  "native_invocations_now": 0,
+  "oracle_results": {
+    "boundary-ownership": {
+      "observation": "Whole canonical file [0,37975) is one mixed product, not authored bytes; decoded145 reviewed extents have complete MAP coverage; archive/toolchain/stub/context roles remain explicit.",
+      "result": "pass"
+    },
+    "cold-aggregate-replay": {
+      "observation": "Both current complete MAINL graphs rebuild all project dependencies; all145 affected decoded extents rechecked against target;940 outputs agree.",
+      "result": "pass"
+    },
+    "cold-build-determinism": {
+      "observation": "Two source-only materializations, no retained project objects,940 byte-identical product pairs.",
+      "result": "pass"
+    },
+    "format-integrity": {
+      "observation": "Independent parser validates stored and decoded MZ structures.",
+      "result": "pass"
+    },
+    "layout-relocations": {
+      "observation": "All39 linked gates and677 ordered relocations match; actual MAP fully covers every145 decoded owner extent.",
+      "result": "pass"
+    },
+    "ledger-consistency": {
+      "observation": "Current canonical tracking validation passes; sidecar remains separate with no fabricated offsets, ownership totals or canonical state mutation.",
+      "result": "pass"
+    },
+    "object-format-integrity": {
+      "observation": "All42 fresh project/authoredCRT OMF and893 extracted context OMF parse with strict framing/checksums; all42 fresh producers/wrapper dependencies and every staged/vendor dependency are checked; private893member library consumption/order bound by fullcold proof.",
+      "result": "pass"
+    },
+    "raw-bytes": {
+      "observation": "Complete37975-byte source-built DIET output equals canonical stored artifact byte for byte.",
+      "result": "pass"
+    },
+    "target-identity": {
+      "observation": "Pinned candidate-local-attested target manifest size/hash and current stored file agree; independent pristine provenance remains unknown.",
+      "result": "pass"
+    },
+    "toolchain-identity": {
+      "observation": "Fresh identity-only attestation plus all91 recorded toolchain inputs and DIET pin agree; observed original execution retained by fixed fullcold witness.",
+      "result": "pass"
+    },
+    "toolchain-replay": {
+      "observation": "Fixed replay binds94 actual native argv/cwd, source graph1904, flags, order, inputs and producer receipts across two rounds.",
+      "result": "pass"
+    }
+  },
+  "schema": "mainl-product-gate-observations-v1"
+}

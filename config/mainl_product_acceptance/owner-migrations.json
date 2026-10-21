@@ -1,0 +1,1281 @@
+{
+  "schema": "mainl-current-source-owner-migrations-v1",
+  "scope": "Separate current decoded producer mapping; historical unit ledger is unchanged.",
+  "source_snapshot_recomposed": true,
+  "audit": {
+    "path": ".analysis/mainl-acceptance-schema-plan-20261021-v01/actual-cold-owner-audit.json",
+    "sha256": "f07f527027e5516e6c4fe85b05118f11d8389d80eb3d9efc0a43a3b93f1511b6",
+    "bytes": 243740
+  },
+  "linked_proof": {
+    "path": ".analysis/mainl-fullcold-r2-g10-20261021-v02-output/linked-verification.json",
+    "sha256": "efcd0561317b30d1328bb0220babfe962aa1c12b731eeeea5d47ca686fb0bf06",
+    "bytes": 688705
+  },
+  "map": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/MFC202/obj/th03/mainl.map",
+    "sha256": "a536ef5d24f7a261c741734684293e471cbc3ba3277da384e903a0e383392481",
+    "bytes": 80893
+  },
+  "bindings": [
+    {
+      "path": "config/mainl_continue_backend/proof.json",
+      "sha256": "c26a9420ab0147934d161f8a9c6b8a26c31f760e808d4a44606ca7805058b9c9",
+      "bytes": 859754
+    },
+    {
+      "path": "config/mainl_regmusic_backend/proof.json",
+      "sha256": "d197b6e745719a4f21b4e80f8982d31b4cb3184d8197cf5cc5336c6d25f49f27",
+      "bytes": 832149
+    },
+    {
+      "path": "config/mainl_root_complete_data_backend/proof.json",
+      "sha256": "2d55ed5849babc14155bb42dac5339312f283fa87258fe09dfff46211d264c07",
+      "bytes": 1750325
+    },
+    {
+      "path": "config/mainl_root_intro_backend/proof.json",
+      "sha256": "0b0f8e70d43fbd03f116800a607465e83123db503c3df854c67a9af1058409c8",
+      "bytes": 924948
+    },
+    {
+      "path": "config/mainl_root_prefix_backend/proof.json",
+      "sha256": "3f39902c2ac3aa63febf663fb3ee0c60fdf104757792d85bfa6e0e8ec8083900",
+      "bytes": 860622
+    },
+    {
+      "path": "config/mainl_root_shots_backend/proof.json",
+      "sha256": "94f1bbf93284622861b0c8a602704f2ea01bedaf8e8ebc34c683922400a1cdb8",
+      "bytes": 925269
+    },
+    {
+      "path": "config/mainl_snow_backend/proof.json",
+      "sha256": "7771b92fa9778fb2353338f024346f0449007cd1b2a261c28e0e0ba359c06644",
+      "bytes": 829755
+    },
+    {
+      "path": "config/mainl_staff_complete_backend/proof.json",
+      "sha256": "00cfbfd6e5d7e41deb3c7e59d7b6a01add8ea9a0b3cce41ad6e5711a10d368cf",
+      "bytes": 840717
+    },
+    {
+      "path": "config/mainl_staff_extension_backend/proof.json",
+      "sha256": "4c789a868da50a899950aee65c0de41f02cf0c5db4432bf4213b191dc9564c7d",
+      "bytes": 841280
+    },
+    {
+      "path": "config/mainl_staff_paired_backend/proof.json",
+      "sha256": "790730342ab2221b3a34585f7c4ee8fb3931cf71885aefde4a9f195c59c4fde3",
+      "bytes": 834955
+    },
+    {
+      "path": "config/mainl_staff_prefix_backend/proof.json",
+      "sha256": "f7af054f107e0aec3c52b60669bf7408ed8803743a678faf486e306c5f5aeb74",
+      "bytes": 856666
+    },
+    {
+      "path": "config/mainl_staff_transition_backend/proof.json",
+      "sha256": "591cfba718b8fc96ee1325493869b22aadf8f15e09c2f3abeab4efb992245486",
+      "bytes": 834805
+    },
+    {
+      "path": "config/mainl_staff_verdict_backend/proof.json",
+      "sha256": "dded3df60015028f0102d6b102297d9fc745952a9e17ed45541f01fc3df03bcd",
+      "bytes": 842274
+    },
+    {
+      "path": "scripts/lib/mainl_continue_backend.py",
+      "sha256": "e94790c43be1c980c4c462fcaf3baa05a1a4c43457b910592191d0bef394b9ad",
+      "bytes": 2112
+    },
+    {
+      "path": "scripts/lib/mainl_regmusic_backend.py",
+      "sha256": "e5dd2227b05a39255b5f77abb90d2d2bd572b184cfa6d4373d58b3595294c5fe",
+      "bytes": 1940
+    },
+    {
+      "path": "scripts/lib/mainl_root_complete_data_backend.py",
+      "sha256": "c491e4d81d2a5d1a107d6f8062dd13c0ab06cac347b38981c3b99c2b36eeb5a2",
+      "bytes": 1863
+    },
+    {
+      "path": "scripts/lib/mainl_root_intro_backend.py",
+      "sha256": "3de9e6cd8e99163df48d35889be28378bb0fc66a032fe5129d3f9496a50b488e",
+      "bytes": 2343
+    },
+    {
+      "path": "scripts/lib/mainl_root_prefix_backend.py",
+      "sha256": "abd175ad68ce2b3104815285f57fd7ab5c62c3466dc0376ec313d44c1c8b8ba7",
+      "bytes": 2614
+    },
+    {
+      "path": "scripts/lib/mainl_root_shots_backend.py",
+      "sha256": "a32baabebca307ee6148c6ae6a828d98559a8d72efe9fa3bd30dfd65257b766c",
+      "bytes": 1281
+    },
+    {
+      "path": "scripts/lib/mainl_snow_backend.py",
+      "sha256": "3fe5b90a889803fd1998beef44c73739f3f55de4f726c5a0f58faaeb09efe101",
+      "bytes": 3567
+    },
+    {
+      "path": "scripts/lib/mainl_staff_complete_backend.py",
+      "sha256": "d9da7f582e72d233eaba240134f3062e15b3b8a0f34e39db23b139605ab68c53",
+      "bytes": 2279
+    },
+    {
+      "path": "scripts/lib/mainl_staff_extension_backend.py",
+      "sha256": "e0826b648e51173e1bf7b4380e3303ab059d8ceec40353c0e2ade21e96042b25",
+      "bytes": 1917
+    },
+    {
+      "path": "scripts/lib/mainl_staff_paired_backend.py",
+      "sha256": "09116d2925c6087120c1d6957b8df81262b7a89e7f4d86aba815b9fac3096a86",
+      "bytes": 1570
+    },
+    {
+      "path": "scripts/lib/mainl_staff_prefix_backend.py",
+      "sha256": "4188a2dab715a97b051985fc5b82aec276c43290f0a3a0b57cbe49b51bfa8c90",
+      "bytes": 3413
+    },
+    {
+      "path": "scripts/lib/mainl_staff_transition_backend.py",
+      "sha256": "cba08d50b44f80d995ebb116fd8ac1566cf3f67924fcfeee61cb9ceb0d6cb753",
+      "bytes": 2092
+    },
+    {
+      "path": "scripts/lib/mainl_staff_verdict_backend.py",
+      "sha256": "9446c75b0be962d6b08681e3c2cae6af566d18dffd65e619b432f8c3418b33ca",
+      "bytes": 2134
+    },
+    {
+      "path": "scripts/stage_th03_mainl_fullcold.py",
+      "sha256": "a5d6df2963c493ab8d6a4cf0a4c049b3621b9b5c23c25375767ff90bc2d9d6a5",
+      "bytes": 8058
+    },
+    {
+      "path": "src/mainl/hiscore/regdata.cpp",
+      "sha256": "e22195338f005967bd60a0c8e8cda263a47279de44bbbbf26a8bea83151131b7",
+      "bytes": 1255
+    },
+    {
+      "path": "src/mainl/root/complete_data.cpp",
+      "sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+      "bytes": 11581
+    },
+    {
+      "path": "src/mainl/root/continue.cpp",
+      "sha256": "885b243ef2d7ca1aaba96f766d740d976707206a08e1b232969906b19f49521d",
+      "bytes": 2111
+    },
+    {
+      "path": "src/mainl/staff/data.cpp",
+      "sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+      "bytes": 23721
+    }
+  ],
+  "owners": [
+    {
+      "unit_id": "th03-mainl-decoded-staff-music",
+      "historical_source": "src/mainl/linked_game/staff_flow.asm",
+      "historical_source_sha256": "d7a5c15c8b7507601f2621bcd47f739073dede4787424a3d1a538752be9db30f",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 47406,
+      "size": 68,
+      "raw_sha256": "60b468d456bcd06802665c1ea5f846ca5c5ebf0edaa500e746a6ba8ceb9a6166",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 47406,
+          "size": 68,
+          "object": "obj/th03/regdata.obj",
+          "object_sha256": "007280d1c2e399e6d5d29f15549aa8ab3219cdd1ea41f578ef9f785d94c673e7",
+          "module": "regdata.cpp",
+          "map_segment": "REGIST_TEXT",
+          "map_module_start": 44686,
+          "object_segment_offset": 2720,
+          "public": "_mainl_reg_music",
+          "source": "src/mainl/hiscore/regdata.cpp",
+          "source_sha256": "e22195338f005967bd60a0c8e8cda263a47279de44bbbbf26a8bea83151131b7",
+          "generated_source_sha256": "e22195338f005967bd60a0c8e8cda263a47279de44bbbbf26a8bea83151131b7",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_reg_music",
+          "source_line_candidates": [
+            7
+          ],
+          "compiler_band": null,
+          "compiler_evidence_pointer": null,
+          "migration_backend": "regmusic",
+          "migration_proof": "config/mainl_regmusic_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_regmusic_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-ending",
+      "historical_source": "src/mainl/linked_game/staff_flow.asm",
+      "historical_source_sha256": "d7a5c15c8b7507601f2621bcd47f739073dede4787424a3d1a538752be9db30f",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 47474,
+      "size": 280,
+      "raw_sha256": "f2db7523e5a81c2b688bb89ad2f102df1e9f4c53762764a2595522ea2085b7f9",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 47474,
+          "size": 280,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 0,
+          "public": "_mainl_ending",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_ending",
+          "source_line_candidates": [
+            20
+          ],
+          "compiler_band": {
+            "name": "ending",
+            "offset": 0,
+            "size": 280,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_prefix",
+          "migration_proof": "config/mainl_staff_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_prefix_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-flake",
+      "historical_source": "src/mainl/linked_game/flake.cpp",
+      "historical_source_sha256": "c437bb454752375077d85f4b8c72e4db1b48426e43307890c3168ada8d22c3f0",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 47754,
+      "size": 76,
+      "raw_sha256": "9a2071639b1fe931071ec50dd703b951d6388e9bdae7eac97025aa7aaa791c96",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 47754,
+          "size": 76,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 280,
+          "public": "@FLAKE_PUT$QIII",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "flake_put",
+          "source_line_candidates": [
+            99
+          ],
+          "compiler_band": {
+            "name": "flake_put",
+            "offset": 280,
+            "size": 76,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_prefix",
+          "migration_proof": "config/mainl_staff_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_prefix_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-snow-cluster",
+      "historical_source": "src/mainl/formats/cdg_effects.cpp",
+      "historical_source_sha256": "5e3be578cc77c6a7b9de786b069266b32fe54b7f5fcf1884f2aabbc13e4ef024",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 47953,
+      "size": 464,
+      "raw_sha256": "1d455df4f3eafe12c5b70874717291a24b33bd07a86b36e9a7deaaee90ea237e",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 47953,
+          "size": 21,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 479,
+          "public": "_mainl_clear_blue",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_clear_blue",
+          "source_line_candidates": [
+            190
+          ],
+          "compiler_band": {
+            "name": "graphics",
+            "offset": 356,
+            "size": 144,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_prefix",
+          "migration_proof": "config/mainl_staff_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_prefix_backend.py"
+        },
+        {
+          "decoded_linear_start": 47974,
+          "size": 26,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 500,
+          "public": "@flakes_reset$qv",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "flakes_reset",
+          "source_line_candidates": [
+            224
+          ],
+          "compiler_band": {
+            "name": "reset",
+            "offset": 500,
+            "size": 26,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_prefix",
+          "migration_proof": "config/mainl_staff_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_prefix_backend.py"
+        },
+        {
+          "decoded_linear_start": 48000,
+          "size": 169,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 526,
+          "public": "_mainl_snow_spawn",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_snow_spawn",
+          "source_line_candidates": [
+            234
+          ],
+          "compiler_band": {
+            "name": "spawn",
+            "offset": 526,
+            "size": 169,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "snow",
+          "migration_proof": "config/mainl_snow_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_snow_backend.py"
+        },
+        {
+          "decoded_linear_start": 48169,
+          "size": 70,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 695,
+          "public": "_mainl_snow_update",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_snow_update",
+          "source_line_candidates": [
+            264
+          ],
+          "compiler_band": {
+            "name": "update",
+            "offset": 695,
+            "size": 70,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_extension",
+          "migration_proof": "config/mainl_staff_extension_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_extension_backend.py"
+        },
+        {
+          "decoded_linear_start": 48239,
+          "size": 54,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 765,
+          "public": "_mainl_snow_render",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_snow_render",
+          "source_line_candidates": [
+            284
+          ],
+          "compiler_band": {
+            "name": "render",
+            "offset": 765,
+            "size": 54,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_extension",
+          "migration_proof": "config/mainl_staff_extension_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_extension_backend.py"
+        },
+        {
+          "decoded_linear_start": 48293,
+          "size": 48,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 819,
+          "public": "MAINL_SNOW_GATE",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_snow_gate",
+          "source_line_candidates": [
+            296
+          ],
+          "compiler_band": {
+            "name": "gate",
+            "offset": 819,
+            "size": 48,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_extension",
+          "migration_proof": "config/mainl_staff_extension_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_extension_backend.py"
+        },
+        {
+          "decoded_linear_start": 48341,
+          "size": 76,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 867,
+          "public": "_mainl_snow_tick",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_snow_tick",
+          "source_line_candidates": [
+            307
+          ],
+          "compiler_band": {
+            "name": "tick",
+            "offset": 867,
+            "size": 76,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_extension",
+          "migration_proof": "config/mainl_staff_extension_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_extension_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-unput",
+      "historical_source": "src/mainl/formats/cdg_effects.cpp",
+      "historical_source_sha256": "5e3be578cc77c6a7b9de786b069266b32fe54b7f5fcf1884f2aabbc13e4ef024",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 47830,
+      "size": 123,
+      "raw_sha256": "b980667fa204c372d20dd2bd03f194b594d6fd2f97edf93334d0b9b5b2aa0b18",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 47830,
+          "size": 123,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 356,
+          "public": "CDG_UNPUT_FOR_UPWARDS_MOTION_E_8",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "cdg_unput_for_upwards_motion_e_8",
+          "source_line_candidates": [
+            161
+          ],
+          "compiler_band": {
+            "name": "graphics",
+            "offset": 356,
+            "size": 144,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_prefix",
+          "migration_proof": "config/mainl_staff_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_prefix_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-dissolve",
+      "historical_source": "src/mainl/formats/cdg_effects.cpp",
+      "historical_source_sha256": "5e3be578cc77c6a7b9de786b069266b32fe54b7f5fcf1884f2aabbc13e4ef024",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 48417,
+      "size": 211,
+      "raw_sha256": "5b2090bc56db50ec36fcfe5c05a1fa5d99c9cf5a3a0ad83472d000d83389b4fe",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 48417,
+          "size": 211,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 943,
+          "public": "CDG_PUT_DISSOLVE_E_8",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "cdg_put_dissolve_e_8",
+          "source_line_candidates": [
+            324
+          ],
+          "compiler_band": {
+            "name": "dissolve",
+            "offset": 943,
+            "size": 211,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_extension",
+          "migration_proof": "config/mainl_staff_extension_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_extension_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-entrance",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 48628,
+      "size": 211,
+      "raw_sha256": "1534315ef8700cd3a974d16816a1c2d1203b7f8c684d54bffffe2ed0cbf2460f",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 48628,
+          "size": 211,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 1154,
+          "public": "MAINL_STAFF_ENTER",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_enter",
+          "source_line_candidates": [
+            376
+          ],
+          "compiler_band": {
+            "name": "entrance",
+            "offset": 1154,
+            "size": 211,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_transition",
+          "migration_proof": "config/mainl_staff_transition_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_transition_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-leave",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 48839,
+      "size": 183,
+      "raw_sha256": "71afd0707a9b40c02936a55d2a0b5c201445b44cb66ae07938f9fbaca38eaa5b",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 48839,
+          "size": 183,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 1365,
+          "public": "MAINL_STAFF_LEAVE",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_leave",
+          "source_line_candidates": [
+            400
+          ],
+          "compiler_band": {
+            "name": "exit",
+            "offset": 1365,
+            "size": 183,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_transition",
+          "migration_proof": "config/mainl_staff_transition_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_transition_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-gallery",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 49022,
+      "size": 52,
+      "raw_sha256": "1c5363574a7cca67682e60fdd3c4d23fb556796038670f841be0dd7ca9d92456",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 49022,
+          "size": 52,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 1548,
+          "public": "MAINL_STAFF_GALLERY",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_gallery",
+          "source_line_candidates": [
+            425
+          ],
+          "compiler_band": {
+            "name": "gallery",
+            "offset": 1548,
+            "size": 52,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_transition",
+          "migration_proof": "config/mainl_staff_transition_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_transition_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-normal",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 49074,
+      "size": 229,
+      "raw_sha256": "3d9a4cdb794280e0bebec8da3212984bd165aa8189a3cc3791f3775f7816c42a",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 49074,
+          "size": 229,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 1600,
+          "public": "MAINL_STAFF_SINGLE",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_single",
+          "source_line_candidates": [
+            435
+          ],
+          "compiler_band": {
+            "name": "single",
+            "offset": 1600,
+            "size": 229,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_transition",
+          "migration_proof": "config/mainl_staff_transition_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_transition_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-double",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 49303,
+      "size": 358,
+      "raw_sha256": "80cd812e468ad687cfb510455cb24e030da7dea96cbcf57ab64b2dfb1658ba80",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 49303,
+          "size": 358,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 1829,
+          "public": "MAINL_STAFF_PAIR",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_pair",
+          "source_line_candidates": [
+            470
+          ],
+          "compiler_band": {
+            "name": "pair",
+            "offset": 1829,
+            "size": 358,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_paired",
+          "migration_proof": "config/mainl_staff_paired_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_paired_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-hold",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 49661,
+      "size": 139,
+      "raw_sha256": "509fb96f0aeabf94ee3fd9225b22d5bfc52f6f492529124f004ace471a976fc4",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 49661,
+          "size": 139,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 2187,
+          "public": "MAINL_STAFF_HOLD",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_hold",
+          "source_line_candidates": [
+            522
+          ],
+          "compiler_band": {
+            "name": "hold",
+            "offset": 2187,
+            "size": 139,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_paired",
+          "migration_proof": "config/mainl_staff_paired_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_paired_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-verdict",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 49800,
+      "size": 389,
+      "raw_sha256": "539b27086e13efc456f0210e985f0e2555ffb7f15d956695568dfaabf84f6945",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 49800,
+          "size": 389,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 2326,
+          "public": "_mainl_staff_verdict",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_verdict",
+          "source_line_candidates": [
+            556
+          ],
+          "compiler_band": {
+            "name": "verdict",
+            "offset": 2326,
+            "size": 389,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_verdict",
+          "migration_proof": "config/mainl_staff_verdict_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_verdict_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-staff-staff",
+      "historical_source": "src/mainl/staff/staff.asm",
+      "historical_source_sha256": "c681c0639a4d83ae54bc18d15ff66630e077569064bd65d72f1247f32c25de78",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 50189,
+      "size": 980,
+      "raw_sha256": "4bc7712dc3fdf0396c9f1340c4a7b88c3f5d7ba40b0e2cf2c17900d2c637ec2d",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 50189,
+          "size": 980,
+          "object": "obj/th03/staffdat.obj",
+          "object_sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d",
+          "module": "staffdat.cpp",
+          "map_segment": "STAFFP_TEXT",
+          "map_module_start": 47474,
+          "object_segment_offset": 2715,
+          "public": "_mainl_staff_roll",
+          "source": "src/mainl/staff/data.cpp",
+          "source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "generated_source_sha256": "a2f6e106110a0ccc8b4dae28fb2b42247614e9a6e777cf82832bedccc247aa6a",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_staff_roll",
+          "source_line_candidates": [
+            615
+          ],
+          "compiler_band": {
+            "name": "roll",
+            "offset": 2715,
+            "size": 980,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/compiler/compiler_code",
+          "migration_backend": "staff_complete",
+          "migration_proof": "config/mainl_staff_complete_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_staff_complete_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    },
+    {
+      "unit_id": "th03-mainl-decoded-root",
+      "historical_source": "src/mainl/root/root.asm",
+      "historical_source_sha256": "04382ad4969b9e6b34d92106e07285c9ec55aa98cc72330c8f611efff373eb3c",
+      "historical_source_is_not_claimed_as_current_producer": true,
+      "decoded_linear_start": 38774,
+      "size": 2488,
+      "raw_sha256": "603c2700082ca36ae312ebeb7be8b240f99cb5671651537d92eebaee8a37fcaa",
+      "raw_equal": true,
+      "ordered_relocations_equal": true,
+      "reviewed_boundary": true,
+      "parts": [
+        {
+          "decoded_linear_start": 38774,
+          "size": 23,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 387,
+          "public": "CDG_FREE_ALL",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "cdg_free_all",
+          "source_line_candidates": [
+            19
+          ],
+          "compiler_band": {
+            "name": "free_all",
+            "offset": 387,
+            "size": 23,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_prefix",
+          "migration_proof": "config/mainl_root_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_prefix_backend.py"
+        },
+        {
+          "decoded_linear_start": 38797,
+          "size": 250,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 410,
+          "public": "_mainl_win_animate",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_win_animate",
+          "source_line_candidates": [
+            26
+          ],
+          "compiler_band": {
+            "name": "win_animate",
+            "offset": 410,
+            "size": 250,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_prefix",
+          "migration_proof": "config/mainl_root_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_prefix_backend.py"
+        },
+        {
+          "decoded_linear_start": 39047,
+          "size": 133,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 660,
+          "public": "_mainl_story_dispatch",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_story_dispatch",
+          "source_line_candidates": [
+            57,
+            69
+          ],
+          "compiler_band": {
+            "name": "story_dispatch",
+            "offset": 660,
+            "size": 133,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_prefix",
+          "migration_proof": "config/mainl_root_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_prefix_backend.py"
+        },
+        {
+          "decoded_linear_start": 39180,
+          "size": 288,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 793,
+          "public": "_mainl_stage_load",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_stage_load",
+          "source_line_candidates": [
+            88
+          ],
+          "compiler_band": {
+            "name": "stage_load",
+            "offset": 793,
+            "size": 288,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_prefix",
+          "migration_proof": "config/mainl_root_prefix_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_prefix_backend.py"
+        },
+        {
+          "decoded_linear_start": 39468,
+          "size": 627,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 1081,
+          "public": "_mainl_stage_intro",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_stage_intro",
+          "source_line_candidates": [
+            132
+          ],
+          "compiler_band": {
+            "name": "stage_intro",
+            "offset": 1081,
+            "size": 627,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_intro",
+          "migration_proof": "config/mainl_root_intro_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_intro_backend.py"
+        },
+        {
+          "decoded_linear_start": 40095,
+          "size": 18,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 1708,
+          "public": null,
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_stage_intro",
+          "source_line_candidates": [
+            132
+          ],
+          "compiler_band": {
+            "name": "enemy_switch",
+            "offset": 1708,
+            "size": 18,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_intro",
+          "migration_proof": "config/mainl_root_intro_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_intro_backend.py"
+        },
+        {
+          "decoded_linear_start": 40113,
+          "size": 111,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 1726,
+          "public": "MAINL_SHOT_PAIR",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_shot_pair",
+          "source_line_candidates": [
+            204
+          ],
+          "compiler_band": {
+            "name": "shot_pair",
+            "offset": 1726,
+            "size": 111,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_shots",
+          "migration_proof": "config/mainl_root_shots_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_shots_backend.py"
+        },
+        {
+          "decoded_linear_start": 40224,
+          "size": 93,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 1837,
+          "public": "MAINL_SHOT_LOAD",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "mainl_shot_load",
+          "source_line_candidates": [
+            215
+          ],
+          "compiler_band": {
+            "name": "shot_load",
+            "offset": 1837,
+            "size": 93,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_shots",
+          "migration_proof": "config/mainl_root_shots_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_shots_backend.py"
+        },
+        {
+          "decoded_linear_start": 40317,
+          "size": 528,
+          "object": "obj/th03/rootdata.obj",
+          "object_sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0",
+          "module": "rootdata.cpp",
+          "map_segment": "ROOTPRE_TEXT",
+          "map_module_start": 38387,
+          "object_segment_offset": 1930,
+          "public": "_main",
+          "source": "src/mainl/root/complete_data.cpp",
+          "source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "generated_source_sha256": "cc7c580e75a7f4ad452c3926bacfb6c07523d3840ce4a2f12a007319e0717b40",
+          "source_transport": "byte-identical maintained source",
+          "source_function": "main",
+          "source_line_candidates": [
+            251
+          ],
+          "compiler_band": {
+            "name": "main",
+            "offset": 1930,
+            "size": 528,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/root_data_compiler/compiler_code",
+          "migration_backend": "root_complete_data",
+          "migration_proof": "config/mainl_root_complete_data_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_root_complete_data_backend.py"
+        },
+        {
+          "decoded_linear_start": 40845,
+          "size": 417,
+          "object": "obj/th03/contmenu.obj",
+          "object_sha256": "4f539cacbe96ed43625393e0fb476aecd88f4cc3d5badb0252bdf3b91b32da1d",
+          "module": "contmenu.cpp",
+          "map_segment": "CUTSCENE_TEXT",
+          "map_module_start": 40845,
+          "object_segment_offset": 0,
+          "public": "_mainl_continue_menu",
+          "source": "src/mainl/root/continue.cpp",
+          "source_sha256": "885b243ef2d7ca1aaba96f766d740d976707206a08e1b232969906b19f49521d",
+          "generated_source_sha256": "bee7beae6d1728b39b0c6b014857263f76e38ca1793acce26d50f59084b201d4",
+          "source_transport": "declared CONTINUE_TEXT to CUTSCENE_TEXT pragma by mainl_continue_backend.generate",
+          "source_function": "mainl_continue_menu",
+          "source_line_candidates": [
+            15
+          ],
+          "compiler_band": {
+            "name": "continue_menu",
+            "offset": 0,
+            "size": 417,
+            "non_fixup_difference_offsets": []
+          },
+          "compiler_evidence_pointer": "/linked/continue_compiler",
+          "migration_backend": "continue",
+          "migration_proof": "config/mainl_continue_backend/proof.json",
+          "migration_composer": "scripts/lib/mainl_continue_backend.py"
+        }
+      ],
+      "lineage_closed": true
+    }
+  ],
+  "resolved_owners": 15,
+  "remaining_gaps": [],
+  "formal_exact": false,
+  "source_progress_changed": false,
+  "notes": [
+    "Each owner is partitioned without gaps/overlap using fresh-object PUBDEFs, actual MAP addresses and current compiler body bands.",
+    "Snow historical graphics band splits at clear_blue public offset479: unput123 bytes and clear-blue21 bytes, not arbitrary whole-source equivalence.",
+    "Root historical owner starts at rootdata offset387, excludes cfg/win prefix387 bytes, covers2071 rootdata bytes plus417 continue bytes.",
+    "Compiler-generated enemy switch table18 bytes belongs to stage_intro and has no separate public.",
+    "Historical decoded owners do not claim file-backed canonical packed storage."
+  ]
+}
