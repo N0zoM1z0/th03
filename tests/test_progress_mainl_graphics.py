@@ -7,8 +7,9 @@ import progress
 class GraphicsProgressTests(unittest.TestCase):
     def test_installed_source_and_metadata_enable_annotation(self):
         self.assertTrue(progress.mainl_graphics_producer_pending())
-        self.assertIn("333 non-fixup B match", progress.render_svg([], [], []))
-        self.assertIn("9 fixups / 22 B await link", progress.render_svg([], [], []))
+        with patch.object(progress, "mainl_graphics_linked", return_value=False):
+            self.assertIn("333 non-fixup B match", progress.render_svg([], [], []))
+            self.assertIn("9 fixups / 22 B await link", progress.render_svg([], [], []))
 
     def test_missing_or_changed_source_disables_annotation(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -33,3 +34,12 @@ class GraphicsProgressTests(unittest.TestCase):
             self.assertIn("Unit acceptance: exact 0/0", svg)
             self.assertIn("Source 0/0", svg)
         self.assertNotIn("333 non-fixup B match", disabled)
+
+    def test_linked_caption_is_not_acceptance(self):
+        self.assertTrue(progress.mainl_graphics_linked())
+        svg = progress.render_svg([], [], [])
+        self.assertIn("Linked graphics: 355 B target-equal", svg)
+        self.assertIn("decoded 1 DATA byte remains", svg)
+        self.assertIn("Unit acceptance: exact 0/0", svg)
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertFalse(progress.mainl_graphics_linked(Path(tmp)))

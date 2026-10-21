@@ -220,6 +220,15 @@ def mainl_graphics_producer_pending(root=None):
                for path, digest in MAINL_GRAPHICS_PRODUCER_PINS.items())
 
 
+MAINL_GRAPHICS_LINK_PINS = {'src/mainl/formats/cdg_effects.cpp': '5e3be578cc77c6a7b9de786b069266b32fe54b7f5fcf1884f2aabbc13e4ef024', 'config/th03_mainl_graphics_link.json': '309d695609b2a13a1e3cbf70e1071895d311a68cf7378f5d0ba82b80de7f600f', 'scripts/lib/mainl_graphics_source.py': 'd5ab687731d0648827a75ece94eff739b205f6963ebf896802dfba82dc5c6ddb', 'scripts/lib/mainl_graphics_link.py': 'e664c5c49c5c690e795103bd4b5df658075330e8f463e9721e5f0d6f938a199d'}
+def mainl_graphics_linked(root=None):
+    """Retained opt-in link diagnostic, not source or exact acceptance."""
+    root = ROOT if root is None else root
+    return all((root / path).is_file() and
+               hashlib.sha256((root / path).read_bytes()).hexdigest() == digest
+               for path, digest in MAINL_GRAPHICS_LINK_PINS.items())
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     rows = []
@@ -259,7 +268,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
-            if graphics_pending:
+            if mainl_graphics_linked():
+                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</text>')
+            elif graphics_pending:
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</text>')
             continue
         candidates = [f for f in functions if f["artifact"] == artifact]
@@ -330,7 +341,9 @@ def main() -> int:
     ])
     if mainl_pi_composed(units, evidence):
         lines.extend(["MAINL contextual composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. Whole decoded image retains 21 other byte differences and relocation-order differences. Source 38/145 (9,845 bytes), exact 0 remain unchanged.", ""])
-    if mainl_graphics_producer_pending():
+    if mainl_graphics_linked():
+        lines.extend(["MAINL opt-in linked graphics: 355 target-equal bytes and two scoped ordered relocations preserve the earlier 6,144 bytes / 110 relocations, totaling 6,499 scoped bytes / 112 relocations. One decoded DATA byte remains; all 677 relocation entries retain membership with 461 order differences. One mixed-source link with 32 retained objects, not two cold products; original segment identity is not preserved. Source and exact counts remain unchanged.", ""])
+    elif mainl_graphics_producer_pending():
         lines.extend(["MAINL graphics producer checkpoint: three complete functions / 355 compiled bytes; 333 non-fixup bytes match target. Nine genuine symbolic fixups covering 22 bytes await a legitimate link. These candidates are not counted as source-present units or exact acceptance; existing totals remain unchanged.", ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"

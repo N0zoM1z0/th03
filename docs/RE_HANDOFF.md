@@ -13,16 +13,17 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
-## MAINL graphics producer checkpoint
+## MAINL opt-in linked graphics checkpoint
 
-Three complete graphics functions (355 compiled bytes) now reproduce all 333
-non-fixup target bytes through natural TC4 source; the 20 prior instruction
-encoding differences are solved. Nine symbolic external fixups (22 bytes) still
-need a legitimate link; clear alone is fully equal at 21 bytes. This is not a
-linked-body, relocation, source-count or exact promotion. MAINL remains source
-38/145 (9,845 bytes), exact 0. The next step is source-level MAINL_03_TEXT
-contributions in original order with actual storage providers, not object edits.
-See [producer proof](reconstruction/MAINL_GRAPHICS_PRODUCER_REVIEW.md).
+The source-level split and real TC4/TASM/TLINK composition now prove all 355
+maintained graphics bytes and two scoped ordered relocations target-equal.
+Earlier 6,144 maintained bytes / 110 relocations remain equal: total 6,499 bytes
+and 112 scoped relocations. The decoded image now differs at one DATA byte,
+down from 21. Global 677-entry relocation membership matches; 461 ordering
+differences remain. This single mixed-source link retains 32 other objects and
+does not preserve original segment identity or establish two cold products.
+MAINL source remains 38/145 (9,845 bytes), exact 0. No ledger promotion.
+See [linked producer proof](reconstruction/MAINL_GRAPHICS_PRODUCER_REVIEW.md).
 
 ## ZUN maintained payload integration checkpoint
 
