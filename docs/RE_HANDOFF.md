@@ -13,6 +13,10 @@ native Factory Truth Kernel acceptance. Original Japanese target provenance is
 been proved. Source, target and compiler findings must be verified against
 TH03 itself, not assumed correct from ReC98, TH04 or old project notes.
 
+## MAINL STAFF-transition backend diagnostic
+
+The opt-in STAFF transition producer now contains 1,829 bytes, adding four complete high-level procedures totaling 675 bytes while preserving the prior 1,154-byte source. One fresh compile/root/link diagnostic passes all 18 linked gates: full target/prior program, headers, previous public addresses, all 677 relocation members, registration mixed71 and STAFF31 target-order streams. Global ordered differences remain 460, with 81 positions changed versus MSE02; this is not global equality. The remaining 1,866-byte STAFF contribution is preserved apart from the declared near call operands. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [STAFF transition backend proof](reconstruction/MAINL_STAFF_TRANSITION_BACKEND_REVIEW.md).
+
 ## MAINL STAFF-extension backend diagnostic
 
 The opt-in STAFF extension consolidates 1,154 bytes of genuine compiler source, including the prior prefix, snow suffix and dissolve behavior. One fresh compile/root/link diagnostic preserves the full target program, headers, public addresses, all 677 relocation members, registration71 and STAFF22 target-order streams. The complete EXE is raw-identical to MSL03: global ordered differences remain 460 and zero positions changed. Actual compiler records are 1,021/133 bytes; the earlier 1,020/134 prediction remains false in its preserved receipt. No repeat, runtime, full cold build, default graph, packing, count or exact promotion is claimed. MAINL stays 145/145 source units, 28,381 source bytes and exact zero. See [STAFF extension backend proof](reconstruction/MAINL_STAFF_EXTENSION_BACKEND_REVIEW.md).
