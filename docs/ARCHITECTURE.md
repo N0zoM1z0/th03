@@ -18,19 +18,10 @@ and configuration. `.analysis/toolchain/wineprefix` is game-bound mutable
 state. `.tools/ghidra` and `.tools/jdk` select physical local copies of the
 same pinned TH04 tools. No mutable TH04 prefix or project is shared.
 
-Ignored local state is intentionally split from disposable output. Preserve
-`.analysis/toolchain`, `.analysis/targets`, `.analysis/runtime`,
-`.analysis/ghidra`, and evidence files referenced by `config/evidence.csv`.
-Retained JSON `inputs` / `source_inputs` guards and complete directories containing `receipt.json`
-are also preserved, including cold outputs and frozen archives used by proofs.
-Unreferenced replay work, development outputs, logs and caches can be inspected
-with `python3 scripts/clean_generated.py`; `--apply` performs the listed removals.
-Do not clean while a replay or build is active. Guarded cache inputs are retained
-as well; missing historical inputs are never recreated by cleanup.
-Optional `--prune-unreferenced-receipts` removes only whole unreferenced proof
-trees. It follows guards in nested reports and keeps nested receipts inside a
-retained tree. `--keep-analysis .analysis/PATH` protects an active file or tree
-through both receipt pruning and ordinary cleanup.
+Ignored local state lives under `.analysis/`, `.tools/` and `ghidra-project/`.
+Keep canonical targets, the working toolchain/databases and current verification
+evidence. Caches and discarded experiment outputs can be removed; see the
+[workflow retention notes](RE_WORKFLOW.md#local-artifact-retention).
 
 `scripts/lib/pc98.py`, `omf.py` and `ghidra.py` preserve the TH04 container,
 relocation and database-checking methods. `scripts/factory_ghidra.py` combines

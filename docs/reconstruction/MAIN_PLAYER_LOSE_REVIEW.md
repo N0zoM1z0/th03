@@ -107,3 +107,22 @@ The bounded cleanup dry run (`cleanup-dry.log`, `cleanup-dry-resources.txt`)
 exited1 with MemoryError while reading a historical JSON under the768 MiB
 virtual-memory ceiling. It never ran with `--apply` and deleted nothing.
 Disk had approximately785 GiB free; no higher-memory retry was started.
+
+## Post-checkpoint private register controls (handoff only)
+
+PLSE258..261 (native-v05..v08) each completed one guarded original compilation.
+The installed source remains PLSE257. These private candidates were not source/exact promotions. Their unused run
+outputs and carriers were discarded during the owner-requested handoff cleanup;
+the observations below are historical conclusions, not retained replay proofs.
+
+Explicit `_DI` plus a signed loop comparison matches the loop register, but
+produces only PUSH/POP DI: the renderer remains175 versus177 bytes. Disabling
+jump optimization (-O-) or register-reload suppression (-Z-) leaves all662
+CODE bytes identical to the plain `_DI` probe. Replacing each counter
+initialization with symbolic ASM changes only three equivalent XOR encodings
+(33FF to31FF); it still does not save SI. Thus the earlier reference comment
+about always saving both registers is not confirmed for this pinned toolchain.
+No dummy use of SI, emitted target bytes or manual padding was added.
+
+Installed PLSE257 verification remains `review-v04.py --installed` with a fresh
+output path. Its complete native-v04 inputs, outputs and carrier are retained.
