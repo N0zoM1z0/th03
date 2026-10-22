@@ -226,6 +226,15 @@ def validate_replay_command(root: Path, value: str, context: str) -> None:
         raise ValueError(f"{context}: replay driver does not exist: {script}")
 
 
+# Preserve original Japanese string bytes in these declared legacy sources.
+# Other source files remain strict UTF-8; no lossy decoding or blanket fallback.
+SOURCE_ENCODINGS = {
+    "src/zun/res_yume.cpp": "cp932",
+    "src/zun/cfg_init.inl": "cp932",
+    "src/zun/res_init.inl": "cp932",
+}
+
+
 def validate_source_tree(root: Path) -> None:
     """Keep product source organized by artifact/subsystem, never claim state."""
 
@@ -254,8 +263,9 @@ def validate_source_tree(root: Path) -> None:
         patterns = ((ASM_INCLUDE_PATTERN, INCLUDE_PATTERN) if suffix == ".inl"
                     else (ASM_INCLUDE_PATTERN,) if suffix in {".asm", ".inc"}
                     else (INCLUDE_PATTERN,))
+        encoding = SOURCE_ENCODINGS.get(path.relative_to(root).as_posix(), "utf-8")
         for line_number, line in enumerate(
-            path.read_text(encoding="utf-8").splitlines(), start=1
+            path.read_text(encoding=encoding).splitlines(), start=1
         ):
             match = next((m for pattern in patterns if (m := pattern.match(line))), None)
             if not match:

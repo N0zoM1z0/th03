@@ -1,0 +1,133 @@
+{
+  "kind": "th03-zun-resident-source-only-proposal",
+  "reference_revision": "b6ba5b0a529edbb31efdf8c0e939263804f8ee47",
+  "base_head": "3477618d155e0a9a2be9cf28e536b6830cbd45fa",
+  "source_map": {
+    "th03/res_yume.cpp": "src/zun/res_yume.cpp",
+    "th02/res_init.cpp": "src/zun/res_init.inl",
+    "th02/formats/cfg_init.c": "src/zun/cfg_init.inl"
+  },
+  "include_rewrites": {
+    "th03/res_yume.cpp": "src/zun/res_yume.cpp",
+    "th02/res_init.cpp": "src/zun/res_init.inl",
+    "th02/formats/cfg_init.c": "src/zun/cfg_init.inl",
+    "libs/master.lib/master.hpp": "compat/rec98/libs/master.lib/master.hpp",
+    "th01/rank.h": "compat/rec98/th01/rank.h",
+    "th02/snd/snd.h": "compat/rec98/th02/snd/snd.h",
+    "th03/common.h": "compat/rec98/th03/common.h",
+    "th03/resident.hpp": "compat/rec98/th03/resident.hpp",
+    "th03/formats/cfg.hpp": "compat/rec98/th03/formats/cfg.hpp",
+    "libs/master.lib/pc98_gfx.hpp": "compat/rec98/libs/master.lib/pc98_gfx.hpp"
+  },
+  "frozen_source_sha256": {
+    "th03/res_yume.cpp": "c66c09511fe49bfa7a02cbb6640558bc4939da91636f3b39505917bcddc5e8bc",
+    "th02/res_init.cpp": "63241a8bbfe07ed3f823f674583b8b9833de1cb3da2f9957353fe4f6be3836e4",
+    "th02/formats/cfg_init.c": "545f362bbc26b60c9b80f778913061a48b1587902918c316cfab10a156176d73"
+  },
+  "files": {
+    "src/zun/res_yume.cpp": {
+      "sha256": "3f11fcedf4e80c5ebb97ce24f9e96c15366588b7c3de6ce0b9915cdb6347760a",
+      "size": 713
+    },
+    "src/zun/res_init.inl": {
+      "sha256": "7f472d088a1890409960a4669019c97b049e8ff908ee9aa7f368836516d4820e",
+      "size": 1741
+    },
+    "src/zun/cfg_init.inl": {
+      "sha256": "545f362bbc26b60c9b80f778913061a48b1587902918c316cfab10a156176d73",
+      "size": 471
+    },
+    "compat/rec98/libs/master.lib/master.hpp": {
+      "sha256": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+      "size": 38
+    },
+    "compat/rec98/th01/rank.h": {
+      "sha256": "d29726bc2cabd976a0fd55f2ddd18a9bb0603ed64fb1792f04daf2ea6e614d80",
+      "size": 23
+    },
+    "compat/rec98/th02/snd/snd.h": {
+      "sha256": "3a19e42a01b74089c5420729316bcb4c3bd5b135a8ceb5b12ec50e3ba96a2f4f",
+      "size": 26
+    },
+    "compat/rec98/th03/common.h": {
+      "sha256": "0960e997cd75fafc79df7b8626ebd71eaf90023215f5f90d66ebd0f5c15cb349",
+      "size": 25
+    },
+    "compat/rec98/th03/resident.hpp": {
+      "sha256": "a0b051bae0d91f8d2c557e1832d33eb5c46cbef89a8c8f4eda63964893402e76",
+      "size": 29
+    },
+    "compat/rec98/th03/formats/cfg.hpp": {
+      "sha256": "b4b5c7bc507289b4ca7721b013d1c6e7f00c2d46331bb72e1694640263120487",
+      "size": 32
+    },
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp": {
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "size": 40
+    }
+  },
+  "historical_review": {
+    "path": ".analysis/sol-zun-resident-review-20261006.json",
+    "sha256": "6129fac6cbdeed694689b8ad83610cc5a82572adabe332c84b87dc276702c38a",
+    "not_replayed": true
+  },
+  "verified_reference_sources": {
+    "th03/res_yume.cpp": "c66c09511fe49bfa7a02cbb6640558bc4939da91636f3b39505917bcddc5e8bc",
+    "th02/res_init.cpp": "63241a8bbfe07ed3f823f674583b8b9833de1cb3da2f9957353fe4f6be3836e4",
+    "th02/formats/cfg_init.c": "545f362bbc26b60c9b80f778913061a48b1587902918c316cfab10a156176d73",
+    "th03/resident.hpp": "c1d13ac8cc947ff952efb5f16b88f91e58f902e22880d0cc4f829a45f0463f58",
+    "th03/formats/cfg.hpp": "b21136b1b0fb890d27241a154d4f01c0e59695a77aa7c7f2d29085a1596e1a7f",
+    "th02/formats/cfg.hpp": "c67fd36e282066d32c0978194a46064aa55ee4ef209b4bbe315e3c4eeede9bc9",
+    "th03/playchar.hpp": "3575e375751362269c69af4d95b1f2044fe4a8a39c6eec2cb77e750e64d414a3",
+    "th03/score.hpp": "a9dea1fd2be45499bacc1b010b121fcd518641c92f151305d6153e1e9de20273",
+    "th02/score.h": "39192396412336fb3afbe041af8799b4b3fbf131018305f7fbf2a7f289ecc170",
+    "th03/common.h": "bfef981c61f126816da7f5c0a1954dc48af84acb208ef48a19aaff8167e8858e",
+    "th01/rank.h": "0bb3aea4aeae070a679089d97bb73a6bc79f75d53678c2d8e6b37ade6db54dcd",
+    "libs/master.lib/master.hpp": "2219b5ff8d1c8a54add5c2f6f360b7d175a051c0419b4a9b2f397a07da3d11bd",
+    "libs/master.lib/func.hpp": "b3ccc8c8cea3c8976fa9cb55402c753dd84387b667e355df99d9b8cc8e76ee57",
+    "platform.h": "0f1b8685fe84e7d34b5d66921081367b969971e44385a7bfd3eaa1eaf8ce1906",
+    "th02/snd/snd.h": "6c69d85cc2826ec5d99746b78d4544bfe4dcc1605ba383761c4612c4b803e421",
+    "libs/master.lib/func.inc": "6fc2b5ab1f5ce7e4b64675cb8c6b967227418eebff9cd81e82de3721cac4a67f",
+    "libs/master.lib/resdata.asm": "4706a0366fcd092d3fb2a1aadbd39bd4e51c753db955d5388198ae36fd68b621",
+    "libs/master.lib/graph_clear.asm": "6f86f70d9517212d06e63a19172185f6960e03194bd0f5e0796ccc610e269834",
+    "libs/master.lib/grp[data].asm": "b0fc8b9ea86fe67e24d0cdc676d16f5274f1952191bd8c963b32b5fb3f42bf8d",
+    "libs/master.lib/dos_free.asm": "d95072c33242b2622c2e2260e1e1b4322baf66f967fafd9291c2e0106534be9c",
+    "libs/master.lib/dos_axdx.asm": "dc8bac3219bb9fdf2daf44b471ea544631f089133c41f68438fa7b51c6e992c1",
+    "libs/master.lib/dos_create.asm": "7bac7ef3b2405036c47ab51c941cbb2bfd2df0661d22322a7d210307fc9f722e",
+    "libs/master.lib/dos_puts2.asm": "d7b8774ab36c01b67832e925fc77fd43467fe8944f46fb290f7b585c0a17c741",
+    "libs/master.lib/dos_close.asm": "2b3b9a69314769070aa096413d73951f34e2df000311f564d2c6a0861733f378",
+    "libs/master.lib/dos_write.asm": "b2f313d3ca2d936029c850cd66182fcd2441df69191effb59a26dff5a79fa365",
+    "libs/master.lib/dos_seek.asm": "b10c451948db0b931d397a77cfc586c75fe570e21a104132d2302dfc8e1e9349"
+  },
+  "expected_historical_shape": {
+    "CODE": 322,
+    "DATA": 307,
+    "BSS": 0,
+    "functions": [
+      {
+        "name": "cfg_init",
+        "start": 871,
+        "size": 97
+      },
+      {
+        "name": "main",
+        "start": 968,
+        "size": 225
+      }
+    ]
+  },
+  "payload": {
+    "name": "-5",
+    "decoded_file_offset": 17186,
+    "runtime_start": 17442,
+    "size": 5618,
+    "sha256": "cfe11aff09ae2bb92e6775c3d0aead8ae610e6bc2ad7e0551ec9f42e838734b8"
+  },
+  "compiled": false,
+  "linked": false,
+  "runtime": false,
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "encoding": "Original CP932 bytes, LF; no transcoding",
+  "context": "All forwarded declarations, startup, master.lib and compiler runtime remain unowned context"
+}

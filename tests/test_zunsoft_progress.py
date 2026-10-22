@@ -11,7 +11,7 @@ class ZunsoftProgressTests(unittest.TestCase):
  def test_current_scope(self):
   self.assertTrue(p.zunsoft_root_source_proven(UNITS,EVIDENCE))
   z=[u for u in UNITS if u['artifact']=='th03-zun' and u['source']]
-  self.assertEqual((len(z),sum(int(u['size']) for u in z)),(13,1533))
+  self.assertEqual((len(z),sum(int(u['size']) for u in z)),(15,1855))
   self.assertFalse(any(u['state']=='exact' for u in z))
  def test_rejects_changed_source_and_extent_and_packed_offset(self):
   for key,value in [('source','src/zun/other.cpp'),('size','10096'),('file_offset','0x367'),('state','exact'),('origin','library'),('offset','0x368')]:

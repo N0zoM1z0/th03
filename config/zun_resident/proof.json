@@ -1,0 +1,108 @@
+{
+  "schema": "th03-zun-resident-source-proof-v1",
+  "manifest_sha256s": [
+    "86460dfdc3555f4ee84dffaff5864f086e2256ba701134854aa96e36699d20b4",
+    "d207d2120cc087efddee15f7e7dee893289621d96e1d188cfde1a858fc764461"
+  ],
+  "stage_sha256": "c232e4968479884033f2ae8a804afb250828229b17164757ae555dc1062a6d4b",
+  "pair_verifier_sha256": "41a8ad798d49c3a319bec00233b3e0283fa8d817ac92b693b895ee1e7575c3a2",
+  "structural_verifier_sha256": "d1173265b36052831e2b079463c87be3821405fadeb532efabfd9d264f046b18",
+  "helper_closure": {
+    "scripts/lib/__init__.py": {
+      "sha256": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
+      "bytes": 54,
+      "mode": 420
+    },
+    "scripts/lib/pc98.py": {
+      "sha256": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+      "bytes": 22989,
+      "mode": 420
+    },
+    "scripts/lib/omf.py": {
+      "sha256": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+      "bytes": 6862,
+      "mode": 420
+    },
+    "scripts/lib/targets.py": {
+      "sha256": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+      "bytes": 1969,
+      "mode": 420
+    },
+    "scripts/lib/zun.py": {
+      "sha256": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+      "bytes": 9063,
+      "mode": 420
+    },
+    "scripts/review_th03_zun_resident.py": {
+      "sha256": "f5823dc92f4b42c712b43f94acd58b86955c9f6278dc8c9b403a112f3a61e9b4",
+      "bytes": 20572,
+      "mode": 420
+    }
+  },
+  "maintained_sources": {
+    "src/zun/res_yume.cpp": {
+      "sha256": "3f11fcedf4e80c5ebb97ce24f9e96c15366588b7c3de6ce0b9915cdb6347760a",
+      "bytes": 713
+    },
+    "src/zun/res_init.inl": {
+      "sha256": "7f472d088a1890409960a4669019c97b049e8ff908ee9aa7f368836516d4820e",
+      "bytes": 1741
+    },
+    "src/zun/cfg_init.inl": {
+      "sha256": "545f362bbc26b60c9b80f778913061a48b1587902918c316cfab10a156176d73",
+      "bytes": 471
+    },
+    "compat/rec98/libs/master.lib/master.hpp": {
+      "sha256": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+      "bytes": 38
+    },
+    "compat/rec98/th01/rank.h": {
+      "sha256": "d29726bc2cabd976a0fd55f2ddd18a9bb0603ed64fb1792f04daf2ea6e614d80",
+      "bytes": 23
+    },
+    "compat/rec98/th02/snd/snd.h": {
+      "sha256": "3a19e42a01b74089c5420729316bcb4c3bd5b135a8ceb5b12ec50e3ba96a2f4f",
+      "bytes": 26
+    },
+    "compat/rec98/th03/common.h": {
+      "sha256": "0960e997cd75fafc79df7b8626ebd71eaf90023215f5f90d66ebd0f5c15cb349",
+      "bytes": 25
+    },
+    "compat/rec98/th03/resident.hpp": {
+      "sha256": "a0b051bae0d91f8d2c557e1832d33eb5c46cbef89a8c8f4eda63964893402e76",
+      "bytes": 29
+    },
+    "compat/rec98/th03/formats/cfg.hpp": {
+      "sha256": "b4b5c7bc507289b4ca7721b013d1c6e7f00c2d46331bb72e1694640263120487",
+      "bytes": 32
+    },
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp": {
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "bytes": 40
+    }
+  },
+  "root_procedures": 2,
+  "root_code_bytes": 322,
+  "root_data_bytes": 307,
+  "root_bss_bytes": 0,
+  "native_phases": 4,
+  "two_cold_builds": true,
+  "runtime_images": 2,
+  "runtime_calls": 40,
+  "exact_acceptance": false,
+  "whole_payload_ownership": false,
+  "launcher_ownership": false,
+  "runtime_rerun": false,
+  "pins": [
+    {
+      "path": ".analysis/zun-resident-maintained-proposal-v01/inventory.json",
+      "sha256": "d8b160176ac84e850d64c89666cfd7ba2d7c302f9814352c134507203e6909f4",
+      "bytes": 68571
+    }
+  ],
+  "inventory": {
+    "path": ".analysis/zun-resident-maintained-proposal-v01/inventory.json",
+    "sha256": "d8b160176ac84e850d64c89666cfd7ba2d7c302f9814352c134507203e6909f4",
+    "bytes": 68571
+  }
+}

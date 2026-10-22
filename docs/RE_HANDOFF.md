@@ -1,5 +1,18 @@
 # TH03 reconstruction handoff — current state (2026-10-21)
 
+## ZUN -5 maintained resident root
+
+Two fresh tiny-model builds now bind the maintained cfg_init/main bodies:
+322 CODE bytes, with 307 DATA bytes and no BSS checked separately. RESY01
+and RESY02 have raw-identical OBJ/COM/MAP, including the 5,618-byte target-equal
+COM. Four native phases were executed, with no project object reuse.
+The retained model has 40 calls total on target plus RESY01, not 60; RESY02
+is connected through raw equality. ZUN source presence is now 15/18 units
+and 1,855 scoped CODE bytes, exact zero. Startup/master/runtime helpers remain
+unowned, and packed/launcher/real-device acceptance remains open. The original
+11-import verifier failure and corrected __setargv__ evidence are preserved.
+See [resident root review](reconstruction/ZUN_RESIDENT_ROOT_REVIEW.md).
+
 ## OP keyboard scanner source checkpoint
 
 One fresh compile/context-link yields a target-equal 417-byte scanner at
@@ -22,7 +35,9 @@ matches the decoded target byte-for-byte, SHA-256
 beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297.
 One target and one fresh candidate each pass 1,300 modeled root calls (2,600
 combined). Only the ten existing logo units gain maintained source presence;
-ZUN source units become 13/18 and scoped source CODE becomes 1,533 bytes.
+At that earlier logo checkpoint, ZUN source units became 13/18 and scoped
+source CODE became 1,533 bytes; the resident checkpoint above supersedes
+those source totals.
 Vendor C0T/master/emu/maths/ct remain unowned context. No second cold build,
 real graphics/BFNT/device runtime, launcher integration, packing, whole-payload
 ownership or formal exact credit is claimed. See

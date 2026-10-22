@@ -5,7 +5,7 @@
     "config/mainl_fullcold_current/proof.json": "54bfd57109c4892b05aead8d6f56323b5d8d8e1c27d5025080a08afa2cac71a1",
     "scripts/replay_th03_mainl_fullcold_current.py": "e5e34fa2c08ce2d8e55d1c3e5af060f39cf36f4dca849527262b464c73edaf85"
   },
-  "ledger_log_sha256": "585cddef6c073869645df117b4be1a2cf04c61747b87fa1ce13dd2965e5f35e6",
+  "ledger_log_sha256": "4853f9b76ca23f9e85330ee7e3e69142b1a407b4d489929b6dadee1b5b42a52a",
   "owner_migrations": {
     "path": "config/mainl_product_acceptance/owner-migrations.json",
     "sha256": "2b118337d97baf597c3a872e8d23e9d866fea253752bf3510f222ce64e4fef66"
@@ -16,5 +16,5 @@
     "path": ".analysis/mainl-fullcold-source-proposal-20261021-v01/source-b/manifest.json",
     "sha256": "86d1cdac985844de55021bcb7a9aad1ae2c860df309589d3dbaaf01323776f9c"
   },
-  "toolchain_receipt_sha256": "76c8d2be0f90234a54bfeec054fe1a42d3a9e487a9839c52a54b9987b67af007"
+  "toolchain_receipt_sha256": "816ddb2b79a2672e512922b17aed78976e58ba3e6f8d88992b7dc2de837b91c6"
 }

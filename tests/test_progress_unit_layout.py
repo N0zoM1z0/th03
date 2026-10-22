@@ -32,11 +32,11 @@ class Tests(unittest.TestCase):
  def test_real_unit_source_totals_and_main_function_axis(self):
   units=list(csv.DictReader((ROOT/'config/units.csv').read_text().splitlines()))
   self.assertEqual((p.tracked_unit_progress(units,'th03-op')['source'],p.tracked_unit_progress(units,'th03-op')['total']),(34,41))
-  self.assertEqual((p.tracked_unit_progress(units,'th03-zun')['source'],p.tracked_unit_progress(units,'th03-zun')['total']),(13,18))
+  self.assertEqual((p.tracked_unit_progress(units,'th03-zun')['source'],p.tracked_unit_progress(units,'th03-zun')['total']),(15,18))
   funcs=[dict(artifact='th03-main',boundary_state='reviewed',state='candidate')]*413
   svg=p.render_svg(units,funcs,[])
   self.assertIn('413 tracked functions',svg)
-  self.assertIn('Source 34/41',svg);self.assertIn('Source 13/18',svg)
+  self.assertIn('Source 34/41',svg);self.assertIn('Source 15/18',svg)
  def test_empty_unit_inventory_has_zero_width_not_fake_function_counts(self):
   svg=p.render_svg([],[],[])
   root=ET.fromstring(svg)
@@ -47,15 +47,15 @@ class Tests(unittest.TestCase):
    green=[x for x in g.findall('s:rect',N) if x.attrib.get('fill')=='#55c7a6']
    self.assertEqual([float(x.attrib['width']) for x in green],[0.0])
  def test_annotations_and_footer_fit_distinct_reserved_regions(self):
-  with patch.object(p,'zun_init_standalone_retained',return_value=True),patch.object(p,'zun_driver_hybrid_retained',return_value=True),patch.object(p,'zunsoft_root_source_proven',return_value=True):
+  with patch.object(p,'zun_init_standalone_retained',return_value=True),patch.object(p,'zun_driver_hybrid_retained',return_value=True),patch.object(p,'zunsoft_root_source_proven',return_value=True),patch.object(p,'zun_resident_root_source_proven',return_value=True):
    root=ET.fromstring(p.render_svg([],[],[]))
   self.assertEqual(root.attrib['viewBox'],'0 0 788 550')
   texts=root.findall('.//s:text',N)
   ys={''.join(t.itertext()):float(t.attrib['y']) for t in texts}
   self.assertEqual(ys['ZUN.COM'],354)
-  annotation_ys=[v for k,v in ys.items() if k.startswith(('Retained standalone init:','Maintained -2/-4 composition:','ZUN -3 root:','Maintained ZUN -3','Logo root:'))]
-  self.assertEqual(sorted(annotation_ys),[394,410,426])
-  self.assertTrue(all(380<y<=426 for y in annotation_ys))
+  annotation_ys=[v for k,v in ys.items() if k.startswith(('Retained standalone init:','Maintained -2/-4 composition:','ZUN -3 root:','Maintained ZUN -3','Logo root:','Resident root:'))]
+  self.assertEqual(sorted(annotation_ys),[394,410,426,442])
+  self.assertTrue(all(380<y<=442 for y in annotation_ys))
   self.assertTrue(all(float(t.attrib['y'])<550 for t in texts))
   self.assertIn('452',ET.tostring(root,encoding='unicode'))
  def test_accepted_mainl_hides_only_stale_retained_and_open_order(self):

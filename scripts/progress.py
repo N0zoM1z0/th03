@@ -469,6 +469,30 @@ def zunsoft_root_source_proven(units, evidence):
             return False
     return True
 
+ZUN_RESIDENT_PROOF_SHA = '403aea36f7e57c581e5beb7d76dd24b5ab8daa85e3fbe4ea2f6f60d42a4ffd16'
+ZUN_RESIDENT_UNITS = {'th03-zun-decoded-resident-cfg-init': ('0x367', '97'), 'th03-zun-decoded-resident-main': ('0x3c8', '225')}
+
+def zun_resident_root_source_proven(units, evidence):
+    """Two complete resident bodies, never DATA-as-CODE or whole/exact credit."""
+    selected = [u for u in units if u['id'] in ZUN_RESIDENT_UNITS]
+    if len(selected) != 2 or {u['id'] for u in selected} != set(ZUN_RESIDENT_UNITS):
+        return False
+    expected_evidence = {'ev-th03-zun-resident-maintained-structure': ('compiler', '.analysis/zun-resident-maintained-proposal-v01/structural-v02.json', '90202da932d4a0043cccead8df3e2899ab33ce2ac8ab8edb42e6ca4d8f4a7936'), 'ev-th03-zun-resident-maintained-cold-pair': ('reproducibility', '.analysis/zun-resident-maintained-proposal-v01/pair-v02.json', '1bc97d945cc9fd14a8a46d40a81e3c5a4c4a55deea7ac032bfb4fc137568d544'), 'ev-th03-zun-resident-maintained-runtime': ('runtime', '.analysis/zun-resident-native-proposal-v02/runtime.json', '888529c2788ade7c80cd31fc045ebf64de366b53f89cd7da4d6e25b9137def2d')}
+    for row in selected:
+        if (row['offset'], row['size']) != ZUN_RESIDENT_UNITS[row['id']]:
+            return False
+        if any(row.get(k) != v for k,v in {'artifact':'th03-zun','segment':'decoded:-5','file_offset':'','origin':'authored','state':'source-present','boundary_state':'reviewed','source':'src/zun/res_yume.cpp'}.items()) or not set(expected_evidence).issubset(row['evidence_ids'].split(';')):
+            return False
+    for eid, (kind, location, digest) in expected_evidence.items():
+        found = [e for e in evidence if e['id'] == eid]
+        if len(found) != 1 or any(found[0].get(k) != v for k,v in {'artifact':'th03-zun','evidence_class':kind,'result':'pass','location':location,'output_sha256':digest,'extent_start':'','extent_size':''}.items()):
+            return False
+    for name,digest in [('config/zun_resident/proof.json', '403aea36f7e57c581e5beb7d76dd24b5ab8daa85e3fbe4ea2f6f60d42a4ffd16'), ('src/zun/res_yume.cpp', '3f11fcedf4e80c5ebb97ce24f9e96c15366588b7c3de6ce0b9915cdb6347760a'), ('src/zun/res_init.inl', '7f472d088a1890409960a4669019c97b049e8ff908ee9aa7f368836516d4820e'), ('src/zun/cfg_init.inl', '545f362bbc26b60c9b80f778913061a48b1587902918c316cfab10a156176d73')]:
+        path = ROOT / name
+        if not path.is_file() or any(p.is_symlink() for p in (path,*path.parents)) or hashlib.sha256(path.read_bytes()).hexdigest() != digest:
+            return False
+    return True
+
 def tracked_unit_progress(units, artifact):
     """Unit extent inventory, not a recovered authored-function denominator."""
     rows = [u for u in units if u['artifact'] == artifact and u['state'] != 'excluded']
@@ -583,6 +607,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
         if artifact == "th03-zun" and zunsoft_root_source_proven(units, evidence or []):
             rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</text>')
+        if artifact == "th03-zun" and zun_resident_root_source_proven(units, evidence or []):
+            rows.append('<text x="200" y="442" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two maintained resident source units, 322 CODE bytes and separate 307 DATA bytes; two cold builds, forty retained target and first-candidate modeled calls, no whole payload or exact acceptance">Resident root: 2 source units / 322 B · 2 cold builds · 40 modeled calls · exact 0</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="550" viewBox="0 0 788 550" role="img" aria-label="TH03 reviewed subset reconstruction progress">
@@ -643,7 +669,9 @@ def main() -> int:
         "",
     ])
     if zunsoft_root_source_proven(units, evidence):
-        lines.extend(["ZUN logo root: ten maintained source units / 1,299 CODE bytes; ZUN source presence 13/18 tracked units and 1,533 scoped CODE bytes including the prior 234 wrapper bytes. DATA15/BSS293 are layout evidence, not extra CODE credit. One fresh compile/context-link and 2,600 modeled calls pass; vendor context unowned, no second cold build or exact acceptance.", ""])
+        lines.extend(["ZUN logo root: ten maintained source units / 1,299 CODE bytes; with the prior 234 wrapper bytes this historical checkpoint supplied 1,533 scoped CODE bytes. DATA15/BSS293 are layout evidence, not extra CODE credit. One fresh compile/context-link and 2,600 modeled calls pass; vendor context unowned, no second cold build or exact acceptance.", ""])
+    if zun_resident_root_source_proven(units, evidence):
+        lines.extend(['ZUN resident root: two maintained source units / 322 CODE bytes; ZUN source presence is now 15/18 tracked units and 1,855 scoped CODE bytes. DATA307/BSS0 are separately verified layout, not extra CODE credit. Two fresh compile/context-links (four native phases) give raw-identical OBJ/COM/MAP; 40 retained modeled calls cover target and first candidate only. Vendor context remains unowned; whole COM equality is diagnostic, not launcher/packed/exact acceptance.', ""])
     if mainl_pi_composed(units, evidence):
         lines.extend(["Historical MAINL PI composition: 6,144 owned decoded bytes and 110 scoped ordered relocation words match target. Nine PI operand gaps close in this composition; historical failures remain preserved. That image retained 21 other byte differences and relocation-order differences. This historical composition did not change source or exact counts.", ""])
     if mainl_crt_source_proven(units, evidence) and mainl_linked_game_source_proven(units, evidence) and mainl_root_tail_source_proven(units, evidence) and mainl_display_hardware_source_proven(units, evidence) and mainl_archive_io_source_proven(units, evidence) and mainl_resources_source_proven(units, evidence) and mainl_pi_decoder_source_proven(units, evidence) and mainl_root_source_proven(units, evidence) and mainl_staff_source_proven(units, evidence):
