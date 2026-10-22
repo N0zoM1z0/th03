@@ -10,6 +10,10 @@ Fresh target evidence for the initial E266..E313 procedure is retained under `.a
 
 The complete five-procedure C++ candidate is now in `src/main/player/shotroot.cpp`, its declaration header and the bounded `src/main/round/results.inl`. It remains outside the default build and acceptance ledgers. The existing 185-byte update/render TU is unchanged. `target-complete.json` records the fresh target observations for all seven adjacent bodies: candidate sizes 173/72/151/837/264 bytes, with 12/0/3/8/3 ordered MZ sites, followed by the accepted 43/142-byte bodies. Reset uses the 64-entry, 48-byte enemy/fireball/explosion array, independently of the separate player-effect array. Fixup-symbol binding, full linking, behavior, repeat and cold aggregate proof remain required.
 
+## Complete player-state source checkpoint, 2026-10-22
+
+All five MAIN_010 candidates now compile to the target 1,716 bytes. PSTA243 adds the 1,106-byte update body; the raw diagnostic compares 1,461 bytes outside 110 actual fixups and seven possible call-relaxation opcodes, all equal. The projected seven surviving segment sites match target order. Real linking, five physical source aliases and the root release-counter storage view remain open. See [the update review](MAIN_PLAYER_UPDATE_REVIEW.md) for original failures, the one-byte branch discrepancy caught after shape equality, and the replayable operand observations.
+
 ## Player-state tail source checkpoint, 2026-10-22
 
 Four adjacent MAIN_010 candidates now compile to 131/209/151/119 bytes, totaling 610 at load DE95..E0F7. Installed source matches the actual PSTA230 compiler inputs. All 513 raw bytes outside the 35 declared fixups and five possible far-call relaxation opcode positions match target; the projected six surviving segment sites also match target order, but no actual link or acceptance is claimed. The preceding 1,106-byte update body and coherent physical MAIN_01 composition remain next. See [the bounded player-state review](MAIN_PLAYER_STATE_TAIL_REVIEW.md), including the preserved failed wrapper assignment, 206-byte overlay candidate and corrected zero-segment call intake.
