@@ -3,8 +3,8 @@
 
 // Candidate declarations for the complete P_SHOT contribution. These refer to
 // existing DGROUP storage; their original storage ownership is still open.
+#include "src/main/sound/se.hpp"
 #pragma option -a-
-#include "src/main/player/shot.hpp"
 #include "src/main/player/stuff.hpp"
 #include "compat/rec98/th03/main/enemy/efe.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -16,7 +16,6 @@
 #include "compat/rec98/th03/gaiji/gaiji.h"
 #include "compat/rec98/th03/main/hud/dynamic.hpp"
 #include "src/main/player/score_add.hpp"
-#include "src/main/sound/se.hpp"
 
 extern unsigned char round_reset_flag, round_reset_clear_flag;
 extern unsigned char round_defeated_player;
