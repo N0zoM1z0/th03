@@ -4,7 +4,7 @@
   "identity_pass": true,
   "manifest": "config/toolchain.toml",
   "manifest_sha256": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
-  "observed_utc": "2026-10-22T12:23:14.384463+00:00",
+  "observed_utc": "2026-10-22T15:24:42.609892+00:00",
   "ready": false,
   "schema_version": 1,
   "selected_surface_ids": [

@@ -1,3 +1,31 @@
+# Player defeat candidate checkpoint, 2026-10-22
+
+Four MAIN procedures at C0D8..C370 now have an installed natural C++ candidate
+in `src/main/player/lose.cpp`/`.hpp`. Four serial original TC4J probes pass;
+PLSE257 emits662 CODE bytes versus664 target bytes, no DATA/BSS. Three bodies
+(270/98/119 bytes) have362 non-fixup bytes equal after124 operand bytes plus one
+possible relaxation opcode are excluded. The renderer remains175 versus177
+bytes with SI/DI allocation unresolved; no padding or dummy source was added.
+No actual link/runtime/cold proof or source/exact credit is claimed. Details,
+replay and retained proof paths are in [the defeat review](reconstruction/MAIN_PLAYER_LOSE_REVIEW.md).
+Next probe the explicit `_DI` loop-counter hypothesis: the reference compiler
+note predicts the observed SI/DI save pair; native verification remains pending.
+Latest owner commit format is `gpt-6-astra-medium: xxx ~`.
+
+Full CI passes2,329 tests in372.640 seconds with two existing skips, all four
+DB attestations and Oracle/toolchain checks. `ci-v01.log`, `ci-v01.exit` and
+`ci-v01-resources.txt` in the defeat evidence tree record8:56.73 wall time,
+665,436 KiB peak RSS, CPU19/nice10, Java768 MiB heap cap and zero swaps.
+Four native compiles peak at108,592 KiB. Both historical publications are
+refreshed after the two-row evidence append; OP33 and MAINL145 ownership and
+byte hashes/sizes are unchanged, with prior publications preserved.
+
+
+The bounded cleanup dry run (`cleanup-dry.log`, `cleanup-dry-resources.txt`)
+exited1 with MemoryError while reading a historical JSON under the768 MiB
+virtual-memory ceiling. It never ran with `--apply` and deleted nothing.
+Disk had approximately785 GiB free; no higher-memory retry was started.
+
 # Active exact reconstruction, 2026-10-22
 
 The owner resumed a 98% exact authored-byte goal across all four TH03 products, using local tools, regular pushes and commit prefix `gpt-6-astra-medium:`. The whole authored denominator remains unknown. MAIN retains 87 exact extents / 413 functions / 66,843 scoped bytes; this checkpoint adds no source-ledger or exact credit.
