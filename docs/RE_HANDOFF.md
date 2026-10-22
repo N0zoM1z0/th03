@@ -1,5 +1,14 @@
 # TH03 reconstruction handoff — current state (2026-10-22)
 
+## Latest dependency recovery
+
+The missing support.py is now restored with its original complete SHA-256.
+Current OP source composition, full dated cold replay and separate packing replay
+pass again. No historical receipts or source/exact counters changed. The effects.obj
+dependency is still missing; a separately recorded reproduction is being planned.
+See [exact recovery](reconstruction/DEPENDENCY_RECOVERY_20261022.md). Earlier
+missing-input and cleanup test summaries below remain dated historical observations.
+
 ## OP complete mixed-product reproduction and local integration
 
 Current verification caveat (2026-10-22 07:33 UTC): the installed checkpoint's

@@ -1,0 +1,115 @@
+import contextlib,fcntl,hashlib,json,os,stat,subprocess,sys,time,signal
+from pathlib import Path
+from datetime import datetime,timezone
+from guards import identity
+ROOT=Path.cwd().resolve()
+POISONS=[".analysis/borland-wine-cleanup-uncertain.json"]
+def utc():return datetime.now(timezone.utc).isoformat()
+
+def sha(raw):return hashlib.sha256(raw).hexdigest()
+
+def require(ok,message):
+ if not ok:raise ValueError(message)
+
+def atomic(path,value):
+ raw=(json.dumps(value,indent=2)+'\n').encode();temp=path.with_suffix(path.suffix+'.tmp')
+ with temp.open('xb') as f:f.write(raw);f.flush();os.fsync(f.fileno())
+ os.replace(temp,path)
+
+def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT,timeout=20)
+
+def info(path):
+ try:return identity(ROOT,path.relative_to(ROOT).as_posix())
+ except FileNotFoundError:return None
+
+def inventory():
+ names=git('ls-files','-z','--cached','--others','--exclude-standard').decode().split('\0')
+ return {n:info(ROOT/n) for n in sorted(set(names)) if n}
+
+def no_writer():
+ for name in POISONS+['.analysis/th03-main-serial/active.claim']:
+  require(not os.path.lexists(ROOT/name),'active claim/poison: '+name)
+ found=[]
+ for p in Path('/proc').iterdir():
+  if not p.name.isdigit() or int(p.name)==os.getpid():continue
+  try:comm=(p/'comm').read_text().strip().lower()
+  except FileNotFoundError:continue
+  if 'wineserver' in comm:continue
+  if comm=='cmd.exe' or any(x in comm for x in ['wine','tasm','tlink','tcc','msdos']):found.append((p.name,comm))
+ require(not found,'active native writer: '+repr(found))
+
+def clamp():
+ cpu=min(os.sched_getaffinity(0));os.sched_setaffinity(0,{cpu})
+ nice=os.getpriority(os.PRIO_PROCESS,0)
+ if nice<10:os.nice(10-nice)
+ return cpu,os.getpriority(os.PRIO_PROCESS,0)
+
+def create_result(path,state):
+ with path.open('xb') as f:
+  f.write((json.dumps(state,indent=2)+'\n').encode());f.flush();os.fsync(f.fileno())
+
+def validate_parent(path):
+ for parent in path.parents:
+  if parent==ROOT:break
+  require(parent.is_dir() and not parent.is_symlink(),'symlink/non-directory destination ancestor')
+
+class SharedLock:
+ def __init__(self,path):self.path=path;self.fd=None;self.expected=None
+ @staticmethod
+ def key(st):return (st.st_dev,st.st_ino,st.st_size,stat.S_IMODE(st.st_mode),st.st_nlink)
+ def acquire(self):
+  validate_parent(self.path);before=self.path.lstat()
+  require(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and stat.S_IMODE(before.st_mode)==0o600 and before.st_size==0,'unsafe/missing existing writer lock')
+  fd=os.open(self.path,os.O_RDWR|os.O_NOFOLLOW)
+  try:
+   require(self.key(os.fstat(fd))==self.key(before),'writer lock changed during open')
+   fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
+   self.fd=fd;self.expected=self.key(before);fd=None;self.check()
+  finally:
+   if fd is not None:os.close(fd)
+ def check(self):
+  require(self.fd is not None,'writer lock not held');validate_parent(self.path)
+  current=self.path.lstat();held=os.fstat(self.fd)
+  require(stat.S_ISREG(current.st_mode) and current.st_nlink==1 and self.key(current)==self.key(held)==self.expected,'held writer lock path/inode changed')
+ def close(self):
+  if self.fd is not None:
+   try:fcntl.flock(self.fd,fcntl.LOCK_UN)
+   finally:os.close(self.fd);self.fd=None
+
+def logged_supervision(path,run,observed,open_log=None,retention=None):
+ # Observe ownership before flush/close; retain result even when log retention fails.
+ stream=None;outcome=None;errors=[];original=None
+ try:
+  stream=(open_log or (lambda p:p.open('xb')))(path)
+  outcome=run(stream)
+ except BaseException as error:original=error
+ finally:
+  if outcome is not None:observed(outcome)
+  if stream is not None:
+   try:
+    with (retention('log flush') if retention else contextlib.nullcontext()):stream.flush();os.fsync(stream.fileno())
+   except BaseException as error:errors.append('log flush/fsync: '+repr(error))
+   try:
+    with (retention('log close') if retention else contextlib.nullcontext()):stream.close()
+   except BaseException as error:errors.append('log close: '+repr(error))
+ return outcome,original,errors
+
+COMMIT_IDENTITY={'name':'N0zoM1z0','email':'1705004398@qq.com'}
+
+def command_environment():
+ prefix=str(ROOT/'.analysis/cpu-acceptance-install-no-cache-20261020-v01')
+ env={'PATH':'/usr/bin:/bin','HOME':'/tmp/home','LANG':'C','LC_ALL':'C','TZ':'UTC','PYTHONNOUSERSITE':'1','PYTHONDONTWRITEBYTECODE':'1','PYTHONPYCACHEPREFIX':prefix,'PYTHONPATH':str(ROOT/'scripts')+':'+str(ROOT/'tests'),'DISPLAY':'','WAYLAND_DISPLAY':''}
+ for role in ('AUTHOR','COMMITTER'):
+  env['GIT_'+role+'_NAME']=COMMIT_IDENTITY['name'];env['GIT_'+role+'_EMAIL']=COMMIT_IDENTITY['email']
+ return env
+
+def verify_commit_identity(env,expected):
+ import re
+ require({k:expected[k] for k in ('name','email')}==COMMIT_IDENTITY,'unreviewed commit identity')
+ result={}
+ for role in ('AUTHOR','COMMITTER'):
+  require(env.get('GIT_'+role+'_NAME')==COMMIT_IDENTITY['name'] and env.get('GIT_'+role+'_EMAIL')==COMMIT_IDENTITY['email'],'commit environment identity mismatch')
+  value=subprocess.check_output(['git','var','GIT_'+role+'_IDENT'],cwd=ROOT,env=env,timeout=5).decode().strip()
+  require(re.fullmatch(re.escape(COMMIT_IDENTITY['name']+' <'+COMMIT_IDENTITY['email']+'>')+r' [0-9]+ [+-][0-9]{4}',value) is not None,'resolved git identity differs')
+  result[role.lower()]=value
+ return result
