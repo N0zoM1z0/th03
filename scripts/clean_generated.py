@@ -116,6 +116,132 @@ def documented_analysis_paths() -> set[Path]:
     return preserved
 
 
+def json_guard_references(value, *, structured: bool = False) -> tuple[bool, set[str]]:
+    """Read explicit guard collections and, when retained, typed references.
+
+    Untyped inventories do not establish a proof root. Bare materialization-map
+    keys are work-relative, not repository-relative; only explicit .analysis/
+    keys in supplemental hash maps are interpreted here.
+    """
+    found = False
+    references: set[str] = set()
+    historical_fields: set[str] = set()
+    if isinstance(value, dict):
+        if value.get("schema") == "recoverable-analysis-archive-v1" or value.get(
+            "status"
+        ) == "proposed-lossless-archive-not-applied":
+            historical_fields.add("members")
+        if value.get("kind") == "th03-abandoned-build-output-cleanup":
+            historical_fields.add("reference_corpus")
+
+    def sha256(value) -> bool:
+        return isinstance(value, str) and re.fullmatch(r"[0-9a-fA-F]{64}", value) is not None
+
+    stack = [(value, structured)]
+    while stack:
+        node, supplemental = stack.pop()
+        if isinstance(node, dict):
+            for key in ("inputs", "source_inputs"):
+                guards = node.get(key)
+                if isinstance(guards, dict):
+                    found = True
+                    references.update(raw for raw in guards if isinstance(raw, str))
+                elif isinstance(guards, list):
+                    found = True
+                    for guard in guards:
+                        if isinstance(guard, dict) and isinstance(guard.get("path"), str):
+                            references.add(guard["path"])
+                        elif isinstance(guard, str):
+                            references.add(guard)
+            if supplemental:
+                if isinstance(node.get("path"), str) and sha256(node.get("sha256")):
+                    references.add(node["path"])
+                for raw, guard in node.items():
+                    if isinstance(raw, str) and raw.startswith(".analysis/") and (
+                        sha256(guard)
+                        or isinstance(guard, dict) and sha256(guard.get("sha256"))
+                    ):
+                        references.add(raw)
+            for key, child in node.items():
+                # Suppress only the new typed-inventory interpretation. Existing
+                # explicit inputs/source_inputs remain guarded in every branch.
+                child_supplemental = supplemental and not (
+                    node is value and key in historical_fields
+                )
+                stack.append((child, child_supplemental))
+        elif isinstance(node, list):
+            stack.extend((child, supplemental) for child in node)
+    return found, references
+
+
+def expand_retained_json_paths(
+    seeds: set[Path],
+    receipt_roots: set[Path],
+    text_queries: set[Path],
+) -> set[Path]:
+    """Follow retained JSON guards without treating inventories as proof seeds."""
+    retained = set(seeds)
+    visited: set[Path] = set()
+    expanded_roots: set[Path] = set()
+    queue = list(retained)
+    while queue:
+        path = queue.pop()
+        if path in visited:
+            continue
+        visited.add(path)
+        # A non-symlink leaf may still have an external symlink ancestor.
+        # Validate its complete resolution before any read or tree traversal,
+        # while retaining the lexical path itself in the protection set.
+        try:
+            relative = path.relative_to(ROOT)
+        except ValueError:
+            continue
+        if normalized_local_path(str(relative)) is None:
+            continue
+        # A lexical alias stays protected, but only an independently validated
+        # repository-local resolved path can be read for dependency discovery.
+        if path.is_symlink() or any(
+            is_under(path, root) for root in PRESERVED_ANALYSIS_ROOTS
+        ):
+            continue
+        for root in ({path} | set(path.parents)) & receipt_roots:
+            if root not in expanded_roots:
+                expanded_roots.add(root)
+                retained.add(root)
+                queue.extend(p for p in root.rglob("*.json") if not p.is_symlink())
+        if path.is_dir() and is_under(path, ANALYSIS):
+            queue.extend(p for p in path.rglob("*.json") if not p.is_symlink())
+        if not path.is_file() or path.suffix.lower() != ".json":
+            continue
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError, UnicodeError, OSError):
+            if path.name != "receipt.json" and path in text_queries:
+                continue
+            # Reached JSON is a declared retained dependency. Do not silently
+            # lose its closure if it cannot be inspected. Missing paths remain
+            # absent; this branch only handles existing unreadable/malformed JSON.
+            raise ValueError(
+                f"cannot inspect retained proof: {path.relative_to(ROOT)}"
+            )
+        _, references = json_guard_references(value, structured=True)
+        for raw in references:
+            if not raw:
+                continue
+            lexical = Path(raw)
+            if lexical.is_absolute() or ".." in lexical.parts:
+                continue
+            paths = {ROOT / lexical}
+            resolved = normalized_local_path(raw)
+            if resolved is not None:
+                paths.add(resolved)
+            for dependency in paths:
+                if dependency not in retained:
+                    retained.add(dependency)
+                    queue.append(dependency)
+    return retained
+
+
 def referenced_analysis_closure(extra: set[Path] | None = None) -> set[Path]:
     """Follow retained JSON input guards from current ledger/document references."""
     ledger_files = ledger_preserved_paths()
@@ -125,85 +251,20 @@ def referenced_analysis_closure(extra: set[Path] | None = None) -> set[Path]:
     if extra:
         retained |= extra
 
-    visited: set[Path] = set()
-    queue = list(retained)
     receipt_roots = {
         p.parent for p in ANALYSIS.rglob("receipt.json")
         if not p.is_symlink()
         and not any(is_under(p, root) for root in PRESERVED_ANALYSIS_ROOTS)
     }
-    # Ordinary cleanup retains standalone guarded diagnostics too. Their input
-    # receipts must survive aggressive pruning even without a ledger/doc link.
-    proof_files, _ = proof_preserved_paths()
+    # Standalone explicit guarded proofs remain roots, including native
+    # manifests whose inputs are typed lists rather than dictionaries.
+    proof_files, _ = proof_preserved_paths(extra)
     retained |= {
         p for p in proof_files
         if p.suffix.lower() == ".json" and is_under(p, ANALYSIS)
-        and not any(is_under(p, root) for root in receipt_roots)
+        and not (({p} | set(p.parents)) & receipt_roots)
     }
-    queue.extend(retained)
-    expanded_roots: set[Path] = set()
-    while queue:
-        path = queue.pop()
-        if path in visited:
-            continue
-        visited.add(path)
-        retained.add(path)
-        # A retained receipt owns its entire proof tree. Its nested receipts and
-        # JSON reports can themselves guard inputs in other replay directories.
-        for root in receipt_roots:
-            if root not in expanded_roots and is_under(path, root):
-                expanded_roots.add(root)
-                retained.add(root)
-                queue.extend(p for p in root.rglob("*.json") if not p.is_symlink())
-        if path.is_dir() and not path.is_symlink():
-            queue.extend(p for p in path.rglob("*.json") if not p.is_symlink())
-        if not path.is_file() or path.suffix.lower() != ".json":
-            continue
-        try:
-            value = json.loads(path.read_text(encoding="utf-8"))
-        except (ValueError, UnicodeError, OSError):
-            # Factory function queries are intentionally plain text even when a
-            # historical caller chose a .json output name.
-            if path.name != "receipt.json" and path in text_queries:
-                continue
-            # A retained receipt or other ledger JSON must remain inspectable.
-            if path.name == "receipt.json" or path in ledger_files:
-                raise ValueError(
-                    f"cannot inspect retained proof: {path.relative_to(ROOT)}"
-                )
-            continue
-
-        stack = [value]
-        while stack:
-            node = stack.pop()
-            if isinstance(node, dict):
-                for guards in (node.get("inputs"), node.get("source_inputs")):
-                    if not isinstance(guards, dict):
-                        continue
-                    for raw in guards:
-                        if not isinstance(raw, str) or not raw:
-                            continue
-                        lexical = Path(raw)
-                        if lexical.is_absolute() or ".." in lexical.parts:
-                            continue
-                        lexical = ROOT / lexical
-                        try:
-                            lexical.relative_to(ANALYSIS)
-                        except ValueError:
-                            pass
-                        else:
-                            if lexical not in retained:
-                                retained.add(lexical)
-                                queue.append(lexical)
-                        resolved = normalized_local_path(raw)
-                        if resolved is not None and is_under(resolved, ANALYSIS):
-                            if resolved not in retained:
-                                retained.add(resolved)
-                                queue.append(resolved)
-                stack.extend(node.values())
-            elif isinstance(node, list):
-                stack.extend(node)
-    return retained
+    return expand_retained_json_paths(retained, receipt_roots, text_queries)
 
 
 def prune_unreferenced_receipts(
@@ -240,7 +301,9 @@ def prune_unreferenced_receipts(
     return sum(remove_path(root, dry_run) for root in top_level)
 
 
-def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
+def proof_preserved_paths(
+    extra: set[Path] | None = None,
+) -> tuple[set[Path], set[Path]]:
     """Keep retained JSON input guards and complete cold receipt directories.
 
     Receipts also describe outputs and frozen archives outside their input
@@ -271,30 +334,26 @@ def proof_preserved_paths() -> tuple[set[Path], set[Path]]:
         if path.name == "receipt.json":
             roots.add(path.parent)
 
-        def visit(node):
-            if isinstance(node, dict):
-                for guards in (node.get("inputs"), node.get("source_inputs")):
-                    if not isinstance(guards, dict):
-                        continue
-                    files.add(path)
-                    for raw in guards:
-                        if not isinstance(raw, str) or not raw:
-                            continue
-                        lexical = Path(raw)
-                        if lexical.is_absolute() or ".." in lexical.parts:
-                            continue
-                        lexical = ROOT / lexical
-                        files.add(lexical)
-                        resolved = normalized_local_path(raw)
-                        if resolved is not None:
-                            files.add(resolved)
-                for child in node.values():
-                    visit(child)
-            elif isinstance(node, list):
-                for child in node:
-                    visit(child)
+        found, references = json_guard_references(value)
+        if found:
+            files.add(path)
+        for raw in references:
+            if not raw:
+                continue
+            lexical = Path(raw)
+            if lexical.is_absolute() or ".." in lexical.parts:
+                continue
+            files.add(ROOT / lexical)
+            resolved = normalized_local_path(raw)
+            if resolved is not None:
+                files.add(resolved)
 
-        visit(value)
+    # Explicit guards discover proof roots above. Supplemental descriptors and
+    # flat maps are followed only from retained files/trees, never as independent
+    # global proof roots. This also closes ordinary cleanup's transitive guards.
+    seeds = files | ledger_files | documented_analysis_paths()
+    seeds |= PRESERVED_ANALYSIS_FILES | roots | (extra or set())
+    files |= expand_retained_json_paths(seeds, roots, text_queries)
     return files, roots
 
 
@@ -359,7 +418,7 @@ def clean_analysis(dry_run: bool, extra_preserved: set[Path] | None = None) -> i
     if not ANALYSIS.exists():
         return 0
 
-    proof_files, proof_roots = proof_preserved_paths()
+    proof_files, proof_roots = proof_preserved_paths(extra_preserved)
     # Files referenced concretely by tracked documentation and configuration
     # remain evidence even when their path is not repeated in evidence.csv.
     # Aggressive receipt pruning already consults these references, but the
@@ -411,7 +470,7 @@ def clean_analysis(dry_run: bool, extra_preserved: set[Path] | None = None) -> i
 
 def clean_caches(dry_run: bool, extra_preserved: set[Path] | None = None) -> int:
     removed = 0
-    proof_files, proof_roots = proof_preserved_paths()
+    proof_files, proof_roots = proof_preserved_paths(extra_preserved)
     protected = (
         proof_files | proof_roots | ledger_preserved_paths()
         | documented_analysis_paths()
