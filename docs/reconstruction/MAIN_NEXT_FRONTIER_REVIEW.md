@@ -10,6 +10,10 @@ Fresh target evidence for the initial E266..E313 procedure is retained under `.a
 
 The complete five-procedure C++ candidate is now in `src/main/player/shotroot.cpp`, its declaration header and the bounded `src/main/round/results.inl`. It remains outside the default build and acceptance ledgers. The existing 185-byte update/render TU is unchanged. `target-complete.json` records the fresh target observations for all seven adjacent bodies: candidate sizes 173/72/151/837/264 bytes, with 12/0/3/8/3 ordered MZ sites, followed by the accepted 43/142-byte bodies. Reset uses the 64-entry, 48-byte enemy/fireball/explosion array, independently of the separate player-effect array. Fixup-symbol binding, full linking, behavior, repeat and cold aggregate proof remain required.
 
+## Effective group/frame controls, 2026-10-22
+
+Eight fresh four-phase native controls isolate effective group membership and first physical segment. In particular, removing CAL_A from its effective group reverses both call outcomes without moving any code address. The read-only replay fits all 16 control calls and 20 actual MAIN calls. This explains the three existing playfield relaxations and 17 retained calls without treating same-SEGDEF membership as a universal rule. Coherent source/physical composition remains next; no product or exact credit is added. See [the complete controlled matrix](MAIN_FARCALL_GROUP_REVIEW.md).
+
 ## Actual state-plus-shot link, 2026-10-22
 
 PSTL245 links both candidates while preserving all 87 accepted scopes and every other contribution/public address. Its 85 changed program bytes are exactly 17 unrelaxed calls with correct callee destinations. State has four extra segment sites; its seven surviving literal sites match target order. Shot still has thirteen extra sites and unequal order among its 26 surviving sites. Three cross-SEGDEF playfield calls already relax, narrowing the calibration's generality. The new staging script binds the BSS counter within the original five-byte reserve and all inferred code aliases. See [native link evidence and remaining questions](MAIN_PLAYER_STATE_LINK_REVIEW.md).
