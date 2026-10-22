@@ -1,0 +1,21 @@
+"""Root review helper. Recompute only the explicit source helper pin manifest.
+
+Run after root reviews/installs helper changes; this is NOT acceptance or
+publication. Parent should review the pin delta, then prepare a fresh review.
+"""
+from pathlib import Path
+import argparse, ast, hashlib, json
+p=argparse.ArgumentParser()
+p.add_argument('--root',type=Path,default=Path.cwd())
+p.add_argument('--files',type=Path,required=True)
+a=p.parse_args(); root=a.root.resolve(); files=a.files.resolve()
+tree=ast.parse((files/'scripts/lib/op_product_acceptance.py').read_text())
+names=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='HELPER_PATHS' for t in n.targets))
+pins=[]
+for name in names:
+ q=files/name if (files/name).is_file() else root/name
+ b=q.read_bytes(); pins.append(dict(path=name,bytes=len(b),sha256=hashlib.sha256(b).hexdigest()))
+out=files/'config/op_product_acceptance/helper-bindings.json'
+out.parent.mkdir(parents=True,exist_ok=True)
+out.write_text(json.dumps(dict(schema='op-product-reviewed-helper-bindings-v1',pins=sorted(pins,key=lambda q:q['path'])),indent=2)+'\n')
+print(out)

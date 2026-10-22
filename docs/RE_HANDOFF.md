@@ -1,3 +1,7 @@
+# Paused for Codex handoff, 2026-10-22
+
+Start with [the current closeout and draft inventory](CODEX_HANDOFF_20261022.md). New TH03 development is paused at the user's request. The two proposals below the current checkpoint are preserved but not integrated/published; do not treat proposal tests as full integrated CI.
+
 # TH03 reconstruction handoff — current state (2026-10-22)
 
 ## Latest dependency recovery

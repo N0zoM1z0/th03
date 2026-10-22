@@ -1,0 +1,1195 @@
+--- /dev/null
++++ b/scripts/lib/op_product_acceptance.py
+@@ -0,0 +1,568 @@
++"""Current OP decoded-owner acceptance and a separate mixed stored-product axis.
++
++The old 33-owner publication is historical and is never changed here. The 62
++cold phases did NOT pack their EXEs. Five different actual phases packed a
++separate, source-produced, byte-identical EXE twice. Neither equality axis adds
++authored source bytes, canonical ledger credit, Factory acceptance or a
++whole-game percentage. All verification is read-only and launches no native tool.
++"""
++from __future__ import annotations
++
++import ast
++import contextlib
++import csv
++import hashlib
++import importlib.util
++import io
++import json
++import re
++import sys
++import tomllib
++from pathlib import Path
++
++PUBLICATION = 'config/op_product_acceptance/publication.json'
++COHORT = 'config/op_product_acceptance/cohort.json'
++HELPERS = 'config/op_product_acceptance/helper-bindings.json'
++COLD_PROOF = 'config/op_fullcold_exact/proof.json'
++PACK_PROOF = 'config/op_source_packing/proof.json'
++COLD_SHA = '4f50ea52204458a1ede50a26fd98f0ffbc32c214ea9d3fa9731503e643c86cfd'
++PACK_SHA = '0d937b68ad739e8bd2a0bb4de4c054b016d3dc5a93635edfe6a17d2c1694a25b'
++GATES = ('target-identity', 'format-integrity', 'boundary-ownership',
++         'toolchain-identity', 'toolchain-replay', 'object-format-integrity',
++         'cold-build-determinism', 'layout-relocations', 'raw-bytes',
++         'ledger-consistency', 'cold-aggregate-replay')
++HELPER_PATHS = (
++    'scripts/lib/__init__.py', 'scripts/lib/op_product_acceptance.py',
++    'scripts/replay_th03_op_product_acceptance.py',
++    'scripts/lib/pc98.py', 'scripts/lib/omf.py', 'scripts/lib/targets.py',
++    'scripts/lib/toolchain.py', 'scripts/lib/op_diet_lineage.py',
++    'scripts/lib/op_fullcold_exact.py',
++    'scripts/replay_th03_op_fullcold_exact.py',
++    'scripts/replay_th03_op_source_packing.py',
++    'scripts/review_th03_cpu_link_order.py', 'scripts/validate_tracking.py',
++    'scripts/stage_th03_op_fullcold.py', 'scripts/stage_th03_op_keyboard.py',
++    'scripts/stage_th03_op_exit_helpers.py',
++    'scripts/stage_th03_op_remaining_helpers.py', 'scripts/stage_th03_op_raster.py',
++    'scripts/stage_th03_op_pfopen_source.py', 'scripts/stage_th03_op_global_order.py',
++    'scripts/stage_th03_op_alignment.py', 'scripts/stage_th03_op_nopcall.py',
++)
++LEDGERS = ('config/units.csv', 'config/evidence.csv', 'config/hypotheses.csv',
++           'config/knowledge.csv', 'config/th03_main_authored_functions.csv',
++           'config/th03_function_boundaries.csv')
++MANDATORY = (*LEDGERS, 'config/oracles.toml', 'config/targets.toml',
++             'config/th03_diet.toml', 'config/toolchain.toml',
++             'config/op_global_order/build_recipe.json', COHORT, HELPERS,
++             COLD_PROOF, PACK_PROOF)
++IRAND = 'th03-op-decoded-score-irand'
++SELECTION = 'src/op/menu/character_selection.inl'
++PFOPEN = 'src/shared/formats/pfopen.asm'
++
++
++class AcceptanceError(ValueError):
++    pass
++
++
++def need(value, message):
++    if not value:
++        raise AcceptanceError(message)
++
++
++def sha(raw):
++    return hashlib.sha256(raw).hexdigest()
++
++
++def regular(root, name, files=None):
++    relative = Path(name)
++    need(name not in ('', '.') and not relative.is_absolute() and
++         '..' not in relative.parts and '\\' not in name, 'unsafe path ' + name)
++    base = Path(files) if files and (Path(files) / relative).exists() else Path(root)
++    path = base / relative
++    need(path.is_file() and not any(p.is_symlink() for p in (path, *path.parents)),
++         'missing regular input ' + name)
++    return path
++
++
++def pin(root, name, files=None):
++    raw = regular(root, name, files).read_bytes()
++    return dict(path=name, bytes=len(raw), sha256=sha(raw))
++
++
++def checked(root, item, files=None):
++    expected = {k: item[k] for k in ('path', 'bytes', 'sha256')}
++    need(pin(root, item['path'], files) == expected, 'binding drift ' + item['path'])
++    return regular(root, item['path'], files).read_bytes()
++
++
++def load_module(root, name):
++    path = regular(root, name)
++    key = 'op_product_' + sha(name.encode())[:16]
++    spec = importlib.util.spec_from_file_location(key, path)
++    module = importlib.util.module_from_spec(spec)
++    sys.modules[key] = module
++    spec.loader.exec_module(module)
++    return module
++
++
++def helper_bindings(root, files=None):
++    manifest = json.loads(regular(root, HELPERS, files).read_bytes())
++    need(manifest['schema'] == 'op-product-reviewed-helper-bindings-v1', 'helper schema')
++    pins = manifest['pins']
++    need(len(pins) == len(HELPER_PATHS) and {p['path'] for p in pins} == set(HELPER_PATHS),
++         'reviewed executable helper closure')
++    for item in pins:
++        checked(root, item, files)
++    return pins
++
++
++def proofs(root):
++    a, b = (regular(root, name).read_bytes() for name in (COLD_PROOF, PACK_PROOF))
++    need(sha(a) == COLD_SHA and sha(b) == PACK_SHA, 'fixed original proof identity')
++    return json.loads(a), json.loads(b)
++
++
++def descriptor(unit):
++    need(unit['artifact'] == 'th03-op' and unit['segment'].startswith('decoded:'),
++         'decoded OP scope')
++    need(unit['state'] == 'source-present' and unit['origin'] == 'authored' and
++         unit['source'] and not unit['file_offset'] and
++         unit['boundary_state'] in ('reviewed', 'shared'), 'eligible maintained owner')
++    need(int(unit['size'], 0) == int(unit['compare_size'], 0) > 0,
++         'complete maintained owner extent')
++    return dict(unit_id=unit['id'], source=unit['source'],
++                start=int(unit['segment'].split(':')[1], 16)*16+int(unit['offset'], 0),
++                size=int(unit['compare_size'], 0), origin=unit['origin'])
++
++
++def validate_inventory(owners, cohort):
++    need(len(cohort) == 45 and len({o['unit_id'] for o in cohort}) == 45 and
++         sum(o['size'] for o in cohort) == 13221, 'fixed 45-owner / 13221-byte cohort')
++    need(IRAND not in {o['unit_id'] for o in cohort}, 'IRAND remains excluded vendor context')
++    need(len(owners) == 45 and len({o['unit_id'] for o in owners}) == 45 and
++         {o['unit_id'] for o in owners} == {o['unit_id'] for o in cohort},
++         'same-ID complete owner inventory')
++    expected = {o['unit_id']: o for o in cohort}
++    spans = []
++    for owner in owners:
++        need({k: owner[k] for k in ('unit_id', 'source', 'start', 'size', 'origin')}
++             == expected[owner['unit_id']], 'owner descriptor drift')
++        need(owner['origin'] == 'authored' and owner['size'] > 0 and owner['start'] >= 0,
++             'owner scope')
++        start, end = owner['start'], owner['start'] + owner['size']
++        need(not any(start < hi and lo < end for lo, hi in spans), 'owner overlap')
++        spans.append((start, end))
++
++
++def current_cohort(root, files=None):
++    config = json.loads(regular(root, COHORT, files).read_bytes())
++    need(config['schema'] == 'op-current-owner-cohort-v1' and
++         config['excluded_unit_ids'] == [IRAND] and config['new_authored_credit_bytes'] == 0,
++         'reviewed cohort boundary')
++    rows = list(csv.DictReader(regular(root, 'config/units.csv').read_text().splitlines()))
++    need(len(rows) == len({u['id'] for u in rows}), 'duplicate ledger IDs')
++    op = [u for u in rows if u['artifact'] == 'th03-op' and u['state'] != 'excluded']
++    need(len(op) == 46, 'active OP denominator')
++    owners = [descriptor(u) for u in op if u['state'] == 'source-present']
++    validate_inventory(owners, config['owners'])
++    other = [u for u in op if u['id'] not in {o['unit_id'] for o in owners}]
++    need(len(other) == 1 and other[0]['id'] == IRAND and not other[0]['source'] and
++         other[0]['origin'] == 'unknown' and int(other[0]['compare_size'], 0) == 42,
++         'IRAND ownership reclassification')
++    return config['owners']
++
++
++def dependency_name(name):
++    return name.replace('\\', '/').casefold()
++
++
++def map_rows(text):
++    pattern = re.compile(
++        r'^\s*([0-9A-Fa-f]{4}):([0-9A-Fa-f]{4})\s+([0-9A-Fa-f]+)\s+'
++        r'C=CODE\s+S=(\S+)\s+G=\S+\s+M=(\S+)\s+ACBP=(\S+)\s*$', re.M)
++    return [dict(segment=int(s, 16), offset=int(o, 16), start=int(s, 16)*16+int(o, 16),
++                 size=int(n, 16), name=name, module=module.replace('\\', '/'), acbp=acbp)
++            for s, o, n, name, module, acbp in pattern.findall(text)]
++
++
++def relocation_rows(image, start, size):
++    end = start + size
++    need(not any(r.linear < end and r.linear+2 > start and
++                 not (start <= r.linear and r.linear+2 <= end) for r in image.relocations),
++         'straddling owner relocation')
++    return [[r.segment, r.offset, int.from_bytes(image.program_image[r.linear:r.linear+2], 'little')]
++            for r in image.relocations if start <= r.linear < end]
++
++
++def owner_lineage(root, work, source, producer, obj):
++    """Bind direct includes, one byte-preserving source split, and PFOPEN alias."""
++    deps = {dependency_name(n) for n in obj['dependency_paths']}
++    raw = regular(root, source).read_bytes()
++    if source == SELECTION:
++        marker = b'// Coincidentally, these were the only characters available in the trial'
++        need(raw.count(marker) == 1, 'selection split anchor')
++        split = raw.index(marker)
++        fragments = {'th03/selhelp.cpp': ('probe/select155_helper.inl', raw[:split]),
++                     'th03/seltail.cpp': ('probe/select155_tail.inl', raw[split:])}
++        need(producer['source'] in fragments, 'selection split producer')
++        consumed, expected = fragments[producer['source']]
++        need((work/'probe/select155_helper.inl').read_bytes() +
++             (work/'probe/select155_tail.inl').read_bytes() == raw,
++             'whole selection source reconstruction')
++        transform = 'byte-preserving-two-file-split'
++    else:
++        consumed = 'th03/formats/pfopen.asm' if source == PFOPEN else source
++        expected = raw
++        transform = 'identity-path-alias' if source == PFOPEN else 'direct-maintained-include'
++        if source == PFOPEN:
++            need(producer['source'] == 'th03_optail.asm', 'PFOPEN current mixed tail producer')
++    need(dependency_name(consumed) in deps and (work/consumed).read_bytes() == expected,
++         'current maintained source-to-OMF lineage ' + source)
++    return dict(maintained_source=source, maintained_sha256=sha(raw), consumed_source=consumed,
++                consumed_sha256=sha(expected), transform=transform)
++
++
++def physical_audit(root, cohort):
++    from lib.pc98 import parse_mz
++    from lib.omf import describe_omf
++    root = Path(root)
++    cold, _ = proofs(root)
++    owners = [dict(o, coordinate_space='decoded-load', canonical_file_offset=None, rounds=[])
++              for o in cohort]
++    objects, products = [], []
++    previous_objects = {}
++    for rnd, manifest_pin in enumerate(cold['final_manifests'], 1):
++        manifest = json.loads(checked(root, manifest_pin))
++        work = root / manifest['work']
++        plan = json.loads(checked(root, manifest['cold_plan']))
++        producers = [p for p in plan['producers'] if p['phase'] != 'link']
++        need(len(producers) == 30 and len({p['source'] for p in producers}) == 30 and
++             len({p['output'] for p in producers}) == 30, 'thirty actual fresh producers')
++        source_meta = manifest['repeat_inputs']
++        staged = {dependency_name(n): n for n in source_meta}
++        need(len(staged) == 330, '330 unique materialized source paths')
++        declared_tools = {dependency_name(p['path']): p for p in manifest['toolchain_inputs']}
++        object_by_source = {}
++        for producer in producers:
++            raw = (work / producer['output']).read_bytes()
++            obj = describe_omf(raw)
++            expected = ('Turbo Assembler  Version 5.0' if producer['source'].endswith('.asm')
++                        else 'TC86 Borland C++ 4.02')
++            need(obj['valid'] and obj['translator_comments'] == [expected], 'fresh OMF producer')
++            need(dependency_name(obj['module_name']) == dependency_name(producer['source']) and
++                 obj['dependency_paths'] and
++                 dependency_name(obj['dependency_paths'][0]) == dependency_name(producer['source']),
++                 'OMF physical source module')
++            for dep in obj['dependency_paths']:
++                key = dependency_name(dep)
++                if key.startswith('c:/'):
++                    toolkey = dependency_name('.analysis/toolchain/wineprefix/drive_c/' +
++                                               dep.replace('\\', '/')[3:])
++                    need(toolkey in declared_tools, 'undeclared vendor OMF dependency ' + dep)
++                    checked(root, declared_tools[toolkey])
++                else:
++                    need(key in staged, 'undeclared staged OMF dependency ' + dep)
++                    n = staged[key]
++                    need(sha((work/n).read_bytes()) == source_meta[n]['sha256'] and
++                         len((work/n).read_bytes()) == source_meta[n]['bytes'],
++                         'consumed OMF dependency binding ' + n)
++            if rnd == 2:
++                need(raw == previous_objects[producer['output']], 'raw OMF pair')
++            else:
++                previous_objects[producer['output']] = raw
++            object_by_source[dependency_name(producer['source'])] = (producer, obj)
++            objects.append(dict(round=rnd, object=producer['output'], source=producer['source'],
++                                valid=True, dependencies_bound=True, producer=expected,
++                                sha256=sha(raw), bytes=len(raw), dependencies=obj['dependency_paths']))
++        target_raw = checked(root, manifest['target'])
++        candidate_raw = (work/'bin/th03/op.exe').read_bytes()
++        target, candidate = parse_mz(target_raw), parse_mz(candidate_raw)
++        need(target.valid and candidate.valid and candidate_raw == target_raw and
++             len(candidate_raw) == 63866 and len(candidate.program_image) == 59770,
++             'complete decoded target file equality')
++        need(target.header.header_size == candidate.header.header_size == 4096 and
++             candidate_raw[:4096] == target_raw[:4096], 'complete 4096-byte MZ header')
++        need(len(candidate.relocations) == len(target.relocations) == 607 and
++             [[r.segment, r.offset] for r in candidate.relocations] ==
++             [[r.segment, r.offset] for r in target.relocations], '607 literal ordered relocations')
++        maps = map_rows((work/'obj/th03/op.map').read_text())
++        need(maps, 'actual detailed CODE MAP')
++        for owner in owners:
++            start, end = owner['start'], owner['start']+owner['size']
++            need(end <= len(target.program_image), 'owner exceeds decoded program')
++            a, b = target.program_image[start:end], candidate.program_image[start:end]
++            need(a == b, 'complete owner raw bytes')
++            tr = relocation_rows(target, start, owner['size'])
++            need(tr == relocation_rows(candidate, start, owner['size']), 'owner ordered relocations')
++            contributions = sorted([row for row in maps if row['size'] and
++                                    row['start'] < end and row['start']+row['size'] > start],
++                                   key=lambda row: row['start'])
++            cursor, pieces = start, []
++            for row in contributions:
++                lo, hi = max(start, row['start']), min(end, row['start']+row['size'])
++                need(lo == cursor, 'complete unique owner MAP coverage')
++                key = dependency_name(row['module'])
++                need(key in object_by_source, 'owner assigned to non-project MAP context')
++                producer, obj = object_by_source[key]
++                lineage = owner_lineage(root, work, owner['source'], producer, obj)
++                pieces.append(dict(start=lo, size=hi-lo, map_row=row, object=producer['output'],
++                                   source=producer['source'], lineage=lineage))
++                cursor = hi
++            need(cursor == end and sum(p['size'] for p in pieces) == owner['size'],
++                 'missing complete owner MAP contribution')
++            owner['rounds'].append(dict(round=rnd, raw_equal=True, ordered_relocations_equal=True,
++                                       target_sha256=sha(a), candidate_sha256=sha(b),
++                                       map_covered_bytes=owner['size'], source_lineage_verified=True,
++                                       relocations=tr, contributions=pieces))
++        products.append(dict(round=rnd, exe=pin(root, (Path(manifest['work'])/'bin/th03/op.exe').as_posix()),
++                             map=pin(root, (Path(manifest['work'])/'obj/th03/op.map').as_posix()),
++                             decoded_bytes=63866, header_bytes=4096, literal_ordered_relocations=607,
++                             complete_decoded_target_equal=True, directly_packed=False))
++    need(products[0]['exe']['sha256'] == products[1]['exe']['sha256'] and
++         products[0]['map']['sha256'] == products[1]['map']['sha256'], 'raw EXE/MAP pairs')
++    validate_inventory(owners, cohort)
++    return dict(owners=owners, objects=objects, cold_products=products,
++                decoded_owner_count=45, decoded_authored_bytes=13221,
++                raw_OMF_pairs=30, new_authored_credit_bytes=0)
++
++
++def packing_lineage(root, cold_products):
++    _, proof = proofs(root)
++    manifest = json.loads(regular(root, proof['output']+'/manifest.json').read_bytes())
++    source = {k: manifest['repeat_inputs']['DECODED.EXE'][k] for k in ('path', 'bytes', 'sha256')}
++    raw = checked(root, source)
++    work = Path(proof['work'])
++    materialized = pin(root, (work/'DECODED.EXE').as_posix())
++    need(raw == checked(root, materialized) and len(raw) == 63866,
++         'actual source-produced packing input')
++    cold_paths = [p['exe']['path'] for p in cold_products]
++    need(source['path'] not in cold_paths and materialized['path'] not in cold_paths,
++         'do not recast separate source packing as cold-pair packing')
++    need(all(checked(root, p['exe']) == raw for p in cold_products),
++         'separate source input equals both actual cold EXEs')
++    packed = [pin(root, (work/p/'OP.EXE').as_posix()) for p in ('P1', 'P2')]
++    restored = [pin(root, (work/p/'OP.EXE').as_posix()) for p in ('R1', 'R2')]
++    canonical = pin(root, '.analysis/targets/th03/op.exe')
++    need(canonical['bytes'] == 36041 and all(checked(root, q) == checked(root, canonical)
++                                           for q in packed), 'two actual canonical packed outputs')
++    need(all(checked(root, q) == raw for q in restored), 'both actual restorations')
++    return dict(schema='op-separate-source-packing-lineage-v1',
++                cold_round_exes_directly_packed=False, separate_source_producer_exe=source,
++                materialized_source=materialized, cold_exes=[p['exe'] for p in cold_products],
++                separate_source_equals_both_cold_exes=True,
++                packed_outputs=packed, canonical_target=canonical, restored_outputs=restored,
++                source_producer_correction=proof['corrected_source_audit'],
++                original_source_native_completion=False,
++                corrected_source_producer_replay_required=True,
++                actual_packing_phases=5, packed_bytes=36041, restored_decoded_bytes=63866,
++                mixed_product_authored_credit_bytes=0, whole_product_ownership=False)
++
++
++def validate_cold_witness(result):
++    expected = dict(replay_pass=True, rounds=2, fresh_project_objects=60,
++                    actual_native_phases=62, raw_OMF_pairs_equal=30,
++                    raw_OMF_bytes_per_round=80839, EXE_and_MAP_raw_repeat_equal=True,
++                    whole63866_decoded_target_equal=True, all59770_program_bytes_equal=True,
++                    all607_literal_relocations_equal=True, dated_source_tool_registry_receipts=True,
++                    current_HEAD_or_registry_asserted=False, current_source_composition_checked=False,
++                    all44_prior_scopes_and_PFOPEN_preserved=True, new_authored_code_credit=0,
++                    source_acceptance=False, exact_acceptance=False, whole_product_ownership=False,
++                    packed_equality=False, runtime=False, native_invocations_by_replay=0)
++    need(all(result.get(k) == v for k, v in expected.items()), '62-phase cold witness dimensions')
++
++
++def validate_packing_witness(result):
++    expected = dict(replay_pass=True, actual_phases=5, packed_equal=True, packed_bytes=36041,
++                    target_bytes=36041, restored_source_equal=True, restored_target_equal=True,
++                    program59770_equal=True, ordered607_equal=True, native_invocations=0,
++                    acceptance=False, new_authored_credit=0)
++    need(all(result.get(k) == v for k, v in expected.items()), 'five-phase source packing witness')
++
++
++def tool_identity(root):
++    from lib.toolchain import attest_surface
++    config = tomllib.loads(regular(root, 'config/toolchain.toml').read_text())
++    surfaces = [attest_surface(Path(root), item) for item in config['surfaces']]
++    need(all(item['pass'] or not item['required'] for item in surfaces), 'current toolchain identity')
++    return dict(identity_pass=True, surfaces=surfaces, native_invocations=0)
++
++
++def input_bindings(root, files=None, lineage_pins=()):
++    """Complete dated proof closure plus current source, policy and executable helpers."""
++    cold, packing = proofs(root)
++    required = {}
++    def add(item):
++        q = {k: item[k] for k in ('path', 'bytes', 'sha256')}
++        need(q['path'] not in required or required[q['path']] == q,
++             'conflicting proof binding ' + q['path'])
++        required[q['path']] = q
++    for proof in (cold, packing):
++        for q in proof['pins']:
++            add(q)
++    names = set(MANDATORY) | set(HELPER_PATHS)
++    for q in cold['source_stage_modules']:
++        add(q)
++        # These reviewed constant dictionaries include the composer inputs which
++        # are not themselves copied into the generated 330-file source tree.
++        tree = ast.parse(checked(root, q))
++        for node in tree.body:
++            if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and
++                    t.id == 'INPUT_HASHES' for t in node.targets):
++                for name, digest in ast.literal_eval(node.value).items():
++                    current = pin(root, name)
++                    need(current['sha256'] == digest, 'current stage input ' + name)
++                    add(current)
++    for dependency in cold['source_dependencies']:
++        add(dependency)
++        for q in json.loads(checked(root, dependency))['files']:
++            add(q)  # Current installed overlays must still match their reviewed package.
++    names.update(n for n in cold['source_inventory'] if n.startswith(('src/', 'compat/')))
++    names.update(o['source'] for o in current_cohort(root, files))
++    for name in names:
++        add(pin(root, name, files))
++    for q in lineage_pins:
++        add(q)
++    # The old publication is neither overwritten nor used to inherit current
++    # credit. Its cohort's immutable contents are still a baseline reference.
++    add(pin(root, 'config/op_decoded_acceptance/cohort.json'))
++    return [required[n] for n in sorted(required)]
++
++
++def ledger_replay(root):
++    tracking = load_module(root, 'scripts/validate_tracking.py')
++    log = io.StringIO()
++    with contextlib.redirect_stdout(log):
++        rc = tracking.main(Path(root), validate_product=False)
++    need(rc == 0, 'current canonical ledger consistency')
++    return tracking, log.getvalue()
++
++
++def evidence_rows(owners, gates, policy, pins, evidence, observed_utc):
++    classes = {p['id']: p for p in policy['oracles']}
++    digest = sha(json.dumps(pins, sort_keys=True).encode())
++    witnesses = {p['path']: p for p in evidence}
++    result = {}
++    for owner in owners:
++        rows = {}
++        for gate in GATES:
++            global_gate = gate in policy['policy']['global_evidence_oracles']
++            artifact_gate = gate in policy['policy']['artifact_evidence_oracles']
++            key = 'ev-op-current-' + owner['unit_id'] + '-' + gate
++            location = gates[gate]['witness']
++            rows[key] = dict(
++                id=key, claim_id=owner['unit_id'], oracle=gate,
++                artifact='' if global_gate else 'th03-op',
++                unit_id='' if global_gate or artifact_gate else owner['unit_id'],
++                extent_start='' if global_gate or artifact_gate else str(owner['start']),
++                extent_size='' if global_gate or artifact_gate else str(owner['size']),
++                location=location, evidence_class=classes[gate]['accepts_evidence_classes'][0],
++                result='pass', tool='current OP physical owner audit and dated cold receipt replay',
++                command='python3 scripts/replay_th03_op_product_acceptance.py --prepare REVIEW_DIRECTORY',
++                input_sha256=owner['rounds'][0]['target_sha256'] if gate == 'raw-bytes' else digest,
++                output_sha256=owner['rounds'][0]['candidate_sha256'] if gate == 'raw-bytes'
++                              else witnesses[location]['sha256'],
++                observed_utc=observed_utc)
++        result[owner['unit_id']] = rows
++    return result
++
++
++def status(accepted, owners):
++    return dict(repository_local=True, factory_accepted=False, target_provenance='candidate-local-attested',
++                product_exact=accepted, mixed_physical_exact_bytes=36041 if accepted else 0,
++                mixed_authored_credit_bytes=0, product_evidence_axis='separate-source-fed-packing',
++                cold_round_exes_directly_packed=False, decoded_exact_units=45 if accepted else 0,
++                decoded_authored_bytes=13221 if accepted else 0, decoded_library_bytes=0,
++                decoded_exact_unit_ids=sorted(o['unit_id'] for o in owners) if accepted else [],
++                canonical_credit_changed=False, whole_game_percentage=None,
++                whole_game_code_denominator_known=False, reviewed_proof_ready=True)
++
++
++def verify(root, publication, files=None, allow_review=False, full_replay=False):
++    root = Path(root)
++    helper_bindings(root, files)
++    p = publication
++    need(p['schema'] == 'op-product-acceptance-publication-v1', 'publication schema')
++    accepted = p['state'] == 'repository-local-accepted'
++    need(accepted or (allow_review and p['state'] == 'review-ready'), 'pending publication')
++    need(p['scope'] == 'current-45-decoded-owners-and-separate-mixed-product' and
++         p['target_provenance'] == 'candidate-local-attested', 'scope/provenance')
++    need(p['factory_accepted'] is False and p['canonical_credit_changed'] is False and
++         p['new_authored_credit_bytes'] == 0 and p['whole_game_percentage'] is None and
++         p['whole_product_ownership'] is False and p['runtime_rerun'] is False,
++         'accounting boundary')
++    cohort = current_cohort(root, files)
++    validate_inventory(p['owners'], cohort)
++    pins = p['input_bindings']
++    need(len(pins) == len({q['path'] for q in pins}), 'duplicate input bindings')
++    for q in pins:
++        checked(root, q, files)
++    from lib.op_diet_lineage import verify_diet_lineage
++    from lib.pc98 import describe_blob
++    identity, identity_pins = verify_diet_lineage(root, describe_blob)
++    need(pins == input_bindings(root, files, identity_pins), 'mandatory current/historical input closure')
++    evidence = p['evidence_bindings']
++    need(len(evidence) == len({q['path'] for q in evidence}), 'duplicate witnesses')
++    by_path = {q['path']: q for q in evidence}
++    for q in evidence:
++        checked(root, q)
++    need(p['inputs'] == {q['path']: q['sha256'] for q in pins+evidence}, 'retention mirror')
++    policy = tomllib.loads(regular(root, 'config/oracles.toml').read_text())
++    need(set(policy['policy']['exact_requires']) == set(GATES), 'eleven current required gates')
++    need(set(p['gates']) == set(GATES), 'eleven owner gate witnesses')
++    classes = {r['id']: r for r in policy['oracles']}
++    for gate, entry in p['gates'].items():
++        need(entry['result'] == 'pass' and entry['witness'] in by_path and
++             entry['evidence_class'] in classes[gate]['accepts_evidence_classes'], 'gate witness/class')
++    def witness(gate):
++        return checked(root, by_path[p['gates'][gate]['witness']])
++    audit = physical_audit(root, cohort)
++    need(audit['owners'] == p['owners'] and json.loads(witness('boundary-ownership')) == audit,
++         'recomputed current cold owner/object/MAP audit')
++    for gate in ('layout-relocations', 'raw-bytes', 'object-format-integrity'):
++        need(p['gates'][gate]['witness'] == p['gates']['boundary-ownership']['witness'],
++             'actual physical witness scope')
++    need(json.loads(witness('target-identity')) == identity and
++         p['gates']['format-integrity']['witness'] == p['gates']['target-identity']['witness'],
++         'independent stored-to-decoded identity and format lineage')
++    need(json.loads(witness('toolchain-identity')) == tool_identity(root), 'toolchain witness drift')
++    cold_result = json.loads(witness('cold-build-determinism'))
++    validate_cold_witness(cold_result)
++    for gate in ('toolchain-replay', 'cold-aggregate-replay'):
++        need(p['gates'][gate]['witness'] == p['gates']['cold-build-determinism']['witness'],
++             'actual source-cold scope')
++    cold = load_module(root, 'scripts/replay_th03_op_fullcold_exact.py')
++    current_source = cold.check_current_sources(root)
++    need(current_source == p['current_source_compatibility'] and
++         current_source['current_source_composition_pass'] and current_source['source_files'] == 330,
++         'current maintained source compatibility')
++    pack_result = json.loads(checked(root, by_path[p['packing_witness']]))
++    validate_packing_witness(pack_result)
++    lineage = packing_lineage(root, audit['cold_products'])
++    need(p['packing_lineage'] == lineage and
++         json.loads(checked(root, by_path[p['packing_lineage_witness']])) == lineage,
++         'explicit separate source-fed packing lineage')
++    if full_replay:
++        need(cold.replay(root) == cold_result, 'full62 actual cold replay')
++        pack = load_module(root, 'scripts/replay_th03_op_source_packing.py')
++        need(pack.replay(root) == pack_result, 'full5 actual source packing replay')
++    tracking, log = ledger_replay(root)
++    need(witness('ledger-consistency').decode() == log, 'ledger witness drift')
++    expected = evidence_rows(p['owners'], p['gates'], policy, pins, evidence, p['observed_utc'])
++    need(p['owner_oracles'] == expected, 'same-ID owner Oracle row bindings')
++    for owner in p['owners']:
++        rows = p['owner_oracles'][owner['unit_id']]
++        passed = tracking.accepted_oracle_passes(
++            list(rows), rows, classes, set(policy['policy']['non_acceptance_evidence_classes']),
++            artifact='th03-op', unit_id=owner['unit_id'], extent_start=owner['start'],
++            extent_size=owner['size'], global_evidence_oracles=set(policy['policy']['global_evidence_oracles']),
++            artifact_evidence_oracles=set(policy['policy']['artifact_evidence_oracles']))
++        need(set(GATES) <= passed, 'complete owner Oracle scope/class/replay metadata')
++    return status(accepted, cohort)
++
++
++def load_status(root, publication_path=PUBLICATION):
++    """Fail closed. No native execution and no whole-game/authored credit inflation."""
++    try:
++        return verify(root, json.loads(regular(root, publication_path).read_bytes()))
++    except (OSError, ValueError, KeyError, TypeError, ImportError) as error:
++        result = status(False, [])
++        result.update(reviewed_proof_ready=False, reason=str(error))
++        return result
+--- /dev/null
++++ b/scripts/replay_th03_op_product_acceptance.py
+@@ -0,0 +1,175 @@
++#!/usr/bin/env python3
++"""Prepare, verify or explicitly publish bounded current OP acceptance.
++
++Pure Python receipt/source/OMF/MAP checks only. No compile, link, packing,
++registry mutation, ledger edits or historical-publication rewriting.
++"""
++from pathlib import Path
++import argparse
++import datetime
++import hashlib
++import importlib.util
++import json
++import sys
++import tomllib
++
++sys.dont_write_bytecode = True
++
++
++def bootstrap(root, files):
++    # No repository code is imported before its reviewed helper manifest passes.
++    manifest = files/'config/op_product_acceptance/helper-bindings.json'
++    if not manifest.is_file():
++        manifest = root/'config/op_product_acceptance/helper-bindings.json'
++    if not manifest.is_file() or any(p.is_symlink() for p in (manifest, *manifest.parents)):
++        raise ValueError('missing regular reviewed helper manifest')
++    pins = json.loads(manifest.read_bytes())['pins']
++    names = [p['path'] for p in pins]
++    required = {'scripts/lib/op_product_acceptance.py',
++                'scripts/replay_th03_op_product_acceptance.py', 'scripts/lib/__init__.py'}
++    if len(names) != len(set(names)) or not required <= set(names):
++        raise ValueError('incomplete reviewed helper closure')
++    for pin in pins:
++        name = Path(pin['path'])
++        if name.is_absolute() or '..' in name.parts or '\\' in pin['path']:
++            raise ValueError('unsafe reviewed helper path')
++        path = files/name if (files/name).exists() else root/name
++        if not path.is_file() or any(p.is_symlink() for p in (path, *path.parents)):
++            raise ValueError('missing regular helper '+pin['path'])
++        raw = path.read_bytes()
++        if len(raw) != pin['bytes'] or hashlib.sha256(raw).hexdigest() != pin['sha256']:
++            raise ValueError('reviewed helper drift '+pin['path'])
++    sys.path.insert(0, str(root/'scripts'))
++    path = files/'scripts/lib/op_product_acceptance.py'
++    if not path.exists():
++        path = root/'scripts/lib/op_product_acceptance.py'
++    spec = importlib.util.spec_from_file_location('current_op_acceptance', path)
++    module = importlib.util.module_from_spec(spec)
++    sys.modules[spec.name] = module
++    spec.loader.exec_module(module)
++    module.helper_bindings(root, files)
++    return module
++
++
++def fresh_directory(root, relative):
++    if relative.is_absolute() or '..' in relative.parts or not relative.parts or relative.parts[0] != '.analysis':
++        raise ValueError('new repository-local analysis directory required')
++    path = root/relative
++    if path.exists() or any(p.is_symlink() for p in (path, *path.parents)):
++        raise ValueError('output already exists or is not regular')
++    path.mkdir(parents=True)
++    return path
++
++
++def prepare(root, files, output, lib):
++    out = fresh_directory(root, output)
++    # Existing replay modules themselves check immutable proof and input pins
++    # before evaluating their retained historical helper code.
++    cold = lib.load_module(root, 'scripts/replay_th03_op_fullcold_exact.py')
++    packing = lib.load_module(root, 'scripts/replay_th03_op_source_packing.py')
++    cold_result = cold.replay(root)
++    lib.validate_cold_witness(cold_result)
++    packing_result = packing.replay(root)
++    lib.validate_packing_witness(packing_result)
++    current_source = cold.check_current_sources(root)
++    cohort = lib.current_cohort(root, files)
++    audit = lib.physical_audit(root, cohort)
++    lineage = lib.packing_lineage(root, audit['cold_products'])
++    from lib.op_diet_lineage import verify_diet_lineage
++    from lib.pc98 import describe_blob
++    identity, identity_pins = verify_diet_lineage(root, describe_blob)
++    toolchain = lib.tool_identity(root)
++    _, ledger = lib.ledger_replay(root)
++    values = {'cold-replay.json': cold_result, 'packing-replay.json': packing_result,
++              'actual-cold-owner-audit.json': audit, 'packing-lineage.json': lineage,
++              'target-identity.json': identity, 'toolchain-identity.json': toolchain}
++    for name, value in values.items():
++        (out/name).write_text(json.dumps(value, indent=2)+'\n')
++    (out/'ledger.log').write_text(ledger)
++    evidence = [lib.pin(root, (out/name).relative_to(root).as_posix())
++                for name in (*values, 'ledger.log')]
++    pins = lib.input_bindings(root, files, identity_pins)
++    policy = tomllib.loads((root/'config/oracles.toml').read_text())
++    specs = {r['id']: r for r in policy['oracles']}
++    witness = {
++        'target-identity': 'target-identity.json', 'format-integrity': 'target-identity.json',
++        'boundary-ownership': 'actual-cold-owner-audit.json',
++        'toolchain-identity': 'toolchain-identity.json', 'toolchain-replay': 'cold-replay.json',
++        'object-format-integrity': 'actual-cold-owner-audit.json',
++        'cold-build-determinism': 'cold-replay.json',
++        'layout-relocations': 'actual-cold-owner-audit.json', 'raw-bytes': 'actual-cold-owner-audit.json',
++        'ledger-consistency': 'ledger.log', 'cold-aggregate-replay': 'cold-replay.json'}
++    gates = {gate: dict(result='pass', evidence_class=specs[gate]['accepts_evidence_classes'][0],
++                        witness=(out/name).relative_to(root).as_posix())
++             for gate, name in witness.items()}
++    now = datetime.datetime.now(datetime.timezone.utc).isoformat().replace('+00:00', 'Z')
++    publication = dict(
++        schema='op-product-acceptance-publication-v1', state='review-ready',
++        scope='current-45-decoded-owners-and-separate-mixed-product',
++        target_provenance='candidate-local-attested', factory_accepted=False,
++        canonical_credit_changed=False, new_authored_credit_bytes=0, whole_game_percentage=None,
++        whole_product_ownership=False, runtime_rerun=False, observed_utc=now,
++        owners=audit['owners'], gates=gates, input_bindings=pins, evidence_bindings=evidence,
++        current_source_compatibility=current_source, packing_lineage=lineage,
++        packing_witness=(out/'packing-replay.json').relative_to(root).as_posix(),
++        packing_lineage_witness=(out/'packing-lineage.json').relative_to(root).as_posix())
++    publication['inputs'] = {p['path']: p['sha256'] for p in pins+evidence}
++    publication['owner_oracles'] = lib.evidence_rows(
++        publication['owners'], gates, policy, pins, evidence, now)
++    result = lib.verify(root, publication, files, allow_review=True)
++    review = out/'review.json'
++    review.write_text(json.dumps(publication, indent=2)+'\n')
++    return dict(review=review.relative_to(root).as_posix(), review_sha256=lib.sha(review.read_bytes()),
++                native_invocations=0, published=False, status=result)
++
++
++def main():
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--root', type=Path, default=Path.cwd())
++    parser.add_argument('--files', type=Path)
++    mode = parser.add_mutually_exclusive_group(required=True)
++    mode.add_argument('--prepare', type=Path)
++    mode.add_argument('--verify', type=Path)
++    mode.add_argument('--publish', type=Path)
++    parser.add_argument('--review-sha256')
++    parser.add_argument('--full-replay', action='store_true')
++    args = parser.parse_args()
++    root = args.root.resolve()
++    files = args.files.resolve() if args.files else root
++    # Publishing requires installed files, and an exact, explicit reviewed digest.
++    if args.publish:
++        if files != root or not args.review_sha256 or args.publish.is_absolute() or '..' in args.publish.parts or not args.publish.parts or args.publish.parts[0] != '.analysis':
++            raise ValueError('publish requires installed files and an exact reviewed analysis path/digest')
++        raw = (root/args.publish).read_bytes()
++        if hashlib.sha256(raw).hexdigest() != args.review_sha256:
++            raise ValueError('review digest mismatch before imports')
++    lib = bootstrap(root, files)
++    if args.prepare:
++        if args.full_replay:
++            raise ValueError('prepare already replays every actual receipt')
++        result = prepare(root, files, args.prepare, lib)
++    else:
++        relative = args.publish or args.verify
++        publication = json.loads(lib.regular(root, relative.as_posix()).read_bytes())
++        if args.publish:
++            lib.need(publication['state'] == 'review-ready', 'review-to-publication transition')
++            destination = root/lib.PUBLICATION
++            lib.need(not destination.exists() and destination.parent.is_dir() and
++                     not any(p.is_symlink() for p in (destination, *destination.parents)),
++                     'new fixed publication destination required')
++            lib.verify(root, publication, allow_review=True, full_replay=args.full_replay)
++            publication['state'] = 'repository-local-accepted'
++            # Verify final state before the sole new publication write.
++            result = lib.verify(root, publication)
++            with destination.open('x') as stream:
++                json.dump(publication, stream, indent=2)
++                stream.write('\n')
++            result = dict(result, publication=lib.PUBLICATION, native_invocations=0, published=True)
++        else:
++            result = lib.verify(root, publication, files, allow_review=True,
++                                full_replay=args.full_replay)
++    print(json.dumps(result, indent=2))
++
++
++if __name__ == '__main__':
++    main()
+--- /dev/null
++++ b/config/op_product_acceptance/cohort.json
+@@ -0,0 +1,325 @@
++{
++  "schema": "op-current-owner-cohort-v1",
++  "scope": "existing-complete-maintained-decoded-source",
++  "owners": [
++    {
++      "unit_id": "th03-op-decoded-configuration-cfg_load",
++      "source": "src/op/entry.cpp",
++      "start": 39176,
++      "size": 120,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-configuration-cfg_save",
++      "source": "src/op/entry.cpp",
++      "start": 39296,
++      "size": 67,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-configuration-cfg_save_exit",
++      "source": "src/op/entry.cpp",
++      "start": 39363,
++      "size": 84,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-configuration-exit_dos",
++      "source": "src/op/core/exit_dos.cpp",
++      "start": 48824,
++      "size": 25,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-configuration-planes",
++      "source": "src/op/hardware/vram_planes_set.cpp",
++      "start": 48849,
++      "size": 41,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-configuration-snd_mode",
++      "source": "src/op/snd/determine_mode.c",
++      "start": 48890,
++      "size": 29,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-configuration-init",
++      "source": "src/op/core/initop.cpp",
++      "start": 50209,
++      "size": 105,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-score-encode",
++      "source": "src/op/formats/score_encode.cpp",
++      "start": 45416,
++      "size": 165,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-score-score-data",
++      "source": "src/op/formats/score_data.cpp",
++      "start": 45581,
++      "size": 229,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-score-load",
++      "source": "src/op/formats/score_load.inl",
++      "start": 45810,
++      "size": 107,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-title-animation",
++      "source": "src/op/menu/title_animation.inl",
++      "start": 44514,
++      "size": 808,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-title-column",
++      "source": "src/op/menu/column_restore.inl",
++      "start": 45322,
++      "size": 94,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-menu-state",
++      "source": "src/op/menu/menu_state.inl",
++      "start": 40669,
++      "size": 1338,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-entry-screens",
++      "source": "src/op/entry.cpp",
++      "start": 39447,
++      "size": 1222,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-entry-startup",
++      "source": "src/op/entry.cpp",
++      "start": 42007,
++      "size": 263,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-music-state-and-tracks",
++      "source": "src/op/music/state_and_tracks.inl",
++      "start": 42270,
++      "size": 216,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-music-copy",
++      "source": "src/op/music/nopoly_blit.inl",
++      "start": 42486,
++      "size": 30,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-music-animation-and-menu",
++      "source": "src/op/music/animation_and_menu.inl",
++      "start": 42516,
++      "size": 1998,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-character-selection",
++      "source": "src/op/menu/character_selection.inl",
++      "start": 45917,
++      "size": 2906,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-cdg-loading",
++      "source": "src/shared/formats/cdg_load.cpp",
++      "start": 50314,
++      "size": 593,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-cdg-draw",
++      "source": "src/shared/formats/cdg_put.asm",
++      "start": 49184,
++      "size": 382,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-cdg-draw-noalpha",
++      "source": "src/shared/formats/cdg_noalpha.asm",
++      "start": 51958,
++      "size": 114,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-graph-putsa-fx",
++      "source": "src/shared/graphics/text.cpp",
++      "start": 50907,
++      "size": 613,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-hflip-lut",
++      "source": "src/shared/formats/hfliplut.asm",
++      "start": 52072,
++      "size": 30,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-snd-load",
++      "source": "src/shared/sound/load.cpp",
++      "start": 48978,
++      "size": 112,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-pi-palette",
++      "source": "src/shared/formats/pi_put.cpp",
++      "start": 50006,
++      "size": 37,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-pi-put",
++      "source": "src/shared/formats/pi_put.cpp",
++      "start": 50043,
++      "size": 136,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-pi-load",
++      "source": "src/shared/formats/pi_load.cpp",
++      "start": 51520,
++      "size": 70,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-interface",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51590,
++      "size": 36,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-key-key",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51626,
++      "size": 10,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-joy-key",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51636,
++      "size": 34,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-key-joy",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51670,
++      "size": 34,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-one-cpu",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51704,
++      "size": 42,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-cpu-one",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51746,
++      "size": 45,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-cpu-cpu",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51791,
++      "size": 42,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-attract",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51833,
++      "size": 48,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-change",
++      "source": "src/shared/hardware/input_modes.cpp",
++      "start": 51881,
++      "size": 76,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-frame-delay",
++      "source": "src/shared/hardware/frame_delay.cpp",
++      "start": 49566,
++      "size": 21,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-frame-delay-2",
++      "source": "src/op/hardware/frame_delay_2.cpp",
++      "start": 52102,
++      "size": 21,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-input-sense",
++      "source": "src/op/hardware/input_sense.cpp",
++      "start": 49588,
++      "size": 417,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-game-exit",
++      "source": "src/op/core/exit.cpp",
++      "start": 49090,
++      "size": 67,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-snd-pmd-resident",
++      "source": "src/op/snd/pmd_resident.c",
++      "start": 48920,
++      "size": 57,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-polar",
++      "source": "src/op/math/polar.cpp",
++      "start": 49157,
++      "size": 26,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-snd-kaja-interrupt",
++      "source": "src/op/snd/kaja_interrupt.cpp",
++      "start": 50179,
++      "size": 30,
++      "origin": "authored"
++    },
++    {
++      "unit_id": "th03-op-decoded-pfopen",
++      "source": "src/shared/formats/pfopen.asm",
++      "start": 12018,
++      "size": 281,
++      "origin": "authored"
++    }
++  ],
++  "excluded_unit_ids": [
++    "th03-op-decoded-score-irand"
++  ],
++  "new_authored_credit_bytes": 0
++}
+--- /dev/null
++++ b/config/op_product_acceptance/helper-bindings.json
+@@ -0,0 +1,115 @@
++{
++  "schema": "op-product-reviewed-helper-bindings-v1",
++  "pins": [
++    {
++      "path": "scripts/lib/__init__.py",
++      "bytes": 54,
++      "sha256": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713"
++    },
++    {
++      "path": "scripts/lib/omf.py",
++      "bytes": 6862,
++      "sha256": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030"
++    },
++    {
++      "path": "scripts/lib/op_diet_lineage.py",
++      "bytes": 8061,
++      "sha256": "28810aabadb7cb8e27723089c14a4e760e13f49487ea723fd85267569569bfa9"
++    },
++    {
++      "path": "scripts/lib/op_fullcold_exact.py",
++      "bytes": 15096,
++      "sha256": "b9dd0334f755761a1b7875fab15edf72555e8c403949bbe867f0fbb93fe9e871"
++    },
++    {
++      "path": "scripts/lib/op_product_acceptance.py",
++      "bytes": 31515,
++      "sha256": "610c388c146e7ab59f31d412673d866b7fd59fd8472d4089928e918ac3190a11"
++    },
++    {
++      "path": "scripts/lib/pc98.py",
++      "bytes": 22989,
++      "sha256": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf"
++    },
++    {
++      "path": "scripts/lib/targets.py",
++      "bytes": 1969,
++      "sha256": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93"
++    },
++    {
++      "path": "scripts/lib/toolchain.py",
++      "bytes": 5941,
++      "sha256": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9"
++    },
++    {
++      "path": "scripts/replay_th03_op_fullcold_exact.py",
++      "bytes": 5511,
++      "sha256": "dbfdd2f10f1f1a6a844623038b47c920060898368635b99a95ea8d021478d5aa"
++    },
++    {
++      "path": "scripts/replay_th03_op_product_acceptance.py",
++      "bytes": 9327,
++      "sha256": "1aea13fb9428916ba1dafa7bfda59c07ecabaf9260c9a03a5278f11cd1adb311"
++    },
++    {
++      "path": "scripts/replay_th03_op_source_packing.py",
++      "bytes": 6068,
++      "sha256": "b7eb7d42532a7a94d25be24846dcf86c1377cbfb6f0042a1e60fedf7e258784c"
++    },
++    {
++      "path": "scripts/review_th03_cpu_link_order.py",
++      "bytes": 13963,
++      "sha256": "0b96a855a823aa749cc35ab0b8d4a80b5740bf42a7996a7c934881981df5ba82"
++    },
++    {
++      "path": "scripts/stage_th03_op_alignment.py",
++      "bytes": 2344,
++      "sha256": "1e8ce48b06cf33818c6510ba1fd22fcfdf5c288bc0035b28c260e3c63d4700e5"
++    },
++    {
++      "path": "scripts/stage_th03_op_exit_helpers.py",
++      "bytes": 5919,
++      "sha256": "c9fdf453dd4fa7c8c16a36763ce5f8dfc0a5c2c7f1dbc6fdc612a52a91400610"
++    },
++    {
++      "path": "scripts/stage_th03_op_fullcold.py",
++      "bytes": 24642,
++      "sha256": "5862d56169f38a5e00d0a882b46f368f24ab9079c5ce05a8640e0f33f90a5fae"
++    },
++    {
++      "path": "scripts/stage_th03_op_global_order.py",
++      "bytes": 6710,
++      "sha256": "a6d45cab4cdc90571f984891d6faabc25d35407af6f36ffc922e280e0fd4fb5d"
++    },
++    {
++      "path": "scripts/stage_th03_op_keyboard.py",
++      "bytes": 2716,
++      "sha256": "d2ab66b2732c37d0d038f7736752d388b4187189162f7dc8f64c0999f4289667"
++    },
++    {
++      "path": "scripts/stage_th03_op_nopcall.py",
++      "bytes": 2227,
++      "sha256": "4f272194f6c6c4091b164fd0c417233cb15569d8c9a9d3f3bc4ddaddbed86a7a"
++    },
++    {
++      "path": "scripts/stage_th03_op_pfopen_source.py",
++      "bytes": 4227,
++      "sha256": "8f9d062914ef57959af75515ca99b8cd4a8c5d19e6e7d85832cf45e411a68b29"
++    },
++    {
++      "path": "scripts/stage_th03_op_raster.py",
++      "bytes": 4993,
++      "sha256": "923af0eea015bec7a975ac1b99178ca7a079cd80f99b927fac946cc49ca6627b"
++    },
++    {
++      "path": "scripts/stage_th03_op_remaining_helpers.py",
++      "bytes": 7510,
++      "sha256": "386a61be61a0c190ec48cc633840617d87a038a1f355480058dcfd417e95797c"
++    },
++    {
++      "path": "scripts/validate_tracking.py",
++      "bytes": 28677,
++      "sha256": "b04eb20d001199c7a0ffb89962c019f0a034347fe25cc3f4122d28468fa3a4a2"
++    }
++  ]
++}
