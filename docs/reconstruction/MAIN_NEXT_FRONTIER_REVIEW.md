@@ -8,6 +8,8 @@ The retained current-source cold MAP at `.analysis/th03-main-exact/gpt-dots-yume
 
 Fresh target evidence for the initial E266..E313 procedure is retained under `.analysis/codex-main-shot-20261022-v01/`: `ghidra-check.log`/`.exit` attest the selected MAIN database, and `target-prefix.json` records the verified immutable-target digest, all 173 decoded bytes, 46 instructions and 12 ordered relocation sites. Its two access-page port writes and twelve far calls agree with the reference hypothesis; the called API's identity still requires independent binding. `retained-root-map.json` records seven retained root CODE contributions totaling 23,459 bytes. That mixed root includes unresolved game/shared/library ownership and is not an authored denominator. No new source or exact credit is granted.
 
+The complete five-procedure C++ candidate is now in `src/main/player/shotroot.cpp`, its declaration header and the bounded `src/main/round/results.inl`. It remains outside the default build and acceptance ledgers. The existing 185-byte update/render TU is unchanged. `target-complete.json` records the fresh target observations for all seven adjacent bodies: candidate sizes 173/72/151/837/264 bytes, with 12/0/3/8/3 ordered MZ sites, followed by the accepted 43/142-byte bodies. Reset uses the 64-entry, 48-byte enemy/fireball/explosion array, independently of the separate player-effect array. Native compiler, fixup-symbol binding, full linking, behavior, repeat and cold aggregate proof remain required.
+
 ## Historical v3 intake
 
 Status: **two provisional, non-exact CODE intervals totaling 2131 bytes**.
