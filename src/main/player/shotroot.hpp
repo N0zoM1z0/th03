@@ -39,9 +39,8 @@ void near player_shots_add(void);
 void far pascal round_result_high_digits_put(
     screen_x_t left, vram_y_t top, unsigned int points, vc_t color
 );
-void far pascal reimu_hyper_amulet_add(
-    playfield_subpixel_t left, playfield_subpixel_t top
-);
+// Same typed API as the accepted src/main/player/reimu_gameplay.hpp provider.
+extern "C" void far pascal reimu_hyper_shot_add(Subpixel center_x, Subpixel center_y);
 
 typedef char shotroot_scalar_widths[(sizeof(int) == 2 && sizeof(long) == 4
     && sizeof(bool) == 1 && sizeof(pid) == 1) ? 1 : -1];
