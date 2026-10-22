@@ -12,6 +12,10 @@ import sys
 import tomllib
 
 
+# Support importlib.spec_from_file_location callers without PYTHONPATH.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lib.op_decoded_progress import op_decoded_status, decoded_summary
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -160,6 +164,7 @@ def main() -> int:
         per_artifact[artifact["id"]] = artifact_report(
             artifact, units, functions, boundaries
         )
+    per_artifact["th03-op"]["decoded_acceptance"] = op_decoded_status(ROOT, units)
     per_artifact["th03-mainl"]["product_acceptance"] = mainl_product_status(ROOT, units)
     output = {
         "schema_version": 1,
@@ -215,6 +220,7 @@ def main() -> int:
               f"authored={product['decoded_authored_bytes']} B library={product['decoded_library_bytes']} B; "
               f"mixed stored product={product['mixed_physical_exact_bytes']} B, additional authored credit=0; "
               "whole-game percentage=unknown; Factory acceptance=false")
+        print(decoded_summary(per_artifact["th03-op"]["decoded_acceptance"]))
         print(output["warning"])
     return 0
 

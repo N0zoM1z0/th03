@@ -1,0 +1,236 @@
+{
+  "schema": "op-reviewed-decoded-cohort-v1",
+  "owners": [
+    {
+      "unit_id": "th03-op-decoded-configuration-cfg_load",
+      "source": "src/op/entry.cpp",
+      "start": 39176,
+      "size": 120,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-configuration-cfg_save",
+      "source": "src/op/entry.cpp",
+      "start": 39296,
+      "size": 67,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-configuration-cfg_save_exit",
+      "source": "src/op/entry.cpp",
+      "start": 39363,
+      "size": 84,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-score-encode",
+      "source": "src/op/formats/score_encode.cpp",
+      "start": 45416,
+      "size": 165,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-score-score-data",
+      "source": "src/op/formats/score_data.cpp",
+      "start": 45581,
+      "size": 229,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-score-load",
+      "source": "src/op/formats/score_load.inl",
+      "start": 45810,
+      "size": 107,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-title-animation",
+      "source": "src/op/menu/title_animation.inl",
+      "start": 44514,
+      "size": 808,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-menu-state",
+      "source": "src/op/menu/menu_state.inl",
+      "start": 40669,
+      "size": 1338,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-entry-screens",
+      "source": "src/op/entry.cpp",
+      "start": 39447,
+      "size": 1222,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-entry-startup",
+      "source": "src/op/entry.cpp",
+      "start": 42007,
+      "size": 263,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-music-state-and-tracks",
+      "source": "src/op/music/state_and_tracks.inl",
+      "start": 42270,
+      "size": 216,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-music-animation-and-menu",
+      "source": "src/op/music/animation_and_menu.inl",
+      "start": 42516,
+      "size": 1998,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-cdg-loading",
+      "source": "src/shared/formats/cdg_load.cpp",
+      "start": 50314,
+      "size": 593,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-cdg-draw",
+      "source": "src/shared/formats/cdg_put.asm",
+      "start": 49184,
+      "size": 382,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-cdg-draw-noalpha",
+      "source": "src/shared/formats/cdg_noalpha.asm",
+      "start": 51958,
+      "size": 114,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-graph-putsa-fx",
+      "source": "src/shared/graphics/text.cpp",
+      "start": 50907,
+      "size": 613,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-hflip-lut",
+      "source": "src/shared/formats/hfliplut.asm",
+      "start": 52072,
+      "size": 30,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-snd-load",
+      "source": "src/shared/sound/load.cpp",
+      "start": 48978,
+      "size": 112,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-pi-palette",
+      "source": "src/shared/formats/pi_put.cpp",
+      "start": 50006,
+      "size": 37,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-pi-put",
+      "source": "src/shared/formats/pi_put.cpp",
+      "start": 50043,
+      "size": 136,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-pi-load",
+      "source": "src/shared/formats/pi_load.cpp",
+      "start": 51520,
+      "size": 70,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-interface",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51590,
+      "size": 36,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-key-key",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51626,
+      "size": 10,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-joy-key",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51636,
+      "size": 34,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-key-joy",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51670,
+      "size": 34,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-one-cpu",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51704,
+      "size": 42,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-cpu-one",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51746,
+      "size": 45,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-cpu-cpu",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51791,
+      "size": 42,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-attract",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51833,
+      "size": 48,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-change",
+      "source": "src/shared/hardware/input_modes.cpp",
+      "start": 51881,
+      "size": 76,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-frame-delay",
+      "source": "src/shared/hardware/frame_delay.cpp",
+      "start": 49566,
+      "size": 21,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-frame-delay-2",
+      "source": "src/op/hardware/frame_delay_2.cpp",
+      "start": 52102,
+      "size": 21,
+      "origin": "authored"
+    },
+    {
+      "unit_id": "th03-op-decoded-input-sense",
+      "source": "src/op/hardware/input_sense.cpp",
+      "start": 49588,
+      "size": 417,
+      "origin": "authored"
+    }
+  ]
+}

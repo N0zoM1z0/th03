@@ -9,7 +9,7 @@
 
 Reviewed authored-byte coverage is scoped to currently reviewed file-backed unit extents; the whole-product authored denominator remains unknown.
 Infrastructure and reference builds do not count as game reconstruction.
-The table preserves original canonical-ledger counters. Separate source-bound MAINL decoded/product acceptance is reported below and does not add authored ownership.
+The table preserves original canonical-ledger counters. Separate source-bound OP decoded and MAINL decoded/product acceptance are reported below and does not add authored ownership.
 
 OP retained cold-pair checkpoint: two independent 308-file source trees, 56 native phases and 29 raw-identical product pairs. All 34 maintained owner slices / 12,436 CODE bytes match; 33 scopes / 9,530 bytes also match literal relocation order. Selection order and six whole-program byte differences remain open. This is build evidence, not source/exact promotion or a whole-game percentage.
 
@@ -46,3 +46,5 @@ Two isolated current-source MAINL cold rounds now rebuild all 36 project objects
 ### Current separate product/decoded acceptance
 
 MAINL repository-local acceptance is published: the 37,975-byte mixed stored product matches the candidate-local-attested canonical target, and all 145 existing decoded owner units are accepted through source-bound scoped evidence. These cover 27,753 authored bytes and 628 library-origin bytes. This adds no authored byte ownership, does not alter canonical file-backed ledger counters, and does not establish a whole-game completion percentage or Factory acceptance. Two isolated cold rounds and direct packing/restoration are bound to the publication. See [product acceptance](reconstruction/MAINL_PRODUCT_ACCEPTANCE_REVIEW.md).
+
+OP decoded publication contributes zero; publication missing. Retained cold-pair evidence remains historical build proof only; canonical ledger counters are unchanged.

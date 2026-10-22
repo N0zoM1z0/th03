@@ -7,6 +7,9 @@ import hashlib
 from pathlib import Path
 import sys
 import tomllib
+# Support importlib.spec_from_file_location callers without PYTHONPATH.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lib.op_decoded_progress import op_decoded_status, decoded_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -547,9 +550,10 @@ def op_fullcold_retained(evidence):
 
 
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
-               evidence: list[dict[str, str]] | None = None) -> str:
+               evidence: list[dict[str, str]] | None = None, *, op_status=None) -> str:
     from status import mainl_product_status
     product = mainl_product_status(ROOT, units)
+    op_status = op_decoded_status(ROOT, units) if op_status is None else op_status
     rows = []
     graphics_pending = mainl_graphics_producer_pending()
     for index, (artifact, label) in enumerate((
@@ -617,6 +621,10 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         if artifact in {'th03-op', 'th03-zun'}:
             counts = tracked_unit_progress(units, artifact)
             total, reviewed, source, exact = (counts[k] for k in ('total', 'reviewed', 'source', 'exact'))
+            decoded_op = artifact == 'th03-op' and op_status['decoded_accepted']
+            if decoded_op:
+                exact = op_status['decoded_exact_units']
+            acceptance_label = 'Decoded extents' if decoded_op else 'Unit acceptance: exact'
             rows.append(f'''  <g aria-label="{label} bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
   <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{total} tracked unit extents</text>
@@ -626,7 +634,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <rect x="200" y="{y}" width="{250*source/total if total else 0:.2f}" height="5" fill="#e0af68"/>
   <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
   <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Source {source}/{total}</text>
-  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact {exact}/{total}</text>
+  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">{acceptance_label} {exact}/{total}</text>
   </g>''')
         else:
             candidates = [f for f in functions if f["artifact"] == artifact]
@@ -642,7 +650,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
       <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
       <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
       <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
-        if artifact == "th03-op" and op_fullcold_retained(evidence or []):
+        if artifact == "th03-op" and op_status['decoded_accepted']:
+            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: 9,530 B · canonical exact 0 · whole product open</text>')
+        elif artifact == "th03-op" and op_fullcold_retained(evidence or []):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</text>')
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
@@ -659,7 +669,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="550" viewBox="0 0 788 550" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
-  <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. MAINL decoded acceptance is a separate published axis, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
+  <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. OP scoped decoded acceptance and MAINL decoded acceptance are separate published axes, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
   <rect width="788" height="550" rx="8" fill="#1f2335"/>
   <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
@@ -711,7 +721,7 @@ def main() -> int:
         "Reviewed authored-byte coverage is scoped to currently reviewed file-backed unit extents; "
         "the whole-product authored denominator remains unknown.",
         "Infrastructure and reference builds do not count as game reconstruction.",
-        "The table preserves original canonical-ledger counters. Separate source-bound MAINL decoded/product acceptance is reported below and does not add authored ownership.",
+        "The table preserves original canonical-ledger counters. Separate source-bound OP decoded and MAINL decoded/product acceptance are reported below and does not add authored ownership.",
         "",
     ])
     if op_fullcold_retained(evidence):
@@ -774,9 +784,11 @@ def main() -> int:
         lines.extend(['MAINL repository-local acceptance is published: the 37,975-byte mixed stored product matches the candidate-local-attested canonical target, and all 145 existing decoded owner units are accepted through source-bound scoped evidence. These cover 27,753 authored bytes and 628 library-origin bytes. This adds no authored byte ownership, does not alter canonical file-backed ledger counters, and does not establish a whole-game completion percentage or Factory acceptance. Two isolated cold rounds and direct packing/restoration are bound to the publication. See [product acceptance](reconstruction/MAINL_PRODUCT_ACCEPTANCE_REVIEW.md).', ''])
     else:
         lines.extend(['MAINL product acceptance publication is pending or invalid; the separate decoded/product axis contributes zero. Existing canonical ledger counters are unchanged.', ''])
+    op_status = op_decoded_status(ROOT, units)
+    lines.extend([decoded_summary(op_status), ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
-    svg = render_svg(units, functions, evidence)
+    svg = render_svg(units, functions, evidence, op_status=op_status)
     svg_path = ROOT / "resources/progress.svg"
     if args.check:
         return 0 if (destination.is_file() and destination.read_text() == content

@@ -1,0 +1,80 @@
+{
+  "schema": "op-decoded-reviewed-helper-bindings-v1",
+  "pins": [
+    {
+      "path": "scripts/attest_toolchain.py",
+      "sha256": "17bdd3565b183104fbb7560cb0027744440bc90055f67decad77473973f3972f",
+      "bytes": 11705
+    },
+    {
+      "path": "scripts/inventory_rec98_th03.py",
+      "sha256": "b73ffb8d8b8897a08d02acda03d9fa2e5ebe88b5eda8a6caf4fe899a054a7fb7",
+      "bytes": 8552
+    },
+    {
+      "path": "scripts/lib/__init__.py",
+      "bytes": 54,
+      "sha256": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713"
+    },
+    {
+      "path": "scripts/lib/omf.py",
+      "sha256": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+      "bytes": 6862
+    },
+    {
+      "path": "scripts/lib/op_decoded_acceptance.py",
+      "sha256": "428eb9f731abc69f503e6d2b08978a25fb6721814b2c86ed24dddc4c78e16d92",
+      "bytes": 17422
+    },
+    {
+      "path": "scripts/lib/op_diet_lineage.py",
+      "sha256": "28810aabadb7cb8e27723089c14a4e760e13f49487ea723fd85267569569bfa9",
+      "bytes": 8061
+    },
+    {
+      "path": "scripts/lib/pc98.py",
+      "sha256": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+      "bytes": 22989
+    },
+    {
+      "path": "scripts/lib/targets.py",
+      "sha256": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+      "bytes": 1969
+    },
+    {
+      "path": "scripts/lib/toolchain.py",
+      "sha256": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
+      "bytes": 5941
+    },
+    {
+      "path": "scripts/replay_th03_op_decoded_acceptance.py",
+      "sha256": "7845887b1e91474a428a579fc01fdf18ecbbfa5d8b1735a7faf3ca709c3f036a",
+      "bytes": 9941
+    },
+    {
+      "path": "scripts/replay_th03_op_fullcold.py",
+      "sha256": "5c5ae7b115854825e5e7c9e80f77fbb79370191c3299e3a8fb5f4ede5edea3a7",
+      "bytes": 8905
+    },
+    {
+      "path": "scripts/review_th03_decoded_code.py",
+      "sha256": "b32874a22aae18d55ae695ce6361e84a1a4a617985c71391d082709319c4ddff",
+      "bytes": 12797
+    },
+    {
+      "path": "scripts/stage_th03_op_fullcold.py",
+      "sha256": "5862d56169f38a5e00d0a882b46f368f24ab9079c5ce05a8640e0f33f90a5fae",
+      "bytes": 24642
+    },
+    {
+      "path": "scripts/validate_tracking.py",
+      "sha256": "b04eb20d001199c7a0ffb89962c019f0a034347fe25cc3f4122d28468fa3a4a2",
+      "bytes": 28677
+    },
+    {
+      "path": "scripts/verify_targets.py",
+      "sha256": "149f1430708e3f6686e194839ba712ac4fd29c97f6a9b443db7dba5547626529",
+      "bytes": 3005
+    }
+  ]
+}
