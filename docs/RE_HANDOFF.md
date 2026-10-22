@@ -2,16 +2,32 @@
 
 ## Latest dependency recovery
 
-The missing support.py is now restored with its original complete SHA-256.
+The missing support.py is restored with its original complete SHA-256.
 Current OP source composition, full dated cold replay and separate packing replay
-pass again. No historical receipts or source/exact counters changed. The effects.obj
-dependency is still missing; a separately recorded reproduction is being planned.
-See [exact recovery](reconstruction/DEPENDENCY_RECOVERY_20261022.md). Earlier
-missing-input and cleanup test summaries below remain dated historical observations.
+pass again. A separate EFRC222 compile reproduced effects.obj exactly: 2,216 bytes,
+48 OMF records, one new native invocation, clean exit and registry audit. Its exact
+data was restored with a new recovery attestation; no old producer receipts or
+pins were rewritten. Original filesystem mtime is not claimed. Source/exact
+counters and authored percentages are unchanged.
+
+Recovering the helper exposed indirect inputs that cleanup had mistakenly archived.
+Receipts 001 through 004 confirm exact restoration of 32 archived files, including
+original modes and nanosecond mtimes: 9,370,166 logical / 9,433,088 allocated bytes.
+This is a bounded receipt total, not global dependency closure. The old identical
+36-failure comparison was masked by an early abort and did not prove cleanup
+safety. Final bounded reconciliation finds no pending archive restores or hash
+conflicts, including after streaming the large capped review; 22 unavailable
+historical JSON issues remain. Cleaner fix 8a18afa has 57 focused cleanup tests
+passing. Post-recovery full portable-suite results and aggregate CI remain pending
+in this documentation checkpoint. Archive-I/O 11 and OP alignment 10 tests pass.
+See [exact recovery](reconstruction/DEPENDENCY_RECOVERY_20261022.md) and the
+[corrected cleanup history](reconstruction/ANALYSIS_CLEANUP_20261022.md). Earlier
+missing-input and cleanup test summaries below are dated historical observations,
+not current missing-file assertions or a global successful recovery claim.
 
 ## OP complete mixed-product reproduction and local integration
 
-Current verification caveat (2026-10-22 07:33 UTC): the installed checkpoint's
+Historical verification caveat (2026-10-22 07:33 UTC; superseded by recovery above): the installed checkpoint's
 full portable suite ran 2,194 tests in the existing virtual environment, with
 33 errors, three failures and two skips. Two historical referenced inputs are
 currently absent: `.analysis/gpt-dots-player-cpu-acceptance-install-v01/support.py`
