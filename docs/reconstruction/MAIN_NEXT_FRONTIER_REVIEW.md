@@ -1,5 +1,15 @@
 # TH03 MAIN next gameplay owner frontier — target-first intake v3
 
+## Current correction, 2026-10-22
+
+MAIN currently accepts 87 extents / 413 functions / 66,843 reviewed CODE bytes. The Marisa 1,958-byte interval below is already exact; the v3 two-interval description and its replay's overlap failure are historical, not a current work queue.
+
+The retained current-source cold MAP at `.analysis/th03-main-exact/gpt-dots-yumemi-charge-default-cold-v01/round1/main.map` places a 1,497-byte `th03_main.asm` contribution in `P_SHOT_TEXT`, load offsets `0xE266..0xE83F`, immediately before the accepted 185-byte `p_shot` update/render contribution. The retained source corroborates five procedure starts at E266, E313, E35B, E3F2 and E737. This includes result-statistics rendering as well as shot preparation/reset/emission. These are compiler/reference observations, not a proved original physical TU or five accepted target function boundaries. Recover the coherent contribution and its dependencies together while preserving the accepted update/render behavior.
+
+Fresh target evidence for the initial E266..E313 procedure is retained under `.analysis/codex-main-shot-20261022-v01/`: `ghidra-check.log`/`.exit` attest the selected MAIN database, and `target-prefix.json` records the verified immutable-target digest, all 173 decoded bytes, 46 instructions and 12 ordered relocation sites. Its two access-page port writes and twelve far calls agree with the reference hypothesis; the called API's identity still requires independent binding. `retained-root-map.json` records seven retained root CODE contributions totaling 23,459 bytes. That mixed root includes unresolved game/shared/library ownership and is not an authored denominator. No new source or exact credit is granted.
+
+## Historical v3 intake
+
 Status: **two provisional, non-exact CODE intervals totaling 2131 bytes**.
 Neither has a recovered complete original physical owner or accepted
 function partition yet. No new exact credit from this intake.
