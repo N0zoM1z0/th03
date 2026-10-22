@@ -10,6 +10,7 @@ import tomllib
 # Support importlib.spec_from_file_location callers without PYTHONPATH.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib.op_decoded_progress import op_decoded_status, decoded_summary
+from lib.op_product_diagnostics import retained_op_products, product_diagnostic_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -550,10 +551,11 @@ def op_fullcold_retained(evidence):
 
 
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
-               evidence: list[dict[str, str]] | None = None, *, op_status=None) -> str:
+               evidence: list[dict[str, str]] | None = None, *, op_status=None, op_products=None) -> str:
     from status import mainl_product_status
     product = mainl_product_status(ROOT, units)
     op_status = op_decoded_status(ROOT, units) if op_status is None else op_status
+    op_products = retained_op_products(ROOT) if op_products is None else op_products
     rows = []
     graphics_pending = mainl_graphics_producer_pending()
     for index, (artifact, label) in enumerate((
@@ -651,9 +653,13 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
       <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
       <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
         if artifact == "th03-op" and op_status['decoded_accepted']:
-            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: 9,530 B · canonical exact 0 · whole product open</text>')
+            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: 9,530 B · canonical exact 0 · product acceptance open</text>')
         elif artifact == "th03-op" and op_fullcold_retained(evidence or []):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</text>')
+        if artifact == "th03-op" and op_products['retained_equality']:
+            rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained: cold decoded 63,866 B = target · separate packed 36,041 B = canonical</text>')
+        elif artifact == "th03-op":
+            rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained equality check unavailable · product acceptance open</text>')
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
@@ -725,7 +731,7 @@ def main() -> int:
         "",
     ])
     if op_fullcold_retained(evidence):
-        lines.extend(["OP retained cold-pair checkpoint: two independent 308-file source trees, 56 native phases and 29 raw-identical product pairs. All 34 maintained owner slices / 12,436 CODE bytes match; 33 scopes / 9,530 bytes also match literal relocation order. Selection order and six whole-program byte differences remain open. This is build evidence, not source/exact promotion or a whole-game percentage.", ""])
+        lines.extend(["OP retained cold-pair checkpoint: two independent 308-file source trees, 56 native phases and 29 raw-identical product pairs. All 34 maintained owner slices / 12,436 CODE bytes match; 33 scopes / 9,530 bytes also match literal relocation order. Selection order and six whole-program byte differences were open in this historical checkpoint. This is build evidence, not source/exact promotion or a whole-game percentage.", ""])
     if zunsoft_root_repeat_proven(units, evidence):
         lines.extend(["ZUN logo root: ten maintained source units / 1,299 CODE bytes. Two independent cold compile/context-links (four native phases) yield raw-identical OBJ/COM/MAP with unchanged actual source/tool timestamps and no reused project objects. DATA15/BSS293 remain separate layout evidence. The 2,600 retained modeled calls cover target and the first candidate only; the second is bound by complete raw identity, not new model executions. ZUN remains 15/18 source units and 1,855 scoped CODE bytes, exact zero. Vendor context, whole-payload ownership, launcher, packing and real-device runtime remain open. See [logo cold repeat](reconstruction/ZUN_SOFT_REPEAT_REVIEW.md).", ""])
     elif zunsoft_root_source_proven(units, evidence):
@@ -785,10 +791,11 @@ def main() -> int:
     else:
         lines.extend(['MAINL product acceptance publication is pending or invalid; the separate decoded/product axis contributes zero. Existing canonical ledger counters are unchanged.', ''])
     op_status = op_decoded_status(ROOT, units)
-    lines.extend([decoded_summary(op_status), ""])
+    op_products = retained_op_products(ROOT)
+    lines.extend([decoded_summary(op_status), "", product_diagnostic_summary(op_products), ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
-    svg = render_svg(units, functions, evidence, op_status=op_status)
+    svg = render_svg(units, functions, evidence, op_status=op_status, op_products=op_products)
     svg_path = ROOT / "resources/progress.svg"
     if args.check:
         return 0 if (destination.is_file() and destination.read_text() == content
