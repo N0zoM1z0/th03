@@ -1,0 +1,54 @@
+{
+  "schema": "th03-op-fullcold-archival-ledgers-v1",
+  "role": "archival-install-metadata-not-composed-source",
+  "dependency": {
+    "path": ".analysis/op-pfopen-checkpoint-proposal-v01/install-manifest.json",
+    "sha256": "35e125b3f95e3e81a85472d271b798e2036a4237188fb42a3ac4ad91d38264e2",
+    "bytes": 6939,
+    "mode": 384
+  },
+  "current_ledger_validator": {
+    "path": "scripts/validate_tracking.py",
+    "sha256": "b04eb20d001199c7a0ffb89962c019f0a034347fe25cc3f4122d28468fa3a4a2",
+    "bytes": 28677,
+    "mode": 493
+  },
+  "entries": {
+    "config/evidence.csv": {
+      "historical_install_entry": {
+        "path": "config/evidence.csv",
+        "sha256": "323aa8600e0af537228d58ae263e09c395b54681a5d56c4341d85b73ceac8b41",
+        "bytes": 2242898,
+        "mode": 420,
+        "previous_sha256": "71c44457aa43784bd4825be33892899b45cf876645f31fc95ec2002ca97688d6"
+      },
+      "git_snapshot": {
+        "commit": "d53cedd61877066f9f77671101a62742a7bf6024",
+        "blob": "c3d96b627fa23a016b8535e217de2b697d506a06",
+        "path": "config/evidence.csv",
+        "sha256": "323aa8600e0af537228d58ae263e09c395b54681a5d56c4341d85b73ceac8b41",
+        "bytes": 2242898,
+        "mode": 420,
+        "git_mode": 33188
+      }
+    },
+    "config/knowledge.csv": {
+      "historical_install_entry": {
+        "path": "config/knowledge.csv",
+        "sha256": "b0f3c4760e759460d0546723b2494bf6d53b733fd6b8758e687fdadab15139b4",
+        "bytes": 300706,
+        "mode": 384,
+        "previous_sha256": "e61a540f12427c4d2d22e21b7bdb03e7ae9209423859ca79174b6f4a253ed363"
+      },
+      "git_snapshot": {
+        "commit": "d53cedd61877066f9f77671101a62742a7bf6024",
+        "blob": "858f47256dd563844ab1f951a40d1e034cadc160",
+        "path": "config/knowledge.csv",
+        "sha256": "b0f3c4760e759460d0546723b2494bf6d53b733fd6b8758e687fdadab15139b4",
+        "bytes": 300706,
+        "mode": 384,
+        "git_mode": 33188
+      }
+    }
+  }
+}

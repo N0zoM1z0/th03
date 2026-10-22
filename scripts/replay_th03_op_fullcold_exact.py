@@ -1,9 +1,12 @@
 """Dated source-cold proof replay; never launches or asserts today's native state."""
 from pathlib import Path
-import argparse,hashlib,json,sys,types
+import argparse,contextlib,hashlib,io,json,re,subprocess,sys,types
 PROOF_SHA='4f50ea52204458a1ede50a26fd98f0ffbc32c214ea9d3fa9731503e643c86cfd'
 SOURCE_BINDING_PATH = 'config/op_fullcold_exact/source_bindings_v2.json'
 SOURCE_BINDING_SHA = '717324a3b8ae1d65930597085222d4684c96267985a570cfa41a0e22f9a77ae3'
+LEDGER_BINDING_PATH = 'config/op_fullcold_exact/ledger_bindings_v1.json'
+LEDGER_BINDING_SHA = '028b46e97d898278df6b30aae2abee61a9620fd6d47575f9bdab7c9a0a96675e'
+ARCHIVAL_LEDGER_PATHS = {'config/evidence.csv', 'config/knowledge.csv'}
 def need(v,m):
  if not v:raise ValueError(m)
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -51,7 +54,72 @@ def read_source_bindings(root):
    need((Path(root)/q['path']).stat().st_mode & 0o777 == q['mode'], 'source binding mode '+q['path'])
  return binding
 
-def pin_source_dependency(root, dependency, entry, binding):
+def read_git_ledger_snapshot(root, snapshot):
+ need(set(snapshot) == {'commit', 'blob', 'path', 'sha256', 'bytes', 'mode', 'git_mode'},
+      'archival Git snapshot schema')
+ need(snapshot['path'] in ARCHIVAL_LEDGER_PATHS, 'archival ledger scope')
+ need(all(isinstance(snapshot[k], str) and re.fullmatch('[0-9a-f]{40}', snapshot[k])
+          for k in ('commit', 'blob')), 'immutable archival Git identity')
+ need(snapshot['git_mode'] == (0o100755 if snapshot['mode'] & 0o111 else 0o100644),
+      'archival Git executable mode')
+ tree = subprocess.check_output(
+     ['git', '-C', str(root), 'ls-tree', '-z', snapshot['commit'], '--', snapshot['path']],
+     timeout=10)
+ expected = ('%06o blob %s\t%s\0' %
+             (snapshot['git_mode'], snapshot['blob'], snapshot['path'])).encode()
+ need(tree == expected, 'archival Git tree identity/mode')
+ raw = subprocess.check_output(
+     ['git', '-C', str(root), 'cat-file', 'blob', snapshot['blob']], timeout=10)
+ need(len(raw) == snapshot['bytes'] and sha(raw) == snapshot['sha256'],
+      'archival Git blob identity')
+ return raw
+
+def read_ledger_bindings(root):
+ binding = json.loads(pin(root, dict(path=LEDGER_BINDING_PATH, sha256=LEDGER_BINDING_SHA)))
+ need(set(binding) == {'schema', 'role', 'dependency', 'current_ledger_validator', 'entries'}
+      and binding['schema'] == 'th03-op-fullcold-archival-ledgers-v1'
+      and binding['role'] == 'archival-install-metadata-not-composed-source',
+      'archival ledger binding schema')
+ need(set(binding['entries']) == ARCHIVAL_LEDGER_PATHS, 'archival ledger binding scope')
+ need(binding['dependency'] == read_source_bindings(root)['dependency'],
+      'archival ledger historical dependency')
+ original = json.loads(pin(root, binding['dependency']))
+ validator = binding['current_ledger_validator']
+ need(validator['path'] == 'scripts/validate_tracking.py', 'current ledger validator scope')
+ pin(root, validator)
+ for name, entry in binding['entries'].items():
+  need(set(entry) == {'historical_install_entry', 'git_snapshot'}, 'archival entry schema')
+  historical, snapshot = entry['historical_install_entry'], entry['git_snapshot']
+  need(historical in original['files'] and historical['path'] == snapshot['path'] == name,
+       'archival install entry identity')
+  need(all(snapshot[k] == historical[k] for k in ('sha256', 'bytes', 'mode')),
+       'archival install content identity')
+  read_git_ledger_snapshot(root, snapshot)
+ return binding
+
+def validate_current_ledgers(root, binding):
+ q = binding['current_ledger_validator']
+ need(q['path'] == 'scripts/validate_tracking.py', 'current ledger validator scope')
+ pin(root, q)
+ need((Path(root)/q['path']).stat().st_mode & 0o777 == q['mode'], 'current ledger validator mode')
+ validator = load(Path(root)/q['path'])
+ with contextlib.redirect_stdout(io.StringIO()):
+  status = validator.main(Path(root), validate_product=False)
+ need(status == 0, 'current canonical ledger validation')
+ return True
+
+def pin_source_dependency(root, dependency, entry, binding, ledger_binding=None):
+ if ledger_binding is not None and entry['path'] in ledger_binding['entries']:
+  replacement = ledger_binding['entries'][entry['path']]
+  need(entry['path'] in ARCHIVAL_LEDGER_PATHS
+       and replacement['git_snapshot']['path'] == entry['path'], 'archival ledger scope')
+  need(dependency == ledger_binding['dependency']
+       and entry == replacement['historical_install_entry'], 'archival ledger historical dependency')
+  need(all(replacement['git_snapshot'][k] == entry[k] for k in ('sha256', 'bytes', 'mode')),
+       'archival install content identity')
+  # Git supplies only nonconsumed historical install metadata. The actual current
+  # composers still read the workspace and must reproduce every one of330 inputs.
+  return read_git_ledger_snapshot(root, replacement['git_snapshot'])
  if binding is None or entry['path'] not in binding['replacements']:
   return pin(root, entry)
  replacement = binding['replacements'][entry['path']]
@@ -64,16 +132,20 @@ def pin_source_dependency(root, dependency, entry, binding):
 
 def check_current_sources(root,files=None,virtual=False):
  root=Path(root).resolve();p=proof(root,files);mods=p['source_stage_modules']
+ if not virtual:need(ARCHIVAL_LEDGER_PATHS.isdisjoint(p['source_inventory']),
+                     'archival ledgers must not be composed source inputs')
  binding = None if virtual else read_source_bindings(root)
+ ledger_binding = None if virtual else read_ledger_bindings(root)
+ if ledger_binding is not None:validate_current_ledgers(root, ledger_binding)
  for q in mods:pin(root,q)
  data=load(root/mods[0]['path']).payload(root)
  for q in mods[1:3]:data.update(load(root/q['path']).payload(root))
  data=load(root/mods[3]['path']).compose(data,root)
  for dep,overlay in zip(p['source_dependencies'],p['source_overlay_modules']):
   d=json.loads(pin(root,dep));base=(root/dep['path']).parent/'files' if virtual else root
-  for q in d['files']:pin_source_dependency(base,dep,q,binding)
+  for q in d['files']:pin_source_dependency(base,dep,q,binding,ledger_binding)
   data=load(base/'scripts'/overlay['stage']).compose(data,base)
  inventory={n:dict(sha256=sha(b),bytes=len(b)) for n,b in sorted(data.items())};need(inventory==p['source_inventory'] and len(data)==330,'current330 source composition equals historical cold inputs');need(not any(Path(n).suffix.lower() in {'.obj','.exe','.map','.lib','.com'} for n in data),'no binary seed')
- return dict(current_source_composition_pass=True,virtual_uninstalled_proposals=virtual,source_files=330,native_invocations=0,source_acceptance=False,exact_acceptance=False,source_bindings_schema=binding['schema'] if binding else None)
+ return dict(current_source_composition_pass=True,virtual_uninstalled_proposals=virtual,source_files=330,native_invocations=0,source_acceptance=False,exact_acceptance=False,source_bindings_schema=binding['schema'] if binding else None,archival_ledger_bindings_schema=ledger_binding['schema'] if ledger_binding else None,current_ledgers_validated=ledger_binding is not None)
 if __name__=='__main__':
  ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[1]);ap.add_argument('--files',type=Path);ap.add_argument('--check-current-source',action='store_true');ap.add_argument('--virtual-proposals',action='store_true');a=ap.parse_args();need(not a.virtual_proposals or a.check_current_source,'virtual option belongs to separate source check');print(json.dumps(check_current_sources(a.root,a.files,a.virtual_proposals) if a.check_current_source else replay(a.root,a.files),indent=2))

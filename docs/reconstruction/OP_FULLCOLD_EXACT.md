@@ -36,6 +36,14 @@ The cold source checker retains every original install-manifest guard. Its separ
 
 Integrated verification: 146 focused tests pass; aggregate CI passes 2,293 tests with two existing skips and completes all remaining gates. PFOPEN and full historical cold replays pass with zero new native invocations. Evidence and reviewed install manifest: `.analysis/codex-pfopen-binding-20261022-v01/`. Current CI used one CPU, nice 10 and a 768 MiB Ghidra heap cap, peaking at 657,944 KiB RSS.
 
+## Archival ledger metadata maintenance, 2026-10-22
+
+Appending MAIN evidence exposed another nonconsumed PFOPEN install-package dependency: `config/evidence.csv` and `config/knowledge.csv` still described their dated install versions. `ledger_bindings_v1.json` binds exactly those two original entries to immutable local Git commit/blob objects. It verifies the original dependency, path, byte count, SHA-256, Git tree mode and separately recorded historical logical mode. Git normalizes regular-file permissions, so its tree mode does not attest the original filesystem's 0600 logical mode. The exact commit objects must be present locally; replay performs only read-only Git commands and never fetches. This avoids duplicating roughly 2.5 MB of ledger text.
+
+The adapter checks only archival install metadata. Actual composers continue reading the current workspace, all 330 emitted source hashes must still equal the cold inventory, and the pinned current tracking validator separately validates current canonical ledgers. Every other source/helper/install pin and the virtual historical-proposal behavior retain their original checks. The PFOPEN `source_bindings_v2.json`, original proof, native manifests, observer and receipts are unchanged. Ten new mutation controls cover immutable Git provenance, original logical versus Git modes, dependency identity, product-source exclusion, current validator failures/modes/symlinks and virtual-proposal isolation; the eight prior source-binding controls still pass.
+
+The initial aggregate run is preserved in `.analysis/codex-main-farcall-20261022-v01/ci-v01.log`: 2,304 tests, one current-source compatibility error and two skips. With the adapter, the 18 focused binding tests and 19 cold-proof tests pass, and the complete 330-file current composition passes without native calls. Full historical replay again reproduces both original rounds, thirty raw OMF pairs and all 607 ordered relocations with zero native calls. Fresh aggregate verification is recorded in the current handoff; no product or authored credit changes.
+
 ## Boundaries
 
 All original selection, anchor, root-split, delayed-registry-flush and sparse-LEDATA failures remain preserved alongside separate corrections. The ordering proof's historical one-byte-negative result is unchanged. No false native completion is rewritten.
