@@ -1,5 +1,19 @@
 # TH03 reconstruction handoff — current state (2026-10-22)
 
+## OP remaining helper source checkpoint
+
+Five fresh original TCC producers now bind snd_determine_mode (29 bytes),
+snd_pmd_resident (57), polar (26), SND_KAJA_INTERRUPT (30), and game_init_op
+(105). Their 247 decoded function bytes and ordered fixups match the target.
+Six clean native phases preserve the prior 37 bodies / 12,569 bytes and exactly
+22 retained project context objects. OP is now 42/45 source-present units and
+12,816 scoped CODE bytes, exact zero. The old 30-byte mode producer observation
+remains history; NOPs 0067/00A1 and alignment 016F have no function CODE credit.
+The EXE remains unchanged, with six target program-byte differences and 313
+global relocation-order differences. No runtime/model, repeat, full cold,
+packing or whole-product acceptance is added. Prior OP/ZUN/MAINL proofs remain
+separate. See [remaining helper source review](reconstruction/OP_REMAINING_HELPERS_SOURCE_REVIEW.md).
+
 ## OP exit and plane helpers source checkpoint
 
 Three fresh original physical TUs now bind game_exit_to_dos (25 bytes),
@@ -7,7 +21,7 @@ vram_planes_set (41 bytes), and game_exit (67 bytes), using their original
 GAME2/1/3 definitions. All 133 decoded CODE bytes and literal ordered fixups
 match the target. Four native phases preserve the previous 34 owners and
 12,436 bytes, with exactly 24 retained project context objects. OP source
-presence is now 37/42 units and 12,569 scoped CODE bytes; exact remains zero.
+presence at that checkpoint was 37/42 units and 12,569 scoped CODE bytes; exact remained zero.
 This is not a full cold build, repeat, runtime/model run, or whole-product
 acceptance. The separate historical 34-owner full-cold proof remains unchanged.
 See [helper source review](reconstruction/OP_EXIT_HELPERS_SOURCE_REVIEW.md).

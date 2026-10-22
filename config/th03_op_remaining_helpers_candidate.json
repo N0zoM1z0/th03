@@ -1,0 +1,203 @@
+{
+  "schema": "th03-op-remaining-helpers-source-v1",
+  "reference_revision": "b6ba5b0a529edbb31efdf8c0e939263804f8ee47",
+  "reference_archive_sha256": "9f7a4eb17f24ae2d99adaba4320f6c46f4fc8d659f9b784f6d8e5f3af99bf705",
+  "units": [
+    {
+      "id": "th03-op-decoded-configuration-snd_mode",
+      "name": "snd_determine_mode",
+      "source": "src/op/snd/determine_mode.c",
+      "source_sha256": "0006059b5b4f1bec7c82f1a955afdca0580163be5f40adeca2b33dc0e0150326",
+      "original_body": "th02/snd/detmode.c",
+      "original_body_sha256": "a457488f26fcc30dd74c9bcba8e8f55bd1847da45625678219eeb2abe7765913",
+      "wrapper": "th02/snd_mode.c",
+      "original_wrapper_sha256": "165169c113e769b21ac46229b6115e1e968cb8b358aa62ed845286ba101613f9",
+      "object": "obj/th02/snd_mode.obj",
+      "physical_game_macro": 2,
+      "language": "c",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/snd_mode.c",
+      "segment": "decoded:0beb",
+      "offset": 74,
+      "size": 29,
+      "compare_size": 29,
+      "producer_bytes": 30,
+      "support_files": [
+        "compat/rec98/x86real.h",
+        "compat/rec98/th02/snd/snd.h"
+      ],
+      "boundary_evidence": "independent-OP-decoded-target-static-review",
+      "target_symbol": "snd_determine_mode",
+      "calling_convention": "far cdecl, RETF",
+      "original_producer_context": [
+        {
+          "offset": 103,
+          "size": 1,
+          "kind": "original pragma codestring NOP",
+          "value": "90",
+          "function_code_credit": false
+        }
+      ],
+      "target_body_sha256": "71141f0f5a90b703532419005780252e5a77f8ffb159c23ae51189ce1607ab90"
+    },
+    {
+      "id": "th03-op-decoded-snd-pmd-resident",
+      "name": "snd_pmd_resident",
+      "source": "src/op/snd/pmd_resident.c",
+      "source_sha256": "ea33bdee1a83f5508d1291682c80845fb92620ace032ee5be03d862a825fef7c",
+      "original_body": "th02/snd/pmd_res.c",
+      "original_body_sha256": "4b33fa2ab3c3f838e717880a1e455bb1934ff8f4396d4b5c1a370ece5bb6f77d",
+      "wrapper": "th02/snd_pmdr.c",
+      "original_wrapper_sha256": "02b50a0f820c19f5523d28ad4b7e3f16e2f9dd7d75273059e3e22c46bdc26bba",
+      "object": "obj/th02/snd_pmdr.obj",
+      "physical_game_macro": 2,
+      "language": "c",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/snd_pmdr.c",
+      "segment": "decoded:0beb",
+      "offset": 104,
+      "size": 57,
+      "compare_size": 57,
+      "producer_bytes": 58,
+      "support_files": [
+        "compat/rec98/x86real.h",
+        "compat/rec98/th02/snd/snd.h"
+      ],
+      "boundary_evidence": "independent-OP-decoded-target-static-review",
+      "target_symbol": "snd_pmd_resident",
+      "calling_convention": "far cdecl, RETF",
+      "original_producer_context": [
+        {
+          "offset": 161,
+          "size": 1,
+          "kind": "original pragma codestring NOP",
+          "value": "90",
+          "function_code_credit": false
+        }
+      ],
+      "target_body_sha256": "cd3aa2c700e6e69babc316d009c948c5ad2d4e19797a4e04526d4d3c20cff380"
+    },
+    {
+      "id": "th03-op-decoded-polar",
+      "name": "polar",
+      "source": "src/op/math/polar.cpp",
+      "source_sha256": "d88cf4fa8d3ecd1820624a63bc24cf2bf9f56462ea30547f5775177be748a509",
+      "original_body": "th03/math/polar.cpp",
+      "original_body_sha256": "6200a559c5e9b5bc8b2b20df62c159fc6f71342b54f61bbe07dab85147830d5f",
+      "wrapper": "th03/polar.cpp",
+      "original_wrapper_sha256": "8c6065f1446148e6812816747fabe5bbb1be3a2b71f69061c00bc7a6295a1a86",
+      "object": "obj/th03/polar.obj",
+      "physical_game_macro": 3,
+      "language": "cpp",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/polar.cpp",
+      "segment": "decoded:0beb",
+      "offset": 341,
+      "size": 26,
+      "compare_size": 26,
+      "producer_bytes": 26,
+      "support_files": [
+        "compat/rec98/th03/math/polar.hpp"
+      ],
+      "boundary_evidence": "independent-OP-decoded-target-static-review",
+      "target_symbol": "polar",
+      "calling_convention": "far cdecl, RETF",
+      "original_producer_context": [],
+      "excluded_linker_alignment": [
+        {
+          "offset": 367,
+          "size": 1,
+          "function_code_credit": false
+        }
+      ],
+      "target_body_sha256": "62134f6fbd756605e49625f7ff6d410c18fefe121ff5f324520e311188248fd0"
+    },
+    {
+      "id": "th03-op-decoded-snd-kaja-interrupt",
+      "name": "snd_kaja_interrupt",
+      "source": "src/op/snd/kaja_interrupt.cpp",
+      "source_sha256": "a6c773a98bcaf565cf6a8a05b477d0548fe72498574bdc1b87b8ace12a539c2e",
+      "original_body": "th02/snd/kajaint.cpp",
+      "original_body_sha256": "5320ae10909ffe7841cba69cd7d7e95627d10084383295e5c4d8b4fc007e6496",
+      "wrapper": "th03/snd_kaja.cpp",
+      "original_wrapper_sha256": "24e9756fbbe975c04d07ca9d14b518e22899821eff7a10b63ae9ffedb98a5d8f",
+      "object": "obj/th03/snd_kaja.obj",
+      "physical_game_macro": 3,
+      "language": "cpp",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/snd_kaja.cpp",
+      "segment": "decoded:0beb",
+      "offset": 1363,
+      "size": 30,
+      "compare_size": 30,
+      "producer_bytes": 30,
+      "support_files": [
+        "compat/rec98/th04/snd/snd.h",
+        "compat/rec98/th02/snd/snd.h",
+        "compat/rec98/th02/snd/impl.hpp"
+      ],
+      "boundary_evidence": "independent-OP-decoded-target-static-review",
+      "target_symbol": "SND_KAJA_INTERRUPT",
+      "calling_convention": "far pascal, RETF 2",
+      "original_producer_context": [],
+      "target_body_sha256": "6facf75bd7d7510918f9dbaa7594fcfea95c7dce69634f5df3e30aa7c5f5b92c"
+    },
+    {
+      "id": "th03-op-decoded-configuration-init",
+      "name": "game_init_op",
+      "source": "src/op/core/initop.cpp",
+      "source_sha256": "8d0a9bf147fc4dda35fa041c83d163c458dbe452fba03bbc1a14d3b591116a29",
+      "original_body": "th03/core/initop.cpp",
+      "original_body_sha256": "606e66adacdf317a7255424b80b79a79c9cbe244bf76611519ec30dbba779f89",
+      "wrapper": "th03/initop.cpp",
+      "original_wrapper_sha256": "72d6ac8c44bf4cee2cf3abb1a10aa39043415469c94a85678b5474885cde5a87",
+      "object": "obj/th03/initop.obj",
+      "physical_game_macro": 3,
+      "language": "cpp",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/initop.cpp",
+      "segment": "decoded:0beb",
+      "offset": 1393,
+      "size": 105,
+      "compare_size": 105,
+      "producer_bytes": 105,
+      "support_files": [
+        "compat/rec98/libs/master.lib/master.hpp",
+        "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+        "compat/rec98/th01/hardware/vplanset.h",
+        "compat/rec98/th03/core/initexit.h"
+      ],
+      "boundary_evidence": "existing-reviewed-OP-ledger",
+      "target_symbol": "game_init_op",
+      "calling_convention": "far cdecl, RETF",
+      "original_producer_context": []
+    }
+  ],
+  "support_files": {
+    "compat/rec98/x86real.h": "74cb3c41eaf7ffec357f28dfdce1f00604afb75040698c73bd3264a293b69bff",
+    "compat/rec98/th02/snd/snd.h": "3a19e42a01b74089c5420729316bcb4c3bd5b135a8ceb5b12ec50e3ba96a2f4f",
+    "compat/rec98/th03/math/polar.hpp": "2386736c0c5f8482ffa45704467d64fd527e44fc2a501f73df43750d7235bd4f",
+    "compat/rec98/th04/snd/snd.h": "84a0dc14c4bc38ffd615a3d921f4f0cb8ce0b9ceb2edec298d5ada54143c4739",
+    "compat/rec98/th02/snd/impl.hpp": "4f148230187e9769a0ce8f55800eb2a4c5853f279a112f4d1400fffef5517206",
+    "compat/rec98/libs/master.lib/master.hpp": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+    "compat/rec98/th01/hardware/vplanset.h": "0aacf78e0be0e16c3d80a80ff79dba1f7a8ddfebcc3302f853019fa423920a2b",
+    "compat/rec98/th03/core/initexit.h": "0770fc1792938dc89787d6b39aad974d3bfd55e61547d975272f81211b4767e2"
+  },
+  "code_bytes": 247,
+  "original_producer_context_bytes": 2,
+  "physical_translation_units": 5,
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "scope": "Source-only original complete meaningful bodies. No native, ABI, exact, runtime, registry or whole-product acceptance.",
+  "independent_boundary_review": {
+    "path": ".analysis/op-remaining-boundary-review-20261022-v01/report.json",
+    "sha256": "b199fe6a8d9c0802f7c82c6114cbf3c9b68c5536b4041a88d32bc06dcc13bba7",
+    "script": ".analysis/op-remaining-boundary-review-20261022-v01/review.py",
+    "script_sha256": "f8928fe3839dc972b7c12969ff7339ebef4c9ba062b6ed24d8a32e5bb626894e",
+    "replay_command": "python3 .analysis/op-remaining-boundary-review-20261022-v01/review.py",
+    "static_function_bytes": 142,
+    "source_acceptance": false,
+    "exact_acceptance": false
+  }
+}
