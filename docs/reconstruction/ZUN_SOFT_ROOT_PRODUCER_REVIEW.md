@@ -1,5 +1,7 @@
 # ZUN -3 maintained logo root producer
 
+This is the preserved first-build checkpoint. The later [two-cold-build review](ZUN_SOFT_REPEAT_REVIEW.md) supersedes its repeat-build limitation without changing these original proof records or the 2,600-call model count.
+
 One fresh maintained-source compile and context link now reproduce the reviewed
 logo root. This is source presence for ten existing root procedures, not ownership
 of the complete payload or formal exact acceptance.
@@ -90,6 +92,6 @@ The original v01 verifier's ownership/binding defects were corrected in the
 separate v02 verifier and preserved rather than overwritten. There was no native
 retry: one compile and one link only, no independent second cold producer.
 
-Still open: repeated cold builds, original library/runtime/data/asset ownership,
+At this first-build checkpoint, still open: repeated cold builds, original library/runtime/data/asset ownership,
 real hardware or independent emulator behavior, complete -3 ownership, launcher
 integration, canonical stored DIET packaging and full acceptance Oracles.

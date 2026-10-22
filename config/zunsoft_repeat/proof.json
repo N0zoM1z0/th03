@@ -1,0 +1,91 @@
+{
+  "schema": "th03-zunsoft-repeat-proof-v1",
+  "manifest_sha256s": [
+    "a1eead9202ec501fc79c9eac7aca25507bd8426ba9c55af3c28dee3844ad2796",
+    "e1805fa1c8ba50b30f97410b871201120657886fc3952ad46beb77926696b559"
+  ],
+  "original_proof_sha256": "cfca06c722642d62b32bb0930a42d49dce8b02a4ab3d6878902174f812bdb877",
+  "repeat_verifier_sha256": "e30a969dd641ca9b311dd769959072720830459c1ce94757cce1df721b1b9fde",
+  "raw_repeat_sha256": "edded51b2d7b1d00fa70aad843e55f10c160ca9c78105372e4c0f7debc067a9b",
+  "structural_sha256": "f7289e290dd9e57d407239b7e481b875dbf96876af2c673b82b71374fe9d5aef",
+  "helper_closure": {
+    "scripts/lib/__init__.py": {
+      "sha256": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
+      "bytes": 54
+    },
+    "scripts/lib/pc98.py": {
+      "sha256": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+      "bytes": 22989
+    },
+    "scripts/lib/omf.py": {
+      "sha256": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+      "bytes": 6862
+    },
+    "scripts/lib/targets.py": {
+      "sha256": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+      "bytes": 1969
+    },
+    "scripts/lib/zun.py": {
+      "sha256": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+      "bytes": 9063
+    },
+    "scripts/review_th03_zunsoft.py": {
+      "sha256": "25936ee88769ec8310198f9cb0c9b70a24d09fbf799d63e483dcc388432b3f29",
+      "bytes": 18082
+    },
+    "scripts/stage_th03_zunsoft.py": {
+      "sha256": "94cb712decc830b2eb71c0d58f50f3170c524d03c5b260a2f528db66928180a1",
+      "bytes": 5143
+    },
+    "scripts/replay_th03_zunsoft_root.py": {
+      "sha256": "2dd6dc4adfb9fe5d57131ef495bb35f445b3cbaba46ead651f1167ae9d3744f8",
+      "bytes": 6828
+    }
+  },
+  "maintained_sources": {
+    "compat/rec98/platform/x86real/pc98/page.hpp": {
+      "sha256": "b2527e4419d12b4665f2a2eea0e36b94644c44dd40d787ffd4e31c47a4d79b88",
+      "bytes": 42
+    },
+    "compat/rec98/platform/x86real/pc98/egc.hpp": {
+      "sha256": "eb8062816311e86cab1fbe4e7bdd2108d47f37689f834d37d25db043b70f0ffc",
+      "bytes": 41
+    },
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp": {
+      "sha256": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+      "bytes": 40
+    },
+    "compat/rec98/th01/math/polar.hpp": {
+      "sha256": "0878c308b919dc9bd39c788a267200294a6f54feb2936527dfd7a2530854adcf",
+      "bytes": 31
+    },
+    "compat/rec98/th01/hardware/grcg.hpp": {
+      "sha256": "b1f8216ec026ae03f7e384d1d9a01702343724fe42157d28c2f1c58ea6182060",
+      "bytes": 34
+    },
+    "src/zun/zunsoft.cpp": {
+      "sha256": "5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057",
+      "bytes": 5658
+    }
+  },
+  "root_procedures": 10,
+  "root_code_bytes": 1299,
+  "root_data_bytes": 15,
+  "root_bss_bytes": 293,
+  "native_phases": 4,
+  "two_cold_builds": true,
+  "runtime_images": 2,
+  "retained_runtime_calls": 2600,
+  "modeled_candidates": 1,
+  "exact_acceptance": false,
+  "whole_payload_ownership": false,
+  "launcher_ownership": false,
+  "runtime_rerun": false,
+  "packing_run": false,
+  "real_device_runtime": false,
+  "inventory": {
+    "path": ".analysis/zunsoft-repeat-maintained-proposal-20261022-v01/inventory.json",
+    "sha256": "48bf9726e7ba5cfd15b68b3e2133956d468657d47365b9c71c022bf3a5470e58",
+    "bytes": 115451
+  }
+}

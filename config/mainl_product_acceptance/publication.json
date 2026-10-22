@@ -3,12 +3,12 @@
     {
       "bytes": 1112,
       "path": "config/mainl_product_acceptance/product-input-bindings.json",
-      "sha256": "6bd3220947bcff7e71a1035c697fa41108ad17ad1878150bd9406da6474c1bb6"
+      "sha256": "17519d0e534ccfd4271de0828866fad22018a0305b2442be7f891217f3c0259a"
     },
     {
       "bytes": 2649,
       "path": "config/mainl_product_acceptance/product-gate-results.json",
-      "sha256": "4e38c44e9842c7cdf4423f1aa3e27372a160ea0f8187bd73a10eee1bfe5d1599"
+      "sha256": "c8d56a195507db0f609fd919da4e74a114ff62544d4940d0082c67468ed51b68"
     },
     {
       "bytes": 243740,
@@ -18,12 +18,12 @@
     {
       "bytes": 37727,
       "path": "config/mainl_product_acceptance/toolchain-identity-current.json",
-      "sha256": "2994c9528d63ed8e60666240c12f3d23b44b2241d2fd4c03e78f33b8f9fa9eb9"
+      "sha256": "a53cd296a0bbffed128287ea8512a451ac7f8bac9dcbf108df00f25039bf2576"
     },
     {
       "bytes": 117,
       "path": "config/mainl_product_acceptance/ledger-current.log",
-      "sha256": "97a0c2a51db4c7a78a3a9ab22f93fa584473a6bc94a3ce4bee8426e6b91f0210"
+      "sha256": "c1dea80efb25f2a7e815c665366e0c8524de3054af244d48e5a24ea1a5ed2551"
     }
   ],
   "factory_accepted": false,
@@ -659,9 +659,9 @@
       "sha256": "74cb3c41eaf7ffec357f28dfdce1f00604afb75040698c73bd3264a293b69bff"
     },
     {
-      "bytes": 2223708,
+      "bytes": 2225126,
       "path": "config/evidence.csv",
-      "sha256": "c9392306e5b15df5bb59a0c22cd8c59632c698d8b018455abfb6a1556ec76d89"
+      "sha256": "c45ab258eeafb87a193e0f0996aef957b64e32b68509548312d0c499346ac744"
     },
     {
       "bytes": 2155,
@@ -944,9 +944,9 @@
       "sha256": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd"
     },
     {
-      "bytes": 469398,
+      "bytes": 470118,
       "path": "config/units.csv",
-      "sha256": "d08f8f7ecbe3a5aa067709d23c6014a8fcc5b34814efecc492e46d4cedfd0170"
+      "sha256": "a960e90bccaef790ced559adf1dc36099bfb72637f1604cb9ad0d0479b13e557"
     },
     {
       "bytes": 2934,
@@ -1987,7 +1987,7 @@
   "receipt": {
     "bytes": 2070989,
     "path": "config/mainl_product_acceptance/actual-product-sidecar.json",
-    "sha256": "b74de86a13e97ab9d98d6e0b731c6a7125eed1f62f9ce1f94c2b09857b21d304"
+    "sha256": "c990ebeea3de93b0c232fcccd357e19e3140a327d31e039db3e2e5bd554bdc0f"
   },
   "repository_local": true,
   "schema": "mainl-product-acceptance-publication-v1",

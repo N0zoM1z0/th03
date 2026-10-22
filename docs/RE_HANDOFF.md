@@ -1,4 +1,17 @@
-# TH03 reconstruction handoff — current state (2026-10-21)
+# TH03 reconstruction handoff — current state (2026-10-22)
+
+## ZUN -3 logo root cold repeat
+
+ZS0101 and ZS0102 now independently compile/context-link the maintained ten
+logo procedures / 1,299 CODE bytes, with raw-identical OBJ/COM/MAP. Four native
+phases pass; all 21 actual input bytes/modes/timestamps and fixed tool timestamps
+match, with no reused project objects. The 10,096-byte COM remains target-equal.
+DATA15/BSS293 are separate layout evidence. The original proof and its 2,600
+modeled calls remain unchanged: target plus first candidate only, with ZS0102
+bound by raw identity and no model rerun. ZUN stays source 15/18, 1,855 scoped
+CODE bytes and exact zero. Vendor context, whole-payload ownership, launcher,
+packing and real-device acceptance remain open. See
+[logo cold repeat](reconstruction/ZUN_SOFT_REPEAT_REVIEW.md).
 
 ## ZUN -5 maintained resident root
 
@@ -25,7 +38,7 @@ by six bytes, and whole-file / ordered-relocation equality remain false.
 No full cold repeat, real-device runtime, packing or whole OP claim. See
 [keyboard scanner review](reconstruction/OP_KEYBOARD_SOURCE_REVIEW.md).
 
-## ZUN -3 maintained logo root producer
+## ZUN -3 maintained logo root producer (first-build history)
 
 The maintained tiny-model logo root now compiles and context-links once with
 TC4J. All ten procedures / 1,299 CODE bytes, fifteen initialized DATA bytes,

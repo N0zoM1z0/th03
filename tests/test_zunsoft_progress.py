@@ -33,11 +33,34 @@ class ZunsoftProgressTests(unittest.TestCase):
   self.assertIn('Decoded acceptance: exact 145/145',svg)
   self.assertIn('MAINL product + decoded accepted',svg)
   self.assertIn('Logo root: 10 source units / 1,299 B',svg)
-  self.assertIn('one build · exact 0',svg)
-  self.assertIn('no second cold build',svg)
+  self.assertIn('2 cold builds · 2,600 retained calls · exact 0',svg)
+  self.assertNotIn('no second cold build',svg)
   self.assertNotIn('10,096 source',svg)
  def test_source_drift_hides_logo_not_mainl(self):
   q=copy.deepcopy(UNITS);next(u for u in q if u['id'] in p.ZUNSOFT_ROOT_UNITS)['source']=''
   with patch('status.mainl_product_status',return_value={'product_exact':True,'decoded_exact_units':145}):svg=p.render_svg(q,[],EVIDENCE)
   self.assertNotIn('Logo root: 10 source units',svg);self.assertIn('MAINL product + decoded accepted',svg)
+ def test_repeat_proof_and_evidence_gate(self):
+  self.assertTrue(p.zunsoft_root_repeat_proven(UNITS,EVIDENCE))
+  for key,value in [('result','fail'),('extent_size','10096'),('output_sha256','0'*64),('evidence_class','runtime')]:
+   q=copy.deepcopy(EVIDENCE);next(e for e in q if e['id']=='ev-th03-zunsoft-maintained-cold-repeat')[key]=value
+   with self.subTest(key=key):
+    self.assertFalse(p.zunsoft_root_repeat_proven(UNITS,q));self.assertTrue(p.zunsoft_root_source_proven(UNITS,q))
+ def test_repeat_rejects_fabricated_packed_offsets(self):
+  for eid in ['ev-th03-zunsoft-repeat-structure','ev-th03-zunsoft-maintained-cold-repeat']:
+   row=next(e for e in EVIDENCE if e['id']==eid)
+   self.assertEqual((row['extent_start'],row['extent_size']),('',''))
+   self.assertIn('Decoded inner scope -3:0367/1299 CODE bytes',row['notes'])
+   for key,value in [('extent_start','0x367'),('extent_start','0xC32'),('extent_size','1299')]:
+    q=copy.deepcopy(EVIDENCE);next(e for e in q if e['id']==eid)[key]=value
+    with self.subTest(evidence=eid,key=key,value=value):
+     self.assertFalse(p.zunsoft_root_repeat_proven(UNITS,q));self.assertTrue(p.zunsoft_root_source_proven(UNITS,q))
+ def test_repeat_missing_evidence_falls_back_to_original(self):
+  q=[e for e in EVIDENCE if e['id']!='ev-th03-zunsoft-maintained-cold-repeat']
+  self.assertFalse(p.zunsoft_root_repeat_proven(UNITS,q));self.assertTrue(p.zunsoft_root_source_proven(UNITS,q))
+  with patch('status.mainl_product_status',return_value={'product_exact':True,'decoded_exact_units':145}):svg=p.render_svg(UNITS,[],q)
+  self.assertIn('one build · exact 0',svg);self.assertNotIn('2,600 retained calls',svg)
+ def test_repeat_requires_unit_links(self):
+  q=copy.deepcopy(UNITS);u=next(u for u in q if u['id'] in p.ZUNSOFT_ROOT_UNITS);u['evidence_ids']=u['evidence_ids'].replace(';ev-th03-zunsoft-maintained-cold-repeat','')
+  self.assertFalse(p.zunsoft_root_repeat_proven(q,EVIDENCE))
 if __name__=='__main__':unittest.main()

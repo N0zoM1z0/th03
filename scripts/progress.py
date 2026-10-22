@@ -469,6 +469,30 @@ def zunsoft_root_source_proven(units, evidence):
             return False
     return True
 
+ZUNSOFT_REPEAT_PROOF_SHA = 'a266e812d4127e5660176b338a03ff073ffb288d8d7b652514a56dcb7e29f3bb'
+
+def zunsoft_root_repeat_proven(units, evidence):
+    """Repeat annotation only: preserve ten owners, all CODE totals, exact zero."""
+    if not zunsoft_root_source_proven(units, evidence):
+        return False
+    ids = {'ev-th03-zunsoft-repeat-structure': 'compiler',
+           'ev-th03-zunsoft-maintained-cold-repeat': 'reproducibility'}
+    for u in units:
+        if u['id'] in ZUNSOFT_ROOT_UNITS and not set(ids).issubset(u['evidence_ids'].split(';')):
+            return False
+    for eid, kind in ids.items():
+        found = [e for e in evidence if e['id'] == eid]
+        if len(found) != 1 or any(found[0].get(k) != v for k, v in {
+            'artifact': 'th03-zun', 'evidence_class': kind, 'result': 'pass',
+            'location': 'config/zunsoft_repeat/proof.json', 'extent_start': '',
+            'extent_size': '', 'output_sha256': ZUNSOFT_REPEAT_PROOF_SHA
+        }.items()):
+            return False
+    path = ROOT / 'config/zunsoft_repeat/proof.json'
+    return (path.is_file() and not any(p.is_symlink() for p in (path, *path.parents))
+            and hashlib.sha256(path.read_bytes()).hexdigest() == ZUNSOFT_REPEAT_PROOF_SHA)
+
+
 ZUN_RESIDENT_PROOF_SHA = '403aea36f7e57c581e5beb7d76dd24b5ab8daa85e3fbe4ea2f6f60d42a4ffd16'
 ZUN_RESIDENT_UNITS = {'th03-zun-decoded-resident-cfg-init': ('0x367', '97'), 'th03-zun-decoded-resident-main': ('0x3c8', '225')}
 
@@ -625,7 +649,10 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
         if artifact == "th03-zun" and zunsoft_root_source_proven(units, evidence or []):
-            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</text>')
+            if zunsoft_root_repeat_proven(units, evidence or []):
+                rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; raw identical OBJ COM MAP from two cold builds, vendor context unowned, 2600 retained target and first-candidate model calls, no new model or exact acceptance">Logo root: 10 source units / 1,299 B · 2 cold builds · 2,600 retained calls · exact 0</text>')
+            else:
+                rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</text>')
         if artifact == "th03-zun" and zun_resident_root_source_proven(units, evidence or []):
             rows.append('<text x="200" y="442" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two maintained resident source units, 322 CODE bytes and separate 307 DATA bytes; two cold builds, forty retained target and first-candidate modeled calls, no whole payload or exact acceptance">Resident root: 2 source units / 322 B · 2 cold builds · 40 modeled calls · exact 0</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
@@ -689,7 +716,9 @@ def main() -> int:
     ])
     if op_fullcold_retained(evidence):
         lines.extend(["OP retained cold-pair checkpoint: two independent 308-file source trees, 56 native phases and 29 raw-identical product pairs. All 34 maintained owner slices / 12,436 CODE bytes match; 33 scopes / 9,530 bytes also match literal relocation order. Selection order and six whole-program byte differences remain open. This is build evidence, not source/exact promotion or a whole-game percentage.", ""])
-    if zunsoft_root_source_proven(units, evidence):
+    if zunsoft_root_repeat_proven(units, evidence):
+        lines.extend(["ZUN logo root: ten maintained source units / 1,299 CODE bytes. Two independent cold compile/context-links (four native phases) yield raw-identical OBJ/COM/MAP with unchanged actual source/tool timestamps and no reused project objects. DATA15/BSS293 remain separate layout evidence. The 2,600 retained modeled calls cover target and the first candidate only; the second is bound by complete raw identity, not new model executions. ZUN remains 15/18 source units and 1,855 scoped CODE bytes, exact zero. Vendor context, whole-payload ownership, launcher, packing and real-device runtime remain open. See [logo cold repeat](reconstruction/ZUN_SOFT_REPEAT_REVIEW.md).", ""])
+    elif zunsoft_root_source_proven(units, evidence):
         lines.extend(["ZUN logo root: ten maintained source units / 1,299 CODE bytes; with the prior 234 wrapper bytes this historical checkpoint supplied 1,533 scoped CODE bytes. DATA15/BSS293 are layout evidence, not extra CODE credit. One fresh compile/context-link and 2,600 modeled calls pass; vendor context unowned, no second cold build or exact acceptance.", ""])
     if zun_resident_root_source_proven(units, evidence):
         lines.extend(['ZUN resident root: two maintained source units / 322 CODE bytes; ZUN source presence is now 15/18 tracked units and 1,855 scoped CODE bytes. DATA307/BSS0 are separately verified layout, not extra CODE credit. Two fresh compile/context-links (four native phases) give raw-identical OBJ/COM/MAP; 40 retained modeled calls cover target and first candidate only. Vendor context remains unowned; whole COM equality is diagnostic, not launcher/packed/exact acceptance.', ""])
