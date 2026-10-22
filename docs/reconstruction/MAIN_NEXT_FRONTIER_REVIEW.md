@@ -10,6 +10,10 @@ Fresh target evidence for the initial E266..E313 procedure is retained under `.a
 
 The complete five-procedure C++ candidate is now in `src/main/player/shotroot.cpp`, its declaration header and the bounded `src/main/round/results.inl`. It remains outside the default build and acceptance ledgers. The existing 185-byte update/render TU is unchanged. `target-complete.json` records the fresh target observations for all seven adjacent bodies: candidate sizes 173/72/151/837/264 bytes, with 12/0/3/8/3 ordered MZ sites, followed by the accepted 43/142-byte bodies. Reset uses the 64-entry, 48-byte enemy/fireball/explosion array, independently of the separate player-effect array. Fixup-symbol binding, full linking, behavior, repeat and cold aggregate proof remain required.
 
+## Actual state-plus-shot link, 2026-10-22
+
+PSTL245 links both candidates while preserving all 87 accepted scopes and every other contribution/public address. Its 85 changed program bytes are exactly 17 unrelaxed calls with correct callee destinations. State has four extra segment sites; its seven surviving literal sites match target order. Shot still has thirteen extra sites and unequal order among its 26 surviving sites. Three cross-SEGDEF playfield calls already relax, narrowing the calibration's generality. The new staging script binds the BSS counter within the original five-byte reserve and all inferred code aliases. See [native link evidence and remaining questions](MAIN_PLAYER_STATE_LINK_REVIEW.md).
+
 ## Complete player-state source checkpoint, 2026-10-22
 
 All five MAIN_010 candidates now compile to the target 1,716 bytes. PSTA243 adds the 1,106-byte update body; the raw diagnostic compares 1,461 bytes outside 110 actual fixups and seven possible call-relaxation opcodes, all equal. The projected seven surviving segment sites match target order. Real linking, five physical source aliases and the root release-counter storage view remain open. See [the update review](MAIN_PLAYER_UPDATE_REVIEW.md) for original failures, the one-byte branch discrepancy caught after shape equality, and the replayable operand observations.
