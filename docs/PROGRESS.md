@@ -11,6 +11,8 @@ Reviewed authored-byte coverage is scoped to currently reviewed file-backed unit
 Infrastructure and reference builds do not count as game reconstruction.
 The table preserves original canonical-ledger counters. Separate source-bound MAINL decoded/product acceptance is reported below and does not add authored ownership.
 
+OP retained cold-pair checkpoint: two independent 308-file source trees, 56 native phases and 29 raw-identical product pairs. All 34 maintained owner slices / 12,436 CODE bytes match; 33 scopes / 9,530 bytes also match literal relocation order. Selection order and six whole-program byte differences remain open. This is build evidence, not source/exact promotion or a whole-game percentage.
+
 ZUN logo root: ten maintained source units / 1,299 CODE bytes; with the prior 234 wrapper bytes this historical checkpoint supplied 1,533 scoped CODE bytes. DATA15/BSS293 are layout evidence, not extra CODE credit. One fresh compile/context-link and 2,600 modeled calls pass; vendor context unowned, no second cold build or exact acceptance.
 
 ZUN resident root: two maintained source units / 322 CODE bytes; ZUN source presence is now 15/18 tracked units and 1,855 scoped CODE bytes. DATA307/BSS0 are separately verified layout, not extra CODE credit. Two fresh compile/context-links (four native phases) give raw-identical OBJ/COM/MAP; 40 retained modeled calls cover target and first candidate only. Vendor context remains unowned; whole COM equality is diagnostic, not launcher/packed/exact acceptance.

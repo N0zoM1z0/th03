@@ -1,0 +1,20 @@
+{
+  "schema": "th03-op-fullcold-proof-v1",
+  "rounds": 2,
+  "native_phases": 56,
+  "project_objects_per_round": 27,
+  "source_owners": 34,
+  "source_bytes": 12436,
+  "cohort_bytes": 9530,
+  "stage_sha256": "5862d56169f38a5e00d0a882b46f368f24ab9079c5ce05a8640e0f33f90a5fae",
+  "exact_acceptance": false,
+  "source_acceptance": false,
+  "whole_product_ownership": false,
+  "runtime_rerun": false,
+  "packing_run": false,
+  "inventory": {
+    "path": ".analysis/op-fullcold-checkpoint-v01/replay/inputs.json",
+    "sha256": "21171e85ec644f482a36fdbf171ee5717f5c7adbc4c3d50057ff5dcb1edeff8c",
+    "bytes": 894040
+  }
+}

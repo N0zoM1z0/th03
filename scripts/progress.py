@@ -505,6 +505,23 @@ def tracked_unit_progress(units, artifact):
                 exact=sum(u['state'] == 'exact' for u in rows))
 
 
+OP_FULLCOLD_EVIDENCE = {
+    "ev-th03-op-fullcold-cold-pair": "3e59026421b9022ea5c4943dedc9c6be5f3d8ad741eb9330c15949fb73c66231",
+    "ev-th03-op-fullcold-owner-diagnostics": "b55821669e00674a754c6dc00c98ebe465394999478e187c806414d2344b900b",
+}
+
+
+def op_fullcold_retained(evidence):
+    """Display retained build evidence only; never promote source or exact counters."""
+    rows = [r for r in evidence if r.get("id") in OP_FULLCOLD_EVIDENCE]
+    return (len(rows) == 2 and {r["id"] for r in rows} == set(OP_FULLCOLD_EVIDENCE)
+            and all(r.get("artifact") == "th03-op" and r.get("oracle") == "analysis-bundle"
+                    and r.get("result") == "pass"
+                    and r.get("unit_id") == r.get("extent_start") == r.get("extent_size") == ""
+                    and r.get("output_sha256") == OP_FULLCOLD_EVIDENCE[r["id"]]
+                    for r in rows))
+
+
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                evidence: list[dict[str, str]] | None = None) -> str:
     from status import mainl_product_status
@@ -601,6 +618,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
       <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
       <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
       <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
+        if artifact == "th03-op" and op_fullcold_retained(evidence or []):
+            rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</text>')
         if artifact == "th03-zun" and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
@@ -668,6 +687,8 @@ def main() -> int:
         "The table preserves original canonical-ledger counters. Separate source-bound MAINL decoded/product acceptance is reported below and does not add authored ownership.",
         "",
     ])
+    if op_fullcold_retained(evidence):
+        lines.extend(["OP retained cold-pair checkpoint: two independent 308-file source trees, 56 native phases and 29 raw-identical product pairs. All 34 maintained owner slices / 12,436 CODE bytes match; 33 scopes / 9,530 bytes also match literal relocation order. Selection order and six whole-program byte differences remain open. This is build evidence, not source/exact promotion or a whole-game percentage.", ""])
     if zunsoft_root_source_proven(units, evidence):
         lines.extend(["ZUN logo root: ten maintained source units / 1,299 CODE bytes; with the prior 234 wrapper bytes this historical checkpoint supplied 1,533 scoped CODE bytes. DATA15/BSS293 are layout evidence, not extra CODE credit. One fresh compile/context-link and 2,600 modeled calls pass; vendor context unowned, no second cold build or exact acceptance.", ""])
     if zun_resident_root_source_proven(units, evidence):
