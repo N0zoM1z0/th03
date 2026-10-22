@@ -1,6 +1,10 @@
-# Paused for Codex handoff, 2026-10-22
+# Active exact reconstruction, 2026-10-22
 
-Start with [the current closeout and draft inventory](CODEX_HANDOFF_20261022.md). New TH03 development is paused at the user's request. The two proposals below the current checkpoint are preserved but not integrated/published; do not treat proposal tests as full integrated CI.
+The owner resumed work with a goal of 98% exact authored bytes across the four TH03 products, local tools permitted, commits prefixed `gpt-6.1-sol:` and regular pushes. The complete authored denominator remains open; reviewed MAIN coverage is not a whole-game percentage.
+
+The PFOPEN historical-input binding repair is integrated, including a narrowly versioned OP cold-source compatibility binding. Aggregate CI passes: 2,293 tests, two existing skips, all four stored database attestations and Oracle smoke checks. PFOPEN replay, the 330-file current source composition and the complete historical OP cold replay pass with no new native builds. Evidence: `.analysis/codex-pfopen-binding-20261022-v01/`; see [binding maintenance](reconstruction/OP_FULLCOLD_EXACT.md#replay-maintenance-2026-10-22).
+
+Start with [the resumed checkpoint and preserved draft inventory](CODEX_HANDOFF_20261022.md). The OP 45-owner acceptance proposal remains unpublished. The next coherent MAIN source frontier is the 1,497-byte retained P_SHOT contribution before the accepted 185-byte update/render pair; only its initial 173-byte procedure has a fresh bounded target observation so far. No new authored exact credit is claimed.
 
 # TH03 reconstruction handoff — current state (2026-10-22)
 

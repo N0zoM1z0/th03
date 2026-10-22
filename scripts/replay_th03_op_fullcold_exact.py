@@ -2,6 +2,8 @@
 from pathlib import Path
 import argparse,hashlib,json,sys,types
 PROOF_SHA='4f50ea52204458a1ede50a26fd98f0ffbc32c214ea9d3fa9731503e643c86cfd'
+SOURCE_BINDING_PATH = 'config/op_fullcold_exact/source_bindings_v2.json'
+SOURCE_BINDING_SHA = '717324a3b8ae1d65930597085222d4684c96267985a570cfa41a0e22f9a77ae3'
 def need(v,m):
  if not v:raise ValueError(m)
 def sha(b):return hashlib.sha256(b).hexdigest()
@@ -31,17 +33,47 @@ def replay(root,files=None):
   a,b=(pin(root,q[k]) for k in ('round1','round2'));need(a==b and q['raw_equal'] is True and bool(parse_omf(a)),'raw OMF repeat pair')
  for n in ('bin/th03/op.exe','obj/th03/op.map'):need((root/ms[0]['work']/n).read_bytes()==(root/ms[1]['work']/n).read_bytes(),'EXE/MAP raw repeat')
  return dict(schema='th03-op-fullcold-exact-historical-replay-v1',replay_pass=True,rounds=2,fresh_project_objects=60,actual_native_phases=62,raw_OMF_pairs_equal=30,raw_OMF_bytes_per_round=80839,EXE_and_MAP_raw_repeat_equal=True,whole63866_decoded_target_equal=True,all59770_program_bytes_equal=True,all607_literal_relocations_equal=True,dated_source_tool_registry_receipts=True,current_HEAD_or_registry_asserted=False,current_source_composition_checked=False,all44_prior_scopes_and_PFOPEN_preserved=True,new_authored_code_credit=0,source_acceptance=False,exact_acceptance=False,whole_product_ownership=False,packed_equality=False,runtime=False,native_invocations_by_replay=0)
+def read_source_bindings(root):
+ binding = json.loads(pin(root, dict(path=SOURCE_BINDING_PATH, sha256=SOURCE_BINDING_SHA)))
+ need(set(binding) == {'schema', 'dependency', 'pfopen_replay_binding', 'replacements'}
+      and binding['schema'] == 'th03-op-fullcold-source-bindings-v2', 'source binding schema')
+ need(set(binding['replacements']) == {'scripts/replay_th03_op_pfopen_source.py',
+                                     'tests/test_op_pfopen_replay.py'}, 'source binding scope')
+ pin(root, binding['dependency'])
+ pin(root, binding['pfopen_replay_binding'])
+ for name, entry in binding['replacements'].items():
+  need(entry['current']['path'] == entry['historical_install_entry']['path'] == name,
+       'source binding logical path')
+  need(entry['snapshot']['path'].startswith('config/recovery/')
+       and entry['snapshot']['path'].endswith('.py.txt'), 'inert source binding snapshot')
+  for q in (entry['current'], entry['snapshot']):
+   pin(root, q)
+   need((Path(root)/q['path']).stat().st_mode & 0o777 == q['mode'], 'source binding mode '+q['path'])
+ return binding
+
+def pin_source_dependency(root, dependency, entry, binding):
+ if binding is None or entry['path'] not in binding['replacements']:
+  return pin(root, entry)
+ replacement = binding['replacements'][entry['path']]
+ need(dependency == binding['dependency'] and entry == replacement['historical_install_entry'],
+      'source binding historical dependency')
+ # Historical install-package files are inert evidence. The current replay and
+ # its regression tests have separate exact pins; no build source uses a fallback.
+ pin(root, replacement['snapshot'])
+ return pin(root, replacement['current'])
+
 def check_current_sources(root,files=None,virtual=False):
  root=Path(root).resolve();p=proof(root,files);mods=p['source_stage_modules']
+ binding = None if virtual else read_source_bindings(root)
  for q in mods:pin(root,q)
  data=load(root/mods[0]['path']).payload(root)
  for q in mods[1:3]:data.update(load(root/q['path']).payload(root))
  data=load(root/mods[3]['path']).compose(data,root)
  for dep,overlay in zip(p['source_dependencies'],p['source_overlay_modules']):
   d=json.loads(pin(root,dep));base=(root/dep['path']).parent/'files' if virtual else root
-  for q in d['files']:pin(base,q)
+  for q in d['files']:pin_source_dependency(base,dep,q,binding)
   data=load(base/'scripts'/overlay['stage']).compose(data,base)
  inventory={n:dict(sha256=sha(b),bytes=len(b)) for n,b in sorted(data.items())};need(inventory==p['source_inventory'] and len(data)==330,'current330 source composition equals historical cold inputs');need(not any(Path(n).suffix.lower() in {'.obj','.exe','.map','.lib','.com'} for n in data),'no binary seed')
- return dict(current_source_composition_pass=True,virtual_uninstalled_proposals=virtual,source_files=330,native_invocations=0,source_acceptance=False,exact_acceptance=False)
+ return dict(current_source_composition_pass=True,virtual_uninstalled_proposals=virtual,source_files=330,native_invocations=0,source_acceptance=False,exact_acceptance=False,source_bindings_schema=binding['schema'] if binding else None)
 if __name__=='__main__':
  ap=argparse.ArgumentParser();ap.add_argument('--root',type=Path,default=Path(__file__).resolve().parents[1]);ap.add_argument('--files',type=Path);ap.add_argument('--check-current-source',action='store_true');ap.add_argument('--virtual-proposals',action='store_true');a=ap.parse_args();need(not a.virtual_proposals or a.check_current_source,'virtual option belongs to separate source check');print(json.dumps(check_current_sources(a.root,a.files,a.virtual_proposals) if a.check_current_source else replay(a.root,a.files),indent=2))

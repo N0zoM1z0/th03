@@ -1,0 +1,63 @@
+{
+  "schema": "th03-op-fullcold-source-bindings-v2",
+  "dependency": {
+    "path": ".analysis/op-pfopen-checkpoint-proposal-v01/install-manifest.json",
+    "sha256": "35e125b3f95e3e81a85472d271b798e2036a4237188fb42a3ac4ad91d38264e2",
+    "bytes": 6939,
+    "mode": 384
+  },
+  "pfopen_replay_binding": {
+    "path": "config/op_pfopen_source/replay_binding_v2.json",
+    "sha256": "75ce6608849967de987cce903cf796a93df7ab8f8a3cc2aa0ef3b7fa9f0c790a",
+    "bytes": 2227,
+    "mode": 420
+  },
+  "replacements": {
+    "scripts/replay_th03_op_pfopen_source.py": {
+      "historical_install_entry": {
+        "path": "scripts/replay_th03_op_pfopen_source.py",
+        "sha256": "ac8372f0ad8e9899035ef694ff2d9959aa42007bb353a5f531e6af0724ca43d1",
+        "bytes": 24142,
+        "mode": 493,
+        "previous_sha256": null
+      },
+      "snapshot": {
+        "path": "config/recovery/op_pfopen_replay_0b07a287.py.txt",
+        "sha256": "ac8372f0ad8e9899035ef694ff2d9959aa42007bb353a5f531e6af0724ca43d1",
+        "bytes": 24142,
+        "mode": 420
+      },
+      "current": {
+        "path": "scripts/replay_th03_op_pfopen_source.py",
+        "sha256": "f29ce2e6f7c89c128e40a2cd95cccfb393cd14a91ac114a25308348d64268c56",
+        "bytes": 32406,
+        "mode": 493
+      },
+      "origin_commit": "0b07a287ddeef8904046ef5f8ebdfaa352f332ea",
+      "origin_blob": "d6f0b5a637fdfba70b1e8974b172056f0bfd6b94"
+    },
+    "tests/test_op_pfopen_replay.py": {
+      "historical_install_entry": {
+        "path": "tests/test_op_pfopen_replay.py",
+        "sha256": "1f418f06653334ab7c1c210e163c4040c3d481186b41001f48c0b73c338e990a",
+        "bytes": 11544,
+        "mode": 420,
+        "previous_sha256": null
+      },
+      "snapshot": {
+        "path": "config/recovery/op_pfopen_tests_0b07a287.py.txt",
+        "sha256": "1f418f06653334ab7c1c210e163c4040c3d481186b41001f48c0b73c338e990a",
+        "bytes": 11544,
+        "mode": 420
+      },
+      "current": {
+        "path": "tests/test_op_pfopen_replay.py",
+        "sha256": "6ad9c80e815c406268aebc827aa275a983fd2f27955958b3f31cb3165f1d6a26",
+        "bytes": 26826,
+        "mode": 420
+      },
+      "origin_commit": "0b07a287ddeef8904046ef5f8ebdfaa352f332ea",
+      "origin_blob": "1a3b047e118de5c73739829f6febd7a359732638"
+    }
+  }
+}

@@ -39,6 +39,47 @@ FLAGS = ('source_acceptance', 'exact_acceptance', 'whole_root_credit',
          'whole_product_ownership', 'cold_build', 'two_cold_builds', 'runtime_rerun', 'packing_run')
 
 
+# This is a current replay-code revision, not an amended native receipt. The
+# predecessor proof and replay remain byte-identical retained data. Only the two
+# enumerated, nonconsumed housekeeping inputs use historical snapshots; current
+# maintained sources and imported helpers never use a fallback. Snapshot storage
+# mode is deliberately 0644; historical input modes remain in historical_pin.
+REPLAY_BINDING = 'config/op_pfopen_source/replay_binding_v2.json'
+EXPECTED_BINDING = {'schema': 'th03-op-pfopen-replay-binding-v2',
+ 'original_proof': {'path': 'config/op_pfopen_source/proof.json',
+                    'sha256': 'b7b70fbb7a9da705f93fc7533528311007b56f441105830116bb6ff99b6adf35',
+                    'bytes': 16287},
+ 'predecessor_replay': {'historical_pin': {'path': 'scripts/replay_th03_op_pfopen_source.py',
+                                           'sha256': 'ac8372f0ad8e9899035ef694ff2d9959aa42007bb353a5f531e6af0724ca43d1',
+                                           'bytes': 24142},
+                        'snapshot': {'path': 'config/recovery/op_pfopen_replay_0b07a287.py.txt',
+                                     'sha256': 'ac8372f0ad8e9899035ef694ff2d9959aa42007bb353a5f531e6af0724ca43d1',
+                                     'bytes': 24142,
+                                     'mode': 420},
+                        'origin_commit': '0b07a287ddeef8904046ef5f8ebdfaa352f332ea',
+                        'origin_blob': 'd6f0b5a637fdfba70b1e8974b172056f0bfd6b94'},
+ 'historical_inputs': {'scripts/clean_generated.py': {'historical_pin': {'path': 'scripts/clean_generated.py',
+                                                                         'sha256': '25c0760614c7ef6996dea6659f63208c03f4d2a28a11776141294ac730e7a0ea',
+                                                                         'bytes': 17828,
+                                                                         'mode': 493},
+                                                      'snapshot': {'path': 'config/recovery/clean_generated_095e54bc.py.txt',
+                                                                   'sha256': '25c0760614c7ef6996dea6659f63208c03f4d2a28a11776141294ac730e7a0ea',
+                                                                   'bytes': 17828,
+                                                                   'mode': 420},
+                                                      'origin_commit': '095e54bc3d437ca12ea499aeb242d1c6b1e79253',
+                                                      'origin_blob': '9d658a86ac7f5c4fe9140c59e04ac5cff0bd9c5c'},
+                       'scripts/progress.py': {'historical_pin': {'path': 'scripts/progress.py',
+                                                                  'sha256': '958818dcd3cb8a3229b6810e129cbb7901009d28a8d2357e4f89abbefac90469',
+                                                                  'bytes': 111209,
+                                                                  'mode': 384},
+                                               'snapshot': {'path': 'config/recovery/progress_1feecd5c.py.txt',
+                                                            'sha256': '958818dcd3cb8a3229b6810e129cbb7901009d28a8d2357e4f89abbefac90469',
+                                                            'bytes': 111209,
+                                                            'mode': 420},
+                                               'origin_commit': '1feecd5c980be16625a4dbf0ba148a98b6a8f3f3',
+                                               'origin_blob': 'e7ec8096111a2da54de429fc4120bf5430dd8d9e'}}}
+
+
 def need(ok, message):
     if not ok:
         raise ValueError(message)
@@ -66,6 +107,84 @@ def stable_read(root, name):
     need((a.st_dev, a.st_ino, a.st_size, a.st_mode, a.st_mtime_ns, a.st_ctime_ns) ==
          (b.st_dev, b.st_ino, b.st_size, b.st_mode, b.st_mtime_ns, b.st_ctime_ns), 'unstable input '+name)
     return raw
+
+
+def checked_file(root, pin, label):
+    raw = stable_read(root, pin['path'])
+    need(values(raw) == {k: pin[k] for k in ('sha256', 'bytes')}, label+' identity')
+    if 'mode' in pin:
+        need(stat.S_IMODE(regular(root, pin['path']).stat().st_mode) == pin['mode'], label+' mode')
+    return raw
+
+
+def unique_object(pairs):
+    result = {}
+    for key, value in pairs:
+        need(key not in result, 'duplicate replay binding key '+key)
+        result[key] = value
+    return result
+
+
+def read_replay_binding(source_root, p):
+    binding = json.loads(stable_read(source_root, REPLAY_BINDING), object_pairs_hook=unique_object)
+    need(isinstance(binding, dict) and set(binding) == set(EXPECTED_BINDING) | {'current_replay'},
+         'current replay binding schema')
+    need({k: binding[k] for k in EXPECTED_BINDING} == EXPECTED_BINDING,
+         'current replay binding provenance')
+    checked_file(source_root, binding['original_proof'], 'original proof')
+    predecessor = binding['predecessor_replay']
+    need(p['maintained_closure'][SELF] == {k: predecessor['historical_pin'][k]
+         for k in ('sha256', 'bytes')}, 'original predecessor replay pin')
+    checked_file(source_root, predecessor['snapshot'], 'predecessor replay snapshot')
+    current = binding['current_replay']
+    need(isinstance(current, dict) and set(current) == {'path', 'sha256', 'bytes', 'mode'}
+         and current['path'] == SELF and current['mode'] == 0o755
+         and type(current['bytes']) is int and current['bytes'] > 0
+         and isinstance(current['sha256'], str) and len(current['sha256']) == 64
+         and all(c in '0123456789abcdef' for c in current['sha256']), 'current replay pin schema')
+    checked_file(source_root, current, 'current replay')
+    for entry in binding['historical_inputs'].values():
+        checked_file(source_root, entry['snapshot'], 'historical housekeeping snapshot')
+    return binding
+
+
+def read_retained(root, source_root, name, pins, binding):
+    need(name in pins, 'unbound input '+name)
+    pin = pins[name]
+    if name in binding['historical_inputs']:
+        entry = binding['historical_inputs'][name]
+        need(pin == entry['historical_pin'], 'historical housekeeping pin '+name)
+        return checked_file(source_root, entry['snapshot'], 'historical housekeeping snapshot '+name)
+    raw = stable_read(root, name)
+    need(values(raw) == {k: pin[k] for k in ('sha256', 'bytes')}, 'input drift '+name)
+    need(stat.S_IMODE(regular(root, name).stat().st_mode) == pin['mode'], 'input mode drift '+name)
+    return raw
+
+
+def load_retained_module(name, root, path, read, binding):
+    # These records are evidence-only. Never turn a historical path remap into
+    # an alternate code loader, even if a later caller accidentally requests it.
+    evidence_only = set(binding['historical_inputs']) | {
+        q['snapshot']['path'] for q in binding['historical_inputs'].values()}
+    evidence_only.add(binding['predecessor_replay']['snapshot']['path'])
+    need(path not in evidence_only, 'historical snapshot is data only '+path)
+    return load_checked_module(name, root/path, read(path))
+
+
+def bind_verifier_inputs(verifier, read, binding):
+    # Keep the original verifier bytes and every comparison intact. Its pin()
+    # independently rechecks m.inputs, so apply the same two-path data binding
+    # at that I/O boundary. All other requests use its original path/mode checks.
+    original_pin = verifier.pin
+    def bound_pin(pin, base=None):
+        name = pin['path']
+        if name in binding['historical_inputs']:
+            need(base is None, 'historical housekeeping alternate base '+name)
+            need(pin == binding['historical_inputs'][name]['historical_pin'],
+                 'historical verifier housekeeping pin '+name)
+            return read(name)
+        return original_pin(pin, base)
+    verifier.pin = bound_pin
 
 
 def validate_proof(p):
@@ -128,11 +247,16 @@ def required_paths(m, packet, baseline, audit_pins):
     return paths
 
 
-def guard_current(root, p, source_root, m):
+def guard_current(root, p, source_root, m, binding=None):
+    current_binding = read_replay_binding(source_root, p)
+    need(binding is None or current_binding == binding, 'current replay binding changed during replay')
+    binding = current_binding
     for name, q in p['helper_closure'].items():
         need(q == {k: m['sources'][name][k] for k in ('sha256', 'bytes')}, 'historical import helper '+name)
         need(values(stable_read(root, name)) == q, 'current helper before import '+name)
     for name, q in p['maintained_closure'].items():
+        if name == SELF:
+            q = {k: binding['current_replay'][k] for k in ('sha256', 'bytes')}
         need(values(stable_read(source_root, name)) == q, 'maintained closure drift '+name)
     expected = {n for n in m['repeat_inputs'] if n.startswith(('src/', 'compat/'))}
     need(set(p['context_source_closure']) == expected, 'retained maintained context membership')
@@ -246,6 +370,7 @@ def load_checked_module(name, path, raw):
 def replay(root, p, source_root=None):
     root, source_root = Path(root).resolve(), Path(source_root or root).resolve()
     validate_proof(p)
+    binding = read_replay_binding(source_root, p)
     q = p['inventory']; raw = stable_read(root, q['path'])
     need(values(raw) == {k: q[k] for k in ('sha256', 'bytes')}, 'inventory identity')
     inv = json.loads(raw)
@@ -255,11 +380,7 @@ def replay(root, p, source_root=None):
     need(inv['inputs'] == {n: {k: q[k] for k in ('sha256', 'bytes')} for n, q in pins.items()},
          'cleanup retention mirror')
     def read(name):
-        need(name in pins, 'unbound input '+name)
-        raw = stable_read(root, name); q = pins[name]
-        need(values(raw) == {k: q[k] for k in ('sha256', 'bytes')}, 'input drift '+name)
-        need(stat.S_IMODE(regular(root, name).stat().st_mode) == q['mode'], 'input mode drift '+name)
-        return raw
+        return read_retained(root, source_root, name, pins, binding)
     js = lambda name: json.loads(read(name))
     # No repository code is imported until every retained input and current import/source guard passes.
     for name in pins:
@@ -279,7 +400,11 @@ def replay(root, p, source_root=None):
             need(pins[row['path']]['mode'] == row['mode'], 'consumed input mode binding')
     for name, stamp in m['fixed_mtimes'].items():
         need(regular(root, name).stat().st_mtime_ns == stamp, 'fixed tool mtime')
-    guard_current(root, p, source_root, m)
+    guarded_code = SOURCE_CLOSURE | HELPER_CLOSURE | set(p['context_source_closure'])
+    consumed_paths = set(m['repeat_inputs']) | {q['path'] for q in m['repeat_inputs'].values()}
+    need(not (set(binding['historical_inputs']) & (guarded_code | consumed_paths | set(m['fixed_mtimes']))),
+         'historical housekeeping is not consumed code')
+    guard_current(root, p, source_root, m, binding)
     need({x.name for x in (root/OUT).iterdir()} == receipt_names(), 'native receipt membership')
     for x in (root/OUT).iterdir(): regular(root, str(x.relative_to(root)))
     need({x.relative_to(root/m['work']).as_posix() for x in (root/m['work']).rglob('*') if x.is_file()}
@@ -307,7 +432,7 @@ def replay(root, p, source_root=None):
              and a.stat().st_mtime_ns == b.stat().st_mtime_ns == q['mtime_ns'] == times[name], 'source copy/mtime')
         need(material[name] == {k: q[k] for k in ('sha256', 'bytes', 'mode')}, 'materialized metadata')
     sys.dont_write_bytecode = True
-    load = lambda name, path: load_checked_module(name, root/path, read(path))
+    load = lambda name, path: load_retained_module(name, root, path, read, binding)
     for name in ('lib', 'lib.pc98', 'lib.omf'):
         sys.modules.pop(name, None)
     load('lib', 'scripts/lib/__init__.py')
@@ -346,6 +471,7 @@ def replay(root, p, source_root=None):
     need(sha(read(m['verifier']['path'])) == VERIFIER_SHA, 'native verifier identity')
     verifier = load('pfopen_actual_native_verifier', m['verifier']['path'])
     verifier.ROOT = root
+    bind_verifier_inputs(verifier, read, binding)
     fresh = json.loads(json.dumps(verifier.verify(root/m['work'], m)))
     need(fresh == js(OUT+'/linked-verification.json'), 'native report verbatim replay')
     validate_report(fresh)
@@ -354,7 +480,7 @@ def replay(root, p, source_root=None):
     for name, q in accumulated.items():
         need(values(read(m['work']+'/'+name)) == {k: q[k] for k in ('sha256', 'bytes')}, 'accumulated output hash')
     for name in pins: read(name)
-    guard_current(root, p, source_root, m)
+    guard_current(root, p, source_root, m, binding)
     return dict(schema=p['schema'], pass_checks=True, pinned_files=len(pins), native_invocations_now=0,
         original_runner_complete=True, original_report_reproduced_verbatim=True,
         native_phases_replayed=len(PHASES), fresh_owner_objects=1, new_owner_bytes=281,
@@ -368,6 +494,9 @@ def replay(root, p, source_root=None):
                                    if k not in ('candidate', 'baseline', 'target')},
         whole_file_equal_target=fresh['whole_file_equal_target'], excluded_context=fresh['excluded_context'],
         historical_head=HISTORICAL_HEAD, installed_head_requirement=False,
+        replay_binding_schema=binding['schema'],
+        historical_input_snapshots={n: q['snapshot']['path'] for n, q in binding['historical_inputs'].items()},
+        current_replay_sha256=binding['current_replay']['sha256'],
         historical_audit_claims_not_rerun=['current_HEAD_and_membership', 'live_registry_equality',
             'no_poison_or_active_claim', 'shared_read_lock'], **{n: False for n in FLAGS})
 

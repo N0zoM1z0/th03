@@ -28,6 +28,14 @@ Separately check current maintained sources:
 
 Before installation, pass `--files .analysis/op-fullcold-exact-checkpoint-proposal-v01/files`. For the explicit uninstalled four-proposal source composition, also pass `--check-current-source --virtual-proposals`. This reproduces the historical 330 source hashes without staging binaries or claiming installation.
 
+## Replay maintenance, 2026-10-22
+
+The PFOPEN replay now uses `config/op_pfopen_source/replay_binding_v2.json` to distinguish its current implementation from the immutable predecessor. Exactly two historical, nonconsumed housekeeping paths resolve to Git-attested inert snapshots: cleaner and progress. Their historical logical modes remain distinct from snapshot storage mode 0644. Imported helpers and consumed sources retain their current guards; snapshots cannot be imported as replay code. The original native verifier only receives the same two-path data adapter, and its complete report is reproduced verbatim.
+
+The cold source checker retains every original install-manifest guard. Its separate `source_bindings_v2.json` recognizes only the changed PFOPEN replay and regression test, checks both current files and exact inert predecessors, and requires the identical original dependency entry. It leaves explicit virtual historical proposals on their original pins. All 330 actual build-input hashes still match the historical cold source inventory. Neither binding rewrites an old proof or changes source/exact credit.
+
+Integrated verification: 146 focused tests pass; aggregate CI passes 2,293 tests with two existing skips and completes all remaining gates. PFOPEN and full historical cold replays pass with zero new native invocations. Evidence and reviewed install manifest: `.analysis/codex-pfopen-binding-20261022-v01/`. Current CI used one CPU, nice 10 and a 768 MiB Ghidra heap cap, peaking at 657,944 KiB RSS.
+
 ## Boundaries
 
 All original selection, anchor, root-split, delayed-registry-flush and sparse-LEDATA failures remain preserved alongside separate corrections. The ordering proof's historical one-byte-negative result is unchanged. No false native completion is rewritten.

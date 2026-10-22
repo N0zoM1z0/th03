@@ -1,10 +1,14 @@
 """No-native PFOPEN replay and fail-closed provenance mutation regressions."""
 from pathlib import Path
 import copy
+from contextlib import contextmanager
 import importlib.util
 import json
 import os
+import shutil
 import sys
+import tempfile
+import types
 import unittest
 from unittest.mock import patch
 
@@ -121,6 +125,260 @@ class ReplayTests(unittest.TestCase):
     def test_selection_audit_failure_is_not_silently_upgraded(self):
         q = json.loads((ROOT/r.AUDIT/'audit-result.json').read_bytes()); q['original_linked_scope_checks_pass'] = True
         with self.assertRaises(ValueError): r.validate_selection_audit(q, self.manifest, {}, lambda n: b'')
+
+
+    @contextmanager
+    def source_copy(self):
+        with tempfile.TemporaryDirectory(prefix='pfopen-replay-binding-') as temp:
+            root = Path(temp)
+            names = r.SOURCE_CLOSURE | {r.REPLAY_BINDING, 'config/op_pfopen_source/proof.json'}
+            names |= {q['snapshot']['path'] for q in r.EXPECTED_BINDING['historical_inputs'].values()}
+            names.add(r.EXPECTED_BINDING['predecessor_replay']['snapshot']['path'])
+            for name in names:
+                dest = root/name; dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(SOURCE_ROOT/name, dest)
+            yield root
+
+    def rejected_before_import(self, source_root, pattern):
+        with patch.object(r, 'load_checked_module') as imported:
+            with self.assertRaisesRegex(ValueError, pattern):
+                r.replay(ROOT, self.proof, source_root)
+            imported.assert_not_called()
+
+    def reject_binding(self, change, pattern='replay binding'):
+        binding = json.loads((SOURCE_ROOT/r.REPLAY_BINDING).read_bytes())
+        change(binding)
+        raw = json.dumps(binding).encode(); original = r.stable_read
+        with patch.object(r, 'stable_read', side_effect=lambda root, path:
+                          raw if path == r.REPLAY_BINDING else original(root, path)):
+            self.rejected_before_import(SOURCE_ROOT, pattern)
+
+    def test_original_proof_and_predecessor_are_not_rewritten(self):
+        binding = r.read_replay_binding(SOURCE_ROOT, self.proof)
+        self.assertEqual(r.values((SOURCE_ROOT/'config/op_pfopen_source/proof.json').read_bytes()),
+                         {k: binding['original_proof'][k] for k in ('sha256', 'bytes')})
+        self.assertEqual(self.proof['maintained_closure'][r.SELF],
+                         r.values((SOURCE_ROOT/binding['predecessor_replay']['snapshot']['path']).read_bytes()))
+        self.assertNotEqual(self.proof['maintained_closure'][r.SELF],
+                            r.values((SOURCE_ROOT/r.SELF).read_bytes()))
+        inventory = json.loads((ROOT/self.proof['inventory']['path']).read_bytes())
+        self.assertEqual(inventory['metadata'], {k: v for k, v in self.proof.items() if k != 'inventory'})
+
+    def test_current_housekeeping_maintenance_is_not_historical_drift(self):
+        original = r.stable_read
+        housekeeping = set(r.EXPECTED_BINDING['historical_inputs'])
+        def no_live_housekeeping(root, name):
+            if name in housekeeping:
+                raise AssertionError('must not read evolving housekeeping as historical input')
+            return original(root, name)
+        with patch.object(r, 'stable_read', side_effect=no_live_housekeeping), \
+             patch.object(r, 'load_checked_module', wraps=r.load_checked_module) as imported, \
+             patch('subprocess.run', side_effect=AssertionError('no native execution')), \
+             patch('subprocess.Popen', side_effect=AssertionError('no native execution')):
+            result = r.replay(ROOT, self.proof, SOURCE_ROOT)
+        self.assertTrue(result['pass_checks'])
+        self.assertEqual(set(result['historical_input_snapshots']), housekeeping)
+        snapshots = set(result['historical_input_snapshots'].values())
+        snapshots.add(r.EXPECTED_BINDING['predecessor_replay']['snapshot']['path'])
+        self.assertTrue(all(not any(str(call.args[1]).endswith(n) for n in snapshots | housekeeping)
+                            for call in imported.call_args_list))
+
+    def test_binding_missing_is_rejected_before_import(self):
+        with self.source_copy() as root:
+            (root/r.REPLAY_BINDING).unlink()
+            self.rejected_before_import(root, 'regular input')
+
+    def test_binding_schema_extra_key_is_rejected_before_import(self):
+        self.reject_binding(lambda b: b.update(unreviewed=True), 'binding schema')
+
+    def test_binding_duplicate_key_is_rejected_before_import(self):
+        raw = (SOURCE_ROOT/r.REPLAY_BINDING).read_bytes()
+        raw = b'{"schema":"ignored",' + raw.lstrip()[1:]
+        original = r.stable_read
+        with patch.object(r, 'stable_read', side_effect=lambda root, name:
+                          raw if name == r.REPLAY_BINDING else original(root, name)):
+            self.rejected_before_import(SOURCE_ROOT, 'duplicate replay binding key')
+
+    def test_binding_wrong_original_proof_is_rejected_before_import(self):
+        self.reject_binding(lambda b: b['original_proof'].update(sha256='0'*64), 'binding provenance')
+
+    def test_binding_wrong_predecessor_is_rejected_before_import(self):
+        self.reject_binding(lambda b: b['predecessor_replay']['historical_pin'].update(sha256='0'*64),
+                            'binding provenance')
+
+    def test_binding_current_self_wrong_hash_is_rejected_before_import(self):
+        self.reject_binding(lambda b: b['current_replay'].update(sha256='0'*64), 'current replay identity')
+
+    def test_binding_current_self_wrong_mode_is_rejected_before_import(self):
+        self.reject_binding(lambda b: b['current_replay'].update(mode=0o644), 'current replay pin schema')
+
+    def test_binding_current_self_wrong_path_is_rejected_before_import(self):
+        self.reject_binding(lambda b: b['current_replay'].update(path='scripts/clean_generated.py'),
+                            'current replay pin schema')
+
+    def test_binding_cannot_add_current_helper_fallback(self):
+        self.reject_binding(lambda b: b['historical_inputs'].update({
+            'scripts/lib/omf.py': copy.deepcopy(b['historical_inputs']['scripts/clean_generated.py'])}),
+            'binding provenance')
+
+    def test_binding_cannot_omit_historical_mapping(self):
+        for name in r.EXPECTED_BINDING['historical_inputs']:
+            with self.subTest(name=name):
+                self.reject_binding(lambda b: b['historical_inputs'].pop(name), 'binding provenance')
+
+    def test_binding_cannot_redirect_snapshot_paths(self):
+        for path in ('/tmp/unbound', '../unbound', './config/recovery/copy.py.txt',
+                     'config/recovery/../recovery/copy.py.txt', 'config/recovery/same-bytes-copy.py.txt'):
+            with self.subTest(path=path):
+                self.reject_binding(lambda b: b['historical_inputs']['scripts/clean_generated.py']
+                                    ['snapshot'].update(path=path), 'binding provenance')
+
+    def test_wrong_predecessor_pin_in_proof_is_rejected_before_import(self):
+        p = copy.deepcopy(self.proof); p['maintained_closure'][r.SELF]['sha256'] = '0'*64
+        with patch.object(r, 'load_checked_module') as imported:
+            with self.assertRaisesRegex(ValueError, 'original predecessor replay pin'):
+                r.replay(ROOT, p, SOURCE_ROOT)
+            imported.assert_not_called()
+
+    def test_snapshot_ancestor_symlink_is_rejected_before_import(self):
+        with self.source_copy() as root:
+            original = root/'config/recovery'
+            moved = root/'config/snapshot-bytes'; original.rename(moved)
+            original.symlink_to(moved, target_is_directory=True)
+            self.rejected_before_import(root, 'regular input')
+
+    def test_historical_logical_mode_cannot_be_rewritten(self):
+        for logical in r.EXPECTED_BINDING['historical_inputs']:
+            with self.subTest(logical=logical):
+                p = copy.deepcopy(self.proof); name = p['inventory']['path']
+                inventory = json.loads((ROOT/name).read_bytes())
+                next(q for q in inventory['pins'] if q['path'] == logical)['mode'] = 0o644
+                raw = json.dumps(inventory).encode(); p['inventory'].update(r.values(raw)); original = r.stable_read
+                with patch.object(r, 'stable_read', side_effect=lambda root, path:
+                                  raw if path == name else original(root, path)), \
+                     patch.object(r, 'load_checked_module') as imported:
+                    with self.assertRaisesRegex(ValueError, 'historical housekeeping pin'):
+                        r.replay(ROOT, p, SOURCE_ROOT)
+                    imported.assert_not_called()
+
+    def test_historical_pin_omission_still_reaches_exact_closure_gate(self):
+        for logical in r.EXPECTED_BINDING['historical_inputs']:
+            with self.subTest(logical=logical):
+                p = copy.deepcopy(self.proof); name = p['inventory']['path']
+                inventory = json.loads((ROOT/name).read_bytes())
+                inventory['pins'] = [q for q in inventory['pins'] if q['path'] != logical]
+                inventory['inputs'].pop(logical)
+                raw = json.dumps(inventory).encode(); p['inventory'].update(r.values(raw)); original = r.stable_read
+                with patch.object(r, 'stable_read', side_effect=lambda root, path:
+                                  raw if path == name else original(root, path)), \
+                     patch.object(r, 'load_checked_module') as imported:
+                    with self.assertRaisesRegex(ValueError, 'exact retained closure membership'):
+                        r.replay(ROOT, p, SOURCE_ROOT)
+                    imported.assert_not_called()
+
+    def test_historical_snapshots_cannot_be_loaded_as_code(self):
+        binding = r.read_replay_binding(SOURCE_ROOT, self.proof)
+        names = set(binding['historical_inputs']) | {
+            q['snapshot']['path'] for q in binding['historical_inputs'].values()}
+        names.add(binding['predecessor_replay']['snapshot']['path'])
+        for name in names:
+            with self.subTest(name=name), patch.object(r, 'load_checked_module') as imported:
+                with self.assertRaisesRegex(ValueError, 'historical snapshot is data only'):
+                    r.load_retained_module('forbidden', ROOT, name, lambda n: b'', binding)
+                imported.assert_not_called()
+
+    def test_verifier_adapter_delegates_all_nonhistorical_inputs_unchanged(self):
+        original = unittest.mock.Mock(return_value=b'original')
+        verifier = types.SimpleNamespace(pin=original); read = unittest.mock.Mock(return_value=b'snapshot')
+        binding = r.read_replay_binding(SOURCE_ROOT, self.proof)
+        r.bind_verifier_inputs(verifier, read, binding)
+        pin = {'path': 'scripts/lib/omf.py', 'sha256': 'unrelated'}; base = Path('/bound/base')
+        self.assertEqual(verifier.pin(pin, base), b'original')
+        original.assert_called_once_with(pin, base); read.assert_not_called()
+        for name, entry in binding['historical_inputs'].items():
+            self.assertEqual(verifier.pin(entry['historical_pin']), b'snapshot')
+            read.assert_called_with(name)
+            for bad in ('hash', 'mode', 'path', 'base'):
+                q = copy.deepcopy(entry['historical_pin'])
+                if bad == 'hash': q['sha256'] = '0'*64
+                elif bad == 'mode': q['mode'] = 0o644
+                elif bad == 'path': q['unreviewed'] = True
+                with self.subTest(name=name, bad=bad), self.assertRaises(ValueError):
+                    verifier.pin(q, base if bad == 'base' else None)
+        self.assertEqual(original.call_count, 1)
+
+    def test_current_consumed_maintained_context_still_rejected_before_import(self):
+        self.reject_guarded_input(next(iter(self.proof['context_source_closure'])))
+
+    def test_verifier_adapter_never_canonicalizes_path_variants(self):
+        binding = r.read_replay_binding(SOURCE_ROOT, self.proof)
+        seen = []
+        def checked_original(pin, base=None):
+            seen.append((pin, base))
+            return r.stable_read(ROOT if base is None else base, pin['path'])
+        verifier = types.SimpleNamespace(pin=checked_original)
+        read = unittest.mock.Mock(side_effect=AssertionError('not an exact historical path'))
+        r.bind_verifier_inputs(verifier, read, binding)
+        for logical, entry in binding['historical_inputs'].items():
+            for name in ('./'+logical, 'scripts/../'+logical, '/'+logical):
+                pin = dict(entry['historical_pin'], path=name)
+                with self.subTest(name=name), self.assertRaisesRegex(ValueError, 'unsafe input path'):
+                    verifier.pin(pin)
+                self.assertIs(seen[-1][0], pin)
+        read.assert_not_called()
+
+    def test_current_replay_actual_mode_drift_rejected_before_import(self):
+        with self.source_copy() as root:
+            (root/r.SELF).chmod(0o644)
+            self.rejected_before_import(root, 'current replay mode')
+
+    def test_binding_current_self_wrong_size_rejected_before_import(self):
+        self.reject_binding(lambda b: b['current_replay'].update(bytes=1), 'current replay identity')
+
+    def test_current_import_helper_mode_checks_are_unchanged(self):
+        original = r.regular
+        for helper in r.HELPER_CLOSURE:
+            def changed_mode(root, name):
+                path = original(root, name)
+                if name == helper:
+                    wrapper = unittest.mock.Mock(wraps=path)
+                    original_stat = path.stat()
+                    altered_stat = os.stat_result((original_stat.st_mode ^ 0o100, *original_stat[1:]))
+                    wrapper.stat.return_value = altered_stat
+                    return wrapper
+                return path
+            with self.subTest(helper=helper), patch.object(r, 'regular', side_effect=changed_mode):
+                self.rejected_before_import(SOURCE_ROOT, 'input mode drift '+helper)
+
+    def test_binding_revision_cannot_change_mid_replay(self):
+        binding = r.read_replay_binding(SOURCE_ROOT, self.proof)
+        changed = copy.deepcopy(binding); changed['current_replay']['sha256'] = '0'*64
+        with patch.object(r, 'read_replay_binding', return_value=changed):
+            with self.assertRaisesRegex(ValueError, 'binding changed during replay'):
+                r.guard_current(ROOT, self.proof, SOURCE_ROOT, self.manifest, binding)
+
+    def reject_snapshot_mutation(self, name, mutation):
+        with self.source_copy() as root:
+            path = root/name
+            if mutation == 'bytes': path.write_bytes(path.read_bytes()+b'changed')
+            elif mutation == 'missing': path.unlink()
+            elif mutation == 'mode': path.chmod(0o755)
+            elif mutation == 'symlink': path.unlink(); path.symlink_to(SOURCE_ROOT/name)
+            self.rejected_before_import(root, 'snapshot|regular input')
+
+
+for label, entry in list(r.EXPECTED_BINDING['historical_inputs'].items()) + [
+        ('predecessor', r.EXPECTED_BINDING['predecessor_replay'])]:
+    for mutation in ('bytes', 'missing', 'mode', 'symlink'):
+        name = 'test_snapshot_'+Path(label).stem+'_'+mutation+'_rejected_before_import'
+        setattr(ReplayTests, name, lambda self, path=entry['snapshot']['path'], mutation=mutation:
+                self.reject_snapshot_mutation(path, mutation))
+
+for label, path, source in [('current_replay', r.SELF, True),
+                           ('original_proof', 'config/op_pfopen_source/proof.json', True),
+                           *[('helper_'+Path(n).stem, n, False) for n in r.HELPER_CLOSURE]]:
+    setattr(ReplayTests, 'test_new_binding_preimport_'+label,
+            lambda self, path=path, source=source: self.reject_guarded_input(path, source))
 
 
 REPORT_MUTATIONS = {

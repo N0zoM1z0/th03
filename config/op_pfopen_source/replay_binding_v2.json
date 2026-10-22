@@ -1,0 +1,63 @@
+{
+  "schema": "th03-op-pfopen-replay-binding-v2",
+  "original_proof": {
+    "path": "config/op_pfopen_source/proof.json",
+    "sha256": "b7b70fbb7a9da705f93fc7533528311007b56f441105830116bb6ff99b6adf35",
+    "bytes": 16287
+  },
+  "predecessor_replay": {
+    "historical_pin": {
+      "path": "scripts/replay_th03_op_pfopen_source.py",
+      "sha256": "ac8372f0ad8e9899035ef694ff2d9959aa42007bb353a5f531e6af0724ca43d1",
+      "bytes": 24142
+    },
+    "snapshot": {
+      "path": "config/recovery/op_pfopen_replay_0b07a287.py.txt",
+      "sha256": "ac8372f0ad8e9899035ef694ff2d9959aa42007bb353a5f531e6af0724ca43d1",
+      "bytes": 24142,
+      "mode": 420
+    },
+    "origin_commit": "0b07a287ddeef8904046ef5f8ebdfaa352f332ea",
+    "origin_blob": "d6f0b5a637fdfba70b1e8974b172056f0bfd6b94"
+  },
+  "historical_inputs": {
+    "scripts/clean_generated.py": {
+      "historical_pin": {
+        "path": "scripts/clean_generated.py",
+        "sha256": "25c0760614c7ef6996dea6659f63208c03f4d2a28a11776141294ac730e7a0ea",
+        "bytes": 17828,
+        "mode": 493
+      },
+      "snapshot": {
+        "path": "config/recovery/clean_generated_095e54bc.py.txt",
+        "sha256": "25c0760614c7ef6996dea6659f63208c03f4d2a28a11776141294ac730e7a0ea",
+        "bytes": 17828,
+        "mode": 420
+      },
+      "origin_commit": "095e54bc3d437ca12ea499aeb242d1c6b1e79253",
+      "origin_blob": "9d658a86ac7f5c4fe9140c59e04ac5cff0bd9c5c"
+    },
+    "scripts/progress.py": {
+      "historical_pin": {
+        "path": "scripts/progress.py",
+        "sha256": "958818dcd3cb8a3229b6810e129cbb7901009d28a8d2357e4f89abbefac90469",
+        "bytes": 111209,
+        "mode": 384
+      },
+      "snapshot": {
+        "path": "config/recovery/progress_1feecd5c.py.txt",
+        "sha256": "958818dcd3cb8a3229b6810e129cbb7901009d28a8d2357e4f89abbefac90469",
+        "bytes": 111209,
+        "mode": 420
+      },
+      "origin_commit": "1feecd5c980be16625a4dbf0ba148a98b6a8f3f3",
+      "origin_blob": "e7ec8096111a2da54de429fc4120bf5430dd8d9e"
+    }
+  },
+  "current_replay": {
+    "path": "scripts/replay_th03_op_pfopen_source.py",
+    "sha256": "f29ce2e6f7c89c128e40a2cd95cccfb393cd14a91ac114a25308348d64268c56",
+    "bytes": 32406,
+    "mode": 493
+  }
+}
