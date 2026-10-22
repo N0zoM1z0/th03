@@ -1,5 +1,20 @@
 # TH03 reconstruction handoff — current state (2026-10-22)
 
+## OP raster source checkpoint
+
+The two complete symbolic inline-ASM bodies now reproduce all 124 target bytes:
+nopoly_B_put (30) and box_column16_unput (94). Three native phases completed
+cleanly; all 42 prior scoped bodies / 12,816 bytes remain unchanged. The original
+runner completion remains false because its aggregate wrongly required the
+already-known selection target-order inequality to be equal. Its original
+report is retained verbatim alongside an independent successful offline
+correction and dated post-diagnostic source/tool/registry/output audit.
+The new candidate changes exactly five program bytes; only vendor EVEN
+alignment at DD95 differs in the program image. Global relocation ordering
+and whole-file equality remain open. No runtime, repeat, or formal exact
+acceptance is claimed. OP maintained source is now 44/45 units and 12,940 scoped
+bytes. See [raster review](reconstruction/OP_RASTER_SOURCE_REVIEW.md).
+
 ## OP remaining helper source checkpoint
 
 Five fresh original TCC producers now bind snd_determine_mode (29 bytes),
