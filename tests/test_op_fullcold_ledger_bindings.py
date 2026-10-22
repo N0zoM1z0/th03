@@ -118,9 +118,19 @@ class LedgerBindingTests(unittest.TestCase):
 
     def test_virtual_proposal_path_keeps_original_ledger_pins(self):
         for entry in self.binding['entries'].values():
-            with self.assertRaisesRegex(ValueError, 'artifact pin drift'):
-                a.pin_source_dependency(ROOT, self.binding['dependency'],
-                                        entry['historical_install_entry'], None)
+            with tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                historical = entry['historical_install_entry']
+                raw = a.read_git_ledger_snapshot(ROOT, entry['git_snapshot'])
+                path = root/historical['path']
+                path.parent.mkdir(parents=True)
+                path.write_bytes(raw)
+                self.assertEqual(a.pin_source_dependency(
+                    root, self.binding['dependency'], historical, None), raw)
+                path.write_bytes(raw+b'drift')
+                with self.assertRaisesRegex(ValueError, 'artifact pin drift'):
+                    a.pin_source_dependency(root, self.binding['dependency'],
+                                            historical, None)
 
 
 if __name__ == '__main__':
