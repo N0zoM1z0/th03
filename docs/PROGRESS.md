@@ -2,7 +2,7 @@
 
 | Artifact | Target bytes | Source-present units | Ledger exact units | Exact functions | Ledger exact owned bytes |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| th03-op | 36041 | 44 | 0 | 0 | 0 |
+| th03-op | 36041 | 45 | 0 | 0 | 0 |
 | th03-main | 130882 | 87 | 87 | 413 | 66843 |
 | th03-mainl | 37975 | 145 | 0 | 0 | 0 |
 | th03-zun | 16242 | 15 | 0 | 0 | 0 |
@@ -47,4 +47,4 @@ Two isolated current-source MAINL cold rounds now rebuild all 36 project objects
 
 MAINL repository-local acceptance is published: the 37,975-byte mixed stored product matches the candidate-local-attested canonical target, and all 145 existing decoded owner units are accepted through source-bound scoped evidence. These cover 27,753 authored bytes and 628 library-origin bytes. This adds no authored byte ownership, does not alter canonical file-backed ledger counters, and does not establish a whole-game completion percentage or Factory acceptance. Two isolated cold rounds and direct packing/restoration are bound to the publication. See [product acceptance](reconstruction/MAINL_PRODUCT_ACCEPTANCE_REVIEW.md).
 
-OP decoded publication contributes zero; publication missing. Retained cold-pair evidence remains historical build proof only; canonical ledger counters are unchanged.
+OP repository-local decoded acceptance is published: 33/46 tracked decoded extents, 9,530 scoped decoded bytes. The fixed historical 33-owner cohort excludes selection and all later source promotions. Canonical ledger credit, whole-product exactness and Factory acceptance remain unchanged/false; whole-game percentage remains unknown. This is not a pure-instruction or whole-authored-byte total.

@@ -1,0 +1,27 @@
+{
+  "schema": "op-nopcall-maintained-evidence-v1",
+  "offline_audit": {
+    "path": ".analysis/op-nopcall-offline-correction-v01/audit.py",
+    "sha256": "2be7f0f9f0c42afd487649772a26643343dd5bb7ede9441851d6ea69bc3a61a6"
+  },
+  "offline_proof": {
+    "path": ".analysis/op-nopcall-offline-correction-v01/proof.json",
+    "sha256": "ef78d2371cd884a66a790f1ecc23773ab98e6d9e495aa0f05fb5c021d5c9e42f"
+  },
+  "corrected_report": {
+    "path": ".analysis/op-nopcall-offline-correction-v01/linked-verification.json",
+    "sha256": "163247a0d93743d3f99a8059c0c334344486e7b33c15aedc01de9187b0232827"
+  },
+  "original_completion": {
+    "path": ".analysis/op-nopcall-native-output-v01/completion.json",
+    "sha256": "cc16c715892aaac378a45ce107cb2a4c84b59a31e34ed4b7f299d0c0161af706"
+  },
+  "original_native_complete": false,
+  "corrected_offline_audit_pass": true,
+  "whole_decoded_raw_equal": true,
+  "packed_exact": false,
+  "cold_build": false,
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "new_authored_code_credit": 0
+}

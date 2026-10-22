@@ -3,12 +3,12 @@
     {
       "bytes": 1112,
       "path": "config/mainl_product_acceptance/product-input-bindings.json",
-      "sha256": "d637eac6d4f33686985f3073554c14c27a920966e06bc40150b88fe74f86c5fd"
+      "sha256": "4f3dcf33cbebe70910595e709e435cb17f3a2cd3c913eacc14539e10a1b6c789"
     },
     {
       "bytes": 2649,
       "path": "config/mainl_product_acceptance/product-gate-results.json",
-      "sha256": "5cc1f7cc2343f18e910f6c9edac9da13d52507e6d340d7111c6fc61c940cead2"
+      "sha256": "5831040ef85ab73d1ec6def73102ad379d15abfd0d66dc5f712ef7598effaf6d"
     },
     {
       "bytes": 243740,
@@ -18,12 +18,12 @@
     {
       "bytes": 37727,
       "path": "config/mainl_product_acceptance/toolchain-identity-current.json",
-      "sha256": "cb5c4dbd6990a16bb57fce4dc1ef6ab6f9d7db68c2dbfeba04c12103b3cb79b5"
+      "sha256": "21bb10d797a673962fd90c744effdb0a5564c39b80bebe6e970141a6cbf1f558"
     },
     {
       "bytes": 117,
       "path": "config/mainl_product_acceptance/ledger-current.log",
-      "sha256": "645adb824a08859b94a8e8350634f03b5b7a3c4783b9657e7390cb1f1183dabf"
+      "sha256": "42cfa482027317a0d1e57d3c9dd4e2e972d7ae93590fbaf4cdfb56cf8f9e3cfa"
     }
   ],
   "factory_accepted": false,
@@ -659,9 +659,9 @@
       "sha256": "74cb3c41eaf7ffec357f28dfdce1f00604afb75040698c73bd3264a293b69bff"
     },
     {
-      "bytes": 2237357,
+      "bytes": 2242898,
       "path": "config/evidence.csv",
-      "sha256": "71c44457aa43784bd4825be33892899b45cf876645f31fc95ec2002ca97688d6"
+      "sha256": "323aa8600e0af537228d58ae263e09c395b54681a5d56c4341d85b73ceac8b41"
     },
     {
       "bytes": 2155,
@@ -669,9 +669,9 @@
       "sha256": "0f6ae44b7941dbba3bb627abea357efa2a900886a6748edd7af372eec8e656be"
     },
     {
-      "bytes": 299327,
+      "bytes": 300706,
       "path": "config/knowledge.csv",
-      "sha256": "e61a540f12427c4d2d22e21b7bdb03e7ae9209423859ca79174b6f4a253ed363"
+      "sha256": "b0f3c4760e759460d0546723b2494bf6d53b733fd6b8758e687fdadab15139b4"
     },
     {
       "bytes": 1292,
@@ -944,9 +944,9 @@
       "sha256": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd"
     },
     {
-      "bytes": 479907,
+      "bytes": 481055,
       "path": "config/units.csv",
-      "sha256": "4de7ca633d158d4a39788dee4ab0dfc24ec193d2470bd888f0677f6a2b852a35"
+      "sha256": "ee91b98c57a57a2a5b620b88910c8190e193263a0d2903015098304a3c3d48b6"
     },
     {
       "bytes": 2934,
@@ -1987,7 +1987,7 @@
   "receipt": {
     "bytes": 2070989,
     "path": "config/mainl_product_acceptance/actual-product-sidecar.json",
-    "sha256": "0f52cd15bff1a3104b7265f1f53e818864f3a5a4476c570d8f4285b21de09e25"
+    "sha256": "1a536ee2e23916c46dc70675bc304e29986a8f359ac9806b1c999f65f911d932"
   },
   "repository_local": true,
   "schema": "mainl-product-acceptance-publication-v1",

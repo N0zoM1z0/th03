@@ -3,3 +3,18 @@
 *.cmd text eol=crlf
 # Pinned compiler fixture bytes include their original final blank line.
 probes/toolchain/* whitespace=-blank-at-eof
+
+# Exact original PFOPEN source and macro closure bytes, including CRLF.
+src/shared/formats/pfopen.asm -text
+compat/op_pfopen/ReC98.inc -text
+compat/op_pfopen/libs/master.lib/func.inc -text
+compat/op_pfopen/libs/master.lib/super.inc -text
+compat/op_pfopen/libs/master.lib/bgm.inc -text
+compat/op_pfopen/libs/master.lib/pf.inc -text
+compat/op_pfopen/libs/master.lib/clip.inc -text
+compat/op_pfopen/libs/master.lib/macros.inc -text
+compat/op_pfopen/libs/kaja/kaja.inc -text
+compat/op_pfopen/twobyte.inc -text
+compat/op_pfopen/pc98.inc -text
+compat/op_pfopen/th01/hardware/egc.inc -text
+compat/op_pfopen/th02/formats/pi_slots.inc -text

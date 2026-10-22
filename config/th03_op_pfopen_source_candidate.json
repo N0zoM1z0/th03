@@ -1,0 +1,837 @@
+{
+  "schema": "th03-op-pfopen-source-v1",
+  "name": "PFOPEN",
+  "source": "src/shared/formats/pfopen.asm",
+  "source_sha256": "0db4ac9e09a34c8e463da4c7b28f97dd4511761d97e60a70e9d64b773e599725",
+  "code_bytes": 281,
+  "segment": "decoded:0000",
+  "offset": 12018,
+  "size": 281,
+  "compare_size": 281,
+  "physical_producer": "th03_op.asm",
+  "physical_object": "obj/th03/op.obj",
+  "overlay_destination": "th03/formats/pfopen.asm",
+  "original_source": {
+    "path": "th03/formats/pfopen.asm",
+    "sha256": "913ba45575ed3578efc959a9d3383b2407edb1042d856651cda59b5e701f70ab",
+    "bytes": 5188
+  },
+  "archive": {
+    "path": ".analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar",
+    "sha256": "9f7a4eb17f24ae2d99adaba4320f6c46f4fc8d659f9b784f6d8e5f3af99bf705",
+    "bytes": 11079680
+  },
+  "reference_revision": "b6ba5b0a529edbb31efdf8c0e939263804f8ee47",
+  "physical_context": [
+    {
+      "path": "th03_op.asm",
+      "sha256": "9e041cbf117a9087f95713e55693ffea72abc0a81159b648a5ba95aa24870e25",
+      "bytes": 6119
+    },
+    {
+      "path": "ReC98.inc",
+      "sha256": "62ecdf5ac2486f3e8f3134254f85caec436e8b207195781f8f72be9053058246",
+      "bytes": 1128
+    },
+    {
+      "path": "libs/master.lib/func.inc",
+      "sha256": "6fc2b5ab1f5ce7e4b64675cb8c6b967227418eebff9cd81e82de3721cac4a67f",
+      "bytes": 3438
+    },
+    {
+      "path": "libs/master.lib/super.inc",
+      "sha256": "c7710b20c2f6bee86c55097dd2c26cf4be2fd6097439570a5b0c77fa5ffac4ae",
+      "bytes": 962
+    },
+    {
+      "path": "libs/master.lib/bgm.inc",
+      "sha256": "070c886cef0b9c70121e81a9c8c99c6b17386da4a8f9dff4c4f8e9348db3636f",
+      "bytes": 4254
+    },
+    {
+      "path": "libs/master.lib/pf.inc",
+      "sha256": "6c7f47e4fc69994109ed6ca077a9cdc6f34adba05d5d0672186865e5262285ad",
+      "bytes": 3527
+    },
+    {
+      "path": "libs/master.lib/clip.inc",
+      "sha256": "334647dfba90c582f2607bb6f6d6565e9e15dce0220ab8acbd1b23e4331b2462",
+      "bytes": 537
+    },
+    {
+      "path": "libs/master.lib/macros.inc",
+      "sha256": "6e38bd2a6af911890250376d7e3d87343a6e726eced227958669d6f420427ae9",
+      "bytes": 4065
+    },
+    {
+      "path": "libs/kaja/kaja.inc",
+      "sha256": "ae6bb3734914fcc651568f619126a242af3631556073a0bcb42f61bf13d95958",
+      "bytes": 5101
+    },
+    {
+      "path": "twobyte.inc",
+      "sha256": "ebe96bde9fee9c1517b9caa12b37b91f25f787414898f457c3551f84ed8796e7",
+      "bytes": 49
+    },
+    {
+      "path": "pc98.inc",
+      "sha256": "498e31e6d35ace5c35ef50408ac7a29f2ba2ef76858a5b779d5cfa212bfb6660",
+      "bytes": 653
+    },
+    {
+      "path": "th01/hardware/egc.inc",
+      "sha256": "29e30717870bb69635bf082114ccb4a0e9795803c80adbd1283449f80e32a188",
+      "bytes": 1064
+    },
+    {
+      "path": "th02/formats/pi_slots.inc",
+      "sha256": "b3a234a3e292c1171f86ac24d9bb8ba8c47ffb938be8450168f7fc91148f8187",
+      "bytes": 291
+    },
+    {
+      "path": "libs/master.lib/bfnt_entry_pat.asm",
+      "sha256": "c8f5d19c2fc6008b4a8043b888f399724b14359799718fab57bbd6baa99cd413",
+      "bytes": 4168
+    },
+    {
+      "path": "libs/master.lib/bfnt_extend_header_skip.asm",
+      "sha256": "0afb92514610f1eaef74cd2de21cf91b40b1a8a2530038f3ea32ebc59633ba49",
+      "bytes": 1391
+    },
+    {
+      "path": "libs/master.lib/bfnt_header_read.asm",
+      "sha256": "b9d78de5498b6adb53a86f8833e548d37113bf717db5db542d5ed40501961d65",
+      "bytes": 1531
+    },
+    {
+      "path": "libs/master.lib/bfnt_header_analysis.asm",
+      "sha256": "9cf997fbf19c7c9628cb8a8c3108af0c05aeeefe243319057a595032aa1974a9",
+      "bytes": 1843
+    },
+    {
+      "path": "libs/master.lib/bcloser.asm",
+      "sha256": "5a345a8e7c1f6a74c97896f0a81e3f5a2ebb19e6250ce550f74682bd85f7244e",
+      "bytes": 874
+    },
+    {
+      "path": "libs/master.lib/bfill.asm",
+      "sha256": "a1280f7bcd803d1eea93fed903b2c7ec2cd1963b7ccced5cb6c755d003fdfda4",
+      "bytes": 1273
+    },
+    {
+      "path": "libs/master.lib/bfnt_palette_set.asm",
+      "sha256": "e292593490dcfbb9a0f4f0988a5a08224f490a348c209adc2347e02f2ecbcef7",
+      "bytes": 1733
+    },
+    {
+      "path": "libs/master.lib/bgetc.asm",
+      "sha256": "46e386c45a46eace934bfb1fd37b543d02b58afc616f0dcc7545efa82307a240",
+      "bytes": 938
+    },
+    {
+      "path": "libs/master.lib/palette_black_out.asm",
+      "sha256": "522eafd6463b52c9893ed7f71d3322a6ca9a5dd7ff32a9265307ba095d0fd54f",
+      "bytes": 1191
+    },
+    {
+      "path": "libs/master.lib/bopenr.asm",
+      "sha256": "f20b08ce2e0174e38e3d97621aabcb3a4d83812d714456485945af044e07674e",
+      "bytes": 1527
+    },
+    {
+      "path": "libs/master.lib/bread.asm",
+      "sha256": "ebc390de3abd1308a4fdd8be64c7eeca20ffaa8271cc8c0ce3e5b8a8a539d56e",
+      "bytes": 1263
+    },
+    {
+      "path": "libs/master.lib/bseek.asm",
+      "sha256": "d3d277008ccd2c6c9b1c0d3a43d7a7a9393f706f963affb7fdd596437c5c1b65",
+      "bytes": 1281
+    },
+    {
+      "path": "libs/master.lib/bseek_.asm",
+      "sha256": "7af87d66044c92482b8374227dde8eb0e67f244109f9687204363a36659885b5",
+      "bytes": 1239
+    },
+    {
+      "path": "libs/master.lib/dos_axdx.asm",
+      "sha256": "aa359927f77212353bed030739d3b5f9b947a1eb3b3ec2ca91278774ef8046d3",
+      "bytes": 1125
+    },
+    {
+      "path": "libs/master.lib/dos_keyclear.asm",
+      "sha256": "9990b11334e91ac14ee91c89a0fb0cfbabccf8512a144425116c3d2d9406d623",
+      "bytes": 531
+    },
+    {
+      "path": "libs/master.lib/dos_puts2.asm",
+      "sha256": "792c712abb39295a61573279e6edb30ae409ebd3ccc07295526b73f55a0bf226",
+      "bytes": 1024
+    },
+    {
+      "path": "libs/master.lib/dos_setvect.asm",
+      "sha256": "72c7d13cb301fabdfc698581a34d883bb477515cf4713a14ef815a8e7d08537b",
+      "bytes": 1520
+    },
+    {
+      "path": "libs/master.lib/egc.asm",
+      "sha256": "4f95898cc37b4ca0fa7879b4f36fdbf0663452ef3175703f225bde9a25f00643",
+      "bytes": 2271
+    },
+    {
+      "path": "libs/master.lib/egc_shift_left_all.asm",
+      "sha256": "88e2b3ec403034326ec67121f438f6befebac0b0061841dd1905154d15ccc24b",
+      "bytes": 1915
+    },
+    {
+      "path": "libs/master.lib/file_append.asm",
+      "sha256": "0c68713fd2677e8098b5e52332858a4a3d13703500f72bd8a72d321250a90fd9",
+      "bytes": 1779
+    },
+    {
+      "path": "libs/master.lib/file_close.asm",
+      "sha256": "6683a73f10045ed8885962763c92675d73f690c277b3de45168a914c0ab690ed",
+      "bytes": 2060
+    },
+    {
+      "path": "libs/master.lib/file_create.asm",
+      "sha256": "be8bf713d07814d2e7443a118b1758a7f2a8683dbb8c992052c7aaf4a5961330",
+      "bytes": 1281
+    },
+    {
+      "path": "libs/master.lib/file_exist.asm",
+      "sha256": "82d8b541b6cb72ca1f52cf01369607f5b47375f302848258e0a9a975b92b5ec2",
+      "bytes": 1131
+    },
+    {
+      "path": "libs/master.lib/file_read.asm",
+      "sha256": "a1cade5ba6d3c49f876df11dd94386004508a6e63bc764c4966e88c08f127a31",
+      "bytes": 2516
+    },
+    {
+      "path": "libs/master.lib/file_ropen.asm",
+      "sha256": "77259b5a6cb915d6376df836101a0655152cea0166bbc4570dfb0cdd792bf8dc",
+      "bytes": 1367
+    },
+    {
+      "path": "libs/master.lib/file_seek.asm",
+      "sha256": "4f1d8a008f0fe6f8caa28024ef5efa08d2d8fd0b6d3c4ddd9f47747af9e3a5a3",
+      "bytes": 1503
+    },
+    {
+      "path": "libs/master.lib/file_write.asm",
+      "sha256": "77dbd982aaec0e724a5b3e772d014aee6a838321842af67eca8d54d021074e3d",
+      "bytes": 2776
+    },
+    {
+      "path": "libs/master.lib/dos_close.asm",
+      "sha256": "406b7438e25866c50fb3fa3e1897bdd9a8722f0d5d4562672c8a32cf3b72cd1c",
+      "bytes": 927
+    },
+    {
+      "path": "libs/master.lib/dos_ropen.asm",
+      "sha256": "b3f23ab1abae22e03aa31e45b1601db3bc276c684272261398a550181998b1a9",
+      "bytes": 1124
+    },
+    {
+      "path": "libs/master.lib/grcg_boxfill.asm",
+      "sha256": "74db99990e4064c0d028674c97e2e07717ca21e0177037cedf0ea58cd88b7fa4",
+      "bytes": 3701
+    },
+    {
+      "path": "libs/master.lib/grcg_byteboxfill_x.asm",
+      "sha256": "b549049f0379a0eab9e8f5d2de0c04946e6454c8edd4ecf87c9f407ca323503b",
+      "bytes": 2047
+    },
+    {
+      "path": "libs/master.lib/grcg_polygon_c.asm",
+      "sha256": "d20153d10ce264eeb89b8124a86f238214aa1152d197e6253503dc35755748ce",
+      "bytes": 8676
+    },
+    {
+      "path": "libs/master.lib/grcg_pset.asm",
+      "sha256": "7e2f0c53c15b0183b3c21ef66ce85b3cf275cac9b301788a1c54021fd41eaede",
+      "bytes": 1298
+    },
+    {
+      "path": "libs/master.lib/grcg_setcolor.asm",
+      "sha256": "cfc0e194c0b218b76572b57bc1368abfbc5cabf021a35512d4485323933ab09e",
+      "bytes": 1484
+    },
+    {
+      "path": "libs/master.lib/gaiji_backup.asm",
+      "sha256": "8154b76fc72e32af4e9e58b6ea4b3b83a6d0a72987544434e8a098d872d5516a",
+      "bytes": 1646
+    },
+    {
+      "path": "libs/master.lib/gaiji_entry_bfnt.asm",
+      "sha256": "d365f1aee432134fff021a015f59ace31a8d07655c00ce7cff988e788e2e5534",
+      "bytes": 2191
+    },
+    {
+      "path": "libs/master.lib/gaiji_putsa.asm",
+      "sha256": "9d9c7d52c1581c98e5132df4529440f6f8929eb8476646f404361b5a3f6e4180",
+      "bytes": 1596
+    },
+    {
+      "path": "libs/master.lib/gaiji_read.asm",
+      "sha256": "76f96834714f89ceb0b04536b67c0920f71621e622a86dd8f881cd158afdbb32",
+      "bytes": 2108
+    },
+    {
+      "path": "libs/master.lib/gaiji_write.asm",
+      "sha256": "8ba36f346ea8a2f4bd3f6a3f44b2034e78d8ff87f0e16414c17e3fcf59ddcb47",
+      "bytes": 2160
+    },
+    {
+      "path": "libs/master.lib/graph_400line.asm",
+      "sha256": "a4cc370c6827cd5f91928d8f1f1dcb49dcb1d582e2dba3e7b6f33b18ea877494",
+      "bytes": 1212
+    },
+    {
+      "path": "libs/master.lib/graph_clear.asm",
+      "sha256": "90be0ac27c63cf09b7bab977ab3787c5e64ede39d8c86c0393920c82991d7d12",
+      "bytes": 1088
+    },
+    {
+      "path": "libs/master.lib/graph_copy_page.asm",
+      "sha256": "6e99953780d53444267c34fa48331ccf3535f0d4e4b4b7dc9c32291806e271dc",
+      "bytes": 1886
+    },
+    {
+      "path": "libs/master.lib/graph_extmode.asm",
+      "sha256": "3e1df894829c07cba4b59b6fe08c631e670312b42a60ae790faa5c4cd0f1d970",
+      "bytes": 2463
+    },
+    {
+      "path": "libs/master.lib/graph_gaiji_puts.asm",
+      "sha256": "43b76948a66fe8e0637bce04900e553f264ef41217764abe04457bfed8ba8122",
+      "bytes": 2736
+    },
+    {
+      "path": "libs/master.lib/graph_pi_free.asm",
+      "sha256": "1fb1f9568866bfaae7f5c91e4ab986e147d87df5df639322582c0ea55eed0591",
+      "bytes": 1627
+    },
+    {
+      "path": "libs/master.lib/graph_pi_load_pack.asm",
+      "sha256": "291fb72bb0d3af3cab081913f39d23b084f15958aa362f205128f73df3cfefc0",
+      "bytes": 15614
+    },
+    {
+      "path": "libs/master.lib/graph_pack_put_8.asm",
+      "sha256": "75be81de1b67e4c2b80d9046e2d5bc9cafba7b59bfefefd612daa44324c841c3",
+      "bytes": 3650
+    },
+    {
+      "path": "libs/master.lib/graph_show.asm",
+      "sha256": "6056411cf8d4c84cc236c9ae7de7f4776aeb908bea03d991258b4a7f79c5c5b3",
+      "bytes": 527
+    },
+    {
+      "path": "libs/master.lib/graph_start.asm",
+      "sha256": "8f5debbe9819255f8d496b4b413f40f12599dbb7e57665e35955329a3e41d6d2",
+      "bytes": 1096
+    },
+    {
+      "path": "libs/master.lib/js_end.asm",
+      "sha256": "6f0cefb45506e97123a6ce1530b76b832935e324c6c6d7373e9a315e7ea04d15",
+      "bytes": 631
+    },
+    {
+      "path": "libs/master.lib/keybeep.asm",
+      "sha256": "c4fc8f114b2f3f561066db4a0736bad101681df738b8a0492b76a3a854587e07",
+      "bytes": 263
+    },
+    {
+      "path": "libs/master.lib/make_linework.asm",
+      "sha256": "1f708630b586f25309b6e11b3921f0373af495d9fb44b217d78cecdc7f815752",
+      "bytes": 2159
+    },
+    {
+      "path": "libs/master.lib/palette_init.asm",
+      "sha256": "ff8b1966e0a0c08535ba71fc04a82765d332fe59c7420f7ee8fe01d9040c3a41",
+      "bytes": 1101
+    },
+    {
+      "path": "libs/master.lib/palette_show.asm",
+      "sha256": "c40574ccfd1c224e9e4562bc4cc6bb35243cb9970a4c832dd7c3e982a7425c30",
+      "bytes": 4098
+    },
+    {
+      "path": "libs/master.lib/pfclose.asm",
+      "sha256": "c554e6d0649207a339cf523b144f59afc4ccf999f6a42cffedc9422b8c2f179f",
+      "bytes": 879
+    },
+    {
+      "path": "libs/master.lib/pfgetc.asm",
+      "sha256": "119b9827ce6886c77449fe77025fab149542d8916f9edde862562954a6f3c8bd",
+      "bytes": 3063
+    },
+    {
+      "path": "libs/master.lib/pfread.asm",
+      "sha256": "20d594a2355a5380719cee2f2b19229ae072b02afe470e57115c0a34c3580894",
+      "bytes": 1395
+    },
+    {
+      "path": "libs/master.lib/pfrewind.asm",
+      "sha256": "ff21821866cc51ce3fb48503458d75ce90b1480784312d43875543a1175c5f5a",
+      "bytes": 1151
+    },
+    {
+      "path": "libs/master.lib/pfseek.asm",
+      "sha256": "30668e2fb6ac1c9ffe0258a6bd50cdbd4a2a527d9beaf634c99d7ce4cb89e6d4",
+      "bytes": 1391
+    },
+    {
+      "path": "libs/master.lib/random.asm",
+      "sha256": "a2759dae92008b72845c67e6caa183d54c22f9b2c8199de2101b82daf35aab82",
+      "bytes": 1445
+    },
+    {
+      "path": "libs/master.lib/palette_entry_rgb.asm",
+      "sha256": "db55520eafba7b5799fcb8fd236473891fb87eab47d5a3b02856cf7670625325",
+      "bytes": 1635
+    },
+    {
+      "path": "libs/master.lib/rottbl.asm",
+      "sha256": "56a671daeada6846e6ade5b6a68f4caa6dcc1565c284732a9a5c95616af81ba1",
+      "bytes": 3219
+    },
+    {
+      "path": "libs/master.lib/smem_release.asm",
+      "sha256": "e9e750705de05e3aa6114a92de30f73509479fb526d844ec8fd29eb6c13137f3",
+      "bytes": 589
+    },
+    {
+      "path": "libs/master.lib/smem_wget.asm",
+      "sha256": "427339049dedbbdafbeaa5092d8f620cdf94b915841b78321ebb6c68ad7701c0",
+      "bytes": 1335
+    },
+    {
+      "path": "libs/master.lib/soundio.asm",
+      "sha256": "69a4d31369cf05261fb290cb2075c2e2f3f511151ee23ad1e9540bed33d5d69c",
+      "bytes": 1284
+    },
+    {
+      "path": "libs/master.lib/text_clear.asm",
+      "sha256": "9524152bd1e459e9282f6d45bd1c9f72ffc566aab35cb141baecf3db7268c9db",
+      "bytes": 705
+    },
+    {
+      "path": "libs/master.lib/txesc.asm",
+      "sha256": "dc9d8ddbc8a701e85860eb36d11b9ab00f036ebace28e626725a226fc126b13c",
+      "bytes": 1794
+    },
+    {
+      "path": "libs/master.lib/text_putsa.asm",
+      "sha256": "8c4a013c22595b94c5c94a68f6a395cdd8e5fb821a03c1dc0cb42e36b2dea323",
+      "bytes": 2190
+    },
+    {
+      "path": "libs/master.lib/vsync.asm",
+      "sha256": "5d3c205d6d6ff7d9c0f8079200624ff1bfdf4f785e7a5b7c501c0b2269dafed7",
+      "bytes": 4505
+    },
+    {
+      "path": "libs/master.lib/vsync_wait.asm",
+      "sha256": "2186df31026448095f165528d8cbc3c653dbbc5f4be90b27bdd3acee95d04b2b",
+      "bytes": 1209
+    },
+    {
+      "path": "libs/master.lib/palette_white_in.asm",
+      "sha256": "d22a8491c095ed7d2d4b117cd74d549d43df68807a79dfc6e257401a2bddfb34",
+      "bytes": 1225
+    },
+    {
+      "path": "libs/master.lib/hmem_lallocate.asm",
+      "sha256": "bf8fc5e2b4aebe2a4d954dae4491ebb2d735caca94fa48cd728eaa99f6c0a680",
+      "bytes": 909
+    },
+    {
+      "path": "libs/master.lib/mem_assign_dos.asm",
+      "sha256": "5d53f5d5ec38727649f743c8bd12a976c805a039c215d68aa493105371f66465",
+      "bytes": 760
+    },
+    {
+      "path": "libs/master.lib/mem_assign.asm",
+      "sha256": "1a82490706e60c785cf990c6bdad0d6a4fa2994d80d3446cd8592343e64b0e49",
+      "bytes": 1297
+    },
+    {
+      "path": "libs/master.lib/memheap.asm",
+      "sha256": "f82f4a8f65caee760efa0cf3e4aae1a53b1dbdd9f42994da1a7a96b92a297773",
+      "bytes": 8276
+    },
+    {
+      "path": "libs/master.lib/mem_unassign.asm",
+      "sha256": "79b849504ea1c66e774e5e28bb0c218e5dcbbd7517b61e1388ff4018e017a225",
+      "bytes": 1476
+    },
+    {
+      "path": "libs/master.lib/super_free.asm",
+      "sha256": "a1e83689386210f935452bacb1a9f64c16bccfa31a84e6958f37ab28b644f092",
+      "bytes": 1181
+    },
+    {
+      "path": "libs/master.lib/super_entry_pat.asm",
+      "sha256": "b648deee82e0579c66be92d4ff595465401b8d130408c64c9724af5bed69df7e",
+      "bytes": 3623
+    },
+    {
+      "path": "libs/master.lib/super_entry_at.asm",
+      "sha256": "a27d0851c372b66a63e1968550135ae5de4d3487ce7638f4d079b7711405df94",
+      "bytes": 2557
+    },
+    {
+      "path": "libs/master.lib/super_entry_bfnt.asm",
+      "sha256": "8098efc312d0d217bee12402428a9624186725f4413bd5d8aef67f0c6fdd891d",
+      "bytes": 2166
+    },
+    {
+      "path": "libs/master.lib/super_cancel_pat.asm",
+      "sha256": "59a3856deb289b9b52c724e6be1f5c2db338e59883894f30af21c1667d8fda97",
+      "bytes": 1575
+    },
+    {
+      "path": "libs/master.lib/super_put.asm",
+      "sha256": "97c50aafee01cff2c59357f2a215b59a1bb50cea88f94e2ee370a49764311ffc",
+      "bytes": 5680
+    },
+    {
+      "path": "libs/master.lib/respal_exist.asm",
+      "sha256": "d1b9f19417ce514cf88edf2bf8260ccfc547a1ef29027607937f19e7579cbfed",
+      "bytes": 3035
+    },
+    {
+      "path": "libs/master.lib/respal_free.asm",
+      "sha256": "a72c19e1e6d90c26e77d1db2986cffb7f3977ba701ff8e4d13dfd9b72bc7f430",
+      "bytes": 805
+    },
+    {
+      "path": "libs/master.lib/pfint21.asm",
+      "sha256": "8890dfae0e43677fa52dc0c2892def28214eb5c7cf9748f6c201410b19b89c8e",
+      "bytes": 9708
+    },
+    {
+      "path": "libs/master.lib/js_start.asm",
+      "sha256": "9108253a1ce57bab97b64f9504196dc5a0d2d510a2d121f94a71f0698063aa03",
+      "bytes": 1485
+    },
+    {
+      "path": "libs/master.lib/js_sense.asm",
+      "sha256": "6f9c91f30d50cfd75f9b6025737cf3f5edefe9a38fb4f90cc447b11f4e9e4456",
+      "bytes": 2294
+    },
+    {
+      "path": "libs/master.lib/draw_trapezoid.asm",
+      "sha256": "63ddf9985b043935610c7c89c4defacc1605e900e055a1f43b2606421d44466e",
+      "bytes": 5297
+    },
+    {
+      "path": "libs/master.lib/pf_str_ieq.asm",
+      "sha256": "d25abb53eb1b9b689af519ae7526595d76c86b4362dd2e5ac146cd2165283ac8",
+      "bytes": 1194
+    },
+    {
+      "path": "libs/master.lib/bfnt_id[data].asm",
+      "sha256": "c64cc4bf2c38cac7b80cfff5a3c1edccd0db14ca41534d416492d4e817b0f4bf",
+      "bytes": 141
+    },
+    {
+      "path": "libs/master.lib/clip[data].asm",
+      "sha256": "63cfacbc52f9eee28f6733adc0eb029d6ee612245dd6f17a09f4ebef70e6e656",
+      "bytes": 640
+    },
+    {
+      "path": "libs/master.lib/edges[data].asm",
+      "sha256": "3bdbd15acdedb8eb688c116a8a34d862762345d50acb0f99783ef5f38ab01cb6",
+      "bytes": 669
+    },
+    {
+      "path": "libs/master.lib/fil[data].asm",
+      "sha256": "a74c17c2373a2a672c7b441029fe63db93ae6e37b3cad170ef1658506785eae7",
+      "bytes": 173
+    },
+    {
+      "path": "libs/master.lib/dos_ropen[data].asm",
+      "sha256": "a49b4fc258fdd23c3003fb450915b58bbc73d3b81f5fdf439045289881f8baaa",
+      "bytes": 96
+    },
+    {
+      "path": "libs/master.lib/gaiji_backup[data].asm",
+      "sha256": "d37b631d825bd18d705e3d5853e146efc04e02cb96e9f4632b310a10bbbee671",
+      "bytes": 40
+    },
+    {
+      "path": "libs/master.lib/gaiji_entry_bfnt[data].asm",
+      "sha256": "33c440e1f0168f74c3853f10e533addc2662b4f361dbf60c9e0c6e0b85cc0c95",
+      "bytes": 29
+    },
+    {
+      "path": "libs/master.lib/grp[data].asm",
+      "sha256": "7e11161dc5fbe9ff4ce2f8ec79d63b3b73a4a46c6ba43cd6dac7db8f263c9ff8",
+      "bytes": 1646
+    },
+    {
+      "path": "libs/master.lib/js[data].asm",
+      "sha256": "c4039f5941b89b6fe80e22442607bef52b533d71fc97e79e8f9f73c84c3fca03",
+      "bytes": 290
+    },
+    {
+      "path": "libs/master.lib/pal[data].asm",
+      "sha256": "fc37920a446ba76a9e281624a8fbbf5d78153e281e043645998f5747d162c770",
+      "bytes": 799
+    },
+    {
+      "path": "libs/master.lib/pf[data].asm",
+      "sha256": "737440cb99b76eee9b140ad35a5752bed1638de880eee687ebffddf737f7840e",
+      "bytes": 520
+    },
+    {
+      "path": "libs/master.lib/rand[data].asm",
+      "sha256": "474e83952040eb1b4bde984e694607ed5285820b4585980ca2fbed1fc88cc8b1",
+      "bytes": 78
+    },
+    {
+      "path": "libs/master.lib/sin8[data].asm",
+      "sha256": "f0840bd0a674d0bea61cba242d957be4456ad33dd67bb3098a0ced08913ffc84",
+      "bytes": 2149
+    },
+    {
+      "path": "libs/master.lib/tx[data].asm",
+      "sha256": "c0d64eefc6a2af118d9f05774629304e75ff5d252daff8ec4a64caf889ccd8a9",
+      "bytes": 840
+    },
+    {
+      "path": "libs/master.lib/vs[data].asm",
+      "sha256": "18bd5d9b8ffcd7353a2dea9f8ae4dc69fa34b06fa9fc32703fc1d0724c4e0357",
+      "bytes": 247
+    },
+    {
+      "path": "libs/master.lib/wordmask[data].asm",
+      "sha256": "d7463ef1babcc68dcdb72f1126f08544d279f95484c31244c1ae645065639b6a",
+      "bytes": 107
+    },
+    {
+      "path": "libs/master.lib/mem[data].asm",
+      "sha256": "9c13a4f793a8b7602d55be68d1a547d91251ab0d4a7f97f73aff2077bb9446ad",
+      "bytes": 376
+    },
+    {
+      "path": "libs/master.lib/super_entry_bfnt[data].asm",
+      "sha256": "1784371444ebc64b36a866be947926e9f561a004d4735109dc874211b8ca135e",
+      "bytes": 24
+    },
+    {
+      "path": "libs/master.lib/superpa[data].asm",
+      "sha256": "82334872155ef19c42919ce0964df062d5bb65587ebdc13dd1c069d3684f147f",
+      "bytes": 255
+    },
+    {
+      "path": "libs/master.lib/respal_exist[data].asm",
+      "sha256": "b5dd1aed31bb957c366a5c4d7a18c200905e92c6f66162273ea3476cde64c8ea",
+      "bytes": 59
+    },
+    {
+      "path": "libs/master.lib/draw_trapezoid[data].asm",
+      "sha256": "b4648b6033100759d6fc61b1fe0164de0d4c387c76d7b5079ab0925681fc396d",
+      "bytes": 320
+    },
+    {
+      "path": "th02/formats/pfopen[data].asm",
+      "sha256": "fef01723e041927126f257119e7d49f5fb854c98127671e024da5232c26832c2",
+      "bytes": 307
+    },
+    {
+      "path": "th03/formats/cdg[data].asm",
+      "sha256": "6994dd466855af86038b134d4dd5c6bbf50ddd1d758c10b625ec05d8f0f658c9",
+      "bytes": 50
+    },
+    {
+      "path": "libs/master.lib/clip[bss].asm",
+      "sha256": "70a9d992a29548693deb0c623d325dfa83bb2980fb1ae3f6dbb115fe20546eef",
+      "bytes": 162
+    },
+    {
+      "path": "libs/master.lib/fil[bss].asm",
+      "sha256": "34e33ee73a66b712bcdb376bbc27c369c59dfbff3ceab28c6ef30aa6dae8a545",
+      "bytes": 582
+    },
+    {
+      "path": "libs/master.lib/js[bss].asm",
+      "sha256": "4088af4fb69f18082eae94de0f8ce0777b854d1227be88f1f1fc787aa956ef07",
+      "bytes": 63
+    },
+    {
+      "path": "libs/master.lib/pal[bss].asm",
+      "sha256": "fe7dd64e247b731ae10ae598ff3402c68cd7f820ce4383a113bc184b632c3f74",
+      "bytes": 74
+    },
+    {
+      "path": "libs/master.lib/vs[bss].asm",
+      "sha256": "f324dc06b9c9476f1ce37ee8124d17182efa2f42fc72030e4f12caf60ccd2abb",
+      "bytes": 270
+    },
+    {
+      "path": "libs/master.lib/vsync[bss].asm",
+      "sha256": "aa22c000d29d81016c0018b550b04eaeb4464e971db9bb15057615b1155a8076",
+      "bytes": 50
+    },
+    {
+      "path": "libs/master.lib/mem[bss].asm",
+      "sha256": "b54b999b1e2dfe82cfd79e8d16b8748a861cabc2fde435d43e9fdd3f284b26f1",
+      "bytes": 302
+    },
+    {
+      "path": "libs/master.lib/superpa[bss].asm",
+      "sha256": "0e879a7a1faf48fe4337d90fe825f198e14e1ab010e9ca26247d1a6f3a9b3bf8",
+      "bytes": 198
+    },
+    {
+      "path": "th01/hardware/vram_planes[bss].asm",
+      "sha256": "8cd348aa99194f9d35ea1a59072f6895bedc44b358b2af5117d9a2e566edab22",
+      "bytes": 185
+    },
+    {
+      "path": "th02/snd/snd[bss].asm",
+      "sha256": "65ed92e89b729b015ff585e0eb775f4fa71a294f2b22df4c708475f068d6d850",
+      "bytes": 224
+    },
+    {
+      "path": "th02/snd/load[bss].asm",
+      "sha256": "22b6accc206c5e8f78afff0e75b93f4ba7ecd116250f71c24631ec8e9c988a8c",
+      "bytes": 109
+    },
+    {
+      "path": "libs/master.lib/pfint21[bss].asm",
+      "sha256": "72e679dc2f05eae6accb6cb9bfde62780cbe53225f4465bb0f1f6beb8515f27a",
+      "bytes": 186
+    },
+    {
+      "path": "th03/hardware/input[bss].asm",
+      "sha256": "0c8acdb7bcb262f44c47c334ba9269dbcfebc7dc59c2a0f070f906132de8cbba",
+      "bytes": 130
+    },
+    {
+      "path": "th03/formats/cdg[bss].asm",
+      "sha256": "2c44eff8bce90d277f350f0a1bec5a1de30c4044c638fee12d95365971f10e12",
+      "bytes": 93
+    },
+    {
+      "path": "th03/formats/cdg.inc",
+      "sha256": "1f0ff08d7d98f6e1038f09c12785f09349d65b1427f30ce569d2dbf49b7d7a48",
+      "bytes": 1237
+    },
+    {
+      "path": "th02/formats/pi_slots[bss].asm",
+      "sha256": "868676294d6a80d794309ca0de0de51550c997870d273a8d221ee350dc00a5cf",
+      "bytes": 91
+    },
+    {
+      "path": "th03/formats/hfliplut[bss].asm",
+      "sha256": "7ce20d5b7a6b5da8064c992c97396f8f6ca4de16b627d719a2f23d74aac1520f",
+      "bytes": 46
+    }
+  ],
+  "compatibility_closure": [
+    {
+      "path": "compat/op_pfopen/ReC98.inc",
+      "sha256": "62ecdf5ac2486f3e8f3134254f85caec436e8b207195781f8f72be9053058246",
+      "bytes": 1128,
+      "stage_destination": "ReC98.inc"
+    },
+    {
+      "path": "compat/op_pfopen/libs/master.lib/func.inc",
+      "sha256": "6fc2b5ab1f5ce7e4b64675cb8c6b967227418eebff9cd81e82de3721cac4a67f",
+      "bytes": 3438,
+      "stage_destination": "libs/master.lib/func.inc"
+    },
+    {
+      "path": "compat/op_pfopen/libs/master.lib/super.inc",
+      "sha256": "c7710b20c2f6bee86c55097dd2c26cf4be2fd6097439570a5b0c77fa5ffac4ae",
+      "bytes": 962,
+      "stage_destination": "libs/master.lib/super.inc"
+    },
+    {
+      "path": "compat/op_pfopen/libs/master.lib/bgm.inc",
+      "sha256": "070c886cef0b9c70121e81a9c8c99c6b17386da4a8f9dff4c4f8e9348db3636f",
+      "bytes": 4254,
+      "stage_destination": "libs/master.lib/bgm.inc"
+    },
+    {
+      "path": "compat/op_pfopen/libs/master.lib/pf.inc",
+      "sha256": "6c7f47e4fc69994109ed6ca077a9cdc6f34adba05d5d0672186865e5262285ad",
+      "bytes": 3527,
+      "stage_destination": "libs/master.lib/pf.inc"
+    },
+    {
+      "path": "compat/op_pfopen/libs/master.lib/clip.inc",
+      "sha256": "334647dfba90c582f2607bb6f6d6565e9e15dce0220ab8acbd1b23e4331b2462",
+      "bytes": 537,
+      "stage_destination": "libs/master.lib/clip.inc"
+    },
+    {
+      "path": "compat/op_pfopen/libs/master.lib/macros.inc",
+      "sha256": "6e38bd2a6af911890250376d7e3d87343a6e726eced227958669d6f420427ae9",
+      "bytes": 4065,
+      "stage_destination": "libs/master.lib/macros.inc"
+    },
+    {
+      "path": "compat/op_pfopen/libs/kaja/kaja.inc",
+      "sha256": "ae6bb3734914fcc651568f619126a242af3631556073a0bcb42f61bf13d95958",
+      "bytes": 5101,
+      "stage_destination": "libs/kaja/kaja.inc"
+    },
+    {
+      "path": "compat/op_pfopen/twobyte.inc",
+      "sha256": "ebe96bde9fee9c1517b9caa12b37b91f25f787414898f457c3551f84ed8796e7",
+      "bytes": 49,
+      "stage_destination": "twobyte.inc"
+    },
+    {
+      "path": "compat/op_pfopen/pc98.inc",
+      "sha256": "498e31e6d35ace5c35ef50408ac7a29f2ba2ef76858a5b779d5cfa212bfb6660",
+      "bytes": 653,
+      "stage_destination": "pc98.inc"
+    },
+    {
+      "path": "compat/op_pfopen/th01/hardware/egc.inc",
+      "sha256": "29e30717870bb69635bf082114ccb4a0e9795803c80adbd1283449f80e32a188",
+      "bytes": 1064,
+      "stage_destination": "th01/hardware/egc.inc"
+    },
+    {
+      "path": "compat/op_pfopen/th02/formats/pi_slots.inc",
+      "sha256": "b3a234a3e292c1171f86ac24d9bb8ba8c47ffb938be8450168f7fc91148f8187",
+      "bytes": 291,
+      "stage_destination": "th02/formats/pi_slots.inc"
+    }
+  ],
+  "preserved_prior_owners": 44,
+  "preserved_prior_bytes": 12940,
+  "total_scoped_bytes": 13221,
+  "project_objects": 28,
+  "retained_context_objects": 27,
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "whole_root_credit": false,
+  "canonical_extent": null,
+  "abi": {
+    "model": "use16 large _TEXT",
+    "return_type": "far",
+    "argument_bytes": 8,
+    "file_bp_offset": 6,
+    "parfile_bp_offset": 10,
+    "preserved": [
+      "SI",
+      "DI"
+    ]
+  },
+  "excluded_context": [
+    "STR_IEQ0000:300B..3044",
+    "vendor root code/data/alignment",
+    "DD95",
+    "12 compatibility headers"
+  ]
+}

@@ -1,0 +1,304 @@
+{
+  "schema": "th03-op-global-order-build-recipe-v1",
+  "source_stage": "scripts/stage_th03_op_global_order.py",
+  "source_files": 328,
+  "project_objects": 30,
+  "producers": [
+    {
+      "source": "th03/op_01.cpp",
+      "object": "obj/th03/op_01.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/op_01.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/entry.cpp",
+        "src/op/menu/menu_state.inl"
+      ]
+    },
+    {
+      "source": "th03_op.asm",
+      "object": "obj/th03/op.obj",
+      "command": "tasm32 /m /mx /kh32768 /t /dGAME=3 th03_op.asm obj\\th03\\op.obj",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th03/op_music.cpp",
+      "object": "obj/th03/op_music.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/op_music.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/music/animation_and_menu.inl",
+        "src/op/music/state_and_tracks.inl"
+      ]
+    },
+    {
+      "source": "th03/op_main.cpp",
+      "object": "obj/th03/op_main.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/op_main.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/menu/title_animation.inl"
+      ]
+    },
+    {
+      "source": "th03/op_02.cpp",
+      "object": "obj/th03/op_02.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/op_02.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/formats/score_encode.cpp"
+      ]
+    },
+    {
+      "source": "th03/scoredat.cpp",
+      "object": "obj/th03/scoredat.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/scoredat.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/formats/score_data.cpp"
+      ]
+    },
+    {
+      "source": "th03/selhelp.cpp",
+      "object": "obj/th03/selhelp.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/selhelp.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/formats/score_load.inl",
+        "src/op/menu/character_selection.inl"
+      ]
+    },
+    {
+      "source": "th03/seltail.cpp",
+      "object": "obj/th03/seltail.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/seltail.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/formats/score_load.inl",
+        "src/op/menu/character_selection.inl"
+      ]
+    },
+    {
+      "source": "th02/exit_dos.cpp",
+      "object": "obj/th02/exit_dos.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/exit_dos.cpp",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th01/vplanset.cpp",
+      "object": "obj/th01/vplanset.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=1 -ml -DBINARY='O' -nobj/th01/ th01/vplanset.cpp",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th02/snd_mode.c",
+      "object": "obj/th02/snd_mode.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/snd_mode.c",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th02/snd_pmdr.c",
+      "object": "obj/th02/snd_pmdr.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/snd_pmdr.c",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th02/snd_load.cpp",
+      "object": "obj/th02/snd_load.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/snd_load.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/sound/load.cpp"
+      ]
+    },
+    {
+      "source": "th03/exit.cpp",
+      "object": "obj/th03/exit.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/exit.cpp",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th03/polar.cpp",
+      "object": "obj/th03/polar.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/polar.cpp",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th03/cdg_put.asm",
+      "object": "obj/th03/cdg_put.obj",
+      "command": "tasm32 /m /mx /kh32768 /t /dGAME=3 th03\\cdg_put.asm obj\\th03\\cdg_put.obj",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/formats/cdg_put.asm"
+      ]
+    },
+    {
+      "source": "th02/frmdely1.cpp",
+      "object": "obj/th02/frmdely1.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/frmdely1.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/hardware/frame_delay.cpp"
+      ]
+    },
+    {
+      "source": "th03/input_s.cpp",
+      "object": "obj/th03/input_s.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/input_s.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/hardware/input_sense.cpp"
+      ]
+    },
+    {
+      "source": "th03/pi_put.cpp",
+      "object": "obj/th03/pi_put.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/pi_put.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/formats/pi_put.cpp"
+      ]
+    },
+    {
+      "source": "th03/snd_kaja.cpp",
+      "object": "obj/th03/snd_kaja.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/snd_kaja.cpp",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th03/initop.cpp",
+      "object": "obj/th03/initop.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/initop.cpp",
+      "ownership": "frozen-reference-context",
+      "maintained_owner_sources": []
+    },
+    {
+      "source": "th03/cdg_load.cpp",
+      "object": "obj/th03/cdg_load.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/cdg_load.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/formats/cdg_load.cpp"
+      ]
+    },
+    {
+      "source": "th03/grppsafx.cpp",
+      "object": "obj/th03/grppsafx.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/grppsafx.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/graphics/text.cpp"
+      ]
+    },
+    {
+      "source": "th03/pi_load.cpp",
+      "object": "obj/th03/pi_load.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/pi_load.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/formats/pi_load.cpp"
+      ]
+    },
+    {
+      "source": "th03/inp_m_w.cpp",
+      "object": "obj/th03/inp_m_w.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/inp_m_w.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/hardware/input_modes.cpp"
+      ]
+    },
+    {
+      "source": "th03/cdg_p_na.asm",
+      "object": "obj/th03/cdg_p_na.obj",
+      "command": "tasm32 /m /mx /kh32768 /t /dGAME=3 th03\\cdg_p_na.asm obj\\th03\\cdg_p_na.obj",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/formats/cdg_noalpha.asm"
+      ]
+    },
+    {
+      "source": "th03/hfliplut.asm",
+      "object": "obj/th03/hfliplut.obj",
+      "command": "tasm32 /m /mx /kh32768 /t /dGAME=3 th03\\hfliplut.asm obj\\th03\\hfliplut.obj",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/shared/formats/hfliplut.asm"
+      ]
+    },
+    {
+      "source": "th02/frmdely2.cpp",
+      "object": "obj/th02/frmdely2.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/frmdely2.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/hardware/frame_delay_2.cpp"
+      ]
+    },
+    {
+      "source": "oplayout.asm",
+      "object": "obj/th03/oplayout.obj",
+      "command": "tasm32 /m /mx /kh32768 /t /dGAME=3 oplayout.asm obj\\th03\\oplayout.obj",
+      "ownership": "real-source-composition-not-whole-object-credit"
+    },
+    {
+      "source": "th03_optail.asm",
+      "object": "obj/th03/optail.obj",
+      "command": "tasm32 /m /mx /kh32768 /t /dGAME=3 th03_optail.asm obj\\th03\\optail.obj",
+      "ownership": "real-source-composition-not-whole-object-credit"
+    }
+  ],
+  "literal_response": {
+    "sha256": "639cf491adb814e699e13f0dbd42a2cd5e04f54e12c6792453ecec4310acb92d",
+    "bytes": 705
+  },
+  "object_order": [
+    "obj\\th03\\op_01.obj",
+    "obj\\th03\\oplayout.obj",
+    "obj\\th03\\op.obj",
+    "obj\\th02\\exit_dos.obj",
+    "obj\\th03\\optail.obj",
+    "obj\\th01\\vplanset.obj",
+    "obj\\th02\\snd_mode.obj",
+    "obj\\th02\\snd_pmdr.obj",
+    "obj\\th02\\snd_load.obj",
+    "obj\\th03\\exit.obj",
+    "obj\\th03\\polar.obj",
+    "obj\\th03\\cdg_put.obj",
+    "obj\\th02\\frmdely1.obj",
+    "obj\\th03\\input_s.obj",
+    "obj\\th03\\pi_put.obj",
+    "obj\\th03\\snd_kaja.obj",
+    "obj\\th03\\initop.obj",
+    "obj\\th03\\cdg_load.obj",
+    "obj\\th03\\grppsafx.obj",
+    "obj\\th03\\pi_load.obj",
+    "obj\\th03\\inp_m_w.obj",
+    "obj\\th03\\cdg_p_na.obj",
+    "obj\\th03\\hfliplut.obj",
+    "obj\\th02\\frmdely2.obj",
+    "obj\\th03\\op_music.obj",
+    "obj\\th03\\op_main.obj",
+    "obj\\th03\\selhelp.obj",
+    "obj\\th03\\op_02.obj",
+    "obj\\th03\\scoredat.obj",
+    "obj\\th03\\seltail.obj"
+  ],
+  "link_command": "bin\\msdos -e -x tlink @obj\\th03\\op.@l",
+  "native_execution_authorized_by_recipe": false,
+  "whole_recipe_cold_build_observed": false,
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "notes": [
+    "Uses genuine original TCC/TASM flags and physical GAME values. Startup and CRT libraries remain external context.",
+    "The observed incremental producer chain is not a new all30-object cold build.",
+    "PFOPEN source/header proposal is a required earlier composition dependency."
+  ]
+}

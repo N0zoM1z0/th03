@@ -29,7 +29,11 @@ class Controls(unittest.TestCase):
  def test_no_runtime_gate(self):self.assertEqual(len(m.GATES),11);self.assertNotIn('runtime-trace',m.GATES)
  def test_historical_replay_only_in_prepare(self):
   library=(ROOT/'scripts/lib/op_decoded_acceptance.py').read_text();cli=(ROOT/'scripts/replay_th03_op_decoded_acceptance.py').read_text();self.assertNotIn('fullcold.replay(',library);self.assertEqual(cli.count('cold.replay('),1)
- def test_missing_publication_zero(self):self.assertEqual(m.load_status(ROOT)['decoded_exact_units'],0)
+ def test_missing_publication_zero(self):
+  with tempfile.TemporaryDirectory() as directory:
+   result=m.load_status(pathlib.Path(directory))
+   self.assertEqual(result['decoded_exact_units'],0)
+   self.assertIn('missing regular input',result['reason'])
  def test_reject_traversal(self):
   with self.assertRaises(m.Invalid):m.regular(ROOT,'../secret')
 class GateControls(unittest.TestCase):

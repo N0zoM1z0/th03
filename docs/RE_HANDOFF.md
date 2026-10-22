@@ -1,5 +1,43 @@
 # TH03 reconstruction handoff — current state (2026-10-22)
 
+## OP complete mixed-product reproduction and local integration
+
+Current verification caveat (2026-10-22 07:33 UTC): the installed checkpoint's
+full portable suite ran 2,194 tests in the existing virtual environment, with
+33 errors, three failures and two skips. Two historical referenced inputs are
+currently absent: `.analysis/gpt-dots-player-cpu-acceptance-install-v01/support.py`
+and `.analysis/gpt-dots-effects-established-linkage-probe-v01/compile-first-v01/source/obj/th03/effects.obj`.
+Exact-copy recovery is being investigated; no fresh historical receipt or
+replacement hash is accepted. No cleanup has been performed in this integration.
+Tracking and generated progress checks pass, but the full suite is not green.
+The cold/packing results below describe the preserved dated observations, not
+a claim that every historical dependency can currently be replayed.
+
+The current source composition reproduces the complete decoded OP executable:
+63,866 bytes, including its 4,096-byte MZ header and all 607 literal ordered
+relocations. Two independent cold rounds rebuild all 30 project objects each
+(62 actual compiler/assembler/link steps); every raw OMF pair, EXE and MAP is
+identical. A separate actual source-built executable was packed twice with the
+pinned DIET: both 36,041-byte outputs equal the canonical stored target and both
+restorations equal the decoded target. The cold rounds themselves were not
+packed. These are mixed-product comparisons, not full authored ownership,
+Factory acceptance, or a whole-game completion percentage.
+
+Six source/evidence checkpoints are installed. PFOPEN adds 281 maintained
+bytes: OP source presence is 45/46 tracked units and 13,221 scoped CODE bytes;
+IRAND42 remains unowned. Repository-local decoded acceptance covers only the
+fixed historical 33-owner cohort / 9,530 bytes. MAINL acceptance was refreshed
+after ledger changes and still covers 145/145 decoded extents. Canonical ledger
+exact credit is unchanged. See [cold proof](reconstruction/OP_FULLCOLD_EXACT.md),
+[packing proof](reconstruction/OP_SOURCE_PACKING_REVIEW.md), and
+[alignment history](reconstruction/OP_ALIGNMENT_REVIEW.md).
+
+The older sections below describe their dated checkpoints, not current open
+whole-file or relocation mismatches. Original failed receipts and separate
+correction audits remain preserved. Use the existing .venv/bin/python for the
+full portable test suite; the host interpreter lacks required Unicorn support.
+
+
 ## OP raster source checkpoint
 
 The two complete symbolic inline-ASM bodies now reproduce all 124 target bytes:
