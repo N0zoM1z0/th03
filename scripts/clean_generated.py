@@ -372,17 +372,22 @@ def clean_analysis(dry_run: bool, extra_preserved: set[Path] | None = None) -> i
     protected_roots |= {p for p in extra_preserved or set() if p.is_dir()}
     protected_files |= extra_preserved or set()
 
-    def protected_below(path: Path) -> bool:
-        return any(is_under(protected, path) for protected in protected_files) or any(
-            is_under(root, path) for root in protected_roots
-        )
+    # These are lexical containment checks, just like is_under(), not filesystem
+    # resolution. Index every protected path and ancestor once instead of
+    # scanning the full keep set for each visited directory or file.
+    protected_ancestors: set[Path] = set()
+    for protected in protected_files | protected_roots:
+        protected_ancestors.add(protected)
+        protected_ancestors.update(protected.parents)
 
     def prune(path: Path) -> int:
-        if any(is_under(path, root) for root in protected_roots):
+        if path in protected_roots or any(
+            parent in protected_roots for parent in path.parents
+        ):
             return 0
         if path in protected_files:
             return 0
-        if not protected_below(path):
+        if path not in protected_ancestors:
             return remove_path(path, dry_run)
         if not path.is_dir() or path.is_symlink():
             return 0
