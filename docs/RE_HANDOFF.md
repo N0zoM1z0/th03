@@ -1,5 +1,17 @@
 # TH03 reconstruction handoff — current state (2026-10-22)
 
+## OP exit and plane helpers source checkpoint
+
+Three fresh original physical TUs now bind game_exit_to_dos (25 bytes),
+vram_planes_set (41 bytes), and game_exit (67 bytes), using their original
+GAME2/1/3 definitions. All 133 decoded CODE bytes and literal ordered fixups
+match the target. Four native phases preserve the previous 34 owners and
+12,436 bytes, with exactly 24 retained project context objects. OP source
+presence is now 37/42 units and 12,569 scoped CODE bytes; exact remains zero.
+This is not a full cold build, repeat, runtime/model run, or whole-product
+acceptance. The separate historical 34-owner full-cold proof remains unchanged.
+See [helper source review](reconstruction/OP_EXIT_HELPERS_SOURCE_REVIEW.md).
+
 ## ZUN -3 logo root cold repeat
 
 ZS0101 and ZS0102 now independently compile/context-link the maintained ten
@@ -31,7 +43,7 @@ See [resident root review](reconstruction/ZUN_RESIDENT_ROOT_REVIEW.md).
 One fresh compile/context-link yields a target-equal 417-byte scanner at
 `0BEB:0304`; the original trailing NOP at `04A5` is unowned 418-byte carrier
 context. The target and candidate each pass 268 modeled scenarios (536 combined,
-264 returns plus four bounded prefixes per image). OP source presence is now
+264 returns plus four bounded prefixes per image). At that checkpoint, OP source presence was
 34/41 units and 12,436 bytes; exact remains zero. Frozen reference context is
 not the maintained 33-unit OP cohort. Whole 59,770-byte program still differs
 by six bytes, and whole-file / ordered-relocation equality remain false.

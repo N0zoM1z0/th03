@@ -31,12 +31,12 @@ class Tests(unittest.TestCase):
   self.assertEqual(svg.count('Unit acceptance: exact 0/1'),2)
  def test_real_unit_source_totals_and_main_function_axis(self):
   units=list(csv.DictReader((ROOT/'config/units.csv').read_text().splitlines()))
-  self.assertEqual((p.tracked_unit_progress(units,'th03-op')['source'],p.tracked_unit_progress(units,'th03-op')['total']),(34,41))
+  self.assertEqual((p.tracked_unit_progress(units,'th03-op')['source'],p.tracked_unit_progress(units,'th03-op')['total']),(37,42))
   self.assertEqual((p.tracked_unit_progress(units,'th03-zun')['source'],p.tracked_unit_progress(units,'th03-zun')['total']),(15,18))
   funcs=[dict(artifact='th03-main',boundary_state='reviewed',state='candidate')]*413
   svg=p.render_svg(units,funcs,[])
   self.assertIn('413 tracked functions',svg)
-  self.assertIn('Source 34/41',svg);self.assertIn('Source 15/18',svg)
+  self.assertIn('Source 37/42',svg);self.assertIn('Source 15/18',svg)
  def test_empty_unit_inventory_has_zero_width_not_fake_function_counts(self):
   svg=p.render_svg([],[],[])
   root=ET.fromstring(svg)

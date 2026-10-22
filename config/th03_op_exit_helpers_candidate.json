@@ -1,0 +1,93 @@
+{
+  "schema": "th03-op-exit-helpers-source-v1",
+  "reference_revision": "b6ba5b0a529edbb31efdf8c0e939263804f8ee47",
+  "reference_archive_sha256": "9f7a4eb17f24ae2d99adaba4320f6c46f4fc8d659f9b784f6d8e5f3af99bf705",
+  "units": [
+    {
+      "id": "th03-op-decoded-configuration-exit_dos",
+      "name": "game_exit_to_dos",
+      "source": "src/op/core/exit_dos.cpp",
+      "source_sha256": "d4476e78a68fb5cc1c06225ee2c75c278dbf391be3d98b6f0ec7f2b54e6b7ad3",
+      "original_body": "th02/exit_dos.cpp",
+      "original_body_sha256": "6020159e1a196ad7bc9e83dc06f57d83e3348aaa3b9f2d6344d1af0bbb9b41c1",
+      "wrapper": "th02/exit_dos.cpp",
+      "original_wrapper_sha256": "6020159e1a196ad7bc9e83dc06f57d83e3348aaa3b9f2d6344d1af0bbb9b41c1",
+      "object": "obj/th02/exit_dos.obj",
+      "physical_game_macro": 2,
+      "language": "cpp",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=2 -ml -DBINARY='O' -nobj/th02/ th02/exit_dos.cpp",
+      "segment": "decoded:0beb",
+      "offset": 8,
+      "size": 25,
+      "compare_size": 25,
+      "support_files": [
+        "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+        "compat/rec98/libs/master.lib/master.hpp",
+        "compat/rec98/th02/core/initexit.h"
+      ],
+      "boundary_evidence": "existing-reviewed-ledger"
+    },
+    {
+      "id": "th03-op-decoded-configuration-planes",
+      "name": "vram_planes_set",
+      "source": "src/op/hardware/vram_planes_set.cpp",
+      "source_sha256": "be7853ff4ff5c194ec8a6b926616c3a61205560e3c84041548d201fdb925f021",
+      "original_body": "th01/hardware/vplanset.cpp",
+      "original_body_sha256": "d309adf3597b93f99d6534249d363386422f2377a70cae0f4de6a5c2614b69e7",
+      "wrapper": "th01/vplanset.cpp",
+      "original_wrapper_sha256": "811b8b745103801f5a08fe2066aa1d8a90f5a698b4b3f29a12828e96d07cb00b",
+      "object": "obj/th01/vplanset.obj",
+      "physical_game_macro": 1,
+      "language": "cpp",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=1 -ml -DBINARY='O' -nobj/th01/ th01/vplanset.cpp",
+      "segment": "decoded:0beb",
+      "offset": 33,
+      "size": 41,
+      "compare_size": 41,
+      "support_files": [
+        "compat/rec98/planar.h",
+        "compat/rec98/th01/hardware/vplanset.h"
+      ],
+      "boundary_evidence": "existing-reviewed-ledger"
+    },
+    {
+      "id": "th03-op-decoded-game-exit",
+      "name": "game_exit",
+      "source": "src/op/core/exit.cpp",
+      "source_sha256": "2cbdd9d64b40dd846d4d81db5742f4baa43b72cda12d5622e4e97b08dfdddb2d",
+      "original_body": "th02/core/exit.cpp",
+      "original_body_sha256": "dac2cc3be90eaaebf5c8a86a7912dcbb91957a00f080cfd50b2f0da38df2bb33",
+      "wrapper": "th03/exit.cpp",
+      "original_wrapper_sha256": "13183f846ac74026e831cc666fbf7b3cd63a18f48fe2b7747203aa408c1f278b",
+      "object": "obj/th03/exit.obj",
+      "physical_game_macro": 3,
+      "language": "cpp",
+      "compiler": "tcc",
+      "original_command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/exit.cpp",
+      "segment": "decoded:0beb",
+      "offset": 274,
+      "size": 67,
+      "compare_size": 67,
+      "support_files": [
+        "compat/rec98/libs/master.lib/master.hpp",
+        "compat/rec98/libs/master.lib/pc98_gfx.hpp",
+        "compat/rec98/th02/core/initexit.h"
+      ],
+      "boundary_evidence": "candidate-MAP-and-original-source-only; parent target boundary review required"
+    }
+  ],
+  "support_files": {
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+    "compat/rec98/libs/master.lib/master.hpp": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+    "compat/rec98/th02/core/initexit.h": "ef988ac741c84daa3b8efa0f48eda7cf89eeb26a6cc7bec60c2dd8abb64b5b69",
+    "compat/rec98/planar.h": "789741579bc0463bab1b8f9f0a97d2c123faf6fc75adfb4fd7939b437ea96c1d",
+    "compat/rec98/th01/hardware/vplanset.h": "0aacf78e0be0e16c3d80a80ff79dba1f7a8ddfebcc3302f853019fa423920a2b"
+  },
+  "code_bytes": 133,
+  "physical_translation_units": 3,
+  "source_acceptance": false,
+  "exact_acceptance": false,
+  "scope": "Original complete source bodies only; no target, fresh compiler, ABI or runtime proof."
+}
