@@ -1,4 +1,11 @@
 """Retained source proof replay is not a new native or full hardware run."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/mainl-cutscene-native-output-20261021-v01/manifest.json').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import copy
 import importlib.util
 from pathlib import Path

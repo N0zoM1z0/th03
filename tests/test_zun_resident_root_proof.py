@@ -1,4 +1,11 @@
 """Resident source proof negatives; offline only, no compiler/Wine/model invocation."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/zun-resident-native-proposal-v02/runtime.json').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import copy,importlib.util,json,os,sys,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch

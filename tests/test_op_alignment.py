@@ -6,6 +6,7 @@ R=Path(os.environ.get('TH03_REPOSITORY_ROOT',Path(__file__).resolve().parents[1]
 def load(p):
  m=types.ModuleType(p.stem);m.__file__=str(p);exec(compile(p.read_bytes(),str(p),'exec'),m.__dict__);return m
 S=load(F/'scripts/stage_th03_op_alignment.py');Q=load(F/'scripts/replay_th03_op_alignment.py')
+@unittest.skipUnless((R/".analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar").is_file(), "archived native fixtures unavailable")
 class Tests(unittest.TestCase):
  @classmethod
  def setUpClass(cls):

@@ -1,4 +1,11 @@
 """DisplayHardware existing-unit and source-bound receipt controls, without native builds."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/toolchain/wineprefix/drive_c/MIA02/th03_mainl.asm').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import copy
 import hashlib
 import json

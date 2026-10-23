@@ -1,4 +1,11 @@
 """Archive metadata remains exact while current ledgers and build sources stay checked."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/op-pfopen-checkpoint-proposal-v01/install-manifest.json').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 from pathlib import Path
 import copy
 import importlib.util

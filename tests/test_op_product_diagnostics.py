@@ -51,6 +51,7 @@ class Tests(unittest.TestCase):
         self.assertFalse(self.actual['current_source_compatibility_checked'])
         self.assertFalse(self.actual['cold_outputs_packed'])
         self.assertIsNone(self.actual['whole_game_percentage'])
+    @unittest.skipUnless(all((ROOT/name).is_file() for name in m.PINS), "archived native fixtures unavailable")
     def test_valid_contract_with_explicit_helper_retention_fixture(self):
         with patch.object(m,'checked',side_effect=fixture_read):
             result=m.retained_op_products(ROOT)

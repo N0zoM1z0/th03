@@ -15,12 +15,12 @@
   <rect x="488" y="121" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="121" width="250.00" height="5" fill="#9b6de3"/>
   <rect x="200" y="128" width="244.57" height="5" fill="#e0af68"/>
-  <rect x="488" y="121" width="193.70" height="12" fill="#55c7a6"/>
+  <rect x="488" y="121" width="0.00" height="12" fill="#55c7a6"/>
   <text x="200" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 46 · Source 45/46</text>
-  <text x="488" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Decoded extents 33/46</text>
+  <text x="488" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact 0/46</text>
   </g>
-<text x="200" y="168" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: 9,530 B · canonical exact 0 · product acceptance open</text>
-<text x="200" y="180" fill="#e0af68" font-family="sans-serif" font-size="10">Retained: cold decoded 63,866 B = target · separate packed 36,041 B = canonical</text>
+<text x="200" y="168" fill="#e0af68" font-family="sans-serif" font-size="10">Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</text>
+<text x="200" y="180" fill="#e0af68" font-family="sans-serif" font-size="10">Retained equality check unavailable · product acceptance open</text>
   <text x="24" y="190" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAIN.EXE</text>
       <text x="24" y="210" fill="#c8cad2" font-family="monospace" font-size="11">413 tracked functions</text>
       <rect x="200" y="183" width="250" height="12" rx="4" fill="#353b52"/>
@@ -36,12 +36,13 @@
   <rect x="488" y="245" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="245" width="250.00" height="5" fill="#9b6de3"/>
   <rect x="200" y="252" width="250.00" height="5" fill="#e0af68"/>
-  <rect x="488" y="245" width="270.00" height="12" fill="#55c7a6"/>
+  <rect x="488" y="245" width="0.00" height="12" fill="#55c7a6"/>
   <text x="200" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 145 · Source 145/145</text>
-  <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Decoded acceptance: exact 145/145</text>
-  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 28,381 B</text>
+  <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact 0/145</text>
+  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 28,381 B · Heap: 8 procedures / 628 B retained-only</text>
   </g>
 <text x="200" y="304" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>
+<text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · full program equal / order open</text>
   <g aria-label="ZUN.COM bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="354" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>
   <text x="24" y="374" fill="#c8cad2" font-family="monospace" font-size="11">18 tracked unit extents</text>
@@ -68,6 +69,6 @@
 
 
 
+<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>
 
-<text x="24" y="526" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · 145 units · mixed 37,975 B · whole-game % unknown</text>
 </svg>

@@ -1,3 +1,10 @@
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/op-source-packing-checkpoint-proposal-v02/files/scripts/replay_th03_op_source_packing.py').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 from pathlib import Path
 import unittest,importlib.util,json,copy
 ROOT=Path('.').resolve();FILES=ROOT/'.analysis/op-source-packing-checkpoint-proposal-v02/files';S=importlib.util.spec_from_file_location('packing_replay',FILES/'scripts/replay_th03_op_source_packing.py');R=importlib.util.module_from_spec(S);S.loader.exec_module(R)

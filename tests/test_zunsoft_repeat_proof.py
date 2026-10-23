@@ -1,4 +1,11 @@
 """Source-only proof and retained-record mutations; no native tools or models."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/zunsoft-repeat-maintained-proposal-20261022-v01/inventory.json').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import ast,copy,hashlib,importlib.util,json,unittest,tempfile
 from unittest.mock import patch
 from pathlib import Path

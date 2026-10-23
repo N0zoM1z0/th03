@@ -1,4 +1,11 @@
 """Fast bound-receipt/partition controls; full replay separately runs CPU models."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/mainl-staff-link-proposal-20261021-v01/manifest.json').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import copy
 import hashlib
 import json

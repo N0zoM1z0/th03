@@ -1,4 +1,11 @@
 """Static evidence only; no compiler, emulator, native runtime or build calls."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/th03-diet/sol-diet-restoration-20261006-b/zun.com').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 from pathlib import Path
 import hashlib, json, re, struct, sys, tomllib, unittest, subprocess, tempfile
 HERE=Path(__file__).resolve().parent

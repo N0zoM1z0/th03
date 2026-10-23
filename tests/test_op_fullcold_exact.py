@@ -1,4 +1,11 @@
 """Portable dated-proof controls; no native execution or live-state gate."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/op-fullcold-exact-terminal-20261022-v01.json').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 from pathlib import Path
 import copy,importlib.util,json,sys,unittest
 ROOT=Path.cwd().resolve();FILES=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))

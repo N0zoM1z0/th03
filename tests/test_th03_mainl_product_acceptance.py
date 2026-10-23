@@ -1,4 +1,11 @@
 """Actual reviewed replay fixture; mutations are in-memory negative tests only."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / 'config/mainl_product_acceptance/publication.json').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import copy
 import contextlib
 import io

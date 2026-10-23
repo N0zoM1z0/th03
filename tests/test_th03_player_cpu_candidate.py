@@ -1,4 +1,11 @@
 """Offline CPU candidate contracts. Synthetic OMF exists only inside these tests."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/th03-main-exact/gpt-dots-player-tail-default-cold-v01/round1/source/th03_main.asm').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 from th03_cpu_default_fixture import historical_default_text, historical_default_bytes
 from pathlib import Path
 import sys,json,tomllib,unittest,tempfile,copy,hashlib,ast

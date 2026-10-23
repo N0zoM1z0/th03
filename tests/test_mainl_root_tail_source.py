@@ -1,4 +1,11 @@
 """Original root-tail statements, explicit root declarations, and producer-only ownership."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/toolchain/wineprefix/drive_c/MDH02/th03_mainl.asm').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import hashlib,json,sys,tempfile,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]

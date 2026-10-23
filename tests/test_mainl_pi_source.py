@@ -1,4 +1,11 @@
 """Read-only complete PI source contracts; no native compiler invocation."""
+
+# This integration suite needs an optional archived native run.
+from pathlib import Path as _ArchivePath
+import unittest as _archive_unittest
+if not (_ArchivePath(__file__).resolve().parents[1] / '.analysis/toolchain/wineprefix/drive_c/MRT01/th03_mainl.asm').is_file():
+    raise _archive_unittest.SkipTest("archived native fixtures unavailable")
+
 import hashlib
 import json
 from pathlib import Path

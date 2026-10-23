@@ -10,6 +10,7 @@ def base():
  d=load(R/'scripts/stage_th03_op_fullcold.py').payload(R)
  for n in ['exit_helpers','remaining_helpers']:d.update(load(R/f'scripts/stage_th03_op_{n}.py').payload(R))
  d=load(R/'scripts/stage_th03_op_raster.py').compose(d,R);return load(P/'scripts/stage_th03_op_pfopen_source.py').compose(d,P)
+@unittest.skipUnless((R/".analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar").is_file(), "archived native fixtures unavailable")
 class Tests(unittest.TestCase):
  @classmethod
  def setUpClass(cls):
