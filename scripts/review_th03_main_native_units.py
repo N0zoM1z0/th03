@@ -31,6 +31,7 @@ LOSE_OWNERS = {
 
 CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry", "th03-main-round-loop"}
 STAGE_OWNERS = {"th03-main-stage-round"}
+PALETTE_OWNERS = {"th03-main-stage-palette"}
 
 
 def sha(raw):
@@ -83,6 +84,8 @@ def verify_native_coverage(functions, extent, program):
         need(len(raw) == size, "truncated compiler data")
         if item["kind"] == "tc4-natural-zero":
             need(size == 1 and raw == b"\0", "compiler alignment differs")
+        elif item["kind"] == "tasm-code-even":
+            need(size == 1 and start % 2 == 1 and raw == b"\x90", "native CODE alignment differs")
         else:
             need(item["kind"] == "tc4-switch-table" and size % 2 == 0,
                  "unknown compiler data")
@@ -224,7 +227,7 @@ def review(report=None):
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     native_units = config.get("native_units", [])
     need(
-        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS,
+        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS,
         "lose owners are incomplete",
     )
     units = config["units"] + native_units
@@ -273,7 +276,7 @@ def review(report=None):
         differing_relocation_order_positions=comparison["differing_relocation_order_positions"],
         product_exact=False,
     )
-    map_text = (build.WORK / "obj/th03/main.map").read_text()
+    map_text = (build.WORK / "obj/th03/main.map").read_text().replace(chr(92), "/")
     from lib.main_entry_runtime import compare as entry_compare, negative_controls as entry_controls
 
     result["entry_runtime"] = entry_compare(target, candidate)
@@ -330,7 +333,15 @@ def review(report=None):
     need(result["round_loop_runtime"]["code_bytes_executed"] == 862
          and result["round_loop_controls"]["count"] == 8, "round-loop contracts are incomplete")
     result["round_loop_model_sha256"] = sha((ROOT / "scripts/lib/main_round_loop_runtime.py").read_bytes())
-    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS):
+    from lib.main_stage_palette_runtime import compare as palette_compare, negative_controls as palette_controls
+
+    result["palette_runtime"] = palette_compare(target, candidate)
+    result["palette_controls"] = palette_controls(candidate)
+    need(result["palette_runtime"]["cases"] == 1556
+         and result["palette_runtime"]["code_bytes_executed"] == 128
+         and result["palette_controls"]["count"] == 8, "palette contracts are incomplete")
+    result["palette_model_sha256"] = sha((ROOT / "scripts/lib/main_stage_palette_runtime.py").read_bytes())
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -399,15 +410,19 @@ def review(report=None):
             and segments[0]["size"] == producer_extent["size"],
             "private storage or wrong CODE extent",
         )
-        need(
-            omf[obj_path]["translator_comments"] == ["TC86 Borland C++ 4.02"],
-            "native TC4 producer required",
-        )
-        need(
-            [offset for offset, name in code_publics(obj_raw, segments[0]["index"])]
-            == [f["offset"] - producer_extent["start"] for f in producer["functions"]],
-            "compiler function entries differ",
-        )
+        if unit.get("compiler") == "tasm5":
+            need(unit["source"].endswith(".asm")
+                 and omf[obj_path]["translator_comments"] == ["Turbo Assembler  Version 5.0"],
+                 "native TASM5 producer required")
+            need(code_publics(obj_raw, segments[0]["index"])
+                 == [(p["offset"], p["name"]) for p in unit["publics"]],
+                 "assembler function entries or aliases differ")
+        else:
+            need(omf[obj_path]["translator_comments"] == ["TC86 Borland C++ 4.02"],
+                 "native TC4 producer required")
+            need([offset for offset, name in code_publics(obj_raw, segments[0]["index"])]
+                 == [f["offset"] - producer_extent["start"] for f in producer["functions"]],
+                 "compiler function entries differ")
         pattern = (
             rf"(?m)^\s*{extent['segment']:04X}:{producer_extent['start']:04X}\s+{producer_extent['size']:04X}\s+C=CODE\s+"
             rf"S={re.escape(extent['map_segment'])}\s+G={re.escape(extent['map_group'])}\s+"
@@ -450,7 +465,7 @@ def review(report=None):
             gates=checks,
         )
     need(
-        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS,
+        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS,
         "all native owners required",
     )
     return result

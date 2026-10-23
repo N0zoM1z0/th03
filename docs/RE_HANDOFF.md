@@ -5,10 +5,10 @@ Commit format: `gpt-6.1-sol: xxx`. Local headless tools; no Factory MCP.
 Use `src/` and the pinned Japanese targets in `.analysis/targets/`. MAIN's one
 working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
 
-- Exact scope:93 CODE extents /424 functions /70,380 bytes. The whole-game
+- Exact scope:94 CODE extents /428 functions /70,510 bytes. The whole-game
   source denominator is unknown; the complete MAIN product is not exact.
-- Two independent577-file source materializations compile all92 source OBJs in
-  93 serial native phases. All94 raw OBJ/EXE/MAP outputs repeat. All240 maintained
+- Two independent579-file source materializations compile all93 source OBJs in
+  94 serial native phases. All95 raw OBJ/EXE/MAP outputs repeat. All241 maintained
   inputs match staging. Only vendor C0L.OBJ/libraries are reused/unowned.
 - Main flow is one3,050-byte entry.obj producer: main146, loop862, real demo
   callbacks57/5, stage900, initializer855, compiler tables/alignment48 and
@@ -18,9 +18,9 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
   Loop -G keeps its distinct score exits; stage -G- restores the default
   profile. Shared declarations avoid duplicate legacy headers. Bounded .inl
   bodies keep four reviewed owners in one .cpp; there is no private DATA/BSS.
-  The first99 global records now match after native library and SHARED ordering;
-  different positions fall1,281->1,242. Grouping/filenames remain inferred;
-  authored counts do not rise.
+  The first116 global records now match after native library and SHARED ordering;
+  different positions fall1,242->1,225. Grouping/filenames remain inferred;
+  flow grouping adds no authored credit.
 - All11 owner gates pass for those four owners. Entry1,172, loop240, demo214,
   initializer240 and round-finish768 target/candidate cases retain their ABI,
   ordered calls/stores and complete non-stack memory contracts. Seven/eight/
@@ -33,6 +33,13 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
 - Lose update/particles/banners pass487 bytes/three functions, six/four ordered
   sites, Pascal RET2/RET4 and cdecl RET. Their1,166 cases cover all487 bytes;
   four controls reject semantic changes. Renderer remains175 versus177.
+- Stage palette adds four exact far functions /130 bytes in maintained ASM:
+  21/26/41/40 instruction bytes plus two separately reviewed natural EVEN bytes.
+  TASM5 emits one positive130-byte HITCIRC_TEXT producer at096E:0C98, with no
+  storage allocation. All11 gates pass;1556 target/candidate cases execute all128
+  instruction bytes, covering all byte PIDs, all valid-PID channel values, dirty
+  word carriers, complete non-stack memory, ordered stores/show and far cleanup.
+  Eight mutations fail. DF0 is required; palette output remains a bounded stub.
 - The unowned master.lib prefix has2269 CODE bytes endingB4F. Following context
   is word-aligned atB50; TLINK supplies matching00. All2270 bytes/order match.
   Near cutline/far APIs and external DATA/BSS widths remain genuine. A second
@@ -57,7 +64,7 @@ Fresh replay, overwriting current reports:
 .venv/bin/python scripts/replay_th03_main_native.py
 ```
 
-The unit auditor checks eight native owners /21 functions /5,644 bytes and all93
+The unit auditor checks nine native owners /25 functions /5,774 bytes and all94
 configured extents. Shared coverage rejects gaps/overlap/wrong frames; controls
 preserve local vectors yet reject wrong cross-owner entry/loop and stage/finish
 orders. Current runtime/unit checks require no archived entry verification.
@@ -65,12 +72,12 @@ orders. Current runtime/unit checks require no archived entry verification.
 Unresolved:
 
 - All3,168 PLAYFLD bytes come from maintained source and match raw bytes. The
-  first3,050 bytes now also match joint order. Global record99 is the next gap;
-  remaining whole-object/record order differs at1,242 positions. Target record99
-  is stage_palette_show atA3A3 in the unowned HITCIRC prefix. It precedes16
-  boss_explosion_ring records and boss_move_sine atF381, then retained HITCIRC
-  records beginning in randring_fill atA401 and atA841/A835.
-  Preserve physical segments and real source boundaries while investigating.
+  first3,050 bytes now also match joint order. Native palette show adds record99,
+  followed by15 boss_explosion_ring records and boss_move_sine atF381. Global
+  record116 is the next gap: retained HITCIRC randring_fill atA401, thenA841/A835.
+  Remaining order differs at1225 positions. Root HITCIRC now has4928 bytes from
+  A3FA onward. Moving the entire root earlier changes PLAYER_M placement, so
+  preserve physical segments and bounded source ownership while investigating.
 - Renderer pointer/reference/register/argsused and adjacent-function controls
   still emit175 bytes; target177 saves SI+DI and uses DI as its counter.
 - State/P_SHOT bytes match, but shot26-site order and stage7/state6/stage5
@@ -83,8 +90,8 @@ Unresolved:
 `scripts/probe_th03_main_producers.py` replays bounded native renderer/alignment
 controls and removes temporary products while preserving working outputs.
 
-Latest CI: PASS,1,711 tests /300 optional archive skips. One CPU at nice10;
-CI peak RSS451,448 KiB, native replay peak RSS450,488 KiB.
+Latest CI: PASS,1,715 tests /300 optional archive skips. One CPU at nice10;
+CI peak RSS429,260 KiB, native replay peak RSS502,892 KiB.
 Keep targets, installed tools, current reports and one working tree; discard
 old experiments, duplicate builds, logs and caches.
 

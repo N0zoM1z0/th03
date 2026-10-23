@@ -50,7 +50,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (93, 70380),
+            (94, 70510),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -96,7 +96,7 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 1018, 1011])
         result = self.run_image(self.raw)
         self.assertTrue(result["main_flow_producer"]["ordered_relocations_equal"])
-        self.assertGreaterEqual(result["matching_relocation_prefix"], 99)
+        self.assertGreaterEqual(result["matching_relocation_prefix"], 116)
 
     def test_cross_owner_order_cannot_borrow_two_passing_local_vectors(self):
         sites = [i for i, r in enumerate(self.image.relocations) if 0x96E6 <= r.linear < 0x9AD6]
@@ -158,7 +158,7 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual(self.image.program_image[0x2BC3], 0)
         root = work.carrier_code((work.WORK / "obj/th03/main.obj").read_bytes())
         self.assertEqual(root["_TEXT"]["size"], 748)
-        scope = self.run_image(self.raw)["new_scopes"][-1]
+        scope = next(s for s in self.run_image(self.raw)["new_scopes"] if s["start"] == 0xB50)
         self.assertEqual((scope["start"], scope["bytes"]), (0xB50, 8308))
         self.assertTrue(scope["raw_equal"] and scope["ordered_relocations_equal"])
 
@@ -195,8 +195,8 @@ class MainWorkTests(unittest.TestCase):
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 82)
-        self.assertEqual(len({p["output"] for p in producers}), 82)
+        self.assertEqual(len(producers), 83)
+        self.assertEqual(len({p["output"] for p in producers}), 83)
         for producer in producers:
             if producer.get("origin") == "reference-library-context":
                 self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})

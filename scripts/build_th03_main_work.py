@@ -47,6 +47,7 @@ SCOPES = (
     (0xC2F9, 0xC370),
     (0x272, 0xB50),  # Unowned library context and its natural inter-object gap.
     (0xB50, 0x2BC4),  # Unowned library body and the next natural word boundary.
+    (0xA378, 0xA3FA),  # Native stage palette CODE and function alignment.
 )
 
 
@@ -80,6 +81,10 @@ def context_producers(names=None):
         "c0l.obj",
     }
     producers = {
+        "obj/th03/stg_pal.obj": dict(
+            source="src/main/graphics/stage_palette.asm", staged="th03/stg_pal.asm",
+            output="obj/th03/stg_pal.obj", prefix="",
+        ),
         "obj/th03/mst_pref.obj": dict(
             source="th03/mst_pref.asm", staged="th03/mst_pref.asm",
             recipe="scripts/lib/main_master_prefix.py",
@@ -256,6 +261,12 @@ def contributions(raw, omit_replaced=False):
                              "src/main/core/entry.cpp", "src/main/core/roundfin.cpp"))
                 )
                 or (
+                    "S=HITCIRC_TEXT " in line
+                    and line.split()[0] in {"096E:0C98", "096E:0D1A"}
+                    and any("M=" + module + " " in line.replace(chr(92), "/") for module in
+                            ("th03_main.asm", "th03/stg_pal.asm"))
+                )
+                or (
                     "S=_TEXT " in line
                     and line.split()[0] in {"0000:0272", "0000:0B50", "0000:2BC4"}
                     and any("M=" + module + " " in line.replace(chr(92), "/") for module in
@@ -308,7 +319,7 @@ def review(previous=None, cold_build=False):
         ]
         raise ValueError("tracked scope regressed: " + json.dumps(failed))
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
-    if not all(s["raw_equal"] and s["ordered_relocations_equal"] for s in scopes[-2:]):
+    if not all(s["raw_equal"] and s["ordered_relocations_equal"] for s in scopes[-3:]):
         raise ValueError("native library bytes or literal relocation order differ")
     for name in (Path(object_path(s)).name for s in SOURCES) if previous else ():
         if any(
@@ -403,7 +414,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 99:
+    if result["matching_relocation_prefix"] < 116:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
@@ -543,7 +554,17 @@ def review(previous=None, cold_build=False):
                 )
                 if not result["library_body_transfer"]:
                     raise ValueError("library body transfer changed linked bytes or layout")
-            if ("mst_pref.obj" in previous["objects"]
+            palette_transfer = old_root["HITCIRC_TEXT"]["size"] != new_root["HITCIRC_TEXT"]["size"]
+            if palette_transfer:
+                result["carrier_palette_transfer"] = (
+                    (old_root["HITCIRC_TEXT"]["size"], new_root["HITCIRC_TEXT"]["size"]) == (5058, 4928)
+                    and {k: v["size"] for k, v in old_root.items() if k != "HITCIRC_TEXT"}
+                    == {k: v["size"] for k, v in new_root.items() if k != "HITCIRC_TEXT"}
+                    and before.program_image == candidate.program_image
+                )
+                if not result["carrier_palette_transfer"]:
+                    raise ValueError("palette transfer changed linked bytes or layout")
+            elif ("mst_pref.obj" in previous["objects"]
                     and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
                 result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
             else:
@@ -664,7 +685,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "mst_body.obj", "stg_rnd.obj", "roundfin.obj"]
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "mst_body.obj", "stg_pal.obj", "stg_rnd.obj", "roundfin.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )

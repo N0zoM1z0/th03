@@ -47,6 +47,20 @@ class NativeCompilerTables(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "gap or overlap"):
             verify_native_coverage(self.unit["functions"], extent, self.program)
 
+    def test_palette_instruction_coverage_keeps_even_bytes_separate(self):
+        config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+        unit = next(u for u in config["native_units"] if u["id"] == "th03-main-stage-palette")
+        extent = unit["code_extents"][0]
+        data = verify_native_coverage(unit["functions"], extent, self.program)
+        self.assertEqual(sum(f["size"] for f in unit["functions"]), 128)
+        self.assertEqual([(d["kind"], d["size"]) for d in data],
+                         [("tasm-code-even", 1), ("tasm-code-even", 1)])
+        for d in data:
+            changed = bytearray(self.program)
+            changed[extent["segment"] * 16 + d["offset"]] = 0
+            with self.assertRaisesRegex(ValueError, "native CODE alignment"):
+                verify_native_coverage(unit["functions"], extent, bytes(changed))
+
 
 class MaintainedSourceDrift(unittest.TestCase):
     def test_old_staged_header_cannot_replace_a_deleted_maintained_header(self):

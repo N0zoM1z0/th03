@@ -155,12 +155,38 @@ def native_carrier(raw):
     for old, new in renamed.items():
         text = re.sub(r"\b" + re.escape(old) + r"\b", lambda m: new, text)
 
+    start, end = text.index("sub_A378\tproc far"), text.index("sub_A3D2\tendp") + len("sub_A3D2\tendp")
+    if re.findall(r"(?mi)^[ \t]*([^\s;]+)[ \t]+proc\b", text[start:end]) != [
+        "sub_A378", "sub_A38E", "sub_A3A8", "sub_A3D2"
+    ]:
+        raise ValueError("complete palette procedure interval differs")
+    text = text[:start] + text[end:]
+    for old, new in (
+        ("sub_A378", "_stage_palette_backup"),
+        ("sub_A38E", "_stage_palette_show"),
+        ("sub_A3A8", "PALETTE_RESTORE_FOR_PID"),
+        ("sub_A3D2", "BOMB_PALETTE_STEP"),
+    ):
+        text = re.sub(r"\b" + old + r"\b", new, text)
+    for name in ("PALETTE_RESTORE_FOR_PID", "BOMB_PALETTE_STEP"):
+        text = once(text, name + " = " + name, "")
+    palette_imports = {
+        "_stage_palette_backup", "_stage_palette_show", "_round_objects_for_next",
+        "PALETTE_RESTORE_FOR_PID", "BOMB_PALETTE_STEP",
+    }
+    def keep_publics(match):
+        names = [n.strip() for n in match[1].split(",") if n.strip() not in palette_imports]
+        return "public " + ",".join(names) + "\n" if names else ""
+    text = re.sub(r"(?m)^\s*public[ \t]+([^\n]+)\n", keep_publics, text)
+    marker = "HITCIRC_TEXT\tsegment\tword public 'CODE' use16"
+    text = once(text, marker, marker + "\n" + "\n".join(
+        "extrn " + name + ":far" for name in sorted(palette_imports)))
+    text = once(text, "\n\t.data\n", "\npublic palette_1F2F4,_palette_changed\n\t.data\n")
+
     for old, alias, distance in (
         ("sub_B37C", "_round_playfield_clear", "near"),
         ("sub_B4A3", "_stage_background_update_none", "near"),
         ("sub_B4A8", "_stage_demo_finish", "near"),
-        ("sub_A38E", "_stage_palette_show", "far"),
-        ("sub_A38E", "_round_objects_for_next", "far"),
         ("@GameExecl$qnxc", "MAIN_EXEC", "far"),
         ("sub_C248", "@PLAYER_LOSE_ANIM_RENDER$QP14PLAYER_STUFF_T", "near"),
     ):

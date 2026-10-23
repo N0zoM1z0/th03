@@ -20,7 +20,7 @@ REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
     'scripts/review_th03_cpu_link_order.py': '0b96a855a823aa749cc35ab0b8d4a80b5740bf42a7996a7c934881981df5ba82',
     "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
-    "config/th03_main_exact_units.toml": "20f2fb73ee6c0f4efe3e67e31d510a737a922373052bba16d4d214cce5c3a8a6",
+    "config/th03_main_exact_units.toml": "9bfd0779e0df2caa165a683d8b9f53cc78fb173f927280ee23aa2049fa3d7bce",
     "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
 }
 PINS.update({

@@ -7358,3 +7358,62 @@ offset = 0x0098
 size = 862
 abi = "near cdecl; no arguments; byte result in AL; SI/DI/BP preserved; RET"
 return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-stage-palette"
+source = "src/main/graphics/stage_palette.asm"
+object = "stg_pal"
+compiler = "tasm5"
+map_module = "th03/stg_pal.asm"
+publics = [
+    { offset = 0, name = "_stage_palette_backup" },
+    { offset = 22, name = "_round_objects_for_next" },
+    { offset = 22, name = "_stage_palette_show" },
+    { offset = 48, name = "PALETTE_RESTORE_FOR_PID" },
+    { offset = 90, name = "BOMB_PALETTE_STEP" },
+]
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x0c98
+size = 130
+map_segment = "HITCIRC_TEXT"
+map_group = "MAIN_01"
+map_acbp = 48
+producer_ranges = [
+    { offset = 0x0cad, size = 1, kind = "tasm-code-even" },
+    { offset = 0x0cf1, size = 1, kind = "tasm-code-even" },
+]
+
+[[native_units.functions]]
+name = "stage_palette_backup"
+segment = 0x096e
+offset = 0x0c98
+size = 21
+abi = "far cdecl; DF0; no arguments; SI/DI preserved; RETF"
+return_pop = 0
+
+[[native_units.functions]]
+name = "stage_palette_show"
+segment = 0x096e
+offset = 0x0cae
+size = 26
+abi = "far cdecl; DF0; no arguments; SI/DI preserved; RETF"
+return_pop = 0
+
+[[native_units.functions]]
+name = "palette_restore_for_pid"
+segment = 0x096e
+offset = 0x0cc8
+size = 41
+abi = "far Pascal; DF0; byte PID in BP+6 word carrier; SI/DI/BP preserved; RETF2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "bomb_palette_step"
+segment = 0x096e
+offset = 0x0cf2
+size = 40
+abi = "far Pascal; PID BP+6 and RGB byte BP+8 word carriers; DI/BP preserved; RETF4"
+return_pop = 4
