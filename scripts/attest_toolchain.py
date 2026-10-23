@@ -100,7 +100,10 @@ def run_execution_probes(config: dict[str, object]) -> dict[str, object]:
     banner_expectations = config["banners"]
     producer_expectations = config["omf_producers"]
     probes: dict[str, object] = {}
+    work_created = False
     try:
+        work.mkdir()
+        work_created = True
         write_probe_inputs(work, dos_work)
         banner_commands = {
             "tcc": dos + ["tcc"],
@@ -219,6 +222,9 @@ def run_execution_probes(config: dict[str, object]) -> dict[str, object]:
         )
     except (OSError, OMFError, FormatError, RuntimeError, subprocess.SubprocessError) as error:
         probes.update({"pass": False, "error": str(error)})
+    finally:
+        if work_created:
+            shutil.rmtree(work)
     return probes
 
 
