@@ -7,8 +7,8 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
 
 - Exact scope:93 CODE extents /424 functions /70,380 bytes. The whole-game
   source denominator is unknown; the complete MAIN product is not exact.
-- Two independent576-file source materializations compile all91 source OBJs in
-  92 serial native phases. All93 raw OBJ/EXE/MAP outputs repeat. All240 maintained
+- Two independent577-file source materializations compile all92 source OBJs in
+  93 serial native phases. All94 raw OBJ/EXE/MAP outputs repeat. All240 maintained
   inputs match staging. Only vendor C0L.OBJ/libraries are reused/unowned.
 - Main flow is one3,050-byte entry.obj producer: main146, loop862, real demo
   callbacks57/5, stage900, initializer855, compiler tables/alignment48 and
@@ -18,8 +18,9 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
   Loop -G keeps its distinct score exits; stage -G- restores the default
   profile. Shared declarations avoid duplicate legacy headers. Bounded .inl
   bodies keep four reviewed owners in one .cpp; there is no private DATA/BSS.
-  The first60 global records now match, up from27; different positions fall
-  1,314->1,281. Grouping/filenames remain inferred; authored counts do not rise.
+  The first99 global records now match after native library and SHARED ordering;
+  different positions fall1,281->1,242. Grouping/filenames remain inferred;
+  authored counts do not rise.
 - All11 owner gates pass for those four owners. Entry1,172, loop240, demo214,
   initializer240 and round-finish768 target/candidate cases retain their ABI,
   ordered calls/stores and complete non-stack memory contracts. Seven/eight/
@@ -34,7 +35,16 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
   four controls reject semantic changes. Renderer remains175 versus177.
 - The unowned master.lib prefix has2269 CODE bytes endingB4F. Following context
   is word-aligned atB50; TLINK supplies matching00. All2270 bytes/order match.
-  Near cutline/far APIs and external DATA/BSS widths remain genuine.
+  Near cutline/far APIs and external DATA/BSS widths remain genuine. A second
+  unowned object holds8307 library CODE bytes atB50..2BC3; word-aligned root
+  context begins2BC4. TLINK supplies00 without the old explicit db0. All8308
+  body/gap bytes and six ordered relocations match; root CODE is now748 bytes.
+  DATA/BSS remain allocated in the root; sound helpers retain near calls.
+- All17 native SHARED objects retain physical order and follow the zero-size
+  layout declarations in bo_shim. The resident loader follows them. All positive
+  MAP contributions and program bytes remain unchanged;30 SHARED and3 loader
+  records extend the matching global prefix66->99. SHARED raw equality remains
+  false atEC2D, with no extra source/byte credit.
 - Root ASM, score aliases, link recipe and two bitmap-derived ASP inputs are
   regenerated. Source names remain inferred; old proof archives are unnecessary.
 - Foreign services are explicit bounded stubs; VSYNC delivery in the loop is
@@ -55,10 +65,12 @@ orders. Current runtime/unit checks require no archived entry verification.
 Unresolved:
 
 - All3,168 PLAYFLD bytes come from maintained source and match raw bytes. The
-  first3,050 bytes now also match joint order. Global record60 is the next gap;
-  remaining whole-object/record order differs at1,281 positions. Next target
-  sites15E6/16CA/1723/1A96/2173/2A73 lie in retained master.lib _TEXT context
-  (current MAP: GRAPH_PI_FREE/LOAD_PACK, VSYNC_START, PFEND).
+  first3,050 bytes now also match joint order. Global record99 is the next gap;
+  remaining whole-object/record order differs at1,242 positions. Target record99
+  is stage_palette_show atA3A3 in the unowned HITCIRC prefix. It precedes16
+  boss_explosion_ring records and boss_move_sine atF381, then retained HITCIRC
+  records beginning in randring_fill atA401 and atA841/A835.
+  Preserve physical segments and real source boundaries while investigating.
 - Renderer pointer/reference/register/argsused and adjacent-function controls
   still emit175 bytes; target177 saves SI+DI and uses DI as its counter.
 - State/P_SHOT bytes match, but shot26-site order and stage7/state6/stage5
@@ -71,8 +83,8 @@ Unresolved:
 `scripts/probe_th03_main_producers.py` replays bounded native renderer/alignment
 controls and removes temporary products while preserving working outputs.
 
-Latest CI: PASS,1,707 tests /300 optional archive skips. One CPU at nice10;
-CI peak RSS437,596 KiB, native replay peak RSS478,328 KiB.
+Latest CI: PASS,1,711 tests /300 optional archive skips. One CPU at nice10;
+CI peak RSS451,448 KiB, native replay peak RSS450,488 KiB.
 Keep targets, installed tools, current reports and one working tree; discard
 old experiments, duplicate builds, logs and caches.
 

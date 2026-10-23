@@ -268,6 +268,7 @@ def review(report=None):
         units={},
         entry_loop_producer=comparison["entry_loop_producer"],
         main_flow_producer=comparison["main_flow_producer"],
+        shared_producers=comparison["shared_producers"],
         matching_relocation_prefix=comparison["matching_relocation_prefix"],
         differing_relocation_order_positions=comparison["differing_relocation_order_positions"],
         product_exact=False,

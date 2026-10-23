@@ -96,7 +96,7 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 1018, 1011])
         result = self.run_image(self.raw)
         self.assertTrue(result["main_flow_producer"]["ordered_relocations_equal"])
-        self.assertGreaterEqual(result["matching_relocation_prefix"], 60)
+        self.assertGreaterEqual(result["matching_relocation_prefix"], 99)
 
     def test_cross_owner_order_cannot_borrow_two_passing_local_vectors(self):
         sites = [i for i, r in enumerate(self.image.relocations) if 0x96E6 <= r.linear < 0x9AD6]
@@ -148,13 +148,58 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual(self.run_image(self.raw)["complete_program_differing_bytes"],
                          [0xEC2D, 0x1DB05])
 
+    def test_library_body_ends_before_the_natural_joystick_boundary(self):
+        raw = (work.WORK / "obj/th03/mst_body.obj").read_bytes()
+        self.assertTrue(describe_omf(raw)["valid"])
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        self.assertEqual([(s["name"], s["class"], s["size"]) for s in segments],
+                         [("_TEXT", "CODE", 8307)])
+        self.assertEqual(0xB50 + segments[0]["size"], 0x2BC3)
+        self.assertEqual(self.image.program_image[0x2BC3], 0)
+        root = work.carrier_code((work.WORK / "obj/th03/main.obj").read_bytes())
+        self.assertEqual(root["_TEXT"]["size"], 748)
+        scope = self.run_image(self.raw)["new_scopes"][-1]
+        self.assertEqual((scope["start"], scope["bytes"]), (0xB50, 8308))
+        self.assertTrue(scope["raw_equal"] and scope["ordered_relocations_equal"])
+
+    def test_library_relocation_order_cannot_be_hidden_by_equal_bytes(self):
+        sites = [i for i, r in enumerate(self.image.relocations) if 0xB50 <= r.linear < 0x2BC4]
+        self.assertEqual(sites, list(range(60, 66)))
+        raw = bytearray(self.raw)
+        a, b = [self.image.header.relocation_table_offset + i * 4 for i in sites[:2]]
+        raw[a:a + 4], raw[b:b + 4] = raw[b:b + 4], raw[a:a + 4]
+        self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
+        with self.assertRaisesRegex(ValueError, "native library bytes or literal relocation order"):
+            self.run_image(raw)
+
+    def test_shared_order_preserves_the_unresolved_alignment_gap(self):
+        result = self.run_image(self.raw)["shared_producers"]
+        self.assertEqual((result["start"], result["bytes"]), (0xE8F8, 2306))
+        self.assertEqual(len(result["target_order"]), 30)
+        self.assertTrue(result["ordered_relocations_equal"])
+        self.assertFalse(result["raw_equal"])
+        self.assertFalse(result["exact_acceptance"])
+        self.assertEqual(result["differing_bytes"], [0xEC2D])
+
+    def test_shared_cross_object_order_requires_more_than_local_equality(self):
+        sites = [i for i, r in enumerate(self.image.relocations) if 0xE8F8 <= r.linear < 0xF1FA]
+        self.assertEqual(sites, list(range(66, 96)))
+        raw = bytearray(self.raw)
+        table = self.image.header.relocation_table_offset
+        # Move vectorfar's one entry after exit's eight; retain each local order.
+        for destination, source in zip(sites, sites[1:9] + sites[:1] + sites[9:]):
+            raw[table + destination * 4:table + destination * 4 + 4] = self.raw[table + source * 4:table + source * 4 + 4]
+        self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
+        with self.assertRaisesRegex(ValueError, "SHARED native producer relocation order"):
+            self.run_image(raw)
+
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 81)
-        self.assertEqual(len({p["output"] for p in producers}), 81)
+        self.assertEqual(len(producers), 82)
+        self.assertEqual(len({p["output"] for p in producers}), 82)
         for producer in producers:
             if producer.get("origin") == "reference-library-context":
-                self.assertEqual(producer["source"], "th03/mst_pref.asm")
+                self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})
                 self.assertTrue((ROOT / producer["recipe"]).is_file())
             else:
                 self.assertTrue((ROOT / producer["source"]).is_file())

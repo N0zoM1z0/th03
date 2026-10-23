@@ -46,6 +46,7 @@ SCOPES = (
     (0xC0D8, 0xC248),
     (0xC2F9, 0xC370),
     (0x272, 0xB50),  # Unowned library context and its natural inter-object gap.
+    (0xB50, 0x2BC4),  # Unowned library body and the next natural word boundary.
 )
 
 
@@ -83,7 +84,12 @@ def context_producers(names=None):
             source="th03/mst_pref.asm", staged="th03/mst_pref.asm",
             recipe="scripts/lib/main_master_prefix.py",
             output="obj/th03/mst_pref.obj", prefix="", origin="reference-library-context",
-        )
+        ),
+        "obj/th03/mst_body.obj": dict(
+            source="th03/mst_body.asm", staged="th03/mst_body.asm",
+            recipe="scripts/lib/main_master_body.py",
+            output="obj/th03/mst_body.obj", prefix="", origin="reference-library-context",
+        ),
     }
     for unit in config["units"]:
         for item in physical_objects(unit) + ordering_objects(unit):
@@ -251,9 +257,9 @@ def contributions(raw, omit_replaced=False):
                 )
                 or (
                     "S=_TEXT " in line
-                    and line.split()[0] in {"0000:0272", "0000:0B50"}
+                    and line.split()[0] in {"0000:0272", "0000:0B50", "0000:2BC4"}
                     and any("M=" + module + " " in line.replace(chr(92), "/") for module in
-                            ("th03_main.asm", "th03/mst_pref.asm"))
+                            ("th03_main.asm", "th03/mst_pref.asm", "th03/mst_body.asm"))
                 )
             )
         )
@@ -302,8 +308,8 @@ def review(previous=None, cold_build=False):
         ]
         raise ValueError("tracked scope regressed: " + json.dumps(failed))
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
-    if not scopes[-1]["raw_equal"]:
-        raise ValueError("native library prefix differs from target bytes")
+    if not all(s["raw_equal"] and s["ordered_relocations_equal"] for s in scopes[-2:]):
+        raise ValueError("native library bytes or literal relocation order differ")
     for name in (Path(object_path(s)).name for s in SOURCES) if previous else ():
         if any(
             s["size"] and s["class"] != "CODE"
@@ -382,6 +388,12 @@ def review(previous=None, cold_build=False):
             target_order=relocations(target, 0x96E6, 0xA2D0),
             candidate_order=relocations(candidate, 0x96E6, 0xA2D0),
         ),
+        shared_producers=dict(
+            **extent(0xE8F8, 0xF1FA),
+            target_order=relocations(target, 0xE8F8, 0xF1FA),
+            candidate_order=relocations(candidate, 0xE8F8, 0xF1FA),
+            exact_acceptance=False,  # EC2D alignment still differs from target.
+        ),
     )
     joint = result["entry_loop_producer"]
     if not joint["raw_equal"] or not joint["ordered_relocations_equal"]:
@@ -389,8 +401,10 @@ def review(previous=None, cold_build=False):
     flow = result["main_flow_producer"]
     if not flow["raw_equal"] or not flow["ordered_relocations_equal"]:
         raise ValueError("main flow producer bytes or literal order differ")
-    if result["matching_relocation_prefix"] < 60:
-        raise ValueError("startup and main flow relocation prefix differs")
+    if not result["shared_producers"]["ordered_relocations_equal"]:
+        raise ValueError("SHARED native producer relocation order differs")
+    if result["matching_relocation_prefix"] < 99:
+        raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
         row["target_relative_relocation_order"] = [
@@ -443,6 +457,18 @@ def review(previous=None, cold_build=False):
         )
         if len(re.findall(prefix_pattern, map_text)) != 1:
             raise ValueError("native library prefix ownership differs")
+        for start, size, module in ((0xB50, 8307, "th03/mst_body.asm"),
+                                    (0x2BC4, 748, "th03_main.asm")):
+            pattern = (
+                rf"(?m)^\s*0000:{start:04X}\s+{size:04X}\s+C=CODE\s+S=_TEXT\s+G=\(none\)\s+"
+                rf"M={re.escape(module)}\s+ACBP=48\s*$"
+            )
+            if len(re.findall(pattern, map_text)) != 1:
+                raise ValueError("native library body ownership differs: " + module)
+        body_raw = (WORK / "obj/th03/mst_body.obj").read_bytes()
+        if [(s["name"], s["class"], s["size"]) for s in segment_definitions(body_raw)
+                if s["size"]] != [("_TEXT", "CODE", 8307)]:
+            raise ValueError("native library body introduced CODE or private DATA/BSS")
         for seg, start, size, segment, group, module in (
             (0x96E, 0x6, 3050, "PLAYFLD_TEXT", "MAIN_01", "src/main/core/entry.cpp"),
             (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
@@ -496,7 +522,7 @@ def review(previous=None, cold_build=False):
         result["unlinked_CODE_unchanged"] = {
             n: code(raw) == code((WORK / "obj/th03" / n).read_bytes())
             for n, raw in previous["objects"].items()
-            if n not in {"ex_chyu.obj", "ex_ellen.obj", "main.obj"}
+            if n not in {"ex_chyu.obj", "ex_ellen.obj", "main.obj", "mst_body.obj"}
             and n not in retired and not (merge and n == "entry.obj")
         }
         # Keep native game producers unchanged while the carrier externalizes
@@ -506,6 +532,17 @@ def review(previous=None, cold_build=False):
             new_root_raw = (WORK / "obj/th03/main.obj").read_bytes()
             old_root = carrier_code(old_root_raw)
             new_root = carrier_code(new_root_raw)
+            if "mst_body.obj" in previous["objects"]:
+                result["unlinked_CODE_unchanged"]["library_body"] = (
+                    carrier_code(previous["objects"]["mst_body.obj"]) == carrier_code(body_raw)
+                )
+            else:
+                result["library_body_transfer"] = (
+                    (old_root["_TEXT"]["size"], new_root["_TEXT"]["size"]) == (9056, 748)
+                    and before.program_image == candidate.program_image
+                )
+                if not result["library_body_transfer"]:
+                    raise ValueError("library body transfer changed linked bytes or layout")
             if ("mst_pref.obj" in previous["objects"]
                     and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
                 result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
@@ -627,7 +664,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "stg_rnd.obj", "roundfin.obj"]
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "mst_body.obj", "stg_rnd.obj", "roundfin.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )

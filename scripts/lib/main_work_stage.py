@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RECIPE_INPUTS = (
     "scripts/lib/main_work_stage.py",
     "scripts/lib/main_master_prefix.py",
+    "scripts/lib/main_master_body.py",
     "scripts/replay_th03_main_exact_units.py",
     "scripts/lib/th03_yumemi_bomb_candidate.py",
     "scripts/lib/th03_player_tail_candidate.py",
@@ -292,14 +293,16 @@ def native_carrier(raw):
         "\t\tdb ?\npublic _shot_release_frames\n_shot_release_frames db 2 dup(?)\n\t\tdb 2 dup(?)\n_collmap\t",
     )
     from lib.main_master_prefix import detach
+    from lib.main_master_body import detach as detach_body
 
-    text = detach(text)
+    text = detach_body(detach(text))
     return text.replace("\n", "\r\n").encode("latin1")
 
 
 def stage_carriers(work):
     from replay_th03_main_exact_units import apply_carrier_edits
     from lib.main_master_prefix import source as master_prefix_source
+    from lib.main_master_body import source as master_body_source
     from stage_th03_main_shotroot import transform_score
     from lib import th03_yumemi_bomb_candidate as bomb
     from lib import th03_player_tail_candidate as tail
@@ -329,6 +332,7 @@ def stage_carriers(work):
     prepared = {
         "th03_main.asm": native_carrier(raw),
         "th03/mst_pref.asm": master_prefix_source(raw),
+        "th03/mst_body.asm": master_body_source(raw),
         "th03/th03.inc": (reference / "th03/th03.inc").read_bytes(),
         "src/main/hud/score.asm": transform_score(
             (ROOT / "src/main/hud/score.asm").read_bytes()

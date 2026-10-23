@@ -25,7 +25,7 @@ full required unit Oracle set. These are reviewed source scopes,
 not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
 
-The current MAIN builder regenerates all **91 source objects** with the pinned
+The current MAIN builder regenerates all **92 source objects** with the pinned
 native tools, retaining the vendor startup and libraries. Repeated builds
 produce identical raw objects, executable and MAP from two isolated source trees.
 Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
@@ -36,11 +36,16 @@ finish now share one 3,050-byte native producer. Its three CODE records
 including the stage/round-finish interleave. Loop-specific speed generation
 preserves its separate result exits; the stage code uses the original default
 profile. Function bodies, compiler tables and ABI remain independently reviewed.
-Linking this producer after CRT makes the first 60 global relocations match;
-remaining differing positions fall from 1,314 to 1,281. Producer grouping and
+The native producer grouping and link order now match the first 99 global relocations;
+remaining differing positions are now 1,242. Producer grouping and
 historical filenames remain reconstruction inferences, without new byte credit.
-The existing library prefix now has a separate native object; its natural
-linker boundary closes the B4F difference and adds no authored-source credit.
+The unowned library prefix and following 8,307-byte body now have separate
+native objects. Their natural word boundaries reproduce the gaps at B4F and
+2BC3, while preserving the original near/far APIs and root DATA/BSS. The
+body contributes the next six matching global relocations. Preserving the
+physical SHARED object order while linking those producers and the resident
+loader earlier reproduces the following 33 records. These changes add no
+authored-source credit.
 The complete product still has two loaded-image byte differences and global
 relocation-order differences.
 OP, MAINL and ZUN have maintained source too; their product acceptance remains
@@ -86,8 +91,8 @@ Use the same activated Python environment for verification. CI requires the
 pinned public decoder/emulator dependencies in `requirements-ci.txt`;
 GitHub Actions installs the same requirements file.
 
-The MAIN command performs two independent cold builds of 92 native phases
-each, compiling or assembling every game object before linking. All 93 raw
+The MAIN command performs two independent cold builds of 93 native phases
+each, compiling or assembling every game object before linking. All 94 raw
 OBJ/EXE/MAP outputs must repeat before the scoped owner review can pass. It checks
 complete owned bytes, MAP contributions, ordered MZ relocations and unchanged
 native outputs. Its runtime checks compare
