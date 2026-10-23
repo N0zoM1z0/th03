@@ -32,6 +32,18 @@ class NativeCarveBoundaries(unittest.TestCase):
     "pinned reference source unavailable",
 )
 class CanonicalMainStaging(unittest.TestCase):
+    def test_character_setup_cannot_absorb_an_unreviewed_procedure(self):
+        for distance in (b"near", b"far"):
+            def changed(raw):
+                anchor = b"sub_A4A1\tproc near"
+                self.assertEqual(raw.count(anchor), 1)
+                raw = raw.replace(anchor, anchor + b"\n\t@unreviewed$qv\tproc " + distance + b"\n\t@unreviewed$qv\tendp")
+                return native_carrier(raw)
+
+            with self.subTest(distance=distance), TemporaryDirectory() as folder:
+                with patch("lib.main_work_stage.native_carrier", side_effect=changed):
+                    with self.assertRaisesRegex(ValueError, "complete character setup procedure interval differs"):
+                        stage_carriers(Path(folder))
     def test_palette_cannot_absorb_an_unreviewed_procedure(self):
         for distance in (b"near", b"far"):
             def changed(raw):
@@ -84,7 +96,7 @@ class CanonicalMainStaging(unittest.TestCase):
                     build.linked_objects(work / "obj/th03/main.@l")
                 )
                 hashes = build.stage_sources(producers, prepared, work=work)
-                self.assertEqual(len(producers), 83)
+                self.assertEqual(len(producers), 84)
                 self.assertFalse(list(work.rglob("*.obj")))
                 self.assertFalse(list(work.rglob("*.exe")))
                 self.assertTrue(

@@ -16,16 +16,16 @@ Phantasmagoria of Dim.Dream**. It preserves maintained source and reviewed
 findings for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`. The complete game
 reconstruction is still in progress.
 
-MAIN currently records **428 exact functions / 70,510 exact owned bytes** in
-**94 exact CODE extents**. The current mixed build reproduces all **94 accepted
-extents / 70,510 bytes** and their scoped ordered relocations. The C++ `main`
+MAIN currently records **440 exact functions / 74,398 exact owned bytes** in
+**95 exact CODE extents**. The current mixed build reproduces all **95 accepted
+extents / 74,398 bytes** and their scoped ordered relocations. The C++ `main`
 and round loop, Chiyuri/Ellen units, lose update/particles/banners, next-round/
 score-commit and stage/round setup pass independent source cold builds and the
 full required unit Oracle set. These are reviewed source scopes,
 not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
 
-The current MAIN builder regenerates all **93 source objects** with the pinned
+The current MAIN builder regenerates all **95 source objects** with the pinned
 native tools, retaining the vendor startup and libraries. Repeated builds
 produce identical raw objects, executable and MAP from two isolated source trees.
 Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
@@ -36,8 +36,8 @@ finish now share one 3,050-byte native producer. Its three CODE records
 including the stage/round-finish interleave. Loop-specific speed generation
 preserves its separate result exits; the stage code uses the original default
 profile. Function bodies, compiler tables and ABI remain independently reviewed.
-The native producer grouping and link order now match the first 116 global relocations;
-remaining differing positions are now 1,225. Producer grouping and
+The native producer grouping and link order now match the first 394 global relocations;
+remaining differing positions are now 947. Producer grouping and
 historical filenames remain reconstruction inferences, without new byte credit.
 The unowned library prefix and following 8,307-byte body now have separate
 native objects. Their natural word boundaries reproduce the gaps at B4F and
@@ -51,6 +51,13 @@ maintained assembly. Its 128 instruction bytes pass 1,556 independent
 target/candidate memory and ABI cases; two natural EVEN bytes are reviewed
 separately. Eight mutations reject semantic, stack and memory changes. Existing
 palette storage and the real near/far interfaces remain in place.
+Character resources and all nine callback setters now compile as one natural
+3,888-byte C++ unit: three helpers and nine 408-byte setters. Its four native
+CODE records reproduce all 277 literal relocation sites. An independent
+1,020-case model covers every instruction byte, far filenames, signed resource
+limits, callback writes and near/Pascal returns, rejecting 16 mutations. The
+existing random-ring and collision primitives share an 82-byte native object
+with unchanged credit; their 80 instruction bytes are checked in the same model.
 The complete product still has two loaded-image byte differences and global
 relocation-order differences.
 OP, MAINL and ZUN have maintained source too; their product acceptance remains
@@ -96,8 +103,8 @@ Use the same activated Python environment for verification. CI requires the
 pinned public decoder/emulator dependencies in `requirements-ci.txt`;
 GitHub Actions installs the same requirements file.
 
-The MAIN command performs two independent cold builds of 94 native phases
-each, compiling or assembling every game object before linking. All 95 raw
+The MAIN command performs two independent cold builds of 96 native phases
+each, compiling or assembling every game object before linking. All 97 raw
 OBJ/EXE/MAP outputs must repeat before the scoped owner review can pass. It checks
 complete owned bytes, MAP contributions, ordered MZ relocations and unchanged
 native outputs. Its runtime checks compare

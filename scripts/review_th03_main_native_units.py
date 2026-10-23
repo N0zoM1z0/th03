@@ -32,6 +32,7 @@ LOSE_OWNERS = {
 CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry", "th03-main-round-loop"}
 STAGE_OWNERS = {"th03-main-stage-round"}
 PALETTE_OWNERS = {"th03-main-stage-palette"}
+CHARACTER_OWNERS = {"th03-main-character-setup"}
 
 
 def sha(raw):
@@ -227,7 +228,7 @@ def review(report=None):
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     native_units = config.get("native_units", [])
     need(
-        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS,
+        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS,
         "lose owners are incomplete",
     )
     units = config["units"] + native_units
@@ -272,11 +273,43 @@ def review(report=None):
         entry_loop_producer=comparison["entry_loop_producer"],
         main_flow_producer=comparison["main_flow_producer"],
         shared_producers=comparison["shared_producers"],
+        character_setup_producer=comparison["character_setup_producer"],
         matching_relocation_prefix=comparison["matching_relocation_prefix"],
         differing_relocation_order_positions=comparison["differing_relocation_order_positions"],
         product_exact=False,
     )
     map_text = (build.WORK / "obj/th03/main.map").read_text().replace(chr(92), "/")
+    primitive_path = "obj/th03/roundpr.obj"
+    primitive_raw = (build.WORK / primitive_path).read_bytes()
+    primitive_segments = [s for s in segment_definitions(primitive_raw) if s["size"]]
+    need([(s["name"], s["class"], s["size"]) for s in primitive_segments]
+         == [("HITCIRC_TEXT", "CODE", 82)]
+         and omf[primitive_path]["translator_comments"] == ["Turbo Assembler  Version 5.0"],
+         "round primitive native producer differs")
+    need(code_publics(primitive_raw, primitive_segments[0]["index"]) == [
+        (0, "@randring_fill$qv"), (18, "@randring1_next16$qv"),
+        (36, "@RANDRING1_NEXT16_AND$QUI"), (62, "_collmap_reset")],
+        "round primitive entries differ")
+    primitive_functions = [f for f in config["functions"]
+                           if 0xA3FA <= f.get("segment", config["segment"]) * 16 + f["offset"] < 0xA44C]
+    primitive_extent = dict(segment=0x96E, start=0xD1A, size=82, producer_ranges=[
+        dict(offset=0xD3D, size=1, kind="tasm-code-even"),
+        dict(offset=0xD6B, size=1, kind="tasm-code-even")])
+    need(verify_native_coverage(primitive_functions, primitive_extent, target.program_image)
+         == verify_native_coverage(primitive_functions, primitive_extent, candidate.program_image),
+         "round primitive complete coverage differs")
+    need(len(primitive_functions) == 4
+         and re.search(r"(?m)^\s*096E:0D1A\s+0052\s+C=CODE\s+S=HITCIRC_TEXT\s+G=MAIN_01\s+M=th03/roundpr\.asm\s+ACBP=48\s*$", map_text),
+         "round primitive MAP ownership differs")
+    for function in primitive_functions:
+        # Public names/offsets are checked against the native OMF above. The
+        # linear decoder takes only span/ABI facts, not legacy MAP annotations.
+        span = {k: function[k] for k in ("name", "segment", "offset", "size", "abi")}
+        proof = verify_owner_linear_span(span, target.program_image, config["segment"])
+        need(proof == verify_owner_linear_span(span, candidate.program_image, config["segment"])
+             and proof["last_instruction"] == "ret", "round primitive near boundary differs")
+    result["round_primitives_context"] = dict(comparison["round_primitives_producer"],
+        functions=primitive_functions, native_object=primitive_path, new_authored_credit=0)
     from lib.main_entry_runtime import compare as entry_compare, negative_controls as entry_controls
 
     result["entry_runtime"] = entry_compare(target, candidate)
@@ -341,7 +374,18 @@ def review(report=None):
          and result["palette_runtime"]["code_bytes_executed"] == 128
          and result["palette_controls"]["count"] == 8, "palette contracts are incomplete")
     result["palette_model_sha256"] = sha((ROOT / "scripts/lib/main_stage_palette_runtime.py").read_bytes())
-    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS):
+    from lib.main_character_setup_runtime import compare as character_compare, negative_controls as character_controls, C as character_contract
+
+    need(character_contract["target_sha256"] == result["target_sha256"], "character target contract differs")
+    result["character_runtime"] = character_compare(target, candidate)
+    result["character_controls"] = character_controls(candidate)
+    need(result["character_runtime"]["cases"] == 1020
+         and result["character_runtime"]["code_bytes_executed"] == 3888
+         and result["character_runtime"]["primitive_code_bytes_executed"] == 80
+         and result["character_controls"]["count"] == 16, "character contracts are incomplete")
+    result["character_model_sha256"] = sha((ROOT / "scripts/lib/main_character_setup_runtime.py").read_bytes())
+    result["character_contract_sha256"] = sha((ROOT / "scripts/lib/main_character_setup_contract.json").read_bytes())
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -372,10 +416,13 @@ def review(report=None):
             other = verify_owner_linear_span(
                 function, candidate.program_image, config["segment"]
             )
+            # Distance belongs to the entry ABI, not a far pointer parameter.
+            distance = re.match(r"^(near|far)\b", function["abi"], re.I)
+            need(distance is not None, "entry distance is missing")
             need(
                 proof == other
                 and proof["last_instruction"]
-                == ("retf" if "far" in function["abi"] else "ret"),
+                == ("retf" if distance[1].lower() == "far" else "ret"),
                 "near/far function boundary differs",
             )
             if "return_pop" in function:
@@ -465,7 +512,7 @@ def review(report=None):
             gates=checks,
         )
     need(
-        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS,
+        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS,
         "all native owners required",
     )
     return result

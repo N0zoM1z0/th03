@@ -23,6 +23,7 @@
 #include "src/main/enemy/enemy.hpp"
 #include <stddef.h>
 #include "src/main/round/initialize.hpp"
+#include "src/main/player/character_setup.hpp"
 
 // Link bindings for existing storage/functions only, never new allocation.
 // Existing storage views; names of previously unnamed state remain hypotheses.
@@ -44,15 +45,6 @@ void near stage_demo_update_active(void);         // sub_9AD6
 void near stage_background_update_none(void);     // sub_B4A3
 
 void far stage_palette_show(void);               // sub_A38E
-void near pascal set_callbacks_reimu(int pid);
-void near pascal set_callbacks_mima(int pid);
-void near pascal set_callbacks_marisa(int pid);
-void near pascal set_callbacks_ellen(int pid);
-void near pascal set_callbacks_kotohime(int pid);
-void near pascal set_callbacks_kana(int pid);
-void near pascal set_callbacks_rikako(int pid);
-void near pascal set_callbacks_chiyuri(int pid);
-void near pascal set_callbacks_yumemi(int pid);
 }
 
 // Same existing 32-byte record as the maintained Chiyuri/Marisa owners.

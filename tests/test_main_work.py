@@ -50,7 +50,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (94, 70510),
+            (95, 74398),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -96,7 +96,7 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 1018, 1011])
         result = self.run_image(self.raw)
         self.assertTrue(result["main_flow_producer"]["ordered_relocations_equal"])
-        self.assertGreaterEqual(result["matching_relocation_prefix"], 116)
+        self.assertGreaterEqual(result["matching_relocation_prefix"], 394)
 
     def test_cross_owner_order_cannot_borrow_two_passing_local_vectors(self):
         sites = [i for i, r in enumerate(self.image.relocations) if 0x96E6 <= r.linear < 0x9AD6]
@@ -195,8 +195,8 @@ class MainWorkTests(unittest.TestCase):
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 83)
-        self.assertEqual(len({p["output"] for p in producers}), 83)
+        self.assertEqual(len(producers), 84)
+        self.assertEqual(len({p["output"] for p in producers}), 84)
         for producer in producers:
             if producer.get("origin") == "reference-library-context":
                 self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})
@@ -207,6 +207,31 @@ class MainWorkTests(unittest.TestCase):
         outputs.update(work.object_path(s) for s in work.SOURCES)
         outputs.update({"obj/th03/main.obj", "obj/th03/score_hud.obj", "c0l.obj"})
         self.assertEqual(outputs, set(work.linked_objects()))
+
+    def test_character_setup_and_primitives_are_complete_native_objects(self):
+        raw = (work.WORK / "obj/th03/ch_setup.obj").read_bytes()
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        self.assertEqual([(s["name"], s["class"], s["size"]) for s in segments],
+                         [("HITCIRC_TEXT", "CODE", 3888)])
+        index = segments[0]["index"]
+        self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1017, 1023, 1017, 831])
+        self.assertEqual([o for o, _ in code_publics(raw, index)], [0, 85, 119] + [216 + i * 408 for i in range(9)])
+        raw = (work.WORK / "obj/th03/roundpr.obj").read_bytes()
+        self.assertTrue(describe_omf(raw)["valid"])
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        self.assertEqual([(s["name"], s["class"], s["size"]) for s in segments],
+                         [("HITCIRC_TEXT", "CODE", 82)])
+        self.assertEqual([o for o, _ in code_publics(raw, segments[0]["index"])], [0, 18, 36, 62])
+
+    def test_character_literal_order_cannot_be_normalized(self):
+        sites = [i for i, r in enumerate(self.image.relocations) if 0xA44C <= r.linear < 0xB37C]
+        self.assertEqual(sites, list(range(117, 394)))
+        raw = bytearray(self.raw)
+        a, b = [self.image.header.relocation_table_offset + i * 4 for i in sites[:2]]
+        raw[a:a + 4], raw[b:b + 4] = raw[b:b + 4], raw[a:a + 4]
+        self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
+        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+            self.run_image(raw)
 
     def test_unknown_cached_object_cannot_escape_source_rebuild(self):
         names = work.linked_objects() + ["obj/th03/unknown.obj"]

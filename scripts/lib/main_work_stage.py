@@ -197,24 +197,21 @@ def native_carrier(raw):
             "public " + alias + "\n" + alias + " label " + distance + "\n" + marker,
         )
 
-    for name in (
-        "reimu",
-        "mima",
-        "marisa",
-        "ellen",
-        "kotohime",
-        "kana",
-        "rikako",
-        "chiyuri",
-        "yumemi",
-    ):
-        old = "set_callbacks_" + name
-        marker = old + "\tproc near"
-        text = once(
-            text,
-            marker,
-            "public " + old.upper() + "\n" + old.upper() + " label near\n" + marker,
-        )
+    characters = ("reimu", "mima", "marisa", "ellen", "kotohime", "kana", "rikako", "chiyuri", "yumemi")
+    first, last = "sub_A44C\tproc near", "set_callbacks_yumemi\tendp"
+    start, end = text.index(first), text.index(last) + len(last)
+    expected = ["sub_A44C", "sub_A4A1", "sub_A4C3"] + ["set_callbacks_" + c for c in characters]
+    if re.findall(r"(?mi)^[ \t]*([^\s;]+)[ \t]+proc\b", text[start:end]) != expected:
+        raise ValueError("complete character setup procedure interval differs")
+    text = text[:start] + text[end:]
+    imports = dict(zip(expected, ["CHARACTER_SPRITE_PAIR_LOAD", "_character_sprites_finalize", "CHARACTER_RESOURCES_LOAD"]
+                       + ["SET_CALLBACKS_" + c.upper() for c in characters]))
+    for old, new in imports.items():
+        text = re.sub(r"\b" + old + r"\b", new, text)
+    marker = "HITCIRC_TEXT\tsegment\tword public 'CODE' use16"
+    text = once(text, marker, marker + "\n" + "\n".join("extrn " + n + ":near" for n in imports.values()))
+    text = once(text, "include th03/math/randring_fill.asm\nRANDRING_NEXT_DEF_NOMOD 1, near\ninclude th03/main/collmap_reset.asm",
+                "extrn @randring_fill$qv:near,@randring1_next16$qv:near,@RANDRING1_NEXT16_AND$QUI:near,_collmap_reset:near")
     text = once(
         text,
         "PID_NONE = -1\n",
@@ -233,6 +230,7 @@ def native_carrier(raw):
         text = re.sub(r"\b" + re.escape(label) + r"\b", lambda m: symbol, text)
 
     aliases = [
+        ("a00ch_bf2", "_character_filename_template", "byte"),
         ("aCOul", "_main_archive_name", "byte"),
         ("aGameft_bft", "_main_gaiji_font", "byte"),
         ("aOp", "_main_op_name", "byte"),

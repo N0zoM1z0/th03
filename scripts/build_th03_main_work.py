@@ -26,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03WORK"
 OUT = ROOT / ".analysis/work"
 SOURCES = (
+    "src/main/player/character_setup.cpp",
     "src/main/core/entry.cpp",
     "src/main/player/state.cpp",
     "src/main/player/shotroot.cpp",
@@ -36,6 +37,7 @@ SOURCES = (
     "src/main/player/exatt_ellen.cpp",
 )
 SOURCE_ALIASES = {
+    "src/main/player/character_setup.cpp": "th03/ch_setup.cpp",
     "src/main/player/exatt_chiyuri.cpp": "th03/ex_chyu.cpp",
     "src/main/player/exatt_ellen.cpp": "th03/ex_ellen.cpp",
 }
@@ -48,6 +50,8 @@ SCOPES = (
     (0x272, 0xB50),  # Unowned library context and its natural inter-object gap.
     (0xB50, 0x2BC4),  # Unowned library body and the next natural word boundary.
     (0xA378, 0xA3FA),  # Native stage palette CODE and function alignment.
+    (0xA3FA, 0xA44C),  # Existing round primitives retain their accepted owners.
+    (0xA44C, 0xB37C),  # Complete native character resource/callback producer.
 )
 
 
@@ -81,6 +85,10 @@ def context_producers(names=None):
         "c0l.obj",
     }
     producers = {
+        "obj/th03/roundpr.obj": dict(
+            source="src/main/round/primitives.asm", staged="th03/roundpr.asm",
+            output="obj/th03/roundpr.obj", prefix="",
+        ),
         "obj/th03/stg_pal.obj": dict(
             source="src/main/graphics/stage_palette.asm", staged="th03/stg_pal.asm",
             output="obj/th03/stg_pal.obj", prefix="",
@@ -262,9 +270,9 @@ def contributions(raw, omit_replaced=False):
                 )
                 or (
                     "S=HITCIRC_TEXT " in line
-                    and line.split()[0] in {"096E:0C98", "096E:0D1A"}
+                    and line.split()[0] in {"096E:0C98", "096E:0D1A", "096E:0D6C", "096E:1C9C"}
                     and any("M=" + module + " " in line.replace(chr(92), "/") for module in
-                            ("th03_main.asm", "th03/stg_pal.asm"))
+                            ("th03_main.asm", "th03/stg_pal.asm", "th03/roundpr.asm", "th03/ch_setup.cpp"))
                 )
                 or (
                     "S=_TEXT " in line
@@ -319,7 +327,7 @@ def review(previous=None, cold_build=False):
         ]
         raise ValueError("tracked scope regressed: " + json.dumps(failed))
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
-    if not all(s["raw_equal"] and s["ordered_relocations_equal"] for s in scopes[-3:]):
+    if not all(s["raw_equal"] and s["ordered_relocations_equal"] for s in scopes[5:]):
         raise ValueError("native library bytes or literal relocation order differ")
     for name in (Path(object_path(s)).name for s in SOURCES) if previous else ():
         if any(
@@ -405,6 +413,8 @@ def review(previous=None, cold_build=False):
             candidate_order=relocations(candidate, 0xE8F8, 0xF1FA),
             exact_acceptance=False,  # EC2D alignment still differs from target.
         ),
+        character_setup_producer=extent(0xA44C, 0xB37C),
+        round_primitives_producer=extent(0xA3FA, 0xA44C),
     )
     joint = result["entry_loop_producer"]
     if not joint["raw_equal"] or not joint["ordered_relocations_equal"]:
@@ -414,7 +424,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 116:
+    if result["matching_relocation_prefix"] < 394:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
@@ -480,7 +490,18 @@ def review(previous=None, cold_build=False):
         if [(s["name"], s["class"], s["size"]) for s in segment_definitions(body_raw)
                 if s["size"]] != [("_TEXT", "CODE", 8307)]:
             raise ValueError("native library body introduced CODE or private DATA/BSS")
+        for start, size, module in ((0xD1A, 82, "th03/roundpr.asm"),
+                                    (0x1C9C, 958, "th03_main.asm")):
+            pattern = (rf"(?m)^\s*096E:{start:04X}\s+{size:04X}\s+C=CODE\s+S=HITCIRC_TEXT\s+G=MAIN_01\s+"
+                       rf"M={re.escape(module)}\s+ACBP=48\s*$")
+            if len(re.findall(pattern, map_text)) != 1:
+                raise ValueError("native HITCIRC ownership differs: " + module)
+        primitive_raw = (WORK / "obj/th03/roundpr.obj").read_bytes()
+        if [(s["name"], s["class"], s["size"]) for s in segment_definitions(primitive_raw)
+                if s["size"]] != [("HITCIRC_TEXT", "CODE", 82)]:
+            raise ValueError("native round primitives changed layout or allocated storage")
         for seg, start, size, segment, group, module in (
+            (0x96E, 0xD6C, 3888, "HITCIRC_TEXT", "MAIN_01", "th03/ch_setup.cpp"),
             (0x96E, 0x6, 3050, "PLAYFLD_TEXT", "MAIN_01", "src/main/core/entry.cpp"),
             (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
             (
@@ -554,16 +575,16 @@ def review(previous=None, cold_build=False):
                 )
                 if not result["library_body_transfer"]:
                     raise ValueError("library body transfer changed linked bytes or layout")
-            palette_transfer = old_root["HITCIRC_TEXT"]["size"] != new_root["HITCIRC_TEXT"]["size"]
-            if palette_transfer:
-                result["carrier_palette_transfer"] = (
-                    (old_root["HITCIRC_TEXT"]["size"], new_root["HITCIRC_TEXT"]["size"]) == (5058, 4928)
+            hitcirc_transfer = old_root["HITCIRC_TEXT"]["size"] != new_root["HITCIRC_TEXT"]["size"]
+            if hitcirc_transfer:
+                result["carrier_hitcirc_transfer"] = (
+                    (old_root["HITCIRC_TEXT"]["size"], new_root["HITCIRC_TEXT"]["size"]) in {(5058, 4928), (4928, 958)}
                     and {k: v["size"] for k, v in old_root.items() if k != "HITCIRC_TEXT"}
                     == {k: v["size"] for k, v in new_root.items() if k != "HITCIRC_TEXT"}
                     and before.program_image == candidate.program_image
                 )
-                if not result["carrier_palette_transfer"]:
-                    raise ValueError("palette transfer changed linked bytes or layout")
+                if not result["carrier_hitcirc_transfer"]:
+                    raise ValueError("HITCIRC transfer changed linked bytes or layout")
             elif ("mst_pref.obj" in previous["objects"]
                     and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
                 result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
@@ -685,7 +706,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "mst_body.obj", "stg_pal.obj", "stg_rnd.obj", "roundfin.obj"]
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "mst_body.obj", "stg_pal.obj", "roundpr.obj", "stg_rnd.obj", "roundfin.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )

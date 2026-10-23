@@ -3,7 +3,7 @@
 | Artifact | Target bytes | Source-present units | Ledger exact units | Exact functions | Ledger exact owned bytes |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | th03-op | 36041 | 45 | 0 | 0 | 0 |
-| th03-main | 130882 | 94 | 94 | 428 | 70510 |
+| th03-main | 130882 | 95 | 95 | 440 | 74398 |
 | th03-mainl | 37975 | 145 | 0 | 0 | 0 |
 | th03-zun | 16242 | 15 | 0 | 0 | 0 |
 

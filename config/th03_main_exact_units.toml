@@ -7417,3 +7417,114 @@ offset = 0x0cf2
 size = 40
 abi = "far Pascal; PID BP+6 and RGB byte BP+8 word carriers; DI/BP preserved; RETF4"
 return_pop = 4
+
+
+[[native_units]]
+id = "th03-main-character-setup"
+source = "src/main/player/character_setup.cpp"
+object = "ch_setup"
+map_module = "th03/ch_setup.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x0d6c
+size = 3888
+map_segment = "HITCIRC_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "character_sprite_pair_load"
+segment = 0x096e
+offset = 3436
+size = 85
+abi = "near Pascal; slot BP+8 and writable far filename BP+4; SI/BP preserved; RET6"
+return_pop = 6
+
+[[native_units.functions]]
+name = "character_sprites_finalize"
+segment = 0x096e
+offset = 3521
+size = 34
+abi = "near cdecl; no arguments; BP preserved; RET"
+return_pop = 0
+
+[[native_units.functions]]
+name = "character_resources_load"
+segment = 0x096e
+offset = 3555
+size = 97
+abi = "near Pascal; PID BP+6 and signed resource BP+4; 12-byte local filename; SI/DI/BP preserved; RET4"
+return_pop = 4
+
+[[native_units.functions]]
+name = "set_callbacks_reimu"
+segment = 0x096e
+offset = 3652
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_mima"
+segment = 0x096e
+offset = 4060
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_marisa"
+segment = 0x096e
+offset = 4468
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_ellen"
+segment = 0x096e
+offset = 4876
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_kotohime"
+segment = 0x096e
+offset = 5284
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_kana"
+segment = 0x096e
+offset = 5692
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_rikako"
+segment = 0x096e
+offset = 6100
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_chiyuri"
+segment = 0x096e
+offset = 6508
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "set_callbacks_yumemi"
+segment = 0x096e
+offset = 6916
+size = 408
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2

@@ -1,0 +1,735 @@
+{
+  "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+  "note": "Observed target operands and native-public address bindings, corroborated against the unchanged mixed program image. Symbol names and historical unit grouping remain inferred. Oracle data only; never product implementation bytes.",
+  "players": 26022,
+  "fields": {
+    "extra_add": [
+      10508,
+      12
+    ],
+    "extra_update": [
+      10512,
+      12
+    ],
+    "extra_render": [
+      10516,
+      12
+    ],
+    "charge_add": [
+      26126,
+      128
+    ],
+    "charge_update": [
+      11564,
+      4
+    ],
+    "charge_render": [
+      11572,
+      4
+    ],
+    "charge_hit": [
+      11580,
+      4
+    ],
+    "gauge_pellet": [
+      11588,
+      4
+    ],
+    "gauge_bullet": [
+      11596,
+      4
+    ],
+    "boss_update": [
+      7630,
+      4
+    ],
+    "boss_render": [
+      7638,
+      4
+    ],
+    "bomb_update": [
+      12398,
+      4
+    ],
+    "bomb": [
+      12406,
+      4
+    ]
+  },
+  "background_fields": [
+    14784,
+    14788,
+    14792
+  ],
+  "background_functions": {
+    "1": [
+      [
+        2414,
+        14770
+      ],
+      [
+        2414,
+        14933
+      ],
+      [
+        2414,
+        14717
+      ]
+    ],
+    "2": [
+      [
+        2414,
+        15368
+      ],
+      [
+        2414,
+        15456
+      ],
+      [
+        2414,
+        14717
+      ]
+    ]
+  },
+  "standby": [
+    2414,
+    16656
+  ],
+  "services": {
+    "bfnt": [
+      0,
+      9712
+    ],
+    "mrs": [
+      3727,
+      1522
+    ],
+    "flip": [
+      3727,
+      1974
+    ],
+    "respal": [
+      0,
+      10542
+    ],
+    "palette": [
+      0,
+      7294
+    ],
+    "random": [
+      0,
+      7916
+    ]
+  },
+  "primitives": {
+    "randring": 7762,
+    "randring_p": 8018,
+    "collmap": 19360
+  },
+  "characters": [
+    {
+      "name": "reimu",
+      "resource": 1,
+      "chain": 1,
+      "functions": {
+        "extra_add": [
+          6398,
+          4766
+        ],
+        "extra_update": [
+          6398,
+          5376
+        ],
+        "extra_render": [
+          6398,
+          5657
+        ],
+        "charge_add": [
+          5021,
+          4295
+        ],
+        "charge_update": [
+          5021,
+          4524
+        ],
+        "charge_render": [
+          5021,
+          5043
+        ],
+        "charge_hit": [
+          5021,
+          4883
+        ],
+        "gauge_pellet": [
+          5021,
+          5662
+        ],
+        "gauge_bullet": [
+          5021,
+          5686
+        ],
+        "boss_update": [
+          3871,
+          7747
+        ],
+        "boss_render": [
+          3871,
+          8633
+        ],
+        "bomb_update": [
+          5021,
+          5820
+        ],
+        "bomb": [
+          5021,
+          6161
+        ],
+        "hyper": [
+          2414,
+          16681
+        ],
+        "boss_init": [
+          3871,
+          6670
+        ]
+      }
+    },
+    {
+      "name": "mima",
+      "resource": 3,
+      "chain": 1,
+      "functions": {
+        "extra_add": [
+          6398,
+          5707
+        ],
+        "extra_update": [
+          6398,
+          5989
+        ],
+        "extra_render": [
+          6398,
+          6387
+        ],
+        "charge_add": [
+          5021,
+          6668
+        ],
+        "charge_update": [
+          5021,
+          6900
+        ],
+        "charge_render": [
+          5021,
+          7298
+        ],
+        "charge_hit": [
+          5021,
+          7111
+        ],
+        "gauge_pellet": [
+          5021,
+          7925
+        ],
+        "gauge_bullet": [
+          5021,
+          7949
+        ],
+        "boss_update": [
+          3871,
+          3304
+        ],
+        "boss_render": [
+          3871,
+          4211
+        ],
+        "bomb_update": [
+          5021,
+          13939
+        ],
+        "bomb": [
+          5021,
+          14314
+        ],
+        "hyper": [
+          2414,
+          16743
+        ],
+        "boss_init": [
+          3871,
+          2390
+        ]
+      }
+    },
+    {
+      "name": "marisa",
+      "resource": 5,
+      "chain": 2,
+      "functions": {
+        "extra_add": [
+          6398,
+          2780
+        ],
+        "extra_update": [
+          6398,
+          3158
+        ],
+        "extra_render": [
+          6398,
+          3409
+        ],
+        "charge_add": [
+          5021,
+          2319
+        ],
+        "charge_update": [
+          5021,
+          2542
+        ],
+        "charge_render": [
+          5021,
+          2881
+        ],
+        "charge_hit": [
+          5021,
+          2743
+        ],
+        "gauge_pellet": [
+          5021,
+          3765
+        ],
+        "gauge_bullet": [
+          5021,
+          3789
+        ],
+        "boss_update": [
+          3871,
+          1624
+        ],
+        "boss_render": [
+          3871,
+          2296
+        ],
+        "bomb_update": [
+          5021,
+          5710
+        ],
+        "bomb": [
+          5021,
+          3813
+        ],
+        "hyper": [
+          2414,
+          16809
+        ],
+        "boss_init": [
+          3871,
+          959
+        ]
+      }
+    },
+    {
+      "name": "ellen",
+      "resource": 7,
+      "chain": 2,
+      "functions": {
+        "extra_add": [
+          6398,
+          1039
+        ],
+        "extra_update": [
+          6398,
+          1597
+        ],
+        "extra_render": [
+          6398,
+          2067
+        ],
+        "charge_add": [
+          7013,
+          36
+        ],
+        "charge_update": [
+          7013,
+          211
+        ],
+        "charge_render": [
+          7013,
+          809
+        ],
+        "charge_hit": [
+          7013,
+          691
+        ],
+        "gauge_pellet": [
+          7013,
+          1485
+        ],
+        "gauge_bullet": [
+          7013,
+          1509
+        ],
+        "boss_update": [
+          3871,
+          9414
+        ],
+        "boss_render": [
+          3871,
+          10257
+        ],
+        "bomb_update": [
+          6204,
+          491
+        ],
+        "bomb": [
+          6204,
+          934
+        ],
+        "hyper": [
+          2414,
+          16876
+        ],
+        "boss_init": [
+          3871,
+          8690
+        ]
+      }
+    },
+    {
+      "name": "kotohime",
+      "resource": 9,
+      "chain": 2,
+      "functions": {
+        "extra_add": [
+          6398,
+          3456
+        ],
+        "extra_update": [
+          6398,
+          4111
+        ],
+        "extra_render": [
+          6398,
+          4462
+        ],
+        "charge_add": [
+          7189,
+          23
+        ],
+        "charge_update": [
+          7189,
+          79
+        ],
+        "charge_render": [
+          7189,
+          325
+        ],
+        "charge_hit": [
+          7189,
+          222
+        ],
+        "gauge_pellet": [
+          7189,
+          650
+        ],
+        "gauge_bullet": [
+          7189,
+          674
+        ],
+        "boss_update": [
+          3871,
+          11352
+        ],
+        "boss_render": [
+          3871,
+          12112
+        ],
+        "bomb_update": [
+          5021,
+          5710
+        ],
+        "bomb": [
+          6204,
+          2040
+        ],
+        "hyper": [
+          2414,
+          16923
+        ],
+        "boss_init": [
+          3871,
+          10365
+        ]
+      }
+    },
+    {
+      "name": "kana",
+      "resource": 11,
+      "chain": 2,
+      "functions": {
+        "extra_add": [
+          6398,
+          2117
+        ],
+        "extra_update": [
+          6398,
+          2489
+        ],
+        "extra_render": [
+          6398,
+          2733
+        ],
+        "charge_add": [
+          7108,
+          28
+        ],
+        "charge_update": [
+          7108,
+          149
+        ],
+        "charge_render": [
+          7108,
+          691
+        ],
+        "charge_hit": [
+          7108,
+          530
+        ],
+        "gauge_pellet": [
+          7108,
+          1256
+        ],
+        "gauge_bullet": [
+          7108,
+          1280
+        ],
+        "boss_update": [
+          3871,
+          15864
+        ],
+        "boss_render": [
+          3871,
+          16654
+        ],
+        "bomb_update": [
+          5021,
+          5710
+        ],
+        "bomb": [
+          6204,
+          1514
+        ],
+        "hyper": [
+          2414,
+          17109
+        ],
+        "boss_init": [
+          3871,
+          14859
+        ]
+      }
+    },
+    {
+      "name": "rikako",
+      "resource": 13,
+      "chain": 1,
+      "functions": {
+        "extra_add": [
+          6398,
+          8130
+        ],
+        "extra_update": [
+          6398,
+          8485
+        ],
+        "extra_render": [
+          6398,
+          8785
+        ],
+        "charge_add": [
+          7232,
+          25
+        ],
+        "charge_update": [
+          7232,
+          197
+        ],
+        "charge_render": [
+          7232,
+          744
+        ],
+        "charge_hit": [
+          7232,
+          619
+        ],
+        "gauge_pellet": [
+          7232,
+          1242
+        ],
+        "gauge_bullet": [
+          7232,
+          1266
+        ],
+        "boss_update": [
+          3871,
+          17521
+        ],
+        "boss_render": [
+          3871,
+          18331
+        ],
+        "bomb_update": [
+          5021,
+          5710
+        ],
+        "bomb": [
+          6204,
+          2568
+        ],
+        "hyper": [
+          2414,
+          17171
+        ],
+        "boss_init": [
+          3871,
+          16733
+        ]
+      }
+    },
+    {
+      "name": "chiyuri",
+      "resource": 15,
+      "chain": 2,
+      "functions": {
+        "extra_add": [
+          6398,
+          10
+        ],
+        "extra_update": [
+          6398,
+          640
+        ],
+        "extra_render": [
+          6398,
+          938
+        ],
+        "charge_add": [
+          6950,
+          23
+        ],
+        "charge_update": [
+          6950,
+          98
+        ],
+        "charge_render": [
+          6950,
+          455
+        ],
+        "charge_hit": [
+          6950,
+          336
+        ],
+        "gauge_pellet": [
+          6950,
+          963
+        ],
+        "gauge_bullet": [
+          6950,
+          987
+        ],
+        "boss_update": [
+          3871,
+          13496
+        ],
+        "boss_render": [
+          3871,
+          14761
+        ],
+        "bomb_update": [
+          5021,
+          5710
+        ],
+        "bomb": [
+          6204,
+          1
+        ],
+        "hyper": [
+          2414,
+          16985
+        ],
+        "boss_init": [
+          3871,
+          12205
+        ]
+      }
+    },
+    {
+      "name": "yumemi",
+      "resource": 17,
+      "chain": 2,
+      "functions": {
+        "extra_add": [
+          6398,
+          6434
+        ],
+        "extra_update": [
+          6398,
+          7758
+        ],
+        "extra_render": [
+          6398,
+          8082
+        ],
+        "charge_add": [
+          5021,
+          12436
+        ],
+        "charge_update": [
+          5021,
+          12477
+        ],
+        "charge_render": [
+          5021,
+          12949
+        ],
+        "charge_hit": [
+          5021,
+          12604
+        ],
+        "gauge_pellet": [
+          5021,
+          13808
+        ],
+        "gauge_bullet": [
+          5021,
+          13832
+        ],
+        "boss_update": [
+          3871,
+          5402
+        ],
+        "boss_render": [
+          3871,
+          6587
+        ],
+        "bomb_update": [
+          5021,
+          5710
+        ],
+        "bomb": [
+          5021,
+          8239
+        ],
+        "hyper": [
+          2414,
+          17047
+        ],
+        "boss_init": [
+          3871,
+          4312
+        ]
+      }
+    }
+  ],
+  "target_program_sha256": "e83cbf180a601685a9beef36701ccb4ffa903698b4bbe3a53f0b6b9030034619"
+}
