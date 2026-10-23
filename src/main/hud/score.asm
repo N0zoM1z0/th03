@@ -116,6 +116,8 @@ score_hud_render endp
 
 ; Observed overlapping-word clear, NOT a score-array clear.
 ; Clears 15 distinct bytes by 14 stores. Intent/storage lifetime still open.
+public _stage_score_render_cache_reset
+_stage_score_render_cache_reset label far
 background_overlap_clear proc far
  xor ax, ax
  mov bx, offset _background_particles+BACKGROUND_CLEAR_RECORD*BACKGROUND_RECORD_BYTES+BACKGROUND_CLEAR_FIELD
@@ -231,6 +233,8 @@ score_bonus_digits_put endp
 
 ; Real writable-code contract: points at operand byte of MOV AL,imm8 above.
 ; Input remaining credits; low-byte subtraction wraps, as in the original.
+public STAGE_SCORE_CREDIT_DIGIT_SET
+STAGE_SCORE_CREDIT_DIGIT_SET label far
 score_credit_digit_set proc far
  push bp
  mov bp, sp

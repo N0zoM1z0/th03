@@ -89,6 +89,21 @@ def native_carrier(raw):
     text = re.sub(r"\bsub_A21F\b", "_round_start_next", text)
     text = re.sub(r"\bsub_A289\b", "@ROUND_SCORE_COMMIT$QUI", text)
 
+    start = text.index("sub_9B14\tproc near")
+    end = text.index("sub_9EBF\tendp", start) + len("sub_9EBF\tendp")
+    if re.findall(r"^(\S+)\s+proc near", text[start:end], re.M) != [
+        "sub_9B14",
+        "sub_9EBF",
+    ]:
+        raise ValueError("complete stage/round procedure interval differs")
+    text = (
+        text[:start]
+        + "extern _stage_setup:near\nextern _round_prepare_players:near\n"
+        + text[end:]
+    )
+    text = re.sub(r"\bsub_9B14\b", "_stage_setup", text)
+    text = re.sub(r"\bsub_9EBF\b", "_round_prepare_players", text)
+
     for segment, imports in (
         (
             "main_010_TEXT\tsegment\tbyte public 'CODE' use16",
@@ -129,8 +144,10 @@ def native_carrier(raw):
 
     for old, alias, distance in (
         ("sub_9778", "_round_loop", "near"),
-        ("sub_9B14", "_stage_setup", "near"),
-        ("sub_9EBF", "_round_prepare_players", "near"),
+        ("sub_9B0F", "_stage_demo_update_none", "near"),
+        ("sub_9AD6", "_stage_demo_update_active", "near"),
+        ("sub_B4A3", "_stage_background_update_none", "near"),
+        ("sub_A38E", "_stage_palette_show", "far"),
         ("sub_A38E", "_round_objects_for_next", "far"),
         ("@GameExecl$qnxc", "MAIN_EXEC", "far"),
         ("sub_C248", "@PLAYER_LOSE_ANIM_RENDER$QP14PLAYER_STUFF_T", "near"),
@@ -141,6 +158,30 @@ def native_carrier(raw):
             marker,
             "public " + alias + "\n" + alias + " label " + distance + "\n" + marker,
         )
+
+    for name in (
+        "reimu",
+        "mima",
+        "marisa",
+        "ellen",
+        "kotohime",
+        "kana",
+        "rikako",
+        "chiyuri",
+        "yumemi",
+    ):
+        old = "set_callbacks_" + name
+        marker = old + "\tproc near"
+        text = once(
+            text,
+            marker,
+            "public " + old.upper() + "\n" + old.upper() + " label near\n" + marker,
+        )
+    text = once(
+        text,
+        "PID_NONE = -1\n",
+        "PID_NONE = -1\npublic _story_cpu_safety_frames\n_story_cpu_safety_frames label word\n",
+    )
 
     for label, symbol in (
         ("sub_C0D8", "@PLAYER_LOSE_ANIM_UPDATE$QP14PLAYER_STUFF_T"),
@@ -160,6 +201,15 @@ def native_carrier(raw):
         ("arg0", "_main_ending_name", "byte"),
         ("farfp_20F20", "_main_background_init", "dword"),
         ("farfp_20F28", "_round_background_reset", "dword"),
+        ("byte_23AFA", "_stage_render_timing_flag", "byte"),
+        ("word_1E6E8", "_stage_result_wait_frames", "word"),
+        ("fp_1E6EA", "_stage_demo_update", "word"),
+        ("fp_1FBC0", "_stage_background_update", "word"),
+        ("aLose_bf2", "_stage_lose_bfnt", "byte"),
+        ("aRound_bf2", "_stage_round_bfnt", "byte"),
+        ("aZikicw_bf2", "_stage_zikicw_bfnt", "byte"),
+        ("byte_1FBC2", "_playfield_transition_frame", "byte"),
+        ("byte_1FBC3", "_playfield_transition_midpoint", "byte"),
         ("byte_20E3D", "_round_defeated_player", "byte"),
         ("word_20E3E", "_player_lose_left", "word"),
         ("word_20E40", "_player_lose_top", "word"),

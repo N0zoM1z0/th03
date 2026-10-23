@@ -235,6 +235,17 @@ def review(report=None):
     result["round_finish_model_sha256"] = sha(
         (ROOT / "scripts/lib/main_round_finish_runtime.py").read_bytes()
     )
+    from lib.main_round_init_runtime import (
+        compare as init_compare,
+        negative_controls as init_controls,
+    )
+
+    result["stage_round_candidate"] = comparison["stage_round_candidate"]
+    result["round_init_runtime"] = init_compare(target, candidate)
+    result["round_init_controls"] = init_controls(candidate)
+    result["round_init_model_sha256"] = sha(
+        (ROOT / "scripts/lib/main_round_init_runtime.py").read_bytes()
+    )
     for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]

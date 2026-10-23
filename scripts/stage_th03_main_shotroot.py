@@ -8,7 +8,7 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_SHA = '32e572ba4e136dc1ff96e75ad657759f52a64f6f93ebff54f5f7868910bfcf57'
-SCORE_SHA = 'ec13b2fb32376e0b068ab6fbb49183bbfcad4487bdc0e06a7e7b9bc8356ae62e'
+SCORE_SHA = 'f8ddecf810fcd87f4ad20032ee63e61bea615deecb2728fbcb6711f6c69c990f'
 RESPONSE_SHA = '645495db8a9699a01641bd425917c529382c30762800465b30c613b215aebe20'
 ENTRIES = (
     ('sub_E266', '@stage_prepare_shot_sprites$qv'),

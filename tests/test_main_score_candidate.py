@@ -128,9 +128,17 @@ class DefaultScoreControls(unittest.TestCase):
         self.assertTrue(c.is_score_owner(owner))
         self.assertEqual(c.digest(owner),c.DEFAULT_SCORE_UNIT_DIGEST)
 
-    def test_comment_only_source_transition(self):
+    def test_reviewed_aliases_preserve_historical_source(self):
         import hashlib
         raw=(ROOT/c.MODULE).read_bytes()
+        for alias, entry in (
+            ('_stage_score_render_cache_reset', 'background_overlap_clear'),
+            ('STAGE_SCORE_CREDIT_DIGIT_SET', 'score_credit_digit_set'),
+        ):
+            original=(entry+' proc far\n').encode()
+            exported=('public '+alias+'\n'+alias+' label far\n').encode()+original
+            self.assertEqual(raw.count(exported),1)
+            raw=raw.replace(exported,original)
         new=b'; Maintained score HUD assembly; acceptance is recorded in the ledgers.'
         old=b'; Research source proposal, not compiled, installed or credited.'
         self.assertTrue(raw.startswith(new))

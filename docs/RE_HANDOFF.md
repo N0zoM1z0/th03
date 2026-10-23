@@ -14,11 +14,11 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
   rewriting or fake instruction bytes. Historical filenames remain unknown.
 - The root ASM, score far-Pascal alias, link recipe and both bitmap-derived ASP
   inputs are now reproducible. `scripts/lib/main_work_stage.py` starts with the
-  pinned reference root, applies finite source transitions, and stages 566 files.
+  pinned reference root, applies finite source transitions, and stages 572 files.
   `config/th03_main_link.rsp` owns the explicit link order. The score alias binds
   the existing `score_bonus_digits_put` entry and its real RETF 8 ABI.
-- Each cold round starts without game objects and compiles all 91 game OBJs in
-  92 serial native phases. All 93 raw OBJ/EXE/MAP outputs repeat across two fresh
+- Each cold round starts without game objects and compiles all 92 game OBJs in
+  93 serial native phases. All 94 raw OBJ/EXE/MAP outputs repeat across two fresh
   source trees. Only vendor C0L.OBJ and libraries are reused; they are unowned.
 - HUD's four native bodies total 1,478 bytes with twenty ordered sites. Lose
   update/particles/banners now pass all 11 unit Oracles: 487 bytes/three functions,
@@ -29,7 +29,19 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
   ascending despite equal raw bytes. Both complete functions pass all 11 Oracles.
   Valid-PID score writes, round wrap and call/port order pass 768 independent
   target/candidate cases and five semantic/cleanup mutations. Callees are stubs.
-- The current scoped audit checks all 232 maintained source inputs against the
+- `src/main/round/stage_round.cpp` is now linked as `th03/stg_rnd.cpp`: two
+  complete functions900/855 instruction bytes plus48 compiler table/alignment
+  bytes. All1,803 raw bytes match. Excluding the real5-byte no-op before stage
+  setup fixes natural table alignment; no padding or fake ABI is added.
+  Native1024/779 records move site9EEE ahead of19 stage sites, while target
+  puts it with8 initializer sites. These two functions remain source-present;
+  exact counters stay unchanged. Same-segment pragma/debug controls did not fix it.
+- Initializer runtime covers all855 code bytes in240 target/candidate cases and
+  rejects6 mutations. Negative story difficulty indices are not lower-clamped;
+  uint8 speed/boss/gauge operations wrap before caps.128 random results, strided
+  clears and both player records are checked; foreign services remain stubs.
+  The900-byte stage setup and48 table bytes are outside this runtime model.
+- The current scoped audit checks all 236 maintained source inputs against the
   actual cold staged contents, including headers and the replayed score alias.
   A source-drift negative control rejects old builds after a maintained edit.
 - Entry/state/shot raw bytes match. Shot's ordered relocation partition and the
@@ -51,12 +63,13 @@ the eight initializer runs remain bounded checks with explicit foreign stubs.
 Round-finish adds 768 scenarios covering all 177 bytes, including resident far
 offsets 0/0x200 at two loads; port events do not establish physical device behavior.
 
-Next recover the remaining renderer shape and resolve shot/global order and
+Next resolve the new stage/initializer record boundary, recover the remaining
+renderer shape and resolve shot/global order and
 three outside bytes. Keep targets, installed tools and one working tree; discard
 obsolete experiments, logs and caches.
 
-Latest CI: PASS, 1,686 tests / 300 optional archive skips; one CPU, peak RSS
-370,308 KiB. Current cold pair repeats all 93 raw outputs.
+Latest CI: PASS, 1,689 tests / 300 optional archive skips; one CPU, peak RSS
+343,288 KiB. Current cold pair repeats all 94 raw outputs.
 
 See [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and
 [ledger progress](PROGRESS.md).

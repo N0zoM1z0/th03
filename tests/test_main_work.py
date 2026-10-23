@@ -6,6 +6,7 @@ import tempfile
 import unittest
 import sys
 import tomllib
+import csv
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -55,6 +56,20 @@ class MainWorkTests(unittest.TestCase):
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
         self.assertFalse(result["exact_acceptance"])
         self.assertFalse(result["cold_build"])
+
+    def test_stage_raw_equality_does_not_hide_wrong_relocation_order(self):
+        candidate = self.run_image(self.raw)["stage_round_candidate"]
+        self.assertEqual(candidate["bytes"], 1803)
+        self.assertTrue(candidate["raw_equal"])
+        self.assertFalse(candidate["exact_acceptance"])
+        if not candidate["ordered_relocations_equal"]:
+            with (ROOT / "config/units.csv").open() as stream:
+                row = next(
+                    r
+                    for r in csv.DictReader(stream)
+                    if r["id"] == "th03-main-stage-round"
+                )
+            self.assertNotEqual(row["state"], "exact")
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()

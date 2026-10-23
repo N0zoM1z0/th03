@@ -27,6 +27,7 @@ OUT = ROOT / ".analysis/work"
 SOURCES = (
     "src/main/core/entry.cpp",
     "src/main/core/roundfin.cpp",
+    "src/main/round/stage_round.cpp",
     "src/main/player/state.cpp",
     "src/main/player/shotroot.cpp",
     "src/main/player/lose.cpp",
@@ -36,6 +37,7 @@ SOURCES = (
     "src/main/player/exatt_ellen.cpp",
 )
 SOURCE_ALIASES = {
+    "src/main/round/stage_round.cpp": "th03/stg_rnd.cpp",
     "src/main/player/exatt_chiyuri.cpp": "th03/ex_chyu.cpp",
     "src/main/player/exatt_ellen.cpp": "th03/ex_ellen.cpp",
 }
@@ -45,6 +47,7 @@ SCOPES = (
     (0xE266, 0xE83F),
     (0xC0D8, 0xC248),
     (0xC2F9, 0xC370),
+    (0x9B14, 0xA21F),
 )
 
 
@@ -307,6 +310,16 @@ def review(previous=None, cold_build=False):
             name: [r.linear for r in image.relocations if 0xDA43 <= r.linear < 0xE313]
             for name, image in (("target", target), ("candidate", candidate))
         },
+        stage_round_candidate=dict(
+            **extent(0x9B14, 0xA21F),
+            exact_acceptance=False,
+            target_order=[
+                r.linear for r in target.relocations if 0x9B14 <= r.linear < 0xA21F
+            ],
+            candidate_order=[
+                r.linear for r in candidate.relocations if 0x9B14 <= r.linear < 0xA21F
+            ],
+        ),
     )
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
