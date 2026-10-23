@@ -89,6 +89,35 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual([offset for offset, _ in code_publics(raw, index)], [0, 57, 62, 1001])
         self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 844])
 
+    def test_entry_and_loop_have_one_native_record_and_global_prefix(self):
+        raw = (work.WORK / "obj/th03/entry.obj").read_bytes()
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        self.assertEqual([(s["name"], s["class"], s["size"]) for s in segments],
+                         [("PLAYFLD_TEXT", "CODE", 1008)])
+        index = segments[0]["index"]
+        self.assertEqual(code_publics(raw, index), [(0, "_main"), (146, "_round_loop")])
+        self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1008])
+        result = self.run_image(self.raw)
+        self.assertTrue(result["entry_loop_producer"]["ordered_relocations_equal"])
+        self.assertGreaterEqual(result["matching_relocation_prefix"], 27)
+
+    def test_cross_owner_order_cannot_borrow_two_passing_local_vectors(self):
+        sites = [i for i, r in enumerate(self.image.relocations) if 0x96E6 <= r.linear < 0x9AD6]
+        self.assertEqual(len(sites), 23)
+        early = [i for i in sites if self.image.relocations[i].linear < 0x9778]
+        late = [i for i in sites if self.image.relocations[i].linear >= 0x9778]
+        raw = bytearray(self.raw)
+        table = self.image.header.relocation_table_offset
+        for destination, source in zip(sites, early + late):
+            raw[table + destination * 4:table + destination * 4 + 4] = self.raw[table + source * 4:table + source * 4 + 4]
+        changed = parse_mz(raw)
+        self.assertEqual(changed.program_image, self.image.program_image)
+        for lo, hi in ((0x96E6, 0x9778), (0x9778, 0x9AD6)):
+            vector = lambda image: [r for r in image.relocations if lo <= r.linear < hi]
+            self.assertEqual(vector(changed), vector(self.image))
+        with self.assertRaisesRegex(ValueError, "entry/loop producer"):
+            self.run_image(raw)
+
     def test_library_gap_is_owned_by_the_linker(self):
         raw = (work.WORK / "obj/th03/mst_pref.obj").read_bytes()
         self.assertTrue(describe_omf(raw)["valid"])

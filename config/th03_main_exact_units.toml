@@ -7316,7 +7316,7 @@ return_pop = 0
 
 [[native_units]]
 id = "th03-main-core-entry"
-source = "src/main/core/entry.cpp"
+source = "src/main/core/entry.inl"
 object = "entry"
 map_module = "src/main/core/entry.cpp"
 
@@ -7339,9 +7339,9 @@ return_pop = 0
 
 [[native_units]]
 id = "th03-main-round-loop"
-source = "src/main/round/round_loop.cpp"
-object = "rnd_loop"
-map_module = "th03/rnd_loop.cpp"
+source = "src/main/round/round_loop.inl"
+object = "entry"
+map_module = "src/main/core/entry.cpp"
 
 [[native_units.code_extents]]
 segment = 0x096e

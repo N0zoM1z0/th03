@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from review_th03_main_native_units import review, verify_maintained_sources, verify_native_coverage
+from review_th03_main_native_units import review, verify_maintained_sources, verify_native_coverage, producer_ownership
 from lib.pc98 import parse_mz
 
 
@@ -66,6 +66,31 @@ class MaintainedSourceDrift(unittest.TestCase):
             with patch("review_th03_main_native_units.ROOT", root):
                 with self.assertRaisesRegex(ValueError, "maintained source drift"):
                     verify_maintained_sources(staged)
+
+
+class SharedNativeProducer(unittest.TestCase):
+    def setUp(self):
+        self.config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+        self.peers = [u for u in self.config["native_units"] if u["object"] == "entry"]
+
+    def test_two_reviewed_owners_cover_one_complete_producer(self):
+        result = producer_ownership(self.peers[0], self.peers, [])
+        self.assertEqual((result["extent"]["start"], result["extent"]["size"]), (6, 1008))
+        self.assertEqual([f["offset"] for f in result["functions"]], [6, 152])
+        self.assertEqual(result["owners"], ["th03-main-core-entry", "th03-main-round-loop"])
+
+    def test_missing_or_double_owned_byte_is_rejected(self):
+        for delta in (-1, 1):
+            peers = copy.deepcopy(self.peers)
+            peers[1]["code_extents"][0]["start"] += delta
+            with self.assertRaisesRegex(ValueError, "gap or overlap"):
+                producer_ownership(peers[0], peers, [])
+
+    def test_shared_object_cannot_hide_a_different_frame(self):
+        peers = copy.deepcopy(self.peers)
+        peers[1]["code_extents"][0]["map_group"] = "WRONG_FRAME"
+        with self.assertRaisesRegex(ValueError, "frames differ"):
+            producer_ownership(peers[0], peers, [])
 
 
 @unittest.skipUnless(

@@ -99,6 +99,28 @@ def verify_native_coverage(functions, extent, program):
     return data
 
 
+def producer_ownership(unit, units, functions):
+    """A shared native object must exactly cover its declared owners, without gaps."""
+    peers = [u for u in units if u["object"] == unit["object"]]
+    ranges = sorted(((u["code_extents"][0]["start"], u) for u in peers),
+                    key=lambda item: (item[0], item[1]["id"]))
+    first = ranges[0][1]["code_extents"][0]
+    metadata = (first["segment"], first["map_segment"], first["map_group"], first["map_acbp"])
+    cursor, starts = first["start"], []
+    native_functions = []
+    for start, peer in ranges:
+        need(len(peer["code_extents"]) == 1, "native owner must have one extent")
+        extent = peer["code_extents"][0]
+        need(start == cursor, "native producer owners have a gap or overlap")
+        need((extent["segment"], extent["map_segment"], extent["map_group"], extent["map_acbp"])
+             == metadata and peer["map_module"] == unit["map_module"], "native producer frames differ")
+        cursor += extent["size"]
+        starts.append(peer["id"])
+        native_functions.extend(peer.get("functions", [f for f in functions if f["object"] == peer["object"]]))
+    return dict(extent=dict(first, size=cursor - first["start"]), owners=starts,
+                functions=sorted(native_functions, key=lambda f: f["offset"]))
+
+
 def review(report=None):
     report_path = ROOT / ".analysis/work/main-build.json"
     report = json.loads(report_path.read_text()) if report is None else report
@@ -244,6 +266,9 @@ def review(report=None):
         replayed_owned_extents=comparison["checked_owned_extents"],
         replayed_owned_bytes=comparison["checked_owned_bytes"],
         units={},
+        entry_loop_producer=comparison["entry_loop_producer"],
+        matching_relocation_prefix=comparison["matching_relocation_prefix"],
+        differing_relocation_order_positions=comparison["differing_relocation_order_positions"],
         product_exact=False,
     )
     map_text = (build.WORK / "obj/th03/main.map").read_text()
@@ -362,12 +387,14 @@ def review(report=None):
             )
         obj_path = "obj/th03/" + unit["object"] + ".obj"
         obj_raw = (build.WORK / obj_path).read_bytes()
+        producer = producer_ownership(unit, units, config["functions"])
+        producer_extent = producer["extent"]
         segments = [s for s in segment_definitions(obj_raw) if s["size"]]
         need(
             len(segments) == 1
             and segments[0]["class"] == "CODE"
             and segments[0]["name"] == extent["map_segment"]
-            and segments[0]["size"] == extent["size"],
+            and segments[0]["size"] == producer_extent["size"],
             "private storage or wrong CODE extent",
         )
         need(
@@ -376,11 +403,11 @@ def review(report=None):
         )
         need(
             [offset for offset, name in code_publics(obj_raw, segments[0]["index"])]
-            == [f["offset"] - extent["start"] for f in functions],
+            == [f["offset"] - producer_extent["start"] for f in producer["functions"]],
             "compiler function entries differ",
         )
         pattern = (
-            rf"(?m)^\s*{extent['segment']:04X}:{extent['start']:04X}\s+{extent['size']:04X}\s+C=CODE\s+"
+            rf"(?m)^\s*{extent['segment']:04X}:{producer_extent['start']:04X}\s+{producer_extent['size']:04X}\s+C=CODE\s+"
             rf"S={re.escape(extent['map_segment'])}\s+G={re.escape(extent['map_group'])}\s+"
             rf"M={re.escape(unit['map_module'])}\s+ACBP={extent['map_acbp']}\s*$"
         )
@@ -414,6 +441,8 @@ def review(report=None):
             file_offset=int(row["file_offset"], 0),
             functions=decoded,
             compiler_data=data,
+            native_producer=dict(object=obj_path, start=producer_extent["start"],
+                                 bytes=producer_extent["size"], owners=producer["owners"]),
             ordered_relocations=len(literal(target)),
             gates=checks,
         )

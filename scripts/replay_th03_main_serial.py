@@ -19,7 +19,7 @@ STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 CLAIM = STATE_ROOT / "active.claim"
 REPLAY = "scripts/replay_th03_main_exact_units.py"
 SCHEDULE = ROOT / "scripts/lib/th03_serial_schedule.py"
-SCHEDULE_SHA = 'f8863c89d7466d7af49adb2ca0f190e608513285aef6305eba1cfa50779241ce'
+SCHEDULE_SHA = 'f7dbee87518bf6f24301c5c17e22a82534606bdfbbb970593a89fde78a1aba93'
 ORIGINAL_REPLAY_SHA = 'c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea'
 
 def utc():

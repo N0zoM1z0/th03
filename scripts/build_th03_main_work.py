@@ -27,7 +27,6 @@ WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03WORK"
 OUT = ROOT / ".analysis/work"
 SOURCES = (
     "src/main/core/entry.cpp",
-    "src/main/round/round_loop.cpp",
     "src/main/core/roundfin.cpp",
     "src/main/round/stage_round.cpp",
     "src/main/player/state.cpp",
@@ -39,19 +38,17 @@ SOURCES = (
     "src/main/player/exatt_ellen.cpp",
 )
 SOURCE_ALIASES = {
-    "src/main/round/round_loop.cpp": "th03/rnd_loop.cpp",
     "src/main/round/stage_round.cpp": "th03/stg_rnd.cpp",
     "src/main/player/exatt_chiyuri.cpp": "th03/ex_chyu.cpp",
     "src/main/player/exatt_ellen.cpp": "th03/ex_ellen.cpp",
 }
 SCOPES = (
-    (0x96E6, 0x9778),
+    (0x96E6, 0x9AD6),
     (0xDA43, 0xE0F7),
     (0xE266, 0xE83F),
     (0xC0D8, 0xC248),
     (0xC2F9, 0xC370),
     (0x9AD6, 0xA21F),
-    (0x9778, 0x9AD6),
     (0x272, 0xB50),  # Unowned library context and its natural inter-object gap.
 )
 
@@ -251,9 +248,10 @@ def contributions(raw, omit_replaced=False):
                 )
                 or (
                     "S=PLAYFLD_TEXT" in line
-                    and line.split()[0] in {"096E:0098", "096E:03F6", "096E:0434"}
+                    and line.split()[0] in {"096E:0006", "096E:0098", "096E:03F6", "096E:0434"}
                     and any("M=" + module + " " in line for module in
-                            ("th03_main.asm", "th03/stg_rnd.cpp", "th03/rnd_loop.cpp"))
+                            ("th03_main.asm", "th03/stg_rnd.cpp", "th03/rnd_loop.cpp",
+                             "src/main/core/entry.cpp"))
                 )
                 or (
                     "S=_TEXT " in line
@@ -335,6 +333,13 @@ def review(previous=None, cold_build=False):
         )
         == Counter((r.segment, r.offset) for r in target.relocations),
         complete_relocation_order_equal=candidate.relocations == target.relocations,
+        differing_relocation_order_positions=sum(
+            a != b for a, b in zip(candidate.relocations, target.relocations)
+        ),
+        matching_relocation_prefix=next(
+            (i for i, (a, b) in enumerate(zip(candidate.relocations, target.relocations)) if a != b),
+            min(len(candidate.relocations), len(target.relocations)),
+        ),
         complete_program_differing_bytes=[
             i
             for i, (a, b) in enumerate(
@@ -371,7 +376,17 @@ def review(previous=None, cold_build=False):
             target_order=relocations(target, 0x9778, 0x9AD6),
             candidate_order=relocations(candidate, 0x9778, 0x9AD6),
         ),
+        entry_loop_producer=dict(
+            **extent(0x96E6, 0x9AD6),
+            target_order=relocations(target, 0x96E6, 0x9AD6),
+            candidate_order=relocations(candidate, 0x96E6, 0x9AD6),
+        ),
     )
+    joint = result["entry_loop_producer"]
+    if not joint["raw_equal"] or not joint["ordered_relocations_equal"]:
+        raise ValueError("entry/loop producer bytes or literal order differ")
+    if result["matching_relocation_prefix"] < 27:
+        raise ValueError("startup and entry/loop relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
         row["target_relative_relocation_order"] = [
@@ -389,6 +404,21 @@ def review(previous=None, cold_build=False):
     )
     if previous:
         before = parse_mz(previous["exe"])
+        old_entry = code(previous["objects"]["entry.obj"])
+        new_entry = code((WORK / "obj/th03/entry.obj").read_bytes())
+        merge = "rnd_loop.obj" in previous["objects"]
+        retired = {"rnd_loop.obj"} if merge else set()
+        if merge:
+            old_loop = code(previous["objects"]["rnd_loop.obj"])
+            if (set(old_entry) != {"PLAYFLD_TEXT"}
+                    or set(old_loop) != {"PLAYFLD_TEXT"}
+                    or set(new_entry) != {"PLAYFLD_TEXT"}
+                    or [len(old_entry["PLAYFLD_TEXT"]), len(old_loop["PLAYFLD_TEXT"]),
+                        len(new_entry["PLAYFLD_TEXT"])] != [146, 862, 1008]
+                    or before.program_image[0x96E6:0x9AD6]
+                    != candidate.program_image[0x96E6:0x9AD6]):
+                raise ValueError("entry/loop source transfer changed owned bytes or layout")
+        result["retired_objects"] = sorted(retired)
         result["map_contributions_unchanged"] = contributions(
             previous["map"]
         ) == contributions((WORK / "obj/th03/main.map").read_bytes())
@@ -405,7 +435,7 @@ def review(previous=None, cold_build=False):
         if len(re.findall(prefix_pattern, map_text)) != 1:
             raise ValueError("native library prefix ownership differs")
         for seg, start, size, segment, group, module in (
-            (0x96E, 0x98, 862, "PLAYFLD_TEXT", "MAIN_01", "th03/rnd_loop.cpp"),
+            (0x96E, 0x6, 1008, "PLAYFLD_TEXT", "MAIN_01", "src/main/core/entry.cpp"),
             (0x96E, 0x3F6, 1865, "PLAYFLD_TEXT", "MAIN_01", "th03/stg_rnd.cpp"),
             (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
             (
@@ -447,16 +477,19 @@ def review(previous=None, cold_build=False):
         result["object_repeats_previous"] = {
             n: raw == (WORK / "obj/th03" / n).read_bytes()
             for n, raw in previous["objects"].items()
+            if n not in retired
         }
         if "game_objects" in previous:
             result["game_object_repeats_previous"] = {
                 name: raw == (WORK / name).read_bytes()
                 for name, raw in previous["game_objects"].items()
+                if Path(name).name not in retired
             }
         result["unlinked_CODE_unchanged"] = {
             n: code(raw) == code((WORK / "obj/th03" / n).read_bytes())
             for n, raw in previous["objects"].items()
             if n not in {"ex_chyu.obj", "ex_ellen.obj", "stg_rnd.obj", "main.obj"}
+            and n not in retired and not (merge and n == "entry.obj")
         }
         # Keep native game producers unchanged while the carrier externalizes
         # library references. A cold repeat also checks the complete carrier.
@@ -470,15 +503,7 @@ def review(previous=None, cold_build=False):
             result["unlinked_CODE_unchanged"]["stage"] = old_stage == new_stage
             if ("mst_pref.obj" in previous["objects"]
                     and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
-                if "rnd_loop.obj" not in previous["objects"]:
-                    result["unlinked_CODE_unchanged"]["carrier"] = {
-                        k: v for k, v in old_root.items() if k != "PLAYFLD_TEXT"
-                    } == {k: v for k, v in new_root.items() if k != "PLAYFLD_TEXT"}
-                    if (old_root["PLAYFLD_TEXT"]["size"] != 862
-                            or new_root.get("PLAYFLD_TEXT", {}).get("size", 0) != 0):
-                        raise ValueError("round-loop transfer altered CODE layout")
-                else:
-                    result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
+                result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
             else:
                 # Externalizing library names changes unlinked fixup operands.
                 # Enforce unchanged non-library CODE layout and every linked
@@ -597,7 +622,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj"]
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "rnd_loop.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )
@@ -770,6 +795,8 @@ def build(rebuild_context=False, cold=False):
                         ],
                     )
                 report["comparison"] = review(previous, cold_build=cold)
+                for retired in report["comparison"].get("retired_objects", []):
+                    (WORK / "obj/th03" / retired).unlink(missing_ok=True)
                 eligible = (
                     cold
                     and previous is not None

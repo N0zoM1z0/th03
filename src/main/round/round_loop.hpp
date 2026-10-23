@@ -3,7 +3,7 @@
 // Views of existing storage; this interface allocates no DATA/BSS.
 #pragma option -a-
 #include "compat/rec98/th03/main/player/stuff.hpp"
-#include "compat/rec98/th03/resident.hpp"
+#include "src/main/core/resident.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/round.hpp"
 #include "compat/rec98/th03/main/difficul.hpp"

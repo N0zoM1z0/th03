@@ -1,7 +1,7 @@
 #ifndef TH03_MAIN_ENTRY_HPP
 #define TH03_MAIN_ENTRY_HPP
 #pragma option -a1
-#include "compat/rec98/th03/resident.hpp"
+#include "src/main/core/resident.hpp"
 #pragma option -a2
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 #include "compat/rec98/th03/main/round.hpp"

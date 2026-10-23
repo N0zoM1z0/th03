@@ -25,7 +25,7 @@ full required unit Oracle set. These are reviewed source scopes,
 not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
 
-The current MAIN builder regenerates all **94 source objects** with the pinned
+The current MAIN builder regenerates all **93 source objects** with the pinned
 native tools, retaining the vendor startup and libraries. Repeated builds
 produce identical raw objects, executable and MAP from two isolated source trees.
 Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
@@ -36,6 +36,10 @@ match; compiler tables and near return boundaries are reviewed separately.
 The 862-byte native C++ round loop matches all 16 literal ordered relocations;
 the `-G` compiler option preserves the separate result exits. Independent
 contracts cover all loop bytes in 240 scenarios and reject eight mutations.
+The entry and round loop now share one 1,008-byte native CODE record, matching
+all 23 ordered sites across their boundary. Linking it immediately after the CRT
+makes the first 27 global relocations match; remaining differing positions fall
+from 1,337 to 1,314. This producer grouping remains a reconstruction inference.
 The existing library prefix now has a separate native object; its natural
 linker boundary closes the B4F difference and adds no authored-source credit.
 The complete product still has two loaded-image byte differences and global
@@ -83,8 +87,8 @@ Use the same activated Python environment for verification. CI requires the
 pinned public decoder/emulator dependencies in `requirements-ci.txt`;
 GitHub Actions installs the same requirements file.
 
-The MAIN command performs two independent cold builds of 95 native phases
-each, compiling or assembling every game object before linking. All 96 raw
+The MAIN command performs two independent cold builds of 94 native phases
+each, compiling or assembling every game object before linking. All 95 raw
 OBJ/EXE/MAP outputs must repeat before the scoped owner review can pass. It checks
 complete owned bytes, MAP contributions, ordered MZ relocations and unchanged
 native outputs. Its runtime checks compare
