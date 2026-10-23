@@ -288,6 +288,7 @@ class Rec98ForwarderTests(unittest.TestCase):
     GUARDED_HEADERS = (
         ("th03/main/chars/speed.hpp", "TH03_COMPAT_REC98_MAIN_CHARS_SPEED_HPP"),
         ("th03/hardware/input.h", "TH03_COMPAT_REC98_HARDWARE_INPUT_H"),
+        ("th03/main/player/cur.hpp", "TH03_COMPAT_REC98_MAIN_PLAYER_CUR_HPP"),
     )
 
     @staticmethod

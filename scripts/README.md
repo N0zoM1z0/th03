@@ -1,6 +1,7 @@
 # Current entry points
 
 - `preflight.py`: environment, targets and tracking.
+- `build_th03_main_work.py --build --runtime`: current mixed MAIN build and bounded entry check, without archived replay dependencies.
 - `ci.py`: tests and available local tool/database checks.
 - `ghidra.py ARTIFACT check`: headless target/database identity.
 - `attest_toolchain.py`: pinned native tools.

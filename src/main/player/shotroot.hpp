@@ -43,7 +43,8 @@ void far pascal round_result_high_digits_put(
 extern "C" void far pascal reimu_hyper_shot_add(Subpixel center_x, Subpixel center_y);
 
 typedef char shotroot_scalar_widths[(sizeof(int) == 2 && sizeof(long) == 4
-    && sizeof(bool) == 1 && sizeof(pid) == 1) ? 1 : -1];
+    && sizeof(bool) == 1 && sizeof(pid.current) == 1
+    && sizeof(pid.so_attack) == 1) ? 1 : -1];
 typedef char shotroot_record_sizes[(sizeof(shotpair_t) == 14
     && sizeof(efe_t) == 48 && sizeof(player_stuff_t) == 128
     && sizeof(resident_t) == 256) ? 1 : -1];

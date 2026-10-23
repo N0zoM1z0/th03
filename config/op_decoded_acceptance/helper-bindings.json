@@ -68,8 +68,8 @@
     },
     {
       "path": "scripts/validate_tracking.py",
-      "sha256": "b04eb20d001199c7a0ffb89962c019f0a034347fe25cc3f4122d28468fa3a4a2",
-      "bytes": 28677
+      "sha256": "0499eb4105f5f9437839e8333e419c435ff7a07cf4555a0a542d564aeef807a9",
+      "bytes": 28750
     },
     {
       "path": "scripts/verify_targets.py",

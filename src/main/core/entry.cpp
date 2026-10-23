@@ -1,6 +1,8 @@
 // Candidate for MAIN load 96E6..9778; existing strings/storage stay external.
 #pragma codeseg PLAYFLD_TEXT main_01
 #include "src/main/core/entry.hpp"
+// MAIN_EXEC returns far but shares the caller's MAIN_01 code frame.
+#pragma samecodeseg main_exec
 
 void far cdecl main(void)
 {

@@ -66,6 +66,7 @@ REC98_INCLUDE_PREFIXES = ("libs/", "platform/", "th01/", "th02/", "th03/", "th04
 # Only these reviewed headers may suppress duplicate reference declarations.
 # Pin both path and guard: arbitrary guard macros could suppress unrelated input.
 REC98_GUARDED_FORWARDERS = {
+    "th03/main/player/cur.hpp": "TH03_COMPAT_REC98_MAIN_PLAYER_CUR_HPP",
     "th03/main/chars/speed.hpp": "TH03_COMPAT_REC98_MAIN_CHARS_SPEED_HPP",
     "th03/hardware/input.h": "TH03_COMPAT_REC98_HARDWARE_INPUT_H",
 }
