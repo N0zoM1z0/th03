@@ -1,9 +1,8 @@
 # TH03 handoff — 2026-10-23
 
-The owner requested cleanup and handoff; autonomous reconstruction work has
-stopped. The 98% authored-byte exact objective is **not achieved**: the whole
-authored denominator is still unknown. Use local headless tools, no Factory MCP.
-Latest requested commit format: `gpt-6-astra-medium: xxx ~`.
+Reconstruction resumed after handoff. The 98% authored-byte exact objective is
+**not achieved**: the whole authored denominator is still unknown. Use local
+headless tools, no Factory MCP. Commit format: `gpt-6.1-sol: xxx`.
 
 ## Start here
 
@@ -14,12 +13,19 @@ Re-attest the selected database before target analysis. All Japanese targets
 remain `candidate-local-attested`, not independently pristine-dump attested.
 
 Preserve the game-local Wine prefix and one Borland writer at a time. Recent
-probes use CPU 19, nice 10 and clear DISPLAY/WAYLAND_DISPLAY; Ghidra uses a 768 MiB
-heap and one active processor. Do not kill other repositories' jobs.
+probes use CPU 19, nice 10 and clear DISPLAY/WAYLAND_DISPLAY; For a 768 MiB Java heap cap use
+`_JAVA_OPTIONS="-Xmx768m -XX:ActiveProcessorCount=1"`; the Ghidra wrapper resets
+`JAVA_TOOL_OPTIONS`. Do not kill other repositories' jobs.
 
 ## Authoritative checkpoint
 
-`0285623` is the last product-source checkpoint, pushed to origin/main.
+The resumed entry checkpoint passes full CI: 2,335 tests (two existing skips),
+all four database attestations and Oracle/toolchain checks. Wall7:54.19; peak RSS
+660,052 KiB, one CPU/nice10, zero swaps. Logs: `.analysis/main-resume-20261023/ci.log`
+and `ci-resources.txt`. Its current entry proof is `entry-review-v03.json` there.
+
+`0285623` is the previous product-source checkpoint. The new entry source and
+review are described below; all87 accepted extents retain their original scope.
 Its complete CI passed 2,329 tests (two existing skips), all four database
 attestations and Oracle/toolchain checks. Runtime 8:56.73; peak RSS 665,436 KiB;
 zero swaps. Evidence is `.analysis/codex-main-lose-20261022-v01/ci-v01.log`,
@@ -32,11 +38,18 @@ zero swaps. Evidence is `.analysis/codex-main-lose-20261022-v01/ci-v01.log`,
 | MAINL | Published 145 decoded owners;27,753 authored + 628 library bytes | Canonical exact ledger remains 0; no whole-game percentage |
 | ZUN | Source 15/18 units; 1,855 scoped bytes | Canonical exact ledger remains 0; driver/library context separate |
 
-Ledger counts: 296 units, 3,223 evidence rows, 4 hypotheses, 373 knowledge rows,
+Ledger counts: 296 units, 3,227 evidence rows, 4 hypotheses, 375 knowledge rows,
 413 authored-function rows. The latest ledger refresh changed only the evidence
-binding in existing OP33/MAINL145 publications; owner scope/hash/size is unchanged.
+and knowledge bindings in existing OP33/MAINL145 publications; owner scope/hash/size is unchanged.
 
 ## MAIN frontier and unresolved questions
+
+The new complete entry candidate at 96E6..9778 compiles to146 bytes and actually
+links in MENT266. It preserves all87 accepted scopes and outside program bytes;
+141/146 entry bytes match, with one far/relaxed call mismatch and global literal
+relocation order still open. 293 bounded entry runtime cases and five mutations
+pass. See [entry review](reconstruction/MAIN_ENTRY_REVIEW.md) and replay with
+`scripts/review_th03_main_entry.py --output .analysis/NEW_MAIN_ENTRY_REVIEW.json`.
 
 1. State 1,716 bytes and shot 1,497 bytes are compiled and actually linked in
    PSTL245. Existing 87 accepted scopes remain equal. The new ranges still have

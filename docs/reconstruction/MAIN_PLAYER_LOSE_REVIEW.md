@@ -126,3 +126,11 @@ No dummy use of SI, emitted target bytes or manual padding was added.
 
 Installed PLSE257 verification remains `review-v04.py --installed` with a fresh
 output path. Its complete native-v04 inputs, outputs and carrier are retained.
+
+## Resumed register-allocation control — 2026-10-23
+
+PLSE262 / `.analysis/main-resume-20261023/native-v09` repeats the explicit-DI
+candidate with `#pragma option -r-` around the renderer. One original native
+compile exits zero and releases its writer lock. It still emits175 renderer /
+662 CODE bytes with only DI saved. Disabling automatic register allocation does
+not explain the extra SI save pair. Installed PLSE257 source remains unchanged.
