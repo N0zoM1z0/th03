@@ -99,6 +99,13 @@ def check_sources(work):
 
 def transform_root(raw):
     require(sha(raw) == score.REDUCED_ROOT_SHA, 'pre-bomb root is not accepted score root')
+    out = edit_root(raw)
+    require(sha(out) == ROOT_AFTER, 'post-bomb root identity changed')
+    return out
+
+
+def edit_root(raw):
+    """Move complete source bodies and bind interfaces without an archived run."""
     start, end = b'yumemi_bomb\tproc far\r\n', b'yumemi_bomb\tendp\r\n'
     require(raw.count(start) == raw.count(end) == 1, 'bomb root boundary')
     a = raw.index(start); b = raw.index(end,a)+len(end)
@@ -112,7 +119,6 @@ def transform_root(raw):
     for old,new in edits:
         require(out.count(old) == 1, 'bomb root interface drift')
         out = out.replace(old,new,1)
-    require(sha(out) == ROOT_AFTER, 'post-bomb root identity changed')
     return out
 
 

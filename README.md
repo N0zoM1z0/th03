@@ -16,21 +16,21 @@ Phantasmagoria of Dim.Dream**. It preserves maintained source and reviewed
 findings for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`. The complete game
 reconstruction is still in progress.
 
-MAIN currently records **403 exact functions / 64,736 exact owned bytes** in
-**85 exact CODE extents**. The current mixed build reproduces all **87 tracked
+MAIN currently records **413 exact functions / 66,843 exact owned bytes** in
+**87 exact CODE extents**. The current mixed build reproduces all **87 tracked
 extents / 66,843 bytes** and their scoped ordered relocations. Chiyuri/Ellen's
-compiler-unit boundaries have been corrected; those two units await fresh cold
-acceptance. These are reviewed source scopes, not a whole-game completion
-percentage. See [the progress table](docs/PROGRESS.md) and
+compiler-unit boundaries now pass independent source cold builds and the full
+required unit Oracle set. These are reviewed source scopes, not a whole-game
+completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
 
 The current MAIN builder regenerates all **90 game objects** with the pinned
 native tools, retaining the vendor startup and libraries. Repeated builds
-produce identical raw objects and the same executable. Ellen's native producer
-now emits the correct relocation order without OMF record rewriting; HUD intro
+produce identical raw objects, executable and MAP from two isolated source trees.
+Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
 and the lose update, particles and banners also compile from maintained source.
-The complete product still has three loaded-image byte differences, global
-relocation-order differences and an unfinished canonical staging recipe.
+The complete product still has three loaded-image byte differences and global
+relocation-order differences.
 OP, MAINL and ZUN have maintained source too; their product acceptance remains
 separate from MAIN's reviewed CODE counts.
 
@@ -57,14 +57,14 @@ separate from MAIN's reviewed CODE counts.
 
 ## Build and validate
 
-With your local inputs, installed tools and current MAIN work tree available:
+With your local inputs and installed tools available:
 
 ```sh
 python3 -m venv .venv
 . .venv/bin/activate
 python3 -m pip install --no-cache-dir -r requirements-ci.txt
 python3 scripts/preflight.py
-python3 scripts/build_th03_main_work.py --build --rebuild-context --runtime
+python3 scripts/replay_th03_main_native.py
 python3 scripts/status.py
 python3 scripts/ci.py
 git diff --check
@@ -74,18 +74,21 @@ Use the same activated Python environment for verification. CI requires the
 pinned public decoder/emulator dependencies in `requirements-ci.txt`;
 GitHub Actions installs the same requirements file.
 
-The MAIN command runs 91 native phases, compiling or assembling every game
-object before linking. It checks complete owned bytes, MAP contributions,
-ordered MZ relocations and unchanged native outputs. Its runtime checks compare
+The MAIN command performs two independent cold builds of 91 native phases
+each, compiling or assembling every game object before linking. All 92 raw
+OBJ/EXE/MAP outputs must repeat before the scoped owner review can pass. It checks
+complete owned bytes, MAP contributions, ordered MZ relocations and unchanged
+native outputs. Its runtime checks compare
 entry behavior and the recovered lose routines against the target. CI also
 checks the slot initializer's pointer writes, memory preservation and far ABI.
 
 The current build uses `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
-Its root assembly and link recipe are still materialized working inputs; a
-fresh checkout cannot yet recreate that entire tree from a canonical source
-recipe. Finishing this staging step and independent cold rounds is the next
-build integration task. Rebuilding the existing mixed tree does not by itself
-promote a unit or the complete game to exact.
+The root assembly, existing score-entry alias, link configuration and bitmap
+assembly are regenerated from the pinned reference and maintained source recipe.
+Each cold round stages an empty source tree before replacing the previous work
+tree; no saved source carrier or game object is required. Vendor startup and
+libraries remain separate, and bounded unit exactness does not establish whole
+product exactness.
 
 Run one Borland/Wine writer at a time. Keep compiler/analyzer invocations
 headless, use one available CPU at low priority, and preserve the game-local
@@ -113,8 +116,8 @@ DISPLAY= WAYLAND_DISPLAY= bash scripts/bootstrap_analysis_toolchain.sh
 python3 scripts/preflight.py
 ```
 
-Host tools include Python 3, Wine, archive utilities and mtools. Bootstrap
-verifies downloaded packages before installation. Routine checks verify the
+Host tools include Python 3, a C compiler, Wine, archive utilities and mtools.
+Bootstrap verifies downloaded packages before installation. Routine checks verify the
 installed tools, so the downloaded archives need not remain on disk. An
 existing installation can use its current prefix and tools directly.
 

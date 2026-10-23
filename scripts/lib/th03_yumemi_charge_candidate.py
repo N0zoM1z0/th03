@@ -25,10 +25,14 @@ def source_gate(work):
  for n,h in contract()['source_pins'].items():need(sha((work/n).read_bytes())==h,'charge maintained source '+n)
  need((work/'th03/cs_yume.cpp').read_bytes()==b'#include "src/main/player/chargeshot_yumemi.cpp"\n','charge wrapper')
 def transform(raw):
- c=contract();need(sha(raw)==c['root_before'],'charge must follow accepted CPU source stage');lines=raw.splitlines(True);out=[];at=0
+ c=contract();need(sha(raw)==c['root_before'],'charge must follow accepted CPU source stage')
+ result=edit_root(raw);need(sha(result)==c['root_after'],'charge root result');return result
+def edit_root(raw):
+ """Apply finite source edits with every original slice checked in full."""
+ c=contract();lines=raw.splitlines(True);out=[];at=0
  for e in c['root_edits']:
   i,j=e['start'],e['end'];need(at<=i<=j and b''.join(lines[i:j])==e['before'].encode('latin1'),'finite charge root source edit');out.extend(lines[at:i]);out.append(e['after'].encode('latin1'));at=j
- out.extend(lines[at:]);result=b''.join(out);need(sha(result)==c['root_after'],'charge root result');return result
+ out.extend(lines[at:]);return b''.join(out)
 def guard_baseline(root):
  root=Path(root);c=contract()
  for row in c['baseline_pins'].values():verify.pinned(root,row)

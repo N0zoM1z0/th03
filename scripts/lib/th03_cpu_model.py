@@ -14,6 +14,9 @@ def once(b,a,c):
  need(b.count(a)==1,'nonunique anchor '+repr(a));return b.replace(a,c)
 def transform(raw):
  need(sha(raw)==PINS['th03_main.asm'],'root pin')
+ return edit_root(raw)
+def edit_root(raw):
+ """Carve complete CPU functions using their source boundaries and ABI names."""
  a=raw.index(b'sub_C370\tproc near'); end=b'\t\tdw offset loc_C653\r\n'; b=raw.index(end,a)+len(end)
  removed=raw[a:b]
  need(re.findall(rb'^(sub_[A-F0-9]+)\tproc near',removed,re.M)==[b'sub_C370',b'sub_C433',b'sub_C54A',b'sub_C568'],'four complete CPU functions')

@@ -34,6 +34,9 @@ def once(t,old,new):
  return t.replace(old,new)
 def transform(raw):
  if sha(raw)!=ROOT_SHA:raise ValueError('baseline root identity')
+ return edit_root(raw)
+def edit_root(raw):
+ """Apply the reviewed whole-function and storage-interface source edits."""
  t=raw.decode('latin1');a=t.index('sub_C7A5\tproc near');b=t.index('sub_D3F9\tendp')+len('sub_D3F9\tendp');removed=t[a:b]
  if re.findall(r'^(\S+)\s+proc\s+(near|far)',removed,re.M)!=[(x,z) for x,y,z in SYMBOLS]:raise ValueError('whole 21-function interval')
  # Preserve the complete genuine module constant group verbatim.

@@ -11,7 +11,9 @@ import os
 import posixpath
 import re
 import signal
+import shutil
 import subprocess
+from tempfile import TemporaryDirectory
 import time
 import tomllib
 
@@ -53,15 +55,18 @@ def object_path(source):
     return "obj/th03/" + Path(SOURCE_ALIASES.get(source, source)).stem + ".obj"
 
 
-def linked_objects():
+def linked_objects(path=None):
+    path = WORK / "obj/th03/main.@l" if path is None else path
+    if not path.is_file():
+        path = ROOT / "config/th03_main_link.rsp"
     return [
         name.replace(chr(92), "/")
-        for name in (WORK / "obj/th03/main.@l").read_text().split(",")[0].split()
+        for name in path.read_text().split(",")[0].split()
         if name.lower().endswith(".obj")
     ]
 
 
-def context_producers():
+def context_producers(names=None):
     """Resolve remaining game objects to maintained source, never cached OMF."""
     from replay_th03_main_exact_units import physical_objects, ordering_objects
 
@@ -96,7 +101,7 @@ def context_producers():
             if output in producers and producers[output] != producer:
                 raise ValueError("multiple context producers: " + output)
             producers[output] = producer
-    names = linked_objects()
+    names = linked_objects() if names is None else names
     missing = set(names) - primary - producers.keys()
     if missing:
         raise ValueError(
@@ -105,57 +110,11 @@ def context_producers():
     return [producers[name] for name in names if name in producers]
 
 
-def stage_lose():
-    """Replace three whole carrier procedures, leaving the unresolved renderer."""
-    path = WORK / "th03_main.asm"
-    text = path.read_text(encoding="latin1")
-    text = text.replace(
-        "HUD round-start CODE 1478 bytes restored via generated TC4 to symbolic TASM OMF",
-        "HUD round-start CODE supplied by native src/main/hud/intro.cpp",
-    )
-    for label, symbol in (
-        ("sub_C0D8", "@PLAYER_LOSE_ANIM_UPDATE$QP14PLAYER_STUFF_T"),
-        ("sub_C1E6", "@PLAYER_LOSE_PARTICLE_PUT$QUCUC"),
-        ("sub_C2F9", "@round_defeat_banners_render$qv"),
-    ):
-        pattern = rf"(?m)^{label}\s+proc near\n.*?^{label}\s+endp\n"
-        text, count = re.subn(pattern, f"extern {symbol}:near\n", text, flags=re.S)
-        if count != 1 and f"extern {symbol}:near" not in text:
-            raise ValueError("lose carrier procedure unavailable: " + label)
-        text = text.replace(f"public {symbol}\n{symbol} label near\n", "")
-        text = re.sub(rf"\b{label}\b", lambda _: symbol, text)
-    for old, alias in (
-        ("word_20E3E", "_player_lose_left"),
-        ("word_20E40", "_player_lose_top"),
-        ("word_20E42", "_player_lose_radius"),
-    ):
-        if f"{alias} label word" not in text:
-            text, count = re.subn(
-                rf"(?m)^({old}\s+dw \?)$",
-                f"public {alias}\n{alias} label word\n\\1",
-                text,
-            )
-            if count != 1:
-                raise ValueError("lose storage alias unavailable: " + alias)
-    path.write_bytes(text.replace("\n", "\r\n").encode("latin1"))
-    os.utime(path, (1792656000, 1792656000))
-    response = WORK / "obj/th03/main.@l"
-    text = response.read_text()
-    text = text.replace(r"obj\th03\h_stitch.obj", r"obj\th03\intro.obj")
-    main = r"obj\th03\main.obj"
-    if r"obj\th03\lose.obj" not in text:
-        if text.count(main) != 1:
-            raise ValueError("MAIN response anchor unavailable")
-        text = text.replace(
-            main, r"obj\th03\lose.obj " + main + r" obj\th03\defeat.obj"
-        )
-    response.write_bytes(text.replace("\n", "\r\n").encode())
-    os.utime(response, (1792656000, 1792656000))
-
-
-def stage_sources(producers=()):
-    """Copy just the conservative C++ include closure, leaving root ASM/context intact."""
-    pending = list(SOURCES) + [item["source"] for item in producers]
+def stage_sources(producers=(), prepared=None, work=None):
+    """Copy the complete C++/ASM include closure and whole native TU aliases."""
+    prepared = prepared or {}
+    work = WORK if work is None else work
+    pending = list(SOURCES) + [item["source"] for item in producers] + list(prepared)
     staged = {}
     vendor = ROOT / ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE"
     while pending:
@@ -164,18 +123,21 @@ def stage_sources(producers=()):
             raise ValueError("unsafe include path: " + name)
         if name in staged:
             continue
-        source = ROOT / name
-        if not source.is_file():
-            source = ROOT / "_reference/ReC98" / name
-        if not source.is_file() or source.is_symlink():
-            raise ValueError("source unavailable: " + name)
-        raw = source.read_bytes()
+        if name in prepared:
+            raw = prepared[name]
+        else:
+            source = ROOT / name
+            if not source.is_file():
+                source = ROOT / "_reference/ReC98" / name
+            if not source.is_file() or source.is_symlink():
+                raise ValueError("source unavailable: " + name)
+            raw = source.read_bytes()
         staged[name] = sha(raw)
-        dest = WORK / name
+        dest = work / name
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(raw)
         os.utime(dest, (1792656000, 1792656000))
-        for line in raw.decode("latin1").splitlines():
+        for line in () if name.endswith(".bmp") else raw.decode("latin1").splitlines():
             match = re.match(r"^\s*#\s*include\s+(.+)", line)
             assembly = re.match(r"^\s*include\s+([^;\s]+)", line, re.I)
             if not match and not assembly:
@@ -195,7 +157,8 @@ def stage_sources(producers=()):
                     for n in choices
                     if not n.startswith("../")
                     and (
-                        (ROOT / n).is_file()
+                        n in prepared
+                        or (ROOT / n).is_file()
                         or (ROOT / "_reference/ReC98" / n).is_file()
                     )
                 ),
@@ -207,13 +170,13 @@ def stage_sources(producers=()):
                 raise ValueError("unresolved include: " + name + ": " + inc)
     for source, alias in SOURCE_ALIASES.items():
         if source in SOURCES:
-            dest = WORK / alias
+            dest = work / alias
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_bytes((ROOT / source).read_bytes())
             os.utime(dest, (1792656000, 1792656000))
             staged[alias] = sha(dest.read_bytes())
     for item in producers:
-        dest = WORK / item["staged"]
+        dest = work / item["staged"]
         dest.parent.mkdir(parents=True, exist_ok=True)
         raw = item["prefix"].encode("ascii") + (ROOT / item["source"]).read_bytes()
         dest.write_bytes(raw)
@@ -256,7 +219,7 @@ def contributions(raw, omit_replaced=False):
     ]
 
 
-def review(previous=None):
+def review(previous=None, cold_build=False):
     target_raw = read_verified_artifact(
         ROOT,
         find_artifact(load_target_manifest(ROOT / "config/targets.toml"), "th03-main"),
@@ -334,7 +297,7 @@ def review(previous=None):
         program_size_equal=len(candidate.program_image) == len(target.program_image),
         file_equal=candidate_raw == target_raw,
         mixed_context=True,
-        cold_build=False,
+        cold_build=cold_build,
         exact_acceptance=False,
         state_stage_relocation_order={
             name: [r.linear for r in image.relocations if 0xDA43 <= r.linear < 0xE313]
@@ -436,9 +399,10 @@ def review(previous=None):
     return result
 
 
-def build(rebuild_context=False):
-    if not (WORK / "th03_main.asm").is_file():
-        raise ValueError("current MAIN working tree unavailable")
+def build(rebuild_context=False, cold=False):
+    from lib.main_work_stage import stage_carriers, generate_sprites, recipe_hashes
+
+    rebuild_context = rebuild_context or cold
     OUT.mkdir(parents=True, exist_ok=True)
     prefix = ROOT / ".analysis/toolchain/wineprefix"
     env = dict(
@@ -500,14 +464,22 @@ def build(rebuild_context=False):
         complete=False,
         native_phases=[],
         mixed_context=True,
-        cold_build=False,
+        cold_build=cold,
         exact_acceptance=False,
         rebuild_game_context=rebuild_context,
     )
     with (ROOT / ".analysis/borland-wine-writer.lock").open("ab") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        prior_report = None
+        prior_report_sha = None
+        report_file = OUT / "main-build.json"
+        if report_file.is_file():
+            prior_raw = report_file.read_bytes()
+            prior_report = json.loads(prior_raw)
+            prior_report_sha = sha(prior_raw)
+        report["recipe_sha256"] = recipe_hashes()
         previous = None
-        if all(
+        if (prior_report is None or prior_report.get("complete")) and all(
             (WORK / name).is_file()
             for name in (
                 "bin/th03/main.exe",
@@ -530,8 +502,29 @@ def build(rebuild_context=False):
                     if (WORK / name).is_file()
                 }
 
-        stage_lose()
-        producers = context_producers() if rebuild_context else []
+        if WORK.is_symlink():
+            raise ValueError("MAIN working tree must be a real directory")
+        WORK.parent.mkdir(parents=True, exist_ok=True)
+        with TemporaryDirectory(dir=WORK.parent, prefix=".TH03SOURCE-") as fresh:
+            destination = Path(fresh) if cold else WORK
+            prepared = stage_carriers(destination)
+            generated, report["source_generation"] = generate_sprites(destination)
+            prepared.update(generated)
+            names = linked_objects(destination / "obj/th03/main.@l")
+            producers = context_producers(names) if rebuild_context else []
+            report["staged_source_sha256"] = stage_sources(
+                producers, prepared, work=destination
+            )
+            if cold:
+                if list(destination.rglob("*.obj")) or list(destination.rglob("*.exe")):
+                    raise ValueError(
+                        "fresh source staging contains cached build outputs"
+                    )
+                if WORK.exists():
+                    shutil.rmtree(WORK)
+                destination.rename(WORK)
+                report["source_tree_recreated"] = True
+                report["initial_cached_game_objects"] = 0
         moves = {
             item["output"]: item["emitted"] for item in producers if "emitted" in item
         }
@@ -559,9 +552,6 @@ def build(rebuild_context=False):
         }
         produced.update(item["output"] for item in producers)
         report["context_source_producers"] = producers
-        report["staged_source_sha256"] = stage_sources(producers)
-        for name in ("th03_main.asm", "src/main/hud/score.asm", "obj/th03/main.@l"):
-            report["staged_source_sha256"][name] = sha((WORK / name).read_bytes())
         context = {}
         for name in linked_objects():
             if name in produced:
@@ -582,7 +572,9 @@ def build(rebuild_context=False):
         }
         with (OUT / "main-build.log").open("wb") as log:
             rollback = (
-                {
+                previous["game_objects"]
+                if cold and previous
+                else {
                     name: (WORK / name).read_bytes()
                     for name in produced
                     if (WORK / name).is_file()
@@ -597,6 +589,7 @@ def build(rebuild_context=False):
                     report["cached_game_objects_used"] = 0
                 for argv, outputs in phases:
                     for n in outputs:
+                        (WORK / n).parent.mkdir(parents=True, exist_ok=True)
                         (WORK / n).unlink(missing_ok=True)
                     start = time.monotonic()
                     child = subprocess.Popen(
@@ -670,16 +663,52 @@ def build(rebuild_context=False):
                             r["size"] for r in code_bytes(raw, segment["index"])[1]
                         ],
                     )
-                report["comparison"] = review(previous)
+                report["comparison"] = review(previous, cold_build=cold)
+                eligible = (
+                    cold
+                    and previous is not None
+                    and prior_report is not None
+                    and prior_report.get("complete")
+                    and prior_report.get("cold_build")
+                    and prior_report.get("builder_sha256") == report["builder_sha256"]
+                    and prior_report.get("recipe_sha256") == report["recipe_sha256"]
+                    and prior_report.get("staged_source_sha256")
+                    == report["staged_source_sha256"]
+                    and prior_report.get("tools_sha256") == report["tools_sha256"]
+                )
+                if eligible:
+                    prior_outputs = {
+                        name: digest
+                        for phase in prior_report["native_phases"]
+                        for name, digest in phase["output_sha256"].items()
+                    }
+                    raw_repeat = {
+                        name: sha((WORK / name).read_bytes()) == digest
+                        for name, digest in prior_outputs.items()
+                    }
+                    report["cold_reproducibility"] = dict(
+                        previous_report_sha256=prior_report_sha,
+                        independent_source_trees=True,
+                        same_source_inputs=True,
+                        raw_output_repeat=raw_repeat,
+                        complete=len(raw_repeat) == 92 and all(raw_repeat.values()),
+                    )
+                    if not report["cold_reproducibility"]["complete"]:
+                        raise ValueError("independent cold output vector differs")
                 report["complete"] = True
             except Exception:
                 if rebuild_context:
                     for name, raw in rollback.items():
+                        (WORK / name).parent.mkdir(parents=True, exist_ok=True)
                         (WORK / name).write_bytes(raw)
                     if previous:
+                        (WORK / "bin/th03").mkdir(parents=True, exist_ok=True)
                         (WORK / "bin/th03/main.exe").write_bytes(previous["exe"])
                         (WORK / "obj/th03/main.map").write_bytes(previous["map"])
-                    report["restored_previous_build"] = True
+                        report["restored_previous_build"] = True
+                    else:
+                        (WORK / "bin/th03/main.exe").unlink(missing_ok=True)
+                        (WORK / "obj/th03/main.map").unlink(missing_ok=True)
                 raise
             finally:
                 (OUT / "main-build.json").write_text(
@@ -691,9 +720,14 @@ def build(rebuild_context=False):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument(
+        "--cold",
+        action="store_true",
+        help="recreate the entire working tree from source and rebuild all game objects",
+    )
+    p.add_argument(
         "--rebuild-context",
         action="store_true",
-        help="rebuild all game context OBJs; the materialized root remains provisional",
+        help="rebuild all game context OBJs from the maintained source recipe",
     )
     p.add_argument(
         "--build",
@@ -708,7 +742,9 @@ def main():
     args = p.parse_args()
     if args.rebuild_context and not args.build:
         p.error("--rebuild-context requires --build")
-    result = build(args.rebuild_context) if args.build else review()
+    if args.cold and not args.build:
+        p.error("--cold requires --build")
+    result = build(args.rebuild_context, args.cold) if args.build else review()
     if args.runtime:
         from lib.main_entry_runtime import compare
         from lib.main_lose_runtime import (

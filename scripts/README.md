@@ -1,7 +1,9 @@
 # Current entry points
 
 - `preflight.py`: environment, targets and tracking.
-- `build_th03_main_work.py --build --rebuild-context --runtime`: rebuild all MAIN game objects and run bounded entry/lose checks; canonical root restaging remains pending.
+- `replay_th03_main_native.py`: two independent complete MAIN cold builds and scoped native-owner review.
+- `build_th03_main_work.py --build --cold --runtime`: one fresh MAIN source materialization and native build.
+- `review_th03_main_native_units.py`: complete unit Oracle review against the current cold pair.
 - `ci.py`: tests and available local tool/database checks.
 - `ghidra.py ARTIFACT check`: headless target/database identity.
 - `attest_toolchain.py`: pinned native tools.
