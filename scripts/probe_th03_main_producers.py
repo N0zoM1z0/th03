@@ -102,6 +102,26 @@ def run():
                         literal_order_equal=vectors[0] == vectors[1], vectors=vectors))
                 result["state_shot"]["whole_image_differences"] = [
                     i for i, (a, b) in enumerate(zip(target.program_image, candidate.program_image)) if a != b]
+                # Independent alignment fixture, never linked into the game.
+                (short / "align.asm").write_text(
+                    ".386\n.model use16 large\n"
+                    "_DATA segment word public 'DATA' use16\nflag db 1\neven\naligned dw 2\n_DATA ends\n"
+                    "_TEXT segment word public 'CODE' use16\nassume cs:_TEXT\n"
+                    "one proc near\nret\none endp\neven\ntwo proc near\nret\ntwo endp\n_TEXT ends\nend\n"
+                )
+                tasm = ["/usr/bin/wine-stable", str(WORK.parent / "TASM50/bin/TASM32.EXE"),
+                        "/m", "/mx", "/t"]
+                result["alignment_profiles"] = {}
+                for name, options in (("plain", []), ("quirks", ["/jQUIRKS"]),
+                                      ("masm51", ["/jMASM51"])):
+                    subprocess.run(tasm + options + [r"prnative\align.asm", "prnative\\" + name + ".obj"],
+                                   cwd=WORK, env=env, stdout=log, stderr=subprocess.STDOUT,
+                                   check=True, timeout=90)
+                    raw = (short / (name + ".obj")).read_bytes()
+                    result["alignment_profiles"][name] = {
+                        s["name"]: code_bytes(raw, s["index"])[0].hex()
+                        for s in segment_definitions(raw) if s["size"]
+                    }
         finally:
             shutil.rmtree(short)
     if before != {p: hashlib.sha256(p.read_bytes()).hexdigest() for p in checked}:

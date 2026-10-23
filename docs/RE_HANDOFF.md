@@ -7,9 +7,14 @@ working tree is `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
 
 - Exact scope:92 CODE extents /423 functions /69,518 bytes. The whole-game
   source denominator is unknown; the complete MAIN product is not exact.
-- Two independent572-file source materializations compile all92 game OBJs in
-  93 serial native phases. All94 raw OBJ/EXE/MAP outputs repeat. All236 maintained
+- Two independent573-file source materializations compile all93 source OBJs in
+  94 serial native phases. All95 raw OBJ/EXE/MAP outputs repeat. All236 maintained
   inputs match actual staging. Only vendor C0L.OBJ/libraries are reused/unowned.
+- The generated unowned master.lib prefix owns2269 CODE bytes endingB4F;
+  following context is word-aligned atB50. TLINK supplies the matching00 gap.
+  All2270 context bytes/order match without source padding or output edits.
+  `main_master_prefix.py` retains near cutline and far API declarations and
+  external DATA/BSS widths. Authored counters do not change.
 - Root ASM, score aliases, explicit link recipe and two bitmap-derived ASP
   inputs are regenerated. Source names/historical compiler filenames remain
   inferred. Installed tools stay pinned; old proof archives are unnecessary.
@@ -55,15 +60,16 @@ Unresolved:
 - State/shot bytes match, but shot26-site order and the stage7/state6/stage5
   cross-unit interleave remain open. A simple combined multi-section TU keeps
   raw bytes but fails those literal orders. Do not repeat that assumption.
-- Whole loaded-image differences remain at B4F/EC2D/1DB05. Header and global
+- Whole loaded-image differences remain at EC2D/1DB05. The DATA byte follows
+  vsync_OldMask; ordinary TASM/QUIRKS/MASM51 still align it with00. Header and global
   relocation order remain open, alongside the full source/product graph.
 
 Replay the bounded native controls with
 `scripts/probe_th03_main_producers.py`. It records source/context hashes,
 removes temporary native products and preserves working OBJ/EXE/MAP bytes.
 
-Latest CI: PASS,1,698 tests /300 optional archive skips. One CPU at nice10;
-CI peak RSS419,172 KiB, native replay peak RSS461,512 KiB.
+Latest CI: PASS,1,699 tests /300 optional archive skips. One CPU at nice10;
+CI peak RSS407,628 KiB, native replay peak RSS483,176 KiB.
 Keep targets, installed tools, current reports and one working tree; discard
 old experiments, duplicate builds, logs and caches.
 

@@ -89,12 +89,32 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual([offset for offset, _ in code_publics(raw, index)], [0, 57, 62, 1001])
         self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 844])
 
+    def test_library_gap_is_owned_by_the_linker(self):
+        raw = (work.WORK / "obj/th03/mst_pref.obj").read_bytes()
+        self.assertTrue(describe_omf(raw)["valid"])
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        self.assertEqual([(s["name"], s["class"], s["size"]) for s in segments],
+                         [("_TEXT", "CODE", 2269)])
+        publics = dict((name, offset) for offset, name in code_publics(raw, segments[0]["index"]))
+        self.assertEqual(publics["cutline"], 1016)
+        self.assertEqual(publics["GRCG_CIRCLE"], 1904)
+        # The module ends BEFORE this byte. A source-emitted padding byte would
+        # increase its SEGDEF size and fail the ownership check above.
+        self.assertEqual(0x272 + segments[0]["size"], 0xB4F)
+        self.assertEqual(self.image.program_image[0xB4F], 0)
+        self.assertEqual(self.run_image(self.raw)["complete_program_differing_bytes"],
+                         [0xEC2D, 0x1DB05])
+
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 80)
-        self.assertEqual(len({p["output"] for p in producers}), 80)
+        self.assertEqual(len(producers), 81)
+        self.assertEqual(len({p["output"] for p in producers}), 81)
         for producer in producers:
-            self.assertTrue((ROOT / producer["source"]).is_file())
+            if producer.get("origin") == "reference-library-context":
+                self.assertEqual(producer["source"], "th03/mst_pref.asm")
+                self.assertTrue((ROOT / producer["recipe"]).is_file())
+            else:
+                self.assertTrue((ROOT / producer["source"]).is_file())
         outputs = {p["output"] for p in producers}
         outputs.update(work.object_path(s) for s in work.SOURCES)
         outputs.update({"obj/th03/main.obj", "obj/th03/score_hud.obj", "c0l.obj"})

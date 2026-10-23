@@ -49,6 +49,7 @@ SCOPES = (
     (0xC0D8, 0xC248),
     (0xC2F9, 0xC370),
     (0x9AD6, 0xA21F),
+    (0x272, 0xB50),  # Unowned library context and its natural inter-object gap.
 )
 
 
@@ -81,7 +82,13 @@ def context_producers(names=None):
         "obj/th03/score_hud.obj",
         "c0l.obj",
     }
-    producers = {}
+    producers = {
+        "obj/th03/mst_pref.obj": dict(
+            source="th03/mst_pref.asm", staged="th03/mst_pref.asm",
+            recipe="scripts/lib/main_master_prefix.py",
+            output="obj/th03/mst_pref.obj", prefix="", origin="reference-library-context",
+        )
+    }
     for unit in config["units"]:
         for item in physical_objects(unit) + ordering_objects(unit):
             if Path(item["source"]).suffix not in {".cpp", ".c", ".asm"}:
@@ -183,7 +190,10 @@ def stage_sources(producers=(), prepared=None, work=None):
     for item in producers:
         dest = work / item["staged"]
         dest.parent.mkdir(parents=True, exist_ok=True)
-        raw = item["prefix"].encode("ascii") + (ROOT / item["source"]).read_bytes()
+        source_raw = prepared.get(item["source"])
+        if source_raw is None:
+            source_raw = (ROOT / item["source"]).read_bytes()
+        raw = item["prefix"].encode("ascii") + source_raw
         dest.write_bytes(raw)
         os.utime(dest, (1792656000, 1792656000))
         staged[item["staged"]] = sha(raw)
@@ -242,6 +252,12 @@ def contributions(raw, omit_replaced=False):
                     and any("M=" + module + " " in line for module in
                             ("th03_main.asm", "th03/stg_rnd.cpp"))
                 )
+                or (
+                    "S=_TEXT " in line
+                    and line.split()[0] in {"0000:0272", "0000:0B50"}
+                    and any("M=" + module + " " in line.replace(chr(92), "/") for module in
+                            ("th03_main.asm", "th03/mst_pref.asm"))
+                )
             )
         )
     ]
@@ -289,6 +305,8 @@ def review(previous=None, cold_build=False):
         ]
         raise ValueError("tracked scope regressed: " + json.dumps(failed))
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
+    if not scopes[-1]["raw_equal"]:
+        raise ValueError("native library prefix differs from target bytes")
     for name in (Path(object_path(s)).name for s in SOURCES) if previous else ():
         if any(
             s["size"] and s["class"] != "CODE"
@@ -370,7 +388,13 @@ def review(previous=None, cold_build=False):
         ) == contributions(
             (WORK / "obj/th03/main.map").read_bytes(), omit_replaced=True
         )
-        map_text = (WORK / "obj/th03/main.map").read_text()
+        map_text = (WORK / "obj/th03/main.map").read_text().replace(chr(92), "/")
+        prefix_pattern = (
+            r"(?m)^\s*0000:0272\s+08DD\s+C=CODE\s+S=_TEXT\s+G=\(none\)\s+"
+            r"M=th03/mst_pref\.asm\s+ACBP=48\s*$"
+        )
+        if len(re.findall(prefix_pattern, map_text)) != 1:
+            raise ValueError("native library prefix ownership differs")
         for seg, start, size, segment, group, module in (
             (0x96E, 0x3F6, 1865, "PLAYFLD_TEXT", "MAIN_01", "th03/stg_rnd.cpp"),
             (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
@@ -396,7 +420,7 @@ def review(previous=None, cold_build=False):
         ):
             pattern = (
                 rf"(?m)^\s*{seg:04X}:{start:04X}\s+{size:04X}\s+C=CODE\s+"
-                rf"S={segment}\s+G={group}\s+M={re.escape(module)}\s+ACBP=28\s*$"
+                rf"S={segment}\s+G={re.escape(group)}\s+M={re.escape(module)}\s+ACBP=28\s*$"
             )
             if len(re.findall(pattern, map_text)) != 1:
                 raise ValueError("source contribution layout differs: " + module)
@@ -424,8 +448,8 @@ def review(previous=None, cold_build=False):
             for n, raw in previous["objects"].items()
             if n not in {"ex_chyu.obj", "ex_ellen.obj", "stg_rnd.obj", "main.obj"}
         }
-        # Move the two real demo callbacks across the carrier/TU boundary.
-        # Every unlinked byte must survive, including all other carrier segments.
+        # Keep native game producers unchanged while the carrier externalizes
+        # library references. A cold repeat also checks the complete carrier.
         if {"main.obj", "stg_rnd.obj"} <= previous["objects"].keys():
             old_root_raw = previous["objects"]["main.obj"]
             new_root_raw = (WORK / "obj/th03/main.obj").read_bytes()
@@ -433,17 +457,19 @@ def review(previous=None, cold_build=False):
             new_root = carrier_code(new_root_raw)
             old_stage = code(previous["objects"]["stg_rnd.obj"])
             new_stage = code((WORK / "obj/th03/stg_rnd.obj").read_bytes())
-            result["unlinked_CODE_unchanged"]["carrier_other_segments"] = {
-                k: v for k, v in old_root.items() if k != "PLAYFLD_TEXT"
-            } == {k: v for k, v in new_root.items() if k != "PLAYFLD_TEXT"}
-            result["unlinked_CODE_unchanged"]["carrier_stage_combined"] = (
-                code_bytes(old_root_raw, next(s["index"] for s in segment_definitions(old_root_raw)
-                                             if s["name"] == "PLAYFLD_TEXT"))[0]
-                + old_stage["PLAYFLD_TEXT"]
-                == code_bytes(new_root_raw, next(s["index"] for s in segment_definitions(new_root_raw)
-                                                if s["name"] == "PLAYFLD_TEXT"))[0]
-                + new_stage["PLAYFLD_TEXT"]
-            )
+            result["unlinked_CODE_unchanged"]["stage"] = old_stage == new_stage
+            if ("mst_pref.obj" in previous["objects"]
+                    and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
+                result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
+            else:
+                # Externalizing library names changes unlinked fixup operands.
+                # Enforce unchanged non-library CODE layout and every linked
+                # byte outside the declared prefix scope instead.
+                result["carrier_library_transfer"] = {
+                    k: v["size"] for k, v in old_root.items() if k != "_TEXT"
+                } == {k: v["size"] for k, v in new_root.items() if k != "_TEXT"}
+                if not result["carrier_library_transfer"]:
+                    raise ValueError("library transfer altered game CODE layout")
         pair = ("ex_chyu.obj", "ex_ellen.obj")
         if all(n in previous["objects"] for n in pair):
             result["exatt_combined_CODE_unchanged"] = b"".join(
@@ -553,7 +579,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj"]
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )
