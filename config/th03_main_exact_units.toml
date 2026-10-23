@@ -7226,3 +7226,34 @@ offset = 11289
 size = 119
 abi = "near cdecl; no arguments; RET"
 return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-round-finish"
+source = "src/main/core/roundfin.cpp"
+object = "roundfin"
+map_module = "src/main/core/roundfin.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x0b3f
+size = 177
+map_segment = "PLAYFLD_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "round_start_next"
+segment = 0x096e
+offset = 0x0b3f
+size = 106
+abi = "near cdecl; no arguments; BP preserved; RET"
+return_pop = 0
+
+[[native_units.functions]]
+name = "round_score_commit"
+segment = 0x096e
+offset = 0x0ba9
+size = 71
+abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
+return_pop = 2

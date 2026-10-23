@@ -49,7 +49,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (89, 67330),
+            (90, 67507),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -133,7 +133,7 @@ class MainWorkTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
             self.run_image(raw)
 
-    def test_each_lose_owner_last_byte_mutation_is_rejected(self):
+    def test_each_native_owner_last_byte_mutation_is_rejected(self):
         for unit in self.cfg["native_units"]:
             with self.subTest(owner=unit["id"]):
                 (extent,) = unit["code_extents"]

@@ -29,6 +29,9 @@ LOSE_OWNERS = {
 }
 
 
+CORE_OWNERS = {"th03-main-round-finish"}
+
+
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
@@ -68,6 +71,8 @@ def review(report=None):
         and report.get("source_tree_recreated"),
         "two cold source materializations are required",
     )
+    expected = set(build.linked_objects()) - {"c0l.obj"}
+    expected.update({"bin/th03/main.exe", "obj/th03/main.map"})
     pair = report.get("cold_reproducibility", {})
     need(
         pair.get("complete")
@@ -76,7 +81,7 @@ def review(report=None):
         "two cold source materializations are required",
     )
     need(
-        len(pair.get("raw_output_repeat", {})) == 92
+        set(pair.get("raw_output_repeat", {})) == expected
         and all(pair["raw_output_repeat"].values()),
         "complete cold output vector required",
     )
@@ -89,15 +94,13 @@ def review(report=None):
     need(
         report["native_outputs_unchanged"]
         and report["staged_sources_unchanged"]
-        and len(report["native_phases"]) == 91
+        and len(report["native_phases"]) == len(expected) - 1
         and all(p["exit_code"] == 0 for p in report["native_phases"]),
         "native cold lifecycle failed",
     )
     outputs = {
         n: h for p in report["native_phases"] for n, h in p["output_sha256"].items()
     }
-    expected = set(build.linked_objects()) - {"c0l.obj"}
-    expected.update({"bin/th03/main.exe", "obj/th03/main.map"})
     need(
         set(outputs) == expected == set(pair["raw_output_repeat"]),
         "complete cold output inventory differs",
@@ -151,7 +154,7 @@ def review(report=None):
                 "invalid native OMF: " + name,
             )
             omf[name] = obj
-    need(len(omf) == 90, "ninety fresh game objects required")
+    need(len(omf) == len(expected) - 2, "complete fresh game object set required")
     artifact = find_artifact(
         load_target_manifest(ROOT / "config/targets.toml"), "th03-main"
     )
@@ -161,7 +164,10 @@ def review(report=None):
     need(target.valid and candidate.valid, "MZ format integrity failed")
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     native_units = config.get("native_units", [])
-    need({u["id"] for u in native_units} == LOSE_OWNERS, "lose owners are incomplete")
+    need(
+        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS,
+        "lose owners are incomplete",
+    )
     units = config["units"] + native_units
     comparison = build.review()
     need(comparison["all_owned_raw_and_ordered_equal"], "accepted cohort regressed")
@@ -195,8 +201,8 @@ def review(report=None):
         auditor_sha256=sha(Path(__file__).read_bytes()),
         target_sha256=sha(target_raw),
         executable_sha256=sha(candidate_raw),
-        raw_cold_outputs=92,
-        valid_native_objects=90,
+        raw_cold_outputs=len(outputs),
+        valid_native_objects=len(omf),
         maintained_inputs_checked=maintained_inputs,
         replayed_owned_extents=comparison["checked_owned_extents"],
         replayed_owned_bytes=comparison["checked_owned_bytes"],
@@ -219,7 +225,17 @@ def review(report=None):
     result["runtime_model_sha256"] = sha(
         (ROOT / "scripts/lib/main_lose_runtime.py").read_bytes()
     )
-    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS):
+    from lib.main_round_finish_runtime import (
+        compare as round_compare,
+        negative_controls as round_controls,
+    )
+
+    result["round_finish_runtime"] = round_compare(target, candidate)
+    result["round_finish_controls"] = round_controls(candidate)
+    result["round_finish_model_sha256"] = sha(
+        (ROOT / "scripts/lib/main_round_finish_runtime.py").read_bytes()
+    )
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -339,7 +355,10 @@ def review(report=None):
             ordered_relocations=len(literal(target)),
             gates=checks,
         )
-    need(set(result["units"]) == OWNERS | LOSE_OWNERS, "all native owners required")
+    need(
+        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS,
+        "all native owners required",
+    )
     return result
 
 
@@ -349,7 +368,7 @@ if __name__ == "__main__":
         output = ROOT / ".analysis/work/main-unit-review.json"
         output.write_text(json.dumps(result, indent=2) + "\n")
         print(
-            "Native cold unit review: PASS; 4 owners / 13 functions / 2594 bytes; product exact remains false"
+            "Native cold unit review: PASS; 5 owners / 15 functions / 2771 bytes; product exact remains false"
         )
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         print("Native cold unit review: FAIL:", error, file=sys.stderr)

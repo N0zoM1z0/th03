@@ -26,6 +26,7 @@ WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03WORK"
 OUT = ROOT / ".analysis/work"
 SOURCES = (
     "src/main/core/entry.cpp",
+    "src/main/core/roundfin.cpp",
     "src/main/player/state.cpp",
     "src/main/player/shotroot.cpp",
     "src/main/player/lose.cpp",
@@ -256,7 +257,10 @@ def review(previous=None, cold_build=False):
             lo = e.get("segment", unit.get("segment", cfg["segment"])) * 16 + e["start"]
             owned.append(dict(owner=unit["id"], **extent(lo, lo + e["size"])))
     if not all(r["raw_equal"] and r["ordered_relocations_equal"] for r in owned):
-        raise ValueError("tracked scope regressed")
+        failed = [
+            r for r in owned if not r["raw_equal"] or not r["ordered_relocations_equal"]
+        ]
+        raise ValueError("tracked scope regressed: " + json.dumps(failed))
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
     for name in (Path(object_path(s)).name for s in SOURCES) if previous else ():
         if any(
@@ -691,7 +695,8 @@ def build(rebuild_context=False, cold=False):
                         independent_source_trees=True,
                         same_source_inputs=True,
                         raw_output_repeat=raw_repeat,
-                        complete=len(raw_repeat) == 92 and all(raw_repeat.values()),
+                        complete=len(raw_repeat) == len(produced) + 2
+                        and all(raw_repeat.values()),
                     )
                     if not report["cold_reproducibility"]["complete"]:
                         raise ValueError("independent cold output vector differs")

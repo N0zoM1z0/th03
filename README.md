@@ -16,15 +16,15 @@ Phantasmagoria of Dim.Dream**. It preserves maintained source and reviewed
 findings for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`. The complete game
 reconstruction is still in progress.
 
-MAIN currently records **416 exact functions / 67,330 exact owned bytes** in
-**89 exact CODE extents**. The current mixed build reproduces all **89 tracked
-extents / 67,330 bytes** and their scoped ordered relocations. Chiyuri/Ellen and
-the three lose update/particle/banner functions pass independent source cold
+MAIN currently records **418 exact functions / 67,507 exact owned bytes** in
+**90 exact CODE extents**. The current mixed build reproduces all **90 tracked
+extents / 67,507 bytes** and their scoped ordered relocations. Chiyuri/Ellen,
+lose update/particles/banners and next-round/score-commit pass independent source cold
 builds and the full required unit Oracle set. These are reviewed source scopes,
 not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
 
-The current MAIN builder regenerates all **90 game objects** with the pinned
+The current MAIN builder regenerates all **91 game objects** with the pinned
 native tools, retaining the vendor startup and libraries. Repeated builds
 produce identical raw objects, executable and MAP from two isolated source trees.
 Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
@@ -74,8 +74,8 @@ Use the same activated Python environment for verification. CI requires the
 pinned public decoder/emulator dependencies in `requirements-ci.txt`;
 GitHub Actions installs the same requirements file.
 
-The MAIN command performs two independent cold builds of 91 native phases
-each, compiling or assembling every game object before linking. All 92 raw
+The MAIN command performs two independent cold builds of 92 native phases
+each, compiling or assembling every game object before linking. All 93 raw
 OBJ/EXE/MAP outputs must repeat before the scoped owner review can pass. It checks
 complete owned bytes, MAP contributions, ordered MZ relocations and unchanged
 native outputs. Its runtime checks compare

@@ -74,6 +74,21 @@ def native_carrier(raw):
             + text[end:]
         )
 
+    start = text.index("sub_A21F\tproc near")
+    end = text.index("sub_A289\tendp", start) + len("sub_A289\tendp")
+    if re.findall(r"^(\S+)\s+proc near", text[start:end], re.M) != [
+        "sub_A21F",
+        "sub_A289",
+    ]:
+        raise ValueError("complete round-finish procedure interval differs")
+    text = (
+        text[:start]
+        + "extern _round_start_next:near\nextern @ROUND_SCORE_COMMIT$QUI:near\n"
+        + text[end:]
+    )
+    text = re.sub(r"\bsub_A21F\b", "_round_start_next", text)
+    text = re.sub(r"\bsub_A289\b", "@ROUND_SCORE_COMMIT$QUI", text)
+
     for segment, imports in (
         (
             "main_010_TEXT\tsegment\tbyte public 'CODE' use16",
@@ -115,7 +130,8 @@ def native_carrier(raw):
     for old, alias, distance in (
         ("sub_9778", "_round_loop", "near"),
         ("sub_9B14", "_stage_setup", "near"),
-        ("sub_A21F", "_round_start_next", "near"),
+        ("sub_9EBF", "_round_prepare_players", "near"),
+        ("sub_A38E", "_round_objects_for_next", "far"),
         ("@GameExecl$qnxc", "MAIN_EXEC", "far"),
         ("sub_C248", "@PLAYER_LOSE_ANIM_RENDER$QP14PLAYER_STUFF_T", "near"),
     ):
@@ -143,6 +159,7 @@ def native_carrier(raw):
         ("aOp", "_main_op_name", "byte"),
         ("arg0", "_main_ending_name", "byte"),
         ("farfp_20F20", "_main_background_init", "dword"),
+        ("farfp_20F28", "_round_background_reset", "dword"),
         ("byte_20E3D", "_round_defeated_player", "byte"),
         ("word_20E3E", "_player_lose_left", "word"),
         ("word_20E40", "_player_lose_top", "word"),
