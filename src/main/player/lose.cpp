@@ -1,7 +1,8 @@
-// Candidate for MAIN load C0D8..C370. Names are inferred.
+// Lose update and particles at MAIN load C0D8..C248. Names are inferred.
 #pragma codeseg PLAYER_M_TEXT main_01
 #pragma option -G
 #include "src/main/player/lose.hpp"
+#pragma samecodeseg playfield_fg_x_to_screen
 
 void near pascal player_lose_anim_update(player_stuff_t near *player)
 {
@@ -51,40 +52,4 @@ void near pascal player_lose_particle_put(unsigned char angle_x, unsigned char a
         + playfield_fg_shift_x[pid.current];
     top = polar(player_lose_top, player_lose_radius, SinTable8[angle_y]);
     sprite16_put(left, top, 0x34B4);
-}
-
-void near pascal player_lose_anim_render(player_stuff_t near *unused_player)
-{
-    unsigned char angle;
-    register int i;
-    sprite16_clip_set_for_pid(pid.current);
-    sprite16_put_size.set(48, 48);
-    for(i = 0, angle = player_lose_radius / 4; i < 16; i++, angle += 16) {
-        player_lose_particle_put(angle, angle + 32);
-    }
-    for(i = 0, angle = 0 - (player_lose_radius / 4); i < 16; i++, angle += 16) {
-        player_lose_particle_put(angle, angle - 32);
-    }
-    for(i = 0, angle = player_lose_radius / 4; i < 16; i++, angle += 16) {
-        player_lose_particle_put(angle, angle);
-    }
-}
-
-void near round_defeat_banners_render(void)
-{
-    register int left;
-    register int top;
-    int frame_mod_32;
-    left = round_defeated_player * 320 + 96;
-    super_put(left, 40, 18);
-    super_put(left + 64, 40, 19);
-    left = (1 - round_defeated_player) * 320 + 96;
-    frame_mod_32 = round_or_result_frame & 31;
-    if(frame_mod_32 < 16) {
-        top = frame_mod_32 + 32;
-    } else {
-        top = 64 - frame_mod_32;
-    }
-    super_put(left, top, 20);
-    super_put(left + 64, top, 21);
 }

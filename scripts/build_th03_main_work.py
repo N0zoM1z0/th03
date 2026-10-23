@@ -26,12 +26,61 @@ SOURCES = (
     "src/main/core/entry.cpp",
     "src/main/player/state.cpp",
     "src/main/player/shotroot.cpp",
+    "src/main/player/lose.cpp",
+    "src/main/player/defeat.cpp",
 )
-SCOPES = ((0x96E6, 0x9778), (0xDA43, 0xE0F7), (0xE266, 0xE83F))
+SCOPES = (
+    (0x96E6, 0x9778),
+    (0xDA43, 0xE0F7),
+    (0xE266, 0xE83F),
+    (0xC0D8, 0xC248),
+    (0xC2F9, 0xC370),
+)
 
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def stage_lose():
+    """Replace three whole carrier procedures, leaving the unresolved renderer."""
+    path = WORK / "th03_main.asm"
+    text = path.read_text(encoding="latin1")
+    for label, symbol in (
+        ("sub_C0D8", "@PLAYER_LOSE_ANIM_UPDATE$QP14PLAYER_STUFF_T"),
+        ("sub_C1E6", "@PLAYER_LOSE_PARTICLE_PUT$QUCUC"),
+        ("sub_C2F9", "@round_defeat_banners_render$qv"),
+    ):
+        pattern = rf"(?m)^{label}\s+proc near\n.*?^{label}\s+endp\n"
+        text, count = re.subn(pattern, f"extern {symbol}:near\n", text, flags=re.S)
+        if count != 1 and f"extern {symbol}:near" not in text:
+            raise ValueError("lose carrier procedure unavailable: " + label)
+        text = text.replace(f"public {symbol}\n{symbol} label near\n", "")
+        text = re.sub(rf"\b{label}\b", lambda _: symbol, text)
+    for old, alias in (
+        ("word_20E3E", "_player_lose_left"),
+        ("word_20E40", "_player_lose_top"),
+        ("word_20E42", "_player_lose_radius"),
+    ):
+        if f"{alias} label word" not in text:
+            text, count = re.subn(
+                rf"(?m)^({old}\s+dw \?)$",
+                f"public {alias}\n{alias} label word\n\\1",
+                text,
+            )
+            if count != 1:
+                raise ValueError("lose storage alias unavailable: " + alias)
+    path.write_bytes(text.replace("\n", "\r\n").encode("latin1"))
+    response = WORK / "obj/th03/main.@l"
+    text = response.read_text()
+    main = r"obj\th03\main.obj"
+    if r"obj\th03\lose.obj" not in text:
+        if text.count(main) != 1:
+            raise ValueError("MAIN response anchor unavailable")
+        text = text.replace(
+            main, r"obj\th03\lose.obj " + main + r" obj\th03\defeat.obj"
+        )
+    response.write_bytes(text.replace("\n", "\r\n").encode())
 
 
 def stage_sources():
@@ -92,12 +141,19 @@ def code(raw):
     }
 
 
-def contributions(raw):
+def contributions(raw, outside_lose=False):
     return [
         line.strip()
         for line in raw.decode().splitlines()
         if re.fullmatch(
             r"\s*[0-9A-Fa-f]{4}:[0-9A-Fa-f]{4}\s+[0-9A-Fa-f]+\s+C=.*ACBP=\S+\s*", line
+        )
+        and int(line.split()[1], 16)
+        and not (
+            outside_lose
+            and "S=PLAYER_M_TEXT" in line
+            and 0x29F8 <= int(line.split()[0].split(":")[1], 16) < 0x2C90
+            and line.split()[0].startswith("096E:")
         )
     ]
 
@@ -140,7 +196,7 @@ def review(previous=None):
     if not all(r["raw_equal"] and r["ordered_relocations_equal"] for r in accepted):
         raise ValueError("previously accepted scope regressed")
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
-    for name in ("entry.obj", "state.obj", "shotroot.obj") if previous else ():
+    for name in (Path(s).stem + ".obj" for s in SOURCES) if previous else ():
         if any(
             s["size"] and s["class"] != "CODE"
             for s in segment_definitions((WORK / "obj/th03" / name).read_bytes())
@@ -175,12 +231,38 @@ def review(previous=None):
         mixed_context=True,
         cold_build=False,
         exact_acceptance=False,
+        state_stage_relocation_order={
+            name: [r.linear for r in image.relocations if 0xDA43 <= r.linear < 0xE313]
+            for name, image in (("target", target), ("candidate", candidate))
+        },
+    )
+    sites = [r.linear for r in target.relocations if 0x96E6 <= r.linear < 0xE8F8]
+    uniform = sorted(sites, key=lambda p: ((p - 0x96E6) // 1023, -p))
+    result["main01_uniform_1023_record_model"] = dict(
+        sites=len(sites),
+        different_positions=sum(a != b for a, b in zip(sites, uniform)),
+        equal=sites == uniform,
     )
     if previous:
         before = parse_mz(previous["exe"])
         result["map_contributions_unchanged"] = contributions(
             previous["map"]
         ) == contributions((WORK / "obj/th03/main.map").read_bytes())
+        result["map_contributions_outside_lose_unchanged"] = contributions(
+            previous["map"], outside_lose=True
+        ) == contributions((WORK / "obj/th03/main.map").read_bytes(), outside_lose=True)
+        map_text = (WORK / "obj/th03/main.map").read_text()
+        for start, size, module in (
+            (0x29F8, 368, "src/main/player/lose.cpp"),
+            (0x2B68, 177, "th03_main.asm"),
+            (0x2C19, 119, "src/main/player/defeat.cpp"),
+        ):
+            pattern = (
+                rf"(?m)^\s*096E:{start:04X}\s+{size:04X}\s+C=CODE\s+"
+                rf"S=PLAYER_M_TEXT\s+G=MAIN_01\s+M={re.escape(module)}\s+ACBP=28\s*$"
+            )
+            if len(re.findall(pattern, map_text)) != 1:
+                raise ValueError("lose contribution layout differs: " + module)
         result["outside_new_scopes_unchanged"] = len(before.program_image) == len(
             candidate.program_image
         ) and all(
@@ -200,11 +282,11 @@ def review(previous=None):
             for n, raw in previous["objects"].items()
         }
         if (
-            not result["map_contributions_unchanged"]
+            not result["map_contributions_outside_lose_unchanged"]
             or not result["outside_new_scopes_unchanged"]
             or not all(result["unlinked_CODE_unchanged"].values())
         ):
-            raise ValueError("frame-only change altered layout or unrelated bytes")
+            raise ValueError("source replacement altered layout or unrelated bytes")
     return result
 
 
@@ -281,9 +363,6 @@ def build():
             for name in (
                 "bin/th03/main.exe",
                 "obj/th03/main.map",
-                "obj/th03/entry.obj",
-                "obj/th03/state.obj",
-                "obj/th03/shotroot.obj",
             )
         ):
             previous = dict(
@@ -291,7 +370,8 @@ def build():
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in ("entry.obj", "state.obj", "shotroot.obj")
+                    for n in (Path(s).stem + ".obj" for s in SOURCES)
+                    if (WORK / "obj/th03" / n).is_file()
                 },
             )
 
@@ -300,9 +380,15 @@ def build():
             "obj/th03/entry.obj",
             "obj/th03/state.obj",
             "obj/th03/shotroot.obj",
+            "obj/th03/lose.obj",
+            "obj/th03/defeat.obj",
             "obj/th03/main.obj",
             "obj/th03/score_hud.obj",
         }
+        report["staged_source_sha256"] = stage_sources()
+        stage_lose()
+        for name in ("th03_main.asm", "src/main/hud/score.asm", "obj/th03/main.@l"):
+            report["staged_source_sha256"][name] = sha((WORK / name).read_bytes())
         context = {}
         for name in (WORK / "obj/th03/main.@l").read_text().split(",")[0].split():
             name = name.replace("\\", "/")
@@ -322,7 +408,6 @@ def build():
                 ROOT / "_reference/ReC98/bin/msdos.exe",
             )
         }
-        report["staged_source_sha256"] = stage_sources()
         with (OUT / "main-build.log").open("wb") as log:
             try:
                 for argv, outputs in phases:
@@ -372,7 +457,7 @@ def main():
     p.add_argument(
         "--build",
         action="store_true",
-        help="compile three maintained candidates, assemble root/score, and relink",
+        help="compile maintained candidates, assemble root/score, and relink",
     )
     p.add_argument(
         "--runtime",
@@ -383,6 +468,10 @@ def main():
     result = build() if args.build else review()
     if args.runtime:
         from lib.main_entry_runtime import compare
+        from lib.main_lose_runtime import (
+            compare as compare_lose,
+            negative_controls as lose_controls,
+        )
         from review_th03_main_entry import negative_controls
 
         target = parse_mz(
@@ -396,6 +485,8 @@ def main():
         candidate = parse_mz((WORK / "bin/th03/main.exe").read_bytes())
         result["entry_runtime"] = compare(target, candidate)
         result["entry_negative_controls"] = negative_controls(candidate)
+        result["lose_runtime"] = compare_lose(target, candidate)
+        result["lose_negative_controls"] = lose_controls(candidate)
         if args.build:
             (OUT / "main-build.json").write_text(json.dumps(result, indent=2) + "\n")
     if not args.build:

@@ -1,6 +1,6 @@
 # TH03 current work
 
-Commit format: `gpt-6-astra-medium: xxx ~`. Use local headless tools; no Factory MCP.
+Commit format: `gpt-6.1-sol: xxx`. Use local headless tools; no Factory MCP.
 
 The owner requested removal of historical validation outputs and documents.
 `.analysis` was reduced from about 17 GiB to 1.3 GiB. Old receipts, archives,
@@ -8,8 +8,8 @@ experiments and generated acceptance publications are gone. Historical ledger
 rows remain as records, not locally replayable proof. Regenerate verification
 from source before claiming a new exact result.
 
-Latest CI: 1,677 tests, 300 optional archive skips; PASS. One CPU, peak RSS
-273,848 KiB. Preflight and whitespace checks also pass.
+Latest CI: 1,679 tests, 300 optional archive skips; PASS. One CPU, peak RSS
+276,484 KiB. Preflight and whitespace checks also pass.
 
 ## Continue here
 
@@ -22,10 +22,15 @@ Latest CI: 1,677 tests, 300 optional archive skips; PASS. One CPU, peak RSS
   `samecodeseg` preserves far/Pascal ABI and fixes all18 old call mismatches.
   Entry/state ordered relocations match; shot's26 sites still have wrong order.
   All87 recorded scopes still match raw bytes and literal relocation order.
+- Lose update270/particle98 and defeat banners119 now link from maintained C++
+  with full raw and scoped relocation equality. Two units/three functions are
+  source-present candidates; exact counts remain 87 / 413 / 66,843 bytes.
+  Their 1,166 paired runtime cases execute all487 bytes; four semantic mutations
+  fail. Foreign math/audio/graphics are bounded stubs; renderer/devices are open.
 - Rebuild/check the current mixed tree with
   `.venv/bin/python scripts/build_th03_main_work.py --build --runtime`.
-  Six native phases rebuild five objects and reuse84 explicit context objects.
-  Repeated EXE/three candidate OBJs are identical; this is not a cold aggregate.
+  Eight native phases rebuild seven objects and reuse84 explicit context objects.
+  Repeated EXE/five C++ OBJs are identical; this is not a cold aggregate.
   Reports/logs are overwritten in `.analysis/work/`, not archived.
 - Both loaded images are124,642 bytes. Three outside bytes still differ at
   B4F/EC2D/1DB05, along with the MZ header/global relocation order.
@@ -33,9 +38,13 @@ Latest CI: 1,677 tests, 300 optional archive skips; PASS. One CPU, peak RSS
   not explain the target first7/next5 relocation partition. First declaration
   controls function segment ownership. Guard the anonymous pid union once;
   its byte fields are fixed, its whole-union packing is context dependent.
+- Original relocation order interleaves seven stage sites before six state tail
+  sites. The current report exposes both full cross-unit vectors; projected
+  equality alone misses this. Uniform1023-byte records do not explain MAIN_01.
 - Next resolve the shot relocation producer and create a fresh cold aggregate.
   Exact acceptance remains at the recorded87 extents; no new promotion yet.
-- The lose renderer remains175 versus177 target bytes; no padding or dummy ABI.
+- `losedraw.cpp` remains175 versus177 target bytes and is not linked. The original
+  177-byte renderer stays in the working carrier; no padding or dummy ABI.
 
 Read [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and
 [exact gates](ORACLES.md). Inspect Git, run preflight, then work from current
