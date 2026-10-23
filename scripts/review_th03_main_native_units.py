@@ -29,7 +29,7 @@ LOSE_OWNERS = {
 }
 
 
-CORE_OWNERS = {"th03-main-round-finish"}
+CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry"}
 STAGE_OWNERS = {"th03-main-stage-round"}
 
 
@@ -247,6 +247,14 @@ def review(report=None):
         product_exact=False,
     )
     map_text = (build.WORK / "obj/th03/main.map").read_text()
+    from lib.main_entry_runtime import compare as entry_compare, negative_controls as entry_controls
+
+    result["entry_runtime"] = entry_compare(target, candidate)
+    result["entry_controls"] = entry_controls(candidate)
+    need(result["entry_runtime"]["cases"] == 1172
+         and result["entry_runtime"]["entry_code_bytes_executed"] == 146
+         and len(result["entry_controls"]) == 7, "entry contracts are incomplete")
+    result["entry_model_sha256"] = sha((ROOT / "scripts/lib/main_entry_runtime.py").read_bytes())
     from lib.main_lose_runtime import compare, negative_controls
 
     runtime = compare(target, candidate)
@@ -415,7 +423,7 @@ if __name__ == "__main__":
         output = ROOT / ".analysis/work/main-unit-review.json"
         output.write_text(json.dumps(result, indent=2) + "\n")
         print(
-            "Native cold unit review: PASS; 6 owners / 19 functions / 4636 bytes; product exact remains false"
+            "Native cold unit review: PASS; 7 owners / 20 functions / 4782 bytes; product exact remains false"
         )
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         print("Native cold unit review: FAIL:", error, file=sys.stderr)

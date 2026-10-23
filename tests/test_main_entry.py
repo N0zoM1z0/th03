@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import stage_th03_main_entry as stage
 from lib.pc98 import parse_mz
 from lib.main_entry_runtime import execute
-from review_th03_main_entry import negative_controls
+from lib.main_entry_runtime import negative_controls
 
 
 def fixture():
@@ -80,8 +80,13 @@ class EntryTargetTests(unittest.TestCase):
         ):
             execute(self.image, scenario)
 
+    def test_nonzero_resident_offset_and_relocated_code(self):
+        for load in (0x1000, 0x2200):
+            execute(self.image, dict(resident=True, bgm=2, story=255, outcomes=[1, 2]),
+                    load=load, resident_offset=0x200)
+
     def test_semantic_mutations_rejected(self):
-        self.assertEqual(len(negative_controls(self.image)), 5)
+        self.assertEqual(len(negative_controls(self.image)), 7)
 
 
 if __name__ == "__main__":

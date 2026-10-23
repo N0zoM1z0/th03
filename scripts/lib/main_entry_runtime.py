@@ -1,7 +1,8 @@
 """Execute the actual linked and canonical MAIN entry with bounded foreign calls."""
 
+from dataclasses import replace
 import struct
-from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_MEM_WRITE
+from unicorn import UcError, Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_MEM_WRITE
 from unicorn.x86_const import (
     UC_X86_REG_AX,
     UC_X86_REG_BP,
@@ -20,6 +21,8 @@ from unicorn.x86_const import (
 )
 
 ENTRY, END, LOAD, DS, SS, RES = 0x96E6, 0x9778, 0x1000, 0x2D56, 0x8000, 0x6000
+DGROUP_FIXTURE = bytes((i * 37 + 11) & 255 for i in range(65536))
+RESIDENT_FIXTURE = bytes((i * 17 + 29) & 255 for i in range(256))
 STUBS = {
     0xECD0: ("init", True, 4),
     0xA346: ("cfg", False, 0),
@@ -57,14 +60,16 @@ def need(ok, message):
         raise ValueError(message)
 
 
-def execute(image, scenario):
+def execute(image, scenario, load=LOAD, resident_offset=0):
+    ds = load + 0x1D56
+    resident_base = RES * 16 + resident_offset
     u = Uc(UC_ARCH_X86, UC_MODE_16)
     u.mem_map(0, 0x100000)
     program = bytearray(image.program_image)
     for r in image.relocations:
         v = struct.unpack_from("<H", program, r.linear)[0]
-        struct.pack_into("<H", program, r.linear, (v + LOAD) & 0xFFFF)
-    u.mem_write(LOAD * 16, bytes(program))
+        struct.pack_into("<H", program, r.linear, (v + load) & 0xFFFF)
+    u.mem_write(load * 16, bytes(program))
     for reg, val in zip(
         REGS,
         (
@@ -76,28 +81,46 @@ def execute(image, scenario):
             0x2468,
             0xBEEF,
             0xFF00,
-            DS,
+            ds,
             0x4444,
             SS,
-            LOAD + 0x96E,
+            load + 0x96E,
             6,
             0x202,
         ),
     ):
         u.reg_write(reg, val)
     u.mem_write(SS * 16 + 0xFF00, struct.pack("<HH", 0x100, 0x7E00))
-    u.mem_write(DS * 16 + 0x1D90, struct.pack("<HH", 0, RES))
-    u.mem_write(RES * 16 + 0x15, bytes([scenario["bgm"]]))
-    u.mem_write(RES * 16 + 0x33, bytes([scenario["story"]]))
-    u.mem_write(RES * 16 + 0x10, struct.pack("<I", 0xDEADBEEF))
-    u.mem_write(DS * 16 + 0x39C0, struct.pack("<HH", 0x100, 0x7100))
-    u.mem_write(DS * 16 + 0x1A0D, b"\x7f")
-    regions = ((DS * 16, 65536), (RES * 16, 256), (SS * 16 + 0xFE00, 260))
+    u.mem_write(ds * 16, DGROUP_FIXTURE)
+    u.mem_write(resident_base, RESIDENT_FIXTURE)
+    u.mem_write(ds * 16 + 0x1D90, struct.pack("<HH", resident_offset, RES))
+    u.mem_write(resident_base + 0x15, bytes([scenario["bgm"]]))
+    u.mem_write(resident_base + 0x33, bytes([scenario["story"]]))
+    u.mem_write(resident_base + 0x10, struct.pack("<I", 0xDEADBEEF))
+    u.mem_write(ds * 16 + 0x39C0, struct.pack("<HH", 0x100, 0x7100))
+    u.mem_write(ds * 16 + 0x1A0D, b"\x7f")
+    regions = ((ds * 16, 65536), (resident_base, 256), (SS * 16 + 0xFE00, 260))
     initial = [bytes(u.mem_read(a, n)) for a, n in regions]
+    expected_memory = bytearray(u.mem_read(0, 0x100000))
+    expected_writes = []
+
+    def expect_write(address, size, value, cpu=True):
+        expected_memory[address:address + size] = value.to_bytes(size, "little")
+        if cpu:
+            expected_writes.append((address, size, value))
+
+    if scenario["resident"]:
+        expect_write(ds * 16 + 0x1A0D, 1, 0)
+        for number, outcome in enumerate(scenario["outcomes"], 1):
+            expect_write(ds * 16 + 0x2D4, 2, 100)
+            expect_write(ds * 16 + 0x6592, 4, 0xA1230000 + number, cpu=False)
+            expect_write(resident_base + 0x10, 4, 0xA1230000 + number)
+        if scenario["outcomes"][-1] != 0:
+            expect_write(resident_base + 0x33, 1, (scenario["story"] + 1) & 255)
     trace, writes, visited = [], [], set()
     rounds = 0
     stopped = False
-    stubs = {LOAD * 16 + a: spec for a, spec in STUBS.items()}
+    stubs = {load * 16 + a: spec for a, spec in STUBS.items()}
     stubs[0x71100] = ("background", True, 0)
 
     def read_word(address):
@@ -109,8 +132,8 @@ def execute(image, scenario):
             stopped = True
             uc.emu_stop()
             return
-        if LOAD * 16 + ENTRY <= address < LOAD * 16 + END:
-            visited.update(range(address - LOAD * 16, address - LOAD * 16 + size))
+        if load * 16 + ENTRY <= address < load * 16 + END:
+            visited.update(range(address - load * 16, address - load * 16 + size))
             return
         need(address in stubs, "unreviewed execution " + hex(address))
         name, far, pop = stubs[address]
@@ -123,7 +146,7 @@ def execute(image, scenario):
             need(rounds < len(scenario["outcomes"]), "unexpected extra round")
             result = scenario["outcomes"][rounds]
             rounds += 1
-            uc.mem_write(DS * 16 + 0x6592, struct.pack("<I", 0xA1230000 + rounds))
+            uc.mem_write(ds * 16 + 0x6592, struct.pack("<I", 0xA1230000 + rounds))
             uc.reg_write(UC_X86_REG_AX, 0xA500 | result)
         else:
             uc.reg_write(
@@ -141,15 +164,18 @@ def execute(image, scenario):
     def write(uc, access, address, size, value, unused):
         allowed = (
             (SS * 16 + 0xFE00 <= address and address + size <= SS * 16 + 0xFF04)
-            or (RES * 16 <= address and address + size <= RES * 16 + 256)
-            or (DS * 16 <= address and address + size <= (DS + 0x1000) * 16)
+            or (resident_base <= address and address + size <= resident_base + 256)
+            or (ds * 16 <= address and address + size <= (ds + 0x1000) * 16)
         )
         need(allowed, "unreviewed write " + hex(address))
         writes.append((address, size, value))
 
-    u.hook_add(UC_HOOK_CODE, hook)
-    u.hook_add(UC_HOOK_MEM_WRITE, write)
-    u.emu_start(LOAD * 16 + ENTRY, 0, count=2000)
+    hooks = (u.hook_add(UC_HOOK_CODE, hook), u.hook_add(UC_HOOK_MEM_WRITE, write))
+    try:
+        u.emu_start(load * 16 + ENTRY, 0, count=2000)
+    finally:
+        for handle in hooks:
+            u.hook_del(handle)
     need(stopped, "entry instruction budget exhausted")
     need(
         rounds == (len(scenario["outcomes"]) if scenario["resident"] else 0),
@@ -160,17 +186,17 @@ def execute(image, scenario):
         (UC_X86_REG_DI, 0x2468),
         (UC_X86_REG_BP, 0xBEEF),
         (UC_X86_REG_SP, 0xFF04),
-        (UC_X86_REG_DS, DS),
+        (UC_X86_REG_DS, ds),
         (UC_X86_REG_SS, SS),
     ):
         need(u.reg_read(reg) == val, "entry callee-save/stack contract")
-    expected = [("init", struct.pack("<HH", 0x13A, DS).hex()), ("cfg", "")]
+    expected = [("init", struct.pack("<HH", 0x13A, ds).hex()), ("cfg", "")]
     if scenario["resident"]:
         if scenario["bgm"] != 0:
             expected.append(("sound_mode", ""))
         expected += [
             ("gaiji_backup", ""),
-            ("gaiji_font", struct.pack("<HH", 0x146, DS).hex()),
+            ("gaiji_font", struct.pack("<HH", 0x146, ds).hex()),
             ("stage", ""),
             ("background", ""),
         ]
@@ -184,23 +210,30 @@ def execute(image, scenario):
             (
                 "exec",
                 struct.pack(
-                    "<HH", 0x151 if scenario["outcomes"][-1] == 0 else 0x154, DS
+                    "<HH", 0x151 if scenario["outcomes"][-1] == 0 else 0x154, ds
                 ).hex(),
             ),
         ]
-        need(bytes(u.mem_read(DS * 16 + 0x1A0D, 1)) == b"\x00", "MIDI flag not cleared")
-        need(read_word(DS * 16 + 0x2D4) == 100, "palette tone not initialized")
+        need(bytes(u.mem_read(ds * 16 + 0x1A0D, 1)) == b"\x00", "MIDI flag not cleared")
+        need(read_word(ds * 16 + 0x2D4) == 100, "palette tone not initialized")
         need(
-            bytes(u.mem_read(RES * 16 + 0x10, 4))
+            bytes(u.mem_read(resident_base + 0x10, 4))
             == struct.pack("<I", 0xA1230000 + rounds),
             "resident random seed transfer",
         )
         need(
-            bytes(u.mem_read(RES * 16 + 0x33, 1))
+            bytes(u.mem_read(resident_base + 0x33, 1))
             == bytes([(scenario["story"] + (scenario["outcomes"][-1] != 0)) & 255]),
             "story-stage transition",
         )
     need(trace == expected, "foreign call sequence/arguments")
+    actual_memory = bytes(u.mem_read(0, 0x100000))
+    stack_start, stack_end = SS * 16, (SS + 0x1000) * 16
+    need(actual_memory[:stack_start] == expected_memory[:stack_start]
+         and actual_memory[stack_end:] == expected_memory[stack_end:],
+         "complete non-stack memory differs from independent entry contract")
+    need([w for w in writes if not stack_start <= w[0] < stack_end] == expected_writes,
+         "ordered entry stores differ from independent contract")
     memory = [bytes(u.mem_read(a, n)) for a, n in regions]
     effects = [
         [(i, y) for i, (x, y) in enumerate(zip(before, after)) if x != y]
@@ -239,18 +272,63 @@ def compare(target, candidate):
                         )
                     )
     visited = set()
-    for case in cases:
-        a, seen = execute(target, case)
-        b, other = execute(candidate, case)
-        need(a == b, "target/candidate entry behavior differs: " + str(case))
-        visited |= seen
-        need(seen == other, "entry instruction coverage differs")
+    for load in (0x1000, 0x2200):
+        for resident_offset in (0, 0x200):
+            for case in cases:
+                a, seen = execute(target, case, load, resident_offset)
+                b, other = execute(candidate, case, load, resident_offset)
+                need(a == b, "target/candidate entry behavior differs: " + str(case))
+                visited |= seen
+                need(seen == other, "entry instruction coverage differs")
+    need(visited == set(range(ENTRY, END)), "complete entry instruction coverage")
     return dict(
-        cases=len(cases),
+        cases=len(cases) * 4,
+        load_segments=[0x1000, 0x2200],
+        resident_offsets=[0, 0x200],
         entry_code_bytes_executed=len(visited),
         visited=sorted(visited),
         all_return_byte_values=True,
         foreign_calls="bounded stubs; actual callees and physical devices not executed",
-        memory_scope="changes across complete DGROUP, resident record and entry stack window; ordered non-stack CPU writes, all write bounds and final stack effects; Unicorn far-CALL stack-write hooks differ from PUSH CS/CALL; initial unrelated bytes are not normalized",
+        memory_scope="independent complete non-stack memory and ordered CPU-store contract; seeded DGROUP/resident bytes; bounded entry stack writes and far-cdecl return; all foreign callees are stubs",
         equal=True,
     )
+
+
+def mutated(image, offset, value):
+    data = bytearray(image.program_image)
+    data[offset] = value
+    return replace(image, program_image=bytes(data))
+
+
+def negative_controls(image):
+    normal = dict(resident=True, bgm=1, story=0, outcomes=[1, 0])
+    controls = (
+        (
+            "resident branch",
+            0x96F8,
+            0x75,
+            dict(resident=False, bgm=0, story=0, outcomes=[]),
+        ),
+        ("palette tone", 0x9728, 101, normal),
+        ("continue comparison", 0x9745, 2, normal),
+        ("OP filename", 0x975F, 0x54, normal),
+        ("random destination", 0x9742, 0x14, normal),
+        ("far return", 0x9777, 0xC3, normal),
+        (
+            "story decrement",
+            0x976A,
+            0x4F,
+            dict(resident=True, bgm=1, story=0, outcomes=[2]),
+        ),
+    )
+    rejected = []
+    for name, offset, value, scenario in controls:
+        need(image.program_image[offset] != value, "negative control must change bytes")
+        try:
+            execute(mutated(image, offset, value), scenario)
+        except (ValueError, UcError) as error:
+            # Unicorn failures also reject a mutation; no mutated product is written.
+            rejected.append(dict(name=name, reason=type(error).__name__))
+        else:
+            raise ValueError("mutation accepted: " + name)
+    return rejected

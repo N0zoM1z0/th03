@@ -1,4 +1,4 @@
-// Candidate for MAIN load 96E6..9778; existing strings/storage stay external.
+// MAIN C++ main at load 96E6..9778; CRT, strings and storage stay separate.
 #pragma codeseg PLAYFLD_TEXT main_01
 #include "src/main/core/entry.hpp"
 // MAIN_EXEC returns far but shares the caller's MAIN_01 code frame.

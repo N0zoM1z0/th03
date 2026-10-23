@@ -7312,3 +7312,26 @@ offset = 0x07df
 size = 855
 abi = "near cdecl; no arguments; BP preserved; RET"
 return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-core-entry"
+source = "src/main/core/entry.cpp"
+object = "entry"
+map_module = "src/main/core/entry.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x0006
+size = 146
+map_segment = "PLAYFLD_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "main"
+segment = 0x096e
+offset = 0x0006
+size = 146
+abi = "far cdecl; no arguments; SI/BP preserved; RETF"
+return_pop = 0

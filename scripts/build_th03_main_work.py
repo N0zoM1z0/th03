@@ -814,7 +814,7 @@ def main():
             compare as compare_lose,
             negative_controls as lose_controls,
         )
-        from review_th03_main_entry import negative_controls
+        from lib.main_entry_runtime import negative_controls
 
         target = parse_mz(
             read_verified_artifact(
