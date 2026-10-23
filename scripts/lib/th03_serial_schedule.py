@@ -21,13 +21,13 @@ PINS = {
     'scripts/review_th03_cpu_link_order.py': '0b96a855a823aa749cc35ab0b8d4a80b5740bf42a7996a7c934881981df5ba82',
     "scripts/replay_th03_main_exact_units.py": "3db1ca06a2fa39a67d07c2442265b278bcde548a5d862344f2843085fed7fffc",
     "config/th03_main_exact_units.toml": "5d1c7dc51d5e5efad4c102ca2bb5dce5a9df024dbaeb0d8e248454610732fda3",
-    "config/toolchain.toml": "abca6f4cca79a1f5be1c683546db05a8420b7ee3c635524d6c1eb9ef48b9d0cd",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
 }
 PINS.update({
     "scripts/lib/th03_yumemi_bomb_candidate.py": "57222be5b9f43297dce65b24b178ef1aae9e106a8526c72d8c40b611ab97ff89",
     "scripts/lib/th03_score_candidate.py": "d407cf98a7d5a8b1009e4289563a337b200d23b3f18fadc50257c0f873582434",
     "scripts/lib/__init__.py": "c23b7d19498cba043fa764379b8047fc8aaaddf6fefd54f8aaf131fa4aec0713",
-    "scripts/lib/analysis.py": "5f3edcf4b4e3b958976288aa07900a15a91e95276c2305470f6669fdcb95d7bd",
+    "scripts/lib/analysis.py": "f643eb39eba10246310d3a418cfdd029c9c4046c8146b5230cedb2cab05aabfa",
     "scripts/lib/ghidra.py": "7032827832aae949aed20794cb36a292052476d6b0f886c20caea53f353aea85",
     "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
     "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",

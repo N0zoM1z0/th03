@@ -150,13 +150,11 @@ def _file_check(
 
 
 def attest_analysis_install(root: Path, config: dict[str, object]) -> dict[str, object]:
-    """Return independent acquisition, installed-tree, source, and execution checks."""
+    """Check installed tools and execution; bootstrap verifies download archives."""
 
     ghidra = config["ghidra"]
     jdk = config["temurin_jdk"]
     checks: dict[str, object] = {}
-    ghidra_archive = repository_path(root, ghidra["archive_path"])
-    jdk_archive = repository_path(root, jdk["archive_path"])
     ghidra_home = repository_path(root, ghidra["install_path"])
     jdk_home = repository_path(root, jdk["install_path"])
     for name, item, version_home in (
@@ -177,13 +175,6 @@ def attest_analysis_install(root: Path, config: dict[str, object]) -> dict[str, 
             }
         except OSError as error:
             checks[name] = {"pass": False, "path": relative.as_posix(), "error": str(error)}
-    checks["ghidra_archive"] = _file_check(
-        ghidra_archive, ghidra["archive_size"], ghidra["archive_sha256"]
-    )
-    checks["jdk_archive"] = _file_check(
-        jdk_archive, jdk["archive_size"], jdk["archive_sha256"]
-    )
-
     try:
         identity = tree_identity(ghidra_home)
         checks["ghidra_tree"] = {

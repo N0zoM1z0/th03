@@ -1,53 +1,27 @@
-# TH03 reconstruction rules
+# TH03 reconstruction
 
-Read `docs/RE_HANDOFF.md`, `docs/ARCHITECTURE.md`, `docs/RE_WORKFLOW.md`
-and the relevant local skill before target-dependent work. Run
-`python3 scripts/preflight.py` and inspect Git state first.
+Read `docs/RE_HANDOFF.md`, `docs/ARCHITECTURE.md`, `docs/RE_WORKFLOW.md` and
+the local `th03-re` skill. Inspect Git and run `python3 scripts/preflight.py`.
 
-## Targets and evidence
+- Use the Japanese targets pinned in `config/targets.toml`; never replace them
+  with translated, patched or reference-game files. Provenance remains
+  `candidate-local-attested`. Re-attest a Ghidra database before using it.
+- Product source belongs in `src/main`, `src/op`, `src/mainl`, `src/zun` and
+  proved `src/shared`. MAINL is the ending. Use local dependencies or explicit
+  `compat/rec98` forwarding. `.c`/`.cpp`/`.asm` are TUs; `.inl` is a bounded include.
+- Preserve 16-bit widths, ABI, segments, packing, x87 and compile/link order.
+  Exact means complete raw-byte and ordered-relocation equality, reviewed
+  ownership/layout, affected behavior and reproducible cold builds. No padding,
+  target-byte arrays or object patches to manufacture equality.
+- Keep useful findings in source, ledgers and the concise handoff. Generated
+  analysis and decompiler output are provisional. Do not claim whole-game
+  progress from reference builds or partial byte counts.
+- Use local headless tools, with DISPLAY/WAYLAND_DISPLAY empty; no Factory MCP.
+  Limit heavy work to one CPU at nice10. Serialize Borland/Wine writers and
+  preserve the local prefix. Keep private tools/targets/assets out of Git.
+- Keep one working build. Old verification, logs, experiments, caches, installer
+  downloads and history documents can be deleted; references do not require
+  retaining them. Regenerate checks when needed.
 
-- Use the Japanese YUMEZIKU targets pinned in `config/targets.toml`.
-  Their canonical ignored paths are `.analysis/targets/th03/op.exe`,
-  `main.exe`, `mainl.exe`, and `zun.com`. Never replace them with translated
-  files, patched images, or ReC98 outputs.
-- Provenance is `candidate-local-attested`; an independent pristine-dump
-  attestation is still unknown.
-- Re-attest the selected Ghidra database with `scripts/ghidra.py ARTIFACT check`
-  before using its observations. Automatic functions and decompiler output
-  are provisional, not independent Oracles or authored-source progress.
-- Keep observed target facts, compiler observations, runtime observations,
-  cross-game corroboration and inference distinct.
-- Track units, evidence, hypotheses and knowledge in the CSV ledgers.
-  Never inherit TH04 or ReC98 exactness claims.
-- `exact` requires cold reproducible builds, complete raw byte equality,
-  reviewed ownership, ABI/layout/relocations and the complete Oracle set.
-  Do not manufacture equality with target-byte arrays, padding or fake ABI.
-
-## Source and tool ownership
-
-- Product source belongs to `src/main/`, `src/op/`, `src/mainl/`, `src/zun/`
-  and proved shared code under `src/shared/`. MAINL is TH03's ending product.
-  Do not create directories named `exact`, `partial` or `modules`.
-- Treat `.c`, `.cpp` and `.asm` as translation units, `.inl` as bounded includes.
-- Preserve 16-bit widths, near/far/Pascal ABIs, memory model, DGROUP,
-  segment ownership, packing, x87 behavior and translation/link order.
-- Reference source is untrusted candidate material. Product dependencies must
-  be localized or explicitly forwarded through `compat/rec98/`; no direct
-  product includes of reference-game or `libs/`/`platform/` paths.
-- Use only headless tools. Clear DISPLAY and WAYLAND_DISPLAY; Ghidra uses
-  `analyzeHeadless` with Java headless mode. Wine runs console tools only;
-  if a virtual X server becomes necessary, use Xvfb without a visible desktop.
-- Keep one Borland/Wine writer at a time and preserve the game-local prefix.
-  Private tools belong under `.tools/` or `.analysis/toolchain/`; projects
-  belong under ignored `ghidra-project/`, exports under `.analysis/`.
-- Never commit targets, game assets, proprietary tools, archives or credentials.
-- Factory is the shared MCP entry point. Register native command providers;
-  do not create another game-specific HTTP MCP endpoint. Hot deployment must
-  preserve existing service processes, public URL and tool metadata.
-
-## Finish
-
-Run focused verification, `python3 scripts/ci.py`, and `git diff --check`.
-Update the concise handoff when verified facts or blockers change. Put durable
-findings in ledgers, bounded notes or replayable scripts. Do not claim a whole
-game build from a reference build or a compiler smoke result.
+Finish with focused checks, `python3 scripts/ci.py` and `git diff --check`.
+Commit format: `gpt-6-astra-medium: xxx ~`.

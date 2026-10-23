@@ -44,7 +44,9 @@ def main() -> int:
         report["static"]["analyzeHeadless"] = str(local_analyzer.resolve())
     toolchain_config = tomllib.loads(TOOLCHAIN_CONFIG.read_text(encoding="utf-8"))
     surface_reports = [
-        attest_surface(ROOT, surface) for surface in toolchain_config["surfaces"]
+        attest_surface(ROOT, surface)
+        for surface in toolchain_config["surfaces"]
+        if not surface.get("bootstrap_only")
     ]
     receipt: dict[str, object] = {}
     try:

@@ -268,7 +268,7 @@ def main() -> int:
     selected = (
         [surface_config[surface_id] for surface_id in args.surface]
         if args.surface
-        else list(config["surfaces"])
+        else [item for item in config["surfaces"] if not item.get("bootstrap_only")]
     )
     surfaces = [attest_surface(ROOT, item) for item in selected]
     identity_pass = all(item["pass"] or not item["required"] for item in surfaces)

@@ -98,7 +98,7 @@ def verify(root,p,allow_review=False):
  need(cold['pass_checks'] and cold['native_phases_replayed']==56 and cold['native_invocations_now']==0 and cold['two_independent_source_builds'] and cold['raw_repeat_products']==29 and cold['raw_and_ordered_candidate_cohort_bytes']==9530,'cold witness dimensions')
  for g in ('toolchain-replay','cold-aggregate-replay'):need(p['gates'][g]['witness']==p['gates']['cold-build-determinism']['witness'],'cold witness scope')
  from lib.toolchain import attest_surface
- surfaces=[attest_surface(Path(root),item) for item in tomllib.loads(regular(root,'config/toolchain.toml').read_text())['surfaces']]
+ surfaces=[attest_surface(Path(root),item) for item in tomllib.loads(regular(root,'config/toolchain.toml').read_text())['surfaces'] if not item.get('bootstrap_only')]
  attestation=json.loads(witness('toolchain-identity'));need(attestation['identity_pass'] is True and attestation['surfaces']==surfaces and all(x['pass'] or not x['required'] for x in surfaces),'independent toolchain identity')
  from lib.op_diet_lineage import verify_diet_lineage
  from lib.pc98 import describe_blob

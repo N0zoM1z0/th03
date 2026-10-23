@@ -727,7 +727,7 @@ def main() -> int:
         "These are recorded ledger scopes, not a whole-game completion percentage.",
         "Historical private verification outputs were removed at the owner's request.",
         "Regenerate source builds and verification before any new exact acceptance.",
-        "See [current work](RE_HANDOFF.md) and [exact gates](ORACLES.md).",
+        "See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).",
         "",
     ])
     op_status = op_decoded_status(ROOT, units)

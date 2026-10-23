@@ -47,6 +47,7 @@ provenance = "pinned-upstream-binary"
 
 [[surfaces]]
 id = "tc40j-media"
+bootstrap_only = true
 kind = "tree"
 path = ".analysis/toolchain/media/tc40j/software/borland-4.0j"
 sha256 = "6e7e3c2734044bc799c9bd4ad9645654bfd3a4f17ed29e3e2988c9dba1af350a"
@@ -129,6 +130,7 @@ required = true
 
 [[surfaces]]
 id = "tasm50-archive"
+bootstrap_only = true
 kind = "file"
 path = ".analysis/toolchain/downloads/borland-tasm-5.0-3.5-144mb-candidate.7z"
 sha256 = "94723cc2c882525dd561e4d35a9251b8fb992a0352c075ca5f97fff12bbc872f"
