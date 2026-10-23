@@ -19,7 +19,8 @@ import tomllib
 
 from lib.pc98 import parse_mz
 from lib.targets import load_target_manifest, find_artifact, read_verified_artifact
-from probe_th03_main_bomb_rikako_cpp import segment_definitions, code_bytes
+from probe_th03_main_bomb_rikako_cpp import segment_definitions, code_bytes, omf_index
+from lib.omf import parse_omf
 
 ROOT = Path(__file__).resolve().parents[1]
 WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03WORK"
@@ -47,7 +48,7 @@ SCOPES = (
     (0xE266, 0xE83F),
     (0xC0D8, 0xC248),
     (0xC2F9, 0xC370),
-    (0x9B14, 0xA21F),
+    (0x9AD6, 0xA21F),
 )
 
 
@@ -197,6 +198,23 @@ def code(raw):
     }
 
 
+def carrier_code(raw):
+    # The ASM carrier has intentional ORG holes in _TEXT. Preserve each actual
+    # data record and declared size rather than synthesizing bytes for holes.
+    segments = {
+        s["index"]: s for s in segment_definitions(raw)
+        if s["class"] == "CODE" and s["size"]
+    }
+    result = {s["name"]: dict(size=s["size"], records=[]) for s in segments.values()}
+    for record in parse_omf(raw):
+        if record.name not in {"LEDATA", "LIDATA"}:
+            continue
+        segment, pos = omf_index(record.data)
+        if segment in segments:
+            result[segments[segment]["name"]]["records"].append((record.name, record.data[pos:]))
+    return result
+
+
 def contributions(raw, omit_replaced=False):
     return [
         line.strip()
@@ -217,6 +235,12 @@ def contributions(raw, omit_replaced=False):
                     "S=P_EXATT_TEXT" in line
                     and 0xA <= int(line.split()[0].split(":")[1], 16) < 0x845
                     and line.split()[0].startswith("18FE:")
+                )
+                or (
+                    "S=PLAYFLD_TEXT" in line
+                    and line.split()[0] in {"096E:0098", "096E:03F6", "096E:0434"}
+                    and any("M=" + module + " " in line for module in
+                            ("th03_main.asm", "th03/stg_rnd.cpp"))
                 )
             )
         )
@@ -311,13 +335,13 @@ def review(previous=None, cold_build=False):
             for name, image in (("target", target), ("candidate", candidate))
         },
         stage_round_candidate=dict(
-            **extent(0x9B14, 0xA21F),
+            **extent(0x9AD6, 0xA21F),
             exact_acceptance=False,
             target_order=[
-                r.linear for r in target.relocations if 0x9B14 <= r.linear < 0xA21F
+                r.linear for r in target.relocations if 0x9AD6 <= r.linear < 0xA21F
             ],
             candidate_order=[
-                r.linear for r in candidate.relocations if 0x9B14 <= r.linear < 0xA21F
+                r.linear for r in candidate.relocations if 0x9AD6 <= r.linear < 0xA21F
             ],
         ),
     )
@@ -348,6 +372,7 @@ def review(previous=None, cold_build=False):
         )
         map_text = (WORK / "obj/th03/main.map").read_text()
         for seg, start, size, segment, group, module in (
+            (0x96E, 0x3F6, 1865, "PLAYFLD_TEXT", "MAIN_01", "th03/stg_rnd.cpp"),
             (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
             (
                 0x96E,
@@ -397,8 +422,28 @@ def review(previous=None, cold_build=False):
         result["unlinked_CODE_unchanged"] = {
             n: code(raw) == code((WORK / "obj/th03" / n).read_bytes())
             for n, raw in previous["objects"].items()
-            if n not in {"ex_chyu.obj", "ex_ellen.obj"}
+            if n not in {"ex_chyu.obj", "ex_ellen.obj", "stg_rnd.obj", "main.obj"}
         }
+        # Move the two real demo callbacks across the carrier/TU boundary.
+        # Every unlinked byte must survive, including all other carrier segments.
+        if {"main.obj", "stg_rnd.obj"} <= previous["objects"].keys():
+            old_root_raw = previous["objects"]["main.obj"]
+            new_root_raw = (WORK / "obj/th03/main.obj").read_bytes()
+            old_root = carrier_code(old_root_raw)
+            new_root = carrier_code(new_root_raw)
+            old_stage = code(previous["objects"]["stg_rnd.obj"])
+            new_stage = code((WORK / "obj/th03/stg_rnd.obj").read_bytes())
+            result["unlinked_CODE_unchanged"]["carrier_other_segments"] = {
+                k: v for k, v in old_root.items() if k != "PLAYFLD_TEXT"
+            } == {k: v for k, v in new_root.items() if k != "PLAYFLD_TEXT"}
+            result["unlinked_CODE_unchanged"]["carrier_stage_combined"] = (
+                code_bytes(old_root_raw, next(s["index"] for s in segment_definitions(old_root_raw)
+                                             if s["name"] == "PLAYFLD_TEXT"))[0]
+                + old_stage["PLAYFLD_TEXT"]
+                == code_bytes(new_root_raw, next(s["index"] for s in segment_definitions(new_root_raw)
+                                                if s["name"] == "PLAYFLD_TEXT"))[0]
+                + new_stage["PLAYFLD_TEXT"]
+            )
         pair = ("ex_chyu.obj", "ex_ellen.obj")
         if all(n in previous["objects"] for n in pair):
             result["exatt_combined_CODE_unchanged"] = b"".join(
@@ -508,7 +553,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in (Path(object_path(s)).name for s in SOURCES)
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )

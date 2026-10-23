@@ -5,13 +5,47 @@ import copy
 import hashlib
 import json
 import sys
+import tomllib
 from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from review_th03_main_native_units import review, verify_maintained_sources
+from review_th03_main_native_units import review, verify_maintained_sources, verify_native_coverage
+from lib.pc98 import parse_mz
+
+
+@unittest.skipUnless((ROOT / ".analysis/targets/th03/main.exe").is_file(), "private target absent")
+class NativeCompilerTables(unittest.TestCase):
+    def setUp(self):
+        config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+        self.unit = next(u for u in config["native_units"] if u["id"] == "th03-main-stage-round")
+        self.extent = self.unit["code_extents"][0]
+        self.program = parse_mz((ROOT / ".analysis/targets/th03/main.exe").read_bytes()).program_image
+
+    def test_compiler_data_has_complete_coverage_and_owned_destinations(self):
+        data = verify_native_coverage(self.unit["functions"], self.extent, self.program)
+        self.assertEqual(sum(r["size"] for r in data), 48)
+
+    def test_switch_cannot_point_outside_the_owned_function(self):
+        program = bytearray(self.program)
+        start = self.extent["segment"] * 16 + 0x7B9
+        program[start:start + 2] = b"\xff\xff"
+        with self.assertRaisesRegex(ValueError, "owned instruction entry"):
+            verify_native_coverage(self.unit["functions"], self.extent, bytes(program))
+
+    def test_alignment_byte_must_match_the_native_zero(self):
+        program = bytearray(self.program)
+        program[self.extent["segment"] * 16 + 0x7B8] = 0x90
+        with self.assertRaisesRegex(ValueError, "compiler alignment"):
+            verify_native_coverage(self.unit["functions"], self.extent, bytes(program))
+
+    def test_missing_compiler_range_is_not_function_coverage(self):
+        extent = copy.deepcopy(self.extent)
+        extent["producer_ranges"].pop(0)
+        with self.assertRaisesRegex(ValueError, "gap or overlap"):
+            verify_native_coverage(self.unit["functions"], extent, self.program)
 
 
 class MaintainedSourceDrift(unittest.TestCase):

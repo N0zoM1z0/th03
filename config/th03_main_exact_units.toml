@@ -7257,3 +7257,58 @@ offset = 0x0ba9
 size = 71
 abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
 return_pop = 2
+
+
+[[native_units]]
+id = "th03-main-stage-round"
+source = "src/main/round/stage_round.cpp"
+object = "stg_rnd"
+map_module = "th03/stg_rnd.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x03f6
+size = 1865
+map_segment = "PLAYFLD_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+producer_ranges = [
+    { offset = 0x07b8, size = 1, kind = "tc4-natural-zero" },
+    { offset = 0x07b9, size = 18, kind = "tc4-switch-table", function = "stage_setup" },
+    { offset = 0x07cb, size = 8, kind = "tc4-switch-table", function = "stage_setup" },
+    { offset = 0x07d3, size = 12, kind = "tc4-switch-table", function = "stage_setup" },
+    { offset = 0x0b36, size = 1, kind = "tc4-natural-zero" },
+    { offset = 0x0b37, size = 8, kind = "tc4-switch-table", function = "round_prepare_players" },
+]
+
+[[native_units.functions]]
+name = "stage_demo_update_active"
+segment = 0x096e
+offset = 0x03f6
+size = 57
+abi = "near cdecl; no arguments; BP preserved; RET"
+return_pop = 0
+
+[[native_units.functions]]
+name = "stage_demo_update_none"
+segment = 0x096e
+offset = 0x042f
+size = 5
+abi = "near cdecl; no arguments; BP preserved; RET"
+return_pop = 0
+
+[[native_units.functions]]
+name = "stage_setup"
+segment = 0x096e
+offset = 0x0434
+size = 900
+abi = "near cdecl; no arguments; BP preserved; RET"
+return_pop = 0
+
+[[native_units.functions]]
+name = "round_prepare_players"
+segment = 0x096e
+offset = 0x07df
+size = 855
+abi = "near cdecl; no arguments; BP preserved; RET"
+return_pop = 0

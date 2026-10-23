@@ -16,10 +16,10 @@ Phantasmagoria of Dim.Dream**. It preserves maintained source and reviewed
 findings for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`. The complete game
 reconstruction is still in progress.
 
-MAIN currently records **418 exact functions / 67,507 exact owned bytes** in
-**90 exact CODE extents**. The current mixed build reproduces all **90 accepted
-extents / 67,507 bytes** and their scoped ordered relocations. Chiyuri/Ellen,
-lose update/particles/banners and next-round/score-commit pass independent source cold
+MAIN currently records **422 exact functions / 69,372 exact owned bytes** in
+**91 exact CODE extents**. The current mixed build reproduces all **91 accepted
+extents / 69,372 bytes** and their scoped ordered relocations. Chiyuri/Ellen,
+lose update/particles/banners, next-round/score-commit and stage/round setup pass independent source cold
 builds and the full required unit Oracle set. These are reviewed source scopes,
 not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
@@ -29,9 +29,9 @@ native tools, retaining the vendor startup and libraries. Repeated builds
 produce identical raw objects, executable and MAP from two isolated source trees.
 Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
 and the lose update, particles and banners also compile from maintained source.
-Stage setup and round initialization now contribute another 1,803 raw-equal
-source-present bytes; one relocated call is still in the wrong native record,
-so these two functions receive no exact credit yet.
+The two real demo callbacks, stage setup and round initialization form one
+1,865-byte native producer. Its 27 literal ordered relocations and all raw bytes
+match; compiler tables and near return boundaries are reviewed separately.
 The complete product still has three loaded-image byte differences and global
 relocation-order differences.
 OP, MAINL and ZUN have maintained source too; their product acceptance remains

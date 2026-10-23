@@ -89,18 +89,22 @@ def native_carrier(raw):
     text = re.sub(r"\bsub_A21F\b", "_round_start_next", text)
     text = re.sub(r"\bsub_A289\b", "@ROUND_SCORE_COMMIT$QUI", text)
 
-    start = text.index("sub_9B14\tproc near")
+    start = text.index("sub_9AD6\tproc near")
     end = text.index("sub_9EBF\tendp", start) + len("sub_9EBF\tendp")
     if re.findall(r"^(\S+)\s+proc near", text[start:end], re.M) != [
+        "sub_9AD6",
+        "sub_9B0F",
         "sub_9B14",
         "sub_9EBF",
     ]:
         raise ValueError("complete stage/round procedure interval differs")
     text = (
         text[:start]
-        + "extern _stage_setup:near\nextern _round_prepare_players:near\n"
+        + "extern _stage_demo_update_active:near\nextern _stage_demo_update_none:near\nextern _stage_setup:near\nextern _round_prepare_players:near\n"
         + text[end:]
     )
+    text = re.sub(r"\bsub_9AD6\b", "_stage_demo_update_active", text)
+    text = re.sub(r"\bsub_9B0F\b", "_stage_demo_update_none", text)
     text = re.sub(r"\bsub_9B14\b", "_stage_setup", text)
     text = re.sub(r"\bsub_9EBF\b", "_round_prepare_players", text)
 
@@ -144,9 +148,8 @@ def native_carrier(raw):
 
     for old, alias, distance in (
         ("sub_9778", "_round_loop", "near"),
-        ("sub_9B0F", "_stage_demo_update_none", "near"),
-        ("sub_9AD6", "_stage_demo_update_active", "near"),
         ("sub_B4A3", "_stage_background_update_none", "near"),
+        ("sub_B4A8", "_stage_demo_finish", "near"),
         ("sub_A38E", "_stage_palette_show", "far"),
         ("sub_A38E", "_round_objects_for_next", "far"),
         ("@GameExecl$qnxc", "MAIN_EXEC", "far"),

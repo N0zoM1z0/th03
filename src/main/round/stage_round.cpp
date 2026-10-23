@@ -1,4 +1,4 @@
-// MAIN load 9B14..A21F: stage setup and per-round player initialization.
+// MAIN load 9AD6..A21F: demo callbacks, stage setup and round initialization.
 // Names are inferred; historical compiler filename remains unknown.
 #pragma codeseg PLAYFLD_TEXT main_01
 #pragma option -a-
@@ -101,6 +101,30 @@ void far pascal exatt_ellen_slots_init(void);
 int far pascal IRand(void);
 }
 
+
+extern unsigned char round_reset_clear_flag;
+extern "C" void near stage_demo_finish(void);
+enum { DEMO_FRAME_LIMIT = 7000 };
+
+extern "C" void near stage_demo_update_active(void)
+{
+    if(demo_frame < DEMO_FRAME_LIMIT) {
+        demo_frame++;
+    } else if(demo_frame == DEMO_FRAME_LIMIT) {
+        stage_background_update = stage_demo_finish;
+    }
+    if(playfield_transition_midpoint != 0) {
+        round_reset_clear_flag = 1;
+    }
+    if(input_sp != INPUT_NONE) {
+        round_reset_clear_flag = 1;
+    }
+}
+
+// The real ordinary-play callback selected by stage_setup().
+extern "C" void near stage_demo_update_none(void)
+{
+}
 
 #pragma samecodeseg stage_score_render_cache_reset
 #pragma samecodeseg stage_score_credit_digit_set

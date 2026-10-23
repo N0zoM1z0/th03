@@ -30,6 +30,7 @@ LOSE_OWNERS = {
 
 
 CORE_OWNERS = {"th03-main-round-finish"}
+STAGE_OWNERS = {"th03-main-stage-round"}
 
 
 def sha(raw):
@@ -60,6 +61,42 @@ def verify_maintained_sources(staged):
         need(sha(raw) == expected, "maintained source drift: " + name)
         checked += 1
     return checked
+
+
+def verify_native_coverage(functions, extent, program):
+    """Partition code and compiler tables; validate actual CS jump destinations."""
+    decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_16)
+    starts = {}
+    ranges = []
+    for function in functions:
+        start, size = function["offset"], function["size"]
+        linear = function["segment"] * 16 + start
+        starts[function["name"]] = {
+            i.address for i in decoder.disasm(program[linear:linear + size], start)
+        }
+        ranges.append((start, size))
+    data = []
+    for item in extent.get("producer_ranges", []):
+        start, size = item["offset"], item["size"]
+        linear = extent["segment"] * 16 + start
+        raw = program[linear:linear + size]
+        need(len(raw) == size, "truncated compiler data")
+        if item["kind"] == "tc4-natural-zero":
+            need(size == 1 and raw == b"\0", "compiler alignment differs")
+        else:
+            need(item["kind"] == "tc4-switch-table" and size % 2 == 0,
+                 "unknown compiler data")
+            entries = [int.from_bytes(raw[i:i + 2], "little") for i in range(0, size, 2)]
+            need(all(e in starts[item["function"]] for e in entries),
+                 "switch destination is not an owned instruction entry")
+        data.append(dict(item, raw_hex=raw.hex()))
+        ranges.append((start, size))
+    cursor = extent["start"]
+    for start, size in sorted(ranges):
+        need(start == cursor and size > 0, "gap or overlap in reviewed owner coverage")
+        cursor += size
+    need(cursor == extent["start"] + extent["size"], "complete owner coverage required")
+    return data
 
 
 def review(report=None):
@@ -165,7 +202,7 @@ def review(report=None):
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     native_units = config.get("native_units", [])
     need(
-        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS,
+        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS,
         "lose owners are incomplete",
     )
     units = config["units"] + native_units
@@ -246,7 +283,12 @@ def review(report=None):
     result["round_init_model_sha256"] = sha(
         (ROOT / "scripts/lib/main_round_init_runtime.py").read_bytes()
     )
-    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS):
+    from lib.main_demo_runtime import compare as demo_compare, negative_controls as demo_controls
+
+    result["demo_runtime"] = demo_compare(target, candidate)
+    result["demo_controls"] = demo_controls(candidate)
+    result["demo_model_sha256"] = sha((ROOT / "scripts/lib/main_demo_runtime.py").read_bytes())
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -266,13 +308,11 @@ def review(report=None):
             ),
             key=lambda f: f["offset"],
         )
-        cursor = extent["start"]
+        data = verify_native_coverage(functions, extent, target.program_image)
+        need(data == verify_native_coverage(functions, extent, candidate.program_image),
+             "compiler-local tables differ")
         decoded = []
         for function in functions:
-            need(
-                function["offset"] == cursor,
-                "gap or overlap in reviewed function coverage",
-            )
             proof = verify_owner_linear_span(
                 function, target.program_image, config["segment"]
             )
@@ -297,7 +337,6 @@ def review(report=None):
                     int(last.op_str or "0", 0) == function["return_pop"],
                     "Pascal/cdecl stack cleanup differs",
                 )
-            cursor += function["size"]
             decoded.append(
                 dict(
                     name=function["name"],
@@ -306,10 +345,6 @@ def review(report=None):
                     **proof,
                 )
             )
-        need(
-            cursor == extent["start"] + extent["size"],
-            "complete owner coverage required",
-        )
         obj_path = "obj/th03/" + unit["object"] + ".obj"
         obj_raw = (build.WORK / obj_path).read_bytes()
         segments = [s for s in segment_definitions(obj_raw) if s["size"]]
@@ -344,7 +379,7 @@ def review(report=None):
             **{
                 "target-identity": True,
                 "format-integrity": target.valid and candidate.valid,
-                "boundary-ownership": cursor == extent["start"] + extent["size"],
+                "boundary-ownership": True,
                 "toolchain-identity": attestation["ready"],
                 "toolchain-replay": report["native_outputs_unchanged"],
                 "object-format-integrity": omf[obj_path]["valid"],
@@ -363,11 +398,12 @@ def review(report=None):
             bytes=extent["size"],
             file_offset=int(row["file_offset"], 0),
             functions=decoded,
+            compiler_data=data,
             ordered_relocations=len(literal(target)),
             gates=checks,
         )
     need(
-        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS,
+        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS,
         "all native owners required",
     )
     return result
@@ -379,7 +415,7 @@ if __name__ == "__main__":
         output = ROOT / ".analysis/work/main-unit-review.json"
         output.write_text(json.dumps(result, indent=2) + "\n")
         print(
-            "Native cold unit review: PASS; 5 owners / 15 functions / 2771 bytes; product exact remains false"
+            "Native cold unit review: PASS; 6 owners / 19 functions / 4636 bytes; product exact remains false"
         )
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         print("Native cold unit review: FAIL:", error, file=sys.stderr)

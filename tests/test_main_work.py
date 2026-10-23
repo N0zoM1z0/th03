@@ -50,7 +50,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (90, 67507),
+            (91, 69372),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -59,7 +59,7 @@ class MainWorkTests(unittest.TestCase):
 
     def test_stage_raw_equality_does_not_hide_wrong_relocation_order(self):
         candidate = self.run_image(self.raw)["stage_round_candidate"]
-        self.assertEqual(candidate["bytes"], 1803)
+        self.assertEqual(candidate["bytes"], 1865)
         self.assertTrue(candidate["raw_equal"])
         self.assertFalse(candidate["exact_acceptance"])
         if not candidate["ordered_relocations_equal"]:
@@ -70,6 +70,24 @@ class MainWorkTests(unittest.TestCase):
                     if r["id"] == "th03-main-stage-round"
                 )
             self.assertNotEqual(row["state"], "exact")
+
+    def test_stage_initializer_order_is_checked_without_normalizing(self):
+        sites = [i for i, r in enumerate(self.image.relocations) if 0x9AD6 <= r.linear < 0xA21F]
+        self.assertEqual(len(sites), 27)
+        raw = bytearray(self.raw)
+        a, b = [self.image.header.relocation_table_offset + i * 4 for i in (sites[0], sites[-1])]
+        raw[a:a + 4], raw[b:b + 4] = raw[b:b + 4], raw[a:a + 4]
+        self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
+        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+            self.run_image(raw)
+
+    def test_real_demo_callbacks_define_the_native_stage_producer(self):
+        raw = (work.WORK / "obj/th03/stg_rnd.obj").read_bytes()
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        self.assertEqual([(s["name"], s["size"]) for s in segments], [("PLAYFLD_TEXT", 1865)])
+        index = segments[0]["index"]
+        self.assertEqual([offset for offset, _ in code_publics(raw, index)], [0, 57, 62, 1001])
+        self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 844])
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
