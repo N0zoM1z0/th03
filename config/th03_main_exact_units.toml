@@ -7172,3 +7172,57 @@ offset = 13832
 size = 24
 boundary = "owner-linear-span"
 abi = "far cdecl; no arguments; RETF"
+
+# Whole native TUs staged by replay_th03_main_native.py. Their carrier edits
+# live in main_work_stage.py; the older per-unit reference replay is separate.
+[[native_units]]
+id = "th03-main-player-lose-update-particle"
+source = "src/main/player/lose.cpp"
+object = "lose"
+map_module = "src/main/player/lose.cpp"
+
+[[native_units.code_extents]]
+segment = 2414
+start = 10744
+size = 368
+map_segment = "PLAYER_M_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "player_lose_anim_update"
+segment = 2414
+offset = 10744
+size = 270
+abi = "near Pascal; near player pointer BP+4; RET 2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "player_lose_particle_put"
+segment = 2414
+offset = 11014
+size = 98
+abi = "near Pascal; unsigned bytes in word carriers BP+6/BP+4; RET 4"
+return_pop = 4
+
+[[native_units]]
+id = "th03-main-player-defeat-banner"
+source = "src/main/player/defeat.cpp"
+object = "defeat"
+map_module = "src/main/player/defeat.cpp"
+
+[[native_units.code_extents]]
+segment = 2414
+start = 11289
+size = 119
+map_segment = "PLAYER_M_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "round_defeat_banners_render"
+segment = 2414
+offset = 11289
+size = 119
+abi = "near cdecl; no arguments; RET"
+return_pop = 0

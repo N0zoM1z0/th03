@@ -251,7 +251,7 @@ def review(previous=None, cold_build=False):
     config_raw = (ROOT / "config/th03_main_exact_units.toml").read_bytes()
     cfg = tomllib.loads(config_raw.decode())
     owned = []
-    for unit in cfg["units"]:
+    for unit in cfg["units"] + cfg.get("native_units", []):
         for e in unit.get("code_extents", [unit]):
             lo = e.get("segment", unit.get("segment", cfg["segment"])) * 16 + e["start"]
             owned.append(dict(owner=unit["id"], **extent(lo, lo + e["size"])))

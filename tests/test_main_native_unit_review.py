@@ -2,13 +2,36 @@
 
 from pathlib import Path
 import copy
+import hashlib
 import json
 import sys
+from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from review_th03_main_native_units import review
+from review_th03_main_native_units import review, verify_maintained_sources
+
+
+class MaintainedSourceDrift(unittest.TestCase):
+    def test_old_staged_header_cannot_replace_a_deleted_maintained_header(self):
+        with TemporaryDirectory() as folder:
+            with patch("review_th03_main_native_units.ROOT", Path(folder)):
+                with self.assertRaisesRegex(ValueError, "maintained source missing"):
+                    verify_maintained_sources({"src/main/player/lose.hpp": "0" * 64})
+
+    def test_old_staged_tree_cannot_accept_a_modified_maintained_source(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "src/main/player/lose.cpp"
+            source.parent.mkdir(parents=True)
+            old = b"void lose() { timer--; }\n"
+            source.write_bytes(b"void lose() { timer++; }\n")
+            staged = {"src/main/player/lose.cpp": hashlib.sha256(old).hexdigest()}
+            with patch("review_th03_main_native_units.ROOT", root):
+                with self.assertRaisesRegex(ValueError, "maintained source drift"):
+                    verify_maintained_sources(staged)
 
 
 @unittest.skipUnless(

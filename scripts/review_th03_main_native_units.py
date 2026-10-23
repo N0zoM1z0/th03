@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Review the regrouped Chiyuri/Ellen CODE owners against a fresh MAIN cold pair."""
+"""Review native character and lose CODE owners against a fresh MAIN cold pair."""
 
 from pathlib import Path
 import csv
@@ -9,6 +9,7 @@ import re
 import subprocess
 import sys
 import tomllib
+import capstone
 
 from lib.omf import describe_omf
 from lib.pc98 import parse_mz
@@ -22,6 +23,10 @@ import build_th03_main_work as build
 
 ROOT = Path(__file__).resolve().parents[1]
 OWNERS = {"th03-main-exatt-chiyuri", "th03-main-exatt-ellen"}
+LOSE_OWNERS = {
+    "th03-main-player-lose-update-particle",
+    "th03-main-player-defeat-banner",
+}
 
 
 def sha(raw):
@@ -31,6 +36,27 @@ def sha(raw):
 def need(value, message):
     if not value:
         raise ValueError(message)
+
+
+def verify_maintained_sources(staged):
+    """A current source claim cannot borrow a build of older maintained files."""
+    from stage_th03_main_shotroot import transform_score
+
+    checked = 0
+    for name, expected in staged.items():
+        path = ROOT / name
+        need(
+            not name.startswith(("src/", "compat/")) or path.is_file(),
+            "maintained source missing: " + name,
+        )
+        if not path.is_file():
+            continue
+        raw = path.read_bytes()
+        if name == "src/main/hud/score.asm":
+            raw = transform_score(raw)
+        need(sha(raw) == expected, "maintained source drift: " + name)
+        checked += 1
+    return checked
 
 
 def review(report=None):
@@ -87,6 +113,7 @@ def review(report=None):
         ),
         "staged source drift",
     )
+    maintained_inputs = verify_maintained_sources(report["staged_source_sha256"])
     need(
         all(
             sha((ROOT / n).read_bytes()) == h for n, h in report["tools_sha256"].items()
@@ -133,14 +160,15 @@ def review(report=None):
     target, candidate = parse_mz(target_raw), parse_mz(candidate_raw)
     need(target.valid and candidate.valid, "MZ format integrity failed")
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+    native_units = config.get("native_units", [])
+    need({u["id"] for u in native_units} == LOSE_OWNERS, "lose owners are incomplete")
+    units = config["units"] + native_units
     comparison = build.review()
     need(comparison["all_owned_raw_and_ordered_equal"], "accepted cohort regressed")
     with (ROOT / "config/units.csv").open() as stream:
         ledgers = {r["id"]: r for r in csv.DictReader(stream)}
     covered = {
-        e.get("ledger_id", u["id"])
-        for u in config["units"]
-        for e in u.get("code_extents", [u])
+        e.get("ledger_id", u["id"]) for u in units for e in u.get("code_extents", [u])
     }
     need(
         {
@@ -169,13 +197,29 @@ def review(report=None):
         executable_sha256=sha(candidate_raw),
         raw_cold_outputs=92,
         valid_native_objects=90,
+        maintained_inputs_checked=maintained_inputs,
         replayed_owned_extents=comparison["checked_owned_extents"],
         replayed_owned_bytes=comparison["checked_owned_bytes"],
         units={},
         product_exact=False,
     )
     map_text = (build.WORK / "obj/th03/main.map").read_text()
-    for unit in (u for u in config["units"] if u["id"] in OWNERS):
+    from lib.main_lose_runtime import compare, negative_controls
+
+    runtime = compare(target, candidate)
+    controls = negative_controls(candidate)
+    need(
+        runtime["equal"]
+        and runtime["code_bytes_executed"] == 487
+        and controls["count"] == 4,
+        "lose runtime contracts failed",
+    )
+    result["lose_runtime"] = runtime
+    result["lose_negative_controls"] = controls
+    result["runtime_model_sha256"] = sha(
+        (ROOT / "scripts/lib/main_lose_runtime.py").read_bytes()
+    )
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -189,7 +233,10 @@ def review(report=None):
             "reviewed ownership differs",
         )
         functions = sorted(
-            (f for f in config["functions"] if f["object"] == unit["object"]),
+            unit.get(
+                "functions",
+                [f for f in config["functions"] if f["object"] == unit["object"]],
+            ),
             key=lambda f: f["offset"],
         )
         cursor = extent["start"]
@@ -211,6 +258,18 @@ def review(report=None):
                 == ("retf" if "far" in function["abi"] else "ret"),
                 "near/far function boundary differs",
             )
+            if "return_pop" in function:
+                start = function["segment"] * 16 + function["offset"]
+                decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_16)
+                last = list(
+                    decoder.disasm(
+                        target.program_image[start : start + function["size"]], 0
+                    )
+                )[-1]
+                need(
+                    int(last.op_str or "0", 0) == function["return_pop"],
+                    "Pascal/cdecl stack cleanup differs",
+                )
             cursor += function["size"]
             decoded.append(
                 dict(
@@ -230,7 +289,7 @@ def review(report=None):
         need(
             len(segments) == 1
             and segments[0]["class"] == "CODE"
-            and segments[0]["name"] == "P_EXATT_TEXT"
+            and segments[0]["name"] == extent["map_segment"]
             and segments[0]["size"] == extent["size"],
             "private storage or wrong CODE extent",
         )
@@ -245,7 +304,8 @@ def review(report=None):
         )
         pattern = (
             rf"(?m)^\s*{extent['segment']:04X}:{extent['start']:04X}\s+{extent['size']:04X}\s+C=CODE\s+"
-            rf"S=P_EXATT_TEXT\s+G=MAIN_06\s+M={re.escape(unit['map_module'])}\s+ACBP=28\s*$"
+            rf"S={re.escape(extent['map_segment'])}\s+G={re.escape(extent['map_group'])}\s+"
+            rf"M={re.escape(unit['map_module'])}\s+ACBP={extent['map_acbp']}\s*$"
         )
         need(len(re.findall(pattern, map_text)) == 1, "native MAP ownership differs")
         literal = lambda image: [
@@ -279,7 +339,7 @@ def review(report=None):
             ordered_relocations=len(literal(target)),
             gates=checks,
         )
-    need(set(result["units"]) == OWNERS, "both changed native owners required")
+    need(set(result["units"]) == OWNERS | LOSE_OWNERS, "all native owners required")
     return result
 
 
@@ -289,7 +349,7 @@ if __name__ == "__main__":
         output = ROOT / ".analysis/work/main-unit-review.json"
         output.write_text(json.dumps(result, indent=2) + "\n")
         print(
-            "Native cold unit review: PASS; 2 owners / 10 functions / 2107 bytes; product exact remains false"
+            "Native cold unit review: PASS; 4 owners / 13 functions / 2594 bytes; product exact remains false"
         )
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         print("Native cold unit review: FAIL:", error, file=sys.stderr)

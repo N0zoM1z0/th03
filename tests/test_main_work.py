@@ -37,7 +37,7 @@ class MainWorkTests(unittest.TestCase):
                 return work.review()
 
     def extents(self):
-        for u in self.cfg["units"]:
+        for u in self.cfg["units"] + self.cfg.get("native_units", []):
             for e in u.get("code_extents", [u]):
                 lo = (
                     e.get("segment", u.get("segment", self.cfg["segment"])) * 16
@@ -49,7 +49,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (87, 66843),
+            (89, 67330),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -132,6 +132,16 @@ class MainWorkTests(unittest.TestCase):
         raw[self.image.header.header_paragraphs * 16 + hi - 1] ^= 1
         with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
             self.run_image(raw)
+
+    def test_each_lose_owner_last_byte_mutation_is_rejected(self):
+        for unit in self.cfg["native_units"]:
+            with self.subTest(owner=unit["id"]):
+                (extent,) = unit["code_extents"]
+                end = extent["segment"] * 16 + extent["start"] + extent["size"]
+                raw = bytearray(self.raw)
+                raw[self.image.header.header_size + end - 1] ^= 1
+                with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+                    self.run_image(raw)
 
     def test_literal_relocation_reorder_rejected(self):
         for lo, hi in self.extents():

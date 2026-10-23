@@ -16,12 +16,12 @@ Phantasmagoria of Dim.Dream**. It preserves maintained source and reviewed
 findings for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`. The complete game
 reconstruction is still in progress.
 
-MAIN currently records **413 exact functions / 66,843 exact owned bytes** in
-**87 exact CODE extents**. The current mixed build reproduces all **87 tracked
-extents / 66,843 bytes** and their scoped ordered relocations. Chiyuri/Ellen's
-compiler-unit boundaries now pass independent source cold builds and the full
-required unit Oracle set. These are reviewed source scopes, not a whole-game
-completion percentage. See [the progress table](docs/PROGRESS.md) and
+MAIN currently records **416 exact functions / 67,330 exact owned bytes** in
+**89 exact CODE extents**. The current mixed build reproduces all **89 tracked
+extents / 67,330 bytes** and their scoped ordered relocations. Chiyuri/Ellen and
+the three lose update/particle/banner functions pass independent source cold
+builds and the full required unit Oracle set. These are reviewed source scopes,
+not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
 
 The current MAIN builder regenerates all **90 game objects** with the pinned
