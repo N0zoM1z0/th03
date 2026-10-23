@@ -267,6 +267,7 @@ def review(report=None):
         replayed_owned_bytes=comparison["checked_owned_bytes"],
         units={},
         entry_loop_producer=comparison["entry_loop_producer"],
+        main_flow_producer=comparison["main_flow_producer"],
         matching_relocation_prefix=comparison["matching_relocation_prefix"],
         differing_relocation_order_positions=comparison["differing_relocation_order_positions"],
         product_exact=False,
@@ -442,7 +443,8 @@ def review(report=None):
             functions=decoded,
             compiler_data=data,
             native_producer=dict(object=obj_path, start=producer_extent["start"],
-                                 bytes=producer_extent["size"], owners=producer["owners"]),
+                                 bytes=producer_extent["size"], owners=producer["owners"],
+                                 code_record_sizes=[p["size"] for p in build.code_bytes(obj_raw, segments[0]["index"])[1]]),
             ordered_relocations=len(literal(target)),
             gates=checks,
         )

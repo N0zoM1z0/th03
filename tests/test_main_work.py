@@ -81,25 +81,22 @@ class MainWorkTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
             self.run_image(raw)
 
-    def test_real_demo_callbacks_define_the_native_stage_producer(self):
-        raw = (work.WORK / "obj/th03/stg_rnd.obj").read_bytes()
-        segments = [s for s in segment_definitions(raw) if s["size"]]
-        self.assertEqual([(s["name"], s["size"]) for s in segments], [("PLAYFLD_TEXT", 1865)])
-        index = segments[0]["index"]
-        self.assertEqual([offset for offset, _ in code_publics(raw, index)], [0, 57, 62, 1001])
-        self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 844])
-
-    def test_entry_and_loop_have_one_native_record_and_global_prefix(self):
+    def test_flow_is_one_native_producer_with_all_eight_functions(self):
         raw = (work.WORK / "obj/th03/entry.obj").read_bytes()
         segments = [s for s in segment_definitions(raw) if s["size"]]
         self.assertEqual([(s["name"], s["class"], s["size"]) for s in segments],
-                         [("PLAYFLD_TEXT", "CODE", 1008)])
+                         [("PLAYFLD_TEXT", "CODE", 3050)])
         index = segments[0]["index"]
-        self.assertEqual(code_publics(raw, index), [(0, "_main"), (146, "_round_loop")])
-        self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1008])
+        self.assertEqual(code_publics(raw, index), [
+            (0, "_main"), (146, "_round_loop"), (1008, "_stage_demo_update_active"),
+            (1065, "_stage_demo_update_none"), (1070, "_stage_setup"),
+            (2009, "_round_prepare_players"), (2873, "_round_start_next"),
+            (2979, "@ROUND_SCORE_COMMIT$QUI"),
+        ])
+        self.assertEqual([p["size"] for p in code_bytes(raw, index)[1]], [1021, 1018, 1011])
         result = self.run_image(self.raw)
-        self.assertTrue(result["entry_loop_producer"]["ordered_relocations_equal"])
-        self.assertGreaterEqual(result["matching_relocation_prefix"], 27)
+        self.assertTrue(result["main_flow_producer"]["ordered_relocations_equal"])
+        self.assertGreaterEqual(result["matching_relocation_prefix"], 60)
 
     def test_cross_owner_order_cannot_borrow_two_passing_local_vectors(self):
         sites = [i for i, r in enumerate(self.image.relocations) if 0x96E6 <= r.linear < 0x9AD6]
@@ -116,6 +113,23 @@ class MainWorkTests(unittest.TestCase):
             vector = lambda image: [r for r in image.relocations if lo <= r.linear < hi]
             self.assertEqual(vector(changed), vector(self.image))
         with self.assertRaisesRegex(ValueError, "entry/loop producer"):
+            self.run_image(raw)
+
+    def test_stage_and_round_finish_require_cross_owner_interleaving(self):
+        sites = [i for i, r in enumerate(self.image.relocations) if 0x9AD6 <= r.linear < 0xA2D0]
+        self.assertEqual(len(sites), 33)
+        stage = [i for i in sites if self.image.relocations[i].linear < 0xA21F]
+        finish = [i for i in sites if self.image.relocations[i].linear >= 0xA21F]
+        raw = bytearray(self.raw)
+        table = self.image.header.relocation_table_offset
+        for destination, source in zip(sites, stage + finish):
+            raw[table + destination * 4:table + destination * 4 + 4] = self.raw[table + source * 4:table + source * 4 + 4]
+        changed = parse_mz(raw)
+        self.assertEqual(changed.program_image, self.image.program_image)
+        for lo, hi in ((0x9AD6, 0xA21F), (0xA21F, 0xA2D0)):
+            vector = lambda image: [r for r in image.relocations if lo <= r.linear < hi]
+            self.assertEqual(vector(changed), vector(self.image))
+        with self.assertRaisesRegex(ValueError, "main flow producer"):
             self.run_image(raw)
 
     def test_library_gap_is_owned_by_the_linker(self):

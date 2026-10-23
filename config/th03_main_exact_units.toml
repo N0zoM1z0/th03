@@ -7230,9 +7230,9 @@ return_pop = 0
 
 [[native_units]]
 id = "th03-main-round-finish"
-source = "src/main/core/roundfin.cpp"
-object = "roundfin"
-map_module = "src/main/core/roundfin.cpp"
+source = "src/main/core/roundfin.inl"
+object = "entry"
+map_module = "src/main/core/entry.cpp"
 
 [[native_units.code_extents]]
 segment = 0x096e
@@ -7261,9 +7261,9 @@ return_pop = 2
 
 [[native_units]]
 id = "th03-main-stage-round"
-source = "src/main/round/stage_round.cpp"
-object = "stg_rnd"
-map_module = "th03/stg_rnd.cpp"
+source = "src/main/round/stage_round.inl"
+object = "entry"
+map_module = "src/main/core/entry.cpp"
 
 [[native_units.code_extents]]
 segment = 0x096e

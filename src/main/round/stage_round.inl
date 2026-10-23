@@ -1,11 +1,11 @@
 // MAIN load 9AD6..A21F: demo callbacks, stage setup and round initialization.
 // Names are inferred; historical compiler filename remains unknown.
 #pragma codeseg PLAYFLD_TEXT main_01
+#pragma option -G-
+// Shared player, difficulty, defeat and sound declarations precede this include.
 #pragma option -a-
-#include "compat/rec98/th03/main/player/stuff.hpp"
-#include "compat/rec98/th03/resident.hpp"
+#include "src/main/core/resident.hpp"
 #include "compat/rec98/th03/main/player/gba.hpp"
-#include "compat/rec98/th03/main/difficul.hpp"
 #include "compat/rec98/th03/main/round.hpp"
 #include "compat/rec98/th03/main/score.hpp"
 #include "compat/rec98/th03/main/sprite16.hpp"
@@ -14,12 +14,10 @@
 #include "compat/rec98/th03/main/player/bomb.hpp"
 #include "compat/rec98/th03/main/hud/start.hpp"
 #include "compat/rec98/th03/main/hud/warning.hpp"
-#include "compat/rec98/th03/main/defeat.hpp"
 #pragma option -a2
 #include "compat/rec98/libs/master.lib/master.hpp"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 #include "compat/rec98/th02/formats/bfnt.h"
-#include "compat/rec98/th03/snd/snd.h"
 #include "src/main/sound/reset.hpp"
 #include "src/main/hud/static.hpp"
 #include "src/main/enemy/enemy.hpp"

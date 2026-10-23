@@ -1,6 +1,5 @@
 // MAIN load A21F..A2D0. Existing storage and foreign services remain external.
 #pragma codeseg PLAYFLD_TEXT main_01
-#include "src/main/player/lose.hpp"
 #include "src/main/player/hyper.hpp"
 #include "compat/rec98/th03/main/hud/static.hpp"
 

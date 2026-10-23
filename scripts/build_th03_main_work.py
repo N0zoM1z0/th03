@@ -27,8 +27,6 @@ WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03WORK"
 OUT = ROOT / ".analysis/work"
 SOURCES = (
     "src/main/core/entry.cpp",
-    "src/main/core/roundfin.cpp",
-    "src/main/round/stage_round.cpp",
     "src/main/player/state.cpp",
     "src/main/player/shotroot.cpp",
     "src/main/player/lose.cpp",
@@ -38,17 +36,15 @@ SOURCES = (
     "src/main/player/exatt_ellen.cpp",
 )
 SOURCE_ALIASES = {
-    "src/main/round/stage_round.cpp": "th03/stg_rnd.cpp",
     "src/main/player/exatt_chiyuri.cpp": "th03/ex_chyu.cpp",
     "src/main/player/exatt_ellen.cpp": "th03/ex_ellen.cpp",
 }
 SCOPES = (
-    (0x96E6, 0x9AD6),
+    (0x96E6, 0xA2D0),
     (0xDA43, 0xE0F7),
     (0xE266, 0xE83F),
     (0xC0D8, 0xC248),
     (0xC2F9, 0xC370),
-    (0x9AD6, 0xA21F),
     (0x272, 0xB50),  # Unowned library context and its natural inter-object gap.
 )
 
@@ -248,10 +244,10 @@ def contributions(raw, omit_replaced=False):
                 )
                 or (
                     "S=PLAYFLD_TEXT" in line
-                    and line.split()[0] in {"096E:0006", "096E:0098", "096E:03F6", "096E:0434"}
+                    and line.split()[0] in {"096E:0006", "096E:0098", "096E:03F6", "096E:0434", "096E:0B3F"}
                     and any("M=" + module + " " in line for module in
                             ("th03_main.asm", "th03/stg_rnd.cpp", "th03/rnd_loop.cpp",
-                             "src/main/core/entry.cpp"))
+                             "src/main/core/entry.cpp", "src/main/core/roundfin.cpp"))
                 )
                 or (
                     "S=_TEXT " in line
@@ -381,12 +377,20 @@ def review(previous=None, cold_build=False):
             target_order=relocations(target, 0x96E6, 0x9AD6),
             candidate_order=relocations(candidate, 0x96E6, 0x9AD6),
         ),
+        main_flow_producer=dict(
+            **extent(0x96E6, 0xA2D0),
+            target_order=relocations(target, 0x96E6, 0xA2D0),
+            candidate_order=relocations(candidate, 0x96E6, 0xA2D0),
+        ),
     )
     joint = result["entry_loop_producer"]
     if not joint["raw_equal"] or not joint["ordered_relocations_equal"]:
         raise ValueError("entry/loop producer bytes or literal order differ")
-    if result["matching_relocation_prefix"] < 27:
-        raise ValueError("startup and entry/loop relocation prefix differs")
+    flow = result["main_flow_producer"]
+    if not flow["raw_equal"] or not flow["ordered_relocations_equal"]:
+        raise ValueError("main flow producer bytes or literal order differ")
+    if result["matching_relocation_prefix"] < 60:
+        raise ValueError("startup and main flow relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
         row["target_relative_relocation_order"] = [
@@ -406,18 +410,23 @@ def review(previous=None, cold_build=False):
         before = parse_mz(previous["exe"])
         old_entry = code(previous["objects"]["entry.obj"])
         new_entry = code((WORK / "obj/th03/entry.obj").read_bytes())
-        merge = "rnd_loop.obj" in previous["objects"]
-        retired = {"rnd_loop.obj"} if merge else set()
+        retired = {n for n in ("stg_rnd.obj", "roundfin.obj") if n in previous["objects"]}
+        merge = bool(retired)
         if merge:
-            old_loop = code(previous["objects"]["rnd_loop.obj"])
+            if retired != {"stg_rnd.obj", "roundfin.obj"}:
+                raise ValueError("incomplete prior main flow producer set")
+            old_stage = code(previous["objects"]["stg_rnd.obj"])
+            old_finish = code(previous["objects"]["roundfin.obj"])
             if (set(old_entry) != {"PLAYFLD_TEXT"}
-                    or set(old_loop) != {"PLAYFLD_TEXT"}
+                    or set(old_stage) != {"PLAYFLD_TEXT"}
+                    or set(old_finish) != {"PLAYFLD_TEXT"}
                     or set(new_entry) != {"PLAYFLD_TEXT"}
-                    or [len(old_entry["PLAYFLD_TEXT"]), len(old_loop["PLAYFLD_TEXT"]),
-                        len(new_entry["PLAYFLD_TEXT"])] != [146, 862, 1008]
-                    or before.program_image[0x96E6:0x9AD6]
-                    != candidate.program_image[0x96E6:0x9AD6]):
-                raise ValueError("entry/loop source transfer changed owned bytes or layout")
+                    or [len(old_entry["PLAYFLD_TEXT"]), len(old_stage["PLAYFLD_TEXT"]),
+                        len(old_finish["PLAYFLD_TEXT"]), len(new_entry["PLAYFLD_TEXT"])]
+                    != [1008, 1865, 177, 3050]
+                    or before.program_image[0x96E6:0xA2D0]
+                    != candidate.program_image[0x96E6:0xA2D0]):
+                raise ValueError("main flow transfer changed owned bytes or layout")
         result["retired_objects"] = sorted(retired)
         result["map_contributions_unchanged"] = contributions(
             previous["map"]
@@ -435,8 +444,7 @@ def review(previous=None, cold_build=False):
         if len(re.findall(prefix_pattern, map_text)) != 1:
             raise ValueError("native library prefix ownership differs")
         for seg, start, size, segment, group, module in (
-            (0x96E, 0x6, 1008, "PLAYFLD_TEXT", "MAIN_01", "src/main/core/entry.cpp"),
-            (0x96E, 0x3F6, 1865, "PLAYFLD_TEXT", "MAIN_01", "th03/stg_rnd.cpp"),
+            (0x96E, 0x6, 3050, "PLAYFLD_TEXT", "MAIN_01", "src/main/core/entry.cpp"),
             (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
             (
                 0x96E,
@@ -488,19 +496,16 @@ def review(previous=None, cold_build=False):
         result["unlinked_CODE_unchanged"] = {
             n: code(raw) == code((WORK / "obj/th03" / n).read_bytes())
             for n, raw in previous["objects"].items()
-            if n not in {"ex_chyu.obj", "ex_ellen.obj", "stg_rnd.obj", "main.obj"}
+            if n not in {"ex_chyu.obj", "ex_ellen.obj", "main.obj"}
             and n not in retired and not (merge and n == "entry.obj")
         }
         # Keep native game producers unchanged while the carrier externalizes
         # library references. A cold repeat also checks the complete carrier.
-        if {"main.obj", "stg_rnd.obj"} <= previous["objects"].keys():
+        if "main.obj" in previous["objects"]:
             old_root_raw = previous["objects"]["main.obj"]
             new_root_raw = (WORK / "obj/th03/main.obj").read_bytes()
             old_root = carrier_code(old_root_raw)
             new_root = carrier_code(new_root_raw)
-            old_stage = code(previous["objects"]["stg_rnd.obj"])
-            new_stage = code((WORK / "obj/th03/stg_rnd.obj").read_bytes())
-            result["unlinked_CODE_unchanged"]["stage"] = old_stage == new_stage
             if ("mst_pref.obj" in previous["objects"]
                     and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
                 result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
@@ -622,7 +627,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "rnd_loop.obj"]
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "stg_rnd.obj", "roundfin.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )

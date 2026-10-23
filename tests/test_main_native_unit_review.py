@@ -73,11 +73,13 @@ class SharedNativeProducer(unittest.TestCase):
         self.config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
         self.peers = [u for u in self.config["native_units"] if u["object"] == "entry"]
 
-    def test_two_reviewed_owners_cover_one_complete_producer(self):
+    def test_four_reviewed_owners_cover_one_complete_producer(self):
         result = producer_ownership(self.peers[0], self.peers, [])
-        self.assertEqual((result["extent"]["start"], result["extent"]["size"]), (6, 1008))
-        self.assertEqual([f["offset"] for f in result["functions"]], [6, 152])
-        self.assertEqual(result["owners"], ["th03-main-core-entry", "th03-main-round-loop"])
+        self.assertEqual((result["extent"]["start"], result["extent"]["size"]), (6, 3050))
+        self.assertEqual([f["offset"] for f in result["functions"]],
+                         [6, 152, 1014, 1071, 1076, 2015, 2879, 2985])
+        self.assertEqual(result["owners"], ["th03-main-core-entry", "th03-main-round-loop",
+                                             "th03-main-stage-round", "th03-main-round-finish"])
 
     def test_missing_or_double_owned_byte_is_rejected(self):
         for delta in (-1, 1):
