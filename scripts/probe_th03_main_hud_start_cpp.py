@@ -33,6 +33,13 @@ TARGET_OFFSET = 0x2432
 TARGET_SIZE = 0x02B0
 
 SUPPORT = (
+    "src/main/hud/intro.hpp",
+    "src/main/hud/start_anim.hpp",
+    "src/main/hud/start_render.hpp",
+    "src/main/hud/start_anim.inl",
+    "src/main/math/randring_getters.hpp",
+    "src/main/math/polar.hpp",
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp",
     HEADER,
     "compat/rec98/th03/common.h",
     "compat/rec98/th03/resident.hpp",

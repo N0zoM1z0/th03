@@ -26,9 +26,6 @@ import capstone
 
 from lib.omf import describe_omf, normalize_dependency_timestamps
 from lib.tc4_omf_bridge import reframe_ellen_tc4_fixupp, validate_ellen_omf_recipe
-from lib.hud_tc4_bridge import (
-    stitch_hud_compiler_asm, reverse_hud_fixupp_order, validate_hud_stitch_recipe,
-)
 from lib.pc98 import parse_mz
 from lib import th03_score_candidate as score_candidate
 from lib import th03_yumemi_bomb_candidate as bomb_candidate
@@ -838,13 +835,9 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
                         # do not overwrite it with an include of itself.
                         if wrapper != work / module["source"]:
                             raise ValueError("bomb maintained source wrapper drift")
-                    elif "hud_tc4_stitch" in producer:
-                        # The verified bridge materializes one compiler-ASM
-                        # TASM module before Tup/TLINK. Nothing is copied
-                        # from a prior binary/object or from the target.
-                        validate_hud_stitch_recipe(producer)
-                        if wrapper.exists():
-                            raise ValueError("HUD generated source would replace a preexisting wrapper")
+                    elif wrapper == work / producer["source"]:
+                        # A maintained translation unit is already staged in place.
+                        pass
                     elif str(producer["source"]).endswith(".asm"):
                         # A physical TASM producer is maintained symbolic
                         # assembly, not a C++ include wrapper.
@@ -888,95 +881,25 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         charge_compilation = None
         if charge_proof is not None:
             charge_compilation = charge_candidate.precompile_and_stage(work, env, logs, execute)
-        # The HUD intro has two fully shaped natural TC4 C++ functions
-        # separated by 155 exact symbolic TASM device-helper bytes.
-        # Source-emitted assembly is stitched in original logical function
-        # order and reassembled as one physical OMF contributor. The pinned
-        # TASM50 FIXUPP subrecord enumeration is calibrated without editing
-        # executable bytes, source meanings or target/link comparator.
-        hud_stitched_omf = []
+        # The complete HUD producer is one native TC4 translation unit.
+        # No generated-ASM splice, instruction-byte carrier or OMF rewrite.
+        hud_native_compilation = []
         for module in config["units"]:
-            for producer in physical_objects(module):
-                if "hud_tc4_stitch" not in producer:
-                    continue
-                wrapper = validate_hud_stitch_recipe(producer)
-                generated = {}
-                compiled = []
-                for name, semantic in (
-                    ("h_stanim", "src/main/hud/start_anim.cpp"),
-                    ("h_srend", "src/main/hud/start_render.cpp"),
-                ):
-                    source_wrapper = work / f"th03/{name}.cpp"
-                    if source_wrapper.exists():
-                        raise ValueError("HUD TC4 source wrapper would overwrite a scaffold input")
-                    source_wrapper.parent.mkdir(parents=True, exist_ok=True)
-                    source_wrapper.write_text(f'#include "{semantic}"\n')
-                    output_asm = work / f"obj/th03/{name}.asm"
-                    output_asm.parent.mkdir(parents=True, exist_ok=True)
-                    if output_asm.exists():
-                        raise ValueError("stale generated HUD compiler assembly detected")
-                    tcc_command = [
-                        "wine", "cmd", "/d", "/c",
-                        (r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
-                         r"&&bin\msdos -e -x tcc -S -I. -O -b- -3 -Z -d"
-                         r" -DGAME=3 -ml -a2 -nobj/th03/ "
-                         + f"th03\\{name}.cpp")
-                    ]
-                    compile_row = execute(tcc_command, work, env,
-                                          logs / f"{name}-hud-tc4-S.log")
-                    generated[name] = output_asm.read_bytes()
-                    compiled.append(compile_row)
-                helper_source = (work / "src/main/hud/start_lowlevel.asm").read_bytes()
-                combined_asm = stitch_hud_compiler_asm(
-                    generated["h_stanim"], generated["h_srend"], helper_source
-                )
-                generated_wrapper = work / wrapper
-                if generated_wrapper.exists():
-                    raise ValueError("HUD generated TASM wrapper collision")
-                generated_wrapper.write_bytes(combined_asm)
-                obj_path = work / producer["object_path"]
-                obj_path.parent.mkdir(parents=True, exist_ok=True)
-                if obj_path.exists():
-                    raise ValueError("stale HUD combined OMF would be reused")
-                tasm_command = [
-                    "wine", "cmd", "/d", "/c",
-                    (r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
-                     r"&&tasm32 /m /mx /kh32768 /t /dGAME=3 "
-                     + wrapper.replace("/", "\\") + " "
-                     + producer["object_path"].replace("/", "\\"))
-                ]
-                assembler = execute(tasm_command, work, env,
-                                    logs / "h_stitch-hud-tasm.log")
-                original = obj_path.read_bytes()
-                native = describe_omf(original)
-                if (
-                    not native["valid"]
-                    or "Turbo Assembler  Version 5.0" not in native["translator_comments"]
-                ):
-                    raise ValueError("HUD compiler stitch was not emitted by pinned TASM50")
-                adjusted = reverse_hud_fixupp_order(original)
-                obj_path.write_bytes(adjusted)
-                framed = describe_omf(obj_path.read_bytes())
-                if not framed["valid"] or framed["translator_comments"] != native["translator_comments"]:
-                    raise ValueError("HUD calibrated OMF structural identity changed")
-                hud_stitched_omf.append({
-                    "owner": module["id"], "object": producer["object"],
-                    "natural_source_inputs": [
-                        "src/main/hud/start_anim.cpp", "src/main/hud/start_render.cpp",
-                    ],
-                    "symbolic_tasm_source": "src/main/hud/start_lowlevel.asm",
-                    "compiler_emitted_state_assembly_sha256": sha(generated["h_stanim"]),
-                    "compiler_emitted_renderer_assembly_sha256": sha(generated["h_srend"]),
-                    "combined_symbolic_assembly_sha256": sha(combined_asm),
-                    "native_unmodified_tasm_omf_sha256": sha(original),
-                    "calibrated_ordered_omf_sha256": sha(adjusted),
-                    "code_bytes_modified_by_fixupp_calibration": 0,
-                    "fixupp_records": 2,
-                    "ledata_physical_sizes": [1007, 471],
-                    "fixupp_subrecord_counts": [87, 57],
-                    "tc4_compilations": compiled,
-                    "tasm_assembly": assembler,
-                })
+            if module["id"] != "th03-main-hud-round-intro":
+                continue
+            producer = physical_objects(module)[0]
+            obj_path = work / producer["object_path"]
+            obj_path.parent.mkdir(parents=True, exist_ok=True)
+            if obj_path.exists():
+                raise ValueError("stale HUD native object would be reused")
+            native = execute(
+                dos + ["tcc", *FLAGS, "-a2", "-nobj/th03/", producer["source"]],
+                work, env, logs / "hud-native-tc4.log",
+            )
+            obj = describe_omf(obj_path.read_bytes())
+            if not obj["valid"] or "TC86 Borland C++ 4.02" not in obj["translator_comments"]:
+                raise ValueError("HUD native TC4 object is invalid")
+            hud_native_compilation.append(dict(native=native, object_sha256=sha(obj_path.read_bytes())))
         # Calibrate only the observed TC4 Ellen OMF LEDATA/FIXUPP record
         # boundary at CODE offset 1000. The emitted CODE section, symbol
         # targets, fixup *set*, and every raw-byte/MZ-order oracle remain
@@ -1241,7 +1164,7 @@ def replay(run_id: str, selected_units: list[str], candidate_manifest: Path | No
         report["rounds"].append({"round": number, "fresh_owned_objects": True,
             "commands": [compile_result, behavior_compile, behavior_link, behavior_run],
             "tc4_reframed_omf": reframed_omf_objects,
-            "tc4_hud_stitched_omf": hud_stitched_omf,
+            "hud_native_compilation": hud_native_compilation,
             "objects": objects, "all_objects": all_objects, "game_objects": game_objects,
             "products": products,
             "map_contributions": contributions,

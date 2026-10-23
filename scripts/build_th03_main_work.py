@@ -28,6 +28,7 @@ SOURCES = (
     "src/main/player/shotroot.cpp",
     "src/main/player/lose.cpp",
     "src/main/player/defeat.cpp",
+    "src/main/hud/intro.cpp",
 )
 SCOPES = (
     (0x96E6, 0x9778),
@@ -46,6 +47,10 @@ def stage_lose():
     """Replace three whole carrier procedures, leaving the unresolved renderer."""
     path = WORK / "th03_main.asm"
     text = path.read_text(encoding="latin1")
+    text = text.replace(
+        "HUD round-start CODE 1478 bytes restored via generated TC4 to symbolic TASM OMF",
+        "HUD round-start CODE supplied by native src/main/hud/intro.cpp",
+    )
     for label, symbol in (
         ("sub_C0D8", "@PLAYER_LOSE_ANIM_UPDATE$QP14PLAYER_STUFF_T"),
         ("sub_C1E6", "@PLAYER_LOSE_PARTICLE_PUT$QUCUC"),
@@ -73,6 +78,7 @@ def stage_lose():
     path.write_bytes(text.replace("\n", "\r\n").encode("latin1"))
     response = WORK / "obj/th03/main.@l"
     text = response.read_text()
+    text = text.replace(r"obj\th03\h_stitch.obj", r"obj\th03\intro.obj")
     main = r"obj\th03\main.obj"
     if r"obj\th03\lose.obj" not in text:
         if text.count(main) != 1:
@@ -141,7 +147,7 @@ def code(raw):
     }
 
 
-def contributions(raw, outside_lose=False):
+def contributions(raw, omit_replaced=False):
     return [
         line.strip()
         for line in raw.decode().splitlines()
@@ -150,9 +156,9 @@ def contributions(raw, outside_lose=False):
         )
         and int(line.split()[1], 16)
         and not (
-            outside_lose
+            omit_replaced
             and "S=PLAYER_M_TEXT" in line
-            and 0x29F8 <= int(line.split()[0].split(":")[1], 16) < 0x2C90
+            and 0x2432 <= int(line.split()[0].split(":")[1], 16) < 0x2C90
             and line.split()[0].startswith("096E:")
         )
     ]
@@ -187,7 +193,8 @@ def review(previous=None):
             ],
         )
 
-    cfg = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+    config_raw = (ROOT / "config/th03_main_exact_units.toml").read_bytes()
+    cfg = tomllib.loads(config_raw.decode())
     accepted = []
     for unit in cfg["units"]:
         for e in unit.get("code_extents", [unit]):
@@ -205,6 +212,7 @@ def review(previous=None):
     result = dict(
         target_sha256=sha(target_raw),
         executable_sha256=sha(candidate_raw),
+        owned_extent_config_sha256=sha(config_raw),
         new_scopes=scopes,
         checked_accepted_extents=len(accepted),
         checked_accepted_bytes=sum(r["bytes"] for r in accepted),
@@ -248,11 +256,14 @@ def review(previous=None):
         result["map_contributions_unchanged"] = contributions(
             previous["map"]
         ) == contributions((WORK / "obj/th03/main.map").read_bytes())
-        result["map_contributions_outside_lose_unchanged"] = contributions(
-            previous["map"], outside_lose=True
-        ) == contributions((WORK / "obj/th03/main.map").read_bytes(), outside_lose=True)
+        result["map_other_contributions_unchanged"] = contributions(
+            previous["map"], omit_replaced=True
+        ) == contributions(
+            (WORK / "obj/th03/main.map").read_bytes(), omit_replaced=True
+        )
         map_text = (WORK / "obj/th03/main.map").read_text()
         for start, size, module in (
+            (0x2432, 1478, "src/main/hud/intro.cpp"),
             (0x29F8, 368, "src/main/player/lose.cpp"),
             (0x2B68, 177, "th03_main.asm"),
             (0x2C19, 119, "src/main/player/defeat.cpp"),
@@ -262,7 +273,7 @@ def review(previous=None):
                 rf"S=PLAYER_M_TEXT\s+G=MAIN_01\s+M={re.escape(module)}\s+ACBP=28\s*$"
             )
             if len(re.findall(pattern, map_text)) != 1:
-                raise ValueError("lose contribution layout differs: " + module)
+                raise ValueError("source contribution layout differs: " + module)
         result["outside_new_scopes_unchanged"] = len(before.program_image) == len(
             candidate.program_image
         ) and all(
@@ -282,7 +293,7 @@ def review(previous=None):
             for n, raw in previous["objects"].items()
         }
         if (
-            not result["map_contributions_outside_lose_unchanged"]
+            not result["map_other_contributions_unchanged"]
             or not result["outside_new_scopes_unchanged"]
             or not all(result["unlinked_CODE_unchanged"].values())
         ):
@@ -376,12 +387,7 @@ def build():
             )
 
         report["builder_sha256"] = sha(Path(__file__).read_bytes())
-        produced = {
-            "obj/th03/entry.obj",
-            "obj/th03/state.obj",
-            "obj/th03/shotroot.obj",
-            "obj/th03/lose.obj",
-            "obj/th03/defeat.obj",
+        produced = {"obj/th03/" + Path(s).stem + ".obj" for s in SOURCES} | {
             "obj/th03/main.obj",
             "obj/th03/score_hud.obj",
         }
@@ -432,17 +438,28 @@ def build():
                             os.killpg(child.pid, signal.SIGKILL)
                             child.wait(timeout=5)
                         raise RuntimeError("native phase timed out")
-                    report["native_phases"].append(
-                        dict(
-                            argv=argv,
-                            exit_code=status,
-                            seconds=round(time.monotonic() - start, 3),
-                        )
+                    phase = dict(
+                        argv=argv,
+                        exit_code=status,
+                        seconds=round(time.monotonic() - start, 3),
                     )
+                    report["native_phases"].append(phase)
                     if status or not all((WORK / n).is_file() for n in outputs):
                         raise RuntimeError(
                             "native phase failed; see .analysis/work/main-build.log"
                         )
+                    phase["output_sha256"] = {
+                        n: sha((WORK / n).read_bytes()) for n in outputs
+                    }
+                report["native_outputs_unchanged"] = all(
+                    sha((WORK / n).read_bytes()) == digest
+                    for phase in report["native_phases"]
+                    for n, digest in phase["output_sha256"].items()
+                )
+                if not report["native_outputs_unchanged"]:
+                    raise ValueError(
+                        "native compiler/assembler/linker output was modified"
+                    )
                 report["comparison"] = review(previous)
                 report["complete"] = True
             finally:

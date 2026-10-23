@@ -11,6 +11,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 import build_th03_main_work as work
 from lib.pc98 import parse_mz
+from lib.omf import describe_omf
+from probe_th03_main_boss_marisa_cpp import code_publics
+from probe_th03_main_bomb_rikako_cpp import segment_definitions, code_bytes
 
 
 @unittest.skipUnless(
@@ -52,6 +55,30 @@ class MainWorkTests(unittest.TestCase):
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
         self.assertFalse(result["exact_acceptance"])
         self.assertFalse(result["cold_build"])
+
+    @unittest.skipUnless(
+        (work.WORK / "obj/th03/intro.obj").is_file(), "native HUD object absent"
+    )
+    def test_hud_is_one_native_compiler_producer(self):
+        raw = (work.WORK / "obj/th03/intro.obj").read_bytes()
+        metadata = describe_omf(raw)
+        self.assertTrue(metadata["valid"])
+        self.assertEqual(metadata["translator_comments"], ["TC86 Borland C++ 4.02"])
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        self.assertEqual(
+            [(s["name"], s["size"]) for s in segments], [("PLAYER_M_TEXT", 1478)]
+        )
+        segment = segments[0]["index"]
+        self.assertEqual(
+            code_publics(raw, segment),
+            [
+                (0, "_hud_start_anim_update"),
+                (688, "HUD_START_SPRITE_STRIP_PUT"),
+                (792, "HUD_START_PARTICLE_PIXEL_PUT"),
+                (843, "_hud_start_anim_render"),
+            ],
+        )
+        self.assertEqual([p["size"] for p in code_bytes(raw, segment)[1]], [1024, 454])
 
     def test_last_owned_byte_mutation_rejected(self):
         lo, hi = next(self.extents())

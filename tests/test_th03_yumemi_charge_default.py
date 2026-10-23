@@ -1,29 +1,98 @@
-"""Additive default binding only. No native or acceptance execution."""
-import copy,hashlib,tomllib,unittest
+"""Owner/layout checks; historical bindings attest their original inputs."""
+
+import copy
+import sys
+import tomllib
+import unittest
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
 from th03_cpu_default_fixture import historical_default_bytes
 from lib import th03_yumemi_charge_candidate as charge
-from replay_th03_main_exact_units import normalized_code_extents,verify_disjoint_ownership
-ROOT=Path(__file__).resolve().parents[1]
+from replay_th03_main_exact_units import (
+    normalized_code_extents,
+    verify_disjoint_ownership,
+)
+
+
 class ChargeDefault(unittest.TestCase):
- def setUp(self):
-  self.old=tomllib.loads(historical_default_bytes().decode());self.new=tomllib.loads((ROOT/'config/th03_main_exact_units.toml').read_text());self.candidate=tomllib.loads((ROOT/charge.CANDIDATE_PATH).read_text())
- def test_exact_raw_append(self):
-  raw=(ROOT/charge.CANDIDATE_PATH).read_bytes();body=raw[raw.index(b'[[units]]'):]
-  self.assertEqual((ROOT/'config/th03_main_exact_units.toml').read_bytes(),historical_default_bytes()+b'\n'+body)
- def test_old_owners_and_functions_unchanged(self):
-  self.assertEqual(self.new,{**self.old,'units':self.old['units']+self.candidate['units'],'functions':self.old['functions']+self.candidate['functions']})
-  self.assertEqual((len(self.old['units']),len(self.old['functions'])),(77,403));self.assertEqual((len(self.new['units']),len(self.new['functions'])),(78,413))
-  extents={u['id']:normalized_code_extents(u,self.new['segment']) for u in self.new['units']};verify_disjoint_ownership(extents)
-  flat=[e for es in extents.values() for e in es];self.assertEqual((len(flat),sum(e['size'] for e in flat)),(87,66843))
- def test_exact_charge_default_binding(self):
-  before=copy.deepcopy(self.new);bound,original=charge.bind_default(self.new);self.assertEqual(bound,self.new);self.assertEqual(before,self.new)
- def test_changed_owner_rejected(self):
-  bad=copy.deepcopy(self.new);bad['units'][-1]['code_extents'][0]['size']+=1
-  with self.assertRaises(ValueError):charge.bind_default(bad)
- def test_changed_prior_scope_rejected(self):
-  bad=copy.deepcopy(self.new);bad['units'][0]['size']+=1
-  with self.assertRaises(ValueError):charge.bind_default(bad)
- def test_duplicate_charge_candidate_rejected(self):
-  with self.assertRaises(ValueError):charge.bind_candidate(self.new,self.candidate,charge.CANDIDATE_PATH)
-if __name__=='__main__':unittest.main()
+    def setUp(self):
+        self.old = tomllib.loads(historical_default_bytes().decode())
+        self.new = tomllib.loads(
+            (ROOT / "config/th03_main_exact_units.toml").read_text()
+        )
+        self.candidate = tomllib.loads((ROOT / charge.CANDIDATE_PATH).read_text())
+        self.historical = copy.deepcopy(self.old)
+        self.historical["units"] += copy.deepcopy(self.candidate["units"])
+        self.historical["functions"] += copy.deepcopy(self.candidate["functions"])
+
+    def test_current_charge_owner_matches_candidate(self):
+        ids = {u["id"] for u in self.candidate["units"]}
+        objects = {u["object"] for u in self.candidate["units"]}
+        self.assertEqual(
+            [u for u in self.new["units"] if u["id"] in ids], self.candidate["units"]
+        )
+        self.assertEqual(
+            [f for f in self.new["functions"] if f["object"] in objects],
+            self.candidate["functions"],
+        )
+
+    def test_prior_code_geometry_and_abi_preserved(self):
+        current = {u["id"]: u for u in self.new["units"]}
+        for old in self.old["units"]:
+            with self.subTest(owner=old["id"]):
+
+                def geometry(unit, segment):
+                    return [
+                        (e["name"], e["segment"], e["start"], e["size"], e["ledger_id"])
+                        for e in normalized_code_extents(unit, segment)
+                    ]
+
+                self.assertEqual(
+                    geometry(old, self.old["segment"]),
+                    geometry(current[old["id"]], self.new["segment"]),
+                )
+        fields = ("name", "segment", "offset", "size", "abi")
+        geometry = lambda f: tuple(
+            f.get(k, self.new["segment"] if k == "segment" else None) for k in fields
+        )
+        current_functions = {geometry(f) for f in self.new["functions"]}
+        self.assertTrue(
+            all(geometry(f) in current_functions for f in self.old["functions"])
+        )
+        verify_disjoint_ownership(
+            {
+                u["id"]: normalized_code_extents(u, self.new["segment"])
+                for u in self.new["units"]
+            }
+        )
+
+    def test_historical_binding_does_not_attest_new_producer(self):
+        before = copy.deepcopy(self.historical)
+        bound, _ = charge.bind_default(self.historical)
+        self.assertEqual(bound, self.historical)
+        self.assertEqual(before, self.historical)
+        with self.assertRaisesRegex(ValueError, "configuration drift"):
+            charge.bind_default(self.new)
+
+    def test_changed_owner_rejected(self):
+        bad = copy.deepcopy(self.historical)
+        bad["units"][-1]["code_extents"][0]["size"] += 1
+        with self.assertRaises(ValueError):
+            charge.bind_default(bad)
+
+    def test_changed_prior_scope_rejected(self):
+        bad = copy.deepcopy(self.historical)
+        bad["units"][0]["size"] += 1
+        with self.assertRaises(ValueError):
+            charge.bind_default(bad)
+
+    def test_duplicate_charge_candidate_rejected(self):
+        with self.assertRaises(ValueError):
+            charge.bind_candidate(self.new, self.candidate, charge.CANDIDATE_PATH)
+
+
+if __name__ == "__main__":
+    unittest.main()

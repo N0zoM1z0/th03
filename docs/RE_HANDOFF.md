@@ -8,8 +8,8 @@ experiments and generated acceptance publications are gone. Historical ledger
 rows remain as records, not locally replayable proof. Regenerate verification
 from source before claiming a new exact result.
 
-Latest CI: 1,679 tests, 300 optional archive skips; PASS. One CPU, peak RSS
-276,484 KiB. Preflight and whitespace checks also pass.
+Latest CI: 1,675 tests, 300 optional archive skips; PASS. One CPU, peak RSS
+278,704 KiB. Preflight and whitespace checks also pass.
 
 ## Continue here
 
@@ -27,10 +27,15 @@ Latest CI: 1,679 tests, 300 optional archive skips; PASS. One CPU, peak RSS
   source-present candidates; exact counts remain 87 / 413 / 66,843 bytes.
   Their 1,166 paired runtime cases execute all487 bytes; four semantic mutations
   fail. Foreign math/audio/graphics are bounded stubs; renderer/devices are open.
+- HUD intro is now one native TC4 unit, `src/main/hud/intro.cpp`: four complete
+  bodies688/104/51/635, all1,478 bytes and twenty ordered MZ sites match target.
+  The helper instruction-byte directives, generated-ASM splice and OMF reversal
+  are gone. Native TC4 emits records1024/454 and preserves SI/DI itself.
 - Rebuild/check the current mixed tree with
   `.venv/bin/python scripts/build_th03_main_work.py --build --runtime`.
-  Eight native phases rebuild seven objects and reuse84 explicit context objects.
-  Repeated EXE/five C++ OBJs are identical; this is not a cold aggregate.
+  Nine native phases rebuild eight objects and reuse83 explicit context objects.
+  Repeated EXE/six C++ OBJs are identical; native outputs stay unmodified through
+  link. This is not a cold aggregate.
   Reports/logs are overwritten in `.analysis/work/`, not archived.
 - Both loaded images are124,642 bytes. Three outside bytes still differ at
   B4F/EC2D/1DB05, along with the MZ header/global relocation order.
@@ -41,7 +46,8 @@ Latest CI: 1,679 tests, 300 optional archive skips; PASS. One CPU, peak RSS
 - Original relocation order interleaves seven stage sites before six state tail
   sites. The current report exposes both full cross-unit vectors; projected
   equality alone misses this. Uniform1023-byte records do not explain MAIN_01.
-- Next resolve the shot relocation producer and create a fresh cold aggregate.
+- Next remove Ellen's remaining legacy OMF reframe, rebuild the context from
+  source for a fresh cold aggregate, and resolve the shot relocation producer.
   Exact acceptance remains at the recorded87 extents; no new promotion yet.
 - `losedraw.cpp` remains175 versus177 target bytes and is not linked. The original
   177-byte renderer stays in the working carrier; no padding or dummy ABI.
