@@ -16,15 +16,16 @@ Phantasmagoria of Dim.Dream**. It preserves maintained source and reviewed
 findings for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`. The complete game
 reconstruction is still in progress.
 
-MAIN currently records **423 exact functions / 69,518 exact owned bytes** in
-**92 exact CODE extents**. The current mixed build reproduces all **92 accepted
-extents / 69,518 bytes** and their scoped ordered relocations. The C++ `main`, Chiyuri/Ellen,
-lose update/particles/banners, next-round/score-commit and stage/round setup pass independent source cold
-builds and the full required unit Oracle set. These are reviewed source scopes,
+MAIN currently records **424 exact functions / 70,380 exact owned bytes** in
+**93 exact CODE extents**. The current mixed build reproduces all **93 accepted
+extents / 70,380 bytes** and their scoped ordered relocations. The C++ `main`
+and round loop, Chiyuri/Ellen units, lose update/particles/banners, next-round/
+score-commit and stage/round setup pass independent source cold builds and the
+full required unit Oracle set. These are reviewed source scopes,
 not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
 [current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
 
-The current MAIN builder regenerates all **93 source objects** with the pinned
+The current MAIN builder regenerates all **94 source objects** with the pinned
 native tools, retaining the vendor startup and libraries. Repeated builds
 produce identical raw objects, executable and MAP from two isolated source trees.
 Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
@@ -32,6 +33,9 @@ and the lose update, particles and banners also compile from maintained source.
 The two real demo callbacks, stage setup and round initialization form one
 1,865-byte native producer. Its 27 literal ordered relocations and all raw bytes
 match; compiler tables and near return boundaries are reviewed separately.
+The 862-byte native C++ round loop matches all 16 literal ordered relocations;
+the `-G` compiler option preserves the separate result exits. Independent
+contracts cover all loop bytes in 240 scenarios and reject eight mutations.
 The existing library prefix now has a separate native object; its natural
 linker boundary closes the B4F difference and adds no authored-source credit.
 The complete product still has two loaded-image byte differences and global
@@ -79,8 +83,8 @@ Use the same activated Python environment for verification. CI requires the
 pinned public decoder/emulator dependencies in `requirements-ci.txt`;
 GitHub Actions installs the same requirements file.
 
-The MAIN command performs two independent cold builds of 94 native phases
-each, compiling or assembling every game object before linking. All 95 raw
+The MAIN command performs two independent cold builds of 95 native phases
+each, compiling or assembling every game object before linking. All 96 raw
 OBJ/EXE/MAP outputs must repeat before the scoped owner review can pass. It checks
 complete owned bytes, MAP contributions, ordered MZ relocations and unchanged
 native outputs. Its runtime checks compare

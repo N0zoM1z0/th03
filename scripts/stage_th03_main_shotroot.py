@@ -88,7 +88,10 @@ def transform_score(raw):
     anchor = b'score_bonus_digits_put proc far\n'
     need(raw.count(anchor) == 1 and SCORE_ALIAS.encode() not in raw, 'existing far score entry')
     alias = ('public ' + SCORE_ALIAS + '\n' + SCORE_ALIAS + ' label far\n').encode()
-    return raw.replace(anchor, alias + anchor)
+    raw = raw.replace(anchor, alias + anchor)
+    anchor = b'score_hud_render proc near\n'
+    need(raw.count(anchor) == 1 and b'_score_hud_render' not in raw, 'existing near HUD entry')
+    return raw.replace(anchor, b'public _score_hud_render\n_score_hud_render label near\n' + anchor)
 
 
 def transform_response(raw):

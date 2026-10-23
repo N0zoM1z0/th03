@@ -70,11 +70,13 @@ class StageTests(unittest.TestCase):
             self.transform_fixture(raw)
 
     def test_score_alias_adds_only_symbol_definitions(self):
-        raw = b'score_bonus_digits_put proc far\n retf 8\nscore_bonus_digits_put endp\n'
+        raw = (b'score_bonus_digits_put proc far\n retf 8\nscore_bonus_digits_put endp\n'
+               b'score_hud_render proc near\n retn\nscore_hud_render endp\n')
         with patch.object(s, 'SCORE_SHA', s.sha(raw)):
             changed = s.transform_score(raw)
         expected = ('public '+s.SCORE_ALIAS+'\n'+s.SCORE_ALIAS+' label far\n').encode()
-        self.assertEqual(changed.replace(expected, b''), raw)
+        near_alias = b'public _score_hud_render\n_score_hud_render label near\n'
+        self.assertEqual(changed.replace(expected, b'').replace(near_alias, b''), raw)
 
     def test_response_insertion_keeps_existing_vector(self):
         raw = b'a.obj obj\\th03\\p_shot.obj b.obj, output.exe, map, cl.lib'

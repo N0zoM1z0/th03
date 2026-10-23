@@ -5,6 +5,7 @@ import shutil
 import sys
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -31,6 +32,18 @@ class NativeCarveBoundaries(unittest.TestCase):
     "pinned reference source unavailable",
 )
 class CanonicalMainStaging(unittest.TestCase):
+    def test_round_loop_cannot_absorb_an_unreviewed_procedure(self):
+        def changed(raw):
+            anchor = b"sub_9778\tproc near"
+            self.assertEqual(raw.count(anchor), 1)
+            raw = raw.replace(anchor, anchor + b"\nunreviewed\tproc near\nunreviewed\tendp")
+            return native_carrier(raw)
+
+        with TemporaryDirectory() as folder:
+            with patch("lib.main_work_stage.native_carrier", side_effect=changed):
+                with self.assertRaisesRegex(ValueError, "round-loop procedure interval differs"):
+                    stage_carriers(Path(folder))
+
     def test_score_alias_keeps_the_real_far_pascal_entry(self):
         with TemporaryDirectory() as folder:
             prepared = stage_carriers(Path(folder))

@@ -27,6 +27,7 @@ WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03WORK"
 OUT = ROOT / ".analysis/work"
 SOURCES = (
     "src/main/core/entry.cpp",
+    "src/main/round/round_loop.cpp",
     "src/main/core/roundfin.cpp",
     "src/main/round/stage_round.cpp",
     "src/main/player/state.cpp",
@@ -38,6 +39,7 @@ SOURCES = (
     "src/main/player/exatt_ellen.cpp",
 )
 SOURCE_ALIASES = {
+    "src/main/round/round_loop.cpp": "th03/rnd_loop.cpp",
     "src/main/round/stage_round.cpp": "th03/stg_rnd.cpp",
     "src/main/player/exatt_chiyuri.cpp": "th03/ex_chyu.cpp",
     "src/main/player/exatt_ellen.cpp": "th03/ex_ellen.cpp",
@@ -49,6 +51,7 @@ SCOPES = (
     (0xC0D8, 0xC248),
     (0xC2F9, 0xC370),
     (0x9AD6, 0xA21F),
+    (0x9778, 0x9AD6),
     (0x272, 0xB50),  # Unowned library context and its natural inter-object gap.
 )
 
@@ -250,7 +253,7 @@ def contributions(raw, omit_replaced=False):
                     "S=PLAYFLD_TEXT" in line
                     and line.split()[0] in {"096E:0098", "096E:03F6", "096E:0434"}
                     and any("M=" + module + " " in line for module in
-                            ("th03_main.asm", "th03/stg_rnd.cpp"))
+                            ("th03_main.asm", "th03/stg_rnd.cpp", "th03/rnd_loop.cpp"))
                 )
                 or (
                     "S=_TEXT " in line
@@ -362,6 +365,12 @@ def review(previous=None, cold_build=False):
                 r.linear for r in candidate.relocations if 0x9AD6 <= r.linear < 0xA21F
             ],
         ),
+        round_loop_candidate=dict(
+            **extent(0x9778, 0x9AD6),
+            exact_acceptance=False,
+            target_order=relocations(target, 0x9778, 0x9AD6),
+            candidate_order=relocations(candidate, 0x9778, 0x9AD6),
+        ),
     )
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
@@ -396,6 +405,7 @@ def review(previous=None, cold_build=False):
         if len(re.findall(prefix_pattern, map_text)) != 1:
             raise ValueError("native library prefix ownership differs")
         for seg, start, size, segment, group, module in (
+            (0x96E, 0x98, 862, "PLAYFLD_TEXT", "MAIN_01", "th03/rnd_loop.cpp"),
             (0x96E, 0x3F6, 1865, "PLAYFLD_TEXT", "MAIN_01", "th03/stg_rnd.cpp"),
             (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
             (
@@ -460,7 +470,15 @@ def review(previous=None, cold_build=False):
             result["unlinked_CODE_unchanged"]["stage"] = old_stage == new_stage
             if ("mst_pref.obj" in previous["objects"]
                     and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
-                result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
+                if "rnd_loop.obj" not in previous["objects"]:
+                    result["unlinked_CODE_unchanged"]["carrier"] = {
+                        k: v for k, v in old_root.items() if k != "PLAYFLD_TEXT"
+                    } == {k: v for k, v in new_root.items() if k != "PLAYFLD_TEXT"}
+                    if (old_root["PLAYFLD_TEXT"]["size"] != 862
+                            or new_root.get("PLAYFLD_TEXT", {}).get("size", 0) != 0):
+                        raise ValueError("round-loop transfer altered CODE layout")
+                else:
+                    result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
             else:
                 # Externalizing library names changes unlinked fixup operands.
                 # Enforce unchanged non-library CODE layout and every linked

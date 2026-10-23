@@ -7335,3 +7335,26 @@ offset = 0x0006
 size = 146
 abi = "far cdecl; no arguments; SI/BP preserved; RETF"
 return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-round-loop"
+source = "src/main/round/round_loop.cpp"
+object = "rnd_loop"
+map_module = "th03/rnd_loop.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x0098
+size = 862
+map_segment = "PLAYFLD_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "round_loop"
+segment = 0x096e
+offset = 0x0098
+size = 862
+abi = "near cdecl; no arguments; byte result in AL; SI/DI/BP preserved; RET"
+return_pop = 0

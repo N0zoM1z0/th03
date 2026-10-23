@@ -29,7 +29,7 @@ LOSE_OWNERS = {
 }
 
 
-CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry"}
+CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry", "th03-main-round-loop"}
 STAGE_OWNERS = {"th03-main-stage-round"}
 
 
@@ -296,6 +296,13 @@ def review(report=None):
     result["demo_runtime"] = demo_compare(target, candidate)
     result["demo_controls"] = demo_controls(candidate)
     result["demo_model_sha256"] = sha((ROOT / "scripts/lib/main_demo_runtime.py").read_bytes())
+    from lib.main_round_loop_runtime import compare as loop_compare, negative_controls as loop_controls
+
+    result["round_loop_runtime"] = loop_compare(target, candidate)
+    result["round_loop_controls"] = loop_controls(candidate)
+    need(result["round_loop_runtime"]["code_bytes_executed"] == 862
+         and result["round_loop_controls"]["count"] == 8, "round-loop contracts are incomplete")
+    result["round_loop_model_sha256"] = sha((ROOT / "scripts/lib/main_round_loop_runtime.py").read_bytes())
     for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
@@ -422,9 +429,10 @@ if __name__ == "__main__":
         result = review()
         output = ROOT / ".analysis/work/main-unit-review.json"
         output.write_text(json.dumps(result, indent=2) + "\n")
-        print(
-            "Native cold unit review: PASS; 7 owners / 20 functions / 4782 bytes; product exact remains false"
-        )
+        owners = list(result["units"].values())
+        print(f"Native cold unit review: PASS; {len(owners)} owners / "
+              f"{sum(len(u['functions']) for u in owners)} functions / "
+              f"{sum(u['bytes'] for u in owners)} bytes; product exact remains false")
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         print("Native cold unit review: FAIL:", error, file=sys.stderr)
         sys.exit(1)

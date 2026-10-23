@@ -109,6 +109,13 @@ def native_carrier(raw):
     text = re.sub(r"\bsub_9B14\b", "_stage_setup", text)
     text = re.sub(r"\bsub_9EBF\b", "_round_prepare_players", text)
 
+    start = text.index("sub_9778\tproc near\n")
+    end = text.index("sub_9778\tendp", start) + len("sub_9778\tendp")
+    if re.findall(r"^(\S+)\s+proc\s+(?:near|far)", text[start:end], re.M) != ["sub_9778"]:
+        raise ValueError("complete round-loop procedure interval differs")
+    text = text[:start] + "extern _round_loop:near\n" + text[end:]
+    text = re.sub(r"\bsub_9778\b", "_round_loop", text)
+
     for segment, imports in (
         (
             "main_010_TEXT\tsegment\tbyte public 'CODE' use16",
@@ -148,7 +155,7 @@ def native_carrier(raw):
         text = re.sub(r"\b" + re.escape(old) + r"\b", lambda m: new, text)
 
     for old, alias, distance in (
-        ("sub_9778", "_round_loop", "near"),
+        ("sub_B37C", "_round_playfield_clear", "near"),
         ("sub_B4A3", "_stage_background_update_none", "near"),
         ("sub_B4A8", "_stage_demo_finish", "near"),
         ("sub_A38E", "_stage_palette_show", "far"),
@@ -205,6 +212,15 @@ def native_carrier(raw):
         ("arg0", "_main_ending_name", "byte"),
         ("farfp_20F20", "_main_background_init", "dword"),
         ("farfp_20F28", "_round_background_reset", "dword"),
+        ("farfp_20F24", "_round_render_hook", "dword"),
+        ("exatt_update_p1", "_round_exatt_update_p1", "dword"),
+        ("exatt_update_p2", "_round_exatt_update_p2", "dword"),
+        ("exatt_render_p1", "_round_exatt_render_p1", "dword"),
+        ("exatt_render_p2", "_round_exatt_render_p2", "dword"),
+        ("p1_205CE", "_round_player_hook_p1", "dword"),
+        ("p2_205D2", "_round_player_hook_p2", "dword"),
+        ("bomb_p1", "_round_bomb_p1", "dword"),
+        ("bomb_p2", "_round_bomb_p2", "dword"),
         ("byte_23AFA", "_stage_render_timing_flag", "byte"),
         ("word_1E6E8", "_stage_result_wait_frames", "word"),
         ("fp_1E6EA", "_stage_demo_update", "word"),
