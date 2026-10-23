@@ -1,7 +1,7 @@
 # Current entry points
 
 - `preflight.py`: environment, targets and tracking.
-- `build_th03_main_work.py --build --runtime`: current mixed MAIN build and bounded entry/lose checks, without archived replay dependencies.
+- `build_th03_main_work.py --build --rebuild-context --runtime`: rebuild all MAIN game objects and run bounded entry/lose checks; canonical root restaging remains pending.
 - `ci.py`: tests and available local tool/database checks.
 - `ghidra.py ARTIFACT check`: headless target/database identity.
 - `attest_toolchain.py`: pinned native tools.

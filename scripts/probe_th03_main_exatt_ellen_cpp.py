@@ -29,8 +29,8 @@ HEADER = "src/main/player/exatt_ellen.hpp"
 OVERLAY = Path("th03/ex_ellen.cpp")
 OBJECT = Path("obj/th03/ex_ellen.obj")
 TARGET_SEGMENT = 0x18FE
-TARGET_OFFSET = 0x040F
-TARGET_SIZE = 0x0436
+TARGET_OFFSET = 0x03DC
+TARGET_SIZE = 0x0469
 
 SUPPORT = (
     HEADER,
@@ -51,11 +51,12 @@ SUPPORT = (
 
 # semantic name, owner-relative start, size, return mnemonic, operand
 FUNCTIONS = (
-    ("exatt_add_ellen", 0x0000, 186, "retf", "6"),
-    ("ellen_extra_add", 0x00BA, 103, "retf", "8"),
-    ("ellen_exatt_render_one", 0x0121, 269, "ret", ""),
-    ("exatt_update_ellen", 0x022E, 470, "retf", ""),
-    ("exatt_render_ellen", 0x0404, 50, "retf", ""),
+    ("exatt_ellen_slots_init", 0x0000, 51, "retf", ""),
+    ("exatt_add_ellen", 0x0033, 186, "retf", "6"),
+    ("ellen_extra_add", 0x00ED, 103, "retf", "8"),
+    ("ellen_exatt_render_one", 0x0154, 269, "ret", ""),
+    ("exatt_update_ellen", 0x0261, 470, "retf", ""),
+    ("exatt_render_ellen", 0x0437, 50, "retf", ""),
 )
 
 

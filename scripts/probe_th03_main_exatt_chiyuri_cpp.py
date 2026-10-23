@@ -30,7 +30,7 @@ OVERLAY = Path("th03/ex_chyu.cpp")
 OBJECT = Path("obj/th03/ex_chyu.obj")
 TARGET_SEGMENT = 0x18FE
 TARGET_OFFSET = 0x000a
-TARGET_SIZE = 0x0405
+TARGET_SIZE = 0x03D2
 
 SUPPORT = (
     HEADER,
@@ -57,7 +57,6 @@ FUNCTIONS = (
     ("chiyuri_exatt_render_one", 0x0070, 518, "ret", ""),
     ("exatt_update_chiyuri", 0x0276, 298, "retf", ""),
     ("exatt_render_chiyuri", 0x03A0, 50, "retf", ""),
-    ("exatt_ellen_slots_init", 0x03D2, 51, "retf", ""),
 )
 
 

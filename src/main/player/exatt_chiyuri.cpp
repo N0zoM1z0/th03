@@ -1,5 +1,5 @@
 // Maintained natural Turbo C++ reconstruction of the complete Chiyuri
-// Extra Attack P_EXATT_TEXT CODE owner (5 functions / 1029 exact bytes).
+// Extra Attack P_EXATT_TEXT CODE producer (4 functions / 978 bytes).
 // The 518-byte beam renderer and 298-byte entity updater are included.
 // Historical entity/trajectory BSS is declared extern and not duplicated.
 #pragma codeseg P_EXATT_TEXT
@@ -23,14 +23,8 @@ struct exatt_entity_t {
     unsigned char tail[10];
 };
 typedef char chiyuri_entity_size32[(sizeof(exatt_entity_t)==32)?1:-1];
-struct ellen_slot_t {
-    exatt_entity_t near *entity;
-    unsigned char history[28];
-};
-typedef char ellen_slot_size30[(sizeof(ellen_slot_t)==30)?1:-1];
 extern exatt_entity_t exatt_entities[PLAYER_COUNT][16];
 extern exatt_entity_t near *exatt_entity_p;
-extern ellen_slot_t ellen_exatt_slots[PLAYER_COUNT][12];
 
 extern "C" void near pascal exatt_fly_init(
     int x, int y, int target_x, int target_y, unsigned char pid, int speed
@@ -234,16 +228,5 @@ void far pascal exatt_render_chiyuri(void)
         if(exatt_entity_p->state != 0) {
             chiyuri_exatt_render_one();
         }
-    }
-}
-
-void far pascal exatt_ellen_slots_init(void)
-{
-    register ellen_slot_t near *p0 = &ellen_exatt_slots[0][0];
-    register ellen_slot_t near *p1 = &ellen_exatt_slots[1][0];
-    register int i = 0;
-    for(; i < 12; i++, p0++, p1++) {
-        p0->entity = &exatt_entities[0][i];
-        p1->entity = &exatt_entities[1][i];
     }
 }

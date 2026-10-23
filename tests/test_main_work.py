@@ -48,13 +48,30 @@ class MainWorkTests(unittest.TestCase):
     def test_current_raw_result_does_not_promote_exact(self):
         result = self.run_image(self.raw)
         self.assertEqual(
-            (result["checked_accepted_extents"], result["checked_accepted_bytes"]),
+            (result["checked_owned_extents"], result["checked_owned_bytes"]),
             (87, 66843),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
         self.assertFalse(result["exact_acceptance"])
         self.assertFalse(result["cold_build"])
+
+    def test_all_context_objects_have_maintained_source_producers(self):
+        producers = work.context_producers()
+        self.assertEqual(len(producers), 80)
+        self.assertEqual(len({p["output"] for p in producers}), 80)
+        for producer in producers:
+            self.assertTrue((ROOT / producer["source"]).is_file())
+        outputs = {p["output"] for p in producers}
+        outputs.update(work.object_path(s) for s in work.SOURCES)
+        outputs.update({"obj/th03/main.obj", "obj/th03/score_hud.obj", "c0l.obj"})
+        self.assertEqual(outputs, set(work.linked_objects()))
+
+    def test_unknown_cached_object_cannot_escape_source_rebuild(self):
+        names = work.linked_objects() + ["obj/th03/unknown.obj"]
+        with patch.object(work, "linked_objects", return_value=names):
+            with self.assertRaisesRegex(ValueError, "lack a source producer"):
+                work.context_producers()
 
     @unittest.skipUnless(
         (work.WORK / "obj/th03/intro.obj").is_file(), "native HUD object absent"
@@ -80,11 +97,40 @@ class MainWorkTests(unittest.TestCase):
         )
         self.assertEqual([p["size"] for p in code_bytes(raw, segment)[1]], [1024, 454])
 
+    @unittest.skipUnless(
+        (work.WORK / "obj/th03/ex_ellen.obj").is_file(), "native Ellen object absent"
+    )
+    def test_character_producers_include_ellen_initializer(self):
+        for name, size, starts, records in (
+            ("ex_chyu", 978, [0, 112, 630, 928], [978]),
+            ("ex_ellen", 1129, [0, 51, 237, 340, 609, 1079], [1024, 105]),
+        ):
+            with self.subTest(producer=name):
+                raw = (work.WORK / "obj/th03" / (name + ".obj")).read_bytes()
+                self.assertEqual(
+                    describe_omf(raw)["translator_comments"], ["TC86 Borland C++ 4.02"]
+                )
+                segs = [s for s in segment_definitions(raw) if s["size"]]
+                self.assertEqual(
+                    [(s["name"], s["size"]) for s in segs], [("P_EXATT_TEXT", size)]
+                )
+                segment = segs[0]["index"]
+                self.assertEqual(
+                    [offset for offset, _ in code_publics(raw, segment)], starts
+                )
+                self.assertEqual(
+                    [p["size"] for p in code_bytes(raw, segment)[1]], records
+                )
+                if name == "ex_ellen":
+                    self.assertEqual(
+                        code_publics(raw, segment)[0][1], "EXATT_ELLEN_SLOTS_INIT"
+                    )
+
     def test_last_owned_byte_mutation_rejected(self):
         lo, hi = next(self.extents())
         raw = bytearray(self.raw)
         raw[self.image.header.header_paragraphs * 16 + hi - 1] ^= 1
-        with self.assertRaisesRegex(ValueError, "accepted scope regressed"):
+        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
             self.run_image(raw)
 
     def test_literal_relocation_reorder_rejected(self):
@@ -100,7 +146,7 @@ class MainWorkTests(unittest.TestCase):
         raw = bytearray(self.raw)
         raw[a : a + 4], raw[b : b + 4] = raw[b : b + 4], raw[a : a + 4]
         self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
-        with self.assertRaisesRegex(ValueError, "accepted scope regressed"):
+        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
             self.run_image(raw)
 
 

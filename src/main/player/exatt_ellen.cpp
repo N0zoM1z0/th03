@@ -1,8 +1,7 @@
 // Maintained natural TC4 reconstruction of the complete TH03 Ellen Extra
 // Attack P_EXATT_TEXT owner. The 30-byte trailing-history slots and each
-// referenced 32-byte entity stay in historical DGROUP. Exact linked bytes
-// require a documented zero-instruction OMF LEDATA/FIXUPP record reframe;
-// no executable instruction, target symbol or relocation is invented.
+// referenced 32-byte entity stay in historical DGROUP. The slot initializer
+// precedes the other five functions in this native compiler producer.
 #pragma codeseg P_EXATT_TEXT
 
 #include "src/main/player/exatt_ellen.hpp"
@@ -44,6 +43,7 @@ typedef char ellen_exatt_slot_size_is_30[(sizeof(ellen_exatt_slot_t) == 30)?1:-1
 extern ellen_exatt_slot_t ellen_exatt_slots[PLAYER_COUNT][12];
 extern ellen_exatt_slot_t near *ellen_exatt_slot_p;
 extern exatt_entity_t near *exatt_entity_p;
+extern exatt_entity_t exatt_entities[PLAYER_COUNT][16];
 extern "C" unsigned char near cdecl exatt_fly_update(void);
 extern "C" void near pascal exatt_fly_init(
     int x, int y, int target_x, int target_y,
@@ -56,10 +56,18 @@ extern "C" void near pascal exatt_render_state_other(
     screen_x_t left, screen_y_t top, unsigned char frame
 );
 
-// The canonical semantic owner is compiled as one natural C++ source.
-// Conditional two-object and hybrid-initializer experiments are preserved
-// by archived receipts, not by maintaining alternate duplicate source.
 void near ellen_exatt_render_one(void);
+
+void far pascal exatt_ellen_slots_init(void)
+{
+    register ellen_exatt_slot_t near *p0 = &ellen_exatt_slots[0][0];
+    register ellen_exatt_slot_t near *p1 = &ellen_exatt_slots[1][0];
+    register int i = 0;
+    for(; i < 12; i++, p0++, p1++) {
+        p0->entity = &exatt_entities[0][i];
+        p1->entity = &exatt_entities[1][i];
+    }
+}
 
 void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
 {

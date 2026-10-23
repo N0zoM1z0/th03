@@ -29,7 +29,13 @@ SOURCES = (
     "src/main/player/lose.cpp",
     "src/main/player/defeat.cpp",
     "src/main/hud/intro.cpp",
+    "src/main/player/exatt_chiyuri.cpp",
+    "src/main/player/exatt_ellen.cpp",
 )
+SOURCE_ALIASES = {
+    "src/main/player/exatt_chiyuri.cpp": "th03/ex_chyu.cpp",
+    "src/main/player/exatt_ellen.cpp": "th03/ex_ellen.cpp",
+}
 SCOPES = (
     (0x96E6, 0x9778),
     (0xDA43, 0xE0F7),
@@ -41,6 +47,62 @@ SCOPES = (
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def object_path(source):
+    return "obj/th03/" + Path(SOURCE_ALIASES.get(source, source)).stem + ".obj"
+
+
+def linked_objects():
+    return [
+        name.replace(chr(92), "/")
+        for name in (WORK / "obj/th03/main.@l").read_text().split(",")[0].split()
+        if name.lower().endswith(".obj")
+    ]
+
+
+def context_producers():
+    """Resolve remaining game objects to maintained source, never cached OMF."""
+    from replay_th03_main_exact_units import physical_objects, ordering_objects
+
+    config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
+    primary = {object_path(source) for source in SOURCES} | {
+        "obj/th03/main.obj",
+        "obj/th03/score_hud.obj",
+        "c0l.obj",
+    }
+    producers = {}
+    for unit in config["units"]:
+        for item in physical_objects(unit) + ordering_objects(unit):
+            if Path(item["source"]).suffix not in {".cpp", ".c", ".asm"}:
+                continue
+            output = item["object_path"]
+            if output in primary:
+                continue
+            staged = item.get(
+                "overlay_path", unit.get("overlay_path", item.get("wrapper"))
+            )
+            if Path(item["source"]).suffix == ".asm":
+                staged = str(PurePosixPath(staged).with_suffix(".asm"))
+            producer = dict(
+                source=item["source"],
+                staged=staged,
+                output=output,
+                prefix=item.get("wrapper_prefix", ""),
+            )
+            # The DOS compiler emits this literal 8.3 alias. Move the file only.
+            if output == "obj/th03/bomb_yumemi.obj":
+                producer["emitted"] = "obj/th03/bomb~cxk.obj"
+            if output in producers and producers[output] != producer:
+                raise ValueError("multiple context producers: " + output)
+            producers[output] = producer
+    names = linked_objects()
+    missing = set(names) - primary - producers.keys()
+    if missing:
+        raise ValueError(
+            "game objects lack a source producer: " + ", ".join(sorted(missing))
+        )
+    return [producers[name] for name in names if name in producers]
 
 
 def stage_lose():
@@ -76,6 +138,7 @@ def stage_lose():
             if count != 1:
                 raise ValueError("lose storage alias unavailable: " + alias)
     path.write_bytes(text.replace("\n", "\r\n").encode("latin1"))
+    os.utime(path, (1792656000, 1792656000))
     response = WORK / "obj/th03/main.@l"
     text = response.read_text()
     text = text.replace(r"obj\th03\h_stitch.obj", r"obj\th03\intro.obj")
@@ -87,11 +150,12 @@ def stage_lose():
             main, r"obj\th03\lose.obj " + main + r" obj\th03\defeat.obj"
         )
     response.write_bytes(text.replace("\n", "\r\n").encode())
+    os.utime(response, (1792656000, 1792656000))
 
 
-def stage_sources():
+def stage_sources(producers=()):
     """Copy just the conservative C++ include closure, leaving root ASM/context intact."""
-    pending = list(SOURCES)
+    pending = list(SOURCES) + [item["source"] for item in producers]
     staged = {}
     vendor = ROOT / ".analysis/toolchain/wineprefix/drive_c/TC4/INCLUDE"
     while pending:
@@ -113,12 +177,17 @@ def stage_sources():
         os.utime(dest, (1792656000, 1792656000))
         for line in raw.decode("latin1").splitlines():
             match = re.match(r"^\s*#\s*include\s+(.+)", line)
-            if not match:
+            assembly = re.match(r"^\s*include\s+([^;\s]+)", line, re.I)
+            if not match and not assembly:
                 continue
-            token = re.match(r'["<]([^">]+)[">]', match[1])
-            if not token:
-                raise ValueError("dynamic include: " + name)
-            inc = token[1].replace("\\", "/")
+            if match:
+                token = re.match(r'["<]([^">]+)[">]', match[1])
+                if not token:
+                    raise ValueError("dynamic include: " + name)
+                inc = token[1]
+            else:
+                inc = assembly[1].strip('"<>')
+            inc = inc.replace(chr(92), "/")
             choices = (posixpath.normpath(str(PurePosixPath(name).parent / inc)), inc)
             found = next(
                 (
@@ -136,6 +205,20 @@ def stage_sources():
                 pending.append(found)
             elif not (vendor / inc.upper()).is_file():
                 raise ValueError("unresolved include: " + name + ": " + inc)
+    for source, alias in SOURCE_ALIASES.items():
+        if source in SOURCES:
+            dest = WORK / alias
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes((ROOT / source).read_bytes())
+            os.utime(dest, (1792656000, 1792656000))
+            staged[alias] = sha(dest.read_bytes())
+    for item in producers:
+        dest = WORK / item["staged"]
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        raw = item["prefix"].encode("ascii") + (ROOT / item["source"]).read_bytes()
+        dest.write_bytes(raw)
+        os.utime(dest, (1792656000, 1792656000))
+        staged[item["staged"]] = sha(raw)
     return staged
 
 
@@ -157,9 +240,18 @@ def contributions(raw, omit_replaced=False):
         and int(line.split()[1], 16)
         and not (
             omit_replaced
-            and "S=PLAYER_M_TEXT" in line
-            and 0x2432 <= int(line.split()[0].split(":")[1], 16) < 0x2C90
-            and line.split()[0].startswith("096E:")
+            and (
+                (
+                    "S=PLAYER_M_TEXT" in line
+                    and 0x2432 <= int(line.split()[0].split(":")[1], 16) < 0x2C90
+                    and line.split()[0].startswith("096E:")
+                )
+                or (
+                    "S=P_EXATT_TEXT" in line
+                    and 0xA <= int(line.split()[0].split(":")[1], 16) < 0x845
+                    and line.split()[0].startswith("18FE:")
+                )
+            )
         )
     ]
 
@@ -195,15 +287,15 @@ def review(previous=None):
 
     config_raw = (ROOT / "config/th03_main_exact_units.toml").read_bytes()
     cfg = tomllib.loads(config_raw.decode())
-    accepted = []
+    owned = []
     for unit in cfg["units"]:
         for e in unit.get("code_extents", [unit]):
             lo = e.get("segment", unit.get("segment", cfg["segment"])) * 16 + e["start"]
-            accepted.append(dict(owner=unit["id"], **extent(lo, lo + e["size"])))
-    if not all(r["raw_equal"] and r["ordered_relocations_equal"] for r in accepted):
-        raise ValueError("previously accepted scope regressed")
+            owned.append(dict(owner=unit["id"], **extent(lo, lo + e["size"])))
+    if not all(r["raw_equal"] and r["ordered_relocations_equal"] for r in owned):
+        raise ValueError("tracked scope regressed")
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
-    for name in (Path(s).stem + ".obj" for s in SOURCES) if previous else ():
+    for name in (Path(object_path(s)).name for s in SOURCES) if previous else ():
         if any(
             s["size"] and s["class"] != "CODE"
             for s in segment_definitions((WORK / "obj/th03" / name).read_bytes())
@@ -214,9 +306,14 @@ def review(previous=None):
         executable_sha256=sha(candidate_raw),
         owned_extent_config_sha256=sha(config_raw),
         new_scopes=scopes,
-        checked_accepted_extents=len(accepted),
-        checked_accepted_bytes=sum(r["bytes"] for r in accepted),
-        all_accepted_raw_and_ordered_equal=True,
+        checked_owned_extents=len(owned),
+        checked_owned_bytes=sum(r["bytes"] for r in owned),
+        all_owned_raw_and_ordered_equal=True,
+        character_scopes=[
+            r
+            for r in owned
+            if r["owner"] in {"th03-main-exatt-chiyuri", "th03-main-exatt-ellen"}
+        ],
         complete_program_equal=candidate.program_image == target.program_image,
         complete_relocation_membership_equal=Counter(
             (r.segment, r.offset) for r in candidate.relocations
@@ -244,6 +341,14 @@ def review(previous=None):
             for name, image in (("target", target), ("candidate", candidate))
         },
     )
+    for row in result["character_scopes"]:
+        lo, hi = row["start"], row["start"] + row["bytes"]
+        row["target_relative_relocation_order"] = [
+            seg * 16 + offset - lo for seg, offset in relocations(target, lo, hi)
+        ]
+        row["candidate_relative_relocation_order"] = [
+            seg * 16 + offset - lo for seg, offset in relocations(candidate, lo, hi)
+        ]
     sites = [r.linear for r in target.relocations if 0x96E6 <= r.linear < 0xE8F8]
     uniform = sorted(sites, key=lambda p: ((p - 0x96E6) // 1023, -p))
     result["main01_uniform_1023_record_model"] = dict(
@@ -262,15 +367,31 @@ def review(previous=None):
             (WORK / "obj/th03/main.map").read_bytes(), omit_replaced=True
         )
         map_text = (WORK / "obj/th03/main.map").read_text()
-        for start, size, module in (
-            (0x2432, 1478, "src/main/hud/intro.cpp"),
-            (0x29F8, 368, "src/main/player/lose.cpp"),
-            (0x2B68, 177, "th03_main.asm"),
-            (0x2C19, 119, "src/main/player/defeat.cpp"),
+        for seg, start, size, segment, group, module in (
+            (0x96E, 0x2432, 1478, "PLAYER_M_TEXT", "MAIN_01", "src/main/hud/intro.cpp"),
+            (
+                0x96E,
+                0x29F8,
+                368,
+                "PLAYER_M_TEXT",
+                "MAIN_01",
+                "src/main/player/lose.cpp",
+            ),
+            (0x96E, 0x2B68, 177, "PLAYER_M_TEXT", "MAIN_01", "th03_main.asm"),
+            (
+                0x96E,
+                0x2C19,
+                119,
+                "PLAYER_M_TEXT",
+                "MAIN_01",
+                "src/main/player/defeat.cpp",
+            ),
+            (0x18FE, 0xA, 978, "P_EXATT_TEXT", "MAIN_06", "th03/ex_chyu.cpp"),
+            (0x18FE, 0x3DC, 1129, "P_EXATT_TEXT", "MAIN_06", "th03/ex_ellen.cpp"),
         ):
             pattern = (
-                rf"(?m)^\s*096E:{start:04X}\s+{size:04X}\s+C=CODE\s+"
-                rf"S=PLAYER_M_TEXT\s+G=MAIN_01\s+M={re.escape(module)}\s+ACBP=28\s*$"
+                rf"(?m)^\s*{seg:04X}:{start:04X}\s+{size:04X}\s+C=CODE\s+"
+                rf"S={segment}\s+G={group}\s+M={re.escape(module)}\s+ACBP=28\s*$"
             )
             if len(re.findall(pattern, map_text)) != 1:
                 raise ValueError("source contribution layout differs: " + module)
@@ -288,20 +409,34 @@ def review(previous=None):
             n: raw == (WORK / "obj/th03" / n).read_bytes()
             for n, raw in previous["objects"].items()
         }
+        if "game_objects" in previous:
+            result["game_object_repeats_previous"] = {
+                name: raw == (WORK / name).read_bytes()
+                for name, raw in previous["game_objects"].items()
+            }
         result["unlinked_CODE_unchanged"] = {
             n: code(raw) == code((WORK / "obj/th03" / n).read_bytes())
             for n, raw in previous["objects"].items()
+            if n not in {"ex_chyu.obj", "ex_ellen.obj"}
         }
+        pair = ("ex_chyu.obj", "ex_ellen.obj")
+        if all(n in previous["objects"] for n in pair):
+            result["exatt_combined_CODE_unchanged"] = b"".join(
+                code(previous["objects"][n])["P_EXATT_TEXT"] for n in pair
+            ) == b"".join(
+                code((WORK / "obj/th03" / n).read_bytes())["P_EXATT_TEXT"] for n in pair
+            )
         if (
             not result["map_other_contributions_unchanged"]
             or not result["outside_new_scopes_unchanged"]
             or not all(result["unlinked_CODE_unchanged"].values())
+            or not result.get("exatt_combined_CODE_unchanged", True)
         ):
             raise ValueError("source replacement altered layout or unrelated bytes")
     return result
 
 
-def build():
+def build(rebuild_context=False):
     if not (WORK / "th03_main.asm").is_file():
         raise ValueError("current MAIN working tree unavailable")
     OUT.mkdir(parents=True, exist_ok=True)
@@ -338,7 +473,9 @@ def build():
         "-DBINARY='M'",
         "-nobj/th03/",
     ]
-    phases = [(compiler + [n], ["obj/th03/" + Path(n).stem + ".obj"]) for n in SOURCES]
+    phases = [
+        (compiler + [SOURCE_ALIASES.get(n, n)], [object_path(n)]) for n in SOURCES
+    ]
     tasm = [
         "/usr/bin/wine-stable",
         str(prefix / "drive_c/TASM50/bin/TASM32.EXE"),
@@ -365,6 +502,7 @@ def build():
         mixed_context=True,
         cold_build=False,
         exact_acceptance=False,
+        rebuild_game_context=rebuild_context,
     )
     with (ROOT / ".analysis/borland-wine-writer.lock").open("ab") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -381,24 +519,52 @@ def build():
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in (Path(s).stem + ".obj" for s in SOURCES)
+                    for n in (Path(object_path(s)).name for s in SOURCES)
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )
+            if rebuild_context:
+                previous["game_objects"] = {
+                    name: (WORK / name).read_bytes()
+                    for name in linked_objects()
+                    if (WORK / name).is_file()
+                }
 
+        stage_lose()
+        producers = context_producers() if rebuild_context else []
+        moves = {
+            item["output"]: item["emitted"] for item in producers if "emitted" in item
+        }
+        if producers:
+            context_phases = []
+            for item in producers:
+                source, output = item["staged"], item["output"]
+                (WORK / output).parent.mkdir(parents=True, exist_ok=True)
+                argv = (
+                    tasm
+                    + [
+                        source.replace(chr(47), chr(92)),
+                        output.replace(chr(47), chr(92)),
+                    ]
+                    if source.endswith(".asm")
+                    else compiler[:-1]
+                    + ["-n" + str(PurePosixPath(output).parent) + "/", source]
+                )
+                context_phases.append((argv, [output]))
+            phases = context_phases + phases
         report["builder_sha256"] = sha(Path(__file__).read_bytes())
-        produced = {"obj/th03/" + Path(s).stem + ".obj" for s in SOURCES} | {
+        produced = {object_path(s) for s in SOURCES} | {
             "obj/th03/main.obj",
             "obj/th03/score_hud.obj",
         }
-        report["staged_source_sha256"] = stage_sources()
-        stage_lose()
+        produced.update(item["output"] for item in producers)
+        report["context_source_producers"] = producers
+        report["staged_source_sha256"] = stage_sources(producers)
         for name in ("th03_main.asm", "src/main/hud/score.asm", "obj/th03/main.@l"):
             report["staged_source_sha256"][name] = sha((WORK / name).read_bytes())
         context = {}
-        for name in (WORK / "obj/th03/main.@l").read_text().split(",")[0].split():
-            name = name.replace("\\", "/")
-            if not name.lower().endswith(".obj") or name in produced:
+        for name in linked_objects():
+            if name in produced:
                 continue
             path = WORK / name
             if not path.is_file():
@@ -415,7 +581,20 @@ def build():
             )
         }
         with (OUT / "main-build.log").open("wb") as log:
+            rollback = (
+                {
+                    name: (WORK / name).read_bytes()
+                    for name in produced
+                    if (WORK / name).is_file()
+                }
+                if rebuild_context
+                else {}
+            )
             try:
+                if rebuild_context:
+                    for name in produced | set(moves.values()):
+                        (WORK / name).unlink(missing_ok=True)
+                    report["cached_game_objects_used"] = 0
                 for argv, outputs in phases:
                     for n in outputs:
                         (WORK / n).unlink(missing_ok=True)
@@ -444,6 +623,17 @@ def build():
                         seconds=round(time.monotonic() - start, 3),
                     )
                     report["native_phases"].append(phase)
+                    for output in outputs:
+                        if output in moves:
+                            origin = WORK / moves[output]
+                            if origin.is_file():
+                                digest = sha(origin.read_bytes())
+                                origin.replace(WORK / output)
+                                phase["filename_only_move"] = dict(
+                                    emitted=moves[output],
+                                    linked=output,
+                                    sha256=digest,
+                                )
                     if status or not all((WORK / n).is_file() for n in outputs):
                         raise RuntimeError(
                             "native phase failed; see .analysis/work/main-build.log"
@@ -460,8 +650,37 @@ def build():
                     raise ValueError(
                         "native compiler/assembler/linker output was modified"
                     )
+                report["staged_sources_unchanged"] = all(
+                    sha((WORK / name).read_bytes()) == digest
+                    for name, digest in report["staged_source_sha256"].items()
+                )
+                if not report["staged_sources_unchanged"]:
+                    raise ValueError("source input changed during the native build")
+                report["character_producers"] = {}
+                for name in ("ex_chyu", "ex_ellen"):
+                    raw = (WORK / "obj/th03" / (name + ".obj")).read_bytes()
+                    segment = next(
+                        s
+                        for s in segment_definitions(raw)
+                        if s["name"] == "P_EXATT_TEXT"
+                    )
+                    report["character_producers"][name] = dict(
+                        code_bytes=segment["size"],
+                        code_record_sizes=[
+                            r["size"] for r in code_bytes(raw, segment["index"])[1]
+                        ],
+                    )
                 report["comparison"] = review(previous)
                 report["complete"] = True
+            except Exception:
+                if rebuild_context:
+                    for name, raw in rollback.items():
+                        (WORK / name).write_bytes(raw)
+                    if previous:
+                        (WORK / "bin/th03/main.exe").write_bytes(previous["exe"])
+                        (WORK / "obj/th03/main.map").write_bytes(previous["map"])
+                    report["restored_previous_build"] = True
+                raise
             finally:
                 (OUT / "main-build.json").write_text(
                     json.dumps(report, indent=2) + "\n"
@@ -471,6 +690,11 @@ def build():
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument(
+        "--rebuild-context",
+        action="store_true",
+        help="rebuild all game context OBJs; the materialized root remains provisional",
+    )
     p.add_argument(
         "--build",
         action="store_true",
@@ -482,7 +706,9 @@ def main():
         help="also compare bounded entry behavior with the target",
     )
     args = p.parse_args()
-    result = build() if args.build else review()
+    if args.rebuild_context and not args.build:
+        p.error("--rebuild-context requires --build")
+    result = build(args.rebuild_context) if args.build else review()
     if args.runtime:
         from lib.main_entry_runtime import compare
         from lib.main_lose_runtime import (
@@ -515,8 +741,8 @@ def main():
                 k: comparison[k]
                 for k in (
                     "new_scopes",
-                    "checked_accepted_extents",
-                    "checked_accepted_bytes",
+                    "checked_owned_extents",
+                    "checked_owned_bytes",
                     "complete_program_differing_bytes",
                     "candidate_relocations",
                     "target_relocations",

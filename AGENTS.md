@@ -24,4 +24,4 @@ the local `th03-re` skill. Inspect Git and run `python3 scripts/preflight.py`.
   retaining them. Regenerate checks when needed.
 
 Finish with focused checks, `python3 scripts/ci.py` and `git diff --check`.
-Commit format: `gpt-6-astra-medium: xxx ~`.
+Commit format: `gpt-6.1-sol: xxx`.

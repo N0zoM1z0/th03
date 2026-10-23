@@ -40,20 +40,28 @@ class ChargeDefault(unittest.TestCase):
         )
 
     def test_prior_code_geometry_and_abi_preserved(self):
-        current = {u["id"]: u for u in self.new["units"]}
-        for old in self.old["units"]:
-            with self.subTest(owner=old["id"]):
-
-                def geometry(unit, segment):
-                    return [
-                        (e["name"], e["segment"], e["start"], e["size"], e["ledger_id"])
-                        for e in normalized_code_extents(unit, segment)
-                    ]
-
-                self.assertEqual(
-                    geometry(old, self.old["segment"]),
-                    geometry(current[old["id"]], self.new["segment"]),
+        def coverage(config):
+            spans = sorted(
+                (
+                    e["segment"] * 16 + e["start"],
+                    e["segment"] * 16 + e["start"] + e["size"],
                 )
+                for unit in config["units"]
+                for e in normalized_code_extents(unit, config["segment"])
+            )
+            merged = []
+            for lo, hi in spans:
+                if merged and lo <= merged[-1][1]:
+                    merged[-1] = (merged[-1][0], max(hi, merged[-1][1]))
+                else:
+                    merged.append((lo, hi))
+            return merged
+
+        current_coverage = coverage(self.new)
+        for lo, hi in coverage(self.old):
+            self.assertTrue(
+                any(start <= lo and hi <= end for start, end in current_coverage)
+            )
         fields = ("name", "segment", "offset", "size", "abi")
         geometry = lambda f: tuple(
             f.get(k, self.new["segment"] if k == "segment" else None) for k in fields

@@ -5648,8 +5648,8 @@ build_file = "Tupfile.lua"
 build_anchor = "\t{ \"th03_main.asm\", extra_inputs = {\n"
 build_replacement = "\t\"th03/ex_ord.asm\",\n\t\"th03/ex_chyu.cpp\",\n\t{ \"th03_main.asm\", extra_inputs = {\n"
 code_extents = [
-  { name = "code", ledger_id = "th03-main-exatt-chiyuri", segment = 0x18fe, start = 0x000a, size = 0x0405, map_segment = "P_EXATT_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
-    { object = "ex_chyu", start = 0x000a, size = 0x0405 },
+  { name = "code", ledger_id = "th03-main-exatt-chiyuri", segment = 0x18fe, start = 0x000a, size = 0x03d2, map_segment = "P_EXATT_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
+    { object = "ex_chyu", start = 0x000a, size = 0x03d2 },
   ] },
 ]
 
@@ -5752,7 +5752,7 @@ abi = "far cdecl; RETF"
 
 [[functions]]
 name = "exatt_ellen_slots_init"
-object = "ex_chyu"
+object = "ex_ellen"
 segment = 0x18fe
 offset = 0x03dc
 size = 51
@@ -5767,10 +5767,10 @@ object = "ex_ellen"
 ownership = "carved-producers"
 carrier_path = "th03_main.asm"
 carrier_sha256 = "94c52b803ebcf3df018c18cffc35891f074c45b3cafbf5927db1907024f54d62"
-map_module = "th03\\ex_ellen.cpp"
+map_module = "th03/ex_ellen.cpp"
 physical_objects_additive = true
 physical_objects = [
-  { object = "ex_ellen", wrapper = "th03/ex_ellen.cpp", source = "src/main/player/exatt_ellen.cpp", tc4_omf_reframe = "ellen-ledata-1000" },
+  { object = "ex_ellen", wrapper = "th03/ex_ellen.cpp", source = "src/main/player/exatt_ellen.cpp" },
 ]
 support_files = [
   "compat/rec98/th03/common.h",
@@ -5788,10 +5788,10 @@ support_files = [
 ]
 build_file = "Tupfile.lua"
 build_anchor = "\t\"th03/ex_kana.cpp\",\n"
-build_replacement = "\t\"obj/th03/ex_ellen.obj\",\n\t\"th03/ex_kana.cpp\",\n"
+build_replacement = "\t\"th03/ex_ellen.cpp\",\n\t\"th03/ex_kana.cpp\",\n"
 code_extents = [
-  { name = "code", ledger_id = "th03-main-exatt-ellen", segment = 0x18fe, start = 0x040f, size = 0x0436, map_segment = "P_EXATT_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
-    { object = "ex_ellen", start = 0x040f, size = 0x0436, map_module = "th03\\ex_ellen.cpp" },
+  { name = "code", ledger_id = "th03-main-exatt-ellen", segment = 0x18fe, start = 0x03dc, size = 0x0469, map_segment = "P_EXATT_TEXT", map_group = "MAIN_06", map_acbp = 28, map_parts = [
+    { object = "ex_ellen", start = 0x03dc, size = 0x0469, map_module = "th03/ex_ellen.cpp" },
   ] },
 ]
 

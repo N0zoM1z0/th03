@@ -6,7 +6,6 @@ extern "C" {
 void far pascal exatt_add_chiyuri(int x, int y, unsigned char pid);
 void far pascal exatt_update_chiyuri(void);
 void far pascal exatt_render_chiyuri(void);
-void far pascal exatt_ellen_slots_init(void);
 }
 
 #endif

@@ -19,8 +19,8 @@ STATE_ROOT = ROOT / ".analysis/th03-main-serial"
 REPLAY = ROOT / "scripts/replay_th03_main_exact_units.py"
 PINS = {
     'scripts/review_th03_cpu_link_order.py': '0b96a855a823aa749cc35ab0b8d4a80b5740bf42a7996a7c934881981df5ba82',
-    "scripts/replay_th03_main_exact_units.py": "3db1ca06a2fa39a67d07c2442265b278bcde548a5d862344f2843085fed7fffc",
-    "config/th03_main_exact_units.toml": "5d1c7dc51d5e5efad4c102ca2bb5dce5a9df024dbaeb0d8e248454610732fda3",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "config/th03_main_exact_units.toml": "f34c5c35105f7723fe0da1c957f59196551d7a815e0f9cd8b4da858df1fefa6f",
     "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
 }
 PINS.update({
@@ -33,7 +33,6 @@ PINS.update({
     "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
     "scripts/lib/reconstruction.py": "2fb69bd1e2e1eabb30514a7ed205e1b6d028043f05e062b59c3dc67d4298a950",
     "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
-    "scripts/lib/tc4_omf_bridge.py": "c0143a3de65899e2dafe0f2f9ec77725e1810fcfe8f7e93c6f71e3915b815d24",
     "scripts/lib/toolchain.py": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
     "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501"
 })

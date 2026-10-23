@@ -4,6 +4,7 @@
 #include "compat/rec98/th03/common.h"
 
 extern "C" {
+void far pascal exatt_ellen_slots_init(void);
 void far pascal exatt_add_ellen(int x, int y, unsigned char pid);
 void far pascal ellen_extra_add(int x, int y, unsigned char angle, unsigned char mode);
 void far pascal exatt_update_ellen(void);
