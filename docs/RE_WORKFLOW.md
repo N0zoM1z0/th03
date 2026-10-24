@@ -15,6 +15,11 @@
    OP or MAINL, run `scripts/review_th03_shared_input_work.py`
    before republishing their source scopes. Its complete input models bind both
    current cold reports; status only replays short ABI cases.
+   Use `scripts/review_th03_mainl_sound_work.py` for one complete MAINL cold pair
+   and six sound/timing reviews, then refresh the shared-input review and publish.
+   Its `--current-cold` mode revalidates the entire source/SDK/output graph before
+   replaying all sound gates. Counter-update fixtures do not prove elapsed time
+   or physical IRQ delivery. Adjacent explicit codestring padding remains open.
    Use `scripts/review_th03_zun_lifecycle_work.py` for the complete ZUN cold pair,
    formatter, graphics and lifecycle reviews. It invokes the graphics/formatter
    chain once. All three support `--current-cold` to revalidate existing source/output-bound

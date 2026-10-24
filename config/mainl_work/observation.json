@@ -1,6 +1,6 @@
 {
   "schema": "th03-mainl-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T17:05:17.956102Z",
+  "observed_utc": "2026-10-24T21:36:23.148424Z",
   "command": ".venv/bin/python -B scripts/build_th03_mainl_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 1912,
@@ -230,8 +230,8 @@
     "packed_bytes": 37975,
     "stored_equal": true,
     "raw_repeat_equal": true,
-    "decoded_roundtrip_equal": true,
-    "same_tool_roundtrip": true
+    "same_tool_roundtrip": true,
+    "decoded_roundtrip_equal": true
   },
   "ownership_acceptance": false,
   "runtime_acceptance": false,
@@ -243,17 +243,21 @@
   "implementation_sha256": {
     "scripts/build_th03_mainl_work.py": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
     "scripts/lib/borland_library.py": "729f4283a999a88519bc2c545b96c541f2b36565da24737d7493c03c52214c84",
-    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b"
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+    "scripts/lib/decoded_mainl_acceptance.py": "3754a8647861ff6b14385bdffe983ee26c18f29302b3e61974583810642a3eae",
+    "scripts/review_th03_mainl_sound_work.py": "960248ebf2ebaf1753f6c1bb38e89312a2ad303103df1d5a924916c240e08448",
+    "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
+    "scripts/lib/decoded_mainl_sound_runtime.py": "7da9b124f13ef6f7f7112ec2a87ca53ba3b1eccd373649a6b391e1a3260a48e3"
   },
   "builder_sha256": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
   "scoped_source_acceptance": {
     "publication": "config/mainl_work/scoped_acceptance.json",
-    "decoded_functions": 15,
-    "decoded_bytes": 703,
+    "decoded_functions": 21,
+    "decoded_bytes": 1035,
     "ordered_relocations": 25,
-    "runtime_cases_per_image": 10396,
+    "runtime_cases_per_image": 53138,
     "runtime_images": 2,
-    "actual_guest_mutations_rejected": 52,
+    "actual_guest_mutations_rejected": 85,
     "consumed_vendor_headers": {
       "C:/TC4/INCLUDE/stddef.h": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
       "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
@@ -292,6 +296,28 @@
         2
       ],
       "canonical_unit_credit_changed": false
+    },
+    "sound_and_timing": {
+      "functions": 6,
+      "code_bytes": 332,
+      "native_objects": 5,
+      "ordered_native_fields": 33,
+      "ordered_relocations": 0,
+      "normal_tlink_relaxed_calls": 1,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "reviewed_initialized_dependency_bytes": 69,
+      "runtime_cases_per_image": 42742,
+      "actual_guest_mutations_rejected": 33,
+      "exhaustive_BYTE_states": 256,
+      "legitimate_SE_entries": 33,
+      "filename_copy_bytes": 13,
+      "file_read_request_bytes": 20480,
+      "maximum_observed_stack_bytes": 10,
+      "actual_frame_delay_executes": true,
+      "physical_IRQ_delivery_proved": false,
+      "physical_audio_proved": false,
+      "adjacent_explicit_padding_accepted": false
     }
   }
 }

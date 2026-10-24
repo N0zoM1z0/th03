@@ -1,4 +1,4 @@
-"""Current cold-source proof for four decoded MAINL lifecycle functions.
+"""Current cold-source proof for decoded MAINL lifecycle, input and sound owners.
 
 This consumes the live 938-output build, not any archived receipt. The remaining
 MAINL source scopes and vendor context retain their separate acceptance state.
@@ -24,6 +24,7 @@ from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_ora
 from review_th03_shared_input_work import current_scope as input_scope
 from lib.shared_input_layout import SOURCE as INPUT_SOURCE, WRAPPER as INPUT_WRAPPER
 from lib.mainl_wait_layout import SOURCE as WAIT_SOURCE, WRAPPER as WAIT_WRAPPER
+from review_th03_mainl_sound_work import current_scope as sound_scope
 
 
 PUBLICATION = "config/mainl_work/scoped_acceptance.json"
@@ -32,7 +33,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/lib/op_work_acceptance.py", "scripts/status.py", "scripts/validate_tracking.py",
                 "config/oracles.toml", "scripts/review_th03_shared_input_work.py",
                 "scripts/lib/shared_input_layout.py", "scripts/lib/shared_input_runtime.py",
-                "scripts/lib/mainl_wait_layout.py", "scripts/lib/mainl_wait_runtime.py")
+                "scripts/lib/mainl_wait_layout.py", "scripts/lib/mainl_wait_runtime.py",
+                "scripts/review_th03_mainl_sound_work.py", "scripts/lib/decoded_mainl_sound_layout.py", "scripts/lib/decoded_mainl_sound_runtime.py")
 
 
 def need(value, message):
@@ -120,7 +122,8 @@ def audit(root):
     base_scope = dict(owners=lifecycle_owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
     need(base_scope == report["lifecycle_scopes"], "fresh independent scope replay")
     shared = input_scope(root, "mainl", work, target, candidate, raw_report)
-    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"]
+    sound = sound_scope(root, work, target, candidate, raw_report, graph, files)
+    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -145,7 +148,7 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(base_scope, owners=owners, input_modes=shared)
+    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
@@ -178,8 +181,8 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
-                decoded_exact_units=15, decoded_authored_exact_units=15, decoded_library_exact_units=0,
-                decoded_authored_bytes=703, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
+                decoded_exact_units=21, decoded_authored_exact_units=21, decoded_library_exact_units=0,
+                decoded_authored_bytes=1035, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 target_provenance="candidate-local-attested", product_exact=False, mixed_physical_exact_bytes=0,
                 mixed_authored_credit_bytes=0, canonical_file_backed_authored_credit_unchanged=True,
                 factory_accepted=False, whole_game_percentage=None, whole_game_code_denominator_known=False)

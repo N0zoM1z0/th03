@@ -1,0 +1,727 @@
+{
+  "schema": "th03-mainl-sound-current-observation-v1",
+  "observed_utc": "2026-10-24T21:36:23.148424Z",
+  "command": ".venv/bin/python scripts/review_th03_mainl_sound_work.py",
+  "provenance": "candidate-local-attested",
+  "implementation_sha256": {
+    "scripts/review_th03_mainl_sound_work.py": "960248ebf2ebaf1753f6c1bb38e89312a2ad303103df1d5a924916c240e08448",
+    "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
+    "scripts/lib/decoded_mainl_sound_runtime.py": "7da9b124f13ef6f7f7112ec2a87ca53ba3b1eccd373649a6b391e1a3260a48e3",
+    "scripts/build_th03_mainl_work.py": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/lib/toolchain.py": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "src/shared/sound/load.cpp": "bcde0f8ef6ad4bbbf6129c1f54723ebdeddf53f4d2b36d92971b2e1e3d37cc86",
+    "src/shared/hardware/frame_delay.cpp": "ed2f70e85534cc513624762e337b7e860b491c27260b1a9d5ff61dff3df309dc",
+    "src/mainl/linked_game/sound_se.cpp": "6c848a7eb595564b417ec9caf7f00258b03ed3cf64e654a540c750f07226ba2d",
+    "src/mainl/linked_game/sound_kaja.cpp": "de1a4687fbf5f2202d5a32c1047a3388055f897cb770417bbd2d869692bdec16",
+    "src/mainl/linked_game/sound_measure.cpp": "c1272a1dae9fe1d97441686aaf9ec5907bae7b1f20d3ac3f5a6058e344c015b4"
+  },
+  "cold_report_sha256": "191b64a3a2aae58601cc3c1007c47a3c4e80010db9071b01321f6eb080643d5d",
+  "source_inventory_sha256": "d913a54e6b01820e0066b7f9124a3996754506a4f7ce75975746a65af586800a",
+  "native_pair_built_now": true,
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-mainl-decoded-sound-load",
+        "name": "_snd_load",
+        "source": "src/shared/sound/load.cpp",
+        "object": "obj/th02/snd_load.obj",
+        "start": 51328,
+        "size": 112,
+        "segment": 3198,
+        "offset": 160,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "67dcc118be81b7b65b7c109833a6b4ab7b44d427edb4070cb6c02988cc970e32",
+        "candidate_sha256": "67dcc118be81b7b65b7c109833a6b4ab7b44d427edb4070cb6c02988cc970e32",
+        "ordered_relocations": [],
+        "argument_bytes": 6,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "producer_slot": {
+          "wrapper": "th02/snd_load.cpp",
+          "game": 2,
+          "binary": "O",
+          "first_binary": "op"
+        },
+        "abi": "far cdecl; WORD arguments; native BYTE sound fields and WORD IRQ counter"
+      },
+      {
+        "unit_id": "th03-mainl-decoded-linked-tail-delay",
+        "name": "@FRAME_DELAY$QI",
+        "source": "src/shared/hardware/frame_delay.cpp",
+        "object": "obj/th02/frmdely1.obj",
+        "start": 52050,
+        "size": 21,
+        "segment": 3198,
+        "offset": 882,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "9312a4d078b33f6cc1f3c011a23a40bc81f5aff616cf8c00bd8ea2f16cae33b8",
+        "candidate_sha256": "9312a4d078b33f6cc1f3c011a23a40bc81f5aff616cf8c00bd8ea2f16cae33b8",
+        "ordered_relocations": [],
+        "argument_bytes": 2,
+        "callee_pop_bytes": 2,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "producer_slot": {
+          "wrapper": "th02/frmdely1.cpp",
+          "game": 2,
+          "binary": "O",
+          "first_binary": "op"
+        },
+        "abi": "far Pascal; WORD arguments; native BYTE sound fields and WORD IRQ counter"
+      },
+      {
+        "unit_id": "th03-mainl-decoded-sound-play",
+        "name": "SND_SE_PLAY",
+        "source": "src/mainl/linked_game/sound_se.cpp",
+        "object": "obj/th03/snd_se.obj",
+        "start": 52810,
+        "size": 60,
+        "segment": 3198,
+        "offset": 1642,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "49d8eb8fc67697828aef550b3136c1470ac04f5b29611cc31bf15d14dacc66f7",
+        "candidate_sha256": "49d8eb8fc67697828aef550b3136c1470ac04f5b29611cc31bf15d14dacc66f7",
+        "ordered_relocations": [],
+        "argument_bytes": 2,
+        "callee_pop_bytes": 2,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "producer_slot": {
+          "wrapper": "th03/snd_se.cpp",
+          "game": 3,
+          "binary": "M",
+          "first_binary": "main"
+        },
+        "abi": "far Pascal; WORD arguments; native BYTE sound fields and WORD IRQ counter"
+      },
+      {
+        "unit_id": "th03-mainl-decoded-sound-update",
+        "name": "_snd_se_update",
+        "source": "src/mainl/linked_game/sound_se.cpp",
+        "object": "obj/th03/snd_se.obj",
+        "start": 52870,
+        "size": 60,
+        "segment": 3198,
+        "offset": 1702,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "2aaae1abf1231d0e0cf1bd299d329dd7824fae3e4d98c096fff44cbd591ee113",
+        "candidate_sha256": "2aaae1abf1231d0e0cf1bd299d329dd7824fae3e4d98c096fff44cbd591ee113",
+        "ordered_relocations": [],
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "producer_slot": {
+          "wrapper": "th03/snd_se.cpp",
+          "game": 3,
+          "binary": "M",
+          "first_binary": "main"
+        },
+        "abi": "far cdecl; WORD arguments; native BYTE sound fields and WORD IRQ counter"
+      },
+      {
+        "unit_id": "th03-mainl-decoded-sound-kaja",
+        "name": "SND_KAJA_INTERRUPT",
+        "source": "src/mainl/linked_game/sound_kaja.cpp",
+        "object": "obj/th03/snd_kaja.obj",
+        "start": 52930,
+        "size": 30,
+        "segment": 3198,
+        "offset": 1762,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "f604e3b0c44bf455829c43626e7f1cc1c5c59c8e9e3b88d9c69499bbdbd2601f",
+        "candidate_sha256": "f604e3b0c44bf455829c43626e7f1cc1c5c59c8e9e3b88d9c69499bbdbd2601f",
+        "ordered_relocations": [],
+        "argument_bytes": 2,
+        "callee_pop_bytes": 2,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "producer_slot": {
+          "wrapper": "th03/snd_kaja.cpp",
+          "game": 3,
+          "binary": "O",
+          "first_binary": "op"
+        },
+        "abi": "far Pascal; WORD arguments; native BYTE sound fields and WORD IRQ counter"
+      },
+      {
+        "unit_id": "th03-mainl-decoded-sound-measure",
+        "name": "SND_DELAY_UNTIL_MEASURE",
+        "source": "src/mainl/linked_game/sound_measure.cpp",
+        "object": "obj/th03/snd_dlym.obj",
+        "start": 54268,
+        "size": 49,
+        "segment": 3198,
+        "offset": 3100,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "1f7d5722d64f0a6f255e4c6c4de4a457b725c5fe8eddaf10ab42844441f9fff4",
+        "candidate_sha256": "1f7d5722d64f0a6f255e4c6c4de4a457b725c5fe8eddaf10ab42844441f9fff4",
+        "ordered_relocations": [],
+        "argument_bytes": 4,
+        "callee_pop_bytes": 4,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "producer_slot": {
+          "wrapper": "th03/snd_dlym.cpp",
+          "game": 3,
+          "binary": "L",
+          "first_binary": "mainl"
+        },
+        "abi": "far Pascal; WORD arguments; native BYTE sound fields and WORD IRQ counter"
+      }
+    ],
+    "functions": 6,
+    "code_bytes": 332,
+    "native_objects": [
+      {
+        "object": "obj/th02/snd_load.obj",
+        "fields": [
+          {
+            "offset": 85,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_midi_active",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 66,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_load_fn",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 62,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_load_fn",
+            "addend": 2,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 57,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_load_fn",
+            "addend": 1,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 52,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_load_fn",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 45,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_load_fn",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 35,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_midi_active",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 20,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_load_fn",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          }
+        ],
+        "record_sizes": [
+          112
+        ],
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      },
+      {
+        "object": "obj/th02/frmdely1.obj",
+        "fields": [
+          {
+            "offset": 10,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_vsync_Count1",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 5,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_vsync_Count1",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          }
+        ],
+        "record_sizes": [
+          21
+        ],
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      },
+      {
+        "object": "obj/th03/snd_se.obj",
+        "fields": [
+          {
+            "offset": 116,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 111,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 4,
+            "name": "_snd_se_frame",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 105,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 4,
+            "name": "_snd_se_frame",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 101,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 3,
+            "name": "_snd_se_priority_frames",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 93,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 90,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 4,
+            "name": "_snd_se_frame",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 84,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 76,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 4,
+            "name": "_snd_se_frame",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 69,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 62,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 5,
+            "name": "_snd_fm_possible",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 53,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 4,
+            "name": "_snd_se_frame",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 49,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 43,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_se_priorities",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 37,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_se_priorities",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 29,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 22,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 15,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_se_playing",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 8,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 5,
+            "name": "_snd_fm_possible",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          }
+        ],
+        "record_sizes": [
+          120
+        ],
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      },
+      {
+        "object": "obj/th03/snd_kaja.obj",
+        "fields": [
+          {
+            "offset": 15,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_midi_active",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 5,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_active",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          }
+        ],
+        "record_sizes": [
+          30
+        ],
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      },
+      {
+        "object": "obj/th03/snd_dlym.obj",
+        "fields": [
+          {
+            "offset": 26,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 3,
+            "name": "_snd_midi_active",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          },
+          {
+            "offset": 14,
+            "width": 4,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 1,
+            "name": "@FRAME_DELAY$QI",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": true
+          },
+          {
+            "offset": 5,
+            "width": 2,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_active",
+            "addend": 0,
+            "normal_tlink_relaxed_far_call": false
+          }
+        ],
+        "record_sizes": [
+          49
+        ],
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      }
+    ],
+    "ordered_relocations": [],
+    "normal_tlink_relaxed_calls": 1,
+    "private_data_bytes": 0,
+    "private_bss_bytes": 0,
+    "reviewed_initialized_dependency_bytes": 69,
+    "initialized_dependencies": [
+      {
+        "offset": 2176,
+        "size": 1,
+        "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+      },
+      {
+        "offset": 2188,
+        "size": 2,
+        "sha256": "ea5dbf9596d187e9500f23e9a680109475341cf4e81f7e043f7d97152c10772f"
+      },
+      {
+        "offset": 2198,
+        "size": 66,
+        "sha256": "d09b562db9fa5c13ee1faf576e792014ee88a7f8ec1709e2220a30d2442aabc8"
+      }
+    ],
+    "external_mutable_storage": {
+      "filename_buffer_bytes": 13,
+      "priority_entries": 33,
+      "duration_entries": 33,
+      "IRQ_counter_bytes": 2
+    },
+    "adjacent_explicit_padding_accepted": false,
+    "whole_product_accepted": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 6,
+    "code_bytes": 332,
+    "cases_per_image": 42742,
+    "executed_owner_bytes": 332,
+    "exhaustive_byte_states": 256,
+    "legitimate_SE_entries": 33,
+    "filename_copy_bytes": 13,
+    "file_read_request_bytes": 20480,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 21371,
+        "cases_by_function": {
+          "load": 691,
+          "frame_delay": 28,
+          "play": 8885,
+          "update": 10628,
+          "kaja": 560,
+          "measure": 579
+        },
+        "covered_owner_bytes": 332,
+        "maximum_observed_stack_depth": 10,
+        "maximum_driver_calls": 3,
+        "maximum_counter_updates": 3,
+        "trace_sha256": "1936d91061503cb0b5cc1d2d11c347bbe00db739848ed2e0db8ade2372540649"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 21371,
+        "cases_by_function": {
+          "load": 691,
+          "frame_delay": 28,
+          "play": 8885,
+          "update": 10628,
+          "kaja": 560,
+          "measure": 579
+        },
+        "covered_owner_bytes": 332,
+        "maximum_observed_stack_depth": 10,
+        "maximum_driver_calls": 3,
+        "maximum_counter_updates": 3,
+        "trace_sha256": "ed8f2bd116fd45abbd87aa62862bcb7f6d3ac554e19d05f0a7e2c0ce4eacd713"
+      }
+    ],
+    "scope": "real six maintained bodies and nested frame delay; bounded DOS/PMD/MMD and finite counter-update replies, no physical IRQ/timing/audio or unbounded lifetime claim"
+  },
+  "negative_controls": {
+    "count": 33,
+    "rejected": [
+      "load-copies-all-thirteen-bytes",
+      "load-input-far-pointer",
+      "MIDI-only-song-function",
+      "suffix-scan-skips-byte-zero",
+      "suffix-characters-are-md",
+      "load-MIDI-tests-nonzero",
+      "open-error-does-not-change-handle-copy",
+      "read-request-is-5000h",
+      "DS-restored-before-close",
+      "close-preserves-read-AL",
+      "load-cdecl-arguments-remain",
+      "play-loads-WORD-argument",
+      "SE-active-field-is-FM-possible",
+      "idle-first-SE-keeps-stale-frame",
+      "full-WORD-priority-index",
+      "priority-comparison-is-unsigned",
+      "equal-priority-restarts-frame",
+      "play-Pascal-two-byte-pop",
+      "SE-driver-is-PMD",
+      "SE-driver-command-is-0C",
+      "frame-increment-is-BYTE",
+      "duration-comparison-is-unsigned",
+      "expired-SE-is-FF",
+      "inactive-KAJA-keeps-incoming-AX",
+      "KAJA-MIDI-is-exactly-one",
+      "counter-reset-is-WORD",
+      "counter-bound-is-unsigned",
+      "delay-far-Pascal-pop",
+      "measure-no-BGM-argument-order",
+      "measure-query-command-is-05",
+      "MMD-four-quarter-ticks",
+      "measure-bound-is-unsigned",
+      "measure-Pascal-four-byte-pop"
+    ]
+  },
+  "source_acceptance": false,
+  "publication": "config/mainl_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false
+}

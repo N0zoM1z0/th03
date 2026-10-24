@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `a748bfe` (ZUN driver lifecycle source scopes).
+- Previous pushed checkpoint: `470f8e0` (OP attract wait source scope).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -115,9 +115,9 @@ remain in [README.md](../README.md).
   The complete 67,372-byte decoded EXE and all 677 ordered relocations match;
   both DIET `-B` packs equal the canonical 37,975-byte stored target. This remains
   a complete-byte build observation with explicit reference/vendor context; the
-  fifteen scoped owners below have independent current source acceptance.
+  twenty-one scoped owners below have independent current source acceptance.
   See `config/mainl_work/observation.json`.
-- MAINL has **fifteen accepted decoded source functions / 703 bytes**. Its
+- MAINL has **twenty-one accepted decoded source functions / 1,035 bytes**. Its
   four lifecycle owners / 210 bytes are plane setup, cleanup, initialization and return to MAIN. Their actual first-use
   slots remain GAME1/O, GAME3/O, GAME3/M and GAME3/L. Complete native objects,
   both OMF/MAP public tables, zero private DATA/BSS and nineteen literal ordered
@@ -170,8 +170,36 @@ remain in [README.md](../README.md).
   inherited IF/DF, a 20-byte observed stack and full physical memory are checked.
   Sound and input/IRQ responses remain bounded interfaces. The normal input
   review now binds these full witnesses and runs five short cases per image.
-  MAINL totals 15 functions / 703 CODE bytes, 10,396 model cases per image and
+  Before the sound scopes below, MAINL covers 15 functions / 703 CODE bytes, 10,396 model cases per image and
   52 guest mutants; canonical file-backed and whole-product credit stay open.
+- MAINL also accepts **six sound/timing functions / 332 CODE bytes**: load,
+  frame delay, SE play/update, KAJA routing and measure wait. Five complete TC4
+  objects have zero private DATA/BSS, 33 literal fields and empty MZ relocation
+  vectors. The actual first-use slots remain GAME2/O, GAME3/M, GAME3/O and
+  GAME3/L. One genuine same-CS far call relaxes naturally through TLINK;
+  adjacent explicit codestring padding is unaccepted. Sixty-nine initialized
+  external DATA bytes are reviewed context. The fresh 938-output cold pair
+  and complete decoded/stored files repeat. At two loads, 42,742 cases per image
+  execute all 332 bytes; 33 real instruction mutations fail. Actual frame-delay
+  instructions execute under a finite counter-update interface, without physical
+  IRQ/timing claims. Keep signed-source parameters' unsigned WORD comparisons,
+  measure-zero's first query and MMD's hardcoded 192 ticks. KAJA/measure test MIDI
+  BYTE exactly one; load tests nonzero. Inactive KAJA returns incoming AX.
+  SE's first idle selection preserves a stale frame; equal priority restarts,
+  BYTE frame wrap does not expire, and full-WORD priority indexing remains
+  unchecked. Load copies 13 far bytes, scans suffix from index one, preserves
+  overflow beyond the 13-byte buffer and continues after open failure. Read
+  requests 5000h; restore DS before close while retaining read AL. Returning
+  registers/flags/high halves, all frames, 10-byte peak stack and full memory
+  outside 32 stack bytes pass. DOS/drivers/counter updates remain bounded.
+  MAINL totals **21 functions / 1,035 CODE bytes**, 25 ordered MZ relocations,
+  53,138 model cases per image and 85 mutations. Source-present bytes, canonical
+  credit and whole-product ownership are unchanged. Run
+  `review_th03_mainl_sound_work.py`, the shared-input review, then publishers.
+  Keep each unit's historical source-presence replay command and the candidate
+  intake's current evidence union; current source review commands live in the
+  new observation/publication and notes. Existing evidence snapshots stay fixed.
+
 - ZUN now has a complete live cold build: 110 source inputs plus explicit vendor
   `MASTERS.LIB` and the -1 payload. All 23 raw OBJ/COM/MAP/composition/packed outputs
   repeat. All five payloads and the entire 22,812-byte decoded launcher match;
@@ -389,10 +417,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,976 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 5m24s at about 450 MiB peak RSS, no swap. OP's latest SDK-guarded cold
-  pair plus cfg/dispatch/attract reviews took 4m12s at 147 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
-  checks. The separate shared input/ending wait review took 1m50s at about 148 MiB. The last MAIN
+- Last full CI: PASS, 1,991 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 5m23s at about 473 MiB peak RSS, no swap. OP's latest SDK-guarded cold
+  pair plus cfg/dispatch/attract reviews took 4m12s at 147 MiB; MAINL's cold pair plus sound/timing review took 4m41s at 158 MiB with lifecycle/SDK
+  checks. The separate shared input/ending wait review took 2m08s at about 141 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
   at 45 MiB. The latest complete ZUN cold/formatter/graphics/lifecycle chain, including
@@ -432,9 +460,12 @@ ABI and byte credit are recorded separately in the ledgers.
    The shared input review is a current, separate witness bound to both cold
    reports. Replay it after new builds. Ending-specific input waits and OP configuration loading/saving also pass.
    OP demo/score dispatch also passes; its source ledger refines the old screen
-   span without adding source bytes. Remaining OP story/VS/attract/menu/resource
+   span without adding source bytes. Remaining OP story/VS/menu/resource
    and MAINL resource/ending producers are next
-   bounded source/behavior questions. OP's 105-byte attract wait at entry offset
+   bounded source/behavior questions. MAINL's six sound/timing scopes now pass;
+   mode/PMD/volume/reset still need natural layout proof for their explicit NOPs.
+   Shared load/frame-delay source is also present in OP; review its separate
+   native layout and compose actual delays before extending OP acceptance. OP's 105-byte attract wait at entry offset
    0516 now passes current gates with actual input/demo helpers. Story/VS/choice
    rendering in the remaining 821-byte screen partition is still open. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
@@ -505,7 +536,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
 .venv/bin/python scripts/review_th03_op_attract_work.py
-.venv/bin/python scripts/build_th03_mainl_work.py
+.venv/bin/python scripts/review_th03_mainl_sound_work.py
 .venv/bin/python scripts/review_th03_shared_input_work.py
 .venv/bin/python scripts/publish_th03_op_work_scopes.py
 .venv/bin/python scripts/publish_th03_mainl_work_scopes.py

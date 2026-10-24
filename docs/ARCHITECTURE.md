@@ -72,6 +72,19 @@ producer. They execute the owned input interface: its AX result replaces the
 sound query result before the unsigned measure comparison. Frame waits use
 an unsigned IRQ counter and preserve their distinct far Pascal cleanup sizes.
 
+Six MAINL sound/timing procedures own 332 CODE bytes in five whole producers.
+Native ownership checks 33 fields, a genuine TLINK same-CS call relaxation and
+empty MZ relocation vectors. Source first-use slots remain GAME2/O for shared
+load/delay, GAME3/M for SE, GAME3/O for KAJA and GAME3/L for measure wait.
+Global sound tables/state, filename scratch and IRQ counter remain external
+storage; 69 initialized dependency bytes gain no DATA credit. Keep BYTE frame
+wrap and full-WORD priority indexing, fixed 13-byte far filename reads, unchecked
+suffix extension, file-error continuation and DS restoration before close.
+Loader MIDI uses nonzero; KAJA/measure use exactly one. Actual frame_delay runs
+inside the no-BGM measure path. Finite counter updates and DOS/driver replies
+bound these contracts; physical timing/audio and adjacent explicit padding
+remain unproved.
+
 OP's three near cfg functions own 271 CODE bytes inside the larger entry TU.
 Containing menu CODE/DATA/BSS stays context; the flag, zero template and filename
 are separately reviewed dependencies. `review_th03_op_cfg_work.py` guards the
