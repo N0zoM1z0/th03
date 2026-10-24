@@ -21,7 +21,7 @@ print_buffer		= byte ptr -0D0h
 		push	dx
 		push	ss
 		pop	ds
-		assume ds:_TEXT
+		assume ds:DGROUP
 		lea	dx, [bp+print_buffer]
 		call	sprite16_print_string
 		pop	dx

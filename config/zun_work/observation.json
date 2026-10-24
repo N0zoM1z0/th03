@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T14:10:35.757520Z",
+  "observed_utc": "2026-10-24T15:00:07.027406Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 110,
@@ -18,7 +18,7 @@
       "ownership": "unowned -1 vendor payload"
     }
   ],
-  "source_inventory_sha256": "be1e58bf0d3b1a430b9a3c7d60e1c1c684ebc12c426d0b2fc67d5e2c0d2fec86",
+  "source_inventory_sha256": "869b889ab5e07bc9fb82c722da098ee9c7f599f38d4ae487a293c334e81f9d1d",
   "maintained_inputs": {
     "compat/rec98/libs/master.lib/master.hpp": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
     "compat/rec98/libs/master.lib/pc98_gfx.hpp": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
@@ -32,11 +32,11 @@
     "compat/rec98/th03/formats/cfg.hpp": "b4b5c7bc507289b4ca7721b013d1c6e7f00c2d46331bb72e1694640263120487",
     "compat/rec98/th03/resident.hpp": "a0b051bae0d91f8d2c557e1832d33eb5c46cbef89a8c8f4eda63964893402e76",
     "src/zun/cfg_init.inl": "545f362bbc26b60c9b80f778913061a48b1587902918c316cfab10a156176d73",
-    "src/zun/driver.asm": "895751c4e7398a581f10c03ced0462fc1cc404b7fdda4a459cdc4eafc2e56c85",
+    "src/zun/driver.asm": "5165e7eb5a910382668f6af2bba2b58e16929640f6e52f2077a143064a179c91",
     "src/zun/driver_command.inl": "9a49039df84a1c4bde277687b1a35dfd5a9f558a4cd20ff4c46a870b1fa593fc",
     "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
-    "src/zun/driver_format.inl": "1ee883086ae9045f451e57d9da5ff74ccf6f25980d8228bed2885087cfb94d5e",
-    "src/zun/driver_graphics.inl": "173dbbb12f3d8e2eb25f417acf5ef194551eff4296592878e5cb15104e271ebc",
+    "src/zun/driver_format.inl": "746f0568d7aa8cfab508043a69697dbd468e535ebb6ebc16b2ee37ecd9a6a38a",
+    "src/zun/driver_graphics.inl": "b560e3370fb667606e099e2da48cad4447f884f1ddb7ad989189017709837549",
     "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
     "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
     "src/zun/driver_resident.inl": "258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa",
@@ -67,12 +67,12 @@
       "sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb"
     },
     "driver/driver.map": {
-      "bytes": 5085,
-      "sha256": "00543d5b843008c6dc0ad97c17c4216a0cd712c60b7e9db89ffffb69b38e5a00"
+      "bytes": 6053,
+      "sha256": "b45aa7e2a01af43817ab16938e993774cccfb6e930acc406cc8a6388d811d12c"
     },
     "driver/driver.obj": {
-      "bytes": 6608,
-      "sha256": "7a65b30e4f48f60333467c389ab16bbbec35c4b10816ce15979b78060b251560"
+      "bytes": 7148,
+      "sha256": "49c6250ebc6cfde9db72993f6bdb3c4b08a420f719063d28171ea0498a537d29"
     },
     "init/init.com": {
       "bytes": 1390,
@@ -218,12 +218,52 @@
       {
         "name": "_TEXT",
         "cls": "CODE",
-        "size": 4480
+        "size": 1302
       },
       {
         "name": "_DATA",
         "cls": "DATA",
         "size": 0
+      },
+      {
+        "name": "SPR_MASK",
+        "cls": "CODE",
+        "size": 273
+      },
+      {
+        "name": "SPR_PRINT",
+        "cls": "CODE",
+        "size": 101
+      },
+      {
+        "name": "SPR_FMT",
+        "cls": "CODE",
+        "size": 620
+      },
+      {
+        "name": "SPR_CMD",
+        "cls": "CODE",
+        "size": 361
+      },
+      {
+        "name": "SPR_NUM",
+        "cls": "CODE",
+        "size": 310
+      },
+      {
+        "name": "SPR_EGC",
+        "cls": "CODE",
+        "size": 108
+      },
+      {
+        "name": "SPR_STR",
+        "cls": "CODE",
+        "size": 54
+      },
+      {
+        "name": "SPR_DATA",
+        "cls": "CODE",
+        "size": 1280
       }
     ],
     "groups": [
@@ -231,7 +271,15 @@
         "name": "DGROUP",
         "members": [
           1,
-          2
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
         ]
       }
     ],
@@ -295,8 +343,69 @@
     },
     "use16": true,
     "word_alignment": true,
-    "omf_records": 29,
-    "map_public_tables": 2
+    "omf_records": 55,
+    "layout_profile": "native-paragraph-contributions",
+    "segment_attributes": [
+      72,
+      72,
+      104,
+      104,
+      104,
+      104,
+      104,
+      104,
+      104,
+      104
+    ],
+    "segment_starts": {
+      "1": 0,
+      "2": 4480,
+      "3": 1312,
+      "4": 1600,
+      "5": 1712,
+      "6": 2336,
+      "7": 2704,
+      "8": 3024,
+      "9": 3136,
+      "10": 3200
+    },
+    "map_public_tables": 2,
+    "alignment_gaps": [
+      [
+        1302,
+        1312
+      ],
+      [
+        1585,
+        1600
+      ],
+      [
+        1701,
+        1712
+      ],
+      [
+        2332,
+        2336
+      ],
+      [
+        2697,
+        2704
+      ],
+      [
+        3014,
+        3024
+      ],
+      [
+        3132,
+        3136
+      ],
+      [
+        3190,
+        3200
+      ]
+    ],
+    "linker_zero_bytes": 71,
+    "explicit_gap_fillers": 0
   },
   "wrapper_runtime": {
     "cases_per_image": 7,
@@ -316,24 +425,26 @@
     "Borland C0T.OBJ, EMU.LIB, MATHS.LIB, CT.LIB and include declarations"
   ],
   "implementation_sha256": {
-    "scripts/build_th03_zun_work.py": "925c7d3efaeff52a2f91b31d1faf1f193021dd8bbf4b63071f60f2916aca6d67",
+    "scripts/build_th03_zun_work.py": "98d44d0507ae78beadf6a1e7e043da89ca7cf39c19a552fb70c718f923169d0a",
     "scripts/lib/zun_work_source.py": "06672c674d5d9461e1ff25e5402ed9ef5282b38ba66e8d273bf87b31f7a68aa9",
     "config/th03_zun_work.toml": "4a32e3d0317a8284a2b48f501810d1d500646cd39ce9b7b6324c80f6c66deeed",
     "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
-    "scripts/lib/zun_driver_layout.py": "f8659c81f28e6398b4a1df61e300aaf1269e3a1715c6823562fca42f20ee3ad3",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
     "scripts/stage_th03_zunsoft.py": "03e7119f51bccc52738abff7a02af8e1b1b1871402a5805dbc3cf1d0e6bd4c3f",
     "scripts/lib/zun_logo_layout.py": "3e2897277a8b6e1881f85721422ff4d317e2fa66cde66bbbb3d4791b6a247f78",
     "scripts/lib/zun_logo_runtime.py": "45375eb28b5a71d10011af9c2bbca85606dfbdb3105dfba6eb523849dfaf8442",
-    "scripts/lib/decoded_zun_acceptance.py": "5dca2a1d0d8c0c6e05f76cb96dc01530a0c18fe306051430e68c62fb69cb243a",
+    "scripts/lib/decoded_zun_acceptance.py": "41fe93b5c7d234629316028f043275abf2838bbd014724357fb8908b255deda9",
     "scripts/publish_th03_zun_work_scopes.py": "615a042dc29dd973c8ec541171ca417ad51a55fde679704ebdddfbac78db58e1",
     "scripts/lib/zun_resident_layout.py": "09122259a95f0dfb984110f4ff9d501ebccf722d73222371c07e3b1233c66ea3",
     "scripts/lib/zun_resident_runtime.py": "4dc04558c5ae646229d04e0fb96b103b4cf6197414d9fa280fc93089a12eae18",
     "scripts/lib/zun_init_layout.py": "858bed267cfa5b13f14d36bf401edc845cc2fa592890cba1b4e43fa8f147aca3",
     "scripts/lib/zun_init_runtime.py": "b3c016bfc5eb1fd97f94aaeb5980ff0c613861813ba1f3b5a7d3db400b03bf78",
-    "scripts/lib/zun_driver_scalar_layout.py": "dc09b33923e8992033c25081c429c9b07b993327945d8b1b324801c752b343cc",
-    "scripts/lib/zun_driver_scalar_runtime.py": "135e86482e6a1f30cb1225ae1193d89ffed5767539c82c996b551125a9b0418d"
+    "scripts/lib/zun_driver_scalar_layout.py": "53fb780c49959068b8ed6069e541bc92c18ea54916ed02f27a2b5593323fbc66",
+    "scripts/lib/zun_driver_scalar_runtime.py": "135e86482e6a1f30cb1225ae1193d89ffed5767539c82c996b551125a9b0418d",
+    "scripts/lib/zun_driver_alignment.py": "dbad572641e4d52efabc5fa70a7f71c78b00bec2184e7bcc6916b83ff77b46ea",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30"
   },
-  "builder_sha256": "925c7d3efaeff52a2f91b31d1faf1f193021dd8bbf4b63071f60f2916aca6d67",
+  "builder_sha256": "98d44d0507ae78beadf6a1e7e043da89ca7cf39c19a552fb70c718f923169d0a",
   "scoped_source_acceptance": {
     "publication": "config/zun_work/scoped_acceptance.json",
     "decoded_code_bytes": 2656,
@@ -432,8 +543,8 @@
       "code_bytes": 428,
       "private_data_bytes": 0,
       "private_bss_bytes": 0,
-      "ordered_scoped_native_fixups": 8,
-      "ordered_producer_fixups": 152,
+      "ordered_scoped_native_fixups": 16,
+      "ordered_producer_fixups": 206,
       "runtime_cases_per_image": 8428,
       "actual_guest_mutations_rejected": 14,
       "native_code_bytes_executed": 428,
@@ -441,7 +552,47 @@
       "enclosing_driver_accepted": false,
       "reserved_spans_owned": false,
       "original_assembler_identified": false,
-      "newly_authored_bytes": 0
+      "newly_authored_bytes": 0,
+      "scoped_absolute_fixups": 8,
+      "scoped_relative_fixups": 8,
+      "producer_self_relative_fixups": 54,
+      "natural_code_contributions": 9,
+      "linker_alignment_bytes": 71,
+      "explicit_intergroup_fillers": 0,
+      "native_word_boundary": true
     }
+  },
+  "driver_alignment_controls": {
+    "count": 2,
+    "controls": [
+      {
+        "name": "word",
+        "byte_exact_rejected": true,
+        "target_bytes": 4224,
+        "candidate_bytes": 4156,
+        "differing_bytes": 2716,
+        "changed_inputs": [
+          "driver.asm"
+        ],
+        "candidate_sha256": "fb85300c792d4e1346bd6651771e0cd36ddd9820682528f00248e80a78cb965b",
+        "object_sha256": "8bc2e6fe3e412929820766f40e2f35471bf4b860814fdce7bb33ecfb232a7239",
+        "all_procedure_includes_unchanged": true
+      },
+      {
+        "name": "no-even",
+        "byte_exact_rejected": true,
+        "target_bytes": 4224,
+        "candidate_bytes": 4224,
+        "differing_bytes": 33,
+        "changed_inputs": [
+          "driver.asm"
+        ],
+        "candidate_sha256": "92aafb4164c931619370bb59d61fe6113b443533e8e02da823e82920e9bdce37",
+        "object_sha256": "eb619d6e38c4681d5e69bc0fce4970e237fc923c31d958222e3d9bd1a28d2bf6",
+        "all_procedure_includes_unchanged": true
+      }
+    ],
+    "source_only": true,
+    "object_patches": false
   }
 }

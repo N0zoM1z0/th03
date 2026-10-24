@@ -19,7 +19,8 @@ class StandaloneDriverTests(unittest.TestCase):
    self.assertTrue(result['complete_driver_source_owned']);self.assertEqual(result['retained_source_inputs'],[])
    self.assertEqual(result['native_invocations'],0);self.assertFalse(result['exact_acceptance'])
    self.assertEqual(len(result['inputs']),10)
-   self.assertEqual(result['maintained_nonprocedure_bytes'],1380)
+   self.assertEqual(result['maintained_nonprocedure_bytes'],1309)
+   self.assertEqual(result['linker_alignment_bytes'],71)
    self.assertNotIn(b'_reference',(out/'driver.asm').read_bytes())
    with self.assertRaises(FileExistsError):s.stage(out,root)
  def test_missing_duplicate_or_foreign_include_rejected(self):
@@ -49,11 +50,14 @@ class StandaloneDriverTests(unittest.TestCase):
                   'sprite16_interrupt_number\tdb 42h','sprite16_mono_color\tdw 0Fh','sprite16_rop\tdw 28FCh'):
    self.assertIn(literal,text)
   self.assertEqual(text.count('dw offset '),17)
- def test_reserved_layout_is_explicit_not_fitted(self):
+ def test_native_paragraph_contributions_replace_reserved_fillers(self):
   text=inputs()[s.LAYOUT].decode();counts=[int(n) for n in re.findall(r'^layout_reserved_\w+ db (\d+) dup\(0\)$',text,re.M)]
-  self.assertEqual(sum(counts),71)
+  self.assertEqual(counts,[])
+  self.assertEqual(text.count(" segment para public 'CODE' use16"),16)
+  self.assertIn('DGROUP group SPR_MASK,SPR_PRINT,SPR_FMT,SPR_CMD,SPR_NUM,SPR_EGC,SPR_STR,SPR_DATA',text)
   self.assertIn("sprite16_hex_digits db '0123456789ABCDEF'",text)
-  self.assertEqual(len(re.findall(r'^nop$',text,re.M)),1)
+  self.assertEqual(len(re.findall(r'^nop$',text,re.M)),0)
+  self.assertEqual(len(re.findall(r'^even$',text,re.M)),1)
   self.assertNotRegex(text.lower(),r'(?m)^\s*(align|incbin)\b')
  def test_hardware_order_and_subset(self):
   text=inputs()[s.HARDWARE].decode()

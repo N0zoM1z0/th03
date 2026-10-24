@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-driver-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T05:26:43.875706Z",
+  "observed_utc": "2026-10-24T15:00:07.027406Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_driver_work.py",
   "artifact": "th03-zun",
   "scope": "complete decoded -4 payload",
@@ -8,13 +8,13 @@
   "canonical_file_offset": null,
   "provenance": "candidate-local-attested",
   "source_files": 59,
-  "source_inventory_sha256": "f91adac49a79622e217ed39f47bc75bacd0835e2d666fae4e630e8809b096e46",
+  "source_inventory_sha256": "ad630d5cf7279607585670bd90bc05fb33131db7304044fd6670e40a14c1e740",
   "maintained_inputs": {
-    "src/zun/driver.asm": "895751c4e7398a581f10c03ced0462fc1cc404b7fdda4a459cdc4eafc2e56c85",
+    "src/zun/driver.asm": "5165e7eb5a910382668f6af2bba2b58e16929640f6e52f2077a143064a179c91",
     "src/zun/driver_command.inl": "9a49039df84a1c4bde277687b1a35dfd5a9f558a4cd20ff4c46a870b1fa593fc",
     "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
-    "src/zun/driver_format.inl": "1ee883086ae9045f451e57d9da5ff74ccf6f25980d8228bed2885087cfb94d5e",
-    "src/zun/driver_graphics.inl": "173dbbb12f3d8e2eb25f417acf5ef194551eff4296592878e5cb15104e271ebc",
+    "src/zun/driver_format.inl": "746f0568d7aa8cfab508043a69697dbd468e535ebb6ebc16b2ee37ecd9a6a38a",
+    "src/zun/driver_graphics.inl": "b560e3370fb667606e099e2da48cad4447f884f1ddb7ad989189017709837549",
     "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
     "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
     "src/zun/driver_resident.inl": "258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa",
@@ -28,16 +28,16 @@
   "raw_repeat_equal": true,
   "outputs": {
     "driver.obj": {
-      "bytes": 6608,
-      "sha256": "7a65b30e4f48f60333467c389ab16bbbec35c4b10816ce15979b78060b251560"
+      "bytes": 7148,
+      "sha256": "49c6250ebc6cfde9db72993f6bdb3c4b08a420f719063d28171ea0498a537d29"
     },
     "driver.com": {
       "bytes": 4224,
       "sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb"
     },
     "driver.map": {
-      "bytes": 5085,
-      "sha256": "00543d5b843008c6dc0ad97c17c4216a0cd712c60b7e9db89ffffb69b38e5a00"
+      "bytes": 6053,
+      "sha256": "b45aa7e2a01af43817ab16938e993774cccfb6e930acc406cc8a6388d811d12c"
     }
   },
   "layout": {
@@ -45,12 +45,52 @@
       {
         "name": "_TEXT",
         "cls": "CODE",
-        "size": 4480
+        "size": 1302
       },
       {
         "name": "_DATA",
         "cls": "DATA",
         "size": 0
+      },
+      {
+        "name": "SPR_MASK",
+        "cls": "CODE",
+        "size": 273
+      },
+      {
+        "name": "SPR_PRINT",
+        "cls": "CODE",
+        "size": 101
+      },
+      {
+        "name": "SPR_FMT",
+        "cls": "CODE",
+        "size": 620
+      },
+      {
+        "name": "SPR_CMD",
+        "cls": "CODE",
+        "size": 361
+      },
+      {
+        "name": "SPR_NUM",
+        "cls": "CODE",
+        "size": 310
+      },
+      {
+        "name": "SPR_EGC",
+        "cls": "CODE",
+        "size": 108
+      },
+      {
+        "name": "SPR_STR",
+        "cls": "CODE",
+        "size": 54
+      },
+      {
+        "name": "SPR_DATA",
+        "cls": "CODE",
+        "size": 1280
       }
     ],
     "groups": [
@@ -58,7 +98,15 @@
         "name": "DGROUP",
         "members": [
           1,
-          2
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
         ]
       }
     ],
@@ -122,8 +170,69 @@
     },
     "use16": true,
     "word_alignment": true,
-    "omf_records": 29,
-    "map_public_tables": 2
+    "omf_records": 55,
+    "layout_profile": "native-paragraph-contributions",
+    "segment_attributes": [
+      72,
+      72,
+      104,
+      104,
+      104,
+      104,
+      104,
+      104,
+      104,
+      104
+    ],
+    "segment_starts": {
+      "1": 0,
+      "2": 4480,
+      "3": 1312,
+      "4": 1600,
+      "5": 1712,
+      "6": 2336,
+      "7": 2704,
+      "8": 3024,
+      "9": 3136,
+      "10": 3200
+    },
+    "map_public_tables": 2,
+    "alignment_gaps": [
+      [
+        1302,
+        1312
+      ],
+      [
+        1585,
+        1600
+      ],
+      [
+        1701,
+        1712
+      ],
+      [
+        2332,
+        2336
+      ],
+      [
+        2697,
+        2704
+      ],
+      [
+        3014,
+        3024
+      ],
+      [
+        3132,
+        3136
+      ],
+      [
+        3190,
+        3200
+      ]
+    ],
+    "linker_zero_bytes": 71,
+    "explicit_gap_fillers": 0
   },
   "comparison": {
     "target_sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb",
@@ -168,9 +277,18 @@
   "implementation_sha256": {
     "scripts/build_th03_zun_driver_work.py": "508807e93372a83869727f66c11c087afdcd18dc824039c778a88d9bfa407301",
     "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
-    "scripts/stage_th03_zun_driver.py": "155e18910efd6d0d0536a62bd3cebad54f1bebdea57e9412fc12a1da755921fb",
-    "scripts/lib/zun_driver_layout.py": "f8659c81f28e6398b4a1df61e300aaf1269e3a1715c6823562fca42f20ee3ad3",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
     "scripts/bootstrap_jwasm.py": "f0fc156a22215bb0381a7b4f08cc60a2386650d28fad756e50a718df9952d430",
     "config/th03_zun_driver_jwasm.toml": "d85f241a771b4eeda669d4d67398352432978064f043e3b843fd68c7691c11c2"
+  },
+  "natural_layout": {
+    "code_contributions": 9,
+    "paragraph_gaps": 8,
+    "linker_zero_bytes": 71,
+    "explicit_intergroup_fillers": 0,
+    "native_even": true,
+    "unique_original_layout_proved": false,
+    "remaining_unreviewed_data_reserved_bytes": 12
   }
 }

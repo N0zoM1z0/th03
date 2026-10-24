@@ -78,7 +78,7 @@ def stage(output,root=ROOT):
  for name,raw in inputs.items():need(read(root/name)==raw,'input changed during stage')
  result=dict(kind='zun-driver-maintained-stage',inputs={n:sha(v) for n,v in inputs.items()},
   outputs={n:sha(v) for n,v in files.items()},maintained_procedures=55,
-  maintained_instruction_bytes=2844,maintained_nonprocedure_bytes=1380,
+  maintained_instruction_bytes=2844,maintained_nonprocedure_bytes=1309,linker_alignment_bytes=71,
   all_driver_procedures_owned=True,complete_driver_source_owned=True,
   retained_source_inputs=[],native_invocations=0,exact_acceptance=False,
   expected_target_differing_bytes=10)

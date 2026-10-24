@@ -22,6 +22,12 @@ The ZUN sprite16 driver also has a bounded compatible OMF producer pinned in
 are attested separately; the normal TLINK still links the resulting object.
 This does not identify the original assembler or change the base Borland tools.
 The syntax adapter preserves all maintained instruction and data includes.
+The driver uses one translation unit with nine CODE contributions in DGROUP.
+Root WORD/EVEN alignment and eight PARA contributions generate its 71 intergroup
+zero bytes through normal TLINK layout; no sized filler arrays supply them.
+This compatible organization preserves every linked byte and public address;
+the original source/object organization is unknown. Three plus nine reserved
+DATA bytes remain separate, unreviewed context.
 
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.

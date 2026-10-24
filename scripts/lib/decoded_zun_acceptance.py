@@ -219,6 +219,7 @@ def audit(root):
             "res_yume-compile", "res_yume-link", "driver-assemble", "driver-link", "wrapper-stub", "wrapper-stub-link",
             "wrapper-call", "wrapper-call-link", "wrapper-helper", "wrapper-helper-link", "pack", "roundtrip")]
     labels += ["restore-target"]
+    labels += ["control:" + name + "-" + phase for name in ("word", "no-even") for phase in ("assemble", "link")]
     need([p["label"] for p in report["native_phases"]] == labels and
          all(p["returncode"] == (1 if p["label"] == "restore-target" or p["label"].endswith((":pack", ":roundtrip")) else 0)
              for p in report["native_phases"]), "complete serial native execution schedule")
@@ -267,6 +268,11 @@ def audit(root):
     need(driver["layout"] == driver_layout(work, target_driver, candidate_driver, at, files, maintained),
          "complete driver scalar native ownership")
     driver_witness(driver)
+    controls = report["driver_alignment_controls"]
+    need(controls["count"] == 2 and controls["source_only"] and not controls["object_patches"]
+         and [c["name"] for c in controls["controls"]] == ["word", "no-even"]
+         and all(c["byte_exact_rejected"] and c["all_procedure_includes_unchanged"] and c["changed_inputs"] == ["driver.asm"]
+                 and c["target_bytes"] == 4224 and c["differing_bytes"] > 0 for c in controls["controls"]), "two actual native alignment controls")
     owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
@@ -294,6 +300,7 @@ def audit(root):
                 resident_payload_sha256=sha(target_resident),
                 init_payload_sha256=sha(target_init),
                 driver_payload_sha256=sha(target_driver),
+                driver_alignment_controls=controls,
                 scope=dict(owners=owners, layout=scope["layout"], runtime=scope["runtime"],
                            negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver), current_smoke=current_smoke,
                 resident_smoke=resident_smoke(target_resident, candidate_resident),

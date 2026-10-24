@@ -7,10 +7,9 @@ grants no ownership to graphics, interrupts, parser dispatch or private DATA.
 import hashlib
 import re
 
-from lib.omf import parse_omf
-from lib.zun_driver_layout import review
+from lib.zun_driver_layout import review, resolve_native
 from stage_th03_zun_driver import bodies, dos_text
-from verify_th03_zun_driver_hybrid import COMMAND_PROCS, SCATTERED_PROCS, NAMES, index
+from verify_th03_zun_driver_hybrid import COMMAND_PROCS, SCATTERED_PROCS, NAMES
 
 
 SOURCES = {**{n: "src/zun/driver_services.inl" for n in NAMES},
@@ -27,45 +26,7 @@ def need(value, message):
 
 
 def native_image(raw):
-    image, covered, fixups, blocks = bytearray(4224), set(), [], []
-    block = None
-    records = parse_omf(raw)
-    need(records[0].name == "THEADR" and records[0].data == b"\x0Adriver.asm"
-         and records[-1].name == "MODEND" and records[-1].data == bytes.fromhex("c11001010001"), "native module and COM entry")
-    need(all(r.name in {"THEADR", "LNAMES", "SEGDEF", "COMENT", "GRPDEF", "PUBDEF", "LEDATA", "FIXUPP", "FIXUPP32", "MODEND"}
-             for r in records), "complete reviewed native record types")
-    for rec in records:
-        d = rec.data
-        if rec.name == "LEDATA":
-            segment, pos = index(d, 0)
-            at = int.from_bytes(d[pos:pos + 2], "little"); data = d[pos + 2:]
-            need(segment == 1 and 0x100 <= at and at + len(data) <= 0x1180, "bounded native CODE records")
-            extent = set(range(at, at + len(data)))
-            need(not extent & covered, "nonoverlapping initialized native records")
-            covered.update(extent); image[at - 256:at - 256 + len(data)] = data
-            block = (at, len(data)); blocks.append([at, len(data)])
-        elif rec.name in ("FIXUPP", "FIXUPP32"):
-            need(block is not None, "native fixup follows initialized bytes")
-            pos = 0
-            while pos < len(d):
-                need(pos + 3 <= len(d), "complete native fixup")
-                loc, low, fd = d[pos:pos + 3]; pos += 3
-                width = 4 if rec.name == "FIXUPP32" else 2
-                need(loc & 0xC0 == 0xC0 and (loc >> 2 & 15) == (9 if width == 4 else 1)
-                     and fd in (0x14, 0x54), "literal segment-relative offset fixup")
-                frame = None
-                if fd == 0x14: frame, pos = index(d, pos)
-                target, pos = index(d, pos)
-                need(target == 1 and (frame is None or frame == 1), "natural CODE/DGROUP zero bases")
-                site = (loc & 3) * 256 + low
-                need(site + width <= block[1], "native fixup inside producing record")
-                address = block[0] + site
-                need(all(address + width <= f["address"] or f["address"] + f["width"] <= address for f in fixups), "nonoverlapping literal fixups")
-                fixups.append(dict(address=address, width=width, fixdat=fd, frame=frame, target=target,
-                                   resolved=int.from_bytes(image[address - 256:address - 256 + width], "little")))
-    need(covered == set(range(0x100, 0x1180)) and len(fixups) == 152, "complete native storage/fixup vector")
-    need(blocks == [[0x100, 1014], [0x4F6, 1014], [0x8EC, 1014], [0xCE2, 1014], [0x10D8, 168]], "complete ordered native records")
-    return bytes(image), fixups, blocks
+    return resolve_native(raw)
 
 
 def verify(work, target, candidate, payload_offset, files, maintained):
@@ -95,10 +56,14 @@ def verify(work, target, candidate, payload_offset, files, maintained):
             abi="near register interface; caller stack; numeric CF / folded-compare flags", ordered_relocations=[],
             ordered_native_fixups=owned_fixups, target_sha256=hashlib.sha256(raw).hexdigest(), candidate_sha256=hashlib.sha256(raw).hexdigest()))
     selected = [f for o in owners for f in o["ordered_native_fixups"]]
+    absolute = [f for f in selected if not f["self_relative"]]
+    relative = [f for f in selected if f["self_relative"]]
     expected = [(0x343 + i * 6, value) for i, value in enumerate((0x1064, 0x1066, 0x1068, 0x106E, 0x106A, 0x106C))]
     expected += [(0xBAA, 0x1170), (0xBB5, 0x1173)]
-    need([(f["address"], f["resolved"]) for f in selected] == expected and all(f["width"] == 2 for f in selected),
+    need([(f["address"], f["resolved"]) for f in absolute] == expected and all(f["width"] == 2 for f in selected),
          "eight literal ordered native state/string fixups")
+    need([(f["address"], f["target_address"]) for f in relative] == [(0xAC9, 0xC40), (0xAD1, 0x69D), (0xB29, 0x689), (0xB7B, 0xC40), (0xBAD, 0xC52), (0xBB8, 0xC52), (0xC59, 0x69D), (0xC61, 0x69D)], "eight literal cross-contribution near-call fixups")
+    need(physical["layout_profile"] == "native-paragraph-contributions" and physical["linker_zero_bytes"] == 71, "current natural driver layout")
     return dict(owners=owners, code_bytes=428, functions=16, private_data_bytes=0, private_bss_bytes=0,
                 native_layout=physical, native_records=blocks, ordered_native_fixups=fixups,
                 enclosing_driver_accepted=False, reserved_spans_owned=False, original_assembler_identified=False)

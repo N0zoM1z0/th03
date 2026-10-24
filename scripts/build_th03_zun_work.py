@@ -68,6 +68,7 @@ def recipe_inventory():
              "scripts/lib/zun_resident_runtime.py", "scripts/review_th03_zun_resident.py",
              "scripts/lib/zun_init_layout.py", "scripts/lib/zun_init_runtime.py", "scripts/review_th03_zun_init.py",
              "scripts/lib/zun_driver_scalar_layout.py", "scripts/lib/zun_driver_scalar_runtime.py",
+             "scripts/lib/zun_driver_alignment.py",
              "scripts/stage_th03_zun_driver.py", "scripts/verify_th03_zun_driver_hybrid.py",
              "config/th03_zun_init_fixups.json", "config/th03_zun_init_labels.json",
              "scripts/lib/zun.py", "scripts/lib/omf.py",
@@ -282,6 +283,9 @@ def build():
         target_driver = decoded[at:at + size]
         report["driver_scalar_scopes"] = dict(layout=scalar_layout(WORK, target_driver, payloads[3], at, files, maintained),
             runtime=scalar_runtime(target_driver, payloads[3]), negative_controls=scalar_controls(target_driver))
+        from lib.zun_driver_alignment import run as alignment_controls
+        report["driver_alignment_controls"] = alignment_controls(files, WORK.parent,
+            [str(ROOT / profile["binary_path"]), *profile["assembler_flags"]], dos + ["tlink", "@link.rsp"], execute, target_driver)
         need(recipe_inventory() == report["recipe_sha256"], "recipe changed during cold build")
         need(runtime_inventory() == report["consumed_runtime_sha256"], "consumed tiny runtime changed during cold build")
         need(sdk_inventory() == report["consumed_sdk_sha256"], "consumed SDK changed during cold build")

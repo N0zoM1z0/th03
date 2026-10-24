@@ -211,7 +211,7 @@ sprite16_prepare_vram		proc near
 		pop	es
 		assume es:nothing
 		pop	ds
-		assume ds:_TEXT
+		assume ds:DGROUP
 		retn
 sprite16_prepare_vram		endp
 
@@ -303,7 +303,7 @@ copy_page_next_word:
 		popa
 		pop	es
 		pop	ds
-		assume ds:_TEXT
+		assume ds:DGROUP
 		retn
 sprite16_copy_lower_page		endp
 
@@ -337,7 +337,7 @@ compress_next_row:
 		pop	es
 		assume es:nothing
 		pop	ds
-		assume ds:_TEXT
+		assume ds:DGROUP
 		retn
 sprite16_compress_rows		endp
 

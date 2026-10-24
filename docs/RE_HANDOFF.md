@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `ca148bf` (complete original-ASM ZUN init source scope).
+- Previous pushed checkpoint: `7967c8f` (bounded ZUN scalar library source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -129,8 +129,14 @@ remain in [README.md](../README.md).
   lifetime remain unproved. Publication binds all three full witnesses and
   executes 46 short ABI cases; canonical packed-file offsets remain absent.
 - ZUN -4 uses the separately pinned compatible JWasm OMF emitter and normal TLINK.
-  Its instruction/data/procedure includes are unchanged; staging only adapts
-  model declaration order, variadic macro spelling and include separators. The
+  Staging only adapts model declaration order, variadic macro spelling and
+  include separators. Nine native CODE contributions now share DGROUP: root
+  WORD plus eight PARA contributions. TLINK generates all eight intergroup gaps
+  (71 bytes) without source fillers; native EVEN emits the row-copy boundary
+  NOP. DS assumptions consistently describe DGROUP. All 55 procedure addresses
+  and the complete 4,224-byte driver remain unchanged. This proves a compatible
+  natural layout, not unique original organization. Native WORD and no-EVEN
+  controls fail equality (4,156 bytes / 2,716 differences; 4,224 / 33). The
   original assembler remains unknown. The standalone producer and its ten-byte
   TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
   The complete builder compiles the driver itself without consuming that tree.
@@ -139,10 +145,12 @@ remain in [README.md](../README.md).
   two string helpers. Private DATA/BSS ownership is zero; six CS state words
   and ON/OFF strings remain explicit external state. Actual maintained include
   slots, all 56 enclosing publics and both MAP tables pass. Complete native
-  image resolution checks 152 fixups (151 WORD, one DWORD) and five records;
-  the eight scoped literal fixups are checked separately. A moved fixup can
-  preserve all COM bytes because CODE/DGROUP bases are zero; the native-site
-  negative control rejects this case. Whole-driver ownership remains false.
+  image resolution checks 206 fixups (152 absolute, including one DWORD,
+  and 54 relative near calls) and eleven initialized records. Coverage is 4,153
+  bytes; the 71 linker bytes are absent from initialized OMF. Sixteen scoped
+  fixups (eight absolute / eight relative) are checked separately. Moving a
+  cross-contribution fixup changes resolved bytes and fails the native-site
+  control. Whole-driver ownership remains false.
   Independent actual guest execution passes 8,428 cases per image at two loads,
   covers all 428 bytes and rejects fourteen instruction mutations. All called
   helpers execute; there are no external service stubs. Full registers, near
@@ -152,7 +160,8 @@ remain in [README.md](../README.md).
   permissive hexadecimal punctuation, temporary H/B suffix writes and the empty
   input read at DS:[SI-1]. LODSB helpers require forward DF; folded comparison
   and decimal do not. The upstream SPRITE16 reference is IDA-generated from a
-  TH04 binary, not attested original source. Reserved zero spans and the other
+  TH04 binary, not attested original source. The remaining 3+9 DATA reserved
+  bytes and the other
   39 procedures / 2,416 CODE bytes remain unaccepted. Do not promote that context
   from complete-byte equality. Current ZUN acceptance is **29 extents / 37
   procedures / 2,656 CODE bytes**, with authored 1,621, library 428 and original
@@ -184,15 +193,14 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,859 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m05s at 396 MiB peak RSS, no swap. OP's latest cold
+- Last full CI: PASS, 1,865 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m36s at 390 MiB peak RSS, no swap. OP's latest cold
   pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
   3m10s at 83 MiB with lifecycle/SDK checks. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
-  pair plus TASM
-  control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
-  The complete ZUN cold pair with all four models took 2m21s at 168 MiB,
-  with no swap.
+  pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
+  at 45 MiB. The complete ZUN cold pair with all four models and two native
+  alignment controls took 2m17s at 199 MiB, with no swap.
 
 ## Maintained producers
 
@@ -225,13 +233,14 @@ ABI and byte credit are recorded separately in the ledgers.
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
-   Sixteen -4 scalar/library functions also pass current gates. Before promoting
-   the whole driver, probe natural multi-object paragraph contributions: all
-   eight zero gaps (0516..0520, 0631..0640, 06A5..06B0, 091C..0920,
-   0A89..0A90, 0BC6..0BD0, 0C3C..0C40, 0C76..0C80) exactly reach the next
-   16-byte boundary. Multiple native PARA contributions with normal TLINK zero
-   fill are a hypothesis, not established original layout. Do not replace these
-   with assembler ALIGN or fitted padding without a fresh native proof. Further
+   Sixteen -4 scalar/library functions also pass current gates. The eight
+   paragraph gaps now have native source/link proof in one ordinary TU with
+   nine CODE contributions; the complete cold pair and both alignment controls
+   are bound by current publication. Before whole-driver promotion, resolve the
+   remaining 3+9 DATA reserved bytes and 39 unaccepted procedures. A private
+   ON/OFF contribution probe could not change the tiny model's implicit _DATA
+   alignment to PARA (assembler A2078); this does not establish natural trailing
+   storage. Do not add an empty segment solely to force the target tail. Further
    source scopes are nine command/dispatch procedures, remaining formatter/
    resident/graphics families and maintained launcher/transfer units.
    Bind their current native ownership and

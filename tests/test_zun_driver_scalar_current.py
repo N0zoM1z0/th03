@@ -37,8 +37,9 @@ class CurrentDriverScalar(unittest.TestCase):
         result = verify(WORK, self.target, self.candidate, self.offset, self.files, self.maintained)
         self.assertEqual((result["functions"], result["code_bytes"]), (16, 428))
         self.assertEqual((result["private_data_bytes"], result["private_bss_bytes"]), (0, 0))
-        self.assertEqual(len(result["ordered_native_fixups"]), 152)
-        self.assertEqual(sum(len(o["ordered_native_fixups"]) for o in result["owners"]), 8)
+        self.assertEqual(len(result["ordered_native_fixups"]), 206)
+        self.assertEqual(sum(len(o["ordered_native_fixups"]) for o in result["owners"]), 16)
+        self.assertEqual(result["native_layout"]["linker_zero_bytes"], 71)
         self.assertFalse(result["enclosing_driver_accepted"])
         self.assertFalse(result["reserved_spans_owned"])
         self.assertEqual({o["origin"] for o in result["owners"]}, {"library"})
@@ -59,18 +60,18 @@ class CurrentDriverScalar(unittest.TestCase):
         changed = mutate_record(raw, lambda r: r.name == "THEADR", lambda d: d.replace(b"driver.asm", b"copied.asm"))
         with self.assertRaisesRegex(ValueError, "native module and COM entry"): native_image(changed)
 
-    def test_equal_com_bytes_cannot_hide_a_moved_native_fixup(self):
+    def test_moved_group_relative_fixup_cannot_inherit_target_bytes(self):
         with TemporaryDirectory() as name:
             work = Path(name); shutil.copytree(WORK / "driver", work / "driver")
             path = work / "driver/driver.obj"
-            # Shift the state operand's fixup by one byte. Zero CODE/DGROUP
-            # bases keep every linked byte equal; literal fixup sites must fail.
-            old, new = bytes.fromhex("c6435401"), bytes.fromhex("c6445401")
+            # The state now lives in a nonzero contribution: its real group
+            # offset must be resolved at the correct two-byte instruction field.
+            old, new = bytes.fromhex("c64314010a"), bytes.fromhex("c64414010a")
             changed = mutate_record(path.read_bytes(), lambda r: r.name == "FIXUPP" and old in r.data,
                                     lambda d: d.replace(old, new, 1))
-            self.assertEqual(native_image(changed)[0], self.candidate)
+            self.assertNotEqual(native_image(changed)[0], self.candidate)
             path.write_bytes(changed)
-            with self.assertRaisesRegex(ValueError, "eight literal ordered"):
+            with self.assertRaisesRegex(ValueError, "natural complete native COM equality"):
                 verify(work, self.target, self.candidate, self.offset, self.files, self.maintained)
 
     def test_setters_preserve_all_flags_and_use_cs_with_a_foreign_data_segment(self):
