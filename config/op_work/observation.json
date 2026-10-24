@@ -1,6 +1,6 @@
 {
   "schema": "th03-op-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T04:33:39.237494Z",
+  "observed_utc": "2026-10-24T11:14:04.086656Z",
   "command": ".venv/bin/python -B scripts/build_th03_op_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 330,
@@ -170,5 +170,16 @@
     "Frozen reference source from b6ba5b0a529edbb31efdf8c0e939263804f8ee47, including library/include carriers",
     "Vendor C0L.OBJ, EMU.LIB, MATHL.LIB and CL.LIB"
   ],
-  "builder_sha256": "7c5b901bb31c8a09bf0e53ebff130face3e64bed9a70c27817ff45dc49269cd8"
+  "builder_sha256": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+  "scoped_source_acceptance": {
+    "publication": "config/op_work/scoped_acceptance.json",
+    "decoded_functions": 3,
+    "decoded_bytes": 133,
+    "ordered_relocations": 11,
+    "runtime_cases_per_image": 288,
+    "runtime_images": 2,
+    "actual_guest_mutations_rejected": 9,
+    "canonical_unit_credit_changed": false,
+    "whole_product_ownership": false
+  }
 }

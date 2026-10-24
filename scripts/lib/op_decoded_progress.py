@@ -24,16 +24,19 @@ def read_publication(root):
     No persisted cache: a new invocation rechecks all publication bindings.
     """
     root = Path(root)
-    if not (root / PUBLICATION).is_file():
+    current = root / 'config/op_work/scoped_acceptance.json'
+    if not current.is_file() and not (root / PUBLICATION).is_file():
         return unavailable('publication missing')
     if importlib.util.find_spec('capstone') is None:
         python = root / '.venv/bin/python'
         if not python.is_file():
             return unavailable('verification unavailable: Capstone missing and no repository Python')
         try:
+            verifier = ("from lib.op_decoded_progress import read_publication as load_status; "
+                        if current.is_file() else "from lib.op_decoded_acceptance import load_status; ")
             run = subprocess.run([str(python), '-B', '-c',
                 "import json,sys; from pathlib import Path; sys.path.insert(0,'scripts'); "
-                "from lib.op_decoded_acceptance import load_status; "
+                + verifier +
                 "print(json.dumps(load_status(Path.cwd())))"],
                 cwd=root, capture_output=True, text=True, timeout=120, check=True)
             result = json.loads(run.stdout)
@@ -41,6 +44,12 @@ def read_publication(root):
             return result
         except Exception as exc:
             return unavailable('verification unavailable: repository Python fallback failed: ' + str(exc))
+    if current.is_file():
+        try:
+            from lib.op_work_acceptance import verify
+            return verify(root, json.loads(current.read_bytes()))
+        except Exception as exc:
+            return unavailable('current source acceptance invalid: ' + str(exc))
     try:
         from lib.op_decoded_acceptance import load_status
         return load_status(root)
@@ -67,16 +76,21 @@ def op_decoded_status(root, units):
     result = read_publication(root)
     accepted = result.get('decoded_exact_unit_ids', [])
     try:
+        current_scopes = result.get('current_cold_source_scopes') is True
+        expected_count, expected_bytes = (3, 133) if current_scopes else (33, 9530)
         valid = (result.get('reviewed_proof_ready') is True
                  and result.get('product_exact') is False
                  and result.get('factory_accepted') is False
                  and result.get('canonical_credit_changed') is False
                  and result.get('whole_game_percentage') is None
                  and result.get('mixed_physical_exact_bytes') == 0
-                 and result.get('decoded_exact_units') == 33
-                 and result.get('decoded_authored_bytes') == 9530
-                 and len(accepted) == len(set(accepted)) == 33
+                 and result.get('decoded_exact_units') == expected_count
+                 and result.get('decoded_authored_bytes') == expected_bytes
+                 and len(accepted) == len(set(accepted)) == expected_count
                  and len(ids) == len(set(ids)) and set(accepted) <= set(ids))
+        if current_scopes:
+            from lib.op_exit_layout import OWNERS
+            valid = valid and set(accepted) == {o[0] for o in OWNERS}
         if not valid:
             return dict(unavailable(result.get('reason', 'publication or caller inventory invalid')),
                         tracked_decoded_extents=len(ids))
@@ -88,6 +102,11 @@ def op_decoded_status(root, units):
 
 def decoded_summary(status):
     if status['decoded_accepted']:
+        if status.get('current_cold_source_scopes'):
+            return (f"OP current decoded source acceptance: {status['decoded_exact_units']} functions / "
+                    f"{status['decoded_authored_bytes']:,} bytes. Fresh source-only cold pair, native ownership/ABI "
+                    "and bounded instruction models pass. Canonical packed-file unit credit and whole-product "
+                    "source exactness remain unchanged; whole-game percentage is unknown.")
         return (f"OP repository-local decoded acceptance is published: "
                 f"{status['decoded_exact_units']}/{status['tracked_decoded_extents']} tracked decoded extents, "
                 f"{status['decoded_authored_bytes']:,} scoped decoded bytes. "

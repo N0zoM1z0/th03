@@ -7,10 +7,24 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `458263f` (loss renderer accepted and layout restored).
+- Previous pushed checkpoint: `953a43e` (combo producer partition and relocation order).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
-  denominator is unknown. OP, MAINL and ZUN have no accepted product exactness.
+  denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
+- OP now has **three accepted decoded source functions / 133 bytes**: exit to
+  DOS, VRAM plane setup and game cleanup. The current graph consumes all three
+  maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
+  Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
+  literal ordered relocations pass. Both MAP public tables bind the four external
+  plane pointer addresses. A fresh 30-object cold pair still repeats all 32 raw
+  outputs and matches the complete decoded and canonical DIET `-B` stored target.
+  The independent guest model executes every one of the 133 bytes in 288 cases
+  per image, across two loads, six register patterns, two stacks and four IF/DF
+  states; nine actual instruction mutations fail. Foreign services and hardware
+  remain bounded interfaces. `config/op_work/scoped_acceptance.json` revalidates
+  all eleven gates against the live source/recipe/output graph; it replaces no
+  historical cohort and grants no canonical packed-file unit offsets or whole
+  product source ownership. Replay with `publish_th03_op_work_scopes.py`.
 - OP now has a live, source-only cold build independent of the deleted historical
   receipts: 330 inputs, all 30 objects rebuilt twice, all 32 raw OBJ/EXE/MAP outputs
   repeat. The complete 63,866-byte decoded EXE, 59,770-byte load image and all
@@ -18,7 +32,8 @@ remain in [README.md](../README.md).
   36,041-byte stored target and restore to the actual linked EXE. TH04's `-G`
   selects a larger SFX stub and fails this TH03 target (36,136 bytes).
   Frozen reference source and vendor libraries remain unowned context; this is
-  a fresh complete-byte build observation, not ownership/ABI or runtime acceptance.
+  a fresh complete-byte build observation; the three scoped owners above have
+  their separate ownership/ABI/runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
   objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
@@ -69,9 +84,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,779 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 2m44s at 419 MiB peak RSS. OP's initial cold
-  pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
+- Last full CI: PASS, 1,793 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 3m27s at 379 MiB peak RSS. OP's latest cold
+  pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
+  2m55s at 63 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
@@ -101,8 +117,9 @@ ABI and byte credit are recorded separately in the ledgers.
 
 1. Inspect Git and run `.venv/bin/python scripts/preflight.py`.
 2. OP, MAINL and ZUN now have live complete-byte cold builders, including stored
-   packaging. Promote decoded/source ownership only through fresh scoped gates;
-   all three still have explicit unowned reference/vendor context. Their old
+   packaging. OP's three exit/plane owners now pass current decoded source gates;
+   extend this bounded verifier for further reviewed scopes. All three products
+   still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
 3. The loss renderer is now accepted: `player_stuff_t::lose_render()` at loaded
@@ -156,6 +173,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
 .venv/bin/python scripts/build_th03_op_work.py
+.venv/bin/python scripts/publish_th03_op_work_scopes.py
 .venv/bin/python scripts/build_th03_mainl_work.py
 .venv/bin/python scripts/bootstrap_jwasm.py --check
 .venv/bin/python scripts/build_th03_zun_driver_work.py

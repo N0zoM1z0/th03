@@ -12,4 +12,6 @@ Historical private verification outputs were removed at the owner's request.
 Regenerate source builds and verification before any new exact acceptance.
 See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).
 
-OP decoded publication: not installed; regenerate from fresh verification.
+OP decoded publication: installed.
+
+OP current decoded source acceptance: 3 functions / 133 bytes. Fresh source-only cold pair, native ownership/ABI and bounded instruction models pass. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.

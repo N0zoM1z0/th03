@@ -653,7 +653,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
       <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
       <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
         if artifact == "th03-op" and op_status['decoded_accepted']:
-            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: 9,530 B · canonical exact 0 · product acceptance open</text>')
+            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: {op_status["decoded_authored_bytes"]:,} B · canonical exact 0 · product acceptance open</text>')
         elif artifact == "th03-op" and op_fullcold_retained(evidence or []):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</text>')
         if artifact == "th03-op" and op_products['retained_equality']:
@@ -733,6 +733,8 @@ def main() -> int:
     op_status = op_decoded_status(ROOT, units)
     op_products = retained_op_products(ROOT)
     lines.extend(["OP decoded publication: " + ("installed." if op_status.get("decoded_accepted") else "not installed; regenerate from fresh verification."), ""])
+    if op_status.get("current_cold_source_scopes"):
+        lines.extend([decoded_summary(op_status), ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence, op_status=op_status, op_products=op_products)

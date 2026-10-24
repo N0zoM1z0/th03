@@ -23,15 +23,32 @@ from lib.pc98 import parse_mz
 from lib.targets import find_artifact, read_verified_artifact
 import stage_th03_op_fullcold as base
 import stage_th03_op_nopcall as final_stage
+import stage_th03_op_exit_helpers as exit_stage
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / ".analysis/work"
 WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03OP"
 STAMP = 946684800
 
+# Transitive historical stages validate their own pinned scripts/configs.
+# These are the live entry points and independently consumed audit helpers.
+RECIPE_INPUTS = (
+    "scripts/build_th03_op_work.py", "scripts/stage_th03_op_fullcold.py",
+    "scripts/stage_th03_op_nopcall.py", "scripts/stage_th03_op_exit_helpers.py",
+    "scripts/lib/op_exit_layout.py", "scripts/lib/op_exit_runtime.py",
+    "scripts/lib/omf.py", "scripts/lib/pc98.py", "scripts/lib/targets.py",
+    "scripts/lib/toolchain.py", "scripts/probe_th03_main_bomb_rikako_cpp.py",
+    "scripts/probe_th03_main_boss_marisa_cpp.py", "config/toolchain.toml",
+    "config/targets.toml", "config/th03_diet.toml",
+)
+
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
+
+
+def recipe_inventory():
+    return {n: sha((ROOT / n).read_bytes()) for n in RECIPE_INPUTS}
 
 
 def need(value, message):
@@ -47,7 +64,9 @@ def source_graph():
         archive.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(["git", "-C", str(ROOT / "_reference/ReC98"), "archive",
                         "--format=tar", "--output=" + str(archive), base.REV], check=True)
-    return final_stage.payload(ROOT)
+    files = final_stage.payload(ROOT)
+    files.update(exit_stage.payload(ROOT))
+    return files
 
 
 def producers(files):
@@ -59,6 +78,9 @@ def producers(files):
     response = files["obj/th03/op.@l"].decode()
     order = [s.replace("\\", "/") for s in re.findall(r"obj\\[^\s,]+\.obj", response)]
     need(len(order) == len(set(order)) == len(rows) == 30, "complete thirty-object graph")
+    for unit in exit_stage.read_inputs(ROOT)[0]["units"]:
+        rows[unit["object"]].update(ownership="maintained-containing",
+                                   maintained_owner_sources=[unit["source"]])
     return [dict(rows[name], output=name) for name in order]
 
 
@@ -83,6 +105,7 @@ def build():
     report_path = OUT / "op-build.json"
     report = dict(complete=False, product_exact=False, ownership_acceptance=False,
                   provenance="candidate-local-attested", rounds=[], native_phases=[])
+    report["recipe_sha256"] = recipe_inventory()
     save = lambda: report_path.write_text(json.dumps(report, indent=2) + "\n")
     config = tomllib.loads((ROOT / "config/toolchain.toml").read_text())
     prefix = ROOT / config["paths"]["wine_prefix"]
@@ -188,6 +211,7 @@ def build():
             (WORK / "bin/th03/op.target.exe").write_bytes(decoded)
             report["comparison"] = compare_mz(outputs["bin/th03/op.exe"], decoded)
         report["complete"] = True
+        need(recipe_inventory() == report["recipe_sha256"], "recipe changed during cold build")
         save()
     print(json.dumps({k: v for k, v in report.items()
                       if k not in {"source_sha256", "rounds", "native_phases", "toolchain_surfaces"}}, indent=2))
@@ -205,6 +229,23 @@ def main():
     if not args.review:
         build()
     review_packing()
+    review_scopes()
+
+
+def review_scopes():
+    from lib.op_exit_layout import verify as layout
+    from lib.op_exit_runtime import verify as runtime, negative_controls
+    report_path = OUT / "op-build.json"
+    report = json.loads(report_path.read_text())
+    need(recipe_inventory() == report["recipe_sha256"], "recipe differs from cold build")
+    target, candidate = [parse_mz((WORK / "bin/th03" / name).read_bytes())
+                         for name in ("op.target.exe", "op.exe")]
+    report["exit_scopes"] = dict(owners=layout(WORK, target, candidate),
+                                 runtime=runtime(target, candidate),
+                                 negative_controls=negative_controls(target))
+    report_path.write_text(json.dumps(report, indent=2) + "\n")
+    print(json.dumps(report["exit_scopes"], indent=2))
+    return report["exit_scopes"]
 
 
 def review_packing():
@@ -216,6 +257,7 @@ def review_packing():
 def _review_packing_locked():
     report_path = OUT / "op-build.json"
     report = json.loads(report_path.read_text())
+    need(recipe_inventory() == report["recipe_sha256"], "recipe differs from cold build")
     need(report["complete"] and report["raw_repeat_equal"] and len(report["rounds"]) == 2,
          "complete independent cold pair required")
     files = source_graph()
