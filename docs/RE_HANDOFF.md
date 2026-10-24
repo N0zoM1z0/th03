@@ -43,19 +43,26 @@ remain in [README.md](../README.md).
   original assembler remains unknown. The standalone producer and its ten-byte
   TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
   The complete builder compiles the driver itself without consuming that tree.
-- All 95 source objects compile in 96 serial phases. Two independent 589-file
-  source trees reproduce all 97 raw OBJ/EXE/MAP outputs; all 249 maintained
+- All 97 source objects compile in 98 serial phases. Two independent 591-file
+  source trees reproduce all 99 raw OBJ/EXE/MAP outputs; all 249 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
   inputs. Current native-owner review passes ten owners / 37 functions /
   9,662 bytes and checks all 95 configured extents.
-- The first **439 of 1,553 global relocation records** match literally; 902
+- The enemy source now selects two formation/script and two rendering/update
+  objects. Keep the 79-byte `enemies_add()` with `enemy_formation_spawn()`:
+  an external far declaration loses TC4's native same-group near-call sequence.
+  All 3,325 bytes / 19 entries remain unchanged. Six literal MAP contributions,
+  all OMF publics, both MAP public tables and zero private DATA/BSS are checked;
+  five native OMF/MAP mutation controls pass. The function credit is unchanged.
+  See `config/main_work/enemy_layout_observation.json`.
+- The first **505 of 1,553 global relocation records** match literally; 836
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,739 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 3m04s at 417 MiB peak RSS. OP's initial cold
+- Last full CI: PASS, 1,745 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m21s at 445 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
-  cold pair and native review took 3m47s at about 541 MiB. The ZUN driver cold
+  cold pair and native review took 4m04s at about 506 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
   The complete ZUN cold pair took 52s at 64 MiB.
@@ -86,26 +93,24 @@ ABI and byte credit are recorded separately in the ledgers.
    all three still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-3. MAIN now links `b_chiyu`, `ex_chyu` and `cs_chiyu` immediately after
-   `ch_setup`, preceded by the zero-byte `ex_ord` object. Extending its real
-   CODE declarations through MAIN_11_TEXT preserves every loaded byte and
-   physical contribution while reproducing canonical relocation records 394–438.
-   See `config/main_work/layout_observation.json`. The next mismatch is record
-   **439**, loaded site `0x13E1E`, in `e_ena`'s ENEMY_2_TEXT contribution.
-   Mapping all target relocations through the current MAP gives 96 owner runs
-   across 90 owners: `e_ena`, `e_enb`, `state` and `shotroot` recur. Enemy formation
-   relocations precede Ellen's objects; enemy update relocations follow CHAIN2.
-   Review the producer grouping before assuming a whole-object permutation
-   reproduces these separated runs.
-4. Root HITCIRC context is now 958 bytes from loaded `0xB37C`. Moving the entire
-   root earlier is known to change PLAYER_M placement. The library prefix/body
-   split and all 17 SHARED objects already preserve their physical contributions.
+3. MAIN links Chiyuri's three objects after `ch_setup`, then the formation/script
+   pair and Ellen's three objects. Empty `ex_ord` declarations through MAIN_11_TEXT
+   retain physical segment order. The entire loaded image remains unchanged.
+   The next mismatch is record **505**, loaded site `0xB49A`, in root HITCIRC
+   context. Its 25 relocations occupy records 505–529 in the target. Inspect a
+   bounded producer for this context before moving the whole root. The current
+   target vector has 96 owner runs across 92 owners; only `state` (two runs) and
+   `shotroot` (four runs) still recur. Original producer grouping stays unknown.
+4. Root HITCIRC context has nine procedures / 958 bytes from loaded `0xB37C`.
+   Moving the entire root earlier is known to change PLAYER_M placement. The
+   library prefix/body split and all 17 SHARED objects already preserve their physical contributions.
 5. Other open issues: renderer emits 175 instead of 177 bytes (target saves SI
    and DI); state/shot relocation interleaving; the two alignment bytes; MZ
    header/order and the complete four-product source graph. Combining state and
    shot into a simple multi-section TU preserved bytes but failed literal order.
    Ordinary TASM, QUIRKS and MASM51 alignment controls still emitted `00`.
    `scripts/probe_th03_main_producers.py` can replay these diagnostic controls.
+   The DATA mismatch at `0x1DB05` lies between `vsync_OldMask` and `BYTE_MASK`.
 
 Japanese targets remain pinned in `config/targets.toml`, with
 `candidate-local-attested` provenance. Re-attest a Ghidra database before using

@@ -280,6 +280,8 @@ def contributions(raw, omit_replaced=False):
                     and any("M=" + module + " " in line.replace(chr(92), "/") for module in
                             ("th03_main.asm", "th03/mst_pref.asm", "th03/mst_body.asm"))
                 )
+                or any("M=th03/" + module + ".cpp " in line.replace(chr(92), "/")
+                       for module in ("e_ena", "e_enb", "eforna", "efornb", "eupda", "eupdb"))
             )
         )
     ]
@@ -316,6 +318,8 @@ def review(previous=None, cold_build=False):
 
     config_raw = (ROOT / "config/th03_main_exact_units.toml").read_bytes()
     cfg = tomllib.loads(config_raw.decode())
+    from lib.main_enemy_layout import verify as verify_enemy_layout
+    enemy_layout = verify_enemy_layout(WORK, cfg)
     owned = []
     for unit in cfg["units"] + cfg.get("native_units", []):
         for e in unit.get("code_extents", [unit]):
@@ -343,6 +347,7 @@ def review(previous=None, cold_build=False):
         checked_owned_extents=len(owned),
         checked_owned_bytes=sum(r["bytes"] for r in owned),
         all_owned_raw_and_ordered_equal=True,
+        enemy_producer_layout=enemy_layout,
         character_scopes=[
             r
             for r in owned
@@ -424,7 +429,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 394:
+    if result["matching_relocation_prefix"] < 505:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
@@ -462,6 +467,16 @@ def review(previous=None, cold_build=False):
                     or before.program_image[0x96E6:0xA2D0]
                     != candidate.program_image[0x96E6:0xA2D0]):
                 raise ValueError("main flow transfer changed owned bytes or layout")
+        from lib.main_enemy_layout import RETIRED
+        enemy_retired = {Path(n).name for n in previous.get("game_objects", {})} & RETIRED
+        if enemy_retired:
+            if enemy_retired != RETIRED or before.program_image != candidate.program_image:
+                raise ValueError("enemy producer transfer changed loaded bytes")
+            retired.update(enemy_retired)
+            result["enemy_producer_transfer"] = dict(
+                retired=sorted(enemy_retired), loaded_image_unchanged=True,
+                new_layout=enemy_layout,
+            )
         result["retired_objects"] = sorted(retired)
         result["map_contributions_unchanged"] = contributions(
             previous["map"]

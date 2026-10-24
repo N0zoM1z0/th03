@@ -12,6 +12,7 @@ RECIPE_INPUTS = (
     "scripts/lib/main_work_stage.py",
     "scripts/lib/main_master_prefix.py",
     "scripts/lib/main_master_body.py",
+    "scripts/lib/main_enemy_layout.py",
     "scripts/replay_th03_main_exact_units.py",
     "scripts/lib/th03_yumemi_bomb_candidate.py",
     "scripts/lib/th03_player_tail_candidate.py",

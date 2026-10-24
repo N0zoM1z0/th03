@@ -1552,12 +1552,14 @@ source = "src/main/enemy/enemy.cpp"
 header = "src/main/enemy/enemy.hpp"
 object = "e_enemy"
 physical_objects = [
-  { object = "e_ena", wrapper = "th03/e_ena.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 1\n" },
-  { object = "e_enb", wrapper = "th03/e_enb.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 2\n" },
+  { object = "eforna", wrapper = "th03/eforna.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 1\n#define TH03_ENEMY_FORMATIONS_ONLY 1\n" },
+  { object = "efornb", wrapper = "th03/efornb.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 2\n#define TH03_ENEMY_FORMATIONS_ONLY 1\n" },
+  { object = "eupda", wrapper = "th03/eupda.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 1\n#define TH03_ENEMY_UPDATE_ONLY 1\n" },
+  { object = "eupdb", wrapper = "th03/eupdb.cpp", wrapper_prefix = "#define TH03_ENEMY_PRODUCER_PART 2\n#define TH03_ENEMY_UPDATE_ONLY 1\n" },
 ]
 build_file = "Tupfile.lua"
 build_anchor = "\t\"th03/bullet.cpp\",\n\t\"th03/e_enemy.cpp\",\n\t\"th03/hitbox.cpp\",\n"
-build_replacement = "\t\"th03/bullet.cpp\",\n\t\"th03/e_ena.cpp\",\n\t\"th03/e_enb.cpp\",\n\t\"th03/hitbox.cpp\",\n"
+build_replacement = "\t\"th03/bullet.cpp\",\n\t\"th03/eforna.cpp\",\n\t\"th03/efornb.cpp\",\n\t\"th03/eupda.cpp\",\n\t\"th03/eupdb.cpp\",\n\t\"th03/hitbox.cpp\",\n"
 support_files = [
   "compat/rec98/th03/main/enemy/efe.hpp",
   "compat/rec98/th03/main/enemy/expl.hpp",
@@ -1581,22 +1583,27 @@ support_files = [
 ]
 code_extents = [
   { name = "formations", ledger_id = "th03-main-enemies-formations", segment = 0x139d, start = 0x024e, size = 0x06b2, map_segment = "ENEMY_2_TEXT", map_group = "MAIN_04", map_parts = [
-    { object = "e_ena", start = 0x024e, size = 0x028a },
-    { object = "e_enb", start = 0x04d8, size = 0x0428 },
+    { object = "eforna", start = 0x024e, size = 0x028a },
+    { object = "efornb", start = 0x04d8, size = 0x0428 },
   ], producer_ranges = [{ relative = 0x0671, size = 1, kind = "padding" }, { relative = 0x0672, size = 64, kind = "switch-table" }] },
   { name = "update", ledger_id = "th03-main-enemies-update", segment = 0x139d, start = 0x250b, size = 0x025a, map_segment = "E_ENEMY_TEXT", map_group = "MAIN_04", map_parts = [
-    { object = "e_ena", start = 0x250b, size = 0x01c3 },
-    { object = "e_enb", start = 0x26ce, size = 0x0097 },
+    { object = "eforna", start = 0x250b, size = 0x004f },
+    { object = "eupda", start = 0x255a, size = 0x0174 },
+    { object = "eupdb", start = 0x26ce, size = 0x0097 },
   ] },
   { name = "render", ledger_id = "th03-main-enemies-render", segment = 0x139d, start = 0x278d, size = 0x03f1, map_segment = "ENEMY_PUT", map_group = "MAIN_04", map_parts = [
-    { object = "e_enb", start = 0x278d, size = 0x03f1 },
+    { object = "eupdb", start = 0x278d, size = 0x03f1 },
   ] },
 ]
 aux_map = [
-  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_module = "th03/e_ena.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
-  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_module = "th03/e_enb.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
-  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_module = "th03/e_ena.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
-  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_module = "th03/e_enb.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x0090, size = 0, class = "DATA", map_module = "th03/eforna.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x0090, size = 0, class = "DATA", map_module = "th03/efornb.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_module = "th03/eupda.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_module = "th03/eupdb.cpp", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x1182, size = 0, class = "BSS", map_module = "th03/eforna.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x1182, size = 0, class = "BSS", map_module = "th03/efornb.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_module = "th03/eupda.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
+  { segment = 0x1d56, start = 0x8df8, size = 0, class = "BSS", map_module = "th03/eupdb.cpp", map_segment = "_BSS", map_group = "DGROUP", raw_compare = false },
 ]
 
 [[functions]]

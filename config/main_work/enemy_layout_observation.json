@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Formation/script and rendering/update producer grouping plus native Ellen object ordering",
+  "exact_acceptance": false,
+  "new_source_exact_credit": false,
+  "command": ".venv/bin/python -B scripts/replay_th03_main_native.py",
+  "source_sha256": {
+    "src/main/enemy/enemy.cpp": "c31b746162289abd3da316a4b8e557ca7f80b8d2408a525b381784a17cbc1d7a",
+    "config/th03_main_exact_units.toml": "8e735e019deecb07c81b0055155fc07102e100a6f61f7bfaa8841bfa4274791a",
+    "config/th03_main_link.rsp": "c4f3d0ac5cc4fe979aaeb664113c3cfa2ccd2cb73fd97dfe1d908c09d98dc9ff",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/build_th03_main_work.py": "550ec9bad13e6e529b41793aaf2c942d148e6342c383350feda58593aa9d5aa9",
+    "scripts/lib/main_work_stage.py": "cade088264569de1b8b3ded069b1e253ad4202ccf4be47396f6cf0fe0bf60ab7"
+  },
+  "builder_sha256": "550ec9bad13e6e529b41793aaf2c942d148e6342c383350feda58593aa9d5aa9",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "cade088264569de1b8b3ded069b1e253ad4202ccf4be47396f6cf0fe0bf60ab7",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "8e735e019deecb07c81b0055155fc07102e100a6f61f7bfaa8841bfa4274791a",
+    "config/th03_main_link.rsp": "c4f3d0ac5cc4fe979aaeb664113c3cfa2ccd2cb73fd97dfe1d908c09d98dc9ff"
+  },
+  "tools_sha256": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 591,
+    "maintained_inputs_checked": 249,
+    "game_objects": 97,
+    "native_phases_per_round": 98,
+    "raw_outputs": 99,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0,
+    "elapsed_seconds": 243.93,
+    "peak_rss_kib": 518460
+  },
+  "enemy_layout": {
+    "objects": [
+      "eforna",
+      "efornb",
+      "eupda",
+      "eupdb"
+    ],
+    "functions": 19,
+    "code_bytes": 3325,
+    "private_data_bytes": 0,
+    "literal_map_parts": 6,
+    "literal_public_table_entries": 38
+  },
+  "grouping": {
+    "early": [
+      "eforna",
+      "efornb",
+      "cs_ellen",
+      "ex_ellen",
+      "b_ellen"
+    ],
+    "after": "cs_chiyu",
+    "late": [
+      "eupda",
+      "eupdb"
+    ],
+    "enemies_add_stays_with_formation_spawn": true,
+    "new_matching_records": [
+      439,
+      505
+    ]
+  },
+  "negative_controls": {
+    "layout_tests": "tests/test_main_enemy_layout.py",
+    "checks": [
+      "Moved MAP contribution",
+      "Missing second MAP public table",
+      "Checksum-valid private DATA allocation",
+      "Checksum-valid extra CODE allocation",
+      "Mismatched OMF public name"
+    ],
+    "actual_compiler_diagnostic": {
+      "variant": "Move enemies_add out of the formation TU and replace its definition with a far declaration",
+      "callsite": "0x13c48",
+      "changed_loaded_bytes": [
+        "0x13c48",
+        "0x13c49",
+        "0x13c4a",
+        "0x13c4b",
+        "0x13c4c"
+      ],
+      "additional_relocation": true,
+      "result": "Rejected: the native near-call optimization is lost"
+    }
+  },
+  "target": {
+    "sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "program_bytes": 124642,
+    "header_bytes": 6240,
+    "relocation_offset": 28,
+    "relocations": 1553
+  },
+  "candidate": {
+    "sha256": "3a93f42288158943f41f641585f401c440c708d34a4664b80607158249789342",
+    "program_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "program_bytes": 124642,
+    "header_bytes": 7680,
+    "relocation_offset": 62,
+    "relocations": 1553
+  },
+  "comparison": {
+    "previous_loaded_image_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "previous_loaded_image_unchanged": true,
+    "matching_relocation_prefix": 505,
+    "differing_relocation_order_positions": 836,
+    "relocation_membership_equal": true,
+    "program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "owned_extents_rechecked": 95,
+    "owned_bytes_rechecked": 74398,
+    "all_owned_raw_and_ordered_equal": true,
+    "product_exact": false
+  },
+  "next_question": {
+    "index": 505,
+    "site": "0xb49a",
+    "owner": "th03_main.asm",
+    "segment": "HITCIRC_TEXT",
+    "target_owner_runs": 96,
+    "target_unique_owners": 92,
+    "repeated_owner_runs": {
+      "src/main/player/state.cpp": 2,
+      "src/main/player/shotroot.cpp": 4
+    }
+  },
+  "limits": [
+    "Existing accepted scopes remain 440 functions / 74398 bytes / 95 extents; no new function credit.",
+    "No function bodies, instructions or data values are changed; guards select physical producers.",
+    "The four enemy objects own all3325 bytes and19 entries; private DATA/BSS remains zero.",
+    "Original producer filenames and historical grouping remain unknown.",
+    "Header/storage, two alignment bytes and the remaining global order remain open."
+  ]
+}

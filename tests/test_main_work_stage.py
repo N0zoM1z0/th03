@@ -96,7 +96,7 @@ class CanonicalMainStaging(unittest.TestCase):
                     build.linked_objects(work / "obj/th03/main.@l")
                 )
                 hashes = build.stage_sources(producers, prepared, work=work)
-                self.assertEqual(len(producers), 84)
+                self.assertEqual(len(producers), 86)
                 self.assertFalse(list(work.rglob("*.obj")))
                 self.assertFalse(list(work.rglob("*.exe")))
                 self.assertTrue(

@@ -3,6 +3,7 @@
 from pathlib import Path
 from unittest.mock import patch
 import tempfile
+import shutil
 import unittest
 import sys
 import tomllib
@@ -34,6 +35,12 @@ class MainWorkTests(unittest.TestCase):
             p = root / "bin/th03/main.exe"
             p.parent.mkdir(parents=True)
             p.write_bytes(raw)
+            # The review now binds the enemy bytes to native ownership too.
+            # Supply the actual unchanged OMF/MAP context for image mutations.
+            native = root / "obj/th03"
+            native.mkdir(parents=True)
+            for name in ("main.map", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj"):
+                shutil.copyfile(work.WORK / "obj/th03" / name, native / name)
             with patch.object(work, "WORK", root):
                 return work.review()
 
@@ -195,8 +202,8 @@ class MainWorkTests(unittest.TestCase):
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 84)
-        self.assertEqual(len({p["output"] for p in producers}), 84)
+        self.assertEqual(len(producers), 86)
+        self.assertEqual(len({p["output"] for p in producers}), 86)
         for producer in producers:
             if producer.get("origin") == "reference-library-context":
                 self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})

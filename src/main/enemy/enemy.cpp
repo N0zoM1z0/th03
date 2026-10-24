@@ -156,14 +156,19 @@ extern uint8_t formation_count;
 #error TH03_ENEMY_PRODUCER_PART must be 1 or 2
 #endif
 
-// A two-object producer split before
-// enemy_velocity_set_from_angle_and_speed() naturally reproduces the target's
-// otherwise-unmatched relocation ordering. Both parts remain one semantic
-// source owner; the exact replay compiles them as consecutive objects. The
-// original source filenames are unknown.
+// Keep formation/script producers separate from rendering/update producers.
+// enemies_add() stays with formation_spawn(): TC4 sees its definition and
+// naturally emits the same-group NOP / PUSH CS / near call. Replacing it with
+// a cross-object far declaration changes both instructions and relocations.
+// The two script parts retain the original CODE-record boundaries. All four
+// physical objects remain one semantic owner; original filenames are unknown.
+#if defined(TH03_ENEMY_FORMATIONS_ONLY) && defined(TH03_ENEMY_UPDATE_ONLY)
+#error Select either formations or update, never both
+#endif
 #if TH03_ENEMY_PRODUCER_PART == 1
 #pragma codeseg E_ENEMY_TEXT main_04
 
+#ifndef TH03_ENEMY_UPDATE_ONLY
 void pascal enemies_add(
 	uint8_t near *script_base, pid_t pid, enemy_pos_type_t pos_type
 )
@@ -185,9 +190,11 @@ void pascal enemies_add(
 		break;
 	}
 }
+#endif
 
 #define p (efe_p.enemy)
 
+#ifndef TH03_ENEMY_FORMATIONS_ONLY
 void near enemy_put(void)
 {
 	sprite16_offset_t so = SO_ENEMIES[p->size_words() - 1];
@@ -255,10 +262,12 @@ void near enemy_explosion_put(void)
 
 	#undef size_half
 }
+#endif
 
 #undef p
 #pragma codeseg ENEMY_2_TEXT main_04 // ZUN bloat
 
+#ifndef TH03_ENEMY_UPDATE_ONLY
 void pascal near enemy_formation_spawn(
 	int formation_type, pid_t pid, enemy_pos_type_t pos_type
 )
@@ -384,6 +393,7 @@ void enemy_formations_free(void)
 	hmem_free(formation_type_ring);
 	hmem_free(formation_pos_type_ring);
 }
+#endif
 
 #endif
 
@@ -404,6 +414,7 @@ inline subpixel_t enemy_speedtune_2(subpixel_t v) {
 }
 
 #if TH03_ENEMY_PRODUCER_PART == 1
+#ifndef TH03_ENEMY_UPDATE_ONLY
 bool near enemy_move_and_clip(void)
 {
 	enemy_t near& p = *efe_p.enemy;
@@ -439,6 +450,7 @@ clip:
 	p.flag = EFF_FREE;
 	return true;
 }
+#endif
 
 #else
 // Cross-object declarations for the second physical producer contribution.
@@ -449,6 +461,7 @@ bool near enemy_move_and_clip(void);
 
 #pragma codeseg ENEMY_2_TEXT main_04
 
+#ifndef TH03_ENEMY_UPDATE_ONLY
 void near enemy_velocity_set_from_angle_and_speed(void)
 {
 	#define p (*efe_p.enemy)
@@ -768,9 +781,17 @@ bool near enemy_run(void)
 		script += op_size;
 	}
 }
+#else
+// Declarations retain the near MAIN_04 script API in the update producer.
+void near enemy_velocity_set_from_angle_and_speed(void);
+void near enemy_angle_update(void);
+subpixel_length_8_t pascal near chain_pellet_speed(subpixel_length_8_t base);
+bool near enemy_run(void);
+#endif
 
 #pragma codeseg ENEMY_PUT main_04 // ZUN bloat
 
+#ifndef TH03_ENEMY_FORMATIONS_ONLY
 #define p (efe_p.enemy)
 
 #define chain_start_next_in_ring(pid) \
@@ -1004,5 +1025,6 @@ void enemies_update(void)
 	enemies_hittest();
 	#undef p
 }
+#endif
 
 #endif /* TH03_ENEMY_PRODUCER_PART */
