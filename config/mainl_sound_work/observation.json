@@ -1,12 +1,14 @@
 {
   "schema": "th03-mainl-sound-current-observation-v1",
-  "observed_utc": "2026-10-24T21:36:23.148424Z",
-  "command": ".venv/bin/python scripts/review_th03_mainl_sound_work.py",
+  "observed_utc": "2026-10-24T22:21:20.315810Z",
+  "command": ".venv/bin/python scripts/review_th03_mainl_sound_work.py --current-cold",
   "provenance": "candidate-local-attested",
   "implementation_sha256": {
-    "scripts/review_th03_mainl_sound_work.py": "960248ebf2ebaf1753f6c1bb38e89312a2ad303103df1d5a924916c240e08448",
+    "scripts/lib/shared_sound_runtime.py": "81ee79f15e84f72bd7699189b7ba6d9587a607087fe446f554deeb928ddb787d",
+    "scripts/lib/op_sound_layout.py": "694031ce840f082fa8e63d7917124356258cf245a5382695cbeeb1419508aa1c",
+    "scripts/review_th03_mainl_sound_work.py": "6970ba218f8cfad0babbd199ad04811446bda1aacdea91de23b320a7c59cbb59",
     "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
-    "scripts/lib/decoded_mainl_sound_runtime.py": "7da9b124f13ef6f7f7112ec2a87ca53ba3b1eccd373649a6b391e1a3260a48e3",
+    "scripts/lib/decoded_mainl_sound_runtime.py": "752336a44acf9d8a09983acee463be56fa9d061a8f790aed9b5510cc172e1ca2",
     "scripts/build_th03_mainl_work.py": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
     "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
     "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
@@ -26,7 +28,7 @@
   },
   "cold_report_sha256": "191b64a3a2aae58601cc3c1007c47a3c4e80010db9071b01321f6eb080643d5d",
   "source_inventory_sha256": "d913a54e6b01820e0066b7f9124a3996754506a4f7ce75975746a65af586800a",
-  "native_pair_built_now": true,
+  "native_pair_built_now": false,
   "layout": {
     "owners": [
       {

@@ -1,6 +1,6 @@
 {
   "schema": "th03-op-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T20:36:19.706484Z",
+  "observed_utc": "2026-10-24T22:21:20.315810Z",
   "command": ".venv/bin/python -B scripts/build_th03_op_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 330,
@@ -173,12 +173,12 @@
   "builder_sha256": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
   "scoped_source_acceptance": {
     "publication": "config/op_work/scoped_acceptance.json",
-    "decoded_functions": 18,
-    "decoded_bytes": 1172,
+    "decoded_functions": 20,
+    "decoded_bytes": 1305,
     "ordered_relocations": 45,
-    "runtime_cases_per_image": 10288,
+    "runtime_cases_per_image": 11726,
     "runtime_images": 2,
-    "actual_guest_mutations_rejected": 93,
+    "actual_guest_mutations_rejected": 110,
     "canonical_unit_credit_changed": false,
     "whole_product_ownership": false,
     "input_modes": {
@@ -238,17 +238,36 @@
       "runtime_cases_per_image": 1230,
       "ordinary_entry_cases_per_image": 596,
       "loop_continuation_cases_per_image": 634,
-      "executed_nested_helper_bytes": 402,
+      "executed_nested_helper_bytes": 423,
       "maximum_sample_polls": 523,
       "maximum_observed_stack_bytes": 32,
-      "actual_guest_mutations_rejected": 21,
+      "actual_guest_mutations_rejected": 24,
       "exhaustive_demo_bytes": 256,
       "reviewed_external_data_bytes": 6,
       "private_data_bytes": 0,
       "private_bss_bytes": 0,
       "containing_producer_accepted": false,
       "canonical_unit_credit_changed": false,
-      "unbounded_interactive_lifetime_proved": false
+      "unbounded_interactive_lifetime_proved": false,
+      "maximum_actual_delay_calls": 537,
+      "maximum_counter_updates": 1074
+    },
+    "sound": {
+      "sources": [
+        "src/shared/sound/load.cpp",
+        "src/shared/hardware/frame_delay.cpp"
+      ],
+      "functions": 2,
+      "code_bytes": 133,
+      "ordered_native_fields": 10,
+      "ordered_relocations": 0,
+      "runtime_cases_per_image": 1438,
+      "actual_guest_mutations_rejected": 14,
+      "maximum_observed_stack_bytes": 6,
+      "exhaustive_MIDI_bytes": 256,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "canonical_unit_credit_changed": false
     }
   }
 }

@@ -8,13 +8,16 @@
 4. For exact acceptance, check complete raw bytes, literal ordered relocations,
    ownership, ABI/MAP/layout, affected behavior and two independent cold builds.
    Required checks are in `config/oracles.toml`; compiler success alone is insufficient.
-   Use `scripts/review_th03_op_attract_work.py` for the SDK-guarded OP cold pair,
-   cfg, dispatch and attract reviews. It invokes the dispatch/cfg chain once.
+   Use `scripts/review_th03_op_sound_work.py` for the SDK-guarded OP cold pair,
+   cfg, dispatch, attract and sound reviews. It invokes the attract/dispatch/cfg
+   chain once. OP and MAINL sound scopes use independently checked native layouts
+   with a shared execution core; refresh both reports after core changes.
    Preserve separate ordinary-entry and loop-continuation witness counts; the
    supplied SI continuation states do not prove elapsed frames. After rebuilding
    OP or MAINL, run `scripts/review_th03_shared_input_work.py`
    before republishing their source scopes. Its complete input models bind both
-   current cold reports; status only replays short ABI cases.
+   current cold reports; status only replays short ABI cases. If shared acceptance
+   helpers change, refresh all three product publications before regenerating progress.
    Use `scripts/review_th03_mainl_sound_work.py` for one complete MAINL cold pair
    and six sound/timing reviews, then refresh the shared-input review and publish.
    Its `--current-cold` mode revalidates the entire source/SDK/output graph before

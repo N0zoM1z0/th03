@@ -244,10 +244,12 @@
     "scripts/build_th03_mainl_work.py": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
     "scripts/lib/borland_library.py": "729f4283a999a88519bc2c545b96c541f2b36565da24737d7493c03c52214c84",
     "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
-    "scripts/lib/decoded_mainl_acceptance.py": "3754a8647861ff6b14385bdffe983ee26c18f29302b3e61974583810642a3eae",
-    "scripts/review_th03_mainl_sound_work.py": "960248ebf2ebaf1753f6c1bb38e89312a2ad303103df1d5a924916c240e08448",
+    "scripts/lib/decoded_mainl_acceptance.py": "e37b68d1c593208bb72a4f2976a244bf25c326e9f539c9c67998a639a2f4984f",
+    "scripts/review_th03_mainl_sound_work.py": "6970ba218f8cfad0babbd199ad04811446bda1aacdea91de23b320a7c59cbb59",
     "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
-    "scripts/lib/decoded_mainl_sound_runtime.py": "7da9b124f13ef6f7f7112ec2a87ca53ba3b1eccd373649a6b391e1a3260a48e3"
+    "scripts/lib/decoded_mainl_sound_runtime.py": "752336a44acf9d8a09983acee463be56fa9d061a8f790aed9b5510cc172e1ca2",
+    "scripts/lib/shared_sound_runtime.py": "81ee79f15e84f72bd7699189b7ba6d9587a607087fe446f554deeb928ddb787d",
+    "scripts/lib/op_sound_layout.py": "694031ce840f082fa8e63d7917124356258cf245a5382695cbeeb1419508aa1c"
   },
   "builder_sha256": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
   "scoped_source_acceptance": {

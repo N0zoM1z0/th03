@@ -34,7 +34,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "config/oracles.toml", "scripts/review_th03_shared_input_work.py",
                 "scripts/lib/shared_input_layout.py", "scripts/lib/shared_input_runtime.py",
                 "scripts/lib/mainl_wait_layout.py", "scripts/lib/mainl_wait_runtime.py",
-                "scripts/review_th03_mainl_sound_work.py", "scripts/lib/decoded_mainl_sound_layout.py", "scripts/lib/decoded_mainl_sound_runtime.py")
+                "scripts/review_th03_mainl_sound_work.py", "scripts/lib/decoded_mainl_sound_layout.py", "scripts/lib/decoded_mainl_sound_runtime.py",
+                "scripts/lib/shared_sound_runtime.py", "scripts/lib/op_sound_layout.py")
 
 
 def need(value, message):

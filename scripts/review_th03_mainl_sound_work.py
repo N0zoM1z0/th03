@@ -9,7 +9,7 @@ from lib.targets import find_artifact,read_verified_artifact
 from lib.decoded_mainl_sound_layout import PRODUCERS,verify as layout
 from lib.decoded_mainl_sound_runtime import Machine,verify as runtime,negative_controls
 ROOT=Path(__file__).resolve().parents[1];REPORT=ROOT/'.analysis/work/mainl-sound-build.json'
-INPUTS=('scripts/review_th03_mainl_sound_work.py','scripts/lib/decoded_mainl_sound_layout.py','scripts/lib/decoded_mainl_sound_runtime.py',
+INPUTS=('scripts/lib/shared_sound_runtime.py','scripts/lib/op_sound_layout.py','scripts/review_th03_mainl_sound_work.py','scripts/lib/decoded_mainl_sound_layout.py','scripts/lib/decoded_mainl_sound_runtime.py',
  'scripts/build_th03_mainl_work.py','scripts/build_th03_op_work.py','scripts/lib/pc98.py','scripts/lib/omf.py','scripts/lib/targets.py','scripts/lib/toolchain.py',
  'scripts/probe_th03_main_bomb_rikako_cpp.py','scripts/probe_th03_main_boss_marisa_cpp.py','config/targets.toml','config/th03_diet.toml','config/toolchain.toml',
  *tuple(row[2] for row in PRODUCERS))

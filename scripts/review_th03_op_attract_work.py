@@ -7,7 +7,8 @@ from lib.op_attract_layout import verify as layout
 from lib.op_attract_runtime import Machine,verify as runtime,negative_controls
 ROOT=Path(__file__).resolve().parents[1];REPORT=ROOT/'.analysis/work/op-attract-build.json'
 INPUTS=(*dispatch.INPUTS,'scripts/review_th03_op_attract_work.py','scripts/lib/op_attract_layout.py',
- 'scripts/lib/op_attract_runtime.py','scripts/lib/shared_input_layout.py','scripts/lib/shared_input_runtime.py')
+ 'scripts/lib/op_attract_runtime.py','scripts/lib/shared_input_layout.py','scripts/lib/shared_input_runtime.py','scripts/lib/shared_sound_runtime.py',
+ 'scripts/lib/op_sound_layout.py','scripts/lib/decoded_mainl_sound_layout.py')
 def need(v,m):
     if not v:raise ValueError('OP attract review: '+m)
 def sha(raw):return hashlib.sha256(raw).hexdigest()
@@ -15,10 +16,10 @@ def inputs(root):return {n:sha((root/n).read_bytes()) for n in INPUTS}
 def witness(scope):
     r=scope['runtime'];need((r['images'],r['functions'],r['code_bytes'],r['executed_owner_bytes'],r['cases_per_image'],r['exhaustive_demo_bytes'])
         ==(2,1,105,105,1230,256),'complete attract runtime dimensions')
-    need([(o['load_segment'],o['cases'],o['ordinary_entry_cases'],o['loop_continuation_cases'],o['covered_owner_bytes'],o['executed_nested_bytes'],o['maximum_observed_stack_depth'],o['maximum_sample_polls']) for o in r['observations']]
-        ==[(0x1000,615,298,317,105,402,32,523),(0x3000,615,298,317,105,402,32,523)]
+    need([(o['load_segment'],o['cases'],o['ordinary_entry_cases'],o['loop_continuation_cases'],o['covered_owner_bytes'],o['executed_nested_bytes'],o['maximum_observed_stack_depth'],o['maximum_sample_polls'],o['maximum_actual_delay_calls'],o['maximum_counter_updates']) for o in r['observations']]
+        ==[(0x1000,615,298,317,105,423,32,523,537,1074),(0x3000,615,298,317,105,423,32,523,537,1074)]
         and all(re.fullmatch(r'[0-9a-f]{64}',o['trace_sha256']) for o in r['observations']),'ordinary/continuation, load, nested coverage and stack witnesses')
-    c=scope['negative_controls'];need(c['count']==len(set(c['rejected']))==21,'twenty-one actual attract mutations')
+    c=scope['negative_controls'];need(c['count']==len(set(c['rejected']))==24,'twenty-four actual attract mutations')
     need(not scope['layout']['containing_producer_accepted'] and not scope['layout']['whole_product_accepted'],'bounded attract ownership')
 def smoke(target,candidate):
     rows=[]
@@ -46,5 +47,5 @@ def main():
     r['cold_report_sha256']=sha(cold_raw);r['dispatch_review_sha256']=sha(dispatch.REPORT.read_bytes());r['source_inventory_sha256']=dispatch.digest(cold['source_sha256'])
     r['scope']=dict(layout=layout(work,target,candidate),runtime=runtime(target,candidate),negative_controls=negative_controls(target));witness(r['scope'])
     need(r['implementation_sha256']==inputs(ROOT),'attract inputs changed during review');r['complete']=True;save()
-    print('OP attract: one whole near function / 105 CODE bytes; 402 actual nested bytes; cold/native/runtime gates pass',flush=True);return 0
+    print('OP attract: one whole near function / 105 CODE bytes; 423 actual nested bytes; cold/native/runtime gates pass',flush=True);return 0
 if __name__=='__main__':raise SystemExit(main())

@@ -1,6 +1,6 @@
 {
   "schema": "th03-shared-input-current-observation-v1",
-  "observed_utc": "2026-10-24T21:36:23.148424Z",
+  "observed_utc": "2026-10-24T22:21:20.315810Z",
   "command": "taskset -c 16 nice -n 10 .venv/bin/python scripts/review_th03_shared_input_work.py",
   "provenance": "candidate-local-attested",
   "shared_source": "src/shared/hardware/input_modes.cpp",

@@ -1,6 +1,6 @@
 {
   "schema": "th03-op-attract-current-observation-v1",
-  "observed_utc": "2026-10-24T20:36:19.706484Z",
+  "observed_utc": "2026-10-24T22:21:20.315810Z",
   "command": ".venv/bin/python scripts/review_th03_op_attract_work.py",
   "provenance": "candidate-local-attested",
   "implementation_sha256": {
@@ -21,11 +21,14 @@
     "scripts/lib/op_dispatch_layout.py": "d92f02cb12224357738e38943f3e529636d4f1812ab17d03d2fae5c83e7d40c7",
     "scripts/lib/op_dispatch_runtime.py": "ac9a0fba42934460dec0631da876ed53628a1e697e9451cf36bc9f80e8054b45",
     "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b",
-    "scripts/review_th03_op_attract_work.py": "d7e7c55b1ae633961c255b665ae13aed9533c1dc2e43c9032faf0f1ab973955d",
+    "scripts/review_th03_op_attract_work.py": "55ff0d6b87a5bbf5a079ed4199c507301ffae6c27a1c5be3cbfff35474389eac",
     "scripts/lib/op_attract_layout.py": "1428865341b822bb9dfeabd221fd0a9eb58553d8fe973b302c492f56cf71e74a",
-    "scripts/lib/op_attract_runtime.py": "e7f524a2b2f6404905086fe8a41d00b7c28a55c882bbb9359f7501848deaa586",
+    "scripts/lib/op_attract_runtime.py": "cc7c22ec7e8274533eb91ff0cb3919132a53403bf6cdef8fd577c5ecd6ac3337",
     "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
-    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a"
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a",
+    "scripts/lib/shared_sound_runtime.py": "81ee79f15e84f72bd7699189b7ba6d9587a607087fe446f554deeb928ddb787d",
+    "scripts/lib/op_sound_layout.py": "694031ce840f082fa8e63d7917124356258cf245a5382695cbeeb1419508aa1c",
+    "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f"
   },
   "cold_report_sha256": "a85d1fa1ed6bfbe6913f15f7407b52ede260a36164fb0030c7879b76286bbcd1",
   "dispatch_review_sha256": "9aea412068bc59407f99a068bec850e227555d46454facd300bcc7bf0f2bda63",
@@ -200,10 +203,12 @@
         "ordinary_entry_cases": 298,
         "loop_continuation_cases": 317,
         "covered_owner_bytes": 105,
-        "executed_nested_bytes": 402,
+        "executed_nested_bytes": 423,
         "maximum_observed_stack_depth": 32,
         "maximum_sample_polls": 523,
-        "trace_sha256": "8d220db8ef7ed252da296708f9d971623dff3ad08871f5edc954885e4d67e2f4"
+        "maximum_actual_delay_calls": 537,
+        "maximum_counter_updates": 1074,
+        "trace_sha256": "277bed6aedb38bf5d8097896e88069643f03be5e8bff16a7821aff02caba6d01"
       },
       {
         "load_segment": 12288,
@@ -211,16 +216,18 @@
         "ordinary_entry_cases": 298,
         "loop_continuation_cases": 317,
         "covered_owner_bytes": 105,
-        "executed_nested_bytes": 402,
+        "executed_nested_bytes": 423,
         "maximum_observed_stack_depth": 32,
         "maximum_sample_polls": 523,
-        "trace_sha256": "149f194dc9dc3be4c57334d3eae585ecb58c3827b992f544669081c2b744a539"
+        "maximum_actual_delay_calls": 537,
+        "maximum_counter_updates": 1074,
+        "trace_sha256": "94a2a97344d7ca627916de37c0a0256f0e55e8822c590c04aff1c64cc11d9490"
       }
     ],
-    "scope": "actual maintained input/demo/cfg/sound/cleanup; bounded device/timing/graphics/failed exec; explicit loop-continuation fixtures supply SI after real prologue, not elapsed-frame claims"
+    "scope": "actual maintained input/demo/cfg/sound/cleanup; actual delay with bounded counter/device/graphics/failed exec; explicit loop-continuation fixtures supply SI after real prologue, not elapsed-frame claims"
   },
   "negative_controls": {
-    "count": 21,
+    "count": 24,
     "rejected": [
       "input-clear-is-WORD",
       "initial-input-is-cleared",
@@ -242,6 +249,9 @@
       "last-column-bound",
       "near-root-return",
       "actual-input-merges-player1",
+      "actual-delay-resets-WORD-counter",
+      "actual-delay-keeps-unsigned-loop",
+      "actual-delay-Pascal-pop",
       "actual-demo-keeps-BYTE-wrap"
     ]
   },

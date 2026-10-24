@@ -23,10 +23,10 @@ class OpWorkAcceptance(unittest.TestCase):
 
     def test_live_physical_replay_accepts_only_current_decoded_owners(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (18, 1172))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (20, 1305))
         self.assertFalse(result["canonical_credit_changed"])
         self.assertFalse(result["product_exact"])
-        self.assertIn("18 functions / 1,172 bytes", decoded_summary(result))
+        self.assertIn("20 functions / 1,305 bytes", decoded_summary(result))
 
     def test_stale_verifier_hash_fails_before_physical_replay(self):
         self.publication["proof_inputs"]["scripts/lib/op_work_acceptance.py"] = "0" * 64
@@ -64,4 +64,4 @@ class OpWorkAcceptance(unittest.TestCase):
             units = list(csv.DictReader(stream))
         result = op_decoded_status(ROOT, units)
         self.assertEqual(result["decoded_exact_unit_ids"], sorted(self.publication["owner_oracles"]))
-        self.assertEqual(result["decoded_exact_units"], 18)
+        self.assertEqual(result["decoded_exact_units"], 20)

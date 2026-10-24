@@ -3,7 +3,7 @@
 Ordinary cases enter the complete function. Explicit loop-continuation cases
 also execute its prologue, then supply SI at the first poll boundary; they test
 signed WORD wrap without pretending that 32768 frames elapsed. Device sampling,
-frame delays, graphics libraries and failed execl remain bounded interfaces.
+counter updates, graphics libraries and failed execl remain bounded interfaces.
 """
 import hashlib,json,struct
 from dataclasses import replace
@@ -16,9 +16,12 @@ from lib.op_cfg_runtime import RESIDENT,ACTIVE,MIDI,reply
 from lib.op_exit_runtime import specification as exit_events
 from lib.shared_input_layout import PROFILES
 from lib.shared_input_runtime import Prediction as InputPrediction,service_reply,cmp16
+from lib.shared_sound_runtime import Prediction as SoundPrediction
+from lib.op_sound_layout import ENTRIES as SOUND_ENTRIES,RUNTIME_FIELDS as SOUND_FIELDS
 
 P=PROFILES['op'];INPUT=P['code_segment']*16+P['start'];DEMO=DISPATCH_ENTRIES['start_demo'][0]
-ROOT_SERVICES={P['code_segment']*16+P['delay']:('delay',2,4),0x28D8:('super',6,4),0xB10A:('unput',2,2)}
+DELAY=SOUND_ENTRIES['frame_delay'][0]
+ROOT_SERVICES={0x28D8:('super',6,4),0xB10A:('unput',2,2)}
 INPUT_SERVICES={P['code_segment']*16+P['sense']:'sense',P['js']:'js'}
 def need(v,m):
     if not v:raise ValueError('OP attract contract: '+str(m))
@@ -57,8 +60,9 @@ class Machine(DispatchMachine):
     def __init__(self,mz,load):
         super().__init__(mz,load)
         self.owned=set(range(START,START+SIZE));self.nested=set(range(DEMO,DEMO+202))|set(range(INPUT,INPUT+36))
+        self.nested.update(range(DELAY,DELAY+21))
         for a,s in HELPERS:self.nested.update(range(a,a+s))
-        for a,s in ((START,SIZE),(INPUT,36)):
+        for a,s in ((START,SIZE),(INPUT,36),(DELAY,21)):
             rows=list(Cs(CS_ARCH_X86,CS_MODE_16).disasm(mz.program_image[a:a+s],a));need(sum(i.size for i in rows)==s,'complete added instructions')
             self.instructions.update({i.address:i.size for i in rows})
         self.instructions={a:s for a,s in self.instructions.items() if a in self.owned|self.nested}
@@ -80,6 +84,12 @@ class Machine(DispatchMachine):
     def begin_helper(self,name):
         self.root_event(('helper',name));self.outside_stack(self.shadow);regs=self.registers();sp=self.r('sp')
         if name=='demo':h=DemoPrediction(self,regs,sp);self.calls=0
+        elif name=='delay':
+            need(u16(self.shadow,0x70000+sp+4)==1,'actual far Pascal delay WORD one')
+            h=SoundPrediction(self.shadow,regs,self.data,sp,dict(flags=self.uc.reg_read(UC_X86_REG_EFLAGS),ticks=(0,1)),SOUND_FIELDS)
+            h.frame_delay(1);h.regs['cs']=self.cs;h.name='delay';h.index=0;h.sp=sp;h.delta=6;h.mask,h.value=0x8D5,h.flags
+            h.events=[('store',e['address'],e['size'],e['value']) if e['kind']=='store' else ('tick',e['value']) for e in h.events]
+            h.if_df=self.uc.reg_read(UC_X86_REG_EFLAGS)&0x600;h.full={n:self.uc.reg_read(GPRS[n])&0xFFFF0000|h.regs[n] for n in GPRS};self.delay_calls+=1
         else:
             need(self.poll<len(self.samples),'bounded input sample stream');sample=self.samples[self.poll];self.poll+=1
             h=InputPrediction(self.shadow,regs,'op',self.data,self.seed,self.uc.reg_read(UC_X86_REG_EFLAGS),[sample],self.present,0)
@@ -108,13 +118,17 @@ class Machine(DispatchMachine):
             rva=address-self.base
             if self.active and rva==self.active.return_rva:self.finish_helper()
             if rva==0x9E24 and self.continuation is not None and not self.resumed:self.parked=True;uc.emu_stop();return
-            if rva in (INPUT,DEMO):self.begin_helper('input' if rva==INPUT else 'demo')
+            if rva in (INPUT,DEMO,DELAY):self.begin_helper('input' if rva==INPUT else 'demo' if rva==DEMO else 'delay')
+            if rva==DELAY+9:
+                h=self.active;need(h and h.name=='delay' and h.index<len(h.events),'finite delay-counter stream')
+                e=h.events[h.index];need(e[0]=='tick','counter read follows reset');self.event(e);self.counter_updates+=1
+                uc.mem_write(self.data+SOUND_FIELDS['counter'],e[1].to_bytes(2,'little'))
             if rva in INPUT_SERVICES:
                 sp=self.r('sp');ip,cs=struct.unpack('<HH',bytes(uc.mem_read(0x70000+sp,4)))
                 need(cs*16+ip-self.base in self.instructions,'real device far frame');self.input_service(INPUT_SERVICES[rva])
                 uc.reg_write(REG['sp'],sp+4);uc.reg_write(REG['cs'],cs);uc.reg_write(REG['ip'],ip);return
             if rva in ROOT_SERVICES:
-                need(self.active is None,'graphics/delay only in root protocol');name,args,frame=ROOT_SERVICES[rva];sp=self.r('sp')
+                need(self.active is None,'graphics only in root protocol');name,args,frame=ROOT_SERVICES[rva];sp=self.r('sp')
                 payload=struct.unpack('<'+'H'*(args//2),bytes(uc.mem_read(0x70000+sp+frame,args)))
                 self.root_event(('library',name,payload));ip=u16(bytes(uc.mem_read(0x70000+sp,2)),0);cs=self.cs if frame==2 else u16(bytes(uc.mem_read(0x70000+sp+2,2)),0)
                 need(cs*16+ip-self.base in self.instructions,'real root library frame');self.root_calls+=1
@@ -141,12 +155,12 @@ class Machine(DispatchMachine):
             self.plan.append(('helper','input'));rand=(rand+1)&0xFFFFFFFF;self.plan.append(('store',base+0x10,4,rand));frame=(frame+1)&65535
             if 520<frame<0x8000:
                 self.plan.append(('helper','demo'));self.demo_count+=1;d=(d+1)&255;d=1 if d>4 else d;rand=SEEDS[d-1] if d else 0x05090B07
-            self.plan.append(('library','delay',(1,)))
+            self.plan.append(('helper','delay'))
             value=sample[0]|sample[1]|(sample[3] if present else 0)
             if value:need(i==len(self.samples)-1,'stream ends at first merged input');break
         else:raise ValueError('OP attract contract: finite stream must terminate')
         self.plan.append(('library','super',(0,256,160)))
-        for x in range(176,288,8):self.plan.extend((('library','unput',(x,)),('library','super',(2,256,x)),('library','delay',(1,))))
+        for x in range(176,288,8):self.plan.extend((('library','unput',(x,)),('library','super',(2,256,x)),('helper','delay')))
         self.initial_regs={n:(seed+i*0x231)&65535 for i,n in enumerate(GPRS)};self.high={n:(seed^0x5AA5)<<16 for n in GPRS}
         for n in GPRS:self.uc.reg_write(GPRS[n],self.high[n]|self.initial_regs[n])
         self.initial_regs.update(cs=self.cs,ds=self.ds,es=seed,ss=0x7000)
@@ -154,6 +168,7 @@ class Machine(DispatchMachine):
         self.uc.reg_write(REG['sp'],stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
         self.continuation,self.resumed,self.parked=continuation,False,False;self.active=None;self.root_index,self.root_calls,self.helper_calls,self.calls=0,0,0,0;self.error,self.returned=None,False
         self.helper_trace=hashlib.sha256()
+        self.delay_calls,self.counter_updates=0,0
         try:
             self.uc.emu_start(self.base+START,0x100000,count=1000000)
             if self.parked:
@@ -161,13 +176,15 @@ class Machine(DispatchMachine):
         except UcError as e:raise ValueError('OP attract contract: guest fault') from e
         need(self.error is None,self.error or 'guest error');need(self.returned and self.r('sp')==stack+2,'near root return')
         need(self.active is None and self.root_index==len(self.plan) and self.poll==len(self.samples),'complete root/helper protocol')
-        expected,_=reply(self.initial_regs,self.root_calls,seed,flags,status);need(self.registers()==expected,'root final WORD registers')
+        expected,_=reply(self.initial_regs,self.root_calls,seed,flags,status);expected['ax']=1;need(self.registers()==expected,'root final WORD registers after actual frame delay')
+        need(self.delay_calls==self.poll+14 and self.counter_updates==self.delay_calls*2,'all poll and fourteen animation delays execute')
         for n in GPRS:
             high=(rand&0xFFFF0000) if n=='ax' and self.demo_count else self.high[n]
             need(self.uc.reg_read(GPRS[n])==high|expected[n],'root DWORD high halves')
         f=self.uc.reg_read(UC_X86_REG_EFLAGS);need(f&0x8D5==cmp16(288,288) and f&0x600==flags&0x600,'final column compare and inherited IF/DF')
         self.outside_stack(self.shadow)
         return dict(polls=self.poll,demo_calls=self.demo_count,continuation=continuation,registers=self.registers(),flags=f&0xED5,
+            actual_delay_calls=self.delay_calls,counter_updates=self.counter_updates,
             events=len(self.plan),trace_sha256=hashlib.sha256(json.dumps(self.plan).encode()).hexdigest(),helper_trace_sha256=self.helper_trace.hexdigest(),random=u32(self.shadow,base+0x10),file_hex=self.file.hex())
 
 def cases():
@@ -195,22 +212,22 @@ def verify(target,candidate):
         for load in (0x1000,0x3000):
             m=Machine(mz,load)
             try:
-                trace=hashlib.sha256();normal=continuations=0;maximum_polls=0
+                trace=hashlib.sha256();normal=continuations=0;maximum_polls=maximum_delays=maximum_updates=0
                 for count,options in enumerate(cases(),1):
                     row=m.run(seed=0x1357 if count&1 else 0xECA8,stack=0x80 if count&1 else 0xFFF0,**options)
                     if options.get('continuation') is None:normal+=1
                     else:continuations+=1
-                    maximum_polls=max(maximum_polls,row['polls']);trace.update(json.dumps(row,sort_keys=True).encode())
-                need(m.covered==m.owned and m.nested_covered==m.nested,'all 105 root and 402 actual helper instruction bytes execute')
+                    maximum_polls=max(maximum_polls,row['polls']);maximum_delays=max(maximum_delays,row['actual_delay_calls']);maximum_updates=max(maximum_updates,row['counter_updates']);trace.update(json.dumps(row,sort_keys=True).encode())
+                need(m.covered==m.owned and m.nested_covered==m.nested,'all 105 root and 423 actual helper instruction bytes execute')
                 loads.append(dict(load_segment=load,cases=count,ordinary_entry_cases=normal,loop_continuation_cases=continuations,
                     covered_owner_bytes=len(m.covered),executed_nested_bytes=len(m.nested_covered),maximum_observed_stack_depth=m.maximum_stack,
-                    maximum_sample_polls=maximum_polls,trace_sha256=trace.hexdigest()))
+                    maximum_sample_polls=maximum_polls,maximum_actual_delay_calls=maximum_delays,maximum_counter_updates=maximum_updates,trace_sha256=trace.hexdigest()))
             finally:m.close()
         observations.append(loads)
     need(observations[0]==observations[1],'independent target/candidate attract observations')
     return dict(images=2,functions=1,code_bytes=105,executed_owner_bytes=105,cases_per_image=sum(o['cases'] for o in observations[0]),
         exhaustive_demo_bytes=256,observations=observations[0],
-        scope='actual maintained input/demo/cfg/sound/cleanup; bounded device/timing/graphics/failed exec; explicit loop-continuation fixtures supply SI after real prologue, not elapsed-frame claims')
+        scope='actual maintained input/demo/cfg/sound/cleanup; actual delay with bounded counter/device/graphics/failed exec; explicit loop-continuation fixtures supply SI after real prologue, not elapsed-frame claims')
 
 def negative_controls(target):
     controls=(
@@ -234,6 +251,9 @@ def negative_controls(target):
         ('last-column-bound',0x9E78,b'\x20',b'\x18',{}),
         ('near-root-return',0x9E7E,b'\xC3',b'\xCB',{}),
         ('actual-input-merges-player1',INPUT+30,b'\x09',b'\x89',dict(samples=[(0,1,0,0)])),
+        ('actual-delay-resets-WORD-counter',DELAY+3,b'\xC7',b'\xC6',{}),
+        ('actual-delay-keeps-unsigned-loop',DELAY+15,b'\x72',b'\x77',{}),
+        ('actual-delay-Pascal-pop',DELAY+19,b'\x02',b'\x04',{}),
         ('actual-demo-keeps-BYTE-wrap',0x9D60,b'\x47',b'\x4F',dict(continuation=520,demo=255)),
     )
     rejected=[]

@@ -34,6 +34,11 @@ class Attract(unittest.TestCase):
     def test_returning_demo_repeats_on_each_later_poll(self):
         r=self.machine().run(polls=523)
         self.assertEqual((r['demo_calls'],r['random']),(3,3200))
+    def test_actual_delay_runs_for_each_poll_and_animation_column(self):
+        m=self.machine();r=m.run(polls=523)
+        self.assertEqual((r['actual_delay_calls'],r['counter_updates'],r['registers']['ax']),(537,1074,1))
+        from lib.op_attract_runtime import DELAY
+        self.assertTrue(set(range(DELAY,DELAY+21)) <= m.nested_covered)
     def test_signed_WORD_continuations_do_not_claim_elapsed_frames(self):
         m=self.machine()
         for frame,count in ((520,1),(0x7FFE,1),(0x7FFF,0),(0x8000,0),(0xFFFF,0)):
@@ -59,8 +64,8 @@ class Attract(unittest.TestCase):
             r=m.run(flags=flags,status=0x8000,continuation=520,midi=1)
             self.assertEqual((r['registers']['si'],r['registers']['bp']),(0x1C1B,0x207D))
             self.assertEqual(r['flags']&0x600,flags&0x600)
-    def test_all_twenty_one_real_mutations_fail(self):
-        self.assertEqual(negative_controls(self.target)['count'],21)
+    def test_all_twenty_four_real_mutations_fail(self):
+        self.assertEqual(negative_controls(self.target)['count'],24)
     @unittest.skipUnless((ROOT/'.analysis/work/op-attract-build.json').is_file(),'full attract witness absent')
     def test_continuations_cannot_be_reclassified_as_ordinary_entry_coverage(self):
         scope=json.loads((ROOT/'.analysis/work/op-attract-build.json').read_bytes())['scope']

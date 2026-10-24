@@ -85,6 +85,13 @@ inside the no-BGM measure path. Finite counter updates and DOS/driver replies
 bound these contracts; physical timing/audio and adjacent explicit padding
 remain unproved.
 
+OP independently owns the complete 112-byte sound loader and 21-byte delay
+producers, with ten literal native WORD fields and no MZ relocations. OP global
+addresses and both MAP tables are separate from MAINL. A shared independent
+execution core supplies the same file/driver/counter contracts to both layouts;
+product-specific case domains, native ownership and cold bindings stay separate.
+The model refactor preserves the complete MAINL runtime trace vector.
+
 OP's three near cfg functions own 271 CODE bytes inside the larger entry TU.
 Containing menu CODE/DATA/BSS stays context; the flag, zero template and filename
 are separately reviewed dependencies. `review_th03_op_cfg_work.py` guards the
@@ -103,13 +110,14 @@ The screen ledger partitions its former 1,222 bytes without overlapping credit;
 story/VS/choice-renderer scope still lacks current acceptance.
 
 The 105-byte near OP attract wait now also has scoped acceptance. It executes
-402 real input/demo/cfg/sound/cleanup bytes under independent contracts. Every
+423 real input/demo/cfg/sound/cleanup/delay bytes under independent contracts. Every
 poll increments the resident DWORD random value and delays even after finding
 input; poll 521 still calls demo first. Preserve signed WORD frame wrap and
 fourteen box-column steps. Whole-entry cases and explicitly supplied loop
 continuations have separate witness counts. The latter execute the real
 prologue before supplying SI; they do not prove elapsed physical time or an
-unbounded interactive lifetime. Graphics/timing/device/exec replies stay bounded.
+unbounded interactive lifetime. The actual frame-delay body executes on every
+poll and animation step. Graphics/counter/device/exec replies stay bounded.
 
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.

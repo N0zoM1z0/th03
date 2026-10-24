@@ -1,6 +1,6 @@
 {
   "schema": "th03-op-dispatch-current-observation-v1",
-  "observed_utc": "2026-10-24T20:36:19.706484Z",
+  "observed_utc": "2026-10-24T22:21:20.315810Z",
   "command": ".venv/bin/python scripts/review_th03_op_dispatch_work.py",
   "provenance": "candidate-local-attested",
   "implementation_sha256": {

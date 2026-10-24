@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish only the three current, reviewed decoded OP exit/plane owners."""
+"""Publish the current, reviewed decoded OP source owners."""
 
 from datetime import datetime, timezone
 import json
