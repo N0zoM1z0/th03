@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "exact_acceptance": false,
+  "new_source_exact_credit": false,
+  "command": ".venv/bin/python -B scripts/replay_th03_main_native.py",
+  "target": {
+    "sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "program_bytes": 124642,
+    "header_bytes": 6240,
+    "relocation_offset": 28,
+    "relocations": 1553
+  },
+  "scope": "Natural executable-chain C++ candidate between two unchanged reference ASM contexts",
+  "source_sha256": {
+    "config/th03_main_link.rsp": "a259c16ccb75f48368a1df80748cb3f63de21f88f1421b40ba72dd1a46950b7b",
+    "scripts/lib/main_hitcirc_context.py": "23591a1ab485e1bb2b12ec154c81a689e91a6b1e8c69d5e1bc764d7b71f68a8a",
+    "scripts/lib/main_work_stage.py": "4e4c10e12d025fa3f1844d7e86419b85ee8812d67150683c87d2510d67f3917d",
+    "scripts/build_th03_main_work.py": "e9c73c1e3ae1ebf35ce18f6f6da64a16af11e858ab28cfeb9454bed54a8370bc",
+    "src/main/core/entry.hpp": "d23b889d2815d10705caac5124beda3cde752e977376570d8f9aaf8b3793f0a9",
+    "src/main/core/execl.cpp": "17afaa02b1ef28453bb284045168fcc41e54ef0d985da9ae5524ccb648a4fb4a",
+    "src/main/core/execl.hpp": "30de453abc91e8f9adbe2e1eb736061e14fc9b5349e25894d7ea32ec222c067c",
+    "src/main/graphics/round_fill_context.asm": "17b415164d656b764e4c93008bb0852fb397a7d212bd1191c34d0ddfb42ee9f1",
+    "src/main/round/demo_transition_context.asm": "334754ea8fc0a7348de55ec921cb0df0df547c256afd373fd3ad55bce6e7ab6f",
+    "compat/rec98/ReC98.inc": "e7a982d36e708c8ea713727717e3d143c2855111d26c567f26a52da1522ddc67",
+    "compat/rec98/th03/th03.inc": "16cf07e6ef6dd705016f40e3137128369309240109249dc1125d3ed02e1aaa8c",
+    "compat/rec98/th02/gaiji/boldfont.inc": "c2cf3701b68e214b83f4b34baa37cb9ea2910a6e0bebee5b8e7d6e38970d2387",
+    "compat/rec98/th03/arg_bx.inc": "d2d0cbf1eab5b22a1a39d2dbc934ddfe54e9470c87cf4684c6cdf799be1f23c4",
+    "compat/rec98/th03/sprite16.inc": "8379fb7ea870dcac3eb98caf2a94cda54a4e46835a7d158f3c08a1f2f2085977",
+    "compat/rec98/th03/sprites/main_s16.inc": "77281cb81209030ace16f300e66651c615e7bdb5b8c6d3e9ff9963885b5f32bb",
+    "compat/rec98/libs/sprite16/sprite16.inc": "3c98d1b004e7238096b5e7c4012b6a7b41e4a0a21681d34d0edc4b39c7b48c64"
+  },
+  "builder_sha256": "e9c73c1e3ae1ebf35ce18f6f6da64a16af11e858ab28cfeb9454bed54a8370bc",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "4e4c10e12d025fa3f1844d7e86419b85ee8812d67150683c87d2510d67f3917d",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/lib/main_hitcirc_context.py": "23591a1ab485e1bb2b12ec154c81a689e91a6b1e8c69d5e1bc764d7b71f68a8a",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "8e735e019deecb07c81b0055155fc07102e100a6f61f7bfaa8841bfa4274791a",
+    "config/th03_main_link.rsp": "a259c16ccb75f48368a1df80748cb3f63de21f88f1421b40ba72dd1a46950b7b"
+  },
+  "tools_sha256": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 605,
+    "maintained_inputs_checked": 260,
+    "game_objects": 100,
+    "native_phases_per_round": 101,
+    "raw_outputs": 102,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0,
+    "elapsed_seconds": 327.64,
+    "peak_rss_kib": 555220
+  },
+  "grouping": {
+    "objects": [
+      "gf_ctx",
+      "execl",
+      "tr_ctx"
+    ],
+    "after": "b_ellen",
+    "before": "ba_maris",
+    "graphics_context_bytes": 216,
+    "executable_chain_candidate_bytes": 79,
+    "transition_context_bytes": 663,
+    "root_hitcirc_initialized_bytes": 0,
+    "transition_alignment": "BYTE; original entry is at odd offset1dc3",
+    "new_matching_records": [
+      505,
+      514
+    ]
+  },
+  "candidate_gate": {
+    "candidate_object": "obj/th03/execl.obj",
+    "candidate_bytes": 79,
+    "ordered_relocations": 9,
+    "reference_context_bytes": 879,
+    "source_state": "authored-candidate",
+    "exact_acceptance": false,
+    "behavior_acceptance": false,
+    "private_data_bytes": 0
+  },
+  "candidate_contract": {
+    "entry": "096e:1d74",
+    "source": "src/main/core/execl.cpp",
+    "far_pascal_argument_bytes": 4,
+    "return_status": "signed16-bit AX from execl on failure",
+    "varargs_cleanup_bytes": 12,
+    "far_null_sentinel_bytes": 4,
+    "behavior_acceptance": false,
+    "gaiji_restore_return": "int16 status, ignored; declared by frozen gaiji_backup.asm"
+  },
+  "candidate": {
+    "sha256": "7758c949d7796905b8ca660f05e0d8e167cbb3cbcf28f0f3658691ed55a23ce7",
+    "program_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "program_bytes": 124642,
+    "header_bytes": 7680,
+    "relocation_offset": 62,
+    "relocations": 1553
+  },
+  "comparison": {
+    "previous_loaded_image_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "previous_loaded_image_unchanged": true,
+    "matching_relocation_prefix": 514,
+    "differing_relocation_order_positions": 827,
+    "relocation_membership_equal": true,
+    "program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "owned_extents_rechecked": 95,
+    "owned_bytes_rechecked": 74398,
+    "all_owned_raw_and_ordered_equal": true,
+    "product_exact": false
+  },
+  "negative_controls": {
+    "test_file": "tests/test_main_execl_candidate.py",
+    "checks": [
+      "Swapped literal MZ relocations with equal program bytes",
+      "Wrong argument byte",
+      "Wrong transition alignment",
+      "Checksum-valid private DATA allocation",
+      "Wrong OMF public name"
+    ]
+  },
+  "next_question": {
+    "index": 514,
+    "site": "0xb735",
+    "owner": "th03\\tr_ctx.asm",
+    "segment": "HITCIRC_TEXT",
+    "canonical_transition_relocations": 16
+  },
+  "limits": [
+    "Existing accepted scopes remain440 functions /74398 bytes /95 extents; no new function credit.",
+    "The C++ body matches all79 bytes and nine literal ordered relocations, but behavior/ownership acceptance is not promoted.",
+    "Graphics216 and transition663-byte ASM remain explicitly unowned reference context.",
+    "No padding, target-byte arrays or native object rewriting are introduced.",
+    "Root CODE parser omits empty initialized segments; compare an absent HITCIRC entry as zero.",
+    "Header/storage, two alignment bytes and the remaining global order remain open."
+  ]
+}

@@ -13,6 +13,7 @@ RECIPE_INPUTS = (
     "scripts/lib/main_master_prefix.py",
     "scripts/lib/main_master_body.py",
     "scripts/lib/main_enemy_layout.py",
+    "scripts/lib/main_hitcirc_context.py",
     "scripts/replay_th03_main_exact_units.py",
     "scripts/lib/th03_yumemi_bomb_candidate.py",
     "scripts/lib/th03_player_tail_candidate.py",
@@ -321,6 +322,8 @@ def native_carrier(raw):
     from lib.main_master_body import detach as detach_body
 
     text = detach_body(detach(text))
+    from lib.main_hitcirc_context import detach as detach_hitcirc
+    text = detach_hitcirc(text)
     return text.replace("\n", "\r\n").encode("latin1")
 
 

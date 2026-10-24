@@ -39,7 +39,8 @@ class MainWorkTests(unittest.TestCase):
             # Supply the actual unchanged OMF/MAP context for image mutations.
             native = root / "obj/th03"
             native.mkdir(parents=True)
-            for name in ("main.map", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj"):
+            for name in ("main.map", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
+                         "gf_ctx.obj", "execl.obj", "tr_ctx.obj"):
                 shutil.copyfile(work.WORK / "obj/th03" / name, native / name)
             with patch.object(work, "WORK", root):
                 return work.review()
@@ -202,8 +203,8 @@ class MainWorkTests(unittest.TestCase):
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 86)
-        self.assertEqual(len({p["output"] for p in producers}), 86)
+        self.assertEqual(len(producers), 89)
+        self.assertEqual(len({p["output"] for p in producers}), 89)
         for producer in producers:
             if producer.get("origin") == "reference-library-context":
                 self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})

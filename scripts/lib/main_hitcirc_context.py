@@ -1,0 +1,86 @@
+"""Detach unchanged reference context around the native executable-chain TU.
+
+The two ASM contexts retain reference provenance. The 79-byte C++ producer is
+an authored candidate; its complete source/behavior acceptance is separate.
+"""
+
+import hashlib
+import re
+
+from lib.omf import describe_omf
+from probe_th03_main_bomb_rikako_cpp import segment_definitions
+from probe_th03_main_boss_marisa_cpp import code_publics
+
+BODY_SHA256 = "f82838cb9be5935ce476f4d1e860c3af099bcbe556bf8f98386703b7be19f1b4"
+PROCS = (("sub_B37C", "near"), ("sub_B398", "near"), ("sub_B39E", "far"),
+         ("sub_B3A2", "near"), ("sub_B3F6", "near"), ("@GameExecl$qnxc", "far"),
+         ("sub_B4A3", "near"), ("sub_B4A8", "near"), ("sub_B60A", "near"))
+ALIASES = (("_round_playfield_clear", "near"), ("_hud_gauge_highlight_fill", "near"),
+           ("_hud_gauge_highlights_restore", "near"), ("_hud_gauge_bar_fill", "near"),
+           ("MAIN_EXEC", "far"), ("_stage_background_update_none", "near"),
+           ("_stage_demo_finish", "near"), ("_bomb_bg_fill", "far"))
+STORAGE = (("fp_1FBC0", "word"), ("byte_1FBC2", "byte"), ("byte_1FBC3", "byte"),
+           *((f"word_1F{x:03X}", "word") for x in range(0xBC4, 0xBD4, 2)),
+           ("trapezoid_hmask", "word"))
+
+
+def need(value, message):
+    if not value:
+        raise ValueError("HITCIRC source grouping: " + message)
+
+
+def detach(text):
+    first = text.index("public _round_playfield_clear\n")
+    last = text.index("sub_B60A\tendp", first) + len("sub_B60A\tendp")
+    body = text[first:last]
+    need(hashlib.sha256(body.encode("latin1")).hexdigest() == BODY_SHA256,
+         "pinned remaining body differs")
+    need(tuple(re.findall(r"^(\S+)\s+proc\s+(near|far)", body, re.M)) == PROCS,
+         "nine original procedures required")
+    declarations = dict(PROCS + ALIASES)
+    del declarations["@GameExecl$qnxc"]
+    text = text[:first] + "\n".join(f"extrn {n}:{t}" for n, t in declarations.items()) + text[last:]
+    for old in ("public sub_B39E\n", "public _bomb_bg_fill\n_bomb_bg_fill = sub_B39E\n"):
+        need(text.count(old) == 1, "original alias declaration differs")
+        text = text.replace(old, "")
+    for name, kind in STORAGE:
+        directive = {"byte": "db", "word": "dw"}[kind]
+        # trapezoid_hmask is defined by the existing master DATA include.
+        if name != "trapezoid_hmask":
+            need(len(re.findall(r"(?m)^" + name + r"\s+" + directive + r"\s+\?\s*$", text)) == 1,
+                 "existing storage width differs: " + name)
+    return "public " + ",".join(n for n, _ in STORAGE) + "\n" + text
+
+
+def verify(work, target, candidate):
+    metadata = (("gf_ctx", 0x1C9C, 216, "48"), ("execl", 0x1D74, 79, "28"),
+                ("tr_ctx", 0x1DC3, 663, "28"))
+    map_text = (work / "obj/th03/main.map").read_text().replace(chr(92), "/")
+    for name, start, size, alignment in metadata:
+        raw = (work / f"obj/th03/{name}.obj").read_bytes()
+        description = describe_omf(raw)
+        need(description["valid"], "invalid native object: " + name)
+        segments = [s for s in segment_definitions(raw) if s["size"]]
+        need([(s["name"], s["class"], s["size"]) for s in segments]
+             == [("HITCIRC_TEXT", "CODE", size)], "CODE or private storage differs: " + name)
+        module = f"th03/{name}." + ("cpp" if name == "execl" else "asm")
+        pattern = (rf"(?m)^\s*096E:{start:04X}\s+{size:04X}\s+C=CODE\s+S=HITCIRC_TEXT"
+                   rf"\s+G=MAIN_01\s+M={re.escape(module)}\s+ACBP={alignment}\s*$")
+        need(len(re.findall(pattern, map_text)) == 1, "literal MAP contribution differs: " + name)
+        lo = 0x96E0 + start
+        need(candidate.program_image[lo:lo + size] == target.program_image[lo:lo + size],
+             "raw context or C++ body differs: " + name)
+        if name == "execl":
+            need(description["translator_comments"] == ["TC86 Borland C++ 4.02"]
+                 and code_publics(raw, segments[0]["index"]) == [(0, "MAIN_EXEC")],
+                 "complete C++ producer ownership differs")
+            vectors = [[(r.segment, r.offset) for r in image.relocations if lo <= r.linear < lo + size]
+                       for image in (target, candidate)]
+            need(vectors[0] == vectors[1] and len(vectors[0]) == 9,
+                 "nine literal C++ relocations required")
+            need(len(re.findall(r"(?m)^\s*096E:1D74\s+(?:idle\s+)?MAIN_EXEC\s*$", map_text)) == 2,
+                 "both literal C++ public tables required")
+    return dict(candidate_object="obj/th03/execl.obj", candidate_bytes=79,
+                ordered_relocations=9, reference_context_bytes=879,
+                source_state="authored-candidate", exact_acceptance=False,
+                behavior_acceptance=False, private_data_bytes=0)

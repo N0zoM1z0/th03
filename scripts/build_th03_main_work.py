@@ -85,6 +85,18 @@ def context_producers(names=None):
         "c0l.obj",
     }
     producers = {
+        "obj/th03/gf_ctx.obj": dict(
+            source="src/main/graphics/round_fill_context.asm", staged="th03/gf_ctx.asm",
+            output="obj/th03/gf_ctx.obj", prefix="", origin="reference-game-context",
+        ),
+        "obj/th03/execl.obj": dict(
+            source="src/main/core/execl.cpp", staged="th03/execl.cpp",
+            output="obj/th03/execl.obj", prefix="", origin="authored-candidate",
+        ),
+        "obj/th03/tr_ctx.obj": dict(
+            source="src/main/round/demo_transition_context.asm", staged="th03/tr_ctx.asm",
+            output="obj/th03/tr_ctx.obj", prefix="", origin="reference-game-context",
+        ),
         "obj/th03/roundpr.obj": dict(
             source="src/main/round/primitives.asm", staged="th03/roundpr.asm",
             output="obj/th03/roundpr.obj", prefix="",
@@ -270,9 +282,9 @@ def contributions(raw, omit_replaced=False):
                 )
                 or (
                     "S=HITCIRC_TEXT " in line
-                    and line.split()[0] in {"096E:0C98", "096E:0D1A", "096E:0D6C", "096E:1C9C"}
+                    and line.split()[0] in {"096E:0C98", "096E:0D1A", "096E:0D6C", "096E:1C9C", "096E:1D74", "096E:1DC3"}
                     and any("M=" + module + " " in line.replace(chr(92), "/") for module in
-                            ("th03_main.asm", "th03/stg_pal.asm", "th03/roundpr.asm", "th03/ch_setup.cpp"))
+                            ("th03_main.asm", "th03/stg_pal.asm", "th03/roundpr.asm", "th03/ch_setup.cpp", "th03/gf_ctx.asm", "th03/execl.cpp", "th03/tr_ctx.asm"))
                 )
                 or (
                     "S=_TEXT " in line
@@ -320,6 +332,8 @@ def review(previous=None, cold_build=False):
     cfg = tomllib.loads(config_raw.decode())
     from lib.main_enemy_layout import verify as verify_enemy_layout
     enemy_layout = verify_enemy_layout(WORK, cfg)
+    from lib.main_hitcirc_context import verify as verify_hitcirc_grouping
+    hitcirc_grouping = verify_hitcirc_grouping(WORK, target, candidate)
     owned = []
     for unit in cfg["units"] + cfg.get("native_units", []):
         for e in unit.get("code_extents", [unit]):
@@ -348,6 +362,7 @@ def review(previous=None, cold_build=False):
         checked_owned_bytes=sum(r["bytes"] for r in owned),
         all_owned_raw_and_ordered_equal=True,
         enemy_producer_layout=enemy_layout,
+        executable_chain_candidate=hitcirc_grouping,
         character_scopes=[
             r
             for r in owned
@@ -429,7 +444,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 505:
+    if result["matching_relocation_prefix"] < 514:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
@@ -505,8 +520,7 @@ def review(previous=None, cold_build=False):
         if [(s["name"], s["class"], s["size"]) for s in segment_definitions(body_raw)
                 if s["size"]] != [("_TEXT", "CODE", 8307)]:
             raise ValueError("native library body introduced CODE or private DATA/BSS")
-        for start, size, module in ((0xD1A, 82, "th03/roundpr.asm"),
-                                    (0x1C9C, 958, "th03_main.asm")):
+        for start, size, module in ((0xD1A, 82, "th03/roundpr.asm"),):
             pattern = (rf"(?m)^\s*096E:{start:04X}\s+{size:04X}\s+C=CODE\s+S=HITCIRC_TEXT\s+G=MAIN_01\s+"
                        rf"M={re.escape(module)}\s+ACBP=48\s*$")
             if len(re.findall(pattern, map_text)) != 1:
@@ -590,10 +604,12 @@ def review(previous=None, cold_build=False):
                 )
                 if not result["library_body_transfer"]:
                     raise ValueError("library body transfer changed linked bytes or layout")
-            hitcirc_transfer = old_root["HITCIRC_TEXT"]["size"] != new_root["HITCIRC_TEXT"]["size"]
+            old_hitcirc_size = old_root.get("HITCIRC_TEXT", {}).get("size", 0)
+            new_hitcirc_size = new_root.get("HITCIRC_TEXT", {}).get("size", 0)
+            hitcirc_transfer = old_hitcirc_size != new_hitcirc_size
             if hitcirc_transfer:
                 result["carrier_hitcirc_transfer"] = (
-                    (old_root["HITCIRC_TEXT"]["size"], new_root["HITCIRC_TEXT"]["size"]) in {(5058, 4928), (4928, 958)}
+                    (old_hitcirc_size, new_hitcirc_size) in {(5058, 4928), (4928, 958), (958, 0)}
                     and {k: v["size"] for k, v in old_root.items() if k != "HITCIRC_TEXT"}
                     == {k: v["size"] for k, v in new_root.items() if k != "HITCIRC_TEXT"}
                     and before.program_image == candidate.program_image

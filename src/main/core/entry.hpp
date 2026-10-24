@@ -14,7 +14,7 @@ extern const unsigned char main_archive_name[];
 extern const char main_gaiji_font[];
 extern const char main_op_name[], main_ending_name[];
 extern void (far *main_background_init)(void);
-extern "C" void far pascal main_exec(const char far *binary_fn);
+#include "src/main/core/execl.hpp"
 extern "C" {
 void near stage_setup(void);
 unsigned char near round_loop(void);
