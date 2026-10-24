@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Separate the existing combo display/scoring CODE from its late three helpers; preserve MAIN_04 identity and ordered relocation sequence",
+  "exact_acceptance": false,
+  "new_source_exact_credit": 0,
+  "command": "python3 scripts/replay_th03_main_native.py",
+  "source_sha256": {
+    "src/main/player/combo.cpp": "88ecbcf8c433a5ce3f9fa0c8430cf812e1a0cbbd3c714e465c7707a5fd95afd7",
+    "src/main/player/combo.hpp": "e2aaa97215a5f381e0b0024149fc45c309e8b5791c6387a3630609996c7b53ab",
+    "scripts/lib/main_combo_layout.py": "d992d5c0e59952cf6fd7e1ef2478d757e7164fa4c94f9473038990f6f51f8df5",
+    "scripts/lib/main_work_stage.py": "41df56a1681045d3c667037895e3e0bcbe605a10898a4728a14945c23db552aa",
+    "scripts/build_th03_main_work.py": "499b5b48e496aec9d04b6b8903bba6de0cb4e65f69737e058b325a25cfa5f414",
+    "config/th03_main_exact_units.toml": "aa1264bb6feedbdf310701bd5433a1cd7ea11f5659e11b453d9197fd1ff945d5",
+    "config/th03_main_link.rsp": "71adb141b591013a49da9212f33e874ffabcdd128236fdf4cd48ab6c6e8e14c5"
+  },
+  "builder_sha256": "499b5b48e496aec9d04b6b8903bba6de0cb4e65f69737e058b325a25cfa5f414",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "41df56a1681045d3c667037895e3e0bcbe605a10898a4728a14945c23db552aa",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/lib/main_reimu_layout.py": "ca28048af2320905f05fce6e173a9bfa4868a724b9140f65f84d0f2beeb61dbc",
+    "scripts/lib/main_lose_layout.py": "2900a3577ac65f4c1791ed582281a49c67b1e32cf22ee386a4ff2dcb2f13a5b0",
+    "scripts/lib/main_combo_layout.py": "d992d5c0e59952cf6fd7e1ef2478d757e7164fa4c94f9473038990f6f51f8df5",
+    "scripts/lib/main_lose_renderer_runtime.py": "84d275bfd0252187a51bc77a9a250398705b2be999b6a71ed8fee23a00e66e51",
+    "scripts/lib/main_hitcirc_context.py": "6e7b12f9c30faefaa3f70eced645b529319f6833f43f8fefd1fa8b31192e21a7",
+    "scripts/lib/main_handoff_runtime.py": "3a4bff539a7ed78f07ae206ab76c4bee566590799dd8382d5e054e9ffca86204",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "aa1264bb6feedbdf310701bd5433a1cd7ea11f5659e11b453d9197fd1ff945d5",
+    "config/th03_main_link.rsp": "71adb141b591013a49da9212f33e874ffabcdd128236fdf4cd48ab6c6e8e14c5"
+  },
+  "tools_sha256": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 613,
+    "maintained_inputs_checked": 268,
+    "source_objects": 99,
+    "native_phases": 100,
+    "raw_outputs": 101,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0,
+    "elapsed_seconds": 315.96,
+    "peak_rss_kib": 516664
+  },
+  "layout": {
+    "objects": [
+      "p_cmbhl",
+      "p_combo"
+    ],
+    "functions": 5,
+    "code_bytes": 978,
+    "code_record_sizes": [
+      491,
+      40,
+      103,
+      344
+    ],
+    "literal_map_parts": 4,
+    "literal_public_table_entries": 10,
+    "ordered_relocations": 9,
+    "private_data_bytes": 0,
+    "default_code_segment": "P_COMBO_TEXT",
+    "new_source_exact_credit": 0
+  },
+  "source_organization": {
+    "producers": [
+      "TH03_COMBO_MAIN_ONLY emits 491 P_COMBO_TEXT bytes",
+      "TH03_COMBO_HELPERS_ONLY emits 40 E_ENEMY_TEXT, 103 ENEMY_PUT and 344 E_EXPL_TEXT bytes"
+    ],
+    "default_segment": "Explicit -zCP_COMBO_TEXT keeps the original default segment even when the helper module has a different filename. A new empty helper-named segment changes MAIN_04 framing and far-pointer bytes.",
+    "near_far": "combo_add_raw remains far Pascal with RETF 6. The helper uses samecodeseg for the observed MAIN_04 CS, allowing native NOP/PUSH CS/near CALL without changing the entry ABI.",
+    "historical_grouping": "The split is a matching source/layout reconstruction; original filenames and source grouping remain inferred."
+  },
+  "producers": [
+    {
+      "object": "obj/th03/p_combo.obj",
+      "object_sha256": "3e43767c66cd5c53bc9a64c22c50bc9c5a130aa869f7733a20d539785ce087cd",
+      "map_contributions": [
+        {
+          "start": 89273,
+          "size": 491,
+          "segment": "P_COMBO_TEXT",
+          "module": "th03/p_combo.cpp",
+          "group": "MAIN_04",
+          "acbp": "28"
+        }
+      ]
+    },
+    {
+      "object": "obj/th03/p_cmbhl.obj",
+      "object_sha256": "e110b197fcfbd15ef6fcc0a0e7c05f968adefd63e77766bdf0b2d851abf44539",
+      "map_contributions": [
+        {
+          "start": 90421,
+          "size": 40,
+          "segment": "E_ENEMY_TEXT",
+          "module": "th03/p_cmbhl.cpp",
+          "group": "MAIN_04",
+          "acbp": "28"
+        },
+        {
+          "start": 91470,
+          "size": 103,
+          "segment": "ENEMY_PUT",
+          "module": "th03/p_cmbhl.cpp",
+          "group": "MAIN_04",
+          "acbp": "28"
+        },
+        {
+          "start": 91573,
+          "size": 344,
+          "segment": "E_EXPL_TEXT",
+          "module": "th03/p_cmbhl.cpp",
+          "group": "MAIN_04",
+          "acbp": "28"
+        }
+      ]
+    }
+  ],
+  "native_review": {
+    "owners": 13,
+    "functions": 42,
+    "bytes": 10581,
+    "all_eleven_gates_pass": true,
+    "owned_extents": 98,
+    "owned_bytes": 75317
+  },
+  "comparison": {
+    "matching_relocation_prefix": 1072,
+    "previous_matching_prefix": 968,
+    "differing_relocation_order_positions": 242,
+    "previous_differing_positions": 362,
+    "program_bytes": 124642,
+    "program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "relocation_membership_equal": true,
+    "previous_loaded_image_unchanged": true,
+    "program_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "candidate_sha256": "c4a2e198d38bf84947dd1f122a294652867c804912834e8ce758859bc1a29979"
+  },
+  "state_shot_diagnostic": {
+    "accepted": false,
+    "product_input": false,
+    "source_sha256": {
+      "src/main/player/state.cpp": "973eb0371bf7e393439b550b1f635a9f9c25fb44e30441b8fbcb86edbcd34350",
+      "src/main/player/shotroot.cpp": "4dbb9c5139631288b2b4a2517962cc0f6cdd1f4423cd02bb20af0058ccdcc92c"
+    },
+    "organization": "Actual MAIN_010 player_render prototype precedes the P_SHOT player_shots_add prototype, then full state definitions, -G- reset and full shot definitions.",
+    "previous_program_equal": true,
+    "matching_relocation_prefix": 1073,
+    "differing_relocation_order_positions": 241,
+    "code_parts": [
+      {
+        "segment": "MAIN_010_TEXT",
+        "bytes": 1716,
+        "records": [
+          1024,
+          692
+        ]
+      },
+      {
+        "segment": "P_SHOT_TEXT",
+        "bytes": 1497,
+        "records": [
+          1023,
+          474
+        ]
+      }
+    ],
+    "next_expected": [
+      {
+        "index": 1073,
+        "site": 58062,
+        "pair": [
+          2414,
+          19438
+        ],
+        "module": "src/main/player/shotroot.cpp",
+        "segment": "P_SHOT_TEXT"
+      }
+    ],
+    "next_actual": [
+      {
+        "index": 1073,
+        "site": 57559,
+        "pair": [
+          2414,
+          18935
+        ],
+        "module": "prstate/group.cpp",
+        "segment": "MAIN_010_TEXT"
+      }
+    ],
+    "observation": "This fixes only the first state relocation and still emits its tail before the target shot fragment. The first 173-byte shot function has twelve far-call relocation sites split into seven and five around six state sites. A simple complete-TU join is not the matching producer organization."
+  },
+  "next_question": {
+    "record": 1072,
+    "expected": {
+      "index": 1072,
+      "site": 56386,
+      "pair": [
+        2414,
+        17762
+      ],
+      "module": "src/main/player/state.cpp",
+      "segment": "MAIN_010_TEXT"
+    },
+    "target_prefix_groups": [
+      [
+        "state",
+        1
+      ],
+      [
+        "first shot function",
+        7
+      ],
+      [
+        "state",
+        6
+      ],
+      [
+        "first shot function",
+        5
+      ]
+    ],
+    "shot_first_function_bytes": 173,
+    "first_shot_offsets": [
+      104,
+      85,
+      72,
+      59,
+      46,
+      33,
+      20
+    ],
+    "second_shot_offsets": [
+      169,
+      156,
+      143,
+      130,
+      117
+    ]
+  },
+  "reference_note": "TH04 current-target relocation topology and TLINK switch probes were inspected as methodological references. They distinguish target-restored topology from historical pre-DIET input and do not license header or relocation normalization.",
+  "limits": [
+    "No additional exact function/source credit is claimed; all five combo functions already had accepted extents.",
+    "The full loaded image remains unchanged; two alignment bytes, MZ header layout and remaining literal relocation positions still differ.",
+    "State/shot joined output is a private failed diagnostic and is not an accepted product input.",
+    "Existing foreign-service runtime models do not establish real DOS/raster/device behavior."
+  ]
+}

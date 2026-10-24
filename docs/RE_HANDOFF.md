@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `3d82ec9` (Reimu/shared-flight native grouping).
+- Previous pushed checkpoint: `458263f` (loss renderer accepted and layout restored).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted product exactness.
@@ -43,8 +43,8 @@ remain in [README.md](../README.md).
   original assembler remains unknown. The standalone producer and its ten-byte
   TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
   The complete builder compiles the driver itself without consuming that tree.
-- All 98 source objects compile in 99 serial phases. Two independent 612-file
-  source trees reproduce all 100 raw OBJ/EXE/MAP outputs; all 268 maintained
+- All 99 source objects compile in 100 serial phases. Two independent 613-file
+  source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
   inputs. Current native-owner review passes thirteen owners / 42 functions /
   10,581 bytes and checks all 98 configured extents.
@@ -65,14 +65,14 @@ remain in [README.md](../README.md).
   the compiler's original wrap behavior. BYTE alignment retains the odd `1DC3`
   entry. Only the surrounding 216-byte graphics ASM remains unowned in this
   former HITCIRC group. See `config/main_work/handoff_acceptance.json`.
-- The first **968 of 1,553 global relocation records** match literally; 362
+- The first **1,072 of 1,553 global relocation records** match literally; 242
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,773 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 2m40s at 349 MiB peak RSS. OP's initial cold
+- Last full CI: PASS, 1,779 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 2m44s at 419 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
-  cold pair and native review took 4m08s at about 510 MiB. The ZUN driver cold
+  cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
   The complete ZUN cold pair took 52s at 64 MiB.
@@ -87,6 +87,7 @@ remain in [README.md](../README.md).
 | RNG and collision primitives | `src/main/round/primitives.asm`; `roundpr.obj` | Existing 82 bytes at `0xA3FA..0xA44C`, no new credit. MAIN_04 getters remain in root. Ring index 255 aliases the already-incremented index byte on its word read. |
 | Chiyuri / Ellen extra attacks | `src/main/player/exatt_chiyuri.cpp`, `exatt_ellen.cpp` | 978 / 1,129 bytes; Ellen includes its 51-byte slot initializer. Native CODE record order matches without OMF rewriting. |
 | Shared flight and Reimu extra attack | `src/main/player/exatt_flight_reimu.cpp` plus bounded includes; `ex_rfly.obj`, `ex_reup.obj` | Ten existing functions / 1,156 bytes; natural records 825/331, all eighteen literal pairs match. Separate standalone wrappers preserve scoped replay. No new credit. |
+| Combo scoring/display and helpers | `src/main/player/combo.cpp` in two compile modes; `p_combo.obj`, `p_cmbhl.obj` | Five existing functions / 978 bytes; four CODE parts, nine literal pairs. Explicit default CODE identity and same-CS far-call locality preserve all load bytes. No new credit. |
 | Loss update, particles, renderer and banners | `src/main/player/lose.cpp` plus bounded includes; `lose.obj` | Four functions / 664 bytes; one native record, ten literal pairs. Renderer adds one accepted function / 177 bytes; near-this and 2,068-case model pass. |
 
 All listed native scopes pass the configured unit gates. Runtime models execute
@@ -114,22 +115,30 @@ ABI and byte credit are recorded separately in the ledgers.
    and ten exact literal pairs. The independent renderer model executes all 177
    bytes over 2,068 cases and rejects eight actual mutations. It complements the
    existing 487-byte loss model. See `config/main_work/lose_renderer_acceptance.json`.
-4. MAIN links hitbox/loss/CPU, Yumemi bomb/boss/extra, Rikako charge/extra and
-   warning after the earlier Reimu/Mima sequence. The complete loaded image is
-   unchanged. The next mismatch is record **968**, loaded site `0x15E8B`, in
-   `p_combo` / P_COMBO_TEXT. Native combo CODE parts are **491 / 40 / 103 / 344**
-   bytes in P_COMBO_TEXT / E_ENEMY_TEXT / ENEMY_PUT / E_EXPL_TEXT. Moving the whole
-   object early shifts three later physical contributions. Test splitting the
-   primary 491-byte producer from the late helpers, preserving their observed
-   near/far and MAIN_04 group calls. `eupda` owns 372 E_ENEMY bytes; `eupdb` owns
-   151 E_ENEMY and 1,009 ENEMY_PUT bytes. Avoid guessing partitions from filenames.
+4. Combo is split into early scoring/display (491 bytes) and late helpers
+   (40 / 103 / 344 bytes). Both normal TUs use explicit `-zCP_COMBO_TEXT` and
+   MAIN_04: a helper-derived empty segment name changes far-pointer framing.
+   `combo_add_raw` keeps its far Pascal ABI; `samecodeseg` gives the helper the
+   original native NOP/PUSH CS/near CALL. Five existing functions / 978 bytes,
+   four CODE records and nine literal pairs pass full OMF/public/MAP review.
+   Effects/chains/enemy updates, combo helpers/explosion/score, Yumemi charge,
+   Rikako bomb and hyper now link in the target sequence. No new source credit.
+   See `config/main_work/combo_layout_observation.json`.
+   The next mismatch is record **1072**, loaded site `0xDC42`, in state /
+   MAIN_010_TEXT. Target order is state 1, first-shot-function 7, state 6,
+   first-shot-function 5; later shot/result records occur elsewhere. The first
+   shot function is only 173 bytes and its twelve far super_put calls split 7/5.
+   A diagnostic with real MAIN_010 player_render and P_SHOT player_shots_add
+   declarations before the full state/shot definitions preserves all load bytes
+   but reaches only record1073. Native records remain 1024/692 and 1023/474;
+   this simple combined-TU organization is not the target record grouping.
 5. The root has no initialized HITCIRC or PLAYER_M CODE. Its former bodies live
    in ordinary native producers plus the unowned 216-byte graphics ASM context.
    The zero-length HITCIRC declaration remains BYTE/PUBLIC/USE16; the earlier
    real scaffold retains its WORD segment start. Carrier parsing omits empty
    CODE. Root-renderer removal and unrelated carrier records are checked; all
    library prefix/body and seventeen SHARED contributions retain their bytes.
-6. Remaining issues: combo producer partition, state/shot relocation interleaving,
+6. Remaining issues: state/shot relocation interleaving,
    two alignment bytes (`0xEC2D`, `0x1DB05`), MZ header/order and the complete
    four-product source graph. A simple state/shot multi-section TU preserves bytes
    but fails literal order. Ordinary TASM, QUIRKS and MASM51 alignment controls emit

@@ -1,4 +1,4 @@
-#pragma option -zPmain_04
+#pragma option -zCP_COMBO_TEXT -zPmain_04
 
 #include "compat/rec98/th03/main/player/chain.hpp"
 #include "src/main/player/combo.hpp"
@@ -53,6 +53,8 @@ extern const char near gsHIT[];
 extern const char near gBONUS_BOX[];
 extern const char near aBONUS_BOX_SPACES[];
 
+// The display/scoring producer links early; helper CODE keeps its late layout.
+#ifndef TH03_COMBO_HELPERS_ONLY
 uint16_t pascal combo_add_raw(uint8_t hits, pid_t pid, uint16_t bonus)
 {
 	combo_t near& combo = combos[pid];
@@ -187,6 +189,11 @@ void combos_update_and_render(void)
 	}
 }
 
+#endif
+
+#ifndef TH03_COMBO_MAIN_ONLY
+// The far entry shares MAIN_04 CS with this near wrapper.
+#pragma samecodeseg combo_add_raw
 uint16_t pascal near combo_add(pid_t pid, uint8_t chain_slot, uint16_t bonus)
 {
 	return combo_add_raw(chains.hits[pid][chain_slot], pid, bonus);
@@ -273,3 +280,5 @@ void pascal near fire_point_based_boss_attack_or_panic(
 		boss_panic_fired_in_current_combo[pid] = false;
 	}
 }
+
+#endif

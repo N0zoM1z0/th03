@@ -297,7 +297,7 @@ def contributions(raw, omit_replaced=False):
                             ("th03_main.asm", "th03/mst_pref.asm", "th03/mst_body.asm"))
                 )
                 or any("M=th03/" + module + ".cpp " in line.replace(chr(92), "/")
-                       for module in ("e_ena", "e_enb", "eforna", "efornb", "eupda", "eupdb"))
+                       for module in ("e_ena", "e_enb", "eforna", "efornb", "eupda", "eupdb", "p_combo", "p_cmbhl"))
                 or any("M=th03/" + module + ".cpp " in line.replace(chr(92), "/")
                        for module in ("ex_shfly", "ex_repre", "ex_rfly", "ex_reup"))
             )
@@ -344,6 +344,8 @@ def review(previous=None, cold_build=False):
     reimu_layout = verify_reimu_layout(WORK, cfg, target, candidate)
     from lib.main_lose_layout import verify as verify_lose_layout
     lose_layout = verify_lose_layout(WORK, target, candidate)
+    from lib.main_combo_layout import verify as verify_combo_layout
+    combo_layout = verify_combo_layout(WORK, cfg, target, candidate)
     owned = []
     for unit in cfg["units"] + cfg.get("native_units", []):
         for e in unit.get("code_extents", [unit]):
@@ -375,6 +377,7 @@ def review(previous=None, cold_build=False):
         executable_chain_candidate=hitcirc_grouping,
         reimu_producer_layout=reimu_layout,
         lose_producer_layout=lose_layout,
+        combo_producer_layout=combo_layout,
         character_scopes=[
             r
             for r in owned
@@ -456,7 +459,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 968:
+    if result["matching_relocation_prefix"] < 1072:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]

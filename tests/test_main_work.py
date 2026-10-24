@@ -40,7 +40,7 @@ class MainWorkTests(unittest.TestCase):
             native = root / "obj/th03"
             native.mkdir(parents=True)
             for name in ("main.map", "main.obj", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
-                         "gf_ctx.obj", "execl.obj", "tr_ctx.obj", "ex_rfly.obj", "ex_reup.obj", "lose.obj"):
+                         "gf_ctx.obj", "execl.obj", "tr_ctx.obj", "ex_rfly.obj", "ex_reup.obj", "lose.obj", "p_combo.obj", "p_cmbhl.obj"):
                 shutil.copyfile(work.WORK / "obj/th03" / name, native / name)
             with patch.object(work, "WORK", root):
                 return work.review()
@@ -203,8 +203,8 @@ class MainWorkTests(unittest.TestCase):
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 88)
-        self.assertEqual(len({p["output"] for p in producers}), 88)
+        self.assertEqual(len(producers), 89)
+        self.assertEqual(len({p["output"] for p in producers}), 89)
         for producer in producers:
             if producer.get("origin") == "reference-library-context":
                 self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})

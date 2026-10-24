@@ -530,6 +530,13 @@ id = "th03-main-combo"
 source = "src/main/player/combo.cpp"
 header = "src/main/player/combo.hpp"
 object = "p_combo"
+physical_objects = [
+  { object = "p_combo", wrapper = "th03/p_combo.cpp", source = "src/main/player/combo.cpp", wrapper_prefix = "#define TH03_COMBO_MAIN_ONLY 1\n" },
+  { object = "p_cmbhl", wrapper = "th03/p_cmbhl.cpp", source = "src/main/player/combo.cpp", wrapper_prefix = "#define TH03_COMBO_HELPERS_ONLY 1\n" },
+]
+build_file = "Tupfile.lua"
+build_anchor = "\t\"th03/p_combo.cpp\",\n"
+build_replacement = "\t\"th03/p_combo.cpp\",\n\t\"th03/p_cmbhl.cpp\",\n"
 support_files = [
   "compat/rec98/libs/master.lib/pc98_gfx.hpp",
   "compat/rec98/th03/common.h",
@@ -547,10 +554,10 @@ support_files = [
   "compat/rec98/th03/main/v_colors.hpp",
 ]
 code_extents = [
-  { name = "main", ledger_id = "th03-main-combo-main", segment = 0x139d, start = 0x22e9, size = 0x01eb, map_module = "th03/p_combo.cpp", map_segment = "P_COMBO_TEXT", map_group = "MAIN_04" },
-  { name = "wrapper", ledger_id = "th03-main-combo-wrapper", segment = 0x139d, start = 0x2765, size = 0x0028, map_module = "th03/p_combo.cpp", map_segment = "E_ENEMY_TEXT", map_group = "MAIN_04" },
-  { name = "fireball", ledger_id = "th03-main-combo-fireball", segment = 0x139d, start = 0x2b7e, size = 0x0067, map_module = "th03/p_combo.cpp", map_segment = "ENEMY_PUT", map_group = "MAIN_04" },
-  { name = "boss", ledger_id = "th03-main-combo-boss", segment = 0x139d, start = 0x2be5, size = 0x0158, map_module = "th03/p_combo.cpp", map_segment = "E_EXPL_TEXT", map_group = "MAIN_04" },
+  { name = "main", ledger_id = "th03-main-combo-main", segment = 0x139d, start = 0x22e9, size = 0x01eb, map_module = "th03/p_combo.cpp", map_segment = "P_COMBO_TEXT", map_group = "MAIN_04", map_parts = [{ object = "p_combo", start = 0x22e9, size = 0x01eb }] },
+  { name = "wrapper", ledger_id = "th03-main-combo-wrapper", segment = 0x139d, start = 0x2765, size = 0x0028, map_module = "th03/p_cmbhl.cpp", map_segment = "E_ENEMY_TEXT", map_group = "MAIN_04", map_parts = [{ object = "p_cmbhl", start = 0x2765, size = 0x0028 }] },
+  { name = "fireball", ledger_id = "th03-main-combo-fireball", segment = 0x139d, start = 0x2b7e, size = 0x0067, map_module = "th03/p_cmbhl.cpp", map_segment = "ENEMY_PUT", map_group = "MAIN_04", map_parts = [{ object = "p_cmbhl", start = 0x2b7e, size = 0x0067 }] },
+  { name = "boss", ledger_id = "th03-main-combo-boss", segment = 0x139d, start = 0x2be5, size = 0x0158, map_module = "th03/p_cmbhl.cpp", map_segment = "E_EXPL_TEXT", map_group = "MAIN_04", map_parts = [{ object = "p_cmbhl", start = 0x2be5, size = 0x0158 }] },
 ]
 aux_map = [
   { segment = 0x1d56, start = 0x0bec, size = 0, class = "DATA", map_segment = "_DATA", map_group = "DGROUP", raw_compare = false },
