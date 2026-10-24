@@ -671,7 +671,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         if artifact == "th03-zun" and zun_status.get('decoded_accepted'):
             rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current -2..-5: {zun_status["decoded_exact_units"]} extents · {zun_status["decoded_code_bytes"]:,} CODE B · ASM/library separate · product open</text>')
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10">Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</text>')
-            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10">Driver scalar 8,428/image · 61 guest mutations rejected · driver remainder open</text>')
+            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10">Command 6,678 + scalar 8,428/image · 80 guest mutations rejected · driver remainder open</text>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_driver_hybrid_retained(units):
@@ -756,14 +756,14 @@ def main() -> int:
     from status import zun_product_status
     zun_status = zun_product_status(ROOT, units)
     if zun_status.get("decoded_accepted"):
-        lines.extend(["ZUN current -2/-3/-4/-5 decoded source acceptance: 29 extents / 37 procedures / 2,656 CODE bytes. "
+        lines.extend(["ZUN current -2/-3/-4/-5 decoded source acceptance: 38 extents / 46 procedures / 3,017 CODE bytes. "
                       "Twelve authored functions retain 1,621 CODE bytes; the complete original-ASM init owns 607 CODE + 783 DATA bytes "
-                      "and adds zero authored credit. Sixteen bounded library driver services add 428 CODE bytes with zero private DATA/BSS. "
-                      "Their actual include slots, eight absolute and eight relative native fixups are checked. Nine natural CODE contributions "
+                      "and adds zero authored credit. Twenty-five bounded library driver services own 789 CODE bytes with zero private DATA/BSS. "
+                      "Scalar include slots and sixteen native fixups remain checked. Nine command procedures add thirty literal native fixups, including seven relative calls. Their 6,678 guest cases per image cover all 361 bytes and reject nineteen mutations. Nine natural CODE contributions "
                       "and EVEN replace 71 explicitly sized intergroup zero bytes and the row-copy NOP. Both source alignment controls fail equality. "
                       "Twelve reserved DATA bytes and the other driver procedures remain unaccepted. Reviewed producer DATA totals 1,105 bytes. Native logo word alignment and "
                       "resident SDK bindings remain checked. Two current source builds pass; logo 5,111, resident 3,548 and "
-                      "init 70,116 and driver scalar 8,428 guest cases per image reject 61 total mutations. All 65,536 init conversion inputs execute. "
+                      "init 70,116, driver scalar 8,428 and command 6,678 guest cases per image reject 80 total mutations. All 65,536 init conversion inputs execute. "
                       "Canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"

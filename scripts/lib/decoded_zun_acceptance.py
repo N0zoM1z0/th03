@@ -25,6 +25,8 @@ from lib.zun_init_layout import verify as init_layout
 from lib.zun_init_runtime import Machine as InitMachine
 from lib.zun_driver_scalar_layout import verify as driver_layout
 from lib.zun_driver_scalar_runtime import Machine as DriverMachine, ENTRIES as DRIVER_ENTRIES
+from lib.zun_driver_command_layout import verify as command_layout
+from lib.zun_driver_command_runtime import Machine as CommandMachine, ENTRIES as COMMAND_ENTRIES
 from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_oracle_rows
 
 
@@ -141,6 +143,39 @@ def driver_witness(scope):
     layout = scope["layout"]
     need(not layout["enclosing_driver_accepted"] and not layout["reserved_spans_owned"]
          and all(o["origin"] == "library" for o in layout["owners"]), "bounded library source classification")
+
+
+def command_witness(scope):
+    runtime = scope["runtime"]
+    need((runtime["images"], runtime["functions"], runtime["code_bytes"], runtime["private_data_bytes"],
+          runtime["private_bss_bytes"], runtime["cases_per_image"], runtime["executed_owner_bytes"], runtime["exhaustive_byte_domains"])
+         == (2, 9, 361, 0, 0, 6678, 361, 256), "complete command runtime dimensions")
+    need([(o["load_segment"], o["cases"], o["covered_owner_bytes"], o["maximum_observed_stack_depth"])
+          for o in runtime["observations"]] == [(0x1000, 3339, 361, 32), (0x3000, 3339, 361, 32)]
+         and all(re.fullmatch(r"[0-9a-f]{64}", o["trace_sha256"]) for o in runtime["observations"]),
+         "command load/coverage/stack witnesses")
+    controls = scope["negative_controls"]
+    need(controls["count"] == len(set(controls["rejected"])) == 19, "all nineteen command guest mutations")
+    physical = scope["layout"]
+    need(not physical["enclosing_driver_accepted"] and not physical["reserved_spans_owned"]
+         and all(o["origin"] == "library" for o in physical["owners"]), "bounded command library classification")
+
+
+def command_smoke(target, candidate):
+    observations = []
+    for image in (target, candidate):
+        machine = CommandMachine(image, 0x3000)
+        try:
+            rows = [machine.run(kind) for kind in COMMAND_ENTRIES]
+            rows += [machine.run("tokenize_command", text=b'one "open', split_stack=True),
+                     machine.run("optional_number_legacy", text=b"ffh", remaining=0),
+                     machine.run("dispatch_options", arguments=(b"-r", b"/Z"), flags=0xED7),
+                     machine.run("require_number", arguments=(b"garbage",), split_stack=True)]
+            observations.append(rows)
+        finally: machine.close()
+    need(observations[0] == observations[1], "current command ABI/state smoke")
+    return dict(cases_per_image=13, images=2, trace_sha256=digest(observations[0]),
+                full_runtime_reexecuted_now=False, full_runtime_witness_bound=True)
 
 
 def driver_smoke(target, candidate):
@@ -268,12 +303,16 @@ def audit(root):
     need(driver["layout"] == driver_layout(work, target_driver, candidate_driver, at, files, maintained),
          "complete driver scalar native ownership")
     driver_witness(driver)
+    command = report["driver_command_scopes"]
+    need(command["layout"] == command_layout(work, target_driver, candidate_driver, at, files, maintained),
+         "complete native command ownership")
+    command_witness(command)
     controls = report["driver_alignment_controls"]
     need(controls["count"] == 2 and controls["source_only"] and not controls["object_patches"]
          and [c["name"] for c in controls["controls"]] == ["word", "no-even"]
          and all(c["byte_exact_rejected"] and c["all_procedure_includes_unchanged"] and c["changed_inputs"] == ["driver.asm"]
                  and c["target_bytes"] == 4224 and c["differing_bytes"] > 0 for c in controls["controls"]), "two actual native alignment controls")
-    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"]
+    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"] + command["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -302,10 +341,11 @@ def audit(root):
                 driver_payload_sha256=sha(target_driver),
                 driver_alignment_controls=controls,
                 scope=dict(owners=owners, layout=scope["layout"], runtime=scope["runtime"],
-                           negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver), current_smoke=current_smoke,
+                           negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver, command=command), current_smoke=current_smoke,
                 resident_smoke=resident_smoke(target_resident, candidate_resident),
                 init_smoke=init_smoke(target_init, candidate_init),
                 driver_smoke=driver_smoke(target_driver, candidate_driver),
+                command_smoke=command_smoke(target_driver, candidate_driver),
                 product_exact=False, canonical_unit_credit_changed=False)
 
 
@@ -331,10 +371,10 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=29, decoded_authored_bytes=1621, decoded_library_bytes=428,
+                reviewed_proof_ready=True, decoded_exact_units=38, decoded_authored_bytes=1621, decoded_library_bytes=789,
                 decoded_original_asm_bytes=1390, decoded_original_asm_code_bytes=607, decoded_original_asm_data_bytes=783,
-                decoded_source_bytes=3439, decoded_code_bytes=2656, decoded_procedures=37, reviewed_producer_data_bytes=1105,
+                decoded_source_bytes=3800, decoded_code_bytes=3017, decoded_procedures=46, reviewed_producer_data_bytes=1105,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 payload_options=["-2", "-3", "-4", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
                 canonical_credit_changed=False, factory_accepted=False, whole_game_percentage=None,
-                full_runtime_witness_bound=True, current_smoke_cases=78)
+                full_runtime_witness_bound=True, current_smoke_cases=104)

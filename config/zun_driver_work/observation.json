@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-driver-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T15:00:07.027406Z",
+  "observed_utc": "2026-10-24T15:42:00.256262Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_driver_work.py",
   "artifact": "th03-zun",
   "scope": "complete decoded -4 payload",
@@ -11,7 +11,7 @@
   "source_inventory_sha256": "ad630d5cf7279607585670bd90bc05fb33131db7304044fd6670e40a14c1e740",
   "maintained_inputs": {
     "src/zun/driver.asm": "5165e7eb5a910382668f6af2bba2b58e16929640f6e52f2077a143064a179c91",
-    "src/zun/driver_command.inl": "9a49039df84a1c4bde277687b1a35dfd5a9f558a4cd20ff4c46a870b1fa593fc",
+    "src/zun/driver_command.inl": "384d6520d0d9431eded1d7af83e3379dae1b25d1947f0285be521ddb84be7e1d",
     "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
     "src/zun/driver_format.inl": "746f0568d7aa8cfab508043a69697dbd468e535ebb6ebc16b2ee37ecd9a6a38a",
     "src/zun/driver_graphics.inl": "b560e3370fb667606e099e2da48cad4447f884f1ddb7ad989189017709837549",

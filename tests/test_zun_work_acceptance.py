@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from lib.decoded_zun_acceptance import PUBLICATION, verify, runtime_witness, resident_witness, init_witness, driver_witness
+from lib.decoded_zun_acceptance import PUBLICATION, verify, runtime_witness, resident_witness, init_witness, driver_witness, command_witness
 from status import zun_product_status
 
 
@@ -24,10 +24,10 @@ class CurrentZunAcceptance(unittest.TestCase):
 
     def test_physical_replay_accepts_twelve_inner_logo_and_resident_functions(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (29, 1621))
-        self.assertEqual(result["decoded_library_bytes"], 428)
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (38, 1621))
+        self.assertEqual(result["decoded_library_bytes"], 789)
         self.assertEqual(result["decoded_original_asm_bytes"], 1390)
-        self.assertEqual((result["decoded_procedures"], result["decoded_code_bytes"]), (37, 2656))
+        self.assertEqual((result["decoded_procedures"], result["decoded_code_bytes"]), (46, 3017))
         self.assertEqual(result["payload_options"], ["-2", "-3", "-4", "-5"])
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
@@ -104,14 +104,23 @@ class CurrentZunAcceptance(unittest.TestCase):
         scope["layout"]["owners"][0]["origin"] = "authored"
         with self.assertRaisesRegex(ValueError, "bounded library source classification"): driver_witness(scope)
 
+    def test_command_witness_requires_complete_code_and_bounded_library_origin(self):
+        for key,value in (("executed_owner_bytes",360),("cases_per_image",6677)):
+            scope=deepcopy(self.publication["audit"]["scope"]["command"])
+            scope["runtime"][key]=value
+            with self.assertRaisesRegex(ValueError,"command runtime dimensions"): command_witness(scope)
+        scope=deepcopy(self.publication["audit"]["scope"]["command"])
+        scope["layout"]["reserved_spans_owned"]=True
+        with self.assertRaisesRegex(ValueError,"bounded command library"): command_witness(scope)
+
     def test_svg_separates_inner_logo_source_from_whole_product(self):
         import progress
         with (ROOT / "config/units.csv").open() as stream: units = list(csv.DictReader(stream))
         result = verify(ROOT, self.publication)
         svg = progress.render_svg(units, [], [], zun_status=result)
-        self.assertIn("Decoded extents 29/34", svg)
-        self.assertIn("2,656 CODE B", svg)
+        self.assertIn("Decoded extents 38/43", svg)
+        self.assertIn("3,017 CODE B", svg)
         self.assertIn("ASM/library separate", svg)
-        self.assertIn("61 guest mutations rejected", svg)
+        self.assertIn("80 guest mutations rejected", svg)
         self.assertNotIn("10 target differences", svg)
         self.assertIn("whole-game totals remain unknown", svg)

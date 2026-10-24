@@ -1,6 +1,9 @@
 ; Maintained ZUN sprite16 command/numeric/string group, UTF-8 LF.
 ; Complete near procedures only. Containing driver owns tables/messages/state.
 ; Keep original widths, branches, flag behavior and malformed-input oddities.
+; Global state uses DS=driver group; dispatch also requires ES=DS.
+; Diagnostic offsets are interpreted in SS by the real print helper.
+; Dispatch callbacks preserve DS/SS; PUSHA and saved ES protect other registers.
 
 ; DS:SI writable command text. Preserve AX/BX/CX/DX/SI/DI; rebuild the
 ; global argument vector in place. No vector-capacity check is introduced.
