@@ -44,6 +44,19 @@ def runtime_inventory():
     return result
 
 
+def sdk_inventory():
+    config = tomllib.loads((ROOT / "config/toolchain.toml").read_text())
+    surface, = [s for s in config["surfaces"] if s["id"] == "tc40j-include"]
+    consumed = ROOT / config["paths"]["wine_prefix"] / "drive_c/TC4/INCLUDE"
+    installed = ROOT / surface["path"]
+    result = {}
+    for name in ("DOS.H", "_DEFS.H"):
+        raw = (consumed / name).read_bytes()
+        need(raw == (installed / name).read_bytes(), "consumed resident SDK differs from pinned installation: " + name)
+        result[name.lower()] = sha(raw)
+    return result
+
+
 def recipe_inventory():
     paths = ("scripts/build_th03_zun_work.py", "scripts/build_th03_op_work.py",
              "scripts/bootstrap_jwasm.py", "scripts/stage_th03_zun_driver_jwasm.py",
@@ -51,7 +64,9 @@ def recipe_inventory():
              "scripts/stage_th03_zunsoft.py", "scripts/verify_th03_zun_init_standalone.py",
              "scripts/review_th03_zunsoft.py", "scripts/lib/zun_work_source.py",
              "scripts/lib/zun_driver_layout.py", "scripts/lib/zun_logo_layout.py",
-             "scripts/lib/zun_logo_runtime.py", "scripts/lib/zun.py", "scripts/lib/omf.py",
+             "scripts/lib/zun_logo_runtime.py", "scripts/lib/zun_resident_layout.py",
+             "scripts/lib/zun_resident_runtime.py", "scripts/review_th03_zun_resident.py",
+             "scripts/lib/zun.py", "scripts/lib/omf.py",
              "scripts/lib/pc98.py", "scripts/lib/targets.py", "scripts/lib/toolchain.py",
              "scripts/probe_th03_main_bomb_rikako_cpp.py", "scripts/probe_th03_main_boss_marisa_cpp.py",
              "config/th03_zun_work.toml", "config/th03_zun_driver_jwasm.toml",
@@ -106,6 +121,7 @@ def build():
         need(all(s["pass"] or not s["required"] for s in surfaces), "base toolchain identity drift")
         report["toolchain_surfaces"] = surfaces
         report["consumed_runtime_sha256"] = runtime_inventory()
+        report["consumed_sdk_sha256"] = sdk_inventory()
         report["emitter"] = emitter.attest()
         profile = emitter.config()
         diet = tomllib.loads((ROOT / "config/th03_diet.toml").read_text())
@@ -241,8 +257,16 @@ def build():
         target_logo = decoded[at:at + size]
         report["logo_scopes"] = dict(layout=logo_layout(WORK, target_logo, payloads[2], at),
             runtime=logo_runtime(target_logo, payloads[2]), negative_controls=negative_controls(target_logo))
+        from lib.zun_resident_layout import verify as resident_layout
+        from lib.zun_resident_runtime import verify as resident_runtime, negative_controls as resident_controls
+        resident = directory["payloads"][4]
+        at, size = resident["decoded_file_offset"], resident["size"]
+        target_resident = decoded[at:at + size]
+        report["resident_scopes"] = dict(layout=resident_layout(WORK, target_resident, payloads[4], at),
+            runtime=resident_runtime(target_resident, payloads[4]), negative_controls=resident_controls(target_resident))
         need(recipe_inventory() == report["recipe_sha256"], "recipe changed during cold build")
         need(runtime_inventory() == report["consumed_runtime_sha256"], "consumed tiny runtime changed during cold build")
+        need(sdk_inventory() == report["consumed_sdk_sha256"], "consumed SDK changed during cold build")
         need(report["emitter"] == emitter.attest(), "driver emitter identity drift")
         report.update(complete=True, same_tool_roundtrip=True)
         save()

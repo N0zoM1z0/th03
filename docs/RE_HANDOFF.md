@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `7e6a5f2` (current MAINL lifecycle decoded source acceptance).
+- Previous pushed checkpoint: `0e56dae` (native logo alignment and current ZUN source acceptance).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -88,6 +88,25 @@ remain in [README.md](../README.md).
   short ABI cases; normal status binds the full current runtime witness rather
   than repeatedly running the long animation. Other payload/source ownership
   remains open, including vendor startup/runtime, MASTERS.LIB and -1.
+- ZUN -5 now has **two accepted decoded source functions / 322 CODE bytes**,
+  bringing current -3/-5 source acceptance to **twelve functions / 1,621 bytes**.
+  Its complete native root owns 307 initialized DATA bytes and zero BSS; both
+  OMF publics, one 322-byte CODE record and six entries in the two MAP public
+  tables are checked. Near cdecl cfg_init takes a two-byte segment; main takes
+  argc/near argv as two words. Only a signed-positive open handle takes the seek
+  path; all other handles create with archive attributes and write five default
+  option bytes before the unchanged segment word and debug byte. File/service
+  failures do not change main's successful return. Option parsing occurs only
+  for argc 2, accepts both prefixes/cases and ignores trailing bytes. Initialization
+  preserves ten ID characters and their terminator, zeroing offsets 11..255.
+  Independent contracts execute all 322 owned bytes in 3,548 cases per image at
+  two loads, two stacks/register patterns and four IF/DF states; sixteen actual
+  guest mutations fail. The actual N_SCOPY helper executes and clears DF; it
+  gains no source credit. Foreign Pascal services explicitly preserve IF/DF
+  and callee-saved registers; this makes no real DOS/device flag assertion.
+  Consumed DOS.H/_DEFS.H match the pinned SDK before/after the cold pair.
+  The publication binds both full models and executes thirty short ABI cases.
+  Canonical stored-file offsets and whole-product ownership remain open.
 - ZUN -4 uses the separately pinned compatible JWasm OMF emitter and normal TLINK.
   Its instruction/data/procedure includes are unchanged; staging only adapts
   model declaration order, variadic macro spelling and include separators. The
@@ -120,14 +139,15 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,826 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m22s at 410 MiB peak RSS. OP's latest cold
+- Last full CI: PASS, 1,836 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m10s at 395 MiB peak RSS, no swap. OP's latest cold
   pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
   3m10s at 83 MiB with lifecycle/SDK checks. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
-  The complete ZUN cold pair with the logo model took 1m29s at 72 MiB.
+  The complete ZUN cold pair with both logo/resident models took 1m38s at 121 MiB,
+  with no swap.
 
 ## Maintained producers
 
@@ -159,8 +179,8 @@ ABI and byte credit are recorded separately in the ledgers.
    still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-   A next ZUN scope is the maintained resident -5 in `src/zun/res_yume.cpp`,
-   followed by the -2 and -4 driver units. Bind their current native ownership and
+   ZUN resident -5 now also passes current gates. Next scopes are the -2 and -4
+   driver units. Bind their current native ownership and
    affected behavior without reviving deleted historical verification trees.
 3. The loss renderer is now accepted: `player_stuff_t::lose_render()` at loaded
    `0xC248`, all 177 bytes. A near-class Pascal member consumes the observed near

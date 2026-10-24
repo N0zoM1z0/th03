@@ -669,9 +669,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
         elif artifact == "th03-op":
             rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained equality check unavailable · product acceptance open</text>')
         if artifact == "th03-zun" and zun_status.get('decoded_accepted'):
-            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current -3 logo source: 10 functions / 1,299 B · canonical exact 0 · product acceptance open</text>')
+            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current -3/-5 source: {zun_status["decoded_exact_units"]} functions / {zun_status["decoded_authored_bytes"]:,} B · canonical exact 0 · product acceptance open</text>')
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 23 raw outputs · complete decoded + DIET stored files target-equal</text>')
-            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10">5,111 cases/image · 18 guest mutations rejected · native word alignment, no padding variable</text>')
+            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10">Logo 5,111 + resident 3,548 cases/image · 34 guest mutations rejected · native CODE/DATA/BSS</text>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_driver_hybrid_retained(units):
@@ -756,9 +756,10 @@ def main() -> int:
     from status import zun_product_status
     zun_status = zun_product_status(ROOT, units)
     if zun_status.get("decoded_accepted"):
-        lines.extend(["ZUN current -3 decoded source acceptance: 10 functions / 1,299 bytes. "
-                      "Native -a2 word alignment replaces the padding variable. Two current source builds, complete "
-                      "CODE/DATA/BSS ownership and 5,111 guest cases per image pass, with eighteen mutations rejected. "
+        lines.extend(["ZUN current -3/-5 decoded source acceptance: 12 functions / 1,621 bytes. "
+                      "Native -a2 logo word alignment replaces the padding variable; resident owns 322 CODE / 307 DATA / 0 BSS. "
+                      "Two current source builds and complete CODE/DATA/BSS ownership pass. Logo 5,111 and resident 3,548 "
+                      "guest cases per image pass, with 34 mutations rejected. The consumed resident SDK is pinned. "
                       "Canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"

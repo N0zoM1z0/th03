@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish the current ten decoded ZUN -3 logo source owners."""
+"""Publish the current twelve decoded ZUN -3 logo / -5 resident source owners."""
 
 from datetime import datetime, timezone
 import json

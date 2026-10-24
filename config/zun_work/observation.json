@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T12:47:35.166812Z",
+  "observed_utc": "2026-10-24T13:11:23.735485Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 110,
@@ -316,7 +316,7 @@
     "Borland C0T.OBJ, EMU.LIB, MATHS.LIB, CT.LIB and include declarations"
   ],
   "implementation_sha256": {
-    "scripts/build_th03_zun_work.py": "d4c175f04194fac8750ab974163cd222e4d5a68923cdf1874d08f6d290b8a814",
+    "scripts/build_th03_zun_work.py": "ce8a1672d7418b2507c6cfe5dbc03cc1546b891d31aac47ed2dc721cc6327be4",
     "scripts/lib/zun_work_source.py": "06672c674d5d9461e1ff25e5402ed9ef5282b38ba66e8d273bf87b31f7a68aa9",
     "config/th03_zun_work.toml": "4a32e3d0317a8284a2b48f501810d1d500646cd39ce9b7b6324c80f6c66deeed",
     "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
@@ -324,16 +324,17 @@
     "scripts/stage_th03_zunsoft.py": "03e7119f51bccc52738abff7a02af8e1b1b1871402a5805dbc3cf1d0e6bd4c3f",
     "scripts/lib/zun_logo_layout.py": "3e2897277a8b6e1881f85721422ff4d317e2fa66cde66bbbb3d4791b6a247f78",
     "scripts/lib/zun_logo_runtime.py": "45375eb28b5a71d10011af9c2bbca85606dfbdb3105dfba6eb523849dfaf8442",
-    "scripts/lib/decoded_zun_acceptance.py": "0cd7bb350393c424d766bf665d376b7d190bdee9b3468b278bd9d1de4abd7385",
-    "scripts/publish_th03_zun_work_scopes.py": "665d98932b7e30110643a1e24c8afd6d1c5504688d9e0cad2a70cb78e2060261"
+    "scripts/lib/decoded_zun_acceptance.py": "dd5515f6d0bd8bb66ad027b01335ba5d0fd6c232be768d209b2f043d2bc484ee",
+    "scripts/publish_th03_zun_work_scopes.py": "c81d46112780417ced37643604754ce68708b223d869fa8dc494b0ec43e1e4e4",
+    "scripts/lib/zun_resident_layout.py": "09122259a95f0dfb984110f4ff9d501ebccf722d73222371c07e3b1233c66ea3",
+    "scripts/lib/zun_resident_runtime.py": "4dc04558c5ae646229d04e0fb96b103b4cf6197414d9fa280fc93089a12eae18"
   },
-  "builder_sha256": "d4c175f04194fac8750ab974163cd222e4d5a68923cdf1874d08f6d290b8a814",
+  "builder_sha256": "ce8a1672d7418b2507c6cfe5dbc03cc1546b891d31aac47ed2dc721cc6327be4",
   "scoped_source_acceptance": {
     "publication": "config/zun_work/scoped_acceptance.json",
-    "decoded_payload": "-3",
-    "decoded_functions": 10,
-    "decoded_code_bytes": 1299,
-    "owned_data_bytes": 15,
+    "decoded_functions": 12,
+    "decoded_code_bytes": 1621,
+    "owned_data_bytes": 322,
     "reviewed_bss_bytes": 293,
     "native_word_alignment": 2,
     "explicit_padding_variables": 0,
@@ -342,11 +343,10 @@
       1017,
       282
     ],
-    "runtime_cases_per_image": 5111,
     "images": 2,
-    "executed_code_bytes": 1299,
+    "executed_code_bytes": 1621,
     "full_fade_frames": 231,
-    "actual_guest_mutations_rejected": 18,
+    "actual_guest_mutations_rejected": 34,
     "opaque_char_carrier_high_bytes": 256,
     "consumed_tiny_runtime": {
       "C0T.OBJ": "27169f062a9b77bf4accfb9550ca4ccbf0fd710d4b1232768630d53bb6305f7c",
@@ -355,6 +355,35 @@
       "CT.LIB": "b665d5d30f0d3bafe3023ee45eeef183811c87201e9a1876f011acf5699261af"
     },
     "canonical_unit_credit_changed": false,
-    "whole_product_source_ownership": false
+    "whole_product_source_ownership": false,
+    "decoded_payloads": [
+      "-3",
+      "-5"
+    ],
+    "runtime_cases_per_image_by_payload": {
+      "-3": 5111,
+      "-5": 3548
+    },
+    "consumed_resident_sdk": {
+      "dos.h": "defd0ff47a0c0486adbb223f56a7a6aaa7b9a8c4ec506290fdf7b69907537369",
+      "_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f"
+    },
+    "resident": {
+      "code_bytes": 322,
+      "data_bytes": 307,
+      "bss_bytes": 0,
+      "native_code_records": [
+        322
+      ],
+      "map_public_table_entries": 6,
+      "runtime_cases_per_image": 3548,
+      "actual_guest_mutations_rejected": 16,
+      "observed_stack_bytes": 48,
+      "clear_offsets": [
+        11,
+        256
+      ],
+      "canonical_unit_credit_changed": false
+    }
   }
 }

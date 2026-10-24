@@ -1,19 +1,19 @@
 {
   "schema": "zun-current-source-acceptance-v1",
   "state": "repository-local-accepted",
-  "observed_utc": "2026-10-24T12:47:36.289924Z",
+  "observed_utc": "2026-10-24T13:10:28.912608Z",
   "proof_inputs": {
-    "scripts/lib/decoded_zun_acceptance.py": "0cd7bb350393c424d766bf665d376b7d190bdee9b3468b278bd9d1de4abd7385",
-    "scripts/publish_th03_zun_work_scopes.py": "665d98932b7e30110643a1e24c8afd6d1c5504688d9e0cad2a70cb78e2060261",
+    "scripts/lib/decoded_zun_acceptance.py": "dd5515f6d0bd8bb66ad027b01335ba5d0fd6c232be768d209b2f043d2bc484ee",
+    "scripts/publish_th03_zun_work_scopes.py": "c81d46112780417ced37643604754ce68708b223d869fa8dc494b0ec43e1e4e4",
     "scripts/lib/op_work_acceptance.py": "57a6bb3690684491cf50fb18786819f8065d3ddc43cc8c36c924d6d0e27c803e",
     "scripts/status.py": "39e1aa80f4f74f39352b396a91cbc261fa3e05595db24e30432dcba5ac494494",
     "scripts/validate_tracking.py": "0499eb4105f5f9437839e8333e419c435ff7a07cf4555a0a542d564aeef807a9",
     "config/oracles.toml": "332b7bfea9b8da21de525166a4f7ca5a3878db0d7ee796a92944f367ced63b6f"
   },
   "audit": {
-    "cold_report_sha256": "baca2fb9f93324de2ef76340361d7640a0443309cbcb5a4b8c5d5b37720627e2",
+    "cold_report_sha256": "0a5001269828936518be23bc4e095d198f2c8a98ef1212b5dfda56074954325a",
     "recipe_sha256": {
-      "scripts/build_th03_zun_work.py": "d4c175f04194fac8750ab974163cd222e4d5a68923cdf1874d08f6d290b8a814",
+      "scripts/build_th03_zun_work.py": "ce8a1672d7418b2507c6cfe5dbc03cc1546b891d31aac47ed2dc721cc6327be4",
       "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
       "scripts/bootstrap_jwasm.py": "f0fc156a22215bb0381a7b4f08cc60a2386650d28fad756e50a718df9952d430",
       "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
@@ -26,6 +26,9 @@
       "scripts/lib/zun_driver_layout.py": "f8659c81f28e6398b4a1df61e300aaf1269e3a1715c6823562fca42f20ee3ad3",
       "scripts/lib/zun_logo_layout.py": "3e2897277a8b6e1881f85721422ff4d317e2fa66cde66bbbb3d4791b6a247f78",
       "scripts/lib/zun_logo_runtime.py": "45375eb28b5a71d10011af9c2bbca85606dfbdb3105dfba6eb523849dfaf8442",
+      "scripts/lib/zun_resident_layout.py": "09122259a95f0dfb984110f4ff9d501ebccf722d73222371c07e3b1233c66ea3",
+      "scripts/lib/zun_resident_runtime.py": "4dc04558c5ae646229d04e0fb96b103b4cf6197414d9fa280fc93089a12eae18",
+      "scripts/review_th03_zun_resident.py": "f5823dc92f4b42c712b43f94acd58b86955c9f6278dc8c9b403a112f3a61e9b4",
       "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
       "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
       "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
@@ -47,6 +50,10 @@
       "CT.LIB": "b665d5d30f0d3bafe3023ee45eeef183811c87201e9a1876f011acf5699261af"
     },
     "source_inventory_sha256": "be1e58bf0d3b1a430b9a3c7d60e1c1c684ebc12c426d0b2fc67d5e2c0d2fec86",
+    "consumed_sdk_sha256": {
+      "dos.h": "defd0ff47a0c0486adbb223f56a7a6aaa7b9a8c4ec506290fdf7b69907537369",
+      "_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f"
+    },
     "input_files": 112,
     "vendor_inputs": 2,
     "outputs_per_round": 23,
@@ -55,6 +62,7 @@
     "decoded_sha256": "83b034a59fabfd0c4dd48e44a4be5287ac1ea6ea0c0e9677311071113eff9e26",
     "stored_sha256": "5896bbd673aeb10f0df9c1e34716c64fda83655a788ae1ac0fcf58e3616add27",
     "payload_sha256": "beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297",
+    "resident_payload_sha256": "cfe11aff09ae2bb92e6775c3d0aead8ae610e6bc2ad7e0551ec9f42e838734b8",
     "scope": {
       "owners": [
         {
@@ -236,6 +244,42 @@
           "callee_pop_bytes": 0,
           "target_sha256": "27191866e13b10f09e430eb07d02f13345a627e8067f4f712cd65914fbae319f",
           "candidate_sha256": "27191866e13b10f09e430eb07d02f13345a627e8067f4f712cd65914fbae319f"
+        },
+        {
+          "unit_id": "th03-zun-decoded-resident-cfg-init",
+          "source": "src/zun/res_yume.cpp",
+          "object": "obj/th03/res_yume.obj",
+          "start": 871,
+          "size": 97,
+          "coordinate_space": "decoded-payload-com",
+          "payload_option": "-5",
+          "payload_file_offset": 615,
+          "decoded_file_offset": 17801,
+          "canonical_file_offset": null,
+          "ordered_relocations": [],
+          "format": "COM",
+          "argument_bytes": 2,
+          "callee_pop_bytes": 0,
+          "target_sha256": "bd640780beae0c79104047a8b27af26d5d7c82b635c47c38c162ba7329d18466",
+          "candidate_sha256": "bd640780beae0c79104047a8b27af26d5d7c82b635c47c38c162ba7329d18466"
+        },
+        {
+          "unit_id": "th03-zun-decoded-resident-main",
+          "source": "src/zun/res_yume.cpp",
+          "object": "obj/th03/res_yume.obj",
+          "start": 968,
+          "size": 225,
+          "coordinate_space": "decoded-payload-com",
+          "payload_option": "-5",
+          "payload_file_offset": 712,
+          "decoded_file_offset": 17898,
+          "canonical_file_offset": null,
+          "ordered_relocations": [],
+          "format": "COM",
+          "argument_bytes": 4,
+          "callee_pop_bytes": 0,
+          "target_sha256": "58aa9128c2ae312f9b77d5591c4543ca04a7e63ab2998eff65f47db043d147f6",
+          "candidate_sha256": "58aa9128c2ae312f9b77d5591c4543ca04a7e63ab2998eff65f47db043d147f6"
         }
       ],
       "layout": {
@@ -484,12 +528,117 @@
           "page flip",
           "fade step"
         ]
+      },
+      "resident": {
+        "layout": {
+          "owners": [
+            {
+              "unit_id": "th03-zun-decoded-resident-cfg-init",
+              "source": "src/zun/res_yume.cpp",
+              "object": "obj/th03/res_yume.obj",
+              "start": 871,
+              "size": 97,
+              "coordinate_space": "decoded-payload-com",
+              "payload_option": "-5",
+              "payload_file_offset": 615,
+              "decoded_file_offset": 17801,
+              "canonical_file_offset": null,
+              "ordered_relocations": [],
+              "format": "COM",
+              "argument_bytes": 2,
+              "callee_pop_bytes": 0,
+              "target_sha256": "bd640780beae0c79104047a8b27af26d5d7c82b635c47c38c162ba7329d18466",
+              "candidate_sha256": "bd640780beae0c79104047a8b27af26d5d7c82b635c47c38c162ba7329d18466"
+            },
+            {
+              "unit_id": "th03-zun-decoded-resident-main",
+              "source": "src/zun/res_yume.cpp",
+              "object": "obj/th03/res_yume.obj",
+              "start": 968,
+              "size": 225,
+              "coordinate_space": "decoded-payload-com",
+              "payload_option": "-5",
+              "payload_file_offset": 712,
+              "decoded_file_offset": 17898,
+              "canonical_file_offset": null,
+              "ordered_relocations": [],
+              "format": "COM",
+              "argument_bytes": 4,
+              "callee_pop_bytes": 0,
+              "target_sha256": "58aa9128c2ae312f9b77d5591c4543ca04a7e63ab2998eff65f47db043d147f6",
+              "candidate_sha256": "58aa9128c2ae312f9b77d5591c4543ca04a7e63ab2998eff65f47db043d147f6"
+            }
+          ],
+          "code_bytes": 322,
+          "data_bytes": 307,
+          "bss_bytes": 0,
+          "native_code_records": [
+            322
+          ],
+          "map_public_table_entries": 6,
+          "com_relocations": 0,
+          "initialized_data_sha256": "f98ba9226077578902f8fa84e67006982e65aa9ec819bb00f94fd096c262668f"
+        },
+        "runtime": {
+          "images": 2,
+          "cases_per_image": 3548,
+          "functions": 2,
+          "executed_owner_bytes": 322,
+          "data_bytes": 307,
+          "bss_bytes": 0,
+          "observations": [
+            {
+              "load_segment": 4096,
+              "cases": 1774,
+              "covered_owner_bytes": 322,
+              "maximum_observed_stack_depth": 48,
+              "trace_sha256": "cf8b2c19df9cc5cdbd849bca296239f4e99e9b65d225c1eaae4cd2ae01949458"
+            },
+            {
+              "load_segment": 12288,
+              "cases": 1774,
+              "covered_owner_bytes": 322,
+              "maximum_observed_stack_depth": 48,
+              "trace_sha256": "cf8b2c19df9cc5cdbd849bca296239f4e99e9b65d225c1eaae4cd2ae01949458"
+            }
+          ],
+          "bounded_interfaces": "Pascal services preserve IF/DF and callee-saved registers; DOS/device bodies unowned",
+          "actual_compiler_helper": "N_SCOPY@ 28 bytes executes; clears DF; no source credit"
+        },
+        "negative_controls": {
+          "count": 16,
+          "rejected": [
+            "signed-positive-handle",
+            "zero-handle-create",
+            "seek-five-byte-options",
+            "create-archive-attribute",
+            "segment-word-width",
+            "debug-byte-width",
+            "argc-equals-two",
+            "remove-lowercase",
+            "remove-free-segment",
+            "debug-one",
+            "create-paragraph-count",
+            "preserve-id-terminator",
+            "clear-last-byte",
+            "failed-return-one",
+            "cfg-caller-cleanup",
+            "actual-copy-helper-clears-df"
+          ]
+        }
       }
     },
     "current_smoke": {
       "cases_per_image": 10,
       "images": 2,
       "trace_sha256": "b5a245c8144f760b17e85b5c715f95bc5bce6ed6470730cae400ef1c86ed6138",
+      "full_runtime_reexecuted_now": false,
+      "full_runtime_witness_bound": true
+    },
+    "resident_smoke": {
+      "cases_per_image": 5,
+      "images": 2,
+      "trace_sha256": "50e6c5329360266b67063caa91102584fd3c9be09eca7644e8c9a8f5ca2cddd7",
       "full_runtime_reexecuted_now": false,
       "full_runtime_witness_bound": true
     },
@@ -511,9 +660,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-format-integrity",
@@ -528,9 +677,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-boundary-ownership",
@@ -545,9 +694,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-toolchain-identity",
@@ -562,9 +711,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-toolchain-replay",
@@ -579,9 +728,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-object-format-integrity",
@@ -596,9 +745,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-cold-build-determinism",
@@ -613,9 +762,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-layout-relocations",
@@ -630,9 +779,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-raw-bytes",
@@ -649,7 +798,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "2ed5647a88f67532e3905bed4c2d7fa02d1e7db414a7d8631179d402c4a74986",
         "output_sha256": "2ed5647a88f67532e3905bed4c2d7fa02d1e7db414a7d8631179d402c4a74986",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-ledger-consistency",
@@ -664,9 +813,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-graph-clear-both-cold-aggregate-replay",
@@ -681,9 +830,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-zunsoft-init": {
@@ -700,9 +849,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-format-integrity",
@@ -717,9 +866,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-boundary-ownership",
@@ -734,9 +883,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-toolchain-identity",
@@ -751,9 +900,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-toolchain-replay",
@@ -768,9 +917,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-object-format-integrity",
@@ -785,9 +934,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-cold-build-determinism",
@@ -802,9 +951,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-layout-relocations",
@@ -819,9 +968,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-raw-bytes",
@@ -838,7 +987,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "77736161f8ccb527971022e31df27c6c1ddf182d0818c941d0fbc8d19b4a5375",
         "output_sha256": "77736161f8ccb527971022e31df27c6c1ddf182d0818c941d0fbc8d19b4a5375",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-ledger-consistency",
@@ -853,9 +1002,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-init-cold-aggregate-replay",
@@ -870,9 +1019,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-zunsoft-exit": {
@@ -889,9 +1038,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-format-integrity",
@@ -906,9 +1055,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-boundary-ownership",
@@ -923,9 +1072,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-toolchain-identity",
@@ -940,9 +1089,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-toolchain-replay",
@@ -957,9 +1106,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-object-format-integrity",
@@ -974,9 +1123,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-cold-build-determinism",
@@ -991,9 +1140,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-layout-relocations",
@@ -1008,9 +1157,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-raw-bytes",
@@ -1027,7 +1176,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "9869681873e96dcea407762fe70c6ee0f08289a67af04a549f99a45c1b6aca80",
         "output_sha256": "9869681873e96dcea407762fe70c6ee0f08289a67af04a549f99a45c1b6aca80",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-ledger-consistency",
@@ -1042,9 +1191,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-exit-cold-aggregate-replay",
@@ -1059,9 +1208,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-zunsoft-vector2": {
@@ -1078,9 +1227,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-format-integrity",
@@ -1095,9 +1244,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-boundary-ownership",
@@ -1112,9 +1261,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-toolchain-identity",
@@ -1129,9 +1278,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-toolchain-replay",
@@ -1146,9 +1295,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-object-format-integrity",
@@ -1163,9 +1312,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-cold-build-determinism",
@@ -1180,9 +1329,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-layout-relocations",
@@ -1197,9 +1346,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-raw-bytes",
@@ -1216,7 +1365,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "52d0dcebaa313c97dcb01111fa47a51a9d8b8c5ddb2fb8c80720d1502590088f",
         "output_sha256": "52d0dcebaa313c97dcb01111fa47a51a9d8b8c5ddb2fb8c80720d1502590088f",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-ledger-consistency",
@@ -1231,9 +1380,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-zunsoft-vector2-cold-aggregate-replay",
@@ -1248,9 +1397,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-objects-setup": {
@@ -1267,9 +1416,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-format-integrity",
@@ -1284,9 +1433,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-boundary-ownership",
@@ -1301,9 +1450,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-toolchain-identity",
@@ -1318,9 +1467,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-toolchain-replay",
@@ -1335,9 +1484,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-object-format-integrity",
@@ -1352,9 +1501,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-cold-build-determinism",
@@ -1369,9 +1518,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-layout-relocations",
@@ -1386,9 +1535,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-raw-bytes",
@@ -1405,7 +1554,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "496ddf09165120437146bb88791c8b9e64f2adb5812a2a019b3f85c250c1f5e1",
         "output_sha256": "496ddf09165120437146bb88791c8b9e64f2adb5812a2a019b3f85c250c1f5e1",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-ledger-consistency",
@@ -1420,9 +1569,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-objects-setup-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-objects-setup-cold-aggregate-replay",
@@ -1437,9 +1586,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-circles-render-and-update": {
@@ -1456,9 +1605,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-format-integrity",
@@ -1473,9 +1622,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-boundary-ownership",
@@ -1490,9 +1639,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-toolchain-identity",
@@ -1507,9 +1656,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-toolchain-replay",
@@ -1524,9 +1673,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-object-format-integrity",
@@ -1541,9 +1690,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-cold-build-determinism",
@@ -1558,9 +1707,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-layout-relocations",
@@ -1575,9 +1724,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-raw-bytes",
@@ -1594,7 +1743,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "8f43ba917cc2cc7af31c9df582d8f4a630d67cac30f1824970a1cbf9855b902e",
         "output_sha256": "8f43ba917cc2cc7af31c9df582d8f4a630d67cac30f1824970a1cbf9855b902e",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-ledger-consistency",
@@ -1609,9 +1758,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-circles-render-and-update-cold-aggregate-replay",
@@ -1626,9 +1775,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-stars-render-and-update": {
@@ -1645,9 +1794,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-format-integrity",
@@ -1662,9 +1811,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-boundary-ownership",
@@ -1679,9 +1828,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-toolchain-identity",
@@ -1696,9 +1845,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-toolchain-replay",
@@ -1713,9 +1862,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-object-format-integrity",
@@ -1730,9 +1879,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-cold-build-determinism",
@@ -1747,9 +1896,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-layout-relocations",
@@ -1764,9 +1913,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-raw-bytes",
@@ -1783,7 +1932,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "3041a3090e0ca73fec9844f6ad5046182cca53116bbbe5300f51fe0382c7c4c4",
         "output_sha256": "3041a3090e0ca73fec9844f6ad5046182cca53116bbbe5300f51fe0382c7c4c4",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-ledger-consistency",
@@ -1798,9 +1947,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-stars-render-and-update-cold-aggregate-replay",
@@ -1815,9 +1964,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-wait": {
@@ -1834,9 +1983,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-format-integrity",
@@ -1851,9 +2000,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-boundary-ownership",
@@ -1868,9 +2017,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-toolchain-identity",
@@ -1885,9 +2034,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-toolchain-replay",
@@ -1902,9 +2051,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-object-format-integrity",
@@ -1919,9 +2068,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-cold-build-determinism",
@@ -1936,9 +2085,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-layout-relocations",
@@ -1953,9 +2102,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-raw-bytes",
@@ -1972,7 +2121,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "40157a570245879499e4832593ac4d515a67b32efe3adca826ed13968c0b2f5f",
         "output_sha256": "40157a570245879499e4832593ac4d515a67b32efe3adca826ed13968c0b2f5f",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-ledger-consistency",
@@ -1987,9 +2136,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-wait-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-wait-cold-aggregate-replay",
@@ -2004,9 +2153,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-logo-render-and-update": {
@@ -2023,9 +2172,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-format-integrity",
@@ -2040,9 +2189,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-boundary-ownership",
@@ -2057,9 +2206,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-toolchain-identity",
@@ -2074,9 +2223,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-toolchain-replay",
@@ -2091,9 +2240,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-object-format-integrity",
@@ -2108,9 +2257,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-cold-build-determinism",
@@ -2125,9 +2274,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-layout-relocations",
@@ -2142,9 +2291,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-raw-bytes",
@@ -2161,7 +2310,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "faf4f4a556333f607114cb5b4fb7bfa6cdd32a38ac1b324224eaf8214bd863a1",
         "output_sha256": "faf4f4a556333f607114cb5b4fb7bfa6cdd32a38ac1b324224eaf8214bd863a1",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-ledger-consistency",
@@ -2176,9 +2325,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-logo-render-and-update-cold-aggregate-replay",
@@ -2193,9 +2342,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     },
     "th03-zun-decoded-logo-main": {
@@ -2212,9 +2361,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-format-integrity",
@@ -2229,9 +2378,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-boundary-ownership": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-boundary-ownership",
@@ -2246,9 +2395,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-toolchain-identity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-toolchain-identity",
@@ -2263,9 +2412,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-toolchain-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-toolchain-replay",
@@ -2280,9 +2429,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-object-format-integrity": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-object-format-integrity",
@@ -2297,9 +2446,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-cold-build-determinism": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-cold-build-determinism",
@@ -2314,9 +2463,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-layout-relocations": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-layout-relocations",
@@ -2331,9 +2480,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-raw-bytes": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-raw-bytes",
@@ -2350,7 +2499,7 @@
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
         "input_sha256": "27191866e13b10f09e430eb07d02f13345a627e8067f4f712cd65914fbae319f",
         "output_sha256": "27191866e13b10f09e430eb07d02f13345a627e8067f4f712cd65914fbae319f",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-ledger-consistency": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-ledger-consistency",
@@ -2365,9 +2514,9 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       },
       "ev-zun-current-th03-zun-decoded-logo-main-cold-aggregate-replay": {
         "id": "ev-zun-current-th03-zun-decoded-logo-main-cold-aggregate-replay",
@@ -2382,9 +2531,387 @@
         "result": "pass",
         "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
-        "input_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "output_sha256": "805d9d94e00d7c0a5da926755dd01e62f18805265d3a52b34fe841a5fbcbf331",
-        "observed_utc": "2026-10-24T12:47:36.289924Z"
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      }
+    },
+    "th03-zun-decoded-resident-cfg-init": {
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-target-identity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-target-identity",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "target-identity",
+        "artifact": "th03-zun",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-format-integrity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-format-integrity",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "format-integrity",
+        "artifact": "th03-zun",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-boundary-ownership": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-boundary-ownership",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-cfg-init",
+        "extent_start": "871",
+        "extent_size": "97",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-toolchain-identity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-toolchain-identity",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-toolchain-replay": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-toolchain-replay",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-cfg-init",
+        "extent_start": "871",
+        "extent_size": "97",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-object-format-integrity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-object-format-integrity",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-cfg-init",
+        "extent_start": "871",
+        "extent_size": "97",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-cold-build-determinism": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-cold-build-determinism",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-cfg-init",
+        "extent_start": "871",
+        "extent_size": "97",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-layout-relocations": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-layout-relocations",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "layout-relocations",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-cfg-init",
+        "extent_start": "871",
+        "extent_size": "97",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-raw-bytes": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-raw-bytes",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "raw-bytes",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-cfg-init",
+        "extent_start": "871",
+        "extent_size": "97",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "bd640780beae0c79104047a8b27af26d5d7c82b635c47c38c162ba7329d18466",
+        "output_sha256": "bd640780beae0c79104047a8b27af26d5d7c82b635c47c38c162ba7329d18466",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-ledger-consistency": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-ledger-consistency",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-cfg-init-cold-aggregate-replay": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-cfg-init-cold-aggregate-replay",
+        "claim_id": "th03-zun-decoded-resident-cfg-init",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-cfg-init",
+        "extent_start": "871",
+        "extent_size": "97",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      }
+    },
+    "th03-zun-decoded-resident-main": {
+      "ev-zun-current-th03-zun-decoded-resident-main-target-identity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-target-identity",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "target-identity",
+        "artifact": "th03-zun",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-format-integrity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-format-integrity",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "format-integrity",
+        "artifact": "th03-zun",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-boundary-ownership": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-boundary-ownership",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-main",
+        "extent_start": "968",
+        "extent_size": "225",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-toolchain-identity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-toolchain-identity",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-toolchain-replay": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-toolchain-replay",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-main",
+        "extent_start": "968",
+        "extent_size": "225",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-object-format-integrity": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-object-format-integrity",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-main",
+        "extent_start": "968",
+        "extent_size": "225",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-cold-build-determinism": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-cold-build-determinism",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-main",
+        "extent_start": "968",
+        "extent_size": "225",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-layout-relocations": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-layout-relocations",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "layout-relocations",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-main",
+        "extent_start": "968",
+        "extent_size": "225",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-raw-bytes": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-raw-bytes",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "raw-bytes",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-main",
+        "extent_start": "968",
+        "extent_size": "225",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "58aa9128c2ae312f9b77d5591c4543ca04a7e63ab2998eff65f47db043d147f6",
+        "output_sha256": "58aa9128c2ae312f9b77d5591c4543ca04a7e63ab2998eff65f47db043d147f6",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-ledger-consistency": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-ledger-consistency",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
+      },
+      "ev-zun-current-th03-zun-decoded-resident-main-cold-aggregate-replay": {
+        "id": "ev-zun-current-th03-zun-decoded-resident-main-cold-aggregate-replay",
+        "claim_id": "th03-zun-decoded-resident-main",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-zun",
+        "unit_id": "th03-zun-decoded-resident-main",
+        "extent_start": "968",
+        "extent_size": "225",
+        "location": "config/zun_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only ZUN cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_zun_work_scopes.py",
+        "input_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "output_sha256": "528929c5f70fdc55325c973d682ba96a3b7cd2963169bf79e1a44c08f971c465",
+        "observed_utc": "2026-10-24T13:10:28.912608Z"
       }
     }
   }

@@ -1,4 +1,4 @@
-"""Source-bound current -3 ownership and the complete cold runtime witness.
+"""Source-bound current -3/-5 ownership and complete cold runtime witnesses.
 
 Publication reruns the physical audit and a bounded current ABI smoke. The full
 5,111-case/image model runs in the cold builder; status binds its exact report,
@@ -17,8 +17,10 @@ from lib.omf import describe_omf
 from lib.targets import find_artifact, read_verified_artifact
 from lib.toolchain import attest_surface
 from lib.zun import parse_launcher
-from lib.zun_logo_layout import verify as layout, SOURCE, OBJECT
+from lib.zun_logo_layout import verify as layout, OBJECT
 from lib.zun_logo_runtime import Machine, ENTRIES, BSS_SIZE, put
+from lib.zun_resident_layout import verify as resident_layout, OBJECT as RESIDENT_OBJECT
+from lib.zun_resident_runtime import Machine as ResidentMachine
 from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_oracle_rows
 
 
@@ -57,6 +59,36 @@ def runtime_witness(scope):
     need(controls["count"] == len(set(controls["rejected"])) == 18, "all eighteen actual guest mutation controls")
 
 
+def resident_witness(scope):
+    runtime = scope["runtime"]
+    need((runtime["cases_per_image"], runtime["images"], runtime["functions"], runtime["executed_owner_bytes"],
+          runtime["data_bytes"], runtime["bss_bytes"]) == (3548, 2, 2, 322, 307, 0), "complete resident runtime dimensions")
+    need([(o["load_segment"], o["cases"], o["covered_owner_bytes"], o["maximum_observed_stack_depth"])
+          for o in runtime["observations"]] == [(0x1000, 1774, 322, 48), (0x3000, 1774, 322, 48)]
+         and all(re.fullmatch(r"[0-9a-f]{64}", o["trace_sha256"]) for o in runtime["observations"]),
+         "complete resident load/coverage/stack witnesses")
+    controls = scope["negative_controls"]
+    need(controls["count"] == len(set(controls["rejected"])) == 16, "all sixteen actual resident mutation controls")
+
+
+def resident_smoke(target, candidate):
+    observations = []
+    for image in (target, candidate):
+        machine = ResidentMachine(image, 0x3000)
+        try:
+            observations.append([
+                machine.run("main", argument=b"-dignored", opened=0x8000, created=0xFFFF),
+                machine.run("main", argument=b"/R", existing=0x900),
+                machine.run("main", argc=0xFFFF, allocated=0),
+                machine.run("cfg_init", opened=0, segment=0xFFFF, debug=0xA7),
+                machine.run("cfg_init", opened=0x7FFF, segment=0, flags=2)])
+        finally:
+            machine.close()
+    need(observations[0] == observations[1], "current independent resident smoke")
+    return dict(cases_per_image=5, images=2, trace_sha256=digest(observations[0]),
+                full_runtime_reexecuted_now=False, full_runtime_witness_bound=True)
+
+
 def smoke(target, candidate):
     observations = []
     for image in (target, candidate):
@@ -89,6 +121,7 @@ def audit(root):
          "complete source-only cold pair")
     need(report["recipe_sha256"] == build.recipe_inventory(), "cold recipe drift")
     need(report["consumed_runtime_sha256"] == build.runtime_inventory(), "consumed tiny runtime drift")
+    need(report["consumed_sdk_sha256"] == build.sdk_inventory(), "consumed resident SDK drift")
     files, maintained, context = build.compose(root)
     need(report["source_sha256"] == {name: sha(b) for name, b in sorted(files.items())}
          and report["source_context"] == context, "current source/vendor graph drift")
@@ -144,26 +177,42 @@ def audit(root):
     scope = report["logo_scopes"]
     need(scope["layout"] == layout(work, target_logo, candidate_logo, at), "independent physical owner audit")
     runtime_witness(scope)
+    child = directory["payloads"][4]
+    at, size = child["decoded_file_offset"], child["size"]
+    target_resident = decoded[at:at + size]
+    candidate_resident = (work / "bin/th03/res_yume.com").read_bytes()
+    resident = report["resident_scopes"]
+    need(resident["layout"] == resident_layout(work, target_resident, candidate_resident, at),
+         "independent physical resident audit")
+    resident_witness(resident)
+    owners = scope["layout"]["owners"] + resident["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
-    for o in scope["layout"]["owners"]:
+    for o in owners:
         u = units[o["unit_id"]]
-        need(u["artifact"] == "th03-zun" and u["segment"] == "decoded:-3" and int(u["offset"], 0) == o["start"]
+        need(u["artifact"] == "th03-zun" and u["segment"] == "decoded:" + o["payload_option"] and int(u["offset"], 0) == o["start"]
              and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"] and not u["file_offset"]
              and u["state"] == "source-present" and u["origin"] == "authored" and u["boundary_state"] == "reviewed"
-             and u["source"] == SOURCE, "current decoded payload ownership ledger")
-    for name in describe_omf((work / OBJECT).read_bytes())["dependency_paths"]:
-        name = name.replace(chr(92), "/")
-        need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed source/header binding")
+             and u["source"] == o["source"], "current decoded payload ownership ledger")
+    for obj in (OBJECT, RESIDENT_OBJECT):
+        for name in describe_omf((work / obj).read_bytes())["dependency_paths"]:
+            name = re.sub(r"/+", "/", name.replace(chr(92), "/"))
+            if name.upper().startswith("C:/TC4/INCLUDE/"):
+                need(name.removeprefix("C:/TC4/INCLUDE/") in report["consumed_sdk_sha256"], "complete consumed SDK declaration")
+            else:
+                need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed source/header binding")
     current_smoke = smoke(target_logo, candidate_logo)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
                 consumed_runtime_sha256=report["consumed_runtime_sha256"], source_inventory_sha256=digest(report["source_sha256"]),
+                consumed_sdk_sha256=report["consumed_sdk_sha256"],
                 input_files=len(files), vendor_inputs=2, outputs_per_round=23, project_objects_per_round=7, rounds=2,
                 decoded_sha256=sha(decoded), stored_sha256=sha(stored), payload_sha256=sha(target_logo),
-                scope=dict(owners=scope["layout"]["owners"], layout=scope["layout"], runtime=scope["runtime"],
-                           negative_controls=scope["negative_controls"]), current_smoke=current_smoke,
+                resident_payload_sha256=sha(target_resident),
+                scope=dict(owners=owners, layout=scope["layout"], runtime=scope["runtime"],
+                           negative_controls=scope["negative_controls"], resident=resident), current_smoke=current_smoke,
+                resident_smoke=resident_smoke(target_resident, candidate_resident),
                 product_exact=False, canonical_unit_credit_changed=False)
 
 
@@ -189,8 +238,8 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=10, decoded_authored_bytes=1299,
+                reviewed_proof_ready=True, decoded_exact_units=12, decoded_authored_bytes=1621,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
-                payload_option="-3", product_exact=False, mixed_physical_exact_bytes=0,
+                payload_options=["-3", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
                 canonical_credit_changed=False, factory_accepted=False, whole_game_percentage=None,
-                full_runtime_witness_bound=True, current_smoke_cases=20)
+                full_runtime_witness_bound=True, current_smoke_cases=30)
