@@ -45,16 +45,16 @@
 <text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>
   <g aria-label="ZUN.COM bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="354" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>
-  <text x="24" y="374" fill="#c8cad2" font-family="monospace" font-size="11">53 tracked unit extents</text>
+  <text x="24" y="374" fill="#c8cad2" font-family="monospace" font-size="11">65 tracked unit extents</text>
   <rect x="200" y="347" width="250" height="12" rx="4" fill="#353b52"/>
   <rect x="488" y="347" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="347" width="250.00" height="5" fill="#9b6de3"/>
-  <rect x="200" y="354" width="240.57" height="5" fill="#e0af68"/>
-  <rect x="488" y="347" width="244.53" height="12" fill="#55c7a6"/>
-  <text x="200" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 53 · Source 51/53</text>
-  <text x="488" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Decoded extents 48/53</text>
+  <rect x="200" y="354" width="242.31" height="5" fill="#e0af68"/>
+  <rect x="488" y="347" width="249.23" height="12" fill="#55c7a6"/>
+  <text x="200" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 65 · Source 63/65</text>
+  <text x="488" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Decoded extents 60/65</text>
   </g>
-<text x="200" y="394" fill="#55c7a6" font-family="sans-serif" font-size="10">Current -2..-5: 48 extents · 3,694 CODE B · ASM/library separate · product open</text>
+<text x="200" y="394" fill="#55c7a6" font-family="sans-serif" font-size="10">Current -2..-5: 60 extents · 4,508 CODE B · ASM/library separate · product open</text>
 <text x="200" y="410" fill="#e0af68" font-family="sans-serif" font-size="10">Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</text>
 <text x="200" y="426" fill="#e0af68" font-family="sans-serif" font-size="10">Command 6,678 + scalar 8,428/image · 80 guest mutations rejected · driver remainder open</text>
   <path d="M24 452 H764" stroke="#4b526d"/>

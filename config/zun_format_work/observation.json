@@ -1,7 +1,7 @@
 {
   "schema": "th03-zun-formatter-current-observation-v1",
-  "observed_utc": "2026-10-24T18:41:41.071451Z",
-  "command": ".venv/bin/python scripts/review_th03_zun_format_work.py --current-cold",
+  "observed_utc": "2026-10-24T19:14:07.946914Z",
+  "command": ".venv/bin/python scripts/review_th03_zun_format_work.py",
   "provenance": "candidate-local-attested",
   "implementation_sha256": {
     "scripts/review_th03_zun_format_work.py": "b5252b5cb22dead4965b7ec63f96cbe83af4844031b88f23d843dcd49ee22815",
@@ -19,9 +19,9 @@
     "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
     "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8"
   },
-  "cold_report_sha256": "815984d73b1d4c8857e2112ff89bd2073ee5b1f5d49445dac2f167a08c3f5b21",
+  "cold_report_sha256": "356f4b195ce48aaea8d05262da53eb20ab60a5b97ab218ec39251fdd00eb3a0e",
   "source_inventory_sha256": "2389ea64a6c9e12770201804eccbc48508d45594210c25d1aaca7a416caf361c",
-  "native_pair_built_now": false,
+  "native_pair_built_now": true,
   "layout": {
     "owners": [
       {

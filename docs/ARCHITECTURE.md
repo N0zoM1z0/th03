@@ -39,6 +39,15 @@ a bounded interface; actual formatting, reverse and strlen instructions execute.
 The current formatter review binds a full cold pair and three relative WORD
 fields plus one absolute DWORD digit-table field; the table adds no DATA credit.
 
+Twelve driver graphics procedures own 814 library CODE bytes. Native ownership
+checks 62 WORD fields; direct CFG proof separates four dead clipping-jump bytes
+from 810 executed bytes. A bounded two-page/four-bank word-memory interface
+checks CPU writes, page selection and exact port width/order/IF/DF. It does not
+emulate EGC latches, raster operations or physical pixels. Real nested helpers
+execute, including the 65,536-row zero-height loop. EGC begin/end force IF on;
+top clipping does not perform a second bottom pass. Shared state and buffers
+remain external dependencies, with no new DATA ownership.
+
 `src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
 CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.
 Its two link layouts and six ordered far-pointer relocations are reviewed

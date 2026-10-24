@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `f3b2fff` (OP demo/score dispatch source scopes).
+- Previous pushed checkpoint: `30498c1` (ZUN formatter/print source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -254,8 +254,8 @@ remain in [README.md](../README.md).
   input read at DS:[SI-1]. LODSB helpers require forward DF; folded comparison
   and decimal do not. The upstream SPRITE16 reference is IDA-generated from a
   TH04 binary, not attested original source. The remaining 3+9 DATA reserved
-  bytes and the other 20 procedures / 1,378 CODE bytes remain unaccepted after
-  the command and formatter scopes below.
+  bytes and the eight resident procedures / 564 CODE bytes remain unaccepted
+  after the command, formatter and graphics scopes below.
   Do not promote that context from complete-byte equality.
 - ZUN -4 now also accepts **nine library command procedures / 361 CODE bytes**, zero private DATA/BSS, thirty
   literal OMF fixups (23 absolute / seven relative). Every actual include slot
@@ -293,11 +293,32 @@ remain in [README.md](../README.md).
   complete cold pair repeats all 23 outputs and entire decoded/stored ZUN. After
   correcting the reviewer's digit-field width, the full formatter review reused
   the still-current source/output-bound pair; no extra native build was needed.
-  Current ZUN acceptance is **48 extents / 56 procedures / 3,694 CODE bytes**:
-  authored 1,621, library 1,466 and original ASM 607 CODE + 783 DATA remain separate.
-  Canonical unit credit stays zero. Publication binds six full models and 134
-  short ABI cases. `review_th03_zun_format_work.py` builds and reviews; its
+  These scopes cover 48 extents / 56 procedures / 3,694 CODE bytes before graphics.
+  `review_th03_zun_format_work.py` builds and reviews; its
   `--current-cold` mode validates existing cold bindings before all formatter gates.
+- ZUN -4's **twelve graphics procedures / 814 library CODE bytes** now pass native
+  ownership and CPU/interface behavior gates, with zero private DATA/BSS. All
+  62 literal WORD fixups (53 absolute, nine relative), complete include slots and
+  enclosing native/MAP layout pass. Two unreachable clipping jumps account for
+  four bytes; all other 810 bytes execute in 512 cases per image at two loads.
+  Twenty-six actual instruction mutants fail. Every nested helper executes.
+  The explicit two-page/four-bank word-memory fixture checks page switches,
+  ordered stores, full memory, and port widths/values/IF/DF; EGC latches, raster
+  operations and physical pixel effects are not modeled. Preserve BYTE width,
+  unclamped horizontal position, signed top rejection and no second bottom pass
+  after negative-Y clipping. Height zero executes 65,536 row iterations (also
+  counted independently by a regression hook); zero word count still advances
+  offsets. Row helpers preserve SI/DI, and wrapper saves retain original WORD
+  registers/segments/high halves. EGC begin/end unconditionally set IF through
+  STI; other row/draw helpers inherit IF. Copy-lower leaves access page one;
+  prepare restores access/display zero. Full flag results, split SS, near ABI,
+  48-byte observed stack and memory outside 64 stack bytes pass. Whole-driver
+  and shared DATA/buffer ownership remain open. Current ZUN totals **60 extents /
+  68 procedures / 4,508 CODE bytes**: authored 1,621, library 2,280 and original
+  ASM 607 CODE + 783 DATA stay separate. Canonical credit remains zero. Seven
+  complete runtime witnesses and 150 short ABI cases are bound by publication.
+  Use `review_th03_zun_graphics_work.py` for one cold/formatter/graphics chain;
+  its `--current-cold` mode validates prerequisites before rerunning graphics.
 - All 99 source objects compile in 100 serial phases. Two independent 613-file
   source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -324,15 +345,15 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,936 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 5m12s at about 482 MiB peak RSS, no swap. OP's latest SDK-guarded cold
+- Last full CI: PASS, 1,950 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 5m57s at about 501 MiB peak RSS, no swap. OP's latest SDK-guarded cold
   pair plus cfg/dispatch reviews took 2m37s at 116 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
   checks. The separate shared input/ending wait review took 1m48s at about 149 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
-  at 45 MiB. The latest complete ZUN cold pair with five existing models and two
-  native alignment controls finished within 2m30s and 215 MiB. The separate full
-  formatter review took 30s at 83 MiB; both ran without swap.
+  at 45 MiB. The latest complete ZUN cold/formatter/graphics chain, including
+  all seven models and two native alignment controls, took 4m27s at 223 MiB,
+  without swap.
 
 ## Maintained producers
 
@@ -372,16 +393,16 @@ ABI and byte credit are recorded separately in the ledgers.
    bounded source/behavior questions. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
-   Sixteen -4 scalar/library functions, nine command and ten formatter procedures pass current
+   Sixteen -4 scalar/library functions, nine command, ten formatter and twelve graphics procedures pass current
    gates. The eight
    paragraph gaps now have native source/link proof in one ordinary TU with
    nine CODE contributions; the complete cold pair and both alignment controls
    are bound by current publication. Before whole-driver promotion, resolve the
-   remaining 3+9 DATA reserved bytes and 20 unaccepted procedures. A private
+   remaining 3+9 DATA reserved bytes and eight unaccepted resident procedures. A private
    ON/OFF contribution probe could not change the tiny model's implicit _DATA
    alignment to PARA (assembler A2078); this does not establish natural trailing
    storage. Do not add an empty segment solely to force the target tail. Further
-   source scopes are the remaining resident/graphics families and maintained
+   source scopes are the remaining resident family and maintained
    launcher/transfer units. Formatter dead jumps stay source-owned with separate
    CFG proof, not runtime coverage. Keep unchecked saved-BP overflow behavior.
    Bind their current native ownership and
@@ -443,7 +464,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/publish_th03_mainl_work_scopes.py
 .venv/bin/python scripts/bootstrap_jwasm.py --check
 .venv/bin/python scripts/build_th03_zun_driver_work.py
-.venv/bin/python scripts/review_th03_zun_format_work.py
+.venv/bin/python scripts/review_th03_zun_graphics_work.py
 .venv/bin/python scripts/publish_th03_zun_work_scopes.py
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/ci.py

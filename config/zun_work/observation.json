@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T18:41:41.071451Z",
+  "observed_utc": "2026-10-24T19:14:07.946914Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 110,
@@ -36,7 +36,7 @@
     "src/zun/driver_command.inl": "384d6520d0d9431eded1d7af83e3379dae1b25d1947f0285be521ddb84be7e1d",
     "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
     "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
-    "src/zun/driver_graphics.inl": "b560e3370fb667606e099e2da48cad4447f884f1ddb7ad989189017709837549",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
     "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
     "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
     "src/zun/driver_resident.inl": "258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa",
@@ -566,12 +566,16 @@
     "scripts/review_th03_zun_format_work.py": "b5252b5cb22dead4965b7ec63f96cbe83af4844031b88f23d843dcd49ee22815",
     "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
     "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
-    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e"
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
+    "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
+    "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70"
   },
   "builder_sha256": "ae812422734b00b962f9017479afdfe342b99a4a3e72e69380a895fca8ed5366",
   "scoped_source_acceptance": {
     "publication": "config/zun_work/scoped_acceptance.json",
-    "decoded_code_bytes": 3694,
+    "decoded_code_bytes": 4508,
     "owned_data_bytes": 1105,
     "reviewed_bss_bytes": 293,
     "native_word_alignment": 2,
@@ -582,9 +586,9 @@
       282
     ],
     "images": 2,
-    "executed_code_bytes": 3683,
+    "executed_code_bytes": 4493,
     "full_fade_frames": 231,
-    "actual_guest_mutations_rejected": 104,
+    "actual_guest_mutations_rejected": 130,
     "opaque_char_carrier_high_bytes": 256,
     "consumed_tiny_runtime": {
       "C0T.OBJ": "27169f062a9b77bf4accfb9550ca4ccbf0fd710d4b1232768630d53bb6305f7c",
@@ -606,7 +610,8 @@
       "-2": 70116,
       "-4-scalar": 8428,
       "-4-command": 6678,
-      "-4-formatter": 6106
+      "-4-formatter": 6106,
+      "-4-graphics": 512
     },
     "consumed_resident_sdk": {
       "dos.h": "defd0ff47a0c0486adbb223f56a7a6aaa7b9a8c4ec506290fdf7b69907537369",
@@ -629,8 +634,8 @@
       ],
       "canonical_unit_credit_changed": false
     },
-    "decoded_units": 48,
-    "decoded_procedures": 56,
+    "decoded_units": 60,
+    "decoded_procedures": 68,
     "authored_functions": 12,
     "authored_code_bytes": 1621,
     "original_asm_bytes": 1390,
@@ -661,8 +666,8 @@
       "source_labels": 59,
       "canonical_unit_credit_changed": false
     },
-    "library_functions": 35,
-    "library_code_bytes": 1466,
+    "library_functions": 47,
+    "library_code_bytes": 2280,
     "driver_scalar": {
       "origin": "library",
       "functions": 16,
@@ -708,7 +713,7 @@
         "eight native option callback targets"
       ]
     },
-    "unreachable_code_bytes": 11,
+    "unreachable_code_bytes": 15,
     "driver_formatter": {
       "origin": "library",
       "functions": 10,
@@ -726,6 +731,27 @@
       "wrapper_buffer_bytes": 208,
       "maximum_modeled_wrapper_output_bytes": 209,
       "reviewed_external_digit_bytes": 16,
+      "enclosing_driver_accepted": false,
+      "reserved_spans_owned": false,
+      "newly_authored_bytes": 0
+    },
+    "driver_graphics": {
+      "origin": "library",
+      "functions": 12,
+      "code_bytes": 814,
+      "executed_instruction_bytes": 810,
+      "unreachable_instruction_bytes": 4,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "ordered_scoped_native_fixups": 62,
+      "scoped_absolute_word_fixups": 53,
+      "scoped_relative_word_fixups": 9,
+      "runtime_cases_per_image": 512,
+      "actual_guest_mutations_rejected": 26,
+      "maximum_observed_stack_bytes": 48,
+      "modeled_video_pages": 2,
+      "modeled_video_banks": 4,
+      "physical_EGC_pixel_effects_proved": false,
       "enclosing_driver_accepted": false,
       "reserved_spans_owned": false,
       "newly_authored_bytes": 0

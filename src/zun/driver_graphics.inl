@@ -167,6 +167,8 @@ sprite16_blit_egc		endp
 
 ; Copy shared height rows from DS:SI to ES:DI using REP MOVSW,
 ; shared word count and per-row skips. SI/DI restored; DF=0 is required.
+; Height zero underflows BX and visits 65,536 rows; zero row words still
+; advance SI/DI by the skip but issue no source reads or destination writes.
 public sprite16_copy_rows
 sprite16_copy_rows		proc near
 		push	si

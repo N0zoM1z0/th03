@@ -1,0 +1,1913 @@
+{
+  "schema": "th03-zun-graphics-current-observation-v1",
+  "observed_utc": "2026-10-24T19:14:07.946914Z",
+  "command": ".venv/bin/python scripts/review_th03_zun_graphics_work.py",
+  "provenance": "candidate-local-attested",
+  "implementation_sha256": {
+    "scripts/review_th03_zun_format_work.py": "b5252b5cb22dead4965b7ec63f96cbe83af4844031b88f23d843dcd49ee22815",
+    "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
+    "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "scripts/build_th03_zun_work.py": "ae812422734b00b962f9017479afdfe342b99a4a3e72e69380a895fca8ed5366",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
+    "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/verify_th03_zun_driver_hybrid.py": "077a7c99279853282852bcb1f11f77e935796e0304a48fe9587a00a531cd1aa9",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
+    "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
+    "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6"
+  },
+  "cold_report_sha256": "356f4b195ce48aaea8d05262da53eb20ab60a5b97ab218ec39251fdd00eb3a0e",
+  "formatter_report_sha256": "e23f2af0239612e06cd63c54c6e881ed1269757069d62104b497c9bf06fa5248",
+  "source_inventory_sha256": "2389ea64a6c9e12770201804eccbc48508d45594210c25d1aaca7a416caf361c",
+  "native_pair_built_now": true,
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-zun-decoded-driver-draw-clipped",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_draw_clipped",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p014.inc",
+        "start": 868,
+        "size": 158,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 612,
+        "decoded_file_offset": 13574,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 883,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4186,
+            "resolved": 4186
+          },
+          {
+            "address": 887,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 891,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4190,
+            "resolved": 4190
+          },
+          {
+            "address": 894,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4192,
+            "resolved": 4192
+          },
+          {
+            "address": 898,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4194,
+            "resolved": 4194
+          },
+          {
+            "address": 902,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4180,
+            "resolved": 4180
+          },
+          {
+            "address": 908,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 914,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 918,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4194,
+            "resolved": 4194
+          },
+          {
+            "address": 934,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 937,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4180,
+            "resolved": 4180
+          },
+          {
+            "address": 951,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4190,
+            "resolved": 4190
+          },
+          {
+            "address": 955,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 963,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 975,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 979,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4194,
+            "resolved": 4194
+          },
+          {
+            "address": 992,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 996,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4194,
+            "resolved": 4194
+          },
+          {
+            "address": 1002,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4180,
+            "resolved": 4180
+          },
+          {
+            "address": 1007,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4180,
+            "resolved": 4180
+          },
+          {
+            "address": 1011,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4194,
+            "resolved": 4194
+          }
+        ],
+        "target_sha256": "7b95f6024909d4a217970a67948fd6fd5d8fab0c8b1101b2e4017d11f4525944",
+        "candidate_sha256": "7b95f6024909d4a217970a67948fd6fd5d8fab0c8b1101b2e4017d11f4525944"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-blit-egc",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_blit_egc",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p015.inc",
+        "start": 1026,
+        "size": 245,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 770,
+        "decoded_file_offset": 13732,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1028,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4190,
+            "resolved": 4190
+          },
+          {
+            "address": 1031,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4186,
+            "resolved": 4186
+          },
+          {
+            "address": 1043,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4188,
+            "resolved": 4188
+          },
+          {
+            "address": 1051,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4186,
+            "resolved": 4186
+          },
+          {
+            "address": 1057,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4176,
+            "resolved": 4176
+          },
+          {
+            "address": 1063,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4176,
+            "resolved": 4176
+          },
+          {
+            "address": 1071,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4178,
+            "resolved": 4178
+          },
+          {
+            "address": 1079,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4176,
+            "resolved": 4176
+          },
+          {
+            "address": 1086,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4178,
+            "resolved": 4178
+          },
+          {
+            "address": 1097,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4192,
+            "resolved": 4192
+          },
+          {
+            "address": 1105,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4192,
+            "resolved": 4192
+          },
+          {
+            "address": 1109,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4178,
+            "resolved": 4178
+          },
+          {
+            "address": 1112,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4184,
+            "resolved": 4184
+          },
+          {
+            "address": 1115,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4184,
+            "resolved": 4184
+          },
+          {
+            "address": 1126,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4182,
+            "resolved": 4182
+          },
+          {
+            "address": 1131,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4196,
+            "resolved": 4196
+          },
+          {
+            "address": 1148,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4204,
+            "resolved": 4204
+          },
+          {
+            "address": 1170,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4198,
+            "resolved": 4198
+          },
+          {
+            "address": 1176,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3902,
+            "resolved": 3902
+          },
+          {
+            "address": 1183,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4200,
+            "resolved": 4200
+          },
+          {
+            "address": 1214,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4204,
+            "resolved": 4204
+          },
+          {
+            "address": 1220,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3900,
+            "resolved": 3900
+          },
+          {
+            "address": 1239,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4204,
+            "resolved": 4204
+          },
+          {
+            "address": 1247,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4202,
+            "resolved": 4202
+          },
+          {
+            "address": 1264,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4206,
+            "resolved": 4206
+          }
+        ],
+        "target_sha256": "16c0d76055ebab9bd7a933b9318fdb0353d7ab179a0a89cfaf21bd79718cc280",
+        "candidate_sha256": "16c0d76055ebab9bd7a933b9318fdb0353d7ab179a0a89cfaf21bd79718cc280"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-copy-rows",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_copy_rows",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p016.inc",
+        "start": 1272,
+        "size": 30,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1016,
+        "decoded_file_offset": 13978,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1277,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4194,
+            "resolved": 4194
+          },
+          {
+            "address": 1282,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4184,
+            "resolved": 4184
+          },
+          {
+            "address": 1286,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4182,
+            "resolved": 4182
+          }
+        ],
+        "target_sha256": "b526a1350c9b74cc27731b548d729f88884615eee62982a301acaaedaefad68a",
+        "candidate_sha256": "b526a1350c9b74cc27731b548d729f88884615eee62982a301acaaedaefad68a"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-prepare-vram",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_prepare_vram",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p017.inc",
+        "start": 1312,
+        "size": 32,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1056,
+        "decoded_file_offset": 14018,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "e2271cef54a610dec9a4d16cb9fd98875d177522de0c6173258ef6ccc617ba17",
+        "candidate_sha256": "e2271cef54a610dec9a4d16cb9fd98875d177522de0c6173258ef6ccc617ba17"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-build-mask",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_build_mask",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p018.inc",
+        "start": 1344,
+        "size": 80,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1088,
+        "decoded_file_offset": 14050,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1348,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3088,
+            "resolved": 1738
+          },
+          {
+            "address": 1357,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3902,
+            "resolved": 3902
+          },
+          {
+            "address": 1371,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3902,
+            "resolved": 3902
+          },
+          {
+            "address": 1400,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3902,
+            "resolved": 3902
+          },
+          {
+            "address": 1405,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3900,
+            "resolved": 3900
+          }
+        ],
+        "target_sha256": "b1a28ce307ee25e637ec4394db9436cfedb68a9141ceee51d2cbb1472a2302ff",
+        "candidate_sha256": "b1a28ce307ee25e637ec4394db9436cfedb68a9141ceee51d2cbb1472a2302ff"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-accumulate-plane",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_accumulate_plane",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p019.inc",
+        "start": 1424,
+        "size": 20,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1168,
+        "decoded_file_offset": 14130,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "601619dab41923cbe2a0e0623a49858f1b4f3e960d9996ef879d3c2e455dc77b",
+        "candidate_sha256": "601619dab41923cbe2a0e0623a49858f1b4f3e960d9996ef879d3c2e455dc77b"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-copy-lower-page",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_copy_lower_page",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p020.inc",
+        "start": 1444,
+        "size": 44,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1188,
+        "decoded_file_offset": 14150,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1448,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3024,
+            "resolved": 1574
+          },
+          {
+            "address": 1482,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3088,
+            "resolved": 1604
+          }
+        ],
+        "target_sha256": "5e4aad15cfae91b8a71c13dd48b913b231efc85832f367df2a0459ca2e614c09",
+        "candidate_sha256": "5e4aad15cfae91b8a71c13dd48b913b231efc85832f367df2a0459ca2e614c09"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-compress-rows",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_compress_rows",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p021.inc",
+        "start": 1488,
+        "size": 39,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1232,
+        "decoded_file_offset": 14194,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1492,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3024,
+            "resolved": 1530
+          },
+          {
+            "address": 1521,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3088,
+            "resolved": 1565
+          }
+        ],
+        "target_sha256": "00906f3510c2e19ecabd9d3540e0d60e4961c7ad1eb356432db2f020d3a544c1",
+        "candidate_sha256": "00906f3510c2e19ecabd9d3540e0d60e4961c7ad1eb356432db2f020d3a544c1"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-copy-upper-to-lower",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_copy_upper_to_lower",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p022.inc",
+        "start": 1527,
+        "size": 25,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1271,
+        "decoded_file_offset": 14233,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1528,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3024,
+            "resolved": 1494
+          },
+          {
+            "address": 1549,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3088,
+            "resolved": 1537
+          }
+        ],
+        "target_sha256": "f0b3b42a92e8d2d2c95f883642f13d49c6c26320069922946c6fbf86eaed18e9",
+        "candidate_sha256": "f0b3b42a92e8d2d2c95f883642f13d49c6c26320069922946c6fbf86eaed18e9"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-clear-upper",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_clear_upper",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p023.inc",
+        "start": 1552,
+        "size": 33,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1296,
+        "decoded_file_offset": 14258,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1555,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3024,
+            "resolved": 1467
+          },
+          {
+            "address": 1580,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3088,
+            "resolved": 1506
+          }
+        ],
+        "target_sha256": "af76228dab3b85cf6ecd6e2352f67c4e38d4f63db9c6a7c7024ed9a964f8f052",
+        "candidate_sha256": "af76228dab3b85cf6ecd6e2352f67c4e38d4f63db9c6a7c7024ed9a964f8f052"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-egc-begin",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_egc_begin",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p024.inc",
+        "start": 3024,
+        "size": 64,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 2768,
+        "decoded_file_offset": 15730,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "24007d16a2168a1362453822d6b4e9285ef8cecce72dafc891729daf5fbdd1a6",
+        "candidate_sha256": "24007d16a2168a1362453822d6b4e9285ef8cecce72dafc891729daf5fbdd1a6"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-egc-end",
+        "source": "src/zun/driver_graphics.inl",
+        "procedure": "sprite16_egc_end",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p025.inc",
+        "start": 3088,
+        "size": 44,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 2832,
+        "decoded_file_offset": 15794,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; shared CS state; forward string preconditions; EGC helpers force IF on",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "781d2a24d7139895ea9d90fcb68f383fe67fc2ba4eec99401b4e0410ce825c12",
+        "candidate_sha256": "781d2a24d7139895ea9d90fcb68f383fe67fc2ba4eec99401b4e0410ce825c12"
+      }
+    ],
+    "functions": 12,
+    "code_bytes": 814,
+    "private_data_bytes": 0,
+    "private_bss_bytes": 0,
+    "ordered_native_fixups": [
+      {
+        "address": 883,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4186,
+        "resolved": 4186
+      },
+      {
+        "address": 887,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 891,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4190,
+        "resolved": 4190
+      },
+      {
+        "address": 894,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4192,
+        "resolved": 4192
+      },
+      {
+        "address": 898,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4194,
+        "resolved": 4194
+      },
+      {
+        "address": 902,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4180,
+        "resolved": 4180
+      },
+      {
+        "address": 908,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 914,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 918,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4194,
+        "resolved": 4194
+      },
+      {
+        "address": 934,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 937,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4180,
+        "resolved": 4180
+      },
+      {
+        "address": 951,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4190,
+        "resolved": 4190
+      },
+      {
+        "address": 955,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 963,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 975,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 979,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4194,
+        "resolved": 4194
+      },
+      {
+        "address": 992,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 996,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4194,
+        "resolved": 4194
+      },
+      {
+        "address": 1002,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4180,
+        "resolved": 4180
+      },
+      {
+        "address": 1007,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4180,
+        "resolved": 4180
+      },
+      {
+        "address": 1011,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4194,
+        "resolved": 4194
+      },
+      {
+        "address": 1028,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4190,
+        "resolved": 4190
+      },
+      {
+        "address": 1031,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4186,
+        "resolved": 4186
+      },
+      {
+        "address": 1043,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4188,
+        "resolved": 4188
+      },
+      {
+        "address": 1051,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4186,
+        "resolved": 4186
+      },
+      {
+        "address": 1057,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4176,
+        "resolved": 4176
+      },
+      {
+        "address": 1063,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4176,
+        "resolved": 4176
+      },
+      {
+        "address": 1071,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4178,
+        "resolved": 4178
+      },
+      {
+        "address": 1079,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4176,
+        "resolved": 4176
+      },
+      {
+        "address": 1086,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4178,
+        "resolved": 4178
+      },
+      {
+        "address": 1097,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4192,
+        "resolved": 4192
+      },
+      {
+        "address": 1105,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4192,
+        "resolved": 4192
+      },
+      {
+        "address": 1109,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4178,
+        "resolved": 4178
+      },
+      {
+        "address": 1112,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4184,
+        "resolved": 4184
+      },
+      {
+        "address": 1115,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4184,
+        "resolved": 4184
+      },
+      {
+        "address": 1126,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4182,
+        "resolved": 4182
+      },
+      {
+        "address": 1131,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4196,
+        "resolved": 4196
+      },
+      {
+        "address": 1148,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4204,
+        "resolved": 4204
+      },
+      {
+        "address": 1170,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4198,
+        "resolved": 4198
+      },
+      {
+        "address": 1176,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3902,
+        "resolved": 3902
+      },
+      {
+        "address": 1183,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4200,
+        "resolved": 4200
+      },
+      {
+        "address": 1214,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4204,
+        "resolved": 4204
+      },
+      {
+        "address": 1220,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3900,
+        "resolved": 3900
+      },
+      {
+        "address": 1239,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4204,
+        "resolved": 4204
+      },
+      {
+        "address": 1247,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4202,
+        "resolved": 4202
+      },
+      {
+        "address": 1264,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4206,
+        "resolved": 4206
+      },
+      {
+        "address": 1277,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4194,
+        "resolved": 4194
+      },
+      {
+        "address": 1282,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4184,
+        "resolved": 4184
+      },
+      {
+        "address": 1286,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4182,
+        "resolved": 4182
+      },
+      {
+        "address": 1348,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3088,
+        "resolved": 1738
+      },
+      {
+        "address": 1357,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3902,
+        "resolved": 3902
+      },
+      {
+        "address": 1371,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3902,
+        "resolved": 3902
+      },
+      {
+        "address": 1400,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3902,
+        "resolved": 3902
+      },
+      {
+        "address": 1405,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3900,
+        "resolved": 3900
+      },
+      {
+        "address": 1448,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3024,
+        "resolved": 1574
+      },
+      {
+        "address": 1482,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3088,
+        "resolved": 1604
+      },
+      {
+        "address": 1492,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3024,
+        "resolved": 1530
+      },
+      {
+        "address": 1521,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3088,
+        "resolved": 1565
+      },
+      {
+        "address": 1528,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3024,
+        "resolved": 1494
+      },
+      {
+        "address": 1549,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3088,
+        "resolved": 1537
+      },
+      {
+        "address": 1555,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3024,
+        "resolved": 1467
+      },
+      {
+        "address": 1580,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3088,
+        "resolved": 1506
+      }
+    ],
+    "control_flow": {
+      "code_bytes": 814,
+      "reachable_owner_bytes": 810,
+      "unreachable_owner_bytes": 4,
+      "unreachable_jumps": [
+        {
+          "address": 927,
+          "size": 2,
+          "target": 1006
+        },
+        {
+          "address": 971,
+          "size": 2,
+          "target": 1006
+        }
+      ]
+    },
+    "native_layout": {
+      "segments": [
+        {
+          "name": "_TEXT",
+          "cls": "CODE",
+          "size": 1302
+        },
+        {
+          "name": "_DATA",
+          "cls": "DATA",
+          "size": 0
+        },
+        {
+          "name": "SPR_MASK",
+          "cls": "CODE",
+          "size": 273
+        },
+        {
+          "name": "SPR_PRINT",
+          "cls": "CODE",
+          "size": 101
+        },
+        {
+          "name": "SPR_FMT",
+          "cls": "CODE",
+          "size": 620
+        },
+        {
+          "name": "SPR_CMD",
+          "cls": "CODE",
+          "size": 361
+        },
+        {
+          "name": "SPR_NUM",
+          "cls": "CODE",
+          "size": 310
+        },
+        {
+          "name": "SPR_EGC",
+          "cls": "CODE",
+          "size": 108
+        },
+        {
+          "name": "SPR_STR",
+          "cls": "CODE",
+          "size": 54
+        },
+        {
+          "name": "SPR_DATA",
+          "cls": "CODE",
+          "size": 1280
+        }
+      ],
+      "groups": [
+        {
+          "name": "DGROUP",
+          "members": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ],
+      "publics": {
+        "start": 256,
+        "sprite16_entry": 268,
+        "sprite16_allocate_buffers": 412,
+        "sprite16_set_interrupt_argument": 471,
+        "sprite16_mask_test_command": 478,
+        "sprite16_draw_command": 513,
+        "sprite16_interrupt_dispatch": 554,
+        "sprite16_install": 579,
+        "sprite16_uninstall": 685,
+        "sprite16_set_mono_enabled": 832,
+        "sprite16_set_mono_color": 838,
+        "sprite16_set_overlap": 844,
+        "sprite16_set_access_plane": 850,
+        "sprite16_set_rop": 856,
+        "sprite16_set_mask": 862,
+        "sprite16_draw_clipped": 868,
+        "sprite16_blit_egc": 1026,
+        "sprite16_copy_rows": 1272,
+        "sprite16_prepare_vram": 1312,
+        "sprite16_build_mask": 1344,
+        "sprite16_accumulate_plane": 1424,
+        "sprite16_copy_lower_page": 1444,
+        "sprite16_compress_rows": 1488,
+        "sprite16_copy_upper_to_lower": 1527,
+        "sprite16_clear_upper": 1552,
+        "sprite16_format_print": 1600,
+        "sprite16_print_string": 1632,
+        "sprite16_print_stack_string": 1654,
+        "sprite16_is_decimal_digit": 1673,
+        "sprite16_is_ascii_lower": 1684,
+        "sprite16_ascii_upper": 1693,
+        "sprite16_format_into": 1712,
+        "sprite16_pad_zeroes": 2173,
+        "sprite16_pad_spaces": 2179,
+        "sprite16_pad_field": 2185,
+        "sprite16_append_string": 2199,
+        "sprite16_format_unsigned": 2207,
+        "sprite16_reverse_string": 2284,
+        "sprite16_tokenize_command": 2336,
+        "sprite16_skip_separators": 2434,
+        "sprite16_find_token_end": 2457,
+        "sprite16_find_quote_end": 2485,
+        "sprite16_require_argument": 2509,
+        "sprite16_optional_argument": 2543,
+        "sprite16_require_number": 2570,
+        "sprite16_optional_number_legacy": 2596,
+        "sprite16_dispatch_options": 2614,
+        "sprite16_parse_number": 2704,
+        "sprite16_parse_decimal": 2821,
+        "sprite16_parse_hex": 2891,
+        "sprite16_parse_binary": 2933,
+        "sprite16_parse_switch": 2978,
+        "sprite16_egc_begin": 3024,
+        "sprite16_egc_end": 3088,
+        "sprite16_string_length": 3136,
+        "sprite16_string_equal_folded": 3154
+      },
+      "use16": true,
+      "word_alignment": true,
+      "omf_records": 55,
+      "layout_profile": "native-paragraph-contributions",
+      "segment_attributes": [
+        72,
+        72,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104
+      ],
+      "segment_starts": {
+        "1": 0,
+        "2": 4480,
+        "3": 1312,
+        "4": 1600,
+        "5": 1712,
+        "6": 2336,
+        "7": 2704,
+        "8": 3024,
+        "9": 3136,
+        "10": 3200
+      },
+      "map_public_tables": 2,
+      "alignment_gaps": [
+        [
+          1302,
+          1312
+        ],
+        [
+          1585,
+          1600
+        ],
+        [
+          1701,
+          1712
+        ],
+        [
+          2332,
+          2336
+        ],
+        [
+          2697,
+          2704
+        ],
+        [
+          3014,
+          3024
+        ],
+        [
+          3132,
+          3136
+        ],
+        [
+          3190,
+          3200
+        ]
+      ],
+      "linker_zero_bytes": 71,
+      "explicit_gap_fillers": 0
+    },
+    "native_records": [
+      [
+        256,
+        1014
+      ],
+      [
+        1270,
+        32
+      ],
+      [
+        1312,
+        273
+      ],
+      [
+        1600,
+        101
+      ],
+      [
+        1712,
+        620
+      ],
+      [
+        2336,
+        361
+      ],
+      [
+        2704,
+        310
+      ],
+      [
+        3024,
+        108
+      ],
+      [
+        3136,
+        54
+      ],
+      [
+        3200,
+        1014
+      ],
+      [
+        4214,
+        266
+      ]
+    ],
+    "enclosing_driver_accepted": false,
+    "reserved_spans_owned": false,
+    "original_assembler_identified": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 12,
+    "code_bytes": 814,
+    "executed_owner_bytes": 810,
+    "unreachable_owner_bytes": 4,
+    "cases_per_image": 512,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 256,
+        "covered_owner_bytes": 810,
+        "unreachable_owner_bytes": 4,
+        "maximum_observed_stack_depth": 48,
+        "trace_sha256": "6c41a2fca1434afcc58203e981a1eca971f71be9f7551df86b0117ff6e4f3a8f"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 256,
+        "covered_owner_bytes": 810,
+        "unreachable_owner_bytes": 4,
+        "maximum_observed_stack_depth": 48,
+        "trace_sha256": "11f5e1cd7aa65e08a9f3270120084c31862a63ecaf5648c9cd380ea79757b100"
+      }
+    ],
+    "video_pages": 2,
+    "video_banks": 4,
+    "scope": "real graphics instructions; port/IF/DF and two-page word-memory interface; no physical EGC latch/ROP/pixel claims"
+  },
+  "negative_controls": {
+    "count": 26,
+    "rejected": [
+      "width-is-AL-not-AH",
+      "x-field-store",
+      "signed-top-rejection",
+      "top-source-stride",
+      "bottom-row-199-is-visible",
+      "EGC-bit-length-times-sixteen",
+      "nonzero-shift-adds-word",
+      "row-skip-uses-double-width",
+      "mono-solid-buffer",
+      "mono-shift-mode",
+      "overlap-zero-test",
+      "color-lower-half-offset",
+      "active-plane-port",
+      "row-height-field",
+      "row-word-count-field",
+      "row-count-decrements",
+      "near-row-return",
+      "display-page-reset-port",
+      "mask-inverts-bits",
+      "accumulation-is-OR",
+      "lower-copy-destination-page-one",
+      "compress-skips-one-source-row",
+      "upper-to-lower-destination",
+      "clear-all-eight-thousand-words",
+      "begin-unconditionally-enables-IF",
+      "end-unconditionally-enables-IF"
+    ]
+  },
+  "source_acceptance": false,
+  "publication": "config/zun_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false
+}

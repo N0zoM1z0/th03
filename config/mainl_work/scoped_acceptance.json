@@ -1,12 +1,12 @@
 {
   "schema": "mainl-current-source-acceptance-v1",
   "state": "repository-local-accepted",
-  "observed_utc": "2026-10-24T18:43:09.795318Z",
+  "observed_utc": "2026-10-24T19:15:10.552965Z",
   "proof_inputs": {
     "scripts/lib/decoded_mainl_acceptance.py": "b5e65e3aa6b3e63d4fa244ab12145e532e3b8e2d1c1055c29f8a7026e9e0e643",
     "scripts/publish_th03_mainl_work_scopes.py": "a589bce4d563b28af26c5b9db95b31bb1efaf30aaa8bec2837515b0b7df738d5",
     "scripts/lib/op_work_acceptance.py": "c582241b7b62ffaa42493c5a1627b8e03e6a947f17b4cdf3130227a15c109a07",
-    "scripts/status.py": "6720eb989a62a2ab55f0390763494a78122da75deefcfc0ffbb9f1f302480d48",
+    "scripts/status.py": "0380cb3451a594752a4a6d61c159cab64c186dfef0aa408e0d4d5aef9957b4f7",
     "scripts/validate_tracking.py": "0499eb4105f5f9437839e8333e419c435ff7a07cf4555a0a542d564aeef807a9",
     "config/oracles.toml": "332b7bfea9b8da21de525166a4f7ca5a3878db0d7ee796a92944f367ced63b6f",
     "scripts/review_th03_shared_input_work.py": "3ab2006f36db5d1ed51293df6b2d5005a66512eceb6d1465143b60959ab0ab57",
@@ -1307,7 +1307,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-format-integrity",
@@ -1324,7 +1324,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-boundary-ownership",
@@ -1341,7 +1341,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-identity",
@@ -1358,7 +1358,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-replay",
@@ -1375,7 +1375,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-object-format-integrity",
@@ -1392,7 +1392,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-build-determinism",
@@ -1409,7 +1409,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-layout-relocations",
@@ -1426,7 +1426,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-raw-bytes",
@@ -1443,7 +1443,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "e2be0cb382e68c4299fc2ad2ea501393a61916f9644d1dd4d328dec5fb966a05",
         "output_sha256": "e2be0cb382e68c4299fc2ad2ea501393a61916f9644d1dd4d328dec5fb966a05",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-ledger-consistency",
@@ -1460,7 +1460,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-aggregate-replay",
@@ -1477,7 +1477,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-lifecycle-exit": {
@@ -1496,7 +1496,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-format-integrity",
@@ -1513,7 +1513,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-boundary-ownership",
@@ -1530,7 +1530,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-identity",
@@ -1547,7 +1547,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-replay",
@@ -1564,7 +1564,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-object-format-integrity",
@@ -1581,7 +1581,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-build-determinism",
@@ -1598,7 +1598,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-layout-relocations",
@@ -1615,7 +1615,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-raw-bytes",
@@ -1632,7 +1632,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "85b5b4c5e5841219bad97aeba987a5daf0116ba0dea91cde952c14fe6ba2904b",
         "output_sha256": "85b5b4c5e5841219bad97aeba987a5daf0116ba0dea91cde952c14fe6ba2904b",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-ledger-consistency",
@@ -1649,7 +1649,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-aggregate-replay",
@@ -1666,7 +1666,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-lifecycle-init": {
@@ -1685,7 +1685,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-format-integrity",
@@ -1702,7 +1702,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-boundary-ownership",
@@ -1719,7 +1719,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-identity",
@@ -1736,7 +1736,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-replay",
@@ -1753,7 +1753,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-object-format-integrity",
@@ -1770,7 +1770,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-build-determinism",
@@ -1787,7 +1787,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-layout-relocations",
@@ -1804,7 +1804,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-raw-bytes",
@@ -1821,7 +1821,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "217b5b17de74f03187db829c68bf0d31587744be667ca6d01c0db20c42795f36",
         "output_sha256": "217b5b17de74f03187db829c68bf0d31587744be667ca6d01c0db20c42795f36",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-ledger-consistency",
@@ -1838,7 +1838,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-aggregate-replay",
@@ -1855,7 +1855,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-lifecycle-exit-to-main": {
@@ -1874,7 +1874,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-format-integrity",
@@ -1891,7 +1891,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-boundary-ownership",
@@ -1908,7 +1908,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-identity",
@@ -1925,7 +1925,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-replay",
@@ -1942,7 +1942,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-object-format-integrity",
@@ -1959,7 +1959,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-build-determinism",
@@ -1976,7 +1976,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-layout-relocations",
@@ -1993,7 +1993,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-raw-bytes",
@@ -2010,7 +2010,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "c480ca89841cb3e1a82d63397be42e027d45cbfbfbb01e1c57132dd714ca1dd8",
         "output_sha256": "c480ca89841cb3e1a82d63397be42e027d45cbfbfbb01e1c57132dd714ca1dd8",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-ledger-consistency",
@@ -2027,7 +2027,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-aggregate-replay",
@@ -2044,7 +2044,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-interface": {
@@ -2063,7 +2063,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-format-integrity",
@@ -2080,7 +2080,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-boundary-ownership",
@@ -2097,7 +2097,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-identity",
@@ -2114,7 +2114,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-replay",
@@ -2131,7 +2131,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-object-format-integrity",
@@ -2148,7 +2148,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-cold-build-determinism",
@@ -2165,7 +2165,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-layout-relocations",
@@ -2182,7 +2182,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-raw-bytes",
@@ -2199,7 +2199,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
         "output_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-ledger-consistency",
@@ -2216,7 +2216,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-interface-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-interface-cold-aggregate-replay",
@@ -2233,7 +2233,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-key-key": {
@@ -2252,7 +2252,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-format-integrity",
@@ -2269,7 +2269,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-boundary-ownership",
@@ -2286,7 +2286,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-identity",
@@ -2303,7 +2303,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-replay",
@@ -2320,7 +2320,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-object-format-integrity",
@@ -2337,7 +2337,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-build-determinism",
@@ -2354,7 +2354,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-layout-relocations",
@@ -2371,7 +2371,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-raw-bytes",
@@ -2388,7 +2388,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
         "output_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-ledger-consistency",
@@ -2405,7 +2405,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-aggregate-replay",
@@ -2422,7 +2422,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-joy-key": {
@@ -2441,7 +2441,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-format-integrity",
@@ -2458,7 +2458,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-boundary-ownership",
@@ -2475,7 +2475,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-identity",
@@ -2492,7 +2492,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-replay",
@@ -2509,7 +2509,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-object-format-integrity",
@@ -2526,7 +2526,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-build-determinism",
@@ -2543,7 +2543,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-layout-relocations",
@@ -2560,7 +2560,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-raw-bytes",
@@ -2577,7 +2577,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
         "output_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-ledger-consistency",
@@ -2594,7 +2594,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-aggregate-replay",
@@ -2611,7 +2611,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-key-joy": {
@@ -2630,7 +2630,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-format-integrity",
@@ -2647,7 +2647,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-boundary-ownership",
@@ -2664,7 +2664,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-identity",
@@ -2681,7 +2681,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-replay",
@@ -2698,7 +2698,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-object-format-integrity",
@@ -2715,7 +2715,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-build-determinism",
@@ -2732,7 +2732,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-layout-relocations",
@@ -2749,7 +2749,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-raw-bytes",
@@ -2766,7 +2766,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
         "output_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-ledger-consistency",
@@ -2783,7 +2783,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-aggregate-replay",
@@ -2800,7 +2800,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-one-cpu": {
@@ -2819,7 +2819,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-format-integrity",
@@ -2836,7 +2836,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-boundary-ownership",
@@ -2853,7 +2853,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-identity",
@@ -2870,7 +2870,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-replay",
@@ -2887,7 +2887,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-object-format-integrity",
@@ -2904,7 +2904,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-build-determinism",
@@ -2921,7 +2921,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-layout-relocations",
@@ -2938,7 +2938,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-raw-bytes",
@@ -2955,7 +2955,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
         "output_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-ledger-consistency",
@@ -2972,7 +2972,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-aggregate-replay",
@@ -2989,7 +2989,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-cpu-one": {
@@ -3008,7 +3008,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-format-integrity",
@@ -3025,7 +3025,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-boundary-ownership",
@@ -3042,7 +3042,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-identity",
@@ -3059,7 +3059,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-replay",
@@ -3076,7 +3076,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-object-format-integrity",
@@ -3093,7 +3093,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-build-determinism",
@@ -3110,7 +3110,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-layout-relocations",
@@ -3127,7 +3127,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-raw-bytes",
@@ -3144,7 +3144,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
         "output_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-ledger-consistency",
@@ -3161,7 +3161,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-aggregate-replay",
@@ -3178,7 +3178,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-cpu-cpu": {
@@ -3197,7 +3197,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-format-integrity",
@@ -3214,7 +3214,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-boundary-ownership",
@@ -3231,7 +3231,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-identity",
@@ -3248,7 +3248,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-replay",
@@ -3265,7 +3265,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-object-format-integrity",
@@ -3282,7 +3282,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-build-determinism",
@@ -3299,7 +3299,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-layout-relocations",
@@ -3316,7 +3316,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-raw-bytes",
@@ -3333,7 +3333,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
         "output_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-ledger-consistency",
@@ -3350,7 +3350,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-aggregate-replay",
@@ -3367,7 +3367,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-attract": {
@@ -3386,7 +3386,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-format-integrity",
@@ -3403,7 +3403,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-boundary-ownership",
@@ -3420,7 +3420,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-identity",
@@ -3437,7 +3437,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-replay",
@@ -3454,7 +3454,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-object-format-integrity",
@@ -3471,7 +3471,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-cold-build-determinism",
@@ -3488,7 +3488,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-layout-relocations",
@@ -3505,7 +3505,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-raw-bytes",
@@ -3522,7 +3522,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
         "output_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-ledger-consistency",
@@ -3539,7 +3539,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-attract-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-attract-cold-aggregate-replay",
@@ -3556,7 +3556,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-change": {
@@ -3575,7 +3575,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-format-integrity",
@@ -3592,7 +3592,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-boundary-ownership",
@@ -3609,7 +3609,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-identity",
@@ -3626,7 +3626,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-replay",
@@ -3643,7 +3643,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-object-format-integrity",
@@ -3660,7 +3660,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-cold-build-determinism",
@@ -3677,7 +3677,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-layout-relocations",
@@ -3694,7 +3694,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-raw-bytes",
@@ -3711,7 +3711,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
         "output_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-ledger-consistency",
@@ -3728,7 +3728,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-change-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-change-cold-aggregate-replay",
@@ -3745,7 +3745,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-measure-wait": {
@@ -3764,7 +3764,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-format-integrity",
@@ -3781,7 +3781,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-boundary-ownership",
@@ -3798,7 +3798,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-toolchain-identity",
@@ -3815,7 +3815,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-toolchain-replay",
@@ -3832,7 +3832,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-object-format-integrity",
@@ -3849,7 +3849,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-cold-build-determinism",
@@ -3866,7 +3866,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-layout-relocations",
@@ -3883,7 +3883,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-raw-bytes",
@@ -3900,7 +3900,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "fa984c5d59af7dc29d267e9aaa9d12c54d303eb8b9ad4e46b32bb3c6514245d8",
         "output_sha256": "fa984c5d59af7dc29d267e9aaa9d12c54d303eb8b9ad4e46b32bb3c6514245d8",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-ledger-consistency",
@@ -3917,7 +3917,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-measure-wait-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-measure-wait-cold-aggregate-replay",
@@ -3934,7 +3934,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     },
     "th03-mainl-decoded-input-ok-wait": {
@@ -3953,7 +3953,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-format-integrity",
@@ -3970,7 +3970,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-boundary-ownership",
@@ -3987,7 +3987,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-toolchain-identity",
@@ -4004,7 +4004,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-toolchain-replay",
@@ -4021,7 +4021,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-object-format-integrity",
@@ -4038,7 +4038,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-cold-build-determinism",
@@ -4055,7 +4055,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-layout-relocations",
@@ -4072,7 +4072,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-raw-bytes",
@@ -4089,7 +4089,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "a04d0558d13b663df47ee0a56092f7fbeb471173c0eef39bd73a6ed87666e837",
         "output_sha256": "a04d0558d13b663df47ee0a56092f7fbeb471173c0eef39bd73a6ed87666e837",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-ledger-consistency",
@@ -4106,7 +4106,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       },
       "ev-mainl-current-th03-mainl-decoded-input-ok-wait-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-input-ok-wait-cold-aggregate-replay",
@@ -4123,7 +4123,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
         "output_sha256": "37fd2ceed60ad0516c7736a7973dddd5de2159e0231ae2a780572b1e25d0d662",
-        "observed_utc": "2026-10-24T18:43:09.795318Z"
+        "observed_utc": "2026-10-24T19:15:10.552965Z"
       }
     }
   }
