@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `6cb1be3` (bounded ZUN command parser source scopes).
+- Previous pushed checkpoint: `df4b107` (shared OP/MAINL input source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -44,9 +44,9 @@ remain in [README.md](../README.md).
   The complete 67,372-byte decoded EXE and all 677 ordered relocations match;
   both DIET `-B` packs equal the canonical 37,975-byte stored target. This remains
   a complete-byte build observation with explicit reference/vendor context; the
-  thirteen scoped owners below have independent current source acceptance.
+  fifteen scoped owners below have independent current source acceptance.
   See `config/mainl_work/observation.json`.
-- MAINL has **thirteen accepted decoded source functions / 577 bytes**. Its
+- MAINL has **fifteen accepted decoded source functions / 703 bytes**. Its
   four lifecycle owners / 210 bytes are plane setup, cleanup, initialization and return to MAIN. Their actual first-use
   slots remain GAME1/O, GAME3/O, GAME3/M and GAME3/L. Complete native objects,
   both OMF/MAP public tables, zero private DATA/BSS and nineteen literal ordered
@@ -78,9 +78,29 @@ remain in [README.md](../README.md).
   The two complete cold builds remain target-equal. Run
   `review_th03_shared_input_work.py` after new OP/MAINL cold builds and before
   per-product publication. Its bound full witnesses run once; normal status
-  executes twelve short cases per image. Current aggregate model counts are
-  OP 2,506 cases / 28 mutants and MAINL 7,018 / 34. No canonical file-backed
+  executes twelve short cases per image. Lifecycle/shared models total
+  OP 2,506 cases / 28 mutants and MAINL 7,018 / 34; ending waits add the
+  separate models below. No canonical file-backed
   offsets or whole-product source acceptance are inferred.
+- MAINL's **two ending input waits / 126 CODE bytes** now have complete native
+  ownership, zero private DATA/BSS, eleven literal fixups and three ordinary
+  TLINK far-call relaxations. They retain GAME3/L first use and own no MZ
+  relocation fields. Both actual input-interface calls and the inactive-music
+  fallback execute. Far Pascal returns pop four/two argument bytes respectively;
+  frames is at BP+6 and measure at BP+8. Independent 3,378-case models per image
+  at two loads cover all 126 bytes and reject eighteen actual mutations.
+  Preserve the target's music-wait behavior: input_mode_interface overwrites
+  the music query's AX with player-1 keyboard input, which is compared unsigned
+  against the signed-looking measure argument. SHOT or OK returns BOOL16 one
+  first. MIDI uses INT61/DX=00C0 only for flag BYTE exactly one; other values
+  use INT60, both with AH=5. Inactive sound calls the real frame wait; its WORD
+  vsync_Count1 resets before a mandatory first poll, even for zero frames, and
+  uses an unsigned timeout. IRQ counter wrap, full registers/defined flags,
+  inherited IF/DF, a 20-byte observed stack and full physical memory are checked.
+  Sound and input/IRQ responses remain bounded interfaces. The normal input
+  review now binds these full witnesses and runs five short cases per image.
+  MAINL totals 15 functions / 703 CODE bytes, 10,396 model cases per image and
+  52 guest mutants; canonical file-backed and whole-product credit stay open.
 - ZUN now has a complete live cold build: 110 source inputs plus explicit vendor
   `MASTERS.LIB` and the -1 payload. All 23 raw OBJ/COM/MAP/composition/packed outputs
   repeat. All five payloads and the entire 22,812-byte decoded launcher match;
@@ -227,10 +247,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,888 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m51s at 445 MiB peak RSS, no swap. OP's latest cold
-  pair took 2m07s at 68 MiB; MAINL's pair took 2m58s at 84 MiB with lifecycle/SDK
-  checks. The separate shared input review took 1m42s at 129 MiB. The last MAIN
+- Last full CI: PASS, 1,899 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 5m07s at 400 MiB peak RSS, no swap. OP's latest cold
+  pair took 2m07s at 68 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
+  checks. The separate shared input/ending wait review took 1m49s at 156 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
   at 45 MiB. The complete ZUN cold pair with all five models and two native
@@ -267,8 +287,8 @@ ABI and byte credit are recorded separately in the ledgers.
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
    The shared input review is a current, separate witness bound to both cold
-   reports. Replay it after new builds. Ending-specific input waits and OP
-   configuration loading/saving are next bounded source/behavior questions.
+   reports. Replay it after new builds. Ending-specific input waits also pass; OP configuration loading/saving and
+   MAINL resource/ending producers are next bounded source/behavior questions.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
    Sixteen -4 scalar/library functions and nine command procedures pass current
    gates. The eight

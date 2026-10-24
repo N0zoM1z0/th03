@@ -1,11 +1,11 @@
 {
   "schema": "th03-shared-input-current-observation-v1",
-  "observed_utc": "2026-10-24T16:22:08.776934Z",
+  "observed_utc": "2026-10-24T17:05:17.956102Z",
   "command": "taskset -c 16 nice -n 10 .venv/bin/python scripts/review_th03_shared_input_work.py",
   "provenance": "candidate-local-attested",
   "shared_source": "src/shared/hardware/input_modes.cpp",
   "implementation_sha256": {
-    "scripts/review_th03_shared_input_work.py": "a1892de912ced474ced2affb2bdd46b2b70d060fa239756f69241ef2abeae0d6",
+    "scripts/review_th03_shared_input_work.py": "3ab2006f36db5d1ed51293df6b2d5005a66512eceb6d1465143b60959ab0ab57",
     "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
     "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a",
     "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
@@ -14,7 +14,10 @@
     "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
     "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
     "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
-    "src/shared/hardware/input_modes.cpp": "67306c6688e8483c07cc40510e21cee9e217bf18bf1358f018d081b68f0cf46b"
+    "src/shared/hardware/input_modes.cpp": "67306c6688e8483c07cc40510e21cee9e217bf18bf1358f018d081b68f0cf46b",
+    "src/mainl/hardware/input_wait.cpp": "380c7ad79e2aefe670dcf81f40ea6ffb0b22a8ebdf72fcf707b24149fcc04594",
+    "scripts/lib/mainl_wait_layout.py": "ab6191581ecbc6125d5ef1616a926cd219b9293e4ea384a7cb6ac806fb058004",
+    "scripts/lib/mainl_wait_runtime.py": "aa452ca9c5f5ed43e9d938b2233d275c31e9034da1f220759c3fe237d29637aa"
   },
   "profiles": {
     "op": {
@@ -123,7 +126,7 @@
     },
     "mainl": {
       "artifact": "th03-mainl",
-      "cold_report_sha256": "53463d1efbf2224be9e2fd0dd7c0cd37bba30a3eba2cccb0e20b38ec286ff0f3",
+      "cold_report_sha256": "191b64a3a2aae58601cc3c1007c47a3c4e80010db9071b01321f6eb080643d5d",
       "source_inventory_sha256": "d913a54e6b01820e0066b7f9124a3996754506a4f7ce75975746a65af586800a",
       "native_object_sha256": "74449eb515ef21714794ac83aa35a440c177ec45c2c532aa04f84789110dc3a6",
       "code_segment": 3198,
@@ -222,6 +225,74 @@
           "Pascal-argument-cleanup",
           "frame-delay-word-one",
           "joystick-service-target"
+        ]
+      },
+      "ending_wait": {
+        "source": "src/mainl/hardware/input_wait.cpp",
+        "functions": 2,
+        "code_bytes": 126,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "native_fields": 11,
+        "normal_tlink_relaxed_calls": [
+          86,
+          40,
+          13
+        ],
+        "ordered_relocations": [],
+        "runtime": {
+          "images": 2,
+          "functions": 2,
+          "code_bytes": 126,
+          "executed_owner_bytes": 126,
+          "cases_per_image": 3378,
+          "observations": [
+            {
+              "load_segment": 4096,
+              "cases": 1689,
+              "covered_owner_bytes": 126,
+              "maximum_observed_stack_depth": 20,
+              "trace_sha256": "3f367eed5560f15bc37dd7535603d22bbb38ca1e6985937939c8b4b52a19e0db"
+            },
+            {
+              "load_segment": 12288,
+              "cases": 1689,
+              "covered_owner_bytes": 126,
+              "maximum_observed_stack_depth": 20,
+              "trace_sha256": "3ba0c2e428669b3f7fe61c2521e37e10ab99e1fd01cea13cbaa8e6bc493c98c5"
+            }
+          ],
+          "exhaustive_sound_flag_bytes": 256,
+          "scope": "two ending wait functions and real owned input interface; sound and input/IRQ services remain bounded interfaces"
+        },
+        "negative_controls": {
+          "count": 18,
+          "rejected": [
+            "sound-active-byte-branch",
+            "MIDI-exactly-one",
+            "sound-query-command",
+            "MIDI-query-port",
+            "sound-interrupt-vector",
+            "shot-input-bit",
+            "OK-input-bit",
+            "unsigned-input-AX-compare",
+            "real-interface-overwrites-query-AX",
+            "counter-cleared-before-poll",
+            "unsigned-frame-compare",
+            "zero-frames-still-poll",
+            "counter-word-width",
+            "measure-Pascal-cleanup",
+            "frame-Pascal-cleanup",
+            "measure-true-is-one",
+            "frame-true-is-one",
+            "false-is-zero-AX"
+          ]
+        },
+        "music_query_AX_replaced_by_player1": true,
+        "unsigned_measure_compare": true,
+        "callee_argument_bytes": [
+          4,
+          2
         ]
       }
     }

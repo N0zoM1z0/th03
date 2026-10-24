@@ -23,6 +23,7 @@ from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_ora
 
 from review_th03_shared_input_work import current_scope as input_scope
 from lib.shared_input_layout import SOURCE as INPUT_SOURCE, WRAPPER as INPUT_WRAPPER
+from lib.mainl_wait_layout import SOURCE as WAIT_SOURCE, WRAPPER as WAIT_WRAPPER
 
 
 PUBLICATION = "config/mainl_work/scoped_acceptance.json"
@@ -30,7 +31,8 @@ COMMAND = ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py"
 PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03_mainl_work_scopes.py",
                 "scripts/lib/op_work_acceptance.py", "scripts/status.py", "scripts/validate_tracking.py",
                 "config/oracles.toml", "scripts/review_th03_shared_input_work.py",
-                "scripts/lib/shared_input_layout.py", "scripts/lib/shared_input_runtime.py")
+                "scripts/lib/shared_input_layout.py", "scripts/lib/shared_input_runtime.py",
+                "scripts/lib/mainl_wait_layout.py", "scripts/lib/mainl_wait_runtime.py")
 
 
 def need(value, message):
@@ -118,7 +120,7 @@ def audit(root):
     base_scope = dict(owners=lifecycle_owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
     need(base_scope == report["lifecycle_scopes"], "fresh independent scope replay")
     shared = input_scope(root, "mainl", work, target, candidate, raw_report)
-    owners = lifecycle_owners + shared["layout"]["owners"]
+    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -132,6 +134,9 @@ def audit(root):
         if o["source"] == INPUT_SOURCE:
             need(row["wrapper"] == INPUT_WRAPPER and row["game"] == 3 and row["binary"] == "O"
                  and row["first_binary"] == "op", "input producer retains GAME3/O first-use slot")
+        if o["source"] == WAIT_SOURCE:
+            need(row["wrapper"] == WAIT_WRAPPER and row["game"] == 3 and row["binary"] == "L"
+                 and row["first_binary"] == "mainl", "ending wait retains GAME3/L first-use slot")
         need(files[o["source"]].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
              "maintained source and declared line-ending transport")
         for name in describe_omf((work / o["object"]).read_bytes())["dependency_paths"]:
@@ -173,8 +178,8 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
-                decoded_exact_units=13, decoded_authored_exact_units=13, decoded_library_exact_units=0,
-                decoded_authored_bytes=577, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
+                decoded_exact_units=15, decoded_authored_exact_units=15, decoded_library_exact_units=0,
+                decoded_authored_bytes=703, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 target_provenance="candidate-local-attested", product_exact=False, mixed_physical_exact_bytes=0,
                 mixed_authored_credit_bytes=0, canonical_file_backed_authored_credit_unchanged=True,
                 factory_accepted=False, whole_game_percentage=None, whole_game_code_denominator_known=False)

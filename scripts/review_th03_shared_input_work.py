@@ -15,13 +15,16 @@ from lib.pc98 import parse_mz
 from lib.targets import find_artifact, read_verified_artifact
 from lib.shared_input_layout import PROFILES, SOURCE, OBJECT, FUNCTIONS, verify as layout
 from lib.shared_input_runtime import Machine, verify as runtime, negative_controls
+from lib.mainl_wait_layout import verify as wait_layout, SOURCE as WAIT_SOURCE
+from lib.mainl_wait_runtime import Machine as WaitMachine, verify as wait_runtime, negative_controls as wait_controls
 
 ROOT=Path(__file__).resolve().parents[1]
 REPORT=ROOT/'.analysis/work/shared-input-build.json'
 INPUTS=('scripts/review_th03_shared_input_work.py','scripts/lib/shared_input_layout.py',
         'scripts/lib/shared_input_runtime.py','scripts/lib/pc98.py','scripts/lib/omf.py',
         'scripts/probe_th03_main_bomb_rikako_cpp.py','scripts/probe_th03_main_boss_marisa_cpp.py',
-        'config/targets.toml','config/th03_diet.toml',SOURCE)
+        'config/targets.toml','config/th03_diet.toml',SOURCE,WAIT_SOURCE,
+        'scripts/lib/mainl_wait_layout.py','scripts/lib/mainl_wait_runtime.py')
 
 
 def need(value,message):
@@ -66,6 +69,33 @@ def witness(scope):
          and not scope['layout']['whole_product_accepted'],'physical proof separate from publication acceptance')
 
 
+def wait_witness(scope):
+    r=scope['runtime']
+    need((r['images'],r['functions'],r['code_bytes'],r['cases_per_image'],r['executed_owner_bytes'],r['exhaustive_sound_flag_bytes'])
+         ==(2,2,126,3378,126,256),'complete ending wait runtime dimensions')
+    need([(o['load_segment'],o['cases'],o['covered_owner_bytes'],o['maximum_observed_stack_depth']) for o in r['observations']]
+         ==[(0x1000,1689,126,20),(0x3000,1689,126,20)]
+         and all(re.fullmatch(r'[0-9a-f]{64}',o['trace_sha256']) for o in r['observations']),'full ending wait coverage/stack witnesses')
+    controls=scope['negative_controls']
+    need(controls['count']==len(set(controls['rejected']))==18,'all eighteen ending wait guest mutations')
+
+
+def wait_smoke(target,candidate):
+    observations=[];zero=(0,0,0,0,0)
+    for mz in (target,candidate):
+        m=WaitMachine(mz,0x3000)
+        try:
+            observations.append([
+                m.run('input_wait_for_ok',frames=0,samples=[zero]),
+                m.run('input_wait_for_ok',frames=0x8000,samples=[(0,0,0,0,0x4000),(0,0,0,0,0x8000)],flags=0xED7),
+                m.run('input_wait_for_ok_or_measure',active=0,frames=0,samples=[zero]),
+                m.run('input_wait_for_ok_or_measure',midi=1,measure=0x100,samples=[zero,(0,0x100,0,0,0)],replies=[0xFFFF]*2),
+                m.run('input_wait_for_ok_or_measure',measure=0,samples=[(0x20,0,0,0,0)],flags=0xED7)])
+        finally:m.close()
+    need(observations[0]==observations[1],'current independent ending wait ABI/AX smoke')
+    return dict(cases_per_image=5,images=2,trace_sha256=digest(observations[0]),full_runtime_reexecuted_now=False,full_runtime_witness_bound=True)
+
+
 def smoke(target,candidate,profile):
     observations=[];zero=(0,0,0,0)
     for mz in (target,candidate):
@@ -90,7 +120,12 @@ def current_scope(root,profile,work,target,candidate,cold_report):
     need(scope['cold_report_sha256']==sha(cold_report),'shared review must bind the current complete cold pair')
     need(scope['layout']==layout(work,target,candidate,profile),'current full native input ownership')
     need(scope['runtime']['profile']==profile,'runtime product coordinate binding');witness(scope)
-    return dict(**scope,shared_report_sha256=sha(raw),current_smoke=smoke(target,candidate,profile))
+    result=dict(**scope,shared_report_sha256=sha(raw),current_smoke=smoke(target,candidate,profile))
+    if profile=='mainl':
+        wait=scope['ending_wait']
+        need(wait['layout']==wait_layout(work,target,candidate),'current complete ending wait ownership')
+        wait_witness(wait);result['current_wait_smoke']=wait_smoke(target,candidate)
+    return result
 
 
 def main():
@@ -104,7 +139,12 @@ def main():
         result=dict(cold_report_sha256=sha(raw),source_inventory_sha256=digest(cold['source_sha256']),
                     layout=layout(work,target,candidate,profile),runtime=runtime(target,candidate,profile),
                     negative_controls=negative_controls(target,profile))
-        witness(result);report['profiles'][profile]=result;save()
+        witness(result)
+        if profile=='mainl':
+            result['ending_wait']=dict(layout=wait_layout(work,target,candidate),runtime=wait_runtime(target,candidate),
+                                       negative_controls=wait_controls(target))
+            wait_witness(result['ending_wait'])
+        report['profiles'][profile]=result;save()
         print(profile+': 9 complete functions / 367 CODE bytes; native, guest and mutation checks pass',flush=True)
     need(report['implementation_sha256']==implementation_inputs(ROOT),'review changed during execution')
     report['complete']=True;save();return 0

@@ -36,6 +36,10 @@ independently. `review_th03_shared_input_work.py` binds the full current cold
 pairs to complete input-policy and wait witnesses; per-product publication
 retains separate source acceptance. Keyboard, joystick and frame services are
 bounded interfaces, with zero private DATA/BSS ownership in this producer.
+MAINL also owns two ending waits / 126 CODE bytes in a separate GAME3/L
+producer. They execute the owned input interface: its AX result replaces the
+sound query result before the unsigned measure comparison. Frame waits use
+an unsigned IRQ counter and preserve their distinct far Pascal cleanup sizes.
 
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.

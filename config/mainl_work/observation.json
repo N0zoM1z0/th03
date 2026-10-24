@@ -1,6 +1,6 @@
 {
   "schema": "th03-mainl-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T16:22:08.776934Z",
+  "observed_utc": "2026-10-24T17:05:17.956102Z",
   "command": ".venv/bin/python -B scripts/build_th03_mainl_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 1912,
@@ -248,12 +248,12 @@
   "builder_sha256": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
   "scoped_source_acceptance": {
     "publication": "config/mainl_work/scoped_acceptance.json",
-    "decoded_functions": 13,
-    "decoded_bytes": 577,
+    "decoded_functions": 15,
+    "decoded_bytes": 703,
     "ordered_relocations": 25,
-    "runtime_cases_per_image": 7018,
+    "runtime_cases_per_image": 10396,
     "runtime_images": 2,
-    "actual_guest_mutations_rejected": 34,
+    "actual_guest_mutations_rejected": 52,
     "consumed_vendor_headers": {
       "C:/TC4/INCLUDE/stddef.h": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
       "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
@@ -273,6 +273,25 @@
       "maximum_sample_polls": 10003,
       "private_data_bytes": 0,
       "private_bss_bytes": 0
+    },
+    "ending_wait": {
+      "source": "src/mainl/hardware/input_wait.cpp",
+      "functions": 2,
+      "code_bytes": 126,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "native_fields": 11,
+      "ordered_relocations": 0,
+      "normal_tlink_relaxed_calls": 3,
+      "runtime_cases_per_image": 3378,
+      "actual_guest_mutations_rejected": 18,
+      "maximum_observed_stack_bytes": 20,
+      "real_owned_input_interface_executes": true,
+      "callee_argument_bytes": [
+        4,
+        2
+      ],
+      "canonical_unit_credit_changed": false
     }
   }
 }
