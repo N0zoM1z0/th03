@@ -11,6 +11,7 @@ Run these from the repository root with `.venv/bin/python scripts/SCRIPT`.
 | `probe_th03_main_producers.py` | Replay unresolved renderer, state/shot grouping and alignment controls. Diagnostic only; temporary native products are removed. |
 | `ci.py` | Run tests, tracking/progress checks and available local tool/database checks. |
 | `build_th03_op_work.py` | Build all 30 OP objects twice from current source, compare raw OBJ/EXE/MAP and the complete decoded target, then repeat canonical DIET packing. `--review` revalidates current source/output bindings and repeats packing only. Reference source and vendor libraries remain unowned context. |
+| `build_th03_mainl_work.py` | Build all 36 MAINL project objects and six CRT providers twice, use normal TLIB extraction/rebuild to preserve the 893-member library order, compare all 938 raw outputs and complete decoded/stored targets. Reference source and 887 vendor members remain unowned context. |
 | `ghidra.py ARTIFACT check` | Re-attest the headless database before using its observations. |
 | `attest_toolchain.py` | Check installed native tools and repeat execution probes; temporary probe trees are removed automatically. |
 | `verify_targets.py` | Check canonical target hashes. |

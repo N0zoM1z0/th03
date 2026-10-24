@@ -1,0 +1,248 @@
+{
+  "schema": "th03-mainl-current-cold-observation-v1",
+  "observed_utc": "2026-10-24T04:50:28.100706Z",
+  "command": ".venv/bin/python -B scripts/build_th03_mainl_work.py",
+  "provenance": "candidate-local-attested",
+  "source_files": 1912,
+  "source_inventory_sha256": "6ce6e1dfa928fea59a1f4338896df721ad918cd6897c6d0b5042da1bb8c782c6",
+  "project_objects_per_round": 36,
+  "maintained_crt_objects_per_round": 6,
+  "rounds": 2,
+  "raw_outputs_per_round": 938,
+  "all_output_inventory_sha256": "ddc1d484039c863acd316065bf1f73391e326e7411325be5917c494186903742",
+  "raw_repeat_equal": true,
+  "maintained_and_link_outputs": {
+    "bin/th03/mainl.exe": {
+      "bytes": 67372,
+      "sha256": "92600c8858bb407516cac6a9d77538ebdf0c33522c4f6bd9194d569eb927134a"
+    },
+    "crt.lib": {
+      "bytes": 543247,
+      "sha256": "1e4a05bbe8fb8ef00ab095c9ef322c892ae0ac46532e965c1e0bc0f52d503e88"
+    },
+    "obj/th01/vplanset.obj": {
+      "bytes": 575,
+      "sha256": "90b0da5b441e34b040c2d9def5291a568739349c36205b0a2da1af77fd23c7a3"
+    },
+    "obj/th02/frmdely1.obj": {
+      "bytes": 585,
+      "sha256": "c33270f76e250621976934d91e591f0386cc9f3692f64df6d0bafbf847486260"
+    },
+    "obj/th02/snd_dlyv.obj": {
+      "bytes": 559,
+      "sha256": "392b01b7a4c43f509476e14234137ade779583ae837db473de12647aff45db4a"
+    },
+    "obj/th02/snd_load.obj": {
+      "bytes": 742,
+      "sha256": "beb9b327a9da16587ba565f06f0c45551df747b0b3bfc758c93ae34468debdc9"
+    },
+    "obj/th02/snd_mode.obj": {
+      "bytes": 596,
+      "sha256": "1527dc78dab72b6d5b76ee44ca48d2d473f5c2ff03f3cfec8a15d503858c5f88"
+    },
+    "obj/th02/snd_pmdr.obj": {
+      "bytes": 657,
+      "sha256": "203ec2d641835f83ae91dc1fe75b2f390110c683870698f3306375741d9840ce"
+    },
+    "obj/th02/snd_se_r.obj": {
+      "bytes": 628,
+      "sha256": "fb4ada35b6e046fc77eb5c1f140aa2b4600253fc462207837a72e8bbc5e6f43b"
+    },
+    "obj/th03/cdg_load.obj": {
+      "bytes": 1522,
+      "sha256": "2633a8b73b7504c7db9225d3f539585951c3e5ae9c51d26b9a6f9818b024fc2a"
+    },
+    "obj/th03/cdg_p_na.obj": {
+      "bytes": 487,
+      "sha256": "96a85434b47a71d8ea45bafcf860a87c578f302e482ed9420bca0d459c756639"
+    },
+    "obj/th03/cdg_put.obj": {
+      "bytes": 1076,
+      "sha256": "3a9d6bf3c60b86a0ec8523e96eb60d9282c284c7c4d3c0f63fd2f5786c0a6b0e"
+    },
+    "obj/th03/contmenu.obj": {
+      "bytes": 2608,
+      "sha256": "4f539cacbe96ed43625393e0fb476aecd88f4cc3d5badb0252bdf3b91b32da1d"
+    },
+    "obj/th03/cutscene.obj": {
+      "bytes": 7592,
+      "sha256": "ff06cb6003862b9e03599acfbdaa657e1fa98c3d0ec6d8ee6ab01d87d8bf1eb8"
+    },
+    "obj/th03/exit.obj": {
+      "bytes": 892,
+      "sha256": "1db75dca031d2069496f55337fed14bd97dc45742f36eed88ec24bfd3c881714"
+    },
+    "obj/th03/exitmain.obj": {
+      "bytes": 998,
+      "sha256": "62f8278526a69a27c55b6a1f3795955c4e835478a900c8ab98e0a8e535acd365"
+    },
+    "obj/th03/grppsafx.obj": {
+      "bytes": 1687,
+      "sha256": "7cb253209165a8cd9da6c5fcfc84671f82323841331f2c9f362a164fb8f283e6"
+    },
+    "obj/th03/hfliplut.obj": {
+      "bytes": 272,
+      "sha256": "bb336bf20a26a4a0b74126e55b3b3342836e2537d5c7870e2146e92f098ca7c8"
+    },
+    "obj/th03/initmain.obj": {
+      "bytes": 1136,
+      "sha256": "12f271dee38b8e8686db7075c8e8ab058667baf855edeba204436412e06fa4f5"
+    },
+    "obj/th03/inp_m_w.obj": {
+      "bytes": 1679,
+      "sha256": "74449eb515ef21714794ac83aa35a440c177ec45c2c532aa04f84789110dc3a6"
+    },
+    "obj/th03/inp_wait.obj": {
+      "bytes": 1118,
+      "sha256": "2ee61c1d4243e18570d7842935ad3ad28829a184e492ad0f9ef533561b6f556d"
+    },
+    "obj/th03/input_s.obj": {
+      "bytes": 1476,
+      "sha256": "0c4288722721f78fc1cee15ff5a6a82cc93dc3f23bc24ebf293747a5c293de91"
+    },
+    "obj/th03/mainl.map": {
+      "bytes": 80893,
+      "sha256": "0d09d0bf7615b553f8df1cba44a1a65cca910a0ae52236794173d604f5128d43"
+    },
+    "obj/th03/mainl.obj": {
+      "bytes": 32008,
+      "sha256": "3925c6fa26b6a4f6fb318642a37ea56cd0df1abe9e1371a8eececc2d9a5ba142"
+    },
+    "obj/th03/pi_load.obj": {
+      "bytes": 705,
+      "sha256": "7c8235e99b6c56e72a407df54144e6f1eea329d3ee04f5ee52ca6ae953f368df"
+    },
+    "obj/th03/pi_put.obj": {
+      "bytes": 967,
+      "sha256": "07e372c042669ceb4fbcbc6cd79b97ea44566d232890fa9477b81780073f48f3"
+    },
+    "obj/th03/pi_put_i.obj": {
+      "bytes": 843,
+      "sha256": "2c9533be59ad67dbc278bed8254951098b0eea9b558fc4d6751550778e246be2"
+    },
+    "obj/th03/pi_put_q.obj": {
+      "bytes": 854,
+      "sha256": "0c4d03144eee6a382862a4326bf4697fb7eafabad0c96f7c1bba92e939162621"
+    },
+    "obj/th03/regdata.obj": {
+      "bytes": 7732,
+      "sha256": "007280d1c2e399e6d5d29f15549aa8ab3219cdd1ea41f578ef9f785d94c673e7"
+    },
+    "obj/th03/regpre.obj": {
+      "bytes": 1978,
+      "sha256": "b9f39e43eaa92e5fde42a7aad600d57a3f0f0b5ec28d1edb30abd80e12196780"
+    },
+    "obj/th03/regtail.obj": {
+      "bytes": 2945,
+      "sha256": "119b64e8b5a2b402dd4e7c8e315da94b24cee9b721eb559b6d621ca523e26caf"
+    },
+    "obj/th03/rootdata.obj": {
+      "bytes": 9300,
+      "sha256": "0074716832a17ec51bc1ca4fcee7c0a516437181c83b83783bd55e1eb66b24e0"
+    },
+    "obj/th03/rootpre.obj": {
+      "bytes": 355,
+      "sha256": "e8f301dc777c7e7cb9aaa2f0f2ea352961c39b47f353ceb1cea610ad6745ef3b"
+    },
+    "obj/th03/scoredat.obj": {
+      "bytes": 1335,
+      "sha256": "33aaa6f6f9a46fe950a183ae0b9dd6e8469a4e7fb5974094f1eb65697c17dfc0"
+    },
+    "obj/th03/snd_dlym.obj": {
+      "bytes": 773,
+      "sha256": "19bdfb93ea9df48a8ac9d305cb2c04b2a3a15cd34881aee9a4b95d7694bb4829"
+    },
+    "obj/th03/snd_kaja.obj": {
+      "bytes": 649,
+      "sha256": "60dc48226d3f342c191dbb7b2d9070794ba75abcf2bee7f2a82de790d07ea045"
+    },
+    "obj/th03/snd_se.obj": {
+      "bytes": 892,
+      "sha256": "315fca9b2ecc19274bb675b4f27647c9383427e59dc19f473518eae8da085371"
+    },
+    "obj/th03/staffdat.obj": {
+      "bytes": 10317,
+      "sha256": "d4aad84d445b0eeff24495463c04e6fa0f1470319b3771fbee4e44188c78258d"
+    },
+    "obj/th03/vector_far.obj": {
+      "bytes": 459,
+      "sha256": "59ba55f0bf34cfc80a8144e8232315ed9d3132f097e79c1adeeb8428ae806628"
+    },
+    "owned/fbrk.obj": {
+      "bytes": 839,
+      "sha256": "45b7fc84fdd32a1cf3073d5cdbd8aadfe1d6fb467119cc0452ec23dc6b96044c"
+    },
+    "owned/h_llsh.obj": {
+      "bytes": 260,
+      "sha256": "8816f619f8a4ee57f9ee454ce307bf02ec97b1907f8b2693d2b7a89e1e1b8774"
+    },
+    "owned/h_padd.obj": {
+      "bytes": 369,
+      "sha256": "290bb5fb7d0364a530284c3fc1d39b4a4ba0f08d0be5bb4e5cfcac0a1a2018a1"
+    },
+    "owned/ioerror.obj": {
+      "bytes": 570,
+      "sha256": "465c252c12301da8e52f25461af85e3191f3be3d0d474c0675e9f7b771942afc"
+    },
+    "owned/n_pcmp.obj": {
+      "bytes": 225,
+      "sha256": "c2d9b0aa22d3f830888447a58356c9d000dcb4e58afcbfb23df52e975079fb71"
+    },
+    "owned/setblock.obj": {
+      "bytes": 279,
+      "sha256": "8b51d23bb9b83f4a51c51ec4591d4c2e3cf0aaf328da8ea2ab723330de04cc61"
+    }
+  },
+  "library": {
+    "member_count": 893,
+    "replaced_members": [
+      "fbrk",
+      "h_llsh",
+      "h_padd",
+      "ioerror",
+      "n_pcmp",
+      "setblock"
+    ],
+    "contextual_members_unchanged": 887,
+    "ordered_members_equal": true,
+    "fresh_producers_equal": true
+  },
+  "vendor_library_sha256": "7d53ed1864b8b778040aa8203ebe4e01385112d9b3f134744a461aec0b171ba7",
+  "tlib_sha256": "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2",
+  "comparison": {
+    "file_equal": true,
+    "header_equal": true,
+    "program_equal": true,
+    "ordered_relocations_equal": true,
+    "relocation_membership_equal": true,
+    "candidate_bytes": 67372,
+    "target_bytes": 67372,
+    "candidate_relocations": 677,
+    "target_relocations": 677,
+    "differing_program_sites": [],
+    "program_size_equal": true
+  },
+  "packing": {
+    "options": [
+      "-B"
+    ],
+    "packed_sha256": "5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c",
+    "packed_bytes": 37975,
+    "stored_equal": true,
+    "raw_repeat_equal": true,
+    "decoded_roundtrip_equal": true,
+    "same_tool_roundtrip": true
+  },
+  "ownership_acceptance": false,
+  "runtime_acceptance": false,
+  "canonical_unit_credit_changed": false,
+  "unowned_context": [
+    "Frozen reference source at b6ba5b0a529edbb31efdf8c0e939263804f8ee47 and documented flake.asp include",
+    "Vendor C0L.OBJ, EMU.LIB, MATHL.LIB and 887 unchanged CL.LIB members"
+  ],
+  "implementation_sha256": {
+    "scripts/build_th03_mainl_work.py": "5ecca939417ac84d5af230f68b406ac3464084819463268a440bac51b55c3c6b",
+    "scripts/lib/borland_library.py": "729f4283a999a88519bc2c545b96c541f2b36565da24737d7493c03c52214c84",
+    "scripts/build_th03_op_work.py": "7c5b901bb31c8a09bf0e53ebff130face3e64bed9a70c27817ff45dc49269cd8"
+  }
+}

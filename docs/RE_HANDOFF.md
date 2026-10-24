@@ -20,6 +20,14 @@ remain in [README.md](../README.md).
   Frozen reference source and vendor libraries remain unowned context; this is
   a fresh complete-byte build observation, not ownership/ABI or runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
+- MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
+  objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
+  preserves all 893 vendor member positions, substitutes the six real producers,
+  and preserves the other 887 members' program records. All 938 raw outputs repeat.
+  The complete 67,372-byte decoded EXE and all 677 ordered relocations match;
+  both DIET `-B` packs equal the canonical 37,975-byte stored target. This remains
+  a complete-byte build observation with explicit reference/vendor context, not
+  new ownership/ABI/runtime acceptance. See `config/mainl_work/observation.json`.
 - All 95 source objects compile in 96 serial phases. Two independent 589-file
   source trees reproduce all 97 raw OBJ/EXE/MAP outputs; all 249 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -29,9 +37,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,723 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 2m23s at 382 MiB peak RSS. OP's initial cold
-  pair took 2m04s at 44 MiB. The last MAIN native review peaked at about 534 MiB.
+- Last full CI: PASS, 1,729 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 2m49s at 390 MiB peak RSS. OP's initial cold
+  pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
+  native review peaked at about 534 MiB.
 
 ## Maintained producers
 
@@ -54,12 +63,12 @@ ABI and byte credit are recorded separately in the ledgers.
 ## Resume here
 
 1. Inspect Git and run `.venv/bin/python scripts/preflight.py`.
-2. Prioritize fresh MAINL and ZUN source builds, then OP decoded owner acceptance.
-   MAINL's current source composer still regenerates all 1,904 files / 36 objects;
-   its old native/CRT library receipts are disposable and must be replaced by a
-   live builder. Rebuild the six maintained CRT providers and preserve normal
-   vendor library member order. ZUN's historical wrapper still has unowned
-   embedded payloads and four differing instruction encodings in the driver.
+2. Prioritize the fresh ZUN source build, then OP/MAINL decoded owner acceptance.
+   OP and MAINL now have live cold builders; their old native receipts are no
+   longer needed for whole-file byte observations. ZUN's historical wrapper still
+   has unowned embedded payloads and four differing instruction encodings in the
+   driver. Keep storage equality, source ownership and accepted ledger credit
+   separate while closing the remaining product graphs.
 3. For MAIN whole-link work, investigate global relocation record **394**
    (zero-based), loaded site `0x185A6`
    in `chiyuri_bomb`. Mapping the canonical vector through the current MAP gives
@@ -89,6 +98,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
 .venv/bin/python scripts/build_th03_op_work.py
+.venv/bin/python scripts/build_th03_mainl_work.py
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/ci.py
 git diff --check
@@ -104,8 +114,11 @@ as described in [RE_WORKFLOW.md](RE_WORKFLOW.md).
   validates its complete source/output binding and repeats only DIET packaging.
   Each full invocation recreates the two source trees; no old project objects
   or historical verification receipts are build inputs.
+- Current MAINL tree: `.analysis/toolchain/wineprefix/drive_c/TH03ML` (about
+  18 MiB). It retains one source/build tree, including the explicitly unowned
+  vendor extraction; both cold rounds are recreated from source.
 - Current reports: `.analysis/work/main-build.json`, `main-unit-review.json`,
-  `op-build.json` and `ci.log`, overwritten by their respective commands.
+  `op-build.json`, `mainl-build.json` and `ci.log`, overwritten by their commands.
 - Keep the targets, installed tools, local Wine prefix, runtime image and Ghidra
   databases. `.analysis` is about 1.3 GiB, mostly the Wine runtime itself.
 - Old runs, probes, logs and caches are disposable even if historical evidence
