@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Two complete native C++ handoff producers; four functions and 742 CODE bytes",
+  "product_exact": false,
+  "new_exact_functions": 4,
+  "new_exact_bytes": 742,
+  "source_sha256": {
+    "src/main/core/execl.cpp": "17afaa02b1ef28453bb284045168fcc41e54ef0d985da9ae5524ccb648a4fb4a",
+    "src/main/core/execl.hpp": "30de453abc91e8f9adbe2e1eb736061e14fc9b5349e25894d7ea32ec222c067c",
+    "src/main/round/demo_transition.cpp": "1696df3df39912194e82b0664782ada3dd63231dcd121df96ae199f8f3c068f0",
+    "src/main/round/demo_transition.hpp": "a45752c2d1abe5527b1a06df48202d96693ec2a3d26dfa65d4beb435410baef3",
+    "src/main/graphics/round_fill_context.asm": "17b415164d656b764e4c93008bb0852fb397a7d212bd1191c34d0ddfb42ee9f1",
+    "scripts/lib/main_handoff_runtime.py": "3a4bff539a7ed78f07ae206ab76c4bee566590799dd8382d5e054e9ffca86204",
+    "scripts/lib/main_hitcirc_context.py": "ee5ef4e7ad4a85d495927660ae993d5fa2a49c4df094522a387b58488aca32b5",
+    "scripts/review_th03_main_native_units.py": "0eeccbf15901533d176d7292874a36e7f6f9db09ebcb9cf3b12b6a4e6709f940",
+    "scripts/build_th03_main_work.py": "f0bb658385d6f7a2b8cd49b0747a02908f4b58f3ee4b13b8dc1c786a94e83237",
+    "scripts/lib/main_work_stage.py": "d906c19d00becd1a0a8ab1b17a3c559b87f6bee98bfda8cc1dbb1787dc5dbb68",
+    "config/th03_main_exact_units.toml": "8282911e492f145f2fd7724294152d29358ee9e8796b727a3cc5d05d14614347",
+    "config/th03_main_link.rsp": "a259c16ccb75f48368a1df80748cb3f63de21f88f1421b40ba72dd1a46950b7b"
+  },
+  "builder_sha256": "f0bb658385d6f7a2b8cd49b0747a02908f4b58f3ee4b13b8dc1c786a94e83237",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "d906c19d00becd1a0a8ab1b17a3c559b87f6bee98bfda8cc1dbb1787dc5dbb68",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/lib/main_hitcirc_context.py": "ee5ef4e7ad4a85d495927660ae993d5fa2a49c4df094522a387b58488aca32b5",
+    "scripts/lib/main_handoff_runtime.py": "3a4bff539a7ed78f07ae206ab76c4bee566590799dd8382d5e054e9ffca86204",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "8282911e492f145f2fd7724294152d29358ee9e8796b727a3cc5d05d14614347",
+    "config/th03_main_link.rsp": "a259c16ccb75f48368a1df80748cb3f63de21f88f1421b40ba72dd1a46950b7b"
+  },
+  "tools_sha256": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "command": ".venv/bin/python -B scripts/replay_th03_main_native.py",
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 606,
+    "maintained_inputs_checked": 261,
+    "source_objects": 100,
+    "raw_outputs": 102,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0,
+    "elapsed_seconds": 312.66,
+    "peak_rss_kib": 534652
+  },
+  "units": {
+    "th03-main-demo-transition": {
+      "source": "src/main/round/demo_transition.cpp",
+      "bytes": 663,
+      "file_offset": 52483,
+      "ordered_relocations": 16,
+      "native_producer": {
+        "object": "obj/th03/tr_ctx.obj",
+        "start": 7619,
+        "bytes": 663,
+        "owners": [
+          "th03-main-demo-transition"
+        ],
+        "code_record_sizes": [
+          663
+        ]
+      },
+      "functions": [
+        {
+          "name": "stage_background_update_none",
+          "segment": 2414,
+          "offset": 7619,
+          "size": 5,
+          "abi": "near cdecl; no arguments or writes; BP/SI/DI/DS preserved; RET",
+          "return_pop": 0
+        },
+        {
+          "name": "stage_demo_finish",
+          "segment": 2414,
+          "offset": 7624,
+          "size": 354,
+          "abi": "near cdecl; no stack arguments; uint8 frame wraps; signed16 vertices and toward-zero division; near callback word; BX register pattern for far bomb service; BP/SI/DI/DS preserved; RET",
+          "return_pop": 0
+        },
+        {
+          "name": "stage_demo_uncover",
+          "segment": 2414,
+          "offset": 7978,
+          "size": 304,
+          "abi": "near cdecl; no stack arguments; uint8 frame wraps; signed16 vertices and toward-zero division; two-player triangle calls and near callback word; BP/SI/DI/DS preserved; RET",
+          "return_pop": 0
+        }
+      ],
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      },
+      "scoped_exact_acceptance": true
+    },
+    "th03-main-executable-chain": {
+      "source": "src/main/core/execl.cpp",
+      "bytes": 79,
+      "file_offset": 52404,
+      "ordered_relocations": 9,
+      "native_producer": {
+        "object": "obj/th03/execl.obj",
+        "start": 7540,
+        "bytes": 79,
+        "owners": [
+          "th03-main-executable-chain"
+        ],
+        "code_record_sizes": [
+          79
+        ]
+      },
+      "functions": [
+        {
+          "name": "main_exec",
+          "segment": 2414,
+          "offset": 7540,
+          "size": 79,
+          "abi": "far Pascal; filename far pointer BP+6 occupies four bytes; signed16 AX status on execl failure; BP/SI/DI/DS preserved; RETF4",
+          "return_pop": 4
+        }
+      ],
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      },
+      "scoped_exact_acceptance": true
+    }
+  },
+  "runtime": {
+    "equal": true,
+    "cases": 1110,
+    "cases_by_entry": {
+      "exec": 48,
+      "none": 2,
+      "cover": 530,
+      "uncover": 530
+    },
+    "code_bytes_executed": 742,
+    "bytes_by_entry": {
+      "exec": 79,
+      "none": 5,
+      "cover": 354,
+      "uncover": 304
+    },
+    "services": "bounded ABI stubs; real DOS/raster/device behavior remains unverified"
+  },
+  "negative_controls": {
+    "count": 10,
+    "rejected": [
+      "signed-half",
+      "frame-threshold",
+      "near-return",
+      "far-return-pop",
+      "far-null-width",
+      "mrs-slot",
+      "pi-header",
+      "exec-cleanup-order",
+      "callback",
+      "midpoint"
+    ]
+  },
+  "comparison": {
+    "matching_relocation_prefix": 530,
+    "differing_relocation_order_positions": 811,
+    "program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "relocation_membership_equal": true,
+    "previous_loaded_image_unchanged": true,
+    "program_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "candidate_sha256": "d5a88f19403dd6022b5df7164adfecdac2ebb74f6e43bd197e7a031062859803",
+    "owned_extents": 97,
+    "owned_bytes": 75140
+  },
+  "limits": [
+    "Only the complete 79-byte executable chain and 663-byte transition producers are promoted.",
+    "The 216-byte graphics context, shared reference DATA/BSS, vendor code and other unowned context retain their prior provenance.",
+    "Foreign services are bounded ABI stubs; real DOS, raster and device behavior is not established.",
+    "Names and original producer grouping remain inferences.",
+    "Whole MAIN remains open: two alignment bytes, header layout and remaining literal order differ."
+  ]
+}

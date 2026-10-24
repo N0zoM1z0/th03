@@ -7,8 +7,8 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Reconstruction source baseline: `83b196d` (native character setup accepted).
-- MAIN: **440 exact functions / 74,398 bytes / 95 CODE extents**. These are
+- Previous pushed checkpoint: `730157d` (native executable chaining candidate).
+- MAIN: **444 exact functions / 75,140 bytes / 97 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted product exactness.
 - OP now has a live, source-only cold build independent of the deleted historical
@@ -43,11 +43,11 @@ remain in [README.md](../README.md).
   original assembler remains unknown. The standalone producer and its ten-byte
   TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
   The complete builder compiles the driver itself without consuming that tree.
-- All 100 source objects compile in 101 serial phases. Two independent 605-file
-  source trees reproduce all 102 raw OBJ/EXE/MAP outputs; all 260 maintained
+- All 100 source objects compile in 101 serial phases. Two independent 606-file
+  source trees reproduce all 102 raw OBJ/EXE/MAP outputs; all 261 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
-  inputs. Current native-owner review passes ten owners / 37 functions /
-  9,662 bytes and checks all 95 configured extents.
+  inputs. Current native-owner review passes twelve owners / 41 functions /
+  10,404 bytes and checks all 97 configured extents.
 - The enemy source now selects two formation/script and two rendering/update
   objects. Keep the 79-byte `enemies_add()` with `enemy_formation_spawn()`:
   an external far declaration loses TC4's native same-group near-call sequence.
@@ -55,22 +55,24 @@ remain in [README.md](../README.md).
   all OMF publics, both MAP public tables and zero private DATA/BSS are checked;
   five native OMF/MAP mutation controls pass. The function credit is unchanged.
   See `config/main_work/enemy_layout_observation.json`.
-- Executable chaining now has a natural C++ candidate at `096E:1D74`: all 79
-  bytes and nine literal relocations match. It releases PI/master/MRS resources,
-  exits subsystems and calls `execl` with two far filename pointers plus a far
-  NULL sentinel. The entry declaration preserves signed AX failure status.
-  The surrounding 216-byte graphics and 663-byte transition ASM remain unowned
-  reference context. BYTE alignment retains the transition's odd `1DC3` entry.
-  Candidate-specific behavior/ownership acceptance is still open; exact counts
-  are unchanged. See `config/main_work/execl_layout_observation.json`.
-- The first **514 of 1,553 global relocation records** match literally; 827
+- Executable chaining and the three playfield-transition functions now have
+  accepted natural C++ producers: four functions / 742 bytes, all literal
+  relocations and eleven native unit gates pass. An independent 1,110-case
+  instruction model covers every byte and rejects ten actual guest mutations.
+  It checks far filename/NULL widths, cleanup order, signed AX, stack cleanup,
+  every frame byte, signed halving/overflow, geometry, callback and midpoint writes.
+  Transition clipping ends at 199; incrementing the byte frame separately keeps
+  the compiler's original wrap behavior. BYTE alignment retains the odd `1DC3`
+  entry. Only the surrounding 216-byte graphics ASM remains unowned in this
+  former HITCIRC group. See `config/main_work/handoff_acceptance.json`.
+- The first **530 of 1,553 global relocation records** match literally; 811
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,751 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 2m59s at 377 MiB peak RSS. OP's initial cold
+- Last full CI: PASS, 1,757 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 3m52s at 350 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
-  cold pair and native review took 5m28s at about 542 MiB. The ZUN driver cold
+  cold pair and native review took 5m13s at about 522 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
   The complete ZUN cold pair took 52s at 64 MiB.
@@ -103,18 +105,17 @@ ABI and byte credit are recorded separately in the ledgers.
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
 3. MAIN links Chiyuri, formation/script and Ellen producers early, followed by
    `gf_ctx`, `execl` and `tr_ctx`. Real empty segment declarations preserve layout;
-   the entire loaded image stays unchanged. The next mismatch is record **514**,
-   loaded site `0xB735`, in the 663-byte transition context. Its sixteen canonical
-   relocations run in descending order; the current TASM context emits a different
-   literal sequence. Recover its three C++ functions/record grouping next. Also
-   add bounded cleanup/exec behavior and ownership gates before promoting the
-   79-byte `main_exec` candidate. `state` and `shotroot` still have interleaved runs.
+   the entire loaded image stays unchanged. The next mismatch is record **530**,
+   loaded site `0x18B57`, in `b_kana` / MAIN_05_TEXT. Investigate early-linking the
+   natural Kana objects while preserving physical CODE order: `b_kana` has the
+   next fourteen records, then `cs_kana` nine and `ex_kana` eight. Use a disposable
+   diagnostic before new cold gates. `state` and `shotroot` still have interleaved runs.
 4. The root now has no initialized HITCIRC CODE. Its prior nine procedures / 958
-   bytes are preserved as three ordinary source TUs, with explicit reference and
-   candidate provenance. The carrier parser omits empty CODE; use zero for an
-   absent HITCIRC entry when comparing cold rounds. Moving the whole root can
-   still change PLAYER_M placement. Library prefix/body and all 17 SHARED objects
-   retain their physical contributions.
+   bytes are preserved as three ordinary source TUs: graphics reference context,
+   accepted executable chaining and accepted transitions. The carrier parser omits
+   empty CODE; use zero for an absent HITCIRC entry when comparing cold rounds.
+   Moving the whole root can still change PLAYER_M placement. Library prefix/body
+   and all 17 SHARED objects retain their physical contributions.
 5. Other open issues: renderer emits 175 instead of 177 bytes (target saves SI
    and DI); state/shot relocation interleaving; the two alignment bytes; MZ
    header/order and the complete four-product source graph. Combining state and

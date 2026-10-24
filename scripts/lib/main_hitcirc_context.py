@@ -1,7 +1,7 @@
-"""Detach unchanged reference context around the native executable-chain TU.
+"""Detach remaining reference context around native cleanup/transition TUs.
 
-The two ASM contexts retain reference provenance. The 79-byte C++ producer is
-an authored candidate; its complete source/behavior acceptance is separate.
+The graphics ASM retains reference provenance. These are byte/layout gates;
+the independent native auditor owns complete source/behavior acceptance.
 """
 
 import hashlib
@@ -49,7 +49,14 @@ def detach(text):
         if name != "trapezoid_hmask":
             need(len(re.findall(r"(?m)^" + name + r"\s+" + directive + r"\s+\?\s*$", text)) == 1,
                  "existing storage width differs: " + name)
-    return "public " + ",".join(n for n, _ in STORAGE) + "\n" + text
+    for old, new in (("sub_B4A3", "_stage_background_update_none"),
+                     ("sub_B4A8", "_stage_demo_finish"),
+                     ("sub_B60A", "_stage_demo_uncover")):
+        text = re.sub(r"\b" + old + r"\b", new, text)
+    bridge = ("public _playfield_transition_vertices,_transition_hmask\n"
+              "_playfield_transition_vertices = word_1FBC4\n"
+              "_transition_hmask = trapezoid_hmask\n")
+    return bridge + "public " + ",".join(n for n, _ in STORAGE) + "\n" + text
 
 
 def verify(work, target, candidate):
@@ -63,7 +70,7 @@ def verify(work, target, candidate):
         segments = [s for s in segment_definitions(raw) if s["size"]]
         need([(s["name"], s["class"], s["size"]) for s in segments]
              == [("HITCIRC_TEXT", "CODE", size)], "CODE or private storage differs: " + name)
-        module = f"th03/{name}." + ("cpp" if name == "execl" else "asm")
+        module = f"th03/{name}." + ("asm" if name == "gf_ctx" else "cpp")
         pattern = (rf"(?m)^\s*096E:{start:04X}\s+{size:04X}\s+C=CODE\s+S=HITCIRC_TEXT"
                    rf"\s+G=MAIN_01\s+M={re.escape(module)}\s+ACBP={alignment}\s*$")
         need(len(re.findall(pattern, map_text)) == 1, "literal MAP contribution differs: " + name)
@@ -80,7 +87,17 @@ def verify(work, target, candidate):
                  "nine literal C++ relocations required")
             need(len(re.findall(r"(?m)^\s*096E:1D74\s+(?:idle\s+)?MAIN_EXEC\s*$", map_text)) == 2,
                  "both literal C++ public tables required")
+        if name == "tr_ctx":
+            need(description["translator_comments"] == ["TC86 Borland C++ 4.02"]
+                 and code_publics(raw, segments[0]["index"]) == [
+                     (0, "_stage_background_update_none"), (5, "_stage_demo_finish"),
+                     (359, "_stage_demo_uncover")], "complete transition producer ownership differs")
+            vectors = [[(r.segment, r.offset) for r in image.relocations if lo <= r.linear < lo + size]
+                       for image in (target, candidate)]
+            need(vectors[0] == vectors[1] and len(vectors[0]) == 16,
+                 "sixteen literal transition relocations required")
     return dict(candidate_object="obj/th03/execl.obj", candidate_bytes=79,
-                ordered_relocations=9, reference_context_bytes=879,
-                source_state="authored-candidate", exact_acceptance=False,
+                ordered_relocations=9, transition_candidate_bytes=663,
+                transition_ordered_relocations=16, reference_context_bytes=216,
+                review_scope="byte-and-native-layout", exact_acceptance=False,
                 behavior_acceptance=False, private_data_bytes=0)

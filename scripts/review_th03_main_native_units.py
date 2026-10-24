@@ -33,6 +33,7 @@ CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry", "th03-main-roun
 STAGE_OWNERS = {"th03-main-stage-round"}
 PALETTE_OWNERS = {"th03-main-stage-palette"}
 CHARACTER_OWNERS = {"th03-main-character-setup"}
+HANDOFF_OWNERS = {"th03-main-executable-chain", "th03-main-demo-transition"}
 
 
 def sha(raw):
@@ -228,7 +229,7 @@ def review(report=None):
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     native_units = config.get("native_units", [])
     need(
-        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS,
+        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS,
         "lose owners are incomplete",
     )
     units = config["units"] + native_units
@@ -385,7 +386,14 @@ def review(report=None):
          and result["character_controls"]["count"] == 16, "character contracts are incomplete")
     result["character_model_sha256"] = sha((ROOT / "scripts/lib/main_character_setup_runtime.py").read_bytes())
     result["character_contract_sha256"] = sha((ROOT / "scripts/lib/main_character_setup_contract.json").read_bytes())
-    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS):
+    from lib.main_handoff_runtime import compare as handoff_compare, negative_controls as handoff_controls
+    result["handoff_runtime"] = handoff_compare(target, candidate)
+    result["handoff_controls"] = handoff_controls(candidate)
+    need(result["handoff_runtime"]["cases"] == 1110
+         and result["handoff_runtime"]["code_bytes_executed"] == 742
+         and result["handoff_controls"]["count"] == 10, "handoff contracts are incomplete")
+    result["handoff_model_sha256"] = sha((ROOT / "scripts/lib/main_handoff_runtime.py").read_bytes())
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -512,7 +520,7 @@ def review(report=None):
             gates=checks,
         )
     need(
-        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS,
+        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS,
         "all native owners required",
     )
     return result

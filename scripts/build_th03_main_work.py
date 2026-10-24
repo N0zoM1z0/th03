@@ -91,11 +91,11 @@ def context_producers(names=None):
         ),
         "obj/th03/execl.obj": dict(
             source="src/main/core/execl.cpp", staged="th03/execl.cpp",
-            output="obj/th03/execl.obj", prefix="", origin="authored-candidate",
+            output="obj/th03/execl.obj", prefix="", origin="authored-source",
         ),
         "obj/th03/tr_ctx.obj": dict(
-            source="src/main/round/demo_transition_context.asm", staged="th03/tr_ctx.asm",
-            output="obj/th03/tr_ctx.obj", prefix="", origin="reference-game-context",
+            source="src/main/round/demo_transition.cpp", staged="th03/tr_ctx.cpp",
+            output="obj/th03/tr_ctx.obj", prefix="", origin="authored-source",
         ),
         "obj/th03/roundpr.obj": dict(
             source="src/main/round/primitives.asm", staged="th03/roundpr.asm",
@@ -284,7 +284,7 @@ def contributions(raw, omit_replaced=False):
                     "S=HITCIRC_TEXT " in line
                     and line.split()[0] in {"096E:0C98", "096E:0D1A", "096E:0D6C", "096E:1C9C", "096E:1D74", "096E:1DC3"}
                     and any("M=" + module + " " in line.replace(chr(92), "/") for module in
-                            ("th03_main.asm", "th03/stg_pal.asm", "th03/roundpr.asm", "th03/ch_setup.cpp", "th03/gf_ctx.asm", "th03/execl.cpp", "th03/tr_ctx.asm"))
+                            ("th03_main.asm", "th03/stg_pal.asm", "th03/roundpr.asm", "th03/ch_setup.cpp", "th03/gf_ctx.asm", "th03/execl.cpp", "th03/tr_ctx.cpp", "th03/tr_ctx.asm"))
                 )
                 or (
                     "S=_TEXT " in line
@@ -444,7 +444,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 514:
+    if result["matching_relocation_prefix"] < 530:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]

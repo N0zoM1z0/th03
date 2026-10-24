@@ -58,7 +58,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (95, 74398),
+            (97, 75140),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -314,7 +314,14 @@ class MainWorkTests(unittest.TestCase):
                 end = extent["segment"] * 16 + extent["start"] + extent["size"]
                 raw = bytearray(self.raw)
                 raw[self.image.header.header_size + end - 1] ^= 1
-                with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+                error = (
+                    "HITCIRC source grouping: raw context or C\\+\\+ body differs"
+                    if unit["id"] in {
+                        "th03-main-executable-chain", "th03-main-demo-transition"
+                    }
+                    else "tracked scope regressed"
+                )
+                with self.assertRaisesRegex(ValueError, error):
                     self.run_image(raw)
 
     def test_literal_relocation_reorder_rejected(self):

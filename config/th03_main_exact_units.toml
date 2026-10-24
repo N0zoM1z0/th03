@@ -7535,3 +7535,63 @@ offset = 6916
 size = 408
 abi = "near Pascal; word PID BP+4; SI/BP preserved; RET2"
 return_pop = 2
+
+[[native_units]]
+id = "th03-main-executable-chain"
+source = "src/main/core/execl.cpp"
+object = "execl"
+map_module = "th03/execl.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x1d74
+size = 79
+map_segment = "HITCIRC_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "main_exec"
+segment = 0x096e
+offset = 0x1d74
+size = 79
+abi = "far Pascal; filename far pointer BP+6 occupies four bytes; signed16 AX status on execl failure; BP/SI/DI/DS preserved; RETF4"
+return_pop = 4
+
+[[native_units]]
+id = "th03-main-demo-transition"
+source = "src/main/round/demo_transition.cpp"
+object = "tr_ctx"
+map_module = "th03/tr_ctx.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x1dc3
+size = 663
+map_segment = "HITCIRC_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "stage_background_update_none"
+segment = 0x096e
+offset = 0x1dc3
+size = 5
+abi = "near cdecl; no arguments or writes; BP/SI/DI/DS preserved; RET"
+return_pop = 0
+
+[[native_units.functions]]
+name = "stage_demo_finish"
+segment = 0x096e
+offset = 0x1dc8
+size = 354
+abi = "near cdecl; no stack arguments; uint8 frame wraps; signed16 vertices and toward-zero division; near callback word; BX register pattern for far bomb service; BP/SI/DI/DS preserved; RET"
+return_pop = 0
+
+[[native_units.functions]]
+name = "stage_demo_uncover"
+segment = 0x096e
+offset = 0x1f2a
+size = 304
+abi = "near cdecl; no stack arguments; uint8 frame wraps; signed16 vertices and toward-zero division; two-player triangle calls and near callback word; BP/SI/DI/DS preserved; RET"
+return_pop = 0

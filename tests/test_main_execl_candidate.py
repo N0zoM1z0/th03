@@ -31,10 +31,10 @@ class ExecutableChainCandidate(unittest.TestCase):
         self.target = parse_mz((ROOT / ".analysis/targets/th03/main.exe").read_bytes())
         self.candidate = parse_mz((WORK / "bin/th03/main.exe").read_bytes())
 
-    def test_complete_natural_producer_stays_a_candidate(self):
+    def test_byte_layout_gate_alone_has_no_acceptance_authority(self):
         result = verify(self.work, self.target, self.candidate)
         self.assertEqual((result["candidate_bytes"], result["ordered_relocations"]), (79, 9))
-        self.assertEqual(result["reference_context_bytes"], 879)
+        self.assertEqual((result["transition_candidate_bytes"], result["reference_context_bytes"]), (663, 216))
         self.assertFalse(result["exact_acceptance"] or result["behavior_acceptance"])
 
     def test_equal_program_bytes_do_not_hide_swapped_literal_relocations(self):
@@ -57,7 +57,7 @@ class ExecutableChainCandidate(unittest.TestCase):
 
     def test_transition_alignment_cannot_borrow_unchanged_instructions(self):
         path = self.work / "obj/th03/main.map"
-        text, count = re.subn(r"(?m)^(\s*096E:1DC3\s+0297\s+C=CODE\s+S=HITCIRC_TEXT\s+G=MAIN_01\s+M=th03[\\/]tr_ctx\.asm\s+ACBP=)28(\s*)$",
+        text, count = re.subn(r"(?m)^(\s*096E:1DC3\s+0297\s+C=CODE\s+S=HITCIRC_TEXT\s+G=MAIN_01\s+M=th03[\\/]tr_ctx\.cpp\s+ACBP=)28(\s*)$",
                               r"\g<1>48\2", path.read_text(), count=1)
         self.assertEqual(count, 1)
         path.write_text(text)
