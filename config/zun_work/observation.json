@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T05:48:10.382898Z",
+  "observed_utc": "2026-10-24T12:47:35.166812Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 110,
@@ -18,7 +18,7 @@
       "ownership": "unowned -1 vendor payload"
     }
   ],
-  "source_inventory_sha256": "c5d0aef91178b227ed8d5522b47a41d31cce96eee0c028cefd07bdd147d63540",
+  "source_inventory_sha256": "be1e58bf0d3b1a430b9a3c7d60e1c1c684ebc12c426d0b2fc67d5e2c0d2fec86",
   "maintained_inputs": {
     "compat/rec98/libs/master.lib/master.hpp": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
     "compat/rec98/libs/master.lib/pc98_gfx.hpp": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
@@ -48,7 +48,7 @@
     "src/zun/res_yume.cpp": "3f11fcedf4e80c5ebb97ce24f9e96c15366588b7c3de6ce0b9915cdb6347760a",
     "src/zun/transfer_call.asm": "7b4634cbede7e9e19658f441eeecd108eecc2eea9b4d6e81815a758080bbeda9",
     "src/zun/transfer_helper.asm": "d8e15f5d983e899d363b16c87a40ef4dbcc693c7f73e38cf330ecf3ae1369c8a",
-    "src/zun/zunsoft.cpp": "5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057"
+    "src/zun/zunsoft.cpp": "f1c7efb2a913686278732eb51753471684ce6441fd36bc40f764399f36c47948"
   },
   "source_materializations": 2,
   "raw_outputs_per_round": 23,
@@ -87,12 +87,12 @@
       "sha256": "9848b3a72545e5600989e9ff65ded2af6d7f53ad01c0858cbd70bfa361f30cd4"
     },
     "obj/th01/zunsoft.map": {
-      "bytes": 28657,
-      "sha256": "882ac7e3fba775f9225aa55adc276e17604620fa2e7608ae7cc18aa9081bc3ed"
+      "bytes": 28593,
+      "sha256": "bbaf3ec6ca958cc6cafc3dee90d55dc07b6f47b785279521c31d3b103733960d"
     },
     "obj/th01/zunsoft.obj": {
-      "bytes": 4133,
-      "sha256": "845de18164def1d384eadc59be287a22ca47b99a6d4d989c0dfa407c094a08a5"
+      "bytes": 4110,
+      "sha256": "94ed8cf40b4a3e5c5d63b3177562e96a337161542131d26882cad5b7ec74540a"
     },
     "obj/th03/res_yume.map": {
       "bytes": 15282,
@@ -316,10 +316,45 @@
     "Borland C0T.OBJ, EMU.LIB, MATHS.LIB, CT.LIB and include declarations"
   ],
   "implementation_sha256": {
-    "scripts/build_th03_zun_work.py": "ee36f974ee0914f545db63e918dc6f4ef2112c9f2048ce19c6ec1a84722bf06e",
+    "scripts/build_th03_zun_work.py": "d4c175f04194fac8750ab974163cd222e4d5a68923cdf1874d08f6d290b8a814",
     "scripts/lib/zun_work_source.py": "06672c674d5d9461e1ff25e5402ed9ef5282b38ba66e8d273bf87b31f7a68aa9",
     "config/th03_zun_work.toml": "4a32e3d0317a8284a2b48f501810d1d500646cd39ce9b7b6324c80f6c66deeed",
     "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
-    "scripts/lib/zun_driver_layout.py": "f8659c81f28e6398b4a1df61e300aaf1269e3a1715c6823562fca42f20ee3ad3"
+    "scripts/lib/zun_driver_layout.py": "f8659c81f28e6398b4a1df61e300aaf1269e3a1715c6823562fca42f20ee3ad3",
+    "scripts/stage_th03_zunsoft.py": "03e7119f51bccc52738abff7a02af8e1b1b1871402a5805dbc3cf1d0e6bd4c3f",
+    "scripts/lib/zun_logo_layout.py": "3e2897277a8b6e1881f85721422ff4d317e2fa66cde66bbbb3d4791b6a247f78",
+    "scripts/lib/zun_logo_runtime.py": "45375eb28b5a71d10011af9c2bbca85606dfbdb3105dfba6eb523849dfaf8442",
+    "scripts/lib/decoded_zun_acceptance.py": "0cd7bb350393c424d766bf665d376b7d190bdee9b3468b278bd9d1de4abd7385",
+    "scripts/publish_th03_zun_work_scopes.py": "665d98932b7e30110643a1e24c8afd6d1c5504688d9e0cad2a70cb78e2060261"
+  },
+  "builder_sha256": "d4c175f04194fac8750ab974163cd222e4d5a68923cdf1874d08f6d290b8a814",
+  "scoped_source_acceptance": {
+    "publication": "config/zun_work/scoped_acceptance.json",
+    "decoded_payload": "-3",
+    "decoded_functions": 10,
+    "decoded_code_bytes": 1299,
+    "owned_data_bytes": 15,
+    "reviewed_bss_bytes": 293,
+    "native_word_alignment": 2,
+    "explicit_padding_variables": 0,
+    "bss_publics": 14,
+    "code_record_sizes": [
+      1017,
+      282
+    ],
+    "runtime_cases_per_image": 5111,
+    "images": 2,
+    "executed_code_bytes": 1299,
+    "full_fade_frames": 231,
+    "actual_guest_mutations_rejected": 18,
+    "opaque_char_carrier_high_bytes": 256,
+    "consumed_tiny_runtime": {
+      "C0T.OBJ": "27169f062a9b77bf4accfb9550ca4ccbf0fd710d4b1232768630d53bb6305f7c",
+      "EMU.LIB": "e702f1f5dc95d61bdb1689af746d69ac5e303e38ebf77175cd6fd600eb3edc74",
+      "MATHS.LIB": "ad76cb7f5b81105d4cc83691c74c030a6f5e1a56be0d1f5b5eca43f3124693cd",
+      "CT.LIB": "b665d5d30f0d3bafe3023ee45eeef183811c87201e9a1876f011acf5699261af"
+    },
+    "canonical_unit_credit_changed": false,
+    "whole_product_source_ownership": false
   }
 }

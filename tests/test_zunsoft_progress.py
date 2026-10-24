@@ -1,5 +1,5 @@
 """Logo source visibility stays scoped and preserves the MAINL accepted axis."""
-import copy,csv,importlib.util,sys,unittest
+import copy,csv,importlib.util,sys,unittest,tempfile,shutil
 from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]
@@ -8,6 +8,17 @@ spec=importlib.util.spec_from_file_location('zun_progress',ROOT/'scripts/progres
 UNITS=list(csv.DictReader((ROOT/'config/units.csv').read_text().splitlines()))
 EVIDENCE=list(csv.DictReader((ROOT/'config/evidence.csv').read_text().splitlines()))
 class ZunsoftProgressTests(unittest.TestCase):
+ def setUp(self):
+  # These tests describe the historical precursor with an explicit padding
+  # char. Keep that fixture separate from the current native -a2 producer.
+  folder=tempfile.TemporaryDirectory();self.addCleanup(folder.cleanup);legacy=Path(folder.name)
+  source=(ROOT/'src/zun/zunsoft.cpp').read_bytes()
+  source=source.replace(b'#pragma option -2 -d- -a2 // ZUN bloat; native word alignment',b'#pragma option -2 -d- // ZUN bloat')
+  if b'char wave_padding;' not in source:source=source.replace(b'char wave_amp;\n',b'char wave_amp;\nchar wave_padding;\n')
+  target=legacy/'src/zun/zunsoft.cpp';target.parent.mkdir(parents=True);target.write_bytes(source)
+  for name in ['config/zunsoft_root/proof.json','config/zunsoft_repeat/proof.json']:
+   target=legacy/name;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(ROOT/name,target)
+  current=patch.object(p,'ROOT',legacy);current.start();self.addCleanup(current.stop)
  def test_current_scope(self):
   self.assertTrue(p.zunsoft_root_source_proven(UNITS,EVIDENCE))
   z=[u for u in UNITS if u['artifact']=='th03-zun' and u['source']]

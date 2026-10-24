@@ -44,7 +44,8 @@ class Tests(unittest.TestCase):
             return a.op_decoded_status(ROOT,UNITS if units is None else units)
     def render(self,value):
         with patch.object(status,'mainl_product_status',return_value={'product_exact':False}):
-            return p.render_svg(UNITS,FUNCTIONS,EVIDENCE,op_status=value)
+            # The historical OP fixture does not select the live ZUN axis.
+            return p.render_svg(UNITS,FUNCTIONS,EVIDENCE,op_status=value,zun_status={'decoded_accepted':False})
     def test_synthetic_inventory_never_runs_verifier(self):
         with patch.object(a,'read_publication') as read:
             self.assertFalse(a.op_decoded_status(ROOT,[])['decoded_accepted'])

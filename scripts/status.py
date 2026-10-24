@@ -18,6 +18,27 @@ from lib.op_decoded_progress import op_decoded_status, decoded_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 MAINL_SCOPED_PUBLICATION = 'config/mainl_work/scoped_acceptance.json'
+ZUN_SCOPED_PUBLICATION = 'config/zun_work/scoped_acceptance.json'
+
+
+def zun_product_status(root, units):
+    pending = dict(repository_local=True, decoded_accepted=False, product_exact=False,
+                   decoded_exact_units=0, decoded_authored_bytes=0, decoded_exact_unit_ids=[],
+                   mixed_physical_exact_bytes=0, canonical_credit_changed=False,
+                   factory_accepted=False, whole_game_percentage=None)
+    current = Path(root) / ZUN_SCOPED_PUBLICATION
+    if not current.is_file():
+        return dict(pending, reason='current ZUN source publication missing')
+    try:
+        with (Path(root) / 'config/units.csv').open() as stream:
+            expected = [u for u in csv.DictReader(stream) if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
+        provided = [u for u in units if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
+        if len(expected) != 18 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
+            raise ValueError('caller inventory does not match the current ZUN ledger')
+        from lib.decoded_zun_acceptance import verify
+        return verify(Path(root), json.loads(current.read_bytes()))
+    except (OSError, ValueError, KeyError, TypeError, ImportError) as error:
+        return dict(pending, reason=str(error))
 
 
 def mainl_product_status(root, units):
@@ -183,6 +204,7 @@ def main() -> int:
         )
     per_artifact["th03-op"]["decoded_acceptance"] = op_decoded_status(ROOT, units)
     per_artifact["th03-mainl"]["product_acceptance"] = mainl_product_status(ROOT, units)
+    per_artifact["th03-zun"]["decoded_acceptance"] = zun_product_status(ROOT, units)
     output = {
         "schema_version": 1,
         "canonicality": manifest["source"]["canonicality"],
@@ -238,6 +260,9 @@ def main() -> int:
               f"mixed stored product={product['mixed_physical_exact_bytes']} B, additional authored credit=0; "
               "whole-game percentage=unknown; Factory acceptance=false")
         print(decoded_summary(per_artifact["th03-op"]["decoded_acceptance"]))
+        zun = per_artifact['th03-zun']['decoded_acceptance']
+        print(f"ZUN current decoded source acceptance: {zun['decoded_exact_units']} functions / "
+              f"{zun['decoded_authored_bytes']} B; canonical unit credit unchanged; whole-product source ownership open")
         print(output["warning"])
     return 0
 

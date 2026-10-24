@@ -34,6 +34,8 @@ class ZunsoftStageTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(len(first['files']), 7)
         self.assertEqual(first['source_shape']['historical_code_size'], 1299)
+        self.assertEqual(first['pragma'], '-2 -d- -a2')
+        self.assertNotIn(b'char wave_padding;', (self.source/stage.OWNER).read_bytes())
         self.assertFalse(first['exact_acceptance'])
         self.assertFalse(first['whole_payload_ownership'])
         self.assertEqual(sum(p['historical_size'] for p in first['source_shape']['procedures']), 1299)

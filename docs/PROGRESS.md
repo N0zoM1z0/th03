@@ -17,3 +17,5 @@ OP decoded publication: installed.
 OP current decoded source acceptance: 3 functions / 133 bytes. Fresh source-only cold pair, native ownership/ABI and bounded instruction models pass. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
 MAINL current decoded source acceptance: 4 functions / 210 bytes. Current native ownership/ABI, two source-only cold builds and 4,800 guest cases per image pass. Canonical packed-file unit credit and whole-product source ownership remain unchanged.
+
+ZUN current -3 decoded source acceptance: 10 functions / 1,299 bytes. Native -a2 word alignment replaces the padding variable. Two current source builds, complete CODE/DATA/BSS ownership and 5,111 guest cases per image pass, with eighteen mutations rejected. Canonical packed-file unit credit and whole-product source ownership remain unchanged.

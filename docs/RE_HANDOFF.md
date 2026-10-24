@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `6e82ca8` (current OP exit/plane decoded source acceptance).
+- Previous pushed checkpoint: `7e6a5f2` (current MAINL lifecycle decoded source acceptance).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -68,6 +68,26 @@ remain in [README.md](../README.md).
   all 55 procedures / 56 public addresses and WORD/USE16/DGROUP layout. Vendor
   startup/runtime, MASTERS.LIB, -1 and forwarded headers remain unowned context;
   formal source/behavior acceptance stays separate. See `config/zun_work/observation.json`.
+- ZUN -3 now has **ten accepted decoded source functions / 1,299 CODE bytes**.
+  The complete native producer also owns 15 initialized DATA bytes and a reviewed
+  293-byte BSS layout; these add no canonical packed-file credit. Native TC4
+  `-a2` replaces the candidate's unused `wave_padding` variable. All instructions,
+  initialized bytes and field addresses remain target-equal, with fourteen BSS
+  publics and 48 entries in the two MAP public tables. The implicit alignment byte
+  remains opaque: a char amplitude argument transfers it as the unspecified
+  high byte of its two-byte slot. All 256 high bytes are tested.
+  Independent scalar/event contracts execute actual root and integer-helper
+  instructions in 5,111 cases per image and reject eighteen real mutations.
+  Every one of the 1,299 owned bytes executes; a 231-frame fade runs at the first
+  load, while both loads exercise all entries, signed vector/alias boundaries,
+  state/word wrapping, sync, hardware-mode bits and keyboard groups. Native CODE
+  records remain 1,017/282 bytes. Four consumed tiny runtime/startup copies match
+  the pinned installation before/after execution. The current cold pair repeats
+  all 23 raw outputs and the complete decoded/stored targets. Publication in
+  `config/zun_work/scoped_acceptance.json` rechecks eleven scoped gates and twenty
+  short ABI cases; normal status binds the full current runtime witness rather
+  than repeatedly running the long animation. Other payload/source ownership
+  remains open, including vendor startup/runtime, MASTERS.LIB and -1.
 - ZUN -4 uses the separately pinned compatible JWasm OMF emitter and normal TLINK.
   Its instruction/data/procedure includes are unchanged; staging only adapts
   model declaration order, variadic macro spelling and include separators. The
@@ -100,14 +120,14 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,810 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m44s at 426 MiB peak RSS. OP's latest cold
+- Last full CI: PASS, 1,826 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m22s at 410 MiB peak RSS. OP's latest cold
   pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
   3m10s at 83 MiB with lifecycle/SDK checks. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
-  The complete ZUN cold pair took 52s at 64 MiB.
+  The complete ZUN cold pair with the logo model took 1m29s at 72 MiB.
 
 ## Maintained producers
 
@@ -135,13 +155,13 @@ ABI and byte credit are recorded separately in the ledgers.
 2. OP, MAINL and ZUN now have live complete-byte cold builders, including stored
    packaging. OP's three exit/plane owners and MAINL's four lifecycle owners now
    pass current decoded source gates; extend these bounded verifiers for further
-   reviewed scopes. ZUN still has no current decoded source publication. All three products
+   reviewed scopes. ZUN's ten logo functions now pass current decoded source gates. All three products
    still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-   A next ZUN scope is the maintained logo root in `src/zun/zunsoft.cpp`:
-   rebind its ABI/models to the freshly compiled -3 payload and current complete
-   builder instead of restoring deleted historical verification trees.
+   A next ZUN scope is the maintained resident -5 in `src/zun/res_yume.cpp`,
+   followed by the -2 and -4 driver units. Bind their current native ownership and
+   affected behavior without reviving deleted historical verification trees.
 3. The loss renderer is now accepted: `player_stuff_t::lose_render()` at loaded
    `0xC248`, all 177 bytes. A near-class Pascal member consumes the observed near
    player word with `RET 2`; it never reads this. Explicit signed16 DI iteration
@@ -199,6 +219,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/bootstrap_jwasm.py --check
 .venv/bin/python scripts/build_th03_zun_driver_work.py
 .venv/bin/python scripts/build_th03_zun_work.py
+.venv/bin/python scripts/publish_th03_zun_work_scopes.py
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/ci.py
 git diff --check

@@ -551,11 +551,12 @@ def op_fullcold_retained(evidence):
 
 
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
-               evidence: list[dict[str, str]] | None = None, *, op_status=None, op_products=None) -> str:
-    from status import mainl_product_status
+               evidence: list[dict[str, str]] | None = None, *, op_status=None, op_products=None, zun_status=None) -> str:
+    from status import mainl_product_status, zun_product_status
     product = mainl_product_status(ROOT, units)
     op_status = op_decoded_status(ROOT, units) if op_status is None else op_status
     op_products = retained_op_products(ROOT) if op_products is None else op_products
+    zun_status = zun_product_status(ROOT, units) if zun_status is None else zun_status
     rows = []
     graphics_pending = mainl_graphics_producer_pending()
     for index, (artifact, label) in enumerate((
@@ -628,9 +629,12 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             counts = tracked_unit_progress(units, artifact)
             total, reviewed, source, exact = (counts[k] for k in ('total', 'reviewed', 'source', 'exact'))
             decoded_op = artifact == 'th03-op' and op_status['decoded_accepted']
+            decoded_zun = artifact == 'th03-zun' and zun_status.get('decoded_accepted', False)
             if decoded_op:
                 exact = op_status['decoded_exact_units']
-            acceptance_label = 'Decoded extents' if decoded_op else 'Unit acceptance: exact'
+            if decoded_zun:
+                exact = zun_status['decoded_exact_units']
+            acceptance_label = 'Decoded extents' if decoded_op or decoded_zun else 'Unit acceptance: exact'
             rows.append(f'''  <g aria-label="{label} bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
   <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{total} tracked unit extents</text>
@@ -664,16 +668,20 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained: cold decoded 63,866 B = target · separate packed 36,041 B = canonical</text>')
         elif artifact == "th03-op":
             rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained equality check unavailable · product acceptance open</text>')
-        if artifact == "th03-zun" and zun_init_standalone_retained(units):
+        if artifact == "th03-zun" and zun_status.get('decoded_accepted'):
+            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current -3 logo source: 10 functions / 1,299 B · canonical exact 0 · product acceptance open</text>')
+            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 23 raw outputs · complete decoded + DIET stored files target-equal</text>')
+            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10">5,111 cases/image · 18 guest mutations rejected · native word alignment, no padding variable</text>')
+        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_init_standalone_retained(units):
             rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
-        if artifact == "th03-zun" and zun_driver_hybrid_retained(units):
+        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_driver_hybrid_retained(units):
             rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
-        if artifact == "th03-zun" and zunsoft_root_source_proven(units, evidence or []):
+        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zunsoft_root_source_proven(units, evidence or []):
             if zunsoft_root_repeat_proven(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; raw identical OBJ COM MAP from two cold builds, vendor context unowned, 2600 retained target and first-candidate model calls, no new model or exact acceptance">Logo root: 10 source units / 1,299 B · 2 cold builds · 2,600 retained calls · exact 0</text>')
             else:
                 rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</text>')
-        if artifact == "th03-zun" and zun_resident_root_source_proven(units, evidence or []):
+        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_resident_root_source_proven(units, evidence or []):
             rows.append('<text x="200" y="442" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two maintained resident source units, 322 CODE bytes and separate 307 DATA bytes; two cold builds, forty retained target and first-candidate modeled calls, no whole payload or exact acceptance">Resident root: 2 source units / 322 B · 2 cold builds · 40 modeled calls · exact 0</text>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
@@ -744,6 +752,13 @@ def main() -> int:
     if mainl_status.get("current_cold_source_scopes"):
         lines.extend(["MAINL current decoded source acceptance: 4 functions / 210 bytes. "
                       "Current native ownership/ABI, two source-only cold builds and 4,800 guest cases per image pass. "
+                      "Canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
+    from status import zun_product_status
+    zun_status = zun_product_status(ROOT, units)
+    if zun_status.get("decoded_accepted"):
+        lines.extend(["ZUN current -3 decoded source acceptance: 10 functions / 1,299 bytes. "
+                      "Native -a2 word alignment replaces the padding variable. Two current source builds, complete "
+                      "CODE/DATA/BSS ownership and 5,111 guest cases per image pass, with eighteen mutations rejected. "
                       "Canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"

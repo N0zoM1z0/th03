@@ -17,7 +17,7 @@ REVISION = 'b6ba5b0a529edbb31efdf8c0e939263804f8ee47'
 OWNER = 'src/zun/zunsoft.cpp'
 SLOT = 'th01/zunsoft.cpp'
 FROZEN_SHA = 'a2fd32b9213f89dbf582c36d48390f216666ca533f60cf2b3daa42d3d9984d98'
-SOURCE_SHA = '5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057'
+SOURCE_SHA = 'f1c7efb2a913686278732eb51753471684ce6441fd36bc40f764399f36c47948'
 DEPENDENCIES = (
     'libs/master.lib/pc98_gfx.hpp',
     'platform/x86real/pc98/egc.hpp',
@@ -65,7 +65,14 @@ def read_inputs(root: Path) -> dict[str, bytes]:
                 'compat edge differs: ' + compat)
         original = original.replace(('#include "' + compat + '"').encode(),
                                     ('#include "' + context + '"').encode())
-    require(sha(original) == FROZEN_SHA, 'non-include source change versus reviewed frozen root')
+    # Native TC4 word alignment supplies the one-byte gap after wave_amp.
+    # The frozen candidate used an unused char instead. Reconstruct that exact
+    # candidate only for the statement-lineage check, never for compilation.
+    require(b'char wave_padding;' not in original, 'explicit padding variable is not a producer input')
+    original = original.replace(b'#pragma option -2 -d- -a2 // ZUN bloat; native word alignment',
+                                b'#pragma option -2 -d- // ZUN bloat')
+    original = original.replace(b'char wave_amp;\n', b'char wave_amp;\nchar wave_padding;\n')
+    require(sha(original) == FROZEN_SHA, 'source statements differ beyond declared include/alignment recovery')
     require(b'#pragma option -2 -d-' in body, 'CPU/duplicate-string pragma missing')
     signatures = re.findall(rb'^void (?:pascal )?(\w+)\(', body, re.M)
     require([p.decode() for p in signatures] == [p[0] for p in PROCEDURES], 'procedure shape/order differs')
@@ -91,9 +98,9 @@ def stage(root: Path, output: Path) -> dict:
                           historical_size=z) for n, s, z in PROCEDURES],
                           historical_code_size=1299, historical_data_size=15,
                           historical_bss_size=293),
-        source_association='Only five include paths changed from reviewed frozen root',
+        source_association='Five explicit forwarding includes; native word alignment replaces an unused padding char',
         memory_model='tiny', compilation_game_define=1,
-        pragma='-2 -d-', plain_char='signed (default; do not add -K)',
+        pragma='-2 -d- -a2', plain_char='signed (default; do not add -K)',
         ABI='near cdecl roots; near Pascal vector with 8-byte cleanup',
         context_ownership='Forwarded headers, master.lib, startup and CRT remain context',
         compiler_invocations=0, compiled=False, linked=False, runtime=False,

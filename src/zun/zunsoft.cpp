@@ -3,7 +3,7 @@
  * ZUN Soft logo used in TH01, TH02 and TH03
  */
 
-#pragma option -2 -d- // ZUN bloat
+#pragma option -2 -d- -a2 // ZUN bloat; native word alignment
 
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 #include "compat/rec98/platform/x86real/pc98/egc.hpp"
@@ -24,7 +24,6 @@ char logo_patnum;
 char wave_len;
 char wave_phase;
 char wave_amp;
-char wave_padding;
 screen_point_t circle_pos[CIRCLE_COUNT];
 screen_point_t star_pos[STAR_COUNT];
 int frame;
