@@ -1,6 +1,6 @@
 {
   "schema": "th03-shared-input-current-observation-v1",
-  "observed_utc": "2026-10-24T18:15:09.360180Z",
+  "observed_utc": "2026-10-24T20:36:19.706484Z",
   "command": "taskset -c 16 nice -n 10 .venv/bin/python scripts/review_th03_shared_input_work.py",
   "provenance": "candidate-local-attested",
   "shared_source": "src/shared/hardware/input_modes.cpp",
@@ -228,18 +228,136 @@
         ]
       },
       "ending_wait": {
-        "source": "src/mainl/hardware/input_wait.cpp",
-        "functions": 2,
-        "code_bytes": 126,
-        "private_data_bytes": 0,
-        "private_bss_bytes": 0,
-        "native_fields": 11,
-        "normal_tlink_relaxed_calls": [
-          86,
-          40,
-          13
-        ],
-        "ordered_relocations": [],
+        "layout": {
+          "owners": [
+            {
+              "unit_id": "th03-mainl-decoded-input-measure-wait",
+              "name": "input_wait_for_ok_or_measure",
+              "source": "src/mainl/hardware/input_wait.cpp",
+              "object": "obj/th03/inp_wait.obj",
+              "start": 54317,
+              "size": 77,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "fa984c5d59af7dc29d267e9aaa9d12c54d303eb8b9ad4e46b32bb3c6514245d8",
+              "candidate_sha256": "fa984c5d59af7dc29d267e9aaa9d12c54d303eb8b9ad4e46b32bb3c6514245d8",
+              "ordered_relocations": [],
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0,
+              "argument_bytes": 4,
+              "callee_pop_bytes": 4,
+              "abi": "far Pascal; WORD frames at BP+6; WORD measure at BP+8; RETF 4"
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-ok-wait",
+              "name": "input_wait_for_ok",
+              "source": "src/mainl/hardware/input_wait.cpp",
+              "object": "obj/th03/inp_wait.obj",
+              "start": 54394,
+              "size": 49,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "a04d0558d13b663df47ee0a56092f7fbeb471173c0eef39bd73a6ed87666e837",
+              "candidate_sha256": "a04d0558d13b663df47ee0a56092f7fbeb471173c0eef39bd73a6ed87666e837",
+              "ordered_relocations": [],
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0,
+              "argument_bytes": 2,
+              "callee_pop_bytes": 2,
+              "abi": "far Pascal; WORD frames at BP+6; RETF 2"
+            }
+          ],
+          "functions": 2,
+          "code_bytes": 126,
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0,
+          "ordered_native_fields": [
+            {
+              "offset": 113,
+              "width": 2,
+              "fixdat": 22,
+              "target": 1,
+              "addend": 0
+            },
+            {
+              "offset": 100,
+              "width": 2,
+              "fixdat": 22,
+              "target": 2,
+              "addend": 1
+            },
+            {
+              "offset": 93,
+              "width": 2,
+              "fixdat": 22,
+              "target": 2,
+              "addend": 0
+            },
+            {
+              "offset": 87,
+              "width": 4,
+              "fixdat": 86,
+              "target": 3,
+              "addend": 0
+            },
+            {
+              "offset": 82,
+              "width": 2,
+              "fixdat": 22,
+              "target": 1,
+              "addend": 0
+            },
+            {
+              "offset": 54,
+              "width": 2,
+              "fixdat": 22,
+              "target": 2,
+              "addend": 1
+            },
+            {
+              "offset": 47,
+              "width": 2,
+              "fixdat": 22,
+              "target": 2,
+              "addend": 0
+            },
+            {
+              "offset": 41,
+              "width": 4,
+              "fixdat": 86,
+              "target": 3,
+              "addend": 0
+            },
+            {
+              "offset": 26,
+              "width": 2,
+              "fixdat": 22,
+              "target": 5,
+              "addend": 0
+            },
+            {
+              "offset": 14,
+              "width": 4,
+              "fixdat": 84,
+              "target": 1,
+              "addend": 77
+            },
+            {
+              "offset": 5,
+              "width": 2,
+              "fixdat": 22,
+              "target": 4,
+              "addend": 0
+            }
+          ],
+          "normal_tlink_relaxed_calls": [
+            86,
+            40,
+            13
+          ],
+          "ordered_relocations": [],
+          "whole_product_accepted": false
+        },
         "runtime": {
           "images": 2,
           "functions": 2,
@@ -287,13 +405,7 @@
             "frame-true-is-one",
             "false-is-zero-AX"
           ]
-        },
-        "music_query_AX_replaced_by_player1": true,
-        "unsigned_measure_compare": true,
-        "callee_argument_bytes": [
-          4,
-          2
-        ]
+        }
       }
     }
   },

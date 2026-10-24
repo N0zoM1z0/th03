@@ -22,6 +22,7 @@ from lib.op_exit_runtime import verify as runtime, negative_controls
 from review_th03_shared_input_work import current_scope as input_scope
 from review_th03_op_cfg_work import current_scope as cfg_scope
 from review_th03_op_dispatch_work import current_scope as dispatch_scope
+from review_th03_op_attract_work import current_scope as attract_scope
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER
 
 
@@ -34,7 +35,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_shared_input_work.py", "scripts/lib/shared_input_layout.py",
                 "scripts/lib/shared_input_runtime.py", "scripts/review_th03_op_cfg_work.py",
                 "scripts/lib/op_cfg_layout.py", "scripts/lib/op_cfg_runtime.py",
-                "scripts/review_th03_op_dispatch_work.py", "scripts/lib/op_dispatch_layout.py", "scripts/lib/op_dispatch_runtime.py")
+                "scripts/review_th03_op_dispatch_work.py", "scripts/lib/op_dispatch_layout.py", "scripts/lib/op_dispatch_runtime.py",
+                "scripts/review_th03_op_attract_work.py", "scripts/lib/op_attract_layout.py", "scripts/lib/op_attract_runtime.py")
 
 
 def need(value, message):
@@ -113,7 +115,8 @@ def audit(root):
     shared = input_scope(root, "op", work, target, candidate, report_raw)
     configuration = cfg_scope(root, work, target, candidate, report_raw)
     dispatch = dispatch_scope(root, work, target, candidate, report_raw)
-    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"]
+    attract = attract_scope(root, work, target, candidate, report_raw)
+    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"]
     map_text = (work / "obj/th03/op.map").read_text()
     for suffix, offset in (("B", 0x19FA), ("R", 0x19FE), ("G", 0x1A02), ("E", 0x1A06)):
         need(len(re.findall(rf"(?m)^\s*0D7F:{offset:04X}\s+_VRAM_PLANE_{suffix}\s*$", map_text)) == 2,
@@ -141,7 +144,7 @@ def audit(root):
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
                      "complete source/header dependency binding: " + name)
-    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch)
+    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current global ledger consistency")
     return dict(cold_report_sha256=sha(report_raw), recipe_sha256=report["recipe_sha256"],
@@ -199,7 +202,7 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=17, decoded_authored_bytes=1067,
+                reviewed_proof_ready=True, decoded_exact_units=18, decoded_authored_bytes=1172,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]), product_exact=False,
                 mixed_physical_exact_bytes=0, canonical_credit_changed=False, factory_accepted=False,
                 whole_game_percentage=None)

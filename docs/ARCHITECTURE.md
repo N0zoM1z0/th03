@@ -87,7 +87,16 @@ driver and failed-exec replies remain bounded interfaces. Demo BYTE 255 wraps
 to zero and reads adjacent table bytes. Score dispatch returns false in AL;
 AH survives the failed execl reply. Its twelve argument bytes are caller-popped.
 The screen ledger partitions its former 1,222 bytes without overlapping credit;
-story/VS/choice-renderer and attract-wait scopes still lack current acceptance.
+story/VS/choice-renderer scope still lacks current acceptance.
+
+The 105-byte near OP attract wait now also has scoped acceptance. It executes
+402 real input/demo/cfg/sound/cleanup bytes under independent contracts. Every
+poll increments the resident DWORD random value and delays even after finding
+input; poll 521 still calls demo first. Preserve signed WORD frame wrap and
+fourteen box-column steps. Whole-entry cases and explicitly supplied loop
+continuations have separate witness counts. The latter execute the real
+prologue before supplying SI; they do not prove elapsed physical time or an
+unbounded interactive lifetime. Graphics/timing/device/exec replies stay bounded.
 
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.

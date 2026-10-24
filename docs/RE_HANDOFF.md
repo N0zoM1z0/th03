@@ -7,11 +7,11 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `87dd2e7` (ZUN graphics source scopes).
+- Previous pushed checkpoint: `a748bfe` (ZUN driver lifecycle source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **seventeen accepted decoded source functions / 1,067 bytes**. The
+- OP now has **eighteen accepted decoded source functions / 1,172 bytes**. The
   three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
@@ -34,7 +34,7 @@ remain in [README.md](../README.md).
   36,041-byte stored target and restore to the actual linked EXE. TH04's `-G`
   selects a larger SFX stub and fails this TH03 target (36,136 bytes).
   Frozen reference source and vendor libraries remain unowned context; this is
-  a fresh complete-byte build observation; the seventeen scoped owners have
+  a fresh complete-byte build observation; the eighteen scoped owners have
   their separate ownership/ABI/runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
 - OP also accepts **three near cfg functions / 271 CODE bytes** inside the
@@ -83,11 +83,31 @@ remain in [README.md](../README.md).
   physical hardware are open. The former 1,222-byte screen unit is refined into
   821 story/VS/choice-renderer + 202 demo + 105 attract-wait + 94 score bytes;
   total source-present bytes are unchanged and the historical cohort snapshot is
-  retained unchanged. Story/VS and attract wait have no current source acceptance.
-  OP totals seventeen functions / 1,067 CODE bytes, forty ordered relocations,
+  retained unchanged. Story/VS remains outside current acceptance; the attract wait is reviewed below.
+  Before the attract scope below, OP covers seventeen functions / 1,067 CODE bytes, forty ordered relocations,
   9,058 model cases per image and seventy-two mutants. Run
   `review_th03_op_dispatch_work.py` once for the cold/cfg/dispatch witnesses,
   then the shared-input review and per-product publishers. Whole entry remains open.
+- OP also accepts the **105-byte near attract wait** at `0990:0516`: nine
+  literal native fields, one external relative WORD and five ordered MZ call
+  relocations pass. Independent 1,230-case-per-image contracts at two loads
+  execute all 105 bytes plus 402 real input/demo/cfg/sound/cleanup bytes; 21
+  instruction mutants fail. Each load has 298 complete-entry cases and 317
+  explicit loop continuations. The latter run the real prologue then supply SI
+  at the poll boundary, without claiming thousands of elapsed frames.
+  Preserve initial WORD input clear, unconditional DWORD random increment and
+  delay after a successful poll, and demo invocation on poll 521 even when input
+  was found. Returning demos repeat on each qualifying poll; signed WORD wrap
+  to 8000 disables the greater-than-520 branch. Demo 255 still wraps to zero.
+  The box uses pattern 0 at (160,256), then fourteen unput/pattern-2/delay steps
+  at x=176..280 by eight. Near unput pops two bytes; graphics/delay far calls pop
+  six/two. Returning registers/high halves/flags, inherited IF/DF, near return,
+  real frames, 32-byte peak stack and memory outside 80 stack bytes pass.
+  Device/timing/graphics libraries, failed exec and interactive lifetime remain
+  bounded. OP totals **18 functions / 1,172 CODE bytes**, 45 ordered relocations,
+  10,288 model cases per image and 93 mutations. Source-present bytes and
+  canonical credit are unchanged. Run `review_th03_op_attract_work.py` for one
+  cold/cfg/dispatch/attract chain, then the shared-input review and publishers.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
   objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
   preserves all 893 vendor member positions, substitutes the six real producers,
@@ -369,10 +389,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,965 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 5m10s at about 483 MiB peak RSS, no swap. OP's latest SDK-guarded cold
-  pair plus cfg/dispatch reviews took 2m37s at 116 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
-  checks. The separate shared input/ending wait review took 1m48s at about 149 MiB. The last MAIN
+- Last full CI: PASS, 1,976 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 5m24s at about 450 MiB peak RSS, no swap. OP's latest SDK-guarded cold
+  pair plus cfg/dispatch/attract reviews took 4m12s at 147 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
+  checks. The separate shared input/ending wait review took 1m50s at about 148 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
   at 45 MiB. The latest complete ZUN cold/formatter/graphics/lifecycle chain, including
@@ -415,8 +435,8 @@ ABI and byte credit are recorded separately in the ledgers.
    span without adding source bytes. Remaining OP story/VS/attract/menu/resource
    and MAINL resource/ending producers are next
    bounded source/behavior questions. OP's 105-byte attract wait at entry offset
-   0516 calls the already accepted input and demo producers; independently check
-   its signed frame threshold, resident-random increment and box animation ABI. The PMD-mode source still has an explicit
+   0516 now passes current gates with actual input/demo helpers. Story/VS/choice
+   rendering in the remaining 821-byte screen partition is still open. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
    All 55 -4 driver procedures now pass bounded current gates: sixteen scalar,
@@ -484,7 +504,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 ```sh
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
-.venv/bin/python scripts/review_th03_op_dispatch_work.py
+.venv/bin/python scripts/review_th03_op_attract_work.py
 .venv/bin/python scripts/build_th03_mainl_work.py
 .venv/bin/python scripts/review_th03_shared_input_work.py
 .venv/bin/python scripts/publish_th03_op_work_scopes.py

@@ -1,0 +1,252 @@
+{
+  "schema": "th03-op-attract-current-observation-v1",
+  "observed_utc": "2026-10-24T20:36:19.706484Z",
+  "command": ".venv/bin/python scripts/review_th03_op_attract_work.py",
+  "provenance": "candidate-local-attested",
+  "implementation_sha256": {
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/op_cfg_runtime.py": "bd474bb123b68f3ef6b80afe282b3ca5b4e1a6dcf9f5775c764926f7a82e6340",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_op_dispatch_work.py": "98954c5d7e67699768a89dfae9497b6e19e0ed1cd90636fc7591f91ee26bef15",
+    "scripts/lib/op_dispatch_layout.py": "d92f02cb12224357738e38943f3e529636d4f1812ab17d03d2fae5c83e7d40c7",
+    "scripts/lib/op_dispatch_runtime.py": "ac9a0fba42934460dec0631da876ed53628a1e697e9451cf36bc9f80e8054b45",
+    "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b",
+    "scripts/review_th03_op_attract_work.py": "d7e7c55b1ae633961c255b665ae13aed9533c1dc2e43c9032faf0f1ab973955d",
+    "scripts/lib/op_attract_layout.py": "1428865341b822bb9dfeabd221fd0a9eb58553d8fe973b302c492f56cf71e74a",
+    "scripts/lib/op_attract_runtime.py": "e7f524a2b2f6404905086fe8a41d00b7c28a55c882bbb9359f7501848deaa586",
+    "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a"
+  },
+  "cold_report_sha256": "a85d1fa1ed6bfbe6913f15f7407b52ede260a36164fb0030c7879b76286bbcd1",
+  "dispatch_review_sha256": "9aea412068bc59407f99a068bec850e227555d46454facd300bcc7bf0f2bda63",
+  "source_inventory_sha256": "2cb2ff667e9e593abf316ce971af311659fc7ca53969dc69f645985a2881d486",
+  "native_pair_built_now": true,
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-op-decoded-entry-attract-wait",
+        "name": "wait_for_input_or_start_demo_then_box_to_main_animate",
+        "source": "src/op/entry.cpp",
+        "object": "obj/th03/op_01.obj",
+        "segment": 2448,
+        "offset": 1302,
+        "start": 40470,
+        "size": 105,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "41dfc3091fff8d362402eac0527704b339d36c6cf3cb6f4eddaebf7959e97131",
+        "candidate_sha256": "41dfc3091fff8d362402eac0527704b339d36c6cf3cb6f4eddaebf7959e97131",
+        "ordered_relocations": [
+          [
+            2448,
+            1393
+          ],
+          [
+            2448,
+            1386
+          ],
+          [
+            2448,
+            1365
+          ],
+          [
+            2448,
+            1345
+          ],
+          [
+            2448,
+            1319
+          ]
+        ],
+        "abi": "near cdecl; no arguments; BP/SI preserved; real input/demo helpers; bounded graphics/timing and failed exec",
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      }
+    ],
+    "functions": 1,
+    "code_bytes": 105,
+    "ordered_native_fields": [
+      {
+        "offset": 1383,
+        "width": 4,
+        "locat": 205,
+        "fixdat": 86,
+        "frame": null,
+        "target": 13,
+        "addend": 0
+      },
+      {
+        "offset": 1376,
+        "width": 4,
+        "locat": 205,
+        "fixdat": 86,
+        "frame": null,
+        "target": 9,
+        "addend": 0
+      },
+      {
+        "offset": 1366,
+        "width": 2,
+        "locat": 133,
+        "fixdat": 22,
+        "frame": 1,
+        "target": 34,
+        "addend": 0
+      },
+      {
+        "offset": 1355,
+        "width": 4,
+        "locat": 205,
+        "fixdat": 86,
+        "frame": null,
+        "target": 9,
+        "addend": 0
+      },
+      {
+        "offset": 1341,
+        "width": 2,
+        "locat": 197,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 16,
+        "addend": 0
+      },
+      {
+        "offset": 1335,
+        "width": 4,
+        "locat": 205,
+        "fixdat": 86,
+        "frame": null,
+        "target": 13,
+        "addend": 0
+      },
+      {
+        "offset": 1315,
+        "width": 2,
+        "locat": 197,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1309,
+        "width": 4,
+        "locat": 205,
+        "fixdat": 86,
+        "frame": null,
+        "target": 17,
+        "addend": 0
+      },
+      {
+        "offset": 1300,
+        "width": 2,
+        "locat": 197,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 16,
+        "addend": 0
+      }
+    ],
+    "ordered_relocations": [
+      [
+        2448,
+        1393
+      ],
+      [
+        2448,
+        1386
+      ],
+      [
+        2448,
+        1365
+      ],
+      [
+        2448,
+        1345
+      ],
+      [
+        2448,
+        1319
+      ]
+    ],
+    "private_data_bytes": 0,
+    "private_bss_bytes": 0,
+    "reviewed_external_data_bytes": 6,
+    "containing_producer_accepted": false,
+    "whole_product_accepted": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 1,
+    "code_bytes": 105,
+    "executed_owner_bytes": 105,
+    "cases_per_image": 1230,
+    "exhaustive_demo_bytes": 256,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 615,
+        "ordinary_entry_cases": 298,
+        "loop_continuation_cases": 317,
+        "covered_owner_bytes": 105,
+        "executed_nested_bytes": 402,
+        "maximum_observed_stack_depth": 32,
+        "maximum_sample_polls": 523,
+        "trace_sha256": "8d220db8ef7ed252da296708f9d971623dff3ad08871f5edc954885e4d67e2f4"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 615,
+        "ordinary_entry_cases": 298,
+        "loop_continuation_cases": 317,
+        "covered_owner_bytes": 105,
+        "executed_nested_bytes": 402,
+        "maximum_observed_stack_depth": 32,
+        "maximum_sample_polls": 523,
+        "trace_sha256": "149f194dc9dc3be4c57334d3eae585ecb58c3827b992f544669081c2b744a539"
+      }
+    ],
+    "scope": "actual maintained input/demo/cfg/sound/cleanup; bounded device/timing/graphics/failed exec; explicit loop-continuation fixtures supply SI after real prologue, not elapsed-frame claims"
+  },
+  "negative_controls": {
+    "count": 21,
+    "rejected": [
+      "input-clear-is-WORD",
+      "initial-input-is-cleared",
+      "real-input-interface",
+      "resident-random-is-DWORD",
+      "resident-random-increments",
+      "frame-increments-before-compare",
+      "threshold-is-520",
+      "threshold-is-signed",
+      "input-on-521-still-starts-demo",
+      "poll-delay-is-one-frame",
+      "merged-input-ends-wait",
+      "left-box-tile-number",
+      "right-column-origin",
+      "near-unput-target",
+      "right-box-tile-number",
+      "animation-delay-one-frame",
+      "column-step-eight",
+      "last-column-bound",
+      "near-root-return",
+      "actual-input-merges-player1",
+      "actual-demo-keeps-BYTE-wrap"
+    ]
+  },
+  "source_acceptance": false,
+  "publication": "config/op_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false
+}
