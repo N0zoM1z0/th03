@@ -173,12 +173,12 @@
   "builder_sha256": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
   "scoped_source_acceptance": {
     "publication": "config/op_work/scoped_acceptance.json",
-    "decoded_functions": 23,
-    "decoded_bytes": 1461,
-    "ordered_relocations": 56,
-    "runtime_cases_per_image": 14480,
+    "decoded_functions": 26,
+    "decoded_bytes": 1979,
+    "ordered_relocations": 63,
+    "runtime_cases_per_image": 26102,
     "runtime_images": 2,
-    "actual_guest_mutations_rejected": 134,
+    "actual_guest_mutations_rejected": 158,
     "canonical_unit_credit_changed": false,
     "whole_product_ownership": false,
     "input_modes": {
@@ -269,7 +269,7 @@
       "private_bss_bytes": 0,
       "canonical_unit_credit_changed": false
     },
-    "observed_utc": "2026-10-24T22:58:04.131837Z",
+    "observed_utc": "2026-10-24T23:27:08.637166Z",
     "helpers": {
       "functions": 3,
       "code_bytes": 156,
@@ -285,6 +285,23 @@
       "executed_nested_plane_bytes": 41,
       "maximum_observed_stack_bytes": 10,
       "native_pair_built_now": false,
+      "canonical_unit_credit_changed": false
+    },
+    "renderers": {
+      "functions": 3,
+      "code_bytes": 518,
+      "instruction_bytes": 509,
+      "inline_non_instruction_bytes": 9,
+      "ordered_native_fields": 39,
+      "ordered_relocations": 7,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "reviewed_initialized_dependency_bytes": 169,
+      "runtime_cases_per_image": 11622,
+      "actual_guest_mutations_rejected": 24,
+      "maximum_observed_stack_bytes": 20,
+      "native_pair_built_now": false,
+      "containing_producer_accepted": false,
       "canonical_unit_credit_changed": false
     }
   }

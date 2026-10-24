@@ -88,8 +88,8 @@ class Tests(unittest.TestCase):
                 self.assertFalse(m.retained_op_products(ROOT)['retained_equality'])
     def test_display_preserves_source_counts_and_scoped_axis(self):
         svg=self.svg(self.display)
-        self.assertIn('Source 48/49',svg)
-        self.assertIn('Unit acceptance: exact 0/49',svg)
+        self.assertIn('Source 52/53',svg)
+        self.assertIn('Unit acceptance: exact 0/53',svg)
         self.assertIn('Retained: cold decoded 63,866 B = target',svg)
         self.assertIn('separate packed 36,041 B = canonical',svg)
         self.assertNotIn('whole product open',svg)
@@ -103,7 +103,7 @@ class Tests(unittest.TestCase):
         with patch.object(status,'mainl_product_status',return_value={'product_exact':False}):
             svg=p.render_svg(UNITS,FUNCTIONS,EVIDENCE,
                 op_status={'decoded_accepted':True,'decoded_exact_units':33,'decoded_authored_bytes':9530},op_products=self.display)
-        self.assertIn('Decoded extents 33/49',svg)
+        self.assertIn('Decoded extents 33/53',svg)
         self.assertIn('Published decoded scopes: 9,530 B',svg)
         self.assertIn('product acceptance open',svg)
     def test_non_op_svg_layout_unchanged(self):

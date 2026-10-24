@@ -83,9 +83,9 @@ class LedgerRefinement(unittest.TestCase):
     def test_entry_split_partitions_original_span_without_extra_source_bytes(self):
         with (ROOT/'config/units.csv').open() as stream:
             units={r['id']:r for r in csv.DictReader(stream)}
-        ids=('th03-op-decoded-entry-screens','th03-op-decoded-entry-demo','th03-op-decoded-entry-attract-wait','th03-op-decoded-entry-score')
+        ids=('th03-op-decoded-entry-screens','th03-op-decoded-render-vs-choice','th03-op-decoded-entry-vs-menu','th03-op-decoded-entry-demo','th03-op-decoded-entry-attract-wait','th03-op-decoded-entry-score')
         spans=[(int(units[i]['offset'],0),int(units[i]['size'],0)) for i in ids]
-        self.assertEqual(spans,[(0x117,821),(0x44C,202),(0x516,105),(0x57F,94)])
+        self.assertEqual(spans,[(0x117,390),(0x29D,66),(0x2DF,365),(0x44C,202),(0x516,105),(0x57F,94)])
         self.assertEqual(sum(s for _,s in spans),1222)
         self.assertTrue(all(a+s==b for (a,s),(b,_) in zip(spans,spans[1:])))
-        self.assertNotIn(ids[2],{u[0] for u in FUNCTIONS})
+        self.assertNotIn(ids[4],{u[0] for u in FUNCTIONS})

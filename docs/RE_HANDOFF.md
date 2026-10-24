@@ -7,11 +7,11 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `4615c84` (OP shared sound and actual delays).
+- Previous pushed checkpoint: `e345ee2` (OP initializer and sound helper scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **twenty-three accepted decoded source functions / 1,461 bytes**. The
+- OP now has **twenty-six accepted decoded source functions / 1,979 bytes**. The
   three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
@@ -34,7 +34,7 @@ remain in [README.md](../README.md).
   36,041-byte stored target and restore to the actual linked EXE. TH04's `-G`
   selects a larger SFX stub and fails this TH03 target (36,136 bytes).
   Frozen reference source and vendor libraries remain unowned context; this is
-  a fresh complete-byte build observation; the twenty-three scoped owners have
+  a fresh complete-byte build observation; the twenty-six scoped owners have
   their separate ownership/ABI/runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
 - OP also accepts **three near cfg functions / 271 CODE bytes** inside the
@@ -83,7 +83,7 @@ remain in [README.md](../README.md).
   physical hardware are open. The former 1,222-byte screen unit is refined into
   821 story/VS/choice-renderer + 202 demo + 105 attract-wait + 94 score bytes;
   total source-present bytes are unchanged and the historical cohort snapshot is
-  retained unchanged. Story/VS remains outside current acceptance; the attract wait is reviewed below.
+  retained unchanged. Story/VS remains outside current acceptance; the attract wait and choice renderer are reviewed below.
   Before the attract scope below, OP covers seventeen functions / 1,067 CODE bytes, forty ordered relocations,
   9,058 model cases per image and seventy-two mutants. Run
   `review_th03_op_dispatch_work.py` once for the cold/cfg/dispatch witnesses,
@@ -149,11 +149,42 @@ remain in [README.md](../README.md).
   Despite its name, frame_delay_2 resets/polls **the same vsync_Count1** at 11E8,
   leaving the adjacent counter untouched. Both sound/timing helpers use RETF 2.
   DOS/device/package/driver replies and finite counter changes remain bounded;
-  physical display, timing/audio and resource payloads stay open. OP now accepts
-  **23 functions / 1,461 CODE bytes**, 56 ordered relocations, 14,480 cases per
+  physical display, timing/audio and resource payloads stay open. Before renderers
+  below, OP accepts **23 functions / 1,461 CODE bytes**, 56 ordered relocations, 14,480 cases per
   image and 134 mutations. Canonical credit and source-present bytes are unchanged.
   Use `review_th03_op_helpers_work.py` for the complete cold/sound/helper chain,
   or its `--current-cold` mode when the full existing pair remains source-bound.
+- OP also accepts **three choice renderers / 518 CODE bytes**: VS 66, main
+  122 and option 330. All thirty-nine literal native fields and seven ordered MZ
+  relocations, including cross-renderer order, match the current complete cold
+  pair. Native dependency records consume both entry.cpp and menu_state.inl.
+  The option extent has 321 instruction bytes followed by one compiler-emitted
+  zero byte and four relocated WORD switch targets. All **509 instruction
+  bytes** execute; these **nine non-instruction bytes** have full raw/native/table
+  proof and add no execution credit. No source or object padding is introduced.
+  The 169 initialized string dependency bytes add no DATA ownership; containing
+  3,094 CODE / 487 DATA / six BSS bytes remain context. Independent contracts run
+  11,622 cases per image at two loads and reject twenty-four actual mutations.
+  Every option BYTE state, selector low byte/high-byte page, WORD attribute,
+  foreign resident pointer, register pattern, stack and IF/DF state is covered.
+  VS selectors other than 0/1 draw CPU-CPU; invalid main/option WORD selectors
+  draw nothing. Invalid option BYTE values retain the label and omit the value.
+  Rank always first erases eight ASCII spaces in white. Out-of-range rank leaves
+  AX/BX equal to the zero-extended byte and ES at the resident segment; BGM/key
+  instead leave BX at the resident offset. Every gaiji/text request checks five
+  physical Pascal argument WORDs, full NUL-terminated string, live registers and
+  defined flags. Near RET 4, preserved BP/SI/DI/high halves, 20-byte observed stack
+  and all memory outside 40 stack bytes (including caller arguments) pass.
+  Gaiji/text replies remain bounded; physical TRAM and asset shapes are open.
+  The source ledger partitions the former 821 screen bytes into story 390,
+  VS renderer 66 and VS menu 365, and 1,338 menu bytes into main renderer 122,
+  option renderer 330 and input/callback state 886. Source-present bytes and
+  historical evidence snapshots are unchanged. OP now accepts **26 functions /
+  1,979 CODE bytes**, 63 ordered relocations, 26,102 cases per image and 158
+  mutations. This remains scoped ownership; story/VS/input-state behavior and
+  whole entry/product source acceptance are open. Use
+  `review_th03_op_render_work.py --current-cold` while the full existing source,
+  SDK, recipe and output pair remains unchanged, or default for a fresh chain.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
   objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
   preserves all 893 vendor member positions, substitutes the six real producers,
@@ -514,8 +545,9 @@ ABI and byte credit are recorded separately in the ledgers.
    gates, and its 105-byte attract wait at entry offset 0516 executes actual
    input/demo/delay helpers. Initializer, KAJA and the duplicate frame_delay_2
    also pass current gates; the duplicate still uses vsync_Count1. Continue with
-   the broader story/VS/resource scopes. Story/VS/choice
-   rendering in the remaining 821-byte screen partition is still open. The PMD-mode source still has an explicit
+   the broader story/VS/resource scopes. Three choice renderers now pass; the
+   remaining story390/VS365 and input/callback-state886 bytes still need current
+   behavior/ownership gates. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
    All 55 -4 driver procedures now pass bounded current gates: sixteen scalar,
@@ -583,7 +615,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 ```sh
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
-.venv/bin/python scripts/review_th03_op_helpers_work.py
+.venv/bin/python scripts/review_th03_op_render_work.py
 .venv/bin/python scripts/review_th03_mainl_sound_work.py
 .venv/bin/python scripts/review_th03_shared_input_work.py
 .venv/bin/python scripts/publish_th03_op_work_scopes.py

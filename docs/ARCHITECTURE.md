@@ -120,7 +120,7 @@ driver and failed-exec replies remain bounded interfaces. Demo BYTE 255 wraps
 to zero and reads adjacent table bytes. Score dispatch returns false in AL;
 AH survives the failed execl reply. Its twelve argument bytes are caller-popped.
 The screen ledger partitions its former 1,222 bytes without overlapping credit;
-story/VS/choice-renderer scope still lacks current acceptance.
+story/VS behavior still lacks current acceptance; the choice renderer is reviewed below.
 
 The 105-byte near OP attract wait now also has scoped acceptance. It executes
 423 real input/demo/cfg/sound/cleanup/delay bytes under independent contracts. Every
@@ -136,3 +136,16 @@ poll and animation step. Graphics/counter/device/exec replies stay bounded.
 working build tree. Historical experiments and validation archives are disposable.
 Download archives and installation media are needed only for installation;
 bootstrap checks their hashes. Routine checks verify the installed tools.
+
+Three complete choice renderers own 518 CODE bytes in that same entry producer:
+VS 66, main 122 and option 330. Their 39 native fields include four internal
+CODE WORD switch targets and seven MZ far-call relocations. Full raw bytes,
+per-owner and cross-renderer relocation order are checked independently.
+The option body has 321 instruction bytes and nine non-instruction bytes after
+RET (a compiler-emitted zero and four WORD entries). All 509 renderer instruction
+bytes execute; those nine bytes have complete native/table proof and no execution
+credit. The 169 initialized string bytes remain external DATA dependencies.
+Gaiji/text calls receive real far strings, WORD attributes and Pascal frames;
+the library replies are bounded. Invalid selector and BYTE-state behavior,
+register leaks and the fixed-white rank erasure remain intact. The source ledger
+partitions existing screen/menu spans without adding source-present bytes.
