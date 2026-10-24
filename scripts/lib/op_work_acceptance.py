@@ -24,6 +24,8 @@ from review_th03_op_cfg_work import current_scope as cfg_scope
 from review_th03_op_dispatch_work import current_scope as dispatch_scope
 from review_th03_op_attract_work import current_scope as attract_scope
 from review_th03_op_sound_work import current_scope as sound_scope
+from review_th03_op_helpers_work import current_scope as helpers_scope
+from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER
 
 
@@ -39,7 +41,9 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_op_dispatch_work.py", "scripts/lib/op_dispatch_layout.py", "scripts/lib/op_dispatch_runtime.py",
                 "scripts/review_th03_op_attract_work.py", "scripts/lib/op_attract_layout.py", "scripts/lib/op_attract_runtime.py",
                 "scripts/review_th03_op_sound_work.py", "scripts/lib/op_sound_layout.py", "scripts/lib/op_sound_runtime.py",
-                "scripts/lib/shared_sound_runtime.py", "scripts/lib/decoded_mainl_sound_layout.py", "scripts/lib/decoded_mainl_sound_runtime.py")
+                "scripts/lib/shared_sound_runtime.py", "scripts/lib/decoded_mainl_sound_layout.py", "scripts/lib/decoded_mainl_sound_runtime.py",
+                "scripts/review_th03_op_helpers_work.py", "scripts/lib/op_helpers_layout.py",
+                "scripts/lib/op_helpers_sound_runtime.py", "scripts/lib/op_init_runtime.py")
 
 
 def need(value, message):
@@ -120,7 +124,8 @@ def audit(root):
     dispatch = dispatch_scope(root, work, target, candidate, report_raw)
     attract = attract_scope(root, work, target, candidate, report_raw)
     sound = sound_scope(root, work, target, candidate, report_raw)
-    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"]
+    helpers = helpers_scope(root, work, target, candidate, report_raw)
+    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"]
     map_text = (work / "obj/th03/op.map").read_text()
     for suffix, offset in (("B", 0x19FA), ("R", 0x19FE), ("G", 0x1A02), ("E", 0x1A06)):
         need(len(re.findall(rf"(?m)^\s*0D7F:{offset:04X}\s+_VRAM_PLANE_{suffix}\s*$", map_text)) == 2,
@@ -138,17 +143,28 @@ def audit(root):
         if o["object"] == CFG_OBJECT:
             need(producer["source"] == CFG_WRAPPER and producer["maintained_owner_sources"] == [CFG_SOURCE, "src/op/menu/menu_state.inl"],
                  "actual containing CFG source producer; menu sibling stays context")
+        elif o["object"] in HELPER_FORWARDING:
+            chain = HELPER_FORWARDING[o["object"]]
+            need(producer["source"] == chain[0] and o["forwarding_chain"] == list(chain)
+                 and chain[-1] == o["source"], "complete reviewed helper forwarding chain")
+            # The generic producer inventory labels these historical outer wrappers
+            # as context. Actual native dependencies and every literal include below
+            # establish the scoped maintained producer independently of that label.
+            need(producer["ownership"] == "frozen-reference-context" and producer["maintained_owner_sources"] == [],
+                 "generic helper wrapper inventory remains context")
+            for parent, child in zip(chain, chain[1:]):
+                need(files[parent] == ('#include "' + child + '"\n').encode(), "source-bound helper forwarding: " + parent)
         else:
             need(producer["maintained_owner_sources"] == [o["source"]], "current source producer ownership")
         obj = describe_omf((work / o["object"]).read_bytes())
         for name in obj["dependency_paths"]:
-            name = name.replace(chr(92), "/")
+            name = re.sub(r"/+", "/", name.replace(chr(92), "/"))
             if name.startswith("C:/TC4/INCLUDE/"):
                 need(name in configuration["sdk_sha256"], "consumed CFG SDK declaration")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
                      "complete source/header dependency binding: " + name)
-    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound)
+    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current global ledger consistency")
     return dict(cold_report_sha256=sha(report_raw), recipe_sha256=report["recipe_sha256"],
@@ -206,7 +222,7 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=20, decoded_authored_bytes=1305,
+                reviewed_proof_ready=True, decoded_exact_units=23, decoded_authored_bytes=1461,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]), product_exact=False,
                 mixed_physical_exact_bytes=0, canonical_credit_changed=False, factory_accepted=False,
                 whole_game_percentage=None)

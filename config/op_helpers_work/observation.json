@@ -1,0 +1,527 @@
+{
+  "schema": "th03-op-helpers-current-observation-v1",
+  "observed_utc": "2026-10-24T22:58:04.131837Z",
+  "command": ".venv/bin/python scripts/review_th03_op_helpers_work.py --current-cold",
+  "provenance": "candidate-local-attested",
+  "source_acceptance": false,
+  "publication": "config/op_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false,
+  "implementation_sha256": {
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/op_cfg_runtime.py": "bd474bb123b68f3ef6b80afe282b3ca5b4e1a6dcf9f5775c764926f7a82e6340",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_op_dispatch_work.py": "98954c5d7e67699768a89dfae9497b6e19e0ed1cd90636fc7591f91ee26bef15",
+    "scripts/lib/op_dispatch_layout.py": "d92f02cb12224357738e38943f3e529636d4f1812ab17d03d2fae5c83e7d40c7",
+    "scripts/lib/op_dispatch_runtime.py": "ac9a0fba42934460dec0631da876ed53628a1e697e9451cf36bc9f80e8054b45",
+    "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b",
+    "scripts/review_th03_op_attract_work.py": "55ff0d6b87a5bbf5a079ed4199c507301ffae6c27a1c5be3cbfff35474389eac",
+    "scripts/lib/op_attract_layout.py": "1428865341b822bb9dfeabd221fd0a9eb58553d8fe973b302c492f56cf71e74a",
+    "scripts/lib/op_attract_runtime.py": "cc7c22ec7e8274533eb91ff0cb3919132a53403bf6cdef8fd577c5ecd6ac3337",
+    "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a",
+    "scripts/lib/shared_sound_runtime.py": "81ee79f15e84f72bd7699189b7ba6d9587a607087fe446f554deeb928ddb787d",
+    "scripts/lib/op_sound_layout.py": "694031ce840f082fa8e63d7917124356258cf245a5382695cbeeb1419508aa1c",
+    "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
+    "scripts/review_th03_op_sound_work.py": "bd569f3260c7d2c5ee51ceed59a57c48a80e3800d1e58facfd324983301b0f15",
+    "scripts/lib/op_sound_runtime.py": "219f402dfb825083b32b6dcc62332909ef63647970364c1fa162aa44ab766fba",
+    "scripts/lib/decoded_mainl_sound_runtime.py": "752336a44acf9d8a09983acee463be56fa9d061a8f790aed9b5510cc172e1ca2",
+    "src/shared/sound/load.cpp": "bcde0f8ef6ad4bbbf6129c1f54723ebdeddf53f4d2b36d92971b2e1e3d37cc86",
+    "src/shared/hardware/frame_delay.cpp": "ed2f70e85534cc513624762e337b7e860b491c27260b1a9d5ff61dff3df309dc",
+    "scripts/review_th03_op_helpers_work.py": "790a7a5d88a594c530e22ca2fd6ae4c6c4ceefb33ff7ae22d91c4e868a19d0a5",
+    "scripts/lib/op_helpers_layout.py": "df02d2c2fa6562a4f220dfcd508ee98bf6c541ea25e048da7a5cb945f1539e18",
+    "scripts/lib/op_helpers_sound_runtime.py": "0ed1311b07bdb0fceeb3d8865bcb03d611ac6b505917f7511c6911209cacf453",
+    "scripts/lib/op_init_runtime.py": "c4071ca695619c1b460f2e3d5ff7a5c82d5318af5bf2acd018ecb11d881fd8bf",
+    "src/op/hardware/frame_delay_2.cpp": "535b33cb9cd4e03e0a49e30439d1358c1b0ade0998b906b53d24ca2b0e4f3f1b",
+    "src/op/snd/kaja_interrupt.cpp": "a6c773a98bcaf565cf6a8a05b477d0548fe72498574bdc1b87b8ace12a539c2e",
+    "src/op/core/initop.cpp": "8d0a9bf147fc4dda35fa041c83d163c458dbe452fba03bbc1a14d3b591116a29"
+  },
+  "cold_report_sha256": "a85d1fa1ed6bfbe6913f15f7407b52ede260a36164fb0030c7879b76286bbcd1",
+  "sound_review_sha256": "0a058bb49f27e9580ac92362256105a31b85ed31381c17127da1ca06307f8afd",
+  "source_inventory_sha256": "2cb2ff667e9e593abf316ce971af311659fc7ca53969dc69f645985a2881d486",
+  "native_pair_built_now": false,
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-op-decoded-input-frame-delay-2",
+        "name": "@FRAME_DELAY_2$QI",
+        "source": "src/op/hardware/frame_delay_2.cpp",
+        "object": "obj/th02/frmdely2.obj",
+        "segment": 3051,
+        "offset": 3286,
+        "start": 52102,
+        "size": 21,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "56ac88b27960eae78df497b77a4d86337d7e4aa0c8b6aa88a8447ac8add53994",
+        "candidate_sha256": "56ac88b27960eae78df497b77a4d86337d7e4aa0c8b6aa88a8447ac8add53994",
+        "ordered_relocations": [],
+        "forwarding_chain": [
+          "th02/frmdely2.cpp",
+          "src/op/hardware/frame_delay_2.cpp"
+        ],
+        "argument_bytes": 2,
+        "callee_pop_bytes": 2,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "far Pascal; WORD argument and external BYTE/WORD state"
+      },
+      {
+        "unit_id": "th03-op-decoded-snd-kaja-interrupt",
+        "name": "SND_KAJA_INTERRUPT",
+        "source": "src/op/snd/kaja_interrupt.cpp",
+        "object": "obj/th03/snd_kaja.obj",
+        "segment": 3051,
+        "offset": 1363,
+        "start": 50179,
+        "size": 30,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "6facf75bd7d7510918f9dbaa7594fcfea95c7dce69634f5df3e30aa7c5f5b92c",
+        "candidate_sha256": "6facf75bd7d7510918f9dbaa7594fcfea95c7dce69634f5df3e30aa7c5f5b92c",
+        "ordered_relocations": [],
+        "forwarding_chain": [
+          "th03/snd_kaja.cpp",
+          "th02/snd/kajaint.cpp",
+          "src/op/snd/kaja_interrupt.cpp"
+        ],
+        "argument_bytes": 2,
+        "callee_pop_bytes": 2,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "far Pascal; WORD argument and external BYTE/WORD state"
+      },
+      {
+        "unit_id": "th03-op-decoded-configuration-init",
+        "name": "@game_init_op$qnxuc",
+        "source": "src/op/core/initop.cpp",
+        "object": "obj/th03/initop.obj",
+        "segment": 3051,
+        "offset": 1393,
+        "start": 50209,
+        "size": 105,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "46732dce98dbbe96a7e062d999a83117f03fcce5c569445d24eaa374e27eb553",
+        "candidate_sha256": "46732dce98dbbe96a7e062d999a83117f03fcce5c569445d24eaa374e27eb553",
+        "ordered_relocations": [
+          [
+            3051,
+            1492
+          ],
+          [
+            3051,
+            1483
+          ],
+          [
+            3051,
+            1478
+          ],
+          [
+            3051,
+            1473
+          ],
+          [
+            3051,
+            1468
+          ],
+          [
+            3051,
+            1463
+          ],
+          [
+            3051,
+            1458
+          ],
+          [
+            3051,
+            1443
+          ],
+          [
+            3051,
+            1432
+          ],
+          [
+            3051,
+            1421
+          ],
+          [
+            3051,
+            1402
+          ]
+        ],
+        "forwarding_chain": [
+          "th03/initop.cpp",
+          "th03/core/initop.cpp",
+          "src/op/core/initop.cpp"
+        ],
+        "argument_bytes": 4,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "far cdecl; far filename pointer"
+      }
+    ],
+    "functions": 3,
+    "code_bytes": 156,
+    "native_objects": [
+      {
+        "object": "obj/th02/frmdely2.obj",
+        "ordered_fields": [
+          {
+            "offset": 10,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_vsync_Count1",
+            "addend": 0,
+            "width": 2,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 5,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_vsync_Count1",
+            "addend": 0,
+            "width": 2,
+            "normal_tlink_relaxation": false
+          }
+        ],
+        "record_sizes": [
+          21
+        ]
+      },
+      {
+        "object": "obj/th03/snd_kaja.obj",
+        "ordered_fields": [
+          {
+            "offset": 15,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 2,
+            "name": "_snd_midi_active",
+            "addend": 0,
+            "width": 2,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 5,
+            "locat": 196,
+            "fixdat": 22,
+            "frame": 1,
+            "target": 1,
+            "name": "_snd_active",
+            "addend": 0,
+            "width": 2,
+            "normal_tlink_relaxation": false
+          }
+        ],
+        "record_sizes": [
+          30
+        ]
+      },
+      {
+        "object": "obj/th03/initop.obj",
+        "ordered_fields": [
+          {
+            "offset": 97,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 4,
+            "name": "PFSTART",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 88,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 1,
+            "name": "JS_START",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 83,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 6,
+            "name": "EGC_START",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 78,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 9,
+            "name": "TEXT_CURSOR_HIDE",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 73,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 10,
+            "name": "TEXT_SYSTEMLINE_HIDE",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 68,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 2,
+            "name": "KEY_BEEP_OFF",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 63,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 5,
+            "name": "VSYNC_START",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 48,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 7,
+            "name": "GRAPH_CLEAR",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 37,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 7,
+            "name": "GRAPH_CLEAR",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 26,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 8,
+            "name": "GRAPH_START",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          },
+          {
+            "offset": 21,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 11,
+            "name": "@vram_planes_set$qv",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": true
+          },
+          {
+            "offset": 7,
+            "locat": 204,
+            "fixdat": 86,
+            "frame": null,
+            "target": 3,
+            "name": "MEM_ASSIGN_DOS",
+            "addend": 0,
+            "width": 4,
+            "normal_tlink_relaxation": false
+          }
+        ],
+        "record_sizes": [
+          105
+        ]
+      }
+    ],
+    "normal_tlink_relaxed_calls": 1,
+    "ordered_relocations": [
+      [
+        3051,
+        1492
+      ],
+      [
+        3051,
+        1483
+      ],
+      [
+        3051,
+        1478
+      ],
+      [
+        3051,
+        1473
+      ],
+      [
+        3051,
+        1468
+      ],
+      [
+        3051,
+        1463
+      ],
+      [
+        3051,
+        1458
+      ],
+      [
+        3051,
+        1443
+      ],
+      [
+        3051,
+        1432
+      ],
+      [
+        3051,
+        1421
+      ],
+      [
+        3051,
+        1402
+      ]
+    ],
+    "private_data_bytes": 0,
+    "private_bss_bytes": 0,
+    "whole_product_accepted": false
+  },
+  "sound_runtime": {
+    "images": 2,
+    "functions": 2,
+    "code_bytes": 51,
+    "executed_owner_bytes": 51,
+    "cases_per_image": 1176,
+    "exhaustive_BYTE_states": 256,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 588,
+        "cases_by_function": {
+          "frame_delay": 28,
+          "kaja": 560
+        },
+        "covered_owner_bytes": 51,
+        "maximum_observed_stack_depth": 2,
+        "trace_sha256": "db8086e2865867935e9cf0128424d8f89834fd04e650999b473a39789625a6d9"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 588,
+        "cases_by_function": {
+          "frame_delay": 28,
+          "kaja": 560
+        },
+        "covered_owner_bytes": 51,
+        "maximum_observed_stack_depth": 2,
+        "trace_sha256": "7ce14538d3f063b5d4b1b11bdde8ed9f34cd9297e4e93c9ce6e369f253f619f0"
+      }
+    ],
+    "scope": "actual KAJA and frame_delay_2; same external vsync_Count1, finite counter and bounded driver replies"
+  },
+  "sound_negative_controls": {
+    "count": 11,
+    "rejected": [
+      "active-is-BYTE",
+      "inactive-keeps-AX",
+      "argument-at-BP-plus-six",
+      "MIDI-exactly-one",
+      "PMD-vector",
+      "MMD-vector",
+      "KAJA-Pascal-pop",
+      "same-Counter1-reset",
+      "counter-reset-WORD",
+      "counter-unsigned-bound",
+      "delay-Pascal-pop"
+    ]
+  },
+  "init_runtime": {
+    "images": 2,
+    "functions": 1,
+    "code_bytes": 105,
+    "executed_owner_bytes": 105,
+    "cases_per_image": 1578,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 789,
+        "allocation_success_cases": 229,
+        "allocation_failure_cases": 560,
+        "covered_owner_bytes": 105,
+        "executed_nested_bytes": 41,
+        "maximum_observed_stack_depth": 10,
+        "trace_sha256": "03efb51f29894677bd443590791970452a28842b51e98199b43d27e5eac3ff09"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 789,
+        "allocation_success_cases": 229,
+        "allocation_failure_cases": 560,
+        "covered_owner_bytes": 105,
+        "executed_nested_bytes": 41,
+        "maximum_observed_stack_depth": 10,
+        "trace_sha256": "d14f49603da31718c2d9e204fbe7bccb65bdb481c5d76f8bc8201d444b2f679c"
+      }
+    ],
+    "scope": "actual initializer and accepted plane setter; bounded allocation/device/package replies, no physical display/resource payload claim"
+  },
+  "init_negative_controls": {
+    "count": 13,
+    "rejected": [
+      "allocation-22000-paragraphs",
+      "allocation-any-nonzero-fails",
+      "failure-returns-one",
+      "real-plane-call",
+      "first-clear-page-one",
+      "BYTE-output",
+      "final-clear-page-zero",
+      "display-page-A4",
+      "filename-is-DWORD",
+      "original-far-filename-slot",
+      "success-ignores-service-status",
+      "far-cdecl-return",
+      "actual-plane-DWORD-store"
+    ]
+  }
+}

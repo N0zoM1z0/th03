@@ -92,6 +92,19 @@ execution core supplies the same file/driver/counter contracts to both layouts;
 product-specific case domains, native ownership and cold bindings stay separate.
 The model refactor preserves the complete MAINL runtime trace vector.
 
+OP additionally owns its 105-byte initializer, 30-byte KAJA and 21-byte duplicate
+frame_delay_2. The KAJA/initializer wrappers each retain two explicit include
+layers; every staged link and native dependency is checked before source credit.
+Sixteen native fields and eleven ordered MZ relocations pass;
+the actual plane-set far call relaxes normally and all 41 plane-helper bytes
+execute. Initialization requests 22,000 paragraphs, returns one immediately on
+any nonzero WORD allocation result, and otherwise forwards the far filename
+unchanged while ignoring later errors. It is far cdecl; both sound/timing
+helpers are far Pascal with two-byte cleanup. frame_delay_2 shares vsync_Count1
+with frame_delay; its name does not indicate another counter. Global plane and
+sound storage gains no additional ownership. Device/package/driver replies and
+finite counter changes remain bounded interfaces.
+
 OP's three near cfg functions own 271 CODE bytes inside the larger entry TU.
 Containing menu CODE/DATA/BSS stays context; the flag, zero template and filename
 are separately reviewed dependencies. `review_th03_op_cfg_work.py` guards the

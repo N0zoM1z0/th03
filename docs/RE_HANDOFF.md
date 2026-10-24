@@ -7,11 +7,11 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `9f13ed8` (MAINL sound/timing source scopes).
+- Previous pushed checkpoint: `4615c84` (OP shared sound and actual delays).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **twenty accepted decoded source functions / 1,305 bytes**. The
+- OP now has **twenty-three accepted decoded source functions / 1,461 bytes**. The
   three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
@@ -34,7 +34,7 @@ remain in [README.md](../README.md).
   36,041-byte stored target and restore to the actual linked EXE. TH04's `-G`
   selects a larger SFX stub and fails this TH03 target (36,136 bytes).
   Frozen reference source and vendor libraries remain unowned context; this is
-  a fresh complete-byte build observation; the twenty scoped owners have
+  a fresh complete-byte build observation; the twenty-three scoped owners have
   their separate ownership/ABI/runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
 - OP also accepts **three near cfg functions / 271 CODE bytes** inside the
@@ -106,7 +106,7 @@ remain in [README.md](../README.md).
   The real frame-delay body runs on every poll and animation step, returning
   AX=1; the 523-poll fixture makes 537 calls and 1,074 finite counter updates.
   Device/counter/graphics replies, failed exec and interactive lifetime remain
-  bounded. With sound scopes below, OP totals **20 functions / 1,305 CODE bytes**,
+  bounded. Before the additional helpers below, OP covers **20 functions / 1,305 CODE bytes**,
   45 ordered relocations, 11,726 model cases per image and 110 mutations. Source-present bytes and
   canonical credit are unchanged. Run `review_th03_op_sound_work.py` for one
   cold/cfg/dispatch/attract/sound chain, then the shared-input review and publishers.
@@ -125,6 +125,35 @@ remain in [README.md](../README.md).
   The shared execution core preserves MAINL's full 42,742-case runtime traces
   exactly after refactoring. DOS/driver replies and finite counter updates remain
   bounded; no physical timing/audio or additional global DATA ownership is claimed.
+- OP also accepts **three complete helpers / 156 CODE bytes**: 105-byte
+  initializer at `0BEB:0571`, 30-byte KAJA at `0BEB:0553` and 21-byte
+  frame_delay_2 at `0BEB:0CD6`. KAJA/initializer retain two literal forwarding
+  layers; native dependency records and each staged include are independently
+  checked. The generic build inventory still labels those outer wrappers context;
+  their scoped ownership derives from this complete provenance audit.
+  Three whole native producers, zero private
+  DATA/BSS, sixteen literal native fields and eleven ordered MZ relocations
+  pass. The plane-set far call relaxes naturally through TLINK; no padding is
+  introduced. The current source-only cold pair's complete source/SDK/recipe
+  and 32-output binding remains valid; this review uses `--current-cold` and
+  makes no new native-build claim. All 156 owner bytes execute in 2,754 cases
+  per image at two loads; twenty-four actual instruction mutants fail.
+  Initialization executes the accepted 41-byte plane setter without duplicate
+  credit. Allocation requests 22,000 paragraphs; any nonzero WORD result returns
+  1 before side effects. Success clears page 1 then 0, restores access/display
+  page 0, starts devices in original order, forwards the exact far filename
+  DWORD to PFSTART and returns 0 despite later error statuses. Its far-cdecl
+  return leaves four argument bytes for the caller; peak observed stack is ten.
+  Preserve all defined logic flags (AF is undefined), IF/DF and DWORD high halves.
+  KAJA inactive retains incoming AX; MIDI BYTE exactly one selects MMD.
+  Despite its name, frame_delay_2 resets/polls **the same vsync_Count1** at 11E8,
+  leaving the adjacent counter untouched. Both sound/timing helpers use RETF 2.
+  DOS/device/package/driver replies and finite counter changes remain bounded;
+  physical display, timing/audio and resource payloads stay open. OP now accepts
+  **23 functions / 1,461 CODE bytes**, 56 ordered relocations, 14,480 cases per
+  image and 134 mutations. Canonical credit and source-present bytes are unchanged.
+  Use `review_th03_op_helpers_work.py` for the complete cold/sound/helper chain,
+  or its `--current-cold` mode when the full existing pair remains source-bound.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
   objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
   preserves all 893 vendor member positions, substitutes the six real producers,
@@ -483,9 +512,9 @@ ABI and byte credit are recorded separately in the ledgers.
    mode/PMD/volume/reset still need natural layout proof for their explicit NOPs.
    OP shared load/frame-delay now passes its separate native layout and runtime
    gates, and its 105-byte attract wait at entry offset 0516 executes actual
-   input/demo/delay helpers. The separate second-counter frame_delay_2 producer
-   remains outside current acceptance; it is another bounded candidate before
-   continuing the broader story/VS/resource scopes. Story/VS/choice
+   input/demo/delay helpers. Initializer, KAJA and the duplicate frame_delay_2
+   also pass current gates; the duplicate still uses vsync_Count1. Continue with
+   the broader story/VS/resource scopes. Story/VS/choice
    rendering in the remaining 821-byte screen partition is still open. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
@@ -554,7 +583,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 ```sh
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
-.venv/bin/python scripts/review_th03_op_sound_work.py
+.venv/bin/python scripts/review_th03_op_helpers_work.py
 .venv/bin/python scripts/review_th03_mainl_sound_work.py
 .venv/bin/python scripts/review_th03_shared_input_work.py
 .venv/bin/python scripts/publish_th03_op_work_scopes.py

@@ -8,9 +8,11 @@
 4. For exact acceptance, check complete raw bytes, literal ordered relocations,
    ownership, ABI/MAP/layout, affected behavior and two independent cold builds.
    Required checks are in `config/oracles.toml`; compiler success alone is insufficient.
-   Use `scripts/review_th03_op_sound_work.py` for the SDK-guarded OP cold pair,
-   cfg, dispatch, attract and sound reviews. It invokes the attract/dispatch/cfg
-   chain once. OP and MAINL sound scopes use independently checked native layouts
+   Use `scripts/review_th03_op_helpers_work.py` for the SDK-guarded OP cold pair,
+   cfg, dispatch, attract, sound and initializer/helper reviews. It invokes the
+   sound/attract/dispatch/cfg chain once. Its `--current-cold` mode revalidates a
+   complete existing source/SDK/recipe/output-bound pair and runs all new helper
+   gates; use it when product sources and native recipes have not changed. OP and MAINL sound scopes use independently checked native layouts
    with a shared execution core; refresh both reports after core changes.
    Preserve separate ordinary-entry and loop-continuation witness counts; the
    supplied SI continuation states do not prove elapsed frames. After rebuilding
