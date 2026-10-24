@@ -1,0 +1,14 @@
+schema_version = 1
+scope = "Compatible OMF emitter for the maintained ZUN sprite16 driver; not an original-tool identity claim"
+repository = "https://github.com/JWasm/JWasm.git"
+revision = "a5c4ea03cc0545a15d81a354251b5f534bef7a1b"
+archive_sha256 = "771e226d90c06aab0a2069380166fbb7ef5cf6ac8b268b1f06247d17b0263fb5"
+source_date_epoch = "1736498586"
+source_path = ".analysis/toolchain/extra/jwasm"
+binary_path = ".analysis/toolchain/extra/jwasm/GccUnixR/jwasm"
+binary_sha256 = "b85f1fc2b91476b1f7e88e9359888054c3871094da2fa5930e183ec1c7c9c333"
+binary_bytes = 411328
+version = "JWasm v2.12pre, Jan 10 2025, Masm-compatible assembler."
+help_exit_code = 1
+build_command = ["make", "-f", "GccUnix.mak", "-j1", "CC=gcc", "all"]
+assembler_flags = ["-nologo", "-Cp", "-omf", "-Fodriver.obj", "driver.asm"]

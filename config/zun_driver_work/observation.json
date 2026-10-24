@@ -1,0 +1,176 @@
+{
+  "schema": "th03-zun-driver-current-cold-observation-v1",
+  "observed_utc": "2026-10-24T05:26:43.875706Z",
+  "command": ".venv/bin/python -B scripts/build_th03_zun_driver_work.py",
+  "artifact": "th03-zun",
+  "scope": "complete decoded -4 payload",
+  "coordinate_space": "decoded-flat-com-payload",
+  "canonical_file_offset": null,
+  "provenance": "candidate-local-attested",
+  "source_files": 59,
+  "source_inventory_sha256": "f91adac49a79622e217ed39f47bc75bacd0835e2d666fae4e630e8809b096e46",
+  "maintained_inputs": {
+    "src/zun/driver.asm": "895751c4e7398a581f10c03ced0462fc1cc404b7fdda4a459cdc4eafc2e56c85",
+    "src/zun/driver_command.inl": "9a49039df84a1c4bde277687b1a35dfd5a9f558a4cd20ff4c46a870b1fa593fc",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "src/zun/driver_format.inl": "1ee883086ae9045f451e57d9da5ff74ccf6f25980d8228bed2885087cfb94d5e",
+    "src/zun/driver_graphics.inl": "173dbbb12f3d8e2eb25f417acf5ef194551eff4296592878e5cb15104e271ebc",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
+    "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
+    "src/zun/driver_resident.inl": "258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa",
+    "src/zun/driver_services.inl": "d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a"
+  },
+  "procedures": 55,
+  "publics": 56,
+  "source_materializations": 2,
+  "raw_outputs_per_round": 3,
+  "raw_repeat_equal": true,
+  "outputs": {
+    "driver.obj": {
+      "bytes": 6608,
+      "sha256": "7a65b30e4f48f60333467c389ab16bbbec35c4b10816ce15979b78060b251560"
+    },
+    "driver.com": {
+      "bytes": 4224,
+      "sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb"
+    },
+    "driver.map": {
+      "bytes": 5085,
+      "sha256": "00543d5b843008c6dc0ad97c17c4216a0cd712c60b7e9db89ffffb69b38e5a00"
+    }
+  },
+  "layout": {
+    "segments": [
+      {
+        "name": "_TEXT",
+        "cls": "CODE",
+        "size": 4480
+      },
+      {
+        "name": "_DATA",
+        "cls": "DATA",
+        "size": 0
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "members": [
+          1,
+          2
+        ]
+      }
+    ],
+    "publics": {
+      "start": 256,
+      "sprite16_entry": 268,
+      "sprite16_allocate_buffers": 412,
+      "sprite16_set_interrupt_argument": 471,
+      "sprite16_mask_test_command": 478,
+      "sprite16_draw_command": 513,
+      "sprite16_interrupt_dispatch": 554,
+      "sprite16_install": 579,
+      "sprite16_uninstall": 685,
+      "sprite16_set_mono_enabled": 832,
+      "sprite16_set_mono_color": 838,
+      "sprite16_set_overlap": 844,
+      "sprite16_set_access_plane": 850,
+      "sprite16_set_rop": 856,
+      "sprite16_set_mask": 862,
+      "sprite16_draw_clipped": 868,
+      "sprite16_blit_egc": 1026,
+      "sprite16_copy_rows": 1272,
+      "sprite16_prepare_vram": 1312,
+      "sprite16_build_mask": 1344,
+      "sprite16_accumulate_plane": 1424,
+      "sprite16_copy_lower_page": 1444,
+      "sprite16_compress_rows": 1488,
+      "sprite16_copy_upper_to_lower": 1527,
+      "sprite16_clear_upper": 1552,
+      "sprite16_format_print": 1600,
+      "sprite16_print_string": 1632,
+      "sprite16_print_stack_string": 1654,
+      "sprite16_is_decimal_digit": 1673,
+      "sprite16_is_ascii_lower": 1684,
+      "sprite16_ascii_upper": 1693,
+      "sprite16_format_into": 1712,
+      "sprite16_pad_zeroes": 2173,
+      "sprite16_pad_spaces": 2179,
+      "sprite16_pad_field": 2185,
+      "sprite16_append_string": 2199,
+      "sprite16_format_unsigned": 2207,
+      "sprite16_reverse_string": 2284,
+      "sprite16_tokenize_command": 2336,
+      "sprite16_skip_separators": 2434,
+      "sprite16_find_token_end": 2457,
+      "sprite16_find_quote_end": 2485,
+      "sprite16_require_argument": 2509,
+      "sprite16_optional_argument": 2543,
+      "sprite16_require_number": 2570,
+      "sprite16_optional_number_legacy": 2596,
+      "sprite16_dispatch_options": 2614,
+      "sprite16_parse_number": 2704,
+      "sprite16_parse_decimal": 2821,
+      "sprite16_parse_hex": 2891,
+      "sprite16_parse_binary": 2933,
+      "sprite16_parse_switch": 2978,
+      "sprite16_egc_begin": 3024,
+      "sprite16_egc_end": 3088,
+      "sprite16_string_length": 3136,
+      "sprite16_string_equal_folded": 3154
+    },
+    "use16": true,
+    "word_alignment": true,
+    "omf_records": 29,
+    "map_public_tables": 2
+  },
+  "comparison": {
+    "target_sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb",
+    "candidate_sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb",
+    "target_bytes": 4224,
+    "candidate_bytes": 4224,
+    "raw_equal": true,
+    "decoded_parent_offset": 12962
+  },
+  "emitter": {
+    "profile": "config/th03_zun_driver_jwasm.toml",
+    "profile_sha256": "d85f241a771b4eeda669d4d67398352432978064f043e3b843fd68c7691c11c2",
+    "source_revision": "a5c4ea03cc0545a15d81a354251b5f534bef7a1b",
+    "source_archive_sha256": "771e226d90c06aab0a2069380166fbb7ef5cf6ac8b268b1f06247d17b0263fb5",
+    "binary_sha256": "b85f1fc2b91476b1f7e88e9359888054c3871094da2fa5930e183ec1c7c9c333",
+    "version": "JWasm v2.12pre, Jan 10 2025, Masm-compatible assembler.",
+    "original_assembler_identified": false
+  },
+  "negative_control": {
+    "producer": "pinned TASM32",
+    "byte_exact_rejected": true,
+    "candidate_sha256": "bab3769aa32184cdc71364138bc616b59faa9f2ae79f49837006f1cf87cc9c5c",
+    "differing_sites": [
+      664,
+      665,
+      780,
+      781,
+      782,
+      797,
+      798,
+      799,
+      1969,
+      1970
+    ]
+  },
+  "clean_emitter_rebuild_equal": true,
+  "original_assembler_identified": false,
+  "whole_stored_zun_rebuilt": false,
+  "ownership_acceptance": false,
+  "runtime_rerun": false,
+  "canonical_unit_credit_changed": false,
+  "implementation_sha256": {
+    "scripts/build_th03_zun_driver_work.py": "508807e93372a83869727f66c11c087afdcd18dc824039c778a88d9bfa407301",
+    "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
+    "scripts/stage_th03_zun_driver.py": "155e18910efd6d0d0536a62bd3cebad54f1bebdea57e9412fc12a1da755921fb",
+    "scripts/lib/zun_driver_layout.py": "f8659c81f28e6398b4a1df61e300aaf1269e3a1715c6823562fca42f20ee3ad3",
+    "scripts/bootstrap_jwasm.py": "f0fc156a22215bb0381a7b4f08cc60a2386650d28fad756e50a718df9952d430",
+    "config/th03_zun_driver_jwasm.toml": "d85f241a771b4eeda669d4d67398352432978064f043e3b843fd68c7691c11c2"
+  }
+}

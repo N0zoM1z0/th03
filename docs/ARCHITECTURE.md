@@ -17,6 +17,12 @@ is the current MAIN build. `scripts/attest_toolchain.py` checks installed tools.
 `_reference/ReC98` is candidate reference material, not authored progress.
 Product dependencies use local source or explicit `compat/rec98/` forwarding.
 
+The ZUN sprite16 driver also has a bounded compatible OMF producer pinned in
+`config/th03_zun_driver_jwasm.toml`. Its public source and private native tool
+are attested separately; the normal TLINK still links the resulting object.
+This does not identify the original assembler or change the base Borland tools.
+The syntax adapter preserves all maintained instruction and data includes.
+
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.
 Download archives and installation media are needed only for installation;
