@@ -7,7 +7,7 @@ the independent native auditor owns complete source/behavior acceptance.
 import hashlib
 import re
 
-from lib.omf import describe_omf
+from lib.omf import describe_omf, parse_omf
 from probe_th03_main_bomb_rikako_cpp import segment_definitions
 from probe_th03_main_boss_marisa_cpp import code_publics
 
@@ -56,6 +56,12 @@ def detach(text):
     bridge = ("public _playfield_transition_vertices,_transition_hmask\n"
               "_playfield_transition_vertices = word_1FBC4\n"
               "_transition_hmask = trapezoid_hmask\n")
+    # All instructions now belong to native TUs. A trailing WORD-aligned empty
+    # contribution would round up their odd end when hitcirc.obj links earlier.
+    # The real segment still starts on WORD alignment through the order scaffold.
+    marker = "HITCIRC_TEXT\tsegment\tword public 'CODE' use16"
+    need(text.count(marker) == 1, "original empty segment declaration differs")
+    text = text.replace(marker, marker.replace("word", "byte"))
     return bridge + "public " + ",".join(n for n, _ in STORAGE) + "\n" + text
 
 
@@ -63,6 +69,15 @@ def verify(work, target, candidate):
     metadata = (("gf_ctx", 0x1C9C, 216, "48"), ("execl", 0x1D74, 79, "28"),
                 ("tr_ctx", 0x1DC3, 663, "28"))
     map_text = (work / "obj/th03/main.map").read_text().replace(chr(92), "/")
+    root_raw = (work / "obj/th03/main.obj").read_bytes()
+    need(describe_omf(root_raw)["valid"], "invalid root object")
+    root_segment, = [s for s in segment_definitions(root_raw) if s["name"] == "HITCIRC_TEXT"]
+    root_definition = [r for r in parse_omf(root_raw) if r.name == "SEGDEF"][root_segment["index"] - 1]
+    need(root_segment["size"] == 0 and root_definition.data[0] == 0x28,
+         "empty root HITCIRC must remain BYTE/PUBLIC/USE16")
+    need(len(re.findall(r"(?m)^\s*096E:2217\s+0000\s+C=CODE\s+S=HITCIRC_TEXT"
+                        r"\s+G=MAIN_01\s+M=th03_main\.asm\s+ACBP=28\s*$", map_text)) == 1,
+         "empty root HITCIRC literal MAP contribution differs")
     for name, start, size, alignment in metadata:
         raw = (work / f"obj/th03/{name}.obj").read_bytes()
         description = describe_omf(raw)

@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `730157d` (native executable chaining candidate).
+- Previous pushed checkpoint: `c436a02` (four native cleanup/transition functions accepted).
 - MAIN: **444 exact functions / 75,140 bytes / 97 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted product exactness.
@@ -65,14 +65,14 @@ remain in [README.md](../README.md).
   the compiler's original wrap behavior. BYTE alignment retains the odd `1DC3`
   entry. Only the surrounding 216-byte graphics ASM remains unowned in this
   former HITCIRC group. See `config/main_work/handoff_acceptance.json`.
-- The first **530 of 1,553 global relocation records** match literally; 811
+- The first **668 of 1,553 global relocation records** match literally; 662
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,757 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 3m52s at 350 MiB peak RSS. OP's initial cold
+- Last full CI: PASS, 1,758 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 3m08s at 468 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
-  cold pair and native review took 5m13s at about 522 MiB. The ZUN driver cold
+  cold pair and native review took 4m52s at about 524 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
   The complete ZUN cold pair took 52s at 64 MiB.
@@ -103,17 +103,24 @@ ABI and byte credit are recorded separately in the ledgers.
    all three still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-3. MAIN links Chiyuri, formation/script and Ellen producers early, followed by
-   `gf_ctx`, `execl` and `tr_ctx`. Real empty segment declarations preserve layout;
-   the entire loaded image stays unchanged. The next mismatch is record **530**,
-   loaded site `0x18B57`, in `b_kana` / MAIN_05_TEXT. Investigate early-linking the
-   natural Kana objects while preserving physical CODE order: `b_kana` has the
-   next fourteen records, then `cs_kana` nine and `ex_kana` eight. Use a disposable
-   diagnostic before new cold gates. `state` and `shotroot` still have interleaved runs.
-4. The root now has no initialized HITCIRC CODE. Its prior nine procedures / 958
-   bytes are preserved as three ordinary source TUs: graphics reference context,
-   accepted executable chaining and accepted transitions. The carrier parser omits
-   empty CODE; use zero for an absent HITCIRC entry when comparing cold rounds.
+3. MAIN now links Kana bomb/charge/extra, hitcircle, static HUD, Marisa
+   extra/charge/boss/bomb and Kotohime bomb/extra/charge after `tr_ctx`. These twelve
+   producers retain all bytes and 138 literal relocations. Fresh cold gates pass;
+   the complete loaded image stays unchanged and no function credit is added.
+   See `config/main_work/character_order_observation.json`.
+   The next mismatch is record **668**, loaded site `0x1A4DA`, in `ex_repre` /
+   MAIN_06_TEXT. Target order is Reimu prefix (ten records), shared flight (four),
+   then Reimu update/render (four), while physical CODE places flight first.
+   Test whether natural combined compiler records reproduce that order; swapping
+   these same-segment objects changes bytes. `state` and `shotroot` also have
+   interleaved runs.
+4. The root has no initialized HITCIRC CODE. Its prior nine procedures / 958 bytes
+   live in graphics reference context, accepted executable chaining and accepted
+   transitions. The zero-length root declaration is now BYTE/PUBLIC/USE16:
+   a trailing WORD declaration rounds up the odd collision-circle end and moves
+   later segments. The earlier real scaffold retains the WORD-aligned segment
+   start. Native OMF size/attributes and its literal MAP contribution are checked;
+   a checksum-valid WORD mutation is rejected. The carrier parser omits empty CODE.
    Moving the whole root can still change PLAYER_M placement. Library prefix/body
    and all 17 SHARED objects retain their physical contributions.
 5. Other open issues: renderer emits 175 instead of 177 bytes (target saves SI

@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Twelve existing character, collision and HUD producers link in the literal target sequence; the empty root HITCIRC declaration uses BYTE alignment",
+  "exact_acceptance": false,
+  "new_source_exact_credit": 0,
+  "command": "python3 scripts/replay_th03_main_native.py",
+  "source_sha256": {
+    "scripts/build_th03_main_work.py": "9079d847c9c1fe309b53d69565c2be2bd5ad11acfd1b0bc18b199f1992e7d873",
+    "scripts/lib/main_hitcirc_context.py": "6e7b12f9c30faefaa3f70eced645b529319f6833f43f8fefd1fa8b31192e21a7",
+    "config/th03_main_link.rsp": "de1f13349a03fb8d0505e969e37ed95ebc0e7cabae88d5a127ce54b97acabe24",
+    "src/main/boss/order.asm": "d9cddba1f7a81297a48f8f8fe5dcb67748aa1ee9420368e61789a4933da057be",
+    "src/main/player/exatt_order.asm": "d0e41119be6ea3eaa7683d85119cc4ac1661c577dd8e3f2d8cfe2c099e80494b",
+    "src/main/player/bomb_kana.cpp": "a1da6cfb663471021e82a12a981d439555e3498359a5a63057ffecc308ff7044",
+    "src/main/player/chargeshot_kana.cpp": "a6df445a83d9739e34c2f27ed5d20c130cfdb3703c9f7ff0bdd293386553aa5a",
+    "src/main/player/exatt_kana.cpp": "829be1d3299acc776771f1ddf91ba9a83e7fd403dd76636be69d2ff91460d941",
+    "src/main/collision/hitcircle.cpp": "4f4f20da31e4b6e04ac9a89ae80142c1ec02a769c34a98d385fb41b22b00263a",
+    "src/main/hud/static.cpp": "e3790714041285181b7632aee5c33f4196b0c25b711279d2934650857052a9df",
+    "src/main/player/exatt_marisa.cpp": "7c0eecb849b2af02c9cf7ea9d743617b3751540cc0b98cbefa0d0172148121df",
+    "src/main/player/chargeshot_marisa.cpp": "5b314e63091451a02facc63ce59ee8607a301b24a46212b932a84652f1b32119",
+    "src/main/boss/marisa.cpp": "4306101093e49b85bee02ceab5677f64ba48080ebde67e58dbad43bb7cf27e6e",
+    "src/main/player/bomb_marisa.cpp": "e0505673f97a4a0ec502223cf19f24539d0d58220339a38dfb17bee58a1160ff",
+    "src/main/player/bomb_kotohime.cpp": "9f52e12fe173762035a4151214124695aa56813a7abe26a1a30b6a2c675a17c2",
+    "src/main/player/exatt_kotohime.cpp": "651f52ff4c5c102c41e4d5604a0fe7f01abab1ced3f7f22a5096a1609ba69b64",
+    "src/main/player/chargeshot_kotohime.cpp": "71d466bef5c7613eb357c75dcbf68c4701d057286d3feb4094849acb039d4229"
+  },
+  "builder_sha256": "9079d847c9c1fe309b53d69565c2be2bd5ad11acfd1b0bc18b199f1992e7d873",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "d906c19d00becd1a0a8ab1b17a3c559b87f6bee98bfda8cc1dbb1787dc5dbb68",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/lib/main_hitcirc_context.py": "6e7b12f9c30faefaa3f70eced645b529319f6833f43f8fefd1fa8b31192e21a7",
+    "scripts/lib/main_handoff_runtime.py": "3a4bff539a7ed78f07ae206ab76c4bee566590799dd8382d5e054e9ffca86204",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "8282911e492f145f2fd7724294152d29358ee9e8796b727a3cc5d05d14614347",
+    "config/th03_main_link.rsp": "de1f13349a03fb8d0505e969e37ed95ebc0e7cabae88d5a127ce54b97acabe24"
+  },
+  "tools_sha256": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 606,
+    "maintained_inputs_checked": 261,
+    "source_objects": 100,
+    "raw_outputs": 102,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0,
+    "elapsed_seconds": 291.78,
+    "peak_rss_kib": 537036
+  },
+  "producers": [
+    {
+      "source": "src/main/player/bomb_kana.cpp",
+      "object": "obj/th03/b_kana.obj",
+      "object_sha256": "24a356472148af601952db51228138f22b12115918348ad711a58a7a4bee064f",
+      "map_contribution": {
+        "start": 100778,
+        "size": 526,
+        "segment": "MAIN_05_TEXT",
+        "module": "th03/b_kana.cpp",
+        "group": "(none)",
+        "acbp": "28"
+      },
+      "code_sha256": "fa5bdc4536d78792d95259b626648c9dff0aaef9153d1632a528ca8d5ba9a8b2",
+      "ordered_relocations": 14,
+      "ordered_pair_sha256": "7f4eb12ff15ed8b42b7f3b5c3f9054e9f3b0bc338e4aa5607d097a3f68fc5ff1"
+    },
+    {
+      "source": "src/main/player/chargeshot_kana.cpp",
+      "object": "obj/th03/cs_kana.obj",
+      "object_sha256": "bcd8fefef32cc23b1586f209a663089c99623d9f894d8e145e5a7072e0f6d7c4",
+      "map_contribution": {
+        "start": 113741,
+        "size": 1291,
+        "segment": "MAIN_09_TEXT",
+        "module": "th03/cs_kana.cpp",
+        "group": "(none)",
+        "acbp": "28"
+      },
+      "code_sha256": "a29c0e78ad88776388af4f3a960e4e8f0638184ae8f9db3fe696ff30168572f3",
+      "ordered_relocations": 9,
+      "ordered_pair_sha256": "f15149b5d595938f9695d6442d1b6a1b30e9c606ab93f1a33fe38d0a63a5e055"
+    },
+    {
+      "source": "src/main/player/exatt_kana.cpp",
+      "object": "obj/th03/ex_kana.obj",
+      "object_sha256": "09b2799052797438c18b985b86efd0d019c45d748a9838472879f8c4db8e7e51",
+      "map_contribution": {
+        "start": 104485,
+        "size": 663,
+        "segment": "P_EXATT_TEXT",
+        "module": "th03/ex_kana.cpp",
+        "group": "MAIN_06",
+        "acbp": "28"
+      },
+      "code_sha256": "c0ab98b25788074c73ec5d4b13c60628644ab535a6befa44937fcbba9b8aaf2d",
+      "ordered_relocations": 8,
+      "ordered_pair_sha256": "04d33de2656ea647b7e9e640497a07151d4172fd9294a5d99cc8103b8458a512"
+    },
+    {
+      "source": "src/main/collision/hitcircle.cpp",
+      "object": "obj/th03/hitcirc.obj",
+      "object_sha256": "1c61dc6c8c80386b4834fddc027c00506b23a92cf02559f711e9fd54cea1b375",
+      "map_contribution": {
+        "start": 46906,
+        "size": 445,
+        "segment": "HITCIRC_TEXT",
+        "module": "th03/hitcirc.cpp",
+        "group": "MAIN_01",
+        "acbp": "28"
+      },
+      "code_sha256": "3677c1306baa34be179bef4e15345f48d3679284a58b1019ee9b59e9d0c3c944",
+      "ordered_relocations": 4,
+      "ordered_pair_sha256": "83740b30446161a5ab525de1eca5656b243de47557abc138ae1a88606483ede8"
+    },
+    {
+      "source": "src/main/hud/static.cpp",
+      "object": "obj/th03/hud_stat.obj",
+      "object_sha256": "daf8d77520d170750e906024beee9ecc648fed1e73cb8b9cc845a76e54abad26",
+      "map_contribution": {
+        "start": 47351,
+        "size": 539,
+        "segment": "HUD_STAT_TEXT",
+        "module": "th03/hud_stat.cpp",
+        "group": "MAIN_01",
+        "acbp": "28"
+      },
+      "code_sha256": "5076188f11bf79bc36ee7753e3455e7f6078d493372455261fc59babc52e4b03",
+      "ordered_relocations": 11,
+      "ordered_pair_sha256": "187fe7e4090ae0196dfa45a601571217e1bc95cdb08ed145cfe063dbbc8a5c72"
+    },
+    {
+      "source": "src/main/player/exatt_marisa.cpp",
+      "object": "obj/th03/ex_maris.obj",
+      "object_sha256": "757f2c318f36feb8dced06e42fd517485cf58e239d1f6580860ce986872c87d3",
+      "map_contribution": {
+        "start": 105148,
+        "size": 676,
+        "segment": "P_EXATT_TEXT",
+        "module": "th03/ex_maris.cpp",
+        "group": "MAIN_06",
+        "acbp": "28"
+      },
+      "code_sha256": "f4ce8830aaf56bdc053ae42dfe1a33f705d43502d43004b4e0764a8085069a52",
+      "ordered_relocations": 7,
+      "ordered_pair_sha256": "e2fe6da0238c780a2f42f92719b57a27992d7e148c3b386b038c2a32207c9bf8"
+    },
+    {
+      "source": "src/main/player/chargeshot_marisa.cpp",
+      "object": "obj/th03/cs_mari.obj",
+      "object_sha256": "a7fec91a8f8927a9a01e92f1eb92c5bfc297c39fb12baf4373039064edb9448e",
+      "map_contribution": {
+        "start": 82640,
+        "size": 1509,
+        "segment": "HITBOX_TEXT",
+        "module": "th03/cs_mari.cpp",
+        "group": "MAIN_04",
+        "acbp": "28"
+      },
+      "code_sha256": "185e898487bc234e1e8f8c916c3a6d35ea8ea9aec067154578fa76347048f580",
+      "ordered_relocations": 20,
+      "ordered_pair_sha256": "c29100d32003f99d9ce82cf0457e12e1d9e2452db98b6a9bfdf06a22b0ce559d"
+    },
+    {
+      "source": "src/main/boss/marisa.cpp",
+      "object": "obj/th03/ba_maris.obj",
+      "object_sha256": "9ad7d1503d3e6c4812c9f602b7b3d17ed53fa859559cf0a4f11445257883c936",
+      "map_contribution": {
+        "start": 62895,
+        "size": 1431,
+        "segment": "MAIN_03_TEXT",
+        "module": "th03/ba_maris.cpp",
+        "group": "(none)",
+        "acbp": "28"
+      },
+      "code_sha256": "c42afee25b0007acaae1fa49a21ff12d268169ae496410c23367639fbe7f87ff",
+      "ordered_relocations": 23,
+      "ordered_pair_sha256": "b6ebc3d2ce0f627e18bd398c58d9fe2d4471d124fd9acfa8dc764ea7f6596bc7"
+    },
+    {
+      "source": "src/main/player/bomb_marisa.cpp",
+      "object": "obj/th03/bm_mari.obj",
+      "object_sha256": "8e36f82af0865c40d8a21645c4e7b59d092ae348e8fab74f34dd2f1c4cbe275e",
+      "map_contribution": {
+        "start": 84149,
+        "size": 449,
+        "segment": "HITBOX_TEXT",
+        "module": "th03/bm_mari.cpp",
+        "group": "MAIN_04",
+        "acbp": "28"
+      },
+      "code_sha256": "622aefd18ba70f49abbf126911e9a5276d19e24a790fa64d6116f83c23de78b1",
+      "ordered_relocations": 10,
+      "ordered_pair_sha256": "245ce6da178fb5f6488877a385422dbe001cbc8fd877003be974d68b4b508733"
+    },
+    {
+      "source": "src/main/player/bomb_kotohime.cpp",
+      "object": "obj/th03/b_koto.obj",
+      "object_sha256": "ed05bc1271bbba16ae76f05808a1ca4a73d8b99e697ce779396276384ac1c2f4",
+      "map_contribution": {
+        "start": 101304,
+        "size": 528,
+        "segment": "MAIN_05_TEXT",
+        "module": "th03/b_koto.cpp",
+        "group": "(none)",
+        "acbp": "28"
+      },
+      "code_sha256": "2fc7354d59faf33bb7f4cabc6f640dcbb3eb134d85f9f036313a687fe58f43b1",
+      "ordered_relocations": 9,
+      "ordered_pair_sha256": "7f3707ba38c8c661de9aec11483eb7269ed55aaa742a42613d308cb5af28f5af"
+    },
+    {
+      "source": "src/main/player/exatt_kotohime.cpp",
+      "object": "obj/th03/ex_koto.obj",
+      "object_sha256": "861a49353263a622287e8bdb769a5c281e4eef79c507c5b1f8e63ea2f7db586d",
+      "map_contribution": {
+        "start": 105824,
+        "size": 1054,
+        "segment": "P_EXATT_TEXT",
+        "module": "th03/ex_koto.cpp",
+        "group": "MAIN_06",
+        "acbp": "28"
+      },
+      "code_sha256": "7f7e6883c54dfdbeb4b17e24e5862c948cb8370e2b4124ca5f0c301c31381a6d",
+      "ordered_relocations": 15,
+      "ordered_pair_sha256": "01a1093e233a459aa1846c341c1fe324f7dc5f18e0049a284c1f0680fcac2a0b"
+    },
+    {
+      "source": "src/main/player/chargeshot_kotohime.cpp",
+      "object": "obj/th03/cs_koto.obj",
+      "object_sha256": "f0d65dfab99a9b3423daffb3eac9816580b8cb4b915d61c08a565f8355dc35bf",
+      "map_contribution": {
+        "start": 115032,
+        "size": 690,
+        "segment": "MAIN_10_TEXT",
+        "module": "th03/cs_koto.cpp",
+        "group": "(none)",
+        "acbp": "28"
+      },
+      "code_sha256": "201e9b24f0a09d1befafab834f918eb56d2d519375a5968d4ff3095b30dfb6fb",
+      "ordered_relocations": 8,
+      "ordered_pair_sha256": "9bac16054bcf0fb7179ee943173230d4858103f345e7523b0f7380b488215269"
+    }
+  ],
+  "empty_root_hitcirc": {
+    "size": 0,
+    "alignment": "BYTE",
+    "combine": "PUBLIC",
+    "use": "USE16",
+    "group": "MAIN_01",
+    "map_offset": "096E:2217",
+    "whole_segment_start": 41848,
+    "whole_segment_size": 5503,
+    "segment_start_alignment": "WORD through the earlier real scaffold"
+  },
+  "native_review": {
+    "owners": 12,
+    "functions": 41,
+    "bytes": 10404,
+    "all_eleven_gates_pass": true,
+    "owned_extents": 97,
+    "owned_bytes": 75140
+  },
+  "comparison": {
+    "matching_relocation_prefix": 668,
+    "previous_matching_prefix": 530,
+    "differing_relocation_order_positions": 662,
+    "previous_differing_positions": 811,
+    "program_bytes": 124642,
+    "program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "relocation_membership_equal": true,
+    "previous_loaded_image_unchanged": true,
+    "program_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "candidate_sha256": "7ba348b3cfb03d9f69309fd2f9e2ea739e49a5aa23b234199faca2aca9596e94"
+  },
+  "next_question": {
+    "record": 668,
+    "expected": {
+      "index": 668,
+      "site": 107738,
+      "pair": [
+        6398,
+        5370
+      ],
+      "module": "th03/ex_repre.cpp",
+      "segment": "MAIN_06_TEXT"
+    },
+    "hypothesis": "Reimu prefix relocations precede shared-flight relocations although flight CODE is physically first. Test a natural combined compiler record; direct object swapping changes physical bytes."
+  },
+  "limits": [
+    "This is a fresh native layout observation, with no additional function/source credit.",
+    "Complete MAIN remains open: two alignment bytes, MZ header and remaining relocation order differ.",
+    "Existing scoped behavior models use bounded foreign service stubs; real DOS/raster/device behavior remains unverified."
+  ]
+}

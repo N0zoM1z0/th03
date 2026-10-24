@@ -39,7 +39,7 @@ class MainWorkTests(unittest.TestCase):
             # Supply the actual unchanged OMF/MAP context for image mutations.
             native = root / "obj/th03"
             native.mkdir(parents=True)
-            for name in ("main.map", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
+            for name in ("main.map", "main.obj", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
                          "gf_ctx.obj", "execl.obj", "tr_ctx.obj"):
                 shutil.copyfile(work.WORK / "obj/th03" / name, native / name)
             with patch.object(work, "WORK", root):

@@ -26,7 +26,7 @@ class ExecutableChainCandidate(unittest.TestCase):
         self.addCleanup(self.folder.cleanup)
         self.work = Path(self.folder.name)
         (self.work / "obj/th03").mkdir(parents=True)
-        for name in ("main.map", "gf_ctx.obj", "execl.obj", "tr_ctx.obj"):
+        for name in ("main.map", "main.obj", "gf_ctx.obj", "execl.obj", "tr_ctx.obj"):
             shutil.copyfile(WORK / "obj/th03" / name, self.work / "obj/th03" / name)
         self.target = parse_mz((ROOT / ".analysis/targets/th03/main.exe").read_bytes())
         self.candidate = parse_mz((WORK / "bin/th03/main.exe").read_bytes())
@@ -79,4 +79,15 @@ class ExecutableChainCandidate(unittest.TestCase):
         path.write_bytes(mutate_record(path.read_bytes(), lambda r: r.record_type == 0x90,
                                       lambda data: data.replace(b"MAIN_EXEC", b"MAIN_EXED")))
         with self.assertRaisesRegex(ValueError, r"complete C\+\+ producer ownership"):
+            verify(self.work, self.target, self.candidate)
+
+    def test_empty_root_word_alignment_cannot_borrow_an_unchanged_map(self):
+        path = self.work / "obj/th03/main.obj"
+        raw = path.read_bytes()
+        segment, = [s for s in segment_definitions(raw) if s["name"] == "HITCIRC_TEXT"]
+        record = [r for r in parse_omf(raw) if r.name == "SEGDEF"][segment["index"] - 1]
+        self.assertEqual(segment["size"], 0)
+        path.write_bytes(mutate_record(raw, lambda r: r.offset == record.offset,
+                                      lambda data: b"\x48" + data[1:]))
+        with self.assertRaisesRegex(ValueError, "empty root HITCIRC must remain BYTE"):
             verify(self.work, self.target, self.candidate)
