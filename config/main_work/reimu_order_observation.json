@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Natural shared-flight/Reimu native CODE grouping and subsequent Reimu/Mima object sequence",
+  "exact_acceptance": false,
+  "new_source_exact_credit": 0,
+  "command": "python3 scripts/replay_th03_main_native.py",
+  "source_sha256": {
+    "src/main/player/exatt_flight_reimu.cpp": "e9143ad2d63835c99ee05fcbf11cdb9b3d1c3c2ea5c8d65eb05483fc014a8996",
+    "src/main/player/exatt_entity.hpp": "25d5820887f62b2a51fdb022d7353763f2d6b59086c11e95d02862ebb989b256",
+    "src/main/player/exatt_flight.inl": "6b864d7a08149497e77907a29ccf3c592a6cd00c221f41a9105e605081a1e184",
+    "src/main/player/exatt_reimu_prefix.inl": "895f0d1bf91abfff185a04f9c2a1913bbd7a9228f4fe26e460da31efe2d9cc89",
+    "src/main/player/exatt_reimu_update.inl": "f7a11cd0c0da6e00bbf3a3a8ed7382b04b62975ea2445e7b1d201368341295d0",
+    "src/main/player/exatt_reimu.cpp": "52fb85cf1fc3c53c9e904d5b6717a1276190b56e236f7fceb3b81c74d3ed25a1",
+    "src/main/player/exatt_shared.cpp": "eaaafc43ddb3a8c57c88c43ed91be0777e65709a8b371e4ea0df14dc813204ca",
+    "src/main/player/exatt_shared.hpp": "ef712b06c19bf0f8418e03227ff512eed314a8963fa4caaa179cc4e65e7b6098",
+    "src/main/player/exatt_reimu.hpp": "21b284f697867d78414ae5a3236ee101b8e7d1e23136cdce895c41aea4b5abde",
+    "scripts/lib/main_reimu_layout.py": "ca28048af2320905f05fce6e173a9bfa4868a724b9140f65f84d0f2beeb61dbc",
+    "scripts/build_th03_main_work.py": "5db6df1ee6df6d324d07a3cb7815a1878538f08e36d179e84141b3d6739b89ca",
+    "scripts/lib/main_work_stage.py": "cb4a7a9501a579458ee1b319f5eeacb30d3ff286d6c8d1ca92a4422f011c3710",
+    "config/th03_main_link.rsp": "41e4d7b58770d24ad28b5dd81ddf6aa356fb201b748ac3570b3c232a029a366e",
+    "config/th03_main_exact_units.toml": "164c58b84007f413158f323da8e80b65772b70a0d897fc11baf80da083f8b263"
+  },
+  "builder_sha256": "5db6df1ee6df6d324d07a3cb7815a1878538f08e36d179e84141b3d6739b89ca",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "cb4a7a9501a579458ee1b319f5eeacb30d3ff286d6c8d1ca92a4422f011c3710",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/lib/main_reimu_layout.py": "ca28048af2320905f05fce6e173a9bfa4868a724b9140f65f84d0f2beeb61dbc",
+    "scripts/lib/main_hitcirc_context.py": "6e7b12f9c30faefaa3f70eced645b529319f6833f43f8fefd1fa8b31192e21a7",
+    "scripts/lib/main_handoff_runtime.py": "3a4bff539a7ed78f07ae206ab76c4bee566590799dd8382d5e054e9ffca86204",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "164c58b84007f413158f323da8e80b65772b70a0d897fc11baf80da083f8b263",
+    "config/th03_main_link.rsp": "41e4d7b58770d24ad28b5dd81ddf6aa356fb201b748ac3570b3c232a029a366e"
+  },
+  "tools_sha256": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 609,
+    "maintained_inputs_checked": 265,
+    "source_objects": 99,
+    "native_phases": 100,
+    "raw_outputs": 101,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0,
+    "elapsed_seconds": 303.46,
+    "peak_rss_kib": 532608
+  },
+  "layout": {
+    "objects": [
+      "ex_rfly",
+      "ex_reup"
+    ],
+    "semantic_owners": [
+      "th03-main-exatt-reimu",
+      "th03-main-exatt-shared-main06"
+    ],
+    "functions": 10,
+    "code_bytes": 1156,
+    "code_record_sizes": [
+      825,
+      331
+    ],
+    "literal_map_parts": 2,
+    "literal_public_table_entries": 20,
+    "ordered_relocations": 18,
+    "private_data_bytes": 0,
+    "new_source_exact_credit": 0
+  },
+  "source_organization": {
+    "entity": "One shared 32-byte entity declaration; historical DATA/BSS allocation stays in the root.",
+    "live_prefix": "exatt_flight_reimu.cpp includes bounded flight and Reimu-prefix bodies; TC4 naturally emits one 825-byte CODE record.",
+    "live_update": "exatt_reimu.cpp with TH03_EXATT_REIMU_UPDATE_ONLY emits the separate 331-byte update/render record.",
+    "scoped_replay": "Standalone shared-flight and Reimu prefix/update variants retain their scoped replay declarations. They include the same bounded bodies; the live response selects only ex_rfly and ex_reup.",
+    "grouping_inference": "The matching producer grouping does not establish the historical filenames or unique original source organization."
+  },
+  "producers": [
+    {
+      "object": "obj/th03/ex_rfly.obj",
+      "object_sha256": "15262f87515f4ee76e86a9fc2ed14bd8d0720d543dd49c08c580868ba14c09b0",
+      "map_contribution": {
+        "start": 106919,
+        "size": 825,
+        "segment": "MAIN_06_TEXT",
+        "module": "th03/ex_rfly.cpp",
+        "group": "MAIN_06",
+        "acbp": "28"
+      }
+    },
+    {
+      "object": "obj/th03/ex_reup.obj",
+      "object_sha256": "a14eb9c43872f5e9497e1c303f2cf422cd6643a7e8c559ef3250b68608f5040f",
+      "map_contribution": {
+        "start": 107744,
+        "size": 331,
+        "segment": "MAIN_06_TEXT",
+        "module": "th03/ex_reup.cpp",
+        "group": "MAIN_06",
+        "acbp": "28"
+      }
+    }
+  ],
+  "native_review": {
+    "owners": 12,
+    "functions": 41,
+    "bytes": 10404,
+    "all_eleven_gates_pass": true,
+    "owned_extents": 97,
+    "owned_bytes": 75140
+  },
+  "comparison": {
+    "matching_relocation_prefix": 780,
+    "previous_matching_prefix": 668,
+    "differing_relocation_order_positions": 550,
+    "previous_differing_positions": 662,
+    "program_bytes": 124642,
+    "program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "relocation_membership_equal": true,
+    "previous_loaded_image_unchanged": true,
+    "program_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "candidate_sha256": "164818b535aef81bfd943e07a5ce0d3a3289750f8a7ce424557e74bd4053ed3c",
+    "target_header_bytes": 6240,
+    "candidate_header_bytes": 7680
+  },
+  "next_question": {
+    "record": 780,
+    "expected": {
+      "index": 780,
+      "site": 88490,
+      "pair": [
+        5021,
+        8154
+      ],
+      "module": "th03/hitbox.cpp",
+      "segment": "HITBOX_TEXT"
+    },
+    "observation": "The hitbox object has one 266-byte HITBOX_TEXT contribution. The Mima bomb has only one 833-byte BULLET_TEXT contribution, with target relocation records 1296..1308. Try linking hitbox alone after the Mima boss; leave the bomb in its later position. Earlier same-segment conflict reasoning was disproved by actual native SEGDEF/public evidence.",
+    "native_objects": {
+      "hitbox": {
+        "segment": "HITBOX_TEXT",
+        "bytes": 266,
+        "functions": 1,
+        "target_relocation_records": [
+          780
+        ]
+      },
+      "bm_mima": {
+        "segment": "BULLET_TEXT",
+        "bytes": 833,
+        "functions": 3,
+        "target_relocation_records": [
+          1296,
+          1297,
+          1298,
+          1299,
+          1300,
+          1301,
+          1302,
+          1303,
+          1304,
+          1305,
+          1306,
+          1307,
+          1308
+        ]
+      }
+    }
+  },
+  "limits": [
+    "No additional function or byte acceptance credit is claimed. Both semantic owners were already accepted.",
+    "Whole MAIN still differs in two alignment bytes, MZ header layout and remaining ordered relocation positions.",
+    "Existing runtime gates use bounded foreign-service stubs; real DOS/raster/device behavior remains unverified."
+  ]
+}

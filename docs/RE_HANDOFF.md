@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `c436a02` (four native cleanup/transition functions accepted).
+- Previous pushed checkpoint: `db89e6c` (character/HUD literal order restored).
 - MAIN: **444 exact functions / 75,140 bytes / 97 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted product exactness.
@@ -43,8 +43,8 @@ remain in [README.md](../README.md).
   original assembler remains unknown. The standalone producer and its ten-byte
   TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
   The complete builder compiles the driver itself without consuming that tree.
-- All 100 source objects compile in 101 serial phases. Two independent 606-file
-  source trees reproduce all 102 raw OBJ/EXE/MAP outputs; all 261 maintained
+- All 99 source objects compile in 100 serial phases. Two independent 609-file
+  source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 265 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
   inputs. Current native-owner review passes twelve owners / 41 functions /
   10,404 bytes and checks all 97 configured extents.
@@ -65,14 +65,14 @@ remain in [README.md](../README.md).
   the compiler's original wrap behavior. BYTE alignment retains the odd `1DC3`
   entry. Only the surrounding 216-byte graphics ASM remains unowned in this
   former HITCIRC group. See `config/main_work/handoff_acceptance.json`.
-- The first **668 of 1,553 global relocation records** match literally; 662
+- The first **780 of 1,553 global relocation records** match literally; 550
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,758 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 3m08s at 468 MiB peak RSS. OP's initial cold
+- Last full CI: PASS, 1,765 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 3m05s at 423 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
-  cold pair and native review took 4m52s at about 524 MiB. The ZUN driver cold
+  cold pair and native review took 5m03s at about 520 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
   The complete ZUN cold pair took 52s at 64 MiB.
@@ -86,6 +86,7 @@ remain in [README.md](../README.md).
 | Stage palette | `src/main/graphics/stage_palette.asm`; `stg_pal.obj` | Four far functions / 130 bytes; 1,556 runtime cases and eight mutations. Two natural EVEN bytes are checked separately. |
 | RNG and collision primitives | `src/main/round/primitives.asm`; `roundpr.obj` | Existing 82 bytes at `0xA3FA..0xA44C`, no new credit. MAIN_04 getters remain in root. Ring index 255 aliases the already-incremented index byte on its word read. |
 | Chiyuri / Ellen extra attacks | `src/main/player/exatt_chiyuri.cpp`, `exatt_ellen.cpp` | 978 / 1,129 bytes; Ellen includes its 51-byte slot initializer. Native CODE record order matches without OMF rewriting. |
+| Shared flight and Reimu extra attack | `src/main/player/exatt_flight_reimu.cpp` plus bounded includes; `ex_rfly.obj`, `ex_reup.obj` | Ten existing functions / 1,156 bytes; natural records 825/331, all eighteen literal pairs match. Separate standalone wrappers preserve scoped replay. No new credit. |
 | Lose update, particles and banners | `src/main/player/lose.cpp` | Three functions / 487 bytes. The separate renderer is still unresolved. |
 
 All listed native scopes pass the configured unit gates. Runtime models execute
@@ -103,17 +104,23 @@ ABI and byte credit are recorded separately in the ledgers.
    all three still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-3. MAIN now links Kana bomb/charge/extra, hitcircle, static HUD, Marisa
-   extra/charge/boss/bomb and Kotohime bomb/extra/charge after `tr_ctx`. These twelve
-   producers retain all bytes and 138 literal relocations. Fresh cold gates pass;
-   the complete loaded image stays unchanged and no function credit is added.
-   See `config/main_work/character_order_observation.json`.
-   The next mismatch is record **668**, loaded site `0x1A4DA`, in `ex_repre` /
-   MAIN_06_TEXT. Target order is Reimu prefix (ten records), shared flight (four),
-   then Reimu update/render (four), while physical CODE places flight first.
-   Test whether natural combined compiler records reproduce that order; swapping
-   these same-segment objects changes bytes. `state` and `shotroot` also have
-   interleaved runs.
+3. MAIN links the Kana/collision/HUD/Marisa/Kotohime sequence after `tr_ctx`,
+   then `ex_rfly`, `ex_reup`, Reimu charge/bomb, intro and Mima charge/extra/boss.
+   Shared flight (215 bytes) and the Reimu prefix (610 bytes) now compile into one
+   natural 825-byte TC4 record. Descending FIXUPP order emits prefix relocations
+   before flight relocations; update/render is a separate 331-byte record.
+   Ten functions / 1,156 existing bytes, eighteen literal pairs, two MAP allocations
+   and twenty public-table entries are checked, with no private DATA/BSS or new
+   function credit. All bodies live in bounded includes with one shared entity
+   declaration. Standalone scoped replay variants use the same bodies; the live
+   response selects only the two grouped producers. See
+   `config/main_work/reimu_order_observation.json`.
+   The next mismatch is record **780**, loaded site `0x159AA`, in `hitbox` /
+   HITBOX_TEXT. Native OMF shows hitbox has one 266-byte HITBOX contribution, while
+   the Mima bomb has only 833 BULLET bytes and target records 1296..1308. Try
+   early-linking hitbox alone after the Mima boss; keep the bomb late. Earlier
+   same-segment conflict reasoning was disproved by these native allocations.
+   `state` and `shotroot` also retain interleaved runs.
 4. The root has no initialized HITCIRC CODE. Its prior nine procedures / 958 bytes
    live in graphics reference context, accepted executable chaining and accepted
    transitions. The zero-length root declaration is now BYTE/PUBLIC/USE16:

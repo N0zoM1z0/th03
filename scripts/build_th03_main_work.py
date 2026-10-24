@@ -85,6 +85,10 @@ def context_producers(names=None):
         "c0l.obj",
     }
     producers = {
+        "obj/th03/ex_rfly.obj": dict(
+            source="src/main/player/exatt_flight_reimu.cpp", staged="th03/ex_rfly.cpp",
+            output="obj/th03/ex_rfly.obj", prefix="", origin="authored-source",
+        ),
         "obj/th03/gf_ctx.obj": dict(
             source="src/main/graphics/round_fill_context.asm", staged="th03/gf_ctx.asm",
             output="obj/th03/gf_ctx.obj", prefix="", origin="reference-game-context",
@@ -294,6 +298,8 @@ def contributions(raw, omit_replaced=False):
                 )
                 or any("M=th03/" + module + ".cpp " in line.replace(chr(92), "/")
                        for module in ("e_ena", "e_enb", "eforna", "efornb", "eupda", "eupdb"))
+                or any("M=th03/" + module + ".cpp " in line.replace(chr(92), "/")
+                       for module in ("ex_shfly", "ex_repre", "ex_rfly", "ex_reup"))
             )
         )
     ]
@@ -334,6 +340,8 @@ def review(previous=None, cold_build=False):
     enemy_layout = verify_enemy_layout(WORK, cfg)
     from lib.main_hitcirc_context import verify as verify_hitcirc_grouping
     hitcirc_grouping = verify_hitcirc_grouping(WORK, target, candidate)
+    from lib.main_reimu_layout import verify as verify_reimu_layout
+    reimu_layout = verify_reimu_layout(WORK, cfg, target, candidate)
     owned = []
     for unit in cfg["units"] + cfg.get("native_units", []):
         for e in unit.get("code_extents", [unit]):
@@ -363,6 +371,7 @@ def review(previous=None, cold_build=False):
         all_owned_raw_and_ordered_equal=True,
         enemy_producer_layout=enemy_layout,
         executable_chain_candidate=hitcirc_grouping,
+        reimu_producer_layout=reimu_layout,
         character_scopes=[
             r
             for r in owned
@@ -444,7 +453,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 668:
+    if result["matching_relocation_prefix"] < 780:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
@@ -491,6 +500,17 @@ def review(previous=None, cold_build=False):
             result["enemy_producer_transfer"] = dict(
                 retired=sorted(enemy_retired), loaded_image_unchanged=True,
                 new_layout=enemy_layout,
+            )
+        reimu_retired = {Path(n).name for n in previous.get("game_objects", {})} & {
+            "ex_shfly.obj", "ex_repre.obj"
+        }
+        if reimu_retired:
+            if reimu_retired != {"ex_shfly.obj", "ex_repre.obj"} or before.program_image != candidate.program_image:
+                raise ValueError("flight/Reimu transfer changed loaded bytes")
+            retired.update(reimu_retired)
+            result["reimu_producer_transfer"] = dict(
+                retired=sorted(reimu_retired), loaded_image_unchanged=True,
+                new_layout=reimu_layout,
             )
         result["retired_objects"] = sorted(retired)
         result["map_contributions_unchanged"] = contributions(

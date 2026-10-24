@@ -4959,6 +4959,10 @@ physical_objects = [
   { object = "ex_reup", wrapper = "th03/ex_reup.cpp", source = "src/main/player/exatt_reimu.cpp", wrapper_prefix = "#define TH03_EXATT_REIMU_UPDATE_ONLY 1\n" },
 ]
 support_files = [
+  "src/main/player/exatt_entity.hpp",
+  "src/main/player/exatt_shared.hpp",
+  "src/main/player/exatt_reimu_prefix.inl",
+  "src/main/player/exatt_reimu_update.inl",
   "compat/rec98/th03/common.h",
   "compat/rec98/th03/main/player/cur.hpp",
   "compat/rec98/th03/main/collmap.hpp",
@@ -5135,6 +5139,8 @@ map_module = "th03/ex_shfly.cpp"
 physical_objects_additive = true
 physical_objects = [{ object = "ex_shfly", wrapper = "th03/ex_shfly.cpp", source = "src/main/player/exatt_shared.cpp" }]
 support_files = [
+  "src/main/player/exatt_entity.hpp",
+  "src/main/player/exatt_flight.inl",
   "src/main/math/vector_far.hpp",
   "compat/rec98/th03/common.h",
   "compat/rec98/th03/main/player/cur.hpp",

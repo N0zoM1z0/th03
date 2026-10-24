@@ -13,6 +13,7 @@ RECIPE_INPUTS = (
     "scripts/lib/main_master_prefix.py",
     "scripts/lib/main_master_body.py",
     "scripts/lib/main_enemy_layout.py",
+    "scripts/lib/main_reimu_layout.py",
     "scripts/lib/main_hitcirc_context.py",
     "scripts/lib/main_handoff_runtime.py",
     "scripts/replay_th03_main_exact_units.py",
