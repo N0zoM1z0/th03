@@ -21,12 +21,12 @@ class OpWorkAcceptance(unittest.TestCase):
     def setUp(self):
         self.publication = json.loads((ROOT / PUBLICATION).read_bytes())
 
-    def test_live_physical_replay_accepts_only_three_decoded_owners(self):
+    def test_live_physical_replay_accepts_only_current_decoded_owners(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (15, 771))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (17, 1067))
         self.assertFalse(result["canonical_credit_changed"])
         self.assertFalse(result["product_exact"])
-        self.assertIn("15 functions / 771 bytes", decoded_summary(result))
+        self.assertIn("17 functions / 1,067 bytes", decoded_summary(result))
 
     def test_stale_verifier_hash_fails_before_physical_replay(self):
         self.publication["proof_inputs"]["scripts/lib/op_work_acceptance.py"] = "0" * 64
@@ -64,4 +64,4 @@ class OpWorkAcceptance(unittest.TestCase):
             units = list(csv.DictReader(stream))
         result = op_decoded_status(ROOT, units)
         self.assertEqual(result["decoded_exact_unit_ids"], sorted(self.publication["owner_oracles"]))
-        self.assertEqual(result["decoded_exact_units"], 15)
+        self.assertEqual(result["decoded_exact_units"], 17)

@@ -2,7 +2,7 @@
 
 | Artifact | Target bytes | Source-present units | Ledger exact units | Exact functions | Ledger exact owned bytes |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| th03-op | 36041 | 45 | 0 | 0 | 0 |
+| th03-op | 36041 | 48 | 0 | 0 | 0 |
 | th03-main | 130882 | 98 | 98 | 445 | 75317 |
 | th03-mainl | 37975 | 145 | 0 | 0 | 0 |
 | th03-zun | 16242 | 41 | 0 | 0 | 0 |
@@ -14,7 +14,7 @@ See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).
 
 OP decoded publication: installed.
 
-OP current decoded source acceptance: 15 functions / 771 bytes. Fresh source-only cold pair, native ownership/ABI and bounded instruction models pass. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
+OP current decoded source acceptance: 17 functions / 1,067 bytes. Fresh source-only cold pair, native ownership/ABI and bounded instruction models pass. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
 MAINL current decoded source acceptance: 15 functions / 703 bytes. Current native ownership/ABI, two source-only cold builds, 4,800 lifecycle, 2,218 shared input and 3,378 ending wait guest cases per image pass. Canonical packed-file unit credit and whole-product source ownership remain unchanged.
 

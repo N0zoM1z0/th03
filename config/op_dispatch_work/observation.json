@@ -1,0 +1,433 @@
+{
+  "schema": "th03-op-dispatch-current-observation-v1",
+  "observed_utc": "2026-10-24T18:15:09.360180Z",
+  "command": ".venv/bin/python scripts/review_th03_op_dispatch_work.py",
+  "provenance": "candidate-local-attested",
+  "implementation_sha256": {
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/op_cfg_runtime.py": "bd474bb123b68f3ef6b80afe282b3ca5b4e1a6dcf9f5775c764926f7a82e6340",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_op_dispatch_work.py": "98954c5d7e67699768a89dfae9497b6e19e0ed1cd90636fc7591f91ee26bef15",
+    "scripts/lib/op_dispatch_layout.py": "d92f02cb12224357738e38943f3e529636d4f1812ab17d03d2fae5c83e7d40c7",
+    "scripts/lib/op_dispatch_runtime.py": "ac9a0fba42934460dec0631da876ed53628a1e697e9451cf36bc9f80e8054b45",
+    "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b"
+  },
+  "cold_report_sha256": "a85d1fa1ed6bfbe6913f15f7407b52ede260a36164fb0030c7879b76286bbcd1",
+  "cfg_review_sha256": "0a3e3fd54e14b082caeaf9cddf6fe823c10342ef1ca6f7074b0e6fccbe17ad14",
+  "source_inventory_sha256": "2cb2ff667e9e593abf316ce971af311659fc7ca53969dc69f645985a2881d486",
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-op-decoded-entry-demo",
+        "name": "start_demo",
+        "source": "src/op/entry.cpp",
+        "object": "obj/th03/op_01.obj",
+        "segment": 2448,
+        "offset": 1100,
+        "start": 40268,
+        "size": 202,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "5d74105de96cd3c80b60de997e3532b100570464ad2df2aeeb70166a486d5124",
+        "candidate_sha256": "5d74105de96cd3c80b60de997e3532b100570464ad2df2aeeb70166a486d5124",
+        "ordered_relocations": [
+          [
+            2448,
+            1294
+          ],
+          [
+            2448,
+            1278
+          ],
+          [
+            2448,
+            1273
+          ],
+          [
+            2448,
+            1265
+          ],
+          [
+            2448,
+            1257
+          ]
+        ],
+        "abi": "near cdecl; no arguments; BP/SI restored; failed execl returns to caller",
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      },
+      {
+        "unit_id": "th03-op-decoded-entry-score",
+        "name": "score_menu",
+        "source": "src/op/entry.cpp",
+        "object": "obj/th03/op_01.obj",
+        "segment": 2448,
+        "offset": 1407,
+        "start": 40575,
+        "size": 94,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "1dbd0149954d19bf0ebb63a30409e1124cd3381467ba03e022f392b058b9f70f",
+        "candidate_sha256": "1dbd0149954d19bf0ebb63a30409e1124cd3381467ba03e022f392b058b9f70f",
+        "ordered_relocations": [
+          [
+            2448,
+            1491
+          ],
+          [
+            2448,
+            1475
+          ],
+          [
+            2448,
+            1470
+          ],
+          [
+            2448,
+            1465
+          ],
+          [
+            2448,
+            1457
+          ]
+        ],
+        "abi": "near cdecl; no arguments; BP/SI restored; failed execl returns to caller",
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      }
+    ],
+    "functions": 2,
+    "code_bytes": 296,
+    "ordered_native_fields": [
+      {
+        "offset": 1481,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 46,
+        "addend": 0
+      },
+      {
+        "offset": 1478,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 223
+      },
+      {
+        "offset": 1474,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 223
+      },
+      {
+        "offset": 1465,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 12,
+        "addend": 0
+      },
+      {
+        "offset": 1460,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 8,
+        "addend": 0
+      },
+      {
+        "offset": 1455,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 33,
+        "addend": 0
+      },
+      {
+        "offset": 1447,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 3,
+        "addend": 0
+      },
+      {
+        "offset": 1428,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1405,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1284,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 46,
+        "addend": 0
+      },
+      {
+        "offset": 1281,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 223
+      },
+      {
+        "offset": 1277,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 223
+      },
+      {
+        "offset": 1268,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 12,
+        "addend": 0
+      },
+      {
+        "offset": 1263,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 33,
+        "addend": 0
+      },
+      {
+        "offset": 1255,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 3,
+        "addend": 0
+      },
+      {
+        "offset": 1247,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 7,
+        "addend": 0
+      },
+      {
+        "offset": 1229,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1216,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1212,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 56
+      },
+      {
+        "offset": 1192,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1181,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 50
+      },
+      {
+        "offset": 1166,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1162,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 50
+      },
+      {
+        "offset": 1128,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 1098,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      }
+    ],
+    "ordered_relocations": [
+      [
+        2448,
+        1294
+      ],
+      [
+        2448,
+        1278
+      ],
+      [
+        2448,
+        1273
+      ],
+      [
+        2448,
+        1265
+      ],
+      [
+        2448,
+        1257
+      ],
+      [
+        2448,
+        1491
+      ],
+      [
+        2448,
+        1475
+      ],
+      [
+        2448,
+        1470
+      ],
+      [
+        2448,
+        1465
+      ],
+      [
+        2448,
+        1457
+      ]
+    ],
+    "data_dependencies": {
+      "pairings_and_seed_tables": [
+        196,
+        24
+      ],
+      "wrapped_zero_preceding_bytes": [
+        194,
+        2
+      ],
+      "mainl_filename": [
+        367,
+        6
+      ]
+    },
+    "reviewed_initialized_dependency_bytes": 32,
+    "containing_producer_accepted": false,
+    "whole_product_accepted": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 2,
+    "code_bytes": 296,
+    "cases_per_image": 2144,
+    "exhaustive_demo_bytes": 256,
+    "exhaustive_sound_flag_bytes": 256,
+    "executed_owner_bytes": 296,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 1072,
+        "covered_owner_bytes": 296,
+        "executed_nested_bytes": 164,
+        "maximum_observed_stack_depth": 26,
+        "trace_sha256": "ffd0cb6f1b84612f93cfbf1499564245ff6514e8f6c1244ff19a05f93ea3c6db"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 1072,
+        "covered_owner_bytes": 296,
+        "executed_nested_bytes": 164,
+        "maximum_observed_stack_depth": 26,
+        "trace_sha256": "8ca4f66668bb2e1ed7614c90440cce4fbe473fcbb2057ee43bd595b5e5966a9e"
+      }
+    ],
+    "scope": "real cfg save, sound routing and game cleanup; failed execl, bounded external libraries/files/driver; no successful exec or physical hardware claim"
+  },
+  "negative_controls": {
+    "count": 23,
+    "rejected": [
+      "both-players-are-CPU",
+      "demo-four-is-valid",
+      "demo-bound-is-unsigned",
+      "wrapped-byte-remains-zero",
+      "stage-is-deterministic",
+      "demo-mode-byte",
+      "pairing-origin",
+      "seed-index-is-DWORD",
+      "all-sixteen-score-digits",
+      "fade-one-frame",
+      "ordinary-cfg-save",
+      "gaiji-restored-before-exit",
+      "stop-command-low-byte",
+      "far-null-terminator",
+      "duplicate-exec-argv0",
+      "near-demo-return",
+      "score-stage-none",
+      "score-window-free",
+      "cdecl-twelve-byte-cleanup",
+      "false-is-AL-zero",
+      "nested-save-four-bytes",
+      "real-sound-MIDI-byte-one",
+      "real-cleanup-page-order"
+    ]
+  },
+  "source_acceptance": false,
+  "publication": "config/op_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false
+}

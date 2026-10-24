@@ -8,8 +8,9 @@
 4. For exact acceptance, check complete raw bytes, literal ordered relocations,
    ownership, ABI/MAP/layout, affected behavior and two independent cold builds.
    Required checks are in `config/oracles.toml`; compiler success alone is insufficient.
-   Use `scripts/review_th03_op_cfg_work.py` for the SDK-guarded OP cold pair
-   and cfg review. After rebuilding OP or MAINL, run `scripts/review_th03_shared_input_work.py`
+   Use `scripts/review_th03_op_dispatch_work.py` for the SDK-guarded OP cold pair,
+   cfg and dispatch reviews. It invokes `review_th03_op_cfg_work.py`; one cold
+   pair serves both scopes. After rebuilding OP or MAINL, run `scripts/review_th03_shared_input_work.py`
    before republishing their source scopes. Its complete input models bind both
    current cold reports; status only replays short ABI cases.
 5. Record useful findings in the ledgers/current handoff, run focused checks,

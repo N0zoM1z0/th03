@@ -1,6 +1,6 @@
 {
   "schema": "th03-op-cfg-current-observation-v1",
-  "observed_utc": "2026-10-24T17:51:01.295259Z",
+  "observed_utc": "2026-10-24T18:15:09.360180Z",
   "command": ".venv/bin/python scripts/review_th03_op_cfg_work.py",
   "provenance": "candidate-local-attested",
   "source": "src/op/entry.cpp",

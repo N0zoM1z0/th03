@@ -7,11 +7,11 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `3bb501e` (MAINL ending wait source scopes).
+- Previous pushed checkpoint: `b24a9a2` (OP near cfg source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **fifteen accepted decoded source functions / 771 bytes**. The
+- OP now has **seventeen accepted decoded source functions / 1,067 bytes**. The
   three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
@@ -34,7 +34,7 @@ remain in [README.md](../README.md).
   36,041-byte stored target and restore to the actual linked EXE. TH04's `-G`
   selects a larger SFX stub and fails this TH03 target (36,136 bytes).
   Frozen reference source and vendor libraries remain unowned context; this is
-  a fresh complete-byte build observation; the fifteen scoped owners have
+  a fresh complete-byte build observation; the seventeen scoped owners have
   their separate ownership/ABI/runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
 - OP also accepts **three near cfg functions / 271 CODE bytes** inside the
@@ -57,11 +57,37 @@ remain in [README.md](../README.md).
   MIDI values, requested-off versus unavailable selection, DWORD zero seeks,
   SS far buffers and the bounded file-service flags. Full registers/flags,
   frames and memory outside an 80-byte stack pass; peak observed depth is 30.
-  File and PMD replies remain bounded interfaces. Current OP totals fifteen
+  File and PMD replies remain bounded interfaces. Lifecycle/shared/cfg models cover fifteen
   functions / 771 CODE bytes, thirty literal relocations, 6,914 model cases
   per image and forty-nine mutants. Whole entry/product acceptance stays open.
   `review_th03_op_cfg_work.py` performs the required fresh cold pair and cfg
   review; follow it with the shared-input review and per-product publication.
+- OP's **two demo/score dispatch functions / 296 CODE bytes** now pass native
+  ownership and behavior gates: whole 202/94-byte bodies, twenty-five literal
+  native fields and ten ordered MZ relocations. Thirty-two initialized dependency
+  bytes cover pairing/seed tables, adjacent bytes and lowercase `mainl` filename;
+  no DATA credit is added. The fresh SDK-guarded cold pair still repeats all
+  outputs and complete decoded/stored files. Independent 2,144-case-per-image
+  contracts at two loads execute every owner byte and 164 real nested cfg-save,
+  sound-routing and game-exit bytes. Twenty-three actual instruction mutants fail.
+  BYTE demo 255 wraps to zero and bypasses the unsigned greater-than-four reset:
+  it reads preceding pairing bytes `8F 00` and seed `05090B07` from the pairing
+  tail. Keep all four ordinary pairs and DWORD seeds 600/1000/3200/500, sixteen
+  individual score-byte clears, unsanitized cfg byte, gaiji-before-stop order,
+  score-only SUPER_FREE and the real page/port cleanup sequence. MIDI BYTE exactly
+  one selects INT61. Cdecl execl receives two equal far filenames and a DWORD null;
+  the caller pops twelve bytes. On exec return score clears only AL, preserving
+  AH; demo preserves AX. Register results, DWORD seed effects, flags, IF/DF, near/far
+  frames, 26-byte observed stack and memory outside an 80-byte stack pass.
+  File/library/driver/exec replies remain bounded interfaces; successful exec and
+  physical hardware are open. The former 1,222-byte screen unit is refined into
+  821 story/VS/choice-renderer + 202 demo + 105 attract-wait + 94 score bytes;
+  total source-present bytes are unchanged and the historical cohort snapshot is
+  retained unchanged. Story/VS and attract wait have no current source acceptance.
+  OP totals seventeen functions / 1,067 CODE bytes, forty ordered relocations,
+  9,058 model cases per image and seventy-two mutants. Run
+  `review_th03_op_dispatch_work.py` once for the cold/cfg/dispatch witnesses,
+  then the shared-input review and per-product publishers. Whole entry remains open.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
   objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
   preserves all 893 vendor member positions, substitutes the six real producers,
@@ -272,10 +298,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,910 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m51s at 447 MiB peak RSS, no swap. OP's latest SDK-guarded cold
-  pair and cfg review took 2m25s at 108 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
-  checks. The separate shared input/ending wait review took 2m04s at 156 MiB. The last MAIN
+- Last full CI: PASS, 1,922 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 5m06s at 435 MiB peak RSS, no swap. OP's latest SDK-guarded cold
+  pair plus cfg/dispatch reviews took 2m37s at 116 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
+  checks. The separate shared input/ending wait review took 1m48s at about 149 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
   at 45 MiB. The complete ZUN cold pair with all five models and two native
@@ -313,7 +339,9 @@ ABI and byte credit are recorded separately in the ledgers.
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
    The shared input review is a current, separate witness bound to both cold
    reports. Replay it after new builds. Ending-specific input waits and OP configuration loading/saving also pass.
-   Remaining OP menu/resource and MAINL resource/ending producers are next
+   OP demo/score dispatch also passes; its source ledger refines the old screen
+   span without adding source bytes. Remaining OP story/VS/attract/menu/resource
+   and MAINL resource/ending producers are next
    bounded source/behavior questions. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
@@ -380,7 +408,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 ```sh
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
-.venv/bin/python scripts/review_th03_op_cfg_work.py
+.venv/bin/python scripts/review_th03_op_dispatch_work.py
 .venv/bin/python scripts/build_th03_mainl_work.py
 .venv/bin/python scripts/review_th03_shared_input_work.py
 .venv/bin/python scripts/publish_th03_op_work_scopes.py

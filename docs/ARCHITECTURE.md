@@ -50,6 +50,14 @@ copy the real eight-byte zero initializer. PMD-mode and CRT helper instructions
 execute, while file/PMD replies stay bounded interfaces. Helper alignment and
 whole-entry ownership remain open.
 
+The same entry TU has two accepted near demo/score dispatch bodies (296 CODE
+bytes). They execute the real cfg save, sound routing and game cleanup; library,
+driver and failed-exec replies remain bounded interfaces. Demo BYTE 255 wraps
+to zero and reads adjacent table bytes. Score dispatch returns false in AL;
+AH survives the failed execl reply. Its twelve argument bytes are caller-popped.
+The screen ledger partitions its former 1,222 bytes without overlapping credit;
+story/VS/choice-renderer and attract-wait scopes still lack current acceptance.
+
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.
 Download archives and installation media are needed only for installation;
