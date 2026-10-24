@@ -31,7 +31,6 @@ SOURCES = (
     "src/main/player/state.cpp",
     "src/main/player/shotroot.cpp",
     "src/main/player/lose.cpp",
-    "src/main/player/defeat.cpp",
     "src/main/hud/intro.cpp",
     "src/main/player/exatt_chiyuri.cpp",
     "src/main/player/exatt_ellen.cpp",
@@ -52,6 +51,7 @@ SCOPES = (
     (0xA378, 0xA3FA),  # Native stage palette CODE and function alignment.
     (0xA3FA, 0xA44C),  # Existing round primitives retain their accepted owners.
     (0xA44C, 0xB37C),  # Complete native character resource/callback producer.
+    (0xC248, 0xC2F9),  # Native near-this renderer, bounded separately from existing owners.
 )
 
 
@@ -342,6 +342,8 @@ def review(previous=None, cold_build=False):
     hitcirc_grouping = verify_hitcirc_grouping(WORK, target, candidate)
     from lib.main_reimu_layout import verify as verify_reimu_layout
     reimu_layout = verify_reimu_layout(WORK, cfg, target, candidate)
+    from lib.main_lose_layout import verify as verify_lose_layout
+    lose_layout = verify_lose_layout(WORK, target, candidate)
     owned = []
     for unit in cfg["units"] + cfg.get("native_units", []):
         for e in unit.get("code_extents", [unit]):
@@ -372,6 +374,7 @@ def review(previous=None, cold_build=False):
         enemy_producer_layout=enemy_layout,
         executable_chain_candidate=hitcirc_grouping,
         reimu_producer_layout=reimu_layout,
+        lose_producer_layout=lose_layout,
         character_scopes=[
             r
             for r in owned
@@ -453,7 +456,7 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 780:
+    if result["matching_relocation_prefix"] < 968:
         raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
@@ -512,6 +515,13 @@ def review(previous=None, cold_build=False):
                 retired=sorted(reimu_retired), loaded_image_unchanged=True,
                 new_layout=reimu_layout,
             )
+        loss_regroup = ("defeat.obj" in previous["objects"] or any(
+            Path(n).name == "defeat.obj" for n in previous.get("game_objects", {})))
+        if loss_regroup:
+            if before.program_image != candidate.program_image:
+                raise ValueError("loss producer transfer changed loaded bytes")
+            retired.add("defeat.obj")
+            result["lose_producer_transfer"] = dict(loaded_image_unchanged=True, new_layout=lose_layout)
         result["retired_objects"] = sorted(retired)
         result["map_contributions_unchanged"] = contributions(
             previous["map"]
@@ -556,19 +566,10 @@ def review(previous=None, cold_build=False):
             (
                 0x96E,
                 0x29F8,
-                368,
+                664,
                 "PLAYER_M_TEXT",
                 "MAIN_01",
                 "src/main/player/lose.cpp",
-            ),
-            (0x96E, 0x2B68, 177, "PLAYER_M_TEXT", "MAIN_01", "th03_main.asm"),
-            (
-                0x96E,
-                0x2C19,
-                119,
-                "PLAYER_M_TEXT",
-                "MAIN_01",
-                "src/main/player/defeat.cpp",
             ),
             (0x18FE, 0xA, 978, "P_EXATT_TEXT", "MAIN_06", "th03/ex_chyu.cpp"),
             (0x18FE, 0x3DC, 1129, "P_EXATT_TEXT", "MAIN_06", "th03/ex_ellen.cpp"),
@@ -605,6 +606,7 @@ def review(previous=None, cold_build=False):
             for n, raw in previous["objects"].items()
             if n not in {"ex_chyu.obj", "ex_ellen.obj", "main.obj", "mst_body.obj"}
             and n not in retired and not (merge and n == "entry.obj")
+            and not (loss_regroup and n == "lose.obj")
         }
         # Keep native game producers unchanged while the carrier externalizes
         # library references. A cold repeat also checks the complete carrier.
@@ -627,7 +629,15 @@ def review(previous=None, cold_build=False):
             old_hitcirc_size = old_root.get("HITCIRC_TEXT", {}).get("size", 0)
             new_hitcirc_size = new_root.get("HITCIRC_TEXT", {}).get("size", 0)
             hitcirc_transfer = old_hitcirc_size != new_hitcirc_size
-            if hitcirc_transfer:
+            lose_transfer = old_root.get("PLAYER_M_TEXT", {}).get("size", 0) != new_root.get("PLAYER_M_TEXT", {}).get("size", 0)
+            if lose_transfer:
+                result["carrier_lose_transfer"] = (
+                    (old_root.get("PLAYER_M_TEXT", {}).get("size", 0), new_root.get("PLAYER_M_TEXT", {}).get("size", 0)) == (177, 0)
+                    and {k: v for k, v in old_root.items() if k != "PLAYER_M_TEXT"} == new_root
+                    and before.program_image == candidate.program_image)
+                if not result["carrier_lose_transfer"]:
+                    raise ValueError("loss transfer altered unrelated carrier CODE")
+            elif hitcirc_transfer:
                 result["carrier_hitcirc_transfer"] = (
                     (old_hitcirc_size, new_hitcirc_size) in {(5058, 4928), (4928, 958), (958, 0)}
                     and {k: v["size"] for k, v in old_root.items() if k != "HITCIRC_TEXT"}

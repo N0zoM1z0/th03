@@ -6,7 +6,7 @@ void near pascal player_render(player_stuff_t near *player)
     sprite16_offset_t sprite;
     if(player->lose_anim_time) {
         if(player->lose_anim_time != 0xFF) {
-            player_lose_anim_render(player);
+            player->lose_render();
         }
     } else if(player->patnum_glow == 0) {
         sprite16_clip.reset();

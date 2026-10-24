@@ -26,6 +26,7 @@ OWNERS = {"th03-main-exatt-chiyuri", "th03-main-exatt-ellen"}
 LOSE_OWNERS = {
     "th03-main-player-lose-update-particle",
     "th03-main-player-defeat-banner",
+    "th03-main-player-lose-renderer",
 }
 
 
@@ -334,6 +335,13 @@ def review(report=None):
     result["runtime_model_sha256"] = sha(
         (ROOT / "scripts/lib/main_lose_runtime.py").read_bytes()
     )
+    from lib.main_lose_renderer_runtime import compare as renderer_compare, negative_controls as renderer_controls
+    result["lose_renderer_runtime"] = renderer_compare(target, candidate)
+    result["lose_renderer_controls"] = renderer_controls(candidate)
+    need(result["lose_renderer_runtime"]["cases"] == 2068
+         and result["lose_renderer_runtime"]["code_bytes_executed"] == 177
+         and result["lose_renderer_controls"]["count"] == 8, "loss renderer contracts incomplete")
+    result["lose_renderer_model_sha256"] = sha((ROOT / "scripts/lib/main_lose_renderer_runtime.py").read_bytes())
     from lib.main_round_finish_runtime import (
         compare as round_compare,
         negative_controls as round_controls,

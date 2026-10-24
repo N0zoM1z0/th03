@@ -14,6 +14,8 @@ RECIPE_INPUTS = (
     "scripts/lib/main_master_body.py",
     "scripts/lib/main_enemy_layout.py",
     "scripts/lib/main_reimu_layout.py",
+    "scripts/lib/main_lose_layout.py",
+    "scripts/lib/main_lose_renderer_runtime.py",
     "scripts/lib/main_hitcirc_context.py",
     "scripts/lib/main_handoff_runtime.py",
     "scripts/replay_th03_main_exact_units.py",
@@ -326,6 +328,8 @@ def native_carrier(raw):
     text = detach_body(detach(text))
     from lib.main_hitcirc_context import detach as detach_hitcirc
     text = detach_hitcirc(text)
+    from lib.main_lose_layout import detach as detach_lose_renderer
+    text = detach_lose_renderer(text)
     return text.replace("\n", "\r\n").encode("latin1")
 
 

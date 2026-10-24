@@ -6,9 +6,8 @@
 #include "src/main/math/randring_getters.hpp"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 
-// Target C248..C2F9 returns with RET 2; its passed player slot is unused.
-// The source name and pointer interpretation are inferred from this caller.
-void near pascal player_lose_anim_render(player_stuff_t near *unused_player);
+// C248..C2F9 is the near-this lose_render member declared in stuff.hpp.
+// It consumes one player word (RET 2); the member body does not read this.
 void near pascal player_render(player_stuff_t near *player);
 void near pascal player_overlay_render(player_stuff_t near *player);
 void near pascal player_knockback_update(player_stuff_t near *player);

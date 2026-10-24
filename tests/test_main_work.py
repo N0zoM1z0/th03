@@ -40,7 +40,7 @@ class MainWorkTests(unittest.TestCase):
             native = root / "obj/th03"
             native.mkdir(parents=True)
             for name in ("main.map", "main.obj", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
-                         "gf_ctx.obj", "execl.obj", "tr_ctx.obj", "ex_rfly.obj", "ex_reup.obj"):
+                         "gf_ctx.obj", "execl.obj", "tr_ctx.obj", "ex_rfly.obj", "ex_reup.obj", "lose.obj"):
                 shutil.copyfile(work.WORK / "obj/th03" / name, native / name)
             with patch.object(work, "WORK", root):
                 return work.review()
@@ -58,7 +58,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (97, 75140),
+            (98, 75317),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -315,11 +315,15 @@ class MainWorkTests(unittest.TestCase):
                 raw = bytearray(self.raw)
                 raw[self.image.header.header_size + end - 1] ^= 1
                 error = (
+                    "loss producer layout: complete linked loss CODE differs"
+                    if unit["id"] in {"th03-main-player-lose-update-particle", "th03-main-player-defeat-banner", "th03-main-player-lose-renderer"}
+                    else (
                     "HITCIRC source grouping: raw context or C\\+\\+ body differs"
                     if unit["id"] in {
                         "th03-main-executable-chain", "th03-main-demo-transition"
                     }
                     else "tracked scope regressed"
+                    )
                 )
                 with self.assertRaisesRegex(ValueError, error):
                     self.run_image(raw)

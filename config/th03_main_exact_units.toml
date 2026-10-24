@@ -7220,9 +7220,9 @@ return_pop = 4
 
 [[native_units]]
 id = "th03-main-player-defeat-banner"
-source = "src/main/player/defeat.cpp"
-object = "defeat"
-map_module = "src/main/player/defeat.cpp"
+source = "src/main/player/defeat.inl"
+object = "lose"
+map_module = "src/main/player/lose.cpp"
 
 [[native_units.code_extents]]
 segment = 2414
@@ -7601,3 +7601,25 @@ offset = 0x1f2a
 size = 304
 abi = "near cdecl; no stack arguments; uint8 frame wraps; signed16 vertices and toward-zero division; two-player triangle calls and near callback word; BP/SI/DI/DS preserved; RET"
 return_pop = 0
+
+[[native_units]]
+id = "th03-main-player-lose-renderer"
+source = "src/main/player/losedraw.inl"
+object = "lose"
+map_module = "src/main/player/lose.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x2b68
+size = 177
+map_segment = "PLAYER_M_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "player_stuff_t::lose_render"
+segment = 0x096e
+offset = 0x2b68
+size = 177
+abi = "near Pascal member; one near this pointer word on caller stack, not read; DI signed16 counter and byte angles; SI/DI/BP/DS/SS preserved; RET 2"
+return_pop = 2

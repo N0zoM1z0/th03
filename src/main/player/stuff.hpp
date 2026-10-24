@@ -24,7 +24,9 @@
 #define SPELL_AUTOFIRE_FRAMES 128
 #define CHARGE_AT_AVAIL_RING_SIZE 64
 
-struct player_stuff_t {
+// Player instances and the member this pointer reside in DGROUP.
+struct near player_stuff_t {
+    void near pascal lose_render(void);
 	PlayfieldPoint center;
 	bool is_hit;
 	uint8_t unused_1; // ZUN bloat
@@ -84,6 +86,9 @@ struct player_stuff_t {
 
 	uint8_t padding[6];
 };
+
+typedef char player_near_instance_layout[(sizeof(player_stuff_t) == 128 &&
+    sizeof(player_stuff_t near *) == 2) ? 1 : -1];
 
 extern player_stuff_t players[PLAYER_COUNT];
 

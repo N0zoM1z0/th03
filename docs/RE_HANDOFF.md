@@ -7,8 +7,8 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `db89e6c` (character/HUD literal order restored).
-- MAIN: **444 exact functions / 75,140 bytes / 97 CODE extents**. These are
+- Previous pushed checkpoint: `3d82ec9` (Reimu/shared-flight native grouping).
+- MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted product exactness.
 - OP now has a live, source-only cold build independent of the deleted historical
@@ -43,11 +43,11 @@ remain in [README.md](../README.md).
   original assembler remains unknown. The standalone producer and its ten-byte
   TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
   The complete builder compiles the driver itself without consuming that tree.
-- All 99 source objects compile in 100 serial phases. Two independent 609-file
-  source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 265 maintained
+- All 98 source objects compile in 99 serial phases. Two independent 612-file
+  source trees reproduce all 100 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
-  inputs. Current native-owner review passes twelve owners / 41 functions /
-  10,404 bytes and checks all 97 configured extents.
+  inputs. Current native-owner review passes thirteen owners / 42 functions /
+  10,581 bytes and checks all 98 configured extents.
 - The enemy source now selects two formation/script and two rendering/update
   objects. Keep the 79-byte `enemies_add()` with `enemy_formation_spawn()`:
   an external far declaration loses TC4's native same-group near-call sequence.
@@ -65,14 +65,14 @@ remain in [README.md](../README.md).
   the compiler's original wrap behavior. BYTE alignment retains the odd `1DC3`
   entry. Only the surrounding 216-byte graphics ASM remains unowned in this
   former HITCIRC group. See `config/main_work/handoff_acceptance.json`.
-- The first **780 of 1,553 global relocation records** match literally; 550
+- The first **968 of 1,553 global relocation records** match literally; 362
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,765 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 3m05s at 423 MiB peak RSS. OP's initial cold
+- Last full CI: PASS, 1,773 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 2m40s at 349 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
-  cold pair and native review took 5m03s at about 520 MiB. The ZUN driver cold
+  cold pair and native review took 4m08s at about 510 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
   The complete ZUN cold pair took 52s at 64 MiB.
@@ -87,7 +87,7 @@ remain in [README.md](../README.md).
 | RNG and collision primitives | `src/main/round/primitives.asm`; `roundpr.obj` | Existing 82 bytes at `0xA3FA..0xA44C`, no new credit. MAIN_04 getters remain in root. Ring index 255 aliases the already-incremented index byte on its word read. |
 | Chiyuri / Ellen extra attacks | `src/main/player/exatt_chiyuri.cpp`, `exatt_ellen.cpp` | 978 / 1,129 bytes; Ellen includes its 51-byte slot initializer. Native CODE record order matches without OMF rewriting. |
 | Shared flight and Reimu extra attack | `src/main/player/exatt_flight_reimu.cpp` plus bounded includes; `ex_rfly.obj`, `ex_reup.obj` | Ten existing functions / 1,156 bytes; natural records 825/331, all eighteen literal pairs match. Separate standalone wrappers preserve scoped replay. No new credit. |
-| Lose update, particles and banners | `src/main/player/lose.cpp` | Three functions / 487 bytes. The separate renderer is still unresolved. |
+| Loss update, particles, renderer and banners | `src/main/player/lose.cpp` plus bounded includes; `lose.obj` | Four functions / 664 bytes; one native record, ten literal pairs. Renderer adds one accepted function / 177 bytes; near-this and 2,068-case model pass. |
 
 All listed native scopes pass the configured unit gates. Runtime models execute
 the actual target/candidate instructions, with explicit bounded stubs for foreign
@@ -104,39 +104,37 @@ ABI and byte credit are recorded separately in the ledgers.
    all three still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-3. MAIN links the Kana/collision/HUD/Marisa/Kotohime sequence after `tr_ctx`,
-   then `ex_rfly`, `ex_reup`, Reimu charge/bomb, intro and Mima charge/extra/boss.
-   Shared flight (215 bytes) and the Reimu prefix (610 bytes) now compile into one
-   natural 825-byte TC4 record. Descending FIXUPP order emits prefix relocations
-   before flight relocations; update/render is a separate 331-byte record.
-   Ten functions / 1,156 existing bytes, eighteen literal pairs, two MAP allocations
-   and twenty public-table entries are checked, with no private DATA/BSS or new
-   function credit. All bodies live in bounded includes with one shared entity
-   declaration. Standalone scoped replay variants use the same bodies; the live
-   response selects only the two grouped producers. See
-   `config/main_work/reimu_order_observation.json`.
-   The next mismatch is record **780**, loaded site `0x159AA`, in `hitbox` /
-   HITBOX_TEXT. Native OMF shows hitbox has one 266-byte HITBOX contribution, while
-   the Mima bomb has only 833 BULLET bytes and target records 1296..1308. Try
-   early-linking hitbox alone after the Mima boss; keep the bomb late. Earlier
-   same-segment conflict reasoning was disproved by these native allocations.
-   `state` and `shotroot` also retain interleaved runs.
-4. The root has no initialized HITCIRC CODE. Its prior nine procedures / 958 bytes
-   live in graphics reference context, accepted executable chaining and accepted
-   transitions. The zero-length root declaration is now BYTE/PUBLIC/USE16:
-   a trailing WORD declaration rounds up the odd collision-circle end and moves
-   later segments. The earlier real scaffold retains the WORD-aligned segment
-   start. Native OMF size/attributes and its literal MAP contribution are checked;
-   a checksum-valid WORD mutation is rejected. The carrier parser omits empty CODE.
-   Moving the whole root can still change PLAYER_M placement. Library prefix/body
-   and all 17 SHARED objects retain their physical contributions.
-5. Other open issues: renderer emits 175 instead of 177 bytes (target saves SI
-   and DI); state/shot relocation interleaving; the two alignment bytes; MZ
-   header/order and the complete four-product source graph. Combining state and
-   shot into a simple multi-section TU preserved bytes but failed literal order.
-   Ordinary TASM, QUIRKS and MASM51 alignment controls still emitted `00`.
-   `scripts/probe_th03_main_producers.py` can replay these diagnostic controls.
-   The DATA mismatch at `0x1DB05` lies between `vsync_OldMask` and `BYTE_MASK`.
+3. The loss renderer is now accepted: `player_stuff_t::lose_render()` at loaded
+   `0xC248`, all 177 bytes. A near-class Pascal member consumes the observed near
+   player word with `RET 2`; it never reads this. Explicit signed16 DI iteration
+   plus native member preservation gives the original SI/DI saves without dummy
+   register uses. Player fields retain their 128-byte layout and root storage.
+   The inferred class organization is not a claim of unique original source.
+   Update/particle/render/banner bodies form one 664-byte TC4 record, four entries
+   and ten exact literal pairs. The independent renderer model executes all 177
+   bytes over 2,068 cases and rejects eight actual mutations. It complements the
+   existing 487-byte loss model. See `config/main_work/lose_renderer_acceptance.json`.
+4. MAIN links hitbox/loss/CPU, Yumemi bomb/boss/extra, Rikako charge/extra and
+   warning after the earlier Reimu/Mima sequence. The complete loaded image is
+   unchanged. The next mismatch is record **968**, loaded site `0x15E8B`, in
+   `p_combo` / P_COMBO_TEXT. Native combo CODE parts are **491 / 40 / 103 / 344**
+   bytes in P_COMBO_TEXT / E_ENEMY_TEXT / ENEMY_PUT / E_EXPL_TEXT. Moving the whole
+   object early shifts three later physical contributions. Test splitting the
+   primary 491-byte producer from the late helpers, preserving their observed
+   near/far and MAIN_04 group calls. `eupda` owns 372 E_ENEMY bytes; `eupdb` owns
+   151 E_ENEMY and 1,009 ENEMY_PUT bytes. Avoid guessing partitions from filenames.
+5. The root has no initialized HITCIRC or PLAYER_M CODE. Its former bodies live
+   in ordinary native producers plus the unowned 216-byte graphics ASM context.
+   The zero-length HITCIRC declaration remains BYTE/PUBLIC/USE16; the earlier
+   real scaffold retains its WORD segment start. Carrier parsing omits empty
+   CODE. Root-renderer removal and unrelated carrier records are checked; all
+   library prefix/body and seventeen SHARED contributions retain their bytes.
+6. Remaining issues: combo producer partition, state/shot relocation interleaving,
+   two alignment bytes (`0xEC2D`, `0x1DB05`), MZ header/order and the complete
+   four-product source graph. A simple state/shot multi-section TU preserves bytes
+   but fails literal order. Ordinary TASM, QUIRKS and MASM51 alignment controls emit
+   `00` rather than target `90`. `scripts/probe_th03_main_producers.py` retains the
+   member/free renderer control and unresolved state/shot/alignment diagnostics.
 
 Japanese targets remain pinned in `config/targets.toml`, with
 `candidate-local-attested` provenance. Re-attest a Ghidra database before using

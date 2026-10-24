@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Replay unresolved renderer/record questions with native tools; no acceptance."""
+"""Replay the member/free renderer control and unresolved record/alignment questions; no acceptance."""
 
 import fcntl
 import hashlib
@@ -23,22 +23,18 @@ def run():
              "src/main/player/state.cpp", "src/main/player/shotroot.cpp")
     sources = {name: (ROOT / name).read_text() for name in names}
     renderer = sources[names[0]]
-    register_arg = renderer.replace("(player_stuff_t near *unused_player)",
-                                    "(register player_stuff_t near *unused_player)")
-    reference_arg = renderer.replace("(player_stuff_t near *unused_player)",
-                                     "(player_stuff_t near &unused_player)")
-    argsused = lambda text: text.replace("void near pascal player_lose_anim_render",
-                                         "#pragma argsused\nvoid near pascal player_lose_anim_render")
-    variants = dict(plain=renderer, regarg=register_arg, refarg=reference_arg, argsused=argsused(renderer),
-                    regused=argsused(register_arg),
-                    regangle=renderer.replace("unsigned char angle;", "register unsigned char angle;"),
-                    adjacent=sources[names[1]] + "\n" + renderer)
+    body_path = "src/main/player/losedraw.inl"
+    sources[body_path] = (ROOT / body_path).read_text()
+    free_body = sources[body_path].replace("void near pascal player_stuff_t::lose_render(void)",
+        "void near pascal player_lose_anim_render(player_stuff_t near *unused_player)")
+    free_source = renderer[:renderer.index('#include "src/main/player/losedraw.inl"')] + free_body
+    variants = dict(member=renderer, free=free_source)
     target_raw = read_verified_artifact(
         ROOT, find_artifact(load_target_manifest(ROOT / "config/targets.toml"), "th03-main"))
     target = parse_mz(target_raw)
     result = dict(exact_acceptance=False, target_sha256=hashlib.sha256(target_raw).hexdigest(),
                   probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), source_sha256={
-        name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in names
+        name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in sources
     }, renderer=[], state_shot={})
     checked = [WORK / n for n in ("bin/th03/main.exe", "obj/th03/main.map",
                                   "obj/th03/state.obj", "obj/th03/shotroot.obj")]
@@ -67,7 +63,7 @@ def run():
                     segment, = [s for s in segment_definitions(raw) if s["size"]]
                     code, _ = code_bytes(raw, segment["index"])
                     start, = [offset for offset, symbol in code_publics(raw, segment["index"])
-                              if "PLAYER_LOSE_ANIM_RENDER" in symbol]
+                              if "PLAYER_LOSE_ANIM_RENDER" in symbol or "lose_render" in symbol]
                     result["renderer"].append(dict(variant=name, bytes=len(code) - start,
                                                    prefix_hex=code[start:start + 6].hex()))
                 # First declarations bind native section ownership. Keep the
