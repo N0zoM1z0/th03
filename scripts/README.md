@@ -14,6 +14,7 @@ Run these from the repository root with `.venv/bin/python scripts/SCRIPT`.
 | `build_th03_mainl_work.py` | Build all 36 MAINL project objects and six CRT providers twice, use normal TLIB extraction/rebuild to preserve the 893-member library order, compare all 938 raw outputs and complete decoded/stored targets. Reference source and 887 vendor members remain unowned context. |
 | `bootstrap_jwasm.py` | Build the bounded ZUN compatible OMF emitter from the pinned public source commit; `--check` checks source/archive/executable identity and the observed version/help exit status. This does not identify the original assembler. |
 | `build_th03_zun_driver_work.py` | Build the complete maintained -4 driver twice through pinned JWasm plus the normal TLINK, check all 56 public addresses and tiny layout, compare the entire decoded payload, and reject the actual ten-byte TASM control. Outer launcher/storage and formal acceptance remain separate. |
+| `build_th03_zun_work.py` | Build the wrapper and -2/-3/-4/-5 twice, compose the actual outputs with explicit unowned -1, compare all 23 raw outputs and complete decoded/stored targets, and run bounded wrapper/transfer controls. Unowned vendor/reference context and formal acceptance remain separate. |
 | `ghidra.py ARTIFACT check` | Re-attest the headless database before using its observations. |
 | `attest_toolchain.py` | Check installed native tools and repeat execution probes; temporary probe trees are removed automatically. |
 | `verify_targets.py` | Check canonical target hashes. |

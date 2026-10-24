@@ -28,17 +28,21 @@ remain in [README.md](../README.md).
   both DIET `-B` packs equal the canonical 37,975-byte stored target. This remains
   a complete-byte build observation with explicit reference/vendor context, not
   new ownership/ABI/runtime acceptance. See `config/mainl_work/observation.json`.
-- ZUN's complete -4 sprite16 driver now matches all 4,224 decoded payload bytes.
-  Two fresh source builds reproduce raw OMF/COM/MAP; all 55 procedures / 56 public
-  addresses, WORD/USE16 segments and DGROUP order pass. A compatible JWasm OMF
-  emitter plus the existing TLINK naturally resolves TASM's ten differing bytes.
-  Only MODEL/386 declaration order, variadic macro spelling and include separators
-  change in staging; instruction/data/procedure includes stay byte-identical.
-  The original assembler is unknown. Public JWasm source and executable are
-  pinned separately in `config/th03_zun_driver_jwasm.toml`; an independent clean
-  source rebuild reproduces its executable digest. The TASM path is a fresh
-  ten-byte negative control. Full ZUN storage and formal source acceptance remain
-  open. See `config/zun_driver_work/observation.json`.
+- ZUN now has a complete live cold build: 110 source inputs plus explicit vendor
+  `MASTERS.LIB` and the -1 payload. All 23 raw OBJ/COM/MAP/composition/packed outputs
+  repeat. All five payloads and the entire 22,812-byte decoded launcher match;
+  both DIET `-B` packs equal the canonical 16,242-byte stored target. Fourteen
+  bounded wrapper cases match, and a wrong transfer address is rejected. The
+  -2 OMF resolver checks its complete 607 CODE / 783 DATA partition; -4 checks
+  all 55 procedures / 56 public addresses and WORD/USE16/DGROUP layout. Vendor
+  startup/runtime, MASTERS.LIB, -1 and forwarded headers remain unowned context;
+  formal source/behavior acceptance stays separate. See `config/zun_work/observation.json`.
+- ZUN -4 uses the separately pinned compatible JWasm OMF emitter and normal TLINK.
+  Its instruction/data/procedure includes are unchanged; staging only adapts
+  model declaration order, variadic macro spelling and include separators. The
+  original assembler remains unknown. The standalone producer and its ten-byte
+  TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
+  The complete builder compiles the driver itself without consuming that tree.
 - All 95 source objects compile in 96 serial phases. Two independent 589-file
   source trees reproduce all 97 raw OBJ/EXE/MAP outputs; all 249 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -48,11 +52,12 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,735 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 2m36s at 395 MiB peak RSS. OP's initial cold
+- Last full CI: PASS, 1,739 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 2m56s at 394 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
   native review peaked at about 534 MiB. The ZUN driver cold pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
+  The complete ZUN cold pair took 52s at 64 MiB.
 
 ## Maintained producers
 
@@ -75,15 +80,11 @@ ABI and byte credit are recorded separately in the ledgers.
 ## Resume here
 
 1. Inspect Git and run `.venv/bin/python scripts/preflight.py`.
-2. Prioritize the fresh ZUN source build, then OP/MAINL decoded owner acceptance.
-   OP and MAINL now have live cold builders; their old native receipts are no
-   longer needed for whole-file byte observations. ZUN -4 now has a complete
-   byte-matching live source producer. Rebuild wrapper/-2/-3/-5 from their
-   maintained sources, keep the -1 vendor payload explicitly unowned, compose all
-   actual fresh outputs, then reproduce stored DIET packaging. Old composition
-   scripts consume deleted retained carriers and pin the old ten-byte driver
-   failure; they are historical diagnostics, not the new builder's backend.
-   Keep storage equality, source ownership and accepted ledger credit separate.
+2. OP, MAINL and ZUN now have live complete-byte cold builders, including stored
+   packaging. Promote decoded/source ownership only through fresh scoped gates;
+   all three still have explicit unowned reference/vendor context. Their old
+   retained-carrier replay scripts are historical diagnostics, not current build
+   inputs. Keep storage equality, ownership and accepted ledger credit separate.
 3. For MAIN whole-link work, investigate global relocation record **394**
    (zero-based), loaded site `0x185A6`
    in `chiyuri_bomb`. Mapping the canonical vector through the current MAP gives
@@ -116,6 +117,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/build_th03_mainl_work.py
 .venv/bin/python scripts/bootstrap_jwasm.py --check
 .venv/bin/python scripts/build_th03_zun_driver_work.py
+.venv/bin/python scripts/build_th03_zun_work.py
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/ci.py
 git diff --check
@@ -134,13 +136,15 @@ as described in [RE_WORKFLOW.md](RE_WORKFLOW.md).
 - Current MAINL tree: `.analysis/toolchain/wineprefix/drive_c/TH03ML` (about
   18 MiB). It retains one source/build tree, including the explicitly unowned
   vendor extraction; both cold rounds are recreated from source.
-- Current ZUN driver tree: `.analysis/toolchain/wineprefix/drive_c/TH03ZSP`.
+- Current ZUN tree: `.analysis/toolchain/wineprefix/drive_c/TH03ZUN`. The standalone
+  -4 command recreates a separate `TH03ZSP` tree when needed; that duplicate is
+  disposable after the whole-product cold build verifies the same outputs.
   `bootstrap_jwasm.py` materializes the pinned compatible emitter when absent;
   the driver builder checks its source/binary identity before and after use.
   JWasm remains private under `.analysis/toolchain/extra/jwasm`; base Borland
   tool identities and the canonical Japanese targets are unchanged.
 - Current reports: `.analysis/work/main-build.json`, `main-unit-review.json`,
-  `op-build.json`, `mainl-build.json`, `zun-driver-build.json` and `ci.log`.
+  `op-build.json`, `mainl-build.json`, `zun-build.json`, `zun-driver-build.json` and `ci.log`.
 - Keep the targets, installed tools, local Wine prefix, runtime image and Ghidra
   databases. `.analysis` is about 1.3 GiB, mostly the Wine runtime itself.
 - Old runs, probes, logs and caches are disposable even if historical evidence

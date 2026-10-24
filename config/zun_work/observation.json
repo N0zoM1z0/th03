@@ -1,0 +1,325 @@
+{
+  "schema": "th03-zun-current-cold-observation-v1",
+  "observed_utc": "2026-10-24T05:48:10.382898Z",
+  "command": ".venv/bin/python -B scripts/build_th03_zun_work.py",
+  "provenance": "candidate-local-attested",
+  "source_files": 110,
+  "vendor_inputs": [
+    {
+      "path": "bin/masters.lib",
+      "bytes": 273721,
+      "sha256": "6be41dbcfcf4504977165ccc44443525a29a01f85a1580e6ad0c620bf802faf6",
+      "ownership": "unowned vendor library"
+    },
+    {
+      "path": "libs/kaja/ongchk.com",
+      "bytes": 926,
+      "sha256": "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0",
+      "ownership": "unowned -1 vendor payload"
+    }
+  ],
+  "source_inventory_sha256": "c5d0aef91178b227ed8d5522b47a41d31cce96eee0c028cefd07bdd147d63540",
+  "maintained_inputs": {
+    "compat/rec98/libs/master.lib/master.hpp": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+    "compat/rec98/libs/master.lib/pc98_gfx.hpp": "4c2e88288d6143efea4dd835b9966423ddb154959596de52f897a65701ac39a4",
+    "compat/rec98/platform/x86real/pc98/egc.hpp": "eb8062816311e86cab1fbe4e7bdd2108d47f37689f834d37d25db043b70f0ffc",
+    "compat/rec98/platform/x86real/pc98/page.hpp": "b2527e4419d12b4665f2a2eea0e36b94644c44dd40d787ffd4e31c47a4d79b88",
+    "compat/rec98/th01/hardware/grcg.hpp": "b1f8216ec026ae03f7e384d1d9a01702343724fe42157d28c2f1c58ea6182060",
+    "compat/rec98/th01/math/polar.hpp": "0878c308b919dc9bd39c788a267200294a6f54feb2936527dfd7a2530854adcf",
+    "compat/rec98/th01/rank.h": "d29726bc2cabd976a0fd55f2ddd18a9bb0603ed64fb1792f04daf2ea6e614d80",
+    "compat/rec98/th02/snd/snd.h": "3a19e42a01b74089c5420729316bcb4c3bd5b135a8ceb5b12ec50e3ba96a2f4f",
+    "compat/rec98/th03/common.h": "0960e997cd75fafc79df7b8626ebd71eaf90023215f5f90d66ebd0f5c15cb349",
+    "compat/rec98/th03/formats/cfg.hpp": "b4b5c7bc507289b4ca7721b013d1c6e7f00c2d46331bb72e1694640263120487",
+    "compat/rec98/th03/resident.hpp": "a0b051bae0d91f8d2c557e1832d33eb5c46cbef89a8c8f4eda63964893402e76",
+    "src/zun/cfg_init.inl": "545f362bbc26b60c9b80f778913061a48b1587902918c316cfab10a156176d73",
+    "src/zun/driver.asm": "895751c4e7398a581f10c03ced0462fc1cc404b7fdda4a459cdc4eafc2e56c85",
+    "src/zun/driver_command.inl": "9a49039df84a1c4bde277687b1a35dfd5a9f558a4cd20ff4c46a870b1fa593fc",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "src/zun/driver_format.inl": "1ee883086ae9045f451e57d9da5ff74ccf6f25980d8228bed2885087cfb94d5e",
+    "src/zun/driver_graphics.inl": "173dbbb12f3d8e2eb25f417acf5ef194551eff4296592878e5cb15104e271ebc",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
+    "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
+    "src/zun/driver_resident.inl": "258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa",
+    "src/zun/driver_services.inl": "d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/init.asm": "078525c35dfa4b499feb661980733964e16fa5654e8403ee55b0de221e828dc2",
+    "src/zun/launcher.asm": "edea80bed915491d6eb11bccca1eed83966a5d8fd84cbd746d7d4ce272bd02bd",
+    "src/zun/res_init.inl": "7f472d088a1890409960a4669019c97b049e8ff908ee9aa7f368836516d4820e",
+    "src/zun/res_yume.cpp": "3f11fcedf4e80c5ebb97ce24f9e96c15366588b7c3de6ce0b9915cdb6347760a",
+    "src/zun/transfer_call.asm": "7b4634cbede7e9e19658f441eeecd108eecc2eea9b4d6e81815a758080bbeda9",
+    "src/zun/transfer_helper.asm": "d8e15f5d983e899d363b16c87a40ef4dbcc693c7f73e38cf330ecf3ae1369c8a",
+    "src/zun/zunsoft.cpp": "5581a849a98d328e99c61abca772a3277f08cafd3e537ed1ed3a9b80728d8057"
+  },
+  "source_materializations": 2,
+  "raw_outputs_per_round": 23,
+  "raw_repeat_equal": true,
+  "outputs": {
+    "bin/th01/zunsoft.com": {
+      "bytes": 10096,
+      "sha256": "beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297"
+    },
+    "bin/th03/res_yume.com": {
+      "bytes": 5618,
+      "sha256": "cfe11aff09ae2bb92e6775c3d0aead8ae610e6bc2ad7e0551ec9f42e838734b8"
+    },
+    "driver/driver.com": {
+      "bytes": 4224,
+      "sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb"
+    },
+    "driver/driver.map": {
+      "bytes": 5085,
+      "sha256": "00543d5b843008c6dc0ad97c17c4216a0cd712c60b7e9db89ffffb69b38e5a00"
+    },
+    "driver/driver.obj": {
+      "bytes": 6608,
+      "sha256": "7a65b30e4f48f60333467c389ab16bbbec35c4b10816ce15979b78060b251560"
+    },
+    "init/init.com": {
+      "bytes": 1390,
+      "sha256": "27fe52738878c1fa267c5dc82b0d70957d72dca5a6da375620a74d163b61e2d8"
+    },
+    "init/init.map": {
+      "bytes": 471,
+      "sha256": "6b12c3fecef92577e45a85934c020ec1d7121b69308edbc337d13a0b92c5a69d"
+    },
+    "init/init.obj": {
+      "bytes": 1841,
+      "sha256": "9848b3a72545e5600989e9ff65ded2af6d7f53ad01c0858cbd70bfa361f30cd4"
+    },
+    "obj/th01/zunsoft.map": {
+      "bytes": 28657,
+      "sha256": "882ac7e3fba775f9225aa55adc276e17604620fa2e7608ae7cc18aa9081bc3ed"
+    },
+    "obj/th01/zunsoft.obj": {
+      "bytes": 4133,
+      "sha256": "845de18164def1d384eadc59be287a22ca47b99a6d4d989c0dfa407c094a08a5"
+    },
+    "obj/th03/res_yume.map": {
+      "bytes": 15282,
+      "sha256": "942b5dc331b3ce2121717c665f7977e4d3d92995bffe06baab9fdf190a6be702"
+    },
+    "obj/th03/res_yume.obj": {
+      "bytes": 2392,
+      "sha256": "60fa42bc7e386d41cc251c0dd42dfe0ddc1d5edc7448d486c157acce58ef5422"
+    },
+    "product/zun.com": {
+      "bytes": 22812,
+      "sha256": "83b034a59fabfd0c4dd48e44a4be5287ac1ea6ea0c0e9677311071113eff9e26"
+    },
+    "product/zun.packed.com": {
+      "bytes": 16242,
+      "sha256": "5896bbd673aeb10f0df9c1e34716c64fda83655a788ae1ac0fcf58e3616add27"
+    },
+    "wrapper/call.com": {
+      "bytes": 3,
+      "sha256": "1968063f17c632fd4e81aa22eb72c942a29b5579594c85be1a99df073dc652eb"
+    },
+    "wrapper/call.map": {
+      "bytes": 330,
+      "sha256": "790ec7b93f6f5741e334161e78c653b9c1901907348b0cc524abddf7c2743fc1"
+    },
+    "wrapper/call.obj": {
+      "bytes": 181,
+      "sha256": "857ac31bdc80be3bcd43cf93bda9d0de49865e62f961c3539bca7cb2c91561f6"
+    },
+    "wrapper/helper.com": {
+      "bytes": 8,
+      "sha256": "a580939da3b518b3001c1a4ff48fd9860511eddc239d702c6e13e41ac9125b00"
+    },
+    "wrapper/helper.map": {
+      "bytes": 330,
+      "sha256": "5cbaa77d69f022e0dff42e0981c8893f53ebf17c52100b182df5eb3e21b710ed"
+    },
+    "wrapper/helper.obj": {
+      "bytes": 190,
+      "sha256": "ccc06700895e3364b851c52d2c46c2c11eba6d6fa45a3ed4cbfa2b48347a0e15"
+    },
+    "wrapper/stub.com": {
+      "bytes": 223,
+      "sha256": "cda3d3f38031f14988d236cc6725109d2f162e65224509101ca55c6dcb05fcfc"
+    },
+    "wrapper/stub.map": {
+      "bytes": 330,
+      "sha256": "a5d61c1705b3acdd274f8741dc46601ba1287b3aa9dd031d15e2fb47c7268338"
+    },
+    "wrapper/stub.obj": {
+      "bytes": 450,
+      "sha256": "acecced514badb4c136badf99d25bc017a7bef47e2755e24f6843dfda3c97368"
+    }
+  },
+  "comparison": {
+    "decoded_equal": true,
+    "stored_equal": true,
+    "decoded_bytes": 22812,
+    "stored_bytes": 16242,
+    "payloads": [
+      {
+        "name": "-1",
+        "target_bytes": 926,
+        "candidate_bytes": 926,
+        "target_sha256": "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0",
+        "candidate_sha256": "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0",
+        "raw_equal": true
+      },
+      {
+        "name": "-2",
+        "target_bytes": 1390,
+        "candidate_bytes": 1390,
+        "target_sha256": "27fe52738878c1fa267c5dc82b0d70957d72dca5a6da375620a74d163b61e2d8",
+        "candidate_sha256": "27fe52738878c1fa267c5dc82b0d70957d72dca5a6da375620a74d163b61e2d8",
+        "raw_equal": true
+      },
+      {
+        "name": "-3",
+        "target_bytes": 10096,
+        "candidate_bytes": 10096,
+        "target_sha256": "beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297",
+        "candidate_sha256": "beeb86dc055c585a32f4500c9eabb2e6cb1e0537bcdbc5f3763ebefa4308e297",
+        "raw_equal": true
+      },
+      {
+        "name": "-4",
+        "target_bytes": 4224,
+        "candidate_bytes": 4224,
+        "target_sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb",
+        "candidate_sha256": "9122344545f977ee0be7e3326814518a8ec1d3b670bd848d7deef459054594cb",
+        "raw_equal": true
+      },
+      {
+        "name": "-5",
+        "target_bytes": 5618,
+        "candidate_bytes": 5618,
+        "target_sha256": "cfe11aff09ae2bb92e6775c3d0aead8ae610e6bc2ad7e0551ec9f42e838734b8",
+        "candidate_sha256": "cfe11aff09ae2bb92e6775c3d0aead8ae610e6bc2ad7e0551ec9f42e838734b8",
+        "raw_equal": true
+      }
+    ],
+    "decoded_sha256": "83b034a59fabfd0c4dd48e44a4be5287ac1ea6ea0c0e9677311071113eff9e26",
+    "stored_sha256": "5896bbd673aeb10f0df9c1e34716c64fda83655a788ae1ac0fcf58e3616add27"
+  },
+  "emitter": {
+    "profile": "config/th03_zun_driver_jwasm.toml",
+    "profile_sha256": "d85f241a771b4eeda669d4d67398352432978064f043e3b843fd68c7691c11c2",
+    "source_revision": "a5c4ea03cc0545a15d81a354251b5f534bef7a1b",
+    "source_archive_sha256": "771e226d90c06aab0a2069380166fbb7ef5cf6ac8b268b1f06247d17b0263fb5",
+    "binary_sha256": "b85f1fc2b91476b1f7e88e9359888054c3871094da2fa5930e183ec1c7c9c333",
+    "version": "JWasm v2.12pre, Jan 10 2025, Masm-compatible assembler.",
+    "original_assembler_identified": false
+  },
+  "init_review": {
+    "procedure_count": 9,
+    "code_bytes": 607,
+    "data_bytes": 783,
+    "complete_partition": true,
+    "object_resolution_equal": true
+  },
+  "driver_layout": {
+    "segments": [
+      {
+        "name": "_TEXT",
+        "cls": "CODE",
+        "size": 4480
+      },
+      {
+        "name": "_DATA",
+        "cls": "DATA",
+        "size": 0
+      }
+    ],
+    "groups": [
+      {
+        "name": "DGROUP",
+        "members": [
+          1,
+          2
+        ]
+      }
+    ],
+    "publics": {
+      "start": 256,
+      "sprite16_entry": 268,
+      "sprite16_allocate_buffers": 412,
+      "sprite16_set_interrupt_argument": 471,
+      "sprite16_mask_test_command": 478,
+      "sprite16_draw_command": 513,
+      "sprite16_interrupt_dispatch": 554,
+      "sprite16_install": 579,
+      "sprite16_uninstall": 685,
+      "sprite16_set_mono_enabled": 832,
+      "sprite16_set_mono_color": 838,
+      "sprite16_set_overlap": 844,
+      "sprite16_set_access_plane": 850,
+      "sprite16_set_rop": 856,
+      "sprite16_set_mask": 862,
+      "sprite16_draw_clipped": 868,
+      "sprite16_blit_egc": 1026,
+      "sprite16_copy_rows": 1272,
+      "sprite16_prepare_vram": 1312,
+      "sprite16_build_mask": 1344,
+      "sprite16_accumulate_plane": 1424,
+      "sprite16_copy_lower_page": 1444,
+      "sprite16_compress_rows": 1488,
+      "sprite16_copy_upper_to_lower": 1527,
+      "sprite16_clear_upper": 1552,
+      "sprite16_format_print": 1600,
+      "sprite16_print_string": 1632,
+      "sprite16_print_stack_string": 1654,
+      "sprite16_is_decimal_digit": 1673,
+      "sprite16_is_ascii_lower": 1684,
+      "sprite16_ascii_upper": 1693,
+      "sprite16_format_into": 1712,
+      "sprite16_pad_zeroes": 2173,
+      "sprite16_pad_spaces": 2179,
+      "sprite16_pad_field": 2185,
+      "sprite16_append_string": 2199,
+      "sprite16_format_unsigned": 2207,
+      "sprite16_reverse_string": 2284,
+      "sprite16_tokenize_command": 2336,
+      "sprite16_skip_separators": 2434,
+      "sprite16_find_token_end": 2457,
+      "sprite16_find_quote_end": 2485,
+      "sprite16_require_argument": 2509,
+      "sprite16_optional_argument": 2543,
+      "sprite16_require_number": 2570,
+      "sprite16_optional_number_legacy": 2596,
+      "sprite16_dispatch_options": 2614,
+      "sprite16_parse_number": 2704,
+      "sprite16_parse_decimal": 2821,
+      "sprite16_parse_hex": 2891,
+      "sprite16_parse_binary": 2933,
+      "sprite16_parse_switch": 2978,
+      "sprite16_egc_begin": 3024,
+      "sprite16_egc_end": 3088,
+      "sprite16_string_length": 3136,
+      "sprite16_string_equal_folded": 3154
+    },
+    "use16": true,
+    "word_alignment": true,
+    "omf_records": 29,
+    "map_public_tables": 2
+  },
+  "wrapper_runtime": {
+    "cases_per_image": 7,
+    "total_cases": 14,
+    "rows_equal": true,
+    "scope": "bounded stubs; stop before payload execution"
+  },
+  "wrong_transfer_entry_rejected": true,
+  "same_tool_roundtrip": true,
+  "ownership_acceptance": false,
+  "canonical_unit_credit_changed": false,
+  "original_assembler_identified": false,
+  "whole_game_percentage": null,
+  "unowned_context": [
+    "Frozen reference headers/macros at b6ba5b0a529edbb31efdf8c0e939263804f8ee47",
+    "Vendor MASTERS.LIB and -1 ONGCHK.COM",
+    "Borland C0T.OBJ, EMU.LIB, MATHS.LIB, CT.LIB and include declarations"
+  ],
+  "implementation_sha256": {
+    "scripts/build_th03_zun_work.py": "ee36f974ee0914f545db63e918dc6f4ef2112c9f2048ce19c6ec1a84722bf06e",
+    "scripts/lib/zun_work_source.py": "06672c674d5d9461e1ff25e5402ed9ef5282b38ba66e8d273bf87b31f7a68aa9",
+    "config/th03_zun_work.toml": "4a32e3d0317a8284a2b48f501810d1d500646cd39ce9b7b6324c80f6c66deeed",
+    "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
+    "scripts/lib/zun_driver_layout.py": "f8659c81f28e6398b4a1df61e300aaf1269e3a1715c6823562fca42f20ee3ad3"
+  }
+}
