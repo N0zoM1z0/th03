@@ -587,7 +587,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
             if product.get("current_cold_source_scopes"):
-                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded source: 4 functions / 210 B · canonical exact 0 · product acceptance open</text>')
+                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded source: 13 functions / 577 B · canonical exact 0 · product acceptance open</text>')
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>')
             elif mainl_pi_composed(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>')
@@ -750,8 +750,8 @@ def main() -> int:
     from status import mainl_product_status
     mainl_status = mainl_product_status(ROOT, units)
     if mainl_status.get("current_cold_source_scopes"):
-        lines.extend(["MAINL current decoded source acceptance: 4 functions / 210 bytes. "
-                      "Current native ownership/ABI, two source-only cold builds and 4,800 guest cases per image pass. "
+        lines.extend(["MAINL current decoded source acceptance: 13 functions / 577 bytes. "
+                      "Current native ownership/ABI, two source-only cold builds, 4,800 lifecycle and 2,218 shared input guest cases per image pass. "
                       "Canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
     from status import zun_product_status
     zun_status = zun_product_status(ROOT, units)

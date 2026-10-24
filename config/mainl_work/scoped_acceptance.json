@@ -1,14 +1,17 @@
 {
   "schema": "mainl-current-source-acceptance-v1",
   "state": "repository-local-accepted",
-  "observed_utc": "2026-10-24T15:42:07.752963Z",
+  "observed_utc": "2026-10-24T16:22:15.149359Z",
   "proof_inputs": {
-    "scripts/lib/decoded_mainl_acceptance.py": "4c5c9324a2c83c3a16ce18a1c76cc281ba62c275df8c7e5ae97067ffdb41adcd",
+    "scripts/lib/decoded_mainl_acceptance.py": "901117691cb55cc1191ac66ba19e3caae4042d343a5b821e9ba408b0a37e2d4e",
     "scripts/publish_th03_mainl_work_scopes.py": "a589bce4d563b28af26c5b9db95b31bb1efaf30aaa8bec2837515b0b7df738d5",
-    "scripts/lib/op_work_acceptance.py": "57a6bb3690684491cf50fb18786819f8065d3ddc43cc8c36c924d6d0e27c803e",
+    "scripts/lib/op_work_acceptance.py": "5973d803ddff62f055f1280270d78766c2a10553feecad79113fbcd04d25d5e2",
     "scripts/status.py": "419e2f4442cf1581256aeb5070ed3e700214929a6359c3cacbd581349910bc39",
     "scripts/validate_tracking.py": "0499eb4105f5f9437839e8333e419c435ff7a07cf4555a0a542d564aeef807a9",
-    "config/oracles.toml": "332b7bfea9b8da21de525166a4f7ca5a3878db0d7ee796a92944f367ced63b6f"
+    "config/oracles.toml": "332b7bfea9b8da21de525166a4f7ca5a3878db0d7ee796a92944f367ced63b6f",
+    "scripts/review_th03_shared_input_work.py": "a1892de912ced474ced2affb2bdd46b2b70d060fa239756f69241ef2abeae0d6",
+    "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a"
   },
   "audit": {
     "cold_report_sha256": "53463d1efbf2224be9e2fd0dd7c0cd37bba30a3eba2cccb0e20b38ec286ff0f3",
@@ -232,6 +235,198 @@
           "argument_bytes": 0,
           "callee_pop_bytes": 0,
           "private_data_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-interface",
+          "name": "input_mode_interface",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3522,
+          "start": 54690,
+          "size": 36,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
+          "candidate_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
+          "ordered_relocations": [
+            [
+              3198,
+              3540
+            ]
+          ],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-key-key",
+          "name": "input_mode_key_vs_key",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3558,
+          "start": 54726,
+          "size": 10,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
+          "candidate_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
+          "ordered_relocations": [],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-joy-key",
+          "name": "input_mode_joy_vs_key",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3568,
+          "start": 54736,
+          "size": 34,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
+          "candidate_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
+          "ordered_relocations": [
+            [
+              3198,
+              3586
+            ]
+          ],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-key-joy",
+          "name": "input_mode_key_vs_joy",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3602,
+          "start": 54770,
+          "size": 34,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
+          "candidate_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
+          "ordered_relocations": [
+            [
+              3198,
+              3620
+            ]
+          ],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-one-cpu",
+          "name": "input_mode_1p_vs_cpu",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3636,
+          "start": 54804,
+          "size": 42,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
+          "candidate_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
+          "ordered_relocations": [
+            [
+              3198,
+              3661
+            ]
+          ],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-cpu-one",
+          "name": "input_mode_cpu_vs_1p",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3678,
+          "start": 54846,
+          "size": 45,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
+          "candidate_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
+          "ordered_relocations": [
+            [
+              3198,
+              3706
+            ]
+          ],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+          "name": "input_mode_cpu_vs_cpu",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3723,
+          "start": 54891,
+          "size": 42,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
+          "candidate_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
+          "ordered_relocations": [],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-attract",
+          "name": "input_mode_attract",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3765,
+          "start": 54933,
+          "size": 48,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
+          "candidate_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
+          "ordered_relocations": [
+            [
+              3198,
+              3783
+            ]
+          ],
+          "abi": "far Pascal; no arguments; RETF",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
+        },
+        {
+          "unit_id": "th03-mainl-decoded-input-change",
+          "name": "input_wait_for_change",
+          "source": "src/shared/hardware/input_modes.cpp",
+          "object": "obj/th03/inp_m_w.obj",
+          "segment": 3198,
+          "offset": 3813,
+          "start": 54981,
+          "size": 76,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
+          "candidate_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
+          "ordered_relocations": [],
+          "abi": "far Pascal; RETF 2",
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0
         }
       ],
       "runtime": {
@@ -266,6 +461,603 @@
           "return-to-MAIN far return",
           "callee save"
         ]
+      },
+      "input_modes": {
+        "cold_report_sha256": "53463d1efbf2224be9e2fd0dd7c0cd37bba30a3eba2cccb0e20b38ec286ff0f3",
+        "source_inventory_sha256": "d913a54e6b01820e0066b7f9124a3996754506a4f7ce75975746a65af586800a",
+        "layout": {
+          "owners": [
+            {
+              "unit_id": "th03-mainl-decoded-input-interface",
+              "name": "input_mode_interface",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3522,
+              "start": 54690,
+              "size": 36,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
+              "candidate_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
+              "ordered_relocations": [
+                [
+                  3198,
+                  3540
+                ]
+              ],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-key-key",
+              "name": "input_mode_key_vs_key",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3558,
+              "start": 54726,
+              "size": 10,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
+              "candidate_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
+              "ordered_relocations": [],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-joy-key",
+              "name": "input_mode_joy_vs_key",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3568,
+              "start": 54736,
+              "size": 34,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
+              "candidate_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
+              "ordered_relocations": [
+                [
+                  3198,
+                  3586
+                ]
+              ],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-key-joy",
+              "name": "input_mode_key_vs_joy",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3602,
+              "start": 54770,
+              "size": 34,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
+              "candidate_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
+              "ordered_relocations": [
+                [
+                  3198,
+                  3620
+                ]
+              ],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-one-cpu",
+              "name": "input_mode_1p_vs_cpu",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3636,
+              "start": 54804,
+              "size": 42,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
+              "candidate_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
+              "ordered_relocations": [
+                [
+                  3198,
+                  3661
+                ]
+              ],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-cpu-one",
+              "name": "input_mode_cpu_vs_1p",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3678,
+              "start": 54846,
+              "size": 45,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
+              "candidate_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
+              "ordered_relocations": [
+                [
+                  3198,
+                  3706
+                ]
+              ],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+              "name": "input_mode_cpu_vs_cpu",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3723,
+              "start": 54891,
+              "size": 42,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
+              "candidate_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
+              "ordered_relocations": [],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-attract",
+              "name": "input_mode_attract",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3765,
+              "start": 54933,
+              "size": 48,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
+              "candidate_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
+              "ordered_relocations": [
+                [
+                  3198,
+                  3783
+                ]
+              ],
+              "abi": "far Pascal; no arguments; RETF",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            },
+            {
+              "unit_id": "th03-mainl-decoded-input-change",
+              "name": "input_wait_for_change",
+              "source": "src/shared/hardware/input_modes.cpp",
+              "object": "obj/th03/inp_m_w.obj",
+              "segment": 3198,
+              "offset": 3813,
+              "start": 54981,
+              "size": 76,
+              "coordinate_space": "decoded-load",
+              "canonical_file_offset": null,
+              "target_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
+              "candidate_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
+              "ordered_relocations": [],
+              "abi": "far Pascal; RETF 2",
+              "private_data_bytes": 0,
+              "private_bss_bytes": 0
+            }
+          ],
+          "functions": 9,
+          "code_bytes": 367,
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0,
+          "ordered_native_fields": [
+            {
+              "offset": 345,
+              "width": 4,
+              "external": "@FRAME_DELAY$QI"
+            },
+            {
+              "offset": 336,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 315,
+              "width": 4,
+              "external": "@FRAME_DELAY$QI"
+            },
+            {
+              "offset": 307,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 285,
+              "width": 2,
+              "external": "_input_mp_p2"
+            },
+            {
+              "offset": 279,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 275,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 271,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 268,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 264,
+              "width": 2,
+              "external": "_js_stat"
+            },
+            {
+              "offset": 259,
+              "width": 4,
+              "external": "JS_SENSE"
+            },
+            {
+              "offset": 253,
+              "width": 2,
+              "external": "_js_bexist"
+            },
+            {
+              "offset": 247,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            },
+            {
+              "offset": 237,
+              "width": 2,
+              "external": "_input_mp_p2"
+            },
+            {
+              "offset": 231,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 225,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 218,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 211,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 205,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            },
+            {
+              "offset": 195,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 191,
+              "width": 2,
+              "external": "_input_mp_p2"
+            },
+            {
+              "offset": 187,
+              "width": 2,
+              "external": "_js_stat"
+            },
+            {
+              "offset": 182,
+              "width": 4,
+              "external": "JS_SENSE"
+            },
+            {
+              "offset": 176,
+              "width": 2,
+              "external": "_js_bexist"
+            },
+            {
+              "offset": 172,
+              "width": 2,
+              "external": "_input_mp_p2"
+            },
+            {
+              "offset": 169,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 165,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 160,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            },
+            {
+              "offset": 150,
+              "width": 2,
+              "external": "_input_mp_p2"
+            },
+            {
+              "offset": 146,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 142,
+              "width": 2,
+              "external": "_js_stat"
+            },
+            {
+              "offset": 137,
+              "width": 4,
+              "external": "JS_SENSE"
+            },
+            {
+              "offset": 131,
+              "width": 2,
+              "external": "_js_bexist"
+            },
+            {
+              "offset": 127,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 123,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 118,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            },
+            {
+              "offset": 110,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 107,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 104,
+              "width": 2,
+              "external": "_input_mp_p2"
+            },
+            {
+              "offset": 101,
+              "width": 2,
+              "external": "_js_stat"
+            },
+            {
+              "offset": 96,
+              "width": 4,
+              "external": "JS_SENSE"
+            },
+            {
+              "offset": 90,
+              "width": 2,
+              "external": "_js_bexist"
+            },
+            {
+              "offset": 84,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            },
+            {
+              "offset": 76,
+              "width": 2,
+              "external": "_input_mp_p2"
+            },
+            {
+              "offset": 73,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 70,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 67,
+              "width": 2,
+              "external": "_js_stat"
+            },
+            {
+              "offset": 62,
+              "width": 4,
+              "external": "JS_SENSE"
+            },
+            {
+              "offset": 56,
+              "width": 2,
+              "external": "_js_bexist"
+            },
+            {
+              "offset": 50,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            },
+            {
+              "offset": 40,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            },
+            {
+              "offset": 32,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 28,
+              "width": 2,
+              "external": "_input_mp_p1"
+            },
+            {
+              "offset": 25,
+              "width": 2,
+              "external": "_input_sp"
+            },
+            {
+              "offset": 21,
+              "width": 2,
+              "external": "_js_stat"
+            },
+            {
+              "offset": 16,
+              "width": 4,
+              "external": "JS_SENSE"
+            },
+            {
+              "offset": 10,
+              "width": 2,
+              "external": "_js_bexist"
+            },
+            {
+              "offset": 4,
+              "width": 4,
+              "external": "@input_reset_sense_key_held$qv"
+            }
+          ],
+          "ordered_relocations": [
+            [
+              3198,
+              3783
+            ],
+            [
+              3198,
+              3706
+            ],
+            [
+              3198,
+              3661
+            ],
+            [
+              3198,
+              3620
+            ],
+            [
+              3198,
+              3586
+            ],
+            [
+              3198,
+              3540
+            ]
+          ],
+          "normal_tlink_relaxed_calls": [
+            344,
+            314,
+            246,
+            204,
+            159,
+            117,
+            83,
+            49,
+            39,
+            3
+          ],
+          "native_ownership_reviewed": true,
+          "acceptance_requires_current_publication": true,
+          "whole_product_accepted": false
+        },
+        "runtime": {
+          "profile": "mainl",
+          "images": 2,
+          "functions": 9,
+          "code_bytes": 367,
+          "cases_per_image": 2218,
+          "executed_owner_bytes": 367,
+          "observations": [
+            {
+              "load_segment": 4096,
+              "cases": 1109,
+              "covered_owner_bytes": 367,
+              "maximum_observed_stack_depth": 16,
+              "maximum_sample_polls": 10003,
+              "trace_sha256": "402d14fa02bdbc319237ef25ef58d5e829e8bba97bcf7f242a73de5a36600ec5"
+            },
+            {
+              "load_segment": 12288,
+              "cases": 1109,
+              "covered_owner_bytes": 367,
+              "maximum_observed_stack_depth": 16,
+              "maximum_sample_polls": 10003,
+              "trace_sha256": "26377cc75dafd8ce908f6822662a3189b459eafd06a66e6e7bcadd00b1663d18"
+            }
+          ],
+          "exhaustive_high_input_bytes": 256,
+          "scope": "input mode policy and bounded waits; keyboard/joystick/frame services remain interfaces"
+        },
+        "negative_controls": {
+          "count": 19,
+          "rejected": [
+            "interface-merges-player1",
+            "input-word-width",
+            "absent-joystick-branch",
+            "key-mode-samples-input",
+            "joystick-player1-store",
+            "joystick-player2-store",
+            "cpu-player2-cleared",
+            "cpu-player1-cleared",
+            "cancel-input-mask",
+            "cancel-normalization",
+            "attract-player1-clear",
+            "signed-wait-limit",
+            "explicit-9999-sentinel",
+            "zero-wait-sentinel",
+            "release-before-timeout",
+            "wait-counter-increments",
+            "Pascal-argument-cleanup",
+            "frame-delay-word-one",
+            "joystick-service-target"
+          ]
+        },
+        "shared_report_sha256": "8f5692c5f7cb8892f85c2d5fabce0859e6de0cb14bbdaba13e71703d900f0e93",
+        "current_smoke": {
+          "cases_per_image": 12,
+          "images": 2,
+          "trace_sha256": "c1d96c06f49a2d69a98e819ffb1d95834805a27e84359e308d815224c89b94bf",
+          "full_runtime_reexecuted_now": false,
+          "full_runtime_witness_bound": true
+        }
       }
     },
     "product_exact": false,
@@ -286,9 +1078,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-format-integrity",
@@ -303,9 +1095,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-boundary-ownership",
@@ -320,9 +1112,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-identity",
@@ -337,9 +1129,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-toolchain-replay",
@@ -354,9 +1146,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-object-format-integrity",
@@ -371,9 +1163,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-build-determinism",
@@ -388,9 +1180,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-layout-relocations",
@@ -405,9 +1197,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-raw-bytes",
@@ -424,7 +1216,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "e2be0cb382e68c4299fc2ad2ea501393a61916f9644d1dd4d328dec5fb966a05",
         "output_sha256": "e2be0cb382e68c4299fc2ad2ea501393a61916f9644d1dd4d328dec5fb966a05",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-ledger-consistency",
@@ -439,9 +1231,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-linked-tail-planes-cold-aggregate-replay",
@@ -456,9 +1248,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       }
     },
     "th03-mainl-decoded-lifecycle-exit": {
@@ -475,9 +1267,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-format-integrity",
@@ -492,9 +1284,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-boundary-ownership",
@@ -509,9 +1301,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-identity",
@@ -526,9 +1318,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-toolchain-replay",
@@ -543,9 +1335,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-object-format-integrity",
@@ -560,9 +1352,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-build-determinism",
@@ -577,9 +1369,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-layout-relocations",
@@ -594,9 +1386,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-raw-bytes",
@@ -613,7 +1405,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "85b5b4c5e5841219bad97aeba987a5daf0116ba0dea91cde952c14fe6ba2904b",
         "output_sha256": "85b5b4c5e5841219bad97aeba987a5daf0116ba0dea91cde952c14fe6ba2904b",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-ledger-consistency",
@@ -628,9 +1420,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-cold-aggregate-replay",
@@ -645,9 +1437,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       }
     },
     "th03-mainl-decoded-lifecycle-init": {
@@ -664,9 +1456,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-format-integrity",
@@ -681,9 +1473,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-boundary-ownership",
@@ -698,9 +1490,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-identity",
@@ -715,9 +1507,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-toolchain-replay",
@@ -732,9 +1524,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-object-format-integrity",
@@ -749,9 +1541,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-build-determinism",
@@ -766,9 +1558,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-layout-relocations",
@@ -783,9 +1575,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-raw-bytes",
@@ -802,7 +1594,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "217b5b17de74f03187db829c68bf0d31587744be667ca6d01c0db20c42795f36",
         "output_sha256": "217b5b17de74f03187db829c68bf0d31587744be667ca6d01c0db20c42795f36",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-ledger-consistency",
@@ -817,9 +1609,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-init-cold-aggregate-replay",
@@ -834,9 +1626,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       }
     },
     "th03-mainl-decoded-lifecycle-exit-to-main": {
@@ -853,9 +1645,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-format-integrity",
@@ -870,9 +1662,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-boundary-ownership": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-boundary-ownership",
@@ -887,9 +1679,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-identity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-identity",
@@ -904,9 +1696,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-toolchain-replay",
@@ -921,9 +1713,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-object-format-integrity": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-object-format-integrity",
@@ -938,9 +1730,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-build-determinism": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-build-determinism",
@@ -955,9 +1747,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-layout-relocations": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-layout-relocations",
@@ -972,9 +1764,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-raw-bytes": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-raw-bytes",
@@ -991,7 +1783,7 @@
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
         "input_sha256": "c480ca89841cb3e1a82d63397be42e027d45cbfbfbb01e1c57132dd714ca1dd8",
         "output_sha256": "c480ca89841cb3e1a82d63397be42e027d45cbfbfbb01e1c57132dd714ca1dd8",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-ledger-consistency": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-ledger-consistency",
@@ -1006,9 +1798,9 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       },
       "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-aggregate-replay": {
         "id": "ev-mainl-current-th03-mainl-decoded-lifecycle-exit-to-main-cold-aggregate-replay",
@@ -1023,9 +1815,1710 @@
         "result": "pass",
         "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
         "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
-        "input_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "output_sha256": "392c88f1defc7b807ecd6c58e6390d233eab8041018fd3528b25ed175e461ebc",
-        "observed_utc": "2026-10-24T15:42:07.752963Z"
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-interface": {
+      "ev-mainl-current-th03-mainl-decoded-input-interface-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-target-identity",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-interface",
+        "extent_start": "54690",
+        "extent_size": "36",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-interface",
+        "extent_start": "54690",
+        "extent_size": "36",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-interface",
+        "extent_start": "54690",
+        "extent_size": "36",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-interface",
+        "extent_start": "54690",
+        "extent_size": "36",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-interface",
+        "extent_start": "54690",
+        "extent_size": "36",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-interface",
+        "extent_start": "54690",
+        "extent_size": "36",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
+        "output_sha256": "de53c8d691245a2adc0a8e91a40c9cff9463768c7370ff08f85bac22db8448eb",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-interface-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-interface-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-interface",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-interface",
+        "extent_start": "54690",
+        "extent_size": "36",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-key-key": {
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-target-identity",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-key",
+        "extent_start": "54726",
+        "extent_size": "10",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-key",
+        "extent_start": "54726",
+        "extent_size": "10",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-key",
+        "extent_start": "54726",
+        "extent_size": "10",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-key",
+        "extent_start": "54726",
+        "extent_size": "10",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-key",
+        "extent_start": "54726",
+        "extent_size": "10",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-key",
+        "extent_start": "54726",
+        "extent_size": "10",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
+        "output_sha256": "5c0918c5c782bd87525c4cfe94c69381a081e4dcc2d5be6c415eba97dba4a06e",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-key-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-key-key",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-key",
+        "extent_start": "54726",
+        "extent_size": "10",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-joy-key": {
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-target-identity",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-joy-key",
+        "extent_start": "54736",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-joy-key",
+        "extent_start": "54736",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-joy-key",
+        "extent_start": "54736",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-joy-key",
+        "extent_start": "54736",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-joy-key",
+        "extent_start": "54736",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-joy-key",
+        "extent_start": "54736",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
+        "output_sha256": "bf774132a7d46f40be1f6b917f10210b57f2ce9b98206d448faff2924a8d4733",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-joy-key-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-joy-key",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-joy-key",
+        "extent_start": "54736",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-key-joy": {
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-target-identity",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-joy",
+        "extent_start": "54770",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-joy",
+        "extent_start": "54770",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-joy",
+        "extent_start": "54770",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-joy",
+        "extent_start": "54770",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-joy",
+        "extent_start": "54770",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-joy",
+        "extent_start": "54770",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
+        "output_sha256": "686d525b8fb2c4f712b780af86e7693dd81e253affb08b1903641d75d01c9e0e",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-key-joy-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-key-joy",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-key-joy",
+        "extent_start": "54770",
+        "extent_size": "34",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-one-cpu": {
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-target-identity",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-one-cpu",
+        "extent_start": "54804",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-one-cpu",
+        "extent_start": "54804",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-one-cpu",
+        "extent_start": "54804",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-one-cpu",
+        "extent_start": "54804",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-one-cpu",
+        "extent_start": "54804",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-one-cpu",
+        "extent_start": "54804",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
+        "output_sha256": "09b503eaa9e19dbb464bffd462eb403eba279b4547c8696243c52cc072e047f5",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-one-cpu-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-one-cpu",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-one-cpu",
+        "extent_start": "54804",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-cpu-one": {
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-target-identity",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-one",
+        "extent_start": "54846",
+        "extent_size": "45",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-one",
+        "extent_start": "54846",
+        "extent_size": "45",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-one",
+        "extent_start": "54846",
+        "extent_size": "45",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-one",
+        "extent_start": "54846",
+        "extent_size": "45",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-one",
+        "extent_start": "54846",
+        "extent_size": "45",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-one",
+        "extent_start": "54846",
+        "extent_size": "45",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
+        "output_sha256": "93598878880a6552e8e53c9e2a86fe1f7b4208b8dded440fccb94a106c64fd6e",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-one-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-cpu-one",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-one",
+        "extent_start": "54846",
+        "extent_size": "45",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-cpu-cpu": {
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-target-identity",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+        "extent_start": "54891",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+        "extent_start": "54891",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+        "extent_start": "54891",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+        "extent_start": "54891",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+        "extent_start": "54891",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+        "extent_start": "54891",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
+        "output_sha256": "2c9138d114b5cde9c13a687b7acb8b5d14c9b22e3c445704e4e53a02420526d0",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-cpu-cpu-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-cpu-cpu",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-cpu-cpu",
+        "extent_start": "54891",
+        "extent_size": "42",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-attract": {
+      "ev-mainl-current-th03-mainl-decoded-input-attract-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-target-identity",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-attract",
+        "extent_start": "54933",
+        "extent_size": "48",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-attract",
+        "extent_start": "54933",
+        "extent_size": "48",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-attract",
+        "extent_start": "54933",
+        "extent_size": "48",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-attract",
+        "extent_start": "54933",
+        "extent_size": "48",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-attract",
+        "extent_start": "54933",
+        "extent_size": "48",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-attract",
+        "extent_start": "54933",
+        "extent_size": "48",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
+        "output_sha256": "58c4c819eadd909d2a231e3ee8ca8be04672cc44433feb5db641f615a22b2d11",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-attract-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-attract-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-attract",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-attract",
+        "extent_start": "54933",
+        "extent_size": "48",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      }
+    },
+    "th03-mainl-decoded-input-change": {
+      "ev-mainl-current-th03-mainl-decoded-input-change-target-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-target-identity",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "target-identity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-boundary-ownership": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-boundary-ownership",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "boundary-ownership",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-change",
+        "extent_start": "54981",
+        "extent_size": "76",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "target-analysis",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-identity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-identity",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "toolchain-identity",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-toolchain-replay",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "toolchain-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-change",
+        "extent_start": "54981",
+        "extent_size": "76",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-object-format-integrity": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-object-format-integrity",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "object-format-integrity",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-change",
+        "extent_start": "54981",
+        "extent_size": "76",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "compiler",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-cold-build-determinism": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-cold-build-determinism",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "cold-build-determinism",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-change",
+        "extent_start": "54981",
+        "extent_size": "76",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-layout-relocations": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-layout-relocations",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "layout-relocations",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-change",
+        "extent_start": "54981",
+        "extent_size": "76",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "linker",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-raw-bytes": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-raw-bytes",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "raw-bytes",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-change",
+        "extent_start": "54981",
+        "extent_size": "76",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "binary",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
+        "output_sha256": "5df2aeb583d92e61b538702145e8051a2826063f0d27719de7aeb495a58f2db3",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-ledger-consistency": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-ledger-consistency",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "ledger-consistency",
+        "artifact": "",
+        "unit_id": "",
+        "extent_start": "",
+        "extent_size": "",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "control-plane",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
+      },
+      "ev-mainl-current-th03-mainl-decoded-input-change-cold-aggregate-replay": {
+        "id": "ev-mainl-current-th03-mainl-decoded-input-change-cold-aggregate-replay",
+        "claim_id": "th03-mainl-decoded-input-change",
+        "oracle": "cold-aggregate-replay",
+        "artifact": "th03-mainl",
+        "unit_id": "th03-mainl-decoded-input-change",
+        "extent_start": "54981",
+        "extent_size": "76",
+        "location": "config/mainl_work/scoped_acceptance.json",
+        "evidence_class": "reproducibility",
+        "result": "pass",
+        "tool": "current source-only MAINL cold pair and independent native owner/runtime audit",
+        "command": ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py",
+        "input_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "output_sha256": "c048a673c22e7c17173160a981aac9aa1e97aa3379a10e0955ed8701b89774b4",
+        "observed_utc": "2026-10-24T16:22:15.149359Z"
       }
     }
   }

@@ -1,6 +1,6 @@
 {
   "schema": "th03-mainl-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T11:35:46.725602Z",
+  "observed_utc": "2026-10-24T16:22:08.776934Z",
   "command": ".venv/bin/python -B scripts/build_th03_mainl_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 1912,
@@ -241,25 +241,38 @@
     "Vendor C0L.OBJ, EMU.LIB, MATHL.LIB and 887 unchanged CL.LIB members"
   ],
   "implementation_sha256": {
-    "scripts/build_th03_mainl_work.py": "5ecca939417ac84d5af230f68b406ac3464084819463268a440bac51b55c3c6b",
+    "scripts/build_th03_mainl_work.py": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
     "scripts/lib/borland_library.py": "729f4283a999a88519bc2c545b96c541f2b36565da24737d7493c03c52214c84",
-    "scripts/build_th03_op_work.py": "7c5b901bb31c8a09bf0e53ebff130face3e64bed9a70c27817ff45dc49269cd8"
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b"
   },
   "builder_sha256": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
   "scoped_source_acceptance": {
     "publication": "config/mainl_work/scoped_acceptance.json",
-    "decoded_functions": 4,
-    "decoded_bytes": 210,
-    "ordered_relocations": 19,
-    "runtime_cases_per_image": 4800,
+    "decoded_functions": 13,
+    "decoded_bytes": 577,
+    "ordered_relocations": 25,
+    "runtime_cases_per_image": 7018,
     "runtime_images": 2,
-    "actual_guest_mutations_rejected": 15,
+    "actual_guest_mutations_rejected": 34,
     "consumed_vendor_headers": {
       "C:/TC4/INCLUDE/stddef.h": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
       "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
       "C:/TC4/INCLUDE/_null.h": "76bbba0949f023c327f34ae498d3cbbf0fb8c4592f8b8936ccd1acadd840ddf1"
     },
     "canonical_unit_credit_changed": false,
-    "whole_product_ownership": false
+    "whole_product_ownership": false,
+    "input_modes": {
+      "shared_source": "src/shared/hardware/input_modes.cpp",
+      "functions": 9,
+      "code_bytes": 367,
+      "native_fields": 58,
+      "ordered_relocations": 6,
+      "normal_tlink_relaxed_calls": 10,
+      "runtime_cases_per_image": 2218,
+      "actual_guest_mutations_rejected": 19,
+      "maximum_sample_polls": 10003,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0
+    }
   }
 }

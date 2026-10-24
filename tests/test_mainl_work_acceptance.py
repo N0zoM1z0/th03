@@ -22,9 +22,9 @@ class MainlWorkAcceptance(unittest.TestCase):
     def setUp(self):
         self.publication = json.loads((ROOT / PUBLICATION).read_bytes())
 
-    def test_live_physical_replay_accepts_four_decoded_owners_only(self):
+    def test_live_physical_replay_accepts_thirteen_decoded_owners_only(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (4, 210))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (13, 577))
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
 
@@ -66,7 +66,7 @@ class MainlWorkAcceptance(unittest.TestCase):
             self.assertEqual(mainl_product_status(ROOT, units)["decoded_exact_units"], 0)
             accepted.assert_not_called()
 
-    def test_current_svg_separates_four_decoded_owners_from_product_acceptance(self):
+    def test_current_svg_separates_decoded_owners_from_product_acceptance(self):
         import progress
         import status
         with (ROOT / "config/units.csv").open() as stream:
@@ -74,8 +74,8 @@ class MainlWorkAcceptance(unittest.TestCase):
         result = verify(ROOT, self.publication)
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [])
-        self.assertIn("Decoded acceptance: exact 4/145", svg)
-        self.assertIn("4 functions / 210 B", svg)
+        self.assertIn("Decoded acceptance: exact 13/145", svg)
+        self.assertIn("13 functions / 577 B", svg)
         self.assertIn("938 raw outputs", svg)
         self.assertNotIn("MAINL product + decoded accepted", svg)
         self.assertNotIn("exact 145/145", svg)

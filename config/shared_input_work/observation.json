@@ -1,0 +1,237 @@
+{
+  "schema": "th03-shared-input-current-observation-v1",
+  "observed_utc": "2026-10-24T16:22:08.776934Z",
+  "command": "taskset -c 16 nice -n 10 .venv/bin/python scripts/review_th03_shared_input_work.py",
+  "provenance": "candidate-local-attested",
+  "shared_source": "src/shared/hardware/input_modes.cpp",
+  "implementation_sha256": {
+    "scripts/review_th03_shared_input_work.py": "a1892de912ced474ced2affb2bdd46b2b70d060fa239756f69241ef2abeae0d6",
+    "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "src/shared/hardware/input_modes.cpp": "67306c6688e8483c07cc40510e21cee9e217bf18bf1358f018d081b68f0cf46b"
+  },
+  "profiles": {
+    "op": {
+      "artifact": "th03-op",
+      "cold_report_sha256": "d2f2b90078a08a1a22cecb7ca40b807bae3c487c20ba3030d00617fe8cede6cc",
+      "source_inventory_sha256": "2cb2ff667e9e593abf316ce971af311659fc7ca53969dc69f645985a2881d486",
+      "native_object_sha256": "8f8132e247e5594d9c0a702eeaadde40c9322d7949f714789653a129cc6f152b",
+      "code_segment": 3051,
+      "data_segment": 3455,
+      "producer_offset": 2774,
+      "functions": 9,
+      "code_bytes": 367,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "native_fields": 58,
+      "normal_tlink_relaxed_calls": [
+        344,
+        314,
+        246,
+        204,
+        159,
+        117,
+        83,
+        49,
+        39,
+        3
+      ],
+      "ordered_relocations": [
+        [
+          3051,
+          3035
+        ],
+        [
+          3051,
+          2958
+        ],
+        [
+          3051,
+          2913
+        ],
+        [
+          3051,
+          2872
+        ],
+        [
+          3051,
+          2838
+        ],
+        [
+          3051,
+          2792
+        ]
+      ],
+      "runtime": {
+        "profile": "op",
+        "images": 2,
+        "functions": 9,
+        "code_bytes": 367,
+        "cases_per_image": 2218,
+        "executed_owner_bytes": 367,
+        "observations": [
+          {
+            "load_segment": 4096,
+            "cases": 1109,
+            "covered_owner_bytes": 367,
+            "maximum_observed_stack_depth": 16,
+            "maximum_sample_polls": 10003,
+            "trace_sha256": "bf43cc87c4345118bd1c852808cf54ecd61383cc42d269188a2bfc62dec45a6f"
+          },
+          {
+            "load_segment": 12288,
+            "cases": 1109,
+            "covered_owner_bytes": 367,
+            "maximum_observed_stack_depth": 16,
+            "maximum_sample_polls": 10003,
+            "trace_sha256": "a1b12d804195f7ac0959f8c29d59f482ba6dc32d5c8d52ae788fbced2b27f8f5"
+          }
+        ],
+        "exhaustive_high_input_bytes": 256,
+        "scope": "input mode policy and bounded waits; keyboard/joystick/frame services remain interfaces"
+      },
+      "negative_controls": {
+        "count": 19,
+        "rejected": [
+          "interface-merges-player1",
+          "input-word-width",
+          "absent-joystick-branch",
+          "key-mode-samples-input",
+          "joystick-player1-store",
+          "joystick-player2-store",
+          "cpu-player2-cleared",
+          "cpu-player1-cleared",
+          "cancel-input-mask",
+          "cancel-normalization",
+          "attract-player1-clear",
+          "signed-wait-limit",
+          "explicit-9999-sentinel",
+          "zero-wait-sentinel",
+          "release-before-timeout",
+          "wait-counter-increments",
+          "Pascal-argument-cleanup",
+          "frame-delay-word-one",
+          "joystick-service-target"
+        ]
+      }
+    },
+    "mainl": {
+      "artifact": "th03-mainl",
+      "cold_report_sha256": "53463d1efbf2224be9e2fd0dd7c0cd37bba30a3eba2cccb0e20b38ec286ff0f3",
+      "source_inventory_sha256": "d913a54e6b01820e0066b7f9124a3996754506a4f7ce75975746a65af586800a",
+      "native_object_sha256": "74449eb515ef21714794ac83aa35a440c177ec45c2c532aa04f84789110dc3a6",
+      "code_segment": 3198,
+      "data_segment": 3647,
+      "producer_offset": 3522,
+      "functions": 9,
+      "code_bytes": 367,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "native_fields": 58,
+      "normal_tlink_relaxed_calls": [
+        344,
+        314,
+        246,
+        204,
+        159,
+        117,
+        83,
+        49,
+        39,
+        3
+      ],
+      "ordered_relocations": [
+        [
+          3198,
+          3783
+        ],
+        [
+          3198,
+          3706
+        ],
+        [
+          3198,
+          3661
+        ],
+        [
+          3198,
+          3620
+        ],
+        [
+          3198,
+          3586
+        ],
+        [
+          3198,
+          3540
+        ]
+      ],
+      "runtime": {
+        "profile": "mainl",
+        "images": 2,
+        "functions": 9,
+        "code_bytes": 367,
+        "cases_per_image": 2218,
+        "executed_owner_bytes": 367,
+        "observations": [
+          {
+            "load_segment": 4096,
+            "cases": 1109,
+            "covered_owner_bytes": 367,
+            "maximum_observed_stack_depth": 16,
+            "maximum_sample_polls": 10003,
+            "trace_sha256": "402d14fa02bdbc319237ef25ef58d5e829e8bba97bcf7f242a73de5a36600ec5"
+          },
+          {
+            "load_segment": 12288,
+            "cases": 1109,
+            "covered_owner_bytes": 367,
+            "maximum_observed_stack_depth": 16,
+            "maximum_sample_polls": 10003,
+            "trace_sha256": "26377cc75dafd8ce908f6822662a3189b459eafd06a66e6e7bcadd00b1663d18"
+          }
+        ],
+        "exhaustive_high_input_bytes": 256,
+        "scope": "input mode policy and bounded waits; keyboard/joystick/frame services remain interfaces"
+      },
+      "negative_controls": {
+        "count": 19,
+        "rejected": [
+          "interface-merges-player1",
+          "input-word-width",
+          "absent-joystick-branch",
+          "key-mode-samples-input",
+          "joystick-player1-store",
+          "joystick-player2-store",
+          "cpu-player2-cleared",
+          "cpu-player1-cleared",
+          "cancel-input-mask",
+          "cancel-normalization",
+          "attract-player1-clear",
+          "signed-wait-limit",
+          "explicit-9999-sentinel",
+          "zero-wait-sentinel",
+          "release-before-timeout",
+          "wait-counter-increments",
+          "Pascal-argument-cleanup",
+          "frame-delay-word-one",
+          "joystick-service-target"
+        ]
+      }
+    }
+  },
+  "native_ownership_reviewed": true,
+  "source_acceptance": false,
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false,
+  "source_publications": {
+    "op": "config/op_work/scoped_acceptance.json",
+    "mainl": "config/mainl_work/scoped_acceptance.json"
+  }
+}

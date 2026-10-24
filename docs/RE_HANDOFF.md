@@ -7,12 +7,12 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `e57d234` (natural ZUN driver paragraph contributions).
+- Previous pushed checkpoint: `6cb1be3` (bounded ZUN command parser source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **three accepted decoded source functions / 133 bytes**: exit to
-  DOS, VRAM plane setup and game cleanup. The current graph consumes all three
+- OP now has **twelve accepted decoded source functions / 500 bytes**. The
+  three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
   literal ordered relocations pass. Both MAP public tables bind the four external
@@ -24,7 +24,9 @@ remain in [README.md](../README.md).
   remain bounded interfaces. `config/op_work/scoped_acceptance.json` revalidates
   all eleven gates against the live source/recipe/output graph; it replaces no
   historical cohort and grants no canonical packed-file unit offsets or whole
-  product source ownership. Replay with `publish_th03_op_work_scopes.py`.
+  product source ownership. The nine shared input functions below add 367 bytes
+  and six relocations, bringing the current total to seventeen. Replay with
+  `publish_th03_op_work_scopes.py`.
 - OP now has a live, source-only cold build independent of the deleted historical
   receipts: 330 inputs, all 30 objects rebuilt twice, all 32 raw OBJ/EXE/MAP outputs
   repeat. The complete 63,866-byte decoded EXE, 59,770-byte load image and all
@@ -32,7 +34,7 @@ remain in [README.md](../README.md).
   36,041-byte stored target and restore to the actual linked EXE. TH04's `-G`
   selects a larger SFX stub and fails this TH03 target (36,136 bytes).
   Frozen reference source and vendor libraries remain unowned context; this is
-  a fresh complete-byte build observation; the three scoped owners above have
+  a fresh complete-byte build observation; the twelve scoped owners have
   their separate ownership/ABI/runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
@@ -42,10 +44,10 @@ remain in [README.md](../README.md).
   The complete 67,372-byte decoded EXE and all 677 ordered relocations match;
   both DIET `-B` packs equal the canonical 37,975-byte stored target. This remains
   a complete-byte build observation with explicit reference/vendor context; the
-  four lifecycle owners below have their independent current source acceptance.
+  thirteen scoped owners below have independent current source acceptance.
   See `config/mainl_work/observation.json`.
-- MAINL now has **four accepted decoded source functions / 210 bytes**: plane
-  setup, cleanup, initialization and return to MAIN. Their actual first-use
+- MAINL has **thirteen accepted decoded source functions / 577 bytes**. Its
+  four lifecycle owners / 210 bytes are plane setup, cleanup, initialization and return to MAIN. Their actual first-use
   slots remain GAME1/O, GAME3/O, GAME3/M and GAME3/L. Complete native objects,
   both OMF/MAP public tables, zero private DATA/BSS and nineteen literal ordered
   relocations pass. Initialization takes a four-byte far filename; every nonzero
@@ -59,6 +61,26 @@ remain in [README.md](../README.md).
   the current 938-output source/library graph. It grants no canonical packed-file
   unit offsets or whole-product source ownership; library/device/DOS bodies
   remain bounded interfaces. Use `publish_th03_mainl_work_scopes.py` to replay.
+- OP and MAINL each accept the same **nine shared input functions / 367 CODE
+  bytes**, with zero private DATA/BSS. Both real wrappers retain GAME3/O first
+  use; nine complete native publics, both MAP tables and all 58 ordered native
+  fields pass. Two high-byte tests have real +1 OMF addends. Ten same-CS far
+  calls relax naturally through TLINK; six literal ordered JS call relocations
+  differ appropriately between product layouts. Independent 2,218-case models
+  per image at two loads cover all 367 bytes and reject nineteen mutations per
+  product. Real owned nested interface instructions execute; keyboard, joystick
+  and timing services remain bounded interfaces. Full registers/defined flags,
+  far Pascal frames, inherited IF/DF, whole memory outside a 40-byte stack and
+  exact ordered word stores/services are checked. Preserve lane assignment/OR
+  order, WORD joystick presence, OK/CANCEL normalization and attract clearing.
+  Release always precedes timeout; negative signed limits skip press waiting.
+  Both zero and explicit 9999 reset the counter, tested through 10,003 polls.
+  The two complete cold builds remain target-equal. Run
+  `review_th03_shared_input_work.py` after new OP/MAINL cold builds and before
+  per-product publication. Its bound full witnesses run once; normal status
+  executes twelve short cases per image. Current aggregate model counts are
+  OP 2,506 cases / 28 mutants and MAINL 7,018 / 34. No canonical file-backed
+  offsets or whole-product source acceptance are inferred.
 - ZUN now has a complete live cold build: 110 source inputs plus explicit vendor
   `MASTERS.LIB` and the -1 payload. All 23 raw OBJ/COM/MAP/composition/packed outputs
   repeat. All five payloads and the entire 22,812-byte decoded launcher match;
@@ -205,10 +227,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,876 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m38s at 458 MiB peak RSS, no swap. OP's latest cold
-  pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
-  3m10s at 83 MiB with lifecycle/SDK checks. The last MAIN
+- Last full CI: PASS, 1,888 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m51s at 445 MiB peak RSS, no swap. OP's latest cold
+  pair took 2m07s at 68 MiB; MAINL's pair took 2m58s at 84 MiB with lifecycle/SDK
+  checks. The separate shared input review took 1m42s at 129 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
   at 45 MiB. The complete ZUN cold pair with all five models and two native
@@ -238,12 +260,15 @@ ABI and byte credit are recorded separately in the ledgers.
 
 1. Inspect Git and run `.venv/bin/python scripts/preflight.py`.
 2. OP, MAINL and ZUN now have live complete-byte cold builders, including stored
-   packaging. OP's three exit/plane owners and MAINL's four lifecycle owners now
-   pass current decoded source gates; extend these bounded verifiers for further
+   packaging. OP's three exit/plane owners and MAINL's four lifecycle owners,
+   plus nine shared input owners in each product, pass current source gates; extend these bounded verifiers for further
    reviewed scopes. ZUN's ten logo functions now pass current decoded source gates. All three products
    still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
+   The shared input review is a current, separate witness bound to both cold
+   reports. Replay it after new builds. Ending-specific input waits and OP
+   configuration loading/saving are next bounded source/behavior questions.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
    Sixteen -4 scalar/library functions and nine command procedures pass current
    gates. The eight
@@ -309,8 +334,9 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
 .venv/bin/python scripts/build_th03_op_work.py
-.venv/bin/python scripts/publish_th03_op_work_scopes.py
 .venv/bin/python scripts/build_th03_mainl_work.py
+.venv/bin/python scripts/review_th03_shared_input_work.py
+.venv/bin/python scripts/publish_th03_op_work_scopes.py
 .venv/bin/python scripts/publish_th03_mainl_work_scopes.py
 .venv/bin/python scripts/bootstrap_jwasm.py --check
 .venv/bin/python scripts/build_th03_zun_driver_work.py

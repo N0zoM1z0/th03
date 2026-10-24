@@ -21,11 +21,16 @@ from lib.mainl_lifecycle_runtime import verify as runtime, negative_controls
 from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_oracle_rows
 
 
+from review_th03_shared_input_work import current_scope as input_scope
+from lib.shared_input_layout import SOURCE as INPUT_SOURCE, WRAPPER as INPUT_WRAPPER
+
+
 PUBLICATION = "config/mainl_work/scoped_acceptance.json"
 COMMAND = ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py"
 PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03_mainl_work_scopes.py",
                 "scripts/lib/op_work_acceptance.py", "scripts/status.py", "scripts/validate_tracking.py",
-                "config/oracles.toml")
+                "config/oracles.toml", "scripts/review_th03_shared_input_work.py",
+                "scripts/lib/shared_input_layout.py", "scripts/lib/shared_input_runtime.py")
 
 
 def need(value, message):
@@ -109,7 +114,11 @@ def audit(root):
          and packing["same_tool_roundtrip"] and len(packing["rounds"]) == 2, "two pack/restore rounds")
     need(all(p["sha256"] == sha(stored) and p["bytes"] == len(stored) and p["stored_equal"] and p["roundtrip_equal"]
              for p in packing["rounds"]), "complete stored/decoded roundtrip proof")
-    owners = layout(work, target, candidate)
+    lifecycle_owners = layout(work, target, candidate)
+    base_scope = dict(owners=lifecycle_owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
+    need(base_scope == report["lifecycle_scopes"], "fresh independent scope replay")
+    shared = input_scope(root, "mainl", work, target, candidate, raw_report)
+    owners = lifecycle_owners + shared["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -120,6 +129,9 @@ def audit(root):
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
         row, = [r for r in graph if r["output"] == o["object"]]
         need(row["source"] == o["source"], "actual source producer ownership")
+        if o["source"] == INPUT_SOURCE:
+            need(row["wrapper"] == INPUT_WRAPPER and row["game"] == 3 and row["binary"] == "O"
+                 and row["first_binary"] == "op", "input producer retains GAME3/O first-use slot")
         need(files[o["source"]].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
              "maintained source and declared line-ending transport")
         for name in describe_omf((work / o["object"]).read_bytes())["dependency_paths"]:
@@ -128,8 +140,7 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(owners=owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
-    need(scope == report["lifecycle_scopes"], "fresh independent scope replay")
+    scope = dict(base_scope, owners=owners, input_modes=shared)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
@@ -162,8 +173,8 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
-                decoded_exact_units=4, decoded_authored_exact_units=4, decoded_library_exact_units=0,
-                decoded_authored_bytes=210, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o[0] for o in OWNERS),
+                decoded_exact_units=13, decoded_authored_exact_units=13, decoded_library_exact_units=0,
+                decoded_authored_bytes=577, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 target_provenance="candidate-local-attested", product_exact=False, mixed_physical_exact_bytes=0,
                 mixed_authored_credit_bytes=0, canonical_file_backed_authored_credit_unchanged=True,
                 factory_accepted=False, whole_game_percentage=None, whole_game_code_denominator_known=False)

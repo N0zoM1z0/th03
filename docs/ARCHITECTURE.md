@@ -29,6 +29,14 @@ This compatible organization preserves every linked byte and public address;
 the original source/object organization is unknown. Three plus nine reserved
 DATA bytes remain separate, unreviewed context.
 
+`src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
+CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.
+Its two link layouts and six ordered far-pointer relocations are reviewed
+independently. `review_th03_shared_input_work.py` binds the full current cold
+pairs to complete input-policy and wait witnesses; per-product publication
+retains separate source acceptance. Keyboard, joystick and frame services are
+bounded interfaces, with zero private DATA/BSS ownership in this producer.
+
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.
 Download archives and installation media are needed only for installation;

@@ -1,4 +1,4 @@
-"""Current cold-build acceptance of three decoded OP source owners.
+"""Current cold-build acceptance of decoded OP lifecycle and shared input owners.
 
 No canonical packed-file offsets or whole-product source ownership are inferred.
 Historical 33-owner publications keep their independent verifier and namespace.
@@ -19,6 +19,7 @@ from lib.targets import find_artifact, read_verified_artifact
 from lib.toolchain import attest_surface
 from lib.op_exit_layout import OWNERS, verify as layout
 from lib.op_exit_runtime import verify as runtime, negative_controls
+from review_th03_shared_input_work import current_scope as input_scope
 
 
 PUBLICATION = "config/op_work/scoped_acceptance.json"
@@ -26,7 +27,9 @@ GATES = ("target-identity", "format-integrity", "boundary-ownership", "toolchain
          "toolchain-replay", "object-format-integrity", "cold-build-determinism",
          "layout-relocations", "raw-bytes", "ledger-consistency", "cold-aggregate-replay")
 PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_work_scopes.py",
-                "scripts/lib/op_decoded_progress.py", "scripts/validate_tracking.py", "config/oracles.toml")
+                "scripts/lib/op_decoded_progress.py", "scripts/validate_tracking.py", "config/oracles.toml",
+                "scripts/review_th03_shared_input_work.py", "scripts/lib/shared_input_layout.py",
+                "scripts/lib/shared_input_runtime.py")
 
 
 def need(value, message):
@@ -99,7 +102,11 @@ def audit(root):
     for p in packing["rounds"]:
         need(p["packed_sha256"] == sha(stored) and p["packed_bytes"] == len(stored)
              and p["stored_equal"] and p["decoded_roundtrip_equal"], "stored/decoded roundtrip proof")
-    owners = layout(work, target, candidate)
+    lifecycle_owners = layout(work, target, candidate)
+    base_scope = dict(owners=lifecycle_owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
+    need(base_scope == report["exit_scopes"], "fresh independent scope replay")
+    shared = input_scope(root, "op", work, target, candidate, report_raw)
+    owners = lifecycle_owners + shared["layout"]["owners"]
     map_text = (work / "obj/th03/op.map").read_text()
     for suffix, offset in (("B", 0x19FA), ("R", 0x19FE), ("G", 0x1A02), ("E", 0x1A06)):
         need(len(re.findall(rf"(?m)^\s*0D7F:{offset:04X}\s+_VRAM_PLANE_{suffix}\s*$", map_text)) == 2,
@@ -119,8 +126,7 @@ def audit(root):
             name = name.replace(chr(92), "/")
             need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
                  "complete source/header dependency binding: " + name)
-    scope = dict(owners=owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
-    need(scope == report["exit_scopes"], "fresh independent scope replay")
+    scope = dict(base_scope, owners=owners, input_modes=shared)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current global ledger consistency")
     return dict(cold_report_sha256=sha(report_raw), recipe_sha256=report["recipe_sha256"],
@@ -177,7 +183,7 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=3, decoded_authored_bytes=133,
-                decoded_exact_unit_ids=sorted(o[0] for o in OWNERS), product_exact=False,
+                reviewed_proof_ready=True, decoded_exact_units=12, decoded_authored_bytes=500,
+                decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]), product_exact=False,
                 mixed_physical_exact_bytes=0, canonical_credit_changed=False, factory_accepted=False,
                 whole_game_percentage=None)
