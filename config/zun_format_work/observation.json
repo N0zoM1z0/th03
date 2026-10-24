@@ -1,0 +1,705 @@
+{
+  "schema": "th03-zun-formatter-current-observation-v1",
+  "observed_utc": "2026-10-24T18:41:41.071451Z",
+  "command": ".venv/bin/python scripts/review_th03_zun_format_work.py --current-cold",
+  "provenance": "candidate-local-attested",
+  "implementation_sha256": {
+    "scripts/review_th03_zun_format_work.py": "b5252b5cb22dead4965b7ec63f96cbe83af4844031b88f23d843dcd49ee22815",
+    "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
+    "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "scripts/build_th03_zun_work.py": "ae812422734b00b962f9017479afdfe342b99a4a3e72e69380a895fca8ed5366",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
+    "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/verify_th03_zun_driver_hybrid.py": "077a7c99279853282852bcb1f11f77e935796e0304a48fe9587a00a531cd1aa9",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8"
+  },
+  "cold_report_sha256": "815984d73b1d4c8857e2112ff89bd2073ee5b1f5d49445dac2f167a08c3f5b21",
+  "source_inventory_sha256": "2389ea64a6c9e12770201804eccbc48508d45594210c25d1aaca7a416caf361c",
+  "native_pair_built_now": false,
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-zun-decoded-driver-format-print",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_format_print",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p026.inc",
+        "start": 1600,
+        "size": 32,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1344,
+        "decoded_file_offset": 14306,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1613,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 5,
+            "self_relative": true,
+            "target_address": 1712,
+            "resolved": 97
+          }
+        ],
+        "target_sha256": "de6103b7c8235c57e0ce585b09db08134cd340b5a5ec4f0981d8ad97d73ce1c9",
+        "candidate_sha256": "de6103b7c8235c57e0ce585b09db08134cd340b5a5ec4f0981d8ad97d73ce1c9"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-print-string",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_print_string",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p027.inc",
+        "start": 1632,
+        "size": 22,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1376,
+        "decoded_file_offset": 14338,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "a35a4160bf5f4080b83b5f4290449e5f5d72a74a8cff887dd8e4ac145d51eb0c",
+        "candidate_sha256": "a35a4160bf5f4080b83b5f4290449e5f5d72a74a8cff887dd8e4ac145d51eb0c"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-print-stack-string",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_print_stack_string",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p028.inc",
+        "start": 1654,
+        "size": 19,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1398,
+        "decoded_file_offset": 14360,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 2,
+        "callee_pop_bytes": 2,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "69f80e541810bc71835302807858d03027ac2c671449e9fb4c70b4661bc97b82",
+        "candidate_sha256": "69f80e541810bc71835302807858d03027ac2c671449e9fb4c70b4661bc97b82"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-format-into",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_format_into",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p032.inc",
+        "start": 1712,
+        "size": 461,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1456,
+        "decoded_file_offset": 14418,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 1845,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 9,
+            "self_relative": true,
+            "target_address": 3136,
+            "resolved": 1289
+          },
+          {
+            "address": 2067,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 9,
+            "self_relative": true,
+            "target_address": 3136,
+            "resolved": 1067
+          }
+        ],
+        "target_sha256": "e61adb289070d471f992b2c6af91beda5643f34b76b2c652dc2aaa5e3af4f853",
+        "candidate_sha256": "e61adb289070d471f992b2c6af91beda5643f34b76b2c652dc2aaa5e3af4f853"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-pad-zeroes",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_pad_zeroes",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p033.inc",
+        "start": 2173,
+        "size": 6,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1917,
+        "decoded_file_offset": 14879,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "bc18f91a095237ff8c9248284701c636c2aff3bcc4e5263c58bb84e8dd8a977d",
+        "candidate_sha256": "bc18f91a095237ff8c9248284701c636c2aff3bcc4e5263c58bb84e8dd8a977d"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-pad-spaces",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_pad_spaces",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p034.inc",
+        "start": 2179,
+        "size": 6,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1923,
+        "decoded_file_offset": 14885,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "2d53175e2b4b2c9303e1ead0832c13f251c2052ead12b34364d5935cf80cf046",
+        "candidate_sha256": "2d53175e2b4b2c9303e1ead0832c13f251c2052ead12b34364d5935cf80cf046"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-pad-field",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_pad_field",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p035.inc",
+        "start": 2185,
+        "size": 14,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1929,
+        "decoded_file_offset": 14891,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "6d0c0f397808a2e9c7f84519b49392e753d6cbc240386e96b06a9d1532c75720",
+        "candidate_sha256": "6d0c0f397808a2e9c7f84519b49392e753d6cbc240386e96b06a9d1532c75720"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-append-string",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_append_string",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p036.inc",
+        "start": 2199,
+        "size": 8,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1943,
+        "decoded_file_offset": 14905,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "fe02f9a95228c8749ce71bc7ddac3e2ffc23e04ce03952b77a7695a3964bf8f9",
+        "candidate_sha256": "fe02f9a95228c8749ce71bc7ddac3e2ffc23e04ce03952b77a7695a3964bf8f9"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-format-unsigned",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_format_unsigned",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p037.inc",
+        "start": 2207,
+        "size": 61,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 1951,
+        "decoded_file_offset": 14913,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 2229,
+            "width": 4,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 5,
+            "self_relative": false,
+            "target_address": 2268,
+            "resolved": 2268
+          }
+        ],
+        "target_sha256": "b29dff0ff8ec2d9dbb0a2692b78c970f60f6d5064b630068c5ab41bf315bb3a9",
+        "candidate_sha256": "b29dff0ff8ec2d9dbb0a2692b78c970f60f6d5064b630068c5ab41bf315bb3a9"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-reverse-string",
+        "source": "src/zun/driver_format.inl",
+        "procedure": "sprite16_reverse_string",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p038.inc",
+        "start": 2284,
+        "size": 48,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 2028,
+        "decoded_file_offset": 14990,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register interface; formatter arguments in SS four-byte slots; padding helpers share BP frame; forward string operations",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [],
+        "target_sha256": "6a2a6d84f0b60553fbd7d930fc2dddbb2227a029cc1b65c7f9667b24216502c3",
+        "candidate_sha256": "6a2a6d84f0b60553fbd7d930fc2dddbb2227a029cc1b65c7f9667b24216502c3"
+      }
+    ],
+    "functions": 10,
+    "code_bytes": 677,
+    "private_data_bytes": 0,
+    "private_bss_bytes": 0,
+    "ordered_native_fixups": [
+      {
+        "address": 1613,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 5,
+        "self_relative": true,
+        "target_address": 1712,
+        "resolved": 97
+      },
+      {
+        "address": 1845,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 9,
+        "self_relative": true,
+        "target_address": 3136,
+        "resolved": 1289
+      },
+      {
+        "address": 2067,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 9,
+        "self_relative": true,
+        "target_address": 3136,
+        "resolved": 1067
+      },
+      {
+        "address": 2229,
+        "width": 4,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 5,
+        "self_relative": false,
+        "target_address": 2268,
+        "resolved": 2268
+      }
+    ],
+    "control_flow": {
+      "instruction_bytes": 677,
+      "reachable_owner_bytes": 666,
+      "unreachable_owner_bytes": 11,
+      "unreachable_jumps": [
+        {
+          "address": 1952,
+          "size": 3,
+          "target": 2157
+        },
+        {
+          "address": 1984,
+          "size": 3,
+          "target": 2157
+        },
+        {
+          "address": 2016,
+          "size": 3,
+          "target": 2157
+        },
+        {
+          "address": 2048,
+          "size": 2,
+          "target": 2157
+        }
+      ],
+      "indirect_control_flow": false
+    },
+    "digit_table_dependency_bytes": 16,
+    "native_layout": {
+      "segments": [
+        {
+          "name": "_TEXT",
+          "cls": "CODE",
+          "size": 1302
+        },
+        {
+          "name": "_DATA",
+          "cls": "DATA",
+          "size": 0
+        },
+        {
+          "name": "SPR_MASK",
+          "cls": "CODE",
+          "size": 273
+        },
+        {
+          "name": "SPR_PRINT",
+          "cls": "CODE",
+          "size": 101
+        },
+        {
+          "name": "SPR_FMT",
+          "cls": "CODE",
+          "size": 620
+        },
+        {
+          "name": "SPR_CMD",
+          "cls": "CODE",
+          "size": 361
+        },
+        {
+          "name": "SPR_NUM",
+          "cls": "CODE",
+          "size": 310
+        },
+        {
+          "name": "SPR_EGC",
+          "cls": "CODE",
+          "size": 108
+        },
+        {
+          "name": "SPR_STR",
+          "cls": "CODE",
+          "size": 54
+        },
+        {
+          "name": "SPR_DATA",
+          "cls": "CODE",
+          "size": 1280
+        }
+      ],
+      "groups": [
+        {
+          "name": "DGROUP",
+          "members": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ],
+      "publics": {
+        "start": 256,
+        "sprite16_entry": 268,
+        "sprite16_allocate_buffers": 412,
+        "sprite16_set_interrupt_argument": 471,
+        "sprite16_mask_test_command": 478,
+        "sprite16_draw_command": 513,
+        "sprite16_interrupt_dispatch": 554,
+        "sprite16_install": 579,
+        "sprite16_uninstall": 685,
+        "sprite16_set_mono_enabled": 832,
+        "sprite16_set_mono_color": 838,
+        "sprite16_set_overlap": 844,
+        "sprite16_set_access_plane": 850,
+        "sprite16_set_rop": 856,
+        "sprite16_set_mask": 862,
+        "sprite16_draw_clipped": 868,
+        "sprite16_blit_egc": 1026,
+        "sprite16_copy_rows": 1272,
+        "sprite16_prepare_vram": 1312,
+        "sprite16_build_mask": 1344,
+        "sprite16_accumulate_plane": 1424,
+        "sprite16_copy_lower_page": 1444,
+        "sprite16_compress_rows": 1488,
+        "sprite16_copy_upper_to_lower": 1527,
+        "sprite16_clear_upper": 1552,
+        "sprite16_format_print": 1600,
+        "sprite16_print_string": 1632,
+        "sprite16_print_stack_string": 1654,
+        "sprite16_is_decimal_digit": 1673,
+        "sprite16_is_ascii_lower": 1684,
+        "sprite16_ascii_upper": 1693,
+        "sprite16_format_into": 1712,
+        "sprite16_pad_zeroes": 2173,
+        "sprite16_pad_spaces": 2179,
+        "sprite16_pad_field": 2185,
+        "sprite16_append_string": 2199,
+        "sprite16_format_unsigned": 2207,
+        "sprite16_reverse_string": 2284,
+        "sprite16_tokenize_command": 2336,
+        "sprite16_skip_separators": 2434,
+        "sprite16_find_token_end": 2457,
+        "sprite16_find_quote_end": 2485,
+        "sprite16_require_argument": 2509,
+        "sprite16_optional_argument": 2543,
+        "sprite16_require_number": 2570,
+        "sprite16_optional_number_legacy": 2596,
+        "sprite16_dispatch_options": 2614,
+        "sprite16_parse_number": 2704,
+        "sprite16_parse_decimal": 2821,
+        "sprite16_parse_hex": 2891,
+        "sprite16_parse_binary": 2933,
+        "sprite16_parse_switch": 2978,
+        "sprite16_egc_begin": 3024,
+        "sprite16_egc_end": 3088,
+        "sprite16_string_length": 3136,
+        "sprite16_string_equal_folded": 3154
+      },
+      "use16": true,
+      "word_alignment": true,
+      "omf_records": 55,
+      "layout_profile": "native-paragraph-contributions",
+      "segment_attributes": [
+        72,
+        72,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104
+      ],
+      "segment_starts": {
+        "1": 0,
+        "2": 4480,
+        "3": 1312,
+        "4": 1600,
+        "5": 1712,
+        "6": 2336,
+        "7": 2704,
+        "8": 3024,
+        "9": 3136,
+        "10": 3200
+      },
+      "map_public_tables": 2,
+      "alignment_gaps": [
+        [
+          1302,
+          1312
+        ],
+        [
+          1585,
+          1600
+        ],
+        [
+          1701,
+          1712
+        ],
+        [
+          2332,
+          2336
+        ],
+        [
+          2697,
+          2704
+        ],
+        [
+          3014,
+          3024
+        ],
+        [
+          3132,
+          3136
+        ],
+        [
+          3190,
+          3200
+        ]
+      ],
+      "linker_zero_bytes": 71,
+      "explicit_gap_fillers": 0
+    },
+    "native_records": [
+      [
+        256,
+        1014
+      ],
+      [
+        1270,
+        32
+      ],
+      [
+        1312,
+        273
+      ],
+      [
+        1600,
+        101
+      ],
+      [
+        1712,
+        620
+      ],
+      [
+        2336,
+        361
+      ],
+      [
+        2704,
+        310
+      ],
+      [
+        3024,
+        108
+      ],
+      [
+        3136,
+        54
+      ],
+      [
+        3200,
+        1014
+      ],
+      [
+        4214,
+        266
+      ]
+    ],
+    "enclosing_driver_accepted": false,
+    "reserved_spans_owned": false,
+    "original_assembler_identified": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 10,
+    "code_bytes": 677,
+    "executed_owner_bytes": 666,
+    "unreachable_owner_bytes": 11,
+    "cases_per_image": 6106,
+    "exhaustive_byte_domains": 256,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 3053,
+        "covered_owner_bytes": 666,
+        "unreachable_owner_bytes": 11,
+        "maximum_observed_stack_depth": 356,
+        "trace_sha256": "cf2d7b78b52db720f13089d3c98a31419c4ff49cad63e59b80e0cf1909f73db2"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 3053,
+        "covered_owner_bytes": 666,
+        "unreachable_owner_bytes": 11,
+        "maximum_observed_stack_depth": 356,
+        "trace_sha256": "4dc6a515824ca1317dd9e953505772425a3c53a0d509d39e2a81805f976e1565"
+      }
+    ],
+    "wrapper_buffer_bytes": 208,
+    "maximum_wrapper_output_bytes": 209,
+    "private_data_bytes": 0,
+    "private_bss_bytes": 0,
+    "scope": "real formatter/strlen instructions; forward DF precondition except print routines; DOS AH2 bounded; no output capacity checks"
+  },
+  "negative_controls": {
+    "count": 24,
+    "rejected": [
+      "wrapper-reserves-208-bytes",
+      "DOS-character-command",
+      "print-near-return",
+      "stack-string-segment",
+      "stack-word-callee-pop",
+      "numeric-SS-slots",
+      "four-byte-slot-stride",
+      "unsigned-decimal-radix",
+      "minus-before-padding",
+      "sign-counts-in-width",
+      "lowercase-hex-flag",
+      "upper-hex-radix",
+      "binary-radix",
+      "far-string-segment",
+      "terminal-NUL-store",
+      "zero-padding-byte",
+      "space-padding-byte",
+      "padding-is-signed",
+      "append-leaves-DI-on-NUL",
+      "32-bit-unsigned-divisor",
+      "CS-digit-table",
+      "ASCII-case-fold-mask",
+      "reverse-exchanges-both-bytes",
+      "reverse-unsigned-endpoint"
+    ]
+  },
+  "source_acceptance": false,
+  "publication": "config/zun_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false
+}

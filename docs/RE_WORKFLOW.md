@@ -13,6 +13,11 @@
    pair serves both scopes. After rebuilding OP or MAINL, run `scripts/review_th03_shared_input_work.py`
    before republishing their source scopes. Its complete input models bind both
    current cold reports; status only replays short ABI cases.
+   Use `scripts/review_th03_zun_format_work.py` for the complete ZUN cold pair
+   and formatter review. Its `--current-cold` mode revalidates an existing
+   source/output-bound pair and reruns all formatter gates without rebuilding.
+   Publish ZUN scopes after this review. Treat CFG-proved unreachable CODE
+   separately from executed instruction coverage.
 5. Record useful findings in the ledgers/current handoff, run focused checks,
    `python3 scripts/ci.py` and `git diff --check`, then commit.
 

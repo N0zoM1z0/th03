@@ -5,6 +5,8 @@
 
 ; DS:DX format and SS:BX 4-byte argument slots; render into 208-byte
 ; stack buffer, then print through DOS. No output-capacity check is added.
+; Output length 208 overwrites saved BP's low byte with NUL; length 209
+; overwrites both saved BP bytes. Length 210 reaches the caller's return word.
 public sprite16_format_print
 sprite16_format_print		proc near
 
@@ -243,6 +245,7 @@ format_check_signed:
 		or	edx, edx
 		jns	short format_signed_radix
 		neg	edx
+		; The minus sign precedes both space and zero padding in the target.
 		mov	byte ptr es:[di], 2Dh
 		inc	di
 		inc	[bp+format_output_length]
@@ -263,6 +266,7 @@ format_check_lower_hex:
 		mov	[bp+format_lowercase], 1
 		jmp	format_convert_number
 
+		; Original unreachable jump, retained as source rather than executed credit.
 		jmp	format_test_end
 
 format_check_upper_hex:

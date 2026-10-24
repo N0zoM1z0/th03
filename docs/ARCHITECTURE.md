@@ -29,6 +29,16 @@ This compatible organization preserves every linked byte and public address;
 the original source/object organization is unknown. Three plus nine reserved
 DATA bytes remain separate, unreviewed context.
 
+Ten complete driver formatter/print procedures own 677 library CODE bytes.
+Direct control-flow traversal proves four jumps (eleven bytes) unreachable;
+the independent guest contracts execute all other 666 bytes. Preserve DWORD
+argument slots in SS, signed WORD padding, sign-before-padding and the unchecked
+208-byte wrapper buffer, including saved-BP overwrites at output lengths 208/209.
+PUSHA restores WORD registers while numeric high halves can change. DOS AH=2 is
+a bounded interface; actual formatting, reverse and strlen instructions execute.
+The current formatter review binds a full cold pair and three relative WORD
+fields plus one absolute DWORD digit-table field; the table adds no DATA credit.
+
 `src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
 CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.
 Its two link layouts and six ordered far-pointer relocations are reviewed
