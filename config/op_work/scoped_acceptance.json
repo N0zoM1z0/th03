@@ -1,9 +1,9 @@
 {
   "schema": "op-current-source-acceptance-v1",
   "state": "repository-local-accepted",
-  "observed_utc": "2026-10-24T19:15:05.119643Z",
+  "observed_utc": "2026-10-24T20:07:14.324914Z",
   "proof_inputs": {
-    "scripts/lib/op_work_acceptance.py": "c582241b7b62ffaa42493c5a1627b8e03e6a947f17b4cdf3130227a15c109a07",
+    "scripts/lib/op_work_acceptance.py": "ef1fa9cf658f4ba5193817057fdea2edf5bce8ea98d86c72e255c709cb609928",
     "scripts/publish_th03_op_work_scopes.py": "b298ec7c72b6c3d914e4c2199dd2edb81ef18a9a71483db36b0e9ae46e4a8b33",
     "scripts/lib/op_decoded_progress.py": "56ac029a799007ce7df707f3316c638e141aa285fbf253e1c2912e7335ce9cb7",
     "scripts/validate_tracking.py": "0499eb4105f5f9437839e8333e419c435ff7a07cf4555a0a542d564aeef807a9",
@@ -2056,7 +2056,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-format-integrity",
@@ -2073,7 +2073,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-boundary-ownership",
@@ -2090,7 +2090,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-toolchain-identity",
@@ -2107,7 +2107,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-toolchain-replay",
@@ -2124,7 +2124,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-object-format-integrity",
@@ -2141,7 +2141,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-cold-build-determinism",
@@ -2158,7 +2158,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-layout-relocations",
@@ -2175,7 +2175,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-raw-bytes",
@@ -2192,7 +2192,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "a5e2b2733da8e54600167314023d22c840fb3e7d73f9ddc1b6ec2b60b584d8a7",
         "output_sha256": "a5e2b2733da8e54600167314023d22c840fb3e7d73f9ddc1b6ec2b60b584d8a7",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-ledger-consistency",
@@ -2209,7 +2209,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-exit_dos-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-exit_dos-cold-aggregate-replay",
@@ -2226,7 +2226,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-configuration-planes": {
@@ -2245,7 +2245,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-format-integrity",
@@ -2262,7 +2262,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-boundary-ownership",
@@ -2279,7 +2279,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-toolchain-identity",
@@ -2296,7 +2296,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-toolchain-replay",
@@ -2313,7 +2313,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-object-format-integrity",
@@ -2330,7 +2330,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-cold-build-determinism",
@@ -2347,7 +2347,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-layout-relocations",
@@ -2364,7 +2364,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-raw-bytes",
@@ -2381,7 +2381,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "2837224a4c5c50fd7bebdd0f52a841ef63e76d5dd5d990f8d3b99b8e18a891c2",
         "output_sha256": "2837224a4c5c50fd7bebdd0f52a841ef63e76d5dd5d990f8d3b99b8e18a891c2",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-ledger-consistency",
@@ -2398,7 +2398,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-planes-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-planes-cold-aggregate-replay",
@@ -2415,7 +2415,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-game-exit": {
@@ -2434,7 +2434,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-game-exit-format-integrity",
@@ -2451,7 +2451,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-game-exit-boundary-ownership",
@@ -2468,7 +2468,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-game-exit-toolchain-identity",
@@ -2485,7 +2485,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-game-exit-toolchain-replay",
@@ -2502,7 +2502,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-game-exit-object-format-integrity",
@@ -2519,7 +2519,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-game-exit-cold-build-determinism",
@@ -2536,7 +2536,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-game-exit-layout-relocations",
@@ -2553,7 +2553,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-game-exit-raw-bytes",
@@ -2570,7 +2570,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "58e30751bfae0c8ee98454787838b22ecbb51a4d69412bba809cbd65225a7464",
         "output_sha256": "58e30751bfae0c8ee98454787838b22ecbb51a4d69412bba809cbd65225a7464",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-game-exit-ledger-consistency",
@@ -2587,7 +2587,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-game-exit-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-game-exit-cold-aggregate-replay",
@@ -2604,7 +2604,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-interface": {
@@ -2623,7 +2623,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-interface-format-integrity",
@@ -2640,7 +2640,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-interface-boundary-ownership",
@@ -2657,7 +2657,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-interface-toolchain-identity",
@@ -2674,7 +2674,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-interface-toolchain-replay",
@@ -2691,7 +2691,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-interface-object-format-integrity",
@@ -2708,7 +2708,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-interface-cold-build-determinism",
@@ -2725,7 +2725,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-interface-layout-relocations",
@@ -2742,7 +2742,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-interface-raw-bytes",
@@ -2759,7 +2759,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "bf9a963115ee73168eb66191d98793aba08a061509d0ae8e8b812e6b647bf1ab",
         "output_sha256": "bf9a963115ee73168eb66191d98793aba08a061509d0ae8e8b812e6b647bf1ab",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-interface-ledger-consistency",
@@ -2776,7 +2776,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-interface-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-interface-cold-aggregate-replay",
@@ -2793,7 +2793,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-key-key": {
@@ -2812,7 +2812,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-format-integrity",
@@ -2829,7 +2829,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-boundary-ownership",
@@ -2846,7 +2846,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-toolchain-identity",
@@ -2863,7 +2863,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-toolchain-replay",
@@ -2880,7 +2880,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-object-format-integrity",
@@ -2897,7 +2897,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-cold-build-determinism",
@@ -2914,7 +2914,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-layout-relocations",
@@ -2931,7 +2931,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-raw-bytes",
@@ -2948,7 +2948,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "178d0f580003d3932c41fac7fd9bd49ccf17ef83f1d3f03d40689a6db68bb34c",
         "output_sha256": "178d0f580003d3932c41fac7fd9bd49ccf17ef83f1d3f03d40689a6db68bb34c",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-ledger-consistency",
@@ -2965,7 +2965,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-key-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-key-key-cold-aggregate-replay",
@@ -2982,7 +2982,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-joy-key": {
@@ -3001,7 +3001,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-format-integrity",
@@ -3018,7 +3018,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-boundary-ownership",
@@ -3035,7 +3035,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-toolchain-identity",
@@ -3052,7 +3052,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-toolchain-replay",
@@ -3069,7 +3069,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-object-format-integrity",
@@ -3086,7 +3086,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-cold-build-determinism",
@@ -3103,7 +3103,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-layout-relocations",
@@ -3120,7 +3120,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-raw-bytes",
@@ -3137,7 +3137,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "5c22d1c3236f6140862aa002094472adfe7e968a46274575a33c73c2d3b0fb11",
         "output_sha256": "5c22d1c3236f6140862aa002094472adfe7e968a46274575a33c73c2d3b0fb11",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-ledger-consistency",
@@ -3154,7 +3154,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-joy-key-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-joy-key-cold-aggregate-replay",
@@ -3171,7 +3171,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-key-joy": {
@@ -3190,7 +3190,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-format-integrity",
@@ -3207,7 +3207,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-boundary-ownership",
@@ -3224,7 +3224,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-toolchain-identity",
@@ -3241,7 +3241,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-toolchain-replay",
@@ -3258,7 +3258,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-object-format-integrity",
@@ -3275,7 +3275,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-cold-build-determinism",
@@ -3292,7 +3292,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-layout-relocations",
@@ -3309,7 +3309,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-raw-bytes",
@@ -3326,7 +3326,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7402c36349cf49735c61bfe41fa1e2ab41e96ee2962bb4aa893856444120ede8",
         "output_sha256": "7402c36349cf49735c61bfe41fa1e2ab41e96ee2962bb4aa893856444120ede8",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-ledger-consistency",
@@ -3343,7 +3343,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-key-joy-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-key-joy-cold-aggregate-replay",
@@ -3360,7 +3360,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-one-cpu": {
@@ -3379,7 +3379,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-format-integrity",
@@ -3396,7 +3396,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-boundary-ownership",
@@ -3413,7 +3413,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-toolchain-identity",
@@ -3430,7 +3430,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-toolchain-replay",
@@ -3447,7 +3447,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-object-format-integrity",
@@ -3464,7 +3464,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-cold-build-determinism",
@@ -3481,7 +3481,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-layout-relocations",
@@ -3498,7 +3498,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-raw-bytes",
@@ -3515,7 +3515,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "b46ea878a22dbf3ba6757311967ff49ca5b06c9f15a9f7e1c9297d64172d3bf2",
         "output_sha256": "b46ea878a22dbf3ba6757311967ff49ca5b06c9f15a9f7e1c9297d64172d3bf2",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-ledger-consistency",
@@ -3532,7 +3532,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-one-cpu-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-one-cpu-cold-aggregate-replay",
@@ -3549,7 +3549,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-cpu-one": {
@@ -3568,7 +3568,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-format-integrity",
@@ -3585,7 +3585,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-boundary-ownership",
@@ -3602,7 +3602,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-toolchain-identity",
@@ -3619,7 +3619,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-toolchain-replay",
@@ -3636,7 +3636,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-object-format-integrity",
@@ -3653,7 +3653,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-cold-build-determinism",
@@ -3670,7 +3670,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-layout-relocations",
@@ -3687,7 +3687,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-raw-bytes",
@@ -3704,7 +3704,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "995765e8727aa92c70ce8af31a9d28117cf141acc9af7368cc1b71b67b7ca022",
         "output_sha256": "995765e8727aa92c70ce8af31a9d28117cf141acc9af7368cc1b71b67b7ca022",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-ledger-consistency",
@@ -3721,7 +3721,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-one-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-one-cold-aggregate-replay",
@@ -3738,7 +3738,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-cpu-cpu": {
@@ -3757,7 +3757,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-format-integrity",
@@ -3774,7 +3774,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-boundary-ownership",
@@ -3791,7 +3791,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-toolchain-identity",
@@ -3808,7 +3808,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-toolchain-replay",
@@ -3825,7 +3825,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-object-format-integrity",
@@ -3842,7 +3842,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-cold-build-determinism",
@@ -3859,7 +3859,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-layout-relocations",
@@ -3876,7 +3876,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-raw-bytes",
@@ -3893,7 +3893,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "b500b05402b786ca43fc7d704726703dbe6ebb334d164e153c37d81461fb670a",
         "output_sha256": "b500b05402b786ca43fc7d704726703dbe6ebb334d164e153c37d81461fb670a",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-ledger-consistency",
@@ -3910,7 +3910,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-cpu-cpu-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-cpu-cpu-cold-aggregate-replay",
@@ -3927,7 +3927,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-attract": {
@@ -3946,7 +3946,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-attract-format-integrity",
@@ -3963,7 +3963,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-attract-boundary-ownership",
@@ -3980,7 +3980,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-attract-toolchain-identity",
@@ -3997,7 +3997,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-attract-toolchain-replay",
@@ -4014,7 +4014,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-attract-object-format-integrity",
@@ -4031,7 +4031,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-attract-cold-build-determinism",
@@ -4048,7 +4048,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-attract-layout-relocations",
@@ -4065,7 +4065,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-attract-raw-bytes",
@@ -4082,7 +4082,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "510fdc3a754daff006dbd95fd48867d1ec3dcc46599a6258cff4a69c0aa92923",
         "output_sha256": "510fdc3a754daff006dbd95fd48867d1ec3dcc46599a6258cff4a69c0aa92923",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-attract-ledger-consistency",
@@ -4099,7 +4099,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-attract-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-attract-cold-aggregate-replay",
@@ -4116,7 +4116,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-input-change": {
@@ -4135,7 +4135,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-change-format-integrity",
@@ -4152,7 +4152,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-input-change-boundary-ownership",
@@ -4169,7 +4169,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-input-change-toolchain-identity",
@@ -4186,7 +4186,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-input-change-toolchain-replay",
@@ -4203,7 +4203,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-input-change-object-format-integrity",
@@ -4220,7 +4220,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-input-change-cold-build-determinism",
@@ -4237,7 +4237,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-input-change-layout-relocations",
@@ -4254,7 +4254,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-input-change-raw-bytes",
@@ -4271,7 +4271,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "874eea421b4a8dc3accf1ef4e86473e13b6fa2408d3fcf05fab9cbd20c8e46f8",
         "output_sha256": "874eea421b4a8dc3accf1ef4e86473e13b6fa2408d3fcf05fab9cbd20c8e46f8",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-input-change-ledger-consistency",
@@ -4288,7 +4288,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-input-change-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-input-change-cold-aggregate-replay",
@@ -4305,7 +4305,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-configuration-cfg_load": {
@@ -4324,7 +4324,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-format-integrity",
@@ -4341,7 +4341,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-boundary-ownership",
@@ -4358,7 +4358,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-toolchain-identity",
@@ -4375,7 +4375,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-toolchain-replay",
@@ -4392,7 +4392,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-object-format-integrity",
@@ -4409,7 +4409,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-cold-build-determinism",
@@ -4426,7 +4426,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-layout-relocations",
@@ -4443,7 +4443,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-raw-bytes",
@@ -4460,7 +4460,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "e6cdee8915467ca2a545c8f7fed98dfd9b225717fc174439415c5a90476f5bf2",
         "output_sha256": "e6cdee8915467ca2a545c8f7fed98dfd9b225717fc174439415c5a90476f5bf2",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-ledger-consistency",
@@ -4477,7 +4477,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_load-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_load-cold-aggregate-replay",
@@ -4494,7 +4494,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-configuration-cfg_save": {
@@ -4513,7 +4513,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-format-integrity",
@@ -4530,7 +4530,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-boundary-ownership",
@@ -4547,7 +4547,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-toolchain-identity",
@@ -4564,7 +4564,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-toolchain-replay",
@@ -4581,7 +4581,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-object-format-integrity",
@@ -4598,7 +4598,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-cold-build-determinism",
@@ -4615,7 +4615,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-layout-relocations",
@@ -4632,7 +4632,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-raw-bytes",
@@ -4649,7 +4649,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "e52a9bcb93f4202fc9e9467bad84872d61cfcb7806f66c2154f01945388286d4",
         "output_sha256": "e52a9bcb93f4202fc9e9467bad84872d61cfcb7806f66c2154f01945388286d4",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-ledger-consistency",
@@ -4666,7 +4666,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save-cold-aggregate-replay",
@@ -4683,7 +4683,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-configuration-cfg_save_exit": {
@@ -4702,7 +4702,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-format-integrity",
@@ -4719,7 +4719,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-boundary-ownership",
@@ -4736,7 +4736,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-toolchain-identity",
@@ -4753,7 +4753,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-toolchain-replay",
@@ -4770,7 +4770,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-object-format-integrity",
@@ -4787,7 +4787,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-cold-build-determinism",
@@ -4804,7 +4804,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-layout-relocations",
@@ -4821,7 +4821,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-raw-bytes",
@@ -4838,7 +4838,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "f42b3c16f8a6f9f596e20ee4f5030da462a0eea8996165b21ce5c0d8d3044548",
         "output_sha256": "f42b3c16f8a6f9f596e20ee4f5030da462a0eea8996165b21ce5c0d8d3044548",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-ledger-consistency",
@@ -4855,7 +4855,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-configuration-cfg_save_exit-cold-aggregate-replay",
@@ -4872,7 +4872,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-entry-demo": {
@@ -4891,7 +4891,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-format-integrity",
@@ -4908,7 +4908,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-boundary-ownership",
@@ -4925,7 +4925,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-toolchain-identity",
@@ -4942,7 +4942,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-toolchain-replay",
@@ -4959,7 +4959,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-object-format-integrity",
@@ -4976,7 +4976,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-cold-build-determinism",
@@ -4993,7 +4993,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-layout-relocations",
@@ -5010,7 +5010,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-raw-bytes",
@@ -5027,7 +5027,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "5d74105de96cd3c80b60de997e3532b100570464ad2df2aeeb70166a486d5124",
         "output_sha256": "5d74105de96cd3c80b60de997e3532b100570464ad2df2aeeb70166a486d5124",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-ledger-consistency",
@@ -5044,7 +5044,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-demo-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-entry-demo-cold-aggregate-replay",
@@ -5061,7 +5061,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     },
     "th03-op-decoded-entry-score": {
@@ -5080,7 +5080,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-entry-score-format-integrity",
@@ -5097,7 +5097,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-boundary-ownership": {
         "id": "ev-op-current-th03-op-decoded-entry-score-boundary-ownership",
@@ -5114,7 +5114,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-toolchain-identity": {
         "id": "ev-op-current-th03-op-decoded-entry-score-toolchain-identity",
@@ -5131,7 +5131,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-toolchain-replay": {
         "id": "ev-op-current-th03-op-decoded-entry-score-toolchain-replay",
@@ -5148,7 +5148,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-object-format-integrity": {
         "id": "ev-op-current-th03-op-decoded-entry-score-object-format-integrity",
@@ -5165,7 +5165,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-cold-build-determinism": {
         "id": "ev-op-current-th03-op-decoded-entry-score-cold-build-determinism",
@@ -5182,7 +5182,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-layout-relocations": {
         "id": "ev-op-current-th03-op-decoded-entry-score-layout-relocations",
@@ -5199,7 +5199,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-raw-bytes": {
         "id": "ev-op-current-th03-op-decoded-entry-score-raw-bytes",
@@ -5216,7 +5216,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "1dbd0149954d19bf0ebb63a30409e1124cd3381467ba03e022f392b058b9f70f",
         "output_sha256": "1dbd0149954d19bf0ebb63a30409e1124cd3381467ba03e022f392b058b9f70f",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-ledger-consistency": {
         "id": "ev-op-current-th03-op-decoded-entry-score-ledger-consistency",
@@ -5233,7 +5233,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       },
       "ev-op-current-th03-op-decoded-entry-score-cold-aggregate-replay": {
         "id": "ev-op-current-th03-op-decoded-entry-score-cold-aggregate-replay",
@@ -5250,7 +5250,7 @@
         "command": ".venv/bin/python scripts/publish_th03_op_work_scopes.py",
         "input_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
         "output_sha256": "7e0cb8859bf0347103d54d86aadf4e741c826400496419ab8f86e64635cc468e",
-        "observed_utc": "2026-10-24T19:15:05.119643Z"
+        "observed_utc": "2026-10-24T20:07:14.324914Z"
       }
     }
   }

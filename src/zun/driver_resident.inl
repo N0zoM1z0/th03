@@ -1,12 +1,14 @@
 ; Maintained ZUN sprite16 startup/resident lifecycle, UTF-8 LF.
 ; Eight complete procedures, IP 010Ch..033Fh: 564 instruction bytes.
-; Retained driver owns referenced tables, messages, fields and graphics/parser
-; helpers. This include owns no storage, zero gaps, launcher or packaging.
+; Shared tables, messages and fields remain external context; actual maintained
+; graphics/parser/print helpers execute in the lifecycle contracts. This include
+; owns no storage, zero gaps, launcher or packaging.
 ; Instruction widths, near/far returns, dead paths and oddities are intentional.
 
 ; COM entry: CS=DS=ES=PSP segment. Clears DF, prints header, shrinks the
 ; DOS block, terminates on invalid command usage, otherwise dispatches options.
-; The signature check and optional INT 40h path are retained, not runtime-proven.
+; The signature reads the INT 40h vector's returned offset plus two. Optional
+; INT 40h code after DOS termination is unreachable under the terminal contract.
 public sprite16_entry
 sprite16_entry		proc near
 
@@ -82,7 +84,7 @@ entry_return:
 		retn
 sprite16_entry		endp
 
-; Allocate two 1000-paragraph DOS blocks (mask then solid pixel data).
+; Allocate two decimal-1000-paragraph DOS blocks (mask then solid pixel data).
 ; Updates resident size and segment fields; DOS error exits with code 1.
 ; AX/BX/flags and global fields are modified. No synthetic allocation fallback.
 public sprite16_allocate_buffers

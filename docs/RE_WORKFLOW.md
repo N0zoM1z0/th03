@@ -13,12 +13,14 @@
    pair serves both scopes. After rebuilding OP or MAINL, run `scripts/review_th03_shared_input_work.py`
    before republishing their source scopes. Its complete input models bind both
    current cold reports; status only replays short ABI cases.
-   Use `scripts/review_th03_zun_graphics_work.py` for the complete ZUN cold pair,
-   formatter and graphics reviews. It invokes `review_th03_zun_format_work.py`
-   once. Both support `--current-cold` to revalidate existing source/output-bound
+   Use `scripts/review_th03_zun_lifecycle_work.py` for the complete ZUN cold pair,
+   formatter, graphics and lifecycle reviews. It invokes the graphics/formatter
+   chain once. All three support `--current-cold` to revalidate existing source/output-bound
    prerequisites and rerun their own full gates without rebuilding.
    Publish ZUN scopes after this review. Treat CFG-proved unreachable CODE
-   separately from executed instruction coverage.
+   separately from executed instruction coverage. DOS 4C/31 termination also
+   bounds lifecycle reachability; preserve the fifteen following bytes without
+   counting them as executed. Real maintained nested helpers must execute.
 5. Record useful findings in the ledgers/current handoff, run focused checks,
    `python3 scripts/ci.py` and `git diff --check`, then commit.
 

@@ -156,6 +156,7 @@ def oracle_rows(proof, now, policy, *, artifact="th03-op", publication_path=PUBL
     product = artifact
     specs = {o["id"]: o for o in policy["oracles"]}
     need(set(GATES) == set(policy["policy"]["exact_requires"]), "eleven required gates")
+    proof_digest = digest(proof)
     result = {}
     for owner in proof["scope"]["owners"]:
         rows = {}
@@ -170,8 +171,8 @@ def oracle_rows(proof, now, policy, *, artifact="th03-op", publication_path=PUBL
                 evidence_class=specs[gate]["accepts_evidence_classes"][0], result="pass",
                 tool="current source-only " + product.removeprefix("th03-").upper() + " cold pair and independent native owner/runtime audit",
                 command=command,
-                input_sha256=owner["target_sha256"] if gate == "raw-bytes" else digest(proof),
-                output_sha256=owner["candidate_sha256"] if gate == "raw-bytes" else digest(proof), observed_utc=now)
+                input_sha256=owner["target_sha256"] if gate == "raw-bytes" else proof_digest,
+                output_sha256=owner["candidate_sha256"] if gate == "raw-bytes" else proof_digest, observed_utc=now)
         result[owner["unit_id"]] = rows
     return result
 

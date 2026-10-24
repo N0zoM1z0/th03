@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-graphics-current-observation-v1",
-  "observed_utc": "2026-10-24T19:14:07.946914Z",
+  "observed_utc": "2026-10-24T20:06:20.298601Z",
   "command": ".venv/bin/python scripts/review_th03_zun_graphics_work.py",
   "provenance": "candidate-local-attested",
   "implementation_sha256": {
@@ -24,8 +24,7 @@
     "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
     "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6"
   },
-  "cold_report_sha256": "356f4b195ce48aaea8d05262da53eb20ab60a5b97ab218ec39251fdd00eb3a0e",
-  "formatter_report_sha256": "e23f2af0239612e06cd63c54c6e881ed1269757069d62104b497c9bf06fa5248",
+  "cold_report_sha256": "e565693f689f79d50c30e0cf9bd6e76ce680f1b996fc698d4c2de71c34ac0872",
   "source_inventory_sha256": "2389ea64a6c9e12770201804eccbc48508d45594210c25d1aaca7a416caf361c",
   "native_pair_built_now": true,
   "layout": {
@@ -1909,5 +1908,6 @@
   "source_acceptance": false,
   "publication": "config/zun_work/scoped_acceptance.json",
   "canonical_unit_credit_changed": false,
-  "whole_product_accepted": false
+  "whole_product_accepted": false,
+  "formatter_report_sha256": "aa8f2079e811e323235c59563da3f50dc91176ee212bd6ed8211768b03823053"
 }

@@ -29,6 +29,7 @@ from lib.zun_driver_command_layout import verify as command_layout
 from lib.zun_driver_command_runtime import Machine as CommandMachine, ENTRIES as COMMAND_ENTRIES
 from review_th03_zun_format_work import current_scope as formatter_scope
 from review_th03_zun_graphics_work import current_scope as graphics_scope
+from review_th03_zun_lifecycle_work import current_scope as lifecycle_scope
 from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_oracle_rows
 
 
@@ -38,7 +39,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_zun_acceptance.py", "scripts/publish_th03_z
                 "scripts/lib/op_work_acceptance.py", "scripts/status.py", "scripts/validate_tracking.py",
                 "config/oracles.toml", "scripts/review_th03_zun_format_work.py",
                 "scripts/lib/zun_driver_format_layout.py", "scripts/lib/zun_driver_format_runtime.py",
-                "scripts/review_th03_zun_graphics_work.py", "scripts/lib/zun_driver_graphics_layout.py", "scripts/lib/zun_driver_graphics_runtime.py")
+                "scripts/review_th03_zun_graphics_work.py", "scripts/lib/zun_driver_graphics_layout.py", "scripts/lib/zun_driver_graphics_runtime.py",
+                "scripts/review_th03_zun_lifecycle_work.py", "scripts/lib/zun_driver_lifecycle_layout.py", "scripts/lib/zun_driver_lifecycle_runtime.py")
 
 
 def need(value, message):
@@ -313,12 +315,13 @@ def audit(root):
     command_witness(command)
     formatter = formatter_scope(root, work, target_driver, candidate_driver, at, files, maintained, raw_report)
     graphics = graphics_scope(root, work, target_driver, candidate_driver, at, files, maintained, raw_report)
+    lifecycle = lifecycle_scope(root, work, target_driver, candidate_driver, at, files, maintained, raw_report)
     controls = report["driver_alignment_controls"]
     need(controls["count"] == 2 and controls["source_only"] and not controls["object_patches"]
          and [c["name"] for c in controls["controls"]] == ["word", "no-even"]
          and all(c["byte_exact_rejected"] and c["all_procedure_includes_unchanged"] and c["changed_inputs"] == ["driver.asm"]
                  and c["target_bytes"] == 4224 and c["differing_bytes"] > 0 for c in controls["controls"]), "two actual native alignment controls")
-    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"] + command["layout"]["owners"] + formatter["layout"]["owners"] + graphics["layout"]["owners"]
+    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"] + command["layout"]["owners"] + formatter["layout"]["owners"] + graphics["layout"]["owners"] + lifecycle["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -347,7 +350,7 @@ def audit(root):
                 driver_payload_sha256=sha(target_driver),
                 driver_alignment_controls=controls,
                 scope=dict(owners=owners, layout=scope["layout"], runtime=scope["runtime"],
-                           negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver, command=command, formatter=formatter, graphics=graphics), current_smoke=current_smoke,
+                           negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver, command=command, formatter=formatter, graphics=graphics, lifecycle=lifecycle), current_smoke=current_smoke,
                 resident_smoke=resident_smoke(target_resident, candidate_resident),
                 init_smoke=init_smoke(target_init, candidate_init),
                 driver_smoke=driver_smoke(target_driver, candidate_driver),
@@ -377,10 +380,10 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=60, decoded_authored_bytes=1621, decoded_library_bytes=2280,
+                reviewed_proof_ready=True, decoded_exact_units=68, decoded_authored_bytes=1621, decoded_library_bytes=2844,
                 decoded_original_asm_bytes=1390, decoded_original_asm_code_bytes=607, decoded_original_asm_data_bytes=783,
-                decoded_source_bytes=5291, decoded_code_bytes=4508, decoded_procedures=68, reviewed_producer_data_bytes=1105,
+                decoded_source_bytes=5855, decoded_code_bytes=5072, decoded_procedures=76, reviewed_producer_data_bytes=1105,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 payload_options=["-2", "-3", "-4", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
                 canonical_credit_changed=False, factory_accepted=False, whole_game_percentage=None,
-                full_runtime_witness_bound=True, current_smoke_cases=150)
+                full_runtime_witness_bound=True, current_smoke_cases=166)

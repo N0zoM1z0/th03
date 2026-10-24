@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T19:14:07.946914Z",
+  "observed_utc": "2026-10-24T20:06:20.298601Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 110,
@@ -39,7 +39,7 @@
     "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
     "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
     "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
-    "src/zun/driver_resident.inl": "258a133463e406dcc7fdf936fc417dc8a502a03d0fb1fe3d605b597af77c7cfa",
+    "src/zun/driver_resident.inl": "eab59e2b554caa3e8493e17a6dc4df0658bc9ff7338ca9bd7e311ab7b9f0d3e5",
     "src/zun/driver_services.inl": "d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af",
     "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
     "src/zun/init.asm": "078525c35dfa4b499feb661980733964e16fa5654e8403ee55b0de221e828dc2",
@@ -551,7 +551,7 @@
     "scripts/stage_th03_zunsoft.py": "03e7119f51bccc52738abff7a02af8e1b1b1871402a5805dbc3cf1d0e6bd4c3f",
     "scripts/lib/zun_logo_layout.py": "3e2897277a8b6e1881f85721422ff4d317e2fa66cde66bbbb3d4791b6a247f78",
     "scripts/lib/zun_logo_runtime.py": "45375eb28b5a71d10011af9c2bbca85606dfbdb3105dfba6eb523849dfaf8442",
-    "scripts/lib/decoded_zun_acceptance.py": "8990066e628ce8e6e98873d5eb983429dbb9e75859e3beaeefaae9355143d0c5",
+    "scripts/lib/decoded_zun_acceptance.py": "d72aef1789a9e9cd0e1bd61ccb16a537c90847d1daab101509084742926c4203",
     "scripts/publish_th03_zun_work_scopes.py": "615a042dc29dd973c8ec541171ca417ad51a55fde679704ebdddfbac78db58e1",
     "scripts/lib/zun_resident_layout.py": "09122259a95f0dfb984110f4ff9d501ebccf722d73222371c07e3b1233c66ea3",
     "scripts/lib/zun_resident_runtime.py": "4dc04558c5ae646229d04e0fb96b103b4cf6197414d9fa280fc93089a12eae18",
@@ -570,12 +570,16 @@
     "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
     "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
     "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
-    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70"
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
+    "scripts/review_th03_zun_lifecycle_work.py": "30f6b1871fba8cb0e086299bbb7763f8b1260b6d4ec37418f4b219117fc70504",
+    "scripts/lib/zun_driver_lifecycle_layout.py": "8492a992952db296145525a9266554256c8e5ca9fa3335d67f431ab3f69934db",
+    "scripts/lib/zun_driver_lifecycle_runtime.py": "8fd0cf5be17abf6ced865b48fd2bb8abf5176d82d93a39bc4fa0129c06e2cfbc",
+    "src/zun/driver_resident.inl": "eab59e2b554caa3e8493e17a6dc4df0658bc9ff7338ca9bd7e311ab7b9f0d3e5"
   },
   "builder_sha256": "ae812422734b00b962f9017479afdfe342b99a4a3e72e69380a895fca8ed5366",
   "scoped_source_acceptance": {
     "publication": "config/zun_work/scoped_acceptance.json",
-    "decoded_code_bytes": 4508,
+    "decoded_code_bytes": 5072,
     "owned_data_bytes": 1105,
     "reviewed_bss_bytes": 293,
     "native_word_alignment": 2,
@@ -586,9 +590,9 @@
       282
     ],
     "images": 2,
-    "executed_code_bytes": 4493,
+    "executed_code_bytes": 5042,
     "full_fade_frames": 231,
-    "actual_guest_mutations_rejected": 130,
+    "actual_guest_mutations_rejected": 155,
     "opaque_char_carrier_high_bytes": 256,
     "consumed_tiny_runtime": {
       "C0T.OBJ": "27169f062a9b77bf4accfb9550ca4ccbf0fd710d4b1232768630d53bb6305f7c",
@@ -611,7 +615,8 @@
       "-4-scalar": 8428,
       "-4-command": 6678,
       "-4-formatter": 6106,
-      "-4-graphics": 512
+      "-4-graphics": 512,
+      "-4-lifecycle": 1826
     },
     "consumed_resident_sdk": {
       "dos.h": "defd0ff47a0c0486adbb223f56a7a6aaa7b9a8c4ec506290fdf7b69907537369",
@@ -634,8 +639,8 @@
       ],
       "canonical_unit_credit_changed": false
     },
-    "decoded_units": 60,
-    "decoded_procedures": 68,
+    "decoded_units": 68,
+    "decoded_procedures": 76,
     "authored_functions": 12,
     "authored_code_bytes": 1621,
     "original_asm_bytes": 1390,
@@ -666,8 +671,8 @@
       "source_labels": 59,
       "canonical_unit_credit_changed": false
     },
-    "library_functions": 47,
-    "library_code_bytes": 2280,
+    "library_functions": 55,
+    "library_code_bytes": 2844,
     "driver_scalar": {
       "origin": "library",
       "functions": 16,
@@ -713,7 +718,7 @@
         "eight native option callback targets"
       ]
     },
-    "unreachable_code_bytes": 15,
+    "unreachable_code_bytes": 30,
     "driver_formatter": {
       "origin": "library",
       "functions": 10,
@@ -751,6 +756,32 @@
       "maximum_observed_stack_bytes": 48,
       "modeled_video_pages": 2,
       "modeled_video_banks": 4,
+      "physical_EGC_pixel_effects_proved": false,
+      "enclosing_driver_accepted": false,
+      "reserved_spans_owned": false,
+      "newly_authored_bytes": 0
+    },
+    "driver_lifecycle": {
+      "origin": "library",
+      "functions": 8,
+      "code_bytes": 564,
+      "executed_instruction_bytes": 549,
+      "terminal_unreachable_instruction_bytes": 15,
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "ordered_scoped_native_fixups": 69,
+      "scoped_absolute_word_fixups": 42,
+      "scoped_relative_word_fixups": 27,
+      "runtime_cases_per_image": 1826,
+      "actual_guest_mutations_rejected": 25,
+      "maximum_observed_stack_bytes": 384,
+      "exhaustive_vector_bytes": 256,
+      "maintained_nested_helpers_execute": true,
+      "terminal_DOS_services": [
+        "4C",
+        "31"
+      ],
+      "physical_DOS_lifetime_proved": false,
       "physical_EGC_pixel_effects_proved": false,
       "enclosing_driver_accepted": false,
       "reserved_spans_owned": false,

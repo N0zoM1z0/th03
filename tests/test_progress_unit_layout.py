@@ -32,13 +32,13 @@ class Tests(unittest.TestCase):
  def test_real_unit_source_totals_and_main_function_axis(self):
   units=list(csv.DictReader((ROOT/'config/units.csv').read_text().splitlines()))
   self.assertEqual((p.tracked_unit_progress(units,'th03-op')['source'],p.tracked_unit_progress(units,'th03-op')['total']),(48,49))
-  self.assertEqual((p.tracked_unit_progress(units,'th03-zun')['source'],p.tracked_unit_progress(units,'th03-zun')['total']),(63,65))
+  self.assertEqual((p.tracked_unit_progress(units,'th03-zun')['source'],p.tracked_unit_progress(units,'th03-zun')['total']),(71,73))
   authored=[u for u in units if u['artifact']=='th03-zun' and u['source'] and u['origin']=='authored']
   self.assertEqual((len(authored),sum(int(u['size'],0) for u in authored)),(15,1855))
   funcs=[dict(artifact='th03-main',boundary_state='reviewed',state='candidate')]*413
   svg=p.render_svg(units,funcs,[])
   self.assertIn('413 tracked functions',svg)
-  self.assertIn('Source 48/49',svg);self.assertIn('Source 63/65',svg)
+  self.assertIn('Source 48/49',svg);self.assertIn('Source 71/73',svg)
  def test_empty_unit_inventory_has_zero_width_not_fake_function_counts(self):
   svg=p.render_svg([],[],[])
   root=ET.fromstring(svg)

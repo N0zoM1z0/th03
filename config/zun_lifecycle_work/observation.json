@@ -1,0 +1,1981 @@
+{
+  "schema": "th03-zun-lifecycle-current-observation-v1",
+  "observed_utc": "2026-10-24T20:06:20.298601Z",
+  "command": ".venv/bin/python scripts/review_th03_zun_lifecycle_work.py",
+  "provenance": "candidate-local-attested",
+  "implementation_sha256": {
+    "scripts/review_th03_zun_format_work.py": "b5252b5cb22dead4965b7ec63f96cbe83af4844031b88f23d843dcd49ee22815",
+    "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
+    "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "scripts/build_th03_zun_work.py": "ae812422734b00b962f9017479afdfe342b99a4a3e72e69380a895fca8ed5366",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
+    "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/verify_th03_zun_driver_hybrid.py": "077a7c99279853282852bcb1f11f77e935796e0304a48fe9587a00a531cd1aa9",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
+    "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
+    "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
+    "scripts/review_th03_zun_lifecycle_work.py": "30f6b1871fba8cb0e086299bbb7763f8b1260b6d4ec37418f4b219117fc70504",
+    "scripts/lib/zun_driver_lifecycle_layout.py": "8492a992952db296145525a9266554256c8e5ca9fa3335d67f431ab3f69934db",
+    "scripts/lib/zun_driver_lifecycle_runtime.py": "8fd0cf5be17abf6ced865b48fd2bb8abf5176d82d93a39bc4fa0129c06e2cfbc",
+    "src/zun/driver_resident.inl": "eab59e2b554caa3e8493e17a6dc4df0658bc9ff7338ca9bd7e311ab7b9f0d3e5",
+    "scripts/lib/zun_driver_command_runtime.py": "77313ef4840dc280af400aeffa433414a69515f188ec4844a31df477bf2677fb",
+    "scripts/lib/zun_driver_scalar_runtime.py": "135e86482e6a1f30cb1225ae1193d89ffed5767539c82c996b551125a9b0418d",
+    "scripts/lib/zun_driver_scalar_layout.py": "53fb780c49959068b8ed6069e541bc92c18ea54916ed02f27a2b5593323fbc66"
+  },
+  "cold_report_sha256": "e565693f689f79d50c30e0cf9bd6e76ce680f1b996fc698d4c2de71c34ac0872",
+  "source_inventory_sha256": "2389ea64a6c9e12770201804eccbc48508d45594210c25d1aaca7a416caf361c",
+  "native_pair_built_now": true,
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-zun-decoded-driver-entry",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_entry",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p000.inc",
+        "start": 268,
+        "size": 144,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 12,
+        "decoded_file_offset": 12974,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 270,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3962,
+            "resolved": 3962
+          },
+          {
+            "address": 273,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 1379
+          },
+          {
+            "address": 284,
+            "width": 2,
+            "fixdat": 84,
+            "frame": null,
+            "target": 1,
+            "self_relative": false,
+            "target_address": 256,
+            "resolved": 256
+          },
+          {
+            "address": 289,
+            "width": 2,
+            "fixdat": 84,
+            "frame": null,
+            "target": 1,
+            "self_relative": false,
+            "target_address": 258,
+            "resolved": 258
+          },
+          {
+            "address": 305,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3904,
+            "resolved": 3904
+          },
+          {
+            "address": 313,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3904,
+            "resolved": 3904
+          },
+          {
+            "address": 325,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3907,
+            "resolved": 3907
+          },
+          {
+            "address": 328,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3896,
+            "resolved": 3896
+          },
+          {
+            "address": 334,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3907,
+            "resolved": 3907
+          },
+          {
+            "address": 343,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3200,
+            "resolved": 3200
+          },
+          {
+            "address": 346,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 1306
+          },
+          {
+            "address": 371,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2336,
+            "resolved": 1963
+          },
+          {
+            "address": 375,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4208,
+            "resolved": 4208
+          },
+          {
+            "address": 381,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2614,
+            "resolved": 2231
+          },
+          {
+            "address": 391,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4025,
+            "resolved": 4025
+          },
+          {
+            "address": 394,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 1258
+          },
+          {
+            "address": 404,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3904,
+            "resolved": 3904
+          }
+        ],
+        "target_sha256": "17082b99e898e29054fd490dc595cccba2eeffc4d55e4038f93ab87c91fe2081",
+        "candidate_sha256": "17082b99e898e29054fd490dc595cccba2eeffc4d55e4038f93ab87c91fe2081"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-allocate-buffers",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_allocate_buffers",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p001.inc",
+        "start": 412,
+        "size": 59,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 156,
+        "decoded_file_offset": 13118,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 422,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3911,
+            "resolved": 3911
+          },
+          {
+            "address": 425,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 1227
+          },
+          {
+            "address": 433,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3900,
+            "resolved": 3900
+          },
+          {
+            "address": 437,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3907,
+            "resolved": 3907
+          },
+          {
+            "address": 451,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3911,
+            "resolved": 3911
+          },
+          {
+            "address": 454,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 1198
+          },
+          {
+            "address": 462,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3902,
+            "resolved": 3902
+          },
+          {
+            "address": 466,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3907,
+            "resolved": 3907
+          }
+        ],
+        "target_sha256": "7c4d1f97a577797bd34641674101e1ac3168b276f3d3ecb230da1adeab9a3bf7",
+        "candidate_sha256": "7c4d1f97a577797bd34641674101e1ac3168b276f3d3ecb230da1adeab9a3bf7"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-set-interrupt-argument",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_set_interrupt_argument",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p002.inc",
+        "start": 471,
+        "size": 7,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 215,
+        "decoded_file_offset": 13177,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 472,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2570,
+            "resolved": 2096
+          },
+          {
+            "address": 475,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3906,
+            "resolved": 3906
+          }
+        ],
+        "target_sha256": "37e89922dac4d5bf590f1e950df18baff6d87426d57c67c76b96a278065d3538",
+        "candidate_sha256": "37e89922dac4d5bf590f1e950df18baff6d87426d57c67c76b96a278065d3538"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-mask-test-command",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_mask_test_command",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p003.inc",
+        "start": 478,
+        "size": 35,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 222,
+        "decoded_file_offset": 13184,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 482,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 3,
+            "self_relative": true,
+            "target_address": 1312,
+            "resolved": 828
+          },
+          {
+            "address": 485,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 3,
+            "self_relative": true,
+            "target_address": 1344,
+            "resolved": 857
+          },
+          {
+            "address": 488,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 3,
+            "self_relative": true,
+            "target_address": 1552,
+            "resolved": 1062
+          },
+          {
+            "address": 494,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3900,
+            "resolved": 3900
+          }
+        ],
+        "target_sha256": "9aed089dfb347eb18f94539daa05a206a30f583b91f4dfc57d839156de77136e",
+        "candidate_sha256": "9aed089dfb347eb18f94539daa05a206a30f583b91f4dfc57d839156de77136e"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-draw-command",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_draw_command",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p004.inc",
+        "start": 513,
+        "size": 41,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 257,
+        "decoded_file_offset": 13219,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 517,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 3,
+            "self_relative": true,
+            "target_address": 1344,
+            "resolved": 825
+          },
+          {
+            "address": 520,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2570,
+            "resolved": 2048
+          },
+          {
+            "address": 525,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2570,
+            "resolved": 2043
+          },
+          {
+            "address": 530,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2570,
+            "resolved": 2038
+          },
+          {
+            "address": 535,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2570,
+            "resolved": 2033
+          },
+          {
+            "address": 539,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 6,
+            "self_relative": true,
+            "target_address": 2570,
+            "resolved": 2029
+          },
+          {
+            "address": 545,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3024,
+            "resolved": 2477
+          },
+          {
+            "address": 551,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 8,
+            "self_relative": true,
+            "target_address": 3088,
+            "resolved": 2535
+          }
+        ],
+        "target_sha256": "92453cc70927f4ba97b1ce41a9b9fac9c576778d067c722a8232a5c49e626ed6",
+        "candidate_sha256": "92453cc70927f4ba97b1ce41a9b9fac9c576778d067c722a8232a5c49e626ed6"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-interrupt-dispatch",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_interrupt_dispatch",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p005.inc",
+        "start": 554,
+        "size": 25,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 298,
+        "decoded_file_offset": 13260,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 564,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 4158,
+            "resolved": 4158
+          },
+          {
+            "address": 569,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3909,
+            "resolved": 3909
+          },
+          {
+            "address": 576,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3909,
+            "resolved": 3909
+          }
+        ],
+        "target_sha256": "3d53cad1a09bdc19476701bce83847d635997851d1e26da474522e3daab878d6",
+        "candidate_sha256": "3d53cad1a09bdc19476701bce83847d635997851d1e26da474522e3daab878d6"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-install",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_install",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p006.inc",
+        "start": 579,
+        "size": 106,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 323,
+        "decoded_file_offset": 13285,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 586,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3906,
+            "resolved": 3906
+          },
+          {
+            "address": 622,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 1,
+            "self_relative": false,
+            "target_address": 554,
+            "resolved": 554
+          },
+          {
+            "address": 626,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3906,
+            "resolved": 3906
+          },
+          {
+            "address": 642,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3896,
+            "resolved": 3896
+          },
+          {
+            "address": 645,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3898,
+            "resolved": 3898
+          },
+          {
+            "address": 652,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3906,
+            "resolved": 3906
+          },
+          {
+            "address": 659,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3934,
+            "resolved": 3934
+          },
+          {
+            "address": 662,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1600,
+            "resolved": 936
+          },
+          {
+            "address": 669,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3907,
+            "resolved": 3907
+          },
+          {
+            "address": 679,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3229,
+            "resolved": 3229
+          },
+          {
+            "address": 682,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 970
+          }
+        ],
+        "target_sha256": "c16c094798535b8beebcc225aea0420b299c6bb51e3d4d8ddfc31e9d661da9b6",
+        "candidate_sha256": "c16c094798535b8beebcc225aea0420b299c6bb51e3d4d8ddfc31e9d661da9b6"
+      },
+      {
+        "unit_id": "th03-zun-decoded-driver-uninstall",
+        "source": "src/zun/driver_resident.inl",
+        "procedure": "sprite16_uninstall",
+        "object": "driver/driver.obj",
+        "include": "driver/procs/p007.inc",
+        "start": 685,
+        "size": 147,
+        "origin": "library",
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-4",
+        "payload_file_offset": 429,
+        "decoded_file_offset": 13391,
+        "canonical_file_offset": null,
+        "format": "COM",
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near register/DOS lifecycle, except IRET service dispatcher; DS=driver group; terminal DOS 4C/31 contracts",
+        "ordered_relocations": [],
+        "ordered_native_fixups": [
+          {
+            "address": 691,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3906,
+            "resolved": 3906
+          },
+          {
+            "address": 718,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3896,
+            "resolved": 3896
+          },
+          {
+            "address": 722,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3898,
+            "resolved": 3898
+          },
+          {
+            "address": 731,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3906,
+            "resolved": 3906
+          },
+          {
+            "address": 759,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3254,
+            "resolved": 3254
+          },
+          {
+            "address": 762,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 890
+          },
+          {
+            "address": 778,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3273,
+            "resolved": 3273
+          },
+          {
+            "address": 781,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 871
+          },
+          {
+            "address": 797,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3300,
+            "resolved": 3300
+          },
+          {
+            "address": 800,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 852
+          },
+          {
+            "address": 810,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3325,
+            "resolved": 3325
+          },
+          {
+            "address": 813,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 839
+          },
+          {
+            "address": 818,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3346,
+            "resolved": 3346
+          },
+          {
+            "address": 821,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 831
+          },
+          {
+            "address": 826,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 10,
+            "self_relative": false,
+            "target_address": 3363,
+            "resolved": 3363
+          },
+          {
+            "address": 829,
+            "width": 2,
+            "fixdat": 20,
+            "frame": 1,
+            "target": 4,
+            "self_relative": true,
+            "target_address": 1654,
+            "resolved": 823
+          }
+        ],
+        "target_sha256": "25dc90351bbd4d70bb8550abf2cf5c647fb18e5f2705c98f6d13d7da1da8e348",
+        "candidate_sha256": "25dc90351bbd4d70bb8550abf2cf5c647fb18e5f2705c98f6d13d7da1da8e348"
+      }
+    ],
+    "functions": 8,
+    "code_bytes": 564,
+    "ordered_native_fixups": [
+      {
+        "address": 270,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3962,
+        "resolved": 3962
+      },
+      {
+        "address": 273,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 1379
+      },
+      {
+        "address": 284,
+        "width": 2,
+        "fixdat": 84,
+        "frame": null,
+        "target": 1,
+        "self_relative": false,
+        "target_address": 256,
+        "resolved": 256
+      },
+      {
+        "address": 289,
+        "width": 2,
+        "fixdat": 84,
+        "frame": null,
+        "target": 1,
+        "self_relative": false,
+        "target_address": 258,
+        "resolved": 258
+      },
+      {
+        "address": 305,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3904,
+        "resolved": 3904
+      },
+      {
+        "address": 313,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3904,
+        "resolved": 3904
+      },
+      {
+        "address": 325,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3907,
+        "resolved": 3907
+      },
+      {
+        "address": 328,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3896,
+        "resolved": 3896
+      },
+      {
+        "address": 334,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3907,
+        "resolved": 3907
+      },
+      {
+        "address": 343,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3200,
+        "resolved": 3200
+      },
+      {
+        "address": 346,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 1306
+      },
+      {
+        "address": 371,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2336,
+        "resolved": 1963
+      },
+      {
+        "address": 375,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4208,
+        "resolved": 4208
+      },
+      {
+        "address": 381,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2614,
+        "resolved": 2231
+      },
+      {
+        "address": 391,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4025,
+        "resolved": 4025
+      },
+      {
+        "address": 394,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 1258
+      },
+      {
+        "address": 404,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3904,
+        "resolved": 3904
+      },
+      {
+        "address": 422,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3911,
+        "resolved": 3911
+      },
+      {
+        "address": 425,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 1227
+      },
+      {
+        "address": 433,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3900,
+        "resolved": 3900
+      },
+      {
+        "address": 437,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3907,
+        "resolved": 3907
+      },
+      {
+        "address": 451,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3911,
+        "resolved": 3911
+      },
+      {
+        "address": 454,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 1198
+      },
+      {
+        "address": 462,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3902,
+        "resolved": 3902
+      },
+      {
+        "address": 466,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3907,
+        "resolved": 3907
+      },
+      {
+        "address": 472,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2570,
+        "resolved": 2096
+      },
+      {
+        "address": 475,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3906,
+        "resolved": 3906
+      },
+      {
+        "address": 482,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 3,
+        "self_relative": true,
+        "target_address": 1312,
+        "resolved": 828
+      },
+      {
+        "address": 485,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 3,
+        "self_relative": true,
+        "target_address": 1344,
+        "resolved": 857
+      },
+      {
+        "address": 488,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 3,
+        "self_relative": true,
+        "target_address": 1552,
+        "resolved": 1062
+      },
+      {
+        "address": 494,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3900,
+        "resolved": 3900
+      },
+      {
+        "address": 517,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 3,
+        "self_relative": true,
+        "target_address": 1344,
+        "resolved": 825
+      },
+      {
+        "address": 520,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2570,
+        "resolved": 2048
+      },
+      {
+        "address": 525,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2570,
+        "resolved": 2043
+      },
+      {
+        "address": 530,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2570,
+        "resolved": 2038
+      },
+      {
+        "address": 535,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2570,
+        "resolved": 2033
+      },
+      {
+        "address": 539,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 6,
+        "self_relative": true,
+        "target_address": 2570,
+        "resolved": 2029
+      },
+      {
+        "address": 545,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3024,
+        "resolved": 2477
+      },
+      {
+        "address": 551,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 8,
+        "self_relative": true,
+        "target_address": 3088,
+        "resolved": 2535
+      },
+      {
+        "address": 564,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 4158,
+        "resolved": 4158
+      },
+      {
+        "address": 569,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3909,
+        "resolved": 3909
+      },
+      {
+        "address": 576,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3909,
+        "resolved": 3909
+      },
+      {
+        "address": 586,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3906,
+        "resolved": 3906
+      },
+      {
+        "address": 622,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 1,
+        "self_relative": false,
+        "target_address": 554,
+        "resolved": 554
+      },
+      {
+        "address": 626,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3906,
+        "resolved": 3906
+      },
+      {
+        "address": 642,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3896,
+        "resolved": 3896
+      },
+      {
+        "address": 645,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3898,
+        "resolved": 3898
+      },
+      {
+        "address": 652,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3906,
+        "resolved": 3906
+      },
+      {
+        "address": 659,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3934,
+        "resolved": 3934
+      },
+      {
+        "address": 662,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1600,
+        "resolved": 936
+      },
+      {
+        "address": 669,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3907,
+        "resolved": 3907
+      },
+      {
+        "address": 679,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3229,
+        "resolved": 3229
+      },
+      {
+        "address": 682,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 970
+      },
+      {
+        "address": 691,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3906,
+        "resolved": 3906
+      },
+      {
+        "address": 718,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3896,
+        "resolved": 3896
+      },
+      {
+        "address": 722,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3898,
+        "resolved": 3898
+      },
+      {
+        "address": 731,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3906,
+        "resolved": 3906
+      },
+      {
+        "address": 759,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3254,
+        "resolved": 3254
+      },
+      {
+        "address": 762,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 890
+      },
+      {
+        "address": 778,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3273,
+        "resolved": 3273
+      },
+      {
+        "address": 781,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 871
+      },
+      {
+        "address": 797,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3300,
+        "resolved": 3300
+      },
+      {
+        "address": 800,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 852
+      },
+      {
+        "address": 810,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3325,
+        "resolved": 3325
+      },
+      {
+        "address": 813,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 839
+      },
+      {
+        "address": 818,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3346,
+        "resolved": 3346
+      },
+      {
+        "address": 821,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 831
+      },
+      {
+        "address": 826,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 10,
+        "self_relative": false,
+        "target_address": 3363,
+        "resolved": 3363
+      },
+      {
+        "address": 829,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 1,
+        "target": 4,
+        "self_relative": true,
+        "target_address": 1654,
+        "resolved": 823
+      }
+    ],
+    "control_flow": {
+      "code_bytes": 564,
+      "reachable_owner_bytes": 549,
+      "terminal_unreachable_owner_bytes": 15,
+      "terminal_DOS_sites": [
+        351,
+        386,
+        399,
+        430,
+        459,
+        674
+      ],
+      "unreachable_instructions": [
+        {
+          "address": 388,
+          "size": 2
+        },
+        {
+          "address": 401,
+          "size": 6
+        },
+        {
+          "address": 407,
+          "size": 2
+        },
+        {
+          "address": 409,
+          "size": 2
+        },
+        {
+          "address": 411,
+          "size": 1
+        },
+        {
+          "address": 676,
+          "size": 2
+        }
+      ],
+      "unchecked_indirect_service_table": true
+    },
+    "native_layout": {
+      "segments": [
+        {
+          "name": "_TEXT",
+          "cls": "CODE",
+          "size": 1302
+        },
+        {
+          "name": "_DATA",
+          "cls": "DATA",
+          "size": 0
+        },
+        {
+          "name": "SPR_MASK",
+          "cls": "CODE",
+          "size": 273
+        },
+        {
+          "name": "SPR_PRINT",
+          "cls": "CODE",
+          "size": 101
+        },
+        {
+          "name": "SPR_FMT",
+          "cls": "CODE",
+          "size": 620
+        },
+        {
+          "name": "SPR_CMD",
+          "cls": "CODE",
+          "size": 361
+        },
+        {
+          "name": "SPR_NUM",
+          "cls": "CODE",
+          "size": 310
+        },
+        {
+          "name": "SPR_EGC",
+          "cls": "CODE",
+          "size": 108
+        },
+        {
+          "name": "SPR_STR",
+          "cls": "CODE",
+          "size": 54
+        },
+        {
+          "name": "SPR_DATA",
+          "cls": "CODE",
+          "size": 1280
+        }
+      ],
+      "groups": [
+        {
+          "name": "DGROUP",
+          "members": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      ],
+      "publics": {
+        "start": 256,
+        "sprite16_entry": 268,
+        "sprite16_allocate_buffers": 412,
+        "sprite16_set_interrupt_argument": 471,
+        "sprite16_mask_test_command": 478,
+        "sprite16_draw_command": 513,
+        "sprite16_interrupt_dispatch": 554,
+        "sprite16_install": 579,
+        "sprite16_uninstall": 685,
+        "sprite16_set_mono_enabled": 832,
+        "sprite16_set_mono_color": 838,
+        "sprite16_set_overlap": 844,
+        "sprite16_set_access_plane": 850,
+        "sprite16_set_rop": 856,
+        "sprite16_set_mask": 862,
+        "sprite16_draw_clipped": 868,
+        "sprite16_blit_egc": 1026,
+        "sprite16_copy_rows": 1272,
+        "sprite16_prepare_vram": 1312,
+        "sprite16_build_mask": 1344,
+        "sprite16_accumulate_plane": 1424,
+        "sprite16_copy_lower_page": 1444,
+        "sprite16_compress_rows": 1488,
+        "sprite16_copy_upper_to_lower": 1527,
+        "sprite16_clear_upper": 1552,
+        "sprite16_format_print": 1600,
+        "sprite16_print_string": 1632,
+        "sprite16_print_stack_string": 1654,
+        "sprite16_is_decimal_digit": 1673,
+        "sprite16_is_ascii_lower": 1684,
+        "sprite16_ascii_upper": 1693,
+        "sprite16_format_into": 1712,
+        "sprite16_pad_zeroes": 2173,
+        "sprite16_pad_spaces": 2179,
+        "sprite16_pad_field": 2185,
+        "sprite16_append_string": 2199,
+        "sprite16_format_unsigned": 2207,
+        "sprite16_reverse_string": 2284,
+        "sprite16_tokenize_command": 2336,
+        "sprite16_skip_separators": 2434,
+        "sprite16_find_token_end": 2457,
+        "sprite16_find_quote_end": 2485,
+        "sprite16_require_argument": 2509,
+        "sprite16_optional_argument": 2543,
+        "sprite16_require_number": 2570,
+        "sprite16_optional_number_legacy": 2596,
+        "sprite16_dispatch_options": 2614,
+        "sprite16_parse_number": 2704,
+        "sprite16_parse_decimal": 2821,
+        "sprite16_parse_hex": 2891,
+        "sprite16_parse_binary": 2933,
+        "sprite16_parse_switch": 2978,
+        "sprite16_egc_begin": 3024,
+        "sprite16_egc_end": 3088,
+        "sprite16_string_length": 3136,
+        "sprite16_string_equal_folded": 3154
+      },
+      "use16": true,
+      "word_alignment": true,
+      "omf_records": 55,
+      "layout_profile": "native-paragraph-contributions",
+      "segment_attributes": [
+        72,
+        72,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104,
+        104
+      ],
+      "segment_starts": {
+        "1": 0,
+        "2": 4480,
+        "3": 1312,
+        "4": 1600,
+        "5": 1712,
+        "6": 2336,
+        "7": 2704,
+        "8": 3024,
+        "9": 3136,
+        "10": 3200
+      },
+      "map_public_tables": 2,
+      "alignment_gaps": [
+        [
+          1302,
+          1312
+        ],
+        [
+          1585,
+          1600
+        ],
+        [
+          1701,
+          1712
+        ],
+        [
+          2332,
+          2336
+        ],
+        [
+          2697,
+          2704
+        ],
+        [
+          3014,
+          3024
+        ],
+        [
+          3132,
+          3136
+        ],
+        [
+          3190,
+          3200
+        ]
+      ],
+      "linker_zero_bytes": 71,
+      "explicit_gap_fillers": 0
+    },
+    "native_records": [
+      [
+        256,
+        1014
+      ],
+      [
+        1270,
+        32
+      ],
+      [
+        1312,
+        273
+      ],
+      [
+        1600,
+        101
+      ],
+      [
+        1712,
+        620
+      ],
+      [
+        2336,
+        361
+      ],
+      [
+        2704,
+        310
+      ],
+      [
+        3024,
+        108
+      ],
+      [
+        3136,
+        54
+      ],
+      [
+        3200,
+        1014
+      ],
+      [
+        4214,
+        266
+      ]
+    ],
+    "private_data_bytes": 0,
+    "private_bss_bytes": 0,
+    "enclosing_driver_accepted": false,
+    "reserved_spans_owned": false,
+    "original_assembler_identified": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 8,
+    "code_bytes": 564,
+    "executed_owner_bytes": 549,
+    "terminal_unreachable_owner_bytes": 15,
+    "cases_per_image": 1826,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 913,
+        "covered_owner_bytes": 549,
+        "terminal_unreachable_owner_bytes": 15,
+        "maximum_observed_stack_depth": 384,
+        "trace_sha256": "14211f9295c16fc823d36b1b914ed95661fbbc2ad61e0c00967d6d0f522ae9b7"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 913,
+        "covered_owner_bytes": 549,
+        "terminal_unreachable_owner_bytes": 15,
+        "maximum_observed_stack_depth": 384,
+        "trace_sha256": "0f9c717a13dc3ac7c1e229bf8ef2a76420af50ed8fd69109a3cb181ad5735ebd"
+      }
+    ],
+    "exhaustive_vector_bytes": 256,
+    "scope": "real maintained nested helpers; bounded DOS services, terminal 4C/31; two-page word interface excludes physical EGC and DOS lifetime"
+  },
+  "negative_controls": {
+    "count": 25,
+    "rejected": [
+      "entry-clears-DF",
+      "INT40-returned-offset",
+      "INT40-signature-word-order",
+      "resident-extra-paragraph",
+      "startup-stack-boundary",
+      "command-tail-CR-scan",
+      "decimal-1000-paragraphs",
+      "allocation-carry-branch",
+      "first-buffer-is-mask",
+      "resident-size-increment",
+      "interrupt-field-is-BYTE",
+      "mask-adapter-source-buffer",
+      "mask-adapter-copies-WORDs",
+      "SPRITE-x-register",
+      "service-selector-is-AH",
+      "service-call-enables-IF",
+      "interrupt-returns-with-IRET",
+      "resident-signature-offset",
+      "exchange-saves-old-segment",
+      "interrupt-is-zero-extended-DWORD",
+      "TSR-retains-paragraph-count",
+      "uninstall-zeroes-old-offset",
+      "environment-segment-offset",
+      "mask-freed-before-solid",
+      "last-free-carry-selects-message"
+    ]
+  },
+  "source_acceptance": false,
+  "publication": "config/zun_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false,
+  "graphics_report_sha256": "5ef5e9435b362fba671f0fe65d2992048fa4bd0bd32d50109be747df66b0bf8b"
+}

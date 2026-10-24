@@ -33,7 +33,7 @@ def zun_product_status(root, units):
         with (Path(root) / 'config/units.csv').open() as stream:
             expected = [u for u in csv.DictReader(stream) if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
         provided = [u for u in units if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
-        if len(expected) != 65 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
+        if len(expected) != 73 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
             raise ValueError('caller inventory does not match the current ZUN ledger')
         from lib.decoded_zun_acceptance import verify
         return verify(Path(root), json.loads(current.read_bytes()))

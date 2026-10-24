@@ -22,12 +22,12 @@ class CurrentZunAcceptance(unittest.TestCase):
     def setUp(self):
         self.publication = json.loads((ROOT / PUBLICATION).read_bytes())
 
-    def test_physical_replay_accepts_twelve_inner_logo_and_resident_functions(self):
+    def test_physical_replay_accepts_all_current_bounded_decoded_scopes(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (60, 1621))
-        self.assertEqual(result["decoded_library_bytes"], 2280)
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (68, 1621))
+        self.assertEqual(result["decoded_library_bytes"], 2844)
         self.assertEqual(result["decoded_original_asm_bytes"], 1390)
-        self.assertEqual((result["decoded_procedures"], result["decoded_code_bytes"]), (68, 4508))
+        self.assertEqual((result["decoded_procedures"], result["decoded_code_bytes"]), (76, 5072))
         self.assertEqual(result["payload_options"], ["-2", "-3", "-4", "-5"])
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
@@ -118,9 +118,9 @@ class CurrentZunAcceptance(unittest.TestCase):
         with (ROOT / "config/units.csv").open() as stream: units = list(csv.DictReader(stream))
         result = verify(ROOT, self.publication)
         svg = progress.render_svg(units, [], [], zun_status=result)
-        self.assertIn("Decoded extents 60/65", svg)
-        self.assertIn("4,508 CODE B", svg)
+        self.assertIn("Decoded extents 68/73", svg)
+        self.assertIn("5,072 CODE B", svg)
         self.assertIn("ASM/library separate", svg)
-        self.assertIn("80 guest mutations rejected", svg)
+        self.assertIn("155 guest mutations rejected", svg)
         self.assertNotIn("10 target differences", svg)
         self.assertIn("whole-game totals remain unknown", svg)

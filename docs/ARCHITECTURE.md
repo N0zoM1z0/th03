@@ -48,6 +48,18 @@ execute, including the 65,536-row zero-height loop. EGC begin/end force IF on;
 top clipping does not perform a second bottom pass. Shared state and buffers
 remain external dependencies, with no new DATA ownership.
 
+Eight driver lifecycle procedures own the remaining 564 library procedure CODE
+bytes. Their 69 native WORD fields include 27 relative calls. Actual maintained
+parser, formatter and graphics helpers execute under independent specifications;
+DOS allocation, resize, free and exit replies remain bounded. DOS 4C/31 are
+terminal: 549 bytes execute and fifteen following bytes are unreachable under
+that contract. Install compares the signature at segment:0102, saves the old
+vector and retains two decimal-1000-paragraph buffers. Uninstall deliberately
+restores offset zero, then frees environment, mask, solid and code in order.
+IRET restores a six-byte frame and stacked flags, overriding the internal STI.
+All 55 driver procedures now have scoped acceptance, but the startup header,
+shared DATA/buffers and twelve reserved DATA bytes have no such ownership.
+
 `src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
 CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.
 Its two link layouts and six ordered far-pointer relocations are reviewed
