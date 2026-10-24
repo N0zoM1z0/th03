@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `0e56dae` (native logo alignment and current ZUN source acceptance).
+- Previous pushed checkpoint: `9cbc909` (current ZUN resident source acceptance).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -107,6 +107,27 @@ remain in [README.md](../README.md).
   Consumed DOS.H/_DEFS.H match the pinned SDK before/after the cold pair.
   The publication binds both full models and executes thirty short ABI cases.
   Canonical stored-file offsets and whole-product ownership remain open.
+- ZUN -2 now passes complete **original-ASM** decoded source acceptance:
+  nine procedures / 607 CODE + 783 initialized DATA bytes, zero BSS. All 1,390
+  bytes resolve naturally from native records 1,000/390 and 48 literal ordered
+  fixups. Complete OMF/ORG/DGROUP/MAP ownership and the pinned original token
+  stream with 59 bijective label changes pass. It adds **zero authored credit**.
+  Current -2/-3/-5 acceptance is thirteen extents / 21 procedures / 2,228 CODE
+  bytes; authored CODE remains 1,621 bytes. Reviewed producer DATA totals 1,105.
+  Independent guest contracts run 70,116 calls per image: 65,536 conversion
+  inputs at the first load, 1,536 boundary inputs at the second and 1,522 flow,
+  IRQ and draw scenarios at each load. All 607 instruction bytes execute at
+  both loads; thirteen actual guest mutants fail. Complete physical memory
+  outside a bounded caller stack, exact ordered video/latch/saved-vector stores,
+  near/IRET frames and flags are checked. Detection uses fixed ES:023D rather
+  than returned BX. Each old vector is saved before publishing its handler;
+  install retains 42h paragraphs. Remove restores 59h/6/5 before freeing the
+  environment and resident, ignores first-free carry and reports second-free
+  carry. Empty text writes 65,536 attribute words; all drawing inherits DF.
+  DOS/PC-98 BIOS remain explicit bounded interfaces; wrapper entry supplies
+  cleared DF. Out-of-domain unchecked error pointers, real devices and DOS
+  lifetime remain unproved. Publication binds all three full witnesses and
+  executes 46 short ABI cases; canonical packed-file offsets remain absent.
 - ZUN -4 uses the separately pinned compatible JWasm OMF emitter and normal TLINK.
   Its instruction/data/procedure includes are unchanged; staging only adapts
   model declaration order, variadic macro spelling and include separators. The
@@ -139,14 +160,14 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,836 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m10s at 395 MiB peak RSS, no swap. OP's latest cold
+- Last full CI: PASS, 1,847 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m22s at 440 MiB peak RSS, no swap. OP's latest cold
   pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
   3m10s at 83 MiB with lifecycle/SDK checks. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
-  The complete ZUN cold pair with both logo/resident models took 1m38s at 121 MiB,
+  The complete ZUN cold pair with logo/resident/init models took 1m46s at 168 MiB,
   with no swap.
 
 ## Maintained producers
@@ -179,8 +200,9 @@ ABI and byte credit are recorded separately in the ledgers.
    still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-   ZUN resident -5 now also passes current gates. Next scopes are the -2 and -4
-   driver units. Bind their current native ownership and
+   ZUN resident -5 and complete original-ASM -2 now also pass current gates.
+   Next scopes are the -4 driver and the maintained launcher/transfer units.
+   Bind their current native ownership and
    affected behavior without reviving deleted historical verification trees.
 3. The loss renderer is now accepted: `player_stuff_t::lose_render()` at loaded
    `0xC248`, all 177 bytes. A near-class Pascal member consumes the observed near

@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from lib.decoded_zun_acceptance import PUBLICATION, verify, runtime_witness, resident_witness
+from lib.decoded_zun_acceptance import PUBLICATION, verify, runtime_witness, resident_witness, init_witness
 from status import zun_product_status
 
 
@@ -24,8 +24,10 @@ class CurrentZunAcceptance(unittest.TestCase):
 
     def test_physical_replay_accepts_twelve_inner_logo_and_resident_functions(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (12, 1621))
-        self.assertEqual(result["payload_options"], ["-3", "-5"])
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (13, 1621))
+        self.assertEqual(result["decoded_original_asm_bytes"], 1390)
+        self.assertEqual((result["decoded_procedures"], result["decoded_code_bytes"]), (21, 2228))
+        self.assertEqual(result["payload_options"], ["-2", "-3", "-5"])
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
         self.assertTrue(result["full_runtime_witness_bound"])
@@ -74,19 +76,30 @@ class CurrentZunAcceptance(unittest.TestCase):
 
     def test_resident_owner_cannot_use_a_logo_coordinate(self):
         before = deepcopy(self.publication["audit"])
-        owner = self.publication["audit"]["scope"]["owners"][-1]
+        owner, = [o for o in self.publication["audit"]["scope"]["owners"] if o["unit_id"] == "th03-zun-decoded-resident-main"]
         self.assertEqual(owner["payload_option"], "-5")
         owner["payload_option"] = "-3"
         with patch("lib.decoded_zun_acceptance.audit", return_value=before):
             with self.assertRaisesRegex(ValueError, "physical audit drift"): verify(ROOT, self.publication)
+
+    def test_original_asm_cannot_be_reclassified_as_new_authored_credit(self):
+        scope = deepcopy(self.publication["audit"]["scope"]["init"])
+        scope["layout"]["source_lineage"]["newly_authored_bytes"] = 607
+        with self.assertRaisesRegex(ValueError, "source classification"): init_witness(scope)
+
+    def test_full_conversion_domain_is_required_in_cold_witness(self):
+        scope = deepcopy(self.publication["audit"]["scope"]["init"])
+        scope["runtime"]["observations"][0]["conversions"]["cases"] = 256
+        with self.assertRaisesRegex(ValueError, "init load/scalar"): init_witness(scope)
 
     def test_svg_separates_inner_logo_source_from_whole_product(self):
         import progress
         with (ROOT / "config/units.csv").open() as stream: units = list(csv.DictReader(stream))
         result = verify(ROOT, self.publication)
         svg = progress.render_svg(units, [], [], zun_status=result)
-        self.assertIn("Decoded extents 12/18", svg)
-        self.assertIn("12 functions / 1,621 B", svg)
-        self.assertIn("34 guest mutations rejected", svg)
+        self.assertIn("Decoded extents 13/18", svg)
+        self.assertIn("2,228 CODE B", svg)
+        self.assertIn("original ASM separate", svg)
+        self.assertIn("47 guest mutations rejected", svg)
         self.assertNotIn("10 target differences", svg)
         self.assertIn("whole-game totals remain unknown", svg)

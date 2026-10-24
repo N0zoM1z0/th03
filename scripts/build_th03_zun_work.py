@@ -66,6 +66,8 @@ def recipe_inventory():
              "scripts/lib/zun_driver_layout.py", "scripts/lib/zun_logo_layout.py",
              "scripts/lib/zun_logo_runtime.py", "scripts/lib/zun_resident_layout.py",
              "scripts/lib/zun_resident_runtime.py", "scripts/review_th03_zun_resident.py",
+             "scripts/lib/zun_init_layout.py", "scripts/lib/zun_init_runtime.py", "scripts/review_th03_zun_init.py",
+             "config/th03_zun_init_fixups.json", "config/th03_zun_init_labels.json",
              "scripts/lib/zun.py", "scripts/lib/omf.py",
              "scripts/lib/pc98.py", "scripts/lib/targets.py", "scripts/lib/toolchain.py",
              "scripts/probe_th03_main_bomb_rikako_cpp.py", "scripts/probe_th03_main_boss_marisa_cpp.py",
@@ -264,6 +266,13 @@ def build():
         target_resident = decoded[at:at + size]
         report["resident_scopes"] = dict(layout=resident_layout(WORK, target_resident, payloads[4], at),
             runtime=resident_runtime(target_resident, payloads[4]), negative_controls=resident_controls(target_resident))
+        from lib.zun_init_layout import verify as init_layout
+        from lib.zun_init_runtime import verify as init_runtime, negative_controls as init_controls
+        init = directory["payloads"][1]
+        at, size = init["decoded_file_offset"], init["size"]
+        target_init = decoded[at:at + size]
+        report["init_scopes"] = dict(layout=init_layout(WORK, target_init, payloads[1], at),
+            runtime=init_runtime(target_init, payloads[1]), negative_controls=init_controls(target_init))
         need(recipe_inventory() == report["recipe_sha256"], "recipe changed during cold build")
         need(runtime_inventory() == report["consumed_runtime_sha256"], "consumed tiny runtime changed during cold build")
         need(sdk_inventory() == report["consumed_sdk_sha256"], "consumed SDK changed during cold build")

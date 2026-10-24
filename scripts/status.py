@@ -261,8 +261,9 @@ def main() -> int:
               "whole-game percentage=unknown; Factory acceptance=false")
         print(decoded_summary(per_artifact["th03-op"]["decoded_acceptance"]))
         zun = per_artifact['th03-zun']['decoded_acceptance']
-        print(f"ZUN current decoded source acceptance: {zun['decoded_exact_units']} functions / "
-              f"{zun['decoded_authored_bytes']} B; canonical unit credit unchanged; whole-product source ownership open")
+        print(f"ZUN current decoded source acceptance: {zun['decoded_exact_units']} extents; "
+              f"authored={zun['decoded_authored_bytes']} B original-ASM={zun.get('decoded_original_asm_bytes', 0)} B; "
+              "canonical unit credit unchanged; whole-product source ownership open")
         print(output["warning"])
     return 0
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish the current twelve decoded ZUN -3 logo / -5 resident source owners."""
+"""Publish current -2 original ASM and -3/-5 authored decoded source scopes."""
 
 from datetime import datetime, timezone
 import json

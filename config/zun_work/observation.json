@@ -1,6 +1,6 @@
 {
   "schema": "th03-zun-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T13:11:23.735485Z",
+  "observed_utc": "2026-10-24T13:34:19.754896Z",
   "command": ".venv/bin/python -B scripts/build_th03_zun_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 110,
@@ -316,7 +316,7 @@
     "Borland C0T.OBJ, EMU.LIB, MATHS.LIB, CT.LIB and include declarations"
   ],
   "implementation_sha256": {
-    "scripts/build_th03_zun_work.py": "ce8a1672d7418b2507c6cfe5dbc03cc1546b891d31aac47ed2dc721cc6327be4",
+    "scripts/build_th03_zun_work.py": "e20221f72312a2be497cf8592284f39a84e56267dfe8c33b31c22c1226bab50a",
     "scripts/lib/zun_work_source.py": "06672c674d5d9461e1ff25e5402ed9ef5282b38ba66e8d273bf87b31f7a68aa9",
     "config/th03_zun_work.toml": "4a32e3d0317a8284a2b48f501810d1d500646cd39ce9b7b6324c80f6c66deeed",
     "scripts/stage_th03_zun_driver_jwasm.py": "67725cd7719f92f27e5d9918c6c3662908fb80d9940fd3fd7d9dd0a233e23487",
@@ -324,17 +324,18 @@
     "scripts/stage_th03_zunsoft.py": "03e7119f51bccc52738abff7a02af8e1b1b1871402a5805dbc3cf1d0e6bd4c3f",
     "scripts/lib/zun_logo_layout.py": "3e2897277a8b6e1881f85721422ff4d317e2fa66cde66bbbb3d4791b6a247f78",
     "scripts/lib/zun_logo_runtime.py": "45375eb28b5a71d10011af9c2bbca85606dfbdb3105dfba6eb523849dfaf8442",
-    "scripts/lib/decoded_zun_acceptance.py": "dd5515f6d0bd8bb66ad027b01335ba5d0fd6c232be768d209b2f043d2bc484ee",
-    "scripts/publish_th03_zun_work_scopes.py": "c81d46112780417ced37643604754ce68708b223d869fa8dc494b0ec43e1e4e4",
+    "scripts/lib/decoded_zun_acceptance.py": "25cff853b1c40bb047fbbf7542fb19eaf7d92a5c82526e0058ac1448e3fd6d1e",
+    "scripts/publish_th03_zun_work_scopes.py": "506321ccb5cd770615a198559700de7d05db40fe6f70f5bc98ee98152d4366e1",
     "scripts/lib/zun_resident_layout.py": "09122259a95f0dfb984110f4ff9d501ebccf722d73222371c07e3b1233c66ea3",
-    "scripts/lib/zun_resident_runtime.py": "4dc04558c5ae646229d04e0fb96b103b4cf6197414d9fa280fc93089a12eae18"
+    "scripts/lib/zun_resident_runtime.py": "4dc04558c5ae646229d04e0fb96b103b4cf6197414d9fa280fc93089a12eae18",
+    "scripts/lib/zun_init_layout.py": "858bed267cfa5b13f14d36bf401edc845cc2fa592890cba1b4e43fa8f147aca3",
+    "scripts/lib/zun_init_runtime.py": "b3c016bfc5eb1fd97f94aaeb5980ff0c613861813ba1f3b5a7d3db400b03bf78"
   },
-  "builder_sha256": "ce8a1672d7418b2507c6cfe5dbc03cc1546b891d31aac47ed2dc721cc6327be4",
+  "builder_sha256": "e20221f72312a2be497cf8592284f39a84e56267dfe8c33b31c22c1226bab50a",
   "scoped_source_acceptance": {
     "publication": "config/zun_work/scoped_acceptance.json",
-    "decoded_functions": 12,
-    "decoded_code_bytes": 1621,
-    "owned_data_bytes": 322,
+    "decoded_code_bytes": 2228,
+    "owned_data_bytes": 1105,
     "reviewed_bss_bytes": 293,
     "native_word_alignment": 2,
     "explicit_padding_variables": 0,
@@ -344,9 +345,9 @@
       282
     ],
     "images": 2,
-    "executed_code_bytes": 1621,
+    "executed_code_bytes": 2228,
     "full_fade_frames": 231,
-    "actual_guest_mutations_rejected": 34,
+    "actual_guest_mutations_rejected": 47,
     "opaque_char_carrier_high_bytes": 256,
     "consumed_tiny_runtime": {
       "C0T.OBJ": "27169f062a9b77bf4accfb9550ca4ccbf0fd710d4b1232768630d53bb6305f7c",
@@ -357,12 +358,14 @@
     "canonical_unit_credit_changed": false,
     "whole_product_source_ownership": false,
     "decoded_payloads": [
+      "-2",
       "-3",
       "-5"
     ],
     "runtime_cases_per_image_by_payload": {
       "-3": 5111,
-      "-5": 3548
+      "-5": 3548,
+      "-2": 70116
     },
     "consumed_resident_sdk": {
       "dos.h": "defd0ff47a0c0486adbb223f56a7a6aaa7b9a8c4ec506290fdf7b69907537369",
@@ -383,6 +386,38 @@
         11,
         256
       ],
+      "canonical_unit_credit_changed": false
+    },
+    "decoded_units": 13,
+    "decoded_procedures": 21,
+    "authored_functions": 12,
+    "authored_code_bytes": 1621,
+    "original_asm_bytes": 1390,
+    "init": {
+      "origin": "original-asm",
+      "code_bytes": 607,
+      "data_bytes": 783,
+      "bss_bytes": 0,
+      "procedures": 9,
+      "ordered_native_fixups": 48,
+      "native_records": [
+        [
+          256,
+          1000
+        ],
+        [
+          1256,
+          390
+        ]
+      ],
+      "runtime_cases_per_image": 70116,
+      "scenario_cases_per_image": 3044,
+      "scalar_cases_per_image": 67072,
+      "full_scalar_input_domain": 65536,
+      "actual_guest_mutations_rejected": 13,
+      "newly_authored_bytes": 0,
+      "empty_string_attribute_word_writes": 65536,
+      "source_labels": 59,
       "canonical_unit_credit_changed": false
     }
   }

@@ -9,7 +9,8 @@ class ResidentProgressTests(unittest.TestCase):
  def proven(self,u=UNITS,e=EVIDENCE):
   with patch.object(p,'ROOT',SOURCE):return p.zun_resident_root_source_proven(u,e)
  def test_current_scope(self):
-  self.assertTrue(self.proven());z=[u for u in UNITS if u['artifact']=='th03-zun' and u['source']];self.assertEqual((len(z),sum(int(u['size']) for u in z)),(15,1855));self.assertFalse(any(u['state']=='exact' for u in z))
+  # Maintained original ASM is visible separately and adds no authored credit.
+  self.assertTrue(self.proven());z=[u for u in UNITS if u['artifact']=='th03-zun' and u['source'] and u['origin']=='authored'];self.assertEqual((len(z),sum(int(u['size']) for u in z)),(15,1855));self.assertFalse(any(u['state']=='exact' for u in z))
  def test_reject_owner_geometry_or_scope_drift(self):
   for key,value in [('offset','0x368'),('size','629'),('file_offset','0x4589'),('source','src/zun/zunsoft.cpp'),('state','exact'),('origin','library'),('segment','decoded:-3')]:
    q=copy.deepcopy(UNITS);next(u for u in q if u['id'] in p.ZUN_RESIDENT_UNITS)[key]=value

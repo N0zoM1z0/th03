@@ -21,7 +21,8 @@ class ZunsoftProgressTests(unittest.TestCase):
   current=patch.object(p,'ROOT',legacy);current.start();self.addCleanup(current.stop)
  def test_current_scope(self):
   self.assertTrue(p.zunsoft_root_source_proven(UNITS,EVIDENCE))
-  z=[u for u in UNITS if u['artifact']=='th03-zun' and u['source']]
+  # Original-ASM init visibility does not enlarge the authored subset.
+  z=[u for u in UNITS if u['artifact']=='th03-zun' and u['source'] and u['origin']=='authored']
   self.assertEqual((len(z),sum(int(u['size']) for u in z)),(15,1855))
   self.assertFalse(any(u['state']=='exact' for u in z))
  def test_rejects_changed_source_and_extent_and_packed_offset(self):

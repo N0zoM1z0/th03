@@ -1,4 +1,4 @@
-"""Source-bound current -3/-5 ownership and complete cold runtime witnesses.
+"""Source-bound current -2/-3/-5 ownership and complete cold runtime witnesses.
 
 Publication reruns the physical audit and a bounded current ABI smoke. The full
 5,111-case/image model runs in the cold builder; status binds its exact report,
@@ -21,6 +21,8 @@ from lib.zun_logo_layout import verify as layout, OBJECT
 from lib.zun_logo_runtime import Machine, ENTRIES, BSS_SIZE, put
 from lib.zun_resident_layout import verify as resident_layout, OBJECT as RESIDENT_OBJECT
 from lib.zun_resident_runtime import Machine as ResidentMachine
+from lib.zun_init_layout import verify as init_layout
+from lib.zun_init_runtime import Machine as InitMachine
 from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_oracle_rows
 
 
@@ -86,6 +88,40 @@ def resident_smoke(target, candidate):
             machine.close()
     need(observations[0] == observations[1], "current independent resident smoke")
     return dict(cases_per_image=5, images=2, trace_sha256=digest(observations[0]),
+                full_runtime_reexecuted_now=False, full_runtime_witness_bound=True)
+
+
+def init_witness(scope):
+    runtime = scope["runtime"]
+    need((runtime["images"], runtime["functions"], runtime["code_bytes"], runtime["data_bytes"],
+          runtime["executed_owner_bytes"], runtime["cases_per_image"], runtime["empty_string_attribute_word_writes"])
+         == (2, 9, 607, 783, 607, 70116, 65536), "complete original-ASM init runtime dimensions")
+    observations = runtime["observations"]
+    need([(o["load_segment"], o["scenario_cases"], o["conversions"]["cases"], o["covered_owner_bytes"],
+           o["maximum_observed_stack_depth"]) for o in observations]
+         == [(0x1000, 1522, 65536, 607, 22), (0x3000, 1522, 1536, 607, 22)]
+         and all(re.fullmatch(r"[0-9a-f]{64}", o[k] if k == "trace_sha256" else o["conversions"]["trace_sha256"])
+                 for o in observations for k in ("trace_sha256", "conversions")), "init load/scalar/coverage/stack witnesses")
+    controls = scope["negative_controls"]
+    need(controls["count"] == len(set(controls["rejected"])) == 13, "all thirteen actual init mutation controls")
+    need(scope["layout"]["source_lineage"]["origin"] == "original-asm"
+         and scope["layout"]["source_lineage"]["newly_authored_bytes"] == 0, "original-ASM source classification")
+
+
+def init_smoke(target, candidate):
+    observations = []
+    for image in (target, candidate):
+        machine = InitMachine(image, 0x3000)
+        try:
+            observations.append([
+                machine.run("start"), machine.run("start", tail=b"/R", resident=1, failures=(0x5000, 0x6000)),
+                machine.run("detect", resident=3, vector_offset=0x880),
+                machine.run("error", error=0x8005, flags=0x646), machine.run("stop", latch=0xFF),
+                machine.run("copy", flags=0x646), machine.run("show", latch=2),
+                machine.run("draw", text=b"\x81\x7F\x81\x9F", offset=1, flags=0x646)])
+        finally: machine.close()
+    need(observations[0] == observations[1], "current independent original-ASM ABI smoke")
+    return dict(cases_per_image=8, images=2, trace_sha256=digest(observations[0]),
                 full_runtime_reexecuted_now=False, full_runtime_witness_bound=True)
 
 
@@ -185,14 +221,21 @@ def audit(root):
     need(resident["layout"] == resident_layout(work, target_resident, candidate_resident, at),
          "independent physical resident audit")
     resident_witness(resident)
-    owners = scope["layout"]["owners"] + resident["layout"]["owners"]
+    child = directory["payloads"][1]
+    at, size = child["decoded_file_offset"], child["size"]
+    target_init = decoded[at:at + size]
+    candidate_init = (work / "init/init.com").read_bytes()
+    init = report["init_scopes"]
+    need(init["layout"] == init_layout(work, target_init, candidate_init, at), "complete native original-ASM ownership")
+    init_witness(init)
+    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
         u = units[o["unit_id"]]
         need(u["artifact"] == "th03-zun" and u["segment"] == "decoded:" + o["payload_option"] and int(u["offset"], 0) == o["start"]
              and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"] and not u["file_offset"]
-             and u["state"] == "source-present" and u["origin"] == "authored" and u["boundary_state"] == "reviewed"
+             and u["state"] == "source-present" and u["origin"] == o.get("origin", "authored") and u["boundary_state"] == "reviewed"
              and u["source"] == o["source"], "current decoded payload ownership ledger")
     for obj in (OBJECT, RESIDENT_OBJECT):
         for name in describe_omf((work / obj).read_bytes())["dependency_paths"]:
@@ -210,9 +253,11 @@ def audit(root):
                 input_files=len(files), vendor_inputs=2, outputs_per_round=23, project_objects_per_round=7, rounds=2,
                 decoded_sha256=sha(decoded), stored_sha256=sha(stored), payload_sha256=sha(target_logo),
                 resident_payload_sha256=sha(target_resident),
+                init_payload_sha256=sha(target_init),
                 scope=dict(owners=owners, layout=scope["layout"], runtime=scope["runtime"],
-                           negative_controls=scope["negative_controls"], resident=resident), current_smoke=current_smoke,
+                           negative_controls=scope["negative_controls"], resident=resident, init=init), current_smoke=current_smoke,
                 resident_smoke=resident_smoke(target_resident, candidate_resident),
+                init_smoke=init_smoke(target_init, candidate_init),
                 product_exact=False, canonical_unit_credit_changed=False)
 
 
@@ -238,8 +283,10 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=12, decoded_authored_bytes=1621,
+                reviewed_proof_ready=True, decoded_exact_units=13, decoded_authored_bytes=1621,
+                decoded_original_asm_bytes=1390, decoded_original_asm_code_bytes=607, decoded_original_asm_data_bytes=783,
+                decoded_source_bytes=3011, decoded_code_bytes=2228, decoded_procedures=21, reviewed_producer_data_bytes=1105,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
-                payload_options=["-3", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
+                payload_options=["-2", "-3", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
                 canonical_credit_changed=False, factory_accepted=False, whole_game_percentage=None,
-                full_runtime_witness_bound=True, current_smoke_cases=30)
+                full_runtime_witness_bound=True, current_smoke_cases=46)
