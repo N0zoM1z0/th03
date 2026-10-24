@@ -77,7 +77,7 @@ def op_decoded_status(root, units):
     accepted = result.get('decoded_exact_unit_ids', [])
     try:
         current_scopes = result.get('current_cold_source_scopes') is True
-        expected_count, expected_bytes = (12, 500) if current_scopes else (33, 9530)
+        expected_count, expected_bytes = (15, 771) if current_scopes else (33, 9530)
         valid = (result.get('reviewed_proof_ready') is True
                  and result.get('product_exact') is False
                  and result.get('factory_accepted') is False
@@ -91,7 +91,8 @@ def op_decoded_status(root, units):
         if current_scopes:
             from lib.op_exit_layout import OWNERS
             from lib.shared_input_layout import unit_ids
-            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op")
+            from lib.op_cfg_layout import FUNCTIONS as CFG_FUNCTIONS
+            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS}
         if not valid:
             return dict(unavailable(result.get('reason', 'publication or caller inventory invalid')),
                         tracked_decoded_extents=len(ids))

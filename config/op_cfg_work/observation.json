@@ -1,0 +1,509 @@
+{
+  "schema": "th03-op-cfg-current-observation-v1",
+  "observed_utc": "2026-10-24T17:51:01.295259Z",
+  "command": ".venv/bin/python scripts/review_th03_op_cfg_work.py",
+  "provenance": "candidate-local-attested",
+  "source": "src/op/entry.cpp",
+  "implementation_sha256": {
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/op_cfg_runtime.py": "bd474bb123b68f3ef6b80afe282b3ca5b4e1a6dcf9f5775c764926f7a82e6340",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8"
+  },
+  "cold_report_sha256": "a85d1fa1ed6bfbe6913f15f7407b52ede260a36164fb0030c7879b76286bbcd1",
+  "source_inventory_sha256": "2cb2ff667e9e593abf316ce971af311659fc7ca53969dc69f645985a2881d486",
+  "sdk_before": {
+    "C:/TC4/INCLUDE/stddef.h": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
+    "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
+    "C:/TC4/INCLUDE/_null.h": "76bbba0949f023c327f34ae498d3cbbf0fb8c4592f8b8936ccd1acadd840ddf1",
+    "C:/TC4/INCLUDE/conio.h": "8ab3b57c8fe7cd16fa619c28f3e1c0df4ff9285bfb780d204d63f884d72bef4a",
+    "C:/TC4/INCLUDE/process.h": "c1e4a0abcd7077971ccc15d610c3daa36b69ce11e39f2af055d3f33ba80d3bae"
+  },
+  "sdk_after": {
+    "C:/TC4/INCLUDE/stddef.h": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
+    "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
+    "C:/TC4/INCLUDE/_null.h": "76bbba0949f023c327f34ae498d3cbbf0fb8c4592f8b8936ccd1acadd840ddf1",
+    "C:/TC4/INCLUDE/conio.h": "8ab3b57c8fe7cd16fa619c28f3e1c0df4ff9285bfb780d204d63f884d72bef4a",
+    "C:/TC4/INCLUDE/process.h": "c1e4a0abcd7077971ccc15d610c3daa36b69ce11e39f2af055d3f33ba80d3bae"
+  },
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-op-decoded-configuration-cfg_load",
+        "name": "cfg_load",
+        "source": "src/op/entry.cpp",
+        "object": "obj/th03/op_01.obj",
+        "segment": 2448,
+        "offset": 8,
+        "start": 39176,
+        "size": 120,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "e6cdee8915467ca2a545c8f7fed98dfd9b225717fc174439415c5a90476f5bf2",
+        "candidate_sha256": "e6cdee8915467ca2a545c8f7fed98dfd9b225717fc174439415c5a90476f5bf2",
+        "ordered_relocations": [
+          [
+            2448,
+            67
+          ],
+          [
+            2448,
+            36
+          ],
+          [
+            2448,
+            31
+          ],
+          [
+            2448,
+            19
+          ]
+        ],
+        "abi": "near cdecl; no arguments; SS local eight-byte packed cfg; RET",
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      },
+      {
+        "unit_id": "th03-op-decoded-configuration-cfg_save",
+        "name": "cfg_save",
+        "source": "src/op/entry.cpp",
+        "object": "obj/th03/op_01.obj",
+        "segment": 2448,
+        "offset": 128,
+        "start": 39296,
+        "size": 67,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "e52a9bcb93f4202fc9e9467bad84872d61cfcb7806f66c2154f01945388286d4",
+        "candidate_sha256": "e52a9bcb93f4202fc9e9467bad84872d61cfcb7806f66c2154f01945388286d4",
+        "ordered_relocations": [
+          [
+            2448,
+            191
+          ],
+          [
+            2448,
+            186
+          ],
+          [
+            2448,
+            149
+          ],
+          [
+            2448,
+            139
+          ]
+        ],
+        "abi": "near cdecl; no arguments; SS local eight-byte packed cfg; RET",
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      },
+      {
+        "unit_id": "th03-op-decoded-configuration-cfg_save_exit",
+        "name": "cfg_save_exit",
+        "source": "src/op/entry.cpp",
+        "object": "obj/th03/op_01.obj",
+        "segment": 2448,
+        "offset": 195,
+        "start": 39363,
+        "size": 84,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "f42b3c16f8a6f9f596e20ee4f5030da462a0eea8996165b21ce5c0d8d3044548",
+        "candidate_sha256": "f42b3c16f8a6f9f596e20ee4f5030da462a0eea8996165b21ce5c0d8d3044548",
+        "ordered_relocations": [
+          [
+            2448,
+            275
+          ],
+          [
+            2448,
+            270
+          ],
+          [
+            2448,
+            233
+          ],
+          [
+            2448,
+            223
+          ],
+          [
+            2448,
+            214
+          ]
+        ],
+        "abi": "near cdecl; no arguments; SS local eight-byte packed cfg; RET",
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0
+      }
+    ],
+    "functions": 3,
+    "code_bytes": 271,
+    "ordered_native_fields": [
+      {
+        "offset": 265,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 26,
+        "addend": 0
+      },
+      {
+        "offset": 260,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 24,
+        "addend": 0
+      },
+      {
+        "offset": 229,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 223,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 25,
+        "addend": 0
+      },
+      {
+        "offset": 213,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 23,
+        "addend": 0
+      },
+      {
+        "offset": 210,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 214
+      },
+      {
+        "offset": 204,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 47,
+        "addend": 0
+      },
+      {
+        "offset": 198,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 1
+      },
+      {
+        "offset": 181,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 26,
+        "addend": 0
+      },
+      {
+        "offset": 176,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 24,
+        "addend": 0
+      },
+      {
+        "offset": 145,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 139,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 25,
+        "addend": 0
+      },
+      {
+        "offset": 129,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 23,
+        "addend": 0
+      },
+      {
+        "offset": 126,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 214
+      },
+      {
+        "offset": 102,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 97,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 31,
+        "addend": 0
+      },
+      {
+        "offset": 84,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 0
+      },
+      {
+        "offset": 75,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 68,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 31,
+        "addend": 0
+      },
+      {
+        "offset": 63,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 0
+      },
+      {
+        "offset": 57,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 32,
+        "addend": 0
+      },
+      {
+        "offset": 47,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 41,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 0
+      },
+      {
+        "offset": 37,
+        "width": 2,
+        "fixdat": 22,
+        "frame": 2,
+        "target": 15,
+        "addend": 2
+      },
+      {
+        "offset": 26,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 26,
+        "addend": 0
+      },
+      {
+        "offset": 21,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 22,
+        "addend": 0
+      },
+      {
+        "offset": 9,
+        "width": 4,
+        "fixdat": 86,
+        "frame": null,
+        "target": 21,
+        "addend": 0
+      },
+      {
+        "offset": 6,
+        "width": 2,
+        "fixdat": 20,
+        "frame": 2,
+        "target": 2,
+        "addend": 214
+      }
+    ],
+    "ordered_relocations": [
+      [
+        2448,
+        275
+      ],
+      [
+        2448,
+        270
+      ],
+      [
+        2448,
+        233
+      ],
+      [
+        2448,
+        223
+      ],
+      [
+        2448,
+        214
+      ],
+      [
+        2448,
+        191
+      ],
+      [
+        2448,
+        186
+      ],
+      [
+        2448,
+        149
+      ],
+      [
+        2448,
+        139
+      ],
+      [
+        2448,
+        67
+      ],
+      [
+        2448,
+        36
+      ],
+      [
+        2448,
+        31
+      ],
+      [
+        2448,
+        19
+      ]
+    ],
+    "reviewed_initialized_dependency_bytes": 18,
+    "data_dependencies": {
+      "disabled_flag": [
+        144,
+        1
+      ],
+      "zero_initializer": [
+        145,
+        8
+      ],
+      "filename": [
+        358,
+        9
+      ]
+    },
+    "containing_code_bytes": 3094,
+    "containing_data_bytes": 487,
+    "containing_bss_bytes": 6,
+    "containing_producer_accepted": false,
+    "whole_product_accepted": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 3,
+    "code_bytes": 271,
+    "executed_owner_bytes": 271,
+    "cases_per_image": 4408,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 2204,
+        "covered_owner_bytes": 271,
+        "maximum_observed_stack_depth": 30,
+        "trace_sha256": "527c6679564c97df31fa44ad91a84951da2ceab546e1fd26e941ed656b62b74b"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 2204,
+        "covered_owner_bytes": 271,
+        "maximum_observed_stack_depth": 30,
+        "trace_sha256": "e0de8be1e4521ae615c7c795c44d3a6c7e2eaf06a7dbb59fa50228b2a754e21e"
+      }
+    ],
+    "exhaustive_byte_domains": 256,
+    "read_prefix_lengths": 9,
+    "scope": "three near cfg functions; real PMD-mode/CRT helper instructions; file and PMD services remain bounded interfaces"
+  },
+  "negative_controls": {
+    "count": 21,
+    "rejected": [
+      "near-return-frame",
+      "large-model-filename",
+      "read-packed-eight-bytes",
+      "unaligned-resident-segment",
+      "resident-offset-is-zero",
+      "BGM-resident-field",
+      "rank-resident-field",
+      "PMD-query-command",
+      "PMD-unsupported-byte",
+      "MIDI-is-one-byte",
+      "selection-enabled-first",
+      "unavailable-BGM-off",
+      "requested-BGM-off",
+      "ordinary-save-writes-four",
+      "ordinary-save-rank-slot",
+      "seek-offset-is-DWORD",
+      "write-buffer-uses-SS",
+      "exit-zeroes-eight",
+      "real-zero-template",
+      "CRT-copy-clears-DF",
+      "exit-save-near-return"
+    ]
+  },
+  "source_acceptance": false,
+  "source_publication": "config/op_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false
+}

@@ -1,6 +1,6 @@
 {
   "schema": "th03-op-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T16:22:08.776934Z",
+  "observed_utc": "2026-10-24T17:51:01.295259Z",
   "command": ".venv/bin/python -B scripts/build_th03_op_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 330,
@@ -173,12 +173,12 @@
   "builder_sha256": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
   "scoped_source_acceptance": {
     "publication": "config/op_work/scoped_acceptance.json",
-    "decoded_functions": 12,
-    "decoded_bytes": 500,
-    "ordered_relocations": 17,
-    "runtime_cases_per_image": 2506,
+    "decoded_functions": 15,
+    "decoded_bytes": 771,
+    "ordered_relocations": 30,
+    "runtime_cases_per_image": 6914,
     "runtime_images": 2,
-    "actual_guest_mutations_rejected": 28,
+    "actual_guest_mutations_rejected": 49,
     "canonical_unit_credit_changed": false,
     "whole_product_ownership": false,
     "input_modes": {
@@ -193,6 +193,26 @@
       "maximum_sample_polls": 10003,
       "private_data_bytes": 0,
       "private_bss_bytes": 0
+    },
+    "configuration": {
+      "source": "src/op/entry.cpp",
+      "functions": 3,
+      "code_bytes": 271,
+      "ordered_native_fields": 28,
+      "ordered_relocations": 13,
+      "reviewed_initialized_dependency_bytes": 18,
+      "runtime_cases_per_image": 4408,
+      "actual_guest_mutations_rejected": 21,
+      "maximum_observed_stack_bytes": 30,
+      "consumed_sdk_headers": {
+        "C:/TC4/INCLUDE/stddef.h": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
+        "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
+        "C:/TC4/INCLUDE/_null.h": "76bbba0949f023c327f34ae498d3cbbf0fb8c4592f8b8936ccd1acadd840ddf1",
+        "C:/TC4/INCLUDE/conio.h": "8ab3b57c8fe7cd16fa619c28f3e1c0df4ff9285bfb780d204d63f884d72bef4a",
+        "C:/TC4/INCLUDE/process.h": "c1e4a0abcd7077971ccc15d610c3daa36b69ce11e39f2af055d3f33ba80d3bae"
+      },
+      "containing_producer_accepted": false,
+      "canonical_unit_credit_changed": false
     }
   }
 }

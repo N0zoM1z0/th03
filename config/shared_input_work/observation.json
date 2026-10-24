@@ -1,6 +1,6 @@
 {
   "schema": "th03-shared-input-current-observation-v1",
-  "observed_utc": "2026-10-24T17:05:17.956102Z",
+  "observed_utc": "2026-10-24T17:51:01.295259Z",
   "command": "taskset -c 16 nice -n 10 .venv/bin/python scripts/review_th03_shared_input_work.py",
   "provenance": "candidate-local-attested",
   "shared_source": "src/shared/hardware/input_modes.cpp",
@@ -22,7 +22,7 @@
   "profiles": {
     "op": {
       "artifact": "th03-op",
-      "cold_report_sha256": "d2f2b90078a08a1a22cecb7ca40b807bae3c487c20ba3030d00617fe8cede6cc",
+      "cold_report_sha256": "a85d1fa1ed6bfbe6913f15f7407b52ede260a36164fb0030c7879b76286bbcd1",
       "source_inventory_sha256": "2cb2ff667e9e593abf316ce971af311659fc7ca53969dc69f645985a2881d486",
       "native_object_sha256": "8f8132e247e5594d9c0a702eeaadde40c9322d7949f714789653a129cc6f152b",
       "code_segment": 3051,

@@ -7,11 +7,11 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `df4b107` (shared OP/MAINL input source scopes).
+- Previous pushed checkpoint: `3bb501e` (MAINL ending wait source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **twelve accepted decoded source functions / 500 bytes**. The
+- OP now has **fifteen accepted decoded source functions / 771 bytes**. The
   three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
@@ -25,7 +25,7 @@ remain in [README.md](../README.md).
   all eleven gates against the live source/recipe/output graph; it replaces no
   historical cohort and grants no canonical packed-file unit offsets or whole
   product source ownership. The nine shared input functions below add 367 bytes
-  and six relocations, bringing the current total to seventeen. Replay with
+  and six relocations; configuration adds thirteen more below. Replay with
   `publish_th03_op_work_scopes.py`.
 - OP now has a live, source-only cold build independent of the deleted historical
   receipts: 330 inputs, all 30 objects rebuilt twice, all 32 raw OBJ/EXE/MAP outputs
@@ -34,9 +34,34 @@ remain in [README.md](../README.md).
   36,041-byte stored target and restore to the actual linked EXE. TH04's `-G`
   selects a larger SFX stub and fails this TH03 target (36,136 bytes).
   Frozen reference source and vendor libraries remain unowned context; this is
-  a fresh complete-byte build observation; the twelve scoped owners have
+  a fresh complete-byte build observation; the fifteen scoped owners have
   their separate ownership/ABI/runtime acceptance.
   See `config/op_work/observation.json` and `scripts/build_th03_op_work.py`.
+- OP also accepts **three near cfg functions / 271 CODE bytes** inside the
+  entry object: full 120/67/84-byte bodies, all 28 ordered native fields and
+  thirteen literal MZ relocation pairs pass. Its containing 3,094 CODE / 487
+  DATA / six BSS bytes are reviewed context, not enclosing ownership. Eighteen
+  initialized dependency bytes bind the selection flag, zero template and
+  uppercase YUME.CFG filename; no DATA extents gain canonical credit. A fresh
+  SDK-guarded cold pair repeats all 32 outputs and complete decoded/stored OP.
+  All five actual SDK headers match the pinned installation before/after use.
+  Independent 4,408-case-per-image models at two loads execute all 271 bytes
+  and reject twenty-one actual instruction changes. PMD-mode's 29 instruction
+  bytes and the 28-byte F_SCOPY helper execute without source credit. Keep the
+  mode helper's explicit alignment NOP unaccepted until a natural proof exists.
+  All roots use near RET/no arguments; packed cfg resident segment is at byte 5.
+  Reads of zero through eight bytes proceed unchecked even with failed status.
+  Plain save writes four bytes, including its uninitialized fourth stack byte,
+  preserving the remaining file tail. Exit save copies a real eight-byte zero
+  initializer then fills three options; its real CRT CLD executes. Keep BYTE
+  MIDI values, requested-off versus unavailable selection, DWORD zero seeks,
+  SS far buffers and the bounded file-service flags. Full registers/flags,
+  frames and memory outside an 80-byte stack pass; peak observed depth is 30.
+  File and PMD replies remain bounded interfaces. Current OP totals fifteen
+  functions / 771 CODE bytes, thirty literal relocations, 6,914 model cases
+  per image and forty-nine mutants. Whole entry/product acceptance stays open.
+  `review_th03_op_cfg_work.py` performs the required fresh cold pair and cfg
+  review; follow it with the shared-input review and per-product publication.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
   objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
   preserves all 893 vendor member positions, substitutes the six real producers,
@@ -79,8 +104,8 @@ remain in [README.md](../README.md).
   `review_th03_shared_input_work.py` after new OP/MAINL cold builds and before
   per-product publication. Its bound full witnesses run once; normal status
   executes twelve short cases per image. Lifecycle/shared models total
-  OP 2,506 cases / 28 mutants and MAINL 7,018 / 34; ending waits add the
-  separate models below. No canonical file-backed
+  OP 2,506 cases / 28 mutants and MAINL 7,018 / 34; configuration and ending
+  waits add separate models. No canonical file-backed
   offsets or whole-product source acceptance are inferred.
 - MAINL's **two ending input waits / 126 CODE bytes** now have complete native
   ownership, zero private DATA/BSS, eleven literal fixups and three ordinary
@@ -247,10 +272,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,899 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 5m07s at 400 MiB peak RSS, no swap. OP's latest cold
-  pair took 2m07s at 68 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
-  checks. The separate shared input/ending wait review took 1m49s at 156 MiB. The last MAIN
+- Last full CI: PASS, 1,910 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m51s at 447 MiB peak RSS, no swap. OP's latest SDK-guarded cold
+  pair and cfg review took 2m25s at 108 MiB; MAINL's pair took 2m59s at 84 MiB with lifecycle/SDK
+  checks. The separate shared input/ending wait review took 2m04s at 156 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
   at 45 MiB. The complete ZUN cold pair with all five models and two native
@@ -287,8 +312,10 @@ ABI and byte credit are recorded separately in the ledgers.
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
    The shared input review is a current, separate witness bound to both cold
-   reports. Replay it after new builds. Ending-specific input waits also pass; OP configuration loading/saving and
-   MAINL resource/ending producers are next bounded source/behavior questions.
+   reports. Replay it after new builds. Ending-specific input waits and OP configuration loading/saving also pass.
+   Remaining OP menu/resource and MAINL resource/ending producers are next
+   bounded source/behavior questions. The PMD-mode source still has an explicit
+   alignment NOP; do not promote that producer before a natural layout proof.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
    Sixteen -4 scalar/library functions and nine command procedures pass current
    gates. The eight
@@ -353,7 +380,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 ```sh
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/replay_th03_main_native.py
-.venv/bin/python scripts/build_th03_op_work.py
+.venv/bin/python scripts/review_th03_op_cfg_work.py
 .venv/bin/python scripts/build_th03_mainl_work.py
 .venv/bin/python scripts/review_th03_shared_input_work.py
 .venv/bin/python scripts/publish_th03_op_work_scopes.py
@@ -375,7 +402,8 @@ as described in [RE_WORKFLOW.md](RE_WORKFLOW.md).
 - Current tree: `.analysis/toolchain/wineprefix/drive_c/TH03WORK` (about 4.4 MiB).
 - Current OP tree: `.analysis/toolchain/wineprefix/drive_c/TH03OP`; `--review`
   validates its complete source/output/recipe binding, repeats DIET packaging
-  and reruns the exit/plane models.
+  and reruns the exit/plane models. The cfg review command guards actual SDK
+  headers around a fresh cold pair and runs the full cfg witness.
   Each full invocation recreates the two source trees; no old project objects
   or historical verification receipts are build inputs.
 - Current MAINL tree: `.analysis/toolchain/wineprefix/drive_c/TH03ML` (about

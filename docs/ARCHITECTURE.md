@@ -41,6 +41,15 @@ producer. They execute the owned input interface: its AX result replaces the
 sound query result before the unsigned measure comparison. Frame waits use
 an unsigned IRQ counter and preserve their distinct far Pascal cleanup sizes.
 
+OP's three near cfg functions own 271 CODE bytes inside the larger entry TU.
+Containing menu CODE/DATA/BSS stays context; the flag, zero template and filename
+are separately reviewed dependencies. `review_th03_op_cfg_work.py` guards the
+five consumed SDK headers around an actual OP cold pair and binds full cfg
+contracts. Ordinary saves retain the fourth uninitialized stack byte; exit saves
+copy the real eight-byte zero initializer. PMD-mode and CRT helper instructions
+execute, while file/PMD replies stay bounded interfaces. Helper alignment and
+whole-entry ownership remain open.
+
 `.analysis` keeps targets, runtime files, tools, current Ghidra state and one
 working build tree. Historical experiments and validation archives are disposable.
 Download archives and installation media are needed only for installation;
