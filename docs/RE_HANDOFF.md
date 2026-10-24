@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `9cbc909` (current ZUN resident source acceptance).
+- Previous pushed checkpoint: `ca148bf` (complete original-ASM ZUN init source scope).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -134,6 +134,30 @@ remain in [README.md](../README.md).
   original assembler remains unknown. The standalone producer and its ten-byte
   TASM negative control remain replayable through `build_th03_zun_driver_work.py`.
   The complete builder compiles the driver itself without consuming that tree.
+- ZUN -4 now has **sixteen accepted library procedures / 428 CODE bytes**:
+  six register setters, three byte/folding predicates, five numeric parsers and
+  two string helpers. Private DATA/BSS ownership is zero; six CS state words
+  and ON/OFF strings remain explicit external state. Actual maintained include
+  slots, all 56 enclosing publics and both MAP tables pass. Complete native
+  image resolution checks 152 fixups (151 WORD, one DWORD) and five records;
+  the eight scoped literal fixups are checked separately. A moved fixup can
+  preserve all COM bytes because CODE/DGROUP bases are zero; the native-site
+  negative control rejects this case. Whole-driver ownership remains false.
+  Independent actual guest execution passes 8,428 cases per image at two loads,
+  covers all 428 bytes and rejects fourteen instruction mutations. All called
+  helpers execute; there are no external service stubs. Full registers, near
+  frames, CMP/CF and inherited IF/DF, foreign DS/ES, split SS, complete physical
+  memory outside a 64-byte stack and ordered field/suffix writes are checked.
+  Preserve quoted word order, modulo16 arithmetic, partial direct-parse failures,
+  permissive hexadecimal punctuation, temporary H/B suffix writes and the empty
+  input read at DS:[SI-1]. LODSB helpers require forward DF; folded comparison
+  and decimal do not. The upstream SPRITE16 reference is IDA-generated from a
+  TH04 binary, not attested original source. Reserved zero spans and the other
+  39 procedures / 2,416 CODE bytes remain unaccepted. Do not promote that context
+  from complete-byte equality. Current ZUN acceptance is **29 extents / 37
+  procedures / 2,656 CODE bytes**, with authored 1,621, library 428 and original
+  ASM 607 CODE + 783 DATA tracked separately. Canonical unit credit stays zero.
+  The publication binds four full models and executes 78 short ABI cases.
 - All 99 source objects compile in 100 serial phases. Two independent 613-file
   source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -160,14 +184,14 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,847 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 4m22s at 440 MiB peak RSS, no swap. OP's latest cold
+- Last full CI: PASS, 1,859 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m05s at 396 MiB peak RSS, no swap. OP's latest cold
   pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
   3m10s at 83 MiB with lifecycle/SDK checks. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
-  The complete ZUN cold pair with logo/resident/init models took 1m46s at 168 MiB,
+  The complete ZUN cold pair with all four models took 2m21s at 168 MiB,
   with no swap.
 
 ## Maintained producers
@@ -201,7 +225,15 @@ ABI and byte credit are recorded separately in the ledgers.
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
-   Next scopes are the -4 driver and the maintained launcher/transfer units.
+   Sixteen -4 scalar/library functions also pass current gates. Before promoting
+   the whole driver, probe natural multi-object paragraph contributions: all
+   eight zero gaps (0516..0520, 0631..0640, 06A5..06B0, 091C..0920,
+   0A89..0A90, 0BC6..0BD0, 0C3C..0C40, 0C76..0C80) exactly reach the next
+   16-byte boundary. Multiple native PARA contributions with normal TLINK zero
+   fill are a hypothesis, not established original layout. Do not replace these
+   with assembler ALIGN or fitted padding without a fresh native proof. Further
+   source scopes are nine command/dispatch procedures, remaining formatter/
+   resident/graphics families and maintained launcher/transfer units.
    Bind their current native ownership and
    affected behavior without reviving deleted historical verification trees.
 3. The loss renderer is now accepted: `player_stuff_t::lose_render()` at loaded

@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from lib.decoded_zun_acceptance import PUBLICATION, verify, runtime_witness, resident_witness, init_witness
+from lib.decoded_zun_acceptance import PUBLICATION, verify, runtime_witness, resident_witness, init_witness, driver_witness
 from status import zun_product_status
 
 
@@ -24,10 +24,11 @@ class CurrentZunAcceptance(unittest.TestCase):
 
     def test_physical_replay_accepts_twelve_inner_logo_and_resident_functions(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (13, 1621))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (29, 1621))
+        self.assertEqual(result["decoded_library_bytes"], 428)
         self.assertEqual(result["decoded_original_asm_bytes"], 1390)
-        self.assertEqual((result["decoded_procedures"], result["decoded_code_bytes"]), (21, 2228))
-        self.assertEqual(result["payload_options"], ["-2", "-3", "-5"])
+        self.assertEqual((result["decoded_procedures"], result["decoded_code_bytes"]), (37, 2656))
+        self.assertEqual(result["payload_options"], ["-2", "-3", "-4", "-5"])
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
         self.assertTrue(result["full_runtime_witness_bound"])
@@ -92,14 +93,25 @@ class CurrentZunAcceptance(unittest.TestCase):
         scope["runtime"]["observations"][0]["conversions"]["cases"] = 256
         with self.assertRaisesRegex(ValueError, "init load/scalar"): init_witness(scope)
 
+    def test_scalar_source_cannot_promote_enclosing_driver_or_reserved_spans(self):
+        for key in ("enclosing_driver_accepted", "reserved_spans_owned"):
+            scope = deepcopy(self.publication["audit"]["scope"]["driver"])
+            scope["layout"][key] = True
+            with self.assertRaisesRegex(ValueError, "bounded library source classification"): driver_witness(scope)
+
+    def test_driver_library_origin_cannot_be_changed_to_authored(self):
+        scope = deepcopy(self.publication["audit"]["scope"]["driver"])
+        scope["layout"]["owners"][0]["origin"] = "authored"
+        with self.assertRaisesRegex(ValueError, "bounded library source classification"): driver_witness(scope)
+
     def test_svg_separates_inner_logo_source_from_whole_product(self):
         import progress
         with (ROOT / "config/units.csv").open() as stream: units = list(csv.DictReader(stream))
         result = verify(ROOT, self.publication)
         svg = progress.render_svg(units, [], [], zun_status=result)
-        self.assertIn("Decoded extents 13/18", svg)
-        self.assertIn("2,228 CODE B", svg)
-        self.assertIn("original ASM separate", svg)
-        self.assertIn("47 guest mutations rejected", svg)
+        self.assertIn("Decoded extents 29/34", svg)
+        self.assertIn("2,656 CODE B", svg)
+        self.assertIn("ASM/library separate", svg)
+        self.assertIn("61 guest mutations rejected", svg)
         self.assertNotIn("10 target differences", svg)
         self.assertIn("whole-game totals remain unknown", svg)

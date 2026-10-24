@@ -33,7 +33,7 @@ def zun_product_status(root, units):
         with (Path(root) / 'config/units.csv').open() as stream:
             expected = [u for u in csv.DictReader(stream) if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
         provided = [u for u in units if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
-        if len(expected) != 18 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
+        if len(expected) != 34 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
             raise ValueError('caller inventory does not match the current ZUN ledger')
         from lib.decoded_zun_acceptance import verify
         return verify(Path(root), json.loads(current.read_bytes()))
@@ -262,7 +262,8 @@ def main() -> int:
         print(decoded_summary(per_artifact["th03-op"]["decoded_acceptance"]))
         zun = per_artifact['th03-zun']['decoded_acceptance']
         print(f"ZUN current decoded source acceptance: {zun['decoded_exact_units']} extents; "
-              f"authored={zun['decoded_authored_bytes']} B original-ASM={zun.get('decoded_original_asm_bytes', 0)} B; "
+              f"authored={zun['decoded_authored_bytes']} B original-ASM={zun.get('decoded_original_asm_bytes', 0)} B "
+              f"library={zun.get('decoded_library_bytes', 0)} B; "
               "canonical unit credit unchanged; whole-product source ownership open")
         print(output["warning"])
     return 0

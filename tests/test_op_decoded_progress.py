@@ -93,7 +93,8 @@ class Tests(unittest.TestCase):
         self.assertNotIn('Retained cold pair: 29 raw pairs',svg)
         self.assertIn('Source 45/46',svg)
         texts=[''.join(x.itertext()) for x in root.iter() if x.tag.endswith('text')]
-        self.assertIn('Unit acceptance: exact 0/18',texts)
+        zun_units=sum(u['artifact']=='th03-zun' and u['state']!='excluded' for u in UNITS)
+        self.assertIn(f'Unit acceptance: exact 0/{zun_units}',texts)
         baseline=ET.fromstring(self.render(a.unavailable('missing')))
         # Every non-OP element remains byte-identical in this branch.
         self.assertEqual([ET.tostring(x) for x in list(root)[15:]],

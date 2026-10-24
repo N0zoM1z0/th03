@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish current -2 original ASM and -3/-5 authored decoded source scopes."""
+"""Publish current -2 original ASM, -3/-5 authored and bounded -4 library scopes."""
 
 from datetime import datetime, timezone
 import json

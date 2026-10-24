@@ -1,8 +1,8 @@
-"""Source-bound current -2/-3/-5 ownership and complete cold runtime witnesses.
+"""Source-bound -2/-3/-5 and bounded -4 ownership with cold runtime witnesses.
 
-Publication reruns the physical audit and a bounded current ABI smoke. The full
-5,111-case/image model runs in the cold builder; status binds its exact report,
-images and recipe instead of replaying the 231-frame animation on every view.
+Publication reruns physical audits and bounded ABI smokes. Full models run in
+the cold builder; status binds the exact report, images and recipes rather than
+replaying the animation and exhaustive scalar domains on every view.
 """
 
 import contextlib
@@ -23,6 +23,8 @@ from lib.zun_resident_layout import verify as resident_layout, OBJECT as RESIDEN
 from lib.zun_resident_runtime import Machine as ResidentMachine
 from lib.zun_init_layout import verify as init_layout
 from lib.zun_init_runtime import Machine as InitMachine
+from lib.zun_driver_scalar_layout import verify as driver_layout
+from lib.zun_driver_scalar_runtime import Machine as DriverMachine, ENTRIES as DRIVER_ENTRIES
 from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_oracle_rows
 
 
@@ -122,6 +124,35 @@ def init_smoke(target, candidate):
         finally: machine.close()
     need(observations[0] == observations[1], "current independent original-ASM ABI smoke")
     return dict(cases_per_image=8, images=2, trace_sha256=digest(observations[0]),
+                full_runtime_reexecuted_now=False, full_runtime_witness_bound=True)
+
+
+def driver_witness(scope):
+    runtime = scope["runtime"]
+    need((runtime["images"], runtime["functions"], runtime["code_bytes"], runtime["private_data_bytes"],
+          runtime["private_bss_bytes"], runtime["cases_per_image"], runtime["executed_owner_bytes"], runtime["exhaustive_byte_domains"])
+         == (2, 16, 428, 0, 0, 8428, 428, 256), "complete driver scalar runtime dimensions")
+    need([(o["load_segment"], o["cases"], o["covered_owner_bytes"], o["maximum_observed_stack_depth"])
+          for o in runtime["observations"]] == [(0x1000, 4214, 428, 26), (0x3000, 4214, 428, 26)]
+         and all(re.fullmatch(r"[0-9a-f]{64}", o["trace_sha256"]) for o in runtime["observations"]),
+         "driver scalar load/coverage/stack witnesses")
+    controls = scope["negative_controls"]
+    need(controls["count"] == len(set(controls["rejected"])) == 14, "all fourteen driver scalar mutations")
+    layout = scope["layout"]
+    need(not layout["enclosing_driver_accepted"] and not layout["reserved_spans_owned"]
+         and all(o["origin"] == "library" for o in layout["owners"]), "bounded library source classification")
+
+
+def driver_smoke(target, candidate):
+    observations = []
+    for image in (target, candidate):
+        machine = DriverMachine(image, 0x3000)
+        try:
+            observations.append([machine.run(kind, text=b"ffh", other=b"FFH", value=122, before=72, split_stack=True)
+                                 for kind in DRIVER_ENTRIES])
+        finally: machine.close()
+    need(observations[0] == observations[1], "current independent library driver scalar smoke")
+    return dict(cases_per_image=16, images=2, trace_sha256=digest(observations[0]),
                 full_runtime_reexecuted_now=False, full_runtime_witness_bound=True)
 
 
@@ -228,7 +259,15 @@ def audit(root):
     init = report["init_scopes"]
     need(init["layout"] == init_layout(work, target_init, candidate_init, at), "complete native original-ASM ownership")
     init_witness(init)
-    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"]
+    child = directory["payloads"][3]
+    at, size = child["decoded_file_offset"], child["size"]
+    target_driver = decoded[at:at + size]
+    candidate_driver = (work / "driver/driver.com").read_bytes()
+    driver = report["driver_scalar_scopes"]
+    need(driver["layout"] == driver_layout(work, target_driver, candidate_driver, at, files, maintained),
+         "complete driver scalar native ownership")
+    driver_witness(driver)
+    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -254,10 +293,12 @@ def audit(root):
                 decoded_sha256=sha(decoded), stored_sha256=sha(stored), payload_sha256=sha(target_logo),
                 resident_payload_sha256=sha(target_resident),
                 init_payload_sha256=sha(target_init),
+                driver_payload_sha256=sha(target_driver),
                 scope=dict(owners=owners, layout=scope["layout"], runtime=scope["runtime"],
-                           negative_controls=scope["negative_controls"], resident=resident, init=init), current_smoke=current_smoke,
+                           negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver), current_smoke=current_smoke,
                 resident_smoke=resident_smoke(target_resident, candidate_resident),
                 init_smoke=init_smoke(target_init, candidate_init),
+                driver_smoke=driver_smoke(target_driver, candidate_driver),
                 product_exact=False, canonical_unit_credit_changed=False)
 
 
@@ -283,10 +324,10 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=13, decoded_authored_bytes=1621,
+                reviewed_proof_ready=True, decoded_exact_units=29, decoded_authored_bytes=1621, decoded_library_bytes=428,
                 decoded_original_asm_bytes=1390, decoded_original_asm_code_bytes=607, decoded_original_asm_data_bytes=783,
-                decoded_source_bytes=3011, decoded_code_bytes=2228, decoded_procedures=21, reviewed_producer_data_bytes=1105,
+                decoded_source_bytes=3439, decoded_code_bytes=2656, decoded_procedures=37, reviewed_producer_data_bytes=1105,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
-                payload_options=["-2", "-3", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
+                payload_options=["-2", "-3", "-4", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
                 canonical_credit_changed=False, factory_accepted=False, whole_game_percentage=None,
-                full_runtime_witness_bound=True, current_smoke_cases=46)
+                full_runtime_witness_bound=True, current_smoke_cases=78)
