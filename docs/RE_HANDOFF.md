@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `953a43e` (combo producer partition and relocation order).
+- Previous pushed checkpoint: `6e82ca8` (current OP exit/plane decoded source acceptance).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -41,8 +41,24 @@ remain in [README.md](../README.md).
   and preserves the other 887 members' program records. All 938 raw outputs repeat.
   The complete 67,372-byte decoded EXE and all 677 ordered relocations match;
   both DIET `-B` packs equal the canonical 37,975-byte stored target. This remains
-  a complete-byte build observation with explicit reference/vendor context, not
-  new ownership/ABI/runtime acceptance. See `config/mainl_work/observation.json`.
+  a complete-byte build observation with explicit reference/vendor context; the
+  four lifecycle owners below have their independent current source acceptance.
+  See `config/mainl_work/observation.json`.
+- MAINL now has **four accepted decoded source functions / 210 bytes**: plane
+  setup, cleanup, initialization and return to MAIN. Their actual first-use
+  slots remain GAME1/O, GAME3/O, GAME3/M and GAME3/L. Complete native objects,
+  both OMF/MAP public tables, zero private DATA/BSS and nineteen literal ordered
+  relocations pass. Initialization takes a four-byte far filename; every nonzero
+  allocation result returns 1 before further services, while success executes
+  the owned plane setup, forwards the pointer unchanged and returns 0 despite
+  later service status. Both paths use `RETF 4`. Independent guest execution
+  covers all 210 bytes in 4,800 cases per image and rejects fifteen mutations.
+  The three consumed SDK headers now match the pinned installation before/after
+  each cold round; the plane producer uses explicit `compat/rec98/planar.h`.
+  `config/mainl_work/scoped_acceptance.json` replays all eleven gates against
+  the current 938-output source/library graph. It grants no canonical packed-file
+  unit offsets or whole-product source ownership; library/device/DOS bodies
+  remain bounded interfaces. Use `publish_th03_mainl_work_scopes.py` to replay.
 - ZUN now has a complete live cold build: 110 source inputs plus explicit vendor
   `MASTERS.LIB` and the -1 payload. All 23 raw OBJ/COM/MAP/composition/packed outputs
   repeat. All five payloads and the entire 22,812-byte decoded launcher match;
@@ -84,10 +100,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 1,793 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 3m27s at 379 MiB peak RSS. OP's latest cold
+- Last full CI: PASS, 1,810 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 4m44s at 426 MiB peak RSS. OP's latest cold
   pair with the current exit/plane models took 2m32s at 68 MiB; MAINL's pair took
-  2m55s at 63 MiB. The last MAIN
+  3m10s at 83 MiB with lifecycle/SDK checks. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
@@ -117,11 +133,15 @@ ABI and byte credit are recorded separately in the ledgers.
 
 1. Inspect Git and run `.venv/bin/python scripts/preflight.py`.
 2. OP, MAINL and ZUN now have live complete-byte cold builders, including stored
-   packaging. OP's three exit/plane owners now pass current decoded source gates;
-   extend this bounded verifier for further reviewed scopes. All three products
+   packaging. OP's three exit/plane owners and MAINL's four lifecycle owners now
+   pass current decoded source gates; extend these bounded verifiers for further
+   reviewed scopes. ZUN still has no current decoded source publication. All three products
    still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
+   A next ZUN scope is the maintained logo root in `src/zun/zunsoft.cpp`:
+   rebind its ABI/models to the freshly compiled -3 payload and current complete
+   builder instead of restoring deleted historical verification trees.
 3. The loss renderer is now accepted: `player_stuff_t::lose_render()` at loaded
    `0xC248`, all 177 bytes. A near-class Pascal member consumes the observed near
    player word with `RET 2`; it never reads this. Explicit signed16 DI iteration
@@ -175,6 +195,7 @@ real ABI/layout; do not patch objects or insert padding to manufacture equality.
 .venv/bin/python scripts/build_th03_op_work.py
 .venv/bin/python scripts/publish_th03_op_work_scopes.py
 .venv/bin/python scripts/build_th03_mainl_work.py
+.venv/bin/python scripts/publish_th03_mainl_work_scopes.py
 .venv/bin/python scripts/bootstrap_jwasm.py --check
 .venv/bin/python scripts/build_th03_zun_driver_work.py
 .venv/bin/python scripts/build_th03_zun_work.py
@@ -190,7 +211,8 @@ as described in [RE_WORKFLOW.md](RE_WORKFLOW.md).
 
 - Current tree: `.analysis/toolchain/wineprefix/drive_c/TH03WORK` (about 4.4 MiB).
 - Current OP tree: `.analysis/toolchain/wineprefix/drive_c/TH03OP`; `--review`
-  validates its complete source/output binding and repeats only DIET packaging.
+  validates its complete source/output/recipe binding, repeats DIET packaging
+  and reruns the exit/plane models.
   Each full invocation recreates the two source trees; no old project objects
   or historical verification receipts are build inputs.
 - Current MAINL tree: `.analysis/toolchain/wineprefix/drive_c/TH03ML` (about

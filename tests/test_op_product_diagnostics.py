@@ -102,7 +102,7 @@ class Tests(unittest.TestCase):
     def test_accepted33_axis_unchanged(self):
         with patch.object(status,'mainl_product_status',return_value={'product_exact':False}):
             svg=p.render_svg(UNITS,FUNCTIONS,EVIDENCE,
-                op_status={'decoded_accepted':True,'decoded_exact_units':33},op_products=self.display)
+                op_status={'decoded_accepted':True,'decoded_exact_units':33,'decoded_authored_bytes':9530},op_products=self.display)
         self.assertIn('Decoded extents 33/46',svg)
         self.assertIn('Published decoded scopes: 9,530 B',svg)
         self.assertIn('product acceptance open',svg)

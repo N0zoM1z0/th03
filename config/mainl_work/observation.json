@@ -1,15 +1,15 @@
 {
   "schema": "th03-mainl-current-cold-observation-v1",
-  "observed_utc": "2026-10-24T04:50:28.100706Z",
+  "observed_utc": "2026-10-24T11:35:46.725602Z",
   "command": ".venv/bin/python -B scripts/build_th03_mainl_work.py",
   "provenance": "candidate-local-attested",
   "source_files": 1912,
-  "source_inventory_sha256": "6ce6e1dfa928fea59a1f4338896df721ad918cd6897c6d0b5042da1bb8c782c6",
+  "source_inventory_sha256": "d913a54e6b01820e0066b7f9124a3996754506a4f7ce75975746a65af586800a",
   "project_objects_per_round": 36,
   "maintained_crt_objects_per_round": 6,
   "rounds": 2,
   "raw_outputs_per_round": 938,
-  "all_output_inventory_sha256": "ddc1d484039c863acd316065bf1f73391e326e7411325be5917c494186903742",
+  "all_output_inventory_sha256": "8189bccb8e31f85af87c941a48583ea89b580d854b4784e3efe30b6a1e971c9a",
   "raw_repeat_equal": true,
   "maintained_and_link_outputs": {
     "bin/th03/mainl.exe": {
@@ -21,8 +21,8 @@
       "sha256": "1e4a05bbe8fb8ef00ab095c9ef322c892ae0ac46532e965c1e0bc0f52d503e88"
     },
     "obj/th01/vplanset.obj": {
-      "bytes": 575,
-      "sha256": "90b0da5b441e34b040c2d9def5291a568739349c36205b0a2da1af77fd23c7a3"
+      "bytes": 607,
+      "sha256": "9fcfa72be7a57a8c6a6062b6610d097b67a1b18ee981b685d629adfeefaa519b"
     },
     "obj/th02/frmdely1.obj": {
       "bytes": 585,
@@ -244,5 +244,22 @@
     "scripts/build_th03_mainl_work.py": "5ecca939417ac84d5af230f68b406ac3464084819463268a440bac51b55c3c6b",
     "scripts/lib/borland_library.py": "729f4283a999a88519bc2c545b96c541f2b36565da24737d7493c03c52214c84",
     "scripts/build_th03_op_work.py": "7c5b901bb31c8a09bf0e53ebff130face3e64bed9a70c27817ff45dc49269cd8"
+  },
+  "builder_sha256": "f146616f8f08cdb5921c291516aadeeace477527cb5d40688275abf1b980ccc9",
+  "scoped_source_acceptance": {
+    "publication": "config/mainl_work/scoped_acceptance.json",
+    "decoded_functions": 4,
+    "decoded_bytes": 210,
+    "ordered_relocations": 19,
+    "runtime_cases_per_image": 4800,
+    "runtime_images": 2,
+    "actual_guest_mutations_rejected": 15,
+    "consumed_vendor_headers": {
+      "C:/TC4/INCLUDE/stddef.h": "7d5166d14088a6384716a7356dff584215013da63371e02fbf66a108dcb0a6c4",
+      "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
+      "C:/TC4/INCLUDE/_null.h": "76bbba0949f023c327f34ae498d3cbbf0fb8c4592f8b8936ccd1acadd840ddf1"
+    },
+    "canonical_unit_credit_changed": false,
+    "whole_product_ownership": false
   }
 }

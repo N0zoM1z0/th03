@@ -24,7 +24,7 @@
       "provider_relative": "th01/hardware/vplanset.cpp",
       "source": {
         "path": "src/mainl/linked_game/planes.cpp",
-        "sha256": "3de8e04c76667de849ad5e91744534c69c5c1a65893bfcc723305f1257a77224"
+        "sha256": "48066003fb4907128ce88e4dce61f5a7749d2b6cf6f42789dd34d6baa0218b71"
       },
       "game": 1,
       "binary": "O",
@@ -808,6 +808,12 @@
   "exact_acceptance": false,
   "excluded_scope": "CRT 6/628, unowned scanner NOP, whole-image relocation ordering, DATA mismatch and packed target/cold aggregate remain open. Source checkpoint alone gives no source-present credit.",
   "compatibility_inputs": [
+    {
+      "path": "compat/rec98/planar.h",
+      "sha256": "789741579bc0463bab1b8f9f0a97d2c123faf6fc75adfb4fd7939b437ea96c1d",
+      "text": "#include \"planar.h\"\n",
+      "original_include": "planar.h"
+    },
     {
       "path": "compat/rec98/libs/master.lib/master.hpp",
       "sha256": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",

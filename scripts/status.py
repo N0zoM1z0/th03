@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib.op_decoded_progress import op_decoded_status, decoded_summary
 
 ROOT = Path(__file__).resolve().parents[1]
+MAINL_SCOPED_PUBLICATION = 'config/mainl_work/scoped_acceptance.json'
 
 
 def mainl_product_status(root, units):
@@ -25,6 +26,22 @@ def mainl_product_status(root, units):
     The source-bound publication must cover the identical active unit inventory
     supplied by this caller. Synthetic fixtures cannot inherit live acceptance.
     """
+    current = Path(root) / MAINL_SCOPED_PUBLICATION
+    if current.is_file():
+        try:
+            with (Path(root) / 'config/units.csv').open() as stream:
+                expected = [u for u in csv.DictReader(stream) if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
+            provided = [u for u in units if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
+            if len(expected) != 145 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
+                raise ValueError('caller inventory does not match the current MAINL ledger')
+            from lib.decoded_mainl_acceptance import verify
+            return verify(Path(root), json.loads(current.read_bytes()))
+        except (OSError, ValueError, KeyError, TypeError, ImportError) as error:
+            return dict(repository_local=True, factory_accepted=False, product_exact=False,
+                        mixed_physical_exact_bytes=0, mixed_authored_credit_bytes=0,
+                        decoded_exact_units=0, decoded_authored_exact_units=0, decoded_library_exact_units=0,
+                        decoded_authored_bytes=0, decoded_library_bytes=0, decoded_exact_unit_ids=[],
+                        whole_game_percentage=None, reason=str(error))
     from lib.mainl_product_acceptance import load_status
     result = load_status(root)
     ids = [u['id'] for u in units if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']

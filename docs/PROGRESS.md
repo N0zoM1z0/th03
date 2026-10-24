@@ -15,3 +15,5 @@ See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).
 OP decoded publication: installed.
 
 OP current decoded source acceptance: 3 functions / 133 bytes. Fresh source-only cold pair, native ownership/ABI and bounded instruction models pass. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
+
+MAINL current decoded source acceptance: 4 functions / 210 bytes. Current native ownership/ABI, two source-only cold builds and 4,800 guest cases per image pass. Canonical packed-file unit credit and whole-product source ownership remain unchanged.

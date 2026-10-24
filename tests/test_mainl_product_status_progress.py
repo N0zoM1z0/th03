@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
+from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 
 ROOT = Path.cwd()
@@ -28,6 +29,14 @@ def accepted():
                 mixed_physical_exact_bytes=37975, mixed_authored_credit_bytes=0)
 
 class Tests(unittest.TestCase):
+    def setUp(self):
+        # This suite models the historical full-product publication. A live
+        # current scoped publication must not select a different test namespace.
+        folder = TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        scoped = patch.object(status, 'MAINL_SCOPED_PUBLICATION', Path(folder.name) / 'absent.json')
+        scoped.start()
+        self.addCleanup(scoped.stop)
     def run_status(self, receipt=None, units=None):
         loader = SimpleNamespace(load_status=Mock(return_value=accepted() if receipt is None else receipt))
         with patch.dict(sys.modules, {'lib.mainl_product_acceptance': loader}):

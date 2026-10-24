@@ -27,6 +27,34 @@ WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03ML"
 OUT = ROOT / ".analysis/work"
 CRT = ("h_llsh", "h_padd", "n_pcmp", "ioerror", "fbrk", "setblock")
 TLIB_SHA = "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2"
+VENDOR_HEADERS = ("stddef.h", "_defs.h", "_null.h")
+
+
+def vendor_header_inventory():
+    config = tomllib.loads((ROOT / "config/toolchain.toml").read_text())
+    surface, = [s for s in config["surfaces"] if s["id"] == "tc40j-include"]
+    compiler_headers = ROOT / config["paths"]["wine_prefix"] / "drive_c/TC4/INCLUDE"
+    installed_headers = ROOT / surface["path"]
+    result = {}
+    for name in VENDOR_HEADERS:
+        raw = (compiler_headers / name.upper()).read_bytes()
+        need(raw == (installed_headers / name.upper()).read_bytes(), "consumed vendor header differs: " + name)
+        result["C:/TC4/INCLUDE/" + name] = sha(raw)
+    return result
+
+
+def recipe_inventory():
+    # Pin the current composer/runtime closure separately from generated source.
+    paths = {"scripts/build_th03_mainl_work.py", "scripts/build_th03_op_work.py",
+             "scripts/stage_th03_mainl_cold.py", "scripts/stage_th03_mainl_fullcold.py",
+             "scripts/stage_th03_mainl_cutscene.py", "scripts/stage_th03_mainl_regist.py",
+             "scripts/lib/borland_library.py", "scripts/lib/omf.py", "scripts/lib/pc98.py",
+             "scripts/lib/targets.py", "scripts/lib/toolchain.py",
+             "scripts/probe_th03_main_bomb_rikako_cpp.py", "scripts/probe_th03_main_boss_marisa_cpp.py",
+             "config/toolchain.toml", "config/targets.toml", "config/th03_diet.toml",
+             "config/th03_mainl_linked_game_source.json"}
+    paths.update(str(p.relative_to(ROOT)) for p in (ROOT / "scripts/lib").glob("mainl_*.py"))
+    return {n: sha((ROOT / n).read_bytes()) for n in sorted(paths)}
 
 
 def sources():
@@ -55,6 +83,8 @@ def build():
     tasm = ["/usr/bin/wine-stable", str(prefix / "drive_c/TASM50/bin/TASM32.EXE")]
     report = dict(complete=False, product_exact=False, ownership_acceptance=False,
                   provenance="candidate-local-attested", rounds=[], native_phases=[])
+    report["recipe_sha256"] = recipe_inventory()
+    report["vendor_header_sha256"] = vendor_header_inventory()
     save = lambda: report_path.write_text(json.dumps(report, indent=2) + "\n")
 
     def execute(argv, cwd, label, accepted=(0,), marker=None):
@@ -144,6 +174,7 @@ def build():
             for name in ("bin/th03/mainl.exe", "obj/th03/mainl.map"):
                 outputs[name] = (WORK / name).read_bytes()
             need(all((WORK / n).read_bytes() == b for n, b in files.items()), "source changed during build")
+            need(vendor_header_inventory() == report["vendor_header_sha256"], "consumed vendor headers changed during build")
             report["rounds"].append(dict(round=number, source_files=len(files), library=library_review,
                 outputs={n: dict(bytes=len(b), sha256=sha(b)) for n, b in sorted(outputs.items())}))
             if previous is not None:
@@ -189,6 +220,13 @@ def build():
                                       raw_repeat_equal=packed_outputs[0] == packed_outputs[1],
                                       stored_equal=all(b == stored for b in packed_outputs),
                                       same_tool_roundtrip=True)
+        from lib.pc98 import parse_mz
+        from lib.mainl_lifecycle_layout import verify as layout
+        from lib.mainl_lifecycle_runtime import verify as runtime, negative_controls
+        t, c = parse_mz(decoded), parse_mz(candidate)
+        report["lifecycle_scopes"] = dict(owners=layout(WORK, t, c), runtime=runtime(t, c),
+                                         negative_controls=negative_controls(t))
+        need(recipe_inventory() == report["recipe_sha256"], "recipe changed during cold build")
         report["complete"] = True
         save()
     print(json.dumps({k: v for k, v in report.items() if k not in

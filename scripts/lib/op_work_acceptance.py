@@ -130,7 +130,9 @@ def audit(root):
                 scope=scope, product_exact=False, canonical_unit_credit_changed=False)
 
 
-def oracle_rows(proof, now, policy):
+def oracle_rows(proof, now, policy, *, artifact="th03-op", publication_path=PUBLICATION,
+                prefix="ev-op-current-", command=".venv/bin/python scripts/publish_th03_op_work_scopes.py"):
+    product = artifact
     specs = {o["id"]: o for o in policy["oracles"]}
     need(set(GATES) == set(policy["policy"]["exact_requires"]), "eleven required gates")
     result = {}
@@ -138,15 +140,15 @@ def oracle_rows(proof, now, policy):
         rows = {}
         for gate in GATES:
             glob = gate in policy["policy"]["global_evidence_oracles"]
-            artifact = gate in policy["policy"]["artifact_evidence_oracles"]
-            key = "ev-op-current-" + owner["unit_id"] + "-" + gate
+            artifact_wide = gate in policy["policy"]["artifact_evidence_oracles"]
+            key = prefix + owner["unit_id"] + "-" + gate
             rows[key] = dict(id=key, claim_id=owner["unit_id"], oracle=gate,
-                artifact="" if glob else "th03-op", unit_id="" if glob or artifact else owner["unit_id"],
-                extent_start="" if glob or artifact else str(owner["start"]),
-                extent_size="" if glob or artifact else str(owner["size"]), location=PUBLICATION,
+                artifact="" if glob else product, unit_id="" if glob or artifact_wide else owner["unit_id"],
+                extent_start="" if glob or artifact_wide else str(owner["start"]),
+                extent_size="" if glob or artifact_wide else str(owner["size"]), location=publication_path,
                 evidence_class=specs[gate]["accepts_evidence_classes"][0], result="pass",
-                tool="current source-only OP cold pair and independent native owner/runtime audit",
-                command=".venv/bin/python scripts/publish_th03_op_work_scopes.py",
+                tool="current source-only " + product.removeprefix("th03-").upper() + " cold pair and independent native owner/runtime audit",
+                command=command,
                 input_sha256=owner["target_sha256"] if gate == "raw-bytes" else digest(proof),
                 output_sha256=owner["candidate_sha256"] if gate == "raw-bytes" else digest(proof), observed_utc=now)
         result[owner["unit_id"]] = rows

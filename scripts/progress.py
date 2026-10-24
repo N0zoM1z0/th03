@@ -567,8 +567,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             total = counts["total"]
             reviewed = counts["reviewed"]
             source = counts["source"]
-            exact = product["decoded_exact_units"] if product["product_exact"] else counts["exact"]
-            acceptance_label = "Decoded acceptance" if product["product_exact"] else "Unit acceptance"
+            decoded_mainl = product["product_exact"] or product.get("current_cold_source_scopes", False)
+            exact = product["decoded_exact_units"] if decoded_mainl else counts["exact"]
+            acceptance_label = "Decoded acceptance" if decoded_mainl else "Unit acceptance"
             y = 128 + index * 62
             retained = (" · Heap: 8 procedures / 628 B retained-only"
                         if not product["product_exact"] and mainl_heap_retained(units, evidence or []) else "")
@@ -584,7 +585,10 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">{acceptance_label}: exact {exact}/{total}</text>
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
-            if mainl_pi_composed(units, evidence or []):
+            if product.get("current_cold_source_scopes"):
+                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded source: 4 functions / 210 B · canonical exact 0 · product acceptance open</text>')
+                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>')
+            elif mainl_pi_composed(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>')
             elif mainl_regist_source_pending(units):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</text>')
@@ -594,7 +598,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
-            if not product["product_exact"]:
+            if not product["product_exact"] and not product.get("current_cold_source_scopes"):
                 if mainl_crt_source_proven(units, evidence or []) and mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
                     rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · {'full program equal / order open' if mainl_vsync_alignment_proven() else '1 DATA byte / relocation order open'}</text>')
                 elif mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
@@ -735,6 +739,12 @@ def main() -> int:
     lines.extend(["OP decoded publication: " + ("installed." if op_status.get("decoded_accepted") else "not installed; regenerate from fresh verification."), ""])
     if op_status.get("current_cold_source_scopes"):
         lines.extend([decoded_summary(op_status), ""])
+    from status import mainl_product_status
+    mainl_status = mainl_product_status(ROOT, units)
+    if mainl_status.get("current_cold_source_scopes"):
+        lines.extend(["MAINL current decoded source acceptance: 4 functions / 210 bytes. "
+                      "Current native ownership/ABI, two source-only cold builds and 4,800 guest cases per image pass. "
+                      "Canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
     content = "\n".join(lines)
     destination = ROOT / "docs/PROGRESS.md"
     svg = render_svg(units, functions, evidence, op_status=op_status, op_products=op_products)
