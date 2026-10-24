@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Literal Chiyuri link ordering with unchanged loaded image and physical contributions",
+  "exact_acceptance": false,
+  "new_source_exact_credit": false,
+  "command": ".venv/bin/python -B scripts/replay_th03_main_native.py",
+  "source_sha256": {
+    "config/th03_main_link.rsp": "d9e7131d3d1910665c4d9458bbe7bf90c50ca2db2b2cce5d21f36028a210a1a4",
+    "src/main/player/exatt_order.asm": "d0e41119be6ea3eaa7683d85119cc4ac1661c577dd8e3f2d8cfe2c099e80494b"
+  },
+  "builder_sha256": "998268a3b8b099c0322b3ffff0401af35ebe5fb062443f4db840f296dd25744b",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "5f194a0371eb70ef5e4fee339fb8eafa805bfe606b3f4e598fb682d810210454",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "a8dde30d1165881c50a8c260adea4d8d5d340fb964f8b77529d1e2eeeaae4e3e",
+    "config/th03_main_link.rsp": "d9e7131d3d1910665c4d9458bbe7bf90c50ca2db2b2cce5d21f36028a210a1a4"
+  },
+  "tools_sha256": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 589,
+    "maintained_inputs_checked": 249,
+    "game_objects": 95,
+    "raw_outputs": 97,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0,
+    "elapsed_seconds": 226.86,
+    "peak_rss_kib": 554052
+  },
+  "empty_ordering_object": {
+    "source": "src/main/player/exatt_order.asm",
+    "object": "obj/th03/ex_ord.obj",
+    "sha256": "78badd64f3d35fb11bd22695a6fd92edade1d1ffbac00b9e830103b0d541c62a",
+    "segments": [
+      "PELLET_PUT",
+      "BULLET_TEXT",
+      "E_FIREB_TEXT",
+      "MAIN_05_TEXT",
+      "P_EXATT_TEXT",
+      "MAIN_06_TEXT",
+      "MAIN_07_TEXT",
+      "MAIN_08_TEXT",
+      "MAIN_09_TEXT",
+      "MAIN_10_TEXT",
+      "MAIN_11_TEXT"
+    ],
+    "allocated_bytes": 0,
+    "data_or_fixup_records": 0
+  },
+  "changed_link_order": {
+    "after": "ch_setup",
+    "objects": [
+      "ex_ord",
+      "b_chiyu",
+      "ex_chyu",
+      "cs_chiyu"
+    ],
+    "new_matching_records": [
+      394,
+      439
+    ]
+  },
+  "target": {
+    "sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "program_bytes": 124642,
+    "header_bytes": 6240,
+    "relocation_offset": 28,
+    "relocations": 1553
+  },
+  "candidate": {
+    "sha256": "11cbc46eef7caf1bcfa6c4ce0c2d406e818a2813ddab530ccd6623a1452d2a90",
+    "program_sha256": "3cc627cb067979496d61adb06525696b321263605299f8814da91f29340f66af",
+    "program_bytes": 124642,
+    "header_bytes": 7680,
+    "relocation_offset": 62,
+    "relocations": 1553
+  },
+  "comparison": {
+    "matching_relocation_prefix": 439,
+    "differing_relocation_order_positions": 902,
+    "relocation_membership_equal": true,
+    "program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "owned_extents_rechecked": 95,
+    "owned_bytes_rechecked": 74398,
+    "all_owned_raw_and_ordered_equal": true,
+    "product_exact": false
+  },
+  "next_question": {
+    "index": 439,
+    "site": "0x13e1e",
+    "owner": "th03/e_ena.cpp",
+    "segment": "ENEMY_2_TEXT",
+    "target_owner_runs": 96,
+    "target_unique_owners": 90,
+    "repeated_owners": [
+      "th03/e_ena.cpp",
+      "th03/e_enb.cpp",
+      "src/main/player/state.cpp",
+      "src/main/player/shotroot.cpp"
+    ]
+  },
+  "limits": [
+    "Existing accepted scopes remain 440 functions / 74398 bytes / 95 extents; no new function credit.",
+    "Only zero-byte segment declarations and native object link order changed.",
+    "Runtime models are bounded and do not establish real DOS/device behavior.",
+    "No target arrays, filler instructions or object rewriting are used.",
+    "Header/storage, two alignment bytes and the remaining literal order remain open."
+  ]
+}

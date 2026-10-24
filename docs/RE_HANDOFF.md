@@ -48,14 +48,15 @@ remain in [README.md](../README.md).
   inputs match staging. Only vendor startup/libraries are reused as unowned
   inputs. Current native-owner review passes ten owners / 37 functions /
   9,662 bytes and checks all 95 configured extents.
-- The first **394 of 1,553 global relocation records** match literally; 947
+- The first **439 of 1,553 global relocation records** match literally; 902
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
 - Last full CI: PASS, 1,739 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 2m56s at 394 MiB peak RSS. OP's initial cold
+  one CPU at nice10; latest CI took 3m04s at 417 MiB peak RSS. OP's initial cold
   pair took 2m04s at 44 MiB; MAINL's pair took 2m55s at 63 MiB. The last MAIN
-  native review peaked at about 534 MiB. The ZUN driver cold pair plus TASM
+  cold pair and native review took 3m47s at about 541 MiB. The ZUN driver cold
+  pair plus TASM
   control took 10s at 33 MiB; clean JWasm bootstrap took 13s at 45 MiB.
   The complete ZUN cold pair took 52s at 64 MiB.
 
@@ -85,14 +86,17 @@ ABI and byte credit are recorded separately in the ledgers.
    all three still have explicit unowned reference/vendor context. Their old
    retained-carrier replay scripts are historical diagnostics, not current build
    inputs. Keep storage equality, ownership and accepted ledger credit separate.
-3. For MAIN whole-link work, investigate global relocation record **394**
-   (zero-based), loaded site `0x185A6`
-   in `chiyuri_bomb`. Mapping the canonical vector through the current MAP gives
-   `b_chiyu` at records 394–406, `ex_chyu` at 407–429 and `cs_chiyu` at 430–438.
-   This is a read-only observation; no early-link experiment has been run.
-   `src/main/boss/order.asm` currently predeclares CODE segments only through
-   E_EXPL_TEXT. Preserve segment-first-declaration order when moving MAIN_05
-   objects; extending genuine segment declarations is an untested hypothesis.
+3. MAIN now links `b_chiyu`, `ex_chyu` and `cs_chiyu` immediately after
+   `ch_setup`, preceded by the zero-byte `ex_ord` object. Extending its real
+   CODE declarations through MAIN_11_TEXT preserves every loaded byte and
+   physical contribution while reproducing canonical relocation records 394–438.
+   See `config/main_work/layout_observation.json`. The next mismatch is record
+   **439**, loaded site `0x13E1E`, in `e_ena`'s ENEMY_2_TEXT contribution.
+   Mapping all target relocations through the current MAP gives 96 owner runs
+   across 90 owners: `e_ena`, `e_enb`, `state` and `shotroot` recur. Enemy formation
+   relocations precede Ellen's objects; enemy update relocations follow CHAIN2.
+   Review the producer grouping before assuming a whole-object permutation
+   reproduces these separated runs.
 4. Root HITCIRC context is now 958 bytes from loaded `0xB37C`. Moving the entire
    root earlier is known to change PLAYER_M placement. The library prefix/body
    split and all 17 SHARED objects already preserve their physical contributions.
