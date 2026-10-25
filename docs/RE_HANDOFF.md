@@ -1,9 +1,9 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-25, after `1959595`. The complete MAINL CDG
-loader TU now has native ownership and full-state acceptance for all five
-procedures. Native inputs are unchanged; the complete current cold pair and
-all 32 previous accepted scope observations were revalidated.
+Reconstruction checkpoint: 2026-10-25, after `e41f5ad`. The three complete MAINL
+CDG drawing procedures now have native ownership and full-state bus contracts.
+Native inputs are unchanged; the complete current cold pair and all 37 previous
+accepted scope observations were revalidated.
 Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
@@ -14,7 +14,7 @@ Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 37 functions / 2,409 CODE bytes | Open |
+| MAINL | 40 functions / 2,902 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -30,8 +30,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,176 tests, 284 optional archive skips, all checks passed**;
-6m34s, about 535 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,189 tests, 284 optional archive skips, all checks passed**;
+6m13s, about 527 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -112,10 +112,35 @@ backward-call bridge pass; private DATA/BSS are zero. Current command:
   file prefixes can change live size/count and later requests. Assets remain
   private and are not inferred from these synthetic replies.
 
-Next candidates: the three maintained CDG draw procedures, alpha179, hflip201
-and noalpha113 bytes, in `src/shared/formats/cdg_put.asm` and `cdg_noalpha.asm`.
-Their ownership/ABI/VRAM-request proof remains open; keep alignment separate.
-Then continue ending/staff orchestration and the remaining OP/ZUN graph.
+Three complete CDG draw procedures own **493 CODE bytes**: alpha179, hflip201
+and noalpha113, in `src/shared/formats/cdg_put.asm` and `cdg_noalpha.asm`.
+The two complete TASM5 producers retain GAME3/O first use, WORD/PUBLIC/USE16,
+19 ordered native fixups, two MZ relocations and 12 real SMC immediate WORDs.
+Three outer EVEN bytes remain separate and unaccepted. Current command:
+`review_th03_mainl_cdg_draw_work.py --current-cold`.
+
+- **8,298 complete entries per image** at two loads execute all493 owner bytes
+  and the real41-byte GRCG setup. Full DWORD/segment state, IF/DF, ordered
+  stores/ports and every byte of flat memory, including native private/caller
+  frames, pass; peak stack16, no ignored window. Fifty-eight owner mutations
+  and one actual helper CLI mutation fail. Foreign SS, both left-coordinate/slot
+  BYTE lanes, all source BYTE/LUT values, width multiplication wrap, persistent
+  SMC reentry and source segment aliases are covered.
+- Width0 is **finite**: alpha color LOOP iterates65,536 times on each of four
+  planes (262,144 DWORD stores); hflip alpha plus four color planes each run
+  65,536 times (327,680 BYTE stores). Both actual runs reach RETF. Noalpha REP0
+  writes nothing but traverses four planes. Historical instruction-budget
+  prefixes are not nontermination evidence. Native WORD recurrences prove
+  row delta -80, at most411 rows/plane and26 color planes, conditional on
+  mapped disjoint memory and stable SMC operands.
+- This proves flat bus operands and native port requests. GRCG latches,
+  planar RMW/pixels/timing, external LUT generation/ownership, IRQ reentrancy
+  and enclosing DATA/BSS remain open. Hflip preserves DF and leaves FS at the
+  color segment; alpha/noalpha clear DF and restore DS. The actual helper's
+  five OUTs execute with IF clear; the caller's GRCG-off OUT restores entering IF.
+
+Next candidates: ending/staff orchestration and remaining OP/ZUN ownership,
+then the overall source/link graph. Whole-product completion remains open.
 Use `review_th03_mainl_sound_work.images()` to revalidate the complete current
 cold pair and obtain `work,target,candidate,cold,raw,graph,files`.
 
