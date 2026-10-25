@@ -1,9 +1,9 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-26, after `9f9fc13`. MAINL's complete224-byte
-STAFF initialized DATA now has natural ownership, literal far-pointer relocation
-and semantic consumer contracts. Product inputs and prior52 owner observations
-stay unchanged. Staff roll980 remains open.
+Reconstruction checkpoint: 2026-10-26, after `3763316`. MAINL's complete980-byte
+staff roll now has actual nested sound/resource/staff/input execution contracts.
+All19 staff-TU procedures/3,695 CODE and separate224 initialized DATA bytes have
+scoped source ownership. Product inputs and prior53 owner observations stay equal.
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before work.
 Detailed findings and witnesses live in source, `config/knowledge.csv`,
@@ -15,7 +15,7 @@ Detailed findings and witnesses live in source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 53 extents / 58 procedures / 5,617 CODE + 224 DATA bytes | Open |
+| MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 compiler switch/separator bytes with separate proof. ZUN accepts
@@ -29,17 +29,18 @@ unowned reference/vendor context and does not establish whole-product source
 ownership. Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN repeats101 raw outputs/99 native objects; its whole file is still unequal.
 
-Last completed reconstruction CI: **2,390 tests, 284 optional archive skips, all
-checks passed**;7m57s, about623 MiB peak RSS, no swap. CPU16/nice10 was used.
+Last completed reconstruction CI: **2,397 tests, 284 optional archive skips, all
+checks passed**;8m43s, about595 MiB peak RSS, no swap. CPU16/nice10 was used.
 
 ## Resume
 
 1. Inspect Git, run `.venv/bin/python scripts/preflight.py`, and re-attest the
    selected database before using it: `scripts/ghidra.py th03-mainl check`.
-2. Next staff unit: roll980;then remaining cutscene/registration, OP/ZUN
-   ownership and the overall four-product source/link graph. Roll composes the
-   accepted controllers/loaders and explicit resource/sound/input interfaces.
-   Whole-product completion stays open.
+2. Next: OP startup `_main`263 in `src/op/entry.cpp`,remaining MAINL
+   cutscene/registration,ZUN ownership and the four-product source/link graph.
+   Ending-to-roll aggregate composition is
+   still separate from individual function ownership. Whole-product completion
+   stays open.
 3. Preserve complete raw bytes, literal ordered relocations, natural ownership,
    ABI/layout, independent affected-behavior contracts and cold reproducibility.
    End with focused checks, full CI, whitespace checks and an English
@@ -47,7 +48,7 @@ checks passed**;7m57s, about623 MiB peak RSS, no swap. CPU16/nice10 was used.
 
 Use the [workflow](RE_WORKFLOW.md) for full dependency/rebuild/publication order
 and [script index](../scripts/README.md) for entry points. Current full MAINL
-chain: `review_th03_mainl_staff_data_work.py`. `--current-cold` revalidates the
+chain: `review_th03_mainl_staff_roll_work.py`. `--current-cold` revalidates the
 entire existing source/SDK/recipe/output graph and reruns only that stage; it
 cannot repair stale prerequisites. After OP/MAINL cold changes, refresh
 `review_th03_shared_input_work.py`. Do not rebuild unchanged products gratuitously.
@@ -72,11 +73,12 @@ Each command below is `review_th03_mainl_<suffix>_work.py --current-cold`.
 | Single controller | 229 | `staff_single`; actual entrance/exit loops and two final far-helper/tick sequences |
 | Pair controller | 358 | `staff_pair`; live secondary/alpha/frame state and two reachable WORD-wrap clamps |
 | Verdict | 389 | `staff_verdict`; full far pointers, fixed score loop and live renderer replies |
+| Roll | 980 | `staff_roll`; actual owned children,257 input/199 fade iterations,32 frees |
 
 The natural `STAFFP_TEXT` TC4 producer is `src/mainl/staff/data.cpp`, copied
 literally to `staffdat.cpp`, GAME3/L:19 procedures/3,695 CODE bytes,224 initialized
-DATA, no BSS. Eighteen procedures/2,715 CODE bytes and all224 initialized DATA bytes are owned;
-the remaining roll procedure980 stays unaccepted. Complete current938-output cold pairs bind
+DATA, no BSS. All19 procedures/3,695 CODE bytes and all224 DATA bytes now have
+scoped ownership. Complete current938-output cold pairs bind
 nine consumed SDK headers with per-producer fail-closed dependency checks and
 normal893-member TLIB order. First-use GAME3/O shared producers remain unchanged.
 
@@ -166,6 +168,18 @@ both scalar and UC receive the mutant. Zero-strength mask8 is static only;
 script segment WORD has static/full-load checks without behavior-mutation credit.
 Existing CODE scopes' DATA exclusions are historical;only this separate storage
 scope supersedes them. Pointees,renderer and physical pixels remain unowned.
+
+Roll's108 ordered native fields,34 MZ sites,22 near/34 far call sites and all980
+owner bytes pass. Each image/two loads executes six whole near returns,8,748
+preparation boundaries and six separate no-input prefixes. Every whole return
+runs257 input and199 odd-frame fade iterations,32 actual CDG frees and7,616,000
+clear WORD callbacks;peak78,no ignored stack.15 owner+2 context controls reject.
+Skill wraps BYTE before unsigned clamp100;case3 falls through4. Load uses
+MIDI!=0,kaja exactly1. Conditional DI0/input0 wait has bound1/3/7-cycle prefixes,
+not near returns. Native call-target mapping prevents premature return checks
+at unrelated nested calls. No guest iterations are skipped or budget expiry used.
+The new full roll review took8m35s,about221 MiB RSS. Full unit report:
+`.analysis/work/mainl-staff-roll-build.json`. Hardware/pointees remain unowned.
 
 ## Other open work
 

@@ -27,7 +27,7 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | OP | `review_th03_op_main_menu_work.py` | Full cold/cfg/dispatch/attract/sound/helper/renderer/VS/story/option/main chain; actual owned callee contexts and legacy invariance. |
 | OP | `review_th03_op_music_call_work.py` | Native same-CS far-call proof and fresh ordinary-far source control; no Music Room implementation credit. |
 | MAINL | `build_th03_mainl_work.py` | Two complete project/CRT builds, normal TLIB membership/order, decoded/stored equality and lifecycle scopes. |
-| MAINL | `review_th03_mainl_staff_data_work.py` | Full MAINL cold/resource/ending/staff/verdict and initialized DATA chain, including literal far-pointer relocations and actual semantic consumers. |
+| MAINL | `review_th03_mainl_staff_roll_work.py` | Full MAINL cold/resource/ending/staff/DATA/roll chain, including actual owned nested calls, input waits, fade and cleanup. |
 | Shared | `review_th03_shared_input_work.py` | Bind both OP/MAINL cold pairs to input policy and MAINL ending-wait contracts. |
 | ZUN | `build_th03_zun_work.py` | Native launcher/directory/payload cold pair and complete stored/decoded comparison. |
 | ZUN | `review_th03_zun_ongchk_work.py` | Full cold/formatter/graphics/lifecycle/DATA/wrapper/directory/source/ONGCHK chain. |

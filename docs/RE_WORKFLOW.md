@@ -40,7 +40,7 @@ native inputs and run the prerequisite review stages in order:
 ```sh
 th03_run scripts/replay_th03_main_native.py
 th03_run scripts/review_th03_op_main_menu_work.py
-th03_run scripts/review_th03_mainl_staff_data_work.py
+th03_run scripts/review_th03_mainl_staff_roll_work.py
 th03_run scripts/review_th03_zun_ongchk_work.py
 ```
 
@@ -83,6 +83,11 @@ Current reports/publications bind live source, recipes, installed tools and
 complete outputs. Historical private replay receipts are not current proof.
 Current builders are source-only; keep only required inputs and one working
 build per product. See the handoff for paths, including the required reference tar.
+
+The frozen ReC98 candidate index retains historical `python3 scripts/replay_*`
+unit commands and evidence unions. During source migration, preserve this
+diagnostic namespace; record the current review command in its new evidence
+row and scoped publication. Candidate-index source/exact flags stay separate.
 
 ## Behavior and ownership boundaries
 
