@@ -35,13 +35,20 @@ class ConsumedVendorHeaders(unittest.TestCase):
                     (directory / name.upper()).write_text("original:" + name)
             with patch.object(build, "ROOT", root):
                 self.assertEqual(set(build.vendor_header_inventory()),
-                    {"C:/TC4/INCLUDE/" + n for n in ("stddef.h", "_defs.h", "_null.h", "mem.h")})
-                for name in ("STDDEF.H", "MEM.H"):
+                    {"C:/TC4/INCLUDE/" + n for n in ("stddef.h", "_defs.h", "_null.h", "mem.h",
+                        "process.h", "stdlib.h", "mbctype.h", "ctype.h", "mbstring.h")})
+                for name in ("STDDEF.H", "MEM.H", "PROCESS.H", "STDLIB.H", "MBCTYPE.H", "CTYPE.H", "MBSTRING.H"):
                     original = (consumed / name).read_bytes()
                     (consumed / name).write_text("different consumed declaration")
                     with self.assertRaisesRegex(ValueError, "consumed vendor header differs"):
                         build.vendor_header_inventory()
                     (consumed / name).write_bytes(original)
+
+    def test_any_fresh_producer_rejects_an_undeclared_SDK_dependency(self):
+        description = {"dependency_paths": ["staffdat.cpp", r"C:\TC4\INCLUDE\process.h"]}
+        with self.assertRaisesRegex(ValueError, "undeclared consumed vendor header: C:/TC4/INCLUDE/process.h"):
+            build.verify_vendor_dependencies(description, {"C:/TC4/INCLUDE/_defs.h": "pinned"})
+        build.verify_vendor_dependencies(description, {"C:/TC4/INCLUDE/process.h": "pinned"})
 
 
 @unittest.skipUnless((WORK / "bin/th03/mainl.target.exe").is_file(), "private MAINL cold build absent")

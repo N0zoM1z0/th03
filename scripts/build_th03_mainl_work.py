@@ -27,7 +27,8 @@ WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03ML"
 OUT = ROOT / ".analysis/work"
 CRT = ("h_llsh", "h_padd", "n_pcmp", "ioerror", "fbrk", "setblock")
 TLIB_SHA = "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2"
-VENDOR_HEADERS = ("stddef.h", "_defs.h", "_null.h", "mem.h")
+VENDOR_HEADERS = ("stddef.h", "_defs.h", "_null.h", "mem.h", "process.h", "stdlib.h",
+                  "mbctype.h", "ctype.h", "mbstring.h")
 
 
 def vendor_header_inventory():
@@ -41,6 +42,14 @@ def vendor_header_inventory():
         need(raw == (installed_headers / name.upper()).read_bytes(), "consumed vendor header differs: " + name)
         result["C:/TC4/INCLUDE/" + name] = sha(raw)
     return result
+
+
+def verify_vendor_dependencies(description, inventory):
+    """Every fresh producer must bind its actual consumed SDK declarations."""
+    for path in description["dependency_paths"]:
+        path = path.replace(chr(92), "/")
+        if path.startswith("C:/TC4/INCLUDE/"):
+            need(path in inventory, "undeclared consumed vendor header: " + path)
 
 
 def recipe_inventory():
@@ -136,7 +145,9 @@ def build():
                         WORK / "owned", f"round{number}:crt:" + name)
                 output = "owned/" + name + ".obj"
                 raw = (WORK / output).read_bytes()
-                need(describe_omf(raw)["valid"], "invalid fresh CRT object " + name)
+                description = describe_omf(raw)
+                need(description["valid"], "invalid fresh CRT object " + name)
+                verify_vendor_dependencies(description, report["vendor_header_sha256"])
                 outputs[output] = raw
             (WORK / "vendor/clbase.lib").write_bytes(vendor_raw)
             (WORK / "vendor/extract.rsp").write_bytes(response("clbase.lib", ["*" + m.name for m in original]))
@@ -167,7 +178,9 @@ def build():
                     argv = dos + ["tcc", *row["flags"], wrapper]
                 execute(argv, WORK, f"round{number}:" + output)
                 raw = (WORK / output).read_bytes()
-                need(describe_omf(raw)["valid"], "invalid project OMF " + output)
+                description = describe_omf(raw)
+                need(description["valid"], "invalid project OMF " + output)
+                verify_vendor_dependencies(description, report["vendor_header_sha256"])
                 outputs[output] = raw
                 print(f"round {number}: {output}", flush=True)
             execute(dos + ["tlink", r"@obj\th03\mainl.@l"], WORK, f"round{number}:link")

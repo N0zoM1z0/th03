@@ -30,6 +30,8 @@ from review_th03_mainl_pi_free_work import current_scope as pi_free_scope
 from review_th03_mainl_pi_work import current_scope as pi_scope
 from review_th03_mainl_cdg_work import current_scope as cdg_scope
 from review_th03_mainl_cdg_draw_work import current_scope as cdg_draw_scope
+from review_th03_mainl_ending_work import current_scope as ending_scope
+from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
 
 
@@ -51,7 +53,9 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/review_th03_mainl_cdg_work.py", "scripts/lib/decoded_mainl_cdg_layout.py",
                 "scripts/lib/decoded_mainl_cdg_runtime.py",
                 "scripts/review_th03_mainl_cdg_draw_work.py", "scripts/lib/decoded_mainl_cdg_draw_layout.py",
-                "scripts/lib/decoded_mainl_cdg_draw_runtime.py")
+                "scripts/lib/decoded_mainl_cdg_draw_runtime.py",
+                "scripts/review_th03_mainl_ending_work.py", "scripts/lib/decoded_mainl_ending_layout.py",
+                "scripts/lib/decoded_mainl_ending_runtime.py")
 
 
 def need(value, message):
@@ -94,7 +98,9 @@ def audit(root):
         raw = (work / name).read_bytes()
         need(row == dict(bytes=len(raw), sha256=sha(raw)), "current output drift: " + name)
         if name in fresh:
-            need(describe_omf(raw)["valid"], "fresh native OMF integrity: " + name)
+            description = describe_omf(raw)
+            need(description["valid"], "fresh native OMF integrity: " + name)
+            build.verify_vendor_dependencies(description, report["vendor_header_sha256"])
     config = tomllib.loads((root / "config/toolchain.toml").read_text())
     surfaces = [attest_surface(root, s) for s in config["surfaces"] if not s.get("bootstrap_only")]
     need(report["toolchain_surfaces"] == surfaces and all(s["pass"] or not s["required"] for s in surfaces),
@@ -145,7 +151,8 @@ def audit(root):
     pi = pi_scope(root, work, target, candidate, raw_report, graph, files)
     cdg = cdg_scope(root, work, target, candidate, raw_report, graph, files)
     cdg_draw = cdg_draw_scope(root, work, target, candidate, raw_report, graph, files)
-    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"] + root_helpers["layout"]["owners"] + pi_free["layout"]["owners"] + pi["layout"]["owners"] + cdg["layout"]["owners"] + cdg_draw["layout"]["owners"]
+    ending = ending_scope(root, work, target, candidate, raw_report, graph, files)
+    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"] + root_helpers["layout"]["owners"] + pi_free["layout"]["owners"] + pi["layout"]["owners"] + cdg["layout"]["owners"] + cdg_draw["layout"]["owners"] + ending["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -168,7 +175,11 @@ def audit(root):
         if o["source"] == WAIT_SOURCE:
             need(row["wrapper"] == WAIT_WRAPPER and row["game"] == 3 and row["binary"] == "L"
                  and row["first_binary"] == "mainl", "ending wait retains GAME3/L first-use slot")
-        need(files[o["source"]].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
+        # Staff's native short filename is a literal copy of its maintained TU,
+        # rather than an include wrapper. The ending layout independently binds
+        # its exact wrapper/source relationship and full native owner fields.
+        transported = ENDING_WRAPPER if o["source"] == ENDING_SOURCE else o["source"]
+        need(files[transported].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
              "maintained source and declared line-ending transport")
         for name in describe_omf((work / o["object"]).read_bytes())["dependency_paths"]:
             name = name.replace(chr(92), "/")
@@ -176,7 +187,7 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw)
+    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
@@ -209,8 +220,8 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
-                decoded_exact_units=40, decoded_authored_exact_units=40, decoded_library_exact_units=0,
-                decoded_authored_bytes=2902, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
+                decoded_exact_units=41, decoded_authored_exact_units=41, decoded_library_exact_units=0,
+                decoded_authored_bytes=3182, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 target_provenance="candidate-local-attested", product_exact=False, mixed_physical_exact_bytes=0,
                 mixed_authored_credit_bytes=0, canonical_file_backed_authored_credit_unchanged=True,
                 factory_accepted=False, whole_game_percentage=None, whole_game_code_denominator_known=False)

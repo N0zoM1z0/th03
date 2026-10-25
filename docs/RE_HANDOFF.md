@@ -1,9 +1,10 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-25, after `e41f5ad`. The three complete MAINL
-CDG drawing procedures now have native ownership and full-state bus contracts.
-Native inputs are unchanged; the complete current cold pair and all 37 previous
-accepted scope observations were revalidated.
+Reconstruction checkpoint: 2026-10-25, after `07404db`. MAINL's complete ending
+entry now has native ownership and full-state contracts with actual accepted
+callees. Five missing consumed SDK headers were added and all fresh producers
+now reject undeclared SDK dependencies. Two source-only cold builds and the full
+MAINL proof chain were rerun; all previous 40 owners retain their observations.
 Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
@@ -14,7 +15,7 @@ Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 40 functions / 2,902 CODE bytes | Open |
+| MAINL | 41 functions / 3,182 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -30,8 +31,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,189 tests, 284 optional archive skips, all checks passed**;
-6m13s, about 527 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,209 tests, 284 optional archive skips, all checks passed**;
+6m53s, about 536 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -45,102 +46,89 @@ Last reconstruction CI: **2,189 tests, 284 optional archive skips, all checks pa
    independent affected-behavior contracts. Finish with focused checks, full CI,
    whitespace checks and an English `gpt-6.1-sol: ...` commit; push checkpoints.
 
-### MAINL resources
+### MAINL resource scopes
 
-Five complete PI callers now own **555 CODE bytes**: palette37, put136,
-interlace135, load70 and quarter177. The four real TC4 producers preserve
-GAME3/O first use for shared `pi_put.cpp`/`pi_load.cpp` and GAME3/L for interlace
-and quarter. Complete native OMF/MAP/publics, 25 literal ordered fixups and seven
-MZ relocations pass. Private DATA/BSS are zero. Current command:
-`review_th03_mainl_pi_work.py --current-cold`; publication remains
-`config/mainl_work/scoped_acceptance.json`.
+All scopes below are current in `config/mainl_work/scoped_acceptance.json`.
+Use the matching `review_th03_mainl_*_work.py --current-cold` to revalidate the
+unchanged complete cold pair and rerun one stage. Current source graphs retain
+original GAME3/O first use for shared producers and GAME3/L for ending producers.
+Shared CS/DS are `0C7E/0E3F`; PI buffers/headers are DS:`1F0E/1F26`, CDG slots
+DS:`1D0E`. PiHeader is72 bytes; each CDG slot is16 bytes.
 
-Independent target/candidate contracts run **5,932 cases per image** at two
-loads. They execute all 555 bytes, the actual previously accepted 76-byte root
-PI release and 35 bytes of the 36-byte CRT memcpy. Its odd-tail MOVSB is not
-reached by the fixed 48-byte copy; library context adds no source ownership.
-All DWORD/segment state, defined flags, ordered stores and every physical memory
-byte, including private stack/caller data, pass. Both real far return words are
-checked at callee entry because Unicorn may omit their write hooks. Peak stack
-depth is 26 bytes; no stack window is ignored. Forty-six owner and three
-contextual instruction mutations fail.
+- **PI release:** root `GRAPH_PI_FREE` at `0000:0FEC`,76 CODE bytes. Its5,558
+  cases/image cover all segment BYTE lanes, zero/repeated segments, failed-free
+  clearing, effective offset wrap and live header/caller-frame aliases;20
+  instruction mutations fail. HMEM_FREE at root22B2 remains a bounded unowned
+  reply preserving BX/CX/DX/SI/DI/BP/DS/ES/SS, high halves and IF/DF.
+- **PI callers:** five complete functions,555 CODE bytes from four TC4 producers;
+  25 ordered native fixups/seven MZ fields. The5,932 cases/image execute all555
+  owner bytes, actual release76 and35 of36 CRT memcpy bytes;46 owner/three
+  contextual mutations fail. The odd-tail MOVSB is not reached by the48-byte
+  copy and no library ownership follows. WORD row addition truncates before
+  paragraph normalization; quarter always draws200 rows of width320.
+- **CDG loaders:** five complete functions,593 CODE bytes in
+  `src/shared/formats/cdg_load.cpp`;35 ordered native fields/24 MZ relocations.
+  Four far fields relax naturally in TLINK; one backward bridge is native TC4.
+  The7,328 cases/image execute real nested free/all helpers;66 mutations fail.
+  Maximum entries include255 CDG frees,510 heap frees/allocations and511 reads.
+  Counts are unchecked BYTEs, not capped to32 slots. The noalpha wrapper writes
+  1 then0; slot0EB8 aliases its flag through header bottom_left atDS:0894, and
+  slot0E30 permits self-aliasing file metadata. File/heap bodies remain unowned.
+- **CDG drawing:** alpha179/hflip201/noalpha113,493 CODE bytes from two maintained
+  TASM5 producers;19 native fields/two MZ relocations/12 real SMC WORDs. The8,298
+  complete entries/image execute every owner byte and real41-byte GRCG setup;
+  58 owner/one helper mutations fail. Three outer EVEN bytes stay excluded.
+  Hflip preserves DF and leaves FS at the color segment; alpha/noalpha clear DF
+  and restore DS. Actual setup OUTs have IF clear; caller GRCG-off restores IF.
 
-- Slot BYTE lanes, overlapping forward palette copies, signed top wrapping,
-  live width/height changes and persistent load reentry are covered. Row offset
-  addition truncates to WORD **before** paragraph normalization; quarter always
-  draws 200 rows of width320. Its selectors are full WORD values.
-- The readonly-height `FFFF` interlace loop is now proved closed: init0,
-  add2 and unsigned JA at `0C7E:0656` retain all 32,768 even counter states.
-  The native CFG has only this exit guard. Returning packed interfaces,
-  immutable height and disjoint DGROUP/private stack are explicit assumptions.
-  Each image has 144 independently checked live prefixes, separate from
-  ordinary terminating calls (including callbacks that change the height).
-  Instruction-budget expiry is never evidence.
-- PI load executes actual root `GRAPH_PI_FREE` at `0000:0FEC`; header fields are
-  cleared even after a failed free. HMEM_FREE at root `22B2` remains a bounded
-  interface preserving BX/CX/ES and IF/DF, with AX/arithmetic-flag replies.
-  Decoder/graphics/heap internal effects and physical hardware remain unowned.
-- MAINL CS/DS are `0C7E/0E3F`; PI buffers are DS:`1F0E`, headers `1F26`, palette
-  destination `141E`. PiHeader is72 bytes. Compatibility forwarding and the
-  complete consumed SDK/source graph remain bound by the native cold pair.
+Every physical/flat-memory byte and all DWORD/segment/defined flags/native frames
+are checked without ignored stack windows. Unicorn may omit far-CALL write
+hooks; both real return words are checked at callee entry. Graphics/decoder/heap
+replies and external LUT data remain explicit interfaces; physical pixels,
+GRCG latches/planar RMW/timing, LUT generation and IRQ reentrancy are unproved.
 
-The five complete CDG functions now own **593 CODE bytes** in
-`src/shared/formats/cdg_load.cpp`: single138, single-noalpha134, all230,
-all-noalpha28 and free63, at `0C7E:073E..098F`. The actual TC4 wrapper is
-`th03/cdg_load.cpp`, retaining GAME3/O first use. All 35 ordered native fields,
-24 MZ relocations, four normal TLINK forward-call bridges and one native TC4
-backward-call bridge pass; private DATA/BSS are zero. Current command:
-`review_th03_mainl_cdg_work.py --current-cold`.
+The readonly-height FFFF interlace loop has a closed native CFG and invariant
+covering32,768 even WORD counter states;144 checked live prefixes/image stay
+separate from terminal calls. Immutable height, returning packed interfaces and
+disjoint DGROUP/stack are assumptions. CDG width0 is finite: LOOP runs65,536
+inner iterations, while REP0 writes nothing. Actual alpha/hflip reach RETF after
+262,144 DWORD/327,680 BYTE stores respectively in the zero-width fixtures.
+Native WORD recurrences give row delta-80, at most411 rows/plane and26 color
+planes under mapped disjoint-memory/stable-SMC assumptions. Budget expiry is
+never nontermination evidence.
 
-- Independent contracts run **7,328 cases per image** at two loads, execute all
-  593 bytes and reject 66 actual instruction mutations. Actual nested free/all
-  instructions share one UC and real frames. Maximum entries include255 CDG
-  frees,510 heap frees,510 allocations and511 reads. Every physical memory byte,
-  DWORD/segment state, defined flags and ordered stores/frames pass; stack peak
-  is38 with no ignored window. File prefixes and heap replies remain explicit
-  interfaces; no DOS/file/allocator body or enclosing DATA/BSS is accepted.
-- All256 image counts/flag values and both size/signed-index BYTE lanes are
-  covered. Single truncates `bitplane_size * 5` to WORD before widening and the
-  signed-WORD index multiply. Color lengths wrap to WORD; zero allocations and
-  failed/partial reads do not suppress requests. File prefix writes are flat;
-  ordinary struct field effective offsets wrap before adding DS.
-- The noalpha wrapper writes1 then0, rather than restoring entering state.
-  Unchecked slot `0EB8` places the header at DS:`088E`, making bottom_left alias
-  flag `0894`. Reading a header with bottom_left0 after the wrapper wrote1
-  enables alpha loads; this actual CPU behavior is retained. Count is not capped
-  to the32 declared slots. Slot `0E30` places the header at000E: self-aliasing
-  file prefixes can change live size/count and later requests. Assets remain
-  private and are not inferred from these synthetic replies.
+### MAINL ending entry
 
-Three complete CDG draw procedures own **493 CODE bytes**: alpha179, hflip201
-and noalpha113, in `src/shared/formats/cdg_put.asm` and `cdg_noalpha.asm`.
-The two complete TASM5 producers retain GAME3/O first use, WORD/PUBLIC/USE16,
-19 ordered native fixups, two MZ relocations and 12 real SMC immediate WORDs.
-Three outer EVEN bytes remain separate and unaccepted. Current command:
-`review_th03_mainl_cdg_draw_work.py --current-cold`.
+Complete `_mainl_ending` owns **280 CODE bytes** at `095F:2382`, with34 ordered
+native fields,14 ordered MZ relocations and the compiler-owned near cdecl frame.
+`src/mainl/staff/data.cpp` is copied literally to `staffdat.cpp` and compiled
+GAME3/L. Full producer inventory is19 procedures/3,695 CODE bytes,224 initialized
+DATA bytes and no BSS; the other18 procedures and DATA remain unaccepted.
+Current command: `review_th03_mainl_ending_work.py --current-cold`.
 
-- **8,298 complete entries per image** at two loads execute all493 owner bytes
-  and the real41-byte GRCG setup. Full DWORD/segment state, IF/DF, ordered
-  stores/ports and every byte of flat memory, including native private/caller
-  frames, pass; peak stack16, no ignored window. Fifty-eight owner mutations
-  and one actual helper CLI mutation fail. Foreign SS, both left-coordinate/slot
-  BYTE lanes, all source BYTE/LUT values, width multiplication wrap, persistent
-  SMC reentry and source segment aliases are covered.
-- Width0 is **finite**: alpha color LOOP iterates65,536 times on each of four
-  planes (262,144 DWORD stores); hflip alpha plus four color planes each run
-  65,536 times (327,680 BYTE stores). Both actual runs reach RETF. Noalpha REP0
-  writes nothing but traverses four planes. Historical instruction-budget
-  prefixes are not nontermination evidence. Native WORD recurrences prove
-  row delta -80, at most411 rows/plane and26 color planes, conditional on
-  mapped disjoint memory and stable SMC operands.
-- This proves flat bus operands and native port requests. GRCG latches,
-  planar RMW/pixels/timing, external LUT generation/ownership, IRQ reentrancy
-  and enclosing DATA/BSS remain open. Hflip preserves DF and leaves FS at the
-  color segment; alpha/noalpha clear DF and restore DS. The actual helper's
-  five OUTs execute with IF clear; the caller's GRCG-off OUT restores entering IF.
+- **9,528 complete entries per image** at two loads execute all280 ending bytes
+  and227 actual accepted helper bytes: CDG free63, PI free76, frame delay21 and
+  game exit67. Full DWORD/segment registers, defined flags/IF/DF, ordered native
+  frames/stores/ports and all flat memory pass. Peak stack24; no ignored window.
+  Thirty-five owner and four actual helper instruction mutations fail.
+- All resident character/credit BYTE values, decimal digit addition overflow,
+  far offset wrap and script-pointer self-aliasing, live resident redirection
+  after staff/registration replies, zero/repeated segments and persistent reentry
+  pass. Character0 gives `(-1)/2 == 0`; character255 gives signed BYTE127.
+  The bonus gate reloads resident state after registration: credits exactly3
+  and original character BYTE below15. A failed returning execl reaches the
+  actual cdecl cleanup/near RET. Script/staff/registration/exec bodies and
+  physical IRQ/graphics remain explicit unowned interfaces.
+- The complete nine-header SDK inventory now includes PROCESS/STDLIB and
+  MBCTYPE/CTYPE/MBSTRING, consumed by root/staff/text/cutscene objects. Every
+  fresh project/CRT object is checked against that declaration in both builds
+  and the independent publication audit. Product source and complete decoded/
+  stored files are unchanged; full prerequisites and the OP/MAINL joint witness
+  were regenerated against the new recipe/cold report.
 
-Next candidates: ending/staff orchestration and remaining OP/ZUN ownership,
-then the overall source/link graph. Whole-product completion remains open.
+Next candidates: remaining staff/snow/graphics and cutscene ownership, then
+remaining OP/ZUN and the overall source/link graph. Whole-product completion
+remains open.
 Use `review_th03_mainl_sound_work.images()` to revalidate the complete current
 cold pair and obtain `work,target,candidate,cold,raw,graph,files`.
 

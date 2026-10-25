@@ -15,11 +15,19 @@ class CrtProgressTests(unittest.TestCase):
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
         self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(149,28381,0,149))
-        # This assertion concerns the historical pending-publication caption.
-        # Published acceptance intentionally suppresses it (tested separately).
+        # The old aggregate requires the old linked-game source assignment.
+        # Ending now comes from staffdat.cpp, so current units suppress it even
+        # when publication is unavailable. Preserve the historical caption test
+        # using its historical source projection, without reassigning the ledger.
         with patch('status.mainl_product_status', return_value={
                 'product_exact': False, 'decoded_exact_units': 0}):
-            self.assertIn("24,680 B target-equal",progress.render_svg(units,[],evidence))
+            self.assertNotIn("24,680 B target-equal",progress.render_svg(units,[],evidence))
+            historical=[dict(u) for u in units]
+            for unit in historical:
+                expected=progress.MAINL_LINKED_GAME_SOURCE_UNITS.get(unit['id'])
+                if expected:
+                    unit['source']=expected['source']
+            self.assertIn("24,680 B target-equal",progress.render_svg(historical,[],evidence))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_CRT_SOURCE_UNITS.values()),628)
     def test_missing_repeat_evidence_rejects_caption(self):
         units,evidence=self.data()
