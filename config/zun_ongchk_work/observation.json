@@ -1,0 +1,1107 @@
+{
+  "schema": "th03-zun-ongchk-source-candidate-observation-v1",
+  "complete": true,
+  "implementation_sha256": {
+    "scripts/review_th03_zun_format_work.py": "616f3237b45210c771315708571c3bb3eed18a51d267f8c29891c592e07bbb2b",
+    "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
+    "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "scripts/build_th03_zun_work.py": "3a58a792bcc8a3ac8109842868495d038154be4f9769dc18a7188073b3863aad",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
+    "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/verify_th03_zun_driver_hybrid.py": "077a7c99279853282852bcb1f11f77e935796e0304a48fe9587a00a531cd1aa9",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
+    "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
+    "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
+    "scripts/review_th03_zun_lifecycle_work.py": "30f6b1871fba8cb0e086299bbb7763f8b1260b6d4ec37418f4b219117fc70504",
+    "scripts/lib/zun_driver_lifecycle_layout.py": "8492a992952db296145525a9266554256c8e5ca9fa3335d67f431ab3f69934db",
+    "scripts/lib/zun_driver_lifecycle_runtime.py": "8fd0cf5be17abf6ced865b48fd2bb8abf5176d82d93a39bc4fa0129c06e2cfbc",
+    "src/zun/driver_resident.inl": "eab59e2b554caa3e8493e17a6dc4df0658bc9ff7338ca9bd7e311ab7b9f0d3e5",
+    "scripts/lib/zun_driver_command_runtime.py": "77313ef4840dc280af400aeffa433414a69515f188ec4844a31df477bf2677fb",
+    "scripts/lib/zun_driver_scalar_runtime.py": "135e86482e6a1f30cb1225ae1193d89ffed5767539c82c996b551125a9b0418d",
+    "scripts/lib/zun_driver_scalar_layout.py": "53fb780c49959068b8ed6069e541bc92c18ea54916ed02f27a2b5593323fbc66",
+    "scripts/review_th03_zun_data_work.py": "9cf5a54366b232b05f07394510f4965cd4fff6474e18f91e3fe829ab4f6d3658",
+    "scripts/lib/zun_driver_data_layout.py": "81e528db2c3ecb11f4fd468583bbe369671936ac6facddaa108ea440ea34eebe",
+    "scripts/lib/zun_driver_data_runtime.py": "4d1b84649ff36611d4ad4a4f9d3b6805db223d4e53a690793077cb873dd1b255",
+    "src/zun/driver.asm": "5165e7eb5a910382668f6af2bba2b58e16929640f6e52f2077a143064a179c91",
+    "src/zun/driver_services.inl": "d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af",
+    "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
+    "scripts/review_th03_zun_wrapper_work.py": "027ec95fc328d74a3fefafbdb372a4e694ba6220fc21e14d5329f11d3590e7fd",
+    "scripts/lib/zun_wrapper_layout.py": "3eb065da33ecc4e77681e7bd16bbaa28c7f6ea50ecd19d8cfd30bdfb548a1fd8",
+    "scripts/lib/zun_wrapper_runtime.py": "e5eaa7712cf5d76fa7d84123723b29d32566c625b086c118cfe193b131671602",
+    "src/zun/launcher.asm": "edea80bed915491d6eb11bccca1eed83966a5d8fd84cbd746d7d4ce272bd02bd",
+    "src/zun/transfer_call.asm": "7b4634cbede7e9e19658f441eeecd108eecc2eea9b4d6e81815a758080bbeda9",
+    "src/zun/transfer_helper.asm": "d8e15f5d983e899d363b16c87a40ef4dbcc693c7f73e38cf330ecf3ae1369c8a",
+    "scripts/review_th03_zun_directory_work.py": "680cf88fff8641c3ba867d505cc46a1a8b90580296d474bdd5d7434925cba1df",
+    "scripts/lib/zun_directory_layout.py": "78830d460065bab9174d81c7be153044772ada302e0087b94c6e082064d9f34c",
+    "scripts/lib/zun_directory_runtime.py": "9e83116c24097e4fb7e7b60c5aef720f653d75ef0e08fd13f0e706bc5ab24de5",
+    "scripts/lib/zun_directory_controls.py": "8671c9c34b64fee2110928639a6d4032e65f3574d8c8b8667bb74a62e027f123",
+    "scripts/lib/zun_directory_source.py": "81255428bc6dab590672e2675a23d6a438e7c880d01484134b3af71856af6fb0",
+    "src/zun/directory.asm": "785ce74fafcb08cda8a26ac8cf379549470d74981cab7b214323e18ac98d8348",
+    "scripts/review_th03_zun_ongchk_source_work.py": "9a061272d3269786ba8129f0bd1c7fe6bae83eb5583c6db30d01c6873bf95e21",
+    "scripts/lib/zun_ongchk_source.py": "75d6097c424c42b021e86479c522a3837fc2cae6fbe0ebddf4b7bc85429df309",
+    "scripts/review_th03_ongchk.py": "62d4b229a2a23a3b74107def324c1b8161ffd08ba308d3039833a62e48c77cc2",
+    "src/zun/ongchk.asm": "ddfd783aa3f7916eb79f9ad771dec3cdf5d2bffa4f498aa962cd3f1f4652a3ce"
+  },
+  "provenance": "candidate-local-attested",
+  "native_pair_built_now": false,
+  "source_presence_only": true,
+  "exact_acceptance": false,
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false,
+  "cold_report_sha256": "a2da859e700d549312225c0e4120abde38e2c536175cf83716f1a46811944cb6",
+  "directory_review_sha256": "6a5fd69aee5c3c042f48a4a37968aff63c0582db9b9fb26b6c081f0c026be812",
+  "source_inventory_sha256": "5bbb56bce88ee70a1052084a59710282a450297f4c0af727a3ec571ff61e502e",
+  "native": {
+    "source": "src/zun/ongchk.asm",
+    "code_bytes": 892,
+    "initialized_data_bytes": 34,
+    "bss_bytes": 42,
+    "native_fields": [
+      {
+        "site": 265,
+        "bytes": 2,
+        "target": "type2_first",
+        "target_segment": 3,
+        "addend": 9,
+        "resolved": 1191
+      },
+      {
+        "site": 282,
+        "bytes": 2,
+        "target": "type2_first",
+        "target_segment": 3,
+        "addend": 9,
+        "resolved": 1191
+      },
+      {
+        "site": 291,
+        "bytes": 2,
+        "target": "probe_result",
+        "target_segment": 1,
+        "addend": 1181,
+        "resolved": 1181
+      },
+      {
+        "site": 297,
+        "bytes": 2,
+        "target": "type2_first",
+        "target_segment": 3,
+        "addend": 9,
+        "resolved": 1191
+      },
+      {
+        "site": 314,
+        "bytes": 2,
+        "target": "type2_first",
+        "target_segment": 3,
+        "addend": 9,
+        "resolved": 1191
+      },
+      {
+        "site": 326,
+        "bytes": 2,
+        "target": "probe_result",
+        "target_segment": 1,
+        "addend": 1181,
+        "resolved": 1181
+      },
+      {
+        "site": 336,
+        "bytes": 2,
+        "target": "port_override",
+        "target_segment": 1,
+        "addend": 1180,
+        "resolved": 1180
+      },
+      {
+        "site": 343,
+        "bytes": 2,
+        "target": "port_override",
+        "target_segment": 1,
+        "addend": 1180,
+        "resolved": 1180
+      },
+      {
+        "site": 399,
+        "bytes": 2,
+        "target": "probe_result",
+        "target_segment": 1,
+        "addend": 1181,
+        "resolved": 1181
+      },
+      {
+        "site": 411,
+        "bytes": 2,
+        "target": "probe_result",
+        "target_segment": 1,
+        "addend": 1181,
+        "resolved": 1181
+      },
+      {
+        "site": 418,
+        "bytes": 2,
+        "target": "probe_result",
+        "target_segment": 1,
+        "addend": 1181,
+        "resolved": 1181
+      },
+      {
+        "site": 423,
+        "bytes": 2,
+        "target": "has_board_rom",
+        "target_segment": 3,
+        "addend": 8,
+        "resolved": 1190
+      },
+      {
+        "site": 442,
+        "bytes": 2,
+        "target": "has_board_rom",
+        "target_segment": 3,
+        "addend": 8,
+        "resolved": 1190
+      },
+      {
+        "site": 479,
+        "bytes": 2,
+        "target": "port_override",
+        "target_segment": 1,
+        "addend": 1180,
+        "resolved": 1180
+      },
+      {
+        "site": 486,
+        "bytes": 2,
+        "target": "port_override",
+        "target_segment": 1,
+        "addend": 1180,
+        "resolved": 1180
+      },
+      {
+        "site": 570,
+        "bytes": 2,
+        "target": "has_board_rom",
+        "target_segment": 3,
+        "addend": 8,
+        "resolved": 1190
+      },
+      {
+        "site": 585,
+        "bytes": 2,
+        "target": "probe_result",
+        "target_segment": 1,
+        "addend": 1181,
+        "resolved": 1181
+      },
+      {
+        "site": 590,
+        "bytes": 2,
+        "target": "has_board_rom",
+        "target_segment": 3,
+        "addend": 8,
+        "resolved": 1190
+      },
+      {
+        "site": 609,
+        "bytes": 2,
+        "target": "has_board_rom",
+        "target_segment": 3,
+        "addend": 8,
+        "resolved": 1190
+      },
+      {
+        "site": 640,
+        "bytes": 2,
+        "target": "port_override",
+        "target_segment": 1,
+        "addend": 1180,
+        "resolved": 1180
+      },
+      {
+        "site": 647,
+        "bytes": 2,
+        "target": "port_override",
+        "target_segment": 1,
+        "addend": 1180,
+        "resolved": 1180
+      },
+      {
+        "site": 708,
+        "bytes": 2,
+        "target": "fm_address_port",
+        "target_segment": 3,
+        "addend": 0,
+        "resolved": 1182
+      },
+      {
+        "site": 715,
+        "bytes": 2,
+        "target": "fm_data_port",
+        "target_segment": 3,
+        "addend": 2,
+        "resolved": 1184
+      },
+      {
+        "site": 722,
+        "bytes": 2,
+        "target": "adpcm_address_port",
+        "target_segment": 3,
+        "addend": 4,
+        "resolved": 1186
+      },
+      {
+        "site": 729,
+        "bytes": 2,
+        "target": "adpcm_data_port",
+        "target_segment": 3,
+        "addend": 6,
+        "resolved": 1188
+      },
+      {
+        "site": 735,
+        "bytes": 2,
+        "target": "probe_result",
+        "target_segment": 1,
+        "addend": 1181,
+        "resolved": 1181
+      },
+      {
+        "site": 833,
+        "bytes": 2,
+        "target": "ram_pattern",
+        "target_segment": 1,
+        "addend": 1148,
+        "resolved": 1148
+      },
+      {
+        "site": 840,
+        "bytes": 2,
+        "target": "adpcm_address_port",
+        "target_segment": 3,
+        "addend": 4,
+        "resolved": 1186
+      },
+      {
+        "site": 844,
+        "bytes": 2,
+        "target": "adpcm_data_port",
+        "target_segment": 3,
+        "addend": 6,
+        "resolved": 1188
+      },
+      {
+        "site": 1015,
+        "bytes": 2,
+        "target": "ram_buffer",
+        "target_segment": 3,
+        "addend": 10,
+        "resolved": 1192
+      },
+      {
+        "site": 1019,
+        "bytes": 2,
+        "target": "adpcm_address_port",
+        "target_segment": 3,
+        "addend": 4,
+        "resolved": 1186
+      },
+      {
+        "site": 1044,
+        "bytes": 2,
+        "target": "adpcm_data_port",
+        "target_segment": 3,
+        "addend": 6,
+        "resolved": 1188
+      },
+      {
+        "site": 1067,
+        "bytes": 2,
+        "target": "adpcm_address_port",
+        "target_segment": 3,
+        "addend": 4,
+        "resolved": 1186
+      },
+      {
+        "site": 1086,
+        "bytes": 2,
+        "target": "adpcm_data_port",
+        "target_segment": 3,
+        "addend": 6,
+        "resolved": 1188
+      },
+      {
+        "site": 1098,
+        "bytes": 2,
+        "target": "ram_pattern",
+        "target_segment": 1,
+        "addend": 1148,
+        "resolved": 1148
+      },
+      {
+        "site": 1101,
+        "bytes": 2,
+        "target": "ram_buffer",
+        "target_segment": 3,
+        "addend": 10,
+        "resolved": 1192
+      },
+      {
+        "site": 1116,
+        "bytes": 2,
+        "target": "adpcm_address_port",
+        "target_segment": 3,
+        "addend": 4,
+        "resolved": 1186
+      },
+      {
+        "site": 1138,
+        "bytes": 2,
+        "target": "adpcm_data_port",
+        "target_segment": 3,
+        "addend": 6,
+        "resolved": 1188
+      }
+    ],
+    "initialized_publics": [
+      [
+        256,
+        "start"
+      ],
+      [
+        295,
+        "probe_hardware"
+      ],
+      [
+        416,
+        "probe_type3"
+      ],
+      [
+        583,
+        "probe_type2"
+      ],
+      [
+        706,
+        "probe_found"
+      ],
+      [
+        733,
+        "probe_failed"
+      ],
+      [
+        740,
+        "adpcm_check"
+      ],
+      [
+        763,
+        "adpcm_write"
+      ],
+      [
+        936,
+        "adpcm_read"
+      ],
+      [
+        1064,
+        "adpcm_dummy_read"
+      ],
+      [
+        1097,
+        "adpcm_compare"
+      ],
+      [
+        1109,
+        "adpcm_register_write"
+      ],
+      [
+        1148,
+        "ram_pattern"
+      ],
+      [
+        1180,
+        "port_override"
+      ],
+      [
+        1181,
+        "probe_result"
+      ]
+    ],
+    "bss_publics": [
+      [
+        0,
+        "fm_address_port"
+      ],
+      [
+        2,
+        "fm_data_port"
+      ],
+      [
+        4,
+        "adpcm_address_port"
+      ],
+      [
+        6,
+        "adpcm_data_port"
+      ],
+      [
+        8,
+        "has_board_rom"
+      ],
+      [
+        9,
+        "type2_first"
+      ],
+      [
+        10,
+        "ram_buffer"
+      ]
+    ],
+    "file_bytes": 926,
+    "file_sha256": "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0",
+    "binary_seed_consumed": false,
+    "original_source_identity_attested": false,
+    "original_assembler_identity_attested": false,
+    "exact_acceptance": false,
+    "canonical_unit_credit_changed": false,
+    "whole_product_accepted": false
+  },
+  "structure": [
+    {
+      "name": "startup",
+      "start": 256,
+      "size": 39,
+      "terminal": "int",
+      "instruction_count": 16,
+      "body_sha256": "8394761f9f72811677e9e172dd35e7698728d22d515b45b34cd719cd6362b164",
+      "edges": [
+        {
+          "instruction": 274,
+          "kind": "je",
+          "target": 271
+        },
+        {
+          "instruction": 278,
+          "kind": "jne",
+          "target": 285
+        },
+        {
+          "instruction": 285,
+          "kind": "call",
+          "target": 295
+        }
+      ]
+    },
+    {
+      "name": "controller",
+      "start": 295,
+      "size": 121,
+      "terminal": "ret",
+      "instruction_count": 47,
+      "body_sha256": "3b61c3d99de43c00bf4bcaa38b7615bf2809d6c25cbc85bb3bdc4cd036866bfb",
+      "edges": [
+        {
+          "instruction": 300,
+          "kind": "je",
+          "target": 307
+        },
+        {
+          "instruction": 302,
+          "kind": "call",
+          "target": 416
+        },
+        {
+          "instruction": 305,
+          "kind": "jae",
+          "target": 397
+        },
+        {
+          "instruction": 307,
+          "kind": "call",
+          "target": 583
+        },
+        {
+          "instruction": 310,
+          "kind": "jae",
+          "target": 397
+        },
+        {
+          "instruction": 317,
+          "kind": "jne",
+          "target": 324
+        },
+        {
+          "instruction": 319,
+          "kind": "call",
+          "target": 416
+        },
+        {
+          "instruction": 322,
+          "kind": "jae",
+          "target": 397
+        },
+        {
+          "instruction": 339,
+          "kind": "je",
+          "target": 347
+        },
+        {
+          "instruction": 351,
+          "kind": "loop",
+          "target": 351
+        },
+        {
+          "instruction": 359,
+          "kind": "loop",
+          "target": 359
+        },
+        {
+          "instruction": 370,
+          "kind": "loop",
+          "target": 370
+        },
+        {
+          "instruction": 379,
+          "kind": "jne",
+          "target": 384
+        },
+        {
+          "instruction": 381,
+          "kind": "jmp",
+          "target": 706
+        },
+        {
+          "instruction": 386,
+          "kind": "jne",
+          "target": 391
+        },
+        {
+          "instruction": 388,
+          "kind": "jmp",
+          "target": 733
+        },
+        {
+          "instruction": 395,
+          "kind": "jmp",
+          "target": 347
+        },
+        {
+          "instruction": 402,
+          "kind": "jb",
+          "target": 414
+        },
+        {
+          "instruction": 404,
+          "kind": "call",
+          "target": 740
+        },
+        {
+          "instruction": 407,
+          "kind": "jb",
+          "target": 414
+        }
+      ]
+    },
+    {
+      "name": "detector_3",
+      "start": 416,
+      "size": 167,
+      "terminal": "jmp",
+      "instruction_count": 71,
+      "body_sha256": "3f385371246abd215369beef94e9337ad4e5ed6659bef1c56ef67d3060b3a8c1",
+      "edges": [
+        {
+          "instruction": 438,
+          "kind": "jne",
+          "target": 456
+        },
+        {
+          "instruction": 451,
+          "kind": "jae",
+          "target": 456
+        },
+        {
+          "instruction": 453,
+          "kind": "jmp",
+          "target": 733
+        },
+        {
+          "instruction": 462,
+          "kind": "jne",
+          "target": 467
+        },
+        {
+          "instruction": 464,
+          "kind": "jmp",
+          "target": 733
+        },
+        {
+          "instruction": 482,
+          "kind": "je",
+          "target": 490
+        },
+        {
+          "instruction": 496,
+          "kind": "loop",
+          "target": 496
+        },
+        {
+          "instruction": 505,
+          "kind": "loop",
+          "target": 505
+        },
+        {
+          "instruction": 514,
+          "kind": "jne",
+          "target": 535
+        },
+        {
+          "instruction": 533,
+          "kind": "je",
+          "target": 546
+        },
+        {
+          "instruction": 537,
+          "kind": "jne",
+          "target": 542
+        },
+        {
+          "instruction": 539,
+          "kind": "jmp",
+          "target": 733
+        },
+        {
+          "instruction": 544,
+          "kind": "jmp",
+          "target": 490
+        },
+        {
+          "instruction": 573,
+          "kind": "je",
+          "target": 579
+        },
+        {
+          "instruction": 581,
+          "kind": "jmp",
+          "target": 706
+        }
+      ]
+    },
+    {
+      "name": "detector_2",
+      "start": 583,
+      "size": 123,
+      "terminal": "jmp",
+      "instruction_count": 48,
+      "body_sha256": "d04102ceb4b9b8f824900acf89aa91cd2530feb486e8c832256af406d683911d",
+      "edges": [
+        {
+          "instruction": 605,
+          "kind": "jne",
+          "target": 620
+        },
+        {
+          "instruction": 618,
+          "kind": "jb",
+          "target": 633
+        },
+        {
+          "instruction": 626,
+          "kind": "je",
+          "target": 633
+        },
+        {
+          "instruction": 643,
+          "kind": "je",
+          "target": 651
+        },
+        {
+          "instruction": 657,
+          "kind": "loop",
+          "target": 657
+        },
+        {
+          "instruction": 666,
+          "kind": "loop",
+          "target": 666
+        },
+        {
+          "instruction": 675,
+          "kind": "jne",
+          "target": 696
+        },
+        {
+          "instruction": 694,
+          "kind": "jne",
+          "target": 706
+        },
+        {
+          "instruction": 698,
+          "kind": "je",
+          "target": 733
+        },
+        {
+          "instruction": 704,
+          "kind": "jmp",
+          "target": 651
+        }
+      ]
+    },
+    {
+      "name": "shared_success",
+      "start": 706,
+      "size": 27,
+      "terminal": "ret",
+      "instruction_count": 9,
+      "body_sha256": "b600010abe8221529ff0bca212e90b82b35c852072cde528b797a25214b30e89",
+      "edges": []
+    },
+    {
+      "name": "shared_failure",
+      "start": 733,
+      "size": 7,
+      "terminal": "ret",
+      "instruction_count": 3,
+      "body_sha256": "c508cf0117ef171b755ce53866fbad7e26b2d0f860f2ec249c52b6bd801a38b1",
+      "edges": []
+    },
+    {
+      "name": "ram_controller",
+      "start": 740,
+      "size": 23,
+      "terminal": "ret",
+      "instruction_count": 12,
+      "body_sha256": "e48a36510c3e02a549ff3c38691ff49c6359ff2549665823083a432c3409dd59",
+      "edges": [
+        {
+          "instruction": 746,
+          "kind": "call",
+          "target": 763
+        },
+        {
+          "instruction": 749,
+          "kind": "jb",
+          "target": 759
+        },
+        {
+          "instruction": 751,
+          "kind": "call",
+          "target": 936
+        },
+        {
+          "instruction": 754,
+          "kind": "call",
+          "target": 1097
+        },
+        {
+          "instruction": 757,
+          "kind": "je",
+          "target": 761
+        }
+      ]
+    },
+    {
+      "name": "ram_write",
+      "start": 763,
+      "size": 173,
+      "terminal": "ret",
+      "instruction_count": 83,
+      "body_sha256": "4753ad26000e4100ea2ae29405947501a40194ee0ab72c9476932e96a732a0c3",
+      "edges": [
+        {
+          "instruction": 766,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 772,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 778,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 784,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 790,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 796,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 801,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 811,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 818,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 824,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 829,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 851,
+          "kind": "js",
+          "target": 848
+        },
+        {
+          "instruction": 860,
+          "kind": "loop",
+          "target": 860
+        },
+        {
+          "instruction": 878,
+          "kind": "jne",
+          "target": 885
+        },
+        {
+          "instruction": 880,
+          "kind": "loop",
+          "target": 875
+        },
+        {
+          "instruction": 890,
+          "kind": "jns",
+          "target": 895
+        },
+        {
+          "instruction": 893,
+          "kind": "jmp",
+          "target": 887
+        },
+        {
+          "instruction": 903,
+          "kind": "loop",
+          "target": 903
+        },
+        {
+          "instruction": 914,
+          "kind": "loop",
+          "target": 846
+        },
+        {
+          "instruction": 919,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 925,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 931,
+          "kind": "call",
+          "target": 1109
+        }
+      ]
+    },
+    {
+      "name": "ram_read",
+      "start": 936,
+      "size": 128,
+      "terminal": "ret",
+      "instruction_count": 54,
+      "body_sha256": "fc9c866bc0fbd7635c49d08ee26f7a7297684276b7a8c59c99e74e5795f72c54",
+      "edges": [
+        {
+          "instruction": 939,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 945,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 951,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 957,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 963,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 969,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 974,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 984,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 991,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 997,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 1002,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 1005,
+          "kind": "call",
+          "target": 1064
+        },
+        {
+          "instruction": 1008,
+          "kind": "call",
+          "target": 1064
+        },
+        {
+          "instruction": 1025,
+          "kind": "js",
+          "target": 1022
+        },
+        {
+          "instruction": 1034,
+          "kind": "je",
+          "target": 1031
+        },
+        {
+          "instruction": 1040,
+          "kind": "js",
+          "target": 1037
+        },
+        {
+          "instruction": 1052,
+          "kind": "call",
+          "target": 1109
+        },
+        {
+          "instruction": 1055,
+          "kind": "loop",
+          "target": 1017
+        },
+        {
+          "instruction": 1060,
+          "kind": "call",
+          "target": 1109
+        }
+      ]
+    },
+    {
+      "name": "dummy_read",
+      "start": 1064,
+      "size": 33,
+      "terminal": "ret",
+      "instruction_count": 17,
+      "body_sha256": "2057d34e851b2758ff4a2eb89b26341cee29fda6a50fe10b9da4806286df36fd",
+      "edges": [
+        {
+          "instruction": 1072,
+          "kind": "js",
+          "target": 1069
+        },
+        {
+          "instruction": 1081,
+          "kind": "loop",
+          "target": 1081
+        },
+        {
+          "instruction": 1093,
+          "kind": "call",
+          "target": 1109
+        }
+      ]
+    },
+    {
+      "name": "compare",
+      "start": 1097,
+      "size": 12,
+      "terminal": "ret",
+      "instruction_count": 5,
+      "body_sha256": "139f5bf73a3dccb3d20a0bdec6ab3333dc5e73549bc3cbf10f6f30ff0f7337d1",
+      "edges": []
+    },
+    {
+      "name": "register_write",
+      "start": 1109,
+      "size": 39,
+      "terminal": "ret",
+      "instruction_count": 25,
+      "body_sha256": "9a15f048e3f52390b2c537f8ea695a374f6c6ad54f6e0369998e099bc314a42d",
+      "edges": [
+        {
+          "instruction": 1124,
+          "kind": "js",
+          "target": 1121
+        },
+        {
+          "instruction": 1133,
+          "kind": "loop",
+          "target": 1133
+        }
+      ]
+    }
+  ],
+  "constructed_runtime": {
+    "images": 2,
+    "terminal_cases_per_image": 30,
+    "nonterminal_polling_cases_per_image": 4,
+    "trace_sha256": "77efdddd04819ab87644e004eae8c7f660e5c6f22a583ef65e81110682ca8eec",
+    "physical_devices_emulated": false,
+    "full_register_flag_store_memory_contract": false,
+    "instruction_coverage_proved": false,
+    "scoped_exact_owners_added": 0,
+    "observations_sha256": "77efdddd04819ab87644e004eae8c7f660e5c6f22a583ef65e81110682ca8eec"
+  },
+  "observed_utc": "2026-10-25T03:49:51.570718Z",
+  "commands": [
+    ".venv/bin/python scripts/review_th03_zun_directory_work.py",
+    ".venv/bin/python scripts/review_th03_zun_ongchk_source_work.py --current-cold"
+  ],
+  "replay_command": ".venv/bin/python scripts/review_th03_zun_ongchk_source_work.py",
+  "private_review_sha256": "a461d1777b71b0ca80113585c96870c91eb654f6a03751d0f73a5004f02159d7"
+}

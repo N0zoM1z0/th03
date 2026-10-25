@@ -10,6 +10,12 @@ The Japanese targets are pinned in `config/targets.toml`. Their provenance is
 OP/MAINL/ZUN use DIET storage envelopes. Decoded images are analysis inputs,
 not replacements for the canonical stored targets.
 
+All five ZUN payloads now have native project producers. ONGCHK (-1) uses a
+self-contained recovered TASM TU: 892 CODE + 34 initialized DATA bytes and 42
+separate uninitialized bytes. Its COM is an output, not a reference binary input.
+Original source/tool identity and its full exact behavior acceptance remain open.
+MASTERS.LIB and installed Borland startup/runtime remain explicit unowned context.
+
 `config/toolchain.toml` pins TC4J, TASM and TLINK. The game-local Wine prefix is
 `.analysis/toolchain/wineprefix`; Ghidra projects are in `ghidra-project/`.
 Installed tools are in `drive_c/TC4` and `drive_c/TASM50`; `drive_c/TH03WORK`

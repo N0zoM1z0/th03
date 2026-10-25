@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build the complete ZUN launcher twice from current producers and vendor inputs.
 
-No historical project object, payload build, composition or stored candidate is
-an input. Vendor -1, MASTERS.LIB and Borland startup/runtime stay unowned.
+No historical project object, payload binary, composition or stored candidate is
+an input. MASTERS.LIB and Borland startup/runtime stay unowned.
 """
 
 import argparse
@@ -22,6 +22,7 @@ from lib.targets import find_artifact, read_verified_artifact
 from lib.toolchain import attest_surface
 from lib.zun import parse_launcher, dispatch_observation
 from lib.zun_directory_source import compose_native_launcher
+from lib.zun_ongchk_source import verify_outputs as review_ongchk_source
 from lib.zun_driver_layout import review as review_driver
 from lib.zun_work_source import compose, PROFILE
 from verify_th03_zun_init_standalone import verify_outputs as review_init
@@ -73,6 +74,7 @@ def recipe_inventory():
              "scripts/lib/zun_driver_command_runtime.py",
              "scripts/lib/zun_directory_controls.py",
              "scripts/lib/zun_directory_source.py",
+             "scripts/lib/zun_ongchk_source.py",
              "scripts/stage_th03_zun_driver.py", "scripts/verify_th03_zun_driver_hybrid.py",
              "config/th03_zun_init_fixups.json", "config/th03_zun_init_labels.json",
              "scripts/lib/zun.py", "scripts/lib/omf.py",
@@ -163,6 +165,9 @@ def build():
                     if name.endswith(".obj"):
                         need(describe_omf(raw)["valid"], "invalid generated OMF: " + name)
                     outputs[name] = raw
+            execute(tasm + ["ongchk.asm,ongchk.obj"], WORK / "ongchk", f"round{number}:ongchk-assemble")
+            execute(dos + ["tlink", "@link.rsp"], WORK / "ongchk", f"round{number}:ongchk-link")
+            collect(["ongchk/ongchk." + ext for ext in ("obj", "com", "map")])
             execute(tasm + [r"src\zun\init.asm,init.obj"], WORK / "init", f"round{number}:init-assemble")
             execute(dos + ["tlink", "@link.rsp"], WORK / "init", f"round{number}:init-link")
             collect(["init/init." + ext for ext in ("obj", "com", "map")])
@@ -178,7 +183,7 @@ def build():
             execute(dos + ["tlink", "@link.rsp"], WORK / "driver", f"round{number}:driver-link")
             collect(["driver/driver." + ext for ext in ("obj", "com", "map")])
             layout = review_driver(outputs["driver/driver.obj"], outputs["driver/driver.map"])
-            payloads = [(WORK / "libs/kaja/ongchk.com").read_bytes(), outputs["init/init.com"],
+            payloads = [outputs["ongchk/ongchk.com"], outputs["init/init.com"],
                         outputs["bin/th01/zunsoft.com"], outputs["driver/driver.com"], outputs["bin/th03/res_yume.com"]]
             payload_bytes = sum(map(len, payloads))
             for alias in ("stub", "call", "helper"):
@@ -250,6 +255,10 @@ def build():
         report["comparison"] = dict(decoded_equal=candidate == decoded, stored_equal=packed == stored,
                                     decoded_bytes=len(candidate), stored_bytes=len(packed), payloads=reviews,
                                     decoded_sha256=sha(candidate), stored_sha256=sha(packed))
+        ongchk = directory["payloads"][0]
+        at, size = ongchk["decoded_file_offset"], ongchk["size"]
+        report["ongchk_source_candidate"] = review_ongchk_source(outputs["ongchk/ongchk.obj"],
+            outputs["ongchk/ongchk.com"], outputs["ongchk/ongchk.map"], decoded[at:at+size])
         if reviews[1]["raw_equal"]:
             row = directory["payloads"][1]
             report["init_review"] = review_init(outputs["init/init.obj"], outputs["init/init.com"],

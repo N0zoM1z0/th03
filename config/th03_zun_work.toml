@@ -1,7 +1,7 @@
 schema_version = 1
 reference_revision = "b6ba5b0a529edbb31efdf8c0e939263804f8ee47"
 reference_archive_sha256 = "9f7a4eb17f24ae2d99adaba4320f6c46f4fc8d659f9b784f6d8e5f3af99bf705"
-scope = "Fresh maintained wrapper/-2/-3/-4/-5 with explicit unowned headers, startup, runtime, MASTERS.LIB and -1 vendor payload"
+scope = "Fresh maintained wrapper and all five payload producers; headers, startup, runtime and MASTERS.LIB remain unowned context"
 options = ["-1", "-2", "-3", "-4", "-5"]
 compiler_flags = ["-c", "-I.", "-O", "-b-", "-3", "-Z", "-d", "-mt"]
 assembler_flags = ["/m", "/mx", "/kh32768", "/t"]
@@ -13,9 +13,3 @@ path = "bin/masters.lib"
 bytes = 273721
 sha256 = "6be41dbcfcf4504977165ccc44443525a29a01f85a1580e6ad0c620bf802faf6"
 ownership = "unowned vendor library"
-
-[[vendor_inputs]]
-path = "libs/kaja/ongchk.com"
-bytes = 926
-sha256 = "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0"
-ownership = "unowned -1 vendor payload"

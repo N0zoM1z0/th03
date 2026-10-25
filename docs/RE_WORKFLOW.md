@@ -55,6 +55,14 @@
    OBJ/COM/MAP outputs, bounded LIDATA expansion and both capacity controls.
    Native directory composition lives in `lib/zun_directory_source.py`; the
    shared `lib/zun.py` remains a frozen MAIN scheduling input. Keep its pin.
+   ONGCHK now has a self-contained maintained ASM producer instead of a binary
+   seed. `review_th03_zun_ongchk_source_work.py` runs the complete cold/directory
+   chain and its source-candidate review, or use `--current-cold` with the entire
+   existing source/SDK/recipe/output graph bound. All 29 outputs from nine
+   objects must repeat. Its 42 BSS bytes are not file-backed. Thirty terminal
+   and four nonterminal constructed device scenarios establish source-presence
+   evidence; they do not grant scoped exact acceptance. Complete independent
+   register/flag/store/memory, instruction coverage and mutations remain open.
    Unused format slots have no instruction-execution credit. Direct transfer
    entry cases require DF=0. DOS AL replies are explicit bounded policies;
    do not assume that AH-only termination clears the exit status.

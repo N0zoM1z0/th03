@@ -244,11 +244,11 @@ def audit(root):
          and all((root / n).read_bytes() == b for n, b in maintained.items()), "current maintained source binding")
     need([r["round"] for r in report["rounds"]] == [1, 2], "two independent source rounds")
     outputs = report["rounds"][0]["outputs"]
-    expected = {f"{base}.{ext}" for base in ("init/init", "obj/th01/zunsoft", "obj/th03/res_yume",
+    expected = {f"{base}.{ext}" for base in ("ongchk/ongchk", "init/init", "obj/th01/zunsoft", "obj/th03/res_yume",
         "driver/driver", "wrapper/stub", "wrapper/call", "wrapper/helper", "wrapper/meta")
         for ext in (("obj", "map", "com") if base not in ("obj/th01/zunsoft", "obj/th03/res_yume") else ("obj", "map"))}
     expected |= {"bin/th01/zunsoft.com", "bin/th03/res_yume.com", "product/zun.com", "product/zun.packed.com"}
-    need(len(outputs) == 26 and set(outputs) == expected and outputs == report["rounds"][1]["outputs"],
+    need(len(outputs) == 29 and set(outputs) == expected and outputs == report["rounds"][1]["outputs"],
          "complete raw cold output vector")
     for name, row in outputs.items():
         raw = (work / name).read_bytes()
@@ -262,7 +262,7 @@ def audit(root):
     need(report["emitter"] == build.emitter.attest(), "current compatible driver emitter identity")
     labels = []
     for rnd in (1, 2):
-        labels += [f"round{rnd}:" + phase for phase in ("init-assemble", "init-link", "zunsoft-compile", "zunsoft-link",
+        labels += [f"round{rnd}:" + phase for phase in ("ongchk-assemble", "ongchk-link", "init-assemble", "init-link", "zunsoft-compile", "zunsoft-link",
             "res_yume-compile", "res_yume-link", "driver-assemble", "driver-link", "wrapper-stub", "wrapper-stub-link",
             "wrapper-call", "wrapper-call-link", "wrapper-helper", "wrapper-helper-link", "directory-assemble", "directory-link", "pack", "roundtrip")]
     labels += ["restore-target"]
@@ -282,10 +282,16 @@ def audit(root):
          "complete comparison/roundtrip proof")
     directory = parse_launcher(decoded, 223)
     need(all(r["directory"] == directory for r in report["rounds"]), "complete decoded COM directory/format")
-    paths = ("libs/kaja/ongchk.com", "init/init.com", "bin/th01/zunsoft.com", "driver/driver.com", "bin/th03/res_yume.com")
+    paths = ("ongchk/ongchk.com", "init/init.com", "bin/th01/zunsoft.com", "driver/driver.com", "bin/th03/res_yume.com")
     for row, path in zip(directory["payloads"], paths):
         at, size = row["decoded_file_offset"], row["size"]
         need(decoded[at:at + size] == (work / path).read_bytes(), "complete target payload equality")
+    from lib.zun_ongchk_source import verify_outputs as ongchk_source
+    row = directory['payloads'][0]
+    ongchk_candidate = ongchk_source(*[(work/('ongchk/ongchk.'+ext)).read_bytes() for ext in ('obj','com','map')],
+        decoded[row['decoded_file_offset']:row['decoded_file_offset']+row['size']])
+    need(ongchk_candidate == report['ongchk_source_candidate'] and not ongchk_candidate['exact_acceptance'],
+         'current native ONGCHK source candidate; no accepted ownership added')
     child = directory["payloads"][2]
     at, size = child["decoded_file_offset"], child["size"]
     target_logo = decoded[at:at + size]
@@ -358,7 +364,8 @@ def audit(root):
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
                 consumed_runtime_sha256=report["consumed_runtime_sha256"], source_inventory_sha256=digest(report["source_sha256"]),
                 consumed_sdk_sha256=report["consumed_sdk_sha256"],
-                input_files=len(files), vendor_inputs=2, outputs_per_round=26, project_objects_per_round=8, rounds=2,
+                input_files=len(files), vendor_inputs=1, outputs_per_round=29, project_objects_per_round=9, rounds=2,
+                ongchk_source_candidate=ongchk_candidate,
                 decoded_sha256=sha(decoded), stored_sha256=sha(stored), payload_sha256=sha(target_logo),
                 resident_payload_sha256=sha(target_resident),
                 init_payload_sha256=sha(target_init),

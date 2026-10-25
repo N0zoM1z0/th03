@@ -35,7 +35,7 @@ def images(root):
     need(cold['complete'] and cold['raw_repeat_equal'] and cold['recipe_sha256']==build.recipe_inventory(),'current complete ZUN cold pair')
     files,maintained,context=build.compose(root)
     need(cold['source_sha256']=={n:sha(b) for n,b in sorted(files.items())} and cold['maintained_inputs']=={n:sha(b) for n,b in sorted(maintained.items())},'current source and maintained bindings')
-    need(cold['rounds'][0]['outputs']==cold['rounds'][1]['outputs'] and len(cold['rounds'][0]['outputs'])==26,'all twenty-six raw outputs repeat')
+    need(cold['rounds'][0]['outputs']==cold['rounds'][1]['outputs'] and len(cold['rounds'][0]['outputs'])==29,'all twenty-nine raw outputs repeat')
     for n,r in cold['rounds'][0]['outputs'].items():
         b=(work/n).read_bytes();need(r==dict(bytes=len(b),sha256=sha(b)),'current output: '+n)
     decoded=(work/'product/zun.com').read_bytes()

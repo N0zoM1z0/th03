@@ -1,4 +1,4 @@
-"""Materialize source plus two named vendor inputs; no old project outputs.
+"""Materialize source plus the named vendor library; no old project outputs.
 
 Only the literal include closure of the two tiny C++ roots is selected from the
 pinned reference archive. Maintained forwarders keep every borrowed dependency
@@ -89,6 +89,9 @@ def compose(root):
     maintained["src/zun/init.asm"] = (root / "src/zun/init.asm").read_bytes()
     files["init/src/zun/init.asm"] = stage_bytes(maintained["src/zun/init.asm"])
     files["init/link.rsp"] = b"-c -s -t -3 init.obj,init.com,init.map,\r\n"
+    maintained["src/zun/ongchk.asm"] = (root / "src/zun/ongchk.asm").read_bytes()
+    files["ongchk/ongchk.asm"] = maintained["src/zun/ongchk.asm"].replace(b"\n", b"\r\n")
+    files["ongchk/link.rsp"] = b"-c -s -t -3 ongchk.obj,ongchk.com,ongchk.map,\r\n"
     driver_files, driver_inputs = driver.payload(root)
     maintained.update(driver_inputs)
     files.update({"driver/" + n: b for n, b in driver_files.items()})

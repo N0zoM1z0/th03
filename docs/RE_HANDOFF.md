@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `56093a3` (complete OP VS menu caller).
+- Previous pushed checkpoint: `5b8b3a4` (five complete MAINL root helpers).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -606,7 +606,7 @@ remain in [README.md](../README.md).
   The compositor consumes the entire linked COM contribution, with no cuts,
   patches or target-byte substitution. Original generation-tool identity is
   unknown; this is recovered authored format source, not original-ASM lineage.
-  Both fresh cold rounds repeat **26 outputs from eight project objects** and
+  At the directory checkpoint both fresh cold rounds repeated **26 outputs from eight project objects** and
   match the complete **22,812 decoded / 16,242 stored bytes**. All 45 native
   phases pass, including capacity-31/33 source controls yielding 314/334 bytes.
   Directory readers run 42 cases per image at two loads with foreign SS;
@@ -621,6 +621,34 @@ remain in [README.md](../README.md).
   ownership remain open, including -1/runtime context and twelve driver bytes.
   Run `review_th03_zun_directory_work.py` for the full native/review chain;
   `--current-cold` revalidates the complete prerequisites and reruns directory gates.
+- ONGCHK now has complete recovered assembly, `src/zun/ongchk.asm`, replacing
+  the frozen `libs/kaja/ongchk.com` build input. Normal TASM/TLINK emits all
+  **926 initialized bytes: 892 CODE + 34 DATA**, with a meaningful separate
+  **42-byte uninitialized workspace** at 049E..04C7. No code arrays, sized
+  filler, output patches, CRT or old project object are used for this payload.
+  All 38 ordered native WORD fields, 22 public labels, DGROUP/entry/ORG geometry,
+  complete OMF/COM/MAP and both public tables pass. The literal 32-byte ASCII
+  RAM pattern and two defaults account for initialized DATA; four port WORDs,
+  two flags and a 32-byte buffer account for all BSS without file-backing it.
+  Two new complete source/SDK/recipe/output-bound cold rounds repeat **29 raw
+  outputs from nine project objects**, preserve all 22,812 decoded / 16,242
+  packed target bytes and pass all **49 serial native phases**. Only MASTERS.LIB
+  remains in the explicit vendor-input list; installed startup/runtime are
+  still separate unowned context. All existing eleven full scope witnesses
+  rerun against this new graph. The constructed ONGCHK model reruns on target
+  and native candidate: 30 terminal scenarios plus four explicitly nonterminal
+  polling cases per image. Startup reads the PSP length byte as a character:
+  length38h selects detector type2 first; an ordinary one-byte tail `8` does not.
+  Length20h advances into the tail and skips spaces. Write-ready timeout returns;
+  read/register polling may remain nonterminal. Original source and assembler
+  identity are unknown. This is **source presence only**, with library origin:
+  77/78 source-present extents, still **76 accepted extents / 7,709 CODE+DATA
+  bytes**, and no new authored or canonical credit. Complete independent
+  register/flag/store/memory contracts, instruction coverage and mutations for
+  ONGCHK remain required before exact acceptance. Use
+  `review_th03_zun_ongchk_source_work.py` for the full cold/review/candidate
+  chain, or `--current-cold` only when its entire existing graph remains bound.
+  Frozen `scripts/lib/zun.py` remains unchanged for MAIN's schedule pin.
 - All 99 source objects compile in 100 serial phases. Two independent 613-file
   source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -647,8 +675,8 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 2,067 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 5m31s at about 490 MiB peak RSS, no swap.
+- Last full CI: PASS, 2,076 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 7m38s at about 509 MiB peak RSS, no swap.
   MAINL's complete new root helper review took 10m07s at 139 MiB, no swap,
   revalidating the existing native pair; all physical stack bytes are checked.
   The complete new VS caller review took 2m07s at 137 MiB, no swap, revalidating
@@ -657,8 +685,9 @@ remain in [README.md](../README.md).
   checks. The separate shared input/ending wait review took 2m08s at about 141 MiB. The last MAIN
   cold pair and native review took 5m16s at about 505 MiB. The ZUN driver cold
   pair plus TASM control took 8s at 33 MiB; clean JWasm bootstrap took 13s
-  at 45 MiB. The latest complete ZUN cold/review chain through the native
-  directory took 7m55s at 213 MiB, without swap.
+  at 45 MiB. The latest complete ZUN cold/review chain with the native ONGCHK
+  producer through the directory took 8m45s at 225 MiB, without swap. Its
+  separate constructed ONGCHK candidate review took 4s at 81 MiB, without swap.
 
 ## Maintained producers
 
@@ -717,7 +746,8 @@ ABI and byte credit are recorded separately in the ledgers.
    alignment to PARA (assembler A2078); this does not establish natural trailing
    storage. Do not add an empty segment solely to force the target tail. The
    launcher/transfer TUs now have three accepted outer decoded scopes. Further
-   whole-product gaps include unowned -1/runtime
+   ONGCHK now builds from recovered source but still needs exact behavior gates;
+   further whole-product gaps include unowned runtime
    dependencies. Formatter/graphics dead jumps and DOS-terminal-unreachable lifecycle
    bytes stay source-owned with separate reachability proof, not execution credit.
    Keep unchecked saved-BP overflow and zero uninstall-offset behavior.
