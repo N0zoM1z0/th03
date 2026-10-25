@@ -24,8 +24,8 @@ class MainlWorkAcceptance(unittest.TestCase):
 
     def test_live_physical_replay_accepts_current_decoded_owners_only(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (45, 4056))
-        self.assertEqual(result["decoded_authored_procedures"],51)
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (48, 4502))
+        self.assertEqual(result["decoded_authored_procedures"],54)
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
 
@@ -41,7 +41,7 @@ class MainlWorkAcceptance(unittest.TestCase):
             result=verify(ROOT,self.publication)
         owner,=[o for o in self.publication['audit']['scope']['owners'] if o['unit_id']=='th03-mainl-decoded-snow-cluster']
         self.assertEqual((owner['size'],owner['procedure_count'],len(owner['procedures'])),(464,7,7))
-        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(45,51))
+        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(48,54))
 
     def test_one_missing_gate_rejects_the_owner(self):
         owner = next(iter(self.publication["owner_oracles"].values()))
@@ -82,8 +82,8 @@ class MainlWorkAcceptance(unittest.TestCase):
         result = verify(ROOT, self.publication)
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [])
-        self.assertIn("Decoded acceptance: exact 45/149", svg)
-        self.assertIn("45 extents / 51 procedures / 4,056 B", svg)
+        self.assertIn("Decoded acceptance: exact 48/149", svg)
+        self.assertIn("48 extents / 54 procedures / 4,502 B", svg)
         self.assertIn("938 raw outputs", svg)
         self.assertNotIn("MAINL product + decoded accepted", svg)
         self.assertNotIn("exact 149/149", svg)

@@ -40,7 +40,7 @@ native inputs and run the prerequisite review stages in order:
 ```sh
 th03_run scripts/replay_th03_main_native.py
 th03_run scripts/review_th03_op_main_menu_work.py
-th03_run scripts/review_th03_mainl_dissolve_work.py
+th03_run scripts/review_th03_mainl_staff_callers_work.py
 th03_run scripts/review_th03_zun_ongchk_work.py
 ```
 

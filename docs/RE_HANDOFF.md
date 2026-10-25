@@ -1,10 +1,10 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-25, after `4ef6a41`. MAINL's complete211-byte
-dissolve procedure now has native ownership and full physical-state contracts
-with actual SMC blitters and color setup. Native inputs and all previous44
-owner observations remain unchanged; enclosing DATA and physical graphics
-are still unowned.
+Reconstruction checkpoint: 2026-10-26, after `25afef3`. MAINL's three complete
+staff callers now own446 CODE bytes, with443 executed and three separately
+proved unreachable. Actual nested code and native divide-fault entries are
+checked over complete physical state. Native inputs and all previous45 owner
+observations remain unchanged; enclosing DATA and physical graphics stay open.
 Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
@@ -15,7 +15,7 @@ Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 45 extents / 51 procedures / 4,056 CODE bytes | Open |
+| MAINL | 48 extents / 54 procedures / 4,502 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -31,8 +31,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,270 tests, 284 optional archive skips, all checks passed**;
-6m38s, about 527 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,296 tests, 284 optional archive skips, all checks passed**;
+6m52s, about 542 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -103,8 +103,8 @@ Complete `_mainl_ending` owns **280 CODE bytes** at `095F:2382`, with34 ordered
 native fields,14 ordered MZ relocations and the compiler-owned near cdecl frame.
 `src/mainl/staff/data.cpp` is copied literally to `staffdat.cpp` and compiled
 GAME3/L. Full producer inventory is19 procedures/3,695 CODE bytes,224 initialized
-DATA bytes and no BSS; after the drawing/snow/dissolve scopes below,eight
-procedures/2,541 CODE bytes and all224 initialized DATA bytes remain unaccepted.
+DATA bytes and no BSS; after the staff scopes below,five procedures/2,095 CODE
+bytes and all224 initialized DATA bytes remain unaccepted.
 Current command: `review_th03_mainl_ending_work.py --current-cold`.
 
 - **9,528 complete entries per image** at two loads execute all280 ending bytes
@@ -208,7 +208,37 @@ Same natural `staffdat.cpp` producer. Current command:
   storage, enclosing224 DATA bytes and physical planar pixels/timing remain
   unaccepted.
 
-Next candidates: the remaining eight staff procedures and cutscene ownership, then
+### MAINL staff callers
+
+Complete enter211/leave183/gallery52 own **446 CODE bytes** at
+`095F:2804/28D7/298E`, with44 ordered native fields,three ordered MZ sites and
+nine actual internal near calls. Same natural `staffdat.cpp` producer. Current
+command: `review_th03_mainl_staff_callers_work.py --current-cold`.
+
+- **16,716 entries/image** at two loads:16,560 near returns and156 native INT0
+  faults. All443 reachable owner bytes and693 actual owned clear/unput/dissolve/
+  alpha/noalpha/color/off bytes execute. Full DWORD/segment/defined flags, real
+  frames, stores/ports/SMC and every flat-memory byte pass without ignored stack
+  windows; peaks54/54/52. Owned near returns and direct color/off returns are
+  checked immediately, before parent restoration can mask an ABI violation.
+  Fifty-one owner and five context instruction controls fail. Bytebox is an
+  explicit unowned ABI reply; neither it nor INT0 handlers,
+  assets or physical planar/IRQ effects receive credit.
+- Enter faults at2885 for duration/8==0 (15 WORD durations), or frame8000 and
+  divisor-1 (eight durations). Signed frame<=duration gating is retained.
+  Faults keep the actual pre-handler frame/registers/memory and do not get near
+  return or defined arithmetic-flag credit. A fresh UC after a stopped exception
+  clears hidden dispatch state; explicit persistent reentry retains exact memory.
+- Leave's three-byte `MOV SI,7` at2925 is compiler-emitted unreachable code:
+  signed frame<160 implies trunc(frame/20)<=7. All65,536 frames and native gates
+  establish the proof under readonly-frame/disjoint-memory assumptions. Complete
+  raw bytes remain checked; execution and instruction-control totals exclude it.
+- Every actual16,000-WORD clear is checked in order, including inherited DF;
+  REP logs are compacted without skipping guest iterations. Raw page0..255 indexes
+  live centers, WORD movement wraps before signed clamp, secondary flags are raw
+  predicates, and leave160/161 executes real color/off around the bytebox reply.
+
+Next candidates: the remaining five staff procedures and cutscene ownership, then
 remaining OP/ZUN and the overall source/link graph. Whole-product completion
 remains open.
 Use `review_th03_mainl_sound_work.images()` to revalidate the complete current
