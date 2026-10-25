@@ -1,8 +1,9 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-26, after `31fa3bd`. MAINL's complete139-byte
-staff hold controller has stateful native loop, fault and conditional-prefix
-contracts. Product inputs and prior48 owner observations remain unchanged.
+Reconstruction checkpoint: 2026-10-26, after `e654007`. MAINL's complete229-byte
+staff single controller has true entrance/exit loops, final far-helper/tick
+sequences and native fault/conditional-prefix contracts. Product inputs and
+prior49 owner observations remain unchanged.
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before work.
 Detailed findings and witnesses live in source, `config/knowledge.csv`,
@@ -14,7 +15,7 @@ Detailed findings and witnesses live in source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 49 extents / 55 procedures / 4,641 CODE bytes | Open |
+| MAINL | 50 extents / 56 procedures / 4,870 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 compiler switch/separator bytes with separate proof. ZUN accepts
@@ -28,14 +29,14 @@ unowned reference/vendor context and does not establish whole-product source
 ownership. Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN repeats101 raw outputs/99 native objects; its whole file is still unequal.
 
-Last completed reconstruction CI: **2,317 tests, 284 optional archive skips, all
-checks passed**;7m07s, about554 MiB peak RSS, no swap. CPU16/nice10 was used.
+Last completed reconstruction CI: **2,338 tests, 284 optional archive skips, all
+checks passed**;8m00s, about520 MiB peak RSS, no swap. CPU16/nice10 was used.
 
 ## Resume
 
 1. Inspect Git, run `.venv/bin/python scripts/preflight.py`, and re-attest the
    selected database before using it: `scripts/ghidra.py th03-mainl check`.
-2. Next MAINL units: single229, pair358, verdict389 and roll980, totaling1,956
+2. Next MAINL units: pair358, verdict389 and roll980, totaling1,727
    CODE bytes. Then remaining cutscene/registration, OP/ZUN ownership and the
    overall four-product source/link graph. Whole-product completion stays open.
 3. Preserve complete raw bytes, literal ordered relocations, natural ownership,
@@ -45,7 +46,7 @@ checks passed**;7m07s, about554 MiB peak RSS, no swap. CPU16/nice10 was used.
 
 Use the [workflow](RE_WORKFLOW.md) for full dependency/rebuild/publication order
 and [script index](../scripts/README.md) for entry points. Current full MAINL
-chain: `review_th03_mainl_staff_hold_work.py`. `--current-cold` revalidates the
+chain: `review_th03_mainl_staff_single_work.py`. `--current-cold` revalidates the
 entire existing source/SDK/recipe/output graph and reruns only that stage; it
 cannot repair stale prerequisites. After OP/MAINL cold changes, refresh
 `review_th03_shared_input_work.py`. Do not rebuild unchanged products gratuitously.
@@ -67,10 +68,11 @@ Each command below is `review_th03_mainl_<suffix>_work.py --current-cold`.
 | Seven snow procedures | 464 | `snow`; one extent/seven procedures, real RNG/vector/flake |
 | Enter/leave/gallery | 446 | `staff_callers`;443 executed bytes plus3 proved unreachable |
 | Hold controller | 139 | `staff_hold`; actual two-stage loops and two waiting CFG proofs |
+| Single controller | 229 | `staff_single`; actual entrance/exit loops and two final far-helper/tick sequences |
 
 The natural `STAFFP_TEXT` TC4 producer is `src/mainl/staff/data.cpp`, copied
 literally to `staffdat.cpp`, GAME3/L:19 procedures/3,695 CODE bytes,224 initialized
-DATA, no BSS. Fifteen procedures/1,739 CODE bytes are owned; the other four and
+DATA, no BSS. Sixteen procedures/1,968 CODE bytes are owned; the other three and
 all224 DATA bytes remain unaccepted. Complete current938-output cold pairs bind
 nine consumed SDK headers with per-producer fail-closed dependency checks and
 normal893-member TLIB order. First-use GAME3/O shared producers remain unchanged.
@@ -115,6 +117,22 @@ physical IRQ/audio/timing remain explicit unowned boundaries.
   PMD0/no DATA writes. Its full frame-WORD domain is safe for IDIV80; gate stays
   false under those assumptions. No guest step is skipped or budget expiry used.
   All139 owner bytes and1,503 context bytes execute;69 vector bytes stay unowned.
+
+- Single initializes raw page/XOR1 for every speed; hold/pair use fixed pages0/1
+  at default speed. Tick still uses BYTE(1-page). At page255/speed2,enter moves
+  center255 to262,leave decrements center2 from0 toFFFF;center254 stays263.
+  No-music execution is257+257 phase iterations plus two final ticks:516 ticks,
+  8,224,000 real clear WORD callbacks and four bytebox replies. All229 owner and
+  1,688 reachable context bytes execute;three leave-clamp bytes stay unreachable.
+  Full-capacity0..255 cases keep raw aliases with zero graphics width and initial
+  requested/enabled/secondary0;other lanes execute real nonzero-width blitters.
+  Ordinary geometry at cap82 can exceed the bounded flat graphics interface.
+  The quiet cap82 fixture ends cap82/frame1/page128/secondary93 after four ticks,
+  retaining live particle80/81 writes even after PMD frame193 replies.
+- Next pair requires original WORD(slot-1) metadata and live secondary_y/alpha
+  sequencing. Its MOV DI,7 at2B57 is reachable at frame161;leave's MOV SI,7 stays
+  unreachable. DEC AX wraps before signed IDIV20 at2B4E,including frame8000.
+  Reload frame after real leave:unowned bytebox replies may write DATA.
 
 ## Other open work
 
