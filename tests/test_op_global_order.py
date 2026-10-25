@@ -10,7 +10,7 @@ manifest = json.loads((F/Q.PROOF).read_text())['current_manifest']['path']
 native = unittest.skipUnless((R/manifest).is_file(),
                             'archived OP order build unavailable; source archive is independent')
 def base():
- d=load(R/'scripts/stage_th03_op_fullcold.py').payload(R)
+ d=load(Path(__file__).with_name('op_historical_fixture.py')).payload(R,load(R/'scripts/stage_th03_op_fullcold.py'))
  for n in ['exit_helpers','remaining_helpers']:d.update(load(R/f'scripts/stage_th03_op_{n}.py').payload(R))
  d=load(R/'scripts/stage_th03_op_raster.py').compose(d,R);return load(P/'scripts/stage_th03_op_pfopen_source.py').compose(d,P)
 @unittest.skipUnless((R/".analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar").is_file(), "archived native fixtures unavailable")

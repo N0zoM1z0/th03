@@ -1,0 +1,142 @@
+{
+  "schema": "th03-op-music-call-current-observation-v1",
+  "complete": true,
+  "implementation_sha256": {
+    "scripts/review_th03_op_music_call_work.py": "708278dbea113c290e8867fd419db3767b832039b6e6b1562b346eb1c1f136a5",
+    "scripts/lib/op_music_call.py": "67a44cdd5a97707d23c4861752c8803ca8fa5970ca4918b0b46fb1633cec6f3e",
+    "scripts/lib/op_current_source.py": "92f6a920b590d689232a13b28e062c1567268fc0f207f77b15cfc2681b284b61",
+    "scripts/build_th03_op_work.py": "727e30e04cc699e8fcab9ad0834f91077b02bc5a6766815da047776794efc581",
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/toolchain.py": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "src/op/menu/menu_state.inl": "6a02a8988535ce59a70790e821b78437dc0f2979103767588fc9af9e60bd4983",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8"
+  },
+  "provenance": "candidate-local-attested",
+  "source_acceptance": false,
+  "whole_product_accepted": false,
+  "canonical_unit_credit_changed": false,
+  "authored_byte_credit_changed": false,
+  "native_pair_built_now": false,
+  "cold_report_sha256": "7172a6f6effbb5fac83ab3851bdaf34281c211361d917b7db6b1b9be72fa5c17",
+  "source_inventory_sha256": "620f521702c1c98bf3c959558920557d46cd5ed20200bcc455879824714821e1",
+  "immutable_historical_source_revision": "a02fcc977422e933d10455df1fc911c37ca2ad1c",
+  "explicit_live_sources": [
+    "src/op/menu/menu_state.inl"
+  ],
+  "layout": {
+    "source": "src/op/menu/menu_state.inl",
+    "object": "obj/th03/op_01.obj",
+    "site": 41396,
+    "size": 5,
+    "callee_entry": 44038,
+    "source_far_call": true,
+    "native_field": [
+      2221,
+      4,
+      204,
+      22,
+      1,
+      14
+    ],
+    "linked_instruction_kinds": [
+      "nop",
+      "push cs",
+      "near call"
+    ],
+    "ordered_relocations": [],
+    "shared_code_segment": 2448,
+    "callee_implementation_executed": false,
+    "source_acceptance": false,
+    "enclosing_menu_accepted": false,
+    "whole_product_accepted": false
+  },
+  "runtime": {
+    "images": 2,
+    "cases_per_image": 192,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 96,
+        "executed_call_bytes": 5,
+        "maximum_stack_depth": 4,
+        "ignored_stack_bytes": 0,
+        "trace_sha256": "01b82f57c65955e802915c90980bc4924c3bfc6999c1c8ad2f853aa2f564d243"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 96,
+        "executed_call_bytes": 5,
+        "maximum_stack_depth": 4,
+        "ignored_stack_bytes": 0,
+        "trace_sha256": "2614af17926f09f875176b49b9306a00f31b44d6b3b8b4a45c310aa5802bbac4"
+      }
+    ],
+    "callee_implementation_executed": false,
+    "source_acceptance": false
+  },
+  "negative_controls": {
+    "actual_instruction_mutations": 3,
+    "rejected": [
+      "preserve-incoming-CF",
+      "push-real-CS",
+      "real-callee-displacement"
+    ],
+    "source_or_stored_product_modified": false
+  },
+  "native_control": {
+    "native_field": [
+      2221,
+      4,
+      204,
+      86,
+      null,
+      14
+    ],
+    "comparison": {
+      "file_equal": false,
+      "header_equal": false,
+      "program_equal": false,
+      "ordered_relocations_equal": false,
+      "relocation_membership_equal": false,
+      "candidate_bytes": 63866,
+      "target_bytes": 63866,
+      "candidate_relocations": 608,
+      "target_relocations": 607,
+      "program_size_equal": true
+    },
+    "differing_program_sites": [
+      41396,
+      41397,
+      41398,
+      41399,
+      41400
+    ],
+    "native_phases": [
+      {
+        "label": "ordinary-far-control:compile",
+        "returncode": 0,
+        "output_sha256": "a7df7ea41f7fb3975701addd0ab88bc0e4b914a28fe6b64369afb6556c975c21"
+      },
+      {
+        "label": "ordinary-far-control:link",
+        "returncode": 0,
+        "output_sha256": "0b9229c5c72b1f3b50ddec5d65718b39f3ec1bff491043d5a52a1c723eed820a"
+      }
+    ],
+    "changed_source_files": [
+      "src/op/menu/menu_state.inl"
+    ],
+    "private_control_only": true,
+    "scratch_removed": true,
+    "maintained_source_or_current_build_modified": false,
+    "source_acceptance": false
+  },
+  "observed_utc": "2026-10-25T05:42:34.975184Z",
+  "command": ".venv/bin/python scripts/review_th03_op_music_call_work.py"
+}

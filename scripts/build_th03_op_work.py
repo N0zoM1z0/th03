@@ -24,6 +24,7 @@ from lib.targets import find_artifact, read_verified_artifact
 import stage_th03_op_fullcold as base
 import stage_th03_op_nopcall as final_stage
 import stage_th03_op_exit_helpers as exit_stage
+from lib.op_current_source import payload as current_payload
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / ".analysis/work"
@@ -38,6 +39,7 @@ RECIPE_INPUTS = (
     "scripts/lib/op_exit_layout.py", "scripts/lib/op_exit_runtime.py",
     "scripts/lib/omf.py", "scripts/lib/pc98.py", "scripts/lib/targets.py",
     "scripts/lib/toolchain.py", "scripts/probe_th03_main_bomb_rikako_cpp.py",
+    "scripts/lib/op_current_source.py",
     "scripts/probe_th03_main_boss_marisa_cpp.py", "config/toolchain.toml",
     "config/targets.toml", "config/th03_diet.toml",
 )
@@ -64,7 +66,7 @@ def source_graph():
         archive.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(["git", "-C", str(ROOT / "_reference/ReC98"), "archive",
                         "--format=tar", "--output=" + str(archive), base.REV], check=True)
-    files = final_stage.payload(ROOT)
+    files = current_payload(ROOT)
     files.update(exit_stage.payload(ROOT))
     return files
 

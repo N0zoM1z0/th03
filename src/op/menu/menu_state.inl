@@ -207,6 +207,9 @@ inline void return_from_other_screen_to_main(
 // Sure, *maybe* these names should point out the possibility of a blocking
 // box transition animation, but main_update_and_render() also directly enters
 // the even more blocking character selection and Music Room screens.
+// The far Music Room entry shares GROUP_01 CS with this caller. TC4's native
+// same-CS far-call fixup lets TLINK emit its normal NOP/PUSH CS/near CALL.
+#pragma samecodeseg musicroom_menu
 void near main_update_and_render(void)
 {
 	#define input_allowed	main_input_allowed
@@ -241,10 +244,7 @@ void near main_update_and_render(void)
 			return_from_other_screen_to_main(in_this_menu, input_allowed);
 			return;
 		case MC_MUSICROOM:
-			/* TODO: Replace with the decompiled call
-			* 	musicroom_menu();
-			* once the segmentation allows us to, if ever */
-			_asm { nop; push cs; call near ptr musicroom_menu; }
+			musicroom_menu();
 
 			return_from_other_screen_to_main(in_this_menu, input_allowed);
 			return;

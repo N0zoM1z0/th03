@@ -208,6 +208,19 @@ seen slots, seed and library helper gain no additional source credit here.
 The bounded witnesses do not prove termination or a delay bound for all DWORD
 seeds, successful process replacement or physical hardware behavior.
 
+The main menu's Music Room call now uses normal C++ and `samecodeseg`.
+Its real native field is a four-byte far CALL with GROUP_01 frame1. TLINK
+generates NOP/PUSH CS/near CALL at loaded A1B4, preserving the four-byte far
+return frame without a scoped MZ relocation. The unannotated far-call control
+adds one relocation and five loaded differences. Independent call-site tests
+check every register/flag/store and physical memory byte, including all stack
+bytes, and stop before executing Music Room. The enclosing menu remains open.
+The current OP builder preserves historical stagers and their pins through a
+temporary read view: only the original menu input comes from Git checkpoint
+`a02fcc9`, then the live maintained menu include replaces it before compilation.
+All other historical inputs remain live and must still pass their original
+checks. The read view is removed immediately and contains no native outputs.
+
 A bounded sound layout diagnostic separates instruction recovery from unresolved
 trailing bytes. Removing active codestrings in disposable source copies preserves
 all nine selected OP/MAINL function bodies. Ordinary compiler-assembly output

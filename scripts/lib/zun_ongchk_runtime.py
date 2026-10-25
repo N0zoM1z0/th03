@@ -170,6 +170,7 @@ class Machine:
         ins=list(Cs(CS_ARCH_X86,CS_MODE_16).disasm(image[:892],0x100))
         need(sum(i.size for i in ins)==892,'complete instruction boundaries')
         self.instructions={i.address:i.size for i in ins};self.owned=set(range(0x100,0x47C));self.covered=set();self.maximum_stack=0
+        self.fast_spins={i.address for i in ins if i.address in SPINS and i.mnemonic=='loop' and i.op_str==hex(i.address)}
         self.hooks=[self.u.hook_add(UC_HOOK_CODE,self.code),self.u.hook_add(UC_HOOK_MEM_WRITE,self.write),self.u.hook_add(UC_HOOK_INTR,self.interrupt),
             self.u.hook_add(UC_HOOK_INSN,self.input,None,1,0,UC_X86_INS_IN),self.u.hook_add(UC_HOOK_INSN,self.output,None,1,0,UC_X86_INS_OUT)]
     def close(self):
@@ -185,6 +186,14 @@ class Machine:
     def code(self,u,address,size,_):
         try:
             ip=address-self.base
+            if self.spin is not None and ip==self.spin[0] and ip in self.fast_spins:
+                # The immutable self-LOOP has no stores or stack effects. Its
+                # first visit recorded coverage/depth; every actual native CX
+                # decrement remains checked, with flags checked at loop exit.
+                at,left,flags=self.spin
+                need(self.r('cx')==left-1 and left>1,'complete LOOP decrement')
+                self.spin=(at,left-1,flags)
+                return
             if self.hold:
                 head,cycle,depth=LOOPS[self.hold]
                 if self.holding:

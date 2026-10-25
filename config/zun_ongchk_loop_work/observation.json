@@ -1,0 +1,1053 @@
+{
+  "schema": "th03-zun-ongchk-loop-audit-observation-v1",
+  "observed_utc": "2026-10-25T06:39:47.707988Z",
+  "provenance": "candidate-local-attested",
+  "source_acceptance": false,
+  "canonical_unit_credit_changed": false,
+  "authored_byte_credit_changed": false,
+  "whole_product_accepted": false,
+  "command": ".venv/bin/python scripts/review_th03_zun_ongchk_work.py --current-cold",
+  "baseline_path": "config/zun_ongchk_exact_work/observation.json",
+  "baseline_sha256": "6cf3aa5f842855d2dad4e62a0c4db40444a0c937d232e37eca3f03566d6ba558",
+  "baseline_layout_runtime_and_controls_identical": true,
+  "implementation_sha256": {
+    "scripts/review_th03_zun_format_work.py": "616f3237b45210c771315708571c3bb3eed18a51d267f8c29891c592e07bbb2b",
+    "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
+    "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "scripts/build_th03_zun_work.py": "3a58a792bcc8a3ac8109842868495d038154be4f9769dc18a7188073b3863aad",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
+    "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/verify_th03_zun_driver_hybrid.py": "077a7c99279853282852bcb1f11f77e935796e0304a48fe9587a00a531cd1aa9",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
+    "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
+    "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
+    "scripts/review_th03_zun_lifecycle_work.py": "30f6b1871fba8cb0e086299bbb7763f8b1260b6d4ec37418f4b219117fc70504",
+    "scripts/lib/zun_driver_lifecycle_layout.py": "8492a992952db296145525a9266554256c8e5ca9fa3335d67f431ab3f69934db",
+    "scripts/lib/zun_driver_lifecycle_runtime.py": "8fd0cf5be17abf6ced865b48fd2bb8abf5176d82d93a39bc4fa0129c06e2cfbc",
+    "src/zun/driver_resident.inl": "eab59e2b554caa3e8493e17a6dc4df0658bc9ff7338ca9bd7e311ab7b9f0d3e5",
+    "scripts/lib/zun_driver_command_runtime.py": "77313ef4840dc280af400aeffa433414a69515f188ec4844a31df477bf2677fb",
+    "scripts/lib/zun_driver_scalar_runtime.py": "135e86482e6a1f30cb1225ae1193d89ffed5767539c82c996b551125a9b0418d",
+    "scripts/lib/zun_driver_scalar_layout.py": "53fb780c49959068b8ed6069e541bc92c18ea54916ed02f27a2b5593323fbc66",
+    "scripts/review_th03_zun_data_work.py": "9cf5a54366b232b05f07394510f4965cd4fff6474e18f91e3fe829ab4f6d3658",
+    "scripts/lib/zun_driver_data_layout.py": "81e528db2c3ecb11f4fd468583bbe369671936ac6facddaa108ea440ea34eebe",
+    "scripts/lib/zun_driver_data_runtime.py": "4d1b84649ff36611d4ad4a4f9d3b6805db223d4e53a690793077cb873dd1b255",
+    "src/zun/driver.asm": "5165e7eb5a910382668f6af2bba2b58e16929640f6e52f2077a143064a179c91",
+    "src/zun/driver_services.inl": "d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af",
+    "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
+    "scripts/review_th03_zun_wrapper_work.py": "027ec95fc328d74a3fefafbdb372a4e694ba6220fc21e14d5329f11d3590e7fd",
+    "scripts/lib/zun_wrapper_layout.py": "3eb065da33ecc4e77681e7bd16bbaa28c7f6ea50ecd19d8cfd30bdfb548a1fd8",
+    "scripts/lib/zun_wrapper_runtime.py": "e5eaa7712cf5d76fa7d84123723b29d32566c625b086c118cfe193b131671602",
+    "src/zun/launcher.asm": "edea80bed915491d6eb11bccca1eed83966a5d8fd84cbd746d7d4ce272bd02bd",
+    "src/zun/transfer_call.asm": "7b4634cbede7e9e19658f441eeecd108eecc2eea9b4d6e81815a758080bbeda9",
+    "src/zun/transfer_helper.asm": "d8e15f5d983e899d363b16c87a40ef4dbcc693c7f73e38cf330ecf3ae1369c8a",
+    "scripts/review_th03_zun_directory_work.py": "680cf88fff8641c3ba867d505cc46a1a8b90580296d474bdd5d7434925cba1df",
+    "scripts/lib/zun_directory_layout.py": "78830d460065bab9174d81c7be153044772ada302e0087b94c6e082064d9f34c",
+    "scripts/lib/zun_directory_runtime.py": "9e83116c24097e4fb7e7b60c5aef720f653d75ef0e08fd13f0e706bc5ab24de5",
+    "scripts/lib/zun_directory_controls.py": "8671c9c34b64fee2110928639a6d4032e65f3574d8c8b8667bb74a62e027f123",
+    "scripts/lib/zun_directory_source.py": "81255428bc6dab590672e2675a23d6a438e7c880d01484134b3af71856af6fb0",
+    "src/zun/directory.asm": "785ce74fafcb08cda8a26ac8cf379549470d74981cab7b214323e18ac98d8348",
+    "scripts/review_th03_zun_ongchk_source_work.py": "9a061272d3269786ba8129f0bd1c7fe6bae83eb5583c6db30d01c6873bf95e21",
+    "scripts/lib/zun_ongchk_source.py": "75d6097c424c42b021e86479c522a3837fc2cae6fbe0ebddf4b7bc85429df309",
+    "scripts/review_th03_ongchk.py": "62d4b229a2a23a3b74107def324c1b8161ffd08ba308d3039833a62e48c77cc2",
+    "src/zun/ongchk.asm": "ddfd783aa3f7916eb79f9ad771dec3cdf5d2bffa4f498aa962cd3f1f4652a3ce",
+    "scripts/review_th03_zun_ongchk_work.py": "b51320745cd6841ac457a0f9045dc81ccc46c9b5ec9527052310080b1e70d535",
+    "scripts/lib/zun_ongchk_layout.py": "865c14df16f0364124fc237f1a68ed4a839a8d5f62155a1f1f9b17d77337486c",
+    "scripts/lib/zun_ongchk_runtime.py": "0ddae38a9d6f432d372acf8d84fa8538a43e537a26346a479aa3b04b7b2210e6"
+  },
+  "cold_report_sha256": "017a04f46e37bc46aa58fa67e8e444abb63290020e22f921031103b51dd3972f",
+  "native_pair_built_now": false,
+  "guest_spin_iterations_skipped": 0,
+  "every_native_CX_decrement_still_checked": true,
+  "sample_benchmark": {
+    "cases": 17,
+    "original_cpu_seconds": 1.056,
+    "preview_cpu_seconds": 0.663,
+    "observations_coverage_stack_identical": true
+  },
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-zun-decoded-ongchk",
+        "name": "ONGCHK",
+        "source": "src/zun/ongchk.asm",
+        "object": "ongchk/ongchk.obj",
+        "origin": "library",
+        "segment": "decoded:-1",
+        "start": 256,
+        "size": 926,
+        "code_bytes": 892,
+        "data_bytes": 34,
+        "bss_bytes": 42,
+        "coordinate_space": "decoded-payload-com",
+        "payload_option": "-1",
+        "outer_decoded_file_offset": 550,
+        "canonical_file_offset": null,
+        "target_sha256": "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0",
+        "candidate_sha256": "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0",
+        "ordered_relocations": [],
+        "ordered_native_fields": [
+          {
+            "site": 265,
+            "bytes": 2,
+            "target": "type2_first",
+            "target_segment": 3,
+            "addend": 9,
+            "resolved": 1191
+          },
+          {
+            "site": 282,
+            "bytes": 2,
+            "target": "type2_first",
+            "target_segment": 3,
+            "addend": 9,
+            "resolved": 1191
+          },
+          {
+            "site": 291,
+            "bytes": 2,
+            "target": "probe_result",
+            "target_segment": 1,
+            "addend": 1181,
+            "resolved": 1181
+          },
+          {
+            "site": 297,
+            "bytes": 2,
+            "target": "type2_first",
+            "target_segment": 3,
+            "addend": 9,
+            "resolved": 1191
+          },
+          {
+            "site": 314,
+            "bytes": 2,
+            "target": "type2_first",
+            "target_segment": 3,
+            "addend": 9,
+            "resolved": 1191
+          },
+          {
+            "site": 326,
+            "bytes": 2,
+            "target": "probe_result",
+            "target_segment": 1,
+            "addend": 1181,
+            "resolved": 1181
+          },
+          {
+            "site": 336,
+            "bytes": 2,
+            "target": "port_override",
+            "target_segment": 1,
+            "addend": 1180,
+            "resolved": 1180
+          },
+          {
+            "site": 343,
+            "bytes": 2,
+            "target": "port_override",
+            "target_segment": 1,
+            "addend": 1180,
+            "resolved": 1180
+          },
+          {
+            "site": 399,
+            "bytes": 2,
+            "target": "probe_result",
+            "target_segment": 1,
+            "addend": 1181,
+            "resolved": 1181
+          },
+          {
+            "site": 411,
+            "bytes": 2,
+            "target": "probe_result",
+            "target_segment": 1,
+            "addend": 1181,
+            "resolved": 1181
+          },
+          {
+            "site": 418,
+            "bytes": 2,
+            "target": "probe_result",
+            "target_segment": 1,
+            "addend": 1181,
+            "resolved": 1181
+          },
+          {
+            "site": 423,
+            "bytes": 2,
+            "target": "has_board_rom",
+            "target_segment": 3,
+            "addend": 8,
+            "resolved": 1190
+          },
+          {
+            "site": 442,
+            "bytes": 2,
+            "target": "has_board_rom",
+            "target_segment": 3,
+            "addend": 8,
+            "resolved": 1190
+          },
+          {
+            "site": 479,
+            "bytes": 2,
+            "target": "port_override",
+            "target_segment": 1,
+            "addend": 1180,
+            "resolved": 1180
+          },
+          {
+            "site": 486,
+            "bytes": 2,
+            "target": "port_override",
+            "target_segment": 1,
+            "addend": 1180,
+            "resolved": 1180
+          },
+          {
+            "site": 570,
+            "bytes": 2,
+            "target": "has_board_rom",
+            "target_segment": 3,
+            "addend": 8,
+            "resolved": 1190
+          },
+          {
+            "site": 585,
+            "bytes": 2,
+            "target": "probe_result",
+            "target_segment": 1,
+            "addend": 1181,
+            "resolved": 1181
+          },
+          {
+            "site": 590,
+            "bytes": 2,
+            "target": "has_board_rom",
+            "target_segment": 3,
+            "addend": 8,
+            "resolved": 1190
+          },
+          {
+            "site": 609,
+            "bytes": 2,
+            "target": "has_board_rom",
+            "target_segment": 3,
+            "addend": 8,
+            "resolved": 1190
+          },
+          {
+            "site": 640,
+            "bytes": 2,
+            "target": "port_override",
+            "target_segment": 1,
+            "addend": 1180,
+            "resolved": 1180
+          },
+          {
+            "site": 647,
+            "bytes": 2,
+            "target": "port_override",
+            "target_segment": 1,
+            "addend": 1180,
+            "resolved": 1180
+          },
+          {
+            "site": 708,
+            "bytes": 2,
+            "target": "fm_address_port",
+            "target_segment": 3,
+            "addend": 0,
+            "resolved": 1182
+          },
+          {
+            "site": 715,
+            "bytes": 2,
+            "target": "fm_data_port",
+            "target_segment": 3,
+            "addend": 2,
+            "resolved": 1184
+          },
+          {
+            "site": 722,
+            "bytes": 2,
+            "target": "adpcm_address_port",
+            "target_segment": 3,
+            "addend": 4,
+            "resolved": 1186
+          },
+          {
+            "site": 729,
+            "bytes": 2,
+            "target": "adpcm_data_port",
+            "target_segment": 3,
+            "addend": 6,
+            "resolved": 1188
+          },
+          {
+            "site": 735,
+            "bytes": 2,
+            "target": "probe_result",
+            "target_segment": 1,
+            "addend": 1181,
+            "resolved": 1181
+          },
+          {
+            "site": 833,
+            "bytes": 2,
+            "target": "ram_pattern",
+            "target_segment": 1,
+            "addend": 1148,
+            "resolved": 1148
+          },
+          {
+            "site": 840,
+            "bytes": 2,
+            "target": "adpcm_address_port",
+            "target_segment": 3,
+            "addend": 4,
+            "resolved": 1186
+          },
+          {
+            "site": 844,
+            "bytes": 2,
+            "target": "adpcm_data_port",
+            "target_segment": 3,
+            "addend": 6,
+            "resolved": 1188
+          },
+          {
+            "site": 1015,
+            "bytes": 2,
+            "target": "ram_buffer",
+            "target_segment": 3,
+            "addend": 10,
+            "resolved": 1192
+          },
+          {
+            "site": 1019,
+            "bytes": 2,
+            "target": "adpcm_address_port",
+            "target_segment": 3,
+            "addend": 4,
+            "resolved": 1186
+          },
+          {
+            "site": 1044,
+            "bytes": 2,
+            "target": "adpcm_data_port",
+            "target_segment": 3,
+            "addend": 6,
+            "resolved": 1188
+          },
+          {
+            "site": 1067,
+            "bytes": 2,
+            "target": "adpcm_address_port",
+            "target_segment": 3,
+            "addend": 4,
+            "resolved": 1186
+          },
+          {
+            "site": 1086,
+            "bytes": 2,
+            "target": "adpcm_data_port",
+            "target_segment": 3,
+            "addend": 6,
+            "resolved": 1188
+          },
+          {
+            "site": 1098,
+            "bytes": 2,
+            "target": "ram_pattern",
+            "target_segment": 1,
+            "addend": 1148,
+            "resolved": 1148
+          },
+          {
+            "site": 1101,
+            "bytes": 2,
+            "target": "ram_buffer",
+            "target_segment": 3,
+            "addend": 10,
+            "resolved": 1192
+          },
+          {
+            "site": 1116,
+            "bytes": 2,
+            "target": "adpcm_address_port",
+            "target_segment": 3,
+            "addend": 4,
+            "resolved": 1186
+          },
+          {
+            "site": 1138,
+            "bytes": 2,
+            "target": "adpcm_data_port",
+            "target_segment": 3,
+            "addend": 6,
+            "resolved": 1188
+          }
+        ],
+        "abi": "COM startup at 0100; inherited SS and retained count WORD; terminal DOS 4C; nine real near helpers with two shared RET tails"
+      }
+    ],
+    "source_extents": 1,
+    "entry_points": 10,
+    "code_bytes": 892,
+    "data_bytes": 34,
+    "bss_bytes": 42,
+    "native": {
+      "source": "src/zun/ongchk.asm",
+      "code_bytes": 892,
+      "initialized_data_bytes": 34,
+      "bss_bytes": 42,
+      "native_fields": [
+        {
+          "site": 265,
+          "bytes": 2,
+          "target": "type2_first",
+          "target_segment": 3,
+          "addend": 9,
+          "resolved": 1191
+        },
+        {
+          "site": 282,
+          "bytes": 2,
+          "target": "type2_first",
+          "target_segment": 3,
+          "addend": 9,
+          "resolved": 1191
+        },
+        {
+          "site": 291,
+          "bytes": 2,
+          "target": "probe_result",
+          "target_segment": 1,
+          "addend": 1181,
+          "resolved": 1181
+        },
+        {
+          "site": 297,
+          "bytes": 2,
+          "target": "type2_first",
+          "target_segment": 3,
+          "addend": 9,
+          "resolved": 1191
+        },
+        {
+          "site": 314,
+          "bytes": 2,
+          "target": "type2_first",
+          "target_segment": 3,
+          "addend": 9,
+          "resolved": 1191
+        },
+        {
+          "site": 326,
+          "bytes": 2,
+          "target": "probe_result",
+          "target_segment": 1,
+          "addend": 1181,
+          "resolved": 1181
+        },
+        {
+          "site": 336,
+          "bytes": 2,
+          "target": "port_override",
+          "target_segment": 1,
+          "addend": 1180,
+          "resolved": 1180
+        },
+        {
+          "site": 343,
+          "bytes": 2,
+          "target": "port_override",
+          "target_segment": 1,
+          "addend": 1180,
+          "resolved": 1180
+        },
+        {
+          "site": 399,
+          "bytes": 2,
+          "target": "probe_result",
+          "target_segment": 1,
+          "addend": 1181,
+          "resolved": 1181
+        },
+        {
+          "site": 411,
+          "bytes": 2,
+          "target": "probe_result",
+          "target_segment": 1,
+          "addend": 1181,
+          "resolved": 1181
+        },
+        {
+          "site": 418,
+          "bytes": 2,
+          "target": "probe_result",
+          "target_segment": 1,
+          "addend": 1181,
+          "resolved": 1181
+        },
+        {
+          "site": 423,
+          "bytes": 2,
+          "target": "has_board_rom",
+          "target_segment": 3,
+          "addend": 8,
+          "resolved": 1190
+        },
+        {
+          "site": 442,
+          "bytes": 2,
+          "target": "has_board_rom",
+          "target_segment": 3,
+          "addend": 8,
+          "resolved": 1190
+        },
+        {
+          "site": 479,
+          "bytes": 2,
+          "target": "port_override",
+          "target_segment": 1,
+          "addend": 1180,
+          "resolved": 1180
+        },
+        {
+          "site": 486,
+          "bytes": 2,
+          "target": "port_override",
+          "target_segment": 1,
+          "addend": 1180,
+          "resolved": 1180
+        },
+        {
+          "site": 570,
+          "bytes": 2,
+          "target": "has_board_rom",
+          "target_segment": 3,
+          "addend": 8,
+          "resolved": 1190
+        },
+        {
+          "site": 585,
+          "bytes": 2,
+          "target": "probe_result",
+          "target_segment": 1,
+          "addend": 1181,
+          "resolved": 1181
+        },
+        {
+          "site": 590,
+          "bytes": 2,
+          "target": "has_board_rom",
+          "target_segment": 3,
+          "addend": 8,
+          "resolved": 1190
+        },
+        {
+          "site": 609,
+          "bytes": 2,
+          "target": "has_board_rom",
+          "target_segment": 3,
+          "addend": 8,
+          "resolved": 1190
+        },
+        {
+          "site": 640,
+          "bytes": 2,
+          "target": "port_override",
+          "target_segment": 1,
+          "addend": 1180,
+          "resolved": 1180
+        },
+        {
+          "site": 647,
+          "bytes": 2,
+          "target": "port_override",
+          "target_segment": 1,
+          "addend": 1180,
+          "resolved": 1180
+        },
+        {
+          "site": 708,
+          "bytes": 2,
+          "target": "fm_address_port",
+          "target_segment": 3,
+          "addend": 0,
+          "resolved": 1182
+        },
+        {
+          "site": 715,
+          "bytes": 2,
+          "target": "fm_data_port",
+          "target_segment": 3,
+          "addend": 2,
+          "resolved": 1184
+        },
+        {
+          "site": 722,
+          "bytes": 2,
+          "target": "adpcm_address_port",
+          "target_segment": 3,
+          "addend": 4,
+          "resolved": 1186
+        },
+        {
+          "site": 729,
+          "bytes": 2,
+          "target": "adpcm_data_port",
+          "target_segment": 3,
+          "addend": 6,
+          "resolved": 1188
+        },
+        {
+          "site": 735,
+          "bytes": 2,
+          "target": "probe_result",
+          "target_segment": 1,
+          "addend": 1181,
+          "resolved": 1181
+        },
+        {
+          "site": 833,
+          "bytes": 2,
+          "target": "ram_pattern",
+          "target_segment": 1,
+          "addend": 1148,
+          "resolved": 1148
+        },
+        {
+          "site": 840,
+          "bytes": 2,
+          "target": "adpcm_address_port",
+          "target_segment": 3,
+          "addend": 4,
+          "resolved": 1186
+        },
+        {
+          "site": 844,
+          "bytes": 2,
+          "target": "adpcm_data_port",
+          "target_segment": 3,
+          "addend": 6,
+          "resolved": 1188
+        },
+        {
+          "site": 1015,
+          "bytes": 2,
+          "target": "ram_buffer",
+          "target_segment": 3,
+          "addend": 10,
+          "resolved": 1192
+        },
+        {
+          "site": 1019,
+          "bytes": 2,
+          "target": "adpcm_address_port",
+          "target_segment": 3,
+          "addend": 4,
+          "resolved": 1186
+        },
+        {
+          "site": 1044,
+          "bytes": 2,
+          "target": "adpcm_data_port",
+          "target_segment": 3,
+          "addend": 6,
+          "resolved": 1188
+        },
+        {
+          "site": 1067,
+          "bytes": 2,
+          "target": "adpcm_address_port",
+          "target_segment": 3,
+          "addend": 4,
+          "resolved": 1186
+        },
+        {
+          "site": 1086,
+          "bytes": 2,
+          "target": "adpcm_data_port",
+          "target_segment": 3,
+          "addend": 6,
+          "resolved": 1188
+        },
+        {
+          "site": 1098,
+          "bytes": 2,
+          "target": "ram_pattern",
+          "target_segment": 1,
+          "addend": 1148,
+          "resolved": 1148
+        },
+        {
+          "site": 1101,
+          "bytes": 2,
+          "target": "ram_buffer",
+          "target_segment": 3,
+          "addend": 10,
+          "resolved": 1192
+        },
+        {
+          "site": 1116,
+          "bytes": 2,
+          "target": "adpcm_address_port",
+          "target_segment": 3,
+          "addend": 4,
+          "resolved": 1186
+        },
+        {
+          "site": 1138,
+          "bytes": 2,
+          "target": "adpcm_data_port",
+          "target_segment": 3,
+          "addend": 6,
+          "resolved": 1188
+        }
+      ],
+      "initialized_publics": [
+        [
+          256,
+          "start"
+        ],
+        [
+          295,
+          "probe_hardware"
+        ],
+        [
+          416,
+          "probe_type3"
+        ],
+        [
+          583,
+          "probe_type2"
+        ],
+        [
+          706,
+          "probe_found"
+        ],
+        [
+          733,
+          "probe_failed"
+        ],
+        [
+          740,
+          "adpcm_check"
+        ],
+        [
+          763,
+          "adpcm_write"
+        ],
+        [
+          936,
+          "adpcm_read"
+        ],
+        [
+          1064,
+          "adpcm_dummy_read"
+        ],
+        [
+          1097,
+          "adpcm_compare"
+        ],
+        [
+          1109,
+          "adpcm_register_write"
+        ],
+        [
+          1148,
+          "ram_pattern"
+        ],
+        [
+          1180,
+          "port_override"
+        ],
+        [
+          1181,
+          "probe_result"
+        ]
+      ],
+      "bss_publics": [
+        [
+          0,
+          "fm_address_port"
+        ],
+        [
+          2,
+          "fm_data_port"
+        ],
+        [
+          4,
+          "adpcm_address_port"
+        ],
+        [
+          6,
+          "adpcm_data_port"
+        ],
+        [
+          8,
+          "has_board_rom"
+        ],
+        [
+          9,
+          "type2_first"
+        ],
+        [
+          10,
+          "ram_buffer"
+        ]
+      ],
+      "file_bytes": 926,
+      "file_sha256": "4f9a9451f19bdd8d3ea8949a5ea75df6c2f92a9a84dcf39e1d7cf13421acc8a0",
+      "binary_seed_consumed": false,
+      "original_source_identity_attested": false,
+      "original_assembler_identity_attested": false,
+      "exact_acceptance": false,
+      "canonical_unit_credit_changed": false,
+      "whole_product_accepted": false
+    },
+    "ordered_relocations": [],
+    "polling_cycles": [
+      {
+        "name": "register",
+        "entry": 1121,
+        "instruction_starts": [
+          1121,
+          1122,
+          1124
+        ],
+        "stack_depth": 16,
+        "held_reply": 128,
+        "body_bytes": 5,
+        "no_stores_or_stack_effects": true
+      },
+      {
+        "name": "write_idle",
+        "entry": 848,
+        "instruction_starts": [
+          848,
+          849,
+          851
+        ],
+        "stack_depth": 6,
+        "held_reply": 128,
+        "body_bytes": 5,
+        "no_stores_or_stack_effects": true
+      },
+      {
+        "name": "dummy_idle",
+        "entry": 1069,
+        "instruction_starts": [
+          1069,
+          1070,
+          1072
+        ],
+        "stack_depth": 8,
+        "held_reply": 128,
+        "body_bytes": 5,
+        "no_stores_or_stack_effects": true
+      },
+      {
+        "name": "read_idle",
+        "entry": 1022,
+        "instruction_starts": [
+          1022,
+          1023,
+          1025
+        ],
+        "stack_depth": 6,
+        "held_reply": 128,
+        "body_bytes": 5,
+        "no_stores_or_stack_effects": true
+      },
+      {
+        "name": "read_ready",
+        "entry": 1031,
+        "instruction_starts": [
+          1031,
+          1032,
+          1034
+        ],
+        "stack_depth": 6,
+        "held_reply": 0,
+        "body_bytes": 5,
+        "no_stores_or_stack_effects": true
+      },
+      {
+        "name": "read_data",
+        "entry": 1037,
+        "instruction_starts": [
+          1037,
+          1038,
+          1040
+        ],
+        "stack_depth": 6,
+        "held_reply": 128,
+        "body_bytes": 5,
+        "no_stores_or_stack_effects": true
+      },
+      {
+        "name": "write_complete",
+        "entry": 887,
+        "instruction_starts": [
+          887,
+          888,
+          890,
+          892,
+          893
+        ],
+        "stack_depth": 6,
+        "held_reply": 128,
+        "body_bytes": 8,
+        "no_stores_or_stack_effects": true
+      }
+    ],
+    "all_initialized_DATA_semantically_owned": true,
+    "original_source_attested": false,
+    "original_assembler_attested": false,
+    "whole_product_accepted": false
+  },
+  "runtime": {
+    "images": 2,
+    "source_extents": 1,
+    "entry_points": 10,
+    "code_bytes": 892,
+    "data_bytes": 34,
+    "bss_bytes": 42,
+    "executed_owner_bytes": 892,
+    "cases_per_image": 8134,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 4067,
+        "terminal_cases": 3857,
+        "nonterminal_cases": 210,
+        "covered_owner_bytes": 892,
+        "maximum_observed_stack_depth": 20,
+        "maximum_polls": 10217,
+        "maximum_spin_calls": 136,
+        "maximum_actual_register_write_calls": 60,
+        "trace_sha256": "ff7d9de15b8e202460d040b4f49c612752dda199387e67329d99d88b29c2b2e0"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 4067,
+        "terminal_cases": 3857,
+        "nonterminal_cases": 210,
+        "covered_owner_bytes": 892,
+        "maximum_observed_stack_depth": 20,
+        "maximum_polls": 10217,
+        "maximum_spin_calls": 136,
+        "maximum_actual_register_write_calls": 60,
+        "trace_sha256": "4b6fd85a30941c7e8401e01de6b9ecfdb399eddab79f769446c18688c52a0a18"
+      }
+    ],
+    "exhaustive_BYTE_domains": 256,
+    "maximum_private_stack_window": 48,
+    "held_native_polling_cycles": 7,
+    "all_nested_helpers_executed": true,
+    "spin_iterations_executed": true,
+    "physical_timing_or_devices_emulated": false
+  },
+  "negative_controls": {
+    "instruction_mutations": 43,
+    "instructions_rejected": [
+      "startup-CLD",
+      "startup-DS-from-CS",
+      "PSP-count-byte-address",
+      "PSP-priority-character",
+      "type2-first-dispatch",
+      "FM-echo-value",
+      "FM-echo-spin-count",
+      "FM-bank-step",
+      "RAM-result-increment",
+      "type3-result-code",
+      "ROM-word-signature",
+      "ROM-version-bound",
+      "type3-config-mask",
+      "override-sentinel",
+      "type3-CLI",
+      "type3-aux-pair",
+      "config-commit-bit",
+      "secondary-config-mask",
+      "ROM-control-port",
+      "type2-result-code",
+      "type2-aux-predicate",
+      "failure-result-byte",
+      "failure-carry",
+      "port-table-WORD",
+      "RAM-write-transfer-count",
+      "RAM-write-register",
+      "RAM-write-STI",
+      "RAM-write-timeout-count",
+      "RAM-write-ready-mask",
+      "RAM-write-timeout-carry",
+      "RAM-write-complete-predicate",
+      "RAM-reset-register",
+      "RAM-reset-data",
+      "RAM-dummy-read-count",
+      "RAM-read-transfer-count",
+      "RAM-read-register",
+      "RAM-read-ready-mask",
+      "RAM-read-STI",
+      "RAM-compare-size",
+      "register-write-preserve-flags",
+      "register-write-port-WORD",
+      "DOS-result-load",
+      "DOS-exit-vector"
+    ],
+    "static_initialized_DATA_mutations_rejected": 34,
+    "actual_consumed_DATA_mutations": 33,
+    "consumed_DATA_indices_rejected": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32
+    ],
+    "static_DATA_controls_have_instruction_credit": false,
+    "result_initializer_is_consumed_before_store": false
+  }
+}

@@ -12,7 +12,7 @@ native = unittest.skipUnless((R/'.analysis/toolchain/wineprefix/drive_c/OPVA181/
 class Tests(unittest.TestCase):
  @classmethod
  def setUpClass(cls):
-  d=load(R/'scripts/stage_th03_op_fullcold.py').payload(R)
+  d=load(Path(__file__).with_name('op_historical_fixture.py')).payload(R,load(R/'scripts/stage_th03_op_fullcold.py'))
   for n in ['exit_helpers','remaining_helpers']:d.update(load(R/f'scripts/stage_th03_op_{n}.py').payload(R))
   d=load(R/'scripts/stage_th03_op_raster.py').compose(d,R);d=load(P/'scripts/stage_th03_op_pfopen_source.py').compose(d,P);cls.inputs=load(O/'scripts/stage_th03_op_global_order.py').compose(d,O);cls.outputs=S.compose(cls.inputs,F);cls.c=S.config(F)
  @native

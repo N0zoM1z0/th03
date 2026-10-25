@@ -23,7 +23,16 @@
    Keep all 128 seen masks and actual consecutive reentry cases. A nonterminal
    result requires the native closed candidate-domain proof and full live-state
    contract, never instruction-budget exhaustion. Do not reset the static seen
-   array or claim all DWORD seeds terminate. OP and MAINL sound scopes use independently checked native layouts
+   array or claim all DWORD seeds terminate. The OP builder's explicit live menu
+   overlay preserves all historical stager pins; `lib/op_current_source.py`
+   supplies the original menu Git blob only while constructing the historical
+   graph, then compiles the current maintained include. After a complete OP
+   cold/review chain, use `scripts/review_th03_op_music_call_work.py` to check
+   the ordinary source far call, native group frame, TLINK relaxation and full
+   call-site ABI. Its fresh source control omits `samecodeseg` and must fail
+   target equality. It grants no enclosing menu or callee implementation credit.
+   Historical graph tests materialize their original Git inputs separately.
+   OP and MAINL sound scopes use independently checked native layouts
    with a shared execution core; refresh both reports after core changes.
    Preserve separate ordinary-entry and loop-continuation witness counts; the
    supplied SI continuation states do not prove elapsed frames. After rebuilding
@@ -77,6 +86,10 @@
    polling prefixes separate from terminal cases and physical timing. All892
    instruction bytes execute;34 static DATA controls stay separate from33
    actual consumed-DATA mutations. The result initializer is overwritten first.
+   Repeated immutable self-LOOP visits reuse coverage/depth bookkeeping; every
+   native CX decrement and exit flags are still checked. Other opcodes retain
+   the general path. The optimized full replay must reproduce the original
+   layout/runtime/control observations; keep the baseline snapshot unchanged.
    Unused format slots have no instruction-execution credit. Direct transfer
    entry cases require DF=0. DOS AL replies are explicit bounded policies;
    do not assume that AH-only termination clears the exit status.
