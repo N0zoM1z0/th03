@@ -81,7 +81,7 @@ def compose(root):
         files[f"obj/th0{game}/{name}.rsp"] = (
             f"-c -s -t c0t.obj obj\\th0{game}\\{name}.obj, bin\\th0{game}\\{name}.com, "
             f"obj\\th0{game}\\{name}.map, {libraries}\r\n").encode()
-    for source, alias in (("launcher", "stub"), ("transfer_call", "call"), ("transfer_helper", "helper")):
+    for source, alias in (("launcher", "stub"), ("transfer_call", "call"), ("transfer_helper", "helper"), ("directory", "meta")):
         name = "src/zun/" + source + ".asm"
         maintained[name] = (root / name).read_bytes()
         files["wrapper/" + alias + ".asm"] = maintained[name]

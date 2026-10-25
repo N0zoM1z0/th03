@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `f246274` (ZUN driver header/shared DATA scopes).
+- Previous pushed checkpoint: `932eb15` (ZUN launcher/transfer source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -536,7 +536,7 @@ remain in [README.md](../README.md).
   cases require DF clear and a bounded payload span. AH-only DOS termination
   retains the modeled AL reply; physical DOS behavior is not inferred.
   Twenty-one actual instruction mutations fail. The **324 intervening metadata
-  bytes** and payload source receive no wrapper credit. Current ZUN totals
+  bytes** and payload source receive no wrapper credit. At that wrapper checkpoint ZUN totaled
   **75 extents / 76 procedures + 3 wrapper entries / 5,287 CODE bytes**;
   authored is **1,834 CODE + 21 DATA**, original ASM **607 CODE + 783 DATA**,
   library **2,846 CODE + 1,294 DATA**. Ten full runtime witnesses, 177 instruction
@@ -546,6 +546,31 @@ remain in [README.md](../README.md).
   Omit that option for the full native/DATA/wrapper chain. The directory,
   unowned -1/runtime dependencies, twelve driver reserved bytes and whole-product
   source ownership remain open; canonical credit is unchanged.
+- The **324-byte 32-slot directory** now has a maintained semantic DATA TU,
+  `src/zun/directory.asm`, emitted by normal TASM/TLINK in the actual build.
+  Seven native definitions come from actual linked module/payload lengths.
+  Five names, 27 unused name slots, six ordered near boundaries and 27 unused
+  entry WORDs account for every byte. Native publics rebase to count 01DF,
+  names 01E1, entries 02E1 and following CALL 0323. The two literal OMF records
+  own 42+12 bytes; two bounded LIDATA records supply the 216+54 unused-slot bytes.
+  The compositor consumes the entire linked COM contribution, with no cuts,
+  patches or target-byte substitution. Original generation-tool identity is
+  unknown; this is recovered authored format source, not original-ASM lineage.
+  Both fresh cold rounds repeat **26 outputs from eight project objects** and
+  match the complete **22,812 decoded / 16,242 stored bytes**. All 45 native
+  phases pass, including capacity-31/33 source controls yielding 314/334 bytes.
+  Directory readers run 42 cases per image at two loads with foreign SS;
+  eleven actual name/boundary DATA mutations fail. A separate static contract
+  rejects every one of 324 metadata-byte mutations without execution credit.
+  Existing wrapper models rerun fully on the new cold graph. Current ZUN:
+  **76 extents / 79 procedures or entries / 5,287 CODE bytes**. Authored is
+  **1,834 CODE + 345 DATA**, original ASM **607 CODE + 783 DATA**, library
+  **2,846 CODE + 1,294 DATA**. Eleven full runtime witnesses bind publication;
+  177 instruction plus seventeen consumed-DATA mutations stay separate from
+  static DATA controls. Canonical packed-file unit credit and whole-product
+  ownership remain open, including -1/runtime context and twelve driver bytes.
+  Run `review_th03_zun_directory_work.py` for the full native/review chain;
+  `--current-cold` revalidates the complete prerequisites and reruns directory gates.
 - All 99 source objects compile in 100 serial phases. Two independent 613-file
   source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -639,7 +664,7 @@ ABI and byte credit are recorded separately in the ledgers.
    alignment to PARA (assembler A2078); this does not establish natural trailing
    storage. Do not add an empty segment solely to force the target tail. The
    launcher/transfer TUs now have three accepted outer decoded scopes. Further
-   whole-product gaps include the generated directory and unowned -1/runtime
+   whole-product gaps include unowned -1/runtime
    dependencies. Formatter/graphics dead jumps and DOS-terminal-unreachable lifecycle
    bytes stay source-owned with separate reachability proof, not execution credit.
    Keep unchecked saved-BP overflow and zero uninstall-offset behavior.

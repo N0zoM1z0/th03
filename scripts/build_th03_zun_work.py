@@ -20,7 +20,8 @@ from build_th03_op_work import need, sha
 from lib.omf import describe_omf
 from lib.targets import find_artifact, read_verified_artifact
 from lib.toolchain import attest_surface
-from lib.zun import compose_launcher, parse_launcher, dispatch_observation
+from lib.zun import parse_launcher, dispatch_observation
+from lib.zun_directory_source import compose_native_launcher
 from lib.zun_driver_layout import review as review_driver
 from lib.zun_work_source import compose, PROFILE
 from verify_th03_zun_init_standalone import verify_outputs as review_init
@@ -70,6 +71,8 @@ def recipe_inventory():
              "scripts/lib/zun_driver_scalar_layout.py", "scripts/lib/zun_driver_scalar_runtime.py",
              "scripts/lib/zun_driver_alignment.py", "scripts/lib/zun_driver_command_layout.py",
              "scripts/lib/zun_driver_command_runtime.py",
+             "scripts/lib/zun_directory_controls.py",
+             "scripts/lib/zun_directory_source.py",
              "scripts/stage_th03_zun_driver.py", "scripts/verify_th03_zun_driver_hybrid.py",
              "config/th03_zun_init_fixups.json", "config/th03_zun_init_labels.json",
              "scripts/lib/zun.py", "scripts/lib/omf.py",
@@ -185,8 +188,16 @@ def build():
                 execute(dos + ["tlink", "@" + alias + ".rsp"],
                         WORK / "wrapper", f"round{number}:wrapper-" + alias + "-link")
                 collect(["wrapper/" + alias + "." + ext for ext in ("obj", "com", "map")])
-            candidate = compose_launcher(outputs["wrapper/stub.com"], outputs["wrapper/call.com"],
-                                         outputs["wrapper/helper.com"], recipe["options"], payloads)
+            need(recipe['options'] == ['-1','-2','-3','-4','-5'], 'actual five-name directory source contract')
+            definitions = dict(zip(('ONGCHK_BYTES','INIT_BYTES','ZUNSOFT_BYTES','DRIVER_BYTES','RES_YUME_BYTES'),map(len,payloads)))
+            definitions.update(STUB_BYTES=len(outputs['wrapper/stub.com']),CALL_BYTES=len(outputs['wrapper/call.com']))
+            execute(tasm + [f'/d{k}={v}' for k,v in definitions.items()] + ['meta.asm,meta.obj'],
+                    WORK/'wrapper',f'round{number}:directory-assemble')
+            execute(dos + ['tlink','@meta.rsp'],WORK/'wrapper',f'round{number}:directory-link')
+            collect(['wrapper/meta.'+ext for ext in ('obj','com','map')])
+            candidate = compose_native_launcher(outputs["wrapper/stub.com"], outputs["wrapper/call.com"],
+                                         outputs["wrapper/helper.com"], recipe["options"], payloads,
+                                         directory_bytes=outputs['wrapper/meta.com'])
             (WORK / "product/zun.com").write_bytes(candidate)
             outputs["product/zun.com"] = candidate
             # Give each DOS filename one case-insensitive owner while DIET
@@ -205,7 +216,7 @@ def build():
             (WORK / "product/zun.packed.com").write_bytes(packed)
             need(all((WORK / n).read_bytes() == b for n, b in files.items()), "consumed input drift")
             need(all((ROOT / n).read_bytes() == b for n, b in maintained.items()), "maintained source drift")
-            report["rounds"].append(dict(round=number, layout=layout,
+            report["rounds"].append(dict(round=number, layout=layout,directory_definitions=definitions,
                 directory=parse_launcher(candidate, len(outputs["wrapper/stub.com"])),
                 outputs={n: dict(bytes=len(b), sha256=sha(b)) for n, b in sorted(outputs.items())}))
             if previous is not None:
@@ -291,6 +302,8 @@ def build():
         from lib.zun_driver_alignment import run as alignment_controls
         report["driver_alignment_controls"] = alignment_controls(files, WORK.parent,
             [str(ROOT / profile["binary_path"]), *profile["assembler_flags"]], dos + ["tlink", "@link.rsp"], execute, target_driver)
+        from lib.zun_directory_controls import run as directory_controls
+        report['directory_source_controls'] = directory_controls(files,WORK.parent,tasm,dos,execute,decoded[223:547],definitions)
         need(recipe_inventory() == report["recipe_sha256"], "recipe changed during cold build")
         need(runtime_inventory() == report["consumed_runtime_sha256"], "consumed tiny runtime changed during cold build")
         need(sdk_inventory() == report["consumed_sdk_sha256"], "consumed SDK changed during cold build")

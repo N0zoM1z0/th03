@@ -1,0 +1,258 @@
+{
+  "schema": "th03-zun-directory-current-review-v1",
+  "complete": true,
+  "implementation_sha256": {
+    "scripts/review_th03_zun_format_work.py": "e3bfe3f21b183ff4c0538bc835a18dbf0acacafd904b6f9ce61465ebda2cdd85",
+    "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
+    "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "scripts/build_th03_zun_work.py": "6392793f0bfa565a6be96e03be3d58e5684dacdd1f0424f57d119b94609f51ef",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
+    "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/verify_th03_zun_driver_hybrid.py": "077a7c99279853282852bcb1f11f77e935796e0304a48fe9587a00a531cd1aa9",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
+    "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
+    "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
+    "scripts/review_th03_zun_lifecycle_work.py": "30f6b1871fba8cb0e086299bbb7763f8b1260b6d4ec37418f4b219117fc70504",
+    "scripts/lib/zun_driver_lifecycle_layout.py": "8492a992952db296145525a9266554256c8e5ca9fa3335d67f431ab3f69934db",
+    "scripts/lib/zun_driver_lifecycle_runtime.py": "8fd0cf5be17abf6ced865b48fd2bb8abf5176d82d93a39bc4fa0129c06e2cfbc",
+    "src/zun/driver_resident.inl": "eab59e2b554caa3e8493e17a6dc4df0658bc9ff7338ca9bd7e311ab7b9f0d3e5",
+    "scripts/lib/zun_driver_command_runtime.py": "77313ef4840dc280af400aeffa433414a69515f188ec4844a31df477bf2677fb",
+    "scripts/lib/zun_driver_scalar_runtime.py": "135e86482e6a1f30cb1225ae1193d89ffed5767539c82c996b551125a9b0418d",
+    "scripts/lib/zun_driver_scalar_layout.py": "53fb780c49959068b8ed6069e541bc92c18ea54916ed02f27a2b5593323fbc66",
+    "scripts/review_th03_zun_data_work.py": "9cf5a54366b232b05f07394510f4965cd4fff6474e18f91e3fe829ab4f6d3658",
+    "scripts/lib/zun_driver_data_layout.py": "81e528db2c3ecb11f4fd468583bbe369671936ac6facddaa108ea440ea34eebe",
+    "scripts/lib/zun_driver_data_runtime.py": "4d1b84649ff36611d4ad4a4f9d3b6805db223d4e53a690793077cb873dd1b255",
+    "src/zun/driver.asm": "5165e7eb5a910382668f6af2bba2b58e16929640f6e52f2077a143064a179c91",
+    "src/zun/driver_services.inl": "d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af",
+    "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
+    "scripts/review_th03_zun_wrapper_work.py": "027ec95fc328d74a3fefafbdb372a4e694ba6220fc21e14d5329f11d3590e7fd",
+    "scripts/lib/zun_wrapper_layout.py": "3eb065da33ecc4e77681e7bd16bbaa28c7f6ea50ecd19d8cfd30bdfb548a1fd8",
+    "scripts/lib/zun_wrapper_runtime.py": "e5eaa7712cf5d76fa7d84123723b29d32566c625b086c118cfe193b131671602",
+    "src/zun/launcher.asm": "edea80bed915491d6eb11bccca1eed83966a5d8fd84cbd746d7d4ce272bd02bd",
+    "src/zun/transfer_call.asm": "7b4634cbede7e9e19658f441eeecd108eecc2eea9b4d6e81815a758080bbeda9",
+    "src/zun/transfer_helper.asm": "d8e15f5d983e899d363b16c87a40ef4dbcc693c7f73e38cf330ecf3ae1369c8a",
+    "scripts/review_th03_zun_directory_work.py": "680cf88fff8641c3ba867d505cc46a1a8b90580296d474bdd5d7434925cba1df",
+    "scripts/lib/zun_directory_layout.py": "78830d460065bab9174d81c7be153044772ada302e0087b94c6e082064d9f34c",
+    "scripts/lib/zun_directory_runtime.py": "9e83116c24097e4fb7e7b60c5aef720f653d75ef0e08fd13f0e706bc5ab24de5",
+    "scripts/lib/zun_directory_controls.py": "8671c9c34b64fee2110928639a6d4032e65f3574d8c8b8667bb74a62e027f123",
+    "scripts/lib/zun_directory_source.py": "81255428bc6dab590672e2675a23d6a438e7c880d01484134b3af71856af6fb0",
+    "src/zun/directory.asm": "785ce74fafcb08cda8a26ac8cf379549470d74981cab7b214323e18ac98d8348"
+  },
+  "provenance": "candidate-local-attested",
+  "native_pair_built_now": true,
+  "whole_product_accepted": false,
+  "canonical_unit_credit_changed": false,
+  "cold_report_sha256": "5dcf4094f8a11789d3a2d05c5f8aa3a7e232a74f1dbdcb56269991798554e662",
+  "wrapper_report_sha256": "901a09dd9dd3f57cbe60214ecaf3d0659d6971fdd5940d1754260472164d2697",
+  "scope": {
+    "layout": {
+      "owners": [
+        {
+          "unit_id": "th03-zun-directory",
+          "source": "src/zun/directory.asm",
+          "object": "wrapper/meta.obj",
+          "include": "wrapper/meta.asm",
+          "start": 479,
+          "size": 324,
+          "origin": "authored",
+          "code_bytes": 0,
+          "data_bytes": 324,
+          "procedures": 0,
+          "coordinate_space": "decoded-launcher-com",
+          "payload_option": null,
+          "decoded_file_offset": 223,
+          "canonical_file_offset": null,
+          "format": "COM",
+          "ordered_relocations": [],
+          "ordered_native_fixups": [],
+          "argument_bytes": 0,
+          "callee_pop_bytes": 0,
+          "private_data_bytes": 324,
+          "private_bss_bytes": 0,
+          "abi": "five records in fixed 32-slot directory; near CS offsets from actual linked input lengths",
+          "target_sha256": "fbc847a9cf291fb8341ed197dfe641a03c54435c0e82149e503b6cfc593b378d",
+          "candidate_sha256": "fbc847a9cf291fb8341ed197dfe641a03c54435c0e82149e503b6cfc593b378d"
+        }
+      ],
+      "code_bytes": 0,
+      "data_bytes": 324,
+      "functions": 0,
+      "native_layout": {
+        "publics": {
+          "directory_count": 256,
+          "directory_names": 258,
+          "directory_entries": 514,
+          "directory_end": 580
+        },
+        "native_records": [
+          {
+            "kind": "LEDATA",
+            "start": 256,
+            "size": 42,
+            "encoded_bytes": 42
+          },
+          {
+            "kind": "LIDATA",
+            "start": 298,
+            "size": 216,
+            "encoded_bytes": 10
+          },
+          {
+            "kind": "LEDATA",
+            "start": 514,
+            "size": 12,
+            "encoded_bytes": 12
+          },
+          {
+            "kind": "LIDATA",
+            "start": 526,
+            "size": 54,
+            "encoded_bytes": 11
+          }
+        ],
+        "ordered_native_fixups": [],
+        "com_relocations": [],
+        "initialized_bytes": 324,
+        "uninitialized_ORG_prefix_bytes": 256,
+        "private_bss_bytes": 0
+      },
+      "semantic": {
+        "count": 5,
+        "capacity": 32,
+        "names_bytes": 256,
+        "entry_words": 33,
+        "ordered_payload_boundaries": [
+          806,
+          1732,
+          3122,
+          13218,
+          17442,
+          23060
+        ],
+        "unused_name_bytes": 216,
+        "unused_entry_words": 27,
+        "data_bytes": 324
+      },
+      "native_definitions": {
+        "ONGCHK_BYTES": 926,
+        "INIT_BYTES": 1390,
+        "ZUNSOFT_BYTES": 10096,
+        "DRIVER_BYTES": 4224,
+        "RES_YUME_BYTES": 5618,
+        "STUB_BYTES": 223,
+        "CALL_BYTES": 3
+      },
+      "outer_publics": {
+        "directory_count": 479,
+        "directory_names": 481,
+        "directory_entries": 737,
+        "directory_end": 803
+      },
+      "original_generation_tool_identified": false,
+      "payloads_owned": false,
+      "enclosing_product_accepted": false
+    },
+    "runtime": {
+      "images": 2,
+      "functions": 0,
+      "code_bytes": 0,
+      "data_bytes": 324,
+      "cases_per_image": 42,
+      "observations": [
+        {
+          "load_segment": 4096,
+          "split_stack": false,
+          "cases": 21,
+          "trace_sha256": "4fd3d7d2a8d45509defe9f1321ba859fe8966296df392e55be68152de4c6823a",
+          "maximum_observed_stack_depth": 4
+        },
+        {
+          "load_segment": 12288,
+          "split_stack": true,
+          "cases": 21,
+          "trace_sha256": "a72b1de6971f739d79fc50bac2c5ba94bd1e65f05076cae172794d838080303c",
+          "maximum_observed_stack_depth": 4
+        }
+      ],
+      "actual_wrapper_readers": true,
+      "payload_instructions_executed": false,
+      "all_memory_and_ordered_stores_checked": true,
+      "unused_slots_have_execution_credit": false
+    },
+    "negative_controls": {
+      "initial_DATA_byte_mutations_rejected": 324,
+      "actual_reader_DATA_mutations_rejected": [
+        "name-0",
+        "name-1",
+        "name-2",
+        "name-3",
+        "name-4",
+        "boundary-0",
+        "boundary-1",
+        "boundary-2",
+        "boundary-3",
+        "boundary-4",
+        "boundary-5"
+      ],
+      "actual_reader_DATA_mutation_count": 11,
+      "instruction_mutations": 0,
+      "static_mutations_have_execution_credit": false
+    },
+    "native_source_controls": {
+      "count": 2,
+      "source_only": true,
+      "object_patches": false,
+      "controls": [
+        {
+          "capacity": 31,
+          "bytes": 314,
+          "byte_exact_rejected": true,
+          "source_sha256": "6aaf0bb58cb8ccc601c83b084420c0620aac678b774cb4a9578022cd1152d51b",
+          "candidate_sha256": "7bea693ed1bd1939cc29adb9cbf7b93d0c71d7a97c45de655f58e5f0084753b6",
+          "object_sha256": "49d3720460ae343c10ffc19d2e1a004c81d8bd2cccd801e5ff405e6fa0fa338e",
+          "changed_source_declarations": [
+            "DIRECTORY_CAPACITY"
+          ],
+          "native_definitions": {
+            "ONGCHK_BYTES": 926,
+            "INIT_BYTES": 1390,
+            "ZUNSOFT_BYTES": 10096,
+            "DRIVER_BYTES": 4224,
+            "RES_YUME_BYTES": 5618,
+            "STUB_BYTES": 223,
+            "CALL_BYTES": 3
+          }
+        },
+        {
+          "capacity": 33,
+          "bytes": 334,
+          "byte_exact_rejected": true,
+          "source_sha256": "e27c76b192020b383f672bf2d5513f17abb6c27a304137dd191df20997d5595f",
+          "candidate_sha256": "67575863cdaeb39cde61971c0c517efb4c09f7db89044f992951290d0f18d638",
+          "object_sha256": "f0cfe6215b6eb9128abe8c17f076ef6504b14fb052c3453f2cf709f1167d4ba2",
+          "changed_source_declarations": [
+            "DIRECTORY_CAPACITY"
+          ],
+          "native_definitions": {
+            "ONGCHK_BYTES": 926,
+            "INIT_BYTES": 1390,
+            "ZUNSOFT_BYTES": 10096,
+            "DRIVER_BYTES": 4224,
+            "RES_YUME_BYTES": 5618,
+            "STUB_BYTES": 223,
+            "CALL_BYTES": 3
+          }
+        }
+      ]
+    }
+  }
+}

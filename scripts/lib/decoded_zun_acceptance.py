@@ -32,6 +32,7 @@ from review_th03_zun_graphics_work import current_scope as graphics_scope
 from review_th03_zun_lifecycle_work import current_scope as lifecycle_scope
 from review_th03_zun_data_work import current_scope as data_scope
 from review_th03_zun_wrapper_work import current_scope as wrapper_scope
+from review_th03_zun_directory_work import current_scope as directory_scope
 from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_oracle_rows
 
 
@@ -44,7 +45,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_zun_acceptance.py", "scripts/publish_th03_z
                 "scripts/review_th03_zun_graphics_work.py", "scripts/lib/zun_driver_graphics_layout.py", "scripts/lib/zun_driver_graphics_runtime.py",
                 "scripts/review_th03_zun_lifecycle_work.py", "scripts/lib/zun_driver_lifecycle_layout.py", "scripts/lib/zun_driver_lifecycle_runtime.py",
                 "scripts/review_th03_zun_data_work.py", "scripts/lib/zun_driver_data_layout.py", "scripts/lib/zun_driver_data_runtime.py",
-                "scripts/review_th03_zun_wrapper_work.py", "scripts/lib/zun_wrapper_layout.py", "scripts/lib/zun_wrapper_runtime.py")
+                "scripts/review_th03_zun_wrapper_work.py", "scripts/lib/zun_wrapper_layout.py", "scripts/lib/zun_wrapper_runtime.py",
+                "scripts/review_th03_zun_directory_work.py", "scripts/lib/zun_directory_layout.py", "scripts/lib/zun_directory_runtime.py", "scripts/lib/zun_directory_controls.py", "scripts/lib/zun_directory_source.py")
 
 
 def need(value, message):
@@ -243,10 +245,10 @@ def audit(root):
     need([r["round"] for r in report["rounds"]] == [1, 2], "two independent source rounds")
     outputs = report["rounds"][0]["outputs"]
     expected = {f"{base}.{ext}" for base in ("init/init", "obj/th01/zunsoft", "obj/th03/res_yume",
-        "driver/driver", "wrapper/stub", "wrapper/call", "wrapper/helper")
+        "driver/driver", "wrapper/stub", "wrapper/call", "wrapper/helper", "wrapper/meta")
         for ext in (("obj", "map", "com") if base not in ("obj/th01/zunsoft", "obj/th03/res_yume") else ("obj", "map"))}
     expected |= {"bin/th01/zunsoft.com", "bin/th03/res_yume.com", "product/zun.com", "product/zun.packed.com"}
-    need(len(outputs) == 23 and set(outputs) == expected and outputs == report["rounds"][1]["outputs"],
+    need(len(outputs) == 26 and set(outputs) == expected and outputs == report["rounds"][1]["outputs"],
          "complete raw cold output vector")
     for name, row in outputs.items():
         raw = (work / name).read_bytes()
@@ -262,9 +264,10 @@ def audit(root):
     for rnd in (1, 2):
         labels += [f"round{rnd}:" + phase for phase in ("init-assemble", "init-link", "zunsoft-compile", "zunsoft-link",
             "res_yume-compile", "res_yume-link", "driver-assemble", "driver-link", "wrapper-stub", "wrapper-stub-link",
-            "wrapper-call", "wrapper-call-link", "wrapper-helper", "wrapper-helper-link", "pack", "roundtrip")]
+            "wrapper-call", "wrapper-call-link", "wrapper-helper", "wrapper-helper-link", "directory-assemble", "directory-link", "pack", "roundtrip")]
     labels += ["restore-target"]
     labels += ["control:" + name + "-" + phase for name in ("word", "no-even") for phase in ("assemble", "link")]
+    labels += [f'control:directory-capacity-{capacity}-{phase}' for capacity in (31,33) for phase in ('assemble','link')]
     need([p["label"] for p in report["native_phases"]] == labels and
          all(p["returncode"] == (1 if p["label"] == "restore-target" or p["label"].endswith((":pack", ":roundtrip")) else 0)
              for p in report["native_phases"]), "complete serial native execution schedule")
@@ -322,18 +325,19 @@ def audit(root):
     lifecycle = lifecycle_scope(root, work, target_driver, candidate_driver, at, files, maintained, raw_report)
     data = data_scope(root, work, target_driver, candidate_driver, at, files, maintained, raw_report)
     wrapper = wrapper_scope(root, work, decoded, candidate, files, maintained, raw_report)
+    directory_data = directory_scope(root, work, decoded, candidate, files, maintained, raw_report)
     controls = report["driver_alignment_controls"]
     need(controls["count"] == 2 and controls["source_only"] and not controls["object_patches"]
          and [c["name"] for c in controls["controls"]] == ["word", "no-even"]
          and all(c["byte_exact_rejected"] and c["all_procedure_includes_unchanged"] and c["changed_inputs"] == ["driver.asm"]
                  and c["target_bytes"] == 4224 and c["differing_bytes"] > 0 for c in controls["controls"]), "two actual native alignment controls")
-    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"] + command["layout"]["owners"] + formatter["layout"]["owners"] + graphics["layout"]["owners"] + lifecycle["layout"]["owners"] + data["layout"]["owners"] + wrapper["layout"]["owners"]
+    owners = scope["layout"]["owners"] + resident["layout"]["owners"] + init["layout"]["owners"] + driver["layout"]["owners"] + command["layout"]["owners"] + formatter["layout"]["owners"] + graphics["layout"]["owners"] + lifecycle["layout"]["owners"] + data["layout"]["owners"] + wrapper["layout"]["owners"] + directory_data["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
         u = units[o["unit_id"]]
         outer = o["coordinate_space"] == "decoded-launcher-com"
-        need((outer and o["unit_id"] in {"th03-zun-launcher", "th03-zun-transfer-call", "th03-zun-transfer-helper"}
+        need((outer and o["unit_id"] in {"th03-zun-launcher", "th03-zun-transfer-call", "th03-zun-transfer-helper", "th03-zun-directory"}
               and o["payload_option"] is None) or (not outer and o["coordinate_space"] == "decoded-payload-com"
               and o["payload_option"] in {"-2", "-3", "-4", "-5"}), "separate outer and child COM coordinate spaces")
         segment = "decoded-COM" if outer else "decoded:" + o["payload_option"]
@@ -354,14 +358,14 @@ def audit(root):
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
                 consumed_runtime_sha256=report["consumed_runtime_sha256"], source_inventory_sha256=digest(report["source_sha256"]),
                 consumed_sdk_sha256=report["consumed_sdk_sha256"],
-                input_files=len(files), vendor_inputs=2, outputs_per_round=23, project_objects_per_round=7, rounds=2,
+                input_files=len(files), vendor_inputs=2, outputs_per_round=26, project_objects_per_round=8, rounds=2,
                 decoded_sha256=sha(decoded), stored_sha256=sha(stored), payload_sha256=sha(target_logo),
                 resident_payload_sha256=sha(target_resident),
                 init_payload_sha256=sha(target_init),
                 driver_payload_sha256=sha(target_driver),
                 driver_alignment_controls=controls,
                 scope=dict(owners=owners, layout=scope["layout"], runtime=scope["runtime"],
-                           negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver, command=command, formatter=formatter, graphics=graphics, lifecycle=lifecycle, data=data, wrapper=wrapper), current_smoke=current_smoke,
+                           negative_controls=scope["negative_controls"], resident=resident, init=init, driver=driver, command=command, formatter=formatter, graphics=graphics, lifecycle=lifecycle, data=data, wrapper=wrapper, directory=directory_data), current_smoke=current_smoke,
                 resident_smoke=resident_smoke(target_resident, candidate_resident),
                 init_smoke=init_smoke(target_init, candidate_init),
                 driver_smoke=driver_smoke(target_driver, candidate_driver),
@@ -391,12 +395,12 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=75, decoded_authored_bytes=1855, decoded_library_bytes=4140,
-                decoded_authored_code_bytes=1834, decoded_authored_data_bytes=21,
+                reviewed_proof_ready=True, decoded_exact_units=76, decoded_authored_bytes=2179, decoded_library_bytes=4140,
+                decoded_authored_code_bytes=1834, decoded_authored_data_bytes=345,
                 decoded_wrapper_entry_points=3,
                 decoded_library_code_bytes=2846, decoded_library_data_bytes=1294,
                 decoded_original_asm_bytes=1390, decoded_original_asm_code_bytes=607, decoded_original_asm_data_bytes=783,
-                decoded_source_bytes=7385, decoded_code_bytes=5287, decoded_procedures=79, reviewed_producer_data_bytes=2420,
+                decoded_source_bytes=7709, decoded_code_bytes=5287, decoded_procedures=79, reviewed_producer_data_bytes=2744,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 payload_options=["-2", "-3", "-4", "-5"], product_exact=False, mixed_physical_exact_bytes=0,
                 canonical_credit_changed=False, factory_accepted=False, whole_game_percentage=None,

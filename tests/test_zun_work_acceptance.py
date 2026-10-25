@@ -24,8 +24,8 @@ class CurrentZunAcceptance(unittest.TestCase):
 
     def test_physical_replay_accepts_all_current_bounded_decoded_scopes(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (75, 1855))
-        self.assertEqual((result["decoded_authored_code_bytes"],result["decoded_authored_data_bytes"]),(1834,21))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (76, 2179))
+        self.assertEqual((result["decoded_authored_code_bytes"],result["decoded_authored_data_bytes"]),(1834,345))
         self.assertEqual(result["decoded_library_bytes"], 4140)
         self.assertEqual(result["decoded_library_data_bytes"], 1294)
         self.assertEqual(result["decoded_original_asm_bytes"], 1390)
@@ -120,9 +120,9 @@ class CurrentZunAcceptance(unittest.TestCase):
         with (ROOT / "config/units.csv").open() as stream: units = list(csv.DictReader(stream))
         result = verify(ROOT, self.publication)
         svg = progress.render_svg(units, [], [], zun_status=result)
-        self.assertIn("Decoded extents 75/77", svg)
+        self.assertIn("Decoded extents 76/78", svg)
         self.assertIn("5,287 CODE B", svg)
         self.assertIn("ASM/library separate", svg)
-        self.assertIn("177 instruction + 6 DATA runtime mutations", svg)
+        self.assertIn("177 instruction + 17 DATA runtime mutations", svg)
         self.assertNotIn("10 target differences", svg)
         self.assertIn("whole-game totals remain unknown", svg)

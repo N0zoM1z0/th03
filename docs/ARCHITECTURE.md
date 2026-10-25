@@ -72,15 +72,28 @@ The outer ZUN launcher and two transfer TUs own 213 CODE + 21 DATA bytes.
 Nine native WORD fixups bind the root's counts, names, entries and scratch word;
 the transfer CALL/helper have none. Three individually linked tiny objects
 keep their ORG 0100 and native entry/group records, then compose at their actual
-outer COM positions. The 324-byte directory metadata receives no TU credit.
+outer COM positions. The three wrapper TUs exclude the directory metadata.
 FCB filename bytes select the payload independently of the selector text.
 Success leaves a WORD remaining count on the caller stack; the trailing helper
 discards its CALL return and enters 0100 before any payload instruction runs.
 Direct transfer contracts require DF clear, DI=0100 and a bounded payload span.
 Three explicit DOS AL reply policies expose the AH-only termination status.
 Complete memory and ordered stores are checked, including transient stack words,
-forward overlapping moves and an SS different from DS. The generated directory,
-unowned payload/runtime dependencies and whole-product source ownership remain open.
+forward overlapping moves and an SS different from DS. Unowned payload/runtime
+dependencies and whole-product source ownership remain open.
+
+The directory now has its own maintained semantic DATA TU under `src/zun`.
+TASM/TLINK emit all 324 bytes from the count, fixed names, 32-slot ABI and seven
+actual linked-length definitions. Four public labels rebase to count 01DF,
+names 01E1, entries 02E1 and following CALL 0323. Six ordered WORD boundaries
+cover the five opaque payloads; unused names and entry words are format slots.
+Two literal OMF records and two bounded iterated records explain all storage.
+The compositor consumes the complete linked directory directly; its independent
+format contract checks every field. Capacity-31/33 native source controls emit
+314/334 bytes and fail equality. No CODE or payload ownership follows from this
+DATA scope, and the original directory generation tool remains unidentified.
+The native composition adapter has its own module; the shared historical
+constructor remains byte-identical to the promoted MAIN scheduling pin.
 
 `src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
 CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.

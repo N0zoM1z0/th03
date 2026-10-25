@@ -26,9 +26,9 @@
    Its `--current-cold` mode revalidates the entire source/SDK/output graph before
    replaying all sound gates. Counter-update fixtures do not prove elapsed time
    or physical IRQ delivery. Adjacent explicit codestring padding remains open.
-   Use `scripts/review_th03_zun_wrapper_work.py` for the complete ZUN cold pair,
-   formatter, graphics, lifecycle, header/DATA and wrapper reviews. It invokes the DATA/lifecycle/graphics/formatter
-   chain once. All five support `--current-cold` to revalidate existing source/output-bound
+   Use `scripts/review_th03_zun_directory_work.py` for the complete ZUN cold pair,
+   formatter, graphics, lifecycle, header/DATA, wrapper and directory reviews. It invokes the wrapper/DATA/lifecycle/graphics/formatter
+   chain once. All six support `--current-cold` to revalidate existing source/output-bound
    prerequisites and rerun their own full gates without rebuilding.
    Publish ZUN scopes after this review. DATA consumers must read the original
    defaults/messages/tables from the initialized image; mutable argument inputs
@@ -42,7 +42,12 @@
    Wrapper coordinates belong to the outer decoded COM, not a child payload.
    Check all registers, defined flags, ordered stores and complete memory;
    preserve the retained count WORD and stop before payload execution. The
-   directory's 324 metadata bytes receive no wrapper-TU credit. Direct transfer
+   directory's 324 metadata bytes receive separate DATA-TU credit. Check all
+   seven actual linked-length definitions in both cold rounds, complete raw
+   OBJ/COM/MAP outputs, bounded LIDATA expansion and both capacity controls.
+   Native directory composition lives in `lib/zun_directory_source.py`; the
+   shared `lib/zun.py` remains a frozen MAIN scheduling input. Keep its pin.
+   Unused format slots have no instruction-execution credit. Direct transfer
    entry cases require DF=0. DOS AL replies are explicit bounded policies;
    do not assume that AH-only termination clears the exit status.
    `scripts/probe_th03_sound_nop_layout.py` is a non-accepting diagnosis over
