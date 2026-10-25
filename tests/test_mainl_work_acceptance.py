@@ -24,8 +24,10 @@ class MainlWorkAcceptance(unittest.TestCase):
 
     def test_live_physical_replay_accepts_current_decoded_owners_only(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (52, 5617))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (53, 5841))
         self.assertEqual(result["decoded_authored_procedures"],58)
+        self.assertEqual(result["decoded_authored_code_bytes"],5617)
+        self.assertEqual(result["decoded_authored_initialized_data_bytes"],224)
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
 
@@ -41,7 +43,7 @@ class MainlWorkAcceptance(unittest.TestCase):
             result=verify(ROOT,self.publication)
         owner,=[o for o in self.publication['audit']['scope']['owners'] if o['unit_id']=='th03-mainl-decoded-snow-cluster']
         self.assertEqual((owner['size'],owner['procedure_count'],len(owner['procedures'])),(464,7,7))
-        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(52,58))
+        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(53,58))
 
     def test_one_missing_gate_rejects_the_owner(self):
         owner = next(iter(self.publication["owner_oracles"].values()))
@@ -82,8 +84,9 @@ class MainlWorkAcceptance(unittest.TestCase):
         result = verify(ROOT, self.publication)
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [])
-        self.assertIn("Decoded acceptance: exact 52/149", svg)
-        self.assertIn("52 extents / 58 procedures / 5,617 B", svg)
+        self.assertIn("Decoded acceptance: exact 53/150", svg)
+        self.assertIn("53 extents / 58 procedures / 5,841 B", svg)
+        self.assertIn("CODE 5,617 / DATA 224", svg)
         self.assertIn("938 raw outputs", svg)
         self.assertNotIn("MAINL product + decoded accepted", svg)
-        self.assertNotIn("exact 149/149", svg)
+        self.assertNotIn("exact 150/150", svg)
