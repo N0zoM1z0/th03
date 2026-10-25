@@ -63,8 +63,8 @@ class Renderers(unittest.TestCase):
         bad=deepcopy(s);bad['layout']['containing_producer_accepted']=True
         with self.assertRaisesRegex(ValueError,'bounded complete native'):witness(bad)
 class MenuLedger(unittest.TestCase):
-    def test_two_renderers_and_input_state_partition_the_old_menu_span(self):
+    def test_two_renderers_and_three_menu_functions_partition_the_old_span(self):
         with (ROOT/'config/units.csv').open() as stream:units={u['id']:u for u in csv.DictReader(stream)}
-        spans=[(int(units[i]['offset'],0),int(units[i]['size'],0)) for i in ('th03-op-decoded-render-main-choice','th03-op-decoded-render-option-choice','th03-op-decoded-menu-state')]
-        self.assertEqual(spans,[(0x5DD,122),(0x657,330),(0x7A1,886)]);self.assertEqual(sum(s for _,s in spans),1338)
+        spans=[(int(units[i]['offset'],0),int(units[i]['size'],0)) for i in ('th03-op-decoded-render-main-choice','th03-op-decoded-render-option-choice','th03-op-decoded-menu-move','th03-op-decoded-menu-state','th03-op-decoded-menu-option')]
+        self.assertEqual(spans,[(0x5DD,122),(0x657,330),(0x7A1,63),(0x7E0,291),(0x903,532)]);self.assertEqual(sum(s for _,s in spans),1338)
         self.assertTrue(all(a+s==b for (a,s),(b,_) in zip(spans,spans[1:])))

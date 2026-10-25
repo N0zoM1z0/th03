@@ -7,11 +7,11 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `a02fcc9` (complete OP story caller acceptance).
+- Previous pushed checkpoint: `fbaf9cf` (natural Music Room call and bounded call ABI).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **twenty-eight accepted decoded source functions / 2,734 bytes**. The
+- OP now has **thirty accepted decoded source functions / 3,329 bytes**. The
   three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
@@ -223,9 +223,10 @@ remain in [README.md](../README.md).
   memory outside 48 private stack bytes pass; maximum depth is 26. The real
   library LCG adds no ownership credit, nor do the 139 static DATA dependency
   bytes. Selector/OS/device replies remain bounded; all-DWORD-seed termination
-  and successful exec remain unproved. OP totals **28 functions / 2,734 CODE
-  bytes**, 75 ordered MZ relocations, 36,628 cases per image and 229 instruction
-  mutations. Whole-entry/product ownership remains open. Replay with
+  and successful exec remain unproved. At that checkpoint OP covered 28 functions / 2,734 CODE bytes. The
+  movement/option scope below brings the current totals to **30 functions /
+  3,329 CODE bytes**, 84 ordered MZ relocations, 53,198 cases per image and
+  264 instruction mutations. Whole-entry/product ownership remains open. Replay with
   `review_th03_op_story_work.py --current-cold` or default for a fresh chain.
 - Music Room now uses ordinary `musicroom_menu()` with a true `samecodeseg`
   declaration in `menu_state.inl`, removing the explicit call assembly. TC4
@@ -240,8 +241,9 @@ remain in [README.md](../README.md).
   **192 cases per image** at two loads. All WORD/DWORD/ESP, six segments, defined
   flags, ordered stores and every physical memory byte pass, with zero ignored
   stack bytes. Three real instruction controls fail. Stop before the callee's
-  first instruction; the encompassing 886-byte menu scope and callee remain
-  unaccepted, so OP stays 28 functions / 2,734 CODE bytes. Original source
+  first instruction; it grants no encompassing-menu or callee acceptance.
+  The later movement/option review below leaves only the 291-byte main caller
+  unaccepted within that former 886-byte menu span. Original source
   organization remains unidentified. Replay `review_th03_op_music_call_work.py`
   after the full OP chain; see `config/op_music_call_work/observation.json`.
   `lib/op_current_source.py` keeps old stagers/pins unchanged: a temporary read
@@ -249,6 +251,25 @@ remain in [README.md](../README.md).
   overlays the live source before compilation. Other inputs remain live and
   checked. The view is removed without native outputs; historical regression
   fixtures use original Git inputs and retain unchanged expected inventories.
+- The complete **63-byte movement / 532-byte option caller** now pass current
+  native/behavior gates: 65 literal ordered native fields and nine MZ relocations.
+  Their unchanged source/SDK/recipe/output-bound cold pair is revalidated.
+  **16,570 cases per image** at two loads execute all 595 owner instruction bytes
+  plus 567 real main/option-renderer, KAJA, mode, box and delay bytes. Thirty-five
+  actual instruction mutations fail. Keep signed BYTE wrap and two separate
+  movement comparisons, high parameter WORD bytes, the live near callback,
+  UP-before-DOWN and RIGHT-before-LEFT. Enabled sound flips draw twice per side;
+  disabled sound still draws once. Confirm and cancel independently issue exit
+  stores; release requires a zero WORD sample. Mode detection retains the
+  non-Boolean MIDI fallback and inherited FM flag on AL=FF. Full WORD/DWORD/ESP,
+  six segments, defined flags, ordered non-stack stores and all physical memory
+  outside 64 private stack bytes pass; observed depth is 38. SDK/driver replies
+  and finite IRQ-counter samples remain bounded interfaces. The existing source
+  span is refined without adding source-present bytes: movement 63, main 291,
+  option 532. The main caller and thirteen inline switch bytes retain no current
+  acceptance. Replay `review_th03_op_option_work.py --current-cold`; see
+  `config/op_option_work/observation.json`. Whole-entry/product ownership and
+  canonical packed-unit credit remain open/unchanged.
 - Sound trailing-byte layout has a new **diagnostic**, with no source/exact
   promotion. `probe_th03_sound_nop_layout.py` recompiles nine selected OP/MAINL
   copies without their active trailing codestrings, assembles compiler output,
@@ -755,8 +776,8 @@ remain in [README.md](../README.md).
   before `_snd_se_reset`; 1DB05 is DGROUP:05A5, between `vsync_OldMask` at05A4
   and `BYTE_MASK` at05A6. Music Room's same-CS call fix does not explain these
   remaining CODE-boundary and DATA-alignment questions.
-- Last full CI: PASS, 2,100 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 6m23s at about 512 MiB peak RSS, no swap.
+- Last full CI: PASS, 2,111 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 5m56s at about 507 MiB peak RSS, no swap.
   MAINL's complete new root helper review took 10m07s at 139 MiB, no swap,
   revalidating the existing native pair; all physical stack bytes are checked.
   The complete new VS caller review took 2m07s at 137 MiB, no swap, revalidating
@@ -770,7 +791,8 @@ remain in [README.md](../README.md).
   separate constructed ONGCHK candidate review took 4s at 81 MiB, without swap.
   The complete ONGCHK full-state review took 18m27s at 172 MiB, without swap,
   revalidating that unchanged source/SDK/recipe/output cold pair.
-  The complete OP story review took 2m19s at 143 MiB, without swap, revalidating
+  The movement/option review took 1m37s at 124 MiB, no swap,
+  revalidating the unchanged pair. The complete OP story review took 2m19s at 143 MiB, without swap, revalidating
   the unchanged pair and checking every ordered store between memory comparisons.
   The latest full OP cold/runtime chain with the natural Music Room producer
   took 11m22s at 143 MiB, no swap. Its separate native source-control/call-frame
@@ -830,13 +852,15 @@ ABI and byte credit are recorded separately in the ledgers.
    input/demo/delay helpers. Initializer, KAJA and the duplicate frame_delay_2
    also pass current gates; the duplicate still uses vsync_Count1. Continue with
    the broader menu/resource scopes. Three choice renderers and both the VS365
-   and story390 callers now pass; the input/callback-state886 bytes still need current
-   behavior/ownership gates. The PMD-mode source still has an explicit
+   and story390 callers now pass; movement63 and option532 now also pass.
+   Main291 remains source-present without current acceptance. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
-   The main menu's Music Room call now has natural same-CS far-call source,
-   native link and complete call-frame proof. The complete main caller still
-   needs its broader behavior/ownership gates; movement and option bodies are
-   separate source/behavior scopes inside the remaining 886 bytes.
+   The main menu's Music Room call has natural same-CS far-call source,
+   native link and complete call-frame proof. Movement63 and option532 now pass
+   complete current scopes. Continue with main291: 278 instruction bytes plus
+   thirteen native switch/separator bytes. Its actual story/VS/score/attract
+   nesting still needs a compositional full-state model; keep those owned
+   helpers executing and preserve their static state across menu handoffs.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
    All 55 -4 driver procedures now pass bounded current gates: sixteen scalar,
    nine command, ten formatter, twelve graphics and eight lifecycle. The eight

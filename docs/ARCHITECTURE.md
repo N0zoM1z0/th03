@@ -221,6 +221,21 @@ temporary read view: only the original menu input comes from Git checkpoint
 All other historical inputs remain live and must still pass their original
 checks. The read view is removed immediately and contains no native outputs.
 
+The shared menu movement and option caller own 63 and 532 instruction bytes.
+Sixty-five ordered native fields cover own CODE/DATA/BSS group references,
+external state, normal near calls and nine far-call relocations. Movement uses
+signed BYTE arithmetic and near Pascal WORD parameter slots, then invokes the
+live callback before and after wrapping. Option handles UP/DOWN and RIGHT/LEFT
+independently, preserves debounce state, and can issue both confirm/cancel exits.
+Its real main/option renderers, KAJA, mode detection, title box and delay execute:
+567 nested instruction bytes add no ownership beyond their separate scopes.
+The 16,570 cases per image reject 35 instruction mutations and check complete
+WORD/DWORD/segment registers, flags, ordered stores and physical memory outside
+64 private stack bytes. Graphics/text/driver replies and finite counter updates
+remain explicit interfaces. The former 886-byte menu extent is partitioned into
+63/291/532 bytes without increasing source-present totals; the 291-byte main
+caller remains open, including its thirteen inline non-instruction bytes.
+
 A bounded sound layout diagnostic separates instruction recovery from unresolved
 trailing bytes. Removing active codestrings in disposable source copies preserves
 all nine selected OP/MAINL function bodies. Ordinary compiler-assembly output

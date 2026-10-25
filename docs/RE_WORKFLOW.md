@@ -31,6 +31,14 @@
    the ordinary source far call, native group frame, TLINK relaxation and full
    call-site ABI. Its fresh source control omits `samecodeseg` and must fail
    target equality. It grants no enclosing menu or callee implementation credit.
+   `review_th03_op_option_work.py` extends the full cold/story chain with the
+   complete movement/option native and runtime gates; use `--current-cold`
+   when all source/SDK/recipe/output bindings remain unchanged. Its two scopes
+   execute actual renderers, KAJA, mode, box and delay. Keep main291 separate;
+   the thirteen main switch/separator bytes are not instruction coverage.
+   Parameter high bytes remain live on the caller stack even when only the
+   signed low BYTE is consumed. Do not merge independent directional keys,
+   double sound redraws or confirm/cancel exit stores.
    Historical graph tests materialize their original Git inputs separately.
    OP and MAINL sound scopes use independently checked native layouts
    with a shared execution core; refresh both reports after core changes.

@@ -1,0 +1,872 @@
+{
+  "schema": "th03-op-option-current-observation-v1",
+  "observed_utc": "2026-10-25T07:08:13.059984Z",
+  "command": ".venv/bin/python scripts/review_th03_op_option_work.py --current-cold",
+  "provenance": "candidate-local-attested",
+  "source_acceptance": false,
+  "publication": "config/op_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false,
+  "native_pair_built_now": false,
+  "implementation_sha256": {
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/op_cfg_runtime.py": "bd474bb123b68f3ef6b80afe282b3ca5b4e1a6dcf9f5775c764926f7a82e6340",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "scripts/build_th03_op_work.py": "727e30e04cc699e8fcab9ad0834f91077b02bc5a6766815da047776794efc581",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_op_dispatch_work.py": "98954c5d7e67699768a89dfae9497b6e19e0ed1cd90636fc7591f91ee26bef15",
+    "scripts/lib/op_dispatch_layout.py": "d92f02cb12224357738e38943f3e529636d4f1812ab17d03d2fae5c83e7d40c7",
+    "scripts/lib/op_dispatch_runtime.py": "ac9a0fba42934460dec0631da876ed53628a1e697e9451cf36bc9f80e8054b45",
+    "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b",
+    "scripts/review_th03_op_attract_work.py": "55ff0d6b87a5bbf5a079ed4199c507301ffae6c27a1c5be3cbfff35474389eac",
+    "scripts/lib/op_attract_layout.py": "1428865341b822bb9dfeabd221fd0a9eb58553d8fe973b302c492f56cf71e74a",
+    "scripts/lib/op_attract_runtime.py": "cc7c22ec7e8274533eb91ff0cb3919132a53403bf6cdef8fd577c5ecd6ac3337",
+    "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a",
+    "scripts/lib/shared_sound_runtime.py": "81ee79f15e84f72bd7699189b7ba6d9587a607087fe446f554deeb928ddb787d",
+    "scripts/lib/op_sound_layout.py": "694031ce840f082fa8e63d7917124356258cf245a5382695cbeeb1419508aa1c",
+    "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
+    "scripts/review_th03_op_sound_work.py": "bd569f3260c7d2c5ee51ceed59a57c48a80e3800d1e58facfd324983301b0f15",
+    "scripts/lib/op_sound_runtime.py": "219f402dfb825083b32b6dcc62332909ef63647970364c1fa162aa44ab766fba",
+    "scripts/lib/decoded_mainl_sound_runtime.py": "752336a44acf9d8a09983acee463be56fa9d061a8f790aed9b5510cc172e1ca2",
+    "src/shared/sound/load.cpp": "bcde0f8ef6ad4bbbf6129c1f54723ebdeddf53f4d2b36d92971b2e1e3d37cc86",
+    "src/shared/hardware/frame_delay.cpp": "ed2f70e85534cc513624762e337b7e860b491c27260b1a9d5ff61dff3df309dc",
+    "scripts/review_th03_op_helpers_work.py": "790a7a5d88a594c530e22ca2fd6ae4c6c4ceefb33ff7ae22d91c4e868a19d0a5",
+    "scripts/lib/op_helpers_layout.py": "df02d2c2fa6562a4f220dfcd508ee98bf6c541ea25e048da7a5cb945f1539e18",
+    "scripts/lib/op_helpers_sound_runtime.py": "0ed1311b07bdb0fceeb3d8865bcb03d611ac6b505917f7511c6911209cacf453",
+    "scripts/lib/op_init_runtime.py": "c4071ca695619c1b460f2e3d5ff7a5c82d5318af5bf2acd018ecb11d881fd8bf",
+    "src/op/hardware/frame_delay_2.cpp": "535b33cb9cd4e03e0a49e30439d1358c1b0ade0998b906b53d24ca2b0e4f3f1b",
+    "src/op/snd/kaja_interrupt.cpp": "a6c773a98bcaf565cf6a8a05b477d0548fe72498574bdc1b87b8ace12a539c2e",
+    "src/op/core/initop.cpp": "8d0a9bf147fc4dda35fa041c83d163c458dbe452fba03bbc1a14d3b591116a29",
+    "scripts/review_th03_op_render_work.py": "9dac86fec8ce23055be5d93cf2e3e2befb254726618d5f99f316c41082ff7cbf",
+    "scripts/lib/op_render_layout.py": "4437542ab777a31867ecd73691809154d1af0c4cec2687edb1c6af490b5fb056",
+    "scripts/lib/op_render_runtime.py": "8c350dbffd244c3d82edbfb6e32de3cae9fb8c6006a2cc34fbf628cfdfd31b18",
+    "src/op/menu/menu_state.inl": "6a02a8988535ce59a70790e821b78437dc0f2979103767588fc9af9e60bd4983",
+    "scripts/review_th03_op_vs_work.py": "641a9bb2afdfdccea2404e8a1aa3142e25d584f10d77ff06a0264fffd04563e6",
+    "scripts/lib/op_vs_layout.py": "f2c698b280852c4a1da33b0e182a7669bdcbe4f380f3ff1471963f175e8e52ef",
+    "scripts/lib/op_vs_runtime.py": "98e258de2ef49ae1ce4b11a2c2590f111ac97917c42fea3dfc901f3c92ecc36d",
+    "src/op/menu/title_animation.inl": "4ca937ef0b31d80822b7aa7384126dd86e44ea065034ce4fdc666afdf58a2236",
+    "scripts/review_th03_op_story_work.py": "2f369e683102a148f2182019bbafeabe5244a2ba9c9c968af955b9c813bf17d2",
+    "scripts/lib/op_story_layout.py": "9e5739f3b392b711eff5613537d4fcc61aeb12efb33cdaa9bff328c47e8637c9",
+    "scripts/lib/op_story_runtime.py": "838b7b52d1f928fce933d0bbfaf60cc8cd20c57abfb7c29922e22914e3e4d80f",
+    "scripts/review_th03_op_option_work.py": "f4038854c77d4d06a5050f0b624dd12319ce9e93cc798f5a2f3fdf34e2b55002",
+    "scripts/lib/op_option_layout.py": "840326d555e04f10de655eb8cfdea858a4ee2c6dd234bc7c4e6bb9b83c9eeb68",
+    "scripts/lib/op_option_runtime.py": "e594a33c2873e65c9e5e7af32d8bdbee802eb96bcc9edb4ec56d806fc98fa4e7"
+  },
+  "cold_report_sha256": "7172a6f6effbb5fac83ab3851bdaf34281c211361d917b7db6b1b9be72fa5c17",
+  "story_review_sha256": "5dde369227dc6b2d998add7334452f86c189d68e987ee8185c237a739e07f421",
+  "source_inventory_sha256": "620f521702c1c98bf3c959558920557d46cd5ed20200bcc455879824714821e1",
+  "scope": {
+    "layout": {
+      "owners": [
+        {
+          "unit_id": "th03-op-decoded-menu-move",
+          "name": "move",
+          "source": "src/op/menu/menu_state.inl",
+          "object": "obj/th03/op_01.obj",
+          "segment": 2448,
+          "offset": 1953,
+          "start": 41121,
+          "size": 63,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "65c8978d76b8422425ab02e0ac1a180270ba959dbdf45ceece61be998f35d736",
+          "candidate_sha256": "65c8978d76b8422425ab02e0ac1a180270ba959dbdf45ceece61be998f35d736",
+          "ordered_relocations": [],
+          "argument_bytes": 4,
+          "callee_pop_bytes": 4,
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0,
+          "abi": "near Pascal signed BYTE parameters in WORD slots; RET 4"
+        },
+        {
+          "unit_id": "th03-op-decoded-menu-option",
+          "name": "option",
+          "source": "src/op/menu/menu_state.inl",
+          "object": "obj/th03/op_01.obj",
+          "segment": 2448,
+          "offset": 2307,
+          "start": 41475,
+          "size": 532,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "a0af5e48246e57b687a8cd317a320509d0d846c77f07cb3660da39391abf65fa",
+          "candidate_sha256": "a0af5e48246e57b687a8cd317a320509d0d846c77f07cb3660da39391abf65fa",
+          "ordered_relocations": [
+            [
+              2448,
+              2707
+            ],
+            [
+              2448,
+              2688
+            ],
+            [
+              2448,
+              2681
+            ],
+            [
+              2448,
+              2676
+            ],
+            [
+              2448,
+              2538
+            ],
+            [
+              2448,
+              2519
+            ],
+            [
+              2448,
+              2512
+            ],
+            [
+              2448,
+              2507
+            ],
+            [
+              2448,
+              2321
+            ]
+          ],
+          "argument_bytes": 0,
+          "callee_pop_bytes": 0,
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0,
+          "abi": "near no-argument entry; BP/SI/DI preserved; RET"
+        }
+      ],
+      "functions": 2,
+      "code_bytes": 595,
+      "instruction_bytes": 595,
+      "ordered_native_fields": [
+        [
+          2002,
+          2,
+          199,
+          20,
+          2,
+          3,
+          4
+        ],
+        [
+          1993,
+          2,
+          199,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          1989,
+          2,
+          199,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          1980,
+          2,
+          199,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          1977,
+          2,
+          199,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          1968,
+          2,
+          199,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          1964,
+          2,
+          199,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          1957,
+          2,
+          199,
+          20,
+          2,
+          3,
+          4
+        ],
+        [
+          1949,
+          2,
+          199,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2825,
+          2,
+          199,
+          20,
+          2,
+          3,
+          1
+        ],
+        [
+          2818,
+          2,
+          199,
+          22,
+          2,
+          16,
+          0
+        ],
+        [
+          2813,
+          2,
+          199,
+          20,
+          2,
+          3,
+          2
+        ],
+        [
+          2808,
+          2,
+          198,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2803,
+          2,
+          198,
+          20,
+          2,
+          2,
+          213
+        ],
+        [
+          2796,
+          2,
+          198,
+          22,
+          2,
+          16,
+          1
+        ],
+        [
+          2791,
+          2,
+          198,
+          20,
+          2,
+          3,
+          2
+        ],
+        [
+          2786,
+          2,
+          198,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2781,
+          2,
+          198,
+          20,
+          2,
+          2,
+          213
+        ],
+        [
+          2771,
+          2,
+          198,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2765,
+          2,
+          198,
+          22,
+          2,
+          16,
+          0
+        ],
+        [
+          2758,
+          2,
+          198,
+          22,
+          2,
+          16,
+          1
+        ],
+        [
+          2746,
+          2,
+          198,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2739,
+          2,
+          198,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2721,
+          2,
+          198,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2707,
+          2,
+          198,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2703,
+          2,
+          198,
+          22,
+          2,
+          31,
+          0
+        ],
+        [
+          2697,
+          4,
+          206,
+          86,
+          null,
+          33,
+          0
+        ],
+        [
+          2686,
+          2,
+          198,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2678,
+          4,
+          206,
+          86,
+          null,
+          33,
+          0
+        ],
+        [
+          2671,
+          4,
+          206,
+          86,
+          null,
+          32,
+          0
+        ],
+        [
+          2666,
+          4,
+          206,
+          86,
+          null,
+          33,
+          0
+        ],
+        [
+          2648,
+          2,
+          198,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2641,
+          2,
+          198,
+          20,
+          2,
+          2,
+          0
+        ],
+        [
+          2631,
+          2,
+          198,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2613,
+          2,
+          198,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2591,
+          2,
+          198,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2583,
+          2,
+          198,
+          22,
+          2,
+          16,
+          0
+        ],
+        [
+          2571,
+          2,
+          198,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2552,
+          2,
+          197,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2538,
+          2,
+          197,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2534,
+          2,
+          197,
+          22,
+          2,
+          31,
+          0
+        ],
+        [
+          2528,
+          4,
+          205,
+          86,
+          null,
+          33,
+          0
+        ],
+        [
+          2517,
+          2,
+          197,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2509,
+          4,
+          205,
+          86,
+          null,
+          33,
+          0
+        ],
+        [
+          2502,
+          4,
+          205,
+          86,
+          null,
+          32,
+          0
+        ],
+        [
+          2497,
+          4,
+          205,
+          86,
+          null,
+          33,
+          0
+        ],
+        [
+          2479,
+          2,
+          197,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2472,
+          2,
+          197,
+          20,
+          2,
+          2,
+          0
+        ],
+        [
+          2450,
+          2,
+          197,
+          22,
+          2,
+          15,
+          0
+        ],
+        [
+          2429,
+          2,
+          197,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2421,
+          2,
+          197,
+          22,
+          2,
+          16,
+          0
+        ],
+        [
+          2407,
+          2,
+          197,
+          22,
+          2,
+          16,
+          0
+        ],
+        [
+          2393,
+          2,
+          197,
+          22,
+          2,
+          16,
+          0
+        ],
+        [
+          2384,
+          2,
+          197,
+          20,
+          2,
+          3,
+          1
+        ],
+        [
+          2379,
+          2,
+          197,
+          20,
+          2,
+          3,
+          1
+        ],
+        [
+          2372,
+          2,
+          197,
+          22,
+          2,
+          16,
+          0
+        ],
+        [
+          2367,
+          2,
+          197,
+          20,
+          2,
+          3,
+          1
+        ],
+        [
+          2362,
+          2,
+          197,
+          20,
+          2,
+          2,
+          213
+        ],
+        [
+          2358,
+          2,
+          197,
+          20,
+          1,
+          1,
+          1615
+        ],
+        [
+          2356,
+          2,
+          197,
+          20,
+          2,
+          3,
+          4
+        ],
+        [
+          2329,
+          2,
+          197,
+          20,
+          2,
+          2,
+          209
+        ],
+        [
+          2320,
+          2,
+          197,
+          20,
+          2,
+          3,
+          1
+        ],
+        [
+          2316,
+          2,
+          133,
+          22,
+          1,
+          35,
+          0
+        ],
+        [
+          2311,
+          4,
+          205,
+          86,
+          null,
+          10,
+          0
+        ],
+        [
+          2305,
+          2,
+          197,
+          20,
+          2,
+          2,
+          213
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2448,
+          2707
+        ],
+        [
+          2448,
+          2688
+        ],
+        [
+          2448,
+          2681
+        ],
+        [
+          2448,
+          2676
+        ],
+        [
+          2448,
+          2538
+        ],
+        [
+          2448,
+          2519
+        ],
+        [
+          2448,
+          2512
+        ],
+        [
+          2448,
+          2507
+        ],
+        [
+          2448,
+          2321
+        ]
+      ],
+      "private_data_bytes": 0,
+      "private_bss_bytes": 0,
+      "containing_producer_accepted": false,
+      "main_caller_accepted": false,
+      "whole_product_accepted": false
+    },
+    "runtime": {
+      "images": 2,
+      "functions": 2,
+      "code_bytes": 595,
+      "executed_owner_bytes": 595,
+      "cases_per_image": 16570,
+      "observations": [
+        {
+          "load_segment": 4096,
+          "cases": 8285,
+          "cases_by_function": {
+            "move": 4145,
+            "option": 4140
+          },
+          "executed_owner_bytes": 595,
+          "executed_nested_bytes": 567,
+          "maximum_stack_depth": 38,
+          "maximum_events": 97,
+          "trace_sha256": "935d226e59c901edcfc828174e84e1e17a6abf6aae87ab05d4b85b7708d34a5e"
+        },
+        {
+          "load_segment": 12288,
+          "cases": 8285,
+          "cases_by_function": {
+            "move": 4145,
+            "option": 4140
+          },
+          "executed_owner_bytes": 595,
+          "executed_nested_bytes": 567,
+          "maximum_stack_depth": 38,
+          "maximum_events": 97,
+          "trace_sha256": "3503fc4ce4cfd654c5c34222f41c452b43acb1c3e12c851ed0ef93a6d238c40d"
+        }
+      ],
+      "exhaustive_BYTE_lanes": [
+        "selection",
+        "maximum",
+        "direction",
+        "rank",
+        "bgm",
+        "key"
+      ],
+      "ignored_private_stack_bytes": 64,
+      "real_nested_helpers": true,
+      "main_caller_accepted": false,
+      "whole_product_accepted": false
+    },
+    "negative_controls": {
+      "count": 35,
+      "rejected": [
+        "move-callback-black",
+        "move-signed-negative",
+        "move-max-second-check",
+        "move-callback-white",
+        "move-pascal-pop",
+        "option-init-branch",
+        "option-clear-lock",
+        "option-init-choices",
+        "option-callback-pointer",
+        "option-up-mask",
+        "option-down-mask",
+        "option-right-mask",
+        "option-rank-limit",
+        "option-rank-reset",
+        "option-sound-disabled",
+        "option-enable-bgm",
+        "option-stop-argument",
+        "option-play-argument",
+        "option-sound-active-clear",
+        "option-key-limit",
+        "option-left-mask",
+        "option-rank-left-wrap",
+        "option-key-left-wrap",
+        "option-confirm-high-mask",
+        "option-confirm-low-mask",
+        "option-quit-selection",
+        "option-return-main-selection",
+        "option-cancel-mask",
+        "option-cancel-state",
+        "option-lock-reset",
+        "real-mode-vector",
+        "real-kaja-midi-policy",
+        "real-box-step",
+        "real-delay-limit",
+        "real-option-renderer"
+      ],
+      "actual_instruction_mutations": 35,
+      "data_mutations": 0
+    }
+  }
+}

@@ -50,9 +50,9 @@ class Tests(unittest.TestCase):
         with patch.object(a,'read_publication') as read:
             self.assertFalse(a.op_decoded_status(ROOT,[])['decoded_accepted'])
             read.assert_not_called()
-    def test_valid_fixed_scopes_use_current_53_denominator(self):
+    def test_valid_fixed_scopes_use_current_55_denominator(self):
         s=self.accepted()
-        self.assertTrue(s['decoded_accepted']);self.assertEqual(s['tracked_decoded_extents'],53)
+        self.assertTrue(s['decoded_accepted']);self.assertEqual(s['tracked_decoded_extents'],55)
         self.assertEqual(s['decoded_exact_units'],33);self.assertEqual(s['decoded_authored_bytes'],9530)
         self.assertFalse(s['canonical_credit_changed']);self.assertFalse(s['product_exact'])
     def test_false_boundaries_fail_closed(self):
@@ -68,7 +68,7 @@ class Tests(unittest.TestCase):
             s=self.accepted(a.unavailable(reason))
             self.assertFalse(s['decoded_accepted']);self.assertIn(reason,a.decoded_summary(s))
             self.assertIn('Retained cold pair: 29 raw pairs',self.render(s))
-            self.assertIn('Unit acceptance: exact 0/53',self.render(s))
+            self.assertIn('Unit acceptance: exact 0/55',self.render(s))
     def test_duplicate_accepted_ids_reject(self):
         self.assertFalse(self.accepted(dict(VALID,decoded_exact_unit_ids=IDS[:-1]+[IDS[0]]))['decoded_accepted'])
     def test_unknown_accepted_id_reject(self):
@@ -83,15 +83,15 @@ class Tests(unittest.TestCase):
     def test_later_source_units_not_automatically_enrolled(self):
         s=self.accepted()
         active=[u for u in UNITS if u['artifact']=='th03-op' and u['state']=='source-present']
-        self.assertEqual(len(active),52)
-        self.assertEqual(len(set(u['id'] for u in active)-set(s['decoded_exact_unit_ids'])),19)
+        self.assertEqual(len(active),54)
+        self.assertEqual(len(set(u['id'] for u in active)-set(s['decoded_exact_unit_ids'])),21)
         self.assertFalse(any('character-selection' in i for i in s['decoded_exact_unit_ids']))
     def test_svg_scoped_extent_axis_and_original_layout(self):
         s=self.accepted();svg=self.render(s);root=ET.fromstring(svg)
-        self.assertIn('Decoded extents 33/53',svg);self.assertNotIn('33/33',svg)
+        self.assertIn('Decoded extents 33/55',svg);self.assertNotIn('33/33',svg)
         self.assertIn('Published decoded scopes: 9,530 B',svg)
         self.assertNotIn('Retained cold pair: 29 raw pairs',svg)
-        self.assertIn('Source 52/53',svg)
+        self.assertIn('Source 54/55',svg)
         texts=[''.join(x.itertext()) for x in root.iter() if x.tag.endswith('text')]
         zun_units=sum(u['artifact']=='th03-zun' and u['state']!='excluded' for u in UNITS)
         self.assertIn(f'Unit acceptance: exact 0/{zun_units}',texts)
@@ -101,7 +101,7 @@ class Tests(unittest.TestCase):
                          [ET.tostring(x) for x in list(baseline)[15:]])
     def test_docs_scope_and_no_whole_completion(self):
         text=a.decoded_summary(self.accepted())
-        for needle in ['33/53 tracked decoded extents','9,530 scoped decoded bytes',
+        for needle in ['33/55 tracked decoded extents','9,530 scoped decoded bytes',
                        'excludes selection','whole-game percentage remains unknown',
                        'not a pure-instruction']:
             self.assertIn(needle,text)
