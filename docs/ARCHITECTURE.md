@@ -88,6 +88,12 @@ defined flags, real frames, ordered writes and complete memory outside declared
 private stack windows. Hardware, DOS, library and file replies are explicitly
 bounded interfaces; no physical timing/pixels or successful exec is inferred.
 
+PI caller contracts execute actual PI release and CRT memcpy instructions on one
+physical UC. They check both far return words at callee entry because Unicorn
+may omit far-CALL write callbacks. Full physical memory remains checked, with no
+ignored private stack window. The readonly-height interlace prefix has a native
+closed CFG and an inductive even-WORD counter proof, separate from timed runs.
+
 `lib/op_nested_context.py` lets the main-menu verifier execute actual owned
 story/VS/score/attract callees on one physical UC. It preserves entering state,
 native return words and static resident data, then exposes checked predicted

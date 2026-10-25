@@ -34,10 +34,14 @@ class ConsumedVendorHeaders(unittest.TestCase):
                 for name in build.VENDOR_HEADERS:
                     (directory / name.upper()).write_text("original:" + name)
             with patch.object(build, "ROOT", root):
-                self.assertEqual(len(build.vendor_header_inventory()), 3)
-                (consumed / "STDDEF.H").write_text("different consumed declaration")
-                with self.assertRaisesRegex(ValueError, "consumed vendor header differs"):
-                    build.vendor_header_inventory()
+                self.assertEqual(set(build.vendor_header_inventory()),
+                    {"C:/TC4/INCLUDE/" + n for n in ("stddef.h", "_defs.h", "_null.h", "mem.h")})
+                for name in ("STDDEF.H", "MEM.H"):
+                    original = (consumed / name).read_bytes()
+                    (consumed / name).write_text("different consumed declaration")
+                    with self.assertRaisesRegex(ValueError, "consumed vendor header differs"):
+                        build.vendor_header_inventory()
+                    (consumed / name).write_bytes(original)
 
 
 @unittest.skipUnless((WORK / "bin/th03/mainl.target.exe").is_file(), "private MAINL cold build absent")

@@ -27,7 +27,7 @@ WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03ML"
 OUT = ROOT / ".analysis/work"
 CRT = ("h_llsh", "h_padd", "n_pcmp", "ioerror", "fbrk", "setblock")
 TLIB_SHA = "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2"
-VENDOR_HEADERS = ("stddef.h", "_defs.h", "_null.h")
+VENDOR_HEADERS = ("stddef.h", "_defs.h", "_null.h", "mem.h")
 
 
 def vendor_header_inventory():
