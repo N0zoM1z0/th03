@@ -46,10 +46,12 @@ class OngchkSource(unittest.TestCase):
         self.assertEqual((r['stop']['kind'],r['result'],r['ram_bytes_written']),('modeled-dos-exit',3,1))
         r=runtime_case(self.com,boards=((0x188,3),),ram='read-ready-stall',instruction_budget=100000)
         self.assertEqual((r['stop']['kind'],r['phase'],r['ram_bytes_written']),('instruction-budget','read',32))
-    def test_new_source_presence_does_not_increase_current_exact_scope_count(self):
+    def test_native_source_candidate_is_distinct_from_full_instruction_acceptance(self):
         publication=json.loads((ROOT/'config/zun_work/scoped_acceptance.json').read_bytes())
-        self.assertEqual(len(publication['owner_oracles']),76)
-        self.assertNotIn('th03-zun-decoded-ongchk',publication['owner_oracles'])
+        self.assertFalse(publication['audit']['ongchk_source_candidate']['exact_acceptance'])
+        self.assertEqual(len(publication['owner_oracles']),77)
+        self.assertIn('th03-zun-decoded-ongchk',publication['owner_oracles'])
+        self.assertEqual(publication['audit']['scope']['ongchk']['runtime']['executed_owner_bytes'],892)
 
 @unittest.skipUnless((ROOT/'_reference/ReC98/.git').exists(),'private reference archive absent')
 class OngchkSourceGraph(unittest.TestCase):

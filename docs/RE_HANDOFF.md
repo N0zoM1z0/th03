@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `5b8b3a4` (five complete MAINL root helpers).
+- Previous pushed checkpoint: `1de4f68` (native ONGCHK source producer).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -641,14 +641,46 @@ remain in [README.md](../README.md).
   length38h selects detector type2 first; an ordinary one-byte tail `8` does not.
   Length20h advances into the tail and skips spaces. Write-ready timeout returns;
   read/register polling may remain nonterminal. Original source and assembler
-  identity are unknown. This is **source presence only**, with library origin:
+  identity are unknown. That checkpoint granted **source presence only**, with library origin:
   77/78 source-present extents, still **76 accepted extents / 7,709 CODE+DATA
   bytes**, and no new authored or canonical credit. Complete independent
   register/flag/store/memory contracts, instruction coverage and mutations for
-  ONGCHK remain required before exact acceptance. Use
+  ONGCHK were still required before exact acceptance; the review below closes
+  those scoped gates. Replay the candidate-only stage with
   `review_th03_zun_ongchk_source_work.py` for the full cold/review/candidate
   chain, or `--current-cold` only when its entire existing graph remains bound.
   Frozen `scripts/lib/zun.py` remains unchanged for MAIN's schedule pin.
+- The complete **ONGCHK library COM / 892 CODE + 34 DATA bytes** now has scoped
+  source acceptance, with 42 real BSS bytes and no authored/canonical increase.
+  Native raw/OMF/MAP, all 38 ordered WORD fields, empty COM relocation vector,
+  code/DATA boundaries, nine near helpers and two shared RET tails are bound to
+  the complete unchanged source/SDK/recipe/output cold pair. Independent models
+  run **8,134 cases per image** at two loads: 7,714 terminal cases and 420
+  explicitly nonterminal device prefixes. All **892 instruction bytes** execute.
+  Full BYTE domains cover the override, PSP count/first text byte, ROM version,
+  configuration bytes, status and both auxiliary replies; partial WORD ROM
+  signatures distinguish low/high-byte comparisons. Every RAM mismatch and
+  timeout position0..31 is covered. Actual 100-iteration LOOPs execute; each
+  successful RAM path makes sixty real register-write calls. Those helpers
+  preserve full GPR high halves including ESP and incoming defined flags.
+  All terminal/live-polling WORD/segment registers, defined flags, ordered BYTE
+  ports/stores, IF/DF and complete physical memory outside **48 private stack
+  bytes** pass; actual maximum depth is20 and the retained caller count is
+  checked. Seven direct-CFG polling cycles have independent first-stage frame,
+  register/flag and immutable-memory prefix contracts; they never fake DOS exit.
+  Forty-three actual instruction and33 consumed-DATA mutations fail. Separate
+  static controls reject all34 initialized DATA mutations; the result default
+  is overwritten before read, so it receives no consumed-DATA execution credit.
+  Physical sound hardware and elapsed delay time remain bounded interfaces.
+  ZUN now accepts **77 extents / 89 procedures or entries / 6,179 CODE bytes**,
+  **8,635 CODE+DATA bytes**: authored2,179, original ASM1,390, library5,066.
+  Library is3,738 CODE+1,328 DATA; authored/original counters are unchanged.
+  Twelve full witnesses,220 instruction plus50 consumed-DATA mutations and190
+  short ABI cases bind current publication. Original source/assembler identity,
+  installed runtime/vendor context, twelve driver reserved bytes, canonical
+  packed-file offsets and whole-product source ownership remain open. Use
+  `review_th03_zun_ongchk_work.py --current-cold` while the entire native graph
+  is unchanged, or default for a fresh cold/directory/candidate/exact chain.
 - All 99 source objects compile in 100 serial phases. Two independent 613-file
   source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -675,8 +707,8 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 2,076 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 7m38s at about 509 MiB peak RSS, no swap.
+- Last full CI: PASS, 2,086 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 6m41s at about 468 MiB peak RSS, no swap.
   MAINL's complete new root helper review took 10m07s at 139 MiB, no swap,
   revalidating the existing native pair; all physical stack bytes are checked.
   The complete new VS caller review took 2m07s at 137 MiB, no swap, revalidating
@@ -688,6 +720,8 @@ remain in [README.md](../README.md).
   at 45 MiB. The latest complete ZUN cold/review chain with the native ONGCHK
   producer through the directory took 8m45s at 225 MiB, without swap. Its
   separate constructed ONGCHK candidate review took 4s at 81 MiB, without swap.
+  The complete ONGCHK full-state review took 18m27s at 172 MiB, without swap,
+  revalidating that unchanged source/SDK/recipe/output cold pair.
 
 ## Maintained producers
 
@@ -745,8 +779,8 @@ ABI and byte credit are recorded separately in the ledgers.
    ON/OFF contribution probe could not change the tiny model's implicit _DATA
    alignment to PARA (assembler A2078); this does not establish natural trailing
    storage. Do not add an empty segment solely to force the target tail. The
-   launcher/transfer TUs now have three accepted outer decoded scopes. Further
-   ONGCHK now builds from recovered source but still needs exact behavior gates;
+   launcher/transfer TUs now have three accepted outer decoded scopes.
+   ONGCHK now builds from recovered source and passes its complete scoped behavior gates;
    further whole-product gaps include unowned runtime
    dependencies. Formatter/graphics dead jumps and DOS-terminal-unreachable lifecycle
    bytes stay source-owned with separate reachability proof, not execution credit.

@@ -61,8 +61,15 @@
    existing source/SDK/recipe/output graph bound. All 29 outputs from nine
    objects must repeat. Its 42 BSS bytes are not file-backed. Thirty terminal
    and four nonterminal constructed device scenarios establish source-presence
-   evidence; they do not grant scoped exact acceptance. Complete independent
-   register/flag/store/memory, instruction coverage and mutations remain open.
+   evidence; they do not grant scoped exact acceptance. Use
+   `review_th03_zun_ongchk_work.py` for the full native/candidate/exact chain,
+   or `--current-cold` when its complete source/SDK/recipe/output pair is unchanged.
+   Its independent port/store protocol checks full registers/high halves and
+   defined flags, real nested register-write returns, every 100-iteration spin
+   and all physical memory outside48 private stack bytes. Keep seven held-device
+   polling prefixes separate from terminal cases and physical timing. All892
+   instruction bytes execute;34 static DATA controls stay separate from33
+   actual consumed-DATA mutations. The result initializer is overwritten first.
    Unused format slots have no instruction-execution credit. Direct transfer
    entry cases require DF=0. DOS AL replies are explicit bounded policies;
    do not assume that AH-only termination clears the exit status.
