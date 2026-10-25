@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `e345ee2` (OP initializer and sound helper scopes).
+- Previous pushed checkpoint: `478db34` (OP choice renderer source scopes).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -185,6 +185,31 @@ remain in [README.md](../README.md).
   whole entry/product source acceptance are open. Use
   `review_th03_op_render_work.py --current-cold` while the full existing source,
   SDK, recipe and output pair remains unchanged, or default for a fresh chain.
+- Sound trailing-byte layout has a new **diagnostic**, with no source/exact
+  promotion. `probe_th03_sound_nop_layout.py` recompiles nine selected OP/MAINL
+  copies without their active trailing codestrings, assembles compiler output,
+  and isolates BYTE/WORD declarations in separate assembly controls. Actual
+  product sources, installed tools, both current cold pairs and every current
+  output remain unchanged; the scratch tree is removed. All nine unpadded
+  instruction bodies equal their current CODE prefixes, and assembly preserves
+  those complete bodies. `-G` and `-a2` preserve the unpadded CODE; `-O-` makes
+  mode 31 bytes and preserves the other two OP bodies. None restores the padded
+  target contribution.
+  The supported `-WX` option creates a DPMI application: enabling it on PMD
+  changes the two-return layout; on load it adds INC BP/DEC BP markers. It is not
+  an alignment-only substitute. Ordinary compiler-assembly links still differ
+  at 6,035 OP / 6,826 MAINL loaded bytes. Annotating only generated CODE segment
+  declarations as WORD preserves all instructions and restores both headers,
+  complete ordered relocation vectors (607/677) and all other loaded bytes.
+  Its remaining values are `00` versus target `90` at OP `BF17/BF51`, and MAINL
+  `C829/C863/C87F/CE49`. These are loaded-image coordinates. This annotation is
+  a counterfactual control, not an original-source or natural-layout proof;
+  trailing target bytes remain unresolved and unowned. Keep the existing
+  scaffolding unaccepted. Preserve SE's GAME-conditional codestring when its
+  GAME3/M instance does not emit it. See
+  `config/sound_nop_layout/observation.json`. Future work should investigate the
+  trailing-byte producer/fill policy, without repeating rejected compiler-option
+  guesses or promoting these near matches into exactness.
 - MAINL now has the corresponding live cold build: 1,912 source inputs, 36 project
   objects and six maintained CRT objects per round. Normal TLIB extraction/rebuild
   preserves all 893 vendor member positions, substitutes the six real producers,

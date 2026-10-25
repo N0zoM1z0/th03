@@ -34,6 +34,12 @@
    separately from executed instruction coverage. DOS 4C/31 termination also
    bounds lifecycle reachability; preserve the fifteen following bytes without
    counting them as executed. Real maintained nested helpers must execute.
+   `scripts/probe_th03_sound_nop_layout.py` is a non-accepting diagnosis over
+   both current pairs. It recompiles selected sound copies and links against
+   the unchanged remaining objects in a disposable DOS workspace. Generated
+   assembly BYTE/WORD annotations are explicit controls, with zero source,
+   authored-byte or whole-product credit even when header/relocation equality
+   returns. Do not use their near matches as an exactness gate.
 5. Record useful findings in the ledgers/current handoff, run focused checks,
    `python3 scripts/ci.py` and `git diff --check`, then commit.
 

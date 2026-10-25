@@ -149,3 +149,15 @@ Gaiji/text calls receive real far strings, WORD attributes and Pascal frames;
 the library replies are bounded. Invalid selector and BYTE-state behavior,
 register leaks and the fixed-white rank erasure remain intact. The source ledger
 partitions existing screen/menu spans without adding source-present bytes.
+
+A bounded sound layout diagnostic separates instruction recovery from unresolved
+trailing bytes. Removing active codestrings in disposable source copies preserves
+all nine selected OP/MAINL function bodies. Ordinary compiler-assembly output
+changes link layout. An explicit WORD-segment annotation control preserves those
+bodies and recovers the target headers and complete ordered relocation vectors,
+leaving two OP and four MAINL gap values at 00 instead of 90. This control does
+not prove an original or acceptable production recipe. The current product
+sources/builds and all acceptance counters remain unchanged; the trailing-byte
+producer is still open. DPMI -WX also changes real code and cannot be treated
+as a pure alignment flag. The SE codestring is conditional on another GAME;
+its GAME3/M diagnostic copy retains that inactive source branch.
