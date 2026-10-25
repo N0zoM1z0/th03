@@ -37,6 +37,7 @@ from review_th03_mainl_dissolve_work import current_scope as dissolve_scope
 from review_th03_mainl_staff_callers_work import current_scope as staff_callers_scope
 from review_th03_mainl_staff_hold_work import current_scope as staff_hold_scope
 from review_th03_mainl_staff_single_work import current_scope as staff_single_scope
+from review_th03_mainl_staff_pair_work import current_scope as staff_pair_scope
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
 
@@ -73,7 +74,9 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/review_th03_mainl_staff_hold_work.py", "scripts/lib/decoded_mainl_staff_hold_layout.py",
                 "scripts/lib/decoded_mainl_staff_hold_runtime.py",
                 "scripts/review_th03_mainl_staff_single_work.py", "scripts/lib/decoded_mainl_staff_single_layout.py",
-                "scripts/lib/decoded_mainl_staff_single_runtime.py")
+                "scripts/lib/decoded_mainl_staff_single_runtime.py",
+                "scripts/review_th03_mainl_staff_pair_work.py", "scripts/lib/decoded_mainl_staff_pair_layout.py",
+                "scripts/lib/decoded_mainl_staff_pair_runtime.py")
 
 
 def need(value, message):
@@ -176,7 +179,8 @@ def audit(root):
     staff_callers = staff_callers_scope(root, work, target, candidate, raw_report, graph, files)
     staff_hold = staff_hold_scope(root, work, target, candidate, raw_report, graph, files)
     staff_single = staff_single_scope(root, work, target, candidate, raw_report, graph, files)
-    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"] + root_helpers["layout"]["owners"] + pi_free["layout"]["owners"] + pi["layout"]["owners"] + cdg["layout"]["owners"] + cdg_draw["layout"]["owners"] + ending["layout"]["owners"] + staff_draw["layout"]["owners"] + snow["layout"]["owners"] + dissolve["layout"]["owners"] + staff_callers["layout"]["owners"] + staff_hold["layout"]["owners"] + staff_single["layout"]["owners"]
+    staff_pair = staff_pair_scope(root, work, target, candidate, raw_report, graph, files)
+    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"] + root_helpers["layout"]["owners"] + pi_free["layout"]["owners"] + pi["layout"]["owners"] + cdg["layout"]["owners"] + cdg_draw["layout"]["owners"] + ending["layout"]["owners"] + staff_draw["layout"]["owners"] + snow["layout"]["owners"] + dissolve["layout"]["owners"] + staff_callers["layout"]["owners"] + staff_hold["layout"]["owners"] + staff_single["layout"]["owners"] + staff_pair["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -211,7 +215,7 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending, staff_draw=staff_draw, snow=snow, dissolve=dissolve, staff_callers=staff_callers, staff_hold=staff_hold, staff_single=staff_single)
+    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending, staff_draw=staff_draw, snow=snow, dissolve=dissolve, staff_callers=staff_callers, staff_hold=staff_hold, staff_single=staff_single, staff_pair=staff_pair)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
