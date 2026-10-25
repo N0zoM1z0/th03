@@ -1,4 +1,4 @@
-"""Current MAINL proof cannot broaden its four decoded owners or hide drift."""
+"""Current MAINL proof cannot broaden its decoded source owners or hide drift."""
 
 from copy import deepcopy
 import csv
@@ -24,7 +24,7 @@ class MainlWorkAcceptance(unittest.TestCase):
 
     def test_live_physical_replay_accepts_current_decoded_owners_only(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (26, 1185))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (27, 1261))
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
 
@@ -74,8 +74,8 @@ class MainlWorkAcceptance(unittest.TestCase):
         result = verify(ROOT, self.publication)
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [])
-        self.assertIn("Decoded acceptance: exact 26/149", svg)
-        self.assertIn("26 functions / 1,185 B", svg)
+        self.assertIn("Decoded acceptance: exact 27/149", svg)
+        self.assertIn("27 functions / 1,261 B", svg)
         self.assertIn("938 raw outputs", svg)
         self.assertNotIn("MAINL product + decoded accepted", svg)
         self.assertNotIn("exact 149/149", svg)

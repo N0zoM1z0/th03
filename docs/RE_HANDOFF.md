@@ -1,9 +1,9 @@
 # TH03 handoff
 
-Reconstruction checkpoint: `e19dbb0` (2026-10-25). Recovery stopped for handoff;
-the subsequent cleanup changes documentation, cleanup tooling and disposable
-local output. Product source and acceptance are unchanged, with no unfinished
-product-source patch. Read `AGENTS.md`,
+Reconstruction checkpoint: 2026-10-25, after `7ed6134`. Complete MAINL PI release
+now has current native ownership and independent runtime acceptance. Native
+product inputs are unchanged; the complete existing cold pair was revalidated.
+Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
 
@@ -13,7 +13,7 @@ product-source patch. Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 26 functions / 1,185 CODE bytes | Open |
+| MAINL | 27 functions / 1,261 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -29,8 +29,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,126 tests, 284 optional archive skips, all checks passed**;
-5m57s, about 523 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,140 tests, 284 optional archive skips, all checks passed**;
+6m14s, about 579 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -44,11 +44,21 @@ Last reconstruction CI: **2,126 tests, 284 optional archive skips, all checks pa
    independent affected-behavior contracts. Finish with focused checks, full CI,
    whitespace checks and an English `gpt-6.1-sol: ...` commit; push checkpoints.
 
-### MAINL investigation at handoff — not accepted
+### MAINL resources — next scope
 
-Only inspection was performed after `e19dbb0`; no new resource verifier or
-implementation was started. The existing source/SDK/recipe/output cold pair is
-current. A fresh MAINL database attestation passed before inspection.
+The ten TC4 resource functions below remain unaccepted. The existing
+source/SDK/recipe/output cold pair is current. A fresh MAINL database attestation
+passed before this investigation. PI release is now separately accepted:
+`review_th03_mainl_pi_free_work.py --current-cold` checks its complete 76 bytes,
+native root OMF/MAP/public ownership, empty ordered fields and three original
+`nopcall` sites. Independent target/candidate contracts run 5,558 cases per image
+at two loads, execute all 76 bytes and reject 20 instruction mutations. WORD
+segment byte lanes, repeated/zero segments, clear-after-failure, far offset wrap,
+foreign DS/SS and live header/caller-frame aliasing pass. All registers/high
+halves, defined flags, native frames/ordered stores and full physical memory
+are checked with no ignored stack bytes. HMEM_FREE remains a bounded unowned
+interface; its internal allocator/stack effects receive no execution or ownership
+credit. Publication is the usual `config/mainl_work/scoped_acceptance.json`.
 
 | Maintained source | Complete functions / CODE bytes | Decoded coordinate |
 | --- | --- | --- |
@@ -87,9 +97,9 @@ Useful observations to verify in the next scope:
 - PI palette executes the real 36-byte CRT memcpy at root `0000:4B7D` for a
   48-byte copy. It issues CLD. Its odd-tail MOVSB is not reached for this fixed
   size. Separate library dependency execution from source ownership.
-- PI load calls the unaccepted 76-byte root `GRAPH_PI_FREE` at `0000:0FEC`,
-  maintained in `src/mainl/resources/graph_pi_free.asm`. This could be a related
-  scope. It frees comment/machine/image segments and clears the corresponding
+- PI load calls the now accepted 76-byte root `GRAPH_PI_FREE` at `0000:0FEC`,
+  maintained in `src/mainl/resources/graph_pi_free.asm`.
+  It frees comment/machine/image segments and clears the corresponding
   header fields even after a failed free. HMEM_FREE at root `22B2` preserves
   BX/CX/ES but can change AX/flags; inspect its real interface before stubbing it.
   The root object's CODE contribution starts at load `0272`.
@@ -154,12 +164,6 @@ Useful observations to verify in the next scope:
   edits; real recipe/source changes require fresh bound cold pairs and reviews.
 
 ## Checks and cleanup
-
-Handoff cleanup validation (2026-10-25): **CI passed, 2,129 tests with 284 optional
-archive skips**; 6m04s, about 513 MiB peak RSS, no swap. The 74 focused cleanup
-tests and 31 local documentation links passed. Cleanup preserved the complete
-four-product status output byte-for-byte. Product source, publication records,
-current native outputs and installed tool trees were not changed.
 
 Use [the workflow](RE_WORKFLOW.md) for cold rebuild/review/publication order and
 [the script index](../scripts/README.md) to find current entry points.

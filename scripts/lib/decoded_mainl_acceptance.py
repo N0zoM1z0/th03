@@ -26,6 +26,7 @@ from lib.shared_input_layout import SOURCE as INPUT_SOURCE, WRAPPER as INPUT_WRA
 from lib.mainl_wait_layout import SOURCE as WAIT_SOURCE, WRAPPER as WAIT_WRAPPER
 from review_th03_mainl_sound_work import current_scope as sound_scope
 from review_th03_mainl_root_helpers_work import current_scope as root_helper_scope
+from review_th03_mainl_pi_free_work import current_scope as pi_free_scope
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
 
 
@@ -39,7 +40,9 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/review_th03_mainl_sound_work.py", "scripts/lib/decoded_mainl_sound_layout.py", "scripts/lib/decoded_mainl_sound_runtime.py",
                 "scripts/lib/shared_sound_runtime.py", "scripts/lib/op_sound_layout.py",
                 "scripts/review_th03_mainl_root_helpers_work.py", "scripts/lib/decoded_mainl_root_helpers_layout.py",
-                "scripts/lib/decoded_mainl_root_helpers_runtime.py")
+                "scripts/lib/decoded_mainl_root_helpers_runtime.py",
+                "scripts/review_th03_mainl_pi_free_work.py", "scripts/lib/decoded_mainl_pi_free_layout.py",
+                "scripts/lib/decoded_mainl_pi_free_runtime.py")
 
 
 def need(value, message):
@@ -129,7 +132,8 @@ def audit(root):
     shared = input_scope(root, "mainl", work, target, candidate, raw_report)
     sound = sound_scope(root, work, target, candidate, raw_report, graph, files)
     root_helpers = root_helper_scope(root, work, target, candidate, raw_report, graph, files)
-    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"] + root_helpers["layout"]["owners"]
+    pi_free = pi_free_scope(root, work, target, candidate, raw_report, graph, files)
+    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"] + root_helpers["layout"]["owners"] + pi_free["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -160,7 +164,7 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers)
+    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
@@ -193,8 +197,8 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
-                decoded_exact_units=26, decoded_authored_exact_units=26, decoded_library_exact_units=0,
-                decoded_authored_bytes=1185, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
+                decoded_exact_units=27, decoded_authored_exact_units=27, decoded_library_exact_units=0,
+                decoded_authored_bytes=1261, decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]),
                 target_provenance="candidate-local-attested", product_exact=False, mixed_physical_exact_bytes=0,
                 mixed_authored_credit_bytes=0, canonical_file_backed_authored_credit_unchanged=True,
                 factory_accepted=False, whole_game_percentage=None, whole_game_code_denominator_known=False)

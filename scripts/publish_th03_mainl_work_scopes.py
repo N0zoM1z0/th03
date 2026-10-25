@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Publish four current decoded MAINL lifecycle source owners."""
+"""Publish current decoded MAINL source owners, excluding unowned context."""
 
 from datetime import datetime, timezone
 import json
