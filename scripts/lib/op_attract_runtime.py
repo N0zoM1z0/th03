@@ -6,6 +6,7 @@ signed WORD wrap without pretending that 32768 frames elapsed. Device sampling,
 counter updates, graphics libraries and failed execl remain bounded interfaces.
 """
 import hashlib,json,struct
+from lib.op_nested_context import configure
 from dataclasses import replace
 from capstone import Cs,CS_ARCH_X86,CS_MODE_16
 from unicorn import UcError
@@ -138,15 +139,24 @@ class Machine(DispatchMachine):
             super().code(uc,address,size,_)
         except Exception as e:self.fail(e)
     def run(self,*,polls=1,samples=None,present=0,random=0xFFFFFFFF,demo=0,active=1,midi=0,continuation=None,
-            seed=0x1357,status=0xFFFF,flags=0x202,stack=0xF800,resseg=0x6000,resoff=0x31):
+            seed=0x1357,status=0xFFFF,flags=0x202,stack=0xF800,resseg=0x6000,resoff=0x31,_context=None):
+        configure(self,_context)
+        if _context is not None:
+            need(continuation is None,'nested waits enter the actual complete function')
+            stack,flags=_context.stack,_context.flags;resoff,resseg,base=_context.resident(self)
+            active,midi=_context.memory[self.data+ACTIVE],_context.memory[self.data+MIDI]
+            random=u32(_context.memory,base+0x10);demo=_context.memory[base+0x39];present=u16(_context.memory,self.data+P['presence'])
         need(1<=polls<=523 and (continuation is None or 0<=continuation<=65535),'bounded polls / explicit continuation')
         need(0<=present<=65535 and 0<=random<=0xFFFFFFFF and all(0<=v<=255 for v in (demo,active,midi)), 'WORD/DWORD/BYTE fixture widths')
         need(80<=stack<=0xFFF0 and resseg in (0x5000,0x6000) and 0<=resoff<=0xFF80,'disjoint resident and 80-byte stack')
-        self.uc.mem_write(0,bytes(self.initial));self.stack,self.seed,self.status=stack,seed,status
-        self.file=bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7');self.uc.mem_write(0x70000+stack-80,b'\xD3'*80);self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
-        self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg));self.uc.mem_write(self.data+ACTIVE,bytes((active,)));self.uc.mem_write(self.data+MIDI,bytes((midi,)))
-        base=resseg*16+resoff;self.uc.mem_write(base,b'\xA5'*0x60);self.uc.mem_write(base+0x10,struct.pack('<I',random));self.uc.mem_write(base+0x39,bytes((demo,)))
-        self.uc.mem_write(self.data+P['presence'],struct.pack('<H',present));self.uc.mem_write(self.data+P['single'],b'\xFF\xFF')
+        if _context is None:
+            self.uc.mem_write(0,bytes(self.initial));self.stack,self.seed,self.status=stack,seed,status
+            self.file=bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7');self.uc.mem_write(0x70000+stack-80,b'\xD3'*80);self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
+            self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg));self.uc.mem_write(self.data+ACTIVE,bytes((active,)));self.uc.mem_write(self.data+MIDI,bytes((midi,)))
+            base=resseg*16+resoff;self.uc.mem_write(base,b'\xA5'*0x60);self.uc.mem_write(base+0x10,struct.pack('<I',random));self.uc.mem_write(base+0x39,bytes((demo,)))
+            self.uc.mem_write(self.data+P['presence'],struct.pack('<H',present));self.uc.mem_write(self.data+P['single'],b'\xFF\xFF')
+        self.stack,self.seed,self.status=stack,seed,status
+        base=resseg*16+resoff;self.file=bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7' if _context is None else _context.file)
         self.samples=list(samples) if samples is not None else [(0,0,0,0)]*(polls-1)+[(0x8000,0,0,0)]
         need(1<=len(self.samples)<=523 and all(len(s)==4 and all(0<=v<=65535 for v in s) for s in self.samples),'bounded WORD sample stream')
         self.present,self.poll=present,0;self.shadow=bytearray(self.uc.mem_read(0,1<<20));self.plan=[('store',self.data+P['single'],2,0)]
@@ -161,11 +171,13 @@ class Machine(DispatchMachine):
         else:raise ValueError('OP attract contract: finite stream must terminate')
         self.plan.append(('library','super',(0,256,160)))
         for x in range(176,288,8):self.plan.extend((('library','unput',(x,)),('library','super',(2,256,x)),('helper','delay')))
-        self.initial_regs={n:(seed+i*0x231)&65535 for i,n in enumerate(GPRS)};self.high={n:(seed^0x5AA5)<<16 for n in GPRS}
-        for n in GPRS:self.uc.reg_write(GPRS[n],self.high[n]|self.initial_regs[n])
-        self.initial_regs.update(cs=self.cs,ds=self.ds,es=seed,ss=0x7000)
-        for n in ('cs','ds','es','ss'):self.uc.reg_write(REG[n],self.initial_regs[n])
-        self.uc.reg_write(REG['sp'],stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        if _context is None:
+            self.initial_regs={n:(seed+i*0x231)&65535 for i,n in enumerate(GPRS)};self.high={n:(seed^0x5AA5)<<16 for n in GPRS}
+            for n in GPRS:self.uc.reg_write(GPRS[n],self.high[n]|self.initial_regs[n])
+            self.initial_regs.update(cs=self.cs,ds=self.ds,es=seed,ss=0x7000)
+            for n in ('cs','ds','es','ss'):self.uc.reg_write(REG[n],self.initial_regs[n])
+            self.uc.reg_write(REG['sp'],stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        else:self.initial_regs,self.high=_context.initial()
         self.continuation,self.resumed,self.parked=continuation,False,False;self.active=None;self.root_index,self.root_calls,self.helper_calls,self.calls=0,0,0,0;self.error,self.returned=None,False
         self.helper_trace=hashlib.sha256()
         self.delay_calls,self.counter_updates=0,0
@@ -183,6 +195,10 @@ class Machine(DispatchMachine):
             need(self.uc.reg_read(GPRS[n])==high|expected[n],'root DWORD high halves')
         f=self.uc.reg_read(UC_X86_REG_EFLAGS);need(f&0x8D5==cmp16(288,288) and f&0x600==flags&0x600,'final column compare and inherited IF/DF')
         self.outside_stack(self.shadow)
+        if _context is not None:
+            output_high=dict(self.high)
+            if self.demo_count:output_high['ax']=rand&0xFFFF0000
+            _context.accept(self,expected,output_high,0x8D5,cmp16(288,288),self.shadow,file=self.file)
         return dict(polls=self.poll,demo_calls=self.demo_count,continuation=continuation,registers=self.registers(),flags=f&0xED5,
             actual_delay_calls=self.delay_calls,counter_updates=self.counter_updates,
             events=len(self.plan),trace_sha256=hashlib.sha256(json.dumps(self.plan).encode()).hexdigest(),helper_trace_sha256=self.helper_trace.hexdigest(),random=u32(self.shadow,base+0x10),file_hex=self.file.hex())

@@ -8,6 +8,7 @@ KAJA and cleanup instructions execute. No physical timing or pixels are inferred
 import hashlib
 import json
 import struct
+from lib.op_nested_context import configure
 from types import SimpleNamespace
 
 from capstone import Cs,CS_ARCH_X86,CS_MODE_16
@@ -183,7 +184,7 @@ class Machine(Base):
                 f = uc.reg_read(UC_X86_REG_EFLAGS)
                 need(f&0x8D5 == cmp16(392,392),'box transition final column comparison')
                 self.box_return = None
-            if address == self.cs*16+0xFFFF:
+            if address == getattr(self,'boundary_return',self.cs*16+0xFFFF):
                 self.returned = True;uc.emu_stop();return
             entries = {INPUT:'input',DELAY:'delay',RENDER:'render',CFG:'cfg',KAJA:'kaja',EXIT:'exit'}
             if rva in entries:
@@ -289,27 +290,36 @@ class Machine(Base):
 
     def run(self,*,mode=0,samples=((0x20,0,0,0),),present=0,selection_ax=1,active=1,midi=0,
             seed=0x1357,status=0xFFFF,flags=0x202,stack=0xF800,resseg=0x6000,resoff=0x31,
-            options=(0x81,0x52,0xA3),selection_patch=True):
+            options=(0x81,0x52,0xA3),selection_patch=True,_context=None):
+        configure(self,_context)
+        if _context is not None:
+            stack,flags=_context.stack,_context.flags;resoff,resseg,base=_context.resident(self)
+            mode=_context.memory[base+0x28];active,midi=_context.memory[self.data+ACTIVE],_context.memory[self.data+MIDI]
+            options=tuple(_context.memory[base+v] for v in (0x15,0x16,0xB))
+            present=word(_context.memory,self.data+P['presence'])
         need(all(0 <= v <= 255 for v in (mode,active,midi,*options)) and 0 <= selection_ax <= 65535,
              'BYTE resident options/mode and WORD selection response')
         need(0 <= present <= 65535 and 0 <= seed <= 65535 and 0 <= status <= 65535,'WORD service domains')
         need(80 <= stack <= 0xFFF0 and resseg in (0x5000,0x6000) and 0 <= resoff <= 0xFF80,
              'disjoint resident and bounded private stack')
-        self.uc.mem_write(0,bytes(self.initial))
-        self.stack,self.seed,self.status = stack,seed,status
-        self.resseg,self.resoff,self.resbase = resseg,resoff,resseg*16+resoff
-        self.uc.mem_write(0x70000+stack-80,b'\xD3'*80)
-        self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
-        self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg))
-        self.uc.mem_write(self.resbase,b'\xA5'*0x60)
-        self.uc.mem_write(self.resbase+0x28,bytes((mode,)))
-        for off,value in zip((0x15,0x16,0xB),options):
-            self.uc.mem_write(self.resbase+off,bytes((value,)))
-        self.uc.mem_write(self.data+ACTIVE,bytes((active,)))
-        self.uc.mem_write(self.data+MIDI,bytes((midi,)))
-        self.uc.mem_write(self.data+P['presence'],struct.pack('<H',present))
-        self.uc.mem_write(self.data+P['single'],b'\xFF\xFF')
-        self.file = bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7')
+        if _context is None:
+            self.uc.mem_write(0,bytes(self.initial))
+            self.stack,self.seed,self.status = stack,seed,status
+            self.resseg,self.resoff,self.resbase = resseg,resoff,resseg*16+resoff
+            self.uc.mem_write(0x70000+stack-80,b'\xD3'*80)
+            self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
+            self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg))
+            self.uc.mem_write(self.resbase,b'\xA5'*0x60)
+            self.uc.mem_write(self.resbase+0x28,bytes((mode,)))
+            for off,value in zip((0x15,0x16,0xB),options):
+                self.uc.mem_write(self.resbase+off,bytes((value,)))
+            self.uc.mem_write(self.data+ACTIVE,bytes((active,)))
+            self.uc.mem_write(self.data+MIDI,bytes((midi,)))
+            self.uc.mem_write(self.data+P['presence'],struct.pack('<H',present))
+            self.uc.mem_write(self.data+P['single'],b'\xFF\xFF')
+        self.stack,self.seed,self.status=stack,seed,status
+        self.resseg,self.resoff,self.resbase=resseg,resoff,resseg*16+resoff
+        self.file = bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7' if _context is None else _context.file)
         self.samples = list(samples)
         need(len(self.samples) <= 64 and all(len(s) == 4 and all(0 <= v <= 65535 for v in s) for s in self.samples),
              'finite WORD device samples')
@@ -360,12 +370,14 @@ class Machine(Base):
             for i in range(16):store(0x18+i,1,0)
             self.plan += [('cfg',),('library','gaiji_restore',()),('kaja',),('exit',),
                           ('library','execl',(0x16F,self.ds,0x16F,self.ds,0,0))]
-        self.initial_regs = {n:(seed+i*0x231)&65535 for i,n in enumerate(GPRS)}
-        self.high = {n:(seed^0x5AA5)<<16 for n in GPRS}
-        for n in GPRS:self.uc.reg_write(GPRS[n],self.high[n]|self.initial_regs[n])
-        self.initial_regs.update(cs=self.cs,ds=self.ds,es=seed,ss=0x7000)
-        for n in ('cs','ds','es','ss'):self.uc.reg_write(REG[n],self.initial_regs[n])
-        self.uc.reg_write(REG['sp'],stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        if _context is None:
+            self.initial_regs = {n:(seed+i*0x231)&65535 for i,n in enumerate(GPRS)}
+            self.high = {n:(seed^0x5AA5)<<16 for n in GPRS}
+            for n in GPRS:self.uc.reg_write(GPRS[n],self.high[n]|self.initial_regs[n])
+            self.initial_regs.update(cs=self.cs,ds=self.ds,es=seed,ss=0x7000)
+            for n in ('cs','ds','es','ss'):self.uc.reg_write(REG[n],self.initial_regs[n])
+            self.uc.reg_write(REG['sp'],stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        else:self.initial_regs,self.high=_context.initial()
         self.root_index,self.root_calls,self.helper_calls = 0,0,0
         self.renderer_calls,self.delay_calls,self.counter_updates = 0,0,0
         self.active,self.box_return,self.error,self.returned = None,None,None,False
@@ -387,6 +399,7 @@ class Machine(Base):
                      (128 if selection_ax&128 else 0))) if self.cancelled else (0x8D5,add_flags(stack-18,12))
         need(f&mask == value&mask and f&0x600 == flags&0x600,'final AL-test or cdecl cleanup flags / inherited IF / DF')
         self.outside_stack(self.shadow)
+        if _context is not None:_context.accept(self,expected,self.high,mask,value,self.shadow,file=self.file)
         return dict(selection=selection,polled_samples=self.poll,cancelled=self.cancelled,
             registers=self.registers(),flags=f&(mask|0x600),flags_mask=mask,
             renderer_calls=self.renderer_calls,delay_calls=self.delay_calls,counter_updates=self.counter_updates,

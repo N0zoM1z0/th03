@@ -5,6 +5,7 @@ blocked candidate domain proves nontermination; a budget expiry never does.
 """
 from dataclasses import replace
 import hashlib,json,struct
+from lib.op_nested_context import configure
 from types import SimpleNamespace
 from capstone import Cs,CS_ARCH_X86,CS_MODE_16
 from unicorn import UcError
@@ -110,20 +111,28 @@ class Machine(Base):
 
     def run(self,*,selected_char=1,random_seed=0x12345678,rank=0,selection_ax=0,
             active=1,midi=0,seed=0x1357,status=0xFFFF,flags=0x202,stack=0xF800,
-            resseg=0x6000,resoff=0x31,options=(0x81,0x52),seen=None,reenter=False):
+            resseg=0x6000,resoff=0x31,options=(0x81,0x52),seen=None,reenter=False,_context=None):
+        configure(self,_context)
+        if _context is not None:
+            need(not reenter and seen is None,'nested entry preserves actual static state')
+            stack,flags=_context.stack,_context.flags;resoff,resseg,base=_context.resident(self)
+            active,midi=_context.memory[self.data+ACTIVE],_context.memory[self.data+MIDI]
         need(all(0<=v<=255 for v in (selected_char,rank,active,midi,*options)) and len(options)==2,'BYTE selector/resident domain')
         need(0<=random_seed<=0xFFFFFFFF and all(0<=v<=65535 for v in (selection_ax,seed,status)),'DWORD random and WORD service domains')
         need(80<=stack<=0xFFF0 and resseg in (0x5000,0x6000) and 0<=resoff<=0xFF80,'disjoint resident and private stack')
-        if not reenter:self.uc.mem_write(0,bytes(self.initial))
+        if _context is None:
+            if not reenter:self.uc.mem_write(0,bytes(self.initial))
+            self.stack,self.seed,self.status,self.flags=stack,seed,status,flags
+            self.resseg,self.resoff,self.resbase=resseg,resoff,resseg*16+resoff
+            self.uc.mem_write(0x70000+stack-80,b'\xD3'*80);self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
+            self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg));self.uc.mem_write(self.resbase,b'\xA5'*0x60)
+            self.uc.mem_write(self.data+ACTIVE,bytes((active,)));self.uc.mem_write(self.data+MIDI,bytes((midi,)))
+            if seen is not None:
+                need(len(seen)==7 and all(0<=v<=255 for v in seen),'seven explicit mutable seen BYTEs')
+                self.uc.mem_write(self.data+0x99,bytes(seen))
         self.stack,self.seed,self.status,self.flags=stack,seed,status,flags
         self.resseg,self.resoff,self.resbase=resseg,resoff,resseg*16+resoff
-        self.uc.mem_write(0x70000+stack-80,b'\xD3'*80);self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
-        self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg));self.uc.mem_write(self.resbase,b'\xA5'*0x60)
-        self.uc.mem_write(self.data+ACTIVE,bytes((active,)));self.uc.mem_write(self.data+MIDI,bytes((midi,)))
-        if seen is not None:
-            need(len(seen)==7 and all(0<=v<=255 for v in seen),'seven explicit mutable seen BYTEs')
-            self.uc.mem_write(self.data+0x99,bytes(seen))
-        self.file=bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7')
+        self.file=bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7' if _context is None else _context.file)
         self.selection_ax=selection_ax
         self.selection_transfers=[(0xC,bytes((selected_char,))),(0x10,struct.pack('<I',random_seed)),
             (0xB,bytes((rank,))),(0x15,bytes(options))]
@@ -175,12 +184,15 @@ class Machine(Base):
                 self.plan += [('cfg',),('library','gaiji_restore',()),('kaja',),('exit',),
                     ('library','execl',(0x16F,self.ds,0x16F,self.ds,0,0))]
                 break
-        self.initial_regs={n:(seed+i*0x231)&65535 for i,n in enumerate(GPRS)}
-        self.high={n:(seed^0x5AA5)<<16 for n in GPRS};self.esp_high=(seed^0xA55A)<<16
-        for n in GPRS:self.uc.reg_write(GPRS[n],self.high[n]|self.initial_regs[n])
-        self.initial_regs.update(cs=self.cs,ds=self.ds,es=seed,ss=0x7000)
-        for n in ('cs','ds','es','ss'):self.uc.reg_write(REG[n],self.initial_regs[n])
-        self.uc.reg_write(UC_X86_REG_ESP,self.esp_high|stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        if _context is None:
+            self.initial_regs={n:(seed+i*0x231)&65535 for i,n in enumerate(GPRS)}
+            self.high={n:(seed^0x5AA5)<<16 for n in GPRS};self.esp_high=(seed^0xA55A)<<16
+            for n in GPRS:self.uc.reg_write(GPRS[n],self.high[n]|self.initial_regs[n])
+            self.initial_regs.update(cs=self.cs,ds=self.ds,es=seed,ss=0x7000)
+            for n in ('cs','ds','es','ss'):self.uc.reg_write(REG[n],self.initial_regs[n])
+            self.uc.reg_write(UC_X86_REG_ESP,self.esp_high|stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        else:
+            self.initial_regs,self.high=_context.initial();self.esp_high=_context.full_registers['sp']&0xFFFF0000
         self.root_index,self.root_calls,self.helper_calls,self.random_calls=0,0,0,0
         self.active,self.box_return,self.error,self.returned,self.held=None,None,None,False,False
         self.helper_trace=hashlib.sha256()
@@ -210,6 +222,10 @@ class Machine(Base):
         need(self.uc.reg_read(UC_X86_REG_ESP)==self.esp_high|self.r('sp'),'complete ESP high/low effects')
         need(f&mask==value&mask and f&0x600==flags&0x600,'defined final flags and inherited IF/DF')
         self.outside_stack(self.shadow)
+        if _context is not None:
+            output_high=dict(self.high)
+            if not self.cancelled:output_high['ax']=random_seed&0xFFFF0000
+            _context.accept(self,expected,output_high,mask,value,self.shadow,file=self.file,held=self.nonterminal)
         return dict(cancelled=self.cancelled,nonterminal=self.nonterminal,retries=self.retries,
             random_calls=self.random_calls,helper_calls=self.helper_calls,registers=self.registers(),full_registers=full,
             esp=self.uc.reg_read(UC_X86_REG_ESP),flags=f&(mask|0x600),flags_mask=mask,

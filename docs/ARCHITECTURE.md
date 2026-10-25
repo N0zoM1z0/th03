@@ -214,7 +214,8 @@ generates NOP/PUSH CS/near CALL at loaded A1B4, preserving the four-byte far
 return frame without a scoped MZ relocation. The unannotated far-call control
 adds one relocation and five loaded differences. Independent call-site tests
 check every register/flag/store and physical memory byte, including all stack
-bytes, and stop before executing Music Room. The enclosing menu remains open.
+bytes, and stop before executing Music Room. Its implementation remains open;
+the enclosing main caller has its separate complete scope below.
 The current OP builder preserves historical stagers and their pins through a
 temporary read view: only the original menu input comes from Git checkpoint
 `a02fcc9`, then the live maintained menu include replaces it before compilation.
@@ -233,8 +234,26 @@ The 16,570 cases per image reject 35 instruction mutations and check complete
 WORD/DWORD/segment registers, flags, ordered stores and physical memory outside
 64 private stack bytes. Graphics/text/driver replies and finite counter updates
 remain explicit interfaces. The former 886-byte menu extent is partitioned into
-63/291/532 bytes without increasing source-present totals; the 291-byte main
-caller remains open, including its thirteen inline non-instruction bytes.
+63/291/532 bytes without increasing source-present totals. All three callers
+now pass separate complete scopes, including main's thirteen inline bytes.
+
+The 291-byte main caller owns 278 instruction bytes plus thirteen inline
+switch/separator bytes. Its 42 native fields include a genuine group-relative
+far CALL, six own-CODE switch pointers, own DATA/BSS and external near/far/state
+references. Five-byte Music Room relaxation creates no segment relocation;
+TEXT_CLEAR supplies the caller's single MZ pair. In 5,120 cases per image,
+all caller and all 954 story/VS/score/attract instruction bytes execute.
+Optional physical entry contexts share the actual UC, entering registers,
+resident data, private stack inputs and native near return words. Existing
+independent callee contracts check predicted outputs before parent continuation.
+Eight old complete scope observations remain identical to checkpoint d118c46.
+Actual consecutive menu calls retain story seen slots and prove closed retry
+prefixes without emulator-budget inference. Graphics/CDG/fade/shrink/Music Room
+implementations remain bounded foreign interfaces. Full state and memory outside
+96 private stack bytes pass; peak depth is 38. Thirty-six instruction and six
+consumed switch-WORD mutations fail; inline separator bytes are not executed.
+The entry TU now has fourteen accepted functions / 2,831 CODE bytes, leaving
+root main263 and its DATA487/BSS6 outside whole-producer ownership.
 
 A bounded sound layout diagnostic separates instruction recovery from unresolved
 trailing bytes. Removing active codestrings in disposable source copies preserves

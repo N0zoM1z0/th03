@@ -29,6 +29,7 @@ from review_th03_op_render_work import current_scope as render_scope
 from review_th03_op_vs_work import current_scope as vs_scope
 from review_th03_op_story_work import current_scope as story_scope
 from review_th03_op_option_work import current_scope as option_scope
+from review_th03_op_main_menu_work import current_scope as main_menu_scope
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER
 
@@ -51,7 +52,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_op_render_work.py", "scripts/lib/op_render_layout.py", "scripts/lib/op_render_runtime.py",
                 "scripts/review_th03_op_vs_work.py", "scripts/lib/op_vs_layout.py", "scripts/lib/op_vs_runtime.py",
                 "scripts/review_th03_op_story_work.py", "scripts/lib/op_story_layout.py", "scripts/lib/op_story_runtime.py",
-                "scripts/review_th03_op_option_work.py", "scripts/lib/op_option_layout.py", "scripts/lib/op_option_runtime.py")
+                "scripts/review_th03_op_option_work.py", "scripts/lib/op_option_layout.py", "scripts/lib/op_option_runtime.py",
+                "scripts/review_th03_op_main_menu_work.py", "scripts/lib/op_main_menu_layout.py", "scripts/lib/op_main_menu_runtime.py", "scripts/lib/op_nested_context.py")
 
 
 def need(value, message):
@@ -137,7 +139,8 @@ def audit(root):
     vs = vs_scope(root, work, target, candidate, report_raw)
     story = story_scope(root, work, target, candidate, report_raw)
     option = option_scope(root, work, target, candidate, report_raw)
-    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"] + renderers["layout"]["owners"] + vs["layout"]["owners"] + story["layout"]["owners"] + option["layout"]["owners"]
+    main_menu = main_menu_scope(root, work, target, candidate, report_raw)
+    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"] + renderers["layout"]["owners"] + vs["layout"]["owners"] + story["layout"]["owners"] + option["layout"]["owners"] + main_menu["layout"]["owners"]
     map_text = (work / "obj/th03/op.map").read_text()
     for suffix, offset in (("B", 0x19FA), ("R", 0x19FE), ("G", 0x1A02), ("E", 0x1A06)):
         need(len(re.findall(rf"(?m)^\s*0D7F:{offset:04X}\s+_VRAM_PLANE_{suffix}\s*$", map_text)) == 2,
@@ -176,7 +179,7 @@ def audit(root):
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
                      "complete source/header dependency binding: " + name)
-    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers, renderers=renderers, vs=vs, story=story, option=option)
+    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers, renderers=renderers, vs=vs, story=story, option=option, main_menu=main_menu)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current global ledger consistency")
     return dict(cold_report_sha256=sha(report_raw), recipe_sha256=report["recipe_sha256"],
@@ -234,7 +237,7 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=30, decoded_authored_bytes=3329,
+                reviewed_proof_ready=True, decoded_exact_units=31, decoded_authored_bytes=3620,
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]), product_exact=False,
                 mixed_physical_exact_bytes=0, canonical_credit_changed=False, factory_accepted=False,
                 whole_game_percentage=None)

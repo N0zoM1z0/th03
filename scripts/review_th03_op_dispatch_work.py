@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """SDK-guarded OP cold pair followed by complete demo/score dispatch contracts."""
+import argparse
 import hashlib
 import json
 from pathlib import Path
@@ -14,7 +15,7 @@ from lib.op_dispatch_runtime import Machine,verify as runtime,negative_controls
 ROOT=Path(__file__).resolve().parents[1]
 REPORT=ROOT/'.analysis/work/op-dispatch-build.json'
 INPUTS=(*cfg.INPUTS,'scripts/review_th03_op_dispatch_work.py','scripts/lib/op_dispatch_layout.py',
- 'scripts/lib/op_dispatch_runtime.py','scripts/lib/op_exit_runtime.py')
+ 'scripts/lib/op_dispatch_runtime.py','scripts/lib/op_exit_runtime.py','scripts/lib/op_nested_context.py')
 
 
 def need(value,message):
@@ -60,10 +61,11 @@ def current_scope(root,work,target,candidate,cold_raw):
 
 
 def main():
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--current-cold',action='store_true',help='revalidate the complete existing source/SDK/recipe/output pair; rerun dispatch gates');o=p.parse_args()
     report=dict(schema='th03-op-dispatch-current-review-v1',complete=False,implementation_sha256=inputs(ROOT),
-        provenance='candidate-local-attested',whole_product_accepted=False,canonical_unit_credit_changed=False)
+        provenance='candidate-local-attested',native_pair_built_now=not o.current_cold,whole_product_accepted=False,canonical_unit_credit_changed=False)
     REPORT.parent.mkdir(parents=True,exist_ok=True);save=lambda:REPORT.write_text(json.dumps(report,indent=2)+'\n');save()
-    subprocess.run([sys.executable,str(ROOT/'scripts/review_th03_op_cfg_work.py')],cwd=ROOT,check=True)
+    if not o.current_cold:subprocess.run([sys.executable,str(ROOT/'scripts/review_th03_op_cfg_work.py')],cwd=ROOT,check=True)
     work,target,candidate,cold,cold_raw=cfg.images(ROOT)
     cfg.current_scope(ROOT,work,target,candidate,cold_raw)
     report['cold_report_sha256']=sha(cold_raw);report['cfg_review_sha256']=sha(cfg.REPORT.read_bytes())

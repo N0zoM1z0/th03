@@ -8,6 +8,7 @@ from dataclasses import replace
 import hashlib
 import json
 import struct
+from lib.op_nested_context import configure
 
 from capstone import Cs,CS_ARCH_X86,CS_MODE_16
 from unicorn import Uc,UcError,UC_ARCH_X86,UC_MODE_16,UC_HOOK_CODE,UC_HOOK_MEM_WRITE,UC_HOOK_INTR,UC_HOOK_INSN
@@ -68,7 +69,7 @@ class Machine:
         self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
     def code(self,uc,address,size,_):
         try:
-            if address==self.cs*16+0xFFFF:self.returned=True;uc.emu_stop();return
+            if address==getattr(self,'boundary_return',self.cs*16+0xFFFF):self.returned=True;uc.emu_stop();return
             self.maximum_stack=max(self.maximum_stack,self.stack-self.r('sp'))
             rva=address-self.base
             if rva in SERVICES:
@@ -107,15 +108,24 @@ class Machine:
         try:self.event(('interrupt',number,self.r('ax')));self.response()
         except Exception as error:self.fail(error)
     def run(self,kind,*,demo=0,resoff=0x31,resseg=0x6000,active=1,midi=0,resident_seed=0xA5,
-            options=(0x81,0x52,0xA3),trash=0xD3,seed=0x1357,status=0xFFFF,flags=0x202,stack=0xF800):
+            options=(0x81,0x52,0xA3),trash=0xD3,seed=0x1357,status=0xFFFF,flags=0x202,stack=0xF800,_context=None):
+        configure(self,_context)
+        if _context is not None:
+            stack,flags=_context.stack,_context.flags;resoff,resseg,base=_context.resident(self)
+            active,midi=_context.memory[self.data+ACTIVE],_context.memory[self.data+MIDI]
+            demo=_context.memory[base+0x39];options=tuple(_context.memory[base+v] for v in (0x15,0x16,0xB))
+            trash=_context.memory[0x70000+stack-13]
         need(kind in ENTRIES and all(0<=v<=255 for v in (demo,active,midi,resident_seed,trash,*options)),'bounded BYTE input')
         need(resseg in (0x5000,0x6000) and 0<=resoff<=0xFF80 and 80<=stack<=0xFFF0,'mapped disjoint far resident and bounded stack')
-        self.uc.mem_write(0,bytes(self.initial));self.stack,self.seed,self.status=stack,seed,status
-        self.uc.mem_write(0x70000+stack-80,bytes((trash,))*80);self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
-        self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg));self.uc.mem_write(self.data+ACTIVE,bytes((active,)))
-        self.uc.mem_write(self.data+MIDI,bytes((midi,)));base=resseg*16+resoff
-        self.uc.mem_write(base,bytes((resident_seed,))*0x60);self.uc.mem_write(base+0x39,bytes((demo,)))
-        for off,value in zip((0x15,0x16,0xB),options):self.uc.mem_write(base+off,bytes((value,)))
+        if _context is None:
+            self.uc.mem_write(0,bytes(self.initial));self.stack,self.seed,self.status=stack,seed,status
+            self.uc.mem_write(0x70000+stack-80,bytes((trash,))*80);self.uc.mem_write(0x70000+stack,b'\xFF\xFF\x5A\xA5')
+            self.uc.mem_write(self.data+RESIDENT,struct.pack('<HH',resoff,resseg));self.uc.mem_write(self.data+ACTIVE,bytes((active,)))
+            self.uc.mem_write(self.data+MIDI,bytes((midi,)));base=resseg*16+resoff
+            self.uc.mem_write(base,bytes((resident_seed,))*0x60);self.uc.mem_write(base+0x39,bytes((demo,)))
+            for off,value in zip((0x15,0x16,0xB),options):self.uc.mem_write(base+off,bytes((value,)))
+        self.stack,self.seed,self.status=stack,seed,status
+        base=resseg*16+resoff
         self.memory=bytearray(self.uc.mem_read(0,1<<20));self.events=[]
         def store(off,size,value):
             self.events.append(('store',base+off,size,value));self.memory[base+off:base+off+size]=value.to_bytes(size,'little')
@@ -131,19 +141,21 @@ class Machine:
             for off,val in ((0x33,0xFF),(0x35,1),(0x28,0)):store(off,1,val)
         for i in range(16):store(0x18+i,1,0)
         if kind=='start_demo':self.events.append(('service','palette_black_out',1))
-        self.expected_file=bytes((*options,trash,0x57,0,0x50,0xA7));self.file=bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7')
+        self.expected_file=bytes((*options,trash))+bytes((b'\x02\x01\x03\x48\x57\0\x50\xA7' if _context is None else _context.file)[4:]);self.file=bytearray(b'\x02\x01\x03\x48\x57\0\x50\xA7' if _context is None else _context.file)
         self.events += [('service','append',b'YUME.CFG\0'.hex()),('service','seek',(0,0)),
             ('service','write',(0x7000,stack-16,4,self.expected_file[:4].hex())),('service','close',None),('service','gaiji_restore',None)]
         if active:self.events.append(('interrupt',0x61 if midi==1 else 0x60,0x100))
         if kind=='score_menu':self.events.append(('service','super_free',None))
         self.events += [row if row[0]=='out' else ('service',row[0],None) for row in exit_events('exit')]
         self.events.append(('service','execl',(0x16F,self.ds,0x16F,self.ds,0,0)))
-        initial={n:((seed+i*0x231)&65535) for i,n in enumerate(GPRS)}
-        high={n:((seed^0x5AA5)<<16) for n in GPRS}
-        for n in GPRS:self.uc.reg_write(GPRS[n],high[n]|initial[n])
-        initial.update(es=seed,cs=self.cs,ds=self.ds,ss=0x7000)
-        for n in ('es','cs','ds','ss'):self.uc.reg_write(REG[n],initial[n])
-        self.uc.reg_write(REG['sp'],stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        if _context is None:
+            initial={n:((seed+i*0x231)&65535) for i,n in enumerate(GPRS)}
+            high={n:((seed^0x5AA5)<<16) for n in GPRS}
+            for n in GPRS:self.uc.reg_write(GPRS[n],high[n]|initial[n])
+            initial.update(es=seed,cs=self.cs,ds=self.ds,ss=0x7000)
+            for n in ('es','cs','ds','ss'):self.uc.reg_write(REG[n],initial[n])
+            self.uc.reg_write(REG['sp'],stack);self.uc.reg_write(UC_X86_REG_EFLAGS,flags)
+        else:initial,high=_context.initial()
         self.calls,self.index,self.error,self.returned=0,0,None,False
         try:self.uc.emu_start(self.base+ENTRIES[kind][0],0x100000,count=2000)
         except UcError as error:raise ValueError('OP dispatch contract: guest fault') from error
@@ -163,6 +175,10 @@ class Machine:
         need(self.index==len(self.events) and self.file==self.expected_file,'complete dispatch/file/port transaction')
         memory=bytes(self.uc.mem_read(0,1<<20));lo,hi=0x70000+stack-80,0x70000+stack
         self.memory[lo:hi]=memory[lo:hi];need(memory==self.memory,'whole memory outside bounded stack')
+        if _context is not None:
+            output_high=dict(high)
+            if random is not None:output_high['ax']=random&0xFFFF0000
+            _context.accept(self,expected,output_high,0x8D5,add_flags(stack-16,12),self.memory,file=self.file)
         return dict(registers=actual,full_registers=full,file_hex=self.file.hex(),events=self.events,flags=actual_flags&0xED5)
 
 

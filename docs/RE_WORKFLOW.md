@@ -34,8 +34,17 @@
    `review_th03_op_option_work.py` extends the full cold/story chain with the
    complete movement/option native and runtime gates; use `--current-cold`
    when all source/SDK/recipe/output bindings remain unchanged. Its two scopes
-   execute actual renderers, KAJA, mode, box and delay. Keep main291 separate;
-   the thirteen main switch/separator bytes are not instruction coverage.
+   execute actual renderers, KAJA, mode, box and delay. The complete main291
+   caller has its own `review_th03_op_main_menu_work.py` chain. Its optional
+   physical contexts execute actual story/VS/score/attract in one UC without
+   fresh callee fixtures or synthetic owned returns. Root and callee stack
+   windows remain distinct; validate entering full state and actual return words.
+   Reproduce all eight complete legacy scope observations against immutable
+   checkpoint d118c46. Compare complete decoded/stored files and scope results;
+   a fresh cold phase log may differ. Current source/SDK/recipe/two-round output
+   bindings still pass their own gates. Keep ordinary entries, actual consecutive reentries and
+   independently closed callee-loop prefixes separate. The thirteen main
+   switch/separator bytes are raw/table coverage, not instruction execution.
    Parameter high bytes remain live on the caller stack even when only the
    signed low BYTE is consumed. Do not merge independent directional keys,
    double sound redraws or confirm/cancel exit stores.

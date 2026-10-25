@@ -84,7 +84,7 @@ FIELDS=(
 def need(v,m):
     if not v:raise ValueError('OP option layout: '+str(m))
 
-def native_image(raw):
+def native_image(raw,functions=FUNCTIONS,fields_expected=FIELDS,externals=EXTERNALS):
     code=code_bytes(raw,1)[0];image=bytearray(code);fields=[];names=[];block=None
     for rec in parse_omf(raw):
         if rec.name=='EXTDEF':
@@ -100,22 +100,28 @@ def native_image(raw):
                 need(fd in (20,22,86),'literal native field form')
                 if fd in (20,22):frame=rec.data[at];at+=1
                 target=rec.data[at];at+=1;s=block[1]+(loc&3)*256+lo;w=4 if loc>>2&15==3 else 2
-                if not any(off<=s<off+size for _,_,off,size,_,_ in FUNCTIONS):continue
-                need(any(off<=s and s+w<=off+size for _,_,off,size,_,_ in FUNCTIONS),'whole scoped native field')
+                if not any(off<=s<off+size for _,_,off,size,_,_ in functions):continue
+                need(any(off<=s and s+w<=off+size for _,_,off,size,_,_ in functions),'whole scoped native field')
                 addend=int.from_bytes(code[s:s+w],'little');fields.append((s,w,loc,fd,frame,target,addend))
                 if fd==20:
                     need(w==2 and loc&64 and (frame,target) in ((1,1),(2,2),(2,3)),'own CODE/DATA/BSS group offset')
                     value=addend+{1:OFFSET,2:DATA_OFFSET,3:0x118A}[target]
                 else:
-                    need(target in EXTERNALS,'scoped symbolic external');_,seg,address=EXTERNALS[target]
+                    need(target in externals,'scoped symbolic external');_,seg,address=externals[target]
                     if fd==86:
                         need(w==4 and code[s-1]==0x9A,'real far CALL');value=(seg<<16)+address+addend
+                    elif w==4:
+                        need(loc&64 and frame==1 and seg==SEGMENT and code[s-1]==0x9A and addend==0,'normal same-CS symbolic far CALL')
+                        # Comparison buffer only: TLINK's native same-CS relaxation.
+                        # The object and executable remain untouched.
+                        image[s-1:s+4]=bytes((0x90,0x0E,0xE8))+((address-(OFFSET+s+4))&65535).to_bytes(2,'little')
+                        continue
                     elif loc&64:
                         need(w==2 and frame==2 and seg==DATA_SEGMENT,'external DGROUP WORD');value=address+addend
                     else:
                         need(w==2 and frame==1 and seg==SEGMENT,'relative near group CALL');value=(address+addend-(OFFSET+s+2))&65535
                 image[s:s+w]=value.to_bytes(w,'little')
-    need(tuple(fields)==FIELDS and all(names[i-1]==n for i,(n,_,_) in EXTERNALS.items()),'all literal ordered fields and external identities')
+    need(tuple(fields)==fields_expected and all(names[i-1]==n for i,(n,_,_) in externals.items()),'all literal ordered fields and external identities')
     return bytes(image)
 
 def verify(work,target,candidate):
