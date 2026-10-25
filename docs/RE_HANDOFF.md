@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `478db34` (OP choice renderer source scopes).
+- Previous pushed checkpoint: `7b4fbe5` (sound NOP bytes separated from layout).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -482,7 +482,7 @@ remain in [README.md](../README.md).
   restores the six-byte frame and stacked flags after internal STI. Returning
   register/flag results, terminal arguments, split SS strings, ordered stores/ports,
   384-byte peak stack and complete memory outside two bounded stack windows pass.
-  Current ZUN totals **68 extents / 76 procedures / 5,072 CODE bytes**: authored
+  At that lifecycle checkpoint ZUN totaled **68 extents / 76 procedures / 5,072 CODE bytes**: authored
   1,621, library 2,844 and original ASM 607 CODE + 783 DATA stay separate.
   All 55 driver procedures now have scoped acceptance; the startup header,
   shared DATA/buffers and twelve reserved DATA bytes remain open. Eight complete
@@ -493,6 +493,30 @@ remain in [README.md](../README.md).
   Publication computes the unchanged proof digest once per audit, avoiding
   repeated JSON serialization for every owner/gate; all three prior products'
   witness rows were checked unchanged.
+- ZUN now additionally accepts **four library header/DATA extents / 2 CODE +
+  1,294 DATA bytes**: the entry jump/signature/version, nonterminated digit
+  alphabet, packed shared state/messages/stack/tables and ON/OFF strings.
+  Complete native OMF/MAP ownership binds 25 ordered absolute WORD pointers,
+  sixteen option-name/callback fields plus nine interrupt service targets.
+  Independently interpreted initial values cover all 1,294 DATA bytes,
+  including the 512-byte stack, 64 near token pointers and unaligned state
+  after the interrupt byte. Fresh raw-image consumers run **284 cases per image**
+  at two loads with raw defaults, messages and tables. Option selection supplies
+  mutable argument-count/vector inputs. Actual startup/printing,
+  formatting, switches, all eight option selections, all nine service selections
+  and six setters pass. Callback checks stop at entry; their bodies retain the
+  existing procedure reviews. The header jump preserves full DWORD registers,
+  flags and all memory. One header-instruction and six consumed-DATA mutations
+  fail actual consumers; separate static checks reject all 1,294 DATA-byte
+  mutations with no execution credit. Both reserved runs, **3+9 bytes**, remain
+  excluded. Current total: **72 extents / 76 procedures / 5,074 CODE bytes**,
+  plus 783 original-ASM DATA and 1,294 library DATA bytes. Authored 1,621 CODE
+  bytes remain unchanged; library totals 2,846 CODE + 1,294 DATA. Nine complete
+  runtime witnesses and 170 short ABI cases bind publication. The existing full
+  source/SDK/recipe/output-bound cold pair was revalidated, not rebuilt for this
+  post-build review. Run `review_th03_zun_data_work.py --current-cold` for its
+  new gates; omit the option to run the full native/lifecycle/DATA chain.
+  Whole-product ownership and canonical packed-file credit remain open.
 - All 99 source objects compile in 100 serial phases. Two independent 613-file
   source trees reproduce all 101 raw OBJ/EXE/MAP outputs; all 268 maintained
   inputs match staging. Only vendor startup/libraries are reused as unowned
@@ -580,12 +604,12 @@ ABI and byte credit are recorded separately in the ledgers.
    paragraph gaps now have native source/link proof in one ordinary TU with
    nine CODE contributions; the complete cold pair and both alignment controls
    are bound by current publication. Before whole-driver promotion, resolve the
-   startup header, shared DATA/buffers and 3+9 reserved DATA bytes. A private
+   remaining 3+9 reserved DATA bytes. The header, digit alphabet and shared
+   DATA now have four separate accepted scopes. A private
    ON/OFF contribution probe could not change the tiny model's implicit _DATA
    alignment to PARA (assembler A2078); this does not establish natural trailing
    storage. Do not add an empty segment solely to force the target tail. Further
-   source scopes include the maintained launcher/transfer units and header/DATA
-   ownership. Formatter/graphics dead jumps and DOS-terminal-unreachable lifecycle
+   source scopes include the maintained launcher/transfer units. Formatter/graphics dead jumps and DOS-terminal-unreachable lifecycle
    bytes stay source-owned with separate reachability proof, not execution credit.
    Keep unchecked saved-BP overflow and zero uninstall-offset behavior.
    Bind their current native ownership and

@@ -57,8 +57,16 @@ that contract. Install compares the signature at segment:0102, saves the old
 vector and retains two decimal-1000-paragraph buffers. Uninstall deliberately
 restores offset zero, then frees environment, mask, solid and code in order.
 IRET restores a six-byte frame and stacked flags, overriding the internal STI.
-All 55 driver procedures now have scoped acceptance, but the startup header,
-shared DATA/buffers and twelve reserved DATA bytes have no such ownership.
+All 55 driver procedures have scoped acceptance. Four additional extents own
+the startup header, digit alphabet, packed shared DATA and ON/OFF strings:
+2 CODE + 1,294 DATA bytes, including a 512-byte initialized stack and 64 near
+token pointers. Twenty-five native WORD fixups bind the option and service
+tables. Independent consumers use raw defaults, strings and tables at two
+loads. Option checks supply mutable argument-count/vector inputs and stop at
+callback selection, with bodies covered by their own
+procedure reviews. Separate semantic checks cover every initialized DATA byte.
+Three plus nine reserved bytes still have no ownership. These DATA checks do
+not promote the enclosing driver or establish the original source organization.
 
 `src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
 CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.

@@ -26,11 +26,16 @@
    Its `--current-cold` mode revalidates the entire source/SDK/output graph before
    replaying all sound gates. Counter-update fixtures do not prove elapsed time
    or physical IRQ delivery. Adjacent explicit codestring padding remains open.
-   Use `scripts/review_th03_zun_lifecycle_work.py` for the complete ZUN cold pair,
-   formatter, graphics and lifecycle reviews. It invokes the graphics/formatter
-   chain once. All three support `--current-cold` to revalidate existing source/output-bound
+   Use `scripts/review_th03_zun_data_work.py` for the complete ZUN cold pair,
+   formatter, graphics, lifecycle and header/DATA reviews. It invokes the lifecycle/graphics/formatter
+   chain once. All four support `--current-cold` to revalidate existing source/output-bound
    prerequisites and rerun their own full gates without rebuilding.
-   Publish ZUN scopes after this review. Treat CFG-proved unreachable CODE
+   Publish ZUN scopes after this review. DATA consumers must read the original
+   defaults/messages/tables from the initialized image; mutable argument inputs
+   must be explicit. Keep static DATA-byte mutations separate from executed
+   instruction mutations. Header/table callback checks stop at the selected
+   entry, whose behavior is covered by its existing procedure scope. The two
+   reserved DATA runs remain excluded. Treat CFG-proved unreachable CODE
    separately from executed instruction coverage. DOS 4C/31 termination also
    bounds lifecycle reachability; preserve the fifteen following bytes without
    counting them as executed. Real maintained nested helpers must execute.
