@@ -1,9 +1,10 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-25, after `a0afb82`. MAINL's complete flake
-and upwards-unput drawing procedures now have native ownership and independent
-flat-WORD contracts. Native inputs are unchanged; the complete current cold pair
-and all previous 41 owner/layout/runtime observations were revalidated.
+Reconstruction checkpoint: 2026-10-25, after `dafffde`. MAINL's seven complete
+snow procedures now have native ownership and full-state contracts with actual
+RNG/vector/flake instructions. The single464-byte extent retains its existing
+ledger partition. Native inputs and all previous43 owner observations are
+unchanged; counts now distinguish extents from procedures.
 Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
@@ -14,7 +15,7 @@ Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 43 functions / 3,381 CODE bytes | Open |
+| MAINL | 44 extents / 50 procedures / 3,845 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -30,8 +31,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,226 tests, 284 optional archive skips, all checks passed**;
-7m04s, about 511 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,250 tests, 284 optional archive skips, all checks passed**;
+6m17s, about 566 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -102,7 +103,7 @@ Complete `_mainl_ending` owns **280 CODE bytes** at `095F:2382`, with34 ordered
 native fields,14 ordered MZ relocations and the compiler-owned near cdecl frame.
 `src/mainl/staff/data.cpp` is copied literally to `staffdat.cpp` and compiled
 GAME3/L. Full producer inventory is19 procedures/3,695 CODE bytes,224 initialized
-DATA bytes and no BSS; after the drawing scopes below,16 procedures/3,216 CODE
+DATA bytes and no BSS; after the drawing/snow scopes below,nine procedures/2,752 CODE
 bytes and all224 initialized DATA bytes remain unaccepted.
 Current command: `review_th03_mainl_ending_work.py --current-cold`.
 
@@ -152,7 +153,36 @@ ordered OMF WORD fields and complete empty MZ vectors pass. Current command:
   remain unproved. Prior ASM/hybrid evidence remains historical; current units
   bind the actual maintained `src/mainl/staff/data.cpp` producer.
 
-Next candidates: the remaining16 staff/snow/graphics procedures and cutscene ownership, then
+### MAINL snow
+
+One existing extent at `095F:2561..2731` owns **464 CODE bytes / seven complete
+procedures**: clear21/reset26/spawn169/update70/render54/gate48/tick76. Same
+natural `staffdat.cpp` producer,27 ordered native fields and six ordered MZ
+relocations. Current command: `review_th03_mainl_snow_work.py --current-cold`.
+
+- **95,130 cases/image** at two loads cover all464 owner bytes and187 actual
+  context bytes: owned RNG42/flake76 plus unowned vector69. Every masked RNG
+  output and all32x64 angle/length pairs execute. The actual maximum is1,020 RNG
+  calls/255 vector calls per spawn and255 flake calls per render. Full DWORD
+  high halves (including vector EAX/ECX/EDX), segment/defined flags and every
+  private/caller memory byte pass; peak stack32,no ignored window. Sixty-nine
+  owner and three real context instruction mutations fail.
+- BYTE capacity is not capped to80. Particle80 begins at FRAME27C2; its left
+  aliases PAGE27C4/SLOW27C5 and top aliases ADAPT27C6. Capacity81 update can turn
+  frame03FF into0301 and page0 intoEF; tick then emits raw pagesEF/12. Preserve
+  live state throughout spawn/update/render/adaptation. Signed coordinate wrap
+  happens once. Gate compares frames signed but PMD measures unsigned, and
+  reloads frame state after the bounded PMD reply.
+- The immutable-zero wait at270E is a closed CMP/JE CFG. Thirty-six checked
+  prefixes/image retain full registers, flags, stack and memory after1/3/7
+  actual cycles; they are separate from terminal entries. Counter immutability,
+  no external writes and returning preparation are explicit assumptions.
+  Real advancing counter replies are also tested; late arrival does not
+  retroactively enable adaptation. No budget expiry or skipped guest steps
+  prove a loop. Vector/table storage, assets and physical IRQ/audio/pixel/timing
+  effects receive no new ownership.
+
+Next candidates: the remaining nine staff/graphics procedures and cutscene ownership, then
 remaining OP/ZUN and the overall source/link graph. Whole-product completion
 remains open.
 Use `review_th03_mainl_sound_work.images()` to revalidate the complete current
