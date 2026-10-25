@@ -1,10 +1,9 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-25, after `07404db`. MAINL's complete ending
-entry now has native ownership and full-state contracts with actual accepted
-callees. Five missing consumed SDK headers were added and all fresh producers
-now reject undeclared SDK dependencies. Two source-only cold builds and the full
-MAINL proof chain were rerun; all previous 40 owners retain their observations.
+Reconstruction checkpoint: 2026-10-25, after `a0afb82`. MAINL's complete flake
+and upwards-unput drawing procedures now have native ownership and independent
+flat-WORD contracts. Native inputs are unchanged; the complete current cold pair
+and all previous 41 owner/layout/runtime observations were revalidated.
 Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
@@ -15,7 +14,7 @@ Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 41 functions / 3,182 CODE bytes | Open |
+| MAINL | 43 functions / 3,381 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -31,8 +30,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,209 tests, 284 optional archive skips, all checks passed**;
-6m53s, about 536 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,226 tests, 284 optional archive skips, all checks passed**;
+7m04s, about 511 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -103,7 +102,8 @@ Complete `_mainl_ending` owns **280 CODE bytes** at `095F:2382`, with34 ordered
 native fields,14 ordered MZ relocations and the compiler-owned near cdecl frame.
 `src/mainl/staff/data.cpp` is copied literally to `staffdat.cpp` and compiled
 GAME3/L. Full producer inventory is19 procedures/3,695 CODE bytes,224 initialized
-DATA bytes and no BSS; the other18 procedures and DATA remain unaccepted.
+DATA bytes and no BSS; after the drawing scopes below,16 procedures/3,216 CODE
+bytes and all224 initialized DATA bytes remain unaccepted.
 Current command: `review_th03_mainl_ending_work.py --current-cold`.
 
 - **9,528 complete entries per image** at two loads execute all280 ending bytes
@@ -126,7 +126,33 @@ Current command: `review_th03_mainl_ending_work.py --current-cold`.
   stored files are unchanged; full prerequisites and the OP/MAINL joint witness
   were regenerated against the new recipe/cold report.
 
-Next candidates: remaining staff/snow/graphics and cutscene ownership, then
+### MAINL staff drawing
+
+Complete flake76 and upwards-unput123 own **199 CODE bytes** at
+`095F:249A/24E6`, in the same natural `staffdat.cpp` producer as ending. All three
+ordered OMF WORD fields and complete empty MZ vectors pass. Current command:
+`review_th03_mainl_staff_draw_work.py --current-cold`.
+
+- **25,612 complete entries/image** at two loads execute every199 owner bytes;
+  17 flake/20 unput instruction mutations fail. All4,096 distinct cel source
+  offsets, coordinate/index/dimension BYTE lanes, source BYTE lanes at eight
+  rotations, source single bits, foreign SS, IF/DF and persistent reentry pass.
+  All DWORD/segment/defined flags and every flat-memory/private/caller byte are
+  checked; stack peaks6/10, no ignored window. WORD atFFFF spans physical bytes
+  and passes both images/two loads.
+- Cel is not capped to4: native WORD shift/add folds65,536 inputs to4,096 source
+  offsets. Flake always ORs eight rotated WORDs. Unput modifies its actual caller
+  coordinate words using signed halves truncated toward zero, but its clear
+  count is unsigned width>>4 (at most4,095). Three REP groups always execute,
+  even when count0. DF0 advances row starts80; DF1 advances80-4*count moduloWORD.
+  Native arithmetic enumerates all65,536 dimension states. No instruction
+  budget or skipped guest iterations establish these bounds.
+- Sprite/slot fixture data and all enclosing DATA are unowned. These contracts
+  cover literal flat x86 memory operands; planar hardware, assets and timing
+  remain unproved. Prior ASM/hybrid evidence remains historical; current units
+  bind the actual maintained `src/mainl/staff/data.cpp` producer.
+
+Next candidates: the remaining16 staff/snow/graphics procedures and cutscene ownership, then
 remaining OP/ZUN and the overall source/link graph. Whole-product completion
 remains open.
 Use `review_th03_mainl_sound_work.images()` to revalidate the complete current

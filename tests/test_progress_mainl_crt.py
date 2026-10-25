@@ -24,7 +24,8 @@ class CrtProgressTests(unittest.TestCase):
             self.assertNotIn("24,680 B target-equal",progress.render_svg(units,[],evidence))
             historical=[dict(u) for u in units]
             for unit in historical:
-                expected=progress.MAINL_LINKED_GAME_SOURCE_UNITS.get(unit['id'])
+                expected=(progress.MAINL_LINKED_GAME_SOURCE_UNITS.get(unit['id'])
+                          or progress.MAINL_STAFF_SOURCE_UNITS.get(unit['id']))
                 if expected:
                     unit['source']=expected['source']
             self.assertIn("24,680 B target-equal",progress.render_svg(historical,[],evidence))
