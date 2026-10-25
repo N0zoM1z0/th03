@@ -8,12 +8,15 @@
 4. For exact acceptance, check complete raw bytes, literal ordered relocations,
    ownership, ABI/MAP/layout, affected behavior and two independent cold builds.
    Required checks are in `config/oracles.toml`; compiler success alone is insufficient.
-   Use `scripts/review_th03_op_render_work.py` for the SDK-guarded OP cold pair,
-   cfg, dispatch, attract, sound, initializer/helper and renderer reviews. It
-   invokes the helper/sound/attract/dispatch/cfg chain once. Renderer switch-table
+   Use `scripts/review_th03_op_vs_work.py` for the SDK-guarded OP cold pair,
+   cfg, dispatch, attract, sound, initializer/helper, renderer and VS caller reviews. It
+   invokes the renderer/helper/sound/attract/dispatch/cfg chain once. Renderer switch-table
    bytes remain separate from instruction execution coverage. Its `--current-cold` mode revalidates a
    complete existing source/SDK/recipe/output-bound pair and runs all new helper
-   gates; use it when product sources and native recipes have not changed. OP and MAINL sound scopes use independently checked native layouts
+   gates; use it when product sources and native recipes have not changed.
+   The VS model executes its real owned helpers, while character-selection
+   procedures remain explicit unowned interfaces. The real title-box dependency
+   receives no additional ownership credit. OP and MAINL sound scopes use independently checked native layouts
    with a shared execution core; refresh both reports after core changes.
    Preserve separate ordinary-entry and loop-continuation witness counts; the
    supplied SI continuation states do not prove elapsed frames. After rebuilding

@@ -14,7 +14,7 @@ See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).
 
 OP decoded publication: installed.
 
-OP current decoded source acceptance: 26 functions / 1,979 bytes. Fresh source-only cold pair, native ownership/ABI and bounded instruction models pass. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
+OP current decoded source acceptance: 27 functions / 2,344 bytes. Fresh source-only cold pair, native ownership/ABI and bounded instruction models pass. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
 MAINL current decoded source acceptance: 21 functions / 1,035 bytes. Current native ownership/ABI, two source-only cold builds, 4,800 lifecycle, 2,218 shared input and 3,378 ending wait guest cases per image pass. Six sound/timing functions add 332 CODE bytes, 33 literal native fields and one natural same-CS far-call relaxation, with no private DATA/BSS or MZ relocations. Their 42,742 guest cases per image cover the 33-entry SE tables against BYTE states, full-WORD unchecked priority indices, fixed 13-byte filename copying, suffix overflow, file errors, driver routing and unsigned measure/counter waits; 33 instruction mutations fail. Actual frame-delay instructions execute; DOS/PMD/MMD replies and counter updates remain bounded interfaces. Adjacent explicit padding remains unaccepted. Canonical packed-file unit credit and whole-product source ownership remain unchanged.
 
