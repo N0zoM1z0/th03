@@ -1,9 +1,10 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-26, after `3763316`. MAINL's complete980-byte
-staff roll now has actual nested sound/resource/staff/input execution contracts.
-All19 staff-TU procedures/3,695 CODE and separate224 initialized DATA bytes have
-scoped source ownership. Product inputs and prior53 owner observations stay equal.
+Reconstruction checkpoint: 2026-10-26, after `dbf8a52`. OP's complete263-byte
+far startup now has actual nested init/CFG/input/menu/exit execution contracts.
+All15 entry-TU procedures/3,094 CODE bytes have scoped source ownership, including
+22 separately proved inline compiler bytes. DATA487/BSS6 remain open. MAINL's
+staff-TU ownership remains19 procedures/3,695 CODE plus224 initialized DATA bytes.
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before work.
 Detailed findings and witnesses live in source, `config/knowledge.csv`,
@@ -14,7 +15,7 @@ Detailed findings and witnesses live in source, `config/knowledge.csv`,
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
-| OP | 31 functions / 3,620 CODE bytes | Open |
+| OP | 32 functions / 3,883 CODE bytes | Open |
 | MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
@@ -29,15 +30,15 @@ unowned reference/vendor context and does not establish whole-product source
 ownership. Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN repeats101 raw outputs/99 native objects; its whole file is still unequal.
 
-Last completed reconstruction CI: **2,397 tests, 284 optional archive skips, all
-checks passed**;8m43s, about595 MiB peak RSS, no swap. CPU16/nice10 was used.
+Last completed reconstruction CI: **2,404 tests, 284 optional archive skips, all
+checks passed**;9m55s, about612 MiB peak RSS, no swap. CPU16/nice10 was used.
 
 ## Resume
 
 1. Inspect Git, run `.venv/bin/python scripts/preflight.py`, and re-attest the
    selected database before using it: `scripts/ghidra.py th03-mainl check`.
-2. Next: OP startup `_main`263 in `src/op/entry.cpp`,remaining MAINL
-   cutscene/registration,ZUN ownership and the four-product source/link graph.
+2. Next: OP entry DATA487/BSS6 or Music Room, remaining MAINL
+   cutscene/registration, ZUN ownership and the four-product source/link graph.
    Ending-to-roll aggregate composition is
    still separate from individual function ownership. Whole-product completion
    stays open.
@@ -47,8 +48,9 @@ checks passed**;8m43s, about595 MiB peak RSS, no swap. CPU16/nice10 was used.
    `gpt-6.1-sol: ...` commit; push checkpoints.
 
 Use the [workflow](RE_WORKFLOW.md) for full dependency/rebuild/publication order
-and [script index](../scripts/README.md) for entry points. Current full MAINL
-chain: `review_th03_mainl_staff_roll_work.py`. `--current-cold` revalidates the
+and [script index](../scripts/README.md) for entry points. Current OP/MAINL
+chains: `review_th03_op_startup_work.py` and
+`review_th03_mainl_staff_roll_work.py`. `--current-cold` revalidates the
 entire existing source/SDK/recipe/output graph and reruns only that stage; it
 cannot repair stale prerequisites. After OP/MAINL cold changes, refresh
 `review_th03_shared_input_work.py`. Do not rebuild unchanged products gratuitously.
@@ -183,12 +185,22 @@ The new full roll review took8m35s,about221 MiB RSS. Full unit report:
 
 ## Other open work
 
-- OP's five main/option menu procedures own1,338 CODE bytes including22 inline
-  bytes. Entry's14 procedures cover2,831 bytes; root `_main`263, DATA487/BSS6,
-  Music Room and resources remain. Preserve ordinary `samecodeseg` far-call
-  relaxation; do not restore handwritten call assembly. Eight legacy scope
-  observations stay equal to immutable `d118c46`; fresh phase-log hashes need
-  not match. `lib/op_nested_context.py` shares actual UC/native/static state.
+- OP's complete entry CODE producer now covers15 procedures/3,094 bytes;
+  its DATA487/BSS6, Music Room, graphics/resources and vendor context remain.
+  Startup is far cdecl/noargs/RETF; init filename cleanup is caller4. Actual
+  owned init/planes, CFG, input/delay, menus/attract and exit execute on one UC;
+  the CRT copy28 and sound-mode29 remain execution context. Root frames and
+  all new primitive stack bytes are checked. Inherited callee private windows
+  stay explicit: main96,option64,wait/VS80. A held story descendant preserves
+  its full predicted SP through the intermediate main frame. Short CFG reads
+  stop at the actual CFG return before arbitrary resident use. Raw in_option
+  2..255 is an explicit external CDG-write fixture, with closed1/3/7-cycle
+  prefixes; no normal keyboard reachability is claimed. All263 owner bytes,
+  38 native fields,16 ordered MZ sites and46 instruction controls pass.
+  Preserve ordinary `samecodeseg` far-call relaxation. Eight old observations
+  stay equal to `d118c46`; the full main-menu observation stays equal to
+  `dbf8a52`. Full startup review:4m00s/about230 MiB RSS, no swap.
+  Report: `.analysis/work/op-startup-build.json`.
 - MAINL sound mode/PMD/volume/reset still have explicit trailing NOPs. Unpadded
   bodies exist but natural enclosing layout is open. Generated WORD/BYTE
   alignment controls are diagnostics. Five root helpers own150 bytes; three

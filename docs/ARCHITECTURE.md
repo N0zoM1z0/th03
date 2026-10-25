@@ -100,6 +100,13 @@ native return words and static resident data, then exposes checked predicted
 results. Closed polling/retry prefixes need native CFG and live-state proof;
 emulator instruction-budget exhaustion is not evidence of nontermination.
 
+The far OP startup composes those contexts with actual init/CFG/input/delay/exit
+bodies and CRT copy instructions. Root caller frames and all primitive stack
+bytes are checked; existing callee private windows remain explicit (main96,
+option64, wait/VS80 bytes). A held descendant exports its full predicted SP,
+including intermediate frames. Short CFG preparation boundaries and conditional
+raw-dispatch prefixes receive separate outcomes, without return credit.
+
 ## Local tools
 
 `config/toolchain.toml` pins native tools, prefix and surfaces;

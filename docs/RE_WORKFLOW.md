@@ -39,7 +39,7 @@ native inputs and run the prerequisite review stages in order:
 
 ```sh
 th03_run scripts/replay_th03_main_native.py
-th03_run scripts/review_th03_op_main_menu_work.py
+th03_run scripts/review_th03_op_startup_work.py
 th03_run scripts/review_th03_mainl_staff_roll_work.py
 th03_run scripts/review_th03_zun_ongchk_work.py
 ```
@@ -62,7 +62,8 @@ changed stages in dependency order or use the default complete chain. Stage
 OP main-menu context migration compares all eight complete prior scope
 observations against Git checkpoint `d118c46`. Fresh decoded/stored outputs must
 match; native phase-log hashes need not. Current cold source/tool/SDK/output
-bindings still pass their own gates. The historical 33-owner cohort is immutable
+bindings still pass their own gates. Startup additionally preserves the complete main-menu observation at `dbf8a52`.
+The historical 33-owner cohort is immutable
 and separate from current refined source scopes.
 
 ## Publication and final checks

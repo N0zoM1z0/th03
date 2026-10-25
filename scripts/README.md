@@ -24,7 +24,7 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | MAIN | `build_th03_main_work.py --build --cold --runtime` | One source rebuild and entry/lose contracts. |
 | MAIN | `review_th03_main_native_units.py` | Review current native extents, publics/MAP, bytes and ordered relocations. |
 | OP | `build_th03_op_work.py` | Rebuild every project object twice, compare complete decoded/stored targets and lifecycle scopes. |
-| OP | `review_th03_op_main_menu_work.py` | Full cold/cfg/dispatch/attract/sound/helper/renderer/VS/story/option/main chain; actual owned callee contexts and legacy invariance. |
+| OP | `review_th03_op_startup_work.py` | Full cold/cfg/dispatch/attract/sound/helper/renderer/VS/story/option/main/startup chain; actual nested execution, full caller frames and prior-observation invariance. |
 | OP | `review_th03_op_music_call_work.py` | Native same-CS far-call proof and fresh ordinary-far source control; no Music Room implementation credit. |
 | MAINL | `build_th03_mainl_work.py` | Two complete project/CRT builds, normal TLIB membership/order, decoded/stored equality and lifecycle scopes. |
 | MAINL | `review_th03_mainl_staff_roll_work.py` | Full MAINL cold/resource/ending/staff/DATA/roll chain, including actual owned nested calls, input waits, fade and cleanup. |
@@ -33,7 +33,7 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | ZUN | `review_th03_zun_ongchk_work.py` | Full cold/formatter/graphics/lifecycle/DATA/wrapper/directory/source/ONGCHK chain. |
 | ZUN | `build_th03_zun_driver_work.py` | Standalone compatible sprite16 producer and native source controls. |
 
-OP's intermediate `review_th03_op_{cfg,dispatch,attract,sound,helpers,render,vs,story,option}_work.py`
+OP's intermediate `review_th03_op_{cfg,dispatch,attract,sound,helpers,render,vs,story,option,main_menu}_work.py`
 commands remain useful for bounded replays. MAINL sound and ZUN's individual
 review stages also remain separate executable entry points. Their `INPUTS`,
 `witness()` and `current_scope()` definitions specify exact prerequisites.
