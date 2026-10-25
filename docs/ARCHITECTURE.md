@@ -1,268 +1,106 @@
-# Architecture
+# TH03 architecture
 
-TH03 has four products: OP.EXE (menu), MAIN.EXE (game), MAINL.EXE (ending)
-and ZUN.COM (launcher). Product source belongs under the matching `src/`
-directory; proved shared code belongs in `src/shared/`.
-`.c`, `.cpp` and `.asm` are translation units; `.inl` files are bounded includes.
+## Products and source
 
-The Japanese targets are pinned in `config/targets.toml`. Their provenance is
-`candidate-local-attested`; independent pristine-dump attestation is unknown.
-OP/MAINL/ZUN use DIET storage envelopes. Decoded images are analysis inputs,
-not replacements for the canonical stored targets.
+| Product | Role | Maintained source |
+| --- | --- | --- |
+| OP.EXE | Title, menus and game handoff | `src/op/` |
+| MAIN.EXE | Main game | `src/main/` |
+| MAINL.EXE | Ending and related menus | `src/mainl/` |
+| ZUN.COM | Launcher and embedded payloads | `src/zun/` |
 
-All five ZUN payloads now have native project producers. ONGCHK (-1) uses a
-self-contained recovered TASM TU: 892 CODE + 34 initialized DATA bytes and 42
-separate uninitialized bytes. Its COM is an output, not a reference binary input.
-Its complete initialized source scope has native and bounded full-state instruction
-acceptance; original source/tool identity and whole-product ownership remain open.
-MASTERS.LIB and installed Borland startup/runtime remain explicit unowned context.
+Proved common code belongs in `src/shared/`; dependencies are local or explicit
+`compat/rec98/` forwarding. `.c`, `.cpp`, `.asm` are translation units; `.inl` is
+a bounded include. Existing composer/provider paths are part of frozen native
+recipes: consult the actual source graph before deleting or moving a file that
+looks unused. Reference/compiler candidates are not automatically native owners.
 
-`config/toolchain.toml` pins TC4J, TASM and TLINK. The game-local Wine prefix is
-`.analysis/toolchain/wineprefix`; Ghidra projects are in `ghidra-project/`.
-Installed tools are in `drive_c/TC4` and `drive_c/TASM50`; `drive_c/TH03WORK`
-is the current MAIN build. `scripts/attest_toolchain.py` checks installed tools.
-`_reference/ReC98` is candidate reference material, not authored progress.
-Product dependencies use local source or explicit `compat/rec98/` forwarding.
+`_reference/ReC98` supplies the pinned scaffold, headers and vendor context.
+It remains reference material with its own authorship/license. Build wrappers
+retain original first-use GAME/BINARY combinations and compile/link order;
+a file shared by OP and MAINL has separate product-specific native proofs.
 
-The ZUN sprite16 driver also has a bounded compatible OMF producer pinned in
-`config/th03_zun_driver_jwasm.toml`. Its public source and private native tool
-are attested separately; the normal TLINK still links the resulting object.
-This does not identify the original assembler or change the base Borland tools.
-The syntax adapter preserves all maintained instruction and data includes.
-The driver uses one translation unit with nine CODE contributions in DGROUP.
-Root WORD/EVEN alignment and eight PARA contributions generate its 71 intergroup
-zero bytes through normal TLINK layout; no sized filler arrays supply them.
-This compatible organization preserves every linked byte and public address;
-the original source/object organization is unknown. Three plus nine reserved
-DATA bytes remain separate, unreviewed context.
+## Storage and coordinates
 
-Ten complete driver formatter/print procedures own 677 library CODE bytes.
-Direct control-flow traversal proves four jumps (eleven bytes) unreachable;
-the independent guest contracts execute all other 666 bytes. Preserve DWORD
-argument slots in SS, signed WORD padding, sign-before-padding and the unchecked
-208-byte wrapper buffer, including saved-BP overwrites at output lengths 208/209.
-PUSHA restores WORD registers while numeric high halves can change. DOS AH=2 is
-a bounded interface; actual formatting, reverse and strlen instructions execute.
-The current formatter review binds a full cold pair and three relative WORD
-fields plus one absolute DWORD digit-table field; the table adds no DATA credit.
+Japanese targets are pinned in `config/targets.toml`, with
+`candidate-local-attested` provenance. Independent pristine-dump attestation is
+unknown. Never substitute patched, translated or reference-game executables.
 
-Twelve driver graphics procedures own 814 library CODE bytes. Native ownership
-checks 62 WORD fields; direct CFG proof separates four dead clipping-jump bytes
-from 810 executed bytes. A bounded two-page/four-bank word-memory interface
-checks CPU writes, page selection and exact port width/order/IF/DF. It does not
-emulate EGC latches, raster operations or physical pixels. Real nested helpers
-execute, including the 65,536-row zero-height loop. EGC begin/end force IF on;
-top clipping does not perform a second bottom pass. Shared state and buffers
-remain external dependencies, with no new DATA ownership.
+OP, MAINL and ZUN have DIET storage envelopes. Canonical stored-file coordinates,
+decoded load addresses and native object offsets are different spaces.
+`config/th03_diet.toml` pins the decoded identities. Current builders repeat
+normal DIET `-B` packing/restore and compare complete decoded/stored files.
+TH04's `-G` packing does not match TH03 OP.
 
-Eight driver lifecycle procedures own the remaining 564 library procedure CODE
-bytes. Their 69 native WORD fields include 27 relative calls. Actual maintained
-parser, formatter and graphics helpers execute under independent specifications;
-DOS allocation, resize, free and exit replies remain bounded. DOS 4C/31 are
-terminal: 549 bytes execute and fifteen following bytes are unreachable under
-that contract. Install compares the signature at segment:0102, saves the old
-vector and retains two decimal-1000-paragraph buffers. Uninstall deliberately
-restores offset zero, then frees environment, mask, solid and code in order.
-IRET restores a six-byte frame and stacked flags, overriding the internal STI.
-All 55 driver procedures have scoped acceptance. Four additional extents own
-the startup header, digit alphabet, packed shared DATA and ON/OFF strings:
-2 CODE + 1,294 DATA bytes, including a 512-byte initialized stack and 64 near
-token pointers. Twenty-five native WORD fixups bind the option and service
-tables. Independent consumers use raw defaults, strings and tables at two
-loads. Option checks supply mutable argument-count/vector inputs and stop at
-callback selection, with bodies covered by their own
-procedure reviews. Separate semantic checks cover every initialized DATA byte.
-Three plus nine reserved bytes still have no ownership. These DATA checks do
-not promote the enclosing driver or establish the original source organization.
+A target-equal executable can still contain unowned reference/vendor code.
+Complete product source acceptance additionally requires reviewed ownership,
+layout, literal ordered relocations, behavior and cold reproducibility. Unit
+boundaries, inline compiler tables, unreachable instructions, initialized DATA,
+BSS and linker gaps receive separate treatment. BSS is not file-backed; whole-game
+source/function denominators remain unknown.
 
-The outer ZUN launcher and two transfer TUs own 213 CODE + 21 DATA bytes.
-Nine native WORD fixups bind the root's counts, names, entries and scratch word;
-the transfer CALL/helper have none. Three individually linked tiny objects
-keep their ORG 0100 and native entry/group records, then compose at their actual
-outer COM positions. The three wrapper TUs exclude the directory metadata.
-FCB filename bytes select the payload independently of the selector text.
-Success leaves a WORD remaining count on the caller stack; the trailing helper
-discards its CALL return and enters 0100 before any payload instruction runs.
-Direct transfer contracts require DF clear, DI=0100 and a bounded payload span.
-Three explicit DOS AL reply policies expose the AH-only termination status.
-Complete memory and ordered stores are checked, including transient stack words,
-forward overlapping moves and an SS different from DS. Unowned payload/runtime
-dependencies and whole-product source ownership remain open.
+## Native builds
 
-The directory now has its own maintained semantic DATA TU under `src/zun`.
-TASM/TLINK emit all 324 bytes from the count, fixed names, 32-slot ABI and seven
-actual linked-length definitions. Four public labels rebase to count 01DF,
-names 01E1, entries 02E1 and following CALL 0323. Six ordered WORD boundaries
-cover the five opaque payloads; unused names and entry words are format slots.
-Two literal OMF records and two bounded iterated records explain all storage.
-The compositor consumes the complete linked directory directly; its independent
-format contract checks every field. Capacity-31/33 native source controls emit
-314/334 bytes and fail equality. No CODE or payload ownership follows from this
-DATA scope, and the original directory generation tool remains unidentified.
-The native composition adapter has its own module; the shared historical
-constructor remains byte-identical to the promoted MAIN scheduling pin.
+| Product | Current builder | Working tree in Wine `drive_c/` |
+| --- | --- | --- |
+| MAIN | `build_th03_main_work.py` / `replay_th03_main_native.py` | TH03WORK |
+| OP | `build_th03_op_work.py` | TH03OP |
+| MAINL | `build_th03_mainl_work.py` | TH03ML |
+| ZUN | `build_th03_zun_work.py` | TH03ZUN |
 
-`src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
-CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.
-Its two link layouts and six ordered far-pointer relocations are reviewed
-independently. `review_th03_shared_input_work.py` binds the full current cold
-pairs to complete input-policy and wait witnesses; per-product publication
-retains separate source acceptance. Keyboard, joystick and frame services are
-bounded interfaces, with zero private DATA/BSS ownership in this producer.
-MAINL also owns two ending waits / 126 CODE bytes in a separate GAME3/L
-producer. They execute the owned input interface: its AX result replaces the
-sound query result before the unsigned measure comparison. Frame waits use
-an unsigned IRQ counter and preserve their distinct far Pascal cleanup sizes.
+Each builder recreates source and rebuilds its project objects in two independent
+rounds. Current reports live in `.analysis/work/`. MAINL uses normal TLIB
+extraction/rebuild: six maintained CRT producers replace members without changing
+the 893-member library order. Other vendor members remain contextual.
 
-Six MAINL sound/timing procedures own 332 CODE bytes in five whole producers.
-Native ownership checks 33 fields, a genuine TLINK same-CS call relaxation and
-empty MZ relocation vectors. Source first-use slots remain GAME2/O for shared
-load/delay, GAME3/M for SE, GAME3/O for KAJA and GAME3/L for measure wait.
-Global sound tables/state, filename scratch and IRQ counter remain external
-storage; 69 initialized dependency bytes gain no DATA credit. Keep BYTE frame
-wrap and full-WORD priority indexing, fixed 13-byte far filename reads, unchecked
-suffix extension, file-error continuation and DS restoration before close.
-Loader MIDI uses nonzero; KAJA/measure use exactly one. Actual frame_delay runs
-inside the no-BGM measure path. Finite counter updates and DOS/driver replies
-bound these contracts; physical timing/audio and adjacent explicit padding
-remain unproved.
+OP's current-source adapter supplies the original menu Git blob only while
+constructing its historical staging graph, then overlays the live maintained
+include before compilation. It preserves old stager pins without compiling a
+historical product. The temporary read view is removed.
 
-OP independently owns the complete 112-byte sound loader and 21-byte delay
-producers, with ten literal native WORD fields and no MZ relocations. OP global
-addresses and both MAP tables are separate from MAINL. A shared independent
-execution core supplies the same file/driver/counter contracts to both layouts;
-product-specific case domains, native ownership and cold bindings stay separate.
-The model refactor preserves the complete MAINL runtime trace vector.
+ZUN composes five native payloads, a semantic directory TU and launcher/transfer
+TUs. Sprite16 uses pinned JWasm plus normal TLINK as a compatible OMF producer,
+not an original-assembler identity claim. Its nine CODE contributions, PARA/WORD
+alignment and EVEN generate the accepted layout through ordinary linking.
+Reserved driver DATA remains separate. `scripts/lib/zun.py` is also a frozen
+MAIN scheduling input; keep its hash.
 
-OP additionally owns its 105-byte initializer, 30-byte KAJA and 21-byte duplicate
-frame_delay_2. The KAJA/initializer wrappers each retain two explicit include
-layers; every staged link and native dependency is checked before source credit.
-Sixteen native fields and eleven ordered MZ relocations pass;
-the actual plane-set far call relaxes normally and all 41 plane-helper bytes
-execute. Initialization requests 22,000 paragraphs, returns one immediately on
-any nonzero WORD allocation result, and otherwise forwards the far filename
-unchanged while ignoring later errors. It is far cdecl; both sound/timing
-helpers are far Pascal with two-byte cleanup. frame_delay_2 shares vsync_Count1
-with frame_delay; its name does not indicate another counter. Global plane and
-sound storage gains no additional ownership. Device/package/driver replies and
-finite counter changes remain bounded interfaces.
+The old-named `reference.tar` identified in the handoff remains an actual current
+OP/MAINL source input. Historical output trees around it need not be retained.
 
-OP's three near cfg functions own 271 CODE bytes inside the larger entry TU.
-Containing menu CODE/DATA/BSS stays context; the flag, zero template and filename
-are separately reviewed dependencies. `review_th03_op_cfg_work.py` guards the
-five consumed SDK headers around an actual OP cold pair and binds full cfg
-contracts. Ordinary saves retain the fourth uninitialized stack byte; exit saves
-copy the real eight-byte zero initializer. PMD-mode and CRT helper instructions
-execute, while file/PMD replies stay bounded interfaces. Helper alignment and
-whole-entry ownership remain open.
+## Evidence and behavior
 
-The same entry TU has two accepted near demo/score dispatch bodies (296 CODE
-bytes). They execute the real cfg save, sound routing and game cleanup; library,
-driver and failed-exec replies remain bounded interfaces. Demo BYTE 255 wraps
-to zero and reads adjacent table bytes. Score dispatch returns false in AL;
-AH survives the failed execl reply. Its twelve argument bytes are caller-popped.
-The screen ledger partitions its former 1,222 bytes without overlapping credit;
-the story and VS callers now have separate current acceptance, as described below.
+`config/units.csv` records source presence, origin, boundaries and coordinates;
+`evidence.csv` and `knowledge.csv` preserve findings and qualification.
+`config/oracles.toml` defines the required gates. Current decoded publications
+are `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`; MAIN's detailed
+proofs live in `config/main_work/`. `docs/PROGRESS.md` and `resources/progress.svg`
+are generated by `scripts/progress.py`. The handoff gives a dated snapshot.
 
-The 105-byte near OP attract wait now also has scoped acceptance. It executes
-423 real input/demo/cfg/sound/cleanup/delay bytes under independent contracts. Every
-poll increments the resident DWORD random value and delays even after finding
-input; poll 521 still calls demo first. Preserve signed WORD frame wrap and
-fourteen box-column steps. Whole-entry cases and explicitly supplied loop
-continuations have separate witness counts. The latter execute the real
-prologue before supplying SI; they do not prove elapsed physical time or an
-unbounded interactive lifetime. The actual frame-delay body executes on every
-poll and animation step. Graphics/counter/device/exec replies stay bounded.
+Native verifiers bind complete OMF records/publics, MAP allocations and ordered
+relocation fields to actual producers. Comparison-buffer fixup resolution never
+patches objects or executables. Ordinary same-CS far-call relaxation is accepted
+only with native group/ABI proof; explicit padding/target arrays are not substitutes.
 
-`.analysis` keeps targets, runtime files, tools, current Ghidra state and one
-working build tree. Historical experiments and validation archives are disposable.
-Download archives and installation media are needed only for installation;
-bootstrap checks their hashes. Routine checks verify the installed tools.
+Unicorn models execute actual target and candidate instructions against independent
+scalar specifications. Contracts check the stated WORD/DWORD/segment registers,
+defined flags, real frames, ordered writes and complete memory outside declared
+private stack windows. Hardware, DOS, library and file replies are explicitly
+bounded interfaces; no physical timing/pixels or successful exec is inferred.
 
-Three complete choice renderers own 518 CODE bytes in that same entry producer:
-VS 66, main 122 and option 330. Their 39 native fields include four internal
-CODE WORD switch targets and seven MZ far-call relocations. Full raw bytes,
-per-owner and cross-renderer relocation order are checked independently.
-The option body has 321 instruction bytes and nine non-instruction bytes after
-RET (a compiler-emitted zero and four WORD entries). All 509 renderer instruction
-bytes execute; those nine bytes have complete native/table proof and no execution
-credit. The 169 initialized string bytes remain external DATA dependencies.
-Gaiji/text calls receive real far strings, WORD attributes and Pascal frames;
-the library replies are bounded. Invalid selector and BYTE-state behavior,
-register leaks and the fixed-white rank erasure remain intact. The source ledger
-partitions existing screen/menu spans without adding source-present bytes.
+`lib/op_nested_context.py` lets the main-menu verifier execute actual owned
+story/VS/score/attract callees on one physical UC. It preserves entering state,
+native return words and static resident data, then exposes checked predicted
+results. Closed polling/retry prefixes need native CFG and live-state proof;
+emulator instruction-budget exhaustion is not evidence of nontermination.
 
-The complete story caller owns 390 CODE bytes, with 22 ordered native fields
-and five MZ relocations. Its real 42-byte library LCG executes alongside cfg,
-KAJA and cleanup helpers; the selector remains a bounded interface. Only AL
-decides cancellation, while boolean returns retain AH. The seven static seen
-bytes persist after a failed executable handoff. A fully blocked 0..6 candidate
-domain closes the native retry loop; explicit prefixes check live registers,
-flags and memory, and consecutive calls reproduce that nontermination.
-Unchecked character BYTEs can read beyond the nine-row table and trigger the
-real validation/retry branch. All 390 instruction bytes execute. The 6,748 cases
-per image at two loads reject forty instruction mutations, including actual
-LCG carry/output and owned helper mutations. Complete WORD/DWORD state, ESP,
-ordered stores and all memory outside 48 private stack bytes pass. The table,
-seen slots, seed and library helper gain no additional source credit here.
-The bounded witnesses do not prove termination or a delay bound for all DWORD
-seeds, successful process replacement or physical hardware behavior.
+## Local tools
 
-The main menu's Music Room call now uses normal C++ and `samecodeseg`.
-Its real native field is a four-byte far CALL with GROUP_01 frame1. TLINK
-generates NOP/PUSH CS/near CALL at loaded A1B4, preserving the four-byte far
-return frame without a scoped MZ relocation. The unannotated far-call control
-adds one relocation and five loaded differences. Independent call-site tests
-check every register/flag/store and physical memory byte, including all stack
-bytes, and stop before executing Music Room. Its implementation remains open;
-the enclosing main caller has its separate complete scope below.
-The current OP builder preserves historical stagers and their pins through a
-temporary read view: only the original menu input comes from Git checkpoint
-`a02fcc9`, then the live maintained menu include replaces it before compilation.
-All other historical inputs remain live and must still pass their original
-checks. The read view is removed immediately and contains no native outputs.
+`config/toolchain.toml` pins native tools, prefix and surfaces;
+`config/analysis_toolchain.toml` pins Ghidra/JDK, full installation trees and MZ
+loader behavior. Ghidra projects are under ignored `ghidra-project/`. Re-attest
+before using database observations; decompiler/function boundaries are hypotheses.
 
-The shared menu movement and option caller own 63 and 532 instruction bytes.
-Sixty-five ordered native fields cover own CODE/DATA/BSS group references,
-external state, normal near calls and nine far-call relocations. Movement uses
-signed BYTE arithmetic and near Pascal WORD parameter slots, then invokes the
-live callback before and after wrapping. Option handles UP/DOWN and RIGHT/LEFT
-independently, preserves debounce state, and can issue both confirm/cancel exits.
-Its real main/option renderers, KAJA, mode detection, title box and delay execute:
-567 nested instruction bytes add no ownership beyond their separate scopes.
-The 16,570 cases per image reject 35 instruction mutations and check complete
-WORD/DWORD/segment registers, flags, ordered stores and physical memory outside
-64 private stack bytes. Graphics/text/driver replies and finite counter updates
-remain explicit interfaces. The former 886-byte menu extent is partitioned into
-63/291/532 bytes without increasing source-present totals. All three callers
-now pass separate complete scopes, including main's thirteen inline bytes.
-
-The 291-byte main caller owns 278 instruction bytes plus thirteen inline
-switch/separator bytes. Its 42 native fields include a genuine group-relative
-far CALL, six own-CODE switch pointers, own DATA/BSS and external near/far/state
-references. Five-byte Music Room relaxation creates no segment relocation;
-TEXT_CLEAR supplies the caller's single MZ pair. In 5,120 cases per image,
-all caller and all 954 story/VS/score/attract instruction bytes execute.
-Optional physical entry contexts share the actual UC, entering registers,
-resident data, private stack inputs and native near return words. Existing
-independent callee contracts check predicted outputs before parent continuation.
-Eight old complete scope observations remain identical to checkpoint d118c46.
-Actual consecutive menu calls retain story seen slots and prove closed retry
-prefixes without emulator-budget inference. Graphics/CDG/fade/shrink/Music Room
-implementations remain bounded foreign interfaces. Full state and memory outside
-96 private stack bytes pass; peak depth is 38. Thirty-six instruction and six
-consumed switch-WORD mutations fail; inline separator bytes are not executed.
-The entry TU now has fourteen accepted functions / 2,831 CODE bytes, leaving
-root main263 and its DATA487/BSS6 outside whole-producer ownership.
-
-A bounded sound layout diagnostic separates instruction recovery from unresolved
-trailing bytes. Removing active codestrings in disposable source copies preserves
-all nine selected OP/MAINL function bodies. Ordinary compiler-assembly output
-changes link layout. An explicit WORD-segment annotation control preserves those
-bodies and recovers the target headers and complete ordered relocation vectors,
-leaving two OP and four MAINL gap values at 00 instead of 90. This control does
-not prove an original or acceptable production recipe. The current product
-sources/builds and all acceptance counters remain unchanged; the trailing-byte
-producer is still open. DPMI -WX also changes real code and cannot be treated
-as a pure alignment flag. The SE codestring is conditional on another GAME;
-its GAME3/M diagnostic copy retains that inactive source branch.
+Use headless tools with empty DISPLAY/WAYLAND_DISPLAY, one CPU at nice10, bounded
+Java heap and one serialized Borland/Wine writer. Preserve the local prefix,
+private targets/assets and actual installed tools. See the workflow for commands.

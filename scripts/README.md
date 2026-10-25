@@ -1,47 +1,76 @@
-# Current entry points
+# Script entry points
 
-Run these from the repository root with `.venv/bin/python scripts/SCRIPT`.
+Run from the repository root with `.venv/bin/python scripts/NAME.py`.
+[Workflow](../docs/RE_WORKFLOW.md) gives execution order; [handoff](../docs/RE_HANDOFF.md)
+gives current acceptance and open work. Detailed historical witnesses belong in
+`config/`, rather than duplicated command descriptions here.
 
-| Script | Purpose |
+## Environment and checks
+
+| Entry point | Purpose |
 | --- | --- |
-| `preflight.py` | Check the environment, pinned targets and tracking before work. |
-| `replay_th03_main_native.py` | Rebuild two independent MAIN source trees, compare all native outputs and review accepted owners. This is the current MAIN replay entry point. |
-| `build_th03_main_work.py --build --cold --runtime` | Run one fresh MAIN source build, with entry/lose runtime checks. |
-| `review_th03_main_native_units.py` | Review all configured extents and native-owner gates against the current cold pair. |
-| `probe_th03_sound_nop_layout.py` | Diagnose trailing sound NOPs in current OP/MAINL pairs: selected unpadded source copies, compiler/TASM output, supported optimization flags, DPMI code changes and isolated CODE-alignment controls. Reuse remaining current objects, preserve product/tool inputs and remove the DOS scratch tree. All source/author/whole-product credit flags remain false; this is not an acceptance or fresh whole-product build command. |
-| `probe_th03_main_producers.py` | Replay unresolved renderer, state/shot grouping and alignment controls. Diagnostic only; temporary native products are removed. |
-| `ci.py` | Run tests, tracking/progress checks and available local tool/database checks. |
-| `build_th03_op_work.py` | Build all 30 OP objects twice from current source, compare raw OBJ/EXE/MAP and the complete decoded target, repeat canonical DIET packing and run exit/plane ownership/ABI models. `--review` revalidates current source/output/recipe bindings, repeats packing and reruns scoped checks. Reference source and vendor libraries remain unowned context. |
-| `review_th03_op_cfg_work.py` | Run an actual OP cold pair under five consumed SDK header guards, then review three complete near cfg functions / 271 CODE bytes, 28 native fields and thirteen literal relocations. Full 4,408-case-per-image models and twenty-one mutations bind packed/partial reads and distinct four/eight-byte writes. Real PMD-mode/CRT helper instructions execute. The enclosing entry producer and helper alignment stay context; status runs five short cases per image. |
-| `review_th03_op_dispatch_work.py` | Invoke the SDK-guarded cold/cfg review once, then resolve two complete demo/score bodies / 296 CODE bytes, 25 native fields and ten literal relocations. Independent 2,144-case-per-image contracts execute 164 nested cfg/sound/cleanup bytes and reject twenty-three mutations. Preserve demo BYTE wrap and adjacent reads, DWORD seeds, real save/port order, AL-only false and twelve-byte cdecl exec cleanup. Status runs eight short cases per image. Successful exec and physical devices remain open. |
-| `review_th03_op_attract_work.py` | Run one OP cold/cfg/dispatch chain, then the complete 105-byte attract wait, nine native fields and five relocations. Independent 1,230-case-per-image models execute 423 real helper bytes (including actual frame delay) and reject 24 mutations. Separate ordinary-entry and loop-continuation cases. `--current-cold` validates prerequisites before attract-only replay. Follow with shared-input review. |
-| `review_th03_op_sound_work.py` | Run the complete OP cold/cfg/dispatch/attract chain once, then review two whole sound/timing producers / 133 CODE bytes, ten literal native fields and empty MZ relocations. Independent OP layout contracts run 1,438 cases per image and reject fourteen mutations. `--current-cold` revalidates current prerequisites; refresh shared input before publication. |
-| `review_th03_op_helpers_work.py` | Review the complete 105-byte initializer, 30-byte KAJA and 21-byte duplicate delay: sixteen native fields, one normal TLINK relaxation and eleven ordered relocations. All 156 owner plus 41 real plane-helper bytes execute in 2,754 cases per image; 24 mutations fail. Default rebuilds the complete cold/sound chain. `--current-cold` revalidates the existing unchanged pair before all helper gates. |
-| `review_th03_op_render_work.py` | Review three whole near choice renderers / 518 CODE bytes, 39 native fields and seven ordered relocations. All 509 instruction bytes execute; nine compiler-emitted inline non-instruction bytes have full raw/table proof. Independent 11,622-case-per-image contracts reject 24 mutations. Default rebuilds the complete prior review chain; `--current-cold` validates the unchanged pair before all renderer gates. |
-| `publish_th03_op_work_scopes.py` | Independently replay the current cold bindings, OMF/MAP ownership, instruction contracts and eleven required gates for twenty-six decoded lifecycle/input/cfg/dispatch/attract/sound/helper/renderer functions (1,979 CODE bytes), including 63 literal relocations. Publish source acceptance separately from canonical packed-file unit credit and whole-product ownership. No old private verification trees are inputs. |
-| `build_th03_mainl_work.py` | Build all 36 MAINL project objects and six CRT providers twice, use normal TLIB extraction/rebuild to preserve the 893-member library order, compare all 938 raw outputs and complete decoded/stored targets, then execute the four lifecycle owner/ABI models. Bind the three consumed SDK headers to the pinned installation before and after native builds. Reference source and 887 vendor members remain unowned context. |
-| `review_th03_mainl_sound_work.py` | Rebuild the complete MAINL cold pair, then check six whole sound/timing procedures / 332 CODE bytes, 33 fields and one natural same-CS far-call relaxation. Execute 42,742 cases per image and reject 33 actual mutations; real frame-delay code executes. DOS/driver/counter replies remain bounded. `--current-cold` revalidates the full current prerequisites. Refresh shared input before publishing. |
-| `publish_th03_mainl_work_scopes.py` | Independently revalidate the complete current 938-output cold graph, library membership, consumed source/SDK headers, twenty-one complete function owners, twenty-five literal relocations and eleven scoped gates. Publish twenty-one decoded source functions / 1,035 bytes; canonical packed-file unit credit and whole-product source ownership remain separate. |
-| `review_th03_shared_input_work.py` | After fresh OP/MAINL cold pairs, independently review their complete shared nine-function / 367-byte input producer. Resolve all 58 native fields and ten ordinary TLINK call relaxations, bind six literal ordered relocations per product, and execute 2,218 guest cases per image with nineteen mutation controls. Also verify two MAINL ending waits / 126 bytes in 3,378 guest cases per image with eighteen mutants. Status rechecks bindings and twelve shared plus five ending short cases per image; hardware/sound services remain interfaces. |
-| `bootstrap_jwasm.py` | Build the bounded ZUN compatible OMF emitter from the pinned public source commit; `--check` checks source/archive/executable identity and the observed version/help exit status. This does not identify the original assembler. |
-| `build_th03_zun_driver_work.py` | Build the complete maintained -4 driver twice through pinned JWasm plus the normal TLINK, check all 56 public addresses and tiny layout, compare the entire decoded payload, and reject the actual ten-byte TASM control. Outer launcher/storage and formal acceptance remain separate. |
-| `build_th03_zun_work.py` | Build wrapper and -2/-3/-4/-5 twice; repeat 23 raw outputs and complete decoded/stored targets. Execute five full models and reject 80 guest mutants; nine command procedures / 361 CODE bytes run 6,678 cases per image. Driver has nine natural CODE contributions, 71 linker bytes, native EVEN and 206 real fixups; sixteen scalar and thirty command fixups bind twenty-five library owners. Native WORD/no-EVEN source controls reject equality without changing procedure includes. Bind runtime/startup and SDK copies. Driver remainder/12 reserved DATA bytes and whole-product acceptance stay open. |
-| `review_th03_zun_format_work.py` | Run a complete ZUN cold pair, then native/CFG/guest gates for ten formatter/print procedures / 677 library CODE bytes. Three relative WORD fields and one absolute DWORD digit-table field are literal. Models execute 666 reachable bytes in 6,106 cases per image and reject twenty-four mutations; eleven dead jump bytes have separate CFG proof. Preserve sign/padding, DWORD SS slots, width wrap, WORD/high-half distinctions and saved-BP buffer overflow. `--current-cold` revalidates an existing current pair without new native writes. |
-| `review_th03_zun_graphics_work.py` | Invoke the complete cold/formatter review once, then check twelve graphics procedures / 814 CODE bytes, 62 WORD fields and two dead clipping jumps. Models execute 810 bytes in 512 cases per image and reject twenty-six instruction mutations. Check real helpers, register/flag results, zero-height wrap, ports and a two-page/four-bank word-memory fixture. EGC raster/latch/pixel effects stay unproved. `--current-cold` revalidates existing cold/formatter prerequisites and reruns graphics gates. |
-| `review_th03_zun_lifecycle_work.py` | Run one cold/formatter/graphics chain, then eight lifecycle procedures / 564 CODE bytes and 69 WORD fields. Independent 1,826-case-per-image contracts execute 549 bytes, separate fifteen DOS-terminal-unreachable bytes and reject 25 instruction mutations. Actual nested helpers execute. `--current-cold` revalidates prerequisites before lifecycle-only execution. |
-| `publish_th03_zun_work_scopes.py` | Revalidate current cold recipe, every output and complete scoped -2/-3/-4/-5 ownership. Bind eight full runtime witnesses and execute 166 short ABI cases. Publish 68 decoded extents / 76 procedures / 5,072 CODE bytes. Keep 2,844 library CODE bytes and init's original-ASM 607 CODE + 783 DATA separate from 1,621 authored bytes; canonical packed-file unit credit stays unchanged. |
-| `ghidra.py ARTIFACT check` | Re-attest the headless database before using its observations. |
-| `attest_toolchain.py` | Check installed native tools and repeat execution probes; temporary probe trees are removed automatically. |
-| `verify_targets.py` | Check canonical target hashes. |
-| `status.py`, `progress.py` | Read ledger-derived progress; `progress.py --check` checks generated progress documents. |
+| `preflight.py` | Check targets, environment and tracking before work. |
+| `status.py`, `progress.py --check` | Verify and display current ledger/publication state. `progress.py` regenerates progress documents. |
+| `ci.py` | Tests, tracking/progress, target/tool identities and available headless database checks. |
+| `verify_targets.py`, `attest_toolchain.py` | Check private target and installed native-tool identities. |
+| `attest_analysis_toolchain.py`, `ghidra.py ARTIFACT check` | Check the complete Ghidra/JDK installation and re-attest a database. |
+| `bootstrap_jwasm.py --check` | Check the bounded compatible ZUN emitter and pinned source identity. |
 
-Heavy tools run headless, on one available CPU at nice10. Keep one Borland/Wine
-writer at a time. Current MAIN outputs use
-`.analysis/toolchain/wineprefix/drive_c/TH03WORK`; reports use `.analysis/work`.
+## Current cold builds and scope reviews
 
-Historical replay helpers may refer to deleted private runs. Those outputs were
-intentionally discarded; use fresh source builds for new exact verification.
-Keep useful source, contracts and replay scripts; old generated verification
-trees, logs and caches can be deleted. The installed Wine prefix and tools are
-reused by subsequent agents. See [the handoff](../docs/RE_HANDOFF.md) for the next
-reconstruction question and [the full README](../README.md) for installation.
+| Product | Entry point | Purpose |
+| --- | --- | --- |
+| MAIN | `replay_th03_main_native.py` | Two source cold builds and current native-owner review. |
+| MAIN | `build_th03_main_work.py --build --cold --runtime` | One source rebuild and entry/lose contracts. |
+| MAIN | `review_th03_main_native_units.py` | Review current native extents, publics/MAP, bytes and ordered relocations. |
+| OP | `build_th03_op_work.py` | Rebuild every project object twice, compare complete decoded/stored targets and lifecycle scopes. |
+| OP | `review_th03_op_main_menu_work.py` | Full cold/cfg/dispatch/attract/sound/helper/renderer/VS/story/option/main chain; actual owned callee contexts and legacy invariance. |
+| OP | `review_th03_op_music_call_work.py` | Native same-CS far-call proof and fresh ordinary-far source control; no Music Room implementation credit. |
+| MAINL | `build_th03_mainl_work.py` | Two complete project/CRT builds, normal TLIB membership/order, decoded/stored equality and lifecycle scopes. |
+| MAINL | `review_th03_mainl_root_helpers_work.py` | Full MAINL cold/sound/root-helper chain. |
+| Shared | `review_th03_shared_input_work.py` | Bind both OP/MAINL cold pairs to input policy and MAINL ending-wait contracts. |
+| ZUN | `build_th03_zun_work.py` | Native launcher/directory/payload cold pair and complete stored/decoded comparison. |
+| ZUN | `review_th03_zun_ongchk_work.py` | Full cold/formatter/graphics/lifecycle/DATA/wrapper/directory/source/ONGCHK chain. |
+| ZUN | `build_th03_zun_driver_work.py` | Standalone compatible sprite16 producer and native source controls. |
+
+OP's intermediate `review_th03_op_{cfg,dispatch,attract,sound,helpers,render,vs,story,option}_work.py`
+commands remain useful for bounded replays. MAINL sound and ZUN's individual
+review stages also remain separate executable entry points. Their `INPUTS`,
+`witness()` and `current_scope()` definitions specify exact prerequisites.
+
+Where supported, `--current-cold` revalidates the complete existing
+source/SDK/recipe/output pair before replaying that stage. It does not rebuild
+stale inputs or automatically refresh every earlier report. Default complete
+chains create fresh prerequisites. Use shared-input review after rebuilding
+OP/MAINL, then publish.
+
+## Publication
+
+- `publish_th03_op_work_scopes.py`
+- `publish_th03_mainl_work_scopes.py`
+- `publish_th03_zun_work_scopes.py`
+
+Publishers revalidate live graphs, complete output vectors and scoped witnesses.
+They do not grant canonical packed-unit or whole-product source ownership.
+Shared verifier changes can invalidate multiple publications; refresh affected
+products before regenerating progress.
+
+## Diagnostics and local maintenance
+
+| Entry point | Purpose |
+| --- | --- |
+| `probe_th03_main_producers.py` | Unresolved state/shot grouping and alignment controls; no new source credit. |
+| `probe_th03_sound_nop_layout.py` | OP/MAINL natural trailing-byte investigation; annotated assembly controls are not acceptance. |
+| `clean_generated.py` | Preview disposable analysis/cache cleanup; `--apply` deletes and `--keep-analysis PATH` retains an active input; `--caches-only` leaves all `.analysis` state alone. |
+| `closeout_cleanup.py` | Receipt-based cleanup planning/application with input/reference drift checks. |
+| `import_targets.py`, `bootstrap_toolchain.sh`, `bootstrap_analysis_toolchain.sh` | Initial private input/tool installation. |
+
+Historical replay/probe helpers can refer to deliberately deleted private runs.
+They remain provenance/diagnostics, not the current build entry points. Some old
+stagers are still called by live builders: names alone are not a deletion test.
+Do not move frozen scripts merely to reorganize navigation; current recipes pin
+paths and hashes. Product manifests and scoped observations are authoritative.
+
+Keep heavy work headless, on one CPU at nice10, with one Borland/Wine writer.
+Preserve the prefix, fixed inputs, installed tool trees and one current build per
+product. Source/proof code lives in `scripts/lib/`; behavior tests are in `tests/`.

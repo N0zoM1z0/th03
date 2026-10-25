@@ -253,4 +253,54 @@ class CleanupProofControls(unittest.TestCase):
         self.assertTrue(output.exists());self.assertTrue(junk.exists())
 
 
-if __name__=='__main__':unittest.main()
+class CleanupCacheCLI(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.analysis = self.root / '.analysis'
+        self.analysis.mkdir()
+        self.output = self.analysis / 'unreferenced.tmp'
+        self.output.write_text('keep analysis')
+        self.cache = self.root / 'scripts/__pycache__/stale.pyc'
+        self.cache.parent.mkdir(parents=True)
+        self.cache.write_bytes(b'cache')
+        self.standard = self.root / '.cache/stale'
+        self.standard.parent.mkdir()
+        self.standard.write_text('cache')
+        (self.root / 'evidence.csv').write_text('location\n')
+        self.patch = patch.multiple(c, ROOT=self.root, ANALYSIS=self.analysis,
+                                   EVIDENCE=self.root / 'evidence.csv',
+                                   CACHE_ROOTS=[self.root / '.cache'])
+        self.patch.start()
+        self.addCleanup(self.patch.stop)
+
+    def invoke(self, *args):
+        with patch.object(sys, 'argv', ['clean_generated.py', '--caches-only', *args]), \
+                patch.object(c, 'documented_analysis_paths', return_value=set()), \
+                contextlib.redirect_stdout(io.StringIO()):
+            return c.main()
+
+    def test_cache_apply_preserves_even_unreferenced_analysis(self):
+        self.assertEqual(self.invoke('--apply'), 0)
+        self.assertEqual(self.output.read_text(), 'keep analysis')
+        self.assertFalse(self.cache.exists())
+        self.assertFalse(self.standard.exists())
+
+    def test_cache_preview_does_not_delete_anything(self):
+        self.assertEqual(self.invoke(), 0)
+        self.assertTrue(self.output.exists())
+        self.assertTrue(self.cache.exists())
+        self.assertTrue(self.standard.exists())
+
+    def test_conflicting_analysis_prune_is_rejected_before_deletion(self):
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit) as error:
+            self.invoke('--apply', '--prune-unreferenced-receipts')
+        self.assertEqual(error.exception.code, 2)
+        self.assertTrue(self.output.exists())
+        self.assertTrue(self.cache.exists())
+        self.assertTrue(self.standard.exists())
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -506,6 +506,11 @@ def main() -> int:
         help="perform deletions; without this flag only report what would be removed",
     )
     parser.add_argument(
+        "--caches-only",
+        action="store_true",
+        help="clean standard cache/build-output directories only; leave all .analysis state untouched",
+    )
+    parser.add_argument(
         "--prune-unreferenced-receipts",
         action="store_true",
         help=(
@@ -524,6 +529,8 @@ def main() -> int:
         ),
     )
     args = parser.parse_args()
+    if args.caches_only and args.prune_unreferenced_receipts:
+        parser.error("--caches-only cannot be combined with --prune-unreferenced-receipts")
 
     extra_preserved: set[Path] = set()
     for raw in args.keep_analysis:
@@ -537,9 +544,14 @@ def main() -> int:
     removed = 0
     if args.prune_unreferenced_receipts:
         removed += prune_unreferenced_receipts(dry_run, extra_preserved)
-    removed += clean_analysis(dry_run, extra_preserved) + clean_caches(dry_run, extra_preserved)
+    if not args.caches_only:
+        removed += clean_analysis(dry_run, extra_preserved)
+    removed += clean_caches(dry_run, extra_preserved)
     verb = "would remove" if dry_run else "removed"
     print(f"{verb} approximately {removed / (1024 * 1024):.1f} MiB")
+    if args.caches_only:
+        print("preserved all .analysis state, including current build and proof inputs")
+        return 0
     print(
         "preserved .analysis/toolchain, .analysis/targets, .analysis/runtime, "
         ".analysis/ghidra, target-import.json, ledger evidence and guarded inputs; "

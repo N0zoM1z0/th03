@@ -1,229 +1,104 @@
 # 東方夢時空 ～ Phantasmagoria of Dim.Dream
 
 <p align="center">
-  <img
-    src="resources/title-screen.png"
-    width="640"
-    alt="Original Japanese TH03 title screen">
+  <img src="resources/title-screen.png" width="640" alt="Original Japanese TH03 title screen">
 </p>
-
 <p align="center">
-  <img src="resources/progress.svg" alt="TH03 per-artifact boundary and exact function progress">
+  <img src="resources/progress.svg" alt="TH03 reviewed reconstruction scopes">
 </p>
 
 This repository reconstructs the original Japanese PC-98 **Touhou 3:
-Phantasmagoria of Dim.Dream**. It preserves maintained source and reviewed
-findings for `MAIN.EXE`, `OP.EXE`, `MAINL.EXE` and `ZUN.COM`. The complete game
-reconstruction is still in progress.
+Phantasmagoria of Dim.Dream**. Work covers OP.EXE, MAIN.EXE, MAINL.EXE (the ending)
+and ZUN.COM. Reconstruction and whole-product source acceptance remain open.
 
-MAIN currently records **440 exact functions / 74,398 exact owned bytes** in
-**95 exact CODE extents**. The current mixed build reproduces all **95 accepted
-extents / 74,398 bytes** and their scoped ordered relocations. The C++ `main`
-and round loop, Chiyuri/Ellen units, lose update/particles/banners, next-round/
-score-commit and stage/round setup pass independent source cold builds and the
-full required unit Oracle set. These are reviewed source scopes,
-not a whole-game completion percentage. See [the progress table](docs/PROGRESS.md) and
-[current handoff](docs/RE_HANDOFF.md) for the current acceptance state.
+[Generated progress](docs/PROGRESS.md) is the current count reference.
+[The handoff](docs/RE_HANDOFF.md) records the latest verified checkpoint,
+remaining work, local state and findings for the next agent. Source-present,
+bounded exact source scopes and target-equal complete builds are separate claims;
+there is no whole-game completion percentage.
 
-The current MAIN builder regenerates all **95 source objects** with the pinned
-native tools, retaining the vendor startup and libraries. Repeated builds
-produce identical raw objects, executable and MAP from two isolated source trees.
-Ellen's native producer now emits the correct relocation order without OMF record rewriting; HUD intro
-and the lose update, particles and banners also compile from maintained source.
-The entry, round loop, demo callbacks, stage/round initialization and round
-finish now share one 3,050-byte native producer. Its three CODE records
-(1,021 / 1,018 / 1,011 bytes) naturally reproduce all 56 ordered relocations,
-including the stage/round-finish interleave. Loop-specific speed generation
-preserves its separate result exits; the stage code uses the original default
-profile. Function bodies, compiler tables and ABI remain independently reviewed.
-The native producer grouping and link order now match the first 394 global relocations;
-remaining differing positions are now 947. Producer grouping and
-historical filenames remain reconstruction inferences, without new byte credit.
-The unowned library prefix and following 8,307-byte body now have separate
-native objects. Their natural word boundaries reproduce the gaps at B4F and
-2BC3, while preserving the original near/far APIs and root DATA/BSS. The
-body contributes the next six matching global relocations. Preserving the
-physical SHARED object order while linking those producers and the resident
-loader earlier reproduces the following 33 records. These changes add no
-authored-source credit.
-The stage palette unit now adds four accepted far functions in 130 bytes of
-maintained assembly. Its 128 instruction bytes pass 1,556 independent
-target/candidate memory and ABI cases; two natural EVEN bytes are reviewed
-separately. Eight mutations reject semantic, stack and memory changes. Existing
-palette storage and the real near/far interfaces remain in place.
-Character resources and all nine callback setters now compile as one natural
-3,888-byte C++ unit: three helpers and nine 408-byte setters. Its four native
-CODE records reproduce all 277 literal relocation sites. An independent
-1,020-case model covers every instruction byte, far filenames, signed resource
-limits, callback writes and near/Pascal returns, rejecting 16 mutations. The
-existing random-ring and collision primitives share an 82-byte native object
-with unchanged credit; their 80 instruction bytes are checked in the same model.
-The complete product still has two loaded-image byte differences and global
-relocation-order differences.
-OP, MAINL and ZUN have maintained source too; their product acceptance remains
-separate from MAIN's reviewed CODE counts.
+## Navigation
 
-## Current products and navigation
+| Area | Entry point |
+| --- | --- |
+| Product source | [MAIN](src/main/), [OP](src/op/), [MAINL](src/mainl/), [ZUN](src/zun/), [proved shared code](src/shared/) |
+| Start/resume work | [AGENTS.md](AGENTS.md), [handoff](docs/RE_HANDOFF.md), [workflow](docs/RE_WORKFLOW.md) |
+| Source/build/evidence organization | [Architecture](docs/ARCHITECTURE.md), [script index](scripts/README.md) |
+| Acceptance and findings | [Units](config/units.csv), [evidence](config/evidence.csv), [knowledge](config/knowledge.csv), [Oracle gates](config/oracles.toml) |
+| Pinned inputs/tools | [Japanese targets](config/targets.toml), [DIET identities](config/th03_diet.toml), [native tools](config/toolchain.toml), [Ghidra/JDK](config/analysis_toolchain.toml) |
 
-| Product | Purpose | Maintained source |
-| --- | --- | --- |
-| `OP.EXE` | Menu and title flow | [`src/op/`](src/op/) |
-| `MAIN.EXE` | Main game | [`src/main/`](src/main/) |
-| `MAINL.EXE` | Ending | [`src/mainl/`](src/mainl/) |
-| `ZUN.COM` | Launcher | [`src/zun/`](src/zun/) |
+## Validate an existing checkout
 
-- [Current handoff and next reconstruction work](docs/RE_HANDOFF.md).
-- [Progress and exact ownership counts](docs/PROGRESS.md).
-- [Product architecture, source layout and local tools](docs/ARCHITECTURE.md).
-- [Reconstruction workflow](docs/RE_WORKFLOW.md) and
-  [required Oracle gates](config/oracles.toml).
-- [Pinned Japanese targets](config/targets.toml),
-  [compiler tools](config/toolchain.toml) and
-  [Ghidra/JDK installation](config/analysis_toolchain.toml).
-- [Script purposes and entry points](scripts/README.md).
-- [Unit ledger](config/units.csv), [evidence](config/evidence.csv),
-  [hypotheses](config/hypotheses.csv) and [current knowledge](config/knowledge.csv).
+Use the existing `.venv`, installed tools and game-local Wine prefix.
 
-## Build and validate
+```sh
+.venv/bin/python scripts/preflight.py
+.venv/bin/python scripts/status.py
+taskset -c 16 nice -n 10 env DISPLAY= WAYLAND_DISPLAY= \
+  _JAVA_OPTIONS='-Xmx768m -XX:ActiveProcessorCount=1' \
+  .venv/bin/python scripts/ci.py
+git diff --check
+```
 
-With your local inputs and installed tools available:
+CPU 16 is available on the current machine; select one allowed CPU on another
+host. Serialize Borland/Wine writers. The [workflow](docs/RE_WORKFLOW.md) lists
+complete cold/review/publication commands; ordinary CI does not rebuild every
+product. Re-attest a Ghidra database before using its observations.
+
+## Fresh installation
+
+Supply your own legal Japanese copy. Targets, disk images, private tools and
+assets stay outside Git. Pinned hashes have **candidate-local-attested** provenance;
+independent pristine-dump confirmation remains unknown.
 
 ```sh
 python3 -m venv .venv
-. .venv/bin/activate
-python3 -m pip install --no-cache-dir -r requirements-ci.txt
-python3 scripts/preflight.py
-python3 scripts/replay_th03_main_native.py
-python3 scripts/status.py
-python3 scripts/ci.py
-git diff --check
-```
-
-Use the same activated Python environment for verification. CI requires the
-pinned public decoder/emulator dependencies in `requirements-ci.txt`;
-GitHub Actions installs the same requirements file.
-
-The MAIN command performs two independent cold builds of 96 native phases
-each, compiling or assembling every game object before linking. All 97 raw
-OBJ/EXE/MAP outputs must repeat before the scoped owner review can pass. It checks
-complete owned bytes, MAP contributions, ordered MZ relocations and unchanged
-native outputs. Its runtime checks compare
-entry behavior and the recovered lose routines against the target. CI also
-checks the slot initializer's pointer writes, memory preservation and far ABI.
-
-The current build uses `.analysis/toolchain/wineprefix/drive_c/TH03WORK`.
-The root assembly, existing score-entry alias, link configuration and bitmap
-assembly are regenerated from the pinned reference and maintained source recipe.
-Each cold round stages an empty source tree before replacing the previous work
-tree; no saved source carrier or game object is required. Vendor startup and
-libraries remain separate, and bounded unit exactness does not establish whole
-product exactness.
-
-Run one Borland/Wine writer at a time. Keep compiler/analyzer invocations
-headless, use one available CPU at low priority, and preserve the game-local
-Wine prefix. Current reports are overwritten in `.analysis/work/`. Old
-validation outputs, installer downloads, logs and experiments can be deleted;
-future verification can regenerate them.
-
-## Setup
-
-The tools follow [TH04's reconstruction workflow](https://github.com/N0zoM1z0/th04):
-pinned Turbo C++ 4.0J, TASM32 and TLINK via Wine/MS-DOS Player, plus pinned
-Ghidra and a headless JDK. TH03 has independent Wine state and analyzer projects.
-The manifests above identify the actual installed versions and file hashes.
-
-For a fresh installation:
-
-```sh
+.venv/bin/python -m pip install --no-cache-dir -r requirements-ci.txt
 mkdir -p _reference
 git clone https://github.com/nmlgc/ReC98.git _reference/ReC98
 git -C _reference/ReC98 checkout --detach b6ba5b0a529edbb31efdf8c0e939263804f8ee47
-python3 scripts/import_targets.py /path/to/your/legal-copy.rar \
+.venv/bin/python scripts/import_targets.py /path/to/your/legal-copy.rar \
   --include-all-games-smoke --retain-runtime-image
 DISPLAY= WAYLAND_DISPLAY= bash scripts/bootstrap_toolchain.sh
 DISPLAY= WAYLAND_DISPLAY= bash scripts/bootstrap_analysis_toolchain.sh
-python3 scripts/preflight.py
+.venv/bin/python scripts/preflight.py
 ```
 
-Host tools include Python 3, a C compiler, Wine, archive utilities and mtools.
-Bootstrap verifies downloaded packages before installation. Routine checks verify the
-installed tools, so the downloaded archives need not remain on disk. An
-existing installation can use its current prefix and tools directly.
+Host dependencies include Python 3, a C compiler, Wine, archive utilities and
+mtools. Bootstrap verifies downloaded packages; manifests identify the exact
+installed versions. Use `.venv/bin/python` consistently for Capstone/Unicorn.
+The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
-ReC98 supplies a pinned source/build scaffold. Its source is reference material;
-TH03's maintained ownership and exactness are checked against TH03's own targets.
-Product dependencies use local headers or explicit `compat/rec98/` forwarding.
+## Maintenance
 
-Ghidra projects live under ignored `ghidra-project/`. Import a new MAIN database
-or re-attest an existing one with the headless commands:
+Keep useful source, contracts, ledgers and a concise handoff. Generated analysis
+is provisional. Old logs, temporary probes, duplicate verification trees and
+Python caches can be removed; a stale reference alone does not make an artifact
+necessary. Current build/proof inputs must remain available.
 
 ```sh
-DISPLAY= WAYLAND_DISPLAY= python3 scripts/ghidra.py th03-main import
-DISPLAY= WAYLAND_DISPLAY= python3 scripts/ghidra.py th03-main check
+.venv/bin/python scripts/clean_generated.py --prune-unreferenced-receipts
+# Inspect the preview, then add --apply to perform its guarded cleanup.
 ```
 
-Before relying on database observations, run the check command. Analyzer
-function boundaries and decompiler output remain provisional. See
-[the workflow](docs/RE_WORKFLOW.md) for bounded Java heap/CPU settings.
+Keep one working build per product, the local Wine prefix and installed tools.
+Ghidra/JDK checks hash their complete installed trees, including bundled archives;
+removing pieces invalidates tool attestation. Download caches outside those trees
+are disposable. After CI, `clean_generated.py --caches-only --apply` leaves all
+`.analysis` state untouched while removing standard caches/build output. The
+handoff identifies the old-named reference archive still consumed by the current
+OP/MAINL recipes.
 
-## Local inputs
-
-Supply your own legal copy. The importer selects the Japanese `zun.hdi` and
-requires these artifacts:
-
-| Artifact | Size | SHA-256 |
-| --- | ---: | --- |
-| `OP.EXE` | 36,041 | `d7bfa7f1f8afe0943763ce76437d12ed412b8452716dd64f937c94796eba57ab` |
-| `MAIN.EXE` | 130,882 | `f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b` |
-| `MAINL.EXE` | 37,975 | `5b613023b4ae021794ff778871a732e7af0d0457ccdb3613e3458f2a609e466c` |
-| `ZUN.COM` | 16,242 | `5896bbd673aeb10f0df9c1e34716c64fda83655a788ae1ac0fcf58e3616add27` |
-
-These hashes have `candidate-local-attested` provenance: they identify the
-supplied Japanese image while independent pristine-dump confirmation remains
-open. That qualification is separate from reconstruction of the pinned bytes.
-Original executables, disk images, private tools and game data are excluded
-from Git. The title image above is the supplied original screenshot.
-
-## Source and validation
-
-Source belongs under `src/main/`, `src/op/`, `src/mainl/`, `src/zun/` and
-`src/shared/`, organized by subsystem. MAINL is TH03's ending executable.
-`.c`, `.cpp` and `.asm` files are translation units; `.inl` files are bounded
-includes. See [the architecture](docs/ARCHITECTURE.md) and
-[reconstruction workflow](docs/RE_WORKFLOW.md).
-
-Exact acceptance requires complete raw-byte equality, literal ordered
-relocations, reviewed ownership and ABI/layout, affected behavior and independent
-cold reproducibility. Compiler success, decompiler output or a reference-game
-build alone does not establish exactness. Useful findings belong in source,
-ledgers and the concise handoff; keeping old verification directories is optional.
-
-Portable CI checks ledgers and positive/negative Oracle controls without
-proprietary inputs. Available private inputs additionally enable real target,
-compiler and analyzer checks. Finish with:
-
-```sh
-python3 scripts/ci.py
-git diff --check
-```
-
-Commit format: `gpt-6.1-sol: xxx`.
+Commit format: `gpt-6.1-sol: xxx`. Run focused checks, full CI and whitespace
+checks before committing reconstruction changes; push English checkpoints.
 
 ## Credits
 
 - [Our TH04 reconstruction repository](https://github.com/N0zoM1z0/th04)
-  provides the reference workflow, directory organization, headless compiler
-  and analyzer setup, and cold-build exact Oracle approach used by this project.
+  provides the reference workflow, directory organization, headless tool setup
+  and cold-build exact Oracle approach.
 - [ReC98 by Nmlgc and contributors](https://github.com/nmlgc/ReC98)
-  provides foundational PC-98 Touhou reverse-engineering work and the pinned
-  source/build scaffold used in our compiler and full cold-build comparisons.
+  provides foundational PC-98 Touhou reverse engineering and the pinned scaffold.
 
-TH03's maintained sources and exact ownership are checked independently against
-its original Japanese targets. Referenced work retains its own authorship and
-licensing.
-
-## License
-
-Repository-authored code and documentation are provided under the MIT License.
-This does not grant rights to the original game, its assets, or referenced
-third-party work.
+TH03's maintained ownership and exactness are checked against its own Japanese
+targets. Referenced work retains its authorship and licensing.
