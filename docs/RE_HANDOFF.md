@@ -1,9 +1,9 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-25, after `0674ce2`. Five complete MAINL PI
-callers now have native ownership and full-state contracts. The consumed SDK
-inventory includes `mem.h`; two fresh source-only cold rounds and the complete
-dependent review chain were rerun.
+Reconstruction checkpoint: 2026-10-25, after `1959595`. The complete MAINL CDG
+loader TU now has native ownership and full-state acceptance for all five
+procedures. Native inputs are unchanged; the complete current cold pair and
+all 32 previous accepted scope observations were revalidated.
 Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
@@ -14,7 +14,7 @@ Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 32 functions / 1,816 CODE bytes | Open |
+| MAINL | 37 functions / 2,409 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -30,8 +30,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,156 tests, 284 optional archive skips, all checks passed**;
-6m54s, about 528 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,176 tests, 284 optional archive skips, all checks passed**;
+6m34s, about 535 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -84,18 +84,40 @@ contextual instruction mutations fail.
   destination `141E`. PiHeader is72 bytes. Compatibility forwarding and the
   complete consumed SDK/source graph remain bound by the native cold pair.
 
-Next: the five complete CDG functions in `src/shared/formats/cdg_load.cpp` total
-**593 bytes**: single138, single-noalpha134, all230, all-noalpha28 and free63,
-at `0C7E:073E..098F`. Actual wrapper is `th03/cdg_load.cpp`, GAME3/O first use,
-with zero private DATA/BSS. CDG slots are DS:`1D0E`, flag `0894`; CDG is16 bytes.
-Single truncates `bitplane_size * 5` to WORD before widening and the signed-WORD
-image-index multiply. Color allocation/read lengths also wrap to WORD.
-All-noalpha calls the real all-loader and finally sets the flag to zero rather
-than restoring its entering value. Execute actual owned free/all helpers.
-Keep buffer fixtures disjoint from DGROUP/stack and retain unchecked slots and
-segment-zero allocations explicitly. Use `review_th03_mainl_sound_work.images()`
-to revalidate the full current graph and obtain
-`work,target,candidate,cold,raw,graph,files`.
+The five complete CDG functions now own **593 CODE bytes** in
+`src/shared/formats/cdg_load.cpp`: single138, single-noalpha134, all230,
+all-noalpha28 and free63, at `0C7E:073E..098F`. The actual TC4 wrapper is
+`th03/cdg_load.cpp`, retaining GAME3/O first use. All 35 ordered native fields,
+24 MZ relocations, four normal TLINK forward-call bridges and one native TC4
+backward-call bridge pass; private DATA/BSS are zero. Current command:
+`review_th03_mainl_cdg_work.py --current-cold`.
+
+- Independent contracts run **7,328 cases per image** at two loads, execute all
+  593 bytes and reject 66 actual instruction mutations. Actual nested free/all
+  instructions share one UC and real frames. Maximum entries include255 CDG
+  frees,510 heap frees,510 allocations and511 reads. Every physical memory byte,
+  DWORD/segment state, defined flags and ordered stores/frames pass; stack peak
+  is38 with no ignored window. File prefixes and heap replies remain explicit
+  interfaces; no DOS/file/allocator body or enclosing DATA/BSS is accepted.
+- All256 image counts/flag values and both size/signed-index BYTE lanes are
+  covered. Single truncates `bitplane_size * 5` to WORD before widening and the
+  signed-WORD index multiply. Color lengths wrap to WORD; zero allocations and
+  failed/partial reads do not suppress requests. File prefix writes are flat;
+  ordinary struct field effective offsets wrap before adding DS.
+- The noalpha wrapper writes1 then0, rather than restoring entering state.
+  Unchecked slot `0EB8` places the header at DS:`088E`, making bottom_left alias
+  flag `0894`. Reading a header with bottom_left0 after the wrapper wrote1
+  enables alpha loads; this actual CPU behavior is retained. Count is not capped
+  to the32 declared slots. Slot `0E30` places the header at000E: self-aliasing
+  file prefixes can change live size/count and later requests. Assets remain
+  private and are not inferred from these synthetic replies.
+
+Next candidates: the three maintained CDG draw procedures, alpha179, hflip201
+and noalpha113 bytes, in `src/shared/formats/cdg_put.asm` and `cdg_noalpha.asm`.
+Their ownership/ABI/VRAM-request proof remains open; keep alignment separate.
+Then continue ending/staff orchestration and the remaining OP/ZUN graph.
+Use `review_th03_mainl_sound_work.images()` to revalidate the complete current
+cold pair and obtain `work,target,candidate,cold,raw,graph,files`.
 
 ### Other open reconstruction work
 
