@@ -1,0 +1,461 @@
+{
+  "schema": "th03-op-story-current-observation-v1",
+  "observed_utc": "2026-10-25T05:12:30.432176Z",
+  "command": ".venv/bin/python scripts/review_th03_op_story_work.py --current-cold",
+  "provenance": "candidate-local-attested",
+  "source_acceptance": false,
+  "publication": "config/op_work/scoped_acceptance.json",
+  "canonical_unit_credit_changed": false,
+  "whole_product_accepted": false,
+  "native_pair_built_now": false,
+  "implementation_sha256": {
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/op_cfg_runtime.py": "bd474bb123b68f3ef6b80afe282b3ca5b4e1a6dcf9f5775c764926f7a82e6340",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "scripts/build_th03_op_work.py": "bd152d8eefc6f2e71b17ee379815867e9df5f335b822f567fbce2161ee69c95b",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_op_dispatch_work.py": "98954c5d7e67699768a89dfae9497b6e19e0ed1cd90636fc7591f91ee26bef15",
+    "scripts/lib/op_dispatch_layout.py": "d92f02cb12224357738e38943f3e529636d4f1812ab17d03d2fae5c83e7d40c7",
+    "scripts/lib/op_dispatch_runtime.py": "ac9a0fba42934460dec0631da876ed53628a1e697e9451cf36bc9f80e8054b45",
+    "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b",
+    "scripts/review_th03_op_attract_work.py": "55ff0d6b87a5bbf5a079ed4199c507301ffae6c27a1c5be3cbfff35474389eac",
+    "scripts/lib/op_attract_layout.py": "1428865341b822bb9dfeabd221fd0a9eb58553d8fe973b302c492f56cf71e74a",
+    "scripts/lib/op_attract_runtime.py": "cc7c22ec7e8274533eb91ff0cb3919132a53403bf6cdef8fd577c5ecd6ac3337",
+    "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a",
+    "scripts/lib/shared_sound_runtime.py": "81ee79f15e84f72bd7699189b7ba6d9587a607087fe446f554deeb928ddb787d",
+    "scripts/lib/op_sound_layout.py": "694031ce840f082fa8e63d7917124356258cf245a5382695cbeeb1419508aa1c",
+    "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
+    "scripts/review_th03_op_sound_work.py": "bd569f3260c7d2c5ee51ceed59a57c48a80e3800d1e58facfd324983301b0f15",
+    "scripts/lib/op_sound_runtime.py": "219f402dfb825083b32b6dcc62332909ef63647970364c1fa162aa44ab766fba",
+    "scripts/lib/decoded_mainl_sound_runtime.py": "752336a44acf9d8a09983acee463be56fa9d061a8f790aed9b5510cc172e1ca2",
+    "src/shared/sound/load.cpp": "bcde0f8ef6ad4bbbf6129c1f54723ebdeddf53f4d2b36d92971b2e1e3d37cc86",
+    "src/shared/hardware/frame_delay.cpp": "ed2f70e85534cc513624762e337b7e860b491c27260b1a9d5ff61dff3df309dc",
+    "scripts/review_th03_op_helpers_work.py": "790a7a5d88a594c530e22ca2fd6ae4c6c4ceefb33ff7ae22d91c4e868a19d0a5",
+    "scripts/lib/op_helpers_layout.py": "df02d2c2fa6562a4f220dfcd508ee98bf6c541ea25e048da7a5cb945f1539e18",
+    "scripts/lib/op_helpers_sound_runtime.py": "0ed1311b07bdb0fceeb3d8865bcb03d611ac6b505917f7511c6911209cacf453",
+    "scripts/lib/op_init_runtime.py": "c4071ca695619c1b460f2e3d5ff7a5c82d5318af5bf2acd018ecb11d881fd8bf",
+    "src/op/hardware/frame_delay_2.cpp": "535b33cb9cd4e03e0a49e30439d1358c1b0ade0998b906b53d24ca2b0e4f3f1b",
+    "src/op/snd/kaja_interrupt.cpp": "a6c773a98bcaf565cf6a8a05b477d0548fe72498574bdc1b87b8ace12a539c2e",
+    "src/op/core/initop.cpp": "8d0a9bf147fc4dda35fa041c83d163c458dbe452fba03bbc1a14d3b591116a29",
+    "scripts/review_th03_op_render_work.py": "9dac86fec8ce23055be5d93cf2e3e2befb254726618d5f99f316c41082ff7cbf",
+    "scripts/lib/op_render_layout.py": "4437542ab777a31867ecd73691809154d1af0c4cec2687edb1c6af490b5fb056",
+    "scripts/lib/op_render_runtime.py": "8c350dbffd244c3d82edbfb6e32de3cae9fb8c6006a2cc34fbf628cfdfd31b18",
+    "src/op/menu/menu_state.inl": "d5717cb7effea171092eb6d4ad5ee561dd9e9b9f8269880212d0295603bdb52d",
+    "scripts/review_th03_op_vs_work.py": "641a9bb2afdfdccea2404e8a1aa3142e25d584f10d77ff06a0264fffd04563e6",
+    "scripts/lib/op_vs_layout.py": "f2c698b280852c4a1da33b0e182a7669bdcbe4f380f3ff1471963f175e8e52ef",
+    "scripts/lib/op_vs_runtime.py": "98e258de2ef49ae1ce4b11a2c2590f111ac97917c42fea3dfc901f3c92ecc36d",
+    "src/op/menu/title_animation.inl": "4ca937ef0b31d80822b7aa7384126dd86e44ea065034ce4fdc666afdf58a2236",
+    "scripts/review_th03_op_story_work.py": "2f369e683102a148f2182019bbafeabe5244a2ba9c9c968af955b9c813bf17d2",
+    "scripts/lib/op_story_layout.py": "9e5739f3b392b711eff5613537d4fcc61aeb12efb33cdaa9bff328c47e8637c9",
+    "scripts/lib/op_story_runtime.py": "838b7b52d1f928fce933d0bbfaf60cc8cd20c57abfb7c29922e22914e3e4d80f"
+  },
+  "cold_report_sha256": "a85d1fa1ed6bfbe6913f15f7407b52ede260a36164fb0030c7879b76286bbcd1",
+  "layout": {
+    "owners": [
+      {
+        "unit_id": "th03-op-decoded-entry-screens",
+        "name": "story_menu",
+        "source": "src/op/entry.cpp",
+        "object": "obj/th03/op_01.obj",
+        "segment": 2448,
+        "offset": 279,
+        "start": 39447,
+        "size": 390,
+        "coordinate_space": "decoded-load",
+        "canonical_file_offset": null,
+        "target_sha256": "43dc08dfbfb789b9aa8d0bfee823e5f685134954ca095ea14d8983fdca0ea701",
+        "candidate_sha256": "43dc08dfbfb789b9aa8d0bfee823e5f685134954ca095ea14d8983fdca0ea701",
+        "ordered_relocations": [
+          [
+            2448,
+            659
+          ],
+          [
+            2448,
+            643
+          ],
+          [
+            2448,
+            638
+          ],
+          [
+            2448,
+            630
+          ],
+          [
+            2448,
+            392
+          ]
+        ],
+        "argument_bytes": 0,
+        "callee_pop_bytes": 0,
+        "private_data_bytes": 0,
+        "private_bss_bytes": 0,
+        "abi": "near no-argument entry; AL bool; preserved BP/SI/DI; static seen state persists after failed exec"
+      }
+    ],
+    "functions": 1,
+    "code_bytes": 390,
+    "ordered_native_fields": [
+      [
+        649,
+        4,
+        206,
+        86,
+        null,
+        46,
+        0
+      ],
+      [
+        646,
+        2,
+        198,
+        20,
+        2,
+        2,
+        223
+      ],
+      [
+        642,
+        2,
+        198,
+        20,
+        2,
+        2,
+        223
+      ],
+      [
+        633,
+        4,
+        206,
+        86,
+        null,
+        12,
+        0
+      ],
+      [
+        628,
+        4,
+        206,
+        86,
+        null,
+        33,
+        0
+      ],
+      [
+        620,
+        4,
+        206,
+        86,
+        null,
+        3,
+        0
+      ],
+      [
+        589,
+        2,
+        198,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        572,
+        2,
+        198,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        537,
+        2,
+        198,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        513,
+        2,
+        198,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        474,
+        2,
+        197,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        442,
+        2,
+        197,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        429,
+        2,
+        197,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        415,
+        2,
+        197,
+        20,
+        2,
+        2,
+        9
+      ],
+      [
+        400,
+        2,
+        197,
+        20,
+        2,
+        2,
+        9
+      ],
+      [
+        382,
+        4,
+        205,
+        86,
+        null,
+        20,
+        0
+      ],
+      [
+        375,
+        2,
+        197,
+        22,
+        2,
+        19,
+        0
+      ],
+      [
+        366,
+        2,
+        197,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        357,
+        2,
+        197,
+        20,
+        2,
+        2,
+        16
+      ],
+      [
+        339,
+        2,
+        197,
+        22,
+        2,
+        15,
+        0
+      ],
+      [
+        326,
+        2,
+        133,
+        22,
+        1,
+        44,
+        0
+      ],
+      [
+        278,
+        2,
+        197,
+        22,
+        2,
+        15,
+        0
+      ]
+    ],
+    "ordered_relocations": [
+      [
+        2448,
+        659
+      ],
+      [
+        2448,
+        643
+      ],
+      [
+        2448,
+        638
+      ],
+      [
+        2448,
+        630
+      ],
+      [
+        2448,
+        392
+      ]
+    ],
+    "reviewed_initialized_dependency_bytes": 139,
+    "dependency_ranges": [
+      [
+        153,
+        7
+      ],
+      [
+        160,
+        128
+      ],
+      [
+        786,
+        4
+      ]
+    ],
+    "blocked_candidate_CFG": [
+      39557,
+      39562,
+      39565,
+      39566,
+      39568,
+      39571,
+      39574,
+      39579,
+      39581,
+      39584,
+      39587
+    ],
+    "library_random_dependency_bytes": 42,
+    "library_random_source_credit_added": false,
+    "character_selection_procedure_owned": false,
+    "containing_producer_accepted": false,
+    "whole_product_accepted": false
+  },
+  "runtime": {
+    "images": 2,
+    "functions": 1,
+    "code_bytes": 390,
+    "cases_per_image": 6748,
+    "exhaustive_selected_character_BYTE": 256,
+    "exhaustive_selection_AL": 256,
+    "exhaustive_rank_BYTE": 256,
+    "exhaustive_sound_state_BYTE": 256,
+    "exhaustive_each_seed_BYTE_lane": 256,
+    "seen_masks": 128,
+    "executed_owner_bytes": 390,
+    "executed_nested_bytes": 206,
+    "maximum_private_stack_window": 48,
+    "closed_nonterminal_candidate_domain": 7,
+    "all_32bit_seeds_termination_proved": false,
+    "character_selection_implementation_executed": false,
+    "successful_exec_or_physical_hardware_emulated": false,
+    "observations": [
+      {
+        "load_segment": 4096,
+        "cases": 3374,
+        "ordinary_cases": 3347,
+        "actual_consecutive_reentry_cases": 27,
+        "terminal_cases": 2832,
+        "nonterminal_cases": 542,
+        "retry_paths": 158,
+        "covered_owner_bytes": 390,
+        "executed_nested_bytes": 206,
+        "maximum_observed_stack_depth": 26,
+        "maximum_actual_random_calls": 66,
+        "trace_sha256": "28fcf80ec12ec15b1fe3185f1ed12b00c58affb6797c2bc662421b325fa51137"
+      },
+      {
+        "load_segment": 12288,
+        "cases": 3374,
+        "ordinary_cases": 3347,
+        "actual_consecutive_reentry_cases": 27,
+        "terminal_cases": 2832,
+        "nonterminal_cases": 542,
+        "retry_paths": 158,
+        "covered_owner_bytes": 390,
+        "executed_nested_bytes": 206,
+        "maximum_observed_stack_depth": 26,
+        "maximum_actual_random_calls": 66,
+        "trace_sha256": "629603e77b426887bec5fa1cdf5bbc6efb1128d7726261312f84fee178303c75"
+      }
+    ]
+  },
+  "negative_controls": {
+    "count": 40,
+    "rejected": [
+      "CPU-player-two",
+      "story-mode",
+      "credit-lives",
+      "opponent-sentinel",
+      "selection-result-is-AL",
+      "true-is-one",
+      "character-one-origin",
+      "stage-seven-table-origin",
+      "full-DWORD-resident-seed",
+      "full-DWORD-global-seed",
+      "seven-random-opponents",
+      "separate-candidate-local",
+      "seen-table-origin",
+      "exclude-fixed-opponent",
+      "seen-value-one",
+      "double-candidate",
+      "paletted-one-origin",
+      "self-palette-increment",
+      "six-random-stages",
+      "fixed-stage-seven-slot",
+      "Chiyuri-palette-slot",
+      "Yumemi-palette-slot",
+      "all-nine-character-IDs-valid",
+      "invalid-opponent-retries",
+      "all-sixteen-score-digits",
+      "remaining-credits",
+      "slow-animation",
+      "rank-multiplier",
+      "skill-base",
+      "song-stop-command",
+      "far-NULL-exec-terminator",
+      "exec-filename-pointer",
+      "cdecl-twelve-byte-cleanup",
+      "false-is-zero",
+      "real-random-multiplier",
+      "real-random-low-carry",
+      "real-random-nonnegative-result",
+      "real-cfg-write-size",
+      "real-KAJA-MIDI-one",
+      "real-exit-page-order"
+    ],
+    "actual_guest_instruction_mutations": true,
+    "source_or_payload_patched": false,
+    "character_selection_code_mutated": false
+  }
+}

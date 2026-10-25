@@ -162,7 +162,7 @@ driver and failed-exec replies remain bounded interfaces. Demo BYTE 255 wraps
 to zero and reads adjacent table bytes. Score dispatch returns false in AL;
 AH survives the failed execl reply. Its twelve argument bytes are caller-popped.
 The screen ledger partitions its former 1,222 bytes without overlapping credit;
-story/VS behavior still lacks current acceptance; the choice renderer is reviewed below.
+the story and VS callers now have separate current acceptance, as described below.
 
 The 105-byte near OP attract wait now also has scoped acceptance. It executes
 423 real input/demo/cfg/sound/cleanup/delay bytes under independent contracts. Every
@@ -191,6 +191,22 @@ Gaiji/text calls receive real far strings, WORD attributes and Pascal frames;
 the library replies are bounded. Invalid selector and BYTE-state behavior,
 register leaks and the fixed-white rank erasure remain intact. The source ledger
 partitions existing screen/menu spans without adding source-present bytes.
+
+The complete story caller owns 390 CODE bytes, with 22 ordered native fields
+and five MZ relocations. Its real 42-byte library LCG executes alongside cfg,
+KAJA and cleanup helpers; the selector remains a bounded interface. Only AL
+decides cancellation, while boolean returns retain AH. The seven static seen
+bytes persist after a failed executable handoff. A fully blocked 0..6 candidate
+domain closes the native retry loop; explicit prefixes check live registers,
+flags and memory, and consecutive calls reproduce that nontermination.
+Unchecked character BYTEs can read beyond the nine-row table and trigger the
+real validation/retry branch. All 390 instruction bytes execute. The 6,748 cases
+per image at two loads reject forty instruction mutations, including actual
+LCG carry/output and owned helper mutations. Complete WORD/DWORD state, ESP,
+ordered stores and all memory outside 48 private stack bytes pass. The table,
+seen slots, seed and library helper gain no additional source credit here.
+The bounded witnesses do not prove termination or a delay bound for all DWORD
+seeds, successful process replacement or physical hardware behavior.
 
 A bounded sound layout diagnostic separates instruction recovery from unresolved
 trailing bytes. Removing active codestrings in disposable source copies preserves

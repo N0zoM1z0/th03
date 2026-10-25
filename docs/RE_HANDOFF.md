@@ -7,11 +7,11 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `1de4f68` (native ONGCHK source producer).
+- Previous pushed checkpoint: `d74147a` (complete ONGCHK source acceptance).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
-- OP now has **twenty-seven accepted decoded source functions / 2,344 bytes**. The
+- OP now has **twenty-eight accepted decoded source functions / 2,734 bytes**. The
   three lifecycle functions / 133 bytes cover exit to DOS, VRAM plane setup and game cleanup. The current graph consumes all three
   maintained sources through their actual GAME2/GAME1/GAME3 physical wrappers.
   Complete native OMF/public/MAP ownership, zero private DATA/BSS and eleven
@@ -202,10 +202,31 @@ remain in [README.md](../README.md).
   memory outside 80 private stack bytes pass; peak observed depth is 28 bytes.
   Product source and native recipe are unchanged: the complete existing
   source/SDK/recipe/output-bound cold pair is revalidated, not rebuilt now.
-  OP totals **27 functions / 2,344 CODE bytes**, 70 ordered relocations, 29,880
+  That VS checkpoint totaled **27 functions / 2,344 CODE bytes**, 70 ordered relocations, 29,880
   model cases per image and 189 actual instruction mutations. Whole entry,
   character selection and product ownership remain open. Replay with
   `review_th03_op_vs_work.py --current-cold` or default for a fresh full chain.
+- The complete **390-byte near story caller** now has its own native and
+  full-state gates: 22 ordered native fields and five literal MZ relocations.
+  The unchanged complete source/SDK/recipe/output cold pair is revalidated.
+  All 390 owner bytes and 206 actual LCG/cfg/KAJA/cleanup dependency bytes
+  execute in **6,748 cases per image** at two loads, rejecting forty actual
+  instruction mutations. Each load has 2,832 terminal cases, 542 explicitly
+  nonterminal prefixes, 158 invalid-character retry paths and 27 actual
+  consecutive reentry cases. BYTE domains cover selected character, selection
+  AL, rank, sound states and each DWORD seed lane; 128 seen masks retain three
+  nonzero representations. The static seen array is never reset after failed
+  exec. All seven possible candidates being seen/excluded closes the native
+  retry CFG; an instruction-budget expiry does not establish nontermination.
+  Unchecked character indices retain adjacent table reads and the real retry
+  branch. Full WORD/DWORD/ESP, defined flags, ordered stores and all physical
+  memory outside 48 private stack bytes pass; maximum depth is 26. The real
+  library LCG adds no ownership credit, nor do the 139 static DATA dependency
+  bytes. Selector/OS/device replies remain bounded; all-DWORD-seed termination
+  and successful exec remain unproved. OP totals **28 functions / 2,734 CODE
+  bytes**, 75 ordered MZ relocations, 36,628 cases per image and 229 instruction
+  mutations. Whole-entry/product ownership remains open. Replay with
+  `review_th03_op_story_work.py --current-cold` or default for a fresh chain.
 - Sound trailing-byte layout has a new **diagnostic**, with no source/exact
   promotion. `probe_th03_sound_nop_layout.py` recompiles nine selected OP/MAINL
   copies without their active trailing codestrings, assembles compiler output,
@@ -707,8 +728,8 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 2,086 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 6m41s at about 468 MiB peak RSS, no swap.
+- Last full CI: PASS, 2,095 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 6m09s at about 499 MiB peak RSS, no swap.
   MAINL's complete new root helper review took 10m07s at 139 MiB, no swap,
   revalidating the existing native pair; all physical stack bytes are checked.
   The complete new VS caller review took 2m07s at 137 MiB, no swap, revalidating
@@ -722,6 +743,8 @@ remain in [README.md](../README.md).
   separate constructed ONGCHK candidate review took 4s at 81 MiB, without swap.
   The complete ONGCHK full-state review took 18m27s at 172 MiB, without swap,
   revalidating that unchanged source/SDK/recipe/output cold pair.
+  The complete OP story review took 2m19s at 143 MiB, without swap, revalidating
+  the unchanged pair and checking every ordered store between memory comparisons.
 
 ## Maintained producers
 
@@ -756,7 +779,7 @@ ABI and byte credit are recorded separately in the ledgers.
    The shared input review is a current, separate witness bound to both cold
    reports. Replay it after new builds. Ending-specific input waits and OP configuration loading/saving also pass.
    OP demo/score dispatch also passes; its source ledger refines the old screen
-   span without adding source bytes. Remaining OP story/menu/resource
+   span without adding source bytes. Remaining OP menu/resource
    and MAINL resource/ending producers are next
    bounded source/behavior questions. MAINL's six sound/timing scopes now pass;
    mode/PMD/volume/reset still need natural layout proof for their explicit NOPs.
@@ -764,10 +787,14 @@ ABI and byte credit are recorded separately in the ledgers.
    gates, and its 105-byte attract wait at entry offset 0516 executes actual
    input/demo/delay helpers. Initializer, KAJA and the duplicate frame_delay_2
    also pass current gates; the duplicate still uses vsync_Count1. Continue with
-   the broader story/resource scopes. Three choice renderers and the VS365 caller now pass; the
-   remaining story390 and input/callback-state886 bytes still need current
+   the broader menu/resource scopes. Three choice renderers and both the VS365
+   and story390 callers now pass; the input/callback-state886 bytes still need current
    behavior/ownership gates. The PMD-mode source still has an explicit
    alignment NOP; do not promote that producer before a natural layout proof.
+   The main menu's Music Room call also has an explicit NOP/PUSH CS/near CALL
+   in `menu_state.inl`; review its native same-CS far-call relaxation before
+   promoting that complete caller. The movement and option bodies are separate
+   source/behavior scopes inside the remaining 886 bytes.
    ZUN resident -5 and complete original-ASM -2 now also pass current gates.
    All 55 -4 driver procedures now pass bounded current gates: sixteen scalar,
    nine command, ten formatter, twelve graphics and eight lifecycle. The eight

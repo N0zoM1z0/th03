@@ -77,7 +77,7 @@ def op_decoded_status(root, units):
     accepted = result.get('decoded_exact_unit_ids', [])
     try:
         current_scopes = result.get('current_cold_source_scopes') is True
-        expected_count, expected_bytes = (27, 2344) if current_scopes else (33, 9530)
+        expected_count, expected_bytes = (28, 2734) if current_scopes else (33, 9530)
         valid = (result.get('reviewed_proof_ready') is True
                  and result.get('product_exact') is False
                  and result.get('factory_accepted') is False
@@ -96,7 +96,7 @@ def op_decoded_status(root, units):
             from lib.op_sound_layout import PRODUCERS as SOUND_PRODUCERS
             from lib.op_helpers_layout import PRODUCERS as HELPER_PRODUCERS
             from lib.op_render_layout import FUNCTIONS as RENDER_FUNCTIONS
-            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS+DISPATCH_FUNCTIONS} | {"th03-op-decoded-entry-attract-wait", "th03-op-decoded-entry-vs-menu"} | {o[0] for o in SOUND_PRODUCERS+HELPER_PRODUCERS+RENDER_FUNCTIONS}
+            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS+DISPATCH_FUNCTIONS} | {"th03-op-decoded-entry-attract-wait", "th03-op-decoded-entry-vs-menu", "th03-op-decoded-entry-screens"} | {o[0] for o in SOUND_PRODUCERS+HELPER_PRODUCERS+RENDER_FUNCTIONS}
         if not valid:
             return dict(unavailable(result.get('reason', 'publication or caller inventory invalid')),
                         tracked_decoded_extents=len(ids))

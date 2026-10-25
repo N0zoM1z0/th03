@@ -16,7 +16,14 @@
    gates; use it when product sources and native recipes have not changed.
    The VS model executes its real owned helpers, while character-selection
    procedures remain explicit unowned interfaces. The real title-box dependency
-   receives no additional ownership credit. OP and MAINL sound scopes use independently checked native layouts
+   receives no additional ownership credit. Use `scripts/review_th03_op_story_work.py`
+   for the full cold/VS/story chain, or `--current-cold` when the entire existing
+   source/SDK/recipe/output pair is unchanged. The real LCG executes and every
+   write is checked; full memory comparisons occur at service boundaries/end.
+   Keep all 128 seen masks and actual consecutive reentry cases. A nonterminal
+   result requires the native closed candidate-domain proof and full live-state
+   contract, never instruction-budget exhaustion. Do not reset the static seen
+   array or claim all DWORD seeds terminate. OP and MAINL sound scopes use independently checked native layouts
    with a shared execution core; refresh both reports after core changes.
    Preserve separate ordinary-entry and loop-continuation witness counts; the
    supplied SI continuation states do not prove elapsed frames. After rebuilding
