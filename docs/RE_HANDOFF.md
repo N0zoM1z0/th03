@@ -1,8 +1,8 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-26, after `069b9b4`. MAINL's complete358-byte
-staff pair controller preserves live secondary/alpha/frame state and the reachable
-WORD-wrap clamps. Product inputs and prior50 owner observations stay unchanged.
+Reconstruction checkpoint: 2026-10-26, after `b415477`. MAINL's complete389-byte
+verdict has native far-pointer, fixed-loop and live renderer-reply contracts.
+Product inputs and prior51 owner observations stay unchanged.
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before work.
 Detailed findings and witnesses live in source, `config/knowledge.csv`,
@@ -14,7 +14,7 @@ Detailed findings and witnesses live in source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 51 extents / 57 procedures / 5,228 CODE bytes | Open |
+| MAINL | 52 extents / 58 procedures / 5,617 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 compiler switch/separator bytes with separate proof. ZUN accepts
@@ -28,18 +28,17 @@ unowned reference/vendor context and does not establish whole-product source
 ownership. Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN repeats101 raw outputs/99 native objects; its whole file is still unequal.
 
-Last completed reconstruction CI: **2,362 tests, 284 optional archive skips, all
-checks passed**;7m50s, about579 MiB peak RSS, no swap. CPU16/nice10 was used.
+Last completed reconstruction CI: **2,384 tests, 284 optional archive skips, all
+checks passed**;8m00s, about557 MiB peak RSS, no swap. CPU16/nice10 was used.
 
 ## Resume
 
 1. Inspect Git, run `.venv/bin/python scripts/preflight.py`, and re-attest the
    selected database before using it: `scripts/ghidra.py th03-mainl check`.
-2. Next MAINL units: verdict389 and roll980, totaling1,369
-   CODE bytes. Verdict uses far string DWORD tables and a far Pascal pop10
-   renderer;its local table fixups use SEGDEF2/FIXDAT14,not EXTDEF2.
-   Then remaining cutscene/registration, OP/ZUN ownership and the
-   overall four-product source/link graph. Whole-product completion stays open.
+2. Next staff unit: roll980;then remaining cutscene/registration, OP/ZUN
+   ownership and the overall four-product source/link graph. Roll composes the
+   accepted controllers/loaders and explicit resource/sound/input interfaces.
+   Whole-product completion stays open.
 3. Preserve complete raw bytes, literal ordered relocations, natural ownership,
    ABI/layout, independent affected-behavior contracts and cold reproducibility.
    End with focused checks, full CI, whitespace checks and an English
@@ -47,7 +46,7 @@ checks passed**;7m50s, about579 MiB peak RSS, no swap. CPU16/nice10 was used.
 
 Use the [workflow](RE_WORKFLOW.md) for full dependency/rebuild/publication order
 and [script index](../scripts/README.md) for entry points. Current full MAINL
-chain: `review_th03_mainl_staff_pair_work.py`. `--current-cold` revalidates the
+chain: `review_th03_mainl_staff_verdict_work.py`. `--current-cold` revalidates the
 entire existing source/SDK/recipe/output graph and reruns only that stage; it
 cannot repair stale prerequisites. After OP/MAINL cold changes, refresh
 `review_th03_shared_input_work.py`. Do not rebuild unchanged products gratuitously.
@@ -71,10 +70,11 @@ Each command below is `review_th03_mainl_<suffix>_work.py --current-cold`.
 | Hold controller | 139 | `staff_hold`; actual two-stage loops and two waiting CFG proofs |
 | Single controller | 229 | `staff_single`; actual entrance/exit loops and two final far-helper/tick sequences |
 | Pair controller | 358 | `staff_pair`; live secondary/alpha/frame state and two reachable WORD-wrap clamps |
+| Verdict | 389 | `staff_verdict`; full far pointers, fixed score loop and live renderer replies |
 
 The natural `STAFFP_TEXT` TC4 producer is `src/mainl/staff/data.cpp`, copied
 literally to `staffdat.cpp`, GAME3/L:19 procedures/3,695 CODE bytes,224 initialized
-DATA, no BSS. Seventeen procedures/2,326 CODE bytes are owned; the other two and
+DATA, no BSS. Eighteen procedures/2,715 CODE bytes are owned; the remaining roll procedure and
 all224 DATA bytes remain unaccepted. Complete current938-output cold pairs bind
 nine consumed SDK headers with per-producer fail-closed dependency checks and
 normal893-member TLIB order. First-use GAME3/O shared producers remain unchanged.
@@ -143,6 +143,16 @@ physical IRQ/audio/timing remain explicit unowned boundaries.
   finishes119. All358 owner/1,688 reachable context bytes execute,with89 rejected
   instruction controls. Readonly-clock and closed-entrance prefixes stay separate;
   the latter additionally fixes valid readonly slot0 and secondary_y200.
+
+- Verdict's `_mainl_staff_verdict` is near/noargs,ENTER4/saved SI/DI/RET. Its
+  renderer0C7E:09B7 is far Pascal pop10:three WORDs plus a far string DWORD.
+  Local table fields use SEGDEF2/FIXDAT14,not EXTDEF2;table offsets132/168/184
+  resolve to0AE2/0B06/0B16. Eight score bytes8..1 drive a fixed eight-step loop;
+  score byte0 aliases continues_used. The two continues draws retain DI while
+  reloading the far pointer. Three skill BYTE reads remain live across replies.
+  All389 bytes execute in22,288 returns/image;93 instruction controls reject.
+  All memory/native frames/DWORD state/defined flags pass,peak24,no ignored stack.
+  Renderer body,strings/tables and physical text/pixels remain unowned.
 
 ## Other open work
 
