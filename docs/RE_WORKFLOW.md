@@ -24,11 +24,16 @@
    before republishing their source scopes. Its complete input models bind both
    current cold reports; status only replays short ABI cases. If shared acceptance
    helpers change, refresh all three product publications before regenerating progress.
-   Use `scripts/review_th03_mainl_sound_work.py` for one complete MAINL cold pair
-   and six sound/timing reviews, then refresh the shared-input review and publish.
+   Use `scripts/review_th03_mainl_root_helpers_work.py` for one complete MAINL cold pair,
+   six sound/timing reviews and five root helper reviews, then refresh shared input and publish.
    Its `--current-cold` mode revalidates the entire source/SDK/output graph before
    replaying all sound gates. Counter-update fixtures do not prove elapsed time
    or physical IRQ delivery. Adjacent explicit codestring padding remains open.
+   Root helper contracts check every physical stack byte, GRCG port width/order/IF,
+   both complete WORD seed lanes and all BYTE character pairs. Keep private
+   STR_IEQ's near caller proof and its 9F00 equality result; three adjacent NOPs
+   remain separate from function ownership and instruction coverage. Historical
+   145-owner product receipts cannot accept the refined 149-extent inventory.
    Use `scripts/review_th03_zun_directory_work.py` for the complete ZUN cold pair,
    formatter, graphics, lifecycle, header/DATA, wrapper and directory reviews. It invokes the wrapper/DATA/lifecycle/graphics/formatter
    chain once. All six support `--current-cold` to revalidate existing source/output-bound

@@ -53,7 +53,7 @@ def mainl_product_status(root, units):
             with (Path(root) / 'config/units.csv').open() as stream:
                 expected = [u for u in csv.DictReader(stream) if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
             provided = [u for u in units if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
-            if len(expected) != 145 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
+            if len(expected) != 149 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
                 raise ValueError('caller inventory does not match the current MAINL ledger')
             from lib.decoded_mainl_acceptance import verify
             return verify(Path(root), json.loads(current.read_bytes()))
@@ -255,7 +255,8 @@ def main() -> int:
             )
         product = per_artifact['th03-mainl']['product_acceptance']
         print('MAINL repository-local mixed product: ' + ('accepted' if product['product_exact'] else 'pending'))
-        print(f"MAINL decoded accepted units={product['decoded_exact_units']}/145 "
+        mainl_total = sum(u['artifact']=='th03-mainl' and u['state']!='excluded' for u in units)
+        print(f"MAINL decoded accepted units={product['decoded_exact_units']}/{mainl_total} "
               f"authored={product['decoded_authored_bytes']} B library={product['decoded_library_bytes']} B; "
               f"mixed stored product={product['mixed_physical_exact_bytes']} B, additional authored credit=0; "
               "whole-game percentage=unknown; Factory acceptance=false")

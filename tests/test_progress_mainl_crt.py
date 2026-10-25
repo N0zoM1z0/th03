@@ -14,7 +14,7 @@ class CrtProgressTests(unittest.TestCase):
         units,evidence=self.data()
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
-        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(145,28381,0,145))
+        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(149,28381,0,149))
         # This assertion concerns the historical pending-publication caption.
         # Published acceptance intentionally suppresses it (tested separately).
         with patch('status.mainl_product_status', return_value={

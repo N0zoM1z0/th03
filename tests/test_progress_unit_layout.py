@@ -62,7 +62,7 @@ class Tests(unittest.TestCase):
   self.assertIn('452',ET.tostring(root,encoding='unicode'))
  def test_accepted_mainl_hides_only_stale_retained_and_open_order(self):
   import status
-  accepted=dict(product_exact=True,decoded_exact_units=145)
+  accepted=dict(product_exact=True,decoded_exact_units=149)
   flags=['mainl_heap_retained','mainl_crt_source_proven','mainl_linked_game_source_proven','mainl_root_tail_source_proven','mainl_display_hardware_source_proven','mainl_archive_io_source_proven','mainl_resources_source_proven','mainl_pi_decoder_source_proven','mainl_root_source_proven','mainl_staff_source_proven','mainl_vsync_alignment_proven']
   with ExitStack() as stack:
    for name in flags: stack.enter_context(patch.object(p,name,return_value=True))

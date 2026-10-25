@@ -24,7 +24,7 @@ class MainlWorkAcceptance(unittest.TestCase):
 
     def test_live_physical_replay_accepts_current_decoded_owners_only(self):
         result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (21, 1035))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (26, 1185))
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
 
@@ -74,8 +74,8 @@ class MainlWorkAcceptance(unittest.TestCase):
         result = verify(ROOT, self.publication)
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [])
-        self.assertIn("Decoded acceptance: exact 21/145", svg)
-        self.assertIn("21 functions / 1,035 B", svg)
+        self.assertIn("Decoded acceptance: exact 26/149", svg)
+        self.assertIn("26 functions / 1,185 B", svg)
         self.assertIn("938 raw outputs", svg)
         self.assertNotIn("MAINL product + decoded accepted", svg)
-        self.assertNotIn("exact 145/145", svg)
+        self.assertNotIn("exact 149/149", svg)

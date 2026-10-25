@@ -7,7 +7,7 @@ remain in [README.md](../README.md).
 
 ## Current state
 
-- Previous pushed checkpoint: `332de40` (native ZUN directory source scope).
+- Previous pushed checkpoint: `56093a3` (complete OP VS menu caller).
 - MAIN: **445 exact functions / 75,317 bytes / 98 CODE extents**. These are
   reviewed source scopes; the full product is not exact. The whole-game source
   denominator is unknown. OP, MAINL and ZUN have no accepted whole-product source exactness.
@@ -240,7 +240,7 @@ remain in [README.md](../README.md).
   a complete-byte build observation with explicit reference/vendor context; the
   twenty-one scoped owners below have independent current source acceptance.
   See `config/mainl_work/observation.json`.
-- MAINL has **twenty-one accepted decoded source functions / 1,035 bytes**. Its
+- MAINL has **twenty-six accepted decoded source functions / 1,185 bytes**. Its
   four lifecycle owners / 210 bytes are plane setup, cleanup, initialization and return to MAIN. Their actual first-use
   slots remain GAME1/O, GAME3/O, GAME3/M and GAME3/L. Complete native objects,
   both OMF/MAP public tables, zero private DATA/BSS and nineteen literal ordered
@@ -315,13 +315,42 @@ remain in [README.md](../README.md).
   requests 5000h; restore DS before close while retaining read AL. Returning
   registers/flags/high halves, all frames, 10-byte peak stack and full memory
   outside 32 stack bytes pass. DOS/drivers/counter updates remain bounded.
-  MAINL totals **21 functions / 1,035 CODE bytes**, 25 ordered MZ relocations,
+  Before the root helpers below, MAINL totaled **21 functions / 1,035 CODE bytes**, 25 ordered MZ relocations,
   53,138 model cases per image and 85 mutations. Source-present bytes, canonical
   credit and whole-product ownership are unchanged. Run
   `review_th03_mainl_sound_work.py`, the shared-input review, then publishers.
   Keep each unit's historical source-presence replay command and the candidate
   intake's current evidence union; current source review commands live in the
   new observation/publication and notes. Existing evidence snapshots stay fixed.
+- MAINL's **five complete root helpers / 150 CODE bytes** now have current
+  source acceptance: DOS_KEYCLEAR6, GRCG_SETCOLOR41, GRCG_OFF5, IRAND42 and
+  private STR_IEQ56. The actual TASM root producer's full segment geometry,
+  maintained include dependencies, MAP allocation/public tables, five ordered
+  native seed WORD fields and empty scoped MZ relocation vectors pass. The
+  real PFOPEN near CALL at 2B65 identifies private entry 2C30, excluding its
+  preceding alignment. Independent contracts run 396,528 cases per image at
+  two loads: both complete 65,536-value random seed WORD lanes, all 65,536
+  character pairs, wrapped far strings, WORD mode/color values and foreign SS.
+  Every instruction byte executes; 26 actual instruction mutations fail.
+  All registers/high halves including ESP, defined flags, ordered stores/ports
+  and complete physical memory pass; **zero stack bytes are ignored** and
+  maximum stack depth is six. IRAND uses modulo-32-bit multiply/add with carry;
+  its final flags come from byte-sized AND AH. Equal STR_IEQ returns 9F00,
+  mismatch returns zero, and CLD clears incoming DF. GRCG samples low argument
+  bytes, holds IF clear through all five BYTE OUTs and restores incoming flags;
+  GRCG_OFF preserves AH and does not force IF. DOS 21h/0C00h is a bounded trap
+  request/reply interface; physical keyboard and pixel behavior are unproved.
+  Three adjacent NOPs remain unaccepted layout. The ledger partitions GRCG48
+  into41/1/5/1 and compare57 into1/56, increasing MAINL extents145 to149 with
+  no source-byte increase. Historical source-presence snapshots keep their
+  original containing-span namespace and verify the complete current partition.
+  Current complete source/SDK/recipe/output-bound cold pair is revalidated,
+  not rebuilt now. MAINL totals **26 functions / 1,185 CODE bytes**, 25 ordered
+  MZ relocations, 449,666 model cases per image and 111 instruction mutants.
+  Root DATA/BSS, surrounding procedures, canonical packed-file offsets and
+  whole-product ownership stay open. Use
+  `review_th03_mainl_root_helpers_work.py --current-cold` or default for a fresh
+  cold/sound/helper chain, then refresh shared input and publish.
 
 - ZUN now has a complete live cold build: 110 source inputs plus explicit vendor
   `MASTERS.LIB` and the -1 payload. All 23 raw OBJ/COM/MAP/composition/packed outputs
@@ -618,8 +647,10 @@ remain in [README.md](../README.md).
   ordered positions still differ. Relocation membership and the 124,642-byte
   loaded-image size match. Loaded bytes differ only at `0xEC2D` and `0x1DB05`
   (target `90`, candidate `00`). Header sizes are 6,240 versus 7,680 bytes.
-- Last full CI: PASS, 2,053 tests / 284 optional archive skips. Heavy work uses
-  one CPU at nice10; latest CI took 5m43s at about 495 MiB peak RSS, no swap.
+- Last full CI: PASS, 2,067 tests / 284 optional archive skips. Heavy work uses
+  one CPU at nice10; latest CI took 5m31s at about 490 MiB peak RSS, no swap.
+  MAINL's complete new root helper review took 10m07s at 139 MiB, no swap,
+  revalidating the existing native pair; all physical stack bytes are checked.
   The complete new VS caller review took 2m07s at 137 MiB, no swap, revalidating
   the existing native pair. OP's latest SDK-guarded cold
   pair plus cfg/dispatch/attract reviews took 4m12s at 147 MiB; MAINL's cold pair plus sound/timing review took 4m41s at 158 MiB with lifecycle/SDK

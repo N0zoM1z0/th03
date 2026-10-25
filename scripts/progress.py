@@ -350,8 +350,23 @@ MAINL_ROOT_TAIL_SOURCE_UNITS = {'th03-mainl-decoded-root-tail-align-bfnt': {'sou
 def mainl_root_tail_source_proven(units, evidence):
     by_unit = {r["id"]: r for r in units}
     by_evidence = {r["id"]: r for r in evidence}
+    # Historical source-presence snapshots cover these containing spans. Check
+    # the disjoint current partition before projecting it into that namespace;
+    # this grants neither function acceptance nor alignment execution credit.
+    refinements = {
+        'th03-mainl-decoded-root-tail-grcg': (
+            ('grcg',0xC36,41),('grcg-setcolor-align',0xC5F,1),('grcg-off',0xC60,5),('grcg-off-align',0xC65,1)),
+        'th03-mainl-decoded-root-tail-compare-align': (
+            ('compare-align',0x2C2F,1),('string-compare',0x2C30,56))}
     for name, expected in MAINL_ROOT_TAIL_SOURCE_UNITS.items():
         u = by_unit.get(name, {})
+        if name in refinements and u.get('size') != expected['size']:
+            for suffix,offset,size in refinements[name]:
+                part=by_unit.get('th03-mainl-decoded-root-tail-'+suffix,{})
+                if (part.get('segment'),part.get('offset'),part.get('size'),part.get('compare_size'),part.get('state'),part.get('source')) != (
+                        'decoded:0000',hex(offset),str(size),str(size),'source-present',expected['source']):
+                    return False
+            u=dict(u,size=expected['size'])
         if (u.get("state"), u.get("source"), u.get("size")) != ("source-present", expected["source"], expected["size"]):
             return False
         for eid, kind in zip(expected["evidence"], ("compiler", "runtime", "reproducibility")):
@@ -587,7 +602,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
             if product.get("current_cold_source_scopes"):
-                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded source: 21 functions / 1,035 B · canonical exact 0 · product acceptance open</text>')
+                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded source: {product["decoded_exact_units"]} functions / {product["decoded_authored_bytes"]:,} B · canonical exact 0 · product acceptance open</text>')
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>')
             elif mainl_pi_composed(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>')
@@ -708,7 +723,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
 {('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
 {('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</text>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() and not mainl_fullcold_current_proven() else '')}
 {('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>' if mainl_fullcold_current_proven() and not product['product_exact'] else '')}
-{('<text x="24" y="526" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · 145 units · mixed 37,975 B · whole-game % unknown</text>' if product['product_exact'] else '')}
+{('<text x="24" y="526" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · ' + str(product['decoded_exact_units']) + ' units · mixed 37,975 B · whole-game % unknown</text>' if product['product_exact'] else '')}
 </svg>
 '''
 
@@ -750,11 +765,12 @@ def main() -> int:
     from status import mainl_product_status
     mainl_status = mainl_product_status(ROOT, units)
     if mainl_status.get("current_cold_source_scopes"):
-        lines.extend(["MAINL current decoded source acceptance: 21 functions / 1,035 bytes. "
+        lines.extend([f"MAINL current decoded source acceptance: {mainl_status['decoded_exact_units']} functions / {mainl_status['decoded_authored_bytes']:,} bytes. "
                       "Current native ownership/ABI, two source-only cold builds, 4,800 lifecycle, 2,218 shared input and 3,378 ending wait guest cases per image pass. "
                       "Six sound/timing functions add 332 CODE bytes, 33 literal native fields and one natural same-CS far-call relaxation, with no private DATA/BSS or MZ relocations. "
                       "Their 42,742 guest cases per image cover the 33-entry SE tables against BYTE states, full-WORD unchecked priority indices, fixed 13-byte filename copying, suffix overflow, file errors, driver routing and unsigned measure/counter waits; 33 instruction mutations fail. "
                       "Actual frame-delay instructions execute; DOS/PMD/MMD replies and counter updates remain bounded interfaces. Adjacent explicit padding remains unaccepted. "
+                      "Five complete root helpers add 150 CODE bytes with five native random-seed WORD fields and no MZ relocations. Their 396,528 cases per image cover both complete WORD seed lanes, all 65,536 character pairs, far pointer wrap, full WORD mode/color arguments, foreign SS and exact GRCG port width/order/IF. All 150 instruction bytes execute; 26 instruction mutations fail. Full registers/high halves including ESP, defined flags and all physical memory including every private stack and caller byte pass. Three adjacent NOPs stay excluded. DOS keyboard clearing is a bounded trap interface; physical DOS/pixels are unproved. "
                       "Canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
     from status import zun_product_status
     zun_status = zun_product_status(ROOT, units)

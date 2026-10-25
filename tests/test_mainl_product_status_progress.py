@@ -20,7 +20,15 @@ def load(name):
     return module
 status = load('status')
 progress = load('progress')
-UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
+CURRENT_UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
+# This suite exercises the frozen 145-owner publication, with its original
+# containing GRCG/STR_IEQ boundaries. Current source scopes use 149 extents.
+UNITS = [dict(u) for u in CURRENT_UNITS if u['id'] not in {
+    'th03-mainl-decoded-root-tail-grcg-setcolor-align','th03-mainl-decoded-root-tail-grcg-off',
+    'th03-mainl-decoded-root-tail-grcg-off-align','th03-mainl-decoded-root-tail-string-compare'}]
+for unit in UNITS:
+    if unit['id']=='th03-mainl-decoded-root-tail-grcg':unit.update(size='48',compare_size='48')
+    if unit['id']=='th03-mainl-decoded-root-tail-compare-align':unit.update(size='57',compare_size='57')
 IDS = sorted(u['id'] for u in UNITS if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded')
 def accepted():
     return dict(product_exact=True, decoded_exact_units=145, decoded_exact_unit_ids=IDS,
@@ -58,6 +66,8 @@ class Tests(unittest.TestCase):
     def test_pending_receipt_cannot_leak_stale_counts(self):
         receipt = accepted(); receipt['product_exact'] = False
         self.assert_zero(self.run_status(receipt))
+    def test_historical_receipt_cannot_accept_the_refined_current_inventory(self):
+        self.assert_zero(self.run_status(units=CURRENT_UNITS))
     def test_missing_publication_is_zero(self):
         self.assert_zero(self.run_status({'product_exact': False}))
     def test_arbitrary_145_fixture_ids_never_inherit_live_acceptance(self):
