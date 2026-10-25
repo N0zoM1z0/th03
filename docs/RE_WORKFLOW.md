@@ -26,9 +26,9 @@
    Its `--current-cold` mode revalidates the entire source/SDK/output graph before
    replaying all sound gates. Counter-update fixtures do not prove elapsed time
    or physical IRQ delivery. Adjacent explicit codestring padding remains open.
-   Use `scripts/review_th03_zun_data_work.py` for the complete ZUN cold pair,
-   formatter, graphics, lifecycle and header/DATA reviews. It invokes the lifecycle/graphics/formatter
-   chain once. All four support `--current-cold` to revalidate existing source/output-bound
+   Use `scripts/review_th03_zun_wrapper_work.py` for the complete ZUN cold pair,
+   formatter, graphics, lifecycle, header/DATA and wrapper reviews. It invokes the DATA/lifecycle/graphics/formatter
+   chain once. All five support `--current-cold` to revalidate existing source/output-bound
    prerequisites and rerun their own full gates without rebuilding.
    Publish ZUN scopes after this review. DATA consumers must read the original
    defaults/messages/tables from the initialized image; mutable argument inputs
@@ -39,6 +39,12 @@
    separately from executed instruction coverage. DOS 4C/31 termination also
    bounds lifecycle reachability; preserve the fifteen following bytes without
    counting them as executed. Real maintained nested helpers must execute.
+   Wrapper coordinates belong to the outer decoded COM, not a child payload.
+   Check all registers, defined flags, ordered stores and complete memory;
+   preserve the retained count WORD and stop before payload execution. The
+   directory's 324 metadata bytes receive no wrapper-TU credit. Direct transfer
+   entry cases require DF=0. DOS AL replies are explicit bounded policies;
+   do not assume that AH-only termination clears the exit status.
    `scripts/probe_th03_sound_nop_layout.py` is a non-accepting diagnosis over
    both current pairs. It recompiles selected sound copies and links against
    the unchanged remaining objects in a disposable DOS workspace. Generated

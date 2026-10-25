@@ -68,6 +68,20 @@ procedure reviews. Separate semantic checks cover every initialized DATA byte.
 Three plus nine reserved bytes still have no ownership. These DATA checks do
 not promote the enclosing driver or establish the original source organization.
 
+The outer ZUN launcher and two transfer TUs own 213 CODE + 21 DATA bytes.
+Nine native WORD fixups bind the root's counts, names, entries and scratch word;
+the transfer CALL/helper have none. Three individually linked tiny objects
+keep their ORG 0100 and native entry/group records, then compose at their actual
+outer COM positions. The 324-byte directory metadata receives no TU credit.
+FCB filename bytes select the payload independently of the selector text.
+Success leaves a WORD remaining count on the caller stack; the trailing helper
+discards its CALL return and enters 0100 before any payload instruction runs.
+Direct transfer contracts require DF clear, DI=0100 and a bounded payload span.
+Three explicit DOS AL reply policies expose the AH-only termination status.
+Complete memory and ordered stores are checked, including transient stack words,
+forward overlapping moves and an SS different from DS. The generated directory,
+unowned payload/runtime dependencies and whole-product source ownership remain open.
+
 `src/shared/hardware/input_modes.cpp` is one complete nine-function / 367-byte
 CODE producer in both OP and MAINL, retaining its GAME3/O first-use wrapper.
 Its two link layouts and six ordered far-pointer relocations are reviewed

@@ -1,0 +1,472 @@
+{
+  "schema": "th03-zun-wrapper-current-review-v1",
+  "complete": true,
+  "implementation_sha256": {
+    "scripts/review_th03_zun_format_work.py": "b5252b5cb22dead4965b7ec63f96cbe83af4844031b88f23d843dcd49ee22815",
+    "scripts/lib/zun_driver_format_layout.py": "2add03e5c0b2e6f140cc61c3630ad1a1d22aef3ee6af86d35b38bd842ba4a999",
+    "scripts/lib/zun_driver_format_runtime.py": "cd232574df81d8a4819e2f2f16c629827a0d3c5d28ebf8d6d358876c0bf66bdd",
+    "src/zun/driver_format.inl": "6ffb37ce710e3a228293a77e8f4bb0f2e45ecfdfcb37a35af8096b735f37359e",
+    "src/zun/driver_strings.inl": "06effd580a81e6989a7f63fea4bda3cfea6e49940561d149963f3cc157dec01a",
+    "src/zun/driver_data.inl": "656aafabb96b2cab664735bc0dd194a74f01433792704f2e87b94d4370799a2c",
+    "scripts/build_th03_zun_work.py": "ae812422734b00b962f9017479afdfe342b99a4a3e72e69380a895fca8ed5366",
+    "scripts/lib/zun_driver_layout.py": "956a33fbffc54922da2f66e82d50e99f3991adb33ddb89fef855925ff2d4201b",
+    "scripts/lib/zun.py": "28e7249d90dc0a8a6f9ad6d97ed879a5c05f6a171d4f558add859d5768d2e501",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/stage_th03_zun_driver.py": "be97da8c427b42af3d325e50d66dd33af28152adb1597fe2a73c7be1362e1f30",
+    "scripts/verify_th03_zun_driver_hybrid.py": "077a7c99279853282852bcb1f11f77e935796e0304a48fe9587a00a531cd1aa9",
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "scripts/review_th03_zun_graphics_work.py": "2bad812831722ae5fec34c525c5f1683a5c02b18e79416c1047032ea34a9b074",
+    "scripts/lib/zun_driver_graphics_layout.py": "614a204bd393c3a92e6d086c364331bbd3dcf5fa64157dca445b65a1e9e9be37",
+    "scripts/lib/zun_driver_graphics_runtime.py": "aa71cf915c063780348a51c9bfb6a3277ac81d6121b8759abc2162daa8bd7263",
+    "src/zun/driver_graphics.inl": "a6a7406573b37ddd34de0d1e8893426dcb4d66c7e992365571b614866a526e70",
+    "src/zun/driver_hardware.inc": "50353aac8704d0c9e53d373f9a9524011b2b7c2798063d90c8152503f2e14ab6",
+    "scripts/review_th03_zun_lifecycle_work.py": "30f6b1871fba8cb0e086299bbb7763f8b1260b6d4ec37418f4b219117fc70504",
+    "scripts/lib/zun_driver_lifecycle_layout.py": "8492a992952db296145525a9266554256c8e5ca9fa3335d67f431ab3f69934db",
+    "scripts/lib/zun_driver_lifecycle_runtime.py": "8fd0cf5be17abf6ced865b48fd2bb8abf5176d82d93a39bc4fa0129c06e2cfbc",
+    "src/zun/driver_resident.inl": "eab59e2b554caa3e8493e17a6dc4df0658bc9ff7338ca9bd7e311ab7b9f0d3e5",
+    "scripts/lib/zun_driver_command_runtime.py": "77313ef4840dc280af400aeffa433414a69515f188ec4844a31df477bf2677fb",
+    "scripts/lib/zun_driver_scalar_runtime.py": "135e86482e6a1f30cb1225ae1193d89ffed5767539c82c996b551125a9b0418d",
+    "scripts/lib/zun_driver_scalar_layout.py": "53fb780c49959068b8ed6069e541bc92c18ea54916ed02f27a2b5593323fbc66",
+    "scripts/review_th03_zun_data_work.py": "9cf5a54366b232b05f07394510f4965cd4fff6474e18f91e3fe829ab4f6d3658",
+    "scripts/lib/zun_driver_data_layout.py": "81e528db2c3ecb11f4fd468583bbe369671936ac6facddaa108ea440ea34eebe",
+    "scripts/lib/zun_driver_data_runtime.py": "4d1b84649ff36611d4ad4a4f9d3b6805db223d4e53a690793077cb873dd1b255",
+    "src/zun/driver.asm": "5165e7eb5a910382668f6af2bba2b58e16929640f6e52f2077a143064a179c91",
+    "src/zun/driver_services.inl": "d57a52b5dc27a4d548259d7174141b86267734b231a2a0cd55203f1a751507af",
+    "src/zun/driver_numbers.inl": "de3f42440813c414028dde3130deab8f0e00cdc29efcfa8a69839dfc711683e0",
+    "scripts/review_th03_zun_wrapper_work.py": "027ec95fc328d74a3fefafbdb372a4e694ba6220fc21e14d5329f11d3590e7fd",
+    "scripts/lib/zun_wrapper_layout.py": "3eb065da33ecc4e77681e7bd16bbaa28c7f6ea50ecd19d8cfd30bdfb548a1fd8",
+    "scripts/lib/zun_wrapper_runtime.py": "e5eaa7712cf5d76fa7d84123723b29d32566c625b086c118cfe193b131671602",
+    "src/zun/launcher.asm": "edea80bed915491d6eb11bccca1eed83966a5d8fd84cbd746d7d4ce272bd02bd",
+    "src/zun/transfer_call.asm": "7b4634cbede7e9e19658f441eeecd108eecc2eea9b4d6e81815a758080bbeda9",
+    "src/zun/transfer_helper.asm": "d8e15f5d983e899d363b16c87a40ef4dbcc693c7f73e38cf330ecf3ae1369c8a"
+  },
+  "provenance": "candidate-local-attested",
+  "native_pair_built_now": false,
+  "whole_product_accepted": false,
+  "canonical_unit_credit_changed": false,
+  "cold_report_sha256": "e565693f689f79d50c30e0cf9bd6e76ce680f1b996fc698d4c2de71c34ac0872",
+  "data_report_sha256": "6493bedb70f8c394d40cc7d70640dea5bf3096cc347b295f4a772fae3864d96f",
+  "scope": {
+    "layout": {
+      "owners": [
+        {
+          "unit_id": "th03-zun-launcher",
+          "source": "src/zun/launcher.asm",
+          "object": "wrapper/stub.obj",
+          "include": "wrapper/stub.asm",
+          "start": 256,
+          "size": 223,
+          "origin": "authored",
+          "code_bytes": 202,
+          "data_bytes": 21,
+          "procedures": 1,
+          "coordinate_space": "decoded-launcher-com",
+          "payload_option": null,
+          "decoded_file_offset": 0,
+          "canonical_file_offset": null,
+          "format": "COM",
+          "ordered_relocations": [],
+          "ordered_native_fixups": [
+            {
+              "address": 282,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 479
+            },
+            {
+              "address": 309,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 479
+            },
+            {
+              "address": 312,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 481
+            },
+            {
+              "address": 359,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 737
+            },
+            {
+              "address": 363,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 479
+            },
+            {
+              "address": 366,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 481
+            },
+            {
+              "address": 370,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 258
+            },
+            {
+              "address": 388,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 258
+            },
+            {
+              "address": 397,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 260
+            }
+          ],
+          "argument_bytes": 0,
+          "callee_pop_bytes": 0,
+          "private_data_bytes": 21,
+          "private_bss_bytes": 0,
+          "abi": "COM PSP entry; DS=ES=CS, SS caller stack; direct transfer entries require DF=0, SI at a canonical payload, DI=0100, CX within that payload; helper discards return and enters 0100; successful lookup leaves remaining count on stack",
+          "target_sha256": "cda3d3f38031f14988d236cc6725109d2f162e65224509101ca55c6dcb05fcfc",
+          "candidate_sha256": "cda3d3f38031f14988d236cc6725109d2f162e65224509101ca55c6dcb05fcfc"
+        },
+        {
+          "unit_id": "th03-zun-transfer-call",
+          "source": "src/zun/transfer_call.asm",
+          "object": "wrapper/call.obj",
+          "include": "wrapper/call.asm",
+          "start": 803,
+          "size": 3,
+          "origin": "authored",
+          "code_bytes": 3,
+          "data_bytes": 0,
+          "procedures": 1,
+          "coordinate_space": "decoded-launcher-com",
+          "payload_option": null,
+          "decoded_file_offset": 547,
+          "canonical_file_offset": null,
+          "format": "COM",
+          "ordered_relocations": [],
+          "ordered_native_fixups": [],
+          "argument_bytes": 0,
+          "callee_pop_bytes": 0,
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0,
+          "abi": "COM PSP entry; DS=ES=CS, SS caller stack; direct transfer entries require DF=0, SI at a canonical payload, DI=0100, CX within that payload; helper discards return and enters 0100; successful lookup leaves remaining count on stack",
+          "target_sha256": "1968063f17c632fd4e81aa22eb72c942a29b5579594c85be1a99df073dc652eb",
+          "candidate_sha256": "1968063f17c632fd4e81aa22eb72c942a29b5579594c85be1a99df073dc652eb"
+        },
+        {
+          "unit_id": "th03-zun-transfer-helper",
+          "source": "src/zun/transfer_helper.asm",
+          "object": "wrapper/helper.obj",
+          "include": "wrapper/helper.asm",
+          "start": 23060,
+          "size": 8,
+          "origin": "authored",
+          "code_bytes": 8,
+          "data_bytes": 0,
+          "procedures": 1,
+          "coordinate_space": "decoded-launcher-com",
+          "payload_option": null,
+          "decoded_file_offset": 22804,
+          "canonical_file_offset": null,
+          "format": "COM",
+          "ordered_relocations": [],
+          "ordered_native_fixups": [],
+          "argument_bytes": 0,
+          "callee_pop_bytes": 0,
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0,
+          "abi": "COM PSP entry; DS=ES=CS, SS caller stack; direct transfer entries require DF=0, SI at a canonical payload, DI=0100, CX within that payload; helper discards return and enters 0100; successful lookup leaves remaining count on stack",
+          "target_sha256": "a580939da3b518b3001c1a4ff48fd9860511eddc239d702c6e13e41ac9125b00",
+          "candidate_sha256": "a580939da3b518b3001c1a4ff48fd9860511eddc239d702c6e13e41ac9125b00"
+        }
+      ],
+      "code_bytes": 213,
+      "data_bytes": 21,
+      "functions": 3,
+      "native_profiles": [
+        {
+          "alias": "stub",
+          "ordered_native_fixups": [
+            {
+              "address": 282,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 479
+            },
+            {
+              "address": 309,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 479
+            },
+            {
+              "address": 312,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 481
+            },
+            {
+              "address": 359,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 737
+            },
+            {
+              "address": 363,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 479
+            },
+            {
+              "address": 366,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 481
+            },
+            {
+              "address": 370,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 258
+            },
+            {
+              "address": 388,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 258
+            },
+            {
+              "address": 397,
+              "width": 2,
+              "self_relative": false,
+              "frame_group": 1,
+              "target_segment": 1,
+              "target_address": 260
+            }
+          ],
+          "code_segment_bytes": 479,
+          "initialized_bytes": 223,
+          "uninitialized_ORG_prefix_bytes": 256,
+          "private_bss_bytes": 0,
+          "com_relocations": [],
+          "map_data_start": 480
+        },
+        {
+          "alias": "call",
+          "ordered_native_fixups": [],
+          "code_segment_bytes": 259,
+          "initialized_bytes": 3,
+          "uninitialized_ORG_prefix_bytes": 256,
+          "private_bss_bytes": 0,
+          "com_relocations": [],
+          "map_data_start": 260
+        },
+        {
+          "alias": "helper",
+          "ordered_native_fixups": [],
+          "code_segment_bytes": 264,
+          "initialized_bytes": 8,
+          "uninitialized_ORG_prefix_bytes": 256,
+          "private_bss_bytes": 0,
+          "com_relocations": [],
+          "map_data_start": 264
+        }
+      ],
+      "ordered_native_fixups": [
+        {
+          "address": 282,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 479
+        },
+        {
+          "address": 309,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 479
+        },
+        {
+          "address": 312,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 481
+        },
+        {
+          "address": 359,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 737
+        },
+        {
+          "address": 363,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 479
+        },
+        {
+          "address": 366,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 481
+        },
+        {
+          "address": 370,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 258
+        },
+        {
+          "address": 388,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 258
+        },
+        {
+          "address": 397,
+          "width": 2,
+          "self_relative": false,
+          "frame_group": 1,
+          "target_segment": 1,
+          "target_address": 260
+        }
+      ],
+      "directory_bytes_excluded": 324,
+      "payloads_owned": false,
+      "enclosing_product_accepted": false,
+      "source_only": true,
+      "stored_offsets_invented": false
+    },
+    "runtime": {
+      "images": 2,
+      "functions": 3,
+      "code_bytes": 213,
+      "data_bytes": 21,
+      "cases_per_image": 2310,
+      "observations": [
+        {
+          "load_segment": 4096,
+          "split_stack": false,
+          "cases": 1155,
+          "cases_by_entry": {
+            "launcher": 1065,
+            "call": 45,
+            "helper": 45
+          },
+          "covered_owner_bytes": 213,
+          "maximum_observed_stack_depth": 4,
+          "trace_sha256": "41cdcb56d5a14fb195b9956ba5a7530660883ab6db56236eee8f679270ef18c7"
+        },
+        {
+          "load_segment": 12288,
+          "split_stack": true,
+          "cases": 1155,
+          "cases_by_entry": {
+            "launcher": 1065,
+            "call": 45,
+            "helper": 45
+          },
+          "covered_owner_bytes": 213,
+          "maximum_observed_stack_depth": 4,
+          "trace_sha256": "7f008073e9ca24c04c2befffca1d569a73871a83d55be45d55c81dd7f77a6615"
+        }
+      ],
+      "maximum_DOS_command_bytes": 126,
+      "DOS_AL_reply_policies": 3,
+      "canonical_payloads": 5,
+      "directory_count_dependency_domain": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "payload_instructions_executed": false,
+      "stack_windows_ignored": false,
+      "all_memory_and_ordered_stores_checked": true
+    },
+    "negative_controls": {
+      "count": 21,
+      "rejected": [
+        "entry-transfer",
+        "DF-clear",
+        "zero-count-branch",
+        "empty-tail-branch",
+        "space-scan",
+        "name-width",
+        "FCB-match-branch",
+        "search-stack-pop",
+        "FCB-copy-width",
+        "strip-spaces",
+        "selector-end-branch",
+        "empty-arguments",
+        "copy-count",
+        "tail-terminator",
+        "selected-length",
+        "cross-payload-CALL",
+        "helper-MOVSB-width",
+        "helper-discard-register",
+        "helper-entry-address",
+        "helper-push-register",
+        "helper-return-width"
+      ],
+      "actual_guest_instruction_changes": true,
+      "payload_bytes_mutated": false,
+      "directory_mutations_counted_as_instructions": false
+    }
+  }
+}
