@@ -1,10 +1,10 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-25, after `dafffde`. MAINL's seven complete
-snow procedures now have native ownership and full-state contracts with actual
-RNG/vector/flake instructions. The single464-byte extent retains its existing
-ledger partition. Native inputs and all previous43 owner observations are
-unchanged; counts now distinguish extents from procedures.
+Reconstruction checkpoint: 2026-10-25, after `4ef6a41`. MAINL's complete211-byte
+dissolve procedure now has native ownership and full physical-state contracts
+with actual SMC blitters and color setup. Native inputs and all previous44
+owner observations remain unchanged; enclosing DATA and physical graphics
+are still unowned.
 Read `AGENTS.md`,
 [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md) and the local
 [th03-re skill](../.agents/skills/th03-re/SKILL.md) before continuing.
@@ -15,7 +15,7 @@ Read `AGENTS.md`,
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
 | OP | 31 functions / 3,620 CODE bytes | Open |
-| MAINL | 44 extents / 50 procedures / 3,845 CODE bytes | Open |
+| MAINL | 45 extents / 51 procedures / 4,056 CODE bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes 22 compiler switch/separator bytes with separate raw/table proof.
@@ -31,8 +31,8 @@ limited to the scopes above. Publications are
 `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 MAIN's 101 raw outputs / 99 native objects repeat; its whole file remains unequal.
 
-Last reconstruction CI: **2,250 tests, 284 optional archive skips, all checks passed**;
-6m17s, about 566 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
+Last reconstruction CI: **2,270 tests, 284 optional archive skips, all checks passed**;
+6m38s, about 527 MiB peak RSS, no swap. Heavy work was pinned to CPU 16 at nice10.
 
 ## Resume work
 
@@ -103,8 +103,8 @@ Complete `_mainl_ending` owns **280 CODE bytes** at `095F:2382`, with34 ordered
 native fields,14 ordered MZ relocations and the compiler-owned near cdecl frame.
 `src/mainl/staff/data.cpp` is copied literally to `staffdat.cpp` and compiled
 GAME3/L. Full producer inventory is19 procedures/3,695 CODE bytes,224 initialized
-DATA bytes and no BSS; after the drawing/snow scopes below,nine procedures/2,752 CODE
-bytes and all224 initialized DATA bytes remain unaccepted.
+DATA bytes and no BSS; after the drawing/snow/dissolve scopes below,eight
+procedures/2,541 CODE bytes and all224 initialized DATA bytes remain unaccepted.
 Current command: `review_th03_mainl_ending_work.py --current-cold`.
 
 - **9,528 complete entries per image** at two loads execute all280 ending bytes
@@ -182,7 +182,33 @@ relocations. Current command: `review_th03_mainl_snow_work.py --current-cold`.
   prove a loop. Vector/table storage, assets and physical IRQ/audio/pixel/timing
   effects receive no new ownership.
 
-Next candidates: the remaining nine staff/graphics procedures and cutscene ownership, then
+### MAINL dissolve
+
+Complete near-Pascal `CDG_PUT_DISSOLVE_E_8` owns **211 CODE bytes** at
+`095F:2731`, with seven ordered native fields and two ordered MZ relocations.
+Same natural `staffdat.cpp` producer. Current command:
+`review_th03_mainl_dissolve_work.py --current-cold`.
+
+- **36,314 complete entries/image**, two loads, all211 owner bytes and333 actual
+  owned context bytes: alpha179/noalpha113/color setup41. All DWORD/segment/
+  defined flags, actual near/far frames, ports, SMC and every flat-memory byte
+  pass; peak stack38, no ignored window. Thirty-seven owner and three context
+  instruction mutations fail. Both BYTE flags are raw nonzero predicates;
+  caller coordinates and masked strength are modified in their actual WORDs.
+- Signed centering and IDIV16 truncate toward zero. Strength is masked to7;
+  active pattern selection covers all28 WORDs, both BYTE lanes/all256 values.
+  Slot multiplication wraps to4,096 addresses without sanitizing the argument.
+  Zero width quotient runs65,536 actual WORD ANDs. The unsigned postincrement
+  row comparison can also run65,536 rows; both maxima execute separately.
+- Native CFG and exhaustive WORD width/strength arithmetic establish the
+  combined2**32 WORD-store bound under disjoint mapped memory and stable
+  post-blit metadata/pattern assumptions. That maximal Cartesian case is not
+  claimed as executed. No guest iterations are skipped and budget expiry is
+  never proof. WORD atFFFF spans physical bytes. External pattern/slot/image
+  storage, enclosing224 DATA bytes and physical planar pixels/timing remain
+  unaccepted.
+
+Next candidates: the remaining eight staff procedures and cutscene ownership, then
 remaining OP/ZUN and the overall source/link graph. Whole-product completion
 remains open.
 Use `review_th03_mainl_sound_work.images()` to revalidate the complete current
