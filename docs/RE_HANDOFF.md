@@ -1,10 +1,10 @@
 # TH03 handoff
 
-Prepared2026-10-26. Current committed checkpoint **`55a1c3d`**,main ahead six.
-Narrow game-graphics ownership is staged,not committed. Factory MCP is authorized.
-Four existing complete entries add207 instruction bytes in three owners,while
-nine bytes remain unowned context. Whole-product source exactness remains open.
-Full CI is pending at note writing; its final result is reported separately.
+Prepared2026-10-26. Baseline checkpoint **`83706b4`**,main ahead seven.
+Complete existing MAINL cutscene ownership is staged,not committed:13 procedures,
+3122 instruction bytes/1057 instructions. Required72 inline switch bytes and one
+compiler-emitted zero remain uncredited context. No new implementation/runtime
+harness. Full CI is pending at writing;final result reported separately.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -17,7 +17,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
-| MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
+| MAINL | 67 extents / 72 procedures / 9,719 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
@@ -35,6 +35,24 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAINL complete cutscene ownership
+
+All236 native fields,58 literal EXTDEF/MAP identities,13 publics and56 ordered
+MZ relocations independently resolve the full3195-byte producer. Only3122
+instruction bytes are credited;72 inline table bytes and the emitted zero stay
+required context. Current PI operands match;this supersedes the historical
+source comment without modifying the compiled source. Prior54 owners unchanged.
+
+The comment-only rebuild completed both938-output rounds;its following full
+ancestor runtime chain was interrupted at Staff single and is not a pass.
+Exact original cold/scoped report bytes were recovered against their published
+SHA256 hashes after reverting the comment-only source change. All unchanged
+current-cold guards,17 scoped proofs and shared input pass again. Fresh and
+interrupted evidence is preserved. No report was repinned or partial run marked
+complete. See [MAINL_CUTSCENE_REVIEW.md](MAINL_CUTSCENE_REVIEW.md).
+Use the bounded new cutscene review with `--current-cold`;do not restart the
+ancestor chain merely to refresh unchanged supporting traces.
 
 ## MAIN narrow game-graphics ownership
 

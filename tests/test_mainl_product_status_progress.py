@@ -22,8 +22,9 @@ status = load('status')
 progress = load('progress')
 CURRENT_UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
 # This suite exercises the frozen 145-owner publication, with its original
-# containing GRCG/STR_IEQ boundaries. Current source scopes use 150 extents.
-UNITS = [dict(u) for u in CURRENT_UNITS if u['id'] not in {
+# containing GRCG/STR_IEQ boundaries. Current source scopes use 163 extents.
+UNITS = [dict(u) for u in CURRENT_UNITS
+         if not u['id'].startswith('th03-mainl-decoded-cutscene-') and u['id'] not in {
     'th03-mainl-decoded-staff-data',
     'th03-mainl-decoded-root-tail-grcg-setcolor-align','th03-mainl-decoded-root-tail-grcg-off',
     'th03-mainl-decoded-root-tail-grcg-off-align','th03-mainl-decoded-root-tail-string-compare'}]
