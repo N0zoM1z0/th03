@@ -58,7 +58,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (103, 78530),
+            (106, 78737),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertTrue(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -322,7 +322,9 @@ class MainWorkTests(unittest.TestCase):
                     else (
                     "HITCIRC source grouping: raw context or C\\+\\+ body differs"
                     if unit["id"] in {
-                        "th03-main-executable-chain", "th03-main-demo-transition"
+                        "th03-main-executable-chain", "th03-main-demo-transition",
+                        "th03-main-playfield-fill", "th03-main-gauge-adapter-restore",
+                        "th03-main-gauge-bar-fill"
                     }
                     else ("player composition: complete linked body differs"
                           if unit["object"] in {"core", "results", "shots"}

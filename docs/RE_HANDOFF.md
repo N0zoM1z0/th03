@@ -1,9 +1,10 @@
 # TH03 handoff
 
-Prepared2026-10-26. Current committed checkpoint **`e824cc1`**,main ahead five.
-Remaining player-family ownership is staged,not committed. Factory MCP is authorized.
-Nine existing C++ bodies now have four distinct bounded owners;whole-product
-source exactness remains open. Existing full CI is pending at note writing.
+Prepared2026-10-26. Current committed checkpoint **`55a1c3d`**,main ahead six.
+Narrow game-graphics ownership is staged,not committed. Factory MCP is authorized.
+Four existing complete entries add207 instruction bytes in three owners,while
+nine bytes remain unowned context. Whole-product source exactness remains open.
+Full CI is pending at note writing; its final result is reported separately.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -14,7 +15,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
-| MAIN | 455 functions / 78,530 CODE bytes / 103 extents | Open |
+| MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
 | MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
@@ -34,6 +35,27 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAIN narrow game-graphics ownership
+
+Four existing complete RET/RETF entries add207 instruction bytes/96 instructions
+in three spans:27/87/93. Full216-byte gf_ctx provider remains checked; nine
+unowned context bytes include B398's five-byte prefix and four post-transfer
+bytes. Its known branch toB37F shares the first implementation without recounting.
+These bytes are not claimed padding or unreachable. Executed NOPs stay code.
+
+Positive target/caller evidence is game-specific288px playfield/HUD geometry,
+dual-player strip copying, near/far adapter and gauge-only four-row fill.
+Original filename/language/historical derivation remain unknown. No new source
+implementation, mask DATA, callbacks or executed-body runtime claim.
+
+The fixed graphics adapter reuses existing provider/context partition policy;
+player helper, generic accounting and RET rules are unchanged. Existing two-cold
+builds/native review pass all11 gates, repeat100 outputs/98 objects and retain
+106 extents/78,737 bytes/all1553 literal relocations. Whole executable repeats;
+EC2D and header remain open. See `MAIN_GRAPHICS_FILL_REVIEW.md` and
+`config/main_work/graphics_fill_acceptance.json`. Existing focused42 tests pass.
+Final full CI pending at note writing; no post-CI source edits are intended.
 
 ## MAIN remaining player-family ownership
 

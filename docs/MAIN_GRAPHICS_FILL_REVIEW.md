@@ -1,6 +1,7 @@
 # MAIN register-only graphics helpers
 
-Source/ABI recovery only: no new accepted ownership or authored counts.
+The initial source/ABI recovery added no ownership. The narrower current review
+below selects four existing complete entries; it does not claim a new implementation.
 
 The pinned Japanese MAIN SHA-256 is
 `f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b`.
@@ -75,3 +76,74 @@ Focused artifacts are `.analysis/work/main-graphics-source-20261026/`.
 Independent read-only source/raw-target review found no blocker. The existing
 two-cold replay and full CI are pending at this source checkpoint; their final
 reports, not this pending note, establish subsequent verification status.
+
+
+## Narrow complete-entry ownership review (2026-10-26)
+
+The scope is **207 instruction bytes /96 instructions /four complete entries**,
+not the216-byte provider and not all212 instructions in it. Three owners retain
+unchanged generic RET/RETF boundary checks:
+
+| Load span | CODE offset (096E) | Object offset | Target file offset | Bytes | Entry |
+| --- | --- | --- | --- | --- | --- |
+| B37C..B397 | 1C9C | 00 | CBDC | 27 | near playfield clear |
+| B39E..B3A2 | 1CBE | 22 | CBFE | 4 | far bomb adapter |
+| B3A2..B3F5 | 1CC2 | 26 | CC02 | 83 | near dual-strip restore |
+| B3F6..B453 | 1D16 | 7A | CC56 | 93 | near gauge bar fill |
+
+The adjacent adapter/restore entries form one87-byte owner. The full physical
+partition is owned27/context7/owned87/context1/owned93/context1. Context7 is
+B397..B39E, including B398's five-byte prefix. B3F5 and B453 remain context too.
+These **nine bytes are unowned context**, not established padding, unreachable
+storage or extra credit. B3DD/B427 remain executed code instructions.
+
+The unowned B398 entry loads its own segment and branches at B39B to B37F,
+inside the owned first body. That dependency is explicitly checked in both
+images; the shared implementation is counted once. B398 receives no standalone
+function or five-byte ownership claim. No claim excludes all indirect entries
+into retained context. The adapter's B39E near CALL reaches B37C and returns far.
+
+Actual target/candidate incoming transfers are checked at9A49/9A5A toB37C,
+C87A/C8BA toB398,C839 toB3A2,C91E/C953/C9A3/C9F3 toB3F6, and
+1840A/187AF/18C04/18E11/148FF/1522B/17202/B5D3/B5DB toB39E.
+These are known real caller edges, not a fabricated exhaustive call graph.
+The caller-backed register conditions and physical geometry above still apply.
+
+### Native and origin boundaries
+
+The actual maintained ASM is staged as `th03/gf_ctx.asm`. Native TASM5 produces
+one216-byte LEDATA in HITCIRC_TEXT (OMF segment6), ten complete publics and no
+private DATA/BSS. TLINK places it at096E:1C9C, size00D8, MAIN_01, ACBP48.
+The only native FIXUPP is literal `c4cc5601`: OFFSET16 at objectCC references
+the sole external `_hud_gauge_left_masks`, resolving its zero addend to064C.
+The linked load operand isB448, target fileCCA8
+(`0xB448 + 0x1860 = 0xCCA8`), distinct from load/object coordinates.
+All other object CODE bytes map directly; complete216 linked bytes equal target.
+There are zero MZ relocations in the whole provider. Both public MAP tables,
+full OMF checksums/records and full-source cold graph remain bound.
+
+The positive game-code evidence is the fixed288-pixel playfield/HUD geometry,
+dual-player highlight-strip duplication, game-facing near/far adapter, and
+four-row gauge-only operation with actual caller register arguments. The
+negative vendor search supports this classification but is not its sole basis.
+Neither standard mask values nor absence of a literal vendor match establishes
+historical authorship. Original filename, language and historical derivation
+remain unknown. The mask table, callbacks, external storage and unowned context
+receive no ownership credit.
+
+The graphics-specific fixed partition adapter lives in the existing context
+helper. Player partition policy, generic accounting and return rules are
+unchanged. No source bytes, runtime harness or new tests were added. Existing
+focused tests and fresh two-cold/native review are used; the final receipt and
+CI result are reported separately, not inferred from the proposed counters.
+
+
+### Current native verification
+
+Two independent source-cold builds repeat100 outputs/98 objects. Existing native
+review passes all11 required gates for the three new owners; complete replay
+covers106 extents/78,737 bytes and all1553 literal MZ relocations. The full
+executable repeats the previous candidate, not the still-different target header
+andEC2D byte. Existing focused42 tests pass. The bounded snapshot is
+`config/main_work/graphics_fill_acceptance.json`; final full CI is pending at
+writing and its result is reported separately. No whole-product exactness claim.

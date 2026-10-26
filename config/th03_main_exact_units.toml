@@ -7785,3 +7785,119 @@ offset = 0x5057
 size = 264
 abi = "near cdecl; no arguments; SI/DI/BP preserved when used; RET0"
 return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-playfield-fill"
+source = "src/main/graphics/round_fill_context.asm"
+object = "gf_ctx"
+compiler = "tasm5"
+map_module = "th03/gf_ctx.asm"
+publics = [
+    { offset = 0, name = "_round_playfield_clear" },
+    { offset = 0, name = "sub_B37C" },
+    { offset = 28, name = "_hud_gauge_highlight_fill" },
+    { offset = 28, name = "sub_B398" },
+    { offset = 34, name = "_bomb_bg_fill" },
+    { offset = 34, name = "sub_B39E" },
+    { offset = 38, name = "_hud_gauge_highlights_restore" },
+    { offset = 38, name = "sub_B3A2" },
+    { offset = 122, name = "_hud_gauge_bar_fill" },
+    { offset = 122, name = "sub_B3F6" },
+]
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x1c9c
+size = 27
+map_segment = "HITCIRC_TEXT"
+map_group = "MAIN_01"
+map_acbp = 48
+
+[[native_units.functions]]
+name = "round_playfield_clear"
+segment = 0x096e
+offset = 0x1c9c
+size = 27
+abi = "near register-only; BX last-row offset; DF0; BX/DX/SI/DI/BP/DS preserved; EAX=-1 CX=0 ES replaced; RET0"
+return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-gauge-adapter-restore"
+source = "src/main/graphics/round_fill_context.asm"
+object = "gf_ctx"
+compiler = "tasm5"
+map_module = "th03/gf_ctx.asm"
+publics = [
+    { offset = 0, name = "_round_playfield_clear" },
+    { offset = 0, name = "sub_B37C" },
+    { offset = 28, name = "_hud_gauge_highlight_fill" },
+    { offset = 28, name = "sub_B398" },
+    { offset = 34, name = "_bomb_bg_fill" },
+    { offset = 34, name = "sub_B39E" },
+    { offset = 38, name = "_hud_gauge_highlights_restore" },
+    { offset = 38, name = "sub_B3A2" },
+    { offset = 122, name = "_hud_gauge_bar_fill" },
+    { offset = 122, name = "sub_B3F6" },
+]
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x1cbe
+size = 87
+map_segment = "HITCIRC_TEXT"
+map_group = "MAIN_01"
+map_acbp = 48
+
+[[native_units.functions]]
+name = "bomb_bg_fill"
+segment = 0x096e
+offset = 0x1cbe
+size = 4
+abi = "far register-only; BX last-row offset; DF0; near call to round_playfield_clear; RETF0"
+return_pop = 0
+
+[[native_units.functions]]
+name = "hud_gauge_highlights_restore"
+segment = 0x096e
+offset = 0x1cc2
+size = 83
+abi = "near register-only; DF0; caller EGC enabled; BX/SI/DI/BP/DS preserved; AX=ABC0h DX=entering DS CX=0 ES=ABC0h; RET0"
+return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-gauge-bar-fill"
+source = "src/main/graphics/round_fill_context.asm"
+object = "gf_ctx"
+compiler = "tasm5"
+map_module = "th03/gf_ctx.asm"
+publics = [
+    { offset = 0, name = "_round_playfield_clear" },
+    { offset = 0, name = "sub_B37C" },
+    { offset = 28, name = "_hud_gauge_highlight_fill" },
+    { offset = 28, name = "sub_B398" },
+    { offset = 34, name = "_bomb_bg_fill" },
+    { offset = 34, name = "sub_B39E" },
+    { offset = 38, name = "_hud_gauge_highlights_restore" },
+    { offset = 38, name = "sub_B3A2" },
+    { offset = 122, name = "_hud_gauge_bar_fill" },
+    { offset = 122, name = "sub_B3F6" },
+]
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x1d16
+size = 93
+map_segment = "HITCIRC_TEXT"
+map_group = "MAIN_01"
+map_acbp = 48
+
+[[native_units.functions]]
+name = "hud_gauge_bar_fill"
+segment = 0x096e
+offset = 0x1d16
+size = 93
+abi = "near register-only; DX pixel X BX width; DF0 intended gauge range; SI/DI/BP/DS preserved; AX/BX/CX/DX/ES clobbered; RET0"
+return_pop = 0

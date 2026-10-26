@@ -20,6 +20,7 @@ from probe_th03_main_bomb_rikako_cpp import segment_definitions
 from probe_th03_main_boss_marisa_cpp import code_publics
 from replay_th03_main_exact_units import verify_owner_linear_span
 import build_th03_main_work as build
+from lib.main_hitcirc_context import GRAPHICS_OWNERS, graphics_ownership, graphics_provider
 
 ROOT = Path(__file__).resolve().parents[1]
 OWNERS = {"th03-main-exatt-chiyuri", "th03-main-exatt-ellen"}
@@ -237,7 +238,7 @@ def review(report=None):
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     native_units = config.get("native_units", [])
     need(
-        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS,
+        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS | GRAPHICS_OWNERS,
         "lose owners are incomplete",
     )
     units = config["units"] + native_units
@@ -409,7 +410,8 @@ def review(report=None):
          and result["handoff_runtime"]["code_bytes_executed"] == 742
          and result["handoff_controls"]["count"] == 10, "handoff contracts are incomplete")
     result["handoff_model_sha256"] = sha((ROOT / "scripts/lib/main_handoff_runtime.py").read_bytes())
-    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS):
+    result["graphics_provider"] = graphics_provider(build.WORK, target, candidate)
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS | GRAPHICS_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -474,6 +476,8 @@ def review(report=None):
         if unit["id"] in PLAYER_STATE_OWNERS:
             from lib.main_player_layout import core_ownership
             producer = core_ownership(unit, units)
+        elif unit["id"] in GRAPHICS_OWNERS:
+            producer = graphics_ownership(unit, units)
         else:
             producer = producer_ownership(unit, units, config["functions"])
         producer_extent = producer["extent"]
@@ -541,7 +545,7 @@ def review(report=None):
             gates=checks,
         )
     need(
-        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS,
+        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS | GRAPHICS_OWNERS,
         "all native owners required",
     )
     return result

@@ -1,0 +1,497 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Three complete-entry graphics owners; four entries,207 instructions bytes; nine unowned context bytes",
+  "observed_utc": "2026-10-26T08:28:58.575462+00:00",
+  "product_exact": false,
+  "new_exact_functions": 4,
+  "new_exact_bytes": 207,
+  "instruction_count": 96,
+  "source_sha256": {
+    "src/main/graphics/round_fill_context.asm": "b24286208736ee89e62d97e4badffe845ff8d4125d02244f8686b5e7335c01e7",
+    "config/th03_main_exact_units.toml": "4fed24224be3ed820087676b0359bf2bfc7b7f35f8840b576a4820d70f3ce675",
+    "scripts/lib/main_hitcirc_context.py": "8aa048fee7b323419d469f6bae9c155575138a36f7491f0d9c1821e486d3e51c",
+    "scripts/review_th03_main_native_units.py": "5ce3d556da5cecb97fce94e2fd3b2e8b5d3420088afe1296129bc35d4497dc73"
+  },
+  "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+  "executable_sha256": "a67c78cca2b6886cdb48b648b274463dbcb6b80fae5effe9b688f9bc642bcebe",
+  "builder_sha256": "3c30eb65e57bdb80f697059bc0adc13741536608e39903fa7d8224a05dacf307",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "93af9be669e93a39b70e7f560fb2e1c12a9ff343d05d5685fe116929d151bbe7",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_vsync_vendor.py": "125f944403372fb6936791e7538ca5d88ea088daf315c6c220ffc3ec3cd58eb9",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/lib/main_reimu_layout.py": "ca28048af2320905f05fce6e173a9bfa4868a724b9140f65f84d0f2beeb61dbc",
+    "scripts/lib/main_lose_layout.py": "2900a3577ac65f4c1791ed582281a49c67b1e32cf22ee386a4ff2dcb2f13a5b0",
+    "scripts/lib/main_combo_layout.py": "d992d5c0e59952cf6fd7e1ef2478d757e7164fa4c94f9473038990f6f51f8df5",
+    "scripts/lib/main_player_layout.py": "13fc490ecae24d6473421b19b4bf6cf014bd1f7bd5640a1099aa733a2a593676",
+    "scripts/lib/main_lose_renderer_runtime.py": "84d275bfd0252187a51bc77a9a250398705b2be999b6a71ed8fee23a00e66e51",
+    "scripts/lib/main_hitcirc_context.py": "8aa048fee7b323419d469f6bae9c155575138a36f7491f0d9c1821e486d3e51c",
+    "scripts/lib/main_handoff_runtime.py": "3a4bff539a7ed78f07ae206ab76c4bee566590799dd8382d5e054e9ffca86204",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "4fed24224be3ed820087676b0359bf2bfc7b7f35f8840b576a4820d70f3ce675",
+    "config/th03_main_link.rsp": "89d9ad8b19a7e2ab622d090dbb37b6918b564e867ab5eee1c47c85e996e25fff"
+  },
+  "cold_report_sha256": "937577a800bec5488217add25a643f3f197c14b0690553dd734d1b606a456fc9",
+  "native_review_sha256": "413871d0437b8960418f5bfc831adaafada7358e60ec5d648ac4116100d566ab",
+  "cold_reproducibility": {
+    "previous_report_sha256": "e9dddaad5e5a4ba38c3b3c93f7f85bac62c84baa4196c409f017118b9c53ee75",
+    "independent_source_trees": true,
+    "same_source_inputs": true,
+    "raw_output_repeat": {
+      "obj/th03/mst_pref.obj": true,
+      "obj/th03/mst_body.obj": true,
+      "obj/th03/bo_shim.obj": true,
+      "obj/th01/vplanset.obj": true,
+      "obj/th03/snd_mode_main.obj": true,
+      "obj/th03/snd_pmdr_main.obj": true,
+      "obj/th03/vectorfar.obj": true,
+      "obj/th03/exit.obj": true,
+      "obj/th03/polar.obj": true,
+      "obj/th02/frmdely1.obj": true,
+      "obj/th03/input_s.obj": true,
+      "obj/th03/snd_se_r_main.obj": true,
+      "obj/th03/snd_se.obj": true,
+      "obj/th03/snd_kaja.obj": true,
+      "obj/th03/initmain.obj": true,
+      "obj/th03/pi_load.obj": true,
+      "obj/th03/inp_m_w.obj": true,
+      "obj/th03/hfliplut.obj": true,
+      "obj/th03/mrs.obj": true,
+      "obj/th03/sprite16.obj": true,
+      "obj/th03/cfg_lres.obj": true,
+      "obj/th03/stg_pal.obj": true,
+      "obj/th03/ba_sring.obj": true,
+      "obj/th03/ba_srest.obj": true,
+      "obj/th03/roundpr.obj": true,
+      "obj/th03/ex_ord.obj": true,
+      "obj/th03/b_chiyu.obj": true,
+      "obj/th03/cs_chiyu.obj": true,
+      "obj/th03/eforna.obj": true,
+      "obj/th03/efornb.obj": true,
+      "obj/th03/cs_ellen.obj": true,
+      "obj/th03/b_ellen.obj": true,
+      "obj/th03/gf_ctx.obj": true,
+      "obj/th03/execl.obj": true,
+      "obj/th03/tr_ctx.obj": true,
+      "obj/th03/b_kana.obj": true,
+      "obj/th03/cs_kana.obj": true,
+      "obj/th03/ex_kana.obj": true,
+      "obj/th03/hitcirc.obj": true,
+      "obj/th03/hud_stat.obj": true,
+      "obj/th03/ex_maris.obj": true,
+      "obj/th03/cs_mari.obj": true,
+      "obj/th03/ba_maris.obj": true,
+      "obj/th03/bm_mari.obj": true,
+      "obj/th03/b_koto.obj": true,
+      "obj/th03/ex_koto.obj": true,
+      "obj/th03/cs_koto.obj": true,
+      "obj/th03/ex_rfly.obj": true,
+      "obj/th03/ex_reup.obj": true,
+      "obj/th03/cs_reimu.obj": true,
+      "obj/th03/bm_reish.obj": true,
+      "obj/th03/cs_mima.obj": true,
+      "obj/th03/ex_mima.obj": true,
+      "obj/th03/ba_mima.obj": true,
+      "obj/th03/hitbox.obj": true,
+      "obj/th03/p_cpu.obj": true,
+      "obj/th03/bomb_yumemi.obj": true,
+      "obj/th03/ba_yumem.obj": true,
+      "obj/th03/ex_yume.obj": true,
+      "obj/th03/cs_rika.obj": true,
+      "obj/th03/ex_rika.obj": true,
+      "obj/th03/warning.obj": true,
+      "obj/th03/p_combo.obj": true,
+      "obj/th03/effects.obj": true,
+      "obj/chain1.obj": true,
+      "obj/chain2.obj": true,
+      "obj/th03/eupda.obj": true,
+      "obj/th03/eupdb.obj": true,
+      "obj/th03/p_cmbhl.obj": true,
+      "obj/th03/e_expl.obj": true,
+      "obj/th03/cs_yume.obj": true,
+      "obj/th03/b_rika.obj": true,
+      "obj/th03/ba_reimu.obj": true,
+      "obj/th03/ba_ellen.obj": true,
+      "obj/th03/ba_koto.obj": true,
+      "obj/th03/ba_chiyu.obj": true,
+      "obj/th03/ba_kana.obj": true,
+      "obj/th03/ba_rikak.obj": true,
+      "obj/th03/bm_mima.obj": true,
+      "obj/th03/mst_tail.obj": true,
+      "obj/th03/playfld.obj": true,
+      "obj/th03/collmap.obj": true,
+      "obj/th03/bullet.obj": true,
+      "obj/th03/p_gauge.obj": true,
+      "obj/th03/e_fireb.obj": true,
+      "obj/th03/p_exatt.obj": true,
+      "obj/th03/ch_setup.obj": true,
+      "obj/th03/entry.obj": true,
+      "obj/th03/core.obj": true,
+      "obj/th03/results.obj": true,
+      "obj/th03/shots.obj": true,
+      "obj/th03/lose.obj": true,
+      "obj/th03/intro.obj": true,
+      "obj/th03/ex_chyu.obj": true,
+      "obj/th03/ex_ellen.obj": true,
+      "obj/th03/vs.obj": true,
+      "obj/th03/main.obj": true,
+      "obj/th03/score_hud.obj": true,
+      "bin/th03/main.exe": true,
+      "obj/th03/main.map": true
+    },
+    "complete": true
+  },
+  "raw_cold_outputs": 100,
+  "valid_native_objects": 98,
+  "replayed_owned_extents": 106,
+  "replayed_owned_bytes": 78737,
+  "units": {
+    "th03-main-playfield-fill": {
+      "bytes": 27,
+      "file_offset": 52188,
+      "functions": [
+        {
+          "name": "round_playfield_clear",
+          "offset": 7324,
+          "bytes": 27,
+          "instruction_count": 12,
+          "last_instruction": "ret",
+          "last_instruction_address": 7350
+        }
+      ],
+      "compiler_data": [],
+      "native_producer": {
+        "object": "obj/th03/gf_ctx.obj",
+        "start": 7324,
+        "bytes": 216,
+        "owners": [
+          "th03-main-gauge-adapter-restore",
+          "th03-main-gauge-bar-fill",
+          "th03-main-playfield-fill"
+        ],
+        "partition": [
+          {
+            "start": 7324,
+            "size": 27,
+            "owner": "th03-main-playfield-fill"
+          },
+          {
+            "start": 7351,
+            "size": 7,
+            "owner": null
+          },
+          {
+            "start": 7358,
+            "size": 87,
+            "owner": "th03-main-gauge-adapter-restore"
+          },
+          {
+            "start": 7445,
+            "size": 1,
+            "owner": null
+          },
+          {
+            "start": 7446,
+            "size": 93,
+            "owner": "th03-main-gauge-bar-fill"
+          },
+          {
+            "start": 7539,
+            "size": 1,
+            "owner": null
+          }
+        ],
+        "code_record_sizes": [
+          216
+        ]
+      },
+      "ordered_relocations": 0,
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      }
+    },
+    "th03-main-gauge-adapter-restore": {
+      "bytes": 87,
+      "file_offset": 52222,
+      "functions": [
+        {
+          "name": "bomb_bg_fill",
+          "offset": 7358,
+          "bytes": 4,
+          "instruction_count": 2,
+          "last_instruction": "retf",
+          "last_instruction_address": 7361
+        },
+        {
+          "name": "hud_gauge_highlights_restore",
+          "offset": 7362,
+          "bytes": 83,
+          "instruction_count": 38,
+          "last_instruction": "ret",
+          "last_instruction_address": 7444
+        }
+      ],
+      "compiler_data": [],
+      "native_producer": {
+        "object": "obj/th03/gf_ctx.obj",
+        "start": 7324,
+        "bytes": 216,
+        "owners": [
+          "th03-main-gauge-adapter-restore",
+          "th03-main-gauge-bar-fill",
+          "th03-main-playfield-fill"
+        ],
+        "partition": [
+          {
+            "start": 7324,
+            "size": 27,
+            "owner": "th03-main-playfield-fill"
+          },
+          {
+            "start": 7351,
+            "size": 7,
+            "owner": null
+          },
+          {
+            "start": 7358,
+            "size": 87,
+            "owner": "th03-main-gauge-adapter-restore"
+          },
+          {
+            "start": 7445,
+            "size": 1,
+            "owner": null
+          },
+          {
+            "start": 7446,
+            "size": 93,
+            "owner": "th03-main-gauge-bar-fill"
+          },
+          {
+            "start": 7539,
+            "size": 1,
+            "owner": null
+          }
+        ],
+        "code_record_sizes": [
+          216
+        ]
+      },
+      "ordered_relocations": 0,
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      }
+    },
+    "th03-main-gauge-bar-fill": {
+      "bytes": 93,
+      "file_offset": 52310,
+      "functions": [
+        {
+          "name": "hud_gauge_bar_fill",
+          "offset": 7446,
+          "bytes": 93,
+          "instruction_count": 44,
+          "last_instruction": "ret",
+          "last_instruction_address": 7538
+        }
+      ],
+      "compiler_data": [],
+      "native_producer": {
+        "object": "obj/th03/gf_ctx.obj",
+        "start": 7324,
+        "bytes": 216,
+        "owners": [
+          "th03-main-gauge-adapter-restore",
+          "th03-main-gauge-bar-fill",
+          "th03-main-playfield-fill"
+        ],
+        "partition": [
+          {
+            "start": 7324,
+            "size": 27,
+            "owner": "th03-main-playfield-fill"
+          },
+          {
+            "start": 7351,
+            "size": 7,
+            "owner": null
+          },
+          {
+            "start": 7358,
+            "size": 87,
+            "owner": "th03-main-gauge-adapter-restore"
+          },
+          {
+            "start": 7445,
+            "size": 1,
+            "owner": null
+          },
+          {
+            "start": 7446,
+            "size": 93,
+            "owner": "th03-main-gauge-bar-fill"
+          },
+          {
+            "start": 7539,
+            "size": 1,
+            "owner": null
+          }
+        ],
+        "code_record_sizes": [
+          216
+        ]
+      },
+      "ordered_relocations": 0,
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      }
+    }
+  },
+  "complete_graphics_provider": {
+    "provider_bytes": 216,
+    "owned_instruction_bytes": 207,
+    "unowned_context_bytes": 9,
+    "ordered_mz_relocations": 0,
+    "known_incoming_edges": [
+      [
+        39497,
+        45948
+      ],
+      [
+        39514,
+        45948
+      ],
+      [
+        51257,
+        45986
+      ],
+      [
+        51322,
+        45976
+      ],
+      [
+        51386,
+        45976
+      ],
+      [
+        51486,
+        46070
+      ],
+      [
+        51539,
+        46070
+      ],
+      [
+        51619,
+        46070
+      ],
+      [
+        51699,
+        46070
+      ],
+      [
+        99338,
+        45982
+      ],
+      [
+        100271,
+        45982
+      ],
+      [
+        101380,
+        45982
+      ],
+      [
+        101905,
+        45982
+      ],
+      [
+        84223,
+        45982
+      ],
+      [
+        86571,
+        45982
+      ],
+      [
+        94722,
+        45982
+      ],
+      [
+        46547,
+        45982
+      ],
+      [
+        46555,
+        45982
+      ]
+    ],
+    "shared_context_edge": [
+      45979,
+      45951
+    ],
+    "physical_records": [
+      {
+        "kind": "LEDATA",
+        "offset": 1209,
+        "data_hex": "060000b828a8578bfb8ec06633c066f7d0b90900f366ab83ef747df55fc390b8c0abebe290e8dbffcb5756b8f0ffbaa004efb8ff00baa204efb80031baa404efb8ffffbaa804efb80000baac04efb80f00baae04ef8cdabf3202bed840b8c0ab8ec08ed890b91200a526894526e2f983ee7483ef747dee8eda5e5fc3905756bff000b8caab8ec0be50008bc2250f0003d8c1ea04d1e203fa8bc383e30fd1e3c1e80474298bd0d1e003f033c0f7d0908bcaf3ab2bfe8bcaf3ab2bfe8bcaf3ab2bfe8bcaf3ab0bdb740e81c7f0008b870000ab83ef527dfa5e5fc390",
+        "checksum": 7
+      },
+      {
+        "kind": "FIXUPP",
+        "offset": 1432,
+        "data_hex": "c4cc5601",
+        "checksum": 120
+      }
+    ],
+    "table_data_owned": false,
+    "context_unreachable_claim": false
+  },
+  "limits": [
+    "No new source implementation or original filename/language/historical derivation claim.",
+    "Fixed288px playfield/HUD geometry, dual-player strip copy, near/far adapter and gauge-only four-row fill with actual caller arguments support game-code classification.",
+    "B398 five-byte prefix and four post-transfer bytes remain nine unowned context bytes; no padding or unreachable claim.",
+    "B398 branches toB37F inside the first owned function; implementation counted once, prefix not counted.",
+    "No mask DATA, callback, external storage or executed-body runtime ownership.",
+    "All1553 literal ordered MZ relocations match; EC2D and MZ header remain open."
+  ]
+}

@@ -1,6 +1,6 @@
 """Detach remaining reference context around native cleanup/transition TUs.
 
-The graphics ASM retains reference provenance. These are byte/layout gates;
+The graphics provider retains nine unowned context bytes. These are byte/layout gates;
 the independent native auditor owns complete source/behavior acceptance.
 """
 
@@ -127,3 +127,106 @@ def verify(work, target, candidate):
                 transition_ordered_relocations=16, reference_context_bytes=216,
                 review_scope="byte-and-native-layout", exact_acceptance=False,
                 behavior_acceptance=False, private_data_bytes=0)
+
+
+# Three complete owners; no padding or shared-tail prefix receives credit.
+GRAPHICS_PARTITION = [
+    (0x1C9C, 27, "th03-main-playfield-fill"),
+    (0x1CB7, 7, None),
+    (0x1CBE, 87, "th03-main-gauge-adapter-restore"),
+    (0x1D15, 1, None),
+    (0x1D16, 93, "th03-main-gauge-bar-fill"),
+    (0x1D73, 1, None),
+]
+GRAPHICS_OWNERS = {owner for _, _, owner in GRAPHICS_PARTITION if owner}
+GRAPHICS_PUBLICS = [
+    (0, "_round_playfield_clear"), (0, "sub_B37C"),
+    (28, "_hud_gauge_highlight_fill"), (28, "sub_B398"),
+    (34, "_bomb_bg_fill"), (34, "sub_B39E"),
+    (38, "_hud_gauge_highlights_restore"), (38, "sub_B3A2"),
+    (122, "_hud_gauge_bar_fill"), (122, "sub_B3F6"),
+]
+
+
+def graphics_ownership(unit, units):
+    """Fixed gf_ctx provider/context partition, not a general split-owner policy."""
+    need(unit["id"] in GRAPHICS_OWNERS and unit["object"] == "gf_ctx"
+         and unit["source"] == "src/main/graphics/round_fill_context.asm"
+         and unit["map_module"] == "th03/gf_ctx.asm", "unexpected graphics owner")
+    cursor, expected = 0x1C9C, []
+    for start, size, owner in GRAPHICS_PARTITION:
+        need(start == cursor and size > 0, "graphics partition gap or overlap")
+        cursor += size
+        if owner:
+            expected.append((start, size, owner))
+    need(cursor == 0x1D74, "complete graphics provider required")
+    actual = []
+    for peer in units:
+        for extent in peer.get("code_extents", [peer]):
+            start = extent["start"]
+            if extent.get("segment", peer.get("segment", 0x18FE)) == 0x96E and start < cursor and start + extent["size"] > 0x1C9C:
+                actual.append((start, extent["size"], peer["id"]))
+    need(sorted(actual) == expected, "graphics owned/context partition differs")
+    extent, = unit["code_extents"]
+    need((extent["segment"], extent["map_segment"], extent["map_group"], extent["map_acbp"])
+         == (0x96E, "HITCIRC_TEXT", "MAIN_01", 48), "graphics owner frame differs")
+    return dict(extent=dict(extent, start=0x1C9C, size=216),
+                owners=sorted(GRAPHICS_OWNERS), functions=[],
+                partition=[dict(start=s, size=n, owner=o) for s, n, o in GRAPHICS_PARTITION])
+
+
+def graphics_provider(work, target, candidate):
+    """Bind the unchanged complete provider and known real entry dependencies."""
+    import capstone
+    from probe_th03_main_bomb_rikako_cpp import code_bytes
+
+    raw = (work / "obj/th03/gf_ctx.obj").read_bytes()
+    description = describe_omf(raw)
+    segments = [s for s in segment_definitions(raw) if s["size"]]
+    need(description["valid"] and description["translator_comments"] == ["Turbo Assembler  Version 5.0"]
+         and [(s["index"], s["name"], s["class"], s["size"]) for s in segments]
+         == [(6, "HITCIRC_TEXT", "CODE", 216)], "complete graphics OMF differs")
+    records = parse_omf(raw)
+    need([r.data.hex() for r in records if r.name == "FIXUPP"] == ["c4cc5601"],
+         "literal mask OFFSET16 fixup differs")
+    need([r.data for r in records if r.name == "EXTDEF"] == [bytes([21]) + b"_hud_gauge_left_masks" + bytes([0])],
+         "sole mask external differs")
+    code, chunks = code_bytes(raw, 6)
+    need([r["size"] for r in chunks] == [216] and code_publics(raw, 6) == GRAPHICS_PUBLICS,
+         "complete graphics LEDATA/publics differ")
+    need(code[0xCC:0xCE] == bytes(2), "unlinked mask addend differs")
+    map_text = (work / "obj/th03/main.map").read_text().replace(chr(92), "/")
+    need(len(re.findall(r"(?m)^\s*096E:1C9C\s+00D8\s+C=CODE\s+S=HITCIRC_TEXT\s+G=MAIN_01\s+M=th03/gf_ctx\.asm\s+ACBP=48\s*$", map_text)) == 1,
+         "full graphics MAP contribution differs")
+    for offset, name in GRAPHICS_PUBLICS:
+        need(len(re.findall(rf"(?m)^\s*096E:{0x1C9C + offset:04X}\s+(?:idle\s+)?{re.escape(name)}\s*$", map_text)) == 2,
+             "both graphics public tables required: " + name)
+    decoder = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_16)
+    decoder.detail = True
+    incoming = [(0x9A49, 0xB37C), (0x9A5A, 0xB37C), (0xC839, 0xB3A2),
+                (0xC87A, 0xB398), (0xC8BA, 0xB398), (0xC91E, 0xB3F6),
+                (0xC953, 0xB3F6), (0xC9A3, 0xB3F6), (0xC9F3, 0xB3F6),
+                (0x1840A, 0xB39E), (0x187AF, 0xB39E), (0x18C04, 0xB39E),
+                (0x18E11, 0xB39E), (0x148FF, 0xB39E), (0x1522B, 0xB39E),
+                (0x17202, 0xB39E), (0xB5D3, 0xB39E), (0xB5DB, 0xB39E)]
+    for image in (target, candidate):
+        linked = image.program_image[0xB37C:0xB454]
+        need(len(linked) == 216 and linked[:0xCC] == code[:0xCC]
+             and linked[0xCE:] == code[0xCE:] and linked[0xCC:0xCE] == bytes.fromhex("4c06"),
+             "graphics source-object-linked mapping differs")
+        need(not [r for r in image.relocations if 0xB37C <= r.linear < 0xB454],
+             "graphics MZ relocations must be empty")
+        for site, destination in incoming + [(0xB39B, 0xB37F), (0xB39E, 0xB37C)]:
+            instruction = next(decoder.disasm(image.program_image[site:site + 7], site - 0x96E0))
+            need(instruction.mnemonic in {"call", "lcall", "jmp"}
+                 and all(o.type == capstone.x86.X86_OP_IMM for o in instruction.operands),
+                 "known graphics transfer differs")
+            operands = [o.imm for o in instruction.operands]
+            reached = 0x96E0 + operands[0] if len(operands) == 1 else operands[0] * 16 + operands[1]
+            need(reached == destination, "known graphics entry dependency differs")
+    return dict(provider_bytes=216, owned_instruction_bytes=207, unowned_context_bytes=9,
+                ordered_mz_relocations=0, known_incoming_edges=incoming,
+                shared_context_edge=[0xB39B, 0xB37F],
+                physical_records=[dict(kind=r.name, offset=r.offset, data_hex=r.data.hex(), checksum=r.checksum)
+                                  for r in records if r.name in {"LEDATA", "FIXUPP"}],
+                table_data_owned=False, context_unreachable_claim=False)
