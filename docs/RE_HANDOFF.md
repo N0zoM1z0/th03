@@ -1,8 +1,12 @@
 # TH03 handoff
 
-Prepared 2026-10-26. Accepted reconstruction checkpoint: **`bcdf24a`**, pushed
-on `main`. Music Room work after that checkpoint is an unaccepted private draft.
-The reconstruction goal was cleared; no reconstruction probe remains running.
+Prepared 2026-10-26. Last committed reconstruction checkpoint: **`bcdf24a`**,
+pushed on `main`; current HEAD before this resumed work is `a432dd8`.
+The user resumed TH03 and authorized Factory MCP as the execution route.
+The bounded Music Room state/track scope below now passes its full current
+review and repository-local publication gates. Final CI is required before a
+checkpoint; consult the latest session gate result.
+No native source or builder changed; no commit or push has been made.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -14,7 +18,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
-| OP | 33 extents / 32 procedures / 3,883 CODE + 487 DATA bytes | Open |
+| OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
 | MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
@@ -29,39 +33,42 @@ repeats101 outputs/99 objects but its whole file/header/relocation order differs
 
 Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
-Post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
+Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
 
-## Next work: Music Room draft
+## Resumed Music Room state/track review
 
-Preserved locally in **`.analysis/work/op-music-state-draft/`**:
+`scripts/review_th03_op_music_state_work.py --current-cold` passes for
+`th03-op-decoded-music-state-and-tracks`: four complete near procedures,
+216 CODE bytes at0990:0C1E,12 literal ordered native fields and4 ordered MZ
+relocations. Native OMF/MAP, complete raw bytes, exact consumed SDK
+`mem.h`/`_defs.h`/`_null.h`, the two maintained-owner entries and literal
+three-include producer bind the entire unchanged cold source/tool/recipe/
+32-output graph. Fresh composed prior scope observations equal `bcdf24a`.
+The frozen historical replay command and cohort remain unchanged.
 
-- `README.txt`: exact observations, failed control and remaining gates.
-- `op_music_state_layout.py`, `op_music_state_runtime.py`: provisional modules;
-  restore both to `scripts/lib/` before running them.
-- Native instruction/field dump and four-function/matrix/control probe logs.
-
-No draft source was promoted into the product, ledgers or publications.
-The maintained Music Room source already exists in `src/op/music/` as three
-bounded includes. Its natural `th03/op_music.cpp` producer contains2,244 CODE,
-1,008 DATA and1,060 BSS bytes. The next existing ledger unit is
-`th03-op-decoded-music-state-and-tracks`:complete216 CODE bytes/four procedures
-at0990:0C1E,with12 ordered native fields and4 ordered MZ relocations.
-
-Draft layout passed. One target/load3000 runtime passed889 cases plus two actual
-snapshot/free pairs and executed all216 bytes. This is **not** a complete
-acceptance review. The negative-control run stopped at `page-field`:mutating
-2039->2038 survives page0 because the adjacent byte is also0. Make that fixture
-discriminate behavior,then audit remaining controls,constructor-failure handling,
-both images/two loads and complete cold/SDK/source bindings.
+Target and candidate each pass1,788 cases across loads1000/3000, including
+all216 executable bytes. Each load has894 returns:562 track,289 list,
+33 snapshot and10 free;264,000 actual DWORD copy callbacks,peak stack28,
+no ignored stack bytes. All38 instruction controls reject. Fixed formerly
+nondiscriminating page-field and bold-FX fixtures (page128/color0), and made
+constructor/unexpected callback errors fatal rather than rejection credit.
+Eight regression tests pass,including list callback reloads and rejection of
+unrelated owner additions or altered prior observations.
 
 Preserve BYTE arguments in WORD slots,all21 list entries,raw page wrap,live page
-and pointer reloads after text callbacks,and all8,000 explicit DWORD snapshot
-iterations. DF does not change that copy's direction;source WORD offsets wrap,
-source/destination overlap is live,and allocator AX0 is not checked. Actual
-producer SDK inputs include `mem.h`,outside the current CFG five-header set.
+and pointer reloads after text callbacks (including nested lists),and all8,000
+explicit DWORD snapshot iterations. DF does not change copy direction;source
+WORD offsets wrap,source/destination overlap is live,and allocator AX0 is not
+checked. Actual consecutive snapshot/free leaves the saved segment unchanged.
 
-Subsequent scope remains Music Room animation/menu,OP BSS initialization,
+The original unaccepted draft and probe logs remain preserved under
+`.analysis/work/op-music-state-draft/`;the current bound report is
+`.analysis/work/op-music-state-build.json`. The original draft files are not
+current proof. Containing Music producer CODE2,244/DATA1,008/BSS1,060 do not
+receive wider ownership from this216-byte scope.
+
+Next bounded work remains Music Room animation/menu,OP BSS initialization,
 remaining MAINL cutscene/registration,ZUN ownership and the four-product
 source/link graph. MAINL is the ending. Ending-to-roll aggregate composition
 remains separate from individual function ownership.
@@ -95,7 +102,9 @@ remains separate from individual function ownership.
 Keep fixed Japanese targets/assets (`candidate-local-attested`),the local Wine
 prefix,TC4/TASM/JWasm,`.tools/ghidra`,`.tools/jdk`,`.venv`,
 `_reference/ReC98` and `ghidra-project/`. Ghidra/JDK attest their entire trees,
-including documentation/archives;do not trim them. No Factory MCP or GUI tools.
+including documentation/archives;do not trim them. Use Factory MCP repository
+shell execution of these headless tools; no GUI tools. The user authorized the
+Factory route on 2026-10-26. Preserve all target and acceptance checks.
 One working build per product under Wine `drive_c/`:
 `TH03WORK`, `TH03OP`, `TH03ML`, `TH03ZUN`.
 
@@ -117,7 +126,7 @@ th03_run scripts/ci.py
 git diff --check
 ```
 
-Current full review chains: `review_th03_op_entry_data_work.py`,
+Current full review chains: `review_th03_op_music_state_work.py`,
 `review_th03_mainl_staff_roll_work.py`, `review_th03_zun_ongchk_work.py`.
 `--current-cold` revalidates the entire unchanged native graph and reruns the
 selected stage;it cannot repair stale prerequisites. Do not rebuild unchanged

@@ -32,6 +32,8 @@ from review_th03_op_option_work import current_scope as option_scope
 from review_th03_op_main_menu_work import current_scope as main_menu_scope
 from review_th03_op_startup_work import current_scope as startup_scope
 from review_th03_op_entry_data_work import current_scope as entry_data_scope
+from review_th03_op_music_state_work import current_scope as music_state_scope, invariance as music_prior_invariance
+from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
 
@@ -60,7 +62,9 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/lib/op_startup_state.py", "scripts/lib/op_startup_primitives.py",
                 "scripts/lib/op_startup_children.py", "scripts/lib/op_startup_runtime.py",
                 "scripts/lib/op_startup_cold.py", "scripts/review_th03_op_entry_data_work.py",
-                "scripts/lib/op_entry_data_layout.py", "scripts/lib/op_entry_data_runtime.py")
+                "scripts/lib/op_entry_data_layout.py", "scripts/lib/op_entry_data_runtime.py",
+                "scripts/review_th03_op_music_state_work.py", "scripts/lib/op_music_state_layout.py",
+                "scripts/lib/op_music_state_runtime.py")
 
 
 def need(value, message):
@@ -149,7 +153,8 @@ def audit(root):
     main_menu = main_menu_scope(root, work, target, candidate, report_raw)
     startup = startup_scope(root, work, target, candidate, report_raw)
     entry_data = entry_data_scope(root, work, target, candidate, report_raw)
-    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"] + renderers["layout"]["owners"] + vs["layout"]["owners"] + story["layout"]["owners"] + option["layout"]["owners"] + main_menu["layout"]["owners"] + startup["layout"]["owners"] + entry_data["layout"]["owners"]
+    music_state = music_state_scope(root, work, target, candidate, report_raw)
+    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"] + renderers["layout"]["owners"] + vs["layout"]["owners"] + story["layout"]["owners"] + option["layout"]["owners"] + main_menu["layout"]["owners"] + startup["layout"]["owners"] + entry_data["layout"]["owners"] + music_state["layout"]["owners"]
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
     need([(o["start"] - (0x990 * 16 + 8), o["size"]) for o in entry_owners]
@@ -183,17 +188,24 @@ def audit(root):
                  "generic helper wrapper inventory remains context")
             for parent, child in zip(chain, chain[1:]):
                 need(files[parent] == ('#include "' + child + '"\n').encode(), "source-bound helper forwarding: " + parent)
+        elif o["object"] == MUSIC_OBJECT:
+            need(producer["source"] == MUSIC_WRAPPER and producer["ownership"] == "maintained-containing"
+                 and o["source"] == MUSIC_SOURCE and producer["maintained_owner_sources"] ==
+                 ["src/op/music/animation_and_menu.inl", MUSIC_SOURCE], "exact two-owner Music containing producer")
+            need(files[MUSIC_WRAPPER] == ('#include "' + MUSIC_SOURCE + '"\n\n#include "src/op/music/nopoly_blit.inl"\n\n#include "src/op/music/animation_and_menu.inl"\n').encode(),
+                 "literal three-include Music source chain")
         else:
             need(producer["maintained_owner_sources"] == [o["source"]], "current source producer ownership")
         obj = describe_omf((work / o["object"]).read_bytes())
         for name in obj["dependency_paths"]:
             name = re.sub(r"/+", "/", name.replace(chr(92), "/"))
             if name.startswith("C:/TC4/INCLUDE/"):
-                need(name in configuration["sdk_sha256"], "consumed CFG SDK declaration")
+                need(name in (music_state if o["object"] == MUSIC_OBJECT else configuration)["sdk_sha256"], "consumed producer-specific SDK declaration")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
                      "complete source/header dependency binding: " + name)
-    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers, renderers=renderers, vs=vs, story=story, option=option, main_menu=main_menu, startup=startup, entry_data=entry_data)
+    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers, renderers=renderers, vs=vs, story=story, option=option, main_menu=main_menu, startup=startup, entry_data=entry_data, music_state=music_state)
+    need(music_state["prior_observations"] == music_prior_invariance(root, scope), "fresh complete prior scope observations")
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current global ledger consistency")
     return dict(cold_report_sha256=sha(report_raw), recipe_sha256=report["recipe_sha256"],

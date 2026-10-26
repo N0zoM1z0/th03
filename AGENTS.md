@@ -16,7 +16,10 @@ the local `th03-re` skill. Inspect Git and run `python3 scripts/preflight.py`.
 - Keep useful findings in source, ledgers and the concise handoff. Generated
   analysis and decompiler output are provisional. Do not claim whole-game
   progress from reference builds or partial byte counts.
-- Use local headless tools, with DISPLAY/WAYLAND_DISPLAY empty; no Factory MCP.
+- Use Factory MCP with the registered TH03 live repository. Run the existing
+  headless tools through its repository shell, with DISPLAY/WAYLAND_DISPLAY empty.
+  The user authorized this route on 2026-10-26; target attestation and all
+  reconstruction/acceptance gates remain unchanged.
   Limit heavy work to one CPU at nice10. Serialize Borland/Wine writers and
   preserve the local prefix. Keep private tools/targets/assets out of Git.
 - Keep one working build. Old verification, logs, experiments, caches, installer

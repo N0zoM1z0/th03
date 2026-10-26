@@ -89,7 +89,7 @@ class OpEntryDataCurrent(unittest.TestCase):
         by_id={o['unit_id']:o for o in current['owners']}
         self.assertTrue(all(by_id[o['unit_id']]==o for o in old['owners']))
         self.assertEqual({k:v for k,v in old.items() if k!='owners'},
-                         {k:v for k,v in current.items() if k not in ('owners','entry_data')})
+                         {k:v for k,v in current.items() if k not in ('owners','entry_data','music_state')})
 
 
 if __name__=='__main__':unittest.main()

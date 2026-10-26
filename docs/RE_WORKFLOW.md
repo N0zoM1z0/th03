@@ -14,7 +14,9 @@
 5. Record findings in source, ledgers and the concise handoff. Run focused checks,
    full CI and whitespace checks, then commit and push an English checkpoint.
 
-Use local headless tools; no Factory MCP. Serialize Borland/Wine writers and
+Use Factory MCP with the registered TH03 live repository, as authorized by the
+user on 2026-10-26. Execute the existing headless tools through the repository
+shell; preserve target attestation and every acceptance gate. Serialize Borland/Wine writers and
 preserve the game-local prefix. Use `.venv/bin/python` for Capstone/Unicorn.
 
 ## Resource limits
@@ -39,7 +41,7 @@ native inputs and run the prerequisite review stages in order:
 
 ```sh
 th03_run scripts/replay_th03_main_native.py
-th03_run scripts/review_th03_op_entry_data_work.py
+th03_run scripts/review_th03_op_music_state_work.py
 th03_run scripts/review_th03_mainl_staff_roll_work.py
 th03_run scripts/review_th03_zun_ongchk_work.py
 ```
