@@ -275,6 +275,7 @@ def review(report=None):
         entry_loop_producer=comparison["entry_loop_producer"],
         main_flow_producer=comparison["main_flow_producer"],
         shared_producers=comparison["shared_producers"],
+        player_producers=comparison["player_producer_layout"],
         character_setup_producer=comparison["character_setup_producer"],
         matching_relocation_prefix=comparison["matching_relocation_prefix"],
         differing_relocation_order_positions=comparison["differing_relocation_order_positions"],

@@ -11,7 +11,7 @@
 #include "compat/rec98/th03/main/player/ch_shot.hpp"
 #include "compat/rec98/th03/main/player/gauge.hpp"
 #include "compat/rec98/th03/main/player/hearts.hpp"
-#include "compat/rec98/th03/main/player/shot.hpp"
+#include "src/main/player/shot.hpp"
 #include "compat/rec98/th03/main/chars/speed.hpp"
 #include "compat/rec98/th03/main/collmap.hpp"
 #include "compat/rec98/th03/main/playfld.hpp"

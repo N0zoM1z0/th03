@@ -40,7 +40,7 @@ class MainWorkTests(unittest.TestCase):
             native = root / "obj/th03"
             native.mkdir(parents=True)
             for name in ("main.map", "main.obj", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
-                         "gf_ctx.obj", "execl.obj", "tr_ctx.obj", "ex_rfly.obj", "ex_reup.obj", "lose.obj", "p_combo.obj", "p_cmbhl.obj"):
+                         "gf_ctx.obj", "execl.obj", "tr_ctx.obj", "ex_rfly.obj", "ex_reup.obj", "lose.obj", "p_combo.obj", "p_cmbhl.obj", "core.obj", "results.obj", "shots.obj"):
                 shutil.copyfile(work.WORK / "obj/th03" / name, native / name)
             with patch.object(work, "WORK", root):
                 return work.review()
@@ -61,7 +61,7 @@ class MainWorkTests(unittest.TestCase):
             (98, 75317),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
-        self.assertFalse(result["new_scopes"][2]["ordered_relocations_equal"])
+        self.assertTrue(result["new_scopes"][2]["ordered_relocations_equal"])
         self.assertFalse(result["exact_acceptance"])
         self.assertFalse(result["cold_build"])
 
@@ -86,7 +86,7 @@ class MainWorkTests(unittest.TestCase):
         a, b = [self.image.header.relocation_table_offset + i * 4 for i in (sites[0], sites[-1])]
         raw[a:a + 4], raw[b:b + 4] = raw[b:b + 4], raw[a:a + 4]
         self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
-        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+        with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
     def test_flow_is_one_native_producer_with_all_eight_functions(self):
@@ -120,7 +120,7 @@ class MainWorkTests(unittest.TestCase):
         for lo, hi in ((0x96E6, 0x9778), (0x9778, 0x9AD6)):
             vector = lambda image: [r for r in image.relocations if lo <= r.linear < hi]
             self.assertEqual(vector(changed), vector(self.image))
-        with self.assertRaisesRegex(ValueError, "entry/loop producer"):
+        with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
     def test_stage_and_round_finish_require_cross_owner_interleaving(self):
@@ -137,7 +137,7 @@ class MainWorkTests(unittest.TestCase):
         for lo, hi in ((0x9AD6, 0xA21F), (0xA21F, 0xA2D0)):
             vector = lambda image: [r for r in image.relocations if lo <= r.linear < hi]
             self.assertEqual(vector(changed), vector(self.image))
-        with self.assertRaisesRegex(ValueError, "main flow producer"):
+        with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
     def test_library_gap_is_owned_by_the_linker(self):
@@ -177,7 +177,7 @@ class MainWorkTests(unittest.TestCase):
         a, b = [self.image.header.relocation_table_offset + i * 4 for i in sites[:2]]
         raw[a:a + 4], raw[b:b + 4] = raw[b:b + 4], raw[a:a + 4]
         self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
-        with self.assertRaisesRegex(ValueError, "native library bytes or literal relocation order"):
+        with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
     def test_shared_order_preserves_the_unresolved_alignment_gap(self):
@@ -198,13 +198,14 @@ class MainWorkTests(unittest.TestCase):
         for destination, source in zip(sites, sites[1:9] + sites[:1] + sites[9:]):
             raw[table + destination * 4:table + destination * 4 + 4] = self.raw[table + source * 4:table + source * 4 + 4]
         self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
-        with self.assertRaisesRegex(ValueError, "SHARED native producer relocation order"):
+        with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
     def test_all_context_objects_have_maintained_source_producers(self):
         producers = work.context_producers()
-        self.assertEqual(len(producers), 89)
-        self.assertEqual(len({p["output"] for p in producers}), 89)
+        # Four context producers retire; two direct sources become three TUs.
+        self.assertEqual(len(producers), 85)
+        self.assertEqual(len({p["output"] for p in producers}), 85)
         for producer in producers:
             if producer.get("origin") == "reference-library-context":
                 self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})
@@ -238,7 +239,7 @@ class MainWorkTests(unittest.TestCase):
         a, b = [self.image.header.relocation_table_offset + i * 4 for i in sites[:2]]
         raw[a:a + 4], raw[b:b + 4] = raw[b:b + 4], raw[a:a + 4]
         self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
-        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+        with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
     def test_unknown_cached_object_cannot_escape_source_rebuild(self):
@@ -304,7 +305,7 @@ class MainWorkTests(unittest.TestCase):
         lo, hi = next(self.extents())
         raw = bytearray(self.raw)
         raw[self.image.header.header_paragraphs * 16 + hi - 1] ^= 1
-        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+        with self.assertRaisesRegex(ValueError, "player composition: whole payload changed outside the two open alignment bytes"):
             self.run_image(raw)
 
     def test_each_native_owner_last_byte_mutation_is_rejected(self):
@@ -322,7 +323,7 @@ class MainWorkTests(unittest.TestCase):
                     if unit["id"] in {
                         "th03-main-executable-chain", "th03-main-demo-transition"
                     }
-                    else "tracked scope regressed"
+                    else "player composition: whole payload changed outside the two open alignment bytes"
                     )
                 )
                 with self.assertRaisesRegex(ValueError, error):
@@ -341,7 +342,7 @@ class MainWorkTests(unittest.TestCase):
         raw = bytearray(self.raw)
         raw[a : a + 4], raw[b : b + 4] = raw[b : b + 4], raw[a : a + 4]
         self.assertEqual(parse_mz(raw).program_image, self.image.program_image)
-        with self.assertRaisesRegex(ValueError, "tracked scope regressed"):
+        with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
 

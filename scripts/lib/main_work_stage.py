@@ -16,6 +16,7 @@ RECIPE_INPUTS = (
     "scripts/lib/main_reimu_layout.py",
     "scripts/lib/main_lose_layout.py",
     "scripts/lib/main_combo_layout.py",
+    "scripts/lib/main_player_layout.py",
     "scripts/lib/main_lose_renderer_runtime.py",
     "scripts/lib/main_hitcirc_context.py",
     "scripts/lib/main_handoff_runtime.py",

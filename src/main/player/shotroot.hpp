@@ -9,7 +9,7 @@
 #include "compat/rec98/th03/main/enemy/efe.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/round.hpp"
-#include "compat/rec98/th03/resident.hpp"
+#include "src/main/core/resident.hpp"
 #pragma option -a2
 #include "compat/rec98/libs/master.lib/master.hpp"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"

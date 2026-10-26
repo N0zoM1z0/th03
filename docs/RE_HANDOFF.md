@@ -1,12 +1,11 @@
 # TH03 handoff
 
-Prepared 2026-10-26. Last committed reconstruction checkpoint: **`bcdf24a`**,
-pushed on `main`; current HEAD before this resumed work is `a432dd8`.
-The user resumed TH03 and authorized Factory MCP as the execution route.
-The bounded Music Room state/track scope below now passes its full current
-review and repository-local publication gates. Final CI is required before a
-checkpoint; consult the latest session gate result.
-No native source or builder changed; no commit or push has been made.
+Prepared 2026-10-26. Current committed checkpoint is **`e46da2a`** on `main`
+(ahead of origin by one); the player-composition work below is not committed.
+Factory MCP is the authorized execution route. Music Room state/track review
+remains accepted. MAIN now reproduces the complete literal relocation vector
+through three natural player producers; whole-file exactness remains open.
+Existing full CI is pending for this source checkpoint.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -29,12 +28,40 @@ source/function denominators and a completion percentage remain unknown.
 OP/MAINL/ZUN current source-only cold pairs repeat all outputs and match complete
 decoded and canonical DIET `-B` stored targets. Unowned reference/vendor context
 is still present; this does not prove whole-product source ownership. MAIN
-repeats101 outputs/99 objects but its whole file/header/relocation order differs.
+repeats98 outputs/96 objects; all1553 literal relocations now match. Its whole
+file/header and two alignment bytes still differ.
 
 Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAIN player source composition
+
+The current native graph uses `src/main/player/core.cpp` (3135 CODE bytes),
+`src/main/round/results.cpp` (1060), and `src/main/player/shots.cpp` (449).
+Complete existing bodies live in bounded `.inl` files; standalone historical
+wrappers and historical evidence rows remain distinct. No authored counters
+increase and no original-filename provenance is claimed.
+
+Two full614-input source restagings compile96 objects in97 native phases and
+repeat all98 raw outputs. The complete124642-byte previous load image and all
+98 owned extents/75317 bytes remain unchanged. All1553 literal ordered MZ
+entries match target (previously242 differing positions). Core records are
+1024/1022/1024/65, result records1018/42, and shots449. The semantic split at
+complete function boundaries places result11 relocations before the genuine
+Mima13 and active-shot5 afterward; no output sorting or patches are used.
+
+Packed shared types are MAIN-owned; no global compatibility headers changed.
+The real DWORD `round_frame` is read through its low BYTE in Hyper, and the
+existing one-byte `pid.current` field is explicitly BYTE in inline assembly.
+The old two-TU result was limited evidence, not a reason to exclude this larger
+natural composition. See `config/main_work/player_composition_observation.json`.
+
+Only load offsetsEC2D/1DB05 (target90/candidate00) and the MZ header6240/7680
+remain different in the current full product. Ordinary pinned DIET `-B` then
+`-ra` leaves the candidate completely unchanged; that route does not explain
+the header. Native cold replay passed; final existing CI is still pending.
 
 ## Resumed Music Room state/track review
 
@@ -95,7 +122,7 @@ remains separate from individual function ownership.
 - MAINL sound retains explicit trailing NOP/layout questions. ZUN reserved
   DATA3+9 bytes and vendor context remain open. Do not manufacture padding or
   empty segments. MAIN still differs at EC2D and1DB05 (target90/candidate00),
-  headers6,240/7,680 bytes,and ordered relocation record1072 onward.
+  headers6,240/7,680 bytes. Its complete ordered relocation vector now matches.
 
 ## Retained local state and commands
 

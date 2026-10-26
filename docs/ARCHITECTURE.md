@@ -65,6 +65,12 @@ alignment and EVEN generate the accepted layout through ordinary linking.
 Reserved driver DATA remains separate. `scripts/lib/zun.py` is also a frozen
 MAIN scheduling input; keep its hash.
 
+MAIN's current player core, round-result and active-shot producers group only
+complete functions (3135/1060/449 bytes). Their ordinary native records and
+link positions reproduce all1553 literal MZ entries while preserving the prior
+load image. Historical standalone wrappers remain separate from this current
+three-TU graph; the header and two alignment bytes remain unresolved.
+
 The old-named `reference.tar` identified in the handoff remains an actual current
 OP/MAINL source input. Historical output trees around it need not be retained.
 

@@ -28,8 +28,9 @@ OUT = ROOT / ".analysis/work"
 SOURCES = (
     "src/main/player/character_setup.cpp",
     "src/main/core/entry.cpp",
-    "src/main/player/state.cpp",
-    "src/main/player/shotroot.cpp",
+    "src/main/player/core.cpp",
+    "src/main/round/results.cpp",
+    "src/main/player/shots.cpp",
     "src/main/player/lose.cpp",
     "src/main/hud/intro.cpp",
     "src/main/player/exatt_chiyuri.cpp",
@@ -257,6 +258,7 @@ def carrier_code(raw):
 
 
 def contributions(raw, omit_replaced=False):
+    from lib.main_player_layout import replaced_contribution
     return [
         line.strip()
         for line in raw.decode().splitlines()
@@ -267,7 +269,8 @@ def contributions(raw, omit_replaced=False):
         and not (
             omit_replaced
             and (
-                (
+                replaced_contribution(line)
+                or (
                     "S=PLAYER_M_TEXT" in line
                     and 0x2432 <= int(line.split()[0].split(":")[1], 16) < 0x2C90
                     and line.split()[0].startswith("096E:")
@@ -346,6 +349,8 @@ def review(previous=None, cold_build=False):
     lose_layout = verify_lose_layout(WORK, target, candidate)
     from lib.main_combo_layout import verify as verify_combo_layout
     combo_layout = verify_combo_layout(WORK, cfg, target, candidate)
+    from lib.main_player_layout import verify as verify_player_layout
+    player_layout = verify_player_layout(WORK, target, candidate)
     owned = []
     for unit in cfg["units"] + cfg.get("native_units", []):
         for e in unit.get("code_extents", [unit]):
@@ -378,6 +383,7 @@ def review(previous=None, cold_build=False):
         reimu_producer_layout=reimu_layout,
         lose_producer_layout=lose_layout,
         combo_producer_layout=combo_layout,
+        player_producer_layout=player_layout,
         character_scopes=[
             r
             for r in owned
@@ -459,8 +465,8 @@ def review(previous=None, cold_build=False):
         raise ValueError("main flow producer bytes or literal order differ")
     if not result["shared_producers"]["ordered_relocations_equal"]:
         raise ValueError("SHARED native producer relocation order differs")
-    if result["matching_relocation_prefix"] < 1072:
-        raise ValueError("startup, flow, library, SHARED and loader relocation prefix differs")
+    if not result["complete_relocation_order_equal"] or result["matching_relocation_prefix"] != 1553:
+        raise ValueError("complete literal MAIN relocation order differs")
     for row in result["character_scopes"]:
         lo, hi = row["start"], row["start"] + row["bytes"]
         row["target_relative_relocation_order"] = [
@@ -525,6 +531,16 @@ def review(previous=None, cold_build=False):
                 raise ValueError("loss producer transfer changed loaded bytes")
             retired.add("defeat.obj")
             result["lose_producer_transfer"] = dict(loaded_image_unchanged=True, new_layout=lose_layout)
+        from lib.main_player_layout import RETIRED as PLAYER_RETIRED
+        player_retired = set(previous["objects"]) & PLAYER_RETIRED
+        if player_retired:
+            if player_retired != PLAYER_RETIRED or before.program_image != candidate.program_image:
+                raise ValueError("player composition transfer changed complete loaded bytes")
+            retired.update(player_retired)
+            result["player_producer_transfer"] = dict(
+                retired=sorted(player_retired), loaded_image_unchanged=True,
+                new_layout=player_layout,
+            )
         result["retired_objects"] = sorted(retired)
         result["map_contributions_unchanged"] = contributions(
             previous["map"]
@@ -770,7 +786,7 @@ def build(rebuild_context=False, cold=False):
                 map=(WORK / "obj/th03/main.map").read_bytes(),
                 objects={
                     n: (WORK / "obj/th03" / n).read_bytes()
-                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "mst_body.obj", "stg_pal.obj", "roundpr.obj", "stg_rnd.obj", "roundfin.obj"]
+                    for n in [*(Path(object_path(s)).name for s in SOURCES), "main.obj", "mst_pref.obj", "mst_body.obj", "stg_pal.obj", "roundpr.obj", "stg_rnd.obj", "roundfin.obj", "player_m.obj", "p_hyper.obj", "state.obj", "main_010.obj", "shotroot.obj", "p_shot.obj"]
                     if (WORK / "obj/th03" / n).is_file()
                 },
             )

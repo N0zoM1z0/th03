@@ -1,0 +1,396 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Natural player core/result/shot producer composition; no additional authored-byte credit",
+  "observed_utc": "2026-10-26T03:36:55.040522Z",
+  "exact_acceptance": false,
+  "new_source_exact_credit": 0,
+  "command": ".venv/bin/python scripts/replay_th03_main_native.py",
+  "source_sha256": {
+    "scripts/build_th03_main_work.py": "5c3d7658a000fcbb51c613c5bb39c8dd0510dba7f792a1fa7b77aeccbed30971",
+    "scripts/review_th03_main_native_units.py": "73dcb02401a24d55391aa621cfff8e2529dc1d2a34771bb7a8fdfb362ef198e2",
+    "scripts/lib/main_work_stage.py": "6e9839b7408180268e22ae6ddc2cd7bb2591c568eb95189ca988bea25b8f7911",
+    "scripts/lib/main_player_layout.py": "cae8dd26d8e25120a1b2dc0e389718d3ef554df53633a7add997ba1337d44696",
+    "config/th03_main_link.rsp": "148433217adeafddcfefd4084faf84d03f1c9d5be4d393b42a47d1480a143141",
+    "src/main/player/core.cpp": "b8cc718ab9ee64d0de64215d2fa80c2bf8b9f51938f362604111cb70a7f7b657",
+    "src/main/round/results.cpp": "3a6d97b4ec97037812ef4f0e83cc46ad8fa01f20424ae3d88b65df1c3aaa192a",
+    "src/main/player/shots.cpp": "e0b5ca753c636969ba4a91d7f7384176271db6260259db539a98c0829cc3c30f",
+    "src/main/player/move.cpp": "4a6ee4b4f49bac2c2f2504b520a2a33abe19adb632c27307bf61ec00e870c99d",
+    "src/main/player/move.inl": "862567971df4fc8ed9ba2aa230660777c8286702a4e801d48bdc6b7b42ce0749",
+    "src/main/player/hyper.cpp": "c9ca0e622a1944ed159922ca386a36d1be8b2c1cead7bb50720c054e72fa6be9",
+    "src/main/player/hyper.inl": "59e30243b25ce809672133952b0e5c81f4a5587d45b86019abe285897d271d6b",
+    "src/main/player/state.cpp": "01ee0bf4a4cb4a2aa36308569ee9b557f1bf60bb8451bed807486b88e6681a72",
+    "src/main/player/state.inl": "d3206f62be9de35d3b64308c9ebfee03e407ba6d47ea9fa914dd6e2b2b671d8e",
+    "src/main/player/stuff.cpp": "4a777de35b317c3d77a01edc3a08290971dc8b61d0f52af2061dcd9fa3134373",
+    "src/main/player/stuff.inl": "6ed9733d25798457edc2704297199c6a28efcd60f0d6deaaa149d1d4504e6369",
+    "src/main/player/stuff.hpp": "204d1bf8db3ce39dbb3af8966ccfb521bc93f35445e305ab524f48bf026c4912",
+    "src/main/player/shot.cpp": "0f0411815151f07f64be42d0f56ff3ecbb4b19eada6760e0e69917a8b7cd0043",
+    "src/main/player/shot.inl": "a68d0c30bde1301eb0170e656a3d618402585d976562d237b49caad57a3b0578",
+    "src/main/player/shotroot.cpp": "d348213e2d37ca5375a9cf53c6015223f928aa04598cba3efcf2a98fad4ec68c",
+    "src/main/player/shotroot.hpp": "5bc0e0f8e736681fee510428cd58cc7f3fc1ec4527a89692b0d455a9ad067ee1",
+    "src/main/player/shot_sprites.inl": "78abbf80c81eaba7affe215d6c51c4d6ddcadbf4d964283cdb3c461e631357db",
+    "src/main/player/shots_add.inl": "440143459b5a6c9b46a16409caeb6dc96e4b9f4c5324c5c31f32f61b04b34cc6",
+    "src/main/round/objects_reset.inl": "6276adb87bfb72ce949ffe0bbb480fc9c9a8750d706c9eba6ad951c66298fbe3",
+    "src/main/round/results.inl": "94c5441638df2ed06b7c213389e78fa52369d38a4bdf2ca272685b34d72effc0",
+    "src/main/core/resident.hpp": "469728dd495f9f700d471d5dabe087ddc6b1e2401ec56ddc1cf9b52cce56d5d7"
+  },
+  "cold_report_sha256": "ef4b27a2c1f42d2429d07b29a05ed8aa3301b354ed9ae59d62f92bebf318a266",
+  "unit_review_sha256": "0b3a42a8562f90bd2d8bce68f0c59b2c0b6ad2563605c3c257a79e36e7432eb2",
+  "complete_staged_graph_sha256": "0a8b2ab1be934997a86bbb76d2746de246134f59320da32d4190424e1fab2947",
+  "cold_build": {
+    "independent_source_trees": 2,
+    "staged_inputs": 614,
+    "source_objects": 96,
+    "native_phases": 97,
+    "raw_outputs": 98,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0
+  },
+  "producers": [
+    {
+      "object": "core",
+      "source": "src/main/player/core.cpp",
+      "start": 16372,
+      "size": 3135,
+      "segment": "MAIN_010_TEXT",
+      "records": [
+        1024,
+        1022,
+        1024,
+        65
+      ],
+      "publics": [
+        [
+          0,
+          "@PLAYER_POS_UPDATE_AND_CLAMP$QR7SPPOINT"
+        ],
+        [
+          74,
+          "@PLAYER_MOVE$QUI"
+        ],
+        [
+          284,
+          "HYPER_STANDBY"
+        ],
+        [
+          309,
+          "HYPER_REIMU"
+        ],
+        [
+          371,
+          "HYPER_MIMA"
+        ],
+        [
+          437,
+          "HYPER_MARISA"
+        ],
+        [
+          504,
+          "HYPER_ELLEN"
+        ],
+        [
+          551,
+          "HYPER_KOTOHIME"
+        ],
+        [
+          613,
+          "HYPER_CHIYURI"
+        ],
+        [
+          675,
+          "HYPER_YUMEMI"
+        ],
+        [
+          737,
+          "HYPER_KANA"
+        ],
+        [
+          799,
+          "HYPER_RIKAKO"
+        ],
+        [
+          879,
+          "@PLAYER_STATE_UPDATE$QUIP14PLAYER_STUFF_T"
+        ],
+        [
+          1985,
+          "@PLAYER_RENDER$QP14PLAYER_STUFF_T"
+        ],
+        [
+          2116,
+          "@PLAYER_OVERLAY_RENDER$QP14PLAYER_STUFF_T"
+        ],
+        [
+          2325,
+          "@PLAYER_KNOCKBACK_UPDATE$QP14PLAYER_STUFF_T"
+        ],
+        [
+          2476,
+          "PLAYER_BOMB"
+        ],
+        [
+          2595,
+          "@PLAYER_HITTEST$QI"
+        ],
+        [
+          2817,
+          "@PLAYERS_HIT_DAMAGE_UPDATE$QR14PLAYER_STUFF_T"
+        ],
+        [
+          2935,
+          "@story_skill_decrement$qv"
+        ],
+        [
+          2962,
+          "@stage_prepare_shot_sprites$qv"
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2414,
+          17215
+        ],
+        [
+          2414,
+          17192
+        ],
+        [
+          2414,
+          16919
+        ],
+        [
+          2414,
+          16840
+        ],
+        [
+          2414,
+          17762
+        ],
+        [
+          2414,
+          19438
+        ],
+        [
+          2414,
+          19419
+        ],
+        [
+          2414,
+          19406
+        ],
+        [
+          2414,
+          19393
+        ],
+        [
+          2414,
+          19380
+        ],
+        [
+          2414,
+          19367
+        ],
+        [
+          2414,
+          19354
+        ],
+        [
+          2414,
+          18935
+        ],
+        [
+          2414,
+          18810
+        ],
+        [
+          2414,
+          18718
+        ],
+        [
+          2414,
+          18689
+        ],
+        [
+          2414,
+          18587
+        ],
+        [
+          2414,
+          18480
+        ],
+        [
+          2414,
+          19503
+        ],
+        [
+          2414,
+          19490
+        ],
+        [
+          2414,
+          19477
+        ],
+        [
+          2414,
+          19464
+        ],
+        [
+          2414,
+          19451
+        ]
+      ]
+    },
+    {
+      "object": "results",
+      "source": "src/main/round/results.cpp",
+      "start": 19507,
+      "size": 1060,
+      "segment": "P_SHOT_TEXT",
+      "records": [
+        1018,
+        42
+      ],
+      "publics": [
+        [
+          0,
+          "@round_objects_and_counters_reset$qv"
+        ],
+        [
+          72,
+          "@ROUND_RESULT_NUMBER_PUT$QIII"
+        ],
+        [
+          223,
+          "@round_match_result_render$qv"
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2414,
+          19912
+        ],
+        [
+          2414,
+          19897
+        ],
+        [
+          2414,
+          19862
+        ],
+        [
+          2414,
+          19847
+        ],
+        [
+          2414,
+          19832
+        ],
+        [
+          2414,
+          19817
+        ],
+        [
+          2414,
+          19802
+        ],
+        [
+          2414,
+          19787
+        ],
+        [
+          2414,
+          19722
+        ],
+        [
+          2414,
+          19682
+        ],
+        [
+          2414,
+          19635
+        ]
+      ]
+    },
+    {
+      "object": "shots",
+      "source": "src/main/player/shots.cpp",
+      "start": 20567,
+      "size": 449,
+      "segment": "P_SHOT_TEXT",
+      "records": [
+        449
+      ],
+      "publics": [
+        [
+          0,
+          "@player_shots_add$qv"
+        ],
+        [
+          264,
+          "@shots_update$qv"
+        ],
+        [
+          307,
+          "@shots_render$qv"
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2414,
+          20983
+        ],
+        [
+          2414,
+          20965
+        ],
+        [
+          2414,
+          20712
+        ],
+        [
+          2414,
+          20689
+        ],
+        [
+          2414,
+          20673
+        ]
+      ]
+    }
+  ],
+  "native_objects_sha256": {
+    "obj/th03/core.obj": "a7e047d05c4035cb32b3f8c47c79671613377ddd2fe7b6b583121b0b4163b95b",
+    "obj/th03/results.obj": "84fb07509b39b278ce84b7594344ed59370825271c5ffcdf0ccf014969dde79e",
+    "obj/th03/shots.obj": "7d32b41813b49d163da1e158eecac40222d0fd4d46b3170894c39e91fddf7b00"
+  },
+  "comparison": {
+    "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+    "executable_sha256": "22d17538c37bffdfabc850f38c307f704c9269070e7993494ee771c1e4a0b77e",
+    "checked_owned_extents": 98,
+    "checked_owned_bytes": 75317,
+    "all_owned_raw_and_ordered_equal": true,
+    "candidate_relocations": 1553,
+    "target_relocations": 1553,
+    "complete_relocation_order_equal": true,
+    "matching_relocation_prefix": 1553,
+    "differing_relocation_order_positions": 0,
+    "candidate_program_bytes": 124642,
+    "target_program_bytes": 124642,
+    "complete_program_differing_bytes": [
+      60461,
+      121605
+    ],
+    "file_equal": false
+  },
+  "remaining_header_sizes": {
+    "target": 6240,
+    "candidate": 7680
+  },
+  "limits": [
+    "Full1553literal relocation equality is not whole-file equality: two alignment bytes and MZ header remain open.",
+    "Historical individual source/compiler observations are retained under their original rows and recipes; this current graph uses bounded includes and three new translation units.",
+    "Original TU filenames are inferred. Complete-function grouping is supported by natural native OMF/MAP and target ordering, not historical source provenance.",
+    "The ordinary pinned DIET -B/-ra experiment reproduced its input byte-for-byte and did not explain the header mismatch."
+  ]
+}
