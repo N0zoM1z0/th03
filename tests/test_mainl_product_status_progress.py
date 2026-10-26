@@ -22,9 +22,24 @@ status = load('status')
 progress = load('progress')
 CURRENT_UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
 # This suite exercises the frozen 145-owner publication, with its original
-# containing GRCG/STR_IEQ boundaries. Current source scopes use 163 extents.
+# containing GRCG/STR_IEQ boundaries. Current tracked scopes use 177 extents; the frozen fixture retains145.
 UNITS = [dict(u) for u in CURRENT_UNITS
          if not u['id'].startswith('th03-mainl-decoded-cutscene-') and u['id'] not in {
+    'th03-mainl-decoded-registration-load',
+    'th03-mainl-decoded-registration-encode',
+    'th03-mainl-decoded-registration-load-initial',
+    'th03-mainl-decoded-registration-insert',
+    'th03-mainl-decoded-registration-alphabet',
+    'th03-mainl-decoded-registration-alphabet-putca',
+    'th03-mainl-decoded-registration-unput',
+    'th03-mainl-decoded-registration-regi-put',
+    'th03-mainl-decoded-registration-row-at',
+    'th03-mainl-decoded-registration-rows',
+    'th03-mainl-decoded-registration-row',
+    'th03-mainl-decoded-registration-name',
+    'th03-mainl-decoded-registration-default-name',
+    'th03-mainl-decoded-registration-menu',
+
     'th03-mainl-decoded-staff-data',
     'th03-mainl-decoded-root-tail-grcg-setcolor-align','th03-mainl-decoded-root-tail-grcg-off',
     'th03-mainl-decoded-root-tail-grcg-off-align','th03-mainl-decoded-root-tail-string-compare'}]

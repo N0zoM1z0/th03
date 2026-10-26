@@ -1,10 +1,10 @@
 # TH03 handoff
 
-Prepared2026-10-26. Baseline checkpoint **`83706b4`**,main ahead seven.
-Complete existing MAINL cutscene ownership is staged,not committed:13 procedures,
-3122 instruction bytes/1057 instructions. Required72 inline switch bytes and one
-compiler-emitted zero remain uncredited context. No new implementation/runtime
-harness. Full CI is pending at writing;final result reported separately.
+Prepared2026-10-26. Baseline checkpoint **`6b6026e4`**,main ahead eight.
+Existing MAINL registration ownership is staged,not committed:14 procedures,
+2720 instruction bytes/988 instructions. Required68 music CODE and40 pointer
+DATA remain uncredited context. No source changes/native rebuild/new runtime.
+Full CI pending at writing;final result reported separately.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -17,7 +17,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
-| MAINL | 67 extents / 72 procedures / 9,719 CODE + 224 DATA bytes | Open |
+| MAINL | 81 extents / 86 procedures / 12,439 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
@@ -35,6 +35,21 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAINL complete registration ownership
+
+All188 native fields and70 literal EXTDEF/MAP identities independently resolve
+CODE2788 +DATA40. Only2720 instruction bytes/14 complete near procedures and54
+ordered relocations are credited. Music68 CODE, pointer40 DATA, preceding
+scoredat229 and external storage remain uncredited. Prior67 owner observations
+and all retained reports are unchanged. Current PI operands match;historical
+six-mismatch notes are superseded without touching compiled inputs.
+
+Full current938-output source/SDK/recipe bindings pass on the existing cold pair.
+Use `review_th03_mainl_registration_work.py --current-cold`;never restart an
+ancestor default chain to refresh unchanged supporting traces. Current status
+checks177 ledger rows;frozen145/150 fixtures retain historical eligibility.
+See [MAINL_REGISTRATION_REVIEW.md](MAINL_REGISTRATION_REVIEW.md).
 
 ## MAINL complete cutscene ownership
 
@@ -185,7 +200,7 @@ current proof. Containing Music producer CODE2,244/DATA1,008/BSS1,060 do not
 receive wider ownership from this216-byte scope.
 
 Next bounded work remains Music Room animation/menu,OP BSS initialization,
-remaining MAINL cutscene/registration,ZUN ownership and the four-product
+remaining MAINL score-data/context,ZUN ownership and the four-product
 source/link graph. MAINL is the ending. Ending-to-roll aggregate composition
 remains separate from individual function ownership.
 

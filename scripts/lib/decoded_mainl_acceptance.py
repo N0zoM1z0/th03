@@ -42,6 +42,8 @@ from review_th03_mainl_staff_verdict_work import current_scope as staff_verdict_
 from review_th03_mainl_staff_data_work import current_scope as staff_data_scope
 from review_th03_mainl_staff_roll_work import current_scope as staff_roll_scope
 from review_th03_mainl_cutscene_work import current_scope as cutscene_scope, INPUTS as CUTSCENE_INPUTS
+from review_th03_mainl_registration_work import current_scope as registration_scope, INPUTS as REGISTRATION_INPUTS
+from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
 
@@ -89,7 +91,7 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/lib/decoded_mainl_staff_roll_services.py", "scripts/lib/decoded_mainl_staff_roll_machine.py",
                 "scripts/lib/decoded_mainl_staff_roll_runtime.py", "scripts/lib/decoded_mainl_staff_roll_proofs.py")
 
-PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS)))
+PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS)))
 
 def need(value, message):
     if not value:
@@ -200,6 +202,9 @@ def audit(root):
     need(digest(owners) == "452fd185446e95f0f4988def2ec746b19f065703762a93cb99982a6078f00308", "previous54 owner observations unchanged from83706b4")
     cutscene = cutscene_scope(root, work, target, candidate, raw_report, graph, files)
     owners += cutscene["layout"]["owners"]
+    need(digest(owners) == "bf5d557cd695a96f6323cab29812d0b71ed5f73f9ec5f33c1bb1b9aaf0263fb3", "previous67 owner observations unchanged from6b6026e4")
+    registration = registration_scope(root, work, target, candidate, raw_report, graph, files)
+    owners += registration["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -225,7 +230,7 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        transported = ENDING_WRAPPER if o["source"] == ENDING_SOURCE else o["source"]
+        transported = {ENDING_SOURCE: ENDING_WRAPPER, REGISTRATION_SOURCE: REGISTRATION_WRAPPER}.get(o["source"], o["source"])
         need(files[transported].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
              "maintained source and declared line-ending transport")
         for name in describe_omf((work / o["object"]).read_bytes())["dependency_paths"]:
@@ -234,7 +239,7 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending, staff_draw=staff_draw, snow=snow, dissolve=dissolve, staff_callers=staff_callers, staff_hold=staff_hold, staff_single=staff_single, staff_pair=staff_pair, staff_verdict=staff_verdict, staff_data=staff_data, staff_roll=staff_roll, cutscene=cutscene)
+    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending, staff_draw=staff_draw, snow=snow, dissolve=dissolve, staff_callers=staff_callers, staff_hold=staff_hold, staff_single=staff_single, staff_pair=staff_pair, staff_verdict=staff_verdict, staff_data=staff_data, staff_roll=staff_roll, cutscene=cutscene, registration=registration)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
