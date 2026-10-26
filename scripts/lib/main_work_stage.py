@@ -325,6 +325,18 @@ def native_carrier(raw):
         "\t\tdb 5 dup(?)\n_collmap\t",
         "\t\tdb ?\npublic _shot_release_frames\n_shot_release_frames db 2 dup(?)\n\t\tdb 2 dup(?)\n_collmap\t",
     )
+    # Recover the WORD pixel-mask table without moving its original DATA.
+    # This hash guards only the initial-disassembly declaration being replaced.
+    mask_prefix = "a00ch_bf2\tdb '00ch.bf2',0\n\t\tdb 0\n\t\tdb    0\n\t\tdb    0\n"
+    if text.count(mask_prefix) != 1:
+        raise ValueError("unique gauge-mask storage anchor required")
+    mask_start = text.index(mask_prefix) + len(mask_prefix)
+    mask_end = text.index("public _ENEDAT_DAT\n", mask_start)
+    declarations = text[mask_start:mask_end]
+    if sha(declarations.encode("latin1")) != "0ba63fd230ad9bc3570213096142f747583346813d450e035d07dcd697f5f71a":
+        raise ValueError("pinned gauge-mask declaration differs")
+    text = text[:mask_start] + "include src/main/graphics/gauge_masks.inl\n" + text[mask_end:]
+
     from lib.main_master_prefix import detach
     from lib.main_master_body import detach as detach_body
 

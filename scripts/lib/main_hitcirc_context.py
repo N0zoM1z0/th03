@@ -111,6 +111,17 @@ def verify(work, target, candidate):
                        for image in (target, candidate)]
             need(vectors[0] == vectors[1] and len(vectors[0]) == 16,
                  "sixteen literal transition relocations required")
+    # One newly named existing DATA symbol; no general public/MAP relaxation.
+    need(len(re.findall(r"(?m)^\s*1D56:064C\s+_hud_gauge_left_masks\s*$", map_text)) == 2,
+         "both exact gauge-mask public rows required")
+    masks = []
+    for width in range(16):
+        bits = (0xFFFF << (16 - width)) & 0xFFFF if width else 0xFFFF
+        masks.extend((bits >> 8, bits & 255))
+    expected_masks = bytes(masks)
+    need(candidate.program_image[0x1DBAC:0x1DBCC] == expected_masks
+         == target.program_image[0x1DBAC:0x1DBCC],
+         "existing 16-WORD little-endian pixel-mask table differs")
     return dict(candidate_object="obj/th03/execl.obj", candidate_bytes=79,
                 ordered_relocations=9, transition_candidate_bytes=663,
                 transition_ordered_relocations=16, reference_context_bytes=216,
