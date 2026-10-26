@@ -12,7 +12,8 @@
    affected behavior and independent cold reproducibility. All gates are in
    `config/oracles.toml`; compiler success and partial byte counts are insufficient.
 5. Record findings in source, ledgers and the concise handoff. Run focused checks,
-   full CI and whitespace checks, then commit and push an English checkpoint.
+   full CI and whitespace checks, then save a local English checkpoint. Do not
+   push unless the owner separately authorizes it.
 
 Use Factory MCP with the registered TH03 live repository, as authorized by the
 user on 2026-10-26. Execute the existing headless tools through the repository
