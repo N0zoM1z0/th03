@@ -107,6 +107,14 @@ option64, wait/VS80 bytes). A held descendant exports its full predicted SP,
 including intermediate frames. Short CFG preparation boundaries and conditional
 raw-dispatch prefixes receive separate outcomes, without return credit.
 
+OP entry initialized DATA has a separate zero-procedure owner. Gaiji ranges,
+opponent/demo identities, DWORD seeds and CP932 messages form its independent
+semantic image. Native register/stack transfers and pointer-derived bounded
+library readers check consumption. Unreferenced type strings and equivalent
+boolean bits keep static proof only in these fixtures. Unchecked story indices
+also read the unnamed gaiji-space string; closed prefixes stay separate from
+ordinary returns. BSS begins at the decoded file end and remains separate.
+
 ## Local tools
 
 `config/toolchain.toml` pins native tools, prefix and surfaces;

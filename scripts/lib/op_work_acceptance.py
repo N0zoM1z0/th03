@@ -31,6 +31,7 @@ from review_th03_op_story_work import current_scope as story_scope
 from review_th03_op_option_work import current_scope as option_scope
 from review_th03_op_main_menu_work import current_scope as main_menu_scope
 from review_th03_op_startup_work import current_scope as startup_scope
+from review_th03_op_entry_data_work import current_scope as entry_data_scope
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
 
@@ -58,7 +59,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_op_startup_work.py", "scripts/lib/op_startup_layout.py",
                 "scripts/lib/op_startup_state.py", "scripts/lib/op_startup_primitives.py",
                 "scripts/lib/op_startup_children.py", "scripts/lib/op_startup_runtime.py",
-                "scripts/lib/op_startup_cold.py")
+                "scripts/lib/op_startup_cold.py", "scripts/review_th03_op_entry_data_work.py",
+                "scripts/lib/op_entry_data_layout.py", "scripts/lib/op_entry_data_runtime.py")
 
 
 def need(value, message):
@@ -146,8 +148,9 @@ def audit(root):
     option = option_scope(root, work, target, candidate, report_raw)
     main_menu = main_menu_scope(root, work, target, candidate, report_raw)
     startup = startup_scope(root, work, target, candidate, report_raw)
-    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"] + renderers["layout"]["owners"] + vs["layout"]["owners"] + story["layout"]["owners"] + option["layout"]["owners"] + main_menu["layout"]["owners"] + startup["layout"]["owners"]
-    entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT), key=lambda o: o["start"])
+    entry_data = entry_data_scope(root, work, target, candidate, report_raw)
+    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"] + renderers["layout"]["owners"] + vs["layout"]["owners"] + story["layout"]["owners"] + option["layout"]["owners"] + main_menu["layout"]["owners"] + startup["layout"]["owners"] + entry_data["layout"]["owners"]
+    entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
     need([(o["start"] - (0x990 * 16 + 8), o["size"]) for o in entry_owners]
          == [(offset, end - offset) for offset, end in zip(entry_boundaries, entry_boundaries[1:])],
@@ -190,7 +193,7 @@ def audit(root):
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
                      "complete source/header dependency binding: " + name)
-    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers, renderers=renderers, vs=vs, story=story, option=option, main_menu=main_menu, startup=startup)
+    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers, renderers=renderers, vs=vs, story=story, option=option, main_menu=main_menu, startup=startup, entry_data=entry_data)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current global ledger consistency")
     return dict(cold_report_sha256=sha(report_raw), recipe_sha256=report["recipe_sha256"],
@@ -247,8 +250,13 @@ def verify(root, publication):
             global_evidence_oracles=set(policy["policy"]["global_evidence_oracles"]),
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
+    owners = proof["scope"]["owners"]
     return dict(repository_local=True, decoded_accepted=True, current_cold_source_scopes=True,
-                reviewed_proof_ready=True, decoded_exact_units=32, decoded_authored_bytes=3883,
+                reviewed_proof_ready=True, decoded_exact_units=len(owners),
+                decoded_authored_procedures=sum(o.get("procedure_count",1) for o in owners),
+                decoded_authored_code_bytes=sum(o.get("code_bytes",o["size"]) for o in owners),
+                decoded_authored_initialized_data_bytes=sum(o.get("initialized_data_bytes",0) for o in owners),
+                decoded_authored_bytes=sum(o["size"] for o in owners),
                 decoded_exact_unit_ids=sorted(o["unit_id"] for o in proof["scope"]["owners"]), product_exact=False,
                 mixed_physical_exact_bytes=0, canonical_credit_changed=False, factory_accepted=False,
                 whole_game_percentage=None)

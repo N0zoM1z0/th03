@@ -77,7 +77,7 @@ def op_decoded_status(root, units):
     accepted = result.get('decoded_exact_unit_ids', [])
     try:
         current_scopes = result.get('current_cold_source_scopes') is True
-        expected_count, expected_bytes = (32, 3883) if current_scopes else (33, 9530)
+        expected_count, expected_bytes = (33, 4370) if current_scopes else (33, 9530)
         valid = (result.get('reviewed_proof_ready') is True
                  and result.get('product_exact') is False
                  and result.get('factory_accepted') is False
@@ -99,7 +99,10 @@ def op_decoded_status(root, units):
             from lib.op_option_layout import FUNCTIONS as OPTION_FUNCTIONS
             from lib.op_main_menu_layout import FUNCTIONS as MAIN_MENU_FUNCTIONS
             from lib.op_startup_layout import FUNCTIONS as STARTUP_FUNCTIONS
-            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS+DISPATCH_FUNCTIONS} | {"th03-op-decoded-entry-attract-wait", "th03-op-decoded-entry-vs-menu", "th03-op-decoded-entry-screens"} | {o[0] for o in SOUND_PRODUCERS+HELPER_PRODUCERS+RENDER_FUNCTIONS+OPTION_FUNCTIONS+MAIN_MENU_FUNCTIONS+STARTUP_FUNCTIONS}
+            from lib.op_entry_data_layout import UNIT as ENTRY_DATA_UNIT
+            valid = valid and (result.get("decoded_authored_procedures"), result.get("decoded_authored_code_bytes"),
+                               result.get("decoded_authored_initialized_data_bytes")) == (32, 3883, 487)
+            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS+DISPATCH_FUNCTIONS} | {"th03-op-decoded-entry-attract-wait", "th03-op-decoded-entry-vs-menu", "th03-op-decoded-entry-screens"} | {o[0] for o in SOUND_PRODUCERS+HELPER_PRODUCERS+RENDER_FUNCTIONS+OPTION_FUNCTIONS+MAIN_MENU_FUNCTIONS+STARTUP_FUNCTIONS} | {ENTRY_DATA_UNIT}
         if not valid:
             return dict(unavailable(result.get('reason', 'publication or caller inventory invalid')),
                         tracked_decoded_extents=len(ids))
@@ -112,8 +115,10 @@ def op_decoded_status(root, units):
 def decoded_summary(status):
     if status['decoded_accepted']:
         if status.get('current_cold_source_scopes'):
-            return (f"OP current decoded source acceptance: {status['decoded_exact_units']} functions / "
-                    f"{status['decoded_authored_bytes']:,} bytes. Fresh source-only cold pair, native ownership/ABI "
+            return (f"OP current decoded source acceptance: {status['decoded_exact_units']} extents / "
+                    f"{status['decoded_authored_procedures']} procedures / {status['decoded_authored_bytes']:,} bytes "
+                    f"({status['decoded_authored_code_bytes']:,} CODE + {status['decoded_authored_initialized_data_bytes']:,} initialized DATA). "
+                    "Fresh source-only cold pair, native ownership/ABI "
                     "and bounded instruction models pass. Canonical packed-file unit credit and whole-product "
                     "source exactness remain unchanged; whole-game percentage is unknown.")
         return (f"OP repository-local decoded acceptance is published: "
