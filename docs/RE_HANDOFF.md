@@ -1,11 +1,11 @@
 # TH03 handoff
 
-Prepared 2026-10-26. Current committed checkpoint is **`e46da2a`** on `main`
-(ahead of origin by one); the player-composition work below is not committed.
+Prepared 2026-10-26. Current committed checkpoint is **`5be2837`** on `main`
+(ahead of origin by two); the vendor-composition work below is not committed.
 Factory MCP is the authorized execution route. Music Room state/track review
 remains accepted. MAIN now reproduces the complete literal relocation vector
 through three natural player producers; whole-file exactness remains open.
-Existing full CI is pending for this source checkpoint.
+Existing full CI is being rerun for the vendor-composition checkpoint.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -28,15 +28,32 @@ source/function denominators and a completion percentage remain unknown.
 OP/MAINL/ZUN current source-only cold pairs repeat all outputs and match complete
 decoded and canonical DIET `-B` stored targets. Unowned reference/vendor context
 is still present; this does not prove whole-product source ownership. MAIN
-repeats98 outputs/96 objects; all1553 literal relocations now match. Its whole
-file/header and two alignment bytes still differ.
+repeats100 outputs/98 project objects (97 compiled sources plus one fresh vendor
+extraction); all1553 literal relocations match. Its header and one CODE alignment
+byte still differ.
 
 Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
 
-## MAIN player source composition
+## MAIN original VSync vendor dependency
+
+The actual TH04 dependency mechanism transfers: native TLIB extracts unchanged
+`VS.ASM` from the pinned original `MASTERS.LIB`, then ordinary TLINK places its
+DATA8/BSS8 between the root's real head/tail contributions. This restores90 at
+load1DB05; no source NOP, object patch or original-assembler substitution is used.
+VS remains prebuilt vendor context, not recovered authored source.
+
+Two full614-input cold trees compile97 source objects and freshly extract one
+vendor object in99 native phases, repeating100 raw outputs. All other124641 load
+bytes, all1359 public names/addresses/idle flags and all1553 literal relocations
+remain unchanged. Prior98 owned extents/75317 bytes retain their checks. Only
+EC2D (target90/candidate00) and MZ header6240/7680 remain open. See
+`config/main_work/vsync_vendor_observation.json`; the older player observation
+remains historical and is not rewritten. Full existing CI is pending.
+
+## MAIN player source composition (preceding checkpoint)
 
 The current native graph uses `src/main/player/core.cpp` (3135 CODE bytes),
 `src/main/round/results.cpp` (1060), and `src/main/player/shots.cpp` (449).
@@ -58,10 +75,11 @@ existing one-byte `pid.current` field is explicitly BYTE in inline assembly.
 The old two-TU result was limited evidence, not a reason to exclude this larger
 natural composition. See `config/main_work/player_composition_observation.json`.
 
-Only load offsetsEC2D/1DB05 (target90/candidate00) and the MZ header6240/7680
-remain different in the current full product. Ordinary pinned DIET `-B` then
+At that checkpoint load offsetsEC2D/1DB05 (target90/candidate00) and MZ
+header6240/7680 differed; the vendor composition above now closes1DB05. Ordinary pinned DIET `-B` then
 `-ra` leaves the candidate completely unchanged; that route does not explain
-the header. Native cold replay passed; final existing CI is still pending.
+the header. The additional documented DIET `-B -G`/`-ra` route likewise restores the
+candidate unchanged. Neither tested storage route explains the header.
 
 ## Resumed Music Room state/track review
 
@@ -121,7 +139,7 @@ remains separate from individual function ownership.
   See the staff/resource verifiers and knowledge ledger for exact conditions.
 - MAINL sound retains explicit trailing NOP/layout questions. ZUN reserved
   DATA3+9 bytes and vendor context remain open. Do not manufacture padding or
-  empty segments. MAIN still differs at EC2D and1DB05 (target90/candidate00),
+  empty segments. MAIN still differs at EC2D (target90/candidate00),
   headers6,240/7,680 bytes. Its complete ordered relocation vector now matches.
 
 ## Retained local state and commands

@@ -48,8 +48,9 @@ source/function denominators remain unknown.
 | MAINL | `build_th03_mainl_work.py` | TH03ML |
 | ZUN | `build_th03_zun_work.py` | TH03ZUN |
 
-Each builder recreates source and rebuilds its project objects in two independent
-rounds. Current reports live in `.analysis/work/`. MAINL uses normal TLIB
+Each builder recreates source and rebuilds its game objects in two independent
+rounds. MAIN additionally re-extracts its one explicitly pinned VS vendor module
+with native TLIB in each round; installed CRT/runtime remain vendor context. Current reports live in `.analysis/work/`. MAINL uses normal TLIB
 extraction/rebuild: six maintained CRT producers replace members without changing
 the 893-member library order. Other vendor members remain contextual.
 
@@ -69,7 +70,10 @@ MAIN's current player core, round-result and active-shot producers group only
 complete functions (3135/1060/449 bytes). Their ordinary native records and
 link positions reproduce all1553 literal MZ entries while preserving the prior
 load image. Historical standalone wrappers remain separate from this current
-three-TU graph; the header and two alignment bytes remain unresolved.
+three-TU graph. A subsequent native TLIB extraction restores the original
+master.lib VS DATA8/BSS8 between real root head/tail source contributions; its
+physical90 closes1DB05 without source padding. This explicit prebuilt vendor
+context adds no authored/source-exact credit. EC2D and the header remain open.
 
 The old-named `reference.tar` identified in the handoff remains an actual current
 OP/MAINL source input. Historical output trees around it need not be retained.

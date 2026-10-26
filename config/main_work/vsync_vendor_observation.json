@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "scope": "Original vendor VS module composition, no new authored/source-exact credit",
+  "observed_utc": "2026-10-26T05:40:35.807257+00:00",
+  "exact_acceptance": false,
+  "new_authored_credit": 0,
+  "vendor_source_recovered": false,
+  "command": ".venv/bin/python scripts/replay_th03_main_native.py",
+  "source_sha256": {
+    "scripts/lib/main_vsync_vendor.py": "125f944403372fb6936791e7538ca5d88ea088daf315c6c220ffc3ec3cd58eb9",
+    "scripts/lib/main_work_stage.py": "0180b747c058874e1a01c43a66dfa9397c299e45cfb2140c7bb6560ef0f1c08f",
+    "scripts/build_th03_main_work.py": "3c30eb65e57bdb80f697059bc0adc13741536608e39903fa7d8224a05dacf307",
+    "scripts/lib/main_player_layout.py": "44167d47a1a4b81cfbd5f9a33000613b67a4ec0f25202a5521bbb07dfdb29f3a",
+    "config/th03_main_link.rsp": "89d9ad8b19a7e2ab622d090dbb37b6918b564e867ab5eee1c47c85e996e25fff"
+  },
+  "cold_report_sha256": "496f73462a8f914f3a637b18ed83dca113cf0378b8d8b4ffab0b632ade59d0cb",
+  "unit_review_sha256": "dd4658f80ef50fc07f53e92e7a7726fa07e608c623f91377123e9c098d34cd4a",
+  "staged_graph_sha256": "d6c5920eec7643bd37b3f4125033e90d75fbca8b0ddcead06f21051e5b2ef443",
+  "vendor": {
+    "origin": "original-prebuilt-vendor-context",
+    "archive_sha256": "6be41dbcfcf4504977165ccc44443525a29a01f85a1580e6ad0c620bf802faf6",
+    "object_sha256": "3bb280d22f01581b08c4fed605f09c198f54cde8b9b6767a4fef5a09953a8318",
+    "data_bytes": 8,
+    "bss_bytes": 8,
+    "code_bytes": 0,
+    "new_authored_credit": 0,
+    "source_generated_vendor": false
+  },
+  "native_tools": {
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE": "0c6a3a364ffd235e0c4b268d6925f29be3f20adafc6d1410c057a411e6634ff0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0",
+    ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLIB.EXE": "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2",
+    ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26",
+    "_reference/ReC98/bin/msdos.exe": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+  },
+  "cold": {
+    "independent_source_trees": 2,
+    "staged_inputs": 614,
+    "compiled_source_objects": 97,
+    "fresh_vendor_extractions": 1,
+    "total_project_objects": 98,
+    "native_phases_per_round": 99,
+    "raw_outputs": 100,
+    "all_raw_outputs_repeat": true,
+    "cached_game_objects_used": 0
+  },
+  "result": {
+    "load_bytes": 124642,
+    "only_change_from_player_checkpoint": "1DB05:00->90",
+    "remaining_target_load_differences": [
+      60461
+    ],
+    "literal_ordered_relocations": 1553,
+    "literal_order_equal": true,
+    "all_prior_CODE_unchanged": true,
+    "all_1359_public_names_addresses_and_idle_flags_unchanged": true,
+    "target_header_bytes": 6240,
+    "candidate_header_bytes": 7680,
+    "prior_owned_extents": 98,
+    "prior_owned_bytes": 75317
+  },
+  "ownership": {
+    "root_head_DATA": 1294,
+    "root_head_BSS": 104,
+    "vendor_DATA": 8,
+    "vendor_BSS": 8,
+    "tail_DATA": 1606,
+    "tail_BSS": 22250,
+    "vendor_CODE": 0
+  },
+  "provenance_note": "Unmodified local original-distribution MASTERS.LIB VS.ASM. Native TLIB removes archive-only A3 name comment: embedded module b9e27ff113411fc33aa3fc0d3c02f694adc45e8881e6e73f6ae536594c4ccfa6; extracted module 3bb280d22f01581b08c4fed605f09c198f54cde8b9b6767a4fef5a09953a8318. No byte patch, replacement padding, original assembler identity or authored credit."
+}

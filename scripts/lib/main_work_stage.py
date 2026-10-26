@@ -12,6 +12,7 @@ RECIPE_INPUTS = (
     "scripts/lib/main_work_stage.py",
     "scripts/lib/main_master_prefix.py",
     "scripts/lib/main_master_body.py",
+    "scripts/lib/main_vsync_vendor.py",
     "scripts/lib/main_enemy_layout.py",
     "scripts/lib/main_reimu_layout.py",
     "scripts/lib/main_lose_layout.py",
@@ -374,6 +375,13 @@ def stage_carriers(work):
             (ROOT / "src/main/hud/score.asm").read_bytes()
         ),
     }
+    from lib import main_vsync_vendor as vsync
+    prepared.update(vsync.split(prepared["th03_main.asm"],
+        (reference / "th03/main/chars/speeds[data].asm").read_bytes()))
+    archive = (reference / vsync.ARCHIVE).read_bytes()
+    if sha(archive) != vsync.ARCHIVE_SHA:
+        raise ValueError("original master.lib archive changed")
+    prepared[vsync.ARCHIVE] = archive
     for unit in config["units"]:
         if unit.get("ownership") == "bounded-include":
             prepared[unit["overlay_path"]] = (ROOT / unit["source"]).read_bytes()

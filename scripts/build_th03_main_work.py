@@ -21,6 +21,7 @@ from lib.pc98 import parse_mz
 from lib.targets import load_target_manifest, find_artifact, read_verified_artifact
 from probe_th03_main_bomb_rikako_cpp import segment_definitions, code_bytes, omf_index
 from lib.omf import parse_omf
+from lib import main_vsync_vendor as vsync
 
 ROOT = Path(__file__).resolve().parents[1]
 WORK = ROOT / ".analysis/toolchain/wineprefix/drive_c/TH03WORK"
@@ -52,6 +53,7 @@ SCOPES = (
     (0xA378, 0xA3FA),  # Native stage palette CODE and function alignment.
     (0xA3FA, 0xA44C),  # Existing round primitives retain their accepted owners.
     (0xA44C, 0xB37C),  # Complete native character resource/callback producer.
+    (0x1DAFE, 0x1DB06),  # Original prebuilt VS DATA, no authored credit.
     (0xC248, 0xC2F9),  # Native near-this renderer, bounded separately from existing owners.
 )
 
@@ -84,6 +86,7 @@ def context_producers(names=None):
         "obj/th03/main.obj",
         "obj/th03/score_hud.obj",
         "c0l.obj",
+        vsync.OBJECT,  # Exact attested TLIB extraction, not a missing-source bypass.
     }
     producers = {
         "obj/th03/ex_rfly.obj": dict(
@@ -121,6 +124,9 @@ def context_producers(names=None):
             output="obj/th03/mst_body.obj", prefix="", origin="reference-library-context",
         ),
     }
+    producers[vsync.TAIL_OBJECT] = dict(source=vsync.TAIL, staged=vsync.TAIL,
+        recipe="scripts/lib/main_vsync_vendor.py", output=vsync.TAIL_OBJECT,
+        prefix="", origin="reference-storage-context")
     for unit in config["units"]:
         for item in physical_objects(unit) + ordering_objects(unit):
             if Path(item["source"]).suffix not in {".cpp", ".c", ".asm"}:
@@ -181,7 +187,7 @@ def stage_sources(producers=(), prepared=None, work=None):
         dest.parent.mkdir(parents=True, exist_ok=True)
         dest.write_bytes(raw)
         os.utime(dest, (1792656000, 1792656000))
-        for line in () if name.endswith(".bmp") else raw.decode("latin1").splitlines():
+        for line in () if name.endswith((".bmp", ".lib")) else raw.decode("latin1").splitlines():
             match = re.match(r"^\s*#\s*include\s+(.+)", line)
             assembly = re.match(r"^\s*include\s+([^;\s]+)", line, re.I)
             if not match and not assembly:
@@ -270,6 +276,7 @@ def contributions(raw, omit_replaced=False):
             omit_replaced
             and (
                 replaced_contribution(line)
+                or vsync.replaced_contribution(line)
                 or (
                     "S=PLAYER_M_TEXT" in line
                     and 0x2432 <= int(line.split()[0].split(":")[1], 16) < 0x2C90
@@ -361,6 +368,7 @@ def review(previous=None, cold_build=False):
             r for r in owned if not r["raw_equal"] or not r["ordered_relocations_equal"]
         ]
         raise ValueError("tracked scope regressed: " + json.dumps(failed))
+    vendor_vsync = vsync.review(WORK)
     scopes = [extent(lo, hi) for lo, hi in SCOPES]
     if not all(s["raw_equal"] and s["ordered_relocations_equal"] for s in scopes[5:]):
         raise ValueError("native library bytes or literal relocation order differ")
@@ -375,6 +383,7 @@ def review(previous=None, cold_build=False):
         executable_sha256=sha(candidate_raw),
         owned_extent_config_sha256=sha(config_raw),
         new_scopes=scopes,
+        vendor_vsync_context=vendor_vsync,
         checked_owned_extents=len(owned),
         checked_owned_bytes=sum(r["bytes"] for r in owned),
         all_owned_raw_and_ordered_equal=True,
@@ -541,6 +550,20 @@ def review(previous=None, cold_build=False):
                 retired=sorted(player_retired), loaded_image_unchanged=True,
                 new_layout=player_layout,
             )
+        vsync_transfer = ("main.obj" in previous["objects"] and
+            next(x["size"] for x in segment_definitions(previous["objects"]["main.obj"])
+                 if x["name"] == "_DATA") == 0xB5C)
+        if vsync_transfer:
+            differences = [i for i, (a, b) in enumerate(zip(before.program_image, candidate.program_image)) if a != b]
+            if (len(before.program_image) != len(candidate.program_image)
+                    or differences != [0x1DB05]
+                    or (before.program_image[0x1DB05], candidate.program_image[0x1DB05]) != (0, 0x90)
+                    or before.relocations != candidate.relocations
+                    or vsync.public_rows(previous["map"]) != vsync.public_rows((WORK / "obj/th03/main.map").read_bytes())):
+                raise ValueError("vendor VSync transition changed unrelated bytes, relocations or publics")
+            result["vendor_vsync_transfer"] = dict(only_changed_load_offset=0x1DB05,
+                all_code_unchanged=True, complete_ordered_relocations_unchanged=True,
+                all_publics_unchanged=True, new_authored_credit=0)
         result["retired_objects"] = sorted(retired)
         result["map_contributions_unchanged"] = contributions(
             previous["map"]
@@ -667,7 +690,9 @@ def review(previous=None, cold_build=False):
                     raise ValueError("HITCIRC transfer changed linked bytes or layout")
             elif ("mst_pref.obj" in previous["objects"]
                     and old_root["_TEXT"]["size"] == new_root["_TEXT"]["size"]):
-                result["unlinked_CODE_unchanged"]["carrier"] = old_root == new_root
+                result["unlinked_CODE_unchanged"]["carrier"] = (old_root == new_root or
+                    (vsync_transfer and {k: v["size"] for k, v in old_root.items()}
+                     == {k: v["size"] for k, v in new_root.items()}))
             else:
                 # Externalizing library names changes unlinked fixup operands.
                 # Enforce unchanged non-library CODE layout and every linked
@@ -744,6 +769,9 @@ def build(rebuild_context=False, cold=False):
         "/t",
         "/dGAME=3",
     ]
+    if sha((prefix / "drive_c/TC4/BIN/TLIB.EXE").read_bytes()) != vsync.TLIB_SHA:
+        raise ValueError("pinned vendor extractor changed")
+    phases += [(dos + ["tlib", vsync.ARCHIVE.replace("/", "\\"), "*vs"], [vsync.OBJECT])]
     phases += [
         (tasm + ["th03_main.asm", r"obj\th03\main.obj"], ["obj/th03/main.obj"]),
         (
@@ -823,6 +851,7 @@ def build(rebuild_context=False, cold=False):
         moves = {
             item["output"]: item["emitted"] for item in producers if "emitted" in item
         }
+        moves[vsync.OBJECT] = "vs.OBJ"
         if producers:
             context_phases = []
             for item in producers:
@@ -846,6 +875,7 @@ def build(rebuild_context=False, cold=False):
             "obj/th03/score_hud.obj",
         }
         produced.update(item["output"] for item in producers)
+        produced.add(vsync.OBJECT)
         report["context_source_producers"] = producers
         context = {}
         for name in linked_objects():
@@ -856,11 +886,14 @@ def build(rebuild_context=False, cold=False):
                 path = prefix / "drive_c/TC4/LIB" / name.upper()
             context[name] = sha(path.read_bytes())
         report["retained_context_object_sha256"] = context
+        report["vendor_context"] = dict(archive=vsync.ARCHIVE, archive_sha256=vsync.ARCHIVE_SHA,
+            object=vsync.OBJECT, object_sha256=vsync.OBJECT_SHA, authored_credit=0)
         report["tools_sha256"] = {
             str(p.relative_to(ROOT)): sha(p.read_bytes())
             for p in (
                 prefix / "drive_c/TC4/BIN/TCC.EXE",
                 prefix / "drive_c/TC4/BIN/TLINK.EXE",
+                prefix / "drive_c/TC4/BIN/TLIB.EXE",
                 prefix / "drive_c/TASM50/bin/TASM32.EXE",
                 ROOT / "_reference/ReC98/bin/msdos.exe",
             )

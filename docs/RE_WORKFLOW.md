@@ -47,7 +47,9 @@ th03_run scripts/review_th03_zun_ongchk_work.py
 ```
 
 OP/MAINL/ZUN complete-file equality includes DIET storage. It does not imply
-whole-product source ownership. MAIN still has whole-image/header/order gaps.
+whole-product source ownership. MAIN retains one CODE alignment byte and its MZ header gap; all literal
+relocations match. Its VS module is explicitly prebuilt vendor context, freshly
+extracted during each otherwise source-rebuilt game graph.
 
 After new OP or MAINL cold pairs, refresh their joint input/ending-wait witness:
 

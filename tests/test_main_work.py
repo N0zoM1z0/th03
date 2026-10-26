@@ -39,7 +39,7 @@ class MainWorkTests(unittest.TestCase):
             # Supply the actual unchanged OMF/MAP context for image mutations.
             native = root / "obj/th03"
             native.mkdir(parents=True)
-            for name in ("main.map", "main.obj", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
+            for name in ("main.map", "main.obj", "mst_tail.obj", "vs.obj", "eforna.obj", "efornb.obj", "eupda.obj", "eupdb.obj",
                          "gf_ctx.obj", "execl.obj", "tr_ctx.obj", "ex_rfly.obj", "ex_reup.obj", "lose.obj", "p_combo.obj", "p_cmbhl.obj", "core.obj", "results.obj", "shots.obj"):
                 shutil.copyfile(work.WORK / "obj/th03" / name, native / name)
             with patch.object(work, "WORK", root):
@@ -154,7 +154,7 @@ class MainWorkTests(unittest.TestCase):
         self.assertEqual(0x272 + segments[0]["size"], 0xB4F)
         self.assertEqual(self.image.program_image[0xB4F], 0)
         self.assertEqual(self.run_image(self.raw)["complete_program_differing_bytes"],
-                         [0xEC2D, 0x1DB05])
+                         [0xEC2D])
 
     def test_library_body_ends_before_the_natural_joystick_boundary(self):
         raw = (work.WORK / "obj/th03/mst_body.obj").read_bytes()
@@ -201,20 +201,21 @@ class MainWorkTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "player composition: complete literal MZ relocation vector differs"):
             self.run_image(raw)
 
-    def test_all_context_objects_have_maintained_source_producers(self):
+    def test_all_context_objects_have_source_or_pinned_vendor_producers(self):
         producers = work.context_producers()
-        # Four context producers retire; two direct sources become three TUs.
-        self.assertEqual(len(producers), 85)
-        self.assertEqual(len({p["output"] for p in producers}), 85)
+        # The real storage tail adds one source producer; VS is attested vendor context.
+        self.assertEqual(len(producers), 86)
+        self.assertEqual(len({p["output"] for p in producers}), 86)
         for producer in producers:
-            if producer.get("origin") == "reference-library-context":
-                self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm"})
+            if producer.get("origin") in {"reference-library-context", "reference-storage-context"}:
+                self.assertIn(producer["source"], {"th03/mst_pref.asm", "th03/mst_body.asm", "th03/mst_tail.asm"})
                 self.assertTrue((ROOT / producer["recipe"]).is_file())
             else:
                 self.assertTrue((ROOT / producer["source"]).is_file())
         outputs = {p["output"] for p in producers}
         outputs.update(work.object_path(s) for s in work.SOURCES)
-        outputs.update({"obj/th03/main.obj", "obj/th03/score_hud.obj", "c0l.obj"})
+        outputs.update({"obj/th03/main.obj", "obj/th03/score_hud.obj", "c0l.obj", work.vsync.OBJECT})
+        self.assertEqual(work.vsync.review(work.WORK)["object_sha256"], work.vsync.OBJECT_SHA)
         self.assertEqual(outputs, set(work.linked_objects()))
 
     def test_character_setup_and_primitives_are_complete_native_objects(self):
@@ -305,7 +306,7 @@ class MainWorkTests(unittest.TestCase):
         lo, hi = next(self.extents())
         raw = bytearray(self.raw)
         raw[self.image.header.header_paragraphs * 16 + hi - 1] ^= 1
-        with self.assertRaisesRegex(ValueError, "player composition: whole payload changed outside the two open alignment bytes"):
+        with self.assertRaisesRegex(ValueError, "player composition: whole payload changed outside the remaining input alignment byte"):
             self.run_image(raw)
 
     def test_each_native_owner_last_byte_mutation_is_rejected(self):
@@ -323,7 +324,7 @@ class MainWorkTests(unittest.TestCase):
                     if unit["id"] in {
                         "th03-main-executable-chain", "th03-main-demo-transition"
                     }
-                    else "player composition: whole payload changed outside the two open alignment bytes"
+                    else "player composition: whole payload changed outside the remaining input alignment byte"
                     )
                 )
                 with self.assertRaisesRegex(ValueError, error):

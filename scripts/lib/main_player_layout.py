@@ -127,7 +127,7 @@ def verify(work, target, candidate):
     need(cursor == 0x5218, "complete player tail boundary differs")
     need(len(target.program_image) == len(candidate.program_image) == 124642, "whole payload size differs")
     differences = [i for i, (a, b) in enumerate(zip(target.program_image, candidate.program_image)) if a != b]
-    need(differences == [0xEC2D, 0x1DB05], "whole payload changed outside the two open alignment bytes")
+    need(differences == [0xEC2D], "whole payload changed outside the remaining input alignment byte")
     need(len(target.relocations) == len(candidate.relocations) == 1553
          and target.relocations == candidate.relocations, "complete literal MZ relocation vector differs")
     return dict(producers=observations, code_bytes=4644, functions=27, private_data_bytes=0,
