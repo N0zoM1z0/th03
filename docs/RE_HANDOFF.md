@@ -1,16 +1,15 @@
 # TH03 handoff
 
-Reconstruction checkpoint: 2026-10-26, after `9402601`. OP's entire487-byte
-entry DATA now has semantic/native and actual-consumer contracts. The natural
-entry TU owns all15 procedures/3,094 CODE plus487 initialized DATA bytes; its
-six BSS bytes start at the decoded image end and remain separate. MAINL's
-staff TU retains19 procedures/3,695 CODE plus224 initialized DATA bytes.
-Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
-and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before work.
-Detailed findings and witnesses live in source, `config/knowledge.csv`,
-`config/evidence.csv` and the current review reports; this is a resume map.
+Prepared 2026-10-26. Accepted reconstruction checkpoint: **`bcdf24a`**, pushed
+on `main`. Music Room work after that checkpoint is an unaccepted private draft.
+The reconstruction goal was cleared; no reconstruction probe remains running.
 
-## Verified state
+Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
+and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
+Detailed findings live in maintained source, `config/knowledge.csv`,
+`config/evidence.csv`, tests and current review reports.
+
+## Accepted state
 
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
@@ -19,242 +18,116 @@ Detailed findings and witnesses live in source, `config/knowledge.csv`,
 | MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
-OP includes22 compiler switch/separator bytes with separate proof. ZUN accepts
-8,635 CODE+DATA bytes: authored2,179, original ASM1,390, library5,066. No honest
-whole-game source/function denominator or completion percentage is known.
-Use [generated progress](PROGRESS.md) and the ledgers for current accounting.
+OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
+CODE+DATA bytes:authored2,179, original ASM1,390, library5,066. Whole-game
+source/function denominators and a completion percentage remain unknown.
 
-OP/MAINL/ZUN current source-only cold pairs repeat every raw output and match
-complete decoded **and canonical DIET `-B` stored targets**. This includes
-unowned reference/vendor context and does not establish whole-product source
-ownership. Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
-MAIN repeats101 raw outputs/99 native objects; its whole file is still unequal.
+OP/MAINL/ZUN current source-only cold pairs repeat all outputs and match complete
+decoded and canonical DIET `-B` stored targets. Unowned reference/vendor context
+is still present; this does not prove whole-product source ownership. MAIN
+repeats101 outputs/99 objects but its whole file/header/relocation order differs.
 
-Last completed reconstruction CI: **2,413 tests, 284 optional archive skips, all
-checks passed**;10m40s, about563 MiB peak RSS, no swap. CPU16/nice10 was used.
+Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
+Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
+Post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
+passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
 
-## Resume
+## Next work: Music Room draft
 
-1. Inspect Git, run `.venv/bin/python scripts/preflight.py`, and re-attest the
-   selected database before using it: `scripts/ghidra.py th03-mainl check`.
-2. Next: OP Music Room and BSS initialization/ownership, remaining MAINL
-   cutscene/registration, ZUN ownership and the four-product source/link graph.
-   Ending-to-roll aggregate composition is
-   still separate from individual function ownership. Whole-product completion
-   stays open.
-3. Preserve complete raw bytes, literal ordered relocations, natural ownership,
-   ABI/layout, independent affected-behavior contracts and cold reproducibility.
-   End with focused checks, full CI, whitespace checks and an English
-   `gpt-6.1-sol: ...` commit; push checkpoints.
+Preserved locally in **`.analysis/work/op-music-state-draft/`**:
 
-Use the [workflow](RE_WORKFLOW.md) for full dependency/rebuild/publication order
-and [script index](../scripts/README.md) for entry points. Current OP/MAINL
-chains: `review_th03_op_entry_data_work.py` and
-`review_th03_mainl_staff_roll_work.py`. `--current-cold` revalidates the
-entire existing source/SDK/recipe/output graph and reruns only that stage; it
-cannot repair stale prerequisites. After OP/MAINL cold changes, refresh
-`review_th03_shared_input_work.py`. Do not rebuild unchanged products gratuitously.
+- `README.txt`: exact observations, failed control and remaining gates.
+- `op_music_state_layout.py`, `op_music_state_runtime.py`: provisional modules;
+  restore both to `scripts/lib/` before running them.
+- Native instruction/field dump and four-function/matrix/control probe logs.
 
-## Current MAINL proofs and hazards
+No draft source was promoted into the product, ledgers or publications.
+The maintained Music Room source already exists in `src/op/music/` as three
+bounded includes. Its natural `th03/op_music.cpp` producer contains2,244 CODE,
+1,008 DATA and1,060 BSS bytes. The next existing ledger unit is
+`th03-op-decoded-music-state-and-tracks`:complete216 CODE bytes/four procedures
+at0990:0C1E,with12 ordered native fields and4 ordered MZ relocations.
 
-Shared CS/DS: `0C7E/0E3F`; staff CS:`095F`. PiHeader is72 bytes, CDG slot16.
-PI buffers/headers: DS:`1F0E/1F26`; CDG slots:`1D0E`.
-Each command below is `review_th03_mainl_<suffix>_work.py --current-cold`.
+Draft layout passed. One target/load3000 runtime passed889 cases plus two actual
+snapshot/free pairs and executed all216 bytes. This is **not** a complete
+acceptance review. The negative-control run stopped at `page-field`:mutating
+2039->2038 survives page0 because the adjacent byte is also0. Make that fixture
+discriminate behavior,then audit remaining controls,constructor-failure handling,
+both images/two loads and complete cold/SDK/source bindings.
 
-| Scope | CODE bytes | Suffix / essential boundary |
-| --- | ---: | --- |
-| PI release | 76 | `pi_free`; real HMEM_FREE remains a bounded unowned reply |
-| Five PI callers | 555 | `pi`; actual release/memcpy, wrapped row WORD before normalization |
-| Five CDG loaders | 593 | `cdg`; unchecked BYTE counts through255, live metadata aliases |
-| Three CDG blitters | 493 | `cdg_draw`; actual SMC/color setup, three outer EVEN bytes unowned |
-| Ending entry | 280 | `ending`; live resident/script state, returning execl failures |
-| Flake/unput | 199 | `staff_draw`; real caller coordinate writes, inherited DF |
-| Seven snow procedures | 464 | `snow`; one extent/seven procedures, real RNG/vector/flake |
-| Enter/leave/gallery | 446 | `staff_callers`;443 executed bytes plus3 proved unreachable |
-| Hold controller | 139 | `staff_hold`; actual two-stage loops and two waiting CFG proofs |
-| Single controller | 229 | `staff_single`; actual entrance/exit loops and two final far-helper/tick sequences |
-| Pair controller | 358 | `staff_pair`; live secondary/alpha/frame state and two reachable WORD-wrap clamps |
-| Verdict | 389 | `staff_verdict`; full far pointers, fixed score loop and live renderer replies |
-| Roll | 980 | `staff_roll`; actual owned children,257 input/199 fade iterations,32 frees |
+Preserve BYTE arguments in WORD slots,all21 list entries,raw page wrap,live page
+and pointer reloads after text callbacks,and all8,000 explicit DWORD snapshot
+iterations. DF does not change that copy's direction;source WORD offsets wrap,
+source/destination overlap is live,and allocator AX0 is not checked. Actual
+producer SDK inputs include `mem.h`,outside the current CFG five-header set.
 
-The natural `STAFFP_TEXT` TC4 producer is `src/mainl/staff/data.cpp`, copied
-literally to `staffdat.cpp`, GAME3/L:19 procedures/3,695 CODE bytes,224 initialized
-DATA, no BSS. All19 procedures/3,695 CODE bytes and all224 DATA bytes now have
-scoped ownership. Complete current938-output cold pairs bind
-nine consumed SDK headers with per-producer fail-closed dependency checks and
-normal893-member TLIB order. First-use GAME3/O shared producers remain unchanged.
+Subsequent scope remains Music Room animation/menu,OP BSS initialization,
+remaining MAINL cutscene/registration,ZUN ownership and the four-product
+source/link graph. MAINL is the ending. Ending-to-roll aggregate composition
+remains separate from individual function ownership.
 
-The listed resource/staff contracts check DWORD/segment state, defined flags/IF/DF,
-ordered stores/ports and full flat memory without ignored stack windows. Both native
-far return words are checked at callee entry because UC can omit write hooks.
-Owned returns are checked before parent restoration can mask ABI corruption.
-External data, DOS/library/device replies, assets, planar pixels/latches and
-physical IRQ/audio/timing remain explicit unowned boundaries.
+## Proof boundaries to preserve
 
-- PI interlace heightFFFF has a conditional closed CFG/even-WORD invariant;
-  checked prefixes are separate from returning calls. CDG LOOP width0 actually
-  executes65,536 iterations; REP0 writes nothing. Native finite recurrences and
-  disjoint mapped-memory/stable-SMC assumptions are bound in the verifiers.
-- Flake cel is not capped to4; WORD shifts fold it to4,096 source offsets.
-  Unput centers signed halves toward zero but clears unsigned width>>4 WORDs
-  over three REP rows. DF0 row delta80;DF1 delta80-4*count moduloWORD. A WORD at
-  FFFF spans physical bytes. Sprite/table ownership is a separate DATA scope.
-- Snow capacity is an unchecked BYTE through255. Particle80 aliases FRAME27C2,
-  PAGE27C4/SLOW27C5 and ADAPT27C6. Preserve live reads across spawn/update/render/
-  adaptation. Actual vector DWORD effects and the unsanitized angle WORD's high
-  byte are checked; its69 library bytes/tables remain unowned. The immutable-zero
-  counter wait at270E has a conditional CMP/JE invariant, never a timeout proof.
-- Dissolve masks strength in the real caller WORD. Signed IDIV16 quotient0
-  executes65,536 WORD ANDs; unsigned postincrement rows can also reach65,536.
-  Both maxima execute separately. The combined2**32 bound is mathematical,
-  explicitly not a claimed executed maximal fixture.
-- Enter INT0 at2885 retains15 zero-divisor durations(-7..7), or frame8000 and
-  eight durations(-15..-8) yielding divisor-1, subject to signed frame<=duration.
-  Pre-handler registers/stack/memory and IF/DF pass; no arithmetic-flag/return/
-  handler credit follows. A fresh UC clears hidden stopped-exception state,
-  retaining exact memory when persistent reentry is requested.
-- Leave MOV SI,7 at2925..2928 is proved unreachable under readonly frame and
-  disjoint memory: signed frame<160 implies trunc(frame/20)<=7 over all WORDs.
-  All three raw bytes still require native equality; execution/control totals
-  exclude them. Bytebox is an explicit unowned ABI reply.
-- Hold executes normal no-music257+257 iterations,514 ticks and8,224,000 real
-  clear WORD callbacks. Counter0 and music-measure-below-request prefixes are
-  separate. The latter proof fixes cap0,duration640,speed3,canonical pages,
-  centers[180,280],valid immutable slot metadata,returning counter replies and
-  PMD0/no DATA writes. Its full frame-WORD domain is safe for IDIV80; gate stays
-  false under those assumptions. No guest step is skipped or budget expiry used.
-  All139 owner bytes and1,503 context bytes execute;69 vector bytes stay unowned.
+- OP entry owns all15 procedures/3,094 CODE and487 initialized DATA bytes.
+  BSS6 starts exactly at decoded image end0E97A and is not file-backed.
+  DATA consumers cover472 bytes with3,769 semantic bit controls. Type strings15
+  remain static only in these fixtures;static-only does not mean unreachable.
+  Unchecked story indices221/223/225/227 read unnamed spaces and reach a closed
+  retry loop;229 reads their NUL and returns. Demo255 also aliases prior data.
+- OP startup is far cdecl/noargs/RETF;init filename cleanup is caller4. Actual
+  owned children share one UC. Root frames/new primitive stack bytes are checked;
+  inherited windows remain main96,option64,wait/VS80. Held descendants retain
+  full SP through intermediate frames. Short CFG/raw-dispatch prefixes are
+  separate from returns. Keep natural `samecodeseg` relaxation. Prior complete
+  observations remain bound to d118c46,dbf8a52 and9402601.
+- MAINL staff TU owns19 procedures/3,695 CODE plus224 DATA. Whole roll returns
+  execute257 input/199 fade iterations,32 frees and7,616,000 clear WORD callbacks,
+  peak stack78,no ignored stack. No-input prefixes are separate. Native faults,
+  raw BYTE/WORD aliases,live particle80/81 fields and SMC remain intentional.
+  See the staff/resource verifiers and knowledge ledger for exact conditions.
+- MAINL sound retains explicit trailing NOP/layout questions. ZUN reserved
+  DATA3+9 bytes and vendor context remain open. Do not manufacture padding or
+  empty segments. MAIN still differs at EC2D and1DB05 (target90/candidate00),
+  headers6,240/7,680 bytes,and ordered relocation record1072 onward.
 
-- Single initializes raw page/XOR1 for every speed; hold/pair use fixed pages0/1
-  at default speed. Tick still uses BYTE(1-page). At page255/speed2,enter moves
-  center255 to262,leave decrements center2 from0 toFFFF;center254 stays263.
-  No-music execution is257+257 phase iterations plus two final ticks:516 ticks,
-  8,224,000 real clear WORD callbacks and four bytebox replies. All229 owner and
-  1,688 reachable context bytes execute;three leave-clamp bytes stay unreachable.
-  Full-capacity0..255 cases keep raw aliases with zero graphics width and initial
-  requested/enabled/secondary0;other lanes execute real nonzero-width blitters.
-  Ordinary geometry at cap82 can exceed the bounded flat graphics interface.
-  The quiet cap82 fixture ends cap82/frame1/page128/secondary93 after four ticks,
-  retaining live particle80/81 writes even after PMD frame193 replies.
-- Pair uses WORD(slot-1) metadata and live secondary_y/alpha state. It stores
-  enabled1 around paired draws,while requested0 still selects noalpha. The native
-  MOV DI,7 at2B57 is reachable exactly at frame161 and8000;primary leave's MOV SI,7
-  stays unreachable. DEC AX wraps before signed IDIV20 at2B4E;quotients range
-  -1638..1638 before upper clamp7. Actual cases cover both clamps and IF/DF.
-  Reload frame after real leave:bytebox replies can change the second predicate,
-  select dissolve instead of box,or skip the branch and retain raw enabled7.
-  Raw PAGE==0 decrements secondary_y,including0->FFFF. No-music loops execute
-  516 ticks,8,224,000 clear WORD callbacks and six bytebox replies;secondary_y
-  finishes119. All358 owner/1,688 reachable context bytes execute,with89 rejected
-  instruction controls. Readonly-clock and closed-entrance prefixes stay separate;
-  the latter additionally fixes valid readonly slot0 and secondary_y200.
+## Retained local state and commands
 
-- Verdict's `_mainl_staff_verdict` is near/noargs,ENTER4/saved SI/DI/RET. Its
-  renderer0C7E:09B7 is far Pascal pop10:three WORDs plus a far string DWORD.
-  Local table fields use SEGDEF2/FIXDAT14,not EXTDEF2;table offsets132/168/184
-  resolve to0AE2/0B06/0B16. Eight score bytes8..1 drive a fixed eight-step loop;
-  score byte0 aliases continues_used. The two continues draws retain DI while
-  reloading the far pointer. Three skill BYTE reads remain live across replies.
-  All389 bytes execute in22,288 returns/image;93 instruction controls reject.
-  All memory/native frames/DWORD state/defined flags pass,peak24,no ignored stack.
-  Renderer body,strings and physical text/pixels remain unowned;the separate
-  DATA scope below owns its far-pointer table storage.
+Keep fixed Japanese targets/assets (`candidate-local-attested`),the local Wine
+prefix,TC4/TASM/JWasm,`.tools/ghidra`,`.tools/jdk`,`.venv`,
+`_reference/ReC98` and `ghidra-project/`. Ghidra/JDK attest their entire trees,
+including documentation/archives;do not trim them. No Factory MCP or GUI tools.
+One working build per product under Wine `drive_c/`:
+`TH03WORK`, `TH03OP`, `TH03ML`, `TH03ZUN`.
 
-The separate DATA scope owns only224 bytes,zero procedures:ending pointer4,
-sprite64,masks64 and verdict far tables92. One LEDATA,six publics,24 literal
-LOCAT CC/FIXDAT16/DGROUP2 external pointer fields and their ordered MZ segment
-relocations pass. const near sFLAKE is DATA,not a separate CONST segment.
-Actual accepted consumers complete236 calls/image at two loads and read216 bytes;
-1,712 single-bit mutations reject through independent semantic outputs after
-both scalar and UC receive the mutant. Zero-strength mask8 is static only;
-script segment WORD has static/full-load checks without behavior-mutation credit.
-Existing CODE scopes' DATA exclusions are historical;only this separate storage
-scope supersedes them. Pointees,renderer and physical pixels remain unowned.
-
-Roll's108 ordered native fields,34 MZ sites,22 near/34 far call sites and all980
-owner bytes pass. Each image/two loads executes six whole near returns,8,748
-preparation boundaries and six separate no-input prefixes. Every whole return
-runs257 input and199 odd-frame fade iterations,32 actual CDG frees and7,616,000
-clear WORD callbacks;peak78,no ignored stack.15 owner+2 context controls reject.
-Skill wraps BYTE before unsigned clamp100;case3 falls through4. Load uses
-MIDI!=0,kaja exactly1. Conditional DI0/input0 wait has bound1/3/7-cycle prefixes,
-not near returns. Native call-target mapping prevents premature return checks
-at unrelated nested calls. No guest iterations are skipped or budget expiry used.
-The new full roll review took8m35s,about221 MiB RSS. Full unit report:
-`.analysis/work/mainl-staff-roll-build.json`. Hardware/pointees remain unowned.
-
-## Other open work
-
-- OP's natural entry producer owns15 procedures/3,094 CODE and its entire487
-  initialized DATA bytes. The DATA scope adds zero functions, one LEDATA,27
-  publics,46 semantic declarations/literal groups and no relocations/holes.
-  Independent gaiji ranges,opponent identities,demo pairings/DWORD seeds and
-  Unicode-to-CP932 messages match all bytes. Actual consumers check94 entries
-  per image/two loads:86 returns/eight closed story prefixes,reading472 bytes through native operands or actual
-  pointer-derived bounded text/file readers. All3,769 bit controls reject at
-  semantic outputs/register transfers/real CRT stack copies. Type strings15
-  stay static only in these fixtures;in_main's seven high-bit flips remain
-  nonzero true and receive no invented behavior credit. Demo255 wraps to0 and
-  reads neighboring VS/pairing bytes. Story characters221/223/225/227 read the four
-  unnamed spaces and reach the existing closed retry loop;229 reads their NUL
-  and returns normally. Static-only does not mean globally unreachable.
-  Full DATA review:1m16s/about314 MiB RSS, no swap.
-  Report: `.analysis/work/op-entry-data-build.json`.
-  BSS6 starts exactly at the decoded image end0E97A;file-backed credit does
-  not follow. Preserve its separate initialization/layout question. Music Room,
-  graphics/resources and vendor context also remain open.
-- Startup is far cdecl/noargs/RETF;init filename cleanup is caller4. Actual
-  owned init/planes,CFG,input/delay,menus/attract and exit share one UC;CRTcopy28
-  and sound-mode29 stay context. Root frames/new primitive stack bytes are
-  checked;inherited private windows remain main96,option64,wait/VS80. Held story
-  exports full SP through the main frame. Short CFG and raw in_option2..255
-  CDG-write prefixes remain separate from returns and keyboard reachability.
-  Keep ordinary samecodeseg far-call relaxation. Eight old observations remain
-  equal to d118c46,main-menu to dbf8a52,and the full startup observation to9402601.
-- MAINL sound mode/PMD/volume/reset still have explicit trailing NOPs. Unpadded
-  bodies exist but natural enclosing layout is open. Generated WORD/BYTE
-  alignment controls are diagnostics. Five root helpers own150 bytes; three
-  adjacent NOPs remain unowned.
-- ZUN's five payloads have native producers. ONGCHK owns892 CODE+34 DATA bytes;
-  42 BSS bytes are not file-backed. Driver-4's55 procedures/header/tables/natural
-  CODE layout pass, but3+9 reserved DATA bytes and vendor/runtime context remain
-  open. Do not add an empty segment to force trailing storage. All native loops
-  execute; the optimized audit reproduces original complete traces.
-- MAIN's124,642-byte image differs only at EC2D and1DB05: target90/candidate00.
-  Headers:6,240/7,680 bytes. Of1,553 ordered relocations, first1,072 match and242
-  positions differ. Next mismatch: record1072/DC42, state/MAIN_010_TEXT. Shot's
-  twelve far calls split7/5 around state records; a combined TU reaches only
-  record1073. EC2D follows input_sense RETF before snd_se_reset;1DB05 is DGROUP:
-  05A5 between vsync_OldMask and BYTE_MASK. Ordinary TASM/MASM51/QUIRKS emit zero;
-  OP's Music Room fix does not explain these bytes. Do not manufacture padding.
-- Keep combo P_COMBO_TEXT/MAIN_04 identity, far-Pascal ABI and samecodeseg
-  relaxation. Loss renderer near-member ABI and128-byte player layout are
-  proved; original class/file organization remains an inference.
-
-## Local state and checks
-
-Retain fixed Japanese private targets/assets (`candidate-local-attested`),
-`.analysis/toolchain/wineprefix`, TC4/TASM/JWasm, `.tools/ghidra`, `.tools/jdk`,
-`.venv`, `_reference/ReC98` and `ghidra-project/`. Ghidra/JDK attest their entire
-installed trees, including documentation/archives; do not trim them.
-One working build/product: `drive_c/{TH03WORK,TH03OP,TH03ML,TH03ZUN}`.
-Current reports: `.analysis/work/*-build.json` and `main-unit-review.json`.
-
-Required actual source input, despite its old directory name:
+Required actual source input:
 `.analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar`.
-Keep `scripts/lib/zun.py` unchanged: MAIN's promoted serial schedule pins it.
-OP's builder is a shared MAINL/ZUN utility; real edits require fresh bound pairs.
+Keep `scripts/lib/zun.py` unchanged;MAIN pins it. OP's builder is a shared
+MAINL/ZUN utility;real edits require fresh bound pairs. Current reports are
+`.analysis/work/*-build.json` and `main-unit-review.json`.
 
 ```sh
-taskset -c 16 nice -n 10 env DISPLAY= WAYLAND_DISPLAY= \
-  _JAVA_OPTIONS='-Xmx768m -XX:ActiveProcessorCount=1' \
-  .venv/bin/python scripts/ci.py
+th03_cpu=16  # choose an allowed CPU on another host
+th03_run() {
+  taskset -c "$th03_cpu" nice -n 10 env DISPLAY= WAYLAND_DISPLAY= \
+    _JAVA_OPTIONS='-Xmx768m -XX:ActiveProcessorCount=1' .venv/bin/python "$@"
+}
+th03_run scripts/preflight.py
+th03_run scripts/ghidra.py th03-op check
+th03_run scripts/ci.py
 git diff --check
 ```
 
-Choose one allowed CPU on another host. Serialize Borland/Wine writers and
-preserve the prefix. System Python's Unicorn is unsuitable; use `.venv`.
-Old logs/experiments/caches/receipts are disposable; references alone do not
-require retention. Preserve actual current inputs/builds/proofs. Cleanup previews
-by default; after CI, `clean_generated.py --caches-only --apply` leaves `.analysis`
-alone. See the workflow for guarded cleanup and publication commands.
+Current full review chains: `review_th03_op_entry_data_work.py`,
+`review_th03_mainl_staff_roll_work.py`, `review_th03_zun_ongchk_work.py`.
+`--current-cold` revalidates the entire unchanged native graph and reruns the
+selected stage;it cannot repair stale prerequisites. Do not rebuild unchanged
+products. Serialize Borland/Wine writers and preserve the prefix.
+
+Old logs,experiments,caches,receipts and installer downloads are disposable;
+references alone do not require retaining obsolete runs. Preserve actual current
+inputs/builds/proofs and the explicitly retained Music Room draft. Use guarded
+cleanup previews;`--caches-only --apply` leaves `.analysis` untouched.
+
+Cleanup removed approximately1.9 MiB of obsolete logs/experiments/caches. The
+Music Room draft,all guarded current proofs,required source archive and the four
+working builds were retained. No accepted ledger or publication was changed.
