@@ -1,9 +1,9 @@
 # TH03 handoff
 
-Prepared2026-10-26. Current committed checkpoint **`c024ae9`**,main ahead four.
-Player-state ownership work is staged,not committed. Factory MCP is authorized.
-MAIN's existing player-state C++ body now has a distinct bounded owner;whole-file
-exactness remains open. Existing full CI is pending at note writing.
+Prepared2026-10-26. Current committed checkpoint **`e824cc1`**,main ahead five.
+Remaining player-family ownership is staged,not committed. Factory MCP is authorized.
+Nine existing C++ bodies now have four distinct bounded owners;whole-product
+source exactness remains open. Existing full CI is pending at note writing.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -14,7 +14,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
-| MAIN | 446 functions / 76,423 CODE bytes / 99 extents | Open |
+| MAIN | 455 functions / 78,530 CODE bytes / 103 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
 | MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
@@ -34,6 +34,23 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAIN remaining player-family ownership
+
+Four complete native owners add existing render/overlay/knock/bomb610,
+stage-shot sprites173,round reset/results1060 and shots_add264:9 functions,
+2,107 bytes/748 instructions. No new implementation. Explicit complete
+core3135/results1060/shots449 partitions preserve all prior owners,including
+the distinct185-byte shots update/render suffix. Native records/publics/MAP,
+raw bytes and literal ordered relocations remain checked; no external DATA/BSS
+or callback ownership. Near-this loss member RET2 is not a far callback.
+
+Existing full two-cold replay passes all11 exact requirements,repeats100 outputs/
+98 objects,and retains103 extents/78,530 bytes plus all1,553 literal MZ entries.
+See `MAIN_PLAYER_FAMILY_REVIEW.md` and
+`config/main_work/player_family_acceptance.json`. No new runtime harness or
+executed-body claim. Full CI pending at writing; final receipt reported separately.
+Historical snapshots below remain dated prior observations,not live counters.
 
 ## MAIN player-state ownership recovery
 

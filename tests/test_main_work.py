@@ -58,7 +58,7 @@ class MainWorkTests(unittest.TestCase):
         result = self.run_image(self.raw)
         self.assertEqual(
             (result["checked_owned_extents"], result["checked_owned_bytes"]),
-            (99, 76423),
+            (103, 78530),
         )
         self.assertTrue(all(s["raw_equal"] for s in result["new_scopes"]))
         self.assertTrue(result["new_scopes"][2]["ordered_relocations_equal"])
@@ -325,7 +325,7 @@ class MainWorkTests(unittest.TestCase):
                         "th03-main-executable-chain", "th03-main-demo-transition"
                     }
                     else ("player composition: complete linked body differs"
-                          if unit["id"] == "th03-main-player-state-update"
+                          if unit["object"] in {"core", "results", "shots"}
                           else "player composition: whole payload changed outside the remaining input alignment byte")
                     )
                 )

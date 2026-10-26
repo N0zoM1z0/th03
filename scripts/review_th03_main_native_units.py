@@ -34,7 +34,13 @@ CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry", "th03-main-roun
 STAGE_OWNERS = {"th03-main-stage-round"}
 PALETTE_OWNERS = {"th03-main-stage-palette"}
 CHARACTER_OWNERS = {"th03-main-character-setup"}
-PLAYER_STATE_OWNERS = {"th03-main-player-state-update"}
+PLAYER_STATE_OWNERS = {
+    "th03-main-player-state-update",
+    "th03-main-player-render-knock-bomb",
+    "th03-main-stage-shot-sprites",
+    "th03-main-round-results",
+    "th03-main-player-shots-add",
+}
 HANDOFF_OWNERS = {"th03-main-executable-chain", "th03-main-demo-transition"}
 
 

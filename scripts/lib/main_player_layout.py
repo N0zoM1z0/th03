@@ -61,21 +61,29 @@ CORE_PARTITION = [
     (0x3FF4, 284, "th03-main-player-move"),
     (0x4110, 595, "th03-main-hyper-dispatch"),
     (0x4363, 1106, "th03-main-player-state-update"),
-    (0x47B5, 610, None),  # render131 / overlay209 / knock151 / bomb119
+    (0x47B5, 610, "th03-main-player-render-knock-bomb"),
     (0x4A17, 367, "th03-main-player-state"),
-    (0x4B86, 173, None),  # stage-shot sprite context
+    (0x4B86, 173, "th03-main-stage-shot-sprites"),
 ]
 
 
+PARTITIONS = {
+    "core": CORE_PARTITION,
+    "results": [(0x4C33, 1060, "th03-main-round-results")],
+    "shots": [(0x5057, 264, "th03-main-player-shots-add"),
+              (0x515F, 185, "th03-main-shots")],
+}
+
+
 def core_ownership(unit, units):
-    """Bind the one current core owner through a complete, explicit partition."""
-    core = PRODUCERS[0]
-    need(unit["id"] == "th03-main-player-state-update"
-         and unit["object"] == "core" and unit["map_module"] == core["source"],
-         "unexpected core owner")
+    """Bind a reviewed player-family owner without recounting historical peers."""
+    core = next(p for p in PRODUCERS if p["object"] == unit["object"])
+    partition = PARTITIONS[core["object"]]
+    need(unit["id"] in {owner for _, _, owner in partition}
+         and unit["map_module"] == core["source"], "unexpected player owner")
     cursor = core["start"]
     expected = []
-    for start, size, owner in CORE_PARTITION:
+    for start, size, owner in partition:
         need(start == cursor and size > 0, "core partition gap or overlap")
         cursor += size
         if owner:
@@ -92,9 +100,9 @@ def core_ownership(unit, units):
     need((extent["segment"], extent["map_segment"], extent["map_group"], extent["map_acbp"])
          == (0x96E, core["segment"], "MAIN_01", 28), "core owner frame differs")
     return dict(extent=dict(extent, start=core["start"], size=core["size"]),
-                owners=[owner for _, _, owner in CORE_PARTITION if owner],
+                owners=[owner for _, _, owner in partition if owner],
                 functions=[dict(offset=core["start"] + offset) for offset, _ in core["publics"]],
-                partition=[dict(start=start, size=size, owner=owner) for start, size, owner in CORE_PARTITION])
+                partition=[dict(start=start, size=size, owner=owner) for start, size, owner in partition])
 
 
 def need(value, message):

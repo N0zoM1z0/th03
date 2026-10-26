@@ -1,0 +1,930 @@
+{
+  "schema_version": 1,
+  "artifact": "th03-main",
+  "provenance": "candidate-local-attested",
+  "scope": "Existing remaining player-family CODE ownership; four disjoint owners, nine complete functions",
+  "observed_utc": "2026-10-26T07:42:01.506042+00:00",
+  "product_exact": false,
+  "new_exact_functions": 9,
+  "new_exact_bytes": 2107,
+  "instruction_count": 748,
+  "source_sha256": {
+    "config/th03_main_exact_units.toml": "0e0d5294c73c39c742db03e7ad809429f4b335c0c8162204610326f8a05d98c9",
+    "scripts/lib/main_player_layout.py": "13fc490ecae24d6473421b19b4bf6cf014bd1f7bd5640a1099aa733a2a593676",
+    "scripts/review_th03_main_native_units.py": "a97151e874f16e90a91faab4da698f5f376891e4becfa671980a04efee8858f6",
+    "src/main/player/bomb.inl": "85c539314752e8a1edecd74ae73206cde12166e8faf2d8f29aa6bae4cad272c4",
+    "src/main/player/core.cpp": "b8cc718ab9ee64d0de64215d2fa80c2bf8b9f51938f362604111cb70a7f7b657",
+    "src/main/player/knock.inl": "8aa2d7933fd405bd33b37753c7edfdf96bfaac17e1b758cea213a34259066dda",
+    "src/main/player/overlay.inl": "2b5b3be44d57f20f73ed60f00e610ea0ad35223164a6e2dd13ef8a7d2b02a383",
+    "src/main/player/render.inl": "105708ffcfbdffc261d64b1609905111cfc9eadafa34219aac3eb002fa2f6029",
+    "src/main/player/shot_sprites.inl": "78abbf80c81eaba7affe215d6c51c4d6ddcadbf4d964283cdb3c461e631357db",
+    "src/main/player/shotroot.hpp": "5bc0e0f8e736681fee510428cd58cc7f3fc1ec4527a89692b0d455a9ad067ee1",
+    "src/main/player/shots.cpp": "e0b5ca753c636969ba4a91d7f7384176271db6260259db539a98c0829cc3c30f",
+    "src/main/player/shots_add.inl": "440143459b5a6c9b46a16409caeb6dc96e4b9f4c5324c5c31f32f61b04b34cc6",
+    "src/main/player/state.hpp": "99507402b9fcc1b8f5da7660ec83ec2c68b8683ba4840bdbea88db7e5c4e3f8b",
+    "src/main/player/state.inl": "d3206f62be9de35d3b64308c9ebfee03e407ba6d47ea9fa914dd6e2b2b671d8e",
+    "src/main/player/stuff.hpp": "204d1bf8db3ce39dbb3af8966ccfb521bc93f35445e305ab524f48bf026c4912",
+    "src/main/round/objects_reset.inl": "6276adb87bfb72ce949ffe0bbb480fc9c9a8750d706c9eba6ad951c66298fbe3",
+    "src/main/round/results.cpp": "3a6d97b4ec97037812ef4f0e83cc46ad8fa01f20424ae3d88b65df1c3aaa192a",
+    "src/main/round/results.inl": "94c5441638df2ed06b7c213389e78fa52369d38a4bdf2ca272685b34d72effc0"
+  },
+  "target_sha256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+  "executable_sha256": "a67c78cca2b6886cdb48b648b274463dbcb6b80fae5effe9b688f9bc642bcebe",
+  "builder_sha256": "3c30eb65e57bdb80f697059bc0adc13741536608e39903fa7d8224a05dacf307",
+  "recipe_sha256": {
+    "scripts/lib/main_work_stage.py": "93af9be669e93a39b70e7f560fb2e1c12a9ff343d05d5685fe116929d151bbe7",
+    "scripts/lib/main_master_prefix.py": "657c3af52d2270433c3dcf60a7d5efebb51796fc885e91ba492e310fbcea3dcb",
+    "scripts/lib/main_master_body.py": "3c0b606029187575a87083aaa693acdee8dc6fae881c52aa433515074f207cad",
+    "scripts/lib/main_vsync_vendor.py": "125f944403372fb6936791e7538ca5d88ea088daf315c6c220ffc3ec3cd58eb9",
+    "scripts/lib/main_enemy_layout.py": "166dcbd62cd6ce5c017e5c4a7546c92fa84548614bd7078e0cb287552edb9c33",
+    "scripts/lib/main_reimu_layout.py": "ca28048af2320905f05fce6e173a9bfa4868a724b9140f65f84d0f2beeb61dbc",
+    "scripts/lib/main_lose_layout.py": "2900a3577ac65f4c1791ed582281a49c67b1e32cf22ee386a4ff2dcb2f13a5b0",
+    "scripts/lib/main_combo_layout.py": "d992d5c0e59952cf6fd7e1ef2478d757e7164fa4c94f9473038990f6f51f8df5",
+    "scripts/lib/main_player_layout.py": "13fc490ecae24d6473421b19b4bf6cf014bd1f7bd5640a1099aa733a2a593676",
+    "scripts/lib/main_lose_renderer_runtime.py": "84d275bfd0252187a51bc77a9a250398705b2be999b6a71ed8fee23a00e66e51",
+    "scripts/lib/main_hitcirc_context.py": "470449a7f7a7c44718eb490a4c6aa908c99d5b83eef8813ccfc855d344683951",
+    "scripts/lib/main_handoff_runtime.py": "3a4bff539a7ed78f07ae206ab76c4bee566590799dd8382d5e054e9ffca86204",
+    "scripts/replay_th03_main_exact_units.py": "c30a2fefcc204625c78c531b0439a3f13ab6705d99c9c28225e21bd7c4dc50ea",
+    "scripts/lib/th03_yumemi_bomb_candidate.py": "9377b07c365e218cba09fb75215fdb2d5f773185b3167dde41ce32c6161bda6f",
+    "scripts/lib/th03_player_tail_candidate.py": "31276ec4694a35aa5ac26ebfe0f39ad64f476945a12e990edcd4dc17c298209e",
+    "scripts/lib/th03_cpu_model.py": "9c4c333474638732a11c7517392e97013587070d50c9b953999d4ffc8b748598",
+    "scripts/lib/th03_yumemi_charge_candidate.py": "57a238aaa5fcedbabe73441ec193b6328e7274908f67bfc5314a33d6145a92c3",
+    "scripts/lib/th03_charge_contract.json": "76be5fcde93d6840bcb923b446c93ca6e8a4f193b2c44593961e94d6a4772ccd",
+    "scripts/stage_th03_main_shotroot.py": "a75a01c935f6535c1b77feccf25feef133f6a4c8b8a3fc4fdeaa8acc5fef0069",
+    "config/th03_main_exact_units.toml": "0e0d5294c73c39c742db03e7ad809429f4b335c0c8162204610326f8a05d98c9",
+    "config/th03_main_link.rsp": "89d9ad8b19a7e2ab622d090dbb37b6918b564e867ab5eee1c47c85e996e25fff"
+  },
+  "cold_report_sha256": "4dab6765653f73d2e356ef0c2e0e33b43227fa4c8a7ed20b780ee6582180fd81",
+  "native_review_sha256": "3390f94e01d5dea186a9da88d536aae90631c7b20304b577ac23f7ccc9b2802b",
+  "cold_reproducibility": {
+    "previous_report_sha256": "e587c4b20fd9277bca1842bcbc40dabced4f7f56f27994f0adba1a201c61b4f9",
+    "independent_source_trees": true,
+    "same_source_inputs": true,
+    "raw_output_repeat": {
+      "obj/th03/mst_pref.obj": true,
+      "obj/th03/mst_body.obj": true,
+      "obj/th03/bo_shim.obj": true,
+      "obj/th01/vplanset.obj": true,
+      "obj/th03/snd_mode_main.obj": true,
+      "obj/th03/snd_pmdr_main.obj": true,
+      "obj/th03/vectorfar.obj": true,
+      "obj/th03/exit.obj": true,
+      "obj/th03/polar.obj": true,
+      "obj/th02/frmdely1.obj": true,
+      "obj/th03/input_s.obj": true,
+      "obj/th03/snd_se_r_main.obj": true,
+      "obj/th03/snd_se.obj": true,
+      "obj/th03/snd_kaja.obj": true,
+      "obj/th03/initmain.obj": true,
+      "obj/th03/pi_load.obj": true,
+      "obj/th03/inp_m_w.obj": true,
+      "obj/th03/hfliplut.obj": true,
+      "obj/th03/mrs.obj": true,
+      "obj/th03/sprite16.obj": true,
+      "obj/th03/cfg_lres.obj": true,
+      "obj/th03/stg_pal.obj": true,
+      "obj/th03/ba_sring.obj": true,
+      "obj/th03/ba_srest.obj": true,
+      "obj/th03/roundpr.obj": true,
+      "obj/th03/ex_ord.obj": true,
+      "obj/th03/b_chiyu.obj": true,
+      "obj/th03/cs_chiyu.obj": true,
+      "obj/th03/eforna.obj": true,
+      "obj/th03/efornb.obj": true,
+      "obj/th03/cs_ellen.obj": true,
+      "obj/th03/b_ellen.obj": true,
+      "obj/th03/gf_ctx.obj": true,
+      "obj/th03/execl.obj": true,
+      "obj/th03/tr_ctx.obj": true,
+      "obj/th03/b_kana.obj": true,
+      "obj/th03/cs_kana.obj": true,
+      "obj/th03/ex_kana.obj": true,
+      "obj/th03/hitcirc.obj": true,
+      "obj/th03/hud_stat.obj": true,
+      "obj/th03/ex_maris.obj": true,
+      "obj/th03/cs_mari.obj": true,
+      "obj/th03/ba_maris.obj": true,
+      "obj/th03/bm_mari.obj": true,
+      "obj/th03/b_koto.obj": true,
+      "obj/th03/ex_koto.obj": true,
+      "obj/th03/cs_koto.obj": true,
+      "obj/th03/ex_rfly.obj": true,
+      "obj/th03/ex_reup.obj": true,
+      "obj/th03/cs_reimu.obj": true,
+      "obj/th03/bm_reish.obj": true,
+      "obj/th03/cs_mima.obj": true,
+      "obj/th03/ex_mima.obj": true,
+      "obj/th03/ba_mima.obj": true,
+      "obj/th03/hitbox.obj": true,
+      "obj/th03/p_cpu.obj": true,
+      "obj/th03/bomb_yumemi.obj": true,
+      "obj/th03/ba_yumem.obj": true,
+      "obj/th03/ex_yume.obj": true,
+      "obj/th03/cs_rika.obj": true,
+      "obj/th03/ex_rika.obj": true,
+      "obj/th03/warning.obj": true,
+      "obj/th03/p_combo.obj": true,
+      "obj/th03/effects.obj": true,
+      "obj/chain1.obj": true,
+      "obj/chain2.obj": true,
+      "obj/th03/eupda.obj": true,
+      "obj/th03/eupdb.obj": true,
+      "obj/th03/p_cmbhl.obj": true,
+      "obj/th03/e_expl.obj": true,
+      "obj/th03/cs_yume.obj": true,
+      "obj/th03/b_rika.obj": true,
+      "obj/th03/ba_reimu.obj": true,
+      "obj/th03/ba_ellen.obj": true,
+      "obj/th03/ba_koto.obj": true,
+      "obj/th03/ba_chiyu.obj": true,
+      "obj/th03/ba_kana.obj": true,
+      "obj/th03/ba_rikak.obj": true,
+      "obj/th03/bm_mima.obj": true,
+      "obj/th03/mst_tail.obj": true,
+      "obj/th03/playfld.obj": true,
+      "obj/th03/collmap.obj": true,
+      "obj/th03/bullet.obj": true,
+      "obj/th03/p_gauge.obj": true,
+      "obj/th03/e_fireb.obj": true,
+      "obj/th03/p_exatt.obj": true,
+      "obj/th03/ch_setup.obj": true,
+      "obj/th03/entry.obj": true,
+      "obj/th03/core.obj": true,
+      "obj/th03/results.obj": true,
+      "obj/th03/shots.obj": true,
+      "obj/th03/lose.obj": true,
+      "obj/th03/intro.obj": true,
+      "obj/th03/ex_chyu.obj": true,
+      "obj/th03/ex_ellen.obj": true,
+      "obj/th03/vs.obj": true,
+      "obj/th03/main.obj": true,
+      "obj/th03/score_hud.obj": true,
+      "bin/th03/main.exe": true,
+      "obj/th03/main.map": true
+    },
+    "complete": true
+  },
+  "raw_cold_outputs": 100,
+  "valid_native_objects": 98,
+  "replayed_owned_extents": 103,
+  "replayed_owned_bytes": 78530,
+  "units": {
+    "th03-main-player-render-knock-bomb": {
+      "bytes": 610,
+      "file_offset": 63221,
+      "functions": [
+        {
+          "name": "player_render",
+          "offset": 18357,
+          "bytes": 131,
+          "instruction_count": 48,
+          "last_instruction": "ret",
+          "last_instruction_address": 18485
+        },
+        {
+          "name": "player_overlay_render",
+          "offset": 18488,
+          "bytes": 209,
+          "instruction_count": 81,
+          "last_instruction": "ret",
+          "last_instruction_address": 18694
+        },
+        {
+          "name": "player_knockback_update",
+          "offset": 18697,
+          "bytes": 151,
+          "instruction_count": 58,
+          "last_instruction": "ret",
+          "last_instruction_address": 18845
+        },
+        {
+          "name": "player_bomb",
+          "offset": 18848,
+          "bytes": 119,
+          "instruction_count": 46,
+          "last_instruction": "ret",
+          "last_instruction_address": 18964
+        }
+      ],
+      "compiler_data": [],
+      "native_producer": {
+        "object": "obj/th03/core.obj",
+        "start": 16372,
+        "bytes": 3135,
+        "owners": [
+          "th03-main-player-move",
+          "th03-main-hyper-dispatch",
+          "th03-main-player-state-update",
+          "th03-main-player-render-knock-bomb",
+          "th03-main-player-state",
+          "th03-main-stage-shot-sprites"
+        ],
+        "partition": [
+          {
+            "start": 16372,
+            "size": 284,
+            "owner": "th03-main-player-move"
+          },
+          {
+            "start": 16656,
+            "size": 595,
+            "owner": "th03-main-hyper-dispatch"
+          },
+          {
+            "start": 17251,
+            "size": 1106,
+            "owner": "th03-main-player-state-update"
+          },
+          {
+            "start": 18357,
+            "size": 610,
+            "owner": "th03-main-player-render-knock-bomb"
+          },
+          {
+            "start": 18967,
+            "size": 367,
+            "owner": "th03-main-player-state"
+          },
+          {
+            "start": 19334,
+            "size": 173,
+            "owner": "th03-main-stage-shot-sprites"
+          }
+        ],
+        "code_record_sizes": [
+          1024,
+          1022,
+          1024,
+          65
+        ]
+      },
+      "ordered_relocations": 6,
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      }
+    },
+    "th03-main-stage-shot-sprites": {
+      "bytes": 173,
+      "file_offset": 64198,
+      "functions": [
+        {
+          "name": "stage_prepare_shot_sprites",
+          "offset": 19334,
+          "bytes": 173,
+          "instruction_count": 46,
+          "last_instruction": "ret",
+          "last_instruction_address": 19506
+        }
+      ],
+      "compiler_data": [],
+      "native_producer": {
+        "object": "obj/th03/core.obj",
+        "start": 16372,
+        "bytes": 3135,
+        "owners": [
+          "th03-main-player-move",
+          "th03-main-hyper-dispatch",
+          "th03-main-player-state-update",
+          "th03-main-player-render-knock-bomb",
+          "th03-main-player-state",
+          "th03-main-stage-shot-sprites"
+        ],
+        "partition": [
+          {
+            "start": 16372,
+            "size": 284,
+            "owner": "th03-main-player-move"
+          },
+          {
+            "start": 16656,
+            "size": 595,
+            "owner": "th03-main-hyper-dispatch"
+          },
+          {
+            "start": 17251,
+            "size": 1106,
+            "owner": "th03-main-player-state-update"
+          },
+          {
+            "start": 18357,
+            "size": 610,
+            "owner": "th03-main-player-render-knock-bomb"
+          },
+          {
+            "start": 18967,
+            "size": 367,
+            "owner": "th03-main-player-state"
+          },
+          {
+            "start": 19334,
+            "size": 173,
+            "owner": "th03-main-stage-shot-sprites"
+          }
+        ],
+        "code_record_sizes": [
+          1024,
+          1022,
+          1024,
+          65
+        ]
+      },
+      "ordered_relocations": 12,
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      }
+    },
+    "th03-main-round-results": {
+      "bytes": 1060,
+      "file_offset": 64371,
+      "functions": [
+        {
+          "name": "round_objects_and_counters_reset",
+          "offset": 19507,
+          "bytes": 72,
+          "instruction_count": 28,
+          "last_instruction": "ret",
+          "last_instruction_address": 19578
+        },
+        {
+          "name": "round_result_number_put",
+          "offset": 19579,
+          "bytes": 151,
+          "instruction_count": 68,
+          "last_instruction": "ret",
+          "last_instruction_address": 19727
+        },
+        {
+          "name": "round_match_result_render",
+          "offset": 19730,
+          "bytes": 837,
+          "instruction_count": 286,
+          "last_instruction": "ret",
+          "last_instruction_address": 20566
+        }
+      ],
+      "compiler_data": [],
+      "native_producer": {
+        "object": "obj/th03/results.obj",
+        "start": 19507,
+        "bytes": 1060,
+        "owners": [
+          "th03-main-round-results"
+        ],
+        "partition": [
+          {
+            "start": 19507,
+            "size": 1060,
+            "owner": "th03-main-round-results"
+          }
+        ],
+        "code_record_sizes": [
+          1018,
+          42
+        ]
+      },
+      "ordered_relocations": 11,
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      }
+    },
+    "th03-main-player-shots-add": {
+      "bytes": 264,
+      "file_offset": 65431,
+      "functions": [
+        {
+          "name": "player_shots_add",
+          "offset": 20567,
+          "bytes": 264,
+          "instruction_count": 87,
+          "last_instruction": "ret",
+          "last_instruction_address": 20830
+        }
+      ],
+      "compiler_data": [],
+      "native_producer": {
+        "object": "obj/th03/shots.obj",
+        "start": 20567,
+        "bytes": 449,
+        "owners": [
+          "th03-main-player-shots-add",
+          "th03-main-shots"
+        ],
+        "partition": [
+          {
+            "start": 20567,
+            "size": 264,
+            "owner": "th03-main-player-shots-add"
+          },
+          {
+            "start": 20831,
+            "size": 185,
+            "owner": "th03-main-shots"
+          }
+        ],
+        "code_record_sizes": [
+          449
+        ]
+      },
+      "ordered_relocations": 3,
+      "gates": {
+        "target-identity": true,
+        "format-integrity": true,
+        "boundary-ownership": true,
+        "toolchain-identity": true,
+        "toolchain-replay": true,
+        "object-format-integrity": true,
+        "cold-build-determinism": true,
+        "layout-relocations": true,
+        "raw-bytes": true,
+        "ledger-consistency": true,
+        "cold-aggregate-replay": true
+      }
+    }
+  },
+  "complete_player_producers": {
+    "producers": [
+      {
+        "object": "core",
+        "source": "src/main/player/core.cpp",
+        "start": 16372,
+        "size": 3135,
+        "segment": "MAIN_010_TEXT",
+        "records": [
+          1024,
+          1022,
+          1024,
+          65
+        ],
+        "publics": [
+          [
+            0,
+            "@PLAYER_POS_UPDATE_AND_CLAMP$QR7SPPOINT"
+          ],
+          [
+            74,
+            "@PLAYER_MOVE$QUI"
+          ],
+          [
+            284,
+            "HYPER_STANDBY"
+          ],
+          [
+            309,
+            "HYPER_REIMU"
+          ],
+          [
+            371,
+            "HYPER_MIMA"
+          ],
+          [
+            437,
+            "HYPER_MARISA"
+          ],
+          [
+            504,
+            "HYPER_ELLEN"
+          ],
+          [
+            551,
+            "HYPER_KOTOHIME"
+          ],
+          [
+            613,
+            "HYPER_CHIYURI"
+          ],
+          [
+            675,
+            "HYPER_YUMEMI"
+          ],
+          [
+            737,
+            "HYPER_KANA"
+          ],
+          [
+            799,
+            "HYPER_RIKAKO"
+          ],
+          [
+            879,
+            "@PLAYER_STATE_UPDATE$QUIP14PLAYER_STUFF_T"
+          ],
+          [
+            1985,
+            "@PLAYER_RENDER$QP14PLAYER_STUFF_T"
+          ],
+          [
+            2116,
+            "@PLAYER_OVERLAY_RENDER$QP14PLAYER_STUFF_T"
+          ],
+          [
+            2325,
+            "@PLAYER_KNOCKBACK_UPDATE$QP14PLAYER_STUFF_T"
+          ],
+          [
+            2476,
+            "PLAYER_BOMB"
+          ],
+          [
+            2595,
+            "@PLAYER_HITTEST$QI"
+          ],
+          [
+            2817,
+            "@PLAYERS_HIT_DAMAGE_UPDATE$QR14PLAYER_STUFF_T"
+          ],
+          [
+            2935,
+            "@story_skill_decrement$qv"
+          ],
+          [
+            2962,
+            "@stage_prepare_shot_sprites$qv"
+          ]
+        ],
+        "ordered_relocations": [
+          [
+            2414,
+            17215
+          ],
+          [
+            2414,
+            17192
+          ],
+          [
+            2414,
+            16919
+          ],
+          [
+            2414,
+            16840
+          ],
+          [
+            2414,
+            17762
+          ],
+          [
+            2414,
+            19438
+          ],
+          [
+            2414,
+            19419
+          ],
+          [
+            2414,
+            19406
+          ],
+          [
+            2414,
+            19393
+          ],
+          [
+            2414,
+            19380
+          ],
+          [
+            2414,
+            19367
+          ],
+          [
+            2414,
+            19354
+          ],
+          [
+            2414,
+            18935
+          ],
+          [
+            2414,
+            18810
+          ],
+          [
+            2414,
+            18718
+          ],
+          [
+            2414,
+            18689
+          ],
+          [
+            2414,
+            18587
+          ],
+          [
+            2414,
+            18480
+          ],
+          [
+            2414,
+            19503
+          ],
+          [
+            2414,
+            19490
+          ],
+          [
+            2414,
+            19477
+          ],
+          [
+            2414,
+            19464
+          ],
+          [
+            2414,
+            19451
+          ]
+        ],
+        "physical_records": [
+          {
+            "index": 196,
+            "file_offset": 7317,
+            "kind": "LEDATA",
+            "data_hex": "040000558bec568b76048b148b4c02a000009803d0a001009803c881fa80007d05ba8000eb0981fa80117e03ba801181f980017d05b98001eb0981f900167e03b900168914894c025e5dc20200558becc606000000c6060100008b5e0483fb087468770e83fb060f87930003db2effa70e0181fb0002742c771283fb09745383fb0a743881fb00017462eb7281fb0004744081fb00087424eb64a00000f6d8a20000eb60a00200f6d8a20000a00300a20100eb50a00100a20100eb48a00200a20000a00300a20100eb3aa00000a20000eb32a00200a20000a00300f6d8a20100eb22a00100f6d8a20100eb18a00200f6d8a20000a00300f6d8a20100eb06b0005dc20200b0015dc20200b0025dc20200000701df00b100fb009700e900a100558bec8b1e0000c6470d01807f1e0074068b47668947645dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d04a000000420a20000a001000420a20100a002000418a20200a003000418a203005dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d02c6472202a000000420a20000a001000420a20100a002000418a20200a003000418a203005dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d009a00000000a0000004f0a20000a0010004f0a20100a0020004f4a20200a0030004f4a203005dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d01f606000003750aff37ff77029a000000005dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d03a000000420a20000a001000420a20100a002000418a20200a003000418a203005dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d03a000000420a20000a001000420a20100a002000418a20200a003000418a203005dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d03a000000420a20000a001000420a20100a002000418a20200a003000418a203005dc3558bec8b1e0000807f1e007507c747641c015dc38b1e0000c6470d03a000000420a20000a001000420a20100a002000418a20200a003000418a203005dc3558bec8b1e0000807f1e00750cc747641c019a000000005dc38b1e0000817f1aa00f760aff37ff77029a00000000a0000004f0a20000a0010004f0a20100a0020004f8a20200a0030004f8a203005dc3558bec83ec0656578b7e068b7604a00000b400c1e007050000a30000807c06007403fe4c06a00000b4008bd880bf000000740ba00000b4008bd8fe8f0000803e0000020f84c503807c1f000f85b3038a4409a200008a440aa201008a440ba202008a440ca20300ff5464807c11000f852701807c1500754f8bc7250f0f8946fcc646fa01ff76fce851fc8846fb807efb00",
+            "checksum": 55,
+            "segment": 4,
+            "offset": 0,
+            "size": 1024
+          },
+          {
+            "index": 197,
+            "file_offset": 8348,
+            "kind": "FIXUPP",
+            "data_hex": "c7d416010bc7ce16010bc7c816010bc7c216010bc7af16011ec7ab160115c7a316010dc79d160115c79516010dc789160109c786160108c77e16010dc76b16010bc76616010bc76316010bc75e16010bc75b16010bc75616010bc75316010bc74e16010bcf49562bc73a160109cf32562ac72f140204c724160109c71b16010bc71616010bc71316010bc70e16010bc70b16010bc70616010bc70316010bc6fe16010bc6f7160109c6f1140204c6e6160109c6dd16010bc6d816010bc6d516010bc6d016010bc6cd16010bc6c816010bc6c516010bc6c016010bc6b9160109c6b3140204c6a8160109c69f16010bc69a16010bc69716010bc69216010bc68f16010bc68a16010bc68716010bc68216010bc67b160109c675140204c66a160109c66116010bc65c16010bc65916010bc65416010bc65116010bc64c16010bc64916010bc64416010bc63d160109c637140204c62c160109ce215629c61616010ec60e160109c608140204c5fd160109c5f416010bc5ef16010bc5ec16010bc5e716010bc5e416010bc5df16010bc5dc16010bc5d716010bcdd25628c5cb160109c5c5140204c5ba160109c5b116010bc5ac16010bc5a916010bc5a416010bc5a116010bc59c16010bc59916010bc59416010bc589160109c583140204c578160109c56f16010bc56a16010bc56716010bc56216010bc55f16010bc55a16010bc55716010bc55216010bc54b160109c545140204c53a160109c521160109c51a140204c518140204c516140204c514140204c512140204c510140204c50e140204c4f716010cc4f216010bc4ef16010cc4ea16010bc4e516010cc4e016010bc4db16010cc4d616010bc4d316010cc4d016010bc4cb16010cc4c816010bc4c316010cc4c016010bc4bd16010cc4ba16010bc4b516010cc4b216010bc4ad16010cc4aa16010bc4a716010cc4a216010bc49d16010cc49816010bc46d140204c45416010cc44f16010cc41316010cc40d16010c",
+            "checksum": 49
+          },
+          {
+            "index": 198,
+            "file_offset": 9073,
+            "kind": "LEDATA",
+            "data_hex": "0400047519807efa0074138b44203b46fc7415f7d02146fcc646fa00ebd8807efb01750456e8dbfb807efa000f84de008b46fc894420e9d500ff447456e80000803e0000007506c646fb06eb1e803e0000ff7506c646fb20eb11803e0000fe7506c646fb07eb04c646fb0a8a46fbb40050a1000033d25bf7f30bd2750fa00000b4008bd8c687000004bf2000c606000000807c04007560807c1d0075098a4407983d03007e688a441cb4008bd88a4024b4008b541ac1ea043bc27207817c1af00f754ba00000b4008bd8c687000000bf20008b44183b441a7234a00000b4008bd8c68700000433fffe441c807c1c40721dc6441c00eb17c6440400a00000b4008bd8c68700000433ffeb03fe4c11c646fb00807c1400741556e8fc03c744180000c744740000c646fb01e93e01a00000b4008bd880bf0000027748807c1e0075428b44183b441a732d8a4417b4000144188b44183b441a760a8b441a894418c6442300817c1880010f85ff006a099a00000000e9f500fe4423807c23800f82ea00eb10a00000b4008bd880bf0000040f87d8008b44188946fe817efe00040f8cc400ff34ff7402ff5c68817efe00080f8ca700a00000b4008bd8c687000001817efef00f7c3ca000003a060000743aa00000b4008bd8c687000005c7441a0004803e0000107304fe060000810600000028803e0000ff7505fe4477eb5dfe4478eb58817efe000c7c24fe4476a00000b4008bd8c687000003816c1a0008a00000b4008bd880bf000010732feb22fe4476a00000b4008bd8c687000001816c1a0004a00000b4008bd880bf000010730ba00000b4008bd8fe8700008a44060406884406c646fb01c744180000807c2202750233ff807c11007564807c2200745ef7c720007506807c2202751fa00000b4008bd880bf0000027611e80000a00000b4008bd8c687000000eb1ff7c720007519a00000b4008bd880bf000008730ba00000b4008bd8fe870000f7c71000740456e8dc02807c22027504c6442201807c1e00741a817c1a00047606836c1a06eb09c6441e00c7441a0004c646fb01803e000000757a807efb0075746a04e81703807c04007469807c07007453ff34ff7402a00000b400509a0000000056e8d5038a54072ad08854078a4407980bc07d04c6440700807c0700750cc6441f30a00000a20000eb10c6441401c6441040c644066ec6441140ff3600009a00000000c6440400eb0a807c1fff740456e80000803e0000007506c6440e00eb12a00000980bc07d06c6440e01eb04c6440e02c6440f00803e0000007416807c1e007406c6440f02eb0a807c06007404c6440f015f5ec9c20400558bec83ec0456578b7604807c1f00740c807c1fff746656e80000eb60807c0f00755ac70600000000c70602007f02c606020002c70600002000ff34a0",
+            "checksum": 132,
+            "segment": 4,
+            "offset": 1024,
+            "size": 1022
+          },
+          {
+            "index": 199,
+            "file_offset": 10102,
+            "kind": "FIXUPP",
+            "data_hex": "c7f7160103c7f2160103c7ec160104c7e616010487da160207c7a0160120c78916010cc77d16010c8779160226cf67160212c76416010dc74e160122c74b16010dcf24160219c71e16010dc6fc16011ec6c4160125c6bc16010dc6b6160125c6ae16010dc6a2160125c69a16010d8697160224c691160125c68916010dc65516011bc64d16010dc64716011bc63f16010dc63616011ac62e16010dc62316011bc61b16010dc61216011ac60a16010dc5f016011dc5ea160123c5e616011cc5df16011cc5d516011ac5cd16010dc5c816010dc5c416011dc5b916011fc5b116010dc589160125c58116010dcd6c5601c533160125c52b16010dc501160125c4f916010dc4e0160125c4d816010dc4c9160125c4c116010dc48b160121c483160125c47b16010dc46f16010fc459160121c44c160121c43f160121843b160210",
+            "checksum": 186
+          },
+          {
+            "index": 200,
+            "file_offset": 10425,
+            "kind": "LEDATA",
+            "data_hex": "04fe070000b400509a0000000005f0ff8946fe8b4402c1f80405f0ff8946fc8a440eb400c1e0020544288bf8803e000000740481c7000aff76feff76fc579a000000005f5ec9c20200558bec83ec0456578b7604807c1f000f85b800807c0f00744cff34a00000b400509a0000000005f0ff8946fe8b4402c1f80505f8ff8946fc8a440fb4008bf8803e000000740383c7098a440eb40003c003f88a440eb40003f8ff76feff76fc579a00000000817c180001725f817c1800047305bf2c00eb1b817c1800087305bf3000eb0f817c18f00f7305bf3400eb03bf3800ff34a00000b400509a0000000005f0ff8946fe8b4402c1f80505f1ff8946fca10000c1e80225030003c78bf8ff76feff76fc509a000000005f5ec9c20200558bec83ec04568b7604807c1040753d6a029a000000006a3fe80000884412813c00097d0e817c02800b7e1d8a441204c0eb13817c02800b7d078a44120440eb058a44120480884412c6441340807c102076328a441304fe884413168d46fe50168d46fc50ff74128a4413b400509a000000008a46fea200008a46fca2010056e868f6eb0a807c10007504c6441400fe4c105ec9c20200558bec568b7604a00000b4008bd880bf000000755d807c1e007557807c1d00741ea00000b4008bd8c687000001fe4c1dc64406b4ff3600009a00000000eb30817c1af00f722ca00000b4008bd8c6870000016a079a000000008a440888441eff34ff7402a00000b400509a00000000e859015e5dc20200558bec83ec0456578b360000807c06007506807c1e007403e9bd008b460489c3d1f88b14c1fa0529c28b4c02c1f90529c101cb83f9007d0431c9eb0981fbb8007c03bbb700885efd894efe89d181e10700c1fa038b7e0401cfb5ffd2ed89fb83fb087f08b7ff88d9d2ef30fd88d0b3b8f6e3bb000001c3803e000001750481c3f00c035efe8a76fd8b46fe80fa127d4808d27c2888c4b1b8842f741730f6c1e20889160000b400c1e005a30200c6440401eb2543fec9fec438f472dcfec2b50001cb83ef08b5ff83ff08730889f9b5ffd2edf6d509ff7fb35f5ec9c20200558bec83ec02568b7604b0012a0600008846fe807c150075058a4473eb0a8a44738846ff020600008846ffc64473038a46fe98c1e0078bd880bf730003760d8a46fe98c1e0078bd8fe8f73008a440798508a46ff985a2bd07f118a4407983d01007e088a4407fec88846ffe808008a46ff5ec9c20200558bec803e000000750fc41e000026807f3800760426fe4f385dc3558becbaa600b001ee6668480120026a009a000000006668480140026a039a000000006668480160026a069a000000006668680120026a099a000000006668680140026a0c9a000000006668680160026a0f9a00000000baa600b000ee6668480120026a009a000000006668",
+            "checksum": 36,
+            "segment": 4,
+            "offset": 2046,
+            "size": 1024
+          },
+          {
+            "index": 201,
+            "file_offset": 11456,
+            "kind": "FIXUPP",
+            "data_hex": "cffa5618cfe75618cfda5618cfcd5618cfc05618cfb35618cfa65618c785160127c77e16010dc74d160108c73d160108c72916012cc71116010dc6d016010ac6c816010ac69e16010dc698160106c62f160109ce19160211c61316010dce035601c5fd160115c5f516010dcde7160213c5e416010dc5d8160114c5d016010dc5be160114c5b616010dc59416010cc58e16010ccd8656168531160217cd2a5601cd0d5618c4f916010fcce25602c4dc16010dcca75618c48716010dcc685602c46216010dcc3c5605c42b16010dcc065602c40016010d",
+            "checksum": 73
+          },
+          {
+            "index": 202,
+            "file_offset": 11674,
+            "kind": "LEDATA",
+            "data_hex": "04fe0b480140026a039a000000006668480160026a069a000000006668680120026a099a000000006668680140026a0c9a000000006668680160026a0f9a000000005dc3",
+            "checksum": 62,
+            "segment": 4,
+            "offset": 3070,
+            "size": 65
+          },
+          {
+            "index": 203,
+            "file_offset": 11746,
+            "kind": "FIXUPP",
+            "data_hex": "cc3b5618cc2e5618cc215618cc145618cc075618",
+            "checksum": 136
+          }
+        ]
+      },
+      {
+        "object": "results",
+        "source": "src/main/round/results.cpp",
+        "start": 19507,
+        "size": 1060,
+        "segment": "P_SHOT_TEXT",
+        "records": [
+          1018,
+          42
+        ],
+        "publics": [
+          [
+            0,
+            "@round_objects_and_counters_reset$qv"
+          ],
+          [
+            72,
+            "@ROUND_RESULT_NUMBER_PUT$QIII"
+          ],
+          [
+            223,
+            "@round_match_result_render$qv"
+          ]
+        ],
+        "ordered_relocations": [
+          [
+            2414,
+            19912
+          ],
+          [
+            2414,
+            19897
+          ],
+          [
+            2414,
+            19862
+          ],
+          [
+            2414,
+            19847
+          ],
+          [
+            2414,
+            19832
+          ],
+          [
+            2414,
+            19817
+          ],
+          [
+            2414,
+            19802
+          ],
+          [
+            2414,
+            19787
+          ],
+          [
+            2414,
+            19722
+          ],
+          [
+            2414,
+            19682
+          ],
+          [
+            2414,
+            19635
+          ]
+        ],
+        "physical_records": [
+          {
+            "index": 102,
+            "file_offset": 3881,
+            "kind": "LEDATA",
+            "data_hex": "040000558bec5657be000033c0eb07c604004083c60e3d20007cf4bf000033c0eb07c605004083c7303d40007cf466c706000000000000c70600000000c606000001c6060000005f5e5dc3558bec56578b7e088b760483fe0a7c6383fe647c2f8d4512508b4606056000bb100099f7fb508bc6bb640099f7fb05a0005068e1009a00000000bb64008bc699f7fb8bf28d4514508b4606056000bb100099f7fb508bc6bb0a0099f7fb05a0005068e1009a00000000bb0a008bc699f7fb8bf28d4516508b4606056000bb100099f7fb508d84a0005068e1009a000000005f5e5dc20600c80600005657a00000b400ba01002bd08956febe0400837efe00740383c628a100002507003d01000f85e401566a081e68000068e1009a00000000566a0a1e68000068e1009a00000000566a0c1e68000068e1009a00000000566a0e1e68000068e1009a00000000566a101e68000068e1009a00000000566a141e68000068e1009a00000000c41e000026807f33087309566a061e680000eb16566a061e68000068e1009a00000000566a121e68000068e1009a000000008b46fec1e0070500008bf8833e0000010f85ee008a4572a200008a4576a200008a4577a200008a4578a200008a4579a20000660fb60600006669c0e803000066a30000660fb60600006669c0102700006601060000660fb60600006669c0983a00006601060000660fb60600006669c0204e00006601060000660fb60600006669c0307500006601060000c41e000026807f3308751e268a4734a20000660fb60600006669c0a08601006601060000c6060000ff66a1000066bbc0000000669966f7fb668946fa66817efaffff00007608c7060000ffffeb068b46faa3000066a10000668946fa66bb10270000669966f7fb89160000668b46fa669966f7fba30000566a20a00000b40050e8a3fd566a40a00000b40050e897fd566a60a00000b40050e88bfd56688000a00000b40050e87efd5668a000a00000b40050e871fdc41e000026807f3308750d5668c000a00000b40050e859fdb80800f7ee8bf08d84d800506668e80340006a0f9a000000008d84d800506668102750006a0f9a000000008d84d800506668983a60006a0f9a000000008d84d800506668204e70006a0f9a000000008d84d800506668307580006a0f9a00000000c41e000026807f330875248d84d000506668102790006a0f9a000000008d84d800506668000090006a0f9a00000000833e000000740e8d84d8005068a000ff360000eb2f8d84d8005066680000a0006a0c9a000000008d84c8005066680000a0006a0c9a000000008d84c0005066680000a0006a0c9a000000008d84b8005068a000ff3600006a0c9a00000000660fb7060000663b0600007d19ff360000ff76fe9a00000000660fb706",
+            "checksum": 114,
+            "segment": 4,
+            "offset": 0,
+            "size": 1018
+          },
+          {
+            "index": 103,
+            "file_offset": 4906,
+            "kind": "FIXUPP",
+            "data_hex": "cff216020ac7ec160115c7e6160118c7e1160115cfd9160222c7d4160117cfc6160209cfb4160209cfa2160209c790160116c781160116cf7b160209cf69160209c752160106cf4c160209cf3a160209cf28160209cf16160209cf04160209c6e7160113c6d9160106c6cf160112c6c2160111c6b5160110c6a916010fc69d16010ec697160117c68b160116c678160118c674160115c66a160115c64d160118c648160114c644160118c638160113c632160113c624160106c620160118c614160112c60e160118c602160111c5fc160118c5f0160110c5ea160118c5de16010fc5d8160118c5cd16010ec5c7160112c5c1160111c5bb160110c5b516010fc5af16010ec5a4160105c59e160102cd935608c58d160121cd845608c57e160120c57516011fc567160106cd615608c55b16011ecd525608c54c16011dcd435608c53d16011ccd345608c52e16011bcd255608c51f16011acd165608c510160119c4ff160105c4e616010dccd55607ccad5607cc7e5607c44116010cc43c16010bc436160105c42e160104c419160103c406160101",
+            "checksum": 11
+          },
+          {
+            "index": 104,
+            "file_offset": 5314,
+            "kind": "LEDATA",
+            "data_hex": "04fa0300006629060000eb1d66833e0000007e15ff360000ff76fe9a0000000066c7060000000000005f5ec9c3",
+            "checksum": 28,
+            "segment": 4,
+            "offset": 1018,
+            "size": 42
+          },
+          {
+            "index": 105,
+            "file_offset": 5363,
+            "kind": "FIXUPP",
+            "data_hex": "c420160118cc1916020ac413160118c40c160118c405160118c400160115",
+            "checksum": 62
+          }
+        ]
+      },
+      {
+        "object": "shots",
+        "source": "src/main/player/shots.cpp",
+        "start": 20567,
+        "size": 449,
+        "segment": "P_SHOT_TEXT",
+        "records": [
+          449
+        ],
+        "publics": [
+          [
+            0,
+            "@player_shots_add$qv"
+          ],
+          [
+            264,
+            "@shots_update$qv"
+          ],
+          [
+            307,
+            "@shots_render$qv"
+          ]
+        ],
+        "ordered_relocations": [
+          [
+            2414,
+            20983
+          ],
+          [
+            2414,
+            20965
+          ],
+          [
+            2414,
+            20712
+          ],
+          [
+            2414,
+            20689
+          ],
+          [
+            2414,
+            20673
+          ]
+        ],
+        "physical_records": [
+          {
+            "index": 103,
+            "file_offset": 3283,
+            "kind": "LEDATA",
+            "data_hex": "040000c80800005657a00000b400c1e0070500008bf08b44028946fa807c0d000f84e300807c0d03750f8b040500fc8946fcc746f80000eb53807c0d02750f8b040500fe8946fcc746f80200eb3e807c0d01742b807c0d0475328b040580fe8946fc836efa1050ff76fa9a000000008146fc0003ff76fcff76fa9a000000008b040500ff8946fcc746f80300bf00006a019a00000000eb088146fc0002ff46f8817efc00fe7ef1c746fe0000eb53803d007548c60501c64501008b46fc8945028b46fa894504c7450640ff803e000000750433c0eb03b82800894508c6450a00a0000088450cff46f8837ef8047d188146fc0002817efc00127d0cff46fe83c70e837efe207ca75f5ec9c3558bec56be000033d2eb18803c00740f8b4406014404837c04f07f03c604004283c60e83fa207ce35e5dc3c80600005657be0000c606020001c70600000800c70600000000c70602007f0233ffeb61803c0074588a440ab4000344088946feff74028a440cb400509a000000008946fc8b4404c1f8040510008946faff76fc50ff76fe9a000000008b46fc05100050ff76faff76fe9a000000008a440a040288440a807c0a087204c6440a004783c60e83ff207c9a5f5ec9c3",
+            "checksum": 71,
+            "segment": 4,
+            "offset": 0,
+            "size": 449
+          },
+          {
+            "index": 104,
+            "file_offset": 3739,
+            "kind": "FIXUPP",
+            "data_hex": "cd9e5605cd8c5605cd715602c54f160104c549160104c543160103c53e160103c53a160106c50d160106c4de160108c4ca160108cc8f5601c48a160106cc785609cc685609c40f160107c407160108",
+            "checksum": 198
+          }
+        ]
+      }
+    ],
+    "code_bytes": 4644,
+    "functions": 27,
+    "private_data_bytes": 0,
+    "full_ordered_relocations": 1553,
+    "full_order_equal": true,
+    "new_source_exact_credit": 0,
+    "whole_product_exact": false,
+    "remaining_payload_differences": [
+      60461
+    ]
+  },
+  "limits": [
+    "No new source implementation or original filename/spelling claim.",
+    "Existing185-byte shots suffix remains separately owned and is not recounted.",
+    "No callback/callee or external DATA/BSS ownership implied.",
+    "Runtime/ABI probes remain supporting; no new executed-body runtime claim.",
+    "All literal ordered MZ relocations match; EC2D and MZ header remain open."
+  ]
+}

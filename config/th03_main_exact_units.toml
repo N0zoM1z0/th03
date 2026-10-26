@@ -7653,3 +7653,135 @@ offset = 0x4363
 size = 1106
 abi = "near Pascal; WORD input BP+6 and near player BP+4; SI/DI/BP preserved; RET4"
 return_pop = 4
+
+
+[[native_units]]
+id = "th03-main-player-render-knock-bomb"
+source = "src/main/player/state.inl"
+object = "core"
+map_module = "src/main/player/core.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x47b5
+size = 610
+map_segment = "MAIN_010_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "player_render"
+segment = 0x096e
+offset = 0x47b5
+size = 131
+abi = "near Pascal; near player WORD BP+4; preserved SI/BP and DI when used; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "player_overlay_render"
+segment = 0x096e
+offset = 0x4838
+size = 209
+abi = "near Pascal; near player WORD BP+4; preserved SI/BP and DI when used; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "player_knockback_update"
+segment = 0x096e
+offset = 0x4909
+size = 151
+abi = "near Pascal; near player WORD BP+4; preserved SI/BP and DI when used; RET2"
+return_pop = 2
+
+[[native_units.functions]]
+name = "player_bomb"
+segment = 0x096e
+offset = 0x49a0
+size = 119
+abi = "near Pascal; near player WORD BP+4; preserved SI/BP and DI when used; RET2"
+return_pop = 2
+
+
+[[native_units]]
+id = "th03-main-stage-shot-sprites"
+source = "src/main/player/shot_sprites.inl"
+object = "core"
+map_module = "src/main/player/core.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x4b86
+size = 173
+map_segment = "MAIN_010_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "stage_prepare_shot_sprites"
+segment = 0x096e
+offset = 0x4b86
+size = 173
+abi = "near cdecl; no arguments; SI/DI/BP preserved when used; RET0"
+return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-round-results"
+source = "src/main/round/results.cpp"
+object = "results"
+map_module = "src/main/round/results.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x4c33
+size = 1060
+map_segment = "P_SHOT_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "round_objects_and_counters_reset"
+segment = 0x096e
+offset = 0x4c33
+size = 72
+abi = "near cdecl; no arguments; SI/DI/BP preserved when used; RET0"
+return_pop = 0
+
+[[native_units.functions]]
+name = "round_result_number_put"
+segment = 0x096e
+offset = 0x4c7b
+size = 151
+abi = "near Pascal; signed WORD x BP+8 y BP+6 value BP+4; SI/DI/BP preserved; RET6"
+return_pop = 6
+
+[[native_units.functions]]
+name = "round_match_result_render"
+segment = 0x096e
+offset = 0x4d12
+size = 837
+abi = "near cdecl; no arguments; SI/DI/BP preserved when used; RET0"
+return_pop = 0
+
+
+[[native_units]]
+id = "th03-main-player-shots-add"
+source = "src/main/player/shots_add.inl"
+object = "shots"
+map_module = "src/main/player/shots.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x5057
+size = 264
+map_segment = "P_SHOT_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "player_shots_add"
+segment = 0x096e
+offset = 0x5057
+size = 264
+abi = "near cdecl; no arguments; SI/DI/BP preserved when used; RET0"
+return_pop = 0
