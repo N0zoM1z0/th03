@@ -14,7 +14,7 @@ class CrtProgressTests(unittest.TestCase):
         units,evidence=self.data()
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
-        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(177,34447,0,177))
+        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(180,34676,0,180))
         # The old aggregate requires the old linked-game source assignment.
         # Ending now comes from staffdat.cpp, so current units suppress it even
         # when publication is unavailable. Preserve the historical caption test

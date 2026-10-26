@@ -1,10 +1,10 @@
 # TH03 handoff
 
-Prepared2026-10-26. Baseline checkpoint **`6b6026e4`**,main ahead eight.
-Existing MAINL registration ownership is staged,not committed:14 procedures,
-2720 instruction bytes/988 instructions. Required68 music CODE and40 pointer
-DATA remain uncredited context. No source changes/native rebuild/new runtime.
-Full CI pending at writing;final result reported separately.
+Prepared2026-10-26. Baseline checkpoint **`175c3ca`**, main ahead nine.
+Existing MAINL score-data ownership is staged, not committed: three procedures,
+229 CODE bytes/98 instructions. Actual first-use GAME3/O producer is preserved;
+external hi storage and encoder are not recounted. No compiled-source changes,
+native rebuild or new runtime. Final CI pending at writing.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -17,7 +17,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
-| MAINL | 81 extents / 86 procedures / 12,439 CODE + 224 DATA bytes | Open |
+| MAINL | 84 extents / 89 procedures / 12,668 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
@@ -35,6 +35,18 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAINL complete score-data ownership
+
+Three complete near noargs bodies own229 CODE/98 instructions. All15 native
+fields independently resolve; scoped MZ relocation vectors are empty. Actual
+GAME3/O first-use compilation is preserved. Checksum result is AL only;
+recreate leaves unknown state intact and delegates cleared/key changes and
+file operations to the existing encoder. External206-byte hi is not credited.
+Prior81 observations and existing cold938-output graph remain unchanged.
+Use `review_th03_mainl_scoredat_work.py --current-cold`; no ancestor rerun.
+Live namespace180, historical145/150 unchanged. See
+[MAINL_SCOREDAT_REVIEW.md](MAINL_SCOREDAT_REVIEW.md).
 
 ## MAINL complete registration ownership
 
