@@ -1,11 +1,11 @@
 # TH03 handoff
 
-Prepared2026-10-26. Baseline checkpoint **`06e7f3a`**, main ahead ten.
-Existing MAINL root/continue ownership is staged, not committed: twelve complete
-procedures,2857 CODE bytes/944 instructions. Table18, DATA112 and BSS186 stay
-uncredited context. Actual rootdata/contmenu producers and the declared continue
-segment transform are preserved. No compiled-source changes, native rebuild or
-new runtime. Final CI pending at writing.
+Prepared2026-10-26. Baseline checkpoint **`2b9fe1c`**, main ahead eleven.
+Existing MAINL text-renderer ownership is staged, not committed: one complete
+procedure,613 CODE bytes/226 instructions. CRT/GRCG service and classifier
+context remain uncredited. Actual GAME3/O first-use producer is preserved.
+No compiled-source changes, native rebuild or new runtime. Final CI pending
+at writing.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -18,7 +18,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
-| MAINL | 96 extents / 101 procedures / 15,525 CODE + 224 DATA bytes | Open |
+| MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
@@ -36,6 +36,17 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAINL complete text-renderer ownership
+
+Six native fields independently resolve the complete613-byte/226-instruction
+far Pascal RETF10 body and its three ordered relocations. GAME3/O first-use,
+all consumed headers and exact maintained wrapper/include remain bound.
+Signed isgraph indexing, invalid SJIS CG access, unchecked coordinates and
+truncated bold edges are preserved. CRT/GRCG/table context stays uncredited.
+Prior96 owners unchanged. Use `review_th03_mainl_text_work.py --current-cold`;
+no ancestor chain/runtime expansion. Live namespace193, historical145/mock150
+unchanged. See [MAINL_TEXT_REVIEW.md](MAINL_TEXT_REVIEW.md).
 
 ## MAINL complete root/continue ownership
 

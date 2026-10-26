@@ -45,6 +45,7 @@ from review_th03_mainl_cutscene_work import current_scope as cutscene_scope, INP
 from review_th03_mainl_registration_work import current_scope as registration_scope, INPUTS as REGISTRATION_INPUTS
 from review_th03_mainl_scoredat_work import current_scope as scoredat_scope, INPUTS as SCOREDAT_INPUTS
 from review_th03_mainl_root_orchestration_work import current_scope as root_orchestration_scope, INPUTS as ROOT_ORCHESTRATION_INPUTS
+from review_th03_mainl_text_work import current_scope as text_scope, INPUTS as TEXT_INPUTS
 from lib.decoded_mainl_root_orchestration_layout import transport as root_transport
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
@@ -94,7 +95,7 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/lib/decoded_mainl_staff_roll_services.py", "scripts/lib/decoded_mainl_staff_roll_machine.py",
                 "scripts/lib/decoded_mainl_staff_roll_runtime.py", "scripts/lib/decoded_mainl_staff_roll_proofs.py")
 
-PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS)))
+PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS)))
 
 def need(value, message):
     if not value:
@@ -214,6 +215,9 @@ def audit(root):
     need(digest(owners) == "5f961a11c5f2eaefb505ee0669021e7d1e7d6482abeeb85d4d4866df3e43fed3", "previous84 owner observations unchanged from06e7f3a")
     root_orchestration = root_orchestration_scope(root, work, target, candidate, raw_report, graph, files)
     owners += root_orchestration["layout"]["owners"]
+    need(digest(owners) == "ee4d09337a525496af6b222521329ad0bd407fbe1e003fe81e63661feacf2763", "previous96 owner observations unchanged from2b9fe1c")
+    text_renderer = text_scope(root, work, target, candidate, raw_report, graph, files)
+    owners += text_renderer["layout"]["owners"]
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -254,7 +258,7 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending, staff_draw=staff_draw, snow=snow, dissolve=dissolve, staff_callers=staff_callers, staff_hold=staff_hold, staff_single=staff_single, staff_pair=staff_pair, staff_verdict=staff_verdict, staff_data=staff_data, staff_roll=staff_roll, cutscene=cutscene, registration=registration, scoredat=scoredat, root_orchestration=root_orchestration)
+    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending, staff_draw=staff_draw, snow=snow, dissolve=dissolve, staff_callers=staff_callers, staff_hold=staff_hold, staff_single=staff_single, staff_pair=staff_pair, staff_verdict=staff_verdict, staff_data=staff_data, staff_roll=staff_roll, cutscene=cutscene, registration=registration, scoredat=scoredat, root_orchestration=root_orchestration, text_renderer=text_renderer)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],

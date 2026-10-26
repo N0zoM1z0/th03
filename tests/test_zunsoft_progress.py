@@ -42,7 +42,7 @@ class ZunsoftProgressTests(unittest.TestCase):
  def test_mainl_accepted_axis_and_logo_annotation_coexist(self):
   with patch('status.mainl_product_status',return_value={'product_exact':True,'decoded_exact_units':150}):
    svg=p.render_svg(UNITS,[],EVIDENCE)
-  self.assertIn('Decoded acceptance: exact 150/192',svg)
+  self.assertIn('Decoded acceptance: exact 150/193',svg)
   self.assertIn('MAINL product + decoded accepted',svg)
   self.assertIn('Logo root: 10 source units / 1,299 B',svg)
   self.assertIn('2 cold builds · 2,600 retained calls · exact 0',svg)
