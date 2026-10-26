@@ -22,7 +22,8 @@ extern unsigned char target_formation_marker;
 extern unsigned char round_defeated_player;
 extern uint16_t combo_points_for_boss_attack;
 void near player_shots_add(void);
-// Existing root BSS at DS:4B9C; its storage view still needs link review.
+// Existing root BSS at 1D56:4B9C, verified in the current native MAP.
+// The original five-byte reserve is split 1+2+2; no new storage.
 extern unsigned char shot_release_frames[2];
 // Target C0D8..C1E6 reads BP+4 and returns RET 2; source name inferred.
 void near pascal player_lose_anim_update(player_stuff_t near *player);

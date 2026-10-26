@@ -1,6 +1,7 @@
 """Proposed promoted-default guards; synthetic/mock-only, no native execution."""
 import hashlib,sys,tomllib,unittest,tempfile,shutil
 from pathlib import Path
+from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from test_th03_serial_schedule import ScheduleTests,m
 ROOT=Path(__file__).resolve().parents[1]
@@ -19,9 +20,18 @@ class GameplayDefaultProposal(ScheduleTests):
             root=Path(tmp)
             for name in m.PINS:
                 p=root/name;p.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(ROOT/name,p)
-            m.check_pins(root,None)
-            p=root/'config/th03_main_exact_units.toml';p.write_bytes(p.read_bytes()+b'\n# drift\n')
-            with self.assertRaises(ValueError):m.check_pins(root,None)
+            name='config/th03_main_exact_units.toml';p=root/name
+            # Current native ownership is intentionally outside the frozen
+            # historical schedule. Do not rewrite its production manifest pin.
+            with self.assertRaisesRegex(ValueError, '^input pin drift: config/th03_main_exact_units[.]toml$'):
+                m.check_pins(root,None)
+            # Synthetic positive/mutation control tests the same strict guard,
+            # not historical replay eligibility of today's larger owner set.
+            with patch.dict(m.PINS, {name:hashlib.sha256(p.read_bytes()).hexdigest()}):
+                m.check_pins(root,None)
+                p.write_bytes(p.read_bytes()+b'\n# drift\n')
+                with self.assertRaisesRegex(ValueError, '^input pin drift: config/th03_main_exact_units[.]toml$'):
+                    m.check_pins(root,None)
     def test_exact_additive_default_scope(self):
         old=tomllib.loads((ROOT/'tests/fixtures/th03_main_exact_units_pre_gameplay.toml').read_text())
         prop=tomllib.loads((ROOT/'config/th03_main_mima_gameplay_candidate.toml').read_text())

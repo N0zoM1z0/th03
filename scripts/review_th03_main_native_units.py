@@ -34,6 +34,7 @@ CORE_OWNERS = {"th03-main-round-finish", "th03-main-core-entry", "th03-main-roun
 STAGE_OWNERS = {"th03-main-stage-round"}
 PALETTE_OWNERS = {"th03-main-stage-palette"}
 CHARACTER_OWNERS = {"th03-main-character-setup"}
+PLAYER_STATE_OWNERS = {"th03-main-player-state-update"}
 HANDOFF_OWNERS = {"th03-main-executable-chain", "th03-main-demo-transition"}
 
 
@@ -230,7 +231,7 @@ def review(report=None):
     config = tomllib.loads((ROOT / "config/th03_main_exact_units.toml").read_text())
     native_units = config.get("native_units", [])
     need(
-        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS,
+        {u["id"] for u in native_units} == LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS,
         "lose owners are incomplete",
     )
     units = config["units"] + native_units
@@ -402,7 +403,7 @@ def review(report=None):
          and result["handoff_runtime"]["code_bytes_executed"] == 742
          and result["handoff_controls"]["count"] == 10, "handoff contracts are incomplete")
     result["handoff_model_sha256"] = sha((ROOT / "scripts/lib/main_handoff_runtime.py").read_bytes())
-    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS):
+    for unit in (u for u in units if u["id"] in OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS):
         (extent,) = unit["code_extents"]
         row = ledgers[unit["id"]]
         lo = extent["segment"] * 16 + extent["start"]
@@ -464,7 +465,11 @@ def review(report=None):
             )
         obj_path = "obj/th03/" + unit["object"] + ".obj"
         obj_raw = (build.WORK / obj_path).read_bytes()
-        producer = producer_ownership(unit, units, config["functions"])
+        if unit["id"] in PLAYER_STATE_OWNERS:
+            from lib.main_player_layout import core_ownership
+            producer = core_ownership(unit, units)
+        else:
+            producer = producer_ownership(unit, units, config["functions"])
         producer_extent = producer["extent"]
         segments = [s for s in segment_definitions(obj_raw) if s["size"]]
         need(
@@ -524,12 +529,13 @@ def review(report=None):
             compiler_data=data,
             native_producer=dict(object=obj_path, start=producer_extent["start"],
                                  bytes=producer_extent["size"], owners=producer["owners"],
+                                 partition=producer.get("partition"),
                                  code_record_sizes=[p["size"] for p in build.code_bytes(obj_raw, segments[0]["index"])[1]]),
             ordered_relocations=len(literal(target)),
             gates=checks,
         )
     need(
-        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS,
+        set(result["units"]) == OWNERS | LOSE_OWNERS | CORE_OWNERS | STAGE_OWNERS | PALETTE_OWNERS | CHARACTER_OWNERS | HANDOFF_OWNERS | PLAYER_STATE_OWNERS,
         "all native owners required",
     )
     return result

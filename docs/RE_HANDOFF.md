@@ -1,11 +1,9 @@
 # TH03 handoff
 
-Prepared 2026-10-26. Current committed checkpoint is **`5be2837`** on `main`
-(ahead of origin by two); the vendor-composition work below is not committed.
-Factory MCP is the authorized execution route. Music Room state/track review
-remains accepted. MAIN now reproduces the complete literal relocation vector
-through three natural player producers; whole-file exactness remains open.
-Existing full CI is being rerun for the vendor-composition checkpoint.
+Prepared2026-10-26. Current committed checkpoint **`c024ae9`**,main ahead four.
+Player-state ownership work is staged,not committed. Factory MCP is authorized.
+MAIN's existing player-state C++ body now has a distinct bounded owner;whole-file
+exactness remains open. Existing full CI is pending at note writing.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -16,7 +14,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
-| MAIN | 445 functions / 75,317 CODE bytes / 98 extents | Open |
+| MAIN | 446 functions / 76,423 CODE bytes / 99 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
 | MAINL | 54 extents / 59 procedures / 6,597 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
@@ -36,6 +34,22 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAIN player-state ownership recovery
+
+Already reconstructed `player_state_update` owns only loadDA43..DE95:
+1,106 bytes/375 instructions,near Pascal/RET4. Not a new implementation.
+Complete3,135-byte core partition preserves previous owners and leaves610
+adjacent player bytes plus173 sprite bytes unaccepted. Shared root BSS4B9C
+is an existing1+2+2 reserve view,not new storage.
+
+Full existing two-cold replay passes all11 exact requirements,repeats100
+outputs/98 objects,and retains99 extents/76,423 bytes/all1,553 literal relocations.
+Native records/publics/MAP/zero private DATA/BSS remain checked. Round-loop
+runtime stubs this callee;no executed-body claim or new harness. See
+`MAIN_PLAYER_STATE_UPDATE_REVIEW.md` and
+`config/main_work/player_state_update_acceptance.json`. Full CI pending at
+writing;final receipt reported separately. No push or new commit yet.
 
 ## MAIN original VSync vendor dependency
 

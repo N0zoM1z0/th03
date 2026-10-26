@@ -1,6 +1,6 @@
-// Target-derived candidate for load DA43..DE95 (1,106 bytes).
-// Requires reviewed current APIs and a real DGROUP binding for
-// shot_release_frames[2] at DS:4B9C. No allocation or acceptance is implied.
+// Target-derived player state machine, load DA43..DE95 (1,106 bytes).
+// Current core.cpp producer binds shot_release_frames[2] at DS:4B9C.
+// Ownership excludes callees, shared storage, and adjacent player procedures.
 void near pascal player_state_update(input_t input_raw, player_stuff_t near *player_raw)
 {
     register player_stuff_t near *player;

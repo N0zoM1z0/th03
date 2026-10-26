@@ -56,6 +56,47 @@ PRODUCERS = [{'object': 'core',
   'publics': [[0, '@player_shots_add$qv'], [264, '@shots_update$qv'], [307, '@shots_render$qv']]}]
 
 
+# Complete core partition: context is checked, never promoted by containment.
+CORE_PARTITION = [
+    (0x3FF4, 284, "th03-main-player-move"),
+    (0x4110, 595, "th03-main-hyper-dispatch"),
+    (0x4363, 1106, "th03-main-player-state-update"),
+    (0x47B5, 610, None),  # render131 / overlay209 / knock151 / bomb119
+    (0x4A17, 367, "th03-main-player-state"),
+    (0x4B86, 173, None),  # stage-shot sprite context
+]
+
+
+def core_ownership(unit, units):
+    """Bind the one current core owner through a complete, explicit partition."""
+    core = PRODUCERS[0]
+    need(unit["id"] == "th03-main-player-state-update"
+         and unit["object"] == "core" and unit["map_module"] == core["source"],
+         "unexpected core owner")
+    cursor = core["start"]
+    expected = []
+    for start, size, owner in CORE_PARTITION:
+        need(start == cursor and size > 0, "core partition gap or overlap")
+        cursor += size
+        if owner:
+            expected.append((start, size, owner))
+    need(cursor == core["start"] + core["size"], "complete core partition required")
+    actual = []
+    for peer in units:
+        for extent in peer.get("code_extents", []):
+            start = extent["start"]
+            if extent.get("segment") == 0x96E and start < cursor and start + extent["size"] > core["start"]:
+                actual.append((start, extent["size"], peer["id"]))
+    need(sorted(actual) == expected, "core accepted/context partition differs")
+    extent, = unit["code_extents"]
+    need((extent["segment"], extent["map_segment"], extent["map_group"], extent["map_acbp"])
+         == (0x96E, core["segment"], "MAIN_01", 28), "core owner frame differs")
+    return dict(extent=dict(extent, start=core["start"], size=core["size"]),
+                owners=[owner for _, _, owner in CORE_PARTITION if owner],
+                functions=[dict(offset=core["start"] + offset) for offset, _ in core["publics"]],
+                partition=[dict(start=start, size=size, owner=owner) for start, size, owner in CORE_PARTITION])
+
+
 def need(value, message):
     if not value:
         raise ValueError("player composition: " + message)

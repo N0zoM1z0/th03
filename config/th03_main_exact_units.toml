@@ -7630,3 +7630,26 @@ offset = 0x2b68
 size = 177
 abi = "near Pascal member; one near this pointer word on caller stack, not read; DI signed16 counter and byte angles; SI/DI/BP/DS/SS preserved; RET 2"
 return_pop = 2
+
+
+[[native_units]]
+id = "th03-main-player-state-update"
+source = "src/main/player/update.inl"
+object = "core"
+map_module = "src/main/player/core.cpp"
+
+[[native_units.code_extents]]
+segment = 0x096e
+start = 0x4363
+size = 1106
+map_segment = "MAIN_010_TEXT"
+map_group = "MAIN_01"
+map_acbp = 28
+
+[[native_units.functions]]
+name = "player_state_update"
+segment = 0x096e
+offset = 0x4363
+size = 1106
+abi = "near Pascal; WORD input BP+6 and near player BP+4; SI/DI/BP preserved; RET4"
+return_pop = 4
