@@ -22,9 +22,21 @@ status = load('status')
 progress = load('progress')
 CURRENT_UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
 # This suite exercises the frozen 145-owner publication, with its original
-# containing GRCG/STR_IEQ boundaries. Current tracked scopes use 180 extents; the frozen fixture retains145.
+# containing GRCG/STR_IEQ boundaries. Current tracked scopes use 192 extents; the frozen fixture retains145.
 UNITS = [dict(u) for u in CURRENT_UNITS
          if not u['id'].startswith('th03-mainl-decoded-cutscene-') and u['id'] not in {
+    'th03-mainl-decoded-root-orchestration-cfg-resident',
+    'th03-mainl-decoded-root-orchestration-win-load',
+    'th03-mainl-decoded-root-orchestration-win-text',
+    'th03-mainl-decoded-root-orchestration-free-all',
+    'th03-mainl-decoded-root-orchestration-win-animation',
+    'th03-mainl-decoded-root-orchestration-story-dispatch',
+    'th03-mainl-decoded-root-orchestration-next-load',
+    'th03-mainl-decoded-root-orchestration-next-put',
+    'th03-mainl-decoded-root-orchestration-shot-pair',
+    'th03-mainl-decoded-root-orchestration-shot-load',
+    'th03-mainl-decoded-root-orchestration-main',
+    'th03-mainl-decoded-root-orchestration-continue-menu',
     'th03-mainl-decoded-scoredat-decode',
     'th03-mainl-decoded-scoredat-recreate',
     'th03-mainl-decoded-scoredat-sum-invalid',

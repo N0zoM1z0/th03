@@ -1,10 +1,11 @@
 # TH03 handoff
 
-Prepared2026-10-26. Baseline checkpoint **`175c3ca`**, main ahead nine.
-Existing MAINL score-data ownership is staged, not committed: three procedures,
-229 CODE bytes/98 instructions. Actual first-use GAME3/O producer is preserved;
-external hi storage and encoder are not recounted. No compiled-source changes,
-native rebuild or new runtime. Final CI pending at writing.
+Prepared2026-10-26. Baseline checkpoint **`06e7f3a`**, main ahead ten.
+Existing MAINL root/continue ownership is staged, not committed: twelve complete
+procedures,2857 CODE bytes/944 instructions. Table18, DATA112 and BSS186 stay
+uncredited context. Actual rootdata/contmenu producers and the declared continue
+segment transform are preserved. No compiled-source changes, native rebuild or
+new runtime. Final CI pending at writing.
 
 Read `AGENTS.md`, [architecture](ARCHITECTURE.md), [workflow](RE_WORKFLOW.md)
 and the local [th03-re skill](../.agents/skills/th03-re/SKILL.md) before resuming.
@@ -17,7 +18,7 @@ Detailed findings live in maintained source, `config/knowledge.csv`,
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
 | OP | 34 extents / 36 procedures / 4,099 CODE + 487 DATA bytes | Open |
-| MAINL | 84 extents / 89 procedures / 12,668 CODE + 224 DATA bytes | Open |
+| MAINL | 96 extents / 101 procedures / 15,525 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
 OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
@@ -35,6 +36,20 @@ Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
 Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
 Inherited post-cleanup CI: **2,413 tests,284 optional archive skips,all checks
 passed**;10m01s/about572 MiB peak RSS/no swap,CPU16/nice10.
+
+## MAINL complete root/continue ownership
+
+All313 native fields across rootdata2458 CODE/112 DATA/186 BSS and contmenu417
+CODE independently resolve. Twelve complete bodies own2857 CODE/944 instructions
+and131 ordered CODE relocations; the18-byte switch and all storage remain
+required uncredited context. All previous84 owner observations are identical.
+CFG returns resident segment AX; unsigned winner/message bytes remain explicit;
+score-menu failed exec falls through while later failed exec returns far.
+The current producer is complete_data.cpp, not historical root.asm/prefix.cpp;
+continue has the one exact CONTINUE_TEXT to CUTSCENE_TEXT composer transform.
+Use `review_th03_mainl_root_orchestration_work.py --current-cold`, never an
+ancestor default chain. Live namespace192, frozen145/mock150 unchanged.
+See [MAINL_ROOT_ORCHESTRATION_REVIEW.md](MAINL_ROOT_ORCHESTRATION_REVIEW.md).
 
 ## MAINL complete score-data ownership
 
