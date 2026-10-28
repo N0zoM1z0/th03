@@ -1,49 +1,38 @@
 # TH03 handoff
 
-## Current checkpoint
+## Current direction and checkpoint
 
-The latest source-acceptance checkpoint is `cb8ae8c1f22ae4477908a7f566c6cbe906b564d5`
-(MAINL text ownership). It was saved locally after the already-running CI finished:
-2,421 tests, 284 skips, PASS, 9m43s. The tree was clean and main was ahead 12,
-behind 0 before this documentation-only cleanup. No native source changed in
-that checkpoint. Terminal evidence remains in
-`.analysis/work/text-final-ci.log` and `.analysis/work/text-final-ci.exit`.
-Historical review notes saying “pending at writing” are snapshots, not current
-job status; their original proof records have not been rewritten.
+The user's 2026-10-28 instruction is **exact-first reconstruction**. Do not add
+allocation-failure/null-pointer tests, exhaustive input/flag/mutation matrices,
+large independent emulator models or loop proofs as routine per-unit gates.
+Use direct local tools. Reuse an unchanged native cold pair; check/rebuild only
+affected inputs. Full CI is available for broad infrastructure changes, not a
+routine per-unit gate.
 
-2026-10-28 diagnostic work: the complete OP polygon build/update pair now has
-an independent full-register/flags/ordered-write/1MiB-memory contract, including
-every stack byte and actual IRAND/polar context. All645 CODE bytes,54 native
-fields and14 ordered relocations match;2,284 complete executions and46 actual
-instruction controls pass. The unchanged OP cold graph is revalidated without
-a new cold replay. Source-acceptance counts below remain unchanged; native
-owner/publication integration and the476-byte Music Room menu remain open.
-See [OP Music polygon](OP_MUSIC_POLYGON_REVIEW.md). The latest user instruction
-authorizes direct local tools instead of Factory for this work.
-Final CI passed:2,428 tests/284 skips plus all tracking, progress, target,
-toolchain and four database/smoke gates. Receipts:
-`.analysis/work/op-music-polygon-ci.log` and `op-music-polygon-ci.exit` (0).
-The earlier `ci-before-control-fix` attempt was interrupted, not a pass.
+The latest source-acceptance checkpoint remains
+`cb8ae8c1f22ae4477908a7f566c6cbe906b564d5` (MAINL text ownership).
+Current Music Room native comparison covers14 complete procedures/2,244 CODE
+bytes/50 literal ordered relocations. The476-byte far menu has160 instructions,
+57 OMF fields and18 relocations. All match the natural producer and fixed target.
+See [Music Room native](OP_MUSIC_MENU_REVIEW.md); rerun
+`scripts/review_th03_op_music_menu_work.py --check` against
+`config/op_music_menu_work/observation.json`. No product source or native recipe
+changed and no new cold pair was built. Ownership publication remains open.
 
-The subsequent Music Room dependency review closes seven existing complete
-comment/copy/flip procedures907 CODE bytes/315 instructions,63 native fields
-and14 ordered relocations. All1,684 two-image/two-load executions,65 actual
-instruction controls and eight focused tests pass. Every stack byte is checked;
-actual polygon/random/polar and owned delay bodies execute in the same UC.
-The source-acceptance counts remain unchanged, and the476-byte menu still needs
-its composed input/sound/child-call contract. See
-[Music Room dependencies](OP_MUSIC_COMMENT_REVIEW.md). Current bound evidence:
-`config/op_music_comment_work/observation.json`; revalidate with
-`scripts/review_th03_op_music_comment_work.py --check`. No native cold replay
-was needed. The duplicate diagnostic probe was deliberately terminated; only
-the completed formal review provides the new matrix evidence.
-Final dependency CI:2,436 tests/284 skips and every subsequent gate PASS,
-recorded in `.analysis/work/music-comment-ci.log` and `music-comment-ci.exit` (0).
-An EOF-only whitespace correction has identical AST, locations and compiled
-Python module bytes; the complete focused review was rerun against its final
-hash before the original CI process resumed. All prior layout/runtime/control
-observations repeat exactly. Equivalence receipt:
-`.analysis/work/music-comment-eof-equivalence.json`.
+The previous polygon/comment diagnostic observations were completed before
+simplification (2,284/1,684 executions and46/65 controls). Their original receipts
+remain historical, not current implementation bindings. The large models and
+15 CI tests were removed. The uncommitted menu matrix was stopped (exit143)
+without a completed runtime receipt; none of its planned totals are a pass.
+Two small native comparator regressions replace those extensions.
+
+Validation: native comparison and two focused regressions PASS (1.1s).
+Final CI:2,423 tests/284 skips plus tracking, progress, target/tool identities
+and all four database/smoke checks PASS. Receipts:
+`.analysis/work/exact-first-ci.log` and `exact-first-ci.exit` (0).
+The earlier policy-comment attempt failed on publication input hashes; the
+unnecessary comment-only change to `oracles.toml` was reverted before this pass.
+No publication hashes were refreshed to bypass that failure.
 
 ## Verified current source scopes
 
@@ -54,79 +43,33 @@ observations repeat exactly. Equivalence receipt:
 | MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
-OP includes 22 separately proved inline compiler bytes. ZUN accepts 8,635
-CODE+DATA bytes: authored 2,179, original ASM 1,390, library 5,066. Whole-game
+OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
+CODE+DATA bytes: authored2,179, original ASM1,390, library5,066. Whole-game
 source/function denominators and the completion percentage remain unknown.
-Existing source ownership verification is not a claim of newly implemented code.
 
-OP/MAINL/ZUN current source-only cold pairs repeat all outputs and match complete
-decoded and canonical DIET `-B` stored targets, but contain unowned reference or
-vendor context. MAIN repeats 100 outputs / 98 project objects and all 1,553
-literal ordered relocations match. Its remaining differences are CODE alignment
-at load EC2D (target 90, candidate 00) and MZ headers 6,240 / 7,680 bytes.
-The original VS module is explicitly vendor context, not authored source credit.
+OP/MAINL/ZUN current source-only cold pairs repeat their outputs and match
+complete decoded and canonical DIET `-B` stored targets, while retaining unowned
+reference/vendor context. MAIN repeats100 outputs/98 project objects and all1,553
+ordered relocations; CODE alignment at EC2D (90 vs00) and MZ headers remain open.
+Its original VS module is explicit vendor context, not authored source credit.
+Publications live in `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`;
+source presence and evidence remain separate from accepted ownership.
 
-Publications: `config/{op_work,mainl_work,zun_work}/scoped_acceptance.json`.
-Generated accounting: [PROGRESS.md](PROGRESS.md), `resources/progress.svg`.
-Evidence and source presence are separately recorded in `config/evidence.csv`,
-`config/knowledge.csv` and `config/units.csv`.
-
-## Review index
-
-Keep detailed ABI, source-transform and ownership findings in their focused
-reviews rather than duplicating them here:
-
-- [MAINL text](MAINL_TEXT_REVIEW.md): 613 CODE, first-use GAME3/O; CRT/GRCG
-  services and classifier tables remain contextual.
-- [MAINL root and continue](MAINL_ROOT_ORCHESTRATION_REVIEW.md): 2,857 CODE;
-  switch 18, DATA 112 and BSS 186 stay uncredited; exact continue segment transform.
-- [MAINL score data](MAINL_SCOREDAT_REVIEW.md): 229 CODE, first-use GAME3/O;
-  checksum boolean is AL only, not normalized AX.
-- [MAINL registration](MAINL_REGISTRATION_REVIEW.md): 2,720 CODE; adjacent
-  music 68 and pointer DATA 40 remain uncredited.
-- [MAINL cutscene](MAINL_CUTSCENE_REVIEW.md): 3,122 instruction bytes;
-  72 table bytes and one emitted zero remain uncredited context.
-- [MAIN graphics](MAIN_GRAPHICS_FILL_REVIEW.md): 207 instruction bytes;
-  nine neighboring bytes and mask DATA remain outside ownership.
-- [MAIN player family](MAIN_PLAYER_FAMILY_REVIEW.md) and
-  [player state](MAIN_PLAYER_STATE_UPDATE_REVIEW.md): complete native partitions,
-  near/far ABI and prior-owner invariance.
-
-The interrupted cutscene ancestor run was not a pass. Original cold and support
-reports were recovered only after exact equality with their published hashes;
-unchanged guards then passed. Never replace this distinction with a synthetic
-complete flag or refreshed hash. Keep its recovery evidence.
-
-## Retained inputs and working state
+## Retained inputs and next work
 
 Preserve fixed Japanese targets/assets (`candidate-local-attested`), the local
 Wine prefix, TC4/TASM/JWasm, `.tools/ghidra`, `.tools/jdk`, `.venv`,
-`_reference/ReC98` and `ghidra-project/`. Ghidra/JDK attest their complete trees;
-do not trim their documentation or archives. Keep one working build per product
-under Wine `drive_c/`: `TH03WORK`, `TH03OP`, `TH03ML`, `TH03ZUN`.
-
-Required source input:
+`_reference/ReC98` and `ghidra-project/`. Ghidra/JDK attest installed trees.
+Keep one working build per product: TH03WORK, TH03OP, TH03ML and TH03ZUN.
+Actual source input:
 `.analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar`.
-Keep `scripts/lib/zun.py` unchanged because MAIN pins it. OP's builder is a
-shared MAINL/ZUN utility; changing it invalidates native graph bindings.
-Current proof inputs are `.analysis/work/*-build.json`, `main-unit-review.json`
-and all paths actually bound by the current publications. Preserve final CI
-receipts and the explicitly retained `.analysis/work/op-music-state-draft/`.
+Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
+binding; OP's native builder is also shared by MAINL/ZUN. Preserve paths actually
+consumed by current publications/builds; obsolete logs and history can be deleted.
 
-Before any future authorized work, read `AGENTS.md`, [architecture](ARCHITECTURE.md),
-[workflow](RE_WORKFLOW.md) and the local
-[th03-re skill](../.agents/skills/th03-re/SKILL.md). Use registered TH03 Factory
-MCP, pinned headless tools, one CPU at nice10 and serialized Borland/Wine writers.
-If native inputs are unchanged, use the selected review's `--current-cold` path
-which revalidates the complete graph. Do not restart a large ancestor runtime
-chain merely to refresh unchanged supporting reports. Preserve current reports
-before any operation that could overwrite them.
-
-## Cleanup boundary
-
-No product implementation, target, ledger, publication or native recipe is part
-of this cleanup. Obsolete transient files may be quarantined recoverably with a
-manifest; current proof inputs and historically referenced backups stay in place.
-Recoverable cleanup records and restore instructions are under
-`.analysis/cleanup-quarantine/20261026-cleanup/`. Quarantine moves files out of
-active locations; it does not reclaim disk space.
+Next Music Room work is native ownership/layout integration for the complete
+carrier. DATA1008/BSS1060 remain separate. A new exhaustive runtime model or
+migration of every historical caller contract is not a prerequisite.
+Useful semantic findings remain in [polygon](OP_MUSIC_POLYGON_REVIEW.md) and
+[comment/copy](OP_MUSIC_COMMENT_REVIEW.md). TH04 is an authorized source reference,
+not a replacement target or new build dependency.

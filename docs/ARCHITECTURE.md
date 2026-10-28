@@ -34,7 +34,7 @@ TH04's `-G` packing does not match TH03 OP.
 
 A target-equal executable can still contain unowned reference/vendor code.
 Complete product source acceptance additionally requires reviewed ownership,
-layout, literal ordered relocations, behavior and cold reproducibility. Unit
+layout, literal ordered relocations and native reproducibility. Unit
 boundaries, inline compiler tables, unreachable instructions, initialized DATA,
 BSS and linker gaps receive separate treatment. BSS is not file-backed; whole-game
 source/function denominators remain unknown.
@@ -92,38 +92,21 @@ relocation fields to actual producers. Comparison-buffer fixup resolution never
 patches objects or executables. Ordinary same-CS far-call relaxation is accepted
 only with native group/ABI proof; explicit padding/target arrays are not substitutes.
 
-Unicorn models execute actual target and candidate instructions against independent
-scalar specifications. Contracts check the stated WORD/DWORD/segment registers,
-defined flags, real frames, ordered writes and complete memory outside declared
-private stack windows. Hardware, DOS, library and file replies are explicitly
-bounded interfaces; no physical timing/pixels or successful exec is inferred.
+Runtime models and native ABI probes are optional supporting tools. Use them
+for specific reconstruction uncertainties; full register/memory models,
+allocation-failure/null-pointer matrices and exhaustive mutation/input suites
+are not general acceptance requirements. An equal native body does not need a
+second implementation in Python. Keep original unchecked semantics and avoid
+product-hardening changes.
 
-PI caller contracts execute actual PI release and CRT memcpy instructions on one
-physical UC. They check both far return words at callee entry because Unicorn
-may omit far-CALL write callbacks. Full physical memory remains checked, with no
-ignored private stack window. The readonly-height interlace prefix has a native
-closed CFG and an inductive even-WORD counter proof, separate from timed runs.
+Existing OP nested-context and startup tools retain their historical scopes.
+Hardware/DOS/library replies are interfaces, not physical execution evidence.
+A stopped prefix receives no successful-return credit. New source work does not
+require extending every older runtime model before native ownership review.
 
-`lib/op_nested_context.py` lets the main-menu verifier execute actual owned
-story/VS/score/attract callees on one physical UC. It preserves entering state,
-native return words and static resident data, then exposes checked predicted
-results. Closed polling/retry prefixes need native CFG and live-state proof;
-emulator instruction-budget exhaustion is not evidence of nontermination.
-
-The far OP startup composes those contexts with actual init/CFG/input/delay/exit
-bodies and CRT copy instructions. Root caller frames and all primitive stack
-bytes are checked; existing callee private windows remain explicit (main96,
-option64, wait/VS80 bytes). A held descendant exports its full predicted SP,
-including intermediate frames. Short CFG preparation boundaries and conditional
-raw-dispatch prefixes receive separate outcomes, without return credit.
-
-OP entry initialized DATA has a separate zero-procedure owner. Gaiji ranges,
-opponent/demo identities, DWORD seeds and CP932 messages form its independent
-semantic image. Native register/stack transfers and pointer-derived bounded
-library readers check consumption. Unreferenced type strings and equivalent
-boolean bits keep static proof only in these fixtures. Unchecked story indices
-also read the unnamed gaiji-space string; closed prefixes stay separate from
-ordinary returns. BSS begins at the decoded file end and remains separate.
+OP entry initialized DATA has a separate zero-procedure owner. BSS begins at
+the decoded file end and remains separate. Unreferenced strings, compiler tables
+and linker gaps require native ownership review rather than runtime coverage.
 
 ## Local tools
 

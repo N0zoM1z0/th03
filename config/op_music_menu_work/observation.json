@@ -1,0 +1,2397 @@
+{
+  "schema": "th03-op-music-native-v1",
+  "complete": true,
+  "provenance": "candidate-local-attested",
+  "native_pair_rebuilt": false,
+  "implementation_sha256": {
+    "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+    "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8",
+    "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+    "scripts/build_th03_op_work.py": "727e30e04cc699e8fcab9ad0834f91077b02bc5a6766815da047776794efc581",
+    "scripts/lib/decoded_mainl_sound_layout.py": "4e0ac7789171fee42818830ed3819b0591f8b1ee6f0e01a7153c13aeb51c630f",
+    "scripts/lib/decoded_mainl_sound_runtime.py": "752336a44acf9d8a09983acee463be56fa9d061a8f790aed9b5510cc172e1ca2",
+    "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+    "scripts/lib/op_attract_layout.py": "1428865341b822bb9dfeabd221fd0a9eb58553d8fe973b302c492f56cf71e74a",
+    "scripts/lib/op_attract_runtime.py": "ca3635fd93e20ebcb1b6a1e5e058afe39524a69293320461a88422517986b906",
+    "scripts/lib/op_cfg_layout.py": "925475722a0fa8c257f4343159ab2ca73cf5f3557754f8ce92ff843e96c6b6e6",
+    "scripts/lib/op_cfg_runtime.py": "bd474bb123b68f3ef6b80afe282b3ca5b4e1a6dcf9f5775c764926f7a82e6340",
+    "scripts/lib/op_dispatch_layout.py": "d92f02cb12224357738e38943f3e529636d4f1812ab17d03d2fae5c83e7d40c7",
+    "scripts/lib/op_dispatch_runtime.py": "d958d0e6ee93b53f15c9438a29071c2123bc1d40c3a2f1fc32fe7b3cce490f55",
+    "scripts/lib/op_entry_data_layout.py": "9019d685364bff3fc601f97ccdf1f870146208edd14de07b00903b181c1711e2",
+    "scripts/lib/op_entry_data_runtime.py": "bf52eb3c9142120a9178c784f670439cc27ddebdbf7532039265ede102a6a476",
+    "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b",
+    "scripts/lib/op_helpers_layout.py": "df02d2c2fa6562a4f220dfcd508ee98bf6c541ea25e048da7a5cb945f1539e18",
+    "scripts/lib/op_helpers_sound_runtime.py": "0ed1311b07bdb0fceeb3d8865bcb03d611ac6b505917f7511c6911209cacf453",
+    "scripts/lib/op_init_runtime.py": "c4071ca695619c1b460f2e3d5ff7a5c82d5318af5bf2acd018ecb11d881fd8bf",
+    "scripts/lib/op_main_menu_layout.py": "45e1c06a6d2dd8a1d7507443efdb7aba1b683b33a971391efb7189a19fc791d6",
+    "scripts/lib/op_main_menu_runtime.py": "bf72f51a60ac8e179de57929e986b3105ef55b4f4d881b72dcd831538b7d79f3",
+    "scripts/lib/op_music_comment.py": "e3d46b923122a209f600fd1e9af296bff708b4e8f0e0e275eacda899dab7f4ce",
+    "scripts/lib/op_music_menu.py": "d988bac57e979808a73e639c2e6c28df5236f65d3a6b844c405e7e0aa5873ae3",
+    "scripts/lib/op_music_polygon.py": "2eddaf6bcc9a83ae1621f8fdc90b5f0b61b4f6d81a1163ba5a0534c17b4dd5a5",
+    "scripts/lib/op_music_state_layout.py": "e24ec4168479e2e15bb5bb389d10057a4f6b4c05d733c0ef8f97950bd3301475",
+    "scripts/lib/op_music_state_runtime.py": "07578a363443b0710e274f01dfffd0cd3e925cd455ac5cc9fc840a27b7b6cfdb",
+    "scripts/lib/op_nested_context.py": "b6ef33dc71df91b5f225cd6bc82bffd2f8f2e7b117766990c0501cd1fdd5768e",
+    "scripts/lib/op_option_layout.py": "ccd45cf910696e3efa501fd9cffc5dd675666fd2b3a94da0c1afff2717d1246b",
+    "scripts/lib/op_option_runtime.py": "e594a33c2873e65c9e5e7af32d8bdbee802eb96bcc9edb4ec56d806fc98fa4e7",
+    "scripts/lib/op_render_layout.py": "4437542ab777a31867ecd73691809154d1af0c4cec2687edb1c6af490b5fb056",
+    "scripts/lib/op_render_runtime.py": "8c350dbffd244c3d82edbfb6e32de3cae9fb8c6006a2cc34fbf628cfdfd31b18",
+    "scripts/lib/op_sound_layout.py": "694031ce840f082fa8e63d7917124356258cf245a5382695cbeeb1419508aa1c",
+    "scripts/lib/op_sound_runtime.py": "219f402dfb825083b32b6dcc62332909ef63647970364c1fa162aa44ab766fba",
+    "scripts/lib/op_startup_children.py": "8f517af78a1005a3159704496cc0f6defaef77c83a86c28385ad963267889f79",
+    "scripts/lib/op_startup_cold.py": "34188fe337f557deeb6085590b481a6fa92ae16c1d8be5ce52161e52f7848091",
+    "scripts/lib/op_startup_layout.py": "c076d5ced2598908b6b224b0855a6e6dc93b8489a981471402845700e5a925a8",
+    "scripts/lib/op_startup_primitives.py": "bb93bbe1c4e8f22d2cab47fc4e5283e5c3e77fb08361e42781ad259e9751d724",
+    "scripts/lib/op_startup_runtime.py": "db7c82b3b8c23b879f6e85b4f763e4a4cd681a9ebc846b6a3db5d6f8ccdcadf9",
+    "scripts/lib/op_startup_state.py": "94157dba8485b1c8f51d48455b3b2f638aa9aaa63b85eec1471db9fafd1542ef",
+    "scripts/lib/op_story_layout.py": "9e5739f3b392b711eff5613537d4fcc61aeb12efb33cdaa9bff328c47e8637c9",
+    "scripts/lib/op_story_runtime.py": "cdc21700f239c3b1c8886986aca6bc02a2c7005614b2ac911e0ca3f7ab8e819f",
+    "scripts/lib/op_vs_layout.py": "f2c698b280852c4a1da33b0e182a7669bdcbe4f380f3ff1471963f175e8e52ef",
+    "scripts/lib/op_vs_runtime.py": "edd428d9715ad425cf9f6b18f710c96339a80974d695f15381e60a441ebed1e4",
+    "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+    "scripts/lib/shared_input_layout.py": "776bdce216ecc0e47224a63e88edca17080df6d99e83ca4665978b7b408f7187",
+    "scripts/lib/shared_input_runtime.py": "3c80b85cb83994b4eba064a2e6c9c38005364cf4a6c86c8e9ed7295b43c4d95a",
+    "scripts/lib/shared_sound_runtime.py": "81ee79f15e84f72bd7699189b7ba6d9587a607087fe446f554deeb928ddb787d",
+    "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+    "scripts/lib/toolchain.py": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
+    "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+    "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+    "scripts/review_th03_op_attract_work.py": "55ff0d6b87a5bbf5a079ed4199c507301ffae6c27a1c5be3cbfff35474389eac",
+    "scripts/review_th03_op_cfg_work.py": "de611e8cf356956518d86404c0e4f23b87eb6d74d06194e13a568f7579419f3f",
+    "scripts/review_th03_op_dispatch_work.py": "60812bd9f35ef355084d17a7b55ae50a59462b8a20fe75992bc1fee042459e77",
+    "scripts/review_th03_op_entry_data_work.py": "9ea05b4628bf2571f39179c207bba0692658e85d7757fcbff02cab5f10a310d1",
+    "scripts/review_th03_op_helpers_work.py": "790a7a5d88a594c530e22ca2fd6ae4c6c4ceefb33ff7ae22d91c4e868a19d0a5",
+    "scripts/review_th03_op_main_menu_work.py": "39f3a066e4e11c854a87ef53fa811dbd3935b024b5b32ee998dbb3351f6e6b40",
+    "scripts/review_th03_op_music_menu_work.py": "9833384ec646303dae73791ed5f156299dc065b9d2c0afdb944d5557e069f244",
+    "scripts/review_th03_op_music_state_work.py": "731af3bbef2449f66a4cc67205e607d11f6eb16c1db5603e8224f366509bf99f",
+    "scripts/review_th03_op_option_work.py": "f4038854c77d4d06a5050f0b624dd12319ce9e93cc798f5a2f3fdf34e2b55002",
+    "scripts/review_th03_op_render_work.py": "9dac86fec8ce23055be5d93cf2e3e2befb254726618d5f99f316c41082ff7cbf",
+    "scripts/review_th03_op_sound_work.py": "bd569f3260c7d2c5ee51ceed59a57c48a80e3800d1e58facfd324983301b0f15",
+    "scripts/review_th03_op_startup_work.py": "d129cef46de7c78de0fe99fc8b15ceda1930494570701e41b1965bb4e283f71a",
+    "scripts/review_th03_op_story_work.py": "2f369e683102a148f2182019bbafeabe5244a2ba9c9c968af955b9c813bf17d2",
+    "scripts/review_th03_op_vs_work.py": "641a9bb2afdfdccea2404e8a1aa3142e25d584f10d77ff06a0264fffd04563e6",
+    "src/op/core/initop.cpp": "8d0a9bf147fc4dda35fa041c83d163c458dbe452fba03bbc1a14d3b591116a29",
+    "src/op/entry.cpp": "4dfb428f104a55ced4be9ae62703537869850fb60ea8a863982934927251b06a",
+    "src/op/hardware/frame_delay_2.cpp": "535b33cb9cd4e03e0a49e30439d1358c1b0ade0998b906b53d24ca2b0e4f3f1b",
+    "src/op/menu/menu_state.inl": "6a02a8988535ce59a70790e821b78437dc0f2979103767588fc9af9e60bd4983",
+    "src/op/menu/title_animation.inl": "4ca937ef0b31d80822b7aa7384126dd86e44ea065034ce4fdc666afdf58a2236",
+    "src/op/music/animation_and_menu.inl": "deff0433f31a1a4330975e79f95148d2fdc1464c8f3bccfbf49c9c8cc7ea16e6",
+    "src/op/music/nopoly_blit.inl": "944927ee672a0dcf4b3d0f015cd3a97667661d4ab328cb8bdc3a08dd796d007a",
+    "src/op/music/state_and_tracks.inl": "8dc58f1009f3c4b0ca0faa6a2712c6f35fa271e31b4da2254b96447db1ed48bf",
+    "src/op/snd/kaja_interrupt.cpp": "a6c773a98bcaf565cf6a8a05b477d0548fe72498574bdc1b87b8ace12a539c2e",
+    "src/shared/hardware/frame_delay.cpp": "ed2f70e85534cc513624762e337b7e860b491c27260b1a9d5ff61dff3df309dc",
+    "src/shared/sound/load.cpp": "bcde0f8ef6ad4bbbf6129c1f54723ebdeddf53f4d2b36d92971b2e1e3d37cc86"
+  },
+  "cold_report_sha256": "7172a6f6effbb5fac83ab3851bdaf34281c211361d917b7db6b1b9be72fa5c17",
+  "cold_validation": {
+    "source_files": 330,
+    "native_objects_per_round": 30,
+    "outputs_per_round": 32,
+    "rounds": 2,
+    "recipe_sha256": {
+      "scripts/build_th03_op_work.py": "727e30e04cc699e8fcab9ad0834f91077b02bc5a6766815da047776794efc581",
+      "scripts/stage_th03_op_fullcold.py": "5862d56169f38a5e00d0a882b46f368f24ab9079c5ce05a8640e0f33f90a5fae",
+      "scripts/stage_th03_op_nopcall.py": "4f272194f6c6c4091b164fd0c417233cb15569d8c9a9d3f3bc4ddaddbed86a7a",
+      "scripts/stage_th03_op_exit_helpers.py": "c9fdf453dd4fa7c8c16a36763ce5f8dfc0a5c2c7f1dbc6fdc612a52a91400610",
+      "scripts/lib/op_exit_layout.py": "bc6f18490adcd75517288765ac9d3467de87bb7767bd7e0b2f4a1d1c0981374e",
+      "scripts/lib/op_exit_runtime.py": "2fe7a493dc21cfefb816db7e683396df984897c004c25e0560e71937502d101b",
+      "scripts/lib/omf.py": "3fec01c38a13d6a13fc9296292f3b2a7075cdaf3e0897cfc31d1c83b84897030",
+      "scripts/lib/pc98.py": "af46d18e4dfbe2c0915c04880031c64bb17133eb8df7ccfba44fbd99b5cb3fcf",
+      "scripts/lib/targets.py": "4756db844953ba748077ff6e75e9df8a80692b8108e0eec3c3fa6dbeeb49ac93",
+      "scripts/lib/toolchain.py": "7c668ef88059f313a2d0fc62d9601324480d210839610c7d02f17ef245dd95b9",
+      "scripts/probe_th03_main_bomb_rikako_cpp.py": "476f799585b8a87df988987978adaaf243ca9b83b8cdd64fd50991be523d64d6",
+      "scripts/lib/op_current_source.py": "92f6a920b590d689232a13b28e062c1567268fc0f207f77b15cfc2681b284b61",
+      "scripts/probe_th03_main_boss_marisa_cpp.py": "271ca45e64db11e6575c8160659126d234b566ce21f42110af9e51a8b06ff9f3",
+      "config/toolchain.toml": "c270e15bb809884008d85f1b7b8429ee1795ec65f548dcbbe4b65fd43841e2d7",
+      "config/targets.toml": "1640e7340ffb9e26a2736072e47bc0bf2f75c9a19a3fabe99956db39a60ddca3",
+      "config/th03_diet.toml": "5bfa22d9e9e1d9948c77a33d16802da28a3b2d7cfaaa2a7a20279124ca2563e8"
+    },
+    "decoded_sha256": "efd858aef69a240af3a27c747a5beae150f55f0b41b8afdd1eda1760a759ecc0",
+    "stored_sha256": "d7bfa7f1f8afe0943763ce76437d12ed412b8452716dd64f937c94796eba57ab",
+    "entire_current_source_staging_outputs_tools_and_packing_validated": true,
+    "native_pair_rebuilt": false
+  },
+  "dependencies": {
+    "producer": {
+      "source": "th03/op_music.cpp",
+      "object": "obj/th03/op_music.obj",
+      "command": "bin\\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='O' -nobj/th03/ th03/op_music.cpp",
+      "ownership": "maintained-containing",
+      "maintained_owner_sources": [
+        "src/op/music/animation_and_menu.inl",
+        "src/op/music/state_and_tracks.inl"
+      ],
+      "output": "obj/th03/op_music.obj"
+    },
+    "source_dependencies": {
+      "th03/op_music.cpp": "431c5dd85d866b5ffd5b4b36869940daa40fd25823a73d2aa3c4d652d7d0adbd",
+      "src/op/music/state_and_tracks.inl": "8dc58f1009f3c4b0ca0faa6a2712c6f35fa271e31b4da2254b96447db1ed48bf",
+      "compat/rec98/planar.h": "789741579bc0463bab1b8f9f0a97d2c123faf6fc75adfb4fd7939b437ea96c1d",
+      "planar.h": "f45c9ee47b5f5db4bb6263cabcd220f492d1195fdb99e0f576612a6d45805f8d",
+      "pc98.h": "8d385a46f50f095bafce550bf1139336b428d5a54eb4672e991e58e57af9a061",
+      "platform.h": "0f1b8685fe84e7d34b5d66921081367b969971e44385a7bfd3eaa1eaf8ce1906",
+      "compat/rec98/libs/master.lib/master.hpp": "8e279919734d76e7b9b4012255fa19b969733338a69d4aed32d6f2cdc081a7a1",
+      "libs/master.lib/master.hpp": "2219b5ff8d1c8a54add5c2f6f360b7d175a051c0419b4a9b2f397a07da3d11bd",
+      "libs/master.lib/func.hpp": "b3ccc8c8cea3c8976fa9cb55402c753dd84387b667e355df99d9b8cc8e76ee57",
+      "compat/rec98/game/coords.hpp": "916f10562883c5b44e60e2a085050196214f7ff15bfb0c422e1f4900b0415d94",
+      "game/coords.hpp": "1187fa0f6638bf73f16de57b432b44ca56e842a9602c1c80985ced81f9bdbca3",
+      "th01/math/subpixel.hpp": "9f601de294f44b080b353f6bab6710b2fc2483976d3ef38bf164462a4c3e9a86",
+      "compat/rec98/th02/v_colors.hpp": "e60e927238e06feb5c5dd4a2614362040171c4804638edabdc0b4cf4f687a2c7",
+      "th02/v_colors.hpp": "b39d0cd7663e9347a9d7f8100796df9d138dfd77c4cf05886511e2651f04d0d6",
+      "compat/rec98/th02/hardware/frmdelay.h": "77a4e4b0d94b8b095568ad9775756796f41226b8c8e94e7b102d6cdda820e4c1",
+      "th02/hardware/frmdelay.h": "88dc6b247e32fcd9dc2df7e4e1ce96408ad1c5f907b4ffe1ca35356280c2ac42",
+      "compat/rec98/th02/formats/musiccmt.hpp": "642da8336a16acef8616bf849b30a51a85dbaa75285f1134797dd9096f8e98c8",
+      "th02/formats/musiccmt.hpp": "f723dcdd5b7671d0e54836562749707b96cbb285d21172dd11ecf33e09726094",
+      "shiftjis.hpp": "e0e598aab57b0b07d95f9c936963ffdb4c6806457ecc7e677446bd4df195cd1c",
+      "decomp.hpp": "c443ecbd14bbe88112e37cdf91a03be79206cab40a830d8ce8e206e51e8f95bb",
+      "x86real.h": "677ec374af7a6b5887132a926e2d6b20c54ddf9be1b3fff325478b41207e4d4d",
+      "compat/rec98/th03/hardware/input.h": "84b0ca85929d0de82bc4ada8503fb226806f87869d473c4c865bf81509c1b18e",
+      "th03/hardware/input.h": "3934c755120a6de1b189fe0661573b97279aea80fadafe482ecd588645137207",
+      "compat/rec98/th01/hardware/grppsafx.h": "c5c038ac451f606a9f341d3064403647f6d18e7e27d0fa388706c4ab22214f1c",
+      "th01/hardware/grppsafx.h": "347d514f7b4235b7abe32615e16e6725aaad7bdc21dd54fe6ddbb2c4d8bd2ac4",
+      "defconv.h": "1f0a124d3fb5fdf60faec4cefd0658076b8d71b35a23bebea966547766ea001e",
+      "compat/rec98/th02/snd/snd.h": "3a19e42a01b74089c5420729316bcb4c3bd5b135a8ceb5b12ec50e3ba96a2f4f",
+      "th02/snd/snd.h": "6c69d85cc2826ec5d99746b78d4544bfe4dcc1605ba383761c4612c4b803e421",
+      "libs/kaja/kaja.h": "3eb3f8e51c3813f1249a5a18915d5ca6af82cbe94074fc2e076100e970446029",
+      "game/pf.h": "ad69ad21382caf261a3a305215e7eae9ba595a65c1a6d8f7f9ab178c320b4b95",
+      "compat/rec98/th03/formats/cdg.h": "3b5140499bd56861bd01f37611152a812522768f8a8ac06f2d8591d1eb011265",
+      "th03/formats/cdg.h": "d0534dcc22e16d02df8cf53e8d640aac88d42812027f44dde30de38ca9a09e24",
+      "compat/rec98/th03/math/polar.hpp": "2386736c0c5f8482ffa45704467d64fd527e44fc2a501f73df43750d7235bd4f",
+      "th03/math/polar.hpp": "7eef0c0ff708b06d13ca542443c05075f38207d85d171ac2bec2c4ffd3673079",
+      "compat/rec98/th02/op/m_music.hpp": "ab29c1c29ee45a84962e289bec680c9df85a5bd95729825c7938c0722158a7e4",
+      "th02/op/m_music.hpp": "a7df5dd757a21c81b31c542f05a4139dd4720553677515ca0eeeaebed048079d",
+      "compat/rec98/th02/formats/pi.h": "ccc43c987eabcb9e52c8363ce4fda5bdc7b3621c38e42da32a4eef842b5eeb4a",
+      "th02/formats/pi.h": "5c6935e28964a88714f1ca08aa94cf0eb8cda89a087e143094b76e6ab1b5582f",
+      "libs/master.lib/pc98_gfx.hpp": "0b63531f61811081b17eea3d1d93164547e11d0f360ddd18be0d8268efa40b2a",
+      "compat/rec98/th03/shiftjis/music.hpp": "ef63f67b5a0e6720876f020a196cfc838ea4f2fc1a3b2634d9937aee71d6af2e",
+      "th03/shiftjis/music.hpp": "a799543c20e12bb6448faefe4e3a12da6d1938199176079cf918201c33416d63",
+      "th03/shiftjis/bgm.hpp": "0b4b33aa0e9b004dd7b4bd12658aa2d197055a78b9f273452d622d0666cc929c",
+      "th03/shiftjis/fns.hpp": "3aa70029fb04788bdec25ce775e2dc32a138c803b4e19a86695a19d55b1df3e6",
+      "th03/playchar.hpp": "3575e375751362269c69af4d95b1f2044fe4a8a39c6eec2cb77e750e64d414a3",
+      "src/op/music/nopoly_blit.inl": "944927ee672a0dcf4b3d0f015cd3a97667661d4ab328cb8bdc3a08dd796d007a",
+      "src/op/music/animation_and_menu.inl": "deff0433f31a1a4330975e79f95148d2fdc1464c8f3bccfbf49c9c8cc7ea16e6"
+    },
+    "sdk_sha256": {
+      "C:/TC4/INCLUDE/mem.h": "e4beea2052d88ffff7a1727b6c13278a226675a427aac3d48d63532c34be552b",
+      "C:/TC4/INCLUDE/_defs.h": "8af57b90cf5f065396114ff6f6b0c51572f9335f6824234e1294cd9a1c8e987f",
+      "C:/TC4/INCLUDE/_null.h": "76bbba0949f023c327f34ae498d3cbbf0fb8c4592f8b8936ccd1acadd840ddf1"
+    }
+  },
+  "layouts": {
+    "state": {
+      "owners": [
+        {
+          "unit_id": "th03-op-decoded-music-state-and-tracks",
+          "name": "Music Room state and tracks",
+          "source": "src/op/music/state_and_tracks.inl",
+          "object": "obj/th03/op_music.obj",
+          "segment": 2448,
+          "offset": 3102,
+          "start": 42270,
+          "size": 216,
+          "coordinate_space": "decoded-load",
+          "canonical_file_offset": null,
+          "target_sha256": "59fd71848033f7a19c2e933bf2aff4b6abd66204bd2d5b165f1b836f832784a4",
+          "candidate_sha256": "59fd71848033f7a19c2e933bf2aff4b6abd66204bd2d5b165f1b836f832784a4",
+          "ordered_relocations": [
+            [
+              2448,
+              3314
+            ],
+            [
+              2448,
+              3265
+            ],
+            [
+              2448,
+              3210
+            ],
+            [
+              2448,
+              3160
+            ]
+          ],
+          "procedure_count": 4,
+          "procedures": [
+            {
+              "name": "track_put_both",
+              "offset": 0,
+              "size": 114,
+              "callee_pop_bytes": 4
+            },
+            {
+              "name": "tracklist_put_both",
+              "offset": 114,
+              "size": 39,
+              "callee_pop_bytes": 2
+            },
+            {
+              "name": "nopoly_B_snap",
+              "offset": 153,
+              "size": 49,
+              "callee_pop_bytes": 0
+            },
+            {
+              "name": "nopoly_B_free",
+              "offset": 202,
+              "size": 14,
+              "callee_pop_bytes": 0
+            }
+          ],
+          "code_bytes": 216,
+          "initialized_data_bytes": 0,
+          "private_data_bytes": 0,
+          "private_bss_bytes": 0,
+          "abi": "four complete near procedures; track Pascal pop4/list pop2; BYTE arguments in WORD slots; snap/free noargs"
+        }
+      ],
+      "functions": 4,
+      "code_bytes": 216,
+      "instruction_bytes": 216,
+      "ordered_native_fields": [
+        [
+          210,
+          4,
+          204,
+          86,
+          null,
+          4,
+          0
+        ],
+        [
+          207,
+          2,
+          196,
+          20,
+          1,
+          3,
+          202
+        ],
+        [
+          184,
+          2,
+          196,
+          20,
+          1,
+          3,
+          202
+        ],
+        [
+          174,
+          2,
+          196,
+          22,
+          1,
+          2,
+          0
+        ],
+        [
+          166,
+          2,
+          196,
+          20,
+          1,
+          3,
+          202
+        ],
+        [
+          161,
+          4,
+          204,
+          86,
+          null,
+          3,
+          0
+        ],
+        [
+          106,
+          4,
+          204,
+          86,
+          null,
+          15,
+          0
+        ],
+        [
+          103,
+          2,
+          196,
+          20,
+          1,
+          2,
+          0
+        ],
+        [
+          64,
+          2,
+          196,
+          20,
+          1,
+          3,
+          201
+        ],
+        [
+          56,
+          4,
+          204,
+          86,
+          null,
+          15,
+          0
+        ],
+        [
+          53,
+          2,
+          196,
+          20,
+          1,
+          2,
+          0
+        ],
+        [
+          8,
+          2,
+          196,
+          20,
+          1,
+          3,
+          201
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2448,
+          3314
+        ],
+        [
+          2448,
+          3265
+        ],
+        [
+          2448,
+          3210
+        ],
+        [
+          2448,
+          3160
+        ]
+      ],
+      "containing_CODE_bytes": 2244,
+      "containing_DATA_bytes": 1008,
+      "containing_BSS_bytes": 1060,
+      "containing_other_CODE_DATA_BSS_newly_accepted": false,
+      "whole_product_accepted": false
+    },
+    "polygon": {
+      "code_bytes": 645,
+      "procedures": 2,
+      "native_fields": [
+        [
+          876,
+          4,
+          207,
+          86,
+          null,
+          24,
+          0
+        ],
+        [
+          861,
+          2,
+          199,
+          20,
+          1,
+          3,
+          0
+        ],
+        [
+          856,
+          2,
+          199,
+          20,
+          1,
+          3,
+          184
+        ],
+        [
+          849,
+          2,
+          199,
+          20,
+          1,
+          3,
+          184
+        ],
+        [
+          845,
+          2,
+          199,
+          20,
+          1,
+          3,
+          184
+        ],
+        [
+          833,
+          4,
+          207,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          830,
+          2,
+          199,
+          20,
+          1,
+          3,
+          168
+        ],
+        [
+          824,
+          4,
+          207,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          821,
+          2,
+          199,
+          20,
+          1,
+          3,
+          106
+        ],
+        [
+          801,
+          4,
+          207,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          796,
+          2,
+          199,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          784,
+          2,
+          199,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          775,
+          2,
+          199,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          756,
+          4,
+          206,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          751,
+          2,
+          198,
+          20,
+          1,
+          3,
+          42
+        ],
+        [
+          742,
+          2,
+          198,
+          20,
+          1,
+          3,
+          40
+        ],
+        [
+          725,
+          4,
+          206,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          716,
+          2,
+          198,
+          20,
+          1,
+          3,
+          42
+        ],
+        [
+          707,
+          2,
+          198,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          701,
+          2,
+          198,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          685,
+          2,
+          198,
+          20,
+          1,
+          3,
+          40
+        ],
+        [
+          673,
+          2,
+          198,
+          20,
+          1,
+          3,
+          40
+        ],
+        [
+          664,
+          2,
+          198,
+          20,
+          1,
+          3,
+          168
+        ],
+        [
+          660,
+          2,
+          198,
+          20,
+          1,
+          3,
+          184
+        ],
+        [
+          656,
+          2,
+          198,
+          20,
+          1,
+          3,
+          42
+        ],
+        [
+          647,
+          2,
+          198,
+          20,
+          1,
+          3,
+          106
+        ],
+        [
+          638,
+          2,
+          198,
+          20,
+          1,
+          3,
+          40
+        ],
+        [
+          629,
+          2,
+          198,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          616,
+          2,
+          198,
+          20,
+          1,
+          3,
+          168
+        ],
+        [
+          588,
+          2,
+          198,
+          20,
+          1,
+          3,
+          42
+        ],
+        [
+          579,
+          2,
+          198,
+          20,
+          1,
+          3,
+          40
+        ],
+        [
+          570,
+          2,
+          198,
+          20,
+          1,
+          3,
+          0
+        ],
+        [
+          561,
+          2,
+          198,
+          20,
+          1,
+          2,
+          160
+        ],
+        [
+          548,
+          2,
+          198,
+          20,
+          1,
+          3,
+          184
+        ],
+        [
+          541,
+          2,
+          198,
+          20,
+          1,
+          3,
+          184
+        ],
+        [
+          537,
+          2,
+          198,
+          20,
+          1,
+          3,
+          184
+        ],
+        [
+          525,
+          4,
+          206,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          522,
+          2,
+          198,
+          20,
+          1,
+          3,
+          168
+        ],
+        [
+          516,
+          4,
+          206,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          513,
+          2,
+          198,
+          20,
+          1,
+          3,
+          106
+        ],
+        [
+          493,
+          4,
+          205,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          488,
+          2,
+          197,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          476,
+          2,
+          197,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          467,
+          2,
+          197,
+          20,
+          1,
+          3,
+          104
+        ],
+        [
+          448,
+          4,
+          205,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          445,
+          2,
+          197,
+          20,
+          1,
+          3,
+          42
+        ],
+        [
+          428,
+          4,
+          205,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          425,
+          2,
+          197,
+          20,
+          1,
+          3,
+          40
+        ],
+        [
+          408,
+          4,
+          205,
+          86,
+          null,
+          7,
+          0
+        ],
+        [
+          395,
+          2,
+          197,
+          20,
+          1,
+          2,
+          160
+        ],
+        [
+          334,
+          4,
+          205,
+          86,
+          null,
+          19,
+          0
+        ],
+        [
+          325,
+          2,
+          197,
+          22,
+          1,
+          5,
+          0
+        ],
+        [
+          299,
+          4,
+          205,
+          86,
+          null,
+          19,
+          0
+        ],
+        [
+          290,
+          2,
+          197,
+          22,
+          1,
+          6,
+          0
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2448,
+          3980
+        ],
+        [
+          2448,
+          3937
+        ],
+        [
+          2448,
+          3928
+        ],
+        [
+          2448,
+          3905
+        ],
+        [
+          2448,
+          3860
+        ],
+        [
+          2448,
+          3829
+        ],
+        [
+          2448,
+          3629
+        ],
+        [
+          2448,
+          3620
+        ],
+        [
+          2448,
+          3597
+        ],
+        [
+          2448,
+          3552
+        ],
+        [
+          2448,
+          3532
+        ],
+        [
+          2448,
+          3512
+        ],
+        [
+          2448,
+          3438
+        ],
+        [
+          2448,
+          3403
+        ]
+      ],
+      "instruction_count": 219,
+      "raw_sha256": "1856411fd16ecc9b889ede015738c1e00b36ba35f0598cfc6bcf3695d3dacc9f",
+      "source": "src/op/music/animation_and_menu.inl",
+      "object": "obj/th03/op_music.obj",
+      "source_ownership_promoted": false,
+      "whole_product_accepted": false
+    },
+    "comments": {
+      "code_bytes": 907,
+      "procedures": 7,
+      "native_fields": [
+        [
+          978,
+          2,
+          199,
+          20,
+          1,
+          3,
+          204
+        ],
+        [
+          974,
+          2,
+          199,
+          20,
+          1,
+          3,
+          206
+        ],
+        [
+          962,
+          4,
+          207,
+          86,
+          null,
+          3,
+          0
+        ],
+        [
+          939,
+          4,
+          207,
+          86,
+          null,
+          12,
+          0
+        ],
+        [
+          930,
+          2,
+          199,
+          20,
+          1,
+          3,
+          201
+        ],
+        [
+          927,
+          2,
+          199,
+          20,
+          1,
+          3,
+          201
+        ],
+        [
+          920,
+          2,
+          199,
+          20,
+          1,
+          3,
+          201
+        ],
+        [
+          912,
+          4,
+          207,
+          86,
+          null,
+          23,
+          0
+        ],
+        [
+          904,
+          4,
+          207,
+          86,
+          null,
+          22,
+          0
+        ],
+        [
+          228,
+          2,
+          196,
+          20,
+          1,
+          3,
+          202
+        ],
+        [
+          1747,
+          2,
+          198,
+          20,
+          1,
+          3,
+          202
+        ],
+        [
+          1737,
+          2,
+          198,
+          22,
+          1,
+          2,
+          0
+        ],
+        [
+          1721,
+          4,
+          206,
+          86,
+          null,
+          15,
+          0
+        ],
+        [
+          1717,
+          2,
+          198,
+          20,
+          1,
+          3,
+          220
+        ],
+        [
+          1689,
+          4,
+          206,
+          86,
+          null,
+          15,
+          0
+        ],
+        [
+          1686,
+          2,
+          198,
+          20,
+          1,
+          3,
+          220
+        ],
+        [
+          1625,
+          2,
+          198,
+          22,
+          1,
+          1,
+          12
+        ],
+        [
+          1615,
+          2,
+          198,
+          20,
+          1,
+          3,
+          216
+        ],
+        [
+          1604,
+          2,
+          198,
+          22,
+          1,
+          1,
+          8
+        ],
+        [
+          1594,
+          2,
+          198,
+          20,
+          1,
+          3,
+          212
+        ],
+        [
+          1583,
+          2,
+          198,
+          22,
+          1,
+          1,
+          4
+        ],
+        [
+          1573,
+          2,
+          198,
+          20,
+          1,
+          3,
+          208
+        ],
+        [
+          1562,
+          2,
+          198,
+          22,
+          1,
+          1,
+          0
+        ],
+        [
+          1552,
+          2,
+          198,
+          20,
+          1,
+          3,
+          204
+        ],
+        [
+          1489,
+          2,
+          197,
+          22,
+          1,
+          1,
+          12
+        ],
+        [
+          1479,
+          2,
+          197,
+          20,
+          1,
+          3,
+          216
+        ],
+        [
+          1468,
+          2,
+          197,
+          22,
+          1,
+          1,
+          8
+        ],
+        [
+          1458,
+          2,
+          197,
+          20,
+          1,
+          3,
+          212
+        ],
+        [
+          1447,
+          2,
+          197,
+          22,
+          1,
+          1,
+          4
+        ],
+        [
+          1437,
+          2,
+          197,
+          20,
+          1,
+          3,
+          208
+        ],
+        [
+          1426,
+          2,
+          197,
+          22,
+          1,
+          1,
+          0
+        ],
+        [
+          1416,
+          2,
+          197,
+          20,
+          1,
+          3,
+          204
+        ],
+        [
+          1368,
+          4,
+          205,
+          86,
+          null,
+          4,
+          0
+        ],
+        [
+          1365,
+          2,
+          197,
+          20,
+          1,
+          3,
+          218
+        ],
+        [
+          1359,
+          4,
+          205,
+          86,
+          null,
+          4,
+          0
+        ],
+        [
+          1356,
+          2,
+          197,
+          20,
+          1,
+          3,
+          214
+        ],
+        [
+          1350,
+          4,
+          205,
+          86,
+          null,
+          4,
+          0
+        ],
+        [
+          1347,
+          2,
+          197,
+          20,
+          1,
+          3,
+          210
+        ],
+        [
+          1341,
+          4,
+          205,
+          86,
+          null,
+          4,
+          0
+        ],
+        [
+          1338,
+          2,
+          197,
+          20,
+          1,
+          3,
+          206
+        ],
+        [
+          1319,
+          2,
+          197,
+          20,
+          1,
+          3,
+          260
+        ],
+        [
+          1304,
+          4,
+          205,
+          86,
+          null,
+          11,
+          0
+        ],
+        [
+          1299,
+          4,
+          205,
+          86,
+          null,
+          9,
+          0
+        ],
+        [
+          1293,
+          2,
+          197,
+          20,
+          1,
+          3,
+          220
+        ],
+        [
+          1287,
+          4,
+          205,
+          86,
+          null,
+          10,
+          0
+        ],
+        [
+          1269,
+          4,
+          204,
+          86,
+          null,
+          8,
+          0
+        ],
+        [
+          1266,
+          2,
+          196,
+          20,
+          1,
+          2,
+          991
+        ],
+        [
+          1229,
+          2,
+          196,
+          20,
+          1,
+          3,
+          216
+        ],
+        [
+          1218,
+          2,
+          196,
+          22,
+          1,
+          1,
+          12
+        ],
+        [
+          1210,
+          2,
+          196,
+          20,
+          1,
+          3,
+          212
+        ],
+        [
+          1199,
+          2,
+          196,
+          22,
+          1,
+          1,
+          8
+        ],
+        [
+          1191,
+          2,
+          196,
+          20,
+          1,
+          3,
+          208
+        ],
+        [
+          1180,
+          2,
+          196,
+          22,
+          1,
+          1,
+          4
+        ],
+        [
+          1172,
+          2,
+          196,
+          20,
+          1,
+          3,
+          204
+        ],
+        [
+          1161,
+          2,
+          196,
+          22,
+          1,
+          1,
+          0
+        ],
+        [
+          1098,
+          2,
+          196,
+          20,
+          1,
+          3,
+          216
+        ],
+        [
+          1087,
+          2,
+          196,
+          22,
+          1,
+          1,
+          12
+        ],
+        [
+          1079,
+          2,
+          196,
+          20,
+          1,
+          3,
+          212
+        ],
+        [
+          1068,
+          2,
+          196,
+          22,
+          1,
+          1,
+          8
+        ],
+        [
+          1060,
+          2,
+          196,
+          20,
+          1,
+          3,
+          208
+        ],
+        [
+          1049,
+          2,
+          196,
+          22,
+          1,
+          1,
+          4
+        ],
+        [
+          1041,
+          2,
+          196,
+          20,
+          1,
+          3,
+          204
+        ],
+        [
+          1030,
+          2,
+          196,
+          22,
+          1,
+          1,
+          0
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2448,
+          4066
+        ],
+        [
+          2448,
+          4043
+        ],
+        [
+          2448,
+          4016
+        ],
+        [
+          2448,
+          4008
+        ],
+        [
+          2448,
+          4825
+        ],
+        [
+          2448,
+          4793
+        ],
+        [
+          2448,
+          4472
+        ],
+        [
+          2448,
+          4463
+        ],
+        [
+          2448,
+          4454
+        ],
+        [
+          2448,
+          4445
+        ],
+        [
+          2448,
+          4408
+        ],
+        [
+          2448,
+          4403
+        ],
+        [
+          2448,
+          4391
+        ],
+        [
+          2448,
+          4373
+        ]
+      ],
+      "instruction_count": 315,
+      "raw_sha256": "1031d20b922d88b5d5a4cb78d3fbd7186bdb3e2d2b2ca635b9211ca615e9f9d2",
+      "ranges": [
+        [
+          42486,
+          30
+        ],
+        [
+          43161,
+          877
+        ]
+      ],
+      "source": "src/op/music/animation_and_menu.inl;src/op/music/nopoly_blit.inl",
+      "object": "obj/th03/op_music.obj",
+      "source_ownership_promoted": false,
+      "whole_product_accepted": false
+    },
+    "menu": {
+      "procedures": 1,
+      "code_bytes": 476,
+      "instruction_count": 160,
+      "native_fields": [
+        [
+          2034,
+          2,
+          199,
+          22,
+          1,
+          13,
+          0
+        ],
+        [
+          2025,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2021,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2014,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2009,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2003,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          1996,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          1987,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          1980,
+          2,
+          199,
+          22,
+          1,
+          13,
+          0
+        ],
+        [
+          1974,
+          4,
+          207,
+          86,
+          null,
+          14,
+          0
+        ],
+        [
+          1963,
+          2,
+          199,
+          22,
+          1,
+          13,
+          0
+        ],
+        [
+          1957,
+          4,
+          207,
+          86,
+          null,
+          14,
+          0
+        ],
+        [
+          1952,
+          4,
+          207,
+          86,
+          null,
+          25,
+          0
+        ],
+        [
+          1947,
+          2,
+          199,
+          22,
+          1,
+          26,
+          0
+        ],
+        [
+          1937,
+          2,
+          199,
+          20,
+          1,
+          2,
+          161
+        ],
+        [
+          1922,
+          2,
+          199,
+          20,
+          1,
+          2,
+          161
+        ],
+        [
+          1893,
+          4,
+          207,
+          86,
+          null,
+          21,
+          0
+        ],
+        [
+          1885,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          1881,
+          2,
+          199,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          1878,
+          2,
+          199,
+          20,
+          1,
+          2,
+          161
+        ],
+        [
+          1873,
+          4,
+          207,
+          86,
+          null,
+          27,
+          0
+        ],
+        [
+          1870,
+          2,
+          199,
+          22,
+          1,
+          31,
+          0
+        ],
+        [
+          1865,
+          2,
+          199,
+          22,
+          1,
+          30,
+          0
+        ],
+        [
+          1859,
+          4,
+          207,
+          86,
+          null,
+          34,
+          0
+        ],
+        [
+          1849,
+          4,
+          207,
+          86,
+          null,
+          33,
+          0
+        ],
+        [
+          1842,
+          4,
+          207,
+          86,
+          null,
+          32,
+          0
+        ],
+        [
+          1839,
+          2,
+          199,
+          20,
+          1,
+          2,
+          1001
+        ],
+        [
+          1825,
+          4,
+          207,
+          86,
+          null,
+          20,
+          0
+        ],
+        [
+          1810,
+          4,
+          207,
+          86,
+          null,
+          25,
+          0
+        ],
+        [
+          1805,
+          2,
+          199,
+          22,
+          1,
+          26,
+          0
+        ],
+        [
+          1800,
+          2,
+          199,
+          20,
+          1,
+          3,
+          201
+        ],
+        [
+          1794,
+          4,
+          207,
+          86,
+          null,
+          29,
+          0
+        ],
+        [
+          1789,
+          4,
+          206,
+          86,
+          null,
+          28,
+          0
+        ],
+        [
+          1778,
+          4,
+          206,
+          86,
+          null,
+          18,
+          0
+        ],
+        [
+          2228,
+          4,
+          204,
+          86,
+          null,
+          20,
+          0
+        ],
+        [
+          2201,
+          2,
+          196,
+          22,
+          1,
+          13,
+          0
+        ],
+        [
+          2195,
+          4,
+          204,
+          86,
+          null,
+          14,
+          0
+        ],
+        [
+          2181,
+          2,
+          196,
+          22,
+          1,
+          13,
+          0
+        ],
+        [
+          2174,
+          2,
+          196,
+          22,
+          1,
+          13,
+          1
+        ],
+        [
+          2164,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2152,
+          2,
+          196,
+          20,
+          1,
+          2,
+          161
+        ],
+        [
+          2149,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2144,
+          4,
+          204,
+          86,
+          null,
+          16,
+          0
+        ],
+        [
+          2134,
+          4,
+          204,
+          86,
+          null,
+          17,
+          0
+        ],
+        [
+          2131,
+          2,
+          196,
+          20,
+          1,
+          2,
+          84
+        ],
+        [
+          2119,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2111,
+          4,
+          204,
+          86,
+          null,
+          16,
+          0
+        ],
+        [
+          2102,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2095,
+          2,
+          196,
+          22,
+          1,
+          13,
+          1
+        ],
+        [
+          2088,
+          2,
+          196,
+          22,
+          1,
+          13,
+          0
+        ],
+        [
+          2079,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2075,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2068,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2063,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2057,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2050,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ],
+        [
+          2041,
+          2,
+          196,
+          20,
+          1,
+          3,
+          200
+        ]
+      ],
+      "ordered_relocations": [
+        [
+          2448,
+          5078
+        ],
+        [
+          2448,
+          5061
+        ],
+        [
+          2448,
+          5056
+        ],
+        [
+          2448,
+          4997
+        ],
+        [
+          2448,
+          4977
+        ],
+        [
+          2448,
+          4963
+        ],
+        [
+          2448,
+          4953
+        ],
+        [
+          2448,
+          4946
+        ],
+        [
+          2448,
+          4929
+        ],
+        [
+          2448,
+          4914
+        ],
+        [
+          2448,
+          4898
+        ],
+        [
+          2448,
+          4893
+        ],
+        [
+          2448,
+          4882
+        ],
+        [
+          2448,
+          5332
+        ],
+        [
+          2448,
+          5299
+        ],
+        [
+          2448,
+          5248
+        ],
+        [
+          2448,
+          5238
+        ],
+        [
+          2448,
+          5215
+        ]
+      ],
+      "raw_sha256": "ee78d51b309418499aee29c1c4a735de47bc0c6fa7005fc7038c78a98732ada2",
+      "source": "src/op/music/animation_and_menu.inl",
+      "object": "obj/th03/op_music.obj",
+      "source_ownership_promoted": false,
+      "whole_product_accepted": false
+    }
+  },
+  "procedures": 14,
+  "code_bytes": 2244,
+  "ordered_relocations": [
+    [
+      2448,
+      4066
+    ],
+    [
+      2448,
+      4043
+    ],
+    [
+      2448,
+      4016
+    ],
+    [
+      2448,
+      4008
+    ],
+    [
+      2448,
+      3980
+    ],
+    [
+      2448,
+      3937
+    ],
+    [
+      2448,
+      3928
+    ],
+    [
+      2448,
+      3905
+    ],
+    [
+      2448,
+      3860
+    ],
+    [
+      2448,
+      3829
+    ],
+    [
+      2448,
+      3629
+    ],
+    [
+      2448,
+      3620
+    ],
+    [
+      2448,
+      3597
+    ],
+    [
+      2448,
+      3552
+    ],
+    [
+      2448,
+      3532
+    ],
+    [
+      2448,
+      3512
+    ],
+    [
+      2448,
+      3438
+    ],
+    [
+      2448,
+      3403
+    ],
+    [
+      2448,
+      3314
+    ],
+    [
+      2448,
+      3265
+    ],
+    [
+      2448,
+      3210
+    ],
+    [
+      2448,
+      3160
+    ],
+    [
+      2448,
+      5078
+    ],
+    [
+      2448,
+      5061
+    ],
+    [
+      2448,
+      5056
+    ],
+    [
+      2448,
+      4997
+    ],
+    [
+      2448,
+      4977
+    ],
+    [
+      2448,
+      4963
+    ],
+    [
+      2448,
+      4953
+    ],
+    [
+      2448,
+      4946
+    ],
+    [
+      2448,
+      4929
+    ],
+    [
+      2448,
+      4914
+    ],
+    [
+      2448,
+      4898
+    ],
+    [
+      2448,
+      4893
+    ],
+    [
+      2448,
+      4882
+    ],
+    [
+      2448,
+      4825
+    ],
+    [
+      2448,
+      4793
+    ],
+    [
+      2448,
+      4472
+    ],
+    [
+      2448,
+      4463
+    ],
+    [
+      2448,
+      4454
+    ],
+    [
+      2448,
+      4445
+    ],
+    [
+      2448,
+      4408
+    ],
+    [
+      2448,
+      4403
+    ],
+    [
+      2448,
+      4391
+    ],
+    [
+      2448,
+      4373
+    ],
+    [
+      2448,
+      5332
+    ],
+    [
+      2448,
+      5299
+    ],
+    [
+      2448,
+      5248
+    ],
+    [
+      2448,
+      5238
+    ],
+    [
+      2448,
+      5215
+    ]
+  ],
+  "raw_sha256": "cd537e24c976edf473c914684e40abe76617bce7758213635f1a973a0731dbe3",
+  "containing_DATA_bytes": 1008,
+  "containing_BSS_bytes": 1060,
+  "source_ownership_promoted": false,
+  "whole_product_accepted": false,
+  "runtime_matrix_required": false
+}
