@@ -24,6 +24,8 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | MAIN | `build_th03_main_work.py --build --cold --runtime` | One source rebuild and entry/lose contracts. |
 | MAIN | `review_th03_main_native_units.py` | Review current native extents, publics/MAP, bytes and ordered relocations. |
 | OP | `build_th03_op_work.py` | Rebuild every project object twice, compare complete decoded/stored targets and lifecycle scopes. |
+| OP | `review_th03_op_music_menu_work.py` | Complete Music Room native CODE and ordered relocations using the unchanged cold pair. |
+| OP | `PYTHONPATH=scripts .venv/bin/python -m lib.op_select_native` | Complete two-TU character selection/score-loader CODE, source slices, native fields and ordered relocations. Run from the repository root. |
 | OP | `review_th03_op_entry_data_work.py` | Full cold/cfg/menu/startup/DATA chain; actual nested execution, semantic initialized storage and prior-observation invariance. |
 | OP | `review_th03_op_music_call_work.py` | Native same-CS far-call proof and fresh ordinary-far source control; no Music Room implementation credit. |
 | MAINL | `build_th03_mainl_work.py` | Two complete project/CRT builds, normal TLIB membership/order, decoded/stored equality and lifecycle scopes. |
@@ -41,8 +43,9 @@ review stages also remain separate executable entry points. Their `INPUTS`,
 Where supported, `--current-cold` revalidates the complete existing
 source/SDK/recipe/output pair before replaying that stage. It does not rebuild
 stale inputs or automatically refresh every earlier report. Default complete
-chains create fresh prerequisites. Use shared-input review after rebuilding
-OP/MAINL, then publish.
+chains create fresh prerequisites. Run them when changed native inputs require
+that chain. After rebuilding OP/MAINL, revalidate affected shared inputs before
+publishing; unchanged ancestor runtime observations need no routine replay.
 
 ## Publication
 

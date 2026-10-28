@@ -72,10 +72,10 @@ All old names/addresses stay fixed. Removing dead EXTRNs changes exactly these
 11 existing public idle flags from false to true:fp_1FBC0,byte_1FBC2,
 byte_1FBC3,word_1FBC4,word_1FBC6,word_1FBC8,word_1FBCA,word_1FBCC,
 word_1FBCE,word_1FBD0,word_1FBD2. No generic MAP relaxation was added.
-Focused artifacts are `.analysis/work/main-graphics-source-20261026/`.
-Independent read-only source/raw-target review found no blocker. The existing
-two-cold replay and full CI are pending at this source checkpoint; their final
-reports, not this pending note, establish subsequent verification status.
+Independent read-only source/raw-target review found no blocker. Temporary
+artifacts from this intermediate checkpoint were removed during handoff cleanup.
+Current acceptance and retained native reports establish the verification status;
+this historical source note adds no new acceptance or pending CI requirement.
 
 
 ## Narrow complete-entry ownership review (2026-10-26)

@@ -34,16 +34,15 @@ Use the existing `.venv`, installed tools and game-local Wine prefix.
 ```sh
 .venv/bin/python scripts/preflight.py
 .venv/bin/python scripts/status.py
-taskset -c 16 nice -n 10 env DISPLAY= WAYLAND_DISPLAY= \
-  _JAVA_OPTIONS='-Xmx768m -XX:ActiveProcessorCount=1' \
-  .venv/bin/python scripts/ci.py
 git diff --check
 ```
 
 CPU 16 is available on the current machine; select one allowed CPU on another
 host. Serialize Borland/Wine writers. The [workflow](docs/RE_WORKFLOW.md) lists
-complete cold/review/publication commands; ordinary CI does not rebuild every
-product. Re-attest a Ghidra database before using its observations.
+affected cold/review/publication commands. Check the changed native scope and
+reuse an unchanged cold pair. Full `scripts/ci.py` is available for broad
+infrastructure changes; it is not a routine per-unit requirement. Re-attest a
+Ghidra database before using its observations.
 
 ## Fresh installation
 
@@ -89,8 +88,8 @@ are disposable. After CI, `clean_generated.py --caches-only --apply` leaves all
 handoff identifies the old-named reference archive still consumed by the current
 OP/MAINL recipes.
 
-Commit format: `gpt-6.1-sol: xxx`. Run focused checks, full CI and whitespace
-checks before committing reconstruction changes; push English checkpoints.
+Commit format: `gpt-6.1-sol: xxx`. Run affected checks and `git diff --check`,
+then save substantial progress locally. Push only when requested.
 
 ## Credits
 

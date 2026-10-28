@@ -20,6 +20,7 @@ from lib.targets import find_artifact, read_verified_artifact
 from lib.toolchain import attest_surface
 from lib.op_music_ownership import verify as music_code_scope, SOURCES as MUSIC_CODE_SOURCES
 from lib.op_music_storage import verify as music_storage_scope
+from lib.op_select_native import verify as select_scope, UNITS as SELECT_UNITS, SOURCES as SELECT_SOURCES
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -54,7 +55,7 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_op_music_state_work.py", "scripts/lib/op_music_state_layout.py",
                 "scripts/lib/op_music_state_runtime.py", "scripts/lib/op_music_ownership.py",
                 "scripts/review_th03_op_music_menu_work.py", "scripts/lib/op_music_polygon.py",
-                "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py", "scripts/lib/op_music_storage.py")
+                "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py", "scripts/lib/op_music_storage.py", "scripts/lib/op_select_native.py")
 
 
 def need(value, message):
@@ -162,6 +163,11 @@ def audit(root):
          'separate initialized Music DATA owner')
     owners.extend(music_storage['owners'])
     scope['music_storage'] = music_storage
+    selection = select_scope(root, work, target, candidate, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in selection['owners']}),
+         'separate complete selection/score-loader owners')
+    owners.extend(selection['owners'])
+    scope['character_selection'] = selection
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
@@ -204,6 +210,12 @@ def audit(root):
                 need(o["forwarding_chain"] == [MUSIC_WRAPPER, o["source"]], "actual bounded Music include owner")
             need(files[MUSIC_WRAPPER] == ('#include "' + MUSIC_SOURCE + '"\n\n#include "src/op/music/nopoly_blit.inl"\n\n#include "src/op/music/animation_and_menu.inl"\n').encode(),
                  "literal three-include Music source chain")
+        elif o["unit_id"] in SELECT_UNITS:
+            wrapper, part = o["forwarding_chain"]
+            need(o["source"] in SELECT_SOURCES and producer == dict(source=wrapper, command="-DGAME=3", output=o["object"]),
+                 "unchanged selection producer inventory; actual slice provenance reviewed independently")
+            need(files[wrapper].count(('#include "' + part + '"').encode()) == 1,
+                 "actual complete selection/score-loader include")
         else:
             need(producer["maintained_owner_sources"] == [o["source"]], "current source producer ownership")
         obj = describe_omf((work / o["object"]).read_bytes())
