@@ -35,4 +35,5 @@ controls. `config/op_music_comment_work/observation.json` preserves that origina
 historical receipt. Its large model, allocation/null/aliasing matrices and eight
 CI tests were removed at the user's direction. The old receipt is not a current
 implementation binding or prerequisite for native source ownership review.
-Accepted source totals and DATA/BSS ownership remain unchanged.
+These complete CODE extents are now accepted by the native Music Room ownership
+review. Initialized DATA/BSS and canonical packed-unit credit remain separate.

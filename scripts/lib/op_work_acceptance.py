@@ -11,34 +11,21 @@ import io
 import json
 from pathlib import Path
 import re
+import subprocess
 import tomllib
 
 from lib.omf import describe_omf
 from lib.pc98 import parse_mz
 from lib.targets import find_artifact, read_verified_artifact
 from lib.toolchain import attest_surface
-from lib.op_exit_layout import OWNERS, verify as layout
-from lib.op_exit_runtime import verify as runtime, negative_controls
-from review_th03_shared_input_work import current_scope as input_scope
-from review_th03_op_cfg_work import current_scope as cfg_scope
-from review_th03_op_dispatch_work import current_scope as dispatch_scope
-from review_th03_op_attract_work import current_scope as attract_scope
-from review_th03_op_sound_work import current_scope as sound_scope
-from review_th03_op_helpers_work import current_scope as helpers_scope
-from review_th03_op_render_work import current_scope as render_scope
-from review_th03_op_vs_work import current_scope as vs_scope
-from review_th03_op_story_work import current_scope as story_scope
-from review_th03_op_option_work import current_scope as option_scope
-from review_th03_op_main_menu_work import current_scope as main_menu_scope
-from review_th03_op_startup_work import current_scope as startup_scope
-from review_th03_op_entry_data_work import current_scope as entry_data_scope
-from review_th03_op_music_state_work import current_scope as music_state_scope, invariance as music_prior_invariance
+from lib.op_music_ownership import verify as music_code_scope, SOURCES as MUSIC_CODE_SOURCES
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
 
 
 PUBLICATION = "config/op_work/scoped_acceptance.json"
+BASELINE = "6cfa85fa9f78a87eeb1ee96503b655c0cfe805c2"
 GATES = ("target-identity", "format-integrity", "boundary-ownership", "toolchain-identity",
          "toolchain-replay", "object-format-integrity", "cold-build-determinism",
          "layout-relocations", "raw-bytes", "ledger-consistency", "cold-aggregate-replay")
@@ -64,7 +51,9 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/lib/op_startup_cold.py", "scripts/review_th03_op_entry_data_work.py",
                 "scripts/lib/op_entry_data_layout.py", "scripts/lib/op_entry_data_runtime.py",
                 "scripts/review_th03_op_music_state_work.py", "scripts/lib/op_music_state_layout.py",
-                "scripts/lib/op_music_state_runtime.py")
+                "scripts/lib/op_music_state_runtime.py", "scripts/lib/op_music_ownership.py",
+                "scripts/review_th03_op_music_menu_work.py", "scripts/lib/op_music_polygon.py",
+                "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py")
 
 
 def need(value, message):
@@ -137,24 +126,37 @@ def audit(root):
     for p in packing["rounds"]:
         need(p["packed_sha256"] == sha(stored) and p["packed_bytes"] == len(stored)
              and p["stored_equal"] and p["decoded_roundtrip_equal"], "stored/decoded roundtrip proof")
-    lifecycle_owners = layout(work, target, candidate)
-    base_scope = dict(owners=lifecycle_owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
-    need(base_scope == report["exit_scopes"], "fresh independent scope replay")
-    shared = input_scope(root, "op", work, target, candidate, report_raw)
-    configuration = cfg_scope(root, work, target, candidate, report_raw)
-    dispatch = dispatch_scope(root, work, target, candidate, report_raw)
-    attract = attract_scope(root, work, target, candidate, report_raw)
-    sound = sound_scope(root, work, target, candidate, report_raw)
-    helpers = helpers_scope(root, work, target, candidate, report_raw)
-    renderers = render_scope(root, work, target, candidate, report_raw)
-    vs = vs_scope(root, work, target, candidate, report_raw)
-    story = story_scope(root, work, target, candidate, report_raw)
-    option = option_scope(root, work, target, candidate, report_raw)
-    main_menu = main_menu_scope(root, work, target, candidate, report_raw)
-    startup = startup_scope(root, work, target, candidate, report_raw)
-    entry_data = entry_data_scope(root, work, target, candidate, report_raw)
-    music_state = music_state_scope(root, work, target, candidate, report_raw)
-    owners = lifecycle_owners + shared["layout"]["owners"] + configuration["layout"]["owners"] + dispatch["layout"]["owners"] + attract["layout"]["owners"] + sound["layout"]["owners"] + helpers["layout"]["owners"] + renderers["layout"]["owners"] + vs["layout"]["owners"] + story["layout"]["owners"] + option["layout"]["owners"] + main_menu["layout"]["owners"] + startup["layout"]["owners"] + entry_data["layout"]["owners"] + music_state["layout"]["owners"]
+    # The prior accepted native graph is unchanged. Revalidate its complete
+    # input/output bindings and ownership, retaining its historical runtime
+    # observations rather than reexecuting every ancestor emulator chain.
+    previous_raw = subprocess.check_output(['git', 'show', BASELINE + ':' + PUBLICATION], cwd=root)
+    previous = json.loads(previous_raw)
+    need(previous['schema'] == 'op-current-source-acceptance-v1' and
+         previous['state'] == 'repository-local-accepted', 'reviewed prior acceptance checkpoint')
+    adapted = {'scripts/lib/op_work_acceptance.py', 'scripts/lib/op_decoded_progress.py'}
+    for name, expected_hash in previous['proof_inputs'].items():
+        if name not in adapted:
+            need(sha((root / name).read_bytes()) == expected_hash, 'unchanged prior verifier input: ' + name)
+    prior = previous['audit']
+    need(prior['cold_report_sha256'] == sha(report_raw) and
+         prior['recipe_sha256'] == report['recipe_sha256'] and
+         prior['source_inventory_sha256'] == digest(report['source_sha256']) and
+         prior['decoded_sha256'] == sha(decoded) and prior['stored_sha256'] == sha(stored),
+         'complete unchanged prior native source/tool/output graph')
+    policy = tomllib.loads((root / 'config/oracles.toml').read_text())
+    need(previous['owner_oracles'] == oracle_rows(prior, previous['observed_utc'], policy),
+         'entire prior scoped gate evidence remains intact')
+    scope = json.loads(json.dumps(prior['scope']))
+    old_scope_digest = digest(scope)
+    owners = scope['owners']
+    need(len(owners) == 34 and sum(o.get('code_bytes', o['size']) for o in owners) == 4099,
+         'complete prior owner cohort')
+    music_code = music_code_scope(root, work, target, candidate)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in music_code['owners']}),
+         'new Music owners do not duplicate prior ownership')
+    owners.extend(music_code['owners'])
+    scope['music_code'] = music_code
+    configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
     need([(o["start"] - (0x990 * 16 + 8), o["size"]) for o in entry_owners]
@@ -190,8 +192,10 @@ def audit(root):
                 need(files[parent] == ('#include "' + child + '"\n').encode(), "source-bound helper forwarding: " + parent)
         elif o["object"] == MUSIC_OBJECT:
             need(producer["source"] == MUSIC_WRAPPER and producer["ownership"] == "maintained-containing"
-                 and o["source"] == MUSIC_SOURCE and producer["maintained_owner_sources"] ==
-                 ["src/op/music/animation_and_menu.inl", MUSIC_SOURCE], "exact two-owner Music containing producer")
+                 and o["source"] in (MUSIC_SOURCE, *MUSIC_CODE_SOURCES) and producer["maintained_owner_sources"] ==
+                 ["src/op/music/animation_and_menu.inl", MUSIC_SOURCE], "unchanged generic Music containing producer inventory")
+            if o["source"] != MUSIC_SOURCE:
+                need(o["forwarding_chain"] == [MUSIC_WRAPPER, o["source"]], "actual bounded Music include owner")
             need(files[MUSIC_WRAPPER] == ('#include "' + MUSIC_SOURCE + '"\n\n#include "src/op/music/nopoly_blit.inl"\n\n#include "src/op/music/animation_and_menu.inl"\n').encode(),
                  "literal three-include Music source chain")
         else:
@@ -204,15 +208,26 @@ def audit(root):
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
                      "complete source/header dependency binding: " + name)
-    scope = dict(base_scope, owners=owners, input_modes=shared, configuration=configuration, dispatch=dispatch, attract=attract, sound=sound, helpers=helpers, renderers=renderers, vs=vs, story=story, option=option, main_menu=main_menu, startup=startup, entry_data=entry_data, music_state=music_state)
-    need(music_state["prior_observations"] == music_prior_invariance(root, scope), "fresh complete prior scope observations")
+    # Every old and new extent is checked against the current complete load
+    # image, including literal relocation order. DATA owners remain distinct.
+    for owner in owners:
+        start, size = owner['start'], owner['size']
+        need(owner['target_sha256'] == sha(target.program_image[start:start + size]) and
+             owner['candidate_sha256'] == sha(candidate.program_image[start:start + size]),
+             'complete current owner raw bytes: ' + owner['unit_id'])
+        for image in (target, candidate):
+            need(owner['ordered_relocations'] == [[r.segment, r.offset] for r in image.relocations
+                 if start <= r.linear < start + size], 'literal current owner relocation order: ' + owner['unit_id'])
+    prior_acceptance = dict(baseline_commit=BASELINE, publication_sha256=sha(previous_raw),
+        complete_prior_scope_sha256=old_scope_digest, unchanged_prior_native_graph=True,
+        prior_verifier_inputs_unchanged_except=sorted(adapted), prior_runtime_observations_reexecuted=False)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current global ledger consistency")
     return dict(cold_report_sha256=sha(report_raw), recipe_sha256=report["recipe_sha256"],
                 source_inventory_sha256=digest(report["source_sha256"]), source_files=len(files),
                 outputs_per_round=32, project_objects_per_round=30, rounds=2,
                 decoded_sha256=sha(decoded), stored_sha256=sha(stored),
-                scope=scope, product_exact=False, canonical_unit_credit_changed=False)
+                scope=scope, prior_acceptance=prior_acceptance, product_exact=False, canonical_unit_credit_changed=False)
 
 
 def oracle_rows(proof, now, policy, *, artifact="th03-op", publication_path=PUBLICATION,

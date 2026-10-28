@@ -30,4 +30,5 @@ controls. Its original receipt at `config/op_music_polygon_work/observation.json
 is historical: the large emulator model and seven CI tests were removed when
 the user requested exact-first verification. That receipt no longer binds the
 current simplified checker and is not a new acceptance prerequisite.
-Source-publication ownership, DATA/BSS and physical rendering remain separate.
+Complete CODE ownership is now accepted in the current OP publication.
+Music DATA/BSS and physical rendering remain separate.

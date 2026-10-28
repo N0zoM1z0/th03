@@ -12,8 +12,13 @@ current source/tool/SDK/output/packing graph is validated without rebuilding
 unchanged native inputs. The native receipt is
 `config/op_music_menu_work/observation.json`.
 
-Initialized DATA1008/BSS1060 and source-ownership publication remain separate.
-Accepted OP totals are unchanged; this check does not claim whole-game exactness.
+The current OP publication now accepts all three literal source includes:
+state/tracks216, copy30 and animation/menu1998. The newly accepted two extents
+add10 complete procedures/2028 CODE; OP totals are36 extents/46 procedures/
+6127 CODE+487 initialized DATA. Music DATA1008/BSS1060 remain separate.
+The supporting native receipt itself does not publish ownership; acceptance is
+recorded in `config/op_work/scoped_acceptance.json`. Whole-game exactness remains
+open.
 
 ## Preserved source details
 
@@ -62,3 +67,25 @@ and produced no completed runtime receipt. Its uncommitted emulator model,
 held-loop proofs, artificial filename-boundary cases and 55 mutation controls
 were removed. Earlier polygon/comment runtime receipts remain historical
 observations; their matrices and tests are no longer routine requirements.
+
+## Complete CODE ownership
+
+`scripts/lib/op_music_ownership.py` checks the ten remaining native public
+boundaries and both MAP tables. Each complete procedure decodes through its
+actual return: `polygon_build` is near Pascal pop12; `cmt_load` and the combined
+comment helper pop2; the menu is far with no argument cleanup. Other functions
+return near without callee argument cleanup. The copy and tail extents meet
+exactly at native offset246, after the already accepted216-byte prefix.
+
+The generic producer inventory retains its original two-source label. The
+actual compiler dependency records and literal three-include wrapper establish
+the maintained30-byte copy source independently; the frozen native recipe is
+unchanged. No padding, object patch or product-byte substitution is involved.
+
+The acceptance adapter revalidates the unchanged two-round native graph and
+all prior owner bytes/ordered relocations. It pins the complete prior scope at
+`6cfa85f`, checks every other prior verifier input, and retains its original
+runtime observations without extending or rerunning their models. The two
+adapted files are the acceptance adapter and progress consumer. Any changed
+source graph or native output fails that reuse guard. The current publication
+records this distinction explicitly in `prior_acceptance`.
