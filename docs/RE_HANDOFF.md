@@ -25,6 +25,26 @@ toolchain and four database/smoke gates. Receipts:
 `.analysis/work/op-music-polygon-ci.log` and `op-music-polygon-ci.exit` (0).
 The earlier `ci-before-control-fix` attempt was interrupted, not a pass.
 
+The subsequent Music Room dependency review closes seven existing complete
+comment/copy/flip procedures907 CODE bytes/315 instructions,63 native fields
+and14 ordered relocations. All1,684 two-image/two-load executions,65 actual
+instruction controls and eight focused tests pass. Every stack byte is checked;
+actual polygon/random/polar and owned delay bodies execute in the same UC.
+The source-acceptance counts remain unchanged, and the476-byte menu still needs
+its composed input/sound/child-call contract. See
+[Music Room dependencies](OP_MUSIC_COMMENT_REVIEW.md). Current bound evidence:
+`config/op_music_comment_work/observation.json`; revalidate with
+`scripts/review_th03_op_music_comment_work.py --check`. No native cold replay
+was needed. The duplicate diagnostic probe was deliberately terminated; only
+the completed formal review provides the new matrix evidence.
+Final dependency CI:2,436 tests/284 skips and every subsequent gate PASS,
+recorded in `.analysis/work/music-comment-ci.log` and `music-comment-ci.exit` (0).
+An EOF-only whitespace correction has identical AST, locations and compiled
+Python module bytes; the complete focused review was rerun against its final
+hash before the original CI process resumed. All prior layout/runtime/control
+observations repeat exactly. Equivalence receipt:
+`.analysis/work/music-comment-eof-equivalence.json`.
+
 ## Verified current source scopes
 
 | Product | Accepted source scopes | Whole-product source exactness |
