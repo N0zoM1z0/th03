@@ -7,40 +7,43 @@ local tools and affected native checks. Allocation/null-pointer/input-domain
 matrices, large emulator specifications and routine full CI are not per-unit
 gates. Reuse an unchanged native cold pair rather than rebuilding every turn.
 
-Music Room CODE ownership is now complete: its previous216-byte prefix plus
-copy30 and animation/menu1998 cover14 procedures/2244 CODE/50 literal ordered
-relocations. The new two extents add10 procedures/2028 CODE. Both MAP public
-tables, complete raw bodies and per-procedure near/far/Pascal return conventions
-are checked. Current acceptance: `config/op_work/scoped_acceptance.json`.
-See [Music Room](OP_MUSIC_MENU_REVIEW.md); its supporting native receipt remains
-`config/op_music_menu_work/observation.json`.
+Music Room now has complete CODE2244/14-procedure ownership plus its complete
+initialized DATA1008. CODE has50 literal ordered relocations; DATA has40.
+`scripts/lib/op_music_storage.py` checks the actual staged CP932 declarations,
+all semantic/native/target/candidate bytes, both MAP tables and load1000/3000.
+The21 title pointers,19 filename pointers,two BYTE initializers and literal pool
+cover all1008 bytes without holes. Current acceptance:
+`config/op_work/scoped_acceptance.json`. See [Music Room](OP_MUSIC_MENU_REVIEW.md).
 
-The OP audit pins the prior accepted scope at immutable `6cfa85f`. It revalidates
-all native source/tool/staging/output/packing bindings and each owner's raw bytes
-and relocation vector. All other prior verifier inputs and all34 owner records/
-observations remain unchanged. Their runtime observations are retained as
-historical support, not reexecuted or expanded. No product source/recipe changed
-and no native cold pair was rebuilt. MAINL/ZUN shared helper bodies and their
-complete audits are unchanged; only their shared verifier binding was refreshed.
+BSS1060 at DGROUP1F70 has a reviewed source/native layout, five public symbols,
+complete CODE field addends and no initializer record. It adds **zero** file-
+backed bytes. The10-point array reserves40 bytes despite ordinary rendering's
+smaller used subset; retain that declaration. Product source, native recipes,
+outputs and the cold pair are unchanged.
 
-The earlier polygon/comment matrices and stopped menu draft are historical.
-The state-prefix tests now keep only native comparisons. Detailed old runtime
-counts are not source-exact progress or future acceptance prerequisites.
+The OP native audit retains the old34-owner observations from immutable
+`6cfa85f` under unchanged native source/tool/staging/output/packing bindings;
+new CODE and DATA scopes are checked independently. Older runtime observations
+remain historical support. No new runtime matrix or ancestor chain was run.
+MAINL/ZUN imported helpers/constants have identical ASTs and all other proof
+inputs are unchanged. Only their shared-module hash binding was updated; their
+audit, gate witnesses and observation time were not rewritten. Equivalence
+receipt: `.analysis/work/music-storage-shared-binding.json`.
 
-Validation:10 focused native/acceptance tests PASS (8.8s), tracking PASS and
-generated progress `--check` PASS. OP publication and refreshed MAINL/ZUN
-bindings pass their actual publisher/verifier checks. Final comparison confirms
-the complete prior OP scope, complete MAINL/ZUN audits and native cold report
-are unchanged. Logs: `.analysis/work/music-ownership-{publish,mainl-binding,
-zun-binding,tracking,progress-check}.log`. Full CI was not repeated for this
-bounded extension.
+Validation:11 focused native/acceptance tests PASS (5.4s), including three DATA
+comparisons in0.1s; tracking and generated progress `--check` PASS. The actual
+OP publisher/verifier accepts37 extents/7622 file-backed bytes. Prior36 owner
+records/scopes and the native cold report remain unchanged. Logs are under
+`.analysis/work/music-storage-{publish,focused,tracking,progress-check}.log`;
+the complete native storage observation is `music-storage-native.json`.
+No full CI or native cold replay was repeated.
 
 ## Verified current source scopes
 
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
-| OP | 36 extents / 46 procedures / 6,127 CODE + 487 DATA bytes | Open |
+| OP | 37 extents / 46 procedures / 6,127 CODE + 1,495 DATA bytes | Open |
 | MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
@@ -65,9 +68,9 @@ Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
 binding; OP's native builder is also shared by MAINL/ZUN. Preserve actual current
 inputs. Obsolete logs and verification history may be deleted.
 
-Music Room DATA1008/BSS1060 remain separate from accepted CODE. The next native
-ownership review can address its initialized strings/pointers or the remaining
-OP producers. The unchanged-graph extension guard deliberately rejects changed
-source/verifier inputs: rebuild and review affected native inputs when needed,
-rather than refreshing a historical runtime receipt's hashes.
-TH04 is an authorized source reference, not a replacement target/build dependency.
+Music Room's three native contributions are now reviewed; BSS is layout-only.
+Continue with remaining OP source producers, such as character selection, after
+checking actual current native boundaries. The unchanged-graph reuse guard rejects
+changed source/verifier inputs; review affected native changes rather than
+refreshing historical runtime receipt hashes. TH04 is an authorized source
+reference, not a replacement target or build dependency.

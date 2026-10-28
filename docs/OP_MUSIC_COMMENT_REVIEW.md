@@ -36,4 +36,5 @@ historical receipt. Its large model, allocation/null/aliasing matrices and eight
 CI tests were removed at the user's direction. The old receipt is not a current
 implementation binding or prerequisite for native source ownership review.
 These complete CODE extents are now accepted by the native Music Room ownership
-review. Initialized DATA/BSS and canonical packed-unit credit remain separate.
+review. The separate storage review accepts DATA1008 and verifies BSS1060
+layout with zero file-backed credit. Canonical packed-unit credit stays separate.

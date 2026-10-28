@@ -19,6 +19,7 @@ from lib.pc98 import parse_mz
 from lib.targets import find_artifact, read_verified_artifact
 from lib.toolchain import attest_surface
 from lib.op_music_ownership import verify as music_code_scope, SOURCES as MUSIC_CODE_SOURCES
+from lib.op_music_storage import verify as music_storage_scope
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -53,7 +54,7 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_op_music_state_work.py", "scripts/lib/op_music_state_layout.py",
                 "scripts/lib/op_music_state_runtime.py", "scripts/lib/op_music_ownership.py",
                 "scripts/review_th03_op_music_menu_work.py", "scripts/lib/op_music_polygon.py",
-                "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py")
+                "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py", "scripts/lib/op_music_storage.py")
 
 
 def need(value, message):
@@ -156,6 +157,11 @@ def audit(root):
          'new Music owners do not duplicate prior ownership')
     owners.extend(music_code['owners'])
     scope['music_code'] = music_code
+    music_storage = music_storage_scope(root, work, target, candidate)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in music_storage['owners']}),
+         'separate initialized Music DATA owner')
+    owners.extend(music_storage['owners'])
+    scope['music_storage'] = music_storage
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]

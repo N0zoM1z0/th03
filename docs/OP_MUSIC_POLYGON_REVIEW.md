@@ -31,4 +31,5 @@ is historical: the large emulator model and seven CI tests were removed when
 the user requested exact-first verification. That receipt no longer binds the
 current simplified checker and is not a new acceptance prerequisite.
 Complete CODE ownership is now accepted in the current OP publication.
-Music DATA/BSS and physical rendering remain separate.
+The separate native storage review now accepts DATA1008 and reviews BSS1060
+layout without file-backed BSS credit. Physical rendering remains separate.
