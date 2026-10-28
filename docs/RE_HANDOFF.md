@@ -2,7 +2,7 @@
 
 ## Current checkpoint
 
-The latest reconstruction checkpoint is `cb8ae8c1f22ae4477908a7f566c6cbe906b564d5`
+The latest source-acceptance checkpoint is `cb8ae8c1f22ae4477908a7f566c6cbe906b564d5`
 (MAINL text ownership). It was saved locally after the already-running CI finished:
 2,421 tests, 284 skips, PASS, 9m43s. The tree was clean and main was ahead 12,
 behind 0 before this documentation-only cleanup. No native source changed in
@@ -10,6 +10,20 @@ that checkpoint. Terminal evidence remains in
 `.analysis/work/text-final-ci.log` and `.analysis/work/text-final-ci.exit`.
 Historical review notes saying “pending at writing” are snapshots, not current
 job status; their original proof records have not been rewritten.
+
+2026-10-28 diagnostic work: the complete OP polygon build/update pair now has
+an independent full-register/flags/ordered-write/1MiB-memory contract, including
+every stack byte and actual IRAND/polar context. All645 CODE bytes,54 native
+fields and14 ordered relocations match;2,284 complete executions and46 actual
+instruction controls pass. The unchanged OP cold graph is revalidated without
+a new cold replay. Source-acceptance counts below remain unchanged; native
+owner/publication integration and the476-byte Music Room menu remain open.
+See [OP Music polygon](OP_MUSIC_POLYGON_REVIEW.md). The latest user instruction
+authorizes direct local tools instead of Factory for this work.
+Final CI passed:2,428 tests/284 skips plus all tracking, progress, target,
+toolchain and four database/smoke gates. Receipts:
+`.analysis/work/op-music-polygon-ci.log` and `op-music-polygon-ci.exit` (0).
+The earlier `ci-before-control-fix` attempt was interrupted, not a pass.
 
 ## Verified current source scopes
 
