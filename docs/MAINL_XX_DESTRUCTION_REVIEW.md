@@ -5,8 +5,9 @@ monolithic DOS `xx.cpp`. Its bank at0000:78D0..8293 contains2500 bytes:2422
 instruction bytes and78 bytes of actual inline exception metadata. It follows
 `xx_dispatch.inl` in the same TU. The near static `dtorCleanup` now resolves
 inside that TU,without adding a public product interface. With the subsequent
-[call-adapter bank](MAINL_XX_CALLS_REVIEW.md),current source
-presence is243 extents/52,948 gross bytes; accepted MAINL stays211 extents/288 procedures/
+[call-adapter bank](MAINL_XX_CALLS_REVIEW.md)
+and [catch/type bank](MAINL_XX_CATCH_REVIEW.md),source presence is245 extents/
+54,581 gross bytes; accepted MAINL stays211 extents/288 procedures/
 36,946 bytes. These are source candidates,with zero new exact credit.
 
 | Procedure | Original address | Instruction bytes | Return |
@@ -61,7 +62,7 @@ source. Actual caller cleanup establishes10 bytes for destroyOneObject,18 for
 destroyBases,16 for destroyVariable,14 for destroyArray,6 for findTrueTypeAndAddr
 and12 for near dtorCleanup.
 
-The integrated diagnostic uses the scoped BCC4.5 `-O2-pg -Os -Z- -S` profile,
+The integrated diagnostic uses the scoped BCC4.5 `-O2-pg -Os -O-i -Z- -S` profile,
 actual TASM5 and miniature TLINK. Two rounds repeat complete raw generated ASM,
 two-OBJ,EXE and MAP vectors. Both unmodified TASM listings are bound separately;
 their page headers contain wall-clock times,so listing equality is not claimed.
@@ -92,3 +93,8 @@ callMemberFunc before this include. The separate integrated calls miniature has
 15 remaining interfaces; this earlier two-bank miniature retains its17 explicit
 diagnostic providers. Both were refreshed after the shared diagnostic driver
 change; their original source and ABI-header hashes remain unchanged.
+
+The subsequent catch integration moved private interfaces from the ABI header
+to incomplete wrappers,so the complete TU retains static linkage. This affected
+miniature was refreshed again with the current header and explicit -O-i profile;
+its product bank source remains unchanged.

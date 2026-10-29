@@ -168,15 +168,9 @@ enum { XX_FREE_DS = offsetof(XXException,free_ds) };
 #define XX_CHAIN (*(xx_registration_ptr __ss *)0x14)
 #define XX_RUNTIME (*(XXRuntimePrefix far * __ss *)0x16)
 
-// Private interfaces belong to the surrounding xx TU. Their bodies remain
-// outside this recovered bank; declaring them does not provide replacements.
-int near typeIDcaught(xx_type_ptr,xx_type_ptr far *,xx_type_ptr,unsigned,int);
-// The enclosing xx TU declares its static near dtorCleanup before the dispatch
-// include, and defines it in xx_destroy.inl. Isolated diagnostics supply their
-// own external declaration instead.
-void near exceptionHandled(xx_exception_ptr);
-void near initCatchArg(XXHandler far *,xx_registration_ptr,xx_exception_ptr,
-    XXHandlerTable far *,unsigned);
+// Private function declarations belong to the enclosing xx TU, so recovered
+// definitions retain static linkage. Isolated diagnostic wrappers supply the
+// external declarations needed by their still-incomplete banks.
 extern "C" void far __cdecl __call_unexpected();
 extern "C" void far __cdecl _Global_unwind(xx_registration_ptr,XXExceptionRecord __ss *);
 extern "C" void far __cdecl __JumpToCatch__();

@@ -15,11 +15,14 @@ ROOT=Path(__file__).resolve().parents[1]
 DRIVER='scripts/probe_th03_mainl_xx_dispatch.py'
 REPORT='.analysis/work/mainl-xx-dispatch-build.json'
 SOURCE='src/mainl/crt/xx_dispatch.inl'
+CATCH_INTERFACES=(b'void near exceptionHandled(xx_exception_ptr);\n'
+    b'void near initCatchArg(XXHandler far *,xx_registration_ptr,xx_exception_ptr,XXHandlerTable far *,unsigned);\n')
 WRAPPER=(b'#include "xx_abi.h"\n'
+    b'int near typeIDcaught(xx_type_ptr,xx_type_ptr far *,xx_type_ptr,unsigned,int);\n'+CATCH_INTERFACES+
     b'int near dtorCleanup(XXDtorTable far *,long,xx_registration_ptr,unsigned);\n'
     b'#include "xxbank.inl"\n')
 HEADER='src/mainl/crt/xx_abi.h'
-FLAGS=['-ml','-3-','-2-','-1-','-x','-O2-pg','-Os','-Z-','-xc','-Vs','-zC_TEXT','-IC:\\TC4\\INCLUDE','-S']
+FLAGS=['-ml','-3-','-2-','-1-','-x','-O2-pg','-Os','-O-i','-Z-','-xc','-Vs','-zC_TEXT','-IC:\\TC4\\INCLUDE','-S']
 LINK=b'/x /m /c xxdisp.obj xxctx.obj,xxmini.exe,xxmini.map,,\r\n'
 
 
@@ -43,15 +46,16 @@ def trap_context(imports):
     return ('\n'.join(lines)+"\n_TEXT ends\n_STACK segment para stack 'STACK'\ndw 128 dup (?)\n_STACK ends\nend\n").encode()
 
 
-def main(destruction=False,calls=False):
+def main(destruction=False,calls=False,catch=False):
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
     if os.nice(0)<10:os.nice(10-os.nice(0))
     cold_context(ROOT);compiler=compiler_context(ROOT);headers=sdk_inventory(ROOT)
     config=tomllib.loads((ROOT/'config/toolchain.toml').read_text());prefix=ROOT/config['paths']['wine_prefix'];work=build.WORK
     env=dict(os.environ,DISPLAY='',WAYLAND_DISPLAY='',WINEDEBUG='-all',WINEPREFIX=str(prefix),MSDOS_PATH=r'C:\BC45;C:\TC4\BIN',TZ='UTC',LANG='C',LC_ALL='C')
     dos=['/usr/bin/wine-stable',str(ROOT/config['paths']['msdos_player']),'-e','-x'];tasm=['/usr/bin/wine-stable',str(prefix/'drive_c/TASM50/bin/TASM32.EXE'),'/m','/mx','/kh32768','/t']
+    calls=calls or catch
     destruction=destruction or calls
-    stem='xx-calls' if calls else ('xx-destruction' if destruction else 'xx-dispatch')
+    stem='xx-catch' if catch else ('xx-calls' if calls else ('xx-destruction' if destruction else 'xx-dispatch'))
     sources={'xxbank.inl':SOURCE,'xx_abi.h':HEADER}
     wrapper=WRAPPER
     if destruction:
@@ -60,11 +64,16 @@ def main(destruction=False,calls=False):
     if calls:
         sources['xxcall.inl']='src/mainl/crt/xx_calls.inl'
         wrapper=wrapper.replace(b'#include "xxbank.inl"',b'#include "xxcall.inl"\n#include "xxbank.inl"')
+    if catch:
+        sources.update({'xxeq.inl':'src/mainl/crt/xx_type_equal.inl','xxcatch.inl':'src/mainl/crt/xx_catch.inl'})
+        wrapper=wrapper.replace(CATCH_INTERFACES,b'').replace(b'#include "xxcall.inl"',b'#include "xxeq.inl"\n#include "xxcall.inl"').replace(b'#include "xxbank.inl"',b'#include "xxcatch.inl"\n#include "xxbank.inl"')
     report_path='.analysis/work/mainl-'+stem+'-build.json'
     report=dict(complete=False,source_acceptance=False,accepted_source_bytes=0,whole_product_linked=False,whole_product_cold_rebuilt=False,miniature_only=True,
         compiler=compiler,compiler_flags=FLAGS,source_sha256={n:sha((ROOT/n).read_bytes()) for n in sources.values()},driver_sha256=sha((ROOT/DRIVER).read_bytes()),
         available_SDK_header_sha256=headers,wrapper_sha256=sha(wrapper),cold_report_sha256=sha((build.OUT/'mainl-build.json').read_bytes()),rounds=[],native_phases=[])
-    if calls:report['probe_support_sha256']={'scripts/lib/decoded_mainl_xx_calls_probe.py':sha((ROOT/'scripts/lib/decoded_mainl_xx_calls_probe.py').read_bytes())}
+    if calls:
+        support='scripts/lib/decoded_mainl_xx_catch_probe.py' if catch else 'scripts/lib/decoded_mainl_xx_calls_probe.py'
+        report['probe_support_sha256']={support:sha((ROOT/support).read_bytes())}
     save=lambda:(ROOT/report_path).write_text(json.dumps(report,indent=2)+'\n')
     def run(cmd,scratch,label):
         p=subprocess.run(cmd,cwd=scratch,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=90)
@@ -86,7 +95,10 @@ def main(destruction=False,calls=False):
                 os.utime(scratch/'xxdisp.asm',(946684800,946684800))
                 run(tasm+(['/l'] if destruction else [])+['xxdisp.asm','xxdisp.obj'],scratch,f'round{number}-assemble')
                 imports=externs((scratch/'xxdisp.obj').read_bytes());context=trap_context(imports)
-                if calls:
+                if catch:
+                    from lib.decoded_mainl_xx_catch_probe import context as catch_context
+                    context=catch_context(context)
+                elif calls:
                     from lib.decoded_mainl_xx_calls_probe import context as call_context
                     context=call_context(context)
                 if destruction:
@@ -116,4 +128,4 @@ def main(destruction=False,calls=False):
 
 if __name__=='__main__':
     import sys
-    main(destruction='--with-destruction' in sys.argv[1:],calls='--with-calls' in sys.argv[1:])
+    main(destruction='--with-destruction' in sys.argv[1:],calls='--with-calls' in sys.argv[1:],catch='--with-catch' in sys.argv[1:])

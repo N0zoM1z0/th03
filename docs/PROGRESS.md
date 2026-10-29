@@ -4,7 +4,7 @@
 | --- | ---: | ---: | ---: | ---: | ---: |
 | th03-op | 36041 | 61 | 0 | 0 | 0 |
 | th03-main | 130882 | 106 | 106 | 459 | 78737 |
-| th03-mainl | 37975 | 243 | 0 | 0 | 0 |
+| th03-mainl | 37975 | 245 | 0 | 0 | 0 |
 | th03-zun | 16242 | 77 | 0 | 0 | 0 |
 
 These are recorded ledger scopes, not a whole-game completion percentage.

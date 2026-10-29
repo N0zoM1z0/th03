@@ -6,8 +6,8 @@ The bank at0000:72B3 spans1565 bytes:1533 instruction bytes in five procedures
 and32 bytes of actual inline tables/signature. It is source-present,with zero
 new exact credit. MAINL acceptance stays211 extents/288 procedures/36,946 bytes.
 With the subsequent [destruction bank](MAINL_XX_DESTRUCTION_REVIEW.md) and
-[call adapters](MAINL_XX_CALLS_REVIEW.md),current source presence is243 extents/
-52,948 gross bytes.
+[call adapters](MAINL_XX_CALLS_REVIEW.md) and [catch/type bank](MAINL_XX_CATCH_REVIEW.md),
+current source presence is245 extents/54,581 gross bytes.
 
 | Bank-relative offset | Procedure | Instruction bytes | Return |
 | ---: | --- | ---: | --- |
@@ -61,7 +61,7 @@ MAP boundaries,linked bytes,body returns and branches were then checked directly
 Ghidra's inferred boundaries and parameter types are hypotheses.
 
 The retained diagnostic profile uses the existing scoped BCC4.5 compiler with
-`-O2-pg -Os -Z- -S`,then actual TASM5 and TLINK. Borland's
+`-O2-pg -Os -O-i -Z- -S`,then actual TASM5 and TLINK. Borland's
 [optimizer documentation](https://bitsavers.trailing-edge.com/pdf/borland/borland_C%2B%2B/Borland_C%2B%2B_Version_3.1_Users_Guide_1992.pdf)
 explains the separate optimization controls; this profile's suitability is
 limited to the observed output. Two native rounds repeat full generated ASM,

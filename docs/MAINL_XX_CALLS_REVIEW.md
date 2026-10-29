@@ -5,7 +5,8 @@ call adapters of the original monolithic DOS `xx.cpp`. It precedes the recovered
 dispatch/destruction includes in that TU. Both destruction call edges now resolve
 to real private near functions. Original bank0000:5D3C..6312 spans1495 bytes:
 1327 instructions and168 actual CS switch-table bytes. This adds one source-present
-extent; current source presence is243 extents/52,948 gross bytes. Accepted MAINL
+extent; after the subsequent [catch/type bank](MAINL_XX_CATCH_REVIEW.md),current
+source presence is245 extents/54,581 gross bytes. Accepted MAINL
 remains211 extents/288 procedures/36,946 bytes,with zero new exact credit.
 
 | Procedure | Original address | Instruction bytes | Following CS data |
@@ -54,7 +55,7 @@ opcode arrays,padding or object patches are used. The later Borland
 provided structural context; its flat calling conventions and extra type/flags
 arguments are not the DOS ABI.
 
-The same scoped BCC4.5 `-O2-pg -Os -Z- -S` / TASM5 / miniature TLINK route
+The same scoped BCC4.5 `-O2-pg -Os -O-i -Z- -S` / TASM5 / miniature TLINK route
 builds call adapters followed by dispatch and destruction. Two rounds repeat
 whole generated ASM,two-OBJ,EXE and MAP vectors. Complete timestamped TASM
 listings are retained separately. All64 available SDK headers are bound; a
@@ -80,3 +81,9 @@ probe memory,has no native fixups and does not alter either program image.
 Unresolved runtime helpers remain traps and are never executed. This resolves
 the specific register,DS and cleanup questions without an exhaustive flag matrix
 or a runtime helper model; physical DOS and complete exception behavior remain open.
+
+The later catch bank supplies exceptionHandled/initCatchArg/_CatchCleanup and
+connects the real copy adapter. Its current miniature has14 unresolved interfaces.
+This earlier three-bank miniature retains its15 diagnostic providers and has
+been refreshed for the shared header/driver/profile. Explicit -O-i preserves
+library memory calls in the later catch code; these three adapters have none.

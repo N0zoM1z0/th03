@@ -6,28 +6,38 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work adds `xx_calls.inl` before dispatch/destruction in the original xx.cpp
-TU. Bank5D3C..6312 is1495 bytes:750/392/185 instruction bytes in the private near
-copy/destructor/member adapters plus168 CS table bytes. All88 literal ordered
-fields and real boundaries are reviewed. Destruction bank78D0..8293 remains2500
-bytes; dispatch72B3..78CF remains1565. These are two separate original ranges,
-not a continuous5D3C..8293 owner. Source presence is243 extents/52,948 gross bytes;
+Latest work adds `xx_catch.inl` and `xx_type_equal.inl` in the original xx.cpp TU.
+Catch bank6CEF..72B2 is1476 bytes:1434 instructions in six procedures plus42 EH
+bytes; initCatchArg is678. The private far comparator583E is157 bytes without
+fields. All13 literal catch fields and three ordered MZ words are reviewed.
+Together with calls/dispatch/destruction,original coverage is7193 bytes in three
+separate ranges,not a continuous whole-TU owner. Source presence is245 extents/
+54,581 gross bytes;
 accepted MAINL stays211 extents/288 procedures/36,946 bytes.
-See [xx calls review](MAINL_XX_CALLS_REVIEW.md),
+See [xx catch review](MAINL_XX_CATCH_REVIEW.md),
+[calls review](MAINL_XX_CALLS_REVIEW.md),
 [destruction review](MAINL_XX_DESTRUCTION_REVIEW.md) and
 [dispatch review](MAINL_XX_DISPATCH_REVIEW.md).
 
-Two actual BCC4.5 -O2-pg -Os -Z- -S / TASM / miniature TLINK rounds repeat
-full generated ASM/two-OBJ/mini-EXE/MAP vectors. Current candidate CODE5599 has a
-1512-byte call bank:767/392/185 instructions plus168 table bytes. Copy-constructor
-tail sharing still differs by17 bytes. Static near dtorCleanup,callDestructor
-and callMemberFunc now resolve within this TU;15 surrounding runtime interfaces
-remain unresolved. Trap providers are diagnostic-only. The177-byte true-type
-helper's earlier raw equality does not close whole-TU ownership. No normal-library
-replacement/whole-product link or exact credit is claimed. Complete TASM listings
-retain differing page clocks. All211 accepted owners/publication/verifier inputs
-and938 cold outputs remain unchanged. The shared diagnostic driver change
-refreshed the dispatch-only and dispatch/destruction pairs.
+Two actual BCC4.5 -O2-pg -Os -O-i -Z- -S / TASM / miniature TLINK rounds repeat
+full generated ASM/two-OBJ/mini-EXE/MAP vectors. Explicit -O-i after the presets
+retains the original two memcpy/one memset call sites. Current candidate CODE7233
+has a1480-byte catch bank and156-byte comparator; complete raw equality remains
+open. Catch cleanup/initialization,copy and destructor helpers now resolve inside
+the TU;14 surrounding interfaces remain unresolved. Trap providers are diagnostic
+only. The earlier177-byte helper equality does not close whole-TU ownership.
+No normal-library replacement/whole-product link or exact credit is claimed.
+Listings retain page clocks. All211 accepted owners/publication/verifier inputs
+and938 cold outputs remain unchanged. Earlier three miniatures were refreshed for
+the shared ABI/driver/profile; catch review reuses their current native receipt.
+
+Catch ABI: type at descriptor+4,payload+58,copy/buffer flags+57/+56. Original
+buffer destruction restores the saved DWORD SS:10 counter. Free callback uses
+descriptor DS+24/far pointer+26. _CatchCleanup returns normal far cdecl,updates
+head/context and leaves SS:14 unchanged. Catch argument uses wrapped SS:newBP+
+offset; near pointer1000 supplies DS. Virtual-base offsets retain object segment.
+Real target/source probes confirm constructor-adapter traffic,catch free DS,
+and virtual-base adjustment through nonidentical equal-named type descriptors.
 
 Call ABI: restore callback DS from runtime+6,then restore incoming DS on return.
 16-bit fastcall this is last; a virtual-base copy uses(0,source,destination),
@@ -57,13 +67,15 @@ no imported helper executes. Do not import later WITHVT/NEWXX/Delphi paths.
 
 A private `TH03-mainl-decoded-fixed` Ghidra database was independently attested
 against the existing67372-byte decoded Japanese target before observations.
-Current receipts:`mainl-xx-calls-build.json`, `mainl-xx-calls-review.json`,
+Current receipts:`mainl-xx-catch-build.json`, `mainl-xx-catch-review.json`,
+`mainl-xx-calls-build.json`, `mainl-xx-calls-review.json`,
 `mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,
 `mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
 `mainl-decoded-fixed-attestation.json`; the old packed MAINL DB is not a decoded
 runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover
-exceptionHandled/initCatchArg/typeIDcaught to close the remaining catch edges,
-then the throw/unwind helpers and whole TU; do not normalize the candidate.
+typeIDcaught/compatibility helpers,then throw/global unwind and remaining RTTI,
+and integrate the full xx TU; do not normalize the candidate. This turn's catch
+and comparator evidence came directly from fixed native bytes,not a database.
 
 Earlier natural C++ new/xalloc/xmsg exact ownership retains six owners2258
 bytes:1563 CODE,659 inline DATA,30 other initialized DATA and6 genuinely
@@ -146,6 +158,10 @@ Keep actual current proof inputs in `.analysis/work/`:
   review receipts,actual `xx-calls-source-*`,wrapper/context/link response and
   phase logs. Preserve the real TASM callback fixture; its code has no fixups and
   is loaded outside either immutable image for the three focused ABI probes.
+  Preserve both `xx-catch-roundN-xxdisp.asm/.obj/.lst`, `xx-catch-roundN-xxctx.obj`,
+  `xx-catch-roundN-xxmini.exe/.map`,the catch build/review receipts,actual
+  `xx-catch-source-*`,wrapper/context/link response and native phase logs. Keep
+  the two actual TASM catch callbacks and the reused current calls receipt.
 
 - Scanner:`input-nostring.json`, `input-nostring.obj`, `input-assembly.obj`.
 - Sound:`sound-bodies.json`,two stripped `sound-bodyN.c` inputs/four OBJ outputs.
