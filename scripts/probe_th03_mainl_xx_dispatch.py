@@ -46,7 +46,7 @@ def trap_context(imports):
     return ('\n'.join(lines)+"\n_TEXT ends\n_STACK segment para stack 'STACK'\ndw 128 dup (?)\n_STACK ends\nend\n").encode()
 
 
-def main(destruction=False,calls=False,catch=False):
+def main(destruction=False,calls=False,catch=False,extension=None):
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
     if os.nice(0)<10:os.nice(10-os.nice(0))
     cold_context(ROOT);compiler=compiler_context(ROOT);headers=sdk_inventory(ROOT)
@@ -67,11 +67,16 @@ def main(destruction=False,calls=False,catch=False):
     if catch:
         sources.update({'xxeq.inl':'src/mainl/crt/xx_type_equal.inl','xxcatch.inl':'src/mainl/crt/xx_catch.inl'})
         wrapper=wrapper.replace(CATCH_INTERFACES,b'').replace(b'#include "xxcall.inl"',b'#include "xxeq.inl"\n#include "xxcall.inl"').replace(b'#include "xxbank.inl"',b'#include "xxcatch.inl"\n#include "xxbank.inl"')
+    if extension:
+        stem=extension['stem'];sources.update(extension['sources']);wrapper=extension['wrapper'](wrapper)
     report_path='.analysis/work/mainl-'+stem+'-build.json'
     report=dict(complete=False,source_acceptance=False,accepted_source_bytes=0,whole_product_linked=False,whole_product_cold_rebuilt=False,miniature_only=True,
         compiler=compiler,compiler_flags=FLAGS,source_sha256={n:sha((ROOT/n).read_bytes()) for n in sources.values()},driver_sha256=sha((ROOT/DRIVER).read_bytes()),
         available_SDK_header_sha256=headers,wrapper_sha256=sha(wrapper),cold_report_sha256=sha((build.OUT/'mainl-build.json').read_bytes()),rounds=[],native_phases=[])
-    if calls:
+    if extension:
+        report['profile_driver_sha256']={extension['driver']:sha((ROOT/extension['driver']).read_bytes())}
+        report['probe_support_sha256']={p:sha((ROOT/p).read_bytes()) for p in extension['probe_support']}
+    elif calls:
         support='scripts/lib/decoded_mainl_xx_catch_probe.py' if catch else 'scripts/lib/decoded_mainl_xx_calls_probe.py'
         report['probe_support_sha256']={support:sha((ROOT/support).read_bytes())}
     save=lambda:(ROOT/report_path).write_text(json.dumps(report,indent=2)+'\n')
@@ -95,7 +100,9 @@ def main(destruction=False,calls=False,catch=False):
                 os.utime(scratch/'xxdisp.asm',(946684800,946684800))
                 run(tasm+(['/l'] if destruction else [])+['xxdisp.asm','xxdisp.obj'],scratch,f'round{number}-assemble')
                 imports=externs((scratch/'xxdisp.obj').read_bytes());context=trap_context(imports)
-                if catch:
+                if extension:
+                    context=extension['context'](imports)
+                elif catch:
                     from lib.decoded_mainl_xx_catch_probe import context as catch_context
                     context=catch_context(context)
                 elif calls:

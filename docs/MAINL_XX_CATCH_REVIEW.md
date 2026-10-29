@@ -4,8 +4,9 @@
 compiler EH data from the original monolithic DOS `xx.cpp`. The contiguous bank
 0000:6CEF..72B2 is1476 bytes:1434 instructions and42 inline EH bytes.
 `xx_type_equal.inl` separately owns the157-byte private far comparator at583E.
-Both are bounded includes,not new product TUs. Source presence is245 extents/
-54,581 gross bytes. Accepted MAINL stays211 extents/288 procedures/36,946 bytes;
+Both are bounded includes,not new product TUs. With the later
+[type/descriptor bank](MAINL_XX_TYPES_REVIEW.md),source presence is246 extents/
+55,702 gross bytes. Accepted MAINL stays211 extents/288 procedures/36,946 bytes;
 there is zero new exact credit.
 
 | Procedure | Original address | Instruction bytes | Return |
@@ -94,3 +95,8 @@ virtual offset and returns6500:0220. All preserve incoming DS/SS/BP/SI/DI and th
 near/far cdecl stack. Callback code resides outside both immutable program images;
 unresolved helpers stay traps. These observations do not close every exception
 path or physical DOS execution.
+
+The later type bank supplies real private typeIDcaught and its compatibility
+helpers. Its independent profile no longer needs that diagnostic provider; it
+adds the allocator library interfaces instead. This earlier catch miniature
+retains14 explicit providers and was refreshed once for the common profile entry.

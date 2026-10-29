@@ -5,8 +5,9 @@ call adapters of the original monolithic DOS `xx.cpp`. It precedes the recovered
 dispatch/destruction includes in that TU. Both destruction call edges now resolve
 to real private near functions. Original bank0000:5D3C..6312 spans1495 bytes:
 1327 instructions and168 actual CS switch-table bytes. This adds one source-present
-extent; after the subsequent [catch/type bank](MAINL_XX_CATCH_REVIEW.md),current
-source presence is245 extents/54,581 gross bytes. Accepted MAINL
+extent. With the later [catch/type bank](MAINL_XX_CATCH_REVIEW.md) and
+[type matcher](MAINL_XX_TYPES_REVIEW.md),current source presence is246 extents/
+55,702 gross bytes. Accepted MAINL
 remains211 extents/288 procedures/36,946 bytes,with zero new exact credit.
 
 | Procedure | Original address | Instruction bytes | Following CS data |

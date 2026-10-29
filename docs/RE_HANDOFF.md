@@ -6,30 +6,40 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work adds `xx_catch.inl` and `xx_type_equal.inl` in the original xx.cpp TU.
-Catch bank6CEF..72B2 is1476 bytes:1434 instructions in six procedures plus42 EH
-bytes; initCatchArg is678. The private far comparator583E is157 bytes without
-fields. All13 literal catch fields and three ordered MZ words are reviewed.
-Together with calls/dispatch/destruction,original coverage is7193 bytes in three
-separate ranges,not a continuous whole-TU owner. Source presence is245 extents/
-54,581 gross bytes;
+Latest work adds `xx_type_match.inl` in the original xx.cpp TU. Bank58DB..5D3B
+is1121 instruction bytes in five complete private procedures339/372/92/57/261.
+Three allocator fields retain literal order; there are no MZ words or inline data.
+Both matcher/dispatcher near calls now enter the real typeIDcaught. Original
+coverage is8314 bytes in two separate ranges,583E..6312 and6CEF..8293,not a whole
+TU. Source presence is246 extents/55,702 gross bytes;
 accepted MAINL stays211 extents/288 procedures/36,946 bytes.
-See [xx catch review](MAINL_XX_CATCH_REVIEW.md),
+See [xx types review](MAINL_XX_TYPES_REVIEW.md),
+[catch review](MAINL_XX_CATCH_REVIEW.md),
 [calls review](MAINL_XX_CALLS_REVIEW.md),
 [destruction review](MAINL_XX_DESTRUCTION_REVIEW.md) and
 [dispatch review](MAINL_XX_DISPATCH_REVIEW.md).
 
 Two actual BCC4.5 -O2-pg -Os -O-i -Z- -S / TASM / miniature TLINK rounds repeat
 full generated ASM/two-OBJ/mini-EXE/MAP vectors. Explicit -O-i after the presets
-retains the original two memcpy/one memset call sites. Current candidate CODE7233
-has a1480-byte catch bank and156-byte comparator; complete raw equality remains
-open. Catch cleanup/initialization,copy and destructor helpers now resolve inside
-the TU;14 surrounding interfaces remain unresolved. Trap providers are diagnostic
-only. The earlier177-byte helper equality does not close whole-TU ownership.
+retains the original two memcpy/one memset call sites. Current candidate CODE8352
+has a1119-byte type bank341/368/92/57/261; complete raw equality remains open.
+The private type/catch/copy/destructor edges resolve within the TU;16 surrounding
+library/runtime interfaces remain unresolved in this miniature. Trap providers
+are diagnostic only. Earlier helper equality does not close whole-TU ownership.
 No normal-library replacement/whole-product link or exact credit is claimed.
 Listings retain page clocks. All211 accepted owners/publication/verifier inputs
-and938 cold outputs remain unchanged. Earlier three miniatures were refreshed for
-the shared ABI/driver/profile; catch review reuses their current native receipt.
+and938 cold outputs remain unchanged. The common builder now accepts separately
+hashed source profiles; `probe_th03_mainl_xx_types.py` owns this extension. Earlier
+four miniatures were refreshed once for that entry change. Current receipts/raw
+pairs are reused without ancestor runtime replay inside later reviews.
+
+Type rules: public access3 must hold through every base link; virtual entry flag8
+is skipped. Friends are passed through but not dereferenced. Native near-to-far
+fallback can succeed without comparing pointees; void fallback requires equal CV.
+fspec is not read in this DOS version. Emergency pointer is a far slot at runtime
++20h,not newly owned storage; free clears only WORD flag0001 at+4. Six focused
+native pairs confirm these rules and caller frames,without allocation-failure
+models. Do not import later CV/friend/specification behavior.
 
 Catch ABI: type at descriptor+4,payload+58,copy/buffer flags+57/+56. Original
 buffer destruction restores the saved DWORD SS:10 counter. Free callback uses
@@ -67,15 +77,16 @@ no imported helper executes. Do not import later WITHVT/NEWXX/Delphi paths.
 
 A private `TH03-mainl-decoded-fixed` Ghidra database was independently attested
 against the existing67372-byte decoded Japanese target before observations.
-Current receipts:`mainl-xx-catch-build.json`, `mainl-xx-catch-review.json`,
+Current receipts:`mainl-xx-types-build.json`, `mainl-xx-types-review.json`,
+`mainl-xx-catch-build.json`, `mainl-xx-catch-review.json`,
 `mainl-xx-calls-build.json`, `mainl-xx-calls-review.json`,
 `mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,
 `mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
 `mainl-decoded-fixed-attestation.json`; the old packed MAINL DB is not a decoded
-runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover
-typeIDcaught/compatibility helpers,then throw/global unwind and remaining RTTI,
-and integrate the full xx TU; do not normalize the candidate. This turn's catch
-and comparator evidence came directly from fixed native bytes,not a database.
+runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover the
+6313..6CEE throw/global-unwind bank,then the front jump/name and tail RTTI code,
+and integrate the full xx TU; do not normalize the candidate. Type-bank evidence
+this turn came directly from fixed native bytes,not a database.
 
 Earlier natural C++ new/xalloc/xmsg exact ownership retains six owners2258
 bytes:1563 CODE,659 inline DATA,30 other initialized DATA and6 genuinely
@@ -162,6 +173,10 @@ Keep actual current proof inputs in `.analysis/work/`:
   `xx-catch-roundN-xxmini.exe/.map`,the catch build/review receipts,actual
   `xx-catch-source-*`,wrapper/context/link response and native phase logs. Keep
   the two actual TASM catch callbacks and the reused current calls receipt.
+  Preserve both `xx-types-roundN-xxdisp.asm/.obj/.lst`, `xx-types-roundN-xxctx.obj`,
+  `xx-types-roundN-xxmini.exe/.map`,types build/review receipts,actual
+  `xx-types-source-*`,wrapper/trap context/link response and native phase logs.
+  Keep the independent profile driver and reused current catch receipt/raw pair.
 
 - Scanner:`input-nostring.json`, `input-nostring.obj`, `input-assembly.obj`.
 - Sound:`sound-bodies.json`,two stripped `sound-bodyN.c` inputs/four OBJ outputs.

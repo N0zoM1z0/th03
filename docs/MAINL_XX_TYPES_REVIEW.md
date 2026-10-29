@@ -1,0 +1,85 @@
+# MAINL xx DOS type compatibility and descriptor allocation
+
+`src/mainl/crt/xx_type_match.inl` recovers the contiguous58DB..5D3B bank of the
+original DOS `xx.cpp`. It follows the private type comparator and precedes the
+call adapters. Its1121 bytes are all instructions in five complete procedures;
+there are no inline tables or MZ segment words. Three actual far library fields
+resolve the whole original payload from OMF/MAP to the fixed Japanese target.
+Source presence is246 extents/55,702 gross bytes. Accepted MAINL remains211
+extents/288 procedures/36,946 bytes,with zero new exact credit.
+
+| Procedure | Original address | Instruction bytes | Return |
+| --- | --- | ---: | --- |
+| findBaseType | 58DB | 339 | near cdecl |
+| compatibleType | 5A2E | 372 | near cdecl |
+| allocExceptMem | 5BA2 | 92 | far cdecl |
+| freeExceptMem | 5BFE | 57 | far cdecl |
+| typeIDcaught | 5C37 | 261 | near cdecl |
+
+Direct decoding verifies full returns and branches,without treating symbol gaps
+as bodies. The three original fields retain literal emission order:abort,malloc,
+free. No database observations are needed. The source has natural typed control
+flow and explicit16-bit masks; it introduces no padding,opcode arrays or object
+patches. All five procedures retain private linkage. Two actual near calls from
+the handler matcher/dispatcher now enter the real typeIDcaught body.
+
+Base lookup first walks the virtual list,skipping entry flag8,then the ordinary
+list. It follows8-byte entries and requires low access bits3 on every link in
+the path. Recursion retains the accumulated accessibility. The friend-list
+argument is passed onward but never dereferenced by these helpers. A private
+link therefore remains rejected even with a valid friend list containing the
+destination. The source preserves that behavior.
+
+Compatibility iterates through pointer/array descriptors,compares DWORD array
+counts and uses exact matching after indirection. Pointer qualifiers use3300:
+CV0300 plus near/far3000. A native width fallback returns success for a source
+with near bit1000 without comparing its pointee with the destination's pointee.
+The target/source probe confirms Base near* can match unrelated Middle far*
+through this path,with zero calls to the name comparator. This behavior is
+preserved rather than replaced by later language/runtime rules.
+
+typeIDcaught handles references,pointer widths and the zero-pointer flag. Its
+void-pointer fallback requires exactly equal CV bits. Equal CV succeeds; adding
+const to the destination void pointer in the observed differing-pointee case
+fails. The original fspec argument is not read,although its caller and16-byte
+near-cdecl argument list remain intact. The older generic comment about special
+throw-specification rules does not establish a DOS branch that is absent from
+the actual instructions. The later [xx implementation](https://github.com/earthsiege2/borland-cpp-ide/blob/a0bdb214ae2a492edef4f82c91c55ec86394e7b3/SOURCE/RTL/SOURCE/EXCEPT/XX.CPP)
+is structural context; its broader CV fallback is not copied.
+
+Allocation first calls the original malloc interface. Its existing failure path
+uses a runtime-provided128-byte emergency buffer,with occupied flag0001 in the WORD
+flags at runtime+4; oversized or already-occupied fallback aborts. Freeing that
+same far pointer clears only that flag; other pointers call free. The
+buffer pointer lives at runtime+20h. Only this observed slot is accessed; no
+fields or padding are invented for the unknown intervening runtime storage,
+and no emergency buffer storage is claimed by this bank. A native free probe
+changes flagsA501 toA500 and restores the far-cdecl caller frame. No allocation
+failure or heap behavior is modeled.
+
+The miniature uses the existing scoped BCC4.5 `-O2-pg -Os -O-i -Z- -S`,actual
+TASM5 and TLINK. An independent profile supplies the added source/wrapper and
+records its own driver hash alongside the common builder hash. This extension
+keeps future source profiles separate from the shared recipe. The common entry
+change refreshed the earlier four affected miniatures once. Their current
+receipt and whole raw pair are validated and reused without ancestor runtime
+replay inside this review. The211-owner publication/verifier inputs and938 cold
+outputs remain validated and unchanged; no full cold or normal-library rebuild
+is performed.
+
+Two rounds repeat complete generated ASM,two-OBJ,EXE and MAP vectors. Original
+listing page clocks are retained separately; all64 available SDK headers are
+bound. Candidate bank is1119 bytes with341/368/92/57/261-byte bodies. Whole
+candidate CODE is8352,empty DATA and8 existing callback BSS bytes. Its16 remaining
+interfaces are unresolved surrounding library/runtime providers in this
+miniature. Original covered ranges now total8314 bytes in two separate spans,
+583E..6312 and6CEF..8293. Remaining throw/unwind and RTTI/front code are not
+included. Complete raw equality,ordered whole-TU layout and normal-library
+replacement remain open despite some matching body lengths.
+
+Focused native probes establish public/private nested base matching,that width
+shortcut,void CV behavior,and emergency-slot release. Every target/source pair
+agrees on return value,actual name-comparison calls and DS/SS/BP/SI/DI with
+SPFF02 for near matching orFF04 for far free. All unresolved providers remain
+traps and are never executed. These observations are not an exhaustive type
+matrix or a physical DOS execution claim.

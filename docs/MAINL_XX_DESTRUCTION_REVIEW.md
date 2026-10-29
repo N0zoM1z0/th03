@@ -6,8 +6,9 @@ instruction bytes and78 bytes of actual inline exception metadata. It follows
 `xx_dispatch.inl` in the same TU. The near static `dtorCleanup` now resolves
 inside that TU,without adding a public product interface. With the subsequent
 [call-adapter bank](MAINL_XX_CALLS_REVIEW.md)
-and [catch/type bank](MAINL_XX_CATCH_REVIEW.md),source presence is245 extents/
-54,581 gross bytes; accepted MAINL stays211 extents/288 procedures/
+and [catch/type banks](MAINL_XX_CATCH_REVIEW.md),plus the later
+[type matcher](MAINL_XX_TYPES_REVIEW.md),source presence is246 extents/
+55,702 gross bytes; accepted MAINL stays211 extents/288 procedures/
 36,946 bytes. These are source candidates,with zero new exact credit.
 
 | Procedure | Original address | Instruction bytes | Return |
