@@ -14,7 +14,7 @@ class CrtProgressTests(unittest.TestCase):
         units,evidence=self.data()
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
-        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(195,38156,0,195))
+        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(195,38160,0,195))
         # The old aggregate requires the old linked-game source assignment.
         # Ending now comes from staffdat.cpp, so current units suppress it even
         # when publication is unavailable. Preserve the historical caption test
@@ -25,6 +25,8 @@ class CrtProgressTests(unittest.TestCase):
             self.assertNotIn("24,680 B target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
             historical=[dict(u) for u in units]
             for unit in historical:
+                if unit['id']=='th03-mainl-decoded-root-tail-pfgetc-zero':
+                    unit['state']='source-present'
                 expected=(progress.MAINL_LINKED_GAME_SOURCE_UNITS.get(unit['id'])
                           or progress.MAINL_STAFF_SOURCE_UNITS.get(unit['id'])
                           or progress.MAINL_RESOURCES_SOURCE_UNITS.get(unit['id']))

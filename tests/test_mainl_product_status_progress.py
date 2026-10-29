@@ -25,6 +25,7 @@ CURRENT_UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().spli
 # containing GRCG/STR_IEQ boundaries. Current tracked scopes use 195 extents; the frozen fixture retains145.
 UNITS = [dict(u) for u in CURRENT_UNITS
          if not u['id'].startswith('th03-mainl-decoded-cutscene-') and u['id'] not in {
+    'th03-mainl-decoded-archive-initialized-data',
     'th03-mainl-decoded-bfnt-signature',
     'th03-mainl-decoded-file-initialized-data',
     'th03-mainl-decoded-text-renderer',
@@ -62,6 +63,7 @@ UNITS = [dict(u) for u in CURRENT_UNITS
     'th03-mainl-decoded-root-tail-grcg-setcolor-align','th03-mainl-decoded-root-tail-grcg-off',
     'th03-mainl-decoded-root-tail-grcg-off-align','th03-mainl-decoded-root-tail-string-compare'}]
 for unit in UNITS:
+    if unit['id']=='th03-mainl-decoded-root-tail-pfgetc-zero':unit['state']='source-present'
     if unit['id']=='th03-mainl-decoded-root-tail-grcg':unit.update(size='48',compare_size='48')
     if unit['id']=='th03-mainl-decoded-root-tail-compare-align':unit.update(size='57',compare_size='57')
 IDS = sorted(u['id'] for u in UNITS if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded')

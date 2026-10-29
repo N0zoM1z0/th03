@@ -36,12 +36,12 @@
   <rect x="488" y="245" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="245" width="250.00" height="5" fill="#9b6de3"/>
   <rect x="200" y="252" width="250.00" height="5" fill="#e0af68"/>
-  <rect x="488" y="245" width="148.15" height="12" fill="#55c7a6"/>
+  <rect x="488" y="245" width="181.38" height="12" fill="#55c7a6"/>
   <text x="200" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 195 · Source 195/195</text>
-  <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Decoded acceptance: exact 107/195</text>
-  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 38,156 B · Heap: 8 procedures / 628 B retained-only</text>
+  <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Decoded acceptance: exact 131/195</text>
+  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 38,160 B · Heap: 8 procedures / 628 B retained-only</text>
   </g>
-<text x="200" y="304" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded: 107 extents / 138 procedures / 21,975 B · CODE 20,662 / DATA 1,313 · product open</text>
+<text x="200" y="304" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded: 131 extents / 155 procedures / 23,020 B · CODE 21,702 / DATA 1,318 · product open</text>
 <text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>
   <g aria-label="ZUN.COM bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="354" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>

@@ -6,52 +6,59 @@ Use natural source recovery with direct local tools and exact native output.
 Revalidate the unchanged cold pair; rebuild affected producers. Session preflight
 is complete for the unchanged environment. No native writer remains running.
 
-MAINL now accepts complete BFNT512 CODE, BFNT_PALETTE_SET64 CODE and signature6
-DATA:582 additional library bytes /five procedures. `super_types.inl` recovers
-the actual constants and packed32-byte header; `bfnt_signature.inl` owns BFNT,
-1Ah,NUL with both aliases. Reader comparison consumes five bytes; the sixth byte
-is an original explicit terminator. See [BFNT review](MAINL_BFNT_NATIVE_REVIEW.md).
+MAINL now accepts buffered/archive readers:17 procedures,6 genuine outer EVEN
+bytes and5 initialized state bytes,24 extents/1,045 bytes total. CODE1,040 plus
+DATA5 comprises TH03 PFOPEN281 authored and764 library bytes. Full BFILE9 and
+PFILE31 declarations are maintained in `archive_types.inl`; state WORD512/WORD0/
+BYTE0 is `archive_initialized.inl`. See [archive review](MAINL_ARCHIVE_NATIVE_REVIEW.md).
 
-Two selected TASM/TLINK rounds rebuild the actual GAME3 root,forwarding its
-nested super.inc to maintained types and replacing only the signature include.
-They reuse35 project objects and current CRT library. Complete raw OBJ/EXE/MAP
-vectors repeat; both EXEs equal the pinned Japanese decoded target and both MAPs
-equal the retained MAP. Original root/nested include and938 cold outputs remain
-unchanged. All13 fields resolve independently with empty scoped MZ vectors.
-Eight real CS operand writers/eight slots and three saved-DS reads are checked.
+`pf_getc.inl` recovers four complete readers without the old final DB0. Two
+independent five-module TASM/TLINK builds demonstrate natural WORD link gaps:
+reader175 then PFREAD; state5 then random seed. Actual native SEGDEF/MAP and one
+external self-relative BGETC field are checked. No padding is added. Product
+CODE19A3 and DATA05B5 zeros add no source credit. The old19A3 ledger row is now
+excluded/linker-gap. TASM EVEN/ALIGN inside monolithic DATA emitted90; it cannot
+replace that native module boundary. The complete full-root provider still has
+its old explicit fillers as contextual transport. Whole-product TU layout is
+not claimed; integrate proper independent boundaries when changing full recipes.
 
-BFNT_ENTRY_PAT302,SKIP34,HEADER_READ59,ANALYSIS95 are four far Pascal procedures.
-The20-byte error/unwind path borrows the main frame; outer EVEN at0411/0471 adds
-no procedures. Palette64 is one API. Preserve original SI/DI swap: entry pushes
-SI then DI; exits pop SI then DI. Keep allocation,dimension,zero-count,short-read
-and DF quirks. No hardware palette writes or header-scratch/palette-BSS credit.
+Two selected actual GAME3 root assembly/link rounds consume the maintained type
+forwarder and reuse35 project objects/current CRT. Whole raw OBJ/EXE/MAP repeat;
+both EXEs equal the pinned Japanese decoded target and both MAPs equal retained
+MAP. Full containing native payload/public records and literal FIXUPP order agree.
+The wrapper,nested include and938 cold outputs/source/recipe are restored and
+unchanged. All13 scoped root fields resolve independently with empty MZ vectors.
+Five near ES dispatch consumers use PFILE slots2/4; all17 near/far APIs/returns
+and six outer EVEN bytes have complete disjoint owners.
 
-The first BFNT driver reused file-round output names. Paths are corrected.
-Two actual file-driver assembly/link rounds restored the old pair and matched
-all original output hashes. Its original report/logs are retained unchanged;
-`mainl-file-recovery-build.json` and recovery logs record the new replay. No cold
-build or target was replaced. Keep BFNT and file selected vectors separate.
+Preserve BREAD signed nonpositive-size rejection versus PFREAD WORD iteration,
+BSEEK failure b_left=FFFF versus BSEEK_ clearing it before DOS,pre-read counter
+increments,RLE physical/logical accounting and PFSEEK's stack high-WORD mutation.
+TH03 PFOPEN uses cached32-byte directory records with16-bit size fields; its
+missing-entry fallthrough,unchecked seeks and BYTE/WORD error writes remain.
+No physical DOS/heap execution or added defensive checks are claimed.
 
-Current acceptance validates the full source/tool/library/cold graph,then
-preserves old97 owner/native/runtime observations from3e7e9dd and six proved
-library-origin corrections. Decoder/resources/file/BFNT ownership is added
-separately. All previous104 owner records and nested scopes remain unchanged
-in this step. Ancestor runtime matrices are not rerun. OP acceptance reverified;
-OP/ZUN publications untouched. Only the verified MAINL SVG region,summary and
-source-present table row were refreshed. Full generator --check is not claimed.
+Acceptance validates the full source/tool/library/cold graph,then preserves old97
+owner/native/runtime observations from3e7e9dd and six library-origin corrections.
+Separate decoder/resources/file/BFNT/archive review extends it. All previous107
+owner records and nested scopes remain unchanged in this step. No ancestor
+runtime matrices or full cold/DIET replay. OP acceptance is reverified; OP/ZUN
+publications are unchanged. Only the verified MAINL SVG region/summary changed;
+tracked count195 is stable because one new DATA row replaces one excluded gap.
 
-Current receipts: `.analysis/work/mainl-bfnt-build.json`, `mainl-bfnt-native.json`
-and `mainl-bfnt-progress.json`.54 focused native/acceptance/status/progress checks,
-tracking and bounded generated-region checks PASS. `git diff --check` is clean.
-Historical caption fixtures retain historical providers; archived fixtures are
-not a current source gate.
+Current receipts: `.analysis/work/mainl-archive-build.json`,
+`mainl-archive-native.json`, `mainl-archive-progress.json`.58 focused native/
+acceptance/status/progress checks and tracking PASS; final changed-source native
+replay and affected rechecks also PASS. Historical caption fixtures explicitly
+project the old source-present zero row; it cannot inherit current source credit.
+`git diff --check` is clean. Archived fixtures are not a current native gate.
 
-File API786/DOS80/hook605/DATA4 remain accepted. The hook sentinel `default dw ?,
-_Thru` at0000:29AE has no LEDATA for its WORD. Only those two file-backed bytes
-use independent real TLINK output; never invent zeros or add an initializer.
-Its live CS BYTE writer from AH is verified. File BSS20/hook BSS134 adds no file
-bytes. Buffered/direct FILE_WRITE success AX=1/FFFF remains different. See
-[file review](MAINL_FILE_NATIVE_REVIEW.md).
+BFNT512/palette64/signature6 remain accepted with packed32 types,eight SMC writers
+and original swapped SI/DI unwind. File786/DOS80/hook605/DATA4 remain accepted.
+The hook sentinel at29AE is source DW? with no LEDATA: only its two bytes use real
+independent TLINK output. Do not invent zeros/add an initializer. File/hook BSS
+adds no file bytes. Buffered/direct FILE_WRITE success AX=1/FFFF remains distinct.
+See the BFNT and file reviews. Their selected outputs are separate and preserved.
 
 ## Accepted source scopes
 
@@ -59,10 +66,10 @@ bytes. Buffered/direct FILE_WRITE success AX=1/FFFF remains different. See
 | --- | --- | --- |
 | MAIN | 459 functions /78,737 CODE bytes /106 extents | Open |
 | OP | 60 extents /92 procedures /13,221 CODE +1,764 DATA bytes | Open |
-| MAINL | 107 extents /138 procedures /20,662 CODE +1,313 DATA bytes | Open |
+| MAINL | 131 extents /155 procedures /21,702 CODE +1,318 DATA bytes | Open |
 | ZUN | 77 extents /89 procedures or entries /6,179 CODE bytes | Open |
 
-MAINL accepts21,975 bytes:16,136 authored +5,839 library. ZUN accepts8,635 bytes:
+MAINL accepts23,020 bytes:16,417 authored +6,603 library. ZUN accepts8,635 bytes:
 2,179 authored +1,390 original ASM +5,066 library. OP includes22 proved compiler
 bytes and3 ordinary ASM EVEN bytes; these add no procedures. Whole-game source/
 function denominators and completion percentage remain unknown.
@@ -97,6 +104,8 @@ Preserve actual current proof inputs under `.analysis/work/`:
   `selection-tail.cpp/.lnk`; alignment controls explain rejected dummy bytes.
 - Resources: `mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors and `resources-root.asm/.lnk`; PI/origin receipts remain useful.
+- Archive: `mainl-archive-build.json`,both `archive-roundN.obj/.exe/.map` vectors,
+  `archive-root.asm/.lnk` and both `archive-mini-roundN-*`/EXE/MAP vectors.
 - BFNT: `mainl-bfnt-build.json`,both `bfnt-roundN.obj/.exe/.map` vectors,
   `bfnt-root.asm/.lnk`; nested types forwarder is a bounded selected transport.
 - File: `mainl-file-build.json`,both `file-roundN.obj/.exe/.map` vectors and
@@ -107,12 +116,12 @@ imply replay. Keep `scripts/lib/zun.py` unchanged unless deliberately updating
 its frozen MAIN binding. OP's builder is shared by MAINL/ZUN. Remove obsolete
 diagnostics after preserving actual inputs and outputs.
 
-Next providers include buffered/archive readers and display/hardware
+Next providers include display/hardware and remaining root-resource
 library bodies. Review complete natural source,ownership and origin. Old cutscene
 3195/regist2720/root2488 aggregate rows overlap accepted C++ functions; do not count
 again. When deliberately changing full recipes,integrate maintained OP selection,
-MAINL generated table,three file-state providers and BFNT types/signature. Their frozen cold prefixes
-remain contextual; do not rewrite receipt hashes or rebuild everything for progress.
+MAINL generated table,file-state/BFNT/archive types and native reader/state module
+boundaries. Their frozen cold prefixes remain contextual; do not rewrite receipt hashes or rebuild everything for progress.
 TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04` is an authorized
 source reference,not a replacement target/dependency. Re-attest Ghidra databases
 before use. Preserve original unchecked behavior.
