@@ -14,7 +14,7 @@ See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).
 
 OP decoded publication: installed.
 
-OP current decoded source acceptance: 59 extents / 92 procedures / 14,758 bytes (13,221 CODE + 1,537 initialized DATA). Validated source-only cold pair and complete native ownership/ABI pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
+OP current decoded source acceptance: 60 extents / 92 procedures / 14,985 bytes (13,221 CODE + 1,764 initialized DATA). Validated source-only cold pair and complete native ownership/ABI pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
 MAINL current decoded source acceptance: 97 extents / 102 procedures / 16,362 bytes (16,138 CODE + 224 initialized DATA). Complete native ownership/ABI and the retained source-only cold pair are validated. Earlier runtime observations remain supporting history, not a per-unit test requirement. Unowned context, physical devices and whole-product source ownership remain open; canonical packed-file unit credit is unchanged.
 

@@ -61,7 +61,8 @@ Only rerun `scripts/probe_th03_op_sound_bodies.py` when its input/tool bindings
 change. The proof revalidates the unchanged full current native cold graph.
 No emulator matrix or historical ancestor runtime replay is required.
 
-The character-selection227-byte DATA prefix remains open. Inspection finds its
-far filename pointers, stats, cursor constants and part of the state declarations
-in the frozen `th03/op/m_select.cpp` prefix, outside the maintained function
-include. CODE acceptance alone does not transfer their source ownership.
+The initial character-selection DATA ownership gap is now resolved separately
+by [the maintained prefix/storage review](OP_SELECTION_STORAGE_REVIEW.md).
+Its real selected compiler/linker pair consumes `selection_state.inl`; the
+frozen full-cold prefix stays contextual. CODE acceptance alone did not transfer
+that ownership, and the new227-byte DATA owner does not duplicate function credit.

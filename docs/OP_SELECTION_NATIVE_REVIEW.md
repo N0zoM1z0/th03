@@ -63,7 +63,12 @@ its genuine near return with the listed argument cleanup.
   timing order. Their polling bodies are compared as native code; no physical
   timing or emulator-loop termination claim is needed for this source scope.
 
-Private tail DATA227/BSS23 and the following linker alignment byte are excluded.
+This CODE proof excludes tail DATA227/BSS23 and following linker alignment.
+The separate [storage review](OP_SELECTION_STORAGE_REVIEW.md) now recovers the
+maintained declaration prefix, accepts all227 initialized bytes and reviews the
+natural23-byte BSS layout without file-backed credit. It removes the frozen
+prefix's unproved dummy BYTE declarations using scoped compiler alignment and
+proves two actual selected compile/link rounds against unchanged context.
 The earlier score menu entry remains a different accepted owner.
 
 ## Checks

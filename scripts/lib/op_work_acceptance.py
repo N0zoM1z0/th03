@@ -29,6 +29,7 @@ from lib.op_input_native import verify as input_scanner_scope, UNIT as INPUT_SCA
 from lib.op_asset_native import verify as asset_scope, UNITS as ASSET_UNITS, PF_UNIT as ASSET_PF_UNIT
 from lib.op_leaf_native import verify as leaf_scope, UNITS as LEAF_UNITS, FORWARDING as LEAF_FORWARDING
 from lib.op_title_storage import verify as title_storage_scope
+from lib.op_select_storage import verify as select_storage_scope, UNIT as SELECT_DATA_UNIT, STATE as SELECT_STATE
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -69,7 +70,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_shared_text.py", "scripts/lib/op_cdg_draw_native.py",
                 "scripts/lib/decoded_mainl_cdg_draw_layout.py", "scripts/lib/op_input_native.py",
                 "scripts/lib/op_asset_native.py", "scripts/lib/decoded_mainl_pi_layout.py",
-                "scripts/lib/op_leaf_native.py", "scripts/probe_th03_op_sound_bodies.py", "scripts/lib/op_title_storage.py")
+                "scripts/lib/op_leaf_native.py", "scripts/probe_th03_op_sound_bodies.py", "scripts/lib/op_title_storage.py",
+                "scripts/lib/op_select_storage.py", "scripts/build_th03_op_selection_work.py")
 
 
 def need(value, message):
@@ -219,6 +221,10 @@ def audit(root):
          'separate complete title literal pool')
     owners.extend(title_storage['owners'])
     scope['title_storage'] = title_storage
+    selection_storage = select_storage_scope(root, work, target, candidate, files)
+    need(SELECT_DATA_UNIT not in {o['unit_id'] for o in owners}, 'separate complete selection initialized DATA')
+    owners.extend(selection_storage['owners'])
+    scope['selection_storage'] = selection_storage
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
@@ -261,6 +267,13 @@ def audit(root):
                 need(o["forwarding_chain"] == [MUSIC_WRAPPER, o["source"]], "actual bounded Music include owner")
             need(files[MUSIC_WRAPPER] == ('#include "' + MUSIC_SOURCE + '"\n\n#include "src/op/music/nopoly_blit.inl"\n\n#include "src/op/music/animation_and_menu.inl"\n').encode(),
                  "literal three-include Music source chain")
+        elif o['unit_id'] == SELECT_DATA_UNIT:
+            need(producer == dict(source='th03/seltail.cpp', command='-DGAME=3', output='obj/th03/seltail.obj') and
+                 o['source'] == SELECT_STATE and o['forwarding_chain'] == ['th03/seltail.cpp', SELECT_STATE],
+                 'unchanged baseline inventory; separately rebuilt maintained state producer and original link position')
+            # The selected source is a real new include, not the baseline's
+            # frozen prefix. selection_storage binds both actual compiler rounds,
+            # all native records and the two complete target-equal linked files.
         elif o["unit_id"] in SELECT_UNITS:
             wrapper, part = o["forwarding_chain"]
             need(o["source"] in SELECT_SOURCES and producer == dict(source=wrapper, command="-DGAME=3", output=o["object"]),
