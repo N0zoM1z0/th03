@@ -27,6 +27,8 @@ from lib.op_shared_native import verify as shared_native_scope, UNITS as SHARED_
 from lib.op_cdg_draw_native import verify as cdg_draw_scope
 from lib.op_input_native import verify as input_scanner_scope, UNIT as INPUT_SCANNER_UNIT
 from lib.op_asset_native import verify as asset_scope, UNITS as ASSET_UNITS, PF_UNIT as ASSET_PF_UNIT
+from lib.op_leaf_native import verify as leaf_scope, UNITS as LEAF_UNITS, FORWARDING as LEAF_FORWARDING
+from lib.op_title_storage import verify as title_storage_scope
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -66,7 +68,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/lib/decoded_mainl_cdg_layout.py", "scripts/lib/decoded_mainl_text_layout.py",
                 "scripts/review_th03_shared_text.py", "scripts/lib/op_cdg_draw_native.py",
                 "scripts/lib/decoded_mainl_cdg_draw_layout.py", "scripts/lib/op_input_native.py",
-                "scripts/lib/op_asset_native.py", "scripts/lib/decoded_mainl_pi_layout.py")
+                "scripts/lib/op_asset_native.py", "scripts/lib/decoded_mainl_pi_layout.py",
+                "scripts/lib/op_leaf_native.py", "scripts/probe_th03_op_sound_bodies.py", "scripts/lib/op_title_storage.py")
 
 
 def need(value, message):
@@ -207,6 +210,15 @@ def audit(root):
     need(not ({o['unit_id'] for o in owners} & ASSET_UNITS), 'separate complete PI/PFOPEN functions')
     owners.extend(assets['owners'])
     scope['asset_loading'] = assets
+    leaves = leaf_scope(root, work, target, candidate, files)
+    need(not ({o['unit_id'] for o in owners} & LEAF_UNITS), 'separate complete sound/math/LUT helpers')
+    owners.extend(leaves['owners'])
+    scope['leaf_helpers'] = leaves
+    title_storage = title_storage_scope(root, work, target, candidate, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in title_storage['owners']}),
+         'separate complete title literal pool')
+    owners.extend(title_storage['owners'])
+    scope['title_storage'] = title_storage
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
@@ -230,8 +242,8 @@ def audit(root):
         if o["object"] == CFG_OBJECT:
             need(producer["source"] == CFG_WRAPPER and producer["maintained_owner_sources"] == [CFG_SOURCE, "src/op/menu/menu_state.inl"],
                  "actual containing CFG source producer; menu sibling stays context")
-        elif o["object"] in HELPER_FORWARDING:
-            chain = HELPER_FORWARDING[o["object"]]
+        elif o["object"] in HELPER_FORWARDING or o['object'] in LEAF_FORWARDING:
+            chain = (HELPER_FORWARDING | LEAF_FORWARDING)[o["object"]]
             need(producer["source"] == chain[0] and o["forwarding_chain"] == list(chain)
                  and chain[-1] == o["source"], "complete reviewed helper forwarding chain")
             # The generic producer inventory labels these historical outer wrappers

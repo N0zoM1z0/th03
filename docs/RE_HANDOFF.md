@@ -7,15 +7,35 @@ local tools and affected native checks. Allocation/null-pointer/input-domain
 matrices, large emulator specifications and routine full CI are not per-unit
 gates. Reuse an unchanged native cold pair rather than rebuilding every turn.
 
-PI/PFOPEN now have complete OP function ownership:37/136/70 PI +281 PFOPEN =
-524 CODE bytes/4 procedures/28 native fields/5 literal MZ entries. PI's actual
-173/70-byte TC4 TUs have zero private storage. PFOPEN belongs to the1258-byte
-`th03_optail.asm` producer at native offset920, correcting older unsplit-root
-notes. Its actual provider is an exact byte copy of maintained source; all281
-bytes have dense LEDATA coverage. Five emitted PUSH CS/CALL bridges,three near
-decoder pointers andfour DGROUP words give PFOPEN no MZ entries. Preserve the
-zero-type fall-through into seek,16-bit sizes,transient ES=CX and original
-error/register behavior. See [asset review](OP_ASSET_NATIVE_REVIEW.md).
+OP sound-mode29/PMD57/polar26/hflip30 now have complete function ownership:
+142 CODE bytes/4 procedures/8 native offset WORD fields/empty literal MZ
+vectors. Actual OMF/MAP geometry and all source/header dependencies are checked.
+The three C/C++ helper wrappers have verified two-hop maintained include chains;
+their generic frozen-context inventory label remains unchanged. Sound C/GAME2/O
+source without its explicit trailing pragma was compiled twice per body: both
+complete raw objects repeat identically and all body bytes/fields equal the
+current native function. NOP0067/00A1 remain unowned. See
+[helper review](OP_LEAF_NATIVE_REVIEW.md).
+
+Mode returns raw zero-extended MIDI active on FF and preserves FM possible on
+that branch. PMD follows INT60's vector and checks ISR+2/+3/+4 for P/M/D;
+preserve ES/BX and both far exits. Polar uses signed32 multiply/SAR8 then AX
+addition. Hflip generates256 reversed bytes but grants no external BSS credit.
+
+Title DATA31 is separately accepted: opwin.bft/op.m/TL01.PI/TL02.PI at local
+offsets0/10/15/23,derived from source calls and the actual consumed macros.
+Complete LEDATA matches target/candidate with no DATA fixups/MZ entries; all
+CODE local-DATA references enter those literals. Following0A01 remains unowned.
+Selection DATA227/BSS23 stays open: filename-pointer/stats/cursor/state
+declarations still come from frozen `th03/op/m_select.cpp` outside the maintained
+function include. Do not infer storage ownership from accepted function CODE.
+
+PI/PFOPEN retain524 CODE bytes/4 procedures/28 fields/5 MZ entries. PFOPEN is in
+the1258-byte `th03_optail.asm` producer at native offset920,with an exact maintained
+source copy and dense281-byte coverage. Five PUSH CS/CALL bridges,three decoder
+pointers andfour DGROUP words give PFOPEN no MZ entries. Preserve zero-type
+fall-through into seek,16-bit sizes,transient ES=CX and original error/register
+behavior. See [asset review](OP_ASSET_NATIVE_REVIEW.md).
 
 The retained PFOPEN `.asm` provider is a bounded include in the real tail TU,
 not a newly claimed standalone TU. Its legacy include naming is future cleanup
@@ -33,25 +53,29 @@ CDG drawing retains382/114 CODE:3 bodies493 plus3 ordinary outer EVEN bytes,
 19 fields/2 MZ entries/12 own-CS operand writers. CDG loading/text retain1206
 CODE/6 procedures/41 fields/27 MZ entries. Score retains501 CODE/5 procedures
 and DATA11; hi BSS206 adds no file bytes. Title retains902 CODE/5 procedures,
-with DATA31 open. Selection retains3013 CODE/19 procedures,with DATA227/BSS23
+plus DATA31. Selection retains3013 CODE/19 procedures,with DATA227/BSS23
 open. Music retains2244 CODE/14 procedures and DATA1008; BSS1060 adds zero file
 bytes. Follow the individual reviews for original unchecked behavior and ABI.
 
-All50 prior OP owners and their native source/tool/output/cold bindings are
+All54 prior OP owners and their native source/tool/output/cold bindings are
 unchanged. MAINL/ZUN shared helper AST closures and all other proof inputs are
 unchanged. Their entire current native source/staging/output graphs(938/29
 outputs) were checked; only the shared-module binding changed. Audit/witness/
-observation times were preserved,with no runtime replay. Receipt:
-`.analysis/work/asset-native-shared-binding.json`.
+observation times were preserved,with no runtime replay during this refresh. Receipt:
+`.analysis/work/leaf-native-shared-binding.json`.
 
-Current evidence: `.analysis/work/asset-native-review.json`. OP accepts54 extents/
-14585 file-backed bytes. No native compilation/linking,cold replay or ancestor
-runtime chain was run this turn. `.analysis/work/asset_scope_refresh.py` refreshed
+Current evidence: `.analysis/work/leaf-native-review.json`, `sound-bodies.json`
+and `title-storage-review.json`. OP accepts59 extents/14758 file-backed bytes.
+Only four scoped TC4 compilations ran; no native linking or cold rebuild ran.
+The session preflight's existing status.py invoked MAINL/ZUN audits once; scoped
+acceptance/publication/progress did not repeat them. This preflight is already
+complete for the current unchanged session/environment.
+`.analysis/work/leaf_scope_refresh.py` refreshed
 only the verified OP region/summary through the existing renderer,retaining every
 non-OP byte. Synthetic unaccepted non-OP branches are discarded. The full progress
 generator still invokes ancestor runtimes; no full generator `--check` is claimed.
 
-Validation:50 focused asset/input/drawing/shared/score/title/selection/current-
+Validation:55 focused helper/storage/asset/input/drawing/shared/score/title/selection/current-
 acceptance/progress checks PASS,tracking and bounded generated-region checks PASS.
 `git diff --check` is clean.
 
@@ -60,7 +84,7 @@ acceptance/progress checks PASS,tracking and bounded generated-region checks PAS
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
-| OP | 54 extents / 88 procedures / 13,079 CODE + 1,506 DATA bytes | Open |
+| OP | 59 extents / 92 procedures / 13,221 CODE + 1,537 DATA bytes | Open |
 | MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
@@ -85,14 +109,17 @@ TH03WORK, TH03OP, TH03ML and TH03ZUN. Actual source input:
 The scanner acceptance also consumes `.analysis/work/input-nostring.json`,
 `input-nostring.obj` and `input-assembly.obj`; preserve these actual proof inputs
 and their diagnostic ASM/logs/scripts.
+The helper acceptance consumes `.analysis/work/sound-bodies.json`, both
+`sound-body0.c`/`sound-body1.c` stripped inputs and their four `-roundN.obj`
+outputs. Preserve these actual proof inputs and the scoped compiler driver.
 Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
 binding; OP's native builder is also shared by MAINL/ZUN. Preserve actual current
 inputs. Obsolete logs and verification history may be deleted.
 
 No native reconstruction process is left running at this checkpoint. Start with Git,
 `scripts/preflight.py` and the current review. Remaining OP work can begin with
-the unowned input trailer,hflip LUT generator,sound-mode/PMD/polar helpers; selection
-DATA227/BSS23 and title DATA31 also remain open. Inspect actual current
+the three unowned input/sound trailers or recover the selection prefix naturally:
+DATA227/BSS23 remains open. Inspect actual current
 OMF/MAP boundaries before choosing a scope. TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04`
 is an authorized source reference, not a replacement target or build dependency.
 

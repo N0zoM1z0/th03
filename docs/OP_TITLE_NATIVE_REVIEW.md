@@ -56,7 +56,13 @@ animations keep their asymmetric starting coordinates and restore-column
 arguments. Native byte equality supports these source observations; no physical
 VRAM banking, interrupt timing or completed emulator polling loop is inferred.
 
-The containing DATA31 string pool remains unaccepted. BSS is empty. Whole OP
+The separately reviewed DATA31 string pool is now accepted by
+`lib.op_title_storage`: four NUL-terminated literals in first-use order,
+`opwin.bft`/`op.m`/`TL01.PI`/`TL02.PI`, at local offsets0/10/15/23. The two macro
+values come from the actual consumed filename header. Complete source-derived
+and native LEDATA match target/candidate bytes at DGROUP0D7F:09E2, with no DATA
+fields or MZ entries. Every native CODE local-DATA addend enters one of those
+four literals. The following byte at0A01 remains unowned. BSS is empty. Whole OP
 source ownership and canonical packed-file unit credit remain open.
 
 ## Checks
