@@ -21,8 +21,10 @@ from the actual preserved CRT errno include.
 
 Real near DOSCMD/DOSENV providers prepare command and environment allocations.
 The 128-byte command threshold, environment fallback, original deferred argument
-cleanup and error/free paths are unchanged. A real far buffer-cleanup callback
-runs before the near executor callback. The latter takes three far pointers,
+cleanup and error/free paths are unchanged. The near DOSCMD/DOSENV constructors
+consume their own12 argument bytes with RET12; deferred cleanup refers to the
+ordinary far C calls. See [constructor review](MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md).
+A real far buffer-cleanup callback runs before the near executor callback. The latter takes three far pointers,
 exactly the 12-byte near callback ABI of the recovered overlay executor. Original
 unchecked pointers, path copies and indirect calls gain no defensive fixes.
 

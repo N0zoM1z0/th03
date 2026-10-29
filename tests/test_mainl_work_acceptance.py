@@ -25,16 +25,16 @@ class MainlWorkAcceptance(unittest.TestCase):
     def test_live_physical_replay_accepts_current_decoded_owners_only(self):
         with patch('lib.decoded_mainl_acceptance.runtime', side_effect=AssertionError('ancestor runtime must remain historical')):
             result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (185, 16695))
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (187, 16695))
         self.assertEqual(result["decoded_authored_procedures"],100)
         self.assertEqual(result["decoded_authored_code_bytes"],16471)
         self.assertEqual(result["decoded_authored_initialized_data_bytes"],224)
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
         units = list(csv.DictReader((ROOT / "config/units.csv").read_text().splitlines()))
-        self.assertEqual(mainl_product_status(ROOT, units)["decoded_exact_units"], 185)
-        self.assertEqual((result['decoded_library_exact_units'], result['decoded_library_bytes']), (90, 14230))
-        self.assertEqual((result['decoded_procedures'], result['decoded_source_bytes'], result['decoded_code_bytes']), (248, 30925, 29039))
+        self.assertEqual(mainl_product_status(ROOT, units)["decoded_exact_units"], 187)
+        self.assertEqual((result['decoded_library_exact_units'], result['decoded_library_bytes']), (92, 14906))
+        self.assertEqual((result['decoded_procedures'], result['decoded_source_bytes'], result['decoded_code_bytes']), (250, 31601, 29715))
         self.assertEqual(result['decoded_initialized_data_bytes'], 1886)
         registration = self.publication['audit']['scope']['registration']['layout']
         self.assertEqual((registration['functions'], registration['code_bytes'],
@@ -53,7 +53,7 @@ class MainlWorkAcceptance(unittest.TestCase):
             result=verify(ROOT,self.publication)
         owner,=[o for o in self.publication['audit']['scope']['owners'] if o['unit_id']=='th03-mainl-decoded-snow-cluster']
         self.assertEqual((owner['size'],owner['procedure_count'],len(owner['procedures'])),(464,7,7))
-        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(185,100))
+        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(187,100))
 
     def test_one_missing_gate_rejects_the_owner(self):
         owner = next(iter(self.publication["owner_oracles"].values()))
@@ -95,9 +95,9 @@ class MainlWorkAcceptance(unittest.TestCase):
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [], op_status={'decoded_accepted': False},
                                       zun_status={'decoded_accepted': False})
-        self.assertIn("Decoded acceptance: exact 185/214", svg)
-        self.assertIn("185 extents / 248 procedures / 30,925 B", svg)
-        self.assertIn("CODE 29,039 / DATA 1,886", svg)
+        self.assertIn("Decoded acceptance: exact 187/216", svg)
+        self.assertIn("187 extents / 250 procedures / 31,601 B", svg)
+        self.assertIn("CODE 29,715 / DATA 1,886", svg)
         self.assertIn("938 raw outputs", svg)
         self.assertNotIn("MAINL product + decoded accepted", svg)
         self.assertNotIn("exact 150/150", svg)

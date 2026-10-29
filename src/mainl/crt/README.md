@@ -10,7 +10,10 @@ pair. [The overlay execution review](../../../docs/MAINL_EXEC_NATIVE_REVIEW.md)
 adds `exec.asm` and demonstrates all eight source providers in one normal
 library, reusing the unchanged farheap object.
 [The program loader review](../../../docs/MAINL_LOADPROG_NATIVE_REVIEW.md) adds
-`loadprog.asm`, whose selected library composes all nine source providers.
+`loadprog.asm`, whose selected library composes nine source providers.
+[The DOS constructor review](../../../docs/MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md) adds
+`doscmd.asm` and `dosenv.asm`; the latest selected library composes all eleven
+source providers. Both constructors use near callee-pop12 returns.
 The historical observations below
 describe earlier checkpoints and do
 not define current source acceptance or its remaining whole-product limits.
