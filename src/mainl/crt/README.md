@@ -8,7 +8,10 @@ CODE and12 file-backed CS state bytes. A selected normal-library replacement
 rebuilds this seventh provider twice while preserving the unchanged full cold
 pair. [The overlay execution review](../../../docs/MAINL_EXEC_NATIVE_REVIEW.md)
 adds `exec.asm` and demonstrates all eight source providers in one normal
-library, reusing the unchanged farheap object. The historical observations below
+library, reusing the unchanged farheap object.
+[The program loader review](../../../docs/MAINL_LOADPROG_NATIVE_REVIEW.md) adds
+`loadprog.asm`, whose selected library composes all nine source providers.
+The historical observations below
 describe earlier checkpoints and do
 not define current source acceptance or its remaining whole-product limits.
 

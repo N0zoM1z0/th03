@@ -59,6 +59,7 @@ from lib.decoded_mainl_crt_native import verify as crt_scope, SOURCE_MAP as CRT_
 from lib.decoded_mainl_resident_native import verify as resident_scope, DATA_SOURCES as RESIDENT_DATA_SOURCES
 from lib.decoded_mainl_farheap_native import verify as farheap_scope, UNIT as FARHEAP_UNIT, SOURCE as FARHEAP_SOURCE
 from lib.decoded_mainl_exec_native import verify as exec_scope, UNIT as EXEC_UNIT, SOURCE as EXEC_SOURCE
+from lib.decoded_mainl_loadprog_native import verify as loadprog_scope, UNITS as LOADPROG_UNITS, SOURCE as LOADPROG_SOURCE
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -119,7 +120,8 @@ PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATI
     "scripts/lib/decoded_mainl_crt_native.py",
     "scripts/lib/decoded_mainl_resident_native.py", "scripts/build_th03_mainl_resident_work.py",
     "scripts/lib/decoded_mainl_farheap_native.py", "scripts/build_th03_mainl_farheap_work.py",
-    "scripts/lib/decoded_mainl_exec_native.py", "scripts/build_th03_mainl_exec_work.py")))
+    "scripts/lib/decoded_mainl_exec_native.py", "scripts/build_th03_mainl_exec_work.py",
+    "scripts/lib/decoded_mainl_loadprog_native.py", "scripts/build_th03_mainl_loadprog_work.py")))
 
 def need(value, message):
     if not value:
@@ -279,6 +281,10 @@ def audit(root):
     need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in exec_native['owners']}), 'separate complete DOS overlay source owner')
     owners.extend(exec_native['owners'])
     scope['exec_native'] = exec_native
+    loadprog_native = loadprog_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in loadprog_native['owners']}), 'separate complete program-loader CODE/DATA owners')
+    owners.extend(loadprog_native['owners'])
+    scope['loadprog_native'] = loadprog_native
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -288,7 +294,11 @@ def audit(root):
              and int(u["offset"], 0) + segment*16 == o["start"] and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"]
              and u["state"] == "source-present" and u["origin"] == o.get("origin", "authored") and u["boundary_state"] == "reviewed"
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
-        if o['unit_id'] == EXEC_UNIT:
+        if o['unit_id'] in LOADPROG_UNITS:
+            need(o['source'] == LOADPROG_SOURCE and o['object'] == 'vendor/loadprog.obj' and o['maintained_native_object'] == '.analysis/work/loadprog-round1.obj',
+                 'actual fresh program-loader CODE/DATA producer in the combined normal library')
+            row = dict(source=o['source'],wrapper=o['source'])
+        elif o['unit_id'] == EXEC_UNIT:
             need(o['source'] == EXEC_SOURCE and o['object'] == 'vendor/exec.obj' and o['maintained_native_object'] == '.analysis/work/exec-round1.obj',
                  'actual fresh DOS overlay source producer in the combined normal library')
             row = dict(source=o['source'],wrapper=o['source'])
@@ -340,7 +350,9 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        if o['unit_id'] == EXEC_UNIT:
+        if o['unit_id'] in LOADPROG_UNITS:
+            need(sha((root / o['source']).read_bytes()) == loadprog_native['source_sha256'], 'complete loader TU consumed by both fresh native rounds')
+        elif o['unit_id'] == EXEC_UNIT:
             need(sha((root / o['source']).read_bytes()) == exec_native['source_sha256'], 'complete overlay TU consumed by both fresh native rounds')
         elif o['unit_id'] == FARHEAP_UNIT:
             need(sha((root / o['source']).read_bytes()) == farheap_native['source_sha256'], 'complete maintained far-heap TU consumed by both fresh native rounds')
