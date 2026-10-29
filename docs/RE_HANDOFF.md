@@ -6,23 +6,36 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work adds `xx_throw.inl` in the original xx.cpp TU. Bank6313..6CEE
-is2524 bytes:2446 instructions in eight far procedures and78 generated EH
-bytes. All24 literal fields and six ordered MZ segment words reproduce the
-entire original bank. Recovery now covers contiguous583E..8293,10838 original
-bytes. Source presence is247 extents/58,226 gross bytes;accepted MAINL stays211
-extents/288 procedures/36,946 bytes. See [throw review](MAINL_XX_THROW_REVIEW.md),
-[types review](MAINL_XX_TYPES_REVIEW.md) and earlier catch/calls/destruction/
-dispatch reviews. No normal-library replacement or new exact credit is claimed.
+Latest work adds the complete `src/mainl/crt/xx.cpp` source graph,with new
+`xx_front.inl`49 bytes and `xx_rtti.inl`1735 bytes. Entire original xx CODE12622
+has50 complete procedures/12088 instruction bytes/534 CS data bytes. All187
+literal fields and20 ordered MZ segment words reproduce the fixed original
+carrier. DATA18 matches original OMF/target;used BSS10 is genuinely uninitialized.
+Source presence is250 extents/60,028 gross bytes;accepted MAINL stays211 owners/
+288 procedures/36,946 bytes. See [RTTI review](MAINL_XX_RTTI_REVIEW.md) and
+[throw review](MAINL_XX_THROW_REVIEW.md). No new exact credit or normal-library
+replacement is claimed. Next close whole-TU codegen gaps,then integrate xx into
+the normal library and affected whole-product link.
 
-Two real scoped BCC4.5/TASM/miniature TLINK rounds repeat whole raw ASM/two-OBJ/
+Two actual scoped BCC4.5/TASM/miniature TLINK rounds repeat full raw ASM/two-OBJ/
 EXE/MAP vectors;all64 available headers are bound and listing clocks retained.
-Current candidate throw bank2425 has bodies800/77/158/5/132/71/5/1099;whole
-CODE10776 remains different from covered original10838. Real _Global_unwind
-now resolves within the TU,reducing the dispatcher body by one byte. Fifteen
-callable imports and one CPU DATA slot remain diagnostic context. Earlier
-miniatures/current receipts and all211 owners/publication/verifier inputs/938
-cold outputs remain unchanged. No ancestor runtime chain or full cold replay.
+Current CODE12556 remains different from original12622;DATA18/BSS10 match.
+The original22 public interfaces and18 imports are present. All private banks
+and register jump now resolve inside the TU. Current RTTI metadata136 includes
+one real nested LIDATA zero from TASM;expand its record rather than filling a
+missing LEDATA byte. Prior scoped receipts,211 owners/publication/verifier inputs
+and938 cold outputs remain unchanged. No ancestor runtime chain or full cold.
+
+RTTI: GetTypeInfo is131 bytes,the separate private recursive search582,and
+DynamicCast357. Tail metadata136 is data,not instructions. Search virtual lists
+first,skip8,follow virtual entry4 through a segment-preserving WORD address.
+Shared actual addresses merge public access;distinct addresses are ambiguous.
+Downcast proves actual source address and does not add the cross-cast public
+condition. Five actual original/source pairs cover these three search questions,
+secondary-vtable tpp update and register catch jump. No helper is modeled.
+Unsupported typeinfo copy throws a null typeinfo pointer;assignment is a no-op.
+Empty exception values are a packed shared BSS pair at+8/+9. _CurrExcContext has
+no later imported-jump-table fallback. Keep original unchecked behavior.
 
 Throw ABI: far toss takes32 bytes;public C++ wrappers retain four far void
 pointers,three WORDs and far filename. Rethrow uses original SS-relative argument
@@ -41,7 +54,7 @@ checks using the real original36-byte memcpy. **EFLAGS remain84h vs80h** because
 original/current stack allocations390/346 change PF before capture. Keep both
 raw observations and the unresolved frame ownership;do not add padding or flag
 adjustments. The16-bit resume and whole exception lifecycle are not runtime
-claims. Continue with front49 bytes and tail1735,then full xx TU integration.
+claims. Front/tail are now recovered;close the whole-TU codegen/frame gaps.
 
 Type rules: public access3 must hold through every base link; virtual entry flag8
 is skipped. Friends are passed through but not dereferenced. Native near-to-far
@@ -87,17 +100,17 @@ no imported helper executes. Do not import later WITHVT/NEWXX/Delphi paths.
 
 A private `TH03-mainl-decoded-fixed` Ghidra database was independently attested
 against the existing67372-byte decoded Japanese target before observations.
-Current receipts:`mainl-xx-throw-build.json`, `mainl-xx-throw-review.json`,
+Current receipts:`mainl-xx-rtti-build.json`, `mainl-xx-rtti-review.json`,
+`mainl-xx-throw-build.json`, `mainl-xx-throw-review.json`,
 `mainl-xx-types-build.json`, `mainl-xx-types-review.json`,
 `mainl-xx-catch-build.json`, `mainl-xx-catch-review.json`,
 `mainl-xx-calls-build.json`, `mainl-xx-calls-review.json`,
 `mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,
 `mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
 `mainl-decoded-fixed-attestation.json`; the old packed MAINL DB is not a decoded
-runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover the
-front jump/name and tail RTTI code,then integrate the full xx TU;do not normalize
-the candidate. Throw-bank boundaries/fields come independently from native bytes;
-the decoded DB was freshly attested before six supporting decompiles.
+runtime analysis. Ghidra sizes/signatures remain hypotheses. Tail boundaries and
+all carrier fields are proved independently from native bytes;the decoded DB
+was freshly attested before the supporting tail/private-search decompiles.
 
 Earlier natural C++ new/xalloc/xmsg exact ownership retains six owners2258
 bytes:1563 CODE,659 inline DATA,30 other initialized DATA and6 genuinely
@@ -164,7 +177,11 @@ TH03ZUN. Actual source archive:
 
 Keep actual current proof inputs in `.analysis/work/`:
 
-- XX throw candidate:`mainl-xx-throw-build.json`, `mainl-xx-throw-review.json`,
+- Full XX candidate:`mainl-xx-rtti-build.json`, `mainl-xx-rtti-review.json`,
+  both `xx-rtti-roundN-xxdisp.asm/.obj/.lst`, `xx-rtti-roundN-xxctx.obj`,
+  `xx-rtti-roundN-xxmini.exe/.map`,actual wrapper/transported source TU and
+  includes,context/link response and native phase logs.
+- Earlier XX throw candidate:`mainl-xx-throw-build.json`, `mainl-xx-throw-review.json`,
   both `xx-throw-roundN-xxdisp.asm/.obj/.lst`, `xx-throw-roundN-xxctx.obj`,
   `xx-throw-roundN-xxmini.exe/.map`,actual wrapper,
   transported source includes,context ASM,link response and native phase logs.
