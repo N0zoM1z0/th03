@@ -15,7 +15,7 @@ class ArchiveProgressTests(unittest.TestCase):
         c=progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"],84)
         self.assertGreaterEqual(c["source_bytes"],23150)
-        self.assertEqual((c["exact"],c["total"]),(0,203))
+        self.assertEqual((c["exact"],c["total"]),(0,205))
         self.assertIn("target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_ARCHIVE_IO_SOURCE_UNITS.values()),2479)
     def test_missing_repeat_evidence_rejects_caption(self):

@@ -55,6 +55,7 @@ from lib.decoded_mainl_bfnt_native import verify as bfnt_scope, DATA_UNIT as BFN
 from lib.decoded_mainl_archive_native import verify as archive_scope, DATA_UNIT as ARCHIVE_DATA_UNIT, SELECTED_SOURCE as ARCHIVE_STATE_SOURCE
 from lib.decoded_mainl_graphics_native import verify as graphics_scope, DATA_SOURCES as GRAPHICS_DATA_SOURCES
 from lib.decoded_mainl_display_native import verify as display_scope, DATA_SOURCES as DISPLAY_DATA_SOURCES
+from lib.decoded_mainl_crt_native import verify as crt_scope, SOURCE_MAP as CRT_SOURCE_MAP
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -111,7 +112,8 @@ PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATI
     "scripts/lib/decoded_mainl_bfnt_native.py", "scripts/build_th03_mainl_bfnt_work.py",
     "scripts/lib/decoded_mainl_archive_native.py", "scripts/build_th03_mainl_archive_work.py",
     "scripts/lib/decoded_mainl_graphics_native.py", "scripts/build_th03_mainl_graphics_work.py",
-    "scripts/lib/decoded_mainl_display_native.py", "scripts/build_th03_mainl_display_work.py")))
+    "scripts/lib/decoded_mainl_display_native.py", "scripts/build_th03_mainl_display_work.py",
+    "scripts/lib/decoded_mainl_crt_native.py")))
 
 def need(value, message):
     if not value:
@@ -255,6 +257,10 @@ def audit(root):
     need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in display_native['owners']}), 'separate complete palette/VSync/gaiji/state owners')
     owners.extend(display_native['owners'])
     scope['display_native'] = display_native
+    crt_native = crt_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in crt_native['owners']}), 'separate complete CRT library source owners')
+    owners.extend(crt_native['owners'])
+    scope['crt_native'] = crt_native
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -264,7 +270,12 @@ def audit(root):
              and int(u["offset"], 0) + segment*16 == o["start"] and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"]
              and u["state"] == "source-present" and u["origin"] == o.get("origin", "authored") and u["boundary_state"] == "reviewed"
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
-        row, = [r for r in graph if r["output"] == o["object"]]
+        if o['unit_id'] in CRT_SOURCE_MAP:
+            need((o['source'],o['object']) == CRT_SOURCE_MAP[o['unit_id']], 'actual bounded CRT producer ownership')
+            # CRT TUs enter through the normal library, outside the36 project-object graph.
+            row = dict(source=o['source'],wrapper='owned/'+Path(o['source']).name)
+        else:
+            row, = [r for r in graph if r["output"] == o["object"]]
         if o["object"] == ROOT_OBJECT:
             need(row["wrapper"] == ROOT_WRAPPER and row["source"] == ROOT_WRAPPER
                  and row["game"] == 3 and row["binary"] == "L" and row["first_binary"] == "mainl"
@@ -299,7 +310,9 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        if o['unit_id'] in DISPLAY_DATA_SOURCES:
+        if o['unit_id'] in CRT_SOURCE_MAP:
+            need(files[row['wrapper']] == (root / o['source']).read_bytes(), 'literal maintained CRT TU source transport')
+        elif o['unit_id'] in DISPLAY_DATA_SOURCES:
             need(o['source'] == DISPLAY_DATA_SOURCES[o['unit_id']], 'explicit consumed palette/VSync/gaiji state source')
         elif o['unit_id'] in GRAPHICS_DATA_SOURCES:
             need(o['source'] == GRAPHICS_DATA_SOURCES[o['unit_id']], 'explicit consumed graphics/heap state source')
@@ -321,6 +334,8 @@ def audit(root):
             if name.startswith("C:/TC4/INCLUDE/"):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
+                if o['unit_id'] in CRT_SOURCE_MAP:
+                    name = 'owned/' + name  # Native CRT assembly runs in the actual owned/ cwd.
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")

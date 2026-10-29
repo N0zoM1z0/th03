@@ -26,7 +26,7 @@ class LinkedGameProgressTests(unittest.TestCase):
         c=progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"],139)
         self.assertGreaterEqual(c["source_bytes"],27753)
-        self.assertEqual((c["exact"],c["total"]),(0,203))
+        self.assertEqual((c["exact"],c["total"]),(0,205))
         self.assertIn("target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_LINKED_GAME_SOURCE_UNITS.values()),1765)
     def test_missing_repeat_evidence_rejects_caption(self):
