@@ -15,7 +15,7 @@ class PiProgressTests(unittest.TestCase):
         c=progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"],51)
         self.assertGreaterEqual(c["source_bytes"],17196)
-        self.assertEqual((c["exact"],c["total"]),(0,195))
+        self.assertEqual((c["exact"],c["total"]),(0,199))
         self.assertIn("target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
     def test_missing_repeat_evidence_rejects_caption(self):
         units,evidence=self.data()

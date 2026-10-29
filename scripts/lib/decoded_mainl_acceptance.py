@@ -53,6 +53,7 @@ from lib.decoded_mainl_resources_native import verify as resources_scope, TABLE_
 from lib.decoded_mainl_file_native import verify as file_scope, DATA_UNIT as FILE_DATA_UNIT, SELECTED_SOURCE as FILE_STATE_SOURCE
 from lib.decoded_mainl_bfnt_native import verify as bfnt_scope, DATA_UNIT as BFNT_DATA_UNIT, SELECTED_SOURCE as BFNT_SIGNATURE_SOURCE
 from lib.decoded_mainl_archive_native import verify as archive_scope, DATA_UNIT as ARCHIVE_DATA_UNIT, SELECTED_SOURCE as ARCHIVE_STATE_SOURCE
+from lib.decoded_mainl_graphics_native import verify as graphics_scope, DATA_SOURCES as GRAPHICS_DATA_SOURCES
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -107,7 +108,8 @@ PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATI
     "scripts/lib/decoded_mainl_resources_native.py", "scripts/build_th03_mainl_resources_work.py",
     "scripts/lib/decoded_mainl_file_native.py", "scripts/build_th03_mainl_file_work.py",
     "scripts/lib/decoded_mainl_bfnt_native.py", "scripts/build_th03_mainl_bfnt_work.py",
-    "scripts/lib/decoded_mainl_archive_native.py", "scripts/build_th03_mainl_archive_work.py")))
+    "scripts/lib/decoded_mainl_archive_native.py", "scripts/build_th03_mainl_archive_work.py",
+    "scripts/lib/decoded_mainl_graphics_native.py", "scripts/build_th03_mainl_graphics_work.py")))
 
 def need(value, message):
     if not value:
@@ -243,6 +245,10 @@ def audit(root):
     need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in archive_native['owners']}), 'separate complete buffered/archive reader owners')
     owners.extend(archive_native['owners'])
     scope['archive_native'] = archive_native
+    graphics_native = graphics_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in graphics_native['owners']}), 'separate complete graphics/heap/state owners')
+    owners.extend(graphics_native['owners'])
+    scope['graphics_native'] = graphics_native
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -256,7 +262,7 @@ def audit(root):
         if o["object"] == ROOT_OBJECT:
             need(row["wrapper"] == ROOT_WRAPPER and row["source"] == ROOT_WRAPPER
                  and row["game"] == 3 and row["binary"] == "L" and row["first_binary"] == "mainl"
-                 and (o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT) or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
+                 and (o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT) or o['unit_id'] in GRAPHICS_DATA_SOURCES or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
             if o['unit_id'] == TABLE_UNIT:
                 need(o['source'] == TABLE_SOURCE and o['maintained_native_object'] == '.analysis/work/resources-round1.obj',
                      'actual separately rebuilt generated table producer; frozen cold wrapper remains contextual')
@@ -269,6 +275,9 @@ def audit(root):
             elif o['unit_id'] == ARCHIVE_DATA_UNIT:
                 need(o['source'] == ARCHIVE_STATE_SOURCE and o['maintained_native_object'] == '.analysis/work/archive-mini-round1-state.obj',
                      'actual independent five-byte state producer; legacy root fill remains contextual')
+            elif o['unit_id'] in GRAPHICS_DATA_SOURCES:
+                need(o['source'] == GRAPHICS_DATA_SOURCES[o['unit_id']] and o['maintained_native_object'] == '.analysis/work/graphics-round1.obj',
+                     'actual maintained graphics/heap state or semantic generator producer')
         else:
             need(row["source"] == o["source"], "actual source producer ownership")
         if o["source"] == INPUT_SOURCE:
@@ -280,7 +289,9 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        if o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT):
+        if o['unit_id'] in GRAPHICS_DATA_SOURCES:
+            need(o['source'] == GRAPHICS_DATA_SOURCES[o['unit_id']], 'explicit consumed graphics/heap state source')
+        elif o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT):
             # Each selected native scope binds its real wrapper and source,
             # entire native record stream and both target-equal link rounds.
             need(o['source'] == {TABLE_UNIT: TABLE_SOURCE, FILE_DATA_UNIT: FILE_STATE_SOURCE, BFNT_DATA_UNIT: BFNT_SIGNATURE_SOURCE, ARCHIVE_DATA_UNIT: ARCHIVE_STATE_SOURCE}[o['unit_id']], 'explicit selected source transport')
