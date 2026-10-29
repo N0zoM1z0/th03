@@ -15,14 +15,16 @@ class XxThrow(unittest.TestCase):
         self.assertEqual((len(r['original_bodies']),len(r['original_literal_native_fields'])),(8,24))
         self.assertTrue(r['same_TU_global_unwind_edge_resolved'])
         self.assertTrue(r['raw_dispatcher_body_equal'])
+        self.assertEqual(r['raw_Raise_argument_copy_bytes'],71)
         self.assertEqual(len(r['actual_dispatch_global_unwind_calls']),1)
         self.assertEqual(r['original_covered_bytes'],10838)
         a,b=r['target_and_source_throw_probes'][0]
         self.assertEqual(a['restored_registers'],b['restored_registers'])
         self.assertEqual(a['restored_registers'][0],0xDEADBEEF)
         self.assertEqual(a['record_header'][-1],15)
-        self.assertEqual(r['saved_eflags_observations'],[132,128])
-        self.assertFalse(r['saved_eflags_equal'])
+        self.assertEqual(r['saved_eflags_observations'],[132,132])
+        self.assertTrue(r['saved_eflags_equal'])
+        self.assertEqual(r['alternate_saved_eflags_observations'],[128,132])
         for a,b in r['target_and_source_throw_probes'][1:]:
             self.assertEqual(a,b)
         self.assertFalse(r['complete_bank_raw_equal'])

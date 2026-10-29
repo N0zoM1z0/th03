@@ -6,10 +6,12 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work recovers typed descriptor caching,a saved caller-PC local in each
-throw wrapper,dispatcher temporaries and Raise PUSHF/POP AX plus terminate-block
-placement. Complete dispatcher140 raw bytes agree in the miniature and actual
-normal link;wrapper89/170 lengths agree without claiming raw equality.
+Latest work recovers before's complete120-byte unlinked object body with a
+scoped -O1 profile. Restore -Z- as well as -O2-pg/-Os/-O-i afterward;the earlier
+reset conclusion omitted that option. All following function lengths remain.
+Raise's71-byte direct-index count/copy block now matches raw original bytes;
+local -O-v eliminates two generated WORD pointers. FS/GS ordering,the16-bit zero
+chain,direct SS and CX/ES/BX resume addressing follow native instructions.
 
 The maintained `src/mainl/crt/xx.cpp` builds under the real xx
 module name in the normal893-member library and actual MAINL link. The
@@ -21,21 +23,21 @@ retained. Candidate has29 source providers;no new exact credit is granted.
 See [normal xx review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).
 
-Full candidate EXE67356 differs from fixed Japanese67372;headers4096 and677
-relocation counts agree but raw vectors/MAP differ. xx CODE12602 vs12622 is
-still open;DATA18/BSS10 match at DGROUP:1172/:2876. New DGROUP0E3E vs0E3F gives
-ordinary16-byte file-size movement. Every source CODE byte resolves through
+Full candidate EXE67340 differs from fixed Japanese67372;headers4096 and677
+relocation counts agree but raw vectors/MAP differ. xx CODE12585 vs12622 is
+still open;DATA18/BSS10 match at DGROUP:1172/:2876. New DGROUP0E3D vs0E3F gives
+ordinary32-byte file-size movement. Every source CODE byte resolves through
 181 literal fields and20 ordered xx MZ words in the real full link;all18 library
 interfaces and22 public MAP entries bind. There are no miniature trap providers
-in this executable. Current tail metadata135 needs no alignment byte;the reviewer
-derives actual alignment and expands real LIDATA only when present. All50 original/current
-function size and raw-byte comparisons are retained;net length20 is not a count
-of differing bytes. Typed toss cache restores its72-byte frame;body812 vs815.
-Raise body1102 vs1151 and typeinfo::before117 vs120 remain open.
-Private global-O1 probes recover before120 but change other functions;BCC4.5
-option push/pop is unsupported,and tried scoped resets leave helper codegen
-changed. NOSMART/single-pass TASM experiments do not yield equality. Do not
-adopt those options merely to close net length;see the normal product review.
+in this executable. RTTI tail is now1735=1599 instruction+136 metadata bytes.
+Actual BCC ASM emits one zero before the vtable;the review checks that directive
+and its real nested LIDATA. Final-label parity does not determine this compiler
+initializer after TASM relaxation;the earlier alignment assumption was wrong.
+All50 original/current raw function comparisons remain. Before's linked call
+displacement and literal EXTDEF indices8/18 remain different;its raw object-body
+comparison is not whole-TU acceptance. Net CODE length37 is not a differing-byte
+count. Raise1081 vs1151/frame342 vs390 and an unproved48-byte local region remain.
+NOSMART/single-pass TASM experiments do not yield equality;keep the real recipe.
 
 The original carrier is fully reviewed:CODE12622,50 procedures,12088 instruction
 bytes,534 CS data bytes,187 original fields and20 ordered MZ words. Source graph
@@ -48,14 +50,17 @@ before promotion. Do not substitute the candidate into the accepted publication.
 
 Five linked-product RTTI/jump pairs agree;the linked386 RaiseException path also
 executes the actual normal-library memcpy twice without import redirection.
-Modified EAX and other full registers agree,but saved EFLAGS84h/80h remain.
-Thus the390/346 frame gap is independent of the miniature helper fixture. Extra
-original stack ownership is still unproved;do not add a placeholder object or
-flag adjustment. No DOS boot/ending playthrough is claimed.
+Modified EAX and other full registers agree. At entry SP=FF00,the complete
+tested context agrees,including EFLAGS84h/84h. One alternate SP=FF10 exposes
+original80h/source84h;all other observed fields still agree. Both use actual
+linked memcpy twice. The390/342 frame gap remains observable;do not infer
+closure from the default sample. The extra48-byte region's type/purpose is
+unproved;do not add a placeholder object or flag adjustment. See the throw
+review's explicit BP-interval table. No DOS boot/ending playthrough is claimed.
 
 RTTI: GetTypeInfo is131 bytes,the separate private recursive search582,and
-DynamicCast357. Original tail metadata136 is data,not instructions;current candidate is135. Search virtual lists
-first,skip8,follow virtual entry4 through a segment-preserving WORD address.
+DynamicCast357. Original/current tail metadata136 is data,not instructions.
+Search virtual lists first,skip8,follow virtual entry4 through a segment-preserving WORD address.
 Shared actual addresses merge public access;distinct addresses are ambiguous.
 Downcast proves actual source address and does not add the cross-cast public
 condition. Five actual original/source pairs cover these three search questions,
@@ -77,11 +82,10 @@ RaiseException1151 uses compiler __saveregs. CPU>=3 preserves32-bit registers;
 used context prefix is204 bytes,return frames48/26. Retain ES:BX through resume
 writes:a spilled far pointer can overwrite itself. Actual386 context/EAX-change
 resume,unwind and two32-byte wrapper observations pass their selected ABI
-checks using the real original36-byte memcpy. **EFLAGS remain84h vs80h** because
-original/current stack allocations390/346 change PF before capture. Keep both
-raw observations and the unresolved frame ownership;do not add padding or flag
-adjustments. The16-bit resume and whole exception lifecycle are not runtime
-claims. Front/tail are now recovered;close the whole-TU codegen/frame gaps.
+checks using the real original36-byte memcpy. Default-SP raw context now agrees;
+alternate-SP EFLAGS80h/84h retains the unresolved390/342-frame difference. Both raw observations are kept.
+The16-bit resume and whole lifecycle remain unproved. Front/tail are
+recovered;close the whole-TU frame/field/codegen gaps without invented storage.
 
 Type rules: public access3 must hold through every base link; virtual entry flag8
 is skipped. Friends are passed through but not dereferenced. Native near-to-far

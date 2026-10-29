@@ -21,7 +21,9 @@ class XxRtti(unittest.TestCase):
         self.assertEqual(r['original_RTTI_metadata_bytes'],136)
         self.assertTrue(r['all_RTTI_metadata_bytes_owned'])
         self.assertEqual(sum(q['size'] for q in r['candidate_LIDATA_records']),r['candidate_RTTI_metadata_bytes']-135)
-        self.assertEqual(r['RaiseException_stack_allocations'],[390,346])
+        self.assertEqual(r['RaiseException_stack_allocations'],[390,342])
+        self.assertTrue(r['before_object_body_raw_equal'])
+        self.assertEqual([len(q) for q in r['original_and_candidate_before_fields']],[1,1])
         results={}
         for a,b in r['target_and_source_RTTI_probes']:
             self.assertEqual(a,b);results[a['case']]=a

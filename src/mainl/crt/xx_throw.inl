@@ -198,6 +198,9 @@ typedef char xx_raise_return16_bytes[(sizeof(XXRaiseReturn16)==26) ? 1 : -1];
 
 static void far exceptionContextHook(void __ss *) {}
 
+// The native argument loop indexes each DWORD directly; it has no induction
+// pointer temporaries. Keep that option local to this register-save routine.
+#pragma option -O-v
 extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
     unsigned long flags,unsigned long count,const unsigned long far *arguments)
 {
@@ -239,15 +242,15 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         asm mov word ptr context.eflags+2,ax;
         asm mov ax,saved_flags;
         asm mov word ptr context.eflags,ax;
-        asm mov word ptr context.seg_fs,fs;
         asm mov word ptr context.seg_fs+2,0;
-        asm mov word ptr context.seg_gs,gs;
+        asm mov word ptr context.seg_fs,fs;
         asm mov word ptr context.seg_gs+2,0;
+        asm mov word ptr context.seg_gs,gs;
         asm .8086;
     }
     else {
-        context.ebp = context.eax = context.ecx = context.edx =
-            context.ebx = context.esi = context.edi = 0;
+        context.edi = context.esi = context.ebx = context.edx =
+            context.ecx = context.eax = context.ebp = 0;
         context.eflags = saved_flags;
     }
     context.stack_pointer = context.ebp+24;
@@ -263,9 +266,7 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
     memcpy(&saved,(void __ss *)frame,sizeof(saved));
     context.ds = saved.ds;
     context.es = saved.es;
-    asm mov ax,ss;
-    asm mov frame,ax;
-    context.stack_segment = frame;
+    context.stack_segment = _SS;
     *(unsigned __ss *)&context.eax = saved.ax;
     *(unsigned __ss *)&context.ebx = saved.bx;
     *(unsigned __ss *)&context.ecx = saved.cx;
@@ -302,9 +303,9 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         }
     }
     if(_8086 >= 3) {
-        asm mov bx,word ptr context.stack_pointer;
-        asm sub bx,48;
-        asm mov es,word ptr context.stack_segment;
+        _CX = (unsigned)context.stack_pointer-48;
+        _ES = (unsigned)context.stack_segment;
+        _BX = _CX;
         return32->gs = (unsigned)context.seg_gs;
         return32->fs = (unsigned)context.seg_fs;
         return32->es = (unsigned)context.es;
@@ -334,9 +335,9 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         return;
     }
     else {
-        asm mov bx,word ptr context.stack_pointer;
-        asm sub bx,26;
-        asm mov es,word ptr context.stack_segment;
+        _CX = (unsigned)context.stack_pointer-26;
+        _ES = (unsigned)context.stack_segment;
+        _BX = _CX;
         return16->es = (unsigned)context.es;
         return16->ds = (unsigned)context.ds;
         return16->di = (unsigned)context.edi;
@@ -365,6 +366,7 @@ unhandled:
     __call_terminate();
 }
 
+#pragma option -Ov
 #undef return32
 #undef return16
 #undef XX_THROW_FILE

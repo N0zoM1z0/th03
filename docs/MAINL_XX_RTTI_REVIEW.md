@@ -9,7 +9,7 @@ is357 bytes;its trailing descriptors are data,not instructions.
 
 This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new exact credit is granted.** Current
-source produces CODE12602,DATA18 and BSS10. Whole CODE differs,including the
+source produces CODE12585,DATA18 and BSS10. Whole CODE differs,including the
 existing RaiseException frame/EFLAGS gap. The full TU now has an unaccepted
 normal-library/whole-product source link;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
@@ -41,18 +41,30 @@ Its unsupported copy constructor throws a null typeinfo pointer;assignment is
 a no-op returning this. The empty virtual destructor naturally generates vptr
 restoration and conditional delete. Equality calls sameTypeID;inequality negates
 it. `before` returns false for null this-type,true for a null other-type,and
-otherwise compares names. Its current117-byte body remains different from the
-original120;all other new tail bodies retain their original byte counts.
+otherwise compares names. A local -O1 profile recovers the complete original
+120-byte **unlinked object body**,including its two far expression temporaries.
+The original and candidate retain their actual single far strcmp field at+96,
+with literal EXTDEF indices8/18 kept separately. Linked body bytes still differ
+because the surrounding carrier layout changes the call displacement. This is
+not whole-TU acceptance or relocation-record equality.
+
+Previous scoped reset experiments omitted -Z-. Restoring -O2-pg,-Os,-O-i and
+-Z- after before preserves all following function lengths;GetTypeInfo131,private
+search582 and DynamicCast357 remain. No optimizer option push/pop is needed.
 
 Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
-Bad_typeid22,far typeinfo-pointer descriptor21,vtable12 and typeinfo descriptor/
-terminated lists60. The generated header retains size8,mask3,class flags1073h,
+Bad_typeid22,far typeinfo-pointer descriptor21,compiler zero1,vtable12 and
+typeinfo descriptor/terminated lists60. Current tail is1735 bytes,including
+1599 instructions and136 metadata bytes,as in the original. Complete raw tail
+equality remains open. The generated header retains size8,mask3,class flags1073h,
 base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
 All four internal far pointers bind the real typeinfo descriptor/destructor.
-Current tail metadata is135 bytes versus original136. Earlier code layout
-required a one-byte vtable alignment initializer emitted as nested TASM LIDATA;
-the current layout is already aligned and emits none. The reviewer checks the
-actual alignment and expands any real iterated records;it never inserts a byte.
+
+The earlier reviewer inferred the zero from final vtable-label parity. That
+assumption fails when compiler output and TASM relaxation have different offset
+estimates. Current BCC ASM explicitly emits `db 1 dup (0)`;the reviewer checks
+that actual directive,its one nested LIDATA record and every resulting byte.
+It does not require final-address alignment or insert a missing initializer.
 
 ## RTTI behavior and focused observations
 
@@ -109,6 +121,6 @@ PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_xx_rtti
 
 Source presence is250 extents/60028 gross bytes;accepted MAINL remains211 owners/
 288 procedures/36946 bytes. Publication/verifier inputs remain unchanged. Next
-resolve the full TU codegen differences,including RaiseException390/346-byte
-frames and saved EFLAGS84h/80h,using the current normal-library link and
+resolve the full TU codegen differences,including RaiseException390/342-byte
+frames and alternate-entry-SP saved EFLAGS80h/84h,using the current normal-library link and
 checking affected whole-product outputs. Whole-game completion remains unknown.

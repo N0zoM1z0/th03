@@ -65,6 +65,12 @@ int typeinfo::operator!=(const typeinfo far &other) const
     return !(*this == other);
 }
 
+// The size profile retains the two far descriptor expression temporaries in
+// the original120-byte body. Restore every affected option, including -Z-.
+#pragma option -O1
+#pragma option -Os
+#pragma option -O-i
+#pragma option -Z-
 int typeinfo::before(const typeinfo far &other) const
 {
     if(!tpp)
@@ -75,6 +81,10 @@ int typeinfo::before(const typeinfo far &other) const
         (const char far *)other.tpp+((xx_type_ptr)other.tpp)->name_offset) < 0;
 }
 
+#pragma option -O2-pg
+#pragma option -Os
+#pragma option -O-i
+#pragma option -Z-
 const char far *typeinfo::name() const
 {
     return typeIDname((xx_type_ptr)tpp);

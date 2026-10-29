@@ -118,7 +118,13 @@ def review(root,report=None):
     handler=callback(context_raw);raise_pair=[]
     for data,mapping in [(target.program_image,original_table),(source.program_image,table)]:
         raise_pair.append(raise_run(data,address(mapping,'_RaiseException')[1],'raise-386-context',handler,address(mapping,'__8086')[1],address(mapping,'_memcpy')[1]))
-    need(all(raise_pair[0][k]==raise_pair[1][k] for k in raise_pair[0] if k!='context') and raise_pair[0]['context'][:13]==raise_pair[1]['context'][:13] and raise_pair[0]['context'][14:]==raise_pair[1]['context'][14:] and [q['context'][13] for q in raise_pair]==[132,128],'real linked386 record/register ABI agrees;raw saved-EFLAGS84h/80h difference remains visible')
+    need(raise_pair[0]==raise_pair[1],'complete tested real linked386 record/register/context pair agrees at entry SP=FF00')
+    alternate=[]
+    for data,mapping in [(target.program_image,original_table),(source.program_image,table)]:
+        alternate.append(raise_run(data,address(mapping,'_RaiseException')[1],'raise-386-context',handler,address(mapping,'__8086')[1],address(mapping,'_memcpy')[1],stack_offset=0xFF10))
+    need(all(alternate[0][k]==alternate[1][k] for k in alternate[0] if k!='context') and alternate[0]['context'][:13]==alternate[1]['context'][:13] and alternate[0]['context'][14:]==alternate[1]['context'][14:] and [q['context'][13] for q in alternate]==[128,132],'one alternate entry SP exposes remaining frame-dependent saved-PF difference without changing flags')
+    raise_body=source.program_image[base+procedures[18]['start']:base+procedures[18]['start']+procedures[18]['size']]
+    need(raise_body.count(target.program_image[0x6AC0:0x6B07])==1,'complete raw71-byte argument copy block in actual linked product')
     raw_equal=v['exe']==target.raw;map_equal=v['map']==(WORK/'obj/th03/mainl.map').read_bytes()
     need(not raw_equal and not map_equal,'current full product remains a raw-different candidate,not exact acceptance')
     tail_start=base+procedures[36]['start'];tail_size=code_size-procedures[36]['start']
@@ -138,7 +144,7 @@ def review(root,report=None):
         original_RTTI_tail_bytes=1735,candidate_RTTI_tail_bytes=tail_size,RTTI_tail_raw_equal=source.program_image[tail_start:tail_start+tail_size]==target.program_image[0x8294:0x895B],
         raw_function_comparisons=body_comparisons,
         candidate_literal_native_fields=fields,candidate_ordered_xx_MZ_words=mz,candidate_LIDATA_records=iterated,actual22_public_bindings=bindings,all_source_CODE_bytes_resolved=True,all18_interfaces_resolved_to_real_library=True,
-        target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
+        target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,alternate_stack_offset=0xFF10,alternate_stack_real_memcpy_raise_probe=alternate,raw_Raise_argument_copy_bytes=71,actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 

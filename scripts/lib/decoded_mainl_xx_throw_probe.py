@@ -63,12 +63,12 @@ def callback(raw):
     return code
 
 
-def run(image,entry,kind,handler,cpu_offset=None,memcpy_entry=None,memcpy_code=None):
+def run(image,entry,kind,handler,cpu_offset=None,memcpy_entry=None,memcpy_code=None,stack_offset=0xFF00):
     from unicorn import Uc,UC_ARCH_X86,UC_MODE_16,UC_HOOK_CODE,UC_HOOK_INTR
     from unicorn.x86_const import UC_X86_REG_CS,UC_X86_REG_DS,UC_X86_REG_ES,UC_X86_REG_FS,UC_X86_REG_GS,UC_X86_REG_SS,UC_X86_REG_ESP,UC_X86_REG_EBP,UC_X86_REG_ESI,UC_X86_REG_EDI,UC_X86_REG_EAX,UC_X86_REG_EBX,UC_X86_REG_ECX,UC_X86_REG_EDX,UC_X86_REG_IP,UC_X86_REG_SP
     need(kind in ('raise-386-context','global-unwind-target'),'bounded throw probe')
     u=Uc(UC_ARCH_X86,UC_MODE_16);u.mem_map(0,0x80000);u.mem_write(0,image)
-    ss,sp,finish=0x7000,0xFF00,0xF100
+    ss,sp,finish=0x7000,stack_offset,0xF100
     def words(at,*v):u.mem_write(at,struct.pack('<'+'H'*len(v),*v))
     def read(at,n):return list(struct.unpack('<'+'H'*n,u.mem_read(at,n*2)))
     initial=[(UC_X86_REG_EAX,0x12341111),(UC_X86_REG_EBX,0x23452222),
@@ -117,7 +117,7 @@ def run(image,entry,kind,handler,cpu_offset=None,memcpy_entry=None,memcpy_code=N
         context=list(struct.unpack('<16I',u.mem_read(ss*16+0x900,64)))
         expected=[0x6400,0x6300,0x6600,0xE3F,0x67886666,0x56775555,
             0x23452222,0x45674444,0x34563333,0x12341111,0x78997777,
-            finish,0,None,0x7899FF04,ss]
+            finish,0,None,0x78990000|((sp+4)&65535),ss]
         need(all(b is None or a==b for a,b in zip(context,expected)),'native 204-byte context segment/general-register layout')
         need(record[:8]==[0x1234,0x234,0,0,0,finish,0,15] and list(struct.unpack('<15I',u.mem_read(ss*16+0x810,60)))==list(range(0xA000,0xA00F)),'reserved code bit clear,far PC,count cap and native argument DWORDs')
         restored=[u.reg_read(reg) for reg,_ in initial[:8]]

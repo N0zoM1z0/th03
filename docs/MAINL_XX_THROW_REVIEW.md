@@ -16,7 +16,7 @@ segment words. The fixed Japanese decoded target remains the oracle.
 | dispatchException | 140 | 140 |
 | _Global_unwind | 71 | 71 |
 | exceptionContextHook | 5 | 5 |
-| RaiseException | 1151 | 1102 |
+| RaiseException | 1151 | 1081 |
 
 Original coverage now forms the continuous583E..8293 range,10838 bytes.
 The front49 bytes,tail1735 and DATA18/BSS10 are now recovered in the complete
@@ -93,13 +93,35 @@ redirects to separate fixture memory without altering either image or object.
 There is no modeled allocator,EH service or memory helper. The16-bit resume
 branch and complete throw/catch lifecycle have not been executed by these probes.
 
-**Saved EFLAGS are still different:** original84h,candidate80h in this probe.
-The original stack allocation is390 bytes,current candidate346;the arithmetic
-before the snapshot changes PF. Both full raw context observations are retained.
-The review compares the tested record/register ABI while reporting this flag gap
-explicitly. No flag adjustment or padding is added to manufacture equality.
+The native argument-count/index/copy block6AC0..6B06 is now a complete raw71-byte
+match. A function-local -O-v suppresses the two compiler-generated WORD induction
+pointers that the original loop does not have. FS/GS high halves are zeroed before
+the segment writes;the16-bit zero chain fills EBP first. Direct `_SS` assignment
+and CX/ES/BX resume-address construction recover the original instruction order.
+The remaining frame allocation is390 versus342,not the former390/346.
 
-Candidate throw bank2472 and miniature CODE10823 remain raw-different from
+The raw default-SP observation now agrees completely,including EFLAGS84h/84h.
+One additional entry SP,FF10 instead of FF00,retains original80h/source84h while
+all other observed context/record/register values still agree. Thus agreement
+in the default sample did not close the frame/PF question. Both raw observations
+are retained;there is no flag correction or placeholder stack object.
+
+The independently read original stack operands and current compiler output give:
+
+| Local region | Original BP interval | Current BP interval |
+| --- | --- | --- |
+| Exception record76 | -86..-10 | -86..-10 |
+| Unproved48-byte region | -134..-86 | absent |
+| Used context204 | -338..-134 | -290..-86 |
+| Entry WORD snapshot20 | -358..-338 | -310..-290 |
+| PUSHAD DWORD snapshot32 | -390..-358 | -342..-310 |
+
+Intervals are half-open and offsets are decimal. The empty hook receives BP-134
+in the original and the context's end in current source. The original address
+and allocation footprint are known;the missing region's type/purpose remains
+unproved. Matching its length with an invented object would not recover source.
+
+Candidate throw bank2451 and miniature CODE10802 remain raw-different from
 original bank2524 and covered10838. Equal wrapper sizes89/170 do not establish
 raw equality. Source presence is250 extents/60028 gross bytes;accepted MAINL
 stays211 owners/288 procedures/36946 bytes. Publication/verifier inputs and all938

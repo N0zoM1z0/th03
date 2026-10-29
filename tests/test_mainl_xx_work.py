@@ -16,7 +16,7 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual((r['normal_library_members'],r['unchanged_surrounding_members']),(893,892))
         self.assertEqual((r['source_CRT_providers'],r['reused_source_CRT_providers']),(29,28))
         self.assertEqual((r['retained_project_objects'],r['retained_binary_inputs']),(36,39))
-        self.assertEqual((r['original_file_bytes'],r['candidate_file_bytes']),(67372,67356))
+        self.assertEqual((r['original_file_bytes'],r['candidate_file_bytes']),(67372,67340))
         self.assertEqual((r['original_relocation_count'],r['candidate_relocation_count']),(677,677))
         self.assertEqual(len(r['candidate_ordered_xx_MZ_words']),20)
         self.assertEqual(len(r['actual22_public_bindings']),22)
@@ -30,7 +30,11 @@ class XxWholeProduct(unittest.TestCase):
         a,b=r['target_and_source_real_memcpy_raise_probe']
         self.assertEqual(a['restored_registers'],b['restored_registers'])
         self.assertEqual((a['actual_memcpy_calls'],b['actual_memcpy_calls']),(2,2))
-        self.assertEqual((a['context'][13],b['context'][13]),(132,128))
+        self.assertEqual(a,b)
+        self.assertEqual((a['context'][13],b['context'][13]),(132,132))
+        a,b=r['alternate_stack_real_memcpy_raise_probe']
+        self.assertEqual((a['context'][13],b['context'][13]),(128,132))
+        self.assertEqual(r['raw_Raise_argument_copy_bytes'],71)
         self.assertFalse(r['whole_EXE_raw_equal'])
         self.assertFalse(r['whole_MAP_raw_equal'])
         self.assertEqual((r['source_acceptance'],r['accepted_source_bytes'],r['original_cold_rebuilt']),(False,0,False))

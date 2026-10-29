@@ -131,6 +131,9 @@ def review(root,report=None):
     dense(t,old,decoder);dense(candidate.program_image,rows,decoder)
     dispatch=rows[4]
     need(dispatch['size']==140 and candidate.program_image[dispatch['start']:dispatch['start']+140]==t[0x6798:0x6824],'complete unnormalized140-byte dispatcher body matches the fixed original')
+    argument_copy=t[0x6AC0:0x6B07]
+    raise_body=candidate.program_image[rows[7]['start']:rows[7]['start']+rows[7]['size']]
+    need(len(argument_copy)==71 and raise_body.count(argument_copy)==1,'complete raw71-byte argument count/index/copy loop matches without induction pointer temporaries')
     need(sum(r['size'] for r in old)==2446 and old[0]['start']==BASE+78 and old[-1]['start']+old[-1]['size']==BASE+SIZE and all(a['start']+a['size']==b['start'] for a,b in zip(old,old[1:])),'complete eight-procedure original ownership,including two real five-byte hooks')
     types=parsed_bodies(v['listing'].decode(),TYPE_BODIES);calls=call_bodies(v['listing'].decode());_,covered=classify(candidate.program_image,calls,decoder);catches=parsed_bodies(v['listing'].decode(),CATCH_BODIES)
     need(types[-1]['start']+types[-1]['size']==calls[0]['start'] and set(covered)==set(range(calls[0]['start'],rows[0]['start']-78)) and all(a['start']+a['size']==b['start'] for a,b in zip(rows,rows[1:])) and rows[-1]['start']+rows[-1]['size']==catches[0]['start']-42,'natural types/adapters/two-catch EH/throw/single-catch EH adjacency')
@@ -161,15 +164,20 @@ def review(root,report=None):
         else:
             need(pair[0]==pair[1],'actual original/source throw ABI: '+kind)
         probes.append(pair)
+    # One alternate entry SP distinguishes a coincidental PF agreement from
+    # actual recovery of the original stack allocation. No flag is corrected.
+    alternate=[run(t,old[7]['start'],'raise-386-context',cb,0x112E,0x4B7D,stack_offset=0xFF10),run(candidate.program_image,rows[7]['start'],'raise-386-context',cb,address(v['map'].decode(),'__8086')[1],address(v['map'].decode(),'_memcpy')[1],memcpy_bytes,stack_offset=0xFF10)]
+    need(all(alternate[0][k]==alternate[1][k] for k in alternate[0] if k!='context') and alternate[0]['context'][:13]==alternate[1]['context'][:13] and alternate[0]['context'][14:]==alternate[1]['context'][14:],'alternate stack tests the same native ABI while retaining raw flags')
     for kind,index in [('throw-forward',1),('rethrow-ss-forward',2)]:
         pair=[forward(t,old[index]['start'],old[0]['start'],kind),forward(candidate.program_image,rows[index]['start'],rows[0]['start'],kind)]
         need(pair[0]==pair[1],'actual original/source wrapper ABI: '+kind);probes.append(pair)
     start,end=rows[0]['start']-78,rows[-1]['start']+rows[-1]['size']
     return dict(complete=True,source_acceptance=False,accepted_source_bytes=0,accepted_publication_sha256=ACCEPTED_SHA,reused_baseline_receipt_sha256=baseline_sha,review_driver_sha256=sha((root/'scripts/review_th03_mainl_xx_throw.py').read_bytes()),selected_build_report_sha256=sha(raw),source_sha256=r['source_sha256'],profile_driver_sha256=r['profile_driver_sha256'],
         original_bank_base=BASE,original_bank_size=SIZE,original_instruction_bytes=2446,original_inline_data_bytes=78,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=mz,
-        candidate_bank_bytes=end-start,candidate_CODE_segment_bytes=size,candidate_bodies=rows,candidate_literal_native_fields=literal_fields(v['obj']),complete_bank_raw_equal=candidate.program_image[start:end]==t[BASE:BASE+SIZE],raw_dispatcher_body_equal=True,
+        candidate_bank_bytes=end-start,candidate_CODE_segment_bytes=size,candidate_bodies=rows,candidate_literal_native_fields=literal_fields(v['obj']),complete_bank_raw_equal=candidate.program_image[start:end]==t[BASE:BASE+SIZE],raw_dispatcher_body_equal=True,raw_Raise_argument_copy_bytes=71,
         original_covered_contiguous_range=[0x583E,0x8294],original_covered_bytes=10838,actual_dispatch_global_unwind_calls=actual_unwind_calls,same_TU_global_unwind_edge_resolved=True,unresolved_interfaces=externs(v['obj']),target_and_source_throw_probes=probes,actual_memcpy_fixture_sha256=sha(memcpy_bytes),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         saved_eflags_observations=[p['context'][13] for p in probes[0]],saved_eflags_equal=probes[0][0]['context'][13]==probes[0][1]['context'][13],
+        alternate_stack_offset=0xFF10,alternate_stack_raise_probes=alternate,alternate_saved_eflags_observations=[p['context'][13] for p in alternate],
         whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 

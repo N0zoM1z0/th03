@@ -6,7 +6,7 @@ actual MAINL project. This is a **raw-different diagnostic candidate**,with no
 new source-exact credit or published product acceptance.
 
 Two real BCC4.5/TASM/TLIB/TLINK rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP
-vectors. The full candidate EXE is67356 bytes;the fixed Japanese decoded target
+vectors. The full candidate EXE is67340 bytes;the fixed Japanese decoded target
 is67372. Both headers are4096 bytes and have677 relocation entries;the complete
 ordered vectors remain separate and different. Equal counts are not exactness.
 
@@ -40,10 +40,10 @@ The shared miniature recipe and prior source/receipt bindings also stay current.
 
 ## Whole-product field and ABI review
 
-The actual MAP allocates xx CODE at0000:580D,size12602;original size is12622.
+The actual MAP allocates xx CODE at0000:580D,size12585;original size is12622.
 DATA18 remains at DGROUP:1172 and BSS10 at DGROUP:2876. The candidate DGROUP is
-0E3E rather than original0E3F. The CODE length difference and ordinary paragraph
-layout produce the16-byte file-size difference;no source padding is introduced.
+0E3D rather than original0E3F. The CODE length difference and ordinary paragraph
+layout produce the32-byte file-size difference;no source padding is introduced.
 All18 initialized DATA bytes agree with the compiler output,and BSS has no
 invented initializers or file-byte credit.
 
@@ -54,27 +54,28 @@ Four arithmetic near-call fields use TASM's explicit CODE frame;their literal
 records stay intact and are checked against the real N_LXMUL/N_LUDIV targets.
 The20 xx MZ segment words match the actual whole EXE in emitted order. Each of
 the22 original public interfaces also binds its real current MAP address.
-Current source layout needs no vtable-alignment byte. The reviewer derives the
-required alignment from actual label offsets and expands real nested LIDATA only
-when present;it never supplies a missing initializer. The full RTTI tail is1731
-bytes versus original1735.
+Actual compiler ASM supplies one zero before the vtable,represented by real
+nested TASM LIDATA. The reviewer checks the emitted directive and actual record
+rather than inferring an initializer from final address parity. Current RTTI
+tail length1735 now equals the original;complete raw tail equality remains open.
 
-The reviewer also records complete raw byte comparisons for all50 procedures.
-The private dispatcher's registration alias and handler-disposition locals now
-recover all140 original linked bytes,with no normalization or native fields in
-that body. Typed descriptor caching recovers the72-byte toss frame;source-name
-evaluation precedes destination evaluation. The wrappers save caller PC before
-building their outgoing frame and now have original89/170-byte lengths. They
-still contain raw differences. Raise now uses native PUSHF/POP AX/MOV ordering
-and puts the unhandled termination block after both resume paths;its current
-body is1102 versus original1151. Net CODE length20 is not a differing-byte count.
+All50 procedures retain complete raw byte comparisons. The dispatcher remains
+a complete140-byte raw match. Raise now has the original direct-indexed argument
+loop:all71 count/index/copy bytes agree in the actual linked executable. Local
+-O-v eliminates two extra WORD induction pointers;FS/GS writes,the16-bit zero
+chain,direct SS assignment and CX/ES/BX resume addressing follow native order.
+The current Raise body1081 differs from1151,and its342-byte frame still lacks
+an unproved48-byte original region. No placeholder storage or flag adjustment
+is added to close that gap.
 
-Private codegen probes found that global -O1 produces the original120-byte
-unlinked `typeinfo::before` body,but also changes other functions. BCC4.5 rejects
-option push/pop;the tried scoped option resets did not restore subsequent helper
-codegen. TASM NOSMART or omitting multipass likewise changes other instructions
-or reserves bytes without obtaining equality. None of these recipe changes is
-adopted. Keep the current real pair while recovering the original source/recipe.
+A scoped -O1 profile recovers all120 raw **unlinked object bytes** of
+`typeinfo::before`. Its one original/current far strcmp field at+96 is retained
+literally,including different EXTDEF indices8/18. The linked body remains
+different because its call displacement follows the current carrier layout.
+Previous reset trials omitted -Z-;restoring it with -O2-pg,-Os,-O-i leaves
+all following function lengths unchanged. Earlier NOSMART/single-pass TASM
+experiments still do not yield equality and are not adopted. Net CODE length37
+is not a differing-byte count.
 
 Five focused target/source pairs execute routines from the linked product:
 virtual-address merging,distinct-address ambiguity,downcast source containment,
@@ -85,11 +86,12 @@ A sixth observation exercises the linked RaiseException/dispatcher path with
 the unchanged actual TASM handler fixture. Both memcpy calls now enter the real
 normal-library implementation directly;there is **no import redirection or
 memory-helper model**. The handler's DEADBEEFh EAX change resumes correctly,and
-other full registers/segments agree with the original. The saved EFLAGS remain
-original84h/candidate80h. This confirms that the existing390/346-byte stack-frame
-gap is not caused by the miniature's imported helper fixture. It remains an
-unresolved source/codegen question;no placeholder stack object or flag adjustment
-is added. These observations do not claim a DOS boot or ending playthrough.
+other full registers/segments agree with the original. At entry SP=FF00 the
+complete tested record/register/context pair now agrees,including EFLAGS84h.
+One alternate entry SP=FF10 yields original80h/source84h while every other
+observed field agrees. Both use the actual linked memcpy twice. The remaining
+390/342 allocation gap therefore remains observable despite default-sample
+agreement. These observations do not claim a DOS boot or ending playthrough.
 
 ## Current receipts and next work
 
@@ -110,4 +112,4 @@ Source presence remains250 extents/60028 gross bytes. Accepted MAINL remains211
 owners/288 procedures/36946 bytes,with whole-game completion unknown. The full
 source graph now has a repeatable normal-library/whole-program route. Next close
 the complete xx CODE/field/layout differences,including the RaiseException frame
-and typeinfo::before,and require raw target EXE/MAP equality before promotion.
+and its unproved local region,and require raw target EXE/MAP equality before promotion.

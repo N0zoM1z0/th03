@@ -185,17 +185,23 @@ def review(root,report=None):
         if field['location_type']==2:candidate_mz.append(at)
         elif field['location_type']==3 and p[1,at-1]!=0x9A:candidate_mz.append(at+2)
     need(candidate_mz==[q.linear for q in candidate.relocations] and len(candidate_mz)==20,'literal ordered candidate20 MZ words from actual native fields,not sorted or normalized')
-    # Compiler-native RTTI data has a typed20/22/22/12/60 layout. Nothing is
+    # Compiler-native RTTI data has a typed20/22/21/12/60 layout plus an
+    # optional compiler-emitted byte. TASM relaxation can change final parity;
+    # do not infer the emitted initializer from the final label's alignment.
+    # Nothing is
     # copied into product source;these are actual labels in generated output.
     labels=['@$xt$8Bad_cast','@$xt$10Bad_typeid','@$xt$n8typeinfo','@typeinfo@4','@$xt$8typeinfo']
     def label(symbol):
         found=re.findall(r'^\s*\d+\s+([0-9A-F]{4})\s+'+re.escape(symbol)+r'\s+label\s+\w+\s*$',v['listing'].decode(),re.M)
         need(len(found)==1,'actual compiler RTTI label: '+symbol);return int(found[0],16)
     positions=[label(n) for n in labels];metadata=new_gaps[-1]
+    padding=re.findall(r'^\s*db\s+(\d+) dup \(0\)\s*\n@typeinfo@4\s+label\s+byte\s*$',v['asm'].decode(),re.M)
+    need(len(padding)<=1 and all(p=='1' for p in padding),'actual compiler-emitted zero initializer before the vtable')
+    padding_bytes=int(padding[0]) if padding else 0
     expected_iterated=([dict(segment=1,offset=positions[3]-1,size=1,record_data_hex='01'+(positions[3]-1).to_bytes(2,'little').hex()+'01000100010000000100')]
-        if positions[3]-(positions[2]+21)==1 else [])
+        if padding_bytes else [])
     need(iterated==expected_iterated,'only an actually emitted compiler alignment byte has a native LIDATA owner')
-    need(positions[:3]==[metadata[0]+o for o in (0,20,42)] and positions[3]==(positions[2]+22)&~1 and positions[4]==positions[3]+12 and positions[4]+60==size,'all generated RTTI/vtable bytes and natural compiler alignment have reviewed ownership')
+    need(positions[:3]==[metadata[0]+o for o in (0,20,42)] and positions[3]==positions[2]+21+padding_bytes and positions[4]==positions[3]+12 and positions[4]+60==size,'all generated RTTI/vtable bytes and actual compiler-emitted initializer have reviewed ownership')
     for data,at,vt,dtor in [(t,0x88D3,0x8913,0x8398),(candidate.program_image,metadata[0],positions[3],rows[42]['start'])]:
         need(struct.unpack('<5H',data[at:at+10])==(1,1,10,0xFFFF,0) and data[at+10:at+20]==b'Bad_cast\0\0','complete Bad_cast descriptor')
         need(struct.unpack('<5H',data[at+20:at+30])==(1,1,10,0xFFFF,0) and data[at+30:at+42]==b'Bad_typeid\0\0','complete Bad_typeid descriptor')
@@ -207,7 +213,17 @@ def review(root,report=None):
     for data,row in [(t,old[18]),(candidate.program_image,rows[18])]:
         need(data[row['start']:row['start']+14]==bytes.fromhex('50515253545556571e068bec81ec'),'unchanged compiler saveregs frame prefix')
         allocations.append(int.from_bytes(data[row['start']+14:row['start']+16],'little'))
-    need(allocations==[390,346],'existing saved-EFLAGS/frame difference remains open;no ancestor runtime replay')
+    need(allocations==[390,342],'48-byte original/current frame ownership gap remains open;no ancestor runtime replay')
+    reused_flags=json.loads((root/'.analysis/work/mainl-xx-throw-review.json').read_bytes())['alternate_saved_eflags_observations']
+    old_before=old[45]['start']-BASE;new_before=rows[45]['start']
+    need(old[45]['size']==rows[45]['size']==120 and bytes(op[1,old_before+i] for i in range(120))==bytes(p[1,new_before+i] for i in range(120)),'complete unmodified120-byte typeinfo::before object bodies agree before native linking')
+    before_fields=[]
+    for raw_object,body_start,all_fields in [(original,old_before,fields),(v['obj'],new_before,candidate_fields)]:
+        selected=[f for f in all_fields if f['segment']==1 and body_start<=f['site']<body_start+120]
+        need(len(selected)==1,'one literal original/current before field')
+        f=selected[0]
+        need(f==dict(segment=1,site=body_start+96,location_type=3,width=4,segment_relative=True,frame_method=5,frame=None,target_method=2,target=f['target'],addend=0) and externs(raw_object)[f['target']-1]=='_strcmp','actual original/current far strcmp field;literal differing EXTDEF indices retained')
+        before_fields.append(selected)
     probes=[]
     for kind in CASES:
         index=49 if kind in CASES[:3] else 47 if kind==CASES[3] else 0
@@ -217,8 +233,8 @@ def review(root,report=None):
     return dict(complete=True,source_acceptance=False,accepted_source_bytes=0,accepted_publication_sha256=ACCEPTED_SHA,reused_baseline_receipt_sha256=baseline_sha,review_driver_sha256=sha((root/'scripts/review_th03_mainl_xx_rtti.py').read_bytes()),selected_build_report_sha256=sha(raw),source_sha256=r['source_sha256'],profile_driver_sha256=r['profile_driver_sha256'],
         original_CODE_bytes=SIZE,original_instruction_bytes=12088,original_inline_data_bytes=534,original_DATA_bytes=18,original_BSS_bytes=10,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=mz,original_storage_gaps=old_gaps,
         candidate_CODE_segment_bytes=size,candidate_DATA_bytes=18,candidate_BSS_bytes=10,candidate_bodies=rows,candidate_literal_native_fields=candidate_fields,candidate_MZ_words=candidate_mz,candidate_storage_gaps=new_gaps,candidate_LIDATA_records=iterated,complete_CODE_raw_equal=raw_equal,complete_DATA_raw_equal=True,
-        all22_original_public_interfaces=True,original18_imports=imports,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
-        source_exactness_open=True,saved_eflags_gap_remains=True,RaiseException_stack_allocations=allocations,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
+        all22_original_public_interfaces=True,original18_imports=imports,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],candidate_RTTI_compiler_padding_bytes=padding_bytes,all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
+        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 
 if __name__=='__main__':
