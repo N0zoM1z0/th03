@@ -77,7 +77,7 @@ def op_decoded_status(root, units):
     accepted = result.get('decoded_exact_unit_ids', [])
     try:
         current_scopes = result.get('current_cold_source_scopes') is True
-        expected_count, expected_bytes = (45, 11942) if current_scopes else (33, 9530)
+        expected_count, expected_bytes = (47, 13148) if current_scopes else (33, 9530)
         valid = (result.get('reviewed_proof_ready') is True
                  and result.get('product_exact') is False
                  and result.get('factory_accepted') is False
@@ -106,9 +106,10 @@ def op_decoded_status(root, units):
             from lib.op_select_native import UNITS as SELECT_UNITS
             from lib.op_title_native import TITLE_UNIT, COLUMN_UNIT
             from lib.op_score_native import DATA_UNIT as SCORE_DATA_UNIT
+            from lib.op_shared_native import UNITS as SHARED_NATIVE_UNITS
             valid = valid and (result.get("decoded_authored_procedures"), result.get("decoded_authored_code_bytes"),
-                               result.get("decoded_authored_initialized_data_bytes")) == (74, 10436, 1506)
-            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS+DISPATCH_FUNCTIONS} | {"th03-op-decoded-entry-attract-wait", "th03-op-decoded-entry-vs-menu", "th03-op-decoded-entry-screens"} | {o[0] for o in SOUND_PRODUCERS+HELPER_PRODUCERS+RENDER_FUNCTIONS+OPTION_FUNCTIONS+MAIN_MENU_FUNCTIONS+STARTUP_FUNCTIONS} | {ENTRY_DATA_UNIT, MUSIC_STATE_UNIT} | MUSIC_CODE_UNITS | {MUSIC_DATA_UNIT} | SELECT_UNITS | {TITLE_UNIT, COLUMN_UNIT, SCORE_DATA_UNIT, 'th03-op-decoded-score-encode', 'th03-op-decoded-score-score-data'}
+                               result.get("decoded_authored_initialized_data_bytes")) == (80, 11642, 1506)
+            valid = valid and set(accepted) == {o[0] for o in OWNERS} | unit_ids("op") | {o[0] for o in CFG_FUNCTIONS+DISPATCH_FUNCTIONS} | {"th03-op-decoded-entry-attract-wait", "th03-op-decoded-entry-vs-menu", "th03-op-decoded-entry-screens"} | {o[0] for o in SOUND_PRODUCERS+HELPER_PRODUCERS+RENDER_FUNCTIONS+OPTION_FUNCTIONS+MAIN_MENU_FUNCTIONS+STARTUP_FUNCTIONS} | {ENTRY_DATA_UNIT, MUSIC_STATE_UNIT} | MUSIC_CODE_UNITS | {MUSIC_DATA_UNIT} | SELECT_UNITS | {TITLE_UNIT, COLUMN_UNIT, SCORE_DATA_UNIT, 'th03-op-decoded-score-encode', 'th03-op-decoded-score-score-data'} | SHARED_NATIVE_UNITS
         if not valid:
             return dict(unavailable(result.get('reason', 'publication or caller inventory invalid')),
                         tracked_decoded_extents=len(ids))
