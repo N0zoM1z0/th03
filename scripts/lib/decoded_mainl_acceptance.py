@@ -56,6 +56,7 @@ from lib.decoded_mainl_archive_native import verify as archive_scope, DATA_UNIT 
 from lib.decoded_mainl_graphics_native import verify as graphics_scope, DATA_SOURCES as GRAPHICS_DATA_SOURCES
 from lib.decoded_mainl_display_native import verify as display_scope, DATA_SOURCES as DISPLAY_DATA_SOURCES
 from lib.decoded_mainl_crt_native import verify as crt_scope, SOURCE_MAP as CRT_SOURCE_MAP
+from lib.decoded_mainl_resident_native import verify as resident_scope, DATA_SOURCES as RESIDENT_DATA_SOURCES
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -113,7 +114,8 @@ PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATI
     "scripts/lib/decoded_mainl_archive_native.py", "scripts/build_th03_mainl_archive_work.py",
     "scripts/lib/decoded_mainl_graphics_native.py", "scripts/build_th03_mainl_graphics_work.py",
     "scripts/lib/decoded_mainl_display_native.py", "scripts/build_th03_mainl_display_work.py",
-    "scripts/lib/decoded_mainl_crt_native.py")))
+    "scripts/lib/decoded_mainl_crt_native.py",
+    "scripts/lib/decoded_mainl_resident_native.py", "scripts/build_th03_mainl_resident_work.py")))
 
 def need(value, message):
     if not value:
@@ -261,6 +263,10 @@ def audit(root):
     need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in crt_native['owners']}), 'separate complete CRT library source owners')
     owners.extend(crt_native['owners'])
     scope['crt_native'] = crt_native
+    resident_native = resident_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in resident_native['owners']}), 'separate complete resident/math/text/joystick owners')
+    owners.extend(resident_native['owners'])
+    scope['resident_native'] = resident_native
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -279,7 +285,7 @@ def audit(root):
         if o["object"] == ROOT_OBJECT:
             need(row["wrapper"] == ROOT_WRAPPER and row["source"] == ROOT_WRAPPER
                  and row["game"] == 3 and row["binary"] == "L" and row["first_binary"] == "mainl"
-                 and (o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT) or o['unit_id'] in GRAPHICS_DATA_SOURCES or o['unit_id'] in DISPLAY_DATA_SOURCES or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
+                 and (o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT) or o['unit_id'] in GRAPHICS_DATA_SOURCES or o['unit_id'] in DISPLAY_DATA_SOURCES or o['unit_id'] in RESIDENT_DATA_SOURCES or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
             if o['unit_id'] == TABLE_UNIT:
                 need(o['source'] == TABLE_SOURCE and o['maintained_native_object'] == '.analysis/work/resources-round1.obj',
                      'actual separately rebuilt generated table producer; frozen cold wrapper remains contextual')
@@ -292,6 +298,10 @@ def audit(root):
             elif o['unit_id'] == ARCHIVE_DATA_UNIT:
                 need(o['source'] == ARCHIVE_STATE_SOURCE and o['maintained_native_object'] == '.analysis/work/archive-mini-round1-state.obj',
                      'actual independent five-byte state producer; legacy root fill remains contextual')
+            elif o['unit_id'] in RESIDENT_DATA_SOURCES:
+                module = 'resident' if o['unit_id'].endswith('resident-signature') else 'joystick'
+                need(o['source'] == RESIDENT_DATA_SOURCES[o['unit_id']] and o['maintained_native_object'] == '.analysis/work/resident-mini-round1-'+module+'.obj',
+                     'actual independent resident/joystick state source producer')
             elif o['unit_id'] in DISPLAY_DATA_SOURCES:
                 producer = '.analysis/work/display-mini-round1-context.obj' if o['unit_id'].endswith('vsync-initialized-data') else '.analysis/work/display-round1.obj'
                 need(o['source'] == DISPLAY_DATA_SOURCES[o['unit_id']] and o['maintained_native_object'] == producer,
@@ -312,6 +322,8 @@ def audit(root):
         # its exact wrapper/source relationship and full native owner fields.
         if o['unit_id'] in CRT_SOURCE_MAP:
             need(files[row['wrapper']] == (root / o['source']).read_bytes(), 'literal maintained CRT TU source transport')
+        elif o['unit_id'] in RESIDENT_DATA_SOURCES:
+            need(o['source'] == RESIDENT_DATA_SOURCES[o['unit_id']], 'explicit actual resident/joystick DATA source')
         elif o['unit_id'] in DISPLAY_DATA_SOURCES:
             need(o['source'] == DISPLAY_DATA_SOURCES[o['unit_id']], 'explicit consumed palette/VSync/gaiji state source')
         elif o['unit_id'] in GRAPHICS_DATA_SOURCES:

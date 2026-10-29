@@ -6,47 +6,52 @@ Use natural source recovery and exact native output with direct local tools.
 Session preflight is complete for the unchanged environment. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-MAINL adds six complete CRT producers/two DATA owners:8 extents,13 procedures
-or ABI entries,628 CODE+93 DATA library bytes. Existing source/native inputs
-are unchanged. See [CRT review](MAINL_CRT_NATIVE_REVIEW.md). All prior164 owners
-and nested scopes remain unchanged; authored bytes remain16,619.
+MAINL adds resident/integer-angle/text/sound/joystick:9 extents,13 procedures,
+559 CODE+18 DATA bytes (76 authored,501 library). Existing172 owners/nested
+scopes remain unchanged. See [resident review](MAINL_RESIDENT_NATIVE_REVIEW.md).
 
-Three near register-entry shims synthesize far returns and fall into three
-shared far bodies; F_/plain aliases add no procedures. Negative huge-pointer
-deltas cross-enter opposite magnitude paths. Heap-break352 has private grow142
-(near RET4),brk67 and sbrk143. Its genuine far call to setblock naturally relaxes
-to NOP/PUSH CS/near CALL at3EBC. DOS4Ah wrapper returnsFFFF on success or original
-BX after error reporting:BX=FFFF failure still collides with success. Preserve
-16-bit wrapping,negative increment and failed-growth heap-top stores.
+Corrected the old105-byte joystick aggregate:four bodies/three genuine EVENs
+occupy103 bytes at2AAE..2B14. JS_START42 and JS_SENSE34 are authored TH03 variants;
+SOUND_JOY18 and private SAJOUT9 are library. Surrounding2AAD/2B15 zero bytes stay
+uncredited context. Preserve absent-stick caller-SI OR into js_stat and original
+AX behavior,256-attempt detection,PUSHF/CLI/POPF and original port waits.
 
-Error DATA91 contains zero doserrno WORD and89 named DOS0..88 mappings. Every
-errno equate agrees with pinned installed ERRNO.H. Private granule DATA2 stays
-zero WORD. All39 native fields,complete bytes,empty scoped MZ vectors,full public
-aliases,containing segments/groups and normal library member identities checked.
-Each entire native member matches its actual source-produced standalone object.
-These six objects already repeat in the unchanged two-round938-output cold pair;
-no rebuild,full cold/DIET or ancestor runtime replay this turn. Current acceptance
-revalidates the full source/tool/library graph before extending old97 observations
-from3e7e9dd and the bounded native reviews. Receipts:`mainl-crt-native.json` and
-`mainl-crt-progress.json` in`.analysis/work/`.
+New EXIST/CREATE includes retain MCB offsets0/1/3 and IDLEN10. CREATE removes the
+old compatibility NOP guard; JS_END replaces nopcall. Outside-CODE far declarations
+emit two real5-byte calls/FAR fields; actual TLINK naturally reproduces target
+NOP/PUSH CS/near CALL at27AC/17CA. Six actual modules supply real resident,
+DOS_KEYCLEAR,IATAN2,sound/text and joystick providers. Three joystick near calls
+to actual exported SOUND_I/O have native self-relative fields. All18 module
+fields and13 root fields independently resolve; literal scoped MZ vectors empty.
+Whole six-OBJ/EXE/MAP vectors repeat in two affected native rounds. The odd103-byte
+WORD joystick module naturally creates a zero link gap before the next module.
 
-Earlier display findings remain:palette_show EQU aliases real XOR immediate18B8
-without ORG; absolute ordered fields/bytes survive OMF packetization changes.
-Nineteen ordinary far calls in six independent display TUs reproduce real linker
-relaxations. VSync CS saved-vector4 remains DW? and uses actual repeated links;
-58 BSS bytes add no file credit. DATA0849 target90 vs ordinary EVEN00 stays
-uncredited contextual transport. Integrate demonstrated reader/page-copy/display
-TU boundaries deliberately in future full recipes; never insert padding.
+Resident identifier10 uses actual pal98 grb string/NUL; joystick DATA8 keeps
+four zero WORDs/all aliases. js_stat4 BSS stays uninitialized with zero file
+credit. AtanTable8 stays contextual DATA here. Preserve integer-angle signed
+magnitude/overflow,DOS allocation fallback/strategy writes,text BP-via-BX frame,
+caller DF and unchecked original behavior. Private SAJOUT is present code,with
+no execution/reachability claim. No source filler,object patches or defensive fixes.
 
-MAIN investigation confirmed input body417 exact,following EC2D90 vs00 still
-unproved. Target/current MZ headers6240/7680 bytes,relocation offsets28/62; all1553
-ordered entries agree. No speculative alignment directive or executable patch
-was added. These linker/header questions remain open.
+All938 cold outputs/source/recipe/tools unchanged and validated. No root rebuild,
+full cold/DIET or ancestor runtime replay. Current acceptance preserves old97
+observations from3e7e9dd,then appends reviewed native scopes. Frozen root still
+transports compatibility calls; integrate demonstrated independent TU boundaries
+when deliberately changing full recipes. Receipts:`mainl-resident-build.json`,
+`mainl-resident-native.json`, `mainl-resident-progress.json` in`.analysis/work/`.
+
+Earlier findings:CRT628+93 six native source/library members already repeated;
+three near shims synthesize far returns; FFFF resize failure/success collision
+preserved. Palette EQU aliases XOR immediate18B8 without ORG. VSync CS vector4
+stays DW? and uses actual repeated links; DATA0849 target90 vs ordinary EVEN00
+stays uncredited. MAIN EC2D90 vs00 and MZ headers6240/7680 bytes,relocation table
+28/62 remain open; all1553 ordered entries agree. Do not add speculative padding.
 
 Focused native/acceptance/status/progress,tracking and bounded generated-region
-checks pass; finish with diff checks. OP acceptance reverified; OP/ZUN publications
-untouched. Only MAINL generated SVG region/summary/source-present row refreshed.
-No physical DOS/device execution or whole-product source ownership is claimed.
+checks pass; finish with diff checks. Historical display fixtures retain their
+old105-byte aggregate only in test projections. OP acceptance reverified; OP/ZUN
+publications untouched. Only MAINL SVG region/summary/source-present row refreshed.
+Physical device behavior and whole-product source ownership remain open.
 
 ## Accepted source scopes
 
@@ -54,10 +59,10 @@ No physical DOS/device execution or whole-product source ownership is claimed.
 | --- | --- | --- |
 | MAIN | 459 functions /78,737 CODE bytes /106 extents | Open |
 | OP | 60 extents /92 procedures /13,221 CODE +1,764 DATA bytes | Open |
-| MAINL | 172 extents /216 procedures /25,835 CODE +1,554 DATA bytes | Open |
+| MAINL | 181 extents /229 procedures /26,394 CODE +1,572 DATA bytes | Open |
 | ZUN | 77 extents /89 procedures or entries /6,179 CODE bytes | Open |
 
-MAINL accepts27,389 bytes:16,619 authored +10,770 library. ZUN accepts8,635 bytes:
+MAINL accepts27,966 bytes:16,695 authored +11,271 library. ZUN accepts8,635 bytes:
 2,179 authored +1,390 original ASM +5,066 library. Whole-game source/function
 denominators and completion percentage remain unknown. Canonical packed-unit
 credit stays separate. OP/MAINL/ZUN retained cold pairs match decoded and DIET -B
@@ -88,6 +93,8 @@ Keep actual current proof inputs in `.analysis/work/`:
   `selection-tail.cpp/.lnk`.
 - Resources:`mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors,`resources-root.asm/.lnk`.
+- Resident:`mainl-resident-build.json`,both six-object `resident-mini-roundN-*`/
+  EXE/MAP vectors,six actual `resident-mini-NAME.asm` wrappers and `resident-mini.lnk`.
 - Display:`mainl-display-build.json`,both `display-roundN.obj/.exe/.map`
   vectors,`display-root.asm/.lnk`,both six-object `display-mini-roundN-*`/EXE/MAP
   vectors,the six actual `display-mini-NAME.asm` wrappers and `display-mini.lnk`.
@@ -104,8 +111,8 @@ Keep actual current proof inputs in `.analysis/work/`:
 Acceptance baseline remains3e7e9dd; do not rewrite historical runtime hashes.
 Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
 binding. OP's builder is shared by MAINL/ZUN. Remove obsolete diagnostics after
-preserving actual inputs/outputs. Next providers include remaining resident/math/text scopes and contextual CRT
-providers beyond the six now reviewed. Old cutscene3195/regist2720/root2488
+preserving actual inputs/outputs. Next work includes contextual CRT providers beyond the six reviewed,remaining
+DATA/table ownership and integration of demonstrated native TU boundaries. Old cutscene3195/regist2720/root2488
 aggregate rows overlap accepted functions; never count them again. Integrate
 maintained state/tables and native reader/page-copy boundaries when deliberately
 changing full recipes; do not rewrite cold hashes or rebuild everything for

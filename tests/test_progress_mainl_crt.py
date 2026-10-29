@@ -14,7 +14,7 @@ class CrtProgressTests(unittest.TestCase):
         units,evidence=self.data()
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
-        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(205,38392,0,205))
+        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(210,38408,0,210))
         # The old aggregate requires the old linked-game source assignment.
         # Ending now comes from staffdat.cpp, so current units suppress it even
         # when publication is unavailable. Preserve the historical caption test
@@ -25,6 +25,9 @@ class CrtProgressTests(unittest.TestCase):
             self.assertNotIn("24,680 B target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
             historical=[dict(u) for u in units]
             for unit in historical:
+                # Restore the historical105-byte joystick aggregate only in this fixture.
+                if unit['id']=='th03-mainl-decoded-root-tail-joystick':
+                    unit.update(offset='0x2aad',size='105',compare_size='105',source='src/mainl/root_tail/joystick_prefix.asm')
                 if unit['id']=='th03-mainl-decoded-root-tail-pfgetc-zero':
                     unit['state']='source-present'
                 expected=(progress.MAINL_LINKED_GAME_SOURCE_UNITS.get(unit['id'])

@@ -22,9 +22,11 @@ status = load('status')
 progress = load('progress')
 CURRENT_UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
 # This suite exercises the frozen 145-owner publication, with its original
-# containing GRCG/STR_IEQ boundaries. Current tracked scopes use 205 extents; the frozen fixture retains145.
+# containing GRCG/STR_IEQ boundaries. Current tracked scopes use 210 extents; the frozen fixture retains145.
 UNITS = [dict(u) for u in CURRENT_UNITS
          if not u['id'].startswith('th03-mainl-decoded-cutscene-') and u['id'] not in {
+    'th03-mainl-decoded-resident-signature','th03-mainl-decoded-joystick-initialized-data',
+    'th03-mainl-decoded-root-tail-sound-joy','th03-mainl-decoded-root-tail-js-sense','th03-mainl-decoded-root-tail-sajout',
     'th03-mainl-decoded-crt-dos-error-data','th03-mainl-decoded-crt-break-granule-data',
     'th03-mainl-decoded-palette-initialized-data','th03-mainl-decoded-vsync-initialized-data',
     'th03-mainl-decoded-gaiji-backup-data','th03-mainl-decoded-gaiji-dimensions-data',
@@ -68,6 +70,7 @@ UNITS = [dict(u) for u in CURRENT_UNITS
     'th03-mainl-decoded-root-tail-grcg-setcolor-align','th03-mainl-decoded-root-tail-grcg-off',
     'th03-mainl-decoded-root-tail-grcg-off-align','th03-mainl-decoded-root-tail-string-compare'}]
 for unit in UNITS:
+    if unit['id']=='th03-mainl-decoded-root-tail-joystick':unit.update(offset='0x2aad',size='105',compare_size='105',source='src/mainl/root_tail/joystick_prefix.asm')
     if unit['id']=='th03-mainl-decoded-root-tail-pfgetc-zero':unit['state']='source-present'
     if unit['id']=='th03-mainl-decoded-root-tail-grcg':unit.update(size='48',compare_size='48')
     if unit['id']=='th03-mainl-decoded-root-tail-compare-align':unit.update(size='57',compare_size='57')
