@@ -5,7 +5,7 @@
   "proof_inputs": {
     "scripts/lib/decoded_mainl_acceptance.py": "d45a36bf12505424eb0ef7fac4ea9246d61770914baddeacf7369b0ce1dfe2cd",
     "scripts/publish_th03_mainl_work_scopes.py": "cd211c78d9171b85b2e44d24c8107e907d11b41f715acea32eb575c4d80f5d76",
-    "scripts/lib/op_work_acceptance.py": "6e57d6e2a105e13e86d021bd71335ee25c57ee7550277d190d897a6e55591d2c",
+    "scripts/lib/op_work_acceptance.py": "1869ca73added3d1ca7dc5ee172e8ae7c2d63c55f864d9c65004a3d3a60abe41",
     "scripts/status.py": "e8c6a277902a75854094aae2fe6d9014adcc62a8fa1f79d1c0a4b11a1731242f",
     "scripts/validate_tracking.py": "0499eb4105f5f9437839e8333e419c435ff7a07cf4555a0a542d564aeef807a9",
     "config/oracles.toml": "332b7bfea9b8da21de525166a4f7ca5a3878db0d7ee796a92944f367ced63b6f",

@@ -7,49 +7,45 @@ local tools and affected native checks. Allocation/null-pointer/input-domain
 matrices, large emulator specifications and routine full CI are not per-unit
 gates. Reuse an unchanged native cold pair rather than rebuilding every turn.
 
-Character selection now has complete CODE ownership across the actual
-`selhelp.cpp`155-byte and `seltail.cpp`2858-byte producers:19 procedures,
-3013 CODE bytes,287 native fields and91 literal ordered MZ relocations.
-The107-byte score loader,48-byte unlock helper and2858-byte menu/render tail
-are three separate accepted extents. The old2906-byte aggregate is historical
-and adds no duplicate credit. The two selection include slices concatenate
-literally to the maintained source; no source/recipe/output was changed.
-See [selection review](OP_SELECTION_NATIVE_REVIEW.md) and current acceptance
-`config/op_work/scoped_acceptance.json`.
+Title animation now has complete CODE ownership across its actual TC4
+`op_main.cpp` producer:5 procedures/902 CODE bytes/97 native fields/53 literal
+ordered MZ relocations. Title808 and column94 are separate accepted extents.
+The old three-byte column mismatch is historical: today's maintained symbolic
+raster source already emits all94 target bytes. No codegen fix is claimed.
+Native DGROUP is group1 here; CODE has no OMF group. Preserve genuine near
+selection calls, far library calls and the column's compiler-owned BP/SI/DI
+saves/Pascal pop2. DATA31 remains unaccepted. See [title review](OP_TITLE_NATIVE_REVIEW.md).
 
-The native callback is a far DWORD pointer despite its typedef name. Preserve
-the separate WORD assignments, genuine near cross-TU calls and Pascal cleanup.
-Private selection DATA227/BSS23 and the following alignment byte remain
-unaccepted. The three menus retain their original timing/input differences.
+Character selection retains complete CODE ownership across `selhelp.cpp`155
+and `seltail.cpp`2858:19 procedures/3013 CODE/287 fields/91 literal relocations.
+The107-byte loader,48-byte unlock helper and2858-byte tail are separate extents;
+the old2906-byte aggregate adds no duplicate credit. Native callbacks are far
+DWORD pointers despite their typedef name. Private DATA227/BSS23 and the next
+alignment byte remain unaccepted. See [selection review](OP_SELECTION_NATIVE_REVIEW.md).
 
-Music Room retains complete CODE2244/14-procedure ownership and DATA1008.
-Its BSS1060 has reviewed layout and adds zero file-backed bytes. Keep the
-10-point array's40-byte declaration. See [Music Room](OP_MUSIC_MENU_REVIEW.md).
+Music Room retains CODE2244/14 procedures and DATA1008. Its BSS1060 has reviewed
+layout and adds zero file-backed bytes; preserve the10-point array's40-byte
+declaration. See [Music Room](OP_MUSIC_MENU_REVIEW.md).
 
-The OP native audit retains the old34-owner observations from immutable
-`6cfa85f` under unchanged native source/tool/staging/output/packing bindings;
-new native scopes are checked independently. Older runtime observations
-remain historical support. No new runtime matrix or ancestor chain was run.
-MAINL/ZUN imported helpers/constants have identical ASTs and all other proof
-inputs are unchanged. Only their shared-module hash binding was updated; their
-audit, gate witnesses and observation time were not rewritten. Equivalence
-receipt: `.analysis/work/select-native-shared-binding.json`.
+OP retains old34-owner observations from immutable `6cfa85f` under unchanged
+native bindings; all40 owners accepted before this turn are unchanged. New title
+scopes are checked independently. MAINL/ZUN shared imports and their helper
+closure have identical ASTs and all other proof inputs are unchanged; only the
+shared-module binding was updated. Their audit, gate witnesses and observation
+times were preserved. Receipt: `.analysis/work/title-native-shared-binding.json`.
 
-Validation:11 focused selection/Music/native-acceptance tests PASS (12.6s).
-The OP publisher/verifier accepts40 extents/10635 file-backed bytes; prior37
-native owner observations and the cold pair remain unchanged. Native observations are
-`.analysis/work/select-native-review.json` and `music-storage-native.json`.
-The interrupted progress-generation run received no success credit. Handoff
-cleanup completed a new generation, then preflight, tracking and progress
-`--check` PASS against the retained inputs. The generator's import check passes.
-No full CI or native cold replay was repeated.
+Current title evidence: `.analysis/work/title-native-review.json`. OP publication
+accepts42 extents/11537 file-backed bytes. The source/tool/staging/output graph,
+complete native cold pair and packed target are unchanged. No full native cold
+replay or ancestor runtime chain was repeated. Validation:30 focused title/current-acceptance/progress/selection checks PASS;
+tracking and progress regeneration/check PASS. `git diff --check` is clean.
 
 ## Verified current source scopes
 
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
-| OP | 40 extents / 65 procedures / 9,140 CODE + 1,495 DATA bytes | Open |
+| OP | 42 extents / 70 procedures / 10,042 CODE + 1,495 DATA bytes | Open |
 | MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
@@ -75,16 +71,12 @@ binding; OP's native builder is also shared by MAINL/ZUN. Preserve actual curren
 inputs. Obsolete logs and verification history may be deleted.
 
 No reconstruction job or ongoing goal is left running. Start with Git,
-`scripts/preflight.py` and the selection review. Remaining OP work can begin
-with selection DATA227/BSS23 or other unowned score producers; inspect actual
-current OMF/MAP boundaries before choosing a scope. This cleanup does not start
-that work. TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04`
+`scripts/preflight.py` and the current review. Remaining OP work can begin with
+score encode165/score-data229, selection DATA227/BSS23 or title DATA31; inspect
+actual current OMF/MAP boundaries before choosing a scope. TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04`
 is an authorized source reference, not a replacement target or build dependency.
 
 The unchanged-graph reuse guard rejects changed source/verifier inputs. Review
 affected native changes rather than refreshing historical runtime receipt hashes.
-Cleanup removed approximately85.9 MiB of obsolete temporary source views,
-cleanup quarantine, Factory experiments and unneeded logs/caches. Current
-receipts and actual inputs remain. Generated progress now summarizes current
-scope rather than repeating historical runtime matrices. No full CI or native
-rebuild is pending merely because this cleanup was performed.
+Generated progress summarizes current scope; historical runtime matrices do
+not add source-exact credit. Preserve current receipts and actual native inputs.

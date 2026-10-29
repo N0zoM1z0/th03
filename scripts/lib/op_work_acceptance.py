@@ -21,6 +21,7 @@ from lib.toolchain import attest_surface
 from lib.op_music_ownership import verify as music_code_scope, SOURCES as MUSIC_CODE_SOURCES
 from lib.op_music_storage import verify as music_storage_scope
 from lib.op_select_native import verify as select_scope, UNITS as SELECT_UNITS, SOURCES as SELECT_SOURCES
+from lib.op_title_native import verify as title_scope, OBJECT as TITLE_OBJECT, SOURCES as TITLE_SOURCES
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -55,7 +56,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/review_th03_op_music_state_work.py", "scripts/lib/op_music_state_layout.py",
                 "scripts/lib/op_music_state_runtime.py", "scripts/lib/op_music_ownership.py",
                 "scripts/review_th03_op_music_menu_work.py", "scripts/lib/op_music_polygon.py",
-                "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py", "scripts/lib/op_music_storage.py", "scripts/lib/op_select_native.py")
+                "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py", "scripts/lib/op_music_storage.py", "scripts/lib/op_select_native.py",
+                "scripts/lib/op_title_native.py")
 
 
 def need(value, message):
@@ -168,6 +170,11 @@ def audit(root):
          'separate complete selection/score-loader owners')
     owners.extend(selection['owners'])
     scope['character_selection'] = selection
+    title = title_scope(root, work, target, candidate, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in title['owners']}),
+         'separate complete title/column owners')
+    owners.extend(title['owners'])
+    scope['title_animation'] = title
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
@@ -216,6 +223,14 @@ def audit(root):
                  "unchanged selection producer inventory; actual slice provenance reviewed independently")
             need(files[wrapper].count(('#include "' + part + '"').encode()) == 1,
                  "actual complete selection/score-loader include")
+        elif o['object'] == TITLE_OBJECT:
+            need(producer['source'] == 'th03/op_main.cpp' and producer['ownership'] == 'maintained-containing'
+                 and producer['maintained_owner_sources'] == ['src/op/menu/title_animation.inl']
+                 and o['source'] in TITLE_SOURCES, 'unchanged generic title producer inventory')
+            # The secondary maintained column include is established by native
+            # dependencies and the literal two-include chain in title_scope.
+            need(o['forwarding_chain'] == ['th03/op_main.cpp', 'th03/op/m_main.cpp', o['source']],
+                 'complete title/column forwarding chain')
         else:
             need(producer["maintained_owner_sources"] == [o["source"]], "current source producer ownership")
         obj = describe_omf((work / o["object"]).read_bytes())
