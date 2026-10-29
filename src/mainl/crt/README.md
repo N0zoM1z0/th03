@@ -1,5 +1,10 @@
 # MAINL semantic CRT reconstruction
 
+[The natural C++ candidate review](../../../docs/MAINL_EXCEPTION_CPP_REVIEW.md)
+adds `new.cpp`, `xalloc.cpp` and `xmsg.cpp`. Their native output remains unmatched;
+they add source presence and zero accepted bytes. Keep their failed raw replay
+separate from the accepted twenty-five-provider library below.
+
 The latest [buffered I/O review](../../../docs/MAINL_STDIO_NATIVE_REVIEW.md)
 validates twenty-five source providers together in one normal CRT library.
 It adds ten complete stream/position/write/DOS TUs and their shared16-bit FILE

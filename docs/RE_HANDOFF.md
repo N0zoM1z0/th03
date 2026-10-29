@@ -6,45 +6,40 @@ Use natural source recovery and exact native output with direct local tools.
 Session preflight is complete for the unchanged environment. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-MAINL now recovers buffered stream/position/write bank:10 TUs,1808 CODE+10
-DATA/INIT bytes,12 extents,13 procedures. Previous193 owners/nested scopes unchanged;
-authored bytes stay16,695. See [buffered I/O review](MAINL_STDIO_NATIVE_REVIEW.md).
+New work is natural C++ source for new/xalloc/xmsg. These are candidates,not
+new exact owners. Accepted MAINL remains205 extents/272 procedures/34,688 bytes.
+See [C++ candidate review](MAINL_EXCEPTION_CPP_REVIEW.md). Six source-present
+extents add2258 gross bytes; presence is240 extents/47,388 bytes.
 
-Fseek492 contains near pop4 buffered-byte helper137,far fseek130/ftell225.
-Preserve signed levels,text LF expansion,relative seek adjustment and append tell's
-seek-end/restore behavior. FILE20 constants are an actual consumed shared include;
-token checks use offset only. Setvbuf289 retains signed mode<=2,unsigned size<=7FFF,
-first-stream flags,unchecked original ownership and ignored fseek return.
+Preserve zero-to-one new size,retry through installed far handler,null-handler
+return,static xalloc("Out of memory",0),deep string copies,throw-by-value and
+delete-before-new assignment. Original modules754/513/955 contain1563 CODE bytes
+in16 far bodies and659 inline EH/type/scope bytes. Xmsg ctor167 is followed by a
+36-byte cleanup record,not more code. New DATA24 has18 initializers and6
+uninitialized object bytes; INIT/EXIT6 each are separate original contributions.
 
-Write358 retains invalid-handle-first check,WORD count0/FFFF fast return,unchecked
-append seek,CR/LF translation and short-write accounting. The128-byte threshold
-is checked after both CR/LF bytes:127 ASCII+LF causes one129-byte DOS write and
-returns input count128. A bounded native probe runs real translated/raw writers
-with only successful DOS AH40h hooked,checking bytes,DS,stack and handle flags.
-Raw write91,seek45 and isatty21 retain original DOS/carry/error behavior.
+Retained TC4 profile -O -r- -Z -xc -Vs -zC_TEXT emits735/502/935. Public/external
+identities and122 field counts match,but raw payload/EXE/MAP fail. Xalloc raise
+127 becomes123; original unused SI/DI saves are omitted and helper choices differ.
+Other tested register/optimization/debug/DLL profiles did not close output;
+DLL-class mangling changes too. Do not assume library compiler equivalence.
+Original xalloc/xmsg MZ vectors descend. Direct TCC keeps this form; ordinary TASM
+differs. No sorting,object patches,dummy variables or source padding to force it.
 
-Fflush209 resets pending count/cursor before write; terminal short writes retain
-success. Flushall76 counts open streams visited regardless of individual failure.
-Exit flush63 visits exactly four slots. Setupio164 is a near startup callback;
-its real INIT6 is type0/priority2/near offset/zero segment. Setvbuf's private flags4
-are genuine initialized DATA. Sole new MZ relocation is CODE4EA7,the far exit-buffer
-callback segment assignment. Near startup/callback offset words do not relocate.
-All58 fields/payloads reviewed;20 far calls relax and3 near IOERROR calls consume2.
-Only write+23 has the exact equivalent target-derived versus explicit same-CODE
-frame. Retain both literal field streams; never sort MZ relocations.
+Two actual compiler/TLIB/TLINK rounds repeat whole three-OBJ/LIB/EXE/MAP vectors.
+Normal893-member library contains28 source providers with19 validated reused
+natural pairs;871 other current members unchanged. Diagnostic review binds actual
+source,all consumed SDK headers,flags,driver and outputs; it enforces source
+acceptance false/accepted bytes0. Full cold/DIET and ancestor runtime not replayed.
+Accepted25-provider library,all205 old owners/scopes and its publication/proof
+inputs stay unchanged. Only source-presence progress changes; OP/ZUN untouched.
 
-Two actual TASM/TLIB/TLINK rounds compose25 source CRT providers:10 new,nine
-validated reused natural pairs and six retained providers.893 positions/874 other
-current members unchanged;36 project objects reused. Whole ten-OBJ/LIB/EXE/MAP
-vectors repeat; full EXE/MAP equal pinned Japanese decoded target/retained MAP.
-All938 cold outputs/source/recipe/tools unchanged. No full cold/DIET or ancestor
-runtime replay. Frozen cold recipe remains six CRT replacements.
-
-Receipts:`mainl-stdio-build.json`, `mainl-stdio-native.json`,
-`mainl-stdio-progress.json` in`.analysis/work/`. Focused checks and tracking pass;
-finish with diff checks. Old193 owners/scopes unchanged; OP acceptance reverified,
-OP/ZUN publications untouched. Only MAINL SVG region/summary/source row refreshed.
-Whole-product source ownership stays open; stream/handle table storage is contextual.
+Receipts:`mainl-exception-cpp-build.json`, `mainl-exception-cpp-review.json`,
+`mainl-exception-cpp-progress.json` in`.analysis/work/`. Continue by identifying
+original register-preservation/exception-helper codegen,not by normalizing failed
+output. The xx dispatcher12622-byte contribution is still unowned; its interspersed
+metadata also needs real source/ownership recovery. Earlier accepted buffered I/O
+1808 CODE+10 DATA/INIT retains all previously recorded behavior and receipts.
 
 Earlier constructors retain RET12; null-first-entry DOSENV counts one byte but
 writes two and returns aligned-offset+1. Do not generalize null-vector and
@@ -98,6 +93,10 @@ Keep actual current proof inputs in `.analysis/work/`:
   `selection-tail.cpp/.lnk`.
 - Resources:`mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors,`resources-root.asm/.lnk`.
+- C++ candidates:`mainl-exception-cpp-build.json`,both three-object
+  `exception-cpp-roundN-NAME.obj`/`.lib`/`.exe`/`.map` vectors,actual three
+  `exception-cpp-source-NAME.cpp`, `exception-cpp-library.rsp`, `exception-cpp-link.lnk`;
+  preserve19 reused natural pairs and the recorded SDK header closure.
 - Buffered I/O:`mainl-stdio-build.json`,both ten-object `stdio-roundN-NAME.obj`/
   `.lib`/`.exe`/`.map` vectors,actual ten `stdio-source-NAME.asm`, `stdio-layout.inc`,
   `stdio-library.rsp`, `stdio-link.lnk`; retain all nine reused natural pairs.

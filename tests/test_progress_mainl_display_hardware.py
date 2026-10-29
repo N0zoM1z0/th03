@@ -15,7 +15,7 @@ class DisplayHardwareProgressTests(unittest.TestCase):
         c=progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"],100)
         self.assertGreaterEqual(c["source_bytes"],25266)
-        self.assertEqual((c["exact"],c["total"]),(0,234))
+        self.assertEqual((c["exact"],c["total"]),(0,240))
         self.assertIn("target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_DISPLAY_HARDWARE_SOURCE_UNITS.values()),2116)
     def test_missing_repeat_evidence_rejects_caption(self):

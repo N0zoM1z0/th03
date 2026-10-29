@@ -95,7 +95,7 @@ class MainlWorkAcceptance(unittest.TestCase):
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [], op_status={'decoded_accepted': False},
                                       zun_status={'decoded_accepted': False})
-        self.assertIn("Decoded acceptance: exact 205/234", svg)
+        self.assertIn("Decoded acceptance: exact 205/240", svg)
         self.assertIn("205 extents / 272 procedures / 34,688 B", svg)
         self.assertIn("CODE 32,770 / DATA 1,918", svg)
         self.assertIn("938 raw outputs", svg)
