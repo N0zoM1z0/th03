@@ -9,9 +9,9 @@ is357 bytes;its trailing descriptors are data,not instructions.
 
 This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new exact credit is granted.** Current
-source produces CODE12556,DATA18 and BSS10. Whole CODE differs,including the
-existing RaiseException frame/EFLAGS gap. No normal-library replacement or
-whole-product source link has been accepted.
+source produces CODE12602,DATA18 and BSS10. Whole CODE differs,including the
+existing RaiseException frame/EFLAGS gap. The full TU now has an unaccepted
+normal-library/whole-product source link;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
 ## Source and native ownership
 
@@ -45,14 +45,14 @@ otherwise compares names. Its current117-byte body remains different from the
 original120;all other new tail bodies retain their original byte counts.
 
 Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
-Bad_typeid22,far typeinfo-pointer descriptor22,vtable12 and typeinfo descriptor/
+Bad_typeid22,far typeinfo-pointer descriptor21,vtable12 and typeinfo descriptor/
 terminated lists60. The generated header retains size8,mask3,class flags1073h,
 base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
 All four internal far pointers bind the real typeinfo descriptor/destructor.
-The current pointer-descriptor alignment zero is emitted as actual nested
-TASM LIDATA,not LEDATA. The local reviewer expands the real checked record
-`01c33001000100010000000100` and binds that single initialized byte. No target
-byte is inserted into source or patched into an object.
+Current tail metadata is135 bytes versus original136. Earlier code layout
+required a one-byte vtable alignment initializer emitted as nested TASM LIDATA;
+the current layout is already aligned and emits none. The reviewer checks the
+actual alignment and expands any real iterated records;it never inserts a byte.
 
 ## RTTI behavior and focused observations
 
@@ -110,5 +110,5 @@ PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_xx_rtti
 Source presence is250 extents/60028 gross bytes;accepted MAINL remains211 owners/
 288 procedures/36946 bytes. Publication/verifier inputs remain unchanged. Next
 resolve the full TU codegen differences,including RaiseException390/346-byte
-frames and saved EFLAGS84h/80h,then replace xx through the normal library and
-check the affected whole-product link. Whole-game completion remains unknown.
+frames and saved EFLAGS84h/80h,using the current normal-library link and
+checking affected whole-product outputs. Whole-game completion remains unknown.

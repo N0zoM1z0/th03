@@ -95,7 +95,7 @@ def review(root,report=None):
         else:
             need(field['location_type']==1 and field['width']==2,'source offset/displacement WORD')
             image[at:at+2]=(off if field['segment_relative'] else (off-absolute-2)&65535).to_bytes(2,'little')
-    need(bytes(image)==source.program_image[base:base+code_size] and mz==[q.linear for q in source.relocations if base<=q.linear<base+code_size] and len(mz)==20,'all12556 source CODE bytes resolve through actual18 library interfaces and ordered20 MZ words,without miniature traps')
+    need(bytes(image)==source.program_image[base:base+code_size] and mz==[q.linear for q in source.relocations if base<=q.linear<base+code_size] and len(mz)==20,'complete source CODE resolves through actual18 library interfaces and ordered20 MZ words,without miniature traps')
     ds,off,_=coordinates['DATA'];need(source.program_image[ds*16+off:ds*16+off+18]==bytes(p[2,i] for i in range(18)),'all18 DATA bytes bind the actual whole-product DGROUP position')
     original_table=(WORK/'obj/th03/mainl.map').read_text();probes=[];procedures=rows[0]
     original_publics=code_publics((WORK/'vendor/xx.obj').read_bytes(),1)
@@ -122,6 +122,13 @@ def review(root,report=None):
     raw_equal=v['exe']==target.raw;map_equal=v['map']==(WORK/'obj/th03/mainl.map').read_bytes()
     need(not raw_equal and not map_equal,'current full product remains a raw-different candidate,not exact acceptance')
     tail_start=base+procedures[36]['start'];tail_size=code_size-procedures[36]['start']
+    original_bodies=json.loads((root/producer.MINI_REVIEW).read_bytes())['original_bodies'];body_comparisons=[]
+    need(len(original_bodies)==len(procedures)==50,'complete original/current function comparison scope')
+    for old,new in zip(original_bodies,procedures):
+        at=base+new['start']
+        body_comparisons.append(dict(name=old['name'],original_bytes=old['size'],candidate_bytes=new['size'],
+            size_delta=new['size']-old['size'],raw_equal=source.program_image[at:at+new['size']]==target.program_image[old['start']:old['start']+old['size']]))
+    need(body_comparisons[15]==dict(name='dispatchException',original_bytes=140,candidate_bytes=140,size_delta=0,raw_equal=True),'complete140-byte normal-linked dispatcher matches the fixed target without normalization')
     return dict(complete=True,source_acceptance=False,accepted_source_bytes=0,whole_product_linked=True,whole_product_accepted=False,
         selected_build_report_sha256=sha(raw),review_driver_sha256=sha((root/'scripts/review_th03_mainl_xx_work.py').read_bytes()),source_sha256=r['source_sha256'],baseline=baseline,
         normal_library_members=893,unchanged_surrounding_members=892,source_CRT_providers=29,reused_source_CRT_providers=28,reused_source_provider_names=previous_providers,retained_project_objects=36,retained_binary_inputs=39,
@@ -129,6 +136,7 @@ def review(root,report=None):
         original_relocation_count=len(target.relocations),candidate_relocation_count=len(source.relocations),original_MZ_relocations=[[q.segment,q.offset] for q in target.relocations],candidate_MZ_relocations=[[q.segment,q.offset] for q in source.relocations],
         whole_EXE_raw_equal=raw_equal,whole_MAP_raw_equal=map_equal,original_xx_CODE_bytes=12622,candidate_xx_CODE_bytes=code_size,native_module_coordinates=coordinates,
         original_RTTI_tail_bytes=1735,candidate_RTTI_tail_bytes=tail_size,RTTI_tail_raw_equal=source.program_image[tail_start:tail_start+tail_size]==target.program_image[0x8294:0x895B],
+        raw_function_comparisons=body_comparisons,
         candidate_literal_native_fields=fields,candidate_ordered_xx_MZ_words=mz,candidate_LIDATA_records=iterated,actual22_public_bindings=bindings,all_source_CODE_bytes_resolved=True,all18_interfaces_resolved_to_real_library=True,
         target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)

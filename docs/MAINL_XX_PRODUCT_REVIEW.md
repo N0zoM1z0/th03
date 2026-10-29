@@ -6,7 +6,7 @@ actual MAINL project. This is a **raw-different diagnostic candidate**,with no
 new source-exact credit or published product acceptance.
 
 Two real BCC4.5/TASM/TLIB/TLINK rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP
-vectors. The full candidate EXE is67308 bytes;the fixed Japanese decoded target
+vectors. The full candidate EXE is67356 bytes;the fixed Japanese decoded target
 is67372. Both headers are4096 bytes and have677 relocation entries;the complete
 ordered vectors remain separate and different. Equal counts are not exactness.
 
@@ -40,10 +40,10 @@ The shared miniature recipe and prior source/receipt bindings also stay current.
 
 ## Whole-product field and ABI review
 
-The actual MAP allocates xx CODE at0000:580D,size12556;original size is12622.
+The actual MAP allocates xx CODE at0000:580D,size12602;original size is12622.
 DATA18 remains at DGROUP:1172 and BSS10 at DGROUP:2876. The candidate DGROUP is
-0E3B rather than original0E3F. The CODE length difference and ordinary paragraph
-layout produce the64-byte file-size difference;no source padding is introduced.
+0E3E rather than original0E3F. The CODE length difference and ordinary paragraph
+layout produce the16-byte file-size difference;no source padding is introduced.
 All18 initialized DATA bytes agree with the compiler output,and BSS has no
 invented initializers or file-byte credit.
 
@@ -54,8 +54,27 @@ Four arithmetic near-call fields use TASM's explicit CODE frame;their literal
 records stay intact and are checked against the real N_LXMUL/N_LUDIV targets.
 The20 xx MZ segment words match the actual whole EXE in emitted order. Each of
 the22 original public interfaces also binds its real current MAP address.
-The real nested LIDATA initializer is included by its checked record,not filled
-by the reviewer. The full RTTI tail is1732 bytes versus original1735.
+Current source layout needs no vtable-alignment byte. The reviewer derives the
+required alignment from actual label offsets and expands real nested LIDATA only
+when present;it never supplies a missing initializer. The full RTTI tail is1731
+bytes versus original1735.
+
+The reviewer also records complete raw byte comparisons for all50 procedures.
+The private dispatcher's registration alias and handler-disposition locals now
+recover all140 original linked bytes,with no normalization or native fields in
+that body. Typed descriptor caching recovers the72-byte toss frame;source-name
+evaluation precedes destination evaluation. The wrappers save caller PC before
+building their outgoing frame and now have original89/170-byte lengths. They
+still contain raw differences. Raise now uses native PUSHF/POP AX/MOV ordering
+and puts the unhandled termination block after both resume paths;its current
+body is1102 versus original1151. Net CODE length20 is not a differing-byte count.
+
+Private codegen probes found that global -O1 produces the original120-byte
+unlinked `typeinfo::before` body,but also changes other functions. BCC4.5 rejects
+option push/pop;the tried scoped option resets did not restore subsequent helper
+codegen. TASM NOSMART or omitting multipass likewise changes other instructions
+or reserves bytes without obtaining equality. None of these recipe changes is
+adopted. Keep the current real pair while recovering the original source/recipe.
 
 Five focused target/source pairs execute routines from the linked product:
 virtual-address merging,distinct-address ambiguity,downcast source containment,

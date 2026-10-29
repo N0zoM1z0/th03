@@ -14,11 +14,13 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long,
 #define XX_THROW_LINE (*(unsigned far *)((char far *)XX_RUNTIME+0x1A))
 #define XX_THROW_NAME (*(char far * far *)((char far *)XX_RUNTIME+0x1C))
 
-static void far __cdecl tossAnException(xx_type_ptr type,void far *address,
+static void far __cdecl tossAnException(void far *type_id,void far *address,
     xx_type_ptr far *friends,xx_code_ptr copy_constructor,unsigned copy_mask,
     unsigned flags,unsigned line,unsigned char far *file,unsigned long pc,
     int rethrow)
 {
+    // The DOS entry caches the opaque compiler argument as a typed descriptor.
+    xx_type_ptr type = (xx_type_ptr)type_id;
     xx_type_ptr base;
     unsigned size,mask,class_flags;
     xx_exception_ptr exception;
@@ -29,8 +31,8 @@ static void far __cdecl tossAnException(xx_type_ptr type,void far *address,
 
     XX_RUNTIME->saved_ds = _DS;
     XX_THROW_NAME = (char far *)XX_RUNTIME+0x28;
-    destination = XX_THROW_NAME;
     source = (char far *)type+type->name_offset;
+    destination = XX_THROW_NAME;
     for(;*source;source++) {
         if(FP_OFF(destination) < FP_OFF(XX_THROW_NAME)+0x7F)
             *destination++ = *source;
@@ -43,7 +45,7 @@ static void far __cdecl tossAnException(xx_type_ptr type,void far *address,
     mask = type->mask;
     class_flags = (mask & 2) ? type->data.object.flags : 0;
     if(mask & 0x30)
-        base = type->data.pointer.base;
+        base = base->data.pointer.base;
     exception = (xx_exception_ptr)allocExceptMem(size+sizeof(XXException));
     exception->previous = XX_RUNTIME->exceptions;
     XX_RUNTIME->exceptions = exception;
@@ -93,24 +95,29 @@ void far __cdecl _ThrowException(void far *type,void far *address,
     unsigned flags,unsigned line,unsigned char far *file)
 {
     unsigned frame;
+    unsigned long pc;
     asm mov frame,bp;
+    pc = *(unsigned long __ss *)(frame+2);
     tossAnException((xx_type_ptr)type,address,(xx_type_ptr far *)friends,
         (xx_code_ptr)copy_constructor,copy_mask,flags,line,file,
-        *(unsigned long __ss *)(frame+2),0);
+        pc,0);
 }
 
 void far __cdecl _ReThrowException(unsigned line,unsigned char far *file)
 {
     unsigned frame;
-    xx_exception_ptr exception = XX_RUNTIME->exceptions;
+    unsigned long pc;
+    xx_exception_ptr exception;
     asm mov frame,bp;
+    pc = *(unsigned long __ss *)(frame+2);
+    exception = XX_RUNTIME->exceptions;
     if(!exception)
         __call_terminate();
     tossAnException(exception->type,exception->argument_buffer ?
         (char far *)exception+sizeof(XXException) : exception->argument_address,
         exception->friends,(xx_code_ptr)exception->copy_constructor,
         exception->copy_mask,exception->flags,line,file,
-        *(unsigned long __ss *)(frame+2),1);
+        pc,1);
 }
 
 static void far exceptionChainHook() {}
@@ -121,16 +128,18 @@ typedef int (far __cdecl *xx_chain_handler)(XXExceptionRecord far *,
 static int far dispatchException(XXExceptionRecord __ss *record,
     void far *context,xx_registration_ptr target)
 {
-    int unwinding = 0;
     xx_registration_ptr current;
+    int unwinding = 0;
     if(record->flags & 6)
         ++unwinding;
     current = XX_CHAIN;
     exceptionChainHook();
     for(;current != (xx_registration_ptr)0xFFFF && current != target;
         current = current->next) {
-        if(!((xx_chain_handler)current->catcher)(record,current,context,0))
-            return 0;
+        xx_registration_ptr handler_record = current;
+        int disposition = ((xx_chain_handler)handler_record->catcher)(record,current,context,0);
+        if(disposition == 0)
+            return disposition;
         if(unwinding)
             XX_CHAIN = current;
     }
@@ -207,8 +216,10 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
 #define return16 ((XXRaiseReturn16 far *)MK_FP(_ES,_BX))
 
     exceptionContextHook((char __ss *)&context+sizeof(context));
+    // AX also supplies the low half captured by the following PUSHAD.
     asm pushf;
-    asm pop saved_flags;
+    asm pop ax;
+    saved_flags = _AX;
     if(_8086 >= 3) {
         asm .386;
         asm pushad;
@@ -285,10 +296,8 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         }
         else {
             exception.flags |= 2;
-            if(dispatchException(&exception,&context,(xx_registration_ptr)0xFFFF)) {
-                __call_terminate();
-                return;
-            }
+            if(dispatchException(&exception,&context,(xx_registration_ptr)0xFFFF))
+                goto unhandled;
             break;
         }
     }
@@ -322,6 +331,7 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         asm popfd;
         asm retf;
         asm .8086;
+        return;
     }
     else {
         asm mov bx,word ptr context.stack_pointer;
@@ -349,7 +359,10 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         asm popf;
         asm retf;
         asm .8086;
+        return;
     }
+unhandled:
+    __call_terminate();
 }
 
 #undef return32

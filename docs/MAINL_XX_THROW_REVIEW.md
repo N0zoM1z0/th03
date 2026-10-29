@@ -9,18 +9,19 @@ segment words. The fixed Japanese decoded target remains the oracle.
 
 | Procedure | Original bytes | Current candidate bytes |
 | --- | ---: | ---: |
-| tossAnException | 815 | 800 |
-| _ThrowException | 89 | 77 |
-| _ReThrowException | 170 | 158 |
+| tossAnException | 815 | 812 |
+| _ThrowException | 89 | 89 |
+| _ReThrowException | 170 | 170 |
 | exceptionChainHook | 5 | 5 |
-| dispatchException | 140 | 132 |
+| dispatchException | 140 | 140 |
 | _Global_unwind | 71 | 71 |
 | exceptionContextHook | 5 | 5 |
-| RaiseException | 1151 | 1099 |
+| RaiseException | 1151 | 1102 |
 
 Original coverage now forms the continuous583E..8293 range,10838 bytes.
-The front49 bytes and tail1735 bytes of xx CODE,and DATA18/BSS10 ownership,
-remain open. This is not a complete TU or a normal-library replacement.
+The front49 bytes,tail1735 and DATA18/BSS10 are now recovered in the complete
+TU and linked through the normal library;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
+This bounded miniature remains diagnostic context rather than a product link.
 
 ## Recovered source and ABI
 
@@ -38,28 +39,38 @@ and context entries occupy78 original CS bytes. Later flat RTL source differs
 in descriptor-list order and temporary destruction;it is not substituted.
 
 Public compiler-generated throws retain the C++ signature with four far void
-pointers,three WORDs and a far filename. Both wrappers obtain the actual far
-caller PC from SS:BP+2. Rethrow preserves the SS-relative argument-address
+pointers,three WORDs and a far filename. Both wrappers save the actual far
+caller PC from SS:BP+2 into a DWORD local before building the outgoing frame. Rethrow preserves the SS-relative argument-address
 promotion when its buffer flag is clear. Their real outgoing toss frames are32
 bytes,with no extra registration argument. The DOS exception code is0EEFFACEh.
+
+The descriptor argument is cached in a typed local,restoring the original72-byte
+toss frame. The name-source address is evaluated before the destination.
 
 The private dispatcher calls handlers with a far exception record,a near SS
 registration,a far context and zero DWORD argument. Zero means handled;all other
 return values continue the chain. Flags6 select unwind chain updates,which stop
 before the requested registration. A null `_Global_unwind` record creates only
 code26h,flags2 and count0;other fields remain uninitialized. Both original
-five-byte empty hooks are real far functions,not padding.
+five-byte empty hooks are real far functions,not padding. Its registration alias
+and handler-disposition locals recover the complete original140-byte dispatcher:
+all raw linked bytes agree in both the miniature and real normal-library link.
+This is a body comparison,not promotion of the larger source unit.
 
 `RaiseException` uses the compiler's `__saveregs` ten-WORD prologue and far
 return. A CPU byte at `__8086` selects the386 PUSHAD/PUSHFD path. The used204-byte
 context prefix includes the112-byte x87 save area,segment DWORDs and full general
 registers;the original's additional frame ownership is not inferred from these
-accesses. Low register WORDs come from the entry snapshot. Reserved exception
+accesses. PUSHF/POP AX/MOV saves the flags while also changing AX before PUSHAD,as in the
+original;the previous POP-to-local skipped that register effect. Low register
+WORDs come from the entry snapshot. Reserved exception
 code bit10000000h is cleared;argument count caps at15. Noncontinuable handling
 uses C0000025h. Resume writes a48-byte386 or26-byte16-bit frame and changes SS:SP
 before the actual POP/RETF sequence. ES:BX must retain the destination address:
 a spilled local far pointer can overwrite itself as the resume frame is written.
 Natural field writes use Borland register pseudovariables for that address.
+The failed-dispatch terminate block follows both destructive resume paths;the
+explicit C returns after RETF recover that control-flow placement.
 
 ## Native evidence and remaining difference
 
@@ -88,13 +99,12 @@ before the snapshot changes PF. Both full raw context observations are retained.
 The review compares the tested record/register ABI while reporting this flag gap
 explicitly. No flag adjustment or padding is added to manufacture equality.
 
-Candidate throw bank2425 and whole CODE10776 remain raw-different from original
-bank2524 and covered10838. Source presence is247 extents/58226 gross bytes;
-accepted MAINL stays211 owners/288 procedures/36946 bytes. Publication/verifier
-inputs and all938 retained cold outputs are unchanged. Ghidra's fixed decoded
-DB was re-attested before the six supporting decompiles;native boundaries and
-fields are checked independently. No full cold/DIET replay or ancestor runtime
-chain was repeated.
+Candidate throw bank2472 and miniature CODE10823 remain raw-different from
+original bank2524 and covered10838. Equal wrapper sizes89/170 do not establish
+raw equality. Source presence is250 extents/60028 gross bytes;accepted MAINL
+stays211 owners/288 procedures/36946 bytes. Publication/verifier inputs and all938
+retained cold outputs are unchanged. Native boundaries and fields are checked
+independently. No full cold/DIET replay or ancestor runtime chain was repeated.
 
 Current private inputs/receipts use the `xx-throw-*` prefix under
 `.analysis/work/`,plus `mainl-xx-throw-build.json` and
@@ -106,6 +116,6 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_xx_throw.py
 PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_xx_throw
 ```
 
-Next recover the front jump/name and tail RTTI functions,then integrate the full
-TU and resolve the remaining source/codegen/frame/storage gaps. Do not turn
+Next resolve the remaining full-TU source/codegen/frame/storage gaps using the
+normal-library link. Do not turn
 these diagnostic observations into source-exact or whole-game progress.

@@ -6,8 +6,13 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work integrates maintained `src/mainl/crt/xx.cpp` under the real xx
-module name into the normal893-member library and actual MAINL link. The
+Latest work recovers typed descriptor caching,a saved caller-PC local in each
+throw wrapper,dispatcher temporaries and Raise PUSHF/POP AX plus terminate-block
+placement. Complete dispatcher140 raw bytes agree in the miniature and actual
+normal link;wrapper89/170 lengths agree without claiming raw equality.
+
+The maintained `src/mainl/crt/xx.cpp` builds under the real xx
+module name in the normal893-member library and actual MAINL link. The
 independent producer/reviewer are `build_th03_mainl_xx_work.py` and
 `review_th03_mainl_xx_work.py`. Two native compile/TASM/TLIB/TLINK rounds repeat
 full raw ASM/OBJ/LIB/EXE/MAP vectors. All892 surrounding members,28 earlier
@@ -16,13 +21,21 @@ retained. Candidate has29 source providers;no new exact credit is granted.
 See [normal xx review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).
 
-Full candidate EXE67308 differs from fixed Japanese67372;headers4096 and677
-relocation counts agree but raw vectors/MAP differ. xx CODE12556 vs12622 is
-still open;DATA18/BSS10 match at DGROUP:1172/:2876. New DGROUP0E3B vs0E3F gives
-ordinary64-byte file-size movement. Every source CODE byte resolves through
+Full candidate EXE67356 differs from fixed Japanese67372;headers4096 and677
+relocation counts agree but raw vectors/MAP differ. xx CODE12602 vs12622 is
+still open;DATA18/BSS10 match at DGROUP:1172/:2876. New DGROUP0E3E vs0E3F gives
+ordinary16-byte file-size movement. Every source CODE byte resolves through
 181 literal fields and20 ordered xx MZ words in the real full link;all18 library
 interfaces and22 public MAP entries bind. There are no miniature trap providers
-in this executable. Actual TASM LIDATA supplies the vtable-alignment zero.
+in this executable. Current tail metadata135 needs no alignment byte;the reviewer
+derives actual alignment and expands real LIDATA only when present. All50 original/current
+function size and raw-byte comparisons are retained;net length20 is not a count
+of differing bytes. Typed toss cache restores its72-byte frame;body812 vs815.
+Raise body1102 vs1151 and typeinfo::before117 vs120 remain open.
+Private global-O1 probes recover before120 but change other functions;BCC4.5
+option push/pop is unsupported,and tried scoped resets leave helper codegen
+changed. NOSMART/single-pass TASM experiments do not yield equality. Do not
+adopt those options merely to close net length;see the normal product review.
 
 The original carrier is fully reviewed:CODE12622,50 procedures,12088 instruction
 bytes,534 CS data bytes,187 original fields and20 ordered MZ words. Source graph
@@ -41,7 +54,7 @@ original stack ownership is still unproved;do not add a placeholder object or
 flag adjustment. No DOS boot/ending playthrough is claimed.
 
 RTTI: GetTypeInfo is131 bytes,the separate private recursive search582,and
-DynamicCast357. Tail metadata136 is data,not instructions. Search virtual lists
+DynamicCast357. Original tail metadata136 is data,not instructions;current candidate is135. Search virtual lists
 first,skip8,follow virtual entry4 through a segment-preserving WORD address.
 Shared actual addresses merge public access;distinct addresses are ambiguous.
 Downcast proves actual source address and does not add the cross-cast public

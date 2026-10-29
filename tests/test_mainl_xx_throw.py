@@ -14,6 +14,7 @@ class XxThrow(unittest.TestCase):
         self.assertEqual((r['original_bank_size'],r['original_instruction_bytes'],r['original_inline_data_bytes']),(2524,2446,78))
         self.assertEqual((len(r['original_bodies']),len(r['original_literal_native_fields'])),(8,24))
         self.assertTrue(r['same_TU_global_unwind_edge_resolved'])
+        self.assertTrue(r['raw_dispatcher_body_equal'])
         self.assertEqual(len(r['actual_dispatch_global_unwind_calls']),1)
         self.assertEqual(r['original_covered_bytes'],10838)
         a,b=r['target_and_source_throw_probes'][0]

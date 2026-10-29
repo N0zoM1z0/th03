@@ -192,7 +192,9 @@ def review(root,report=None):
         found=re.findall(r'^\s*\d+\s+([0-9A-F]{4})\s+'+re.escape(symbol)+r'\s+label\s+\w+\s*$',v['listing'].decode(),re.M)
         need(len(found)==1,'actual compiler RTTI label: '+symbol);return int(found[0],16)
     positions=[label(n) for n in labels];metadata=new_gaps[-1]
-    need(iterated==[dict(segment=1,offset=positions[3]-1,size=1,record_data_hex='01'+(positions[3]-1).to_bytes(2,'little').hex()+'01000100010000000100')],'actual TASM nested LIDATA supplies the single compiler vtable-alignment zero')
+    expected_iterated=([dict(segment=1,offset=positions[3]-1,size=1,record_data_hex='01'+(positions[3]-1).to_bytes(2,'little').hex()+'01000100010000000100')]
+        if positions[3]-(positions[2]+21)==1 else [])
+    need(iterated==expected_iterated,'only an actually emitted compiler alignment byte has a native LIDATA owner')
     need(positions[:3]==[metadata[0]+o for o in (0,20,42)] and positions[3]==(positions[2]+22)&~1 and positions[4]==positions[3]+12 and positions[4]+60==size,'all generated RTTI/vtable bytes and natural compiler alignment have reviewed ownership')
     for data,at,vt,dtor in [(t,0x88D3,0x8913,0x8398),(candidate.program_image,metadata[0],positions[3],rows[42]['start'])]:
         need(struct.unpack('<5H',data[at:at+10])==(1,1,10,0xFFFF,0) and data[at+10:at+20]==b'Bad_cast\0\0','complete Bad_cast descriptor')
