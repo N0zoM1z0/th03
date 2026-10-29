@@ -31,17 +31,17 @@
       <text x="488" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 459 · Pending 0</text>
   <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="252" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAINL.EXE</text>
-  <text x="24" y="272" fill="#c8cad2" font-family="monospace" font-size="11">199 tracked unit extents</text>
+  <text x="24" y="272" fill="#c8cad2" font-family="monospace" font-size="11">203 tracked unit extents</text>
   <rect x="200" y="245" width="250" height="12" rx="4" fill="#353b52"/>
   <rect x="488" y="245" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="245" width="250.00" height="5" fill="#9b6de3"/>
   <rect x="200" y="252" width="250.00" height="5" fill="#e0af68"/>
-  <rect x="488" y="245" width="202.16" height="12" fill="#55c7a6"/>
-  <text x="200" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 199 · Source 199/199</text>
-  <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Decoded acceptance: exact 149/199</text>
-  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 38,226 B · Heap: 8 procedures / 628 B retained-only</text>
+  <rect x="488" y="245" width="218.13" height="12" fill="#55c7a6"/>
+  <text x="200" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 203 · Source 203/203</text>
+  <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Decoded acceptance: exact 164/203</text>
+  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 38,299 B · Heap: 8 procedures / 628 B retained-only</text>
   </g>
-<text x="200" y="304" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded: 149 extents / 181 procedures / 25,229 B · CODE 23,845 / DATA 1,384 · product open</text>
+<text x="200" y="304" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded: 164 extents / 203 procedures / 26,668 B · CODE 25,207 / DATA 1,461 · product open</text>
 <text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>
   <g aria-label="ZUN.COM bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="354" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>

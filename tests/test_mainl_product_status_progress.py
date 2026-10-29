@@ -22,9 +22,11 @@ status = load('status')
 progress = load('progress')
 CURRENT_UNITS = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
 # This suite exercises the frozen 145-owner publication, with its original
-# containing GRCG/STR_IEQ boundaries. Current tracked scopes use 199 extents; the frozen fixture retains145.
+# containing GRCG/STR_IEQ boundaries. Current tracked scopes use 203 extents; the frozen fixture retains145.
 UNITS = [dict(u) for u in CURRENT_UNITS
          if not u['id'].startswith('th03-mainl-decoded-cutscene-') and u['id'] not in {
+    'th03-mainl-decoded-palette-initialized-data','th03-mainl-decoded-vsync-initialized-data',
+    'th03-mainl-decoded-gaiji-backup-data','th03-mainl-decoded-gaiji-dimensions-data',
     'th03-mainl-decoded-graphics-clip-data','th03-mainl-decoded-graphics-edge-masks',
     'th03-mainl-decoded-graphics-byte-masks','th03-mainl-decoded-heap-initialized-data',
     'th03-mainl-decoded-archive-initialized-data',

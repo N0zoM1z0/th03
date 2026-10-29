@@ -6,49 +6,46 @@ Use natural source recovery and exact native output with direct local tools.
 Session preflight is complete for the unchanged environment. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-MAINL now accepts graphics1439/heap628/stack-memory76 CODE and66 DATA:18 new
-extents/26 procedures/2,209 bytes. ZUN's no-Y-clip writer202 is authored; remaining
-2,007 bytes are library code/storage. Generated EDGES17 WORDs/BYTE_MASK8 BYTEs use
-bit recurrences,not target literals. Clip16/heap8 initialized state and heap8 BSS
-have maintained declarations; BSS adds no file bytes. See
-[graphics/heap review](MAINL_GRAPHICS_NATIVE_REVIEW.md).
+MAINL adds palette/VSync/gaiji:15 extents/22 procedures/1,439 library bytes
+(1,362 CODE+77 file DATA). BSS58 adds zero file bytes. See
+[display review](MAINL_DISPLAY_NATIVE_REVIEW.md). All prior149 owners and nested
+scopes remain unchanged. Current acceptance validates the whole unchanged cold
+source/tool/library graph,retains old97 observations from3e7e9dd and the six
+library-origin corrections,then appends the bounded native reviews.
 
-GRCG rectangle bank has two APIs and a shared6-byte return. Both packed writers
-have one API plus shared6-byte clip exit. EGC_END aliases EGC_START:three bodies,
-not four. Page copy has one far API and a private near plane helper. Heap has
-eight APIs; HMEM_ALLOCBYTE tail-enters allocation,free can borrow its unwind.
-Stack memory has two APIs and a shared6-byte ASSIGNALL continuation. Complete
-near/far cleanup,all93 root fields and empty scoped MZ vectors are checked.
-Sixteen genuine CS WORD fields read the already accepted RotTbl; they are not SMC.
+`palette_show.inl` replaces ORG/DB? with EQU pointing to the real XOR AH immediate
+at18B8; writer needs explicit BYTE PTR. Full266-byte body matches. ORG removal
+changes OMF packet boundaries,not initialized bytes or absolute ordered native
+fields. Literal MZ order and complete public identity remain intact.
 
-New `page_copy.inl` replaces compatibility nopcall with ordinary calls. Independent
-far declarations must be outside CODE:inside the same segment,TASM prematurely
-optimizes them to four bytes. Outside CODE,it emits real five-byte9A calls and
-FAR-pointer fields. Two actual mini links against the real heap/stack-memory
-provider naturally emit NOP/PUSH CS/near CALL,matching the entire108 product bytes.
-No source NOP padding is added. The frozen root retains compatibility calls as
-contextual transport; integrate the demonstrated TU boundary in a future full
-recipe change. Mini context has a real uninitialized32-byte stack and8-byte BSS.
+Six actual independent TUs/context link twice. Nineteen ordinary far calls with
+real FAR-pointer fields naturally become NOP/PUSH CS/near CALL. Far declarations
+outside CODE preserve five-byte calls; same-CODE declarations preserve required
+four-byte forms. No explicit source NOPs or fake callees. The frozen root retains
+compatibility calls as contextual transport; future full recipe work must
+integrate these demonstrated boundaries,as with prior page-copy/archive work.
 
-Two actual selected GAME3 root assembly/link rounds reuse35 project objects/CRT;
-whole raw OBJ/EXE/MAP vectors repeat and equal the pinned Japanese decoded target/
-retained MAP. Five maintained state/table includes occupy original positions.
-Complete native payload/public records and literal FIXUPP order agree. All938
-cold outputs/source/recipe are restored and unchanged; no full cold/DIET replay.
+VSync bank owns246 CODE+4 file-backed CS saved-vector bytes. Those WORDs remain
+DW? with no LEDATA; only their4 bytes use actual independent repeated links.
+Two IRQ entries end IRET; END/LEAVE alias one body. All57 root fields are checked;
+sole scoped MZ0000:1FE5 loads DS. Seven initialized VSync bytes are compiled in
+the independent context object. Ordinary EVEN emits00 while target DATA0849 is
+90; retain old root provider context and give0849 no credit. Palette56 uses
+semantic REPT/bit formulas; private backup2/dimensions8 use genuine WORDs.
 
-Current acceptance validates the complete source/tool/library/cold graph,then
-preserves old97 owner/native/runtime observations from3e7e9dd and six library
-origin corrections. Decoder/resources/file/BFNT/archive/graphics reviews extend
-it. All previous131 owner records and nested scopes remain unchanged this step.
-No ancestor runtime matrices. OP acceptance reverified; OP/ZUN publications
-untouched. Only MAINL SVG region/summary/source-present row were refreshed.
+Two selected root assembly/link rounds reuse35 project objects/CRT. Complete
+raw vectors repeat; full EXE/MAP equal pinned Japanese decoded target/retained
+MAP. All938 cold outputs/source/recipe restored and validated; no full cold,
+DIET or ancestor runtime replay. Receipts:`mainl-display-build.json`,
+`mainl-display-native.json`, `mainl-display-progress.json` in`.analysis/work/`.
 
-Receipts: `.analysis/work/mainl-graphics-build.json`, `mainl-graphics-native.json`,
-`mainl-graphics-progress.json`. Focused native/acceptance/status/progress checks,
-tracking and bounded generated-region checks PASS. `git diff --check` is clean.
-Preserve caller DF where original code assumes it,CLD where present,GRCG's
-CLI/stack extraction/STI and GAME3 glyph ADC/caller-CF quirk. No physical graphics,
-DOS/heap execution or defensive product fixes are claimed.
+Preserve signed fades,caller DF,CLI/STI,GAME3 glyph ADC/caller-CF behavior,
+segment-only callback guard,delay carry handling and unchecked error paths.
+Original BIOS/port waits may be unbounded. No physical graphics/IRQ/DOS execution
+or defensive product fixes are claimed. Focused native/acceptance/status/progress,
+tracking and bounded generated-region checks pass; finish with diff checks.
+OP acceptance reverified; OP/ZUN publications untouched. Only MAINL generated
+SVG region/summary/source-present row refreshed.
 
 ## Accepted source scopes
 
@@ -56,10 +53,10 @@ DOS/heap execution or defensive product fixes are claimed.
 | --- | --- | --- |
 | MAIN | 459 functions /78,737 CODE bytes /106 extents | Open |
 | OP | 60 extents /92 procedures /13,221 CODE +1,764 DATA bytes | Open |
-| MAINL | 149 extents /181 procedures /23,845 CODE +1,384 DATA bytes | Open |
+| MAINL | 164 extents /203 procedures /25,207 CODE +1,461 DATA bytes | Open |
 | ZUN | 77 extents /89 procedures or entries /6,179 CODE bytes | Open |
 
-MAINL accepts25,229 bytes:16,619 authored +8,610 library. ZUN accepts8,635 bytes:
+MAINL accepts26,668 bytes:16,619 authored +10,049 library. ZUN accepts8,635 bytes:
 2,179 authored +1,390 original ASM +5,066 library. Whole-game source/function
 denominators and completion percentage remain unknown. Canonical packed-unit
 credit stays separate. OP/MAINL/ZUN retained cold pairs match decoded and DIET -B
@@ -90,6 +87,9 @@ Keep actual current proof inputs in `.analysis/work/`:
   `selection-tail.cpp/.lnk`.
 - Resources:`mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors,`resources-root.asm/.lnk`.
+- Display:`mainl-display-build.json`,both `display-roundN.obj/.exe/.map`
+  vectors,`display-root.asm/.lnk`,both six-object `display-mini-roundN-*`/EXE/MAP
+  vectors,the six actual `display-mini-NAME.asm` wrappers and `display-mini.lnk`.
 - Graphics:`mainl-graphics-build.json`,both `graphics-roundN.obj/.exe/.map`
   vectors,`graphics-root.asm/.lnk`,both `graphics-mini-roundN-*`/EXE/MAP vectors,
   actual `graphics-mini-memory.asm`, `graphics-mini-copy.asm`, `graphics-mini.lnk`.
@@ -103,8 +103,7 @@ Keep actual current proof inputs in `.analysis/work/`:
 Acceptance baseline remains3e7e9dd; do not rewrite historical runtime hashes.
 Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
 binding. OP's builder is shared by MAINL/ZUN. Remove obsolete diagnostics after
-preserving actual inputs/outputs. Next providers include palette/vsync/gaiji,
-remaining resident/math/text and CRT scopes. Old cutscene3195/regist2720/root2488
+preserving actual inputs/outputs. Next providers include remaining resident/math/text and CRT scopes. Old cutscene3195/regist2720/root2488
 aggregate rows overlap accepted functions; never count them again. Integrate
 maintained state/tables and native reader/page-copy boundaries when deliberately
 changing full recipes; do not rewrite cold hashes or rebuild everything for
