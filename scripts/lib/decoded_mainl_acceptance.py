@@ -8,6 +8,7 @@ import contextlib
 import csv
 import io
 import json
+import subprocess
 from pathlib import Path
 import tomllib
 
@@ -47,12 +48,14 @@ from review_th03_mainl_scoredat_work import current_scope as scoredat_scope, INP
 from review_th03_mainl_root_orchestration_work import current_scope as root_orchestration_scope, INPUTS as ROOT_ORCHESTRATION_INPUTS
 from review_th03_mainl_text_work import current_scope as text_scope, INPUTS as TEXT_INPUTS
 from lib.decoded_mainl_root_orchestration_layout import transport as root_transport
+from lib.decoded_mainl_pi_decoder_native import verify as pi_decoder_scope, review_library_origins
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
 
 
 PUBLICATION = "config/mainl_work/scoped_acceptance.json"
+BASELINE = "3e7e9dd87dd6899596c1c73295e3ee62d87e443c"
 COMMAND = ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py"
 PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03_mainl_work_scopes.py",
                 "scripts/lib/op_work_acceptance.py", "scripts/status.py", "scripts/validate_tracking.py",
@@ -95,7 +98,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/lib/decoded_mainl_staff_roll_services.py", "scripts/lib/decoded_mainl_staff_roll_machine.py",
                 "scripts/lib/decoded_mainl_staff_roll_runtime.py", "scripts/lib/decoded_mainl_staff_roll_proofs.py")
 
-PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS)))
+PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS,
+    "scripts/lib/decoded_mainl_pi_decoder_native.py", "scripts/lib/op_asset_native.py", "scripts/lib/op_shared_native.py")))
 
 def need(value, message):
     if not value:
@@ -180,44 +184,38 @@ def audit(root):
          and packing["same_tool_roundtrip"] and len(packing["rounds"]) == 2, "two pack/restore rounds")
     need(all(p["sha256"] == sha(stored) and p["bytes"] == len(stored) and p["stored_equal"] and p["roundtrip_equal"]
              for p in packing["rounds"]), "complete stored/decoded roundtrip proof")
-    lifecycle_owners = layout(work, target, candidate)
-    base_scope = dict(owners=lifecycle_owners, runtime=runtime(target, candidate), negative_controls=negative_controls(target))
-    need(base_scope == report["lifecycle_scopes"], "fresh independent scope replay")
-    shared = input_scope(root, "mainl", work, target, candidate, raw_report)
-    sound = sound_scope(root, work, target, candidate, raw_report, graph, files)
-    root_helpers = root_helper_scope(root, work, target, candidate, raw_report, graph, files)
-    pi_free = pi_free_scope(root, work, target, candidate, raw_report, graph, files)
-    pi = pi_scope(root, work, target, candidate, raw_report, graph, files)
-    cdg = cdg_scope(root, work, target, candidate, raw_report, graph, files)
-    cdg_draw = cdg_draw_scope(root, work, target, candidate, raw_report, graph, files)
-    ending = ending_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_draw = staff_draw_scope(root, work, target, candidate, raw_report, graph, files)
-    snow = snow_scope(root, work, target, candidate, raw_report, graph, files)
-    dissolve = dissolve_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_callers = staff_callers_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_hold = staff_hold_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_single = staff_single_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_pair = staff_pair_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_verdict = staff_verdict_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_data = staff_data_scope(root, work, target, candidate, raw_report, graph, files)
-    staff_roll = staff_roll_scope(root, work, target, candidate, raw_report, graph, files)
-    owners = lifecycle_owners + shared["layout"]["owners"] + shared["ending_wait"]["layout"]["owners"] + sound["layout"]["owners"] + root_helpers["layout"]["owners"] + pi_free["layout"]["owners"] + pi["layout"]["owners"] + cdg["layout"]["owners"] + cdg_draw["layout"]["owners"] + ending["layout"]["owners"] + staff_draw["layout"]["owners"] + snow["layout"]["owners"] + dissolve["layout"]["owners"] + staff_callers["layout"]["owners"] + staff_hold["layout"]["owners"] + staff_single["layout"]["owners"] + staff_pair["layout"]["owners"] + staff_verdict["layout"]["owners"] + staff_data["layout"]["owners"] + staff_roll["layout"]["owners"]
-    # Preserve the complete previous 54 owner observations, not merely totals.
-    need(digest(owners) == "452fd185446e95f0f4988def2ec746b19f065703762a93cb99982a6078f00308", "previous54 owner observations unchanged from83706b4")
-    cutscene = cutscene_scope(root, work, target, candidate, raw_report, graph, files)
-    owners += cutscene["layout"]["owners"]
-    need(digest(owners) == "bf5d557cd695a96f6323cab29812d0b71ed5f73f9ec5f33c1bb1b9aaf0263fb3", "previous67 owner observations unchanged from6b6026e4")
-    registration = registration_scope(root, work, target, candidate, raw_report, graph, files)
-    owners += registration["layout"]["owners"]
-    need(digest(owners) == "d739ff033f871dec669cef8a353a2e7bff549582bb9dc169be0e01ec1697fe95", "previous81 owner observations unchanged from175c3ca")
-    scoredat = scoredat_scope(root, work, target, candidate, raw_report, graph, files)
-    owners += scoredat["layout"]["owners"]
-    need(digest(owners) == "5f961a11c5f2eaefb505ee0669021e7d1e7d6482abeeb85d4d4866df3e43fed3", "previous84 owner observations unchanged from06e7f3a")
-    root_orchestration = root_orchestration_scope(root, work, target, candidate, raw_report, graph, files)
-    owners += root_orchestration["layout"]["owners"]
-    need(digest(owners) == "ee4d09337a525496af6b222521329ad0bd407fbe1e003fe81e63661feacf2763", "previous96 owner observations unchanged from2b9fe1c")
-    text_renderer = text_scope(root, work, target, candidate, raw_report, graph, files)
-    owners += text_renderer["layout"]["owners"]
+    # Revalidate the entire unchanged native graph above, then retain complete
+    # prior ownership/runtime observations. New native source review does not
+    # rerun every historical ancestor's emulator matrices.
+    previous_raw = subprocess.check_output(['git', 'show', BASELINE + ':' + PUBLICATION], cwd=root)
+    previous = json.loads(previous_raw)
+    need(previous['schema'] == 'mainl-current-source-acceptance-v1' and
+         previous['state'] == 'repository-local-accepted', 'reviewed prior97 checkpoint')
+    adapted = {'scripts/lib/decoded_mainl_acceptance.py'}
+    for name, expected_hash in previous['proof_inputs'].items():
+        if name not in adapted:
+            need(sha((root / name).read_bytes()) == expected_hash, 'unchanged prior verifier input: ' + name)
+    prior = previous['audit']
+    need(prior['cold_report_sha256'] == sha(raw_report) and prior['recipe_sha256'] == report['recipe_sha256'] and
+         prior['vendor_header_sha256'] == report['vendor_header_sha256'] and prior['library'] == library and
+         prior['source_inventory_sha256'] == digest(report['source_sha256']) and
+         prior['decoded_sha256'] == sha(decoded) and prior['stored_sha256'] == sha(stored),
+         'complete unchanged prior source/tool/output/library/packing graph')
+    policy = tomllib.loads((root / 'config/oracles.toml').read_text())
+    need(previous['owner_oracles'] == oracle_rows(prior, previous['observed_utc'], policy),
+         'complete previous scoped gate evidence remains intact')
+    scope = json.loads(json.dumps(prior['scope']))
+    old_scope_digest = digest(scope)
+    owners = scope['owners']
+    need(len(owners) == 97 and sum(o['size'] for o in owners) == 16362 and
+         sum(o.get('procedure_count', 1) for o in owners) == 102,
+         'complete previously accepted owner cohort, without duplicate historical aggregates')
+    decoder = pi_decoder_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in decoder['owners']}),
+         'new complete library decoder does not duplicate previous ownership')
+    owners.extend(decoder['owners'])
+    scope['pi_decoder_native'] = decoder
+    scope['library_origin_review'] = review_library_origins(root, files, owners)
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -225,7 +223,7 @@ def audit(root):
         segment = o.get("segment", 0xC7E)
         need(u["artifact"] == "th03-mainl" and u["segment"].lower() == f"decoded:{segment:04x}"
              and int(u["offset"], 0) + segment*16 == o["start"] and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"]
-             and u["state"] == "source-present" and u["origin"] == "authored" and u["boundary_state"] == "reviewed"
+             and u["state"] == "source-present" and u["origin"] == o.get("origin", "authored") and u["boundary_state"] == "reviewed"
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
         row, = [r for r in graph if r["output"] == o["object"]]
         if o["object"] == ROOT_OBJECT:
@@ -258,7 +256,6 @@ def audit(root):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
-    scope = dict(base_scope, owners=owners, input_modes=shared, sound=sound, root_helpers=root_helpers, pi_free=pi_free, pi=pi, cdg=cdg, cdg_draw=cdg_draw, ending=ending, staff_draw=staff_draw, snow=snow, dissolve=dissolve, staff_callers=staff_callers, staff_hold=staff_hold, staff_single=staff_single, staff_pair=staff_pair, staff_verdict=staff_verdict, staff_data=staff_data, staff_roll=staff_roll, cutscene=cutscene, registration=registration, scoredat=scoredat, root_orchestration=root_orchestration, text_renderer=text_renderer)
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
@@ -266,6 +263,9 @@ def audit(root):
                 source_inventory_sha256=digest(report["source_sha256"]), source_files=len(files),
                 outputs_per_round=938, project_objects_per_round=36, crt_objects_per_round=6, rounds=2,
                 library=library, decoded_sha256=sha(decoded), stored_sha256=sha(stored), scope=scope,
+                prior_acceptance=dict(baseline_commit=BASELINE, publication_sha256=sha(previous_raw),
+                    complete_prior_scope_sha256=old_scope_digest, unchanged_prior_native_graph=True,
+                    prior_verifier_inputs_unchanged_except=sorted(adapted), prior_runtime_observations_reexecuted=False),
                 product_exact=False, canonical_unit_credit_changed=False)
 
 
@@ -291,12 +291,20 @@ def verify(root, publication):
             artifact_evidence_oracles=set(policy["policy"]["artifact_evidence_oracles"]))
         need(set(GATES) <= passed, "eleven scoped/classed Oracle gates")
     owners = proof['scope']['owners']
+    authored = [o for o in owners if o.get('origin', 'authored') == 'authored']
+    libraries = [o for o in owners if o.get('origin') == 'library']
+    need(len(authored) + len(libraries) == len(owners), 'every accepted owner has an explicit supported origin')
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
-                decoded_exact_units=len(owners), decoded_authored_exact_units=len(owners), decoded_library_exact_units=0,
-                decoded_authored_procedures=sum(o.get('procedure_count',1) for o in owners),
-                decoded_authored_code_bytes=sum(o.get('code_bytes',o['size']) for o in owners),
-                decoded_authored_initialized_data_bytes=sum(o.get('initialized_data_bytes',0) for o in owners),
-                decoded_authored_bytes=sum(o['size'] for o in owners), decoded_library_bytes=0, decoded_exact_unit_ids=sorted(o["unit_id"] for o in owners),
+                decoded_exact_units=len(owners), decoded_authored_exact_units=len(authored), decoded_library_exact_units=len(libraries),
+                decoded_authored_procedures=sum(o.get('procedure_count',1) for o in authored),
+                decoded_authored_code_bytes=sum(o.get('code_bytes',o['size']) for o in authored),
+                decoded_authored_initialized_data_bytes=sum(o.get('initialized_data_bytes',0) for o in authored),
+                decoded_authored_bytes=sum(o['size'] for o in authored), decoded_library_bytes=sum(o['size'] for o in libraries),
+                decoded_library_procedures=sum(o.get('procedure_count',1) for o in libraries),
+                decoded_source_bytes=sum(o['size'] for o in owners), decoded_procedures=sum(o.get('procedure_count',1) for o in owners),
+                decoded_code_bytes=sum(o.get('code_bytes',o['size']) for o in owners),
+                decoded_initialized_data_bytes=sum(o.get('initialized_data_bytes',0) for o in owners),
+                decoded_exact_unit_ids=sorted(o["unit_id"] for o in owners),
                 target_provenance="candidate-local-attested", product_exact=False, mixed_physical_exact_bytes=0,
                 mixed_authored_credit_bytes=0, canonical_file_backed_authored_credit_unchanged=True,
                 factory_accepted=False, whole_game_percentage=None, whole_game_code_denominator_known=False)

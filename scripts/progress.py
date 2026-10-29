@@ -602,7 +602,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
   </g>""")
             if product.get("current_cold_source_scopes"):
-                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded: {product["decoded_exact_units"]} extents / {product.get("decoded_authored_procedures", product["decoded_exact_units"])} procedures / {product["decoded_authored_bytes"]:,} B · CODE {product.get("decoded_authored_code_bytes",product["decoded_authored_bytes"]):,} / DATA {product.get("decoded_authored_initialized_data_bytes",0):,} · product open</text>')
+                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded: {product["decoded_exact_units"]} extents / {product.get("decoded_procedures", product.get("decoded_authored_procedures", product["decoded_exact_units"]))} procedures / {product.get("decoded_source_bytes",product["decoded_authored_bytes"]):,} B · CODE {product.get("decoded_code_bytes",product.get("decoded_authored_code_bytes",product["decoded_authored_bytes"])):,} / DATA {product.get("decoded_initialized_data_bytes",product.get("decoded_authored_initialized_data_bytes",0)):,} · product open</text>')
                 rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>')
             elif mainl_pi_composed(units, evidence or []):
                 rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>')
@@ -765,7 +765,8 @@ def main() -> int:
     from status import mainl_product_status
     mainl_status = mainl_product_status(ROOT, units)
     if mainl_status.get("current_cold_source_scopes"):
-        lines.extend([f"MAINL current decoded source acceptance: {mainl_status['decoded_exact_units']} extents / {mainl_status.get('decoded_authored_procedures', mainl_status['decoded_exact_units'])} procedures / {mainl_status['decoded_authored_bytes']:,} bytes ({mainl_status.get('decoded_authored_code_bytes',mainl_status['decoded_authored_bytes']):,} CODE + {mainl_status.get('decoded_authored_initialized_data_bytes',0):,} initialized DATA). "
+        lines.extend([f"MAINL current decoded source acceptance: {mainl_status['decoded_exact_units']} extents / {mainl_status.get('decoded_procedures', mainl_status.get('decoded_authored_procedures', mainl_status['decoded_exact_units']))} procedures / {mainl_status.get('decoded_source_bytes',mainl_status['decoded_authored_bytes']):,} bytes ({mainl_status.get('decoded_code_bytes',mainl_status.get('decoded_authored_code_bytes',mainl_status['decoded_authored_bytes'])):,} CODE + {mainl_status.get('decoded_initialized_data_bytes',mainl_status.get('decoded_authored_initialized_data_bytes',0)):,} initialized DATA). "
+                      f"Accepted source comprises {mainl_status['decoded_authored_bytes']:,} authored and {mainl_status.get('decoded_library_bytes',0):,} library bytes. "
                       "Complete native ownership/ABI and the retained source-only cold pair are validated. "
                       "Earlier runtime observations remain supporting history, not a per-unit test requirement. "
                       "Unowned context, physical devices and whole-product source ownership remain open; "

@@ -85,7 +85,8 @@ class Tests(unittest.TestCase):
     def render(self, receipt, units=None):
         loader = SimpleNamespace(load_status=Mock(return_value=receipt))
         with patch.dict(sys.modules, {'lib.mainl_product_acceptance': loader, 'status': status}), patch.object(progress, 'mainl_fullcold_current_proven', return_value=True):
-            return progress.render_svg(UNITS if units is None else units, [], [])
+            return progress.render_svg(UNITS if units is None else units, [], [],
+                                       op_status={'decoded_accepted': False}, zun_status={'decoded_accepted': False})
     def assert_zero(self, result):
         self.assertFalse(result['product_exact'])
         for key in ['decoded_exact_units', 'decoded_authored_exact_units', 'decoded_library_exact_units', 'decoded_authored_bytes', 'decoded_library_bytes', 'mixed_physical_exact_bytes', 'mixed_authored_credit_bytes']:
