@@ -49,6 +49,7 @@ from review_th03_mainl_root_orchestration_work import current_scope as root_orch
 from review_th03_mainl_text_work import current_scope as text_scope, INPUTS as TEXT_INPUTS
 from lib.decoded_mainl_root_orchestration_layout import transport as root_transport
 from lib.decoded_mainl_pi_decoder_native import verify as pi_decoder_scope, review_library_origins
+from lib.decoded_mainl_resources_native import verify as resources_scope, TABLE_UNIT, TABLE_SOURCE
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -99,7 +100,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/lib/decoded_mainl_staff_roll_runtime.py", "scripts/lib/decoded_mainl_staff_roll_proofs.py")
 
 PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS,
-    "scripts/lib/decoded_mainl_pi_decoder_native.py", "scripts/lib/op_asset_native.py", "scripts/lib/op_shared_native.py")))
+    "scripts/lib/decoded_mainl_pi_decoder_native.py", "scripts/lib/op_asset_native.py", "scripts/lib/op_shared_native.py",
+    "scripts/lib/decoded_mainl_resources_native.py", "scripts/build_th03_mainl_resources_work.py")))
 
 def need(value, message):
     if not value:
@@ -216,6 +218,10 @@ def audit(root):
     owners.extend(decoder['owners'])
     scope['pi_decoder_native'] = decoder
     scope['library_origin_review'] = review_library_origins(root, files, owners)
+    resources = resources_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in resources['owners']}), 'separate complete SUPER and generated table owners')
+    owners.extend(resources['owners'])
+    scope['resources_native'] = resources
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -229,7 +235,10 @@ def audit(root):
         if o["object"] == ROOT_OBJECT:
             need(row["wrapper"] == ROOT_WRAPPER and row["source"] == ROOT_WRAPPER
                  and row["game"] == 3 and row["binary"] == "L" and row["first_binary"] == "mainl"
-                 and ('include '+o["source"]).encode() in files[ROOT_WRAPPER], "actual maintained root include producer")
+                 and (o['unit_id'] == TABLE_UNIT or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
+            if o['unit_id'] == TABLE_UNIT:
+                need(o['source'] == TABLE_SOURCE and o['maintained_native_object'] == '.analysis/work/resources-round1.obj',
+                     'actual separately rebuilt generated table producer; frozen cold wrapper remains contextual')
         else:
             need(row["source"] == o["source"], "actual source producer ownership")
         if o["source"] == INPUT_SOURCE:
@@ -241,7 +250,11 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        if o["source"] in ('src/mainl/root/complete_data.cpp', 'src/mainl/root/continue.cpp'):
+        if o['unit_id'] == TABLE_UNIT:
+            # resources_scope binds the real selected wrapper, new source,
+            # entire native record stream and both target-equal link rounds.
+            need(o['source'] == TABLE_SOURCE, 'explicit selected generator source transport')
+        elif o["source"] in ('src/mainl/root/complete_data.cpp', 'src/mainl/root/continue.cpp'):
             # The bounded native layout verifies the literal composer transform;
             # no generic source-equality bypass is introduced for other owners.
             need(files[row['wrapper']].replace(b"\r\n", b"\n") == root_transport(o['source'], (root / o['source']).read_bytes()),
