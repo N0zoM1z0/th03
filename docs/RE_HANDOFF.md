@@ -6,25 +6,39 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work adds the complete `src/mainl/crt/xx.cpp` source graph,with new
-`xx_front.inl`49 bytes and `xx_rtti.inl`1735 bytes. Entire original xx CODE12622
-has50 complete procedures/12088 instruction bytes/534 CS data bytes. All187
-literal fields and20 ordered MZ segment words reproduce the fixed original
-carrier. DATA18 matches original OMF/target;used BSS10 is genuinely uninitialized.
-Source presence is250 extents/60,028 gross bytes;accepted MAINL stays211 owners/
-288 procedures/36,946 bytes. See [RTTI review](MAINL_XX_RTTI_REVIEW.md) and
-[throw review](MAINL_XX_THROW_REVIEW.md). No new exact credit or normal-library
-replacement is claimed. Next close whole-TU codegen gaps,then integrate xx into
-the normal library and affected whole-product link.
+Latest work integrates maintained `src/mainl/crt/xx.cpp` under the real xx
+module name into the normal893-member library and actual MAINL link. The
+independent producer/reviewer are `build_th03_mainl_xx_work.py` and
+`review_th03_mainl_xx_work.py`. Two native compile/TASM/TLIB/TLINK rounds repeat
+full raw ASM/OBJ/LIB/EXE/MAP vectors. All892 surrounding members,28 earlier
+source providers,36 project objects and real startup/two SDK libraries are
+retained. Candidate has29 source providers;no new exact credit is granted.
+See [normal xx review](MAINL_XX_PRODUCT_REVIEW.md),
+[RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).
 
-Two actual scoped BCC4.5/TASM/miniature TLINK rounds repeat full raw ASM/two-OBJ/
-EXE/MAP vectors;all64 available headers are bound and listing clocks retained.
-Current CODE12556 remains different from original12622;DATA18/BSS10 match.
-The original22 public interfaces and18 imports are present. All private banks
-and register jump now resolve inside the TU. Current RTTI metadata136 includes
-one real nested LIDATA zero from TASM;expand its record rather than filling a
-missing LEDATA byte. Prior scoped receipts,211 owners/publication/verifier inputs
-and938 cold outputs remain unchanged. No ancestor runtime chain or full cold.
+Full candidate EXE67308 differs from fixed Japanese67372;headers4096 and677
+relocation counts agree but raw vectors/MAP differ. xx CODE12556 vs12622 is
+still open;DATA18/BSS10 match at DGROUP:1172/:2876. New DGROUP0E3B vs0E3F gives
+ordinary64-byte file-size movement. Every source CODE byte resolves through
+181 literal fields and20 ordered xx MZ words in the real full link;all18 library
+interfaces and22 public MAP entries bind. There are no miniature trap providers
+in this executable. Actual TASM LIDATA supplies the vtable-alignment zero.
+
+The original carrier is fully reviewed:CODE12622,50 procedures,12088 instruction
+bytes,534 CS data bytes,187 original fields and20 ordered MZ words. Source graph
+and source presence remain250 extents/60,028 gross bytes;accepted MAINL stays211
+owners/288 procedures/36,946 bytes. Published28-provider baseline and verifier
+inputs,all39 current retained binary link inputs and938 cold outputs are unchanged.
+No full cold/DIET or ancestor runtime chain is replayed. Next resolve full-TU
+codegen/frame/field gaps using this real link,then require raw EXE/MAP equality
+before promotion. Do not substitute the candidate into the accepted publication.
+
+Five linked-product RTTI/jump pairs agree;the linked386 RaiseException path also
+executes the actual normal-library memcpy twice without import redirection.
+Modified EAX and other full registers agree,but saved EFLAGS84h/80h remain.
+Thus the390/346 frame gap is independent of the miniature helper fixture. Extra
+original stack ownership is still unproved;do not add a placeholder object or
+flag adjustment. No DOS boot/ending playthrough is claimed.
 
 RTTI: GetTypeInfo is131 bytes,the separate private recursive search582,and
 DynamicCast357. Tail metadata136 is data,not instructions. Search virtual lists
@@ -100,7 +114,8 @@ no imported helper executes. Do not import later WITHVT/NEWXX/Delphi paths.
 
 A private `TH03-mainl-decoded-fixed` Ghidra database was independently attested
 against the existing67372-byte decoded Japanese target before observations.
-Current receipts:`mainl-xx-rtti-build.json`, `mainl-xx-rtti-review.json`,
+Current receipts:`mainl-xx-product-build.json`, `mainl-xx-product-review.json`,
+`mainl-xx-rtti-build.json`, `mainl-xx-rtti-review.json`,
 `mainl-xx-throw-build.json`, `mainl-xx-throw-review.json`,
 `mainl-xx-types-build.json`, `mainl-xx-types-review.json`,
 `mainl-xx-catch-build.json`, `mainl-xx-catch-review.json`,
@@ -177,7 +192,12 @@ TH03ZUN. Actual source archive:
 
 Keep actual current proof inputs in `.analysis/work/`:
 
-- Full XX candidate:`mainl-xx-rtti-build.json`, `mainl-xx-rtti-review.json`,
+- Normal XX product candidate:`mainl-xx-product-build.json`,
+  `mainl-xx-product-review.json`,both `xx-product-roundN-xx.asm/.obj/.lst`,
+  `xx-product-roundN-xxcrt.lib`, `xx-product-roundN-xxfull.exe/.map`,actual
+  transported sources/maintained-TU snapshot,extract/library/link responses and
+  native logs. Keep the reviewed28-provider normal library pair as its baseline.
+- Earlier full XX miniature:`mainl-xx-rtti-build.json`, `mainl-xx-rtti-review.json`,
   both `xx-rtti-roundN-xxdisp.asm/.obj/.lst`, `xx-rtti-roundN-xxctx.obj`,
   `xx-rtti-roundN-xxmini.exe/.map`,actual wrapper/transported source TU and
   includes,context/link response and native phase logs.
