@@ -26,6 +26,7 @@ from lib.op_score_native import verify as score_scope
 from lib.op_shared_native import verify as shared_native_scope, UNITS as SHARED_NATIVE_UNITS
 from lib.op_cdg_draw_native import verify as cdg_draw_scope
 from lib.op_input_native import verify as input_scanner_scope, UNIT as INPUT_SCANNER_UNIT
+from lib.op_asset_native import verify as asset_scope, UNITS as ASSET_UNITS, PF_UNIT as ASSET_PF_UNIT
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -64,7 +65,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/lib/op_title_native.py", "scripts/lib/op_score_native.py", "scripts/lib/op_shared_native.py",
                 "scripts/lib/decoded_mainl_cdg_layout.py", "scripts/lib/decoded_mainl_text_layout.py",
                 "scripts/review_th03_shared_text.py", "scripts/lib/op_cdg_draw_native.py",
-                "scripts/lib/decoded_mainl_cdg_draw_layout.py", "scripts/lib/op_input_native.py")
+                "scripts/lib/decoded_mainl_cdg_draw_layout.py", "scripts/lib/op_input_native.py",
+                "scripts/lib/op_asset_native.py", "scripts/lib/decoded_mainl_pi_layout.py")
 
 
 def need(value, message):
@@ -201,6 +203,10 @@ def audit(root):
     need(INPUT_SCANNER_UNIT not in {o['unit_id'] for o in owners}, 'separate complete scanner function')
     owners.extend(input_scanner['owners'])
     scope['input_scanner'] = input_scanner
+    assets = asset_scope(root, work, target, candidate, files)
+    need(not ({o['unit_id'] for o in owners} & ASSET_UNITS), 'separate complete PI/PFOPEN functions')
+    owners.extend(assets['owners'])
+    scope['asset_loading'] = assets
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
@@ -249,6 +255,11 @@ def audit(root):
                  "unchanged selection producer inventory; actual slice provenance reviewed independently")
             need(files[wrapper].count(('#include "' + part + '"').encode()) == 1,
                  "actual complete selection/score-loader include")
+        elif o['unit_id'] == ASSET_PF_UNIT:
+            need(producer == dict(source='th03_optail.asm', command='-DGAME=3', output='obj/th03/optail.obj') and
+                 o['forwarding_chain'] == ['th03_optail.asm', 'th03/formats/pfopen.asm', o['source']] and
+                 files['th03/formats/pfopen.asm'] == (root / o['source']).read_bytes(),
+                 'actual split PFOPEN producer and exact maintained source copy')
         elif o['unit_id'] == INPUT_SCANNER_UNIT:
             need(producer['source'] == 'th03/input_s.cpp' and producer['ownership'] == 'maintained-containing'
                  and producer['maintained_owner_sources'] == ['src/op/hardware/input_sense.cpp']
@@ -268,7 +279,7 @@ def audit(root):
         for name in obj["dependency_paths"]:
             name = re.sub(r"/+", "/", name.replace(chr(92), "/"))
             if name.startswith("C:/TC4/INCLUDE/"):
-                sdk_scope = shared_native if o['unit_id'] in SHARED_NATIVE_UNITS else music_state if o["object"] == MUSIC_OBJECT else configuration
+                sdk_scope = assets if o['unit_id'] in ASSET_UNITS else shared_native if o['unit_id'] in SHARED_NATIVE_UNITS else music_state if o["object"] == MUSIC_OBJECT else configuration
                 need(name in sdk_scope["sdk_sha256"], "consumed producer-specific SDK declaration")
             else:
                 need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name],
