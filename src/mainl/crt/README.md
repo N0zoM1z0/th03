@@ -6,7 +6,10 @@ Current decoded ownership is documented in
 `farheap.asm` adds the paragraph allocation/free/reallocation bank, with1,103
 CODE and12 file-backed CS state bytes. A selected normal-library replacement
 rebuilds this seventh provider twice while preserving the unchanged full cold
-pair. The historical observations below describe earlier checkpoints and do
+pair. [The overlay execution review](../../../docs/MAINL_EXEC_NATIVE_REVIEW.md)
+adds `exec.asm` and demonstrates all eight source providers in one normal
+library, reusing the unchanged farheap object. The historical observations below
+describe earlier checkpoints and do
 not define current source acceptance or its remaining whole-product limits.
 
 These six semantic ASM providers have actual source-consumption, native repetition, linked

@@ -23,7 +23,7 @@ class RootTailProgressTests(unittest.TestCase):
         c=progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"],116)
         self.assertGreaterEqual(c["source_bytes"],25988)
-        self.assertEqual((c["exact"],c["total"]),(0,211))
+        self.assertEqual((c["exact"],c["total"]),(0,212))
         self.assertIn("target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_ROOT_TAIL_SOURCE_UNITS.values()),722)
     def test_missing_repeat_evidence_rejects_caption(self):
