@@ -5,7 +5,8 @@ monolithic `xx.cpp` TU. It is an include rather than a proposed new product TU.
 The bank at0000:72B3 spans1565 bytes:1533 instruction bytes in five procedures
 and32 bytes of actual inline tables/signature. It is source-present,with zero
 new exact credit. MAINL acceptance stays211 extents/288 procedures/36,946 bytes.
-Source presence becomes241 extents/48,953 gross bytes.
+With the subsequent [destruction bank](MAINL_XX_DESTRUCTION_REVIEW.md),current
+source presence is242 extents/51,453 gross bytes.
 
 | Bank-relative offset | Procedure | Instruction bytes | Return |
 | ---: | --- | ---: | --- |
@@ -74,6 +75,12 @@ far calls become external five-byte calls; stack-cleanup grouping and field
 streams differ. The diagnostic does not replace the original normal library
 member or link the whole product. Exact ownership requires recovering and
 integrating the surrounding xx TU,not normalizing these differences.
+
+The subsequent destruction bank now provides static near dtorCleanup in a
+combined same-TU miniature. The shared ABI header has expanded descriptor/list
+prefixes; this isolated dispatch diagnostic supplies its external cleanup
+declaration only in its wrapper. Its native pair and evidence receipts were
+refreshed. The integrated result and remaining interfaces are reviewed separately.
 
 A single targeted native probe runs the negative constant C-filter branch in
 the real target and real mini-linked source. Both return0 through the far

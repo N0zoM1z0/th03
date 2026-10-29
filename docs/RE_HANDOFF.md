@@ -6,21 +6,24 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work is `xx_dispatch.inl` plus `xx_abi.h`: a bounded include in the
-original xx.cpp TU,not a new product TU. Its original bank72B3..78CF is1565
-bytes:1533 instructions in five complete procedures and32 CS table/tag bytes.
-Main dispatcher is880 bytes,local_unwind447; do not count the whole public-symbol
-gap as dispatcher code. Source presence is241 extents/48,953 gross bytes;
-accepted MAINL stays211 extents/288 procedures/36,946 bytes.
-See [xx dispatch review](MAINL_XX_DISPATCH_REVIEW.md).
+Latest work adds `xx_destroy.inl` after `xx_dispatch.inl` in the original xx.cpp
+TU. Destruction bank78D0..8293 is2500 bytes:2422 instructions in six private
+procedures and78 inline EH bytes. dtorCleanup is1035 bytes,destroyVariable715;
+their real returns/branches and complete original fields are reviewed. Combined
+original bank72B3..8293 is4065 bytes. Source presence is242 extents/51,453 gross
+bytes; accepted MAINL stays211 extents/288 procedures/36,946 bytes.
+See [xx destruction review](MAINL_XX_DESTRUCTION_REVIEW.md) and
+[dispatch review](MAINL_XX_DISPATCH_REVIEW.md).
 
 Two actual BCC4.5 -O2-pg -Os -Z- -S / TASM / miniature TLINK rounds repeat
-full generated ASM/two-OBJ/mini-EXE/MAP vectors. Candidate CODE1566 has the
-original three public entry offsets,but fails whole-bank raw equality. Seven
-surrounding helper interfaces remain unresolved for full-TU integration. Trap
-providers are diagnostic-only and must never be treated as runtime replacements.
-The whole product/library was not linked; no exact credit is added. All211
-accepted owners/publication/verifier inputs and938 cold outputs remain unchanged.
+full generated ASM/two-OBJ/mini-EXE/MAP vectors. Integrated candidate CODE4087
+has the original three public entry offsets,but fails whole-bank raw equality.
+Static near dtorCleanup now resolves within this TU;17 surrounding runtime
+interfaces remain unresolved. Trap providers are diagnostic-only. The177-byte
+true-type helper has raw equality,but no normal-library replacement/whole-product
+link or exact credit is claimed. Both complete TASM listings are retained; their
+page clocks differ. All211 accepted owners/publication/verifier inputs and938
+cold outputs remain unchanged. Dispatch-only pair was refreshed for the ABI header.
 
 Preserve DOS ABI: SS:14 near chain,SS:16 far runtime pointer,registration DS/SI
 at14/16,DWORD initial dtor count at26,descriptor free DS at24 and far callback26.
@@ -31,12 +34,23 @@ constant C-filter probe confirms noncontinuable context0010->0006,return0 and
 far cdecl SS/register traffic; no helper is executed. Other runtime branches and
 physical DOS behavior remain unproved. Retain original unchecked descriptor use.
 
+Destruction ABI: empty table compares only offsetFFFF; global SS:10 and initial
+counts are DWORDs,class counts+1A/+1C are WORDs. RETCTX20 is active in this older
+counter model; DTCADJ100 returns the nonvirtual count. Base/member/DTT strides
+are8/6/10. Virtual-base offsets retain the object segment; FAR_VPTR1000 selects
+a far vtable. The DOS member loop reuses the search element count,and virtual
+destructor adjustment leaves the allocation pointer unchanged for release.
+Target/source probes confirm the offset-only near return and far RTTI/SS output;
+no imported helper executes. Do not import later WITHVT/NEWXX/Delphi paths.
+
 A private `TH03-mainl-decoded-fixed` Ghidra database was independently attested
 against the existing67372-byte decoded Japanese target before observations.
-Current receipts:`mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
+Current receipts:`mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,
+`mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
 `mainl-decoded-fixed-attestation.json`; the old packed MAINL DB is not a decoded
-runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover the
-surrounding xx helpers and integrate the whole TU; do not normalize the candidate.
+runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover
+callDestructor/callMemberFunc to close the destruction bank's direct edges,then
+the remaining copy/catch helpers and whole TU; do not normalize the candidate.
 
 Earlier natural C++ new/xalloc/xmsg exact ownership retains six owners2258
 bytes:1563 CODE,659 inline DATA,30 other initialized DATA and6 genuinely
@@ -110,6 +124,10 @@ Keep actual current proof inputs in `.analysis/work/`:
   `xx-dispatch-context.asm`, `xx-dispatch-mini.lnk` and native phase logs.
   Preserve the scoped BC45 files and all64 bound available SDK headers.
   Retain the derived decoded database/attestation and original xx OMF context.
+  Also keep both integrated `xx-destruction-roundN-xxdisp.asm/.obj/.lst`,
+  `xx-destruction-roundN-xxctx.obj`, `xx-destruction-roundN-xxmini.exe/.map`,
+  `mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,actual
+  `xx-destruction-source-*`,wrapper/context/link response and native phase logs.
 
 - Scanner:`input-nostring.json`, `input-nostring.obj`, `input-assembly.obj`.
 - Sound:`sound-bodies.json`,two stripped `sound-bodyN.c` inputs/four OBJ outputs.

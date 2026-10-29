@@ -25,6 +25,51 @@ struct XXContextTable {
     unsigned bp_offset;
 };
 
+// Type descriptors and their relative lists retain the DOS word counts. The
+// array descriptor stores a DWORD length; these cleanup paths consume its low
+// WORD, as do the original descriptor accesses.
+struct XXType {
+    unsigned size;
+    unsigned mask;
+    unsigned name_offset;
+    union {
+        struct { xx_type_ptr base; } pointer;
+        struct { xx_type_ptr element; unsigned long count; } array;
+        struct {
+            unsigned vptr_offset;
+            unsigned flags;
+            unsigned bases_offset;
+            unsigned virtual_bases_offset;
+            xx_code_ptr delete_address;
+            unsigned delete_mask;
+            unsigned delete_array_mask;
+            xx_code_ptr delete_array_address;
+            unsigned dtor_count;
+            unsigned nonvirtual_dtor_count;
+            xx_code_ptr dtor_address;
+            unsigned dtor_mask;
+            unsigned members_offset;
+        } object;
+    } data;
+};
+
+struct XXBase {
+    xx_type_ptr type;
+    unsigned offset;
+    unsigned flags;
+};
+
+struct XXMember {
+    xx_type_ptr type;
+    unsigned offset;
+};
+
+struct XXDtorTable {
+    xx_type_ptr type;
+    unsigned flags;
+    union { void far *address; unsigned frame_offset; } location;
+};
+
 struct XXRegistration {
     xx_registration_ptr next;
     xx_code_ptr catcher;
@@ -110,6 +155,13 @@ typedef char xx_descriptor_registration[(offsetof(XXException,registration)==36)
 typedef char xx_descriptor_payload[(sizeof(XXException)==58) ? 1 : -1];
 typedef char xx_handler_size[(sizeof(XXHandler)==16) ? 1 : -1];
 typedef char xx_exception_arguments[(offsetof(XXExceptionRecord,information)==16) ? 1 : -1];
+typedef char xx_type_prefix_bytes[(sizeof(XXType)==38) ? 1 : -1];
+typedef char xx_type_dtor_count[(offsetof(XXType,data.object.dtor_count)==26) ? 1 : -1];
+typedef char xx_type_dtor_address[(offsetof(XXType,data.object.dtor_address)==30) ? 1 : -1];
+typedef char xx_type_members[(offsetof(XXType,data.object.members_offset)==36) ? 1 : -1];
+typedef char xx_base_bytes[(sizeof(XXBase)==8) ? 1 : -1];
+typedef char xx_member_bytes[(sizeof(XXMember)==6) ? 1 : -1];
+typedef char xx_dtor_table_bytes[(sizeof(XXDtorTable)==10) ? 1 : -1];
 
 enum { XX_FREE_DS = offsetof(XXException,free_ds) };
 
@@ -119,7 +171,9 @@ enum { XX_FREE_DS = offsetof(XXException,free_ds) };
 // Private interfaces belong to the surrounding xx TU. Their bodies remain
 // outside this recovered bank; declaring them does not provide replacements.
 int near typeIDcaught(xx_type_ptr,xx_type_ptr far *,xx_type_ptr,unsigned,int);
-int near dtorCleanup(XXDtorTable far *,long,xx_registration_ptr,unsigned);
+// The enclosing xx TU declares its static near dtorCleanup before the dispatch
+// include, and defines it in xx_destroy.inl. Isolated diagnostics supply their
+// own external declaration instead.
 void near exceptionHandled(xx_exception_ptr);
 void near initCatchArg(XXHandler far *,xx_registration_ptr,xx_exception_ptr,
     XXHandlerTable far *,unsigned);
