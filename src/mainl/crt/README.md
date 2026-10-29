@@ -1,5 +1,14 @@
 # MAINL semantic CRT reconstruction
 
+Current decoded ownership is documented in
+[the six-provider review](../../../docs/MAINL_CRT_NATIVE_REVIEW.md) and
+[the complete far-heap review](../../../docs/MAINL_FARHEAP_NATIVE_REVIEW.md).
+`farheap.asm` adds the paragraph allocation/free/reallocation bank, with1,103
+CODE and12 file-backed CS state bytes. A selected normal-library replacement
+rebuilds this seventh provider twice while preserving the unchanged full cold
+pair. The historical observations below describe earlier checkpoints and do
+not define current source acceptance or its remaining whole-product limits.
+
 These six semantic ASM providers have actual source-consumption, native repetition, linked
 image and CPU-model evidence. They are not copied library implementations. Source coverage
 is distinct from formal exact or canonical packed acceptance; neither is claimed here.

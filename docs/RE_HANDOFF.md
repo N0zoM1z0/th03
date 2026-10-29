@@ -6,52 +6,50 @@ Use natural source recovery and exact native output with direct local tools.
 Session preflight is complete for the unchanged environment. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-MAINL adds resident/integer-angle/text/sound/joystick:9 extents,13 procedures,
-559 CODE+18 DATA bytes (76 authored,501 library). Existing172 owners/nested
-scopes remain unchanged. See [resident review](MAINL_RESIDENT_NATIVE_REVIEW.md).
+MAINL now recovers the complete1115-byte paragraph far heap:1103 CODE+12
+file-backed CS storage,14 procedures/ABI entries,all library. Previous181 owners
+and nested scopes unchanged; authored bytes stay16,695. See
+[far-heap review](MAINL_FARHEAP_NATIVE_REVIEW.md).
 
-Corrected the old105-byte joystick aggregate:four bodies/three genuine EVENs
-occupy103 bytes at2AAE..2B14. JS_START42 and JS_SENSE34 are authored TH03 variants;
-SOUND_JOY18 and private SAJOUT9 are library. Surrounding2AAD/2B15 zero bytes stay
-uncredited context. Preserve absent-stick caller-SI OR into js_stat and original
-AX behavior,256-attempt detection,PUSHF/CLI/POPF and original port waits.
+New natural farheap.asm covers circular rover allocation,physical neighbor
+coalescing,top/interior free,heap start/growth and realloc shrinking/moving.
+Returned pointer offset4/header layout is preserved. free/farfree alias one body;
+word/long malloc and realloc entries share far-return bodies. Free insertion
+temporarily accesses the rover through SS under CLI,restoring SS before POPF.
+Realloc growth copies12 initial bytes,then up to64KiB chunks. Keep global scratch,
+16-bit wrapping,ignored offset words,CLD,partial-growth failures and pre-brk state
+writes; no defensive fixes or physical DOS execution claim.
 
-New EXIST/CREATE includes retain MCB offsets0/1/3 and IDLEN10. CREATE removes the
-old compatibility NOP guard; JS_END replaces nopcall. Outside-CODE far declarations
-emit two real5-byte calls/FAR fields; actual TLINK naturally reproduces target
-NOP/PUSH CS/near CALL at27AC/17CA. Six actual modules supply real resident,
-DOS_KEYCLEAR,IATAN2,sound/text and joystick providers. Three joystick near calls
-to actual exported SOUND_I/O have native self-relative fields. All18 module
-fields and13 root fields independently resolve; literal scoped MZ vectors empty.
-Whole six-OBJ/EXE/MAP vectors repeat in two affected native rounds. The odd103-byte
-WORD joystick module naturally creates a zero link gap before the next module.
+Three real zero CS WORDs first/last/rover occupy6 bytes. Three scratch WORDs
+(saved DGROUP,pending resize high/low) remain DW? with no LEDATA. Only those6
+file bytes use actual independently repeated selected links,never invented zeros
+or new source initializers. TASM needs explicit DS: to disambiguate constant
+node offsets; emitted default-DS instructions have no extra prefixes.
 
-Resident identifier10 uses actual pal98 grb string/NUL; joystick DATA8 keeps
-four zero WORDs/all aliases. js_stat4 BSS stays uninitialized with zero file
-credit. AtanTable8 stays contextual DATA here. Preserve integer-angle signed
-magnitude/overflow,DOS allocation fallback/strategy writes,text BP-via-BX frame,
-caller DF and unchecked original behavior. Private SAJOUT is present code,with
-no execution/reachability claim. No source filler,object patches or defensive fixes.
+Complete native initialized payload and all49 absolute ordered native fields
+match the original member. Packetization may differ; field order is never sorted.
+BYTE CODE/WORD empty DATA/DGROUP,all public state/API aliases,complete physical
+bodies/shared exits and empty literal scoped MZ vector checked. Two actual
+TASM/TLIB/TLINK rounds replace only farheap,retain all893 positions/892 other
+current member payloads and reuse36 project objects. Whole raw OBJ/LIB/EXE/MAP
+vectors repeat; full EXE/MAP equal pinned Japanese decoded target/retained MAP.
+All938 cold outputs/source/recipe/tools restored and unchanged. No full cold,
+DIET or ancestor runtime replay. The full cold recipe still replaces six CRT
+members; this selected recipe demonstrates the seventh natural source provider.
+Integrate deliberately when changing full recipes,without rewriting cold hashes.
 
-All938 cold outputs/source/recipe/tools unchanged and validated. No root rebuild,
-full cold/DIET or ancestor runtime replay. Current acceptance preserves old97
-observations from3e7e9dd,then appends reviewed native scopes. Frozen root still
-transports compatibility calls; integrate demonstrated independent TU boundaries
-when deliberately changing full recipes. Receipts:`mainl-resident-build.json`,
-`mainl-resident-native.json`, `mainl-resident-progress.json` in`.analysis/work/`.
+Receipts:`mainl-farheap-build.json`, `mainl-farheap-native.json`,
+`mainl-farheap-progress.json` in`.analysis/work/`. Focused native/acceptance/status/
+progress and tracking pass; finish with diff checks. OP acceptance reverified;
+OP/ZUN publications untouched. Only MAINL SVG region/summary/source-present row
+refreshed. Whole-product source ownership and physical devices remain open.
 
-Earlier findings:CRT628+93 six native source/library members already repeated;
-three near shims synthesize far returns; FFFF resize failure/success collision
-preserved. Palette EQU aliases XOR immediate18B8 without ORG. VSync CS vector4
-stays DW? and uses actual repeated links; DATA0849 target90 vs ordinary EVEN00
-stays uncredited. MAIN EC2D90 vs00 and MZ headers6240/7680 bytes,relocation table
-28/62 remain open; all1553 ordered entries agree. Do not add speculative padding.
-
-Focused native/acceptance/status/progress,tracking and bounded generated-region
-checks pass; finish with diff checks. Historical display fixtures retain their
-old105-byte aggregate only in test projections. OP acceptance reverified; OP/ZUN
-publications untouched. Only MAINL SVG region/summary/source-present row refreshed.
-Physical device behavior and whole-product source ownership remain open.
+Earlier findings:joystick103 has four bodies and three EVENs;2AAD/2B15 zeros
+stay uncredited. CREATE/JS_END use proven ordinary far calls. CRT628+93 six
+members retain near/far bridges and FFFF DOS resize collision. Palette EQU aliases
+XOR immediate18B8 without ORG. VSync CS vector4 stays DW?;DATA0849 target90 vs
+ordinary EVEN00 is uncredited. MAIN EC2D90 vs00 and MZ headers6240/7680 bytes,
+relocation offsets28/62 remain open;1553 ordered entries agree. No padding fixes.
 
 ## Accepted source scopes
 
@@ -59,10 +57,10 @@ Physical device behavior and whole-product source ownership remain open.
 | --- | --- | --- |
 | MAIN | 459 functions /78,737 CODE bytes /106 extents | Open |
 | OP | 60 extents /92 procedures /13,221 CODE +1,764 DATA bytes | Open |
-| MAINL | 181 extents /229 procedures /26,394 CODE +1,572 DATA bytes | Open |
+| MAINL | 182 extents /243 procedures /27,497 CODE +1,584 DATA bytes | Open |
 | ZUN | 77 extents /89 procedures or entries /6,179 CODE bytes | Open |
 
-MAINL accepts27,966 bytes:16,695 authored +11,271 library. ZUN accepts8,635 bytes:
+MAINL accepts29,081 bytes:16,695 authored +12,386 library. ZUN accepts8,635 bytes:
 2,179 authored +1,390 original ASM +5,066 library. Whole-game source/function
 denominators and completion percentage remain unknown. Canonical packed-unit
 credit stays separate. OP/MAINL/ZUN retained cold pairs match decoded and DIET -B
@@ -93,6 +91,8 @@ Keep actual current proof inputs in `.analysis/work/`:
   `selection-tail.cpp/.lnk`.
 - Resources:`mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors,`resources-root.asm/.lnk`.
+- Far heap:`mainl-farheap-build.json`,both `farheap-roundN.obj/.lib/.exe/.map`
+  vectors,actual `farheap-source.asm`, `farheap-library.rsp`, `farheap-link.lnk`.
 - Resident:`mainl-resident-build.json`,both six-object `resident-mini-roundN-*`/
   EXE/MAP vectors,six actual `resident-mini-NAME.asm` wrappers and `resident-mini.lnk`.
 - Display:`mainl-display-build.json`,both `display-roundN.obj/.exe/.map`
@@ -111,8 +111,8 @@ Keep actual current proof inputs in `.analysis/work/`:
 Acceptance baseline remains3e7e9dd; do not rewrite historical runtime hashes.
 Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
 binding. OP's builder is shared by MAINL/ZUN. Remove obsolete diagnostics after
-preserving actual inputs/outputs. Next work includes contextual CRT providers beyond the six reviewed,remaining
-DATA/table ownership and integration of demonstrated native TU boundaries. Old cutscene3195/regist2720/root2488
+preserving actual inputs/outputs. Next work includes further contextual CRT providers,remaining DATA/table
+ownership and integration of demonstrated native TU/library boundaries. Old cutscene3195/regist2720/root2488
 aggregate rows overlap accepted functions; never count them again. Integrate
 maintained state/tables and native reader/page-copy boundaries when deliberately
 changing full recipes; do not rewrite cold hashes or rebuild everything for
