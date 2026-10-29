@@ -1,11 +1,14 @@
 # MAINL semantic CRT reconstruction
 
-The latest [DOS path review](../../../docs/MAINL_PATH_NATIVE_REVIEW.md) validates
-fifteen source providers together in one normal CRT library. It adds complete
-`fullpath.asm`, `getdcwd.asm`, `pathops.asm` and `dosgdriv.asm`, including the actual
-DBCS vector/fallback DATA and near startup record. The frozen full cold recipe
-still replaces six providers; bounded current links compose the newer providers
-with validated unchanged native pairs.
+The latest [buffered I/O review](../../../docs/MAINL_STDIO_NATIVE_REVIEW.md)
+validates twenty-five source providers together in one normal CRT library.
+It adds ten complete stream/position/write/DOS TUs and their shared16-bit FILE
+layout include,with actual private flags and a near startup record. The earlier
+[DOS path review](../../../docs/MAINL_PATH_NATIVE_REVIEW.md) covers fullpath,
+current directory,DBCS data/startup and drive APIs.
+
+The frozen full cold recipe still replaces six providers; bounded current links
+compose newer providers with validated unchanged native pairs.
 
 Earlier complete source reviews cover [the original six providers](../../../docs/MAINL_CRT_NATIVE_REVIEW.md),
 [far heap](../../../docs/MAINL_FARHEAP_NATIVE_REVIEW.md),

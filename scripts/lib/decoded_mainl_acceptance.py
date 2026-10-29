@@ -62,6 +62,7 @@ from lib.decoded_mainl_exec_native import verify as exec_scope, UNIT as EXEC_UNI
 from lib.decoded_mainl_loadprog_native import verify as loadprog_scope, UNITS as LOADPROG_UNITS, SOURCE as LOADPROG_SOURCE
 from lib.decoded_mainl_dosconstruct_native import verify as dosconstruct_scope, SOURCE_MAP as DOSCONSTRUCT_SOURCE_MAP
 from lib.decoded_mainl_path_native import verify as path_scope, SOURCE_MAP as PATH_SOURCE_MAP
+from lib.decoded_mainl_stdio_native import verify as stdio_scope, SOURCE_MAP as STDIO_SOURCE_MAP
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -125,7 +126,8 @@ PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATI
     "scripts/lib/decoded_mainl_exec_native.py", "scripts/build_th03_mainl_exec_work.py",
     "scripts/lib/decoded_mainl_loadprog_native.py", "scripts/build_th03_mainl_loadprog_work.py",
     "scripts/lib/decoded_mainl_dosconstruct_native.py", "scripts/build_th03_mainl_dosconstruct_work.py",
-    "scripts/lib/decoded_mainl_path_native.py", "scripts/build_th03_mainl_path_work.py")))
+    "scripts/lib/decoded_mainl_path_native.py", "scripts/build_th03_mainl_path_work.py",
+    "scripts/lib/decoded_mainl_stdio_native.py", "scripts/build_th03_mainl_stdio_work.py")))
 
 def need(value, message):
     if not value:
@@ -297,6 +299,10 @@ def audit(root):
     need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in path_native['owners']}), 'separate complete DOS path CODE/DATA/INIT owners')
     owners.extend(path_native['owners'])
     scope['path_native'] = path_native
+    stdio_native = stdio_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in stdio_native['owners']}), 'separate complete buffered I/O CODE/DATA/INIT owners')
+    owners.extend(stdio_native['owners'])
+    scope['stdio_native'] = stdio_native
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -306,7 +312,12 @@ def audit(root):
              and int(u["offset"], 0) + segment*16 == o["start"] and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"]
              and u["state"] == "source-present" and u["origin"] == o.get("origin", "authored") and u["boundary_state"] == "reviewed"
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
-        if o['unit_id'] in PATH_SOURCE_MAP:
+        if o['unit_id'] in STDIO_SOURCE_MAP:
+            name = Path(o['object']).stem
+            need((o['source'],o['object']) == STDIO_SOURCE_MAP[o['unit_id']] and
+                 o['maintained_native_object'] == '.analysis/work/stdio-round1-'+name+'.obj', 'actual fresh buffered I/O CODE/DATA/INIT producer in combined normal library')
+            row = dict(source=o['source'],wrapper=o['source'])
+        elif o['unit_id'] in PATH_SOURCE_MAP:
             name = Path(o['object']).stem
             need((o['source'],o['object']) == PATH_SOURCE_MAP[o['unit_id']] and
                  o['maintained_native_object'] == '.analysis/work/path-round1-'+name+'.obj', 'actual fresh path CODE/DATA/INIT producer in combined normal library')
@@ -372,7 +383,9 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        if o['unit_id'] in PATH_SOURCE_MAP:
+        if o['unit_id'] in STDIO_SOURCE_MAP:
+            need(sha((root / o['source']).read_bytes()) == stdio_native['source_sha256'][o['source']], 'complete buffered I/O TUs consumed by both fresh native rounds')
+        elif o['unit_id'] in PATH_SOURCE_MAP:
             need(sha((root / o['source']).read_bytes()) == path_native['source_sha256'][o['source']], 'complete path TUs consumed by both fresh native rounds')
         elif o['unit_id'] in DOSCONSTRUCT_SOURCE_MAP:
             need(sha((root / o['source']).read_bytes()) == dosconstruct_native['source_sha256'][o['source']], 'complete constructor TUs consumed by both fresh native rounds')

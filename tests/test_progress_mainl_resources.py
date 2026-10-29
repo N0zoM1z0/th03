@@ -20,7 +20,7 @@ class ResourcesProgressTests(unittest.TestCase):
         c=progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"],65)
         self.assertGreaterEqual(c["source_bytes"],20671)
-        self.assertEqual((c["exact"],c["total"]),(0,222))
+        self.assertEqual((c["exact"],c["total"]),(0,234))
         self.assertIn("target-equal",progress.render_svg(units,[],evidence,
                       op_status={'decoded_accepted':False},zun_status={'decoded_accepted':False}))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_RESOURCES_SOURCE_UNITS.values()),3475)

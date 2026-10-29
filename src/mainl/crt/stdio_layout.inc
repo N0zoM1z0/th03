@@ -1,0 +1,23 @@
+; Proven16-bit Borland FILE layout; values checked against native field accesses.
+FILE_LEVEL  equ 0
+FILE_FLAGS  equ 2
+FILE_FD     equ 4
+FILE_HOLD   equ 5
+FILE_BSIZE  equ 6
+FILE_BUFFER equ 8
+FILE_CURP   equ 12
+FILE_TOKEN  equ 18
+FILE_BYTES  equ 20
+F_RDWR equ 0003h
+F_BUF  equ 0004h
+F_LBUF equ 0008h
+F_ERR  equ 0010h
+F_EOF  equ 0020h
+F_BIN  equ 0040h
+F_IN   equ 0080h
+F_OUT  equ 0100h
+F_TERM equ 0200h
+O_EOF    equ 0200h
+O_APPEND equ 0800h
+O_CHANGED equ 1000h
+O_TEXT   equ 4000h
