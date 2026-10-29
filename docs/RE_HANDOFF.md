@@ -6,46 +6,56 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Natural C++ new/xalloc/xmsg now passes exact native review. MAINL accepts211
-extents/288 procedures/36,946 bytes. The six new owners2258 bytes contain1563
-instruction bytes in16 far bodies,659 inline EH/type/cleanup DATA bytes,30 other
-initialized DATA/INIT/EXIT bytes and6 uninitialized static-object file bytes.
-Source presence stays240 extents/47,388 gross bytes. See
-[C++ native review](MAINL_EXCEPTION_CPP_REVIEW.md).
+Latest work is `xx_dispatch.inl` plus `xx_abi.h`: a bounded include in the
+original xx.cpp TU,not a new product TU. Its original bank72B3..78CF is1565
+bytes:1533 instructions in five complete procedures and32 CS table/tag bytes.
+Main dispatcher is880 bytes,local_unwind447; do not count the whole public-symbol
+gap as dispatcher code. Source presence is241 extents/48,953 gross bytes;
+accepted MAINL stays211 extents/288 procedures/36,946 bytes.
+See [xx dispatch review](MAINL_XX_DISPATCH_REVIEW.md).
 
-The missing producer option was BCC4.5 `-O1`,not extra source variables or
-register annotations. The nonoptimizing BCC4.5 payloads equal TCC4.02 and retain
-735/502/935-byte gaps; optimizing native output reproduces754/513/955. BCC4.00
-rejects -xc and emits a different initializer ABI. Original compiler installation
-is unproved; the scoped optimizing producer's suitability is demonstrated by
-complete actual output. `config/mainl_work/exception_toolchain.toml` pins its
-private isolated BCC/RTM/DPMI files. Existing TC4/TASM/tools/targets stay pinned.
+Two actual BCC4.5 -O2-pg -Os -Z- -S / TASM / miniature TLINK rounds repeat
+full generated ASM/two-OBJ/mini-EXE/MAP vectors. Candidate CODE1566 has the
+original three public entry offsets,but fails whole-bank raw equality. Seven
+surrounding helper interfaces remain unresolved for full-TU integration. Trap
+providers are diagnostic-only and must never be treated as runtime replacements.
+The whole product/library was not linked; no exact credit is added. All211
+accepted owners/publication/verifier inputs and938 cold outputs remain unchanged.
 
+Preserve DOS ABI: SS:14 near chain,SS:16 far runtime pointer,registration DS/SI
+at14/16,DWORD initial dtor count at26,descriptor free DS at24 and far callback26.
+Header describes used prefixes,not every original allocation size. ES indirect
+callback operands require explicit OFFSET DGROUP framing. Near destructor table
+pointers take the context table's segment. One actual target/source negative
+constant C-filter probe confirms noncontinuable context0010->0006,return0 and
+far cdecl SS/register traffic; no helper is executed. Other runtime branches and
+physical DOS behavior remain unproved. Retain original unchecked descriptor use.
+
+A private `TH03-mainl-decoded-fixed` Ghidra database was independently attested
+against the existing67372-byte decoded Japanese target before observations.
+Current receipts:`mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
+`mainl-decoded-fixed-attestation.json`; the old packed MAINL DB is not a decoded
+runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover the
+surrounding xx helpers and integrate the whole TU; do not normalize the candidate.
+
+Earlier natural C++ new/xalloc/xmsg exact ownership retains six owners2258
+bytes:1563 CODE,659 inline DATA,30 other initialized DATA and6 genuinely
+uninitialized file-storage bytes. The suitable scoped producer is BCC4.5 -O1,
+using pinned TC4 headers. Keep its recipe separate from the xx diagnostic profile.
 Preserve zero-to-one new size,retry through installed far handler,null-handler
-return,static xalloc("Out of memory",0),deep string copies,throw-by-value and
-delete-before-new assignment. Xmsg ctor167 is followed by a36-byte cleanup
-record,not more code. New DATA24 has18 initializers and6 uninitialized object
-bytes. The latter use actual two-round linked file bytes,without synthesized
-zeros/source initializers. INIT/EXIT6 each remain separate contributions.
-Summary initialized DATA2607 and uninitialized file DATA6 are separate; progress
-image DATA2613 includes both. No BSS file credit is added.
+return,static xalloc("Out of memory",0),deep copies,throw-by-value and
+delete-before-new assignment. New DATA24 has18 OMF initializers and6 source
+reserve bytes supplied by the two real links; no initializer or BSS credit is
+invented. Summary initialized DATA2607 and uninitialized file DATA6 stay separate;
+progress DATA2613 includes both.
 
-Two actual optimizing compiler/TLIB/TLINK rounds repeat full three-OBJ/LIB/EXE/MAP
-vectors; whole EXE/MAP match fixed Japanese decoded target/retained MAP. All122
-literal fields,complete payloads,packing/group order/publics,independent linked
-bytes and ordered MZ vectors pass. Xalloc/xmsg vectors descend; never sort or
-rewrite them. Normal893-member library now composes28 source providers with19
-validated reused natural pairs;871 other current members remain unchanged. All205
-prior owners/scopes and938 cold outputs stay intact. No full cold/DIET or ancestor
-runtime chain is replayed. Old failed CPP receipts are historical; their obsolete
-tracked candidate verifier/tests have been replaced by native ownership review.
-
-Current receipts:`mainl-exception-native-build.json`,
-`mainl-exception-native-review.json` and publication/progress logs in`.analysis/work/`.
-The xx dispatcher12622-byte contribution is still unowned. Continue natural
-source recovery there or at another complete CRT/provider boundary; its inline
-metadata also needs ownership classification. Earlier accepted buffered I/O1808
-CODE+10 DATA/INIT retains its source and receipts.
+The accepted28-provider normal893-member library composes19 validated reused
+natural pairs with871 other current members unchanged. Both whole raw native
+vectors and EXE/MAP equality remain valid; validate/reuse them rather than
+rebuilding. Retain `mainl-exception-native-build.json` and
+`mainl-exception-native-review.json`,all accepted owners/scopes and938 cold
+outputs. Earlier buffered I/O1808 CODE+10 DATA/INIT and its receipts remain valid.
+See [C++ native review](MAINL_EXCEPTION_CPP_REVIEW.md).
 
 Earlier constructors retain RET12; null-first-entry DOSENV counts one byte but
 writes two and returns aligned-offset+1. Do not generalize null-vector and
@@ -92,6 +102,14 @@ TH03ZUN. Actual source archive:
 `.analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar`.
 
 Keep actual current proof inputs in `.analysis/work/`:
+
+- XX candidate:`mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
+  both `xx-dispatch-roundN-xxdisp.asm/.obj`, `xx-dispatch-roundN-xxctx.obj`,
+  `xx-dispatch-roundN-xxmini.exe/.map`; actual `xx-dispatch-wrapper.cpp`,
+  `xx-dispatch-source-xxbank.inl`, `xx-dispatch-source-xx_abi.h`,
+  `xx-dispatch-context.asm`, `xx-dispatch-mini.lnk` and native phase logs.
+  Preserve the scoped BC45 files and all64 bound available SDK headers.
+  Retain the derived decoded database/attestation and original xx OMF context.
 
 - Scanner:`input-nostring.json`, `input-nostring.obj`, `input-assembly.obj`.
 - Sound:`sound-bodies.json`,two stripped `sound-bodyN.c` inputs/four OBJ outputs.
