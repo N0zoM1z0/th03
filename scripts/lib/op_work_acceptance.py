@@ -24,6 +24,7 @@ from lib.op_select_native import verify as select_scope, UNITS as SELECT_UNITS, 
 from lib.op_title_native import verify as title_scope, OBJECT as TITLE_OBJECT, SOURCES as TITLE_SOURCES
 from lib.op_score_native import verify as score_scope
 from lib.op_shared_native import verify as shared_native_scope, UNITS as SHARED_NATIVE_UNITS
+from lib.op_cdg_draw_native import verify as cdg_draw_scope
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -61,7 +62,8 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/lib/op_music_comment.py", "scripts/lib/op_music_menu.py", "scripts/lib/op_music_storage.py", "scripts/lib/op_select_native.py",
                 "scripts/lib/op_title_native.py", "scripts/lib/op_score_native.py", "scripts/lib/op_shared_native.py",
                 "scripts/lib/decoded_mainl_cdg_layout.py", "scripts/lib/decoded_mainl_text_layout.py",
-                "scripts/review_th03_shared_text.py")
+                "scripts/review_th03_shared_text.py", "scripts/lib/op_cdg_draw_native.py",
+                "scripts/lib/decoded_mainl_cdg_draw_layout.py")
 
 
 def need(value, message):
@@ -189,6 +191,11 @@ def audit(root):
          'separate complete shared CDG/text owners')
     owners.extend(shared_native['owners'])
     scope['shared_cdg_text'] = shared_native
+    cdg_draw = cdg_draw_scope(root, work, target, candidate, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in cdg_draw['owners']}),
+         'separate complete CDG drawing producers and natural layout')
+    owners.extend(cdg_draw['owners'])
+    scope['cdg_drawing'] = cdg_draw
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]

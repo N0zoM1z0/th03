@@ -7,6 +7,22 @@ local tools and affected native checks. Allocation/null-pointer/input-domain
 matrices, large emulator specifications and routine full CI are not per-unit
 gates. Reuse an unchanged native cold pair rather than rebuilding every turn.
 
+CDG drawing now has complete OP module ownership:alpha/hflip382 + noalpha114
+CODE. Three far Pascal pop6 bodies occupy493 bytes;3 ordinary outer EVEN bytes
+are separately reviewed within those module extents. All19 native fields,2
+literal MZ entries and12 CS WORD writer/MOV-immediate destination pairs match
+through OP's own MAP. External slots/LUT/GRCG remain context. See
+[drawing review](OP_CDG_DRAW_NATIVE_REVIEW.md).
+
+An input-scanner probe established that the explicit trailing `codestring`
+produces its extra NOP. Removing only that pragma in one isolated TC4 compile
+emits417 rather than418 CODE bytes, with the complete417-byte prefix and all
+EXTDEF/FIXUPP streams unchanged. This is not automatic compiler alignment.
+Product source/native outputs were not changed; scanner/trailer acceptance
+was not added. Resolve the trailer's provenance/layout before a clean producer
+change; do not substitute another arbitrary padding mechanism. Evidence:
+`.analysis/work/input-nostring.json`, with its OBJ/log/script retained locally.
+
 Shared CDG/text now have complete OP native CODE ownership:6 procedures/1206
 bytes/41 fields/27 literal ordered MZ relocations across the actual `cdg_load.cpp`
 593 and `grppsafx.cpp`613 producers. Both have zero private DATA/BSS. The renderer
@@ -33,24 +49,25 @@ DATA227/BSS23 and following alignment stay open. See [selection review](OP_SELEC
 Music Room retains CODE2244/14 procedures and DATA1008; reviewed BSS1060 adds
 zero file bytes. Preserve the10-point array's40-byte declaration. See [Music Room](OP_MUSIC_MENU_REVIEW.md).
 
-OP retains the old34-owner observations from immutable `6cfa85f`; all45 owners
-accepted before this turn are unchanged. New shared scopes are independent.
+OP retains the old34-owner observations from immutable `6cfa85f`; all47 owners
+accepted before this turn are unchanged. New drawing scopes are independent.
 MAINL/ZUN shared imports/helper closure have identical ASTs and all other proof
 inputs are unchanged. Their complete current source/staging/native output graphs
 (938/29 outputs) were revalidated; only the shared-module binding changed.
 Audit, gate witnesses and observation times were preserved. Receipt:
-`.analysis/work/shared-native-shared-binding.json`.
+`.analysis/work/cdg-draw-native-shared-binding.json`.
 
-Current evidence: `.analysis/work/shared-native-review.json`. OP accepts47 extents/
-13148 file-backed bytes. No native rebuild or ancestor runtime replay was run.
+Current evidence: `.analysis/work/cdg-draw-native-review.json`. OP accepts49 extents/
+13644 file-backed bytes. No graphics rebuild, full native cold replay or ancestor
+runtime replay was run. One isolated input compile answered the trailer question.
 The full progress generator still invokes MAINL/ZUN runtime audits through
-`status.py`; it was not used this turn. Instead `.analysis/work/shared_scope_refresh.py`
+`status.py`; it was not used this turn. Instead `.analysis/work/cdg_draw_scope_refresh.py`
 uses the existing renderer for the verified OP region/summary only and retains
 all non-OP output literally. Its synthetic unaccepted non-OP render branches
 are discarded, never used as acceptance. The native-binding receipt records the
 bounded refresh. No full generator `--check` is claimed.
 
-Validation:38 focused shared/score/title/selection/current-acceptance/progress
+Validation:42 focused drawing/shared/score/title/selection/current-acceptance/progress
 checks PASS; tracking and OP-only generated-region verification PASS.
 `git diff --check` is clean.
 
@@ -59,11 +76,12 @@ checks PASS; tracking and OP-only generated-region verification PASS.
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
-| OP | 47 extents / 80 procedures / 11,642 CODE + 1,506 DATA bytes | Open |
+| OP | 49 extents / 83 procedures / 12,138 CODE + 1,506 DATA bytes | Open |
 | MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
-OP includes22 separately proved inline compiler bytes. ZUN accepts8,635
+OP includes22 separately proved inline compiler bytes and3 ordinary outer
+ASM EVEN bytes; these layout bytes are not extra procedures. ZUN accepts8,635
 CODE+DATA bytes: authored2,179, original ASM1,390, library5,066. Whole-game
 source/function denominators and the completion percentage remain unknown.
 
@@ -84,10 +102,10 @@ Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
 binding; OP's native builder is also shared by MAINL/ZUN. Preserve actual current
 inputs. Obsolete logs and verification history may be deleted.
 
-No reconstruction job or ongoing goal is left running. Start with Git,
+No native reconstruction process is left running at this checkpoint. Start with Git,
 `scripts/preflight.py` and the current review. Remaining OP work can begin with
-shared CDG drawing382/noalpha114 or input scanner417; selection DATA227/BSS23
-and title DATA31 also remain open. Inspect actual current
+the input scanner417/trailer issue or other unowned producers; selection
+DATA227/BSS23 and title DATA31 also remain open. Inspect actual current
 OMF/MAP boundaries before choosing a scope. TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04`
 is an authorized source reference, not a replacement target or build dependency.
 
