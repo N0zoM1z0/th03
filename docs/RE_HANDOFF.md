@@ -3,43 +3,49 @@
 ## Current checkpoint
 
 Use natural source recovery and exact native output with direct local tools.
-Session preflight is complete for the unchanged environment. Revalidate the
+Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-New work is natural C++ source for new/xalloc/xmsg. These are candidates,not
-new exact owners. Accepted MAINL remains205 extents/272 procedures/34,688 bytes.
-See [C++ candidate review](MAINL_EXCEPTION_CPP_REVIEW.md). Six source-present
-extents add2258 gross bytes; presence is240 extents/47,388 bytes.
+Natural C++ new/xalloc/xmsg now passes exact native review. MAINL accepts211
+extents/288 procedures/36,946 bytes. The six new owners2258 bytes contain1563
+instruction bytes in16 far bodies,659 inline EH/type/cleanup DATA bytes,30 other
+initialized DATA/INIT/EXIT bytes and6 uninitialized static-object file bytes.
+Source presence stays240 extents/47,388 gross bytes. See
+[C++ native review](MAINL_EXCEPTION_CPP_REVIEW.md).
+
+The missing producer option was BCC4.5 `-O1`,not extra source variables or
+register annotations. The nonoptimizing BCC4.5 payloads equal TCC4.02 and retain
+735/502/935-byte gaps; optimizing native output reproduces754/513/955. BCC4.00
+rejects -xc and emits a different initializer ABI. Original compiler installation
+is unproved; the scoped optimizing producer's suitability is demonstrated by
+complete actual output. `config/mainl_work/exception_toolchain.toml` pins its
+private isolated BCC/RTM/DPMI files. Existing TC4/TASM/tools/targets stay pinned.
 
 Preserve zero-to-one new size,retry through installed far handler,null-handler
 return,static xalloc("Out of memory",0),deep string copies,throw-by-value and
-delete-before-new assignment. Original modules754/513/955 contain1563 CODE bytes
-in16 far bodies and659 inline EH/type/scope bytes. Xmsg ctor167 is followed by a
-36-byte cleanup record,not more code. New DATA24 has18 initializers and6
-uninitialized object bytes; INIT/EXIT6 each are separate original contributions.
+delete-before-new assignment. Xmsg ctor167 is followed by a36-byte cleanup
+record,not more code. New DATA24 has18 initializers and6 uninitialized object
+bytes. The latter use actual two-round linked file bytes,without synthesized
+zeros/source initializers. INIT/EXIT6 each remain separate contributions.
+Summary initialized DATA2607 and uninitialized file DATA6 are separate; progress
+image DATA2613 includes both. No BSS file credit is added.
 
-Retained TC4 profile -O -r- -Z -xc -Vs -zC_TEXT emits735/502/935. Public/external
-identities and122 field counts match,but raw payload/EXE/MAP fail. Xalloc raise
-127 becomes123; original unused SI/DI saves are omitted and helper choices differ.
-Other tested register/optimization/debug/DLL profiles did not close output;
-DLL-class mangling changes too. Do not assume library compiler equivalence.
-Original xalloc/xmsg MZ vectors descend. Direct TCC keeps this form; ordinary TASM
-differs. No sorting,object patches,dummy variables or source padding to force it.
+Two actual optimizing compiler/TLIB/TLINK rounds repeat full three-OBJ/LIB/EXE/MAP
+vectors; whole EXE/MAP match fixed Japanese decoded target/retained MAP. All122
+literal fields,complete payloads,packing/group order/publics,independent linked
+bytes and ordered MZ vectors pass. Xalloc/xmsg vectors descend; never sort or
+rewrite them. Normal893-member library now composes28 source providers with19
+validated reused natural pairs;871 other current members remain unchanged. All205
+prior owners/scopes and938 cold outputs stay intact. No full cold/DIET or ancestor
+runtime chain is replayed. Old failed CPP receipts are historical; their obsolete
+tracked candidate verifier/tests have been replaced by native ownership review.
 
-Two actual compiler/TLIB/TLINK rounds repeat whole three-OBJ/LIB/EXE/MAP vectors.
-Normal893-member library contains28 source providers with19 validated reused
-natural pairs;871 other current members unchanged. Diagnostic review binds actual
-source,all consumed SDK headers,flags,driver and outputs; it enforces source
-acceptance false/accepted bytes0. Full cold/DIET and ancestor runtime not replayed.
-Accepted25-provider library,all205 old owners/scopes and its publication/proof
-inputs stay unchanged. Only source-presence progress changes; OP/ZUN untouched.
-
-Receipts:`mainl-exception-cpp-build.json`, `mainl-exception-cpp-review.json`,
-`mainl-exception-cpp-progress.json` in`.analysis/work/`. Continue by identifying
-original register-preservation/exception-helper codegen,not by normalizing failed
-output. The xx dispatcher12622-byte contribution is still unowned; its interspersed
-metadata also needs real source/ownership recovery. Earlier accepted buffered I/O
-1808 CODE+10 DATA/INIT retains all previously recorded behavior and receipts.
+Current receipts:`mainl-exception-native-build.json`,
+`mainl-exception-native-review.json` and publication/progress logs in`.analysis/work/`.
+The xx dispatcher12622-byte contribution is still unowned. Continue natural
+source recovery there or at another complete CRT/provider boundary; its inline
+metadata also needs ownership classification. Earlier accepted buffered I/O1808
+CODE+10 DATA/INIT retains its source and receipts.
 
 Earlier constructors retain RET12; null-first-entry DOSENV counts one byte but
 writes two and returns aligned-offset+1. Do not generalize null-vector and
@@ -59,10 +65,10 @@ MZ headers6240/7680/relocation offsets28/62 open;1553 entries agree. No padding.
 | --- | --- | --- |
 | MAIN | 459 functions /78,737 CODE bytes /106 extents | Open |
 | OP | 60 extents /92 procedures /13,221 CODE +1,764 DATA bytes | Open |
-| MAINL | 205 extents /272 procedures or entries /32,770 CODE +1,918 DATA bytes | Open |
+| MAINL | 211 extents /288 procedures or entries /34,333 CODE +2,613 file DATA bytes | Open |
 | ZUN | 77 extents /89 procedures or entries /6,179 CODE bytes | Open |
 
-MAINL accepts34,688 bytes:16,695 authored +17,993 library. ZUN accepts8,635 bytes:
+MAINL accepts36,946 bytes:16,695 authored +20,251 library. ZUN accepts8,635 bytes:
 2,179 authored +1,390 original ASM +5,066 library. Whole-game source/function
 denominators and completion percentage remain unknown. Canonical packed-unit
 credit stays separate. OP/MAINL/ZUN retained cold pairs match decoded and DIET -B
@@ -80,7 +86,7 @@ four procedures and a shared11-byte exit. See the corresponding native reviews.
 ## Inputs and next work
 
 Preserve pinned Japanese targets/assets (`candidate-local-attested`),Wine prefix,
-TC4/TASM/JWasm,`.tools/ghidra`,`.tools/jdk`,`.venv`,`_reference/ReC98` and
+TC4/TASM/JWasm,scoped BC45 compiler/runtime,`.tools/ghidra`,`.tools/jdk`,`.venv`,`_reference/ReC98` and
 `ghidra-project/`. Keep one working build per product:TH03WORK,TH03OP,TH03ML,
 TH03ZUN. Actual source archive:
 `.analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar`.
@@ -93,10 +99,11 @@ Keep actual current proof inputs in `.analysis/work/`:
   `selection-tail.cpp/.lnk`.
 - Resources:`mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors,`resources-root.asm/.lnk`.
-- C++ candidates:`mainl-exception-cpp-build.json`,both three-object
-  `exception-cpp-roundN-NAME.obj`/`.lib`/`.exe`/`.map` vectors,actual three
-  `exception-cpp-source-NAME.cpp`, `exception-cpp-library.rsp`, `exception-cpp-link.lnk`;
-  preserve19 reused natural pairs and the recorded SDK header closure.
+- C++ native:`mainl-exception-native-build.json`,both three-object
+  `exception-native-roundN-NAME.obj`/`.lib`/`.exe`/`.map` vectors,actual three
+  `exception-native-source-NAME.cpp`, `exception-native-library.rsp`,
+  `exception-native-link.lnk` and native phase logs; preserve19 reused natural
+  pairs,recorded SDK headers and scoped BC45 installed/active tool files.
 - Buffered I/O:`mainl-stdio-build.json`,both ten-object `stdio-roundN-NAME.obj`/
   `.lib`/`.exe`/`.map` vectors,actual ten `stdio-source-NAME.asm`, `stdio-layout.inc`,
   `stdio-library.rsp`, `stdio-link.lnk`; retain all nine reused natural pairs.

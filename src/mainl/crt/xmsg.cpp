@@ -1,5 +1,5 @@
 // Own the exception's message through a distinct string object. Retain the
-// original delete-then-new assignment order. Native codegen remains unaccepted.
+// original delete-then-new assignment order and compiler-generated EH records.
 #include <cstring.h>
 #include <except.h>
 

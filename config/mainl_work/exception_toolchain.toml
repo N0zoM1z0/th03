@@ -1,0 +1,30 @@
+# This compiler is scoped to native C++ exception providers. Existing cold tools
+# and the fixed Japanese target remain independently pinned.
+provenance = "candidate-local-attested"
+banner = "Borland C++ 4.5 Copyright (c) 1987, 1994 Borland International"
+translator = "TC86 Borland C++ 4.5"
+repository = "https://github.com/earthsiege2/borland-cpp-ide"
+commit = "897e9590fc092739e7bec67423062b7d8a34b568"
+acquisition_provenance = "untrusted-candidate"
+note = "Identity is hash-pinned. Suitability is established only by complete raw native source/library/link comparisons for the accepted scope."
+
+[[surfaces]]
+name = "bcc"
+installed = ".analysis/toolchain/extra/bc45-candidate/BCC.EXE"
+active = ".analysis/toolchain/wineprefix/drive_c/BC45/BCC.EXE"
+bytes = 768026
+sha256 = "6e58346640ca94e32b547c4df872d06905e58c5ef6d473d0b6a6a3903d640a46"
+
+[[surfaces]]
+name = "rtm"
+installed = ".analysis/toolchain/extra/bc45-candidate/RTM.EXE"
+active = ".analysis/toolchain/wineprefix/drive_c/BC45/RTM.EXE"
+bytes = 120853
+sha256 = "10acd85af3767634450a793f2af1e057de888621cbfc578d35d3fa91abc09661"
+
+[[surfaces]]
+name = "dpmi16bi"
+installed = ".analysis/toolchain/extra/bc45-candidate/DPMI16BI.OVL"
+active = ".analysis/toolchain/wineprefix/drive_c/BC45/DPMI16BI.OVL"
+bytes = 50576
+sha256 = "d7b0fe7a20b535f983767d472a520da3bf03018932a1f65625916d0cd6e96110"

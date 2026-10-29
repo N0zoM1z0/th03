@@ -52,7 +52,8 @@ Each builder recreates source and rebuilds its game objects in two independent
 rounds. MAIN additionally re-extracts its one explicitly pinned VS vendor module
 with native TLIB in each round; installed CRT/runtime remain vendor context. Current reports live in `.analysis/work/`. MAINL uses normal TLIB
 extraction/rebuild: six maintained CRT producers replace members without changing
-the 893-member library order. Other vendor members remain contextual.
+the 893-member library order. Bounded native banks now compose28 accepted source
+providers with unchanged cold project objects; other vendor members remain contextual.
 
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
@@ -110,7 +111,11 @@ and linker gaps require native ownership review rather than runtime coverage.
 
 ## Local tools
 
-`config/toolchain.toml` pins native tools, prefix and surfaces;
+`config/toolchain.toml` pins the cold native tools,prefix and surfaces.
+`config/mainl_work/exception_toolchain.toml` separately pins the optimizing
+BCC4.5 producer for natural C++ allocation/exception providers; native suitability
+is scoped by complete output comparison,with the existing TC4 SDK.
+
 `config/analysis_toolchain.toml` pins Ghidra/JDK, full installation trees and MZ
 loader behavior. Ghidra projects are under ignored `ghidra-project/`. Re-attest
 before using database observations; decompiler/function boundaries are hypotheses.

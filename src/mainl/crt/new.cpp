@@ -1,6 +1,6 @@
 // Original allocation policy: zero requests become one; failure calls the
 // installed handler and retries. A null handler permits a null return.
-// Compiler-generated startup/exit and exception records remain under review.
+// Borland -O1 emits the owned startup/exit and exception records.
 #include <cstring.h>
 #include <except.h>
 #include <new.h>

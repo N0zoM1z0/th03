@@ -2,7 +2,7 @@
 
 | Artifact | Target bytes | Source-present units | Ledger exact units | Exact functions | Ledger exact owned bytes |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| th03-op | 36041 | 59 | 0 | 0 | 0 |
+| th03-op | 36041 | 61 | 0 | 0 | 0 |
 | th03-main | 130882 | 106 | 106 | 459 | 78737 |
 | th03-mainl | 37975 | 240 | 0 | 0 | 0 |
 | th03-zun | 16242 | 77 | 0 | 0 | 0 |
@@ -16,6 +16,6 @@ OP decoded publication: installed.
 
 OP current decoded source acceptance: 60 extents / 92 procedures / 14,985 bytes (13,221 CODE + 1,764 initialized DATA). Validated source-only cold pair and complete native ownership/ABI pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
-MAINL current decoded source acceptance: 205 extents / 272 procedures / 34,688 bytes (32,770 CODE + 1,918 initialized DATA). Accepted source comprises 16,695 authored and 17,993 library bytes. Complete native ownership/ABI and the retained source-only cold pair are validated. Earlier runtime observations remain supporting history, not a per-unit test requirement. Unowned context, physical devices and whole-product source ownership remain open; canonical packed-file unit credit is unchanged.
+MAINL current decoded source acceptance: 211 extents / 288 procedures / 36,946 bytes (34,333 CODE + 2,607 initialized DATA + 6 uninitialized file DATA). Accepted source comprises 16,695 authored and 20,251 library bytes. Complete native ownership/ABI and the retained source-only cold pair are validated. Earlier runtime observations remain supporting history, not a per-unit test requirement. Unowned context, physical devices and whole-product source ownership remain open; canonical packed-file unit credit is unchanged.
 
 ZUN current decoded source acceptance: 77 extents / 89 procedures or entries / 6,179 CODE + 2,456 DATA bytes. Accepted bytes comprise 2,179 authored, 1,390 original ASM and 5,066 library bytes. Complete native ownership/layout, ordered relocations and the retained source-only cold pair are validated. Earlier runtime observations remain supporting history. Twelve reserved DATA bytes and physical devices remain open. Original source/assembler identity, canonical packed-file unit credit and whole-product source ownership remain unchanged.

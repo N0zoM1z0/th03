@@ -1,5 +1,5 @@
-// Semantic recovery of the complete xalloc TU. Native layout/codegen is still
-// a candidate: the current compiler does not reproduce every retained byte.
+// Complete xalloc TU, including compiler-generated copy/destructor and
+// exception metadata under the scoped Borland -O1 profile.
 #include <except.h>
 
 xalloc::xalloc(const string far &message, size_t size)
