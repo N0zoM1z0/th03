@@ -1,5 +1,11 @@
 # MAINL xx local unwind and dispatch source candidate
 
+This review describes a retained earlier miniature,not the current full-TU
+link. The maintained xx.cpp now links through the normal library as an unaccepted
+candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
+CODE/provider counts below remain specific to that diagnostic. Current overall
+source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+
 `src/mainl/crt/xx_dispatch.inl` recovers a bounded bank from the original
 monolithic `xx.cpp` TU. It is an include rather than a proposed new product TU.
 The bank at0000:72B3 spans1565 bytes:1533 instruction bytes in five procedures
@@ -7,7 +13,7 @@ and32 bytes of actual inline tables/signature. It is source-present,with zero
 new exact credit. MAINL acceptance stays211 extents/288 procedures/36,946 bytes.
 With the later [destruction bank](MAINL_XX_DESTRUCTION_REVIEW.md),
 [call adapters](MAINL_XX_CALLS_REVIEW.md),[catch/type bank](MAINL_XX_CATCH_REVIEW.md)
-and [type matcher](MAINL_XX_TYPES_REVIEW.md),current source presence is246 extents/
+and [type matcher](MAINL_XX_TYPES_REVIEW.md),the then-source scope was246 extents/
 55,702 gross bytes.
 
 | Bank-relative offset | Procedure | Instruction bytes | Return |
@@ -72,11 +78,11 @@ This is an inventory of all available headers,not an inferred consumed subset.
 
 Candidate CODE is1566 bytes and BSS8. The three public entry offsets match the
 original bank,but the complete native bank does not match. Seven surrounding
-private/runtime interfaces remain unresolved for full-TU integration. Internal
-far calls become external five-byte calls; stack-cleanup grouping and field
+private/runtime interfaces are explicit trap imports in this isolated miniature.
+Internal far calls become external five-byte calls; stack-cleanup grouping and field
 streams differ. The diagnostic does not replace the original normal library
-member or link the whole product. Exact ownership requires recovering and
-integrating the surrounding xx TU,not normalizing these differences.
+member or link the whole product. The later complete TU supplies those interfaces.
+Exact ownership still requires closing its raw CODE/field/layout differences;do not normalize them away.
 
 The subsequent destruction bank now provides static near dtorCleanup in a
 combined same-TU miniature. The shared ABI header has expanded descriptor/list
@@ -95,8 +101,8 @@ real DOS execution and whole-game exception behavior are not established.
 
 The original211 accepted owners,their publication and verifier inputs,and the
 938-output cold pair remain unchanged and are validated. No full cold/DIET or
-ancestor runtime chain is replayed. Next work is the remaining original xx
-helpers. Ghidra suggests spans of1151 for RaiseException,815 for
-tossAnException and1035 for dtorCleanup; their returns and any inline metadata
-need direct review before those sizes can support ownership. Original TU/layout
-and literal relocation streams must be retained before this bank gains exact credit.
+ancestor runtime chain is replayed. The later full-TU review directly proved
+RaiseException1151,tossAnException815 and dtorCleanup1035 boundaries and their
+metadata ownership. They are no longer merely Ghidra size suggestions. Complete
+source codegen/frame/layout and literal relocation equality remain open;see the
+current product review before selecting further work.

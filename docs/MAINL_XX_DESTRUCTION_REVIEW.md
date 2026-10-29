@@ -1,5 +1,11 @@
 # MAINL xx destruction source candidate
 
+This review describes a retained earlier miniature,not the current full-TU
+link. The maintained xx.cpp now links through the normal library as an unaccepted
+candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
+CODE/provider counts below remain specific to that diagnostic. Current overall
+source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+
 `src/mainl/crt/xx_destroy.inl` recovers six private procedures from the original
 monolithic DOS `xx.cpp`. Its bank at0000:78D0..8293 contains2500 bytes:2422
 instruction bytes and78 bytes of actual inline exception metadata. It follows
@@ -7,7 +13,7 @@ instruction bytes and78 bytes of actual inline exception metadata. It follows
 inside that TU,without adding a public product interface. With the subsequent
 [call-adapter bank](MAINL_XX_CALLS_REVIEW.md)
 and [catch/type banks](MAINL_XX_CATCH_REVIEW.md),plus the later
-[type matcher](MAINL_XX_TYPES_REVIEW.md),source presence is246 extents/
+[type matcher](MAINL_XX_TYPES_REVIEW.md),the then-source scope was246 extents/
 55,702 gross bytes; accepted MAINL stays211 extents/288 procedures/
 36,946 bytes. These are source candidates,with zero new exact credit.
 
@@ -76,8 +82,8 @@ DATA and8 bytes of actual callback BSS. Candidate destruction bodies are110,128,
 714,258,177 and1056 bytes. The177-byte true-type helper has complete raw equality,
 but the entire integrated bank fails raw equality. Seventeen surrounding runtime
 interfaces remain unresolved. Their diagnostic providers contain traps; they
-are not recovered helper implementations. A full xx normal-library replacement
-and exact ownership/layout remain open. All211 accepted owners,the publication
+are not recovered helper implementations. The later full-TU candidate supplies the normal-library link;
+exact ownership/layout and acceptance remain open. All211 accepted owners,the publication
 and its verifier inputs,and938 unchanged cold outputs remain validated.
 
 Two small probes execute actual target and actual mini-linked source instructions.

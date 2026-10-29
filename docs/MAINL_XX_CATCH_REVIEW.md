@@ -1,11 +1,17 @@
 # MAINL xx catch cleanup and argument initialization
 
+This review describes a retained earlier miniature,not the current full-TU
+link. The maintained xx.cpp now links through the normal library as an unaccepted
+candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
+CODE/provider counts below remain specific to that diagnostic. Current overall
+source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+
 `src/mainl/crt/xx_catch.inl` recovers six complete procedures and their preceding
 compiler EH data from the original monolithic DOS `xx.cpp`. The contiguous bank
 0000:6CEF..72B2 is1476 bytes:1434 instructions and42 inline EH bytes.
 `xx_type_equal.inl` separately owns the157-byte private far comparator at583E.
 Both are bounded includes,not new product TUs. With the later
-[type/descriptor bank](MAINL_XX_TYPES_REVIEW.md),source presence is246 extents/
+[type/descriptor bank](MAINL_XX_TYPES_REVIEW.md),the then-source scope was246 extents/
 55,702 gross bytes. Accepted MAINL stays211 extents/288 procedures/36,946 bytes;
 there is zero new exact credit.
 
@@ -25,8 +31,8 @@ retains the terminate callback. Resolving all13 original OMF fields,in literal
 order,from the original normal-library MAP reproduces the entire1476-byte bank.
 Its three MZ segment words retain their literal order. Every function is densely
 decoded to its actual near/far return,and direct branches enter instructions.
-The comparator has no native fields or MZ words. This turn uses direct fixed
-Japanese target/OMF evidence; no database observations are needed.
+The comparator has no native fields or MZ words. This review uses direct fixed
+Japanese target/OMF evidence;no database observations are needed.
 
 Thrown-value cleanup uses descriptor+4 for its type,descriptor+58 for its payload,
 and cached class flags at+22. The DOS body saves the SS:10 DWORD destructor count,
@@ -77,7 +83,8 @@ SDK headers are bound. The affected earlier three miniatures were refreshed for
 the shared header/driver/profile. The latest earlier receipt and its full raw
 pair are validated and reused,without replaying its ancestor runtime observations
 inside each catch review. The211-owner publication/verifier inputs and938 unchanged
-cold outputs remain valid; no full cold or normal-library replacement is done.
+cold outputs remain valid;this miniature does not rebuild the full cold pair or
+replace the normal-library member. The later full-TU candidate does the latter.
 
 The candidate comparator is156 bytes. Candidate catch bodies are79/223/125/204/
 131/676 bytes,plus42 EH bytes,total1480. Whole candidate CODE is7233 with empty

@@ -50,10 +50,13 @@ source/function denominators remain unknown.
 
 Each builder recreates source and rebuilds its game objects in two independent
 rounds. MAIN additionally re-extracts its one explicitly pinned VS vendor module
-with native TLIB in each round; installed CRT/runtime remain vendor context. Current reports live in `.analysis/work/`. MAINL uses normal TLIB
-extraction/rebuild: six maintained CRT producers replace members without changing
-the 893-member library order. Bounded native banks now compose28 accepted source
-providers with unchanged cold project objects; other vendor members remain contextual.
+with native TLIB in each round;installed CRT/runtime remain vendor context.
+Current reports live in `.analysis/work/`. MAINL uses native TLIB extraction and
+rebuild without changing the893-member order. The accepted normal-library pair
+has28 source providers and reused cold project objects. The separate full-xx
+candidate adds provider29 and links the actual product,but is raw-different and
+unaccepted. See [xx product review](MAINL_XX_PRODUCT_REVIEW.md);do not replace the
+accepted publication with that candidate.
 
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained

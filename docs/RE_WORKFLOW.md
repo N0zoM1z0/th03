@@ -81,4 +81,16 @@ Keep one working build per product, the game-local Wine prefix, fixed private
 targets/assets, installed tool trees and actual source inputs listed in the
 handoff. Old logs, verification outputs, experiments and history documents may
 be deleted; a historical reference does not make them permanent dependencies.
-`scripts/clean_generated.py` can preview and remove disposable generated output.
+`scripts/clean_generated.py` provides a cleanup preview,not a complete dependency
+oracle. Current reviewers also read dynamically named transported source files,
+wrappers,responses and native logs that may be absent from a report's explicit
+path fields. A preview can therefore list live proof inputs. Do not apply it
+wholesale without auditing the proposed files and adding explicit keep paths.
+
+Keep cleanup simple:use a temporary deletion list,check actual current reads,
+then delete unused code copies,old staging trees and rebuildable binaries
+directly. Do not archive or compress retired code versions. Preserve documents,
+ledgers and experiment/verification records;keeping a record does not make the
+old code it describes a live build dependency. Verify the affected current checks
+afterward. Documentation-only cleanup does not require a cold rebuild. Preserve
+Wine's current runtime/tool trees and fixed inputs.

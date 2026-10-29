@@ -1,11 +1,17 @@
 # MAINL xx DOS type compatibility and descriptor allocation
 
+This review describes a retained earlier miniature,not the current full-TU
+link. The maintained xx.cpp now links through the normal library as an unaccepted
+candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
+CODE/provider counts below remain specific to that diagnostic. Current overall
+source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+
 `src/mainl/crt/xx_type_match.inl` recovers the contiguous58DB..5D3B bank of the
 original DOS `xx.cpp`. It follows the private type comparator and precedes the
 call adapters. Its1121 bytes are all instructions in five complete procedures;
 there are no inline tables or MZ segment words. Three actual far library fields
 resolve the whole original payload from OMF/MAP to the fixed Japanese target.
-Source presence is246 extents/55,702 gross bytes. Accepted MAINL remains211
+Source presence at that checkpoint was246 extents/55,702 gross bytes. Accepted MAINL remains211
 extents/288 procedures/36,946 bytes,with zero new exact credit.
 
 | Procedure | Original address | Instruction bytes | Return |
@@ -73,9 +79,9 @@ bound. Candidate bank is1119 bytes with341/368/92/57/261-byte bodies. Whole
 candidate CODE is8352,empty DATA and8 existing callback BSS bytes. Its16 remaining
 interfaces are unresolved surrounding library/runtime providers in this
 miniature. Original covered ranges now total8314 bytes in two separate spans,
-583E..6312 and6CEF..8293. Remaining throw/unwind and RTTI/front code are not
-included. Complete raw equality,ordered whole-TU layout and normal-library
-replacement remain open despite some matching body lengths.
+583E..6312 and6CEF..8293. Throw/unwind and RTTI/front code are excluded from this miniature;they are
+recovered in the later complete TU. Its normal-library candidate is linked,while
+complete raw equality and ordered whole-TU layout remain open.
 
 Focused native probes establish public/private nested base matching,that width
 shortcut,void CV behavior,and emergency-slot release. Every target/source pair

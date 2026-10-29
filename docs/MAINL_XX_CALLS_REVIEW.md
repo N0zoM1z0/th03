@@ -1,12 +1,18 @@
 # MAINL xx DOS member-call adapters
 
+This review describes a retained earlier miniature,not the current full-TU
+link. The maintained xx.cpp now links through the normal library as an unaccepted
+candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
+CODE/provider counts below remain specific to that diagnostic. Current overall
+source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+
 `src/mainl/crt/xx_calls.inl` recovers the copy-constructor,destructor and member
 call adapters of the original monolithic DOS `xx.cpp`. It precedes the recovered
 dispatch/destruction includes in that TU. Both destruction call edges now resolve
 to real private near functions. Original bank0000:5D3C..6312 spans1495 bytes:
-1327 instructions and168 actual CS switch-table bytes. This adds one source-present
+1327 instructions and168 actual CS switch-table bytes. Recovery added one source-present
 extent. With the later [catch/type bank](MAINL_XX_CATCH_REVIEW.md) and
-[type matcher](MAINL_XX_TYPES_REVIEW.md),current source presence is246 extents/
+[type matcher](MAINL_XX_TYPES_REVIEW.md),the then-source scope was246 extents/
 55,702 gross bytes. Accepted MAINL
 remains211 extents/288 procedures/36,946 bytes,with zero new exact credit.
 
@@ -25,7 +31,7 @@ Direct native decoding verifies full bodies,returns,branches and all84 table
 destinations. Resolving the88 original literal ordered CODE-offset fields from
 the original OMF reproduces the entire1495-byte linked bank. There are no MZ
 segment words or new storage claims in this range. No database observations were
-needed for this turn; the fixed Japanese decoded target and original OMF/MAP
+needed for this review;the fixed Japanese decoded target and original OMF/MAP
 were inspected directly.
 
 The adapters obtain callback DS from the runtime prefix reached through SS:16,
@@ -68,7 +74,8 @@ Candidate call bank is1512 bytes:767,392 and185 instruction bytes plus168 table
 bytes. Copy-constructor tail sharing still differs by17 bytes. Whole candidate
 CODE is5599,empty DATA and8 callback BSS bytes;15 other runtime interfaces remain
 unresolved. The original covered banks total5560 bytes in two separate ranges;
-the unrecovered code between6313 and72B3 is not silently included. The candidate
+the code between6313 and72B3 is excluded from this miniature and is recovered
+in later banks. The candidate
 CS table operands and literal relocation stream retain their actual offsets.
 Neither complete raw call-bank equality nor normal-library/whole-TU ownership
 is claimed. Equal helper lengths alone do not earn exact credit.
