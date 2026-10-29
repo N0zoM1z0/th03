@@ -43,23 +43,28 @@ def trap_context(imports):
     return ('\n'.join(lines)+"\n_TEXT ends\n_STACK segment para stack 'STACK'\ndw 128 dup (?)\n_STACK ends\nend\n").encode()
 
 
-def main(destruction=False):
+def main(destruction=False,calls=False):
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
     if os.nice(0)<10:os.nice(10-os.nice(0))
     cold_context(ROOT);compiler=compiler_context(ROOT);headers=sdk_inventory(ROOT)
     config=tomllib.loads((ROOT/'config/toolchain.toml').read_text());prefix=ROOT/config['paths']['wine_prefix'];work=build.WORK
     env=dict(os.environ,DISPLAY='',WAYLAND_DISPLAY='',WINEDEBUG='-all',WINEPREFIX=str(prefix),MSDOS_PATH=r'C:\BC45;C:\TC4\BIN',TZ='UTC',LANG='C',LC_ALL='C')
     dos=['/usr/bin/wine-stable',str(ROOT/config['paths']['msdos_player']),'-e','-x'];tasm=['/usr/bin/wine-stable',str(prefix/'drive_c/TASM50/bin/TASM32.EXE'),'/m','/mx','/kh32768','/t']
-    stem='xx-destruction' if destruction else 'xx-dispatch'
+    destruction=destruction or calls
+    stem='xx-calls' if calls else ('xx-destruction' if destruction else 'xx-dispatch')
     sources={'xxbank.inl':SOURCE,'xx_abi.h':HEADER}
     wrapper=WRAPPER
     if destruction:
         sources['xxdtor.inl']='src/mainl/crt/xx_destroy.inl'
         wrapper=WRAPPER.replace(b'int near dtorCleanup',b'static int near dtorCleanup')+b'#include "xxdtor.inl"\n'
+    if calls:
+        sources['xxcall.inl']='src/mainl/crt/xx_calls.inl'
+        wrapper=wrapper.replace(b'#include "xxbank.inl"',b'#include "xxcall.inl"\n#include "xxbank.inl"')
     report_path='.analysis/work/mainl-'+stem+'-build.json'
     report=dict(complete=False,source_acceptance=False,accepted_source_bytes=0,whole_product_linked=False,whole_product_cold_rebuilt=False,miniature_only=True,
         compiler=compiler,compiler_flags=FLAGS,source_sha256={n:sha((ROOT/n).read_bytes()) for n in sources.values()},driver_sha256=sha((ROOT/DRIVER).read_bytes()),
         available_SDK_header_sha256=headers,wrapper_sha256=sha(wrapper),cold_report_sha256=sha((build.OUT/'mainl-build.json').read_bytes()),rounds=[],native_phases=[])
+    if calls:report['probe_support_sha256']={'scripts/lib/decoded_mainl_xx_calls_probe.py':sha((ROOT/'scripts/lib/decoded_mainl_xx_calls_probe.py').read_bytes())}
     save=lambda:(ROOT/report_path).write_text(json.dumps(report,indent=2)+'\n')
     def run(cmd,scratch,label):
         p=subprocess.run(cmd,cwd=scratch,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=90)
@@ -81,6 +86,9 @@ def main(destruction=False):
                 os.utime(scratch/'xxdisp.asm',(946684800,946684800))
                 run(tasm+(['/l'] if destruction else [])+['xxdisp.asm','xxdisp.obj'],scratch,f'round{number}-assemble')
                 imports=externs((scratch/'xxdisp.obj').read_bytes());context=trap_context(imports)
+                if calls:
+                    from lib.decoded_mainl_xx_calls_probe import context as call_context
+                    context=call_context(context)
                 if destruction:
                     need(not any(n.startswith('@dtorCleanup$') for n in imports),'cleanup resolves inside the original xx TU')
                 else:
@@ -108,4 +116,4 @@ def main(destruction=False):
 
 if __name__=='__main__':
     import sys
-    main(destruction='--with-destruction' in sys.argv[1:])
+    main(destruction='--with-destruction' in sys.argv[1:],calls='--with-calls' in sys.argv[1:])

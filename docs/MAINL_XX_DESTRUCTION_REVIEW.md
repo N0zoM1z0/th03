@@ -4,8 +4,9 @@
 monolithic DOS `xx.cpp`. Its bank at0000:78D0..8293 contains2500 bytes:2422
 instruction bytes and78 bytes of actual inline exception metadata. It follows
 `xx_dispatch.inl` in the same TU. The near static `dtorCleanup` now resolves
-inside that TU,without adding a public product interface. Source presence is
-242 extents/51,453 gross bytes; accepted MAINL stays211 extents/288 procedures/
+inside that TU,without adding a public product interface. With the subsequent
+[call-adapter bank](MAINL_XX_CALLS_REVIEW.md),current source
+presence is243 extents/52,948 gross bytes; accepted MAINL stays211 extents/288 procedures/
 36,946 bytes. These are source candidates,with zero new exact credit.
 
 | Procedure | Original address | Instruction bytes | Return |
@@ -85,3 +86,9 @@ with SPFF04 and preserved registers. Neither executes an imported helper. The
 existing noncontinuable negative C-filter case also passes in the integrated
 source. These observations do not establish every destructor path or physical
 DOS execution. No whole-product cold rebuild or ancestor runtime chain is replayed.
+
+The call-adapter bank subsequently supplies private near callDestructor and
+callMemberFunc before this include. The separate integrated calls miniature has
+15 remaining interfaces; this earlier two-bank miniature retains its17 explicit
+diagnostic providers. Both were refreshed after the shared diagnostic driver
+change; their original source and ABI-header hashes remain unchanged.

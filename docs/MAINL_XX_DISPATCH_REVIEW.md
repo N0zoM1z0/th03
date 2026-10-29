@@ -5,8 +5,9 @@ monolithic `xx.cpp` TU. It is an include rather than a proposed new product TU.
 The bank at0000:72B3 spans1565 bytes:1533 instruction bytes in five procedures
 and32 bytes of actual inline tables/signature. It is source-present,with zero
 new exact credit. MAINL acceptance stays211 extents/288 procedures/36,946 bytes.
-With the subsequent [destruction bank](MAINL_XX_DESTRUCTION_REVIEW.md),current
-source presence is242 extents/51,453 gross bytes.
+With the subsequent [destruction bank](MAINL_XX_DESTRUCTION_REVIEW.md) and
+[call adapters](MAINL_XX_CALLS_REVIEW.md),current source presence is243 extents/
+52,948 gross bytes.
 
 | Bank-relative offset | Procedure | Instruction bytes | Return |
 | ---: | --- | ---: | --- |

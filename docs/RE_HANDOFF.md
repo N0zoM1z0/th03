@@ -6,24 +6,36 @@ Use natural source recovery and exact native output with direct local tools.
 Preflight and scoped compiler attestation are complete. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-Latest work adds `xx_destroy.inl` after `xx_dispatch.inl` in the original xx.cpp
-TU. Destruction bank78D0..8293 is2500 bytes:2422 instructions in six private
-procedures and78 inline EH bytes. dtorCleanup is1035 bytes,destroyVariable715;
-their real returns/branches and complete original fields are reviewed. Combined
-original bank72B3..8293 is4065 bytes. Source presence is242 extents/51,453 gross
-bytes; accepted MAINL stays211 extents/288 procedures/36,946 bytes.
-See [xx destruction review](MAINL_XX_DESTRUCTION_REVIEW.md) and
+Latest work adds `xx_calls.inl` before dispatch/destruction in the original xx.cpp
+TU. Bank5D3C..6312 is1495 bytes:750/392/185 instruction bytes in the private near
+copy/destructor/member adapters plus168 CS table bytes. All88 literal ordered
+fields and real boundaries are reviewed. Destruction bank78D0..8293 remains2500
+bytes; dispatch72B3..78CF remains1565. These are two separate original ranges,
+not a continuous5D3C..8293 owner. Source presence is243 extents/52,948 gross bytes;
+accepted MAINL stays211 extents/288 procedures/36,946 bytes.
+See [xx calls review](MAINL_XX_CALLS_REVIEW.md),
+[destruction review](MAINL_XX_DESTRUCTION_REVIEW.md) and
 [dispatch review](MAINL_XX_DISPATCH_REVIEW.md).
 
 Two actual BCC4.5 -O2-pg -Os -Z- -S / TASM / miniature TLINK rounds repeat
-full generated ASM/two-OBJ/mini-EXE/MAP vectors. Integrated candidate CODE4087
-has the original three public entry offsets,but fails whole-bank raw equality.
-Static near dtorCleanup now resolves within this TU;17 surrounding runtime
-interfaces remain unresolved. Trap providers are diagnostic-only. The177-byte
-true-type helper has raw equality,but no normal-library replacement/whole-product
-link or exact credit is claimed. Both complete TASM listings are retained; their
-page clocks differ. All211 accepted owners/publication/verifier inputs and938
-cold outputs remain unchanged. Dispatch-only pair was refreshed for the ABI header.
+full generated ASM/two-OBJ/mini-EXE/MAP vectors. Current candidate CODE5599 has a
+1512-byte call bank:767/392/185 instructions plus168 table bytes. Copy-constructor
+tail sharing still differs by17 bytes. Static near dtorCleanup,callDestructor
+and callMemberFunc now resolve within this TU;15 surrounding runtime interfaces
+remain unresolved. Trap providers are diagnostic-only. The177-byte true-type
+helper's earlier raw equality does not close whole-TU ownership. No normal-library
+replacement/whole-product link or exact credit is claimed. Complete TASM listings
+retain differing page clocks. All211 accepted owners/publication/verifier inputs
+and938 cold outputs remain unchanged. The shared diagnostic driver change
+refreshed the dispatch-only and dispatch/destruction pairs.
+
+Call ABI: restore callback DS from runtime+6,then restore incoming DS on return.
+16-bit fastcall this is last; a virtual-base copy uses(0,source,destination),
+giving AX0/BXsource/DXdestination for near pointers. Pascal this-last100 gates
+copy/dtor Pascal paths. Fastthis80 uses SI or DS:SI. Constructor flag is0;
+destructor flag is2 when its virtual-base argument is nonzero. Three actual
+TASM callback probes confirm fastcall copy,far DS:SI cdecl dtor and far Pascal
+member traffic,one call each,SPFF02 and preserved incoming DS/SS/BP/SI/DI.
 
 Preserve DOS ABI: SS:14 near chain,SS:16 far runtime pointer,registration DS/SI
 at14/16,DWORD initial dtor count at26,descriptor free DS at24 and far callback26.
@@ -45,12 +57,13 @@ no imported helper executes. Do not import later WITHVT/NEWXX/Delphi paths.
 
 A private `TH03-mainl-decoded-fixed` Ghidra database was independently attested
 against the existing67372-byte decoded Japanese target before observations.
-Current receipts:`mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,
+Current receipts:`mainl-xx-calls-build.json`, `mainl-xx-calls-review.json`,
+`mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,
 `mainl-xx-dispatch-build.json`, `mainl-xx-dispatch-review.json`,
 `mainl-decoded-fixed-attestation.json`; the old packed MAINL DB is not a decoded
 runtime analysis. Ghidra sizes/signatures remain hypotheses. Next recover
-callDestructor/callMemberFunc to close the destruction bank's direct edges,then
-the remaining copy/catch helpers and whole TU; do not normalize the candidate.
+exceptionHandled/initCatchArg/typeIDcaught to close the remaining catch edges,
+then the throw/unwind helpers and whole TU; do not normalize the candidate.
 
 Earlier natural C++ new/xalloc/xmsg exact ownership retains six owners2258
 bytes:1563 CODE,659 inline DATA,30 other initialized DATA and6 genuinely
@@ -128,6 +141,11 @@ Keep actual current proof inputs in `.analysis/work/`:
   `xx-destruction-roundN-xxctx.obj`, `xx-destruction-roundN-xxmini.exe/.map`,
   `mainl-xx-destruction-build.json`, `mainl-xx-destruction-review.json`,actual
   `xx-destruction-source-*`,wrapper/context/link response and native phase logs.
+  Current full miniature also needs both `xx-calls-roundN-xxdisp.asm/.obj/.lst`,
+  `xx-calls-roundN-xxctx.obj`, `xx-calls-roundN-xxmini.exe/.map`,the calls build/
+  review receipts,actual `xx-calls-source-*`,wrapper/context/link response and
+  phase logs. Preserve the real TASM callback fixture; its code has no fixups and
+  is loaded outside either immutable image for the three focused ABI probes.
 
 - Scanner:`input-nostring.json`, `input-nostring.obj`, `input-assembly.obj`.
 - Sound:`sound-bodies.json`,two stripped `sound-bodyN.c` inputs/four OBJ outputs.
