@@ -7,6 +7,16 @@ local tools and affected native checks. Allocation/null-pointer/input-domain
 matrices, large emulator specifications and routine full CI are not per-unit
 gates. Reuse an unchanged native cold pair rather than rebuilding every turn.
 
+Score file CODE is now complete across `op_02.cpp`165 and `scoredat.cpp`229:
+4 procedures/394 CODE bytes/33 native CODE fields/7 literal MZ relocations.
+The prior loader107 remains separate, making5 accepted score procedures/501
+CODE total. Initialized DATA11 has a16-bit near filename pointer and one native
+WORD fixup, without a MZ entry. `hi` is206 bytes of BSS, adding no file-backed
+credit. Keep the BYTE cleared enum, checksum over204 score bytes and backward
+encryption of hi offsets203..0 (including checksum). File calls remain unchecked;
+rank multiplication wraps16 bits before widening. IRAND42 stays vendor context.
+See [score review](OP_SCORE_NATIVE_REVIEW.md).
+
 Title animation now has complete CODE ownership across its actual TC4
 `op_main.cpp` producer:5 procedures/902 CODE bytes/97 native fields/53 literal
 ordered MZ relocations. Title808 and column94 are separate accepted extents.
@@ -28,24 +38,27 @@ layout and adds zero file-backed bytes; preserve the10-point array's40-byte
 declaration. See [Music Room](OP_MUSIC_MENU_REVIEW.md).
 
 OP retains old34-owner observations from immutable `6cfa85f` under unchanged
-native bindings; all40 owners accepted before this turn are unchanged. New title
+native bindings; all42 owners accepted before this turn are unchanged. New score
 scopes are checked independently. MAINL/ZUN shared imports and their helper
 closure have identical ASTs and all other proof inputs are unchanged; only the
 shared-module binding was updated. Their audit, gate witnesses and observation
-times were preserved. Receipt: `.analysis/work/title-native-shared-binding.json`.
+times were preserved. Receipt: `.analysis/work/score-native-shared-binding.json`.
 
-Current title evidence: `.analysis/work/title-native-review.json`. OP publication
-accepts42 extents/11537 file-backed bytes. The source/tool/staging/output graph,
-complete native cold pair and packed target are unchanged. No full native cold
-replay or ancestor runtime chain was repeated. Validation:30 focused title/current-acceptance/progress/selection checks PASS;
-tracking and progress regeneration/check PASS. `git diff --check` is clean.
+Current score evidence: `.analysis/work/score-native-review.json`. OP publication
+accepts45 extents/11942 file-backed bytes. Native source/tool/staging/output/cold
+and packed-target bindings are unchanged. No native build was repeated. The OP
+score check did not invoke old score runtime models. Generated progress still
+invokes MAINL/ZUN runtime audits indirectly through `status.py`; do not describe
+that generator as avoiding all ancestor runtime checks. Validation:34 focused score/title/selection/current-
+acceptance/progress checks PASS; tracking and progress regeneration/check PASS.
+`git diff --check` is clean.
 
 ## Verified current source scopes
 
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
-| OP | 42 extents / 70 procedures / 10,042 CODE + 1,495 DATA bytes | Open |
+| OP | 45 extents / 74 procedures / 10,436 CODE + 1,506 DATA bytes | Open |
 | MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
@@ -72,8 +85,9 @@ inputs. Obsolete logs and verification history may be deleted.
 
 No reconstruction job or ongoing goal is left running. Start with Git,
 `scripts/preflight.py` and the current review. Remaining OP work can begin with
-score encode165/score-data229, selection DATA227/BSS23 or title DATA31; inspect
-actual current OMF/MAP boundaries before choosing a scope. TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04`
+shared CDG loader593, graph_putsa_fx613 or other unowned substantial producers;
+selection DATA227/BSS23 and title DATA31 also remain open. Inspect actual current
+OMF/MAP boundaries before choosing a scope. TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04`
 is an authorized source reference, not a replacement target or build dependency.
 
 The unchanged-graph reuse guard rejects changed source/verifier inputs. Review

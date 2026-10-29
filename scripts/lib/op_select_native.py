@@ -60,7 +60,7 @@ def address(table, name):
     return tuple(int(v, 16) for v in values[0])
 
 
-def resolved_code(raw, base, data_base, bss_base, table):
+def resolved_code(raw, base, data_base, bss_base, table, lookup=address):
     code, blocks = code_bytes(raw, 1)
     need([b['offset'] for b in blocks] == [sum(p['size'] for p in blocks[:i]) for i in range(len(blocks))],
          'complete natural CODE records without holes')
@@ -99,7 +99,7 @@ def resolved_code(raw, base, data_base, bss_base, table):
                     value = {2: data_base, 3: bss_base}[index] + addend
                 else:
                     name = names[index - 1]
-                    seg, off = address(table, name)
+                    seg, off = lookup(table, name)
                     if method == 22:
                         need(kind == 1, 'external WORD field')
                         if not loc & 0x40:
