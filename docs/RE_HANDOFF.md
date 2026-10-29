@@ -2,114 +2,111 @@
 
 ## Current checkpoint
 
-Use exact-first natural source recovery with direct local tools. Revalidate an
-unchanged cold pair; rebuild affected producers rather than every product.
-Session preflight is already complete for the unchanged environment. No native
-reconstruction process is left running at this checkpoint.
+Use natural source recovery with direct local tools and exact native output.
+Revalidate the unchanged cold pair; rebuild affected producers. Session preflight
+is complete for the unchanged environment. No native writer remains running.
 
-MAINL now accepts complete SUPER1008 CODE and generated RotTbl1024 initialized
-DATA stored in CS. `src/mainl/resources/pixel_rotation_table.inl` uses REPT and
-bit operations for all256 DWORDs,with no literal target table. Two actual
-selected TASM/TLINK rounds rebuilt only the root and reused35 project objects
-and the existing CRT library. Whole raw OBJ/EXE/MAP vectors repeat; both EXEs
-match the pinned Japanese decoded target and both MAPs match the retained MAP.
-The old source/cold graph and938 outputs are restored and unchanged.
-See [resource review](MAINL_RESOURCES_NATIVE_REVIEW.md).
+MAINL now accepts the complete file API786, DOS helpers80, PF INT21 hook605 and
+file DATA4: 1,475 additional library bytes /16 procedures. Three maintained
+`.inl` providers recover the actual initialized file state,20 file BSS bytes and
+134 hook BSS bytes. BSS adds no file bytes. Original unchecked behavior,WORD/
+DWORD widths,aliases,far Pascal cleanup and the native interrupt frame remain.
+See [file review](MAINL_FILE_NATIVE_REVIEW.md).
 
-SUPER has six far Pascal APIs,four private near drawing helpers and one near
-tail dispatcher. Shared20-byte error exits borrow the entry frame; they add no
-procedures. Six genuine outer EVEN bytes complete the range. All50 native fields
-and the empty MZ vector match. Thirteen CS writers target ten complete real
-MOV/ADD/JMP operands. Preserve unchecked allocation/cancellation/BFNT behavior,
-DF,16-bit coordinates and signed imm8 row additions. No physical GRCG claim.
+Two selected TASM/TLINK rounds rebuild only the actual GAME3 root and reuse35
+unchanged project objects plus existing CRT library. Whole raw OBJ/EXE/MAP repeat;
+both EXEs equal the pinned Japanese decoded target and both MAPs equal the retained
+MAP. All140 fields resolve independently; the hook has the sole MZ entry0000:295D.
+FILE contains11 APIs; DOS has2; hook has PFSTART,PFEND and one ISR. Internal ISR
+labels do not add procedures. HookCODE550 includes one ordinary EVEN byte;
+DATA55 includes five CS state bytes and50 dispatch/IOCTL bytes.
 
-Extra generator equates change TASM PUBDEF emission order. Complete public
-records/multiplicity and every other non-COMENT native record,including literal
-FIXUPP order,remain unchanged. This metadata permutation is not relocation
-sorting. Neither objects nor executables are patched. RotTbl is DATA,not1024
-instruction bytes or256 procedures,and has no native fields/MZ relocations.
+Important: `default dw ?, _Thru` at0000:29AE has no LEDATA for its sentinel WORD.
+Both actual fresh links emit zero file bytes there. Only this explicit2-byte hole
+uses the independent linked output; all other owned bytes require object coverage.
+Do not invent comparison zeros or add an initializer. The real CS BYTE write from
+AH establishes the sentinel before dispatch. The DATA total includes this
+file-backed storage,not a claim that source initializes it. FILE_WRITE's buffered
+AX=1 and direct nonempty AX=FFFF success values are intentionally different.
 
-The PI decoder remains1524 library CODE/four procedures. Its shared11-byte error
-exit borrows BP/SI/DI and is not a fifth procedure. Root CODE base0272 differs
-from linked loader1044. Six older master.lib bodies226 bytes were reclassified
-from authored to library without new byte credit. See
-[PI review](MAINL_PI_DECODER_NATIVE_REVIEW.md).
+Current acceptance validates the complete source/tool/library/cold graph and938
+outputs,then preserves old97 owner/native/runtime observations from3e7e9dd. Six
+proved library-origin corrections remain. Decoder/resources/file native ownership
+is added separately. All previous100 owner records and nested scopes are unchanged
+by this step. Ancestor runtime matrices are not rerun.
 
-Current MAINL acceptance checks its entire source/tool/library/cold graph,then
-preserves the complete old97 owner/native/runtime observations from3e7e9dd;
-only six demonstrated origin labels change. Decoder/resources native ownership
-is added separately. All previous98 owner records and nested scopes are unchanged
-by this resource step. Ancestor runtime matrices are not reexecuted.
+Shared status now permits extra disjoint MAINL ledger rows while still requiring
+the caller's complete inventory to equal the current CSV. Its exact one-condition
+change is guarded against the baseline. ZUN's status hash binding alone was
+refreshed after checking identical non-MAINL AST,all other proof inputs,source/
+SDK/runtime inventories and29 current outputs. ZUN audit/oracles/time are unchanged;
+no ZUN runtime replay. OP publication is unchanged and acceptance reverified.
+Only MAINL's generated SVG region,summary and source-present table row changed.
 
-Current receipts: `.analysis/work/mainl-resources-build.json`,
-`mainl-resources-native.json` and `mainl-resources-progress.json`. OP60/14985 is
-reverified; OP/ZUN publications are untouched. Only the verified MAINL SVG region
-and summary were refreshed,retaining every other generated byte. Unaccepted
-non-MAINL renderer branches are discarded; full generator `--check` is not claimed.
-
-Validation:43 focused resource/decoder/current acceptance/status/progress checks,
-tracking and bounded generated-region checks PASS. Old resources progress tests
-keep the original literal-table fixture and reject inheriting that receipt for
-the new source. Archived resource fixtures are unavailable and are not a current
-native source gate. `git diff --check` is clean.
+Current receipts: `.analysis/work/mainl-file-build.json`, `mainl-file-native.json`,
+`mainl-file-status-binding.json` and `mainl-file-progress.json`. Focused native,
+acceptance,status and progress checks plus tracking pass. Historical CRT caption
+fixtures explicitly retain the old literal-table source; current generated source
+cannot inherit that receipt. Archived fixtures are not current native gates.
 
 ## Accepted source scopes
 
 | Product | Current scopes | Whole-product source exactness |
 | --- | --- | --- |
-| MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
-| OP | 60 extents / 92 procedures / 13,221 CODE + 1,764 DATA bytes | Open |
-| MAINL | 100 extents / 117 procedures / 18,670 CODE + 1,248 DATA bytes | Open |
-| ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
+| MAIN | 459 functions /78,737 CODE bytes /106 extents | Open |
+| OP | 60 extents /92 procedures /13,221 CODE +1,764 DATA bytes | Open |
+| MAINL | 104 extents /133 procedures /20,086 CODE +1,307 DATA bytes | Open |
+| ZUN | 77 extents /89 procedures or entries /6,179 CODE bytes | Open |
 
-MAINL accepts19918 bytes:16136 authored +3782 library. ZUN accepts8635 bytes:
-2179 authored +1390 original ASM +5066 library. OP includes22 proved inline
-compiler bytes and3 ordinary ASM EVEN bytes; these are not extra procedures.
-Whole-game source/function denominators and completion percentage remain unknown.
+MAINL accepts21,393 bytes:16,136 authored +5,257 library. ZUN accepts8,635 bytes:
+2,179 authored +1,390 original ASM +5,066 library. OP includes22 proved compiler
+bytes and3 ordinary ASM EVEN bytes; these add no procedures. Whole-game source/
+function denominators and completion percentage remain unknown.
 
 OP/MAINL/ZUN retained cold pairs match decoded and canonical DIET -B stored
-targets while retaining unowned reference/vendor context. MAIN repeats100 outputs/
-98 project objects and1553 ordered relocations; EC2D CODE alignment90 vs00 and
-MZ headers remain open. Its original VS module is explicit vendor context.
-Canonical packed-unit credit remains separate.
+targets with unowned reference/vendor context. MAIN repeats100 outputs/98 project
+objects and1,553 ordered relocations; EC2D CODE alignment90 vs00 and MZ headers
+remain open. Its original VS module is explicit vendor context. Canonical
+packed-unit credit remains separate.
 
-OP selection uses maintained `selection_state.inl`: scoped WORD declaration then
-BYTE function alignment replaces dummy BYTEs naturally. DATA227 is accepted;
-BSS23 adds no file bytes. The frozen full-cold recipe still has its contextual
-prefix. See [selection review](OP_SELECTION_STORAGE_REVIEW.md). Input/sound
-trailers at04A5/0067/00A1 remain unowned. PI/PFOPEN524 CODE retains the actual
-split-tail producer and exact source-copy transport; its legacy include filename
-is not a new standalone TU. Follow the corresponding source/native reviews.
+MAINL SUPER1008 CODE/generated RotTbl1024 DATA remain accepted. The table uses
+REPT/bit operations rather than target literals; metadata/public record order may
+vary while full public records and literal FIXUPP order agree. SUPER shared error
+exits borrow entry frames. PI decoder1524 library CODE has four procedures and an
+11-byte shared exit. See the resource and PI native reviews. OP selection227 DATA
+uses natural WORD declaration/BYTE function alignment; BSS23 adds no file bytes.
+Its PI/PFOPEN524 CODE retains the actual split-tail producer and source transport.
 
 ## Inputs and next work
 
-Preserve pinned Japanese targets/assets (`candidate-local-attested`),the local
-Wine prefix,TC4/TASM/JWasm,`.tools/ghidra`,`.tools/jdk`,`.venv`,
-`_reference/ReC98` and `ghidra-project/`. Keep one working build per product:
-TH03WORK,TH03OP,TH03ML,TH03ZUN. Actual archive input:
+Preserve pinned Japanese targets/assets (`candidate-local-attested`),local Wine
+prefix,TC4/TASM/JWasm,`.tools/ghidra`,`.tools/jdk`,`.venv`, `_reference/ReC98` and
+`ghidra-project/`. Keep one working build per product: TH03WORK,TH03OP,TH03ML,
+TH03ZUN. Actual archive input is
 `.analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar`.
 
-Preserve current proof inputs under `.analysis/work/`:
+Preserve actual current proof inputs under `.analysis/work/`:
 
 - Scanner: `input-nostring.json`, `input-nostring.obj`, `input-assembly.obj`.
-- Sound bodies: `sound-bodies.json`, both `sound-body0.c`/`sound-body1.c` stripped
-  inputs and four `sound-bodyN-roundN.obj` outputs.
-- Selection: `selection-build.json`, both `selection-roundN.obj/.exe/.map` vectors,
-  `selection-tail.cpp/.lnk`; alignment controls explain the rejected dummy bytes.
-- Resources: `mainl-resources-build.json`, both `resources-roundN.obj/.exe/.map`
+- Sound: `sound-bodies.json`,both stripped `sound-bodyN.c` inputs and four OBJ outputs.
+- Selection: `selection-build.json`,both `selection-roundN.obj/.exe/.map` vectors,
+  `selection-tail.cpp/.lnk`; alignment controls explain rejected dummy bytes.
+- Resources: `mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors and `resources-root.asm/.lnk`; PI/origin receipts remain useful.
+- File: `mainl-file-build.json`,both `file-roundN.obj/.exe/.map` vectors and
+  `file-root.asm/.lnk`; retain real selected links for the DW? sentinel proof.
 
-MAINL's adapted acceptance baseline is3e7e9dd; do not update historical runtime
-hashes to imply replay. Keep `scripts/lib/zun.py` unchanged unless deliberately
-updating its frozen MAIN binding; OP's builder is shared by MAINL/ZUN. Remove
-obsolete diagnostics only after preserving actual current inputs and outputs.
+Acceptance baseline remains3e7e9dd; do not rewrite historical runtime hashes to
+imply replay. Keep `scripts/lib/zun.py` unchanged unless deliberately updating
+its frozen MAIN binding. OP's builder is shared by MAINL/ZUN. Remove obsolete
+diagnostics after preserving actual inputs and outputs.
 
-Next large native providers include BFNT512 and file/archive786/605 plus other
-root resources. Review actual ownership and original library classification.
-Old MAINL cutscene3195/regist2720/root2488 aggregate entries already overlap
-accepted C++ functions; never count them again. When deliberately changing full
-recipes,integrate the maintained OP selection prefix and MAINL generated table;
-do not rewrite cold receipt hashes or rebuild everything merely for progress.
+Next providers include BFNT512,buffered/archive readers and display/hardware
+library bodies. Review complete natural source,ownership and origin. Old cutscene
+3195/regist2720/root2488 aggregate rows overlap accepted C++ functions; do not count
+again. When deliberately changing full recipes,integrate maintained OP selection,
+MAINL generated table and three file-state providers. Their frozen cold prefixes
+remain contextual; do not rewrite receipt hashes or rebuild everything for progress.
 TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04` is an authorized
-source reference,not a replacement target/build dependency. Attest a Ghidra
-database before using its observations. Keep original unchecked behavior.
+source reference,not a replacement target/dependency. Re-attest Ghidra databases
+before use. Preserve original unchecked behavior.

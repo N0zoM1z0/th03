@@ -14,21 +14,23 @@ class CrtProgressTests(unittest.TestCase):
         units,evidence=self.data()
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
-        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(193,38146,0,193))
+        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(194,38150,0,194))
         # The old aggregate requires the old linked-game source assignment.
         # Ending now comes from staffdat.cpp, so current units suppress it even
         # when publication is unavailable. Preserve the historical caption test
-        # using its historical source projection, without reassigning the ledger.
+        # using its historical source projection, including the old literal table,
+        # without reassigning the ledger.
         with patch('status.mainl_product_status', return_value={
                 'product_exact': False, 'decoded_exact_units': 0}):
-            self.assertNotIn("24,680 B target-equal",progress.render_svg(units,[],evidence))
+            self.assertNotIn("24,680 B target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
             historical=[dict(u) for u in units]
             for unit in historical:
                 expected=(progress.MAINL_LINKED_GAME_SOURCE_UNITS.get(unit['id'])
-                          or progress.MAINL_STAFF_SOURCE_UNITS.get(unit['id']))
+                          or progress.MAINL_STAFF_SOURCE_UNITS.get(unit['id'])
+                          or progress.MAINL_RESOURCES_SOURCE_UNITS.get(unit['id']))
                 if expected:
                     unit['source']=expected['source']
-            self.assertIn("24,680 B target-equal",progress.render_svg(historical,[],evidence))
+            self.assertIn("24,680 B target-equal",progress.render_svg(historical,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_CRT_SOURCE_UNITS.values()),628)
     def test_missing_repeat_evidence_rejects_caption(self):
         units,evidence=self.data()

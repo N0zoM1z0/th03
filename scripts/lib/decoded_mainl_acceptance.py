@@ -50,6 +50,7 @@ from review_th03_mainl_text_work import current_scope as text_scope, INPUTS as T
 from lib.decoded_mainl_root_orchestration_layout import transport as root_transport
 from lib.decoded_mainl_pi_decoder_native import verify as pi_decoder_scope, review_library_origins
 from lib.decoded_mainl_resources_native import verify as resources_scope, TABLE_UNIT, TABLE_SOURCE
+from lib.decoded_mainl_file_native import verify as file_scope, DATA_UNIT as FILE_DATA_UNIT, SELECTED_SOURCE as FILE_STATE_SOURCE
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -101,7 +102,8 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
 
 PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS,
     "scripts/lib/decoded_mainl_pi_decoder_native.py", "scripts/lib/op_asset_native.py", "scripts/lib/op_shared_native.py",
-    "scripts/lib/decoded_mainl_resources_native.py", "scripts/build_th03_mainl_resources_work.py")))
+    "scripts/lib/decoded_mainl_resources_native.py", "scripts/build_th03_mainl_resources_work.py",
+    "scripts/lib/decoded_mainl_file_native.py", "scripts/build_th03_mainl_file_work.py")))
 
 def need(value, message):
     if not value:
@@ -193,7 +195,10 @@ def audit(root):
     previous = json.loads(previous_raw)
     need(previous['schema'] == 'mainl-current-source-acceptance-v1' and
          previous['state'] == 'repository-local-accepted', 'reviewed prior97 checkpoint')
-    adapted = {'scripts/lib/decoded_mainl_acceptance.py'}
+    adapted = {'scripts/lib/decoded_mainl_acceptance.py', 'scripts/status.py'}
+    old_status = subprocess.check_output(['git', 'show', BASELINE + ':scripts/status.py'], cwd=root)
+    need((root / 'scripts/status.py').read_bytes() == old_status.replace(b'len(expected) != 193', b'len(expected) < 193'),
+         'only status adaptation permits new disjoint data rows while requiring identical complete caller inventory')
     for name, expected_hash in previous['proof_inputs'].items():
         if name not in adapted:
             need(sha((root / name).read_bytes()) == expected_hash, 'unchanged prior verifier input: ' + name)
@@ -222,6 +227,10 @@ def audit(root):
     need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in resources['owners']}), 'separate complete SUPER and generated table owners')
     owners.extend(resources['owners'])
     scope['resources_native'] = resources
+    file_native = file_scope(root, work, target, candidate, graph, files)
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in file_native['owners']}), 'separate complete file/DOS/hook/state owners')
+    owners.extend(file_native['owners'])
+    scope['file_native'] = file_native
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -235,10 +244,13 @@ def audit(root):
         if o["object"] == ROOT_OBJECT:
             need(row["wrapper"] == ROOT_WRAPPER and row["source"] == ROOT_WRAPPER
                  and row["game"] == 3 and row["binary"] == "L" and row["first_binary"] == "mainl"
-                 and (o['unit_id'] == TABLE_UNIT or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
+                 and (o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT) or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
             if o['unit_id'] == TABLE_UNIT:
                 need(o['source'] == TABLE_SOURCE and o['maintained_native_object'] == '.analysis/work/resources-round1.obj',
                      'actual separately rebuilt generated table producer; frozen cold wrapper remains contextual')
+            elif o['unit_id'] == FILE_DATA_UNIT:
+                need(o['source'] == FILE_STATE_SOURCE and o['maintained_native_object'] == '.analysis/work/file-round1.obj',
+                     'actual separately rebuilt file state producer; frozen cold wrapper remains contextual')
         else:
             need(row["source"] == o["source"], "actual source producer ownership")
         if o["source"] == INPUT_SOURCE:
@@ -250,10 +262,10 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        if o['unit_id'] == TABLE_UNIT:
+        if o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT):
             # resources_scope binds the real selected wrapper, new source,
             # entire native record stream and both target-equal link rounds.
-            need(o['source'] == TABLE_SOURCE, 'explicit selected generator source transport')
+            need(o['source'] == (TABLE_SOURCE if o['unit_id'] == TABLE_UNIT else FILE_STATE_SOURCE), 'explicit selected source transport')
         elif o["source"] in ('src/mainl/root/complete_data.cpp', 'src/mainl/root/continue.cpp'):
             # The bounded native layout verifies the literal composer transform;
             # no generic source-equality bypass is introduced for other owners.

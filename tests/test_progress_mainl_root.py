@@ -15,8 +15,8 @@ class RootProgressTests(unittest.TestCase):
         c = progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"],50)
         self.assertGreaterEqual(c["source_bytes"],15672)
-        self.assertEqual((c["exact"],c["total"]),(0,193))
-        self.assertIn("target-equal",progress.render_svg(units,[],evidence))
+        self.assertEqual((c["exact"],c["total"]),(0,194))
+        self.assertIn("target-equal",progress.render_svg(units,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
     def test_missing_root_repeat_evidence_rejects_caption(self):
         units,evidence=self.data()
         evidence=[e for e in evidence if e["id"] != progress.MAINL_ROOT_SOURCE_EVIDENCE[-1]]

@@ -27,8 +27,8 @@ class StaffProgressTests(unittest.TestCase):
         c = progress.mainl_unit_progress(units)
         self.assertGreaterEqual(c["source"], 49)
         self.assertGreaterEqual(c["source_bytes"], 13184)
-        self.assertEqual((c["exact"], c["total"]), (0, 193))
-        self.assertIn("target-equal", progress.render_svg(units, [], evidence))
+        self.assertEqual((c["exact"], c["total"]), (0, 194))
+        self.assertIn("target-equal", progress.render_svg(units, [], evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
     def test_missing_repeat_evidence_or_source_rejects_caption(self):
         units, evidence = self.data()
         units=self.historical_sources(units)

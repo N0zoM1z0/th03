@@ -6,7 +6,7 @@
     "scripts/lib/decoded_zun_acceptance.py": "951574adbae7cf8d0f75a5dc89390d61d5dd0b10a4b6f06796b34eef380c2ee1",
     "scripts/publish_th03_zun_work_scopes.py": "615a042dc29dd973c8ec541171ca417ad51a55fde679704ebdddfbac78db58e1",
     "scripts/lib/op_work_acceptance.py": "935fc27c53938097cdd1ecac28ac657f86a37b7178ed099ff24c8c50133df9c0",
-    "scripts/status.py": "e8c6a277902a75854094aae2fe6d9014adcc62a8fa1f79d1c0a4b11a1731242f",
+    "scripts/status.py": "6dfc49a22c85954e2b5743122da05e40edd57967a4263f0aa771081ad24bcef1",
     "scripts/validate_tracking.py": "0499eb4105f5f9437839e8333e419c435ff7a07cf4555a0a542d564aeef807a9",
     "config/oracles.toml": "332b7bfea9b8da21de525166a4f7ca5a3878db0d7ee796a92944f367ced63b6f",
     "scripts/review_th03_zun_format_work.py": "616f3237b45210c771315708571c3bb3eed18a51d267f8c29891c592e07bbb2b",
