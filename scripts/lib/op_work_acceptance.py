@@ -25,6 +25,7 @@ from lib.op_title_native import verify as title_scope, OBJECT as TITLE_OBJECT, S
 from lib.op_score_native import verify as score_scope
 from lib.op_shared_native import verify as shared_native_scope, UNITS as SHARED_NATIVE_UNITS
 from lib.op_cdg_draw_native import verify as cdg_draw_scope
+from lib.op_input_native import verify as input_scanner_scope, UNIT as INPUT_SCANNER_UNIT
 from lib.op_music_state_layout import OBJECT as MUSIC_OBJECT, SOURCE as MUSIC_SOURCE, WRAPPER as MUSIC_WRAPPER
 from lib.op_helpers_layout import FORWARDING as HELPER_FORWARDING
 from lib.op_cfg_layout import OBJECT as CFG_OBJECT, SOURCE as CFG_SOURCE, WRAPPER as CFG_WRAPPER, PUBLICS as CFG_PUBLICS
@@ -63,7 +64,7 @@ PROOF_INPUTS = ("scripts/lib/op_work_acceptance.py", "scripts/publish_th03_op_wo
                 "scripts/lib/op_title_native.py", "scripts/lib/op_score_native.py", "scripts/lib/op_shared_native.py",
                 "scripts/lib/decoded_mainl_cdg_layout.py", "scripts/lib/decoded_mainl_text_layout.py",
                 "scripts/review_th03_shared_text.py", "scripts/lib/op_cdg_draw_native.py",
-                "scripts/lib/decoded_mainl_cdg_draw_layout.py")
+                "scripts/lib/decoded_mainl_cdg_draw_layout.py", "scripts/lib/op_input_native.py")
 
 
 def need(value, message):
@@ -196,6 +197,10 @@ def audit(root):
          'separate complete CDG drawing producers and natural layout')
     owners.extend(cdg_draw['owners'])
     scope['cdg_drawing'] = cdg_draw
+    input_scanner = input_scanner_scope(root, work, target, candidate, files)
+    need(INPUT_SCANNER_UNIT not in {o['unit_id'] for o in owners}, 'separate complete scanner function')
+    owners.extend(input_scanner['owners'])
+    scope['input_scanner'] = input_scanner
     configuration, music_state = scope['configuration'], scope['music_state']
     entry_owners = sorted((o for o in owners if o["object"] == CFG_OBJECT and o.get("procedure_count", 1)), key=lambda o: o["start"])
     entry_boundaries = [offset for offset, _ in CFG_PUBLICS] + [3094]
@@ -244,6 +249,11 @@ def audit(root):
                  "unchanged selection producer inventory; actual slice provenance reviewed independently")
             need(files[wrapper].count(('#include "' + part + '"').encode()) == 1,
                  "actual complete selection/score-loader include")
+        elif o['unit_id'] == INPUT_SCANNER_UNIT:
+            need(producer['source'] == 'th03/input_s.cpp' and producer['ownership'] == 'maintained-containing'
+                 and producer['maintained_owner_sources'] == ['src/op/hardware/input_sense.cpp']
+                 and o['forwarding_chain'] == ['th03/input_s.cpp', 'th03/hardware/input_s.cpp', o['source']],
+                 'literal current input producer; legacy trailer excluded')
         elif o['object'] == TITLE_OBJECT:
             need(producer['source'] == 'th03/op_main.cpp' and producer['ownership'] == 'maintained-containing'
                  and producer['maintained_owner_sources'] == ['src/op/menu/title_animation.inl']

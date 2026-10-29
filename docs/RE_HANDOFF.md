@@ -7,68 +7,52 @@ local tools and affected native checks. Allocation/null-pointer/input-domain
 matrices, large emulator specifications and routine full CI are not per-unit
 gates. Reuse an unchanged native cold pair rather than rebuilding every turn.
 
-CDG drawing now has complete OP module ownership:alpha/hflip382 + noalpha114
-CODE. Three far Pascal pop6 bodies occupy493 bytes;3 ordinary outer EVEN bytes
-are separately reviewed within those module extents. All19 native fields,2
-literal MZ entries and12 CS WORD writer/MOV-immediate destination pairs match
-through OP's own MAP. External slots/LUT/GRCG remain context. See
-[drawing review](OP_CDG_DRAW_NATIVE_REVIEW.md).
+OP scanner now has complete function ownership at0BEB:0304:417 CODE bytes/
+115 instructions/42 native DGROUP WORD fields/no MZ entries. It returns far
+without arguments/cleanup. Both direct TC4 and unmodified compiler-S/TASM emit
+all417 bytes without the legacy codestring. Their different empty DGROUP member
+orders and actual field streams are reviewed independently. Source/header
+consumption, both OP MAP tables, full function bytes, nine BIOS group reads and
+all direct branch boundaries match. See [input review](OP_INPUT_NATIVE_REVIEW.md).
 
-An input-scanner probe established that the explicit trailing `codestring`
-produces its extra NOP. Removing only that pragma in one isolated TC4 compile
-emits417 rather than418 CODE bytes, with the complete417-byte prefix and all
-EXTDEF/FIXUPP streams unchanged. This is not automatic compiler alignment.
-Product source/native outputs were not changed; scanner/trailer acceptance
-was not added. Resolve the trailer's provenance/layout before a clean producer
-change; do not substitute another arbitrary padding mechanism. Evidence:
-`.analysis/work/input-nostring.json`, with its OBJ/log/script retained locally.
+The legacy byte at04A5 remains unowned. Native compiler ASM has no automatic
+trailer. Selected-object links without it have4861 loaded differences; `-P`
+does not help. A following-PI WORD alignment annotation control leaves only
+00-vs90 at04A5, but still fails ordered relocation equality. It is diagnostic,
+not a product fix. No source/OBJ patch, invented padding or whole-TU/product
+source acceptance is implied. Original non-acceptance probe records are intact;
+this later proof accepts the complete independent function, never the trailer.
 
-Shared CDG/text now have complete OP native CODE ownership:6 procedures/1206
-bytes/41 fields/27 literal ordered MZ relocations across the actual `cdg_load.cpp`
-593 and `grppsafx.cpp`613 producers. Both have zero private DATA/BSS. The renderer
-is a complete226-instruction far Pascal pop10 function; CDG cleanup is8/8/6/6/2.
-Four forward same-CS far calls use normal TLINK NOP/PUSH CS/CALL bridges; the
-backward bridge is already emitted by TC4. Comparison buffers never patch an
-object. Shared MAINL native shape metadata is reused, but every linked address
-and raw byte is independently checked in OP. See [shared review](OP_SHARED_NATIVE_REVIEW.md).
+CDG drawing retains two complete module extents382/114:3 far Pascal pop6 bodies
+493 plus3 separately reviewed ordinary outer EVEN bytes. All19 fields/2 MZ
+entries/12 own-CS immediate-word writers match. See [drawing review](OP_CDG_DRAW_NATIVE_REVIEW.md).
+CDG loading/text retain1206 CODE/6 procedures/41 fields/27 MZ entries, with real
+TC4/TLINK bridges and separate OP addresses. See [shared review](OP_SHARED_NATIVE_REVIEW.md).
+Score retains501 CODE/5 procedures and filename DATA11; hi BSS206 adds no file
+bytes. Title retains902 CODE/5 procedures; DATA31 is open. Selection retains
+3013 CODE/19 procedures; DATA227/BSS23 remain open. Music retains2244 CODE/
+14 procedures and DATA1008; BSS1060 adds zero file bytes. Follow the linked
+reviews for the original unchecked behavior and ABI details.
 
-Score CODE remains complete:encode165 + codec229 + prior loader107 =5 procedures/
-501 CODE. Filename DATA11 contains a16-bit near pointer, without a MZ entry.
-`hi` BSS206 adds zero file-backed credit. Preserve BYTE enums, encrypted checksum,
-16-bit size arithmetic and unchecked file calls. IRAND42 stays vendor context.
-See [score review](OP_SCORE_NATIVE_REVIEW.md).
+All49 previously accepted OP owners and their native source/tool/output/cold
+bindings are unchanged. MAINL/ZUN shared helper closures have identical ASTs;
+all other proof inputs and complete current native source/staging/output graphs
+(938/29 outputs) were checked. Only their shared-module binding changed, with
+no audit/witness/time refresh or runtime replay. Receipt:
+`.analysis/work/input-native-shared-binding.json`.
 
-Title CODE remains complete:5 procedures/902 bytes, separate title808/column94
-owners. The old three-byte column mismatch is historical; today's symbolic
-source already emits all94 bytes. DATA31 remains open. See [title review](OP_TITLE_NATIVE_REVIEW.md).
+Current function evidence: `.analysis/work/input-native-review.json`.
+Emitter/layout diagnostics: `.analysis/work/input-layout-diagnostic.json`.
+OP accepts50 extents/14061 file-backed bytes. Only selected input/adjacent-PI
+emitter and context-link experiments ran; no full native cold replay or ancestor
+runtime chain was run. All maintained product sources and native products stay
+unchanged. `.analysis/work/input_scope_refresh.py` refreshed the verified OP
+region/summary with the existing renderer, preserving every non-OP byte.
+Synthetic unaccepted non-OP render branches are discarded. The full generator
+still calls ancestor runtime audits; no full generator `--check` is claimed.
 
-Selection retains CODE3013/19 procedures across selhelp155/seltail2858. The
-loader107, unlock48 and tail2858 are separate; the old2906 aggregate adds no
-credit. Callbacks are far DWORD pointers despite their typedef name. Private
-DATA227/BSS23 and following alignment stay open. See [selection review](OP_SELECTION_NATIVE_REVIEW.md).
-Music Room retains CODE2244/14 procedures and DATA1008; reviewed BSS1060 adds
-zero file bytes. Preserve the10-point array's40-byte declaration. See [Music Room](OP_MUSIC_MENU_REVIEW.md).
-
-OP retains the old34-owner observations from immutable `6cfa85f`; all47 owners
-accepted before this turn are unchanged. New drawing scopes are independent.
-MAINL/ZUN shared imports/helper closure have identical ASTs and all other proof
-inputs are unchanged. Their complete current source/staging/native output graphs
-(938/29 outputs) were revalidated; only the shared-module binding changed.
-Audit, gate witnesses and observation times were preserved. Receipt:
-`.analysis/work/cdg-draw-native-shared-binding.json`.
-
-Current evidence: `.analysis/work/cdg-draw-native-review.json`. OP accepts49 extents/
-13644 file-backed bytes. No graphics rebuild, full native cold replay or ancestor
-runtime replay was run. One isolated input compile answered the trailer question.
-The full progress generator still invokes MAINL/ZUN runtime audits through
-`status.py`; it was not used this turn. Instead `.analysis/work/cdg_draw_scope_refresh.py`
-uses the existing renderer for the verified OP region/summary only and retains
-all non-OP output literally. Its synthetic unaccepted non-OP render branches
-are discarded, never used as acceptance. The native-binding receipt records the
-bounded refresh. No full generator `--check` is claimed.
-
-Validation:42 focused drawing/shared/score/title/selection/current-acceptance/progress
-checks PASS; tracking and OP-only generated-region verification PASS.
+Validation:45 focused input/drawing/shared/score/title/selection/current-
+acceptance/progress checks PASS, plus tracking and bounded progress verification.
 `git diff --check` is clean.
 
 ## Verified current source scopes
@@ -76,7 +60,7 @@ checks PASS; tracking and OP-only generated-region verification PASS.
 | Product | Accepted source scopes | Whole-product source exactness |
 | --- | --- | --- |
 | MAIN | 459 functions / 78,737 CODE bytes / 106 extents | Open |
-| OP | 49 extents / 83 procedures / 12,138 CODE + 1,506 DATA bytes | Open |
+| OP | 50 extents / 84 procedures / 12,555 CODE + 1,506 DATA bytes | Open |
 | MAINL | 97 extents / 102 procedures / 16,138 CODE + 224 DATA bytes | Open |
 | ZUN | 77 extents / 89 procedures or entries / 6,179 CODE bytes | Open |
 
@@ -98,13 +82,16 @@ Wine prefix, TC4/TASM/JWasm, `.tools/ghidra`, `.tools/jdk`, `.venv`,
 `_reference/ReC98` and `ghidra-project/`. Keep one working build per product:
 TH03WORK, TH03OP, TH03ML and TH03ZUN. Actual source input:
 `.analysis/th03-main-exact/gpt-dots-mima-combined-cold-v02/reference.tar`.
+The scanner acceptance also consumes `.analysis/work/input-nostring.json`,
+`input-nostring.obj` and `input-assembly.obj`; preserve these actual proof inputs
+and their diagnostic ASM/logs/scripts.
 Keep `scripts/lib/zun.py` unchanged unless deliberately updating its frozen MAIN
 binding; OP's native builder is also shared by MAINL/ZUN. Preserve actual current
 inputs. Obsolete logs and verification history may be deleted.
 
 No native reconstruction process is left running at this checkpoint. Start with Git,
 `scripts/preflight.py` and the current review. Remaining OP work can begin with
-the input scanner417/trailer issue or other unowned producers; selection
+the unowned input trailer or other unowned producers; selection
 DATA227/BSS23 and title DATA31 also remain open. Inspect actual current
 OMF/MAP boundaries before choosing a scope. TH04 at `/home/pentester/coding/codex_ida/th04-reconstruction/th04`
 is an authorized source reference, not a replacement target or build dependency.
