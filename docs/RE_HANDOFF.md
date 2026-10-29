@@ -6,39 +6,44 @@ Use natural source recovery and exact native output with direct local tools.
 Session preflight is complete for the unchanged environment. Revalidate the
 unchanged cold pair; rebuild affected producers. No native writer remains running.
 
-MAINL now recovers complete DOS command/environment constructors:311+365 CODE,
-2 near entries. All previous185 owners/nested scopes unchanged; authored bytes
-stay16,695. See [constructor review](MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md).
+MAINL now recovers the complete DOS path normalization chain:four TUs,
+1247 CODE+22 DATA/INIT bytes,six extents,nine procedures. Previous187 owners and
+nested scopes unchanged; authored bytes stay16,695. See [path review](MAINL_PATH_NATIVE_REVIEW.md).
 
-Both use RET12 for three far pointer arguments. The loader correctly omits
-caller cleanup at these two calls; deferred cleanup elsewhere concerns far C
-calls. DOSCMD's third pointer only enables argv copying; argv still contributes
-to allocation size when copying is disabled. Preserve wrapped sizes,spaces,
-CR/NUL and low-byte command length. DOSENV aligns destination offset/unchanged
-segment and separately stores raw allocation. Preserve offset-only alignment
-and required-size arithmetic. Null env vector/null first entry writes two NULs;
-first-entry empty string writes one. Null first entry counts only one byte but
-writes two,so return is aligned-offset+1. One bounded native three-case probe with
-only successful malloc hooked confirms terminators,return offsets and RET12.
+fullpath834 contains near pop2 separator31,near pop8 SBCS separator58 and far
+cdecl coordinator745. Preserve161-byte unchecked temporary,drive/current-directory
+selection,dot/parent reduction,DBCS trail skipping and offset-only cursors.
+Caller output must fit strlen+1; null output returns realloc(temp,strlen+1).
+Current-directory157 uses70-byte unchecked local path,DOS19h/47h and named
+ERANGE34/ENOMEM8. Drive wrappers48 retain one-based APIs/zero-based DOS services.
 
-Entire initialized payloads match original. Each module has five ordinary far
-fields. Retain old/TASM emitted streams separately; compare geometry by site,
-never sort MZ relocations. All10 call relaxations independently resolve; complete
-CODE,local branches,near callee-pop12 returns and empty scoped MZ vectors checked.
+Pathops208 has near initializer73,far lead predicate37 and far SBCS scan98.
+Preserve DOS6300h carry/same-segment/FFFF fallback checks and original8086 save
+sequence. Actual DATA16 is zero far range-vector plus six zero range pairs.
+INIT6 is type0/priority15/near offset/zero segment slot; retained startup uses
+near dispatch. Sole real new MZ relocation is CODE433F. Explicit DGROUP qualifier
+preserves original segment field frame. All31 field identities/payloads match;
+retain both emitted streams,never sort MZ relocations. All20 far calls naturally
+relax; full bytes/local branches/returns/MAP and ordered vectors checked. One
+bounded actual-native helper probe distinguishes DBCS trail/SBCS backslash and
+checks RET8 without a DOS/heap/fullpath model.
 
-Two actual TASM/TLIB/TLINK rounds compose all11 source CRT providers:two new,
-reused natural farheap/exec/loadprog pairs and six retained providers.893 member
-positions/all888 other current payloads unchanged;36 project objects reused.
-Whole raw two-OBJ/LIB/EXE/MAP vectors repeat; full EXE/MAP equal pinned Japanese
-decoded target/retained MAP.938 cold outputs/source/recipe/tools unchanged. No
-full cold/DIET or ancestor runtime replay. Frozen cold recipe remains six CRT
-replacements; bounded combined recipe establishes coexistence of eleven.
+Two actual TASM/TLIB/TLINK rounds compose all15 source CRT providers:four new,
+five validated reused natural pairs and six retained providers.893 positions/
+884 other current payloads unchanged;36 project objects reused. Whole four-OBJ/
+LIB/EXE/MAP vectors repeat; full EXE/MAP equal pinned Japanese decoded target/
+retained MAP.938 cold outputs/source/recipe/tools unchanged. No full cold/DIET
+or ancestor runtime replay. Frozen cold recipe remains six CRT replacements.
 
-Receipts:`mainl-dosconstruct-build.json`, `mainl-dosconstruct-native.json`,
-`mainl-dosconstruct-progress.json` in`.analysis/work/`. Focused checks and tracking
-pass; finish with diff checks. Old185 owner records/scopes unchanged; OP acceptance
-reverified,OP/ZUN publications untouched. Only MAINL SVG region/summary/source row
-refreshed. Whole-product source ownership stays open.
+Receipts:`mainl-path-build.json`, `mainl-path-native.json`,
+`mainl-path-progress.json` in`.analysis/work/`. Focused checks and tracking pass;
+finish with diff checks. Old187 owners/scopes unchanged; OP acceptance reverified,
+OP/ZUN publications untouched. Only MAINL SVG region/summary/source row refreshed.
+Whole-product source ownership stays open.
+
+Earlier constructors retain RET12; null-first-entry DOSENV counts one byte but
+writes two and returns aligned-offset+1. Do not generalize null-vector and
+first-empty-string branches. See [constructor review](MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md).
 
 Earlier findings:exec933 has671 CODE+262 CS storage,97-byte copied continuation,
 257 genuine uninitialized work bytes and near12-byte executor ABI. Farheap1115
@@ -54,10 +59,10 @@ MZ headers6240/7680/relocation offsets28/62 open;1553 entries agree. No padding.
 | --- | --- | --- |
 | MAIN | 459 functions /78,737 CODE bytes /106 extents | Open |
 | OP | 60 extents /92 procedures /13,221 CODE +1,764 DATA bytes | Open |
-| MAINL | 187 extents /250 procedures or entries /29,715 CODE +1,886 DATA bytes | Open |
+| MAINL | 193 extents /259 procedures or entries /30,962 CODE +1,908 DATA bytes | Open |
 | ZUN | 77 extents /89 procedures or entries /6,179 CODE bytes | Open |
 
-MAINL accepts31,601 bytes:16,695 authored +14,906 library. ZUN accepts8,635 bytes:
+MAINL accepts32,870 bytes:16,695 authored +16,175 library. ZUN accepts8,635 bytes:
 2,179 authored +1,390 original ASM +5,066 library. Whole-game source/function
 denominators and completion percentage remain unknown. Canonical packed-unit
 credit stays separate. OP/MAINL/ZUN retained cold pairs match decoded and DIET -B
@@ -88,6 +93,9 @@ Keep actual current proof inputs in `.analysis/work/`:
   `selection-tail.cpp/.lnk`.
 - Resources:`mainl-resources-build.json`,both `resources-roundN.obj/.exe/.map`
   vectors,`resources-root.asm/.lnk`.
+- Paths:`mainl-path-build.json`,both four-object `path-roundN-NAME.obj`/
+  `.lib`/`.exe`/`.map` vectors,actual `path-source-NAME.asm` for fullpath,getdcwd,
+  _pathops,dosgdriv, `path-library.rsp`, `path-link.lnk`; retain all five reused pairs.
 - Constructors:`mainl-dosconstruct-build.json`,both `dosconstruct-roundN-doscmd.obj`/
   `dosconstruct-roundN-dosenv.obj`/`.lib`/`.exe`/`.map` vectors,actual
   `dosconstruct-source-doscmd.asm`, `dosconstruct-source-dosenv.asm`,

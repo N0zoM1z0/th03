@@ -1,22 +1,22 @@
 # MAINL semantic CRT reconstruction
 
-Current decoded ownership is documented in
-[the six-provider review](../../../docs/MAINL_CRT_NATIVE_REVIEW.md) and
-[the complete far-heap review](../../../docs/MAINL_FARHEAP_NATIVE_REVIEW.md).
-`farheap.asm` adds the paragraph allocation/free/reallocation bank, with1,103
-CODE and12 file-backed CS state bytes. A selected normal-library replacement
-rebuilds this seventh provider twice while preserving the unchanged full cold
-pair. [The overlay execution review](../../../docs/MAINL_EXEC_NATIVE_REVIEW.md)
-adds `exec.asm` and demonstrates all eight source providers in one normal
-library, reusing the unchanged farheap object.
-[The program loader review](../../../docs/MAINL_LOADPROG_NATIVE_REVIEW.md) adds
-`loadprog.asm`, whose selected library composes nine source providers.
-[The DOS constructor review](../../../docs/MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md) adds
-`doscmd.asm` and `dosenv.asm`; the latest selected library composes all eleven
-source providers. Both constructors use near callee-pop12 returns.
-The historical observations below
-describe earlier checkpoints and do
-not define current source acceptance or its remaining whole-product limits.
+The latest [DOS path review](../../../docs/MAINL_PATH_NATIVE_REVIEW.md) validates
+fifteen source providers together in one normal CRT library. It adds complete
+`fullpath.asm`, `getdcwd.asm`, `pathops.asm` and `dosgdriv.asm`, including the actual
+DBCS vector/fallback DATA and near startup record. The frozen full cold recipe
+still replaces six providers; bounded current links compose the newer providers
+with validated unchanged native pairs.
+
+Earlier complete source reviews cover [the original six providers](../../../docs/MAINL_CRT_NATIVE_REVIEW.md),
+[far heap](../../../docs/MAINL_FARHEAP_NATIVE_REVIEW.md),
+[overlay execution](../../../docs/MAINL_EXEC_NATIVE_REVIEW.md),
+[program resolution/load preparation](../../../docs/MAINL_LOADPROG_NATIVE_REVIEW.md)
+and [DOSCMD/DOSENV constructors](../../../docs/MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md).
+The constructors use near callee-pop12 returns; the loader's executor callback
+uses the recovered near caller-pop12 ABI.
+
+The historical observations below describe earlier checkpoints and do not define
+current source acceptance or its remaining whole-product limits.
 
 These six semantic ASM providers have actual source-consumption, native repetition, linked
 image and CPU-model evidence. They are not copied library implementations. Source coverage
