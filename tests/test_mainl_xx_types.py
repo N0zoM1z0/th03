@@ -15,6 +15,13 @@ class XxTypes(unittest.TestCase):
         self.assertEqual((len(r['original_bodies']),len(r['original_literal_native_fields']),r['original_MZ_words']),(5,3,0))
         self.assertTrue(r['same_TU_type_match_edge_resolved'])
         self.assertEqual(len(r['actual_dispatch_type_calls']),2)
+        codegen=r['compatibility_codegen']
+        self.assertEqual((codegen['candidate_bytes'],codegen['stack_bytes']),(372,4))
+        self.assertTrue(codegen['all368_bytes_outside_call_operands_equal'])
+        self.assertEqual([q['offset'] for q in codegen['raw_byte_differences']],[298,357])
+        self.assertEqual([q['target'] for q in codegen['local_calls']],['sameTypeID','findBaseType'])
+        self.assertEqual(codegen['original_and_candidate_literal_fields'],[[],[]])
+        self.assertFalse(codegen['complete_object_raw_equal'])
         results={}
         for a,b in r['target_and_source_type_probes']:
             self.assertEqual(a,b);results[a['case']]=a

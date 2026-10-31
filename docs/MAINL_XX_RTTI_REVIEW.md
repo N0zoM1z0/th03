@@ -9,7 +9,7 @@ is357 bytes;its trailing descriptors are data,not instructions.
 
 This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new exact credit is granted.** Current
-source produces CODE12563,DATA18 and BSS10. Whole CODE differs,including the
+source produces CODE12567,DATA18 and BSS10. Whole CODE differs,including the
 existing RaiseException frame/EFLAGS gap. The full TU now has an unaccepted
 normal-library/whole-product source link;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 

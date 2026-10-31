@@ -89,3 +89,33 @@ agrees on return value,actual name-comparison calls and DS/SS/BP/SI/DI with
 SPFF02 for near matching orFF04 for far free. All unresolved providers remain
 traps and are never executed. These observations are not an exhaustive type
 matrix or a physical DOS execution claim.
+
+## Current compatibility-loop recovery
+
+The maintained compatibleType now has the original372 instruction bytes and
+four-byte stack frame. Local `-O-m`,restored with `-Om` afterward,removes the
+extra invariant WORD that cached the common source/destination mask bits.
+The native loop recomputes those bits for the array test.
+
+The source tests the masked CV subset on both operands. Its near-pointer width
+shortcut uses explicit success/failure returns,and array wildcard checking uses
+bitwise OR of both DWORD counts. Both descriptors are read even when the first
+count is nonzero,as in the target. The final class/base path returns the helper
+result inside a positive condition,then falls through to the shared failure
+return. These natural expressions recover the original instruction and branch
+layout without additional storage or object editing.
+
+The complete unlinked372-byte body differs at only two bytes,+12Ah and+165h,
+inside the calls at+129h and+164h. All368 bytes outside the four CALL operand
+bytes agree literally. Both calls resolve independently to the actual source
+sameTypeID and findBaseType procedures;the first retains its PUSH CS/far-return
+ABI. Original and candidate literal field vectors are both empty. The full-TU
+review repeats this comparison against its real compiler procedure identities.
+Complete raw object and linked-body equality remain open because helper layout
+differs;there is no new exact credit.
+
+The updated type miniature retains341/372/92/57/261-byte procedures and a1123-byte
+bank,versus original339/372/92/57/261 and1121. The earlier catch/call/destruction
+baseline is unchanged and reused. Only the affected types/throw/full-TU/normal
+library producers are refreshed;the accepted211-owner publication and cold pair
+remain separate and unchanged.

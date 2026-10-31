@@ -10,7 +10,7 @@ import probe_th03_mainl_xx_dispatch as native
 from probe_th03_mainl_xx_rtti import DRIVER,SOURCE,FRONT,UNIT,SUPPORT,REPORT,NAMES,wrapper,context
 from review_th03_mainl_xx_throw import BODIES as THROW_BODIES
 from review_th03_mainl_xx_catch import dense,BODIES as CATCH_BODIES
-from review_th03_mainl_xx_types import BODIES as TYPE_BODIES
+from review_th03_mainl_xx_types import BODIES as TYPE_BODIES,compatible_codegen
 from review_th03_mainl_xx_calls import BODIES as CALL_BODIES,ACCEPTED_SHA
 from review_th03_mainl_xx_dispatch import BODIES as DISPATCH_BODIES
 from review_th03_mainl_xx_destruction import BODIES as DESTROY_BODIES
@@ -231,6 +231,10 @@ def review(root,report=None):
     need(len(old)==len(rows)==50 and all(a['return_kind']==b['return_kind'] for a,b in zip(old,rows)),'original50 complete procedures and native near/far conventions')
     dense(t,old,decoder);dense(candidate.program_image,rows,decoder)
     destruction=destruction_codegen(original,v['obj'],old,rows)
+    need(rows[4]['size']==372 and rows[4]['name'].startswith('@compatibleType$') and
+        rows[2]['name'].startswith('@sameTypeID$') and rows[3]['name'].startswith('@findBaseType$'),
+        'actual compiler compatibility helper identities and complete extent')
+    compatibility=compatible_codegen(original,v['obj'],rows[4]['start'],rows[2]['start'],rows[3]['start'])
     def gaps(procedures,start,end):
         result=[];cursor=start
         for row in procedures:
@@ -302,7 +306,7 @@ def review(root,report=None):
         original_CODE_bytes=SIZE,original_instruction_bytes=12088,original_inline_data_bytes=534,original_DATA_bytes=18,original_BSS_bytes=10,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=mz,original_storage_gaps=old_gaps,
         candidate_CODE_segment_bytes=size,candidate_DATA_bytes=18,candidate_BSS_bytes=10,candidate_bodies=rows,candidate_literal_native_fields=candidate_fields,candidate_MZ_words=candidate_mz,candidate_storage_gaps=new_gaps,candidate_LIDATA_records=iterated,complete_CODE_raw_equal=raw_equal,complete_DATA_raw_equal=True,
         all22_original_public_interfaces=True,original18_imports=imports,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],candidate_RTTI_compiler_padding_bytes=padding_bytes,all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
-        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
+        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,compatibility_codegen=compatibility,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 
 if __name__=='__main__':

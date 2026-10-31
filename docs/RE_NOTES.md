@@ -283,3 +283,21 @@ the user clarified that records should also be kept. Their deletion inventory
 is retained under `.analysis/work/`;it records names/sizes/hashes,not restored
 contents. Subsequent cleanup must keep written records and remove only unused
 code copies,caches and rebuildable artifacts.
+
+## Current type-loop and producer findings
+
+compatibleType's original372-byte layout is recovered with local -O-m and the
+native CV subset/count-OR/positive base-return expressions. The four-byte frame
+has only the two masks. Complete object comparison leaves two differing local
+CALL operand bytes;both targets are checked and both ordered field vectors are
+empty. See [type review](MAINL_XX_TYPES_REVIEW.md#current-compatibility-loop-recovery).
+
+The direct BCC inline-assembler question was reduced to individual instructions:
+PUSHA and NOP compile,but PUSHAD/PUSHFD/POPAD,EAX and FS fail even with -3.
+No opcode arrays or replacement target are introduced. The external TASM route
+is retained. CopyCtor still emits767 bytes under the current profile and direct
+isolated compilation;local -O1 emits762. Enabling g/p/gp/jump/Z,or disabling
+exception cleanup,does not recover750. Turbo with its supported -O profile emits
+754 while changing the other two call adapters to351/180. These are failed
+producer/source trials,not source-exact progress. The consolidated private record
+is `.analysis/work/xx-native-codegen-experiments.json`.

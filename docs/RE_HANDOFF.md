@@ -9,8 +9,8 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work recovers the32-byte dtorCleanup frame and destroyVariable's
-member-search locals,after `8773096` (before codegen and Raise stack flow).
+Latest source work recovers compatibleType's four-byte frame and372-byte control
+flow,after `4ac9c68` (cleanup frame and destruction member locals).
 Preflight/scoped compiler checks passed in that source session; run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database; the fixed decoded MAINL DB is distinct from the old
@@ -42,8 +42,8 @@ and published211 owners remain separate and unchanged.
 
 | Extent | Original | Candidate |
 | --- | ---: | ---: |
-| Full decoded EXE | 67,372 | 67,308 |
-| xx CODE | 12,622 | 12,563 |
+| Full decoded EXE | 67,372 | 67,324 |
+| xx CODE | 12,622 | 12,567 |
 | Literal native fields | 187 | 181 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
@@ -51,9 +51,9 @@ and published211 owners remain separate and unchanged.
 | Raise frame allocation | 390 | 342 |
 
 Both whole EXEs have4096-byte headers/677 relocation entries;raw EXE/MAP still
-differ. Candidate DGROUP0E3B versus original0E3F gives ordinary64-byte file-size
+differ. Candidate DGROUP0E3C versus original0E3F gives ordinary48-byte file-size
 movement. Every candidate CODE byte resolves through the real18 library
-interfaces;all22 original public MAP bindings pass. Net length59 is not a count
+interfaces;all22 original public MAP bindings pass. Net length55 is not a count
 of differing bytes. No exact credit or DOS boot/ending-playthrough claim follows.
 
 Current useful proofs and remaining differences:
@@ -84,6 +84,14 @@ Current useful proofs and remaining differences:
   its declaration/initialization order. Remaining destroyBases129/128 and
   destroyVariable715/714 differences include TASM's forward far-call shortening.
   See the current section of [destruction review](MAINL_XX_DESTRUCTION_REVIEW.md).
+- compatibleType now has the original372 bytes/four-byte frame. Local -O-m
+  removes the common-mask temporary;masked CV,bitwise DWORD count OR and the
+  positive base-return path recover every byte except two local CALL operands.
+  Both calls resolve to sameTypeID/findBaseType;both literal field vectors are
+  empty. See [type review](MAINL_XX_TYPES_REVIEW.md#current-compatibility-loop-recovery).
+- Direct BCC -c accepts16-bit PUSHA but rejects PUSHAD/PUSHFD,EAX and FS even
+  with -3. Copy-adapter trials retain767 bytes,or762 under -O1,versus750;
+  Turbo's754-byte result changes other adapters too. These routes are not adopted.
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).
@@ -98,7 +106,7 @@ later Win32/Delphi/CV/friend/specification behavior from reference RTL.
 Rebuild/review affected scope;validate/reuse unchanged pairs. No full cold/DIET
 or unchanged ancestor runtime chain is required each turn. Source changes that
 actually affect an earlier producer do require refreshing its native binding.
-Recent affected checks:destruction/calls/catch/types/throw/full-TU/normal-link
+Recent affected checks:types/throw/full-TU/normal-link
 native pairs,9 targeted tests,
 tracking validation and `git diff --check`. Commit substantial progress as
 `gpt-6.1-sol: ...`. Full CI is for broad infrastructure changes.

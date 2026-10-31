@@ -30,6 +30,48 @@ BODIES=[('findBaseType',0x58DB,339,'near'),('compatibleType',0x5A2E,372,'near'),
     ('typeIDcaught',0x5C37,261,'near')]
 
 
+def compatible_codegen(original,candidate,start,same_type,find_base):
+    """Keep complete raw bodies and check both actual internal call targets."""
+    old_start=0x5A2E-XX_BASE
+    raw=[bytes(data[1,at+i] for i in range(372)) for data,at in
+        [(payload(original),old_start),(payload(candidate),start)]]
+    need(raw[0][:8]==raw[1][:8]==bytes.fromhex('558bec83ec045657'),
+        'native four-byte mask frame,without an invariant WORD temporary')
+    decoder=Cs(CS_ARCH_X86,CS_MODE_16)
+    decoded=[list(decoder.disasm(data,at)) for data,at in zip(raw,(old_start,start))]
+    need([i.size for i in decoded[0]]==[i.size for i in decoded[1]] and
+        sum(i.size for i in decoded[0])==372 and decoded[1][-1].mnemonic=='ret',
+        'same complete372-byte compatibility instruction boundaries')
+    targets=[{0x583E-XX_BASE:'sameTypeID',BASE-XX_BASE:'findBaseType'},
+        {same_type:'sameTypeID',find_base:'findBaseType'}]
+    calls=[]
+    for a,b in zip(*decoded):
+        offset=a.address-old_start
+        if a.mnemonic!='call':
+            need(a.bytes==b.bytes,'literal compatibility instruction at '+hex(offset))
+            continue
+        need(a.size==b.size==3 and a.bytes[0]==b.bytes[0]==0xE8,
+            'real compatibility near CALL encodings')
+        destinations=[(i.address+3+int.from_bytes(i.bytes[1:],'little',signed=True))&65535
+            for i in (a,b)]
+        names=[table.get(at) for table,at in zip(targets,destinations)]
+        need(names[0] is not None and names[0]==names[1],
+            'compatibility CALL resolves to the same actual helper')
+        calls.append(dict(offset=offset,target=names[0],original_target=destinations[0],
+            candidate_target=destinations[1],original_hex=a.bytes.hex(),candidate_hex=b.bytes.hex()))
+    need([(q['offset'],q['target']) for q in calls]==[(297,'sameTypeID'),(356,'findBaseType')]
+        and raw[0][296]==raw[1][296]==0x0E,'far comparator PUSH CS and near recursive helper ABI')
+    fields=[[f for f in literal_fields(obj) if f['segment']==1 and at<=f['site']<at+372]
+        for obj,at in [(original,old_start),(candidate,start)]]
+    need(fields==[[],[]],'both complete native compatibility field vectors are empty')
+    return dict(original_bytes=372,candidate_bytes=372,stack_bytes=4,
+        original_raw_sha256=sha(raw[0]),candidate_raw_sha256=sha(raw[1]),
+        complete_object_raw_equal=raw[0]==raw[1],
+        raw_byte_differences=[dict(offset=i,original=a,candidate=b) for i,(a,b) in
+            enumerate(zip(*raw)) if a!=b],all368_bytes_outside_call_operands_equal=True,
+        local_calls=calls,original_and_candidate_literal_fields=fields)
+
+
 def baseline(root):
     raw=(root/'.analysis/work/mainl-xx-catch-build.json').read_bytes();r=json.loads(raw)
     reviewed=(root/'.analysis/work/mainl-xx-catch-review.json').read_bytes();p=json.loads(reviewed)
@@ -93,6 +135,8 @@ def review(root,report=None):
     dense(target.program_image,old,decoder);dense(candidate.program_image,rows,decoder)
     need(old[0]['start']==BASE and old[-1]['start']+old[-1]['size']==BASE+SIZE and all(a['start']+a['size']==b['start'] for a,b in zip(old,old[1:])),'complete five-procedure original bank with no tables/padding')
     equal=parsed_bodies(v['listing'].decode(),[('sameTypeID',0x583E,157,'far')])[0];call_rows=call_bodies(v['listing'].decode());_,covered=classify(candidate.program_image,call_rows,decoder);catch=parsed_bodies(v['listing'].decode(),CATCH_BODIES);dispatch=catch[-1]['start']+catch[-1]['size'];pubs=code_publics(v['obj'],1)
+    need(rows[1]['size']==372,'complete compatibility body has its original extent')
+    compatibility=compatible_codegen(original,v['obj'],rows[1]['start'],equal['start'],rows[0]['start'])
     need(rows[0]['start']==equal['start']+equal['size'] and all(a['start']+a['size']==b['start'] for a,b in zip(rows,rows[1:])) and rows[-1]['start']+rows[-1]['size']==call_rows[0]['start'] and set(covered)==set(range(call_rows[0]['start'],catch[0]['start']-42)),'natural comparator/types/call/EH adjacency without manufactured gaps')
     need(pubs==[(catch[2]['start'],'@_CatchCleanup$qv')]+[(dispatch+o,n) for o,n in [(459,'__Local_unwind'),(491,'__Return_unwind'),(673,'__ExceptionHandler')]],'original public ABI only; all five new procedures stay private')
     for at,name in pubs:need(address(v['map'].decode(),'_catchcleanup()' if name=='@_CatchCleanup$qv' else name)==(0,at),'actual linked public address')
@@ -109,7 +153,7 @@ def review(root,report=None):
     return dict(complete=True,source_acceptance=False,accepted_source_bytes=0,accepted_publication_sha256=ACCEPTED_SHA,reused_baseline_receipt_sha256=baseline_sha,review_driver_sha256=sha((root/'scripts/review_th03_mainl_xx_types.py').read_bytes()),selected_build_report_sha256=sha(raw),source_sha256=r['source_sha256'],profile_driver_sha256=r['profile_driver_sha256'],
         original_bank_base=BASE,original_bank_size=SIZE,original_instruction_bytes=SIZE,original_inline_data_bytes=0,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=0,
         candidate_bank_bytes=rows[-1]['start']+rows[-1]['size']-rows[0]['start'],candidate_CODE_segment_bytes=size,candidate_bodies=rows,candidate_literal_native_fields=literal_fields(v['obj']),complete_bank_raw_equal=candidate.program_image[rows[0]['start']:rows[-1]['start']+rows[-1]['size']]==target.program_image[BASE:BASE+SIZE],
-        actual_dispatch_type_calls=calls,same_TU_type_match_edge_resolved=True,unresolved_interfaces=externs(v['obj']),target_and_source_type_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
+        actual_dispatch_type_calls=calls,same_TU_type_match_edge_resolved=True,compatibility_codegen=compatibility,unresolved_interfaces=externs(v['obj']),target_and_source_type_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 

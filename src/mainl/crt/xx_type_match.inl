@@ -39,6 +39,9 @@ static int near findBaseType(xx_type_ptr source,xx_type_ptr destination,
     return 0;
 }
 
+// The native loop keeps only these two WORD masks. It recomputes their common
+// bits at the array test rather than retaining an invariant temporary.
+#pragma option -O-m
 static int near compatibleType(xx_type_ptr source,xx_type_ptr destination,
     int exact,xx_type_ptr far *friends)
 {
@@ -58,7 +61,7 @@ static int near compatibleType(xx_type_ptr source,xx_type_ptr destination,
             if(exact)
                 return 0;
             if((source_mask & 0x300) != (destination_mask & 0x300)) {
-                if((source_mask & ~destination_mask) & 0x300)
+                if((source_mask & 0x300) & ~(destination_mask & 0x300))
                     return 0;
                 source_mask |= 0x300;
                 destination_mask |= 0x300;
@@ -68,13 +71,15 @@ static int near compatibleType(xx_type_ptr source,xx_type_ptr destination,
             if((source_mask | 0x3000) != (destination_mask | 0x3000))
                 return 0;
             // This older near-to-far case returns without inspecting pointees.
-            return (source_mask & 0x1000) != 0;
+            if(source_mask & 0x1000)
+                return 1;
+            return 0;
         }
         if((source_mask & destination_mask) & 0x400) {
             if(source->data.array.count != destination->data.array.count) {
                 if(exact)
                     return 0;
-                if(source->data.array.count || destination->data.array.count)
+                if(source->data.array.count | destination->data.array.count)
                     return 0;
             }
 indirect:
@@ -85,12 +90,13 @@ indirect:
         }
         if(sameTypeID(source,destination))
             return 1;
-        if(!(source_mask & 2) || !(destination_mask & 1) ||
-            !(source->data.object.flags & 4))
-            return 0;
-        return findBaseType(source,destination,friends,1);
+        if((source_mask & 2) && (destination_mask & 1) &&
+            (source->data.object.flags & 4))
+            return findBaseType(source,destination,friends,1);
+        return 0;
     }
 }
+#pragma option -Om
 
 // Only the observed far slot at runtime+20h is described. The intervening
 // runtime storage is not represented by invented fields or padding.

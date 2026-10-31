@@ -6,7 +6,7 @@ actual MAINL project. This is a **raw-different diagnostic candidate**,with no
 new source-exact credit or published product acceptance.
 
 Two real BCC4.5/TASM/TLIB/TLINK rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP
-vectors. The full candidate EXE is67308 bytes;the fixed Japanese decoded target
+vectors. The full candidate EXE is67324 bytes;the fixed Japanese decoded target
 is67372. Both headers are4096 bytes and have677 relocation entries;the complete
 ordered vectors remain separate and different. Equal counts are not exactness.
 
@@ -40,10 +40,10 @@ The shared miniature recipe and prior source/receipt bindings also stay current.
 
 ## Whole-product field and ABI review
 
-The actual MAP allocates xx CODE at0000:580D,size12563;original size is12622.
+The actual MAP allocates xx CODE at0000:580D,size12567;original size is12622.
 DATA18 remains at DGROUP:1172 and BSS10 at DGROUP:2876. The candidate DGROUP is
-0E3B rather than original0E3F. The CODE length difference and ordinary paragraph
-layout produce the64-byte file-size difference;no source padding is introduced.
+0E3C rather than original0E3F. The CODE length difference and ordinary paragraph
+layout produce the48-byte file-size difference;no source padding is introduced.
 All18 initialized DATA bytes agree with the compiler output,and BSS has no
 invented initializers or file-byte credit.
 
@@ -74,7 +74,7 @@ literally,including different EXTDEF indices8/18. The linked body remains
 different because its call displacement follows the current carrier layout.
 Previous reset trials omitted -Z-;restoring it with -O2-pg,-Os,-O-i leaves
 all following function lengths unchanged. Earlier NOSMART/single-pass TASM
-experiments still do not yield equality and are not adopted. Net CODE length59
+experiments still do not yield equality and are not adopted. Net CODE length55
 is not a differing-byte count.
 
 Local -O-v now recovers dtorCleanup's original32-byte stack frame and1035-byte
@@ -85,6 +85,14 @@ still differs:original function offsets40/996/932,current40/932/996. The linked
 body also differs,so no exact credit follows. Recovering destroyVariable's local
 declaration/initialization order matches its72-byte member/array-count search.
 See the [destruction findings](MAINL_XX_DESTRUCTION_REVIEW.md#current-full-tu-codegen).
+
+compatibleType now has its original372-byte extent and four-byte stack frame.
+Local -O-m removes an extra common-mask WORD;the CV subset,count OR and positive
+base-return expressions recover the complete native branch layout. Its unlinked
+body differs at only two CALL operand bytes. All368 bytes outside those operands
+agree,and both helpers resolve by their actual compiler identities. Original and
+candidate native field vectors are empty. The linked body still differs;see the
+[type findings](MAINL_XX_TYPES_REVIEW.md#current-compatibility-loop-recovery).
 
 Five focused target/source pairs execute routines from the linked product:
 virtual-address merging,distinct-address ambiguity,downcast source containment,
