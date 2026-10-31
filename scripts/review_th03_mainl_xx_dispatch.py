@@ -22,6 +22,7 @@ from probe_th03_main_bomb_rikako_cpp import segment_definitions
 REVIEW='.analysis/work/mainl-xx-dispatch-review.json'
 ACCEPTED_SHA='de7276df0d534f40e8bb1ab84f2d054688fd1960bf8cdf92d4a8108d7b34a551'
 BASE,SIZE,XX_BASE=0x72B3,1565,0x580D
+CANDIDATE_SIZE=1567
 BODIES=[('local_unwind',0,447,'ret'),('_Local_unwind',459,32,'retf'),('_Return_unwind',491,42,'retf'),('findMatchingHandler',533,132,'ret'),('_ExceptionHandler',673,880,'retf')]
 TABLES=[(447,12),(1553,12)]
 TAG=(665,b'**BCCxh1')
@@ -85,7 +86,7 @@ def review(root,report=None):
     need(vectors[0]==vectors[1],'whole native raw two-round vectors repeat')
     v=vectors[0];native=parse_mz(v['exe']);target=parse_mz((WORK/'bin/th03/mainl.target.exe').read_bytes());need(native.valid and target.valid,'real native mini executable and fixed Japanese decoded target')
     definitions=segment_definitions(v['obj']);size=definitions[0]['size']
-    need(definitions==[dict(index=i,name=n,**{'class':k},overlay='',size=s) for i,n,k,s in [(1,'_TEXT','CODE',1566),(2,'_DATA','DATA',0),(3,'_BSS','BSS',8)]],'whole candidate CODE/empty DATA/two actual callback slots in BSS')
+    need(definitions==[dict(index=i,name=n,**{'class':k},overlay='',size=s) for i,n,k,s in [(1,'_TEXT','CODE',CANDIDATE_SIZE),(2,'_DATA','DATA',0),(3,'_BSS','BSS',8)]],'whole candidate CODE/empty DATA/two actual callback slots in BSS')
     pubs=code_publics(v['obj'],1);need(pubs==[(459,'__Local_unwind'),(491,'__Return_unwind'),(673,'__ExceptionHandler')],'all three native publics and the original bank-relative entry offsets')
     table=v['map'].decode()
     for off,symbol in pubs:need(address(table,symbol)==(0,off),'actual mini native public addresses')

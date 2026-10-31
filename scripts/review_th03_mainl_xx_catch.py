@@ -10,6 +10,7 @@ from capstone.x86_const import X86_OP_IMM
 from probe_th03_mainl_xx_dispatch import DRIVER,SOURCE,HEADER,FLAGS,LINK,WRAPPER,CATCH_INTERFACES,trap_context,sdk_inventory
 from review_th03_mainl_xx_calls import call_bodies,classify,ACCEPTED_SHA,CALLS,DESTROY
 from review_th03_mainl_xx_destruction import source_bodies
+from review_th03_mainl_xx_dispatch import CANDIDATE_SIZE
 from build_th03_mainl_exception_work import compiler_context
 from build_th03_mainl_resources_work import cold_context,need,sha
 from build_th03_mainl_work import WORK
@@ -135,7 +136,7 @@ def review(root,report=None):
     need([imports[f['target']-1] for f in memory_fields].count('_memcpy')==2 and [imports[f['target']-1] for f in memory_fields].count('_memset')==1 and all(f['location_type']==3 and f['width']==4 for f in memory_fields),'actual source has the original two memcpy sites and one memset site,not intrinsic expansion')
     need(not [f for f in candidate_fields if f['segment']==1 and f['site']<equal[0]['size']],'candidate comparator has no native fields')
     need(equal[0]['start']==0 and set(covered)==set(range(equal[0]['size'],catch_base)) and len(covered)==catch_base-equal[0]['size'],'same-TU type comparator,call adapters and generated catch EH prefix abut naturally')
-    need(all(a['start']+a['size']==b['start'] for a,b in zip(rows,rows[1:])) and source_bodies(v['listing'].decode())[0]['start']==dispatch+1566+78 and source_bodies(v['listing'].decode())[-1]['start']+source_bodies(v['listing'].decode())[-1]['size']==size,'full contiguous candidate catch/dispatch/destruction TU tail')
+    need(all(a['start']+a['size']==b['start'] for a,b in zip(rows,rows[1:])) and source_bodies(v['listing'].decode())[0]['start']==dispatch+CANDIDATE_SIZE+78 and source_bodies(v['listing'].decode())[-1]['start']+source_bodies(v['listing'].decode())[-1]['size']==size,'full contiguous candidate catch/dispatch/destruction TU tail')
     cb=callbacks(v['context']);probes=[]
     for name,at,kind,symbol in [('initCatchArg',0x700D,'class-copy','_xx_probe_catch_ctor'),('_CatchCleanup',0x6E41,'catch-free','_xx_probe_catch_free'),('adjustClassAddress',0x6F8A,'virtual-base',None)]:
         source_at=next(row['start'] for row in rows if row['name']==name);pair=[run(t,at,kind,cb[symbol] if symbol else None),run(candidate.program_image,source_at,kind,cb[symbol] if symbol else None)];need(pair[0]==pair[1],'actual target/source catch traffic: '+kind);probes.append(pair)

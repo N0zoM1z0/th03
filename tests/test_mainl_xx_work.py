@@ -31,6 +31,9 @@ class XxWholeProduct(unittest.TestCase):
         compatibility=next(q for q in r['raw_function_comparisons'] if q['name']=='compatibleType')
         self.assertEqual(compatibility['candidate_bytes'],372)
         self.assertFalse(compatibility['raw_equal'])
+        handler=next(q for q in r['raw_function_comparisons'] if q['name']=='_ExceptionHandler')
+        self.assertEqual(handler['candidate_bytes'],880)
+        self.assertFalse(handler['raw_equal'])
         for a,b in r['target_and_source_RTTI_probes']:
             self.assertEqual(a,b)
         a,b=r['target_and_source_real_memcpy_raise_probe']

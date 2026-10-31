@@ -13,6 +13,7 @@ from review_th03_mainl_xx_catch import parsed_bodies,dense,BODIES as CATCH_BODIE
 from review_th03_mainl_xx_calls import call_bodies,classify,CALLS,DESTROY,ACCEPTED_SHA
 from review_th03_mainl_xx_destruction import source_bodies
 from review_th03_mainl_xx_types import BODIES as TYPE_BODIES
+from review_th03_mainl_xx_dispatch import CANDIDATE_SIZE
 from build_th03_mainl_exception_work import compiler_context
 from build_th03_mainl_resources_work import cold_context,need,sha
 from build_th03_mainl_work import WORK
@@ -138,7 +139,9 @@ def review(root,report=None):
     types=parsed_bodies(v['listing'].decode(),TYPE_BODIES);calls=call_bodies(v['listing'].decode());_,covered=classify(candidate.program_image,calls,decoder);catches=parsed_bodies(v['listing'].decode(),CATCH_BODIES)
     need(types[-1]['start']+types[-1]['size']==calls[0]['start'] and set(covered)==set(range(calls[0]['start'],rows[0]['start']-78)) and all(a['start']+a['size']==b['start'] for a,b in zip(rows,rows[1:])) and rows[-1]['start']+rows[-1]['size']==catches[0]['start']-42,'natural types/adapters/two-catch EH/throw/single-catch EH adjacency')
     catch_end=catches[-1]['start']+catches[-1]['size'];destroys=source_bodies(v['listing'].decode())
-    need(destroys[0]['start']==catch_end+1565+78 and destroys[-1]['start']+destroys[-1]['size']==size,'unchanged same-TU dispatch/destruction tail')
+    # The same-TU Global_unwind call is one byte shorter than the standalone
+    # dispatch miniature's external far call. JumpToCatch remains external here.
+    need(destroys[0]['start']==catch_end+CANDIDATE_SIZE-1+78 and destroys[-1]['start']+destroys[-1]['size']==size,'same-TU dispatch/destruction tail and real call relaxation')
     pubs=code_publics(v['obj'],1)
     expected_publics=[(rows[1]['start'],'@_ThrowException$qnvt1t1t1uiuiuinuc'),(rows[2]['start'],'@_ReThrowException$quinuc'),(rows[5]['start'],'__Global_unwind'),(rows[7]['start'],'_RaiseException'),(catches[2]['start'],'@_CatchCleanup$qv')]+[(catch_end+o,n) for o,n in [(459,'__Local_unwind'),(491,'__Return_unwind'),(673,'__ExceptionHandler')]]
     need(pubs==expected_publics,'all original public C/C++ signatures;private throw dispatcher and hooks stay private')

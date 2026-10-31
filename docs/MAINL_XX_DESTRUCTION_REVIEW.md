@@ -154,7 +154,7 @@ The full-TU reviewer records all1035 raw cleanup bytes through their hashes,
 all differing byte values,instruction boundaries,actual helper destinations and
 literal ordered fields. Two updated native miniature rounds and two normal
 893-member library/MAINL rounds repeat their complete raw outputs. Current xx
-CODE12567 and EXE67324 remain different from original12622/67372;the compiler
-now emits no optional RTTI zero,leaving135 versus136 metadata bytes. Accepted
+CODE12569 and EXE67324 remain different from original12622/67372;the compiler
+now emits one RTTI zero,with136 metadata bytes as in the original. Accepted
 211 owners/36946 bytes and the retained cold pair stay unchanged. These findings
 add no exact credit and require no full cold/DIET replay.

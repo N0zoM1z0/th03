@@ -143,6 +143,89 @@ def destruction_codegen(original,candidate,old,rows):
         destroyVariable_member_search_raw_bytes=72)
 
 
+def handler_codegen(original,candidate,old,rows):
+    """Review the complete handler,its real operands and adjacent switch table."""
+    a,b=old[29],rows[29]
+    need(a['name']=='_ExceptionHandler' and b['name']=='__ExceptionHandler' and
+        a['size']==b['size']==880,'complete original/current handler extents')
+    starts=[a['start']-BASE,b['start']];objects=[original,candidate]
+    data=[payload(obj) for obj in objects]
+    raw=[bytes(p[1,start+i] for i in range(880)) for p,start in zip(data,starts)]
+    need(raw[0][:8]==raw[1][:8]==bytes.fromhex('558bec83ec385657'),
+        'native56-byte handler frame')
+    decoder=Cs(CS_ARCH_X86,CS_MODE_16)
+    decoded=[list(decoder.disasm(code,start)) for code,start in zip(raw,starts)]
+    need([i.size for i in decoded[0]]==[i.size for i in decoded[1]] and
+        sum(i.size for i in decoded[0])==880 and decoded[1][-1].mnemonic=='retf',
+        'same complete880-byte handler instruction boundaries')
+    current_targets={}
+    for name,symbol in [('local_unwind','@local_unwind$'),('typeIDcaught','@typeIDcaught$'),
+        ('findMatchingHandler','@findMatchingHandler$'),('_Global_unwind','__Global_unwind'),
+        ('initCatchArg','@initCatchArg$'),('__JumpToCatch__','___JumpToCatch__')]:
+        selected=[q for q in rows if (q['name'].startswith(symbol) if '$' in symbol else q['name']==symbol)]
+        need(len(selected)==1,'actual handler helper identity: '+name)
+        current_targets[selected[0]['start']]=name
+    targets=[{q['start']-BASE:q['name'] for q in old},current_targets]
+    excluded=set();calls=[]
+    for x,y in zip(*decoded):
+        if x.mnemonic!='call':continue
+        at=x.address-starts[0]
+        need(x.size==y.size==3 and x.bytes[0]==y.bytes[0]==0xE8,'real handler near CALL encoding')
+        dest=[(i.address+3+int.from_bytes(i.bytes[1:],'little',signed=True))&65535 for i in (x,y)]
+        names=[table.get(address) for table,address in zip(targets,dest)]
+        need(names[0] is not None and names[0]==names[1],'handler CALL enters the corresponding real helper')
+        excluded.update(range(at+1,at+3))
+        calls.append(dict(offset=at,target=names[0],original_target=dest[0],candidate_target=dest[1],
+            original_hex=x.bytes.hex(),candidate_hex=y.bytes.hex()))
+    need([(q['offset'],q['target']) for q in calls]==[(146,'local_unwind'),(247,'typeIDcaught'),
+        (433,'findMatchingHandler'),(528,'_Global_unwind'),(539,'local_unwind'),
+        (584,'initCatchArg'),(609,'__JumpToCatch__')],'all seven real handler helper calls')
+    need(all(code[527]==code[608]==0x0E for code in raw),'far unwind/jump PUSH CS frames')
+    fields=[];table_fields=[];tables=[]
+    for obj,p,start,code in zip(objects,data,starts,raw):
+        ff=[f for f in literal_fields(obj) if f['segment']==1 and start<=f['site']<start+880]
+        need(len(ff)==5 and {f['site']-start for f in ff}=={294,372,700,703,724},
+            'all five literal handler fields,in native emission order')
+        for f in ff:
+            at=f['site']-start
+            expected=dict(segment=1,site=f['site'],location_type=1,width=2,segment_relative=True,
+                frame_method=1,frame=1,target_method=0,target=3,addend=6 if at==700 else 4)
+            if at==294:
+                expected.update(location_type=3,width=4,frame_method=5,frame=None,
+                    target_method=2,target=f['target'],addend=0)
+                need(externs(obj)[f['target']-1]=='___call_unexpected' and code[293]==0x9A,
+                    'actual far unexpected interface;literal EXTDEF index retained')
+            elif at==372:expected.update(frame_method=5,frame=None,target=1,addend=start+880)
+            need(f==expected,'literal handler CODE/DGROUP field shape and actual target')
+            excluded.update(range(at,at+f['width']))
+        fields.append(ff)
+        words=[int.from_bytes(bytes(p[1,start+880+j*2+k] for k in range(2)),'little') for j in range(6)]
+        relative=[word-start for word in words]
+        need(relative==[856,615,734,374,856,856],'all six original/current switch destinations')
+        bounds={i.address-start for i in decoder.disasm(code,start)}
+        need(all(at in bounds for at in relative),'switch entries land on actual handler instructions')
+        tf=[f for f in literal_fields(obj) if f['segment']==1 and start+880<=f['site']<start+892]
+        need(len(tf)==6 and {f['site']-start-880 for f in tf}==set(range(0,12,2)),
+            'complete literal switch-table field vector')
+        for f in tf:
+            need(f==dict(segment=1,site=f['site'],location_type=1,width=2,segment_relative=True,
+                frame_method=5,frame=None,target_method=0,target=1,
+                addend=words[(f['site']-start-880)//2]),'actual switch WORD and CODE target')
+        table_fields.append(tf);tables.append(relative)
+    need(len(excluded)==26 and all(x==y for i,(x,y) in enumerate(zip(*raw)) if i not in excluded),
+        'all854 handler bytes outside actual field/CALL operands agree without rewriting')
+    need(raw[0][531:544]==raw[1][531:544] and all(code[531:533]==code[542:544]==b'\x59\x59' for code in raw),
+        'original13-byte separate unwind argument-cleanup block')
+    return dict(original_bytes=880,candidate_bytes=880,stack_bytes=56,
+        original_raw_sha256=sha(raw[0]),candidate_raw_sha256=sha(raw[1]),
+        complete_object_raw_equal=raw[0]==raw[1],raw_byte_differences=[dict(offset=i,original=x,candidate=y)
+            for i,(x,y) in enumerate(zip(*raw)) if x!=y],all854_bytes_outside_field_and_call_operands_equal=True,
+        local_calls=calls,separate_unwind_cleanup_raw_bytes=13,original_and_candidate_literal_fields=fields,
+        literal_field_offset_order=[[f['site']-start for f in ff] for ff,start in zip(fields,starts)],
+        switch_table_bytes=12,switch_destinations=tables,original_and_candidate_switch_fields=table_fields,
+        switch_field_offset_order=[[f['site']-start-880 for f in ff] for ff,start in zip(table_fields,starts)])
+
+
 def baseline(root):
     raw=(root/'.analysis/work/mainl-xx-throw-build.json').read_bytes();r=json.loads(raw)
     reviewed=(root/'.analysis/work/mainl-xx-throw-review.json').read_bytes();p=json.loads(reviewed)
@@ -235,6 +318,7 @@ def review(root,report=None):
         rows[2]['name'].startswith('@sameTypeID$') and rows[3]['name'].startswith('@findBaseType$'),
         'actual compiler compatibility helper identities and complete extent')
     compatibility=compatible_codegen(original,v['obj'],rows[4]['start'],rows[2]['start'],rows[3]['start'])
+    handler=handler_codegen(original,v['obj'],old,rows)
     def gaps(procedures,start,end):
         result=[];cursor=start
         for row in procedures:
@@ -306,7 +390,7 @@ def review(root,report=None):
         original_CODE_bytes=SIZE,original_instruction_bytes=12088,original_inline_data_bytes=534,original_DATA_bytes=18,original_BSS_bytes=10,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=mz,original_storage_gaps=old_gaps,
         candidate_CODE_segment_bytes=size,candidate_DATA_bytes=18,candidate_BSS_bytes=10,candidate_bodies=rows,candidate_literal_native_fields=candidate_fields,candidate_MZ_words=candidate_mz,candidate_storage_gaps=new_gaps,candidate_LIDATA_records=iterated,complete_CODE_raw_equal=raw_equal,complete_DATA_raw_equal=True,
         all22_original_public_interfaces=True,original18_imports=imports,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],candidate_RTTI_compiler_padding_bytes=padding_bytes,all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
-        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,compatibility_codegen=compatibility,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
+        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,compatibility_codegen=compatibility,exception_handler_codegen=handler,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 
 if __name__=='__main__':

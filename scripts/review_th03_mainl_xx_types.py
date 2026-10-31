@@ -10,6 +10,7 @@ from probe_th03_mainl_xx_types import DRIVER,SOURCE,SUPPORT,REPORT,wrapper
 from review_th03_mainl_xx_catch import parsed_bodies,dense,BODIES as CATCH_BODIES,EQUAL,CATCH
 from review_th03_mainl_xx_calls import call_bodies,classify,CALLS,DESTROY,ACCEPTED_SHA
 from review_th03_mainl_xx_destruction import source_bodies
+from review_th03_mainl_xx_dispatch import CANDIDATE_SIZE
 from build_th03_mainl_exception_work import compiler_context
 from build_th03_mainl_resources_work import cold_context,need,sha
 from build_th03_mainl_work import WORK
@@ -140,9 +141,9 @@ def review(root,report=None):
     need(rows[0]['start']==equal['start']+equal['size'] and all(a['start']+a['size']==b['start'] for a,b in zip(rows,rows[1:])) and rows[-1]['start']+rows[-1]['size']==call_rows[0]['start'] and set(covered)==set(range(call_rows[0]['start'],catch[0]['start']-42)),'natural comparator/types/call/EH adjacency without manufactured gaps')
     need(pubs==[(catch[2]['start'],'@_CatchCleanup$qv')]+[(dispatch+o,n) for o,n in [(459,'__Local_unwind'),(491,'__Return_unwind'),(673,'__ExceptionHandler')]],'original public ABI only; all five new procedures stay private')
     for at,name in pubs:need(address(v['map'].decode(),'_catchcleanup()' if name=='@_CatchCleanup$qv' else name)==(0,at),'actual linked public address')
-    destroys=source_bodies(v['listing'].decode());need(destroys[0]['start']==dispatch+1566+78 and destroys[-1]['start']+destroys[-1]['size']==size,'complete same-TU dispatch/destruction tail')
+    destroys=source_bodies(v['listing'].decode());need(destroys[0]['start']==dispatch+CANDIDATE_SIZE+78 and destroys[-1]['start']+destroys[-1]['size']==size,'complete same-TU dispatch/destruction tail')
     type_entry=rows[-1]['start'];calls=[]
-    for off,count in [(533,132),(673,881)]:
+    for off,count in [(533,132),(673,CANDIDATE_SIZE-673-12)]:
         for i in decoder.disasm(candidate.program_image[dispatch+off:dispatch+off+count],dispatch+off):
             if i.mnemonic=='call' and i.operands[0].type==X86_OP_IMM and i.operands[0].imm==type_entry:calls.append(i.address)
     need(len(calls)==2,'both matcher/dispatcher direct near calls enter the actual private typeIDcaught body')

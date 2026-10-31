@@ -115,7 +115,7 @@ Complete raw object and linked-body equality remain open because helper layout
 differs;there is no new exact credit.
 
 The updated type miniature retains341/372/92/57/261-byte procedures and a1123-byte
-bank,versus original339/372/92/57/261 and1121. The earlier catch/call/destruction
-baseline is unchanged and reused. Only the affected types/throw/full-TU/normal
-library producers are refreshed;the accepted211-owner publication and cold pair
-remain separate and unchanged.
+bank,versus original339/372/92/57/261 and1121. The type-loop change reused the
+earlier catch/call/destruction baseline;the later handler declaration recovery
+refreshed all affected xx producers. The accepted211-owner publication and cold
+pair remain separate and unchanged.

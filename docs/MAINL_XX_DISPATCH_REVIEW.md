@@ -25,7 +25,7 @@ and [type matcher](MAINL_XX_TYPES_REVIEW.md),the then-source scope was246 extent
 | 673 | _ExceptionHandler | 880 | far cdecl |
 
 The complete xx module remains12622 CODE-class bytes,18 DATA bytes and10 BSS
-bytes. Public-symbol gaps do not define function sizes: the880-byte dispatcher
+bytes. Public-symbol gaps do not define function sizes: the880-byte handler
 ends at78C4,followed by a12-byte switch table and further destruction helpers.
 The bank's other table is12 bytes at7472; the semantic `**BCCxh1` tag occupies
 754C..7553. Both six-entry switch tables enter actual instruction boundaries.
@@ -106,3 +106,43 @@ RaiseException1151,tossAnException815 and dtorCleanup1035 boundaries and their
 metadata ownership. They are no longer merely Ghidra size suggestions. Complete
 source codegen/frame/layout and literal relocation equality remain open;see the
 current product review before selecting further work.
+
+## Current full-TU handler recovery
+
+The maintained `_ExceptionHandler` now has the original880-byte body and56-byte
+stack frame. Its actual `int filter` declaration follows the Global_unwind call.
+This declaration ends BCC's deferred argument-pop sequence,so both unwind calls
+retain their own POP CX pairs. All13 raw bytes between the first call's operand
+end and the second cleanup end match. Jump optimization remains enabled;no new
+local,optimizer switch or padding is introduced.
+
+The declaration-boundary hint in the pinned
+[ReC98 notes](https://github.com/nmlgc/ReC98/blob/b6ba5b0a529edbb31efdf8c0e939263804f8ee47/Research/Borland%20C%2B%2B%20decompilation.md)
+was checked with real BCC4.5/TASM output. A local -O- experiment first recovered
+the size and cleanup. Moving only the real filter declaration reproduces the
+entire initialized TU payload,ordered fields,segments,imports and publics of
+that experiment. The maintained source adopts the declaration order.
+
+The complete unlinked880-byte handler differs at six byte offsets:
+248/249/372/529/585/610. These belong to four internal CALL operands and the
+switch-table address. All854 bytes outside the seven near-CALL operands and
+five real native fields agree literally. The seven calls resolve to the actual
+local_unwind,typeIDcaught,findMatchingHandler,Global_unwind,initCatchArg and
+JumpToCatch bodies,including both far-return PUSH CS frames. The unexpected
+far interface and both DGROUP callback slots retain their real field shapes.
+
+The adjacent12-byte switch table retains relative destinations
+856/615/734/374/856/856,all actual instruction boundaries. Original/current
+handler field emission order is372/294/724/703/700 versus294/372/700/703/724.
+The original table fields run10/8/6/4/2/0;TASM emits0/2/4/6/8/10. Original/current
+unexpected EXTDEF indices15/7 remain separate. These differences are retained
+without sorting or operand rewriting. Complete object/linked equality and exact
+ownership remain open;there is no new exact credit.
+
+The dispatch-only candidate is now1567 CODE bytes because two original internal
+far calls are external in that miniature. The throw miniature resolves one of
+those calls and has a1566-byte dispatch tail. The full TU resolves both and has
+the original880-byte handler. Current xx CODE12569 and EXE67324 remain different
+from original12622/67372. All affected native pairs were refreshed,while the
+accepted211 owners/36946 bytes,892 surrounding library members,39 binary link
+inputs and938 cold outputs remain unchanged. No full cold/DIET replay is needed.

@@ -9,7 +9,7 @@ is357 bytes;its trailing descriptors are data,not instructions.
 
 This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new exact credit is granted.** Current
-source produces CODE12567,DATA18 and BSS10. Whole CODE differs,including the
+source produces CODE12569,DATA18 and BSS10. Whole CODE differs,including the
 existing RaiseException frame/EFLAGS gap. The full TU now has an unaccepted
 normal-library/whole-product source link;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
@@ -54,17 +54,17 @@ search582 and DynamicCast357 remain. No optimizer option push/pop is needed.
 
 Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
 Bad_typeid22,far typeinfo-pointer descriptor21,optional compiler zero,vtable12 and
-typeinfo descriptor/terminated lists60. Current tail is1734 bytes,including
-1599 instructions and135 metadata bytes;original metadata is136. Complete raw tail
+typeinfo descriptor/terminated lists60. Current tail is1735 bytes,including
+1599 instructions and136 metadata bytes,as in the original. Complete raw tail
 equality remains open. The generated header retains size8,mask3,class flags1073h,
 base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
 All four internal far pointers bind the real typeinfo descriptor/destructor.
 
 The earlier reviewer inferred the zero from final vtable-label parity. That
 assumption fails when compiler output and TASM relaxation have different offset
-estimates. Before the cleanup-frame recovery,BCC emitted `db 1 dup (0)` and a
-nested LIDATA record. Current ASM emits neither;the reviewer checks actual
-directive/record presence and every resulting byte in either case.
+estimates. Current BCC ASM emits `db 1 dup (0)` and one nested LIDATA record;
+the previous compatibleType checkpoint emitted neither. The reviewer checks
+actual directive/record presence and every resulting byte in either case.
 It does not require final-address alignment or insert a missing initializer.
 
 ## RTTI behavior and focused observations
@@ -100,8 +100,9 @@ exception lifecycle are not executed by these probes.
 Two actual BCC4.5 -O2-pg -Os -O-i -Z- -S,TASM and miniature TLINK rounds repeat
 whole raw generated ASM,two OBJ,EXE and MAP vectors. Listings retain page clocks.
 All64 available pinned SDK headers are bound. The independent profile reads the
-maintained xx.cpp and changes include filenames only for DOS transport;the shared
-builder and prior miniatures stay unchanged. The candidate retains181 literal
+maintained xx.cpp and changes include filenames only for DOS transport. The shared
+builder stays unchanged;source edits refresh affected miniatures before receipt
+reuse. The candidate retains181 literal
 fields and20 ordered MZ words. Current and original fields/vectors remain separate;
 no byte or relocation normalization is used to claim equality.
 

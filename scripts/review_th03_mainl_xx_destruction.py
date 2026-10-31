@@ -8,7 +8,7 @@ import tomllib
 from capstone import Cs,CS_ARCH_X86,CS_MODE_16
 from capstone.x86_const import X86_OP_IMM
 from probe_th03_mainl_xx_dispatch import DRIVER,SOURCE,HEADER,FLAGS,LINK,WRAPPER,trap_context,sdk_inventory
-from review_th03_mainl_xx_dispatch import review as dispatch_review,ACCEPTED_SHA,negative_constant_filter
+from review_th03_mainl_xx_dispatch import review as dispatch_review,ACCEPTED_SHA,negative_constant_filter,CANDIDATE_SIZE
 from build_th03_mainl_exception_work import compiler_context
 from build_th03_mainl_resources_work import cold_context,need,sha
 from build_th03_mainl_work import WORK
@@ -164,7 +164,7 @@ def review(root,report=None):
         need(sum(i.size for i in ins)==recovered['size'] and ins[-1].mnemonic==('ret' if recovered['return_kind']=='near' else 'retf'),'actual candidate full body: '+recovered['name'])
         pairs.append(dict(name=original['name'],original_bytes=original['size'],candidate_bytes=recovered['size'],complete_raw_equal=t[original['start']:original['start']+original['size']]==candidate.program_image[recovered['start']:recovered['start']+recovered['size']]))
     entries={q['name']:q['start'] for q in bodies[0]}
-    need(bodies[0][0]['start']==1566+78 and all(a['start']+a['size']==b['start'] for a,b in zip(bodies[0],bodies[0][1:])) and bodies[0][-1]['start']+bodies[0][-1]['size']==size,'complete candidate dispatch/EH/destruction bank coverage')
+    need(bodies[0][0]['start']==CANDIDATE_SIZE+78 and all(a['start']+a['size']==b['start'] for a,b in zip(bodies[0],bodies[0][1:])) and bodies[0][-1]['start']+bodies[0][-1]['size']==size,'complete candidate dispatch/EH/destruction bank coverage')
     sentinel=[native_probe(t,0x7E89,'empty-offset'),native_probe(candidate.program_image,entries['dtorCleanup'],'empty-offset')]
     vtable=[native_probe(t,0x7DD8,'far-vtable'),native_probe(candidate.program_image,entries['findTrueTypeAndAddr'],'far-vtable')]
     need(sentinel[0]==sentinel[1] and vtable[0]==vtable[1],'target/source agree on both concrete ABI questions')

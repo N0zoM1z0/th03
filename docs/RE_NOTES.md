@@ -6,7 +6,7 @@ verification chain. Current state and next work are defined by the handoff and
 current source/receipts;retain the findings when removing superseded code.
 
 RTTI: GetTypeInfo is131 bytes,the separate private recursive search582,and
-DynamicCast357. Original/current tail metadata136/135 is data,not instructions.
+DynamicCast357. Original/current tail metadata136 is data,not instructions.
 Search virtual lists first,skip8,follow virtual entry4 through a segment-preserving WORD address.
 Shared actual addresses merge public access;distinct addresses are ambiguous.
 Downcast proves actual source address and does not add the cross-cast public
@@ -301,3 +301,16 @@ exception cleanup,does not recover750. Turbo with its supported -O profile emits
 754 while changing the other two call adapters to351/180. These are failed
 producer/source trials,not source-exact progress. The consolidated private record
 is `.analysis/work/xx-native-codegen-experiments.json`.
+
+## Current handler declaration boundary
+
+ExceptionHandler now retains880 bytes and its56-byte frame under the unchanged
+common optimizer profile. Declaring the existing filter after Global_unwind
+ends BCC's delayed argument-pop chain,restoring the separate POP CX pairs and
+all13 intervening raw bytes. This was re-tested from the pinned ReC98 declaration
+boundary notes. A -O- trial produced the same complete initialized TU payload,
+ordered fields,segments,imports and publics,but is not adopted. The source retains the same real filter local
+and stack slots. Seven actual helper destinations and the adjacent
+six-word switch table are checked. Six unlinked operand bytes and both literal
+field emission orders still differ;there is no exact credit. See
+[handler review](MAINL_XX_DISPATCH_REVIEW.md#current-full-tu-handler-recovery).

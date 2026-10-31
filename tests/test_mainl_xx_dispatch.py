@@ -14,7 +14,7 @@ class XxDispatch(unittest.TestCase):
         p=review(ROOT)
         self.assertEqual((p['source_acceptance'],p['accepted_source_bytes']),(False,0))
         self.assertEqual((p['original_bank_size'],p['original_instruction_bytes'],p['original_inline_DATA_bytes']),(1565,1533,32))
-        self.assertEqual(p['candidate_CODE_segment_bytes'],1566)
+        self.assertEqual(p['candidate_CODE_segment_bytes'],1567)
         self.assertEqual(len(p['original_bodies']),5)
         self.assertFalse(p['complete_bank_raw_equal']);self.assertFalse(p['whole_product_linked'])
         self.assertEqual(len(p['unresolved_private_and_runtime_interfaces']),7)

@@ -40,7 +40,7 @@ The shared miniature recipe and prior source/receipt bindings also stay current.
 
 ## Whole-product field and ABI review
 
-The actual MAP allocates xx CODE at0000:580D,size12567;original size is12622.
+The actual MAP allocates xx CODE at0000:580D,size12569;original size is12622.
 DATA18 remains at DGROUP:1172 and BSS10 at DGROUP:2876. The candidate DGROUP is
 0E3C rather than original0E3F. The CODE length difference and ordinary paragraph
 layout produce the48-byte file-size difference;no source padding is introduced.
@@ -54,10 +54,10 @@ Four arithmetic near-call fields use TASM's explicit CODE frame;their literal
 records stay intact and are checked against the real N_LXMUL/N_LUDIV targets.
 The20 xx MZ segment words match the actual whole EXE in emitted order. Each of
 the22 original public interfaces also binds its real current MAP address.
-Current compiler ASM emits no optional zero before the vtable,and no LIDATA
-record supplies one. The reviewer checks the emitted directive and actual record
+Current compiler ASM emits one zero before the vtable,with a real nested LIDATA
+record. The reviewer checks the emitted directive and actual record
 rather than inferring an initializer from final address parity. Current RTTI
-tail length1734 differs from original1735;complete raw tail equality remains open.
+tail length1735 equals original1735;complete raw tail equality remains open.
 
 All50 procedures retain complete raw byte comparisons. The dispatcher remains
 a complete140-byte raw match. Raise now has the original direct-indexed argument
@@ -74,7 +74,7 @@ literally,including different EXTDEF indices8/18. The linked body remains
 different because its call displacement follows the current carrier layout.
 Previous reset trials omitted -Z-;restoring it with -O2-pg,-Os,-O-i leaves
 all following function lengths unchanged. Earlier NOSMART/single-pass TASM
-experiments still do not yield equality and are not adopted. Net CODE length55
+experiments still do not yield equality and are not adopted. Net CODE length53
 is not a differing-byte count.
 
 Local -O-v now recovers dtorCleanup's original32-byte stack frame and1035-byte
@@ -93,6 +93,14 @@ body differs at only two CALL operand bytes. All368 bytes outside those operands
 agree,and both helpers resolve by their actual compiler identities. Original and
 candidate native field vectors are empty. The linked body still differs;see the
 [type findings](MAINL_XX_TYPES_REVIEW.md#current-compatibility-loop-recovery).
+
+ExceptionHandler recovers its880-byte body by declaring the existing filter
+local after Global_unwind. The declaration restores both original POP CX pairs
+without changing optimizer settings. Its56-byte frame,13-byte cleanup block,
+seven real helper calls and12-byte switch table are reviewed completely. The
+unlinked function differs at six operand bytes;all854 other bytes agree. Literal
+handler/table field orders still differ,and the linked body is raw-different.
+See the [handler findings](MAINL_XX_DISPATCH_REVIEW.md#current-full-tu-handler-recovery).
 
 Five focused target/source pairs execute routines from the linked product:
 virtual-address merging,distinct-address ambiguity,downcast source containment,

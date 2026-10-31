@@ -9,8 +9,8 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work recovers compatibleType's four-byte frame and372-byte control
-flow,after `4ac9c68` (cleanup frame and destruction member locals).
+Latest source work recovers the880-byte ExceptionHandler through its real filter
+declaration order,after `d05bc89` (compatibility loop and mask flow).
 Preflight/scoped compiler checks passed in that source session; run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database; the fixed decoded MAINL DB is distinct from the old
@@ -43,17 +43,17 @@ and published211 owners remain separate and unchanged.
 | Extent | Original | Candidate |
 | --- | ---: | ---: |
 | Full decoded EXE | 67,372 | 67,324 |
-| xx CODE | 12,622 | 12,567 |
+| xx CODE | 12,622 | 12,569 |
 | Literal native fields | 187 | 181 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
-| RTTI tail | 1,735 | 1,734 |
+| RTTI tail | 1,735 | 1,735 |
 | Raise frame allocation | 390 | 342 |
 
 Both whole EXEs have4096-byte headers/677 relocation entries;raw EXE/MAP still
 differ. Candidate DGROUP0E3C versus original0E3F gives ordinary48-byte file-size
 movement. Every candidate CODE byte resolves through the real18 library
-interfaces;all22 original public MAP bindings pass. Net length55 is not a count
+interfaces;all22 original public MAP bindings pass. Net length53 is not a count
 of differing bytes. No exact credit or DOS boot/ending-playthrough claim follows.
 
 Current useful proofs and remaining differences:
@@ -66,9 +66,9 @@ Current useful proofs and remaining differences:
   at+96 retains literal original/current EXTDEF indices8/18. The linked call
   displacement still differs. Scoped -O1 works when -O2-pg/-Os/-O-i/**-Z-** are
   restored afterward;earlier reset trials omitted -Z-.
-- The current BCC output emits no optional zero before the RTTI vtable,so
-  metadata is135 versus original136 bytes. The reviewer checks the actual
-  directive/LIDATA presence;do not infer it from final-label parity.
+- Current BCC output emits one RTTI zero,with an actual nested LIDATA owner.
+  Metadata136/tail1735 lengths agree,not their complete raw bytes. Check actual
+  directive/record presence;do not infer it from final-label parity.
 - The tested Raise context agrees at entry SP=FF00,including flags84h/84h.
   One alternate SP=FF10 exposes original80h/source84h through the real linked
   memcpy twice. The original48-byte region at BP[-134,-86) still has unproved
@@ -89,6 +89,11 @@ Current useful proofs and remaining differences:
   positive base-return path recover every byte except two local CALL operands.
   Both calls resolve to sameTypeID/findBaseType;both literal field vectors are
   empty. See [type review](MAINL_XX_TYPES_REVIEW.md#current-compatibility-loop-recovery).
+- ExceptionHandler880/frame56 now keeps both unwind argument-cleanup pairs by
+  declaring the existing filter after the first call. No optimizer switch is
+  needed. All854 bytes outside proven operands agree;seven calls and the12-byte
+  switch table are checked. Six raw differing bytes and literal field-order
+  differences remain;see [handler review](MAINL_XX_DISPATCH_REVIEW.md#current-full-tu-handler-recovery).
 - Direct BCC -c accepts16-bit PUSHA but rejects PUSHAD/PUSHFD,EAX and FS even
   with -3. Copy-adapter trials retain767 bytes,or762 under -O1,versus750;
   Turbo's754-byte result changes other adapters too. These routes are not adopted.
@@ -106,7 +111,7 @@ later Win32/Delphi/CV/friend/specification behavior from reference RTL.
 Rebuild/review affected scope;validate/reuse unchanged pairs. No full cold/DIET
 or unchanged ancestor runtime chain is required each turn. Source changes that
 actually affect an earlier producer do require refreshing its native binding.
-Recent affected checks:types/throw/full-TU/normal-link
+Recent affected checks:dispatch/destruction/calls/catch/types/throw/full-TU/normal-link
 native pairs,9 targeted tests,
 tracking validation and `git diff --check`. Commit substantial progress as
 `gpt-6.1-sol: ...`. Full CI is for broad infrastructure changes.

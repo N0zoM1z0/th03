@@ -173,7 +173,6 @@ throw_allowed:
         unsigned unwind_target;
         XXExceptionPointers pointers;
         static xx_code_ptr filter_expression;
-        int filter;
 
         outer = *(unsigned far *)((char far *)table + at);
         at += sizeof(unsigned);
@@ -198,6 +197,9 @@ throw_allowed:
 
 jump_to_handler:
             _Global_unwind(err,record);
+            // This real filter local ends BCC's deferred argument-pop sequence.
+            // Keep each unwind call's own cleanup,without disabling jump optimization.
+            int filter;
             local_unwind(err,unwind_target);
             err->context = new_context;
             if(kind == XB_TRYCPP)
