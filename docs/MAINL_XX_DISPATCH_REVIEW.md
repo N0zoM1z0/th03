@@ -109,41 +109,39 @@ current product review before selecting further work.
 
 ## Current full-TU handler recovery
 
-The maintained `_ExceptionHandler` now has the original880-byte body and56-byte
-stack frame. Its actual `int filter` declaration follows the Global_unwind call.
-This declaration ends BCC's deferred argument-pop sequence,so both unwind calls
-retain their own POP CX pairs. All13 raw bytes between the first call's operand
-end and the second cleanup end match. Jump optimization remains enabled;no new
-local,optimizer switch or padding is introduced.
+The maintained `_ExceptionHandler` has the original880-byte body and56-byte
+stack frame. Its actual `int filter` declaration follows Global_unwind. This
+ends BCC's deferred argument-pop sequence,so both unwind calls retain their own
+POP CX pairs. All13 raw bytes across the first cleanup and second call/cleanup
+match. Jump optimization stays enabled;no extra local or padding is introduced.
 
 The declaration-boundary hint in the pinned
 [ReC98 notes](https://github.com/nmlgc/ReC98/blob/b6ba5b0a529edbb31efdf8c0e939263804f8ee47/Research/Borland%20C%2B%2B%20decompilation.md)
-was checked with real BCC4.5/TASM output. A local -O- experiment first recovered
-the size and cleanup. Moving only the real filter declaration reproduces the
-entire initialized TU payload,ordered fields,segments,imports and publics of
-that experiment. The maintained source adopts the declaration order.
+was checked with real BCC4.5/TASM output. Moving only the existing filter
+reproduced the useful local -O- control without keeping that optimizer switch.
 
-The complete unlinked880-byte handler differs at six byte offsets:
-248/249/372/529/585/610. These belong to four internal CALL operands and the
-switch-table address. All854 bytes outside the seven near-CALL operands and
-five real native fields agree literally. The seven calls resolve to the actual
-local_unwind,typeIDcaught,findMatchingHandler,Global_unwind,initCatchArg and
-JumpToCatch bodies,including both far-return PUSH CS frames. The unexpected
-far interface and both DGROUP callback slots retain their real field shapes.
+The normal full-TU product now uses actual BCC native objects. Its unlinked
+handler differs at seven offsets:248/249/372/529/530/585/610,all operands.
+All854 bytes outside seven near-CALL operands and five native fields agree.
+The calls resolve to actual local_unwind,typeIDcaught,findMatchingHandler,
+Global_unwind,initCatchArg and JumpToCatch,including far-return PUSH CS frames.
+The unexpected interface and both DGROUP callback slots keep their real shapes.
 
 The adjacent12-byte switch table retains relative destinations
-856/615/734/374/856/856,all actual instruction boundaries. Original/current
-handler field emission order is372/294/724/703/700 versus294/372/700/703/724.
-The original table fields run10/8/6/4/2/0;TASM emits0/2/4/6/8/10. Original/current
-unexpected EXTDEF indices now agree at15/15 after import declaration recovery.
-The remaining field-order differences are retained
-without sorting or operand rewriting. Complete object/linked equality and exact
-ownership remain open;there is no new exact credit.
+856/615/734/374/856/856,all actual instruction boundaries. Native table fields
+now run10/8/6/4/2/0 in both objects. Body-field order remains different:
+original372/294/724/703/700 versus native724/703/700/372/294. The unexpected
+EXTDEF index agrees at15. No sorting or operand normalization is used.
+Complete object/linked equality and accepted ownership remain open.
 
-The dispatch-only candidate is now1567 CODE bytes because two original internal
-far calls are external in that miniature. The throw miniature resolves one of
-those calls and has a1566-byte dispatch tail. The full TU resolves both and has
-the original880-byte handler. Current xx CODE12569 and EXE67324 remain different
-from original12622/67372. All affected native pairs were refreshed,while the
-accepted211 owners/36946 bytes,892 surrounding library members,39 binary link
-inputs and938 cold outputs remain unchanged. No full cold/DIET replay is needed.
+The separate S/TASM full-TU diagnostic retains six differing operand bytes,
+body-field order294/372/700/703/724 and ascending table fields0..10. The
+native product has its own reviewed source/LINNUM boundaries and field vectors;
+those two producers must not be conflated. Native ES slot spelling is selected
+in maintained source;the S/TASM form remains available to its miniatures.
+
+The dispatch-only diagnostic has1567 CODE bytes because two original internal
+far calls are external;the throw miniature resolves one and has a1566-byte tail.
+The actual full TU resolves both. Current native xx CODE12572/EXE67324 remain
+raw-different from12622/67372. Accepted211 owners/36946 bytes,all892 surrounding
+members,39 binary inputs and938 cold outputs stay unchanged. No full cold replay.

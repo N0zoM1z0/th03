@@ -7,7 +7,7 @@ compiler-generated EH bytes. The review independently resolves all2524 original
 bytes from the real xx.obj,24 literal ordered native fields and six ordered MZ
 segment words. The fixed Japanese decoded target remains the oracle.
 
-| Procedure | Original bytes | Current candidate bytes |
+| Procedure | Original bytes | S/TASM miniature bytes |
 | --- | ---: | ---: |
 | tossAnException | 815 | 812 |
 | _ThrowException | 89 | 89 |
@@ -139,21 +139,35 @@ a far four-byte buffer pointer;the original empty hook receives only two bytes.
 That hypothesis does not establish ownership of the missing region. Product
 storage and the342-byte frame are unchanged.
 
-A separate private compiler experiment emits only the unsupported386 instructions
-through BCC's native instruction intrinsic. FS/GS stores retain symbolic
-`dw offset context.field` displacements;two TASM-specific ES operand spellings
-are made usable by the native compiler. This is source compilation,with no
-target-function arrays or object patches. It is not the maintained product recipe.
-The whole direct-BCC object is12576 CODE bytes with187 fields and22 publics.
-Plain and -y builds agree in all initialized payload and ordered fields.
+The complete normal product now uses actual native BCC `-c -y` objects.
+Named instruction intrinsics express individual unsupported386 operations;
+FS/GS stores retain compiler-symbolic DW addresses with offsetof-derived member
+offsets. Native ES callback syntax also lives in source. There are no target
+function arrays,object patches or hardcoded BP local offsets.
 
-Restoring the import declaration order gives all18 original EXTDEF entries.
-The direct object's entire first1327 bytes and four literal ordered fields match
-the original;the actual xxcall.inl line11 LINNUM entry binds its end to callCopyCtor.
-The rest of that direct object remains unaccepted. Inputs,commands and results
-are retained in `.analysis/work/xx-native-imports-experiments.json`.
-Function-local typedef controls also leave callCopyCtor at767 bytes;they are not
-adopted. The current BCC -S/TASM/normal-library pipeline remains12569 CODE bytes.
+Real-linked execution caught a native inline-assembler offset bug. Both
+`context.field` and `context + enum_offset` generated reversed local-member
+addition:EFLAGS at BP-482 instead of BP-98,and SS at BP-490 instead of BP-90.
+The faulty native candidate returned to0000:0000. Using `context - enum_offset`
+recovers the intended address. Corrected native compilation yields CODE12572,
+187 fields and22 publics;all50 procedures bind actual source/LINNUM records.
+The earlier12576-byte direct object remains only historical prefix evidence.
+
+All18 imports and the first1327 bytes/four ordered fields agree literally in
+both current object and linked image. Native BCC preserves all six original
+five-byte forward FAR CALLs. tossAnException815 and destThrownValue80 recover
+original lengths;destroyBases129 and destroyVariable715 also match complete
+linked bodies. Those lengths alone do not prove the throw routines raw-equal.
+The retained S/TASM full-TU diagnostic remains12569 CODE/181 fields,with812/79
+throw helper lengths. callCopyCtor stays767 versus750 in the native product.
+
+Corrected real-linked Raise/dispatcher probes pass with actual library memcpy
+twice. Default entry FF00 agrees in record,registers,segments and flags84h;
+alternate FF10 keeps only the known80h/84h difference. Raise is still1081 versus
+1151 and its frame342 versus390. No new storage,flag correction or acceptance
+follows. `.analysis/work/xx-native-compiler-recovery.json` records the failed
+operand forms,correction and current raw product pair;see
+[normal product review](MAINL_XX_PRODUCT_REVIEW.md).
 
 Current private inputs/receipts use the `xx-throw-*` prefix under
 `.analysis/work/`,plus `mainl-xx-throw-build.json` and

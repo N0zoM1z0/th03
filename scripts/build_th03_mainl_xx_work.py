@@ -15,6 +15,7 @@ from build_th03_mainl_exception_work import compiler_context
 from build_th03_mainl_resources_work import cold_context,need,sha
 from lib.borland_library import library_members,compare_members,object_program_records
 from lib.decoded_mainl_acceptance import proof_inputs
+from lib.decoded_mainl_xx_native import native_bodies
 
 ROOT=Path(__file__).resolve().parents[1]
 DRIVER='scripts/build_th03_mainl_xx_work.py'
@@ -25,9 +26,13 @@ BASE_REVIEW='.analysis/work/mainl-exception-native-review.json'
 MINI_BUILD='.analysis/work/mainl-xx-rtti-build.json'
 MINI_REVIEW='.analysis/work/mainl-xx-rtti-review.json'
 SOURCES=dict(NAMES,**{'xx_abi.h':miniature.HEADER,'xx.cpp':UNIT})
+# The separate -S output supplies declaration names only;it is not assembled
+# into the product object. Native BCC owns every linked CODE/DATA byte.
+ASM_FLAGS=miniature.FLAGS
+OBJECT_FLAGS=[f for f in miniature.FLAGS if f!='-S']+['-DTH03_XX_NATIVE_OBJECT','-y','-c']
 SUPPORT=['scripts/probe_th03_mainl_xx_dispatch.py','scripts/probe_th03_mainl_xx_rtti.py',
     'scripts/review_th03_mainl_xx_rtti.py','scripts/lib/decoded_mainl_xx_rtti_probe.py',
-    'scripts/lib/decoded_mainl_xx_throw_probe.py']
+    'scripts/lib/decoded_mainl_xx_throw_probe.py','scripts/lib/decoded_mainl_xx_native.py']
 
 
 def retained_pair(root,path,stem):
@@ -95,7 +100,7 @@ def main():
     config=tomllib.loads((ROOT/'config/toolchain.toml').read_text());prefix=ROOT/config['paths']['wine_prefix'];work=build.WORK
     env=dict(os.environ,DISPLAY='',WAYLAND_DISPLAY='',WINEDEBUG='-all',WINEPREFIX=str(prefix),MSDOS_PATH=r'C:\BC45;C:\TC4\BIN',TZ='UTC',LANG='C',LC_ALL='C')
     dos=['/usr/bin/wine-stable',str(ROOT/config['paths']['msdos_player']),'-e','-x']
-    tasm=['/usr/bin/wine-stable',str(prefix/'drive_c/TASM50/bin/TASM32.EXE'),'/m','/mx','/kh32768','/t']
+    mini_review=json.loads((ROOT/MINI_REVIEW).read_bytes())
     original_link=files['obj/th03/mainl.@l']
     binary_inputs=re.findall(r'(?i)\b(?:[\w@]+\\)*[\w@]+\.obj',original_link.decode())+['emu.lib','mathl.lib']
     need(len(binary_inputs)==39 and len(set(binary_inputs))==39,'36 retained project objects plus real startup and two libraries')
@@ -108,7 +113,8 @@ def main():
         preserved[path.relative_to(ROOT).as_posix()]=sha(path.read_bytes())
     report=dict(complete=False,source_acceptance=False,accepted_source_bytes=0,
         whole_product_linked=False,whole_product_cold_rebuilt=False,retained_project_objects=36,
-        diagnostic_candidate=True,compiler=compiler,compiler_flags=miniature.FLAGS,
+        diagnostic_candidate=True,compiler=compiler,compiler_flags=OBJECT_FLAGS,
+        assembly_flags=ASM_FLAGS,native_object_compiler=True,
         available_SDK_header_sha256=headers,source_sha256={p:sha((ROOT/p).read_bytes()) for p in SOURCES.values()},
         driver_sha256=sha((ROOT/DRIVER).read_bytes()),support_sha256={p:sha((ROOT/p).read_bytes()) for p in SUPPORT},
         baseline=before,retained_binary_inputs_sha256=preserved,wrapper_sha256=sha(unit),native_phases=[],rounds=[])
@@ -118,7 +124,7 @@ def main():
         (build.OUT/('xx-product-'+label+'.log')).write_bytes(result.stdout)
         report['native_phases'].append(dict(label=label,command=argv,returncode=result.returncode,log_sha256=sha(result.stdout)));save()
         need(result.returncode==0,label+': '+result.stdout.decode(errors='replace')[-1500:])
-        if label.endswith('compile'):need(result.stdout.startswith(compiler['banner'].encode()+b'\r\n'),'actual scoped compiler banner')
+        if 'compile-' in label:need(result.stdout.startswith(compiler['banner'].encode()+b'\r\n'),'actual scoped compiler banner')
     with (ROOT/'.analysis/borland-wine-writer.lock').open('ab') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
         scratch=work/'probe/xxwhole';need(not scratch.exists(),'fresh isolated whole xx native working directory');scratch.mkdir()
@@ -143,20 +149,25 @@ def main():
             (build.OUT/'xx-product-library.rsp').write_bytes(libinput);(build.OUT/'xx-product-link.lnk').write_bytes(link)
             for number in (1,2):
                 for name in ('xx.obj','xx.asm','xx.lst','xxcrt.lib','xxcrt.bak','xxfull.exe','xxfull.map'):(scratch/name).unlink(missing_ok=True)
-                execute(dos+[r'C:\BC45\BCC.EXE',*miniature.FLAGS,'xx.cpp'],scratch,f'round{number}-compile')
+                execute(dos+[r'C:\BC45\BCC.EXE',*ASM_FLAGS,'xx.cpp'],scratch,f'round{number}-compile-asm')
                 os.utime(scratch/'xx.asm',(946684800,946684800))
-                execute(tasm+['/l','xx.asm','xx.obj'],scratch,f'round{number}-assemble')
+                execute(dos+[r'C:\BC45\BCC.EXE',*OBJECT_FLAGS,'xx.cpp'],scratch,f'round{number}-compile-native')
+                procedures=native_bodies((scratch/'xx.obj').read_bytes(),(scratch/'xx.asm').read_bytes(),
+                    {n:(scratch/n).read_bytes() for n in NAMES},
+                    mini_review['original_bodies'],mini_review['candidate_bodies'])
                 execute(dos+['tlib',r'@probe\xxwhole\library.rsp'],work,f'round{number}-library')
                 review=compare_members(members,library_members((scratch/'xxcrt.lib').read_bytes()),{'xx':(scratch/'xx.obj').read_bytes()})
                 execute(dos+['tlink',r'@probe\xxwhole\link.lnk'],work,f'round{number}-link')
                 outputs={}
-                for kind,name in [('asm','xx.asm'),('obj','xx.obj'),('listing','xx.lst'),('lib','xxcrt.lib'),('exe','xxfull.exe'),('map','xxfull.map')]:
+                for kind,name in [('asm','xx.asm'),('obj','xx.obj'),('lib','xxcrt.lib'),('exe','xxfull.exe'),('map','xxfull.map')]:
                     actual=next(p for p in scratch.iterdir() if p.name.lower()==name)
                     data=actual.read_bytes();out=f'.analysis/work/xx-product-round{number}-'+name;(ROOT/out).write_bytes(data)
                     outputs[kind]=dict(path=out,bytes=len(data),sha256=sha(data))
-                report['rounds'].append(dict(round=number,outputs=outputs,library=review));save()
-                print('Whole MAINL xx source compile/assemble/normal-library/link round',number,flush=True)
-            need({k:v['sha256'] for k,v in report['rounds'][0]['outputs'].items() if k!='listing'}=={k:v['sha256'] for k,v in report['rounds'][1]['outputs'].items() if k!='listing'},'whole raw ASM/OBJ/LIB/EXE/MAP repeat;unmodified listings retained separately')
+                report['rounds'].append(dict(round=number,outputs=outputs,library=review,native_procedures=procedures));save()
+                print('Whole MAINL xx native compile/normal-library/link round',number,flush=True)
+            need({k:v['sha256'] for k,v in report['rounds'][0]['outputs'].items()}==
+                {k:v['sha256'] for k,v in report['rounds'][1]['outputs'].items()},
+                'whole raw compiler ASM/native OBJ/LIB/EXE/MAP repeat')
         finally:shutil.rmtree(scratch)
     after,_,_,_,_=baseline(ROOT)
     need(after==before and preserved=={p:sha((ROOT/p).read_bytes()) for p in preserved} and compiler_context(ROOT)==compiler and miniature.sdk_inventory(ROOT)==headers,'baseline,all39 retained binary inputs,compiler and SDK unchanged')

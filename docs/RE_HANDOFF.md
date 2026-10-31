@@ -9,11 +9,12 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work restores the complete18-entry DOS EXTDEF declaration order,
-after `ab566fb` (all157 comparator bytes through local -O-m).
-Preflight/scoped compiler checks passed in that source session; run preflight
+Latest source work adopts native BCC object generation for the complete DOS xx
+TU. Its six forward FAR CALL fields,1327-byte prefix and complete destruction
+bodies129/715 now match. The whole member remains unaccepted.
+Preflight/scoped compiler checks passed in that source session;run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
-before using a database; the fixed decoded MAINL DB is distinct from the old
+before using a database;the fixed decoded MAINL DB is distinct from the old
 packed MAINL DB. Decompiler sizes and signatures remain hypotheses.
 
 | Product | Accepted source scope | Whole-product source exactness |
@@ -32,109 +33,75 @@ cutscene3195/regist2720/root2488 rows must not be counted again.
 
 ## Current xx candidate
 
-The maintained `src/mainl/crt/xx.cpp` composes all recovered exception/RTTI banks
-in original order. It builds under real module name xx in the normal893-member
-library and actual MAINL link. Two native BCC4.5/TASM/TLIB/TLINK rounds repeat
-complete raw ASM/OBJ/LIB/EXE/MAP vectors. All892 surrounding member program
-records,28 earlier source providers,36 project objects and startup/EMU/MATHL
-inputs are retained. Candidate xx is provider29;the accepted28-provider library
-and published211 owners remain separate and unchanged.
+The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
+order. The normal product now uses actual BCC4.5 `-c -y` output,then TLIB/TLINK.
+Separate `-S` output supplies mangled names only;it is never assembled into the
+product. Native source-file/LINNUM records bind all50 procedure boundaries to
+actual transported source definitions. Earlier S/TASM miniatures remain useful
+separate diagnostics,with their own codegen and field order.
 
-| Extent | Original | Candidate |
+Two rounds repeat complete raw ASM/OBJ/LIB/EXE/MAP vectors. All893 library
+positions,892 surrounding member program records,28 prior source providers,
+36 project objects and real startup/EMU/MATHL inputs are retained. Candidate xx
+is provider29;the accepted28-provider library and published211 owners stay unchanged.
+
+| Extent | Original | Native candidate |
 | --- | ---: | ---: |
 | Full decoded EXE | 67,372 | 67,324 |
-| xx CODE | 12,622 | 12,569 |
-| Literal native fields | 187 | 181 |
+| xx CODE | 12,622 | 12,572 |
+| Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
-| RTTI tail | 1,735 | 1,734 |
+| RTTI tail | 1,735 | 1,735 |
 | Raise frame allocation | 390 | 342 |
 
-Both whole EXEs have4096-byte headers/677 relocation entries;raw EXE/MAP still
-differ. Candidate DGROUP0E3C versus original0E3F gives ordinary48-byte file-size
-movement. Every candidate CODE byte resolves through the real18 library
-interfaces;all22 original public MAP bindings pass. Net length53 is not a count
-of differing bytes. No exact credit or DOS boot/ending-playthrough claim follows.
+Both EXEs have4096-byte headers/677 relocations;raw EXE/MAP still differ.
+Candidate DGROUP0E3C versus original0E3F produces ordinary48-byte file movement.
+All CODE bytes resolve through18 real library interfaces;all22 public bindings
+pass. Net CODE length50 is not a differing-byte count. Matching field counts
+also do not establish complete literal ordered field equality.
 
-Current useful proofs and remaining differences:
+Current useful proofs and open questions:
 
-- All18 EXTDEF names/indices now agree literally,in order,through explicit DOS
-  import declarations in xx_abi.h. Normal EXE/MAP are unchanged by this fix.
-  Header changes refreshed all affected xx miniature/native pairs,without cold replay.
-- Complete dispatcher140 linked bytes match in both miniature and normal link.
-- sameTypeID now matches all157 raw object/linked bytes at original0000:583E.
-  Local -O-m removes an extra cached-mask WORD and restores frame10;restore -Om
-  afterward. Both native field vectors and the function's MZ vector are empty.
-  This is a complete function proof within the still-unaccepted xx member.
-- Raise count/index/copy block6AC0..6B06 matches all71 raw bytes. Local -O-v
-  removes two extra WORD induction pointers;FS/GS writes,the16-bit zero chain,
-  direct SS and CX/ES/BX resume-address operations follow native order.
-- `typeinfo::before` matches all120 unlinked object bytes. Its one strcmp field
-  at+96 now retains literal EXTDEF8 in both objects. The linked call
-  displacement still differs. Scoped -O1 works when -O2-pg/-Os/-O-i/**-Z-** are
-  restored afterward;earlier reset trials omitted -Z-.
-- Current BCC output emits no optional RTTI zero and no LIDATA record:
-  metadata135/tail1734 versus original136/1735. The comparator's extra byte
-  leaves total CODE12569 unchanged. Check actual directive/record presence;
-  do not infer it from final-label parity or insert a compensating byte.
-- The tested Raise context agrees at entry SP=FF00,including flags84h/84h.
-  One alternate SP=FF10 exposes original80h/source84h through the real linked
-  memcpy twice. The original48-byte region at BP[-134,-86) still has unproved
-  type/purpose. Do not invent storage or adjust flags to close it.
-- Typed toss cache restores its72-byte frame;body812 versus815 remains.
-  Wrapper89/170 lengths agree,not their full raw bodies. Raise is1081 versus1151.
-  `dtorCleanup` now has the original1035 bytes/32-byte frame after local -O-v.
-  Its complete object differs at only3 bytes,in two local CALL operands;
-  all1025 bytes outside the five local CALL operands agree,and all five calls
-  resolve to the original helper identities. Literal field offset order stays
-  original40/996/932 versus current40/932/996,so no exact credit follows.
-- destroyVariable's member/array search matches72 raw bytes after recovering
-  its declaration/initialization order. Remaining destroyBases129/128 and
-  destroyVariable715/714 differences include TASM's forward far-call shortening.
-  See the current section of [destruction review](MAINL_XX_DESTRUCTION_REVIEW.md).
-- compatibleType now has the original372 bytes/four-byte frame. Local -O-m
-  removes the common-mask temporary;masked CV,bitwise DWORD count OR and the
-  positive base-return path recover every byte except two local CALL operands.
-  Both calls resolve to sameTypeID/findBaseType;both literal field vectors are
-  empty. See [type review](MAINL_XX_TYPES_REVIEW.md#current-compatibility-loop-recovery).
-- ExceptionHandler880/frame56 now keeps both unwind argument-cleanup pairs by
-  declaring the existing filter after the first call. No optimizer switch is
-  needed. All854 bytes outside proven operands agree;seven calls and the12-byte
-  switch table are checked. Six raw differing bytes and literal field-order
-  differences remain;see [handler review](MAINL_XX_DISPATCH_REVIEW.md#current-full-tu-handler-recovery).
-- initCatchArg now has the original24-byte frame and all local BP offsets:
-  the existing near-pointer expansion temporary precedes keep_original.
-  Its678/676-byte bodies differ structurally at three branch forms;all other
-  instructions agree outside verified branch/CALL operands. exceptionHandled's
-  first type declaration now outlives the buffer branch,so its second descriptor
-  reuses the count slot at BP-8. Its216/223-byte bodies retain one10/17-byte load
-  difference. Ordered fields still differ in both helpers;see
-  [catch review](MAINL_XX_CATCH_REVIEW.md#current-catch-local-storage-recovery).
-- Direct BCC -c accepts16-bit PUSHA but rejects PUSHAD/PUSHFD,EAX and FS even
-  with -3. Copy-adapter trials retain767 bytes,or762 under -O1,versus750;
-  Turbo's754-byte result changes other adapters too. These routes are not adopted.
-- Fresh TASM controls confirm NOSMART retains all six forward FAR CALL fields
-  (187 total) but widens17 Boolean immediate encodings and yields CODE12592.
-  Local ASSUME controls disturb destruction codegen;version T200/T300 retain
-  the default shortening. A private JWasm route retains187 fields/CODE12575
-  after two operand-spelling adaptations,but changes accumulator encodings.
-  None of these assembler/source experiments is adopted. Keep the default
-  current pipeline;the cause of the forward-call gap is now explicit.
-- A private direct-BCC route now compiles the complete TU using semantic386
-  instruction intrinsics and symbolic BP displacements. CODE12576 has187 fields;
-  its first1327 bytes and all four ordered prefix fields match the original.
-  Plain/-y payloads and fields agree;LINNUM binds the boundary to callCopyCtor.
-  This remains an experiment,not the current product recipe or accepted source.
-  The ordinary48-byte struct-return probe passes a far four-byte result pointer,
-  unlike the original hook's two-byte argument;the Raise gap stays unproved.
+- The complete first1327 object and linked bytes agree,with all four literal
+  ordered prefix fields. This includes sameTypeID157,findBaseType339 and
+  compatibleType372. All18 EXTDEF names/indices retain original order.
+- Native compilation preserves all six original five-byte forward FAR CALLs
+  without TASM shortening. destroyBases129 and destroyVariable715 now match
+  complete linked bodies;their literal fields retain original shapes and
+  callee identities. Whole xx remains raw-different,so no accepted credit follows.
+- dtorCleanup1035/frame32 differs only at object offsets976/977 in the
+  callMemberFunc operand. Its literal field order now matches40/996/932;
+  all1025 bytes outside five proven near-CALL operands agree.
+- ExceptionHandler880/frame56 retains all854 bytes outside proven operands.
+  Seven raw operand bytes still differ. Switch field order now matches10..0,
+  but body-field order remains original372/294/724/703/700 versus native
+  724/703/700/372/294. No normalization or exact credit.
+- initCatchArg is674 versus678,frame24. Native compilation recovers the class
+  guard;two reference-branch forms remain. exceptionHandled223 versus216
+  retains the10/17-byte LES versus DX:AX load difference. Native field orders
+  remain distinct;see [catch review](MAINL_XX_CATCH_REVIEW.md).
+- Raise stays1081 versus1151,frame342 versus390. Its count/index/copy block
+  matches all71 raw bytes. Native386 intrinsics express individual unsupported
+  instructions;symbolic BP addresses use offsetof-derived member offsets.
+  An actual linked probe caught BCC's reversed local-member displacement:
+  `context.field` and `context + offset` were wrong;`context - offset` recovers
+  the intended address. No hardcoded BP slot or target-function byte array.
+- The corrected real-linked Raise path agrees at entry SP=FF00,including flags
+  84h/84h. At FF10 only the known80h/84h difference remains;both use actual
+  library memcpy twice. Original BP[-134,-86) ownership stays unproved.
+  Do not invent storage or adjust flags to close the48-byte gap.
+- Native RTTI metadata136 includes one actual LEDATA zero,with no LIDATA;
+  tail1735 still differs raw. The retained S/TASM miniature instead has
+  CODE12569/181 fields,metadata135/tail1734. Keep these producers distinct.
+- `typeinfo::before` matches120 unlinked object bytes,including literal strcmp
+  EXTDEF8 at+96;the linked operand still differs. callCopyCtor767 versus750
+  and the remaining source/codegen/layout gaps stay open.
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).
-Earlier dispatch/destruction/calls/catch/types reviews describe retained smaller
-miniatures;their provider counts,CODE sizes and traps are not the current full TU.
-Their ABI findings remain useful. NOSMART/single-pass TASM trials did not obtain
-exactness and are not adopted. Keep original unchecked DOS behavior;do not import
-later Win32/Delphi/CV/friend/specification behavior from reference RTL.
+Earlier bank miniatures have their own provider counts,CODE sizes and traps.
+Keep original unchecked DOS behavior;do not import later reference-RTL behavior.
 
 ## Verification and retained local state
 

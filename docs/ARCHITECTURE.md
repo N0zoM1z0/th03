@@ -58,6 +58,13 @@ candidate adds provider29 and links the actual product,but is raw-different and
 unaccepted. See [xx product review](MAINL_XX_PRODUCT_REVIEW.md);do not replace the
 accepted publication with that candidate.
 
+The full-xx candidate uses actual BCC4.5 `-c -y` objects. Separate `-S` output
+supplies mangled names only;native source-file/LINNUM records bind all50 bodies
+to transported definitions. Earlier S/TASM bank/full-TU miniatures stay separate.
+Named instruction intrinsics cover unsupported386 operations;all addresses keep
+compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
+library and product layout;no object/ASM patch supplies product bytes.
+
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
 include before compilation. It preserves old stager pins without compiling a

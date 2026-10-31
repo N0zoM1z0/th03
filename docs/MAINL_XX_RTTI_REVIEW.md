@@ -8,10 +8,11 @@ following582 bytes are a separate private near recursive search. `__DynamicCast`
 is357 bytes;its trailing descriptors are data,not instructions.
 
 This closes source presence for all12622 original CODE bytes and18 initialized
-DATA bytes,with reviewed used BSS10. **No new exact credit is granted.** Current
-source produces CODE12569,DATA18 and BSS10. Whole CODE differs,including the
-existing RaiseException frame/EFLAGS gap. The full TU now has an unaccepted
-normal-library/whole-product source link;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
+DATA bytes,with reviewed used BSS10. **No new accepted credit.** This document's
+full-TU miniature uses BCC -S/TASM:CODE12569,181 fields,DATA18,BSS10,metadata135
+and tail1734. The current normal product instead uses actual BCC `-c -y`
+objects:CODE12572,187 fields,metadata136 and tail1735,including one actual LEDATA
+zero and no LIDATA. It remains raw-different;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
 ## Source and native ownership
 
@@ -19,9 +20,10 @@ The current full-TU review also checks the recovered catch local storage and its
 remaining instruction forms. initCatchArg now has the original24-byte frame;
 exceptionHandled uses the original second descriptor slot at BP-8. See
 [catch storage review](MAINL_XX_CATCH_REVIEW.md#current-catch-local-storage-recovery)
-for the three branch forms,one load sequence and literal field-order gaps that
-still prevent complete raw equality. The normal-library reviewer binds this
-entire same payload and ordered field vector to its actual xx member.
+for the diagnostic three branch forms and current native two-form gap,plus
+the load sequence and literal field-order differences. The normal-library
+reviewer independently binds its actual native object payload and all50 source/
+LINNUM boundaries;it does not equate that payload to this S/TASM miniature.
 
 The full carrier has50 complete near/far procedures,12088 instruction bytes and
 534 compiler/semantic CS storage bytes. All187 original literal native fields
@@ -58,8 +60,9 @@ not whole-TU acceptance or relocation-record equality.
 
 The complete18-entry import vector now agrees in native order after restoring
 the explicit far DOS declarations in xx_abi.h. Both the full-TU and normal-library
-reviewers compare the literal vectors. The latter retains the complete prior
-EXE/MAP bytes;neither vector sorting nor object rewriting is involved.
+reviewers compare the literal vectors. The import-only S/TASM checkpoint
+retained its prior EXE/MAP bytes;the current native product has its own full raw
+comparison. Neither vector sorting nor object rewriting is involved.
 
 Previous scoped reset experiments omitted -Z-. Restoring -O2-pg,-Os,-O-i and
 -Z- after before preserves all following function lengths;GetTypeInfo131,private
@@ -67,7 +70,7 @@ search582 and DynamicCast357 remain. No optimizer option push/pop is needed.
 
 Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
 Bad_typeid22,far typeinfo-pointer descriptor21,optional compiler zero,vtable12 and
-typeinfo descriptor/terminated lists60. Current tail is1734 bytes,including
+typeinfo descriptor/terminated lists60. The retained S/TASM tail is1734 bytes,including
 1599 instructions and135 metadata bytes;the original has1735/136. Complete raw tail
 equality remains open. The generated header retains size8,mask3,class flags1073h,
 base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
@@ -75,7 +78,7 @@ All four internal far pointers bind the real typeinfo descriptor/destructor.
 
 The earlier reviewer inferred the zero from final vtable-label parity. That
 assumption fails when compiler output and TASM relaxation have different offset
-estimates. After the comparator recovery,current BCC ASM emits neither the
+estimates. After the comparator recovery,the retained S/TASM BCC ASM emits neither the
 optional zero nor LIDATA;the previous catch-storage checkpoint emitted both. The reviewer checks
 actual directive/record presence and every resulting byte in either case.
 It does not require final-address alignment or insert a missing initializer.

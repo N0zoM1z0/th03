@@ -76,7 +76,7 @@ def initialized_payload(raw):
     return result,iterated
 
 
-def catch_storage_codegen(original,candidate,old,rows):
+def catch_storage_codegen(original,candidate,old,rows,native=False):
     """Keep the catch storage proof separate from its remaining raw branch gaps."""
     decoder=Cs(CS_ARCH_X86,CS_MODE_16)
     op,p=payload(original),payload(candidate)
@@ -85,11 +85,11 @@ def catch_storage_codegen(original,candidate,old,rows):
         (20,'exceptionHandled',(216,223),8,
             [(0,0x35,0),(0x3F,216,0x46)],
             [(0x35,0x3F,0x35,0x46)]),
-        (24,'initCatchArg',(678,676),24,
-            [(0,0xEB,0),(0xEF,0x117,0xED),(0x119,0x18C,0x115),
-             (0x18E,678,0x18C)],
+        (24,'initCatchArg',(678,674 if native else 676),24,
+            [(0,0xEB,0),(0xEF,0x117,0xED),(0x119,0x18E if native else 0x18C,0x115),
+             (0x18E,678,0x18A if native else 0x18C)],
             [(0xEB,0xEF,0xEB,0xED),(0x117,0x119,0x115,0x115),
-             (0x18C,0x18E,0x188,0x18C)])]:
+             *([] if native else [(0x18C,0x18E,0x188,0x18C)])])]:
         a,b=old[index],rows[index]
         need(a['name']==name and b['name'].startswith('@'+name+'$') and
             (a['size'],b['size'])==sizes,'complete original/current catch helper')
@@ -147,14 +147,16 @@ def catch_storage_codegen(original,candidate,old,rows):
         gaps=[dict(original_offset=l,candidate_offset=r,original_hex=raw[0][l:e].hex(),
             candidate_hex=raw[1][r:s].hex()) for l,e,r,s in special]
         expected=[('26c45f048c46fe895efc','268b5706268b47048956fe8946fcc45efc')] if index==20 else [
-            ('7402eb23','7523'),('eb00',''),('747c','7502eb7c')]
+            ('7402eb23','7523'),('eb00',''),*([] if native else [('747c','7502eb7c')])]
         need([(g['original_hex'],g['candidate_hex']) for g in gaps]==expected,
             'literal outstanding catch load or branch forms')
         fields=[]
         expected_fields=([[(95,'@__RefDestructorCount$qv'),(29,'@__RefDestructorCount$qv')],
-            [(29,'@__RefDestructorCount$qv'),(102,'@__RefDestructorCount$qv')]] if index==20 else
+            ([(102,'@__RefDestructorCount$qv'),(29,'@__RefDestructorCount$qv')] if native else
+             [(29,'@__RefDestructorCount$qv'),(102,'@__RefDestructorCount$qv')])] if index==20 else
             [[(611,'_memcpy'),(544,'_memcpy'),(206,'_memset')],
-             [(206,'_memset'),(542,'_memcpy'),(609,'_memcpy')]])
+             ([(607,'_memcpy'),(540,'_memcpy'),(206,'_memset')] if native else
+              [(206,'_memset'),(542,'_memcpy'),(609,'_memcpy')])])
         for obj,start,size,expected in zip((original,candidate),starts,sizes,expected_fields):
             ff=[f for f in literal_fields(obj) if f['segment']==1 and start<=f['site']<start+size]
             need([(f['site']-start,externs(obj)[f['target']-1]) for f in ff]==expected and all(

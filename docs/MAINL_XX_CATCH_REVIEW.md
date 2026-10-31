@@ -24,34 +24,32 @@ was added beyond these existing variables. In exceptionHandled,the first type
 pointer is declared at function scope. Its second descriptor consequently uses
 BP-8,the earlier count slot,instead of reusing the first descriptor's BP-4.
 
-`catch_storage_codegen` in the full-TU reviewer checks both complete bodies,
-explicit instruction alignment,the six/two real local helper calls and every
-remaining branch destination. initCatchArg stays678/676 bytes. Its three open
-forms are original JE/JMP versus source JNE at+0xEB,an original JMP-to-next at+0x117,
-and original short JE versus source JNE/JMP at+0x18C/+0x188. All other instructions
-have the same literal bytes outside the checked branch/CALL operands.
-exceptionHandled stays216/223 bytes:the original10-byte LES/store sequence at
-+0x35 becomes a17-byte DX:AX load/store/reload;the rest agrees under the same
-operand checks. These are partial source/codegen proofs,not complete raw equality.
+`catch_storage_codegen` checks complete bodies,instruction alignment,the six/
+two actual helper calls and all remaining branch destinations. The current
+normal product uses native BCC output. initCatchArg is674 versus678,frame24.
+Native compilation recovers the original short class-guard JE at+0x18C
+(candidate+0x188). Two forms remain:original JE/JMP versus source JNE at+0xEB,
+and the original JMP-to-next at+0x117. All other instructions agree outside
+checked branch/CALL operands. The retained S/TASM full-TU diagnostic is676 bytes
+and also differs at that class guard.
 
-Literal native fields remain in their actual order. Relative sites are original
-95/29 versus source29/102 for exceptionHandled,and original611/544/206 versus
-source206/542/609 for initCatchArg. The full-TU memcpy/memset EXTDEF indices now
-agree at9/10 after the import declarations were restored. Do not sort these vectors or count the
-storage recovery as new accepted bytes.
+exceptionHandled remains223 versus216,frame8. The original10-byte LES/store
+sequence at+0x35 becomes17-byte DX:AX load/store/reload;the rest agrees under
+the same operand checks. No defensive product changes are introduced.
 
-Private compiler controls are recorded in
-`.analysis/work/catch-storage-codegen-experiments.json`. Braces,old_value scopes,
-equivalent labels and the tested optimizer profiles did not recover all branch
-forms. BCC4.0 also retained676 bytes and needed a diagnostic count-helper
-declaration;it is not adopted. An isolated BCC4.5 direct-object build produced674
-bytes:it changed the class guard but retained the reference-branch gap. It does
-not replace the original full TU or solve its unsupported386 inline operations.
+Literal native field order stays explicit. exceptionHandled sites are original
+95/29 versus native102/29;initCatchArg sites are original611/544/206 versus
+native607/540/206. The separate S/TASM sites remain29/102 and206/542/609.
+Both producers now retain original full-TU memcpy/memset EXTDEF indices9/10.
+No vector is sorted and no partial storage/codegen proof is counted as acceptance.
 
-Affected catch/types/throw/full-TU/normal-library native pairs are refreshed;
-unchanged dispatch/destruction/call pairs and the938 cold outputs are reused.
-The normal candidate remains12569 CODE/67324 EXE bytes with181 literal fields.
-The published211 owners/36946 bytes and28-provider accepted library stay unchanged.
+Earlier controls in `.analysis/work/catch-storage-codegen-experiments.json`
+cover braces,old_value scopes,labels and optimizer profiles. The isolated674-byte
+native result is now reproduced by the maintained full TU after expressing
+unsupported386 operations in source. See [product review](MAINL_XX_PRODUCT_REVIEW.md).
+Current native CODE12572/187 fields and67324-byte EXE remain raw-different.
+The published211 owners/36946 bytes and accepted28-provider library stay unchanged.
+Affected native pairs are refreshed without rebuilding the938 retained cold outputs.
 
 ## Retained catch miniature
 

@@ -109,52 +109,42 @@ its product bank source remains unchanged.
 
 ## Current full-TU codegen
 
-The maintained full TU now uses local `-O-v` for dtorCleanup and restores `-Ov`
-afterward. This removes one extra WORD induction pointer to current->flags;
-this restores the original32-byte frame and1035-byte body. The complete original
-and candidate **unlinked object bodies** differ at just three byte offsets:
-+339h in the destroyVariable CALL,and+3D0h/+3D1h in the callMemberFunc CALL.
-All1025 bytes outside the five near CALL operands agree literally. All five
-calls independently resolve to the corresponding actual source helpers:
-findTrueTypeAndAddr twice,destroyArray,destroyVariable and callMemberFunc.
-No instruction or field is rewritten for comparison.
-
-The three external far fields retain their complete native records. Their
-function-relative emission order is original40/996/932 versus current40/932/996,
-with the original EXTDEF identities4/2/3 versus current4/3/2. The difference is
-retained,not sorted away. Complete raw function equality and exact ownership
-remain open,including after the real normal-library/MAINL link.
+The normal full-TU product now uses actual BCC4.5 native objects;see
+[product review](MAINL_XX_PRODUCT_REVIEW.md). Its complete linked destroyBases129
+and destroyVariable715 bodies match the original. Native BCC retains both
+original five-byte forward FAR CALLs,with literal field shapes and real callee
+identities checked. The earlier S/TASM full-TU diagnostic has128/714-byte bodies
+because TASM shortens those calls to four-byte PUSH CS/near CALL. The actual
+normal link now receives native fields and performs its own five-byte
+NOP/PUSH CS/near CALL relaxation. No padding is added to reproduce either form.
 
 In destroyVariable,declaring elements before member_type,but initializing it
 after the descriptor load,recovers BP[-30] for elements and BP[-34,-30) for
-member_type. All72 raw bytes at original7BA5..7BEC match the current object,
-including array count extraction and destructor-count multiplication. The DOS
-backward member loop still reuses that count.
+member_type. The previously recovered72-byte member/array search now belongs to
+a complete715-byte linked match. The DOS backward member loop reuses that count.
 
-Current full-TU destruction function lengths are108/128/714/258/177/1035 versus
-original108/129/715/258/177/1035. Both one-byte deficits include forward far
-calls:the original object has five-byte9A fields,while actual TASM assembles the
-compiler's far CALL into four-byte PUSH CS/near CALL. The corresponding linked
-original has TLINK's five-byte NOP/PUSH CS/near CALL relaxation. Adding padding
-would conceal a producer difference and is not source recovery.
+Local `-O-v`,restored with `-Ov` afterward,removes dtorCleanup's extra induction
+WORD and preserves its original32-byte frame and1035-byte body. In the current
+native unlinked body only offsets976/977 differ,in the callMemberFunc operand.
+All1025 bytes outside five near CALL operands agree. Each call resolves to its
+actual source helper:findTrueTypeAndAddr twice,destroyArray,destroyVariable and
+callMemberFunc. No instruction or field is rewritten for comparison.
 
-An isolated direct BCC `-c` experiment confirms129/715-byte bases/variable
-bodies and retains both five-byte forward far calls. Its2502-byte CODE is not
-the original bank:destroyOneObject is110 bytes because two catch-cleanup calls
-are external in that wrapper. Direct cleanup fields retain ref-count/delete/
-array-delete emission order,with an additional external callMemberFunc field.
-The full TU's direct compile rejects the current .386 directive and explicit
-DGROUP callback-address syntax. Removing the directive and using symbolic ES
-callback operands removes the DGROUP errors,but inline PUSHAD still fails.
-These are private experiments,not an adopted native recipe or exactness proof;
-their records are `.analysis/work/dtor-direct-bank-experiment.json` and
-`xx-direct-syntax-experiment.log`.
+The three native external far fields now retain original function-relative
+emission order40/996/932 and EXTDEF identities4/2/3. Earlier S/TASM emission
+was40/932/996 and its cleanup differed at three bytes. Current native cleanup
+still differs as a complete object/linked body;matching ordered shapes and
+helper identities do not turn those two operand bytes into equality.
 
-The full-TU reviewer records all1035 raw cleanup bytes through their hashes,
-all differing byte values,instruction boundaries,actual helper destinations and
-literal ordered fields. Two updated native miniature rounds and two normal
-893-member library/MAINL rounds repeat their complete raw outputs. Current xx
-CODE12569 and EXE67324 remain different from original12622/67372;the compiler
-now emits one RTTI zero,with136 metadata bytes as in the original. Accepted
-211 owners/36946 bytes and the retained cold pair stay unchanged. These findings
-add no exact credit and require no full cold/DIET replay.
+Current destruction function lengths108/129/715/258/177/1035 all agree with the
+original. The previous isolated direct-bank compile also recovered129/715,but
+changed destroyOneObject because its cleanup calls were external. The maintained
+full TU now resolves those interfaces naturally. Its unsupported386 operations
+and ES callback spellings are handled in maintained source,not patched objects.
+Historical controls remain recorded in `.analysis/work/dtor-direct-bank-experiment.json`.
+
+Two native normal893-member-library/MAINL rounds repeat complete raw outputs.
+Current xx CODE12572/EXE67324 still differ from12622/67372. Metadata136 includes
+one actual native LEDATA zero. Accepted211 owners/36946 bytes,all892 surrounding
+member records,39 binary link inputs and938 cold outputs stay unchanged. These
+function-body findings add no accepted credit and need no full cold replay.

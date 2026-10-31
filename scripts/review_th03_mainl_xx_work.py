@@ -5,13 +5,18 @@ from pathlib import Path
 import re
 import struct
 import tomllib
+from capstone import Cs,CS_ARCH_X86,CS_MODE_16
 import build_th03_mainl_xx_work as producer
 import probe_th03_mainl_xx_dispatch as miniature
 from build_th03_mainl_exception_work import compiler_context
 from build_th03_mainl_resources_work import need,sha
 from build_th03_mainl_work import WORK
 from build_th03_mainl_display_work import literal_fields
-from review_th03_mainl_xx_rtti import initialized_payload,all_bodies
+from review_th03_mainl_xx_rtti import initialized_payload,destruction_codegen,handler_codegen,catch_storage_codegen
+from review_th03_mainl_xx_catch import dense,comparator_codegen
+from review_th03_mainl_xx_types import compatible_codegen
+from review_th03_mainl_xx_calls import classify
+from lib.decoded_mainl_xx_native import native_bodies
 from lib.borland_library import library_members,compare_members,object_program_records
 from lib.decoded_mainl_display_native import externs
 from lib.decoded_mainl_xx_rtti_probe import run as rtti_run,CASES
@@ -25,6 +30,43 @@ from probe_th03_main_bomb_rikako_cpp import segment_definitions
 REVIEW='.analysis/work/mainl-xx-product-review.json'
 
 
+def native_storage(image,base,rows,size,obj):
+    gaps=[];cursor=0
+    for row in rows:
+        need(row['start']>=cursor,'disjoint native procedures')
+        if row['start']>cursor:gaps.append([cursor,row['start']-cursor])
+        cursor=row['start']+row['size']
+    need(cursor<size,'native RTTI storage follows the last procedure')
+    gaps.append([cursor,size-cursor])
+    need([n for a,n in gaps[:-1]]==[96,48,102,42,12,8,90],
+        'all native switch/EH storage gaps retain their original extents')
+    start,count=gaps[-1]
+    fields=[f for f in literal_fields(obj) if f['segment']==1 and f['site']==start+48]
+    need(len(fields)==1 and fields[0]['target_method']==0 and fields[0]['target']==1,
+        'actual native far typeinfo-descriptor reference')
+    vt=fields[0]['addend']-12;zero=vt-start-63
+    need(zero in (0,1) and count==135+zero,'actual native descriptor/vtable storage extent')
+    at=base+start;vtable=base+vt;dtor=base+rows[42]['start'];data=image
+    need(struct.unpack('<5H',data[at:at+10])==(1,1,10,0xFFFF,0) and
+        data[at+10:at+20]==b'Bad_cast\0\0' and
+        struct.unpack('<5H',data[at+20:at+30])==(1,1,10,0xFFFF,0) and
+        data[at+30:at+42]==b'Bad_typeid\0\0','complete native exception descriptors')
+    need(struct.unpack('<3H',data[at+42:at+48])==(4,0x2010,10) and
+        data[at+52:at+63]==b'typeinfo *\0' and all(b==0 for b in data[at+63:vtable]),
+        'native pointer descriptor,name and actual optional zero')
+    need(struct.unpack('<2H',data[at+48:at+52])==(vtable+12,0) and
+        struct.unpack('<2H',data[vtable:vtable+4])==(vtable+12,0) and
+        data[vtable+4:vtable+8]==b'\0'*4 and
+        struct.unpack('<2H',data[vtable+8:vtable+12])==(dtor,0),
+        'all native type/vtable/destructor pointers')
+    need(struct.unpack('<19H',data[vtable+12:vtable+50])==
+        (8,3,38,0,0x1073,48,52,0,0,0,0,0,0,1,1,dtor,0,5,56) and
+        data[vtable+50:vtable+60]==b'typeinfo\0\0' and
+        data[vtable+60:vtable+72]==b'\0'*12 and vt+72==size,
+        'entire native typeinfo header,name and terminated descriptor lists')
+    return dict(gaps=gaps,RTTI_metadata_bytes=count,RTTI_zero_bytes=zero)
+
+
 def review(root,report=None):
     root=Path(root);baseline,files,library,members,mini=producer.baseline(root)
     old_build=json.loads((root/producer.BASE_BUILD).read_bytes())
@@ -33,34 +75,42 @@ def review(root,report=None):
     raw=(root/producer.REPORT).read_bytes();r=json.loads(raw) if report is None else report
     need(r['complete'] and r['whole_product_linked'] and r['diagnostic_candidate'] and not r['source_acceptance'] and r['accepted_source_bytes']==0 and not r['whole_product_cold_rebuilt'] and r['retained_project_objects']==36,'complete unaccepted actual whole MAINL link,without cold rebuild')
     need(r['baseline']==baseline and r['driver_sha256']==sha((root/producer.DRIVER).read_bytes()) and r['support_sha256']=={p:sha((root/p).read_bytes()) for p in producer.SUPPORT},'current normal-library/miniature baselines,producer and scoped support')
-    need(r['source_sha256']=={p:sha((root/p).read_bytes()) for p in producer.SOURCES.values()} and r['compiler']==compiler_context(root) and r['compiler_flags']==miniature.FLAGS and r['available_SDK_header_sha256']==miniature.sdk_inventory(root),'current complete maintained TU,scoped compiler and64 SDK headers')
+    need(r['source_sha256']=={p:sha((root/p).read_bytes()) for p in producer.SOURCES.values()} and r['compiler']==compiler_context(root) and r['compiler_flags']==producer.OBJECT_FLAGS and r['assembly_flags']==producer.ASM_FLAGS and r['native_object_compiler'] and r['available_SDK_header_sha256']==miniature.sdk_inventory(root),'current maintained TU,native BCC object recipe and64 SDK headers')
     need(len(r['retained_binary_inputs_sha256'])==39 and r['retained_binary_inputs_sha256']=={p:sha((root/p).read_bytes()) for p in r['retained_binary_inputs_sha256']},'all36 project objects plus startup and two pinned SDK libraries retained')
     unit=producer.wrapper(b'');need(r['wrapper_sha256']==sha(unit) and (root/'.analysis/work/xx-product-maintained-xx.cpp').read_bytes()==(root/producer.UNIT).read_bytes(),'real module-name source transport and unchanged maintained TU')
     for short,path in producer.SOURCES.items():
         need((root/('.analysis/work/xx-product-source-'+short)).read_bytes()==(unit if short=='xx.cpp' else (root/path).read_bytes()),'actual compiler source input: '+short)
     extract=producer.build.response('base.lib',['*'+m.name for m in members])
     need((root/'.analysis/work/xx-product-extract.rsp').read_bytes()==extract and (root/'.analysis/work/xx-product-library.rsp').read_bytes()==producer.library_response(members) and (root/'.analysis/work/xx-product-link.lnk').read_bytes()==producer.link_response(files),'literal native extract/build/link responses and original member/link order')
-    cfg=tomllib.loads((root/'config/toolchain.toml').read_text());prefix=root/cfg['paths']['wine_prefix'];dos=['/usr/bin/wine-stable',str(root/cfg['paths']['msdos_player']),'-e','-x'];tasm=['/usr/bin/wine-stable',str(prefix/'drive_c/TASM50/bin/TASM32.EXE'),'/m','/mx','/kh32768','/t']
+    cfg=tomllib.loads((root/'config/toolchain.toml').read_text());dos=['/usr/bin/wine-stable',str(root/cfg['paths']['msdos_player']),'-e','-x']
     phases=[('extract-current-library',dos+['tlib','@extract.rsp'],0)]
     for number in (1,2):
-        for label,argv in [('compile',dos+[r'C:\BC45\BCC.EXE',*miniature.FLAGS,'xx.cpp']),('assemble',tasm+['/l','xx.asm','xx.obj']),('library',dos+['tlib',r'@probe\xxwhole\library.rsp']),('link',dos+['tlink',r'@probe\xxwhole\link.lnk'])]:phases.append((f'round{number}-{label}',argv,0))
-    need([(p['label'],p['command'],p['returncode']) for p in r['native_phases']]==phases and [v['round'] for v in r['rounds']]==[1,2],'one real native extraction and two actual compiler/TASM/TLIB/whole-product TLINK rounds')
+        for label,argv in [('compile-asm',dos+[r'C:\BC45\BCC.EXE',*producer.ASM_FLAGS,'xx.cpp']),('compile-native',dos+[r'C:\BC45\BCC.EXE',*producer.OBJECT_FLAGS,'xx.cpp']),('library',dos+['tlib',r'@probe\xxwhole\library.rsp']),('link',dos+['tlink',r'@probe\xxwhole\link.lnk'])]:phases.append((f'round{number}-{label}',argv,0))
+    need([(p['label'],p['command'],p['returncode']) for p in r['native_phases']]==phases and [v['round'] for v in r['rounds']]==[1,2],'one extraction and two actual BCC native-object/TLIB/whole-product TLINK rounds')
     for phase in r['native_phases']:
         log=(root/('.analysis/work/xx-product-'+phase['label']+'.log')).read_bytes()
         need(sha(log)==phase['log_sha256'],'whole actual native phase log')
-        if phase['label'].endswith('compile'):need(log.startswith(r['compiler']['banner'].encode()+b'\r\n'),'real scoped compiler banner')
+        if 'compile-' in phase['label']:need(log.startswith(r['compiler']['banner'].encode()+b'\r\n'),'real scoped compiler banner')
+    mini_review=json.loads((root/producer.MINI_REVIEW).read_bytes())
+    original=(WORK/'vendor/xx.obj').read_bytes()
+    transported={n:(root/('.analysis/work/xx-product-source-'+n)).read_bytes() for n in producer.NAMES}
     vectors=[];rows=[]
     for round in r['rounds']:
-        need(set(round['outputs'])=={'asm','obj','listing','lib','exe','map'},'five complete raw outputs plus unmodified clocked listing')
+        need(set(round['outputs'])=={'asm','obj','lib','exe','map'},'five complete raw compiler/native-object/library/link outputs')
         vector={}
         for kind,meta in round['outputs'].items():
             data=(root/meta['path']).read_bytes();need(meta==dict(path=meta['path'],bytes=len(data),sha256=sha(data)),'complete actual normal-link output');vector[kind]=data
         observed=compare_members(members,library_members(vector['lib']),{'xx':vector['obj']})
         need(round['library']==observed and observed['contextual_members_unchanged']==892 and observed['replaced_members']==['xx'],'same893 positions,all892 surrounding member program records unchanged,only real source xx replaced')
         need(describe_omf(vector['obj'])['valid'],'valid complete actual native xx OMF')
-        need(initialized_payload(vector['obj'])==initialized_payload(mini['obj']) and literal_fields(vector['obj'])==literal_fields(mini['obj']) and segment_definitions(vector['obj'])==segment_definitions(mini['obj']) and code_publics(vector['obj'],1)==code_publics(mini['obj'],1) and externs(vector['obj'])==externs(mini['obj']),'actual xx module preserves entire current miniature payload,ordered fields,storage and22 public/18 imported interfaces')
-        rows.append(all_bodies(vector['listing'].decode()));vectors.append(vector)
-    need({k:v for k,v in vectors[0].items() if k!='listing'}=={k:v for k,v in vectors[1].items() if k!='listing'} and rows[0]==rows[1],'whole raw ASM/OBJ/LIB/EXE/MAP pair equality,without any byte normalization')
+        need(segment_definitions(vector['obj'])[1:]==segment_definitions(mini['obj'])[1:] and
+            [n for at,n in code_publics(vector['obj'],1)]==[n for at,n in code_publics(original,1)] and
+            externs(vector['obj'])==externs(original),'native storage and all original public/imported interfaces')
+        procedures=native_bodies(vector['obj'],vector['asm'],transported,
+            mini_review['original_bodies'],mini_review['candidate_bodies'])
+        need(round['native_procedures']==procedures,'recomputed actual native source/LINNUM procedure extents')
+        rows.append(procedures);vectors.append(vector)
+    need(vectors[0]==vectors[1] and rows[0]==rows[1],'whole raw ASM/native OBJ/LIB/EXE/MAP pair equality,without normalization')
     v=vectors[0];source=parse_mz(v['exe']);target=parse_mz((WORK/'bin/th03/mainl.target.exe').read_bytes());need(source.valid and target.valid,'actual full native MAINL MZ and pinned Japanese decoded MZ')
     table=v['map'].decode();coordinates={}
     for segment,offset,size,kind,name in re.findall(r'^\s*([0-9A-F]{4}):([0-9A-F]{4})\s+([0-9A-F]{4})\s+C=(CODE|DATA|BSS)\s+S=(_TEXT|_DATA|_BSS)\s+G=\S+\s+M=xx\s+ACBP=\S+\s*$',table,re.M):
@@ -68,6 +118,7 @@ def review(root,report=None):
     definitions=segment_definitions(v['obj']);code_size=definitions[0]['size']
     need(set(coordinates)=={'CODE','DATA','BSS'} and coordinates['CODE']==(0,0x580D,code_size) and coordinates['DATA'][1:]==(0x1172,18) and coordinates['BSS'][1:]==(0x2876,10) and coordinates['DATA'][0]==coordinates['BSS'][0],'actual original xx positions and complete native CODE/DATA/BSS extents')
     fields=literal_fields(v['obj']);p,iterated=initialized_payload(v['obj']);base=coordinates['CODE'][1];image=bytearray(p[1,i] for i in range(code_size));mz=[];names=externs(v['obj'])
+    need(len(fields)==187 and not iterated,'all187 actual native compiler fields and dense LEDATA ownership')
     aliases={'@__RefDestructorCount$qv':'__refdestructorcount()','@$bnew$qui':'operator new(unsigned int)','@$bdele$qnv':'operator delete(void far*)','@$bdla$qnv':'operator delete[](void far*)'}
     for field in fields:
         at=field['site'];absolute=base+at
@@ -98,6 +149,44 @@ def review(root,report=None):
     need(bytes(image)==source.program_image[base:base+code_size] and mz==[q.linear for q in source.relocations if base<=q.linear<base+code_size] and len(mz)==20,'complete source CODE resolves through actual18 library interfaces and ordered20 MZ words,without miniature traps')
     ds,off,_=coordinates['DATA'];need(source.program_image[ds*16+off:ds*16+off+18]==bytes(p[2,i] for i in range(18)),'all18 DATA bytes bind the actual whole-product DGROUP position')
     original_table=(WORK/'obj/th03/mainl.map').read_text();probes=[];procedures=rows[0]
+    original_bodies=mini_review['original_bodies'];op,_=initialized_payload(original)
+    prefix=procedures[8]['start']
+    need(prefix==1327 and bytes(op[1,i] for i in range(prefix))==bytes(p[1,i] for i in range(prefix)),
+        'entire original1327-byte object prefix through typeIDcaught')
+    prefix_fields=[[f for f in literal_fields(obj) if f['segment']==1 and f['site']<prefix]
+        for obj in (original,v['obj'])]
+    need(prefix_fields[0]==prefix_fields[1] and len(prefix_fields[0])==4,
+        'all four original prefix fields agree literally in emitted order')
+    need(source.program_image[base:base+prefix]==target.program_image[base:base+prefix],
+        'the complete1327-byte linked prefix also agrees at the original position')
+    forward_calls=[]
+    for owner,offset,callee in [(11,630,21),(11,719,21),(11,794,18),
+        (19,62,21),(31,102,32),(32,571,33)]:
+        pair=[]
+        for obj,data,bodies,bias in [(original,op,original_bodies,0x580D),
+            (v['obj'],p,procedures,0)]:
+            at=bodies[owner]['start']-bias+offset;destination=bodies[callee]['start']-bias
+            selected=[f for f in literal_fields(obj) if f['segment']==1 and f['site']==at]
+            need(selected==[dict(segment=1,site=at,location_type=3,width=4,
+                segment_relative=True,frame_method=5,frame=None,target_method=0,
+                target=1,addend=destination)] and data[1,at-1]==0x9A,
+                'original five-byte forward FAR CALL and literal native CODE field')
+            pair.append(selected[0])
+        forward_calls.append(dict(owner=original_bodies[owner]['name'],offset=offset,
+            callee=original_bodies[callee]['name'],original_and_candidate_fields=pair))
+    need(bytes(op[2,i] for i in range(18))==bytes(p[2,i] for i in range(18)),
+        'entire original/current18-byte initialized DATA')
+    decoder=Cs(CS_ARCH_X86,CS_MODE_16);decoder.detail=True
+    dense(source.program_image,[dict(q,start=base+q['start']) for q in procedures],decoder)
+    storage=native_storage(source.program_image,base,procedures,code_size,v['obj'])
+    call_tables,_=classify(source.program_image,[dict(name=original_bodies[i]['name'],
+        start=base+procedures[i]['start'],size=procedures[i]['size']) for i in (8,9,10)],decoder)
+    comparator=comparator_codegen(original,v['obj'],procedures[2]['start'])
+    compatibility=compatible_codegen(original,v['obj'],procedures[4]['start'],
+        procedures[2]['start'],procedures[3]['start'])
+    destruction=destruction_codegen(original,v['obj'],original_bodies,procedures)
+    exception_handler=handler_codegen(original,v['obj'],original_bodies,procedures)
+    catch_storage=catch_storage_codegen(original,v['obj'],original_bodies,procedures,native=True)
     original_publics=code_publics((WORK/'vendor/xx.obj').read_bytes(),1)
     need(externs(v['obj'])==externs((WORK/'vendor/xx.obj').read_bytes()),
         'normal-library xx retains all18 original EXTDEF names in literal order')
@@ -127,10 +216,14 @@ def review(root,report=None):
     need(all(alternate[0][k]==alternate[1][k] for k in alternate[0] if k!='context') and alternate[0]['context'][:13]==alternate[1]['context'][:13] and alternate[0]['context'][14:]==alternate[1]['context'][14:] and [q['context'][13] for q in alternate]==[128,132],'one alternate entry SP exposes remaining frame-dependent saved-PF difference without changing flags')
     raise_body=source.program_image[base+procedures[18]['start']:base+procedures[18]['start']+procedures[18]['size']]
     need(raise_body.count(target.program_image[0x6AC0:0x6B07])==1,'complete raw71-byte argument copy block in actual linked product')
+    frame_allocations=[int.from_bytes(data[start+14:start+16],'little') for data,start in
+        [(target.program_image,original_bodies[18]['start']),
+         (source.program_image,base+procedures[18]['start'])]]
+    need(frame_allocations==[390,342],'original/current Raise storage gap remains explicit')
     raw_equal=v['exe']==target.raw;map_equal=v['map']==(WORK/'obj/th03/mainl.map').read_bytes()
     need(not raw_equal and not map_equal,'current full product remains a raw-different candidate,not exact acceptance')
     tail_start=base+procedures[36]['start'];tail_size=code_size-procedures[36]['start']
-    original_bodies=json.loads((root/producer.MINI_REVIEW).read_bytes())['original_bodies'];body_comparisons=[]
+    body_comparisons=[]
     need(len(original_bodies)==len(procedures)==50,'complete original/current function comparison scope')
     for old,new in zip(original_bodies,procedures):
         at=base+new['start']
@@ -150,6 +243,12 @@ def review(root,report=None):
         original_RTTI_tail_bytes=1735,candidate_RTTI_tail_bytes=tail_size,RTTI_tail_raw_equal=source.program_image[tail_start:tail_start+tail_size]==target.program_image[0x8294:0x895B],
         raw_function_comparisons=body_comparisons,
         candidate_literal_native_fields=fields,candidate_ordered_xx_MZ_words=mz,candidate_LIDATA_records=iterated,actual22_public_bindings=bindings,all_source_CODE_bytes_resolved=True,all18_interfaces_resolved_to_real_library=True,original_and_candidate_EXTDEF_vectors=[externs((WORK/'vendor/xx.obj').read_bytes()),externs(v['obj'])],literal_EXTDEF_vector_equal=True,
+        native_object_compiler=True,native_procedures=procedures,native_storage=storage,
+        original_prefix_raw_bytes=prefix,original_and_candidate_prefix_fields=prefix_fields,
+        restored_forward_far_calls=forward_calls,RaiseException_stack_allocations=frame_allocations,
+        comparator_codegen=comparator,compatibility_codegen=compatibility,destruction_codegen=destruction,
+        exception_handler_codegen=exception_handler,catch_storage_codegen=catch_storage,
+        native_call_adapter_tables=call_tables,
         target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,alternate_stack_offset=0xFF10,alternate_stack_real_memcpy_raise_probe=alternate,raw_Raise_argument_copy_bytes=71,actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 

@@ -92,7 +92,7 @@ matrix or a physical DOS execution claim.
 
 ## Current compatibility-loop recovery
 
-The maintained compatibleType now has the original372 instruction bytes and
+The maintained compatibleType has the original372 instruction bytes and
 four-byte stack frame. Local `-O-m`,restored with `-Om` afterward,removes the
 extra invariant WORD that cached the common source/destination mask bits.
 The native loop recomputes those bits for the array test.
@@ -105,14 +105,18 @@ result inside a positive condition,then falls through to the shared failure
 return. These natural expressions recover the original instruction and branch
 layout without additional storage or object editing.
 
-The complete unlinked372-byte body differs at only two bytes,+12Ah and+165h,
-inside the calls at+129h and+164h. All368 bytes outside the four CALL operand
-bytes agree literally. Both calls resolve independently to the actual source
-sameTypeID and findBaseType procedures;the first retains its PUSH CS/far-return
-ABI. Original and candidate literal field vectors are both empty. The full-TU
-review repeats this comparison against its real compiler procedure identities.
-Complete raw object and linked-body equality remain open because helper layout
-differs;there is no new exact credit.
+The current normal product uses actual BCC native objects. findBaseType339
+and compatibleType372 now match complete original object and linked bodies.
+Both lie in the original1327-byte prefix,whose four native fields agree
+literally in emitted order and whose entire linked image agrees at0000:580D.
+compatibleType's own literal field vectors are empty. Its actual calls resolve
+to sameTypeID and findBaseType,including the comparator's far-return PUSH CS.
+
+The retained S/TASM diagnostic still differs at two compatibleType CALL operand
+bytes,+12Ah/+165h. All368 bytes outside those operands agree;its helpers resolve
+correctly but its surrounding codegen differs. Native object generation removes
+that particular layout gap. See [product review](MAINL_XX_PRODUCT_REVIEW.md).
+Neither result grants whole-TU acceptance or changes the published owner count.
 
 The updated type miniature retains341/372/92/57/261-byte procedures and a1123-byte
 bank,versus original339/372/92/57/261 and1121. The type-loop change reused the

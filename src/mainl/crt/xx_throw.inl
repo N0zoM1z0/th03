@@ -196,6 +196,49 @@ typedef char xx_raise_context_gs[(offsetof(XXRaiseContext,seg_gs)==140) ? 1 : -1
 typedef char xx_raise_return32_bytes[(sizeof(XXRaiseReturn32)==48) ? 1 : -1];
 typedef char xx_raise_return16_bytes[(sizeof(XXRaiseReturn16)==26) ? 1 : -1];
 
+// The 16-bit native assembler lacks these 386 mnemonics. Instruction intrinsics
+// retain the CPU operations; the two BP displacements remain compiler symbols.
+// Its local-symbol arithmetic subtracts member offsets,unlike the -S emitter.
+#ifdef TH03_XX_NATIVE_OBJECT
+enum {
+    XX_BP_eflags = offsetof(XXRaiseContext,eflags),
+    XX_BP_seg_fs = offsetof(XXRaiseContext,seg_fs),
+    XX_BP_seg_gs = offsetof(XXRaiseContext,seg_gs),
+    XX_BP_stack_segment = offsetof(XXRaiseContext,stack_segment)
+};
+#define XX_CPU386()
+#define XX_CPU186()
+#define XX_CPU8086()
+#define XX_PUSHAD() __emit__(0x66,0x60)
+#define XX_POPAD() __emit__(0x66,0x61)
+#define XX_POPA() __emit__(0x61)
+#define XX_PUSHFD() __emit__(0x66,0x9C)
+#define XX_POPFD() __emit__(0x66,0x9D)
+#define XX_POP_EAX() __emit__(0x66,0x58)
+#define XX_SHR_EAX_16() __emit__(0x66,0xC1,0xE8,16)
+#define XX_POP_GS() __emit__(0x0F,0xA9)
+#define XX_POP_FS() __emit__(0x0F,0xA1)
+#define XX_CONTEXT_WORD(field,extra) [context-XX_BP_##field+extra]
+#define XX_SAVE_FS() __emit__(0x8C,0xA6); asm dw offset context-XX_BP_seg_fs
+#define XX_SAVE_GS() __emit__(0x8C,0xAE); asm dw offset context-XX_BP_seg_gs
+#else
+#define XX_CPU386() asm .386
+#define XX_CPU186() asm .186
+#define XX_CPU8086() asm .8086
+#define XX_PUSHAD() asm pushad
+#define XX_POPAD() asm popad
+#define XX_POPA() asm popa
+#define XX_PUSHFD() asm pushfd
+#define XX_POPFD() asm popfd
+#define XX_POP_EAX() asm pop eax
+#define XX_SHR_EAX_16() asm shr eax,16
+#define XX_POP_GS() asm pop gs
+#define XX_POP_FS() asm pop fs
+#define XX_CONTEXT_WORD(field,extra) context.field+extra
+#define XX_SAVE_FS() asm mov word ptr context.seg_fs,fs
+#define XX_SAVE_GS() asm mov word ptr context.seg_gs,gs
+#endif
+
 static void far exceptionContextHook(void __ss *) {}
 
 // The native argument loop indexes each DWORD directly; it has no induction
@@ -224,11 +267,11 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
     asm pop ax;
     saved_flags = _AX;
     if(_8086 >= 3) {
-        asm .386;
-        asm pushad;
+        XX_CPU386();
+        XX_PUSHAD();
         asm mov frame,sp;
         memcpy(registers,(void __ss *)frame,sizeof(registers));
-        asm popad;
+        XX_POPAD();
         context.edi = registers[0];
         context.esi = registers[1];
         context.ebx = registers[4];
@@ -236,17 +279,17 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         context.ecx = registers[6];
         context.eax = registers[7];
         context.ebp = registers[2];
-        asm pushfd;
-        asm pop eax;
-        asm shr eax,16;
-        asm mov word ptr context.eflags+2,ax;
+        XX_PUSHFD();
+        XX_POP_EAX();
+        XX_SHR_EAX_16();
+        asm mov word ptr XX_CONTEXT_WORD(eflags,2),ax;
         asm mov ax,saved_flags;
-        asm mov word ptr context.eflags,ax;
-        asm mov word ptr context.seg_fs+2,0;
-        asm mov word ptr context.seg_fs,fs;
-        asm mov word ptr context.seg_gs+2,0;
-        asm mov word ptr context.seg_gs,gs;
-        asm .8086;
+        asm mov word ptr XX_CONTEXT_WORD(eflags,0),ax;
+        asm mov word ptr XX_CONTEXT_WORD(seg_fs,2),0;
+        XX_SAVE_FS();
+        asm mov word ptr XX_CONTEXT_WORD(seg_gs,2),0;
+        XX_SAVE_GS();
+        XX_CPU8086();
     }
     else {
         context.edi = context.esi = context.ebx = context.edx =
@@ -321,17 +364,17 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         return32->flags = context.eflags;
         return32->ip = (unsigned)context.eip;
         return32->cs = (unsigned)context.cs;
-        asm .386;
-        asm mov ss,word ptr context.stack_segment;
+        XX_CPU386();
+        asm mov ss,word ptr XX_CONTEXT_WORD(stack_segment,0);
         asm mov sp,bx;
-        asm pop gs;
-        asm pop fs;
+        XX_POP_GS();
+        XX_POP_FS();
         asm pop es;
         asm pop ds;
-        asm popad;
-        asm popfd;
+        XX_POPAD();
+        XX_POPFD();
         asm retf;
-        asm .8086;
+        XX_CPU8086();
         return;
     }
     else {
@@ -351,15 +394,15 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         return16->flags = (unsigned)context.eflags;
         return16->ip = (unsigned)context.eip;
         return16->cs = (unsigned)context.cs;
-        asm mov ss,word ptr context.stack_segment;
+        asm mov ss,word ptr XX_CONTEXT_WORD(stack_segment,0);
         asm mov sp,bx;
-        asm .186;
+        XX_CPU186();
         asm pop es;
         asm pop ds;
-        asm popa;
+        XX_POPA();
         asm popf;
         asm retf;
-        asm .8086;
+        XX_CPU8086();
         return;
     }
 unhandled:
@@ -367,6 +410,21 @@ unhandled:
 }
 
 #pragma option -Ov
+#undef XX_CPU386
+#undef XX_CPU186
+#undef XX_CPU8086
+#undef XX_PUSHAD
+#undef XX_POPAD
+#undef XX_POPA
+#undef XX_PUSHFD
+#undef XX_POPFD
+#undef XX_POP_EAX
+#undef XX_SHR_EAX_16
+#undef XX_POP_GS
+#undef XX_POP_FS
+#undef XX_CONTEXT_WORD
+#undef XX_SAVE_FS
+#undef XX_SAVE_GS
 #undef return32
 #undef return16
 #undef XX_THROW_FILE

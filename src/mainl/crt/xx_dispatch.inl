@@ -1,8 +1,14 @@
 // Bounded local unwind and exception-dispatch include from the DOS xx.cpp TU.
-// Native integration is pending recovery of the surrounding private helpers.
+// The surrounding private helpers are supplied by the same translation unit.
 #include "xx_abi.h"
 
 #pragma option -xd-
+
+#ifdef TH03_XX_NATIVE_OBJECT
+#define XX_CALL_ES_SLOT(slot) call dword ptr es:[slot]
+#else
+#define XX_CALL_ES_SLOT(slot) call dword ptr es:[offset DGROUP:slot]
+#endif
 
 enum XXBlockKind {
     XB_FINALLY, XB_EXCEXP, XB_EXCCNS, XB_TRYCPP, XB_CATCH, XB_DEST
@@ -54,7 +60,7 @@ static void near local_unwind(xx_registration_ptr err, unsigned target)
                 mov ds, new_ds
                 push bp
                 mov bp, new_bp
-                call dword ptr es:[offset DGROUP:finally_body]
+                XX_CALL_ES_SLOT(finally_body)
                 pop bp
                 pop ds
             }
@@ -230,7 +236,7 @@ jump_to_handler:
                 mov ds, new_ds
                 push bp
                 mov bp, new_bp
-                call dword ptr es:[offset DGROUP:filter_expression]
+                XX_CALL_ES_SLOT(filter_expression)
                 pop bp
                 pop ds
                 pop si
@@ -267,3 +273,4 @@ got_filter:
     }
     return 1;
 }
+#undef XX_CALL_ES_SLOT

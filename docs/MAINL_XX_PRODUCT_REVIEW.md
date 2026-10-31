@@ -1,147 +1,121 @@
 # MAINL xx normal-library integration
 
-The complete maintained DOS xx.cpp now builds under its real `xx` module name,
-replaces the original xx member in the normal893-member library,and links the
-actual MAINL project. This is a **raw-different diagnostic candidate**,with no
-new source-exact credit or published product acceptance.
+The complete maintained DOS xx.cpp compiles under its real `xx` module name,
+replaces that member in the normal893-member library,and links actual MAINL.
+The current route uses BCC4.5 native `-c -y` output followed by TLIB/TLINK.
+It remains a **raw-different diagnostic candidate**,with no new accepted bytes.
 
-Two real BCC4.5/TASM/TLIB/TLINK rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP
-vectors. The full candidate EXE is67324 bytes;the fixed Japanese decoded target
-is67372. Both headers are4096 bytes and have677 relocation entries;the complete
-ordered vectors remain separate and different. Equal counts are not exactness.
+Two rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP vectors. Candidate EXE
+is67324 bytes versus the fixed Japanese67372-byte target. Both headers have
+4096 bytes and677 relocations;the complete raw images and MAPs still differ.
 
-## Native source and unchanged inputs
+## Source compilation and retained inputs
 
-`build_th03_mainl_xx_work.py` reuses the current reviewed28-provider normal
-library pair. It checks the entire retained raw pair and phase logs,then asks
-native TLIB to extract its893 members. Every extracted member's program records
-must match that retained library. The only newly compiled producer is xx.cpp.
-No original object code is spliced into the recovered TU.
+`build_th03_mainl_xx_work.py` validates and reuses the reviewed28-provider normal
+library pair. Native TLIB extracts all893 members;every extracted member must
+retain its actual program records. Only xx.cpp is recompiled. The new library
+preserves all893 positions and all892 surrounding member records,including28
+source providers. xx becomes candidate provider29;the accepted publication
+remains211 owners/288 entries/36946 bytes with its28-provider library.
 
-The maintained TU keeps its source order. Include names alone are shortened for
-DOS transport,as in the earlier miniature. Actual BCC compilation uses xx.cpp,
-actual TASM uses xx.asm,and native TLIB receives the real xx.obj. There is no
-THEADR or object patch to manufacture the member identity. Complete initialized
-payload,ordered181 fields,segments,22 public symbols and18 imports agree with
-the previously reviewed miniature despite the different input filename.
+All36 project objects plus real pinned C0L,EMU.LIB and MATHL.LIB remain unchanged.
+The link response binds those39 binary inputs explicitly. The938 retained cold
+outputs are validated/reused;no ancestor runtime or full cold/DIET chain is rerun.
 
-Both normal-library rebuilds retain all893 positions and all892 surrounding
-member program records. Those include28 current source providers and864 vendor
-context members;xx becomes the29th source provider in this candidate. The
-accepted28-provider baseline files and its published211 owners remain unchanged.
-The candidate's moved addresses are not substituted into that publication.
+DOS transport shortens include filenames only. Actual BCC receives xx.cpp and
+produces xx.obj directly. A separate ordinary `-S` pass supplies the50 mangled
+procedure names and near/far declarations;its ASM is never assembled into the
+product object. All linked CODE/DATA bytes come from actual native compilation.
+The retained full-TU S/TASM miniature is a separate diagnostic baseline.
 
-All36 existing project objects are reused. The real pinned TC4 C0L startup,
-EMU.LIB and MATHL.LIB complete the39 unchanged binary link inputs. Their paths
-are explicit in the candidate response,so the link does not depend on an
-unbound startup/library search. No project object,ancestor producer or full cold/
-DIET chain is rebuilt. All938 retained cold outputs remain current and unchanged.
-The shared miniature recipe and prior source/receipt bindings also stay current.
+`decoded_mainl_xx_native.py` finds actual source definitions and closing braces,
+then binds their lines to native source-file COMENT and LINNUM records. It
+requires one entry/epilogue per procedure in source order,decodes the declared
+RET/RETF before the next procedure,and separately reviews inline storage.
+No guessed prologue scan or target-sized slicing supplies native boundaries.
+Both builder and reviewer recompute all50 mappings from transported sources.
 
-## Whole-product field and ABI review
+Native BCC cannot parse PUSHAD/PUSHFD,EAX or FS/GS even with -3. The maintained
+native path expresses individual unsupported386 instructions with named
+`__emit__` intrinsics. FS/GS stores use compiler-symbolic `context` plus
+offsetof-derived displacements;no BP slot is hardcoded. The native inline
+assembler reverses local-member offset addition:context.eflags addressed
+BP-482 rather than BP-98,and SS read BP-490 rather than BP-90. An actual linked
+Raise probe exposed the broken return to0000:0000. The corrected native spelling
+uses `context - member_offset`,including symbolic DW displacements for FS/GS.
+ES callback calls use the native compiler's slot spelling. The default S/TASM
+path retains its previous readable instructions and operands. No function-byte
+arrays,product object patches or compensating storage are involved.
 
-The actual MAP allocates xx CODE at0000:580D,size12569;original size is12622.
-DATA18 remains at DGROUP:1172 and BSS10 at DGROUP:2876. The candidate DGROUP is
-0E3C rather than original0E3F. The CODE length difference and ordinary paragraph
-layout produce the48-byte file-size difference;no source padding is introduced.
-All18 initialized DATA bytes agree with the compiler output,and BSS has no
-invented initializers or file-byte credit.
+## Complete native comparison
 
-The reviewer resolves **every source CODE byte** from actual native OMF payload
-and all181 fields through the real whole-product MAP. All18 interfaces resolve
-to their library providers,with no trap implementation in this executable.
-Four arithmetic near-call fields use TASM's explicit CODE frame;their literal
-records stay intact and are checked against the real N_LXMUL/N_LUDIV targets.
-The20 xx MZ segment words match the actual whole EXE in emitted order. Each of
-the22 original public interfaces also binds its real current MAP address.
-All18 literal EXTDEF names now agree in their original order. Explicit far DOS
-prototypes precede the SDK redeclarations in xx_abi.h;no imported implementation
-or call ABI changes. The complete EXE and MAP remain byte-identical to the prior
-comparator checkpoint. Field emission order and carrier layout remain separate
-requirements;the current181-field TASM carrier is still not the original187.
-Current compiler ASM emits no optional zero before the vtable and no LIDATA.
-The reviewer checks actual directive/record presence rather than inferring an
-initializer from final address parity. Current RTTI tail1734 differs from
-original1735;complete raw tail equality remains open.
+| Property | Original | Native candidate |
+| --- | ---: | ---: |
+| xx CODE at0000:580D | 12622 | 12572 |
+| Literal native fields | 187 | 187 |
+| Ordered xx MZ words | 20 | 20 |
+| DATA/BSS | 18/10 | 18/10 |
+| RTTI tail/metadata | 1735/136 | 1735/136 |
+| Raise body/frame | 1151/390 | 1081/342 |
 
-All50 procedures retain complete raw byte comparisons. The dispatcher remains
-a complete140-byte raw match. sameTypeID now matches all157 bytes at its original
-0000:583E address after local -O-m restores its10-byte frame. Both native field
-vectors and its MZ vector are empty. Raise now has the original direct-indexed argument
-loop:all71 count/index/copy bytes agree in the actual linked executable. Local
--O-v eliminates two extra WORD induction pointers;FS/GS writes,the16-bit zero
-chain,direct SS assignment and CX/ES/BX resume addressing follow native order.
-The current Raise body1081 differs from1151,and its342-byte frame still lacks
-an unproved48-byte original region. No placeholder storage or flag adjustment
-is added to close that gap.
+Candidate DATA/BSS remain at DGROUP:1172/2876;DGROUP is0E3C versus original0E3F.
+Ordinary paragraph layout produces48 bytes of file movement. All18 initialized
+DATA bytes agree;BSS has no invented initialization. CODE length50 is a size
+difference,not a count of differing bytes. Native RTTI includes one actual
+LEDATA zero and no LIDATA. Its descriptors,vtable,terminated lists and all
+internal pointer identities are checked;the complete tail remains raw-different.
 
-A scoped -O1 profile recovers all120 raw **unlinked object bytes** of
-`typeinfo::before`. Its one original/current far strcmp field at+96 is retained
-literally,now with the original EXTDEF8 in both objects. The linked body remains
-different because its call displacement follows the current carrier layout.
-Previous reset trials omitted -Z-;restoring it with -O2-pg,-Os,-O-i leaves
-all following function lengths unchanged. The current comparator recovery removes
-the optional compiler zero,leaving metadata135/tail1734 and total CODE12569.
-Fresh NOSMART controls retain all six forward FAR CALL fields but widen17 Boolean
-immediate encodings;CODE12592 remains different. A private JWasm/MASM5 route retains
-187 fields/CODE12575 with two operand-spelling adaptations,but changes accumulator
-encodings. These controls are recorded in
-`.analysis/work/xx-comparator-followup-experiments.json`;none replaces the current
-assembler or modifies product ASM/objects. Borland's
-[TASM guide,chapter13](https://manualzz.com/doc/30078877/borland-version-5-turbo-assembler-user-s-guide)
-documents both FAR CALL conversion and Boolean immediate selection under SMART.
-Net CODE length53
-is not a differing-byte count.
+The reviewer resolves every CODE byte and all187 literal fields through the
+real product MAP and18 library interfaces. All22 public bindings and20 emitted
+xx MZ words match the actual executable. All18 EXTDEF names/indices agree in
+original order. Equal field counts do not establish whole-record equality;
+literal field vectors remain retained,without sorting or normalization.
 
-Local -O-v now recovers dtorCleanup's original32-byte stack frame and1035-byte
-body. Its complete unlinked object differs in only3 bytes,two internal CALL
-operands;all1025 bytes outside the five local CALL operands agree. Every CALL
-resolves to the corresponding real source helper. The literal OMF field order
-still differs:original function offsets40/996/932,current40/932/996. The linked
-body also differs,so no exact credit follows. Recovering destroyVariable's local
-declaration/initialization order matches its72-byte member/array-count search.
-See the [destruction findings](MAINL_XX_DESTRUCTION_REVIEW.md#current-full-tu-codegen).
+The complete first1327 object bytes match the original,including all four
+literal ordered fields. These bytes also match at their original linked address.
+This includes sameTypeID157,findBaseType339 and compatibleType372. Native BCC
+retains all six five-byte forward FAR CALLs that S/TASM shortened. Each original/
+current field is checked for its actual9A opcode,far shape and real callee.
+Complete linked destroyBases129 and destroyVariable715 now agree. Their linked
+raw equality is a complete function-body observation within the unaccepted TU.
 
-compatibleType now has its original372-byte extent and four-byte stack frame.
-Local -O-m removes an extra common-mask WORD;the CV subset,count OR and positive
-base-return expressions recover the complete native branch layout. Its unlinked
-body differs at only two CALL operand bytes. All368 bytes outside those operands
-agree,and both helpers resolve by their actual compiler identities. Original and
-candidate native field vectors are empty. The linked body still differs;see the
-[type findings](MAINL_XX_TYPES_REVIEW.md#current-compatibility-loop-recovery).
+All50 complete linked bodies are compared;23 currently agree raw. Other useful
+partial findings remain explicitly separate:
 
-ExceptionHandler recovers its880-byte body by declaring the existing filter
-local after Global_unwind. The declaration restores both original POP CX pairs
-without changing optimizer settings. Its56-byte frame,13-byte cleanup block,
-seven real helper calls and12-byte switch table are reviewed completely. The
-unlinked function differs at six operand bytes;all854 other bytes agree. Literal
-handler/table field orders still differ,and the linked body is raw-different.
-See the [handler findings](MAINL_XX_DISPATCH_REVIEW.md#current-full-tu-handler-recovery).
+- dtorCleanup1035/frame32 differs only at object offsets976/977 in the
+  callMemberFunc operand. All1025 bytes outside five local CALL operands agree;
+  all five actual helper identities and field order40/996/932 agree.
+- ExceptionHandler880/frame56 differs at seven object operand bytes. All854
+  other bytes agree. Its12-byte table has original relative destinations and
+  descending field order10/8/6/4/2/0. Body-field order still differs.
+- initCatchArg674 versus678 recovers the class guard,leaving two reference
+  branch forms. exceptionHandled223 versus216 retains one10/17-byte load
+  sequence gap. Frames and local slots retain the recovered source declarations.
+- `typeinfo::before` matches all120 unlinked bytes with original strcmp field
+  EXTDEF8 at+96. Its linked displacement remains different.
+- Raise retains all71 raw count/index/copy bytes. The48-byte frame region
+  BP[-134,-86) has unproved type/purpose;no placeholder or flag fix is added.
+  callCopyCtor767 versus750 and other layout/source differences remain open.
 
-Five focused target/source pairs execute routines from the linked product:
-virtual-address merging,distinct-address ambiguity,downcast source containment,
-secondary-vtable typeinfo update,and register catch jump. They preserve the
-selected far frames and DS/SS/BP/SI/DI values.
+## Focused execution evidence and receipts
 
-A sixth observation exercises the linked RaiseException/dispatcher path with
-the unchanged actual TASM handler fixture. Both memcpy calls now enter the real
-normal-library implementation directly;there is **no import redirection or
-memory-helper model**. The handler's DEADBEEFh EAX change resumes correctly,and
-other full registers/segments agree with the original. At entry SP=FF00 the
-complete tested record/register/context pair now agrees,including EFLAGS84h.
-One alternate entry SP=FF10 yields original80h/source84h while every other
-observed field agrees. Both use the actual linked memcpy twice. The remaining
-390/342 allocation gap therefore remains observable despite default-sample
-agreement. These observations do not claim a DOS boot or ending playthrough.
-
-## Current receipts and next work
+Five target/source pairs execute real linked RTTI/jump routines:virtual-address
+merging,distinct-address ambiguity,downcast containment,secondary-vtable update
+and register catch jump. They preserve the selected far frames and registers.
+The linked Raise/dispatcher pair uses the unchanged actual TASM handler fixture
+and the real library memcpy twice,without import redirection or a memory-helper
+model. The handler's DEADBEEFh EAX update resumes correctly. At entry SP=FF00,
+record/register/context observations agree including EFLAGS84h. At FF10 only
+the known original80h/source84h discrepancy remains. These are focused probes,
+not a DOS boot or ending-playthrough claim.
 
 Keep `.analysis/work/mainl-xx-product-build.json`,
-`mainl-xx-product-review.json`,both `xx-product-roundN-xx.asm/.obj/.lst`,
+`mainl-xx-product-review.json`,both `xx-product-roundN-xx.asm/.obj`,
 `xx-product-roundN-xxcrt.lib`, `xx-product-roundN-xxfull.exe/.map`,the exact
-transported source/header inputs,maintained xx.cpp snapshot,native extraction/
-library/link responses and phase logs. Temporary extraction objects are removed;
-the retained current library and native phase record remain their provenance.
+transported sources,maintained xx.cpp snapshot,responses and native phase logs.
+Native LINNUM in the actual objects replaces product TASM listings. The earlier
+failed displacement experiments and corrected native control are summarized in
+`.analysis/work/xx-native-compiler-recovery.json`.
 
 ```sh
 PYTHONPATH=scripts .venv/bin/python scripts/build_th03_mainl_xx_work.py
@@ -149,8 +123,6 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_xx_work.py
 PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_xx_work
 ```
 
-Source presence remains250 extents/60028 gross bytes. Accepted MAINL remains211
-owners/288 procedures/36946 bytes,with whole-game completion unknown. The full
-source graph now has a repeatable normal-library/whole-program route. Next close
-the complete xx CODE/field/layout differences,including the RaiseException frame
-and its unproved local region,and require raw target EXE/MAP equality before promotion.
+Source presence stays250 extents/60028 gross bytes. Require complete original
+CODE/ordered-field/layout and raw EXE/MAP equality before promotion. Next resolve
+the remaining copy-adapter,catch,Raise storage and surrounding layout gaps.
