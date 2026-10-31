@@ -9,8 +9,8 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work recovers all157 comparator bytes through local -O-m,
-after `6fd781b` (catch-argument/cleanup declaration scopes).
+Latest source work restores the complete18-entry DOS EXTDEF declaration order,
+after `ab566fb` (all157 comparator bytes through local -O-m).
 Preflight/scoped compiler checks passed in that source session; run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database; the fixed decoded MAINL DB is distinct from the old
@@ -58,6 +58,9 @@ of differing bytes. No exact credit or DOS boot/ending-playthrough claim follows
 
 Current useful proofs and remaining differences:
 
+- All18 EXTDEF names/indices now agree literally,in order,through explicit DOS
+  import declarations in xx_abi.h. Normal EXE/MAP are unchanged by this fix.
+  Header changes refreshed all affected xx miniature/native pairs,without cold replay.
 - Complete dispatcher140 linked bytes match in both miniature and normal link.
 - sameTypeID now matches all157 raw object/linked bytes at original0000:583E.
   Local -O-m removes an extra cached-mask WORD and restores frame10;restore -Om
@@ -67,7 +70,7 @@ Current useful proofs and remaining differences:
   removes two extra WORD induction pointers;FS/GS writes,the16-bit zero chain,
   direct SS and CX/ES/BX resume-address operations follow native order.
 - `typeinfo::before` matches all120 unlinked object bytes. Its one strcmp field
-  at+96 retains literal original/current EXTDEF indices8/18. The linked call
+  at+96 now retains literal EXTDEF8 in both objects. The linked call
   displacement still differs. Scoped -O1 works when -O2-pg/-Os/-O-i/**-Z-** are
   restored afterward;earlier reset trials omitted -Z-.
 - Current BCC output emits no optional RTTI zero and no LIDATA record:
@@ -117,6 +120,13 @@ Current useful proofs and remaining differences:
   after two operand-spelling adaptations,but changes accumulator encodings.
   None of these assembler/source experiments is adopted. Keep the default
   current pipeline;the cause of the forward-call gap is now explicit.
+- A private direct-BCC route now compiles the complete TU using semantic386
+  instruction intrinsics and symbolic BP displacements. CODE12576 has187 fields;
+  its first1327 bytes and all four ordered prefix fields match the original.
+  Plain/-y payloads and fields agree;LINNUM binds the boundary to callCopyCtor.
+  This remains an experiment,not the current product recipe or accepted source.
+  The ordinary48-byte struct-return probe passes a far four-byte result pointer,
+  unlike the original hook's two-byte argument;the Raise gap stays unproved.
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).

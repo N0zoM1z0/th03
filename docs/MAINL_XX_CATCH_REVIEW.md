@@ -36,8 +36,8 @@ operand checks. These are partial source/codegen proofs,not complete raw equalit
 
 Literal native fields remain in their actual order. Relative sites are original
 95/29 versus source29/102 for exceptionHandled,and original611/544/206 versus
-source206/542/609 for initCatchArg. The latter's memcpy/memset EXTDEF indices
-remain original9/10 versus source12/13. Do not sort these vectors or count the
+source206/542/609 for initCatchArg. The full-TU memcpy/memset EXTDEF indices now
+agree at9/10 after the import declarations were restored. Do not sort these vectors or count the
 storage recovery as new accepted bytes.
 
 Private compiler controls are recorded in

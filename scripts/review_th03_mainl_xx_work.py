@@ -99,6 +99,8 @@ def review(root,report=None):
     ds,off,_=coordinates['DATA'];need(source.program_image[ds*16+off:ds*16+off+18]==bytes(p[2,i] for i in range(18)),'all18 DATA bytes bind the actual whole-product DGROUP position')
     original_table=(WORK/'obj/th03/mainl.map').read_text();probes=[];procedures=rows[0]
     original_publics=code_publics((WORK/'vendor/xx.obj').read_bytes(),1)
+    need(externs(v['obj'])==externs((WORK/'vendor/xx.obj').read_bytes()),
+        'normal-library xx retains all18 original EXTDEF names in literal order')
     source_publics=code_publics(v['obj'],1);bindings=[]
     need(len(source_publics)==len(original_publics)==22,'all original22 public definitions')
     for (old_at,old_name),(new_at,new_name) in zip(original_publics,source_publics):
@@ -147,7 +149,7 @@ def review(root,report=None):
         whole_EXE_raw_equal=raw_equal,whole_MAP_raw_equal=map_equal,original_xx_CODE_bytes=12622,candidate_xx_CODE_bytes=code_size,native_module_coordinates=coordinates,
         original_RTTI_tail_bytes=1735,candidate_RTTI_tail_bytes=tail_size,RTTI_tail_raw_equal=source.program_image[tail_start:tail_start+tail_size]==target.program_image[0x8294:0x895B],
         raw_function_comparisons=body_comparisons,
-        candidate_literal_native_fields=fields,candidate_ordered_xx_MZ_words=mz,candidate_LIDATA_records=iterated,actual22_public_bindings=bindings,all_source_CODE_bytes_resolved=True,all18_interfaces_resolved_to_real_library=True,
+        candidate_literal_native_fields=fields,candidate_ordered_xx_MZ_words=mz,candidate_LIDATA_records=iterated,actual22_public_bindings=bindings,all_source_CODE_bytes_resolved=True,all18_interfaces_resolved_to_real_library=True,original_and_candidate_EXTDEF_vectors=[externs((WORK/'vendor/xx.obj').read_bytes()),externs(v['obj'])],literal_EXTDEF_vector_equal=True,
         target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,alternate_stack_offset=0xFF10,alternate_stack_real_memcpy_raise_probe=alternate,raw_Raise_argument_copy_bytes=71,actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 

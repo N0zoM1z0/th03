@@ -431,7 +431,8 @@ def review(root,report=None):
     pubs=code_publics(v['obj'],1);original_pubs=code_publics(original,1)
     need(len(pubs)==22 and [n for a,n in pubs]==[n for a,n in original_pubs] and all(a in {q['start'] for q in rows} for a,n in pubs),'all22 original public mangled interfaces,including real catch register jump')
     candidate_fields=literal_fields(v['obj']);imports=externs(v['obj'])
-    need(set(imports)==set(externs(original)) and len(imports)==18,'whole TU has exactly the original18 external interfaces')
+    need(imports==externs(original) and len(imports)==18,
+        'whole TU retains the literal original18-entry EXTDEF vector in native order')
     candidate_mz=[]
     for field in candidate_fields:
         if field['segment']!=1:continue
@@ -476,7 +477,7 @@ def review(root,report=None):
         selected=[f for f in all_fields if f['segment']==1 and body_start<=f['site']<body_start+120]
         need(len(selected)==1,'one literal original/current before field')
         f=selected[0]
-        need(f==dict(segment=1,site=body_start+96,location_type=3,width=4,segment_relative=True,frame_method=5,frame=None,target_method=2,target=f['target'],addend=0) and externs(raw_object)[f['target']-1]=='_strcmp','actual original/current far strcmp field;literal differing EXTDEF indices retained')
+        need(f==dict(segment=1,site=body_start+96,location_type=3,width=4,segment_relative=True,frame_method=5,frame=None,target_method=2,target=8,addend=0) and externs(raw_object)[f['target']-1]=='_strcmp','actual original/current far strcmp fields retain literal EXTDEF8')
         before_fields.append(selected)
     probes=[]
     for kind in CASES:
@@ -487,7 +488,7 @@ def review(root,report=None):
     return dict(complete=True,source_acceptance=False,accepted_source_bytes=0,accepted_publication_sha256=ACCEPTED_SHA,reused_baseline_receipt_sha256=baseline_sha,review_driver_sha256=sha((root/'scripts/review_th03_mainl_xx_rtti.py').read_bytes()),selected_build_report_sha256=sha(raw),source_sha256=r['source_sha256'],profile_driver_sha256=r['profile_driver_sha256'],
         original_CODE_bytes=SIZE,original_instruction_bytes=12088,original_inline_data_bytes=534,original_DATA_bytes=18,original_BSS_bytes=10,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=mz,original_storage_gaps=old_gaps,
         candidate_CODE_segment_bytes=size,candidate_DATA_bytes=18,candidate_BSS_bytes=10,candidate_bodies=rows,candidate_literal_native_fields=candidate_fields,candidate_MZ_words=candidate_mz,candidate_storage_gaps=new_gaps,candidate_LIDATA_records=iterated,complete_CODE_raw_equal=raw_equal,complete_DATA_raw_equal=True,
-        all22_original_public_interfaces=True,original18_imports=imports,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],candidate_RTTI_compiler_padding_bytes=padding_bytes,all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
+        all22_original_public_interfaces=True,original18_imports=imports,original_and_candidate_EXTDEF_vectors=[externs(original),imports],literal_EXTDEF_vector_equal=True,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],candidate_RTTI_compiler_padding_bytes=padding_bytes,all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,compatibility_codegen=compatibility,exception_handler_codegen=handler,catch_storage_codegen=catch_storage,comparator_codegen=comparator,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 

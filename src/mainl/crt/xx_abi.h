@@ -171,7 +171,19 @@ enum { XX_FREE_DS = offsetof(XXException,free_ds) };
 // Private function declarations belong to the enclosing xx TU, so recovered
 // definitions retain static linkage. Isolated diagnostic wrappers supply the
 // external declarations needed by their still-incomplete banks.
-extern "C" void far __cdecl __call_unexpected();
+// Keep the DOS import declarations in native order after the six compiler
+// runtime interfaces. The later SDK includes may redeclare these same types.
+extern "C" {
+void far __cdecl abort();
+int far __cdecl strcmp(const char far *,const char far *);
+void far * far __cdecl memcpy(void far *,const void far *,unsigned);
+void far * far __cdecl memset(void far *,int,unsigned);
+int far __cdecl memcmp(const void far *,const void far *,unsigned);
+void far __cdecl free(void far *);
+void far * far __cdecl malloc(unsigned);
+void far __cdecl __call_terminate();
+void far __cdecl __call_unexpected();
+}
 extern "C" void far __cdecl _Global_unwind(xx_registration_ptr,XXExceptionRecord __ss *);
 extern "C" void far __cdecl __JumpToCatch__();
 

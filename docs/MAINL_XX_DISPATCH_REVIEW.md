@@ -135,7 +135,8 @@ The adjacent12-byte switch table retains relative destinations
 856/615/734/374/856/856,all actual instruction boundaries. Original/current
 handler field emission order is372/294/724/703/700 versus294/372/700/703/724.
 The original table fields run10/8/6/4/2/0;TASM emits0/2/4/6/8/10. Original/current
-unexpected EXTDEF indices15/7 remain separate. These differences are retained
+unexpected EXTDEF indices now agree at15/15 after import declaration recovery.
+The remaining field-order differences are retained
 without sorting or operand rewriting. Complete object/linked equality and exact
 ownership remain open;there is no new exact credit.
 

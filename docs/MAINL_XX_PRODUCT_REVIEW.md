@@ -54,6 +54,11 @@ Four arithmetic near-call fields use TASM's explicit CODE frame;their literal
 records stay intact and are checked against the real N_LXMUL/N_LUDIV targets.
 The20 xx MZ segment words match the actual whole EXE in emitted order. Each of
 the22 original public interfaces also binds its real current MAP address.
+All18 literal EXTDEF names now agree in their original order. Explicit far DOS
+prototypes precede the SDK redeclarations in xx_abi.h;no imported implementation
+or call ABI changes. The complete EXE and MAP remain byte-identical to the prior
+comparator checkpoint. Field emission order and carrier layout remain separate
+requirements;the current181-field TASM carrier is still not the original187.
 Current compiler ASM emits no optional zero before the vtable and no LIDATA.
 The reviewer checks actual directive/record presence rather than inferring an
 initializer from final address parity. Current RTTI tail1734 differs from
@@ -72,7 +77,7 @@ is added to close that gap.
 
 A scoped -O1 profile recovers all120 raw **unlinked object bytes** of
 `typeinfo::before`. Its one original/current far strcmp field at+96 is retained
-literally,including different EXTDEF indices8/18. The linked body remains
+literally,now with the original EXTDEF8 in both objects. The linked body remains
 different because its call displacement follows the current carrier layout.
 Previous reset trials omitted -Z-;restoring it with -O2-pg,-Os,-O-i leaves
 all following function lengths unchanged. The current comparator recovery removes

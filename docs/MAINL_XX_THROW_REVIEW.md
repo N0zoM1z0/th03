@@ -121,12 +121,39 @@ in the original and the context's end in current source. The original address
 and allocation footprint are known;the missing region's type/purpose remains
 unproved. Matching its length with an invented object would not recover source.
 
-Candidate throw bank2451 and miniature CODE10802 remain raw-different from
+Candidate throw bank2451 and miniature CODE10787 remain raw-different from
 original bank2524 and covered10838. Equal wrapper sizes89/170 do not establish
 raw equality. Source presence is250 extents/60028 gross bytes;accepted MAINL
 stays211 owners/288 procedures/36946 bytes. Publication/verifier inputs and all938
 retained cold outputs are unchanged. Native boundaries and fields are checked
 independently. No full cold/DIET replay or ancestor runtime chain was repeated.
+
+## Current native compiler investigation
+
+The48-byte frame gap is not a short exception-parameter array:the existing record
+already has15 DWORD slots. Borland's preserved
+[16-bit EXCPT.H](https://raw.githubusercontent.com/earthsiege2/borland-cpp-ide/602b99a9fcd8429387d4c54cb1f455854e513886/SOURCE/RTL/RTLAPI/EXCPT.H)
+also gives the204-byte context layout used by the observed field accesses.
+A small native ABI probe shows that an ordinary48-byte structure return passes
+a far four-byte buffer pointer;the original empty hook receives only two bytes.
+That hypothesis does not establish ownership of the missing region. Product
+storage and the342-byte frame are unchanged.
+
+A separate private compiler experiment emits only the unsupported386 instructions
+through BCC's native instruction intrinsic. FS/GS stores retain symbolic
+`dw offset context.field` displacements;two TASM-specific ES operand spellings
+are made usable by the native compiler. This is source compilation,with no
+target-function arrays or object patches. It is not the maintained product recipe.
+The whole direct-BCC object is12576 CODE bytes with187 fields and22 publics.
+Plain and -y builds agree in all initialized payload and ordered fields.
+
+Restoring the import declaration order gives all18 original EXTDEF entries.
+The direct object's entire first1327 bytes and four literal ordered fields match
+the original;the actual xxcall.inl line11 LINNUM entry binds its end to callCopyCtor.
+The rest of that direct object remains unaccepted. Inputs,commands and results
+are retained in `.analysis/work/xx-native-imports-experiments.json`.
+Function-local typedef controls also leave callCopyCtor at767 bytes;they are not
+adopted. The current BCC -S/TASM/normal-library pipeline remains12569 CODE bytes.
 
 Current private inputs/receipts use the `xx-throw-*` prefix under
 `.analysis/work/`,plus `mainl-xx-throw-build.json` and

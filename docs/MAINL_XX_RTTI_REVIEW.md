@@ -52,9 +52,14 @@ it. `before` returns false for null this-type,true for a null other-type,and
 otherwise compares names. A local -O1 profile recovers the complete original
 120-byte **unlinked object body**,including its two far expression temporaries.
 The original and candidate retain their actual single far strcmp field at+96,
-with literal EXTDEF indices8/18 kept separately. Linked body bytes still differ
+with literal EXTDEF8 now retained in both objects. Linked body bytes still differ
 because the surrounding carrier layout changes the call displacement. This is
 not whole-TU acceptance or relocation-record equality.
+
+The complete18-entry import vector now agrees in native order after restoring
+the explicit far DOS declarations in xx_abi.h. Both the full-TU and normal-library
+reviewers compare the literal vectors. The latter retains the complete prior
+EXE/MAP bytes;neither vector sorting nor object rewriting is involved.
 
 Previous scoped reset experiments omitted -Z-. Restoring -O2-pg,-Os,-O-i and
 -Z- after before preserves all following function lengths;GetTypeInfo131,private
