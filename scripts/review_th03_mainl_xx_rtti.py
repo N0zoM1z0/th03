@@ -76,6 +76,101 @@ def initialized_payload(raw):
     return result,iterated
 
 
+def catch_storage_codegen(original,candidate,old,rows):
+    """Keep the catch storage proof separate from its remaining raw branch gaps."""
+    decoder=Cs(CS_ARCH_X86,CS_MODE_16)
+    op,p=payload(original),payload(candidate)
+    results={}
+    for index,name,sizes,frame,ranges,special in [
+        (20,'exceptionHandled',(216,223),8,
+            [(0,0x35,0),(0x3F,216,0x46)],
+            [(0x35,0x3F,0x35,0x46)]),
+        (24,'initCatchArg',(678,676),24,
+            [(0,0xEB,0),(0xEF,0x117,0xED),(0x119,0x18C,0x115),
+             (0x18E,678,0x18C)],
+            [(0xEB,0xEF,0xEB,0xED),(0x117,0x119,0x115,0x115),
+             (0x18C,0x18E,0x188,0x18C)])]:
+        a,b=old[index],rows[index]
+        need(a['name']==name and b['name'].startswith('@'+name+'$') and
+            (a['size'],b['size'])==sizes,'complete original/current catch helper')
+        starts=[a['start']-BASE,b['start']]
+        raw=[bytes(data[1,start+i] for i in range(size))
+            for data,start,size in zip((op,p),starts,sizes)]
+        need(raw[0][:8]==raw[1][:8]==bytes.fromhex('558bec83ec')+bytes([frame])+b'\x56\x57',
+            'original catch helper stack allocation')
+        decoded=[list(decoder.disasm(code,0)) for code in raw]
+        need([sum(i.size for i in seq) for seq in decoded]==list(sizes),
+            'complete catch instruction decoding')
+        pairs=[]
+        for left,end,right in ranges:
+            x=[i for i in decoded[0] if left<=i.address<end]
+            y=[i for i in decoded[1] if right<=i.address<right+end-left]
+            need([i.address-left for i in x]==[i.address-right for i in y] and
+                [i.size for i in x]==[i.size for i in y],
+                'explicit matching catch instruction ranges')
+            pairs.extend(zip(x,y))
+        correspondence={x.address:y.address for x,y in pairs}
+        correspondence.update({left:right for left,_,right,_ in special})
+        targets=[{q['start']-BASE:q['name'] for q in old},
+            {q['start']:(q['name'][1:].split('$',1)[0] if q['name'].startswith('@')
+                else q['name']) for q in rows}]
+        calls=[];branches=[];literal_bytes=0
+        for x,y in pairs:
+            need(x.mnemonic==y.mnemonic,'matching catch instruction kind')
+            if x.mnemonic=='call':
+                need(x.size==y.size==3 and x.bytes[0]==y.bytes[0]==0xE8,
+                    'actual local catch near CALL')
+                dest=[(start+i.address+3+int.from_bytes(i.bytes[1:],'little',signed=True))&65535
+                    for start,i in zip(starts,(x,y))]
+                names=[table.get(at) for table,at in zip(targets,dest)]
+                need(names[0] is not None and names[0]==names[1],
+                    'same real catch helper call identity')
+                calls.append(dict(original_offset=x.address,candidate_offset=y.address,
+                    target=names[0],original_hex=x.bytes.hex(),candidate_hex=y.bytes.hex()))
+                literal_bytes+=1
+            elif x.mnemonic.startswith('j'):
+                dest=[(i.address+i.size+int.from_bytes(i.bytes[1:],'little',signed=True))&65535
+                    for i in (x,y)]
+                need(correspondence.get(dest[0])==dest[1],
+                    'catch branch reaches the corresponding real instruction')
+                branches.append(dict(original_offset=x.address,candidate_offset=y.address,
+                    original_target=dest[0],candidate_target=dest[1],
+                    original_hex=x.bytes.hex(),candidate_hex=y.bytes.hex()))
+                literal_bytes+=1
+            else:
+                need(x.bytes==y.bytes,'all remaining literal catch instruction bytes')
+                literal_bytes+=x.size
+        expected_calls=['destThrownValue']*2 if index==20 else [
+            'sameTypeID','adjustClassAddress','sameTypeID','adjustClassAddress',
+            'callCopyCtor','destThrownValue']
+        need([q['target'] for q in calls]==expected_calls,'complete catch local call sequence')
+        gaps=[dict(original_offset=l,candidate_offset=r,original_hex=raw[0][l:e].hex(),
+            candidate_hex=raw[1][r:s].hex()) for l,e,r,s in special]
+        expected=[('26c45f048c46fe895efc','268b5706268b47048956fe8946fcc45efc')] if index==20 else [
+            ('7402eb23','7523'),('eb00',''),('747c','7502eb7c')]
+        need([(g['original_hex'],g['candidate_hex']) for g in gaps]==expected,
+            'literal outstanding catch load or branch forms')
+        fields=[]
+        expected_fields=([[(95,'@__RefDestructorCount$qv'),(29,'@__RefDestructorCount$qv')],
+            [(29,'@__RefDestructorCount$qv'),(102,'@__RefDestructorCount$qv')]] if index==20 else
+            [[(611,'_memcpy'),(544,'_memcpy'),(206,'_memset')],
+             [(206,'_memset'),(542,'_memcpy'),(609,'_memcpy')]])
+        for obj,start,size,expected in zip((original,candidate),starts,sizes,expected_fields):
+            ff=[f for f in literal_fields(obj) if f['segment']==1 and start<=f['site']<start+size]
+            need([(f['site']-start,externs(obj)[f['target']-1]) for f in ff]==expected and all(
+                f==dict(segment=1,site=f['site'],location_type=3,width=4,
+                    segment_relative=True,frame_method=5,frame=None,target_method=2,
+                    target=f['target'],addend=0) for f in ff),
+                'literal ordered catch runtime/library fields')
+            fields.append(ff)
+        results[name]=dict(original_bytes=sizes[0],candidate_bytes=sizes[1],stack_bytes=frame,
+            original_raw_sha256=sha(raw[0]),candidate_raw_sha256=sha(raw[1]),
+            complete_object_raw_equal=raw[0]==raw[1],matched_literal_bytes=literal_bytes,
+            local_calls=calls,branches=branches,remaining_instruction_forms=gaps,
+            original_and_candidate_literal_fields=fields)
+    return results
+
+
 def destruction_codegen(original,candidate,old,rows):
     """Compare real object bytes; explain local CALL operands without erasing them."""
     op,p=payload(original),payload(candidate)
@@ -319,6 +414,7 @@ def review(root,report=None):
         'actual compiler compatibility helper identities and complete extent')
     compatibility=compatible_codegen(original,v['obj'],rows[4]['start'],rows[2]['start'],rows[3]['start'])
     handler=handler_codegen(original,v['obj'],old,rows)
+    catch_storage=catch_storage_codegen(original,v['obj'],old,rows)
     def gaps(procedures,start,end):
         result=[];cursor=start
         for row in procedures:
@@ -390,7 +486,7 @@ def review(root,report=None):
         original_CODE_bytes=SIZE,original_instruction_bytes=12088,original_inline_data_bytes=534,original_DATA_bytes=18,original_BSS_bytes=10,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=mz,original_storage_gaps=old_gaps,
         candidate_CODE_segment_bytes=size,candidate_DATA_bytes=18,candidate_BSS_bytes=10,candidate_bodies=rows,candidate_literal_native_fields=candidate_fields,candidate_MZ_words=candidate_mz,candidate_storage_gaps=new_gaps,candidate_LIDATA_records=iterated,complete_CODE_raw_equal=raw_equal,complete_DATA_raw_equal=True,
         all22_original_public_interfaces=True,original18_imports=imports,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],candidate_RTTI_compiler_padding_bytes=padding_bytes,all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
-        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,compatibility_codegen=compatibility,exception_handler_codegen=handler,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
+        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,compatibility_codegen=compatibility,exception_handler_codegen=handler,catch_storage_codegen=catch_storage,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 
 if __name__=='__main__':

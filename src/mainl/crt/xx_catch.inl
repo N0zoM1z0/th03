@@ -18,9 +18,10 @@ static void near destThrownValue(void far *address,xx_code_ptr destructor,unsign
 
 static void near exceptionHandled(xx_exception_ptr exception)
 {
+    xx_type_ptr type;
+
     if(exception->argument_buffer) {
         if(exception->class_flags & 2) {
-            xx_type_ptr type;
             unsigned long saved_count;
             saved_count = *__RefDestructorCount();
             // The DOS target takes this descriptor from type,+4; it does not
@@ -109,6 +110,7 @@ static void near initCatchArg(XXHandler far *handler,xx_registration_ptr err,
     unsigned mask;
     unsigned base;
     void far *value;
+    void far *pointer;
     int keep_original;
 
     exception->argument_type = handler_type = handler->type;
@@ -172,7 +174,7 @@ static void near initCatchArg(XXHandler far *handler,xx_registration_ptr err,
         goto done;
     }
     if((mask & 0x10) && exception->size != size) {
-        void far *pointer = *(void near * far *)value;
+        pointer = *(void near * far *)value;
         memcpy(exception->argument_address,&pointer,sizeof(pointer));
     }
     else

@@ -9,8 +9,8 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work recovers the880-byte ExceptionHandler through its real filter
-declaration order,after `d05bc89` (compatibility loop and mask flow).
+Latest source work restores catch-argument/cleanup local storage through existing
+declaration scopes,after `beb11d5` (880-byte ExceptionHandler declaration order).
 Preflight/scoped compiler checks passed in that source session; run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database; the fixed decoded MAINL DB is distinct from the old
@@ -94,6 +94,14 @@ Current useful proofs and remaining differences:
   needed. All854 bytes outside proven operands agree;seven calls and the12-byte
   switch table are checked. Six raw differing bytes and literal field-order
   differences remain;see [handler review](MAINL_XX_DISPATCH_REVIEW.md#current-full-tu-handler-recovery).
+- initCatchArg now has the original24-byte frame and all local BP offsets:
+  the existing near-pointer expansion temporary precedes keep_original.
+  Its678/676-byte bodies differ structurally at three branch forms;all other
+  instructions agree outside verified branch/CALL operands. exceptionHandled's
+  first type declaration now outlives the buffer branch,so its second descriptor
+  reuses the count slot at BP-8. Its216/223-byte bodies retain one10/17-byte load
+  difference. Ordered fields still differ in both helpers;see
+  [catch review](MAINL_XX_CATCH_REVIEW.md#current-catch-local-storage-recovery).
 - Direct BCC -c accepts16-bit PUSHA but rejects PUSHAD/PUSHFD,EAX and FS even
   with -3. Copy-adapter trials retain767 bytes,or762 under -O1,versus750;
   Turbo's754-byte result changes other adapters too. These routes are not adopted.

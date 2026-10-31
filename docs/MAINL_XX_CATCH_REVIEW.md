@@ -1,10 +1,52 @@
 # MAINL xx catch cleanup and argument initialization
 
-This review describes a retained earlier miniature,not the current full-TU
-link. The maintained xx.cpp now links through the normal library as an unaccepted
-candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
-CODE/provider counts below remain specific to that diagnostic. Current overall
+The current storage findings below come from the full TU. The earlier miniature
+is retained separately. The maintained xx.cpp links through the normal library
+as an unaccepted candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md).
+Miniature CODE/provider counts remain specific to that diagnostic. Current overall
 source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+
+## Current catch local storage recovery
+
+The full TU now restores two declaration scopes under the unchanged BCC4.5
+profile. In initCatchArg,the existing far `pointer` used for near-pointer
+expansion is declared after `value`,before `keep_original`. The original frame
+is24 bytes rather than20:handler_type/type/size/value occupy BP-4/-8/-10/-14,
+pointer is BP-18,keep_original BP-20,and the nested old_value BP-24. No storage
+was added beyond these existing variables. In exceptionHandled,the first type
+pointer is declared at function scope. Its second descriptor consequently uses
+BP-8,the earlier count slot,instead of reusing the first descriptor's BP-4.
+
+`catch_storage_codegen` in the full-TU reviewer checks both complete bodies,
+explicit instruction alignment,the six/two real local helper calls and every
+remaining branch destination. initCatchArg stays678/676 bytes. Its three open
+forms are original JE/JMP versus source JNE at+0xEB,an original JMP-to-next at+0x117,
+and original short JE versus source JNE/JMP at+0x18C/+0x188. All other instructions
+have the same literal bytes outside the checked branch/CALL operands.
+exceptionHandled stays216/223 bytes:the original10-byte LES/store sequence at
++0x35 becomes a17-byte DX:AX load/store/reload;the rest agrees under the same
+operand checks. These are partial source/codegen proofs,not complete raw equality.
+
+Literal native fields remain in their actual order. Relative sites are original
+95/29 versus source29/102 for exceptionHandled,and original611/544/206 versus
+source206/542/609 for initCatchArg. The latter's memcpy/memset EXTDEF indices
+remain original9/10 versus source12/13. Do not sort these vectors or count the
+storage recovery as new accepted bytes.
+
+Private compiler controls are recorded in
+`.analysis/work/catch-storage-codegen-experiments.json`. Braces,old_value scopes,
+equivalent labels and the tested optimizer profiles did not recover all branch
+forms. BCC4.0 also retained676 bytes and needed a diagnostic count-helper
+declaration;it is not adopted. An isolated BCC4.5 direct-object build produced674
+bytes:it changed the class guard but retained the reference-branch gap. It does
+not replace the original full TU or solve its unsupported386 inline operations.
+
+Affected catch/types/throw/full-TU/normal-library native pairs are refreshed;
+unchanged dispatch/destruction/call pairs and the938 cold outputs are reused.
+The normal candidate remains12569 CODE/67324 EXE bytes with181 literal fields.
+The published211 owners/36946 bytes and28-provider accepted library stay unchanged.
+
+## Retained catch miniature
 
 `src/mainl/crt/xx_catch.inl` recovers six complete procedures and their preceding
 compiler EH data from the original monolithic DOS `xx.cpp`. The contiguous bank

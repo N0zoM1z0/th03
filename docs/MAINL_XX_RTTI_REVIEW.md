@@ -15,6 +15,14 @@ normal-library/whole-product source link;see [product review](MAINL_XX_PRODUCT_R
 
 ## Source and native ownership
 
+The current full-TU review also checks the recovered catch local storage and its
+remaining instruction forms. initCatchArg now has the original24-byte frame;
+exceptionHandled uses the original second descriptor slot at BP-8. See
+[catch storage review](MAINL_XX_CATCH_REVIEW.md#current-catch-local-storage-recovery)
+for the three branch forms,one load sequence and literal field-order gaps that
+still prevent complete raw equality. The normal-library reviewer binds this
+entire same payload and ordered field vector to its actual xx member.
+
 The full carrier has50 complete near/far procedures,12088 instruction bytes and
 534 compiler/semantic CS storage bytes. All187 original literal native fields
 independently reproduce the complete pinned Japanese CODE image. All20 original
