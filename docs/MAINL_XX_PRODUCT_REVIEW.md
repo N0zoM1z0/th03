@@ -71,6 +71,14 @@ xx MZ words match the actual executable. All18 EXTDEF names/indices agree in
 original order. Equal field counts do not establish whole-record equality;
 literal field vectors remain retained,without sorting or normalization.
 
+Every original/current field also binds its actual native1024-byte LEDATA CODE
+block. All187 fields in each object retain block emission order and descending
+sites within each block. Original handler372/294 fields precede0x2000;its other
+three follow it. The current handler begins67 bytes earlier and all five fields
+precede that boundary. This explains the changed function-relative field order
+through ordinary native writer layout. The two vectors remain different and
+are never normalized. The reviewer records complete blocks and handler groups.
+
 The complete first2822 object bytes match the original,including all92
 literal ordered fields. These bytes also match at their original linked address.
 This includes sameTypeID157,findBaseType339,compatibleType372 and the complete

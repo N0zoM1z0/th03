@@ -134,6 +134,16 @@ original372/294/724/703/700 versus native724/703/700/372/294. The unexpected
 EXTDEF index agrees at15. No sorting or operand normalization is used.
 Complete object/linked equality and accepted ownership remain open.
 
+The body-field difference now has a checked layout explanation. Both native
+objects write contiguous1024-byte LEDATA CODE blocks and descending-site fields
+inside each block. Original handler fields372/294 lie in1C00..1FFF,while
+724/703/700 lie in2000..23FF. Current handler starts67 bytes earlier,putting all
+five fields in1C00..1FFF;its resulting literal order is724/703/700/372/294.
+All187 fields in each complete object obey the same rule. The product reviewer
+retains actual blocks and full literal records in emitted order. It never sorts
+them to compare equal. This difference should be revisited after recovering
+preceding lengths/layout,without perturbing otherwise matching handler source.
+
 The separate S/TASM full-TU diagnostic retains six differing operand bytes,
 body-field order294/372/700/703/724 and ascending table fields0..10. The
 native product has its own reviewed source/LINNUM boundaries and field vectors;

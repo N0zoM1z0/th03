@@ -51,6 +51,25 @@ Current native CODE12554/187 fields and67308-byte EXE remain raw-different.
 The published211 owners/36946 bytes and accepted28-provider library stay unchanged.
 Affected native pairs are refreshed without rebuilding the938 retained cold outputs.
 
+## Further native controls
+
+New direct-native trials leave the maintained source unchanged. Reversing the
+reference conditional,using an explicit early exit,or grouping it as one
+iteration of a do block still gives674 bytes. A switch with one zero case and
+a default gives678 bytes,but keeps about50 wrong bytes:it introduces AX mask/
+zero-test instructions while retaining the wrong conditional/merged end branch.
+A Boolean switch instead gives688. Matching the target length is insufficient.
+
+For exceptionHandled,the tested comma assignment and local peephole profile
+retain223 bytes. Directly reading both destructor fields through exception->type
+gives214,but loses the original eight-byte local layout and reloads the source
+pointer. Assigning the pointer inside the call also fails complete comparison.
+The ordinary huge-pointer qualifier does not recover the missing LES sequence.
+None is adopted,and no hand-written replacement load or extra storage is added.
+Actual transported-input hashes,commands and complete-body results are retained
+in `.analysis/work/xx-catch-native-followup.json` and the individual trial records.
+The current native object/product pairs remain unchanged and validated.
+
 ## Retained catch miniature
 
 `src/mainl/crt/xx_catch.inl` recovers six complete procedures and their preceding

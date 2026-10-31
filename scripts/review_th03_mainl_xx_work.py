@@ -21,13 +21,32 @@ from lib.borland_library import library_members,compare_members,object_program_r
 from lib.decoded_mainl_display_native import externs
 from lib.decoded_mainl_xx_rtti_probe import run as rtti_run,CASES
 from lib.decoded_mainl_xx_throw_probe import run as raise_run,callback
-from lib.omf import describe_omf
+from lib.omf import describe_omf,parse_omf
 from lib.pc98 import parse_mz
 from lib.op_shared_native import address
 from probe_th03_main_boss_marisa_cpp import code_publics
 from probe_th03_main_bomb_rikako_cpp import segment_definitions
 
 REVIEW='.analysis/work/mainl-xx-product-review.json'
+
+
+def native_fixup_blocks(obj):
+    """Retain literal writer order and explain its dependence on CODE layout."""
+    fields=literal_fields(obj);blocks=[];cursor=0;observed=[]
+    for record in parse_omf(obj):
+        if record.name!='LEDATA' or record.data[0]!=1:continue
+        start=int.from_bytes(record.data[1:3],'little');size=len(record.data)-3
+        need(start==cursor and 0<size<=1024,'contiguous actual native CODE blocks')
+        selected=[f for f in fields if f['segment']==1 and start<=f['site']<start+size]
+        need(all(f['site']+f['width']<=start+size for f in selected) and
+            all(a['site']>b['site'] for a,b in zip(selected,selected[1:])),
+            'complete native fields in literal descending order within each CODE block')
+        blocks.append(dict(start=start,size=size,literal_fields=selected))
+        observed.extend(selected);cursor+=size
+    need(len(fields)==187 and observed==fields and
+        all(b['size']==1024 for b in blocks[:-1]),
+        'all187 literal fields retain emitted CODE-block order,without sorting')
+    return blocks
 
 
 def native_storage(image,base,rows,size,obj):
@@ -191,6 +210,17 @@ def review(root,report=None):
     destruction=destruction_codegen(original,v['obj'],original_bodies,procedures)
     exception_handler=handler_codegen(original,v['obj'],original_bodies,procedures)
     catch_storage=catch_storage_codegen(original,v['obj'],original_bodies,procedures,native=True)
+    fixup_blocks=[native_fixup_blocks(obj) for obj in (original,v['obj'])]
+    handler_blocks=[]
+    need(original_bodies[29]['name']=='_ExceptionHandler','actual handler procedure identity')
+    for blocks,start in zip(fixup_blocks,[original_bodies[29]['start']-0x580D,procedures[29]['start']]):
+        handler_blocks.append([dict(block_start=b['start'],relative_sites=[f['site']-start
+            for f in b['literal_fields'] if start<=f['site']<start+880]) for b in blocks
+            if any(start<=f['site']<start+880 for f in b['literal_fields'])])
+    need([q['relative_sites'] for q in handler_blocks[0]]==[[372,294],[724,703,700]] and
+        [[site for q in pair for site in q['relative_sites']] for pair in handler_blocks]==
+        exception_handler['literal_field_offset_order'],
+        'handler literal order follows its actual native CODE-block ownership')
     original_publics=code_publics((WORK/'vendor/xx.obj').read_bytes(),1)
     need(externs(v['obj'])==externs((WORK/'vendor/xx.obj').read_bytes()),
         'normal-library xx retains all18 original EXTDEF names in literal order')
@@ -253,6 +283,7 @@ def review(root,report=None):
         restored_forward_far_calls=forward_calls,RaiseException_stack_allocations=frame_allocations,
         comparator_codegen=comparator,compatibility_codegen=compatibility,destruction_codegen=destruction,
         exception_handler_codegen=exception_handler,catch_storage_codegen=catch_storage,
+        original_and_candidate_CODE_fixup_blocks=fixup_blocks,handler_CODE_fixup_blocks=handler_blocks,
         native_call_adapter_tables=call_tables,
         target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,alternate_stack_offset=0xFF10,alternate_stack_real_memcpy_raise_probe=alternate,raw_Raise_argument_copy_bytes=71,actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)

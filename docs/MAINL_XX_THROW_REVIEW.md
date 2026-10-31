@@ -139,6 +139,15 @@ a far four-byte buffer pointer;the original empty hook receives only two bytes.
 That hypothesis does not establish ownership of the missing region. Product
 storage and the342-byte frame are unchanged.
 
+A further native ABI probe gives an ordinary48-byte resume-frame class an empty,
+out-of-line default constructor under the current large-model profile. Its
+constructor has41 CODE bytes,including the allocation/return path,and receives
+four this-pointer bytes;the __saveregs caller allocates48 and pushes SS plus
+offset. This does not match the original five-byte hook and its two-byte
+argument. It establishes no ownership for the missing48 bytes. The actual
+source/ASM/native object and compiler commands are recorded in
+`.analysis/work/raise-constructor-probe.json`;no such object is added to Raise.
+
 The complete normal product now uses actual native BCC `-c -y` objects.
 Named instruction intrinsics express individual unsupported386 operations;
 FS/GS stores retain compiler-symbolic DW addresses with offsetof-derived member

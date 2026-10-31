@@ -13,6 +13,10 @@ Latest source work recovers the complete1495-byte DOS call-adapter bank and
 all88 literal ordered native fields. Four virtual-base SI assignments use
 Borland register variables;the complete native prefix now matches2822 bytes
 and92 ordered fields. The whole xx member remains unaccepted.
+Latest investigation explains the handler's field-order difference through
+actual1024-byte CODE blocks:all187 fields in both objects follow the same
+block-order/descending-site rule. The catch source trials and an ordinary
+48-byte class-constructor ABI probe do not close the remaining gaps.
 Preflight/scoped compiler checks passed in that source session;run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database;the fixed decoded MAINL DB is distinct from the old
@@ -81,7 +85,9 @@ Current useful proofs and open questions:
 - ExceptionHandler880/frame56 retains all854 bytes outside proven operands.
   Seven raw operand bytes still differ. Switch field order now matches10..0,
   but body-field order remains original372/294/724/703/700 versus native
-  724/703/700/372/294. No normalization or exact credit.
+  724/703/700/372/294. Original fields cross0x2000;current fields all precede
+  it. This follows the same native1024-byte writer rule in both objects.
+  Keep literal vectors different;repair preceding layout rather than sorting.
 - initCatchArg is674 versus678,frame24. Native compilation recovers the class
   guard;two reference-branch forms remain. exceptionHandled223 versus216
   retains the10/17-byte LES versus DX:AX load difference. Native field orders
