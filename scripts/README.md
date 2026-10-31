@@ -29,6 +29,8 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | OP | `review_th03_op_entry_data_work.py` | Full cold/cfg/menu/startup/DATA chain; actual nested execution, semantic initialized storage and prior-observation invariance. |
 | OP | `review_th03_op_music_call_work.py` | Native same-CS far-call proof and fresh ordinary-far source control; no Music Room implementation credit. |
 | MAINL | `build_th03_mainl_work.py` | Two complete project/CRT builds, normal TLIB membership/order, decoded/stored equality and lifecycle scopes. |
+| MAINL | `build_th03_mainl_exception_work.py` | Scoped natural new/xalloc/xmsg producer;composes the accepted28-provider normal library with retained project inputs. |
+| MAINL | `build_th03_mainl_xx_work.py`, `review_th03_mainl_xx_work.py` | Native full-xx object,normal893-member library and actual product candidate;raw-different and unaccepted. Reuse unchanged cold inputs. |
 | MAINL | `review_th03_mainl_staff_roll_work.py` | Full MAINL cold/resource/ending/staff/DATA/roll chain, including actual owned nested calls, input waits, fade and cleanup. |
 | Shared | `review_th03_shared_input_work.py` | Bind both OP/MAINL cold pairs to input policy and MAINL ending-wait contracts. |
 | ZUN | `build_th03_zun_work.py` | Native launcher/directory/payload cold pair and complete stored/decoded comparison. |
@@ -64,7 +66,7 @@ products before regenerating progress.
 | --- | --- |
 | `probe_th03_main_producers.py` | Unresolved state/shot grouping and alignment controls; no new source credit. |
 | `probe_th03_sound_nop_layout.py` | OP/MAINL natural trailing-byte investigation; annotated assembly controls are not acceptance. |
-| `clean_generated.py` | Preview disposable analysis/cache cleanup; `--apply` deletes and `--keep-analysis PATH` retains an active input; `--caches-only` leaves all `.analysis` state alone. |
+| `clean_generated.py` | Preview analysis/cache cleanup;lists can include dynamically read live inputs. Audit before `--apply`;`--keep-analysis PATH` adds protection. `--caches-only` leaves `.analysis` untouched. |
 | `closeout_cleanup.py` | Receipt-based cleanup planning/application with input/reference drift checks. |
 | `import_targets.py`, `bootstrap_toolchain.sh`, `bootstrap_analysis_toolchain.sh` | Initial private input/tool installation. |
 

@@ -4,7 +4,7 @@
 through the scoped optimizing Borland compiler. Six owners add2258 bytes and16
 far procedures. MAINL accepts211 extents/288 procedures/36,946 bytes,including
 34,333 instruction bytes,2607 initialized DATA bytes and6 bytes of actual
-uninitialized file storage. Source presence stays240 extents/47,388 gross bytes;
+uninitialized file storage. Current source-presence totals belong to the [handoff](RE_HANDOFF.md);
 historical overlapping aggregates are not additional exact credit.
 
 Operator new converts zero to one,tries malloc,and calls the installed far

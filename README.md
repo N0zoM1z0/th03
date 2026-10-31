@@ -77,8 +77,13 @@ necessary. Current build/proof inputs must remain available.
 
 ```sh
 .venv/bin/python scripts/clean_generated.py --prune-unreferenced-receipts
-# Inspect the preview, then add --apply to perform its guarded cleanup.
+# Preview only; audit actual current reads before selecting deletions.
 ```
+
+The preview is not a complete dependency oracle:it can list live native phase
+logs and dynamically named transported sources. Audit those reads and add
+explicit keep paths before applying it;use an inspected deletion list for
+superseded experiments. See the [working-file rules](docs/RE_WORKFLOW.md#working-files).
 
 Keep one working build per product, the local Wine prefix and installed tools.
 Ghidra/JDK checks hash their complete installed trees, including bundled archives;

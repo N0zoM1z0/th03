@@ -13,10 +13,10 @@ Latest source work recovers the complete1495-byte DOS call-adapter bank and
 all88 literal ordered native fields. Four virtual-base SI assignments use
 Borland register variables;the complete native prefix now matches2822 bytes
 and92 ordered fields. The whole xx member remains unaccepted.
-Latest investigation explains the handler's field-order difference through
-actual1024-byte CODE blocks:all187 fields in both objects follow the same
-block-order/descending-site rule. The catch source trials and an ordinary
-48-byte class-constructor ABI probe do not close the remaining gaps.
+Native field ordering follows actual1024-byte CODE blocks in both objects.
+The latest storage/type controls remain unadopted;see the concise
+[findings](RE_NOTES.md) and `xx-raise-storage-followup.json`. A390-byte private
+frame control still emits1156 bytes rather than1151;it does not recover ownership.
 Preflight/scoped compiler checks passed in that source session;run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database;the fixed decoded MAINL DB is distinct from the old
@@ -68,47 +68,32 @@ also do not establish complete literal ordered field equality.
 
 Current useful proofs and open questions:
 
-- The complete first2822 object and linked bytes agree,with all92 literal
-  ordered prefix fields. This includes sameTypeID157,findBaseType339,
-  compatibleType372 and the complete1495-byte call bank with88 fields.
-  callCopyCtor750,callDestructor392 and callMemberFunc185 now agree raw.
-  Only the four virtual-base SI writes use `_SI = FP_OFF(destination)`;
-  changing every SI write leaves one wrong branch byte. All18 imports retain
-  original order;see [call review](MAINL_XX_CALLS_REVIEW.md).
-- Native compilation preserves all six original five-byte forward FAR CALLs
-  without TASM shortening. destroyBases129 and destroyVariable715 now match
-  complete linked bodies;their literal fields retain original shapes and
-  callee identities. Whole xx remains raw-different,so no accepted credit follows.
-- dtorCleanup1035/frame32 differs only at object offsets976/977 in the
-  callMemberFunc operand. Its literal field order now matches40/996/932;
-  all1025 bytes outside five proven near-CALL operands agree.
-- ExceptionHandler880/frame56 retains all854 bytes outside proven operands.
-  Seven raw operand bytes still differ. Switch field order now matches10..0,
-  but body-field order remains original372/294/724/703/700 versus native
-  724/703/700/372/294. Original fields cross0x2000;current fields all precede
-  it. This follows the same native1024-byte writer rule in both objects.
-  Keep literal vectors different;repair preceding layout rather than sorting.
-- initCatchArg is674 versus678,frame24. Native compilation recovers the class
-  guard;two reference-branch forms remain. exceptionHandled223 versus216
-  retains the10/17-byte LES versus DX:AX load difference. Native field orders
-  remain distinct;see [catch review](MAINL_XX_CATCH_REVIEW.md).
-- Raise stays1081 versus1151,frame342 versus390. Its count/index/copy block
-  matches all71 raw bytes. Native386 intrinsics express individual unsupported
-  instructions;symbolic BP addresses use offsetof-derived member offsets.
-  An actual linked probe caught BCC's reversed local-member displacement:
-  `context.field` and `context + offset` were wrong;`context - offset` recovers
-  the intended address. No hardcoded BP slot or target-function byte array.
-- The corrected real-linked Raise path agrees at entry SP=FF00,including flags
-  84h/84h. At FF10 only the known80h/84h difference remains;both use actual
-  library memcpy twice. Original BP[-134,-86) ownership stays unproved.
-  Do not invent storage or adjust flags to close the48-byte gap.
-- Native RTTI metadata135 has no optional zero or LIDATA;tail1734 still differs
-  raw. The retained S/TASM miniature instead has CODE12553/181 fields and
-  metadata136/tail1735,with one actual LIDATA zero. Inspect actual record
-  presence;do not infer an initializer from address parity.
-- `typeinfo::before` matches120 unlinked object bytes,including literal strcmp
-  EXTDEF8 at+96;the linked operand still differs. Catch branches,Raise storage
-  and the remaining source/codegen/layout gaps stay open.
+- The first2822 object/linked bytes and92 literal ordered fields agree. This
+  includes the complete1495-byte call bank/all88 fields,the157-byte comparator
+  and339/372-byte type helpers. The four virtual-base SI transfers use register
+  variables;nonvirtual ASM transfers retain the final branch shape.
+- Six original forward FAR CALLs are retained. Complete linked destruction
+  bodies129/715 agree. All50 bodies are compared;26 agree raw. These bounded
+  observations add no accepted bytes while xx remains unaccepted.
+- Cleanup1035/frame32 still differs at two CALL operand bytes. Handler880/frame56
+  differs at seven operand bytes;all854 other bytes agree. Its field-order
+  difference follows movement across the native0x2000 CODE-block boundary.
+  Keep literal vectors different and fix preceding layout;do not sort them.
+- Catch initialization is674 versus678/frame24,with two reference-branch forms
+  open. Cleanup is223 versus216/frame8,with one10/17-byte LES versus DX:AX load
+  gap. Source-form/option trials remain unadopted;see [catch review](MAINL_XX_CATCH_REVIEW.md).
+- Raise is1081 versus1151/frame342 versus390. Its71-byte argument-copy block
+  agrees. The actual used context is204 bytes;BP[-134,-86) ownership remains
+  unproved. Default FF00 flags agree84h/84h;FF10 retains80h/84h through real
+  memcpy twice. Do not add a guessed local or flag adjustment.
+- Native386 intrinsics keep symbolic BP addresses. The checked minus-member-
+  offset spelling avoids BCC's local-member assembler bug. No target-function
+  arrays or object patches supply code;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
+- Native metadata135/tail1734 has no optional zero/LIDATA. The S/TASM miniature
+  instead has CODE12553/181 fields and metadata136/tail1735 with one LIDATA zero.
+  Inspect actual records;address parity does not prove an initializer.
+- before matches120 unlinked bytes and its strcmp EXTDEF8 field;the linked
+  displacement still differs. All18 imports retain original order.
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).
@@ -151,6 +136,12 @@ Do not rewrite frozen historical runtime hashes or `scripts/lib/zun.py`'s MAIN
 binding. MAIN still has EC2D90 versus00 and MZ header/layout differences despite
 1553 agreeing relocation entries. TH04 is an authorized source reference,not a
 replacement target or build dependency.
+
+The2026-10-31 cleanup corrected stale RE_NOTES/CRT README claims and retired
+superseded private scripts,source/object copies,download catalogs and Python
+caches. It retained written records and all286 protected native output files;
+the audited inventory is `.analysis/work/cleanup-20261031-audit.json`.
+Git packing preserved all10797 existing objects and refs without pruning.
 
 For cleanup,follow [working-file rules](RE_WORKFLOW.md#working-files). Remove
 superseded experiments and duplicate staging trees after checking dependencies;

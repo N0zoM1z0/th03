@@ -1,89 +1,43 @@
-# MAINL semantic CRT reconstruction
+# MAINL CRT reconstruction
 
-[The natural C++ candidate review](../../../docs/MAINL_EXCEPTION_CPP_REVIEW.md)
-adds `new.cpp`, `xalloc.cpp` and `xmsg.cpp`. Their native output remains unmatched;
-they add source presence and zero accepted bytes. Keep their failed raw replay
-separate from the accepted twenty-five-provider library below.
+The accepted normal893-member library has28 source providers. Natural
+`new.cpp`,`xalloc.cpp` and `xmsg.cpp` are accepted through the scoped BCC4.5 -O1
+route;their six owners total2258 bytes. See the
+[C++ native review](../../../docs/MAINL_EXCEPTION_CPP_REVIEW.md),
+[current handoff](../../../docs/RE_HANDOFF.md) and current publication in
+`config/mainl_work/scoped_acceptance.json` for authoritative scope and limits.
+Earlier unmatched C++ trials are historical controls.
 
-The latest [buffered I/O review](../../../docs/MAINL_STDIO_NATIVE_REVIEW.md)
-validates twenty-five source providers together in one normal CRT library.
-It adds ten complete stream/position/write/DOS TUs and their shared16-bit FILE
-layout include,with actual private flags and a near startup record. The earlier
-[DOS path review](../../../docs/MAINL_PATH_NATIVE_REVIEW.md) covers fullpath,
-current directory,DBCS data/startup and drive APIs.
+`xx.cpp` composes the complete DOS exception/RTTI graph in one TU. It is a
+separate,unaccepted29th provider in the normal-library candidate. That route
+uses actual native BCC `-c -y` output followed by TLIB/TLINK;separate `-S` output
+supplies names only. The retained S/TASM miniatures have their own codegen and
+field order. See the [xx product review](../../../docs/MAINL_XX_PRODUCT_REVIEW.md).
+Whole xx and whole-product source exactness remain open.
 
-The frozen full cold recipe still replaces six providers; bounded current links
-compose newer providers with validated unchanged native pairs.
-
-Earlier complete source reviews cover [the original six providers](../../../docs/MAINL_CRT_NATIVE_REVIEW.md),
-[far heap](../../../docs/MAINL_FARHEAP_NATIVE_REVIEW.md),
+The accepted provider chain includes
+[buffered I/O](../../../docs/MAINL_STDIO_NATIVE_REVIEW.md),
+[DOS paths](../../../docs/MAINL_PATH_NATIVE_REVIEW.md),
+[DOSCMD/DOSENV](../../../docs/MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md),
+[load preparation](../../../docs/MAINL_LOADPROG_NATIVE_REVIEW.md),
 [overlay execution](../../../docs/MAINL_EXEC_NATIVE_REVIEW.md),
-[program resolution/load preparation](../../../docs/MAINL_LOADPROG_NATIVE_REVIEW.md)
-and [DOSCMD/DOSENV constructors](../../../docs/MAINL_DOSCONSTRUCT_NATIVE_REVIEW.md).
-The constructors use near callee-pop12 returns; the loader's executor callback
-uses the recovered near caller-pop12 ABI.
+[far heap](../../../docs/MAINL_FARHEAP_NATIVE_REVIEW.md) and
+[the original six providers](../../../docs/MAINL_CRT_NATIVE_REVIEW.md).
+The full cold recipe retains its earlier six-provider graph;scoped links reuse
+validated current pairs to compose the newer library. Do not replay the cold
+chain solely to refresh documentation.
 
-The historical observations below describe earlier checkpoints and do not define
-current source acceptance or its remaining whole-product limits.
+Preserve 16-bit widths,packing,segments,calling conventions and compile/link
+order. The loader's near caller-pop12 executor and constructors' near RET12
+are different ABIs. Keep the original unchecked behavior and intentional DOS
+quirks,including FFFF resize collision and signed/wrapping arithmetic.
 
-These six semantic ASM providers have actual source-consumption, native repetition, linked
-image and CPU-model evidence. They are not copied library implementations. Source coverage
-is distinct from formal exact or canonical packed acceptance; neither is claimed here.
+`fbrk.asm` is the maintained semantic ASM provider;`fbrk.c` is an unmatched
+high-level candidate. Link one FBRK implementation. No original library object,
+opcode array,padding or OMF patch supplies implementation bytes. The old
+`provenance.json` and early replay reports describe historical checkpoints;
+they are not the current source-acceptance summary.
 
-- h_llsh.asm: DX:AX left shift, including near/far return bridge and CPU count masking.
-- h_padd.asm: signed huge-pointer addition/subtraction, paired cross-branches and bridges.
-- n_pcmp.asm: huge-pointer comparison returning CPU ordering flags.
-- ioerror.asm: signed DOS/System-V error translation and original-code return, with named
-  errno mapping constants in the actual DATA table.
-- setblock.asm: far cdecl DOS memory resize and failure maximum-size return.
-- fbrk.c: retained high-level C candidate, including its336-byte native result.
-- fbrk.asm: semantic assembly provider with explicit near/far ABI and16-bit PSP invariants.
-  Use one FBRK provider, never link both implementations together.
-
-IOERROR/DOSERROR are near callee-pop; setblock is far caller-pop. The private C growth helper
-is near Pascal, and brk/sbrk are near cdecl. Pointer arithmetic intentionally clobbers ES.
-Important quirks remain intentional: signed INT_MIN errno negation, BX=FFFF DOS failure
-colliding with the resize success sentinel, failure writes to heap top, unsigned16 wrapping
-before PSP rounding, signed-long upper limit without a lower limit, and the -1MiB alias.
-
-Actual TASM probes now naturally reproduce raw CODE/public contracts for all five ASM
-providers (276 bytes), including IOERROR's82 CODE and91 DATA bytes. The first IOERROR
-attempt was84 bytes because CODE-scoped external errno declarations caused two incorrect
-CS overrides; the retained successor places them in _DATA. Corrected IOERROR has the same
-five symbolic fixups, with two entries reordered relative to the historical member.
-
-The initial C probe rejected unsupported -0 before compilation. The fresh successful TC4
-probe used -c -ms -3- -2- -1- -O, following the compiler's documented switch-disable syntax.
-It naturally emitted the intended near helper externs and far setblock call, plus matching
-DATA2, but FBRK CODE is336 rather than352 bytes. Public offsets are __brk126/__sbrk189,
-versus historical142/209. Register allocation, prologues and epilogue arrangement differ.
-The first semantic FBRK ASM probe emitted351 bytes because CODE-scoping the far external
-let TASM shorten the call prematurely. Declaring that imported far code outside all segments
-produces the genuine five-byte far call. The corrected native ASM result is352 CODE bytes,
-DATA2 and public offsets142/209, all raw-equal to the historical member. All six ASM
-providers therefore match628 raw CODE bytes and93 owned DATA bytes in isolated objects.
-FIXUPP indices/order differ; actual TLINK resolves them naturally, including its far-call
-relaxation. Both earlier C336 and ASM351 attempts remain retained.
-
-Normal TLIB extraction/rebuild preserves all893 original A3 member positions, retaining887
-contextual payloads and substituting only the six freshly assembled providers. A second
-actual assembly of all six produces identical raw objects; the second private library, EXE
-and MAP also match exactly. The full EXE matches the prior cold aggregate carrier. Two fresh
-actual-image CPU runs, decoded target and final repeat, each pass7858 scenarios across13
-partitions and cover277 instruction positions. Complete CPU observations match except the
-pre-existing before/after whole-memory hash fields. Raw EXE equality bridges the first link
-to the tested repeat without a redundant third CPU run.
-
-Replay: scripts/replay_th03_mainl_crt_link.py, recipe config/th03_mainl_crt_link.json.
-The fast replay checks retained evidence; it does not rerun native tools or CPU matrices.
-Known whole-image differences remain: DATA linear60473 is target90h/candidate00h, and461
-relocation ordering positions differ although all677 relocation members match. Formal exact
-acceptance remains zero and canonical packed acceptance is still separate.
-
-Source-only tests validate named DATA, absence of encoded instructions/padding, public
-aliases, explicit calling conventions, and the actual external-segment regression. They do
-not execute the produced implementation and do not replace the existing7858-scenario CRT
-CPU model, full-image comparison, relocation checks or independent native repetition.
-
-Provenance and current limitations are recorded in provenance.json. No original library
-objects, opcode blobs, guessed fill bytes or OMF postprocessing are implementation inputs.
+Run affected reviews and validate unchanged raw pairs. Historical CPU scenario
+counts and failed native variants are supporting records,not new source progress
+or per-change test requirements.
