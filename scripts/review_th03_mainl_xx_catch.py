@@ -35,6 +35,20 @@ BODIES=[('destThrownValue',0x6D19,80,'near'),('exceptionHandled',0x6D69,216,'nea
     ('adjustClassAddress',0x6F8A,131,'far'),('initCatchArg',0x700D,678,'near')]
 
 
+def comparator_codegen(original,candidate,start):
+    old_start=0x583E-XX_BASE
+    raw=[bytes(data[1,at+i] for i in range(157)) for data,at in
+        [(payload(original),old_start),(payload(candidate),start)]]
+    need(raw[0]==raw[1] and raw[0][:8]==bytes.fromhex('558bec83ec0a5657'),
+        'all157 literal comparator bytes and original ten-byte frame')
+    fields=[[f for f in literal_fields(obj) if f['segment']==1 and at<=f['site']<at+157]
+        for obj,at in [(original,old_start),(candidate,start)]]
+    need(fields==[[],[]],'both complete literal comparator field vectors are empty')
+    return dict(original_bytes=157,candidate_bytes=157,stack_bytes=10,
+        original_raw_sha256=sha(raw[0]),candidate_raw_sha256=sha(raw[1]),
+        complete_object_raw_equal=True,original_and_candidate_literal_fields=fields)
+
+
 def parsed_bodies(listing,definitions):
     rows=[]
     for name,_,_,kind in definitions:
@@ -130,6 +144,8 @@ def review(root,report=None):
     dense(t,old_rows+[old_equal],decoder);dense(candidate.program_image,rows+[equal[0]],decoder)
     need(all(a['start']+a['size']==b['start'] for a,b in zip(old_rows,old_rows[1:])) and old_rows[-1]['start']+old_rows[-1]['size']==BASE+SIZE,'complete1434 original instruction-byte ownership after42 EH bytes')
     need(bytes(op[1,0x583E-XX_BASE+i] for i in range(157))==t[0x583E:0x58DB] and not [f for f in literal_fields(original) if f['segment']==1 and 0x583E-XX_BASE<=f['site']<0x58DB-XX_BASE] and not any(0x583E<=q.linear<0x58DB for q in target.relocations),'complete original comparator has157 instructions and no native fields')
+    need(equal[0]['size']==157,'complete current comparator extent')
+    comparator=comparator_codegen(original,v['obj'],equal[0]['start'])
     call_rows=call_bodies(v['listing'].decode());_,covered=classify(candidate.program_image,call_rows,decoder);catch_base=rows[0]['start']-42
     candidate_fields=literal_fields(v['obj']);imports=externs(v['obj'])
     memory_fields=[f for f in candidate_fields if f['segment']==1 and rows[-1]['start']<=f['site']<dispatch and f['target_method']==2 and imports[f['target']-1] in ('_memcpy','_memset')]
@@ -145,7 +161,7 @@ def review(root,report=None):
         candidate_CODE_segment_bytes=size,candidate_catch_bank_bytes=dispatch-catch_base,candidate_bodies=rows,candidate_comparator=equal[0],candidate_literal_native_fields=candidate_fields,candidate_memory_call_fields=memory_fields,
         complete_catch_bank_raw_equal=candidate.program_image[catch_base:dispatch]==t[BASE:BASE+SIZE],complete_comparator_raw_equal=candidate.program_image[:equal[0]['size']]==t[0x583E:0x58DB],same_TU_catch_copy_edges_resolved=True,
         unresolved_interfaces=externs(v['obj']),target_and_source_catch_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,diagnostic_listing_has_wall_clock_headers=True,
-        whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
+        comparator_codegen=comparator,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 
 if __name__=='__main__':

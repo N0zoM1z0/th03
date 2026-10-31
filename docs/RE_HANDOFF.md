@@ -9,8 +9,8 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work restores catch-argument/cleanup local storage through existing
-declaration scopes,after `beb11d5` (880-byte ExceptionHandler declaration order).
+Latest source work recovers all157 comparator bytes through local -O-m,
+after `6fd781b` (catch-argument/cleanup declaration scopes).
 Preflight/scoped compiler checks passed in that source session; run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database; the fixed decoded MAINL DB is distinct from the old
@@ -47,7 +47,7 @@ and published211 owners remain separate and unchanged.
 | Literal native fields | 187 | 181 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
-| RTTI tail | 1,735 | 1,735 |
+| RTTI tail | 1,735 | 1,734 |
 | Raise frame allocation | 390 | 342 |
 
 Both whole EXEs have4096-byte headers/677 relocation entries;raw EXE/MAP still
@@ -59,6 +59,10 @@ of differing bytes. No exact credit or DOS boot/ending-playthrough claim follows
 Current useful proofs and remaining differences:
 
 - Complete dispatcher140 linked bytes match in both miniature and normal link.
+- sameTypeID now matches all157 raw object/linked bytes at original0000:583E.
+  Local -O-m removes an extra cached-mask WORD and restores frame10;restore -Om
+  afterward. Both native field vectors and the function's MZ vector are empty.
+  This is a complete function proof within the still-unaccepted xx member.
 - Raise count/index/copy block6AC0..6B06 matches all71 raw bytes. Local -O-v
   removes two extra WORD induction pointers;FS/GS writes,the16-bit zero chain,
   direct SS and CX/ES/BX resume-address operations follow native order.
@@ -66,9 +70,10 @@ Current useful proofs and remaining differences:
   at+96 retains literal original/current EXTDEF indices8/18. The linked call
   displacement still differs. Scoped -O1 works when -O2-pg/-Os/-O-i/**-Z-** are
   restored afterward;earlier reset trials omitted -Z-.
-- Current BCC output emits one RTTI zero,with an actual nested LIDATA owner.
-  Metadata136/tail1735 lengths agree,not their complete raw bytes. Check actual
-  directive/record presence;do not infer it from final-label parity.
+- Current BCC output emits no optional RTTI zero and no LIDATA record:
+  metadata135/tail1734 versus original136/1735. The comparator's extra byte
+  leaves total CODE12569 unchanged. Check actual directive/record presence;
+  do not infer it from final-label parity or insert a compensating byte.
 - The tested Raise context agrees at entry SP=FF00,including flags84h/84h.
   One alternate SP=FF10 exposes original80h/source84h through the real linked
   memcpy twice. The original48-byte region at BP[-134,-86) still has unproved
@@ -105,6 +110,13 @@ Current useful proofs and remaining differences:
 - Direct BCC -c accepts16-bit PUSHA but rejects PUSHAD/PUSHFD,EAX and FS even
   with -3. Copy-adapter trials retain767 bytes,or762 under -O1,versus750;
   Turbo's754-byte result changes other adapters too. These routes are not adopted.
+- Fresh TASM controls confirm NOSMART retains all six forward FAR CALL fields
+  (187 total) but widens17 Boolean immediate encodings and yields CODE12592.
+  Local ASSUME controls disturb destruction codegen;version T200/T300 retain
+  the default shortening. A private JWasm route retains187 fields/CODE12575
+  after two operand-spelling adaptations,but changes accumulator encodings.
+  None of these assembler/source experiments is adopted. Keep the default
+  current pipeline;the cause of the forward-call gap is now explicit.
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).

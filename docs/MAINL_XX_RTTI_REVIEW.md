@@ -62,16 +62,16 @@ search582 and DynamicCast357 remain. No optimizer option push/pop is needed.
 
 Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
 Bad_typeid22,far typeinfo-pointer descriptor21,optional compiler zero,vtable12 and
-typeinfo descriptor/terminated lists60. Current tail is1735 bytes,including
-1599 instructions and136 metadata bytes,as in the original. Complete raw tail
+typeinfo descriptor/terminated lists60. Current tail is1734 bytes,including
+1599 instructions and135 metadata bytes;the original has1735/136. Complete raw tail
 equality remains open. The generated header retains size8,mask3,class flags1073h,
 base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
 All four internal far pointers bind the real typeinfo descriptor/destructor.
 
 The earlier reviewer inferred the zero from final vtable-label parity. That
 assumption fails when compiler output and TASM relaxation have different offset
-estimates. Current BCC ASM emits `db 1 dup (0)` and one nested LIDATA record;
-the previous compatibleType checkpoint emitted neither. The reviewer checks
+estimates. After the comparator recovery,current BCC ASM emits neither the
+optional zero nor LIDATA;the previous catch-storage checkpoint emitted both. The reviewer checks
 actual directive/record presence and every resulting byte in either case.
 It does not require final-address alignment or insert a missing initializer.
 

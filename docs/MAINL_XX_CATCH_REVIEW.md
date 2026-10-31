@@ -8,6 +8,13 @@ source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
 
 ## Current catch local storage recovery
 
+The private comparator is now a complete raw match. Scoped -O-m suppresses the
+compiler's extra cached-mask WORD:the original10-byte frame and all157 object
+bytes agree. The profile restores -Om afterward. Both literal field vectors
+are empty,and the normal MAINL link retains the same157 bytes at0000:583E with
+no MZ words inside the function. The miniature and full-TU reviewers check this
+independently;the complete xx member and product remain unaccepted.
+
 The full TU now restores two declaration scopes under the unchanged BCC4.5
 profile. In initCatchArg,the existing far `pointer` used for near-pointer
 expansion is declared after `value`,before `keep_original`. The original frame
@@ -128,11 +135,11 @@ inside each catch review. The211-owner publication/verifier inputs and938 unchan
 cold outputs remain valid;this miniature does not rebuild the full cold pair or
 replace the normal-library member. The later full-TU candidate does the latter.
 
-The candidate comparator is156 bytes. Candidate catch bodies are79/223/125/204/
-131/676 bytes,plus42 EH bytes,total1480. Whole candidate CODE is7233 with empty
+The current comparator is157 bytes and raw-equal. Candidate catch bodies are79/223/125/204/
+131/676 bytes,plus42 EH bytes,total1480. Whole candidate CODE is7214 with empty
 DATA and8 bytes of callback BSS. Fourteen interfaces remain unresolved. Original
 covered ranges total7193 bytes in three separate spans; gaps are not claimed.
-Raw equality and full-TU ownership remain open despite some equal body lengths.
+Complete catch-bank equality and full-TU acceptance remain open.
 
 Three small actual target/source probes establish concrete paths. A const class
 catch invokes the real copy adapter and actual TASM constructor callback once,

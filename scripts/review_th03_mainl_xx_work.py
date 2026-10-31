@@ -135,6 +135,10 @@ def review(root,report=None):
         body_comparisons.append(dict(name=old['name'],original_bytes=old['size'],candidate_bytes=new['size'],
             size_delta=new['size']-old['size'],raw_equal=source.program_image[at:at+new['size']]==target.program_image[old['start']:old['start']+old['size']]))
     need(body_comparisons[15]==dict(name='dispatchException',original_bytes=140,candidate_bytes=140,size_delta=0,raw_equal=True),'complete140-byte normal-linked dispatcher matches the fixed target without normalization')
+    need(body_comparisons[2]==dict(name='sameTypeID',original_bytes=157,candidate_bytes=157,
+        size_delta=0,raw_equal=True) and base+procedures[2]['start']==0x583E and
+        not any(0x583E<=q.linear<0x58DB for q in source.relocations),
+        'complete157-byte normal-linked comparator at the original address,without native fields')
     return dict(complete=True,source_acceptance=False,accepted_source_bytes=0,whole_product_linked=True,whole_product_accepted=False,
         selected_build_report_sha256=sha(raw),review_driver_sha256=sha((root/'scripts/review_th03_mainl_xx_work.py').read_bytes()),source_sha256=r['source_sha256'],baseline=baseline,
         normal_library_members=893,unchanged_surrounding_members=892,source_CRT_providers=29,reused_source_CRT_providers=28,reused_source_provider_names=previous_providers,retained_project_objects=36,retained_binary_inputs=39,

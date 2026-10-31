@@ -1,6 +1,8 @@
 // Private far type comparison from the original DOS xx.cpp TU.
 #include "xx_abi.h"
 
+// Keep the original descriptor reload instead of a cached mask stack slot.
+#pragma option -O-m
 static int far sameTypeID(xx_type_ptr left,xx_type_ptr right)
 {
     const char far *left_name;
@@ -23,3 +25,4 @@ static int far sameTypeID(xx_type_ptr left,xx_type_ptr right)
     } while(left_char);
     return 1;
 }
+#pragma option -Om

@@ -54,13 +54,15 @@ Four arithmetic near-call fields use TASM's explicit CODE frame;their literal
 records stay intact and are checked against the real N_LXMUL/N_LUDIV targets.
 The20 xx MZ segment words match the actual whole EXE in emitted order. Each of
 the22 original public interfaces also binds its real current MAP address.
-Current compiler ASM emits one zero before the vtable,with a real nested LIDATA
-record. The reviewer checks the emitted directive and actual record
-rather than inferring an initializer from final address parity. Current RTTI
-tail length1735 equals original1735;complete raw tail equality remains open.
+Current compiler ASM emits no optional zero before the vtable and no LIDATA.
+The reviewer checks actual directive/record presence rather than inferring an
+initializer from final address parity. Current RTTI tail1734 differs from
+original1735;complete raw tail equality remains open.
 
 All50 procedures retain complete raw byte comparisons. The dispatcher remains
-a complete140-byte raw match. Raise now has the original direct-indexed argument
+a complete140-byte raw match. sameTypeID now matches all157 bytes at its original
+0000:583E address after local -O-m restores its10-byte frame. Both native field
+vectors and its MZ vector are empty. Raise now has the original direct-indexed argument
 loop:all71 count/index/copy bytes agree in the actual linked executable. Local
 -O-v eliminates two extra WORD induction pointers;FS/GS writes,the16-bit zero
 chain,direct SS assignment and CX/ES/BX resume addressing follow native order.
@@ -73,8 +75,17 @@ A scoped -O1 profile recovers all120 raw **unlinked object bytes** of
 literally,including different EXTDEF indices8/18. The linked body remains
 different because its call displacement follows the current carrier layout.
 Previous reset trials omitted -Z-;restoring it with -O2-pg,-Os,-O-i leaves
-all following function lengths unchanged. Earlier NOSMART/single-pass TASM
-experiments still do not yield equality and are not adopted. Net CODE length53
+all following function lengths unchanged. The current comparator recovery removes
+the optional compiler zero,leaving metadata135/tail1734 and total CODE12569.
+Fresh NOSMART controls retain all six forward FAR CALL fields but widen17 Boolean
+immediate encodings;CODE12592 remains different. A private JWasm/MASM5 route retains
+187 fields/CODE12575 with two operand-spelling adaptations,but changes accumulator
+encodings. These controls are recorded in
+`.analysis/work/xx-comparator-followup-experiments.json`;none replaces the current
+assembler or modifies product ASM/objects. Borland's
+[TASM guide,chapter13](https://manualzz.com/doc/30078877/borland-version-5-turbo-assembler-user-s-guide)
+documents both FAR CALL conversion and Boolean immediate selection under SMART.
+Net CODE length53
 is not a differing-byte count.
 
 Local -O-v now recovers dtorCleanup's original32-byte stack frame and1035-byte
