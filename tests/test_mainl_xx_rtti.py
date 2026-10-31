@@ -24,6 +24,13 @@ class XxRtti(unittest.TestCase):
         self.assertEqual(r['RaiseException_stack_allocations'],[390,342])
         self.assertTrue(r['before_object_body_raw_equal'])
         self.assertEqual([len(q) for q in r['original_and_candidate_before_fields']],[1,1])
+        destruction=r['destruction_codegen']
+        self.assertEqual((destruction['candidate_bytes'],destruction['stack_bytes']),(1035,32))
+        self.assertTrue(destruction['all1025_bytes_outside_local_call_operands_equal'])
+        self.assertEqual([q['offset'] for q in destruction['raw_byte_differences']],[825,976,977])
+        self.assertEqual(destruction['literal_field_offset_order'],[[40,996,932],[40,932,996]])
+        self.assertEqual(destruction['destroyVariable_member_search_raw_bytes'],72)
+        self.assertFalse(destruction['complete_object_raw_equal'])
         results={}
         for a,b in r['target_and_source_RTTI_probes']:
             self.assertEqual(a,b);results[a['case']]=a

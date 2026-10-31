@@ -109,8 +109,9 @@ static void far destroyVariable(void far *address,xx_type_ptr type,
     member_first = member_last = (XXMember far *)((char far *)type +
         type->data.object.members_offset);
     for(;;member_last++) {
+        unsigned elements;
         xx_type_ptr member_type = member_last->type;
-        unsigned elements = 1;
+        elements = 1;
         if(member_type->mask & XT_ARRAY) {
             elements = (unsigned)member_type->data.array.count;
             member_type = member_type->data.array.element;
@@ -179,6 +180,9 @@ static void far * far findTrueTypeAndAddr(void far *address,xx_type_ptr __ss *ty
     return address;
 }
 
+// The native search uses current directly,with no extra WORD induction pointer
+// to current->flags. Keep its 32-byte frame and restore the outer profile below.
+#pragma option -O-v
 static int near dtorCleanup(XXDtorTable far *table,long minimum,
     xx_registration_ptr err,unsigned new_bp)
 {
@@ -304,3 +308,4 @@ destroy:
     } while(current-- > table);
     return 0;
 }
+#pragma option -Ov

@@ -6,7 +6,7 @@ verification chain. Current state and next work are defined by the handoff and
 current source/receipts;retain the findings when removing superseded code.
 
 RTTI: GetTypeInfo is131 bytes,the separate private recursive search582,and
-DynamicCast357. Original/current tail metadata136 is data,not instructions.
+DynamicCast357. Original/current tail metadata136/135 is data,not instructions.
 Search virtual lists first,skip8,follow virtual entry4 through a segment-preserving WORD address.
 Shared actual addresses merge public access;distinct addresses are ambiguous.
 Downcast proves actual source address and does not add the cross-cast public
@@ -260,9 +260,10 @@ staging copies are unnecessary once the relevant source/proof is maintained.
   original120. Global -O1 recovered120 but also changed other functions. Scoped
   -O1 works when restoring -Z- along with the other common options;the old
   failed-reset conclusion omitted that switch.
-- Global -O-v trials gave dtorCleanup1035 bytes,but matching that length alone
-  did not prove its complete raw body or ordered fields. Product source has
-  not adopted that change. Test it locally before changing a shared profile.
+- Local -O-v now recovers dtorCleanup1035 bytes/32-byte frame. Complete object
+  comparison leaves3 differing bytes in two internal CALL operands;all five
+  near calls resolve to the original helper identities. Literal field order
+  stays40/996/932 versus40/932/996. No shared profile change or exact credit.
 - Raise's native record and used context accesses prove a48-byte allocation
   difference after removing the two extra induction WORDs. They do not prove
   the missing object's type. A guessed48-byte array or return-frame object is
@@ -270,6 +271,11 @@ staging copies are unnecessary once the relevant source/proof is maintained.
 - NOSMART and single-pass TASM variants changed unrelated instructions or
   reserved bytes and did not obtain equality. Keep actual native records and
   complete raw comparisons;do not optimize a net file-length metric.
+- Direct BCC `-c` on an isolated destruction wrapper preserves the original
+  five-byte forward far calls and129/715-byte bases/variable lengths. It is not
+  a replacement TU. Full-TU direct compile still rejects inline PUSHAD after
+  removing .386 and replacing explicit DGROUP callback operands with symbolic
+  ES operands. Current maintained source/recipe keeps its reviewed TASM route.
 
 The cleanup on2026-10-30 retained tracked documents,ledgers and all live native
 proof files. Some unreferenced temporary trial logs/recipes were deleted before

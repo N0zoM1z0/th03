@@ -9,9 +9,8 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source checkpoint: `8773096` (before codegen and Raise stack flow), after
-`baa9ba0` (throw locals and complete dispatcher body). The following cleanup
-changes documentation/local disposable state, not product source or acceptance.
+Latest source work recovers the32-byte dtorCleanup frame and destroyVariable's
+member-search locals,after `8773096` (before codegen and Raise stack flow).
 Preflight/scoped compiler checks passed in that source session; run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database; the fixed decoded MAINL DB is distinct from the old
@@ -43,18 +42,18 @@ and published211 owners remain separate and unchanged.
 
 | Extent | Original | Candidate |
 | --- | ---: | ---: |
-| Full decoded EXE | 67,372 | 67,340 |
-| xx CODE | 12,622 | 12,585 |
+| Full decoded EXE | 67,372 | 67,308 |
+| xx CODE | 12,622 | 12,563 |
 | Literal native fields | 187 | 181 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
-| RTTI tail | 1,735 | 1,735 |
+| RTTI tail | 1,735 | 1,734 |
 | Raise frame allocation | 390 | 342 |
 
 Both whole EXEs have4096-byte headers/677 relocation entries;raw EXE/MAP still
-differ. Candidate DGROUP0E3D versus original0E3F gives ordinary32-byte file-size
+differ. Candidate DGROUP0E3B versus original0E3F gives ordinary64-byte file-size
 movement. Every candidate CODE byte resolves through the real18 library
-interfaces;all22 original public MAP bindings pass. Net length37 is not a count
+interfaces;all22 original public MAP bindings pass. Net length59 is not a count
 of differing bytes. No exact credit or DOS boot/ending-playthrough claim follows.
 
 Current useful proofs and remaining differences:
@@ -67,18 +66,24 @@ Current useful proofs and remaining differences:
   at+96 retains literal original/current EXTDEF indices8/18. The linked call
   displacement still differs. Scoped -O1 works when -O2-pg/-Os/-O-i/**-Z-** are
   restored afterward;earlier reset trials omitted -Z-.
-- BCC explicitly emits the current one-byte RTTI initializer as `db 1 dup (0)`;
-  actual nested TASM LIDATA owns it. Do not infer that byte from final-label
-  parity after assembler relaxation. Tail length equality is not raw equality.
+- The current BCC output emits no optional zero before the RTTI vtable,so
+  metadata is135 versus original136 bytes. The reviewer checks the actual
+  directive/LIDATA presence;do not infer it from final-label parity.
 - The tested Raise context agrees at entry SP=FF00,including flags84h/84h.
   One alternate SP=FF10 exposes original80h/source84h through the real linked
   memcpy twice. The original48-byte region at BP[-134,-86) still has unproved
   type/purpose. Do not invent storage or adjust flags to close it.
 - Typed toss cache restores its72-byte frame;body812 versus815 remains.
   Wrapper89/170 lengths agree,not their full raw bodies. Raise is1081 versus1151.
-  `dtorCleanup` is1056 versus1035;earlier -O-v experiments matched its length
-  only and have not proved the complete body/fields. This is a useful next
-  large-function codegen question,alongside the remaining full-TU gaps.
+  `dtorCleanup` now has the original1035 bytes/32-byte frame after local -O-v.
+  Its complete object differs at only3 bytes,in two local CALL operands;
+  all1025 bytes outside the five local CALL operands agree,and all five calls
+  resolve to the original helper identities. Literal field offset order stays
+  original40/996/932 versus current40/932/996,so no exact credit follows.
+- destroyVariable's member/array search matches72 raw bytes after recovering
+  its declaration/initialization order. Remaining destroyBases129/128 and
+  destroyVariable715/714 differences include TASM's forward far-call shortening.
+  See the current section of [destruction review](MAINL_XX_DESTRUCTION_REVIEW.md).
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).
@@ -93,7 +98,8 @@ later Win32/Delphi/CV/friend/specification behavior from reference RTL.
 Rebuild/review affected scope;validate/reuse unchanged pairs. No full cold/DIET
 or unchanged ancestor runtime chain is required each turn. Source changes that
 actually affect an earlier producer do require refreshing its native binding.
-Recent affected checks:throw/full-TU/normal-link native pairs,25 targeted tests,
+Recent affected checks:destruction/calls/catch/types/throw/full-TU/normal-link
+native pairs,9 targeted tests,
 tracking validation and `git diff --check`. Commit substantial progress as
 `gpt-6.1-sol: ...`. Full CI is for broad infrastructure changes.
 

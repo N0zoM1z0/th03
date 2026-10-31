@@ -1,7 +1,8 @@
 # MAINL xx destruction source candidate
 
-This review describes a retained earlier miniature,not the current full-TU
-link. The maintained xx.cpp now links through the normal library as an unaccepted
+The earlier miniature review below remains separate from the current full-TU
+findings in the final section. The maintained xx.cpp links through the normal
+library as an unaccepted
 candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
 CODE/provider counts below remain specific to that diagnostic. Current overall
 source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
@@ -105,3 +106,55 @@ The subsequent catch integration moved private interfaces from the ABI header
 to incomplete wrappers,so the complete TU retains static linkage. This affected
 miniature was refreshed again with the current header and explicit -O-i profile;
 its product bank source remains unchanged.
+
+## Current full-TU codegen
+
+The maintained full TU now uses local `-O-v` for dtorCleanup and restores `-Ov`
+afterward. This removes one extra WORD induction pointer to current->flags;
+this restores the original32-byte frame and1035-byte body. The complete original
+and candidate **unlinked object bodies** differ at just three byte offsets:
++339h in the destroyVariable CALL,and+3D0h/+3D1h in the callMemberFunc CALL.
+All1025 bytes outside the five near CALL operands agree literally. All five
+calls independently resolve to the corresponding actual source helpers:
+findTrueTypeAndAddr twice,destroyArray,destroyVariable and callMemberFunc.
+No instruction or field is rewritten for comparison.
+
+The three external far fields retain their complete native records. Their
+function-relative emission order is original40/996/932 versus current40/932/996,
+with the original EXTDEF identities4/2/3 versus current4/3/2. The difference is
+retained,not sorted away. Complete raw function equality and exact ownership
+remain open,including after the real normal-library/MAINL link.
+
+In destroyVariable,declaring elements before member_type,but initializing it
+after the descriptor load,recovers BP[-30] for elements and BP[-34,-30) for
+member_type. All72 raw bytes at original7BA5..7BEC match the current object,
+including array count extraction and destructor-count multiplication. The DOS
+backward member loop still reuses that count.
+
+Current full-TU destruction function lengths are108/128/714/258/177/1035 versus
+original108/129/715/258/177/1035. Both one-byte deficits include forward far
+calls:the original object has five-byte9A fields,while actual TASM assembles the
+compiler's far CALL into four-byte PUSH CS/near CALL. The corresponding linked
+original has TLINK's five-byte NOP/PUSH CS/near CALL relaxation. Adding padding
+would conceal a producer difference and is not source recovery.
+
+An isolated direct BCC `-c` experiment confirms129/715-byte bases/variable
+bodies and retains both five-byte forward far calls. Its2502-byte CODE is not
+the original bank:destroyOneObject is110 bytes because two catch-cleanup calls
+are external in that wrapper. Direct cleanup fields retain ref-count/delete/
+array-delete emission order,with an additional external callMemberFunc field.
+The full TU's direct compile rejects the current .386 directive and explicit
+DGROUP callback-address syntax. Removing the directive and using symbolic ES
+callback operands removes the DGROUP errors,but inline PUSHAD still fails.
+These are private experiments,not an adopted native recipe or exactness proof;
+their records are `.analysis/work/dtor-direct-bank-experiment.json` and
+`xx-direct-syntax-experiment.log`.
+
+The full-TU reviewer records all1035 raw cleanup bytes through their hashes,
+all differing byte values,instruction boundaries,actual helper destinations and
+literal ordered fields. Two updated native miniature rounds and two normal
+893-member library/MAINL rounds repeat their complete raw outputs. Current xx
+CODE12563 and EXE67308 remain different from original12622/67372;the compiler
+now emits no optional RTTI zero,leaving135 versus136 metadata bytes. Accepted
+211 owners/36946 bytes and the retained cold pair stay unchanged. These findings
+add no exact credit and require no full cold/DIET replay.

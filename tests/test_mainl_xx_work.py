@@ -16,7 +16,7 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual((r['normal_library_members'],r['unchanged_surrounding_members']),(893,892))
         self.assertEqual((r['source_CRT_providers'],r['reused_source_CRT_providers']),(29,28))
         self.assertEqual((r['retained_project_objects'],r['retained_binary_inputs']),(36,39))
-        self.assertEqual((r['original_file_bytes'],r['candidate_file_bytes']),(67372,67340))
+        self.assertEqual((r['original_file_bytes'],r['candidate_file_bytes']),(67372,67308))
         self.assertEqual((r['original_relocation_count'],r['candidate_relocation_count']),(677,677))
         self.assertEqual(len(r['candidate_ordered_xx_MZ_words']),20)
         self.assertEqual(len(r['actual22_public_bindings']),22)
@@ -25,6 +25,9 @@ class XxWholeProduct(unittest.TestCase):
         dispatcher=next(q for q in r['raw_function_comparisons'] if q['name']=='dispatchException')
         self.assertEqual(dispatcher['candidate_bytes'],140)
         self.assertTrue(dispatcher['raw_equal'])
+        cleanup=next(q for q in r['raw_function_comparisons'] if q['name']=='dtorCleanup')
+        self.assertEqual(cleanup['candidate_bytes'],1035)
+        self.assertFalse(cleanup['raw_equal'])
         for a,b in r['target_and_source_RTTI_probes']:
             self.assertEqual(a,b)
         a,b=r['target_and_source_real_memcpy_raise_probe']

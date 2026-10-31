@@ -9,7 +9,7 @@ is357 bytes;its trailing descriptors are data,not instructions.
 
 This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new exact credit is granted.** Current
-source produces CODE12585,DATA18 and BSS10. Whole CODE differs,including the
+source produces CODE12563,DATA18 and BSS10. Whole CODE differs,including the
 existing RaiseException frame/EFLAGS gap. The full TU now has an unaccepted
 normal-library/whole-product source link;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
@@ -53,17 +53,18 @@ Previous scoped reset experiments omitted -Z-. Restoring -O2-pg,-Os,-O-i and
 search582 and DynamicCast357 remain. No optimizer option push/pop is needed.
 
 Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
-Bad_typeid22,far typeinfo-pointer descriptor21,compiler zero1,vtable12 and
-typeinfo descriptor/terminated lists60. Current tail is1735 bytes,including
-1599 instructions and136 metadata bytes,as in the original. Complete raw tail
+Bad_typeid22,far typeinfo-pointer descriptor21,optional compiler zero,vtable12 and
+typeinfo descriptor/terminated lists60. Current tail is1734 bytes,including
+1599 instructions and135 metadata bytes;original metadata is136. Complete raw tail
 equality remains open. The generated header retains size8,mask3,class flags1073h,
 base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
 All four internal far pointers bind the real typeinfo descriptor/destructor.
 
 The earlier reviewer inferred the zero from final vtable-label parity. That
 assumption fails when compiler output and TASM relaxation have different offset
-estimates. Current BCC ASM explicitly emits `db 1 dup (0)`;the reviewer checks
-that actual directive,its one nested LIDATA record and every resulting byte.
+estimates. Before the cleanup-frame recovery,BCC emitted `db 1 dup (0)` and a
+nested LIDATA record. Current ASM emits neither;the reviewer checks actual
+directive/record presence and every resulting byte in either case.
 It does not require final-address alignment or insert a missing initializer.
 
 ## RTTI behavior and focused observations

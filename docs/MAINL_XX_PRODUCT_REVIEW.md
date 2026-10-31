@@ -6,7 +6,7 @@ actual MAINL project. This is a **raw-different diagnostic candidate**,with no
 new source-exact credit or published product acceptance.
 
 Two real BCC4.5/TASM/TLIB/TLINK rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP
-vectors. The full candidate EXE is67340 bytes;the fixed Japanese decoded target
+vectors. The full candidate EXE is67308 bytes;the fixed Japanese decoded target
 is67372. Both headers are4096 bytes and have677 relocation entries;the complete
 ordered vectors remain separate and different. Equal counts are not exactness.
 
@@ -40,10 +40,10 @@ The shared miniature recipe and prior source/receipt bindings also stay current.
 
 ## Whole-product field and ABI review
 
-The actual MAP allocates xx CODE at0000:580D,size12585;original size is12622.
+The actual MAP allocates xx CODE at0000:580D,size12563;original size is12622.
 DATA18 remains at DGROUP:1172 and BSS10 at DGROUP:2876. The candidate DGROUP is
-0E3D rather than original0E3F. The CODE length difference and ordinary paragraph
-layout produce the32-byte file-size difference;no source padding is introduced.
+0E3B rather than original0E3F. The CODE length difference and ordinary paragraph
+layout produce the64-byte file-size difference;no source padding is introduced.
 All18 initialized DATA bytes agree with the compiler output,and BSS has no
 invented initializers or file-byte credit.
 
@@ -54,10 +54,10 @@ Four arithmetic near-call fields use TASM's explicit CODE frame;their literal
 records stay intact and are checked against the real N_LXMUL/N_LUDIV targets.
 The20 xx MZ segment words match the actual whole EXE in emitted order. Each of
 the22 original public interfaces also binds its real current MAP address.
-Actual compiler ASM supplies one zero before the vtable,represented by real
-nested TASM LIDATA. The reviewer checks the emitted directive and actual record
+Current compiler ASM emits no optional zero before the vtable,and no LIDATA
+record supplies one. The reviewer checks the emitted directive and actual record
 rather than inferring an initializer from final address parity. Current RTTI
-tail length1735 now equals the original;complete raw tail equality remains open.
+tail length1734 differs from original1735;complete raw tail equality remains open.
 
 All50 procedures retain complete raw byte comparisons. The dispatcher remains
 a complete140-byte raw match. Raise now has the original direct-indexed argument
@@ -74,8 +74,17 @@ literally,including different EXTDEF indices8/18. The linked body remains
 different because its call displacement follows the current carrier layout.
 Previous reset trials omitted -Z-;restoring it with -O2-pg,-Os,-O-i leaves
 all following function lengths unchanged. Earlier NOSMART/single-pass TASM
-experiments still do not yield equality and are not adopted. Net CODE length37
+experiments still do not yield equality and are not adopted. Net CODE length59
 is not a differing-byte count.
+
+Local -O-v now recovers dtorCleanup's original32-byte stack frame and1035-byte
+body. Its complete unlinked object differs in only3 bytes,two internal CALL
+operands;all1025 bytes outside the five local CALL operands agree. Every CALL
+resolves to the corresponding real source helper. The literal OMF field order
+still differs:original function offsets40/996/932,current40/932/996. The linked
+body also differs,so no exact credit follows. Recovering destroyVariable's local
+declaration/initialization order matches its72-byte member/array-count search.
+See the [destruction findings](MAINL_XX_DESTRUCTION_REVIEW.md#current-full-tu-codegen).
 
 Five focused target/source pairs execute routines from the linked product:
 virtual-address merging,distinct-address ambiguity,downcast source containment,

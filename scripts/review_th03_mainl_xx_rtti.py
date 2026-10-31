@@ -76,6 +76,73 @@ def initialized_payload(raw):
     return result,iterated
 
 
+def destruction_codegen(original,candidate,old,rows):
+    """Compare real object bytes; explain local CALL operands without erasing them."""
+    op,p=payload(original),payload(candidate)
+    a,b=old[35],rows[35]
+    need(a['name']=='dtorCleanup' and '@dtorCleanup$' in b['name'] and
+        a['size']==b['size']==1035,'complete original/current cleanup extents')
+    starts=[a['start']-BASE,b['start']]
+    raw=[bytes(data[1,start+i] for i in range(1035)) for data,start in zip((op,p),starts)]
+    need(raw[0][:8]==raw[1][:8]==bytes.fromhex('558bec83ec205657'),
+        'original32-byte cleanup frame,without an induction-pointer local')
+    decoder=Cs(CS_ARCH_X86,CS_MODE_16)
+    decoded=[list(decoder.disasm(data,start)) for data,start in zip(raw,starts)]
+    need([i.size for i in decoded[0]]==[i.size for i in decoded[1]] and
+        sum(i.size for i in decoded[0])==1035,'same complete instruction boundaries')
+    local_names=('findTrueTypeAndAddr','destroyArray','destroyVariable','callMemberFunc')
+    current_targets={}
+    for name in local_names:
+        selected=[q for q in rows if q['name'].startswith('@'+name+'$')]
+        need(len(selected)==1,'actual compiler procedure identity: '+name)
+        current_targets[selected[0]['start']]=name
+    targets=[{q['start']-BASE:q['name'] for q in old},current_targets]
+    calls=[]
+    for x,y in zip(*decoded):
+        at=x.address-starts[0]
+        if x.mnemonic!='call':
+            need(x.bytes==y.bytes,'literal cleanup instruction bytes at '+hex(at))
+            continue
+        need(x.size==y.size==3 and x.bytes[0]==y.bytes[0]==0xE8,
+            'real local near CALL encodings')
+        dest=[(i.address+3+int.from_bytes(i.bytes[1:],'little',signed=True))&65535
+            for i in (x,y)]
+        names=[table.get(address) for table,address in zip(targets,dest)]
+        need(names[0] is not None and names[0]==names[1],
+            'cleanup CALL resolves to the same actual source procedure')
+        calls.append(dict(offset=at,target=names[0],original_target=dest[0],
+            candidate_target=dest[1],original_hex=x.bytes.hex(),candidate_hex=y.bytes.hex()))
+    need([q['target'] for q in calls]==['findTrueTypeAndAddr','findTrueTypeAndAddr',
+        'destroyArray','destroyVariable','callMemberFunc'],'all five local cleanup calls')
+    fields=[]
+    expected={40:'@__RefDestructorCount$qv',932:'@$bdla$qnv',996:'@$bdele$qnv'}
+    for obj,start in zip((original,candidate),starts):
+        selected=[f for f in literal_fields(obj) if f['segment']==1 and start<=f['site']<start+1035]
+        need(len(selected)==3,'all three literal cleanup fields,in native order')
+        for f in selected:
+            need(f==dict(segment=1,site=f['site'],location_type=3,width=4,
+                segment_relative=True,frame_method=5,frame=None,target_method=2,
+                target=f['target'],addend=0) and
+                externs(obj)[f['target']-1]==expected.get(f['site']-start),
+                'actual cleanup runtime interface and original/current field shape')
+        fields.append(selected)
+    # The declaration precedes member_type,but initialization follows its load.
+    # Both the array search and its multiply retain the native BP[-30]/[-34] slots.
+    need(rows[32]['name'].startswith('@destroyVariable$'),'actual member-search owner')
+    member=[bytes(data[1,start+0x19A+i] for i in range(72)) for data,start in
+        [(op,old[32]['start']-BASE),(p,rows[32]['start'])]]
+    need(member[0]==member[1],'all72 raw member-search/array-count bytes')
+    differences=[dict(offset=i,original=x,candidate=y) for i,(x,y) in
+        enumerate(zip(*raw)) if x!=y]
+    return dict(original_bytes=1035,candidate_bytes=1035,stack_bytes=32,
+        original_raw_sha256=sha(raw[0]),candidate_raw_sha256=sha(raw[1]),
+        complete_object_raw_equal=raw[0]==raw[1],raw_byte_differences=differences,
+        all1025_bytes_outside_local_call_operands_equal=True,local_calls=calls,
+        original_and_candidate_literal_fields=fields,
+        literal_field_offset_order=[[f['site']-start for f in ff] for ff,start in zip(fields,starts)],
+        destroyVariable_member_search_raw_bytes=72)
+
+
 def baseline(root):
     raw=(root/'.analysis/work/mainl-xx-throw-build.json').read_bytes();r=json.loads(raw)
     reviewed=(root/'.analysis/work/mainl-xx-throw-review.json').read_bytes();p=json.loads(reviewed)
@@ -163,6 +230,7 @@ def review(root,report=None):
     old=[dict(name=n,start=a,size=s,return_kind=k) for n,a,s,k in old_defs];rows=bodies[0]
     need(len(old)==len(rows)==50 and all(a['return_kind']==b['return_kind'] for a,b in zip(old,rows)),'original50 complete procedures and native near/far conventions')
     dense(t,old,decoder);dense(candidate.program_image,rows,decoder)
+    destruction=destruction_codegen(original,v['obj'],old,rows)
     def gaps(procedures,start,end):
         result=[];cursor=start
         for row in procedures:
@@ -234,7 +302,7 @@ def review(root,report=None):
         original_CODE_bytes=SIZE,original_instruction_bytes=12088,original_inline_data_bytes=534,original_DATA_bytes=18,original_BSS_bytes=10,original_bodies=old,original_literal_native_fields=fields,original_MZ_words=mz,original_storage_gaps=old_gaps,
         candidate_CODE_segment_bytes=size,candidate_DATA_bytes=18,candidate_BSS_bytes=10,candidate_bodies=rows,candidate_literal_native_fields=candidate_fields,candidate_MZ_words=candidate_mz,candidate_storage_gaps=new_gaps,candidate_LIDATA_records=iterated,complete_CODE_raw_equal=raw_equal,complete_DATA_raw_equal=True,
         all22_original_public_interfaces=True,original18_imports=imports,whole_xx_source_graph_present=True,maintained_translation_unit=UNIT,original_RTTI_metadata_bytes=136,candidate_RTTI_metadata_bytes=metadata[1],candidate_RTTI_compiler_padding_bytes=padding_bytes,all_RTTI_metadata_bytes_owned=True,target_and_source_RTTI_probes=probes,two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
-        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
+        source_exactness_open=True,saved_eflags_gap_remains=reused_flags[0]!=reused_flags[1],reused_alternate_saved_eflags_observations=reused_flags,RaiseException_stack_allocations=allocations,before_object_body_raw_equal=True,original_and_candidate_before_fields=before_fields,destruction_codegen=destruction,whole_product_linked=False,original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 
 if __name__=='__main__':
