@@ -28,6 +28,8 @@ static void near callCopyCtor(void far *destination,void far *source,
 
     if(mask & 0x1000) {
         // A copy constructor for a class with virtual bases gets a zero flag.
+        // Keep its SI assignments visible to the compiler so common call/
+        // cleanup tails can be shared. The nonvirtual path retains ASM moves.
         switch(kind) {
         case 0: XX_INVOKE(near,__cdecl,(void near *,int,void near *),((void near *)destination,0,(void near *)source)); break;
         case 1: XX_INVOKE(far,__cdecl,(void near *,int,void near *),((void near *)destination,0,(void near *)source)); break;
@@ -42,10 +44,10 @@ static void near callCopyCtor(void far *destination,void far *source,
         case 10: XX_INVOKE(near,__fastcall,(int,void far *,void far *),(0,source,destination)); break;
         case 11: XX_INVOKE(far,__fastcall,(int,void far *,void far *),(0,source,destination)); break;
         case 16:
-            asm mov si, word ptr destination;
+            _SI = FP_OFF(destination);
             XX_INVOKE(near,__cdecl,(int,void near *),(0,(void near *)source)); break;
         case 17:
-            asm mov si, word ptr destination;
+            _SI = FP_OFF(destination);
             XX_INVOKE(far,__cdecl,(int,void near *),(0,(void near *)source)); break;
         case 18:
             asm push ds;
@@ -60,10 +62,10 @@ static void near callCopyCtor(void far *destination,void far *source,
             asm pop ds;
             break;
         case 20:
-            asm mov si, word ptr destination;
+            _SI = FP_OFF(destination);
             XX_INVOKE(near,__pascal,(int,void near *),(0,(void near *)source)); break;
         case 21:
-            asm mov si, word ptr destination;
+            _SI = FP_OFF(destination);
             XX_INVOKE(far,__pascal,(int,void near *),(0,(void near *)source)); break;
         case 22:
             asm push ds;

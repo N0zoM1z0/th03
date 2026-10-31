@@ -150,15 +150,19 @@ def review(root,report=None):
     ds,off,_=coordinates['DATA'];need(source.program_image[ds*16+off:ds*16+off+18]==bytes(p[2,i] for i in range(18)),'all18 DATA bytes bind the actual whole-product DGROUP position')
     original_table=(WORK/'obj/th03/mainl.map').read_text();probes=[];procedures=rows[0]
     original_bodies=mini_review['original_bodies'];op,_=initialized_payload(original)
-    prefix=procedures[8]['start']
-    need(prefix==1327 and bytes(op[1,i] for i in range(prefix))==bytes(p[1,i] for i in range(prefix)),
-        'entire original1327-byte object prefix through typeIDcaught')
+    prefix=procedures[10]['start']+procedures[10]['size']+24
+    need(prefix==2822 and bytes(op[1,i] for i in range(prefix))==bytes(p[1,i] for i in range(prefix)),
+        'entire original2822-byte object prefix through the complete call bank')
     prefix_fields=[[f for f in literal_fields(obj) if f['segment']==1 and f['site']<prefix]
         for obj in (original,v['obj'])]
-    need(prefix_fields[0]==prefix_fields[1] and len(prefix_fields[0])==4,
-        'all four original prefix fields agree literally in emitted order')
+    need(prefix_fields[0]==prefix_fields[1] and len(prefix_fields[0])==92,
+        'all92 original prefix fields agree literally in emitted order')
     need(source.program_image[base:base+prefix]==target.program_image[base:base+prefix],
-        'the complete1327-byte linked prefix also agrees at the original position')
+        'the complete2822-byte linked prefix also agrees at the original position')
+    call_start=procedures[8]['start']
+    call_fields=[[f for f in fields if call_start<=f['site']<prefix] for fields in prefix_fields]
+    need(call_start==1327 and prefix-call_start==1495 and call_fields[0]==call_fields[1] and
+        len(call_fields[0])==88,'complete1495-byte native call bank and88 literal ordered fields')
     forward_calls=[]
     for owner,offset,callee in [(11,630,21),(11,719,21),(11,794,18),
         (19,62,21),(31,102,32),(32,571,33)]:
@@ -245,6 +249,7 @@ def review(root,report=None):
         candidate_literal_native_fields=fields,candidate_ordered_xx_MZ_words=mz,candidate_LIDATA_records=iterated,actual22_public_bindings=bindings,all_source_CODE_bytes_resolved=True,all18_interfaces_resolved_to_real_library=True,original_and_candidate_EXTDEF_vectors=[externs((WORK/'vendor/xx.obj').read_bytes()),externs(v['obj'])],literal_EXTDEF_vector_equal=True,
         native_object_compiler=True,native_procedures=procedures,native_storage=storage,
         original_prefix_raw_bytes=prefix,original_and_candidate_prefix_fields=prefix_fields,
+        original_call_bank_raw_bytes=prefix-call_start,original_and_candidate_call_bank_fields=call_fields,
         restored_forward_far_calls=forward_calls,RaiseException_stack_allocations=frame_allocations,
         comparator_codegen=comparator,compatibility_codegen=compatibility,destruction_codegen=destruction,
         exception_handler_codegen=exception_handler,catch_storage_codegen=catch_storage,

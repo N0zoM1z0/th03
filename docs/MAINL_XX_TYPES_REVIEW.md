@@ -107,8 +107,10 @@ layout without additional storage or object editing.
 
 The current normal product uses actual BCC native objects. findBaseType339
 and compatibleType372 now match complete original object and linked bodies.
-Both lie in the original1327-byte prefix,whose four native fields agree
-literally in emitted order and whose entire linked image agrees at0000:580D.
+Both lie in the now2822-byte prefix,whose92 native fields agree literally in
+emitted order and whose entire linked image agrees at0000:580D. The enlarged
+prefix includes the complete1495-byte call bank recovered through four virtual-
+base SI register-variable assignments;see [call review](MAINL_XX_CALLS_REVIEW.md).
 compatibleType's own literal field vectors are empty. Its actual calls resolve
 to sameTypeID and findBaseType,including the comparator's far-return PUSH CS.
 

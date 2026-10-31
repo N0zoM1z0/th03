@@ -1,10 +1,54 @@
 # MAINL xx DOS member-call adapters
 
-This review describes a retained earlier miniature,not the current full-TU
-link. The maintained xx.cpp now links through the normal library as an unaccepted
-candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). Miniature
-CODE/provider counts below remain specific to that diagnostic. Current overall
-source presence is250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+The maintained xx.cpp links through the normal library as an unaccepted
+candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). The current
+full-TU proof is followed by the retained miniature and its separate ABI context.
+Source presence stays250 extents/60,028 gross bytes;accepted MAINL is unchanged.
+
+## Current full-TU call-bank recovery
+
+The actual native BCC/normal893-member-library link now matches the entire
+original1495-byte bank at0000:5D3C..6312,including all88 literal ordered native
+fields and168 inline switch-table bytes. callCopyCtor750,callDestructor392 and
+callMemberFunc185 each match complete linked bodies. Together with the earlier
+type prefix,the first2822 xx object/linked bytes and92 ordered fields agree.
+These are bounded exact observations inside the still-unaccepted xx candidate;
+the accepted211-owner publication and28-provider library remain unchanged.
+
+The17-byte copy-constructor gap came from six missed common call/cleanup tails.
+Replacing four virtual-base near-this transfers with `_SI = FP_OFF(destination)`
+keeps those SI writes visible to BCC's optimizer. The nonvirtual path retains
+its actual inline ASM moves. Both forms emit the required MOV SI from the far
+pointer's offset;no calling convention,argument,storage or instruction patch
+is added. Source spelling is a recovery choice,not proof of original variable
+names or exact historical spelling.
+
+Focused native controls distinguish the two paths:
+
+| SI expression change | Copy bytes | Complete object result |
+| --- | ---: | --- |
+| Original ASM transfers | 767 | Six unshared tails |
+| All near-this transfers use register variables | 750 | One wrong JMP byte at+2BBh |
+| Only nonvirtual transfers use register variables | 767 | Tail gap retained |
+| Only virtual-base transfers use register variables | 750 | All750 bytes agree |
+
+With register variables everywhere,the branch at+2BAh goes to another JMP at
++2C5h instead of the original direct epilogue at+2E7h. Its size still agrees;
+complete byte comparison rejects it. The adopted four assignments recover both
+the common tails and that final direct branch. The maintained product reviewer
+requires the whole1495 bytes,all88 fields,and complete2822-byte prefix. Native
+source-file/LINNUM records still bind all50 procedure boundaries.
+
+Affected calls/catch/types/throw/full-TU/normal-product native pairs repeat their
+complete raw outputs. The three existing real callback probes still agree in
+registers,DS,stack words and cleanup. Unchanged dispatch/destruction pairs and
+938 cold outputs are reused;there is no new exhaustive flag matrix or full cold
+replay. Current native xx CODE12554/187 fields and EXE67308 remain different from
+original12622/187 and67372. The retained S/TASM full-TU diagnostic instead has
+CODE12553/181 fields. Current proof/control records are
+`.analysis/work/xx-copy-tail-recovery.json` and `mainl-xx-product-review.json`.
+
+## Retained call miniature
 
 `src/mainl/crt/xx_calls.inl` recovers the copy-constructor,destructor and member
 call adapters of the original monolithic DOS `xx.cpp`. It precedes the recovered
@@ -70,15 +114,17 @@ consumed-header subset is not inferred. The shared diagnostic driver's changes
 also refreshed the affected earlier two miniatures; the original938-output
 cold pair and211-owner publication/verifier inputs remain validated and unchanged.
 
-Candidate call bank is1512 bytes:767,392 and185 instruction bytes plus168 table
-bytes. Copy-constructor tail sharing still differs by17 bytes. Whole candidate
-CODE is5599,empty DATA and8 callback BSS bytes;15 other runtime interfaces remain
+The refreshed diagnostic call bank is1495 bytes:750,392 and185 instruction bytes
+plus168 table bytes. Whole miniature CODE is5562,empty DATA and8 callback BSS
+bytes;15 other runtime interfaces remain
 unresolved. The original covered banks total5560 bytes in two separate ranges;
 the code between6313 and72B3 is excluded from this miniature and is recovered
 in later banks. The candidate
 CS table operands and literal relocation stream retain their actual offsets.
-Neither complete raw call-bank equality nor normal-library/whole-TU ownership
-is claimed. Equal helper lengths alone do not earn exact credit.
+Its linked bank starts at0000:0000,so its literal table addresses differ from
+the original product. The separate normal native product proof above checks
+complete raw bank equality at its original position. No whole-TU acceptance
+follows from either diagnostic.
 
 Three small probes execute the real target adapters and real compiled source
 adapters against actual TASM-built callbacks: virtual-base fastcall copy,

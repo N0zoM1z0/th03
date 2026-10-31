@@ -144,7 +144,7 @@ and ES callback spellings are handled in maintained source,not patched objects.
 Historical controls remain recorded in `.analysis/work/dtor-direct-bank-experiment.json`.
 
 Two native normal893-member-library/MAINL rounds repeat complete raw outputs.
-Current xx CODE12572/EXE67324 still differ from12622/67372. Metadata136 includes
-one actual native LEDATA zero. Accepted211 owners/36946 bytes,all892 surrounding
+Current xx CODE12554/EXE67308 still differ from12622/67372. Metadata135 has
+no optional native zero or LIDATA. Accepted211 owners/36946 bytes,all892 surrounding
 member records,39 binary link inputs and938 cold outputs stay unchanged. These
 function-body findings add no accepted credit and need no full cold replay.

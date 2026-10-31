@@ -149,17 +149,18 @@ Real-linked execution caught a native inline-assembler offset bug. Both
 `context.field` and `context + enum_offset` generated reversed local-member
 addition:EFLAGS at BP-482 instead of BP-98,and SS at BP-490 instead of BP-90.
 The faulty native candidate returned to0000:0000. Using `context - enum_offset`
-recovers the intended address. Corrected native compilation yields CODE12572,
+recovers the intended address. The current native compilation yields CODE12554,
 187 fields and22 publics;all50 procedures bind actual source/LINNUM records.
 The earlier12576-byte direct object remains only historical prefix evidence.
 
-All18 imports and the first1327 bytes/four ordered fields agree literally in
+All18 imports and the first2822 bytes/92 ordered fields agree literally in
 both current object and linked image. Native BCC preserves all six original
 five-byte forward FAR CALLs. tossAnException815 and destThrownValue80 recover
 original lengths;destroyBases129 and destroyVariable715 also match complete
 linked bodies. Those lengths alone do not prove the throw routines raw-equal.
-The retained S/TASM full-TU diagnostic remains12569 CODE/181 fields,with812/79
-throw helper lengths. callCopyCtor stays767 versus750 in the native product.
+The retained S/TASM full-TU diagnostic now has12553 CODE/181 fields,with812/79
+throw helper lengths. Four virtual-base SI assignments recover the complete
+call-adapter bank1495/all88 fields in the native product;copy750 now agrees.
 
 Corrected real-linked Raise/dispatcher probes pass with actual library memcpy
 twice. Default entry FF00 agrees in record,registers,segments and flags84h;

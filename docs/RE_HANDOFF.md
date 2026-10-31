@@ -9,9 +9,10 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work adopts native BCC object generation for the complete DOS xx
-TU. Its six forward FAR CALL fields,1327-byte prefix and complete destruction
-bodies129/715 now match. The whole member remains unaccepted.
+Latest source work recovers the complete1495-byte DOS call-adapter bank and
+all88 literal ordered native fields. Four virtual-base SI assignments use
+Borland register variables;the complete native prefix now matches2822 bytes
+and92 ordered fields. The whole xx member remains unaccepted.
 Preflight/scoped compiler checks passed in that source session;run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database;the fixed decoded MAINL DB is distinct from the old
@@ -47,25 +48,29 @@ is provider29;the accepted28-provider library and published211 owners stay uncha
 
 | Extent | Original | Native candidate |
 | --- | ---: | ---: |
-| Full decoded EXE | 67,372 | 67,324 |
-| xx CODE | 12,622 | 12,572 |
+| Full decoded EXE | 67,372 | 67,308 |
+| xx CODE | 12,622 | 12,554 |
 | Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
-| RTTI tail | 1,735 | 1,735 |
+| RTTI tail | 1,735 | 1,734 |
 | Raise frame allocation | 390 | 342 |
 
 Both EXEs have4096-byte headers/677 relocations;raw EXE/MAP still differ.
-Candidate DGROUP0E3C versus original0E3F produces ordinary48-byte file movement.
+Candidate DGROUP0E3B versus original0E3F produces ordinary64-byte file movement.
 All CODE bytes resolve through18 real library interfaces;all22 public bindings
-pass. Net CODE length50 is not a differing-byte count. Matching field counts
+pass. Net CODE length68 is not a differing-byte count. Matching field counts
 also do not establish complete literal ordered field equality.
 
 Current useful proofs and open questions:
 
-- The complete first1327 object and linked bytes agree,with all four literal
-  ordered prefix fields. This includes sameTypeID157,findBaseType339 and
-  compatibleType372. All18 EXTDEF names/indices retain original order.
+- The complete first2822 object and linked bytes agree,with all92 literal
+  ordered prefix fields. This includes sameTypeID157,findBaseType339,
+  compatibleType372 and the complete1495-byte call bank with88 fields.
+  callCopyCtor750,callDestructor392 and callMemberFunc185 now agree raw.
+  Only the four virtual-base SI writes use `_SI = FP_OFF(destination)`;
+  changing every SI write leaves one wrong branch byte. All18 imports retain
+  original order;see [call review](MAINL_XX_CALLS_REVIEW.md).
 - Native compilation preserves all six original five-byte forward FAR CALLs
   without TASM shortening. destroyBases129 and destroyVariable715 now match
   complete linked bodies;their literal fields retain original shapes and
@@ -91,11 +96,12 @@ Current useful proofs and open questions:
   84h/84h. At FF10 only the known80h/84h difference remains;both use actual
   library memcpy twice. Original BP[-134,-86) ownership stays unproved.
   Do not invent storage or adjust flags to close the48-byte gap.
-- Native RTTI metadata136 includes one actual LEDATA zero,with no LIDATA;
-  tail1735 still differs raw. The retained S/TASM miniature instead has
-  CODE12569/181 fields,metadata135/tail1734. Keep these producers distinct.
+- Native RTTI metadata135 has no optional zero or LIDATA;tail1734 still differs
+  raw. The retained S/TASM miniature instead has CODE12553/181 fields and
+  metadata136/tail1735,with one actual LIDATA zero. Inspect actual record
+  presence;do not infer an initializer from address parity.
 - `typeinfo::before` matches120 unlinked object bytes,including literal strcmp
-  EXTDEF8 at+96;the linked operand still differs. callCopyCtor767 versus750
+  EXTDEF8 at+96;the linked operand still differs. Catch branches,Raise storage
   and the remaining source/codegen/layout gaps stay open.
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),

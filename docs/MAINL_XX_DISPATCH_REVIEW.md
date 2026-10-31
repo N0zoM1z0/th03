@@ -142,6 +142,6 @@ in maintained source;the S/TASM form remains available to its miniatures.
 
 The dispatch-only diagnostic has1567 CODE bytes because two original internal
 far calls are external;the throw miniature resolves one and has a1566-byte tail.
-The actual full TU resolves both. Current native xx CODE12572/EXE67324 remain
+The actual full TU resolves both. Current native xx CODE12554/EXE67308 remain
 raw-different from12622/67372. Accepted211 owners/36946 bytes,all892 surrounding
 members,39 binary inputs and938 cold outputs stay unchanged. No full cold replay.
