@@ -40,6 +40,23 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Exact DOS remove and rename in 44-source Japanese MAINL
+
+The maintained 8086 remove.asm28 and rename.asm31 reconstruct
+all59 original CODE bytes, each original near __IOERROR
+fixup, authentic DS:DX/ES:DI DOS syscall registers and
+the BSS/DATA group in its own source module. Both original
+library slots are replaced alongside42 previous source
+modules in the original 893-member CRT, leaving849 original
+member program records unmodified. Two real TASM/TLIB/TLINK
+rounds produce the entire Japanese decoded 67,372-byte
+MAINL EXE and MAP byte-for-byte, with677 original MZ
+relocations. Cumulative native source CODE reaches **22,286
+bytes** in44 original member positions. Existing fopen/fclose
+literal OMF gaps remain explicitly open;accepted ledger
+unchanged,no full cold replay.
+See [remove/rename exact review](MAINL_REMOVE_RENAME_NATIVE_REVIEW.md).
+
 ## Original DOS clearerr/rewind and 42-source native CRT
 
 The 17-byte original far clearerr and 40-byte far rewind now
