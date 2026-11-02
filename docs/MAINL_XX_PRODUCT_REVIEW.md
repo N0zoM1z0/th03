@@ -93,6 +93,16 @@ reader uses a unique real final source statement within three lines and
 requires an actual RET/RETF before the next native procedure;it never
 slices at a guessed original-size boundary.
 
+## Simultaneous source CRT compatibility
+
+The independent [eight-source integration review](MAINL_XX_CRT_INTEGRATION_REVIEW.md)
+also replaces seven original CRT memory/string members with their maintained
+natural TASM objects in the same original library as native source xx. The
+combined12,951 native CODE segment bytes,original885 surrounding member
+program records,entire decoded Japanese MAINL EXE and full MAP all agree
+without reusing a vendor xx object. It is a scoped linked source proof,
+not yet a change to the published accepted owner ledger.
+
 ## Scoped tests and limits
 
 Focused RTTI virtual-base,ambiguity,downcast and catch-register probes agree,

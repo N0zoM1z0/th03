@@ -154,6 +154,22 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Eight-source combined exception/CRT native working library
+
+A further actual TLIB/TLINK integration now combines the complete natural
+xx source object (12,622 CODE bytes and187 exact literal fields) with all
+seven recovered native CRT string/memory modules (329 CODE bytes),at
+eight original member positions in the same893-member library. The
+remaining885 member programs are unchanged. Two complete source-library
+links reproduce the whole Japanese decoded MAINL EXE (67,372 bytes) and
+its original MAP raw-equal,including677 original MZ relocations. This
+proves **12,951 total source-built native CODE segment bytes** working
+together,not just in separate experiments. The accepted28-provider CRT
+library and211-owner publication remain untouched;no ledger credit has
+been automatically promoted. See
+[eight-source integration review](MAINL_XX_CRT_INTEGRATION_REVIEW.md).
+Only the affected normal library/link was rebuilt; no full cold replay.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
