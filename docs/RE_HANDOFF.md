@@ -40,6 +40,23 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Original strrchr and 24-source joint MAINL native link
+
+The far-cdecl strrchr.asm reconstructs all77 original DOS CODE
+bytes, one literal TARGET-framed far _strlen FIXUPP at site15,
+one public offset0 and exact BSS-before-DATA GRPDEF. The scan
+keeps the original NUL-inclusive backward pointer and DX:AX
+return ABI. The 24-source original CRT now includes this leaf,
+the 1282 CODE+128 DATA scanner, complete xx and both qsort
+bosses. It preserves the other869 of893 original member
+programs. Two actual native TASM/TLIB/TLINK rounds reproduce
+the entire original Japanese decoded MAINL EXE/MAP raw-equal,
+including all677 MZ relocations. Total newly composed
+source-generated CODE scope is **17,845 bytes**, not extra
+accepted ledger credit. See
+[strrchr native proof](MAINL_STRRCHR_NATIVE_REVIEW.md).
+No full cold replay.
+
 ## Independent native memcpy source
 
 `src/mainl/crt/memcpy.asm` now reproduces the complete original36-byte
