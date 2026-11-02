@@ -40,6 +40,24 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Native original fstat and 39-source Japanese MAINL
+
+Original far-cdecl fstat.asm at CRT member233 now restores
+all147 CODE bytes and four literal ordered FIXUPPs at
+sites39/53/74/141:group-framed __openfd+1,far _filelength,
+near __DOSTIMETOU and near __IOERROR with the actual
+original EXTDEF order. The source preserves DOS IOCTL,
+character-device/file mode, real timestamp conversion and
+the original wordwise stat layout. It joins stat, gets,
+fgets and all previous CRT sources in a 39-source working
+library, leaving854 of893 original member programs untouched.
+Two independent TASM/TLIB/TLINK rounds reproduce the complete
+Japanese decoded MAINL EXE and MAP bit-for-bit with677 MZ
+relocations. Joint source-built CODE reaches **21,711 bytes**.
+Predecessor fopen/fclose OMF gaps remain separately open;
+formal ledger remains frozen, no full cold replay.
+See [native fstat review](MAINL_FSTAT_NATIVE_REVIEW.md).
+
 ## Original gets 135 bytes and 38-source CRT normal link
 
 The far-cdecl DOS gets is now fully recovered in native
