@@ -55,6 +55,23 @@ source CODE scope is **18,855 original bytes**,not yet
 formally accepted-ledger credit. No full cold replay.
 See [native fwrite source review](MAINL_FWRITE_NATIVE_REVIEW.md).
 
+## Real fwrite source and 29-source whole MAINL link
+
+The original far-cdecl fwrite CRT member236 now builds from
+153 natural 8086 CODE bytes, three original near imports
+__FPUTN/N_LXMUL@/N_PADD@ and all four literal ordered
+native FIXUPPs. It preserves the source pointer/size/
+record-count and partial-write handling. Alongside full
+buffered fread,scanner,xx and both qsort bosses,the
+29-source original CRT now yields **18,855 exact CODE bytes**
+while retaining 864 of893 original member program records.
+Two complete real TASM/TLIB/TLINK rounds produce the original
+Japanese decoded67,372-byte MAINL EXE and MAP bit-for-bit,
+including 677 MZ relocations. The accepted28-provider CRT
+and211-owner publication remain unchanged;no added formal
+ledger credit or full cold replay.
+See [fwrite native review](MAINL_FWRITE_NATIVE_REVIEW.md).
+
 ## Original buffered fread and 28-source native MAINL
 
 The large original DOS fread member229 is now a full source

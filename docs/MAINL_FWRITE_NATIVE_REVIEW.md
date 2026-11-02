@@ -1,45 +1,57 @@
-# Original DOS fwrite: complete native 153-byte source and 29-source link
+# Original DOS fwrite: 153-byte far buffered-output source and 29-source link
 
-The original Japanese Borland DOS far-cdecl fwrite (library index236)
-is now maintained as real 8086 source at src/mainl/crt/fwrite.asm.
-It preserves the original record-width/count multiplication using
-near N_LXMUL@, writes with the real near __FPUTN provider, advances
-far memory pointers with the original segment-aware N_PADD@ and
-handles short partial-record writes and the large-block record loop.
+The maintained original-8086 source at src/mainl/crt/fwrite.asm
+reconstructs every byte of the Borland DOS large-model
+far-cdecl fwrite CRT member236. The original routine is
+**153 CODE bytes** across 61 natural x86/8086 instructions,
+a complete public _fwrite at CODE+0 with original RETF.
+It checks the record size and count, computes total unsigned
+byte extent via the genuine N_LXMUL@ near provider, calls
+the original __FPUTN buffered writer, advances the far
+source through N_PADD@ for multi-record output, and returns
+the number of completed records on partial write.
 
-Actual TASM5 emits **all 153 original CODE bytes**, one public
-_fwrite at offset0, zero initialized DATA/BSS, original
-BSS-before-DATA GRPDEF 08ff03ff02 and the exact ordered
-four native OMF near fields at sites 28/63/95/125, with their
-original CODE-segment frame and genuine EXTDEF indices:
-N_LXMUL@, __FPUTN, __FPUTN, N_PADD@. The original import
-ordering is __FPUTN, N_LXMUL@, N_PADD@. This is natural
-typed assembler-source control flow; there are no stored
-original opcode bytes, binary patches or filler.
+Native TASM5 emits **153/153 original CODE bytes**,
+the exact public entry, original empty DATA/BSS and
+literal BSS-before-DATA GRPDEF 08ff03ff02. Three genuine
+EXTDEF imports retain their original sequence:
+__FPUTN, N_LXMUL@ and N_PADD@. All **four literal
+ordered OMF fields** are byte- and type-exact, at
+sites28 (near N_LXMUL@),63 (near __FPUTN),
+95 (near __FPUTN) and125 (near N_PADD@), with
+original CODE-frame near displacements and indices.
+No byte arrays, alignment filler or object patches
+are needed for natural assembler source equality.
 
-The scoped builder reuses the complete 28-source original CRT
-that already includes fread437, both sorting bosses, the
-1282-byte scanner, original xx, two long parsers and string
-functions. At original CRT member236, the source-compiled fwrite
-object replaces the vendor object. All **864 remaining member
-program records** are unchanged. Two real serialized
-TASM/TLIB/TLINK rounds independently reproduce the **entire
-67,372-byte decoded Japanese MAINL EXE**, its original MAP
-and all **677 MZ relocations** byte-for-byte. The 29 joint
-native source modules generate **18,855 original CODE bytes**.
+The scoped producer inherits the previously exact
+28 native source CRT members, including the 437-byte
+two-function fread TU, 322-byte srchstr, 1,282-byte
+scanner with 128 initialized DATA bytes, complete
+12,622-byte xx and both large sorting algorithms.
+It newly assembles fwrite at real original CRT index236
+in the 893-member library. All **864 other original
+member programs** are identical. Both actual
+TASM/TLIB/TLINK rounds reproduce the **entire
+67,372-byte decoded Japanese MAINL EXE** and the
+complete original MAP raw-equal, including all677
+ordered DOS MZ relocations. The simultaneous exact
+source-built CODE scope is **18,855 bytes in
+29 original library members**.
 
-The accepted28-provider CRT library, 211-owner published MAINL
-ledger, retained original cold pair and candidate-local-attested
-Japanese target remain unchanged; this working source-only
-link is **not new formally accepted exactness credit**. No
-full cold or DIET replay was required.
+The accepted28-provider CRT and frozen211-owner
+MAINL publication have not been updated; source
+working-link equality does not automatically add
+formal accepted ledger credit. The fixed original
+Japanese target remains candidate-local-attested.
+No full cold replay, DIET stage or ancestor chain ran.
 
-Affected-only validation:
+Affected-only commands:
 
     PYTHONPATH=scripts .venv/bin/python scripts/build_th03_mainl_fwrite_work.py
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_fwrite_work.py
     PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_fwrite_work
 
-Complete source-bound native OBJ/LIB/EXE/MAP vectors and logs:
-.analysis/work/mainl-fwrite-native-{build,review}.json and
-.analysis/work/fwrite-full-*.
+Retain the two complete native raw OBJ/LIB/EXE/MAP
+pairs, TASM/TLIB/TLINK logs and bound source hashes
+under .analysis/work/mainl-fwrite-native-{build,review}.json
+and .analysis/work/fwrite-full-*.
