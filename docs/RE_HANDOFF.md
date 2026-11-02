@@ -154,6 +154,19 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## New exact nine-source strstr carrier
+
+The original far strstr is now a108-byte raw-equal TASM source unit,
+including original DS/ES search/control flow and four exact XCHG operand
+encodings. It is assembled at original CRT member312 together with
+the complete xx BCC source and seven already-verified DOS memory/
+string CRT source members. Two actual TLIB/TLINK rounds reproduce the
+entire original67,372-byte decoded Japanese MAINL EXE and MAP,with677
+MZ relocations and884 other original native member programs unchanged.
+All nine source members total13059 exact CODE bytes. Published acceptance
+is frozen,so no new ledger credit is claimed. See
+[nine-source strstr review](MAINL_STRSTR_NATIVE_REVIEW.md);no cold replay.
+
 ## Eight-source combined exception/CRT native working library
 
 A further actual TLIB/TLINK integration now combines the complete natural
