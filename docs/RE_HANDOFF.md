@@ -42,6 +42,17 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Independent native memcpy source
+
+`src/mainl/crt/memcpy.asm` now reproduces the complete original36-byte
+DOS far-cdecl memcpy module,zero ordered fields and original CODE/DATA/BSS
+extents. Two TASM/TLIB/TLINK rounds replace only member261 of893;the other
+892 program records remain untouched and actual decoded Japanese MAINL
+EXE/MAP are each raw-equal in both rounds. The accepted211-owner publication
+and28-source library are deliberately unchanged;no new ledger exact credit.
+See [native memcpy review](MAINL_MEMCPY_WORK_REVIEW.md) for the scoped commands
+and retained private raw pairs. No full cold replay is needed.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
