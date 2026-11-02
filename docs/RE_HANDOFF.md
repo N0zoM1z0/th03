@@ -154,6 +154,25 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Exact 465-byte DOS scantol and nineteenth source member
+
+Original integer scanner scantol member110 has a complete maintained
+8086 source:47-byte near private radix-digit helper and418-byte near
+public __scantol core. TASM emits all465 CODE bytes and the exact
+literal __ctype+1 OMF field at CODE+95 with TARGET-frame method5.
+An earlier assembly attempt with the extern declaration inside
+CODE emitted the wrong segment-frame field despite equal opcodes;
+the final actual source fixes that without any object patching.
+The source joins18 prior exact modules including whole xx,both
+qsort bosses,and signed/unsigned strtol in a19-source original CRT.
+All874 remaining893 member programs are unchanged. Two real
+TASM/TLIB/TLINK rounds reconstruct the entire original Japanese
+decoded MAINL EXE/MAP and677 MZ relocations raw-equal. The
+joint source-built original CODE now totals16251 bytes.
+Accepted28-provider CRT and211-owner MAINL publication remain
+frozen,no additional formal source credit or full cold replay.
+See [native scanner recovery](MAINL_SCANTOL_NATIVE_REVIEW.md).
+
 ## Two complete DOS sorting bosses: qsort and high-address hqsort
 
 The original high-address hqsort (member464) is now fully recovered
