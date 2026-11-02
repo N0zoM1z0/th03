@@ -60,6 +60,26 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Full original Borland tzset/ISDST four-segment CRT and 58-source MAINL
+
+The 744-byte TZ/DST CRT member324 is now maintained as
+real 8086 source: far _tzset508, near __ISDST236, initialized
+DATA48, BSS8 and true INITDATA6. All CODE/DATA/INIT bytes,
+original DATA public offsets, eight imports and **all48
+literal ordered OMF FIXUPPs** match native TASM output.
+Real DGROUP-qualified far BSS name pointers and original
+0aff03ff02 group record recover original DATA/INIT pointer
+frames without executable padding or binary patches. Two
+native TASM/TLIB/TLINK rounds insert this exact module
+alongside57 previous source CRT members; the full
+**67,372-byte decoded Japanese MAINL EXE and MAP** match the
+original bit-for-bit with677 MZ relocations and835 other
+vendor member programs untouched. Joint source CODE reaches
+**28,211 original bytes**. The five pre-existing fopen/
+fclose/timecvt/strftime/tempnam OMF metadata holes remain
+separately OPEN, formal accepted ledger frozen, no full
+cold replay. See [tzset original native review](MAINL_TZSET_NATIVE_REVIEW.md).
+
 ## Exact natural DOS ftime and 57-source Japanese MAINL
 
 The original far ftime member234 has high-level native
