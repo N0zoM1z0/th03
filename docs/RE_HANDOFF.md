@@ -40,6 +40,21 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Native DOS strrev in-place far string reversal
+
+Original far strrev at CRT member309 now has all52 CODE bytes
+recovered in natural mnemonic 8086 source. Its DS/ES segment
+switch, NUL scan and two-pointer XCHG/STOSB writes preserve
+the real DOS ABI. Equivalent XCHG register operand order
+was a one-byte codegen trap: native TASM now emits the exact
+original register encoding,public offset0 and literal group.
+The complete26-source native CRT reaches **18,219 CODE bytes**,
+while867 of893 vendor library members remain unchanged.
+Both original TASM/TLIB/TLINK rounds produce the complete
+Japanese decoded MAINL EXE/MAP raw-equal with677 MZ relocations.
+Frozen accepted ledger credit is unchanged,no full cold replay.
+See [strrev native review](MAINL_STRREV_NATIVE_REVIEW.md).
+
 ## Complete original DOS srchstr path search and 25-source MAINL
 
 The real far-cdecl __searchstr at CRT member282 is now a native-exact
