@@ -35,6 +35,6 @@ Affected-only reproduction:
     PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_strcmp_work
 
 Preserve .analysis/work/mainl-strcmp-combo-build.json,
-mainl-strcmp-combo-review.json, strcmp-roundN-* raw results and native logs,
+mainl-strcmp-combo-review.json, strcmp-combo-roundN-* raw results and native logs,
 and both inherited independent source library pairs for validation. No
 full cold/DIET or ancestor runtime replay is required.
