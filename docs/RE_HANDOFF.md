@@ -60,6 +60,25 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Exact DOS lsearch/lfind and 59-source Japanese MAINL
+
+The distinct CRT lsearch member247 has complete native
+8086 source: 117-byte private near Pascal search/insert
+worker, far _lsearch43 at+117 and far _lfind42 at+160.
+All202 original CODE bytes, far comparator call via
+DWORD PTR [BP+6] and one literal _movmem TARGET-framed
+OMF record at+84 match native TASM. Two real
+TASM/TLIB/TLINK rounds combine this with58 preceding
+source CRT members (including large original tzset,
+strftime, timecvt, xx and sorting bosses), reproducing
+the full original **67,372-byte decoded Japanese MAINL
+EXE and MAP byte-for-byte** with all677 MZ relocations.
+The other834 of893 original vendor records remain
+untouched; joint working source CODE reaches **28,413
+bytes**. Existing other-member OMF gaps remain OPEN;
+accepted ledger frozen,no cold replay. See
+[lsearch native source review](MAINL_LSEARCH_NATIVE_REVIEW.md).
+
 ## Full original Borland tzset/ISDST four-segment CRT and 58-source MAINL
 
 The 744-byte TZ/DST CRT member324 is now maintained as
