@@ -43,9 +43,9 @@ Affected calls/catch/types/throw/full-TU/normal-product native pairs repeat thei
 complete raw outputs. The three existing real callback probes still agree in
 registers,DS,stack words and cleanup. Unchanged dispatch/destruction pairs and
 938 cold outputs are reused;there is no new exhaustive flag matrix or full cold
-replay. Current native xx CODE12554/187 fields and EXE67308 remain different from
-original12622/187 and67372. The retained S/TASM full-TU diagnostic instead has
-CODE12553/181 fields. Current proof/control records are
+replay. After subsequent catch/Raise recoveries,the current native xx CODE12618/
+187 fields and EXE67372 remain raw-different from original12622/187/67372. The retained S/TASM full-TU diagnostic instead has
+CODE12616/181 fields. Current proof/control records are
 `.analysis/work/xx-copy-tail-recovery.json` and `mainl-xx-product-review.json`.
 
 ## Retained call miniature

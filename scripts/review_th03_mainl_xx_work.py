@@ -30,7 +30,7 @@ from probe_th03_main_bomb_rikako_cpp import segment_definitions
 REVIEW='.analysis/work/mainl-xx-product-review.json'
 
 
-def native_fixup_blocks(obj):
+def native_fixup_blocks(obj,expected_sizes):
     """Retain literal writer order and explain its dependence on CODE layout."""
     fields=literal_fields(obj);blocks=[];cursor=0;observed=[]
     for record in parse_omf(obj):
@@ -43,9 +43,12 @@ def native_fixup_blocks(obj):
             'complete native fields in literal descending order within each CODE block')
         blocks.append(dict(start=start,size=size,literal_fields=selected))
         observed.extend(selected);cursor+=size
+    # The observed native compiler produces a 1023-byte LEDATA record at
+    # 0x1C00 in this source layout. Check complete contiguous CODE coverage
+    # and literal descending FIXUPP order, not an assumed fixed block size.
     need(len(fields)==187 and observed==fields and
-        all(b['size']==1024 for b in blocks[:-1]),
-        'all187 literal fields retain emitted CODE-block order,without sorting')
+        [b['size'] for b in blocks]==expected_sizes,
+        'all187 literal fields and actual emitted CODE-block sizes retain writer order,without sorting')
     return blocks
 
 
@@ -210,7 +213,10 @@ def review(root,report=None):
     destruction=destruction_codegen(original,v['obj'],original_bodies,procedures)
     exception_handler=handler_codegen(original,v['obj'],original_bodies,procedures)
     catch_storage=catch_storage_codegen(original,v['obj'],original_bodies,procedures,native=True)
-    fixup_blocks=[native_fixup_blocks(obj) for obj in (original,v['obj'])]
+    # The native writer ends the eighth block one byte early after the
+    # restored Raise body;all fields remain within their actual LEDATA owners.
+    fixup_blocks=[native_fixup_blocks(original,[1024]*12+[334]),
+        native_fixup_blocks(v['obj'],[1024]*7+[1023]+[1024]*4+[331])]
     handler_blocks=[]
     need(original_bodies[29]['name']=='_ExceptionHandler','actual handler procedure identity')
     for blocks,start in zip(fixup_blocks,[original_bodies[29]['start']-0x580D,procedures[29]['start']]):
@@ -247,13 +253,47 @@ def review(root,report=None):
     alternate=[]
     for data,mapping in [(target.program_image,original_table),(source.program_image,table)]:
         alternate.append(raise_run(data,address(mapping,'_RaiseException')[1],'raise-386-context',handler,address(mapping,'__8086')[1],address(mapping,'_memcpy')[1],stack_offset=0xFF10))
-    need(all(alternate[0][k]==alternate[1][k] for k in alternate[0] if k!='context') and alternate[0]['context'][:13]==alternate[1]['context'][:13] and alternate[0]['context'][14:]==alternate[1]['context'][14:] and [q['context'][13] for q in alternate]==[128,132],'one alternate entry SP exposes remaining frame-dependent saved-PF difference without changing flags')
+    need(alternate[0]==alternate[1] and [q['context'][13] for q in alternate]==[128,128], 'native frame restores complete alternate-SP Raise record/context and saved flags')
+    # Validate the restored 48-byte local through actual code and OMF fixups,
+    # not through matching the stack allocation alone.
+    old_raise_offset=original_bodies[18]['start']-0x580D
+    new_raise_offset=procedures[18]['start']
+    need(original_bodies[18]['size']==procedures[18]['size']==1151,
+        'complete 1151-byte native Raise boundaries')
+    raise_object_raw_equal=(bytes(op[1,old_raise_offset+i] for i in range(1151))==
+        bytes(p[1,new_raise_offset+i] for i in range(1151)))
+    raise_fields=[]
+    for obj,start in ((original,old_raise_offset),(v['obj'],new_raise_offset)):
+        raise_fields.append([dict(field,site=field['site']-start)
+            for field in literal_fields(obj)
+            if field['segment']==1 and start<=field['site']<start+1151])
+    need(raise_object_raw_equal and len(raise_fields[0])==5 and
+        raise_fields[0]==raise_fields[1],
+        'whole native Raise object and five literal ordered OMF fields agree')
     raise_body=source.program_image[base+procedures[18]['start']:base+procedures[18]['start']+procedures[18]['size']]
     need(raise_body.count(target.program_image[0x6AC0:0x6B07])==1,'complete raw71-byte argument copy block in actual linked product')
     frame_allocations=[int.from_bytes(data[start+14:start+16],'little') for data,start in
         [(target.program_image,original_bodies[18]['start']),
          (source.program_image,base+procedures[18]['start'])]]
-    need(frame_allocations==[390,342],'original/current Raise storage gap remains explicit')
+    need(frame_allocations==[390,390],'original/current Raise frame allocations both390')
+    # Compare the complete large function in the real vendor/native OMF,
+    # including every emitted-order relocatable field. It has not been
+    # synthesized from the fixed EXE or from an instruction subset.
+    old_raise=original_bodies[18];new_raise=procedures[18]
+    old_start=old_raise['start']-0x580D;new_start=new_raise['start']
+    need((old_start,new_start,old_raise['size'],new_raise['size'])==
+        (4195,4195,1151,1151),'complete native Raise extent and original position')
+    raise_raw_equal=(bytes(op[1,old_start+i] for i in range(1151))==
+        bytes(p[1,new_start+i] for i in range(1151)))
+    need(raise_raw_equal,'complete1151-byte vendor/native RaiseException object code agrees')
+    raise_field_vectors=[]
+    for obj,start in [(original,old_start),(v['obj'],new_start)]:
+        fs=[dict(f,site=f['site']-start) for f in literal_fields(obj)
+            if f['segment']==1 and start<=f['site']<start+1151]
+        raise_field_vectors.append(fs)
+    need(raise_field_vectors[0]==raise_field_vectors[1] and
+        [f['site'] for f in raise_field_vectors[0]]==[772,404,61,33,1134],
+        'all five original/native Raise OMF fixups agree,including emitted order')
     raw_equal=v['exe']==target.raw;map_equal=v['map']==(WORK/'obj/th03/mainl.map').read_bytes()
     need(not raw_equal and not map_equal,'current full product remains a raw-different candidate,not exact acceptance')
     tail_start=base+procedures[36]['start'];tail_size=code_size-procedures[36]['start']
@@ -263,6 +303,9 @@ def review(root,report=None):
         at=base+new['start']
         body_comparisons.append(dict(name=old['name'],original_bytes=old['size'],candidate_bytes=new['size'],
             size_delta=new['size']-old['size'],raw_equal=source.program_image[at:at+new['size']]==target.program_image[old['start']:old['start']+old['size']]))
+    need(body_comparisons[18]['name']=='RaiseException' and body_comparisons[18]['raw_equal'] and
+        body_comparisons[20]['name']=='exceptionHandled' and body_comparisons[20]['raw_equal'],
+        'full native-linked Raise1151 and exceptionHandled216 match original at their actual addresses')
     need(body_comparisons[15]==dict(name='dispatchException',original_bytes=140,candidate_bytes=140,size_delta=0,raw_equal=True),'complete140-byte normal-linked dispatcher matches the fixed target without normalization')
     need(body_comparisons[2]==dict(name='sameTypeID',original_bytes=157,candidate_bytes=157,
         size_delta=0,raw_equal=True) and base+procedures[2]['start']==0x583E and
@@ -281,11 +324,18 @@ def review(root,report=None):
         original_prefix_raw_bytes=prefix,original_and_candidate_prefix_fields=prefix_fields,
         original_call_bank_raw_bytes=prefix-call_start,original_and_candidate_call_bank_fields=call_fields,
         restored_forward_far_calls=forward_calls,RaiseException_stack_allocations=frame_allocations,
+        RaiseException_codegen=dict(original_bytes=1151,candidate_bytes=1151,
+            original_and_candidate_literal_fields=raise_field_vectors,
+            complete_object_raw_equal=raise_raw_equal,
+            complete_linked_body_raw_equal=body_comparisons[18]['raw_equal']),
         comparator_codegen=comparator,compatibility_codegen=compatibility,destruction_codegen=destruction,
         exception_handler_codegen=exception_handler,catch_storage_codegen=catch_storage,
         original_and_candidate_CODE_fixup_blocks=fixup_blocks,handler_CODE_fixup_blocks=handler_blocks,
         native_call_adapter_tables=call_tables,
-        target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,alternate_stack_offset=0xFF10,alternate_stack_real_memcpy_raise_probe=alternate,raw_Raise_argument_copy_bytes=71,actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
+        target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,alternate_stack_offset=0xFF10,alternate_stack_real_memcpy_raise_probe=alternate,raw_Raise_argument_copy_bytes=71,
+        native_Raise_object_raw_equal=raise_object_raw_equal,
+        original_and_candidate_Raise_fields=raise_fields,
+        actual_native_handler_sha256=sha(handler),two_whole_raw_vectors_repeated=True,all_available_SDK_headers_bound=64,
         original_cold_rebuilt=False,ancestor_runtime_chain_rebuilt=False,physical_DOS_execution_claimed=False)
 
 

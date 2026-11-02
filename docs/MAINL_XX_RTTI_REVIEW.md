@@ -9,9 +9,9 @@ is357 bytes;its trailing descriptors are data,not instructions.
 
 This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new accepted credit.** This document's
-full-TU miniature uses BCC -S/TASM:CODE12553,181 fields,DATA18,BSS10,metadata136
+full-TU miniature uses BCC -S/TASM:CODE12616,181 fields,DATA18,BSS10,metadata136
 and tail1735,including one actual LIDATA zero. The normal product uses actual
-BCC `-c -y` objects:CODE12548,187 fields,metadata136 and tail1735,with one
+BCC `-c -y` objects:CODE12618,187 fields,metadata136 and tail1735,with one
 actual optional zero in dense LEDATA,without native LIDATA. It remains raw-different;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
 ## Source and native ownership
@@ -140,7 +140,7 @@ PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_xx_rtti
 ```
 
 Source presence is250 extents/60028 gross bytes;accepted MAINL remains211 owners/
-288 procedures/36946 bytes. Publication/verifier inputs remain unchanged. Next
-resolve the full TU codegen differences,including RaiseException390/342-byte
-frames and alternate-entry-SP saved EFLAGS80h/84h,using the current normal-library link and
-checking affected whole-product outputs. Whole-game completion remains unknown.
+288 procedures/36946 bytes. Publication/verifier inputs remain unchanged. The full normal-library link now recovers RaiseException1151/1151 bytes,
+390/390-byte frames and the FF10 saved-EFLAGS80h/80h observation. The remaining
+full-TU codegen gap is currently four bytes in initCatchArg;check both scoped
+and whole-product outputs before claiming further ownership. Whole-game completion remains unknown.

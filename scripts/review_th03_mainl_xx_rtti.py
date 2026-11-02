@@ -469,7 +469,7 @@ def review(root,report=None):
     for data,row in [(t,old[18]),(candidate.program_image,rows[18])]:
         need(data[row['start']:row['start']+14]==bytes.fromhex('50515253545556571e068bec81ec'),'unchanged compiler saveregs frame prefix')
         allocations.append(int.from_bytes(data[row['start']+14:row['start']+16],'little'))
-    need(allocations==[390,342],'48-byte original/current frame ownership gap remains open;no ancestor runtime replay')
+    need(allocations==[390,390],'target/source Raise resume frame is390 bytes;no ancestor runtime replay')
     reused_flags=json.loads((root/'.analysis/work/mainl-xx-throw-review.json').read_bytes())['alternate_saved_eflags_observations']
     old_before=old[45]['start']-BASE;new_before=rows[45]['start']
     need(old[45]['size']==rows[45]['size']==120 and bytes(op[1,old_before+i] for i in range(120))==bytes(p[1,new_before+i] for i in range(120)),'complete unmodified120-byte typeinfo::before object bodies agree before native linking')

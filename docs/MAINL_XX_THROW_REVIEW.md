@@ -16,7 +16,7 @@ segment words. The fixed Japanese decoded target remains the oracle.
 | dispatchException | 140 | 140 |
 | _Global_unwind | 71 | 71 |
 | exceptionContextHook | 5 | 5 |
-| RaiseException | 1151 | 1081 |
+| RaiseException | 1151 | 1151 |
 
 Original coverage now forms the continuous583E..8293 range,10838 bytes.
 The front49 bytes,tail1735 and DATA18/BSS10 are now recovered in the complete
@@ -60,8 +60,8 @@ This is a body comparison,not promotion of the larger source unit.
 `RaiseException` uses the compiler's `__saveregs` ten-WORD prologue and far
 return. A CPU byte at `__8086` selects the386 PUSHAD/PUSHFD path. The used204-byte
 context prefix includes the112-byte x87 save area,segment DWORDs and full general
-registers;the original's additional frame ownership is not inferred from these
-accesses. PUSHF/POP AX/MOV saves the flags while also changing AX before PUSHAD,as in the
+registers. An explicitly addressed48-byte SS resume-frame local now precedes
+that context;its hook argument and placement reproduce the target390-byte frame. PUSHF/POP AX/MOV saves the flags while also changing AX before PUSHAD,as in the
 original;the previous POP-to-local skipped that register effect. Low register
 WORDs come from the entry snapshot. Reserved exception
 code bit10000000h is cleared;argument count caps at15. Noncontinuable handling
@@ -98,30 +98,35 @@ match. A function-local -O-v suppresses the two compiler-generated WORD inductio
 pointers that the original loop does not have. FS/GS high halves are zeroed before
 the segment writes;the16-bit zero chain fills EBP first. Direct `_SS` assignment
 and CX/ES/BX resume-address construction recover the original instruction order.
-The remaining frame allocation is390 versus342,not the former390/346.
+The original and native frames now both allocate390 bytes. The private
+resume-frame structure is declared ahead of the context and its real near-SS
+address goes to the original empty hook. Its48 bytes are not synthesized
+padding;the observed hook pointer and every BP-dependent access agree in the
+complete1151-byte BCC native object. A direct `(void __ss *)_BP` memcpy source
+avoids a spurious stack WORD spill and3-byte local initialization;Borland's
+`_SP = _BX` register assignment generates the original two `MOV SP,BX`
+encodings without embedding instruction bytes.
 
-The raw default-SP observation now agrees completely,including EFLAGS84h/84h.
-One additional entry SP,FF10 instead of FF00,retains original80h/source84h while
-all other observed context/record/register values still agree. Thus agreement
-in the default sample did not close the frame/PF question. Both raw observations
-are retained;there is no flag correction or placeholder stack object.
+Both real linked Raise observations now agree completely:entry SP=FF00 gives
+EFLAGS84h/84h and SP=FF10 gives EFLAGS80h/80h. Full context,record,register
+and helper-call outputs agree. No conditional flag correction is performed.
 
 The independently read original stack operands and current compiler output give:
 
 | Local region | Original BP interval | Current BP interval |
 | --- | --- | --- |
 | Exception record76 | -86..-10 | -86..-10 |
-| Unproved48-byte region | -134..-86 | absent |
-| Used context204 | -338..-134 | -290..-86 |
-| Entry WORD snapshot20 | -358..-338 | -310..-290 |
-| PUSHAD DWORD snapshot32 | -390..-358 | -342..-310 |
+| SS resume-frame48 | -134..-86 | -134..-86 |
+| Used context204 | -338..-134 | -338..-134 |
+| Entry WORD snapshot20 | -358..-338 | -358..-338 |
+| PUSHAD DWORD snapshot32 | -390..-358 | -390..-358 |
 
-Intervals are half-open and offsets are decimal. The empty hook receives BP-134
-in the original and the context's end in current source. The original address
-and allocation footprint are known;the missing region's type/purpose remains
-unproved. Matching its length with an invented object would not recover source.
+Intervals are half-open and offsets are decimal. The original and native
+hook both receive BP-134. Naming the stack region `XXRaiseReturn32` is a
+semantic reconstruction backed by the real48-byte resume-frame layout and
+byte-exact full object;it does not establish the original variable spelling.
 
-Candidate throw bank2451 and miniature CODE10787 remain raw-different from
+Candidate throw bank2521 and miniature CODE10833 remain raw-different from
 original bank2524 and covered10838. Equal wrapper sizes89/170 do not establish
 raw equality. Source presence is250 extents/60028 gross bytes;accepted MAINL
 stays211 owners/288 procedures/36946 bytes. Publication/verifier inputs and all938
@@ -137,14 +142,16 @@ also gives the204-byte context layout used by the observed field accesses.
 A small native ABI probe shows that an ordinary48-byte structure return passes
 a far four-byte buffer pointer;the original empty hook receives only two bytes.
 That hypothesis does not establish ownership of the missing region. Product
-storage and the342-byte frame are unchanged.
+storage and the earlier342-byte frame were unchanged in that rejected probe.
 
 A further native ABI probe gives an ordinary48-byte resume-frame class an empty,
 out-of-line default constructor under the current large-model profile. Its
 constructor has41 CODE bytes,including the allocation/return path,and receives
 four this-pointer bytes;the __saveregs caller allocates48 and pushes SS plus
 offset. This does not match the original five-byte hook and its two-byte
-argument. It establishes no ownership for the missing48 bytes. The actual
+argument. That historical constructor experiment established no ownership. The new
+plain near-SS return-frame slot passes a real hook address and yields a full
+original/native match without any extra constructor. The actual
 source/ASM/native object and compiler commands are recorded in
 `.analysis/work/raise-constructor-probe.json`;no such object is added to Raise.
 
@@ -158,7 +165,7 @@ Real-linked execution caught a native inline-assembler offset bug. Both
 `context.field` and `context + enum_offset` generated reversed local-member
 addition:EFLAGS at BP-482 instead of BP-98,and SS at BP-490 instead of BP-90.
 The faulty native candidate returned to0000:0000. Using `context - enum_offset`
-recovers the intended address. The current native compilation yields CODE12554,
+recovers the intended address. The current native compilation yields CODE12618,
 187 fields and22 publics;all50 procedures bind actual source/LINNUM records.
 The earlier12576-byte direct object remains only historical prefix evidence.
 
@@ -167,15 +174,15 @@ both current object and linked image. Native BCC preserves all six original
 five-byte forward FAR CALLs. tossAnException815 and destThrownValue80 recover
 original lengths;destroyBases129 and destroyVariable715 also match complete
 linked bodies. Those lengths alone do not prove the throw routines raw-equal.
-The retained S/TASM full-TU diagnostic now has12553 CODE/181 fields,with812/79
+The retained S/TASM full-TU diagnostic now has12616 CODE/181 fields,with812/79
 throw helper lengths. Four virtual-base SI assignments recover the complete
 call-adapter bank1495/all88 fields in the native product;copy750 now agrees.
 
 Corrected real-linked Raise/dispatcher probes pass with actual library memcpy
 twice. Default entry FF00 agrees in record,registers,segments and flags84h;
-alternate FF10 keeps only the known80h/84h difference. Raise is still1081 versus
-1151 and its frame342 versus390. No new storage,flag correction or acceptance
-follows. `.analysis/work/xx-native-compiler-recovery.json` records the failed
+alternate FF10 now agrees80h/80h. Raise is1151 versus1151 and its frame
+390 versus390;all five emitted-order object fixups match. Both unlinked and
+linked whole Raise bodies are byte-exact. This remains an unaccepted xx carrier. `.analysis/work/xx-native-compiler-recovery.json` records the failed
 operand forms,correction and current raw product pair;see
 [normal product review](MAINL_XX_PRODUCT_REVIEW.md).
 

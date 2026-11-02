@@ -6,7 +6,7 @@ The current route uses BCC4.5 native `-c -y` output followed by TLIB/TLINK.
 It remains a **raw-different diagnostic candidate**,with no new accepted bytes.
 
 Two rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP vectors. Candidate EXE
-is67292 bytes versus the fixed Japanese67372-byte target. Both headers have
+is67372 bytes,matching the fixed Japanese67372-byte target length. Both headers have
 4096 bytes and677 relocations;the complete raw images and MAPs still differ.
 
 ## Source compilation and retained inputs
@@ -51,16 +51,16 @@ arrays,product object patches or compensating storage are involved.
 
 | Property | Original | Native candidate |
 | --- | ---: | ---: |
-| xx CODE at0000:580D | 12622 | 12548 |
+| xx CODE at0000:580D | 12622 | 12618 |
 | Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | DATA/BSS | 18/10 | 18/10 |
 | RTTI tail/metadata | 1735/136 | 1735/136 |
-| Raise body/frame | 1151/390 | 1081/342 |
+| Raise body/frame | 1151/390 | 1151/390 |
 
-Candidate DATA/BSS remain at DGROUP:1172/2876;DGROUP is0E3A versus original0E3F.
-Ordinary paragraph layout produces80 bytes of file movement. All18 initialized
-DATA bytes agree;BSS has no invented initialization. CODE length74 is a size
+Candidate DATA/BSS remain at DGROUP:1172/2876;DGROUP is0E3F,matching the original.
+The EXE length and segment paragraph layout now agree. All18 initialized
+DATA bytes agree;BSS has no invented initialization. CODE length4 is a size
 difference,not a count of differing bytes. Native RTTI now has one optional
 zero inside dense LEDATA (no native LIDATA);the actual zero and records are
 checked. Its descriptors,vtable,terminated lists and all internal pointer
@@ -72,13 +72,15 @@ xx MZ words match the actual executable. All18 EXTDEF names/indices agree in
 original order. Equal field counts do not establish whole-record equality;
 literal field vectors remain retained,without sorting or normalization.
 
-Every original/current field also binds its actual native1024-byte LEDATA CODE
-block. All187 fields in each object retain block emission order and descending
-sites within each block. Original handler372/294 fields precede0x2000;its other
-three follow it. The current handler begins67 bytes earlier and all five fields
-precede that boundary. This explains the changed function-relative field order
-through ordinary native writer layout. The two vectors remain different and
-are never normalized. The reviewer records complete blocks and handler groups.
+Every original/current field also binds its actual native LEDATA CODE block.
+All187 fields retain emitted order and descending sites within each block.
+Original blocks are twelve1024-byte records plus334 bytes;native BCC has an
+actual1023-byte record at0x1C00,followed by1024-byte records beginning0x1FFF
+and a331-byte final record. The reviewer enforces those actual sizes rather
+than silently imposing 1 KiB on every block. Both handler372/294 fields precede
+the0x2000 vicinity and the remaining724/703/700 sites follow it in both objects.
+The native blocks start one byte earlier across that boundary,without changing
+literal FIXUPP order. The vectors remain raw-different and are not sorted.
 
 The complete first2822 object bytes match the original,including all92
 literal ordered fields. These bytes also match at their original linked address.
@@ -93,7 +95,7 @@ current field is checked for its actual9A opcode,far shape and real callee.
 Complete linked destroyBases129 and destroyVariable715 now agree. Their linked
 raw equality is a complete function-body observation within the unaccepted TU.
 
-All50 complete linked bodies are compared;27 currently agree raw. Other useful
+All50 complete linked bodies are compared;32 currently agree raw. Other useful
 partial findings remain explicitly separate:
 
 - dtorCleanup1035/frame32 differs only at object offsets976/977 in the
@@ -105,13 +107,15 @@ partial findings remain explicitly separate:
 - initCatchArg674 versus678 recovers the class guard,leaving two reference
   branch forms. exceptionHandled now has an exact216-byte native object body:
   symbolic-offset LES and typed ES:BX access remove the last redundant reload.
-  Its linked body still differs through ordinary unresolved surrounding layout;
-  the entire TU is unaccepted. Frames and locals retain the recovered ABI.
+  Its complete linked body now also agrees after recovering the preceding
+  Raise frame;the entire TU remains unaccepted.
 - `typeinfo::before` matches all120 unlinked bytes with original strcmp field
   EXTDEF8 at+96. Its linked displacement remains different.
-- Raise retains all71 raw count/index/copy bytes. The48-byte frame region
-  BP[-134,-86) has unproved type/purpose;no placeholder or flag fix is added.
-  Other layout/source differences remain open.
+- Raise is now completely exact:all1151 object bytes,all five ordered OMF
+  fields and the1151 linked bytes at the original address agree. A genuine
+  48-byte near-SS return-frame local placed before context restores the390-byte
+  stack. Direct SS:BP argument passing and `_SP = _BX` recover remaining opcode
+  forms. No binary edits or invented alignment bytes were used.
 
 ## Focused execution evidence and receipts
 
@@ -121,8 +125,8 @@ and register catch jump. They preserve the selected far frames and registers.
 The linked Raise/dispatcher pair uses the unchanged actual TASM handler fixture
 and the real library memcpy twice,without import redirection or a memory-helper
 model. The handler's DEADBEEFh EAX update resumes correctly. At entry SP=FF00,
-record/register/context observations agree including EFLAGS84h. At FF10 only
-the known original80h/source84h discrepancy remains. These are focused probes,
+record/register/context observations agree including EFLAGS84h. At FF10 the saved
+EFLAGS now also agree80h/80h,with full record/register/context equality. These are focused probes,
 not a DOS boot or ending-playthrough claim.
 
 Keep `.analysis/work/mainl-xx-product-build.json`,

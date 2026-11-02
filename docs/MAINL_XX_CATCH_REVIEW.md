@@ -53,7 +53,9 @@ Earlier controls in `.analysis/work/catch-storage-codegen-experiments.json`
 cover braces,old_value scopes,labels and optimizer profiles. The isolated674-byte
 native result is now reproduced by the maintained full TU after expressing
 unsupported386 operations in source. See [product review](MAINL_XX_PRODUCT_REVIEW.md).
-Current native CODE12548/187 fields and67292-byte EXE remain raw-different.
+Current native CODE12618/187 fields and67372-byte EXE remain raw-different.
+The complete216-byte exceptionHandled now agrees in both its native object
+and linked function,after restoring preceding RaiseException layout.
 The published211 owners/36946 bytes and accepted28-provider library stay unchanged.
 Affected native pairs are refreshed without rebuilding the938 retained cold outputs.
 

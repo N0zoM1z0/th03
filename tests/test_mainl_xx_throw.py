@@ -24,7 +24,8 @@ class XxThrow(unittest.TestCase):
         self.assertEqual(a['record_header'][-1],15)
         self.assertEqual(r['saved_eflags_observations'],[132,132])
         self.assertTrue(r['saved_eflags_equal'])
-        self.assertEqual(r['alternate_saved_eflags_observations'],[128,132])
+        self.assertEqual(r['alternate_saved_eflags_observations'],[128,128])
+        self.assertEqual(r['candidate_bodies'][7]['size'],1151)
         for a,b in r['target_and_source_throw_probes'][1:]:
             self.assertEqual(a,b)
         self.assertFalse(r['complete_bank_raw_equal'])

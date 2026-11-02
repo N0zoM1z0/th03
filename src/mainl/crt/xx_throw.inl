@@ -252,6 +252,9 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
     unsigned saved_flags;
     unsigned frame;
     XXExceptionRecord exception;
+    // The 48-byte near-SS resume-frame slot precedes the actual context.
+    // The original hook receives its address; it is not filler for CODE.
+    XXRaiseReturn32 resume_frame;
     XXRaiseContext context;
     XXRaiseSaved16 saved;
     unsigned long registers[8];
@@ -261,7 +264,7 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
 #define return32 ((XXRaiseReturn32 far *)MK_FP(_ES,_BX))
 #define return16 ((XXRaiseReturn16 far *)MK_FP(_ES,_BX))
 
-    exceptionContextHook((char __ss *)&context+sizeof(context));
+    exceptionContextHook((void __ss *)&resume_frame);
     // AX also supplies the low half captured by the following PUSHAD.
     asm pushf;
     asm pop ax;
@@ -305,8 +308,9 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
     }
     context.eip = FP_OFF(pc);
     context.cs = FP_SEG(pc);
-    asm mov frame,bp;
-    memcpy(&saved,(void __ss *)frame,sizeof(saved));
+    // The original passes SS:BP directly; spilling BP into the `frame`
+    // local before this memcpy emits an extra 5 bytes of setup code.
+    memcpy(&saved,(void __ss *)_BP,sizeof(saved));
     context.ds = saved.ds;
     context.es = saved.es;
     context.stack_segment = _SS;
@@ -366,7 +370,8 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         return32->cs = (unsigned)context.cs;
         XX_CPU386();
         asm mov ss,word ptr XX_CONTEXT_WORD(stack_segment,0);
-        asm mov sp,bx;
+        // Register assignment preserves the original MOV SP,BX encoding.
+        _SP = _BX;
         XX_POP_GS();
         XX_POP_FS();
         asm pop es;
@@ -395,7 +400,8 @@ extern "C" void far __cdecl __saveregs RaiseException(unsigned long code,
         return16->ip = (unsigned)context.eip;
         return16->cs = (unsigned)context.cs;
         asm mov ss,word ptr XX_CONTEXT_WORD(stack_segment,0);
-        asm mov sp,bx;
+        // Register assignment preserves the original MOV SP,BX encoding.
+        _SP = _BX;
         XX_CPU186();
         asm pop es;
         asm pop ds;

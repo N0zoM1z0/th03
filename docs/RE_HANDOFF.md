@@ -9,14 +9,20 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-Latest source work recovers the complete1495-byte DOS call-adapter bank and
-all88 literal ordered native fields. Four virtual-base SI assignments use
-Borland register variables;the complete native prefix now matches2822 bytes
-and92 ordered fields. The whole xx member remains unaccepted.
-Native field ordering follows actual1024-byte CODE blocks in both objects.
-The latest storage/type controls remain unadopted;see the concise
-[findings](RE_NOTES.md) and `xx-raise-storage-followup.json`. A390-byte private
-frame control still emits1156 bytes rather than1151;it does not recover ownership.
+Latest native source recovery restores a typed 48-byte near-stack resume
+frame in RaiseException, passed to the original empty context hook. Its
+complete1151-byte object body and five literal ordered relocations now match
+the fixed Japanese target,as do the linked body and the390-byte frame.
+Both actual linked386 Raise probes agree,including alternate entry SP=FF10.
+The precise historical C++ type name remains unproved;this is a meaningful
+used local,not a padding array. exceptionHandled also matches its complete
+216-byte native and linked bodies. The whole xx member remains unaccepted.
+Native field ordering follows actual emitted CODE LEDATA records:the source
+now includes one1023-byte record at0x1C00,not a uniform1024-byte partition.
+The complete1495-byte call bank and88 ordered fields remain unchanged;the
+matching prefix is2822 bytes/92 fields. Full product still differs by four
+CODE bytes and other linked relocation/layout content. Earlier experiments
+are not authority over the current source and actual outputs.
 Preflight/scoped compiler checks passed in that source session;run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database;the fixed decoded MAINL DB is distinct from the old
@@ -52,18 +58,18 @@ is provider29;the accepted28-provider library and published211 owners stay uncha
 
 | Extent | Original | Native candidate |
 | --- | ---: | ---: |
-| Full decoded EXE | 67,372 | 67,292 |
-| xx CODE | 12,622 | 12,548 |
+| Full decoded EXE | 67,372 | 67,372 |
+| xx CODE | 12,622 | 12,618 |
 | Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
 | RTTI tail | 1,735 | 1,735 |
-| Raise frame allocation | 390 | 342 |
+| Raise frame allocation | 390 | 390 |
 
 Both EXEs have4096-byte headers/677 relocations;raw EXE/MAP still differ.
-Candidate DGROUP0E3A versus original0E3F produces ordinary80-byte file movement.
+Both objects now link at DGROUP0E3F with no remaining paragraph shift.
 All CODE bytes resolve through18 real library interfaces;all22 public bindings
-pass. Net CODE length74 is not a differing-byte count. Matching field counts
+pass. Net CODE length4 is not a differing-byte count. Matching field counts
 also do not establish complete literal ordered field equality.
 
 Current useful proofs and open questions:
@@ -73,26 +79,27 @@ Current useful proofs and open questions:
   and339/372-byte type helpers. The four virtual-base SI transfers use register
   variables;nonvirtual ASM transfers retain the final branch shape.
 - Six original forward FAR CALLs are retained. Complete linked destruction
-  bodies129/715 agree. All50 bodies are compared;27 agree raw. These bounded
+  bodies129/715 agree. All50 bodies are compared;32 agree raw. These bounded
   observations add no accepted bytes while xx remains unaccepted.
-- Cleanup1035/frame32 still differs at two CALL operand bytes. Handler880/frame56
-  differs at seven operand bytes;all854 other bytes agree. Its field-order
-  difference follows movement across the native0x2000 CODE-block boundary.
-  Keep literal vectors different and fix preceding layout;do not sort them.
-- Catch initialization is674 versus678/frame24,with two reference-branch forms
-  open. Cleanup now matches the complete216-byte native object/frame8. Direct
-  descriptor LES plus typed ES:BX pseudo-register access removes the final
-  redundant reload. Linked bytes still differ;earlier alternative trials
-  remain unadopted;see [catch review](MAINL_XX_CATCH_REVIEW.md).
-- Raise is1081 versus1151/frame342 versus390. Its71-byte argument-copy block
-  agrees. The actual used context is204 bytes;BP[-134,-86) ownership remains
-  unproved. Default FF00 flags agree84h/84h;FF10 retains80h/84h through real
-  memcpy twice. Do not add a guessed local or flag adjustment.
+- dtorCleanup1035/frame32 now differs in one local CALL displacement
+  byte;ExceptionHandler880/frame56 has five operand-byte differences.
+  Their natural code and helper interfaces remain intact. Native handler
+  fields have the same relative order,though the source block begins
+  at0x1FFF rather than the original0x2000.
+- initCatchArg remains674 versus678/frame24,with two original branch forms
+  not yet recovered. exceptionHandled now matches all216 native and linked
+  bytes/frame8 via symbolic descriptor LES and typed ES:BX access.
+- RaiseException now matches all1151 native and linked bytes,five ordered
+  native fields,and its390-byte frame. A real48-byte stack-local resume
+  image supplies the empty hook's SS pointer. Both SP=FF00 and SP=FF10
+  linked probes agree,including EFLAGS84h and80h respectively. Historical
+  source type identity is still unproved;no fake stack filler or byte patch
+  was added.
 - Native386 intrinsics keep symbolic BP addresses. The checked minus-member-
   offset spelling avoids BCC's local-member assembler bug. No target-function
   arrays or object patches supply code;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 - Native metadata136/tail1735 now has one optional zero in dense LEDATA,no LIDATA. The S/TASM miniature
-  instead has CODE12553/181 fields and metadata136/tail1735 with one LIDATA zero.
+  instead has CODE12616/181 fields and metadata136/tail1735 with one LIDATA zero.
   Inspect actual records;address parity does not prove an initializer.
 - before matches120 unlinked bytes and its strcmp EXTDEF8 field;the linked
   displacement still differs. All18 imports retain original order.
@@ -110,7 +117,7 @@ actually affect an earlier producer do require refreshing its native binding.
 Recent affected checks:dispatch/destruction/calls/catch/types/throw/full-TU/normal-link
 native pairs,9 targeted tests,
 tracking validation and `git diff --check`. Commit substantial progress as
-`gpt-6.1-sol: ...`. Full CI is for broad infrastructure changes.
+`gpt-web: ...`. Full CI is for broad infrastructure changes.
 
 Use direct headless tools,DISPLAY/WAYLAND_DISPLAY empty,one CPU at nice10 and
 one serialized Borland/Wine writer. CPU16 is available here. Native probes use

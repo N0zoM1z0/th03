@@ -52,9 +52,9 @@ changed field order follows its movement across0x2000;do not sort it away.
   handler result as continue. Both five-byte empty hooks are actual procedures.
 - Raise uses __saveregs,the used context prefix is204 bytes,and resume frames
   are48/26. ES:BX must retain the destination while the overlapping return frame
-  is written. Default FF00 observations agree;alternate FF10 still exposes
-  original80h/source84h. The390/342-byte frame difference and original
-  BP[-134,-86) ownership are unproved. The16-bit resume path and full lifecycle
+  is written. Default FF00 observations agree,and alternate FF10 now also agrees
+  original80h/source80h. Both frames allocate390 bytes,with a meaningful
+  48-byte near-SS resume-frame local at BP[-134,-86). The16-bit resume path and full lifecycle
   have not been executed by the focused probes. See [throw review](MAINL_XX_THROW_REVIEW.md).
 - Catch uses type at descriptor+4,payload+58,and copy/buffer flags+57/+56.
   Original-buffer destruction restores the saved DWORD SS:10 counter. Cleanup
@@ -103,10 +103,13 @@ Retained controls distinguish failed alternatives from current source. TASM
 NOSMART/JWasm/old compiler trials are not the normal product route. Ordinary
 48-byte structure-return and class-constructor probes have the wrong argument
 ABI for the empty hook. Reaching678 bytes with a catch switch still gives wrong
-instructions. A private frame-object control reaches390 allocated bytes but
-1156 CODE bytes,not1151,and does not prove the missing object's type. Concrete
-class-pointer and assignment-local -Z controls still leave cleanup223.
-None is adopted. See the current reviews and
+instructions. The earlier private frame-object-only control reached390 allocated bytes but
+1156 CODE bytes,not1151,and did not prove the missing object's type. That
+control was rejected;the later maintained source now uses the actual48-byte
+near-SS resume-frame region and direct BP/SP register operations,achieving all
+1151 native/linked Raise bytes and matching FF00/FF10 context observations.
+Earlier class-pointer and assignment-local -Z controls also failed and were
+not adopted. See the current reviews and
 `.analysis/work/xx-raise-storage-followup.json` for the latest bounded records.
 
 ## Other retained findings

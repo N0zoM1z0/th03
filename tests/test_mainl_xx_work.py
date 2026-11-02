@@ -16,19 +16,20 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual((r['normal_library_members'],r['unchanged_surrounding_members']),(893,892))
         self.assertEqual((r['source_CRT_providers'],r['reused_source_CRT_providers']),(29,28))
         self.assertEqual((r['retained_project_objects'],r['retained_binary_inputs']),(36,39))
-        self.assertEqual((r['original_file_bytes'],r['candidate_file_bytes']),(67372,67292))
+        self.assertEqual((r['original_file_bytes'],r['candidate_file_bytes']),(67372,67372))
         self.assertEqual((r['original_relocation_count'],r['candidate_relocation_count']),(677,677))
         self.assertEqual(len(r['candidate_ordered_xx_MZ_words']),20)
         self.assertEqual(len(r['actual22_public_bindings']),22)
         self.assertTrue(r['native_object_compiler'])
         self.assertEqual(len(r['native_procedures']),50)
-        self.assertEqual((r['original_xx_CODE_bytes'],r['candidate_xx_CODE_bytes']),(12622,12548))
+        self.assertEqual((r['original_xx_CODE_bytes'],r['candidate_xx_CODE_bytes']),(12622,12618))
         catch=r['catch_storage_codegen']['exceptionHandled']
         self.assertEqual((catch['original_bytes'],catch['candidate_bytes'],catch['stack_bytes']),(216,216,8))
         self.assertTrue(catch['complete_object_raw_equal'])
         self.assertEqual(catch['remaining_instruction_forms'],[])
         self.assertEqual([[f['site']-at for f in fields] for fields,at in
-            zip(catch['original_and_candidate_literal_fields'],(5468,5398))],[[95,29],[95,29]])
+            zip(catch['original_and_candidate_literal_fields'],(5468,
+                next(q['start'] for q in r['native_procedures'] if q['source_name']=='exceptionHandled')))],[[95,29],[95,29]])
         self.assertEqual(len(r['candidate_literal_native_fields']),187)
         self.assertEqual(r['original_prefix_raw_bytes'],2822)
         self.assertEqual(r['original_and_candidate_prefix_fields'][0],r['original_and_candidate_prefix_fields'][1])
@@ -62,8 +63,29 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual(a,b)
         self.assertEqual((a['context'][13],b['context'][13]),(132,132))
         a,b=r['alternate_stack_real_memcpy_raise_probe']
-        self.assertEqual((a['context'][13],b['context'][13]),(128,132))
+        self.assertEqual((a['context'][13],b['context'][13]),(128,128))
+        self.assertEqual(a,b)
+        raise_native=r['RaiseException_codegen']
+        self.assertEqual((raise_native['original_bytes'],raise_native['candidate_bytes']),(1151,1151))
+        self.assertTrue(raise_native['complete_object_raw_equal'])
+        self.assertTrue(raise_native['complete_linked_body_raw_equal'])
+        self.assertEqual(raise_native['original_and_candidate_literal_fields'][0],
+            raise_native['original_and_candidate_literal_fields'][1])
+        self.assertEqual([f['site'] for f in raise_native['original_and_candidate_literal_fields'][0]],
+            [772,404,61,33,1134])
+        self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
+        self.assertTrue(next(q for q in r['raw_function_comparisons']
+            if q['name']=='exceptionHandled')['raw_equal'])
+        self.assertEqual(sum(q['raw_equal'] for q in r['raw_function_comparisons']),32)
         self.assertEqual(r['raw_Raise_argument_copy_bytes'],71)
+        self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
+        self.assertTrue(r['native_Raise_object_raw_equal'])
+        self.assertEqual(len(r['original_and_candidate_Raise_fields'][0]),5)
+        self.assertEqual(r['original_and_candidate_Raise_fields'][0],
+            r['original_and_candidate_Raise_fields'][1])
+        raise_body=next(q for q in r['raw_function_comparisons'] if q['name']=='RaiseException')
+        self.assertEqual((raise_body['original_bytes'],raise_body['candidate_bytes']),(1151,1151))
+        self.assertTrue(raise_body['raw_equal'])
         self.assertFalse(r['whole_EXE_raw_equal'])
         self.assertFalse(r['whole_MAP_raw_equal'])
         self.assertEqual((r['source_acceptance'],r['accepted_source_bytes'],r['original_cold_rebuilt']),(False,0,False))
