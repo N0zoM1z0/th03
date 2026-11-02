@@ -76,7 +76,10 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
         self.assertTrue(next(q for q in r['raw_function_comparisons']
             if q['name']=='exceptionHandled')['raw_equal'])
-        self.assertEqual(sum(q['raw_equal'] for q in r['raw_function_comparisons']),48)
+        self.assertEqual(sum(q['raw_equal'] for q in r['raw_function_comparisons']),50)
+        self.assertTrue(r['native_full_CODE_raw_equal'])
+        self.assertTrue(r['all187_literal_native_fields_equal'])
+        self.assertTrue(r['all50_linked_bodies_raw_equal'])
         self.assertEqual([(q['name'],q['bytes'],q['native_object_raw_equal'])
             for q in r['exact_throw_wrappers']],
             [('_ThrowException',89,True),('_ReThrowException',170,True)])
@@ -93,8 +96,7 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual([[f['site']-start for f in ff] for ff,start in
                           zip(init['original_and_candidate_literal_fields'],(6144,6144))],
                          [[611,544,206]]*2)
-        self.assertEqual([q['name'] for q in r['raw_function_comparisons'] if not q['raw_equal']],
-                         ['searchBaseClass','__DynamicCast'])
+        self.assertEqual([q['name'] for q in r['raw_function_comparisons'] if not q['raw_equal']],[])
         self.assertEqual(r['raw_Raise_argument_copy_bytes'],71)
         self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
         self.assertTrue(r['native_Raise_object_raw_equal'])
@@ -104,7 +106,7 @@ class XxWholeProduct(unittest.TestCase):
         raise_body=next(q for q in r['raw_function_comparisons'] if q['name']=='RaiseException')
         self.assertEqual((raise_body['original_bytes'],raise_body['candidate_bytes']),(1151,1151))
         self.assertTrue(raise_body['raw_equal'])
-        self.assertFalse(r['whole_EXE_raw_equal'])
+        self.assertTrue(r['whole_EXE_raw_equal'])
         self.assertTrue(r['whole_MAP_raw_equal'])
         self.assertEqual((r['source_acceptance'],r['accepted_source_bytes'],r['original_cold_rebuilt']),(False,0,False))
 

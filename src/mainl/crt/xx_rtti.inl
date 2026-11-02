@@ -152,7 +152,10 @@ static void far * near searchBaseClass(void far *address,xx_type_ptr type,
             }
             else {
                 if(target_address) {
-                    if(base_address == target_address)
+                    // The original compares the requested far address
+                    // against this discovered base, loading the argument
+                    // first;the reversed expression changes four BP operands.
+                    if(target_address == base_address)
                         return base_address;
                     continue;
                 }
@@ -194,7 +197,10 @@ void far * far __cdecl __DynamicCast(void far *object,void far *vtable,
             *(unsigned far *)((char far *)vtable-4);
         vtable = (char far *)vtable-*(unsigned far *)((char far *)vtable-2);
         complete_type = *(xx_type_ptr far *)((char far *)vtable-8);
-        if(!destination || sameTypeID(destination,complete_type))
+        // Use the incoming far descriptor for the null check. The typed
+        // local is its identical value, but BCC otherwise selects BP[-8]
+        // rather than the original BP[+18] parameter operands.
+        if(!destination_id || sameTypeID(destination,complete_type))
             return complete_address;
         if(!sameTypeID(source,complete_type)) {
             result = searchBaseClass(complete_address,complete_type,0,

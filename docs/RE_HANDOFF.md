@@ -9,17 +9,18 @@ Read [workflow](RE_WORKFLOW.md),[architecture](ARCHITECTURE.md) and
 [detailed notes](RE_NOTES.md) before changing
 native recipes. Inspect Git; all dirty work belongs to this reconstruction.
 
-The native xx now restores the entire678-byte initCatchArg and its original
-24-byte frame, three ordered native fields and all branches. Using Borland
-_CX avoids spilling its mask onto the stack; explicit semantic JE/JMP edges
-retain the original non-collapsed control flow,without padding or patches.
-The linked _ExceptionHandler880 and dtorCleanup1035 are now complete raw
-matches. The whole xx native CODE is12622 bytes in both objects,all187 literal
-fields and linked MAP agree,and48/50 linked function bodies are exact.
-The remaining six real operand bytes belong to582-byte searchBaseClass
-and357-byte __DynamicCast. The full EXE is still raw-different,so no new
-accepted source credit. The separate S/TASM miniature has its own branch
-relaxation and remains diagnostic. Cold outputs/accepted211 owners are unchanged.
+The complete native Borland C++ xx translation unit now matches all
+12,622 Japanese CODE bytes and187 literal ordered OMF fields. The actual
+29-provider working library replaces only the original xx member among893,
+retaining892 other member programs. Both normal links reproduce the entire
+67,372-byte decoded Japanese MAINL EXE and original MAP byte-for-byte,
+including all677 MZ relocations. All50 linked xx functions are raw-equal,
+including initCatchArg678, _ExceptionHandler880, RaiseException1151,
+searchBaseClass582 and __DynamicCast357. These are natural source and
+ordinary BCC -c outputs,not postprocessed binaries. The accepted28-provider
+library and211-owner publication remain frozen until separately promoted;
+no new ledger credit is claimed. No full cold replay or ancestor chain ran.
+See [complete native xx product review](MAINL_XX_PRODUCT_REVIEW.md).
 Preflight/scoped compiler checks passed in that source session;run preflight
 when starting a new session or changing environment/targets. Re-attest Ghidra
 before using a database;the fixed decoded MAINL DB is distinct from the old
@@ -99,10 +100,10 @@ is provider29;the accepted28-provider library and published211 owners stay uncha
 | RTTI tail | 1,735 | 1,735 |
 | Raise frame allocation | 390 | 390 |
 
-Both EXEs have4096-byte headers/677 relocations;MAP agrees raw,while six CODE bytes still differ in the EXE.
+Both EXEs have4096-byte headers/677 relocations and agree raw,including their complete MAP.
 Both objects now link at DGROUP0E3F with no remaining paragraph shift.
 All CODE bytes resolve through18 real library interfaces;all22 public bindings
-pass. Equal CODE length is not raw equality: six operand bytes still differ. Matching field counts
+pass. The complete CODE byte vector,not just its length,now matches. Matching field counts
 also do not establish complete literal ordered field equality.
 
 Current useful proofs and open questions:
@@ -112,26 +113,24 @@ Current useful proofs and open questions:
   and339/372-byte type helpers. The four virtual-base SI transfers use register
   variables;nonvirtual ASM transfers retain the final branch shape.
 - Six original forward FAR CALLs are retained. Complete linked destruction
-  bodies129/715 agree. All50 bodies are compared;48 agree raw. These bounded
+  bodies129/715 agree. All50 bodies are compared;all50 agree raw. These bounded
   observations add no accepted bytes while xx remains unaccepted.
-- dtorCleanup1035 and _ExceptionHandler880 now match complete
-  linked bodies and their original local CALL operands. Their previous
-  differences came from the displaced initCatchArg tail.
-- initCatchArg678/frame24 and all three native fields now match the
-  original object and linked body exactly. The original JE/JMP and
-  JMP-to-next are semantic outgoing edges;the mask lives in _CX.
-- Throw/rethrow89/170, exceptionHandled216 and RaiseException1151
-  still agree as complete linked function bodies.
-- Only searchBaseClass582 and __DynamicCast357 differ,at six
-  instruction-operand bytes within an unaccepted xx TU.
+- All50 complete linked functions agree raw,including
+  dtorCleanup1035, _ExceptionHandler880 and initCatchArg678.
+  The latter retains its original24-byte frame,three ordered fields
+  and semantic JE/JMP edges using _CX as its live mask.
+- searchBaseClass582 and __DynamicCast357 also match after
+  reordering the far address comparison and testing the incoming
+  destination descriptor for null. No filler or object patches.
+- Throw/rethrow89/170,exceptionHandled216 and RaiseException1151
+  remain exact,with both linked Raise stack-entry flags checks passing.
 - Native386 intrinsics keep symbolic BP addresses. The checked minus-member-
   offset spelling avoids BCC's local-member assembler bug. No target-function
   arrays or object patches supply code;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 - Native metadata136/tail1735 now has one optional zero in dense LEDATA,no LIDATA. The S/TASM miniature
-  instead has CODE12616/181 fields and metadata136/tail1735 with one LIDATA zero.
+  instead has CODE12619/181 fields and metadata135/tail1734 with no LIDATA zero.
   Inspect actual records;address parity does not prove an initializer.
-- before matches120 unlinked bytes and its strcmp EXTDEF8 field;the linked
-  displacement still differs. All18 imports retain original order.
+- before matches120 unlinked and linked bytes with its original strcmp EXTDEF8 field. All18 imports retain original order.
 
 See [normal product review](MAINL_XX_PRODUCT_REVIEW.md),
 [RTTI review](MAINL_XX_RTTI_REVIEW.md) and [throw review](MAINL_XX_THROW_REVIEW.md).

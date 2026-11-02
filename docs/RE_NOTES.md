@@ -28,7 +28,7 @@ Useful current recoveries include the complete1495-byte call-adapter bank and
 88 literal ordered fields within the matching2822-byte native prefix;the
 715/129-byte destruction bodies;the157-byte comparator;and handler880/frame56
 with both argument-cleanup pairs. These are bounded observations within xx,
-not additional accepted bytes. The remaining catch and Raise gaps stay open.
+not additional accepted bytes. The native catch and Raise codegen gaps are closed;see the complete xx review.
 
 The native386 instruction intrinsics express individual unsupported operations.
 Addresses retain compiler symbols and offsetof-derived offsets. BCC's native

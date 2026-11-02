@@ -171,6 +171,15 @@ def review(root,report=None):
     ds,off,_=coordinates['DATA'];need(source.program_image[ds*16+off:ds*16+off+18]==bytes(p[2,i] for i in range(18)),'all18 DATA bytes bind the actual whole-product DGROUP position')
     original_table=(WORK/'obj/th03/mainl.map').read_text();probes=[];procedures=rows[0]
     original_bodies=mini_review['original_bodies'];op,_=initialized_payload(original)
+    # The ordinary BCC -c object now reconstructs every original CODE byte
+    # and every OMF literal FIXUPP, not merely the original size or a
+    # normalization of function-relative offsets.
+    original_CODE=bytes(op[1,i] for i in range(12622))
+    native_CODE=bytes(p[1,i] for i in range(code_size))
+    native_all_CODE_equal=(code_size==12622 and original_CODE==native_CODE)
+    native_all_fields_equal=(literal_fields(original)==fields)
+    need(native_all_CODE_equal and native_all_fields_equal,
+        'all12622 native xx CODE bytes and187 ordered literal OMF fields match')
     prefix=procedures[10]['start']+procedures[10]['size']+24
     need(prefix==2822 and bytes(op[1,i] for i in range(prefix))==bytes(p[1,i] for i in range(prefix)),
         'entire original2822-byte object prefix through the complete call bank')
@@ -314,7 +323,9 @@ def review(root,report=None):
         [f['site'] for f in raise_field_vectors[0]]==[772,404,61,33,1134],
         'all five original/native Raise OMF fixups agree,including emitted order')
     raw_equal=v['exe']==target.raw;map_equal=v['map']==(WORK/'obj/th03/mainl.map').read_bytes()
-    need(not raw_equal and map_equal,'current native full MAP is exact,while six CODE bytes still prevent EXE acceptance')
+    need(raw_equal and map_equal and
+        source.relocations==target.relocations,
+        'complete original Japanese decoded EXE/MAP and all677 MZ relocations are raw equal')
     tail_start=base+procedures[36]['start'];tail_size=code_size-procedures[36]['start']
     body_comparisons=[]
     need(len(original_bodies)==len(procedures)==50,'complete original/current function comparison scope')
@@ -327,6 +338,9 @@ def review(root,report=None):
         'full native-linked Raise1151 and exceptionHandled216 match original at their actual addresses')
     need(all(body_comparisons[i]['raw_equal'] for i in (12,13)),
         'two whole linked throw wrapper bodies are byte exact')
+    need(len(body_comparisons)==50 and all(q['raw_equal'] and
+        q['size_delta']==0 for q in body_comparisons),
+        'all50 complete xx linked function bodies match raw original bytes')
     need(body_comparisons[15]==dict(name='dispatchException',original_bytes=140,candidate_bytes=140,size_delta=0,raw_equal=True),'complete140-byte normal-linked dispatcher matches the fixed target without normalization')
     need(body_comparisons[2]==dict(name='sameTypeID',original_bytes=157,candidate_bytes=157,
         size_delta=0,raw_equal=True) and base+procedures[2]['start']==0x583E and
@@ -337,7 +351,11 @@ def review(root,report=None):
         normal_library_members=893,unchanged_surrounding_members=892,source_CRT_providers=29,reused_source_CRT_providers=28,reused_source_provider_names=previous_providers,retained_project_objects=36,retained_binary_inputs=39,
         original_file_bytes=len(target.raw),candidate_file_bytes=len(v['exe']),original_header_bytes=target.header.header_size,candidate_header_bytes=source.header.header_size,
         original_relocation_count=len(target.relocations),candidate_relocation_count=len(source.relocations),original_MZ_relocations=[[q.segment,q.offset] for q in target.relocations],candidate_MZ_relocations=[[q.segment,q.offset] for q in source.relocations],
-        whole_EXE_raw_equal=raw_equal,whole_MAP_raw_equal=map_equal,original_xx_CODE_bytes=12622,candidate_xx_CODE_bytes=code_size,native_module_coordinates=coordinates,
+        whole_EXE_raw_equal=raw_equal,whole_MAP_raw_equal=map_equal,
+        native_full_CODE_raw_equal=native_all_CODE_equal,
+        all187_literal_native_fields_equal=native_all_fields_equal,
+        all50_linked_bodies_raw_equal=all(q['raw_equal'] for q in body_comparisons),
+        original_xx_CODE_bytes=12622,candidate_xx_CODE_bytes=code_size,native_module_coordinates=coordinates,
         original_RTTI_tail_bytes=1735,candidate_RTTI_tail_bytes=tail_size,RTTI_tail_raw_equal=source.program_image[tail_start:tail_start+tail_size]==target.program_image[0x8294:0x895B],
         raw_function_comparisons=body_comparisons,
         candidate_literal_native_fields=fields,candidate_ordered_xx_MZ_words=mz,candidate_LIDATA_records=iterated,actual22_public_bindings=bindings,all_source_CODE_bytes_resolved=True,all18_interfaces_resolved_to_real_library=True,original_and_candidate_EXTDEF_vectors=[externs((WORK/'vendor/xx.obj').read_bytes()),externs(v['obj'])],literal_EXTDEF_vector_equal=True,
