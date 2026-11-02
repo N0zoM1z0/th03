@@ -154,6 +154,35 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Native exact counted strncpy
+
+A real 8086 DOS far-cdecl strncpy.asm source restores49 complete
+original CODE bytes,zero OMF fixups and the uninitialized segment
+group. Its count-limited scan/copy/zero-fill control flow is natural
+TASM source,not an embedded byte array. Combined with the previously
+proved full xx and eleven additional native CRT sources,it produces
+13832 exact original CODE bytes across13 source members,with880 other
+library members unchanged. Two TASM/TLIB/TLINK rounds reproduce the
+original decoded Japanese MAINL EXE/MAP byte-for-byte;formal accepted
+ledger remains frozen. See [counted copy](MAINL_STRNCPY_NATIVE_REVIEW.md).
+
+## New exact overlap-safe movmem and bounded strncpy
+
+The original DOS far-cdecl strncpy produces49 exact native CODE bytes,
+including its segment swaps and counted NUL/zero-fill control.
+The independent native movmem module contains a complete82-byte
+overlap-safe _movmem and a37-byte far _memmove wrapper. It matches
+all119 original CODE bytes,its single near N_PCMP@ relocation,
+both public offsets and its original BSS/DATA GRPDEF. Fourteen
+simultaneous source CRT modules including full xx now recover
+13951 exact CODE bytes;two actual TASM/TLIB/TLINK rounds produce
+the complete original Japanese decoded MAINL EXE/MAP and677
+ordered MZ relocations. All879 other native library members
+remain unchanged. The accepted28-provider library and211-owner
+publication are frozen;no formal added credit and no cold replay.
+See [movmem original source review](MAINL_MOVMEM_NATIVE_REVIEW.md)
+and [strncpy review](MAINL_STRNCPY_NATIVE_REVIEW.md).
+
 ## Signed strtol large original control-flow recovery
 
 The original 290-byte DOS BCC4.5 signed strtol translation unit is
