@@ -51,15 +51,15 @@ native611/544/206. The separate S/TASM sites remain29/95 and206/546/613.
 Both producers now retain original full-TU memcpy/memset EXTDEF indices9/10.
 No vector is sorted and no partial storage/codegen proof is counted as acceptance.
 
-Earlier controls in `.analysis/work/catch-storage-codegen-experiments.json`
-cover braces,old_value scopes,labels and optimizer profiles. The isolated674-byte
-native result is now reproduced by the maintained full TU after expressing
-unsupported386 operations in source. See [product review](MAINL_XX_PRODUCT_REVIEW.md).
-Current native CODE12622/187 matching fields and67372-byte EXE still differ only in six RTTI operands.
-The complete216-byte exceptionHandled now agrees in both its native object
-and linked function,after restoring preceding RaiseException layout.
-The published211 owners/36946 bytes and accepted28-provider library stay unchanged.
-Affected native pairs are refreshed without rebuilding the938 retained cold outputs.
+Earlier experiment receipts retain the rejected local scopes and
+switch/branch/optimizer profiles. They predate the recovered _CX mask
+and exact semantic branch labels. The maintained native product now
+matches all678 initCatchArg bytes,all187 whole-xx ordered fields,and
+the complete original Japanese decoded EXE/MAP after the independent
+RTTI operand fixes. Both exceptionHandled216 and
+_ExceptionHandler880 are also byte exact. Only the formal MAINL
+accepted-source publication remains unchanged;the source-only
+working link is not yet credited to the211-owner ledger.
 
 ## Historical rejected native controls
 
@@ -165,8 +165,8 @@ cold outputs remain valid;this miniature does not rebuild the full cold pair or
 replace the normal-library member. The later full-TU candidate does the latter.
 
 The comparator remains157 bytes and raw-equal. The refreshed scoped catch
-miniature has candidate bodies79/216/125/204/131/676 bytes,plus42 EH bytes,
-for a1473-byte bank. Whole candidate CODE is7190 with empty
+miniature has candidate bodies79/216/125/204/131/680 bytes,plus42 EH bytes,
+for a1477-byte bank. Whole candidate CODE is7194 with empty
 DATA and8 bytes of callback BSS. Fourteen interfaces remain unresolved. Original
 covered ranges total7193 bytes in three separate spans; gaps are not claimed.
 Complete catch-bank equality and full-TU acceptance remain open.

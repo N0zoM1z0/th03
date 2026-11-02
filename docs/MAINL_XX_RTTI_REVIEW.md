@@ -7,12 +7,20 @@ and136 compiler-generated RTTI/vtable bytes. `__GetTypeInfo` is131 bytes;the
 following582 bytes are a separate private near recursive search. `__DynamicCast`
 is357 bytes;its trailing descriptors are data,not instructions.
 
-This closes source presence for all12622 original CODE bytes and18 initialized
-DATA bytes,with reviewed used BSS10. **No new accepted credit.** This document's
-full-TU miniature uses BCC -S/TASM:CODE12616,181 fields,DATA18,BSS10,metadata136
-and tail1735,including one actual LIDATA zero. The normal product uses actual
-BCC `-c -y` objects:CODE12618,187 fields,metadata136 and tail1735,with one
-actual optional zero in dense LEDATA,without native LIDATA. It remains raw-different;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
+This closes natural source presence for all12,622 original CODE bytes,
+18 initialized DATA bytes and10 reviewed BSS bytes. The ordinary BCC
+-c -y normal-library product now reproduces the **entire12,622-byte original
+CODE payload,all187 literal ordered fields and the whole decoded Japanese
+MAINL EXE/MAP exactly**. Its actual native RTTI tail is1,735 bytes with
+136 metadata bytes and one optional zero in dense LEDATA. All50 complete
+linked xx function bodies agree. This is a source-exact working carrier,
+not yet a formal accepted211-owner ledger promotion.
+
+The independent BCC -S/TASM diagnostic miniature remains different:
+CODE12,619,181 fields,DATA18/BSS10,RTTI tail1,734 and metadata135.
+It has no LIDATA zero;the native product emits the real optional zero
+inside dense LEDATA. Do not normalize or conflate these two producers.
+See [normal product review](MAINL_XX_PRODUCT_REVIEW.md).
 
 ## Source and native ownership
 
@@ -20,8 +28,9 @@ The current full-TU review also checks the recovered catch local storage and its
 remaining instruction forms. initCatchArg now has the original24-byte frame;
 exceptionHandled uses the original second descriptor slot at BP-8. See
 [catch storage review](MAINL_XX_CATCH_REVIEW.md#current-catch-local-storage-recovery)
-for the diagnostic three branch forms and current native two-form initCatchArg gap. The exceptionHandled native
-object is now exact;the S/TASM miniature retains its own field order. The normal-library
+for the one remaining diagnostic S/TASM class-guard branch form. Native
+initCatchArg678 and exceptionHandled216 are both object-exact;the S/TASM
+miniature retains its own field order. The normal-library
 reviewer independently binds its actual native object payload and all50 source/
 LINNUM boundaries;it does not equate that payload to this S/TASM miniature.
 
@@ -53,10 +62,13 @@ restoration and conditional delete. Equality calls sameTypeID;inequality negates
 it. `before` returns false for null this-type,true for a null other-type,and
 otherwise compares names. A local -O1 profile recovers the complete original
 120-byte **unlinked object body**,including its two far expression temporaries.
-The original and candidate retain their actual single far strcmp field at+96,
-with literal EXTDEF8 now retained in both objects. Linked body bytes still differ
-because the surrounding carrier layout changes the call displacement. This is
-not whole-TU acceptance or relocation-record equality.
+The original and native BCC -c object retain the same single far strcmp
+field at+96 and literal EXTDEF8. The ordinary linked body now matches all
+120 bytes and that field at its original address. Earlier unequal call
+displacements belonged to the incomplete preceding translation-unit layout;
+the independent S/TASM miniature remains a different diagnostic producer.
+The complete native xx source carrier agrees raw,while its formal published
+acceptance ownership remains a separate gate.
 
 The complete18-entry import vector now agrees in native order after restoring
 the explicit far DOS declarations in xx_abi.h. Both the full-TU and normal-library
@@ -68,22 +80,21 @@ Previous scoped reset experiments omitted -Z-. Restoring -O2-pg,-Os,-O-i and
 -Z- after before preserves all following function lengths;GetTypeInfo131,private
 search582 and DynamicCast357 remain. No optimizer option push/pop is needed.
 
-Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
-Bad_typeid22,far typeinfo-pointer descriptor21,optional compiler zero,vtable12 and
-typeinfo descriptor/terminated lists60. The retained S/TASM tail is1735 bytes,including
-1599 instructions and136 metadata bytes,as in the original. The current native compilation also
-emits1735/136,with dense LEDATA rather than LIDATA. Matching one producer's tail length does not establish
-complete raw tail equality. The generated header retains size8,mask3,class flags1073h,
-base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
-All four internal far pointers bind the real typeinfo descriptor/destructor.
+Compiler-produced tail storage is reviewed completely:Bad_cast20,
+Bad_typeid22,far pointer descriptor21,the optional compiler zero,vtable12,
+and typeinfo descriptor/terminated lists60. The original and actual native
+BCC -c product both have1,735 tail bytes/136 metadata and now agree raw,
+including their real CODE-record locations and literal relocation vectors.
+The diagnostic S/TASM path instead has1,734/135 with no optional zero,
+which is preserved as an explicit negative comparison,not repaired
+by adding a fake byte. The native header retains size8,mask3,
+class flags1073h,base/virtual/member offsets48/52/56,
+WORD destructor counts1/1 and mask5. Internal far pointers resolve
+through the actual native library and final MAP.
 
-The earlier reviewer inferred the zero from final vtable-label parity. That
-assumption fails when compiler output and TASM relaxation have different offset
-estimates. The current copy-tail recovery flips actual storage presence:the
-S/TASM BCC ASM emits one optional zero through LIDATA;the native object now
-emits one zero in dense LEDATA,without any LIDATA record. The reviewer checks
-actual directive/record presence and every resulting byte in either case.
-It does not require final-address alignment or insert a missing initializer.
+The earlier assumption that final-label parity proves storage was wrong.
+The scoped reviewer now checks actual LEDATA/LIDATA records and complete
+payloads separately for native and S/TASM output.
 
 ## RTTI behavior and focused observations
 
@@ -141,6 +152,4 @@ PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_xx_rtti
 
 Source presence is250 extents/60028 gross bytes;accepted MAINL remains211 owners/
 288 procedures/36946 bytes. Publication/verifier inputs remain unchanged. The full normal-library link now recovers RaiseException1151/1151 bytes,
-390/390-byte frames and the FF10 saved-EFLAGS80h/80h observation. The remaining
-full-TU codegen gap is currently four bytes in initCatchArg;check both scoped
-and whole-product outputs before claiming further ownership. Whole-game completion remains unknown.
+390/390-byte frames and the FF10 saved-EFLAGS80h/80h observation. The complete native xx CODE,all50 linked bodies and raw Japanese decoded EXE/MAP now agree;the formal accepted-source publication remains a distinct step. Whole-game completion remains unknown.

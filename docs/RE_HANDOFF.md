@@ -76,6 +76,21 @@ natural source CRTs total124 CODE bytes. Neither the accepted28-provider
 library nor the211-owner publication is changed. See
 [three-member CRT review](MAINL_STRCMP_WORK_REVIEW.md). No full cold replay.
 
+## Four cumulative source CRT members
+
+The new memchr.asm restores37 original far-cdecl CODE bytes,its empty
+BSS-before-DATA OMF GRPDEF and its original zero-field public interface.
+Two complete source-only TASM/TLIB/TLINK rounds retain the earlier
+memcpy36/memcmp40/strcmp48 members and replace the original member259
+with memchr. All889 remaining original member program records agree.
+The four reconstructed routines total161 CODE bytes and their
+entire67,372-byte decoded Japanese MAINL EXE and MAP are raw-equal
+with677 ordered relocations. The unchanged28-source accepted library
+and211-owner publication are separate;no new accepted credit is booked.
+See [four-member CRT review](MAINL_MEMCHR_WORK_REVIEW.md). The
+independent cumulative CRT builder can re-check further original
+members without a full cold replay.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
@@ -103,8 +118,8 @@ is provider29;the accepted28-provider library and published211 owners stay uncha
 Both EXEs have4096-byte headers/677 relocations and agree raw,including their complete MAP.
 Both objects now link at DGROUP0E3F with no remaining paragraph shift.
 All CODE bytes resolve through18 real library interfaces;all22 public bindings
-pass. The complete CODE byte vector,not just its length,now matches. Matching field counts
-also do not establish complete literal ordered field equality.
+pass. The complete CODE byte vector and the full literal187 ordered-field
+vectors,not merely their lengths or counts,now match.
 
 Current useful proofs and open questions:
 
