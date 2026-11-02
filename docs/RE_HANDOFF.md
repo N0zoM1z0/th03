@@ -91,6 +91,18 @@ See [four-member CRT review](MAINL_MEMCHR_WORK_REVIEW.md). The
 independent cumulative CRT builder can re-check further original
 members without a full cold replay.
 
+## Five cumulative source CRT members
+
+The newly recovered memset.asm contains the exact72 original DOS CODE
+bytes,including native _setmem and _memset far entries. With the
+existing memchr/memcmp/memcpy/strcmp sources,the five-member scoped library
+now has233 byte-exact source CODE bytes at indices259/260/261/263/292.
+The other888 original CRT members remain unchanged. Two actual isolated
+TASM/TLIB/TLINK runs rebuild the full original67,372-byte Japanese MAINL
+EXE and MAP raw equal,with677 original relocations. The accepted28-source
+library and211-owner ledger are still unchanged. See
+[five-member CRT review](MAINL_MEMSET_WORK_REVIEW.md).
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
