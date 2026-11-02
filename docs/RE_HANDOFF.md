@@ -154,6 +154,22 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Native DOS strcspn and twenty-one-source original MAINL
+
+The natural strcspn.asm source now reconstructs73 exact original
+CODE bytes of the far rejection-set loop,including the actual
+text-first far character comparison,4-byte stack set cursor and
+zero ordered FIXUPP fields. It differs fundamentally from the
+previous accept-set strspn stop condition;both are independently
+assembled/compared to their pinned original CRT owners. Together
+with the465-byte scantol and18 prior modules,the21-source
+native library has16406 original CODE bytes from real source,
+with872 of893 other original CRT programs unchanged. Two actual
+TASM/TLIB/TLINK rounds keep the full Japanese decoded MAINL
+EXE/MAP and677 MZ relocations raw-equal. The accepted211-owner
+publication is unchanged;no full cold replay. See
+[original strcspn review](MAINL_STRCSPN_NATIVE_REVIEW.md).
+
 ## Original DOS far strspn and twenty-source MAINL native link
 
 The new natural 8086 strspn.asm at original CRT member311 reproduces
