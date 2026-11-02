@@ -47,3 +47,26 @@ class OriginalNativePostTZ(unittest.TestCase):
         self.assertEqual(q['imports'],['__environ'])
         self.assertEqual([f['site'] for f in q['ordered_fields']],[35])
         self.assertEqual(q['ordered_fields'][0]['frame_method'],5)
+
+
+    @unittest.skipUnless((ROOT/(PREFIX+'lsearch-getenv-access-build.json')).is_file(),
+                         'original natural BCC access pair not retained')
+    def test_exact_far_DOS_access_C_wrapper(self):
+        self.check('lsearch-getenv-access',61,28551)
+        q=review('lsearch-getenv-access')['actual_original_source_profiles']['access']
+        self.assertEqual(q['CODE_bytes'],26)
+        self.assertEqual(q['public'],[[0,'_access']])
+        self.assertEqual(q['imports'],['__access'])
+        self.assertEqual([f['site'] for f in q['ordered_fields']],[15])
+        self.assertEqual(q['ordered_fields'][0]['frame_method'],5)
+
+    @unittest.skipUnless((ROOT/(PREFIX+'lsearch-getenv-access-tolower-build.json')).is_file(),
+                         'original native ASCII tolower pair not retained')
+    def test_original_ctype_based_tolower(self):
+        self.check('lsearch-getenv-access-tolower',62,28599)
+        q=review('lsearch-getenv-access-tolower')['actual_original_source_profiles']['tolower']
+        self.assertEqual(q['CODE_bytes'],48)
+        self.assertEqual(q['public'],[[0,'_tolower']])
+        self.assertEqual(q['imports'],['__ctype'])
+        self.assertEqual([f['site'] for f in q['ordered_fields']],[26])
+        self.assertEqual(q['ordered_fields'][0]['frame_method'],1)

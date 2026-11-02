@@ -28,6 +28,8 @@ PREFIX='.analysis/work/mainl-posttzset-'
 MODES={
     'lsearch':('lsearch',),
     'lsearch-getenv':('lsearch','getenv'),
+    'lsearch-getenv-access':('lsearch','getenv','access'),
+    'lsearch-getenv-access-tolower':('lsearch','getenv','access','tolower'),
 }
 NATIVE={
     'lsearch':dict(index=247,size=202,data=0,
@@ -36,6 +38,12 @@ NATIVE={
     'getenv':dict(index=240,size=112,data=0,
                   publics=[(0,'_getenv')],exts=['__environ'],
                   group='08ff03ff02',fields=1,kind='asm'),
+    'access':dict(index=193,size=26,data=0,
+                  publics=[(0,'_access')],exts=['__access'],
+                  group='08ff02ff03',fields=1,kind='cpp'),
+    'tolower':dict(index=131,size=48,data=0,
+                   publics=[(0,'_tolower')],exts=['__ctype'],
+                   group='08ff02ff03',fields=1,kind='asm'),
 }
 
 TASM_FLAGS=['/m','/mx','/kh32768','/t']

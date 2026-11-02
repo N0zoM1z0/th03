@@ -60,6 +60,21 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Natural Borland DOS access and 61-source Japanese MAINL
+
+The real DOS far access CRT member193 now has exact
+high-level BCC4.5 source in access.cpp, producing all26
+original CODE bytes, the genuine far __access import
+and one original TARGET-framed fixup at CODE+15 with
+correct PUBLIC/EXTDEF/group. Two complete BCC/TASM/TLIB/
+TLINK rounds with61 genuine source CRT members reproduce
+the entire 67,372-byte decoded Japanese MAINL EXE/MAP
+raw-equal with all677 MZ relocations; the other832 of893
+original vendor members remain untouched. Source CODE
+reaches **28,551 original bytes**. Other old OMF metadata
+gaps remain OPEN; formal ledger frozen, no cold replay.
+See [natural access review](MAINL_ACCESS_NATIVE_REVIEW.md).
+
 ## Exact DOS getenv far environment vector and 60-source MAINL
 
 Original CRT getenv member240 now has native 8086 source:
