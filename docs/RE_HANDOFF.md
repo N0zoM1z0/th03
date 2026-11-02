@@ -79,7 +79,7 @@ Current useful proofs and open questions:
   and339/372-byte type helpers. The four virtual-base SI transfers use register
   variables;nonvirtual ASM transfers retain the final branch shape.
 - Six original forward FAR CALLs are retained. Complete linked destruction
-  bodies129/715 agree. All50 bodies are compared;32 agree raw. These bounded
+  bodies129/715 agree. All50 bodies are compared;34 agree raw. These bounded
   observations add no accepted bytes while xx remains unaccepted.
 - dtorCleanup1035/frame32 now differs in one local CALL displacement
   byte;ExceptionHandler880/frame56 has five operand-byte differences.
@@ -89,6 +89,10 @@ Current useful proofs and open questions:
 - initCatchArg remains674 versus678/frame24,with two original branch forms
   not yet recovered. exceptionHandled now matches all216 native and linked
   bytes/frame8 via symbolic descriptor LES and typed ES:BX access.
+- The89/170-byte public throw/rethrow wrappers now both match complete
+  native and linked bodies. Original local ordering is caller-PC DWORD
+  first,then optional exception pointer,and the frame WORD last;the
+  previous opposite order emitted the wrong BP stack slots.
 - RaiseException now matches all1151 native and linked bytes,five ordered
   native fields,and its390-byte frame. A real48-byte stack-local resume
   image supplies the empty hook's SS pointer. Both SP=FF00 and SP=FF10

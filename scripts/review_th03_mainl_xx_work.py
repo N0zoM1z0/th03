@@ -254,6 +254,28 @@ def review(root,report=None):
     for data,mapping in [(target.program_image,original_table),(source.program_image,table)]:
         alternate.append(raise_run(data,address(mapping,'_RaiseException')[1],'raise-386-context',handler,address(mapping,'__8086')[1],address(mapping,'_memcpy')[1],stack_offset=0xFF10))
     need(alternate[0]==alternate[1] and [q['context'][13] for q in alternate]==[128,128], 'native frame restores complete alternate-SP Raise record/context and saved flags')
+    # The throw wrappers were previously only length-equal. Verify actual
+    # near/SS stack local offsets and all emitted relocation sites against
+    # the original xx.obj before crediting them as exact linked functions.
+    throw_wrappers=[]
+    for i in (12,13):
+        old,new=original_bodies[i],procedures[i]
+        original_start=old['start']-0x580D
+        current_start=new['start']
+        original_code=bytes(op[1,j] for j in
+            range(original_start,original_start+old['size']))
+        native_code=bytes(p[1,j] for j in
+            range(current_start,current_start+new['size']))
+        wrapper_fields=[]
+        for obj,start in ((original,original_start),(v['obj'],current_start)):
+            wrapper_fields.append([dict(field,site=field['site']-start)
+                for field in literal_fields(obj)
+                if field['segment']==1 and start<=field['site']<start+old['size']])
+        need(old['size']==new['size'] and original_code==native_code and
+            wrapper_fields[0]==wrapper_fields[1],
+            'complete native throw wrapper bytes and literal ordered fields')
+        throw_wrappers.append(dict(name=old['name'],bytes=old['size'],
+            native_object_raw_equal=True,original_and_candidate_fields=wrapper_fields))
     # Validate the restored 48-byte local through actual code and OMF fixups,
     # not through matching the stack allocation alone.
     old_raise_offset=original_bodies[18]['start']-0x580D
@@ -306,6 +328,8 @@ def review(root,report=None):
     need(body_comparisons[18]['name']=='RaiseException' and body_comparisons[18]['raw_equal'] and
         body_comparisons[20]['name']=='exceptionHandled' and body_comparisons[20]['raw_equal'],
         'full native-linked Raise1151 and exceptionHandled216 match original at their actual addresses')
+    need(all(body_comparisons[i]['raw_equal'] for i in (12,13)),
+        'two whole linked throw wrapper bodies are byte exact')
     need(body_comparisons[15]==dict(name='dispatchException',original_bytes=140,candidate_bytes=140,size_delta=0,raw_equal=True),'complete140-byte normal-linked dispatcher matches the fixed target without normalization')
     need(body_comparisons[2]==dict(name='sameTypeID',original_bytes=157,candidate_bytes=157,
         size_delta=0,raw_equal=True) and base+procedures[2]['start']==0x583E and
@@ -331,6 +355,7 @@ def review(root,report=None):
         comparator_codegen=comparator,compatibility_codegen=compatibility,destruction_codegen=destruction,
         exception_handler_codegen=exception_handler,catch_storage_codegen=catch_storage,
         original_and_candidate_CODE_fixup_blocks=fixup_blocks,handler_CODE_fixup_blocks=handler_blocks,
+        exact_throw_wrappers=throw_wrappers,
         native_call_adapter_tables=call_tables,
         target_and_source_RTTI_probes=probes,target_and_source_real_memcpy_raise_probe=raise_pair,alternate_stack_offset=0xFF10,alternate_stack_real_memcpy_raise_probe=alternate,raw_Raise_argument_copy_bytes=71,
         native_Raise_object_raw_equal=raise_object_raw_equal,

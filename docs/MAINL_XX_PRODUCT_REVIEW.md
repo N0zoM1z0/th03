@@ -95,7 +95,7 @@ current field is checked for its actual9A opcode,far shape and real callee.
 Complete linked destroyBases129 and destroyVariable715 now agree. Their linked
 raw equality is a complete function-body observation within the unaccepted TU.
 
-All50 complete linked bodies are compared;32 currently agree raw. Other useful
+All50 complete linked bodies are compared;34 currently agree raw. Other useful
 partial findings remain explicitly separate:
 
 - dtorCleanup1035/frame32 differs only at object offsets976/977 in the
@@ -104,6 +104,10 @@ partial findings remain explicitly separate:
 - ExceptionHandler880/frame56 differs at seven object operand bytes. All854
   other bytes agree. Its12-byte table has original relative destinations and
   descending field order10/8/6/4/2/0. Body-field order still differs.
+- The public89-byte _ThrowException and170-byte _ReThrowException
+  now agree as complete native objects and linked bodies. Merely
+  rearranging real local declarations restores original BP stack slots
+  for the saved return PC,exception descriptor and frame WORD.
 - initCatchArg674 versus678 recovers the class guard,leaving two reference
   branch forms. exceptionHandled now has an exact216-byte native object body:
   symbolic-offset LES and typed ES:BX access remove the last redundant reload.

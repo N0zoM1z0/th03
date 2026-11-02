@@ -94,8 +94,10 @@ void far __cdecl _ThrowException(void far *type,void far *address,
     void far *friends,void far *copy_constructor,unsigned copy_mask,
     unsigned flags,unsigned line,unsigned char far *file)
 {
-    unsigned frame;
+    // Borland allocates stack locals in declaration order. The original
+    // preserves the caller PC at BP[-4,-1] and the frame WORD beneath it.
     unsigned long pc;
+    unsigned frame;
     asm mov frame,bp;
     pc = *(unsigned long __ss *)(frame+2);
     tossAnException((xx_type_ptr)type,address,(xx_type_ptr far *)friends,
@@ -105,9 +107,10 @@ void far __cdecl _ThrowException(void far *type,void far *address,
 
 void far __cdecl _ReThrowException(unsigned line,unsigned char far *file)
 {
-    unsigned frame;
+    // Original stack order: caller PC[-4], exception[-8], frame[-10].
     unsigned long pc;
     xx_exception_ptr exception;
+    unsigned frame;
     asm mov frame,bp;
     pc = *(unsigned long __ss *)(frame+2);
     exception = XX_RUNTIME->exceptions;

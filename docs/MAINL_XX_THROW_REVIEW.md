@@ -47,6 +47,16 @@ bytes,with no extra registration argument. The DOS exception code is0EEFFACEh.
 The descriptor argument is cached in a typed local,restoring the original72-byte
 toss frame. The name-source address is evaluated before the destination.
 
+The real89-byte throw wrapper and170-byte rethrow wrapper now reproduce
+every native OBJ byte and the linked bytes at their original addresses.
+Borland's declaration-order stack layout places the saved caller PC DWORD
+at BP[-4,-1]. _ThrowException places the frame WORD below it at BP-6.
+_ReThrowException places the exception far pointer at BP[-8,-5] and
+the frame WORD at BP-10. No extra stack object or hand-written machine
+bytes are needed. The complete emitted relocation vectors are compared
+literally in the normal linked product review. Their earlier correct
+function lengths did not establish this equality.
+
 The private dispatcher calls handlers with a far exception record,a near SS
 registration,a far context and zero DWORD argument. Zero means handled;all other
 return values continue the chain. Flags6 select unwind chain updates,which stop

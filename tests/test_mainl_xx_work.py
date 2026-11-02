@@ -76,7 +76,15 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
         self.assertTrue(next(q for q in r['raw_function_comparisons']
             if q['name']=='exceptionHandled')['raw_equal'])
-        self.assertEqual(sum(q['raw_equal'] for q in r['raw_function_comparisons']),32)
+        self.assertEqual(sum(q['raw_equal'] for q in r['raw_function_comparisons']),34)
+        self.assertEqual([(q['name'],q['bytes'],q['native_object_raw_equal'])
+            for q in r['exact_throw_wrappers']],
+            [('_ThrowException',89,True),('_ReThrowException',170,True)])
+        for wrapper in r['exact_throw_wrappers']:
+            self.assertEqual(wrapper['original_and_candidate_fields'][0],
+                wrapper['original_and_candidate_fields'][1])
+            self.assertTrue(next(q for q in r['raw_function_comparisons']
+                if q['name']==wrapper['name'])['raw_equal'])
         self.assertEqual(r['raw_Raise_argument_copy_bytes'],71)
         self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
         self.assertTrue(r['native_Raise_object_raw_equal'])

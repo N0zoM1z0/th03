@@ -20,6 +20,10 @@ records bind all50 bodies to actual transported definitions. Earlier S/TASM
 miniatures remain separate diagnostics with different codegen/field order.
 See [product review](MAINL_XX_PRODUCT_REVIEW.md) for complete current metrics.
 
+The complete89/170-byte throw/rethrow wrappers are now native-object
+and linked-body exact after restoring original declaration-order local
+stack slots. They save the caller PC at BP-4;only rethrow stores the far
+exception descriptor at BP-8 before its BP-10 frame WORD.
 Useful current recoveries include the complete1495-byte call-adapter bank and
 88 literal ordered fields within the matching2822-byte native prefix;the
 715/129-byte destruction bodies;the157-byte comparator;and handler880/frame56
