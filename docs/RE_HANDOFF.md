@@ -40,6 +40,23 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Original buffered fread and 28-source native MAINL
+
+The large original DOS fread member229 is now a full source
+8086 translation unit:283-byte private near buffered/core
+reader plus154-byte public far _fread entry at CODE+283.
+All437 original CODE bytes, four literal ordered mixed
+far/near FIXUPPs to __rtl_read/__fgetc/N_LXMUL@/N_PADD@,
+original public and DATA/BSS owner geometry match real
+TASM output. The 28-source original CRT preserves all865
+of893 other vendor programs and produces the complete
+Japanese decoded 67,372-byte MAINL EXE/MAP byte-for-byte
+in both native TASM/TLIB/TLINK rounds with677 MZ relocations.
+Combined exact original source CODE is **18,702 bytes**.
+Formal accepted ledger/28-provider CRT remains separate,
+without additional booked credit or full cold replay.
+See [native fread reconstruction](MAINL_FREAD_NATIVE_REVIEW.md).
+
 ## Exact natural C++ strset and 27-source MAINL
 
 Original Borland large-model strset.cpp now naturally compiles
