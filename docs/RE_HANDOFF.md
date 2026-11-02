@@ -62,6 +62,26 @@ CRT member programs are unchanged, cumulative source CODE
 remain separately open, accepted ledger frozen, no full cold
 replay. See [strftime source review](MAINL_STRFTIME_WORK_REVIEW.md).
 
+## Full 1,256-byte DOS strftime and 52-source Japanese MAINL
+
+The original strftime CRT member298 has a real native 8086
+source with **1,256 exact CODE bytes and18 initialized DATA
+bytes**. The CODE comprises1,168 executable instruction bytes
+and88 real format-character/symbolic switch-table bytes.
+All66 OMF relocations have the original site, target and
+literal writer order; four near __UTOA calls at+723/774/
+811/879 retain a **raw OMF frame difference**: BCC original
+TARGET5 vs TASM CODE0. All genuine CODE/DATA, public,
+twelve imports and group are exact. Both real native
+TASM/TLIB/TLINK rounds with52 original source CRT members
+reproduce the entire **67,372-byte decoded Japanese MAINL
+EXE and original MAP byte-for-byte**, preserving all677 MZ
+relocations, leaving841 other vendor members unchanged.
+Cumulative source CODE reaches **26,971 original bytes**.
+Inherited fopen/fclose/timecvt metadata gaps remain OPEN,
+accepted ledger unchanged,no full cold replay.
+See [original strftime source/product review](MAINL_STRFTIME_WORK_REVIEW.md).
+
 ## Natural Borland fputs and 51-source original MAINL
 
 The genuine far-cdecl fputs.cpp now naturally compiles
