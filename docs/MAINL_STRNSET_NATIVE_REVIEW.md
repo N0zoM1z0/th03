@@ -1,35 +1,40 @@
-# Original native strnset and sixteen simultaneous MAINL source members
+# Original DOS strnset: real bounded string fill, source exact
 
-The original large-model DOS strnset is now maintained as natural
-Borland C++ 4.5 source in src/mainl/crt/strnset.cpp. Its bounded fill
-first calls the actual far strlen provider, clamps the requested
-character count to the observed length, then calls the real _setmem
-far CRT helper and returns its unchanged destination far pointer.
-The original character argument is a WORD int;changing it to an
-8-bit formal changes the compiler output.
+The maintained src/mainl/crt/strnset.cpp reconstructs the original
+58-byte Borland DOS large-model far-cdecl counted string-set function.
+The actual source uses far strlen to determine the existing string
+length,keeps the shorter of that length and the caller's WORD limit,
+then calls the genuine far setmem helper and returns the original
+far destination. It retains the original length less than n comparison
+order,which BCC4.5 turns into the original CMP DX,[BP+12]; JAE.
+A reversed but mathematically equivalent comparison changes actual
+opcodes and is not the retained source. The original parameter
+is an INT WORD,not a character-sized ABI argument.
 
-The source reproduces all **58 original CODE bytes**, the original
-one public _strnset, zero DATA/BSS, DATA-before-BSS GRPDEF and all
-**two literal ordered OMF far-call fields**, to _strlen and _setmem.
-Alternative syntax and parameter types were actually compiled:
-several superficially equivalent ternaries and reversed comparisons
-changed the object. The selected natural C++ therefore follows
-original code generation without byte tables or binary modifications.
+Two actual BCC4.5 native compilations each reproduce **all58 CODE
+bytes** of the original vendor strnset.obj,with the original
+far public _strnset,empty DATA/BSS and original DATA-before-BSS
+GRPDEF. Both original runtime EXTDEF entries are preserved in their
+literal order: _strlen and _setmem. Both **actual OMF FIXUPPs at
+CODE offsets41 and12**,their field shapes,targets and writer order
+are identical. No byte arrays,original object patches,synthetic
+padding or changed unchecked behavior are involved.
 
-The scoped native producer inherits fifteen exact source CRT objects
-including complete xx, natural signed/unsigned parsers, tokenizer,
-overlap-safe movmem and bounded strncat;then compiles strnset using
-real BCC4.5 and replaces precisely original library slot306 in the
-893-member MAINL CRT. **All 877 other original member program
-records remain byte-identical**. Two independent native BCC/TLIB/TLINK
-rounds generate the complete **67,372-byte Japanese decoded MAINL EXE**
-and its original MAP raw-equal, including **677 original MZ relocations**.
-The simultaneous source-built CODE total is now **14,114 bytes**.
+The source-only native linker inherits the 15 verified real source
+members including the entire 12622-byte xx exception/RTTI TU,
+near/far memmove and both integer parsers. It compiles this new
+strnset source twice at the original library member index306,
+preserves all **877 other original member program records** in the
+893-member CRT,and performs two genuine TLIB/TLINK rounds. Both
+rounds reproduce the **entire 67,372-byte decoded Japanese MAINL
+EXE** and original MAP byte-for-byte,including all677 MZ relocations.
+The combined source-built original CODE extent now totals
+**14,114 bytes** across16 source members.
 
-No full cold or DIET replay was performed. The accepted 28-provider CRT
-library and published 211-owner MAINL ledger remain frozen: this is
-true source-only reconstruction evidence, *not newly credited accepted
-bytes*. The target still has candidate-local-attested provenance.
+This is verified exact source in the isolated working CRT,not
+automatic acceptance into the repository's frozen211-owner MAINL
+publication or28-provider accepted CRT. Original fixed targets,
+source cold outputs and DIET stage remain unchanged.
 
 Affected-only reproduction:
 
@@ -37,5 +42,6 @@ Affected-only reproduction:
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_strnset_work.py
     PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_strnset_work
 
-The private .analysis/work/strnset-roundN-* native raw vectors, phase
-logs and source-bound receipts are retained for independent review.
+The two complete original-native BCC OBJ/LIB/EXE/MAP vectors,
+phase logs and bound receipts are retained under
+.analysis/work/strnset-* and mainl-strnset-native-{build,review}.json.
