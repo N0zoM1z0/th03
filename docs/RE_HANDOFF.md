@@ -66,6 +66,18 @@ See [combined source review](MAINL_MEMCMP_WORK_REVIEW.md).
 The accepted211 owners/28-provider library remain unchanged,so no
 published additional exact credit is claimed and no full cold is run.
 
+## Cumulative three-source CRT link
+
+Original DOS strcmp is now a 48-byte byte-for-byte source/OBJ match with
+zero fixups and verified BSS-before-DATA GRPDEF. The retained two-source
+memcpy/memcmp library is reused and the original strcmp member at index292
+is replaced. Two TASM/TLIB/TLINK rounds preserve the remaining890 vendor
+member programs and reproduce the entire67,372-byte decoded Japanese
+MAINL EXE and its native MAP,including677 MZ relocations. All three
+natural source CRTs total124 CODE bytes. Neither the accepted28-provider
+library nor the211-owner publication is changed. See
+[three-member CRT review](MAINL_STRCMP_WORK_REVIEW.md). No full cold replay.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
