@@ -40,6 +40,21 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Exact DOS strlwr and 49-source original MAINL
+
+The new large-model far strlwr.asm reconstructs all38 original
+CODE bytes of in-place ASCII upper-to-lowercase conversion,
+the original DS:SI LODSB loop and far DX:AX return ABI.
+Its one PUBLIC, zero external imports/fixups and literal
+BSS/DATA group are source-original. Two real TASM/TLIB/TLINK
+rounds with49 original source CRT members produce the entire
+Japanese decoded MAINL EXE/MAP byte-for-byte, including all
+677 MZ relocations, leaving844 of893 CRT vendor programs
+unchanged. Joint native source CODE reaches **25,485
+original bytes**. Earlier fopen/fclose/timecvt OMF gaps
+and accepted ledger remain untouched. No full cold replay.
+See [strlwr original native review](MAINL_STRLWR_NATIVE_REVIEW.md).
+
 ## Original DOS/Unix time conversion and 48-source MAINL
 
 The complete CRT _timecvt member184 is now authored in
