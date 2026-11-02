@@ -40,6 +40,22 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Original gets 135 bytes and 38-source CRT normal link
+
+The far-cdecl DOS gets is now fully recovered in native
+8086 source,135/135 original CODE bytes and all6 literal
+descending OMF fields referencing actual __streams and
+far __fgetc. It preserves the real stdin FILE state and
+unchecked newline/EOF behavior without adding modern guards.
+The 38-source working MAINL CRT includes fgets and the big
+stat module, producing **21,564 original source CODE
+bytes** while855 of893 vendor members remain unchanged.
+Two real TASM/TLIB/TLINK rounds reproduce the complete
+Japanese decoded MAINL EXE/MAP with all677 relocations
+byte-for-byte. Earlier fopen/fclose OMF gaps remain open,
+accepted ledger unchanged,no full cold replay.
+See [native gets review](MAINL_GETS_NATIVE_REVIEW.md).
+
 ## Exact DOS fgets 154-byte stream reader, 37-source MAINL
 
 The original far-cdecl fgets now has a maintained, native
