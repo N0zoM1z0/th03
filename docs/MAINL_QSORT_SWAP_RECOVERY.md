@@ -5,7 +5,9 @@ The original Japanese MAINL Borland CRT qsort member at index275 contains
 context:four bytes for the far comparator and a two-byte element width.
 The full original has three routines:the private near element-swap
 helper at0, a large private near quicksort/partition core at46 and the
-public far qsort entry at712. The recursive core is STILL OPEN.
+public far qsort entry at712. The recursive body uses the genuine
+N_LXMUL@ and N_LDIV@ near arithmetic helpers;these are original
+imports,not stand-in math behavior. The recursive core is STILL OPEN.
 
 The maintained bounded source src/mainl/crt/qswap.inl now reconstructs
 all **46 original bytes** of the first helper and the first literal
