@@ -40,6 +40,22 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Exact natural C++ strset and 27-source MAINL
+
+Original Borland large-model strset.cpp now naturally compiles
+to all46 original CODE bytes;its nested setmem(destination,
+strlen(destination),value) preserves the real right-to-left
+evaluation,far pointer ABI and both TARGET-framed descending
+strlen/setmem OMF FIXUPPs at sites29/15. A27-source CRT
+includes this new original member310 with all previous
+scanner,sorting,xx,path and CRT sources. It leaves866 of893
+other member records unchanged and regenerates the whole
+67,372-byte Japanese decoded MAINL EXE/MAP raw-equal in
+both actual BCC/TLIB/TLINK rounds,with677 relocations.
+The cumulative exact source CODE is **18,265 bytes**.
+No accepted-ledger credit or full cold replay is claimed.
+See [original strset review](MAINL_STRSET_NATIVE_REVIEW.md).
+
 ## Native DOS strrev in-place far string reversal
 
 Original far strrev at CRT member309 now has all52 CODE bytes
