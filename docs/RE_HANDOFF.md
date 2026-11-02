@@ -154,6 +154,22 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Original DOS far strspn and twenty-source MAINL native link
+
+The new natural 8086 strspn.asm at original CRT member311 reproduces
+82/82 original CODE bytes,its original local far set cursor,
+DATA-before-BSS DGROUP,public near/far ABI and zero OMF fields.
+The original input/set dereference order matters:earlier equivalent
+BCC C++ sources changed instruction order or spilled an extra local.
+It now joins scantol465, both qsort sorting bosses, xx and the
+other proven CRT modules in a20-source original library.
+The other873 of893 member programs remain unchanged,while
+both TASM/TLIB/TLINK rounds produce the entire fixed original
+67,372-byte Japanese decoded MAINL EXE and MAP raw-equal with
+677 MZ relocations. The native source-built CODE scope is
+16,333 bytes,not additional accepted ledger credit.
+No full cold replay. See [strspn source review](MAINL_STRSPN_NATIVE_REVIEW.md).
+
 ## Exact 465-byte DOS scantol and nineteenth source member
 
 Original integer scanner scantol member110 has a complete maintained
