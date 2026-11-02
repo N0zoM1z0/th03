@@ -116,6 +116,30 @@ The accepted28-source CRT/211-owner publication remains separately frozen;
 this is source-only working evidence,not new ledger credit.
 See [native strlen review](MAINL_STRLEN_WORK_REVIEW.md). No full cold replay.
 
+## Seven-source DOS memory/string CRT native link
+
+The alignment-aware63-byte far `strchr.asm` now also matches the entire
+original object code,one public symbol and all empty segment/group
+ownership. Seven source members (memchr,memcmp,memcpy,memset,strchr,strcmp,
+strlen) provide329 native-exact CODE bytes in original library slots
+259/260/261/263/291/292/300;the other886 native members stay untouched.
+Two isolated TASM/TLIB/TLINK rounds reproduce the full original67,372-byte
+Japanese decoded MAINL EXE and complete MAP byte-for-byte,including all677
+MZ relocations. The accepted211-owner publication and28-provider library
+remain frozen,no new formal accepted byte credit and no full cold replay.
+See [strchr source recovery](MAINL_STRCHR_WORK_REVIEW.md).
+
+## Seven cumulative source CRT members
+
+strchr.asm adds63 exact DOS bytes with the original far-pointer
+word/byte search ABI. The seven-member native source CRT now totals
+329 CODE bytes (including the dual-entry memset),at original
+members259/260/261/263/291/292/300. The other886 members are
+untouched. Both independent TASM/TLIB/TLINK rounds produce entire
+original decoded Japanese MAINL EXE/MAP,677 relocations and matching
+native member ownership. See [seven-source CRT review](MAINL_STRCHR_WORK_REVIEW.md).
+The accepted ledger remains deliberately unchanged.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
