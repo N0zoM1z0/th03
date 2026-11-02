@@ -53,6 +53,19 @@ and28-source library are deliberately unchanged;no new ledger exact credit.
 See [native memcpy review](MAINL_MEMCPY_WORK_REVIEW.md) for the scoped commands
 and retained private raw pairs. No full cold replay is needed.
 
+## Independent native memcmp source and combined CRT link
+
+The new src/mainl/crt/memcmp.asm exactly reproduces40 original DOS
+memcmp CODE bytes,its no-fixup OMF public interface,and the original
+BSS-before-DATA group record. A two-round scoped producer reuses the
+retained exact source memcpy library,then replaces original members260
+and261 with these two maintained CRT sources. All891 other real members
+are unchanged. Full decoded Japanese MAINL EXE (67,372 bytes) and MAP
+match raw in both rounds;677 original MZ relocation entries are retained.
+See [combined source review](MAINL_MEMCMP_WORK_REVIEW.md).
+The accepted211 owners/28-provider library remain unchanged,so no
+published additional exact credit is claimed and no full cold is run.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
