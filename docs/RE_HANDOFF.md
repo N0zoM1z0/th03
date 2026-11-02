@@ -40,6 +40,26 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Real DOS tempnam and 53-source original Japanese MAINL
+
+The existing uncommitted DOS far tempnam source has now been taken
+through real native TASM/OMF and full TLIB/TLINK product verification
+rather than discarded. It reproduces **all395 original CODE bytes
+and6 initialized TMP-prefix DATA bytes**, all nine genuine imported
+runtime symbols and14 ordered literal OMF relocation sites/targets.
+One original near __MKNAME call at CODE+309 has a BCC TARGET-frame5
+versus TASM CODE-frame0, explicitly reviewed as the only native
+metadata difference. Two normal native rounds insert tempnam into
+the original CRT at member320 alongside the 52 previous source
+modules and reproduce the **entire original 67,372-byte Japanese
+decoded MAINL EXE and MAP raw-equal**, including all677 MZ
+relocations. The other840 of893 vendor member program records
+are unchanged; joint source CODE scope reaches **27,366 exact
+original bytes**. Earlier strftime/_timecvt/fopen/fclose original
+OMF gaps remain open, frozen accepted ledger unchanged and
+no full cold replay. See
+[tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
+
 ## Complete 1,256-byte strftime and 52-source Japanese MAINL
 
 The original far strftime member298 is now readable native 8086
