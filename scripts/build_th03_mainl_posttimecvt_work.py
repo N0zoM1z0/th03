@@ -26,17 +26,17 @@ DRIVER='scripts/build_th03_mainl_posttimecvt_work.py'
 PREFIX='.analysis/work/mainl-posttimecvt-'
 MODES={
     'strlwr':('strlwr',),
-    'strlwr-strncat':('strlwr','strncat'),
-    'strlwr-strncat-perror':('strlwr','strncat','perror'),
+    'strlwr-perror':('strlwr','perror'),
+    'strlwr-perror-fputs':('strlwr','perror','fputs'),
 }
 NATIVE={
     'strlwr':dict(index=301,size=38,data=0,publics=[(0,'_strlwr')],
                   exts=[],group='08ff03ff02',fields=0),
-    'strncat':dict(index=302,size=105,data=0,publics=[(0,'_strncat')],
-                   exts=['_strlen','_movmem'],group='08ff02ff03',fields=3),
     'perror':dict(index=269,size=145,data=19,publics=[(0,'_perror')],
                   exts=['__streams','_fputs','__sys_errlist','__sys_nerr','_errno'],
                   group='08ff02ff03',fields=17),
+    'fputs':dict(index=228,size=85,data=0,publics=[(0,'_fputs')],
+                 exts=['__FPUTN','_strlen'],group='08ff02ff03',fields=2),
 }
 
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
@@ -111,6 +111,8 @@ def main(mode):
     os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
     if os.nice(0)<10:os.nice(10-os.nice(0))
     base,files,accepted,members,previous_sources,parenthash=retained()
+    need(not set(names)&set(previous_sources[0]),
+         'refuse to overwrite a previously reconstructed native source member')
     need(all(members[NATIVE[name]['index']].name==name for name in names),
          'original named member slots for scoped source extension')
     originals={name:(WORK/'vendor'/(name+'.obj')).read_bytes() for name in names}

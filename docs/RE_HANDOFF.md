@@ -40,6 +40,26 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Original DOS perror error formatting and 50-source MAINL
+
+The new far perror CRT member269 has a true TASM source
+with all145 original CODE bytes,19 real initialized
+Unknown error/colon/newline DATA bytes and17 literal
+ordered FIXUPPs to _errno,__sys_nerr,__sys_errlist,
+__streams+40,_fputs and the three local strings. It
+joins strlwr and48 earlier source CRT owners in a
+50-source working library. The other843 of893 original
+CRT programs remain untouched;two native TASM/TLIB/
+TLINK rounds reproduce the complete Japanese decoded
+MAINL EXE/MAP byte-for-byte with677 original MZ
+relocations. Joint source CODE reaches **25,630 bytes**.
+The builder now prevents duplicate source replacements;
+the strncat experimental ASM was redundant because
+strncat is already a native-reconstructed CRT owner.
+Prior fopen/fclose/timecvt OMF gaps remain open,formal
+ledger unchanged,no full cold replay.
+See [perror native review](MAINL_PERROR_NATIVE_REVIEW.md).
+
 ## Exact DOS strlwr and 49-source original MAINL
 
 The new large-model far strlwr.asm reconstructs all38 original
