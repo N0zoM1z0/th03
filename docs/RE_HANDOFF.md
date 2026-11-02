@@ -40,6 +40,26 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## fopen original 556-byte CODE and 33-source product-exact link
+
+The large four-routine DOS fopen.asm now emits all556 original
+CODE bytes, with the private212-byte near mode parser, near public
+__OPENFP210, near public __GETFP77, and far _fopen57.
+The 12 *logical* OMF fields match original sites/targets/frames
+but native literal FIXUPP ORDER is OPEN: BCC writes the two
+relocation sites within each MOV at +174 and +180 backwards
+from TASM. Attempts using genuine Borland inline ASM confirmed
+the field-order difference, but have not recovered original
+212-byte parser codegen. The maintainable forward ASM is
+therefore retained with source_acceptance=false;do not claim
+native full OBJ original equality. Both actual native TLIB/TLINK
+rounds nevertheless reproduce the entire original Japanese
+decoded MAINL EXE and MAP byte-for-byte, including all677 MZ
+relocations, with33 simultaneous source modules supplying
+**20,428 original CODE bytes** and860 of893 original CRT
+members untouched. No formal accepted ledger credit or cold replay.
+See [fopen working native review](MAINL_FOPEN_WORK_REVIEW.md).
+
 ## Exact natural fscanf and 32-source original MAINL link
 
 Actual BCC4.5 C++ source for variadic far-cdecl fscanf now produces
