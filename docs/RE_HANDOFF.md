@@ -154,6 +154,22 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Full native stateful strtok with original ordered OMF fields
+
+The original 203-byte DOS BCC4.5 tokenizer now has a natural C++ source
+at src/mainl/crt/strtok.cpp. Both nested delimiter loops,far-payload
+mutations and a real4-byte static BSS cursor are recovered. BCC's
+typed ES:BX pseudo-register access avoids a redundant far reload.
+The native object now agrees in all203 CODE bytes,all12 emitted OMF
+fields in literal order,one far public and original DATA/BSS group.
+Ten source CRT members including the whole xx TU and previously
+recovered strstr yield13262 original CODE bytes inside one original
+893-member library. All883 other members are preserved. Two actual
+BCC/TLIB/TLINK rounds reproduce the full Japanese decoded MAINL
+EXE/MAP and677 MZ relocations byte-for-byte. No new formal ledger
+credit and no full cold replay. See
+[stateful strtok review](MAINL_STRTOK_NATIVE_REVIEW.md).
+
 ## New exact nine-source strstr carrier
 
 The original far strstr is now a108-byte raw-equal TASM source unit,
