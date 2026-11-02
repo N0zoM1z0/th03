@@ -40,6 +40,28 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Complete DOS directory system and 45-source original MAINL
+
+The original 517-byte DOS direct CRT member214 is now a
+complete symbolic 8086 source: opendir311, rewinddir56,
+readdir75 and closedir75 at original public offsets,
+with nine real initialized wildcard-search DATA bytes.
+All **517 CODE bytes,9 DATA bytes and20 ordered literal
+OMF FIXUPPs** (including GROUP-framed errno and wildcard
+DATA references and original far imports) match the fixed
+Japanese original after actual TASM. The 20 fields are
+written in original descending order by genuine disjoint
+symbolic CODE blocks, not copied opcode byte arrays.
+Together with the prior44 original CRT sources,the new
+45-module library has **22,803 exact source CODE bytes**;
+the other848 of893 member programs remain original.
+Two native TASM/TLIB/TLINK rounds produce the entire
+67,372-byte Japanese decoded MAINL EXE and MAP bit-for-bit,
+with all677 MZ relocations. Existing fopen/fclose OMF
+metadata gaps remain separately OPEN,accepted ledger frozen.
+No full cold replay. See [directory subsystem native
+review](MAINL_DIRECT_NATIVE_REVIEW.md).
+
 ## Exact DOS remove and rename in 44-source Japanese MAINL
 
 The maintained 8086 remove.asm28 and rename.asm31 reconstruct
