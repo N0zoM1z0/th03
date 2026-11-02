@@ -40,6 +40,20 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Original DOS clearerr/rewind and 42-source native CRT
+
+The 17-byte original far clearerr and 40-byte far rewind now
+have maintained exact 8086 sources: every CODE byte, one
+literal rewind far _fseek FIXUPP, correct original group and
+public/EXTDEF records. Two actual normal TASM/TLIB/TLINK
+rounds produce the full Japanese MAINL EXE and MAP
+bit-for-bit from42 source CRT members with **22,227
+original CODE bytes**, leaving851 of893 library member
+programs untouched. The frozen formal accepted ledger,
+original cold pair and inherited fopen/fclose OMF gaps
+remain unchanged. No cold replay.
+See [clearerr/rewind native review](MAINL_CLEARERR_REWIND_NATIVE_REVIEW.md).
+
 ## Full original DOS open and 40-source native MAINL
 
 Original DOS open member267 now has a complete native 8086
