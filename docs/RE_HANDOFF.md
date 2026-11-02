@@ -154,6 +154,30 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Complete 1,282-byte DOS scanner and 23-source native MAINL link
+
+The original Borland scanner CRT member109 is fully reconstructed
+as readable 8086 source:523 actual format-processing instructions,
+a22-entry relocation-bearing symbolic near switch table and128
+genuine initialized bytes mapping7-bit ASCII to format classes.
+All1282 original CODE bytes,all128 initialized DATA bytes,33
+literal ordered OMF fields,one near __scanner public at0 and the
+original __scantod/__scantol/__scanpop/__scanrslt import order
+are native source-exact. TASM required declaring DATA before
+emitting CODE and an ORG $ **zero-byte** position boundary before
+the forward switch to preserve the actual original OMF FIXUPP
+order,with no inserted padding. This member joins the complete
+xx, both qsort bosses, scantol and the preceding string/CRT
+modules in a23-source working library. The other870 of893 CRT
+program records are unchanged. Two true TASM/TLIB/TLINK rounds
+reproduce the **entire fixed Japanese decoded MAINL EXE/MAP**
+raw-equal,including all677 MZ relocations.
+Joint source CODE is **17,768 bytes plus128 source-exact
+initialized DATA bytes**. The accepted28-provider CRT/211-owner
+formal MAINL publication and original cold pair remain frozen;
+no new formal ledger credit or full cold replay was claimed.
+See [scanner native review](MAINL_SCANNER_NATIVE_REVIEW.md).
+
 ## Original DOS strpbrk and twenty-two simultaneous CRT sources
 
 The new source strpbrk.asm recovers80 original Borland far
