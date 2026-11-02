@@ -55,6 +55,25 @@ source CODE scope is **18,855 original bytes**,not yet
 formally accepted-ledger credit. No full cold replay.
 See [native fwrite source review](MAINL_FWRITE_NATIVE_REVIEW.md).
 
+## Complete 485-byte getc/fgetc source and 30-source MAINL link
+
+The original getc CRT member237 now has true source for all485
+CODE bytes and four authentic near/far PUBLIC entries:
+__fgetc192, __Nfgetc217, _fgetc220 and _fgetchar469.
+Two private near stream-buffer/flush helpers and a genuine
+one-byte BSS lookahead retain the original ABI. All9 OMF
+FIXUPPs agree literally,including nonmonotonic original
+writer order 359/437/461/19/43/119/372/393/473. TASM
+source blocks are disjoint and cover every real instruction;
+ORG positions code without target-byte arrays or filler.
+The 30-source native library now generates **19,340 exact
+original CODE bytes** and two actual TASM/TLIB/TLINK rounds
+produce the full original 67,372-byte Japanese decoded
+MAINL EXE/MAP bitwise with677 MZ relocations. All863
+other original CRT member programs remain unchanged.
+No accepted ledger promotion or cold replay. See
+[original getc source](MAINL_GETC_NATIVE_REVIEW.md).
+
 ## Real fwrite source and 29-source whole MAINL link
 
 The original far-cdecl fwrite CRT member236 now builds from
