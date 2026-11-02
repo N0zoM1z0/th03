@@ -40,6 +40,30 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Complete DOS putc output subsystem and 46-source MAINL
+
+The original 974-byte Borland DOS putc CRT member271 is now
+fully recovered as maintained 8086 source with four actual
+functions: far __fputc32, far _fputc395, far _fputchar24 and
+near __FPUTN523. All974 CODE bytes, one initialized CR DATA
+byte, one genuine BSS byte and **29 literal ordered OMF
+FIXUPPs** match actual native TASM output. Crucially the
+internal far CALL at CODE+21 requires zero-byte source
+ASSUME CS:NOTHING to prevent TASM from optimizing it
+to PUSH CS/near CALL and to recover original TARGET-frame5.
+Original seven external names, CODE/DATA/BSS segment
+ownership, four PUBLICs and literal group also match.
+Two actual TASM/TLIB/TLINK rounds put this member into
+the original 893-member library with45 earlier source
+members and reproduce the **entire 67,372-byte decoded
+Japanese MAINL EXE and MAP** byte-for-byte with677
+MZ relocations. The other847 original vendor programs
+remain unchanged. Cumulative 46-source CODE scope is
+**23,777 exact original bytes**. The earlier fopen/fclose
+raw OMF metadata differences remain separately OPEN,
+formal ledger untouched,no full cold replay.
+See [complete putc native review](MAINL_PUTC_NATIVE_REVIEW.md).
+
 ## Complete DOS directory system and 45-source original MAINL
 
 The original 517-byte DOS direct CRT member214 is now a
