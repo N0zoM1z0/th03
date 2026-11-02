@@ -40,6 +40,26 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Natural Borland fputs and 51-source original MAINL
+
+The genuine far-cdecl fputs.cpp now naturally compiles
+with BCC4.5 into **all85 original CODE bytes and both
+literal ordered OMF fields**: near Pascal __FPUTN at+56
+and far _strlen at+23, both TARGET-frame5. A source
+expression of the final byte as *(s+length-1), the
+successful-output branch structure and original Pascal
+prototype/import ordering restore all original machine
+instructions, ABI and EXTDEF/PUBDEF/GRPDEF records; no
+inline binary bytes or object patches were used. Two
+real BCC/TLIB/TLINK rounds with51 genuine source CRT
+members reproduce the entire Japanese decoded MAINL
+EXE/MAP raw-equal,including all677 original relocations,
+leaving842 of893 original vendor programs unchanged.
+Joint source CODE scope is now **25,715 bytes**. The
+previous fopen/fclose/timecvt OMF gaps remain open,
+accepted ledger frozen, no full cold replay.
+See [natural fputs review](MAINL_FPUTS_NATIVE_REVIEW.md).
+
 ## Original DOS perror error formatting and 50-source MAINL
 
 The new far perror CRT member269 has a true TASM source
