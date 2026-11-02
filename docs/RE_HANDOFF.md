@@ -40,6 +40,29 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Complete 850-byte DOS splitpth and 47-source native MAINL
+
+The original DOS path splitter CRT member286 now has a
+complete maintained 8086 TU:two private near parsing
+helpers,public far ___fnsplit at+230 and public far
+__splitpath at+804. **All850 original CODE bytes** and
+**20 literal ordered OMF FIXUPPs** match real TASM output.
+The original CODE also contains two genuine static
+WORD character/switch tables (16 bytes at+214 and28
+bytes at+776):source uses meaningful WORD character
+constants and11 genuine DW OFFSET branch relocations,
+not copied executable opcodes. The remaining806 bytes
+are native instructions with original branch encodings.
+This joins46 previous native CRT source modules in a
+47-member source working CRT with **24,627 original CODE
+bytes**, leaving846 of893 vendor member programs
+unchanged. Both TASM/TLIB/TLINK rounds produce the
+entire 67,372-byte Japanese decoded MAINL EXE and
+original MAP bit-for-bit with all677 MZ relocations.
+Prior fopen/fclose raw OMF gaps remain separately OPEN,
+accepted ledger frozen;no full cold replay.
+See [complete splitpth native review](MAINL_SPLITPTH_NATIVE_REVIEW.md).
+
 ## Complete DOS putc output subsystem and 46-source MAINL
 
 The original 974-byte Borland DOS putc CRT member271 is now
