@@ -60,6 +60,24 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Natural DOS tmpnam and 56-source Japanese MAINL
+
+The real far tmpnam member323 has exact high-level BCC4.5
+source in tmpnam.cpp:23/23 original CODE bytes with both
+literal OMF relocations, near Pascal __TMPNAM TARGET-framed
+call at+17 and GROUP-framed __tmpnum offset at+13. The
+original two-underscore external name and declaration order
+are essential to the literal native EXTDEF sequence.
+Two original native BCC/TASM/TLIB/TLINK rounds add this
+distinct CRT member to the55-source chdir/unlink carrier
+and reproduce the entire 67,372-byte decoded Japanese
+MAINL EXE/MAP bit-for-bit, including all677 MZ relocations.
+The other837 of893 original member records are unchanged;
+working source CODE is now **27,445 bytes**. Older
+fopen/fclose/timecvt/strftime/tempnam OMF gaps remain OPEN,
+accepted ledger unchanged,no full cold replay.
+See [natural tmpnam review](MAINL_TMPNAM_NATIVE_REVIEW.md).
+
 ## Exact native DOS chdir/unlink and 55-source Japanese MAINL
 
 The distinct original CRT chdir and unlink members8/136 are
