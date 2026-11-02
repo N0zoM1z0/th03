@@ -140,6 +140,20 @@ original decoded Japanese MAINL EXE/MAP,677 relocations and matching
 native member ownership. See [seven-source CRT review](MAINL_STRCHR_WORK_REVIEW.md).
 The accepted ledger remains deliberately unchanged.
 
+## Combined eight-source MAINL native carrier
+
+The exact native BCC xx.cpp object (12622 CODE bytes,187 ordered fields,
+50 complete linked function bodies) and all seven exact-source DOS memory/
+string CRT members (329 CODE bytes) now **coexist in one normal original
+893-member CRT link**. All885 other real library member programs are
+unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
+67,372-byte Japanese decoded MAINL EXE and MAP byte-for-byte,including
+677 ordered relocations. The simultaneous native source CODE scope totals
+12951 bytes. Only the isolated source-library carrier changed:accepted
+211-owner publication and28-provider library remain frozen,and this does
+not claim formally accepted bytes. See [eight-member normal-link review]
+(MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
