@@ -60,6 +60,23 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Exact DOS tolower __ctype lookup and 62-source MAINL
+
+The original far tolower CRT member131 now has maintained
+8086 source with all48 original CODE bytes, genuine EOF
+(-1) handling and the original __ctype uppercase lookup.
+Its single GROUP-framed __ctype+1 OMF fixup at+26,
+public, EXTDEF and DATA/BSS group agree literally.
+Two native BCC/TASM/TLIB/TLINK rounds with62 source
+CRT members generate the whole original Japanese
+**67,372-byte decoded MAINL EXE and MAP bit-for-bit**
+with all677 MZ relocations and831 vendor member
+program records untouched. The simultaneous exact
+source CODE extent is **28,599 original bytes**.
+Prior other-member metadata gaps remain OPEN, accepted
+ledger unchanged,no cold replay.
+See [native tolower review](MAINL_TOLOWER_NATIVE_REVIEW.md).
+
 ## Natural Borland DOS access and 61-source Japanese MAINL
 
 The real DOS far access CRT member193 now has exact
