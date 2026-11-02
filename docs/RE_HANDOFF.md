@@ -40,6 +40,24 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Full DOS fseek/ftell and 31-source native Japanese MAINL
+
+The original selected CRT fseek member232 is now exact from the
+maintained semantic fseek.asm and shared FILE layout:492 original
+CODE bytes, near text buffer adjustment137, far fseek130, far
+ftell225, all6 ordered OMF fields and correct DATA/BSS group.
+**The standalone vendor/fseek.obj has descending fixup order
+409/365/342/293/239/149, while the selected CRT original has
+342/149/239/293/365/409.** Both genuine original variants have
+the same literal CODE and relocations; the semantic source matches
+the real selected library member, not the other writer order.
+The 31 source owners have19,832 original exact CODE bytes, all
+862 other library programs remain untouched, and two real normal
+TLIB/TLINK rounds reproduce the complete Japanese decoded MAINL
+EXE/MAP and all677 MZ relocations bit-for-bit. No formal accepted
+ledger promotion or full cold replay.
+See [fseek original member review](MAINL_FSEEK_NATIVE_REVIEW.md).
+
 ## Native fwrite and 29-source original MAINL CRT
 
 The complete 153-byte DOS far fwrite now has a maintained
