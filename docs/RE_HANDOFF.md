@@ -154,21 +154,27 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
-## Large qsort: exact near swap and partial far public source; core open
+## Complete native qsort boss and seventeen-source Japanese MAINL link
 
-The full original DOS qsort is756 CODE bytes/29 literal fields/6 BSS bytes.
-Its private near swap is now46/46 original CODE exact with the first BSS
-FIXUPP and RET 8 callee-clean ABI;the 44-byte far public wrapper now
-reproduces42 literal bytes and all three further original ordered
-BSS fixups. The only two wrapper operand bytes differ because the
-scoped TASM test uses a three-byte ABI-only qsort_core stub.
-Both genuine near CALLs resolve to original core address CODE+46.
-The **remaining666-byte recursive sorting core and25 other fields are
-open**:no whole qsort native equality,normal library replacement or
-accepted ledger credit is claimed. Two complete native partial source
-pairs are repeatable;no cold replay.
-See [qsort swap proof](MAINL_QSORT_SWAP_RECOVERY.md) and
-[qsort far entry proof](MAINL_QSORT_ENTRY_RECOVERY.md).
+The original full756-byte qsort large runtime member now has a
+maintained actual8086 TASM source TU,qsort.asm,including the46-byte
+near element swap,**complete666-byte recursive pivot/partition
+core** and44-byte far public entry. All756 raw original native CODE
+bytes,29 literal ordered OMF fields,original six-byte BSS,
+original N_LXMUL@/N_LDIV@ imports and actual ABI/public offset712
+are identical after native source assembly. Two genuine TASM/TLIB/TLINK
+rounds replace the original qsort library member275 together with
+the16 preceding source members,produce the complete original
+67,372-byte Japanese decoded MAINL EXE and MAP raw-equal,including
+all677 MZ relocations. The other876 of893 original library member
+program records remain untouched. Cumulative17-source exact CODE
+is **14,870 bytes**. Previous swap/entry-only experimental results
+were historical partial checkpoints;the full recursive core is
+now independently source-compiled and normal-linked. This is
+assembler-level source reconstruction,not rediscovery of an original
+C++ file or formal accepted-ledger credit. The accepted28-source CRT
+and211-owner publication remain frozen,no full cold replay.
+See [complete qsort native review](MAINL_QSORT_NATIVE_REVIEW.md).
 
 ## Sixteen-source native strnset source-only recovery
 

@@ -1,5 +1,15 @@
 # Original qsort far entry: 44-byte native control and three BSS fields
 
+**Historical bounded checkpoint.** This document records a partial
+native experiment completed before the full source recovery.
+The current qsort.asm now reproduces all 756 original CODE bytes,
+29 literal fields and the complete Japanese MAINL EXE/MAP with 17
+simultaneous source CRT members. See
+[complete native qsort review](MAINL_QSORT_NATIVE_REVIEW.md).
+The partial complete_qsort=false refers only to that earlier
+limited diagnostic and is not the current reconstruction status.
+
+
 The original Japanese qsort Borland CRT member has 756 CODE bytes,
 29 literal ordered OMF fields,6 bytes of comparator/element-width BSS,
 a 46-byte private near swap routine,666-byte near sort core and a

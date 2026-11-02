@@ -1,5 +1,15 @@
 # Original 666-byte qsort recursion: verified native control-flow blueprint
 
+**Historical bounded checkpoint.** This document records a partial
+native experiment completed before the full source recovery.
+The current qsort.asm now reproduces all 756 original CODE bytes,
+29 literal fields and the complete Japanese MAINL EXE/MAP with 17
+simultaneous source CRT members. See
+[complete native qsort review](MAINL_QSORT_NATIVE_REVIEW.md).
+The partial complete_qsort=false refers only to that earlier
+limited diagnostic and is not the current reconstruction status.
+
+
 This is a bounded roadmap for reconstructing the original DOS Borland
 qsort recursive algorithm,not a replacement or accepted function.
 

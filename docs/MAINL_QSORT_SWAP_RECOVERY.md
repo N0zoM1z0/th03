@@ -1,5 +1,15 @@
 # Original qsort boss: first native 46-byte near swap helper recovered
 
+**Historical bounded checkpoint.** This document records a partial
+native experiment completed before the full source recovery.
+The current qsort.asm now reproduces all 756 original CODE bytes,
+29 literal fields and the complete Japanese MAINL EXE/MAP with 17
+simultaneous source CRT members. See
+[complete native qsort review](MAINL_QSORT_NATIVE_REVIEW.md).
+The partial complete_qsort=false refers only to that earlier
+limited diagnostic and is not the current reconstruction status.
+
+
 The original Japanese MAINL Borland CRT qsort member at index275 contains
 756 CODE bytes,29 literal ordered OMF FIXUPPs and a real6-byte BSS
 context:four bytes for the far comparator and a two-byte element width.
