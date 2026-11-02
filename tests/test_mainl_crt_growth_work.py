@@ -33,11 +33,19 @@ class MemoryScope(unittest.TestCase):
                          'private memset source pair absent')
     def test_five_source_memset(self):
         self.check_mode('memchr-memset',5,233)
+        r=review('memchr-memset')
+        self.assertEqual(r['original_and_native_CODE_bytes']['memset'],[72,72])
+        self.assertEqual(r['replaced_members'],
+                         ['memchr','memcmp','memcpy','memset','strcmp'])
 
     @unittest.skipUnless((ROOT/'.analysis/work/mainl-crt-growth-memchr-memset-strlen-build.json').exists(),
                          'private strlen source pair absent')
     def test_six_source_strlen(self):
         self.check_mode('memchr-memset-strlen',6,266)
+        r=review('memchr-memset-strlen')
+        self.assertEqual(r['original_and_native_CODE_bytes']['strlen'],[33,33])
+        self.assertEqual(r['replaced_members'],
+                         ['memchr','memcmp','memcpy','memset','strcmp','strlen'])
 
     @unittest.skipUnless((ROOT/'.analysis/work/mainl-crt-growth-memchr-memset-strlen-strchr-build.json').exists(),
                          'private strchr source pair absent')

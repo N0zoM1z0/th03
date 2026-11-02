@@ -103,6 +103,19 @@ EXE and MAP raw equal,with677 original relocations. The accepted28-source
 library and211-owner ledger are still unchanged. See
 [five-member CRT review](MAINL_MEMSET_WORK_REVIEW.md).
 
+## Six-source DOS memory CRT native link
+
+The recovered `strlen.asm` adds its complete original33-byte DOS far
+cdecl body,including the original full null-pointer guard and forward
+REPNE SCASB. All six CRT source modules (memchr,memcmp,memcpy,memset,
+strcmp,strlen) now give266 raw-exact native CODE bytes in original
+members259/260/261/263/292/300. The other887 member programs are
+unchanged. Two actual TASM/TLIB/TLINK runs match the entire67,372-byte
+original Japanese decoded MAINL EXE and MAP,including677 relocations.
+The accepted28-source CRT/211-owner publication remains separately frozen;
+this is source-only working evidence,not new ledger credit.
+See [native strlen review](MAINL_STRLEN_WORK_REVIEW.md). No full cold replay.
+
 ## Current xx candidate
 
 The maintained `src/mainl/crt/xx.cpp` composes all exception/RTTI banks in original
