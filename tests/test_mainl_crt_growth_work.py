@@ -51,3 +51,7 @@ class MemoryScope(unittest.TestCase):
                          'private strchr source pair absent')
     def test_seven_source_strchr(self):
         self.check_mode('memchr-memset-strlen-strchr',7,329)
+        r=review('memchr-memset-strlen-strchr')
+        self.assertEqual(r['original_and_native_CODE_bytes']['strchr'],[63,63])
+        self.assertEqual(r['replaced_members'],
+                         ['memchr','memcmp','memcpy','memset','strchr','strcmp','strlen'])
