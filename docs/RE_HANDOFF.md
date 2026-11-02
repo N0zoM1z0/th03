@@ -40,6 +40,27 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## DOS fclose 192 bytes and 35-source exact Japanese MAINL
+
+The original fclose CRT member217 now has a complete 192-byte
+mnemonic 8086 source: far FILE validity, flush/descriptor/owned
+filename cleanup, five original imported helpers and 2-byte
+stack status. Source emits all original CODE bytes, four
+literal far fixups and one near __MKNAME call. The near call
+has the original site/target but **TARGET-frame method5 in
+the BCC original versus CODE-frame method0 in TASM**; native
+full OMF acceptance remains OPEN. BCC inline-asm codegen was
+tested but could not directly encode one original ES:[BX]
+word comparison, so this discrepancy is not hidden. The
+35-source working CRT, which also retains the previous fopen
+OMF-order gap, nevertheless reproduces the whole Japanese
+decoded 67,372-byte MAINL EXE and MAP bit-for-bit in two
+actual TLIB/TLINK rounds with all677 MZ relocations;other
+858 of893 vendor members remain unchanged. Joint source
+CODE reaches **20,719 bytes**, without formal ledger credit
+or full cold replay. See
+[fclose original source review](MAINL_FCLOSE_WORK_REVIEW.md).
+
 ## Exact original DOS fcloseall and 34-source MAINL product link
 
 The far-cdecl fcloseall now has an authentic 99-byte 8086
