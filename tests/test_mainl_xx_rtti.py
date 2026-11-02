@@ -38,12 +38,20 @@ class XxRtti(unittest.TestCase):
         handler=r['exception_handler_codegen']
         self.assertEqual((handler['candidate_bytes'],handler['stack_bytes']),(880,56))
         self.assertTrue(handler['all854_bytes_outside_field_and_call_operands_equal'])
-        self.assertEqual([q['offset'] for q in handler['raw_byte_differences']],[248,249,372,529,585,610])
+        self.assertEqual([q['offset'] for q in handler['raw_byte_differences']],[248,249,372,529,530,585,610])
         self.assertEqual(handler['separate_unwind_cleanup_raw_bytes'],13)
         self.assertEqual(handler['literal_field_offset_order'],[[372,294,724,703,700],[294,372,700,703,724]])
         self.assertEqual(handler['switch_field_offset_order'],[[10,8,6,4,2,0],[0,2,4,6,8,10]])
         self.assertEqual(handler['switch_destinations'],[[856,615,734,374,856,856]]*2)
         self.assertFalse(handler['complete_object_raw_equal'])
+        catch=r['catch_storage_codegen']['exceptionHandled']
+        self.assertEqual((catch['original_bytes'],catch['candidate_bytes'],catch['stack_bytes']),(216,219,8))
+        self.assertEqual(catch['remaining_instruction_forms'],[dict(
+            original_offset=0x35,candidate_offset=0x35,
+            original_hex='26c45f048c46fe895efc',
+            candidate_hex='26c45f048c46fe895efcc45efc')])
+        self.assertEqual([len(fields) for fields in catch['original_and_candidate_literal_fields']],[2,2])
+        self.assertFalse(catch['complete_object_raw_equal'])
         results={}
         for a,b in r['target_and_source_RTTI_probes']:
             self.assertEqual(a,b);results[a['case']]=a

@@ -82,9 +82,9 @@ def catch_storage_codegen(original,candidate,old,rows,native=False):
     op,p=payload(original),payload(candidate)
     results={}
     for index,name,sizes,frame,ranges,special in [
-        (20,'exceptionHandled',(216,223),8,
-            [(0,0x35,0),(0x3F,216,0x46)],
-            [(0x35,0x3F,0x35,0x46)]),
+        (20,'exceptionHandled',(216,219),8,
+            [(0,0x35,0),(0x3F,216,0x42)],
+            [(0x35,0x3F,0x35,0x42)]),
         (24,'initCatchArg',(678,674 if native else 676),24,
             [(0,0xEB,0),(0xEF,0x117,0xED),(0x119,0x18E if native else 0x18C,0x115),
              (0x18E,678,0x18A if native else 0x18C)],
@@ -146,14 +146,14 @@ def catch_storage_codegen(original,candidate,old,rows,native=False):
         need([q['target'] for q in calls]==expected_calls,'complete catch local call sequence')
         gaps=[dict(original_offset=l,candidate_offset=r,original_hex=raw[0][l:e].hex(),
             candidate_hex=raw[1][r:s].hex()) for l,e,r,s in special]
-        expected=[('26c45f048c46fe895efc','268b5706268b47048956fe8946fcc45efc')] if index==20 else [
+        expected=[('26c45f048c46fe895efc','26c45f048c46fe895efcc45efc')] if index==20 else [
             ('7402eb23','7523'),('eb00',''),*([] if native else [('747c','7502eb7c')])]
         need([(g['original_hex'],g['candidate_hex']) for g in gaps]==expected,
             'literal outstanding catch load or branch forms')
         fields=[]
         expected_fields=([[(95,'@__RefDestructorCount$qv'),(29,'@__RefDestructorCount$qv')],
-            ([(102,'@__RefDestructorCount$qv'),(29,'@__RefDestructorCount$qv')] if native else
-             [(29,'@__RefDestructorCount$qv'),(102,'@__RefDestructorCount$qv')])] if index==20 else
+            ([(98,'@__RefDestructorCount$qv'),(29,'@__RefDestructorCount$qv')] if native else
+             [(29,'@__RefDestructorCount$qv'),(98,'@__RefDestructorCount$qv')])] if index==20 else
             [[(611,'_memcpy'),(544,'_memcpy'),(206,'_memset')],
              ([(607,'_memcpy'),(540,'_memcpy'),(206,'_memset')] if native else
               [(206,'_memset'),(542,'_memcpy'),(609,'_memcpy')])])

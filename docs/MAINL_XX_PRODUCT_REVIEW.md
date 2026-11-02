@@ -51,7 +51,7 @@ arrays,product object patches or compensating storage are involved.
 
 | Property | Original | Native candidate |
 | --- | ---: | ---: |
-| xx CODE at0000:580D | 12622 | 12554 |
+| xx CODE at0000:580D | 12622 | 12550 |
 | Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | DATA/BSS | 18/10 | 18/10 |
@@ -60,7 +60,7 @@ arrays,product object patches or compensating storage are involved.
 
 Candidate DATA/BSS remain at DGROUP:1172/2876;DGROUP is0E3B versus original0E3F.
 Ordinary paragraph layout produces64 bytes of file movement. All18 initialized
-DATA bytes agree;BSS has no invented initialization. CODE length68 is a size
+DATA bytes agree;BSS has no invented initialization. CODE length72 is a size
 difference,not a count of differing bytes. Native RTTI has no optional
 zero and no LIDATA. Its descriptors,vtable,terminated lists and all
 internal pointer identities are checked;the complete tail remains raw-different.
@@ -102,8 +102,8 @@ partial findings remain explicitly separate:
   other bytes agree. Its12-byte table has original relative destinations and
   descending field order10/8/6/4/2/0. Body-field order still differs.
 - initCatchArg674 versus678 recovers the class guard,leaving two reference
-  branch forms. exceptionHandled223 versus216 retains one10/17-byte load
-  sequence gap. Frames and local slots retain the recovered source declarations.
+  branch forms. exceptionHandled219 versus216 restores the direct LES
+  descriptor load and retains only a redundant 3-byte LES reload. Frames and local slots retain the recovered source declarations.
 - `typeinfo::before` matches all120 unlinked bytes with original strcmp field
   EXTDEF8 at+96. Its linked displacement remains different.
 - Raise retains all71 raw count/index/copy bytes. The48-byte frame region

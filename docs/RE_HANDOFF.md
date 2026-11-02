@@ -53,7 +53,7 @@ is provider29;the accepted28-provider library and published211 owners stay uncha
 | Extent | Original | Native candidate |
 | --- | ---: | ---: |
 | Full decoded EXE | 67,372 | 67,308 |
-| xx CODE | 12,622 | 12,554 |
+| xx CODE | 12,622 | 12,550 |
 | Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
@@ -63,7 +63,7 @@ is provider29;the accepted28-provider library and published211 owners stay uncha
 Both EXEs have4096-byte headers/677 relocations;raw EXE/MAP still differ.
 Candidate DGROUP0E3B versus original0E3F produces ordinary64-byte file movement.
 All CODE bytes resolve through18 real library interfaces;all22 public bindings
-pass. Net CODE length68 is not a differing-byte count. Matching field counts
+pass. Net CODE length72 is not a differing-byte count. Matching field counts
 also do not establish complete literal ordered field equality.
 
 Current useful proofs and open questions:
@@ -80,8 +80,9 @@ Current useful proofs and open questions:
   difference follows movement across the native0x2000 CODE-block boundary.
   Keep literal vectors different and fix preceding layout;do not sort them.
 - Catch initialization is674 versus678/frame24,with two reference-branch forms
-  open. Cleanup is223 versus216/frame8,with one10/17-byte LES versus DX:AX load
-  gap. Source-form/option trials remain unadopted;see [catch review](MAINL_XX_CATCH_REVIEW.md).
+  open. Cleanup is219 versus216/frame8:the original10-byte descriptor LES/store
+  is recovered,and one redundant3-byte LES reload remains. Earlier alternative
+  source-form/option trials remain unadopted;see [catch review](MAINL_XX_CATCH_REVIEW.md).
 - Raise is1081 versus1151/frame342 versus390. Its71-byte argument-copy block
   agrees. The actual used context is204 bytes;BP[-134,-86) ownership remains
   unproved. Default FF00 flags agree84h/84h;FF10 retains80h/84h through real

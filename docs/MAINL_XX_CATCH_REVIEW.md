@@ -33,13 +33,16 @@ and the original JMP-to-next at+0x117. All other instructions agree outside
 checked branch/CALL operands. The retained S/TASM full-TU diagnostic is676 bytes
 and also differs at that class guard.
 
-exceptionHandled remains223 versus216,frame8. The original10-byte LES/store
-sequence at+0x35 becomes17-byte DX:AX load/store/reload;the rest agrees under
-the same operand checks. No defensive product changes are introduced.
+exceptionHandled is now219 versus216,frame8. A native BCC inline-assembly
+`LES BX,ES:[BX+offsetof(XXException,type)]` recovers the original10-byte
+far-descriptor load/store at+0x35. The compiler still inserts a redundant
+3-byte `LES BX,[BP-4]` before loading the destructor mask;the complete current
+13-byte sequence is compared against the original10 bytes,without normalizing
+branches or local CALL operands. No defensive product changes are introduced.
 
 Literal native field order stays explicit. exceptionHandled sites are original
-95/29 versus native102/29;initCatchArg sites are original611/544/206 versus
-native607/540/206. The separate S/TASM sites remain29/102 and206/542/609.
+95/29 versus native98/29;initCatchArg sites are original611/544/206 versus
+native607/540/206. The separate S/TASM sites remain29/98 and206/542/609.
 Both producers now retain original full-TU memcpy/memset EXTDEF indices9/10.
 No vector is sorted and no partial storage/codegen proof is counted as acceptance.
 
@@ -47,7 +50,7 @@ Earlier controls in `.analysis/work/catch-storage-codegen-experiments.json`
 cover braces,old_value scopes,labels and optimizer profiles. The isolated674-byte
 native result is now reproduced by the maintained full TU after expressing
 unsupported386 operations in source. See [product review](MAINL_XX_PRODUCT_REVIEW.md).
-Current native CODE12554/187 fields and67308-byte EXE remain raw-different.
+Current native CODE12550/187 fields and67308-byte EXE remain raw-different.
 The published211 owners/36946 bytes and accepted28-provider library stay unchanged.
 Affected native pairs are refreshed without rebuilding the938 retained cold outputs.
 
@@ -60,15 +63,16 @@ a default gives678 bytes,but keeps about50 wrong bytes:it introduces AX mask/
 zero-test instructions while retaining the wrong conditional/merged end branch.
 A Boolean switch instead gives688. Matching the target length is insufficient.
 
-For exceptionHandled,the tested comma assignment and local peephole profile
-retain223 bytes. Directly reading both destructor fields through exception->type
+Before the direct LES recovery,comma assignment and local peephole trials
+retained223 bytes. Directly reading both destructor fields through exception->type
 gives214,but loses the original eight-byte local layout and reloads the source
 pointer. Assigning the pointer inside the call also fails complete comparison.
 The ordinary huge-pointer qualifier does not recover the missing LES sequence.
-None is adopted,and no hand-written replacement load or extra storage is added.
+Those variants were not adopted. The subsequent symbolic-offset LES
+source is adopted;it avoids fabricated storage or binary patching.
 Actual transported-input hashes,commands and complete-body results are retained
 in `.analysis/work/xx-catch-native-followup.json` and the individual trial records.
-The current native object/product pairs remain unchanged and validated.
+The affected native miniature/product pairs were rebuilt and validated.
 
 ## Retained catch miniature
 

@@ -11,7 +11,7 @@ This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new accepted credit.** This document's
 full-TU miniature uses BCC -S/TASM:CODE12553,181 fields,DATA18,BSS10,metadata136
 and tail1735,including one actual LIDATA zero. The normal product uses actual
-BCC `-c -y` objects:CODE12554,187 fields,metadata135 and tail1734,without an
+BCC `-c -y` objects:CODE12550,187 fields,metadata135 and tail1734,without an
 optional zero or LIDATA. It remains raw-different;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
 ## Source and native ownership

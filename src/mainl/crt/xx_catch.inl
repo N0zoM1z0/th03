@@ -16,6 +16,9 @@ static void near destThrownValue(void far *address,xx_code_ptr destructor,unsign
     catch(...) { __call_terminate(); }
 }
 
+// The DOS exception descriptor stores its type at a fixed far offset.
+enum { XX_EXCEPTION_TYPE = offsetof(XXException,type) };
+
 static void near exceptionHandled(xx_exception_ptr exception)
 {
     xx_type_ptr type;
@@ -26,7 +29,15 @@ static void near exceptionHandled(xx_exception_ptr exception)
             saved_count = *__RefDestructorCount();
             // The DOS target takes this descriptor from type,+4; it does not
             // substitute the later RTL's cached base descriptor,+16.
-            type = exception->type;
+            // BCC 4.5 otherwise loads the descriptor through DX:AX and then
+            // reloads ES:BX. The original directly uses LES through the
+            // incoming far exception pointer, retaining the type local.
+            asm {
+                les bx,exception
+                les bx,es:[bx+XX_EXCEPTION_TYPE]
+                mov word ptr type+2,es
+                mov word ptr type,bx
+            }
             destThrownValue((char far *)exception + sizeof(XXException),
                 type->data.object.dtor_address,type->data.object.dtor_mask);
             *__RefDestructorCount() = saved_count;
