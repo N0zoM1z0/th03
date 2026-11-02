@@ -154,6 +154,22 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Large qsort: exact near swap and partial far public source; core open
+
+The full original DOS qsort is756 CODE bytes/29 literal fields/6 BSS bytes.
+Its private near swap is now46/46 original CODE exact with the first BSS
+FIXUPP and RET 8 callee-clean ABI;the 44-byte far public wrapper now
+reproduces42 literal bytes and all three further original ordered
+BSS fixups. The only two wrapper operand bytes differ because the
+scoped TASM test uses a three-byte ABI-only qsort_core stub.
+Both genuine near CALLs resolve to original core address CODE+46.
+The **remaining666-byte recursive sorting core and25 other fields are
+open**:no whole qsort native equality,normal library replacement or
+accepted ledger credit is claimed. Two complete native partial source
+pairs are repeatable;no cold replay.
+See [qsort swap proof](MAINL_QSORT_SWAP_RECOVERY.md) and
+[qsort far entry proof](MAINL_QSORT_ENTRY_RECOVERY.md).
+
 ## Fifteen-source exact strncat using real movmem/strlen edges
 
 The original DOS strncat translation unit is now completely
@@ -194,18 +210,6 @@ proved full xx and eleven additional native CRT sources,it produces
 library members unchanged. Two TASM/TLIB/TLINK rounds reproduce the
 original decoded Japanese MAINL EXE/MAP byte-for-byte;formal accepted
 ledger remains frozen. See [counted copy](MAINL_STRNCPY_NATIVE_REVIEW.md).
-
-## Large qsort: first internal native helper exact, core open
-
-The original qsort CRT member at275 is a756-byte boss with29 literal
-OMF fields and6 bytes of BSS. A genuine source include qswap.inl now
-assembles to all46 original near swap-helper bytes,its first BSS width
-field at CODE+9 and its original RET 8 callee-clean ABI. Two complete
-native TASM outputs are raw-repeatable with the correct original
-DGROUP shape. The recursive near quicksort core (666 bytes) and far
-public qsort wrapper (44 bytes) are still open;this is **only a bounded
-prefix exact proof**,not full qsort or accepted unit credit. See
-[qsort swap analysis](MAINL_QSORT_SWAP_RECOVERY.md). No cold replay.
 
 ## New exact overlap-safe movmem and bounded strncpy
 
