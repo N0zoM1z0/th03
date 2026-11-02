@@ -60,6 +60,25 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Exact DOS getenv far environment vector and 60-source MAINL
+
+Original CRT getenv member240 now has native 8086 source:
+all112 CODE bytes, its one TARGET-framed __environ fixup
+at+35, far public and literal 08ff03ff02 group.
+Real environment NAME=VALUE traversal, REPNE SCASB and
+REPE CMPSB preserve original DS/ES and DX:AX ABI.
+A zero-byte ASSUME DS:NOTHING around PUSH DS/POP DS
+resolves real TASM "Illegal indexing mode", and
+XCHG CX,BX recovers the original instruction encoding.
+Two complete native TASM/TLIB/TLINK rounds join this
+with59 preceding CRT source owners and reproduce the
+entire 67,372-byte decoded Japanese MAINL EXE/MAP
+raw-equal with all677 MZ relocations, leaving833 of893
+original vendor members untouched. Working original
+source CODE reaches **28,525 bytes**. The prior five
+OMF metadata gaps remain OPEN; accepted ledger frozen,
+no cold replay. See [getenv original native review](MAINL_GETENV_NATIVE_REVIEW.md).
+
 ## Exact DOS lsearch/lfind and 59-source Japanese MAINL
 
 The distinct CRT lsearch member247 has complete native
