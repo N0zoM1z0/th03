@@ -40,6 +40,21 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Native fwrite and 29-source original MAINL CRT
+
+The complete 153-byte DOS far fwrite now has a maintained
+8086 TASM source with all four original literal near
+N_LXMUL@/__FPUTN/N_PADD@ fixups and the exact native CODE/
+DATA/BSS/public/GRPDEF. It joins the full buffered fread,
+large scanner, xx, both qsort bosses and other CRT modules
+in 29 natural source library members. All864 surrounding
+893-member programs are unchanged. Two true TASM/TLIB/TLINK
+rounds generate the entire original Japanese decoded MAINL
+EXE/MAP raw-equal with677 MZ relocations. The simultaneous
+source CODE scope is **18,855 original bytes**,not yet
+formally accepted-ledger credit. No full cold replay.
+See [native fwrite source review](MAINL_FWRITE_NATIVE_REVIEW.md).
+
 ## Original buffered fread and 28-source native MAINL
 
 The large original DOS fread member229 is now a full source
