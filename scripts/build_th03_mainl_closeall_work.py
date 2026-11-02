@@ -1,0 +1,203 @@
+#!/usr/bin/env python3
+"""Exact native fcloseall over the 33-source fopen MAINL working library.
+
+This 99-byte member is full CODE and ordered OMF equal. Existing fopen
+remains marked product-exact but original OMF order open. No cold replay.
+"""
+import fcntl,json,os
+from pathlib import Path
+import shutil,subprocess,tomllib
+
+import build_th03_mainl_fopen_work as previous
+import build_th03_mainl_xx_work as xx
+import build_th03_mainl_work as build
+from build_th03_mainl_resources_work import need,sha
+from build_th03_mainl_display_work import payload,literal_fields
+from lib.borland_library import library_members,compare_members,object_program_records
+from lib.decoded_mainl_display_native import externs
+from lib.omf import describe_omf,parse_omf
+from probe_th03_main_bomb_rikako_cpp import segment_definitions
+from probe_th03_main_boss_marisa_cpp import code_publics
+
+ROOT=Path(__file__).resolve().parents[1]
+WORK=build.WORK
+SOURCE='src/mainl/crt/closeall.asm'
+DRIVER='scripts/build_th03_mainl_closeall_work.py'
+REPORT='.analysis/work/mainl-closeall-native-build.json'
+ORIGINAL=WORK/'vendor/closeall.obj'
+SCRATCH=WORK/'probe/clall34'
+TASM_FLAGS=['/m','/mx','/kh32768','/t','closeall.asm','closeall.obj']
+
+
+def original_scope(blob):
+    need(describe_omf(blob)['valid'],'valid real original Borland fcloseall OMF')
+    need([(s['name'],s['class'],s['size']) for s in segment_definitions(blob)]==
+         [('_TEXT','CODE',99),('_DATA','DATA',0),('_BSS','BSS',0)],
+         'complete 99 bytes original CODE and empty DATA/BSS')
+    need(code_publics(blob,1)==[(0,'_fcloseall')] and
+         externs(blob)==['__streams','__nfile','_fclose'],
+         'one native far public and original 3 imported providers')
+    need([r.data.hex() for r in parse_omf(blob) if r.name=='GRPDEF']==
+         ['08ff02ff03'],'literal original DATA/BSS GRPDEF')
+    fields=literal_fields(blob)
+    need([(f['site'],f['target_method'],f['target'],f['frame_method'],f['addend'])
+          for f in fields]==
+         [(75,2,2,1,0),(43,2,3,5,0),(19,2,1,1,100)],
+         'three literal original descending BCC file cleanup fields')
+    p=payload(blob)
+    return dict(CODE_bytes=99,CODE_sha256=sha(bytes(p[1,i] for i in range(99))),
+                fields=fields,imports=externs(blob),publics=code_publics(blob,1))
+
+
+def retained():
+    base,files,accepted,members,earlier,parenthash=previous.retained()
+    raw=(ROOT/previous.REPORT).read_bytes()
+    r=json.loads(raw)
+    need(r['complete'] and not r['source_acceptance'] and
+         r['added_accepted_bytes']==0 and not r['original_cold_rebuilt'] and
+         r['complete_native_OMF_equal'] is False and
+         r['accepted_baseline']==base and
+         r['accepted_library_sha256']==sha(accepted) and
+         r['previous_thirty_two_source_build_sha256']==parenthash and
+         r['driver_sha256']==sha((ROOT/previous.DRIVER).read_bytes()) and
+         r['source_sha256']==sha((ROOT/previous.SOURCE).read_bytes()) and
+         len(r['rounds'])==2,
+         'current exact 33-source normal-link fopen parent, native OMF order still open')
+    objects=[]
+    for i,row in enumerate(r['rounds']):
+        out={}
+        for kind,q in row['outputs'].items():
+            data=(ROOT/q['path']).read_bytes()
+            need(q==dict(path=q['path'],bytes=len(data),sha256=sha(data)),
+                 'complete prior source CRT fopen '+kind+' file')
+            out[kind]=data
+        need(out['exe']==(WORK/'bin/th03/mainl.target.exe').read_bytes() and
+             out['map']==(WORK/'obj/th03/mainl.map').read_bytes(),
+             'whole original Japanese 33-source product exact')
+        src=dict(earlier[i],fopen=out['obj'])
+        c=compare_members(members,library_members(out['lib']),src)
+        need(c['replaced_members']==sorted(src) and
+             c['contextual_members_unchanged']==860,
+             '33 source CRT members and 860 original contexts')
+        objects.append(src)
+    need(objects[0]==objects[1] and len(objects[0])==33 and
+         len(members)==893 and members[206].name=='closeall',
+         'same complete parent source objects and real closeall CRT index206')
+    return base,files,accepted,members,objects,sha(raw)
+
+
+def main():
+    os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
+    if os.nice(0)<10:os.nice(10-os.nice(0))
+    base,files,accepted,members,old,parenthash=retained()
+    original=ORIGINAL.read_bytes()
+    need(object_program_records(original)==members[206].program_records,
+         'original closeall CRT native member program identity')
+    goal=original_scope(original)
+    src=(ROOT/SOURCE).read_bytes()
+    cfg=tomllib.loads((ROOT/'config/toolchain.toml').read_text())
+    prefix=ROOT/cfg['paths']['wine_prefix']
+    env=dict(os.environ,DISPLAY='',WAYLAND_DISPLAY='',WINEDEBUG='-all',
+             WINEPREFIX=str(prefix),MSDOS_PATH=r'C:\TC4\BIN',TZ='UTC',LANG='C',LC_ALL='C')
+    dos=['/usr/bin/wine-stable',str(ROOT/cfg['paths']['msdos_player']),'-e','-x']
+    tasm=['/usr/bin/wine-stable',str(prefix/'drive_c/TASM50/bin/TASM32.EXE')]
+    report=dict(complete=False,source_acceptance=False,added_accepted_bytes=0,
+                original_cold_rebuilt=False,partial_parent_fopen_OMF_order_open=True,
+                accepted_baseline=base,accepted_library_sha256=sha(accepted),
+                previous_thirty_three_source_build_sha256=parenthash,
+                original_sha256=sha(original),source_sha256=sha(src),
+                driver_sha256=sha((ROOT/DRIVER).read_bytes()),
+                native_assembler_flags=TASM_FLAGS,phases=[],rounds=[])
+    save=lambda:(ROOT/REPORT).write_text(json.dumps(report,indent=2)+'\n')
+    def run(cmd,cwd,label):
+        r=subprocess.run(cmd,cwd=cwd,env=env,stdout=subprocess.PIPE,
+                         stderr=subprocess.STDOUT,timeout=120)
+        where=f'.analysis/work/closeall-{label}.log'
+        (ROOT/where).write_bytes(r.stdout)
+        report['phases'].append(dict(label=label,command=cmd,returncode=r.returncode,
+                                     log_path=where,log_sha256=sha(r.stdout)))
+        save()
+        need(r.returncode==0,label+': '+r.stdout.decode(errors='replace')[-1400:])
+    with (ROOT/'.analysis/borland-wine-writer.lock').open('ab') as lk:
+        fcntl.flock(lk,fcntl.LOCK_EX)
+        need(not SCRATCH.exists(),'fresh isolated fcloseall original native scratch')
+        SCRATCH.mkdir()
+        try:
+            (SCRATCH/'base.lib').write_bytes(accepted)
+            (SCRATCH/'extract.rsp').write_bytes(build.response(
+                'base.lib',['*'+m.name for m in members]))
+            run(dos+['tlib','@extract.rsp'],SCRATCH,'extract')
+            extracted={p.stem.lower():p for p in SCRATCH.iterdir()
+                       if p.suffix.lower()=='.obj'}
+            need(set(extracted)=={m.name.lower() for m in members},
+                 'all 893 original native CRT member files')
+            for m in members:
+                p=extracted[m.name.lower()]
+                need(object_program_records(p.read_bytes())==m.program_records,
+                     'unmodified original CRT member '+m.name)
+                dest=SCRATCH/(m.name+'.obj')
+                if p!=dest:p.rename(dest)
+            (SCRATCH/'closeall.asm').write_bytes(src)
+            os.utime(SCRATCH/'closeall.asm',(946684800,946684800))
+            rsp=build.response(r'probe\clall34\newcrt.lib /E',
+                ['+probe\\clall34\\'+m.name+'.obj' for m in members])
+            link=xx.link_response(files)
+            for a,b in (
+                (b'probe\\xxwhole\\xxfull.exe',b'probe\\clall34\\linked.exe'),
+                (b'probe\\xxwhole\\xxfull.map',b'probe\\clall34\\linked.map'),
+                (b'probe\\xxwhole\\xxcrt.lib',b'probe\\clall34\\newcrt.lib'),
+            ):
+                need(link.count(a)==1,'one real original MAINL linker output')
+                link=link.replace(a,b)
+            (SCRATCH/'library.rsp').write_bytes(rsp)
+            (SCRATCH/'link.lnk').write_bytes(link)
+            (ROOT/'.analysis/work/closeall-library.rsp').write_bytes(rsp)
+            (ROOT/'.analysis/work/closeall-link.lnk').write_bytes(link)
+            for i in (1,2):
+                for filename in ('closeall.obj','newcrt.lib','newcrt.bak','linked.exe','linked.map'):
+                    (SCRATCH/filename).unlink(missing_ok=True)
+                run(tasm+TASM_FLAGS,SCRATCH,f'round{i}-assemble')
+                obj=(SCRATCH/'closeall.obj').read_bytes()
+                need(original_scope(obj)==goal and
+                     literal_fields(obj)==literal_fields(original),
+                     'all native original closeall CODE, PUBDEF/EXTDEF and ordered FIXUPPs')
+                owners=dict(old[i-1],closeall=obj)
+                for n,blob in old[i-1].items():
+                    (SCRATCH/(n+'.obj')).write_bytes(blob)
+                run(dos+['tlib',r'@probe\clall34\library.rsp'],WORK,
+                    f'round{i}-library')
+                c=compare_members(members,library_members((SCRATCH/'newcrt.lib').read_bytes()),owners)
+                need(c['replaced_members']==sorted(owners) and
+                     c['contextual_members_unchanged']==859,
+                     '34 actual source CRT modules and other859 vendor programs unchanged')
+                run(dos+['tlink',r'@probe\clall34\link.lnk'],WORK,
+                    f'round{i}-link')
+                out={}
+                for kind,name in (('obj','closeall.obj'),('lib','newcrt.lib'),
+                                  ('exe','linked.exe'),('map','linked.map')):
+                    raw=(SCRATCH/name).read_bytes()
+                    path=f'.analysis/work/closeall-round{i}-{name}'
+                    (ROOT/path).write_bytes(raw)
+                    out[kind]=dict(path=path,bytes=len(raw),sha256=sha(raw))
+                need((SCRATCH/'linked.exe').read_bytes()==
+                     (WORK/'bin/th03/mainl.target.exe').read_bytes() and
+                     (SCRATCH/'linked.map').read_bytes()==
+                     (WORK/'obj/th03/mainl.map').read_bytes(),
+                     'whole original Japanese MAINL EXE/MAP raw-exact with34 source owners')
+                report['rounds'].append(dict(round=i,outputs=out,library_comparison=c))
+                save()
+                print('34-source closeall native Japanese MAINL product exact round',i,flush=True)
+            need({k:v['sha256'] for k,v in report['rounds'][0]['outputs'].items()}==
+                 {k:v['sha256'] for k,v in report['rounds'][1]['outputs'].items()},
+                 'two identical full native OBJ/LIB/EXE/MAP vectors')
+        finally:shutil.rmtree(SCRATCH)
+    after,_,originallib,_,_,afterhash=retained()
+    need(after==base and originallib==accepted and afterhash==parenthash and
+         src==(ROOT/SOURCE).read_bytes(),
+         'original accepted source library and modified scope unchanged')
+    report['complete']=True
+    save()
+
+
+if __name__=='__main__':
+    main()

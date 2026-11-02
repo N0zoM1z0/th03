@@ -40,6 +40,23 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Exact original DOS fcloseall and 34-source MAINL product link
+
+The far-cdecl fcloseall now has an authentic 99-byte 8086
+source object, all3 original literal ordered OMF fields
+to __streams+100/__nfile/_fclose, correct public/GRPDEF
+and no artificial filler. Native source is installed at
+original member206 alongside33 previously tested source
+modules, leaving859 of893 CRT program records unchanged.
+Both TASM/TLIB/TLINK rounds reproduce the complete 67,372
+byte Japanese decoded MAINL EXE and MAP raw-equal with677
+original MZ relocations. Joint source-only CODE reaches
+**20,527 original bytes**. The predecessor fopen remains
+*product-exact but original FIXUPP order OPEN*, so this is
+not a fully literal 34-member original OMF or new accepted
+ledger credit. No full cold replay.
+See [closeall native review](MAINL_CLOSEALL_NATIVE_REVIEW.md).
+
 ## fopen original 556-byte CODE and 33-source product-exact link
 
 The large four-routine DOS fopen.asm now emits all556 original
