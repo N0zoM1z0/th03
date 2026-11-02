@@ -170,6 +170,21 @@ pairs are repeatable;no cold replay.
 See [qsort swap proof](MAINL_QSORT_SWAP_RECOVERY.md) and
 [qsort far entry proof](MAINL_QSORT_ENTRY_RECOVERY.md).
 
+## Sixteen-source native strnset source-only recovery
+
+The 58-byte original DOS far strnset translation unit now has a
+natural BCC4.5 source producing the exact complete CODE, two
+ordered original far strlen/setmem fixups and correct DATA/BSS
+ownership. It joins full xx, strncat, movmem, the signed/unsigned
+parsers and other proven CRT source members in a sixteen-member
+original 893-member library. The other 877 program records remain
+unchanged. Both real native link rounds reproduce the full
+67,372-byte Japanese decoded MAINL EXE and original MAP, retaining
+677 MZ relocations. Cumulative source-built exact CODE is 14114
+bytes. This does not promote any accepted ledger source units, nor
+does it run full cold replay. See
+[strnset native review](MAINL_STRNSET_NATIVE_REVIEW.md).
+
 ## Fifteen-source exact strncat using real movmem/strlen edges
 
 The original DOS strncat translation unit is now completely
