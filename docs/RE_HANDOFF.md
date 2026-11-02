@@ -73,6 +73,28 @@ source CODE scope is **18,855 original bytes**,not yet
 formally accepted-ledger credit. No full cold replay.
 See [native fwrite source review](MAINL_FWRITE_NATIVE_REVIEW.md).
 
+## Verified original FILE seek/tell and 31 native source members
+
+The already readable DOS fseek.asm/stdio_layout.inc is now
+verified as a complete492-byte original CRT replacement:
+private buffered-bytes near helper137,far _fseek130 at+137
+and far _ftell225 at+267. Source CODE/PUBDEF/imports and
+six literal FIXUPPs agree with the **actual selected original
+CRT member232**,whose chronological OMF site order is
+342/149/239/293/365/409. Important:the separate standalone
+vendor/fseek.obj has the same full CODE and relocation set,
+but different raw writer order409/365/342/293/239/149.
+An earlier trial following the standalone variant was
+corrected in favor of the actual selected library member.
+Two actual TASM/TLIB/TLINK rounds add this as source
+member31 alongside getc/fread/fwrite/scanner/xx and both
+qsort bosses;the original Japanese MAINL EXE/MAP are
+bit-for-bit equal,with677 relocations and862 of893
+other library programs unchanged. Joint exact original
+source CODE grows to **19,832 bytes**. No accepted-ledger
+promotion or cold replay. See
+[original in-library fseek review](MAINL_FSEEK_NATIVE_REVIEW.md).
+
 ## Complete 485-byte getc/fgetc source and 30-source MAINL link
 
 The original getc CRT member237 now has true source for all485

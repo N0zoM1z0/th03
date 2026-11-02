@@ -1,42 +1,67 @@
-# Real DOS fseek/ftell: complete 492-byte semantic source
+# Real selected CRT fseek/ftell: complete 492 CODE and 31-source MAINL
 
-The maintained native 8086 source src/mainl/crt/fseek.asm and original
-stdio_layout.inc recover the actual selected Borland CRT fseek member232.
-It comprises a private near Pascal text-buffer adjustment helper
-(137 CODE bytes, RET 4), public far _fseek at137 (130 bytes), and
-public far _ftell at267 (225 bytes). Original FILE fields, LF text
-translation, buffer adjustment, _fflush, _lseek and __openfd handling
-are preserved as actual symbolic 16-bit instructions.
+The existing maintained 8086 translation unit
+src/mainl/crt/fseek.asm, with its typed
+src/mainl/crt/stdio_layout.inc, is now independently verified
+as a complete source-only replacement of the original large-model
+Borland DOS CRT file-position module at library index232.
 
-Actual native TASM generates all 492 original CODE bytes, the original
-DATA0/BSS0, public offsets137/267, import order _fflush/_lseek/__openfd
-and exact DATA-before-BSS GRPDEF. Crucially its **six original OMF
-FIXUPPs are in the genuine selected 893-member CRT's literal order:
-342,149,239,293,365,409**. The field at342 targets the original
-group-framed __openfd+1 byte;the other five are TARGET-framed far
-_fflush/_lseek calls.
+The original contains three distinct semantic functions:
+a **137-byte private near buffered-byte adjustment helper**
+for text-mode LF expansion, the **130-byte far _fseek**
+at original CODE+137 and the **225-byte far _ftell**
+at CODE+267. These functions preserve the real FILE
+stream-level, buffer-position and DOS seek flags,
+the original three imports (_fflush, _lseek, __openfd),
+far-cdecl ABI, near RET4 and far returns. Actual TASM
+compilation reproduces **all492 original CODE bytes**,
+the original far PUBLIC coordinates, empty DATA/BSS,
+and original DATA-before-BSS DGROUP record 08ff02ff03.
+No raw CODE-byte arrays, padding or binary object
+patches are used.
 
-A distinct standalone original vendor/fseek.obj has the same 492 CODE
-bytes and six logical relocation sites/targets but a different OMF
-record order **409,365,342,293,239,149**. This genuine difference
-must not be hidden: earlier attempts to match the standalone
-object with reversed source blocks would regress compatibility with
-the real original CRT member. The maintained readable source with
-FILE macros reproduces the *selected actual library member*, which
-the current reviewer checks alongside the standalone vendor variant.
+An important original-evidence discrepancy was independently
+discovered, rather than trusting historical records. The
+standalone vendor/fseek.obj and the fseek member program
+inside the actual Japanese CRT library have **identical
+complete CODE bytes and the same six logical relocations**
+but different raw OMF writer order:
 
-Rebuilding the original 893-member CRT with this source and all 30
-previously verified source modules leaves the other **862 original
-library member program records** untouched. Two real TASM/TLIB/TLINK
-rounds reproduce the complete original **67,372-byte Japanese decoded
-MAINL EXE and native MAP byte-for-byte**, with all **677 MZ
-relocations**. The cumulative exact native source CODE extent is
-**19,832 bytes across31 modules**.
+| Original evidence | Literal OMF FIXUPP CODE-site order |
+| --- | --- |
+| Actual selected in-library member232 | 342,149,239,293,365,409 |
+| Separate standalone vendor/fseek.obj | 409,365,342,293,239,149 |
 
-The original accepted28-provider library, frozen211-owner MAINL
-publication and candidate-local-attested fixed Japanese target
-remain unchanged; source-only normal-link exactness does not grant
-formal accepted byte credit. No full cold or DIET replay was run.
+The native readable maintained TASM source generates the
+**exact in-library ordered six fields**, not the
+standalone-file variant. An experiment that reassembled
+reordered ORG source blocks to match the standalone
+record was rejected after checking the actual selected
+library program. The original readable source is retained,
+and the scoped builder verifies the two original variants
+separately, including their equal literal field sets
+and unequal chronological writer order. This is source
+selection based on true MAINL link provenance.
+
+The independently reviewed native producer inherits the
+preceding 30-source CRT exact working carrier, including
+complete fread/fwrite/getc and scanner, whole xx and
+both qsort algorithms. It assembles the maintained fseek
+source and original FILE layout twice, replaces only the
+genuine library slot232, and retains all **862 other
+original member program records** in the 893-member
+CRT unchanged. Two real TASM/TLIB/TLINK rounds
+produce the **complete 67,372-byte decoded Japanese
+MAINL EXE and its original MAP byte-for-byte**, with
+all **677 MZ relocation entries** intact. The combined
+**31 source modules generate 19,832 original CODE bytes**.
+
+The accepted28-provider CRT and frozen211-owner MAINL
+publication remain untouched: working source equality is
+not formal accepted ledger promotion. The original
+Japanese target remains candidate-local-attested, no
+full cold replay/DIET repack or ancestor reconstruction
+was run.
 
 Affected-only reproduction:
 
@@ -44,6 +69,8 @@ Affected-only reproduction:
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_fseek_work.py
     PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_fseek_work
 
-Both complete source native OBJ/LIB/EXE/MAP rounds and actual
-writer logs are retained in .analysis/work/fseek-full-* and
-mainl-fseek-native-{build,review}.json.
+Retained source/FILE-layout hashes and both complete
+raw TASM OBJ/TLIB CRT/EXE/MAP vectors, actual native
+writer logs and both original selected/standalone
+member receipts are under .analysis/work/fseek-full-*
+and mainl-fseek-native-{build,review}.json.
