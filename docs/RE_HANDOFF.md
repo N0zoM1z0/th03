@@ -40,6 +40,27 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Full DOS stat 556 CODE +4 initialized DATA and 36-source MAINL
+
+The genuine CRT stat member289 has a complete native 8086
+source in stat.asm: a132-byte private far path delimiter helper
+and424-byte far _stat body. **All556 CODE bytes,4 genuine
+initialized DATA bytes and9 literal ordered OMF FIXUPPs**
+agree with the original Japanese owner. DS/DGROUP setup and
+an explicit near CALL after a manual PUSH CS restored the
+original segment layout; an unrestricted CALL to the FAR
+private helper had inserted a non-original extra PUSH CS.
+The source now joins35 existing modules (including original
+xx, both qsort bosses, scanner/scantol, full FILE I/O) in
+a36-source original CRT carrier. The other857 of893 vendor
+member programs remain unchanged. Two native TASM/TLIB/TLINK
+rounds produce the entire Japanese decoded MAINL EXE/MAP
+byte-for-byte and all677 MZ relocations. Joint source-built
+CODE reaches **21,275 bytes**. Parent fopen/fclose original
+OMF gaps remain explicitly open;accepted ledger/28-provider
+CRT are frozen. No full cold replay.
+See [stat original native review](MAINL_STAT_NATIVE_REVIEW.md).
+
 ## DOS fclose 192 bytes and 35-source exact Japanese MAINL
 
 The original fclose CRT member217 now has a complete 192-byte
