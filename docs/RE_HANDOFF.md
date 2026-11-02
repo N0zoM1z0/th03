@@ -154,6 +154,22 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Larger unsigned long parsing TU now native exact
+
+The genuine DOS Borland strtoul.cpp reconstructs231 full CODE bytes,
+two private near character callbacks and the original far public at
+offset56. Native BCC4.5 now reproduces all six ordered OMF fixups and
+the exact errno/ctype/scantol import order. Far stack output pointers,
+the extra unget character argument and the typed _AX test were essential:
+the preceding natural C++ trial differed by one OR-register byte.
+A joined original CRT library with complete xx,seven established CRT
+string/memory units,strstr,strtok and strtoul now has eleven source
+members,totaling13493 original CODE-segment bytes. Two BCC/TLIB/TLINK
+rounds produce the exact full Japanese decoded MAINL EXE/MAP and677 MZ
+relocations;all882 remaining library programs are unchanged. Formal
+accepted211-owner publication is still frozen,with no new ledger credit.
+See [unsigned parser source review](MAINL_STRTOUL_NATIVE_REVIEW.md).
+
 ## Full native stateful strtok with original ordered OMF fields
 
 The original 203-byte DOS BCC4.5 tokenizer now has a natural C++ source
