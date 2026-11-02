@@ -40,6 +40,26 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Original DOS/Unix time conversion and 48-source MAINL
+
+The complete CRT _timecvt member184 is now authored in
+real 8086 source: __dostounix301 and __unixtodos519,
+with all820 original CODE bytes,12 genuine initialized
+month-length DATA bytes, and29 ordered original logical
+OMF fields. Eighteen external near-helper fields to
+__ISDST / N_LXMUL@ / N_LMOD@ / N_LDIV@ retain one **raw
+OMF frame mismatch**: BCC TARGET frame5 vs TASM CODE
+frame0. Other eleven literal fields, CODE, DATA, imports,
+public offsets and group match. Two native TASM/TLIB/TLINK
+rounds replace the real CRT member with this source among48
+simultaneous source owners and reproduce the entire Japanese
+decoded MAINL EXE/MAP bit-for-bit with677 MZ relocations.
+The other845 of893 original library member programs remain
+unchanged. Exact working source CODE scope reaches **25,447
+bytes**; previous fopen/fclose metadata gaps also remain
+open. Formal accepted ledger stays frozen;no full cold
+replay. See [time conversion original product review](MAINL_TIMECVT_WORK_REVIEW.md).
+
 ## Complete 850-byte DOS splitpth and 47-source native MAINL
 
 The original DOS path splitter CRT member286 now has a
