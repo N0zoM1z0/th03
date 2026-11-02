@@ -60,6 +60,24 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Exact natural DOS ftime and 57-source Japanese MAINL
+
+The original far ftime member234 has high-level native
+BCC4.5 source emitting all22 original CODE bytes and
+the one literal TARGET-framed far __ftime FIXUPP at+12,
+with original PUBLIC, EXTDEF and empty DATA/BSS group.
+The correct C symbol spelling is _ftime to produce the
+original __ftime import; the wrong double-underscore C
+declaration created a non-original triple-underscore
+import. Both BCC/TASM/TLIB/TLINK rounds with57 real source
+CRT members reproduce the full 67,372-byte Japanese
+decoded MAINL EXE and MAP bit-for-bit with all677 MZ
+relocations, leaving836 of893 vendor programs untouched.
+Cumulative source CODE reaches **27,467 original bytes**.
+Pre-existing OMF frame/order gaps remain separately OPEN,
+accepted ledger frozen,no full cold replay.
+See [natural ftime review](MAINL_FTIME_NATIVE_REVIEW.md).
+
 ## Natural DOS tmpnam and 56-source Japanese MAINL
 
 The real far tmpnam member323 has exact high-level BCC4.5
