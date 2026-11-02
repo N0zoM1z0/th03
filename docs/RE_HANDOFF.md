@@ -40,6 +40,28 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Complete 1,256-byte strftime and 52-source Japanese MAINL
+
+The original far strftime member298 is now readable native 8086
+source,1,168 actual executable CODE bytes with448 instructions
+and88 genuine CODE table bytes:22 format ASCII WORDs and22
+relocatable symbolic switch WORDs. The source also has18 real
+initialized DATA bytes of formatting fragments. **All1,256
+CODE bytes,18 DATA bytes and66 original ordered logical OMF
+fields** agree, including the unusual BCC writer order of
+40 low-body fields,22 switch WORDs and4 late-body fields.
+A precise raw OMF gap remains: four near __UTOA CALLs at
+CODE+879/811/774/723 are TARGET-framed method5 in BCC and
+CODE-frame0 in TASM. Other62 fields are literal original.
+Two real TASM/TLIB/TLINK rounds include this source with51
+previous source members and reproduce the **entire original
+67,372-byte decoded Japanese MAINL EXE/MAP**, including
+all677 original MZ relocations, raw-equal. The other841 of893
+CRT member programs are unchanged, cumulative source CODE
+**26,971 bytes**. Earlier _timecvt/fopen/fclose OMF gaps
+remain separately open, accepted ledger frozen, no full cold
+replay. See [strftime source review](MAINL_STRFTIME_WORK_REVIEW.md).
+
 ## Natural Borland fputs and 51-source original MAINL
 
 The genuine far-cdecl fputs.cpp now naturally compiles
