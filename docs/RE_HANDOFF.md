@@ -154,6 +154,23 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Original DOS strpbrk and twenty-two simultaneous CRT sources
+
+The new source strpbrk.asm recovers80 original Borland far
+CODE bytes, the native return of the first matching far pointer,
+correct local accept-set scan and original BSS-before-DATA group.
+It is independently verified from native TASM output,not
+inferred to be equivalent to strspn/strcspn. Together with
+465-byte scantol and the full qsort/hqsort/xx runtime owners,
+the real source working library now contains22 original members
+generating **16,486 exact CODE bytes**;the other871 of893 CRT
+member programs remain untouched. Two native TASM/TLIB/TLINK
+rounds reproduce the entire fixed original Japanese MAINL
+EXE/MAP,including all677 MZ relocations. The original accepted
+211-owner publication/28-provider library is unchanged,no
+full cold replay or accepted-credit promotion. See
+[strpbrk source review](MAINL_STRPBRK_NATIVE_REVIEW.md).
+
 ## Native DOS strcspn and twenty-one-source original MAINL
 
 The natural strcspn.asm source now reconstructs73 exact original
