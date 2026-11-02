@@ -60,6 +60,23 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Exact native DOS chdir/unlink and 55-source Japanese MAINL
+
+The distinct original CRT chdir and unlink members8/136 are
+restored as native 8086 source. Each emits all28 original CODE
+bytes and one literal CODE-frame __IOERROR near FIXUPP at+22,
+with original far public and BSS/DATA group. Their DOS
+INT21h AH=3Bh/41h and DS:DX paths/stack are exact, not
+additional credit for the already reconstructed remove member.
+Two real native TASM/TLIB/TLINK rounds with55 original source
+CRT owners reproduce the entire 67,372-byte Japanese decoded
+MAINL EXE/MAP and all677 MZ relocations bit-for-bit, with
+838 original vendor member programs untouched. Joint native
+source CODE reaches **27,422 exact bytes**. Existing fopen,
+fclose,timecvt,strftime,tempnam OMF metadata gaps remain open,
+accepted ledger frozen,no full cold replay.
+See [chdir/unlink native review](MAINL_CHDIR_UNLINK_NATIVE_REVIEW.md).
+
 ## Original DOS tempnam 395 CODE +6 DATA and 53-source MAINL
 
 The far tempnam CRT member320 now has a maintained original
