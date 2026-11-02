@@ -154,6 +154,32 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Two complete DOS sorting bosses: qsort and high-address hqsort
+
+The original high-address hqsort (member464) is now fully recovered
+as real 8086 source:46-byte near swap,826-byte recursive far-pointer
+partition core and44-byte far public wrapper at CODE+872. All916
+native CODE bytes,52 literal ordered OMF relocations,original BSS6
+and eight near pointer/arithmetic EXTDEF names/indices agree.
+The separately recovered ordinary qsort (member275) also retains
+all756 CODE bytes and29 ordered fields. Both are compiled from
+full maintained assembler TUs using actual Borland TASM,with no
+target byte arrays,source filler or object patching.
+
+An eighteen-source original 893-member CRT now retains the full
+xx exception/RTTI bank,all previous bounded string/scanner CRT
+sources and both large sorting algorithms. The other875 original
+member programs remain untouched. Two real native TASM/TLIB/TLINK
+rounds reproduce the **entire67,372-byte Japanese decoded MAINL
+EXE and MAP byte-for-byte**,including677 MZ relocations. The
+joint source-built native CODE total is **15,786 bytes**.
+The accepted28-provider original library and211-owner formal
+publication remain frozen; this is source-only working native
+evidence with no newly credited accepted ledger bytes.
+See [complete high-address qsort review](MAINL_HQSORT_NATIVE_REVIEW.md)
+and [ordinary qsort source review](MAINL_QSORT_NATIVE_REVIEW.md).
+No full cold replay.
+
 ## Complete native qsort boss and seventeen-source Japanese MAINL link
 
 The original full756-byte qsort large runtime member now has a
