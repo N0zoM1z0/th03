@@ -40,6 +40,26 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Complete original DOS srchstr path search and 25-source MAINL
+
+The real far-cdecl __searchstr at CRT member282 is now a native-exact
+322-byte 8086 source, with2 initialized DOS path separator DATA
+bytes, eight real far imports and **ten literal ordered FIXUPPs**.
+The original compiler emitted fields in descending site order:
+309/298/268/167/150/130/120/107/44/22. The maintained source
+assembles its11 disjoint semantic CODE blocks in writer order
+with no byte padding and a true DGROUP-framed DATA offset.
+All322 CODE and2 DATA bytes match original, plus all10 literal
+fields and segment ownership; the new OMF may contain multiple
+LEDATA blocks instead of the original single compiler record.
+Both actual TASM/TLIB/TLINK rounds with25 source CRT members
+reproduce the entire Japanese decoded 67,372-byte MAINL EXE/MAP
+bitwise with677 relocations,keeping868 of893 original library
+members untouched. Joint exact source CODE reaches **18,167 bytes**.
+Formal accepted publication/28-provider CRT remains frozen.
+See [complete path search native review](MAINL_SRCHSTR_NATIVE_REVIEW.md).
+No full cold replay.
+
 ## Original strrchr and 24-source joint MAINL native link
 
 The far-cdecl strrchr.asm reconstructs all77 original DOS CODE
