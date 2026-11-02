@@ -40,6 +40,25 @@ MAINL accepts36,946 bytes:16,695 authored +20,251 library. Its DATA total includ
 and function denominators/completion percentage remain unknown. Old overlapping
 cutscene3195/regist2720/root2488 rows must not be counted again.
 
+## Exact natural fscanf and 32-source original MAINL link
+
+Actual BCC4.5 C++ source for variadic far-cdecl fscanf now produces
+all40 original CODE bytes, three literal ordered TARGET-framed
+OMF FIXUPPs to __scanner/__Nfgetc/__Nungetc and the exact native
+public/EXTDEF/zero storage. The original expression
+(void far *)(&format+1) emits PUSH SS / LEA AX,[BP+0Eh]
+directly: ordinary va_start inserted a non-original 15-byte
+local-frame sequence, while equivalent direct TASM used a
+non-original CODE-framed near call. Genuine native BCC fixes both.
+The 32-source CRT now contains all prior FILE I/O, both big
+sorting bosses, scanner/scantol and complete xx. The other861
+of893 original member program records stay unmodified; two
+BCC/TLIB/TLINK rounds reproduce the entire 67,372-byte Japanese
+decoded MAINL EXE/MAP bit-for-bit with677 ordered MZ relocations.
+Source-built exact CODE totals **19,872 bytes**; no accepted-ledger
+credit or full cold replay. See
+[original fscanf review](MAINL_FSCANF_NATIVE_REVIEW.md).
+
 ## Full DOS fseek/ftell and 31-source native Japanese MAINL
 
 The original selected CRT fseek member232 is now exact from the
