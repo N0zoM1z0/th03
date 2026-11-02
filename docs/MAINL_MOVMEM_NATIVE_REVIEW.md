@@ -1,43 +1,43 @@
-# Overlap-safe original DOS movmem and memmove, both entry points exact
+# Native original DOS movmem / memmove overlapping-copy member
 
-The maintained 8086 source src/mainl/crt/movmem.asm recovers the
-original **119-byte** Borland large-model CRT object,not just a
-simple memcpy. The object has _movmem at offset0 and _memmove
-at offset82, both far-cdecl interfaces. The former calls the real
-original near N_PCMP@ helper to order the incoming far source and
-destination pointers. It switches CLD/STD copy direction for
-overlap, aligns each scan to the destination,uses one odd leading
-MOVSB, REP MOVSW and an odd final MOVSB, then restores DF to
-the normal forward state. The far _memmove wrapper calls the
-preceding function using PUSH CS and a genuine near CALL,and
-returns the far destination pointer in DX:AX.
+The maintained 8086 TASM source src/mainl/crt/movmem.asm reconstructs
+the original **119-byte DOS large-model CRT object** at member index266.
+It includes two real far public entries: _movmem at offset0 and
+_memmove at offset82. The original near arithmetic helper import
+N_PCMP@ and its **one literal OMF relocation** match in the complete
+native object,including the original CODE/DATA/BSS ownership and
+BSS-before-DATA group record.
 
-Every original CODE byte, including the 82+37 split and the
-single original near N_PCMP@ relocation at source CODE offset19,
-is produced by real TASM source. The OMF field retains its
-CODE frame, non-segment-relative 16-bit displacement and target
-EXTDEF without rewriting the object. The original GRPDEF
-08ff03ff02, empty DATA/BSS and both public symbol offsets also
-match. This is not an embedded target-byte array or source-side
-padding for apparent equality.
+The helper compares original far pointers,selects direction with CLD
+or STD,correctly handles overlapping source/destination and odd
+addresses with MOVSB/MOVSW,and always clears DF before returning.
+The _memmove wrapper passes its five near-stack WORD parameters via
+PUSH CS / a genuine near CALL and returns the original destination
+in DX:AX. This retains the full original 16-bit near/far calling
+conventions and unchecked behavior. No original target-byte table,
+object patch or synthetic padding is present.
 
-The scoped library contains this exact source object and all
-13 previous independent source modules (full xx/RTTI and twelve
-string/memory/scanner sources, including newly recovered strncpy).
-The original library member266 is replaced while all other
-**879 of893 member program records** remain intact. Two real
-TASM/TLIB/TLINK rounds generate the complete original 67,372-byte
-Japanese decoded MAINL EXE and its full MAP byte-for-byte,
-including all 677 original MZ relocations. The cumulative
-normal-link CODE reconstructed from 14 source modules is
-**13,951 bytes**.
+The native expansion builder independently compiled strncpy49 and
+movmem119 as ordinary TASM translation units and linked them with
+the previously verified full xx and ten other DOS CRT source objects,
+preserving **879 other original library programs of893**. Two
+TASM/TLIB/TLINK rounds reproduce the entire original **67,372-byte
+Japanese decoded MAINL EXE** and full original MAP byte-for-byte,
+including all **677 MZ relocation entries**. The combined native
+source CODE segment coverage is **13,951 bytes**.
 
-The pinned cold pair, original target and accepted 28-provider CRT/
-211-owner MAINL publication remain unchanged. No new accepted
-ledger credit, full cold replay or DIET repack is claimed.
+Original accepted28-provider CRT library,formal211-owner publication,
+cold artifacts and Japanese targets are unchanged;this is verified
+source-only native reconstruction,not new accepted-ledger credit.
+No full cold/DIET or ancestor runtime replay was performed.
 
-Affected scope only:
+Focused reproduction:
 
     PYTHONPATH=scripts .venv/bin/python scripts/build_th03_mainl_crt_expand_work.py strncpy-movmem
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_crt_expand_work.py strncpy-movmem
     PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_crt_expand_work
+
+Retained original/source native OBJ/LIB/EXE/MAP pairs,phase logs and
+source-bound build/review receipts are under
+.analysis/work/crt-next-strncpy-movmem-* and
+mainl-crt-expand-strncpy-movmem-{build,review}.json.

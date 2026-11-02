@@ -1,38 +1,30 @@
-# Original DOS strncpy source and thirteen simultaneous CRT source members
+# Original DOS strncpy native exact source in the 13-source MAINL carrier
 
-The maintained src/mainl/crt/strncpy.asm restores all **49 bytes** of the
-original DOS Borland large-model far-cdecl strncpy. It performs the
-original bounded REPNE SCASB scan before copying with REP MOVSB and
-zero-filling the remainder with REP STOSB. The source preserves the
-original DS/ES transfers and DI/SI, plus the caller's far destination
-as the DX:AX return. The original TASM opcode is XCHG CX,BX (not
-the alternate equivalent XCHG BX,CX encoding).
+The maintained src/mainl/crt/strncpy.asm implements the original Borland
+large-model counted string copy,including its original count-limited
+REPNE SCASB scan,far DS/ES transfer,REP MOVSB and REP STOSB zero fill.
+It preserves the original far cdecl stack/return DX:AX and source/buffer
+behavior,without adding guards or embedding target opcodes in data.
 
-The actual native object has one public _strncpy at offset0, CODE49,
-empty DATA and BSS, the exact 08ff03ff02 BSS-before-DATA GRPDEF,
-no imported symbols and no ordered OMF fixups. Every CODE byte,
-public symbol and segment boundary is compared to the original
-Japanese vendor object;there is no target byte table or patch.
+Actual TASM compilation produces all **49 original CODE bytes** exactly,
+one public _strncpy at offset0,zero native FIXUPPs,empty DATA/BSS and the
+original literal BSS-before-DATA segment group 08ff03ff02.
 
-The scoped builder reuses the previously verified twelve-source CRT
-working library including complete xx (12,622 bytes),signed/unsigned
-integer conversion and stateful strtok. It replaces original library
-member304 with the independent real TASM strncpy object and preserves
-all880 other original member programs. Two complete real TASM/TLIB/TLINK
-rounds reproduce the **entire 67,372-byte decoded Japanese MAINL EXE**
-and original MAP byte-for-byte,with all677 MZ relocations. Thirteen
-native source members now supply **13,832 exact CODE bytes**.
+The dedicated native CRT expansion builder reuses the complete exact
+twelve-source MAINL carrier,extracts all893 original library members,
+replaces just the original strncpy member at304 alongside those
+twelve previous genuine sources,and performs two actual TASM/TLIB/TLINK
+rounds. All **880 unchanged original member program records** agree.
+Both rounds generate the complete original **67,372-byte Japanese decoded
+MAINL EXE** and native MAP raw-equal,with all677 original relocations.
+The current source-built CODE total is **13,832 bytes**.
 
-The accepted28-provider CRT and211-owner MAINL publication are
-unchanged. This is a source-only normal-link reconstruction,not
-automatic newly published ledger credit. No full cold or DIET replay.
+This is reproducible natural source evidence,not accepted ledger promotion.
+The accepted28-provider library and formal211-owner MAINL publication
+remain frozen;no cold/DIET replay or ancestor runtime pipeline was run.
 
-Affected-only checks:
+Focused reproduction:
 
     PYTHONPATH=scripts .venv/bin/python scripts/build_th03_mainl_crt_expand_work.py strncpy
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_crt_expand_work.py strncpy
     PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_crt_expand_work
-
-The complete two raw native OBJ/LIB/EXE/MAP vectors are retained under
-.analysis/work/crt-next-strncpy-*,with the current source-bound
-mainl-crt-expand-strncpy-{build,review}.json receipts.

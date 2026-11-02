@@ -154,6 +154,35 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Fifteen-source exact strncat using real movmem/strlen edges
+
+The original DOS strncat translation unit is now completely
+reconstructed as a natural BCC4.5 source,with all105 CODE bytes,
+two original far strlen calls,the movmem call,and all3
+literal ordered OMF fields. Moving strlen(source) assignment into
+the limit comparison preserves AX and eliminates a non-original
+three-byte local reload. It links with the whole xx TU,seven original
+CRT memory/string helpers,strstr,strtok,strtoul,strtol,strncpy
+and dual-entry movmem. All15 source members supply14056 exact CODE
+bytes,with878 unchanged programs. Both native links reproduce the
+whole Japanese decoded MAINL EXE/MAP including677 relocations.
+Accepted ledger stays frozen;no cold replay.
+See [strncat source review](MAINL_STRNCAT_NATIVE_REVIEW.md).
+
+## Full native overlap-safe movmem and memmove
+
+The real 119-byte original DOS movmem CRT member is recovered as
+source TASM,including two complete public far entry points (_movmem
+and _memmove),the original N_PCMP@ import/fixup and both copy directions.
+Its overlap-safe BSS-free far pointer handling and the wrapper's
+near CALL/codegen match every original byte. Alongside native
+strncpy and the previous12 real CRT sources,the14-source library
+has13951 CODE bytes exact,with879 other native member programs
+unchanged. Both full source-only normal links generate the entire
+original Japanese decoded MAINL EXE and MAP raw equal,including677
+relocations. Accepted ledger credit is still frozen;no cold replay.
+See [overlap-safe movmem recovery](MAINL_MOVMEM_NATIVE_REVIEW.md).
+
 ## Native exact counted strncpy
 
 A real 8086 DOS far-cdecl strncpy.asm source restores49 complete
