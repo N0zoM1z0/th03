@@ -62,7 +62,19 @@ def native_bodies(obj,asm,sources,original_bodies,baseline_bodies):
         pairs=line_files.get(definition['source'],[])
         begin={at for line,at in pairs if line==definition['source_line']}
         end={at for line,at in pairs if line==definition['source_end_line']}
-        need(len(begin)==len(end)==1,'one native declaration/closing-brace position: '+definition['source_name'])
+        if not end:
+            # BCC 4.5 suppresses the closing-brace LINNUM if the last
+            # statement ends in a directly emitted jump/epilogue. In this
+            # case use the last *real* nearby source LINNUM, not a guessed
+            # prologue/size or a fabricated source-end instruction.
+            eligible=[(line,at) for line,at in pairs if
+                      definition['source_end_line']-3<=line<
+                      definition['source_end_line']]
+            if eligible:
+                latest=max(line for line,_ in eligible)
+                end={at for line,at in eligible if line==latest}
+        need(len(begin)==len(end)==1,
+            'one native declaration/final source statement: '+definition['source_name'])
         starts.append(begin.pop());epilogues.append(end.pop())
     need(starts==sorted(set(starts)) and starts[0]==0,'original source order and disjoint native starts')
     p=payload(obj);code=bytes(p[1,i] for i in range(sum(seg==1 for seg,off in p)))

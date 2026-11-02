@@ -123,7 +123,6 @@ static void near initCatchArg(XXHandler far *handler,xx_registration_ptr err,
     xx_type_ptr handler_type;
     xx_type_ptr type;
     unsigned size;
-    unsigned mask;
     unsigned base;
     void far *value;
     void far *pointer;
@@ -140,27 +139,39 @@ static void near initCatchArg(XXHandler far *handler,xx_registration_ptr err,
     exception->argument_address = (void __ss *)(new_bp + table->argument_offset);
     type = handler_type;
     size = type->size;
-    mask = type->mask;
-    base = mask;
-    if(mask & 0x30) {
+    // In the original Borland codegen the pointer mask lives in CX.
+    // A separate C local here is spilled by the inline branch labels and
+    // shifts every subsequent original 24-byte frame slot.
+    _CX = type->mask;
+    base = _CX;
+    if(_CX & 0x30) {
         type = type->data.pointer.base;
         base = type->mask;
     }
-    if((mask & 0x10) && (exception->flags & 1)) {
+    if((_CX & 0x10) && (exception->flags & 1)) {
         memset(exception->argument_address,0,size);
         keep_original = 1;
         goto done;
     }
-    if((base & 1) && (mask & 0x30)) {
-        if(mask & 0x20)
-            keep_original = 1;
-        else {
-            value = *(void far * far *)value;
-            if(exception->mask & 0x1000) {
-                value = (void near *)FP_OFF(value);
-                keep_original = 1;
-            }
+    if((base & 1) && (_CX & 0x30)) {
+        // The original has two real outgoing edges (JE to dereference,
+        // JMP to the common keep-original assignment). A plain C if/else
+        // merges them into one JNE. Preserve those semantic flow edges,
+        // not an inserted padding sequence or an object byte patch.
+        asm {
+            test cl,20h
+            je xx_pointer_value
+            jmp xx_pointer_keep
+xx_pointer_value:
         }
+        value = *(void far * far *)value;
+        if(exception->mask & 0x1000) {
+            value = (void near *)FP_OFF(value);
+            asm xx_pointer_keep:
+            keep_original = 1;
+            asm jmp xx_pointer_end;
+        }
+        asm xx_pointer_end:
         if(!sameTypeID(exception->base,type)) {
             void far *old_value = value;
             value = adjustClassAddress(value,exception->base,type);
@@ -184,12 +195,12 @@ static void near initCatchArg(XXHandler far *handler,xx_registration_ptr err,
             memcpy(exception->argument_address,value,size);
         goto done;
     }
-    if(mask & 0x20) {
+    if(_CX & 0x20) {
         memcpy(exception->argument_address,&value,size);
         keep_original = 1;
         goto done;
     }
-    if((mask & 0x10) && exception->size != size) {
+    if((_CX & 0x10) && exception->size != size) {
         pointer = *(void near * far *)value;
         memcpy(exception->argument_address,&pointer,sizeof(pointer));
     }

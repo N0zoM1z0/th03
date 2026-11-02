@@ -22,7 +22,7 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual(len(r['actual22_public_bindings']),22)
         self.assertTrue(r['native_object_compiler'])
         self.assertEqual(len(r['native_procedures']),50)
-        self.assertEqual((r['original_xx_CODE_bytes'],r['candidate_xx_CODE_bytes']),(12622,12618))
+        self.assertEqual((r['original_xx_CODE_bytes'],r['candidate_xx_CODE_bytes']),(12622,12622))
         catch=r['catch_storage_codegen']['exceptionHandled']
         self.assertEqual((catch['original_bytes'],catch['candidate_bytes'],catch['stack_bytes']),(216,216,8))
         self.assertTrue(catch['complete_object_raw_equal'])
@@ -43,7 +43,7 @@ class XxWholeProduct(unittest.TestCase):
         self.assertTrue(dispatcher['raw_equal'])
         cleanup=next(q for q in r['raw_function_comparisons'] if q['name']=='dtorCleanup')
         self.assertEqual(cleanup['candidate_bytes'],1035)
-        self.assertFalse(cleanup['raw_equal'])
+        self.assertTrue(cleanup['raw_equal'])
         compatibility=next(q for q in r['raw_function_comparisons'] if q['name']=='compatibleType')
         self.assertEqual(compatibility['candidate_bytes'],372)
         self.assertTrue(compatibility['raw_equal'])
@@ -54,7 +54,7 @@ class XxWholeProduct(unittest.TestCase):
             self.assertTrue(body['raw_equal'])
         handler=next(q for q in r['raw_function_comparisons'] if q['name']=='_ExceptionHandler')
         self.assertEqual(handler['candidate_bytes'],880)
-        self.assertFalse(handler['raw_equal'])
+        self.assertTrue(handler['raw_equal'])
         for a,b in r['target_and_source_RTTI_probes']:
             self.assertEqual(a,b)
         a,b=r['target_and_source_real_memcpy_raise_probe']
@@ -76,7 +76,7 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
         self.assertTrue(next(q for q in r['raw_function_comparisons']
             if q['name']=='exceptionHandled')['raw_equal'])
-        self.assertEqual(sum(q['raw_equal'] for q in r['raw_function_comparisons']),34)
+        self.assertEqual(sum(q['raw_equal'] for q in r['raw_function_comparisons']),48)
         self.assertEqual([(q['name'],q['bytes'],q['native_object_raw_equal'])
             for q in r['exact_throw_wrappers']],
             [('_ThrowException',89,True),('_ReThrowException',170,True)])
@@ -85,6 +85,16 @@ class XxWholeProduct(unittest.TestCase):
                 wrapper['original_and_candidate_fields'][1])
             self.assertTrue(next(q for q in r['raw_function_comparisons']
                 if q['name']==wrapper['name'])['raw_equal'])
+        init=r['catch_storage_codegen']['initCatchArg']
+        self.assertEqual((init['original_bytes'],init['candidate_bytes'],init['stack_bytes']),
+                         (678,678,24))
+        self.assertTrue(init['complete_object_raw_equal'])
+        self.assertEqual(init['remaining_instruction_forms'],[])
+        self.assertEqual([[f['site']-start for f in ff] for ff,start in
+                          zip(init['original_and_candidate_literal_fields'],(6144,6144))],
+                         [[611,544,206]]*2)
+        self.assertEqual([q['name'] for q in r['raw_function_comparisons'] if not q['raw_equal']],
+                         ['searchBaseClass','__DynamicCast'])
         self.assertEqual(r['raw_Raise_argument_copy_bytes'],71)
         self.assertEqual(r['RaiseException_stack_allocations'],[390,390])
         self.assertTrue(r['native_Raise_object_raw_equal'])
@@ -95,7 +105,7 @@ class XxWholeProduct(unittest.TestCase):
         self.assertEqual((raise_body['original_bytes'],raise_body['candidate_bytes']),(1151,1151))
         self.assertTrue(raise_body['raw_equal'])
         self.assertFalse(r['whole_EXE_raw_equal'])
-        self.assertFalse(r['whole_MAP_raw_equal'])
+        self.assertTrue(r['whole_MAP_raw_equal'])
         self.assertEqual((r['source_acceptance'],r['accepted_source_bytes'],r['original_cold_rebuilt']),(False,0,False))
 
 

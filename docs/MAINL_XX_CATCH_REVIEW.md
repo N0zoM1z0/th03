@@ -25,13 +25,15 @@ pointer is declared at function scope. Its second descriptor consequently uses
 BP-8,the earlier count slot,instead of reusing the first descriptor's BP-4.
 
 `catch_storage_codegen` checks complete bodies,instruction alignment,the six/
-two actual helper calls and all remaining branch destinations. The current
-normal product uses native BCC output. initCatchArg is674 versus678,frame24.
-Native compilation recovers the original short class-guard JE at+0x18C
-(candidate+0x188). Two forms remain:original JE/JMP versus source JNE at+0xEB,
-and the original JMP-to-next at+0x117. All other instructions agree outside
-checked branch/CALL operands. The retained S/TASM full-TU diagnostic is676 bytes
-and also differs at that class guard.
+two actual helper calls and all remaining branch destinations. The current native BCC product now matches all678 original
+initCatchArg instructions,its24-byte stack frame and its three
+ordered literal memory fields (611/544/206). The Borland _CX
+pseudo-register retains the original mask without spilling;the
+two required outgoing JE/JMP edges are expressed in semantic
+assembler labels while other work stays in C++. This also restores
+the complete linked880-byte _ExceptionHandler. The separate
+S/TASM diagnostic emits680 bytes with a different class guard
+and remains an unaccepted miniature,not the native product.
 
 exceptionHandled now matches all216 original native object bytes with its
 original8-byte frame. The source first recovers the direct `LES BX,ES:[BX+type]`
@@ -45,7 +47,7 @@ native-object exact match,not a whole-link or published-exactness claim.
 
 Literal native field order stays explicit. exceptionHandled sites are original
 95/29 versus native95/29;initCatchArg sites are original611/544/206 versus
-native607/540/206. The separate S/TASM sites remain29/95 and206/542/609.
+native611/544/206. The separate S/TASM sites remain29/95 and206/546/613.
 Both producers now retain original full-TU memcpy/memset EXTDEF indices9/10.
 No vector is sorted and no partial storage/codegen proof is counted as acceptance.
 
@@ -53,13 +55,13 @@ Earlier controls in `.analysis/work/catch-storage-codegen-experiments.json`
 cover braces,old_value scopes,labels and optimizer profiles. The isolated674-byte
 native result is now reproduced by the maintained full TU after expressing
 unsupported386 operations in source. See [product review](MAINL_XX_PRODUCT_REVIEW.md).
-Current native CODE12618/187 fields and67372-byte EXE remain raw-different.
+Current native CODE12622/187 matching fields and67372-byte EXE still differ only in six RTTI operands.
 The complete216-byte exceptionHandled now agrees in both its native object
 and linked function,after restoring preceding RaiseException layout.
 The published211 owners/36946 bytes and accepted28-provider library stay unchanged.
 Affected native pairs are refreshed without rebuilding the938 retained cold outputs.
 
-## Further native controls
+## Historical rejected native controls
 
 New direct-native trials leave the maintained source unchanged. Reversing the
 reference conditional,using an explicit early exit,or grouping it as one

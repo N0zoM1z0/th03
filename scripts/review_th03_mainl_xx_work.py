@@ -43,9 +43,8 @@ def native_fixup_blocks(obj,expected_sizes):
             'complete native fields in literal descending order within each CODE block')
         blocks.append(dict(start=start,size=size,literal_fields=selected))
         observed.extend(selected);cursor+=size
-    # The observed native compiler produces a 1023-byte LEDATA record at
-    # 0x1C00 in this source layout. Check complete contiguous CODE coverage
-    # and literal descending FIXUPP order, not an assumed fixed block size.
+    # Compare native emitted CODE boundaries and FIXUPP writer order exactly:
+    # the restored initCatchArg removes the one-byte-early LEDATA split.
     need(len(fields)==187 and observed==fields and
         [b['size'] for b in blocks]==expected_sizes,
         'all187 literal fields and actual emitted CODE-block sizes retain writer order,without sorting')
@@ -213,10 +212,8 @@ def review(root,report=None):
     destruction=destruction_codegen(original,v['obj'],original_bodies,procedures)
     exception_handler=handler_codegen(original,v['obj'],original_bodies,procedures)
     catch_storage=catch_storage_codegen(original,v['obj'],original_bodies,procedures,native=True)
-    # The native writer ends the eighth block one byte early after the
-    # restored Raise body;all fields remain within their actual LEDATA owners.
-    fixup_blocks=[native_fixup_blocks(original,[1024]*12+[334]),
-        native_fixup_blocks(v['obj'],[1024]*7+[1023]+[1024]*4+[331])]
+    fixup_blocks=[native_fixup_blocks(obj,[1024]*12+[334])
+        for obj in (original,v['obj'])]
     handler_blocks=[]
     need(original_bodies[29]['name']=='_ExceptionHandler','actual handler procedure identity')
     for blocks,start in zip(fixup_blocks,[original_bodies[29]['start']-0x580D,procedures[29]['start']]):
@@ -317,7 +314,7 @@ def review(root,report=None):
         [f['site'] for f in raise_field_vectors[0]]==[772,404,61,33,1134],
         'all five original/native Raise OMF fixups agree,including emitted order')
     raw_equal=v['exe']==target.raw;map_equal=v['map']==(WORK/'obj/th03/mainl.map').read_bytes()
-    need(not raw_equal and not map_equal,'current full product remains a raw-different candidate,not exact acceptance')
+    need(not raw_equal and map_equal,'current native full MAP is exact,while six CODE bytes still prevent EXE acceptance')
     tail_start=base+procedures[36]['start'];tail_size=code_size-procedures[36]['start']
     body_comparisons=[]
     need(len(original_bodies)==len(procedures)==50,'complete original/current function comparison scope')

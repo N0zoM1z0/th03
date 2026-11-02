@@ -38,7 +38,7 @@ class XxRtti(unittest.TestCase):
         handler=r['exception_handler_codegen']
         self.assertEqual((handler['candidate_bytes'],handler['stack_bytes']),(880,56))
         self.assertTrue(handler['all854_bytes_outside_field_and_call_operands_equal'])
-        self.assertEqual([q['offset'] for q in handler['raw_byte_differences']],[248,372,529,585,610])
+        self.assertEqual([q['offset'] for q in handler['raw_byte_differences']],[248,529,585])
         self.assertEqual(handler['separate_unwind_cleanup_raw_bytes'],13)
         self.assertEqual(handler['literal_field_offset_order'],[[372,294,724,703,700],[294,372,700,703,724]])
         self.assertEqual(handler['switch_field_offset_order'],[[10,8,6,4,2,0],[0,2,4,6,8,10]])
@@ -49,6 +49,14 @@ class XxRtti(unittest.TestCase):
         self.assertEqual(catch['remaining_instruction_forms'],[])
         self.assertEqual([len(fields) for fields in catch['original_and_candidate_literal_fields']],[2,2])
         self.assertFalse(catch['complete_object_raw_equal'])
+        # The separate S/TASM diagnostic still shortens a class guard and
+        # is not conflated with the native BCC source-only product.
+        init=r['catch_storage_codegen']['initCatchArg']
+        self.assertEqual((init['original_bytes'],init['candidate_bytes'],init['stack_bytes']),
+                         (678,680,24))
+        self.assertEqual([(q['original_hex'],q['candidate_hex'])
+                          for q in init['remaining_instruction_forms']],
+                         [('747c','7502eb7c')])
         results={}
         for a,b in r['target_and_source_RTTI_probes']:
             self.assertEqual(a,b);results[a['case']]=a
