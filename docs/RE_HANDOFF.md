@@ -60,6 +60,24 @@ OMF gaps remain open, frozen accepted ledger unchanged and
 no full cold replay. See
 [tempnam original native review](MAINL_TEMPNAM_WORK_REVIEW.md).
 
+## Original DOS tempnam 395 CODE +6 DATA and 53-source MAINL
+
+The far tempnam CRT member320 now has a maintained original
+8086 source:395 exact CODE bytes,6 initialized TMP path DATA
+bytes and14 original ordered logical OMF relocations. The
+near __MKNAME call at CODE+309 retains one raw OMF frame
+difference, original BCC TARGET5 versus TASM CODE0.
+All actual instructions, nine original imports, far public,
+DATA/BSS group, other13 literal fixups and targets agree.
+Two real TASM/TLIB/TLINK rounds with53 source CRT members
+reproduce the complete Japanese decoded 67,372-byte MAINL
+EXE and MAP bit-for-bit with all677 MZ relocations; the
+other840 original member program records remain unchanged.
+Exact working source CODE reaches **27,366 bytes**. Previous
+strftime/timecvt/fopen/fclose OMF gaps remain OPEN, accepted
+ledger unchanged and no full cold replay.
+See [native tempnam source review](MAINL_TEMPNAM_WORK_REVIEW.md).
+
 ## Complete 1,256-byte strftime and 52-source Japanese MAINL
 
 The original far strftime member298 is now readable native 8086
@@ -81,26 +99,6 @@ CRT member programs are unchanged, cumulative source CODE
 **26,971 bytes**. Earlier _timecvt/fopen/fclose OMF gaps
 remain separately open, accepted ledger frozen, no full cold
 replay. See [strftime source review](MAINL_STRFTIME_WORK_REVIEW.md).
-
-## Full 1,256-byte DOS strftime and 52-source Japanese MAINL
-
-The original strftime CRT member298 has a real native 8086
-source with **1,256 exact CODE bytes and18 initialized DATA
-bytes**. The CODE comprises1,168 executable instruction bytes
-and88 real format-character/symbolic switch-table bytes.
-All66 OMF relocations have the original site, target and
-literal writer order; four near __UTOA calls at+723/774/
-811/879 retain a **raw OMF frame difference**: BCC original
-TARGET5 vs TASM CODE0. All genuine CODE/DATA, public,
-twelve imports and group are exact. Both real native
-TASM/TLIB/TLINK rounds with52 original source CRT members
-reproduce the entire **67,372-byte decoded Japanese MAINL
-EXE and original MAP byte-for-byte**, preserving all677 MZ
-relocations, leaving841 other vendor members unchanged.
-Cumulative source CODE reaches **26,971 original bytes**.
-Inherited fopen/fclose/timecvt metadata gaps remain OPEN,
-accepted ledger unchanged,no full cold replay.
-See [original strftime source/product review](MAINL_STRFTIME_WORK_REVIEW.md).
 
 ## Natural Borland fputs and 51-source original MAINL
 
