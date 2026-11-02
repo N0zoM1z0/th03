@@ -154,6 +154,23 @@ unchanged. Two actual TLIB/TLINK rounds rebuild the complete original
 not claim formally accepted bytes. See [eight-member normal-link review]
 (MAINL_XX_CRT8_COMBINED_REVIEW.md). No full cold replay was performed.
 
+## Signed strtol large original control-flow recovery
+
+The original 290-byte DOS BCC4.5 signed strtol translation unit is
+now recovered naturally. It contains two private near scanner
+callbacks,its original far public at offset56,sign handling,overflow
+clamps and seven literal ordered OMF fields. The correct native
+10-byte stack frame required keeping the ES segment from the
+whitespace loop;the typed volatile far access through MK_FP(_ES,...)
+eliminates one non-original LES. All290 CODE bytes and seven fields
+are exact. A twelve-source original library containing the whole
+xx TU and previously proved CRT string/memory/scanner modules
+now has13783 native-exact CODE-segment bytes. The other881 of893
+library programs remain unmodified,and two real BCC/TLIB/TLINK
+rounds reproduce the entire Japanese MAINL EXE/MAP raw-equal.
+No full cold replay or new formally accepted ledger credit.
+See [signed native scanner review](MAINL_STRTOL_NATIVE_REVIEW.md).
+
 ## Larger unsigned long parsing TU now native exact
 
 The genuine DOS Borland strtoul.cpp reconstructs231 full CODE bytes,
