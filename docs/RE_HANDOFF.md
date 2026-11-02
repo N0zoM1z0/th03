@@ -195,6 +195,18 @@ library members unchanged. Two TASM/TLIB/TLINK rounds reproduce the
 original decoded Japanese MAINL EXE/MAP byte-for-byte;formal accepted
 ledger remains frozen. See [counted copy](MAINL_STRNCPY_NATIVE_REVIEW.md).
 
+## Large qsort: first internal native helper exact, core open
+
+The original qsort CRT member at275 is a756-byte boss with29 literal
+OMF fields and6 bytes of BSS. A genuine source include qswap.inl now
+assembles to all46 original near swap-helper bytes,its first BSS width
+field at CODE+9 and its original RET 8 callee-clean ABI. Two complete
+native TASM outputs are raw-repeatable with the correct original
+DGROUP shape. The recursive near quicksort core (666 bytes) and far
+public qsort wrapper (44 bytes) are still open;this is **only a bounded
+prefix exact proof**,not full qsort or accepted unit credit. See
+[qsort swap analysis](MAINL_QSORT_SWAP_RECOVERY.md). No cold replay.
+
 ## New exact overlap-safe movmem and bounded strncpy
 
 The original DOS far-cdecl strncpy produces49 exact native CODE bytes,
