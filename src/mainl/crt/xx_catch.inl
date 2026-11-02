@@ -38,8 +38,13 @@ static void near exceptionHandled(xx_exception_ptr exception)
                 mov word ptr type+2,es
                 mov word ptr type,bx
             }
+            // The mask is the first argument evaluated for this cdecl call.
+            // Keep ES:BX from the direct LES for that first far access; asking
+            // BCC to reload `type` here adds a non-original three-byte LES.
+            // The following destructor pointer still reloads the typed local.
             destThrownValue((char far *)exception + sizeof(XXException),
-                type->data.object.dtor_address,type->data.object.dtor_mask);
+                type->data.object.dtor_address,
+                ((xx_type_ptr)MK_FP(_ES,_BX))->data.object.dtor_mask);
             *__RefDestructorCount() = saved_count;
         }
         exception->argument_buffer = 0;

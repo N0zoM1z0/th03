@@ -33,16 +33,19 @@ and the original JMP-to-next at+0x117. All other instructions agree outside
 checked branch/CALL operands. The retained S/TASM full-TU diagnostic is676 bytes
 and also differs at that class guard.
 
-exceptionHandled is now219 versus216,frame8. A native BCC inline-assembly
-`LES BX,ES:[BX+offsetof(XXException,type)]` recovers the original10-byte
-far-descriptor load/store at+0x35. The compiler still inserts a redundant
-3-byte `LES BX,[BP-4]` before loading the destructor mask;the complete current
-13-byte sequence is compared against the original10 bytes,without normalizing
-branches or local CALL operands. No defensive product changes are introduced.
+exceptionHandled now matches all216 original native object bytes with its
+original8-byte frame. The source first recovers the direct `LES BX,ES:[BX+type]`
+using symbolic `offsetof(XXException,type)`. For the first (right-to-left)
+cdecl argument, a typed `MK_FP(_ES,_BX)` preserves the descriptor pointer
+already in registers;the second argument still reads the saved typed local.
+This removes BCC's redundant three-byte LES reload and restores every opcode,
+branch displacement and local CALL operand. The actual ordered two far CRT
+fixups agree at the relative offsets;no body bytes are patched. This is a
+native-object exact match,not a whole-link or published-exactness claim.
 
 Literal native field order stays explicit. exceptionHandled sites are original
-95/29 versus native98/29;initCatchArg sites are original611/544/206 versus
-native607/540/206. The separate S/TASM sites remain29/98 and206/542/609.
+95/29 versus native95/29;initCatchArg sites are original611/544/206 versus
+native607/540/206. The separate S/TASM sites remain29/95 and206/542/609.
 Both producers now retain original full-TU memcpy/memset EXTDEF indices9/10.
 No vector is sorted and no partial storage/codegen proof is counted as acceptance.
 
@@ -50,7 +53,7 @@ Earlier controls in `.analysis/work/catch-storage-codegen-experiments.json`
 cover braces,old_value scopes,labels and optimizer profiles. The isolated674-byte
 native result is now reproduced by the maintained full TU after expressing
 unsupported386 operations in source. See [product review](MAINL_XX_PRODUCT_REVIEW.md).
-Current native CODE12550/187 fields and67308-byte EXE remain raw-different.
+Current native CODE12548/187 fields and67292-byte EXE remain raw-different.
 The published211 owners/36946 bytes and accepted28-provider library stay unchanged.
 Affected native pairs are refreshed without rebuilding the938 retained cold outputs.
 
@@ -68,8 +71,9 @@ retained223 bytes. Directly reading both destructor fields through exception->ty
 gives214,but loses the original eight-byte local layout and reloads the source
 pointer. Assigning the pointer inside the call also fails complete comparison.
 The ordinary huge-pointer qualifier does not recover the missing LES sequence.
-Those variants were not adopted. The subsequent symbolic-offset LES
-source is adopted;it avoids fabricated storage or binary patching.
+Those variants were not adopted. The subsequent symbolic-offset LES plus
+ES:BX pseudo-register access is adopted,without fabricated storage or binary
+patching;the native216-byte object is now exact.
 Actual transported-input hashes,commands and complete-body results are retained
 in `.analysis/work/xx-catch-native-followup.json` and the individual trial records.
 The affected native miniature/product pairs were rebuilt and validated.
@@ -156,8 +160,9 @@ inside each catch review. The211-owner publication/verifier inputs and938 unchan
 cold outputs remain valid;this miniature does not rebuild the full cold pair or
 replace the normal-library member. The later full-TU candidate does the latter.
 
-The current comparator is157 bytes and raw-equal. Candidate catch bodies are79/223/125/204/
-131/676 bytes,plus42 EH bytes,total1480. Whole candidate CODE is7214 with empty
+The comparator remains157 bytes and raw-equal. The refreshed scoped catch
+miniature has candidate bodies79/216/125/204/131/676 bytes,plus42 EH bytes,
+for a1473-byte bank. Whole candidate CODE is7190 with empty
 DATA and8 bytes of callback BSS. Fourteen interfaces remain unresolved. Original
 covered ranges total7193 bytes in three separate spans; gaps are not claimed.
 Complete catch-bank equality and full-TU acceptance remain open.

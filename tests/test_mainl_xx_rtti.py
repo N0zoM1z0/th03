@@ -45,11 +45,8 @@ class XxRtti(unittest.TestCase):
         self.assertEqual(handler['switch_destinations'],[[856,615,734,374,856,856]]*2)
         self.assertFalse(handler['complete_object_raw_equal'])
         catch=r['catch_storage_codegen']['exceptionHandled']
-        self.assertEqual((catch['original_bytes'],catch['candidate_bytes'],catch['stack_bytes']),(216,219,8))
-        self.assertEqual(catch['remaining_instruction_forms'],[dict(
-            original_offset=0x35,candidate_offset=0x35,
-            original_hex='26c45f048c46fe895efc',
-            candidate_hex='26c45f048c46fe895efcc45efc')])
+        self.assertEqual((catch['original_bytes'],catch['candidate_bytes'],catch['stack_bytes']),(216,216,8))
+        self.assertEqual(catch['remaining_instruction_forms'],[])
         self.assertEqual([len(fields) for fields in catch['original_and_candidate_literal_fields']],[2,2])
         self.assertFalse(catch['complete_object_raw_equal'])
         results={}

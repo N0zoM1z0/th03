@@ -11,8 +11,8 @@ This closes source presence for all12622 original CODE bytes and18 initialized
 DATA bytes,with reviewed used BSS10. **No new accepted credit.** This document's
 full-TU miniature uses BCC -S/TASM:CODE12553,181 fields,DATA18,BSS10,metadata136
 and tail1735,including one actual LIDATA zero. The normal product uses actual
-BCC `-c -y` objects:CODE12550,187 fields,metadata135 and tail1734,without an
-optional zero or LIDATA. It remains raw-different;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
+BCC `-c -y` objects:CODE12548,187 fields,metadata136 and tail1735,with one
+actual optional zero in dense LEDATA,without native LIDATA. It remains raw-different;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
 
 ## Source and native ownership
 
@@ -20,8 +20,8 @@ The current full-TU review also checks the recovered catch local storage and its
 remaining instruction forms. initCatchArg now has the original24-byte frame;
 exceptionHandled uses the original second descriptor slot at BP-8. See
 [catch storage review](MAINL_XX_CATCH_REVIEW.md#current-catch-local-storage-recovery)
-for the diagnostic three branch forms and current native two-form gap,plus
-the load sequence and literal field-order differences. The normal-library
+for the diagnostic three branch forms and current native two-form initCatchArg gap. The exceptionHandled native
+object is now exact;the S/TASM miniature retains its own field order. The normal-library
 reviewer independently binds its actual native object payload and all50 source/
 LINNUM boundaries;it does not equate that payload to this S/TASM miniature.
 
@@ -71,8 +71,8 @@ search582 and DynamicCast357 remain. No optimizer option push/pop is needed.
 Compiler-produced tail storage is reviewed completely:Bad_cast20 bytes,
 Bad_typeid22,far typeinfo-pointer descriptor21,optional compiler zero,vtable12 and
 typeinfo descriptor/terminated lists60. The retained S/TASM tail is1735 bytes,including
-1599 instructions and136 metadata bytes,as in the original. Native compilation
-instead emits1734/135. Matching one producer's tail length does not establish
+1599 instructions and136 metadata bytes,as in the original. The current native compilation also
+emits1735/136,with dense LEDATA rather than LIDATA. Matching one producer's tail length does not establish
 complete raw tail equality. The generated header retains size8,mask3,class flags1073h,
 base/virtual/member offsets48/52/56,WORD destructor counts1/1 and destructor mask5.
 All four internal far pointers bind the real typeinfo descriptor/destructor.
@@ -80,9 +80,9 @@ All four internal far pointers bind the real typeinfo descriptor/destructor.
 The earlier reviewer inferred the zero from final vtable-label parity. That
 assumption fails when compiler output and TASM relaxation have different offset
 estimates. The current copy-tail recovery flips actual storage presence:the
-S/TASM BCC ASM emits one optional zero through LIDATA;the native object emits
-none. The reviewer
-checks actual directive/record presence and every resulting byte in either case.
+S/TASM BCC ASM emits one optional zero through LIDATA;the native object now
+emits one zero in dense LEDATA,without any LIDATA record. The reviewer checks
+actual directive/record presence and every resulting byte in either case.
 It does not require final-address alignment or insert a missing initializer.
 
 ## RTTI behavior and focused observations

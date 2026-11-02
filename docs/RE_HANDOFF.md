@@ -52,18 +52,18 @@ is provider29;the accepted28-provider library and published211 owners stay uncha
 
 | Extent | Original | Native candidate |
 | --- | ---: | ---: |
-| Full decoded EXE | 67,372 | 67,308 |
-| xx CODE | 12,622 | 12,550 |
+| Full decoded EXE | 67,372 | 67,292 |
+| xx CODE | 12,622 | 12,548 |
 | Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | xx DATA/BSS | 18/10 | 18/10 |
-| RTTI tail | 1,735 | 1,734 |
+| RTTI tail | 1,735 | 1,735 |
 | Raise frame allocation | 390 | 342 |
 
 Both EXEs have4096-byte headers/677 relocations;raw EXE/MAP still differ.
-Candidate DGROUP0E3B versus original0E3F produces ordinary64-byte file movement.
+Candidate DGROUP0E3A versus original0E3F produces ordinary80-byte file movement.
 All CODE bytes resolve through18 real library interfaces;all22 public bindings
-pass. Net CODE length72 is not a differing-byte count. Matching field counts
+pass. Net CODE length74 is not a differing-byte count. Matching field counts
 also do not establish complete literal ordered field equality.
 
 Current useful proofs and open questions:
@@ -73,16 +73,17 @@ Current useful proofs and open questions:
   and339/372-byte type helpers. The four virtual-base SI transfers use register
   variables;nonvirtual ASM transfers retain the final branch shape.
 - Six original forward FAR CALLs are retained. Complete linked destruction
-  bodies129/715 agree. All50 bodies are compared;26 agree raw. These bounded
+  bodies129/715 agree. All50 bodies are compared;27 agree raw. These bounded
   observations add no accepted bytes while xx remains unaccepted.
 - Cleanup1035/frame32 still differs at two CALL operand bytes. Handler880/frame56
   differs at seven operand bytes;all854 other bytes agree. Its field-order
   difference follows movement across the native0x2000 CODE-block boundary.
   Keep literal vectors different and fix preceding layout;do not sort them.
 - Catch initialization is674 versus678/frame24,with two reference-branch forms
-  open. Cleanup is219 versus216/frame8:the original10-byte descriptor LES/store
-  is recovered,and one redundant3-byte LES reload remains. Earlier alternative
-  source-form/option trials remain unadopted;see [catch review](MAINL_XX_CATCH_REVIEW.md).
+  open. Cleanup now matches the complete216-byte native object/frame8. Direct
+  descriptor LES plus typed ES:BX pseudo-register access removes the final
+  redundant reload. Linked bytes still differ;earlier alternative trials
+  remain unadopted;see [catch review](MAINL_XX_CATCH_REVIEW.md).
 - Raise is1081 versus1151/frame342 versus390. Its71-byte argument-copy block
   agrees. The actual used context is204 bytes;BP[-134,-86) ownership remains
   unproved. Default FF00 flags agree84h/84h;FF10 retains80h/84h through real
@@ -90,7 +91,7 @@ Current useful proofs and open questions:
 - Native386 intrinsics keep symbolic BP addresses. The checked minus-member-
   offset spelling avoids BCC's local-member assembler bug. No target-function
   arrays or object patches supply code;see [product review](MAINL_XX_PRODUCT_REVIEW.md).
-- Native metadata135/tail1734 has no optional zero/LIDATA. The S/TASM miniature
+- Native metadata136/tail1735 now has one optional zero in dense LEDATA,no LIDATA. The S/TASM miniature
   instead has CODE12553/181 fields and metadata136/tail1735 with one LIDATA zero.
   Inspect actual records;address parity does not prove an initializer.
 - before matches120 unlinked bytes and its strcmp EXTDEF8 field;the linked

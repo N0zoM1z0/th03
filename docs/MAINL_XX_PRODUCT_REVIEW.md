@@ -6,7 +6,7 @@ The current route uses BCC4.5 native `-c -y` output followed by TLIB/TLINK.
 It remains a **raw-different diagnostic candidate**,with no new accepted bytes.
 
 Two rounds repeat complete raw ASM,OBJ,LIB,EXE and MAP vectors. Candidate EXE
-is67308 bytes versus the fixed Japanese67372-byte target. Both headers have
+is67292 bytes versus the fixed Japanese67372-byte target. Both headers have
 4096 bytes and677 relocations;the complete raw images and MAPs still differ.
 
 ## Source compilation and retained inputs
@@ -51,19 +51,20 @@ arrays,product object patches or compensating storage are involved.
 
 | Property | Original | Native candidate |
 | --- | ---: | ---: |
-| xx CODE at0000:580D | 12622 | 12550 |
+| xx CODE at0000:580D | 12622 | 12548 |
 | Literal native fields | 187 | 187 |
 | Ordered xx MZ words | 20 | 20 |
 | DATA/BSS | 18/10 | 18/10 |
-| RTTI tail/metadata | 1735/136 | 1734/135 |
+| RTTI tail/metadata | 1735/136 | 1735/136 |
 | Raise body/frame | 1151/390 | 1081/342 |
 
-Candidate DATA/BSS remain at DGROUP:1172/2876;DGROUP is0E3B versus original0E3F.
-Ordinary paragraph layout produces64 bytes of file movement. All18 initialized
-DATA bytes agree;BSS has no invented initialization. CODE length72 is a size
-difference,not a count of differing bytes. Native RTTI has no optional
-zero and no LIDATA. Its descriptors,vtable,terminated lists and all
-internal pointer identities are checked;the complete tail remains raw-different.
+Candidate DATA/BSS remain at DGROUP:1172/2876;DGROUP is0E3A versus original0E3F.
+Ordinary paragraph layout produces80 bytes of file movement. All18 initialized
+DATA bytes agree;BSS has no invented initialization. CODE length74 is a size
+difference,not a count of differing bytes. Native RTTI now has one optional
+zero inside dense LEDATA (no native LIDATA);the actual zero and records are
+checked. Its descriptors,vtable,terminated lists and all internal pointer
+identities are checked;the complete tail remains raw-different.
 
 The reviewer resolves every CODE byte and all187 literal fields through the
 real product MAP and18 library interfaces. All22 public bindings and20 emitted
@@ -92,7 +93,7 @@ current field is checked for its actual9A opcode,far shape and real callee.
 Complete linked destroyBases129 and destroyVariable715 now agree. Their linked
 raw equality is a complete function-body observation within the unaccepted TU.
 
-All50 complete linked bodies are compared;26 currently agree raw. Other useful
+All50 complete linked bodies are compared;27 currently agree raw. Other useful
 partial findings remain explicitly separate:
 
 - dtorCleanup1035/frame32 differs only at object offsets976/977 in the
@@ -102,8 +103,10 @@ partial findings remain explicitly separate:
   other bytes agree. Its12-byte table has original relative destinations and
   descending field order10/8/6/4/2/0. Body-field order still differs.
 - initCatchArg674 versus678 recovers the class guard,leaving two reference
-  branch forms. exceptionHandled219 versus216 restores the direct LES
-  descriptor load and retains only a redundant 3-byte LES reload. Frames and local slots retain the recovered source declarations.
+  branch forms. exceptionHandled now has an exact216-byte native object body:
+  symbolic-offset LES and typed ES:BX access remove the last redundant reload.
+  Its linked body still differs through ordinary unresolved surrounding layout;
+  the entire TU is unaccepted. Frames and locals retain the recovered ABI.
 - `typeinfo::before` matches all120 unlinked bytes with original strcmp field
   EXTDEF8 at+96. Its linked displacement remains different.
 - Raise retains all71 raw count/index/copy bytes. The48-byte frame region
