@@ -1,6 +1,6 @@
 # TH03 reconstruction — current handoff
 
-**Checkpoint: main after 005093d.** All new commits use `gpt-web: xxx`. This file contains the operative status, not 60+ milestone entries; individual reviews retain original experiments and provenance. The next agent owns all dirty changes.
+**Source checkpoint: 005093d** (last source recovery before handoff/cleanup commits); inspect the actual Git HEAD. All new commits use `gpt-web: xxx`. This file contains the operative status, not 60+ milestone entries; individual reviews retain original experiments and provenance. The next agent owns all dirty changes.
 
 ## Proven current source-only MAINL state
 
@@ -68,4 +68,4 @@ Preserve installed `.analysis/toolchain/wineprefix/` (BC45, TC4, TASM and DOS dr
 
 The large `.analysis/work/` *.lib, *.exe and *.map native rounds, their source transports, context/responses, logs, and source-bound receipts form the **live cumulative verification chain**. Reviewers derive some file paths dynamically; a generic cleanup preview is not a dependency oracle. **Do not bulk prune those raw pairs.** Completed isolated Wine `TH03ML/probe/` scratch and standard Python bytecode caches, by contrast, can be regenerated. See [working-file rules](RE_WORKFLOW.md#working-files).
 
-The accepted MAINL publication SHA256 is `de7276df0d534f40e8bb1ab84f2d054688fd1960bf8cdf92d4a8108d7b34a551`. Fixed target provenance and accepted scope belong to `config/` and current reviewers, not historic narrative snapshots. Detailed per-unit reviews are retained as historical evidence rather than repeated wholesale in this handoff.
+The accepted MAINL publication SHA256 is `de7276df0d534f40e8bb1ab84f2d054688fd1960bf8cdf92d4a8108d7b34a551`. Fixed target provenance and accepted scope belong to `config/` and current reviewers, not historic narrative snapshots. Detailed per-unit reviews are retained as historical evidence rather than repeated wholesale in this handoff. See the [2026-11-03 storage audit](STORAGE_HANDOFF_2026-11-03.md) for reclaimed scratch and protected native proofs.
