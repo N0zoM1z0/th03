@@ -1,6 +1,6 @@
 # MAINL DOS xx throw and global-unwind bank
 
-`src/mainl/crt/xx_throw.inl` recovers original CODE6313..6CEE in the
+> **Historical scoped diagnostic:** Statements about an unequal S/TASM miniature or an intermediate native xx CODE length here are not the current normal-link result. The maintained native BCC xx source is now 12,622/12,622 CODE, 187/187 ordered OMF fields and 50/50 linked bodies equal; see [current xx product review](MAINL_XX_PRODUCT_REVIEW.md). Formal accepted-ledger credit remains unchanged.`src/mainl/crt/xx_throw.inl` recovers original CODE6313..6CEE in the
 original xx.cpp TU. This is source-present,with **zero new exact bytes**.
 The bank has2446 instruction bytes in eight complete far procedures and78
 compiler-generated EH bytes. The review independently resolves all2524 original

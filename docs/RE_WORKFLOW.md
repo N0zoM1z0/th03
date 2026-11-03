@@ -20,7 +20,7 @@
    that chain, not at every turn.
 6. Record useful findings and exactness limits, run affected checks plus
    `git diff --check`, and commit substantial progress locally with
-   `gpt-6.1-sol: xxx`. Do not push without authorization.
+   `gpt-web: xxx`. Do not push without authorization.
 
 ## Keep verification proportional
 

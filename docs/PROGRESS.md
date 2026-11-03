@@ -7,8 +7,10 @@
 | th03-mainl | 37975 | 250 | 0 | 0 | 0 |
 | th03-zun | 16242 | 77 | 0 | 0 | 0 |
 
-These are recorded ledger scopes, not a whole-game completion percentage.
-Historical private verification outputs were removed at the owner's request.
+**Reading this table:** Target bytes are the pinned original packed-file sizes, not decoded native EXE sizes. Source-present units count existing source paths; ledger exact units/owned bytes count only the canonical packed-file unit ledger. An exact-function count is a separately reviewed function scope, not a whole-executable percentage.
+
+**Decoded source acceptance is separate from this packed-unit ledger.** For example, decoded MAINL accepted ownership below can be nonzero even when its canonical packed-file unit exact column above remains zero. A separately verified source-only CRT normal link may reproduce the complete original decoded EXE and MAP while still being **unaccepted working evidence**, not extra accepted ledger credit. The source-module count and byte scope are in the [current agent handoff](RE_HANDOFF.md).
+
 Validate the affected native scope; reuse an unchanged cold pair when its inputs still match.
 See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).
 

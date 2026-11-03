@@ -33,4 +33,4 @@ when starting a session or when the environment/targets change.
 Finish with affected checks and `git diff --check`. Full `python3 scripts/ci.py`
 is available for broad infrastructure changes; it is not a per-turn gate or a
 requirement for ordinary source/ledger updates. Commit substantial progress
-using `gpt-6.1-sol: xxx`.
+using `gpt-web: xxx` (current user-required format).

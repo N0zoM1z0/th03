@@ -11,7 +11,7 @@ This repository reconstructs the original Japanese PC-98 **Touhou 3:
 Phantasmagoria of Dim.Dream**. Work covers OP.EXE, MAIN.EXE, MAINL.EXE (the ending)
 and ZUN.COM. Reconstruction and whole-product source acceptance remain open.
 
-[Generated progress](docs/PROGRESS.md) is the current count reference.
+[Generated progress](docs/PROGRESS.md) distinguishes canonical packed-unit ledger counts from separately reviewed decoded source acceptance. The independent working-source CRT can reproduce the decoded MAINL EXE/MAP without granting any new formally accepted ledger units; see the handoff for the current source-module count.
 [The handoff](docs/RE_HANDOFF.md) records the latest verified checkpoint,
 remaining work, local state and findings for the next agent. Source-present,
 bounded exact source scopes and target-equal complete builds are separate claims;
@@ -93,7 +93,7 @@ are disposable. After CI, `clean_generated.py --caches-only --apply` leaves all
 handoff identifies the old-named reference archive still consumed by the current
 OP/MAINL recipes.
 
-Commit format: `gpt-6.1-sol: xxx`. Run affected checks and `git diff --check`,
+Commit format: `gpt-web: xxx`. Run affected checks and `git diff --check`,
 then save substantial progress locally. Push only when requested.
 
 ## Credits

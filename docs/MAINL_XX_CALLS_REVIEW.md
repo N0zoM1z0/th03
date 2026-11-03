@@ -1,6 +1,6 @@
 # MAINL xx DOS member-call adapters
 
-The maintained xx.cpp links through the normal library as an unaccepted
+> **Historical scoped diagnostic:** Statements about an unequal S/TASM miniature or an intermediate native xx CODE length here are not the current normal-link result. The maintained native BCC xx source is now 12,622/12,622 CODE, 187/187 ordered OMF fields and 50/50 linked bodies equal; see [current xx product review](MAINL_XX_PRODUCT_REVIEW.md). Formal accepted-ledger credit remains unchanged.The maintained xx.cpp links through the normal library as an unaccepted
 candidate;see [current product review](MAINL_XX_PRODUCT_REVIEW.md). The current
 full-TU proof is followed by the retained miniature and its separate ABI context.
 Source presence stays250 extents/60,028 gross bytes;accepted MAINL is unchanged.
