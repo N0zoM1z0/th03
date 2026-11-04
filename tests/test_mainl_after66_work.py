@@ -27,3 +27,22 @@ class NativeAfter66(unittest.TestCase):
         self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
         self.assertFalse(r['original_literal_FIXUPP_equal'])
         self.assertFalse(r['source_acceptance'])
+
+    @unittest.skipUnless((ROOT/(PREFIX+'strerror-bsearch-strdup-abort-build.json')).is_file(),
+                         'four-source CRT native vector not retained')
+    def test_bsearch_binary_algorithm_and_far_allocation_and_abort(self):
+        r=review('strerror-bsearch-strdup-abort')
+        self.assertEqual((r['native_source_members'],r['untouched_vendor_members']),
+                         (70,823))
+        self.assertEqual((r['added_CODE_bytes'],r['source_CRT_CODE_bytes']),
+                         (396,30611))
+        self.assertEqual((r['profiles']['bsearch']['CODE_bytes'],
+                          r['profiles']['strdup']['CODE_bytes'],
+                          r['profiles']['abort']['CODE_bytes']),(125,75,20))
+        self.assertEqual(len(r['profiles']['bsearch']['relocation_sites_targets']),0)
+        self.assertEqual(len(r['profiles']['strdup']['relocation_sites_targets']),3)
+        self.assertEqual(len(r['profiles']['abort']['relocation_sites_targets']),2)
+        self.assertTrue(r['complete_original_CODE_DATA_equal'])
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
+        self.assertFalse(r['source_acceptance'])

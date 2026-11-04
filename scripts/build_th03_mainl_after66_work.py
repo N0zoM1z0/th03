@@ -28,11 +28,18 @@ PREFIX='.analysis/work/mainl-after66-'
 LAST='sprintf-calloc-puts-ctime'
 MODES={
     'strerror':('strerror',),
+    'strerror-bsearch-strdup-abort':('strerror','bsearch','strdup','abort'),
 }
 NATIVE={
     'strerror':dict(index=297,code=176,data=26,bss=161,
         publics=[(135,'__strerror'),(157,'_strerror')],
         imports=['_sprintf','_errno','__sys_nerr','__sys_errlist'],fields=12),
+    'bsearch':dict(index=198,code=125,data=0,bss=0,
+        publics=[(0,'_bsearch')],imports=[],fields=0),
+    'strdup':dict(index=296,code=75,data=0,bss=0,
+        publics=[(0,'_strdup')],imports=['_memcpy','_strlen','_malloc'],fields=3),
+    'abort':dict(index=2,code=20,data=0,bss=0,
+        publics=[(0,'_abort')],imports=['_raise','__abort'],fields=2),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
