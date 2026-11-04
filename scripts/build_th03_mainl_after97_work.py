@@ -28,6 +28,7 @@ PREFIX='.analysis/work/mainl-after97-'
 LAST='utime-console'
 MODES={
     'lsetlocl':('lsetlocl',),
+    'lsetlocl-wild':('lsetlocl','wild'),
 }
 NATIVE={
     'lsetlocl':dict(index=248,code=4652,data=59,bss=0,fields=227,
@@ -44,6 +45,13 @@ NATIVE={
             '__llocaleconv','___set_c_locale','___initialize_locale',
             '__LocaleCatNames','__pLocale','__LocaleLibName','N_LDIV@'],
         group='08ff02ff03'),
+    'wild':dict(index=151,code=795,data=10,bss=0,fields=38,
+        segments=[('_TEXT','CODE',795),('_DATA','DATA',10)],
+        publics=[(7,'__wildargv')],
+        imports=['__C0argc','__C0argv','__psp','__envseg','__envLng',
+                 '__osmajor','__abort','___path_isdbcsleadbyte','__argc',
+                 '__argv','_sbrk'],group='06ff02',
+        implicit_code_sites=[0,1],implicit_data_sites=list(range(10))),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
@@ -77,10 +85,17 @@ def scope(name,blob):
     need(len(literal_fields(blob))==q['fields'],
          'entire source relocation field population '+name)
     p=payload(blob)
-    c=bytes(p[1,i] for i in range(q['code']))
-    d=bytes(p[2,i] for i in range(q['data']))
+    missing_code=[i for i in range(q['code']) if (1,i) not in p]
+    missing_data=[i for i in range(q['data']) if (2,i) not in p]
+    need(missing_code==q.get('implicit_code_sites',[]) and
+         missing_data==q.get('implicit_data_sites',[]),
+         'actual original materialized CODE/DATA coverage '+name)
+    c=bytes(p.get((1,i),0) for i in range(q['code']))
+    d=bytes(p.get((2,i),0) for i in range(q['data']))
     exitdata=bytes(p[4,i] for i in range(q.get('exit_size',0)))
-    return dict(CODE_sha256=sha(c),CODE_bytes=len(c),DATA_sha256=sha(d),
+    return dict(CODE_sha256=sha(c),CODE_bytes=len(c),
+                CODE_implicit_sites=missing_code,DATA_implicit_sites=missing_data,
+                DATA_sha256=sha(d),
                 DATA_bytes=len(d),BSS_bytes=q['bss'],
                 EXITDATA_bytes=len(exitdata),EXITDATA_sha256=sha(exitdata),
                 publics=code_publics(blob,1),

@@ -64,3 +64,45 @@ class OriginalLocaleLibraryBoss(unittest.TestCase):
                    in zip(a,b) if (x['frame_method'],x['frame'])!=(y['frame_method'],y['frame'])]
         self.assertEqual(different,[(4231,5,0),(4329,5,0),(4427,5,0)])
         self.assertNotEqual(lhs,rhs)
+
+class OriginalDOSWildcardArguments(unittest.TestCase):
+    @unittest.skipUnless((ROOT/(PREFIX+'lsetlocl-wild-build.json')).is_file(),
+                         '99-source wild native pair absent')
+    def test_original_wildcard_argv_and_complete_link(self):
+        r=review('lsetlocl-wild')
+        self.assertEqual((r['native_source_members'],r['untouched_vendor_members'],
+                          r['source_CRT_CODE_bytes']),(99,794,44010))
+        p=r['profiles']['wild']
+        self.assertEqual((p['CODE_bytes'],p['DATA_bytes'],p['BSS_bytes']),
+                         (795,10,0))
+        self.assertEqual(p['publics'],[(7,'__wildargv')])
+        self.assertEqual(p['imports'],['__C0argc','__C0argv','__psp','__envseg',
+            '__envLng','__osmajor','__abort','___path_isdbcsleadbyte',
+            '__argc','__argv','_sbrk'])
+        self.assertEqual(p['CODE_implicit_sites'],[0,1])
+        self.assertEqual(p['DATA_implicit_sites'],list(range(10)))
+        self.assertEqual(len(p['relocation_sites_targets']),38)
+        self.assertTrue(r['complete_original_CODE_DATA_equal'])
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
+        self.assertFalse(r['source_acceptance'])
+        self.assertFalse(r['original_cold_rebuilt'])
+
+    @unittest.skipUnless((ROOT/(PREFIX+'lsetlocl-wild-build.json')).is_file(),
+                         'native wild OMF object pair absent')
+    def test_original_materialized_omf_sites_and_frame_methods(self):
+        import json
+        from build_th03_mainl_after97_work import WORK
+        from build_th03_mainl_display_work import payload,literal_fields
+        rep=json.loads((ROOT/(PREFIX+'lsetlocl-wild-build.json')).read_text())
+        original=(WORK/'vendor/wild.obj').read_bytes()
+        src=(ROOT/rep['rounds'][0]['outputs']['wild']['path']).read_bytes()
+        p,q=payload(original),payload(src)
+        self.assertEqual(p,q)
+        self.assertEqual(len([z for z in p if z[0]==1]),793)
+        self.assertEqual(len([z for z in p if z[0]==2]),0)
+        a,b=literal_fields(original),literal_fields(src)
+        self.assertEqual((len(a),len(b)),(38,38))
+        key=lambda f:(f['segment'],f['site'])
+        self.assertEqual(sorted(a,key=key),sorted(b,key=key))
+        self.assertNotEqual(a,b)
