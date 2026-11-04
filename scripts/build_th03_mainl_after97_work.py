@@ -29,6 +29,7 @@ LAST='utime-console'
 MODES={
     'lsetlocl':('lsetlocl',),
     'lsetlocl-wild':('lsetlocl','wild'),
+    'lsetlocl-wild-vappv':('lsetlocl','wild','vappv'),
 }
 NATIVE={
     'lsetlocl':dict(index=248,code=4652,data=59,bss=0,fields=227,
@@ -52,6 +53,9 @@ NATIVE={
                  '__osmajor','__abort','___path_isdbcsleadbyte','__argc',
                  '__argv','_sbrk'],group='06ff02',
         implicit_code_sites=[0,1],implicit_data_sites=list(range(10))),
+    'vappv':dict(index=138,code=848,data=0,bss=0,fields=34,
+        publics=[(0,'__vector_applyv_')],imports=['_abort'],
+        group='08ff02ff03'),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 

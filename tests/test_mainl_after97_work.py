@@ -140,3 +140,48 @@ class OriginalDOSWildcardArguments(unittest.TestCase):
             self.assertEqual(sorted(a,key=key),sorted(b,key=key))
             self.assertNotEqual(a,b)  # only record order differs
             self.assertFalse(roundinfo['literal_omf_fixupp_equal_by_member']['wild'])
+
+class OriginalVectorApplyBoss(unittest.TestCase):
+    @unittest.skipUnless((ROOT/(PREFIX+'lsetlocl-wild-vappv-build.json')).is_file(),
+                         '100-source native vector dispatcher proof absent')
+    def test_complete_original_848_byte_vector_handler_source(self):
+        r=review('lsetlocl-wild-vappv')
+        self.assertTrue(r['complete'])
+        self.assertEqual((r['original_CRT_members'],r['native_source_members'],
+                          r['untouched_vendor_members']),(893,100,793))
+        self.assertEqual((r['added_CODE_bytes'],r['source_CRT_CODE_bytes']),
+                         (6295,44858))
+        p=r['profiles']['vappv']
+        self.assertEqual((p['CODE_bytes'],p['DATA_bytes'],p['BSS_bytes']),
+                         (848,0,0))
+        self.assertEqual(p['publics'],[(0,'__vector_applyv_')])
+        self.assertEqual(p['imports'],['_abort'])
+        self.assertEqual(len(p['relocation_sites_targets']),34)
+        self.assertTrue(r['complete_original_CODE_DATA_equal'])
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
+        self.assertFalse(r['original_cold_rebuilt'])
+        self.assertFalse(r['source_acceptance'])
+
+    @unittest.skipUnless((ROOT/(PREFIX+'lsetlocl-wild-vappv-build.json')).is_file(),
+                         'native vector table OMF evidence absent')
+    def test_32_original_function_dispatch_targets_and_frames(self):
+        import json
+        from build_th03_mainl_after97_work import WORK
+        from build_th03_mainl_display_work import payload,literal_fields
+        report=json.loads((ROOT/(PREFIX+'lsetlocl-wild-vappv-build.json')).read_text())
+        source=(ROOT/report['rounds'][0]['outputs']['vappv']['path']).read_bytes()
+        original=(WORK/'vendor/vappv.obj').read_bytes()
+        self.assertEqual(payload(original),payload(source))
+        lhs,rhs=literal_fields(original),literal_fields(source)
+        self.assertEqual((len(lhs),len(rhs)),(34,34))
+        sortkey=lambda f:(f['segment'],f['site'])
+        self.assertEqual(sorted(lhs,key=sortkey),sorted(rhs,key=sortkey))
+        self.assertNotEqual(lhs,rhs)
+        dispatch=sorted((f for f in lhs if 784<=f['site']<848),key=sortkey)
+        self.assertEqual(len(dispatch),32)
+        self.assertEqual([f['site'] for f in dispatch],list(range(784,848,2)))
+        self.assertTrue(all(f['target_method']==0 and f['target']==1 for f in dispatch))
+        self.assertEqual([(f['site'],f['target_method'],f['target'],f['addend'])
+                          for f in lhs if f['site']<784 and f['site']!=81],
+                         [(688,2,1,0)])
