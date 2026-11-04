@@ -28,6 +28,8 @@ LAST='lsearch-getenv-access-tolower'
 MODES={
     'sprintf':('sprintf',),
     'sprintf-calloc-puts':('sprintf','calloc','puts'),
+    'ctime':('ctime',),
+    'sprintf-calloc-puts-ctime':('sprintf','calloc','puts','ctime'),
 }
 NATIVE={
     'sprintf':dict(index=287,code=144,data=0,bss=0,
@@ -39,6 +41,11 @@ NATIVE={
     'puts':dict(index=273,code=97,data=0,bss=0,
         publics=[(0,'_puts')],
         imports=['__streams','_fputc','_strlen','__FPUTN'],fields=5),
+    'ctime':dict(index=212,code=1278,data=451,bss=44,
+        publics=[(510,'_atime'),(597,'_gmtime'),(626,'_localtime'),
+                 (686,'_asctime'),(735,'_ctime'),(1178,'_mktime')],
+        imports=['__ISDST','__daylight','__timezone','_tzset','_sprintf',
+                 'N_LMOD@','N_LDIV@','N_LXMUL@','N_SCOPY@'],fields=101),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 

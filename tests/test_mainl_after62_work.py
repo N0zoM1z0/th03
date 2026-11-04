@@ -33,3 +33,29 @@ class NativeAfter62(unittest.TestCase):
         self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
         self.assertEqual(r['profiles']['calloc']['CODE_bytes'],97)
         self.assertEqual(r['profiles']['puts']['CODE_bytes'],97)
+
+    @unittest.skipUnless((ROOT/(PREFIX+'ctime-build.json')).is_file(),
+                         'original native ctime boss outputs not retained')
+    def test_original_large_time_conversion_boss(self):
+        r=review('ctime')
+        self.assertEqual((r['native_source_members'],r['added_CODE_bytes'],
+                          r['source_CRT_CODE_bytes']),(63,1278,29877))
+        self.assertEqual((r['profiles']['ctime']['CODE_bytes'],
+                          r['profiles']['ctime']['DATA_bytes'],
+                          r['profiles']['ctime']['BSS_bytes']),(1278,451,44))
+        self.assertEqual(r['profiles']['ctime']['publics'],[
+            (510,'_atime'),(597,'_gmtime'),(626,'_localtime'),
+            (686,'_asctime'),(735,'_ctime'),(1178,'_mktime')])
+        self.assertEqual(len(r['profiles']['ctime']['relocation_sites_targets']),101)
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertFalse(r['original_literal_FIXUPP_equal'])
+
+    @unittest.skipUnless((ROOT/(PREFIX+'sprintf-calloc-puts-ctime-build.json')).is_file(),
+                         '66-source ctime with newly recovered CRT outputs not retained')
+    def test_66_source_complete_original_mainl(self):
+        r=review('sprintf-calloc-puts-ctime')
+        self.assertEqual((r['native_source_members'],r['untouched_vendor_members'],
+                          r['source_CRT_CODE_bytes']),(66,827,30215))
+        self.assertEqual(r['added_CODE_bytes'],1616)
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertEqual(r['original_MZ_relocations'],677)
