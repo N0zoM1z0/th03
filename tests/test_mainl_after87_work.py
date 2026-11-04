@@ -50,3 +50,42 @@ class NativeOriginalSignal(unittest.TestCase):
         self.assertNotEqual(o,s) # original compiler ordering, not frame drift
         self.assertEqual([f['site'] for f in sorted(o,key=key)],
                          [f['site'] for f in sorted(s,key=key)])
+
+class OriginalHeapDiagnostics(unittest.TestCase):
+    @unittest.skipUnless((ROOT/(PREFIX+'signal-fheapchk-build.json')).is_file(),
+                         '89-source original Japanese heap diagnostic output absent')
+    def test_all_ten_original_heap_diagnostics_publics_and_final_link(self):
+        r=review('signal-fheapchk')
+        self.assertEqual((r['original_CRT_members'],r['native_source_members'],
+                          r['untouched_vendor_members']),(893,89,804))
+        self.assertEqual((r['added_CODE_bytes'],r['source_CRT_CODE_bytes']),
+                         (1434,37571))
+        q=r['profiles']['fheapchk']
+        self.assertEqual((q['CODE_bytes'],q['DATA_bytes'],q['BSS_bytes']),
+                         (665,0,0))
+        self.assertEqual(q['publics'],[
+            (0,'_farheapcheck'),(0,'_heapcheck'),
+            (251,'_farheapchecknode'),(251,'_heapchecknode'),
+            (359,'_farheapfillfree'),(359,'_heapfillfree'),
+            (449,'_farheapcheckfree'),(449,'_heapcheckfree'),
+            (546,'_farheapwalk'),(546,'_heapwalk')])
+        self.assertEqual(q['imports'],['__brk','__sbrk',
+                         '___first','___last','___rover'])
+        self.assertEqual(len(q['relocation_sites_targets']),19)
+        self.assertTrue(r['complete_original_CODE_DATA_equal'])
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
+        self.assertFalse(r['original_cold_rebuilt'])
+        self.assertFalse(r['source_acceptance'])
+
+        # The new fheapchk (unlike the combined signal mode) has literal
+        # original OMF field order and frames, not merely site equivalence.
+        import json
+        receipt=json.loads((ROOT/(PREFIX+'signal-fheapchk-build.json')).read_text())
+        orig=(WORK/'vendor/fheapchk.obj').read_bytes()
+        for roundinfo in receipt['rounds']:
+            obj=(ROOT/roundinfo['outputs']['fheapchk']['path']).read_bytes()
+            self.assertEqual(payload(orig),payload(obj))
+            self.assertEqual(literal_fields(orig),literal_fields(obj))
+            self.assertTrue(roundinfo['literal_omf_fixupp_equal_by_member']['fheapchk'])
+            self.assertFalse(roundinfo['literal_omf_fixupp_equal_by_member']['signal'])

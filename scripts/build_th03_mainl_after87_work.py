@@ -28,12 +28,22 @@ PREFIX='.analysis/work/mainl-after87-'
 LAST='lstrftim'
 MODES={
     'signal':('signal',),
+    'signal-fheapchk':('signal','fheapchk'),
 }
 NATIVE={
     'signal':dict(index=180,code=769,data=38,bss=4,fields=55,
         publics=[(392,'_signal'),(618,'_raise')],
         imports=['__exit','__abort','_errno','_getvect','_setvect',
                  '___SignalPtr'],group='08ff03ff02'),
+    'fheapchk':dict(index=170,code=665,data=0,bss=0,fields=19,
+        segments=[('_TEXT','CODE',665),('_DATA','DATA',0)],
+        publics=[(0,'_farheapcheck'),(0,'_heapcheck'),
+                 (251,'_farheapchecknode'),(251,'_heapchecknode'),
+                 (359,'_farheapfillfree'),(359,'_heapfillfree'),
+                 (449,'_farheapcheckfree'),(449,'_heapcheckfree'),
+                 (546,'_farheapwalk'),(546,'_heapwalk')],
+        imports=['__brk','__sbrk','___first','___last','___rover'],
+        group='06ff02'),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
