@@ -1,0 +1,84 @@
+; Original Japanese Borland multibyte algorithm FMBSNCPY.
+; Genuine native 8086 with original __mbctype GROUP-relative state.
+; Exact Borland large-model near/far pointer and DBCS behavior.
+.8086
+extrn __mbctype:byte
+_TEXT segment byte public 'CODE'
+_TEXT ends
+_DATA segment word public 'DATA'
+_DATA ends
+_BSS segment word public 'BSS'
+_BSS ends
+DGROUP group _BSS,_DATA
+_TEXT segment byte public 'CODE'
+assume cs:_TEXT,ds:DGROUP
+public __fmbsncpy
+
+__fmbsncpy:
+    push bp
+    mov bp, sp
+    sub sp, 4
+    push si
+    push di
+    mov cx, word ptr [bp + 0eh]
+    mov dx, word ptr [bp + 8]
+    mov ax, word ptr [bp + 6]
+    mov word ptr [bp - 2], dx
+    mov word ptr [bp - 4], ax
+    jmp short mbs_0064
+
+mbs_0019:
+    les bx,dword ptr [bp + 0ah]
+    mov al, byte ptr es:[bx]
+    mov ah, 0
+    mov bx, ax
+    test byte ptr DGROUP:__mbctype[bx+1],4
+    je mbs_0048
+    mov bx, word ptr [bp + 0ah]
+    cmp byte ptr es:[bx + 1], 0
+    je mbs_0075
+    les bx,dword ptr [bp + 0ah]
+    mov al, byte ptr es:[bx]
+    les bx,dword ptr [bp - 4]
+    mov byte ptr es:[bx], al
+    inc word ptr [bp + 0ah]
+    inc word ptr [bp - 4]
+    jmp short mbs_0051
+
+mbs_0048:
+    les bx,dword ptr [bp + 0ah]
+    cmp byte ptr es:[bx], 0
+    je mbs_0075
+
+mbs_0051:
+    les bx,dword ptr [bp + 0ah]
+    mov al, byte ptr es:[bx]
+    les bx,dword ptr [bp - 4]
+    mov byte ptr es:[bx], al
+    inc word ptr [bp + 0ah]
+    inc word ptr [bp - 4]
+    dec cx
+
+mbs_0064:
+    or cx, cx
+    ja mbs_0019
+    jmp short mbs_0075
+
+mbs_006a:
+    les bx,dword ptr [bp - 4]
+    mov byte ptr es:[bx], 0
+    inc word ptr [bp - 4]
+    dec cx
+
+mbs_0075:
+    or cx, cx
+    ja mbs_006a
+    mov dx, word ptr [bp + 8]
+    mov ax, word ptr [bp + 6]
+    pop di
+    pop si
+    mov sp, bp
+    pop bp
+    retf
+_TEXT ends
+end
