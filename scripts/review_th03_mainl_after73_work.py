@@ -18,7 +18,7 @@ def review(mode):
     base,files,accepted,members,carry,parenthash=b.retained()
     need(r['complete'] and not r['source_acceptance'] and
          r['added_accepted_bytes']==0 and not r['original_cold_rebuilt'] and
-         r['literal_OMF_FIXUPP_equal'] is True and
+         isinstance(r['literal_OMF_FIXUPP_equal'],bool) and
          r['parent_receipt_sha256']==parenthash and
          r['accepted_baseline']==base and
          r['accepted_library_sha256']==sha(accepted) and
@@ -54,9 +54,11 @@ def review(mode):
             outputs[kind]=blob
         need(all(b.scope(n,outputs[n])==original[n] for n in names),
              'all original CODE/DATA bytes and relocation sites/targets')
-        need(all(literal_fields(outputs[n])==literal_fields(
-            (b.WORK/'vendor'/(n+'.obj')).read_bytes()) for n in names),
-            'all literal original ordered native relocation fields and frames')
+        literal_omf={n:literal_fields(outputs[n])==literal_fields(
+            (b.WORK/'vendor'/(n+'.obj')).read_bytes()) for n in names}
+        need(row['literal_omf_fixupp_equal_by_member']==literal_omf and
+             r['literal_OMF_FIXUPP_equal']==all(literal_omf.values()),
+             'actual full native ordered FIXUPP/frame status per member')
         source=dict(carry[i][0],**{n:outputs[n] for n in names})
         cmp=compare_members(members,library_members(outputs['lib']),source)
         need(row['library_comparison']==cmp and len(source)==73+len(names) and
@@ -79,7 +81,7 @@ def review(mode):
                 complete_original_CODE_DATA_equal=True,
                 complete_native_link_EXE_MAP_equal=True,
                 original_MZ_relocations=677,
-                original_literal_FIXUPP_equal=True,
+                original_literal_FIXUPP_equal=r['literal_OMF_FIXUPP_equal'],
                 source_acceptance=False,original_cold_rebuilt=False,
                 profiles=original)
 

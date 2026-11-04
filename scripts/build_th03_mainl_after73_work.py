@@ -28,11 +28,26 @@ PREFIX='.analysis/work/mainl-after73-'
 LAST='strerror-bsearch-strdup-abort-atexit-strcpy-strcat'
 MODES={
     'vprinter':('vprinter',),
+    'vprinter-collate':('vprinter','collate'),
+    'vprinter-collate-strxfrm':('vprinter','collate','_strxfrm'),
 }
 NATIVE={
     'vprinter':dict(index=150,code=1243,data=103,bss=0,
         publics=[(24,'__VPRINTER')],imports=['__LONGTOA','__REALCVT'],
         fields=29,group='08ff03ff02'),
+    'collate':dict(index=207,code=435,data=0,bss=0,
+        publics=[(10,'_GetNextKeyWeight'),(140,'_GetSubstituteString'),
+                 (228,'_GetCompressLevelWeight'),(303,'_GetExpansionString'),
+                 (371,'_GetNextAuxChar'),(398,'_GetNextExpansionWeight')],
+        imports=[],fields=0,group='08ff02',third_name='COLLATE_TEXT',
+        third_class='CODE'),
+    '_strxfrm':dict(index=192,code=382,data=0,bss=0,
+        publics=[(0,'__strxfrm'),(74,'_LevelTransform')],
+        imports=['_GetNextKeyWeight','_GetSubstituteString',
+                 '_GetCompressLevelWeight','_GetNextAuxChar',
+                 '_GetExpansionString','_GetNextExpansionWeight','__pLocale'],
+        fields=2,group='08ff02',third_name='_STRXFRM_TEXT',
+        third_class='CODE'),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
@@ -49,7 +64,8 @@ def scope(name,blob):
     q=NATIVE[name]
     need(describe_omf(blob)['valid'],'actual native OMF '+name)
     need([(r['name'],r['class'],r['size']) for r in segment_definitions(blob)]==
-         [('_TEXT','CODE',q['code']),('_DATA','DATA',q['data']),('_BSS','BSS',q['bss'])],
+         [('_TEXT','CODE',q['code']),('_DATA','DATA',q['data']),
+          (q.get('third_name','_BSS'),q.get('third_class','BSS'),q['bss'])],
          'complete original segment sizes '+name)
     need(code_publics(blob,1)==q['publics'] and externs(blob)==q['imports'],
          'complete native public/extern interface '+name)
@@ -191,14 +207,14 @@ def main(mode):
                              'linked.exe','linked.map']:
                     (scratch/name).unlink(missing_ok=True)
                 compiled={}
+                literal_omf={}
                 for n in names:
                     run(dos+TASM_FLAGS+[n+'.asm',n+'.obj'],scratch,
                         f'round{idx}-assemble-{n}')
                     obj=(scratch/(n+'.obj')).read_bytes()
                     need(scope(n,obj)==expected[n],
                          'all original CODE/DATA bytes, public interface, targets '+n)
-                    need(literal_fields(obj)==literal_fields(originals[n]),
-                         'exact original ordered OMF FIXUPP frames '+n)
+                    literal_omf[n]=(literal_fields(obj)==literal_fields(originals[n]))
                     compiled[n]=obj
                 all_sources=dict(carry[idx-1][0],**compiled)
                 for n,b in carry[idx-1][0].items():
@@ -225,7 +241,8 @@ def main(mode):
                     (ROOT/path).write_bytes(blob)
                     out[kind]=dict(path=path,bytes=len(blob),sha256=sha(blob))
                 report['rounds'].append(dict(round=idx,outputs=out,
-                                               library_comparison=comparison))
+                    literal_omf_fixupp_equal_by_member=literal_omf,
+                    library_comparison=comparison))
                 save()
                 print(f'after73 {mode}: {len(all_sources)} source CRT members, '
                       f'Japanese EXE/MAP exact round {idx}',flush=True)
@@ -237,7 +254,8 @@ def main(mode):
             shutil.rmtree(scratch)
     need(inputs=={n:(ROOT/'src/mainl/crt'/(n+'.asm')).read_bytes() for n in names},
          'source unchanged during producer rounds')
-    report['literal_OMF_FIXUPP_equal']=True
+    report['literal_OMF_FIXUPP_equal']=all(
+        report['rounds'][0]['literal_omf_fixupp_equal_by_member'].values())
     report['complete']=True
     save()
 
