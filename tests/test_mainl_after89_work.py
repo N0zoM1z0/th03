@@ -50,3 +50,33 @@ class OriginalAfter89(unittest.TestCase):
         self.assertEqual(len(diffs),13)
         self.assertTrue(all(z[1:]==(5,0) for z in diffs))
         self.assertNotEqual(lhs,rhs)
+
+    @unittest.skipUnless((ROOT/(PREFIX+'utime-console-build.json')).is_file(),
+                         '97-source console CRT original rounds absent')
+    def test_seven_original_keyboard_printf_and_getcwd_members(self):
+        import json
+        r=review('utime-console')
+        self.assertEqual((r['native_source_members'],r['untouched_vendor_members'],
+                          r['source_CRT_CODE_bytes']),(97,796,38563))
+        assert r['complete_original_CODE_DATA_equal']
+        assert r['complete_native_link_EXE_MAP_equal']
+        assert r['original_MZ_relocations']==677
+        expected={'getch':29,'getche':52,'getcwd':142,'kbhit':22,
+                  'printf':31,'putch':25,'ungetch':37}
+        self.assertEqual({k:r['profiles'][k]['CODE_bytes'] for k in expected},expected)
+        self.assertEqual(r['profiles']['kbhit']['DATA_bytes'],2)
+        self.assertEqual(r['profiles']['kbhit']['data_publics'],
+                         [(0,'__cFlag'),(1,'__cChar')])
+        self.assertEqual(r['profiles']['getche']['publics'],
+                         [(0,'__Ngetche'),(3,'_getche')])
+        self.assertEqual(r['profiles']['ungetch']['publics'],
+                         [(0,'__Nungetch'),(3,'_ungetch')])
+        self.assertFalse(r['original_cold_rebuilt'])
+        self.assertFalse(r['source_acceptance'])
+        receipt=json.loads((ROOT/(PREFIX+'utime-console-build.json')).read_text())
+        for row in receipt['rounds']:
+            field_status=row['literal_omf_fixupp_equal_by_member']
+            for name in ('kbhit','getch','getche','ungetch'):
+                self.assertTrue(field_status[name],name)
+            for name in ('getcwd','printf','putch'):
+                self.assertFalse(field_status[name],name)

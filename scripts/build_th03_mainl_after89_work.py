@@ -28,6 +28,8 @@ PREFIX='.analysis/work/mainl-after89-'
 LAST='signal-fheapchk'
 MODES={
     'utime':('utime',),
+    'utime-console':('utime','kbhit','getch','getche','ungetch',
+                     'putch','printf','getcwd'),
 }
 NATIVE={
     'utime':dict(index=326,code=654,data=12,bss=0,fields=24,
@@ -35,6 +37,26 @@ NATIVE={
         imports=['__ISDST','__dos_close','__dos_getdate','__dos_gettime',
                  '__dos_open','__dos_setftime','__daylight','__timezone',
                  '_tzset','N_LMOD@','N_LDIV@'],group='08ff02ff03'),
+    'kbhit':dict(index=561,code=22,data=2,bss=0,fields=1,
+        publics=[(0,'_kbhit')],data_publics=[(0,'__cFlag'),(1,'__cChar')],
+        imports=[],group='08ff03ff02'),
+    'getch':dict(index=557,code=29,data=0,bss=0,fields=3,
+        publics=[(0,'_getch')],imports=['__cFlag','__cChar'],group='08ff03ff02'),
+    'getche':dict(index=558,code=52,data=0,bss=0,fields=4,
+        publics=[(0,'__Ngetche'),(3,'_getche')],
+        imports=['_getch','_putch','__cFlag'],group='08ff03ff02'),
+    'ungetch':dict(index=566,code=37,data=0,bss=0,fields=3,
+        publics=[(0,'__Nungetch'),(3,'_ungetch')],
+        imports=['__cFlag','__cChar'],group='08ff03ff02'),
+    'putch':dict(index=563,code=25,data=0,bss=0,fields=1,
+        publics=[(0,'_putch')],imports=['__CPUTN'],group='08ff02ff03'),
+    'printf':dict(index=270,code=31,data=0,bss=0,fields=3,
+        publics=[(0,'_printf')],
+        imports=['__streams','__VPRINTER','__FPUTN'],group='08ff02ff03'),
+    'getcwd':dict(index=238,code=142,data=0,bss=0,fields=7,
+        publics=[(0,'_getcwd')],
+        imports=['_getcurdir','_getdisk','_strcpy','_strlen','_errno','_malloc'],
+        group='08ff02ff03'),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
