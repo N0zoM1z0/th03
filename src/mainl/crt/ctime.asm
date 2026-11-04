@@ -610,6 +610,8 @@ _TEXT ends
 ; Initialized far name array: 7 abbreviated and 7 full weekdays,
 ; 12 abbreviated and 12 full months, then two AM/PM markers.
 _DATA segment word public 'DATA'
+public _SWeekday,_LWeekday,_SMonth,_LMonth,_AmPm
+_SWeekday label dword
 name_table label dword
     dd day3_Sun
     dd day3_Mon
@@ -618,6 +620,7 @@ name_table label dword
     dd day3_Thu
     dd day3_Fri
     dd day3_Sat
+_LWeekday label dword
     dd dayfull_Sunday
     dd dayfull_Monday
     dd dayfull_Tuesday
@@ -625,6 +628,7 @@ name_table label dword
     dd dayfull_Thursday
     dd dayfull_Friday
     dd dayfull_Saturday
+_SMonth label dword
     dd mon3_Jan
     dd mon3_Feb
     dd mon3_Mar
@@ -637,6 +641,7 @@ name_table label dword
     dd mon3_Oct
     dd mon3_Nov
     dd mon3_Dec
+_LMonth label dword
     dd monfull_January
     dd monfull_February
     dd monfull_March
@@ -649,6 +654,7 @@ name_table label dword
     dd monfull_October
     dd monfull_November
     dd monfull_December
+_AmPm label dword
     dd ampm_AM
     dd ampm_PM
 month_lengths db 31,28,31,30,31,30,31,31,30,31,30,31

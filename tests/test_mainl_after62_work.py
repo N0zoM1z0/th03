@@ -47,6 +47,13 @@ class NativeAfter62(unittest.TestCase):
             (510,'_atime'),(597,'_gmtime'),(626,'_localtime'),
             (686,'_asctime'),(735,'_ctime'),(1178,'_mktime')])
         self.assertEqual(len(r['profiles']['ctime']['relocation_sites_targets']),101)
+        # Original library also exports five far-name DATA tables. They are
+        # part of the original ABI, not merely initialized bytes.
+        from probe_th03_main_boss_marisa_cpp import code_publics
+        obj=(ROOT/'.analysis/work/after62-ctime-round1-ctime.obj').read_bytes()
+        self.assertEqual(code_publics(obj,2),[
+            (0,'_SWeekday'),(28,'_LWeekday'),(56,'_SMonth'),
+            (104,'_LMonth'),(152,'_AmPm')])
         self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
         self.assertFalse(r['original_literal_FIXUPP_equal'])
 

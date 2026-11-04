@@ -26,7 +26,9 @@ instruction-level reconstruction, not yet a high-level C recovery.
 The native source compiler/assembler `TASM 5.0 /m /mx /kh32768 /t` reproduces:
 
 - all 1,278/1,278 CODE bytes and 451/451 initialized DATA bytes;
-- all six public offsets, nine imports, original segment sizes, 44 BSS bytes
+- all six CODE public offsets, all five original DATA publics (weekday/month/AM-PM
+  far-pointer tables at DATA+0/+28/+56/+104/+152), nine imports,
+  original segment sizes, 44 BSS bytes
   and the original `_BSS,_DATA` group;
 - **101/101 relocations** by location, width, target method, imported/local
   symbol and addend: 61 CODE sites and 40 initialized DATA far-pointer sites.

@@ -46,3 +46,28 @@ class NativeAfter66(unittest.TestCase):
         self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
         self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
         self.assertFalse(r['source_acceptance'])
+
+    @unittest.skipUnless((ROOT/(PREFIX+'strerror-bsearch-strdup-abort-atexit-strcpy-strcat-build.json')).is_file(),
+                         '73-source CRT original native output not retained')
+    def test_original_atexit_and_far_string_pair_with_73_source_link(self):
+        r=review('strerror-bsearch-strdup-abort-atexit-strcpy-strcat')
+        self.assertEqual((r['native_source_members'],r['untouched_vendor_members']),
+                         (73,820))
+        self.assertEqual((r['added_CODE_bytes'],r['source_CRT_CODE_bytes']),
+                         (549,30764))
+        self.assertEqual((r['profiles']['atexit']['CODE_bytes'],
+                          r['profiles']['atexit']['DATA_bytes'],
+                          r['profiles']['atexit']['BSS_bytes']),(49,2,128))
+        self.assertEqual((r['profiles']['strcpy']['CODE_bytes'],
+                          r['profiles']['strcat']['CODE_bytes']),(41,63))
+        self.assertEqual(r['profiles']['atexit']['data_publics'],
+                         [(0,'__atexitcnt')])
+        self.assertEqual(r['profiles']['atexit']['bss_publics'],
+                         [(0,'__atexittbl')])
+        self.assertEqual(len(r['profiles']['atexit']['relocation_sites_targets']),5)
+        self.assertEqual(len(r['profiles']['strcpy']['relocation_sites_targets']),0)
+        self.assertEqual(len(r['profiles']['strcat']['relocation_sites_targets']),0)
+        self.assertTrue(r['complete_original_CODE_DATA_equal'])
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
+        self.assertFalse(r['source_acceptance'])

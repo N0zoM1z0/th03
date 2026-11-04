@@ -29,6 +29,8 @@ LAST='sprintf-calloc-puts-ctime'
 MODES={
     'strerror':('strerror',),
     'strerror-bsearch-strdup-abort':('strerror','bsearch','strdup','abort'),
+    'strerror-bsearch-strdup-abort-atexit-strcpy-strcat':
+        ('strerror','bsearch','strdup','abort','atexit','strcpy','strcat'),
 }
 NATIVE={
     'strerror':dict(index=297,code=176,data=26,bss=161,
@@ -40,6 +42,13 @@ NATIVE={
         publics=[(0,'_strdup')],imports=['_memcpy','_strlen','_malloc'],fields=3),
     'abort':dict(index=2,code=20,data=0,bss=0,
         publics=[(0,'_abort')],imports=['_raise','__abort'],fields=2),
+    'atexit':dict(index=5,code=49,data=2,bss=128,
+        publics=[(0,'_atexit')],imports=[],fields=5,
+        data_publics=[(0,'__atexitcnt')],bss_publics=[(0,'__atexittbl')]),
+    'strcpy':dict(index=293,code=41,data=0,bss=0,
+        publics=[(0,'_strcpy')],imports=[],fields=0,group='08ff03ff02'),
+    'strcat':dict(index=290,code=63,data=0,bss=0,
+        publics=[(0,'_strcat')],imports=[],fields=0,group='08ff03ff02'),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
@@ -61,7 +70,10 @@ def scope(name,blob):
     need(code_publics(blob,1)==q['publics'] and externs(blob)==q['imports'],
          'complete native public/extern interface '+name)
     need([x.data.hex() for x in parse_omf(blob) if x.name=='GRPDEF']==
-         ['08ff02ff03'], 'original group layout '+name)
+         [q.get('group','08ff02ff03')], 'original group layout '+name)
+    need(code_publics(blob,2)==q.get('data_publics',[]) and
+         code_publics(blob,3)==q.get('bss_publics',[]),
+         'complete selected native DATA/BSS public ABI '+name)
     need(len(literal_fields(blob))==q['fields'],
          'entire source relocation field population '+name)
     p=payload(blob)
@@ -69,7 +81,9 @@ def scope(name,blob):
     d=bytes(p[2,i] for i in range(q['data']))
     return dict(CODE_sha256=sha(c),CODE_bytes=len(c),DATA_sha256=sha(d),
                 DATA_bytes=len(d),BSS_bytes=q['bss'],
-                publics=code_publics(blob,1),imports=externs(blob),
+                publics=code_publics(blob,1),
+                data_publics=code_publics(blob,2),
+                bss_publics=code_publics(blob,3),imports=externs(blob),
                 relocation_sites_targets=fixed_fields(blob))
 
 
