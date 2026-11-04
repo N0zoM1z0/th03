@@ -30,6 +30,7 @@ MODES={
     'vprinter':('vprinter',),
     'vprinter-collate':('vprinter','collate'),
     'vprinter-collate-strxfrm':('vprinter','collate','_strxfrm'),
+    'vprinter-collate-strxfrm-locale':('vprinter','collate','_strxfrm','locale'),
 }
 NATIVE={
     'vprinter':dict(index=150,code=1243,data=103,bss=0,
@@ -41,6 +42,12 @@ NATIVE={
                  (371,'_GetNextAuxChar'),(398,'_GetNextExpansionWeight')],
         imports=[],fields=0,group='08ff02',third_name='COLLATE_TEXT',
         third_class='CODE'),
+    'locale':dict(index=244,code=950,data=22,bss=0,exit_size=6,
+        publics=[(0,'___initialize_locale'),
+                 (181,'___uninitialize_locale'),(300,'___set_c_locale')],
+        imports=['_sprintf','_calloc','_free','_memcpy','_strcmp','_strxfrm',
+                 '__ctype','_localeconv','__Clocale','__pLocale','__lower','__upper'],
+        fields=113,group='0aff02ff03'),
     '_strxfrm':dict(index=192,code=382,data=0,bss=0,
         publics=[(0,'__strxfrm'),(74,'_LevelTransform')],
         imports=['_GetNextKeyWeight','_GetSubstituteString',
@@ -48,6 +55,12 @@ NATIVE={
                  '_GetExpansionString','_GetNextExpansionWeight','__pLocale'],
         fields=2,group='08ff02',third_name='_STRXFRM_TEXT',
         third_class='CODE'),
+    'locale':dict(index=244,code=950,data=22,bss=0,exit_size=6,
+        publics=[(0,'___initialize_locale'),
+                 (181,'___uninitialize_locale'),(300,'___set_c_locale')],
+        imports=['_sprintf','_calloc','_free','_memcpy','_strcmp','_strxfrm',
+                 '__ctype','_localeconv','__Clocale','__pLocale','__lower','__upper'],
+        fields=113,group='0aff02ff03'),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
@@ -63,9 +76,12 @@ def fixed_fields(blob):
 def scope(name,blob):
     q=NATIVE[name]
     need(describe_omf(blob)['valid'],'actual native OMF '+name)
+    expected_segments=[('_TEXT','CODE',q['code']),('_DATA','DATA',q['data']),
+          (q.get('third_name','_BSS'),q.get('third_class','BSS'),q['bss'])]
+    if q.get('exit_size') is not None:
+        expected_segments.append(('_EXIT_','EXITDATA',q['exit_size']))
     need([(r['name'],r['class'],r['size']) for r in segment_definitions(blob)]==
-         [('_TEXT','CODE',q['code']),('_DATA','DATA',q['data']),
-          (q.get('third_name','_BSS'),q.get('third_class','BSS'),q['bss'])],
+         expected_segments,
          'complete original segment sizes '+name)
     need(code_publics(blob,1)==q['publics'] and externs(blob)==q['imports'],
          'complete native public/extern interface '+name)
@@ -79,8 +95,10 @@ def scope(name,blob):
     p=payload(blob)
     c=bytes(p[1,i] for i in range(q['code']))
     d=bytes(p[2,i] for i in range(q['data']))
+    exitdata=bytes(p[4,i] for i in range(q.get('exit_size',0)))
     return dict(CODE_sha256=sha(c),CODE_bytes=len(c),DATA_sha256=sha(d),
                 DATA_bytes=len(d),BSS_bytes=q['bss'],
+                EXITDATA_bytes=len(exitdata),EXITDATA_sha256=sha(exitdata),
                 publics=code_publics(blob,1),
                 data_publics=code_publics(blob,2),
                 bss_publics=code_publics(blob,3),imports=externs(blob),
