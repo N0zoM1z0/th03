@@ -106,3 +106,37 @@ class OriginalDOSWildcardArguments(unittest.TestCase):
         key=lambda f:(f['segment'],f['site'])
         self.assertEqual(sorted(a,key=key),sorted(b,key=key))
         self.assertNotEqual(a,b)
+
+    @unittest.skipUnless((ROOT/(PREFIX+'lsetlocl-wild-build.json')).is_file(),
+                         '99-source original Japanese wildcard native rounds absent')
+    def test_original_wildcard_psp_dgroup_and_unmaterialized_code_data(self):
+        receipt=json.loads((ROOT/(PREFIX+'lsetlocl-wild-build.json')).read_text())
+        result=review('lsetlocl-wild')
+        self.assertEqual((result['native_source_members'],
+                          result['untouched_vendor_members'],
+                          result['source_CRT_CODE_bytes']),(99,794,44010))
+        self.assertEqual((result['added_CODE_bytes'],result['original_MZ_relocations']),
+                         (5447,677))
+        q=result['profiles']['wild']
+        self.assertEqual((q['CODE_bytes'],q['DATA_bytes'],q['BSS_bytes']),(795,10,0))
+        self.assertEqual(q['CODE_implicit_sites'],[0,1])
+        self.assertEqual(q['DATA_implicit_sites'],list(range(10)))
+        self.assertEqual(q['publics'],[(7,'__wildargv')])
+        self.assertEqual(q['imports'],['__C0argc','__C0argv','__psp',
+            '__envseg','__envLng','__osmajor','__abort',
+            '___path_isdbcsleadbyte','__argc','__argv','_sbrk'])
+        self.assertEqual(len(q['relocation_sites_targets']),38)
+        self.assertTrue(result['complete_original_CODE_DATA_equal'])
+        self.assertTrue(result['complete_native_link_EXE_MAP_equal'])
+        self.assertFalse(result['source_acceptance'])
+        self.assertFalse(result['original_cold_rebuilt'])
+
+        orig=(WORK/'vendor/wild.obj').read_bytes()
+        for roundinfo in receipt['rounds']:
+            made=(ROOT/roundinfo['outputs']['wild']['path']).read_bytes()
+            self.assertEqual(payload(orig),payload(made))
+            a,b=literal_fields(orig),literal_fields(made)
+            key=lambda f:(f['segment'],f['site'])
+            self.assertEqual(sorted(a,key=key),sorted(b,key=key))
+            self.assertNotEqual(a,b)  # only record order differs
+            self.assertFalse(roundinfo['literal_omf_fixupp_equal_by_member']['wild'])

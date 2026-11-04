@@ -35,6 +35,7 @@ The **99-source linked EXE/MAP is byte-exact**, but literal native OMF details r
 | `signal` | 769 plus 38 DATA | All 55 site-sorted frame/target fields agree; original compiler emits different FIXUPP record order. |
 | `utime` | 654 plus 12 DATA | 13 external near helper calls differ TARGET frame5 vs TASM CODE frame0; all 24 sites/targets agree. |
 | `lsetlocl` | 4,652 plus 59 DATA | 227 sites/targets; three near `N_LDIV@` calls: TARGET frame5 vs CODE frame0; ordering differs. |
+| `wild` | 795 span / 793 materialized CODE | 38 target/frame-equivalent fields; original record order differs. Data class has ten unmaterialized bytes. |
 | `wild` | 795 extent, 10 uninitialized DATA | 38 site-sorted fixups, including all frames, equal; original FIXUPP order differs. |
 | `getcwd` | 142 | Seven sites/targets/frames agree; FIXUPP order differs. |
 | `printf` / `putch` | 31 / 25 | Near formatter/output helpers: TARGET frame5 vs CODE frame0. |
@@ -68,7 +69,7 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after77_work.py st
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after86_work.py lstrftim
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after87_work.py signal-fheapchk
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after89_work.py utime-console
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after97_work.py lsetlocl-wild
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after97_work.py lsetlocl-wild-wild
 PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after97_work tests.test_mainl_after89_work tests.test_mainl_after87_work tests.test_mainl_after86_work tests.test_mainl_after77_work tests.test_mainl_after73_work tests.test_mainl_after66_work tests.test_mainl_after62_work tests.test_mainl_posttzset_work tests.test_mainl_tzset_work
 PYTHONPATH=scripts .venv/bin/python scripts/validate_tracking.py
 git diff --check
@@ -77,6 +78,8 @@ git diff --check
 These are *retained source-bound proof checks* with original OBJ/LIB/EXE/MAP vectors and actual writer phase logs, **not a cold replay**. If a native producer changes, rebuild just it and its dependent normal link/reviews; do not edit old receipt hashes to pass a check. Use the existing Wine lock, one allowed CPU at nice10, empty DISPLAY/WAYLAND_DISPLAY and `.venv/bin/python`; serialize all Borland writers. Re-attest a Ghidra DB before using new observations. Details: [workflow](RE_WORKFLOW.md), [architecture](ARCHITECTURE.md), [ABI/rejected hypotheses](RE_NOTES.md) and `.agents/skills/th03-re/SKILL.md`.
 
 ### Genuine next priorities
+
+- **DOS startup wildcard module `wild`:** all 793 original materialized CODE bytes in its 795-byte span, all ten unmaterialized DATA bytes, full 38 site-sorted original OMF relocation frames and 99-source EXE/MAP match ([review](MAINL_WILD_NATIVE_REVIEW.md)). Original FIXUPP order is still distinct.
 
 - **`wild` original DOS startup argument boss:** 795 CODE extent (two unmaterialized scratch bytes), 10 entirely uninitialized DATA, original 38 frame/target-matching fixups, with 99-source full EXE/MAP proof ([review](MAINL_WILD_NATIVE_REVIEW.md)). Do not confuse zero-filled view with materialized OMF bytes.
 
