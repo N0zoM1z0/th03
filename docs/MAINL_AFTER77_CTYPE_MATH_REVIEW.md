@@ -10,6 +10,11 @@ member programs for four more source modules were reconstructed and verified:
 | 3 | `abs.asm` | 18 | `_abs` far, `int` result |
 | 83 | `labs.asm` | 44 | `_labs` far, 32-bit `DX:AX` result |
 
+For these four modules the literal original OMF FIXUPP order and frames are
+identical to the source-built objects (two ctype fixups; zero for both math
+members). The other five far-string sources are checked independently; only
+member129 `strxfrm` has its two relocations in a different record order.
+
 The reconstructed assembly preserves the **original unchecked behavior** and
 native 16-bit arithmetic. `atol` is not a mere C-library stand-in: the single
 member contains both `_atol` and `_atoi`, sign/whitespace handling, 16-bit

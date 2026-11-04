@@ -1,14 +1,14 @@
 # TH03 reconstruction — current handoff
 
-**Source checkpoint: check actual Git HEAD.** New original-source work now includes `sprintf`, `calloc`, `puts`, the complete `ctime` calendar boss, `strerror`, `bsearch`, `strdup`, `abort`, `atexit`, `strcpy`, `strcat` and the full `vprinter` formatting boss, the `collate`/`_strxfrm` multi-function collation pair, and the four-segment `locale` lifecycle boss; original source-only proof is distinct from formally accepted scope. All new commits use `gpt-web: xxx`. This file contains the operative status, not 60+ milestone entries; individual reviews retain original experiments and provenance. The next agent owns all dirty changes.
+**Source checkpoint: check actual Git HEAD.** New original-source work now includes `sprintf`, `calloc`, `puts`, the complete `ctime` calendar boss, `strerror`, `bsearch`, `strdup`, `abort`, `atexit`, `strcpy`, `strcat` and the full `vprinter` formatting boss, the `collate`/`_strxfrm` multi-function collation pair, and the four-segment `locale` lifecycle boss, and nine new far-string/ctype/math leaves; original source-only proof is distinct from formally accepted scope. All new commits use `gpt-web: xxx`. This file contains the operative status, not 60+ milestone entries; individual reviews retain original experiments and provenance. The next agent owns all dirty changes.
 
 ## Proven current source-only MAINL state
 
 Use the original Japanese PC-98 TH03 targets pinned in `config/targets.toml` with provenance **`candidate-local-attested`**. MAINL is the ending program. Never substitute translated binaries, TH04 references, patched output or the packed MAINL database for the pinned original decoded target.
 
-The *working* 893-member Borland CRT library now has **86 genuine source-compiled members** at the original member positions; **807 other member program records are unchanged**. These 86 modules emit **34,306 raw-equal original CODE bytes** (5,707 new since the 62-member carrier), with 451 additional original-equal initialized `ctime` DATA bytes and 44 bytes BSS. Two independent BCC/TASM/TLIB/TLINK rounds reproduce the **entire 67,372-byte decoded Japanese MAINL EXE and full original MAP byte-for-byte**, preserving all **677 original MZ relocations**. This does not establish complete source ownership of MAINL.
+The *working* 893-member Borland CRT library now has **87 genuine source-compiled members** at the original member positions; **806 other member program records are unchanged**. These 87 modules emit **36,137 raw-equal original CODE bytes** (7,538 new since the 62-member carrier), with 451 additional original-equal initialized `ctime` DATA bytes and 44 bytes BSS. Two independent BCC/TASM/TLIB/TLINK rounds reproduce the **entire 67,372-byte decoded Japanese MAINL EXE and full original MAP byte-for-byte**, preserving all **677 original MZ relocations**. This does not establish complete source ownership of MAINL.
 
-**Current 86-source proof:** `scripts/review_th03_mainl_after77_work.py strings-ctype-math` and `tests.test_mainl_after77_work`, with two native rounds and exact `DX:AX`/ctype ABI. **Inherited 82-source proof:** `scripts/review_th03_mainl_after77_work.py strings` with `tests.test_mainl_after77_work`, 2 independent original native OBJ/LIB/EXE/MAP rounds. **Inherited 77-source proof:** `scripts/review_th03_mainl_after73_work.py vprinter-collate-strxfrm-locale` and `tests.test_mainl_after73_work`; real four-segment `locale` native source and complete EXE/MAP. **Inherited 76-source proof:** `scripts/review_th03_mainl_after73_work.py vprinter-collate-strxfrm` and `tests.test_mainl_after73_work`; the three new modules contain 31/31 literally original ordered OMF fixups. **Inherited 74-source proof:** `scripts/review_th03_mainl_after73_work.py vprinter` and `tests.test_mainl_after73_work` (two independent original native rounds). **Inherited 73-source proof:** `scripts/review_th03_mainl_after66_work.py strerror-bsearch-strdup-abort-atexit-strcpy-strcat`, `tests.test_mainl_after66_work` (two independent native rounds). **Earlier 70-source proof:** `scripts/review_th03_mainl_after66_work.py strerror-bsearch-strdup-abort` and `tests/test_mainl_after66_work.py`. **67-source incremental proof:** `scripts/review_th03_mainl_after66_work.py strerror` and `tests/test_mainl_after66_work.py`; build entry `scripts/build_th03_mainl_after66_work.py strerror` (two original native rounds). **Inherited 66-source proof:** `scripts/review_th03_mainl_after62_work.py sprintf-calloc-puts-ctime` with `tests/test_mainl_after62_work.py`. Build entry: `scripts/build_th03_mainl_after62_work.py sprintf-calloc-puts-ctime`. The inherited 62-source proof remains `scripts/review_th03_mainl_posttzset_work.py lsearch-getenv-access-tolower` and its two retained OBJ/LIB/EXE/MAP output vectors. These native incremental builds reuse the unchanged original cold pair.
+**Current 87-source proof:** `scripts/review_th03_mainl_after86_work.py lstrftim` and `tests.test_mainl_after86_work` (two complete original native rounds). **Inherited 86-source proof:** `scripts/review_th03_mainl_after77_work.py strings-ctype-math` and `tests.test_mainl_after77_work`, with two native rounds and exact `DX:AX`/ctype ABI. **Inherited 82-source proof:** `scripts/review_th03_mainl_after77_work.py strings` with `tests.test_mainl_after77_work`, 2 independent original native OBJ/LIB/EXE/MAP rounds. **Inherited 77-source proof:** `scripts/review_th03_mainl_after73_work.py vprinter-collate-strxfrm-locale` and `tests.test_mainl_after73_work`; real four-segment `locale` native source and complete EXE/MAP. **Inherited 76-source proof:** `scripts/review_th03_mainl_after73_work.py vprinter-collate-strxfrm` and `tests.test_mainl_after73_work`; the three new modules contain 31/31 literally original ordered OMF fixups. **Inherited 74-source proof:** `scripts/review_th03_mainl_after73_work.py vprinter` and `tests.test_mainl_after73_work` (two independent original native rounds). **Inherited 73-source proof:** `scripts/review_th03_mainl_after66_work.py strerror-bsearch-strdup-abort-atexit-strcpy-strcat`, `tests.test_mainl_after66_work` (two independent native rounds). **Earlier 70-source proof:** `scripts/review_th03_mainl_after66_work.py strerror-bsearch-strdup-abort` and `tests/test_mainl_after66_work.py`. **67-source incremental proof:** `scripts/review_th03_mainl_after66_work.py strerror` and `tests/test_mainl_after66_work.py`; build entry `scripts/build_th03_mainl_after66_work.py strerror` (two original native rounds). **Inherited 66-source proof:** `scripts/review_th03_mainl_after62_work.py sprintf-calloc-puts-ctime` with `tests/test_mainl_after62_work.py`. Build entry: `scripts/build_th03_mainl_after62_work.py sprintf-calloc-puts-ctime`. The inherited 62-source proof remains `scripts/review_th03_mainl_posttzset_work.py lsearch-getenv-access-tolower` and its two retained OBJ/LIB/EXE/MAP output vectors. These native incremental builds reuse the unchanged original cold pair.
 
 **The xx boss is complete in working source.** `src/mainl/crt/xx.cpp` produces all **12,622 original CODE bytes and 187 literally equal ordered OMF fixups** via native BCC4.5 `-c -y`. **All 50 linked xx function bodies agree**, including initCatchArg, _ExceptionHandler and RTTI. Older S/TASM miniatures are separate diagnostic profiles and may have different sizes. See [complete native xx product review](MAINL_XX_PRODUCT_REVIEW.md).
 
@@ -16,7 +16,7 @@ The **`ctime` calendar boss** is now in working source: all 1,278 CODE / 451 DAT
 
 ## Open original-object metadata gaps — do not overclaim
 
-The **86-source linked EXE/MAP is byte-exact**, but literal native OMF details remain open for multiple existing and new members; five older members and `sprintf`, `calloc`, `puts`, `ctime`, `strerror` differ from the original **native OMF metadata**. Their source-generated CODE is original-byte-equal and their logical relocation sites/targets are reviewed, but the following are **not fully literal OMF-equal**:
+The **87-source linked EXE/MAP is byte-exact**, but literal native OMF details remain open for multiple existing and new members; five older members and `sprintf`, `calloc`, `puts`, `ctime`, `strerror`, `strxfrm` differ from the original **native OMF metadata**. Their source-generated CODE is original-byte-equal and their logical relocation sites/targets are reviewed, but the following are **not fully literal OMF-equal**:
 
 | Module | Complete CODE bytes | Remaining original-OMF difference |
 | --- | ---: | --- |
@@ -30,12 +30,14 @@ The **86-source linked EXE/MAP is byte-exact**, but literal native OMF details r
 | `puts` | 97 | TASM field ordering and near output helper frame difference. |
 | `ctime` | 1,278 plus 451 DATA | Field ordering and 57 different frame methods (17 near calls, 40 DATA pointers); all 101 locations/targets agree. |
 | `strerror` | 176 plus 26 DATA | Field order differs, but all twelve frames and sites/targets match. |
+| `strxfrm` | 66 | Original member129 two far-call frames/sites agree, but record ordering differs from TASM (distinct from `_strxfrm` member192). |
+| `lstrftim` | 1,831 plus 23 DATA | 85 symbolic jump-table fixups agree logically; `__UTOA` at CODE+1377 uses TARGET frame5 versus TASM CODE frame0; order also differs. |
 
 See [fopen](MAINL_FOPEN_WORK_REVIEW.md), [fclose](MAINL_FCLOSE_WORK_REVIEW.md), [timecvt](MAINL_TIMECVT_WORK_REVIEW.md), [strftime](MAINL_STRFTIME_WORK_REVIEW.md), and [tempnam](MAINL_TEMPNAM_WORK_REVIEW.md). Do not silently normalize these differences or add padding, original executable byte arrays, or binary OBJ patches. The internal *far* call frame in putc was solved naturally with zero-byte scoped `ASSUME CS:NOTHING`; that is not a proven fix for the remaining external *near* calls.
 
 ## Formal accepted scope is separate
 
-The 86-source CRT and its 34,306 original CODE bytes are **working, source-only native evidence, not new accepted ledger credit**. In the current decoded acceptance:
+The 87-source CRT and its 36,137 original CODE bytes are **working, source-only native evidence, not new accepted ledger credit**. In the current decoded acceptance:
 
 | Product | Accepted decoded source ownership |
 | --- | --- |
@@ -44,7 +46,7 @@ The 86-source CRT and its 34,306 original CODE bytes are **working, source-only 
 | MAINL | 211 extents / 288 procedures / **34,333 CODE + 2,607 initialized DATA + 6 uninitialized file DATA = 36,946 bytes** |
 | ZUN | 77 extents / **6,179 CODE + 2,456 DATA = 8,635 bytes** |
 
-MAINL decoded accepted scope comprises **16,695 authored + 20,251 library bytes** and its accepted CRT has **28 source providers**. The source-only 86-member working CRT is **not** a formally accepted 86-provider publication. Packed-file canonical unit credit and decoded owned source bytes are different metrics; see [generated progress](PROGRESS.md). No whole-game source-completion percentage is established.
+MAINL decoded accepted scope comprises **16,695 authored + 20,251 library bytes** and its accepted CRT has **28 source providers**. The source-only 87-member working CRT is **not** a formally accepted 87-provider publication. Packed-file canonical unit credit and decoded owned source bytes are different metrics; see [generated progress](PROGRESS.md). No whole-game source-completion percentage is established.
 
 ## Next agent — commands and rules
 
@@ -57,7 +59,8 @@ PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after62_work.py sp
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after66_work.py strerror-bsearch-strdup-abort-atexit-strcpy-strcat
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after73_work.py vprinter-collate-strxfrm-locale
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after77_work.py strings-ctype-math
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after77_work tests.test_mainl_after73_work tests.test_mainl_after66_work tests.test_mainl_after62_work tests.test_mainl_posttzset_work tests.test_mainl_tzset_work
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after86_work.py lstrftim
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after86_work tests.test_mainl_after77_work tests.test_mainl_after73_work tests.test_mainl_after66_work tests.test_mainl_after62_work tests.test_mainl_posttzset_work tests.test_mainl_tzset_work
 PYTHONPATH=scripts .venv/bin/python scripts/validate_tracking.py
 git diff --check
 ```
@@ -65,6 +68,8 @@ git diff --check
 These are *retained source-bound proof checks* with original OBJ/LIB/EXE/MAP vectors and actual writer phase logs, **not a cold replay**. If a native producer changes, rebuild just it and its dependent normal link/reviews; do not edit old receipt hashes to pass a check. Use the existing Wine lock, one allowed CPU at nice10, empty DISPLAY/WAYLAND_DISPLAY and `.venv/bin/python`; serialize all Borland writers. Re-attest a Ghidra DB before using new observations. Details: [workflow](RE_WORKFLOW.md), [architecture](ARCHITECTURE.md), [ABI/rejected hypotheses](RE_NOTES.md) and `.agents/skills/th03-re/SKILL.md`.
 
 ### Genuine next priorities
+
+- **New complete `lstrftim` boss:** selected member213 now real 1,831 CODE / 23 DATA with both ordinal/date routines and all 85 symbolic CODE dispatch entries; 128 field sites/targets, only one external near frame and original field order remain open ([native review](MAINL_LSTRFTIM_NATIVE_REVIEW.md)). Full 87-source Japanese MAINL EXE/MAP equal.
 
 - **Numeric and ctype originals:** `toupper`, `atol`/`atoi`, `abs` and `labs` now source-equal (248 CODE with original native ABI and literal numeric fixups; [review](MAINL_AFTER77_CTYPE_MATH_REVIEW.md)).
 - **Far string source batch:** `stricmp`, `strnicmp`, `strncmp`, `strcoll`, public `strxfrm` now original-CODE-equal (284 CODE; [native proof](MAINL_AFTER77_STRINGS_NATIVE_REVIEW.md)). The separate full internal `_strxfrm` is already recovered; original `strxfrm` FIXUPP order remains open.

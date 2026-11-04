@@ -72,3 +72,22 @@ class OriginalAfter77CRT(unittest.TestCase):
             source=(ROOT/receipt['rounds'][0]['outputs'][name]['path']).read_bytes()
             target=(WORK/'vendor'/(name+'.obj')).read_bytes()
             self.assertEqual(literal_fields(source),literal_fields(target),name)
+
+    @unittest.skipUnless((ROOT / (PREFIX + 'strings-ctype-math-build.json')).is_file(),
+                         'original 86-source scoped source-pair absent')
+    def test_original_omf_field_order_exceptions_are_reported(self):
+        # Check literal original OMF fields rather than silently canonicalizing
+        # each record's order or equating CODE identity with OBJ identity.
+        from build_th03_mainl_display_work import literal_fields
+        from build_th03_mainl_after77_work import WORK
+        r=review('strings-ctype-math')
+        self.assertFalse(r['original_literal_FIXUPP_equal'])
+        names=('stricmp','strnicmp','strncmp','strcoll','strxfrm',
+               'toupper','atol','abs','labs')
+        for n in names:
+            original=literal_fields((WORK/'vendor'/(n+'.obj')).read_bytes())
+            native=literal_fields((ROOT/'.analysis/work'/
+                ('after77-strings-ctype-math-round1-'+n+'.obj')).read_bytes())
+            by=lambda f:(f['segment'],f['site'])
+            self.assertEqual(sorted(original,key=by), sorted(native,key=by), n)
+            self.assertEqual(original==native, n!='strxfrm', n)
