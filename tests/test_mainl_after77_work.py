@@ -33,3 +33,42 @@ class OriginalAfter77CRT(unittest.TestCase):
         self.assertFalse(r['original_literal_FIXUPP_equal'])
         self.assertFalse(r['source_acceptance'])
         self.assertFalse(r['original_cold_rebuilt'])
+
+    @unittest.skipUnless((ROOT / (PREFIX + 'strings-ctype-build.json')).is_file(),
+                         'original 84-source ctype CRT rounds absent')
+    def test_ctype_toupper_and_atol_atoi_full_84_source_link(self):
+        r=review('strings-ctype')
+        self.assertEqual((r['native_source_members'],r['untouched_vendor_members'],
+                          r['source_CRT_CODE_bytes']),(84,809,34244))
+        self.assertEqual(r['profiles']['toupper']['CODE_bytes'],48)
+        self.assertEqual(r['profiles']['atol']['CODE_bytes'],138)
+        self.assertEqual(r['profiles']['atol']['publics'],
+                         [(0,'_atol'),(117,'_atoi')])
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+
+    @unittest.skipUnless((ROOT / (PREFIX + 'strings-ctype-math-build.json')).is_file(),
+                         'original 86-source math/ctype CRT rounds absent')
+    def test_abs_labs_and_all_five_numeric_publics_with_original_link(self):
+        r=review('strings-ctype-math')
+        self.assertEqual((r['original_CRT_members'],r['native_source_members'],
+                          r['untouched_vendor_members']),(893,86,807))
+        self.assertEqual((r['added_CODE_bytes'],r['source_CRT_CODE_bytes']),
+                         (532,34306))
+        self.assertEqual((r['profiles']['abs']['CODE_bytes'],
+                          r['profiles']['labs']['CODE_bytes']),(18,44))
+        self.assertEqual(r['profiles']['abs']['publics'],[(0,'_abs')])
+        self.assertEqual(r['profiles']['labs']['publics'],[(0,'_labs')])
+        self.assertTrue(r['complete_original_CODE_DATA_equal'])
+        self.assertTrue(r['complete_native_link_EXE_MAP_equal'])
+        self.assertEqual((r['native_rounds'],r['original_MZ_relocations']),(2,677))
+        self.assertFalse(r['source_acceptance'])
+        # The new numeric units match literal ordered fields (including the
+        # original external ctype frames); strxfrm is a distinct older gap.
+        from build_th03_mainl_after77_work import WORK
+        from build_th03_mainl_display_work import literal_fields
+        import json
+        receipt=json.loads((ROOT/(PREFIX+'strings-ctype-math-build.json')).read_text())
+        for name in ['toupper','atol','abs','labs']:
+            source=(ROOT/receipt['rounds'][0]['outputs'][name]['path']).read_bytes()
+            target=(WORK/'vendor'/(name+'.obj')).read_bytes()
+            self.assertEqual(literal_fields(source),literal_fields(target),name)
