@@ -27,18 +27,18 @@ PREFIX='.analysis/work/mainl-after62-'
 LAST='lsearch-getenv-access-tolower'
 MODES={
     'sprintf':('sprintf',),
-    'sprintf-io':('sprintf','setvbuf','write'),
+    'sprintf-calloc-puts':('sprintf','calloc','puts'),
 }
 NATIVE={
     'sprintf':dict(index=287,code=144,data=0,bss=0,
         publics=[(69,'_sprintf'),(107,'_vsprintf')],
         imports=['_memcpy','__VPRINTER'],fields=5),
-    'setvbuf':dict(index=285,code=289,data=4,bss=0,
-        publics=[(0,'_setvbuf')],
-        imports=['__streams','_fseek','_free','_malloc','__exitbuf','__xfflush'],fields=13),
-    'write':dict(index=331,code=358,data=0,bss=0,
-        publics=[(0,'___write')],
-        imports=['__nfile','_lseek','__rtl_write','__IOERROR','__openfd'],fields=9),
+    'calloc':dict(index=160,code=97,data=0,bss=0,
+        publics=[(0,'_calloc')],
+        imports=['_malloc','_setmem','N_LXMUL@'],fields=3),
+    'puts':dict(index=273,code=97,data=0,bss=0,
+        publics=[(0,'_puts')],
+        imports=['__streams','_fputc','_strlen','__FPUTN'],fields=5),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
