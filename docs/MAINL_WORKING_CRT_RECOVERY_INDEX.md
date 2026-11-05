@@ -684,3 +684,10 @@ The [complete original ios(streambuf FAR*) constructor with typed RTTI](MAINL_IO
 adds 153 original CODE and 12 initialized DATA bytes, including
 the true ios vtable/destructor function pointer and all seven
 original logical OMF relocations.
+
+The [large cplx2 fifth full arg(complex) body](MAINL_CPLX2_ARG_FIVE_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends original complex x87 source through CODE+1216:
+five complete FAR bodies, with 182 compared relocation
+targets/addends, 163 disclosed frame-method-4 differences
+and the two still-unresolved same-segment FAR call encodings.
+This remains **partial, with no added complete CRT member**.
