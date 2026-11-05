@@ -1,8 +1,8 @@
-# TH03 — agent handoff (2026-11-05; after455 working source)
+# TH03 — agent handoff (2026-11-05; after461 working source)
 
 **Snapshot warning:** after439 is the last **fully storage-audited and
 cleaned** source checkpoint, but the current locally reviewed working-source
-checkpoint is **after455** (section 1a). Do **not** infer a clean
+checkpoint is **after461** (section 1a). Do **not** infer a clean
 worktree, complete source acceptance or cleanup eligibility from this
 frozen table. Inspect latest `git status -sb`, `git log` and the actual
 `build_th03_mainl_after*_work.py`/receipts before taking action.
@@ -48,83 +48,92 @@ Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
 
-## 1a. Current source-bound checkpoint — verified after455
+## 1a. Current working-source checkpoint — independently verified after461
 
-This is the current Japanese MAINL **working-source** CRT checkpoint, not
-a renewed storage cleanup or a new canonical/Factory source acceptance.
-Its after455 receipt inherits and checks the entire preceding source-bound
-DAG through after454; **no full cold replay** was performed.
+**Latest source evidence is after461, not the frozen after439 cleanup audit.**
+After461 verifies the retained source-bound receipts through after460;
+the native producer builds only the affected original member, with two
+fresh TASM/TLIB/TLINK rounds and complete original-equal decoded EXE/MAP.
+No ancestor native cold replay or Factory source acceptance is implied.
 
-| Japanese MAINL working CRT | Verified after455 |
+| Japanese MAINL CRT evidence | Verified after461 |
 | --- | ---: |
 | Original CL.LIB members | **893** |
-| Complete source-linked original CRT members | **663** |
-| Remaining contextual vendor members | **230** |
-| Complete source-built original-equal CODE | **178,132 bytes** |
-| Original decoded Japanese EXE / MZ relocations | **67,372 bytes / 677** |
-| Fresh TASM/TLIB/TLINK producer rounds at latest stage | **2; both EXE/MAP byte-exact** |
-| New Factory accepted-source credit | **Not established** |
+| Original source-linked CRT members | **669** |
+| Remaining contextual vendor members | **224** |
+| Complete native source-built original-equal CODE | **179,780 bytes** |
+| Complete native EXE / original DOS MZ relocations | **67,372 bytes / 677** |
+| Native producer rounds for this stage | **2; both EXE/MAP byte-exact** |
+| Added canonical MAINL/Factory source credit | **None** |
 
-**This session** recovered seven further original CRT modules: **1,527
-CODE and 164 initialized DATA bytes** in seven separate source commits.
-All were independently compared with original Japanese Borland
-CL.LIB CODE/DATA, segment layout, ordered imports/publics and logical
-OMF relocation sites, not merely inferred from old handoff notes.
-Each received its own two-round source-bound native producer,
-reviewer, tests and commit (`gpt-web: xxx`):
+This session completed **six original members** as individually committed
+natural source, adding **1,648 source-built CODE bytes and 588 initialized
+DATA bytes**. Each has its own fresh, retained two-round native output
+vector, a source- and driver-hash-bound producer, independent original OMF
+review, and a passing focused test:
 
-- after449 `srbctr5` (index 838), 239 CODE / 52 DATA; unsigned-char
-  strstreambuf far-buffer constructor, complete inherited RTTI, 11
-  virtual method pointers and all 20 original logical FIXUPPs —
-  `5e6b6e6`.
-- after450 `srbctr6` (839), 239 CODE / 52 DATA; separate char-pointer
-  constructor ABI, full RTTI/vtable and 20 original logical FIXUPPs,
-  original source independently compared before adopting the sibling
-  implementation — `912fab7`.
-- after451 `sdbdtr` (826), 224 CODE / 52 DATA; complete stdiobuf FAR
-  virtual destructor, actual indirect overflow(-1) dispatch, streambuf
-  teardown and optional far delete, 19 logical FIXUPPs — `7700090`.
-- after452 `fsbsbuf` (714), 191 CODE; complete filebuf::setbuf with
-  original active-file guard, threshold range choice and real
-  setb/setp/setg far callbacks, all three logical FIXUPPs — `74015ce`.
-- after453 `fsbclose` (707), 174 CODE; complete filebuf::close with
-  virtual flush, actual DOS close, state reset and both native result
-  paths. Its **one literal original FIXUPP** at CODE+125 is identical
-  to TASM — `14c541d`.
-- after454 `FMBSTOK` (689), 230 CODE / 4 DATA; MBCS far tokenizer
-  with its real saved far cursor, delimiter/DBCS handling and 12
-  logical OMF fixups. A strict group mismatch was fixed **in source**:
-  TASM emitted DATA/BSS in reverse order until the group declaration
-  was corrected to restore original `08ff02ff03` — `017e965`.
-- after455 `MBSTOK` (633), 230 CODE / 4 DATA; a separately verified
-  MBCS tokenizer, with its own genuine saved cursor, different helper
-  imports and all 12 logical fixups. An initial generated `_TEXTA`
-  builder expectation was corrected to the actual original `_TEXT`
-  after independently checking both the library and vendor OBJ —
-  `9b244b3`.
+- after456 / vidinfo (570): **231 CODE / 16 DATA**; full PC-98 video
+  mode conversion, text info and 8-entry typed mode map, all 14 logical
+  OMF fields. Exactly one Borland TARGET-frame vs TASM CODE-frame
+  near call to WHEREXY at site 192, independently guarded. Commit 79f08e2.
+- after457 / iomacro (80): **234 CODE**, six real stdio fast/fallback
+  FAR entries getc/getchar/putchar/putc/feof/ferror. All 12 original
+  **literal ordered FIXUPPs** match. Commit 18815f9.
+- after458 / setjmp (365): **214 CODE**, original FAR setjmp/longjmp,
+  complete saved 16-bit register/SS:SP/FLAGS image and exception-aware
+  local/global unwind. All four **literal ordered FIXUPPs** match.
+  Commit a423753.
+- after459 / MBTOMB (638): **207 CODE / 432 DATA**, bidirectional Shift-JIS
+  conversion and five genuinely typed Japanese character mapping
+  tables, with six exact logical OMF fields. Commit 0531d29.
+- after460 / bcd1 (195): **398 CODE / 140 DATA**, full original BCD
+  exponent helper and four FAR conversion/power exports. TASM5
+  **EMUL** naturally emits the original FIERQQ/FIDRQQ/FIWRQQ
+  simulator fields; ten 80-bit power constants retain the original
+  Borland significands, not TASM's alternate decimal rounding.
+  All 23 logical FIXUPPs match. Commit 07ab742.
+- after461 / cplx1 (208): **364 CODE**, four original complex arithmetic
+  FAR exports and 55 exact logical FPU emulator/FAR call OMF references.
+  Closing/reopening the SAME original CODE segment after the first
+  genuine FIWRQQ emission gives both the original imported symbol
+  order and a genuine FAR new-object call, avoiding TASM's invalid
+  near-call optimization. Commit 891635b.
 
-**Current source-bound root receipt:**
+The current complete **source-bound root** is:
 
-    .analysis/work/mainl-after455-multibyte-strtok-state-machine-build.json
-    SHA-256 ea3cfc8ba5e1112f9fce3cce8943a4380079ecd5b92ce2770cd55220ba550163
+    .analysis/work/mainl-after461-complex-x87-multiply-boss-build.json
+    SHA-256 a534ca99448cdbcd44decb8721e6b3d0ce66fc8dbc2fab034840068cf63f48b0
 
-Latest producer: scripts/build_th03_mainl_after455_work.py,
-mode `multibyte-strtok-state-machine`. Reviewer:
-scripts/review_th03_mainl_after455_work.py, targeted tests:
-tests.test_mainl_after455_work. The stage's two native rounds retain
-all original raw OBJ/LIB/EXE/MAP outputs and writer logs. **Protect the
-entire inherited source-bound receipt DAG and both rounds of every stage;
-never run the after439 cleanup script against these newer layers.**
+Producer: scripts/build_th03_mainl_after461_work.py
+mode complex-x87-multiply-boss. Independent reviewer:
+scripts/review_th03_mainl_after461_work.py; focused tests:
+tests.test_mainl_after461_work. The complete unchanged after455 parent
+is retained at
+.analysis/work/mainl-after455-multibyte-strtok-state-machine-build.json
+(SHA-256 ea3cfc8ba5e1112f9fce3cce8943a4380079ecd5b92ce2770cd55220ba550163).
+All new source receipts, writer logs and **both raw OBJ/LIB/EXE/MAP
+rounds** are protected dependencies. Do not run the frozen after439
+cleanup script or use a generic generated-file preview to delete them.
+Earlier per-member review/chronology is in the
+[working CRT index](MAINL_WORKING_CRT_RECOVERY_INDEX.md).
 
-**Important limits:** the built original-equal decoded EXE/MAP and
-complete CODE/DATA + logical OMF fields are *not* complete literal
-original Borland OBJ identity. FMBSTOK/MBSTOK's literal FIXUPP record
-chronology differs, while fsbclose has original literal FIXUPP equality.
-Historical `cibmscrl` still has its exact seven near-call frame
-differences. The Japanese target provenance is candidate-local-attested,
-not independently proven pristine-dump provenance. MAINL's canonical
-packed-file accepted credit remains zero; do not report this working
-CRT expansion as Factory acceptance.
+**Proof limitations:** full CODE/DATA and linked decoded EXE/MAP
+equality, the original ABI and complete *logical* FIXUPP equality
+do not prove the original complete Borland OBJ record serialization,
+nor literal FIXUPP chronology for all members. After456 has its
+one exact near frame gap; after457/458 have literal ordered FIXUPP
+equality; after459/460/461 retain their own disclosed original-vs-TASM
+literal ordering differences. Provenance remains candidate-local-attested,
+not independently confirmed pristine Japanese dumps. MAINL canonical
+packed-file accepted units still remain **0/250**.
+
+Next demanding candidates to investigate using their **actual current
+source membership** include cplx2 (5,598 CODE / 63 DATA; 22 publics,
+24 imports), isteldbl (1,947 CODE / 14 DATA) and other unsourced
+complex/iostream functions. The x87 EMUL mechanism is now established
+at two different complete original members; do not infer every larger
+member will necessarily share their exact build characteristics.
+The unresolved h_ldiv MAP alias-order discrepancy remains open.
 
 ## 1b. Previous source-bound checkpoint — verified after448 (historical)
 
@@ -222,8 +231,8 @@ which current review/test entrypoints already handle.
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after455_work.py multibyte-strtok-state-machine
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after455_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after461_work.py complex-x87-multiply-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after461_work -v
 # Historical storage test deliberately fails closed with after440+ layers;
 # do not treat tests.test_mainl_after439_storage_cleanup as a current gate.
 .venv/bin/python scripts/status.py
@@ -252,19 +261,12 @@ writer logs, run its matching reviewer/tests and then commit. Do not
 mistake a local commit, TASM exit or linked EXE equality for formal
 Factory acceptance.
 
-**Still-unowned candidate directions** after the new source stages
-include bcd1 (398 CODE / 140 DATA, original x87 emulation FIXUPPs),
-cplx1 (364 CODE, floating emulator references), and the much larger
-isteldbl (1,947 CODE). These were checked against the actual current
-working-source membership, not merely missing filenames. The original
-bcd1 and cplx1 imports and x87 relocation sites were inspected; a
-minimal experimental TASM5 .8087 / EMULATOR-directive attempt failed
-with an illegal-instruction error. The correct historical Borland
-emulation mechanism remains **open**; do not fake its original FPU
-FIXUPPs with raw target bytes or presume prior assumptions correct.
-Other unowned leaf members remain possible complementary scopes;
-`fsbclose` itself is now source-linked at after453. Recheck every candidate with parent
-retained source membership and the original OMF before coding.
+**Current unowned directions** include the large cplx2 and isteldbl
+modules named above. Earlier handoff hypotheses that bcd1 and cplx1
+could not generate Borland-style floating FIXUPPs are now disproved
+by original-equal after460/after461 native source, with the precise
+TASM EMUL directive and original x87 data widths. Recheck the real
+source carrier before claiming any remaining member.
 
 The unresolved `h_ldiv` source has **174 original-equal CODE bytes** but
 TASM/Borland MAP alias order differs: it is **not counted** in the frozen after439 647-member snapshot. See [the h_ldiv investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md).
