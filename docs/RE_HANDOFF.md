@@ -1,8 +1,8 @@
-# TH03 — agent handoff (2026-11-05; after468 working source)
+# TH03 — agent handoff (2026-11-05; after474 working source)
 
 **Snapshot warning:** after439 is the last **fully storage-audited and
 cleaned** source checkpoint, but the current locally reviewed working-source
-checkpoint is **after468** (section 1a). Do **not** infer a clean
+checkpoint is **after474** (section 1a). Do **not** infer a clean
 worktree, complete source acceptance or cleanup eligibility from this
 frozen table. Inspect latest `git status -sb`, `git log` and the actual
 `build_th03_mainl_after*_work.py`/receipts before taking action.
@@ -48,9 +48,110 @@ Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
 
-## 1a. Current working-source checkpoint — independently verified after468
+## 1a. Current working-source checkpoint — independently verified after474
 
-**Current source build is after468, not the frozen after439 storage audit.**
+**Latest complete CRT working source is after474, not after468 or
+the frozen after439 storage audit.** The after474 producer checks the
+entire inherited source-bound after473 carrier, runs two native
+TASM/TLIB/TLINK rounds and retains complete source/driver/parent
+hashes. No ancestor cold replay or new formal Factory source
+acceptance is claimed.
+
+| Japanese MAINL working CRT | Verified after474 |
+| --- | ---: |
+| Original Borland CL.LIB members | **893** |
+| Complete source-linked original CRT members | **682** |
+| Remaining contextual vendor members | **211** |
+| Complete original-equal source-built CODE | **182,280 bytes** |
+| This session's new BSS | **4 bytes** |
+| Original Japanese decoded EXE / MZ relocations | **67,372 bytes / 677** |
+| New native TASM/TLIB/TLINK rounds at latest stage | **2, both EXE/MAP exact** |
+| New formal Factory source credit for this expansion | **Not established** |
+
+**Six newly complete original CRT members** add **1,076 CODE bytes**
+and four BSS bytes this session. Each has separately committed natural
+8086 source, independent original CL.LIB CODE/OMF inspection,
+two new full native OBJ/LIB/EXE/MAP round outputs, a scoped reviewer
+and passing tests:
+
+- after469 hlsearch (466): **209 CODE**, generic private near FAR
+  heap search core, FAR comparator, insert-enabled __hlsearch and
+  find-only __hlfind. Only one original N_PADA@ near TARGET-frame
+  versus TASM CODE-frame difference at CODE+52 — commit dfc116f.
+- after470 read (276): **207 CODE**, full ___read DOS text-mode I/O,
+  CR/LF translation, Ctrl-Z seek, original ES:SI LODS and I/O error
+  handling. All **eight literal ordered original FIXUPPs** match;
+  native BSS-before-DATA GROUP also restored — commit c6bccf3.
+- after471 int86 (175): **207 CODE**, complete FAR _int86 and
+  _int86x entrypoints, dynamic stack-resident INT nn trampoline,
+  segment/FLAGS register images, native carry/error handling;
+  both **literal ordered FIXUPPs** match — commit e2d1554.
+- after472 fstrtok (460): **203 CODE + 4 BSS**, true persistent FAR
+  tokenizer state and two real delimiter scan loops, with
+  **12 exact logical BSS relocation fields**. Strict CODE
+  review corrected a nonoriginal empty-delimiter branch — 0a9a931.
+- after473 putw (274): **125 CODE**, real FILE fast-buffer low/high
+  byte writes and two separate FAR __fputc fallbacks, preserving
+  original unaligned high-byte argument load — commit 7c803e0.
+- after474 eof (216): **125 CODE**, true DOS device IOCTL,
+  current/end/restore seek position probes and near __IOERROR,
+  all **three literal ordered FIXUPPs** exact — commit 98366f7.
+
+**Current root source-bound receipt:**
+
+    .analysis/work/mainl-after474-dos-file-eof-seek-probe-leaf-build.json
+    SHA-256 54bcf62b4f7cec2e7c8527734ba9823abb8f6f634ae0e8033bcccb37ff8047bc
+
+Producer: scripts/build_th03_mainl_after474_work.py,
+mode dos-file-eof-seek-probe-leaf.
+Independent reviewer: scripts/review_th03_mainl_after474_work.py.
+Focused test: tests.test_mainl_after474_work.
+The six after469–after474 receipts' complete parent chains,
+source+driver hashes, all writer log hashes and both full raw
+OBJ/LIB/EXE/MAP vectors were checked together. Both new rounds
+link to the original decoded Japanese MAINL EXE and complete MAP.
+**Protect every inherited receipt, writer log and two-round
+native output; the old after439 cleanup is fail-closed and
+does not authorize deletion of these artifacts.**
+
+**Large cplx2 boss advanced materially but remains unfinished.**
+Commit 9a7de88 contains genuinely compilable native EMUL x87
+source for its first **three entire division FAR functions**
+(CODE+0,+166,+405, total **692/5,598 original CODE bytes**).
+The standalone scoped verifier builds twice and compares the
+entire 692-byte original code prefix and all **97 exact
+relocation sites, symbol target identities, widths and
+addends** against the original CL.LIB member. The first 90
+of those are **original Borland location-frame method 4**,
+whereas TASM EMUL emits target-frame method 5. This
+original-vs-native discrepancy is explicitly retained and
+**not silently normalized to false raw OMF equality**.
+One TASM COMENT native timestamp byte can differ between
+the raw round-1 and round-2 object SHA hashes; all other OMF
+records compare identically, and original CODE parity is
+unchanged. Reproduction and remaining scope are recorded in
+[the cplx2 three-division-functions review](MAINL_CPLX2_THREE_DIVISION_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md).
+**cplx2 is not another complete CRT source member and earns
+zero complete source or Factory credit.** Its remaining
+4,906 CODE bytes and 19 other public functions remain.
+
+**Current proof limitations:** code/relocation/native link parity
+does not mean every original Borland OMF program record is
+literal-equal to TASM output, nor does an incremental source
+commit grant Factory acceptance. after469 has its one
+documented NEAR frame gap; after472/473 have Borland/TASM
+literal FIXUPP chronology differences; after470/471/474
+match their original literal ordered FIXUPPs. Pinned Japanese
+targets remain candidate-local-attested, not independently
+proven pristine dumps. MAINL canonical packed-file accepted
+units remain **0/250**. Whole-game reconstruction percentage
+is not implied or asserted.
+
+## 1b. Previous working-source checkpoint — after468 (historical)
+
+
+
+**Historical after468 source build, superseded by after474.**
 After468 verifies the retained after467 parent evidence and complete
 unchanged source-bound carrier before two fresh TASM/TLIB/TLINK rounds.
 No full cold replay or new Factory accepted-source credit was claimed.
@@ -97,7 +198,7 @@ two-round TASM/TLIB/TLINK output, focused reviewer and tests:
   two-byte leaf, both genuine far fgetc fallbacks and EOF logic,
   two original logical FIXUPPs — commit cf68a71.
 
-**Current complete source-bound root receipt:**
+**Historical after468 complete source-bound root receipt:**
 
     .analysis/work/mainl-after468-stdio-getw-two-byte-leaf-build.json
     SHA-256 9d6994a911d7e5d2f3575a7d7db269b612d87d7dc57e6698e15bbfe9dc22a036
@@ -148,7 +249,7 @@ Japanese source remains candidate-local-attested rather than
 independently proven pristine. MAINL canonical packed-file
 accepted credit remains **0/250**.
 
-## 1b. Previous working-source checkpoint — after461 (historical)
+## 1c. Previous working-source checkpoint — after461 (historical)
 
 
 
@@ -237,7 +338,7 @@ at two different complete original members; do not infer every larger
 member will necessarily share their exact build characteristics.
 The unresolved h_ldiv MAP alias-order discrepancy remains open.
 
-## 1c. Previous source-bound checkpoint — verified after448 (historical)
+## 1d. Previous source-bound checkpoint — verified after448 (historical)
 
 
 At this historical checkpoint, the Japanese MAINL after448 incremental
@@ -333,8 +434,9 @@ which current review/test entrypoints already handle.
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after468_work.py stdio-getw-two-byte-leaf
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after468_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after474_work.py dos-file-eof-seek-probe-leaf
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after474_work -v
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_cplx2_divisions_partial_native -v
 PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_large_x87_location_frames -v
 # Historical storage test deliberately fails closed with after440+ layers;
 # do not treat tests.test_mainl_after439_storage_cleanup as a current gate.
