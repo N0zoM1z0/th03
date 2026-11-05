@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 549-member chain.
+refer to intermediate snapshots, not the current 550-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -271,3 +271,11 @@ kept visible in the scoped reviewer.
 The [complete Japanese DOS `_makepath` boss](MAINL_DOS_MAKEPATH_BOSS_NATIVE_REVIEW.md)
 adds 255 CODE bytes of far path composition, DBCS-aware trailing slash
 recognition, and five original logical OMF far-call relocations.
+
+The [original DOS `_mktemp` five-level name enumeration boss](MAINL_DOS_MKTEMP_ENUMERATION_BOSS_NATIVE_REVIEW.md)
+adds 253 CODE + 7 original `XXXXXX` DATA bytes, the real DOS `access`
+search loop and all four original logical OMF fields.
+
+The [original DOS `_mktemp` enumeration boss](MAINL_MKTEMP_ENUMERATION_BOSS_NATIVE_REVIEW.md)
+adds 253 CODE and seven DATA bytes, the authentic template and five-letter
+search and four original logical far-call / DATA relocations.
