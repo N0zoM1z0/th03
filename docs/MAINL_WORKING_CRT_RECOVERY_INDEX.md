@@ -814,3 +814,11 @@ The [complete ios::usersize FAR array growth boss](MAINL_IOS_USERSIZE_FAR_ARRAY_
 adds 156 original CODE bytes with actual FAR new[],
 original memcpy/free, per-entry zero initialization
 and three exact logical original OMF references.
+
+The [tenth complete cplx2 exp(complex) body](MAINL_CPLX2_EXP_TEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 206 original-equal complex exponential bytes and
+extends maintained source to original CODE+2563. All 403
+emitted symbolic OMF fixups match original sites, names
+and addends across 405 original prefix fields, retaining
+two explicit local FAR-call and 353 frame-method-4 gaps.
+This is partial and adds zero complete CRT members.
