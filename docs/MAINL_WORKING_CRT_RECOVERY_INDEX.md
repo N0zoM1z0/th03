@@ -804,3 +804,8 @@ emitted symbolic OMF fields match the 377 original prefix
 records except the two disclosed direct FAR calls; 329
 frame-4 FPU differences remain unnormalized. No full
 CRT member credit is claimed.
+
+The [complete original DOS file-create family with four FAR exports](MAINL_DOS_CREAT_FAMILY_NATIVE_REVIEW.md)
+adds 170 byte-exact CODE bytes, a true private DOS creation
+engine and four native entrypoints with all four literal
+ordered original OMF references.
