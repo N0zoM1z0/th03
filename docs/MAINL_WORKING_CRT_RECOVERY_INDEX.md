@@ -762,3 +762,7 @@ The [original srand/rand 32-bit LCG leaf](MAINL_RAND_LCG_SEED_LEAF_NATIVE_REVIEW
 adds 62 byte-exact CODE and four genuine seed DATA bytes,
 with all eight original logical fields and the sole precise
 N_LXMUL@ near-frame gap at CODE+38 documented.
+
+The [original DOS region lock/unlock FAR leaf](MAINL_DOS_LOCK_UNLOCK_LEAF_NATIVE_REVIEW.md)
+adds 78 byte-exact CODE bytes, both DOS 21h 5Cxxh API paths,
+and both literal ordered near __IOERROR OMF references.
