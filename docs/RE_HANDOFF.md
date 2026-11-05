@@ -56,9 +56,9 @@ add 109 original-equal CRT CODE bytes. The second large
 adds 1,036 original-equal CODE bytes and 30 DATA bytes. Older milestone writeups are **historical**; consult the selected original OBJ
 and current receipts rather than accepting a previous guess as fact.
 
-The two more complete [ranged string insert / replace exception bosses](MAINL_STRING_RANGE_BOSSES_NATIVE_REVIEW.md)
-add 2,112 original-equal CODE bytes with four CODE segments across the two
-members.
+The combined [ranged string insert / replace exception pair](MAINL_STRING_RANGE_BOSSES_NATIVE_REVIEW.md)
+account for 2,112 original-equal CODE bytes and two 30-byte
+DATA segments across the two independent checkpoints.
 
 The latest [five exact CRT leaves](MAINL_ASSEMBLER_LEAVES_NATIVE_REVIEW.md)
 add rotate, multiply, and near/far block-copy helpers.

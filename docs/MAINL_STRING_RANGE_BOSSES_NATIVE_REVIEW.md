@@ -44,30 +44,24 @@ claimed.
 
 ## Incremental native product validation
 
-Two successive incremental builds preserve the full source-bound receipt
-DAG while compiling **only the newly selected members**, rather than
-rerunning a cold replay:
+The bounded insertion was established first by
+scripts/build_th03_mainl_after325_work.py (mode: string-insert-range),
+which reached 330 source CRT member programs. Only then does
+scripts/build_th03_mainl_after326_work.py (mode: string-replace-boss)
+consume the unchanged 330-source parent and rebuild the entire replacement
+method. **Two real native TASM/TLIB/TLINK rounds for each scoped step**
+produce the original decoded Japanese MAINL EXE and MAP byte-for-byte,
+including all 677 ordered MZ relocations, without replaying any older
+full cold builds.
 
-1. `scripts/build_th03_mainl_after325_work.py string-insert-range` consumes
-   the 329-source parent, rebuilds member 408, and links 330-source MAINL.
-2. `scripts/build_th03_mainl_after326_work.py string-replace-boss` consumes
-   that source-bound 330-member product, rebuilds member 422, and links
-   331-source MAINL.
+The final working CRT carries **331 source members**, **562 contextual
+original vendor members** and **109,886 original-equal CRT CODE bytes**.
+Both separate receipts check the original library object and source hashes,
+relocations, saved OBJ/LIB/EXE/MAP bytes and native phase-log digests:
+review_th03_mainl_after325_work.py plus tests.test_mainl_after325_work
+for insertion, and review_th03_mainl_after326_work.py plus
+tests.test_mainl_after326_work for replacement.
 
-Each build performs **two independent** native TASM/TLIB/TLINK rounds,
-reconstructing the original **Japanese decoded MAINL EXE and MAP
-byte-for-byte**, including **677 ordered MZ relocations**. All previously
-recovered members remain source-bound, and every other contextual CRT member
-remains the original program.
-
-The result is **331 native-source CRT members** out of 893, **562
-contextual original vendor members** and **109,886 original-equal CRT
-CODE bytes**. The round-by-round proof reads original library member
-records and raw OBJ/LIB/EXE/MAP bytes, phase-log digests and source
-hashes, using both `scripts/review_th03_mainl_after325_work.py` and
-`scripts/review_th03_mainl_after326_work.py`, plus
-`tests.test_mainl_after325_work` and `tests.test_mainl_after326_work`.
-
-This is real working-source reconstruction and linked-product parity,
-**not** a promoted Factory acceptance fact, a bit-identical original
-Borland OMF record program or a complete original packed game.
+This is real source-bound reconstruction and linked-product parity,
+not literal Borland OMF record equality, a Factory-accepted ownership
+receipt or a whole-game exact-source claim.
