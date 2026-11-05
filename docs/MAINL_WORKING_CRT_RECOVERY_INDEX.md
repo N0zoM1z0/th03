@@ -784,3 +784,10 @@ locations, target names and addends. The two known
 same-CODE FAR call gaps and 261 frame-method-4 FPU
 differences remain independently recorded. This is
 partial and **does not count as a complete CRT member**.
+
+The [eighth complete large-cplx2 cos(complex) function](MAINL_CPLX2_COS_EIGHT_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends semantic x87 source to original CODE+2123 with
+233 newly recovered cos bytes; 335 symbolic original OMF
+targets/addends are checked across 337 original prefix fixups.
+Two known local FAR call gaps and 295 method-4 FPU frames
+remain disclosed; **no complete CRT member credit**.
