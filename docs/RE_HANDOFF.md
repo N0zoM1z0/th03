@@ -1,4 +1,4 @@
-# TH03 — agent handoff (verified 2026-11-05, after424)
+# TH03 — agent handoff (verified 2026-11-05, after425)
 
 **Start here.** Work on the actual Japanese PC-98 originals. Inspect
 `git status -sb` and the last commits; continue **all** dirty edits rather
@@ -14,23 +14,23 @@ make several scoped commits where practical. Read
 | Property | Verified working-source evidence |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
-| Complete members compiled from maintained source | **620** |
-| Remaining unchanged contextual vendor member programs | **273** |
-| Source-built, original-equal logical CRT CODE | **170,101 bytes** |
+| Complete members compiled from maintained source | **621** |
+| Remaining unchanged contextual vendor member programs | **272** |
+| Source-built, original-equal logical CRT CODE | **170,340 bytes** |
 | Original decoded Japanese MAINL EXE size | **67,372 bytes** |
 | Original ordered DOS MZ relocations | **677** |
 | Actual native TASM/TLIB/TLINK production rounds | **2, byte-identical EXE and MAP** |
-| Latest source build | `after424 / strstreambuf-nec-and-far-string` |
-| Formal Factory acceptance of this 620-member CRT expansion | **No** |
+| Latest source build | `after425 / strstreambuf-buffer-constructor-boss` |
+| Formal Factory acceptance of this 621-member CRT expansion | **No** |
 
 **Source-bound proof:**
-`scripts/review_th03_mainl_after424_work.py strstreambuf-nec-and-far-string`
-and `tests.test_mainl_after424_work`, using
-`.analysis/work/mainl-after424-strstreambuf-nec-and-far-string-build.json`.
-The current reviewer checks the inherited **162-stage** receipt DAG,
+`scripts/review_th03_mainl_after425_work.py strstreambuf-buffer-constructor-boss`
+and `tests.test_mainl_after425_work`, using
+`.analysis/work/mainl-after425-strstreambuf-buffer-constructor-boss-build.json`.
+The current reviewer checks the inherited **163-stage** receipt DAG,
 source/driver/parent hashes, selected original member CODE/DATA/ABI, two
 complete raw native OBJ/LIB/EXE/MAP rounds and writer logs. It is **not**
-a full cold replay. The 620 individual members are not claimed to have
+a full cold replay. The 621 individual members are not claimed to have
 byte-identical original Borland OBJ *record serialization*; literal
 ordered FIXUPP equality is separately recorded per module.
 
@@ -43,7 +43,7 @@ artificial target-byte arrays for native source recovery.
 ## 2. Acceptance and ledger: distinguish the claims
 
 - [Generated progress](PROGRESS.md) is generated from ledgers, **not** from
-  the 620-source working CRT. The packed-file canonical MAINL ledger remains
+  the 621-source working CRT. The packed-file canonical MAINL ledger remains
   **0 exact units**. `scripts/status.py` currently reports MAINL decoded
   product **pending**, `0/250` nonexcluded ledger units and no newly accepted
   bytes. `config/units.csv` has **251 MAINL rows**, including one excluded;
@@ -74,6 +74,13 @@ fixups including the *local* destructor pointer at CODE+128 and DATA+8.
 Native EXE/MAP remains byte exact in both rounds; Borland/TASM literal
 FIXUPP chronology differs. See
 [the stdiostream destructor review](MAINL_STDIOSTREAM_DESTRUCTOR_BOSS_NATIVE_REVIEW.md).
+After425 recovers the full original `strstreambuf` buffer constructor,
+239 CODE + 52 initialized DATA bytes with typed RTTI and 11 original
+virtual-function slots. The original DATA+28 `do_sputn` and DATA+32
+`overflow` bindings were restored after OMF checking revealed that an
+initial byte-equal translation had swapped their targets. All 20 logical
+FIXUPPs and both full Japanese EXE/MAP native rounds now match. See
+[the constructor review](MAINL_STRSTREAMBUF_BUFFER_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md).
 After424 adds full C++ `strstreambuf::underflow` (188 CODE),
 NEC hardware/BIOS GOTOXY (74 CODE) and far `strnset` (58 CODE).
 All eight original logical OMF fields and two full native Japanese
@@ -297,7 +304,7 @@ note recommended them. Inspect the actual member and status first.
 - **`h_ldiv`** (`src/mainl/crt/h_ldiv.asm`) has original-equal **174
   CODE bytes and 12 aliases**, but TASM and Borland still order two
   same-address aliases differently in the **MAP**. It is deliberately
-  **not counted** in the 620 source-linked members. See
+  **not counted** in the 621 source-linked members. See
   [its bounded investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md)
   and `tests.test_mainl_h_ldiv_original_scope`. Preserve its source and
   diagnostic evidence, do not reorder a MAP to fake acceptance.
@@ -332,8 +339,8 @@ latest reviewer/test).
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after424_work.py strstreambuf-nec-and-far-string
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after424_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after425_work.py strstreambuf-buffer-constructor-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after425_work -v
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -352,7 +359,7 @@ acceptance.
 
 [Current protected native DAG / storage cleanup guide](STORAGE_HANDOFF_CURRENT.md)
 explains what can be deleted and how to preview it safely. **Keep all
-162 active source-bound stages**: build receipts, every phase log, and both
+163 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
 old-named `reference.tar` input. At the prior after388 cleanup, 256 retired/scratch files were safely removed
