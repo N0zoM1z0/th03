@@ -572,3 +572,8 @@ and the native DOS 21h 6300h bootstrap are recovered.
 The [complete original localeconv FAR structure and monetary flags](MAINL_LOCALECONV_FAR_STRUCTURE_BOSS_NATIVE_REVIEW.md)
 adds 212 native CODE bytes restoring ten locale far pointers,
 eight numeric fields and all 41 exact logical original OMF FIXUPPs.
+
+The [complete DOS packed date/time to UTC and DST boss](MAINL_DOS_PACKED_TIME_UTC_DST_BOSS_NATIVE_REVIEW.md)
+adds 214 original CODE bytes with genuine leap-year arithmetic,
+timezone/DST conversion and all five **literal ordered** OMF fixups,
+including the exact negative monthDay lookup addend.
