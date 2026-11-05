@@ -1,40 +1,37 @@
-# MAINL Borland `stdiobuf::overflow`: original member source recovery
+# Original MAINL stdiobuf overflow: source-bound native check
 
-The Japanese MAINL CRT's original selected `CL.LIB` member 827,
-`sdboflow`, was examined as an **entire** native OMF object, not as a
-function snippet or a synthetic linked-output patch. It defines precisely
-342 CODE bytes in `_TEXTA`, zero DATA/BSS, one far public
-`@stdiobuf@overflow$qi`, and three far externs:
-`@streambuf@setp$qnct1`, `@streambuf@setg$qnct1t1`, `__fputc`.
-The literal `DGROUP` is `08ff02ff03`, independently checked against
-the original object.
+`src/mainl/crt/sdboflow.asm` implements the **entire** original Japanese
+Borland C++ far `stdiobuf::overflow(int)` member, not a synthetic byte blob.
+It retains the existing file-error test, iterates the pending put area,
+forwards each character through the original FILE buffer or `__fputc`,
+handles the EOF/character branch, restores get/put bounds through the
+far `streambuf::setp` and `streambuf::setg` calls, and checks the FILE error
+flag on exit. These control-flow paths and their stack layouts should be
+cross-checked against the pinned original member rather than inferred from
+another game's CRT.
 
-The recovered `src/mainl/crt/sdboflow.asm` uses symbolic 8086 instructions
-and control-flow labels. The body includes FILE error handling, pending
-put-area flush via buffered/direct `__fputc`, conditional insertion of the
-new character, restoration of get/put area boundaries, and a final FILE error
-check. Original signed buffer count tests, far pointers, caller cleanup and
-unchecked pointer assumptions are left intact.
+Native input: `.analysis/work/mainl/vendor/sdboflow.obj`, original CRT
+member **827**. The complete original member has **342 CODE bytes**, no
+initialized DATA or BSS, one far public, three imported far functions, and
+four CODE relocation fields. The source-bound builder
+`scripts/build_th03_mainl_after319_work.py stdiobuf-overflow` and reviewer
+`scripts/review_th03_mainl_after319_work.py stdiobuf-overflow` reuse the
+validated 319-member parent without running a cold replay. Two independent
+TASM/TLIB/TLINK rounds are preserved with source hashes, full raw
+OBJ/LIB/EXE/MAP and logs under `.analysis/work/after319-*`.
 
-## Narrow native verification
+Both rounds match the **complete** original materialized CODE bytes, public
+and import interface, segment boundaries, all four relocation sites and
+targets, all 893 CRT library slots (320 replaced by source, 573 carried as
+original contextual vendor members), and the complete Japanese decoded
+**67,372-byte EXE / MAP**, including the 677 ordered DOS relocations.
 
-`scripts/build_th03_mainl_after319_work.py stdiobuf-overflow` uses an
-unchanged 319-source parent receipt chain and rebuilds only this new member
-with native TASM/TLIB/TLINK; it **does not cold-rebuild** the historical
-parent product. Two independent actual native output rounds contain:
-
-- All 342 original CODE bytes equal, with the same segment, public, extern,
-  and DGROUP definitions; no DATA/BSS contribution.
-- Four original 32-bit far fixup sites at CODE offsets 142, 214, 273, 307;
-  their targets, frames and addends match site-for-site.
-- 320 original-source CRT member replacements out of 893; 573 unchanged
-  vendor members; entire decoded Japanese MAINL EXE and MAP byte-equal in
-  both rounds, including all 677 *ordered* MZ relocation entries.
-
-The original **literal OMF FIXUPP record order differs** (original writes
-sites in descending order; TASM writes ascending); it is not claimed equal.
-Link equality does not prove original Borland object-record serialization or
-automatically add Factory-accepted source ownership. The review and focused
-tests read original member bytes and both raw retained rounds:
-`review_th03_mainl_after319_work.py` and
-`tests.test_mainl_after319_work`.
+**OMF limitation:** Original Borland FIXUPP order is `307, 273, 214, 142`;
+TASM writes `142, 214, 273, 307`. The site, target, addend and frame
+metadata of all four fields agree. This is **not** a literal ordered OMF
+record match, nor proof of full BCC OBJ serialization identity. It is a
+complete CODE and native-link reconstruction of one working-source member.
+No Factory acceptance or additional accepted decoded/packed-file extent is
+claimed. See `tests/test_mainl_after319_work.py` for direct original-OBJ
+checks; the reviewer checks the full inherited receipt DAG and both native
+rounds without repeating the cold build.
