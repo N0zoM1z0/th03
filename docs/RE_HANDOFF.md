@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **343** |
-| Original contextual vendor programs left unchanged | **550** |
-| Source-compiled original-equal CRT CODE | **113,505 bytes** |
+| Slots rebuilt from complete source | **344** |
+| Original contextual vendor programs left unchanged | **549** |
+| Source-compiled original-equal CRT CODE | **114,620 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after331_work.py stringio-boss`
-and `tests.test_mainl_after331_work`, bound to
-`.analysis/work/mainl-after331-stringio-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after332_work.py farheap-manager`
+and `tests.test_mainl_after332_work`, bound to
+`.analysis/work/mainl-after332-farheap-manager-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-343-provider accepted ledger publication, a complete MAINL source tree, or
+344-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -71,7 +71,10 @@ using compiler-block source ordering, rather than a link/OBJ patch.
 Eight [DOS/pointer/IBM/arithmetic native leaves](MAINL_DOS_POINTER_IBM_LEAVES_NATIVE_REVIEW.md)
 now add another 216 original-equal CODE bytes; their imported near frame
 serialization differences remain explicitly documented.
-The integrated [11-API `stringio` boss](MAINL_STRINGIO_BOSS_NATIVE_REVIEW.md)
+The [full 1,115-byte farheap memory manager](MAINL_FARHEAP_MANAGER_NATIVE_REVIEW.md)
+reconstructs the original near/far alloc/free/realloc family, original CODE
+uninitialized state and even the complete literal 49-relocation Borland OMF
+member record. The integrated [11-API `stringio` boss](MAINL_STRINGIO_BOSS_NATIVE_REVIEW.md)
 adds 1,466 original CODE bytes after the 333-byte 13-API isctype family;
 the earlier `after330` locale driver/receipt is kept byte-identical and
 `stringio` is now verified as the subsequent `after331` layer.
@@ -89,7 +92,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 343-source
+Current accepted **decoded** source scope, not including the 344-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -101,7 +104,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 343 members into the accepted ledger;
+does **not** promote the working 344 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -142,8 +145,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after331_work.py stringio-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after330_work tests.test_mainl_after331_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after332_work.py farheap-manager
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after331_work tests.test_mainl_after332_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
