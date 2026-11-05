@@ -841,3 +841,8 @@ with 160 more fully equal CODE bytes, typed exact double
 DATA+28..35 and 433 matching symbolic relocations. Two
 local FAR-call encodings and 377 Borland frame-method-4
 differences remain explicit; cplx2 is still partial.
+
+The [complete original ios destructor, global fmtflags and typed RTTI](MAINL_IOS_DESTRUCTOR_RTTI_VTABLE_NATIVE_REVIEW.md)
+adds 141 CODE, 30 DATA and 4 BSS bytes, with five actual DATA
+exports, a real BSS stdioflush symbol and all seven original
+symbolic CODE/DATA relocation fields.
