@@ -17,19 +17,19 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **323** |
-| Original contextual vendor programs left unchanged | **570** |
-| Source-compiled original-equal CRT CODE | **106,705 bytes** |
+| Slots rebuilt from complete source | **324** |
+| Original contextual vendor programs left unchanged | **569** |
+| Source-compiled original-equal CRT CODE | **107,665 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after322_work.py dos-fullpath`
-and `tests.test_mainl_after322_work`, bound to
-`.analysis/work/mainl-after322-dos-fullpath-build.json`. The inherited
-source-bound reviewers revalidate the original OBJ/LIB/EXE/MAP vectors
-and native phase logs without a new cold replay. This is **not** a
-323-provider accepted ledger publication, a complete MAINL source tree, or
+**Live proof:** `scripts/review_th03_mainl_after323_work.py string-insert-boss`
+and `tests.test_mainl_after323_work`, bound to
+`.analysis/work/mainl-after323-string-insert-boss-build.json`. The inherited
+source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
+without a new cold replay. This is **not** a
+324-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -47,14 +47,16 @@ The complete 342-byte [`stdiobuf::overflow`](MAINL_STDIOBUF_OVERFLOW_NATIVE_REVI
 and 346-byte [`filebuf::open`](MAINL_FILEBUF_OPEN_NATIVE_REVIEW.md)
 now join the full 345-CODE/52-DATA-byte [`stdiobuf(FILE*)` constructor](MAINL_STDIOBUF_CONSTRUCTOR_NATIVE_REVIEW.md).
 All three have source-bound Japanese EXE/MAP parity; their literal OMF
-FIXUPP ordering is not the original. Older milestone writeups are **historical**; consult the selected original OBJ
+FIXUPP ordering is not the original. The complete 960-CODE/30-DATA-byte
+ [`string::insert` exception/RTTI boss](MAINL_STRING_INSERT_BOSS_NATIVE_REVIEW.md)
+ is now independently source-bound and linked exact as well. Older milestone writeups are **historical**; consult the selected original OBJ
 and current receipts rather than accepting a previous guess as fact.
 
 ### Working source is not formally accepted scope
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 323-source
+Current accepted **decoded** source scope, not including the 324-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -66,7 +68,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 323 members into the accepted ledger;
+does **not** promote the working 324 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -92,7 +94,7 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 2. Keep progress balanced: **larger Bosses** with complete executable body,
    RTTI, jump tables and DATA/BSS, plus full **small leaf** functions.
    Potential remaining selected CRT candidates to investigate, **not yet
-   accepted claims**: `insert1`, `insert2`,
+   accepted claims**: `insert2`,
    `replace`; continue MAIN/OP/ZUN game-module work where ownership is open.
 3. Rebuild only changed/impacted members using native TASM/TLIB/TLINK or
    BCC as appropriate, serialize the Wine writer, and check original selected
@@ -107,8 +109,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after322_work.py dos-fullpath
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after322_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after323_work.py string-insert-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after323_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
