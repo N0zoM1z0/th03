@@ -17,19 +17,19 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **329** |
-| Original contextual vendor programs left unchanged | **564** |
-| Source-compiled original-equal CRT CODE | **107,774 bytes** |
+| Slots rebuilt from complete source | **330** |
+| Original contextual vendor programs left unchanged | **563** |
+| Source-compiled original-equal CRT CODE | **108,810 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after324_work.py assembler-leaves`
-and `tests.test_mainl_after324_work`, bound to
-`.analysis/work/mainl-after324-assembler-leaves-build.json`. The inherited
+**Live proof:** `scripts/review_th03_mainl_after325_work.py string-insert-range`
+and `tests.test_mainl_after325_work`, bound to
+`.analysis/work/mainl-after325-string-insert-range-build.json`. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-329-provider accepted ledger publication, a complete MAINL source tree, or
+330-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -51,7 +51,9 @@ FIXUPP ordering is not the original. The complete 960-CODE/30-DATA-byte
  [`string::insert` exception/RTTI boss](MAINL_STRING_INSERT_BOSS_NATIVE_REVIEW.md)
  is now independently source-bound and linked exact as well. Five complete
 [8086 rotation/multiply/near-and-far-copy leaves](MAINL_ASSEMBLER_LEAVES_NATIVE_REVIEW.md)
-add 109 original-equal CRT CODE bytes. Older milestone writeups are **historical**; consult the selected original OBJ
+add 109 original-equal CRT CODE bytes. The second large
+[bounded `string::insert` boss](MAINL_STRING_INSERT_RANGE_NATIVE_REVIEW.md)
+adds 1,036 original-equal CODE bytes and 30 DATA bytes. Older milestone writeups are **historical**; consult the selected original OBJ
 and current receipts rather than accepting a previous guess as fact.
 
 The latest [five exact CRT leaves](MAINL_ASSEMBLER_LEAVES_NATIVE_REVIEW.md)
@@ -61,7 +63,7 @@ add rotate, multiply, and near/far block-copy helpers.
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 329-source
+Current accepted **decoded** source scope, not including the 330-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -73,7 +75,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 329 members into the accepted ledger;
+does **not** promote the working 330 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -114,8 +116,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after324_work.py assembler-leaves
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after324_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after325_work.py string-insert-range
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after325_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
