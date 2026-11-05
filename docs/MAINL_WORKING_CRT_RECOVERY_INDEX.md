@@ -851,3 +851,9 @@ The [complete original DOS __rtl_read/__read two FAR entries](MAINL_DOS_RTL_READ
 add 78 byte-exact CODE bytes with genuine INT 21h
 read, descriptor state, and both literal ordered original
 OMF references at CODE+12/+44.
+
+The [h_ldiv twelve-public 32-bit arithmetic-core source and MAP tie audit](MAINL_H_LDIV_TWELVE_API_MAP_ALIAS_PROBE.md)
+recovers all 174 original CODE bytes and twelve near/far
+DIV/MOD entrypoints. A real linked EXE is original-equal,
+but two MAP alias ties are reversed, so this remains a
+**scoped unaccepted source** and adds zero complete members.
