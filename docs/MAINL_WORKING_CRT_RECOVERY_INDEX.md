@@ -740,3 +740,9 @@ relocation sites, original target names and addends match.
 The two known local FAR call gaps and 218 method-4 FPU
 frame differences remain explicitly unresolved; **no
 complete original CRT source-member credit is claimed**.
+
+The [complete Borland stdio startup/INITDATA boss](MAINL_STDIO_SETUPIO_INITDATA_BOSS_NATIVE_REVIEW.md)
+adds 164 original CODE bytes and a real six-byte INITDATA
+record. All 18 original literal ordered OMF FIXUPPs match
+including 11 genuine __streams FILE-state references and
+the symbolic CRT initializer pointer.
