@@ -483,3 +483,8 @@ adds 184 original-equal CODE bytes, correcting a subtle wclrnorm
 versus wgarbage global distinction. All 13 relocation sites, targets
 and widths match; seven exact Borland TARGET-versus-TASM CODE near-call
 frame gaps are independently attested and disclosed.
+
+The [complete unsigned-char far-buffer strstreambuf constructor](MAINL_STRSTREAMBUF_UNSIGNED_BUFFER_CONSTRUCTOR_NATIVE_REVIEW.md)
+adds 239 original CODE and 52 DATA bytes, with 50-byte C++ object
+construction, real inherited RTTI, 11 symbolic vtable slots and
+20 complete original logical OMF FIXUPPs.
