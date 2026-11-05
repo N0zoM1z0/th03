@@ -774,3 +774,13 @@ and addends are now audited against 297 original prefix
 fixups, with two local FAR-call gaps and 261 original
 method-4 frames disclosed. No complete CRT-source credit
 is claimed for partial cplx2.
+
+The [seventh complete cplx2 FAR atan(complex) boss](MAINL_CPLX2_ATAN_SEVEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends natural x87 source through original CODE+1890,
+recovering another 283 exact CODE bytes with genuine
+atan/abs/arg/log and FAR allocation paths. Of 297
+original fixups, 295 emitted ones match their original
+locations, target names and addends. The two known
+same-CODE FAR call gaps and 261 frame-method-4 FPU
+differences remain independently recorded. This is
+partial and **does not count as a complete CRT member**.
