@@ -497,3 +497,7 @@ The [complete stdiobuf destructor and virtual overflow flush boss](MAINL_STDIOBU
 adds 224 CODE and 52 DATA bytes, preserving the real virtual overflow
 call, base destruction, conditional far delete, both typed RTTI
 records and all 19 original logical OMF relocation fields.
+
+The [complete filebuf::setbuf range and ownership routine](MAINL_FILEBUF_SETBUF_RANGE_MANAGEMENT_NATIVE_REVIEW.md)
+adds 191 original CODE bytes, including the exact far-buffer guards,
+threshold rules and three symbolic setb/setp/setg OMF references.
