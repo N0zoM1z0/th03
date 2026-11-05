@@ -791,3 +791,8 @@ extends semantic x87 source to original CODE+2123 with
 targets/addends are checked across 337 original prefix fixups.
 Two known local FAR call gaps and 295 method-4 FPU frames
 remain disclosed; **no complete CRT member credit**.
+
+The [original DOS getpass no-echo and static password buffer](MAINL_DOS_GETPASS_BSS_NATIVE_REVIEW.md)
+adds 168 original CODE bytes, three prompt DATA bytes and
+a genuine 9-byte BSS buffer with all nine logical OMF
+references to the real stderr stream and DOS BDOS API.
