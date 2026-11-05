@@ -1,6 +1,6 @@
 # TH03 last applied storage audit — after439 (2026-11-05)
 
-**Important:** newer after440 through after489 source work was recovered
+**Important:** newer after440 through after495 source work was recovered
 after this frozen storage audit. **This after439 cleanup is a frozen,
 successfully completed audit, not an authorization to clean the newer
 checkout.** The pinned cleanup tool now fails closed by design. Next agent:
