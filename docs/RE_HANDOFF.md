@@ -1,4 +1,4 @@
-# TH03 — agent handoff (verified 2026-11-05, after407)
+# TH03 — agent handoff (verified 2026-11-05, after408)
 
 **Start here.** Work on the actual Japanese PC-98 originals. Inspect
 `git status -sb` and the last commits; continue **all** dirty edits rather
@@ -14,23 +14,23 @@ make several scoped commits where practical. Read
 | Property | Verified working-source evidence |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
-| Complete members compiled from maintained source | **576** |
-| Remaining unchanged contextual vendor member programs | **317** |
-| Source-built, original-equal logical CRT CODE | **164,888 bytes** |
+| Complete members compiled from maintained source | **577** |
+| Remaining unchanged contextual vendor member programs | **316** |
+| Source-built, original-equal logical CRT CODE | **165,150 bytes** |
 | Original decoded Japanese MAINL EXE size | **67,372 bytes** |
 | Original ordered DOS MZ relocations | **677** |
 | Actual native TASM/TLIB/TLINK production rounds | **2, byte-identical EXE and MAP** |
-| Latest source build | `after407 / twelve-dos-syscall-leaves` |
-| Formal Factory acceptance of this 576-member CRT expansion | **No** |
+| Latest source build | `after408 / nec-bios-equipment-boss` |
+| Formal Factory acceptance of this 577-member CRT expansion | **No** |
 
 **Source-bound proof:**
-`scripts/review_th03_mainl_after407_work.py twelve-dos-syscall-leaves`
-and `tests.test_mainl_after407_work`, using
-`.analysis/work/mainl-after407-twelve-dos-syscall-leaves-build.json`.
-The current reviewer checks the inherited **145-stage** receipt DAG,
+`scripts/review_th03_mainl_after408_work.py nec-bios-equipment-boss`
+and `tests.test_mainl_after408_work`, using
+`.analysis/work/mainl-after408-nec-bios-equipment-boss-build.json`.
+The current reviewer checks the inherited **146-stage** receipt DAG,
 source/driver/parent hashes, selected original member CODE/DATA/ABI, two
 complete raw native OBJ/LIB/EXE/MAP rounds and writer logs. It is **not**
-a full cold replay. The 576 individual members are not claimed to have
+a full cold replay. The 577 individual members are not claimed to have
 byte-identical original Borland OBJ *record serialization*; literal
 ordered FIXUPP equality is separately recorded per module.
 
@@ -43,7 +43,7 @@ artificial target-byte arrays for native source recovery.
 ## 2. Acceptance and ledger: distinguish the claims
 
 - [Generated progress](PROGRESS.md) is generated from ledgers, **not** from
-  the 576-source working CRT. The packed-file canonical MAINL ledger remains
+  the 577-source working CRT. The packed-file canonical MAINL ledger remains
   **0 exact units**. `scripts/status.py` currently reports MAINL decoded
   product **pending**, `0/250` nonexcluded ledger units and no newly accepted
   bytes. `config/units.csv` has **251 MAINL rows**, including one excluded;
@@ -67,6 +67,12 @@ artificial target-byte arrays for native source recovery.
 
 ## 3. Important history and outstanding technical issues
 
+After408 recovers the complete NEC PC-98 BIOS equipment/memory/time
+Boss `bion_equ` (262 CODE + 41 initialized DATA bytes), including real
+x87 detection, DOS 33h resident mouse signature, A000h/D000h status
+reads and time-of-day. Its single **literal ordered** original FIXUPP
+and both full Japanese EXE/MAP rounds match exactly. See
+[the NEC BIOS native review](MAINL_NEC_BIOS_EQUIPMENT_BOSS_NATIVE_REVIEW.md).
 After407 adds **12 original DOS syscall leaves** (396 CODE bytes)
 covering allocation/resize, time, directory, IOCTL and DOS TSR. **11/12
 literal ordered FIXUPPs** match; `dossetbl` has one strictly bounded
@@ -191,7 +197,7 @@ note recommended them. Inspect the actual member and status first.
 - **`h_ldiv`** (`src/mainl/crt/h_ldiv.asm`) has original-equal **174
   CODE bytes and 12 aliases**, but TASM and Borland still order two
   same-address aliases differently in the **MAP**. It is deliberately
-  **not counted** in the 576 source-linked members. See
+  **not counted** in the 577 source-linked members. See
   [its bounded investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md)
   and `tests.test_mainl_h_ldiv_original_scope`. Preserve its source and
   diagnostic evidence, do not reorder a MAP to fake acceptance.
@@ -226,8 +232,8 @@ latest reviewer/test).
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after407_work.py twelve-dos-syscall-leaves
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after407_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after408_work.py nec-bios-equipment-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after408_work -v
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -246,7 +252,7 @@ acceptance.
 
 [Current protected native DAG / storage cleanup guide](STORAGE_HANDOFF_CURRENT.md)
 explains what can be deleted and how to preview it safely. **Keep all
-145 active source-bound stages**: build receipts, every phase log, and both
+146 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
 old-named `reference.tar` input. At the prior after388 cleanup, 256 retired/scratch files were safely removed

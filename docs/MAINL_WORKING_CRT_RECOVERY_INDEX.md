@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 576-member chain.
+refer to intermediate snapshots, not the current 577-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -308,3 +308,7 @@ The [twelve original DOS memory/system/file leaves](MAINL_TWELVE_DOS_SYSCALL_LEA
 add 396 CODE bytes and preserve 11/12 literal ordered FIXUPPs, with a
 single scoped DOSERROR near frame gap and the proved active-vs-vendor
 `setblock` GROUP identity difference kept explicit.
+
+The [complete NEC PC-98 BIOS equipment/memory/time boss](MAINL_NEC_BIOS_EQUIPMENT_BOSS_NATIVE_REVIEW.md)
+adds 262 source CODE and 41 actual signature DATA bytes including real
+x87/mouse/memory probes, with the literal ordered original CODE-DATA FIXUPP.
