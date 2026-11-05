@@ -71,13 +71,13 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The live handoff is [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) (verified
-`after388`, **511/893** source-built original CRT members). Historical
+`after389`, **512/893** source-built original CRT members). Historical
 member reviews are indexed in
 [MAINL recovery history](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
 Do not infer formal MAINL acceptance from this working-source CRT;
 `docs/PROGRESS.md` is regenerated from the separate ledgers.
 
-This checkout has **126 active MAINL native receipt stages**. Do not delete
+This checkout has **127 active MAINL native receipt stages**. Do not delete
 their raw logs, build receipts, or two OBJ/LIB/EXE/MAP output rounds.
 `clean_generated.py`'s general `.analysis` preview is **not** a native
 proof-dependency oracle; never blanket-apply it here.
@@ -89,7 +89,7 @@ python3 scripts/cleanup_mainl_after388_handoff.py  # guarded dry-run only
 .venv/bin/python scripts/clean_generated.py --caches-only --apply
 ```
 
-The targeted cleanup script deliberately rejects a new source checkpoint;
+The historical after388 cleanup script deliberately rejects this newer source checkpoint;
 re-audit the new live DAG before adapting it. Read
 [current protected-storage rules](docs/STORAGE_HANDOFF_CURRENT.md) and
 [working-file rules](docs/RE_WORKFLOW.md#working-files) first. Keep original

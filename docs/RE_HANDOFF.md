@@ -1,4 +1,4 @@
-# TH03 — agent handoff (verified 2026-11-05, after388)
+# TH03 — agent handoff (verified 2026-11-05, after389)
 
 **Start here.** Work on the actual Japanese PC-98 originals. Inspect
 `git status -sb` and the last commits; continue **all** dirty edits rather
@@ -14,23 +14,23 @@ make several scoped commits where practical. Read
 | Property | Verified working-source evidence |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
-| Complete members compiled from maintained source | **511** |
-| Remaining unchanged contextual vendor member programs | **382** |
-| Source-built, original-equal logical CRT CODE | **159,111 bytes** |
+| Complete members compiled from maintained source | **512** |
+| Remaining unchanged contextual vendor member programs | **381** |
+| Source-built, original-equal logical CRT CODE | **159,421 bytes** |
 | Original decoded Japanese MAINL EXE size | **67,372 bytes** |
 | Original ordered DOS MZ relocations | **677** |
 | Actual native TASM/TLIB/TLINK production rounds | **2, byte-identical EXE and MAP** |
-| Latest source build | `after388 / string-default-constructor-boss` |
-| Formal Factory acceptance of this 511-member CRT expansion | **No** |
+| Latest source build | `after389 / dos-file-locking-boss` |
+| Formal Factory acceptance of this 512-member CRT expansion | **No** |
 
 **Source-bound proof:**
-`scripts/review_th03_mainl_after388_work.py string-default-constructor-boss`
-and `tests.test_mainl_after388_work`, using
+`scripts/review_th03_mainl_after389_work.py dos-file-locking-boss`
+and `tests.test_mainl_after389_work`, using
 `.analysis/work/mainl-after388-string-default-constructor-boss-build.json`.
-The current reviewer checks the inherited **126-stage** receipt DAG,
+The current reviewer checks the inherited **127-stage** receipt DAG,
 source/driver/parent hashes, selected original member CODE/DATA/ABI, two
 complete raw native OBJ/LIB/EXE/MAP rounds and writer logs. It is **not**
-a full cold replay. The 511 individual members are not claimed to have
+a full cold replay. The 512 individual members are not claimed to have
 byte-identical original Borland OBJ *record serialization*; literal
 ordered FIXUPP equality is separately recorded per module.
 
@@ -43,7 +43,7 @@ artificial target-byte arrays for native source recovery.
 ## 2. Acceptance and ledger: distinguish the claims
 
 - [Generated progress](PROGRESS.md) is generated from ledgers, **not** from
-  the 511-source working CRT. The packed-file canonical MAINL ledger remains
+  the 512-source working CRT. The packed-file canonical MAINL ledger remains
   **0 exact units**. `scripts/status.py` currently reports MAINL decoded
   product **pending**, `0/250` nonexcluded ledger units and no newly accepted
   bytes. `config/units.csv` has **251 MAINL rows**, including one excluded;
@@ -66,6 +66,12 @@ artificial target-byte arrays for native source recovery.
   remains unknown.
 
 ## 3. Important history and outstanding technical issues
+
+After388 added the original default `string` constructor. After389 adds the
+complete original 310-byte `_locking` DOS file-locking boss with 16 exact
+logical OMF FIXUPPs, five relocation-backed jump-table entries and exact
+two-round Japanese EXE/MAP; literal Borland FIXUPP record *order* still
+differs. See [the _locking native review](MAINL_DOS_LOCKING_BOSS_NATIVE_REVIEW.md).
 
 The former 200-line chronological source list has been moved to the
 [MAINL working CRT recovery index](MAINL_WORKING_CRT_RECOVERY_INDEX.md).
@@ -112,8 +118,8 @@ latest reviewer/test).
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after388_work.py string-default-constructor-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after388_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after389_work.py dos-file-locking-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after389_work -v
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -132,13 +138,14 @@ acceptance.
 
 [Current protected native DAG / storage cleanup guide](STORAGE_HANDOFF_CURRENT.md)
 explains what can be deleted and how to preview it safely. **Keep all
-126 active source-bound stages**: build receipts, every phase log, and both
+127 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
-old-named `reference.tar` input. At this handoff, 256 retired/scratch files were safely removed
+old-named `reference.tar` input. At the prior after388 cleanup, 256 retired/scratch files were safely removed
 (**7.04 MiB**) plus approximately **5.4 MiB** of regenerable caches, with
 the same source reviewer still passing. The older
 [2026-11-05 319-member audit](STORAGE_HANDOFF_2026-11-05.md) is a **historical
 snapshot only**; its frozen cleanup tool intentionally refuses to run on
 this newer checkout. Never run a blanket `clean_generated.py --apply` on
-this active MAINL DAG. Use the guarded after388 script in dry-run mode.
+this active MAINL DAG. The guarded after388 cleanup script is obsolete for the newer source checkpoint;
+do not apply it until its audit has been refreshed.
