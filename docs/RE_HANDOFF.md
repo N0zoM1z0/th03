@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **377** |
-| Original contextual vendor programs left unchanged | **516** |
-| Source-compiled original-equal CRT CODE | **124,601 bytes** |
+| Slots rebuilt from complete source | **378** |
+| Original contextual vendor programs left unchanged | **515** |
+| Source-compiled original-equal CRT CODE | **124,689 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after343_work.py string-class-boss`
-and `tests.test_mainl_after343_work`, bound to
-`.analysis/work/mainl-after343-string-class-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after344_work.py startup-environment-init`
+and `tests.test_mainl_after344_work`, bound to
+`.analysis/work/mainl-after344-startup-environment-init-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-377-provider accepted ledger publication, a complete MAINL source tree, or
+378-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -74,7 +74,11 @@ serialization differences remain explicitly documented.
 Eight [full DOS path/ostream leaves](MAINL_STREAM_PATH_LEAVES_NATIVE_REVIEW.md)
 add 248 original-equal CODE bytes, including exact stream `endl`/`ends`/
 `flush` and the original `umask` global with separately documented OMF
-FIXUPP ordering. The [complete 17-method `strings` class runtime](MAINL_STRINGS_17_API_BOSS_NATIVE_REVIEW.md)
+FIXUPP ordering. The original [setenvp startup initializer](MAINL_SETENVP_STARTUP_NATIVE_REVIEW.md)
+recovers all CODE/DATA, the sparse six-byte INITDATA record, and its
+original **absolute `__setenvp__` public**. That genuine PUBDEF was necessary
+to restore the native MAP without touching the exact EXE. The
+[complete 17-method `strings` class runtime](MAINL_STRINGS_17_API_BOSS_NATIVE_REVIEW.md)
 recovers 2,958 original CODE bytes and 102 DATA bytes, six global option
 symbols, all 166 literal ordered FIXUPPs and all five Borland C++ RTTI
 structures. The actual three original CODE4 LEDATA/FIXUPP sections guided
@@ -133,7 +137,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 377-source
+Current accepted **decoded** source scope, not including the 378-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -145,7 +149,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 377 members into the accepted ledger;
+does **not** promote the working 378 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -186,8 +190,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after343_work.py string-class-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after342_work tests.test_mainl_after343_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after344_work.py startup-environment-init
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after343_work tests.test_mainl_after344_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
