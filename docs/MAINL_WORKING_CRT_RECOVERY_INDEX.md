@@ -462,3 +462,8 @@ The [complete original istream() default constructor boss](MAINL_ISTREAM_DEFAULT
 adds 254 CODE and 20 DATA bytes including the embedded ios base,
 dual virtual tables, real this-adjustment destructor thunk and all 12
 original logical OMF relocations.
+
+The [complete original ostream() default constructor boss](MAINL_OSTREAM_DEFAULT_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
+adds 245 CODE and 20 DATA bytes, recovering the ios subobject, two
+virtual dispatch pointers, far this-adjustment destructor thunk,
+real typed RTTI and 12 original logical FIXUPPs.
