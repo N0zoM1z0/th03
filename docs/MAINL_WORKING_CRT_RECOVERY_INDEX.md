@@ -467,3 +467,8 @@ The [complete original ostream() default constructor boss](MAINL_OSTREAM_DEFAULT
 adds 245 CODE and 20 DATA bytes, recovering the ios subobject, two
 virtual dispatch pointers, far this-adjustment destructor thunk,
 real typed RTTI and 12 original logical FIXUPPs.
+
+The [original strstreambuf dynamic doallocate](MAINL_STRSTREAMBUF_DYNAMIC_DOALLOCATE_NATIVE_REVIEW.md)
+adds 141 original-equal CODE bytes; both allocator paths, signed
+callback count, far range registration and two logical FIXUPPs
+are restored without any output patching.
