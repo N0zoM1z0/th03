@@ -6,7 +6,7 @@ This is not a modern POSIX `mkstemp`: the real original checks the final
 six characters of the far string against an initialized **`XXXXXX\0`**
 DATA template, replaces the third character with a period, and performs
 five nested `'A'..'Z'` loops for positions 0,1,3,4,5, checking each candidate
-through the far DOS `_access` function. It returns the far original buffer
+through the far DOS `_access` function. It returns the far original buffer in DX:AX
 on the first nonexistent filename or zero DX:AX if no candidate succeeds.
 Original unchecked 16-bit arithmetic, all branches and loop nesting are
 retained; no modern sanitization or filename generator was substituted.
