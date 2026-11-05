@@ -827,3 +827,10 @@ The [original DOS clock and CRT baseline INITDATA leaf](MAINL_CLOCK_BSS_INITDATA
 adds 113 exact CODE bytes, real six-byte BSS timestamp
 state and six-byte CRT initialization record, with one
 site-locked near N_LXMUL@ frame difference.
+
+The [eleventh cplx2 FAR log(complex) function](MAINL_CPLX2_LOG_ELEVEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 144 fully original-equal CODE bytes; its complete
+source prefix covers 2,708 original bytes and 417 matching
+native symbolic fixups. The two local FAR calls and 364
+original location-frame FPU differences remain disclosed.
+This partial source earns no complete CRT member credit.
