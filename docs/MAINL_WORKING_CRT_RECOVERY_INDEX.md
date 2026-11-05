@@ -557,3 +557,8 @@ The [complete DOS ftime/timezone/DST boss](MAINL_DOS_FTIME_TIMEZONE_DST_BOSS_NAT
 adds 235 original CODE bytes with true INT 21h date/time helpers,
 DOS-to-Unix conversion, timezone arithmetic and native DST calls;
 two exact near-call TARGET-vs-CODE frame gaps are separately audited.
+
+The [PC-98/IBM conio rectangle dispatch boss](MAINL_PC98_IBM_CONIO_TEXT_DISPATCH_BOSS_NATIVE_REVIEW.md)
+adds 210 original-equal CODE bytes with three complete FAR APIs,
+six native NEC/IBM backend paths and all twelve original logical OMF
+fixups, including six exact conio-type references.
