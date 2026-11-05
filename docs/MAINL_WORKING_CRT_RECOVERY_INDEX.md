@@ -511,3 +511,8 @@ The [complete far multibyte tokenizer state-machine boss](MAINL_FAR_MBCS_TOKENIZ
 adds 230 CODE and 4 initialized DATA bytes, with a real saved far
 cursor, correct DBCS lead-byte handling and all 12 original logical
 OMF fixups; the native DATA-first GROUP is also original-exact.
+
+The [complete MBSTOK multibyte tokenizer](MAINL_MBCS_TOKENIZER_STATE_MACHINE_NATIVE_REVIEW.md)
+adds another 230 original CODE / 4 DATA bytes with its own saved
+far cursor, true mbspbrk/mbsspnp imports, DBCS lead-byte rules,
+original GROUP and all 12 logical relocation fields.
