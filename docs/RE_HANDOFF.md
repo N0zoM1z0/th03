@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **395** |
-| Original contextual vendor programs left unchanged | **498** |
-| Source-compiled original-equal CRT CODE | **127,254 bytes** |
+| Slots rebuilt from complete source | **397** |
+| Original contextual vendor programs left unchanged | **496** |
+| Source-compiled original-equal CRT CODE | **127,393 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after349_work.py directory-and-raw-write`
-and `tests.test_mainl_after349_work`, bound to
-`.analysis/work/mainl-after349-directory-and-raw-write-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after350_work.py stdio-flush-finalizers`
+and `tests.test_mainl_after350_work`, bound to
+`.analysis/work/mainl-after350-stdio-flush-finalizers-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-395-provider accepted ledger publication, a complete MAINL source tree, or
+397-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -74,7 +74,11 @@ serialization differences remain explicitly documented.
 Eight [full DOS path/ostream leaves](MAINL_STREAM_PATH_LEAVES_NATIVE_REVIEW.md)
 add 248 original-equal CODE bytes, including exact stream `endl`/`ends`/
 `flush` and the original `umask` global with separately documented OMF
-FIXUPP ordering. Two [complete original current-directory and raw-write CRT members](MAINL_DIRECTORY_RAW_WRITE_NATIVE_REVIEW.md)
+FIXUPP ordering. Two [complete stdio flush finalizers](MAINL_STDIO_PATH_FINALIZERS_NATIVE_REVIEW.md)
+add 139 original CODE bytes with five ordered original FIXUPPs. Combined
+with the preceding 3+2 members, the I/O/path source-bound extension now
+covers seven whole CRT members (+1,243 CODE, +4 initialized DATA).
+Two [complete original current-directory and raw-write CRT members](MAINL_DIRECTORY_RAW_WRITE_NATIVE_REVIEW.md)
 add 248 CODE bytes, matching eight original literal FIXUPPs and two
 independent Japanese linked EXE/MAP rounds. The complete [original `write`/`setvbuf`/`fflush` I/O family](MAINL_STDIO_WRITE_BUFFER_FLUSH_NATIVE_REVIEW.md)
 adds 856 CODE bytes and four initialized DATA bytes with 24 **literal
@@ -160,7 +164,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 395-source
+Current accepted **decoded** source scope, not including the 397-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -172,7 +176,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 395 members into the accepted ledger;
+does **not** promote the working 397 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -213,8 +217,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after349_work.py directory-and-raw-write
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after348_work tests.test_mainl_after349_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after350_work.py stdio-flush-finalizers
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after349_work tests.test_mainl_after350_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
