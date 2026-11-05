@@ -501,3 +501,8 @@ records and all 19 original logical OMF relocation fields.
 The [complete filebuf::setbuf range and ownership routine](MAINL_FILEBUF_SETBUF_RANGE_MANAGEMENT_NATIVE_REVIEW.md)
 adds 191 original CODE bytes, including the exact far-buffer guards,
 threshold rules and three symbolic setb/setp/setg OMF references.
+
+The [complete filebuf::close virtual flush and descriptor boss](MAINL_FILEBUF_CLOSE_FLUSH_DESCRIPTOR_NATIVE_REVIEW.md)
+adds 174 original-equal CODE bytes including actual virtual overflow,
+DOS handle cleanup, original failure states and a literal-equal OMF
+FIXUPP for the far close call.
