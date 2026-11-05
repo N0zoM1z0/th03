@@ -697,3 +697,8 @@ adds 135 CODE and 12 DATA bytes, restoring the distinct native
 default-construction ABI (no streambuf initializer), the
 CODE+81 class descriptor, and the real DATA destructor vtable
 with all six logical original OMF fields.
+
+The [three complete itoa/ultoa/ltoa radix conversion APIs](MAINL_RADIX_ITOA_ULTOA_LTOA_NATIVE_REVIEW.md)
+add 124 original CODE bytes with the true signed-decimal
+conversion ABI, all three public entrypoints, and the
+three precise __LONGTOA near-frame differences.
