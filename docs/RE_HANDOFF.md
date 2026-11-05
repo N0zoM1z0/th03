@@ -17,20 +17,20 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **321** |
-| Original contextual vendor programs left unchanged | **572** |
-| Source-compiled original-equal CRT CODE | **105,526 bytes** |
+| Slots rebuilt from complete source | **322** |
+| Original contextual vendor programs left unchanged | **571** |
+| Source-compiled original-equal CRT CODE | **105,871 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after320_work.py filebuf-open`
-and `tests.test_mainl_after320_work`, bound to
-`.analysis/work/mainl-after320-filebuf-open-build.json`. The inherited
-`after319` and `after317` drivers validate the full source-bound parent DAG,
+**Live proof:** `scripts/review_th03_mainl_after321_work.py stdiobuf-constructor`
+and `tests.test_mainl_after321_work`, bound to
+`.analysis/work/mainl-after321-stdiobuf-constructor-build.json`. The inherited
+`after320`, `after319` and `after317` drivers validate the full source-bound parent DAG,
 including all inherited
 original OBJ/LIB/EXE/MAP vectors and phase-log hashes. This is **not** a
-321-provider accepted ledger publication, a complete MAINL source tree, or
+322-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -46,15 +46,16 @@ five `mbyte1` conversion APIs. Representative evidence:
 [NEC delay and `mbyte1`](MAINL_NEC_DELAY_MBYTE_NATIVE_REVIEW.md).
 The complete 342-byte [`stdiobuf::overflow`](MAINL_STDIOBUF_OVERFLOW_NATIVE_REVIEW.md)
 and 346-byte [`filebuf::open`](MAINL_FILEBUF_OPEN_NATIVE_REVIEW.md)
-are recovered with full source-bound Japanese link parity. Its four literal
-FIXUPP records are ordered differently from the original OBJ. Older milestone writeups are **historical**; consult the selected original OBJ
+now join the full 345-CODE/52-DATA-byte [`stdiobuf(FILE*)` constructor](MAINL_STDIOBUF_CONSTRUCTOR_NATIVE_REVIEW.md).
+All three have source-bound Japanese EXE/MAP parity; their literal OMF
+FIXUPP ordering is not the original. Older milestone writeups are **historical**; consult the selected original OBJ
 and current receipts rather than accepting a previous guess as fact.
 
 ### Working source is not formally accepted scope
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 319-source
+Current accepted **decoded** source scope, not including the 322-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -66,7 +67,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 319 members into the accepted ledger;
+does **not** promote the working 322 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -92,7 +93,7 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 2. Keep progress balanced: **larger Bosses** with complete executable body,
    RTTI, jump tables and DATA/BSS, plus full **small leaf** functions.
    Potential remaining selected CRT candidates to investigate, **not yet
-   accepted claims**: `sdbctr`, `insert1`, `insert2`,
+   accepted claims**: `insert1`, `insert2`,
    `replace`; continue MAIN/OP/ZUN game-module work where ownership is open.
 3. Rebuild only changed/impacted members using native TASM/TLIB/TLINK or
    BCC as appropriate, serialize the Wine writer, and check original selected
@@ -107,8 +108,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after320_work.py filebuf-open
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after320_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after321_work.py stdiobuf-constructor
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after321_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
