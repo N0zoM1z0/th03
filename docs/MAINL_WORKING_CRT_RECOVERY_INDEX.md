@@ -536,3 +536,9 @@ The [original bidirectional Shift-JIS MBTOMB conversion boss](MAINL_SHIFTJIS_MBT
 adds 207 original CODE and **432 real initialized DATA bytes** across
 five typed Japanese character-map tables and two full conversion
 procedures, with all six exact logical OMF table references.
+
+The [complete original BCD x87 emulation conversion boss](MAINL_BCD_X87_EMULATOR_CONVERSION_BOSS_NATIVE_REVIEW.md)
+adds **398 CODE and 140 typed DATA bytes** across the private exponent
+helper and four FAR exports, with all 23 original emulator/data
+logical OMF fixups and full native link equality. Correct TASM EMUL
+restores FIDRQQ/FIERQQ/FIWRQQ naturally.
