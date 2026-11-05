@@ -78,7 +78,10 @@ FIXUPP ordering. The complete [original `write`/`setvbuf`/`fflush` I/O family](M
 adds 856 CODE bytes and four initialized DATA bytes with 24 **literal
 original FIXUPPs**; the source-bound driver also hashes the actual
 `stdio_layout.inc` and reconciles a one-field original-library versus
-standalone `write.obj` frame discrepancy. The [complete C++ operator-new boss](MAINL_NEW_OPERATOR_BOSS_NATIVE_REVIEW.md)
+standalone `write.obj` frame discrepancy. Three [complete write/setvbuf/fflush stdio runtime members](MAINL_STDIO_WRITE_BUFFER_FLUSH_NATIVE_REVIEW.md)
+add 856 original CODE and 4 DATA bytes. The actual `stdio_layout.inc`
+source hash and the vendor `___write` near-call frame discrepancy are
+explicitly checked by the native receipt. The [complete C++ operator-new boss](MAINL_NEW_OPERATOR_BOSS_NATIVE_REVIEW.md)
 adds 754 original CODE bytes, genuine six-byte-uninitialized DATA,
 INIT/EXIT startup hooks, three public APIs and 49 literal original
 FIXUPPs. Symbolic exception/RTTI declarations also restore original
