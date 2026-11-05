@@ -457,3 +457,8 @@ The [complete filebuf::attach descriptor boss](MAINL_FILEBUF_ATTACH_DESCRIPTOR_B
 adds 238 original CODE bytes, handling conditional 0x204-byte far
 allocation and exact put/get buffer setup with all four original
 symbolic OMF relocations.
+
+The [complete original istream() default constructor boss](MAINL_ISTREAM_DEFAULT_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
+adds 254 CODE and 20 DATA bytes including the embedded ios base,
+dual virtual tables, real this-adjustment destructor thunk and all 12
+original logical OMF relocations.
