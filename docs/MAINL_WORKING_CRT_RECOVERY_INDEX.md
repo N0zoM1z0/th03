@@ -645,3 +645,11 @@ adds 188 source-equal CODE bytes, four real initialized DATA
 bytes and six INITDATA bytes including the symbolic FAR
 CODE+35 initializer pointer. All seven original literal
 ordered OMF relocations match exactly.
+
+The [cplx2 fourth full acos body, two precise FAR-call encoding gaps](MAINL_CPLX2_ACOS_FOUR_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends natural large-Boss x87 source through original CODE+1078:
+three exact division functions plus a complete acos body with
+two disclosed local FAR-call shortenings. All 159 remaining
+original OMF references are checked by site/target/addend and
+the original 143 frame-4 fields remain unnormalized.
+This is **partial, no full-source CRT credit**.
