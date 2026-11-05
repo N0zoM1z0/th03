@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 548-member chain.
+refer to intermediate snapshots, not the current 549-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -267,3 +267,7 @@ The [ten ABI/video/stream/locale leaves](MAINL_TEN_ABI_VIDEO_LOCALE_LEAVES_NATIV
 add 126 source CODE bytes and 59 genuine `localeconv` DATA bytes, with
 three specific near-video frame gaps and a DATA FIXUPP chronology difference
 kept visible in the scoped reviewer.
+
+The [complete Japanese DOS `_makepath` boss](MAINL_DOS_MAKEPATH_BOSS_NATIVE_REVIEW.md)
+adds 255 CODE bytes of far path composition, DBCS-aware trailing slash
+recognition, and five original logical OMF far-call relocations.
