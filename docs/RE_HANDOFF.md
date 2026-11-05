@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **352** |
-| Original contextual vendor programs left unchanged | **541** |
-| Source-compiled original-equal CRT CODE | **114,907 bytes** |
+| Slots rebuilt from complete source | **360** |
+| Original contextual vendor programs left unchanged | **533** |
+| Source-compiled original-equal CRT CODE | **115,155 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after333_work.py dos-file-memory-leaves`
-and `tests.test_mainl_after333_work`, bound to
-`.analysis/work/mainl-after333-dos-file-memory-leaves-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after334_work.py stream-path-leaves`
+and `tests.test_mainl_after334_work`, bound to
+`.analysis/work/mainl-after334-stream-path-leaves-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-352-provider accepted ledger publication, a complete MAINL source tree, or
+360-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -71,7 +71,10 @@ using compiler-block source ordering, rather than a link/OBJ patch.
 Eight [DOS/pointer/IBM/arithmetic native leaves](MAINL_DOS_POINTER_IBM_LEAVES_NATIVE_REVIEW.md)
 now add another 216 original-equal CODE bytes; their imported near frame
 serialization differences remain explicitly documented.
-Eight [complete DOS file/time/memory leaves](MAINL_DOS_FILE_MEMORY_LEAVES_NATIVE_REVIEW.md)
+Eight [full DOS path/ostream leaves](MAINL_STREAM_PATH_LEAVES_NATIVE_REVIEW.md)
+add 248 original-equal CODE bytes, including exact stream `endl`/`ends`/
+`flush` and the original `umask` global with separately documented OMF
+FIXUPP ordering. Eight [complete DOS file/time/memory leaves](MAINL_DOS_FILE_MEMORY_LEAVES_NATIVE_REVIEW.md)
 now add another 287 original CODE bytes across independently checked native
 members. The [full 1,115-byte farheap memory manager](MAINL_FARHEAP_MANAGER_NATIVE_REVIEW.md)
 reconstructs the original near/far alloc/free/realloc family, original CODE
@@ -94,7 +97,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 352-source
+Current accepted **decoded** source scope, not including the 360-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -106,7 +109,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 352 members into the accepted ledger;
+does **not** promote the working 360 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -147,8 +150,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after333_work.py dos-file-memory-leaves
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after332_work tests.test_mainl_after333_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after334_work.py stream-path-leaves
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after333_work tests.test_mainl_after334_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
