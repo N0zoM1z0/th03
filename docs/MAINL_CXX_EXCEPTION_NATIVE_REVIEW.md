@@ -27,7 +27,8 @@ modified compiled OBJ/EXE was used.
 ## Why simple source/OBJ equality was insufficient
 
 An initial natural TASM assembly reproduced **all 649 CODE and 296 DATA
-bytes, all 25 CODE/DATA publics and BSS public, every import, and all 16
+bytes, all 24 CODE/DATA publics (9 CODE + 15 DATA), the BSS public,
+every import, and all 16
 native FIXUPP sites, targets, addends and frame methods**. But TLINK's
 full Japanese EXE differed in **only four bytes**, all in the **ordered DOS
 MZ relocation table**; the MAP and decoded program bytes were already
@@ -42,7 +43,7 @@ fixup order. This changes neither machine instructions nor data values:
 `ORG` simply allows real CODE instructions and separately typed metadata
 to be declared in the required positions, with the original handler pointer
 at DATA+14 before DATA+10. A standalone TASM rebuild still reproduces
-**all actual CODE/DATA materialized bytes**, all 25 original CODE/DATA
+**all actual CODE/DATA materialized bytes**, all 24 original CODE/DATA
 public offsets, the BSS public, and **16/16 fixups by site/target/frame**.
 The complete BCC-vs-TASM literal FIXUPP *record sequence* still differs;
 whole original OBJ byte serialization is **not** claimed. Crucially, the
