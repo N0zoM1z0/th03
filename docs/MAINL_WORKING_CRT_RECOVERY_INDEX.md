@@ -583,3 +583,7 @@ adds a separately tested read-only decoder for isteldbl and cplx2:
 their 112 and 860 original FIXUPPs, 85/734 method-4 frames,
 and cplx2's true 6-byte INITDATA plus 16 unmaterialized DATA sites.
 These are analysis findings, **not additional source-linked members**.
+
+The [original stdio getw two-byte leaf](MAINL_STDIO_GETW_TWO_BYTE_LEAF_NATIVE_REVIEW.md)
+adds 130 original CODE bytes, retaining both FILE buffer fast paths,
+two genuine far __fgetc fallbacks and original EOF control flow.
