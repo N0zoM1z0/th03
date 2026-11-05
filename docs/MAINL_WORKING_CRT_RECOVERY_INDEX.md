@@ -562,3 +562,9 @@ The [PC-98/IBM conio rectangle dispatch boss](MAINL_PC98_IBM_CONIO_TEXT_DISPATCH
 adds 210 original-equal CODE bytes with three complete FAR APIs,
 six native NEC/IBM backend paths and all twelve original logical OMF
 fixups, including six exact conio-type references.
+
+The [complete original DOS DBCS path initializer and INITDATA boss](MAINL_DOS_DBCS_PATH_INITDATA_BOSS_NATIVE_REVIEW.md)
+adds 208 CODE, 16 typed DATA and 6 registered INITDATA bytes
+with a genuine symbolic CODE+0 initializer and all eight
+original literal ordered OMF FIXUPPs. Both FAR path predicates
+and the native DOS 21h 6300h bootstrap are recovered.
