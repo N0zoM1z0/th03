@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 579-member chain.
+refer to intermediate snapshots, not the current 587-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -313,14 +313,15 @@ The [complete NEC PC-98 BIOS equipment/memory/time boss](MAINL_NEC_BIOS_EQUIPMEN
 adds 262 source CODE and 41 actual signature DATA bytes including real
 x87/mouse/memory probes, with the literal ordered original CODE-DATA FIXUPP.
 
-The [original NEC PC-98 BIOS serial controller boss](MAINL_NEC_BIOS_SERIAL_CONTROLLER_BOSS_NATIVE_REVIEW.md)
-adds 227 exact CODE bytes, real BIOS INT19h/D4h/D5h and firmware-vector
-handling, and preserves the zero original external FIXUPP population.
-
-The [complete NEC PC-98 BIOS serial-controller boss](MAINL_NEC_BIOS_SERIAL_CONTROLLER_BOSS_NATIVE_REVIEW.md)
-adds 227 original-equal CODE bytes across real controller setup and
-`INT 19h/D4h/D5h` services; no imported OMF fixups are present.
+The [complete NEC PC-98 BIOS serial controller boss](MAINL_NEC_BIOS_SERIAL_CONTROLLER_BOSS_NATIVE_REVIEW.md)
+adds 227 original-equal CODE bytes including BIOS INT19h/D4h/D5h,
+firmware-vector handling, and original zero external FIXUPPs.
 
 The [complete IBM text VRAM boss](MAINL_IBM_TEXT_VRAM_BOSS_NATIVE_REVIEW.md)
 adds 201 CODE bytes across near pointer, synchronized copy and refresh,
 with all seven original literal ordered OMF FIXUPPs.
+
+
+The [eight original MBCS/far-string/BGI/strstream leaves](MAINL_EIGHT_MBCS_STRING_BGI_LEAVES_NATIVE_REVIEW.md)
+add 335 CODE bytes; six members preserve literal ordered Borland OMF
+FIXUPPs and two retain explicitly audited record-order gaps.
