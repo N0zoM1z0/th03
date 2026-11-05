@@ -1,9 +1,8 @@
 # TH03 — agent handoff (2026-11-05; frozen after439 storage audit)
 
 **Snapshot warning:** after439 is the last **fully storage-audited and
-cleaned** source checkpoint, **not necessarily the newest Git/source stage**.
-Later after440/after441 source stages have already appeared, and after442
-work was visible during final handoff preparation. Do **not** infer a clean
+cleaned** source checkpoint, but the current locally reviewed working-source
+checkpoint is **after443** (section 1a). Do **not** infer a clean
 worktree, complete source acceptance or cleanup eligibility from this
 frozen table. Inspect latest `git status -sb`, `git log` and the actual
 `build_th03_mainl_after*_work.py`/receipts before taking action.
@@ -49,27 +48,57 @@ Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
 
-## 1a. Subsequent source work observed during handoff
+## 1a. Current working-source checkpoint: verified after443
 
-- `after440 / streambuf-base-destructor-boss` was rebuilt after correcting a
-  stale builder comment, then independently reviewed: **648/893 source
-  members, 174,844 original-equal CODE bytes**, 2 original-equal native
-  EXE/MAP rounds; targeted tests pass. Its source changes appear in the
-  local Git history around `b4d0adc` and `c0174f4`.
-- `after441 / streambuf-buffer-constructor-boss` was independently reviewed
-  at one point with **649/893, 175,102 CODE bytes**, 2 exact native rounds,
-  and its builder was subsequently edited. **Verify the current driver
-  SHA against its receipt before relying on that earlier review**; rebuild
-  only that affected stage if it has drifted. Continue any dirty work,
-  never reset it.
-- `after442 / streambuf-setb-buffer-management` source/build work appeared
-  and was subsequently committed as `1800d67`. It was **not validated in
-  this storage cleanup audit**. Inspect its actual source, current build
-  receipt and scoped review; newer stages may appear after this snapshot.
+**The source build has advanced beyond the frozen after439 storage audit.**
+The after443 focused producer and reviewer both completed after validating the
+retained after442 parent, including all previous source member provenance.
+This is current **scoped working-source evidence**, not the current accepted
+canonical packed-file ledger and not a renewed storage-cleanup audit.
 
-The audit command below checks the frozen after439 source only. For the
-newest source, identify the actual newest complete builder/receipt and run
-**that** stage's scoped reviewer before replacing these snapshot numbers.
+| Current Japanese MAINL working CRT | Verified after443 |
+| --- | ---: |
+| Original CL.LIB slots | **893** |
+| Complete source-linked original members | **651** |
+| Contextual vendor members | **242** |
+| Source-built, original-equal CODE | **175,516 bytes** |
+| Native source-bound build rounds | **2, both complete EXE/MAP byte-exact** |
+| Original decoded EXE / ordered MZ relocations | **67,372 bytes / 677** |
+| Factory accepted-source credit for these layers | **Not established** |
+
+The four completed new sources and their scoped native receipts are:
+
+- after440 / streambuf base destructor (stbdtr): **153 CODE + 52 DATA**;
+  complete typed RTTI/vtable, owned far-buffer and optional object deletion,
+  17 exact logical fixups; working CRT 648/893. Local checkpoint b4d0adc
+  and subsequent follow-up c0174f4.
+- after441 / streambuf far-buffer constructor (stbctr2): **258 CODE +
+  52 DATA**, complete buffer initialization, typed RTTI/vtable,
+  16 exact logical fixups; working CRT 649/893. The source-bound producer
+  was rerun after the comment correction; local source checkpoint 052943e.
+- after442 / streambuf::setb (stbsetb): **176 CODE**, complete far buffer
+  ownership/range handling, including its one original literal FIXUPP;
+  working CRT 650/893; checkpoint 1800d67.
+- after443 / filebuf::attach (fsbattch): **238 CODE**, descriptor attach,
+  optional 0x204-byte buffer allocation, setb/setp/setg integration and
+  four exact logical FIXUPPs; working CRT 651/893.
+
+**Current top source receipt:**
+.analysis/work/mainl-after443-filebuf-attach-descriptor-boss-build.json
+(SHA-256 2bf5bb44807bd3565276caaf6bf8ec918e810716ceb84b00c8cc0d8a988c6a7c).
+Source driver: scripts/build_th03_mainl_after443_work.py.
+Reviewer: scripts/review_th03_mainl_after443_work.py
+(mode filebuf-attach-descriptor-boss); focused tests:
+tests.test_mainl_after443_work. The full native output/producer log pairs
+are retained under .analysis/work and must not be pruned. The four
+latest scoped review notes and source files are in the chronological
+[working CRT index](MAINL_WORKING_CRT_RECOVERY_INDEX.md). Literal original
+Borland OMF program equality is not claimed when record order differs.
+
+For the newest source stage use the **after443 reviewer**, not the frozen
+after439 cleanup-only audit. Audit the *expanded* storage DAG before any
+future deletion. Pinned Japanese targets remain candidate-local-attested
+rather than independently proven pristine dumps.
 
 ## 2. Separate acceptance/ledger status
 
@@ -97,8 +126,8 @@ which current review/test entrypoints already handle.
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after439_work.py streambuf-base-default-constructor-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after439_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after443_work.py filebuf-attach-descriptor-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after443_work -v
 # Historical storage test deliberately fails closed with after440+ layers;
 # do not treat tests.test_mainl_after439_storage_cleanup as a current gate.
 .venv/bin/python scripts/status.py
@@ -127,10 +156,10 @@ writer logs, run its matching reviewer/tests and then commit. Do not
 mistake a local commit, TASM exit or linked EXE equality for formal
 Factory acceptance.
 
-**Verified still-unowned candidate directions** at the previous source
-checkpoint include `stbctr2`, `stbdtr`, `stbsetb`, `fsbattch`, `srbdalc`
-and `cibmscrl`; **recheck** the live source membership before claiming
-any of them. Balance large C++/BIOS Bosses with substantive leaf functions.
+**Still-unowned candidate directions** at the current working-source
+checkpoint include `srbdalc` and `cibmscrl`; explore further larger
+unsourced members as well, and **recheck** live source membership before
+claiming any of them. Balance large C++/BIOS Bosses with substantive leaf functions.
 The unresolved `h_ldiv` source has **174 original-equal CODE bytes** but
 TASM/Borland MAP alias order differs: it is **not counted** in the frozen after439 647-member snapshot. See [the h_ldiv investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md).
 Other narrow OMF differences are recorded in [OMF gaps](MAINL_OMF_GAPS.md).

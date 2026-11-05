@@ -452,3 +452,8 @@ original logical OMF relocations.
 The [full streambuf setb far-buffer ownership leaf](MAINL_STREAMBUF_SETB_BUFFER_MANAGEMENT_NATIVE_REVIEW.md)
 adds 176 original-equal CODE bytes and its complete literal far
 delete[] FIXUPP, including conditional release, range and flag setup.
+
+The [complete filebuf::attach descriptor boss](MAINL_FILEBUF_ATTACH_DESCRIPTOR_BOSS_NATIVE_REVIEW.md)
+adds 238 original CODE bytes, handling conditional 0x204-byte far
+allocation and exact put/get buffer setup with all four original
+symbolic OMF relocations.
