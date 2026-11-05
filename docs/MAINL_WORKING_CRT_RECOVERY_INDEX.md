@@ -526,3 +526,8 @@ The [six original stdio macro ABI entrypoints](MAINL_SIX_STDIO_INLINE_ENTRYPOINT
 add 234 original-equal CODE bytes across the actual getc/getchar/
 putchar/putc/feof/ferror routines, with all 12 **literal ordered**
 OMF fields matching the original.
+
+The [exception-aware setjmp/longjmp runtime boss](MAINL_EXCEPTION_AWARE_SETJMP_LONGJMP_BOSS_NATIVE_REVIEW.md)
+adds 214 original-equal CODE bytes with the real FAR saved-context
+and two-stage Borland unwind paths; all four literal ordered OMF
+relocation fields match.
