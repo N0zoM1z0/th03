@@ -796,3 +796,11 @@ The [original DOS getpass no-echo and static password buffer](MAINL_DOS_GETPASS_
 adds 168 original CODE bytes, three prompt DATA bytes and
 a genuine 9-byte BSS buffer with all nine logical OMF
 references to the real stderr stream and DOS BDOS API.
+
+The [ninth cplx2 FAR cosh(complex) function](MAINL_CPLX2_COSH_NINE_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 234 complete original-equal CODE bytes and extends the
+verified source prefix through original CODE+2357. All 375
+emitted symbolic OMF fields match the 377 original prefix
+records except the two disclosed direct FAR calls; 329
+frame-4 FPU differences remain unnormalized. No full
+CRT member credit is claimed.
