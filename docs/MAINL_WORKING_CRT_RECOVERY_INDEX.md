@@ -752,3 +752,8 @@ adds 170 original CODE and 12 typed FAR callback DATA bytes.
 It also recovers the native reverse DATA FIXUPP chronology
 8/4/0 that restores exact original MZ relocation table
 ordering without patching the linked executable.
+
+The [original srand/rand 32-bit LCG seed leaf](MAINL_SRAND_RAND_NATIVE_LCG_LEAF_REVIEW.md)
+adds 62 source-equal CODE and four typed mutable seed DATA
+bytes, with all eight symbolic original OMF references
+and the single bounded N_LXMUL near frame difference.
