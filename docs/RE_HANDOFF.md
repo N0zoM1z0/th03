@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **487** |
-| Original contextual vendor programs left unchanged | **406** |
-| Source-compiled original-equal CRT CODE | **154,282 bytes** |
+| Slots rebuilt from complete source | **488** |
+| Original contextual vendor programs left unchanged | **405** |
+| Source-compiled original-equal CRT CODE | **154,610 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after381_work.py japanese-mbcs-pointer-ops`
-and `tests.test_mainl_after381_work`, bound to
-`.analysis/work/mainl-after381-japanese-mbcs-pointer-ops-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after382_work.py string-clone-reference-boss`
+and `tests.test_mainl_after382_work`, bound to
+`.analysis/work/mainl-after382-string-clone-reference-boss-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-487-provider accepted ledger publication, a complete MAINL source tree, or
+488-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
@@ -48,7 +48,10 @@ full C++ programs and nine original typed RTTI descriptors. Ten [complete Japane
 add 1,926 original CODE bytes and 26 literal ordered `__ctype`/`__mbctype`
 FIXUPPs. The [complete `string(TSubString&)` constructor](MAINL_CTOR6_TSUBSTRING_NATIVE_REVIEW.md)
 adds 621 original CODE bytes, five RTTI structures and 22 literal
-original ordered FIXUPPs. Ten [complete near/far Japanese MBCS compare and pointer operations](MAINL_MBCS_POINTER_OPS_TEN_NATIVE_REVIEW.md)
+original ordered FIXUPPs. The [complete original `string::clone` Boss](MAINL_STRING_CLONE_BOSS_NATIVE_REVIEW.md)
+adds 328 original CODE bytes, 12 literal ordered original FIXUPPs and three
+typed RTTI records, including the actual copy-on-write path.
+Ten [complete near/far Japanese MBCS compare and pointer operations](MAINL_MBCS_POINTER_OPS_TEN_NATIVE_REVIEW.md)
 add 1,726 original CODE bytes and 20 literal original ordered FIXUPPs
 across compare, span-pointer, set, and backward traversal routines.
 The [complete `string::copy` reference-counted Boss](MAINL_STRING_REFERENCE_COPY_BOSS_NATIVE_REVIEW.md)
@@ -237,7 +240,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 487-source
+Current accepted **decoded** source scope, not including the 488-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -249,7 +252,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 487 members into the accepted ledger;
+does **not** promote the working 488 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -290,8 +293,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after381_work.py japanese-mbcs-pointer-ops
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after380_work tests.test_mainl_after381_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after382_work.py string-clone-reference-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after381_work tests.test_mainl_after382_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
