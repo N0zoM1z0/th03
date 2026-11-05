@@ -809,3 +809,8 @@ The [complete original DOS file-create family with four FAR exports](MAINL_DOS_C
 adds 170 byte-exact CODE bytes, a true private DOS creation
 engine and four native entrypoints with all four literal
 ordered original OMF references.
+
+The [complete ios::usersize FAR array growth boss](MAINL_IOS_USERSIZE_FAR_ARRAY_BOSS_NATIVE_REVIEW.md)
+adds 156 original CODE bytes with actual FAR new[],
+original memcpy/free, per-entry zero initialization
+and three exact logical original OMF references.
