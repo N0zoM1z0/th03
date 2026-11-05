@@ -634,3 +634,8 @@ The [complete original ios setbase manipulator and callback boss](MAINL_IOS_SETB
 adds 205 CODE bytes across the basefield FAR setter and allocated
 C++ manipulator object, with six logical original OMF FIXUPPs,
 including true CODE segment and offset function pointers.
+
+The [PC-98 timer IRQ, callback and INT 1Ch registration boss](MAINL_PC98_TIMER_IRQ_CALLBACK_BOSS_NATIVE_REVIEW.md)
+adds 162 original CODE and 5 DATA bytes, recovering a genuine
+IRQ entry, FAR callback/flags and 13 exact original logical
+OMF fields including the segment-of-DGROUP relocation.
