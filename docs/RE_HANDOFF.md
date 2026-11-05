@@ -17,20 +17,20 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **320** |
-| Original contextual vendor programs left unchanged | **573** |
-| Source-compiled original-equal CRT CODE | **105,180 bytes** |
+| Slots rebuilt from complete source | **321** |
+| Original contextual vendor programs left unchanged | **572** |
+| Source-compiled original-equal CRT CODE | **105,526 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after319_work.py stdiobuf-overflow`
-    and `tests.test_mainl_after319_work`, bound to
-    `.analysis/work/mainl-after319-stdiobuf-overflow-build.json`. The inherited driver
-`scripts/build_th03_mainl_after317_work.py` verifies the **full 62→319
-source-bound parent receipt DAG in topological order**, including all inherited
+**Live proof:** `scripts/review_th03_mainl_after320_work.py filebuf-open`
+and `tests.test_mainl_after320_work`, bound to
+`.analysis/work/mainl-after320-filebuf-open-build.json`. The inherited
+`after319` and `after317` drivers validate the full source-bound parent DAG,
+including all inherited
 original OBJ/LIB/EXE/MAP vectors and phase-log hashes. This is **not** a
-319-provider accepted ledger publication, a complete MAINL source tree, or
+321-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -45,7 +45,8 @@ five `mbyte1` conversion APIs. Representative evidence:
 [JIS algorithms](MAINL_JIS_COPY_CASE_NATIVE_REVIEW.md),
 [NEC delay and `mbyte1`](MAINL_NEC_DELAY_MBYTE_NATIVE_REVIEW.md).
 The complete 342-byte [`stdiobuf::overflow`](MAINL_STDIOBUF_OVERFLOW_NATIVE_REVIEW.md)
-is recovered with full source-bound Japanese link parity. Its four literal
+and 346-byte [`filebuf::open`](MAINL_FILEBUF_OPEN_NATIVE_REVIEW.md)
+are recovered with full source-bound Japanese link parity. Its four literal
 FIXUPP records are ordered differently from the original OBJ. Older milestone writeups are **historical**; consult the selected original OBJ
 and current receipts rather than accepting a previous guess as fact.
 
@@ -91,7 +92,7 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 2. Keep progress balanced: **larger Bosses** with complete executable body,
    RTTI, jump tables and DATA/BSS, plus full **small leaf** functions.
    Potential remaining selected CRT candidates to investigate, **not yet
-   accepted claims**: `sdbctr`, `fsbopen`, `insert1`, `insert2`,
+   accepted claims**: `sdbctr`, `insert1`, `insert2`,
    `replace`; continue MAIN/OP/ZUN game-module work where ownership is open.
 3. Rebuild only changed/impacted members using native TASM/TLIB/TLINK or
    BCC as appropriate, serialize the Wine writer, and check original selected
@@ -106,8 +107,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after319_work.py stdiobuf-overflow
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after319_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after320_work.py filebuf-open
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after320_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb

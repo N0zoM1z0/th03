@@ -1,39 +1,34 @@
-# MAINL `filebuf::open`: complete native Borland member and linked equality
+# Complete original filebuf::open: 321-source native MAINL carrier
 
-This scope is the complete original Japanese Borland CRT `fsbopen` member
-713, not merely one observed call site. The source
-`src/mainl/crt/fsbopen.asm` reconstructs the full 346-byte `_TEXTA` CODE
-segment, with no DATA or BSS. The original far C++ public is
-`@filebuf@open$qnxcii`; the literal extern sequence is `_lseek`,
-`_open`, `@streambuf@setp$qnct1`, `@streambuf@setg$qnct1t1`.
-Original group bytes are `08ff02ff03`.
+The source `src/mainl/crt/fsbopen.asm` recovers the full 346-byte original
+Japanese Borland `filebuf::open(const char far *, int, int)` member. This is
+not a shortened wrapper: the native control flow checks the opened state,
+translates input/output/append/truncation/binary/inheritance mode flags,
+invokes `_open`, records descriptor and mode, calls `_lseek`, returns failure
+when the seek position is `-1`, computes buffered/unbuffered pointer bounds,
+and invokes both far `streambuf::setp` and `streambuf::setg`.
 
-The recovered instructions translate the iostream input/output, append,
-truncation, binary/text and other original flags to DOS `_open` flags.
-They retain the early refusal to reopen an attached filebuf, descriptor
-and offset fields, `_lseek` setup, buffer start adjustment and the
-two far streambuf pointer resets. The return is the original far
-`this` pointer on success and null on refusal/failure. 16-bit casts,
-signed comparisons and wraparound are left as observed.
+Original CRT member **713** (`.analysis/work/mainl/vendor/fsbopen.obj`)
+contains 346 CODE bytes, zero DATA and BSS, one member public, four far
+imports (`_lseek`, `_open`, `setp`, `setg`), and four relocation fields. The
+source and ABI are bound to this original member rather than an inferred
+C++ library version or another game's CRT.
 
-## Scoped proof and limitation
+`scripts/build_th03_mainl_after320_work.py filebuf-open` reuses the full
+319 → 320 verified source-bound parent receipt chain, checks original member
+program, compiles with native TASM, rebuilds the 893-member CRT library and
+links the Japanese target **twice** with TLIB/TLINK. Both rounds have matching
+complete CODE and zero DATA, every public/import and relocation site/target,
+**321** source members, **572** unchanged original contextual members, and
+raw-equal decoded Japanese EXE and MAP (67,372-byte MZ image, 677 ordered
+relocations). All source-input hashes, native raw OBJ/LIB/EXE/MAP and writer
+logs are retained in `.analysis/work/after320-*` and reviewed by
+`scripts/review_th03_mainl_after320_work.py filebuf-open` and
+`tests/test_mainl_after320_work.py` without a new cold replay.
 
-The independent native TASM/TLIB/TLINK driver
-`scripts/build_th03_mainl_after320_work.py filebuf-open` consumes a
-source-hash-bound and raw-output-hash-bound 320-source parent chain
-without replaying historical cold native builds. Its two fresh runs:
-
-- Produce 346 original-equal CODE bytes, matching all original section
-  extents, public/extern interface and ordered MZ product relocations.
-- Produce four far fixups at CODE+122, +176, +293, +327; each original
-  site, target and frame matches after site sorting.
-- Replace one more selected member of 893, reaching **321 genuine native
-  source members**, 572 unchanged vendor members and **105,526 bytes**
-  of original-equal CRT CODE.
-- Link the entire decoded original Japanese MAINL EXE and MAP byte-for-byte
-  equal in both rounds, preserving its 677 MZ relocation entries.
-
-The original BCC vs TASM **literal FIXUPP record order** differs. This
-does not establish original OMF serialization or change the accepted
-canonical packed-unit ledger. `review_th03_mainl_after320_work.py` and
-`tests.test_mainl_after320_work` enforce the bounded claim.
+**Known serialization difference:** the original BCC FIXUPP order is
+`327,293,176,122`, whereas TASM emits `122,176,293,327`. Each field's
+site, target, frame and addend match. The original *ordered* OMF record
+program does **not** match. Native link equality does not establish complete
+BCC OBJ serialization identity or formally accepted source ownership;
+Factory ledger acceptance and whole-game exactness remain open.
