@@ -44,8 +44,12 @@ three C++ far methods and 17 literal ordered original FIXUPPs. The complete [six
 adds 912 original CODE bytes across six far C++ interfaces, retains original
 typed pointer/class RTTI and all 48 literal ordered FIXUPPs. [Huge 16:16 pointer add/increment members](MAINL_HUGE_POINTER_ARITHMETIC_NATIVE_REVIEW.md)
 add 238 complete original CODE bytes across 12 near/far public aliases.
-The related full `h_ldiv` code is byte-exact but has two original MAP alias
-order discrepancies and is explicitly not counted yet. [Three-API `rfind` boss](MAINL_RFIND_BOSS_NATIVE_REVIEW.md) adds 971 CODE bytes. Recent substantive original-source recoveries: C++ `fstreambase`,
+The related full [`h_ldiv` 32-bit division/modulo source](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md)
+is byte-exact (174 CODE bytes, 12 original aliases), but two original MAP
+alias order discrepancies remain and it is explicitly **not counted** in
+the 408 source-linked members. The runnable
+`tests.test_mainl_h_ldiv_original_scope` keeps that investigation bound to
+the actual CL.LIB and native TASM without any binary patch. [Three-API `rfind` boss](MAINL_RFIND_BOSS_NATIVE_REVIEW.md) adds 971 CODE bytes. Recent substantive original-source recoveries: C++ `fstreambase`,
 `strstreambase` and `iostream` constructors/destructors, the complete nine-API
 `xxv` exception/termination runtime (including original DATA and BSS), ten
 near/far Japanese DBCS copy/reverse/case algorithms, NEC PC-98 delay and all
