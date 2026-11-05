@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **375** |
-| Original contextual vendor programs left unchanged | **518** |
-| Source-compiled original-equal CRT CODE | **121,362 bytes** |
+| Slots rebuilt from complete source | **376** |
+| Original contextual vendor programs left unchanged | **517** |
+| Source-compiled original-equal CRT CODE | **121,643 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after341_work.py xalloc-exception-boss`
-and `tests.test_mainl_after341_work`, bound to
-`.analysis/work/mainl-after341-xalloc-exception-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after342_work.py streambuf-debug-printer`
+and `tests.test_mainl_after342_work`, bound to
+`.analysis/work/mainl-after342-streambuf-debug-printer-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-375-provider accepted ledger publication, a complete MAINL source tree, or
+376-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -74,7 +74,10 @@ serialization differences remain explicitly documented.
 Eight [full DOS path/ostream leaves](MAINL_STREAM_PATH_LEAVES_NATIVE_REVIEW.md)
 add 248 original-equal CODE bytes, including exact stream `endl`/`ends`/
 `flush` and the original `umask` global with separately documented OMF
-FIXUPP ordering. The [new complete `xalloc` 513-byte exception boss](MAINL_XALLOC_EXCEPTION_NATIVE_REVIEW.md)
+FIXUPP ordering. The complete [281-CODE/126-DATA streambuf debug printer](MAINL_STREAMBUF_DBP_NATIVE_REVIEW.md)
+adds all four original formatted cursor/allocator diagnostics, complete
+original OMF relocation site/frame metadata and exact Japanese native link.
+The [new complete `xalloc` 513-byte exception boss](MAINL_XALLOC_EXCEPTION_NATIVE_REVIEW.md)
 recovers original typed RTTI, throw/copy/destructor helpers, all 24 OMF
 relocation fields and the exact ordered Japanese MZ by genuine 8086/RTTI
 source declaration order. The full
@@ -125,7 +128,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 375-source
+Current accepted **decoded** source scope, not including the 376-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -137,7 +140,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 375 members into the accepted ledger;
+does **not** promote the working 376 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -178,8 +181,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after341_work.py xalloc-exception-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after340_work tests.test_mainl_after341_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after342_work.py streambuf-debug-printer
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after341_work tests.test_mainl_after342_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
