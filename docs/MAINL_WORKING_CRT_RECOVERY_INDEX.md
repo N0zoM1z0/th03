@@ -629,3 +629,8 @@ The [complete DOS chsize grow/truncate zero-fill boss](MAINL_DOS_CHSIZE_GROW_TRU
 adds 199 source-equal CODE bytes with authentic 128-byte fill
 loop, original file-offset restoration and two literal ordered
 OMF fixups.
+
+The [complete original ios setbase manipulator and callback boss](MAINL_IOS_SETBASE_MANIPULATOR_BOSS_NATIVE_REVIEW.md)
+adds 205 CODE bytes across the basefield FAR setter and allocated
+C++ manipulator object, with six logical original OMF FIXUPPs,
+including true CODE segment and offset function pointers.
