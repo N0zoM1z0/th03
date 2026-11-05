@@ -1,4 +1,4 @@
-# TH03 — agent handoff (verified 2026-11-05, after404)
+# TH03 — agent handoff (verified 2026-11-05, after405)
 
 **Start here.** Work on the actual Japanese PC-98 originals. Inspect
 `git status -sb` and the last commits; continue **all** dirty edits rather
@@ -14,23 +14,23 @@ make several scoped commits where practical. Read
 | Property | Verified working-source evidence |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
-| Complete members compiled from maintained source | **561** |
-| Remaining unchanged contextual vendor member programs | **332** |
-| Source-built, original-equal logical CRT CODE | **163,850 bytes** |
+| Complete members compiled from maintained source | **563** |
+| Remaining unchanged contextual vendor member programs | **330** |
+| Source-built, original-equal logical CRT CODE | **164,202 bytes** |
 | Original decoded Japanese MAINL EXE size | **67,372 bytes** |
 | Original ordered DOS MZ relocations | **677** |
 | Actual native TASM/TLIB/TLINK production rounds | **2, byte-identical EXE and MAP** |
-| Latest source build | `after404 / absolute-dos-disk-io-boss` |
-| Formal Factory acceptance of this 561-member CRT expansion | **No** |
+| Latest source build | `after405 / two-streambuf-bulk-transfer-bosses` |
+| Formal Factory acceptance of this 563-member CRT expansion | **No** |
 
 **Source-bound proof:**
-`scripts/review_th03_mainl_after404_work.py absolute-dos-disk-io-boss`
-and `tests.test_mainl_after404_work`, using
-`.analysis/work/mainl-after404-absolute-dos-disk-io-boss-build.json`.
-The current reviewer checks the inherited **142-stage** receipt DAG,
+`scripts/review_th03_mainl_after405_work.py two-streambuf-bulk-transfer-bosses`
+and `tests.test_mainl_after405_work`, using
+`.analysis/work/mainl-after405-two-streambuf-bulk-transfer-bosses-build.json`.
+The current reviewer checks the inherited **143-stage** receipt DAG,
 source/driver/parent hashes, selected original member CODE/DATA/ABI, two
 complete raw native OBJ/LIB/EXE/MAP rounds and writer logs. It is **not**
-a full cold replay. The 561 individual members are not claimed to have
+a full cold replay. The 563 individual members are not claimed to have
 byte-identical original Borland OBJ *record serialization*; literal
 ordered FIXUPP equality is separately recorded per module.
 
@@ -43,7 +43,7 @@ artificial target-byte arrays for native source recovery.
 ## 2. Acceptance and ledger: distinguish the claims
 
 - [Generated progress](PROGRESS.md) is generated from ledgers, **not** from
-  the 561-source working CRT. The packed-file canonical MAINL ledger remains
+  the 563-source working CRT. The packed-file canonical MAINL ledger remains
   **0 exact units**. `scripts/status.py` currently reports MAINL decoded
   product **pending**, `0/250` nonexcluded ledger units and no newly accepted
   bytes. `config/units.csv` has **251 MAINL rows**, including one excluded;
@@ -67,6 +67,12 @@ artificial target-byte arrays for native source recovery.
 
 ## 3. Important history and outstanding technical issues
 
+After405 restores the paired full C++ `streambuf::do_sgetn` /
+`streambuf::do_sputn` bulk-transfer bosses, 184 + 168 original-equal
+CODE bytes, with real far buffers and virtual overflow/underflow paths.
+Both original **literal ordered** `_memcpy` FIXUPPs match, as do both
+full Japanese native EXE/MAP rounds. See
+[the streambuf bulk review](MAINL_STREAMBUF_BULK_TRANSFER_BOSSES_NATIVE_REVIEW.md).
 After404 reconstructs original absolute DOS disk I/O: **292 CODE + 2
 DATA + 2 BSS bytes**, original _absread/_abswrite and INT25h/INT26h paths,
 including the far-return probe and all eight logical OMF relocations.
@@ -172,7 +178,7 @@ note recommended them. Inspect the actual member and status first.
 - **`h_ldiv`** (`src/mainl/crt/h_ldiv.asm`) has original-equal **174
   CODE bytes and 12 aliases**, but TASM and Borland still order two
   same-address aliases differently in the **MAP**. It is deliberately
-  **not counted** in the 561 source-linked members. See
+  **not counted** in the 563 source-linked members. See
   [its bounded investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md)
   and `tests.test_mainl_h_ldiv_original_scope`. Preserve its source and
   diagnostic evidence, do not reorder a MAP to fake acceptance.
@@ -207,8 +213,8 @@ latest reviewer/test).
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after404_work.py absolute-dos-disk-io-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after404_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after405_work.py two-streambuf-bulk-transfer-bosses
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after405_work -v
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -227,7 +233,7 @@ acceptance.
 
 [Current protected native DAG / storage cleanup guide](STORAGE_HANDOFF_CURRENT.md)
 explains what can be deleted and how to preview it safely. **Keep all
-142 active source-bound stages**: build receipts, every phase log, and both
+143 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
 old-named `reference.tar` input. At the prior after388 cleanup, 256 retired/scratch files were safely removed
