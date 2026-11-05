@@ -492,3 +492,8 @@ construction, real inherited RTTI, 11 symbolic vtable slots and
 The [char-pointer strstreambuf constructor](MAINL_STRSTREAMBUF_CHAR_BUFFER_CONSTRUCTOR_NATIVE_REVIEW.md)
 adds another 239 CODE / 52 DATA bytes and all 20 original logical
 fixups, including true RTTI and the full C++ base/vtable initialization.
+
+The [complete stdiobuf destructor and virtual overflow flush boss](MAINL_STDIOBUF_DESTRUCTOR_VIRTUAL_FLUSH_BOSS_NATIVE_REVIEW.md)
+adds 224 CODE and 52 DATA bytes, preserving the real virtual overflow
+call, base destruction, conditional far delete, both typed RTTI
+records and all 19 original logical OMF relocation fields.
