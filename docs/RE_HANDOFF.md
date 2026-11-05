@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **502** |
-| Original contextual vendor programs left unchanged | **391** |
-| Source-compiled original-equal CRT CODE | **157,119 bytes** |
+| Slots rebuilt from complete source | **510** |
+| Original contextual vendor programs left unchanged | **383** |
+| Source-compiled original-equal CRT CODE | **158,551 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after386_work.py string-substr-range-boss`
-and `tests.test_mainl_after386_work`, bound to
-`.analysis/work/mainl-after386-string-substr-range-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after387_work.py japanese-mbcs-append-search-case`
+and `tests.test_mainl_after387_work`, bound to
+`.analysis/work/mainl-after387-japanese-mbcs-append-search-case-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-502-provider accepted ledger publication, a complete MAINL source tree, or
+510-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
@@ -48,7 +48,10 @@ full C++ programs and nine original typed RTTI descriptors. Ten [complete Japane
 add 1,926 original CODE bytes and 26 literal ordered `__ctype`/`__mbctype`
 FIXUPPs. The [complete `string(TSubString&)` constructor](MAINL_CTOR6_TSUBSTRING_NATIVE_REVIEW.md)
 adds 621 original CODE bytes, five RTTI structures and 22 literal
-original ordered FIXUPPs. The [complete indexed-range `string::substr` exception Boss](MAINL_STRING_SUBSTR_RANGE_NATIVE_REVIEW.md)
+original ordered FIXUPPs. Eight [complete Japanese near/far MBCS append/search/case functions](MAINL_MBCS_APPEND_SEARCH_CASE_NATIVE_REVIEW.md)
+add 1,432 original CODE bytes and 18 literal ordered FIXUPPs, including
+real far helper calls and `__ctype`/`__mbctype` table accesses.
+The [complete indexed-range `string::substr` exception Boss](MAINL_STRING_SUBSTR_RANGE_NATIVE_REVIEW.md)
 adds 572 original CODE bytes and 24 original literal ordered FIXUPPs
 across its full two-index method, cleanup helpers and five typed RTTI.
 The [complete C-string constructor `ctor3`](MAINL_STRING_CSTR_CONSTRUCTOR_NATIVE_REVIEW.md)
@@ -252,7 +255,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 502-source
+Current accepted **decoded** source scope, not including the 510-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -264,7 +267,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 502 members into the accepted ledger;
+does **not** promote the working 510 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -305,8 +308,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after386_work.py string-substr-range-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after385_work tests.test_mainl_after386_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after387_work.py japanese-mbcs-append-search-case
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after386_work tests.test_mainl_after387_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
