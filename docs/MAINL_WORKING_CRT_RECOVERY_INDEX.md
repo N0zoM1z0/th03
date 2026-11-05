@@ -691,3 +691,9 @@ five complete FAR bodies, with 182 compared relocation
 targets/addends, 163 disclosed frame-method-4 differences
 and the two still-unresolved same-segment FAR call encodings.
 This remains **partial, with no added complete CRT member**.
+
+The [original ios() default constructor with typed RTTI](MAINL_IOS_DEFAULT_CONSTRUCTOR_RTTI_NATIVE_REVIEW.md)
+adds 135 CODE and 12 DATA bytes, restoring the distinct native
+default-construction ABI (no streambuf initializer), the
+CODE+81 class descriptor, and the real DATA destructor vtable
+with all six logical original OMF fields.
