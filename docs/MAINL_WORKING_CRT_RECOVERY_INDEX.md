@@ -732,3 +732,11 @@ The [complete original MKNAME/TMPNAM temporary filename and BSS boss](MAINL_DOS_
 adds 188 source-equal CODE bytes, actual nine-byte TMP/.$$$
 DATA strings and a real 13-byte BSS filename buffer, with
 all seven source-bound logical original OMF fixups.
+
+The [sixth complete cplx2 FAR asin(complex) function](MAINL_CPLX2_ASIN_SIX_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends original large-Boss semantic source through CODE+1607,
+with 391 more byte-exact asin instructions. All 246 emitted
+relocation sites, original target names and addends match.
+The two known local FAR call gaps and 218 method-4 FPU
+frame differences remain explicitly unresolved; **no
+complete original CRT source-member credit is claimed**.
