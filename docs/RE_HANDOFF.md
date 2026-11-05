@@ -17,19 +17,19 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **341** |
-| Original contextual vendor programs left unchanged | **552** |
-| Source-compiled original-equal CRT CODE | **111,706 bytes** |
+| Slots rebuilt from complete source | **342** |
+| Original contextual vendor programs left unchanged | **551** |
+| Source-compiled original-equal CRT CODE | **112,039 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after329_work.py regexp-boss`
-and `tests.test_mainl_after329_work`, bound to
-`.analysis/work/mainl-after329-regexp-boss-build.json`. The inherited
+**Live proof:** `scripts/review_th03_mainl_after330_work.py locale-isctype-family`
+and `tests.test_mainl_after330_work`, bound to
+`.analysis/work/mainl-after330-locale-isctype-family-build.json`. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-341-provider accepted ledger publication, a complete MAINL source tree, or
+342-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -71,12 +71,15 @@ serialization differences remain explicitly documented.
 The [complete `TRegexp` C++ boss](MAINL_REGEXP_BOSS_NATIVE_REVIEW.md)
 recovers five methods, two original CODE segments (649 bytes), typed RTTI,
 31 original relocations and two bytes of exported `maxpat` DATA.
+The [complete 13-API locale classifier](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
+adds another 333 original-equal CODE bytes with an exact original framed
+`__pLocale` relocation.
 
 ### Working source is not formally accepted scope
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 341-source
+Current accepted **decoded** source scope, not including the 342-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -88,7 +91,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 341 members into the accepted ledger;
+does **not** promote the working 342 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -129,8 +132,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after329_work.py regexp-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after329_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after330_work.py locale-isctype-family
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after330_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
