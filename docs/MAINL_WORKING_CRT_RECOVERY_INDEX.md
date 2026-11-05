@@ -702,3 +702,9 @@ The [three complete itoa/ultoa/ltoa radix conversion APIs](MAINL_RADIX_ITOA_ULTO
 add 124 original CODE bytes with the true signed-decimal
 conversion ABI, all three public entrypoints, and the
 three precise __LONGTOA near-frame differences.
+
+The [complete original string::contains exception/RTTI boss](MAINL_STRING_CONTAINS_EXCEPTION_RTTI_BOSS_NATIVE_REVIEW.md)
+adds 200 original CODE bytes with the real native 32-byte
+exception frame, typed CODE+142 string class descriptor,
+actual temporary construction/find/destruction and all
+11 original logical OMF relocations.
