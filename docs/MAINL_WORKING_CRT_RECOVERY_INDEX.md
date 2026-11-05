@@ -708,3 +708,8 @@ adds 200 original CODE bytes with the real native 32-byte
 exception frame, typed CODE+142 string class descriptor,
 actual temporary construction/find/destruction and all
 11 original logical OMF relocations.
+
+The [complete native DOS intdos/intdosx register bridge](MAINL_DOS_INTDOS_REGISTER_BRIDGE_NATIVE_REVIEW.md)
+adds 146 original CODE bytes and both original literal
+ordered OMF fixups, including the true INT 21h register
+and FLAGS return ABI.
