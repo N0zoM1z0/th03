@@ -1,50 +1,39 @@
-# Eight full original DOS path and ostream manipulator CRT leaves
+# Original Japanese MAINL CRT: eight complete directory, file and stream leaves
 
-This working-source addition recovers eight entire original Japanese Borland
-CL.LIB members as natural 8086 `src/mainl/crt/*.asm` source, with their
-original exported far APIs, unmodified 16-bit stack conventions, complete
-CODE, no DATA/BSS, original DGROUP/segment layout and full imported
-relocation fields.
+Eight original Borland CRT members were reconstructed in natural, executable
+8086 TASM syntax rather than accepted on the basis of guessed CRT behavior:
 
-| Original CRT member | CODE | Native original behavior |
+| Original member | CODE | Complete far entry and original behavior |
 | --- | ---: | --- |
-| `mkdir` (88) | 28 bytes | DOS INT 21h AH=39h create directory, original `_IOERROR` path |
-| `rmdir` (105) | 28 bytes | DOS INT 21h AH=3Ah remove directory, original `_IOERROR` path |
-| `tell` (133) | 28 bytes | Current file offset from original far `_lseek` call |
-| `umask` (134) | 25 bytes | Far `_umask` get/set via original `__notUmask` DGROUP global |
-| `ostendl` (698) | 43 bytes | Far C++ `endl`: write newline and flush original ostream |
-| `ostends` (699) | 32 bytes | Far C++ `ends`: output terminating NUL |
-| `ostmflsh` (700) | 28 bytes | Far C++ `flush`: invoke original `ostream::flush` |
-| `fsetpos` (49) | 36 bytes | Far `fsetpos`: forward original stored 32-bit position to `_fseek` |
+| `mkdir` (88) | 28 | `_mkdir`: INT 21h AH=39h, far path, Borland `__IOERROR` |
+| `rmdir` (105) | 28 | `_rmdir`: INT 21h AH=3Ah, far path, original error path |
+| `tell` (133) | 28 | `_tell`: far `_lseek` to offset 0 with SEEK_CUR |
+| `umask` (134) | 25 | `_umask`: complemented `__notUmask` read/write via original DGROUP |
+| `ostendl` (698) | 43 | `endl(ostream&)`: output newline then flush, returns same stream |
+| `ostends` (699) | 32 | `ends(ostream&)`: output NUL, returns same stream |
+| `ostmflsh` (700) | 28 | `flush(ostream&)`: call original far flush method |
+| `fsetpos` (49) | 36 | `_fsetpos`: forward stored far 32-bit position to `_fseek` with SEEK_SET |
 
-The three C++ manipulator members use original `_TEXTA` CODE segments,
-not the ordinary `_TEXT` segment. `mkdir` and `rmdir` preserve DGROUP
-`08ff03ff02`, while the other six members retain `08ff02ff03`. Every
-materialized byte, original public/import entry, segment definition and
-logical fixup including **the actual frame fields** matches the original
-member. Two OMF serialization differences are recorded rather than
-normalized: the imported global `umask` fields are ordered `[17,7]` in
-the original and `[7,17]` in TASM; `ostendl`'s original far call FIXUPP
-sites are `[26,15]` rather than TASM's `[15,26]`. All their individual
-frames, targets and addends agree. The six other original members match
-their ordered FIXUPP sequences. Complete original OBJ program-record
-serialization is not claimed.
+The three ostream manipulators uniquely own original `_TEXTA` CODE segments;
+all other members own `_TEXT`, along with zero-length DATA/BSS and the
+original DGROUP ordering. Each full member has its original public/import
+interfaces and every source-produced CODE byte matches the original pinned
+Japanese CL.LIB member. All original relocation sites, widths, frames,
+targets and addends match exactly. Literal FIXUPP *ordering* differs only
+for `umask` and `ostendl` (two fields each, TASM forward versus original
+Borland reverse); complete original OMF program record identity is not
+claimed for any of the eight.
 
-`scripts/build_th03_mainl_after334_work.py stream-path-leaves` retains the
-validated 352-member native source-bound parent, then compiles all eight
-members in two independent, serialized TASM/TLIB/TLINK rounds. Both reproduce
-**all 893 CRT library slots**, with **360 source-backed** and **533 original
-contextual** members, and the entire Japanese decoded **67,372-byte MAINL
-EXE and MAP**, including the **original ordered 677 DOS MZ relocation
-entries**. The increase is **248 original-equal CODE bytes**, for a total
-of **115,155 working-source CRT CODE bytes**. Complete raw OBJ/LIB/EXE/MAP
-outputs and writer logs are retained under `.analysis/work/after334-*`,
-SHA-bound to the actual source files, both original native rounds and the
-entire parent receipt DAG.
+`scripts/build_th03_mainl_after334_work.py stream-path-leaves` extends the
+352-source working CRT carrier. Both native TASM/TLIB/TLINK rounds produce
+byte-identical original Japanese MAINL EXE (67,372 bytes), MAP and ordered
+677 MZ relocations. All 893 original CRT slots are preserved: **360** are
+source-backed complete members, **533** remain unchanged original contextual
+programs, and source-compiled original-equal CRT CODE totals **115,155 bytes**
+(**+248**). Retained raw dual-round OBJ/LIB/EXE/MAP programs, phase logs,
+source hashes, parent receipts and reviewer are under `.analysis/work/after334-*`
+and `scripts/review_th03_mainl_after334_work.py`. Direct OMF and native
+product assertions are in `tests.test_mainl_after334_work`.
 
-The narrow original-OBJ/OMF regression is
-`tests/test_mainl_after334_work.py`; the scope reviewer is
-`scripts/review_th03_mainl_after334_work.py`. The unchanged cold baseline is
-reused, not rebuilt. This expands working-source reconstruction only; no new
-Factory-accepted extent, original packed-file canonical credit or whole-game
-source-ownership claim is implied.
+No full cold replay, synthetic executable CODE arrays, patched object records,
+Factory-accepted scope promotion or packed-file unit credit is claimed.
