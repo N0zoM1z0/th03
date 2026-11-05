@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 535-member chain.
+refer to intermediate snapshots, not the current 536-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -250,3 +250,7 @@ dispatch for `vnew` and `vnewv`, retaining all 18 logical OMF relocations.
 The [full original DOS date/time formatting CRT member](MAINL_DOS_DATE_TIME_FORMAT_NATIVE_REVIEW.md)
 adds 272 CODE bytes: one near signed-`idiv` three-field formatter and
 two far DOS date/time entry points, with two logical OMF far-call fixups.
+
+The [complete NEC PC-98 cursor controller](MAINL_PC98_CURSOR_CONTROL_BOSS_NATIVE_REVIEW.md)
+adds 346 CODE and 12 initialized DATA bytes, actual cursor video/port
+control, original group order and all seven literal ordered FIXUPPs.
