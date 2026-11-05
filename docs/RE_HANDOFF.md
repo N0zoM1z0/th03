@@ -1,4 +1,4 @@
-# TH03 — agent handoff (verified 2026-11-05, after393)
+# TH03 — agent handoff (verified 2026-11-05, after394)
 
 **Start here.** Work on the actual Japanese PC-98 originals. Inspect
 `git status -sb` and the last commits; continue **all** dirty edits rather
@@ -14,23 +14,23 @@ make several scoped commits where practical. Read
 | Property | Verified working-source evidence |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
-| Complete members compiled from maintained source | **534** |
-| Remaining unchanged contextual vendor member programs | **359** |
-| Source-built, original-equal logical CRT CODE | **160,990 bytes** |
+| Complete members compiled from maintained source | **535** |
+| Remaining unchanged contextual vendor member programs | **358** |
+| Source-built, original-equal logical CRT CODE | **161,262 bytes** |
 | Original decoded Japanese MAINL EXE size | **67,372 bytes** |
 | Original ordered DOS MZ relocations | **677** |
 | Actual native TASM/TLIB/TLINK production rounds | **2, byte-identical EXE and MAP** |
-| Latest source build | `after393 / vector-constructor-bosses` |
-| Formal Factory acceptance of this 534-member CRT expansion | **No** |
+| Latest source build | `after394 / dos-date-time-format-boss` |
+| Formal Factory acceptance of this 535-member CRT expansion | **No** |
 
 **Source-bound proof:**
-`scripts/review_th03_mainl_after393_work.py vector-constructor-bosses`
-and `tests.test_mainl_after393_work`, using
-`.analysis/work/mainl-after393-vector-constructor-bosses-build.json`.
-The current reviewer checks the inherited **131-stage** receipt DAG,
+`scripts/review_th03_mainl_after394_work.py dos-date-time-format-boss`
+and `tests.test_mainl_after394_work`, using
+`.analysis/work/mainl-after394-dos-date-time-format-boss-build.json`.
+The current reviewer checks the inherited **132-stage** receipt DAG,
 source/driver/parent hashes, selected original member CODE/DATA/ABI, two
 complete raw native OBJ/LIB/EXE/MAP rounds and writer logs. It is **not**
-a full cold replay. The 534 individual members are not claimed to have
+a full cold replay. The 535 individual members are not claimed to have
 byte-identical original Borland OBJ *record serialization*; literal
 ordered FIXUPP equality is separately recorded per module.
 
@@ -43,7 +43,7 @@ artificial target-byte arrays for native source recovery.
 ## 2. Acceptance and ledger: distinguish the claims
 
 - [Generated progress](PROGRESS.md) is generated from ledgers, **not** from
-  the 534-source working CRT. The packed-file canonical MAINL ledger remains
+  the 535-source working CRT. The packed-file canonical MAINL ledger remains
   **0 exact units**. `scripts/status.py` currently reports MAINL decoded
   product **pending**, `0/250` nonexcluded ledger units and no newly accepted
   bytes. `config/units.csv` has **251 MAINL rows**, including one excluded;
@@ -67,6 +67,12 @@ artificial target-byte arrays for native source recovery.
 
 ## 3. Important history and outstanding technical issues
 
+After394 restores the **272-byte DOS date/time formatting member**, including
+a genuine 159-byte near formatter shared by far `__strdate`/`__strtime`
+entry points. The entire CODE and two logical OMF far-call relocations
+match; literal FIXUPP record order differs. Two original Japanese native
+EXE/MAP rounds remain identical. See
+[the date/time native review](MAINL_DOS_DATE_TIME_FORMAT_NATIVE_REVIEW.md).
 After393 recovers **two complete C++ vector-construction bosses**:
 `vnew` 313 CODE bytes and `vnewv` 345 CODE bytes, covering array
 allocation and 16 near/far calling-convention paths. All 18 logical OMF
@@ -104,7 +110,7 @@ note recommended them. Inspect the actual member and status first.
 - **`h_ldiv`** (`src/mainl/crt/h_ldiv.asm`) has original-equal **174
   CODE bytes and 12 aliases**, but TASM and Borland still order two
   same-address aliases differently in the **MAP**. It is deliberately
-  **not counted** in the 534 source-linked members. See
+  **not counted** in the 535 source-linked members. See
   [its bounded investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md)
   and `tests.test_mainl_h_ldiv_original_scope`. Preserve its source and
   diagnostic evidence, do not reorder a MAP to fake acceptance.
@@ -139,8 +145,8 @@ latest reviewer/test).
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after393_work.py vector-constructor-bosses
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after393_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after394_work.py dos-date-time-format-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after394_work -v
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -159,7 +165,7 @@ acceptance.
 
 [Current protected native DAG / storage cleanup guide](STORAGE_HANDOFF_CURRENT.md)
 explains what can be deleted and how to preview it safely. **Keep all
-131 active source-bound stages**: build receipts, every phase log, and both
+132 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
 old-named `reference.tar` input. At the prior after388 cleanup, 256 retired/scratch files were safely removed
