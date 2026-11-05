@@ -1,5 +1,11 @@
 # TH03 handoff storage audit — 2026-11-03
 
+> **Historical snapshot, not current status.** The 62-source and 134 MiB
+> measurements below describe **2026-11-03 only**. For the current 319-source
+> checkpoint and up-to-date retained-proof storage rules, read the
+> [2026-11-05 handoff](RE_HANDOFF.md) and
+> [new storage audit](STORAGE_HANDOFF_2026-11-05.md).
+
 **Purpose:** save allocated storage without breaking the retained original
 Japanese native-source verification or deleting pinned targets.
 

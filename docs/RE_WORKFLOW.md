@@ -93,4 +93,4 @@ directly. Do not archive or compress retired code versions. Preserve documents,
 ledgers and experiment/verification records;keeping a record does not make the
 old code it describes a live build dependency. Verify the affected current checks
 afterward. Documentation-only cleanup does not require a cold rebuild. Preserve
-Wine's current runtime/tool trees and fixed inputs. See the [handoff storage audit](STORAGE_HANDOFF_2026-11-03.md) for safe disposable probes and live cumulative proof vectors.
+Wine's current runtime/tool trees and fixed inputs. See the [current handoff storage audit](STORAGE_HANDOFF_2026-11-05.md) for explicitly guarded proof vectors and safe disposable probes; the [2026-11-03 audit](STORAGE_HANDOFF_2026-11-03.md) is a historical snapshot.
