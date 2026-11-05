@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **476** |
-| Original contextual vendor programs left unchanged | **417** |
-| Source-compiled original-equal CRT CODE | **151,819 bytes** |
+| Slots rebuilt from complete source | **477** |
+| Original contextual vendor programs left unchanged | **416** |
+| Source-compiled original-equal CRT CODE | **152,556 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after379_work.py string-cstr-range-constructor-boss`
-and `tests.test_mainl_after379_work`, bound to
-`.analysis/work/mainl-after379-string-cstr-range-constructor-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after380_work.py string-reference-copy-boss`
+and `tests.test_mainl_after380_work`, bound to
+`.analysis/work/mainl-after380-string-reference-copy-boss-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-476-provider accepted ledger publication, a complete MAINL source tree, or
+477-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
@@ -48,7 +48,10 @@ full C++ programs and nine original typed RTTI descriptors. Ten [complete Japane
 add 1,926 original CODE bytes and 26 literal ordered `__ctype`/`__mbctype`
 FIXUPPs. The [complete `string(TSubString&)` constructor](MAINL_CTOR6_TSUBSTRING_NATIVE_REVIEW.md)
 adds 621 original CODE bytes, five RTTI structures and 22 literal
-original ordered FIXUPPs. The [complete original C-string range constructor](MAINL_STRING_CSTR_RANGE_CONSTRUCTOR_NATIVE_REVIEW.md)
+original ordered FIXUPPs. The [complete `string::copy` reference-counted Boss](MAINL_STRING_REFERENCE_COPY_BOSS_NATIVE_REVIEW.md)
+adds 737 original CODE bytes, seven typed C++ RTTI records and 27 literal
+ordered original FIXUPPs, including the actual reference cleanup helper.
+The [complete original C-string range constructor](MAINL_STRING_CSTR_RANGE_CONSTRUCTOR_NATIVE_REVIEW.md)
 adds 811 CODE bytes, six typed RTTI records, and 29 original literal
 ordered FIXUPPs, including both exception-cleanup helpers. The [complete `string::reserve` capacity Boss](MAINL_STRING_RESERVE_BOSS_NATIVE_REVIEW.md)
 adds 431 original CODE bytes, three RTTI records and 19 literal original
@@ -231,7 +234,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 476-source
+Current accepted **decoded** source scope, not including the 477-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -243,7 +246,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 476 members into the accepted ledger;
+does **not** promote the working 477 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -284,8 +287,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after379_work.py string-cstr-range-constructor-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after378_work tests.test_mainl_after379_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after380_work.py string-reference-copy-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after379_work tests.test_mainl_after380_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
