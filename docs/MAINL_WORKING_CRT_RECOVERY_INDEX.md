@@ -658,3 +658,8 @@ The [complete original overlap-safe FAR memory-move leaf](MAINL_FAR_MEMMOVE_OVER
 adds 119 native CODE bytes with authentic STD/CLD, aligned
 MOVSB/REP MOVSW, two FAR exported APIs and original literal
 near N_PCMP@ FIXUPP at CODE+19.
+
+The [complete TStringRef character/capacity constructor boss](MAINL_TSTRINGREF_CHARACTER_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
+adds 197 original-equal CODE bytes with authentic FAR object
+allocation, capacity rounding, malloc, memset and xalloc
+address-exception handling; all seven original OMF fields match.
