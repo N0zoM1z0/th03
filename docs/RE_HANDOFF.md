@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **459** |
-| Original contextual vendor programs left unchanged | **434** |
-| Source-compiled original-equal CRT CODE | **145,663 bytes** |
+| Slots rebuilt from complete source | **460** |
+| Original contextual vendor programs left unchanged | **433** |
+| Source-compiled original-equal CRT CODE | **146,094 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after373_work.py string-append-slice-boss`
-and `tests.test_mainl_after373_work`, bound to
-`.analysis/work/mainl-after373-string-append-slice-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after374_work.py string-reserve-capacity-boss`
+and `tests.test_mainl_after374_work`, bound to
+`.analysis/work/mainl-after374-string-reserve-capacity-boss-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-459-provider accepted ledger publication, a complete MAINL source tree, or
+460-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
@@ -40,7 +40,9 @@ add 462 original CODE bytes across ten public entries. Four match original
 literal FIXUPPs; `doslock` records the **two exact TARGET-vs-CODE near-call
 frame gaps**, with byte-exact native linking. [Five-API `find1` boss](MAINL_FIND1_BOSS_NATIVE_REVIEW.md) recovers 1,379 CODE bytes and literal original FIXUPPs. The [complete PC-98 function-key and MBCS strchr programs](MAINL_PC98_FUNCTION_KEYS_MBSCHR_NATIVE_REVIEW.md)
 add 312 original CODE bytes, five far BIOS/DBCS APIs and three literal
-original FIXUPPs. The [complete `string::append` substring Boss](MAINL_STRING_APPEND_SLICE_BOSS_NATIVE_REVIEW.md)
+original FIXUPPs. The [complete `string::reserve` capacity Boss](MAINL_STRING_RESERVE_BOSS_NATIVE_REVIEW.md)
+adds 431 original CODE bytes, three RTTI records and 19 literal original
+ordered FIXUPPs. The [complete `string::append` substring Boss](MAINL_STRING_APPEND_SLICE_BOSS_NATIVE_REVIEW.md)
 adds 578 original CODE bytes and 20 literal original ordered FIXUPPs,
 including the original RTTI and two real far cleanup helpers. Six [complete Japanese MBCS near/far span and bounded compare routines](MAINL_JAPANESE_MBCS_SPANS_NATIVE_REVIEW.md)
 add 1,136 original CODE bytes and 12 exact original ordered `__mbctype+1`
@@ -219,7 +221,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 459-source
+Current accepted **decoded** source scope, not including the 460-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -231,7 +233,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 459 members into the accepted ledger;
+does **not** promote the working 460 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -272,8 +274,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after373_work.py string-append-slice-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after372_work tests.test_mainl_after373_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after374_work.py string-reserve-capacity-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after373_work tests.test_mainl_after374_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
