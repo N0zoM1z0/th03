@@ -846,3 +846,8 @@ The [complete original ios destructor, global fmtflags and typed RTTI](MAINL_IOS
 adds 141 CODE, 30 DATA and 4 BSS bytes, with five actual DATA
 exports, a real BSS stdioflush symbol and all seven original
 symbolic CODE/DATA relocation fields.
+
+The [complete original DOS __rtl_read/__read two FAR entries](MAINL_DOS_RTL_READ_TWO_FAR_NATIVE_REVIEW.md)
+add 78 byte-exact CODE bytes with genuine INT 21h
+read, descriptor state, and both literal ordered original
+OMF references at CODE+12/+44.
