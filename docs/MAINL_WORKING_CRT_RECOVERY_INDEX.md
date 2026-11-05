@@ -568,3 +568,7 @@ adds 208 CODE, 16 typed DATA and 6 registered INITDATA bytes
 with a genuine symbolic CODE+0 initializer and all eight
 original literal ordered OMF FIXUPPs. Both FAR path predicates
 and the native DOS 21h 6300h bootstrap are recovered.
+
+The [complete original localeconv FAR structure and monetary flags](MAINL_LOCALECONV_FAR_STRUCTURE_BOSS_NATIVE_REVIEW.md)
+adds 212 native CODE bytes restoring ten locale far pointers,
+eight numeric fields and all 41 exact logical original OMF FIXUPPs.
