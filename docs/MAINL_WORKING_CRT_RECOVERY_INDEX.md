@@ -822,3 +822,8 @@ emitted symbolic OMF fixups match original sites, names
 and addends across 405 original prefix fields, retaining
 two explicit local FAR-call and 353 frame-method-4 gaps.
 This is partial and adds zero complete CRT members.
+
+The [original DOS clock and CRT baseline INITDATA leaf](MAINL_CLOCK_BSS_INITDATA_NATIVE_REVIEW.md)
+adds 113 exact CODE bytes, real six-byte BSS timestamp
+state and six-byte CRT initialization record, with one
+site-locked near N_LXMUL@ frame difference.
