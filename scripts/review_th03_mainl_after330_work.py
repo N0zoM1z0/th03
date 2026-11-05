@@ -54,12 +54,12 @@ def review(mode):
             outputs[kind]=blob
         need(all(b.scope(n,outputs[n])==original[n] for n in names),
              'all original CODE/DATA bytes and relocation sites/targets')
-        # Link equality does not imply identical Borland OMF serialization.
-        need(all(object_program_records(outputs[n]) !=
-                 members[b.NATIVE[n]['index']].program_records for n in names),
-             'original OMF record-order gap in both rounds')
         literal_omf={n:literal_fields(outputs[n])==literal_fields(
             b.original_library_member(members[b.NATIVE[n]['index']])) for n in names}
+        original_program={n:object_program_records(outputs[n])==
+            members[b.NATIVE[n]['index']].program_records for n in names}
+        need(row['original_program_equal_by_member']==original_program,
+             'actual original Borland CL.LIB record equality for every member')
         need(row['literal_omf_fixupp_equal_by_member']==literal_omf and
              r['literal_OMF_FIXUPP_equal']==all(literal_omf.values()),
              'actual full native ordered FIXUPP/frame status per member')
@@ -86,7 +86,9 @@ def review(mode):
                 complete_native_link_EXE_MAP_equal=True,
                 original_MZ_relocations=677,
                 original_literal_FIXUPP_equal=r['literal_OMF_FIXUPP_equal'],
-                original_library_member_program_equal=False,
+                original_library_member_program_equal=all(
+                    row['original_program_equal_by_member'][n]
+                    for row in r['rounds'] for n in names),
                 source_acceptance=False,original_cold_rebuilt=False,
                 profiles=original)
 

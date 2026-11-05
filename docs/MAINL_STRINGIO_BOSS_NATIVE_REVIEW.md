@@ -51,19 +51,41 @@ The original `_TEXTC+1264` far RTTI destructor points to `_TEXT+33` and
 relocation population matches **segment, location, width, target, addend and
 frame**, and every original materialized `_TEXT`/`_TEXTC` byte agrees.
 
-`scripts/build_th03_mainl_after330_work.py stringio-boss` extends the
-source/receipt-bound **341-member** CRT carrier, runs two independent
+`scripts/build_th03_mainl_after331_work.py stringio-boss` extends the
+source/receipt-bound **342-member** CRT carrier, runs two independent
 serialized native TASM/TLIB/TLINK rounds, and preserves all 893 member
 programs. Both rounds independently reproduce the full original decoded
 Japanese MAINL **67,372-byte EXE and MAP**, with all **677 ordered DOS MZ
 relocations**. The resulting CRT has **342 source-backed programs**,
-**551 unchanged contextual original programs**, and **113,172 original-equal
+**550 unchanged contextual original programs**, and **113,505 original-equal
 CRT CODE bytes**, an increase of **1,466**. Raw OBJ/LIB/EXE/MAP and writer
-logs are retained under `.analysis/work/after330-*`, SHA-bound to the live
+logs are retained under `.analysis/work/after331-*`, SHA-bound to the live
 source and inherited evidence and rechecked by the reviewer and
-`tests.test_mainl_after330_work` without a new full cold replay.
+`tests.test_mainl_after331_work` without a new full cold replay.
 
 The **literal original OMF FIXUPP record order and whole Borland OBJ program
 serialization still differ** from the TASM program. This link-exact
 working-source expansion does not create any Factory-accepted source extent
 or canonical packed-file unit credit.
+
+## Reconciliation of two independent source-bound additions
+
+The earlier `gpt-web: recover all thirteen locale isctype APIs and exact
+native link` checkpoint already owned the `after330` source-bound driver,
+its `locale-isctype-family` receipts and the full 333-byte `is` CRT member.
+The first stringio publication accidentally reused that exact driver and
+test filename, which made the prior locale receipt non-reviewable even
+though its raw native rounds and `is.asm` source remained correct. This was
+a genuine integration defect, not a failure of either reconstructed module.
+
+The original `scripts/{build,review}_th03_mainl_after330_work.py` and
+`tests/test_mainl_after330_work.py` have therefore been **restored
+byte-for-byte from their existing commit**. The existing original
+`locale-isctype-family` native receipts were validated without replay.
+The unchanged 1,466-byte `stringio.asm` is now built and source-bound in
+**after331**, taking both parent native rounds as its complete inherited
+library and retaining the new pair of OBJ/LIB/EXE/MAP/link logs. The
+combined **343-member** source chain has been confirmed by both independent
+Japanese EXE/MAP native rounds and the exact source/reviewer hash DAG.
+This reconciliation preserves both complete source units, rather than
+silently displacing the earlier 13-API member with a later one.
