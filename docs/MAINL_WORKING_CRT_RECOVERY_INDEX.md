@@ -746,3 +746,9 @@ adds 164 original CODE bytes and a real six-byte INITDATA
 record. All 18 original literal ordered OMF FIXUPPs match
 including 11 genuine __streams FILE-state references and
 the symbolic CRT initializer pointer.
+
+The [complete CRT exit/atexit shutdown lifecycle boss](MAINL_CRT_EXIT_ATEXIT_LIFECYCLE_BOSS_NATIVE_REVIEW.md)
+adds 170 original CODE and 12 typed FAR callback DATA bytes.
+It also recovers the native reverse DATA FIXUPP chronology
+8/4/0 that restores exact original MZ relocation table
+ordering without patching the linked executable.
