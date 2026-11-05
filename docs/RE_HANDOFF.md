@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **451** |
-| Original contextual vendor programs left unchanged | **442** |
-| Source-compiled original-equal CRT CODE | **143,127 bytes** |
+| Slots rebuilt from complete source | **452** |
+| Original contextual vendor programs left unchanged | **441** |
+| Source-compiled original-equal CRT CODE | **143,949 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after370_work.py japanese-mbcs-comparators`
-and `tests.test_mainl_after370_work`, bound to
-`.analysis/work/mainl-after370-japanese-mbcs-comparators-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after371_work.py string-remove-exception-boss`
+and `tests.test_mainl_after371_work`, bound to
+`.analysis/work/mainl-after371-string-remove-exception-boss-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-451-provider accepted ledger publication, a complete MAINL source tree, or
+452-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
@@ -40,7 +40,9 @@ add 462 original CODE bytes across ten public entries. Four match original
 literal FIXUPPs; `doslock` records the **two exact TARGET-vs-CODE near-call
 frame gaps**, with byte-exact native linking. [Five-API `find1` boss](MAINL_FIND1_BOSS_NATIVE_REVIEW.md) recovers 1,379 CODE bytes and literal original FIXUPPs. The [complete PC-98 function-key and MBCS strchr programs](MAINL_PC98_FUNCTION_KEYS_MBSCHR_NATIVE_REVIEW.md)
 add 312 original CODE bytes, five far BIOS/DBCS APIs and three literal
-original FIXUPPs. Six [complete near/far Japanese string comparators](MAINL_JAPANESE_MBCS_COMPARATORS_NATIVE_REVIEW.md)
+original FIXUPPs. The [complete `string::remove` exception Boss](MAINL_STRING_REMOVE_EXCEPTION_BOSS_NATIVE_REVIEW.md)
+adds 822 CODE bytes, the real 30-byte bounds-message DATA, full cleanup
+and RTTI and 37 literal original ordered FIXUPPs. Six [complete near/far Japanese string comparators](MAINL_JAPANESE_MBCS_COMPARATORS_NATIVE_REVIEW.md)
 add 1,408 original CODE bytes and 16 exact original ordered `__ctype`/
 `__mbctype` fields. The [complete 791-byte `string::assign` boss](MAINL_STRING_ASSIGN_BOSS_NATIVE_REVIEW.md)
 adds full reference-counted assignment, exception cleanup and five RTTI
@@ -213,7 +215,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 451-source
+Current accepted **decoded** source scope, not including the 452-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -225,7 +227,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 451 members into the accepted ledger;
+does **not** promote the working 452 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -266,8 +268,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after370_work.py japanese-mbcs-comparators
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after369_work tests.test_mainl_after370_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after371_work.py string-remove-exception-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after370_work tests.test_mainl_after371_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
