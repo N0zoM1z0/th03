@@ -1,6 +1,14 @@
-# TH03 active storage handoff — after439 (2026-11-05)
+# TH03 last applied storage audit — after439 (2026-11-05)
 
-**Current protected-storage policy.** This is the verified **647-source
+**Important:** newer after440, after441 and after442 source work appeared
+while preparing the agent handoff. **This after439 cleanup is a frozen,
+successfully completed audit, not an authorization to clean the newer
+checkout.** The pinned cleanup tool now fails closed by design. Next agent:
+continue any dirty source, determine the latest complete source receipt,
+audit its expanded dependency graph and receipt SHA, then write a new
+checkpoint-specific cleanup guard **before any further deletion**.
+
+**Last applied protected-storage policy.** This is the verified **647-source
 MAINL CRT after439** checkpoint, not the former after388/511-source or
 319-source storage reports. Source-built CRT CODE = **174,691 original-
 equal bytes**; two independent TASM/TLIB/TLINK rounds produce Japanese
@@ -10,7 +18,7 @@ For acceptance caveats, see [the current agent handoff](RE_HANDOFF.md).
 
 ## Immutable proof roots — do not clean
 
-The live source-bound graph consists of **177 stages**, including the
+The **after439-audited** source-bound graph consists of **177 stages**, including the
 55 static inherited stages and all later stages through
 `after439 / streambuf-base-default-constructor-boss`.
 The fully audited original receipt is:
@@ -71,22 +79,22 @@ this is not a permanent disk saving estimate. The original `.analysis/work`
 allocation dropped from **426,804 KiB** to **425,236 KiB** immediately
 after the scoped pruning (before later review logs).
 
-**Post-delete proof passed:** the complete latest after439 source reviewer
+**Post-delete proof passed:** the complete after439 source reviewer
 still reports 647/893, 174,691 original-equal CODE bytes, two byte-exact
 Japanese EXE/MAP native rounds and 677 ordered MZ relocations. All five
 `tests.test_mainl_after439_storage_cleanup` safeguards passed, including
 SHA-256 verification of **every** active source/driver/log/raw output
 path. The next guarded cleanup preview shows **zero eligible files**.
 
-## Safe commands for the next agent
+## Historical verification commands; no new pruning under newer stages
 
 ```sh
-python3 scripts/cleanup_mainl_after439_handoff.py                # dry run, currently 0 eligible
-python3 scripts/cleanup_mainl_after439_handoff.py --list         # inspect candidates individually
-# Only after a new candidate set is reviewed and the *same* pinned graph remains valid:
-# python3 scripts/cleanup_mainl_after439_handoff.py --apply
+python3 scripts/cleanup_mainl_after439_handoff.py                # EXPECT FAIL CLOSED after newer source stages
+python3 scripts/cleanup_mainl_after439_handoff.py --list         # likewise fails closed; do not bypass guard
+# Never --apply the frozen after439 audit with after440+ source. Repin a NEW audited guard first.
 .venv/bin/python scripts/clean_generated.py --caches-only --apply
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after439_storage_cleanup -v
+# The historical tests.test_mainl_after439_storage_cleanup now deliberately
+# fails closed because newer source layers exist; do NOT bypass that guard.
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after439_work.py streambuf-base-default-constructor-boss
 ```
 

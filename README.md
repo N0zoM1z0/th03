@@ -71,25 +71,27 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The live handoff is [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) (verified
-`after439`, **647/893** source-built original CRT members). Historical
+`after439` storage-audited snapshot, **647/893** source-built original CRT members). Historical
 member reviews are indexed in
 [MAINL recovery history](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
 Do not infer formal MAINL acceptance from this working-source CRT;
 `docs/PROGRESS.md` is regenerated from the separate ledgers.
 
-This checkout has **177 active MAINL native receipt stages**. Do not delete
+The frozen after439 cleanup audit protects **177 native receipt stages**; newer stages exist and must be audited separately. Do not delete
 their raw logs, build receipts, or two OBJ/LIB/EXE/MAP output rounds.
 `clean_generated.py`'s general `.analysis` preview is **not** a native
 proof-dependency oracle; never blanket-apply it here.
 
 ```sh
-python3 scripts/cleanup_mainl_after439_handoff.py  # guarded dry run; currently 0 candidates
+python3 scripts/cleanup_mainl_after439_handoff.py  # fails closed with newer after440+ stages; no deletion
 python3 scripts/cleanup_mainl_after439_handoff.py --list
 .venv/bin/python scripts/clean_generated.py --caches-only --apply
 ```
 
-The pinned after439 cleanup audit protects **177 source-bound native stages
-and 4,464 receipt/log/OBJ/LIB/EXE/MAP files**. Its one-time guarded action
+The **last applied** after439 cleanup protected **177 source-bound native
+stages and 4,464 receipt/log/OBJ/LIB/EXE/MAP files**. Newer after440+
+source stages also require protection; never run the old `--apply` without
+a fresh receipt-graph/hash audit. Its one-time guarded action
 removed 15 retired alternative-mode files; the deleted-path manifest and
 affected-proof verification are in
 [current protected-storage rules](docs/STORAGE_HANDOFF_CURRENT.md).

@@ -77,9 +77,9 @@ CODE alignment/header differences.
 
 ## Working files and retention
 
-The [current after439 storage audit](STORAGE_HANDOFF_CURRENT.md) is the
-source-bound cleanup authority. Preserve **all 177 active MAINL proof
-stages / 4,464 unique file inputs**, including build receipts, successful
+The [last applied after439 storage audit](STORAGE_HANDOFF_CURRENT.md) is
+a **frozen baseline**: preserve its **177 stages / 4,464 uniquely
+referenced files** and **every newer source stage**, including build receipts, successful
 writer logs and both complete raw OBJ/LIB/EXE/MAP rounds. Do not discard
 an old `after*-round*` path based only on its age. Also preserve original
 Japanese targets, Wine/Borland and Ghidra/JDK attestations, source and
@@ -89,10 +89,10 @@ The general `scripts/clean_generated.py` preview is **not** a complete
 native-proof dependency graph; never blanket-apply it or use its
 unreferenced-receipt pruning here. The guarded
 `scripts/cleanup_mainl_after439_handoff.py` is dry-run by default,
-pinned to the latest receipt SHA and the literal 177-stage DAG, and has
-already retired its 15 audited, superseded raw alternative-mode files.
-Its current preview selects **0 files**. A new source stage requires a
-new source/DAG/hash audit before any subsequent cleanup. Use
+pinned to the after439 receipt SHA and the literal 177-stage DAG. It
+retired 15 audited alternative-mode files on that checkpoint, but now
+**fails closed** because after440+ layers exist. A new source stage requires
+a *new* source/DAG/hash audit before any subsequent cleanup. Use
 `clean_generated.py --caches-only --apply` only for regenerable caches.
 Always rerun the scoped review after any actual cleanup.
 

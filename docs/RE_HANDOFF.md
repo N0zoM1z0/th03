@@ -1,4 +1,12 @@
-# TH03 — current agent handoff (verified 2026-11-05, after439)
+# TH03 — agent handoff (2026-11-05; frozen after439 storage audit)
+
+**Snapshot warning:** after439 is the last **fully storage-audited and
+cleaned** source checkpoint, **not necessarily the newest Git/source stage**.
+Later after440/after441 source stages have already appeared, and after442
+work was visible during final handoff preparation. Do **not** infer a clean
+worktree, complete source acceptance or cleanup eligibility from this
+frozen table. Inspect latest `git status -sb`, `git log` and the actual
+`build_th03_mainl_after*_work.py`/receipts before taking action.
 
 **Start here, not at a historical progress snapshot.** Inspect `git status -sb`
 and `git log -5 --oneline` before acting. Treat **all existing dirty changes**
@@ -9,9 +17,9 @@ routine full cold replay**, and do not push unless requested.
 Read [AGENTS.md](../AGENTS.md), [the workflow](RE_WORKFLOW.md) and
 [the architecture](ARCHITECTURE.md) before changing native build recipes.
 
-## 1. Current working-source checkpoint (not formal acceptance)
+## 1. Last fully audited cleanup checkpoint (not formal acceptance)
 
-| Japanese MAINL CRT evidence | Verified at after439 |
+| Japanese MAINL CRT evidence | Audited after439 snapshot |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
 | Complete members linked from maintained source | **647** |
@@ -23,14 +31,14 @@ Read [AGENTS.md](../AGENTS.md), [the workflow](RE_WORKFLOW.md) and
 | Protected native receipt DAG | **177 stages, 4,464 files** |
 | Factory accepted-source proof for this expansion | **Not established** |
 
-Latest source receipt:
+Pinned after439 source receipt (not latest source after new layers):
 `.analysis/work/mainl-after439-streambuf-base-default-constructor-boss-build.json`
 (SHA-256 `dd0a1a82695b00e2a3aeaa4e93a609450b50e834e4dd80b228c2eddaef5e8788`).
 Original source-bound producer: `scripts/build_th03_mainl_after439_work.py`.
 Focused reviewer: `scripts/review_th03_mainl_after439_work.py` mode
-`streambuf-base-default-constructor-boss`. The last source checkpoint was
-committed as `86e3843`; all later documentation/storage commits do **not**
-change that source evidence. Original targets have
+`streambuf-base-default-constructor-boss`. This after439 source checkpoint was
+committed as `86e3843`; the after439 cleanup and documentation commits do
+not change its retained proof. Later source checkpoints are separate. Original targets have
 `candidate-local-attested` provenance, **not** independently proved
 pristine-dump provenance.
 
@@ -40,6 +48,28 @@ Borland OBJ record or literal ordered FIXUPP is identical to TASM output.
 Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
+
+## 1a. Subsequent source work observed during handoff
+
+- `after440 / streambuf-base-destructor-boss` was rebuilt after correcting a
+  stale builder comment, then independently reviewed: **648/893 source
+  members, 174,844 original-equal CODE bytes**, 2 original-equal native
+  EXE/MAP rounds; targeted tests pass. Its source changes appear in the
+  local Git history around `b4d0adc` and `c0174f4`.
+- `after441 / streambuf-buffer-constructor-boss` was independently reviewed
+  at one point with **649/893, 175,102 CODE bytes**, 2 exact native rounds,
+  and its builder was subsequently edited. **Verify the current driver
+  SHA against its receipt before relying on that earlier review**; rebuild
+  only that affected stage if it has drifted. Continue any dirty work,
+  never reset it.
+- `after442 / streambuf-setb-buffer-management` source/build work appeared
+  and was subsequently committed as `1800d67`. It was **not validated in
+  this storage cleanup audit**. Inspect its actual source, current build
+  receipt and scoped review; newer stages may appear after this snapshot.
+
+The audit command below checks the frozen after439 source only. For the
+newest source, identify the actual newest complete builder/receipt and run
+**that** stage's scoped reviewer before replacing these snapshot numbers.
 
 ## 2. Separate acceptance/ledger status
 
@@ -68,7 +98,9 @@ git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after439_work.py streambuf-base-default-constructor-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after439_work tests.test_mainl_after439_storage_cleanup -v
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after439_work -v
+# Historical storage test deliberately fails closed with after440+ layers;
+# do not treat tests.test_mainl_after439_storage_cleanup as a current gate.
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -100,8 +132,7 @@ checkpoint include `stbctr2`, `stbdtr`, `stbsetb`, `fsbattch`, `srbdalc`
 and `cibmscrl`; **recheck** the live source membership before claiming
 any of them. Balance large C++/BIOS Bosses with substantive leaf functions.
 The unresolved `h_ldiv` source has **174 original-equal CODE bytes** but
-TASM/Borland MAP alias order differs: it is **not counted** in the 647
-members. See [the h_ldiv investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md).
+TASM/Borland MAP alias order differs: it is **not counted** in the frozen after439 647-member snapshot. See [the h_ldiv investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md).
 Other narrow OMF differences are recorded in [OMF gaps](MAINL_OMF_GAPS.md).
 
 All older per-member reviews and chronological milestone links are in
@@ -109,30 +140,31 @@ All older per-member reviews and chronological milestone links are in
 **not** the current acceptance ledger. Do not repeat completed source
 members just because a previous candidate list named them.
 
-## 4. Storage policy and agent cleanup
+## 4. Storage policy: no further deletion with newer layers
 
-The up-to-date [after439 storage handoff](STORAGE_HANDOFF_CURRENT.md) is the
-**only** current cleanup authority. The live native DAG has **177 stages,
-4,464 uniquely protected receipt/log/OBJ/LIB/EXE/MAP paths** (approximately
+The [after439 storage audit](STORAGE_HANDOFF_CURRENT.md) is the **last
+fully applied cleanup audit**, not a deletion permission for later source
+stages. Its frozen DAG has **177 stages, 4,464 uniquely protected
+receipt/log/OBJ/LIB/EXE/MAP paths** (approximately
 275.62 MiB allocated). Preserve them, the pinned original Japanese
 targets, Wine/Borland tools, `.venv`, Ghidra/JDK provenance, runtime/cold
 inputs, old-named `reference.tar`, source, ledgers and the `h_ldiv`
 investigation. A generic `clean_generated.py --apply` or receipt-prune
 preview is **not** a dependency oracle and must not be blanket-applied.
 
-The new pinned `scripts/cleanup_mainl_after439_handoff.py` is dry-run by
-default and fails closed if a later source layer or altered latest receipt
-appears. A 2026-11-05 audit removed only **15 completed superseded
+The pinned `scripts/cleanup_mainl_after439_handoff.py` was dry-run by
+default and now **fails closed** because after440+ source layers exist. This
+is correct protection, not a bug or invitation to weaken the guard. A 2026-11-05 audit removed only **15 completed superseded
 alternative-mode files** (1.54 MiB allocated) and regenerable Python
 caches; it kept the alternate's JSON metadata, all live proofs and all
 unresolved investigations. The exact removed-path manifest is at
-`.analysis/work/handoff-after439-retired-20261105.txt`. The current
-preview selects **0 more files**; do not use old after388/319 cleanup
-scripts on this checkout. The former 511-source rules are archived at
+`.analysis/work/handoff-after439-retired-20261105.txt`. There were **zero remaining eligible files at the after439 checkout**.
+The current checkout has newer source stages, so the after439 command
+now refuses any pruning; do not use old after388/319 tools either. The former 511-source rules are archived at
 [after388 storage policy](STORAGE_HANDOFF_AFTER388.md).
 
 ```sh
-python3 scripts/cleanup_mainl_after439_handoff.py        # audited dry run; 0 candidates currently
+python3 scripts/cleanup_mainl_after439_handoff.py  # now FAILS CLOSED with newer layers; do not --apply
 .venv/bin/python scripts/clean_generated.py --caches-only --apply
 # Never: .venv/bin/python scripts/clean_generated.py --apply
 ```

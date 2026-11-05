@@ -6,7 +6,9 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 647-member chain.
+refer to intermediate snapshots; after439 had 647 source members but
+newer stages may exist. Inspect Git, the source receipt and the actual
+latest reviewer rather than using this index as a live counter.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -275,10 +277,6 @@ recognition, and five original logical OMF far-call relocations.
 The [original DOS `_mktemp` five-level name enumeration boss](MAINL_DOS_MKTEMP_ENUMERATION_BOSS_NATIVE_REVIEW.md)
 adds 253 CODE + 7 original `XXXXXX` DATA bytes, the real DOS `access`
 search loop and all four original logical OMF fields.
-
-The [original DOS `_mktemp` enumeration boss](MAINL_MKTEMP_ENUMERATION_BOSS_NATIVE_REVIEW.md)
-adds 253 CODE and seven DATA bytes, the authentic template and five-letter
-search and four original logical far-call / DATA relocations.
 
 The [complete `stdiobuf::seekoff` C++ boss](MAINL_STDIOBUF_SEEKOFF_BOSS_NATIVE_REVIEW.md)
 adds 291 original CODE bytes, real 32-bit stream offsets and put/get buffer
