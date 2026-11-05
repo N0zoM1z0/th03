@@ -506,3 +506,8 @@ The [complete filebuf::close virtual flush and descriptor boss](MAINL_FILEBUF_CL
 adds 174 original-equal CODE bytes including actual virtual overflow,
 DOS handle cleanup, original failure states and a literal-equal OMF
 FIXUPP for the far close call.
+
+The [complete far multibyte tokenizer state-machine boss](MAINL_FAR_MBCS_TOKENIZER_STATE_MACHINE_NATIVE_REVIEW.md)
+adds 230 CODE and 4 initialized DATA bytes, with a real saved far
+cursor, correct DBCS lead-byte handling and all 12 original logical
+OMF fixups; the native DATA-first GROUP is also original-exact.
