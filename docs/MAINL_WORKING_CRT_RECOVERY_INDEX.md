@@ -441,3 +441,7 @@ public ABI and all 20 logical RTTI/vtable relocations.
 The [complete original streambuf base constructor boss](MAINL_STREAMBUF_BASE_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
 adds 237 original CODE and 52 DATA bytes, typed RTTI and all 16
 logical OMF virtual-function table fields.
+
+The [complete streambuf base destructor, RTTI and virtual table](MAINL_STREAMBUF_BASE_DESTRUCTOR_BOSS_NATIVE_REVIEW.md)
+adds 153 source-built CODE and 52 DATA bytes, with both original far
+buffer/object deletion paths and all 17 exact logical original OMF fields.
