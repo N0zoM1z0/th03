@@ -757,3 +757,8 @@ The [original srand/rand 32-bit LCG seed leaf](MAINL_SRAND_RAND_NATIVE_LCG_LEAF_
 adds 62 source-equal CODE and four typed mutable seed DATA
 bytes, with all eight symbolic original OMF references
 and the single bounded N_LXMUL near frame difference.
+
+The [original srand/rand 32-bit LCG leaf](MAINL_RAND_LCG_SEED_LEAF_NATIVE_REVIEW.md)
+adds 62 byte-exact CODE and four genuine seed DATA bytes,
+with all eight original logical fields and the sole precise
+N_LXMUL@ near-frame gap at CODE+38 documented.
