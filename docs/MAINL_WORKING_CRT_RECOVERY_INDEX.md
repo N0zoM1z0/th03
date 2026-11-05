@@ -653,3 +653,8 @@ two disclosed local FAR-call shortenings. All 159 remaining
 original OMF references are checked by site/target/addend and
 the original 143 frame-4 fields remain unnormalized.
 This is **partial, no full-source CRT credit**.
+
+The [complete original overlap-safe FAR memory-move leaf](MAINL_FAR_MEMMOVE_OVERLAP_LEAF_NATIVE_REVIEW.md)
+adds 119 native CODE bytes with authentic STD/CLD, aligned
+MOVSB/REP MOVSW, two FAR exported APIs and original literal
+near N_PCMP@ FIXUPP at CODE+19.
