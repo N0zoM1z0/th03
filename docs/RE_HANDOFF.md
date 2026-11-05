@@ -1,4 +1,4 @@
-# TH03 — agent handoff (verified 2026-11-05, after417)
+# TH03 — agent handoff (verified 2026-11-05, after418)
 
 **Start here.** Work on the actual Japanese PC-98 originals. Inspect
 `git status -sb` and the last commits; continue **all** dirty edits rather
@@ -14,23 +14,23 @@ make several scoped commits where practical. Read
 | Property | Verified working-source evidence |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
-| Complete members compiled from maintained source | **604** |
-| Remaining unchanged contextual vendor member programs | **289** |
-| Source-built, original-equal logical CRT CODE | **167,706 bytes** |
+| Complete members compiled from maintained source | **605** |
+| Remaining unchanged contextual vendor member programs | **288** |
+| Source-built, original-equal logical CRT CODE | **168,062 bytes** |
 | Original decoded Japanese MAINL EXE size | **67,372 bytes** |
 | Original ordered DOS MZ relocations | **677** |
 | Actual native TASM/TLIB/TLINK production rounds | **2, byte-identical EXE and MAP** |
-| Latest source build | `after417 / stdiostream-file-constructor-boss` |
-| Formal Factory acceptance of this 604-member CRT expansion | **No** |
+| Latest source build | `after418 / stdiostream-destructor-boss` |
+| Formal Factory acceptance of this 605-member CRT expansion | **No** |
 
 **Source-bound proof:**
-`scripts/review_th03_mainl_after417_work.py stdiostream-file-constructor-boss`
-and `tests.test_mainl_after417_work`, using
-`.analysis/work/mainl-after417-stdiostream-file-constructor-boss-build.json`.
-The current reviewer checks the inherited **155-stage** receipt DAG,
+`scripts/review_th03_mainl_after418_work.py stdiostream-destructor-boss`
+and `tests.test_mainl_after418_work`, using
+`.analysis/work/mainl-after418-stdiostream-destructor-boss-build.json`.
+The current reviewer checks the inherited **156-stage** receipt DAG,
 source/driver/parent hashes, selected original member CODE/DATA/ABI, two
 complete raw native OBJ/LIB/EXE/MAP rounds and writer logs. It is **not**
-a full cold replay. The 604 individual members are not claimed to have
+a full cold replay. The 605 individual members are not claimed to have
 byte-identical original Borland OBJ *record serialization*; literal
 ordered FIXUPP equality is separately recorded per module.
 
@@ -43,7 +43,7 @@ artificial target-byte arrays for native source recovery.
 ## 2. Acceptance and ledger: distinguish the claims
 
 - [Generated progress](PROGRESS.md) is generated from ledgers, **not** from
-  the 604-source working CRT. The packed-file canonical MAINL ledger remains
+  the 605-source working CRT. The packed-file canonical MAINL ledger remains
   **0 exact units**. `scripts/status.py` currently reports MAINL decoded
   product **pending**, `0/250` nonexcluded ledger units and no newly accepted
   bytes. `config/units.csv` has **251 MAINL rows**, including one excluded;
@@ -67,6 +67,18 @@ artificial target-byte arrays for native source recovery.
 
 ## 3. Important history and outstanding technical issues
 
+After418 reconstructs the paired full **356-CODE/12-DATA
+`stdiostream` destructor Boss**: real reference-count and optional-delete
+paths, four original typed RTTI tables and all 14 logical original OMF
+fixups including the *local* destructor pointer at CODE+128 and DATA+8.
+Native EXE/MAP remains byte exact in both rounds; Borland/TASM literal
+FIXUPP chronology differs. See
+[the stdiostream destructor review](MAINL_STDIOSTREAM_DESTRUCTOR_BOSS_NATIVE_REVIEW.md).
+After418 recovers the complete paired C++ `stdiostream` destructor boss,
+356 CODE + 12 initialized DATA bytes and all four typed RTTI records.
+The full 14 logical OMF relocations and both Japanese EXE/MAP rounds match;
+Borland/TASM literal FIXUPP chronology differs. See
+[the destructor native review](MAINL_STDIOSTREAM_DESTRUCTOR_BOSS_NATIVE_REVIEW.md).
 After417 reconstructs the **full 383-CODE/12-DATA `stdiostream(FILE*)`
 constructor Boss** with its actual 125-byte constructor plus four typed
 CODE-resident RTTI tables and all 15 logical OMF relocation fields.
@@ -249,7 +261,7 @@ note recommended them. Inspect the actual member and status first.
 - **`h_ldiv`** (`src/mainl/crt/h_ldiv.asm`) has original-equal **174
   CODE bytes and 12 aliases**, but TASM and Borland still order two
   same-address aliases differently in the **MAP**. It is deliberately
-  **not counted** in the 604 source-linked members. See
+  **not counted** in the 605 source-linked members. See
   [its bounded investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md)
   and `tests.test_mainl_h_ldiv_original_scope`. Preserve its source and
   diagnostic evidence, do not reorder a MAP to fake acceptance.
@@ -284,8 +296,8 @@ latest reviewer/test).
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after417_work.py stdiostream-file-constructor-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after417_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after418_work.py stdiostream-destructor-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after418_work -v
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -304,7 +316,7 @@ acceptance.
 
 [Current protected native DAG / storage cleanup guide](STORAGE_HANDOFF_CURRENT.md)
 explains what can be deleted and how to preview it safely. **Keep all
-155 active source-bound stages**: build receipts, every phase log, and both
+156 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
 old-named `reference.tar` input. At the prior after388 cleanup, 256 retired/scratch files were safely removed

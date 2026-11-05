@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 604-member chain.
+refer to intermediate snapshots, not the current 605-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -349,3 +349,11 @@ specific near-call OMF frame gaps and a repaired Borland jump target.
 The [complete 383-CODE/12-DATA `stdiostream(FILE*)` Boss](MAINL_STDIOSTREAM_FILE_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
 recovers the actual constructor plus four typed in-CODE RTTI records,
 all 15 original logical OMF fields, and both original Japanese native links.
+
+The [paired original `stdiostream` destructor boss](MAINL_STDIOSTREAM_DESTRUCTOR_BOSS_NATIVE_REVIEW.md)
+adds 356 CODE and 12 DATA bytes, four complete typed in-CODE RTTI records
+and 14 logical original OMF relocations, preserving exact native EXE/MAP.
+
+The [complete 356-CODE/12-DATA stdiostream destructor boss](MAINL_STDIOSTREAM_DESTRUCTOR_BOSS_NATIVE_REVIEW.md)
+recovers real embedded/based C++ destructors, four typed RTTI records and
+all 14 original logical OMF relocations in two source-bound native rounds.
