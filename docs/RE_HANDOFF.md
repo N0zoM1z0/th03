@@ -1,8 +1,8 @@
-# TH03 — agent handoff (2026-11-05; after497 working source)
+# TH03 — agent handoff (2026-11-06; after500 working source)
 
 **Snapshot warning:** after439 is the last **fully storage-audited and
 cleaned** source checkpoint, but the current locally reviewed working-source
-checkpoint is **after497** (section 1a). Do **not** infer a clean
+checkpoint is **after500** (section 1a). Do **not** infer a clean
 worktree, complete source acceptance or cleanup eligibility from this
 frozen table. Inspect latest `git status -sb`, `git log` and the actual
 `build_th03_mainl_after*_work.py`/receipts before taking action.
@@ -48,10 +48,112 @@ Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
 
-## 1a. Current working-source checkpoint — independently verified after497
+## 1a. Current working-source checkpoint — independently verified after500
 
-**Current complete source-bound MAINL CRT is after497**. This
-supersedes after495 and the historical after439 storage-cleanup audit.
+**Latest complete original CRT working-source checkpoint is after500,
+not the historical after497 or frozen after439 storage cleanup.**
+All original Japanese objects, native receipts, raw build rounds and
+writer logs are protected. Work on all existing dirty source rather
+than discarding it; do not blanket-apply the old after439 cleanup,
+repeat full cold replay or claim Factory acceptance from local links.
+
+| Japanese MAINL CRT working source | Verified after500 |
+| --- | ---: |
+| Original Japanese Borland CL.LIB slots | **893** |
+| Complete source-linked original CRT members | **708** |
+| Contextual vendor members still retained | **185** |
+| Original-equal source-built complete CODE | **186,434 bytes** |
+| This session added CODE / BSS / INITDATA | **439 / 6 / 6 bytes** |
+| Original decoded EXE / ordered MZ relocations | **67,372 bytes / 677** |
+| Fresh TASM/TLIB/TLINK rounds in every new stage | **2, both EXE/MAP byte-exact** |
+| Formal Factory source acceptance for this expansion | **Not established** |
+
+**Three new complete original CRT source members** were recovered,
+each with distinct natural 8086 source, original OMF evidence,
+two genuine TASM/TLIB/TLINK output rounds, a focused review and tests:
+
+- after498 / creata (slot 211): **170 CODE**, complete private
+  DOS 21h file creation core and four true FAR public APIs:
+  __rtl_creat, __creat, _creattemp and _creatnew. All four
+  **literal ordered original FIXUPPs** match — commit 21025fc.
+- after499 / stusize (slot 889): **156 CODE**, full C++
+  ios::usersize FAR allocation, old array copy and deletion,
+  and zero-initialization of new user slots. All three logical
+  FAR allocator/memcpy/free relocations match, though literal
+  FIXUPP packet order differs — commit 666245e.
+- after500 / clock0 (slot 11): **113 CODE, 6 BSS and 6 INITDATA**.
+  Real clock() and private startup time-baseline initialization,
+  actual __ftime and 32-bit N_LXMUL@. All ten logical original
+  fixups match apart from the site-locked Borland target-frame
+  versus TASM CODE-frame near-call difference at CODE+40.
+  INITDATA+2 is a real symbolic CODE+68 pointer — commit 920a17b.
+
+**Latest source-bound root receipt:**
+
+    .analysis/work/mainl-after500-dos-clock-baseline-initdata-leaf-build.json
+    SHA-256 1ad0b29998e918995ee4c11de18df2ce83f76ad01f0649a337eaf7f4cd70b61e
+
+Producer: scripts/build_th03_mainl_after500_work.py
+(mode dos-clock-baseline-initdata-leaf).
+Independent reviewer: scripts/review_th03_mainl_after500_work.py.
+Focused tests: tests.test_mainl_after500_work.
+The complete after497→after500 parent-receipt chain, source
+and driver hashes, all seven execution logs per stage and
+both full raw OBJ/LIB/EXE/MAP output vectors for every new
+stage were independently checked. Both latest Japanese
+decoded MAINL EXEs and MAPs equal the original target bytes,
+including all 677 MZ relocation entries. The parent and
+all historical evidence must remain intact.
+
+**Giant cplx2 math boss: real progress but NOT a complete member.**
+Natural x87 source now recovers **eleven complete FAR math
+functions** spanning original CODE+0..2707 (**2,708 bytes**).
+Three new entire bodies this session:
+
+- cosh(complex), **234** original-equal CODE bytes at
+  +2124..2357 — commit 6feff14.
+- exp(complex), **206** original-equal CODE bytes at
+  +2358..2563 — commit dffae56.
+- log(complex), **144** original-equal CODE bytes at
+  +2564..2707 — commit e90861d.
+
+The scoped native checker
+scripts/probe_th03_cplx2_log_partial.py builds two real
+TASM rounds under the writer lock. Of **419 original
+prefix OMF FIXUPPs**, **417 emitted native relocation
+fields** match the original sites (accounting for the
+two previous one-byte shifts), symbolic targets, kinds,
+widths and addends. The same two original acos direct
+FAR calls at CODE+799/+984 remain encoded one byte
+shorter by TASM as PUSH CS plus NEAR CALL, giving a
+2,706-byte native prefix and **2,698 exact aligned
+source bytes outside those two calls**. **364 original
+Borland location-frame method-4 FPU fixups** compile as
+TASM method 5, with that difference explicitly preserved
+instead of wrongly claiming full OMF record equivalence.
+The original remaining **2,890 CODE bytes**, eleven public
+functions, full DATA/INITDATA and exact frame handling
+are still unfinished. See
+[eleven-function report](MAINL_CPLX2_LOG_ELEVEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+and tests.test_cplx2_log_partial_native.
+
+**Proof/acceptance boundaries:** cplx2 is **not** counted as
+another source-linked complete CRT member and the scoped
+native TASM result is not a full MAINL link. Exact decoded
+EXE/MAP and reviewed original CODE/logical OMF do not
+imply identical original Borland OBJ record serialization.
+Pinned original files have candidate-local-attested, not
+independently pristine-dump, provenance. MAINL canonical
+packed-file accepted units remain **0/250** and no
+whole-game percentage is asserted. No full cold replay,
+Git push, reset or cleanup was performed.
+
+## 1b. Previous working-source checkpoint — after497 (historical)
+
+
+
+**Historical after497 source-bound CRT checkpoint, superseded
+by the current after500. It superseded the earlier after495 layer.**
 Do not delete any native original member, stage receipt, writer log or
 raw OBJ/LIB/EXE/MAP output. All source work and explicit dirty
 changes should be continued, not reset. No full cold replay was run.
@@ -140,7 +242,7 @@ replay, blanket cleanup, or Git push occurred. MAINL's
 canonical packed-file accepted ledger remains **0/250**;
 whole-game reconstruction percentage remains unknown.
 
-## 1b. Previous working-source checkpoint — after495 (historical)
+## 1c. Previous working-source checkpoint — after495 (historical)
 
 **Historical after495 MAINL CRT working-source checkpoint; superseded by
 after497 and distinct from the frozen after439 storage audit.**
@@ -260,7 +362,7 @@ not independently pristine-dump verified. MAINL canonical
 packed-file acceptance remains **0/250**, with no supported
 whole-game source percentage.
 
-## 1c. Previous working-source checkpoint — after489 (historical)
+## 1d. Previous working-source checkpoint — after489 (historical)
 
 
 
@@ -368,7 +470,7 @@ attested, not independently pristine-dump verified.
 MAINL's canonical packed-file accepted ledger remains
 **0/250** with no whole-game percentage inferred.
 
-## 1d. Previous working-source checkpoint — after479 (historical)
+## 1e. Previous working-source checkpoint — after479 (historical)
 
 
 
@@ -481,7 +583,7 @@ candidate-local-attested, not independently pristine proven.
 MAINL canonical packed-file credit remains **0/250**; whole-game
 source exactness and total reconstruction percentage remain open.
 
-## 1e. Previous working-source checkpoint — after474 (historical)
+## 1f. Previous working-source checkpoint — after474 (historical)
 
 
 
@@ -581,7 +683,7 @@ proven pristine dumps. MAINL canonical packed-file accepted
 units remain **0/250**. Whole-game reconstruction percentage
 is not implied or asserted.
 
-## 1f. Previous working-source checkpoint — after468 (historical)
+## 1g. Previous working-source checkpoint — after468 (historical)
 
 
 
@@ -683,7 +785,7 @@ Japanese source remains candidate-local-attested rather than
 independently proven pristine. MAINL canonical packed-file
 accepted credit remains **0/250**.
 
-## 1g. Previous working-source checkpoint — after461 (historical)
+## 1h. Previous working-source checkpoint — after461 (historical)
 
 
 
@@ -772,7 +874,7 @@ at two different complete original members; do not infer every larger
 member will necessarily share their exact build characteristics.
 The unresolved h_ldiv MAP alias-order discrepancy remains open.
 
-## 1h. Previous source-bound checkpoint — verified after448 (historical)
+## 1i. Previous source-bound checkpoint — verified after448 (historical)
 
 
 At this historical checkpoint, the Japanese MAINL after448 incremental
@@ -868,9 +970,9 @@ which current review/test entrypoints already handle.
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after497_work.py dos-getpass-noecho-bss-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after497_work -v
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_cplx2_cos_partial_native -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after500_work.py dos-clock-baseline-initdata-leaf
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after500_work -v
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_cplx2_log_partial_native -v
 PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_cplx2_asin_partial_native -v
 PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_cplx2_arg_partial_native -v
 PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_large_x87_location_frames -v
