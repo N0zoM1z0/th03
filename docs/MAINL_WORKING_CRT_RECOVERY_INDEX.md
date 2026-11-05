@@ -516,3 +516,8 @@ The [complete MBSTOK multibyte tokenizer](MAINL_MBCS_TOKENIZER_STATE_MACHINE_NAT
 adds another 230 original CODE / 4 DATA bytes with its own saved
 far cursor, true mbspbrk/mbsspnp imports, DBCS lead-byte rules,
 original GROUP and all 12 logical relocation fields.
+
+The [PC-98 video mode translator and gettextinfo boss](MAINL_PC98_VIDEO_TEXTINFO_BOSS_NATIVE_REVIEW.md)
+adds 231 original-equal CODE and 16 typed DATA bytes with the actual
+display-mode permutation, screen/window state and 14 OMF references.
+The sole Borland/TASM WHEREXY near-call frame gap is site-locked.
