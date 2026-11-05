@@ -78,7 +78,12 @@ FIXUPP ordering. The original [heap-break manager `fbrk`](MAINL_FBRK_AFTER345_NA
 contributes near `__brk`/`__sbrk`, `grow_break`, 352 CODE bytes, 2 DATA bytes
 and 33 literal original FIXUPPs. We verified actual CL.LIB import names and
 DGROUP rather than assuming the alternate standalone OBJ is identical.
-The original [setenvp startup initializer](MAINL_SETENVP_STARTUP_NATIVE_REVIEW.md)
+The complete [fbrk heap-break manager](MAINL_FBRK_HEAP_BREAK_NATIVE_REVIEW.md)
+adds 352 original CODE bytes and two near public APIs; its original CL.LIB
+member differs from standalone vendor/fbrk.obj in EXTDEF indices, DGROUP
+ordering and six near-call frames, corrected without relaxing the source
+reference. The original
+[setenvp startup initializer](MAINL_SETENVP_STARTUP_NATIVE_REVIEW.md)
 recovers all CODE/DATA, the sparse six-byte INITDATA record, and its
 original **absolute `__setenvp__` public**. That genuine PUBDEF was necessary
 to restore the native MAP without touching the exact EXE. The
