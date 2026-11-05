@@ -718,3 +718,8 @@ The [complete original FAR heap binary search boss](MAINL_FAR_HEAP_BINARY_SEARCH
 adds 145 source-equal CODE bytes with real 32-bit element
 midpoint arithmetic, native FAR comparator and three
 precisely site-locked near-call OMF frame differences.
+
+The [complete IBM conio six-color FAR entrypoints](MAINL_IBM_CONIO_SIX_COLOR_APIS_NATIVE_REVIEW.md)
+add 160 original-equal CODE bytes with true Borland video
+color/background/attribute/intensity handling and all 11
+original logical __video OMF references.
