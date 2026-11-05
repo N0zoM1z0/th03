@@ -834,3 +834,10 @@ source prefix covers 2,708 original bytes and 417 matching
 native symbolic fixups. The two local FAR calls and 364
 original location-frame FPU differences remain disclosed.
 This partial source earns no complete CRT member credit.
+
+The [twelfth original cplx2 log10(complex) function](MAINL_CPLX2_LOG10_TWELVE_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends native large-boss source through original CODE+2867
+with 160 more fully equal CODE bytes, typed exact double
+DATA+28..35 and 433 matching symbolic relocations. Two
+local FAR-call encodings and 377 Borland frame-method-4
+differences remain explicit; cplx2 is still partial.
