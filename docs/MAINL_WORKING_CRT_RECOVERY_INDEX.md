@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 622-member chain.
+refer to intermediate snapshots, not the current 623-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -389,3 +389,7 @@ including the distinct real DATA+28 and DATA+32 virtual method targets.
 The [complete istream_withassign destructor boss](MAINL_ISTREAM_WITHASSIGN_DESTRUCTOR_BOSS_NATIVE_REVIEW.md)
 adds 333 source CODE and 20 DATA bytes, a real +6 FAR this-adjustment,
 three typed RTTI records and all 16 original logical OMF FIXUPPs.
+
+The [complete istream(streambuf*,ostream*) constructor boss](MAINL_ISTREAM_TIED_STREAM_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
+adds 305 CODE and 20 DATA bytes, genuine skip/tie initialization and
+all 15 original logical OMF relocations in two native rounds.
