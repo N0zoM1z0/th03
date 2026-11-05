@@ -488,3 +488,7 @@ The [complete unsigned-char far-buffer strstreambuf constructor](MAINL_STRSTREAM
 adds 239 original CODE and 52 DATA bytes, with 50-byte C++ object
 construction, real inherited RTTI, 11 symbolic vtable slots and
 20 complete original logical OMF FIXUPPs.
+
+The [char-pointer strstreambuf constructor](MAINL_STRSTREAMBUF_CHAR_BUFFER_CONSTRUCTOR_NATIVE_REVIEW.md)
+adds another 239 CODE / 52 DATA bytes and all 20 original logical
+fixups, including true RTTI and the full C++ base/vtable initialization.
