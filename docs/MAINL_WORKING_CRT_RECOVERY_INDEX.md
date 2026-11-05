@@ -723,3 +723,7 @@ The [complete IBM conio six-color FAR entrypoints](MAINL_IBM_CONIO_SIX_COLOR_API
 add 160 original-equal CODE bytes with true Borland video
 color/background/attribute/intensity handling and all 11
 original logical __video OMF references.
+
+The [complete DOS stime/time setter and rollover-safe getter](MAINL_DOS_STIME_TIME_ROLLOVER_NATIVE_REVIEW.md)
+adds 170 original-equal CODE bytes, two native FAR APIs
+and all seven exact logical DOS/Unix time OMF references.
