@@ -663,3 +663,8 @@ The [complete TStringRef character/capacity constructor boss](MAINL_TSTRINGREF_C
 adds 197 original-equal CODE bytes with authentic FAR object
 allocation, capacity rounding, malloc, memset and xalloc
 address-exception handling; all seven original OMF fields match.
+
+The [complete DOS Ctrl-Z trim/append with private seek/read helpers](MAINL_DOS_CTRLZ_TRIM_APPEND_BOSS_NATIVE_REVIEW.md)
+adds 189 original CODE bytes across four native near functions,
+real DOS I/O, native text sentinel handling and the original
+single literal ordered far lseek FIXUPP.
