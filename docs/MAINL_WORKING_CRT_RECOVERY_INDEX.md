@@ -639,3 +639,9 @@ The [PC-98 timer IRQ, callback and INT 1Ch registration boss](MAINL_PC98_TIMER_I
 adds 162 original CODE and 5 DATA bytes, recovering a genuine
 IRQ entry, FAR callback/flags and 13 exact original logical
 OMF fields including the segment-of-DGROUP relocation.
+
+The [complete IBM PIT delay and CRT calibration INITDATA boss](MAINL_IBM_PIT_DELAY_INITDATA_BOSS_NATIVE_REVIEW.md)
+adds 188 source-equal CODE bytes, four real initialized DATA
+bytes and six INITDATA bytes including the symbolic FAR
+CODE+35 initializer pointer. All seven original literal
+ordered OMF relocations match exactly.
