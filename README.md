@@ -71,13 +71,13 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The live handoff is [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) (verified
-`after436`, **644/893** source-built original CRT members). Historical
+`after437`, **645/893** source-built original CRT members). Historical
 member reviews are indexed in
 [MAINL recovery history](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
 Do not infer formal MAINL acceptance from this working-source CRT;
 `docs/PROGRESS.md` is regenerated from the separate ledgers.
 
-This checkout has **174 active MAINL native receipt stages**. Do not delete
+This checkout has **175 active MAINL native receipt stages**. Do not delete
 their raw logs, build receipts, or two OBJ/LIB/EXE/MAP output rounds.
 `clean_generated.py`'s general `.analysis` preview is **not** a native
 proof-dependency oracle; never blanket-apply it here.
