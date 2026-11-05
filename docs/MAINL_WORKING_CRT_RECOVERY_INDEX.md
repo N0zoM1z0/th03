@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 588-member chain.
+refer to intermediate snapshots, not the current 589-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -329,3 +329,7 @@ FIXUPPs and two retain explicitly audited record-order gaps.
 The [original NEC BIOS disk controller boss](MAINL_NEC_BIOS_DISK_CONTROLLER_BOSS_NATIVE_REVIEW.md)
 adds 171 CODE and eight authentic command-table DATA bytes, the actual
 INT1Bh firmware I/O path and its original literal CODE-DATA relocation.
+
+The [complete NEC console scroll boss](MAINL_NEC_CONSOLE_SCROLL_BOSS_NATIVE_REVIEW.md)
+adds 170 CODE bytes and original move/clear branches, with five
+specific attested near-call OMF frame-method gaps and an exact native link.
