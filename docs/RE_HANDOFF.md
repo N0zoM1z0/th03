@@ -17,28 +17,30 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **406** |
-| Original contextual vendor programs left unchanged | **487** |
-| Source-compiled original-equal CRT CODE | **130,443 bytes** |
+| Slots rebuilt from complete source | **407** |
+| Original contextual vendor programs left unchanged | **486** |
+| Source-compiled original-equal CRT CODE | **131,355 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after354_work.py huge-pointer-adjustments`
-and `tests.test_mainl_after354_work`, bound to
-`.analysis/work/mainl-after354-huge-pointer-adjustments-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after355_work.py string-substring-case-boss`
+and `tests.test_mainl_after355_work`, bound to
+`.analysis/work/mainl-after355-string-substring-case-boss-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-406-provider accepted ledger publication, a complete MAINL source tree, or
+407-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
 literal FIXUPPs; `doslock` records the **two exact TARGET-vs-CODE near-call
-frame gaps**, with byte-exact native linking. [Five-API `find1` boss](MAINL_FIND1_BOSS_NATIVE_REVIEW.md) recovers 1,379 CODE bytes and literal original FIXUPPs. [Huge 16:16 pointer add/increment members](MAINL_HUGE_POINTER_ARITHMETIC_NATIVE_REVIEW.md)
+frame gaps**, with byte-exact native linking. [Five-API `find1` boss](MAINL_FIND1_BOSS_NATIVE_REVIEW.md) recovers 1,379 CODE bytes and literal original FIXUPPs. The complete [six-API `uprlwr` case-conversion boss](MAINL_UPRLWR_SIX_API_NATIVE_REVIEW.md)
+adds 912 original CODE bytes across six far C++ interfaces, retains original
+typed pointer/class RTTI and all 48 literal ordered FIXUPPs. [Huge 16:16 pointer add/increment members](MAINL_HUGE_POINTER_ARITHMETIC_NATIVE_REVIEW.md)
 add 238 complete original CODE bytes across 12 near/far public aliases.
 The related full `h_ldiv` code is byte-exact but has two original MAP alias
 order discrepancies and is explicitly not counted yet. [Three-API `rfind` boss](MAINL_RFIND_BOSS_NATIVE_REVIEW.md) adds 971 CODE bytes. Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -170,7 +172,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 406-source
+Current accepted **decoded** source scope, not including the 407-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -182,7 +184,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 406 members into the accepted ledger;
+does **not** promote the working 407 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -223,8 +225,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after354_work.py huge-pointer-adjustments
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after353_work tests.test_mainl_after354_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after355_work.py string-substring-case-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after354_work tests.test_mainl_after355_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
