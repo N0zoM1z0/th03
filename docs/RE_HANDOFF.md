@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **361** |
-| Original contextual vendor programs left unchanged | **532** |
-| Source-compiled original-equal CRT CODE | **117,677 bytes** |
+| Slots rebuilt from complete source | **362** |
+| Original contextual vendor programs left unchanged | **531** |
+| Source-compiled original-equal CRT CODE | **118,024 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after335_work.py regexp-match-boss`
-and `tests.test_mainl_after335_work`, bound to
-`.analysis/work/mainl-after335-regexp-match-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after336_work.py cgets-dbcs-console`
+and `tests.test_mainl_after336_work`, bound to
+`.analysis/work/mainl-after336-cgets-dbcs-console-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-361-provider accepted ledger publication, a complete MAINL source tree, or
+362-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -74,7 +74,10 @@ serialization differences remain explicitly documented.
 Eight [full DOS path/ostream leaves](MAINL_STREAM_PATH_LEAVES_NATIVE_REVIEW.md)
 add 248 original-equal CODE bytes, including exact stream `endl`/`ends`/
 `flush` and the original `umask` global with separately documented OMF
-FIXUPP ordering. The [complete 2,522-byte regexp matching boss](MAINL_REGEXP_MATCH_BOSS_NATIVE_REVIEW.md)
+FIXUPP ordering. The original [347-byte DBCS console `cgets`](MAINL_CGETS_DBCS_NATIVE_REVIEW.md)
+adds an entire far console input/editing member and near backspace helper,
+including genuine PC-98 multibyte logic. The
+[complete 2,522-byte regexp matching boss](MAINL_REGEXP_MATCH_BOSS_NATIVE_REVIEW.md)
 recovers all four `makepat`/`matchs`/`patcmp`/`esc` interfaces, 3 typed
 CODE-resident dispatch tables, 46 original relocation fields and the exact
 Japanese two-round native link. Eight
@@ -104,7 +107,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 361-source
+Current accepted **decoded** source scope, not including the 362-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -116,7 +119,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 361 members into the accepted ledger;
+does **not** promote the working 362 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -157,8 +160,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after335_work.py regexp-match-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after334_work tests.test_mainl_after335_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after336_work.py cgets-dbcs-console
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after335_work tests.test_mainl_after336_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
