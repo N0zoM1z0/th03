@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 531-member chain.
+refer to intermediate snapshots, not the current 532-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -237,3 +237,8 @@ The [18 original CRT ABI leaf members](MAINL_EIGHTEEN_RUNTIME_ABI_LEAVES_NATIVE_
 add 268 CODE bytes across memory, stack, C++ vector, scan and `ios` helper
 APIs: 17/18 preserve literal ordered original FIXUPPs; the remaining two
 `stxalc` logical relocations have a documented native chronology gap.
+
+The [343-byte `__vector_delete_` C++ array-destructor boss](MAINL_VECTOR_DELETE_BOSS_NATIVE_REVIEW.md)
+recovers reverse iteration, seven table-driven cases plus a default,
+the original far free path and all nine logical OMF fields. Borland vs
+TASM FIXUPP chronology differs while the Japanese EXE/MAP remains exact.
