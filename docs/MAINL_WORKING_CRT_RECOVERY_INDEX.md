@@ -607,3 +607,10 @@ The [complete original FAR strtok persistent cursor and BSS boss](MAINL_FAR_STRT
 adds 203 CODE and four actual BSS bytes, preserving all
 twelve original symbolic OMF DATA/BSS-style references,
 delimiter loops and native FAR token state.
+
+The [cplx2 first-three-complete-division-functions scoped recovery](MAINL_CPLX2_THREE_DIVISION_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+proves 692 original CODE bytes and 97 original relocation
+sites/targets/addends from three complete FAR C++ operators
+using true EMUL x87 source. It separately discloses the 90
+Borland frame-4/TASM frame-5 gaps and **does not count cplx2
+as another complete CRT source member**.
