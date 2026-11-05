@@ -41,8 +41,9 @@ literal FIXUPPs; `doslock` records the **two exact TARGET-vs-CODE near-call
 frame gaps**, with byte-exact native linking. [Five-API `find1` boss](MAINL_FIND1_BOSS_NATIVE_REVIEW.md) recovers 1,379 CODE bytes and literal original FIXUPPs. The [complete `checks` diagnostic C++ boss](MAINL_DIAGNOSTIC_CHECKS_FULL_NATIVE_REVIEW.md)
 adds 1,708 original CODE and 143 materialized initialized DATA bytes, with
 seven far methods, eight typed RTTI records and 89 exact logical FIXUPPs.
-Its literal OMF FIXUPP record order remains different from the original
-Borland member; the complete two-round Japanese EXE/MAP still matches.
+Its **89 original literal ordered FIXUPP fields now match** after a second
+source declaration-order review; the entire two-round Japanese EXE/MAP
+still matches. Complete Borland OBJ metadata serialization remains distinct.
 Eight [complete MBCS string near/far routines](MAINL_MBCS_STRING_ROUTINES_NATIVE_REVIEW.md)
 add 722 original CODE bytes, eight character-string APIs and ten literal
 original `__mbctype`/`__ctype` FIXUPPs. The [complete `filebuf::overflow` buffer-management boss](MAINL_FILEBUF_OVERFLOW_FULL_NATIVE_REVIEW.md)

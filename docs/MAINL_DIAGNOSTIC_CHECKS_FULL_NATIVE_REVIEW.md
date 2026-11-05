@@ -24,14 +24,16 @@ are genuine symbolic `dw`/`dd` and ASCII declarations, not opaque executable
 machine-code arrays.
 
 All **89 original relocation fields** match the actual original Japanese
-CL.LIB in site, segment, width, target method and identity, frame, and
-addend; all original CODE/DATA/INIT/EXIT bytes match. **Important
-limitation:** TASM does **not** reproduce the literal order of the Borland
-FIXUPP records, nor the complete original member OMF serialization, even
-though the complete logical 89-field inventory is equal. This discrepancy
-is retained as `literal_OMF_FIXUPP_equal = false` and
-`original_program_equal_by_member['checks'] = false` in the raw receipt,
-not normalized away or described as full OBJ exactness.
+CL.LIB in site, segment, width, target method and identity, frame and
+addend. The revised native source now also matches **all 89 original
+FIXUPP records in literal sequence**, including both original CODE
+segments, DATA, INIT and EXIT fields. The first forward-source build
+already reproduced the complete linked EXE/MAP but reordered some OMF
+relocations; placing genuine 8086 and typed-data declarations at their
+original boundaries in descending BCC record order resolved this last
+FIXUPP chronology issue without changing a single CODE or DATA byte.
+The complete Borland OMF program serialization **still differs** in other
+nonsemantic COMENT/LEDATA/PUBDEF records; full OBJ identity is not claimed.
 
 `scripts/build_th03_mainl_after361_work.py diagnostic-checks-boss`
 consumes the parent **420-source** CRT carrier, recompiles this whole member
@@ -40,7 +42,7 @@ TASM/TLIB/TLINK rounds, without running full cold replay. Both rounds
 reproduce the **original decoded 67,372-byte Japanese MAINL EXE and MAP
 byte-for-byte**, including **all 677 ordered DOS MZ relocations**. That
 is stronger linked-output evidence than CODE byte equality alone; the
-non-identical raw FIXUPP serialization remains independently visible.
+non-identical full Borland OBJ metadata remains independently visible.
 
 The scoped working carrier now covers **421 complete source-backed members**,
 **472 original contextual library programs**, and **135,508 original-equal
