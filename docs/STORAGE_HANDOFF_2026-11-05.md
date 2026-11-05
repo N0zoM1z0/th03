@@ -1,8 +1,9 @@
 # TH03 handoff storage audit — 2026-11-05
 
-**ARCHIVED HISTORICAL SNAPSHOT (319-source).** The current checkout has
-511 original-equal source-backed CRT members; live retention and cleanup
-instructions are in [STORAGE_HANDOFF_CURRENT.md](STORAGE_HANDOFF_CURRENT.md).
+**ARCHIVED HISTORICAL SNAPSHOT (319-source).** The later after388
+511-member audit is also historical, not the current checkout. For the
+verified active source count and current retention policy consult
+[STORAGE_HANDOFF_CURRENT.md](STORAGE_HANDOFF_CURRENT.md).
 The frozen `cleanup_mainl_handoff_artifacts.py` deliberately refuses the
 current checkpoint. The commands and counts below describe the old audit
 only; **do not** use them as today's protection list.

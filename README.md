@@ -83,19 +83,22 @@ their raw logs, build receipts, or two OBJ/LIB/EXE/MAP output rounds.
 proof-dependency oracle; never blanket-apply it here.
 
 ```sh
-python3 scripts/cleanup_mainl_after388_handoff.py  # guarded dry-run only
-# After reviewing the exact source/receipt hash and scope:
-# python3 scripts/cleanup_mainl_after388_handoff.py --apply
+python3 scripts/cleanup_mainl_after439_handoff.py  # guarded dry run; currently 0 candidates
+python3 scripts/cleanup_mainl_after439_handoff.py --list
 .venv/bin/python scripts/clean_generated.py --caches-only --apply
 ```
 
-The historical after388 cleanup script deliberately rejects this newer source checkpoint;
-re-audit the new live DAG before adapting it. Read
-[current protected-storage rules](docs/STORAGE_HANDOFF_CURRENT.md) and
-[working-file rules](docs/RE_WORKFLOW.md#working-files) first. Keep original
-Japanese targets, `.analysis/toolchain` (Wine/Borland), Ghidra/JDK identity
-trees, runtime images, accepted ledgers, `.venv` and all live proof inputs.
-The old-named `reference.tar` is still a consumed reference input.
+The pinned after439 cleanup audit protects **177 source-bound native stages
+and 4,464 receipt/log/OBJ/LIB/EXE/MAP files**. Its one-time guarded action
+removed 15 retired alternative-mode files; the deleted-path manifest and
+affected-proof verification are in
+[current protected-storage rules](docs/STORAGE_HANDOFF_CURRENT.md).
+`cleanup_mainl_after388_handoff.py` and the 319-source predecessor are
+**frozen historical tools**, not current deletion commands. Do not blanket
+apply `clean_generated.py --apply` or receipt pruning. Preserve targets,
+Wine/Borland, Ghidra/JDK, runtime images, ledgers, `.venv`, reference
+sources and the old-named `reference.tar` input. For next stages, independently
+re-audit source DAG/receipt hashes before applying cleanup.
 
 Commit format: `gpt-web: xxx`. Run affected checks and `git diff --check`,
 then save substantial progress locally. Push only when requested.
