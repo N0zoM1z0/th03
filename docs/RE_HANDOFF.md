@@ -17,19 +17,19 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **332** |
-| Original contextual vendor programs left unchanged | **561** |
-| Source-compiled original-equal CRT CODE | **110,841 bytes** |
+| Slots rebuilt from complete source | **340** |
+| Original contextual vendor programs left unchanged | **553** |
+| Source-compiled original-equal CRT CODE | **111,057 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after327_work.py xmsg-exception-boss`
-and `tests.test_mainl_after327_work`, bound to
-`.analysis/work/mainl-after327-xmsg-exception-boss-build.json`. The inherited
+**Live proof:** `scripts/review_th03_mainl_after328_work.py dos-pointer-ibm-leaves`
+and `tests.test_mainl_after328_work`, bound to
+`.analysis/work/mainl-after328-dos-pointer-ibm-leaves-build.json`. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-332-provider accepted ledger publication, a complete MAINL source tree, or
+340-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -65,12 +65,15 @@ add rotate, multiply, and near/far block-copy helpers. The complete
 [955-byte five-API `xmsg` exception boss](MAINL_XMSG_EXCEPTION_NATIVE_REVIEW.md)
 adds full symbolic RTTI and recovers the original Japanese MZ ordering
 using compiler-block source ordering, rather than a link/OBJ patch.
+Eight [DOS/pointer/IBM/arithmetic native leaves](MAINL_DOS_POINTER_IBM_LEAVES_NATIVE_REVIEW.md)
+now add another 216 original-equal CODE bytes; their imported near frame
+serialization differences remain explicitly documented.
 
 ### Working source is not formally accepted scope
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 332-source
+Current accepted **decoded** source scope, not including the 340-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -82,7 +85,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 332 members into the accepted ledger;
+does **not** promote the working 340 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -123,8 +126,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after327_work.py xmsg-exception-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after327_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after328_work.py dos-pointer-ibm-leaves
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after328_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
