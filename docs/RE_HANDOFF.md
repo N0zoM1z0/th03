@@ -1,4 +1,4 @@
-# TH03 — agent handoff (verified 2026-11-05, after397)
+# TH03 — agent handoff (verified 2026-11-05, after398)
 
 **Start here.** Work on the actual Japanese PC-98 originals. Inspect
 `git status -sb` and the last commits; continue **all** dirty edits rather
@@ -14,23 +14,23 @@ make several scoped commits where practical. Read
 | Property | Verified working-source evidence |
 | --- | ---: |
 | Original CL.LIB member slots | **893** |
-| Complete members compiled from maintained source | **538** |
-| Remaining unchanged contextual vendor member programs | **355** |
-| Source-built, original-equal logical CRT CODE | **162,077 bytes** |
+| Complete members compiled from maintained source | **548** |
+| Remaining unchanged contextual vendor member programs | **345** |
+| Source-built, original-equal logical CRT CODE | **162,203 bytes** |
 | Original decoded Japanese MAINL EXE size | **67,372 bytes** |
 | Original ordered DOS MZ relocations | **677** |
 | Actual native TASM/TLIB/TLINK production rounds | **2, byte-identical EXE and MAP** |
-| Latest source build | `after397 / pc98-text-color-attribute-boss` |
-| Formal Factory acceptance of this 538-member CRT expansion | **No** |
+| Latest source build | `after398 / ten-abi-video-locale-leaves` |
+| Formal Factory acceptance of this 548-member CRT expansion | **No** |
 
 **Source-bound proof:**
-`scripts/review_th03_mainl_after397_work.py pc98-text-color-attribute-boss`
-and `tests.test_mainl_after397_work`, using
-`.analysis/work/mainl-after397-pc98-text-color-attribute-boss-build.json`.
-The current reviewer checks the inherited **135-stage** receipt DAG,
+`scripts/review_th03_mainl_after398_work.py ten-abi-video-locale-leaves`
+and `tests.test_mainl_after398_work`, using
+`.analysis/work/mainl-after398-ten-abi-video-locale-leaves-build.json`.
+The current reviewer checks the inherited **136-stage** receipt DAG,
 source/driver/parent hashes, selected original member CODE/DATA/ABI, two
 complete raw native OBJ/LIB/EXE/MAP rounds and writer logs. It is **not**
-a full cold replay. The 538 individual members are not claimed to have
+a full cold replay. The 548 individual members are not claimed to have
 byte-identical original Borland OBJ *record serialization*; literal
 ordered FIXUPP equality is separately recorded per module.
 
@@ -43,7 +43,7 @@ artificial target-byte arrays for native source recovery.
 ## 2. Acceptance and ledger: distinguish the claims
 
 - [Generated progress](PROGRESS.md) is generated from ledgers, **not** from
-  the 538-source working CRT. The packed-file canonical MAINL ledger remains
+  the 548-source working CRT. The packed-file canonical MAINL ledger remains
   **0 exact units**. `scripts/status.py` currently reports MAINL decoded
   product **pending**, `0/250` nonexcluded ledger units and no newly accepted
   bytes. `config/units.csv` has **251 MAINL rows**, including one excluded;
@@ -67,6 +67,11 @@ artificial target-byte arrays for native source recovery.
 
 ## 3. Important history and outstanding technical issues
 
+After398 adds ten originally contextual ABI/video/stream/locale leaf
+members, **126 CODE + 59 initialized DATA bytes**. Three original-vs-TASM
+near-call framing differences and a locale-pointer FIXUPP chronology
+difference are narrowly tracked; the full Japanese EXE/MAP remains exact
+in both rounds. See [the ten-leaf review](MAINL_TEN_ABI_VIDEO_LOCALE_LEAVES_NATIVE_REVIEW.md).
 After397 recovers the complete NEC text-color and attribute Boss with
 six original far APIs, 222 CODE and 128 initialized DATA bytes (four
 16-WORD palettes). All 21 original logical FIXUPP fields, source DATA,
@@ -128,7 +133,7 @@ note recommended them. Inspect the actual member and status first.
 - **`h_ldiv`** (`src/mainl/crt/h_ldiv.asm`) has original-equal **174
   CODE bytes and 12 aliases**, but TASM and Borland still order two
   same-address aliases differently in the **MAP**. It is deliberately
-  **not counted** in the 538 source-linked members. See
+  **not counted** in the 548 source-linked members. See
   [its bounded investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md)
   and `tests.test_mainl_h_ldiv_original_scope`. Preserve its source and
   diagnostic evidence, do not reorder a MAP to fake acceptance.
@@ -163,8 +168,8 @@ latest reviewer/test).
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after397_work.py pc98-text-color-attribute-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after397_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after398_work.py ten-abi-video-locale-leaves
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after398_work -v
 .venv/bin/python scripts/status.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
@@ -183,7 +188,7 @@ acceptance.
 
 [Current protected native DAG / storage cleanup guide](STORAGE_HANDOFF_CURRENT.md)
 explains what can be deleted and how to preview it safely. **Keep all
-135 active source-bound stages**: build receipts, every phase log, and both
+136 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
 old-named `reference.tar` input. At the prior after388 cleanup, 256 retired/scratch files were safely removed

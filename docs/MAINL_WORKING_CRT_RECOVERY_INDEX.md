@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 538-member chain.
+refer to intermediate snapshots, not the current 548-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -262,3 +262,8 @@ across four far/near video interface entry points.
 The [complete NEC text-color and attribute boss](MAINL_PC98_TEXT_COLOR_ATTRIBUTE_BOSS_NATIVE_REVIEW.md)
 adds six far APIs, 222 CODE + 128 initialized DATA bytes in four palette
 tables, and all 21 original logical OMF fields in two exact native rounds.
+
+The [ten ABI/video/stream/locale leaves](MAINL_TEN_ABI_VIDEO_LOCALE_LEAVES_NATIVE_REVIEW.md)
+add 126 source CODE bytes and 59 genuine `localeconv` DATA bytes, with
+three specific near-video frame gaps and a DATA FIXUPP chronology difference
+kept visible in the scoped reviewer.
