@@ -472,3 +472,8 @@ The [original strstreambuf dynamic doallocate](MAINL_STRSTREAMBUF_DYNAMIC_DOALLO
 adds 141 original-equal CODE bytes; both allocator paths, signed
 callback count, far range registration and two logical FIXUPPs
 are restored without any output patching.
+
+The [complete locale collation state machine boss](MAINL_LOCALE_COLLATION_STATE_MACHINE_BOSS_NATIVE_REVIEW.md)
+adds 265 CODE bytes, retaining the true DS/ES-aware two-string
+level-by-level comparison and all three **literal ordered** OMF
+relocations, including the real two near weight-call references.
