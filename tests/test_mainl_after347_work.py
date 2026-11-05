@@ -16,7 +16,7 @@ from review_th03_mainl_after347_work import review
 
 class OriginalNewOperatorBoss(unittest.TestCase):
     @unittest.skipUnless((ROOT/(PREFIX+'new-operator-exception-boss-build.json')).exists(),
-                         'native 390-source original Java? no, Japanese CRT receipts absent')
+                         'native 390-source original Japanese CRT receipts absent')
     def test_complete_new_exception_and_full_original_native_link(self):
         r=review('new-operator-exception-boss')
         p=r['profiles']['new']

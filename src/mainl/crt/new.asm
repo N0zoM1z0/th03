@@ -32,6 +32,10 @@ public @xnew_handler$qv,@set_new_handler$qnqv$v,@$bnew$qui
 
 ; One original CODE LEDATA; genuine source fields are emitted
 ; by descending original offset, matching BCC FIXUPP/MZ chronology.
+; Keep typed near DS data references to __new_handler unqualified here:
+; with descending ORG declaration, the forward DATA public's implicit
+; DGROUP frame is exact and TASM rejects an explicit group prefix on six
+; word-sized loads/stores in a fresh source compile.
 
 org 728
     dd @xmsg@$bdtr$qv
@@ -238,7 +242,7 @@ org 279
     mov es:[bx+4],ax
 
 org 244
-    or ax,word ptr DGROUP:__new_handler+2
+    or ax,word ptr __new_handler+2
     jnz new_00da
 
 new_00fa:
@@ -261,7 +265,7 @@ new_copy_xmsg:
     push word ptr [bp+6]
 
 org 241
-    mov ax,word ptr DGROUP:__new_handler
+    mov ax,word ptr __new_handler
 
 org 225
     call _malloc
@@ -274,13 +278,13 @@ org 225
 org 218
 
 new_00da:
-    call dword ptr DGROUP:__new_handler
+    call dword ptr __new_handler
 
 new_00de:
     push word ptr [bp+6]
 
 org 166
-    mov word ptr DGROUP:__new_handler,ax
+    mov word ptr __new_handler,ax
     mov dx,[bp-2]
     mov ax,[bp-4]
     pop di
@@ -310,17 +314,17 @@ new_00d5:
     jmp short new_00de
 
 org 162
-    mov word ptr DGROUP:__new_handler+2,dx
+    mov word ptr __new_handler+2,dx
 
 org 147
-    mov ax,word ptr DGROUP:__new_handler
+    mov ax,word ptr __new_handler
     mov [bp-2],dx
     mov [bp-4],ax
     mov dx,[bp+8]
     mov ax,[bp+6]
 
 org 143
-    mov dx,word ptr DGROUP:__new_handler+2
+    mov dx,word ptr __new_handler+2
 
 org 121
     call @_ThrowException$qnvt1t1t1uiuiuinuc
