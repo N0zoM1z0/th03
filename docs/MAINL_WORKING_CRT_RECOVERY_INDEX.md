@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 563-member chain.
+refer to intermediate snapshots, not the current 564-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -299,3 +299,7 @@ paths and eight logical OMF FIXUPPs in both exact Japanese EXE/MAP rounds.
 The [two full `streambuf` bulk-transfer bosses](MAINL_STREAMBUF_BULK_TRANSFER_BOSSES_NATIVE_REVIEW.md)
 add 352 CODE bytes across far buffered input/output, real virtual
 underflow/overflow fallbacks and two literal original ordered FIXUPPs.
+
+The [complete `ostream << streambuf*` boss](MAINL_OSTREAM_STREAMBUF_INSERTION_BOSS_NATIVE_REVIEW.md)
+adds 290 CODE bytes including real 16-bit stream/vtable traversal,
+underflow/overflow and opfx/osfx paths with all three logical FIXUPPs.
