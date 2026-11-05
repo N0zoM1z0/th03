@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 631-member chain.
+refer to intermediate snapshots, not the current 642-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -417,3 +417,7 @@ adds 254 CODE / 52 DATA bytes, two actual far buffer boundaries,
 The [complete dynamic strstreambuf(int) constructor](MAINL_STRSTREAMBUF_DYNAMIC_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
 adds 320 CODE and 52 DATA bytes, original allocation/setb behavior,
 11 real virtual method symbols and all 21 original logical OMF fixups.
+
+The [eleven original format/scanner and conio CRT leaves](MAINL_ELEVEN_FORMAT_SCAN_CONSOLE_LEAVES_NATIVE_REVIEW.md)
+add 515 source CODE bytes and all 43 original logical OMF relocation
+sites with fifteen explicit Borland-vs-TASM near-call frame differences.
