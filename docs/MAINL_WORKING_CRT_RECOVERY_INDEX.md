@@ -619,3 +619,8 @@ The [original stdio putw little-endian two-byte leaf](MAINL_STDIO_PUTW_TWO_BYTE_
 adds 125 original CODE bytes retaining both FAR __fputc fallback
 calls, actual Borland FILE buffer fast paths and both original
 logical OMF fixups.
+
+The [complete DOS EOF device and seek probe leaf](MAINL_DOS_EOF_SEEK_PROBE_LEAF_NATIVE_REVIEW.md)
+adds 125 original-equal CODE bytes and three literal ordered
+original OMF FIXUPPs, recovering DOS IOCTL, seek/end and
+restore-offset probes with genuine __IOERROR propagation.
