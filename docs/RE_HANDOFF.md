@@ -135,7 +135,9 @@ explains what can be deleted and how to preview it safely. **Keep all
 126 active source-bound stages**: build receipts, every phase log, and both
 raw native OBJ/LIB/EXE/MAP rounds. Also keep targets, .venv, Wine/Borland
 prefix, Ghidra/JDK attestations, source/ledgers, runtime images and the
-old-named `reference.tar` input. The older
+old-named `reference.tar` input. At this handoff, 256 retired/scratch files were safely removed
+(**7.04 MiB**) plus approximately **5.4 MiB** of regenerable caches, with
+the same source reviewer still passing. The older
 [2026-11-05 319-member audit](STORAGE_HANDOFF_2026-11-05.md) is a **historical
 snapshot only**; its frozen cleanup tool intentionally refuses to run on
 this newer checkout. Never run a blanket `clean_generated.py --apply` on

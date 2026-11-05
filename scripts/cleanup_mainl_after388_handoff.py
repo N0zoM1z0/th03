@@ -105,6 +105,30 @@ def layers() -> list[tuple[str, str]]:
     return result
 
 
+def verify_active_hashes(graph: list[tuple[str, str]]) -> None:
+    """Verify every live source/driver/log/raw output identity before applying."""
+    for stage, mode in graph:
+        receipt = WORK / f'mainl-{stage}-{mode}-build.json'
+        value = json.loads(receipt.read_text())
+        driver = ROOT / f'scripts/build_th03_mainl_{stage}_work.py'
+        if not driver.is_file() or digest(driver) != value['driver_sha256']:
+            raise ValueError(f'current builder hash drift: {stage}')
+        for name, raw in value['source_paths'].items():
+            source = ROOT / raw
+            if not source.is_file() or digest(source) != value['source_sha256'][name]:
+                raise ValueError(f'original CRT source hash drift: {stage}/{name}')
+        for phase in value['phases']:
+            path = ROOT / phase['log_path']
+            if not path.is_file() or digest(path) != phase['log_sha256']:
+                raise ValueError(f'native phase log hash drift: {stage}')
+        for rd in value['rounds']:
+            for meta in rd['outputs'].values():
+                path = ROOT / meta['path']
+                if (not path.is_file() or path.stat().st_size != meta['bytes']
+                        or digest(path) != meta['sha256']):
+                    raise ValueError(f'raw source-linked output hash drift: {stage}')
+
+
 def scratch_candidates(protected: set[Path]) -> list[Path]:
     """Only regenerated text disassembly, if never cited in tracked source."""
     names = subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT).decode().split('\0')
@@ -127,6 +151,7 @@ def scratch_candidates(protected: set[Path]) -> list[Path]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--apply', action='store_true', help='execute verified deletion')
+    parser.add_argument('--list', action='store_true', help='display each audited candidate path')
     args = parser.parse_args()
     graph = layers()
     protected = active_inputs(graph)
@@ -156,10 +181,19 @@ def main() -> None:
                 or not p.resolve().is_relative_to(WORK.resolve())
                 or p.stat().st_nlink != 1):
             raise ValueError(f'unsafe prune candidate: {p}')
+    if args.list:
+        for p in all_selected:
+            print('  ' + p.relative_to(ROOT).as_posix())
     if not args.apply:
-        print('DRY RUN ONLY; use --apply after independently reviewing active source receipt')
+        print('DRY RUN ONLY; use --list to inspect paths, then --apply after source review')
         return
+    if not all_selected:
+        print('NOOP: all eligible output already retired; existing manifest preserved')
+        return
+    if MANIFEST.exists():
+        raise ValueError('previous handoff deletion manifest exists; refusing to overwrite audit history')
     guard()  # fail closed if a new layer appeared during the dry-run/review
+    verify_active_hashes(graph)
     records = [(p, digest(p)) for p in all_selected]
     for p, expected in records:
         if digest(p) != expected:

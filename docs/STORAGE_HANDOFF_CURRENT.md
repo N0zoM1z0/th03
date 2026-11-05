@@ -55,10 +55,42 @@ by default. It:
 
 ```sh
 python3 scripts/cleanup_mainl_after388_handoff.py          # preview
+python3 scripts/cleanup_mainl_after388_handoff.py --list   # path-by-path preview
 # After reviewing source proof, targeted tests and displayed candidate set:
 python3 scripts/cleanup_mainl_after388_handoff.py --apply
 .venv/bin/python scripts/clean_generated.py --caches-only --apply
 ```
+
+## Executed 2026-11-05 cleanup and actual savings
+
+The above pinned plan was inspected and **applied** on the 511-source
+`after388` checkout. The guarded script removed **256 ignored files**:
+**92 raw OBJ/LIB/EXE/MAP/log artifacts** belonging to completed but
+superseded *alternative* mode receipts, plus **164 uncited, regenerable**
+`.ndis`/`.dis` disassembly files. **7.04 MiB allocated** was recovered.
+The precise deleted-path inventory is preserved in ignored local
+`.analysis/work/handoff-after388-retired-20261105.txt` (256 entries;
+SHA-256 `ebf84558acb89a28a4ab21e10d5eb65c88c97d7ebbbe6dfac5e1e0d18f2565fe`).
+The still-existing alternative JSON receipts are historical **metadata
+only**: the retired raw alternate vectors would have to be regenerated
+before independently verifying those old branches again.
+
+Separately, `clean_generated.py --caches-only --apply` reclaimed another
+**approximately 5.4 MiB** of Python bytecode caches. Combined allocated
+savings were **about 12.4 MiB**, with `.analysis/work` falling from roughly
+**340 MiB to 333 MiB**. All **3,308 active receipt/log/native files** remain
+untouched. The local Borland/Wine prefix (about **1.3 GiB**) and the original
+Japanese targets were deliberately **not** deleted. Original `xx` assembler
+listing evidence (`*.lst`), `h_ldiv` investigation, original cold/runtime
+inputs and the previous accepted-source diagnostic file were also retained.
+
+The **same post-delete original MAINL reviewer still passes**: 511 members,
+159,111 original-equal CODE bytes, 677 original ordered MZ relocations, all
+latest literal original FIXUPPs, and two identical Japanese EXE/MAP rounds.
+The targeted native and cleanup tests (5/5), preflight, tracking validation,
+and generated progress check also passed. A repeated cleanup preview shows
+**0 eligible files**. Re-running `--apply` with no candidates is a no-op;
+the deletion manifest is intentionally not overwritten.
 
 **Never use blanket** `scripts/clean_generated.py --apply` (including its
 receipt-prune option) on this working source DAG: its general preview can

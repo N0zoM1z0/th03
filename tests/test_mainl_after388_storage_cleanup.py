@@ -40,6 +40,24 @@ class ProtectedSourceBoundStorage(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'receipt changed'):
                 cleanup.guard()
 
+    def test_every_live_source_driver_log_and_raw_vector_hash(self):
+        # Native outputs are retained as real files, not replaceable stubs.
+        cleanup.verify_active_hashes(cleanup.layers())
+
+    def test_reapply_with_no_candidates_preserves_old_audit_manifest(self):
+        # A future after389 checkpoint must re-audit; the after388 same-checkout
+        # no-op may never erase the names of previously deleted artifacts.
+        manifest = cleanup.MANIFEST
+        if not manifest.is_file():
+            self.skipTest('pruning has not been applied in this checkout')
+        before = manifest.read_bytes()
+        import subprocess
+        result = subprocess.run([sys.executable,
+             str(ROOT / 'scripts/cleanup_mainl_after388_handoff.py'), '--apply'],
+             cwd=ROOT, capture_output=True, text=True, check=True)
+        self.assertIn('NOOP: all eligible output already retired', result.stdout)
+        self.assertEqual(manifest.read_bytes(), before)
+
 
 if __name__ == '__main__':
     unittest.main()
