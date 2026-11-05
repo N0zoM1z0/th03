@@ -679,3 +679,8 @@ The [complete ios::setf(long) 32-bit format flag boss](MAINL_IOS_32BIT_FORMAT_FL
 adds 195 native CODE bytes with full mutually exclusive adjust,
 base and float groups, real ios state updates and all twelve
 original logical symbolic OMF relocations.
+
+The [complete original ios(streambuf FAR*) constructor with typed RTTI](MAINL_IOS_STREAMBUF_CONSTRUCTOR_TYPED_RTTI_BOSS_NATIVE_REVIEW.md)
+adds 153 original CODE and 12 initialized DATA bytes, including
+the true ios vtable/destructor function pointer and all seven
+original logical OMF relocations.
