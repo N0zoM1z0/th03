@@ -17,19 +17,19 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **330** |
-| Original contextual vendor programs left unchanged | **563** |
-| Source-compiled original-equal CRT CODE | **108,810 bytes** |
+| Slots rebuilt from complete source | **331** |
+| Original contextual vendor programs left unchanged | **562** |
+| Source-compiled original-equal CRT CODE | **109,886 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after325_work.py string-insert-range`
-and `tests.test_mainl_after325_work`, bound to
-`.analysis/work/mainl-after325-string-insert-range-build.json`. The inherited
+**Live proof:** `scripts/review_th03_mainl_after326_work.py string-replace-boss`
+and `tests.test_mainl_after326_work`, bound to
+`.analysis/work/mainl-after326-string-replace-boss-build.json`. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-330-provider accepted ledger publication, a complete MAINL source tree, or
+331-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -56,6 +56,10 @@ add 109 original-equal CRT CODE bytes. The second large
 adds 1,036 original-equal CODE bytes and 30 DATA bytes. Older milestone writeups are **historical**; consult the selected original OBJ
 and current receipts rather than accepting a previous guess as fact.
 
+The two more complete [ranged string insert / replace exception bosses](MAINL_STRING_RANGE_BOSSES_NATIVE_REVIEW.md)
+add 2,112 original-equal CODE bytes with four CODE segments across the two
+members.
+
 The latest [five exact CRT leaves](MAINL_ASSEMBLER_LEAVES_NATIVE_REVIEW.md)
 add rotate, multiply, and near/far block-copy helpers.
 
@@ -63,7 +67,7 @@ add rotate, multiply, and near/far block-copy helpers.
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 330-source
+Current accepted **decoded** source scope, not including the 331-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -75,7 +79,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 330 members into the accepted ledger;
+does **not** promote the working 331 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -100,9 +104,9 @@ Factory acceptance and packed-file canonical unit credit remain separate.
    records, ABI and disassembly before relying on earlier notes.
 2. Keep progress balanced: **larger Bosses** with complete executable body,
    RTTI, jump tables and DATA/BSS, plus full **small leaf** functions.
-   Potential remaining selected CRT candidates to investigate, **not yet
-   accepted claims**: `insert2`,
-   `replace`; continue MAIN/OP/ZUN game-module work where ownership is open.
+   Investigate additional game-module MAIN/OP/ZUN owned extents and
+   remaining CRT members not yet source-replaced; do not assume
+   historical suggested candidates are still open.
 3. Rebuild only changed/impacted members using native TASM/TLIB/TLINK or
    BCC as appropriate, serialize the Wine writer, and check original selected
    OBJ sections, publics/imports, logical FIXUPPs and the entire linked
@@ -116,8 +120,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after325_work.py string-insert-range
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after325_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after326_work.py string-replace-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after326_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
