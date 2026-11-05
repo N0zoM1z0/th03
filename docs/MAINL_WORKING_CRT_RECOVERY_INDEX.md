@@ -614,3 +614,8 @@ sites/targets/addends from three complete FAR C++ operators
 using true EMUL x87 source. It separately discloses the 90
 Borland frame-4/TASM frame-5 gaps and **does not count cplx2
 as another complete CRT source member**.
+
+The [original stdio putw little-endian two-byte leaf](MAINL_STDIO_PUTW_TWO_BYTE_LEAF_NATIVE_REVIEW.md)
+adds 125 original CODE bytes retaining both FAR __fputc fallback
+calls, actual Borland FILE buffer fast paths and both original
+logical OMF fixups.
