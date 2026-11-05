@@ -602,3 +602,8 @@ The [complete original DOS int86/int86x interrupt trampoline boss](MAINL_DOS_INT
 adds 207 original-equal CODE bytes across both FAR APIs,
 true stack-resident INT nn generation, input/output register
 images and two exact literal ordered OMF references.
+
+The [complete original FAR strtok persistent cursor and BSS boss](MAINL_FAR_STRTOK_BSS_BOSS_NATIVE_REVIEW.md)
+adds 203 CODE and four actual BSS bytes, preserving all
+twelve original symbolic OMF DATA/BSS-style references,
+delimiter loops and native FAR token state.
