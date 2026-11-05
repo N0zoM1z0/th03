@@ -477,3 +477,9 @@ The [complete locale collation state machine boss](MAINL_LOCALE_COLLATION_STATE_
 adds 265 CODE bytes, retaining the true DS/ES-aware two-string
 level-by-level comparison and all three **literal ordered** OMF
 relocations, including the real two near weight-call references.
+
+The [complete original IBM console DBCS scroll boss](MAINL_IBM_CONSOLE_SCROLL_DBCS_BOSS_NATIVE_REVIEW.md)
+adds 184 original-equal CODE bytes, correcting a subtle wclrnorm
+versus wgarbage global distinction. All 13 relocation sites, targets
+and widths match; seven exact Borland TARGET-versus-TASM CODE near-call
+frame gaps are independently attested and disclosed.
