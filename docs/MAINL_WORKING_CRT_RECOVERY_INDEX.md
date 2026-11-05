@@ -592,3 +592,8 @@ The [complete Borland FAR heap linear search, find and insert boss](MAINL_FAR_HE
 adds 209 CODE bytes including a true near generic search core,
 FAR comparison callback, both FAR public interfaces, conditional
 heap insertion and the original external N_PADA@ stride adjustment.
+
+The [complete original DOS text-mode read/CRLF and Ctrl-Z boss](MAINL_DOS_TEXT_READ_CRLF_BOSS_NATIVE_REVIEW.md)
+adds 207 original CODE bytes with real text-mode conversion,
+ES-prefixed far-buffer streaming and all eight original literal
+ordered OMF references, including true original GROUP layout.
