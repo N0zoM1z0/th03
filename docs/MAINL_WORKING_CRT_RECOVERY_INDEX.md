@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 624-member chain.
+refer to intermediate snapshots, not the current 626-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -397,3 +397,7 @@ all 15 original logical OMF relocations in two native rounds.
 The [complete istream_withassign constructor and typed RTTI](MAINL_ISTREAM_WITHASSIGN_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
 adds 349 CODE and 20 DATA bytes, the real +6 FAR thunk and
 all 16 original logical OMF relocation fields.
+
+The [complete strstreambuf init and console clrscr recovery](MAINL_STRSTREAM_INIT_CONSOLE_CLEAR_NATIVE_REVIEW.md)
+adds 272 original-equal CODE bytes across 2 native members and
+12 original logical OMF fields with one narrowly attested near-call frame gap.
