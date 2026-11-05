@@ -445,3 +445,8 @@ logical OMF virtual-function table fields.
 The [complete streambuf base destructor, RTTI and virtual table](MAINL_STREAMBUF_BASE_DESTRUCTOR_BOSS_NATIVE_REVIEW.md)
 adds 153 source-built CODE and 52 DATA bytes, with both original far
 buffer/object deletion paths and all 17 exact logical original OMF fields.
+
+The [complete streambuf(far buffer, length) constructor boss](MAINL_STREAMBUF_BUFFER_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
+adds 258 original CODE bytes and 52 initialized DATA bytes, recovering
+length-dependent far-buffer initialization, RTTI/vtable and all 16
+original logical OMF relocations.
