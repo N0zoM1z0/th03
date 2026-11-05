@@ -531,3 +531,8 @@ The [exception-aware setjmp/longjmp runtime boss](MAINL_EXCEPTION_AWARE_SETJMP_L
 adds 214 original-equal CODE bytes with the real FAR saved-context
 and two-stage Borland unwind paths; all four literal ordered OMF
 relocation fields match.
+
+The [original bidirectional Shift-JIS MBTOMB conversion boss](MAINL_SHIFTJIS_MBTOMB_TABLE_BOSS_NATIVE_REVIEW.md)
+adds 207 original CODE and **432 real initialized DATA bytes** across
+five typed Japanese character-map tables and two full conversion
+procedures, with all six exact logical OMF table references.
