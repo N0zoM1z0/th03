@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 591-member chain.
+refer to intermediate snapshots, not the current 603-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -341,3 +341,7 @@ original OMF relocations, retaining the Borland/TASM ordering distinction.
 The [original PC-98 equipment and x87 capability boss](MAINL_PC98_EQUIPMENT_FPU_BOSS_NATIVE_REVIEW.md)
 adds 213 CODE bytes including the original inline infinity constant and
 all ordered CS-targeted FIXUPPs for the coprocessor probe.
+
+The [twelve original DOS drive, NEC/IBM video, MBCS and ios ABI leaves](MAINL_TWELVE_DRIVE_VIDEO_MBCS_IOS_LEAVES_NATIVE_REVIEW.md)
+add 640 source CODE bytes across 12 original CRT slots, including five
+specific near-call OMF frame gaps and a repaired Borland jump target.
