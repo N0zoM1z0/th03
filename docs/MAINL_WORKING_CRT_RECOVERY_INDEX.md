@@ -766,3 +766,11 @@ N_LXMUL@ near-frame gap at CODE+38 documented.
 The [original DOS region lock/unlock FAR leaf](MAINL_DOS_LOCK_UNLOCK_LEAF_NATIVE_REVIEW.md)
 adds 78 byte-exact CODE bytes, both DOS 21h 5Cxxh API paths,
 and both literal ordered near __IOERROR OMF references.
+
+The [original large cplx2 seventh full atan(complex) function](MAINL_CPLX2_ATAN_SEVEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends meaningful x87 source through CODE+1890, adding
+283 exact original atan bytes. 295 emitted OMF targets
+and addends are now audited against 297 original prefix
+fixups, with two local FAR-call gaps and 261 original
+method-4 frames disclosed. No complete CRT-source credit
+is claimed for partial cplx2.
