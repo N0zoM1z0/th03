@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Original streambuf base destructor: 153 CODE, 52 DATA, real owned
-far-buffer release, typed RTTI/vtable and 17 complete logical FIXUPPs."""
+"""Complete streambuf(far buffer, length) constructor: 258 CODE,
+52 initialized DATA, real RTTI/vtable and 16 logical OMF FIXUPPs."""
 import argparse,fcntl,json,os,shutil,subprocess,tomllib,sys
 import setuptools
 sys.setrecursionlimit(max(sys.getrecursionlimit(),7000))
@@ -26,8 +26,8 @@ NATIVE={'stbctr2':dict(index=855,code=258,data=52,bss=0,fields=16,
     segments=[('_TEXTA','CODE',258),('_DATA','DATA',52),('_BSS','BSS',0)],
     publics=[(0, '@streambuf@$bctr$qnci')],
     imports=['@$bnew$qui', '@__RefDestructorCount$qv', '@streambuf@$bdtr$qv', '@streambuf@setbuf$qnci', '@streambuf@do_sgetn$qnci', '@streambuf@underflow$qv', '@streambuf@pbackfail$qi', '@streambuf@do_sputn$qnxci', '@streambuf@overflow$qi', '@streambuf@seekoff$ql12ios@seek_diri', '@streambuf@seekpos$qli', '@streambuf@sync$qv', '@streambuf@doallocate$qv'],group='08ff02ff03')}
-# Source-bound 38-byte streambuf destructor with 52-byte RTTI/vtable.
-# All 17 original OMF site, width, frame, target and addend fields strict.
+# 38-byte streambuf constructor and 52-byte typed RTTI/virtual table.
+# All 16 original OMF site, width, frame, target and addend fields strict.
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
 

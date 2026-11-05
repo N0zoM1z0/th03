@@ -450,3 +450,7 @@ The [complete streambuf(far buffer, length) constructor boss](MAINL_STREAMBUF_BU
 adds 258 original CODE bytes and 52 initialized DATA bytes, recovering
 length-dependent far-buffer initialization, RTTI/vtable and all 16
 original logical OMF relocations.
+
+The [full streambuf setb far-buffer ownership leaf](MAINL_STREAMBUF_SETB_BUFFER_MANAGEMENT_NATIVE_REVIEW.md)
+adds 176 original-equal CODE bytes and its complete literal far
+delete[] FIXUPP, including conditional release, range and flag setup.
