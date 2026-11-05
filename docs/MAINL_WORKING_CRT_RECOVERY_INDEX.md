@@ -597,3 +597,8 @@ The [complete original DOS text-mode read/CRLF and Ctrl-Z boss](MAINL_DOS_TEXT_R
 adds 207 original CODE bytes with real text-mode conversion,
 ES-prefixed far-buffer streaming and all eight original literal
 ordered OMF references, including true original GROUP layout.
+
+The [complete original DOS int86/int86x interrupt trampoline boss](MAINL_DOS_INT86_TRAMPOLINE_BOSS_NATIVE_REVIEW.md)
+adds 207 original-equal CODE bytes across both FAR APIs,
+true stack-resident INT nn generation, input/output register
+images and two exact literal ordered OMF references.
