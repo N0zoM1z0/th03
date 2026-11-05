@@ -547,3 +547,8 @@ The [complete four-function complex x87 arithmetic boss](MAINL_COMPLEX_X87_FPU_A
 adds 364 native CODE bytes with all 55 exact original logical FPU
 emulator/call OMF fields, including the true FAR complex-result
 allocator and the original ordered FIERQQ/FIDRQQ/FIWRQQ imports.
+
+The [complete far-vector-delete C++ dispatch boss](MAINL_FAR_VECTOR_DELETE_DISPATCH_BOSS_NATIVE_REVIEW.md)
+adds 215 native original CODE bytes with both array metadata paths,
+the real reference-count/multiply step and both far deletion calls.
+Its single N_LXMUL near-call frame exception is site/target-locked.
