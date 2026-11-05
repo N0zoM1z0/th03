@@ -668,3 +668,9 @@ The [complete DOS Ctrl-Z trim/append with private seek/read helpers](MAINL_DOS_C
 adds 189 original CODE bytes across four native near functions,
 real DOS I/O, native text sentinel handling and the original
 single literal ordered far lseek FIXUPP.
+
+The [complete original DOS spawn saved-stack/PSP exec boss](MAINL_DOS_SPAWN_CODE_STACK_STATE_BOSS_NATIVE_REVIEW.md)
+adds a 198-byte source-built CODE segment, preserving its
+four actual unmaterialized SS:SP words and 194 native CODE
+instruction bytes, true DOS EXEC lifecycle and all seven
+original literal ordered OMF fixups.
