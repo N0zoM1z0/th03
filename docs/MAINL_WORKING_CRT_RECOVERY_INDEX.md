@@ -674,3 +674,8 @@ adds a 198-byte source-built CODE segment, preserving its
 four actual unmaterialized SS:SP words and 194 native CODE
 instruction bytes, true DOS EXEC lifecycle and all seven
 original literal ordered OMF fixups.
+
+The [complete ios::setf(long) 32-bit format flag boss](MAINL_IOS_32BIT_FORMAT_FLAGS_BOSS_NATIVE_REVIEW.md)
+adds 195 native CODE bytes with full mutually exclusive adjust,
+base and float groups, real ios state updates and all twelve
+original logical symbolic OMF relocations.
