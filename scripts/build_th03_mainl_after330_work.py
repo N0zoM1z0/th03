@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Recover stdiobuf constructor, full C++ RTTI and dispatch DATA from original Japanese CRT
-on source-bound 322-member MAINL, without regenerating a cold build.
+"""Recover all eleven original Borland string/stream I/O methods and typed
+exception metadata from the pinned Japanese CRT on source-bound 341-member
+MAINL, without repeating a full native cold replay.
 
 This validates complete CODE/DATA bytes, fixup sites, ordered FIXUPP fields,
 CRT membership and both original native linked EXE/MAP outputs. It treats
@@ -24,16 +25,34 @@ ROOT=Path(__file__).resolve().parents[1]
 WORK=build.WORK
 DRIVER='scripts/build_th03_mainl_after330_work.py'
 PREFIX='.analysis/work/mainl-after330-'
-MODES={'locale-isctype-family':('is',)}
+MODES={'stringio-boss':('stringio',)}
 NATIVE={
-    'is':dict(index=81,code=333,data=0,bss=0,fields=1,
-        segments=[('_TEXT','CODE',333),('_DATA','DATA',0),('_BSS','BSS',0)],
-        publics=[(0,'___isctype'),(46,'_isalnum'),(68,'_isascii'),
-                 (91,'_isalpha'),(113,'_iscntrl'),(135,'_isdigit'),
-                 (157,'_isgraph'),(179,'_islower'),(201,'_isprint'),
-                 (245,'_ispunct'),(267,'_isspace'),(289,'_isupper'),
-                 (311,'_isxdigit')],
-        imports=['__pLocale'],group='08ff03ff02'),
+    'stringio':dict(index=427,code=110,extra_code=1356,data=0,bss=0,fields=50,
+        segments=[('_TEXT','CODE',110),('_DATA','DATA',0),
+                  ('_BSS','BSS',0),('_TEXTC','CODE',1356)],
+        publics=[(0,'@string@read_file$qm7istream'),
+                 (69,'@string@read_string$qm7istream'),
+                 (138,'@string@read_line$qm7istream'),
+                 (292,'@string@read_to_delim$qm7istreamc'),
+                 (361,'@string@read_token$qm7istream'),
+                 (427,'@$brsh$qm7istreamm6string'),
+                 (455,'@$blsh$qm7ostreammx6string'),
+                 (517,'@getline$qm7istreamm6string'),
+                 (545,'@getline$qm7istreamm6stringc'),
+                 (576,'@TStringRef@read_to_delim$qm7istreamc'),
+                 (805,'@TStringRef@read_token$qm7istream')],
+        imports=['@$bdele$qnv','@__RefDestructorCount$qv',
+                 '___InitExceptBlocks','___ExitExceptBlocks',
+                 '_strlen','__ctype','@xmsg@$bdtr$qv',
+                 '@string@skip_white','@string@resize_inc',
+                 '@string@clone$qv','@TStringRef@check_freeboard$qv',
+                 '@TStringRef@grow_to$qui',
+                 '@TStringRef@round_capacity$qui',
+                 '@istream@ipfx$qi','@istream@get$qncic',
+                 '@istream@get$qmc','@istream@putback$qc',
+                 '@istream@$brsh$qnc','@ostream@outstr$qnxct1',
+                 '@setw$qi'],
+        group='0aff02ff03'),
 }
 TASM_FLAGS=['/m','/mx','/kh32768','/t']
 
@@ -50,11 +69,10 @@ def original_library_member(member):
 
 
 def fixed_fields(blob):
-    # No frame coercion: genuine frame details remain visible as an open gap.
-    # For link-equivalent near externs TASM uses CODE frame while the original
-    # BCC object uses target frame. Only the site/target comparison ignores it.
+    # Compare actual logical frame, location, site and target fields exactly.
+    # Literal OMF FIXUPP record serialization/order remains a separate claim.
     keys=('segment','site','location_type','width','segment_relative',
-          'target_method','target','addend')
+          'frame_method','frame','target_method','target','addend')
     return sorted(tuple(f[k] for k in keys) for f in literal_fields(blob))
 
 
@@ -72,7 +90,8 @@ def scope(name,blob):
     need([(r['name'],r['class'],r['size']) for r in segment_definitions(blob)]==
          expected_segments,
          'complete original segment sizes '+name)
-    need(code_publics(blob,1)==q['publics'] and externs(blob)==q['imports'],
+    need(code_publics(blob,1)==[] and code_publics(blob,4)==q['publics']
+         and externs(blob)==q['imports'],
          'complete native public/extern interface '+name)
     need([x.data.hex() for x in parse_omf(blob) if x.name=='GRPDEF']==
          [q.get('group','08ff02ff03')], 'original group layout '+name)
@@ -84,21 +103,25 @@ def scope(name,blob):
     p=payload(blob)
     missing_code=[i for i in range(q['code']) if (1,i) not in p]
     missing_data=[i for i in range(q['data']) if (2,i) not in p]
-    need(missing_code==q.get('implicit_code_sites',[]) and
+    missing_extra=[i for i in range(q['extra_code']) if (4,i) not in p]
+    need(missing_extra==[] and missing_code==q.get('implicit_code_sites',[]) and
          missing_data==q.get('implicit_data_sites',[]),
          'actual original materialized CODE/DATA coverage '+name)
     c=bytes(p.get((1,i),0) for i in range(q['code']))
     d=bytes(p.get((2,i),0) for i in range(q['data']))
+    extra=bytes(p[(4,i)] for i in range(q['extra_code']))
     initdata=bytes(p[4,i] for i in range(q.get('init_size',0)))
     exit_index=5 if q.get('init_size') is not None else 4
     exitdata=bytes(p[exit_index,i] for i in range(q.get('exit_size',0)))
-    return dict(CODE_sha256=sha(c),CODE_bytes=len(c),
+    return dict(CODE_sha256=sha(c+extra),CODE_bytes=len(c)+len(extra),
+                TEXT_sha256=sha(c),TEXT_bytes=len(c),
+                TEXTC_sha256=sha(extra),TEXTC_bytes=len(extra),
                 CODE_implicit_sites=missing_code,DATA_implicit_sites=missing_data,
                 DATA_sha256=sha(d),
                 DATA_bytes=len(d),BSS_bytes=q['bss'],
                 INITDATA_bytes=len(initdata),INITDATA_sha256=sha(initdata),
                 EXITDATA_bytes=len(exitdata),EXITDATA_sha256=sha(exitdata),
-                publics=code_publics(blob,1),
+                publics=code_publics(blob,4),
                 data_publics=code_publics(blob,2),
                 bss_publics=code_publics(blob,3),imports=externs(blob),
                 relocation_sites_targets=fixed_fields(blob))
@@ -245,16 +268,16 @@ def main(mode):
                     (scratch/name).unlink(missing_ok=True)
                 compiled={}
                 literal_omf={}
-                original_programs={}
                 for n in names:
                     run(dos+TASM_FLAGS+[n+'.asm',n+'.obj'],scratch,
                         f'round{idx}-assemble-{n}')
                     obj=(scratch/(n+'.obj')).read_bytes()
                     need(scope(n,obj)==expected[n],
                          'all original CODE/DATA bytes, public interface, targets '+n)
+                    # Distinct TASM/Borland OMF record serialization is recorded
+                    # below, not incorrectly treated as equivalent to the
+                    # site/target/frame/bytes and complete linked product.
                     literal_omf[n]=(literal_fields(obj)==literal_fields(originals[n]))
-                    original_programs[n]=(object_program_records(obj)==
-                        members[NATIVE[n]['index']].program_records)
                     compiled[n]=obj
                 all_sources=dict(carry[idx-1][0],**compiled)
                 for n,b in carry[idx-1][0].items():
@@ -282,7 +305,6 @@ def main(mode):
                     out[kind]=dict(path=path,bytes=len(blob),sha256=sha(blob))
                 report['rounds'].append(dict(round=idx,outputs=out,
                     literal_omf_fixupp_equal_by_member=literal_omf,
-                    original_program_equal_by_member=original_programs,
                     library_comparison=comparison))
                 save()
                 print(f'after330 {mode}: {len(all_sources)} source CRT members, '

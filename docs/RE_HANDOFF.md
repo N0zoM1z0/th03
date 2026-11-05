@@ -71,6 +71,9 @@ serialization differences remain explicitly documented.
 The [complete `TRegexp` C++ boss](MAINL_REGEXP_BOSS_NATIVE_REVIEW.md)
 recovers five methods, two original CODE segments (649 bytes), typed RTTI,
 31 original relocations and two bytes of exported `maxpat` DATA.
+The [complete `stringio` 11-API boss](MAINL_STRINGIO_BOSS_NATIVE_REVIEW.md)
+adds **1,466** original-equal executable CODE bytes and far stream/string
+read, write, getline and complete typed exception/RTTI support.
 The [complete 13-API locale classifier](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 adds another 333 original-equal CODE bytes with an exact original framed
 `__pLocale` relocation.
