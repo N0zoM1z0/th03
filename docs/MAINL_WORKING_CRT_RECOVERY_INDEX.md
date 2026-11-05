@@ -624,3 +624,8 @@ The [complete DOS EOF device and seek probe leaf](MAINL_DOS_EOF_SEEK_PROBE_LEAF_
 adds 125 original-equal CODE bytes and three literal ordered
 original OMF FIXUPPs, recovering DOS IOCTL, seek/end and
 restore-offset probes with genuine __IOERROR propagation.
+
+The [complete DOS chsize grow/truncate zero-fill boss](MAINL_DOS_CHSIZE_GROW_TRUNCATE_BOSS_NATIVE_REVIEW.md)
+adds 199 source-equal CODE bytes with authentic 128-byte fill
+loop, original file-offset restoration and two literal ordered
+OMF fixups.
