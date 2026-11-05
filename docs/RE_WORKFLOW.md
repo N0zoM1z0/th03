@@ -75,22 +75,27 @@ separate; complete executable equality can still contain unowned vendor context.
 OP/MAINL/ZUN also compare canonical DIET storage. MAIN retains its documented
 CODE alignment/header differences.
 
-## Working files
+## Working files and retention
 
-Keep one working build per product, the game-local Wine prefix, fixed private
-targets/assets, installed tool trees and actual source inputs listed in the
-handoff. Old logs, verification outputs, experiments and history documents may
-be deleted; a historical reference does not make them permanent dependencies.
-`scripts/clean_generated.py` provides a cleanup preview,not a complete dependency
-oracle. Current reviewers also read dynamically named transported source files,
-wrappers,responses and native logs that may be absent from a report's explicit
-path fields. A preview can therefore list live proof inputs. Do not apply it
-wholesale without auditing the proposed files and adding explicit keep paths.
+The [current storage audit](STORAGE_HANDOFF_CURRENT.md) is the active
+source-bound cleanup authority. As of `after388`, preserve **all 126 MAINL
+receipt stages**, including the source/driver/parent receipts, writer logs
+and both full native OBJ/LIB/EXE/MAP vectors. Do not delete a historical
+`after*-round*` file merely because its name is old. Preserve all legal
+original targets, installed Wine/Borland and Ghidra/JDK tool trees, the
+accepted ledgers, runtime/cold inputs and the old-named `reference.tar`.
 
-Keep cleanup simple:use a temporary deletion list,check actual current reads,
-then delete unused code copies,old staging trees and rebuildable binaries
-directly. Do not archive or compress retired code versions. Preserve documents,
-ledgers and experiment/verification records;keeping a record does not make the
-old code it describes a live build dependency. Verify the affected current checks
-afterward. Documentation-only cleanup does not require a cold rebuild. Preserve
-Wine's current runtime/tool trees and fixed inputs. See the [current handoff storage audit](STORAGE_HANDOFF_2026-11-05.md) for explicitly guarded proof vectors and safe disposable probes; the [2026-11-03 audit](STORAGE_HANDOFF_2026-11-03.md) is a historical snapshot.
+The general `scripts/clean_generated.py` preview is **not** a complete
+native-proof dependency graph; it can select live dynamically referenced
+files. Never blanket-apply it on this checkout. The scoped
+`cleanup_mainl_after388_handoff.py` is **dry-run by default**, walks the
+live builder DAG, and deletes only checked superseded alternate-mode
+vectors and regenerable uncited disassemblies when explicitly applied. It
+fails closed when a newer source builder/receipt appears. Regenerable Python
+caches can be cleaned separately using `clean_generated.py --caches-only
+--apply`. Always rerun the affected review and tests after cleanup.
+
+The older [319-source cleanup report](STORAGE_HANDOFF_2026-11-05.md) and
+[November 3 report](STORAGE_HANDOFF_2026-11-03.md) remain historical
+snapshots; their paths and numerical totals must not be copied into a
+current handoff.

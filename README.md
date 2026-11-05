@@ -68,30 +68,34 @@ mtools. Bootstrap verifies downloaded packages; manifests identify the exact
 installed versions. Use `.venv/bin/python` consistently for Capstone/Unicorn.
 The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
-## Maintenance
+## Maintenance and handing off
 
-Keep useful source, contracts, ledgers and a concise handoff. Generated analysis
-is provisional. Old logs, temporary probes, duplicate verification trees and
-Python caches can be removed; a stale reference alone does not make an artifact
-necessary. Current build/proof inputs must remain available.
+The live handoff is [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md) (verified
+`after388`, **511/893** source-built original CRT members). Historical
+member reviews are indexed in
+[MAINL recovery history](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
+Do not infer formal MAINL acceptance from this working-source CRT;
+`docs/PROGRESS.md` is regenerated from the separate ledgers.
+
+This checkout has **126 active MAINL native receipt stages**. Do not delete
+their raw logs, build receipts, or two OBJ/LIB/EXE/MAP output rounds.
+`clean_generated.py`'s general `.analysis` preview is **not** a native
+proof-dependency oracle; never blanket-apply it here.
 
 ```sh
-.venv/bin/python scripts/clean_generated.py --prune-unreferenced-receipts
-# Preview only; audit actual current reads before selecting deletions.
+python3 scripts/cleanup_mainl_after388_handoff.py  # guarded dry-run only
+# After reviewing the exact source/receipt hash and scope:
+# python3 scripts/cleanup_mainl_after388_handoff.py --apply
+.venv/bin/python scripts/clean_generated.py --caches-only --apply
 ```
 
-The preview is not a complete dependency oracle:it can list live native phase
-logs and dynamically named transported sources. Audit those reads and add
-explicit keep paths before applying it;use an inspected deletion list for
-superseded experiments. See the [working-file rules](docs/RE_WORKFLOW.md#working-files).
-
-Keep one working build per product, the local Wine prefix and installed tools.
-Ghidra/JDK checks hash their complete installed trees, including bundled archives;
-removing pieces invalidates tool attestation. Download caches outside those trees
-are disposable. After CI, `clean_generated.py --caches-only --apply` leaves all
-`.analysis` state untouched while removing standard caches/build output. The
-handoff identifies the old-named reference archive still consumed by the current
-OP/MAINL recipes.
+The targeted cleanup script deliberately rejects a new source checkpoint;
+re-audit the new live DAG before adapting it. Read
+[current protected-storage rules](docs/STORAGE_HANDOFF_CURRENT.md) and
+[working-file rules](docs/RE_WORKFLOW.md#working-files) first. Keep original
+Japanese targets, `.analysis/toolchain` (Wine/Borland), Ghidra/JDK identity
+trees, runtime images, accepted ledgers, `.venv` and all live proof inputs.
+The old-named `reference.tar` is still a consumed reference input.
 
 Commit format: `gpt-web: xxx`. Run affected checks and `git diff --check`,
 then save substantial progress locally. Push only when requested.

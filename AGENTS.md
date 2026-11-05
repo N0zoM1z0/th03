@@ -30,8 +30,9 @@ when starting a session or when the environment/targets change.
   Preserve the *entire active source-bound receipt DAG*, including both raw
   OBJ/LIB/EXE/MAP rounds and writer logs. Delete only audited superseded
   branches and disposable experiments, not files inferred "unused" from age.
-  See `docs/STORAGE_HANDOFF_2026-11-05.md`; general clean_generated previews
-  are not an oracle of native reviewer dependencies. Preserve tools/targets.
+  See `docs/STORAGE_HANDOFF_CURRENT.md`; the 319-source 2026-11-05
+  snapshot is historical. General clean_generated previews are not an oracle
+  of native reviewer dependencies. Preserve tools/targets.
 
 Finish with affected checks and `git diff --check`. Full `python3 scripts/ci.py`
 is available for broad infrastructure changes; it is not a per-turn gate or a

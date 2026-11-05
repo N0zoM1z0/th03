@@ -66,7 +66,9 @@ products before regenerating progress.
 | --- | --- |
 | `probe_th03_main_producers.py` | Unresolved state/shot grouping and alignment controls; no new source credit. |
 | `probe_th03_sound_nop_layout.py` | OP/MAINL natural trailing-byte investigation; annotated assembly controls are not acceptance. |
-| `clean_generated.py` | Preview analysis/cache cleanup;lists can include dynamically read live inputs. Audit before `--apply`;`--keep-analysis PATH` adds protection. `--caches-only` leaves `.analysis` untouched. |
+| `build_th03_mainl_after388_work.py`, `review_th03_mainl_after388_work.py` | **Current source-bound CRT checkpoint:** 511 complete members, two byte-exact Japanese EXE/MAP rounds; run only the scoped reviewer unless extending the member chain. |
+| `cleanup_mainl_after388_handoff.py` | Current **dry-run** cleanup of superseded alternate-mode raw output and uncited disassemblies; pinned to the after388 receipt and fails closed on newer checkpoints. |
+| `clean_generated.py` | General analysis preview is **not** a dependency oracle for the live CRT; avoid blanket `--apply`. `--caches-only --apply` removes only regenerable caches/build outputs. |
 | `closeout_cleanup.py` | Receipt-based cleanup planning/application with input/reference drift checks. |
 | `import_targets.py`, `bootstrap_toolchain.sh`, `bootstrap_analysis_toolchain.sh` | Initial private input/tool installation. |
 
