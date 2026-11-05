@@ -577,3 +577,9 @@ The [complete DOS packed date/time to UTC and DST boss](MAINL_DOS_PACKED_TIME_UT
 adds 214 original CODE bytes with genuine leap-year arithmetic,
 timezone/DST conversion and all five **literal ordered** OMF fixups,
 including the exact negative monthDay lookup addend.
+
+The [large x87 original OMF location-frame investigation](MAINL_LARGE_X87_LOCATION_FRAME_OMF_ANALYSIS.md)
+adds a separately tested read-only decoder for isteldbl and cplx2:
+their 112 and 860 original FIXUPPs, 85/734 method-4 frames,
+and cplx2's true 6-byte INITDATA plus 16 unmaterialized DATA sites.
+These are analysis findings, **not additional source-linked members**.
