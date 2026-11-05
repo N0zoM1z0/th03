@@ -727,3 +727,8 @@ original logical __video OMF references.
 The [complete DOS stime/time setter and rollover-safe getter](MAINL_DOS_STIME_TIME_ROLLOVER_NATIVE_REVIEW.md)
 adds 170 original-equal CODE bytes, two native FAR APIs
 and all seven exact logical DOS/Unix time OMF references.
+
+The [complete original MKNAME/TMPNAM temporary filename and BSS boss](MAINL_DOS_TMP_NAME_COUNTER_BOSS_NATIVE_REVIEW.md)
+adds 188 source-equal CODE bytes, actual nine-byte TMP/.$$$
+DATA strings and a real 13-byte BSS filename buffer, with
+all seven source-bound logical original OMF fixups.
