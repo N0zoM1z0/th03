@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 603-member chain.
+refer to intermediate snapshots, not the current 604-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -345,3 +345,7 @@ all ordered CS-targeted FIXUPPs for the coprocessor probe.
 The [twelve original DOS drive, NEC/IBM video, MBCS and ios ABI leaves](MAINL_TWELVE_DRIVE_VIDEO_MBCS_IOS_LEAVES_NATIVE_REVIEW.md)
 add 640 source CODE bytes across 12 original CRT slots, including five
 specific near-call OMF frame gaps and a repaired Borland jump target.
+
+The [complete 383-CODE/12-DATA `stdiostream(FILE*)` Boss](MAINL_STDIOSTREAM_FILE_CONSTRUCTOR_BOSS_NATIVE_REVIEW.md)
+recovers the actual constructor plus four typed in-CODE RTTI records,
+all 15 original logical OMF fields, and both original Japanese native links.
