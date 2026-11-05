@@ -552,3 +552,8 @@ The [complete far-vector-delete C++ dispatch boss](MAINL_FAR_VECTOR_DELETE_DISPA
 adds 215 native original CODE bytes with both array metadata paths,
 the real reference-count/multiply step and both far deletion calls.
 Its single N_LXMUL near-call frame exception is site/target-locked.
+
+The [complete DOS ftime/timezone/DST boss](MAINL_DOS_FTIME_TIMEZONE_DST_BOSS_NATIVE_REVIEW.md)
+adds 235 original CODE bytes with true INT 21h date/time helpers,
+DOS-to-Unix conversion, timezone arithmetic and native DST calls;
+two exact near-call TARGET-vs-CODE frame gaps are separately audited.
