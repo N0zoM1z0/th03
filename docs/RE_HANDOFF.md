@@ -2,7 +2,7 @@
 
 **Snapshot warning:** after439 is the last **fully storage-audited and
 cleaned** source checkpoint, but the current locally reviewed working-source
-checkpoint is **after443** (section 1a). Do **not** infer a clean
+checkpoint is **after448** (section 1a). Do **not** infer a clean
 worktree, complete source acceptance or cleanup eligibility from this
 frozen table. Inspect latest `git status -sb`, `git log` and the actual
 `build_th03_mainl_after*_work.py`/receipts before taking action.
@@ -48,57 +48,74 @@ Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
 
-## 1a. Current working-source checkpoint: verified after443
+## 1a. Current source-bound checkpoint — verified after448
 
-**The source build has advanced beyond the frozen after439 storage audit.**
-The after443 focused producer and reviewer both completed after validating the
-retained after442 parent, including all previous source member provenance.
-This is current **scoped working-source evidence**, not the current accepted
-canonical packed-file ledger and not a renewed storage-cleanup audit.
+The latest source evidence is the Japanese MAINL after448 incremental
+working CRT, independently reviewed against the *retained original* and
+the complete after447 parent proof; no ancestor cold build was replayed.
+This is **not** the frozen after439 storage-cleanup audit or formally
+accepted Factory source credit.
 
-| Current Japanese MAINL working CRT | Verified after443 |
+| Japanese MAINL working CRT | Reviewed after448 |
 | --- | ---: |
-| Original CL.LIB slots | **893** |
-| Complete source-linked original members | **651** |
-| Contextual vendor members | **242** |
-| Source-built, original-equal CODE | **175,516 bytes** |
-| Native source-bound build rounds | **2, both complete EXE/MAP byte-exact** |
-| Original decoded EXE / ordered MZ relocations | **67,372 bytes / 677** |
-| Factory accepted-source credit for these layers | **Not established** |
+| Original CL.LIB member slots | **893** |
+| Source-linked original CRT members | **656** |
+| Remaining contextual vendor members | **237** |
+| Complete original-equal source CODE | **176,605 bytes** |
+| Complete source-bound native rounds | **2, EXE and MAP original-equal** |
+| Original decoded EXE / ordered relocations | **67,372 bytes / 677** |
+| Factory accepted-source credit for this expansion | **None established** |
 
-The four completed new sources and their scoped native receipts are:
+This session recovered **five** additional original library members,
+**1,089 CODE and 40 DATA bytes**, each with two fresh native producer
+rounds, a focused reviewer/test, and its own source commit:
 
-- after440 / streambuf base destructor (stbdtr): **153 CODE + 52 DATA**;
-  complete typed RTTI/vtable, owned far-buffer and optional object deletion,
-  17 exact logical fixups; working CRT 648/893. Local checkpoint b4d0adc
-  and subsequent follow-up c0174f4.
-- after441 / streambuf far-buffer constructor (stbctr2): **258 CODE +
-  52 DATA**, complete buffer initialization, typed RTTI/vtable,
-  16 exact logical fixups; working CRT 649/893. The source-bound producer
-  was rerun after the comment correction; local source checkpoint 052943e.
-- after442 / streambuf::setb (stbsetb): **176 CODE**, complete far buffer
-  ownership/range handling, including its one original literal FIXUPP;
-  working CRT 650/893; checkpoint 1800d67.
-- after443 / filebuf::attach (fsbattch): **238 CODE**, descriptor attach,
-  optional 0x204-byte buffer allocation, setb/setp/setg integration and
-  four exact logical FIXUPPs; working CRT 651/893.
+- after444: istctr1 / istream() default constructor, 254 CODE/20 DATA,
+  actual ios subobject, two vtables, real adjusting destructor thunk,
+  12 exact original logical FIXUPPs — commit c9bf380.
+- after445: ostctr1 / ostream() default constructor, 245 CODE/20 DATA,
+  ios + typed RTTI and adjusting thunk, 12 original logical FIXUPPs.
+  The copied test-name mistake was corrected, tests rerun and latest
+  commit amended to acebdfb; no producer source/receipt drift.
+- after446: srbdalc / strstreambuf::doallocate, 141 CODE, real callback
+  allocator versus new[] and setb registration, two original logical
+  FIXUPPs — commit cac3fa1.
+- after447: _strcoll / __strcoll + _LevelCollate, 265 CODE, real locale
+  weight and strength state machine, all three **literal ordered**
+  original FIXUPPs including the two near GetNextKeyWeight calls.
+  This is a distinct provider from the short C-locale strcoll.asm —
+  commit c9ed146.
+- after448: cibmscrl / __IBM_SCROLL, 184 CODE, complete DBCS edge
+  cleanup and text BIOS dispatch. Original CODE+140 uses **wclrnorm**,
+  not the initially suspected wgarbage; six global state relocations
+  are original-exact. Seven documented Borland TARGET-frame method 5
+  vs TASM CODE-frame method 0 near imported calls are locked by
+  their individual (site,target) pairs and independently audited in
+  the review and tests — commit f465f66.
 
-**Current top source receipt:**
-.analysis/work/mainl-after443-filebuf-attach-descriptor-boss-build.json
-(SHA-256 2bf5bb44807bd3565276caaf6bf8ec918e810716ceb84b00c8cc0d8a988c6a7c).
-Source driver: scripts/build_th03_mainl_after443_work.py.
-Reviewer: scripts/review_th03_mainl_after443_work.py
-(mode filebuf-attach-descriptor-boss); focused tests:
-tests.test_mainl_after443_work. The full native output/producer log pairs
-are retained under .analysis/work and must not be pruned. The four
-latest scoped review notes and source files are in the chronological
-[working CRT index](MAINL_WORKING_CRT_RECOVERY_INDEX.md). Literal original
-Borland OMF program equality is not claimed when record order differs.
+The previously completed after440–443 source family and receipts remain
+in the chronological [working CRT index](MAINL_WORKING_CRT_RECOVERY_INDEX.md).
+The current **source-bound root receipt** is:
 
-For the newest source stage use the **after443 reviewer**, not the frozen
-after439 cleanup-only audit. Audit the *expanded* storage DAG before any
-future deletion. Pinned Japanese targets remain candidate-local-attested
-rather than independently proven pristine dumps.
+    .analysis/work/mainl-after448-ibm-console-scroll-dbcs-boss-build.json
+    SHA-256 828aba16372f8b63731d30f923a481d1a6f6e6b5004b4078acc1d7ccbcbb64a6
+
+Producer: scripts/build_th03_mainl_after448_work.py,
+mode ibm-console-scroll-dbcs-boss.
+Independent reviewer: scripts/review_th03_mainl_after448_work.py.
+Focused tests: tests.test_mainl_after448_work.
+Every active parent receipt, all native TASM/TLIB/TLINK writer logs,
+and **both complete raw OBJ/LIB/EXE/MAP pairs for all new stages**
+must be preserved. The newest source receipt is **not** a license to
+apply the frozen after439 cleanup script.
+
+**Important limits:** complete source CODE/DATA equality and byte-exact
+decoded EXE/MAP do not establish raw original Borland OBJ identity,
+literal FIXUPP equality for every member, original Japanese dump
+provenance beyond candidate-local-attested, or new Factory acceptance.
+In particular after448 has exactly seven independently proven OMF
+near-frame gaps. Its reviewer checks this controlled exception instead
+of silently claiming full original relocation fields.
 
 ## 2. Separate acceptance/ledger status
 
@@ -126,8 +143,8 @@ which current review/test entrypoints already handle.
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after443_work.py filebuf-attach-descriptor-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after443_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after448_work.py ibm-console-scroll-dbcs-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after448_work -v
 # Historical storage test deliberately fails closed with after440+ layers;
 # do not treat tests.test_mainl_after439_storage_cleanup as a current gate.
 .venv/bin/python scripts/status.py
@@ -156,10 +173,20 @@ writer logs, run its matching reviewer/tests and then commit. Do not
 mistake a local commit, TASM exit or linked EXE equality for formal
 Factory acceptance.
 
-**Still-unowned candidate directions** at the current working-source
-checkpoint include `srbdalc` and `cibmscrl`; explore further larger
-unsourced members as well, and **recheck** live source membership before
-claiming any of them. Balance large C++/BIOS Bosses with substantive leaf functions.
+**Still-unowned candidate directions** after the new source stages
+include bcd1 (398 CODE / 140 DATA, original x87 emulation FIXUPPs),
+cplx1 (364 CODE, floating emulator references), and the much larger
+isteldbl (1,947 CODE). These were checked against the actual current
+working-source membership, not merely missing filenames. The original
+bcd1 and cplx1 imports and x87 relocation sites were inspected; a
+minimal experimental TASM5 .8087 / EMULATOR-directive attempt failed
+with an illegal-instruction error. The correct historical Borland
+emulation mechanism remains **open**; do not fake its original FPU
+FIXUPPs with raw target bytes or presume prior assumptions correct.
+The short original fsbclose or other unowned leaf members also remain
+possible complementary scopes. Recheck every candidate with parent
+retained source membership and the original OMF before coding.
+
 The unresolved `h_ldiv` source has **174 original-equal CODE bytes** but
 TASM/Borland MAP alias order differs: it is **not counted** in the frozen after439 647-member snapshot. See [the h_ldiv investigation](MAINL_H_LDIV_SCOPED_CODE_ONLY_REVIEW.md).
 Other narrow OMF differences are recorded in [OMF gaps](MAINL_OMF_GAPS.md).
