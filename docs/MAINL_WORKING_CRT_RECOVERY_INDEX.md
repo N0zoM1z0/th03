@@ -713,3 +713,8 @@ The [complete native DOS intdos/intdosx register bridge](MAINL_DOS_INTDOS_REGIST
 adds 146 original CODE bytes and both original literal
 ordered OMF fixups, including the true INT 21h register
 and FLAGS return ABI.
+
+The [complete original FAR heap binary search boss](MAINL_FAR_HEAP_BINARY_SEARCH_BOSS_NATIVE_REVIEW.md)
+adds 145 source-equal CODE bytes with real 32-bit element
+midpoint arithmetic, native FAR comparator and three
+precisely site-locked near-call OMF frame differences.
