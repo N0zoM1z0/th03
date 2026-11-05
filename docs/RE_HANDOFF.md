@@ -1,8 +1,8 @@
-# TH03 — agent handoff (2026-11-05; after461 working source)
+# TH03 — agent handoff (2026-11-05; after468 working source)
 
 **Snapshot warning:** after439 is the last **fully storage-audited and
 cleaned** source checkpoint, but the current locally reviewed working-source
-checkpoint is **after461** (section 1a). Do **not** infer a clean
+checkpoint is **after468** (section 1a). Do **not** infer a clean
 worktree, complete source acceptance or cleanup eligibility from this
 frozen table. Inspect latest `git status -sb`, `git log` and the actual
 `build_th03_mainl_after*_work.py`/receipts before taking action.
@@ -48,9 +48,111 @@ Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
 
-## 1a. Current working-source checkpoint — independently verified after461
+## 1a. Current working-source checkpoint — independently verified after468
 
-**Latest source evidence is after461, not the frozen after439 cleanup audit.**
+**Current source build is after468, not the frozen after439 storage audit.**
+After468 verifies the retained after467 parent evidence and complete
+unchanged source-bound carrier before two fresh TASM/TLIB/TLINK rounds.
+No full cold replay or new Factory accepted-source credit was claimed.
+
+| Japanese MAINL working CRT | Verified after468 |
+| --- | ---: |
+| Original CL.LIB slots | **893** |
+| Complete source-linked original CRT members | **676** |
+| Remaining contextual vendor members | **217** |
+| Original-equal source-built CODE | **181,204 bytes** |
+| This session newly source-built DATA / INITDATA | **16 / 6 bytes** |
+| Full decoded Japanese EXE / MZ relocations | **67,372 bytes / 677** |
+| New native build rounds | **2, both EXE/MAP byte-exact** |
+| New formal Factory source credit | **Not established** |
+
+**Seven separately committed original CRT source members** add
+**1,424 CODE, 16 DATA and 6 INITDATA bytes** this session. All
+are complete original-scope source, checked individually against
+the real Japanese Borland CL.LIB programs, with their own fresh
+two-round TASM/TLIB/TLINK output, focused reviewer and tests:
+
+- after462 vdelxf (142): **215 CODE**, FAR vector-delete,
+  hidden array metadata, true 32-bit multiply/reference-count
+  adjustment and both far deletion paths. One exact, site-locked
+  N_LXMUL near frame discrepancy at CODE+118 — commit 7ae4d0b.
+- after463 _ftime (183): **235 CODE**, DOS date/time far helpers,
+  midnight refresh, timezone division and real DST/Unix
+  conversion. Two exact, site-locked imported NEAR frame differences
+  at CODE+119 and +159 — commit c4f85d8.
+- after464 ccomgptx (512): **210 CODE**, all three PC-98/IBM
+  FAR gettext/puttext/getputtextsize dispatchers and 12 exact
+  logical OMF fixups — commit c1f49d8.
+- after465 _pathops (186): **208 CODE + 16 DATA + 6 INITDATA**,
+  full DOS 21h/6300h DBCS path initialization, two FAR predicates,
+  symbolic CRT INITDATA+2 -> CODE+0 registration and all
+  **eight literal ordered original FIXUPPs** — commit 0726bd6.
+- after466 lconv (242): **212 CODE**, ten live locale FAR
+  strings, eight monetary/format flags and 41 original logical
+  OMF fields — commit e29d66f.
+- after467 dostimu (37): **214 CODE**, original packed DOS time
+  to UTC with leap-year/month-day and DST adjustments.
+  All **five literal ordered original FIXUPPs** match — bf08a49.
+- after468 getw (66): **130 CODE**, complete FILE-buffer
+  two-byte leaf, both genuine far fgetc fallbacks and EOF logic,
+  two original logical FIXUPPs — commit cf68a71.
+
+**Current complete source-bound root receipt:**
+
+    .analysis/work/mainl-after468-stdio-getw-two-byte-leaf-build.json
+    SHA-256 9d6994a911d7e5d2f3575a7d7db269b612d87d7dc57e6698e15bbfe9dc22a036
+
+Producer: scripts/build_th03_mainl_after468_work.py
+(mode stdio-getw-two-byte-leaf). Independent reviewer:
+scripts/review_th03_mainl_after468_work.py, focused tests:
+tests.test_mainl_after468_work. The entire after461–468 parent
+receipt chain, new source/driver hashes, all seven per-stage
+log phases, and both complete raw OBJ/LIB/EXE/MAP vectors
+per new stage were verified on 2026-11-05 without cold replay.
+**Protect every inherited source receipt and raw native round;
+the old after439 cleanup remains fail-closed and is not a
+permission to delete new evidence.**
+
+**Giant original x87 boss research (not source-linked credit):**
+A separately tested, read-only OMF parser was committed as
+dbe9dee: scripts/probe_th03_mainl_large_fixups.py.
+It independently reads all **112** original fixups of isteldbl
+(1,947 CODE), including 85 frame-method-4 references, and
+all **860** of cplx2 (5,598 CODE), including 734 method-4
+references. The original cplx2 DATA SEGDEF is 63 bytes, but
+only the final 47 are materialized; DATA+0..15 is implicit.
+Its six-byte INITDATA has an original CODE+5575 pointer at
+INITDATA+2. See
+[large x87 location-frame OMF findings](MAINL_LARGE_X87_LOCATION_FRAME_OMF_ANALYSIS.md)
+and tests.test_mainl_large_x87_location_frames.
+**These two large members remain unsourced.** Never silently
+normalize their method-4 original frame metadata or count
+them as maintained-source units.
+
+Two inherited generator issues were found, diagnosed and fixed
+rather than bypassed: broad numeric replacement had changed
+after467 review's fixed original EXE length from 67,372 to
+67,472; after468 initially expected 219 contextual vendor
+members in its 675-source parent instead of 218. The first
+reviewer was corrected, the second parent check restored,
+and the ignored local stage helper now uses field-anchored
+substitutions instead of uncontrolled number replacements.
+
+**Proof limits:** native CODE/DATA and decoded EXE/MAP equality
+plus complete original logical OMF sites does not establish
+literal ordered FIXUPP equality or original raw OBJ identity
+for every member. After462/463 have disclosed narrow near-call
+frames, after464/466/468 have literal record-order differences,
+while after465/467 reproduce their literal FIXUPPs. The pinned
+Japanese source remains candidate-local-attested rather than
+independently proven pristine. MAINL canonical packed-file
+accepted credit remains **0/250**.
+
+## 1b. Previous working-source checkpoint — after461 (historical)
+
+
+
+**Historical after461 source evidence, superseded by after468.**
 After461 verifies the retained source-bound receipts through after460;
 the native producer builds only the affected original member, with two
 fresh TASM/TLIB/TLINK rounds and complete original-equal decoded EXE/MAP.
@@ -99,7 +201,7 @@ review, and a passing focused test:
   order and a genuine FAR new-object call, avoiding TASM's invalid
   near-call optimization. Commit 891635b.
 
-The current complete **source-bound root** is:
+The historical after461 complete **source-bound root** was:
 
     .analysis/work/mainl-after461-complex-x87-multiply-boss-build.json
     SHA-256 a534ca99448cdbcd44decb8721e6b3d0ce66fc8dbc2fab034840068cf63f48b0
@@ -135,7 +237,7 @@ at two different complete original members; do not infer every larger
 member will necessarily share their exact build characteristics.
 The unresolved h_ldiv MAP alias-order discrepancy remains open.
 
-## 1b. Previous source-bound checkpoint — verified after448 (historical)
+## 1c. Previous source-bound checkpoint — verified after448 (historical)
 
 
 At this historical checkpoint, the Japanese MAINL after448 incremental
@@ -231,8 +333,9 @@ which current review/test entrypoints already handle.
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after461_work.py complex-x87-multiply-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after461_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after468_work.py stdio-getw-two-byte-leaf
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after468_work -v
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_large_x87_location_frames -v
 # Historical storage test deliberately fails closed with after440+ layers;
 # do not treat tests.test_mainl_after439_storage_cleanup as a current gate.
 .venv/bin/python scripts/status.py
