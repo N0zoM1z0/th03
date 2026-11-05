@@ -6,7 +6,7 @@ acceptance ledger and should not be summed to claim product coverage;
 individual module review files provide the relevant original OMF and
 source/receipt details. For the verified, live total and command, return
 to [the current handoff](RE_HANDOFF.md). Several historical paragraphs
-refer to intermediate snapshots, not the current 512-member chain.
+refer to intermediate snapshots, not the current 513-member chain.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
@@ -228,3 +228,7 @@ The [original 310-byte `_locking` DOS file-locking boss](MAINL_DOS_LOCKING_BOSS_
 adds the actual five-way relocatable CODE dispatch table, exact logical 16
 FIXUPP fields, and reproducible full Japanese EXE/MAP; raw Borland FIXUPP
 record chronology remains open.
+
+The [original 300-CODE/12-BSS DOS INT 24h critical-error boss](MAINL_DOS_HARDERR_NATIVE_REVIEW.md)
+restores its true interrupt frame, both callback conventions, four CRT APIs
+and 20 exact logical relocations with native source-built Japanese EXE/MAP.
