@@ -1,0 +1,55 @@
+# Full original Borland C++ diagnostic runtime (`checks`): 89 relocations
+
+This increment reconstructs the **actual original Japanese CL.LIB member
+382** as `src/mainl/crt/checks.asm`: **1,708 complete CODE bytes** in two
+segments (`_TEXT` 221, `_TEXTC` 1,487), **143 initialized DATA bytes**, an
+empty BSS, and true six-byte `_INIT_` and `_EXIT_` records. All **seven
+exported far C++ methods** and **three original DATA publics**, **18 imported
+Borland symbols**, all original segment sizes and group `0eff02ff03` are
+retained. The recovered implementation includes `TDiagGroupDef::Trace/Warn`,
+`TDiagBase::Output/Message/Trace/Warn`, `xerror::MakeString`, native
+`ostrstream` formatting, static construction/destruction, unwind state and
+eight complete C++ RTTI records (`string *`, `ostrstream`, `ios`, `ostream`,
+`strstreambase`, `string`, `strstreambuf`, `streambuf`).
+
+The original DATA includes the real initialized group-name pointer, flags,
+**98 materialized zero-valued bytes** of `@TDiagBase@Out`, and eight distinct
+original message fragments (`Def`, `: [`, `] `, CR/LF, `Trace`, `Warning`,
+` failed `, `: `). During actual source reconstruction, a TASM `DUP(0)`
+declaration was found to emit an **uninitialized LEDATA hole**, not the
+original 98 initialized bytes. Explicit zero initializers repair the actual
+source semantics, not a postassembly binary patch. The CODE segments
+contain real 8086 instruction mnemonics, while exception records and RTTI
+are genuine symbolic `dw`/`dd` and ASCII declarations, not opaque executable
+machine-code arrays.
+
+All **89 original relocation fields** match the actual original Japanese
+CL.LIB in site, segment, width, target method and identity, frame, and
+addend; all original CODE/DATA/INIT/EXIT bytes match. **Important
+limitation:** TASM does **not** reproduce the literal order of the Borland
+FIXUPP records, nor the complete original member OMF serialization, even
+though the complete logical 89-field inventory is equal. This discrepancy
+is retained as `literal_OMF_FIXUPP_equal = false` and
+`original_program_equal_by_member['checks'] = false` in the raw receipt,
+not normalized away or described as full OBJ exactness.
+
+`scripts/build_th03_mainl_after361_work.py diagnostic-checks-boss`
+consumes the parent **420-source** CRT carrier, recompiles this whole member
+and rebuilds the original **893-slot** library in two independent native
+TASM/TLIB/TLINK rounds, without running full cold replay. Both rounds
+reproduce the **original decoded 67,372-byte Japanese MAINL EXE and MAP
+byte-for-byte**, including **all 677 ordered DOS MZ relocations**. That
+is stronger linked-output evidence than CODE byte equality alone; the
+non-identical raw FIXUPP serialization remains independently visible.
+
+The scoped working carrier now covers **421 complete source-backed members**,
+**472 original contextual library programs**, and **135,508 original-equal
+CRT CODE bytes** (+1,708), plus this member's real initialized DATA and
+INIT/EXIT records. Raw original and source-produced OBJ/LIB/EXE/MAP files,
+source/parent/driver hashes and writer logs are under
+`.analysis/work/after361-*`; the independent reviewer and raw OMF/MZ tests
+are `scripts/review_th03_mainl_after361_work.py` and
+`tests/test_mainl_after361_work.py`.
+
+This is **working-source evidence**, not a new Factory-accepted decoded
+extent, packed-game file ownership or whole-game exactness claim.

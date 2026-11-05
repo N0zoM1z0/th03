@@ -17,28 +17,33 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **420** |
-| Original contextual vendor programs left unchanged | **473** |
-| Source-compiled original-equal CRT CODE | **133,800 bytes** |
+| Slots rebuilt from complete source | **421** |
+| Original contextual vendor programs left unchanged | **472** |
+| Source-compiled original-equal CRT CODE | **135,508 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after360_work.py mbcs-string-routines`
-and `tests.test_mainl_after360_work`, bound to
-`.analysis/work/mainl-after360-mbcs-string-routines-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after361_work.py diagnostic-checks-boss`
+and `tests.test_mainl_after361_work`, bound to
+`.analysis/work/mainl-after361-diagnostic-checks-boss-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-420-provider accepted ledger publication, a complete MAINL source tree, or
+421-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 [Five full DOS file/date/drive/search CRT members](MAINL_DOS_FILE_DATE_LOCK_FIND_NATIVE_REVIEW.md)
 add 462 original CODE bytes across ten public entries. Four match original
 literal FIXUPPs; `doslock` records the **two exact TARGET-vs-CODE near-call
-frame gaps**, with byte-exact native linking. [Five-API `find1` boss](MAINL_FIND1_BOSS_NATIVE_REVIEW.md) recovers 1,379 CODE bytes and literal original FIXUPPs. Eight [complete MBCS string near/far routines](MAINL_MBCS_STRING_ROUTINES_NATIVE_REVIEW.md)
+frame gaps**, with byte-exact native linking. [Five-API `find1` boss](MAINL_FIND1_BOSS_NATIVE_REVIEW.md) recovers 1,379 CODE bytes and literal original FIXUPPs. The [complete `checks` diagnostic C++ boss](MAINL_DIAGNOSTIC_CHECKS_FULL_NATIVE_REVIEW.md)
+adds 1,708 original CODE and 143 materialized initialized DATA bytes, with
+seven far methods, eight typed RTTI records and 89 exact logical FIXUPPs.
+Its literal OMF FIXUPP record order remains different from the original
+Borland member; the complete two-round Japanese EXE/MAP still matches.
+Eight [complete MBCS string near/far routines](MAINL_MBCS_STRING_ROUTINES_NATIVE_REVIEW.md)
 add 722 original CODE bytes, eight character-string APIs and ten literal
 original `__mbctype`/`__ctype` FIXUPPs. The [complete `filebuf::overflow` buffer-management boss](MAINL_FILEBUF_OVERFLOW_FULL_NATIVE_REVIEW.md)
 adds 333 original CODE bytes, exact buffered write/put/get state transitions
@@ -186,7 +191,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 420-source
+Current accepted **decoded** source scope, not including the 421-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -198,7 +203,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 420 members into the accepted ledger;
+does **not** promote the working 421 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -239,8 +244,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after360_work.py mbcs-string-routines
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after359_work tests.test_mainl_after360_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after361_work.py diagnostic-checks-boss
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after360_work tests.test_mainl_after361_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
