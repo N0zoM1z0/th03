@@ -17,22 +17,22 @@ TH04 binaries or the packed-game image for the pinned original decoded EXE.
 | Working-source property | Current verified value |
 | --- | ---: |
 | Original Borland CRT member slots | 893 |
-| Slots rebuilt from complete source | **364** |
-| Original contextual vendor programs left unchanged | **529** |
-| Source-compiled original-equal CRT CODE | **119,828 bytes** |
+| Slots rebuilt from complete source | **372** |
+| Original contextual vendor programs left unchanged | **521** |
+| Source-compiled original-equal CRT CODE | **120,173 bytes** |
 | Decoded original Japanese MAINL EXE size | **67,372 bytes** |
 | Ordered DOS MZ relocations | **677** |
 | Normal native TASM/TLIB/TLINK verification | **2 independent byte-exact EXE/MAP rounds** |
 
-**Live proof:** `scripts/review_th03_mainl_after338_work.py dos-exec-overlay-boss`
-and `tests.test_mainl_after338_work`, bound to
-`.analysis/work/mainl-after338-dos-exec-overlay-boss-build.json`. The exact original
+**Live proof:** `scripts/review_th03_mainl_after339_work.py locale-string-case-leaves`
+and `tests.test_mainl_after339_work`, bound to
+`.analysis/work/mainl-after339-locale-string-case-leaves-build.json`. The exact original
 `after330` [13-API isctype member](MAINL_ISCTYPE_FAMILY_NATIVE_REVIEW.md)
 and its independent native receipts remain available and are revalidated as
 this layer's parent. The inherited
 source-bound reviewers validate original OBJ/LIB/EXE/MAP vectors and logs,
 without a new cold replay. This is **not** a
-364-provider accepted ledger publication, a complete MAINL source tree, or
+372-provider accepted ledger publication, a complete MAINL source tree, or
 proof of byte-identical individual BCC OBJ record serialization.
 
 Recent substantive original-source recoveries: C++ `fstreambase`,
@@ -74,7 +74,10 @@ serialization differences remain explicitly documented.
 Eight [full DOS path/ostream leaves](MAINL_STREAM_PATH_LEAVES_NATIVE_REVIEW.md)
 add 248 original-equal CODE bytes, including exact stream `endl`/`ends`/
 `flush` and the original `umask` global with separately documented OMF
-FIXUPP ordering. The [complete DOS overlay executor `__exec`](MAINL_EXEC_AFTER338_SOURCE_REVIEW.md)
+FIXUPP ordering. Eight [complete locale character / string case leaves](MAINL_LOCALE_CASE_LEAVES_NATIVE_REVIEW.md)
+add 345 original CODE bytes and preserve eight literal original OMF
+FIXUPP fields, including a recovered locale TARGET-frame distinction.
+The [complete DOS overlay executor `__exec`](MAINL_EXEC_AFTER338_SOURCE_REVIEW.md)
 recovers its 933-byte CODE segment including 257 uninitialized bytes,
 original overlay continuation, 21 ordered relocations and, in both native
 rounds, literal complete Borland OMF library member equality. The
@@ -114,7 +117,7 @@ adds another 333 original-equal CODE bytes with an exact original framed
 
 The [generated progress](PROGRESS.md) and the pinned acceptance manifests
 separate decoded function ownership from the packed-file unit ledger.
-Current accepted **decoded** source scope, not including the 364-source
+Current accepted **decoded** source scope, not including the 372-source
 working-only CRT expansion:
 
 | Product | Decoded accepted scope |
@@ -126,7 +129,7 @@ working-only CRT expansion:
 
 MAINL decoded accepted source is **16,695 authored + 20,251 library bytes**,
 and its accepted CRT has **28 source providers**. A linked EXE/MAP match
-does **not** promote the working 364 members into the accepted ledger;
+does **not** promote the working 372 members into the accepted ledger;
 Factory acceptance and packed-file canonical unit credit remain separate.
 
 ### Open technical issues — don't overclaim
@@ -167,8 +170,8 @@ Factory acceptance and packed-file canonical unit credit remain separate.
 
 ```sh
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after338_work.py dos-exec-overlay-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after337_work tests.test_mainl_after338_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after339_work.py locale-string-case-leaves
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after338_work tests.test_mainl_after339_work -v
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 git status -sb
