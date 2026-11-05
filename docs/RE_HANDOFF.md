@@ -1,8 +1,8 @@
-# TH03 — agent handoff (2026-11-05; frozen after439 storage audit)
+# TH03 — agent handoff (2026-11-05; after455 working source)
 
 **Snapshot warning:** after439 is the last **fully storage-audited and
 cleaned** source checkpoint, but the current locally reviewed working-source
-checkpoint is **after448** (section 1a). Do **not** infer a clean
+checkpoint is **after455** (section 1a). Do **not** infer a clean
 worktree, complete source acceptance or cleanup eligibility from this
 frozen table. Inspect latest `git status -sb`, `git log` and the actual
 `build_th03_mainl_after*_work.py`/receipts before taking action.
@@ -48,10 +48,89 @@ Some known ordering and near-frame differences are deliberately disclosed
 in individual review files. These also do **not** establish whole-game
 source ownership or Factory/canonical packed-file acceptance.
 
-## 1a. Current source-bound checkpoint — verified after448
+## 1a. Current source-bound checkpoint — verified after455
 
-The latest source evidence is the Japanese MAINL after448 incremental
-working CRT, independently reviewed against the *retained original* and
+This is the current Japanese MAINL **working-source** CRT checkpoint, not
+a renewed storage cleanup or a new canonical/Factory source acceptance.
+Its after455 receipt inherits and checks the entire preceding source-bound
+DAG through after454; **no full cold replay** was performed.
+
+| Japanese MAINL working CRT | Verified after455 |
+| --- | ---: |
+| Original CL.LIB members | **893** |
+| Complete source-linked original CRT members | **663** |
+| Remaining contextual vendor members | **230** |
+| Complete source-built original-equal CODE | **178,132 bytes** |
+| Original decoded Japanese EXE / MZ relocations | **67,372 bytes / 677** |
+| Fresh TASM/TLIB/TLINK producer rounds at latest stage | **2; both EXE/MAP byte-exact** |
+| New Factory accepted-source credit | **Not established** |
+
+**This session** recovered seven further original CRT modules: **1,527
+CODE and 164 initialized DATA bytes** in seven separate source commits.
+All were independently compared with original Japanese Borland
+CL.LIB CODE/DATA, segment layout, ordered imports/publics and logical
+OMF relocation sites, not merely inferred from old handoff notes.
+Each received its own two-round source-bound native producer,
+reviewer, tests and commit (`gpt-web: xxx`):
+
+- after449 `srbctr5` (index 838), 239 CODE / 52 DATA; unsigned-char
+  strstreambuf far-buffer constructor, complete inherited RTTI, 11
+  virtual method pointers and all 20 original logical FIXUPPs —
+  `5e6b6e6`.
+- after450 `srbctr6` (839), 239 CODE / 52 DATA; separate char-pointer
+  constructor ABI, full RTTI/vtable and 20 original logical FIXUPPs,
+  original source independently compared before adopting the sibling
+  implementation — `912fab7`.
+- after451 `sdbdtr` (826), 224 CODE / 52 DATA; complete stdiobuf FAR
+  virtual destructor, actual indirect overflow(-1) dispatch, streambuf
+  teardown and optional far delete, 19 logical FIXUPPs — `7700090`.
+- after452 `fsbsbuf` (714), 191 CODE; complete filebuf::setbuf with
+  original active-file guard, threshold range choice and real
+  setb/setp/setg far callbacks, all three logical FIXUPPs — `74015ce`.
+- after453 `fsbclose` (707), 174 CODE; complete filebuf::close with
+  virtual flush, actual DOS close, state reset and both native result
+  paths. Its **one literal original FIXUPP** at CODE+125 is identical
+  to TASM — `14c541d`.
+- after454 `FMBSTOK` (689), 230 CODE / 4 DATA; MBCS far tokenizer
+  with its real saved far cursor, delimiter/DBCS handling and 12
+  logical OMF fixups. A strict group mismatch was fixed **in source**:
+  TASM emitted DATA/BSS in reverse order until the group declaration
+  was corrected to restore original `08ff02ff03` — `017e965`.
+- after455 `MBSTOK` (633), 230 CODE / 4 DATA; a separately verified
+  MBCS tokenizer, with its own genuine saved cursor, different helper
+  imports and all 12 logical fixups. An initial generated `_TEXTA`
+  builder expectation was corrected to the actual original `_TEXT`
+  after independently checking both the library and vendor OBJ —
+  `9b244b3`.
+
+**Current source-bound root receipt:**
+
+    .analysis/work/mainl-after455-multibyte-strtok-state-machine-build.json
+    SHA-256 ea3cfc8ba5e1112f9fce3cce8943a4380079ecd5b92ce2770cd55220ba550163
+
+Latest producer: scripts/build_th03_mainl_after455_work.py,
+mode `multibyte-strtok-state-machine`. Reviewer:
+scripts/review_th03_mainl_after455_work.py, targeted tests:
+tests.test_mainl_after455_work. The stage's two native rounds retain
+all original raw OBJ/LIB/EXE/MAP outputs and writer logs. **Protect the
+entire inherited source-bound receipt DAG and both rounds of every stage;
+never run the after439 cleanup script against these newer layers.**
+
+**Important limits:** the built original-equal decoded EXE/MAP and
+complete CODE/DATA + logical OMF fields are *not* complete literal
+original Borland OBJ identity. FMBSTOK/MBSTOK's literal FIXUPP record
+chronology differs, while fsbclose has original literal FIXUPP equality.
+Historical `cibmscrl` still has its exact seven near-call frame
+differences. The Japanese target provenance is candidate-local-attested,
+not independently proven pristine-dump provenance. MAINL's canonical
+packed-file accepted credit remains zero; do not report this working
+CRT expansion as Factory acceptance.
+
+## 1b. Previous source-bound checkpoint — verified after448 (historical)
+
+
+At this historical checkpoint, the Japanese MAINL after448 incremental
+working CRT was independently reviewed against the *retained original* and
 the complete after447 parent proof; no ancestor cold build was replayed.
 This is **not** the frozen after439 storage-cleanup audit or formally
 accepted Factory source credit.
@@ -143,8 +222,8 @@ which current review/test entrypoints already handle.
 git status -sb
 git log -5 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after448_work.py ibm-console-scroll-dbcs-boss
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after448_work -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after455_work.py multibyte-strtok-state-machine
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after455_work -v
 # Historical storage test deliberately fails closed with after440+ layers;
 # do not treat tests.test_mainl_after439_storage_cleanup as a current gate.
 .venv/bin/python scripts/status.py
@@ -183,8 +262,8 @@ minimal experimental TASM5 .8087 / EMULATOR-directive attempt failed
 with an illegal-instruction error. The correct historical Borland
 emulation mechanism remains **open**; do not fake its original FPU
 FIXUPPs with raw target bytes or presume prior assumptions correct.
-The short original fsbclose or other unowned leaf members also remain
-possible complementary scopes. Recheck every candidate with parent
+Other unowned leaf members remain possible complementary scopes;
+`fsbclose` itself is now source-linked at after453. Recheck every candidate with parent
 retained source membership and the original OMF before coding.
 
 The unresolved `h_ldiv` source has **174 original-equal CODE bytes** but
