@@ -1,7 +1,8 @@
-# TH03 — current agent handoff (2026-11-06; runtime548 / project scopes551)
+# TH03 — current agent handoff (2026-11-06; MAINL root552 / shared runtime548)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after548**; latest independently applied storage audit: **after520**.
+**after552** (MAINL root), **after548** (shared runtime/OP); latest independently
+applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -31,7 +32,7 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after548-build.json`.
+Shared runtime root: `.analysis/work/runtime-after548-build.json`.
 SHA-256: `b0bed460844c39c51a1496b312ac0b94120cfff2ccd7e202e6abdb01db9ed773`.
 Producer/reviewer: `scripts/build_th03_runtime_after548_work.py` and
 `scripts/review_th03_runtime_after548_work.py`.
@@ -60,7 +61,8 @@ MAPs agree. Packed OP proof is reused. Ten fresh raw outputs/six writer logs use
 OP's consumed C0/library/responses/outputs in `TH03OP/probe/af548h`.
 
 **Subsequent stages must reuse `rounds[i].outputs.startup` from this after548
-root**, plus its unchanged library references. The old helper expression
+root**, plus its unchanged library references. MAINL additionally reuses the
+root OBJ from after552 below. The old helper expression
 `base.parent.parent.REPORT` still points to historical after535 and would undo
 the startup order refinement. Keep that old pair as baseline evidence.
 
@@ -180,7 +182,7 @@ Producer/reviewer: `build_th03_mainl_input_scan_work.py` /
 af549h consumed inputs and both actual after548 C0/library references. See the
 [input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
 
-The read-only `audit_th03_mainl_ownership_gaps.py --check` now binds all **216**
+The read-only `audit_th03_mainl_ownership_gaps.py --check` now binds all **217**
 published owners to target bytes and36 project objects. After551 leaves **716
 project CODE-allocation bytes across9 contributions** outside publication
 (after550:807/11; after549:905/13). This is not a missing-function count:
@@ -192,41 +194,45 @@ close the old gaps; retain the 60-file af549a–g diagnostic manifest. The TC201
 tool candidate is private, outside product recipes; preflight passed after its
 installation. Do not repeat these settings as if they were new evidence.
 
-## Additional accepted project scopes (after550)
+## Retained project scopes (after550/551)
 
-The [completion review](MAINL_COMPLETION_AFTER550_NATIVE_REVIEW.md) accepts the
-existing complete LUT generator30 and near registration music68, plus ten typed
-far name pointers40 DATA: two procedures/37 instructions,19 literal native
-fields and17 ordered MZ relocations. All214 published owners total37,084 bytes;
-this is decoded scoped ownership, not whole-product/Factory acceptance.
-`python -m lib.decoded_mainl_completion_native --current-cold` validates the
-unchanged938-output pair; no source/recipe change, cold rebuild or runtime replay.
+The [completion review](MAINL_COMPLETION_AFTER550_NATIVE_REVIEW.md) adds two
+procedures/98 CODE and40 pointer DATA bytes. Its farheap/setupio source bridges
+retain the actual after332/493 pairs and old reports; setupio comment identity
+is false. Keep the after550 preservation snapshot and af550a sound probe.
 
-The old publication verifier had missed the later farheap/setupio source
-successors. Explicit after332/493 bridges now check their actual raw pairs,
-writer logs and every literal non-comment OMF record against the old pairs.
-Old reports/snapshots remain unchanged; setupio comment-record identity is false.
-Preserve `.analysis/work/mainl-completion-after550-preserved/`, both successor
-native DAGs and the isolated af550a sound-mode compiler-S/TASM probe. That probe
-still emits29 versus30 bytes; it does not justify a trailing NOP or new credit.
+The [switch review](MAINL_SWITCH_TABLES_AFTER551_NATIVE_REVIEW.md) adds90 inline
+data bytes plus one demonstrated compiler alignment byte, not new procedures.
+The actual `-a2`/`-a1` contrast explains all236 fields/publics and five shifted
+near calls. Cutscene3195 partitions as3122 instructions/72 table/1 alignment;
+root CODE2458 as2440 instructions/18 table. Preserve af551a's nine source/native
+files, three logs, private driver/report and prior-publication snapshot.
 
-## Generated switch data and compiler alignment (after551)
+## Complete selected MAINL root TU (after552)
 
-The [switch review](MAINL_SWITCH_TABLES_AFTER551_NATIVE_REVIEW.md) closes the
-cutscene's remaining73 bytes and root's18-byte switch:90 inline data bytes plus
-one native compiler alignment byte, **no new instructions/procedures**. Actual
-isolated TCC `-a2` output matches every non-comment cold OMF record; changing
-only the existing pragma to `-a1` removes the zero and shifts the table exactly
-once. All236 fields/publics and five affected near calls explain that layout
-change. The diagnostic control is unaccepted; no padding or target masking.
+Live selected TU: `src/mainl/root/recovered/complete.cpp`, with bounded CFG/win/
+state `.inl` inputs. All278 fields and all non-comment cold OMF records agree.
+Two normal TCC/TLINK rounds repeat whole OBJ/EXE/MAP; entire original67372-byte
+EXE/current80967-byte MAP agree. Reuse35 game objects and actual after548 C0/LIB;
+no TLIB, packing or cold replay. DATA112 gains one owner; BSS186 is typed,
+reserved beyond file end and gets **zero file-byte credit**. All217 accepted
+extents total37,287 bytes, with unchanged290 procedures. See the
+[root review](MAINL_ROOT_STATE_AFTER552_NATIVE_REVIEW.md).
 
-All216 accepted extents total37,175 bytes. Cutscene CODE3195 is fully partitioned
-as3122 instructions/72 table/1 alignment; root CODE2458 as2440 instructions/18
-table. Root DATA112/BSS186 remain context. Preserve af551a's nine source/native
-files, three compiler logs, private driver/report and the previous-publication
-snapshot. `python -m lib.decoded_mainl_switch_native --current-cold` checks the
-pinned control and29 literal table fields; the unchanged938-output cold pair
-is reused. Native runtime root remains after548.
+Root `.analysis/work/root-state-after552-build.json`, SHA256
+`67c1c0c2daf57a684c6cca46098a1a05b1efcc7418c6ba30f0fabd295f58cd83`.
+Producer/reviewer: `build_th03_mainl_root_state_work.py` /
+`review_th03_mainl_root_state_work.py`. Keep six raw outputs/four writer logs,
+af552h source/recipe/response inputs and actual inherited library/startup pairs.
+Future MAINL links reuse this root OBJ in addition to after548 C0/LIB.
+
+The old runtime-review chain now fails at its obsolete live211 publication
+gate. The new root reviewer instead checks2178 frozen native inputs against
+after548 Git plus both actual runtime vectors and the current cold graph. One
+untouched CRLF checkout has explicit text-transport hashes; no native bytes are
+normalized or historical receipts repinned. af552a's four direct TCC controls
+emit29/57/27/11 bytes without manual codestrings: their NOP tails stay unowned.
+Keep af552b and the32-file diagnostic manifest under `probe/root552/`.
 
 ## Next bounded work
 
@@ -254,11 +260,11 @@ The source-ordered PUBLIC-queue method is now proved through actual linked
 CODE/DATA interleaving. Preserve record-packing differences explicitly and
 prebind backward branch labels before separately scheduled test spans when
 needed; require every original byte/field and one-write initialized coverage.
-Historical TUs/recipes stay frozen. Extend **after548**, retaining all earlier
-live shared refinements and source C0. These remain existing owners, not missing
+Historical TUs/recipes stay frozen. Extend **after552 for MAINL**, retaining
+after548 shared runtime/C0 and all earlier live refinements. These remain existing owners, not missing
 functions or whole-game progress counts.
-Call the latest reviewer once; it validates the complete unchanged source DAG,
-not ancestor runtime chains. All historical TUs/recipes remain frozen; use new
+Call the latest root reviewer once; it validates retained source/native inputs
+without obsolete live-publication gates or ancestor runtime chains. Use new
 bounded shared owners as needed. Earlier 893-slot totals and partial bosses are
 not missing-source queues or whole-game percentages.
 
@@ -297,8 +303,8 @@ git status -sb
 git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
-# One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after548_work.py
+# Current MAINL source/native preservation and both selected root rounds:
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_mainl_root_state_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check

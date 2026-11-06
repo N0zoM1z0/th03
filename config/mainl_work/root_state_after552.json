@@ -1,0 +1,24 @@
+{
+  "schema": "th03-mainl-root-state-after552-v1",
+  "source": "src/mainl/root/recovered/complete.cpp",
+  "inputs": [
+    "src/mainl/root/recovered/complete.cpp",
+    "src/mainl/root/recovered/cfg_load.inl",
+    "src/mainl/root/recovered/win.inl",
+    "src/mainl/root/recovered/state.inl"
+  ],
+  "original_object": "obj/th03/rootdata.obj",
+  "parent_report": ".analysis/work/runtime-after548-build.json",
+  "parent_report_sha256": "b0bed460844c39c51a1496b312ac0b94120cfff2ccd7e202e6abdb01db9ed773",
+  "native_module": "rootdata.cpp",
+  "CODE_bytes": 2458,
+  "DATA_bytes": 112,
+  "BSS_bytes": 186,
+  "native_ordered_fields": 278,
+  "DATA_ordered_fields": 28,
+  "source_acceptance": false,
+  "whole_product_accepted": false,
+  "canonical_credit_changed": false,
+  "unit_id": "th03-mainl-decoded-root-initialized-pointers",
+  "preservation_commit": "0feb71f8ebc6cd0f708388afff0f3a604024d404"
+}

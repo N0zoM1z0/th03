@@ -66,6 +66,7 @@ from lib.decoded_mainl_stdio_native import verify as stdio_scope, SOURCE_MAP as 
 from lib.decoded_mainl_exception_native import verify as exception_scope, SOURCE_MAP as EXCEPTION_SOURCE_MAP
 from lib.decoded_mainl_completion_native import verify as completion_scope
 from lib.decoded_mainl_switch_native import verify as switch_scope
+from lib.decoded_mainl_root_state_native import verify as root_state_scope, SOURCE_MAP as ROOT_STATE_SOURCE_MAP
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -134,7 +135,11 @@ PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATI
     "scripts/lib/decoded_mainl_exception_native.py", "scripts/build_th03_mainl_exception_work.py",
     "config/mainl_work/exception_toolchain.toml", "scripts/lib/decoded_mainl_completion_native.py",
     "scripts/build_th03_mainl_after332_work.py", "scripts/build_th03_mainl_after493_work.py",
-    "scripts/lib/decoded_mainl_switch_native.py", "config/mainl_work/switch_tables_after551.json")))
+    "scripts/lib/decoded_mainl_switch_native.py", "config/mainl_work/switch_tables_after551.json",
+    "scripts/lib/decoded_mainl_root_state_native.py", "scripts/build_th03_mainl_root_state_work.py",
+    "scripts/review_th03_mainl_root_state_work.py", "config/mainl_work/root_state_after552.json",
+    "src/mainl/root/recovered/complete.cpp", "src/mainl/root/recovered/cfg_load.inl",
+    "src/mainl/root/recovered/win.inl", "src/mainl/root/recovered/state.inl")))
 
 def need(value, message):
     if not value:
@@ -329,6 +334,13 @@ def audit(root):
              for o in switches['owners']), 'generated tables/alignment remain disjoint from every instruction owner')
     owners.extend(switches['owners'])
     scope['switch_tables_native'] = switches
+    root_state = root_state_scope(root, work, target, candidate, graph, files)
+    occupied = {site for o in owners for site in range(o['start'], o['start'] + o['size'])}
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in root_state['owners']}) and
+         all(not (set(range(o['start'], o['start'] + o['size'])) & occupied)
+             for o in root_state['owners']), 'complete initialized root pointers; no BSS or old instruction overlap')
+    owners.extend(root_state['owners'])
+    scope['root_state_native'] = root_state
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
@@ -338,7 +350,12 @@ def audit(root):
              and int(u["offset"], 0) + segment*16 == o["start"] and int(u["size"], 0) == int(u["compare_size"], 0) == o["size"]
              and u["state"] == "source-present" and u["origin"] == o.get("origin", "authored") and u["boundary_state"] == "reviewed"
              and not u["file_offset"] and u["source"] == o["source"], "current decoded ownership ledger")
-        if o['unit_id'] in EXCEPTION_SOURCE_MAP:
+        if o['unit_id'] in ROOT_STATE_SOURCE_MAP:
+            need((o['source'], o['object']) == ROOT_STATE_SOURCE_MAP[o['unit_id']] and
+                 o['maintained_native_object'] == '.analysis/work/root-state-after552-round1-obj.bin',
+                 'actual complete root TU in both fresh normal links')
+            row = dict(source=o['source'], wrapper=o['source'])
+        elif o['unit_id'] in EXCEPTION_SOURCE_MAP:
             name = Path(o['object']).stem
             need((o['source'],o['object']) == EXCEPTION_SOURCE_MAP[o['unit_id']] and
                  o['maintained_native_object'] == '.analysis/work/exception-native-round1-'+name+'.obj', 'actual complete optimizing C++ producer in combined normal library')
@@ -414,7 +431,10 @@ def audit(root):
         # Staff's native short filename is a literal copy of its maintained TU,
         # rather than an include wrapper. The ending layout independently binds
         # its exact wrapper/source relationship and full native owner fields.
-        if o['unit_id'] in EXCEPTION_SOURCE_MAP:
+        if o['unit_id'] in ROOT_STATE_SOURCE_MAP:
+            need(sha((root / o['source']).read_bytes()) == root_state['source_sha256'][o['source']],
+                 'actual recovered root TU and bounded includes consumed by both native rounds')
+        elif o['unit_id'] in EXCEPTION_SOURCE_MAP:
             need(sha((root / o['source']).read_bytes()) == exception_native['source_sha256'][o['source']], 'complete C++ TUs consumed by both fresh native rounds')
         elif o['unit_id'] in STDIO_SOURCE_MAP:
             need(sha((root / o['source']).read_bytes()) == stdio_native['source_sha256'][o['source']], 'complete buffered I/O TUs consumed by both fresh native rounds')
@@ -449,7 +469,7 @@ def audit(root):
             transported = {ENDING_SOURCE: ENDING_WRAPPER, REGISTRATION_SOURCE: REGISTRATION_WRAPPER}.get(o["source"], o["source"])
             need(files[transported].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
                  "maintained source and declared line-ending transport")
-        if o['unit_id'] in EXCEPTION_SOURCE_MAP:
+        if o['unit_id'] in EXCEPTION_SOURCE_MAP or o['unit_id'] in ROOT_STATE_SOURCE_MAP:
             # The selected optimizing pair binds its own actual source and all
             # consumed pinned SDK headers, rather than a contextual old TU.
             continue

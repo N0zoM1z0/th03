@@ -1,5 +1,9 @@
 # MAINL root orchestration and continue: current source ownership
 
+After552 provides the [complete root TU and typed state](MAINL_ROOT_STATE_AFTER552_NATIVE_REVIEW.md)
+with two exact normal links and accepted112-byte pointer DATA. Its186-byte BSS
+has no file-byte credit. Historical compiled inputs below remain frozen.
+
 After551 additionally accepts the18-byte generated stage-intro table in the
 [switch-table review](MAINL_SWITCH_TABLES_AFTER551_NATIVE_REVIEW.md). The dated
 instruction-ownership observation below remains historical and unchanged.
