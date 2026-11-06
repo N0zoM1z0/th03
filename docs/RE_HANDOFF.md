@@ -1,4 +1,4 @@
-# TH03 agent handoff — after569 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after572 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -97,6 +97,31 @@ contribution, not a newly discovered instruction, extra authored function,
 or additional original game code credit. Native parent root:
   .analysis/work/mainl-register-even-after569-native-build.json
   scripts/review_th03_mainl_registration_even_after569_work.py
+
+## Source-backed large enemy script and collision C++ (after572)
+
+The four original enemy producer objects can now be recompiled, twice,
+from small genuine Turbo C++ wrapper translation units that all include
+one unchanged maintained src/main/enemy/enemy.cpp source. This covers
+3,325 complete original CODE bytes, 19 functions and 222 ordered native
+OMF fields, including the 867-byte enemy_run script interpreter and
+848-byte enemy_hittest collision controller.
+
+Each 4-object native group is simultaneously linked with the after567
+nine major BOSS and natural keyboard source objects, preserving the
+entire 124,642-byte Japanese program image, all 1,553 original MZ
+relocations, and the complete selected 132,322-byte native linker file.
+The separate after568 compact DOS MZ format step still reconstructs
+both exact original 130,882-byte Japanese EXEs without target-byte
+patches. Original OMF THEADR/LNAMES/COMENT packets differ due to wrapper
+source filenames, and the 19 authored functions were already counted in
+the historical ledger. No canonical acceptance, new function credit or
+original historical compiler source identity is inferred.
+
+Latest evidence:
+  .analysis/work/main-enemy-four-after572-native-build.json
+  scripts/review_th03_main_enemy_four_after572_work.py
+  docs/MAIN_ENEMY_SHARED_CPP_AFTER572_NATIVE_REVIEW.md
 
 ## Start here
 

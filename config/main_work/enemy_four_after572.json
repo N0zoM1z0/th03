@@ -1,0 +1,20 @@
+{
+  "schema": "th03-main-enemy-four-native-after572-v1",
+  "parent_report": ".analysis/work/main-combined-after567-native-build.json",
+  "parent_report_sha256": "7b91a83815724bc831961870c4c5be451d8a32c6e7066f7a813a66b49e5797f7",
+  "original_source": "src/main/enemy/enemy.cpp",
+  "units": [
+    {"stem":"eforna","wrapper":"src/main/enemy/producers/eforna.cpp","partition":1,"phase":"TH03_ENEMY_FORMATIONS_ONLY","CODE_bytes":729,"publics":8,"fixups":58},
+    {"stem":"efornb","wrapper":"src/main/enemy/producers/efornb.cpp","partition":2,"phase":"TH03_ENEMY_FORMATIONS_ONLY","CODE_bytes":1064,"publics":4,"fixups":37},
+    {"stem":"eupda","wrapper":"src/main/enemy/producers/eupda.cpp","partition":1,"phase":"TH03_ENEMY_UPDATE_ONLY","CODE_bytes":372,"publics":3,"fixups":24},
+    {"stem":"eupdb","wrapper":"src/main/enemy/producers/eupdb.cpp","partition":2,"phase":"TH03_ENEMY_UPDATE_ONLY","CODE_bytes":1160,"publics":4,"fixups":103}
+  ],
+  "total_CODE_allocation_bytes":3325,
+  "complete_public_functions":19,
+  "total_original_ordered_fixups":222,
+  "original_TARGET_MAIN_file_bytes":130882,
+  "original_main_relocations":1553,
+  "historical_original_OMF_packet_identity_proved":false,
+  "whole_product_source_acceptance_changed":false,
+  "canonical_factory_credit_changed":false
+}
