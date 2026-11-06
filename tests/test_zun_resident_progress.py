@@ -22,7 +22,12 @@ class ResidentProgressTests(unittest.TestCase):
   for key,value in [('extent_start','0x367'),('extent_size','322'),('result','fail'),('output_sha256','0'*64)]:
    q=copy.deepcopy(EVIDENCE);next(e for e in q if e['id']=='ev-th03-zun-resident-maintained-cold-pair')[key]=value
    with self.subTest(key=key):self.assertFalse(self.proven(e=q))
- def test_four_annotations_fit_existing_canvas(self):
+ def test_four_diagnostics_are_metadata_in_compact_chart(self):
   with patch.object(p,'zun_init_standalone_retained',return_value=True),patch.object(p,'zun_driver_hybrid_retained',return_value=True),patch.object(p,'zunsoft_root_source_proven',return_value=True),patch.object(p,'zun_resident_root_source_proven',return_value=True):svg=p.render_svg([],[],[])
-  root=ET.fromstring(svg);self.assertEqual(root.attrib['viewBox'],'0 0 788 550');texts=root.findall('.//{http://www.w3.org/2000/svg}text');ys=[float(t.attrib['y']) for t in texts if ''.join(t.itertext()).startswith(('Retained standalone init:','Maintained -2/-4 composition:','Logo root:','Resident root:'))];self.assertEqual(sorted(ys),[394,410,426,442]);self.assertLess(max(ys),452)
+  root=ET.fromstring(svg)
+  prefixes=('Retained standalone init:','Maintained -2/-4 composition:','Logo root:','Resident root:')
+  texts=root.findall('.//{http://www.w3.org/2000/svg}text')
+  details=root.findall('.//{http://www.w3.org/2000/svg}desc')
+  self.assertFalse(any(''.join(t.itertext()).startswith(prefixes) for t in texts))
+  self.assertEqual(sum((d.text or '').startswith(prefixes) for d in details),4)
 if __name__=='__main__':unittest.main()

@@ -1,65 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="788" height="550" viewBox="0 0 788 550" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+<svg xmlns="http://www.w3.org/2000/svg" width="788" height="500" viewBox="0 0 788 500" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. OP scoped decoded acceptance and MAINL decoded acceptance are separate published axes, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="550" rx="8" fill="#1f2335"/>
-  <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
-  <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
-  <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
-  <text x="488" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Exact acceptance</text>
-  <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed units / MAIN functions</text>
-  <text x="488" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Complete raw bytes and relocations</text>
+  <rect x="0.5" y="0.5" width="787" height="499" rx="16" fill="#1f2335" stroke="#353b52"/>
+  <text x="24" y="39" fill="#f4f4f5" font-family="sans-serif" font-size="22" font-weight="600">TH03 reconstruction progress</text>
+  <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked scopes only · whole-game totals remain unknown</text>
+  <text x="200" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary review / source</text>
+  <text x="488" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Verified scope</text>
   <g aria-label="OP.EXE bars count tracked unit extents, not functions; source-present is not exact">
-  <text x="24" y="128" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">OP.EXE</text>
-  <text x="24" y="148" fill="#c8cad2" font-family="monospace" font-size="11">62 tracked unit extents</text>
-  <rect x="200" y="121" width="250" height="12" rx="4" fill="#353b52"/>
-  <rect x="488" y="121" width="270" height="12" rx="4" fill="#353b52"/>
-  <rect x="200" y="121" width="250.00" height="5" fill="#9b6de3"/>
-  <rect x="200" y="128" width="245.97" height="5" fill="#e0af68"/>
-  <rect x="488" y="121" width="261.29" height="12" fill="#55c7a6"/>
-  <text x="200" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 62 · Source 61/62</text>
-  <text x="488" y="150" fill="#c8cad2" font-family="monospace" font-size="11">Decoded extents 60/62</text>
+  <text x="24" y="144" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">OP.EXE</text>
+  <text x="24" y="164" fill="#c8cad2" font-family="sans-serif" font-size="12">62 tracked unit extents</text>
+  <rect x="200" y="137" width="250" height="12" rx="4" fill="#353b52"/>
+  <rect x="488" y="137" width="270" height="12" rx="4" fill="#353b52"/>
+  <rect x="200" y="137" width="250.00" height="5" fill="#9b6de3"/>
+  <rect x="200" y="144" width="245.97" height="5" fill="#e0af68"/>
+  <rect x="488" y="137" width="261.29" height="12" fill="#55c7a6"/>
+  <text x="200" y="166" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 62 · Source 61/62</text>
+  <text x="488" y="166" fill="#c8cad2" font-family="sans-serif" font-size="12">Decoded extents 60/62</text>
   </g>
-<text x="200" y="168" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: 14,985 B · canonical exact 0 · product acceptance open</text>
-<text x="200" y="180" fill="#e0af68" font-family="sans-serif" font-size="10">Retained equality check unavailable · product acceptance open</text>
-  <text x="24" y="190" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAIN.EXE</text>
-      <text x="24" y="210" fill="#c8cad2" font-family="monospace" font-size="11">459 tracked functions</text>
-      <rect x="200" y="183" width="250" height="12" rx="4" fill="#353b52"/>
-      <rect x="488" y="183" width="270" height="12" rx="4" fill="#353b52"/>
-      <rect x="200" y="183" width="250.00" height="12" fill="#9b6de3"/>
-      <rect x="488" y="183" width="270.00" height="12" fill="#55c7a6"/>
-      <text x="200" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 459 · Pending 0</text>
-      <text x="488" y="212" fill="#c8cad2" font-family="monospace" font-size="11">Exact 459 · Pending 0</text>
+<desc>Published decoded scopes: 14,985 B · canonical exact 0 · product acceptance open</desc>
+<desc>Retained equality check unavailable · product acceptance open</desc>
+  <text x="24" y="220" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">MAIN.EXE</text>
+      <text x="24" y="240" fill="#c8cad2" font-family="sans-serif" font-size="12">459 tracked functions</text>
+      <rect x="200" y="213" width="250" height="12" rx="4" fill="#353b52"/>
+      <rect x="488" y="213" width="270" height="12" rx="4" fill="#353b52"/>
+      <rect x="200" y="213" width="250.00" height="12" fill="#9b6de3"/>
+      <rect x="488" y="213" width="270.00" height="12" fill="#55c7a6"/>
+      <text x="200" y="242" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 459 · Pending 0</text>
+      <text x="488" y="242" fill="#c8cad2" font-family="sans-serif" font-size="12">Exact 459 · Pending 0</text>
   <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
-  <text x="24" y="252" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">MAINL.EXE</text>
-  <text x="24" y="272" fill="#c8cad2" font-family="monospace" font-size="11">250 tracked unit extents</text>
-  <rect x="200" y="245" width="250" height="12" rx="4" fill="#353b52"/>
-  <rect x="488" y="245" width="270" height="12" rx="4" fill="#353b52"/>
-  <rect x="200" y="245" width="250.00" height="5" fill="#9b6de3"/>
-  <rect x="200" y="252" width="250.00" height="5" fill="#e0af68"/>
-  <rect x="488" y="245" width="0.00" height="12" fill="#55c7a6"/>
-  <text x="200" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 250 · Source 250/250</text>
-  <text x="488" y="274" fill="#c8cad2" font-family="monospace" font-size="11">Unit acceptance: exact 0/250</text>
-  <text x="200" y="292" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: 60,028 B · Heap: 8 procedures / 628 B retained-only</text>
+  <text x="24" y="296" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">MAINL.EXE</text>
+  <text x="24" y="316" fill="#c8cad2" font-family="sans-serif" font-size="12">250 tracked unit extents</text>
+  <rect x="200" y="289" width="250" height="12" rx="4" fill="#353b52"/>
+  <rect x="488" y="289" width="270" height="12" rx="4" fill="#353b52"/>
+  <rect x="200" y="289" width="250.00" height="5" fill="#9b6de3"/>
+  <rect x="200" y="296" width="250.00" height="5" fill="#e0af68"/>
+  <rect x="488" y="289" width="0.00" height="12" fill="#55c7a6"/>
+  <text x="200" y="318" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 250 · Source 250/250</text>
+  <text x="488" y="318" fill="#c8cad2" font-family="sans-serif" font-size="12">Unit acceptance: exact 0/250</text>
+  <desc>Source-present: 60,028 B · Heap: 8 procedures / 628 B retained-only</desc>
   </g>
-<text x="200" y="304" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>
-<text x="200" y="318" fill="#e0af68" font-family="sans-serif" font-size="10">Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</text>
+<desc>Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</desc>
+<desc>Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</desc>
   <g aria-label="ZUN.COM bars count tracked unit extents, not functions; source-present is not exact">
-  <text x="24" y="354" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">ZUN.COM</text>
-  <text x="24" y="374" fill="#c8cad2" font-family="monospace" font-size="11">78 tracked unit extents</text>
-  <rect x="200" y="347" width="250" height="12" rx="4" fill="#353b52"/>
-  <rect x="488" y="347" width="270" height="12" rx="4" fill="#353b52"/>
-  <rect x="200" y="347" width="250.00" height="5" fill="#9b6de3"/>
-  <rect x="200" y="354" width="246.79" height="5" fill="#e0af68"/>
-  <rect x="488" y="347" width="266.54" height="12" fill="#55c7a6"/>
-  <text x="200" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed 78 · Source 77/78</text>
-  <text x="488" y="376" fill="#c8cad2" font-family="monospace" font-size="11">Decoded extents 77/78</text>
+  <text x="24" y="372" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">ZUN.COM</text>
+  <text x="24" y="392" fill="#c8cad2" font-family="sans-serif" font-size="12">78 tracked unit extents</text>
+  <rect x="200" y="365" width="250" height="12" rx="4" fill="#353b52"/>
+  <rect x="488" y="365" width="270" height="12" rx="4" fill="#353b52"/>
+  <rect x="200" y="365" width="250.00" height="5" fill="#9b6de3"/>
+  <rect x="200" y="372" width="246.79" height="5" fill="#e0af68"/>
+  <rect x="488" y="365" width="266.54" height="12" fill="#55c7a6"/>
+  <text x="200" y="394" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 78 · Source 77/78</text>
+  <text x="488" y="394" fill="#c8cad2" font-family="sans-serif" font-size="12">Decoded extents 77/78</text>
   </g>
-<text x="200" y="394" fill="#55c7a6" font-family="sans-serif" font-size="10">Current wrapper + -1..-5: 77 extents · 6,179 CODE B · ASM/library separate · product open</text>
-<text x="200" y="410" fill="#e0af68" font-family="sans-serif" font-size="10">Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</text>
-<text x="200" y="426" fill="#e0af68" font-family="sans-serif" font-size="10">220 instruction + 50 DATA runtime mutations · native directory owned · 12 reserved driver B open</text>
-  <path d="M24 452 H764" stroke="#4b526d"/>
-  <text x="24" y="477" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 78,737 bytes · 106 owners</text>
-  <text x="24" y="500" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
+<desc>Current wrapper + -1..-5: 77 extents · 6,179 CODE B · ASM/library separate · product open</desc>
+<desc>Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</desc>
+<desc>220 instruction + 50 DATA runtime mutations · native directory owned · 12 reserved driver B open</desc>
+  <path d="M24 426 H764" stroke="#353b52"/>
+  <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 78,737 bytes · 106 owners</text>
+  <text x="24" y="478" fill="#c8cad2" font-family="sans-serif" font-size="13">Details and acceptance criteria: docs/PROGRESS.md</text>
+  <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
 
 
 
@@ -68,6 +67,6 @@
 
 
 
-<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>
+<desc>MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</desc>
 
 </svg>

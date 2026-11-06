@@ -48,18 +48,19 @@ class Tests(unittest.TestCase):
    self.assertIn('0 tracked unit extents',''.join(g.itertext()))
    green=[x for x in g.findall('s:rect',N) if x.attrib.get('fill')=='#55c7a6']
    self.assertEqual([float(x.attrib['width']) for x in green],[0.0])
- def test_annotations_and_footer_fit_distinct_reserved_regions(self):
+ def test_compact_rows_keep_diagnostics_out_of_visible_text(self):
   with patch.object(p,'zun_init_standalone_retained',return_value=True),patch.object(p,'zun_driver_hybrid_retained',return_value=True),patch.object(p,'zunsoft_root_source_proven',return_value=True),patch.object(p,'zun_resident_root_source_proven',return_value=True):
    root=ET.fromstring(p.render_svg([],[],[]))
-  self.assertEqual(root.attrib['viewBox'],'0 0 788 550')
+  self.assertEqual(root.attrib['viewBox'],'0 0 788 500')
   texts=root.findall('.//s:text',N)
   ys={''.join(t.itertext()):float(t.attrib['y']) for t in texts}
-  self.assertEqual(ys['ZUN.COM'],354)
-  annotation_ys=[v for k,v in ys.items() if k.startswith(('Retained standalone init:','Maintained -2/-4 composition:','ZUN -3 root:','Maintained ZUN -3','Logo root:','Resident root:'))]
-  self.assertEqual(sorted(annotation_ys),[394,410,426,442])
-  self.assertTrue(all(380<y<=442 for y in annotation_ys))
-  self.assertTrue(all(float(t.attrib['y'])<550 for t in texts))
-  self.assertIn('452',ET.tostring(root,encoding='unicode'))
+  self.assertEqual([ys[label] for label in ['OP.EXE','MAIN.EXE','MAINL.EXE','ZUN.COM']],[144,220,296,372])
+  prefixes=('Retained standalone init:','Maintained -2/-4 composition:','Logo root:','Resident root:')
+  self.assertFalse(any(text.startswith(prefixes) for text in ys))
+  details=[d.text or '' for d in root.findall('.//s:desc',N)]
+  self.assertEqual(sum(text.startswith(prefixes) for text in details),4)
+  self.assertTrue(all(float(t.attrib['font-size'])>=12 for t in texts))
+  self.assertTrue(all(float(t.attrib['y'])<500 for t in texts))
  def test_accepted_mainl_hides_only_stale_retained_and_open_order(self):
   import status
   accepted=dict(product_exact=True,decoded_exact_units=149)

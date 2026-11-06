@@ -572,6 +572,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
     op_status = op_decoded_status(ROOT, units) if op_status is None else op_status
     op_products = retained_op_products(ROOT) if op_products is None else op_products
     zun_status = zun_product_status(ROOT, units) if zun_status is None else zun_status
+    # Keep scoped diagnostics as metadata; the chart shows only current counters.
     rows = []
     graphics_pending = mainl_graphics_producer_pending()
     for index, (artifact, label) in enumerate((
@@ -586,60 +587,59 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             decoded_mainl = product["product_exact"] or product.get("current_cold_source_scopes", False)
             exact = product["decoded_exact_units"] if decoded_mainl else counts["exact"]
             acceptance_label = "Decoded acceptance" if decoded_mainl else "Unit acceptance"
-            y = 128 + index * 62
+            y = 144 + index * 76
             retained = (" · Heap: 8 procedures / 628 B retained-only"
                         if not product["product_exact"] and mainl_heap_retained(units, evidence or []) else "")
             rows.append(f"""  <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
-  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
-  <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{total} tracked unit extents</text>
+  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">{label}</text>
+  <text x="24" y="{y+20}" fill="#c8cad2" font-family="sans-serif" font-size="12">{total} tracked unit extents</text>
   <rect x="200" y="{y-7}" width="250" height="12" rx="4" fill="#353b52"/>
   <rect x="488" y="{y-7}" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="5" fill="#9b6de3"/>
   <rect x="200" y="{y}" width="{250*source/total if total else 0:.2f}" height="5" fill="#e0af68"/>
   <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
-  <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Source {source}/{total}</text>
-  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">{acceptance_label}: exact {exact}/{total}</text>
-  <text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Source-present: {counts['source_bytes']:,} B{retained}</text>
+  <text x="200" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed {reviewed} · Source {source}/{total}</text>
+  <text x="488" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">{acceptance_label}: exact {exact}/{total}</text>
+  <desc>Source-present: {counts['source_bytes']:,} B{retained}</desc>
   </g>""")
             if product.get("current_cold_source_scopes"):
-                rows.append(f'<text x="200" y="{y+52}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current decoded: {product["decoded_exact_units"]} extents / {product.get("decoded_procedures", product.get("decoded_authored_procedures", product["decoded_exact_units"]))} procedures / {product.get("decoded_source_bytes",product["decoded_authored_bytes"]):,} B · CODE {product.get("decoded_code_bytes",product.get("decoded_authored_code_bytes",product["decoded_authored_bytes"])):,} / DATA {product.get("decoded_initialized_data_bytes",product.get("decoded_authored_initialized_data_bytes",0))+product.get("decoded_uninitialized_file_data_bytes",0):,} · product open</text>')
-                rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</text>')
+                rows.append(f'<desc>Current decoded: {product["decoded_exact_units"]} extents / {product.get("decoded_procedures", product.get("decoded_authored_procedures", product["decoded_exact_units"]))} procedures / {product.get("decoded_source_bytes",product["decoded_authored_bytes"]):,} B · CODE {product.get("decoded_code_bytes",product.get("decoded_authored_code_bytes",product["decoded_authored_bytes"])):,} / DATA {product.get("decoded_initialized_data_bytes",product.get("decoded_authored_initialized_data_bytes",0))+product.get("decoded_uninitialized_file_data_bytes",0):,} · product open</desc>')
+                rows.append(f'<desc>Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</desc>')
             elif mainl_pi_composed(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</text>')
+                rows.append(f'<desc>Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</desc>')
             elif mainl_regist_source_pending(units):
-                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</text>')
+                rows.append(f'<desc>Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</desc>')
             elif mainl_regist_hybrid_source(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Regist + score: 2,949 B source · repeat OBJ/EXE/MAP · 6 PI bytes still differ</text>')
+                rows.append(f'<desc>Regist + score: 2,949 B source · repeat OBJ/EXE/MAP · 6 PI bytes still differ</desc>')
             elif mainl_cutscene_source_pending(units):
-                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</text>')
+                rows.append(f'<desc>Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</desc>')
             elif mainl_cutscene_hybrid_source(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</text>')
+                rows.append(f'<desc>Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</desc>')
             if not product["product_exact"] and not product.get("current_cold_source_scopes"):
                 if mainl_crt_source_proven(units, evidence or []) and mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">CRT + prior source: 24,680 B target-equal · {'full program equal / order open' if mainl_vsync_alignment_proven() else '1 DATA byte / relocation order open'}</text>')
+                    rows.append(f'<desc>CRT + prior source: 24,680 B target-equal · {'full program equal / order open' if mainl_vsync_alignment_proven() else '1 DATA byte / relocation order open'}</desc>')
                 elif mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked game + prior source: 24,052 B target-equal · 1 DATA byte / relocation order open</text>')
+                    rows.append(f'<desc>Linked game + prior source: 24,052 B target-equal · 1 DATA byte / relocation order open</desc>')
                 elif mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Root-tail + prior source: 22,287 B target-equal · 1 DATA byte / relocation order open</text>')
+                    rows.append(f'<desc>Root-tail + prior source: 22,287 B target-equal · 1 DATA byte / relocation order open</desc>')
                 elif mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Display + prior source: 21,565 B target-equal · 1 DATA byte / relocation order open</text>')
+                    rows.append(f'<desc>Display + prior source: 21,565 B target-equal · 1 DATA byte / relocation order open</desc>')
                 elif mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Archive + prior source: 19,449 B target-equal · 1 DATA byte / relocation order open</text>')
+                    rows.append(f'<desc>Archive + prior source: 19,449 B target-equal · 1 DATA byte / relocation order open</desc>')
                 elif mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Resources + prior source: 16,970 B target-equal · 1 DATA byte / relocation order open</text>')
+                    rows.append(f'<desc>Resources + prior source: 16,970 B target-equal · 1 DATA byte / relocation order open</desc>')
                 elif mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">PI + root + staff: composed 13,495 B target-equal · 1 DATA byte / relocation order open</text>')
+                    rows.append(f'<desc>PI + root + staff: composed 13,495 B target-equal · 1 DATA byte / relocation order open</desc>')
                 elif mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Root + staff source: composed 11,971 B target-equal · 1 DATA byte / relocation order open</text>')
+                    rows.append(f'<desc>Root + staff source: composed 11,971 B target-equal · 1 DATA byte / relocation order open</desc>')
                 elif mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Staff + graphics: 3,339 B source · composed 9,483 B target-equal · exact acceptance open</text>')
+                    rows.append(f'<desc>Staff + graphics: 3,339 B source · composed 9,483 B target-equal · exact acceptance open</desc>')
                 elif mainl_graphics_linked():
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</text>')
+                    rows.append(f'<desc>Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</desc>')
                 elif graphics_pending:
-                    rows.append(f'<text x="200" y="{y+66}" fill="#e0af68" font-family="sans-serif" font-size="10">Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</text>')
+                    rows.append(f'<desc>Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</desc>')
             continue
-        # Reserve the complete MAINL annotation block before the ZUN row.
-        y = 354 if artifact == 'th03-zun' else 128 + index * 62
+        y = 144 + index * 76
         if artifact in {'th03-op', 'th03-zun'}:
             counts = tracked_unit_progress(units, artifact)
             total, reviewed, source, exact = (counts[k] for k in ('total', 'reviewed', 'source', 'exact'))
@@ -651,15 +651,15 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 exact = zun_status['decoded_exact_units']
             acceptance_label = 'Decoded extents' if decoded_op or decoded_zun else 'Unit acceptance: exact'
             rows.append(f'''  <g aria-label="{label} bars count tracked unit extents, not functions; source-present is not exact">
-  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
-  <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{total} tracked unit extents</text>
+  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">{label}</text>
+  <text x="24" y="{y+20}" fill="#c8cad2" font-family="sans-serif" font-size="12">{total} tracked unit extents</text>
   <rect x="200" y="{y-7}" width="250" height="12" rx="4" fill="#353b52"/>
   <rect x="488" y="{y-7}" width="270" height="12" rx="4" fill="#353b52"/>
   <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="5" fill="#9b6de3"/>
   <rect x="200" y="{y}" width="{250*source/total if total else 0:.2f}" height="5" fill="#e0af68"/>
   <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
-  <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Source {source}/{total}</text>
-  <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">{acceptance_label} {exact}/{total}</text>
+  <text x="200" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed {reviewed} · Source {source}/{total}</text>
+  <text x="488" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">{acceptance_label} {exact}/{total}</text>
   </g>''')
         else:
             candidates = [f for f in functions if f["artifact"] == artifact]
@@ -667,63 +667,62 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             exact = sum(f["state"] == "exact" for f in candidates)
             total = len(candidates)
             inventory = f"{total} tracked functions" if total else "Inventory pending"
-            rows.append(f'''  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="14" font-weight="600">{label}</text>
-      <text x="24" y="{y+20}" fill="#c8cad2" font-family="monospace" font-size="11">{inventory}</text>
+            rows.append(f'''  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">{label}</text>
+      <text x="24" y="{y+20}" fill="#c8cad2" font-family="sans-serif" font-size="12">{inventory}</text>
       <rect x="200" y="{y-7}" width="250" height="12" rx="4" fill="#353b52"/>
       <rect x="488" y="{y-7}" width="270" height="12" rx="4" fill="#353b52"/>
       <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="12" fill="#9b6de3"/>
       <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
-      <text x="200" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Reviewed {reviewed} · Pending {total-reviewed}</text>
-      <text x="488" y="{y+22}" fill="#c8cad2" font-family="monospace" font-size="11">Exact {exact} · Pending {total-exact}</text>''')
+      <text x="200" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed {reviewed} · Pending {total-reviewed}</text>
+      <text x="488" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Exact {exact} · Pending {total-exact}</text>''')
         if artifact == "th03-op" and op_status['decoded_accepted']:
-            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Published decoded scopes: {op_status["decoded_authored_bytes"]:,} B · canonical exact 0 · product acceptance open</text>')
+            rows.append(f'<desc>Published decoded scopes: {op_status["decoded_authored_bytes"]:,} B · canonical exact 0 · product acceptance open</desc>')
         elif artifact == "th03-op" and op_fullcold_retained(evidence or []):
-            rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</text>')
+            rows.append(f'<desc>Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</desc>')
         if artifact == "th03-op" and op_products['retained_equality']:
-            rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained: cold decoded 63,866 B = target · separate packed 36,041 B = canonical</text>')
+            rows.append(f'<desc>Retained: cold decoded 63,866 B = target · separate packed 36,041 B = canonical</desc>')
         elif artifact == "th03-op":
-            rows.append(f'<text x="200" y="{y+52}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained equality check unavailable · product acceptance open</text>')
+            rows.append(f'<desc>Retained equality check unavailable · product acceptance open</desc>')
         if artifact == "th03-zun" and zun_status.get('decoded_accepted'):
-            rows.append(f'<text x="200" y="{y+40}" fill="#55c7a6" font-family="sans-serif" font-size="10">Current wrapper + -1..-5: {zun_status["decoded_exact_units"]} extents · {zun_status["decoded_code_bytes"]:,} CODE B · ASM/library separate · product open</text>')
-            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10">Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</text>')
-            rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10">220 instruction + 50 DATA runtime mutations · native directory owned · 12 reserved driver B open</text>')
+            rows.append(f'<desc>Current wrapper + -1..-5: {zun_status["decoded_exact_units"]} extents · {zun_status["decoded_code_bytes"]:,} CODE B · ASM/library separate · product open</desc>')
+            rows.append(f'<desc>Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</desc>')
+            rows.append(f'<desc>220 instruction + 50 DATA runtime mutations · native directory owned · 12 reserved driver B open</desc>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_init_standalone_retained(units):
-            rows.append(f'<text x="200" y="{y+40}" fill="#e0af68" font-family="sans-serif" font-size="10">Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</text>')
+            rows.append(f'<desc>Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</desc>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_driver_hybrid_retained(units):
-            rows.append(f'<text x="200" y="{y+56}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</text>')
+            rows.append(f'<desc aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</desc>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zunsoft_root_source_proven(units, evidence or []):
             if zunsoft_root_repeat_proven(units, evidence or []):
-                rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; raw identical OBJ COM MAP from two cold builds, vendor context unowned, 2600 retained target and first-candidate model calls, no new model or exact acceptance">Logo root: 10 source units / 1,299 B · 2 cold builds · 2,600 retained calls · exact 0</text>')
+                rows.append(f'<desc aria-label="Ten maintained logo root source units, 1299 CODE bytes; raw identical OBJ COM MAP from two cold builds, vendor context unowned, 2600 retained target and first-candidate model calls, no new model or exact acceptance">Logo root: 10 source units / 1,299 B · 2 cold builds · 2,600 retained calls · exact 0</desc>')
             else:
-                rows.append(f'<text x="200" y="{y+72}" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</text>')
+                rows.append(f'<desc aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</desc>')
         if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_resident_root_source_proven(units, evidence or []):
-            rows.append('<text x="200" y="442" fill="#e0af68" font-family="sans-serif" font-size="10" aria-label="Two maintained resident source units, 322 CODE bytes and separate 307 DATA bytes; two cold builds, forty retained target and first-candidate modeled calls, no whole payload or exact acceptance">Resident root: 2 source units / 322 B · 2 cold builds · 40 modeled calls · exact 0</text>')
+            rows.append('<desc aria-label="Two maintained resident source units, 322 CODE bytes and separate 307 DATA bytes; two cold builds, forty retained target and first-candidate modeled calls, no whole payload or exact acceptance">Resident root: 2 source units / 322 B · 2 cold builds · 40 modeled calls · exact 0</desc>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="550" viewBox="0 0 788 550" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="500" viewBox="0 0 788 500" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. OP scoped decoded acceptance and MAINL decoded acceptance are separate published axes, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect width="788" height="550" rx="8" fill="#1f2335"/>
-  <text x="24" y="31" fill="#f4f4f5" font-family="sans-serif" font-size="18" font-weight="600">TH03 reconstruction progress</text>
-  <text x="24" y="52" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed ledger subset · whole-game totals remain unknown</text>
-  <text x="200" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary confidence</text>
-  <text x="488" y="83" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Exact acceptance</text>
-  <text x="200" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Reviewed units / MAIN functions</text>
-  <text x="488" y="100" fill="#c8cad2" font-family="sans-serif" font-size="11">Complete raw bytes and relocations</text>
+  <rect x="0.5" y="0.5" width="787" height="499" rx="16" fill="#1f2335" stroke="#353b52"/>
+  <text x="24" y="39" fill="#f4f4f5" font-family="sans-serif" font-size="22" font-weight="600">TH03 reconstruction progress</text>
+  <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked scopes only · whole-game totals remain unknown</text>
+  <text x="200" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary review / source</text>
+  <text x="488" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Verified scope</text>
 {chr(10).join(rows)}
-  <path d="M24 452 H764" stroke="#4b526d"/>
-  <text x="24" y="477" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
-  <text x="24" y="500" fill="#c8cad2" font-family="sans-serif" font-size="12">Whole-game source/link/product graph: OPEN · no whole-game completion percentage</text>
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</text>' if mainl_diet_packing_diagnostic() and not mainl_vsync_alignment_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</text>' if mainl_vsync_alignment_proven() and not mainl_regdata_backend_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</text>' if mainl_regdata_backend_proven() and not mainl_continue_backend_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 144 · prior DIET 1,212 differences · exact 0</text>' if mainl_continue_backend_proven() and not mainl_root_prefix_backend_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_prefix_backend_proven() and not mainl_root_intro_backend_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</text>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</text>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() and not mainl_fullcold_current_proven() else '')}
-{('<text x="24" y="526" fill="#e0af68" font-family="sans-serif" font-size="11">MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</text>' if mainl_fullcold_current_proven() and not product['product_exact'] else '')}
-{('<text x="24" y="526" fill="#55c7a6" font-family="sans-serif" font-size="11">MAINL product + decoded accepted · ' + str(product['decoded_exact_units']) + ' units · mixed 37,975 B · whole-game % unknown</text>' if product['product_exact'] else '')}
+  <path d="M24 426 H764" stroke="#353b52"/>
+  <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
+  <text x="24" y="478" fill="#c8cad2" font-family="sans-serif" font-size="13">Details and acceptance criteria: docs/PROGRESS.md</text>
+  <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
+{('<desc>MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</desc>' if mainl_diet_packing_diagnostic() and not mainl_vsync_alignment_proven() else '')}
+{('<desc>MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</desc>' if mainl_vsync_alignment_proven() and not mainl_regdata_backend_proven() else '')}
+{('<desc>MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</desc>' if mainl_regdata_backend_proven() and not mainl_continue_backend_proven() else '')}
+{('<desc>MAINL program equal · order 144 · prior DIET 1,212 differences · exact 0</desc>' if mainl_continue_backend_proven() and not mainl_root_prefix_backend_proven() else '')}
+{('<desc>MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</desc>' if mainl_root_prefix_backend_proven() and not mainl_root_intro_backend_proven() else '')}
+{('<desc>MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</desc>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
+{('<desc>MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</desc>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
+{('<desc>MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</desc>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() and not mainl_fullcold_current_proven() else '')}
+{('<desc>MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</desc>' if mainl_fullcold_current_proven() and not product['product_exact'] else '')}
+{('<desc>MAINL product + decoded accepted · ' + str(product['decoded_exact_units']) + ' units · mixed 37,975 B · whole-game % unknown</desc>' if product['product_exact'] else '')}
 </svg>
 '''
 
