@@ -1030,3 +1030,9 @@ adds 83 byte-exact CODE bytes and true 0xC000 text/binary
 mode semantics. All four symbolic OMF targets match,
 with only the near __IOERROR frame difference at CODE+77.
 Both full native EXE/MAP rounds remain original-equal.
+
+The [complete native double istream x87 bounds and ERANGE wrapper](MAINL_ISTREAM_DOUBLE_X87_BOUNDS_NATIVE_REVIEW.md)
+adds 124 exact CODE bytes, authentic long-double parsing,
+double range checks, native errno handling and all 18
+original symbolic OMF fields; 14 frame-method-4 x87
+differences remain explicit, and two EXE/MAP rounds match.
