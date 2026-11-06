@@ -1,0 +1,18 @@
+{
+  "schema":"th03-main-bullet-after588-native-v1",
+  "parent_report":".analysis/work/main-enemy-four-after572-native-build.json",
+  "parent_report_sha256":"dca9b909d4617334c00f8cce2eccca1e0b9887526abe414a2d152268c740c576",
+  "source":"src/main/bullet/bullet.cpp",
+  "wrapper":"src/main/bullet/producers/bullet_native.cpp",
+  "original_object":"obj/th03/bullet.obj",
+  "GAME":3,"BINARY":"M",
+  "original_main_CODE_bytes":2602,
+  "original_pellet_render_CODE_bytes":83,
+  "original_BSS_bytes":9500,
+  "original_ordered_fixups":196,
+  "original_public_symbols":20,
+  "original_bullet_MAIN_MZ_relocations":1553,
+  "original_target_file_bytes":130882,
+  "canonical_factory_credit_changed":false,
+  "whole_project_source_accepted":false
+}

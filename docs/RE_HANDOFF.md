@@ -1,4 +1,4 @@
-# TH03 agent handoff — after587 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after588 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -341,6 +341,27 @@ or canonical Factory source acceptance.
 
   .analysis/work/mainl-score-input-pi-after587-native-build.json
   scripts/review_th03_mainl_score_input_pi_after587_work.py
+
+## MAIN original complete bullet engine and 386 GRCG code (after588)
+
+Two original TC4.02 GAME=3/BINARY='M' compilations of the entire maintained
+bullet.cpp now recreate 2,602 native BULLET_TEXT instructions, a separate
+83-byte PELLET_PUT 386 GRCG raster routine, all 20 original PUBLIC entries,
+196 ordered OMF relocations, and the complete 9,500-byte BSS bullet/trail
+pools. Their original code/ABI checks use the real source/C++ and all
+native OMF fields, not opcode copies or synthetic target bytes.
+
+In each native round one bullet.obj replaces its old object in the
+source-native after572 MAIN link, which already contains 9 major bosses,
+4 enemy script/hittest objects and natural keyboard. Both full native MAIN
+EXEs and MAPs are unchanged. The complete original Japanese MAIN image
+and ordered 1,553 MZ relocations agree, and the separately proven source
+MZ format stage produces the exact entire 130,882-byte original EXE.
+The original larger vendor source OMF dependency record is not claimed
+byte-equal; no function is double-counted or Factory acceptance added.
+
+  .analysis/work/main-bullet-after588-native-build.json
+  scripts/review_th03_main_bullet_after588_work.py
 
 ## Start here
 
