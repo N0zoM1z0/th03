@@ -1,10 +1,11 @@
-# TH03 — current agent handoff (2026-11-06; after533)
+# TH03 — current agent handoff (2026-11-06; after534 ownership audit)
 
 **Start with this file and actual Git state.** Check `git status -sb`
 and `git log -8 --oneline`. Latest source-bound CRT working evidence:
 **after533**. Latest independently protected-storage audit:
 **after520**. The former 1,494-line handoff is preserved in
 [historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
+Latest read-only baseline ownership audit: **after534**; no new native build.
 
 ## Current, independently verified Japanese MAINL CRT
 
@@ -12,8 +13,9 @@ and `git log -8 --oneline`. Latest source-bound CRT working evidence:
 | --- | ---: |
 | Original Borland CL.LIB slots | **893** |
 | Explicit incremental CRT source members | **889** |
-| Original-equal maintained-source CODE-segment bytes | **209,016** |
-| Baseline/context members retained | **4** |
+| Earlier baseline source members, now traced | **4** |
+| Source-bound union of original compiler-library slots | **893/893** |
+| Original-equal maintained-source CODE-segment bytes, union | **209,272** |
 | Independent assembly/TLIB/TLINK rounds | **2; complete EXE/MAP byte-exact** |
 | Original decoded Japanese MAINL EXE / ordered MZ relocations | **67,372 bytes / 677** |
 | Formal Factory canonical packed-file unit acceptance | **0/250** |
@@ -48,7 +50,11 @@ seven stdio gaps; after530 retains its DDVT layout and arithmetic gap; after529
 retains original storage and twelve console gaps. After528's sixteen loader
 gaps and after526's 12 x87 / 2 near-call gaps remain bound. All historical
 failed branches remain. The four context entries already have source files/
-older evidence; they need owner review, not automatic duplicate credit.
+older evidence; after534 now traces their actual adoption in both latest
+libraries. This adds **zero new members/bytes**. See the
+[baseline ownership audit](MAINL_BASELINE_OWNERSHIP_AFTER534_REVIEW.md).
+The union is source-bound, not an assertion of literal original OBJ equality:
+`h_padd` PUBLIC ordering and `ioerror` PUBLIC/GROUP/FIXUPP ordering differ.
 
 The earlier large Boss `cplx2` is **complete and source-linked**
 since after514: 22/22 FAR public bodies, 5,598 exact CODE bytes,
@@ -68,17 +74,15 @@ See [full parser proof](MAINL_ISTELDBL_FULL_SOURCE_LINK_AFTER521_NATIVE_REVIEW.m
 and [full divmod proof](MAINL_H_LDIV_FULL_SOURCE_LINK_AFTER522_NATIVE_REVIEW.md).
 Do not double-count their historical partial/TASM-only diagnostic sources.
 
-**Next work:** audit the four remaining context owners: `h_llsh` (slot 68,
-33 CODE), `h_padd` (72, 96), `ioerror` (79, 82 CODE / 91 DATA), `lseek`
-(87, 45). Their source files already exist. Trace actual source-bound native
-receipts, both raw rounds, ordered fields and layout; file existence alone is
-not proof of complete original ownership. Do not overwrite frozen source or
-recount old recovery as new code. The earlier h_padd alias diagnostic must not
-be confused with the retained cold-source owner.
-Then choose a real remaining product source/ownership question from current
-MAINL acceptance/layout evidence. Formal canonical packed-unit acceptance is
-still 0/250; this CRT receipt count is not whole-product acceptance. Avoid
-repeating closed table, alias, stream or string work to inflate progress.
+**Next work:** choose an actual remaining product dependency or ownership
+question. MAINL still links installed `C0L.OBJ`, `EMU.LIB` and `MATHL.LIB`.
+The installed `TC4/SOURCE/STARTUP/C0.ASM` and `RULES.ASI` can inform a bounded
+large-model startup reconstruction, but must first be checked against actual
+original C0L OMF, linked bytes and entry relocations. No startup source proof
+has been credited yet. Do not overwrite frozen cold sources or replay the
+whole graph. The earlier h_padd alias diagnostic remains separate.
+Formal canonical packed-unit acceptance is still 0/250; library source
+ownership is not whole-product acceptance. Avoid recounting closed CRT work.
 
 **Extending after533:** use `parent.SOURCE_PATHS` and
 `parent.original_member_programs()`. Validate all twelve TU hashes, both include
@@ -101,6 +105,7 @@ documents or assembly attempts are correct.
 git status -sb
 git log -8 --oneline
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after534_work.py
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after533_work.py locale-tables-aliases-twelve
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
