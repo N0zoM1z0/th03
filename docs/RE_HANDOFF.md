@@ -1,4 +1,4 @@
-# TH03 agent handoff — after566 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after568 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -46,6 +46,36 @@ handoff commits change documentation/storage only; nothing has been pushed.
   Read-only review: scripts/review_th03_mainl_input_after566_work.py.
   Preserve the full raw receipt DAG and both complete native rounds;
   old after520/after554 storage audits do not authorize cleanup of these.
+
+## Source-derived MAIN original DOS MZ file (after568)
+
+The normal after567 dual 99-object TLINK builds, with nine source-native
+boss objects and the natural TASM input scanner simultaneously linked,
+reproduce all 124,642 Japanese original MAIN program bytes and all 1,553
+original ordered MZ relocation entries. They retain a newer TLINK
+132,322-byte file header (480 paragraphs / relocation table at decimal 62)
+instead of the original compact MZ 130,882-byte file header (390
+paragraphs / table at decimal 28).
+
+After568 includes a **separate standard DOS MZ format serializer**, not
+a new linker or a target-byte repair. It obtains all fourteen original
+native MZ header values, all original source-generated relocations and
+the unmodified program image from each of the two native after567
+outputs. With a minimal 28-byte fixed DOS header and 1,553 records,
+the relocation region is exactly 6,240 bytes, requiring no alignment
+padding. Each independent result is the complete exact **130,882-byte
+Japanese original EXE**, SHA-256 f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b.
+
+The negative control confirms the same format conversion does not
+fix the old wrong EC2D input CODE byte. This proves reproducible
+source-derived original file bytes, **not** original linker tool
+provenance, source ownership of every program byte, or formal Factory
+product acceptance. The direct TLINK EXE remains retained and distinct.
+Keep both original link outputs, compact outputs, the read-only
+verification and parent source/OBJ receipts:
+  .analysis/work/main-combined-after567-native-build.json
+  .analysis/work/main-compact-after568-native-build.json
+  scripts/review_th03_main_compact_mz_after568_work.py
 
 ## Start here
 

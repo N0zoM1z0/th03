@@ -1,0 +1,18 @@
+{
+  "schema": "th03-main-native-compact-mz-after568-v1",
+  "parent_report": ".analysis/work/main-combined-after567-native-build.json",
+  "parent_report_sha256": "7b91a83815724bc831961870c4c5be451d8a32c6e7066f7a813a66b49e5797f7",
+  "native_TLINK_file_bytes": 132322,
+  "native_header_paragraphs": 480,
+  "native_relocation_table_offset": 62,
+  "japanese_target_file_bytes": 130882,
+  "DOS_MZ_fixed_header_bytes": 28,
+  "source_relocation_entries": 1553,
+  "source_load_image_bytes": 124642,
+  "target_SHA256": "f41fde47ea36bf4d985ff9127b67fe93d5ecb58cc36e7cffab86959db7f2ce6b",
+  "whole_original_file_output_equal": true,
+  "original_linker_producer_identity_proved": false,
+  "native_TLINK_direct_file_exact": false,
+  "source_game_whole_accepted": false,
+  "canonical_factory_credit_changed": false
+}
