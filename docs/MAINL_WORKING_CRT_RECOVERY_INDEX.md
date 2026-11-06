@@ -896,3 +896,8 @@ adds 209 original CODE bytes and extends natural FPU
 source through CODE+3740, with 572/574 symbolic
 relocations audited and 496 original method-4 framing
 differences still explicit. No complete CRT member credit.
+
+The [complete original ios::pword FAR user-slot and usersize boss](MAINL_IOS_PWORD_USER_ARRAY_NATIVE_REVIEW.md)
+adds 97 original CODE and four typed DATA bytes, with
+real one-based userword indexing, conditional FAR
+usersize expansion and four original logical OMF fields.
