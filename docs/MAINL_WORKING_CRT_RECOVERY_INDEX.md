@@ -862,3 +862,10 @@ The [full istream::do_get streambuf underflow boss](MAINL_ISTREAM_DO_GET_VIRTUAL
 adds 158 byte-exact original CODE bytes, a true vtable
 underflow call, FAR byte-buffer path and exactly matching
 original literal ios::setstate OMF reference.
+
+The [original cplx2 thirteenth FAR pow(complex,double) body](MAINL_CPLX2_POW_DOUBLE_THIRTEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 358 original-equal CODE bytes and expands natural
+large-boss source through original CODE+3225 with 490
+matching original symbolic OMF references. The two
+local-call encoding gaps and 425 FPU framing differences
+remain explicitly unresolved. No complete CRT-member credit.
