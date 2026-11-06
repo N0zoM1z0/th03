@@ -890,3 +890,9 @@ DATA+36..43. All 544 emitted native OMF symbol references
 are checked against 546 original prefix FIXUPPs; two FAR
 call encodings and 473 frame-method-4 references remain
 explicit. This is partial and adds no complete CRT credit.
+
+The [fifteenth cplx2 pow(complex,complex) original FAR body](MAINL_CPLX2_POW_COMPLEX_COMPLEX_FIFTEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 209 original CODE bytes and extends natural FPU
+source through CODE+3740, with 572/574 symbolic
+relocations audited and 496 original method-4 framing
+differences still explicit. No complete CRT member credit.
