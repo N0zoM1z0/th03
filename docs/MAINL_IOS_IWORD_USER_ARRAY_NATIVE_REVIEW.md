@@ -21,7 +21,7 @@ The original iword module was independently compared to
 the separately completed pword overload; both retain their
 own public symbols and original library member positions.
 
-After506 validates the complete after506 **714-source** carrier
+After506 validates the complete after507 **714-source** carrier
 and performs two independent native TASM/TLIB/TLINK rounds.
 Both decoded Japanese MAINL EXE/MAP equal their original
 targets byte-for-byte (67,372 EXE bytes; 677 ordered MZ

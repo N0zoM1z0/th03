@@ -1,4 +1,4 @@
-"""Original ios::iword far user-word slot and usersize expansion ABI."""
+"""Original ios::iword with independent FAR usersize and sentinel storage."""
 import json,sys,unittest
 from pathlib import Path
 import setuptools
@@ -17,8 +17,8 @@ RECEIPT=ROOT/(PREFIX+MODE+'-build.json')
 KEYS=('segment','site','location_type','width','segment_relative',
       'frame_method','frame','target_method','target','addend')
 class OriginalIOSIword(unittest.TestCase):
-    @unittest.skipUnless(RECEIPT.is_file(),'native iword receipt absent')
-    def test_entire_original_member_two_mainl_links(self):
+    @unittest.skipUnless(RECEIPT.is_file(),'native original iword receipt missing')
+    def test_full_member_and_two_mainl_links(self):
         r=review(MODE)
         self.assertEqual((r['original_CRT_members'],r['native_source_members'],
                           r['untouched_vendor_members']),(893,715,178))
@@ -31,18 +31,17 @@ class OriginalIOSIword(unittest.TestCase):
         self.assertFalse(r['original_literal_FIXUPP_equal'])
         self.assertFalse(r['source_acceptance'])
         self.assertFalse(r['original_cold_rebuilt'])
-    @unittest.skipUnless(RECEIPT.is_file(),'original iword object absent')
-    def test_real_usersize_and_invalid_slot_data_fixups(self):
+    @unittest.skipUnless(RECEIPT.is_file(),'original iword OMF absent')
+    def test_separate_public_and_all_four_original_symbolic_fields(self):
         _,_,_,members,_,_=retained()
         original=original_library_member(members[NATIVE['stiword']['index']])
         P=payload(original);F=literal_fields(original)
         self.assertEqual(len(P),101)
         self.assertEqual(code_publics(original,1),[(0,'@ios@iword$qi')])
-        self.assertEqual(externs(original),
-                         ['@ios@usercount','@ios@usersize$qi'])
+        self.assertEqual(externs(original),['@ios@usercount','@ios@usersize$qi'])
+        self.assertEqual([r.data.hex() for r in parse_omf(original)
+                          if r.name=='GRPDEF'],['08ff02ff03'])
         self.assertEqual(bytes(P[2,i] for i in range(4)),bytes(4))
-        self.assertEqual([x.data.hex() for x in parse_omf(original)
-                          if x.name=='GRPDEF'],['08ff02ff03'])
         self.assertEqual({f['site']:(f['target_method'],f['target'],f['addend']) for f in F},
                          {12:(2,1,0),22:(0,2,0),46:(2,2,0),68:(0,2,0)})
         expected=sorted(tuple(f[k] for k in KEYS) for f in F)

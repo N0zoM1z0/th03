@@ -911,3 +911,9 @@ The [complete original DOS _creat and live __exitopen callback boss](MAINL_DOS_C
 adds 156 source-equal CODE bytes, true DOS creation and
 ioctl state handling and all nine literal ordered original
 OMF FIXUPPs including dynamic FAR __xclose callback fields.
+
+The [complete ios::iword FAR indexed user-slot companion](MAINL_IOS_IWORD_USER_ARRAY_NATIVE_REVIEW.md)
+adds 97 byte-exact CODE and four original sentinel DATA
+bytes, with exact conditional usersize expansion and
+four original logical OMF relocation fields. It is a
+distinct complete original module from ios::pword.
