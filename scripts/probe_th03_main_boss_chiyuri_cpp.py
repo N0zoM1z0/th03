@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compile the maintained Chiyuri boss C++ producer and compare target code shape."""
+"""Compile current Chiyuri boss with original MAIN flags and compare target code shape."""
 
 from __future__ import annotations
 
@@ -270,7 +270,7 @@ def main() -> int:
         "wine", "cmd", "/d", "/c",
         r"set PATH=C:\TASM50\BIN;C:\TC4\BIN;%PATH%"
         r"&&bin\msdos -e -x tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml "
-        r"-a2 -nobj/th03/ th03/ba_chiyu.cpp",
+        r"-nobj/th03/ th03/ba_chiyu.cpp",
     ]
     build = execute(command, work, env, out / "compiler.log")
 

@@ -1,0 +1,24 @@
+{
+  "schema": "th03-main-boss-chiyuri-after559-v1",
+  "main_native_report": ".analysis/work/main-build.json",
+  "main_native_report_sha256": "937577a800bec5488217add25a643f3f197c14b0690553dd734d1b606a456fc9",
+  "source": "src/main/boss/chiyuri.cpp",
+  "original_object": "obj/th03/ba_chiyu.obj",
+  "original_code_size": 2654,
+  "complete_functions": 11,
+  "switch_table_offset": 1904,
+  "switch_table_bytes": 81,
+  "decoded_main_owner_start": 74141,
+  "decoded_main_owner_bytes": 2654,
+  "target_load_image_mismatch_outside_owner": 60461,
+  "native_link_response_sha256": "ee55a006acf91d006d4de43cf67df6885818dcb6c8d817a7a6a0a6f5a63f7f53",
+  "native_link_exe_sha256": "a67c78cca2b6886cdb48b648b274463dbcb6b80fae5effe9b688f9bc642bcebe",
+  "native_link_map_sha256": "1b28d5a206ba055e875fa069f7c2f8b2351c0db4056c84e0f55703856490095b",
+  "probe_run_ids": [
+    "gptweb-chiyuri-559-proof-r1",
+    "gptweb-chiyuri-559-proof-r2"
+  ],
+  "native_profile": "tcc -c -I. -O -b- -3 -Z -d -DGAME=3 -ml -DBINARY='M'",
+  "whole_main_original_exe_accepted": false,
+  "canonical_credit_changed": false
+}
