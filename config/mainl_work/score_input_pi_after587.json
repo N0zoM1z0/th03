@@ -1,0 +1,45 @@
+{
+  "schema": "th03-mainl-score-input-pi-source-after587-v1",
+  "parent_report": ".analysis/work/mainl-sound-control-after586-native-build.json",
+  "parent_report_sha256": "9f66fbf11f9c615649ba56c64d32aa204c4b4cb8e8d941292fd79269aa91392a",
+  "units": [
+    {
+      "stem": "scoredat",
+      "source": "src/mainl/scoredat.cpp",
+      "wrapper": "src/mainl/scoredat_producer.cpp",
+      "binary": "O",
+      "original_object": "obj/th03/scoredat.obj",
+      "CODE_bytes": 229,
+      "original_fixups": 15,
+      "original_PUBLICs": 3
+    },
+    {
+      "stem": "inp_wait",
+      "source": "src/mainl/hardware/input_wait.cpp",
+      "wrapper": "src/mainl/hardware/input_wait_producer.cpp",
+      "binary": "L",
+      "original_object": "obj/th03/inp_wait.obj",
+      "CODE_bytes": 126,
+      "original_fixups": 11,
+      "original_PUBLICs": 2
+    },
+    {
+      "stem": "pi_load",
+      "source": "src/shared/formats/pi_load.cpp",
+      "wrapper": "src/mainl/formats/pi_load_producer.cpp",
+      "binary": "O",
+      "original_object": "obj/th03/pi_load.obj",
+      "CODE_bytes": 70,
+      "original_fixups": 6,
+      "original_PUBLICs": 1
+    }
+  ],
+  "total_CODE_bytes": 425,
+  "public_code_functions": 6,
+  "original_OMF_fixups": 32,
+  "whole_original_MAINL_bytes": 67372,
+  "whole_original_MZ_relocations": 677,
+  "full_original_vendor_OMF_packets_identical": false,
+  "canonical_factory_credit_changed": false,
+  "whole_project_source_accepted": false
+}

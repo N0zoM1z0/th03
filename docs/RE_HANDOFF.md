@@ -1,4 +1,4 @@
-# TH03 agent handoff — after586 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after587 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -322,6 +322,25 @@ denominator, old published receipt changes, or Factory product acceptance.
 
   .analysis/work/mainl-sound-control-after586-native-build.json
   scripts/review_th03_mainl_sound_control_after586_work.py
+
+## MAINL original score-input/PI file loading C++ (after587)
+
+Three independently first-use native Turbo C++ objects now source-link
+the complete existing score decode/recreation/checksum, two input/vsync/
+song-measure wait controls, and PI graphics loader (425 CODE bytes,
+6 original public functions and 32 ordered original OMF FIXUPP sites).
+Their original BINARY=O/L/O conditions remain explicit and none of the
+original game input failure behavior is rewritten.
+
+Both native rounds replace all three objects together in the after586
+source-backed root, graphics, sound, score editor, Staff/Cutscene, C0/CRT
+normal MAINL link, reproducing all 67,372 Japanese decoded EXE bytes,
+all 677 ordered MZ relocations and the full MAP geometry. This is
+source/native integration evidence, not six newly discovered functions
+or canonical Factory source acceptance.
+
+  .analysis/work/mainl-score-input-pi-after587-native-build.json
+  scripts/review_th03_mainl_score_input_pi_after587_work.py
 
 ## Start here
 
