@@ -1,0 +1,56 @@
+{
+  "schema": "th03-shared-heap-loader-order-after545-v1",
+  "original_compiler_library_sha256": "7d53ed1864b8b778040aa8203ebe4e01385112d9b3f134744a461aec0b171ba7",
+  "source_paths": {
+    "fbrk": "src/shared/crt/heap_resize.asm",
+    "loadprog": "src/shared/crt/program_loader.asm"
+  },
+  "slots": {
+    "fbrk": 167,
+    "loadprog": 891
+  },
+  "literal_fields": {
+    "fbrk": 33,
+    "loadprog": 32
+  },
+  "literal_order_equal": {
+    "fbrk": true,
+    "loadprog": true
+  },
+  "original_assembler_identified": false,
+  "native_tools": {
+    "tlib": {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLIB.EXE",
+      "sha256": "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2"
+    },
+    "tlink": {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE",
+      "sha256": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0"
+    },
+    "msdos": {
+      "path": "_reference/ReC98/bin/msdos.exe",
+      "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+    },
+    "wine": {
+      "path": "/usr/bin/wine-stable",
+      "sha256": "96d2e3a50f09760fd38ad083d57fbe3d07f7fe92308b81db2335b57bb36d98f9"
+    },
+    "jwasm": {
+      "path": ".analysis/toolchain/extra/jwasm/GccUnixR/jwasm",
+      "sha256": "b85f1fc2b91476b1f7e88e9359888054c3871094da2fa5930e183ec1c7c9c333"
+    }
+  },
+  "includes": [
+    "src/mainl/crt/crt_errno.inc"
+  ],
+  "compatible_profile": "config/th03_zun_driver_jwasm.toml",
+  "compatible_flags": [
+    "-nologo",
+    "-Cp",
+    "-omf"
+  ],
+  "PUBLIC_record_packing_equal": {
+    "fbrk": false,
+    "loadprog": true
+  }
+}

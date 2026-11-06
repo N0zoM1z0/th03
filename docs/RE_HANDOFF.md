@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after544)
+# TH03 — current agent handoff (2026-11-06; shared runtime after545)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after544**; latest independently applied storage audit: **after520**.
+**after545**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -16,8 +16,8 @@ The former long handoff remains in
 | Shared exec source correction | **255 initialized work bytes + four literal frames** |
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
-| Fresh two-product native output rounds | **2; all eight raw outputs repeat** |
-| Latest closed literal-order gaps | **dosenv + write: all 14 fields ordered-equal** |
+| Fresh two-product native output rounds | **2; all seven raw outputs repeat** |
+| Latest closed literal-order gaps | **fbrk + loadprog: all 65 fields ordered-equal** |
 | Partial setvbuf refinement | **all bytes/per-site fields equal; two MOV pairs still unordered** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
 | MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
@@ -31,36 +31,49 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after544-build.json`.
-SHA-256: `5382d231ccf9cc1ae3f59b365524277b5e983ba7d5f2dba2b82f21ff7c3cd087`.
-Producer/reviewer: `scripts/build_th03_runtime_after544_work.py` and
-`scripts/review_th03_runtime_after544_work.py`.
-See the [environment/stdio review](SHARED_ENVIRONMENT_STDIO_AFTER544_NATIVE_REVIEW.md).
+Latest root: `.analysis/work/runtime-after545-build.json`.
+SHA-256: `74e57df4ccf9f5b92225d7c0c3c8b56b413ca0c298f35056986a2179424d68ca`.
+Producer/reviewer: `scripts/build_th03_runtime_after545_work.py` and
+`scripts/review_th03_runtime_after545_work.py`.
+See the [heap/loader review](SHARED_HEAP_LOADER_AFTER545_NATIVE_REVIEW.md).
 
-Live owners `src/shared/crt/dos_environment.asm` and `write_stream.asm` retain
-723 CODE bytes and all 14 literal ordered fields. DOSENV keeps near RET12,
-word-size arithmetic and raw allocation ownership; write keeps its far C ABI,
-144-byte scratch, CRLF translation and TARGET frame5 for the near IOERROR call.
-All original ordered PUBLIC entries and raw packets agree.
+Live `src/shared/crt/heap_resize.asm` and `program_loader.asm` retain all
+1,223 CODE/42 DATA bytes and 65 literal ordered fields. BSS remains zero.
+All three ordered PUBLIC entries agree; fbrk packs two original same-CODE
+records into one, while loadprog's raw packet agrees. Preserve both complete
+packet lists and the explicit fbrk difference. Ordinary source spans and
+prebound branch labels keep every original initialized byte written once;
+no instruction arrays, padding or object patches are used.
 
-`src/shared/crt/stdio_buffer.asm` is explicitly partial: all 289 CODE/4 DATA
-bytes, imports, PUBLIC packets and 13 complete per-site attributes agree, but
-its two MOV operand pairs remain reversed. Original site order is
-`210,196,194,190,188,129,103,77,71,63,55,49,41`; native is
-`210,194,196,188,190,129,103,77,71,63,55,49,41`. Do not count it as ordered-exact.
-Compatible native assembler/compiler probes did not resolve those pairs.
-The isolated official TCPP1.01 candidate remains private and outside production;
-preflight passed after installation. af544c/d are duplicate source probes.
-All af544a–n probes, recipes, tool provenance and preflights remain in the
-110-file `.analysis/work/probe/environment-stdio544/manifest.json`.
+Heap-break keeps near cdecl public entries and its private RET4 helper,
+16-bit wrap/rounding, huge-pointer normalization and original failure stores.
+LoadProg keeps its near callback, far helpers, unchecked 80-byte probe and
+156-byte frame, DBCS path scanning, extension order, command/environment
+preparation and original cleanup/ownership. Frozen after538 TUs remain unchanged.
+Baseline listings, complete probes and recipes are retained in af545a/b and
+`.analysis/work/probe/heap-loader545/manifest.json` (28 files).
 
-Both eight-file native rounds repeat. All 890 other programs/all 893 slots,
-both original decoded EXEs and complete after543 MAPs are unchanged. Earlier
+Both seven-file native rounds repeat. All 891 other programs/all 893 slots,
+both original decoded EXEs and complete after544 MAPs are unchanged. Earlier
 packed proof is reused; no game-object, cold or runtime replay ran. New member,
-storage-extent and authored-function credit: **zero**. All sixteen raw outputs/
-thirteen logs use `runtime-after544-*`; source/include/profile/config/driver
-and MAINL responses remain in `TH03ML/probe/af544o`, OP's C0/library/responses/
-outputs in `TH03OP/probe/af544o`.
+storage-extent and authored-function credit: **zero**. All fourteen raw outputs/
+eleven logs use `runtime-after545-*`; source/include/profile/config/driver and
+MAINL responses remain in `TH03ML/probe/af545c`, OP's C0/library/responses/outputs
+in `TH03OP/probe/af545c`.
+
+Retained environment/stdio parent: `.analysis/work/runtime-after544-build.json`,
+SHA `5382d231ccf9cc1ae3f59b365524277b5e983ba7d5f2dba2b82f21ff7c3cd087`.
+Live `dos_environment.asm`/`write_stream.asm` retain 723 CODE bytes/14 ordered
+fields; DOSENV is near RET12, write keeps near IOERROR's TARGET frame5.
+`stdio_buffer.asm` remains partial despite all 289 CODE/4 DATA bytes and
+13 per-site attributes agreeing. Original sites
+`210,196,194,190,188,129,103,77,71,63,55,49,41` differ from native
+`210,194,196,188,190,129,103,77,71,63,55,49,41`. Do not count it as ordered-exact.
+All three raw PUBLIC packet lists agree. Keep sixteen raw outputs/thirteen logs,
+af544o consumed inputs and the 110-file af544a–n diagnostic manifest. The private
+TCPP1.01 candidate is outside production; preflight passed after installation.
+af544c/d are duplicate source probes. See the
+[environment/stdio review](SHARED_ENVIRONMENT_STDIO_AFTER544_NATIVE_REVIEW.md).
 
 Retained error/termination parent: `.analysis/work/runtime-after543-build.json`,
 SHA `b214dc7f1af9d38e6bc15d90bb673cd864a508d78b64246c502c85c8ca5a108d`.
@@ -120,8 +133,8 @@ CODE frame0. All 1,648 existing CODE / 42 DATA bytes and 77 complete per-site
 literal fields agree with real original CL.LIB. All import orders, public
 ownership, GROUP and segment attributes agree. Ten near frames and setblock's
 GROUP are corrected; **zero new member/CODE-extent credit**. execl's two fields
-and setblock's one field are ordered-equal; fbrk/loadprog still have order
-gaps (write closes in after544). Private helpers remain PRIVATE: the first
+and setblock's one field are ordered-equal. The former write/fbrk/loadprog
+order gaps close in after544/545. Private helpers remain PRIVATE: the first
 diagnostic candidate's extra helper exports were rejected and preserved, not adopted.
 
 Both ten-file native rounds repeat. All 888 other source programs and 893 slots
@@ -184,15 +197,15 @@ No output cleanup occurred.
 
 Prioritize actual selected-runtime order gaps, not unlinked library counts.
 The current retained diagnostic is
-`.analysis/work/runtime-after544-selected-literal-field-audit.json` / `.txt`.
+`.analysis/work/runtime-after545-selected-literal-field-audit.json` / `.txt`.
 All 76 selected OP members now have identical raw per-site field attributes:
-69 literal streams are equal, seven differ only in order. This is an investigation
-queue, not source credit. The order-only members are xxv, fbrk, signal,
-setvbuf, xalloc, xmsg and loadprog. C0's 58-field order also stays
+71 literal streams are equal, five differ only in order. This is an investigation
+queue, not source credit. The order-only members are xxv, signal, setvbuf,
+xalloc and xmsg. C0's 58-field order also stays
 open. Never sort an emitted list and then call it literal ordered equality.
 
-The error/termination, path/command, dosenv/write and stdio flush/position scopes
-are closed. Continue a remaining selected scope after inspecting the real
+The error/termination, path/command, dosenv/write, heap/loader and stdio
+flush/position scopes are closed. Continue a remaining selected scope after inspecting the real
 original ABI, storage and ordered fields. setvbuf needs an actual native
 producer that emits both fixes within each MOV in original order. Repeating
 logical-span scheduling, NASM, the tested BCC45 naked/global forms or TCPP1.01
@@ -202,7 +215,7 @@ The source-ordered PUBLIC-queue method is now proved through actual linked
 CODE/DATA interleaving. Preserve record-packing differences explicitly and
 prebind backward branch labels before separately scheduled test spans when
 needed; require every original byte/field and one-write initialized coverage.
-Historical TUs/recipes stay frozen. Extend **after544**, retaining all earlier
+Historical TUs/recipes stay frozen. Extend **after545**, retaining all earlier
 live shared refinements and source C0. These remain existing owners, not missing
 functions or whole-game progress counts.
 Call the latest reviewer once; it validates the complete unchanged source DAG,
@@ -245,7 +258,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after544_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after545_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check

@@ -65,7 +65,7 @@ Named instruction intrinsics cover unsupported386 operations;all addresses keep
 compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
 library and product layout;no object/ASM patch supplies product bytes.
 
-The current working runtime chain is after544, separate from that frozen
+The current working runtime chain is after545, separate from that frozen
 accepted publication. Its 893-slot source-bound library and source-generated
 C0 now link both MAINL and OP with complete original decoded-file equality;
 OP also repeats the original packed file. Actual selected CRT material is
@@ -73,17 +73,18 @@ OP also repeats the original packed file. Actual selected CRT material is
 the real original LIDATA initialization and four literal frames; historical
 `src/mainl/crt/exec.asm` stays as an unchanged ancestor input. See the
 [shared runtime proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
-After538–544 retain that source DAG and refine selected frames, GROUP, PUBLIC
-and literal field order. The latest `dos_environment.asm`/`write_stream.asm`
-pair reproduces 723 CODE bytes and all 14 ordered fields through both products.
-`stdio_buffer.asm` preserves complete 289 CODE/4 DATA bytes and per-site fields,
-but two MOV operand-fixup pairs remain unordered and explicitly unaccepted.
-All three original PUBLIC packet lists agree. See the
-[latest native review](SHARED_ENVIRONMENT_STDIO_AFTER544_NATIVE_REVIEW.md).
-Earlier error/termination owners retain 301 CODE/105 DATA bytes, 128 true BSS,
-24 ordered fields and 14 ordered PUBLIC entries; IOERROR/exit PUBLIC packet
-packing remains explicitly different. These refinements add no authored-function
-or whole-product acceptance credit.
+After538–545 retain that source DAG and refine selected frames, GROUP, PUBLIC
+and literal field order. The latest `heap_resize.asm`/`program_loader.asm` pair
+reproduces 1,223 CODE/42 DATA bytes and all 65 ordered fields through both
+products. All three ordered PUBLIC entries agree; fbrk packs two original
+same-CODE records into one, while loadprog's raw packet agrees. See the
+[latest native review](SHARED_HEAP_LOADER_AFTER545_NATIVE_REVIEW.md).
+Earlier environment/write owners retain 723 CODE bytes/14 ordered fields;
+`stdio_buffer.asm` remains explicitly partial because two MOV operand-fixup
+pairs differ in order. Error/termination owners retain 301 CODE/105 DATA bytes,
+128 true BSS, 24 ordered fields and 14 ordered PUBLIC entries; IOERROR/exit
+PUBLIC packet packing remains explicitly different. These refinements add no
+authored-function or whole-product acceptance credit.
 
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
