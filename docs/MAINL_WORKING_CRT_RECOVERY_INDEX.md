@@ -987,3 +987,9 @@ unresolved; **no full source-linked CRT member credit**.
 The [original native DOS rtl_open/open FAR APIs](MAINL_DOS_RTL_OPEN_FLAGS_NATIVE_REVIEW.md)
 add 108 byte-exact CODE bytes, real DOS mode conversion
 and two literal ordered original OMF fixups at +66/+75.
+
+The [complete original signed 32-bit FAR ldiv quotient/remainder boss](MAINL_SIGNED_LONG_DIVMOD_FAR_BOSS_NATIVE_REVIEW.md)
+adds 152 byte-exact CODE bytes and the authentic full
+restoring-division algorithm, with its single near N_SCOPY@
+FIXUPP literally original-equal. It remains distinct
+from unaccepted MAP-alias h_ldiv.
