@@ -1,4 +1,4 @@
-# TH03 agent handoff — after582 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after583 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -246,6 +246,20 @@ and old source/Factory receipts remain unchanged. No duplicate credit.
 
   .analysis/work/mainl-cdg-load-after582-native-build.json
   scripts/review_th03_mainl_cdg_load_after582_work.py
+
+## MAINL shared PC-98 CG-ROM renderer source (after583)
+
+A fresh first-use GAME=3/BINARY='O' Turbo C++ rebuild of the original
+GRAPH_PUTSA_FX 613-byte CODE function (6 original ordered OMF fixups)
+now connects to the after582 natural source-backed MAINL. Two native
+compile/link rounds retain the complete original 67,372-byte Japanese
+decoded EXE, 677 ordered MZ relocations and every MAP coordinate.
+The natural shared glyph/weight/Shift-JIS/VRAM C++ source is unchanged;
+one independent source wrapper is new. No historical source credit
+or cold-recipe inventory has been modified.
+
+  .analysis/work/mainl-grppsafx-after583-native-build.json
+  scripts/review_th03_mainl_grppsafx_after583_work.py
 
 ## Start here
 

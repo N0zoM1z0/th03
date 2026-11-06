@@ -1,0 +1,17 @@
+{
+  "schema":"th03-mainl-forward-native-CPP-v1",
+  "parent_report":".analysis/work/mainl-cdg-load-after582-native-build.json",
+  "parent_report_sha256":"9ab9782f9c45bb11a68c26185c60e2b53af11c1cd2c69e3f3c0826deb3470029",
+  "stage":"af583g",
+  "stem":"grppsafx",
+  "source":"src/shared/graphics/text.cpp",
+  "wrapper":"src/mainl/display_hardware/grppsafx_producer.cpp",
+  "original_object":"obj/th03/grppsafx.obj",
+  "game":3, "binary":"O",
+  "CODE_bytes":613, "data_bytes":0, "BSS_bytes":0,
+  "PUBLICs":1, "ordered_fixups":6,
+  "upstream_diagnostic_paths":[["af573c","cutscene"],["af575s","staffdat"],["af578r","regdata"],["af580r","rootdata"],["af582l","cdg_load"]],
+  "historical_raw_OMF_packets_identical":false,
+  "canonical_credit_changed":false,
+  "whole_project_source_accepted":false
+}
