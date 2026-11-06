@@ -1,4 +1,4 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after548)
+# TH03 — current agent handoff (2026-11-06; runtime548 / project scopes550)
 
 **Start with this file and actual Git state.** Latest working native evidence:
 **after548**; latest independently applied storage audit: **after520**.
@@ -180,17 +180,35 @@ Producer/reviewer: `build_th03_mainl_input_scan_work.py` /
 af549h consumed inputs and both actual after548 C0/library references. See the
 [input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
 
-The read-only `audit_th03_mainl_ownership_gaps.py --check` binds all 211 published
-owners to target bytes and 36 project objects. Its saved report identifies 905
-project CODE bytes outside published scopes, across 13 contributions. This is
-not a missing-function count: input418, sound wrappers128, vector_far160,
-regdata68 and another131 including tables/boundaries. Prioritize these concrete
-source/ownership questions rather than repeating unchanged runtime metadata.
+The read-only `audit_th03_mainl_ownership_gaps.py --check` now binds all **214**
+published owners to target bytes and36 project objects. After550 leaves **807
+project CODE bytes across11 contributions** outside publication (after549:
+905/13). This is not a missing-function count: input418, sound wrappers128,
+vector_far160 and another101 including tables/boundaries. Prioritize these
+concrete questions rather than repeating unchanged runtime metadata.
 
 C0 /ml, TASM setvbuf forward-declaration and isolated TC2.01 ABI probes did not
 close the old gaps; retain the 60-file af549a–g diagnostic manifest. The TC201
 tool candidate is private, outside product recipes; preflight passed after its
 installation. Do not repeat these settings as if they were new evidence.
+
+## Additional accepted project scopes (after550)
+
+The [completion review](MAINL_COMPLETION_AFTER550_NATIVE_REVIEW.md) accepts the
+existing complete LUT generator30 and near registration music68, plus ten typed
+far name pointers40 DATA: two procedures/37 instructions,19 literal native
+fields and17 ordered MZ relocations. All214 published owners total37,084 bytes;
+this is decoded scoped ownership, not whole-product/Factory acceptance.
+`python -m lib.decoded_mainl_completion_native --current-cold` validates the
+unchanged938-output pair; no source/recipe change, cold rebuild or runtime replay.
+
+The old publication verifier had missed the later farheap/setupio source
+successors. Explicit after332/493 bridges now check their actual raw pairs,
+writer logs and every literal non-comment OMF record against the old pairs.
+Old reports/snapshots remain unchanged; setupio comment-record identity is false.
+Preserve `.analysis/work/mainl-completion-after550-preserved/`, both successor
+native DAGs and the isolated af550a sound-mode compiler-S/TASM probe. That probe
+still emits29 versus30 bytes; it does not justify a trailing NOP or new credit.
 
 ## Next bounded work
 

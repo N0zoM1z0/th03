@@ -1,5 +1,9 @@
 # MAINL registration: existing complete source ownership
 
+After550 additionally accepts the music suffix and typed pointer DATA in the
+[completion review](MAINL_COMPLETION_AFTER550_NATIVE_REVIEW.md). The dated
+fourteen-procedure observation below remains historical and unchanged.
+
 2026-10-26; baseline `6b6026e4`, no new implementation or native rebuild.
 `review_th03_mainl_registration_work.py --current-cold` checks the complete
 unchanged source/SDK/recipe/output graph before resolving the selected producer.

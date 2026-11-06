@@ -9,7 +9,7 @@ from build_th03_mainl_farheap_work import SOURCE,DRIVER,REPORT,library_response,
 from build_th03_mainl_display_work import literal_fields,payload
 from lib.decoded_mainl_display_native import externs
 from lib.decoded_mainl_file_native import byte_map
-from lib.borland_library import library_members,compare_members
+from lib.borland_library import library_members,compare_members,object_program_records
 from lib.omf import parse_omf,describe_omf
 from lib.pc98 import parse_mz
 from lib.op_asset_native import extent
@@ -41,8 +41,53 @@ def need(v,message):
 def sha(b):return hashlib.sha256(b).hexdigest()
 
 
+def source_successor(root,source,previous,name='farheap'):
+    """Bind the later source to its existing native pair, retaining the old pair.
+
+    Both reviewed successors preserve every non-comment record in literal
+    order, including true holes and full fields. Debug/dependency comments can
+    change. This is a source bridge, not a refreshed historical receipt.
+    """
+    paths={'farheap':('332','farheap-manager',SOURCE),
+           'setupio':('493','stdio-startup-stream-initdata-boss','src/mainl/crt/setupio.asm')}
+    stage,mode,source_path=paths[name]
+    path=f'.analysis/work/mainl-after{stage}-{mode}-build.json'
+    raw=(root/path).read_bytes();record=json.loads(raw)
+    need(record['complete'] and record['mode']==mode and record['names']==[name] and
+         record['source_paths']=={name:source_path} and record['source_sha256']=={name:sha(source)} and
+         record['driver_sha256']==sha((root/f'scripts/build_th03_mainl_after{stage}_work.py').read_bytes()) and
+         record['assembler_flags']==['/m','/mx','/kh32768','/t'] and
+         [r['round'] for r in record['rounds']]==[1,2], 'actual later source and frozen native recipe')
+    expected=['extract']
+    for number in (1,2):expected += [f'round{number}-assemble-{name}',f'round{number}-library',f'round{number}-link']
+    need([p['label'] for p in record['phases']]==expected and all(p['returncode']==0 and
+         sha((root/p['log_path']).read_bytes())==p['log_sha256'] for p in record['phases']),
+         'both real later assembler/library/link writer rounds and retained logs')
+    vectors=[]
+    for row in record['rounds']:
+        need(set(row['outputs'])=={name,'lib','exe','map'}, 'complete later native output vector')
+        vector={}
+        for kind,meta in row['outputs'].items():
+            blob=(root/meta['path']).read_bytes()
+            need(meta==dict(path=meta['path'],bytes=len(blob),sha256=sha(blob)), 'whole later native output '+kind)
+            vector[kind]=blob
+        program=object_program_records(vector[name])
+        records=lambda raw:[(r.name,r.data) for r in parse_omf(raw) if r.name not in ('THEADR','COMENT')]
+        member,=[m for m in library_members(vector['lib']) if m.name==name]
+        need(records(vector[name])==records(previous) and program==member.program_records and
+             vector['exe']==(root/'.analysis/toolchain/wineprefix/drive_c/TH03ML/bin/th03/mainl.target.exe').read_bytes(),
+             'all literal non-comment OMF records and actual linked original EXE equality')
+        vectors.append(vector)
+    need(vectors[0]==vectors[1], 'complete later raw OBJ/LIB/EXE/MAP repeat')
+    return dict(build_report=path,build_report_sha256=sha(raw),source_sha256=sha(source),
+                earlier_native_object_sha256=sha(previous),later_native_object_sha256=sha(vectors[0][name]),
+                all_ordered_noncomment_records_equal=True,
+                complete_program_records_equal=object_program_records(previous)==object_program_records(vectors[0][name]),
+                native_rebuilt=False)
+
+
 def selected(root,work,files):
-    report_raw=(root/REPORT).read_bytes();report=json.loads(report_raw);source=(root/SOURCE).read_bytes()
+    report_raw=(root/REPORT).read_bytes();report=json.loads(report_raw);source=(root/'.analysis/work/farheap-source.asm').read_bytes()
     need(report['complete'] and not report['source_acceptance'] and not report['whole_product_cold_rebuilt'] and
          report['retained_project_objects']==36 and report['source_sha256']==sha(source) and report['driver_sha256']==sha((root/DRIVER).read_bytes()) and
          report['cold_report_sha256']==sha((root/'.analysis/work/mainl-build.json').read_bytes()),'actual maintained source/recipe/unchanged cold context')
@@ -67,6 +112,9 @@ def selected(root,work,files):
         need(v['exe']==(work/'bin/th03/mainl.target.exe').read_bytes() and v['map']==(work/'obj/th03/mainl.map').read_bytes(),'complete pinned Japanese decoded EXE and retained MAP equality')
         vectors.append(v)
     need(vectors[0]==vectors[1],'complete raw OBJ/LIB/EXE/MAP repetition')
+    current_source=(root/SOURCE).read_bytes()
+    need(current_source!=source, 'explicit reviewed source successor, not an implicit historical rebind')
+    report=dict(report,source_successor=source_successor(root,current_source,vectors[0]['obj']))
     return vectors[0],report,sha(report_raw)
 
 
@@ -117,14 +165,14 @@ def verify(root,work,target,candidate,graph,files):
         if pub:need((off,name) in PUBLICS,'real native API entry')
         procedures.append(dict(name=name,offset=off,size=size,return_kind=ret,public=pub,callee_pop_bytes=0))
     need(sum(p['size'] for p in procedures)==1103 and len(procedures)==14,'complete code ownership without alias double counting')
-    source=(root/SOURCE).read_bytes()
+    source=(root/'.analysis/work/farheap-source.asm').read_bytes()
     for name in ('saved_dgroup','resize_high','resize_low'):need(re.search((r'(?m)^'+name+r' dw \?$').encode(),source),'source preserves original uninitialized CS scratch')
     need(b'call _farmalloc' in source and b'call _free' in source and b'___first dw 0' in source,'natural same-segment far calls and real zero initial state')
     owner=dict(unit_id=UNIT,name='farheap',source=SOURCE,object=OBJECT,origin='library',segment=0,offset=BASE,start=BASE,size=1115,
         coordinate_space='decoded-load',canonical_file_offset=None,target_sha256=sha(image),candidate_sha256=sha(image),ordered_relocations=[],
         code_bytes=1103,initialized_data_bytes=12,procedure_count=14,procedures=procedures,private_data_bytes=0,private_bss_bytes=0,
         maintained_native_object=report['rounds'][0]['outputs']['obj']['path'],abi='far cdecl word/long allocation APIs,private register-ABI near helpers and shared near exits')
-    return dict(owners=[owner],source_sha256=sha(source),native_fields=observed,procedures=14,source_CODE_bytes=1103,file_DATA_bytes=12,
+    return dict(owners=[owner],source_sha256=sha((root/SOURCE).read_bytes()),source_successor=report['source_successor'],native_fields=observed,procedures=14,source_CODE_bytes=1103,file_DATA_bytes=12,
         initialized_CS_state_bytes=6,uninitialized_CS_scratch_file_bytes=6,CS_scratch_initializer_added=False,all_49_ordered_native_fields_equal_original=True,
         selected_build_report_sha256=report_sha,selected_assembly_library_link_rounds=2,normal_library_members=893,untouched_library_members=892,
         retained_project_objects=36,whole_EXE_MAP_equal=True,full_raw_vector_repeated=True,ordered_scope_relocations=[],

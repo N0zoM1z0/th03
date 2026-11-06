@@ -7,6 +7,7 @@ from capstone.x86_const import X86_OP_IMM
 from build_th03_mainl_stdio_work import SOURCES,DRIVER,REPORT,LAYOUT_HEADER,reused_pairs,library_response,link_response
 from build_th03_mainl_display_work import literal_fields,payload
 from lib.decoded_mainl_loadprog_native import sha
+from lib.decoded_mainl_farheap_native import source_successor
 from lib.decoded_mainl_display_native import externs
 from lib.decoded_mainl_file_native import byte_map
 from lib.borland_library import library_members,compare_members
@@ -39,14 +40,15 @@ def need(value,message):
 
 def selected(root,work,files):
     raw=(root/REPORT).read_bytes();r=json.loads(raw);reused,meta=reused_pairs(root,work,files)
+    historical_sources={n:(root/('.analysis/work/stdio-source-'+n+'.asm')).read_bytes() for n in SOURCES}
     need(r['complete'] and not r['source_acceptance'] and not r['whole_product_cold_rebuilt'] and r['retained_project_objects']==36 and
-         r['source_sha256']=={p:sha((root/p).read_bytes()) for p in SOURCES.values()} and r['driver_sha256']==sha((root/DRIVER).read_bytes()) and
+         r['source_sha256']=={p:sha(historical_sources[n]) for n,p in SOURCES.items()} and r['driver_sha256']==sha((root/DRIVER).read_bytes()) and
          r['cold_report_sha256']==sha((root/'.analysis/work/mainl-build.json').read_bytes()) and r['reused_sources']==meta,'stdio source/recipe/cold and reused actual CRT pairs')
     header=(root/LAYOUT_HEADER).read_bytes()
     need(r['layout_header_sha256']==sha(header) and (root/'.analysis/work/stdio-layout.inc').read_bytes()==header,'actual shared FILE-layout include input')
     current=(work/'crt.lib').read_bytes();members=library_members(current)
     need(r['current_library_sha256']==sha(current) and len(members)==893,'normal library identity')
-    need(all((root/('.analysis/work/stdio-source-'+n+'.asm')).read_bytes()==(root/p).read_bytes() for n,p in SOURCES.items()) and
+    need(all(historical_sources[n]==(root/p).read_bytes() for n,p in SOURCES.items() if n!='setupio') and
          (root/'.analysis/work/stdio-library.rsp').read_bytes()==library_response(members) and
          (root/'.analysis/work/stdio-link.lnk').read_bytes()==link_response(files),'actual full source and response inputs')
     config=tomllib.loads((root/'config/toolchain.toml').read_text());prefix=root/config['paths']['wine_prefix']
@@ -66,6 +68,9 @@ def selected(root,work,files):
         need(v['exe']==(work/'bin/th03/mainl.target.exe').read_bytes() and v['map']==(work/'obj/th03/mainl.map').read_bytes(),'whole pinned Japanese decoded EXE and retained MAP equality')
         vectors.append(v)
     need(vectors[0]==vectors[1],'whole raw ten-OBJ/LIB/EXE/MAP repetition')
+    current_source=(root/SOURCES['setupio']).read_bytes()
+    need(current_source!=historical_sources['setupio'], 'explicit reviewed setupio source successor')
+    r=dict(r,source_successor=source_successor(root,current_source,vectors[0]['setupio'],'setupio'))
     return vectors[0],r,sha(raw)
 
 
@@ -151,7 +156,9 @@ def verify(root,work,target,candidate,graph,files):
                 procedure_count=len(procs),procedures=procs,private_data_bytes=0,private_bss_bytes=0,maintained_native_object=r['rounds'][0]['outputs'][name]['path'],abi='far cdecl stream/DOS APIs; near pop4 buffered count,near startup,and near callee-pop2 IOERROR imports'))
         modules[name]=dict(native_fields=observed,original_literal_native_fields=old_fields,far_calls=far_calls,near_calls=near_calls,native_field_order_preserved=True,ordered_scope_relocations=relocations[1])
     need(frame_changes==[dict(module='write',site=23)],'only the reviewed equivalent near IOERROR frame')
-    return dict(owners=owners,modules=modules,source_sha256=r['source_sha256'],layout_header_sha256=r['layout_header_sha256'],source_CODE_bytes=1808,source_initialized_DATA_bytes=10,procedures=13,
+    return dict(owners=owners,modules=modules,source_sha256={p:sha((root/p).read_bytes()) for p in SOURCES.values()},
+        historical_source_sha256=r['source_sha256'],source_successor=r['source_successor'],
+        layout_header_sha256=r['layout_header_sha256'],source_CODE_bytes=1808,source_initialized_DATA_bytes=10,procedures=13,
         equivalent_near_IOERROR_frame_sites=frame_changes,selected_build_report_sha256=report_sha,selected_assembly_library_link_rounds=2,normal_library_members=893,untouched_current_library_members=874,
         source_CRT_providers_in_selected_library=25,reused_nine_natural_CRT_pairs=True,retained_project_objects=36,full_raw_vector_repeated=True,whole_EXE_MAP_equal=True,source_padding_added=False,BSS_file_byte_credit=0,
         original_cold_rebuilt=False,ancestor_runtime_replayed=False,physical_DOS_execution_claimed=False,whole_product_accepted=False)

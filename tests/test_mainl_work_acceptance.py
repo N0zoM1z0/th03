@@ -25,17 +25,17 @@ class MainlWorkAcceptance(unittest.TestCase):
     def test_live_physical_replay_accepts_current_decoded_owners_only(self):
         with patch('lib.decoded_mainl_acceptance.runtime', side_effect=AssertionError('ancestor runtime must remain historical')):
             result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (211, 16695))
-        self.assertEqual(result["decoded_authored_procedures"],100)
-        self.assertEqual(result["decoded_authored_code_bytes"],16471)
-        self.assertEqual(result["decoded_authored_initialized_data_bytes"],224)
+        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (214, 16833))
+        self.assertEqual(result["decoded_authored_procedures"],102)
+        self.assertEqual(result["decoded_authored_code_bytes"],16569)
+        self.assertEqual(result["decoded_authored_initialized_data_bytes"],264)
         self.assertFalse(result["product_exact"])
         self.assertEqual(result["mixed_physical_exact_bytes"], 0)
         units = list(csv.DictReader((ROOT / "config/units.csv").read_text().splitlines()))
-        self.assertEqual(mainl_product_status(ROOT, units)["decoded_exact_units"], 211)
+        self.assertEqual(mainl_product_status(ROOT, units)["decoded_exact_units"], 214)
         self.assertEqual((result['decoded_library_exact_units'], result['decoded_library_bytes']), (116, 20251))
-        self.assertEqual((result['decoded_procedures'], result['decoded_source_bytes'], result['decoded_code_bytes']), (288, 36946, 34333))
-        self.assertEqual(result['decoded_initialized_data_bytes'], 2607)
+        self.assertEqual((result['decoded_procedures'], result['decoded_source_bytes'], result['decoded_code_bytes']), (290, 37084, 34431))
+        self.assertEqual(result['decoded_initialized_data_bytes'], 2647)
         self.assertEqual(result['decoded_uninitialized_file_data_bytes'], 6)
         registration = self.publication['audit']['scope']['registration']['layout']
         self.assertEqual((registration['functions'], registration['code_bytes'],
@@ -54,7 +54,7 @@ class MainlWorkAcceptance(unittest.TestCase):
             result=verify(ROOT,self.publication)
         owner,=[o for o in self.publication['audit']['scope']['owners'] if o['unit_id']=='th03-mainl-decoded-snow-cluster']
         self.assertEqual((owner['size'],owner['procedure_count'],len(owner['procedures'])),(464,7,7))
-        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(211,100))
+        self.assertEqual((result['decoded_exact_units'],result['decoded_authored_procedures']),(214,102))
 
     def test_one_missing_gate_rejects_the_owner(self):
         owner = next(iter(self.publication["owner_oracles"].values()))
@@ -92,13 +92,15 @@ class MainlWorkAcceptance(unittest.TestCase):
         import status
         with (ROOT / "config/units.csv").open() as stream:
             units = list(csv.DictReader(stream))
-        result = verify(ROOT, self.publication)
+        # Native audit has its own live test; this case checks presentation.
+        with patch('lib.decoded_mainl_acceptance.audit', return_value=self.publication['audit']):
+            result = verify(ROOT, self.publication)
         with patch.object(status, "mainl_product_status", return_value=result):
             svg = progress.render_svg(units, [], [], op_status={'decoded_accepted': False},
                                       zun_status={'decoded_accepted': False})
-        self.assertIn("Decoded acceptance: exact 211/250", svg)
-        self.assertIn("211 extents / 288 procedures / 36,946 B", svg)
-        self.assertIn("CODE 34,333 / DATA 2,613", svg)
+        self.assertIn("Decoded acceptance: exact 214/253", svg)
+        self.assertIn("214 extents / 290 procedures / 37,084 B", svg)
+        self.assertIn("CODE 34,431 / DATA 2,653", svg)
         self.assertIn("938 raw outputs", svg)
         self.assertNotIn("MAINL product + decoded accepted", svg)
         self.assertNotIn("exact 150/150", svg)
