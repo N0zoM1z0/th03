@@ -901,3 +901,13 @@ The [complete original ios::pword FAR user-slot and usersize boss](MAINL_IOS_PWO
 adds 97 original CODE and four typed DATA bytes, with
 real one-based userword indexing, conditional FAR
 usersize expansion and four original logical OMF fields.
+
+The [original ios::iword FAR user-array slot access](MAINL_IOS_IWORD_USER_ARRAY_NATIVE_REVIEW.md)
+adds 97 CODE and four DATA bytes, true usersize expansion
+and four precise logical OMF fields. Both native MAINL
+EXE/MAP rounds remain original-equal.
+
+The [complete original DOS _creat and live __exitopen callback boss](MAINL_DOS_CREAT_EXITOPEN_CALLBACK_NATIVE_REVIEW.md)
+adds 156 source-equal CODE bytes, true DOS creation and
+ioctl state handling and all nine literal ordered original
+OMF FIXUPPs including dynamic FAR __xclose callback fields.
