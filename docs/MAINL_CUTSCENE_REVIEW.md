@@ -1,5 +1,9 @@
 # MAINL complete cutscene source ownership
 
+After551 proves the native compiler alignment and accepts the remaining table
+bank in the [switch-table review](MAINL_SWITCH_TABLES_AFTER551_NATIVE_REVIEW.md).
+The dated thirteen-procedure observation below remains historical and unchanged.
+
 Baseline: `83706b4`, reviewed 2026-10-26. This accepts existing source, not a
 new implementation. The frozen aggregate replay remains historical.
 

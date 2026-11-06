@@ -65,6 +65,7 @@ from lib.decoded_mainl_path_native import verify as path_scope, SOURCE_MAP as PA
 from lib.decoded_mainl_stdio_native import verify as stdio_scope, SOURCE_MAP as STDIO_SOURCE_MAP
 from lib.decoded_mainl_exception_native import verify as exception_scope, SOURCE_MAP as EXCEPTION_SOURCE_MAP
 from lib.decoded_mainl_completion_native import verify as completion_scope
+from lib.decoded_mainl_switch_native import verify as switch_scope
 from lib.decoded_mainl_registration_layout import SOURCE as REGISTRATION_SOURCE, WRAPPER as REGISTRATION_WRAPPER
 from lib.decoded_mainl_ending_layout import SOURCE as ENDING_SOURCE, WRAPPER as ENDING_WRAPPER
 from lib.decoded_mainl_root_helpers_layout import OBJECT as ROOT_OBJECT, WRAPPER as ROOT_WRAPPER
@@ -132,7 +133,8 @@ PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATI
     "scripts/lib/decoded_mainl_stdio_native.py", "scripts/build_th03_mainl_stdio_work.py",
     "scripts/lib/decoded_mainl_exception_native.py", "scripts/build_th03_mainl_exception_work.py",
     "config/mainl_work/exception_toolchain.toml", "scripts/lib/decoded_mainl_completion_native.py",
-    "scripts/build_th03_mainl_after332_work.py", "scripts/build_th03_mainl_after493_work.py")))
+    "scripts/build_th03_mainl_after332_work.py", "scripts/build_th03_mainl_after493_work.py",
+    "scripts/lib/decoded_mainl_switch_native.py", "config/mainl_work/switch_tables_after551.json")))
 
 def need(value, message):
     if not value:
@@ -320,6 +322,13 @@ def audit(root):
              for o in completion_native['owners']), 'disjoint complete project procedures and pointer DATA')
     owners.extend(completion_native['owners'])
     scope['completion_native'] = completion_native
+    switches = switch_scope(root, work, target, candidate, graph, files)
+    occupied = {site for o in owners for site in range(o['start'], o['start'] + o['size'])}
+    need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in switches['owners']}) and
+         all(not (set(range(o['start'], o['start'] + o['size'])) & occupied)
+             for o in switches['owners']), 'generated tables/alignment remain disjoint from every instruction owner')
+    owners.extend(switches['owners'])
+    scope['switch_tables_native'] = switches
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:

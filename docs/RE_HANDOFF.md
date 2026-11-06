@@ -1,4 +1,4 @@
-# TH03 — current agent handoff (2026-11-06; runtime548 / project scopes550)
+# TH03 — current agent handoff (2026-11-06; runtime548 / project scopes551)
 
 **Start with this file and actual Git state.** Latest working native evidence:
 **after548**; latest independently applied storage audit: **after520**.
@@ -180,11 +180,11 @@ Producer/reviewer: `build_th03_mainl_input_scan_work.py` /
 af549h consumed inputs and both actual after548 C0/library references. See the
 [input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
 
-The read-only `audit_th03_mainl_ownership_gaps.py --check` now binds all **214**
-published owners to target bytes and36 project objects. After550 leaves **807
-project CODE bytes across11 contributions** outside publication (after549:
-905/13). This is not a missing-function count: input418, sound wrappers128,
-vector_far160 and another101 including tables/boundaries. Prioritize these
+The read-only `audit_th03_mainl_ownership_gaps.py --check` now binds all **216**
+published owners to target bytes and36 project objects. After551 leaves **716
+project CODE-allocation bytes across9 contributions** outside publication
+(after550:807/11; after549:905/13). This is not a missing-function count:
+input418, sound wrappers128, vector_far160 and ten seam bytes. Prioritize these
 concrete questions rather than repeating unchanged runtime metadata.
 
 C0 /ml, TASM setvbuf forward-declaration and isolated TC2.01 ABI probes did not
@@ -209,6 +209,24 @@ Old reports/snapshots remain unchanged; setupio comment-record identity is false
 Preserve `.analysis/work/mainl-completion-after550-preserved/`, both successor
 native DAGs and the isolated af550a sound-mode compiler-S/TASM probe. That probe
 still emits29 versus30 bytes; it does not justify a trailing NOP or new credit.
+
+## Generated switch data and compiler alignment (after551)
+
+The [switch review](MAINL_SWITCH_TABLES_AFTER551_NATIVE_REVIEW.md) closes the
+cutscene's remaining73 bytes and root's18-byte switch:90 inline data bytes plus
+one native compiler alignment byte, **no new instructions/procedures**. Actual
+isolated TCC `-a2` output matches every non-comment cold OMF record; changing
+only the existing pragma to `-a1` removes the zero and shifts the table exactly
+once. All236 fields/publics and five affected near calls explain that layout
+change. The diagnostic control is unaccepted; no padding or target masking.
+
+All216 accepted extents total37,175 bytes. Cutscene CODE3195 is fully partitioned
+as3122 instructions/72 table/1 alignment; root CODE2458 as2440 instructions/18
+table. Root DATA112/BSS186 remain context. Preserve af551a's nine source/native
+files, three compiler logs, private driver/report and the previous-publication
+snapshot. `python -m lib.decoded_mainl_switch_native --current-cold` checks the
+pinned control and29 literal table fields; the unchanged938-output cold pair
+is reused. Native runtime root remains after548.
 
 ## Next bounded work
 

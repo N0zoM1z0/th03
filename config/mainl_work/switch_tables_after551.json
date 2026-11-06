@@ -1,0 +1,46 @@
+{
+  "schema": "th03-mainl-switch-tables-after551-v1",
+  "probe_report": {
+    "path": ".analysis/work/probe/cutscene551/probe.json",
+    "sha256": "46c1751097f40a9046441635aaa1e64c0dc33c5d4ac494bcc513eeb3225f5c26"
+  },
+  "probe_driver": {
+    "path": ".analysis/work/probe/cutscene551/probe.py",
+    "sha256": "b2bc6c27bc4bbe0cba2261044d4748245a0867cc3bb5bd4dac30c2ff76f2fe81"
+  },
+  "probe_work": "probe/af551a",
+  "source": "src/mainl/cutscene.cpp",
+  "source_sha256": "c67a7c31fca641d0749934a3a3eba8a1f060b0a3a57c7d5f52ef7110a384aa33",
+  "compiler_alignment_control": {
+    "original_pragma": "-a2",
+    "control_pragma": "-a1",
+    "original_CODE_bytes": 3195,
+    "control_CODE_bytes": 3194,
+    "compiler_emitted_alignment_offset": 2807,
+    "alignment_bytes": 1
+  },
+  "scopes": [
+    {
+      "unit_id": "th03-mainl-decoded-cutscene-switch-tables",
+      "source": "src/mainl/cutscene.cpp",
+      "object": "obj/th03/cutscene.obj",
+      "segment": 2399,
+      "offset": 5685,
+      "size": 73,
+      "inline_table_bytes": 72,
+      "compiler_alignment_bytes": 1
+    },
+    {
+      "unit_id": "th03-mainl-decoded-stage-intro-switch-table",
+      "source": "src/mainl/root/complete_data.cpp",
+      "object": "obj/th03/rootdata.obj",
+      "segment": 2399,
+      "offset": 1711,
+      "size": 18,
+      "inline_table_bytes": 18,
+      "compiler_alignment_bytes": 0
+    }
+  ],
+  "whole_product_accepted": false,
+  "canonical_credit_changed": false
+}

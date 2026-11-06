@@ -1,5 +1,9 @@
 # MAINL root orchestration and continue: current source ownership
 
+After551 additionally accepts the18-byte generated stage-intro table in the
+[switch-table review](MAINL_SWITCH_TABLES_AFTER551_NATIVE_REVIEW.md). The dated
+instruction-ownership observation below remains historical and unchanged.
+
 2026-10-26, baseline06e7f3a. This verifies already implemented C++ source; it is
 not a new implementation or whole-product reconstruction claim. The existing
 complete source-only two-cold graph is unchanged. No native rebuild, new runtime
