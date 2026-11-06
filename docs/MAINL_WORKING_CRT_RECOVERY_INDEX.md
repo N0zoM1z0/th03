@@ -931,3 +931,8 @@ All 652 emitted symbolic OMF references match the 654
 original prefix sites and targets, with two shorter acos
 calls and 564 frame-method-4 differences still disclosed.
 This is partial source, with zero full CRT-member credit.
+
+The [complete original DOS dup/dup2 descriptor and exitclose boss](MAINL_DOS_DUP_DUP2_CLOSE_CALLBACK_NATIVE_REVIEW.md)
+adds 116 exact CODE bytes, two native FAR interfaces,
+real DOS 21h handle duplication and all 14 original
+literal ordered OMF fields including FAR exitclose pointers.
