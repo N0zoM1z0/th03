@@ -1033,3 +1033,9 @@ The [complete original FAR calloc 32-bit/chunked zeroing boss](MAINL_FARCALLOC_C
 adds 148 byte-exact CODE bytes with real segmented _farmalloc,
 native _setmem and near N_LXMUL@/N_PADA@, all four original
 literal ordered OMF fields, and two original-equal EXE/MAP rounds.
+
+The [original DOS setmode file descriptor mask leaf](MAINL_DOS_SETMODE_DESCRIPTOR_NATIVE_REVIEW.md)
+adds 83 byte-exact CODE bytes and true 0xC000 text/binary
+mode semantics. All four symbolic OMF targets match,
+with only the near __IOERROR frame difference at CODE+77.
+Both full native EXE/MAP rounds remain original-equal.
