@@ -936,3 +936,8 @@ The [complete original DOS dup/dup2 descriptor and exitclose boss](MAINL_DOS_DUP
 adds 116 exact CODE bytes, two native FAR interfaces,
 real DOS 21h handle duplication and all 14 original
 literal ordered OMF fields including FAR exitclose pointers.
+
+The [complete original FAR strncat/strlen/fmovmem leaf](MAINL_FAR_STRNCAT_MOVMEM_LEAF_NATIVE_REVIEW.md)
+adds 105 original CODE bytes, two source-real FAR
+strlen calls and one real FAR memory-move call with
+three exact logical OMF reference fields.
