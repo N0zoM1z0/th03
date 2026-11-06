@@ -1,0 +1,55 @@
+{
+  "schema": "th03-mainl-sound-control-after586-v1",
+  "parent_report": ".analysis/work/mainl-input-pi-after585-native-build.json",
+  "parent_report_sha256": "caf442713433ac1e8b7bbf4447fbb636a98c15e9dc52cafeff1ea7e5b612a21b",
+  "units": [
+    {
+      "stem": "snd_se",
+      "source": "src/mainl/linked_game/sound_se.cpp",
+      "wrapper": "src/mainl/linked_game/sound_se_producer.cpp",
+      "binary": "M",
+      "original_object": "obj/th03/snd_se.obj",
+      "CODE_bytes": 120,
+      "original_fixups": 18,
+      "original_PUBLICs": 2
+    },
+    {
+      "stem": "snd_kaja",
+      "source": "src/mainl/linked_game/sound_kaja.cpp",
+      "wrapper": "src/mainl/linked_game/sound_kaja_producer.cpp",
+      "binary": "O",
+      "original_object": "obj/th03/snd_kaja.obj",
+      "CODE_bytes": 30,
+      "original_fixups": 2,
+      "original_PUBLICs": 1
+    },
+    {
+      "stem": "snd_dlym",
+      "source": "src/mainl/linked_game/sound_measure.cpp",
+      "wrapper": "src/mainl/linked_game/sound_measure_producer.cpp",
+      "binary": "L",
+      "original_object": "obj/th03/snd_dlym.obj",
+      "CODE_bytes": 49,
+      "original_fixups": 3,
+      "original_PUBLICs": 1
+    },
+    {
+      "stem": "snd_load",
+      "source": "src/shared/sound/load.cpp",
+      "wrapper": "src/mainl/sound/load_producer.cpp",
+      "binary": "O",
+      "original_object": "obj/th02/snd_load.obj",
+      "CODE_bytes": 112,
+      "original_fixups": 8,
+      "original_PUBLICs": 1
+    }
+  ],
+  "total_CODE_bytes": 311,
+  "public_code_functions": 5,
+  "original_OMF_fixups": 31,
+  "whole_original_MAINL_bytes": 67372,
+  "whole_original_MZ_relocations": 677,
+  "full_original_vendor_OMF_packets_identical": false,
+  "canonical_factory_credit_changed": false,
+  "whole_project_source_accepted": false
+}

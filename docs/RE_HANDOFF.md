@@ -1,4 +1,4 @@
-# TH03 agent handoff — after585 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after586 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -304,6 +304,24 @@ were already known, so no new canonical/Factory product credit.
 
   .analysis/work/mainl-input-pi-after585-native-build.json
   scripts/review_th03_mainl_input_pi_after585_work.py
+
+## MAINL source-native music/SFX/file control group (after586)
+
+Four true Turbo C++ 4.02 original sound producers were compiled twice
+with their original GAME=3 and BINARY=M/O/L/O conditions and all four
+objects simultaneously replaced in the source-native after585 linker.
+The entire 311 CODE bytes across five original functions, 31 ordered
+OMF FIXUPP fields, PUBLIC names, full original 67,372-byte Japanese
+decoded MAINL EXE, 677 ordered relocations and MAP geometry match.
+
+The GAME>=4/5 source codestring branches are inactive for TH03;
+do not confuse them with the after570 sound hardware TASM EVEN evidence.
+The DOS sound-file loader's real original error semantics remain unchanged.
+This extends source-integrated real build coverage without new function
+denominator, old published receipt changes, or Factory product acceptance.
+
+  .analysis/work/mainl-sound-control-after586-native-build.json
+  scripts/review_th03_mainl_sound_control_after586_work.py
 
 ## Start here
 
