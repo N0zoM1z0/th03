@@ -1,4 +1,4 @@
-# TH03 agent handoff — after583 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after584 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -260,6 +260,30 @@ or cold-recipe inventory has been modified.
 
   .analysis/work/mainl-grppsafx-after583-native-build.json
   scripts/review_th03_mainl_grppsafx_after583_work.py
+
+## Corrected original continue-menu CODE segment hypothesis (after584)
+
+A real source assumption was disproved: historic maintained
+src/mainl/root/continue.cpp declared -zCCONTINUE_TEXT, whereas
+original contmenu.obj uses -zCCUTSCENE_TEXT. A direct Turbo C++
+negative control emitted the exact 417 original function bytes and
+35 ordered OMF fields in the WRONG segment; real TLINK then created
+696 relocations and a nonmatching MAINL EXE. Merely fixing the
+natural C++ Borland segment pragma to CUTSCENE_TEXT recovers the
+complete original source object, and two independent TC4/TLINK
+rounds with the latest after583 root/Staff/Cutscene/CDG/score
+source chain produce byte-identical 67,372-byte Japanese decoded
+EXEs with exactly 677 ordered relocations.
+
+The historical source is left byte-unchanged to avoid invalidating
+old acceptance/recipe SHA. The new maintained alternate differs
+only in the segment pragma; no original machine-code bytes,
+branch conditions, or object files were patched. Both negative
+and positive compiler/normal-link experiments and all writer
+logs are retained.
+
+  .analysis/work/mainl-continue-after584-native-build.json
+  scripts/review_th03_mainl_continue_after584_work.py
 
 ## Start here
 

@@ -1,0 +1,20 @@
+{
+  "schema": "th03-mainl-continue-fixed-segment-after584-v1",
+  "parent_report": ".analysis/work/mainl-grppsafx-after583-native-build.json",
+  "parent_report_sha256": "3c3258ca3f87cbd469df3874cf4ac979ef43e1e56ffc7c38baab91d0fb1d4ba2",
+  "historical_unmodified_source": "src/mainl/root/continue.cpp",
+  "corrected_natural_source": "src/mainl/root/continue_cutscene_text.cpp",
+  "forward_source": "src/mainl/root/continue_producer.cpp",
+  "original_object": "obj/th03/contmenu.obj",
+  "original_CODE_segment": "CUTSCENE_TEXT",
+  "historical_hypothesis_CODE_segment": "CONTINUE_TEXT",
+  "original_CODE_bytes": 417,
+  "original_PUBLIC_functions": 1,
+  "original_native_ordered_FIXUPP_fields": 35,
+  "original_MZ_relocations": 677,
+  "misaligned_segment_MZ_relocations": 696,
+  "original_decoded_MAINL_EXE_bytes": 67372,
+  "canonical_factory_credit_changed": false,
+  "whole_game_source_accepted": false,
+  "historical_compiler_OMF_packet_identity_proved": false
+}
