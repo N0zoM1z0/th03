@@ -1052,3 +1052,10 @@ genuinely unresolved near-branch displacement to the
 unimplemented parser exit. All 16 original symbolic prefix
 fields match (nine original FPU method-4 metadata gaps).
 This is **partial Boss source only** and earns zero CRT member credit.
+
+The [large isteldbl long-double parser fractional-digit expansion](MAINL_ISTELDBL_FRACTION_PREFIX_LARGE_BOSS_NATIVE_REVIEW.md)
+extends authentic natural source through original CODE+753:
+752/754 bytes match, 27/27 original logical prefix fixups
+match, and 15 Borland x87 frame-method-4 differences remain
+disclosed. The initial near branch at +30/+31 still targets
+an unrecovered parser exit, so **no complete CRT credit**.
