@@ -1,41 +1,43 @@
-# TH03 — current agent handoff (2026-11-06; after523)
+# TH03 — current agent handoff (2026-11-06; after524)
 
 **Start with this file and actual Git state.** Check `git status -sb`
 and `git log -8 --oneline`. Latest source-bound CRT working evidence:
-**after523**. Latest independently protected-storage audit:
+**after524**. Latest independently protected-storage audit:
 **after520**. The former 1,494-line handoff is preserved in
 [historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
 ## Current, independently verified Japanese MAINL CRT
 
-| Evidence | Latest after523 |
+| Evidence | Latest after524 |
 | --- | ---: |
 | Original Borland CL.LIB slots | **893** |
-| Complete original CRT source-linked members | **734** |
-| Original-equal maintained-source CODE-segment bytes | **197,750** |
-| Original vendor members retained for context | **159** |
+| Complete original CRT source-linked members | **742** |
+| Original-equal maintained-source CODE-segment bytes | **199,662** |
+| Original vendor members retained for context | **151** |
 | Independent assembly/TLIB/TLINK rounds | **2; complete EXE/MAP byte-exact** |
 | Original decoded Japanese MAINL EXE / ordered MZ relocations | **67,372 bytes / 677** |
 | Formal Factory canonical packed-file unit acceptance | **0/250** |
 
 Latest root:
-`.analysis/work/mainl-after523-string-dual-code-exception-four-build.json`
+`.analysis/work/mainl-after524-string-regexp-copy-compare-assign-eight-build.json`
 
-SHA-256: `d1068ab8fe10b58bddf58f7c95048267d21b8915c064962a05d799db838c74ad`.
+SHA-256: `b9c9fffbd56d725b77c1091acf56dc03197d69efddf0f580d077567e1bff9179`.
 
-Producer: `scripts/build_th03_mainl_after523_work.py`,
-mode `string-dual-code-exception-four`.
-Independent reviewer: `scripts/review_th03_mainl_after523_work.py`.
+Producer: `scripts/build_th03_mainl_after524_work.py`,
+mode `string-regexp-copy-compare-assign-eight`.
+Independent reviewer: `scripts/review_th03_mainl_after524_work.py`.
 This stage uses TASM 5.0 / native TLIB/TLINK and preserves after522's
 pinned compatible-emitter h_ldiv member unchanged.
 
-Latest additions: `copy2`, `ctor2`, `oprcall1`, `oprcall2` preserve both
-original CODE segments, four local exception owners and typed RTTI.
-**1,337 CODE-segment bytes = 757 executable + 580 inline metadata**;
-all **55 literal ordered OMF FIXUPPs** match. The two bounded includes
-`string_xmsg_unwind.inl` and `string_xmsg_rtti.inl` are source-bound
-by `source_include_sha256` in the receipt. See the
-[complete four-member review](MAINL_STRING_DUAL_CODE_FOUR_AFTER523_NATIVE_REVIEW.md).
+Latest additions: `compare2`, `copy1`, `oprasgn1`, `oprasgn2`, `oprasgn3`,
+`oprcall3`, `oprcall4`, `opreql` preserve both original CODE segments.
+**1,912 CODE-segment bytes = 1,442 executable + 470 inline metadata**,
+plus one actual empty-string DATA byte. All **79 literal ordered FIXUPPs**
+match. Four bounded includes are bound by `source_include_sha256`, including
+new `string_empty_unwind.inl` and `string_regexp_slice_body.inl`.
+See the [complete eight-member review](MAINL_STRING_REGEXP_EIGHT_AFTER524_NATIVE_REVIEW.md).
+The earlier [after523 four-member proof](MAINL_STRING_DUAL_CODE_FOUR_AFTER523_NATIVE_REVIEW.md)
+remains intact, with both of its includes validated before extension.
 
 The earlier large Boss `cplx2` is **complete and source-linked**
 since after514: 22/22 FAR public bodies, 5,598 exact CODE bytes,
@@ -55,20 +57,20 @@ See [full parser proof](MAINL_ISTELDBL_FULL_SOURCE_LINK_AFTER521_NATIVE_REVIEW.m
 and [full divmod proof](MAINL_H_LDIV_FULL_SOURCE_LINK_AFTER522_NATIVE_REVIEW.md).
 Do not double-count their historical partial/TASM-only diagnostic sources.
 
-**Next live candidates:** `copy1` (slot 386: 96 + 223 CODE),
-`oprasgn2` (411: 96 + 216), `oprasgn3` (412: 96 + 200), and
-`compare2` (385: 15 + 200). Preserve both original CODE segments and
-explicitly distinguish exception/RTTI metadata from executable bodies.
-These candidates come from the actual after523 inherited library.
+**Next live candidates:** `fndlastn` (slot 405, 168 CODE), `fndlast`
+(404, 168), `fndfrst` (402, 161), `ostfloat` (804, 165 CODE / 2 DATA),
+and `bcd2` (196, 151). These come from the actual after524 library.
+The string find members retain distinct CODE segments; the floating-point
+member has its own segment/initialized-data and x87 proof questions.
 Related stream manipulators `mnrstflg`, `mnsetflg`, `mnsetw`, `mnsfill`,
 `mnsprec` also remain vendor members.
 
-**Extending after523:** validate both parent `source_include_sha256`
-entries as well as its four TU hashes; changes to either bounded include
-affect all four member proofs. Do not retain stale include/source bindings.
+**Extending after524:** validate all four parent `source_include_sha256`
+entries as well as its eight TU hashes. Changes to the shared xmsg includes
+also affect the retained after523 members; keep their bindings intact.
 
 Choose additional large and small CRT work from the **live**
-inherited library membership in after523, not stale old
+inherited library membership in after524, not stale old
 candidate lists. Historical `stsetf1`/ios::setf was already
 source-linked at after483; do not double-count it.
 Recheck original target evidence rather than assuming old
@@ -80,13 +82,13 @@ documents or assembly attempts are correct.
 git status -sb
 git log -8 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after523_work.py string-dual-code-exception-four
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after524_work.py string-regexp-copy-compare-assign-eight
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 ~~~
 
-Extend from verified after523 using only **affected source**
+Extend from verified after524 using only **affected source**
 and incremental native TASM/TLIB/TLINK. Do not run
 routine whole-product cold replay. Continue all existing
 dirty work, preserve historical native proof files, and
@@ -114,7 +116,7 @@ after507 evidence remain. SHA-256 deletion inventory:
 Manifest SHA-256: `ffed6609142ed39414970fb15a35f88b467488792cff0ed61f6b705cc7425392`.
 The audited after520-only dry-run reported zero eligible files.
 The after520 guard **now fails closed** because after521+ stages exist.
-All new after521–after523 native outputs and scratch are retained; a fresh
+All new after521–after524 native outputs and scratch are retained; a fresh
 source-DAG/SHA-256 audit is required before any later deletion.
 The old after439/after388 cleanup guards remain frozen historical audits;
 do not bypass them.
