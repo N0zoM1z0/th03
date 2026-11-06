@@ -1,4 +1,4 @@
-# TH03 agent handoff — after588 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after589 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -362,6 +362,29 @@ byte-equal; no function is double-counted or Factory acceptance added.
 
   .analysis/work/main-bullet-after588-native-build.json
   scripts/review_th03_main_bullet_after588_work.py
+
+## MAIN red/blue fireballs and explosion collision native sources (after589)
+
+The two original source-based GAME=3/BINARY=M fireball/chain explosion
+producers now compile twice with original Turbo C++ 4.02 into 2,185 CODE
+bytes, one initialized DATA byte, one BSS byte, 11 original PUBLIC
+entries and 164 original ordered literal OMF FIXUPP fields. These
+include the large fireball generation, transfer, hit processing,
+rendering and explosion_hittest algorithms, not merely tiny wrappers.
+Historical original C++ behavior is preserved.
+
+Both native source object pairs join the after588 bullet, BOSS,
+enemy script and keyboard original MAIN normal TLINK graph.
+The entire original source-native EXE/MAP, 124,642 Japanese program
+bytes and 1,553 ordered relocations remain byte exact; the distinct
+original-standard DOS MZ container conversion yields the full original
+130,882-byte Japanese MAIN file on both independent source rounds.
+Do not count known functions again or assert original raw vendor OMF
+packet chronology, direct original vendor linker output or canonical
+Factory acceptance.
+
+  .analysis/work/main-fireball-after589-native-build.json
+  scripts/review_th03_main_fireball_after589_work.py
 
 ## Start here
 

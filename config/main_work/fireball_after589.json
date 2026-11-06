@@ -1,0 +1,17 @@
+{
+  "schema":"th03-main-fireball-after589-v1",
+  "parent_report":".analysis/work/main-bullet-after588-native-build.json",
+  "parent_report_sha256":"0b489c8abf0f5ac855a79b28a5b80163e1fa5ca9450c827fdb634dfddc58c104",
+  "units":[
+    {"stem":"e_fireb","source":"src/main/enemy/fireball.cpp","wrapper":"src/main/enemy/producers/fireball_native.cpp","CODE_bytes":1555,"DATA_bytes":1,"BSS_bytes":1,"fixups":115,"publics":10},
+    {"stem":"e_expl","source":"src/main/enemy/expl.cpp","wrapper":"src/main/enemy/producers/explosion_native.cpp","CODE_bytes":630,"DATA_bytes":0,"BSS_bytes":0,"fixups":49,"publics":1}
+  ],
+  "total_CODE_bytes":2185,"total_DATA_bytes":1,"total_BSS_bytes":1,
+  "total_ordered_FIXUPP":164,"original_PUBLICs":11,
+  "original_main_relocations":1553,
+  "japanese_file_bytes":130882,
+  "first_use_GAME":3,"first_use_BINARY":"M",
+  "historical_full_vendor_OMF_packet_identity":false,
+  "canonical_factory_credit_changed":false,
+  "whole_project_source_accepted":false
+}
