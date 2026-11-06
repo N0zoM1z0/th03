@@ -1,4 +1,4 @@
-# TH03 agent handoff — after578 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after580 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -203,6 +203,26 @@ entries or canonical Factory accepted units.
 
   .analysis/work/mainl-hiscore-after578-native-build.json
   scripts/review_th03_mainl_hiscore_after578_work.py
+
+## MAINL original root CFG/win/story controller source link (after580)
+
+Two independent Turbo C++ 4.02 native compilations of the complete
+maintained src/mainl/root/complete_data.cpp now reproduce the original
+rootdata.obj's 2,458 CODE, 112 initialized DATA, 186 BSS allocation,
+17 original CODE/DATA/BSS public entries and 278 literal ordered OMF
+fixups. A new first-use source wrapper only forwards the natural C++
+implementation and does not change game logic or copied original bytes.
+
+The compiler outputs replace the original ROOTPRE object in the latest
+after578 source-native MAINL chain (large score editor, Staff/Cutscene,
+sound TASM/386 CDG/keyboard, registration DATA, root code and CRT).
+Both full 67,372-byte Japanese decoded MAINL EXEs remain exact,
+including all 677 relocations and MAP contribution geometry. The
+historical old compiled source record remains untouched; these
+11 functions were already owned and earn no duplicate Factory credit.
+
+  .analysis/work/mainl-root-controller-after580-native-build.json
+  scripts/review_th03_mainl_root_controller_after580_work.py
 
 ## Start here
 

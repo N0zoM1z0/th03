@@ -1,0 +1,20 @@
+{
+  "schema": "th03-mainl-root-controller-after580-v1",
+  "parent_report": ".analysis/work/mainl-hiscore-after578-native-build.json",
+  "parent_report_sha256": "9da6184f5a1e972a626ab58b2288af3a51480e8bc478c36efe8e944791cb1041",
+  "source": "src/mainl/root/complete_data.cpp",
+  "wrapper": "src/mainl/root/producer.cpp",
+  "original_object": "obj/th03/rootdata.obj",
+  "original_CODE_bytes": 2458,
+  "original_initialized_DATA_bytes": 112,
+  "original_BSS_allocation_bytes": 186,
+  "original_CODE_PUBLICs": 11,
+  "original_DATA_PUBLICs": 3,
+  "original_BSS_PUBLICs": 3,
+  "original_ordered_FIXUPP_fields": 278,
+  "original_decoded_MAINL_EXE_bytes": 67372,
+  "original_ordered_MZ_relocations": 677,
+  "historic_raw_OMF_packet_identity_proved": false,
+  "canonical_factory_credit_changed": false,
+  "whole_product_source_accepted": false
+}
