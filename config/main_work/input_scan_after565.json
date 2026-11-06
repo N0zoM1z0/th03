@@ -1,0 +1,19 @@
+{
+  "schema": "th03-main-input-scan-after565-v1",
+  "parent_report": ".analysis/work/main-eight-boss-after561-native-build.json",
+  "parent_report_sha256": "dd895851b5f7a4c76541d1e6f197e7f074a0156093efc182de5ba86ccbd61d0a",
+  "source": "src/main/hardware/input_scan.asm",
+  "original_cold_object": "obj/th03/input_s.obj",
+  "instruction_bytes": 417,
+  "instruction_count": 115,
+  "original_CODE_allocation": 417,
+  "native_even_CODE_allocation": 418,
+  "natural_code_even_bytes": 1,
+  "literal_OMF_fields": 42,
+  "retf_instruction_start": 416,
+  "decoded_main_alignment_site": 60461,
+  "ordered_main_MZ_relocations": 1553,
+  "full_original_MZ_file_accepted": false,
+  "whole_source_game_accepted": false,
+  "canonical_credit_changed": false
+}

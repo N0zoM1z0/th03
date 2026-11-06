@@ -1,10 +1,47 @@
-# TH03 agent handoff — validated after554 (2026-11-06)
+# TH03 agent handoff — after565 source-native follow-on (2026-11-06)
 
-The user stopped automatic reconstruction and requested this handoff cleanup.
-**No after555 native build or acceptance exists.** Resume reconstruction when
-requested. Read actual Git state first; the validated source checkpoint is
+The earlier after554 handoff was written before reconstruction resumed. That
+archive accurately had no after555 native build at the time. This repository
+now contains independently verified, retained after555–after558 MAINL
+source-native stages and after559–after565 MAIN source-native stages.
+Formal decoded publication/Factory acceptance has not been silently repinned;
+the after554 publication baseline below remains historically valid. The original
+source checkpoint before this follow-on was
 `e7697e1` (`gpt-web: recover MAINL registration and ending data banks`). Later
 handoff commits change documentation/storage only; nothing has been pushed.
+
+## Newly verified after565 source-native stages (not new Factory credit)
+
+- MAIN: after559 Chiyuri (11 complete functions / 2,654 CODE bytes) and
+  after561 the other eight major bosses (74 functions / 14,797 CODE bytes).
+  Every original 16-bit TC4 object matches after timestamp-only normalization.
+  All eight were also rebuilt in two independent rounds and substituted
+  simultaneously in the normal MAIN link. Including Chiyuri, this covers
+  nine major bosses / 85 functions / 17,451 CODE bytes; these were existing
+  source owners, so the ledger function denominator is unchanged.
+- MAIN: after565 natural TASM keyboard scanner fixes the only remaining
+  load-image byte at EC2D through an assembler EVEN, not a codestring or
+  target-byte patch. Two native OBJ/EXE/MAP rounds now reproduce **all
+  124,642 original Japanese MAIN load-image bytes and all 1,553 ordered
+  MZ relocation entries**. The original MZ file *header* remains different
+  (390 vs480 paragraphs, relocation table offsets 28 vs62); the full
+  original EXE file is not accepted.
+- MAINL: after555 formula-driven atan/sin table DATA896, after556
+  maintained 1,859-byte root DATA scope, after557 two complete far vector
+  functions (159 CODE plus one natural EVEN), and after558 four C/C++ sound
+  functions (124 instruction bytes +4 historical codestring tails).
+  Each stage retained a two-round original decoded EXE/ordered-relocation
+  comparison, with no full cold replay. These are bounded new source
+  evidences, not a new canonical MAINL publication.
+- Current source-native MAIN last receipt:
+  .analysis/work/main-input-after565-native-build.json.
+  Current review: scripts/review_th03_main_input_after565_work.py.
+  Existing after561 eight-boss source root:
+  .analysis/work/main-eight-boss-after561-native-build.json.
+  MAINL last new stage:
+  .analysis/work/sound-after558-native-build.json.
+  Preserve the full raw receipt DAG and both complete native rounds;
+  old after520/after554 storage audits do not authorize cleanup of these.
 
 ## Start here
 
@@ -64,15 +101,19 @@ All earlier source-bound parent rounds/logs remain active dependencies.
   and42 ordered fields agree; the following90 byte has no adopted source owner.
   Omission shifts later addresses; candidate is unaccepted. The active root
   retains the previous contextual input object.
-- Sound wrappers: natural no-codestring controls emit29/57/27/11 bytes, each one
-  shorter than its target contribution. Vector source has159 instruction bytes
-  plus an unresolved alignment byte. Do not adopt manual tail fill.
+- Sound wrappers: natural no-codestring controls emit29/57/27/11 bytes,
+  each one shorter than its target contribution. After558 reproduces
+  the four complete historical C/C++ objects but still counts their four
+  explicit codestring tails as unproved function bytes. Vector's old
+  alignment ambiguity is closed by native TASM EVEN in after557.
 - Ownership audit:716 project CODE-allocation bytes across9 contributions remain
   outside publication. DATA queue:1864 bytes in contextual `th03_mainl.asm` plus
   one registration trailing byte. Tables, alignment and BSS are not missing
   function counts. Root552's typed BSS186 already exists and gets no file credit.
-- MAIN: retained candidate has one differing load-image byte atEC2D (90 versus00)
-  and a different MZ header size/relocation offset. TLINK `/i` did not close it.
+- MAIN: the old after554 retained candidate had one differing load-image
+  byte at EC2D (90 versus00). After564 closes that source gap with native
+  TASM EVEN; only the original MZ header size/relocation offset differs.
+  TLINK `/i` did not close it.
   Private TLINK2.0 under DOSBox reports29 fixup overflows; its partial output is
   rejected. Earlier AX0006 was a bridge error, not proof of OMF incompatibility.
 
@@ -82,8 +123,10 @@ remains unowned. All117 PUBLIC definitions/packet sets across the two banks
 agree, but eight ending digit-alias PUBLIC packets differ in order. Do not
 claim complete original OBJ identity or original compiler/assembler provenance.
 
-The interrupted [after555 research](AFTER555_UNBUILT_RESEARCH.md) is safely
-archived at `.analysis/handoff/after555-unbuilt/`, with15 exact draft files and a
+The original interrupted [after555 research](AFTER555_UNBUILT_RESEARCH.md)
+was an unbuilt handoff; independent, tested after555–after558 native
+source stages have since superseded its hypotheses. The original research
+remains safely archived at `.analysis/handoff/after555-unbuilt/`, with15 exact draft files and a
 SHA-256 manifest. It includes readable root DATA and a binary-independent trig
 formula generator. **All proposed extents/counts remain unbuilt hypotheses.**
 
