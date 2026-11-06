@@ -1020,15 +1020,6 @@ This adds one **complete working-source CRT member**
 and imported near frame metadata still differ, so no
 formal Factory/canonical accepted-source credit is claimed.
 
-**Complete original cplx2 CRT member** is now source-bound after514:
-[full 22-function native link report](MAINL_CPLX2_FULL_NATIVE_LINK_AFTER514_REVIEW.md).
-The scoped NOSMART source achieves all 5,598 original CODE bytes,
-47 initialized DATA and six INITDATA bytes, all 860 logical OMF
-targets/addends and **two original-equal full Japanese MAINL EXE/MAP
-rounds**. The 734 FPU and one imported near frame differences
-remain recorded as original raw OMF serialization differences,
-not waived as raw OBJ equality. Counts one complete CRT member.
-
 The [complete original FAR calloc 32-bit/chunked zeroing boss](MAINL_FARCALLOC_CHUNKED_ZEROING_NATIVE_REVIEW.md)
 adds 148 byte-exact CODE bytes with real segmented _farmalloc,
 native _setmem and near N_LXMUL@/N_PADA@, all four original
