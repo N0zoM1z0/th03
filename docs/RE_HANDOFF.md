@@ -1,47 +1,49 @@
-# TH03 — current agent handoff (2026-11-06; after527)
+# TH03 — current agent handoff (2026-11-06; after528)
 
 **Start with this file and actual Git state.** Check `git status -sb`
 and `git log -8 --oneline`. Latest source-bound CRT working evidence:
-**after527**. Latest independently protected-storage audit:
+**after528**. Latest independently protected-storage audit:
 **after520**. The former 1,494-line handoff is preserved in
 [historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
 ## Current, independently verified Japanese MAINL CRT
 
-| Evidence | Latest after527 |
+| Evidence | Latest after528 |
 | --- | ---: |
 | Original Borland CL.LIB slots | **893** |
-| Complete original CRT source-linked members | **774** |
-| Original-equal maintained-source CODE-segment bytes | **202,930** |
-| Original vendor members retained for context | **119** |
+| Complete original CRT source-linked members | **797** |
+| Original-equal maintained-source CODE-segment bytes | **204,629** |
+| Original vendor members retained for context | **96** |
 | Independent assembly/TLIB/TLINK rounds | **2; complete EXE/MAP byte-exact** |
 | Original decoded Japanese MAINL EXE / ordered MZ relocations | **67,372 bytes / 677** |
 | Formal Factory canonical packed-file unit acceptance | **0/250** |
 
 Latest root:
-`.analysis/work/mainl-after527-stream-integer-assign-final-eight-build.json`
+`.analysis/work/mainl-after528-exception-report-process-twenty-three-build.json`
 
-SHA-256: `e353d9add7801b06681b4a81df6b50f0d4cf13a66bf1fd019fdf04fb1be425d8`.
+SHA-256: `1c657c3fedcded7918174728314bb84daa5de8c19b6967b0d60763ba7f2787e3`.
 
-Producer: `scripts/build_th03_mainl_after527_work.py`,
-mode `stream-integer-assign-final-eight`.
-Independent reviewer: `scripts/review_th03_mainl_after527_work.py`.
+Producer: `scripts/build_th03_mainl_after528_work.py`,
+mode `exception-report-process-twenty-three`.
+Independent reviewer: `scripts/review_th03_mainl_after528_work.py`.
 This stage uses TASM 5.0 / native TLIB/TLINK and preserves after522's
 pinned compatible-emitter h_ldiv member unchanged.
 
-Latest additions: `iostasn2`, `istasn1`, `istasn2`, `isteint`, `istesh`,
-`isteuint`, `isteulng`, `isteush`: **428 executable CODE bytes**, all eight
-literal ordered FIXUPPs and complete segment packing/alignment match.
-Two bounded includes preserve original state-guarded writes and truncation.
-Original slots **740–824 now all source-link** in the working CRT library.
-See the [eight-member review](MAINL_STREAM_INTEGER_EIGHT_AFTER527_NATIVE_REVIEW.md).
-Successful raw files/logs use **af527b-** paths, explicitly bound in the
-receipt. The old `probe/after527` long-include crash branch is retained;
+Latest additions: `xxas`, `xxa`, `unhandl`, `_abort`, `errormsg`, `pureerr`,
+`assert` and all sixteen `exec*`/`spawn*` wrappers: **1,699 executable CODE
+bytes / 125 DATA bytes / 80 ordered logical fields**. Seven diagnostic/
+exception members have literal ordered FIXUPP equality. Each process wrapper
+has one disclosed original TARGET vs native CODE near-loader frame difference;
+all 16 raw descriptions are retained and independently verified per round.
+The stack exception frame saves **SEG DGROUP** at +0Eh, with original SS
+count/list slots and FAR/Pascal cleanup intact. See the
+[23-member review](MAINL_EXCEPTION_PROCESS_23_AFTER528_NATIVE_REVIEW.md).
+Original string/regexp slots **384–426** and stream slots **740–824** remain
+fully source-linked. The unchanged after526 proof retains its 12 x87 and
+2 near-call frame differences. The after527 eight-member proof and both
+short-DOS **af527b-** output rounds remain bound to this parent chain.
+Its old `probe/after527` long-include crash branch is also retained;
 keep new include basenames short (the 33-character name crashed TASM32).
-The [after526 FP/stream proof](MAINL_STREAMS_FOURTEEN_AFTER526_NATIVE_REVIEW.md)
-remains unchanged, including its 12 x87 and 2 near-call frame differences.
-The [after525 proof](MAINL_STRING_FIND_TEN_AFTER525_NATIVE_REVIEW.md) closed
-original string/regexp slots **384–426** and remains source-bound.
 
 The earlier large Boss `cplx2` is **complete and source-linked**
 since after514: 22/22 FAR public bodies, 5,598 exact CODE bytes,
@@ -61,20 +63,21 @@ See [full parser proof](MAINL_ISTELDBL_FULL_SOURCE_LINK_AFTER521_NATIVE_REVIEW.m
 and [full divmod proof](MAINL_H_LDIV_FULL_SOURCE_LINK_AFTER522_NATIVE_REVIEW.md).
 Do not double-count their historical partial/TASM-only diagnostic sources.
 
-**Next live candidates:** `xxas` (slot 155, 143 CODE), `spawnlpe`
-(371, 129), `spawnle` (369, 127), `screen` (564, 126), `unhandl`
-(135, 122), `ccomputn` (515, 119), `pc98mous` (504, 114), `movetext`
-(562, 111), `crtinit` (555, 106), `_setcoll` (188, 106), `FMBBTYPE`
-(653, 103) and `MBBTYPE` (580, 103). These come from the actual after527
-library. Inspect actual ABI, segment/storage and ordered field questions.
-Do not repeat the completed string/regexp or 740–824 stream blocks.
+**Next live candidates:** `screen` (slot 564, 126 CODE), `ccomputn`
+(515, 119), `pc98mous` (504, 114), `movetext` (562, 111), `crtinit`
+(555, 106 CODE / 22 DATA), `_setcoll` (188, 106 / 2), `FMBBTYPE`
+(653, 103), `MBBTYPE` (580, 103), `_setxfrm` (190, 101 / 2) and
+`h_padd` (72, 96). These come from the actual after528 library's remaining
+96 vendor members. Inspect ABI, storage and ordered fields. Do not repeat
+the completed process wrappers, string/regexp or 740–824 stream blocks.
 
-**Extending after527:** validate both parent `source_include_sha256`
-entries and eight TU hashes. Its retained-parent review also verifies
-all after526 raw FP/near-call frame descriptions; preserve that check.
+**Extending after528:** validate its 23 TU hashes and both existing include
+hashes (`crt_errno.inc`, `stdio_layout.inc`), plus all 16 raw loader-frame
+descriptions. Its retained-parent review verifies both after527 include hashes
+and the earlier after526 FP/near-call descriptions; preserve these checks.
 
 Choose additional large and small CRT work from the **live**
-inherited library membership in after527, not stale old
+inherited library membership in after528, not stale old
 candidate lists. Historical `stsetf1`/ios::setf was already
 source-linked at after483; do not double-count it.
 Recheck original target evidence rather than assuming old
@@ -86,13 +89,13 @@ documents or assembly attempts are correct.
 git status -sb
 git log -8 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after527_work.py stream-integer-assign-final-eight
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after528_work.py exception-report-process-twenty-three
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 ~~~
 
-Extend from verified after527 using only **affected source**
+Extend from verified after528 using only **affected source**
 and incremental native TASM/TLIB/TLINK. Do not run
 routine whole-product cold replay. Continue all existing
 dirty work, preserve historical native proof files, and
@@ -120,7 +123,7 @@ after507 evidence remain. SHA-256 deletion inventory:
 Manifest SHA-256: `ffed6609142ed39414970fb15a35f88b467488792cff0ed61f6b705cc7425392`.
 The audited after520-only dry-run reported zero eligible files.
 The after520 guard **now fails closed** because after521+ stages exist.
-All new after521–after527 native outputs and scratch are retained; a fresh
+All new after521–after528 native outputs and scratch are retained; a fresh
 source-DAG/SHA-256 audit is required before any later deletion.
 The old after439/after388 cleanup guards remain frozen historical audits;
 do not bypass them.
