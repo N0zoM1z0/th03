@@ -46,9 +46,9 @@ The original acceptance status for OP, MAINL and ZUN was revalidated after
 the history-bound Marisa script was restored; no prior proof input was
 silently repinned.
 
-**Important acceptance boundary:** This stage proves complete local
-compiler-object identity after timestamp normalization, **not** yet a
-simultaneous replacement link of all eight modules; that requires a
-separate explicit normal TLINK comparison. MAIN's previously documented
-header and EC2D load-image differences remain open. This is not a
-canonical Factory or whole-game completion credit.
+**Acceptance follow-on:** The eight independent objects from this stage
+were followed by a separate two-round, simultaneous eight-object TLINK
+reconstruction, recorded in MAIN_EIGHT_BOSS_AFTER561_NATIVE_REVIEW.md.
+It reproduces the complete selected native MAIN EXE and MAP; the original
+Japanese MAIN header and EC2D load-image differences remain open.
+Neither stage increases canonical Factory or whole-game completion credit.

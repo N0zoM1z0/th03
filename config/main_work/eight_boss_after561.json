@@ -1,0 +1,24 @@
+{
+  "schema": "th03-main-eight-boss-after561-v1",
+  "parent_report": ".analysis/work/main-chiyuri-after559-native-build.json",
+  "parent_report_sha256": "7a71a981f5832449198b7c8ba4e79000bcdac2e5b3149ac35a5049e1c5c52d5c",
+  "bosses": [
+    {"name":"yumemi","object":"ba_yumem","CODE_bytes":2358,"functions":10,"switch_bytes":80},
+    {"name":"kana","object":"ba_kana","CODE_bytes":1874,"functions":9,"switch_bytes":80},
+    {"name":"mima","object":"ba_mima","CODE_bytes":1922,"functions":9,"switch_bytes":81},
+    {"name":"reimu","object":"ba_reimu","CODE_bytes":2020,"functions":9,"switch_bytes":72},
+    {"name":"kotohime","object":"ba_koto","CODE_bytes":1840,"functions":11,"switch_bytes":80},
+    {"name":"ellen","object":"ba_ellen","CODE_bytes":1675,"functions":9,"switch_bytes":81},
+    {"name":"rikako","object":"ba_rikak","CODE_bytes":1677,"functions":8,"switch_bytes":81},
+    {"name":"marisa","object":"ba_maris","CODE_bytes":1431,"functions":9,"switch_bytes":81}
+  ],
+  "total_CODE_bytes":14797,
+  "total_functions":74,
+  "total_switch_bytes":636,
+  "existing_native_MAIN_exe_sha256":"a67c78cca2b6886cdb48b648b274463dbcb6b80fae5effe9b688f9bc642bcebe",
+  "existing_native_MAIN_map_sha256":"1b28d5a206ba055e875fa069f7c2f8b2351c0db4056c84e0f55703856490095b",
+  "normal_link_response_sha256":"ee55a006acf91d006d4de43cf67df6885818dcb6c8d817a7a6a0a6f5a63f7f53",
+  "historical_pinned_marisa_probe_preserved":true,
+  "whole_original_MAIN_exe_accepted":false,
+  "canonical_credit_changed":false
+}
