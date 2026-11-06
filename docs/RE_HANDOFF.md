@@ -72,80 +72,22 @@ PUBLIC entries agree; packet counts 25/4, 2/1, 5/1 remain explicitly different.
 Keep all sixteen raw outputs/thirteen logs, af547c inputs and 39-file af547a/b
 manifest. See the [C++ review](SHARED_CPP_EXCEPTIONS_AFTER547_NATIVE_REVIEW.md).
 
-Retained signal parent: `.analysis/work/runtime-after546-build.json`, SHA
-`8870088a19f3733dbd91f3b3fdc43c102155df7d257215cccad3dc5c3c24ff58`.
-Live `signal_dispatch.asm` retains 769 CODE/38 DATA bytes, four true BSS bytes,
-55 ordered fields and PUBLIC raise@618 then signal@392; two original records
-pack into one. Original GROUP is BSS/DATA. Keep twelve raw outputs/nine logs,
-af546d inputs and the 23-file af546a–c manifest, including the rejected GROUP
-candidate. See the [signal review](SHARED_SIGNAL_AFTER546_NATIVE_REVIEW.md).
-
-Retained heap/loader parent: `.analysis/work/runtime-after545-build.json`,
-SHA `74e57df4ccf9f5b92225d7c0c3c8b56b413ca0c298f35056986a2179424d68ca`.
-Live `heap_resize.asm`/`program_loader.asm` retain 1,223 CODE/42 DATA bytes,
-zero BSS, 65 ordered fields and three ordered PUBLIC entries. fbrk's two
-same-CODE PUBLIC records pack into one; loadprog's raw packet agrees. Keep all
-fourteen raw outputs/eleven logs, af545c consumed inputs and the 28-file af545a/b
-probe manifest. See the [heap/loader review](SHARED_HEAP_LOADER_AFTER545_NATIVE_REVIEW.md).
-
-Retained environment/stdio parent: `.analysis/work/runtime-after544-build.json`,
-SHA `5382d231ccf9cc1ae3f59b365524277b5e983ba7d5f2dba2b82f21ff7c3cd087`.
-Live `dos_environment.asm`/`write_stream.asm` retain 723 CODE bytes/14 ordered
-fields; DOSENV is near RET12, write keeps near IOERROR's TARGET frame5.
-`stdio_buffer.asm` remains partial despite all 289 CODE/4 DATA bytes and
-13 per-site attributes agreeing. Original sites
-`210,196,194,190,188,129,103,77,71,63,55,49,41` differ from native
-`210,194,196,188,190,129,103,77,71,63,55,49,41`. Do not count it as ordered-exact.
-All three raw PUBLIC packet lists agree. Keep sixteen raw outputs/thirteen logs,
-af544o consumed inputs and the 110-file af544a–n diagnostic manifest. The private
-TCPP1.01 candidate is outside production; preflight passed after installation.
-af544c/d are duplicate source probes. See the
-[environment/stdio review](SHARED_ENVIRONMENT_STDIO_AFTER544_NATIVE_REVIEW.md).
-
-Retained error/termination parent: `.analysis/work/runtime-after543-build.json`,
-SHA `b214dc7f1af9d38e6bc15d90bb673cd864a508d78b64246c502c85c8ca5a108d`.
-Live `io_error.asm`/`atexit_register.asm`/`process_exit.asm` preserve 301 CODE /
-105 DATA bytes, 128 true BSS bytes, 24 ordered fields and 14 ordered PUBLIC
-entries. IOERROR/exit pack four/seven original PUBLIC records into three each;
-retain those explicit differences. The near exit engine is callee-pop RET6.
-Keep all sixteen raw outputs/thirteen logs, af543c inputs and af543a/b candidates
-(28-file manifest). See the [error/termination review](SHARED_ERROR_TERMINATION_AFTER543_NATIVE_REVIEW.md).
-
-Retained path/command parent: `.analysis/work/runtime-after542-build.json`, SHA
-`fee3d18425d239420999d2c8771c28c10310df7225a50f927fbabb29ae8c8c08`.
-Live `path_canonicalize.asm`/`dos_command_tail.asm` retain 1,145 CODE bytes,
-23 ordered fields and both raw PUBLIC packets. Keep all fourteen raw outputs,
-eleven logs, af542c source/recipe inputs and 25-file af542a/b listing/scope proofs.
-See the [DOS path/command review](SHARED_DOS_PATH_COMMAND_AFTER542_NATIVE_REVIEW.md).
-
-Retained stdio IO parent: `.analysis/work/runtime-after541-build.json`, SHA
-`1799436476f816e7b921ce29997343c2f08d64b5a3f73c5153d87c68117ecdce`.
-Live owners `flush_stream.asm`/`stream_position.asm` retain 701 CODE bytes/eight
-ordered fields. fseek uses pinned compatible JWasm, with four explicit WORD
-comparisons and PRIVATE helper. Its original ordered PUBLIC entries agree but
-pack into one record instead of two: preserve that explicit difference, both raw
-lists and the rejected TASM PUBLIC/first-JWasm encoding trials. All fourteen raw
-outputs, eleven logs, af541f source/include/profile inputs and af541a–e probes
-remain (40-file `.analysis/work/probe/stdio541/manifest.json`). See the
-[stdio IO review](SHARED_STDIO_IO_AFTER541_NATIVE_REVIEW.md).
-
-Retained stdio-iteration parent: `.analysis/work/runtime-after540-build.json`, SHA
-`568fed759f13881ea179eb3d874afaa49e1c1ae5b8022c78ebf5dbebf4bb776a`.
-Live owners `flush_all.asm` and `flush_exit.asm` retain 139 CODE bytes/five ordered
-fields; xfflush visits exactly four slots and flushall counts open slots visited
-regardless of individual fflush failure. All fourteen raw outputs, eleven logs,
-af540b inputs and successful af540a probe remain. See the
-[iteration review](SHARED_STDIO_ITERATION_AFTER540_NATIVE_REVIEW.md).
-
-Retained abort parent: `.analysis/work/runtime-after539-build.json`, SHA-256
-`60a004666a3c62043147feb86d97f2f1231b406070bc150fa794ed9d4d47b095`.
-Its live owner is **`src/shared/crt/abort.asm`**: all 20 CODE bytes, full far ABI,
-SI/DI saves and both literal fields (+13 then +7) agree with original CL.LIB.
-Both six-file native rounds and nine logs remain; all 892 other programs are
-unchanged. Retain af539i inputs and af539a–h probes, including the rejected C
-candidates (41-file `.analysis/work/probe/abort539/manifest.json`). See the
-[abort review](SHARED_ABORT_AFTER539_NATIVE_REVIEW.md). Do not repeat those
-failed C/register-ABI probes or replace the original library with a carrier.
+Retained after546–539 parents remain active source-DAG dependencies. Their
+root hashes, ABI/storage details and explicit PUBLIC packing differences are
+in the [signal](SHARED_SIGNAL_AFTER546_NATIVE_REVIEW.md),
+[heap/loader](SHARED_HEAP_LOADER_AFTER545_NATIVE_REVIEW.md),
+[environment/stdio](SHARED_ENVIRONMENT_STDIO_AFTER544_NATIVE_REVIEW.md),
+[error/termination](SHARED_ERROR_TERMINATION_AFTER543_NATIVE_REVIEW.md),
+[path/command](SHARED_DOS_PATH_COMMAND_AFTER542_NATIVE_REVIEW.md),
+[stdio IO](SHARED_STDIO_IO_AFTER541_NATIVE_REVIEW.md),
+[iteration](SHARED_STDIO_ITERATION_AFTER540_NATIVE_REVIEW.md) and
+[abort](SHARED_ABORT_AFTER539_NATIVE_REVIEW.md) reviews. Keep complete raw pairs,
+writer logs, consumed inputs and all diagnostic branches/manifests: af546d,
+af545c, af544o, af543c, af542c, af541f, af540b and af539i. Native PUBLIC record
+packing differences are not whole-program identity. The private exit engine is
+RET6 and DOSENV is near RET12, regardless of old frozen comments. The private
+TC101/TC201 candidates remain outside accepted product recipes. Do not repeat
+closed source/ABI probes or treat their diagnostic counts as source credit.
 
 Retained near-frame parent: `.analysis/work/runtime-after538-build.json`.
 SHA-256: `7647b0fdf6bc43c769d526422cad48907d1e58c0d31260766b0a7936f61cbb07`.
@@ -220,9 +162,40 @@ its result are preserved in `.analysis/work/probe/runtime537-response-review/`;
 the current successful transcript is `runtime-after537-independent-review-v2.txt`.
 No output cleanup occurred.
 
+## New input candidate and ownership queue (after549)
+
+The active exact-output root is still **after548**, not the input candidate.
+`src/mainl/hardware/input_scan.asm` recovers the complete 417-byte / 115-instruction
+MAINL function with all 42 ordered native fields, external state and true RETF
+boundary. It uses no register self-assignment or hand-filled trailing NOP.
+Two candidate OBJ/EXE/MAP vectors repeat; independent instruction-scope review
+passes. Original following byte CD09=90 stays unowned. Omitting it changes later
+addresses and yields 323 EXE differences, so no full-product or published credit
+is claimed. Historical input_sense.cpp remains frozen in the active cold graph.
+
+Candidate root `.analysis/work/mainl-input-scan-build.json`, SHA
+`fb67e160ba2f75e21e13e9252b1e96ac8959f5f45753348ae83d964bb0afde82`.
+Producer/reviewer: `build_th03_mainl_input_scan_work.py` /
+`review_th03_mainl_input_scan_work.py`. Keep six fresh raw outputs/four logs,
+af549h consumed inputs and both actual after548 C0/library references. See the
+[input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
+
+The read-only `audit_th03_mainl_ownership_gaps.py --check` binds all 211 published
+owners to target bytes and 36 project objects. Its saved report identifies 905
+project CODE bytes outside published scopes, across 13 contributions. This is
+not a missing-function count: input418, sound wrappers128, vector_far160,
+regdata68 and another131 including tables/boundaries. Prioritize these concrete
+source/ownership questions rather than repeating unchanged runtime metadata.
+
+C0 /ml, TASM setvbuf forward-declaration and isolated TC2.01 ABI probes did not
+close the old gaps; retain the 60-file af549a–g diagnostic manifest. The TC201
+tool candidate is private, outside product recipes; preflight passed after its
+installation. Do not repeat these settings as if they were new evidence.
+
 ## Next bounded work
 
-Prioritize actual selected-runtime order gaps, not unlinked library counts.
+Prioritize the input trailing-byte provenance and concrete project ownership
+queue above; retain selected-runtime gaps without inventing library credit.
 The current retained diagnostic is
 `.analysis/work/runtime-after547-selected-literal-field-audit.json` / `.txt`.
 All 76 selected OP members have identical raw per-site field attributes:

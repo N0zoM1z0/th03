@@ -88,6 +88,14 @@ Their reviewed PUBLIC packing differences and four BSS bytes remain explicit.
 the sole order-only member among the 76 selected OP runtime streams. These
 refinements add no authored-function or whole-product acceptance credit.
 
+A separate MAINL input candidate in `src/mainl/hardware/input_scan.asm` reproduces
+all 417 instruction bytes and 42 ordered fields of the held-key scan. The
+following target 90 byte has no adopted source owner; its omission changes
+later addresses, so the whole-product candidate is unaccepted and after548
+remains active. A read-only audit locates project allocations outside published
+decoded scopes without interpreting tables, alignment or BSS as missing code.
+See the [input candidate review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
+
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
 include before compilation. It preserves old stager pins without compiling a

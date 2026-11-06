@@ -1,0 +1,14 @@
+{
+  "schema": "th03-mainl-input-scan-candidate-v1",
+  "source": "src/mainl/hardware/input_scan.asm",
+  "cold_object": "obj/th03/input_s.obj",
+  "symbol": "@input_reset_sense_key_held$qv",
+  "decoded_start": 52072,
+  "instruction_bytes": 417,
+  "literal_fields": 42,
+  "unowned_following_byte": 144,
+  "whole_product_acceptance": false,
+  "source_acceptance_publication_changed": false,
+  "compatible_profile": "config/th03_zun_driver_jwasm.toml",
+  "compatible_flags": ["-nologo", "-Cp", "-omf"]
+}
