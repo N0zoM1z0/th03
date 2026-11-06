@@ -1,4 +1,4 @@
-# TH03 agent handoff — after573 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after575 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -143,6 +143,27 @@ initialized CODE, public/function layouts or literal field chronology.
 
   .analysis/work/mainl-cutscene-after573-native-build.json
   scripts/review_th03_mainl_cutscene_after573_work.py
+
+## MAINL large Staff Roll source C++ integration (after575)
+
+Both independently source-compiled original Turbo C++ Staff Roll/ending
+producer objects now match the complete 3,695 CODE + 224 initialized
+DATA bytes, all 342 ordered OMF fixups, 19 original code PUBLIC
+procedures and six DATA PUBLIC symbols. Replacing only staffdat.obj in
+the after573 cutscene/sound/input/registration source-native link yields
+both complete 67,372-byte Japanese decoded MAINL EXEs and all 677
+relocations original-equal, preserving all original MAP offsets.
+
+The first after574 native attempt had a too-strict cross-round MAP text
+comparison (the *upstream cutscene* was intentionally named r1/r2).
+That stage's exact native scripts, objects, logs and unfinished report
+are retained as a negative evidence branch. A fresh after575 stage
+correctly compares original MAPs plus bounded filenames and passed both
+source-native rounds. No historic source receipt or Factory acceptance
+is silently repinned; the nineteen procedures are already accounted.
+
+  .analysis/work/mainl-staff-after575-native-build.json
+  scripts/review_th03_mainl_staff_after575_work.py
 
 ## Start here
 

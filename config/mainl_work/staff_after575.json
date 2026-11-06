@@ -1,0 +1,18 @@
+{
+  "schema": "th03-mainl-staff-native-after575-v1",
+  "parent_report": ".analysis/work/mainl-cutscene-after573-native-build.json",
+  "parent_report_sha256": "247682662cf1f936030c4ca1ca8a375693167b402b449c2c8702e6cdd96ca8f3",
+  "maintained_source": "src/mainl/staff/data.cpp",
+  "source_wrapper": "src/mainl/staff/producer.cpp",
+  "original_object": "obj/th03/staffdat.obj",
+  "original_CODE_bytes": 3695,
+  "original_initialized_DATA_bytes": 224,
+  "original_PUBLIC_CODE_functions": 19,
+  "original_PUBLIC_DATA_names": 6,
+  "ordered_OMF_fixups": 342,
+  "original_decoded_MAINL_EXE_bytes": 67372,
+  "original_ordered_MZ_relocations": 677,
+  "complete_original_OMF_packet_identity_claimed": false,
+  "canonical_factory_credit_changed": false,
+  "whole_game_source_accepted": false
+}
