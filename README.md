@@ -71,16 +71,17 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The concise [current handoff](docs/RE_HANDOFF.md) is the
-**after520** entrypoint: **728/893 original CRT members** and
-**194,292 original-equal CODE bytes** in the Japanese MAINL
+**after521** entrypoint: **729/893 original CRT members** and
+**196,239 original-equal CODE bytes** in the Japanese MAINL
 working-source link, with two complete byte-exact EXE/MAP
 native rounds. This does not imply formal Factory canonical
 packed-file acceptance, which remains 0/250 for MAINL.
 
 The [latest applied storage audit](docs/STORAGE_HANDOFF_CURRENT.md)
-protects **258 live source stages and 5,760 receipt/log/raw native
-output paths**. It removed just 15 completed superseded
-alternative-mode files and kept the original SHA-256 manifest.
+protects the audited after520 prefix: **258 source stages and 5,760
+receipt/log/raw native output paths**. After521 outputs are also retained;
+the old deletion guard now refuses cleanup until a fresh audit. The audit
+removed just 15 completed superseded alternative-mode files and kept the original SHA-256 manifest.
 The [after439 cleanup](docs/STORAGE_HANDOFF_AFTER439.md) is
 historical, NOT the newest storage audit. A separate safe cache-only
 cleanup removed regenerable Python bytecode, for a combined immediate
@@ -89,9 +90,8 @@ cleanup removed regenerable Python bytecode, for a combined immediate
 
 ~~~sh
 git status -sb
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after520_work.py fstreambase-virtual-setbuf-ios-state
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after520_storage_cleanup -v
-python3 scripts/cleanup_mainl_after520_handoff.py --list   # guarded dry run; currently zero files
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after521_work.py istream-long-double-parser
+# after520 deletion guard is blocked by the new after521 stage; do not apply it.
 .venv/bin/python scripts/clean_generated.py --caches-only # optional preview
 ~~~
 

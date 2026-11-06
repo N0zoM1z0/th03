@@ -1,5 +1,10 @@
 # TH03 current protected-storage audit — after520 (2026-11-06)
 
+**Current source is after521.** This applied after520 audit still protects its
+original evidence prefix, but its deletion guard now fails closed. Retain all
+after521 outputs and scratch until a fresh source-DAG/SHA-256 audit; the
+historical dry-run commands below do not authorize cleanup of the new stage.
+
 **This is the latest applied storage audit.** The older after439
 177-stage/4,464-file audit remains intact as a
 [historical record](STORAGE_HANDOFF_AFTER439.md);

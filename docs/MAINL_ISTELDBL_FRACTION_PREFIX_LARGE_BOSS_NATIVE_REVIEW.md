@@ -1,5 +1,8 @@
 # Large isteldbl long-double parser: first 754 original bytes reconstructed
 
+**Historical partial, superseded by [complete after521 source/link proof](MAINL_ISTELDBL_FULL_SOURCE_LINK_AFTER521_NATIVE_REVIEW.md).**
+The retained partial and its verifier remain unchanged.
+
 Original Japanese Borland CL.LIB member isteldbl (slot 765) is a
 **1,947-byte CODE** large Boss that parses 80-bit long-double values
 from a real streambuf. The maintained
