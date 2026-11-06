@@ -1,8 +1,8 @@
-# TH03 agent handoff — after565 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after566 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
-now contains independently verified, retained after555–after558 MAINL
+now contains independently verified, retained after555–after558 and after566 MAINL
 source-native stages and after559–after565 MAIN source-native stages.
 Formal decoded publication/Factory acceptance has not been silently repinned;
 the after554 publication baseline below remains historically valid. The original
@@ -10,7 +10,7 @@ source checkpoint before this follow-on was
 `e7697e1` (`gpt-web: recover MAINL registration and ending data banks`). Later
 handoff commits change documentation/storage only; nothing has been pushed.
 
-## Newly verified after565 source-native stages (not new Factory credit)
+## Newly verified after566 source-native stages (not new Factory credit)
 
 - MAIN: after559 Chiyuri (11 complete functions / 2,654 CODE bytes) and
   after561 the other eight major bosses (74 functions / 14,797 CODE bytes).
@@ -30,16 +30,20 @@ handoff commits change documentation/storage only; nothing has been pushed.
   maintained 1,859-byte root DATA scope, after557 two complete far vector
   functions (159 CODE plus one natural EVEN), and after558 four C/C++ sound
   functions (124 instruction bytes +4 historical codestring tails).
-  Each stage retained a two-round original decoded EXE/ordered-relocation
-  comparison, with no full cold replay. These are bounded new source
-  evidences, not a new canonical MAINL publication.
+  The old after549 input scanner's adjacent 90h byte is now also solved
+  in after566 through true native TASM EVEN. This separately proves
+  the complete MAINL 418-byte held-key CODE producer; both native rounds
+  reproduce all 67,372 decoded original EXE bytes and all 677 ordered
+  relocations without cold replay. These are bounded source evidences,
+  not a new canonical MAINL publication.
 - Current source-native MAIN last receipt:
   .analysis/work/main-input-after565-native-build.json.
   Current review: scripts/review_th03_main_input_after565_work.py.
   Existing after561 eight-boss source root:
   .analysis/work/main-eight-boss-after561-native-build.json.
   MAINL last new stage:
-  .analysis/work/sound-after558-native-build.json.
+  .analysis/work/mainl-input-after566-native-build.json.
+  Read-only review: scripts/review_th03_mainl_input_after566_work.py.
   Preserve the full raw receipt DAG and both complete native rounds;
   old after520/after554 storage audits do not authorize cleanup of these.
 
@@ -97,10 +101,14 @@ All earlier source-bound parent rounds/logs remain active dependencies.
   agree, but their emitted order remains open. Keep native TASM, entry and frames.
 - `setvbuf`: bytes/per-site fields agree; two MOV operand pairs still differ in
   literal fixup order. Do not repeat the documented compiler/assembler variants.
-- MAINL input candidate `src/mainl/hardware/input_scan.asm`:417 instruction bytes
-  and42 ordered fields agree; the following90 byte has no adopted source owner.
-  Omission shifts later addresses; candidate is unaccepted. The active root
-  retains the previous contextual input object.
+- MAINL input: the historical after549 held-key scan captured 417
+  instructions and42 ordered fields but lacked the following90h alignment
+  byte; its product candidate was unaccepted. The after566 maintained
+  forwarding TU uses the natural source-ordered 8086 body and native TASM
+  EVEN to own all 418 CODE bytes. Both after566 whole EXE/ordered-
+  relocation rounds now match. Original OMF packet field order differs
+  from the Turbo C++ object, so original OBJ identity remains unclaimed;
+  formal publication is still the older after554 scope.
 - Sound wrappers: natural no-codestring controls emit29/57/27/11 bytes,
   each one shorter than its target contribution. After558 reproduces
   the four complete historical C/C++ objects but still counts their four
@@ -111,7 +119,7 @@ All earlier source-bound parent rounds/logs remain active dependencies.
   one registration trailing byte. Tables, alignment and BSS are not missing
   function counts. Root552's typed BSS186 already exists and gets no file credit.
 - MAIN: the old after554 retained candidate had one differing load-image
-  byte at EC2D (90 versus00). After564 closes that source gap with native
+  byte at EC2D (90 versus00). After565 closes that source gap with native
   TASM EVEN; only the original MZ header size/relocation offset differs.
   TLINK `/i` did not close it.
   Private TLINK2.0 under DOSBox reports29 fixup overflows; its partial output is

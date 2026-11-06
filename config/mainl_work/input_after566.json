@@ -1,0 +1,18 @@
+{
+  "schema": "th03-mainl-input-after566-v1",
+  "parent_report": ".analysis/work/sound-after558-native-build.json",
+  "parent_report_sha256": "d8a4ec7ac3f100d272685ed5c54deaba2bed1aba68680b474b9b1c5d3e8694bf",
+  "maintained_TU": "src/mainl/hardware/input_scan_exact.asm",
+  "proved_common_scanner": "src/main/hardware/input_scan.asm",
+  "original_project_object": "obj/th03/input_s.obj",
+  "function_instruction_bytes": 417,
+  "function_instructions": 115,
+  "native_CODE_even_bytes": 1,
+  "original_CODE_bytes": 418,
+  "literal_OMF_fixup_sites": 42,
+  "original_MZ_relocations": 677,
+  "whole_japanese_MAINL_EXE_bytes": 67372,
+  "historic_original_assembler_identity_proved": false,
+  "canonical_credit_changed": false,
+  "whole_product_source_accepted": false
+}
