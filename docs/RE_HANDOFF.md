@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after546)
+# TH03 — current agent handoff (2026-11-06; shared runtime after547)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after546**; latest independently applied storage audit: **after520**.
+**after547**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -16,8 +16,8 @@ The former long handoff remains in
 | Shared exec source correction | **255 initialized work bytes + four literal frames** |
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
-| Fresh two-product native output rounds | **2; all six raw outputs repeat** |
-| Latest closed literal-order gaps | **signal: all 55 fields ordered-equal** |
+| Fresh two-product native output rounds | **2; all eight raw outputs repeat** |
+| Latest closed literal-order gaps | **xxv + xalloc + xmsg: all 89 fields ordered-equal** |
 | Partial setvbuf refinement | **all bytes/per-site fields equal; two MOV pairs still unordered** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
 | MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
@@ -31,34 +31,44 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after546-build.json`.
-SHA-256: `8870088a19f3733dbd91f3b3fdc43c102155df7d257215cccad3dc5c3c24ff58`.
-Producer/reviewer: `scripts/build_th03_runtime_after546_work.py` and
-`scripts/review_th03_runtime_after546_work.py`.
-See the [signal review](SHARED_SIGNAL_AFTER546_NATIVE_REVIEW.md).
+Latest root: `.analysis/work/runtime-after547-build.json`.
+SHA-256: `5c834b1fd5f52c4af31f25c63a55edeaa9d6f59054db727f659e5e289c3ba68a`.
+Producer/reviewer: `scripts/build_th03_runtime_after547_work.py` and
+`scripts/review_th03_runtime_after547_work.py`.
+See the [C++ exception review](SHARED_CPP_EXCEPTIONS_AFTER547_NATIVE_REVIEW.md).
 
-Live `src/shared/crt/signal_dispatch.asm` retains all 769 CODE/38 DATA bytes,
-four true BSS bytes and 55 literal ordered fields. GROUP is explicitly BSS/DATA,
-matching original and actual after545 member. Both ordered PUBLIC entries agree:
-`_raise@618` then `_signal@392`. Two original same-CODE records pack into one native
-record; preserve both raw lists and the explicit difference. Private branch
-labels are prebound and every initialized byte is written once.
+Live `src/shared/crt/exception_state.asm`, `allocation_exception.asm` and
+`message_exception.asm` retain 2,117 CODE/296 DATA bytes, four true BSS bytes
+and 89 literal ordered fields. CODE includes typed unwind/RTTI metadata.
+All 32 ordered PUBLIC entries agree. xxv preserves eight CODE entries, BSS,
+15 DATA entries, then CODE ExceptInit. Original/native packet counts remain
+25/4, 2/1 and 5/1: preserve all raw lists and explicit packing differences.
+Original GROUP order is DATA/BSS for all three. Every initialized byte is
+written once; two 128-byte workspaces stay initialized DATA, not BSS.
 
-The interrupt entries retain their original register/flags frames, IRET/RETF,
-PUSH SP and duplicate POP BX. Public APIs keep far cdecl, handler dispatch/reset,
-DOS vector ownership and unchecked behavior. Eight explicit WORD CMP forms
-restore original encodings. af546b matched bytes/fields but had wrong GROUP;
-it was rejected and preserved, then af546c passed the complete original scope.
-All af546a–c probes/recipes remain in the 23-file manifest at
-`.analysis/work/probe/signal546/manifest.json`. The historical signal TU is frozen.
+All runtime call distances, return frames, exception state/DS, class construction,
+copy/destruction, reference counting and original unchecked behavior remain.
+Prebinding the actual xmsg copy-constructor at 239 fixes the compatible-writer
+baseline's wrong near-call displacement at CODE572 (FFFD instead of FEB1).
+All af547a/b baselines, corrected complete probes and recipes remain in the
+39-file `.analysis/work/probe/cpp-exceptions547/manifest.json`. Historical TUs
+remain frozen; compatible assembler identity is not original compiler identity.
 
-Both six-file native rounds repeat. All 892 other programs/all 893 slots,
-both original decoded EXEs and complete after545 MAPs are unchanged. Earlier
+Both eight-file native rounds repeat. All 890 other programs/all 893 slots,
+both original decoded EXEs and complete after546 MAPs are unchanged. Earlier
 packed proof is reused; no game-object, cold or runtime replay ran. New member,
-storage-extent and authored-function credit: **zero**. All twelve raw outputs/
-nine logs use `runtime-after546-*`; source/profile/config/driver and MAINL
-responses remain in `TH03ML/probe/af546d`, OP's C0/library/responses/outputs
-in `TH03OP/probe/af546d`.
+storage-extent and authored-function credit: **zero**. All sixteen raw outputs/
+thirteen logs use `runtime-after547-*`; source/profile/config/driver and MAINL
+responses remain in `TH03ML/probe/af547c`, OP's C0/library/responses/outputs
+in `TH03OP/probe/af547c`.
+
+Retained signal parent: `.analysis/work/runtime-after546-build.json`, SHA
+`8870088a19f3733dbd91f3b3fdc43c102155df7d257215cccad3dc5c3c24ff58`.
+Live `signal_dispatch.asm` retains 769 CODE/38 DATA bytes, four true BSS bytes,
+55 ordered fields and PUBLIC raise@618 then signal@392; two original records
+pack into one. Original GROUP is BSS/DATA. Keep twelve raw outputs/nine logs,
+af546d inputs and the 23-file af546a–c manifest, including the rejected GROUP
+candidate. See the [signal review](SHARED_SIGNAL_AFTER546_NATIVE_REVIEW.md).
 
 Retained heap/loader parent: `.analysis/work/runtime-after545-build.json`,
 SHA `74e57df4ccf9f5b92225d7c0c3c8b56b413ca0c298f35056986a2179424d68ca`.
@@ -204,24 +214,27 @@ No output cleanup occurred.
 
 Prioritize actual selected-runtime order gaps, not unlinked library counts.
 The current retained diagnostic is
-`.analysis/work/runtime-after546-selected-literal-field-audit.json` / `.txt`.
-All 76 selected OP members now have identical raw per-site field attributes:
-72 literal streams are equal, four differ only in order. This is an investigation
-queue, not source credit. The order-only members are xxv, setvbuf, xalloc and
-xmsg. C0's 58-field order also stays open. Never sort an emitted list and then call it literal ordered equality.
-
-The error/termination, path/command, dosenv/write, heap/loader, signal and stdio
-flush/position scopes are closed. Continue a remaining selected scope after
-inspecting the real original ABI, storage and ordered fields. setvbuf needs an actual native
-producer that emits both fixes within each MOV in original order. Repeating
+`.analysis/work/runtime-after547-selected-literal-field-audit.json` / `.txt`.
+All 76 selected OP members have identical raw per-site field attributes:
+75 literal streams are equal; only setvbuf still differs in order. This is an
+investigation queue, not source credit. Its two MOVs need an actual native
+producer that emits both symbolic fixes in original operand order. Repeating
 logical-span scheduling, NASM, the tested BCC45 naked/global forms or TCPP1.01
 register flags does not resolve that question; preserve the existing probes.
+
+C0's 58-field order remains a separate open source question. Inspect its real
+original fields, typed instructions, PUB stream and uninitialized holes before
+changing the live startup owner; preserve the frozen after535 recipe. Complete
+EXE equality alone does not close startup or whole-product source acceptance.
+The selected error/termination, DOS path/command, environment/write, heap/loader,
+signal, stdio flush/position and C++ exception scopes now have ordered fields.
+Never sort emitted lists to claim literal ordered equality.
 
 The source-ordered PUBLIC-queue method is now proved through actual linked
 CODE/DATA interleaving. Preserve record-packing differences explicitly and
 prebind backward branch labels before separately scheduled test spans when
 needed; require every original byte/field and one-write initialized coverage.
-Historical TUs/recipes stay frozen. Extend **after546**, retaining all earlier
+Historical TUs/recipes stay frozen. Extend **after547**, retaining all earlier
 live shared refinements and source C0. These remain existing owners, not missing
 functions or whole-game progress counts.
 Call the latest reviewer once; it validates the complete unchanged source DAG,
@@ -264,7 +277,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after546_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after547_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check

@@ -65,7 +65,7 @@ Named instruction intrinsics cover unsupported386 operations;all addresses keep
 compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
 library and product layout;no object/ASM patch supplies product bytes.
 
-The current working runtime chain is after546, separate from that frozen
+The current working runtime chain is after547, separate from that frozen
 accepted publication. Its 893-slot source-bound library and source-generated
 C0 now link both MAINL and OP with complete original decoded-file equality;
 OP also repeats the original packed file. Actual selected CRT material is
@@ -73,19 +73,19 @@ OP also repeats the original packed file. Actual selected CRT material is
 the real original LIDATA initialization and four literal frames; historical
 `src/mainl/crt/exec.asm` stays as an unchanged ancestor input. See the
 [shared runtime proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
-After538–546 retain that source DAG and refine selected frames, GROUP, PUBLIC
-and literal field order. The latest `signal_dispatch.asm` reproduces 769 CODE /
-38 DATA bytes, four true BSS bytes and all 55 ordered fields through both
-products. Both ordered PUBLIC entries agree; two original same-CODE records
-pack into one native record. GROUP explicitly retains original BSS/DATA order.
-See the [latest native review](SHARED_SIGNAL_AFTER546_NATIVE_REVIEW.md).
-Earlier heap/loader owners retain 1,223 CODE/42 DATA bytes and 65 ordered fields;
-fbrk's PUBLIC packing difference remains explicit. Environment/write owners
-retain 723 CODE bytes/14 ordered fields; `stdio_buffer.asm` remains partial
-because two MOV operand-fixup pairs differ in order. Error/termination owners
-retain 301 CODE/105 DATA bytes, 128 true BSS, 24 ordered fields and 14 ordered
-PUBLIC entries; IOERROR/exit PUBLIC packing remains explicitly different.
-These refinements add no authored-function or whole-product acceptance credit.
+After538–547 retain that source DAG and refine selected frames, GROUP, PUBLIC
+and literal field order. The latest `exception_state.asm`, `allocation_exception.asm`
+and `message_exception.asm` retain 2,117 CODE/296 DATA bytes, four true BSS bytes
+and 89 ordered fields. All 32 ordered PUBLIC entries agree; original/native
+packet counts remain explicitly 25/4, 2/1 and 5/1. The two 128-byte exception
+workspaces remain initialized DATA. See the
+[latest native review](SHARED_CPP_EXCEPTIONS_AFTER547_NATIVE_REVIEW.md).
+Earlier signal, heap/loader and environment/write owners retain their complete
+ordered fields. Error/termination owners retain 128 true BSS bytes and their
+reviewed PUBLIC packing differences. `stdio_buffer.asm` remains partial because
+two MOV operand-fixup pairs differ in order; it is the sole order-only member
+among the 76 selected OP streams. C0's 58-field order is still open. These
+refinements add no authored-function or whole-product acceptance credit.
 
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
