@@ -71,15 +71,15 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The concise [current handoff](docs/RE_HANDOFF.md) is the
-**after525** entrypoint: **752/893 original CRT members** and
-**200,898 original-equal CODE-segment bytes** in the Japanese MAINL
+**after526** entrypoint: **766/893 original CRT members** and
+**202,502 original-equal CODE-segment bytes** in the Japanese MAINL
 working-source link, with two complete byte-exact EXE/MAP
 native rounds. This does not imply formal Factory canonical
 packed-file acceptance, which remains 0/250 for MAINL.
 
 The [latest applied storage audit](docs/STORAGE_HANDOFF_CURRENT.md)
 protects the audited after520 prefix: **258 source stages and 5,760
-receipt/log/raw native output paths**. After521–after525 outputs are also retained;
+receipt/log/raw native output paths**. After521–after526 outputs are also retained;
 the old deletion guard now refuses cleanup until a fresh audit. The audit
 removed just 15 completed superseded alternative-mode files and kept the original SHA-256 manifest.
 The [after439 cleanup](docs/STORAGE_HANDOFF_AFTER439.md) is
@@ -90,7 +90,7 @@ cleanup removed regenerable Python bytecode, for a combined immediate
 
 ~~~sh
 git status -sb
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after525_work.py string-find-resize-status-ten
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after526_work.py streams-float-bcd-manip-seek-fourteen
 # after520 deletion guard is blocked by the new after521+ stages; do not apply it.
 .venv/bin/python scripts/clean_generated.py --caches-only # optional preview
 ~~~
