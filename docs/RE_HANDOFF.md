@@ -1,4 +1,4 @@
-# TH03 agent handoff — after575 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after577 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -164,6 +164,25 @@ is silently repinned; the nineteen procedures are already accounted.
 
   .analysis/work/mainl-staff-after575-native-build.json
   scripts/review_th03_mainl_staff_after575_work.py
+
+## MAINL natural shared CDG 386 source link (after577)
+
+All three original CDG PUT, HFLIP and NOALPHA routines now reassemble from
+two maintained MAINL forwarding TUs that use symbolic shared 386 source.
+The original source-backed TASM objects contribute exactly 496 CODE bytes
+and 19 ordered original OMF FIXUPP fields, with true EVEN-generated CODE
+90h bytes at offsets 179 and 381 of CDG_PUT and offset 113 of CDG_P_NA.
+They link simultaneously into the source-native after575 Staff/Cutscene/
+sound/keyboard DATA graph. Both 67,372-byte Japanese decoded MAINL EXEs,
+all 677 ordered MZ relocations and all original MAP coordinates match.
+
+The after576 trial finished both source compiles and links but failed an
+overly strict comparison of round-local Staff/Cutscene diagnostic MAP paths.
+It is retained, unpromoted. Fresh after577 round source inputs, OMF/EXE/MAP
+and writer logs are all reviewed and source-bound. This is not duplicate
+original function credit or complete historical compiler-OMF identity.
+  .analysis/work/mainl-cdg-after577-native-build.json
+  scripts/review_th03_mainl_cdg_after577_work.py
 
 ## Start here
 

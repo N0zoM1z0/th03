@@ -1,0 +1,18 @@
+{
+  "schema": "th03-mainl-cdg-after577-native-v1",
+  "parent_report": ".analysis/work/mainl-staff-after575-native-build.json",
+  "parent_report_sha256": "c86ccd54ffec004a742c2beb7c574087117835a7ec7f62ee7e1f73910af69701",
+  "units": [
+    {"stem":"cdg_put","source":"src/shared/formats/cdg_put.asm","wrapper":"src/mainl/formats/cdg_put_native.asm","original_CODE_bytes":382,"original_FIXUPP_fields":17,"original_PUBLICs":2,"even_at":[179,381]},
+    {"stem":"cdg_p_na","source":"src/shared/formats/cdg_noalpha.asm","wrapper":"src/mainl/formats/cdg_noalpha_native.asm","original_CODE_bytes":114,"original_FIXUPP_fields":2,"original_PUBLICs":1,"even_at":[113]}
+  ],
+  "total_source_CODE_bytes": 496,
+  "complete_original_procedures": 3,
+  "all_original_FIXUPP_fields": 19,
+  "documented_TASM_EVEN_boundary_bytes": 3,
+  "original_decoded_MAINL_EXE_bytes": 67372,
+  "original_ordered_MZ_relocations": 677,
+  "original_OMF_packet_identity_claimed": false,
+  "canonical_factory_acceptance_changed": false,
+  "whole_product_source_accepted": false
+}
