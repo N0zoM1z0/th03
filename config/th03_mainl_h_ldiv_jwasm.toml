@@ -1,0 +1,5 @@
+schema_version = 1
+scope = "Compatible OMF emitter for the maintained MAINL h_ldiv arithmetic helper and original PUBLIC chronology"
+tool_profile = "config/th03_zun_driver_jwasm.toml"
+assembler_flags = ["-nologo", "-Cp", "-omf"]
+original_assembler_identified = false

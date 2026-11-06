@@ -1,37 +1,40 @@
-# TH03 — current agent handoff (2026-11-06; after521)
+# TH03 — current agent handoff (2026-11-06; after522)
 
 **Start with this file and actual Git state.** Check `git status -sb`
 and `git log -8 --oneline`. Latest source-bound CRT working evidence:
-**after521**. Latest independently protected-storage audit:
+**after522**. Latest independently protected-storage audit:
 **after520**. The former 1,494-line handoff is preserved in
 [historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
 ## Current, independently verified Japanese MAINL CRT
 
-| Evidence | Latest after521 |
+| Evidence | Latest after522 |
 | --- | ---: |
 | Original Borland CL.LIB slots | **893** |
-| Complete original CRT source-linked members | **729** |
-| Original-equal maintained-source CODE bytes | **196,239** |
-| Original vendor members retained for context | **164** |
-| Independent TASM/TLIB/TLINK rounds | **2; complete EXE/MAP byte-exact** |
+| Complete original CRT source-linked members | **730** |
+| Original-equal maintained-source CODE bytes | **196,413** |
+| Original vendor members retained for context | **163** |
+| Independent assembly/TLIB/TLINK rounds | **2; complete EXE/MAP byte-exact** |
 | Original decoded Japanese MAINL EXE / ordered MZ relocations | **67,372 bytes / 677** |
 | Formal Factory canonical packed-file unit acceptance | **0/250** |
 
 Latest root:
-`.analysis/work/mainl-after521-istream-long-double-parser-build.json`
+`.analysis/work/mainl-after522-long-divmod-original-public-order-build.json`
 
-SHA-256: `80c78e22d99044c9087fc40ccd9094a5f3eb5cc15a9854736e0c1e03281ab33c`.
+SHA-256: `e581b1a20a5eca64b3cf1524f8e8b53fa6327ab1fbfb7d4efd68452b6fdecaca`.
 
-Producer: `scripts/build_th03_mainl_after521_work.py`,
-mode `istream-long-double-parser`.
-Independent reviewer: `scripts/review_th03_mainl_after521_work.py`.
+Producer: `scripts/build_th03_mainl_after522_work.py`,
+mode `long-divmod-original-public-order`.
+Independent reviewer: `scripts/review_th03_mainl_after522_work.py`.
+This stage uses pinned JWasm compatible OMF plus original TLIB/TLINK;
+original assembler identity is not claimed.
 
-Five complete additions since after516: `istedbl` (124 CODE,
+Six complete additions since after516: `istedbl` (124 CODE,
 double input), `isteflt` (157 CODE, float input),
 `fsopen` (105 CODE, fstreambase open) and `fssbuf`
 (91 CODE, virtual setbuf), plus the complete `isteldbl`
-(1,947 CODE / 14 DATA, long-double parser). All passed two original-equal
+(1,947 CODE / 14 DATA, long-double parser) and `h_ldiv` (174 CODE,
+twelve near/far division/modulus entries). All passed two original-equal
 MAINL EXE/MAP rounds. Borland frame-method-4 versus TASM
 frame-method-5 metadata differences in x87 wrappers remain disclosed.
 
@@ -58,16 +61,26 @@ no raw OBJ record identity is claimed. See the
 [complete parser review](MAINL_ISTELDBL_FULL_SOURCE_LINK_AFTER521_NATIVE_REVIEW.md).
 The old integer/fraction partials and their proofs remain historical.
 
-**Next arithmetic Boss: h_ldiv.** Natural source recovers all
-174 original CODE bytes and 12 near/FAR quotient/remainder
-entrypoints; a complete native EXE equals original. But two
-same-address public alias pairs are reversed in the MAP, so
-**h_ldiv is uncredited as a complete CRT member**.
-Retain [its scoped MAP diagnostic](MAINL_H_LDIV_TWELVE_API_MAP_ALIAS_PROBE.md)
-and repair genuine symbolic output ordering, not the MAP bytes.
+**Completed arithmetic Boss: h_ldiv (slot 67).** All 174 original CODE
+bytes and twelve exports now source-link with exact complete EXE/MAP at
+**after522**. The source PUBLIC declarations preserve the original ordered
+name/offset/type payload. Pinned JWasm emits that chronology; TASM 5's hash
+enumeration had reversed two MAP alias ties. No object/MAP patch is used.
+The [complete alias-order review](MAINL_H_LDIV_FULL_SOURCE_LINK_AFTER522_NATIVE_REVIEW.md)
+records the compatible emitter, original-zero FIXUPPs and two native rounds.
+The older [TASM-only diagnostic](MAINL_H_LDIV_TWELVE_API_MAP_ALIAS_PROBE.md)
+remains historical and does not describe the after522 result.
+
+**Next live candidates:** largest remaining CRT members are `oprcall2`
+(slot 414: 96 + 251 CODE), `copy2` (387: 96 + 237), `ctor2`
+(390: 96 + 233), and `oprcall1` (413: 96 + 232). Their original two CODE
+segments and shared 96-byte local helpers need explicit ownership/layout,
+not a one-segment flattening. Other related stream manipulators
+`mnrstflg`, `mnsetflg`, `mnsetw`, `mnsfill`, `mnsprec` remain vendor members.
+These candidates were read from the actual inherited library after522.
 
 Choose additional large and small CRT work from the **live**
-inherited library membership in after521, not stale old
+inherited library membership in after522, not stale old
 candidate lists. Historical `stsetf1`/ios::setf was already
 source-linked at after483; do not double-count it.
 Recheck original target evidence rather than assuming old
@@ -79,13 +92,13 @@ documents or assembly attempts are correct.
 git status -sb
 git log -8 --oneline
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after521_work.py istream-long-double-parser
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after522_work.py long-divmod-original-public-order
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
 ~~~
 
-Extend from verified after521 using only **affected source**
+Extend from verified after522 using only **affected source**
 and incremental native TASM/TLIB/TLINK. Do not run
 routine whole-product cold replay. Continue all existing
 dirty work, preserve historical native proof files, and
@@ -112,8 +125,8 @@ after507 evidence remain. SHA-256 deletion inventory:
 
 Manifest SHA-256: `ffed6609142ed39414970fb15a35f88b467488792cff0ed61f6b705cc7425392`.
 The audited after520-only dry-run reported zero eligible files.
-The after520 guard **now fails closed** because after521 exists.
-All new after521 native outputs and scratch are retained; a fresh
+The after520 guard **now fails closed** because after521+ stages exist.
+All new after521/after522 native outputs and scratch are retained; a fresh
 source-DAG/SHA-256 audit is required before any later deletion.
 The old after439/after388 cleanup guards remain frozen historical audits;
 do not bypass them.

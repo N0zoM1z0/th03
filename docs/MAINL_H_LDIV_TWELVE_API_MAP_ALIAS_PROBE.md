@@ -1,5 +1,10 @@
 # Source-complete Borland h_ldiv arithmetic core, MAP alias order unresolved
 
+**Historical TASM-only diagnostic, superseded by the [complete after522
+source/link proof](MAINL_H_LDIV_FULL_SOURCE_LINK_AFTER522_NATIVE_REVIEW.md).**
+The pinned compatible emitter now preserves the original public chronology
+and both full EXE/MAP rounds match. The diagnostic below is retained.
+
 The original Japanese CL.LIB h_ldiv (slot 67) contains 174 CODE bytes,
 no initialized DATA, two original segments and zero OMF FIXUPPs.
 Its twelve original public names provide near/far aliases for

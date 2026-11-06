@@ -1,6 +1,9 @@
 ; Original Borland 16-bit long division/modulus helper family.
 ; Twelve near/far/alternate public names share one real 32-bit
 ; restoring-division core with signed and unsigned behaviors.
+; PUBLIC order follows the original twelve OMF export entries. JWasm
+; preserves this declaration chronology, including same-address aliases;
+; TASM 5 hash enumeration does not. No code or MAP patch is involved.
 .8086
 _TEXT segment byte public 'CODE'
 _TEXT ends
@@ -9,10 +12,10 @@ _DATA ends
 DGROUP group _DATA
 _TEXT segment byte public 'CODE'
 assume cs:_TEXT,ds:DGROUP
-public N_LDIV@,F_LDIV@,LDIV@
-public N_LUDIV@,F_LUDIV@,LUDIV@
+public LUMOD@,LDIV@,F_LUMOD@,N_LUMOD@
 public N_LMOD@,F_LMOD@,LMOD@
-public N_LUMOD@,F_LUMOD@,LUMOD@
+public N_LUDIV@,F_LUDIV@,LUDIV@
+public N_LDIV@,F_LDIV@
 N_LDIV@ label near
     pop cx
     push cs
