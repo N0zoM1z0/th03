@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after541)
+# TH03 — current agent handoff (2026-11-06; shared runtime after542)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after541**; latest independently applied storage audit: **after520**.
+**after542**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -17,7 +17,7 @@ The former long handoff remains in
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
 | Fresh two-product native output rounds | **2; all seven raw outputs repeat** |
-| Latest closed literal-order gaps | **fflush + fseek: all eight fields ordered-equal** |
+| Latest closed literal-order gaps | **fullpath + doscmd: all 23 fields ordered-equal** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
 | MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
 | OP decoded EXE / ordered MZ relocations | **63,866 bytes / 607; original raw equality** |
@@ -30,36 +30,43 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after541-build.json`.
-SHA-256: `1799436476f816e7b921ce29997343c2f08d64b5a3f73c5153d87c68117ecdce`.
-Producer/reviewer: `scripts/build_th03_runtime_after541_work.py` and
-`scripts/review_th03_runtime_after541_work.py`.
-See the [stdio IO/position review](SHARED_STDIO_IO_AFTER541_NATIVE_REVIEW.md).
+Latest root: `.analysis/work/runtime-after542-build.json`.
+SHA-256: `fee3d18425d239420999d2c8771c28c10310df7225a50f927fbabb29ae8c8c08`.
+Producer/reviewer: `scripts/build_th03_runtime_after542_work.py` and
+`scripts/review_th03_runtime_after542_work.py`.
+See the [DOS path/command review](SHARED_DOS_PATH_COMMAND_AFTER542_NATIVE_REVIEW.md).
 
-Live owners are **`src/shared/crt/flush_stream.asm`** (fflush: 209 CODE, TASM)
-and **`src/shared/crt/stream_position.asm`** (fseek: 492 CODE, pinned compatible
-JWasm), with unchanged bounded `src/mainl/crt/stdio_layout.inc`. All 701 initialized
-bytes and eight full ordered fields agree with real CL.LIB; all far/near ABIs,
-FILE state, short-write policy, text LF accounting and append seek/restore paths
-remain original. There are no CODE holes or extra public helpers. Source uses
-ordinary bounded instruction spans, no padding/target arrays/output patches.
+Live owners are **`src/shared/crt/path_canonicalize.asm`** (fullpath: 834 CODE)
+and **`src/shared/crt/dos_command_tail.asm`** (doscmd: 311 CODE), both native TASM.
+All 1,145 initialized bytes, 23 literal ordered fields and both raw PUBLIC packets
+agree with real CL.LIB. Private separator helpers remain at 0/31, far fullpath
+at 89; near DOSCMD keeps RET12. DBCS boundaries, dot/parent/root handling,
+161-byte temporary allocation, unchecked copies and pointer offset increments
+remain original. DOSCMD retains optional-prefix/third-pointer-presence behavior,
+16-bit size wrapping and its 8-bit length byte. Every native CODE byte is written
+exactly once; there are no holes, overlap, padding/target arrays or output patches.
+OMF data-record packing differs, so original program identity is still false.
 
-Original ordered PUBLIC entries also agree. fseek emits `_fseek` at 137 then
-`_ftell` at 267 in one PUBDEF packet instead of two; both raw lists are retained
-and this packing difference is explicit. Do not claim original OMF-program or
-packet identity, or sort PUBLIC entries/fields. Four explicit WORD comparisons
-retain the original AX encodings. The private helper remains PRIVATE. Earlier
-TASM trials with reversed PUBLIC order and the first JWasm AX-encoding trial
-were rejected; preserve all af541a–e probes and their 40-file manifest at
-`.analysis/work/probe/stdio541/manifest.json`.
-
-Both seven-file native rounds repeat (two OBJ/LIB and both EXE/MAP pairs).
-The other 891 programs/all 893 slots and both complete after540 MAPs are unchanged;
+Both seven-file native rounds repeat: two OBJ/LIB and both complete EXE/MAP pairs.
+The other 891 programs/all 893 slots and complete after541 MAPs are unchanged;
 both decoded EXEs remain original-exact. Packing proof is reused; no game-object,
 cold or runtime replay ran. New member/CODE-extent and authored-function credit:
-**zero**. All fourteen raw outputs/eleven logs use `runtime-after541-*`; actual
-source/include/profile/config/driver remain in `TH03ML/probe/af541f`; OP's
-consumed C0/library/responses/outputs remain in `TH03OP/probe/af541f`.
+**zero**. All fourteen raw outputs/eleven logs use `runtime-after542-*`; consumed
+sources/driver/config and MAINL responses remain in `TH03ML/probe/af542c`,
+OP's C0/library/responses/outputs in `TH03OP/probe/af542c`. Native baselines,
+listings, boundary recipe and local scope proofs af542a/b remain under the
+25-file `.analysis/work/probe/path542/manifest.json`.
+
+Retained stdio IO parent: `.analysis/work/runtime-after541-build.json`, SHA
+`1799436476f816e7b921ce29997343c2f08d64b5a3f73c5153d87c68117ecdce`.
+Live owners `flush_stream.asm`/`stream_position.asm` retain 701 CODE bytes/eight
+ordered fields. fseek uses pinned compatible JWasm, with four explicit WORD
+comparisons and PRIVATE helper. Its original ordered PUBLIC entries agree but
+pack into one record instead of two: preserve that explicit difference, both raw
+lists and the rejected TASM PUBLIC/first-JWasm encoding trials. All fourteen raw
+outputs, eleven logs, af541f source/include/profile inputs and af541a–e probes
+remain (40-file `.analysis/work/probe/stdio541/manifest.json`). See the
+[stdio IO review](SHARED_STDIO_IO_AFTER541_NATIVE_REVIEW.md).
 
 Retained stdio-iteration parent: `.analysis/work/runtime-after540-build.json`, SHA
 `568fed759f13881ea179eb3d874afaa49e1c1ae5b8022c78ebf5dbebf4bb776a`.
@@ -156,17 +163,18 @@ No output cleanup occurred.
 
 Prioritize actual selected-runtime order gaps, not unlinked library counts.
 The current retained diagnostic is
-`.analysis/work/runtime-after541-selected-literal-field-audit.json` / `.txt`.
+`.analysis/work/runtime-after542-selected-literal-field-audit.json` / `.txt`.
 All 76 selected OP members now have identical raw per-site field attributes:
-62 literal streams are equal, 14 differ only in order. This is an investigation
+64 literal streams are equal, 12 differ only in order. This is an investigation
 queue, not source credit. The order-only members are atexit, dosenv,
-exit, ioerror, xxv, fbrk, signal, fullpath, setvbuf,
-write, xalloc, xmsg, doscmd and loadprog. C0's 58-field order also stays
+exit, ioerror, xxv, fbrk, signal, setvbuf,
+write, xalloc, xmsg and loadprog. C0's 58-field order also stays
 open. Never sort an emitted list and then call it literal ordered equality.
 
-The stdio flush/position pair is now closed. Continue an actual selected scope,
-for example fullpath (slot 235: 834 CODE, 18 fields) or doscmd (311 CODE, 5 fields),
-after inspecting the real original and its complete ABI/ownership boundaries.
+The fullpath/DOSCMD and stdio flush/position pairs are now closed. Continue a
+remaining actual selected scope after reviewing its real original fields,
+complete ABI and ownership. Preserve the native listing/source-boundary method
+when record order needs separate logical spans; never add filler or sort outputs.
 These are existing owners, not missing functions or whole-game progress counts.
 
 ioerror slot 79 has 82 CODE/91 DATA and five fields in order 22,28,45,39,51, but
@@ -174,8 +182,12 @@ its original PUBLIC stream interleaves CODE0, DATA2, DATA0, CODE62. Inspect that
 stream before attempting a replacement; sorted-by-segment publics hide a real
 ordering question. Its original BSS/DATA GROUP remains intentional. Preserve
 frozen `src/mainl/crt/ioerror_link.asm` and the after536 parent proof.
+The pinned JWasm `omf.c` writer traverses PubQueue and flushes a PUBDEF packet
+when its segment changes. A bounded next candidate can place PUBLIC declarations
+in original CODE/DATA/CODE order; verify the actual queue, raw code and fields.
+Same-segment packet merging must remain explicit, as with fseek, not sorted away.
 
-Extend **after541**, retaining all after537–540 live shared refinements and C0.
+Extend **after542**, retaining all after537–541 live shared refinements and C0.
 Call the latest reviewer once; it validates the complete unchanged source DAG,
 not ancestor runtime chains. All historical TUs/recipes remain frozen; use new
 bounded shared owners as needed. Earlier 893-slot totals and partial bosses are
@@ -216,7 +228,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after541_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after542_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
@@ -239,5 +251,5 @@ SHA-256 audit before deleting native outputs. Do not apply historical after439,
 after388/511-source, 319-source or generic clean_generated deletion previews.
 Retain the entire active DAG: both raw OBJ/LIB/EXE/MAP rounds, writer logs,
 source/recipe snapshots, originals, targets and tools; age or an unreferenced
-filename is not an evidence-deletion oracle. Current af537–541 and all failed
+filename is not an evidence-deletion oracle. Current af537–542 and all failed
 branches remain. Routine cache cleanup does not authorize touching these files.

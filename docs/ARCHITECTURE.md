@@ -65,7 +65,7 @@ Named instruction intrinsics cover unsupported386 operations;all addresses keep
 compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
 library and product layout;no object/ASM patch supplies product bytes.
 
-The current working runtime chain is after541, separate from that frozen
+The current working runtime chain is after542, separate from that frozen
 accepted publication. Its 893-slot source-bound library and source-generated
 C0 now link both MAINL and OP with complete original decoded-file equality;
 OP also repeats the original packed file. Actual selected CRT material is
@@ -73,12 +73,12 @@ OP also repeats the original packed file. Actual selected CRT material is
 the real original LIDATA initialization and four literal frames; historical
 `src/mainl/crt/exec.asm` stays as an unchanged ancestor input. See the
 [shared runtime proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
-After538–541 retain that source DAG and refine selected frames, GROUP, PUBLIC
-and literal field order. The current flush/position pair reproduces 701 existing
-CODE bytes and all eight ordered fields through both products; ordered PUBLIC
-entries also agree, with fseek's packet packing explicitly different. See the
-[latest native review](SHARED_STDIO_IO_AFTER541_NATIVE_REVIEW.md). These
-refinements add no authored-function or whole-product acceptance credit.
+After538–542 retain that source DAG and refine selected frames, GROUP, PUBLIC
+and literal field order. The current DOS path/command pair reproduces 1,145 existing
+CODE bytes, 23 ordered fields and both raw PUBLIC packets through both products;
+see the [latest native review](SHARED_DOS_PATH_COMMAND_AFTER542_NATIVE_REVIEW.md).
+The preceding fseek PUBLIC entry order agrees while its packet packing differs.
+These refinements add no authored-function or whole-product acceptance credit.
 
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
