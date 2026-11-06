@@ -27,6 +27,8 @@ extrn @istream@$brsh$qmd:far
 extrn @istream@putback$qc:far
 extrn @ios@clear$qi:far
 extrn N_SCOPY@:near
+; Borland CL.LIB exposes this unused floating runtime EXTDEF.
+extrn __turboFloat:byte
 _TEXT segment byte public 'CODE'
 _TEXT ends
 _DATA segment word public 'DATA'
@@ -35,7 +37,7 @@ _BSS segment word public 'BSS'
 _BSS ends
 _INIT_ segment word public 'INITDATA'
 _INIT_ ends
-DGROUP group _DATA,_BSS
+DGROUP group _BSS,_DATA
 _TEXT segment byte public 'CODE'
 assume cs:_TEXT,ds:DGROUP
 ; Borland/TASM export quirk: the sixteenth PUBLIC must be declared

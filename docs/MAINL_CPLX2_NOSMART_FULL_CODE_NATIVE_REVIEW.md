@@ -29,7 +29,7 @@ runs two real TASM rounds under the writer lock. It compares all
 **5,598/5,598 original CODE bytes**, 22 PUBDEF entrypoints, all
 47 initialized DATA bytes and genuine unmaterialized DATA+0..15
 semantics, exact 6-byte INITDATA/CRT initializer, four segment
-definitions, and **860/860 exact logical OMF fixup sites, targets
+definitions, the exact original BSS-before-DATA GROUPDEF, and **860/860 exact logical OMF fixup sites, targets
 (symbolic identity), location types/widths and addends**.
 Both native OMF files are checked for nonvolatile stability.
 
@@ -37,13 +37,16 @@ Both native OMF files are checked for nonvolatile stability.
 fixups use Borland frame method 4, where TASM emits method 5.
 The single original N_SCOPY@ imported near call at CODE+5561
 uses target-frame method 5 and TASM emits CODE-frame method 0.
-Borland also lists unused original __turboFloat in EXTDEF,
-which natural TASM does not emit without an actual reference.
+Borland also lists unused original __turboFloat in EXTDEF;
+the source now explicitly declares it, bringing TASM to all
+24 original imported symbol identities. Their raw record order
+can still differ.
 The logical symbol/target/addend parity does not silently
-override these real raw-record differences. No complete
-source-bound Japanese MAINL EXE/MAP has yet been demonstrated
-for cplx2, so this commit earns **zero** new source-linked
-CRT members or formal Factory acceptance.
+override these real raw-record differences. Subsequent [after514 evidence](MAINL_CPLX2_FULL_SOURCE_LINK_AFTER514_NATIVE_REVIEW.md)
+demonstrates two complete original-equal Japanese MAINL
+EXE/MAP links and counts cplx2 as one complete working-source
+CRT member. Formal Factory/canonical acceptance remains
+unestablished and original OBJ packet equality is not claimed.
 
 This is the first complete natural source for all 22 original
 functions and initialization logic and directly resolves the
@@ -52,3 +55,16 @@ source-bound full-library native link, address frame encoding
 and EXTDEF chronology if needed, and preserve the original
 code/data/INITDATA evidence. No full cold replay was run.
 Test: tests.test_cplx2_full_code_exact_native.
+
+
+## Later full source-link advancement
+
+The after514 native source is maintained at
+[src/mainl/crt/cplx2.asm](../src/mainl/crt/cplx2.asm). It
+adds the correct original BSS-before-DATA GROUPDEF and unused
+__turboFloat EXTDEF, then verifies exact complete MAINL EXE/MAP
+through two TASM/TLIB/TLINK rounds. See
+[full source-linked review](MAINL_CPLX2_FULL_SOURCE_LINK_AFTER514_NATIVE_REVIEW.md).
+The earlier statements that full source linkage was not yet
+established are historical evidence boundaries, superseded by
+after514; original raw Borland OMF remains different.

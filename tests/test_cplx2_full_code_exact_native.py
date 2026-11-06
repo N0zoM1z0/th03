@@ -22,6 +22,7 @@ class OriginalComplexFullCode(unittest.TestCase):
         self.assertEqual(acos.count(b'call @arg$qm7complex'),2)
     def test_exact_data_init_and_all_860_symbolic_references(self):
         r=self.r
+        self.assertTrue(r['original_GROUPDEF_equal'])
         self.assertEqual((r['original_DATA_bytes'],r['original_DATA_implicit_prefix_bytes'],
                           r['original_initialized_DATA_bytes_equal']),(63,16,47))
         self.assertTrue(r['original_INITDATA_bytes_equal'])
@@ -33,7 +34,7 @@ class OriginalComplexFullCode(unittest.TestCase):
         self.assertEqual(r['original_location_frame4_native_target_frame5_count'],734)
         self.assertEqual(len(set(r['original_location_frame4_sites'])),734)
         self.assertEqual(r['imported_near_target_frame5_vs_code_frame0_sites'],[5561])
-        self.assertEqual(r['original_unused_extdef_missing_from_native'],['__turboFloat'])
+        self.assertEqual(r['original_unused_extdef_retained_in_native'],['__turboFloat'])
         self.assertFalse(r['complete_original_raw_FIXUPP_frames_equal'])
     def test_tasm_twice_but_not_pretend_link_acceptance(self):
         r=self.r

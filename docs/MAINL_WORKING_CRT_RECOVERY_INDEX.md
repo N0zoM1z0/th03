@@ -1008,3 +1008,14 @@ match. The 734 original FPU method-4 and one near-call frame
 difference plus unused Borland EXTDEF remain raw OMF
 questions; full MAINL linkage and source-member credit
 are not yet established.
+
+The [complete source-linked cplx2 after514 Japanese MAINL review](MAINL_CPLX2_FULL_SOURCE_LINK_AFTER514_NATIVE_REVIEW.md)
+supersedes the partial cplx2 member-credit limitations above:
+native NOSMART restores all 5,598 original CODE bytes;
+the original GROUPDEF and all 24 EXTDEF symbols are
+preserved, and two real TASM/TLIB/TLINK rounds reproduce
+the full Japanese MAINL EXE and MAP byte-for-byte.
+This adds one **complete working-source CRT member**
+(722/893; 193,584 CODE bytes). Raw Borland frame-4
+and imported near frame metadata still differ, so no
+formal Factory/canonical accepted-source credit is claimed.

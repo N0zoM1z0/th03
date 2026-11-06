@@ -42,6 +42,8 @@ def compare(original,generated):
     native_publics=code_publics(generated,1)
     assert original_publics==PUBLICS==native_publics
     assert len(native_publics)==22
+    assert [rec.data.hex() for rec in parse_omf(original) if rec.name=='GRPDEF']==["0aff02ff03"]
+    assert [rec.data.hex() for rec in parse_omf(generated) if rec.name=='GRPDEF']==["0aff02ff03"]
     assert [(s['name'],s['class'],s['size'])
             for s in segment_definitions(generated)]==[
              ('_TEXT','CODE',5598),('_DATA','DATA',63),
@@ -64,8 +66,9 @@ def compare(original,generated):
             original_init[0]['addend'])==(2,3,0,1,5575)
     original_imports=externs(original)
     native_imports=externs(generated)
-    assert set(original_imports)-set(native_imports)=={'__turboFloat'}
-    assert set(native_imports)==set(original_imports)-{'__turboFloat'}
+    assert len(original_imports)==len(native_imports)==24
+    assert set(original_imports)==set(native_imports)
+    assert '__turboFloat' in native_imports
     original_code=[f for f in originals if f['segment']==1]
     native_code={f['site']:f for f in generated_fields if f['segment']==1}
     assert len(native_code)==859
@@ -112,6 +115,7 @@ def compare(original,generated):
         original_CODE_bytes_equal=True,
         original_publics_count=22,
         original_DATA_bytes=63,
+        original_GROUPDEF_equal=True,
         original_DATA_implicit_prefix_bytes=16,
         original_initialized_DATA_bytes_equal=47,
         original_INITDATA_bytes=6,
@@ -124,7 +128,7 @@ def compare(original,generated):
         original_location_frame4_sites=original_frame4,
         imported_near_target_frame5_vs_code_frame0_sites=near_frame,
         same_CODE_direct_FAR_CALLs_recovered=[800,985],
-        original_unused_extdef_missing_from_native=['__turboFloat'],
+        original_unused_extdef_retained_in_native=['__turboFloat'],
         original_raw_Borland_OBJ_equal=False,
         complete_original_raw_FIXUPP_frames_equal=False,
         complete_native_MAINL_link_accepted=False,
