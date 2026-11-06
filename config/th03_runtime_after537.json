@@ -1,0 +1,342 @@
+{
+  "schema": "th03-shared-runtime-after537-v1",
+  "source": "src/shared/crt/dos_exec.asm",
+  "exec_slot": 345,
+  "original_compiler_library_sha256": "7d53ed1864b8b778040aa8203ebe4e01385112d9b3f134744a461aec0b171ba7",
+  "assembler_flags": [
+    "/m",
+    "/mx",
+    "/kh32768",
+    "/t"
+  ],
+  "exec_CODE_extent": 933,
+  "exec_initialized_CODE_bytes": 931,
+  "exec_uninitialized_sites": [
+    356,
+    357
+  ],
+  "exec_literal_fields": 21,
+  "OP_selected_members": [
+    {
+      "slot": 0,
+      "name": "_abort"
+    },
+    {
+      "slot": 1,
+      "name": "_stpcpy"
+    },
+    {
+      "slot": 2,
+      "name": "abort"
+    },
+    {
+      "slot": 5,
+      "name": "atexit"
+    },
+    {
+      "slot": 16,
+      "name": "del"
+    },
+    {
+      "slot": 17,
+      "name": "delarray"
+    },
+    {
+      "slot": 25,
+      "name": "dosenv"
+    },
+    {
+      "slot": 29,
+      "name": "dosgdriv"
+    },
+    {
+      "slot": 41,
+      "name": "errormsg"
+    },
+    {
+      "slot": 42,
+      "name": "exit"
+    },
+    {
+      "slot": 45,
+      "name": "files"
+    },
+    {
+      "slot": 46,
+      "name": "files2"
+    },
+    {
+      "slot": 52,
+      "name": "f_scopy"
+    },
+    {
+      "slot": 64,
+      "name": "getvect"
+    },
+    {
+      "slot": 67,
+      "name": "h_ldiv"
+    },
+    {
+      "slot": 68,
+      "name": "h_llsh"
+    },
+    {
+      "slot": 72,
+      "name": "h_padd"
+    },
+    {
+      "slot": 79,
+      "name": "ioerror"
+    },
+    {
+      "slot": 82,
+      "name": "isatty"
+    },
+    {
+      "slot": 87,
+      "name": "lseek"
+    },
+    {
+      "slot": 90,
+      "name": "new"
+    },
+    {
+      "slot": 94,
+      "name": "n_lxmul"
+    },
+    {
+      "slot": 95,
+      "name": "n_pcmp"
+    },
+    {
+      "slot": 116,
+      "name": "setupio"
+    },
+    {
+      "slot": 117,
+      "name": "sigdata"
+    },
+    {
+      "slot": 122,
+      "name": "stklen"
+    },
+    {
+      "slot": 127,
+      "name": "ctype"
+    },
+    {
+      "slot": 132,
+      "name": "toupper"
+    },
+    {
+      "slot": 155,
+      "name": "xxas"
+    },
+    {
+      "slot": 156,
+      "name": "xxv"
+    },
+    {
+      "slot": 162,
+      "name": "cputype"
+    },
+    {
+      "slot": 166,
+      "name": "farheap"
+    },
+    {
+      "slot": 167,
+      "name": "fbrk"
+    },
+    {
+      "slot": 180,
+      "name": "signal"
+    },
+    {
+      "slot": 182,
+      "name": "_access"
+    },
+    {
+      "slot": 186,
+      "name": "_pathops"
+    },
+    {
+      "slot": 201,
+      "name": "chmoda"
+    },
+    {
+      "slot": 219,
+      "name": "fflush"
+    },
+    {
+      "slot": 223,
+      "name": "flushall"
+    },
+    {
+      "slot": 232,
+      "name": "fseek"
+    },
+    {
+      "slot": 235,
+      "name": "fullpath"
+    },
+    {
+      "slot": 239,
+      "name": "getdcwd"
+    },
+    {
+      "slot": 240,
+      "name": "getenv"
+    },
+    {
+      "slot": 260,
+      "name": "memcmp"
+    },
+    {
+      "slot": 261,
+      "name": "memcpy"
+    },
+    {
+      "slot": 263,
+      "name": "memset"
+    },
+    {
+      "slot": 266,
+      "name": "movmem"
+    },
+    {
+      "slot": 281,
+      "name": "srchenv"
+    },
+    {
+      "slot": 282,
+      "name": "srchstr"
+    },
+    {
+      "slot": 285,
+      "name": "setvbuf"
+    },
+    {
+      "slot": 290,
+      "name": "strcat"
+    },
+    {
+      "slot": 292,
+      "name": "strcmp"
+    },
+    {
+      "slot": 293,
+      "name": "strcpy"
+    },
+    {
+      "slot": 299,
+      "name": "stricmp"
+    },
+    {
+      "slot": 300,
+      "name": "strlen"
+    },
+    {
+      "slot": 308,
+      "name": "strrchr"
+    },
+    {
+      "slot": 319,
+      "name": "sysnerr"
+    },
+    {
+      "slot": 331,
+      "name": "write"
+    },
+    {
+      "slot": 332,
+      "name": "writea"
+    },
+    {
+      "slot": 335,
+      "name": "xfflush"
+    },
+    {
+      "slot": 336,
+      "name": "xalloc"
+    },
+    {
+      "slot": 337,
+      "name": "xmsg"
+    },
+    {
+      "slot": 338,
+      "name": "xx"
+    },
+    {
+      "slot": 342,
+      "name": "doscmd"
+    },
+    {
+      "slot": 345,
+      "name": "exec"
+    },
+    {
+      "slot": 346,
+      "name": "execl"
+    },
+    {
+      "slot": 363,
+      "name": "setblock"
+    },
+    {
+      "slot": 364,
+      "name": "setenvp"
+    },
+    {
+      "slot": 390,
+      "name": "ctor2"
+    },
+    {
+      "slot": 391,
+      "name": "ctor3"
+    },
+    {
+      "slot": 428,
+      "name": "strings"
+    },
+    {
+      "slot": 557,
+      "name": "getch"
+    },
+    {
+      "slot": 561,
+      "name": "kbhit"
+    },
+    {
+      "slot": 585,
+      "name": "MBCTYPE"
+    },
+    {
+      "slot": 600,
+      "name": "MBJMSJIS"
+    },
+    {
+      "slot": 891,
+      "name": "loadprog"
+    }
+  ],
+  "OP_material_totals": {
+    "CODE_extent": 29964,
+    "CODE_initialized": 29956,
+    "CODE_uninitialized": 8,
+    "DATA_extent": 1647,
+    "DATA_initialized": 1641,
+    "DATA_uninitialized": 6,
+    "BSS_extent": 150,
+    "BSS_initialized": 0,
+    "BSS_uninitialized": 150,
+    "INITDATA_extent": 30,
+    "INITDATA_initialized": 26,
+    "INITDATA_uninitialized": 4,
+    "EXITDATA_extent": 6,
+    "EXITDATA_initialized": 6,
+    "EXITDATA_uninitialized": 0
+  }
+}

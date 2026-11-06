@@ -1,5 +1,16 @@
 # Original 933-byte DOS overlay exec: source-bound literal OMF proof
 
+**Original-input correction at after537:** the historical comparison below
+used the 28-source carrier (`64b0a5…`), not the installed compiler CL.LIB
+(`7d53ed…`). The real member initializes CODE+0..254 through LIDATA and uses
+TARGET frame5 at +371,+397,+482,+560. The below uninitialized-storage and
+original-program-identity claims are superseded by the
+[shared exec / two-product proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
+All historical receipts and raw outputs remain intact. The current owner is
+`src/shared/crt/dos_exec.asm`; the old TU remains a frozen ancestor input.
+
+## Historical after338 report; original-input claims superseded above
+
 The tracked `src/mainl/crt/exec.asm` is revalidated against the **actual
 Japanese original CL.LIB member 345**, not accepted just because an
 [older reconstruction note](MAINL_EXEC_NATIVE_REVIEW.md) exists. The

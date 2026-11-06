@@ -65,6 +65,15 @@ Named instruction intrinsics cover unsupported386 operations;all addresses keep
 compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
 library and product layout;no object/ASM patch supplies product bytes.
 
+The current working runtime chain is after537, separate from that frozen
+accepted publication. Its 893-slot source-bound library and source-generated
+C0 now link both MAINL and OP with complete original decoded-file equality;
+OP also repeats the original packed file. Actual selected CRT material is
+75/76 members, respectively. The shared `src/shared/crt/dos_exec.asm` corrects
+the real original LIDATA initialization and four literal frames; historical
+`src/mainl/crt/exec.asm` stays as an unchanged ancestor input. See the
+[shared runtime proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
+
 OP's current-source adapter supplies the original menu Git blob only while
 constructing its historical staging graph, then overlays the live maintained
 include before compilation. It preserves old stager pins without compiling a

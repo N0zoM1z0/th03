@@ -1,5 +1,12 @@
 # MAINL DOS overlay execution
 
+**Historical source version:** after537 corrected the original input used by
+the later after338 review. The real CL.LIB initializes the 255-byte leading
+work area; it is not uninitialized as described below. The current shared TU
+also restores four original TARGET frames. See the
+[shared exec / two-product proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
+The old native observations and files are preserved, without new exact credit.
+
 `src/mainl/crt/exec.asm` recovers the complete 933-byte member: 671 CODE +262
 file-backed CS storage bytes. It contains the 574-byte near cdecl __exec API
 and a 97-byte copied load/transfer continuation. Both are explicit entry kinds;
