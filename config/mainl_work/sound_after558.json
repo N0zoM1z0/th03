@@ -1,0 +1,15 @@
+{
+  "schema": "th03-mainl-sound-after558-v1",
+  "parent_report": ".analysis/work/vector-after557-native-build.json",
+  "parent_report_sha256": "14c3f7878635c301c101aed569e231c84a54f5baf62b5b74c2b69555cbe32c9b",
+  "units": [
+    {"module":"snd_mode.c", "source":"src/mainl/linked_game/sound_mode.c", "first_binary":"O", "CODE_bytes":30, "original_object":"obj/th02/snd_mode.obj"},
+    {"module":"snd_pmdr.c", "source":"src/mainl/linked_game/sound_pmd.c", "first_binary":"O", "CODE_bytes":58, "original_object":"obj/th02/snd_pmdr.obj"},
+    {"module":"snd_dlyv.c", "source":"src/mainl/linked_game/sound_volume.c", "first_binary":"M", "CODE_bytes":28, "original_object":"obj/th02/snd_dlyv.obj"},
+    {"module":"snd_se_r.cpp", "source":"src/mainl/linked_game/sound_reset.cpp", "first_binary":"O", "CODE_bytes":12, "original_object":"obj/th02/snd_se_r.obj"}
+  ],
+  "function_instruction_bytes":124,
+  "contextual_codestring_tail_bytes":4,
+  "canonical_credit_changed":false,
+  "whole_product_accepted":false
+}
