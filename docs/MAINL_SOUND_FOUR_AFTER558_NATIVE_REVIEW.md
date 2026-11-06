@@ -30,7 +30,7 @@ and the normal object order. Two real compiler/linker rounds confirm:
   contribution addresses agree (only new wrapper diagnostic paths differ).
 - Every OBJ/EXE/MAP output repeats between rounds; source snapshots,
   native outputs and **ten writer logs** are retained under
-  .analysis/work/sound-group-after558-native-* and TH03ML/probe/af558g.
+  .analysis/work/sound-after558-native-* and TH03ML/probe/af558s.
 
 The selected link reuses the source-native C0/CRT, root, picture/text/data
 banks and after557 vector producer. It does **not** cold-replay the unchanged

@@ -1,97 +1,88 @@
 #!/usr/bin/env python3
-"""Read-only review of the after558 four-source sound C/C++ native producer pair."""
+"""Read-only review of two native links of four original sound C/C++ modules."""
 import json
 
-import build_th03_mainl_sound_group_work as b
-from build_th03_mainl_resources_work import need, sha
-from build_th03_mainl_display_work import payload, literal_fields
+import build_th03_mainl_sound_after558_work as b
+from build_th03_mainl_resources_work import need,sha
+from build_th03_mainl_display_work import payload,literal_fields
 from lib.mainl_owner_migrations import public_offsets
 
 
 def review():
-    cfg, cfg_sha = b.inputs()
-    report, report_sha = b.base.load(b.REPORT)
-    previous, parent_sha = b.base.load(b.parent.REPORT)
-    original = b.original_checks(cfg)
-    sources = {x['source']: (b.ROOT / x['source']).read_bytes() for x in cfg['units']}
-    staged = {key: b.source_transport(raw) for key, raw in sources.items()}
-    need(previous['complete'] and parent_sha == cfg['parent_report_sha256'],
-         'actual retained after557 parent and 2-round vector CODE source')
-    need(report['complete'] and report['source_acceptance'] is False and
-         report['whole_product_accepted'] is False and
-         report['canonical_credit_changed'] is False and
-         report['cold_rebuilt'] is False and report['library_rebuilt'] is False and
-         report['game_objects_recompiled'] == 4 and
-         (report['CODE_function_bytes'], report['explicit_context_code_bytes']) == (124, 4) and
-         report['driver_sha256'] == sha((b.ROOT / b.DRIVER).read_bytes()) and
-         report['config_sha256'] == cfg_sha and report['parent_report_sha256'] == parent_sha and
-         report['source_sha256'] == {k: sha(raw) for k, raw in sources.items()} and
-         report['transported_source_sha256'] == {k: sha(raw) for k, raw in staged.items()} and
-         report['original_objects_sha256'] == {k: sha(raw) for k, raw in original.items()} and
-         report['wrappers_sha256'] == {
-             x['wrapper']: sha(b.wrapper(x['source'].rsplit('/', 1)[-1])) for x in cfg['units']},
-         'all four genuine first-use GAME/BINARY source and original OMF bindings')
-    need((b.SCRATCH / 'driver.py').read_bytes() == (b.ROOT / b.DRIVER).read_bytes() and
-         (b.SCRATCH / 'config.json').read_bytes() == (b.ROOT / b.CONFIG).read_bytes(),
-         'staged source configuration and driver are unchanged')
+    cfg,cfg_sha=b.inputs()
+    record,report_sha=b.base.load(b.REPORT)
+    parent,parent_sha=b.base.load(b.parent.REPORT)
+    sources={u['source']:(b.ROOT/u['source']).read_bytes() for u in cfg['units']}
+    originals={u['module']:(b.WORK/u['original_object']).read_bytes() for u in cfg['units']}
+    need(parent['complete'] and parent_sha==cfg['parent_report_sha256'],
+         'actual native after557 vector parent')
+    need(record['complete'] and record['source_acceptance'] is False and
+         record['whole_product_accepted'] is False and
+         record['canonical_credit_changed'] is False and
+         record['cold_rebuilt'] is False and record['library_rebuilt'] is False and
+         record['game_objects_recompiled']==4 and
+         record['sound_function_instruction_bytes']==124 and
+         record['historical_contextual_tail_bytes']==4 and
+         record['driver_sha256']==sha((b.ROOT/b.DRIVER).read_bytes()) and
+         record['config_sha256']==cfg_sha and
+         record['parent_report_sha256']==parent_sha and
+         record['source_sha256']=={k:sha(raw) for k,raw in sources.items()} and
+         record['original_sha256']=={k:sha(raw) for k,raw in originals.items()},
+         'all source-native producer contracts and current parent')
+    need((b.SCRATCH/'config.json').read_bytes()==(b.ROOT/b.CONFIG).read_bytes() and
+         (b.SCRATCH/'driver.py').read_bytes()==(b.ROOT/b.DRIVER).read_bytes(),
+         'exact native source producer and configuration')
     for u in cfg['units']:
-        leaf = u['source'].rsplit('/', 1)[-1]
-        need((b.SCRATCH / leaf).read_bytes() == staged[u['source']] and
-             (b.SCRATCH / u['wrapper']).read_bytes() == b.wrapper(leaf),
-             'actual source consumed by Borland compiler ' + leaf)
-    expected_phase_names = [
-        label for n in (1, 2)
-        for label in ([f'round{n}-compile-{x["name"]}' for x in cfg['units']] + [f'round{n}-link'])
+        name=u['source'].rsplit('/',1)[-1]
+        need((b.SCRATCH/name).read_bytes()==b.native_src(sources[u['source']]) and
+             (b.SCRATCH/u['module']).read_bytes()==b.wrapper(u),
+             'real Borland compiled source and GAME/BINARY wrapping '+name)
+    phase_names=[
+        x for number in (1,2)
+        for x in ([f'round{number}-{u["module"].rsplit(".",1)[0]}-compile' for u in cfg['units']] +
+                  [f'round{number}-link'])
     ]
-    need([p['label'] for p in report['phases']] == expected_phase_names and
-         all(p['returncode'] == 0 and
-             sha((b.ROOT / p['log']).read_bytes()) == p['log_sha256'] for p in report['phases']),
-         'ten full native writer logs and build phase ordering')
-    vectors = []
-    fields = 0
-    for number, row in enumerate(report['rounds'], 1):
-        prior = previous['rounds'][number-1]
-        need(row['round'] == number and row['response_sha256'] == sha(b.response(number)) and
-             row['reused'] == prior['reused'] and
-             row['reused_banks'] == prior['reused_banks'] and
-             row['reused_root'] == prior['reused_root'] and
-             row['reused_vector'] == prior['outputs']['obj'],
-             'actual prior C0/CRT, root DATA, registration, picture and vector inputs reused')
-        native = {k: b.base.checked(v) for k, v in row['outputs'].items()}
+    need([p['label'] for p in record['phases']]==phase_names and
+         len(record['phases'])==10 and all(p['returncode']==0 and
+         sha((b.ROOT/p['log']).read_bytes())==p['log_sha256'] for p in record['phases']),
+         'all ten successful native compiler/linker logs retained')
+    vectors=[]
+    total_fields=0
+    for number,row in enumerate(record['rounds'],1):
+        old=parent['rounds'][number-1]
+        need(row['round']==number and row['response_sha256']==sha(b.response(number)) and
+             row['reused']==old['reused'] and row['reused_banks']==old['reused_banks'] and
+             row['reused_root']==old['reused_root'] and
+             row['reused_vector']==old['outputs']['obj'],
+             'original normal link response and root/C0/CRT/vector inputs')
+        native={name:b.base.checked(pin) for name,pin in row['outputs'].items()}
         for u in cfg['units']:
-            raw = native[u['name'] + '_obj']
-            ref = original[u['name']]
-            need(payload(raw) == payload(ref) and
-                 len(payload(raw)) == u['CODE_bytes'] and
-                 literal_fields(raw) == literal_fields(ref) and
-                 public_offsets(raw) == public_offsets(ref) and
-                 b.parent.module_metadata(raw) == b.parent.module_metadata(ref),
-                 'entire sound code and original literal fields / publics / other OMF ' + u['name'])
-        need(native['exe'] == b.base.checked(prior['outputs']['exe']) and
-             b.map_normalized(native['map']) ==
-             b.parent.map_normalized(b.base.checked(prior['outputs']['map'])),
-             'full target-equivalent MZ EXE, all ordered relocations and link layout')
-        need(len(native['exe']) == 67372 and
-             native['exe'][:2] == b'MZ' and
-             int.from_bytes(native['exe'][6:8], 'little') == 677, 'actual original MZ header')
+            name=u['module'].rsplit('.',1)[0]
+            prop=b.obj_equivalent(native[name],originals[u['module']],u['CODE_bytes'])
+            need(prop==row['object_properties'][name],
+                 'complete original CODE payload, literal fields and PUBLICs '+name)
+        need(native['exe']==b.base.checked(old['outputs']['exe']) and
+             b.map_normalized(native['map'])==
+             b.parent.map_normalized(b.base.checked(old['outputs']['map'])),
+             'entire decoded MZ EXE and original normal native link MAP')
+        need(native['exe'][:2]==b'MZ' and len(native['exe'])==67372 and
+             int.from_bytes(native['exe'][6:8],'little')==677,
+             'whole original MZ including 677 relocations')
+        total_fields=sum(len(literal_fields(originals[u['module']])) for u in cfg['units'])
         vectors.append(native)
-        fields = sum(len(literal_fields(original[x['name']])) for x in cfg['units'])
-    need(len(vectors) == 2 and vectors[0] == vectors[1],
-         'both complete four OBJ/EXE/MAP native vectors repeat exactly')
-    return dict(complete=True, native_rounds=2, original_sound_C_producers=4,
-                complete_natural_C_CPP_function_bytes=124,
-                historical_contextual_codestring_tail_bytes=4,
-                complete_CODE_contribution_bytes=128,
-                original_literal_fixups=fields,
-                complete_original_MZ_EXE_equal=True,
-                decoded_EXE_bytes=67372, original_MZ_relocations=677,
-                original_OMF_packet_order_proved=False,
-                canonical_factory_acceptance=False,
-                whole_product_source_accepted=False,
-                native_source_report_sha256=report_sha)
+    need(len(vectors)==2 and vectors[0]==vectors[1], 'all six raw OMF/EXE/MAP outputs repeat')
+    need(sum(u['CODE_bytes'] for u in cfg['units'])==128 and total_fields==10,
+         'four complete C/C++ module code contributions and all ten literal fields')
+    return dict(complete=True,native_rounds=2,sound_C_CPP_functions=4,
+        original_function_instruction_bytes=124,historical_codestring_tail_bytes=4,
+        original_CODE_allocation_bytes=128,literal_native_fixups=10,
+        full_original_decoded_EXE_equal=True,original_MZ_bytes=67372,
+        original_MZ_ordered_relocations=677,
+        whole_product_source_accepted=False,canonical_factory_acceptance=False,
+        native_source_report_sha256=report_sha)
 
 
-if __name__ == '__main__':
-    checked = review()
-    (b.ROOT / (b.PREFIX + 'review.json')).write_text(json.dumps(checked, indent=2) + '\n')
-    print('Four sound C/C++ original body extents (124 B), four old context tails, 2 complete native EXE/MAP rounds exact.')
+if __name__=='__main__':
+    value=review()
+    (b.ROOT/(b.PREFIX+'review.json')).write_text(json.dumps(value,indent=2)+'\n')
+    print('Four original C/C++ sound functions: 124 instruction bytes, 4 historic tails, two exact native links.')
