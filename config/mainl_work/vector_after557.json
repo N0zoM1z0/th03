@@ -1,0 +1,17 @@
+{
+  "schema": "th03-mainl-vector-after557-v1",
+  "parent_report": ".analysis/work/root-data-after556-native-build.json",
+  "parent_report_sha256": "cb6ec75307a8f0b1e74514f6e8b82c5f07837adc80a18f3b92f61443e8c8cb19",
+  "source": "src/shared/math/vector_far.asm",
+  "cold_object": "obj/th03/vector_far.obj",
+  "original_CODE_bytes": 160,
+  "function_extent": [
+    {"name": "VECTOR2", "offset": 0, "size": 69},
+    {"name": "VECTOR2_BETWEEN_PLUS", "offset": 70, "size": 90}
+  ],
+  "alignment": {"offset": 69, "size": 1, "source": "EVEN", "native_emitted_byte": 144},
+  "ordered_fixups": 5,
+  "whole_product_accepted": false,
+  "canonical_credit_changed": false,
+  "note": "Two complete natural x86 far procedures; alignment is not a third function. Exact cold toolchain product is still contextual beyond this one contributor."
+}
