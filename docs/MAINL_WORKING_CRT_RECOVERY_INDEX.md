@@ -924,3 +924,10 @@ double at DATA+44, extending source to original CODE+3973.
 All sixteen exports and 612/614 native symbolic OMF fields
 are checked, retaining two local FAR-call and 530
 frame-method-4 differences. No complete CRT-member credit.
+
+The [seventeenth complete cplx2 sinh(complex) FAR function](MAINL_CPLX2_SINH_SEVENTEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 234 byte-exact original CODE bytes through CODE+4207.
+All 652 emitted symbolic OMF references match the 654
+original prefix sites and targets, with two shorter acos
+calls and 564 frame-method-4 differences still disclosed.
+This is partial source, with zero full CRT-member credit.
