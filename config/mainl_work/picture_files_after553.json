@@ -1,0 +1,15 @@
+{
+  "schema": "th03-mainl-picture-files-after553-v1",
+  "source": "src/mainl/root/picture_files.c",
+  "original_object": "obj/th03/rootpre.obj",
+  "source_module": "rootpre.c",
+  "parent_report": ".analysis/work/root-state-after552-build.json",
+  "parent_report_sha256": "67c1c0c2daf57a684c6cca46098a1a05b1efcc7418c6ba30f0fabd295f58cd83",
+  "DATA_bytes": 18,
+  "pointer_bytes": 2,
+  "pointer_count": 9,
+  "native_fields": 9,
+  "unit_id": "th03-mainl-decoded-picture-file-pointers",
+  "whole_product_accepted": false,
+  "canonical_credit_changed": false
+}
