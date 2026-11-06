@@ -998,3 +998,13 @@ The [complete original DOS create/new-create FAR pair](MAINL_DOS_CREATE_NEWCREAT
 adds 100 byte-exact CODE bytes and two native DOS 21h
 create modes through one private helper, with literal
 original near __DOSERROR FIXUPP at CODE+32.
+
+The [complete 5,598-byte cplx2 CODE source with scoped NOSMART](MAINL_CPLX2_NOSMART_FULL_CODE_NATIVE_REVIEW.md)
+finally emits both original direct FAR calls at CODE+799/+984
+from actual source instructions, not byte patches. All 22
+public offsets, 5,598 CODE bytes, 47 initialized DATA bytes,
+6 INITDATA bytes and 860 symbolic fixup sites/targets/addends
+match. The 734 original FPU method-4 and one near-call frame
+difference plus unused Borland EXTDEF remain raw OMF
+questions; full MAINL linkage and source-member credit
+are not yet established.
