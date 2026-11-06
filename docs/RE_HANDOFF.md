@@ -1,4 +1,4 @@
-# TH03 agent handoff — after577 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after578 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -183,6 +183,26 @@ and writer logs are all reviewed and source-bound. This is not duplicate
 original function credit or complete historical compiler-OMF identity.
   .analysis/work/mainl-cdg-after577-native-build.json
   scripts/review_th03_mainl_cdg_after577_work.py
+
+## MAINL full natural near-Pascal high-score editor (after578)
+
+The complete maintained 584-line C++ high-score name-entry/registration
+implementation now recompiles in two independent native Turbo C++ rounds
+using a small source-forwarding TU. The original regdata object provides
+2,788 CODE +40 initialized DATA bytes, 15 near code functions plus one
+FAR-pointer DATA PUBLIC, and 188 ordered original OMF FIXUPP fields.
+The 739-byte original name entry editor and 348-byte registration menu
+are included, not skipped for their size.
+
+Both objects linked into the latest after577 natural CDG/Staff/Cutscene/
+sound/keyboard/data/C0/CRT MAINL link with the complete original 67,372
+decoded executable and all 677 relocations exact. The maintained history
+retains the original source/SDK/target/OBJ evidence and is unchanged;
+these 15 procedures were already reviewed/credited, not new ledger
+entries or canonical Factory accepted units.
+
+  .analysis/work/mainl-hiscore-after578-native-build.json
+  scripts/review_th03_mainl_hiscore_after578_work.py
 
 ## Start here
 

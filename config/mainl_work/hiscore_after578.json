@@ -1,0 +1,19 @@
+{
+  "schema": "th03-mainl-hiscore-after578-v1",
+  "parent_report": ".analysis/work/mainl-cdg-after577-native-build.json",
+  "parent_report_sha256": "556d69fdd2b6a9c9459768682766a2520be38caf3d16b7da03c176471000ab84",
+  "source_wrapper": "src/mainl/hiscore/producer.cpp",
+  "nested_source": "src/mainl/hiscore/regdata.cpp",
+  "registration_natural_CPP": "src/mainl/regist.cpp",
+  "original_object": "obj/th03/regdata.obj",
+  "original_CODE_bytes": 2788,
+  "original_initialized_DATA_bytes": 40,
+  "original_CODE_PUBLICs": 15,
+  "original_DATA_PUBLICs": 1,
+  "original_ordered_FIXUPP": 188,
+  "original_decoded_MAINL_EXE_bytes": 67372,
+  "original_MZ_relocations": 677,
+  "historical_complete_raw_OMF_packets_proved": false,
+  "canonical_factory_credit_changed": false,
+  "whole_product_source_accepted": false
+}
