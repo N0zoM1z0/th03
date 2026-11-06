@@ -1059,3 +1059,8 @@ extends authentic natural source through original CODE+753:
 match, and 15 Borland x87 frame-method-4 differences remain
 disclosed. The initial near branch at +30/+31 still targets
 an unrecovered parser exit, so **no complete CRT credit**.
+
+The [complete original fstreambase open/ios transition](MAINL_FSTREAMBASE_OPEN_NATIVE_IOS_REVIEW.md)
+adds 105 byte-exact CODE bytes with real filebuf::open,
+Borland mode translation and ios::clear, two symbolic
+OMF calls and two exact native EXE/MAP rounds.
