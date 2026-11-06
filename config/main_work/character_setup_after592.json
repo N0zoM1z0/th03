@@ -1,0 +1,17 @@
+{
+  "schema":"th03-main-large-cpp-forward-native-v1",
+  "stage":"af592p",
+  "parent_report":".analysis/work/main-collision-after591-native-build.json",
+  "parent_report_sha256":"3e81a28e1df338d6296352a2991b94dab6a4104f2af0df312121b7aabfb7e7a7",
+  "stem":"ch_setup",
+  "source":"src/main/player/character_setup.cpp",
+  "wrapper":"src/main/player/producers/character_setup_native.cpp",
+  "original_object":"obj/th03/ch_setup.obj",
+  "original_MAP_module":"th03/ch_setup.cpp",
+  "GAME":3,"BINARY":"M",
+  "original_CODE_segment_index":4,
+  "CODE_bytes":3888,"original_PUBLICs":12,"ordered_FIXUPP_fields":1135,
+  "original_Japanese_file_bytes":130882,"original_ordered_MZ_relocations":1553,
+  "historic_vendor_raw_OMF_packet_identity":false,
+  "canonical_factory_credit_changed":false,"whole_project_source_accepted":false
+}

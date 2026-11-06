@@ -1,4 +1,4 @@
-# TH03 agent handoff — after591 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after592 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -411,6 +411,24 @@ af590h and af590hittest-natural-try. None were patched/promoted.
 
 These eight functions already had historical authored-function owners;
 do not increment denominators or falsely promote Factory acceptance.
+
+## MAIN nine-character original resource/callback setup (after592)
+
+Two true original Turbo C++ source rounds now reproduce the 3,888-byte
+HITCIRC_TEXT character setup producer, all 12 original PUBLIC functions
+and 1,135 ordered OMF fields. Its maintained 16-bit natural C++ retains
+all nine character sprite/resource loads, BOSS/bomb/charged-shot callback
+bindings, stage palettes and the local original Borland packing pragmas.
+The new forwarding source TU is small and does not duplicate or patch code.
+
+Both entire 99-object native MAIN links reproduce the original source-native
+EXE and MAP, all 124,642 Japanese loaded bytes, all 1,553 ordered MZ
+relocations and — via a separate standard DOS file-format stage — the
+full 130,882-byte Japanese MAIN.EXE. Existing function counts and
+published Factory acceptances were not repinned.
+
+  .analysis/work/main-character-after592-native-build.json
+  scripts/review_th03_main_character_after592_work.py
 
 ## Start here
 
