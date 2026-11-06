@@ -1,4 +1,4 @@
-# TH03 agent handoff — after580 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after582 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -223,6 +223,29 @@ historical old compiled source record remains untouched; these
 
   .analysis/work/mainl-root-controller-after580-native-build.json
   scripts/review_th03_mainl_root_controller_after580_work.py
+
+## MAINL first-use CDG load C++ source (after582)
+
+The first after581 source TCC/TLINK pairs were exact, but a newly added
+scripts/lib/mainl_*.py helper crossed the historical cold recipe inventory
+glob and made published MAINL acceptance report recipe drift. That
+candidate and all native output/log evidence were retained, not promoted.
+The actual culprit was the *helper basename*, not the source forwarding
+TU. A renamed source-only helper outside that recipe inventory is now
+used for an independently rebuilt after582 stage.
+
+
+Five original C++ CDG image loader/free routines (593 CODE and 35 ordered
+OMF fields) have now been recompiled in two native Turbo C++ rounds using
+their original GAME=3/BINARY='O' first-use flags, with a newly maintained
+source-forwarding TU. Both full original Japanese 67,372-byte decoded
+MAINL EXEs, 677 relocations and MAP coordinates remain exact when linked
+with the after580 original CFG/win/story root, cutscene, Staff, scores,
+sound, CDG ASM and C0/CRT sources. The shared C++ implementation itself
+and old source/Factory receipts remain unchanged. No duplicate credit.
+
+  .analysis/work/mainl-cdg-load-after582-native-build.json
+  scripts/review_th03_mainl_cdg_load_after582_work.py
 
 ## Start here
 

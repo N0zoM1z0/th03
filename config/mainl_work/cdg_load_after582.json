@@ -1,0 +1,17 @@
+{
+  "schema":"th03-mainl-forward-native-CPP-v1",
+  "parent_report":".analysis/work/mainl-root-controller-after580-native-build.json",
+  "parent_report_sha256":"d450a9aed3f668b7a182bbdb5c9892b9980afa5cdbaad06ca2f26780c1cbc35a",
+  "stage":"af582l",
+  "stem":"cdg_load",
+  "source":"src/shared/formats/cdg_load.cpp",
+  "wrapper":"src/mainl/formats/cdg_load_producer.cpp",
+  "original_object":"obj/th03/cdg_load.obj",
+  "game":3, "binary":"O",
+  "CODE_bytes":593, "data_bytes":0, "BSS_bytes":0,
+  "PUBLICs":5, "ordered_fixups":35,
+  "upstream_diagnostic_paths":[["af573c","cutscene"],["af575s","staffdat"],["af578r","regdata"],["af580r","rootdata"]],
+  "historical_raw_OMF_packets_identical":false,
+  "canonical_credit_changed":false,
+  "whole_project_source_accepted":false
+}
