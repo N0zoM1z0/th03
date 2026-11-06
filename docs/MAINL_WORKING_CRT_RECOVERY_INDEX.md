@@ -874,3 +874,11 @@ The [complete ostream FAR pointer and ios formatting boss](MAINL_OSTREAM_POINTER
 adds 135 original CODE bytes with real ios flag masking,
 ulong pointer insertion, restoration of stream state
 and all seven original logical symbolic OMF references.
+
+The [fourteenth cplx2 FAR pow(double,complex) operator](MAINL_CPLX2_POW_SCALAR_COMPLEX_FOURTEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 306 original-equal CODE bytes and a typed exact
+pi double at DATA+36..43; the verified original prefix
+reaches CODE+3531 with 544 matching symbolic OMF fields.
+Two existing direct FAR-call gaps and 473 location-frame
+FPU differences remain disclosed, with zero full-source
+CRT member credit for this partial program.
