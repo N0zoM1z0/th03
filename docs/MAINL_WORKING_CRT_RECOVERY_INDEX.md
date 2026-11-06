@@ -917,3 +917,10 @@ adds 97 byte-exact CODE and four original sentinel DATA
 bytes, with exact conditional usersize expansion and
 four original logical OMF relocation fields. It is a
 distinct complete original module from ios::pword.
+
+The [sixteenth complete cplx2 sin(complex) FAR function](MAINL_CPLX2_SIN_SIXTEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 233 byte-exact CODE and the original typed -0.5
+double at DATA+44, extending source to original CODE+3973.
+All sixteen exports and 612/614 native symbolic OMF fields
+are checked, retaining two local FAR-call and 530
+frame-method-4 differences. No complete CRT-member credit.
