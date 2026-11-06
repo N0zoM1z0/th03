@@ -1,129 +1,82 @@
-# TH03 current protected-storage audit — after520 (2026-11-06)
+# TH03 storage handoff — after554 maintenance (2026-11-06)
 
-**Current source is after533.** This applied after520 audit still protects its
-original evidence prefix, but its deletion guard now fails closed. Retain all
-after521–after533 outputs and scratch until a fresh source-DAG/SHA-256 audit; the
-historical dry-run commands below do not authorize cleanup of the new stage.
+**Validated native source root: after554 / `e7697e1`.** After555 was interrupted
+before any native build; its15 draft files are SHA-verified in the private
+[research archive](AFTER555_UNBUILT_RESEARCH.md). This handoff adds no source
+acceptance and deletes **zero native proof artifacts**.
 
-**This is the latest applied storage audit.** The older after439
-177-stage/4,464-file audit remains intact as a
-[historical record](STORAGE_HANDOFF_AFTER439.md);
-its old guard is NOT the current cleanup tool.
+## Current cleanup boundary
 
-## Active dependency graph: 258 stages, 5,760 protected files
+The last applied **native-deletion** audit is still the historical after520
+prefix:258 stages /5,760 referenced receipt/log/native files. Its root is
+`.analysis/work/mainl-after520-fstreambase-virtual-setbuf-ios-state-build.json`,
+SHA-256 `f32c534f42d520f2c07a3acce769857d01ef310c04c00b419b585bf650994d8e`.
+Those counts are not the complete current after554 dependency graph.
 
-The pinned [after520 audit tool](../scripts/cleanup_mainl_after520_handoff.py)
-follows the live, literal source-parent chain from the sole
-after520 builder back to after317 and its 55 fixed original
-stages. It verifies **258 unique active source-bound stages**
-and enumerates **5,760 live files** from their receipts:
-all source-bound JSON receipts, writer logs, and **both**
-raw OBJ/LIB/EXE/MAP rounds at each stage.
+`cleanup_mainl_after520_handoff.py` deliberately **rejects this checkout** on
+newer source stages. Its old zero-candidate result is historical. Do not run its
+old apply/review/test sequence as a present maintenance recipe. Before deleting
+any native output, a new source-bound DAG audit must include all after521–554
+parents, both raw rounds, source/recipe inputs, actual consumed scratch copies
+and diagnostic manifests, with explicit SHA-256 guards.
 
-Current protected root:
+The after439/388/319-source commands and general `clean_generated.py` analysis
+preview are not substitutes. No age-based sweep, blanket `--apply`, unreferenced
+receipt pruning, native archive compression or hardlink substitution. Preserve
+all targets, Wine/Borland and Ghidra/JDK tools, reference archives and the prefix.
 
-`.analysis/work/mainl-after520-fstreambase-virtual-setbuf-ios-state-build.json`
+## Actually performed in this handoff
 
-SHA-256: `f32c534f42d520f2c07a3acce769857d01ef310c04c00b419b585bf650994d8e`.
+| Operation | Allocated bytes reclaimed | MiB |
+| --- | ---: | ---: |
+| Git repack with `gc --no-prune` | 55,885,824 | 53.30 |
+| Regenerable Python bytecode caches | 11,649,024 | 11.11 |
+| **Immediate total** | **67,534,848** | **64.41** |
 
-Before deletion and again afterward, the audit validates
-source/driver SHA-256 and every active writer log/raw output
-SHA-256. It also checks the original after439 root SHA,
-fails closed if the latest receipt or graph changes, and
-fails closed when any after521+ native source builder
-or receipt appears. New source advances require a **new
-pinned active dependency audit**, not a relaxed old guard.
+Git work used one CPU at nice10 and one packing thread. Object pruning,
+reflog expiry and worktree expiry were disabled. Every one of the17,363
+pre-existing Git object IDs/types/sizes is identical before/after, including
+unreachable objects; `git fsck --full --no-dangling` passed on both sides.
+Documentation commits add new objects afterward without removing old ones.
 
-## Actually deleted: one completed, superseded after506 variant
+The official `scripts/clean_generated.py --caches-only --apply` removed only
+`scripts/__pycache__`, `scripts/lib/__pycache__` and `tests/__pycache__` after a
+preview. It preserved `.analysis`. Python caches regenerate during future
+checks, so this is an immediate measurement, not permanent guaranteed savings.
 
-The finished alternative mode
-`after506 / ios-iword-usersize-array-slot-boss` had
-**15 raw output/log files** outside the active parent
-DAG and not cited in tracked source/documents. The real
-after506 source parent is
-`dos-creat-exitopen-close-callback-boss`, and
-ios::iword was linked by the actual after507 stage.
-The alternative's **small historical JSON receipt remains**;
-its retired raw outputs cannot be inspected/replayed
-without rebuilding that alternative.
+A complete before/after inventory verified **all12,785 existing private work
+files /664,948,935 logical bytes** unchanged by path, size and SHA-256. This is
+preservation of the whole `.analysis/work` tree, **not** a newly certified active
+DAG or permission to prune other files. Both native rounds/logs, diagnostics,
+old ledgers and publication snapshots remain available.
 
-Exactly **15 files** and **1,642,496 allocated bytes
-(1.57 MiB)** were deleted after the pinned guard,
-complete source DAG and every original raw output hash
-were validated. The private manifest preserves each
-deleted relative path, original SHA-256, file size and
-allocated block count:
+Private audit directory: `.analysis/handoff/after554-maintenance/`.
 
-`.analysis/work/handoff-after520-retired-20261106.json`
+- `report.json`: SHA-256
+  `213b898f6811170f6636d93c44c10a6f0a8c84b9db30c50403e452171e3d7a05`.
+- `work-artifacts-before.json`: complete private-work inventory, SHA-256
+  `677819e9e7de00a39fd533b38862d88162fd1826f18e6c30e432401f658a1fab`.
+- `git-objects-before.txt` / `git-objects-after.txt`: byte-identical object
+  inventories, SHA-256
+  `3774963046fd2494538b836fe68b5929afa9053bab3e8dd9578bf3e57b624762`.
+- `run_maintenance.py` and command logs: exact action record. It is a completed
+  one-off operation, not an idempotent or approved native-deletion tool.
 
-Manifest SHA-256: `ffed6609142ed39414970fb15a35f88b467488792cff0ed61f6b705cc7425392`.
+The workspace was approximately3.7 GiB before maintenance. Most allocation is
+useful installed state: about1.3 GiB of Wine Windows files and1.2 GiB of private
+analysis tools. These were retained. Git/cache savings should not be presented
+as deleted native outputs or as a new source-reconstruction milestone.
 
-A second guarded dry-run returned **zero eligible files**.
-The independent source reviewer and the new
-`tests.test_mainl_after520_storage_cleanup` test
-confirm the active receipt DAG remains intact, with
-two byte-identical native Japanese MAINL EXE/MAP rounds,
-67,372 EXE bytes and 677 ordered MZ relocations.
+## Future safe maintenance
 
-## Regenerable cache-only pruning (separate from native evidence)
+```sh
+.venv/bin/python scripts/clean_generated.py --caches-only # preview
+# Apply only the reviewed cache list; never replace this with blanket --apply.
+```
 
-After the active native source/hash review and the focused tests passed,
-the official cache-only maintenance command was executed:
-
-`.venv/bin/python scripts/clean_generated.py --caches-only --apply`
-
-It removed only these three fully regenerable directories:
-
-| Directory | Allocated before cleanup |
-| --- | ---: |
-| `scripts/__pycache__` | 9,024 KiB |
-| `scripts/lib/__pycache__` | 480 KiB |
-| `tests/__pycache__` | 924 KiB |
-| **Total** | **10,428 KiB = 10.18 MiB** |
-
-The cleanup tool reported approximately 9.3 MiB of logical
-file content; the larger 10.18 MiB figure is the actual
-allocated-block total reported by `du` before deletion.
-The three directory trees were absent immediately afterward.
-The command does **not** remove `.analysis` proof data or
-the Wine/toolchain prefix. The action log is retained at:
-
-`.analysis/work/after520-cache-cleanup-applied.txt`
-
-**Total disk allocation reclaimed in this handoff: approximately
-11.75 MiB** (1.57 MiB from audited retired native artifacts,
-10.18 MiB from regenerable caches). Python bytecode will
-regenerate as future tests and reviewers run, so this is
-the immediate savings, not a permanent fixed disk reduction.
-
-## Safe commands and prohibited cleanup methods
-
-~~~sh
-python3 scripts/cleanup_mainl_after520_handoff.py --list     # dry-run; 0 candidates
-PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after520_storage_cleanup -v
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after520_work.py fstreambase-virtual-setbuf-ios-state
-.venv/bin/python scripts/clean_generated.py --caches-only # preview disposable bytecode/cache only
-~~~
-
-The **original Japanese targets, Wine/Borland toolchain,
-Ghidra/JDK, original reference archives, runtime and cold
-evidence, other products, accepted ledgers, and all currently
-protected receipt/log/OBJ/LIB/EXE/MAP files** remain in place.
-No archive compression, hardlink substitution, game-target
-rewriting or unguarded native deletion is authorized.
-
-Do **not** run blanket
-`.venv/bin/python scripts/clean_generated.py --apply`,
-`--prune-unreferenced-receipts`, any historical
-after439/after388 cleanup with bypassed guards,
-or a general file-age sweep. The other data under
-`.analysis/work` is **not automatically disposable**:
-there are legitimate legacy observations, h_ldiv
-alias-order diagnostics, unaccepted experiments and
-independent MAIN/OP/ZUN evidence.
-
-The original after439 audit, including its own
-15-file historical pruning manifest and proofs,
-is [preserved here](STORAGE_HANDOFF_AFTER439.md).
-For authoritative source progress and next work,
-see [current handoff](RE_HANDOFF.md).
+After cleanup, run the current scoped reviewer, tracking/progress checks and
+`git diff --check`; no cold/native rebuild is needed for unchanged source.
+Use [the current handoff](RE_HANDOFF.md) for source roots and next work.
+The exact older15-file deletion and11.75 MiB historical cleanup remain documented
+in [the preserved after520 record](STORAGE_HANDOFF_AFTER520.md), rather than
+being conflated with the present operation.

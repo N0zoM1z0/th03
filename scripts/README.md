@@ -28,6 +28,7 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | OP | `PYTHONPATH=scripts .venv/bin/python -m lib.op_select_native` | Complete two-TU character selection/score-loader CODE, source slices, native fields and ordered relocations. Run from the repository root. |
 | OP | `review_th03_op_entry_data_work.py` | Full cold/cfg/menu/startup/DATA chain; actual nested execution, semantic initialized storage and prior-observation invariance. |
 | OP | `review_th03_op_music_call_work.py` | Native same-CS far-call proof and fresh ordinary-far source control; no Music Room implementation credit. |
+| MAINL | `review_th03_mainl_text_banks_work.py` | **Current after554 selected native review:** validates retained root/picture/text banks and original EXE/ordered relocations; no cold or ancestor-runtime replay. |
 | MAINL | `build_th03_mainl_work.py` | Two complete project/CRT builds, normal TLIB membership/order, decoded/stored equality and lifecycle scopes. |
 | MAINL | `build_th03_mainl_exception_work.py` | Scoped historical new/xalloc/xmsg producer; composes the reviewed 28-provider CRT baseline with retained project inputs, not a current Factory acceptance declaration. |
 | MAINL | `build_th03_mainl_xx_work.py`, `review_th03_mainl_xx_work.py` | Native full-xx object,normal893-member library and actual product candidate;raw-different and unaccepted. Reuse unchanged cold inputs. |
@@ -66,11 +67,11 @@ products before regenerating progress.
 | --- | --- |
 | `probe_th03_main_producers.py` | Unresolved state/shot grouping and alignment controls; no new source credit. |
 | `probe_th03_sound_nop_layout.py` | OP/MAINL natural trailing-byte investigation; annotated assembly controls are not acceptance. |
-| `build_th03_mainl_after520_work.py`, `review_th03_mainl_after520_work.py` | **Current verified working-source CRT:** 728/893 complete original members, 194,292 exact CODE bytes and two byte-exact Japanese MAINL EXE/MAP rounds. |
-| `cleanup_mainl_after520_handoff.py` | **Latest applied protected-storage audit:** 258 active source stages, 5,760 protected files, guarded dry-run by default. Already removed 15 retired alternate-mode files and now previews zero eligible; fails closed after521+. |
+| `build_th03_mainl_after520_work.py`, `review_th03_mainl_after520_work.py` | **Historical after520 source stage**, retained as a native dependency; not the current entrypoint. Current library binding is893/893 slots; selected MAINL link is after554. |
+| `cleanup_mainl_after520_handoff.py` | **Historical applied deletion audit:** protects its258-stage/5,760-file prefix; now rejects after521+ source. The old zero-candidate preview does not authorize cleanup here. |
 | `cleanup_mainl_after439_handoff.py`, `cleanup_mainl_after388_handoff.py` | **Historical frozen cleanup guards**, not current deletion commands; deliberately reject this checkout. |
 | `clean_generated.py` | General analysis preview is **not** a dependency oracle for the live CRT; avoid blanket `--apply`. `--caches-only --apply` removes only regenerable caches/build outputs. |
-| `closeout_cleanup.py` | Receipt-based cleanup planning/application with input/reference drift checks. |
+| `closeout_cleanup.py` | Generic receipt-based planning; not an oracle for the native source-DAG dependencies. |
 | `import_targets.py`, `bootstrap_toolchain.sh`, `bootstrap_analysis_toolchain.sh` | Initial private input/tool installation. |
 
 Historical replay/probe helpers can refer to deliberately deleted private runs.
@@ -80,5 +81,6 @@ Do not move frozen scripts merely to reorganize navigation; current recipes pin
 paths and hashes. Product manifests and scoped observations are authoritative.
 
 Keep heavy work headless, on one CPU at nice10, with one Borland/Wine writer.
-Preserve the prefix, fixed inputs, installed tool trees and one current build per
-product. Source/proof code lives in `scripts/lib/`; behavior tests are in `tests/`.
+Preserve the prefix, fixed inputs, installed tool trees and the entire active
+source-bound receipt DAG, including both complete raw rounds and writer logs
+at every retained stage. Source/proof code lives in `scripts/lib/`; behavior tests are in `tests/`.

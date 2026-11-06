@@ -24,7 +24,7 @@
 
 ## Latest protected-storage policy
 
-The latest after520 CRT has an independently audited
+The last applied native-deletion audit covers the after520 CRT prefix:
 **258-stage, 5,760-file active native proof graph**. Use
 [the current storage policy](STORAGE_HANDOFF_CURRENT.md)
 and the pinned `cleanup_mainl_after520_handoff.py` for
@@ -62,7 +62,7 @@ Use direct local tools, as explicitly authorized by the user. Empty displays,
 one CPU at nice10 and serialized Borland/Wine writers remain the resource policy:
 
 ```sh
-th03_cpu=16  # choose an allowed CPU on another host
+th03_cpu="$(python3 -c 'import os; print(min(os.sched_getaffinity(0)))')"
 th03_run() {
   taskset -c "$th03_cpu" nice -n 10 env DISPLAY= WAYLAND_DISPLAY= \
     _JAVA_OPTIONS='-Xmx768m -XX:ActiveProcessorCount=1' .venv/bin/python "$@"
@@ -89,8 +89,8 @@ CODE alignment/header differences.
 
 ## Working files and retention
 
-The [latest applied after520 storage audit](STORAGE_HANDOFF_CURRENT.md)
-protects **258 live stages / 5,760 uniquely referenced receipt,
+The [latest applied after520 deletion audit](STORAGE_HANDOFF_CURRENT.md)
+protects its historical prefix of **258 stages / 5,760 uniquely referenced receipt,
 writer-log and native output files**, with both full raw
 OBJ/LIB/EXE/MAP rounds retained. The older after439 audit
 (177 stages / 4,464 files) is
@@ -103,10 +103,10 @@ runtime/cold evidence and the original reference.tar.
 The general scripts/clean_generated.py preview is NOT a
 complete native proof dependency graph; do not blanket-apply
 it or use unreferenced-receipt pruning. The pinned
-scripts/cleanup_mainl_after520_handoff.py uses a current
-source-DAG and SHA-256 guard, and now reports zero remaining
-eligible files after deleting 15 completed superseded alternative
-mode artifacts. The after439/after388 cleanup scripts are
+scripts/cleanup_mainl_after520_handoff.py used the then-current source DAG
+and deleted15 completed superseded alternative-mode artifacts. It now rejects
+this after554 checkout; the historical zero-candidate result is not a current
+cleanup authorization. The after439/after388 cleanup scripts are
 frozen historical controls. New after521+ source stages require
 another independently audited active DAG and guard. Cache-only
 cleanup is separately available for fully regenerable Python

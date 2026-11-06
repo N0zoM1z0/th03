@@ -41,7 +41,7 @@ source/function denominators remain unknown.
 
 ## Native builds
 
-| Product | Current builder | Working tree in Wine `drive_c/` |
+| Product | Cold/staging builder | Working tree in Wine `drive_c/` |
 | --- | --- | --- |
 | MAIN | `build_th03_main_work.py` / `replay_th03_main_native.py` | TH03WORK |
 | OP | `build_th03_op_work.py` | TH03OP |
@@ -52,10 +52,10 @@ Each builder recreates source and rebuilds its game objects in two independent
 rounds. MAIN additionally re-extracts its one explicitly pinned VS vendor module
 with native TLIB in each round;installed CRT/runtime remain vendor context.
 Current reports live in `.analysis/work/`. MAINL uses native TLIB extraction and
-rebuild without changing the893-member order. The accepted normal-library pair
-has28 source providers and reused cold project objects. The separate full-xx
-candidate adds provider29 and links the actual product,but is raw-different and
-unaccepted. See [xx product review](MAINL_XX_PRODUCT_REVIEW.md);do not replace the
+rebuild without changing the893-member order. The historical cold normal-library
+pair had28 source providers; that is not the current source-bound library count.
+The separate historical full-xx candidate added provider29 and linked the actual
+product, but was raw-different and unaccepted. See [xx product review](MAINL_XX_PRODUCT_REVIEW.md);do not replace the
 accepted publication with that candidate.
 
 The full-xx candidate uses actual BCC4.5 `-c -y` objects. Separate `-S` output
@@ -65,10 +65,11 @@ Named instruction intrinsics cover unsupported386 operations;all addresses keep
 compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
 library and product layout;no object/ASM patch supplies product bytes.
 
-The current working runtime chain is after548, separate from that frozen
-accepted publication. Its 893-slot source-bound library and source-generated
-C0 now link both MAINL and OP with complete original decoded-file equality;
-OP also repeats the original packed file. Actual selected CRT material is
+Shared-runtime evidence ends at after548. The current MAINL selected source
+link is after554, retaining root552, picture table553 and both text banks554.
+Its 893-slot source-bound library and source-generated
+C0 link both MAINL and OP with complete original decoded-file equality;
+OP's original packed-file proof is retained from the earlier packing stage. Actual selected CRT material is
 75/76 members, respectively. The shared `src/shared/crt/dos_exec.asm` corrects
 the real original LIDATA initialization and four literal frames; historical
 `src/mainl/crt/exec.asm` stays as an unchanged ancestor input. See the
@@ -80,8 +81,9 @@ records, 623 initialized CODE/144 DATA bytes, two true CODE cache holes and
 128 reserved STACK bytes. Native TASM is retained; the tested compatible JWasm
 entry/frame changes are rejected. C0 PUBLIC packets agree as sets but remain
 unordered. See the [latest native review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md).
-Future stages must reuse after548's actual startup pair, retaining after535 as
-the frozen baseline. All 893 library members stay unchanged from after547;
+Future stages must reuse after548's actual startup pair and the after554
+report's actual root/picture/text-bank objects; retain after535 as the frozen
+startup baseline. All 893 library members stay unchanged from after547;
 C++ exception owners retain 2,117 CODE/296 DATA bytes and 89 ordered fields.
 Their reviewed PUBLIC packing differences and four BSS bytes remain explicit.
 `stdio_buffer.asm` still has two MOV operand pairs in the wrong fixup order,
@@ -91,8 +93,8 @@ refinements add no authored-function or whole-product acceptance credit.
 A separate MAINL input candidate in `src/mainl/hardware/input_scan.asm` reproduces
 all 417 instruction bytes and 42 ordered fields of the held-key scan. The
 following target 90 byte has no adopted source owner; its omission changes
-later addresses, so the whole-product candidate is unaccepted and after548
-remains active. A read-only audit locates project allocations outside published
+later addresses, so the input candidate remains unaccepted. The active after554
+link retains the previous contextual input object. A read-only audit locates project allocations outside published
 decoded scopes without interpreting tables, alignment or BSS as missing code.
 See the [input candidate review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
 

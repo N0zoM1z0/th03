@@ -11,7 +11,7 @@ This repository reconstructs the original Japanese PC-98 **Touhou 3:
 Phantasmagoria of Dim.Dream**. Work covers OP.EXE, MAIN.EXE, MAINL.EXE (the ending)
 and ZUN.COM. Reconstruction and whole-product source acceptance remain open.
 
-[Generated progress](docs/PROGRESS.md) distinguishes canonical packed-unit ledger counts from separately reviewed decoded source acceptance. The independent working-source CRT can reproduce the decoded MAINL EXE/MAP without granting any new formally accepted ledger units; see the handoff for the current source-module count.
+[Generated progress](docs/PROGRESS.md) distinguishes canonical packed-unit ledger counts from reviewed decoded source acceptance. The selected native link reproduces the original decoded MAINL EXE; its MAP layout and reviewed differences are checked separately. This does not grant canonical packed-unit acceptance. See the handoff for current source ownership.
 [The handoff](docs/RE_HANDOFF.md) records the latest verified checkpoint,
 remaining work, local state and findings for the next agent. Source-present,
 bounded exact source scopes and target-equal complete builds are separate claims;
@@ -37,8 +37,8 @@ Use the existing `.venv`, installed tools and game-local Wine prefix.
 git diff --check
 ```
 
-CPU 16 is available on the current machine; select one allowed CPU on another
-host. Serialize Borland/Wine writers. The [workflow](docs/RE_WORKFLOW.md) lists
+Choose one CPU allowed by `os.sched_getaffinity(0)`; do not assume a fixed host
+CPU number. Serialize Borland/Wine writers. The [workflow](docs/RE_WORKFLOW.md) lists
 affected cold/review/publication commands. Check the changed native scope and
 reuse an unchanged cold pair. Full `scripts/ci.py` is available for broad
 infrastructure changes; it is not a routine per-unit requirement. Re-attest a
@@ -70,46 +70,40 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
 ## Maintenance and handing off
 
-The concise [current handoff](docs/RE_HANDOFF.md) is the
-**after533** entrypoint: **889/893 original CRT members** and
-**209,016 original-equal CODE-segment bytes** in the Japanese MAINL
-working-source link, with two complete byte-exact EXE/MAP
-native rounds. These counts cover explicit incremental CRT member receipts;
-earlier cold-source owners remain separately tracked. This does not imply formal Factory canonical
-packed-file acceptance, which remains 0/250 for MAINL.
+The [current handoff](docs/RE_HANDOFF.md) starts at the validated **after554**
+MAINL link, retaining the after548 shared runtime. MAINL has **220 reviewed
+extents / 290 procedures / 37,968 source bytes**. The compiler library has
+**893/893 source-bound slots / 209,272 CODE-extent bytes**, including unlinked
+members; those totals are not authored-game credit or a whole-game denominator.
+Formal MAINL canonical Factory acceptance remains **0/250**.
 
-The [latest applied storage audit](docs/STORAGE_HANDOFF_CURRENT.md)
-protects the audited after520 prefix: **258 source stages and 5,760
-receipt/log/raw native output paths**. After521–after533 outputs are also retained;
-the old deletion guard now refuses cleanup until a fresh audit. The audit
-removed just 15 completed superseded alternative-mode files and kept the original SHA-256 manifest.
-The [after439 cleanup](docs/STORAGE_HANDOFF_AFTER439.md) is
-historical, NOT the newest storage audit. A separate safe cache-only
-cleanup removed regenerable Python bytecode, for a combined immediate
-**11.75 MiB allocated-space reduction**; see the retained
-[after520 audit and deletion manifest](docs/STORAGE_HANDOFF_CURRENT.md).
+The unfinished after555 research was archived outside the product tree; it was
+never built or accepted. Read its [research note](docs/AFTER555_UNBUILT_RESEARCH.md)
+before restoring any draft. Historical recipes and evidence remain frozen.
 
-~~~sh
+```sh
 git status -sb
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after533_work.py locale-tables-aliases-twelve
-# after520 deletion guard is blocked by the new after521+ stages; do not apply it.
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_text_banks_work.py
 .venv/bin/python scripts/clean_generated.py --caches-only # optional preview
-~~~
+```
 
-Do not blanket-apply `clean_generated.py --apply` or prune
-unreferenced receipts; never delete active raw OBJ/LIB/EXE/MAP
-rounds and their logs based on age. After a new after521+
-native source stage, the pinned after520 cleanup **fails
-closed** and requires a fresh source-DAG/hash audit.
-Preserve original targets, Wine/Borland tools, Ghidra/JDK,
-source provenance, previous product cold evidence, ledgers
-and the original reference archives. Avoid routine full
-cold replay when unaffected. Record substantial progress
-with `gpt-web: xxx` commits. Do not push unless requested.
+The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) separates the historical
+applied after520 deletion audit from current after554 evidence. The old deletion
+guard **rejects this checkout**; its 258-stage / 5,760-file count describes the
+old prefix, not today's complete DAG. Native output pruning requires a fresh
+source-DAG/hash audit. Cache-only cleanup leaves `.analysis` intact. The latest
+handoff maintenance also repacks Git with `--no-prune` and verifies that every
+Git object and every private work artifact remains present and unchanged.
 
-For previous source details, consult the
-[historical recovery index](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md)
-and [archived long handoff](docs/RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
+Preserve targets, Wine/Borland tools, Ghidra/JDK, both complete raw native rounds,
+writer logs, source provenance and reference archives. Never blanket-apply
+`clean_generated.py --apply`, prune unreferenced receipts or infer disposability
+from age. Avoid unchanged full cold/runtime replay. Commit substantive work as
+`gpt-web: xxx`; push only when requested.
+
+Historical details: [after554 handoff archive](docs/RE_HANDOFF_ARCHIVE_AFTER554.md),
+[after520 storage record](docs/STORAGE_HANDOFF_AFTER520.md) and
+[CRT recovery index](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
 
 ## Credits
 

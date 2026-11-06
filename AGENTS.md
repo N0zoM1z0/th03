@@ -33,7 +33,8 @@ when starting a session or when the environment/targets change.
   The latest applied storage audit is the pinned after520 guard:
   `docs/STORAGE_HANDOFF_CURRENT.md` and
   `scripts/cleanup_mainl_after520_handoff.py` (258 active stages,
-  5,760 protected evidence files). The old after439 storage audit
+  5,760 protected evidence files in its historical prefix, not the entire
+  current graph; see the handoff for the latest native root). The old after439 storage audit
   remains historical; any after521+ source layer requires a fresh
   source-DAG and SHA-256 audit before deleting any native outputs. The after388/511-source and earlier 319-source reports and
   cleanup commands are historical; do not apply them to this checkout. General clean_generated previews are not an oracle
