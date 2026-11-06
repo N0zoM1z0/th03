@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after537)
+# TH03 — current agent handoff (2026-11-06; shared runtime after538)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after537**; latest independently applied storage audit: **after520**.
+**after538**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -16,12 +16,13 @@ The former long handoff remains in
 | Shared exec source correction | **255 initialized work bytes + four literal frames** |
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
-| Fresh two-product native output rounds | **2; all seven raw outputs repeat** |
+| Fresh two-product native output rounds | **2; all ten raw outputs repeat** |
+| Newly corrected runtime fields / GROUP | **10 near frames / setblock membership** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
-| MAINL MAP | **80,967 bytes; exact after536 equality** |
+| MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
 | OP decoded EXE / ordered MZ relocations | **63,866 bytes / 607; original raw equality** |
-| OP canonical packed file | **36,041 bytes; original raw equality** |
-| OP MAP | **68,078 bytes; two zero-extent rows explicitly reviewed** |
+| OP canonical packed file | **36,041 bytes; original proof reused from after537** |
+| OP MAP | **68,078 bytes; complete historical cold MAP raw equality** |
 | Formal Factory MAINL canonical unit acceptance | **0/250, unchanged** |
 
 Library totals are not authored-game credit or a whole-game denominator. The
@@ -29,7 +30,37 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after537-build.json`.
+Latest root: `.analysis/work/runtime-after538-build.json`.
+SHA-256: `7647b0fdf6bc43c769d526422cad48907d1e58c0d31260766b0a7936f61cbb07`.
+Producer/reviewer: `scripts/build_th03_runtime_after538_work.py` and
+`scripts/review_th03_runtime_after538_work.py`.
+See the [near-frame/native MAP review](SHARED_RUNTIME_NEAR_FRAMES_AFTER538_NATIVE_REVIEW.md).
+
+The five live refined owners in `src/shared/crt/` are `heap_break.asm`,
+`dos_write.asm`, `execl.asm`, `load_program.asm`, `dos_resize.asm`. The first
+four use pinned compatible JWasm; setblock retains TASM and its correct original
+CODE frame0. All 1,648 existing CODE / 42 DATA bytes and 77 complete per-site
+literal fields agree with real original CL.LIB. All import orders, public
+ownership, GROUP and segment attributes agree. Ten near frames and setblock's
+GROUP are corrected; **zero new member/CODE-extent credit**. execl's two fields
+and setblock's one field are ordered-equal; fbrk/write/loadprog still have order
+gaps. Private helpers remain PRIVATE: the first diagnostic candidate's extra
+helper exports were rejected and preserved, not adopted.
+
+Both ten-file native rounds repeat. All 888 other source programs and 893 slots
+are unchanged. MAINL/OP whole EXEs remain original-exact; OP's complete MAP now
+also equals its original cold MAP. MAINL's MAP differs from after537 only by
+removing zero-sized fbrk BSS at 0E3F:2872 and adding zero-sized setblock BSS at
+0E3F:2880; every material row and other byte is equal. The two actual after537
+packed OP proofs are reused; no new packing run is represented. No game object,
+native cold graph or ancestor runtime model is rebuilt.
+
+All twenty raw outputs and seventeen native logs use `runtime-after538-*`.
+Actual sources, includes, recipe/profile and response pairs remain in both
+`TH03ML/probe/af538l` and `TH03OP/probe/af538l`. All bounded probes af538a–k,
+failed candidates, raw outputs, sources and logs remain. No cleanup ran.
+
+Retained shared-exec / first OP bridge root: `.analysis/work/runtime-after537-build.json`.
 SHA-256: `ee5fcbe49af194eab79fe96234fcf23a627e91a114b6d3e2032891b1cdbeab2c`.
 Producer: `scripts/build_th03_runtime_after537_work.py`.
 Independent reviewer: `scripts/review_th03_runtime_after537_work.py`.
@@ -74,32 +105,29 @@ No output cleanup occurred.
 
 ## Next bounded work
 
-Prioritize real selected-runtime exactness gaps, not unlinked library counts.
-The current diagnostic inventory is
-`.analysis/work/runtime-after537-selected-literal-field-audit.json` (and `.txt`).
-Among OP's 76 actual members, 56 have equal literal streams, 16 differ in order,
-and four have per-site attributes differing from actual original CL.LIB:
+Prioritize actual selected-runtime order gaps, not unlinked library counts.
+The current retained diagnostic is
+`.analysis/work/runtime-after538-selected-literal-field-audit.json` / `.txt`.
+All 76 selected OP members now have identical raw per-site field attributes:
+57 literal streams are equal, 19 differ only in order. This is an investigation
+queue, not source credit. The order-only members are abort, atexit, dosenv,
+exit, ioerror, xxv, fbrk, signal, fflush, flushall, fseek, fullpath, setvbuf,
+write, xfflush, xalloc, xmsg, doscmd and loadprog. C0's 58-field order also stays
+open. Never sort an emitted list and then call it literal ordered equality.
 
-- `fbrk`: six near-call frame differences.
-- `write`: CODE+23 near `__IOERROR` frame.
-- `execl`: CODE+26 near `__LoadProg` frame.
-- `loadprog`: CODE+633/+754 near `__DOSCMD` / `__DOSENV` frames.
+A bounded next question is the 20-byte abort wrapper: raise SIGABRT(22), then
+__abort; it saves SI/DI and has no BP frame. Inspect actual original code/fields
+and `src/mainl/crt/abort.asm`. Consider natural C/native compiler emission for
+its two reverse-ordered FAR fields, but verify complete code/ABI and do not
+invent dummy register uses, padding or original-compiler identity. The earlier
+TASM CS-assumption/far-cast probes did not change near frames; do not repeat
+those unchanged attempts. Use original CL.LIB, never the 28-source carrier.
 
-Those ten fields use original TARGET frame5 versus native CODE frame0. Start
-with actual source/import placement and actual original fields; the successful
-exec correction shows why putting externs in a segment can create the wrong
-frame. Do not assume moving a declaration also preserves emission order: check
-all complete ordered fields and raw storage. Keep both native streams literal;
-never silently normalize frames or reorder object output. This inventory is an
-investigation queue, not added source-exact credit. C0's 58-field order and
-ioerror's five-field order also remain open. Earlier unchanged C/alias/two-pass
-ioerror attempts did not close its order; do not repeat them without new evidence.
-
-Extend **after537**, not after533/536: those older libraries lose the corrected
-exec initialization/frames. Call the latest reviewer once, then read its actual
-retained pair. It validates the unchanged source receipt DAG and parent tool /
-include / raw-frame bindings without ancestor runtime models. Keep frozen
-sources and old recipes intact; use a new bounded owner TU when necessary.
+Extend **after538**, preserving corrected exec and all five refined owners.
+Call the latest reviewer once; it validates the complete unchanged source DAG,
+not ancestor runtime chains. All historical TUs/recipes remain frozen; use new
+bounded shared owners as needed. Earlier 893-slot totals and partial bosses are
+not missing-source queues or whole-game percentages.
 
 ## Required retained parents and reviewed MAP limits
 
@@ -121,9 +149,9 @@ sources and old recipes intact; use a new bounded owner TU when necessary.
   Older cplx2, isteldbl and h_ldiv bosses are already complete source owners;
   their historic partial candidates are not additional missing functions.
 
-OP's new MAP differs from historical OP only by adding zero-sized fbrk BSS at
-0D7F:2502 and omitting zero-sized setblock BSS at 0D7F:2510. Every material
-row and every other byte agree. Do not overwrite historical MAPs or demand
+After537's OP MAP had two zero-BSS row differences; after538's OP MAP is now
+raw-equal to the historical cold MAP. The current MAINL zero-BSS row review is
+recorded above; material ownership and all other bytes remain unchanged. Do not overwrite historical MAPs or demand
 raw equality to a different reviewed empty-segment/alias enumeration. Neither
 MAP is patched or broadly normalized. Source acceptance stays separate from
 native output equality; all remaining literal OMF gaps remain explicit.
@@ -136,7 +164,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after537_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after538_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check

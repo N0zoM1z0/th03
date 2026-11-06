@@ -1,0 +1,58 @@
+{
+  "schema": "th03-shared-near-frames-after538-v1",
+  "original_compiler_library_sha256": "7d53ed1864b8b778040aa8203ebe4e01385112d9b3f134744a461aec0b171ba7",
+  "compatible_profile": "config/th03_zun_driver_jwasm.toml",
+  "compatible_flags": [
+    "-nologo",
+    "-Cp",
+    "-omf"
+  ],
+  "tasm_flags": [
+    "/m",
+    "/mx",
+    "/kh32768",
+    "/t"
+  ],
+  "original_assembler_identified": false,
+  "source_paths": {
+    "fbrk": "src/shared/crt/heap_break.asm",
+    "write": "src/shared/crt/dos_write.asm",
+    "execl": "src/shared/crt/execl.asm",
+    "loadprog": "src/shared/crt/load_program.asm",
+    "setblock": "src/shared/crt/dos_resize.asm"
+  },
+  "slots": {
+    "fbrk": 167,
+    "write": 331,
+    "execl": 346,
+    "loadprog": 891,
+    "setblock": 363
+  },
+  "includes": [
+    "src/mainl/crt/crt_errno.inc",
+    "src/mainl/crt/stdio_layout.inc"
+  ],
+  "compatible_members": [
+    "fbrk",
+    "write",
+    "execl",
+    "loadprog"
+  ],
+  "tasm_members": [
+    "setblock"
+  ],
+  "literal_order_equal": {
+    "fbrk": false,
+    "write": false,
+    "execl": true,
+    "loadprog": false,
+    "setblock": true
+  },
+  "literal_fields": {
+    "fbrk": 33,
+    "write": 9,
+    "execl": 2,
+    "loadprog": 32,
+    "setblock": 1
+  }
+}
