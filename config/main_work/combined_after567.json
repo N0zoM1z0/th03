@@ -1,0 +1,18 @@
+{
+  "schema": "th03-main-combined-after567-v1",
+  "parent_reports": {
+    "chiyuri": [".analysis/work/main-chiyuri-after559-native-build.json", "7a71a981f5832449198b7c8ba4e79000bcdac2e5b3149ac35a5049e1c5c52d5c"],
+    "eight_bosses": [".analysis/work/main-eight-boss-after561-native-build.json", "dd895851b5f7a4c76541d1e6f197e7f074a0156093efc182de5ba86ccbd61d0a"],
+    "input_scan": [".analysis/work/main-input-after565-native-build.json", "4e91a76518fab1c25aa7b448606cbdbba37ca689af2bcfb764389fd8a9d12830"]
+  },
+  "normal_link_response_sha256": "ee55a006acf91d006d4de43cf67df6885818dcb6c8d817a7a6a0a6f5a63f7f53",
+  "boss_stems": ["ba_chiyu", "ba_yumem", "ba_kana", "ba_mima", "ba_reimu", "ba_koto", "ba_ellen", "ba_rikak", "ba_maris"],
+  "input_stem": "input_s",
+  "normal_link_project_objects": 99,
+  "replacement_objects": 10,
+  "reused_project_objects": 89,
+  "original_target_program_bytes": 124642,
+  "original_target_relocations": 1553,
+  "whole_original_EXE_file_accepted": false,
+  "canonical_factory_credit_changed": false
+}
