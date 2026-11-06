@@ -4,7 +4,7 @@
 | --- | ---: | ---: | ---: | ---: | ---: |
 | th03-op | 36041 | 61 | 0 | 0 | 0 |
 | th03-main | 130882 | 106 | 106 | 459 | 78737 |
-| th03-mainl | 37975 | 257 | 0 | 0 | 0 |
+| th03-mainl | 37975 | 259 | 0 | 0 | 0 |
 | th03-zun | 16242 | 77 | 0 | 0 | 0 |
 
 **Reading this table:** Target bytes are the pinned original packed-file sizes, not decoded native EXE sizes. Source-present units count existing source paths; ledger exact units/owned bytes count only the canonical packed-file unit ledger. An exact-function count is a separately reviewed function scope, not a whole-executable percentage.
@@ -18,6 +18,6 @@ OP decoded publication: installed.
 
 OP current decoded source acceptance: 60 extents / 92 procedures / 14,985 bytes (13,221 CODE + 1,764 initialized DATA). Validated source-only cold pair and complete native ownership/ABI pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
-MAINL current decoded source acceptance: 218 extents / 290 procedures / 37,305 bytes (34,431 CODE + 2,868 initialized DATA + 6 uninitialized file DATA). Accepted source comprises 17,054 authored and 20,251 library bytes. Complete native ownership/ABI and the retained source-only cold pair are validated. Earlier runtime observations remain supporting history, not a per-unit test requirement. Unowned context, physical devices and whole-product source ownership remain open; canonical packed-file unit credit is unchanged.
+MAINL current decoded source acceptance: 220 extents / 290 procedures / 37,968 bytes (34,431 CODE + 3,531 initialized DATA + 6 uninitialized file DATA). Accepted source comprises 17,717 authored and 20,251 library bytes. Complete native ownership/ABI and the retained source-only cold pair are validated. Earlier runtime observations remain supporting history, not a per-unit test requirement. Unowned context, physical devices and whole-product source ownership remain open; canonical packed-file unit credit is unchanged.
 
 ZUN current decoded source acceptance: 77 extents / 89 procedures or entries / 6,179 CODE + 2,456 DATA bytes. Accepted bytes comprise 2,179 authored, 1,390 original ASM and 5,066 library bytes. Complete native ownership/layout, ordered relocations and the retained source-only cold pair are validated. Earlier runtime observations remain supporting history. Twelve reserved DATA bytes and physical devices remain open. Original source/assembler identity, canonical packed-file unit credit and whole-product source ownership remain unchanged.

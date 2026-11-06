@@ -1,0 +1,33 @@
+{
+  "schema": "th03-mainl-text-banks-after554-v1",
+  "parent_report": ".analysis/work/picture-files-after553-build.json",
+  "parent_report_sha256": "1b4c3f0d4d82364afea5d1fb78fdab81b7d9ddd6de3ef4b0bcac88ca4f3a771b",
+  "encoding": "cp932",
+  "inputs": [
+    "src/mainl/data/registration.asm",
+    "src/mainl/data/ending_text.asm",
+    "src/mainl/hiscore/regi_codes.inc"
+  ],
+  "units": [
+    {
+      "name": "registration",
+      "source": "src/mainl/data/registration.asm",
+      "module": "regpre.asm",
+      "object": "obj/th03/regpre.obj",
+      "DATA_bytes": 303,
+      "context_DATA_bytes": 304,
+      "fields": 2
+    },
+    {
+      "name": "ending",
+      "source": "src/mainl/data/ending_text.asm",
+      "module": "regtail.asm",
+      "object": "obj/th03/regtail.obj",
+      "DATA_bytes": 360,
+      "context_DATA_bytes": 360,
+      "fields": 0
+    }
+  ],
+  "whole_product_accepted": false,
+  "canonical_credit_changed": false
+}

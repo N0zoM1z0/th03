@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; MAINL pictures553 / root552 / shared runtime548)
+# TH03 — current agent handoff (2026-11-06; MAINL text554 / pictures553 / root552 / shared runtime548)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after553** (MAINL picture table, retaining root552), **after548** (shared runtime/OP); latest independently
+**after554** (MAINL text banks, retaining pictures553/root552), **after548** (shared runtime/OP); latest independently
 applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
@@ -21,11 +21,11 @@ The former long handoff remains in
 | Latest closed literal-order gaps | **C0 startup: all 58 fields ordered-equal** |
 | Partial setvbuf refinement | **all bytes/per-site fields equal; two MOV pairs still unordered** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
-| MAINL MAP | **81,039 bytes; explicit picture-table contributor changes from after552** |
+| MAINL MAP | **81,039 bytes; only registration DATA304→303 from after553** |
 | OP decoded EXE / ordered MZ relocations | **63,866 bytes / 607; original raw equality** |
 | OP canonical packed file | **36,041 bytes; original proof reused from after537** |
 | OP MAP | **68,078 bytes; complete historical cold MAP raw equality** |
-| MAINL reviewed decoded source scopes | **218 extents / 290 procedures / 37,305 bytes** |
+| MAINL reviewed decoded source scopes | **220 extents / 290 procedures / 37,968 bytes** |
 | Formal Factory MAINL canonical unit acceptance | **0/250, unchanged** |
 
 Library totals are not authored-game credit or a whole-game denominator. The
@@ -63,7 +63,7 @@ OP's consumed C0/library/responses/outputs in `TH03OP/probe/af548h`.
 
 **Subsequent stages must reuse `rounds[i].outputs.startup` from this after548
 root**, plus its unchanged library references. MAINL additionally reuses the
-root OBJ from after552 and picture-table C OBJ from after553 below. The old helper expression
+root OBJ from after552, picture C OBJ from after553 and both text-bank OBJs from after554 below. The old helper expression
 `base.parent.parent.REPORT` still points to historical after535 and would undo
 the startup order refinement. Keep that old pair as baseline evidence.
 
@@ -167,7 +167,7 @@ No output cleanup occurred.
 
 ## New input candidate and ownership queue (after549)
 
-The input candidate remains outside the active **after553** exact-output root.
+The input candidate remains outside the active **after554** exact-output root.
 `src/mainl/hardware/input_scan.asm` recovers the complete 417-byte / 115-instruction
 MAINL function with all 42 ordered native fields, external state and true RETF
 boundary. It uses no register self-assignment or hand-filled trailing NOP.
@@ -183,7 +183,7 @@ Producer/reviewer: `build_th03_mainl_input_scan_work.py` /
 af549h consumed inputs and both actual after548 C0/library references. See the
 [input review](MAINL_INPUT_SCAN_AFTER549_NATIVE_REVIEW.md).
 
-The read-only `audit_th03_mainl_ownership_gaps.py --check` now binds all **218**
+The read-only `audit_th03_mainl_ownership_gaps.py --check` now binds all **220**
 published owners to target bytes and36 project objects. After551 leaves **716
 project CODE-allocation bytes across9 contributions** outside publication
 (after550:807/11; after549:905/13). This is not a missing-function count:
@@ -262,6 +262,35 @@ AX0006 results were bridge errors, not proof of OMF incompatibility. Preserve
 `probe/link553/` including all DOS inputs/logs/outputs; do not repeat these flags
 or adopt the partial file. No target/header patches or manual tail fill.
 
+## Selected MAINL semantic text/state banks (after554)
+
+`src/mainl/data/registration.asm` and `ending_text.asm` replace generated DATA
+context with303+360 maintained bytes and61 readable strings. UTF-8 source is
+reversibly staged as CP932/CRLF; the local REGI alphabet preserves all72 sprite
+IDs. Four zero hold words and both full ordered near-pointer fields agree.
+All117 PUBLIC definitions/packet sets agree; ending's emitted PUBLIC order
+still differs and is explicitly retained. No original-game standalone OBJ claim.
+
+Both two-OBJ/EXE/MAP rounds repeat; whole original EXE and677 ordered MZ
+relocations agree. MAP81039 differs from after553 only in registration DATA
+extent304→303. The historical extra final zero is excluded: current TLINK's
+following WORD alignment supplies one zero at0E3F:0A5D, still unowned.
+All220 accepted extents total37,968 bytes; procedures stay290. See the
+[text/state review](MAINL_TEXT_BANKS_AFTER554_NATIVE_REVIEW.md).
+
+Current root `.analysis/work/text-banks-after554-native-build.json`, SHA256
+`e498f16501b5b4d1c0f56a73fb65e4c87af607502da12b21730fd1a6eedafd89`.
+Producer/reviewer: `build_th03_mainl_text_banks_work.py` /
+`review_th03_mainl_text_banks_work.py`. Retain both new OBJs, actual after553
+picture OBJ, after552 root and after548 C0/library;32 cold game objects remain
+unchanged. Keep eight fresh outputs/six logs, af554b inputs and the18-file
+`probe/text554/manifest.json`. The failed af554a DOS `tasm` launch precedes
+all native output; actual TASM32 works directly. No cold replay or cleanup.
+
+The remaining project DATA queue is now1864 bytes within `th03_mainl.asm`, plus
+the unowned single registration trailing byte. Recover the former from semantic
+declarations/consumers; do not turn the latter into hand-filled source padding.
+
 ## Next bounded work
 
 Prioritize the input trailing-byte provenance and concrete project ownership
@@ -288,7 +317,7 @@ The source-ordered PUBLIC-queue method is now proved through actual linked
 CODE/DATA interleaving. Preserve record-packing differences explicitly and
 prebind backward branch labels before separately scheduled test spans when
 needed; require every original byte/field and one-write initialized coverage.
-Historical TUs/recipes stay frozen. Extend **after553 for MAINL**, retaining
+Historical TUs/recipes stay frozen. Extend **after554 for MAINL**, retaining
 after548 shared runtime/C0 and all earlier live refinements. These remain existing owners, not missing
 functions or whole-game progress counts.
 Call the latest root reviewer once; it validates retained source/native inputs
