@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after540)
+# TH03 — current agent handoff (2026-11-06; shared runtime after541)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after540**; latest independently applied storage audit: **after520**.
+**after541**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -17,7 +17,7 @@ The former long handoff remains in
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
 | Fresh two-product native output rounds | **2; all seven raw outputs repeat** |
-| Latest closed literal-order gaps | **flushall + xfflush: all five fields ordered-equal** |
+| Latest closed literal-order gaps | **fflush + fseek: all eight fields ordered-equal** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
 | MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
 | OP decoded EXE / ordered MZ relocations | **63,866 bytes / 607; original raw equality** |
@@ -30,30 +30,44 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after540-build.json`.
-SHA-256: `568fed759f13881ea179eb3d874afaa49e1c1ae5b8022c78ebf5dbebf4bb776a`.
-Producer/reviewer: `scripts/build_th03_runtime_after540_work.py` and
-`scripts/review_th03_runtime_after540_work.py`.
-See the [stdio iteration review](SHARED_STDIO_ITERATION_AFTER540_NATIVE_REVIEW.md).
+Latest root: `.analysis/work/runtime-after541-build.json`.
+SHA-256: `1799436476f816e7b921ce29997343c2f08d64b5a3f73c5153d87c68117ecdce`.
+Producer/reviewer: `scripts/build_th03_runtime_after541_work.py` and
+`scripts/review_th03_runtime_after541_work.py`.
+See the [stdio IO/position review](SHARED_STDIO_IO_AFTER541_NATIVE_REVIEW.md).
 
-Live refined owners are **`src/shared/crt/flush_all.asm`** (76 CODE) and
-**`src/shared/crt/flush_exit.asm`** (63 CODE), with the unchanged bounded
-`src/mainl/crt/stdio_layout.inc`. Named stack locals preserve FILE stride 20,
-open mask 3, far-call arguments and SI/DI/BP frames. xfflush visits exactly four
-slots; flushall retains its unchecked 16-bit postdecrement and counts visited
-open slots even when fflush fails. Ordinary gap-free instruction spans emit all
-five original fields in literal order; PUBLIC/import/segment/GROUP records agree.
-No padding, instruction-byte arrays or output patches are used. Original OMF
-program identity remains false because data-record packing differs.
+Live owners are **`src/shared/crt/flush_stream.asm`** (fflush: 209 CODE, TASM)
+and **`src/shared/crt/stream_position.asm`** (fseek: 492 CODE, pinned compatible
+JWasm), with unchanged bounded `src/mainl/crt/stdio_layout.inc`. All 701 initialized
+bytes and eight full ordered fields agree with real CL.LIB; all far/near ABIs,
+FILE state, short-write policy, text LF accounting and append seek/restore paths
+remain original. There are no CODE holes or extra public helpers. Source uses
+ordinary bounded instruction spans, no padding/target arrays/output patches.
 
-Both seven-file native rounds repeat: two OBJ, LIB, both complete EXE/MAP pairs.
-The other 891 source programs and all 893 slots remain unchanged. Both original
-EXEs and both complete after539 MAPs are raw-equal. Packing proof is reused;
-no game-object, cold or runtime-model replay ran. New member/CODE-extent and
-authored-function credit: **zero**. All fourteen raw outputs and eleven writer
-logs use `runtime-after540-*`; consumed source/include/recipe/config/responses
-remain in both `TH03ML/probe/af540b` and `TH03OP/probe/af540b`. The af540a
-successful probe's manifest protects eleven source/object/recipe/log/scope files.
+Original ordered PUBLIC entries also agree. fseek emits `_fseek` at 137 then
+`_ftell` at 267 in one PUBDEF packet instead of two; both raw lists are retained
+and this packing difference is explicit. Do not claim original OMF-program or
+packet identity, or sort PUBLIC entries/fields. Four explicit WORD comparisons
+retain the original AX encodings. The private helper remains PRIVATE. Earlier
+TASM trials with reversed PUBLIC order and the first JWasm AX-encoding trial
+were rejected; preserve all af541a–e probes and their 40-file manifest at
+`.analysis/work/probe/stdio541/manifest.json`.
+
+Both seven-file native rounds repeat (two OBJ/LIB and both EXE/MAP pairs).
+The other 891 programs/all 893 slots and both complete after540 MAPs are unchanged;
+both decoded EXEs remain original-exact. Packing proof is reused; no game-object,
+cold or runtime replay ran. New member/CODE-extent and authored-function credit:
+**zero**. All fourteen raw outputs/eleven logs use `runtime-after541-*`; actual
+source/include/profile/config/driver remain in `TH03ML/probe/af541f`; OP's
+consumed C0/library/responses/outputs remain in `TH03OP/probe/af541f`.
+
+Retained stdio-iteration parent: `.analysis/work/runtime-after540-build.json`, SHA
+`568fed759f13881ea179eb3d874afaa49e1c1ae5b8022c78ebf5dbebf4bb776a`.
+Live owners `flush_all.asm` and `flush_exit.asm` retain 139 CODE bytes/five ordered
+fields; xfflush visits exactly four slots and flushall counts open slots visited
+regardless of individual fflush failure. All fourteen raw outputs, eleven logs,
+af540b inputs and successful af540a probe remain. See the
+[iteration review](SHARED_STDIO_ITERATION_AFTER540_NATIVE_REVIEW.md).
 
 Retained abort parent: `.analysis/work/runtime-after539-build.json`, SHA-256
 `60a004666a3c62043147feb86d97f2f1231b406070bc150fa794ed9d4d47b095`.
@@ -142,22 +156,26 @@ No output cleanup occurred.
 
 Prioritize actual selected-runtime order gaps, not unlinked library counts.
 The current retained diagnostic is
-`.analysis/work/runtime-after540-selected-literal-field-audit.json` / `.txt`.
+`.analysis/work/runtime-after541-selected-literal-field-audit.json` / `.txt`.
 All 76 selected OP members now have identical raw per-site field attributes:
-60 literal streams are equal, 16 differ only in order. This is an investigation
+62 literal streams are equal, 14 differ only in order. This is an investigation
 queue, not source credit. The order-only members are atexit, dosenv,
-exit, ioerror, xxv, fbrk, signal, fflush, fseek, fullpath, setvbuf,
+exit, ioerror, xxv, fbrk, signal, fullpath, setvbuf,
 write, xalloc, xmsg, doscmd and loadprog. C0's 58-field order also stays
 open. Never sort an emitted list and then call it literal ordered equality.
 
-The current stdio iteration pair is closed. A related next bounded selected
-question is **fflush**, original slot 219: 209 CODE bytes, two reverse-ordered
-fields, no private DATA/BSS. Inspect the real original and frozen
-`src/mainl/crt/fflush.asm`; retain exact FILE flag handling, DOS write behavior
-and ABI. fseek slot 232 is a larger 492-byte/six-field follow-up. These are
-existing owners, not missing functions or a reason to inflate acceptance.
+The stdio flush/position pair is now closed. Continue an actual selected scope,
+for example fullpath (slot 235: 834 CODE, 18 fields) or doscmd (311 CODE, 5 fields),
+after inspecting the real original and its complete ABI/ownership boundaries.
+These are existing owners, not missing functions or whole-game progress counts.
 
-Extend **after540**, retaining all after537–539 live shared refinements and C0.
+ioerror slot 79 has 82 CODE/91 DATA and five fields in order 22,28,45,39,51, but
+its original PUBLIC stream interleaves CODE0, DATA2, DATA0, CODE62. Inspect that full
+stream before attempting a replacement; sorted-by-segment publics hide a real
+ordering question. Its original BSS/DATA GROUP remains intentional. Preserve
+frozen `src/mainl/crt/ioerror_link.asm` and the after536 parent proof.
+
+Extend **after541**, retaining all after537–540 live shared refinements and C0.
 Call the latest reviewer once; it validates the complete unchanged source DAG,
 not ancestor runtime chains. All historical TUs/recipes remain frozen; use new
 bounded shared owners as needed. Earlier 893-slot totals and partial bosses are
@@ -198,7 +216,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after540_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after541_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
@@ -221,5 +239,5 @@ SHA-256 audit before deleting native outputs. Do not apply historical after439,
 after388/511-source, 319-source or generic clean_generated deletion previews.
 Retain the entire active DAG: both raw OBJ/LIB/EXE/MAP rounds, writer logs,
 source/recipe snapshots, originals, targets and tools; age or an unreferenced
-filename is not an evidence-deletion oracle. Current af537–540 and all failed
+filename is not an evidence-deletion oracle. Current af537–541 and all failed
 branches remain. Routine cache cleanup does not authorize touching these files.
