@@ -1,0 +1,18 @@
+{
+  "schema": "th03-mainl-registration-even-after569-v1",
+  "parent_report": ".analysis/work/mainl-input-after566-native-build.json",
+  "parent_report_sha256": "4a8fe454b5404482d8d10843195aee6c25656c7a0c745127ade65bd69d7f3c27",
+  "previous_pinned_source": "src/mainl/data/registration.asm",
+  "aligned_source": "src/mainl/data/registration_even.asm",
+  "maintained_codes": "src/mainl/hiscore/regi_codes.inc",
+  "original_context_object": "obj/th03/regpre.obj",
+  "initialized_native_DATA_bytes": 304,
+  "semantic_DATA_bytes": 303,
+  "TASM_even_initialized_align_byte": 1,
+  "original_ordered_fixups": 2,
+  "original_PUBLIC_definitions": 35,
+  "decoded_japanese_MAINL_EXE_bytes": 67372,
+  "ordered_MZ_relocations": 677,
+  "whole_product_source_accepted": false,
+  "canonical_credit_changed": false
+}

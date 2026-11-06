@@ -1,4 +1,4 @@
-# TH03 agent handoff — after568 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after569 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -76,6 +76,27 @@ verification and parent source/OBJ receipts:
   .analysis/work/main-combined-after567-native-build.json
   .analysis/work/main-compact-after568-native-build.json
   scripts/review_th03_main_compact_mz_after568_work.py
+
+## MAINL original registration initialized DATA alignment (after569)
+
+The old after554 source-bound registration source intentionally ended at
+303 initialized bytes. Original regpre.obj also initialized DATA+303 to 00h,
+which after554 was supplied by linker alignment rather than a source.
+The new alternative maintained registration_even.asm compiles with ordinary
+TASM EVEN at that final odd offset. Two source-native TASM/TLINK rounds
+recreate the complete 304-byte original context payload, all two literal
+ordered OMF fixups and 35 PUBLIC names/positions. The resulting entire
+67,372-byte Japanese MAINL decoded EXE and all 677 relocations remain
+original-exact; only the registration MAP contribution size changes from
+012F to 0130 compared with the earlier 303-byte source link.
+
+The old registration.asm and all old source-bound acceptance receipts
+remain byte-unchanged, so nothing silently repins the historical after554
+publication. One native DATA alignment byte is a source-backed layout
+contribution, not a newly discovered instruction, extra authored function,
+or additional original game code credit. Native parent root:
+  .analysis/work/mainl-register-even-after569-native-build.json
+  scripts/review_th03_mainl_registration_even_after569_work.py
 
 ## Start here
 
@@ -155,11 +176,13 @@ All earlier source-bound parent rounds/logs remain active dependencies.
   Private TLINK2.0 under DOSBox reports29 fixup overflows; its partial output is
   rejected. Earlier AX0006 was a bridge error, not proof of OMF incompatibility.
 
-After554 omits the historical registration final zero from its303-byte source
-bank. Current TLINK supplies the following WORD-alignment gap at0E3F:0A5D; it
-remains unowned. All117 PUBLIC definitions/packet sets across the two banks
-agree, but eight ending digit-alias PUBLIC packets differ in order. Do not
-claim complete original OBJ identity or original compiler/assembler provenance.
+The historical after554 registration source omits one final initialized
+word-alignment 00h, previously supplied by TLINK at0E3F:0A5D. After569
+rebuilds that byte with a natural TASM EVEN in a separate maintained source,
+while preserving the original after554 publication and source byte hashes.
+All117 bank PUBLIC definitions/packet sets agree, but eight ending digit-alias
+PUBLIC packets still differ in order. Do not claim original compiler/assembler
+identity or duplicate old DATA/registration acceptance credit.
 
 The original interrupted [after555 research](AFTER555_UNBUILT_RESEARCH.md)
 was an unbuilt handoff; independent, tested after555–after558 native
