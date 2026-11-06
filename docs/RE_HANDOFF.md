@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after538)
+# TH03 — current agent handoff (2026-11-06; shared runtime after539)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after538**; latest independently applied storage audit: **after520**.
+**after539**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -16,8 +16,8 @@ The former long handoff remains in
 | Shared exec source correction | **255 initialized work bytes + four literal frames** |
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
-| Fresh two-product native output rounds | **2; all ten raw outputs repeat** |
-| Newly corrected runtime fields / GROUP | **10 near frames / setblock membership** |
+| Fresh two-product native output rounds | **2; all six raw outputs repeat** |
+| Latest closed literal-order gap | **abort: both FAR fields ordered-equal** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
 | MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
 | OP decoded EXE / ordered MZ relocations | **63,866 bytes / 607; original raw equality** |
@@ -30,7 +30,30 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after538-build.json`.
+Latest root: `.analysis/work/runtime-after539-build.json`.
+SHA-256: `60a004666a3c62043147feb86d97f2f1231b406070bc150fa794ed9d4d47b095`.
+Producer/reviewer: `scripts/build_th03_runtime_after539_work.py` and
+`scripts/review_th03_runtime_after539_work.py`.
+See the [abort literal-order review](SHARED_ABORT_AFTER539_NATIVE_REVIEW.md).
+
+The latest abort owner is **`src/shared/crt/abort.asm`**. Two bounded ordinary
+instruction spans emit the fallback continuation before the entry, recovering
+the original fixup order (+13 then +7). All 20 initialized CODE bytes, far ABI,
+SI/DI saves, complete PUBLIC payload, imports, segments and GROUP agree with real
+CL.LIB. There are no code holes, filler, instruction-byte arrays or output patches.
+Plain C, manual-save C and `__saveregs` candidates failed the original ABI/body
+comparison and were not adopted; retained probe manifest:
+`.analysis/work/probe/abort539/manifest.json` (41 files).
+
+Both six-file native rounds repeat: OBJ/LIB and both EXE/MAP pairs. All other
+892 source programs and 893 slots are unchanged. Both original decoded EXEs and
+both complete after538 MAPs are raw-equal. The earlier packed OP proof is reused;
+no DIET, game-object, cold or runtime-model replay ran. New member/CODE-extent
+and authored-function credit: **zero**. Sources/recipe/config/responses remain
+in both `TH03ML/probe/af539i` and `TH03OP/probe/af539i`; all twelve raw outputs
+and nine writer logs use `runtime-after539-*`. Preserve af539a–h probes too.
+
+Retained near-frame parent: `.analysis/work/runtime-after538-build.json`.
 SHA-256: `7647b0fdf6bc43c769d526422cad48907d1e58c0d31260766b0a7936f61cbb07`.
 Producer/reviewer: `scripts/build_th03_runtime_after538_work.py` and
 `scripts/review_th03_runtime_after538_work.py`.
@@ -107,23 +130,21 @@ No output cleanup occurred.
 
 Prioritize actual selected-runtime order gaps, not unlinked library counts.
 The current retained diagnostic is
-`.analysis/work/runtime-after538-selected-literal-field-audit.json` / `.txt`.
+`.analysis/work/runtime-after539-selected-literal-field-audit.json` / `.txt`.
 All 76 selected OP members now have identical raw per-site field attributes:
-57 literal streams are equal, 19 differ only in order. This is an investigation
-queue, not source credit. The order-only members are abort, atexit, dosenv,
+58 literal streams are equal, 18 differ only in order. This is an investigation
+queue, not source credit. The order-only members are atexit, dosenv,
 exit, ioerror, xxv, fbrk, signal, fflush, flushall, fseek, fullpath, setvbuf,
 write, xfflush, xalloc, xmsg, doscmd and loadprog. C0's 58-field order also stays
 open. Never sort an emitted list and then call it literal ordered equality.
 
-A bounded next question is the 20-byte abort wrapper: raise SIGABRT(22), then
-__abort; it saves SI/DI and has no BP frame. Inspect actual original code/fields
-and `src/mainl/crt/abort.asm`. Consider natural C/native compiler emission for
-its two reverse-ordered FAR fields, but verify complete code/ABI and do not
-invent dummy register uses, padding or original-compiler identity. The earlier
-TASM CS-assumption/far-cast probes did not change near frames; do not repeat
-those unchanged attempts. Use original CL.LIB, never the 28-source carrier.
+The two-field abort order gap is now closed; do not repeat the failed C flag/
+SI/DI probes. A next bounded selected question is the 63-byte xfflush callback:
+its loop intentionally visits four FILE slots and retains two reverse-ordered
+fields. Inspect the original member and frozen `src/mainl/crt/xfflush.asm` first;
+keep ABI and existing storage rather than inventing compiler register uses.
 
-Extend **after538**, preserving corrected exec and all five refined owners.
+Extend **after539**, preserving corrected abort, exec and all five after538 owners.
 Call the latest reviewer once; it validates the complete unchanged source DAG,
 not ancestor runtime chains. All historical TUs/recipes remain frozen; use new
 bounded shared owners as needed. Earlier 893-slot totals and partial bosses are
@@ -164,7 +185,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after538_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after539_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
@@ -187,5 +208,5 @@ SHA-256 audit before deleting native outputs. Do not apply historical after439,
 after388/511-source, 319-source or generic clean_generated deletion previews.
 Retain the entire active DAG: both raw OBJ/LIB/EXE/MAP rounds, writer logs,
 source/recipe snapshots, originals, targets and tools; age or an unreferenced
-filename is not an evidence-deletion oracle. Current af537 and all failed
+filename is not an evidence-deletion oracle. Current af537–539 and all failed
 branches remain. Routine cache cleanup does not authorize touching these files.

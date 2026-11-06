@@ -1,0 +1,45 @@
+{
+  "schema": "th03-shared-abort-literal-order-after539-v1",
+  "original_compiler_library_sha256": "7d53ed1864b8b778040aa8203ebe4e01385112d9b3f134744a461aec0b171ba7",
+  "source_paths": {
+    "abort": "src/shared/crt/abort.asm"
+  },
+  "slots": {
+    "abort": 2
+  },
+  "literal_fields": {
+    "abort": 2
+  },
+  "literal_order_equal": {
+    "abort": true
+  },
+  "tasm_flags": [
+    "/m",
+    "/mx",
+    "/kh32768",
+    "/t"
+  ],
+  "original_assembler_identified": false,
+  "native_tools": {
+    "tasm": {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TASM50/bin/TASM32.EXE",
+      "sha256": "ba50fe547863b96242d98cff54cdf95ab268a8682395afad172eedbfc46c5b26"
+    },
+    "tlib": {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLIB.EXE",
+      "sha256": "2d65d72b8800f7f3d4716218ed508bdd198e73b5f96f4830c1e14d1bb56546e2"
+    },
+    "tlink": {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TLINK.EXE",
+      "sha256": "e54f517766a3982dff404ff639b0f94e43c16e688dffb7e14b92df87a8580ad0"
+    },
+    "msdos": {
+      "path": "_reference/ReC98/bin/msdos.exe",
+      "sha256": "f7f6cb0a3e816c5edb13112d327c1bddbf7463fe7bf9a005ca1eb5317751bd02"
+    },
+    "wine": {
+      "path": "/usr/bin/wine-stable",
+      "sha256": "96d2e3a50f09760fd38ad083d57fbe3d07f7fe92308b81db2335b57bb36d98f9"
+    }
+  }
+}
