@@ -1043,3 +1043,12 @@ references, including native long-double parsing,
 signed float overflow, ERANGE and exact huge-float
 result words. Sixteen Borland x87 frame-4 references
 compile as method 5; both EXE/MAP rounds match.
+
+The [large 1,947-byte isteldbl parser, first 460-byte integer/sign prefix](MAINL_ISTELDBL_INTEGER_PREFIX_LARGE_BOSS_NATIVE_REVIEW.md)
+recovers the actual streambuf and ipfx paths, sign/EOF
+handling and true x87 integer-digit accumulation.
+458 native bytes match the original; two bytes remain a
+genuinely unresolved near-branch displacement to the
+unimplemented parser exit. All 16 original symbolic prefix
+fields match (nine original FPU method-4 metadata gaps).
+This is **partial Boss source only** and earns zero CRT member credit.
