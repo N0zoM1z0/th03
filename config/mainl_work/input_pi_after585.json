@@ -1,0 +1,19 @@
+{
+  "schema":"th03-mainl-input-and-pi-source-native-after585-v1",
+  "parent_report":".analysis/work/mainl-continue-after584-native-build.json",
+  "parent_report_sha256":"8a64b41e06a2301c8c9c8ae7ba79b6bca792580db3dad4fd9d1873daf18849ca",
+  "units":[
+    {"stem":"inp_m_w","source":"src/shared/hardware/input_modes.cpp","wrapper":"src/mainl/hardware/input_modes_producer.cpp","binary":"O","CODE_bytes":367,"original_fixups":58,"original_PUBLICs":9},
+    {"stem":"pi_put","source":"src/shared/formats/pi_put.cpp","wrapper":"src/mainl/formats/pi_put_producer.cpp","binary":"O","CODE_bytes":173,"original_fixups":10,"original_PUBLICs":2},
+    {"stem":"pi_put_i","source":"src/mainl/formats/pi_put_interlace.cpp","wrapper":"src/mainl/formats/pi_put_interlace_producer.cpp","binary":"L","CODE_bytes":135,"original_fixups":6,"original_PUBLICs":1},
+    {"stem":"pi_put_q","source":"src/mainl/formats/pi_put_quarter.cpp","wrapper":"src/mainl/formats/pi_put_quarter_producer.cpp","binary":"L","CODE_bytes":177,"original_fixups":3,"original_PUBLICs":1}
+  ],
+  "total_CODE_bytes":852,
+  "public_code_functions":13,
+  "original_OMF_fixups":77,
+  "whole_original_MAINL_bytes":67372,
+  "whole_original_MZ_relocations":677,
+  "full_original_vendor_OMF_packets_identical":false,
+  "canonical_factory_credit_changed":false,
+  "whole_project_source_accepted":false
+}

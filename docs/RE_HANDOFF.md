@@ -1,4 +1,4 @@
-# TH03 agent handoff — after584 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after585 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -284,6 +284,26 @@ logs are retained.
 
   .analysis/work/mainl-continue-after584-native-build.json
   scripts/review_th03_mainl_continue_after584_work.py
+
+## MAINL native input-modes and PI drawing C++ (after585)
+
+Four independently compiled Turbo C++ producers now source-bind all
+nine original input-mode functions and all normal/interlaced/quarter PI
+draw loops. In each of two native rounds, four real OMF source objects
+(852 initialized CODE bytes / 13 original PUBLIC procedures / 77
+ordered original OMF FIXUPP fields) simultaneously replace their normal
+source slots in the after584 original 36-object MAINL native link.
+
+The four first-use compiler conditions (two BINARY='O' and two
+BINARY='L') are preserved; the full 67,372-byte original Japanese
+decoded MAINL EXE, all 677 ordered MZ relocations and complete original
+link contribution/MAP geometry remain exact. This combines sizable
+input state orchestration with short and mid-sized graphics loops,
+not only leaf functions. The functions and original source owners
+were already known, so no new canonical/Factory product credit.
+
+  .analysis/work/mainl-input-pi-after585-native-build.json
+  scripts/review_th03_mainl_input_pi_after585_work.py
 
 ## Start here
 
