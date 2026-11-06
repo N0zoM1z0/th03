@@ -1064,3 +1064,8 @@ The [complete original fstreambase open/ios transition](MAINL_FSTREAMBASE_OPEN_N
 adds 105 byte-exact CODE bytes with real filebuf::open,
 Borland mode translation and ios::clear, two symbolic
 OMF calls and two exact native EXE/MAP rounds.
+
+The [complete original fstreambase setbuf virtual dispatch and ios state](MAINL_FSTREAMBASE_SETBUF_VIRTUAL_NATIVE_REVIEW.md)
+adds 91 original CODE bytes and genuine filebuf FAR
+vtable setbuf, ios clear/setstate outcomes, both
+symbolic OMF calls and two exact EXE/MAP rounds.
