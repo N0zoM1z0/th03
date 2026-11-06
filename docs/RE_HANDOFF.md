@@ -1,4 +1,4 @@
-# TH03 agent handoff — after572 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after573 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -122,6 +122,27 @@ Latest evidence:
   .analysis/work/main-enemy-four-after572-native-build.json
   scripts/review_th03_main_enemy_four_after572_work.py
   docs/MAIN_ENEMY_SHARED_CPP_AFTER572_NATIVE_REVIEW.md
+
+## MAINL large cutscene plus source-natural sound (after573)
+
+An independent first-use GAME=3/BINARY=L Turbo C++ translation unit now
+includes the unchanged maintained 573-line cutscene script interpreter
+and drawing controller. Two targeted native compiler/TLINK rounds each
+reproduce the original complete 3,195-byte CODE allocation, all
+13 original near procedure PUBLICs, 236 ordered OMF relocation fields,
+the 56 in-scope MZ relocation sites and the *entire 67,372-byte
+Japanese decoded MAINL EXE* with all 677 ordered relocations.
+This source-native link uses the after570 four natural sound TASM
+routines and after569 registration DATA/input/VECTOR/root/C0 parents.
+
+Cutscene was already source-reviewed and accepted before this new link,
+so no extra authored function count, duplicate source credit or
+canonical Factory unit is claimed. The independent first-use C++ object
+differs in source-module diagnostic OMF headers/COMENT bookkeeping, not
+initialized CODE, public/function layouts or literal field chronology.
+
+  .analysis/work/mainl-cutscene-after573-native-build.json
+  scripts/review_th03_mainl_cutscene_after573_work.py
 
 ## Start here
 

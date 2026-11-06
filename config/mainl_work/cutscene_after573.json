@@ -1,0 +1,15 @@
+{
+  "schema": "th03-mainl-cutscene-after573-v1",
+  "parent_report": ".analysis/work/mainl-sound-natural-after570-native-build.json",
+  "parent_report_sha256": "8c01516b3a9434df1757a6cbe0fe8998958677a25bc5d82c71817e83bdd5a066",
+  "source_wrapper": "src/mainl/cutscene/producer.cpp",
+  "large_natural_CPP_source": "src/mainl/cutscene.cpp",
+  "original_object": "obj/th03/cutscene.obj",
+  "CUTSCENE_CODE_bytes":3195,
+  "original_near_PUBLIC_procedures":13,
+  "original_ordered_OMF_fixups":236,
+  "original_ordered_MZ_relocations_within_scope":56,
+  "original_decoded_MAINL_EXE_bytes":67372,
+  "whole_product_source_accepted":false,
+  "canonical_credit_changed":false
+}
