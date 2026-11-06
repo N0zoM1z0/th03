@@ -1,0 +1,67 @@
+"""After520 storage guard: preserve the entire latest source-bound native DAG."""
+import json,sys,unittest
+from pathlib import Path
+from unittest.mock import patch
+ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/'scripts'))
+import cleanup_mainl_after520_handoff as cleanup
+from cleanup_mainl_after439_handoff import verify_active_hashes
+
+class ProtectedAfter520NativeEvidence(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.graph=cleanup.layers()
+        cls.protected=cleanup.protected_paths(cls.graph)
+    def test_exact_live_258_stage_source_dag_and_both_native_rounds(self):
+        self.assertEqual(len(self.graph),258)
+        self.assertEqual(len(set(self.graph)),258)
+        self.assertEqual(self.graph[0],('after62','sprintf-calloc-puts-ctime'))
+        self.assertEqual(self.graph[-1],cleanup.CURRENT)
+        self.assertEqual(len(self.protected),5760)
+        self.assertTrue(all(p.is_file() and not p.is_symlink() for p in self.protected))
+        for suffix in ('round1-linked.exe','round2-linked.exe',
+                       'round1-newcrt.lib','round2-newcrt.lib',
+                       'round1-linked.map','round2-linked.map'):
+            self.assertTrue(any('after520' in p.name and p.name.endswith(suffix)
+                                for p in self.protected),suffix)
+    def test_guard_fails_closed_on_changed_latest_receipt(self):
+        cleanup.guard()
+        with patch.object(cleanup,'CURRENT_SHA256','0'*64):
+            with self.assertRaisesRegex(ValueError,'after520 root'):
+                cleanup.guard()
+        with patch.object(cleanup,'HISTORICAL_AFTER439_SHA256','0'*64):
+            with self.assertRaisesRegex(ValueError,'historical source-root'):
+                cleanup.guard()
+    def test_exact_superseded_alternative_not_active_or_unresolved(self):
+        candidates=cleanup.selected_paths(self.graph,self.protected)
+        self.assertFalse(set(candidates)&self.protected)
+        self.assertTrue(all(p.name.startswith('after506-ios-iword-usersize-array-slot-boss-')
+                            for p in candidates))
+        self.assertIn(len(candidates),(0,15))
+        self.assertIn(('after506','dos-creat-exitopen-close-callback-boss'),self.graph)
+        self.assertIn(('after507','ios-iword-usersize-array-slot-boss'),self.graph)
+        for name in ('mainl-after506-dos-creat-exitopen-close-callback-boss-build.json',
+                     'mainl-after507-ios-iword-usersize-array-slot-boss-build.json',
+                     'mainl-after506-ios-iword-usersize-array-slot-boss-build.json'):
+            self.assertTrue((cleanup.WORK/name).is_file())
+        self.assertTrue((ROOT/'docs/MAINL_H_LDIV_TWELVE_API_MAP_ALIAS_PROBE.md').is_file())
+    def test_audited_deletion_manifest_is_not_silent(self):
+        if not cleanup.MANIFEST.is_file():
+            self.assertEqual(len(cleanup.selected_paths(self.graph,self.protected)),15)
+            return
+        audit=json.loads(cleanup.MANIFEST.read_text())
+        self.assertEqual(audit['status'],'applied')
+        self.assertEqual(audit['root_sha256'],cleanup.CURRENT_SHA256)
+        self.assertEqual(audit['protected_files'],5760)
+        self.assertEqual(audit['deleted_files'],15)
+        self.assertEqual(audit['retired_mode'],list(cleanup.RETIRED))
+        self.assertEqual(len(audit['entries']),15)
+        self.assertTrue(all(len(x['sha256'])==64 and x['allocated_bytes']>0
+                            for x in audit['entries']))
+        for entry in audit['entries']:
+            self.assertFalse((ROOT/entry['path']).exists(),entry['path'])
+        self.assertFalse(cleanup.selected_paths(self.graph,self.protected))
+    def test_hash_all_258_source_driver_logs_and_original_native_outputs(self):
+        verify_active_hashes(self.graph)
+
+if __name__=='__main__':unittest.main()
