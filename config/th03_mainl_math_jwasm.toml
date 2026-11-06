@@ -1,0 +1,6 @@
+schema_version = 1
+scope = "Compatible OMF emitter for five complete MAINL arithmetic/stack helpers and their original PUBLIC chronology"
+tool_profile = "config/th03_zun_driver_jwasm.toml"
+assembler_flags = ["-nologo", "-Cp", "-omf"]
+original_assembler_identified = false
+members = ["h_lrsh", "h_lursh", "h_psbh", "h_psbp", "h_spush"]
