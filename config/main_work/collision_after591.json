@@ -1,0 +1,19 @@
+{
+  "schema":"th03-main-collision-after591-v1",
+  "parent_report":".analysis/work/main-fireball-after589-native-build.json",
+  "parent_report_sha256":"89a87d2b82d071c9a065dd17c915ffdf39e290287e748cb9f5930cfc9d02e5df",
+  "units":[
+    {"stem":"hitbox","source":"src/main/collision/hitbox.cpp","wrapper":"src/main/collision/producers/hitbox_native.cpp","emitter":"TC4","CODE_bytes":266,"PUBLICs":1,"FIXUPPs":33},
+    {"stem":"hitcirc","source":"src/main/collision/hitcircle.cpp","wrapper":"src/main/collision/producers/hitcircle_native.cpp","emitter":"TC4","CODE_bytes":445,"PUBLICs":4,"FIXUPPs":30},
+    {"stem":"collmap","source":"src/main/collision/map.asm","wrapper":"src/main/collision/producers/collmap_native.asm","emitter":"TASM","CODE_bytes":432,"PUBLICs":3,"FIXUPPs":27}
+  ],
+  "total_original_CODE_bytes":1143,
+  "total_original_PUBLIC_functions":8,
+  "total_ordered_literal_FIXUPP_fields":90,
+  "original_main_relocations":1553,
+  "original_japanese_MZ_bytes":130882,
+  "preserved_original_hitbox_nop_push_cs_near_call":true,
+  "original_VENDOR_OMF_packet_identity_proved":false,
+  "canonical_factory_credit_changed":false,
+  "whole_project_source_accepted":false
+}

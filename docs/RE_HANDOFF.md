@@ -1,4 +1,4 @@
-# TH03 agent handoff — after589 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after591 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -385,6 +385,32 @@ Factory acceptance.
 
   .analysis/work/main-fireball-after589-native-build.json
   scripts/review_th03_main_fireball_after589_work.py
+
+## MAIN source-native hitbox, hitcircles and 386 collision-map (after591)
+
+The complete original collision group now source-compiles/assembles in
+two real original TC4/TASM GAME=3/BINARY=M rounds: 266 CODE bytes of
+hitbox damage, 445 bytes of enemy/player hit-circle animation/rendering,
+and 432 bytes of 386 bit-striped collision-map TASM. All eight original
+PUBLICs and 90 ordered literal OMF FIXUPP sites agree with the original
+three objects. Both native links with prior after589 fireball/bullet/BOSS
+and enemy-script sources preserve the entire original 124,642 Japanese
+program bytes and all 1,553 ordered MZ relocations; a separate standard
+DOS container stage gives the exact 130,882-byte original MAIN file.
+
+Important negative-source evidence: three actual natural C++ call variants
+for explosions_hittest compiled into 9Ah direct FAR CALL bytes rather than
+the original hitbox NOP+PUSH CS+near CALL sequence (90h 0Eh E8h), and
+also changed literal relocation sites. Original low-level call semantics
+remain in maintained C++ until a truly byte-exact alternative is proven.
+Both negative native object trails are retained under TH03WORK/probe/
+af590h and af590hittest-natural-try. None were patched/promoted.
+
+  .analysis/work/main-collision-after591-native-build.json
+  scripts/review_th03_main_collision_after591_work.py
+
+These eight functions already had historical authored-function owners;
+do not increment denominators or falsely promote Factory acceptance.
 
 ## Start here
 
