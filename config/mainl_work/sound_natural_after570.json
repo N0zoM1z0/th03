@@ -1,0 +1,19 @@
+{
+  "schema": "th03-mainl-sound-natural-after570-v1",
+  "parent_report": ".analysis/work/mainl-register-even-after569-native-build.json",
+  "parent_report_sha256": "fad9f3f855a96982dc15129500a4d4e35466d5e96a4afe8f28f1dc990788f176",
+  "sources": [
+    {"stem":"snd_mode","source":"src/mainl/sound/mode_detect.asm","CODE_bytes":30,"instructions_bytes":29,"literal_fixups":3},
+    {"stem":"snd_pmdr","source":"src/mainl/sound/pmd_resident.asm","CODE_bytes":58,"instructions_bytes":57,"literal_fixups":4},
+    {"stem":"snd_dlyv","source":"src/mainl/sound/volume_wait.asm","CODE_bytes":28,"instructions_bytes":27,"literal_fixups":1},
+    {"stem":"snd_se_r","source":"src/mainl/sound/se_reset.asm","CODE_bytes":12,"instructions_bytes":11,"literal_fixups":2}
+  ],
+  "total_CODE_bytes":128,
+  "total_function_bytes":124,
+  "natural_TASM_even_bytes":4,
+  "whole_original_decoded_EXE_bytes":67372,
+  "whole_original_MZ_relocations":677,
+  "original_OMF_FIXUPP_packet_order_proved":false,
+  "original_compiler_identity_proved":false,
+  "canonical_credit_changed":false
+}
