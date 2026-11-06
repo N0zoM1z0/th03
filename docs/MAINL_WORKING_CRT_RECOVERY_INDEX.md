@@ -1036,3 +1036,10 @@ adds 124 exact CODE bytes, authentic long-double parsing,
 double range checks, native errno handling and all 18
 original symbolic OMF fields; 14 frame-method-4 x87
 differences remain explicit, and two EXE/MAP rounds match.
+
+The [complete original istream float x87 saturation wrapper](MAINL_ISTREAM_FLOAT_X87_SATURATION_NATIVE_REVIEW.md)
+adds 157 original CODE bytes and all 24 logical OMF
+references, including native long-double parsing,
+signed float overflow, ERANGE and exact huge-float
+result words. Sixteen Borland x87 frame-4 references
+compile as method 5; both EXE/MAP rounds match.
