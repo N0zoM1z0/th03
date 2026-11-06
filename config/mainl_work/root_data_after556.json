@@ -1,0 +1,171 @@
+{
+  "schema": "th03-mainl-root-data-after556-v1",
+  "parent_report": ".analysis/work/root-trig-after555-native-build.json",
+  "parent_report_sha256": "590989cc88ec21d2020a152bccd6284712b4d9bb5bbabf5f8f1b77e565a3d2c2",
+  "object": "obj/th03/mainl.obj",
+  "inputs": [
+    "src/mainl/data/root_strings.inl",
+    "src/shared/math/trig_tables.py",
+    "src/shared/data/file_sharing.inl",
+    "src/shared/data/graphics.inl",
+    "src/shared/data/random.inl",
+    "src/shared/data/text_vram.inl",
+    "src/shared/data/sprite_state.inl",
+    "src/mainl/data/sound_active.inl",
+    "src/mainl/data/sound_state.inl",
+    "src/mainl/data/archive_probe.inl",
+    "src/mainl/display_hardware/cdg_data.asm",
+    "src/mainl/data/sound_priorities.inl",
+    "src/mainl/data/continue_text.inl",
+    "src/mainl/data/pi_masks.inl",
+    "src/mainl/data/cutscene_text.inl"
+  ],
+  "units": [
+    {
+      "name": "root-story-state",
+      "source": "src/mainl/data/root_strings.inl",
+      "offset": 0,
+      "size": 778,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "atan-table",
+      "source": "src/shared/math/trig_tables.py",
+      "offset": 778,
+      "size": 256,
+      "origin": "library",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "file-sharing-state",
+      "source": "src/shared/data/file_sharing.inl",
+      "offset": 1094,
+      "size": 2,
+      "origin": "library",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "graphics-initial-state",
+      "source": "src/shared/data/graphics.inl",
+      "offset": 1106,
+      "size": 11,
+      "origin": "library",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "random-state",
+      "source": "src/shared/data/random.inl",
+      "offset": 1188,
+      "size": 4,
+      "origin": "library",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "sin-cos-tables",
+      "source": "src/shared/math/trig_tables.py",
+      "offset": 1192,
+      "size": 640,
+      "origin": "library",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "text-vram-state",
+      "source": "src/shared/data/text_vram.inl",
+      "offset": 1832,
+      "size": 8,
+      "origin": "library",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "sprite-header-pool",
+      "source": "src/shared/data/sprite_state.inl",
+      "offset": 1864,
+      "size": 38,
+      "origin": "library",
+      "uninitialized_file_data_bytes": 32
+    },
+    {
+      "name": "sound-active-state",
+      "source": "src/mainl/data/sound_active.inl",
+      "offset": 1902,
+      "size": 1,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "sound-play-state",
+      "source": "src/mainl/data/sound_state.inl",
+      "offset": 1914,
+      "size": 2,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "archive-probe-state",
+      "source": "src/mainl/data/archive_probe.inl",
+      "offset": 1916,
+      "size": 6,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "cdg-alpha-state",
+      "source": "src/mainl/display_hardware/cdg_data.asm",
+      "offset": 1922,
+      "size": 2,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 2
+    },
+    {
+      "name": "sound-priority-tables",
+      "source": "src/mainl/data/sound_priorities.inl",
+      "offset": 1924,
+      "size": 66,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "continue-screen-text",
+      "source": "src/mainl/data/continue_text.inl",
+      "offset": 1990,
+      "size": 10,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "pi-mask-table",
+      "source": "src/mainl/data/pi_masks.inl",
+      "offset": 2000,
+      "size": 32,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    },
+    {
+      "name": "cutscene-character-state",
+      "source": "src/mainl/data/cutscene_text.inl",
+      "offset": 2032,
+      "size": 3,
+      "origin": "authored",
+      "uninitialized_file_data_bytes": 0
+    }
+  ],
+  "context_DATA_bytes": 2036,
+  "source_bytes": 1859,
+  "source_initialized_DATA_bytes": 1825,
+  "source_uninitialized_file_DATA_bytes": 34,
+  "uncredited_padding_offsets": [
+    1117,
+    1187,
+    1847,
+    1903,
+    2035
+  ],
+  "whole_product_accepted": false,
+  "canonical_credit_changed": false,
+  "source_BYTES_new_in_stage": 963,
+  "source_BYTES_reused_from_after555": 896,
+  "library_bytes_new_in_stage": 63,
+  "authored_bytes_new_in_stage": 900,
+  "note": "Unmodified contextual CODE/BSS and uncredited alignment bytes are not source owners. The earlier archived stage was unbuilt; this is a new independent native attempt."
+}
