@@ -1,4 +1,4 @@
-# TH03 — current agent handoff (2026-11-06; after534 ownership audit)
+# TH03 — current agent handoff (2026-11-06; after535 startup)
 
 **Start with this file and actual Git state.** Check `git status -sb`
 and `git log -8 --oneline`. Latest source-bound CRT working evidence:
@@ -6,6 +6,8 @@ and `git log -8 --oneline`. Latest source-bound CRT working evidence:
 **after520**. The former 1,494-line handoff is preserved in
 [historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 Latest read-only baseline ownership audit: **after534**; no new native build.
+Latest source-startup/native-link evidence: **after535**. Its two native
+TASM/TLINK rounds reuse the unchanged after533 CRT libraries.
 
 ## Current, independently verified Japanese MAINL CRT
 
@@ -16,11 +18,31 @@ Latest read-only baseline ownership audit: **after534**; no new native build.
 | Earlier baseline source members, now traced | **4** |
 | Source-bound union of original compiler-library slots | **893/893** |
 | Original-equal maintained-source CODE-segment bytes, union | **209,272** |
-| Independent assembly/TLIB/TLINK rounds | **2; complete EXE/MAP byte-exact** |
+| Additional source-generated startup | **625 CODE extent / 144 DATA** |
+| Latest startup assembly/TLINK rounds | **2; complete EXE/MAP byte-exact** |
 | Original decoded Japanese MAINL EXE / ordered MZ relocations | **67,372 bytes / 677** |
 | Formal Factory canonical packed-file unit acceptance | **0/250** |
 
-Latest root:
+Latest native root:
+`.analysis/work/mainl-after535-startup-build.json`
+
+SHA-256: `9a3592185b880d53d344cdd3f0cf0c0b13534d186833e7d739f673edd2e61d6b`.
+
+Producer/reviewer: `scripts/build_th03_mainl_after535_work.py` and
+`scripts/review_th03_mainl_after535_work.py`. The maintained supplier-derived
+`src/mainl/startup/c0.asm` preserves all 17 segments, 623 initialized CODE bytes,
+a 2-byte uninitialized CODE cache, 144 DATA and 128 reserved STACK bytes.
+All 58 full relocation fields agree at their sites; original/native FIELD
+and PUBLIC order differ and remain explicitly recorded. No original OBJ
+identity, formal acceptance or authored-game credit is claimed. Complete EXE/
+MAP and 677 ordered MZ relocations match. See the
+[startup review](MAINL_LARGE_STARTUP_AFTER535_NATIVE_REVIEW.md).
+Successful raw vectors/logs use **af535e-startup-** paths. `probe/af535e`
+retains actual consumed source/recipe/response. The first link's module-name
+case correction, eleven SHA-inventoried snapshots, original `probe/af535d`,
+raw vectors/logs and earlier three probes all remain retained.
+
+Latest CRT composition root (unchanged):
 `.analysis/work/mainl-after533-locale-tables-aliases-twelve-build.json`
 
 SHA-256: `45912144bddb0d0910472133f85055d3b16825bc0130affabebdd1b8e115d450`.
@@ -74,13 +96,19 @@ See [full parser proof](MAINL_ISTELDBL_FULL_SOURCE_LINK_AFTER521_NATIVE_REVIEW.m
 and [full divmod proof](MAINL_H_LDIV_FULL_SOURCE_LINK_AFTER522_NATIVE_REVIEW.md).
 Do not double-count their historical partial/TASM-only diagnostic sources.
 
-**Next work:** choose an actual remaining product dependency or ownership
-question. MAINL still links installed `C0L.OBJ`, `EMU.LIB` and `MATHL.LIB`.
-The installed `TC4/SOURCE/STARTUP/C0.ASM` and `RULES.ASI` can inform a bounded
-large-model startup reconstruction, but must first be checked against actual
-original C0L OMF, linked bytes and entry relocations. No startup source proof
-has been credited yet. Do not overwrite frozen cold sources or replay the
-whole graph. The earlier h_padd alias diagnostic remains separate.
+**Next work:** close a concrete remaining literal OMF-order question or identify
+an actual product ownership gap from retained native evidence. `ioerror`'s
+five-field order and startup's 58-field order are explicit bounded gaps; do
+not call them literal-exact from final EXE equality alone. The current MAIN
+ledger has **106 entries, all marked exact**; that is not proof of the unknown
+whole-game denominator, and none should be repeated as a missing ledger unit.
+MAINL's startup is now source-generated. Its response still
+lists `EMU.LIB` and `MATHL.LIB`, but the current detailed MAP has **no member
+names contributed by either**; do not recover those entire unlinked libraries
+just to increase counts. All non-CL MAP contributors are the startup and the
+existing project objects. Consult actual product source/tracking/native evidence
+before claiming a missing bounded unit. Do not overwrite frozen cold sources or replay
+the whole graph. The earlier h_padd alias diagnostic remains separate.
 Formal canonical packed-unit acceptance is still 0/250; library source
 ownership is not whole-product acceptance. Avoid recounting closed CRT work.
 
@@ -106,6 +134,7 @@ git status -sb
 git log -8 --oneline
 .venv/bin/python scripts/preflight.py
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after534_work.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after535_work.py
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after533_work.py locale-tables-aliases-twelve
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py

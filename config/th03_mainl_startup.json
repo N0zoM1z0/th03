@@ -1,0 +1,276 @@
+{
+  "schema": "th03-mainl-large-startup-v1",
+  "source": "src/mainl/startup/c0.asm",
+  "provenance": "supplier-derived large-model specialization; zero authored-game credit",
+  "original": {
+    "path": ".analysis/toolchain/wineprefix/drive_c/TC4/LIB/C0L.OBJ",
+    "bytes": 2438,
+    "sha256": "09fe156e5dceb4afa30235e8d9cf7a17a40a91ee646babe16b3286731eb429a2"
+  },
+  "supplier_inputs": [
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/SOURCE/STARTUP/C0.ASM",
+      "bytes": 26343,
+      "sha256": "c292cabcddae8fa4b05e124027b95ee36f6199205269e73c1b717fdd336753db"
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/SOURCE/STARTUP/RULES.ASI",
+      "bytes": 18848,
+      "sha256": "1c74aa118268b8494a133c5c48c5a2124ffc97daae6d4bc4c04ab25078d20d14"
+    },
+    {
+      "path": ".analysis/toolchain/wineprefix/drive_c/TC4/SOURCE/STARTUP/BUILD_C0.BAT",
+      "bytes": 2379,
+      "sha256": "dc6f0b9c526663cd366b1f698e642dd72a7ee2372450eee45c8cdc923a97f91d"
+    }
+  ],
+  "assembler_flags": [
+    "/m",
+    "/mx",
+    "/kh32768",
+    "/t"
+  ],
+  "original_CODE_extent": 625,
+  "original_CODE_initialized_bytes": 623,
+  "original_DATA_bytes": 144,
+  "original_STACK_uninitialized_bytes": 128,
+  "CODE_uninitialized_sites": [
+    621,
+    622
+  ],
+  "literal_relocation_fields": 58,
+  "native_literal_field_order": [
+    [
+      1,
+      6
+    ],
+    [
+      1,
+      23
+    ],
+    [
+      1,
+      27
+    ],
+    [
+      1,
+      31
+    ],
+    [
+      1,
+      35
+    ],
+    [
+      1,
+      41
+    ],
+    [
+      1,
+      72
+    ],
+    [
+      1,
+      87
+    ],
+    [
+      1,
+      137
+    ],
+    [
+      1,
+      141
+    ],
+    [
+      1,
+      144
+    ],
+    [
+      1,
+      179
+    ],
+    [
+      1,
+      182
+    ],
+    [
+      1,
+      185
+    ],
+    [
+      1,
+      201
+    ],
+    [
+      1,
+      1
+    ],
+    [
+      1,
+      94
+    ],
+    [
+      1,
+      101
+    ],
+    [
+      1,
+      115
+    ],
+    [
+      1,
+      127
+    ],
+    [
+      1,
+      165
+    ],
+    [
+      1,
+      172
+    ],
+    [
+      1,
+      194
+    ],
+    [
+      1,
+      229
+    ],
+    [
+      1,
+      268
+    ],
+    [
+      1,
+      276
+    ],
+    [
+      1,
+      287
+    ],
+    [
+      1,
+      290
+    ],
+    [
+      1,
+      316
+    ],
+    [
+      1,
+      322
+    ],
+    [
+      1,
+      210
+    ],
+    [
+      1,
+      246
+    ],
+    [
+      1,
+      284
+    ],
+    [
+      1,
+      297
+    ],
+    [
+      1,
+      301
+    ],
+    [
+      1,
+      305
+    ],
+    [
+      1,
+      309
+    ],
+    [
+      1,
+      313
+    ],
+    [
+      1,
+      329
+    ],
+    [
+      1,
+      356
+    ],
+    [
+      1,
+      384
+    ],
+    [
+      1,
+      388
+    ],
+    [
+      1,
+      397
+    ],
+    [
+      1,
+      401
+    ],
+    [
+      1,
+      410
+    ],
+    [
+      1,
+      334
+    ],
+    [
+      1,
+      337
+    ],
+    [
+      1,
+      361
+    ],
+    [
+      1,
+      372
+    ],
+    [
+      1,
+      437
+    ],
+    [
+      1,
+      414
+    ],
+    [
+      1,
+      423
+    ],
+    [
+      1,
+      427
+    ],
+    [
+      1,
+      449
+    ],
+    [
+      1,
+      460
+    ],
+    [
+      1,
+      471
+    ],
+    [
+      1,
+      482
+    ],
+    [
+      6,
+      130
+    ]
+  ]
+}
