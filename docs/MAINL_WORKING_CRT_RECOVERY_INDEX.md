@@ -983,3 +983,7 @@ original OMF fixups, 858 native references are reviewed.
 Two same-CODE FAR call encodings, 734 FPU frame-4
 differences and the near N_SCOPY@ frame mismatch remain
 unresolved; **no full source-linked CRT member credit**.
+
+The [original native DOS rtl_open/open FAR APIs](MAINL_DOS_RTL_OPEN_FLAGS_NATIVE_REVIEW.md)
+add 108 byte-exact CODE bytes, real DOS mode conversion
+and two literal ordered original OMF fixups at +66/+75.
