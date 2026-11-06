@@ -71,8 +71,8 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The live handoff is [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md): its latest
-verified working-source checkpoint is **after500 (708/893)** original CRT
-members and **186,434 source-built CODE bytes**. The independent
+verified working-source checkpoint is **after507 (715/893)** original CRT
+members and **187,296 source-built CODE bytes**. The independent
 storage-cleanup audit remains frozen at after439 (647/893), not the newer
 source checkpoint. Historical member reviews are indexed in
 [MAINL recovery history](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
