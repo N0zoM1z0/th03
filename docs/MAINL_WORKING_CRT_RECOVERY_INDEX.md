@@ -945,3 +945,10 @@ three exact logical OMF reference fields.
 The [complete DOS sleep and real gettime polling leaf](MAINL_DOS_TIME_ROLLOVER_SLEEP_NATIVE_REVIEW.md)
 adds 109 original CODE bytes, native rollover handling,
 and three original logical FAR _gettime OMF references.
+
+The [complete native cplx2 sqrt(complex) eighteenth FAR body](MAINL_CPLX2_SQRT_EIGHTEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 221 original-equal complex square-root CODE bytes,
+extending partial source through CODE+4428. All 681
+emitted symbolic fixups match 683 original references
+except the two known local calls; 587 original frame-4
+x87 discrepancies remain explicit. No full CRT member credit.
