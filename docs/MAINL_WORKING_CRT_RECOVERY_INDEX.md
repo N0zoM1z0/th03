@@ -993,3 +993,8 @@ adds 152 byte-exact CODE bytes and the authentic full
 restoring-division algorithm, with its single near N_SCOPY@
 FIXUPP literally original-equal. It remains distinct
 from unaccepted MAP-alias h_ldiv.
+
+The [complete original DOS create/new-create FAR pair](MAINL_DOS_CREATE_NEWCREATE_FAR_NATIVE_REVIEW.md)
+adds 100 byte-exact CODE bytes and two native DOS 21h
+create modes through one private helper, with literal
+original near __DOSERROR FIXUPP at CODE+32.
