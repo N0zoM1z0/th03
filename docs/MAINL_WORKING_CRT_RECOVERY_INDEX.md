@@ -857,3 +857,8 @@ recovers all 174 original CODE bytes and twelve near/far
 DIV/MOD entrypoints. A real linked EXE is original-equal,
 but two MAP alias ties are reversed, so this remains a
 **scoped unaccepted source** and adds zero complete members.
+
+The [full istream::do_get streambuf underflow boss](MAINL_ISTREAM_DO_GET_VIRTUAL_UNDERFLOW_NATIVE_REVIEW.md)
+adds 158 byte-exact original CODE bytes, a true vtable
+underflow call, FAR byte-buffer path and exactly matching
+original literal ios::setstate OMF reference.
