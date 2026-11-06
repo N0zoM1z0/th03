@@ -869,3 +869,8 @@ large-boss source through original CODE+3225 with 490
 matching original symbolic OMF references. The two
 local-call encoding gaps and 425 FPU framing differences
 remain explicitly unresolved. No complete CRT-member credit.
+
+The [complete ostream FAR pointer and ios formatting boss](MAINL_OSTREAM_POINTER_FORMAT_FLAGS_NATIVE_REVIEW.md)
+adds 135 original CODE bytes with real ios flag masking,
+ulong pointer insertion, restoration of stream state
+and all seven original logical symbolic OMF references.
