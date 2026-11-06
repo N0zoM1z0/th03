@@ -973,3 +973,13 @@ punctuation strings at DATA+56..62, and true 80-bit floating
 stream conversion; 827/829 original prefix symbolic FIXUPPs
 match, with 715 frame-method-4 differences still explicit.
 The last istream/INITDATA remain incomplete, so no CRT member credit.
+
+The [cplx2 all-22-functions plus private CRT initializer scope](MAINL_CPLX2_ALL_22_FAR_BODIES_CRT_INIT_OMF_REVIEW.md)
+now recovers both final stream functions and the original
+CODE+5575 CRT zero initializer, completing all 22 FAR
+bodies across 5,598 original CODE bytes, full 63-byte
+DATA footprint and six-byte INITDATA semantics. Of 860
+original OMF fixups, 858 native references are reviewed.
+Two same-CODE FAR call encodings, 734 FPU frame-4
+differences and the near N_SCOPY@ frame mismatch remain
+unresolved; **no full source-linked CRT member credit**.
