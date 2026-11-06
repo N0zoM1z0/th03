@@ -1,0 +1,24 @@
+{
+  "schema":"th03-main-eight-bosses-after560-v1",
+  "parent_report":".analysis/work/main-chiyuri-after559-native-build.json",
+  "parent_report_sha256":"7a71a981f5832449198b7c8ba4e79000bcdac2e5b3149ac35a5049e1c5c52d5c",
+  "main_link_response_sha256":"ee55a006acf91d006d4de43cf67df6885818dcb6c8d817a7a6a0a6f5a63f7f53",
+  "native_selected_main_exe_sha256":"a67c78cca2b6886cdb48b648b274463dbcb6b80fae5effe9b688f9bc642bcebe",
+  "native_selected_main_map_sha256":"1b28d5a206ba055e875fa069f7c2f8b2351c0db4056c84e0f55703856490095b",
+  "bosses":[
+    {"name":"yumemi","object":"ba_yumem","source":"src/main/boss/yumemi.cpp","probe":"scripts/probe_th03_main_boss_yumemi_cpp.py","first_probe":"gptweb-yumemi-560-native-r1","second_probe":"gptweb-yumemi-560-native-r2","offset":4312,"size":2358,"functions":10,"switch_bytes":80},
+    {"name":"kana","object":"ba_kana","source":"src/main/boss/kana.cpp","probe":"scripts/probe_th03_main_boss_kana_cpp.py","first_probe":"gptweb-kana-560-native-r1","second_probe":"gptweb-kana-560-native-r2","offset":14859,"size":1874,"functions":9,"switch_bytes":80},
+    {"name":"mima","object":"ba_mima","source":"src/main/boss/mima.cpp","probe":"scripts/probe_th03_main_boss_mima_cpp.py","first_probe":"gptweb-mima-560-native-r1","second_probe":"gptweb-mima-560-native-r2","offset":2390,"size":1922,"functions":9,"switch_bytes":81},
+    {"name":"reimu","object":"ba_reimu","source":"src/main/boss/reimu.cpp","probe":"scripts/probe_th03_main_boss_reimu_cpp.py","first_probe":"gptweb-reimu-560-native-r1","second_probe":"gptweb-reimu-560-native-r2","offset":6670,"size":2020,"functions":9,"switch_bytes":72},
+    {"name":"kotohime","object":"ba_koto","source":"src/main/boss/kotohime.cpp","probe":"scripts/probe_th03_main_boss_kotohime_cpp.py","first_probe":"gptweb-kotohime-560-native-r1","second_probe":"gptweb-kotohime-560-native-r2","offset":10365,"size":1840,"functions":11,"switch_bytes":80},
+    {"name":"ellen","object":"ba_ellen","source":"src/main/boss/ellen.cpp","probe":"scripts/probe_th03_main_boss_ellen_cpp.py","first_probe":"gptweb-ellen-560-native-r1","second_probe":"gptweb-ellen-560-native-r2","offset":8690,"size":1675,"functions":9,"switch_bytes":81},
+    {"name":"rikako","object":"ba_rikak","source":"src/main/boss/rikako.cpp","probe":"scripts/probe_th03_main_boss_rikako_cpp.py","first_probe":"gptweb-rikako-560-native-r1","second_probe":"gptweb-rikako-560-native-r2","offset":16733,"size":1677,"functions":8,"switch_bytes":81},
+    {"name":"marisa","object":"ba_maris","source":"src/main/boss/marisa.cpp","probe":"scripts/probe_th03_main_boss_marisa_native_corrected.py","first_probe":"gptweb-marisa-560-scoped-native-r1","second_probe":"gptweb-marisa-560-scoped-native-r2","offset":959,"size":1431,"functions":9,"switch_bytes":81}
+  ],
+  "original_CODE_bytes":14797,
+  "complete_procedures":74,
+  "inline_switch_bytes":636,
+  "native_cold_replay":false,
+  "whole_original_MAIN_file_accepted":false,
+  "canonical_credit_changed":false
+}
