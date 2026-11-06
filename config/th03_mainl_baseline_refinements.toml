@@ -1,0 +1,8 @@
+schema_version = 1
+scope = "Refine existing MAINL baseline owners; no additional source member or CODE credit"
+tool_profile = "config/th03_zun_driver_jwasm.toml"
+compatible_members = ["h_padd"]
+compatible_flags = ["-nologo", "-Cp", "-omf"]
+tasm_members = ["ioerror"]
+tasm_flags = ["/m", "/mx", "/kh32768", "/t"]
+original_assembler_identified = false
