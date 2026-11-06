@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after542)
+# TH03 — current agent handoff (2026-11-06; shared runtime after543)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after542**; latest independently applied storage audit: **after520**.
+**after543**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -16,8 +16,8 @@ The former long handoff remains in
 | Shared exec source correction | **255 initialized work bytes + four literal frames** |
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
-| Fresh two-product native output rounds | **2; all seven raw outputs repeat** |
-| Latest closed literal-order gaps | **fullpath + doscmd: all 23 fields ordered-equal** |
+| Fresh two-product native output rounds | **2; all eight raw outputs repeat** |
+| Latest closed literal-order gaps | **ioerror + atexit + exit: all 24 fields ordered-equal** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
 | MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
 | OP decoded EXE / ordered MZ relocations | **63,866 bytes / 607; original raw equality** |
@@ -30,32 +30,43 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after542-build.json`.
-SHA-256: `fee3d18425d239420999d2c8771c28c10310df7225a50f927fbabb29ae8c8c08`.
-Producer/reviewer: `scripts/build_th03_runtime_after542_work.py` and
-`scripts/review_th03_runtime_after542_work.py`.
+Latest root: `.analysis/work/runtime-after543-build.json`.
+SHA-256: `b214dc7f1af9d38e6bc15d90bb673cd864a508d78b64246c502c85c8ca5a108d`.
+Producer/reviewer: `scripts/build_th03_runtime_after543_work.py` and
+`scripts/review_th03_runtime_after543_work.py`.
+See the [error/termination review](SHARED_ERROR_TERMINATION_AFTER543_NATIVE_REVIEW.md).
+
+Live owners are **`src/shared/crt/io_error.asm`**, **`atexit_register.asm`** and
+**`process_exit.asm`**, all pinned compatible JWasm. All 301 CODE/105 DATA bytes,
+128 genuinely uninitialized BSS bytes, 24 literal ordered fields and 14 ordered
+PUBLIC entries agree with real CL.LIB. IOERROR's CODE/DATA/CODE and exit's
+CODE/DATA/CODE publication order now matches; atexit's raw PUBLIC packets agree.
+IOERROR/exit pack four/seven original PUBDEF records into three each: preserve
+both raw lists and this explicit difference. Original OMF-program identity is
+still false; never sort emitted fields or PUBLIC entries to claim equality.
+
+Initialized bytes are written exactly once. atexit keeps its 32-entry FAR table,
+word count and unchecked behavior; exit retains LIFO callbacks and three genuine
+symbolic FAR DATA initializers. The private near engine uses **callee-pop RET6**,
+despite the old frozen comment. The first exit probe's CODE40 short displacement
+was wrong and rejected; predefining the real backward-loop label at 18 restores
+all bytes. Preserve both af543a/b candidates and 28-file manifest at
+`.analysis/work/probe/error-termination543/manifest.json`.
+
+Both eight-file native rounds repeat. All 890 other programs/all 893 slots,
+both original decoded EXEs and complete after542 MAPs are unchanged. Earlier
+packed proof is reused; no game-object, cold or runtime replay ran. New member,
+storage-extent and authored-function credit: **zero**. All sixteen raw outputs/
+thirteen logs use `runtime-after543-*`; source/includes/profile/config/driver
+and MAINL responses remain in `TH03ML/probe/af543c`, OP's C0/library/responses/
+outputs in `TH03OP/probe/af543c`.
+
+Retained path/command parent: `.analysis/work/runtime-after542-build.json`, SHA
+`fee3d18425d239420999d2c8771c28c10310df7225a50f927fbabb29ae8c8c08`.
+Live `path_canonicalize.asm`/`dos_command_tail.asm` retain 1,145 CODE bytes,
+23 ordered fields and both raw PUBLIC packets. Keep all fourteen raw outputs,
+eleven logs, af542c source/recipe inputs and 25-file af542a/b listing/scope proofs.
 See the [DOS path/command review](SHARED_DOS_PATH_COMMAND_AFTER542_NATIVE_REVIEW.md).
-
-Live owners are **`src/shared/crt/path_canonicalize.asm`** (fullpath: 834 CODE)
-and **`src/shared/crt/dos_command_tail.asm`** (doscmd: 311 CODE), both native TASM.
-All 1,145 initialized bytes, 23 literal ordered fields and both raw PUBLIC packets
-agree with real CL.LIB. Private separator helpers remain at 0/31, far fullpath
-at 89; near DOSCMD keeps RET12. DBCS boundaries, dot/parent/root handling,
-161-byte temporary allocation, unchecked copies and pointer offset increments
-remain original. DOSCMD retains optional-prefix/third-pointer-presence behavior,
-16-bit size wrapping and its 8-bit length byte. Every native CODE byte is written
-exactly once; there are no holes, overlap, padding/target arrays or output patches.
-OMF data-record packing differs, so original program identity is still false.
-
-Both seven-file native rounds repeat: two OBJ/LIB and both complete EXE/MAP pairs.
-The other 891 programs/all 893 slots and complete after541 MAPs are unchanged;
-both decoded EXEs remain original-exact. Packing proof is reused; no game-object,
-cold or runtime replay ran. New member/CODE-extent and authored-function credit:
-**zero**. All fourteen raw outputs/eleven logs use `runtime-after542-*`; consumed
-sources/driver/config and MAINL responses remain in `TH03ML/probe/af542c`,
-OP's C0/library/responses/outputs in `TH03OP/probe/af542c`. Native baselines,
-listings, boundary recipe and local scope proofs af542a/b remain under the
-25-file `.analysis/work/probe/path542/manifest.json`.
 
 Retained stdio IO parent: `.analysis/work/runtime-after541-build.json`, SHA
 `1799436476f816e7b921ce29997343c2f08d64b5a3f73c5153d87c68117ecdce`.
@@ -163,31 +174,26 @@ No output cleanup occurred.
 
 Prioritize actual selected-runtime order gaps, not unlinked library counts.
 The current retained diagnostic is
-`.analysis/work/runtime-after542-selected-literal-field-audit.json` / `.txt`.
+`.analysis/work/runtime-after543-selected-literal-field-audit.json` / `.txt`.
 All 76 selected OP members now have identical raw per-site field attributes:
-64 literal streams are equal, 12 differ only in order. This is an investigation
-queue, not source credit. The order-only members are atexit, dosenv,
-exit, ioerror, xxv, fbrk, signal, setvbuf,
-write, xalloc, xmsg and loadprog. C0's 58-field order also stays
+67 literal streams are equal, nine differ only in order. This is an investigation
+queue, not source credit. The order-only members are dosenv, xxv, fbrk, signal,
+setvbuf, write, xalloc, xmsg and loadprog. C0's 58-field order also stays
 open. Never sort an emitted list and then call it literal ordered equality.
 
-The fullpath/DOSCMD and stdio flush/position pairs are now closed. Continue a
-remaining actual selected scope after reviewing its real original fields,
-complete ABI and ownership. Preserve the native listing/source-boundary method
-when record order needs separate logical spans; never add filler or sort outputs.
-These are existing owners, not missing functions or whole-game progress counts.
+The error/termination, path/command and stdio flush/position scopes are closed.
+Continue a remaining selected scope after inspecting the real original ABI,
+storage and ordered fields. setvbuf's initialized DATA and dosenv's environment
+construction are possible related next questions; first inspect their full
+PUBLIC streams and code, not only function names or field counts.
 
-ioerror slot 79 has 82 CODE/91 DATA and five fields in order 22,28,45,39,51, but
-its original PUBLIC stream interleaves CODE0, DATA2, DATA0, CODE62. Inspect that full
-stream before attempting a replacement; sorted-by-segment publics hide a real
-ordering question. Its original BSS/DATA GROUP remains intentional. Preserve
-frozen `src/mainl/crt/ioerror_link.asm` and the after536 parent proof.
-The pinned JWasm `omf.c` writer traverses PubQueue and flushes a PUBDEF packet
-when its segment changes. A bounded next candidate can place PUBLIC declarations
-in original CODE/DATA/CODE order; verify the actual queue, raw code and fields.
-Same-segment packet merging must remain explicit, as with fseek, not sorted away.
-
-Extend **after542**, retaining all after537–541 live shared refinements and C0.
+The source-ordered PUBLIC-queue method is now proved through actual linked
+CODE/DATA interleaving. Preserve record-packing differences explicitly and
+prebind backward branch labels before separately scheduled test spans when
+needed; require every original byte/field and one-write initialized coverage.
+Historical TUs/recipes stay frozen. Extend **after543**, retaining all earlier
+live shared refinements and source C0. These remain existing owners, not missing
+functions or whole-game progress counts.
 Call the latest reviewer once; it validates the complete unchanged source DAG,
 not ancestor runtime chains. All historical TUs/recipes remain frozen; use new
 bounded shared owners as needed. Earlier 893-slot totals and partial bosses are
@@ -228,7 +234,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after542_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after543_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check
@@ -251,5 +257,5 @@ SHA-256 audit before deleting native outputs. Do not apply historical after439,
 after388/511-source, 319-source or generic clean_generated deletion previews.
 Retain the entire active DAG: both raw OBJ/LIB/EXE/MAP rounds, writer logs,
 source/recipe snapshots, originals, targets and tools; age or an unreferenced
-filename is not an evidence-deletion oracle. Current af537–542 and all failed
+filename is not an evidence-deletion oracle. Current af537–543 and all failed
 branches remain. Routine cache cleanup does not authorize touching these files.
