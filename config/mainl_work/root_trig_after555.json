@@ -1,0 +1,15 @@
+{
+  "schema": "th03-mainl-root-trig-after555-v1",
+  "parent_report": ".analysis/work/text-banks-after554-native-build.json",
+  "parent_report_sha256": "e498f16501b5b4d1c0f56a73fb65e4c87af607502da12b21730fd1a6eedafd89",
+  "original_context_sha256": "d35079d74c144a4f4989867e0901b7d55f0307552723bc688c87a24881a018af",
+  "original_object_sha256": "3925c6fa26b6a4f6fb318642a37ea56cd0df1abe9e1371a8eececc2d9a5ba142",
+  "source": "src/shared/math/trig_tables.py",
+  "table_extents": [
+    {"name": "atan", "data_offset": 778, "size": 256, "original_include": "libs/master.lib/atan8[data].asm"},
+    {"name": "sine", "data_offset": 1192, "size": 640, "original_include": "libs/master.lib/sin8[data].asm"}
+  ],
+  "note": "Library-origin public-domain tables, not authored game code; unchanged contextual CODE/BSS is uncredited.",
+  "whole_product_accepted": false,
+  "canonical_credit_changed": false
+}
