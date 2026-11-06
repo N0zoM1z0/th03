@@ -960,3 +960,9 @@ denominator FPU logic. All 748 emitted symbolic fields
 match the 750 original prefix FIXUPPs apart from the
 two known shorter FAR calls; 649 FPU frame-method-4
 differences remain. No full CRT member credit.
+
+The [twentieth complete cplx2 tanh(complex) native FAR body](MAINL_CPLX2_TANH_TWENTY_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 310 byte-exact CODE bytes and extends the large-Boss
+source to original CODE+5090, with 807/809 symbolic
+fixups reviewed and 703 Borland FPU frame-4 differences
+explicit. This is partial, with zero complete CRT credit.
