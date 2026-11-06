@@ -952,3 +952,11 @@ extending partial source through CODE+4428. All 681
 emitted symbolic fixups match 683 original references
 except the two known local calls; 587 original frame-4
 x87 discrepancies remain explicit. No full CRT member credit.
+
+The [nineteenth complete cplx2 tan(complex) original FAR body](MAINL_CPLX2_TAN_NINETEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 352 byte-exact CODE bytes, a real 4.0f typed
+constant at DATA+52, and original complex numerator/
+denominator FPU logic. All 748 emitted symbolic fields
+match the 750 original prefix FIXUPPs apart from the
+two known shorter FAR calls; 649 FPU frame-method-4
+differences remain. No full CRT member credit.
