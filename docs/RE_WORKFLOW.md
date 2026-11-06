@@ -22,6 +22,18 @@
    `git diff --check`, and commit substantial progress locally with
    `gpt-web: xxx`. Do not push without authorization.
 
+## Latest protected-storage policy
+
+The latest after520 CRT has an independently audited
+**258-stage, 5,760-file active native proof graph**. Use
+[the current storage policy](STORAGE_HANDOFF_CURRENT.md)
+and the pinned `cleanup_mainl_after520_handoff.py` for
+dry-run-first, SHA-verified retired-output cleanup. It fails
+closed on after521+ source stages. Older after439/after388
+cleanup tools are historical; never bypass their guards
+or infer disposability from a generic cleanup preview.
+Cache-only cleanup is separate and does not touch `.analysis`.
+
 ## Keep verification proportional
 
 `config/oracles.toml` defines exact requirements. Runtime traces and semantic
@@ -77,23 +89,28 @@ CODE alignment/header differences.
 
 ## Working files and retention
 
-The [last applied after439 storage audit](STORAGE_HANDOFF_CURRENT.md) is
-a **frozen baseline**: preserve its **177 stages / 4,464 uniquely
-referenced files** and **every newer source stage**, including build receipts, successful
-writer logs and both complete raw OBJ/LIB/EXE/MAP rounds. Do not discard
-an old `after*-round*` path based only on its age. Also preserve original
-Japanese targets, Wine/Borland and Ghidra/JDK attestations, source and
-accepted ledgers, runtime/cold proof inputs and old-named `reference.tar`.
+The [latest applied after520 storage audit](STORAGE_HANDOFF_CURRENT.md)
+protects **258 live stages / 5,760 uniquely referenced receipt,
+writer-log and native output files**, with both full raw
+OBJ/LIB/EXE/MAP rounds retained. The older after439 audit
+(177 stages / 4,464 files) is
+[historical](STORAGE_HANDOFF_AFTER439.md), not the latest.
+Never discard an old after-stage file based solely on age,
+and preserve original Japanese targets, Wine/Borland and
+Ghidra/JDK tool identities, source/acceptance ledgers,
+runtime/cold evidence and the original reference.tar.
 
-The general `scripts/clean_generated.py` preview is **not** a complete
-native-proof dependency graph; never blanket-apply it or use its
-unreferenced-receipt pruning here. The guarded
-`scripts/cleanup_mainl_after439_handoff.py` is dry-run by default,
-pinned to the after439 receipt SHA and the literal 177-stage DAG. It
-retired 15 audited alternative-mode files on that checkpoint, but now
-**fails closed** because after440+ layers exist. A new source stage requires
-a *new* source/DAG/hash audit before any subsequent cleanup. Use
-`clean_generated.py --caches-only --apply` only for regenerable caches.
+The general scripts/clean_generated.py preview is NOT a
+complete native proof dependency graph; do not blanket-apply
+it or use unreferenced-receipt pruning. The pinned
+scripts/cleanup_mainl_after520_handoff.py uses a current
+source-DAG and SHA-256 guard, and now reports zero remaining
+eligible files after deleting 15 completed superseded alternative
+mode artifacts. The after439/after388 cleanup scripts are
+frozen historical controls. New after521+ source stages require
+another independently audited active DAG and guard. Cache-only
+cleanup is separately available for fully regenerable Python
+bytecode, without touching .analysis state.
 Always rerun the scoped review after any actual cleanup.
 
 The older [319-source cleanup report](STORAGE_HANDOFF_2026-11-05.md) and

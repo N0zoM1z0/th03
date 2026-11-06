@@ -70,42 +70,45 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
 ## Maintenance and handing off
 
-The live handoff is [docs/RE_HANDOFF.md](docs/RE_HANDOFF.md): its latest
-verified working-source checkpoint is **after520 (728/893)** original CRT
-members and **194,292 source-built CODE bytes**. The independent
-storage-cleanup audit remains frozen at after439 (647/893), not the newer
-source checkpoint. Historical member reviews are indexed in
-[MAINL recovery history](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
-Do not infer formal MAINL acceptance from this working-source CRT;
-`docs/PROGRESS.md` is regenerated from the separate ledgers.
+The concise [current handoff](docs/RE_HANDOFF.md) is the
+**after520** entrypoint: **728/893 original CRT members** and
+**194,292 original-equal CODE bytes** in the Japanese MAINL
+working-source link, with two complete byte-exact EXE/MAP
+native rounds. This does not imply formal Factory canonical
+packed-file acceptance, which remains 0/250 for MAINL.
 
-The frozen after439 cleanup audit protects **177 native receipt stages**; newer stages exist and must be audited separately. Do not delete
-their raw logs, build receipts, or two OBJ/LIB/EXE/MAP output rounds.
-`clean_generated.py`'s general `.analysis` preview is **not** a native
-proof-dependency oracle; never blanket-apply it here.
+The [latest applied storage audit](docs/STORAGE_HANDOFF_CURRENT.md)
+protects **258 live source stages and 5,760 receipt/log/raw native
+output paths**. It removed just 15 completed superseded
+alternative-mode files and kept the original SHA-256 manifest.
+The [after439 cleanup](docs/STORAGE_HANDOFF_AFTER439.md) is
+historical, NOT the newest storage audit. A separate safe cache-only
+cleanup removed regenerable Python bytecode, for a combined immediate
+**11.75 MiB allocated-space reduction**; see the retained
+[after520 audit and deletion manifest](docs/STORAGE_HANDOFF_CURRENT.md).
 
-```sh
-python3 scripts/cleanup_mainl_after439_handoff.py  # fails closed with newer after440+ stages; no deletion
-python3 scripts/cleanup_mainl_after439_handoff.py --list
-.venv/bin/python scripts/clean_generated.py --caches-only --apply
-```
+~~~sh
+git status -sb
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after520_work.py fstreambase-virtual-setbuf-ios-state
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after520_storage_cleanup -v
+python3 scripts/cleanup_mainl_after520_handoff.py --list   # guarded dry run; currently zero files
+.venv/bin/python scripts/clean_generated.py --caches-only # optional preview
+~~~
 
-The **last applied** after439 cleanup protected **177 source-bound native
-stages and 4,464 receipt/log/OBJ/LIB/EXE/MAP files**. Newer after440+
-source stages also require protection; never run the old `--apply` without
-a fresh receipt-graph/hash audit. Its one-time guarded action
-removed 15 retired alternative-mode files; the deleted-path manifest and
-affected-proof verification are in
-[current protected-storage rules](docs/STORAGE_HANDOFF_CURRENT.md).
-`cleanup_mainl_after388_handoff.py` and the 319-source predecessor are
-**frozen historical tools**, not current deletion commands. Do not blanket
-apply `clean_generated.py --apply` or receipt pruning. Preserve targets,
-Wine/Borland, Ghidra/JDK, runtime images, ledgers, `.venv`, reference
-sources and the old-named `reference.tar` input. For next stages, independently
-re-audit source DAG/receipt hashes before applying cleanup.
+Do not blanket-apply `clean_generated.py --apply` or prune
+unreferenced receipts; never delete active raw OBJ/LIB/EXE/MAP
+rounds and their logs based on age. After a new after521+
+native source stage, the pinned after520 cleanup **fails
+closed** and requires a fresh source-DAG/hash audit.
+Preserve original targets, Wine/Borland tools, Ghidra/JDK,
+source provenance, previous product cold evidence, ledgers
+and the original reference archives. Avoid routine full
+cold replay when unaffected. Record substantial progress
+with `gpt-web: xxx` commits. Do not push unless requested.
 
-Commit format: `gpt-web: xxx`. Run affected checks and `git diff --check`,
-then save substantial progress locally. Push only when requested.
+For previous source details, consult the
+[historical recovery index](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md)
+and [archived long handoff](docs/RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
 ## Credits
 

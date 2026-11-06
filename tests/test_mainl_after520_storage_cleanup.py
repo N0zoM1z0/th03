@@ -1,5 +1,5 @@
 """After520 storage guard: preserve the entire latest source-bound native DAG."""
-import json,sys,unittest
+import json,subprocess,sys,unittest
 from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]
@@ -56,11 +56,43 @@ class ProtectedAfter520NativeEvidence(unittest.TestCase):
         self.assertEqual(audit['deleted_files'],15)
         self.assertEqual(audit['retired_mode'],list(cleanup.RETIRED))
         self.assertEqual(len(audit['entries']),15)
-        self.assertTrue(all(len(x['sha256'])==64 and x['allocated_bytes']>0
+        # Real Borland/TASM assemble logs can be exactly zero bytes/blocks.
+        self.assertTrue(all(len(x['sha256'])==64 and x['bytes']>=0
+                            and x['allocated_bytes']>=0
                             for x in audit['entries']))
+        self.assertTrue(all(x['allocated_bytes']>0 or x['bytes']==0
+                            for x in audit['entries']))
+        self.assertEqual(sum(x['allocated_bytes'] for x in audit['entries']),
+                         audit['allocated_bytes'])
         for entry in audit['entries']:
             self.assertFalse((ROOT/entry['path']).exists(),entry['path'])
         self.assertFalse(cleanup.selected_paths(self.graph,self.protected))
+    def test_live_handoff_and_archives_do_not_confuse_current_stage(self):
+        live=(ROOT/'docs/RE_HANDOFF.md').read_text()
+        storage=(ROOT/'docs/STORAGE_HANDOFF_CURRENT.md').read_text()
+        old=(ROOT/'docs/RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md').read_text()
+        old_storage=(ROOT/'docs/STORAGE_HANDOFF_AFTER439.md').read_text()
+        self.assertLess(len(live.splitlines()),180)
+        for item in ('after520','728','893','194,292','258','5,760','0/250',
+                     'isteldbl','h_ldiv'):
+            self.assertIn(item,live)
+        self.assertIn('after520',storage)
+        self.assertIn('258',storage)
+        self.assertIn('5,760',storage)
+        self.assertIn('1,642,496',storage)
+        self.assertIn('NOT the current',old)
+        self.assertIn('Historical snapshot',old_storage)
+        self.assertEqual(
+            old.split('---\n\n',1)[1],
+            subprocess.check_output(['git','show','ad05750:docs/RE_HANDOFF.md'],
+                                    cwd=ROOT).decode())
+        self.assertEqual(
+            old_storage.split('---\n\n',1)[1],
+            subprocess.check_output(['git','show',
+                   'ad05750:docs/STORAGE_HANDOFF_CURRENT.md'],cwd=ROOT).decode())
+        for doc in ('README.md','AGENTS.md','scripts/README.md',
+                    'src/mainl/crt/README.md','docs/RE_WORKFLOW.md'):
+            self.assertIn('after520',(ROOT/doc).read_text(),doc)
     def test_hash_all_258_source_driver_logs_and_original_native_outputs(self):
         verify_active_hashes(self.graph)
 

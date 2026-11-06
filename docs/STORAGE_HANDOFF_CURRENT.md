@@ -1,114 +1,124 @@
-# TH03 last applied storage audit — after439 (2026-11-05)
+# TH03 current protected-storage audit — after520 (2026-11-06)
 
-**Important:** newer after440 through after520 source work was recovered
-after this frozen storage audit. **This after439 cleanup is a frozen,
-successfully completed audit, not an authorization to clean the newer
-checkout.** The pinned cleanup tool now fails closed by design. Next agent:
-continue any dirty source, determine the latest complete source receipt,
-audit its expanded dependency graph and receipt SHA, then write a new
-checkpoint-specific cleanup guard **before any further deletion**.
+**This is the latest applied storage audit.** The older after439
+177-stage/4,464-file audit remains intact as a
+[historical record](STORAGE_HANDOFF_AFTER439.md);
+its old guard is NOT the current cleanup tool.
 
-**Last applied protected-storage policy.** This is the verified **647-source
-MAINL CRT after439** checkpoint, not the former after388/511-source or
-319-source storage reports. Source-built CRT CODE = **174,691 original-
-equal bytes**; two independent TASM/TLIB/TLINK rounds produce Japanese
-MAINL EXE and MAP that are byte-for-byte equal to the original. This is
-**working-source equality**, not Factory accepted packed-game credit.
-For acceptance caveats, see [the current agent handoff](RE_HANDOFF.md).
+## Active dependency graph: 258 stages, 5,760 protected files
 
-## Immutable proof roots — do not clean
+The pinned [after520 audit tool](../scripts/cleanup_mainl_after520_handoff.py)
+follows the live, literal source-parent chain from the sole
+after520 builder back to after317 and its 55 fixed original
+stages. It verifies **258 unique active source-bound stages**
+and enumerates **5,760 live files** from their receipts:
+all source-bound JSON receipts, writer logs, and **both**
+raw OBJ/LIB/EXE/MAP rounds at each stage.
 
-The **after439-audited** source-bound graph consists of **177 stages**, including the
-55 static inherited stages and all later stages through
-`after439 / streambuf-base-default-constructor-boss`.
-The fully audited original receipt is:
+Current protected root:
 
-```
-.analysis/work/mainl-after439-streambuf-base-default-constructor-boss-build.json
-SHA256 dd0a1a82695b00e2a3aeaa4e93a609450b50e834e4dd80b228c2eddaef5e8788
-```
+`.analysis/work/mainl-after520-fstreambase-virtual-setbuf-ios-state-build.json`
 
-The guarded path inventory contains **4,464 unique protected files**
-(**275.62 MiB allocated**) under `.analysis/work`: all **177 receipts,
-2,055 successful writer logs, 354 native EXE, 354 MAP, 354 LIB and
-1,170 assembled OBJ**. Keep the *complete* contents of both rounds,
-not only the latest EXE. Source reviewers use full source/driver/parent
-hashes and the original raw producer outputs. Do not rewrite these
-files as hardlinks, compress them into substitutes or delete a parent
-stage because the filename looks old.
+SHA-256: `f32c534f42d520f2c07a3acce769857d01ef310c04c00b419b585bf650994d8e`.
 
-Also preserve `.analysis/targets` and the original Japanese binaries,
-`.analysis/toolchain` (the needed Wine/Borland prefix, ~1.3 GiB),
-Ghidra/JDK attested evidence, `.analysis/runtime`, `.venv`, reference
-scaffolding, the original `reference.tar` input, the accepted ledgers,
-all maintained source, previous cold/provenance proofs, the unresolved
-`h_ldiv` alias investigation and significant `xx`/exception diagnostics.
-The **other ~140 MiB** under `.analysis/work` is *not* declared unused:
-it contains separate context, old investigations and products that still
-require individual source-reference/dependency analysis.
+Before deletion and again afterward, the audit validates
+source/driver SHA-256 and every active writer log/raw output
+SHA-256. It also checks the original after439 root SHA,
+fails closed if the latest receipt or graph changes, and
+fails closed when any after521+ native source builder
+or receipt appears. New source advances require a **new
+pinned active dependency audit**, not a relaxed old guard.
 
-## After439 audited cleanup — actually executed
+## Actually deleted: one completed, superseded after506 variant
 
-**Guard:** `scripts/cleanup_mainl_after439_handoff.py` is pinned to the
-literal after439 builder/parent DAG, the above receipt SHA-256, source
-files, 177-stage topology and both full raw native rounds. It fails
-closed if a newer builder/receipt exists or the pinned proof changes.
-Its default behavior is **dry run**, not deletion. The candidate set
-comes only from *completed superseded alternative modes at a live stage*,
-plus uncited regenerable top-level disassemblies, with tracked source/text
-references excluded. Incomplete/failed alternative modes, source
-provenance diagnostics, quoted documents, symlinked/hardlinked inputs and
-all active receipt/log/output paths are protected.
+The finished alternative mode
+`after506 / ios-iword-usersize-array-slot-boss` had
+**15 raw output/log files** outside the active parent
+DAG and not cited in tracked source/documents. The real
+after506 source parent is
+`dos-creat-exitopen-close-callback-boss`, and
+ios::iword was linked by the actual after507 stage.
+The alternative's **small historical JSON receipt remains**;
+its retired raw outputs cannot be inspected/replayed
+without rebuilding that alternative.
 
-A full audit selected **15 files** from the completed but superseded
-`after392 / cpp-vector-delete-boss` mode, consisting of its extraction
-log and two complete alternative OBJ/LIB/EXE/MAP/log production rounds.
-The active `after392 / vector-destructor-boss` round files were **not
-selected**. The alternate mode's small historical JSON build receipt was
-retained as metadata; its retired raw outputs must be regenerated before
-that *old alternative mode* can be independently rerun.
+Exactly **15 files** and **1,642,496 allocated bytes
+(1.57 MiB)** were deleted after the pinned guard,
+complete source DAG and every original raw output hash
+were validated. The private manifest preserves each
+deleted relative path, original SHA-256, file size and
+allocated block count:
 
-The guarded `--apply` deleted exactly **15 files / 1.54 MiB allocated**.
-Its deletion inventory is preserved outside Git at
-`.analysis/work/handoff-after439-retired-20261105.txt`
-(SHA-256 `b5b3f14a2feb0f6e1b561098aeac1762cce750de232b4e69524d192a45970dd2`).
-Separately, `clean_generated.py --caches-only --apply` removed three
-regenerable Python bytecode cache trees (about **6.6 MiB reported** at
-cleanup time). Such caches may be regenerated during subsequent reviews;
-this is not a permanent disk saving estimate. The original `.analysis/work`
-allocation dropped from **426,804 KiB** to **425,236 KiB** immediately
-after the scoped pruning (before later review logs).
+`.analysis/work/handoff-after520-retired-20261106.json`
 
-**Post-delete proof passed:** the complete after439 source reviewer
-still reports 647/893, 174,691 original-equal CODE bytes, two byte-exact
-Japanese EXE/MAP native rounds and 677 ordered MZ relocations. All five
-`tests.test_mainl_after439_storage_cleanup` safeguards passed, including
-SHA-256 verification of **every** active source/driver/log/raw output
-path. The next guarded cleanup preview shows **zero eligible files**.
+Manifest SHA-256: `ffed6609142ed39414970fb15a35f88b467488792cff0ed61f6b705cc7425392`.
 
-## Historical verification commands; no new pruning under newer stages
+A second guarded dry-run returned **zero eligible files**.
+The independent source reviewer and the new
+`tests.test_mainl_after520_storage_cleanup` test
+confirm the active receipt DAG remains intact, with
+two byte-identical native Japanese MAINL EXE/MAP rounds,
+67,372 EXE bytes and 677 ordered MZ relocations.
 
-```sh
-python3 scripts/cleanup_mainl_after439_handoff.py                # EXPECT FAIL CLOSED after newer source stages
-python3 scripts/cleanup_mainl_after439_handoff.py --list         # likewise fails closed; do not bypass guard
-# Never --apply the frozen after439 audit with after440+ source. Repin a NEW audited guard first.
-.venv/bin/python scripts/clean_generated.py --caches-only --apply
-# The historical tests.test_mainl_after439_storage_cleanup now deliberately
-# fails closed because newer source layers exist; do NOT bypass that guard.
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after439_work.py streambuf-base-default-constructor-boss
-```
+## Regenerable cache-only pruning (separate from native evidence)
 
-The **after388** cleanup tool and its hard-coded 126-stage tests are
-historical and deliberately fail closed at after439. The 511-source
-policy is preserved as [after388 archive](STORAGE_HANDOFF_AFTER388.md),
-and the older 319-source report as
-[2026-11-05 archive](STORAGE_HANDOFF_2026-11-05.md). Do not run their
-`--apply` commands on this checkout. For the next *new source layer*,
-**re-audit the entire live DAG and update the pinned receipt SHA and
-stage counts before cleaning**; do not weaken the guard.
+After the active native source/hash review and the focused tests passed,
+the official cache-only maintenance command was executed:
 
-**Never blanket-run** `.venv/bin/python scripts/clean_generated.py --apply`
-or its `--prune-unreferenced-receipts` option: the ordinary preview does
-not enumerate all dynamically read native proof dependencies. Caches-only
-is deliberately restricted to regenerable cache directories and does not
-remove `.analysis` proof.
+`.venv/bin/python scripts/clean_generated.py --caches-only --apply`
+
+It removed only these three fully regenerable directories:
+
+| Directory | Allocated before cleanup |
+| --- | ---: |
+| `scripts/__pycache__` | 9,024 KiB |
+| `scripts/lib/__pycache__` | 480 KiB |
+| `tests/__pycache__` | 924 KiB |
+| **Total** | **10,428 KiB = 10.18 MiB** |
+
+The cleanup tool reported approximately 9.3 MiB of logical
+file content; the larger 10.18 MiB figure is the actual
+allocated-block total reported by `du` before deletion.
+The three directory trees were absent immediately afterward.
+The command does **not** remove `.analysis` proof data or
+the Wine/toolchain prefix. The action log is retained at:
+
+`.analysis/work/after520-cache-cleanup-applied.txt`
+
+**Total disk allocation reclaimed in this handoff: approximately
+11.75 MiB** (1.57 MiB from audited retired native artifacts,
+10.18 MiB from regenerable caches). Python bytecode will
+regenerate as future tests and reviewers run, so this is
+the immediate savings, not a permanent fixed disk reduction.
+
+## Safe commands and prohibited cleanup methods
+
+~~~sh
+python3 scripts/cleanup_mainl_after520_handoff.py --list     # dry-run; 0 candidates
+PYTHONPATH=scripts .venv/bin/python -m unittest tests.test_mainl_after520_storage_cleanup -v
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_after520_work.py fstreambase-virtual-setbuf-ios-state
+.venv/bin/python scripts/clean_generated.py --caches-only # preview disposable bytecode/cache only
+~~~
+
+The **original Japanese targets, Wine/Borland toolchain,
+Ghidra/JDK, original reference archives, runtime and cold
+evidence, other products, accepted ledgers, and all currently
+protected receipt/log/OBJ/LIB/EXE/MAP files** remain in place.
+No archive compression, hardlink substitution, game-target
+rewriting or unguarded native deletion is authorized.
+
+Do **not** run blanket
+`.venv/bin/python scripts/clean_generated.py --apply`,
+`--prune-unreferenced-receipts`, any historical
+after439/after388 cleanup with bypassed guards,
+or a general file-age sweep. The other data under
+`.analysis/work` is **not automatically disposable**:
+there are legitimate legacy observations, h_ldiv
+alias-order diagnostics, unaccepted experiments and
+independent MAIN/OP/ZUN evidence.
+
+The original after439 audit, including its own
+15-file historical pruning manifest and proofs,
+is [preserved here](STORAGE_HANDOFF_AFTER439.md).
+For authoritative source progress and next work,
+see [current handoff](RE_HANDOFF.md).

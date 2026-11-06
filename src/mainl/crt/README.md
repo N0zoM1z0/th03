@@ -13,7 +13,14 @@ separate,unaccepted29th provider in the normal-library candidate. That route
 uses actual native BCC `-c -y` output followed by TLIB/TLINK;separate `-S` output
 supplies names only. The retained S/TASM miniatures have their own codegen and
 field order. See the [xx product review](../../../docs/MAINL_XX_PRODUCT_REVIEW.md).
-The native xx working-source OBJ and all 50 linked xx functions are now original-byte-exact; formal accepted ownership and complete MAINL source ownership remain open. The separate 62-source working CRT reproduces the entire decoded Japanese MAINL EXE/MAP, but five source modules still have original OMF frame/order metadata gaps. See the current handoff.
+The native xx working-source OBJ and all 50 linked xx functions are now original-byte-exact; formal accepted ownership and complete MAINL source ownership remain open. The **after520 working-source CRT** now has **728 of 893 original
+CL.LIB members source-linked** and **194,292 original-equal CODE bytes**.
+Both complete Japanese MAINL EXE/MAP rounds match the originals.
+This is separate from the smaller, independently accepted normal-library
+provider baseline. Exact final EXE/MAP does not mean every original raw
+Borland OBJ or FIXUPP frame/order record is identical to TASM output,
+or that Factory canonical packed-game acceptance has increased.
+See the [current handoff](../../../docs/RE_HANDOFF.md).
 
 The accepted provider chain includes
 [buffered I/O](../../../docs/MAINL_STDIO_NATIVE_REVIEW.md),
