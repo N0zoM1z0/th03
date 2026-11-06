@@ -966,3 +966,10 @@ adds 310 byte-exact CODE bytes and extends the large-Boss
 source to original CODE+5090, with 807/809 symbolic
 fixups reviewed and 703 Borland FPU frame-4 differences
 explicit. This is partial, with zero complete CRT credit.
+
+The [twenty-first complete cplx2 ostream complex insertion](MAINL_CPLX2_OSTREAM_TWENTYONE_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+adds 178 original CODE bytes, three typed original stream
+punctuation strings at DATA+56..62, and true 80-bit floating
+stream conversion; 827/829 original prefix symbolic FIXUPPs
+match, with 715 frame-method-4 differences still explicit.
+The last istream/INITDATA remain incomplete, so no CRT member credit.
