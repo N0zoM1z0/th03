@@ -941,3 +941,7 @@ The [complete original FAR strncat/strlen/fmovmem leaf](MAINL_FAR_STRNCAT_MOVMEM
 adds 105 original CODE bytes, two source-real FAR
 strlen calls and one real FAR memory-move call with
 three exact logical OMF reference fields.
+
+The [complete DOS sleep and real gettime polling leaf](MAINL_DOS_TIME_ROLLOVER_SLEEP_NATIVE_REVIEW.md)
+adds 109 original CODE bytes, native rollover handling,
+and three original logical FAR _gettime OMF references.
