@@ -882,3 +882,11 @@ reaches CODE+3531 with 544 matching symbolic OMF fields.
 Two existing direct FAR-call gaps and 473 location-frame
 FPU differences remain disclosed, with zero full-source
 CRT member credit for this partial program.
+
+The [fourteenth complete cplx2 pow(double,complex) body](MAINL_CPLX2_POW_DOUBLE_COMPLEX_FOURTEEN_FUNCTIONS_PARTIAL_NATIVE_REVIEW.md)
+extends natural large-Boss source to original CODE+3531,
+adds 306 original-equal CODE bytes and exact typed pi at
+DATA+36..43. All 544 emitted native OMF symbol references
+are checked against 546 original prefix FIXUPPs; two FAR
+call encodings and 473 frame-method-4 references remain
+explicit. This is partial and adds no complete CRT credit.

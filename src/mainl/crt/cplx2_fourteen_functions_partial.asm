@@ -1,10 +1,10 @@
 ; PARTIAL LARGE-BOSS SOURCE: three complete FAR complex division
 ; implementations at original CODE offsets 0, 166, and 405, plus
-; the complete acos/arg/asin/atan FAR bodies at +692/+1079/+1217/+1608.
+; 11 subsequent FAR bodies through pow(double,complex), CODE+3531.
 ; Native CODE through 3530 maps to original 3532. Two local FAR-call
 ; byte-length gaps at original CODE+799 and +984 remain unresolved.
 ; NOT the complete 5598-byte cplx2 CRT member, not source-linked.
-; Rebuild/compare via scripts/probe_th03_cplx2_atan_partial.py.
+; Rebuild/compare via scripts/probe_th03_cplx2_pow_double_complex_partial.py.
 .8086
 .8087
 EMUL
