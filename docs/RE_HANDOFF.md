@@ -1,7 +1,7 @@
-# TH03 — current agent handoff (2026-11-06; shared runtime after547)
+# TH03 — current agent handoff (2026-11-06; shared runtime after548)
 
 **Start with this file and actual Git state.** Latest working native evidence:
-**after547**; latest independently applied storage audit: **after520**.
+**after548**; latest independently applied storage audit: **after520**.
 The former long handoff remains in
 [the historical archive](RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md).
 
@@ -16,8 +16,8 @@ The former long handoff remains in
 | Shared exec source correction | **255 initialized work bytes + four literal frames** |
 | exec complete extent / initialized / true holes | **933 / 931 / 2 bytes** |
 | exec original literal ordered relocation fields | **21/21 equal** |
-| Fresh two-product native output rounds | **2; all eight raw outputs repeat** |
-| Latest closed literal-order gaps | **xxv + xalloc + xmsg: all 89 fields ordered-equal** |
+| Fresh two-product native output rounds | **2; five fresh outputs repeat + unchanged library pair** |
+| Latest closed literal-order gaps | **C0 startup: all 58 fields ordered-equal** |
 | Partial setvbuf refinement | **all bytes/per-site fields equal; two MOV pairs still unordered** |
 | MAINL decoded EXE / ordered MZ relocations | **67,372 bytes / 677; original raw equality** |
 | MAINL MAP | **80,967 bytes; two reviewed zero-BSS changes from after537** |
@@ -31,36 +31,46 @@ current MAIN ledger has 106 units / 459 authored functions all marked exact;
 that is not proof of the unknown whole-game denominator. Do not repeat closed
 units as missing source.
 
-Latest root: `.analysis/work/runtime-after547-build.json`.
-SHA-256: `5c834b1fd5f52c4af31f25c63a55edeaa9d6f59054db727f659e5e289c3ba68a`.
-Producer/reviewer: `scripts/build_th03_runtime_after547_work.py` and
-`scripts/review_th03_runtime_after547_work.py`.
-See the [C++ exception review](SHARED_CPP_EXCEPTIONS_AFTER547_NATIVE_REVIEW.md).
+Latest root: `.analysis/work/runtime-after548-build.json`.
+SHA-256: `b0bed460844c39c51a1496b312ac0b94120cfff2ccd7e202e6abdb01db9ed773`.
+Producer/reviewer: `scripts/build_th03_runtime_after548_work.py` and
+`scripts/review_th03_runtime_after548_work.py`.
+See the [startup review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md).
 
-Live `src/shared/crt/exception_state.asm`, `allocation_exception.asm` and
-`message_exception.asm` retain 2,117 CODE/296 DATA bytes, four true BSS bytes
-and 89 literal ordered fields. CODE includes typed unwind/RTTI metadata.
-All 32 ordered PUBLIC entries agree. xxv preserves eight CODE entries, BSS,
-15 DATA entries, then CODE ExceptInit. Original/native packet counts remain
-25/4, 2/1 and 5/1: preserve all raw lists and explicit packing differences.
-Original GROUP order is DATA/BSS for all three. Every initialized byte is
-written once; two 128-byte workspaces stay initialized DATA, not BSS.
+Live C0 owner is **`src/shared/crt/startup_large.asm`**, supplier-derived with
+zero authored-game credit. All 58 literal ordered fields, 17 original segments,
+623 initialized CODE bytes, two CODE cache holes at 621/622, 144 DATA bytes and
+128 reserved STACK bytes agree. Raw THEADR/LNAMES/SEGDEF/GRPDEF/EXTDEF/ALIAS/
+MODEND records agree. Native TASM retains original nfile frames and entry.
+Every initialized byte is written once; no padding, byte arrays or object patch.
 
-All runtime call distances, return frames, exception state/DS, class construction,
-copy/destruction, reference counting and original unchecked behavior remain.
-Prebinding the actual xmsg copy-constructor at 239 fixes the compatible-writer
-baseline's wrong near-call displacement at CODE572 (FFFD instead of FEB1).
-All af547a/b baselines, corrected complete probes and recipes remain in the
-39-file `.analysis/work/probe/cpp-exceptions547/manifest.json`. Historical TUs
-remain frozen; compatible assembler identity is not original compiler identity.
+All 32 complete PUBLIC packets/definitions agree as sets, but their original
+emitted order remains open, unchanged from the after535 native order. Do not
+call that ordered equality or complete OMF identity. JWasm syntax/frame/entry
+candidates and native TASM default/explicit /kh probes are preserved in af548a–g,
+with 47-file `.analysis/work/probe/startup548/manifest.json`. Historical startup
+source and after535 recipe remain frozen.
 
-Both eight-file native rounds repeat. All 890 other programs/all 893 slots,
-both original decoded EXEs and complete after546 MAPs are unchanged. Earlier
-packed proof is reused; no game-object, cold or runtime replay ran. New member,
-storage-extent and authored-function credit: **zero**. All sixteen raw outputs/
-thirteen logs use `runtime-after547-*`; source/profile/config/driver and MAINL
-responses remain in `TH03ML/probe/af547c`, OP's C0/library/responses/outputs
-in `TH03OP/probe/af547c`.
+Only C0 is assembled. Both five-file fresh rounds repeat: startup OBJ and both
+products' EXE/MAP. All 893 library members and game objects are unchanged; actual
+parent library rounds are reused by reference and checked against native copies,
+not counted as new TLIB output. Both original decoded EXEs and complete after547
+MAPs agree. Packed OP proof is reused. Ten fresh raw outputs/six writer logs use
+`runtime-after548-*`; inputs and MAINL responses remain in `TH03ML/probe/af548h`,
+OP's consumed C0/library/responses/outputs in `TH03OP/probe/af548h`.
+
+**Subsequent stages must reuse `rounds[i].outputs.startup` from this after548
+root**, plus its unchanged library references. The old helper expression
+`base.parent.parent.REPORT` still points to historical after535 and would undo
+the startup order refinement. Keep that old pair as baseline evidence.
+
+Retained C++/library parent: `.analysis/work/runtime-after547-build.json`, SHA
+`5c834b1fd5f52c4af31f25c63a55edeaa9d6f59054db727f659e5e289c3ba68a`.
+Live exception_state/allocation_exception/message_exception owners retain
+2,117 CODE/296 DATA bytes, four true BSS bytes and 89 ordered fields. All 32
+PUBLIC entries agree; packet counts 25/4, 2/1, 5/1 remain explicitly different.
+Keep all sixteen raw outputs/thirteen logs, af547c inputs and 39-file af547a/b
+manifest. See the [C++ review](SHARED_CPP_EXCEPTIONS_AFTER547_NATIVE_REVIEW.md).
 
 Retained signal parent: `.analysis/work/runtime-after546-build.json`, SHA
 `8870088a19f3733dbd91f3b3fdc43c102155df7d257215cccad3dc5c3c24ff58`.
@@ -222,9 +232,10 @@ producer that emits both symbolic fixes in original operand order. Repeating
 logical-span scheduling, NASM, the tested BCC45 naked/global forms or TCPP1.01
 register flags does not resolve that question; preserve the existing probes.
 
-C0's 58-field order remains a separate open source question. Inspect its real
-original fields, typed instructions, PUB stream and uninitialized holes before
-changing the live startup owner; preserve the frozen after535 recipe. Complete
+C0's 58-field order is closed in after548; its 32-entry PUBLIC order remains
+open. Native TASM preserves original entry/frames, while the tested JWasm form
+changes them. Preserve those exact scopes when investigating another producer;
+do not repeat the tested /kh settings as if they solved PUBLIC order. Complete
 EXE equality alone does not close startup or whole-product source acceptance.
 The selected error/termination, DOS path/command, environment/write, heap/loader,
 signal, stdio flush/position and C++ exception scopes now have ordered fields.
@@ -234,7 +245,7 @@ The source-ordered PUBLIC-queue method is now proved through actual linked
 CODE/DATA interleaving. Preserve record-packing differences explicitly and
 prebind backward branch labels before separately scheduled test spans when
 needed; require every original byte/field and one-write initialized coverage.
-Historical TUs/recipes stay frozen. Extend **after547**, retaining all earlier
+Historical TUs/recipes stay frozen. Extend **after548**, retaining all earlier
 live shared refinements and source C0. These remain existing owners, not missing
 functions or whole-game progress counts.
 Call the latest reviewer once; it validates the complete unchanged source DAG,
@@ -255,7 +266,8 @@ not missing-source queues or whole-game percentages.
   `9a3592185b880d53d344cdd3f0cf0c0b13534d186833e7d739f673edd2e61d6b`.
   `src/mainl/startup/c0.asm` is supplier-derived large-model source: 623
   initialized CODE bytes, 2-byte CODE cache, 144 DATA, 128 reserved STACK.
-  Its 58 individual fields agree but ordering differs. af535e vectors/logs,
+  Its historical 58-field order differs; the live pair is now after548. af535e
+  vectors/logs,
   module-name correction snapshots and failed/probe branches remain.
 - after534 traces the earlier four baseline owners. after533 retains the 889
   incremental owners, including all 197 iostream and string/regexp blocks.
@@ -277,7 +289,7 @@ git log -8 --oneline
 # At session start / environment or target changes:
 .venv/bin/python scripts/preflight.py
 # One current review already validates its unchanged parent DAG:
-PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after547_work.py
+PYTHONPATH=scripts nice -n 10 taskset -c 0 .venv/bin/python scripts/review_th03_runtime_after548_work.py
 .venv/bin/python scripts/progress.py --check
 .venv/bin/python scripts/validate_tracking.py
 git diff --check

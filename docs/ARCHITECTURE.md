@@ -65,7 +65,7 @@ Named instruction intrinsics cover unsupported386 operations;all addresses keep
 compiler symbols and offsetof-derived member offsets. Normal TLIB/TLINK own the
 library and product layout;no object/ASM patch supplies product bytes.
 
-The current working runtime chain is after547, separate from that frozen
+The current working runtime chain is after548, separate from that frozen
 accepted publication. Its 893-slot source-bound library and source-generated
 C0 now link both MAINL and OP with complete original decoded-file equality;
 OP also repeats the original packed file. Actual selected CRT material is
@@ -73,18 +73,19 @@ OP also repeats the original packed file. Actual selected CRT material is
 the real original LIDATA initialization and four literal frames; historical
 `src/mainl/crt/exec.asm` stays as an unchanged ancestor input. See the
 [shared runtime proof](SHARED_EXEC_OP_RUNTIME_AFTER537_NATIVE_REVIEW.md).
-After538–547 retain that source DAG and refine selected frames, GROUP, PUBLIC
-and literal field order. The latest `exception_state.asm`, `allocation_exception.asm`
-and `message_exception.asm` retain 2,117 CODE/296 DATA bytes, four true BSS bytes
-and 89 ordered fields. All 32 ordered PUBLIC entries agree; original/native
-packet counts remain explicitly 25/4, 2/1 and 5/1. The two 128-byte exception
-workspaces remain initialized DATA. See the
-[latest native review](SHARED_CPP_EXCEPTIONS_AFTER547_NATIVE_REVIEW.md).
-Earlier signal, heap/loader and environment/write owners retain their complete
-ordered fields. Error/termination owners retain 128 true BSS bytes and their
-reviewed PUBLIC packing differences. `stdio_buffer.asm` remains partial because
-two MOV operand-fixup pairs differ in order; it is the sole order-only member
-among the 76 selected OP streams. C0's 58-field order is still open. These
+After538–548 retain that source DAG and refine selected frames, GROUP, PUBLIC
+and literal field order. The live shared startup `src/shared/crt/startup_large.asm`
+now reproduces all 58 ordered C0 fields, original raw entry/segment/import
+records, 623 initialized CODE/144 DATA bytes, two true CODE cache holes and
+128 reserved STACK bytes. Native TASM is retained; the tested compatible JWasm
+entry/frame changes are rejected. C0 PUBLIC packets agree as sets but remain
+unordered. See the [latest native review](SHARED_STARTUP_AFTER548_NATIVE_REVIEW.md).
+Future stages must reuse after548's actual startup pair, retaining after535 as
+the frozen baseline. All 893 library members stay unchanged from after547;
+C++ exception owners retain 2,117 CODE/296 DATA bytes and 89 ordered fields.
+Their reviewed PUBLIC packing differences and four BSS bytes remain explicit.
+`stdio_buffer.asm` still has two MOV operand pairs in the wrong fixup order,
+the sole order-only member among the 76 selected OP runtime streams. These
 refinements add no authored-function or whole-product acceptance credit.
 
 OP's current-source adapter supplies the original menu Git blob only while
