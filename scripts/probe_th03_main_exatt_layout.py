@@ -34,6 +34,7 @@ ROOT = parent.ROOT
 WORK = parent.WORK
 SOURCES = {
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',
+    'initmain': 'src/main/core/initmain.cpp',
     'intro': 'src/main/hud/intro.cpp',
     'entry': 'src/main/core/entry.cpp',
     'p_cpu': 'src/main/player/cpu.cpp',
@@ -166,7 +167,7 @@ MAP_ROWS = {
     'p_exatt': 3,
     'p_gauge': 3,
     'ba_sring':5, 'ba_srest':5,
-    'e_fireb':3, 'e_expl':3, 'bullet':4,
+    'initmain':3, 'e_fireb':3, 'e_expl':3, 'bullet':4,
     'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,
 }
 
