@@ -431,8 +431,10 @@ void near pascal kotohime_render_ring(int count)
 		left = (
 			playfield_fg_x_to_screen(left, (1 - pid_current)) - 16
 		);
-		top >>= 4;
-		sprite16_put(left, top, sprite_offset);
+		_AX = top;
+		static_cast<int16_t>(_AX) >>= 4;
+		top = _AX;
+		sprite16_put(left, _AX, sprite_offset);
 	}
 }
 

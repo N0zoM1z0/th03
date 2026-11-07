@@ -374,6 +374,21 @@ complete Japanese MAIN link. Historical `af607g` v1 is **not evidence**
 that those three rewritten C++ expressions produced exact target bytes.
 See [native opcode review](MAIN_BULLET_CODEGEN_ENCODING_AFTER616_REVIEW.md).
 
+### Genuine signed C++ in five complete BOSS renderers (after620)
+
+The **v2**, actually consumed source/OMF-dependency-bound `af620h`
+native compiler rounds now prove a natural *signed* register shift:
+`static_cast<int16_t>(_AX) >>= 4` emits original SAR AX,4, where
+ordinary unsigned AX produces SHR and simplified `top >>=4` changes
+local instructions. All five Chiyuri/Kana/Kotohime/Ellen/Rikako BOSS
+TUs (9,720 CODE bytes, 1,345 ordered native fields, 48 PUBLICs) and
+the complete normal MAIN EXE/MAP/Japanese image/relocations match twice.
+Kana's cloud angle retains inline SUB AL,10 because even signed C++
+emits original-unequal ADD AL,F0. See
+[after620 five-BOSS native review](MAIN_FIVE_BOSS_SIGNED_REGISTER_AFTER620_NATIVE_REVIEW.md).
+This replaces, not supplements, the invalid v1 after603/604/605
+changed-source verification claims; no duplicate byte credit.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

@@ -455,8 +455,11 @@ void near rikako_render_intro(void)
 				(1 - pid_current)
 			) - 24
 		);
-		top = ((top >> 4) - 8);
-		sprite16_put(left, top, sprite_offset);
+		_AX = top;
+		static_cast<int16_t>(_AX) >>= 4;
+		_AX += -8;
+		top = _AX;
+		sprite16_put(left, _AX, sprite_offset);
 	}
 }
 

@@ -234,7 +234,9 @@ void near kana_pattern_cloud_ring(void)
 
 	if((boss_frame % kana_cloud_interval) == 0) {
 		_AL = randring_far_next16_and(0x1F);
-		_AL -= 0x10;
+		// TC4 lowers byte -= 0x10 to ADD AL,F0 (04 F0), not
+		// the original SUB AL,10 (2C 10); retain the exact opcode.
+		asm { sub al, 10h }
 		angle = _AL;
 		if(randring_far_next16_and(1) != 0) {
 			angle = (0x80 - angle);
@@ -506,8 +508,10 @@ void near kana_render_intro(void)
 				(1 - pid_current)
 			) - 16
 		);
-		top >>= 4;
-		sprite16_put(left, top, sprite_offset);
+		_AX = top;
+		static_cast<int16_t>(_AX) >>= 4;
+		top = _AX;
+		sprite16_put(left, _AX, sprite_offset);
 
 	}
 }
