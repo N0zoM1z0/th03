@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After900: complete two-player Combo HUD and BOSS/Panic helper owners
+
+- The original `combo.cpp` actually maps to *two* complete original
+  physical owners `p_combo,p_cmbhl`. The full Combo HUD/32-bit bonus
+  renderer now uses natural `while` with both original signed player
+  index and near-pointer updates on its inactive `continue` and normal
+  path; BOSS/Panic helper ABI and threshold behavior remain unchanged.
+- Genuine original TC4 negatives: bitwise HUD flash `&` → logical `&&`
+  shortened `p_combo` from **491 to 471 CODE bytes** (`af900c`), byte
+  BOSS-level postfix → prefix grew `p_cmbhl` **487 to 491** (`af900d`),
+  and reversing BOSS threshold comparison operand order changed original
+  CODE (`af900e`). All retained original, while a 32-bit bonus cap
+  comparison's operand reversal was separately verified exact.
+  Final `af900f` simultaneously recompiles both physical objects in
+  two real original TC4/full normal MAIN TLINK rounds: **978 CODE
+  bytes, 57 ordered literal FIXUPPs, five PUBLICs**, full original
+  Japanese MAIN/1,553 MZ relocations exact; 97 other objects/CRT reused.
+  See [after900 full Combo owner review](MAIN_COMBO_NATIVE_HUD_WHILE_AFTER900_REVIEW.md).
+  Prior source-covered CODE, not new distinct/canonical Factory credit.
+
 ## After899: complete original Bullet engine render and trail loops
 
 - The **complete `bullet` original engine**, including its 9,500-byte

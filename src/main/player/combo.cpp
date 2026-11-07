@@ -79,8 +79,10 @@ uint16_t pascal combo_add_raw(uint8_t hits, pid_t pid, uint16_t bonus)
 	// the retained combo total (one combined expression failed in af751c).
 	uint32_t bonus_total_new = bonus;
 	bonus_total_new += combo.bonus_total;
-	// A conditional operator for saturation is source-equivalent but moves
-	// TC4's original word-register allocation (failed af849c).
+	// A conditional operator for saturation is source-equivalent but
+	// moves the original word-register allocation (failed af849c).
+	// The mathematically reversed `CAP < total` check compiles exact
+	// (fresh af900b); keep the more legible original `total > CAP`.
 	if(bonus_total_new > COMBO_BONUS_CAP) {
 		bonus = COMBO_BONUS_CAP;
 	} else {
@@ -136,8 +138,17 @@ void combos_update_and_render(void)
 	uint8_t col;
 	// Keep the pointer initialization before the loop: moving it into
 	// the initializer emitted non-original source CODE (af849d).
-	for(pid = 0; pid < PLAYER_COUNT; (++pid, ++p)) {
+	// This two-player full bonus/HUD dispatcher admits a natural
+	// while with explicit near-pointer and signed-index advances on
+	// BOTH paths. The skipped/expired combo must still advance before
+	// continue (genuine original native af900a).
+	pid = 0;
+	while(pid < PLAYER_COUNT) {
 		if(!p->time) {
+			// Original inactive path skips all TRAM writes and bonuses,
+			// but still advances both physical registers.
+			++pid;
+			++p;
 			continue;
 		}
 		if(p->time == COMBO_FRAMES) {
@@ -181,7 +192,7 @@ void combos_update_and_render(void)
 			col = V_YELLOW_BRIGHT;
 
 			// The historical bitwise conjunction must remain: changing
-			// it to logical && changed original TC4 CODE (af696f).
+			// to logical && changed real original CODE again (af900c).
 			// ZUN bloat: `&&` instead of `&` would have been more readable,
 			// and would have created shorter code.
 			if(
@@ -213,6 +224,8 @@ void combos_update_and_render(void)
 			score_add(p->bonus_total, pid);
 			p->bonus_total = 0;
 		}
+		++pid;
+		++p;
 	}
 }
 
@@ -271,6 +284,9 @@ void pascal near fire_point_based_boss_attack_or_panic(
 {
 	extern bool boss_panic_fired_in_current_combo[PLAYER_COUNT];
 
+	// The comparison's original operand order is native-visible:
+	// swapping to threshold <= points failed the full BOSS/Panic
+	// helper object (af900e), despite equivalent integer logic.
 	if(points >= combo_points_for_boss_attack) {
 		if(warning_flag[pid]) {
 			return;
@@ -292,6 +308,8 @@ void pascal near fire_point_based_boss_attack_or_panic(
 
 			combo_points_for_boss_attack += COMBO_BOSS_SCORE_INCREMENT;
 			if(gba_boss_level < GBA_BOSS_LEVEL_MAX) {
+				// Mutable byte postfix is compiler-visible. Prefix changed
+				// the second original physical Combo object (af900d).
 				gba_boss_level++;
 			}
 			if(gba_boss_launched_by == PID_NONE) {
