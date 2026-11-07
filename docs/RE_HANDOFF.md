@@ -129,6 +129,17 @@ Rikako +0x17 overlay. See
 The historical after599 handoff's 262 count was a transcription error: the
 live proof records 250 (after600 includes 484). No new accepted bytes.
 
+### Chiyuri's natural C++ branch after601
+
+`exatt_update_chiyuri` now uses ordinary C++ `if`/`continue` to
+skip an inactive paired beam instead of the old manual register/CODE
+label branch. The **entire 978-byte Chiyuri object**, all 55 ordered
+native fields, four PUBLICs and full Japanese MAIN link pass both
+real Turbo C++/TLINK rounds; see
+[review](MAIN_CHIYURI_NATURAL_BRANCH_AFTER601_NATIVE_REVIEW.md) and
+`.analysis/work/exatt-layout-af601n/report.json`. Historical evidence
+remains immutable; no additional accepted byte claim.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

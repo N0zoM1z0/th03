@@ -95,14 +95,7 @@ beam_late:
         if(phase >= 0x88) {
             goto beam_end;
         }
-        asm {
-            mov al, phase
-            mov ah, 0
-            push ax
-            mov ax, 88h
-            pop dx
-        }
-        _AX -= _DX;
+        _AX = (0x88 - phase);
 
 beam_radius:
         radius = (static_cast<int>(_AX) / 4);
@@ -152,10 +145,9 @@ void far pascal exatt_update_chiyuri(void)
     collmap_pid = pid_other;
     i = 0;
     for(; i < 16; (i += 2, exatt_entity_p++)) {
-        asm {
-            mov bx, exatt_entity_p
-            cmp byte ptr [bx], 0
-            je short chiyuri_first_done
+        if(exatt_entity_p->state == 0) {
+            exatt_entity_p++;
+            continue;
         }
         p = exatt_entity_p;
         if(p->state == 1) {
@@ -176,7 +168,6 @@ void far pascal exatt_update_chiyuri(void)
                     p++;
                     p->state = 0;
                 }
-chiyuri_first_done:
                 exatt_entity_p++;
                 continue;
             }
