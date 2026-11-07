@@ -102,7 +102,7 @@ void near hitcircles_update(void)
 {
 	HitCircle near* p = hitcircles;
 	int i = 0;
-	while(i < HITCIRCLE_COUNT) {
+	for(; i < HITCIRCLE_COUNT; (i++, p++)) {
 		if(p->age) {
 			p->age++;
 
@@ -111,8 +111,6 @@ void near hitcircles_update(void)
 				p->age = 0;
 			}
 		}
-		i++;
-		p++;
 	}
 }
 
@@ -124,6 +122,8 @@ void near hitcircles_render(void)
 
 	// ZUN bloat
 	_DX = round_or_result_frame;
+	// Original 81 E2 01 00 (AND DX,imm16) is four CODE bytes.
+	// Natural _DX &= 1 selects 83 E2 01 (imm8) in TC4 (af792a).
 	asm { and dx, 1 };
 	_DX += V_YELLOW_DARK;
 	sprite16_mono_color(_DX);
@@ -131,14 +131,12 @@ void near hitcircles_render(void)
 	sprite16_put_size.set(HITCIRCLE_W, HITCIRCLE_H);
 
 	int i = 0;
-	while(i < HITCIRCLE_ENEMY_COUNT) {
+	for(; i < HITCIRCLE_ENEMY_COUNT; (i++, p++)) {
 		if(p->age) {
 			sprite16_clip_set_for_pid(p->pid);
 			sprite16_offset_t so = p->cel();
 			sprite16_put(p->topleft.x, p->topleft.y, so);
 		}
-		i++;
-		p++;
 	}
 
 	// Player circle
