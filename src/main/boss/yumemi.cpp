@@ -194,12 +194,18 @@ enum yumemi_attack_timing_t {
     YUMEMI_AIMED_FINISH_AFTER = 0x60,
     YUMEMI_CROSS_FINISH_AT = 0x60,
     YUMEMI_CHASE_TRACK_END = 0x20,
+    // The real near-stage movement first reaches the side margins.
+    YUMEMI_CHASE_LEFT_BOUNDARY = 0x380,
+    YUMEMI_CHASE_RIGHT_BOUNDARY = 0xE80,
     YUMEMI_CHASE_BEAM_PERIOD = 16,
     YUMEMI_CHASE_BEAM_PHASE = 15,
     YUMEMI_RAIN_BEGIN = 0x20,
     YUMEMI_RAIN_SPREAD_END = 0x40,
     YUMEMI_RAIN_FINISH_AT = 0x60,
     YUMEMI_RAIN_DROPS_PER_WAVE = 12,
+    YUMEMI_CROSS_RING_DISPLACEMENT = TO_SP(32),
+    YUMEMI_ORIGIN_X_OFFSET = 0x90,
+    YUMEMI_ORIGIN_Y_OFFSET = 0x180,
     YUMEMI_INTRO_SOUND_FIRST_FRAME = 0x18,
     YUMEMI_INTRO_SOUND_SECOND_FRAME = 0x48,
     YUMEMI_INTRO_FINISH_FRAME = 0x60,
@@ -274,20 +280,20 @@ void near yumemi_pattern_cross_rings(void)
 
 		bullet_template.angle = randring_far_next16();
 		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = (boss_center_y - TO_SP(32));
+		bullet_template.center.y.v = (boss_center_y - YUMEMI_CROSS_RING_DISPLACEMENT);
 		bullets_add();
 
 		bullet_template.angle = randring_far_next16();
-		bullet_template.center.y.v = (boss_center_y + TO_SP(32));
+		bullet_template.center.y.v = (boss_center_y + YUMEMI_CROSS_RING_DISPLACEMENT);
 		bullets_add();
 
 		bullet_template.angle = randring_far_next16();
-		bullet_template.center.x.v = (boss_center_x - TO_SP(32));
+		bullet_template.center.x.v = (boss_center_x - YUMEMI_CROSS_RING_DISPLACEMENT);
 		bullet_template.center.y.v = boss_center_y;
 		bullets_add();
 
 		bullet_template.angle = randring_far_next16();
-		bullet_template.center.x.v = (boss_center_x + TO_SP(32));
+		bullet_template.center.x.v = (boss_center_x + YUMEMI_CROSS_RING_DISPLACEMENT);
 		bullets_add();
 	}
 
@@ -300,9 +306,11 @@ void near yumemi_pattern_cross_rings(void)
 void near yumemi_pattern_chase(void)
 {
 	if(!boss_move_phase) {
+		// Keep the original positive, short-circuit range test. Reversing
+		// this into an early exit changes original TC4 branching (af848d).
 		if(
-			(boss_center_x > 0x380) &&
-			(boss_center_x < 0xE80)
+			(boss_center_x > YUMEMI_CHASE_LEFT_BOUNDARY) &&
+			(boss_center_x < YUMEMI_CHASE_RIGHT_BOUNDARY)
 		) {
 			boss_move_sine();
 			return;
@@ -405,8 +413,8 @@ void far gba_boss_update_yumemi(void)
 	boss_target_update();
 	boss_frame++;
 
-	yumemi_origin_x = (boss_center_x + 0x90);
-	yumemi_origin_y = (boss_center_y - 0x180);
+	yumemi_origin_x = (boss_center_x + YUMEMI_ORIGIN_X_OFFSET);
+	yumemi_origin_y = (boss_center_y - YUMEMI_ORIGIN_Y_OFFSET);
 
 	switch(boss_mode) {
 	case YUMEMI_MODE_INTRO:
@@ -517,7 +525,7 @@ void near yumemi_render_main(void)
 		sprite16_put(left, top, (boss_sprite_offset + 0x16));
 	}
 
-	if(!boss_effect_radius && !boss_render_frame) {
+	if(!(boss_effect_radius || boss_render_frame)) {
 		return;
 	}
 
@@ -562,6 +570,9 @@ enum yumemi_arrival_gate_t {
     YUMEMI_ARRIVAL_RASTER_STEP = 8,
 };
 
+// These four entrance raster phases intentionally use the same real
+// 8-pixel signed-step traversal but different original clipping bounds.
+// TC4 4.02 reuses the original instructions with typed while loops.
 void near yumemi_render_arrival(void)
 {
 	screen_y_t top;
@@ -587,8 +598,9 @@ void near yumemi_render_arrival(void)
 			((boss_frame << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT) - TO_SP(104),
 			pid_other
 		);
-		for(; left <= right; left += YUMEMI_ARRIVAL_RASTER_STEP) {
+		while(left <= right) {
 			sprite16_put(left, top, boss_sprite_offset);
+			left += YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE2_END) {
 		phase = (boss_frame - YUMEMI_ARRIVAL_PHASE1_END);
@@ -597,8 +609,9 @@ void near yumemi_render_arrival(void)
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
-		for(; left <= right; left += YUMEMI_ARRIVAL_RASTER_STEP) {
+		while(left <= right) {
 			sprite16_put(left, top, boss_sprite_offset);
+			left += YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE3_END) {
 		phase = (boss_frame - YUMEMI_ARRIVAL_PHASE2_END);
@@ -607,8 +620,9 @@ void near yumemi_render_arrival(void)
 			TO_SP(272) - ((phase << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT),
 			pid_other
 		);
-		for(; left >= right; left -= YUMEMI_ARRIVAL_RASTER_STEP) {
+		while(left >= right) {
 			sprite16_put(left, top, boss_sprite_offset);
+			left -= YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 		left = playfield_fg_x_to_screen(TO_SP(88), pid_other);
 		sprite16_put(left, top, boss_sprite_offset);
@@ -619,8 +633,9 @@ void near yumemi_render_arrival(void)
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
-		for(; left >= right; left -= YUMEMI_ARRIVAL_RASTER_STEP) {
+		while(left >= right) {
 			sprite16_put(left, top, boss_sprite_offset);
+			left -= YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 	}
 

@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After848: full Yumemi BOSS native four-stage raster control
+
+- The complete `ba_yumem` BOSS now expresses **all four original entrance
+  raster loops** as natural signed-step `while` sweeps and the main render
+  no-effect condition as `!(effect || frame)`; original signed chase
+  boundaries and four independent cross-ring offsets are named.
+- Actual negative TC4 trial `af848d` proved an equivalent inverted
+  chase-X early exit changes original CODE. `af848a/b/c` successively
+  proved natural loops/condition; final `af848e` passes two original
+  TC4/full normal TLINK rounds: **2,358 CODE bytes, 343 ordered native
+  FIXUPPs and 10 PUBLICs**, full original Japanese loaded MAIN and
+  all 1,553 ordered MZ relocations exact. 98 unchanged original
+  project objects/CRT reused, no cold replay. See
+  [after848 full Yumemi BOSS review](MAIN_YUMEMI_BOSS_RASTER_CONTROL_AFTER848_REVIEW.md).
+  Historically covered source, not new unique CODE/canonical credit.
+
 ## Latest after847: seven current original physical Enemy/Fireball/Reimu/Explosion sources
 
 - `af847a` genuinely **recompiled seven current changed physical
