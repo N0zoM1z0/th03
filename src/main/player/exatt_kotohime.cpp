@@ -1,5 +1,5 @@
-// Natural TC4J reconstruction of all eight functions in Kotohime's
-// TH03 P_EXATT_TEXT Extra Attack CODE owner. Entity slots, current-player
+// Complete current native-source TC4J reconstruction of all eight
+// original Kotohime Extra Attack functions in P_EXATT_TEXT. Entity slots, current-player
 // controls and bullet pattern settings retain their original frozen DGROUP
 // locations; this object emits no private DATA/BSS.
 #pragma codeseg P_EXATT_TEXT
@@ -72,6 +72,13 @@ enum kotohime_exatt_limits_t {
     KOTO_EXATT_PATTERN_SPEED_STEP = 2,
     KOTO_EXATT_COLLISION_TILE_W = 12,
     KOTO_EXATT_COLLISION_HALF_WIDTH = TO_SP(16),
+    KOTO_EXATT_SMALL_SPRITE_SIZE = 32,
+    KOTO_EXATT_LARGE_SPRITE_SIZE = 64,
+    KOTO_EXATT_BEAM_SPRITE_BASE = 0x280,
+    KOTO_EXATT_BEAM_ALTERNATE_OFFSET = 0xA00,
+    KOTO_EXATT_SMALL_SPRITE_OFFSET = 0x282,
+    KOTO_EXATT_SPECIAL_RADIUS = 0x20,
+    KOTO_EXATT_SPECIAL_DURATION = 0xC00,
 };
 
 // The original 32-byte entity byte-state protocol is shared by all eight
@@ -100,8 +107,11 @@ void far pascal exatt_add_kotohime(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
-    for(; i < KOTO_EXATT_NORMAL_SLOTS; ++i, p++) {
-        if(!p->state) {
+    // The ordinary eight-slot first-free allocator really can use
+    // a natural while with post-occupied near pointer/index advance
+    // (actual original TC4 test af913b), unlike some other owners.
+    while(i < KOTO_EXATT_NORMAL_SLOTS) {
+        if(p->state == KOTO_EXATT_FREE) {
             exatt_entity_p = p;
             exatt_fly_init(
                 x, y,
@@ -115,6 +125,8 @@ void far pascal exatt_add_kotohime(int x, int y, unsigned char pid_)
             p->character_mode.kotohime_extra_mode = 0;
             return;
         }
+        ++i;
+        p++;
     }
 }
 
@@ -132,8 +144,8 @@ void far pascal kotohime_extra_add(int target_x, int target_y)
         *(unsigned short near *)&pid_current,
         KOTO_EXATT_SPECIAL_FLY_SPEED
     );
-    p->duration = 0xC00;
-    p->radius = 0x20;
+    p->duration = KOTO_EXATT_SPECIAL_DURATION;
+    p->radius = KOTO_EXATT_SPECIAL_RADIUS;
     p->angle = 0;
     p->character_mode.kotohime_extra_mode = 1;
 }
@@ -152,22 +164,22 @@ void near kotohime_exatt_render_one(void)
     frame = p->frame;
 
     if(p->state == KOTO_EXATT_BEAM) {
-        sprite_offset = (pid.so_attack + 0x280);
+        sprite_offset = (pid.so_attack + KOTO_EXATT_BEAM_SPRITE_BASE);
         if((p->duration - p->y) <= KOTO_EXATT_ORBIT_NEAR_TARGET) {
             // The unsigned-byte %4 is *not* native-equal to a C++
             // &3 mask here (three-byte shrink in af750a).
             if((frame % KOTO_EXATT_FLICKER_PERIOD) <
                KOTO_EXATT_FLICKER_FIRST_HALF) {
-                sprite_offset += 0xA00;
+                sprite_offset += KOTO_EXATT_BEAM_ALTERNATE_OFFSET;
             }
         }
 
         if(!p->character_mode.kotohime_extra_mode) {
-            sprite_offset += 0x282;
-            sprite16_put_size.set(32, 32);
+            sprite_offset += KOTO_EXATT_SMALL_SPRITE_OFFSET;
+            sprite16_put_size.set(KOTO_EXATT_SMALL_SPRITE_SIZE, KOTO_EXATT_SMALL_SPRITE_SIZE);
             sprite16_put(left - 16, top - 16, sprite_offset);
         } else {
-            sprite16_put_size.set(64, 64);
+            sprite16_put_size.set(KOTO_EXATT_LARGE_SPRITE_SIZE, KOTO_EXATT_LARGE_SPRITE_SIZE);
             sprite16_put(left - 32, top - 32, sprite_offset);
         }
     } else if(p->state == KOTO_EXATT_FLYING) {
@@ -251,11 +263,19 @@ void far pascal exatt_update_kotohime(void)
     collmap_tile_h.set(KOTO_EXATT_COLLISION_TILE_W);
     collmap_pid = pid_other;
     i = 0;
-    for(; i < KOTO_EXATT_ALL_SLOTS; ++i, exatt_entity_p++) {
-        if(!exatt_entity_p->state) {
+    // The full ten-slot beam/flying/arrival state machine now uses
+    // native-exact while. The skip path advances BOTH original
+    // registers before continue; the active path advances afterward.
+    while(i < KOTO_EXATT_ALL_SLOTS) {
+        if(exatt_entity_p->state == KOTO_EXATT_FREE) {
+            ++i;
+            exatt_entity_p++;
             continue;
         }
         p = exatt_entity_p;
+        // Explicit FREE enum tests are native exact (af913c).
+        // Beam events at angle 4/8/12/16 preserve the original
+        // four/ten-shot RNG and near/fastcall callback ordering.
         if(p->state == KOTO_EXATT_BEAM) {
             if(p->y >= p->duration) {
                 if(p->angle == KOTO_EXATT_FIRST_PULSE) {
@@ -288,9 +308,9 @@ void far pascal exatt_update_kotohime(void)
                     }
                     p->state = KOTO_EXATT_FREE;
                 }
-                // This angle is an 8-bit event counter after reaching
-                // its target. Prefix ++p->angle changes original TC4
-                // CODE again in independent native trial af861e.
+                // This angle becomes the original byte event counter
+                // after arriving at its target. Prefix increment
+                // changed CODE again in the fresh af913d trial.
                 p->angle++;
             } else {
                 // Preserve original word compound addition. An explicit
@@ -316,7 +336,11 @@ void far pascal exatt_update_kotohime(void)
             p->frame = 0;
             p->state = KOTO_EXATT_BEAM;
         }
+        // Original mutable byte frame postfix is codegen-visible:
+        // ++p->frame changed CODE in fresh native af913e.
         p->frame++;
+        ++i;
+        exatt_entity_p++;
     }
 }
 

@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After913: full Kotohime Extra Attack 10-entity controller
+
+- The complete eight-function `ex_koto` source now uses natural C++
+  `while` for ordinary eight-slot first-free allocation and the full
+  **ten-entity beam/flying/arrival state machine**, including its
+  inactive `continue` near-pointer/index advance. The four/ten-shot
+  ring emitters and full ten-sprite renderer remain native exact;
+  real original 32×32/64×64 beam sprite and special duration/radius
+  geometry is named. Both FREE equality predicates compile exact.
+- Fresh TC4 negatives: byte event `p->angle++`→prefix and byte frame
+  `p->frame++`→prefix each emitted **1,059 vs original 1,054 CODE**
+  (`af913d/e`), so the original postfix forms stay. Final `af913g`
+  passes two genuine TC4/full normal MAIN TLINK rounds: **1,054 CODE
+  bytes, 100 ordered original FIXUPPs, 8 PUBLICs**, Japanese MAIN and
+  all 1,553 MZ relocations exact; 98 other original objects/CRT reused.
+  See [after913 Kotohime Extra Attack review](MAIN_KOTOHIME_EXATT_WHOLE_NATIVE_AFTER913_REVIEW.md).
+  Prior source-owned CODE, not new distinct/Factory packed credit.
+
 ## After912: complete Yumemi Extra Attack and native beam/flight loops
 
 - Full five-function original `ex_yume` physical owner now uses natural
