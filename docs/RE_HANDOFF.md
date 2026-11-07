@@ -59,6 +59,22 @@ native fields, original MAIN linker and Japanese MZ. See
 This is not new accepted byte credit. The old v1 collision reports
 are invalid for changed-source attribution.
 
+### Bullet/Fireball/Enemy native source correction after615
+
+The earlier v1 after607–609 source claims have been corrected, not carried
+forward. Three Bullet pseudo-register expressions changed x86 opcode bytes;
+Fireball direct continues changed jump layout; Enemy script VM early returns
+changed near/short branches and pointer allocation. Source was restored to
+the actual original-byte-producing forms, with negative compiler controls
+and precise reasons in
+[after615 native recertification](MAIN_BULLET_ENEMY_FIREBALL_AFTER615_REVALIDATION.md).
+The modified large Explosion collision function remains **genuinely exact**.
+The corrected v2 `af615a` simultaneously recompiles all seven physical
+Bullet/Fireball/Enemy/Explosion TUs from the *actual* modified sources:
+8,195 CODE bytes, 582 ordered native fields, 50 PUBLICs plus Fireball DATA
+in two complete normal MAIN links and Japanese full-file equality.
+No full cold replay, source masking or new Factory packed-byte credit.
+
 ## Immediate next-agent start
 
 - Inspect git status --short --branch and git log; do not reset or discard
