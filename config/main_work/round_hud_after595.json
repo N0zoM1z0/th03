@@ -1,0 +1,19 @@
+{
+  "schema":"th03-main-round-hud-after595-native-v1",
+  "parent_report":".analysis/work/main-entry-after594-native-build.json",
+  "parent_report_sha256":"0e82e89b34f0ff021cce185e50d611178def82c3738ce0d63454de4cd5c629ee",
+  "units":[
+    {"stem":"results","source":"src/main/round/results.cpp","wrapper":"src/main/round/producers/results_native.cpp","CODE_bytes":1060,"PUBLICs":3,"ordered_fixups":89,"CODE_segment":"P_SHOT_TEXT"},
+    {"stem":"shots","source":"src/main/player/shots.cpp","wrapper":"src/main/player/producers/shots_native.cpp","CODE_bytes":449,"PUBLICs":3,"ordered_fixups":17,"CODE_segment":"P_SHOT_TEXT"},
+    {"stem":"intro","source":"src/main/hud/intro.cpp","wrapper":"src/main/hud/producers/intro_native.cpp","CODE_bytes":1478,"PUBLICs":4,"ordered_fixups":145,"CODE_segment":"PLAYER_M_TEXT"}
+  ],
+  "first_use_GAME":3,"first_use_BINARY":"M",
+  "original_total_CODE_bytes":2987,
+  "original_total_public_functions":10,
+  "original_ordered_fixups":251,
+  "original_main_relocations":1553,
+  "original_full_japanese_file_bytes":130882,
+  "historic_raw_vendor_OMF_packet_identity":false,
+  "canonical_factory_credit_changed":false,
+  "whole_project_source_accepted":false
+}

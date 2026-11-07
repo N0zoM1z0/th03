@@ -1,4 +1,4 @@
-# TH03 agent handoff — after594 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after595 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -469,6 +469,28 @@ compiler metadata evidence.
 
   .analysis/work/main-entry-after594-native-build.json
   scripts/review_th03_main_entry_after594_work.py
+
+## MAIN round results, shot controller and HUD animation (after595)
+
+Three original natural C++ source TUs have now been independently
+compiled under the real GAME=3/BINARY='M' Turbo C++ profile in two
+whole native 99-object MAIN links. The complete original results
+reset/render (1,060 CODE bytes), player shots/add/update/render
+(449 CODE bytes), and HUD intro animation/particle drawing (1,478
+CODE bytes) jointly contribute 2,987 exact original CODE bytes,
+10 PUBLICs and 251 ordered OMF FIXUPP sites. The original source
+bodies and segment/packing directives are byte-unchanged.
+
+Both complete native MAIN programs and original MAP geometry repeat
+within the after594 source-backed entry/core/character/BOSS/bullet/
+fireball/collision/keyboard chain. All 124,642 original Japanese
+load-image bytes and all 1,553 ordered MZ relocations match. The
+separate standard DOS MZ format step produces both entire original
+130,882-byte Japanese EXE files. No full cold replay or duplicate
+historical function/Factory acceptance credit was added.
+
+  .analysis/work/main-round-hud-after595-native-build.json
+  scripts/review_th03_main_round_hud_after595_work.py
 
 ## Start here
 
