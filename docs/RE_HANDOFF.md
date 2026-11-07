@@ -6,6 +6,18 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Marisa full BOSS native pattern recovery after632
+
+The real Marisa source owner now uses natural `boss_frame % 4` and
+`boss_frame % 0x20` for the exact original four- and 32-frame firing
+periods. Its full 18-mode dispatcher and wide/narrow columns, ring
+and spread timelines are now explicit compile-time enums, preserving
+the distinct final volley and finish frames. Both genuine native
+`af632c` rounds verify **1,431 CODE bytes, 199 ordered fields, nine
+PUBLICs**, the entire original MAIN link and all Japanese relocations.
+See [after632 Marisa review](MAIN_MARISA_PATTERN_NATIVE_AFTER632_REVIEW.md).
+No cold replay or new accepted packed-game bytes.
+
 ## Reimu full BOSS dispatch and timelines after631
 
 Reimu's large controller retains its genuine pre-switch intro/pattern

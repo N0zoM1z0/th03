@@ -58,6 +58,30 @@ void near boss_explosion_render(void);
 void far pascal marisa_exatt_add(int x, int y, pid_t pid);
 }
 
+// The original shared scheduler uses these Marisa-specific attack IDs.
+enum marisa_boss_mode_t {
+    MARISA_MODE_INTRO = 0x00,
+    MARISA_MODE_SELECT = 0x01,
+    MARISA_MODE_SPREAD_0 = 0x02,
+    MARISA_MODE_SPREAD_1 = 0x03,
+    MARISA_MODE_SPREAD_2 = 0x04,
+    MARISA_MODE_SPREAD_3 = 0x05,
+    MARISA_MODE_NARROW_0 = 0x06,
+    MARISA_MODE_NARROW_1 = 0x07,
+    MARISA_MODE_WIDE_0 = 0x08,
+    MARISA_MODE_WIDE_1 = 0x09,
+    MARISA_MODE_WIDE_2 = 0x0A,
+    MARISA_MODE_RING_0 = 0x0B,
+    MARISA_MODE_RING_1 = 0x0C,
+    MARISA_MODE_RING_2 = 0x0D,
+    MARISA_MODE_RING_3 = 0x0E,
+    MARISA_MODE_RING_4 = 0x0F,
+    MARISA_MODE_RING_5 = 0x10,
+    MARISA_MODE_NARROW_2 = 0x11,
+    MARISA_MODE_DESCEND = 0x80,
+    MARISA_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_marisa_template_init(int player_id)
 {
 	boss_template_state_t near *p = &boss_character_template[player_id];
@@ -78,17 +102,23 @@ void far pascal boss_marisa_template_init(int player_id)
 	p->render_mode = 0;
 }
 
+enum marisa_spread_phase_t {
+    MARISA_SPREAD_START = 0x20,
+    MARISA_SPREAD_FINISH = 0x50,
+    MARISA_SPREAD_PERIOD = 4,
+};
+
 void near marisa_pattern_spread(void)
 {
 	boss_render_mode = 1;
-	if(boss_frame < 0x20) {
+	if(boss_frame < MARISA_SPREAD_START) {
 		return;
 	}
-	if(boss_frame == 0x20) {
+	if(boss_frame == MARISA_SPREAD_START) {
 		marisa_bullet_angle = 0;
 	}
-	if(boss_frame < 0x50) {
-		if((boss_frame & 3) != 0) {
+	if(boss_frame < MARISA_SPREAD_FINISH) {
+		if((boss_frame % MARISA_SPREAD_PERIOD) != 0) {
 			return;
 		}
 
@@ -112,46 +142,63 @@ void near marisa_pattern_spread(void)
 	boss_frame = 0;
 }
 
+// The wide and narrow vertical-column attacks share the first three
+// emissions, but intentionally have different terminal frames.
+enum marisa_column_phase_t {
+    MARISA_COLUMN_WARMUP_END = 0x38,
+    MARISA_COLUMN_FIRST = 0x40,
+    MARISA_COLUMN_SECOND = MARISA_SPREAD_FINISH,
+    MARISA_COLUMN_THIRD = 0x60,
+    MARISA_COLUMN_FOURTH = 0x70,
+    MARISA_COLUMN_WIDE_FINISH = 0x84,
+};
+
 void near marisa_pattern_columns_wide(void)
 {
 	pid_t pid_other = (1 - pid_current);
 	boss_render_mode = 1;
 
-	if(boss_frame < 0x38) {
+	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
 	}
-	if(boss_frame == 0x40) {
+	if(boss_frame == MARISA_COLUMN_FIRST) {
 		marisa_exatt_add(0x80, 0x1700, pid_other);
 		marisa_exatt_add(0x1180, 0x1700, pid_other);
 		return;
 	}
-	if(boss_frame == 0x50) {
+	if(boss_frame == MARISA_COLUMN_SECOND) {
 		marisa_exatt_add(0x380, 0x1700, pid_other);
 		marisa_exatt_add(0xE80, 0x1700, pid_other);
 		return;
 	}
-	if(boss_frame == 0x60) {
+	if(boss_frame == MARISA_COLUMN_THIRD) {
 		marisa_exatt_add(0x680, 0x1700, pid_other);
 		marisa_exatt_add(0xB80, 0x1700, pid_other);
 		return;
 	}
-	if(boss_frame == 0x70) {
+	if(boss_frame == MARISA_COLUMN_FOURTH) {
 		marisa_exatt_add(0x980, 0x1700, pid_other);
 		marisa_exatt_add(0x880, 0x1700, pid_other);
 		return;
 	}
-	if(boss_frame == 0x84) {
+	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
 	}
 }
 
+// Regular 32-frame volley, ending at the original 0x82 timer.
+enum marisa_ring_phase_t {
+    MARISA_RING_PERIOD = 0x20,
+    MARISA_RING_FINISH = 0x82,
+};
+
 void near marisa_pattern_ring(void)
 {
 	boss_move_sine();
 
-	if((boss_frame & 0x1F) == 0) {
+	if((boss_frame % MARISA_RING_PERIOD) == 0) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
@@ -174,7 +221,7 @@ void near marisa_pattern_ring(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= 0x82) {
+	if(boss_frame >= MARISA_RING_FINISH) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
@@ -185,25 +232,25 @@ void near marisa_pattern_columns_narrow(void)
 	pid_t pid_other = (1 - pid_current);
 	boss_render_mode = 1;
 
-	if(boss_frame < 0x38) {
+	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
 	}
-	if(boss_frame == 0x40) {
+	if(boss_frame == MARISA_COLUMN_FIRST) {
 		marisa_exatt_add(0x200, 0x1700, pid_other);
 		marisa_exatt_add(0x1000, 0x1700, pid_other);
 		return;
 	}
-	if(boss_frame == 0x50) {
+	if(boss_frame == MARISA_COLUMN_SECOND) {
 		marisa_exatt_add(0x500, 0x1700, pid_other);
 		marisa_exatt_add(0xD00, 0x1700, pid_other);
 		return;
 	}
-	if(boss_frame == 0x60) {
+	if(boss_frame == MARISA_COLUMN_THIRD) {
 		marisa_exatt_add(0x800, 0x1700, pid_other);
 		marisa_exatt_add(0xA00, 0x1700, pid_other);
 		return;
 	}
-	if(boss_frame == 0x70) {
+	if(boss_frame == MARISA_COLUMN_FOURTH) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
@@ -232,7 +279,7 @@ void far gba_boss_update_marisa(void)
 	boss_frame++;
 
 	switch(boss_mode) {
-	case 0:
+	case MARISA_MODE_INTRO:
 		if(boss_frame != 0x64) {
 			return;
 		}
@@ -240,43 +287,43 @@ void far gba_boss_update_marisa(void)
 		boss_mode = 1;
 		break;
 
-	case 1:
+	case MARISA_MODE_SELECT:
 		boss_pattern_next();
 		break;
 
-	case 2:
-	case 3:
-	case 4:
-	case 5:
+	case MARISA_MODE_SPREAD_0:
+	case MARISA_MODE_SPREAD_1:
+	case MARISA_MODE_SPREAD_2:
+	case MARISA_MODE_SPREAD_3:
 		marisa_pattern_spread();
 		break;
 
-	case 8:
-	case 9:
-	case 0x0A:
+	case MARISA_MODE_WIDE_0:
+	case MARISA_MODE_WIDE_1:
+	case MARISA_MODE_WIDE_2:
 		marisa_pattern_columns_wide();
 		break;
 
-	case 0x0B:
-	case 0x0C:
-	case 0x0D:
-	case 0x0E:
-	case 0x0F:
-	case 0x10:
+	case MARISA_MODE_RING_0:
+	case MARISA_MODE_RING_1:
+	case MARISA_MODE_RING_2:
+	case MARISA_MODE_RING_3:
+	case MARISA_MODE_RING_4:
+	case MARISA_MODE_RING_5:
 		marisa_pattern_ring();
 		break;
 
-	case 6:
-	case 7:
-	case 0x11:
+	case MARISA_MODE_NARROW_0:
+	case MARISA_MODE_NARROW_1:
+	case MARISA_MODE_NARROW_2:
 		marisa_pattern_columns_narrow();
 		break;
 
-	case 0x80:
+	case MARISA_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case MARISA_MODE_EXPLODE:
 		return;
 	}
 
