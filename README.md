@@ -71,7 +71,18 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after865 five-original-physical-source native integration**:
+**latest after871 five-original-physical-source native integration**:
+Kotohime's complete **major BOSS**, Chiyuri's full paired Extra Attack,
+Marisa's complete Chargeshot/Gauge, the original 30-byte PMD/MIDI sound
+service leaf and the complete Kotohime Bomb. **Two independent genuine
+original TC4 4.02 and complete normal TLINK rounds simultaneously
+recompiled these five changed physical owners** and matched **4,885
+original CODE bytes, 521 literal ordered native OMF FIXUPPs, 26 PUBLICs**,
+entire normal MAIN EXE/MAP, all 124,642 Japanese loaded bytes and all
+1,553 original ordered MZ relocations. The **94 other original game
+objects and CRT were reused**, no full cold replay. See
+[after871 five-source native integration](docs/MAIN_FIVE_SOURCE_INTEGRATION_AFTER871_REVIEW.md).
+The preceding **after865 five-original-physical-source integration**:
 complete Yumemi and Kotohime **Extra Attacks**, full Rikako **major
 BOSS**, Rikako Chargeshot/Gauge and the original shared volatile VSYNC
 wait leaf. Two genuine independent TC4 4.02 and complete normal TLINK
@@ -242,6 +253,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af871a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af865a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af859a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af853a
@@ -263,8 +275,8 @@ snapshots**, but their current maintained input hashes intentionally
 differ from later BOSS, player, or enemy changes. The live read-only
 reviewer rejects source drift. Preserve their original compiler/whole-link
 evidence. `af766a` likewise has a historical source snapshot now;
-use `af865a` for this session's five edited physical owners, plus
-independent currently source-bound after859/853/847/842/835 scopes.
+use `af871a` for this session's five edited physical owners, plus
+independent currently source-bound after865/859/853/847/842/835 scopes.
 
 The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
 the historical applied after520 deletion audit (258 stages / 5,760

@@ -8,6 +8,28 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after871: five session-edited original MAIN physical sources together
+
+- `af871a` **actually recompiles all five full original physical C++
+  sources changed in this session in one two-round native experiment**:
+  complete **Kotohime major BOSS**, full Chiyuri Extra Attack, complete
+  Marisa Chargeshot/Gauge, the 30-byte PMD/MIDI leaf and Kotohime Bomb.
+  Both independent original TC4 4.02 and complete normal MAIN TLINK
+  rounds match **all 4,885 original CODE bytes, 521 literal ordered
+  native OMF FIXUPPs and 26 PUBLICs**, current-source/segment/ABI
+  dependencies, complete normal original MAIN EXE/MAP, all **124,642
+  Japanese loaded bytes and 1,553 ordered MZ relocations**. Independent
+  standard MZ serialization matches all 130,882 original Japanese file
+  bytes. **94 unchanged game objects/CRT reused**, no cold replay. See
+  [after871 five-source native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER871_REVIEW.md).
+- Other independent source-current read-only reviews `af865a`, `af859a`,
+  `af853a`, `af847a`, `af842a`, `af835a` still pass. Freshly rechecked
+  old `af821e`, `af779b`, `af769a`, `af735a`, `af684f` now **fail
+  current-source hash binding** and remain genuine *historical* native
+  receipts only. Do not repin old compiler snapshots, add already
+  covered original CODE again to distinct ownership or claim that these
+  separate native experiments were one fabricated all-object rebuild.
+
 ## After870: complete Kotohime Bomb phases and native dead-index codegen
 
 - The whole original **`b_koto` 528-byte Bomb controller** now uses a
@@ -1446,7 +1468,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af865a af859a af853a af847a af842a af835a
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af871a af865a af859a af853a af847a af842a af835a
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -1466,10 +1488,10 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The **latest current** protected original-source-bound read-only proof
-is `.analysis/work/exatt-layout-af865a/report.json`: five genuinely
+is `.analysis/work/exatt-layout-af871a/report.json`: five genuinely
 edited original physical source owners and both actual original
-TC4/TLINK rounds. `af859a` remains a separately source-current
-independent five-owner compiler/linker experiment. The older `af782a`, `af775a`, and `af766a` complete real
+TC4/TLINK rounds. Earlier `af865a` and `af859a` remain separate
+source-current independent five-owner compiler/linker experiments. The older `af782a`, `af775a`, and `af766a` complete real
 compiler/TLINK receipts remain protected **historical** source-input
 snapshots (the source hashes have subsequently changed); do not call them
 current-checkout exact proofs without a new source-bound review. The earlier historical
