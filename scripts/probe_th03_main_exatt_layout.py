@@ -59,6 +59,8 @@ SOURCES = {
     'bm_reish': 'src/main/player/bomb_reimu_shared.cpp',
     'p_gauge': 'src/main/player/gauge.cpp',
     'ch_setup': 'src/main/player/character_setup.cpp',
+    'p_combo': 'src/main/player/combo.cpp',
+    'p_cmbhl': 'src/main/player/combo.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
@@ -124,6 +126,7 @@ MAP_ORIGINAL = {
     'bomb~cxk': 'src/main/player/bomb~cxk.cpp',
 }
 MAP_ROWS = {
+    'p_combo': 6, 'p_cmbhl': 6,
     'p_gauge': 3,
     'ba_sring':5, 'ba_srest':5,
     'e_fireb':3, 'e_expl':3, 'bullet':4,
@@ -136,6 +139,11 @@ def wrapper_source(unit):
         # never to the original character-specific CODE-only producer.
         # Compiling private BSS changes near-address relocation addends.
         return (f'#define TH03_BOMB_EXTERNAL_STORAGE 1\n'
+                f'#include "{SOURCES[unit]}"\n').encode()
+    if unit in ('p_combo', 'p_cmbhl'):
+        partition = ('TH03_COMBO_MAIN_ONLY' if unit == 'p_combo'
+                     else 'TH03_COMBO_HELPERS_ONLY')
+        return (f'#define {partition} 1\n'
                 f'#include "{SOURCES[unit]}"\n').encode()
     if unit in BOSS_SHARED_UNITS:
         partition=('TH03_BOSS_SHARED_RING_ONLY' if unit=='ba_sring'

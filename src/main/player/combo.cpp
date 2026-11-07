@@ -53,6 +53,10 @@ extern const char near gsHIT[];
 extern const char near gBONUS_BOX[];
 extern const char near aBONUS_BOX_SPACES[];
 
+// One maintained source is physically split into two original native
+// objects. TH03_COMBO_MAIN_ONLY emits the display/scoring owner p_combo;
+// TH03_COMBO_HELPERS_ONLY emits the later fireball/BOSS helper p_cmbhl.
+// Both objects must be proved separately with the original linker order.
 // The display/scoring producer links early; helper CODE keeps its late layout.
 #ifndef TH03_COMBO_HELPERS_ONLY
 uint16_t pascal combo_add_raw(uint8_t hits, pid_t pid, uint16_t bonus)
@@ -85,6 +89,8 @@ uint16_t pascal combo_add_raw(uint8_t hits, pid_t pid, uint16_t bonus)
 		player.combo_bonus_max = bonus;
 	}
 
+	// The max-hit temporary above is CODE-visible: replacing it with
+	// a direct player field comparison changed TC4 output (af697b).
 	// The visible hit number is intentionally clamped after recording the
 	// unclamped 8-bit value in [player.combo_hits_max]. This preserves larger
 	// three-digit hit numbers for the defeat screen, where ZUN intentionally
@@ -118,8 +124,8 @@ void combos_update_and_render(void)
 	tram_x_t left;
 	int pid;
 	uint8_t col;
-	for(pid = 0; pid < PLAYER_COUNT; (pid++, p++)) {
-		if(p->time == 0) {
+	for(pid = 0; pid < PLAYER_COUNT; (++pid, ++p)) {
+		if(!p->time) {
 			continue;
 		}
 		if(p->time == COMBO_FRAMES) {
@@ -138,7 +144,7 @@ void combos_update_and_render(void)
 			if(hit_val_rem >= 10) {
 				col = static_cast<gaiji_th03_t>(gb_0 + (hit_val_rem / 10));
 				gaiji_putca(box_tram_x(left), HITS_TRAM_Y, col, TX_WHITE);
-				hit_val_rem %= 10;
+				hit_val_rem = (hit_val_rem % 10);
 			} else {
 				gaiji_putca(box_tram_x(left), HITS_TRAM_Y, g_SP, TX_WHITE);
 			}
@@ -147,6 +153,8 @@ void combos_update_and_render(void)
 				(box_tram_x(left) + GAIJI_TRAM_W), HITS_TRAM_Y, col, TX_WHITE
 			);
 		}
+		// Preserve original postdecrement: --p->time changed native
+		// codegen in the actual whole Combo object (af696d).
 		p->time--;
 		{
 			// ZUN bloat: Could have been a separate variable...
@@ -160,11 +168,13 @@ void combos_update_and_render(void)
 			}
 			col = V_YELLOW_BRIGHT;
 
+			// The historical bitwise conjunction must remain: changing
+			// it to logical && changed original TC4 CODE (af696f).
 			// ZUN bloat: `&&` instead of `&` would have been more readable,
 			// and would have created shorter code.
 			if(
 				(p->time < COMBO_HIT_RESET_FRAMES) &
-				((round_or_result_frame & 3) < 2)
+				((round_or_result_frame % 4) < 2)
 			) {
 				col = 8;
 			}
@@ -174,7 +184,7 @@ void combos_update_and_render(void)
 
 			#undef left
 		}
-		if(p->time == 0) {
+		if(!p->time) {
 			// ZUN quirk: This will remove the bonus frame and hit label on the
 			// last combo frame while leaving the score visible. Should have
 			// maybe been done at the beginning of the next frame.
@@ -192,6 +202,16 @@ void combos_update_and_render(void)
 #endif
 
 #ifndef TH03_COMBO_MAIN_ONLY
+// Original combo side-effect thresholds: a real BOSS launch raises its
+// next required score by 5120, while a defending boss has a 30000-point
+// panic route. These values remain compile-time C++, not extra DATA.
+enum combo_boss_panic_phase_t {
+    COMBO_BOSS_SCORE_INCREMENT = 5120,
+    COMBO_BOSS_PANIC_THRESHOLD = 30000,
+    COMBO_BOSS_PANIC_GAUGE_GAIN = 3,
+    COMBO_CHARGED_FIREBALL_BASE = 12,
+};
+
 // The far entry shares MAIN_04 CS with this near wrapper.
 #pragma samecodeseg combo_add_raw
 uint16_t pascal near combo_add(pid_t pid, uint8_t chain_slot, uint16_t bonus)
@@ -207,7 +227,7 @@ void pascal near explosion_collision_chain_slot_fire_charged_fireball(
 {
 	if(
 		chains.charge_fireball[pid][explosion_collision_chain_slot] >=
-		(12 - (round_speed / to_sp(1.0f)))
+		(COMBO_CHARGED_FIREBALL_BASE - (round_speed / to_sp(1.0f)))
 	) {
 		chains.charge_fireball[pid][explosion_collision_chain_slot] = 0;
 
@@ -233,7 +253,7 @@ void pascal near fire_point_based_boss_attack_or_panic(
 	extern bool boss_panic_fired_in_current_combo[PLAYER_COUNT];
 
 	if(points >= combo_points_for_boss_attack) {
-		if(warning_flag[pid] != WF_NONE) {
+		if(warning_flag[pid]) {
 			return;
 		}
 		if(gba_boss_launched_by != pid) {
@@ -251,7 +271,7 @@ void pascal near fire_point_based_boss_attack_or_panic(
 			chains.charge_fireball[pid][explosion_collision_chain_slot] = 0;
 			chains.charge_exatt[pid][explosion_collision_chain_slot] = 0;
 
-			combo_points_for_boss_attack += 5120;
+			combo_points_for_boss_attack += COMBO_BOSS_SCORE_INCREMENT;
 			if(gba_boss_level < GBA_BOSS_LEVEL_MAX) {
 				gba_boss_level++;
 			}
@@ -260,17 +280,17 @@ void pascal near fire_point_based_boss_attack_or_panic(
 			} else {
 				players[pid].boss_attacks_reversed++;
 			}
-		} else if(points >= 30000) {
+		} else if(points >= COMBO_BOSS_PANIC_THRESHOLD) {
 			if(
 				boss_panic_fired_in_current_combo[pid] ||
-				(gba_flag_active[pid] != GBAF_NONE)
+				(gba_flag_active[pid])
 			) {
 				return;
 			}
 			gba_flag_next[pid] = GBAF_GAUGE_BULLET_INIT;
 			warning_flag[pid] = WF_PORTRAIT;
 			boss_panic_fired_in_current_combo[pid] = true;
-			gba_gauge_level[pid] += 3;
+			gba_gauge_level[pid] += COMBO_BOSS_PANIC_GAUGE_GAIN;
 			if(gba_gauge_level[pid] > GBA_GAUGE_LEVEL_MAX) {
 				gba_gauge_level[pid] = GBA_GAUGE_LEVEL_MAX;
 			}

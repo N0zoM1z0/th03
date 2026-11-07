@@ -6,6 +6,33 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Combo scoring/trigger original split native C++ after698
+
+The single maintained `combo.cpp` now has explicit
+original-native compiler support for its two physical
+project TUs: `p_combo` owns the two full large
+scoring/HUD functions (491 CODE), while `p_cmbhl`
+owns the three separate chained-fireball/BOSS/panic
+helpers (487 CODE). They each have six original
+MAP segment rows. Natural `++pid/++p`, `if(!p->time)`,
+explicit digit `%10` and four-frame blink `%4`
+compile byte-for-byte original. Its BOSS attack
+score increase 5120, defending panic threshold 30000,
+Gauge +3 and fireball base 12 have named original
+physical meanings; warning/Gauge zero states
+use natural C++ nonzero checks. Negative controls
+showed prefix timer decrement, HUD `&&` and
+removing the max-hit temporary were TC4-original-unequal,
+so those original operations remain. The real
+source/OMF-attested `af698c` original TC4/TLINK
+two-round proof reproduces **978 CODE bytes, 57
+literal ordered native fixups, five PUBLICs**,
+entire normal MAIN EXE/MAP and Japanese MZ.
+See [after698 Combo native source review](MAIN_COMBO_NATIVE_AFTER698_REVIEW.md).
+Only two affected original project objects recompiled;
+no full cold replay or new canonical Factory
+packed-game code byte acceptance.
+
 ## Full character setup and nine callbacks native C++ after695
 
 The v2 current-source/OMF-attested compiler overlay
