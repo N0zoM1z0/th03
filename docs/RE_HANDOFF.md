@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After866: complete Kotohime BOSS natural nested radial and ring control
+
+- Full 11-function Kotohime **major BOSS** (`ba_koto`) now uses
+  natural C++ `while` loops for the random/aimed ring emitter,
+  **both nested radial-burst loops** and the sprite-ring renderer,
+  preserving original signed 16-bit divisions, RNG consumption and
+  8-/N-sprite calls. The five original pellet-arc positions and
+  three radius growth operations have named source constants.
+- Fresh genuine TC4 negative controls: converting the two original
+  AL-mediated byte phase updates to `boss_move_phase +=2` generated
+  **1,834** vs original **1,840** CODE bytes (`af866d`), and
+  replacing the radial `_AL +=0xFC` with `boss_move_phase -=4` generated
+  **1,838** (`af866e`). Both byte carrier forms remain. Final `af866g`
+  passes two genuine original TC4 4.02/full normal MAIN TLINK rounds:
+  **1,840 CODE bytes, 262 literal ordered native FIXUPPs, 11 PUBLICs**,
+  original Japanese loaded MAIN and all 1,553 ordered MZ relocations.
+  98 other project objects/CRT reused, no cold replay. See
+  [after866 Kotohime BOSS review](MAIN_KOTOHIME_BOSS_WHILE_AFTER866_REVIEW.md).
+  Already source-covered original CODE, not new unique/Factory accepted bytes.
+
 ## Latest after865: five session-modified original sources built together
 
 - `af865a` **actually recompiles all five complete original physical

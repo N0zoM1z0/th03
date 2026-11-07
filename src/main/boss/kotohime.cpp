@@ -1,6 +1,8 @@
-// Natural Turbo C++ reconstruction candidate for the complete Kotohime
-// contribution inside TH03 MAIN_03_TEXT. Shared boss helpers and historical
-// state remain external until full-link ownership is proved.
+// Complete source-native Turbo C++ reconstruction for the original
+// Kotohime major BOSS physical contribution inside TH03 MAIN_03_TEXT.
+// Shared BOSS helpers and storage remain in their own historical slots;
+// the full normal Japanese MAIN link is original-exact, while canonical
+// packed-game Factory acceptance is an independent open claim.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/kotohime.hpp"
@@ -89,6 +91,11 @@ enum kotohime_boss_timing_t {
     KOTOHIME_BURST_SPEED_SCALE = 0x30,
     KOTOHIME_BURST_SPEED_BASE = 0x10,
     KOTOHIME_INTRO_RADIUS_PIXELS = 0xC8,
+    KOTOHIME_EFFECT_RADIUS_EXPAND_STEP = 0x20,
+    KOTOHIME_PELLET_ARC_X_EXTREME = TO_SP(48),
+    KOTOHIME_PELLET_ARC_X_MIDDLE = TO_SP(24),
+    KOTOHIME_PELLET_ARC_Y_MIDDLE = TO_SP(12),
+    KOTOHIME_PELLET_ARC_Y_CENTER = TO_SP(24),
 };
 
 void far pascal boss_kotohime_template_init(int player_id)
@@ -125,7 +132,11 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 	register int i;
 
 	bullet_template.type = BT_BULLET16_DEFAULT;
-	for(i = 0; i < kotohime_orbit_count; ++i) {
+	// This original signed angle calculation and conditional RNG draw must
+	// run in the same order for every physical ring projectile. Typed
+	// while compiles byte-exactly (native af866a).
+	i = 0;
+	while(i < kotohime_orbit_count) {
 		if(randomize_angle) {
 			bullet_template.angle = randring_far_next16();
 		}
@@ -146,6 +157,7 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 		bullet_template.center.x.v = x;
 		bullet_template.center.y.v = y;
 		bullets_add();
+		++i;
 	}
 }
 
@@ -157,9 +169,11 @@ enum kotohime_ring_phase_t {
     KOTOHIME_RING_RELEASE_AFTER = 0x40,
 };
 
-// TC4 requires the original AL-mediated byte update in the two ring
-// patterns: even an explicitly truncated C++ phase+2 assignment changed
-// real native CODE (negative control af701a).
+// The ring and radial variants deliberately use AL-mediated byte phase
+// updates. Repeating the *real original compiler* experiment with natural
+// boss_move_phase +=2 in both variants shortened CODE by six bytes
+// (af866d); radial -=4 likewise changed original CODE (af866e).
+// Do not replace these register-visible expressions by C++ assumptions.
 void near kotohime_pattern_random_ring(void)
 {
 	if(boss_frame == KOTOHIME_RING_START_FRAME) {
@@ -187,7 +201,7 @@ void near kotohime_pattern_random_ring(void)
 		}
 	} else {
 		boss_move_sine();
-		boss_effect_radius += 0x20;
+		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
 	}
 }
 
@@ -227,7 +241,7 @@ void near kotohime_pattern_aimed_ring(void)
 		}
 	} else {
 		boss_move_sine();
-		boss_effect_radius += 0x20;
+		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
 	}
 }
 
@@ -248,23 +262,23 @@ void near kotohime_pattern_pellet_arc(void)
 		bullet_template.group = BG_RING;
 		bullet_template.count = KOTOHIME_PELLET_RING_COUNT;
 
-		bullet_template.center.x.v = (boss_center_x - TO_SP(48));
+		bullet_template.center.x.v = (boss_center_x - KOTOHIME_PELLET_ARC_X_EXTREME);
 		bullet_template.center.y.v = boss_center_y;
 		bullets_add();
 
-		bullet_template.center.x.v = (boss_center_x - TO_SP(24));
-		bullet_template.center.y.v = (boss_center_y + TO_SP(12));
+		bullet_template.center.x.v = (boss_center_x - KOTOHIME_PELLET_ARC_X_MIDDLE);
+		bullet_template.center.y.v = (boss_center_y + KOTOHIME_PELLET_ARC_Y_MIDDLE);
 		bullets_add();
 
 		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = (boss_center_y + TO_SP(24));
+		bullet_template.center.y.v = (boss_center_y + KOTOHIME_PELLET_ARC_Y_CENTER);
 		bullets_add();
 
-		bullet_template.center.x.v = (boss_center_x + TO_SP(24));
-		bullet_template.center.y.v = (boss_center_y + TO_SP(12));
+		bullet_template.center.x.v = (boss_center_x + KOTOHIME_PELLET_ARC_X_MIDDLE);
+		bullet_template.center.y.v = (boss_center_y + KOTOHIME_PELLET_ARC_Y_MIDDLE);
 		bullets_add();
 
-		bullet_template.center.x.v = (boss_center_x + TO_SP(48));
+		bullet_template.center.x.v = (boss_center_x + KOTOHIME_PELLET_ARC_X_EXTREME);
 		bullet_template.center.y.v = boss_center_y;
 		bullets_add();
 	}
@@ -297,47 +311,54 @@ void near kotohime_pattern_radial_burst(void)
 
 	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = 2;
-	boss_effect_radius += 8;
-	boss_move_phase -= 2;
-	boss_render_frame++;
-	if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
-		return;
-	}
-
-	bullet_template.group = BG_1;
-	bullet_template.type = BT_BULLET16_DEFAULT;
-
-	for(center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
-		center_angle = (
-			((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
-			boss_move_phase
-		);
-		x = polar(
-			boss_center_x,
-			boss_effect_radius,
-			CosTable8[center_angle]
-		);
-		y = polar(
-			boss_center_y,
-			boss_effect_radius,
-			SinTable8[center_angle]
-		);
-		bullet_template.center.x.v = x;
-		bullet_template.center.y.v = y;
-
-		for(bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
-			bullet_template.angle = (
-				((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
-				center_angle +
-				KOTOHIME_BURST_CENTER_ANGLE_OFFSET
-			);
-			bullet_template.speed.v = (
-				((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count) +
-				KOTOHIME_BURST_SPEED_BASE
-			);
-			bullets_add();
+		boss_effect_radius += 8;
+		boss_move_phase -= 2;
+		boss_render_frame++;
+		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
+			return;
 		}
-	}
+
+		bullet_template.group = BG_1;
+		bullet_template.type = BT_BULLET16_DEFAULT;
+
+		// Original inner burst is a genuine nested O(center_count *
+		// burst_count) traversal, retaining division before angle truncation.
+		// Both typed while loops preserve the original TC4 code (af866b).
+		center_i = 0;
+		while(center_i < kotohime_orbit_count) {
+			center_angle = (
+				((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
+				boss_move_phase
+			);
+			x = polar(
+				boss_center_x,
+				boss_effect_radius,
+				CosTable8[center_angle]
+			);
+			y = polar(
+				boss_center_y,
+				boss_effect_radius,
+				SinTable8[center_angle]
+			);
+			bullet_template.center.x.v = x;
+			bullet_template.center.y.v = y;
+
+			bullet_i = 0;
+			while(bullet_i < kotohime_burst_count) {
+				bullet_template.angle = (
+					((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
+					center_angle +
+					KOTOHIME_BURST_CENTER_ANGLE_OFFSET
+				);
+				bullet_template.speed.v = (
+					((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count) +
+					KOTOHIME_BURST_SPEED_BASE
+				);
+				bullets_add();
+				++bullet_i;
+			}
+			++center_i;
+		}
 
 		snd_se_play(3);
 		boss_render_mode = 0;
@@ -345,7 +366,7 @@ void near kotohime_pattern_radial_burst(void)
 		boss_frame = 0;
 	} else {
 		boss_move_sine();
-		boss_effect_radius += 0x20;
+		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
 	}
 }
 
@@ -458,7 +479,10 @@ void near pascal kotohime_render_ring(int count)
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 
-	for(i = 0; i < count; ++i) {
+	// The same signed 256-step division is used by the 8-/N-sprite
+	// renderer. A while preserves the original 16-bit signed result.
+	i = 0;
+	while(i < count) {
 		angle = (((i * KOTOHIME_FULL_TURN_STEPS) / count) + boss_move_phase);
 		left = polar(
 			boss_center_x,
@@ -477,6 +501,7 @@ void near pascal kotohime_render_ring(int count)
 		// Compound top >>=4 changed original TC4 CODE (af762b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
+		++i;
 	}
 }
 
