@@ -266,6 +266,21 @@ vector. See [after608 fireball review](MAIN_FIREBALL_TRANSFER_CPP_AFTER608_NATIV
 The `af608b` seven-unit Enemy/Fireball/Explosion/Bullet control also
 passed, with unrelated originals reused. No newly accepted bytes.
 
+### Four original Enemy units, script VM and clipping, after609
+
+The maintained `enemy.cpp` now lowers the large `enemy_run()` ENEDAT
+script VM using natural early-return/continue C++ for linear, ordinary,
+speed, circular and sine movement, both loop kinds, one typed segmented
+script-pointer expression and the duration calculation. The
+`enemy_move_and_clip()` helper now has explicit early returns and
+short-circuit X/Y clipping without hand-goto. Real two-round native
+`af609k` proof recompiles all four `eforna/efornb/eupda/eupdb`
+original units, **3,325 CODE bytes / 222 ordered fields / 19 PUBLICs**,
+and full Japanese MAIN EXE/MAP/relocation match. See
+[after609 script VM review](MAIN_ENEMY_SCRIPT_CPP_AFTER609_NATIVE_REVIEW.md).
+The game's original broken LOOP displacement/op_size behavior is retained;
+no newly accepted byte count or physical behavior claim is added.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

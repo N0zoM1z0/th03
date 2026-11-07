@@ -427,28 +427,24 @@ bool near enemy_move_and_clip(void)
 	} else {
 		p.center.x.v -= velocity;
 	}
-	if(p.pos_type & EPT_CLIP_X) {
-		if(
-			(p.center.x.v <= to_sp(-32.0f)) ||
-			(p.center.x.v >= to_sp(PLAYFIELD_W + 32.0f))
-		) {
-			goto clip;
-		}
+	if((p.pos_type & EPT_CLIP_X) && (
+		(p.center.x.v <= to_sp(-32.0f)) ||
+		(p.center.x.v >= to_sp(PLAYFIELD_W + 32.0f))
+	)) {
+		p.flag = EFF_FREE;
+		return true;
 	}
 
 	velocity = p.velocity.y.v;
 	velocity = (enemy_speedtune_1(velocity) + enemy_speedtune_2(velocity));
 	p.center.y.v += velocity;
-	if(p.pos_type & EPT_CLIP_BOTTOM) {
-		if((p.center.y.v >= to_sp(PLAYFIELD_H + 32.0f))) {
-			goto clip;
-		}
+	if((p.pos_type & EPT_CLIP_BOTTOM) &&
+		(p.center.y.v >= to_sp(PLAYFIELD_H + 32.0f))
+	) {
+		p.flag = EFF_FREE;
+		return true;
 	}
 	return false;
-
-clip:
-	p.flag = EFF_FREE;
-	return true;
 }
 #endif
 
@@ -533,8 +529,7 @@ bool near enemy_run(void)
 
 	player = &players[pid];
 	_ES = FP_SEG(enedat_2);
-	script = static_cast<uint8_t __es *>(enemy.script_base);
-	script += enemy.script_ip;
+	script = (static_cast<uint8_t __es *>(enemy.script_base) + enemy.script_ip);
 
 	// ZUN bloat: Every clipped branch that returns `true` redundantly sets the
 	// [enemy.flag] to [EFF_FREE].
@@ -550,47 +545,45 @@ bool near enemy_run(void)
 				enemy.angle.split.fine = 0;
 				enemy_velocity_set_from_angle_and_speed();
 			}
-			if(!enemy_move_and_clip()) {
-				op_duration = p->duration;
-				op_size = sizeof(*p);
-
-				enum {
-					HALF_W = TO_SP(PLAYER_W / 2),
-					HALF_H = TO_SP(PLAYER_H / 2),
-				};
-				if(p->code == EO_MOVE_LINEAR_STOP_AT_PLAYER_Y) {
-					if(
-						(enemy.center.y.v >= (player->center.y.v - HALF_H)) &&
-						(enemy.center.y.v <= (player->center.y.v + HALF_H))
-					) {
-						enemy.script_op_frame = 0;
-						break;
-					}
-				} else if(p->code == EO_MOVE_LINEAR_STOP_AT_PLAYER_X) {
-					if(
-						(enemy.center.x.v >= (player->center.x.v - HALF_W)) &&
-						(enemy.center.x.v <= (player->center.x.v + HALF_W))
-					) {
-						enemy.script_op_frame = 0;
-						break;
-					}
-				}
-			} else {
+			if(enemy_move_and_clip()) {
 				enemy.flag = EFF_FREE;
 				return true;
+			}
+			op_duration = p->duration;
+			op_size = sizeof(*p);
+
+			enum {
+				HALF_W = TO_SP(PLAYER_W / 2),
+				HALF_H = TO_SP(PLAYER_H / 2),
+			};
+			if(p->code == EO_MOVE_LINEAR_STOP_AT_PLAYER_Y) {
+				if(
+					(enemy.center.y.v >= (player->center.y.v - HALF_H)) &&
+					(enemy.center.y.v <= (player->center.y.v + HALF_H))
+				) {
+					enemy.script_op_frame = 0;
+					break;
+				}
+			} else if(p->code == EO_MOVE_LINEAR_STOP_AT_PLAYER_X) {
+				if(
+					(enemy.center.x.v >= (player->center.x.v - HALF_W)) &&
+					(enemy.center.x.v <= (player->center.x.v + HALF_W))
+				) {
+					enemy.script_op_frame = 0;
+					break;
+				}
 			}
 			#undef p
 			goto wait_and_return;
 
 		case EO_MOVE:
 			#define p reinterpret_cast<enedat_op_duration_t __es *>(script)
-			if(!enemy_move_and_clip()) {
-				op_duration = p->duration;
-				op_size = sizeof(*p);
-			} else {
+			if(enemy_move_and_clip()) {
 				enemy.flag = EFF_FREE;
 				return true;
 			}
+			op_duration = p->duration;
+			op_size = sizeof(*p);
 			#undef p
 			goto wait_and_return;
 
@@ -600,13 +593,12 @@ bool near enemy_run(void)
 				enemy.speed = p->speed;
 				enemy_velocity_set_from_angle_and_speed();
 			}
-			if(!enemy_move_and_clip()) {
-				op_duration = p->duration;
-				op_size = sizeof(*p);
-			} else {
+			if(enemy_move_and_clip()) {
 				enemy.flag = EFF_FREE;
 				return true;
 			}
+			op_duration = p->duration;
+			op_size = sizeof(*p);
 			#undef p
 			goto wait_and_return;
 
@@ -637,12 +629,11 @@ bool near enemy_run(void)
 				op_size = sizeof(*p);
 			}
 
-			if(!enemy_move_and_clip()) {
-				enemy_angle_update();
-			} else {
+			if(enemy_move_and_clip()) {
 				enemy.flag = EFF_FREE;
 				return true;
 			}
+			enemy_angle_update();
 			#undef p
 			goto wait_and_return;
 
@@ -671,12 +662,11 @@ bool near enemy_run(void)
 				enemy.velocity.y.v = velocity_tmp.v;
 			}
 
-			if(!enemy_move_and_clip()) {
-				enemy_angle_update();
-			} else {
+			if(enemy_move_and_clip()) {
 				enemy.flag = EFF_FREE;
 				return true;
 			}
+			enemy_angle_update();
 
 			op_duration = p->duration;
 			op_size = sizeof(*p);
@@ -739,36 +729,33 @@ bool near enemy_run(void)
 		// single line:
 		case EO_LOOP_ABS:
 			#define p reinterpret_cast<enedat_op_loop_t __es *>(script)
-			if(enemy.loop_i >= p->count) {
-				enemy.loop_i = 0;
-				op_size = sizeof(*p);
-			} else {
+			if(enemy.loop_i < p->count) {
 				enemy.loop_i++;
 				enemy.script_ip = p->ip_disp; // ← This one...
 				script += op_size;
 				continue;
 			}
+			enemy.loop_i = 0;
+			op_size = sizeof(*p);
 			#undef p
 			break;
 
 		case EO_LOOP_REL:
 			#define p reinterpret_cast<enedat_op_loop_t __es *>(script)
-			if(enemy.loop_i >= p->count) {
-				enemy.loop_i = 0;
-				op_size = sizeof(*p);
-			} else {
+			if(enemy.loop_i < p->count) {
 				enemy.loop_i++;
 				enemy.script_ip += p->ip_disp; // ← …vs. this one.
 				script += op_size;
 				continue;
 			}
+			enemy.loop_i = 0;
+			op_size = sizeof(*p);
 			#undef p
 			break;
 
 		default:
 		wait_and_return:
-			var = op_duration;
-			var = (((var / 2) * 3) - ((enemy_speed * var) / 6));
+			var = (((op_duration / 2) * 3) - ((enemy_speed * op_duration) / 6));
 			if(var <= enemy.script_op_frame) {
 				enemy.script_op_frame = 0;
 				enemy.script_ip += op_size;
