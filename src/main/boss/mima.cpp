@@ -116,7 +116,7 @@ void near mima_pattern_spread(void)
 		return;
 	}
 
-	if((boss_frame & 1) == 0) {
+	if((boss_frame % 2) == 0) {
 		snd_se_play(3);
 
 		bullet_template.angle = mima_spread_angle;
@@ -181,7 +181,7 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	if((boss_frame & 3) == 0) {
+	if((boss_frame % 4) == 0) {
 		bullet_template.angle = 0;
 		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
 		bullet_template.center.x.v = x;
@@ -209,7 +209,7 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if((boss_frame & 1) == 0) {
+	if((boss_frame % 2) == 0) {
 		snd_se_play(3);
 	}
 
@@ -274,7 +274,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle = randring_far_next16();
 	}
 
-	if((boss_frame & 1) == 0) {
+	if((boss_frame % 2) == 0) {
 		bullet_template.center.x.v = polar(
 			boss_center_x, TO_SP(48), CosTable8[mima_orbit_angle]
 		);

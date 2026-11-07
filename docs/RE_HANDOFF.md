@@ -6,6 +6,17 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Mima original signed-orbit and attack cadence after633
+
+Original-source-rooted Turbo C++ compiles `boss_frame % 2` for
+Mima's orbit and spreading/sound ticks, and `boss_frame % 4`
+for random bomb volley firing to the **original exact byte masks**.
+The entire large Mima BOSS TU is source-bound and exact in two
+`af633b` native compiler/TLINK rounds (1,922 CODE bytes, 277
+ordered fields and nine PUBLICs). See
+[after633 Mima source review](MAIN_MIMA_CADENCE_NATIVE_AFTER633_REVIEW.md).
+No full cold replay or additional accepted packed bytes.
+
 ## Marisa full BOSS native pattern recovery after632
 
 The real Marisa source owner now uses natural `boss_frame % 4` and
