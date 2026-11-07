@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After882: original resident CFG loader leaf and external filename ABI
+
+- The original 49-CODE-byte `cfg_lres` resident config loader now uses
+  a natural **file-scope extern `const char CFG_FN[]`**, keeping the
+  true external CFG filename and original function-level `cfg_t` scratch.
+  Original segmented return pointer, direct call/return and stack ABI
+  are native-exact.
+- Real original TC4 counterexamples: an explicit local near-result
+  pointer declaration was rejected by the old parser (`af882b`);
+  a valid extra result local generated **53 vs original 49 CODE**
+  (`af882c`); `cfg_t cfg={0}` generated **74** (`af882d`). Reverted
+  both. Final `af882e` passes two independent original TC4/full normal
+  TLINK rounds: **49 CODE bytes, 6 ordered FIXUPPs, 1 PUBLIC**, full
+  Japanese MAIN and all 1,553 relocations; 98 other project objects/
+  CRT reused, no cold replay. See
+  [after882 original CFG leaf review](MAIN_CFG_RESIDENT_NATIVE_SCOPE_AFTER882_REVIEW.md).
+  Existing source ownership, not new Factory/canonical CODE credit.
+
 ## After881: full Marisa BOSS and genuinely natural native byte assignment
 
 - The complete nine-function `ba_maris` **major BOSS** now has natural
