@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scoped original-TC4 source/object/full-MAIN check for Extra Attacks and major BOSSes.
+"""Scoped original-TC4 source/object/full-MAIN check for physical MAIN owners.
 
 The after596 parent is a *frozen* historical source proof. Never overwrite its
 source snapshots or claim that its stored source hash describes later edits.
@@ -101,6 +101,10 @@ SOURCES = {
     'e_fireb': 'src/main/enemy/fireball.cpp',
     'e_expl': 'src/main/enemy/expl.cpp',
     'bullet': 'src/main/bullet/bullet.cpp',
+    'hitbox': 'src/main/collision/hitbox.cpp',
+    'hitcirc': 'src/main/collision/hitcircle.cpp',
+    'shots': 'src/main/player/shots.cpp',
+    'results': 'src/main/round/results.cpp',
     'eforna': 'src/main/enemy/enemy.cpp',
     'efornb': 'src/main/enemy/enemy.cpp',
     'eupda': 'src/main/enemy/enemy.cpp',
@@ -115,6 +119,17 @@ CHAIN_UNITS = ('chain1', 'chain2')
 OWNER_INLINE_PATHS = {
     # The original HUD intro contains its particle state machine, rendering,
     # and hardware-specific tiny pixel/strip providers in separate includes.
+    # Two previously historical after595 C++ owners compile their actual
+    # implementation in separately maintained .inl files. Pin the entire
+    # active bodies, not just the short top-level shell filenames.
+    'shots': (
+        'src/main/player/shots_add.inl',
+        'src/main/player/shot.inl',
+    ),
+    'results': (
+        'src/main/round/objects_reset.inl',
+        'src/main/round/results.inl',
+    ),
     'intro': (
         'src/main/hud/start_anim.inl',
         'src/main/hud/start_lowlevel.inl',
@@ -215,6 +230,10 @@ PRODUCER_WRAPPERS = {
     'e_fireb': 'src/main/enemy/producers/fireball_native.cpp',
     'e_expl': 'src/main/enemy/producers/explosion_native.cpp',
     'bullet': 'src/main/bullet/producers/bullet_native.cpp',
+    'hitbox': 'src/main/collision/producers/hitbox_native.cpp',
+    'hitcirc': 'src/main/collision/producers/hitcircle_native.cpp',
+    'shots': 'src/main/player/producers/shots_native.cpp',
+    'results': 'src/main/round/producers/results_native.cpp',
     'eforna': 'src/main/enemy/producers/eforna.cpp',
     'efornb': 'src/main/enemy/producers/efornb.cpp',
     'eupda': 'src/main/enemy/producers/eupda.cpp',
@@ -227,6 +246,10 @@ ORIGINAL_STAGES = {
     'core': 'af593p',
     'e_fireb': 'af589f', 'e_expl': 'af589f',
     'bullet': 'af588b',
+    # The original after596 normal MAIN response reused both after591
+    # physical collision TUs, not obj/th03/hitbox.obj/hitcirc.obj.
+    'hitbox': 'af591c', 'hitcirc': 'af591c',
+    'shots': 'af595h', 'results': 'af595h',
     'eforna': 'af572e', 'efornb': 'af572e',
     'eupda': 'af572e', 'eupdb': 'af572e',
 }
@@ -250,6 +273,8 @@ MAP_ROWS = {
     'hud_stat':3, 'initmain':3, 'snd_se':3, 'polar':3, 'cfg_lres':3,
     'input_s':3, 'inp_m_w':3, 'snd_kaja':3, 'pi_load':3, 'exit':3,
     'e_fireb':3, 'e_expl':3, 'bullet':4,
+    'hitbox':3, 'hitcirc':3,
+    'shots':4, 'results':4,
     'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,
 }
 

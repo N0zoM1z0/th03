@@ -11,6 +11,7 @@ from probe_th03_main_exatt_layout import (
     owner_inline_paths,
     rooted_source,
     rooted_inline_source,
+    SOURCES, PRODUCER_WRAPPERS, ORIGINAL_STAGES, MAP_ROWS,
 )
 
 
@@ -81,6 +82,41 @@ class ReimuSplitNativeHistory(unittest.TestCase):
         # update-only original physical TU. The flight owner checks it.
         self.assertIn(b'#include "src/main/player/exatt_reimu_prefix.inl"', rooted)
         self.assertNotIn(b'#include "probe/af765d/r2/src/main/player/exatt_reimu_prefix.inl"', rooted)
+
+
+class CollisionAndRoundCurrentSource(unittest.TestCase):
+    def test_collision_objects_bind_original_after591_link_slots(self):
+        for stem in ('hitbox', 'hitcirc'):
+            self.assertEqual(ORIGINAL_STAGES[stem], 'af591c')
+            self.assertEqual(MAP_ROWS[stem], 3)
+            self.assertEqual(SOURCES[stem], ('src/main/collision/hitbox.cpp'
+                                              if stem == 'hitbox'
+                                              else 'src/main/collision/hitcircle.cpp'))
+            wrapper=(ROOT/PRODUCER_WRAPPERS[stem]).read_bytes()
+            self.assertEqual(wrapper.count(
+                f'#include "{SOURCES[stem]}"'.encode()), 1)
+
+    def test_shots_and_results_bind_every_current_native_inline_body(self):
+        expected={
+            'shots': ('src/main/player/shots_add.inl',
+                      'src/main/player/shot.inl'),
+            'results': ('src/main/round/objects_reset.inl',
+                        'src/main/round/results.inl'),
+        }
+        for stem, includes in expected.items():
+            self.assertEqual(ORIGINAL_STAGES[stem], 'af595h')
+            self.assertEqual(MAP_ROWS[stem], 4)
+            self.assertEqual(owner_inline_paths(stem, 'af788c'), includes)
+            original=(ROOT/SOURCES[stem]).read_bytes()
+            for n in (1, 2):
+                bound=rooted_source(stem, 'af788c', n, original)
+                for path in includes:
+                    self.assertIn((f'#include "probe/af788c/r{n}/{path}"').encode(),
+                                  bound)
+                    self.assertNotIn((f'#include "{path}"').encode(), bound)
+            wrapper=(ROOT/PRODUCER_WRAPPERS[stem]).read_bytes()
+            self.assertEqual(wrapper.count(
+                f'#include "{SOURCES[stem]}"'.encode()), 1)
 
 
 if __name__ == '__main__':

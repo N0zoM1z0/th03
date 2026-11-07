@@ -8,6 +8,31 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after788: eight original physical MAIN owners built together
+
+- `af788c` **simultaneously rebuilt eight complete original physical
+  TUs** in **two independent original TC4 4.02 and full normal TLINK
+  rounds**: changed Reimu/Mima **major BOSSes**, the complete `entry`
+  frame scheduler, Kana Bomb, plus complete hitbox damage, HitCircle
+  renderer, shot create/update/draw and result/statistics renderer.
+  The latter four were historically compiled after591/595, but are
+  **newly covered by strict live-source root/OMF dependency checks**;
+  the full `entry` (four), `shots` (two) and `results` (two) current
+  `.inl` implementations are explicitly included in both original
+  native compiler rounds, not silently reused from stale Wine copies.
+- All **9,738 original CODE bytes, 1,202 ordered native FIXUPPs and
+  38 PUBLICs**, full original MAIN EXE/MAP, 124,642 Japanese loaded bytes
+  and 1,553 MZ relocations match; the independent serializer reproduces
+  the 130,882-byte Japanese MZ. **91 other original objects and CRT
+  reused, no cold replay**. Stage's independent read-only source review
+  and 9 targeted inline/source-contract tests pass. Both round proofs
+  are protected under `.analysis/work/exatt-layout-af788c/`.
+- This is a simultaneous fresh current-source validation for eight
+  **previously historically covered physical owners**. Do **not** add
+  9,738 bytes to the unique ownership union or claim canonical packed-
+  file Factory acceptance. `input_s` one-NOP parent-link issue remains.
+  See [after788 original eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER788_REVIEW.md).
+
 ## Latest after787 simultaneous complete original-source integration
 
 - `af787a` genuinely rebuilt **four modified original physical TUs at once**,

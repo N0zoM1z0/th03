@@ -71,7 +71,18 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**newer after787 four-physical-source simultaneous native proof**: full
+**latest after788 eight-original-physical-source simultaneous native proof**:
+complete Reimu/Mima major BOSSes, the main frame scheduler and Kana Bomb,
+plus complete hitbox/HitCircle collision, shot movement/render and full
+result/scoreboard owners. The latter four now use **new strict live-source
+OMF dependencies**; eight independently maintained `.inl` implementations
+are bound across `entry`, `shots` and `results`. Two genuine original
+TC4/TLINK rounds reproduce **9,738 CODE bytes, 1,202 ordered FIXUPPs,
+38 PUBLICs**, the entire normal Japanese MAIN image and 1,553 relocations.
+91 other original objects and CRT reused; no cold replay. This is not
+new distinct ownership or canonical Factory packed-game credit. See
+[after788 eight-source integration](docs/MAIN_EIGHT_SOURCE_INTEGRATION_AFTER788_REVIEW.md).
+The earlier **after787 four-physical-source proof**: full
 Reimu and Mima major BOSSes, complete main/frame/stage/score `entry`
 (including all four live implementation `.inl` files) and complete Kana
 Bomb. Both genuine original TC4/TLINK rounds match **7,518 original CODE
@@ -124,6 +135,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af788c
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af787a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af782a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a

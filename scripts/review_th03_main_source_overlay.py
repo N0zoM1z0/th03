@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only native receipt review for current TH03 MAIN Extra Attack/BOSS overlays.
+"""Read-only native receipt review for current TH03 MAIN original-source overlays.
 
 Checks the complete genuine TC4/TLINK outputs, input source snapshots and
 current maintained source identities. No compiler, linker or cold replay runs.
