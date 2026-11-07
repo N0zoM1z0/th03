@@ -59,6 +59,8 @@ SOURCES = {
     'bm_reish': 'src/main/player/bomb_reimu_shared.cpp',
     'p_gauge': 'src/main/player/gauge.cpp',
     'ch_setup': 'src/main/player/character_setup.cpp',
+    'core': 'src/main/player/core.cpp',
+    'lose': 'src/main/player/lose.cpp',
     'p_combo': 'src/main/player/combo.cpp',
     'p_cmbhl': 'src/main/player/combo.cpp',
     'p_exatt': 'src/main/player/exatt.cpp',
@@ -96,6 +98,16 @@ ENTITY = 'src/main/player/exatt_entity.hpp'
 BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
 BACKGROUND_PHASE = 'src/main/background/phase.inl'
 CHAIN_UNITS = ('chain1', 'chain2')
+OWNER_INLINE_PATHS = {
+    'core': ('src/main/player/hyper.inl',),
+    'lose': (
+        'src/main/player/lose_update.inl',
+        'src/main/player/lose_particle.inl',
+        'src/main/player/losedraw.inl',
+        'src/main/player/defeat.inl',
+    ),
+}
+
 ORIGINAL_OBJECT_PATHS = {u: f'obj/{u}.obj' for u in CHAIN_UNITS}
 ORIGINAL_OBJECT_PATHS['bomb~cxk'] = 'obj/th03/bomb_yumemi.obj'
 BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
@@ -112,6 +124,7 @@ PRODUCER_WRAPPERS = {
 }
 ORIGINAL_STAGES = {
     'ch_setup': 'af592p',
+    'core': 'af593p',
     'e_fireb': 'af589f', 'e_expl': 'af589f',
     'bullet': 'af588b',
     'eforna': 'af572e', 'efornb': 'af572e',
@@ -125,6 +138,7 @@ MAP_ORIGINAL = {
     'chain1': 'src/main/background/chain1.cpp',
     'chain2': 'src/main/background/chain2.cpp',
     'bomb~cxk': 'src/main/player/bomb~cxk.cpp',
+    'lose': 'src/main/player/lose.cpp',
 }
 MAP_ROWS = {
     'p_combo': 6, 'p_cmbhl': 6,
@@ -171,6 +185,10 @@ def rooted_source(unit, stage, n, raw):
             raw = raw.replace(
                 needle, f'#include "probe/{stage}/r{n}/{header}"'.encode()
             )
+    for inc in OWNER_INLINE_PATHS.get(unit, ()):
+        original=f'#include "{inc}"'.encode()
+        need(raw.count(original)==1, 'unique current inlined original source '+unit+' '+inc)
+        raw=raw.replace(original, f'#include "probe/{stage}/r{n}/{inc}"'.encode())
     return raw
 
 def rooted_wrapper(unit, stage, n, raw):
@@ -195,6 +213,10 @@ def check_native_dependencies(obj, unit, stage, n, source_has_entity,
             expected=f'probe/{stage}/r{n}/{header}'.encode().lower()
             need(any(expected in v for v in low),
                  'actual native OMF dependency binds forced header '+unit+' '+header)
+    for inc in OWNER_INLINE_PATHS.get(unit, ()):
+        expected=f'probe/{stage}/r{n}/{inc}'.encode().lower()
+        need(any(expected in v for v in low),
+             'actual native OMF dependency binds current source inline '+unit+' '+inc)
     return {'source':name.decode(), 'entity_header_bound':source_has_entity,
             'boss_template_header_bound':source_has_boss_template}
 
@@ -270,13 +292,15 @@ def main():
     header_data=(ROOT/ENTITY).read_bytes()
     template_data=(ROOT/BOSS_TEMPLATE).read_bytes()
     phase_data=(ROOT/BACKGROUND_PHASE).read_bytes()
+    inline_paths=sorted({inc for u in units for inc in OWNER_INLINE_PATHS.get(u, ())})
+    inline_data={path:(ROOT/path).read_bytes() for path in inline_paths}
     wrapper_data={u:wrapper_source(u) for u in units}
     need(all(w.count(f'#include "{SOURCES[u]}"'.encode())==1 for u,w in wrapper_data.items())
          and all(b'\r' not in w for w in wrapper_data.values()),
          'per-producer original C++ wrapper with exactly one source include')
     # The original source-only project still contains the full old graph.
     # Only these per-round overlays alter what the compiler sees.
-    need(all(b'\r' not in s for s in (*source_data.values(),header_data,phase_data)),
+    need(all(b'\r' not in s for s in (*source_data.values(),header_data,phase_data,*inline_data.values())),
          'maintained sources must use LF')
     rows=[]
     result={'schema':'th03-main-source-rooted-overlay-v2', 'stage':args.stage,
@@ -286,6 +310,7 @@ def main():
             'entity_header_sha256':sha(header_data),
             'boss_template_header_sha256':sha(template_data),
             'background_phase_header_sha256':sha(phase_data),
+            'original_inline_source_sha256':{v:sha(raw) for v,raw in inline_data.items()},
             'wrapper_sha256':{u:sha(w) for u,w in wrapper_data.items()},
             'whole_original_image_and_relocations_equal':False,
             'canonical_Factory_credit':False, 'rounds':[],
@@ -317,6 +342,10 @@ def main():
             phase=rd/BACKGROUND_PHASE
             phase.parent.mkdir(parents=True, exist_ok=True)
             phase.write_bytes(phase_data.replace(b'\n',b'\r\n'))
+            for path,raw in inline_data.items():
+                include=rd/path
+                include.parent.mkdir(parents=True,exist_ok=True)
+                include.write_bytes(raw.replace(b'\n',b'\r\n'))
             wrapper=wrapper_data
             for u in units:
                 (rd/(u+'.cpp')).write_bytes(

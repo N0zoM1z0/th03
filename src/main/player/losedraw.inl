@@ -4,13 +4,15 @@ void near pascal player_stuff_t::lose_render(void)
     unsigned char angle;
     sprite16_clip_set_for_pid(pid.current);
     sprite16_put_size.set(48, 48);
-    for(_DI = 0, angle = player_lose_radius / 4; (int)_DI < 16; _DI++, angle += 16) {
+    // These three distinct rings keep DI as the actual original
+    // 16-bit loop register and advance angle by 16 per particle.
+    for(_DI = 0, angle = player_lose_radius / 4; (int)_DI < 16; ++_DI, angle += 16) {
         player_lose_particle_put(angle, angle + 32);
     }
-    for(_DI = 0, angle = 0 - (player_lose_radius / 4); (int)_DI < 16; _DI++, angle += 16) {
+    for(_DI = 0, angle = 0 - (player_lose_radius / 4); (int)_DI < 16; ++_DI, angle += 16) {
         player_lose_particle_put(angle, angle - 32);
     }
-    for(_DI = 0, angle = player_lose_radius / 4; (int)_DI < 16; _DI++, angle += 16) {
+    for(_DI = 0, angle = player_lose_radius / 4; (int)_DI < 16; ++_DI, angle += 16) {
         player_lose_particle_put(angle, angle);
     }
 }

@@ -6,6 +6,28 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Loss/defeat full four-function source/inline-native proof after706
+
+The v2 scoped compiler/reviewer now force the actual maintained
+`lose_update/lose_particle/losedraw/defeat.inl` current bytes
+through the physical original `lose.cpp` source and verify
+their emitted OMF COMENT dependencies. The full loss/winner
+state transition and two renderers now naturally use unsigned
+`round_or_result_frame%32` winner banner bounce,
+unsigned `%2` palette flash, `if(!lose_anim_time)`
+finish condition and `++_DI` in all three loss particle
+rings. A typed `%4` rewrite of the original mutable
+byte shake mask was native-unequal and rejected. Fresh
+`af706h` two-round original TC4/TLINK proof reproduces
+**664 CODE bytes, 61 literal ordered FIXUPPs, four PUBLICs**,
+normal whole MAIN/MAP and Japanese MZ. The `core`
+source and its hyper.inl are also source-bound by this
+overlay but only the original unchanged-source control
+has been compiled so far. See
+[after706 full loss native review](MAIN_LOSS_DEFEAT_NATIVE_AFTER706_REVIEW.md).
+Only this physical loss object recompiled, no full
+cold replay or canonical packed-byte acceptance.
+
 ## Kana full BOSS rotating loop and native register constraint after704
 
 The full 1,874-CODE-byte Kana BOSS TU has been

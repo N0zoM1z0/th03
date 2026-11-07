@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import re
 
-from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, rooted_source, rooted_wrapper, check_native_dependencies, SOURCE_HEADER_NEEDLE, BOSS_TEMPLATE, BOSS_TEMPLATE_NEEDLE, BINDING_MODE, BOSS_SHARED_UNITS, MAP_ORIGINAL, ORIGINAL_OBJECT_PATHS, BACKGROUND_PHASE, CHAIN_UNITS, sha,
+from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, rooted_source, rooted_wrapper, check_native_dependencies, SOURCE_HEADER_NEEDLE, BOSS_TEMPLATE, BOSS_TEMPLATE_NEEDLE, BINDING_MODE, BOSS_SHARED_UNITS, MAP_ORIGINAL, ORIGINAL_OBJECT_PATHS, BACKGROUND_PHASE, CHAIN_UNITS, OWNER_INLINE_PATHS, sha,
                                           need, scope, parent)
 from lib.pc98 import parse_mz
 from lib.main_mz_compact import compact_mz
@@ -89,12 +89,16 @@ def review(stage):
          'exact natural original producer wrapper input identities')
     needs_phase = any(u in CHAIN_UNITS for u in units)
     background_phase=(ROOT/BACKGROUND_PHASE).read_bytes()
+    inline_paths=sorted({inc for u in units for inc in OWNER_INLINE_PATHS.get(u, ())})
+    inline_data={path:(ROOT/path).read_bytes() for path in inline_paths}
     needs_header = any(SOURCE_HEADER_NEEDLE in sources[u] for u in units)
     needs_boss_template = any(BOSS_TEMPLATE_NEEDLE in sources[u] for u in units)
     need(all(b'\r' not in s for s in (*sources.values(),entity)) and
          report['source_sha256']=={u:sha(v) for u,v in sources.items()} and
          (not needs_header or report['entity_header_sha256']==sha(entity)) and
          (not needs_phase or report.get('background_phase_header_sha256')==sha(background_phase)) and
+         report.get('original_inline_source_sha256',{})==
+             {path:sha(raw) for path,raw in inline_data.items()} and
          (not needs_boss_template or
           report.get('boss_template_header_sha256')==sha(boss_template)),
          'native compiler inputs remain bound to maintained live source')
@@ -122,6 +126,9 @@ def review(stage):
         need(sha(saved_header.replace(b'\r\n',b'\n'))==report['entity_header_sha256'] and
              (not needs_header or saved_header==entity.replace(b'\n',b'\r\n')),
              'retained header snapshot and consumed-input identity round '+str(n))
+        for path,raw in inline_data.items():
+            need((rd/path).read_bytes()==raw.replace(b'\n',b'\r\n'),
+                 'current inlined native source overlay remains exact '+path)
         if needs_phase:
             current_phase=(rd/BACKGROUND_PHASE).read_bytes()
             need(current_phase==background_phase.replace(b'\n',b'\r\n'),

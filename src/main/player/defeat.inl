@@ -8,7 +8,8 @@ void near round_defeat_banners_render(void)
     super_put(left, 40, 18);
     super_put(left + 64, 40, 19);
     left = (1 - round_defeated_player) * 320 + 96;
-    frame_mod_32 = round_or_result_frame & 31;
+    // Winner banner bounces with exactly sixteen frames per half-cycle.
+    frame_mod_32 = (static_cast<unsigned int>(round_or_result_frame) % 32);
     if(frame_mod_32 < 16) {
         top = frame_mod_32 + 32;
     } else {
