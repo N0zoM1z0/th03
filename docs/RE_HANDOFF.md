@@ -6,6 +6,17 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Ellen original attack scheduler and Extra Attack timing after630
+
+The current Ellen full BOSS TU has original-valued C++ enums for the
+18 shared scheduler modes, spread/volley timing and the two distinct
+Extra Attack bursts. Actual-source/OMF-dependency-attested `af630f`
+dual TC4/TLINK rounds reproduce all **1,675 CODE bytes, 213 ordered
+fields, nine PUBLICs**, complete MAIN and all Japanese relocations.
+Native-unequal attempts to invert spread control flow and compress the
+renderer ring-index wraparound were rejected; no behavior fix was
+introduced. See [after630 Ellen source review](MAIN_ELLEN_PATTERN_NATIVE_AFTER630_REVIEW.md).
+
 ## Mima full BOSS source recovery after630
 
 The current Mima BOSS now expresses its signed `+7/-7` orbit direction

@@ -61,6 +61,31 @@ void far pascal ellen_extra_add(
 );
 }
 
+// Real shared scheduler values, with Ellen's distinct BOSS patterns.
+// The modes are byte values; no extra state or dispatch table is emitted.
+enum ellen_boss_mode_t {
+    ELLEN_MODE_INTRO = 0x00,
+    ELLEN_MODE_SELECT = 0x01,
+    ELLEN_MODE_SPREAD_0 = 0x02,
+    ELLEN_MODE_SPREAD_1 = 0x03,
+    ELLEN_MODE_SPREAD_2 = 0x04,
+    ELLEN_MODE_SPREAD_3 = 0x05,
+    ELLEN_MODE_EXTRA_0 = 0x06,
+    ELLEN_MODE_EXTRA_1 = 0x07,
+    ELLEN_MODE_EXTRA_2 = 0x08,
+    ELLEN_MODE_EXTRA_3 = 0x09,
+    ELLEN_MODE_EXTRA_4 = 0x0A,
+    ELLEN_MODE_PELLETS_0 = 0x0B,
+    ELLEN_MODE_PELLETS_1 = 0x0C,
+    ELLEN_MODE_PELLETS_2 = 0x0D,
+    ELLEN_MODE_PELLETS_3 = 0x0E,
+    ELLEN_MODE_PELLETS_4 = 0x0F,
+    ELLEN_MODE_PELLETS_5 = 0x10,
+    ELLEN_MODE_PELLETS_6 = 0x11,
+    ELLEN_MODE_DESCEND = 0x80,
+    ELLEN_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_ellen_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -84,21 +109,32 @@ void far pascal boss_ellen_template_init(int player_id)
 	p->render_mode = 0;
 }
 
+// Collision warning, ring firing and termination are distinct timed
+// phases of Ellen's full spread attack. Numeric equality is intentional.
+enum ellen_spread_phase_t {
+    ELLEN_SPREAD_WARNING_0 = 0x10,
+    ELLEN_SPREAD_WARNING_1 = 0x14,
+    ELLEN_SPREAD_START_ANGLE = 0x18,
+    ELLEN_SPREAD_WARMUP_END = 0x1C,
+    ELLEN_SPREAD_SINGLE_END = 0x24,
+    ELLEN_SPREAD_FINISH = 0x2C,
+};
+
 void near ellen_pattern_spread(void)
 {
 	pid_t pid_other = (1 - pid_current);
 	register int i;
 
-	if((boss_frame == 0x10) || (boss_frame == 0x14)) {
+	if((boss_frame == ELLEN_SPREAD_WARNING_0) || (boss_frame == ELLEN_SPREAD_WARNING_1)) {
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
 		return;
 	}
-	if(boss_frame == 0x18) {
+	if(boss_frame == ELLEN_SPREAD_START_ANGLE) {
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
 		ellen_spread_angle = 0x40;
 		return;
 	}
-	if(boss_frame < 0x1C) {
+	if(boss_frame < ELLEN_SPREAD_WARMUP_END) {
 		return;
 	}
 
@@ -114,13 +150,13 @@ void near ellen_pattern_spread(void)
 		bullet_template.sprite_offset += (8 * ROW_SIZE);
 	}
 
-	if(boss_frame < 0x24) {
+	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
 		if((boss_frame & 1) == 0) {
 			goto fire_single;
 		}
 		goto done;
 	}
-	if(boss_frame == 0x24) {
+	if(boss_frame == ELLEN_SPREAD_SINGLE_END) {
 		snd_se_play(3);
 		for(i = 0; i < 8; i++) {
 			bullets_add();
@@ -129,7 +165,7 @@ void near ellen_pattern_spread(void)
 		}
 		goto done;
 	}
-	if(boss_frame > 0x2C) {
+	if(boss_frame > ELLEN_SPREAD_FINISH) {
 		goto done;
 	}
 	if((boss_frame & 1) != 0) {
@@ -142,12 +178,22 @@ fire_single:
 	ellen_spread_angle += 8;
 
 done:
-	if(boss_frame >= 0x2C) {
+	if(boss_frame >= ELLEN_SPREAD_FINISH) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
 	}
 }
+
+// Warning pulses and radial Extra Attack bursts happen at these
+// historical frames, with different final arguments for two volleys.
+enum ellen_extra_phase_t {
+    ELLEN_EXTRA_WARN_START = 0x20,
+    ELLEN_EXTRA_WARN_NEXT = 0x24,
+    ELLEN_EXTRA_WARN_LAST = 0x28,
+    ELLEN_EXTRA_FIRST_BURST = 0x30,
+    ELLEN_EXTRA_LAST_BURST = 0x60,
+};
 
 void near ellen_pattern_extra(void)
 {
@@ -157,19 +203,19 @@ void near ellen_pattern_extra(void)
 
 	boss_render_frame += 3;
 
-	if(boss_frame < 0x20) {
+	if(boss_frame < ELLEN_EXTRA_WARN_START) {
 		return;
 	}
 	if(
-		(boss_frame == 0x20) ||
-		(boss_frame == 0x24) ||
-		(boss_frame == 0x28)
+		(boss_frame == ELLEN_EXTRA_WARN_START) ||
+		(boss_frame == ELLEN_EXTRA_WARN_NEXT) ||
+		(boss_frame == ELLEN_EXTRA_WARN_LAST)
 	) {
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
 		return;
 	}
 
-	if(boss_frame == 0x30) {
+	if(boss_frame == ELLEN_EXTRA_FIRST_BURST) {
 		for(
 			i = 0, angle = randring_far_next16();
 			i < ellen_extra_count;
@@ -185,7 +231,7 @@ void near ellen_pattern_extra(void)
 		return;
 	}
 
-	if(boss_frame == 0x60) {
+	if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
 		for(
 			i = 0, angle = randring_far_next16();
 			i < ellen_extra_count;
@@ -257,7 +303,7 @@ void far gba_boss_update_ellen(void)
 	boss_frame++;
 
 	switch(boss_mode) {
-	case 0:
+	case ELLEN_MODE_INTRO:
 		if(boss_frame != 0x64) {
 			return;
 		}
@@ -265,40 +311,40 @@ void far gba_boss_update_ellen(void)
 		boss_mode = 1;
 		break;
 
-	case 1:
+	case ELLEN_MODE_SELECT:
 		boss_pattern_next();
 		break;
 
-	case 2:
-	case 3:
-	case 4:
-	case 5:
+	case ELLEN_MODE_SPREAD_0:
+	case ELLEN_MODE_SPREAD_1:
+	case ELLEN_MODE_SPREAD_2:
+	case ELLEN_MODE_SPREAD_3:
 		ellen_pattern_spread();
 		break;
 
-	case 6:
-	case 7:
-	case 8:
-	case 9:
-	case 0x0A:
+	case ELLEN_MODE_EXTRA_0:
+	case ELLEN_MODE_EXTRA_1:
+	case ELLEN_MODE_EXTRA_2:
+	case ELLEN_MODE_EXTRA_3:
+	case ELLEN_MODE_EXTRA_4:
 		ellen_pattern_extra();
 		break;
 
-	case 0x0B:
-	case 0x0C:
-	case 0x0D:
-	case 0x0E:
-	case 0x0F:
-	case 0x10:
-	case 0x11:
+	case ELLEN_MODE_PELLETS_0:
+	case ELLEN_MODE_PELLETS_1:
+	case ELLEN_MODE_PELLETS_2:
+	case ELLEN_MODE_PELLETS_3:
+	case ELLEN_MODE_PELLETS_4:
+	case ELLEN_MODE_PELLETS_5:
+	case ELLEN_MODE_PELLETS_6:
 		ellen_pattern_pellets();
 		break;
 
-	case 0x80:
+	case ELLEN_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case ELLEN_MODE_EXPLODE:
 		return;
 	}
 
