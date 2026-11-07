@@ -35,6 +35,13 @@ extern "C" void near pascal exatt_render_state_other(
     screen_x_t left, screen_y_t top, unsigned int state_and_frame
 );
 
+// Each retained entity is exactly 32 bytes in the original 16-bit ABI;
+// do not change the two-player × 16-slot allocation while this attack
+// traverses only its first six slots per player.
+typedef char mima_exatt_original_entity_stride[
+    (sizeof(exatt_entity_t) == 32) ? 1 : -1
+];
+
 // The physical Mima Extra Attack uses six slots per player. Its
 // elapsed duration is read as an int in the full motion and collision
 // update, but the parity test must preserve its unsigned 16-bit bit.
@@ -48,6 +55,12 @@ enum mima_exatt_phase_t {
     MIMA_EXATT_APPEAR_END = 0x1C,
     MIMA_EXATT_FREE = 0,
     MIMA_EXATT_ACTIVE = 1,
+    MIMA_EXATT_HALF_FRAME_COUNT = 2,
+    MIMA_EXATT_RANDOM_TARGET_RANGE = 0x1200,
+    MIMA_EXATT_INITIAL_SPEED = 0x5A,
+    MIMA_EXATT_COLLISION_TILE_SPAN = 16,
+    MIMA_EXATT_COLLISION_RADIUS = TO_SP(16),
+    MIMA_EXATT_BOUNCE_RECOIL_SUBPIXELS = 8,
 };
 
 void far pascal exatt_add_mima(int x, int y, unsigned char pid_)
@@ -60,9 +73,9 @@ void far pascal exatt_add_mima(int x, int y, unsigned char pid_)
             exatt_entity_p = p;
             exatt_fly_init(
                 x, y,
-                randring_far_next16_mod(0x1200),
-                randring_far_next16_mod(0x1200),
-                pid_, 0x5A
+                randring_far_next16_mod(MIMA_EXATT_RANDOM_TARGET_RANGE),
+                randring_far_next16_mod(MIMA_EXATT_RANDOM_TARGET_RANGE),
+                pid_, MIMA_EXATT_INITIAL_SPEED
             );
             p->duration = 0;
             p->frame = MIMA_EXATT_INITIAL_RENDER_FRAME;
@@ -119,8 +132,8 @@ void far pascal exatt_update_mima(void)
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 
     pid_other = (1 - pid_current);
-    collmap_stripe_tile_w.set(16);
-    collmap_tile_h.set(16);
+    collmap_stripe_tile_w.set(MIMA_EXATT_COLLISION_TILE_SPAN);
+    collmap_tile_h.set(MIMA_EXATT_COLLISION_TILE_SPAN);
     collmap_pid = pid_other;
     i = 0;
 
@@ -138,8 +151,9 @@ void far pascal exatt_update_mima(void)
                     continue;
                 }
                 p->frame--;
-                // Preserve direct signed negation: multiplying by -1
-                // changed original CODE in negative trial af770c.
+                // Preserve native signed unary negation: multiplication
+                // by -1 failed previously (af770c), and even writing
+                // `0 - p->velocity_x` failed fresh native CODE (af852d).
                 p->velocity_x = -p->velocity_x;
                 p->angle = iatan2(p->velocity_y, p->velocity_x);
             } else if((center_y <= 0) || (center_y >= TO_SP(PLAYFIELD_H))) {
@@ -159,9 +173,14 @@ void far pascal exatt_update_mima(void)
             duration = p->duration;
             if(duration >= MIMA_EXATT_START_ACCEL_FRAME) {
                 if(duration < MIMA_EXATT_PARITY_ACCEL_END) {
-                    // Original unsigned-16-bit duration parity is exact as this
-                    // natural bit test (actual TC4 proof af770b).
-                    p->speed += (duration & 1);
+                    // Although duration is a signed local, its original
+                    // parity operation is a word-mask. Explicit unsigned
+                    // C++ modulo emits the same instructions (af852a/c),
+                    // while signed duration %2 changes CODE (af852b).
+                    p->speed += (
+                        static_cast<unsigned int>(duration) %
+                        MIMA_EXATT_HALF_FRAME_COUNT
+                    );
                 } else if(duration < MIMA_EXATT_LAST_ACCEL_FRAME) {
                     p->speed++;
                 }
@@ -172,13 +191,13 @@ void far pascal exatt_update_mima(void)
             }
 
             hitbox_hittest_skip_explosions = true;
-            hitbox.radius.x.v = TO_SP(16);
-            hitbox.radius.y.v = TO_SP(16);
+            hitbox.radius.x.v = MIMA_EXATT_COLLISION_RADIUS;
+            hitbox.radius.y.v = MIMA_EXATT_COLLISION_RADIUS;
             hitbox.pid = pid_other;
             hitbox.origin.center.x.v = center_x;
             hitbox.origin.center.y.v = center_y;
             if(hitbox_hittest()) {
-                p->velocity_y -= 8;
+                p->velocity_y -= MIMA_EXATT_BOUNCE_RECOIL_SUBPIXELS;
             }
             hitbox_hittest_skip_explosions = false;
 

@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After852: full Mima Extra Attack native unsigned parity recovery
+
+- The complete four-function original `ex_mima` Extra Attack now uses
+  a **real natural unsigned `%2`** on the explicitly promoted signed
+  16-bit elapsed-duration local. This preserves TC4's original low-bit
+  acceleration/8-bit speed mutation; signed `%2` is **not** equivalent
+  native CODE and compiled 725 vs original 727 bytes (`af852b`).
+- Original 0x1200 random target range, initial speed, hitbox and bounce
+  geometry are now named, with compile-time 32-byte entity stride
+  proof. `af852d` also rejects `0 - velocity_x` in place of native
+  unary negation. Final `af852e` passes two actual original TC4/complete
+  MAIN TLINK rounds: **727 CODE bytes, 44 literal ordered FIXUPPs,
+  4 PUBLICs**, full Japanese MAIN and all 1,553 MZ relocations exact.
+  98 other original objects/CRT reused, no cold replay. See
+  [after852 Mima Extra Attack review](MAIN_MIMA_EXATT_UNSIGNED_MODULO_AFTER852_REVIEW.md).
+  Previously covered original physical CODE, no new distinct/Factory credit.
+
 ## After851: original 55-byte Gauge saturation leaf
 
 - The complete `p_gauge` Gauge charge leaf merges the native original
