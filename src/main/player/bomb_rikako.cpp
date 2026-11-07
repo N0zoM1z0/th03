@@ -1,6 +1,6 @@
-// Maintained exact natural Turbo C++ reconstruction of Rikako's contribution
-// to TH03 MAIN_05_TEXT. Historical private state remains at the frozen carrier
-// offset and is bound through a semantic extern name by the accepted manifest.
+// Complete current native-source C++ for Rikako Bomb's original
+// MAIN_05_TEXT physical owner. The original private line-offset state
+// remains at its historical DGROUP carrier address.
 #pragma codeseg MAIN_05_TEXT
 
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -22,6 +22,20 @@ extern "C" void far bomb_bg_fill(void);
 extern "C" void far pascal bomb_palette_step(int level, pid_t pid);
 extern "C" void far pascal bomb_explosion_add(int x, int y, int pid);
 
+// Original two-phase palette/quake window, eight-frame explosion row and
+// the physical 0x480 subpixel line-offset reset. No new state is allocated.
+enum rikako_bomb_native_timing_t {
+    RIKAKO_BOMB_FIRST_PHASE_END = 64,
+    RIKAKO_BOMB_SHAKE_PHASE_END = 128,
+    RIKAKO_BOMB_EXPLOSION_PERIOD = 8,
+    RIKAKO_BOMB_SFX_PERIOD = 4,
+    RIKAKO_BOMB_ROW_END_X = TO_SP(288),
+    RIKAKO_BOMB_ROW_STEP_X = TO_SP(96),
+    RIKAKO_BOMB_EXPLOSION_Y = 0x1700,
+    RIKAKO_BOMB_OFFSET_STEP = 0x41,
+    RIKAKO_BOMB_OFFSET_RESET = 0x480,
+};
+
 void far rikako_bomb(void)
 {
 	unsigned char frame;
@@ -34,7 +48,7 @@ void far rikako_bomb(void)
 	frame = bomb_frame[pid_current];
 	egc_off();
 
-	if(frame < 64) {
+	if(frame < RIKAKO_BOMB_FIRST_PHASE_END) {
 		grcg_setcolor(GC_RMW, pid_current);
 		_BX = 0x3932;
 		if(pid_current != 0) {
@@ -46,7 +60,9 @@ void far rikako_bomb(void)
 		color = (frame * 4);
 		bomb_palette_step(color, pid_current);
 		rikako_bomb_line_offset = 0;
-	} else if(frame < 128) {
+	} else if(frame < RIKAKO_BOMB_SHAKE_PHASE_END) {
+		// The byte shake uses its original &3, not byte %4:
+		// actual TC4 rejects that rewrite (af894c).
 		if((frame & 3) < 2) {
 			playfield_fg_shift_x[pid_current] = 4;
 		} else {
@@ -86,8 +102,10 @@ void far rikako_bomb(void)
 		);
 		grcg_vline(x, 8, 192);
 
-		rikako_bomb_line_offset += 0x41;
-		if(rikako_bomb_line_offset >= 0x480) {
+		// This is a live signed word line-offset, not a byte frame.
+		// The original +0x41 and >=0x480 reset are separately tested.
+		rikako_bomb_line_offset += RIKAKO_BOMB_OFFSET_STEP;
+		if(rikako_bomb_line_offset >= RIKAKO_BOMB_OFFSET_RESET) {
 			rikako_bomb_line_offset = 0;
 		}
 
@@ -95,14 +113,20 @@ void far rikako_bomb(void)
 
 		// The original randomized starting point and 96-pixel spacing
 		// must be preserved across the 288-pixel-wide row.
-		if((frame % 8) == 0) {
+		// This *different* eight-frame event accepts natural
+		// `if(!remainder)` under original TC4 (af894b).
+		if(!(frame % RIKAKO_BOMB_EXPLOSION_PERIOD)) {
 			x = randring_far_next16_and(0x3FF);
-			for(; x <= TO_SP(288); x += TO_SP(96)) {
-				bomb_explosion_add(x, 0x1700, pid_current);
+			// Real 96-pixel explosion row with randomized first X and
+			// the original per-call signed offset update. Natural while
+			// emitted original machine CODE (af894a).
+			while(x <= RIKAKO_BOMB_ROW_END_X) {
+				bomb_explosion_add(x, RIKAKO_BOMB_EXPLOSION_Y, pid_current);
+				x += RIKAKO_BOMB_ROW_STEP_X;
 			}
 		}
 
-		if((frame % 4) == 0) {
+		if(!(frame % RIKAKO_BOMB_SFX_PERIOD)) {
 			snd_se_play(5);
 		}
 	} else {

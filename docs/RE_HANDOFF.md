@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After894: exact Rikako Bomb row and live 16-bit line-offset phase
+
+- The full physical `b_rika` 546-CODE-byte Bomb controller now uses a
+  native-exact natural `while` for the randomized 96-pixel explosion
+  row, with named original 64/128-frame phases, 0x41 offset increment,
+  0x480 reset and 0x1700 explosion Y. Both byte `%8` and `%4` zero
+  events admit natural `if(!remainder)`.
+- Independent genuine TC4 negative: changing the **different byte shake**
+  `(frame&3)<2` to `%4` produced **549 vs original 546 CODE bytes**
+  (`af894c`), so its mask remains. Final `af894e` passes two genuine
+  original TC4/normal full MAIN TLINK rounds: **546 CODE bytes, 56
+  ordered native FIXUPPs, one PUBLIC**, full Japanese original MAIN
+  and all 1,553 MZ relocations exact, 98 other project objects/CRT
+  reused. See [after894 Rikako Bomb review](MAIN_RIKAKO_BOMB_NATIVE_ROW_AFTER894_REVIEW.md).
+  Existing source-owned CODE, not new unique/canonical Factory credit.
+
 ## After893: complete Ellen BOSS natural radial and 4×8 intro loops
 
 - The whole nine-function `ba_ellen` major BOSS now expresses the
