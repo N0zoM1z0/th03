@@ -10,7 +10,41 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest current-source original TC4 4.02/full MAIN TLINK proof:
+- **Latest affected complete original-source native proof: `af782a`.**
+  Two independently compiled Turbo C++ 4.02/complete normal TLINK rounds
+  **simultaneously rebuilt six complete modified physical original TUs**:
+  full Yumemi Chargeshot/target selector, Rikako homing Extra Attack,
+  full Mima 30-projectile Chargeshot/Gauge, Chiyuri paired-beam Extra
+  Attack, **complete major Yumemi BOSS**, and Kana 8-slot Extra Attack.
+  All **7,684 original CODE bytes, 771 ordered literal OMF FIXUPP fields,
+  44 PUBLICs**, original segment/source dependencies, full normal MAIN
+  EXE/MAP, Japanese 124,642-byte loaded game and all 1,553 relocations
+  match both rounds. Independent MZ serialization reproduces every byte
+  of original 130,882-byte Japanese MAIN.EXE. **93 other project objects
+  and CRT reused**, not cold-replayed. No byte padding or target patches.
+- **Natural C++ register recovery:** Chiyuri's large two-entity beam
+  update now uses `if(!exatt_entity_p->state) goto chiyuri_first_done;`
+  instead of a handwritten BX load/memory byte comparison/branch. Real
+  original TC4 emits the exact BX/memory/Jcc instructions naturally
+  in the full source. The *different* late-beam AX/DX stack arithmetic
+  still needs its original register form. Yumemi's major BOSS entrance
+  uses native exact **two separate C++ shifts** for four large sprite
+  phases; combining them into one shift changes CODE.
+- **Other full source progress with native negative controls:** Yumemi's
+  ten-function target search/Chargeshot/ring, Rikako's 14-slot homing,
+  Mima's 30-slot Chargeshot, and Kana's 8-slot Extra Attack all have
+  natural signed loops, state names and exact original byte expressions.
+  In separate genuine original TC4 trials, several byte `%2/%4/%8/%16`
+  clocks, signed division, byte-memory prefix increments and combined
+  shifts changed machine CODE; those forms were **rejected and restored**.
+- **Current and historical provenance:** read-only source review passes
+  `af782a`, its six individual final stages `af776e`..`af781f`, and
+  unaffected previous `af775a` and `af766a` integration receipts.
+  Source hashes of older `af758a`/`af741b` snapshots correctly drift
+  after later edits; these remain protected historical compiler receipts,
+  not current checkout passing evidence. The separate BIOS `input_s`
+  original-object-exact but single-NOP full-link gap remains **open**.
+- **Previous eight-source still-current proof:
   `af775a`.** Two independent original compiler/full-link rounds rebuilt
   **eight complete genuinely modified physical TUs together**: nine-function
   Kotohime Chargeshot, both large shared-BOSS explosion/controller owners,
@@ -332,7 +366,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the latest after775 eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER775_REVIEW.md),
+Read [the latest after782 six-source integration](MAIN_SIX_SOURCE_INTEGRATION_AFTER782_REVIEW.md),
+[the earlier after775 eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER775_REVIEW.md),
 [the preceding after766 eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
 [the historical after758 twelve-source integration](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
 [the preceding after753 ten-source integration](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
@@ -355,6 +390,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af782a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af772a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af766a
@@ -382,6 +418,10 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The latest protected read-only proof root is
+`.analysis/work/exatt-layout-af782a/report.json`, with six current
+modified complete physical original C++ owners, two independent real
+TC4 4.02/TLINK rounds and original Japanese MZ evidence. The previous
+still-current eight-source receipt is
 `.analysis/work/exatt-layout-af775a/report.json`, with eight current
 complete original physical source TUs, both real TC4 4.02 full TLINK
 rounds and the independent Japanese MZ comparison. The preceding
@@ -431,7 +471,8 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [latest after775 eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER775_REVIEW.md),
+Review the [latest after782 six-source report](MAIN_SIX_SOURCE_INTEGRATION_AFTER782_REVIEW.md),
+[after775 previous eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER775_REVIEW.md),
 [after766 earlier eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
 [historical after758 twelve-source report](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
 [after753 previous ten-source report](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
