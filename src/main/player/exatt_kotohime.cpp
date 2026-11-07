@@ -63,6 +63,19 @@ enum kotohime_exatt_limits_t {
     KOTO_EXATT_APPEARING_MAX_STATE = 0x1C,
 };
 
+// The original 32-byte entity byte-state protocol is shared by all eight
+// Kotohime Extra Attack functions, not by a synthetic new object type.
+enum kotohime_exatt_state_t {
+    KOTO_EXATT_FREE = 0,
+    KOTO_EXATT_BEAM = 1,
+    KOTO_EXATT_FLYING = 2,
+};
+enum kotohime_exatt_flicker_t {
+    KOTO_EXATT_FLICKER_PERIOD = 4,
+    KOTO_EXATT_FLICKER_FIRST_HALF = 2,
+    KOTO_EXATT_ORBIT_NEAR_TARGET = 0x600,
+};
+
 // Angle is reused as an event counter once this projectile has reached
 // its Y destination; it is not a geometric angle on those frames.
 enum kotohime_exatt_event_t {
@@ -76,8 +89,8 @@ void far pascal exatt_add_kotohime(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
-    for(; i < KOTO_EXATT_NORMAL_SLOTS; i++, p++) {
-        if(p->state == 0) {
+    for(; i < KOTO_EXATT_NORMAL_SLOTS; ++i, p++) {
+        if(!p->state) {
             exatt_entity_p = p;
             exatt_fly_init(
                 x, y,
@@ -98,7 +111,7 @@ void far pascal kotohime_extra_add(int target_x, int target_y)
 {
     register exatt_kotohime_player_view_t near *player = &players[pid_current];
     register exatt_entity_t near *p = &exatt_entities[pid_current][8];
-    if(p->state != 0) {
+    if(p->state) {
         p++;
     }
     exatt_entity_p = p;
@@ -127,15 +140,18 @@ void near kotohime_exatt_render_one(void)
     sprite16_clip.reset();
     frame = p->frame;
 
-    if(p->state == 1) {
+    if(p->state == KOTO_EXATT_BEAM) {
         sprite_offset = (pid.so_attack + 0x280);
-        if((p->duration - p->y) <= 0x600) {
-            if((frame % 4) < 2) {
+        if((p->duration - p->y) <= KOTO_EXATT_ORBIT_NEAR_TARGET) {
+            // The unsigned-byte %4 is *not* native-equal to a C++
+            // &3 mask here (three-byte shrink in af750a).
+            if((frame % KOTO_EXATT_FLICKER_PERIOD) <
+               KOTO_EXATT_FLICKER_FIRST_HALF) {
                 sprite_offset += 0xA00;
             }
         }
 
-        if(p->character_mode.kotohime_extra_mode == 0) {
+        if(!p->character_mode.kotohime_extra_mode) {
             sprite_offset += 0x282;
             sprite16_put_size.set(32, 32);
             sprite16_put(left - 16, top - 16, sprite_offset);
@@ -143,7 +159,7 @@ void near kotohime_exatt_render_one(void)
             sprite16_put_size.set(64, 64);
             sprite16_put(left - 32, top - 32, sprite_offset);
         }
-    } else if(p->state == 2) {
+    } else if(p->state == KOTO_EXATT_FLYING) {
         exatt_render_state2(left, top, frame);
     } else {
         exatt_render_state_other(left, top, frame);
@@ -169,14 +185,14 @@ void near kotohime_exatt_pattern_four(void)
         kotohime_exatt_pattern[pid_current].bullet_type
     );
     bullet_template.count = kotohime_exatt_pattern[pid_current].bullet_count;
-    if(kotohime_exatt_pattern[pid_current].direction != 0) {
+    if(kotohime_exatt_pattern[pid_current].direction) {
         delta = -12;
     } else {
         delta = 12;
     }
     bullet_template.speed.v = TO_SP(1);
     i = 0;
-    for(; i < KOTO_EXATT_RING4_COUNT; i++) {
+    for(; i < KOTO_EXATT_RING4_COUNT; ++i) {
         bullets_add();
         bullet_template.speed.v += 2;
         bullet_template.angle += delta;
@@ -193,13 +209,13 @@ void near kotohime_exatt_pattern_ten(void)
     );
     bullet_template.speed.v = TO_SP(1);
     bullet_template.count = kotohime_exatt_pattern[pid_current].bullet_count;
-    if(kotohime_exatt_pattern[pid_current].direction != 0) {
+    if(kotohime_exatt_pattern[pid_current].direction) {
         delta = 7;
     } else {
         delta = -7;
     }
     i = 0;
-    for(; i < KOTO_EXATT_RING10_COUNT; i++) {
+    for(; i < KOTO_EXATT_RING10_COUNT; ++i) {
         bullets_add();
         bullet_template.speed.v += 2;
         bullet_template.angle += delta;
@@ -218,16 +234,16 @@ void far pascal exatt_update_kotohime(void)
     collmap_tile_h.set(12);
     collmap_pid = pid_other;
     i = 0;
-    for(; i < KOTO_EXATT_ALL_SLOTS; i++, exatt_entity_p++) {
-        if(exatt_entity_p->state == 0) {
+    for(; i < KOTO_EXATT_ALL_SLOTS; ++i, exatt_entity_p++) {
+        if(!exatt_entity_p->state) {
             continue;
         }
         p = exatt_entity_p;
-        if(p->state == 1) {
+        if(p->state == KOTO_EXATT_BEAM) {
             if(p->y >= p->duration) {
                 if(p->angle == KOTO_EXATT_FIRST_PULSE) {
                     kotohime_exatt_effect();
-                    if(p->character_mode.kotohime_extra_mode != 0) {
+                    if(p->character_mode.kotohime_extra_mode) {
                         bullet_template.speed.v = TO_SP(1) + 12;
                         bullet_template.angle = (unsigned char)randring_far_next16();
                         bullet_template.group = BG_RING;
@@ -246,15 +262,17 @@ void far pascal exatt_update_kotohime(void)
                     bullet_template.pid = pid_other;
                     bullet_template.center.x.v = p->x;
                     bullet_template.center.y.v = p->y;
-                    if(p->character_mode.kotohime_extra_mode == 0) {
+                    if(!p->character_mode.kotohime_extra_mode) {
                         bullet_template.type = BT_BULLET16_DEFAULT;
                         bullet_template.count = KOTO_EXATT_RING10_COUNT;
                         bullets_add();
                     } else {
                         kotohime_exatt_pattern_ten();
                     }
-                    p->state = 0;
+                    p->state = KOTO_EXATT_FREE;
                 }
+                // Original mutable event byte postfix is codegen-visible: prefix
+                // changed the original full CODE in af750c.
                 p->angle++;
             } else {
                 p->y += p->radius;
@@ -276,7 +294,7 @@ void far pascal exatt_update_kotohime(void)
             p->state++;
         } else {
             p->frame = 0;
-            p->state = 1;
+            p->state = KOTO_EXATT_BEAM;
         }
         p->frame++;
     }
@@ -287,8 +305,8 @@ void far pascal exatt_render_kotohime(void)
     register int i;
     exatt_entity_p = &exatt_entities[pid_current][0];
     i = 0;
-    for(; i < KOTO_EXATT_ALL_SLOTS; i++, exatt_entity_p++) {
-        if(exatt_entity_p->state != 0) {
+    for(; i < KOTO_EXATT_ALL_SLOTS; ++i, exatt_entity_p++) {
+        if(exatt_entity_p->state) {
             kotohime_exatt_render_one();
         }
     }
