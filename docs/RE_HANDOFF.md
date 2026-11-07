@@ -6,6 +6,23 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kotohime original nine-function charged-shot source after655
+
+The full cs_koto native original source is now verified from real
+changed compiler inputs: nine functions / 690 CODE bytes / 79
+ordered FIXUPPs / 9 PUBLICs. Ordinary boolean active and inactive
+checks are original-native byte equal. TC4 checks the physical
+8-byte projectile, center +02 and velocity +06 offsets and the
+four-byte Gauge timing view; original Gauge frames retain their
+0/0x80 start/end. Replacing the collision routine's special BX
+pointer contract with an ordinary register pointer selected SI
+and emitted original-unequal 692-byte CODE (af655b), so that
+negative variant was rejected. Two source-bound native rounds
+af655e reproduce full original MAIN/MAP/Japanese MZ. Details:
+MAIN_KOTOHIME_CHARGESHOT_CPP_AFTER655_REVIEW.md.
+Only the affected original project object was recompiled,
+without full cold replay or double canonical byte acceptance.
+
 ## Chiyuri nine-function charged-shot source after654
 
 The original cs_chiyu full native producer now uses original-code-equal
