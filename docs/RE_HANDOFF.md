@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After886: full Ellen Bomb native eight-particle loop and respawn controller
+
+- The complete three-function original `b_ellen` Bomb now uses natural
+  `while` for eight-slot initialization, the full movement/collision/
+  `goto respawn` loop with two early `continue` pointer/index paths,
+  and the eight-sprite renderer with two sentinel skips. Physical
+  -32-pixel clip, 144×184 origin, 224 speed and 64×64 sprites are named.
+- New TC4 negative controls: removing unsigned promotion from byte
+  palette `%2` emitted **1,032 vs original 1,023 CODE bytes** (`af886c`),
+  and replacing byte shake `&3` with `%4` emitted **1,026** (`af886d`).
+  Both original operations restored. The separate four-frame explosion
+  cadence admits natural `if(!(frame %4))`, and word spawn count admits
+  `++count` exactly. Final `af886h` passes two independent original
+  TC4 4.02/full normal TLINK rounds: **1,023 CODE bytes, 116 ordered
+  FIXUPPs, 3 PUBLICs**, full Japanese MAIN/1,553 relocations exact;
+  98 other original game objects/CRT reused. See
+  [after886 Ellen Bomb review](MAIN_ELLEN_BOMB_NATIVE_WHILE_AFTER886_REVIEW.md).
+  Already source-covered original CODE, no new unique/Factory credit.
+
 ## After885: complete Marisa Extra Attack and three early-continue paths
 
 - The full five-function `ex_maris` original owner now uses natural C++

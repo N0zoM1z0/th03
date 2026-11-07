@@ -1,6 +1,6 @@
-// Maintained exact natural Turbo C++ reconstruction of Ellen's contribution
-// to TH03 MAIN_05_TEXT. Historical private state remains at frozen carrier
-// offsets and is bound through semantic extern names by the accepted manifest.
+// Complete current exact-source Turbo C++ reconstruction for Ellen's
+// original Bomb owner in TH03 MAIN_05_TEXT. Original private particle
+// state and counters remain in their historical DGROUP storage slots.
 #pragma codeseg MAIN_05_TEXT
 
 #include <stddef.h>
@@ -23,6 +23,14 @@ enum ellen_bomb_layout_t {
     ELLEN_BOMB_FLASH_END = 64,
     ELLEN_BOMB_SHAKE_END = 128,
     ELLEN_BOMB_EXPLOSION_PERIOD = 4,
+    ELLEN_BOMB_CLIP_RADIUS = TO_SP(-32),
+    ELLEN_BOMB_PARTICLE_ORIGIN_X = TO_SP(144),
+    ELLEN_BOMB_PARTICLE_ORIGIN_Y = TO_SP(184),
+    ELLEN_BOMB_PARTICLE_SPEED = 224,
+    ELLEN_BOMB_SPRITE_SIZE = 64,
+    ELLEN_BOMB_SPRITE_OFFSET = 0x29C,
+    ELLEN_BOMB_DRAW_LEFT_MARGIN = 32,
+    ELLEN_BOMB_DRAW_TOP_MARGIN = 16,
 };
 
 struct ellen_bomb_particle_t {
@@ -70,45 +78,55 @@ void far ellen_bomb_update(void)
 	if(bomb_flag[pid_current] == BF_PREPARING) {
 		bomb_flag[pid_current] = BF_ACTIVE;
 		bomb_frame[pid_current] = 0;
-		for(i = 0; i < ELLEN_BOMB_PARTICLES_PER_PLAYER; i++) {
+		i = 0;
+		// Initialize eight original 8-byte particle slots. The native
+		// while preserves individual signed-word stores (af886a).
+		while(i < ELLEN_BOMB_PARTICLES_PER_PLAYER) {
 			ellen_bomb_particles[pid_current][i].center.x.v = ELLEN_BOMB_SPAWN_X;
+			++i;
 		}
 		snd_se_play(17);
 	}
 
 	bomb_frame[pid_current]++;
-	playfield_clip_negative_radius.x.v = TO_SP(-32);
-	playfield_clip_negative_radius.y.v = TO_SP(-32);
+	playfield_clip_negative_radius.x.v = ELLEN_BOMB_CLIP_RADIUS;
+	playfield_clip_negative_radius.y.v = ELLEN_BOMB_CLIP_RADIUS;
 	ellen_bomb_particle_p = &ellen_bomb_particles[pid_current][0];
 
-	for(
-        i = 0;
-        i < ELLEN_BOMB_PARTICLES_PER_PLAYER;
-        (i++, ellen_bomb_particle_p++)
-    ) {
+	i = 0;
+	// Both early-continue and the goto-respawn paths advance the
+	// original signed index and near pointer in this native while
+	// (full original compiler proof af886b).
+	while(i < ELLEN_BOMB_PARTICLES_PER_PLAYER) {
 		// The original goto to the common respawn block is codegen-visible:
 		// a falling-through C++ branch changed native CODE.
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_RESPAWN_X) {
 			goto respawn;
 		}
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_SPAWN_X) {
+			++i;
+			ellen_bomb_particle_p++;
 			continue;
 		}
 		ellen_bomb_particle_p->center.x.v += ellen_bomb_particle_p->velocity.x.v;
 		ellen_bomb_particle_p->center.y.v += ellen_bomb_particle_p->velocity.y.v;
 		if(!playfield_clip(ellen_bomb_particle_p->center.x, ellen_bomb_particle_p->center.y)) {
+			++i;
+			ellen_bomb_particle_p++;
 			continue;
 		}
 
 	respawn:
-		ellen_bomb_particle_p->center.x.v = TO_SP(144);
-		ellen_bomb_particle_p->center.y.v = TO_SP(184);
+		ellen_bomb_particle_p->center.x.v = ELLEN_BOMB_PARTICLE_ORIGIN_X;
+		ellen_bomb_particle_p->center.y.v = ELLEN_BOMB_PARTICLE_ORIGIN_Y;
 		vector2(
 			ellen_bomb_particle_p->velocity.x.v,
 			ellen_bomb_particle_p->velocity.y.v,
 			randring_far_next16(),
-			224
+			ELLEN_BOMB_PARTICLE_SPEED
 		);
+		++i;
+		ellen_bomb_particle_p++;
 	}
 
 	if(bomb_frame[pid_current] >= BOMB_FRAMES) {
@@ -120,31 +138,36 @@ void far ellen_bomb_update(void)
 void near ellen_bomb_render(void)
 {
 	ellen_bomb_particle_p = &ellen_bomb_particles[pid_current][0];
-	sprite16_put_size.set(64, 64);
+	sprite16_put_size.set(ELLEN_BOMB_SPRITE_SIZE, ELLEN_BOMB_SPRITE_SIZE);
 	sprite16_clip_set_for_pid(pid_current);
 
 	screen_x_t left;
 	screen_y_t top;
-	sprite16_offset_t sprite_offset = (pid.so_attack + 0x29C);
+	sprite16_offset_t sprite_offset = (pid.so_attack + ELLEN_BOMB_SPRITE_OFFSET);
 
-	for(
-        int i = 0;
-        i < ELLEN_BOMB_PARTICLES_PER_PLAYER;
-        (i++, ellen_bomb_particle_p++)
-    ) {
+	int i = 0;
+	// Both offscreen/sentinel checks skip drawing but preserve the
+	// same original signed index and near pointer post-call updates.
+	while(i < ELLEN_BOMB_PARTICLES_PER_PLAYER) {
 		// Keeping these as two source-level conditions is material: TC4J
 		// reloads [ellen_bomb_particle_p] for the second comparison, as in the target.
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_SPAWN_X) {
+			++i;
+			ellen_bomb_particle_p++;
 			continue;
 		}
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_RESPAWN_X) {
+			++i;
+			ellen_bomb_particle_p++;
 			continue;
 		}
 		left = (
-			playfield_fg_x_to_screen(ellen_bomb_particle_p->center.x.v, pid_current) - 32
+			playfield_fg_x_to_screen(ellen_bomb_particle_p->center.x.v, pid_current) - ELLEN_BOMB_DRAW_LEFT_MARGIN
 		);
-		top = (ellen_bomb_particle_p->center.y.to_pixel() - 16);
+		top = (ellen_bomb_particle_p->center.y.to_pixel() - ELLEN_BOMB_DRAW_TOP_MARGIN);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		ellen_bomb_particle_p++;
 	}
 }
 
@@ -176,6 +199,8 @@ void far ellen_bomb(void)
 		palette_changed = true;
 		ellen_bomb_particle_spawn_count = 0;
 	} else if(frame < ELLEN_BOMB_SHAKE_END) {
+		// Byte-valued frame must explicitly promote to unsigned int;
+		// removing the cast changed original CODE (af886c).
 		if((static_cast<unsigned int>(frame) % 2) != 0) {
 			snd_se_play(10);
 			Palettes[pid_current].c.r = 255;
@@ -188,6 +213,7 @@ void far ellen_bomb(void)
 		}
 		palette_changed = true;
 
+		// Keep byte &3: writing %4 generated nonoriginal CODE (af886d).
 		if((frame & 3) < 2) {
 			playfield_fg_shift_x[pid_current] = 4;
 		} else {
@@ -207,11 +233,15 @@ void far ellen_bomb(void)
 			(_AX = pid_current)
 		);
 
-		if((frame % ELLEN_BOMB_EXPLOSION_PERIOD) == 0) {
-			bomb_explosion_add(TO_SP(144), TO_SP(184), pid_current);
+		// A distinct four-frame byte explosion cadence accepts the
+		// natural if(!remainder) lowering (af886e).
+		if(!(frame % ELLEN_BOMB_EXPLOSION_PERIOD)) {
+			bomb_explosion_add(ELLEN_BOMB_PARTICLE_ORIGIN_X, ELLEN_BOMB_PARTICLE_ORIGIN_Y, pid_current);
 			if(ellen_bomb_particle_spawn_count < ELLEN_BOMB_PARTICLES_PER_PLAYER) {
 				ellen_bomb_particles[pid_current][ellen_bomb_particle_spawn_count].center.x.v = ELLEN_BOMB_RESPAWN_X;
-				ellen_bomb_particle_spawn_count++;
+				// Word-valued spawn count accepts natural prefix under TC4,
+				// unlike some byte frame mutations (af886g).
+				++ellen_bomb_particle_spawn_count;
 			}
 		}
 	} else {
