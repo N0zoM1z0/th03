@@ -6,8 +6,11 @@ void pascal exatt_add(Subpixel center_x_, Subpixel center_y_, pid_t pid)
 	// the character function pointers directly with the parameter
 	// objects emitted different CODE (negative control af699e).
 
-	subpixel_t center_x = center_x_;
-	subpixel_t center_y = center_y_;
+	// The Subpixel wrapper stores one exact 16-bit subpixel word. Explicit
+	// field loads preserve TC4's original two near-local copies and
+	// both far-Pascal character callback argument widths.
+	subpixel_t center_x = center_x_.v;
+	subpixel_t center_y = center_y_.v;
 
 	static_assert(PLAYER_COUNT == 2);
 	// The original zero-player branch compiles naturally as !pid;

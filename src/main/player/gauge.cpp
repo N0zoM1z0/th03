@@ -15,6 +15,8 @@ void pascal near gauge_avail_add(pid_t pid, uint8_t charge)
 	if(p.gauge_avail >= GAUGE_MAX) {
 		return;
 	}
+	// TC4's original memory compound addition is codegen-sensitive:
+	// p.gauge_avail = p.gauge_avail + charge differed in af753b.
 	p.gauge_avail += charge;
 	if(p.gauge_avail > GAUGE_MAX) {
 		p.gauge_avail = GAUGE_MAX;
