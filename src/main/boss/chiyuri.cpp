@@ -123,6 +123,20 @@ enum chiyuri_lifecycle_t {
 enum chiyuri_boss_cadence_t {
     CHIYURI_RENDER_ANIM_PERIOD = 4,
     CHIYURI_RING_SPRITES = 16,
+    CHIYURI_RING_SPRITE_ANGLE_STEP = 0x10,
+    CHIYURI_COLLISION_STRIPE_WIDTH = 64,
+    CHIYURI_COLLISION_TILE_HEIGHT = 48,
+    CHIYURI_COLLISION_HALF_RADIUS = TO_SP(32),
+    CHIYURI_RENDER_MAIN_WIDTH = 128,
+    CHIYURI_RENDER_MAIN_HEIGHT = 64,
+    CHIYURI_RENDER_HIT_WIDTH = 48,
+    CHIYURI_RENDER_HIT_HEIGHT = 40,
+    CHIYURI_RENDER_ANIM_WIDTH = 32,
+    CHIYURI_RENDER_ANIM_HEIGHT = 24,
+    CHIYURI_RENDER_HIT_SPRITE_DELTA = 0x778,
+    CHIYURI_RENDER_ANIM_SPRITE_BASE = 0x0C,
+    CHIYURI_CARDINAL_QUARTER_TURN = 0x40,
+    CHIYURI_CARDINAL_STEP = 8,
     CHIYURI_RING_RADIUS_SHIFT = 4,
     CHIYURI_INTRO_RADIUS_SHIFT = 3,
     CHIYURI_RING_SPRITE_WIDTH = 32,
@@ -161,7 +175,9 @@ void near chiyuri_pattern_cardinal(void)
 {
 	pid_t pid_other;
 
-	if((boss_frame % chiyuri_cardinal_interval) != 1) {
+	// Original unsigned-word frame cadence permits constant-first
+	// remainder test (native af922a).
+	if(1 != (boss_frame % chiyuri_cardinal_interval)) {
 		return;
 	}
 
@@ -195,13 +211,14 @@ void near chiyuri_pattern_cardinal(void)
 	bullet_template.speed.v = chiyuri_cardinal_speed;
 
 	if(!chiyuri_cardinal_reverse) {
-		chiyuri_cardinal_angle += 8;
+		// Natural byte-angle assignment with named +8 preserved CODE (af922e).
+		chiyuri_cardinal_angle = chiyuri_cardinal_angle + CHIYURI_CARDINAL_STEP;
 		if(chiyuri_cardinal_angle == 0x20) {
 			chiyuri_cardinal_reverse = 1;
 			chiyuri_cardinal_angle = 0x24;
 		}
 	} else {
-		chiyuri_cardinal_angle -= 8;
+		chiyuri_cardinal_angle = chiyuri_cardinal_angle - CHIYURI_CARDINAL_STEP;
 		if(chiyuri_cardinal_angle == 0xE4) {
 			chiyuri_cardinal_reverse = 0;
 			chiyuri_cardinal_angle = 0xE0;
@@ -215,23 +232,26 @@ void near chiyuri_pattern_cardinal(void)
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = (boss_center_y + TO_SP(56));
-	bullet_template.angle += 0x40;
+	// Each real 90-degree turn stays after the previous bullet call;
+	// named explicit byte assignment is TC4-exact (af922c).
+	bullet_template.angle = bullet_template.angle + CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
 
 	bullet_template.center.x.v = (boss_center_x - TO_SP(56));
 	bullet_template.center.y.v = boss_center_y;
-	bullet_template.angle += 0x40;
+	bullet_template.angle = bullet_template.angle + CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
-	bullet_template.angle += 0x40;
+	bullet_template.angle = bullet_template.angle + CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
 }
 
 void near chiyuri_pattern_rings(void)
 {
-	if((boss_frame % chiyuri_ring_interval) != 1) {
+	// This distinct ring cadence also allows natural comparison order.
+	if(1 != (boss_frame % chiyuri_ring_interval)) {
 		return;
 	}
 
@@ -320,6 +340,7 @@ enum chiyuri_fan_phase_t {
     CHIYURI_FAN_ANGLE_UNITS = 64,
     CHIYURI_FAN_HORIZ_ANGLE_BASE = 0x60,
     CHIYURI_FAN_VERT_ANGLE_OFFSET = 0x20,
+    CHIYURI_FAN_SPEED_STEP = 2,
     CHIYURI_FAN_SPAN_TO_SUBPIXELS = 16,
 };
 
@@ -328,8 +349,9 @@ enum chiyuri_fan_phase_t {
 // changing the division order would change trajectory rounding.
 // All four fan passes now use native-exact natural C++ while loops;
 // original signed 16-bit count, division-before-scale, RNG and dual
-// bullets_add call ordering are preserved (af872a). Live bullet-speed
-// byte-field +=/-=2 must remain literal (enum failed af872e).
+// bullets_add call ordering are preserved (af872a). The earlier native
+// `speed += enum` trial failed; fresh af922h proves that explicit
+// `speed = speed +/- NAMED_STEP` is byte exact for all four fan passes.
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
@@ -363,7 +385,8 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			bullet_template.speed.v += 2;
+			// Explicit byte speed assignment + named step is exact (af922h).
+			bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
 			++i;
 		}
 
@@ -382,7 +405,7 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			bullet_template.speed.v -= 2;
+			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
 			++i;
 		}
 		return;
@@ -416,7 +439,7 @@ void near chiyuri_pattern_fans(void)
 		);
 		bullets_add();
 
-		bullet_template.speed.v += 2;
+		bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
 		++i;
 	}
 
@@ -432,7 +455,7 @@ void near chiyuri_pattern_fans(void)
 		);
 		bullets_add();
 
-		bullet_template.speed.v -= 2;
+		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
 		++i;
 	}
 
@@ -464,7 +487,9 @@ void far gba_boss_update_chiyuri(void)
 	boss_target_update();
 	bullet_template.is_animated = false;
 	bullet_template.pid = pid_other;
-	boss_frame++;
+	// The original unsigned-word BOSS frame admits natural prefix;
+	// byte-valued movement state below does not (af922j/k).
+	++boss_frame;
 
 	switch(boss_mode) {
 	case CHIYURI_MODE_INTRO:
@@ -556,11 +581,13 @@ void far gba_boss_update_chiyuri(void)
     );
 	// This mutable byte field needs the original bitmask instruction:
 	// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
+	// Preserve the original byte-memory mask, NOT %=4 (af922i).
 	boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
 
 	if(boss_move_phase) {
 		// The original postfix byte decrement is CODE-visible; prefix
 		// --boss_move_phase was native-unequal (af702d).
+		// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
 		boss_move_phase--;
 		if(boss_move_phase) {
 			bomb_palette_step((boss_move_phase * 16), pid_other);
@@ -573,14 +600,14 @@ void far gba_boss_update_chiyuri(void)
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(64);
-	collmap_tile_h.set(48);
+	collmap_stripe_tile_w.set(CHIYURI_COLLISION_STRIPE_WIDTH);
+	collmap_tile_h.set(CHIYURI_COLLISION_TILE_HEIGHT);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = CHIYURI_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = CHIYURI_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -629,7 +656,9 @@ void near chiyuri_render_ring(void)
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
 		++i;
-		angle += 0x10;
+		// Explicit named byte angle assignment is original-exact (af922f);
+		// enum-valued compound += was unequal in earlier native work.
+		angle = angle + CHIYURI_RING_SPRITE_ANGLE_STEP;
 	}
 }
 
@@ -642,8 +671,8 @@ void near chiyuri_render_main(void)
 	register screen_x_t left;
 
 	if(!boss_render_mode) {
-		sprite16_put_size.w = 128;
-		sprite16_put_size.h = 64;
+		sprite16_put_size.w = CHIYURI_RENDER_MAIN_WIDTH;
+		sprite16_put_size.h = CHIYURI_RENDER_MAIN_HEIGHT;
 
 		left = (
 			playfield_fg_x_to_screen(
@@ -658,9 +687,9 @@ void near chiyuri_render_main(void)
 		top += 32;
 
 		if(boss_hit) {
-			sprite16_put_size.w = 48;
-			sprite16_put_size.h = 40;
-			sprite_offset += 0x778;
+			sprite16_put_size.w = CHIYURI_RENDER_HIT_WIDTH;
+			sprite16_put_size.h = CHIYURI_RENDER_HIT_HEIGHT;
+			sprite_offset += CHIYURI_RENDER_HIT_SPRITE_DELTA;
 			sprite16_put(left, top, sprite_offset);
 			return;
 		}
@@ -669,9 +698,9 @@ void near chiyuri_render_main(void)
 			return;
 		}
 
-		sprite16_put_size.w = 32;
-		sprite16_put_size.h = 24;
-		sprite_offset += ((boss_render_frame * 4) + 0x0C);
+		sprite16_put_size.w = CHIYURI_RENDER_ANIM_WIDTH;
+		sprite16_put_size.h = CHIYURI_RENDER_ANIM_HEIGHT;
+		sprite_offset += ((boss_render_frame * 4) + CHIYURI_RENDER_ANIM_SPRITE_BASE);
 		sprite16_put(left, top, sprite_offset);
 		return;
 	}
@@ -740,8 +769,8 @@ void near pascal chiyuri_render_mono(int color)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
 
-	sprite16_put_size.w = 128;
-	sprite16_put_size.h = 64;
+	sprite16_put_size.w = CHIYURI_RENDER_MAIN_WIDTH;
+	sprite16_put_size.h = CHIYURI_RENDER_MAIN_HEIGHT;
 
 	left = (
 		playfield_fg_x_to_screen(

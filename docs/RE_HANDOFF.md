@@ -8,6 +8,27 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After922: full Chiyuri major BOSS native cardinal and four-fan arithmetic
+
+- Complete 11-function original `ba_chiyu` major BOSS now naturally
+  spells both 16-bit cardinal/ring `%period!=1` predicates, all three
+  mutable projectile byte-angle +0x40 turns, both bidirectional
+  8-bit cardinal +/-8 steps, the 16-sprite orbit +0x10, and all
+  **four signed fan speed +/-2 updates** as explicit C++ assignments
+  with source-named constants. Original 64×48 collision geometry and
+  main/damaged/animation sprite dimensions are also named. Real AL
+  phase carriers, original RNG and bullet draw order remain intact.
+- Fresh original TC4 negatives: `boss_render_frame &=3` to `%4`
+  generated **2,660 vs original 2,654 CODE bytes** (`af922i`);
+  byte movement-frame postfix to prefix changed code (`af922k`).
+  The different unsigned 16-bit main BOSS frame *does* admit natural
+  prefix (`af922j`). Final `af922l` proves two independent genuine
+  original TC4 4.02/full normal MAIN TLINK rounds: **2,654 CODE bytes,
+  381 literal ordered FIXUPPs, 11 PUBLICs**, all Japanese MAIN loaded
+  bytes/1,553 MZ relocations exact; 98 other game objects/CRT reused.
+  See [after922 full Chiyuri BOSS review](MAIN_CHIYURI_BOSS_NAMED_NATIVE_AFTER922_REVIEW.md).
+  Previously covered original CODE, not new distinct/Factory credit.
+
 ## Latest after921: six edited original physical owners compiled together
 
 - Actual `af921a` **simultaneously recompiles all six original physical
