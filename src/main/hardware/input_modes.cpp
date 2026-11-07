@@ -76,32 +76,36 @@ void far pascal input_mode_attract(void)
     input_mp_p2 = INPUT_NONE;
 }
 
+// Historical wait sentinel: zero means unlimited press polling, while a
+// negative caller-supplied frame bound skips the press phase entirely.
+enum { INPUT_WAIT_UNLIMITED_FRAMES = 9999 };
+
 void far pascal input_wait_for_change(int frames_to_wait)
 {
     int frames_waited = 0;
 
     // Release phase has no timeout, including when frames_to_wait is negative.
-    while(1) {
+    for(;;) {
         input_mode_interface();
-        if(input_sp == INPUT_NONE) {
+        if(!input_sp) {
             break;
         }
         frame_delay(1);
     }
 
     if(!frames_to_wait) {
-        frames_to_wait = 9999;
+        frames_to_wait = INPUT_WAIT_UNLIMITED_FRAMES;
     }
 
     // Both 0 and 9999 mean an unlimited press phase. Negative values skip it.
     while(frames_waited < frames_to_wait) {
         input_mode_interface();
-        if(input_sp != INPUT_NONE) {
+        if(input_sp) {
             break;
         }
-        frames_waited++;
+        ++frames_waited;
         frame_delay(1);
-        if(frames_to_wait == 9999) {
+        if(frames_to_wait == INPUT_WAIT_UNLIMITED_FRAMES) {
             frames_waited = 0;
         }
     }

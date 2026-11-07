@@ -37,6 +37,10 @@ SOURCES = {
     'hud_stat': 'src/main/hud/static.cpp',
     'initmain': 'src/main/core/initmain.cpp',
     'snd_se': 'src/main/sound/se.cpp',
+    'inp_m_w': 'src/main/hardware/input_modes.cpp',
+    'snd_kaja': 'src/main/sound/kaja.cpp',
+    'pi_load': 'src/main/formats/pi_load.cpp',
+    'exit': 'src/main/core/exit.cpp',
     'polar': 'src/main/math/polar.cpp',
     'cfg_lres': 'src/main/formats/cfg_lres.cpp',
     'intro': 'src/main/hud/intro.cpp',
@@ -219,7 +223,9 @@ MAP_ROWS = {
     'p_exatt': 3,
     'p_gauge': 3,
     'ba_sring':5, 'ba_srest':5,
-    'hud_stat':3, 'initmain':3, 'snd_se':3, 'polar':3, 'cfg_lres':3, 'e_fireb':3, 'e_expl':3, 'bullet':4,
+    'hud_stat':3, 'initmain':3, 'snd_se':3, 'polar':3, 'cfg_lres':3,
+    'inp_m_w':3, 'snd_kaja':3, 'pi_load':3, 'exit':3,
+    'e_fireb':3, 'e_expl':3, 'bullet':4,
     'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,
 }
 
