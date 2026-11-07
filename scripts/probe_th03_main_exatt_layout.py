@@ -41,6 +41,8 @@ SOURCES = {
     'cs_koto': 'src/main/player/chargeshot_kotohime.cpp',
     'cs_kana': 'src/main/player/chargeshot_kana.cpp',
     'cs_rika': 'src/main/player/chargeshot_rikako.cpp',
+    'cs_mima': 'src/main/player/chargeshot_mima.cpp',
+    'cs_reimu': 'src/main/player/chargeshot_reimu.cpp',
     'b_ellen': 'src/main/player/bomb_ellen.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',

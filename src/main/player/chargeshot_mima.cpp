@@ -1,6 +1,7 @@
 // Natural semantic hypothesis, not historical source or compiled exactness.
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
+#include <stddef.h>
 #include "src/main/player/mima_gameplay.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
 #pragma option -a2
@@ -16,10 +17,34 @@
 #pragma samecodeseg bullets_add
 #pragma samecodeseg randring_far_next16_and
 
+// The original charged-shot pool contains fifteen 10-byte projectiles
+// per player, with a repeating six-angle emission pattern.
+enum mima_charge_phase_t {
+    MIMA_CHARGE_SLOTS_PER_PLAYER = 15,
+    MIMA_CHARGE_TOTAL_SLOTS = 30,
+    MIMA_CHARGE_LAST_SLOT = 14,
+    MIMA_CHARGE_ANGLE_PATTERN_COUNT = 6,
+    MIMA_CHARGE_RELEASE_PERIOD = 4,
+    MIMA_CHARGE_RELEASE_END = 60,
+    MIMA_GAUGE_RING_PERIOD = 8,
+    MIMA_GAUGE_DOUBLE_RING_PERIOD = 16,
+    MIMA_GAUGE_FINISH_AFTER = 64,
+};
+
+typedef char mima_charge_stride_is_10[
+    (sizeof(mima_chargeshot_t) == 10) ? 1 : -1
+];
+typedef char mima_charge_x_at_02[
+    (offsetof(mima_chargeshot_t, x) == 2) ? 1 : -1
+];
+typedef char mima_charge_vx_at_06[
+    (offsetof(mima_chargeshot_t, velocity_x) == 6) ? 1 : -1
+];
+
 void far pascal mima_chargeshots_reset(void)
 {
     mima_chargeshot_p = &mima_chargeshots[0][0];
-    for(int i = 0; i < 30; i++, mima_chargeshot_p++) {
+    for(int i = 0; i < MIMA_CHARGE_TOTAL_SLOTS; i++, mima_chargeshot_p++) {
         mima_chargeshot_p->active = 0;
     }
 }
@@ -29,14 +54,14 @@ void far pascal chargeshot_add_mima(Subpixel center_x, Subpixel center_y)
     mima_chargeshot_active[pid.current] = 1;
     mima_chargeshot_frame[pid.current] = 0;
     mima_chargeshot_p->active = 1;
-    for(int i = 0; i < 15; i++, mima_chargeshot_p++) {
+    for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
         if(i != 0) {
             mima_chargeshot_p->active = 0;
         }
         mima_chargeshot_p->x.v = center_x.v;
         mima_chargeshot_p->y.v = center_y.v;
         vector2(mima_chargeshot_p->velocity_x, mima_chargeshot_p->velocity_y,
-            mima_chargeshot_angles[i % 6], 176);
+            mima_chargeshot_angles[i % MIMA_CHARGE_ANGLE_PATTERN_COUNT], 176);
         mima_chargeshot_p->unknown_1 = 0;
     }
 }
@@ -56,7 +81,7 @@ void far pascal chargeshot_update_mima(void)
         playfield_clip_negative_radius.y.v = -TO_SP(16);
         mima_chargeshot_p = &mima_chargeshots[pid_current][0];
         frame = ++mima_chargeshot_frame[pid_current];
-        for(int i = 0; i < 15; i++, mima_chargeshot_p++) {
+        for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
             if(mima_chargeshot_p->active == 0) {
                 continue;
             }
@@ -64,13 +89,13 @@ void far pascal chargeshot_update_mima(void)
             mima_chargeshot_p->y.v += mima_chargeshot_p->velocity_y;
             if(playfield_clip(mima_chargeshot_p->x, mima_chargeshot_p->y)) {
                 mima_chargeshot_p->active = 0;
-                if(i == 14) {
+                if(i == MIMA_CHARGE_LAST_SLOT) {
                     mima_chargeshot_active[pid_current] = 0;
                 }
             }
         }
-        if(frame < 60 && (frame % 4) == 0) {
-            mima_chargeshot_activate(pid_current, frame / 4);
+        if(frame < MIMA_CHARGE_RELEASE_END && (frame % MIMA_CHARGE_RELEASE_PERIOD) == 0) {
+            mima_chargeshot_activate(pid_current, frame / MIMA_CHARGE_RELEASE_PERIOD);
         }
         players[pid_current].gauge_charged = 0;
     }
@@ -83,7 +108,7 @@ uint8_t far chargeshot_hittest_mima(void)
     }
     hits = 0;
     mima_chargeshot_p = &mima_chargeshots[hitbox.pid][0];
-    for(int i = 0; i < 15; i++, mima_chargeshot_p++) {
+    for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
         if(mima_chargeshot_p->active == 0) {
             continue;
         }
@@ -111,7 +136,7 @@ void far pascal chargeshot_render_mima(void)
         sprite16_clip_set_for_pid(pid_current);
         sprite_offset = pid.so_attack + 0x10;
         sprite16_put_size.set(32, 16);
-        for(int i = 0; i < 15; i++, mima_chargeshot_p++) {
+        for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
             if(mima_chargeshot_p->active == 0) {
                 continue;
             }
@@ -128,7 +153,7 @@ void near pascal gauge_pattern_mima(unsigned int type)
         flag_expected = flag_expected + GBAF_PELLET_TO_BULLET;
     }
     if(gba_flag_active[pid_current] == flag_expected) {
-        mima_gauge_angle_step[pid_current] = randring_far_next16_and(1) == 0 ? 249 : 7;
+        mima_gauge_angle_step[pid_current] = (randring_far_next16_and(1) == 0 ? -7 : 7);
         mima_gauge_angle[pid_current] = 64;
         mima_gauge_frame[pid_current] = 0;
         gba_flag_active[pid_current]++;
@@ -140,7 +165,7 @@ void near pascal gauge_pattern_mima(unsigned int type)
         return;
     }
     pid_other = 1 - pid_current;
-    if((mima_gauge_frame[pid_current] % 8) == 0) {
+    if((mima_gauge_frame[pid_current] % MIMA_GAUGE_RING_PERIOD) == 0) {
         bullet_template.type = static_cast<bullet_type_t>(type);
         if(mima_gauge_angle_step[pid_current] > 7) {
             bullet_template.center.x.v = TO_SP(32);
@@ -155,7 +180,7 @@ void near pascal gauge_pattern_mima(unsigned int type)
         bullet_template.group = BG_5_SPREAD_NARROW;
         bomb_center_add(bullet_template.center.x.v, TO_SP(16), pid_other);
         bullets_add();
-        if((mima_gauge_frame[pid_current] % 16) != 0) {
+        if((mima_gauge_frame[pid_current] % MIMA_GAUGE_DOUBLE_RING_PERIOD) != 0) {
             bullet_template.group = BG_RING;
             bullet_template.count = gauge_pattern_timing[pid_current].total_frames;
             bullet_template.speed.v = TO_SP(3) + 6;
@@ -165,7 +190,7 @@ void near pascal gauge_pattern_mima(unsigned int type)
         mima_gauge_angle[pid_current] += mima_gauge_angle_step[pid_current];
         bullet_template.is_animated = 1;
     }
-    if(mima_gauge_frame[pid_current] > 64) {
+    if(mima_gauge_frame[pid_current] > MIMA_GAUGE_FINISH_AFTER) {
         gba_flag_active[pid_current] = GBAF_NONE;
         palette_restore_for_pid(pid_other);
     }

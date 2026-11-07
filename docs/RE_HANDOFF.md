@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Mima full fifteen-shot charged-shot/Gauge source after660
+
+Original physical `cs_mima` now compiles all ten functions
+from source with natural C++ `-7` rather than the opaque
+eight-bit `249` in the RNG-selected Gauge rotation. Its
+unsigned `>7` center-direction comparison is preserved:
+a signed `<0` rewrite was actual-native-unequal. TC4 checks
+the ten-byte projectile, +02 X and +06 velocity X offsets,
+with fifteen shots/player, the six-angle pattern, original
+four-frame launch cadence and separate 8-/16-frame Gauge
+volley clocks. Source-rooted original TC4/TLINK `af660d`
+two-round proof matches **1,338 CODE bytes, 150 ordered literal
+fixups, ten PUBLICs**, full original normal MAIN EXE/MAP
+and Japanese MZ relocations. See
+[after660 Mima charged-shot native review](MAIN_MIMA_CHARGESHOT_NATIVE_AFTER660_REVIEW.md).
+Only the affected original object recompiled, no full cold
+replay or new canonical packed-game byte credit.
+
 ## Rikako full charged-shot orbit/Gauge source after659
 
 The new physical `cs_rika` eleven-function original source is
