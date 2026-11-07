@@ -66,6 +66,8 @@ void pascal hitcircles_enemy_add(
 {
 	#define last_id hitcircles_enemy_last_id
 	extern uint8_t last_id;
+	// This byte ring index must stay postfix: prefix changed actual
+	// original TC4 CODE in the independent af919c negative trial.
 	last_id++;
 	if(last_id >= HITCIRCLE_ENEMY_COUNT) {
 		last_id = 0;
@@ -102,15 +104,25 @@ void near hitcircles_update(void)
 {
 	HitCircle near* p = hitcircles;
 	int i = 0;
-	for(; i < HITCIRCLE_COUNT; (i++, p++)) {
-		if(p->age) {
+	// Original thirteen-record (12 enemy + 1 player) age progression:
+	// every physical 6-byte slot advances after the native byte-state
+	// update, and the player slot shares the same lifetime clock.
+	while(i < HITCIRCLE_COUNT) {
+		if(p->age != 0) {
+			// Mutable byte age postfix is native-visible: prefix emitted
+			// nonoriginal instructions (af919d), so keep the original.
 			p->age++;
 
 			// Not off-by-one, since [age] starts at 1.
-			if(p->age > HITCIRCLE_FRAMES) {
+			// Unlike the byte postfix, this limit can read naturally as
+			// `FRAME_LIMIT < age`; original TC4 emitted the same CODE
+			// as `age > FRAME_LIMIT` (af919e).
+			if(HITCIRCLE_FRAMES < p->age) {
 				p->age = 0;
 			}
 		}
+		++i;
+		p++;
 	}
 }
 
@@ -123,7 +135,8 @@ void near hitcircles_render(void)
 	// ZUN bloat
 	_DX = round_or_result_frame;
 	// Original 81 E2 01 00 (AND DX,imm16) is four CODE bytes.
-	// Natural _DX &= 1 selects 83 E2 01 (imm8) in TC4 (af792a).
+	// Natural _DX &= 1 again selected the nonoriginal shorter imm8
+	// instruction (fresh af919f), not the original imm16 AND.
 	asm { and dx, 1 };
 	_DX += V_YELLOW_DARK;
 	sprite16_mono_color(_DX);
@@ -131,19 +144,24 @@ void near hitcircles_render(void)
 	sprite16_put_size.set(HITCIRCLE_W, HITCIRCLE_H);
 
 	int i = 0;
-	for(; i < HITCIRCLE_ENEMY_COUNT; (i++, p++)) {
-		if(p->age) {
+	// Only twelve enemy slots draw in this pass. The thirteenth
+	// player hit circle uses a separate monochrome palette and is
+	// drawn AFTER the signed-index/near-pointer loop (af919a).
+	while(i < HITCIRCLE_ENEMY_COUNT) {
+		if(p->age != 0) {
 			sprite16_clip_set_for_pid(p->pid);
 			sprite16_offset_t so = p->cel();
 			sprite16_put(p->topleft.x, p->topleft.y, so);
 		}
+		++i;
+		p++;
 	}
 
 	// Player circle
 	static_assert(HITCIRCLE_PLAYER_COUNT == 1);
 	_DX = V_WHITE;
 	sprite16_mono_color(_DX);
-	if(p->age) {
+	if(p->age != 0) {
 		sprite16_clip_set_for_pid(p->pid);
 		sprite16_offset_t so = p->cel();
 		sprite16_put(p->topleft.x, p->topleft.y, so);

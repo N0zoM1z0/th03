@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After919: complete HitCircle lifetime and PC-98 sprite leaf
+
+- The entire original four-function `hitcirc` owner now uses natural
+  `while` for 13-slot lifetime update and 12-enemy sprite rendering,
+  preserving the separately rendered player HitCircle. All original
+  byte activity checks spell `age !=0` and original expiry can read
+  naturally `HITCIRCLE_FRAMES < age`, maintaining the original GRCG
+  hardware color-selection register sequence.
+- Fresh TC4 negatives: byte ring-index prefix emitted **449 vs 445
+  CODE bytes** (`af919c`), age byte prefix also emitted **449**
+  (`af919d`), and replacing original `AND DX,imm16` with C++
+  `_DX &=1` shortened CODE to **444** (`af919f`). Original byte postfix
+  and four-byte immediate register AND retained. Final `af919g` matches
+  **445 CODE bytes, 30 ordered FIXUPPs and four PUBLICs**, full Japanese
+  MAIN/1,553 MZ relocations in two genuine original TC4/full normal
+  TLINK rounds, 98 other original objects/CRT reused. See
+  [after919 HitCircle original leaf review](MAIN_HITCIRCLE_NATIVE_LIFETIME_AFTER919_REVIEW.md).
+  Previously source-owned CODE, not new canonical Factory credit.
+
 ## After918: complete Kana Extra Attack, two distinct allocator codegen paths
 
 - Full five-function `ex_kana` original owner: the entire eight-entity
