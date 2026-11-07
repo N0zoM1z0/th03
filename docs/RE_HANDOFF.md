@@ -6,6 +6,31 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Player core ten-Hyper-handler source-native recovery after707
+
+The 3,135-CODE-byte complete `core` original source
+is source-native-attested through its historical
+`probe/af593p/rN/core.obj` TLINK slot. Its actual
+maintained `hyper.inl` function implementation
+is explicitly staged and independently verified
+through emitted native OMF COMENT dependency paths;
+other unchanged core includes remain reused.
+Ellen Hyper now reads the frame low byte naturally
+as `static_cast<unsigned char>(round_frame)`,
+removing a manual reinterpret-pointer alias while
+preserving the original `&3` gate. The nine handlers'
+cardinal/diagonal speed steps and Rikako Gauge
+threshold use meaningful compiler-time C++ names.
+The tempting `%4` replacement and `>=0xFA1`
+threshold changed original native CODE and were
+rejected. Genuine current-source `af707e` dual
+TC4/TLINK rounds reproduce **3,135 CODE bytes,
+260 ordered literal native FIXUPPs, 21 PUBLICs**,
+complete normal MAIN/MAP and Japanese MZ.
+See [after707 original player Hyper review](MAIN_PLAYER_CORE_HYPER_AFTER707_REVIEW.md).
+Only the core original TU rebuilt, no cold replay
+or new canonical Factory packed-game bytes.
+
 ## Loss/defeat full four-function source/inline-native proof after706
 
 The v2 scoped compiler/reviewer now force the actual maintained

@@ -17,18 +17,29 @@ void far rikako_chargeshot_cancel(void);
 void far pascal rikako_charge_add_private(Subpixel center_x, Subpixel center_y);
 }
 
+// Original Hyper speed adjustments are asymmetric between cardinal
+// and diagonal axes; the byte values are not a generic speed multiplier.
+enum hyper_movement_step_t {
+    HYPER_CARDINAL_ACCEL = 0x20,
+    HYPER_DIAGONAL_ACCEL = 0x18,
+    HYPER_CARDINAL_DECEL = 0x10,
+    HYPER_MARISA_DIAGONAL_DECEL = 0x0C,
+    HYPER_RIKAKO_DIAGONAL_DECEL = 8,
+    HYPER_RIKAKO_GAUGE_THRESHOLD = 0x0FA0,
+};
+
 inline void hyper_speed_up(void)
 {
-    player_speed_base.aligned.x.v += 0x20;
-    player_speed_base.aligned.y.v += 0x20;
-    player_speed_base.diagonal.x.v += 0x18;
-    player_speed_base.diagonal.y.v += 0x18;
+    player_speed_base.aligned.x.v += HYPER_CARDINAL_ACCEL;
+    player_speed_base.aligned.y.v += HYPER_CARDINAL_ACCEL;
+    player_speed_base.diagonal.x.v += HYPER_DIAGONAL_ACCEL;
+    player_speed_base.diagonal.y.v += HYPER_DIAGONAL_ACCEL;
 }
 
 inline void hyper_speed_down(unsigned char step_diag)
 {
-    player_speed_base.aligned.x.v -= 0x10;
-    player_speed_base.aligned.y.v -= 0x10;
+    player_speed_base.aligned.x.v -= HYPER_CARDINAL_DECEL;
+    player_speed_base.aligned.y.v -= HYPER_CARDINAL_DECEL;
     player_speed_base.diagonal.x.v -= step_diag;
     player_speed_base.diagonal.y.v -= step_diag;
 }
@@ -70,7 +81,7 @@ void near pascal hyper_marisa(void)
     }
     player_cur->shot_mode = SM_NONE;
     marisa_hyper_14340();
-    hyper_speed_down(0x0C);
+    hyper_speed_down(HYPER_MARISA_DIAGONAL_DECEL);
 }
 
 void near pascal hyper_ellen(void)
@@ -80,7 +91,10 @@ void near pascal hyper_ellen(void)
         return;
     }
     player_cur->shot_mode = SM_1_PAIR;
-    if((*(unsigned char near *)&round_frame & 3) == 0) {
+    // Casting the low byte directly is native-equal and removes
+    // the previous reinterpret-pointer alias. Replacing the mask
+    // by unsigned %4 changed original TC4 bytes (af707a).
+    if((static_cast<unsigned char>(round_frame) & 3) == 0) {
         ellen_hyper(player_cur->center.x, player_cur->center.y);
     }
 }
@@ -132,8 +146,10 @@ void near pascal hyper_rikako(void)
         rikako_chargeshot_cancel();
         return;
     }
-    if(player_cur->gauge_avail > 0x0FA0) {
+    // Keep the original strict threshold. The apparently equivalent
+    // >= 0xFA1 form selected different native opcodes (af707c).
+    if(player_cur->gauge_avail > HYPER_RIKAKO_GAUGE_THRESHOLD) {
         rikako_charge_add_private(player_cur->center.x, player_cur->center.y);
     }
-    hyper_speed_down(8);
+    hyper_speed_down(HYPER_RIKAKO_DIAGONAL_DECEL);
 }
