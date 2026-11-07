@@ -152,6 +152,8 @@ void __fastcall near grcg_pellet_put(
 
 	// ZUN bloat: `_SI = (FP_OFF(&sPELLET[cel][_SI % (PRESHIFT * 2)])`.
 	static_assert(sizeof(sPELLET[0][0]) == 16);
+	// A natural register %=PRESHIFT*2 uses different TC4 division/codegen
+	// and changes the original 386 pellet writer (af832c).
 	_SI &= ((PRESHIFT * 2) - 1);
 	_SI <<= 4;
 	_SI += FP_OFF(&sPELLET);
@@ -968,8 +970,17 @@ void bullets_render(void)
 			if(bullet_p->has_trail) {
 				so += (BULLET16_TRAIL_CELS * (BULLET16_W / BYTE_DOTS));
 
+				// The last buffered trail sample is drawn first. Each sprite
+				// consumes exactly TRAIL_POINTS_PER_SPRITE history points and
+				// the corresponding VRAM cel decrements in the same iteration.
+				// This complete C++ for-loop is native exact (af832a); moving
+				// those two mutations into a while-body is also valid, but
+				// changing the 8x8 pellet do/while below into a for is not.
 				trail_i = (TRAIL_POINT_COUNT - 1);
-				while(trail_i > 0) {
+				for(; trail_i > 0; (
+					trail_i -= TRAIL_POINTS_PER_SPRITE,
+					so -= (BULLET16_W / BYTE_DOTS)
+				)) {
 					topleft_set(
 						topleft,
 						bullet_p,
@@ -979,8 +990,6 @@ void bullets_render(void)
 						BULLET16_H
 					);
 					sprite16_put_noclip(topleft.x, topleft.y, so);
-					trail_i -= TRAIL_POINTS_PER_SPRITE;
-					so -= (BULLET16_W / BYTE_DOTS);
 				}
 			}
 

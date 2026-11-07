@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After832: complete Bullet engine source-native trail loop
+
+- `bullet` is an original **1,080-line full physical TC4 TU** with the
+  large projectile spawn/update/render controllers and original 386 GRCG
+  pellet writer. Its **16×16 trail history `while`** now uses natural
+  typed `for(; trail_i>0; (trail_i-=step, so-=cel))` with original sprite
+  ordering. Genuine original compiler codegen matches all original bytes.
+- `af832b` tested the separate 8×8 pellet `do/while` as a `for` and
+  **failed** complete original CODE (2,687 vs 2,685); `af832c`
+  challenged GRCG source `_SI &= mask` with `%` and also **failed**
+  (2,704). Both original forms remain; final `af832d` passes two
+  original TC4/whole normal TLINK rounds on the complete TU: **2,685
+  CODE bytes, 196 ordered FIXUPPs, 20 PUBLICs**, full original Japanese
+  MAIN and all 1,553 original relocations. 98 other objects and CRT
+  reused, no cold replay. See
+  [after832 complete Bullet renderer review](MAIN_BULLET_RENDER_TRAIL_AFTER832_REVIEW.md).
+  Existing original CODE owner, no new unique byte credit.
+
 ## After831: complete Ellen BOSS radial/strip source
 
 - Full nine-function `ba_ellen` major BOSS uses named 256-unit signed-
