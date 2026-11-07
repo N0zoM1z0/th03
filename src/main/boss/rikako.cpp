@@ -1,6 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the complete Rikako
-// contribution inside TH03 MAIN_03_TEXT. Shared boss helpers and historical
-// state remain external until full-link ownership is proved.
+// Complete current native-source reconstruction of the original Rikako
+// major BOSS in MAIN_03_TEXT. Real shared BOSS storage and helpers remain
+// externally owned; complete normal MAIN is checked by original TLINK.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/rikako.hpp"
@@ -97,6 +97,17 @@ enum rikako_render_timing_t {
     RIKAKO_PELLET_VOLLEY_COUNT = 4,
     RIKAKO_PELLET_VOLLEY_SPEED_INC = 8,
     RIKAKO_BURST_HALF_TURN = 0x80,
+    RIKAKO_COLLISION_STRIPE_WIDTH = 64,
+    RIKAKO_COLLISION_TILE_HEIGHT = 48,
+    RIKAKO_COLLISION_HALF_RADIUS = TO_SP(32),
+    RIKAKO_RENDER_MAIN_W = 96,
+    RIKAKO_RENDER_MAIN_H = 48,
+    RIKAKO_RENDER_MAIN_LEFT = 48,
+    RIKAKO_RENDER_MAIN_TOP = 32,
+    RIKAKO_RENDER_RING_W = 16,
+    RIKAKO_RENDER_RING_H = 8,
+    RIKAKO_RENDER_INTRO_W = 48,
+    RIKAKO_RENDER_INTRO_H = 24,
 };
 
 void far pascal boss_rikako_template_init(int player_id)
@@ -139,8 +150,10 @@ void near rikako_pattern_orbit_spread(void)
 	signed char angle_delta;
 	register int i;
 
+	// Original unsigned-word 8-frame spin clock accepts the readable
+	// if(!remainder), distinct from the signed byte spin delta.
 	if(boss_spin_delta <= 8) {
-		if((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta++;
 		}
 	}
@@ -213,7 +226,7 @@ void near rikako_pattern_entities_and_pellets(void)
 	register int i;
 
 	if(boss_spin_delta >= -8) {
-		if((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta--;
 		}
 	}
@@ -260,10 +273,15 @@ void near rikako_pattern_entities_and_pellets(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.speed.v = TO_SP(2);
 
-		for(i = 0; i < RIKAKO_PELLET_VOLLEY_COUNT; ++i) {
+		// Four genuinely distinct RNG angles, speed +8 and bullets_add
+		// calls. This natural while preserves the original mutation order
+		// and all original CODE bytes (native TC4 trial af904a).
+		i = 0;
+		while(i < RIKAKO_PELLET_VOLLEY_COUNT) {
 			bullet_template.angle = randring_far_next16();
 			bullet_template.speed.v += RIKAKO_PELLET_VOLLEY_SPEED_INC;
 			bullets_add();
+			++i;
 		}
 		snd_se_play(10);
 		return;
@@ -292,7 +310,7 @@ void near rikako_pattern_alternating_burst(void)
 	boss_move_sine();
 
 	if(boss_spin_delta != 2) {
-		if((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta += ((boss_spin_delta > 2) ? -1 : 1);
 		}
 	}
@@ -396,18 +414,20 @@ void far gba_boss_update_rikako(void)
 		return;
 	}
 
+	// Keep compound signed-byte spin mutation: writing an explicit
+	// byte = byte + signed_delta changed original CODE (af904c).
 	boss_render_frame += boss_spin_delta;
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(64);
-	collmap_tile_h.set(48);
+	collmap_stripe_tile_w.set(RIKAKO_COLLISION_STRIPE_WIDTH);
+	collmap_tile_h.set(RIKAKO_COLLISION_TILE_HEIGHT);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = RIKAKO_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = RIKAKO_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -427,16 +447,16 @@ void near rikako_render_main(void)
 	register sprite16_offset_t sprite_offset;
 	register int i;
 
-	sprite16_put_size.w = 96;
-	sprite16_put_size.h = 48;
+	sprite16_put_size.w = RIKAKO_RENDER_MAIN_W;
+	sprite16_put_size.h = RIKAKO_RENDER_MAIN_H;
 
 	left = (
 		playfield_fg_x_to_screen(
 			boss_center_x,
 			(1 - pid_current)
-		) - 48
+		) - RIKAKO_RENDER_MAIN_LEFT
 	);
-	top = ((boss_center_y >> 4) - 32);
+	top = ((boss_center_y >> 4) - RIKAKO_RENDER_MAIN_TOP);
 
 	sprite_offset = boss_sprite_offset;
 	if(boss_hit) {
@@ -444,8 +464,8 @@ void near rikako_render_main(void)
 	}
 	sprite16_put(left, top, sprite_offset);
 
-	sprite16_put_size.w = 16;
-	sprite16_put_size.h = 8;
+	sprite16_put_size.w = RIKAKO_RENDER_RING_W;
+	sprite16_put_size.h = RIKAKO_RENDER_RING_H;
 	angle = boss_render_frame;
 	left += 40;
 	top += 40;
@@ -458,6 +478,8 @@ void near rikako_render_main(void)
 		x = polar(left, RIKAKO_ORBIT_RING_RADIUS, CosTable8[angle]);
 		y = polar(top, RIKAKO_ORBIT_RING_RADIUS, SinTable8[angle]);
 
+		// This signed *index* needs unsigned promotion before %4;
+		// plain signed modulo changed original CODE (af904e).
 		if(static_cast<unsigned int>(i) % RIKAKO_RING_ANIM_PERIOD) {
 			sprite_offset = (((static_cast<unsigned int>(i) % RIKAKO_RING_ANIM_PERIOD) * 2) + 0x167E);
 		} else {
@@ -470,7 +492,9 @@ void near rikako_render_main(void)
 			(pid.so_attack + sprite_offset)
 		);
 		++i;
-		angle += RIKAKO_RENDER_MAIN_ANGLE_STEP;
+		// Original mutable byte += can naturally use explicit
+		// assignment with named step, unlike signed spin_delta (af904f).
+		angle = angle + RIKAKO_RENDER_MAIN_ANGLE_STEP;
 	}
 }
 
@@ -489,15 +513,15 @@ void near rikako_render_intro(void)
 
 	radius = (0xC80 - ((boss_frame * 2) * 16));
 
-	sprite16_put_size.w = 48;
-	sprite16_put_size.h = 24;
+	sprite16_put_size.w = RIKAKO_RENDER_INTRO_W;
+	sprite16_put_size.h = RIKAKO_RENDER_INTRO_H;
 
 	if((boss_frame < RIKAKO_INTRO_FLICKER_END) && (round_or_result_frame % RIKAKO_INTRO_BLINK_PERIOD)) {
 		return;
 	}
 
 	sprite_offset = (pid.so_attack + 0x780);
-	if((boss_frame % 2) != 0) {
+	if(boss_frame % RIKAKO_INTRO_BLINK_PERIOD) {
 		sprite_offset += 0x780;
 	}
 
@@ -532,7 +556,7 @@ void near rikako_render_intro(void)
 		top = static_cast<screen_y_t>((top >> 4) - 8);
 		sprite16_put(left, top, sprite_offset);
 		++i;
-		angle += RIKAKO_RENDER_INTRO_ANGLE_STEP;
+		angle = angle + RIKAKO_RENDER_INTRO_ANGLE_STEP;
 	}
 }
 

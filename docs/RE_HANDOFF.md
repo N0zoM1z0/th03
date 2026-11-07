@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After904: entire Rikako major BOSS native pellet and frame control
+
+- `ba_rikak` complete eight-function original BOSS: four-RNG-pellet
+  volley uses native-exact `while`; three 16-bit spin gates natural
+  `if(!remainder)`; both mutable byte sprite angles accept natural
+  `angle = angle + named_step`. Collision and all sprite dimensions
+  are named with original register/call order intact.
+- Real TC4 negatives: byte `boss_render_frame += signed_delta` cannot
+  become direct assignment (**1,679 vs 1,677 CODE**, `af904c`);
+  dropping unsigned promotion of signed sprite-index `%4` generated
+  **1,684** (`af904e`). Restored. Final `af904g` passed two independent
+  original compiler/full normal MAIN TLINK rounds: **1,677 CODE bytes,
+  215 literal ordered FIXUPPs, eight PUBLICs**, Japanese MAIN image
+  and all 1,553 MZ relocations exact; 98 other objects/CRT reused.
+  See [after904 Rikako BOSS review](MAIN_RIKAKO_BOSS_NATIVE_AFTER904_REVIEW.md).
+  Historical source-owned bytes, not new distinct/Factory credit.
+
 ## Latest after903: seven session-edited original MAIN objects built together
 
 - Actual `af903a` **simultaneously recompiles all seven changed original
