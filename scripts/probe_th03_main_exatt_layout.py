@@ -142,6 +142,15 @@ OWNER_INLINE_PATHS = {
         'src/main/player/losedraw.inl',
         'src/main/player/defeat.inl',
     ),
+    # This source is physically split: the original flight/prefix and
+    # separate update/render owners MUST consume actual current .inl bodies.
+    'ex_rfly': (
+        'src/main/player/exatt_flight.inl',
+        'src/main/player/exatt_reimu_prefix.inl',
+    ),
+    'ex_reup': (
+        'src/main/player/exatt_reimu_update.inl',
+    ),
 }
 
 # In addition to top-level core.cpp includes, state.inl itself includes the
@@ -163,8 +172,17 @@ NESTED_INLINE_CHILDREN = {
 # compiler emitted dependencies that were not staged then, and must not
 # silently accept a new core proof with only the old one-file guard.
 CORE_FULL_INCLUDE_START = 725
+REIMU_EXATT_FULL_INCLUDE_START = 765
 
 def owner_direct_inline_paths(unit, stage):
+    if unit in ('ex_rfly', 'ex_reup'):
+        match=re.fullmatch(r'af([0-9]+)[a-z][0-9]*', stage)
+        need(match is not None, 'Reimu native stage has valid stage identity')
+        if int(match.group(1)) < REIMU_EXATT_FULL_INCLUDE_START:
+            # The historical after602... native receipts claimed the
+            # physical source but did not force the included implementation
+            # files from the then-maintained current source tree.
+            return ()
     if unit=='core':
         match=re.fullmatch(r'af([0-9]+)[a-z][0-9]*', stage)
         need(match is not None, 'original source guard has valid native stage')

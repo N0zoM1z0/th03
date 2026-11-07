@@ -1,4 +1,13 @@
 // Reimu entity iteration and rendering; no storage definitions.
+// The second original physical source owns its own entity iteration,
+// flight transition, collision and render phases (8 slots per player).
+enum reimu_update_state_t {
+    REIMU_UPDATE_FREE = 0,
+    REIMU_UPDATE_ACTIVE = 1,
+    REIMU_UPDATE_FLYING = 2,
+    REIMU_UPDATE_APPEARING_END = 0x14,
+};
+
 void far pascal exatt_update_reimu(void)
 {
     unsigned char angle;
@@ -11,23 +20,27 @@ void far pascal exatt_update_reimu(void)
     p = &exatt_entities[pid_current][0];
 
     i = 0;
-    for(; i < 8; i++, p++) {
-        if(p->state == 0) {
+    for(; i < 8; ++i, p++) {
+        if(!p->state) {
             continue;
         }
-        if(p->state == 1) {
+        if(p->state == REIMU_UPDATE_ACTIVE) {
             p->x += p->velocity_x;
             if((p->x <= 0) || (p->x >= TO_SP(PLAYFIELD_W))) {
+                // Original compound negation is codegen-visible:
+                // direct = -value failed independently in af765e.
                 p->velocity_x *= -1;
                 p->x += p->velocity_x;
             }
             p->y += p->velocity_y;
             if(p->y < TO_SP(-24)) {
+                // Direct = -value also failed separately for vertical
+                // bounce (native negative control af765f).
                 p->velocity_y *= -1;
                 p->y = TO_SP(-24);
             }
             if(p->y >= TO_SP(PLAYFIELD_H)) {
-                p->state = 0;
+                p->state = REIMU_UPDATE_FREE;
                 continue;
             }
             p->velocity_y++;
@@ -35,9 +48,9 @@ void far pascal exatt_update_reimu(void)
             hitbox.origin.center.y.v = p->y;
             hitbox_hittest();
             exatt_collmap_set(p->x, p->y);
-        } else if(p->state == 2) {
+        } else if(p->state == REIMU_UPDATE_FLYING) {
             exatt_entity_p = p;
-            if(exatt_fly_update() != 0) {
+            if(exatt_fly_update()) {
                 angle = randring_far_next16_and(0x1F);
                 angle = ((randring_far_next16_and(1) * 0x60) + angle + 0x80);
                 vector2(
@@ -45,10 +58,10 @@ void far pascal exatt_update_reimu(void)
                     angle, ((round_speed / 8) + 0x32)
                 );
             }
-        } else if(p->state <= 0x14) {
+        } else if(p->state <= REIMU_UPDATE_APPEARING_END) {
             p->state++;
         } else {
-            p->state = 1;
+            p->state = REIMU_UPDATE_ACTIVE;
         }
     }
     hitbox_hittest_skip_explosions = false;
@@ -58,8 +71,8 @@ void far pascal exatt_render_reimu(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
     register int i = 0;
-    for(; i < 8; i++, p++) {
-        if(p->state != 0) {
+    for(; i < 8; ++i, p++) {
+        if(p->state) {
             exatt_entity_p = p;
             reimu_exatt_render_one();
             p->frame++;

@@ -3,8 +3,8 @@ void far pascal exatt_add_reimu(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
-    for(; i < 8; i++, p++) {
-        if(p->state == 0) {
+    for(; i < 8; ++i, p++) {
+        if(!p->state) {
             exatt_entity_p = p;
             exatt_fly_init(
                 x, y,
@@ -21,9 +21,9 @@ void far pascal reimu_extra_add(int x, int y, unsigned char angle_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
     register int i = 0;
-    for(; i < 8; i++, p++) {
-        if(p->state == 0) {
-            p->state = 1;
+    for(; i < 8; ++i, p++) {
+        if(!p->state) {
+            p->state = REIMU_FLY_STATE_ACTIVE;
             p->frame = 0;
             p->x = x;
             p->y = y;
@@ -79,7 +79,7 @@ void near reimu_exatt_render_one(void)
         sprite16_clip.set_for_pid_1();
     }
 
-    if(p->state == 1) {
+    if(p->state == REIMU_FLY_STATE_ACTIVE) {
         sprite_offset = (pid.so_attack + 0x280);
         phase = (p->frame / 4);
         if((phase & 3) == 1) {
@@ -90,7 +90,7 @@ void near reimu_exatt_render_one(void)
         sprite16_put(left - 24, top - 24, sprite_offset);
         return;
     }
-    if(p->state == 2) {
+    if(p->state == REIMU_FLY_STATE_FLYING) {
         exatt_render_state2(left, top, *(unsigned int near *)&p->frame);
     } else {
         exatt_render_state_other(left, top, *(unsigned int near *)&p->state);
