@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chain 2 physical background original source recovery after673
+
+The complete original Chain 2 background particle/accelerator/
+periodic renderer TU now has native-exact readable
+`irand() % TO_SP(640)` and `irand() % TO_SP(400)`
+initial coordinates. The 50 visible particle records and
+the first 40 separately randomized sprites/velocities
+have compiler-time named meanings. Native controls rejected
+a ternary sprite branch (`af673a`) and `round_frame>=145UL`
+transition (`af673d`) as original-machine-code unequal.
+The full real source and current phase.inl are OMF-attested.
+Dual original TC4/TLINK `af673e` rounds reproduce **550
+CODE bytes, 43 literal ordered native fields, 3 PUBLICs**,
+complete normal MAIN/MAP and Japanese relocations. See
+[after673 Chain 2 native review](MAIN_CHAIN2_NATIVE_AFTER673_REVIEW.md).
+Only its physical OBJ was freshly compiled; no cold replay
+or canonical game-byte acceptance is implied.
+
 ## Both full background Chain periodic state machines after672
 
 The actual shared maintained `background/phase.inl` in both

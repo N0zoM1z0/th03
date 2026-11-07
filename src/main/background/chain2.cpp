@@ -1,20 +1,33 @@
-// Complete second three-function source-present candidate, D2E8..D50E. No exact acceptance.
+// Complete original three-function Chain 2 background native C++ owner.
 #pragma codeseg PLAYER_M_TEXT main_01
 #include "src/main/background/background.hpp"
+
+// Chain 2 has fifty visible physical particle slots, of which the first
+// forty use the independently randomized sprite/velocity family.
+// The original selection branch is codegen-visible; not a ternary.
+enum chain2_init_limits_t {
+    CHAIN2_VISIBLE_PARTICLES = 50,
+    CHAIN2_RANDOMIZED_PARTICLES = 40,
+    CHAIN2_START_ANGLE = 64,
+    CHAIN2_VELOCITY_Y = 16,
+    CHAIN2_INIT_SPEED = 16,
+};
 
 void far background_chain2_init(void)
 {
     register background_particle_t near *particle;
     register int i;
-    background_angle = 64;
+    background_angle = CHAIN2_START_ANGLE;
     particle = background_particles;
-    for(i = 0; i < 50; i++, particle++) {
-        particle->x = irand() % (640 * 16);
-        particle->y = irand() % (400 * 16);
+    for(i = 0; i < CHAIN2_VISIBLE_PARTICLES; i++, particle++) {
+        particle->x = irand() % TO_SP(640);
+        particle->y = irand() % TO_SP(400);
         particle->vx = 0;
-        particle->vy = 16;
-        particle->speed = 16;
-        if(i < 40) {
+        particle->vy = CHAIN2_VELOCITY_Y;
+        particle->speed = CHAIN2_INIT_SPEED;
+        // Keep separate branch stores; a same-valued ternary selected
+        // original-unequal 16-bit instruction order (af673a).
+        if(i < CHAIN2_RANDOMIZED_PARTICLES) {
             particle->sprite = 0x233E;
         } else {
             particle->sprite = 0x20BE;
@@ -48,6 +61,8 @@ void far background_chain2_accelerate(void)
         ACCELERATION_LAST_FRAME = 144
     };
     // SI is internal traversal state; DS:DI and pixel ES are real helper inputs.
+    // The original >144UL transition must remain: equivalent >=145UL
+    // changed TC4 native CODE in a real full-object comparison (af673d).
     // No stack frame, register-save, return, or private calling convention is authored.
     BG_GRAPHICS_BEGIN(8, 13);
     asm {
