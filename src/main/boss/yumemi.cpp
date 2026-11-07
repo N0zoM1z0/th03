@@ -525,6 +525,9 @@ void near yumemi_render_main(void)
 	grc_setclip(0, 0, (RES_X - 1), (SPRITE16_RES_Y - 1));
 }
 
+// The original entrance position uses two separate scale stages.
+// Natural (frame*8)*16 preserves TC4 instruction order; a single
+// frame*128 changed code in real source-native af675c.
 void near yumemi_render_arrival(void)
 {
 	screen_y_t top;
@@ -545,7 +548,7 @@ void near yumemi_render_arrival(void)
 	if(boss_frame < 0x18) {
 		left = playfield_fg_x_to_screen(TO_SP(-104), pid_other);
 		right = playfield_fg_x_to_screen(
-			((boss_frame << 3) << 4) - TO_SP(104),
+			((boss_frame * 8) * 16) - TO_SP(104),
 			pid_other
 		);
 		for(; left <= right; left += 8) {
@@ -554,7 +557,7 @@ void near yumemi_render_arrival(void)
 	} else if(boss_frame < 0x30) {
 		phase = (boss_frame - 0x18);
 		left = playfield_fg_x_to_screen(
-			((phase << 3) << 4) - TO_SP(104),
+			((phase * 8) * 16) - TO_SP(104),
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
@@ -565,7 +568,7 @@ void near yumemi_render_arrival(void)
 		phase = (boss_frame - 0x30);
 		left = playfield_fg_x_to_screen(TO_SP(272), pid_other);
 		right = playfield_fg_x_to_screen(
-			TO_SP(272) - ((phase << 3) << 4),
+			TO_SP(272) - ((phase * 8) * 16),
 			pid_other
 		);
 		for(; left >= right; left -= 8) {
@@ -576,7 +579,7 @@ void near yumemi_render_arrival(void)
 	} else if(boss_frame < 0x60) {
 		phase = (boss_frame - 0x48);
 		left = playfield_fg_x_to_screen(
-			TO_SP(272) - ((phase << 3) << 4),
+			TO_SP(272) - ((phase * 8) * 16),
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);

@@ -6,6 +6,22 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Yumemi BOSS four-stage natural entrance sprite geometry after675
+
+The current large Yumemi BOSS intro sprite renderer now has
+four original-native exact natural C++ two-stage multiplies:
+`((boss_frame*8)*16)` and three `((phase*8)*16)`
+instead of hand-authored two-stage shifts. Native controls
+`af675a`/`af675b` proved full 2,358-CODE-byte equality;
+flattening a phase into a single `*128` was original-native
+unequal (`af675c`) and rejected. Current source/OMF
+attested dual `af675d` TC4/TLINK rounds prove **2,358
+CODE bytes, 343 literal ordered FIXUPPs, ten PUBLICs**,
+whole original normal MAIN and Japanese image/MZ.
+See [after675 Yumemi BOSS entrance review](MAIN_YUMEMI_BOSS_ARRIVAL_AFTER675_REVIEW.md).
+Only one original BOSS TU rebuilt, no full cold replay
+or newly accepted canonical packed-game bytes.
+
 ## Kana major BOSS exact natural intro radius/cel geometry after674
 
 The full nine-function Kana BOSS producer now expresses
