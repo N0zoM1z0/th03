@@ -573,10 +573,10 @@ void near kana_render_intro(void)
 				(1 - pid_current)
 			) - 16
 		);
-		_AX = top;
-		static_cast<int16_t>(_AX) >>= 4;
-		top = _AX;
-		sprite16_put(left, _AX, sprite_offset);
+		// Original signed AX conversion is native-exact as this C++
+		// assignment; compound top >>=4 changed CODE (af761b).
+		top = static_cast<screen_y_t>(top >> 4);
+		sprite16_put(left, top, sprite_offset);
 
 	}
 }
