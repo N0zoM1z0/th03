@@ -144,6 +144,8 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
     player_hittest(CPU_HITTEST_CLOSE_RADIUS);
     if(player->is_hit) {
         player->is_hit = false;
+        // The mutable byte `attempt++` must remain postfix: changing
+        // both sites to prefix changed native CODE (af917f).
         attempt++;
         if(player->gauge_charged <= CPU_HIT_BOMB_CHARGE_LIMIT && ((randring1_next16() % CPU_HIT_BOMB_RANDOM_PERIOD) == 0)) {
             player_bomb(player);
@@ -156,6 +158,9 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
 void near pascal player_cpu_update(player_stuff_t near *player)
 {
     // Equality still takes the careful branch; these counters are unsigned.
+    // Keep this specific <= operand order. Swapping it to
+    // `cpu_safety_frames >= cpu_frame` changed actual CODE (af917c),
+    // despite equivalent unsigned counters and frame logic.
     if(player->cpu_frame <= player->cpu_safety_frames) {
         player_cpu_dodge_and_aim(player);
     } else {
@@ -174,15 +179,21 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
     int8_t radius_or_retry;
     input_t direction;
 
-    if((round_or_result_frame % CPU_COLLISION_SCAN_PERIOD) == 0) {
+    // This is the original unsigned-word four-frame collision scan,
+    // not the signed-byte radius; `if(!remainder)` is TC4-exact.
+    if(!(round_or_result_frame % CPU_COLLISION_SCAN_PERIOD)) {
         // Keep the original signed-byte probe loop literals: equivalent
         // enum bounds changed native TC4 output (after646e).
-        for(radius_or_retry = (64 / 2); radius_or_retry <= (160 / 2);
-            radius_or_retry += (32 / 2)) {
+        // Sweep the four original signed-byte collision radii until
+        // the first hit. Keep the 16-subpixel increment AFTER the hit
+        // test, so an early break skips it (native af917b).
+        radius_or_retry = (64 / 2);
+        while(radius_or_retry <= (160 / 2)) {
             player_hittest(radius_or_retry);
             if(player->is_hit) {
                 break;
             }
+            radius_or_retry += (32 / 2);
         }
     }
     if(!player->is_hit) {
@@ -224,12 +235,13 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         direction = player_cpu_direction_for_collision(collision_y_relative, x, y);
     }
 
-    // The real collision retry strategy has an unbounded control loop,
-    // bounded internally by the original nine-direction lattice. A
-    // natural C++ for(;;) retains the original TC4 branches (af838a).
+    // The retry strategy is an original, unbounded control loop with
+    // a nine-direction fallback lattice. Native TC4 also accepts
+    // natural `while(1)` in the entire CPU physical object (af917a),
+    // without moving any RNG calls or player movement/near hit tests.
     attempt = 0;
     radius_or_retry = 0;
-    for(;;) {
+    while(1) {
         if(player_move(direction) == MOVE_VALID) {
             player_pos_update_and_clamp(player->center);
         }
@@ -240,7 +252,9 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         } else {
             player_hittest(CPU_HITTEST_CLOSE_RADIUS);
         }
-        if(!player->is_hit) {
+        // Explicit `is_hit == false` is native-exact for this retry
+        // exit (af917e), independently of bool rewrites elsewhere.
+        if(player->is_hit == false) {
             break;
         }
         player->is_hit = false;

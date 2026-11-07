@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After917: complete CPU collision dodge/retry and target strategy
+
+- Original four-function `p_cpu` owner now uses native-exact natural
+  `while(1)` for full unbounded 9-direction retry AI, natural `while`
+  for the signed-byte collision-radius sweep with early break, and
+  `if(!remainder)` for the true unsigned-word four-frame scan. The
+  retry exit admits explicit `is_hit == false`, without altering RNG,
+  target acquisition, 3×3 dodge table or original player/Bomb calls.
+- Real original TC4 negatives: reversing original CPU safety-frame
+  threshold changed CODE at offset 483 (`af917c/d`); prefixing the
+  two mutable byte attempt counters emitted **1,087 vs original
+  1,077 CODE** (`af917f`). Original forms stay. Final `af917g` passes
+  two genuine original TC4/full normal MAIN TLINK rounds: **1,077 CODE
+  bytes, 64 literal ordered FIXUPPs and four PUBLICs**, Japanese MAIN
+  and all 1,553 MZ relocations exact; 98 other game objects/CRT reused.
+  See [after917 complete CPU AI review](MAIN_CPU_AI_NATIVE_LOOPS_AFTER917_REVIEW.md).
+  Previously source-owned CODE, not new distinct Factory credit.
+
 ## After916: full shared BOSS ring and seven core lifecycle helpers
 
 - The entire original `shared.cpp` BOSS implementation maps to two
