@@ -111,6 +111,8 @@ enum rikako_orbit_phase_t {
     RIKAKO_SPIN_TICK_PERIOD = 8,
 };
 
+// The original 256-step signed angular distribution must be multiplied
+// BEFORE the physical integer division and byte-angle truncation.
 void near rikako_pattern_orbit_spread(void)
 {
 	unsigned char angle;
@@ -149,8 +151,8 @@ void near rikako_pattern_orbit_spread(void)
 			: (signed char)-0x30
 		);
 
-		for(i = 0; i < rikako_orbit_count; i++) {
-			angle = ((i << 8) / rikako_orbit_count);
+		for(i = 0; i < rikako_orbit_count; ++i) {
+			angle = ((i * 256) / rikako_orbit_count);
 			bullet_template.center.x.v = polar(
 				boss_center_x,
 				TO_SP(48),
@@ -207,9 +209,11 @@ void near rikako_pattern_entities_and_pellets(void)
 			boss_center_y,
 			(1 - pid_current)
 		);
+		// This RNG word is overwritten by the first ring angle, but
+		// consuming it still changes all subsequent game randomness.
 		angle = randring_far_next16();
-		for(i = 0; i < rikako_entity_count; i++) {
-			angle = ((i << 8) / rikako_entity_count);
+		for(i = 0; i < rikako_entity_count; ++i) {
+			angle = ((i * 256) / rikako_entity_count);
 			rikako_extra_add(
 				boss_center_x,
 				boss_center_y,
@@ -228,7 +232,7 @@ void near rikako_pattern_entities_and_pellets(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.speed.v = TO_SP(2);
 
-		for(i = 0; i < 4; i++) {
+		for(i = 0; i < 4; ++i) {
 			bullet_template.angle = randring_far_next16();
 			bullet_template.speed.v += 8;
 			bullets_add();
@@ -418,7 +422,7 @@ void near rikako_render_main(void)
 	left += 40;
 	top += 40;
 
-	for(i = 0; i < 8; (i++, angle += 0x20)) {
+	for(i = 0; i < 8; (++i, angle += 0x20)) {
 		x = polar(left, 48, CosTable8[angle]);
 		y = polar(top, 48, SinTable8[angle]);
 
@@ -466,7 +470,7 @@ void near rikako_render_intro(void)
 	angle = ((unsigned char)boss_frame * 4);
 	angle = (0 - angle);
 
-	for(i = 0; i < 0x10; (i++, angle += 0x10)) {
+	for(i = 0; i < 0x10; (++i, angle += 0x10)) {
 		left = polar(
 			boss_center_x,
 			radius,

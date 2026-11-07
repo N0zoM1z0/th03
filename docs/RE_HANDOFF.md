@@ -6,6 +6,27 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Rikako full BOSS radial and entity orbital distribution after692
+
+The original Rikako BOSS's two large orbit and entity
+barrage generators now use exact-native natural
+`(i*256)/count` signed integer angle distribution
+rather than manually shifted loop indices. Both
+attacks, the pellet subloop and both renderer
+leaves also use source-natural `++i` with
+original TC4 instructions. The RNG draw in the
+entity generator just before overwriting its
+angle remains required for original global RNG
+sequence; do NOT remove it as dead code.
+Source/template-OMF-attested `af692c` two-round
+original TC4/TLINK proof reproduces **1,677
+CODE bytes, 215 literal ordered fixups,
+eight PUBLICs**, complete normal MAIN and
+Japanese relocations. See
+[after692 Rikako original BOSS orbit review](MAIN_RIKAKO_BOSS_ORBIT_AFTER692_REVIEW.md).
+Only the affected full BOSS object rebuilt, no
+cold replay or new canonical Factory acceptance.
+
 ## Reimu full BOSS native orbit distribution source after691
 
 The large Reimu BOSS orbit burst now uses the original
