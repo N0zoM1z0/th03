@@ -6,6 +6,19 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Reimu full BOSS dispatch and timelines after631
+
+Reimu's large controller retains its genuine pre-switch intro/pattern
+selection, and now names all shared scheduler values plus the four
+separate attack phase maps: orbit cloud, paired spread, expanding orbit
+Extra Attack and mirrored spread. Natural shortcut `angle = -angle`
+was rejected by genuine native codegen. Correct v2 `af631c`
+source-bound Turbo C++/TLINK two-round proof is **2,020 CODE bytes /
+270 literal ordered fields / nine PUBLICs**, complete MAIN and all
+Japanese relocations. See
+[after631 Reimu native review](MAIN_REIMU_PATTERN_NATIVE_AFTER631_REVIEW.md).
+No full cold replay or new accepted packed CODE credit.
+
 ## Ellen original attack scheduler and Extra Attack timing after630
 
 The current Ellen full BOSS TU has original-valued C++ enums for the

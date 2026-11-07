@@ -54,6 +54,31 @@ extern int CosTable8[256];
 
 extern "C" void far pascal reimu_extra_add(int x, int y, unsigned char angle);
 
+// Reimu's actual byte-valued attack scheduler. Unlike other characters,
+// the update checks intro and selection before the switch.
+enum reimu_boss_mode_t {
+    REIMU_MODE_INTRO = 0x00,
+    REIMU_MODE_SELECT = 0x01,
+    REIMU_MODE_CLOUD_0 = 0x02,
+    REIMU_MODE_CLOUD_1 = 0x03,
+    REIMU_MODE_CLOUD_2 = 0x04,
+    REIMU_MODE_CLOUD_3 = 0x05,
+    REIMU_MODE_CLOUD_4 = 0x06,
+    REIMU_MODE_MIRROR_0 = 0x07,
+    REIMU_MODE_SPREAD_0 = 0x08,
+    REIMU_MODE_SPREAD_1 = 0x09,
+    REIMU_MODE_SPREAD_2 = 0x0A,
+    REIMU_MODE_MIRROR_1 = 0x0B,
+    REIMU_MODE_MIRROR_2 = 0x0C,
+    REIMU_MODE_SPREAD_3 = 0x0D,
+    REIMU_MODE_MIRROR_3 = 0x0E,
+    REIMU_MODE_ORBIT_BURST_0 = 0x0F,
+    REIMU_MODE_ORBIT_BURST_1 = 0x10,
+    REIMU_MODE_ORBIT_BURST_2 = 0x11,
+    REIMU_MODE_DESCEND = 0x80,
+    REIMU_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_reimu_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -75,11 +100,18 @@ void far pascal boss_reimu_template_init(int player_id)
 	}
 }
 
+// The orbiting cloud gradually accelerates until the original 0x80
+// frame cutoff. Timer wrap and angle sign remain 8-bit operations.
+enum reimu_cloud_phase_t {
+    REIMU_CLOUD_START_FRAME = 0,
+    REIMU_CLOUD_FINISH_FRAME = 0x80,
+};
+
 void near reimu_pattern_orbit_cloud(void)
 {
 	unsigned char angle;
 
-	if(boss_frame == 0) {
+	if(boss_frame == REIMU_CLOUD_START_FRAME) {
 		boss_aux_point.x.v = boss_center_x;
 		boss_aux_point.y.v = (boss_center_y + TO_SP(48));
 		reimu_direction = randring_far_next16_and(1);
@@ -126,11 +158,18 @@ void near reimu_pattern_orbit_cloud(void)
 		boss_aux_point.y.v, TO_SP(48), SinTable8[angle]
 	);
 
-	if(boss_frame >= 0x80) {
+	if(boss_frame >= REIMU_CLOUD_FINISH_FRAME) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
 }
+
+// Two timed spreads: narrow paired arcs, then the five-way medium
+// volley, with the same global 16-frame synchronization check.
+enum reimu_spread_phase_t {
+    REIMU_SPREAD_NARROW_END = 0x40,
+    REIMU_SPREAD_MEDIUM_END = 0x64,
+};
 
 void near reimu_pattern_spreads(void)
 {
@@ -142,7 +181,7 @@ void near reimu_pattern_spreads(void)
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = boss_center_y;
 
-	if(boss_frame < 0x40) {
+	if(boss_frame < REIMU_SPREAD_NARROW_END) {
 		if(round_frame_mod16 != 0) {
 			return;
 		}
@@ -154,7 +193,7 @@ void near reimu_pattern_spreads(void)
 		return;
 	}
 
-	if(boss_frame < 0x64) {
+	if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
 		if(round_frame_mod16 != 0) {
 			return;
 		}
@@ -168,6 +207,14 @@ void near reimu_pattern_spreads(void)
 	boss_frame = 0;
 }
 
+// This controller first expands the ring, then holds the exact
+// original radius until its Extra Attack release frame.
+enum reimu_orbit_phase_t {
+    REIMU_ORBIT_INIT_FRAME = 0,
+    REIMU_ORBIT_EXPAND_END = 0x18,
+    REIMU_ORBIT_RELEASE_FRAME = 0x50,
+};
+
 void near reimu_pattern_orbit_burst(void)
 {
 	unsigned char angle;
@@ -175,12 +222,12 @@ void near reimu_pattern_orbit_burst(void)
 
 	boss_move_sine();
 
-	if(boss_frame == 0) {
+	if(boss_frame == REIMU_ORBIT_INIT_FRAME) {
 		boss_render_mode = 1;
 		reimu_orbit_angle = randring_far_next16();
 	}
 
-	if(boss_frame < 0x18) {
+	if(boss_frame < REIMU_ORBIT_EXPAND_END) {
 		for(i = 0; i < reimu_orbit_count; i++) {
 			angle = (((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
@@ -198,7 +245,7 @@ void near reimu_pattern_orbit_burst(void)
 		return;
 	}
 
-	if(boss_frame < 0x50) {
+	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
 		for(i = 0; i < reimu_orbit_count; i++) {
 			angle = (((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
@@ -224,7 +271,7 @@ void near reimu_pattern_orbit_burst(void)
 		return;
 	}
 
-	if(boss_frame == 0x50) {
+	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
 		for(i = 0; i < reimu_orbit_count; i++) {
 			angle = (((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
@@ -235,11 +282,17 @@ void near reimu_pattern_orbit_burst(void)
 	}
 }
 
+// Mirrored four-way spread completes on the original 0x80 frame;
+// the boss dispatcher then returns to its shared pattern selector.
+enum reimu_mirror_phase_t {
+    REIMU_MIRROR_FINISH_FRAME = 0x80,
+};
+
 void near reimu_pattern_mirrored_spread(void)
 {
 	boss_move_sine();
 
-	if(boss_frame < 0x80) {
+	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
 		if((boss_frame & 0x0F) != 0) {
 			return;
 		}
@@ -282,7 +335,7 @@ void far gba_boss_update_reimu(void)
 	boss_target_update();
 	boss_frame++;
 
-	if(boss_mode == 0) {
+	if(boss_mode == REIMU_MODE_INTRO) {
 		if(boss_frame != 0x64) {
 			return;
 		}
@@ -290,44 +343,44 @@ void far gba_boss_update_reimu(void)
 		boss_mode = 1;
 	}
 
-	if(boss_mode == 1) {
+	if(boss_mode == REIMU_MODE_SELECT) {
 		boss_pattern_next();
 	}
 
 	switch(boss_mode) {
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-	case 6:
+	case REIMU_MODE_CLOUD_0:
+	case REIMU_MODE_CLOUD_1:
+	case REIMU_MODE_CLOUD_2:
+	case REIMU_MODE_CLOUD_3:
+	case REIMU_MODE_CLOUD_4:
 		reimu_pattern_orbit_cloud();
 		break;
 
-	case 8:
-	case 9:
-	case 0x0A:
-	case 0x0D:
+	case REIMU_MODE_SPREAD_0:
+	case REIMU_MODE_SPREAD_1:
+	case REIMU_MODE_SPREAD_2:
+	case REIMU_MODE_SPREAD_3:
 		reimu_pattern_spreads();
 		break;
 
-	case 0x0F:
-	case 0x10:
-	case 0x11:
+	case REIMU_MODE_ORBIT_BURST_0:
+	case REIMU_MODE_ORBIT_BURST_1:
+	case REIMU_MODE_ORBIT_BURST_2:
 		reimu_pattern_orbit_burst();
 		break;
 
-	case 7:
-	case 0x0B:
-	case 0x0C:
-	case 0x0E:
+	case REIMU_MODE_MIRROR_0:
+	case REIMU_MODE_MIRROR_1:
+	case REIMU_MODE_MIRROR_2:
+	case REIMU_MODE_MIRROR_3:
 		reimu_pattern_mirrored_spread();
 		break;
 
-	case 0x80:
+	case REIMU_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case REIMU_MODE_EXPLODE:
 		return;
 	}
 
