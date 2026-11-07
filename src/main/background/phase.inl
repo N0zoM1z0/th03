@@ -4,18 +4,21 @@
  * `background_angle` is the existing unsigned-byte direction variable.
  * There is deliberately no default assignment to changed.
  * Its indeterminate read later is not portable defined C++ behavior.
+ * The original modulo-128 direction branch must keep its &127 mask:
+ * a typed unsigned %128 expression changed genuine original TC4 CODE.
+ * The 4096-/8-/4-frame modular clocks DO compile original-native.
  */
-frame = (round_or_result_frame & 4095);
+frame = (static_cast<unsigned int>(round_or_result_frame) % 4096);
 if(frame < 1024) {
     changed = 0;
 } else if(frame < 1280) {
-    if((frame & 7) == 0) {
+    if((static_cast<unsigned int>(frame) % 8) == 0) {
         goto background_phase_increment;
     }
 } else if(frame < 2048) {
     changed = 0;
 } else if(frame < 2304) {
-    if((frame & 3) == 0) {
+    if((static_cast<unsigned int>(frame) % 4) == 0) {
         goto background_phase_decrement;
     }
 } else if(frame < 3072) {

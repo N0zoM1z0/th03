@@ -6,6 +6,25 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Both full background Chain periodic state machines after672
+
+The actual shared maintained `background/phase.inl` in both
+large Chain 1 and Chain 2 periodic update/render functions
+now uses native-original unsigned C++ `%4096`, `%8`
+and `%4` for the 4096-frame cycle, phase increment and
+decrement clocks. The typed `%128` replacement for the
+original half-cycle `frame &127` was native-unequal
+(`af672d`); its mask remains. The original undefined
+uninitialized `changed` path is NOT rewritten.
+Both full source objects and the current shared phase
+include are OMF-COMENT-bound in dual original TC4/TLINK
+`af672f` rounds: **1,245 CODE bytes, 86 ordered literal
+fixups, 9 PUBLICs**, complete original MAIN EXE/MAP and
+Japanese MZ relocations. See
+[after672 shared Chain native phase review](MAIN_CHAIN_SHARED_PHASE_AFTER672_NATIVE_REVIEW.md).
+Only two background physical objects were newly compiled;
+no full cold replay or canonical packed-game acceptance claim.
+
 ## Chain 1 complete native background source and physical TLINK path after671
 
 The v2 source-rooted native overlay has been extended outside
