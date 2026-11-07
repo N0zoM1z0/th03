@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After870: complete Kotohime Bomb phases and native dead-index codegen
+
+- The whole original **`b_koto` 528-byte Bomb controller** now uses a
+  natural `while` four-explosion row with real 96-pixel stride, named
+  first/second palette phases and both native-exact `if(!(frame %8))`
+  triggers, restoring exact X/Y sweep and 0x2E0 downward decay.
+- Fresh real original TC4 negatives: replacing the *byte shake* `&3`
+  with `%4` compiled **531** vs original **528** CODE bytes (`af870b`),
+  and removing the **apparently unused signed `i`** with its frame-based
+  initialization and loop increment shortened original CODE to
+  **505** bytes (`af870e`). Both original expressions preserved; the
+  final uninitialized `color` stack read remains historical target
+  behavior, not patched. Final `af870f` passes two genuine original
+  TC4/full normal MAIN TLINK rounds: **528 CODE bytes, 50 ordered native
+  FIXUPPs, 1 PUBLIC**, all original Japanese loaded MAIN and 1,553
+  MZ relocations. 98 other project objects/CRT reused, no cold replay.
+  See [after870 Kotohime Bomb review](MAIN_KOTOHIME_BOMB_NATIVE_AFTER870_REVIEW.md).
+  Existing original source owner; no new distinct/Factory packed credit.
+
 ## After869: exact PMD/MIDI hardware interrupt leaf and original AX return
 
 - Original 30-CODE-byte `snd_kaja` hardware/PMD service now uses a
