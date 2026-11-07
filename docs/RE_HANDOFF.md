@@ -6,6 +6,27 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest 34-owner current-source native MAIN after657
+
+The new af657a original Turbo C++/TLINK two-round full MAIN
+integration compiles **34 actual complete project source TUs**,
+including all previous 30 gameplay/BOSS/Extra Attack/CPU/Yumemi
+units, plus four original physical sources newly recovered in
+after652-655: Ellen charged-shot, Ellen bomb, Chiyuri charged-shot
+and Kotohime charged-shot. The current Mima/Rikako BOSS C++
+arithmetic changes are also included. The compiler consumed
+the real edited source and header paths, attested by emitted
+OMF dependency records. Both native rounds preserve **42,352
+original CODE bytes, 4,342 ordered literal native fixups,
+240 PUBLIC offsets**, complete normal MAIN executable/MAP
+and Japanese loaded program/1,553 MZ relocations; independently
+serialized standard MZ reproduces the exact original 130,882-byte
+Japanese MAIN.EXE. Other 65 original project objects and
+startup/CRT libraries were reused without full cold replay.
+Read MAIN_THIRTYFOUR_CHARGESHOT_BOMB_AFTER657_NATIVE_REVIEW.md.
+The source-owned CODE was already accounted for; do not
+double-count as canonical packed-game Factory acceptance.
+
 ## Mima and Rikako full BOSS native C++ after656
 
 Mima's large BOSS update now recomputes the opponent bullet PID
