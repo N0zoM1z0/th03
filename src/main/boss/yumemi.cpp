@@ -542,8 +542,18 @@ void near yumemi_render_main(void)
 }
 
 // The original entrance position uses two separate scale stages.
-// Natural (frame*8)*16 preserves TC4 instruction order; a single
-// frame*128 changed code in real source-native af675c.
+// Natural (frame << 3) << 4 reproduces both original TC4 stages;
+// combining them into one << 7 changed CODE in af780b, just as
+// the earlier single frame*128 attempt changed CODE in af675c.
+enum yumemi_arrival_gate_t {
+    YUMEMI_ARRIVAL_PHASE1_END = 0x18,
+    YUMEMI_ARRIVAL_PHASE2_END = 0x30,
+    YUMEMI_ARRIVAL_PHASE3_END = 0x48,
+    YUMEMI_ARRIVAL_PHASE4_END = 0x60,
+    YUMEMI_ARRIVAL_POS_LOW_SHIFT = 3,
+    YUMEMI_ARRIVAL_POS_HIGH_SHIFT = 4,
+};
+
 void near yumemi_render_arrival(void)
 {
 	screen_y_t top;
@@ -554,37 +564,39 @@ void near yumemi_render_arrival(void)
 
 	// TC4 DX = 0 selects XOR DX,DX as 33 D2; original uses 31 D2.
 	// Keep this explicit original register encoding.
-	asm { xor dx, dx }
+	// This exact historical XOR DX,DX operand order is visible in
+    // original CODE. Natural _DX^=_DX changed it (af780c).
+    asm { xor dx, dx }
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 
 	sprite16_put_size.set(112, 112);
 	top = ((boss_center_y >> 4) - 40);
 
-	if(boss_frame < 0x18) {
+	if(boss_frame < YUMEMI_ARRIVAL_PHASE1_END) {
 		left = playfield_fg_x_to_screen(TO_SP(-104), pid_other);
 		right = playfield_fg_x_to_screen(
-			((boss_frame * 8) * 16) - TO_SP(104),
+			((boss_frame << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT) - TO_SP(104),
 			pid_other
 		);
 		for(; left <= right; left += 8) {
 			sprite16_put(left, top, boss_sprite_offset);
 		}
-	} else if(boss_frame < 0x30) {
-		phase = (boss_frame - 0x18);
+	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE2_END) {
+		phase = (boss_frame - YUMEMI_ARRIVAL_PHASE1_END);
 		left = playfield_fg_x_to_screen(
-			((phase * 8) * 16) - TO_SP(104),
+			((phase << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT) - TO_SP(104),
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
 		for(; left <= right; left += 8) {
 			sprite16_put(left, top, boss_sprite_offset);
 		}
-	} else if(boss_frame < 0x48) {
-		phase = (boss_frame - 0x30);
+	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE3_END) {
+		phase = (boss_frame - YUMEMI_ARRIVAL_PHASE2_END);
 		left = playfield_fg_x_to_screen(TO_SP(272), pid_other);
 		right = playfield_fg_x_to_screen(
-			TO_SP(272) - ((phase * 8) * 16),
+			TO_SP(272) - ((phase << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT),
 			pid_other
 		);
 		for(; left >= right; left -= 8) {
@@ -592,10 +604,10 @@ void near yumemi_render_arrival(void)
 		}
 		left = playfield_fg_x_to_screen(TO_SP(88), pid_other);
 		sprite16_put(left, top, boss_sprite_offset);
-	} else if(boss_frame < 0x60) {
-		phase = (boss_frame - 0x48);
+	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE4_END) {
+		phase = (boss_frame - YUMEMI_ARRIVAL_PHASE3_END);
 		left = playfield_fg_x_to_screen(
-			TO_SP(272) - ((phase * 8) * 16),
+			TO_SP(272) - ((phase << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT),
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
