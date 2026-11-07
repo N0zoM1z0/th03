@@ -1,5 +1,6 @@
-// Source-present candidate; exact acceptance remains pending.
-// See docs/reconstruction/MAIN_REIMU_SHARED_GAMEPLAY_REVIEW.md.
+// Complete original Reimu Chargeshot and Gauge physical source.
+// The native source/code/whole-link proof is distinct from canonical
+// packed-game acceptance; see docs/MAIN_REIMU_CHARGESHOT_STATES_AFTER826_REVIEW.md.
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
 #include <stddef.h>
@@ -32,6 +33,19 @@ enum reimu_charge_limits_t {
     REIMU_CHARGE_STOP_FRAME = 64,
     REIMU_CHARGE_SPRITE_PHASE_MASK = 3,
     REIMU_GAUGE_FINISH_AFTER = 64,
+    REIMU_GAUGE_RING_PERIOD = 32,
+    REIMU_GAUGE_RING_PHASE = 16,
+    REIMU_GAUGE_INIT_TICKS = 32,
+    REIMU_CHARGE_LAUNCH_ANGLE = 0x90,
+    REIMU_CHARGE_LAUNCH_SPEED = 0x60,
+};
+
+// Stored in one original byte per 32-byte projectile, shared by ordinary
+// Chargeshot trails and Hyper spawns. Inactive slots remain allocated.
+enum reimu_chargeshot_state_t {
+    REIMU_SHOT_INACTIVE = 0,
+    REIMU_SHOT_SLOWING = 1,
+    REIMU_SHOT_HOMING = 2,
 };
 
 typedef char reimu_charge_stride_is_32[
@@ -51,7 +65,7 @@ void far pascal reimu_chargeshots_reset(void)
 {
     reimu_chargeshot_p = &reimu_chargeshots[0][0];
     for(int i = 0; i < REIMU_CHARGE_TOTAL_SLOTS; i++, reimu_chargeshot_p++) {
-        reimu_chargeshot_p->state = 0;
+        reimu_chargeshot_p->state = REIMU_SHOT_INACTIVE;
     }
 }
 void far pascal chargeshot_add_reimu(Subpixel center_x, Subpixel center_y)
@@ -60,17 +74,20 @@ void far pascal chargeshot_add_reimu(Subpixel center_x, Subpixel center_y)
     int j;
     unsigned char angle;
     reimu_chargeshot_p = &reimu_chargeshots[pid.current][0];
-    angle = 0x90;
+    angle = REIMU_CHARGE_LAUNCH_ANGLE;
     for(i = 0; i < REIMU_CHARGE_STANDARD_LAUNCH; i++, reimu_chargeshot_p++) {
-        reimu_chargeshot_p->state = 1;
+        reimu_chargeshot_p->state = REIMU_SHOT_SLOWING;
         reimu_chargeshot_p->frame = 0;
         for(j = 0; j < REIMU_CHARGE_HISTORY_SAMPLES; j++) {
             reimu_chargeshot_p->x[j].v = center_x.v;
             reimu_chargeshot_p->y[j].v = center_y.v;
         }
         reimu_chargeshot_p->angle = angle;
+        // The literal 0x20 reuses AL after the previous byte-angle store.
+        // An enum-valued 0x20 emits a different TC4 direct-memory ADD
+        // (native failed stage af826c); retain the original expression.
         angle += 0x20;
-        reimu_chargeshot_p->speed = 0x60;
+        reimu_chargeshot_p->speed = REIMU_CHARGE_LAUNCH_SPEED;
     }
     reimu_chargeshot_alternate_hit_frame = 1;
 }
@@ -78,10 +95,10 @@ void far pascal reimu_hyper_shot_add(Subpixel center_x, Subpixel center_y)
 {
     reimu_chargeshot_p = &reimu_chargeshots[pid.current][0];
     for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; i++, reimu_chargeshot_p++) {
-        if(reimu_chargeshot_p->state != 0) {
+        if(reimu_chargeshot_p->state != REIMU_SHOT_INACTIVE) {
             continue;
         }
-        reimu_chargeshot_p->state = 2;
+        reimu_chargeshot_p->state = REIMU_SHOT_HOMING;
         reimu_chargeshot_p->frame = 0;
         for(int j = 0; j < REIMU_CHARGE_HISTORY_SAMPLES; j++) {
             reimu_chargeshot_p->x[j].v = center_x.v;
@@ -101,7 +118,7 @@ void far pascal chargeshot_update_reimu(void)
     playfield_clip_negative_radius.x.v = -TO_SP(24);
     playfield_clip_negative_radius.y.v = -TO_SP(24);
     for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; i++, reimu_chargeshot_p++) {
-        if(reimu_chargeshot_p->state != 0) {
+        if(reimu_chargeshot_p->state != REIMU_SHOT_INACTIVE) {
             players[pid_current].gauge_charged = 0;
             for(int j = REIMU_CHARGE_LAST_SAMPLE; j > 0; j--) {
                 reimu_chargeshot_p->x[j].v = reimu_chargeshot_p->x[j - 1].v;
@@ -111,11 +128,11 @@ void far pascal chargeshot_update_reimu(void)
                 reimu_chargeshot_p->speed);
             reimu_chargeshot_p->x[0].v += vector_x;
             reimu_chargeshot_p->y[0].v += vector_y;
-            if(reimu_chargeshot_p->state == 1) {
+            if(reimu_chargeshot_p->state == REIMU_SHOT_SLOWING) {
                 if(reimu_chargeshot_p->speed > 0) {
                     reimu_chargeshot_p->speed -= 4;
                 } else if(reimu_chargeshot_p->frame >= REIMU_CHARGE_STOP_FRAME) {
-                    reimu_chargeshot_p->state = 2;
+                    reimu_chargeshot_p->state = REIMU_SHOT_HOMING;
                     if(i < REIMU_CHARGE_FIRST_PAIR) {
                         reimu_chargeshot_p->angle = 0xB0;
                     } else {
@@ -126,7 +143,7 @@ void far pascal chargeshot_update_reimu(void)
             }
             reimu_chargeshot_p->frame++;
             if(playfield_clip(reimu_chargeshot_p->x[REIMU_CHARGE_LAST_SAMPLE], reimu_chargeshot_p->y[REIMU_CHARGE_LAST_SAMPLE])) {
-                reimu_chargeshot_p->state = 0;
+                reimu_chargeshot_p->state = REIMU_SHOT_INACTIVE;
             }
         }
     }
@@ -143,13 +160,13 @@ void near pascal reimu_chargeshot_sprite_put(int x, int y, int phase)
 }
 uint8_t far chargeshot_hittest_reimu(void)
 {
-    if(reimu_chargeshot_alternate_hit_frame && (static_cast<unsigned int>(round_or_result_frame) % 2)) {
+    if(reimu_chargeshot_alternate_hit_frame && (round_or_result_frame % 2)) {
         return 0;
     }
     reimu_chargeshot_p = &reimu_chargeshots[hitbox.pid][0];
     // Target really scans six slots, despite twelve updated/rendered slots.
     for(int i = 0; i < REIMU_CHARGE_HITTEST_SLOTS; i++, reimu_chargeshot_p++) {
-        if(reimu_chargeshot_p->state == 0) {
+        if(reimu_chargeshot_p->state == REIMU_SHOT_INACTIVE) {
             continue;
         }
         if(reimu_chargeshot_p->x[0].v <= -TO_SP(16) ||
@@ -174,7 +191,7 @@ void far pascal chargeshot_render_reimu(void)
     sprite16_clip_set_for_pid(pid_current);
     sprite16_put_size.set(48, 48);
     for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; i++, reimu_chargeshot_p++) {
-        if(reimu_chargeshot_p->state == 0) {
+        if(reimu_chargeshot_p->state == REIMU_SHOT_INACTIVE) {
             continue;
         }
         sprite16_mono_(true);
@@ -202,8 +219,8 @@ void near pascal gauge_pattern_reimu(bullet_type_t type)
     if(gba_flag_active[pid_current] == flag_expected) {
         reimu_gauge_frame[pid_current] = 0;
         gba_flag_active[pid_current]++;
-        gauge_pattern_timing[pid_current].total_frames = gba_gauge_level[pid_current] + 32;
-        gauge_pattern_timing[pid_current].byte_1 = 32 - gba_gauge_level[pid_current];
+        gauge_pattern_timing[pid_current].total_frames = gba_gauge_level[pid_current] + REIMU_GAUGE_INIT_TICKS;
+        gauge_pattern_timing[pid_current].byte_1 = REIMU_GAUGE_INIT_TICKS - gba_gauge_level[pid_current];
         return; // Internal RET 2 at 14EB0, not a separate routine.
     }
     if(gba_flag_active[pid_current] != flag_expected + 1) {
@@ -224,7 +241,7 @@ void near pascal gauge_pattern_reimu(bullet_type_t type)
         bomb_center_add(TO_SP(256), TO_SP(8), pid_other);
         bullets_add();
     }
-    if((reimu_gauge_frame[pid_current] % 32) == 16) {
+    if((reimu_gauge_frame[pid_current] % REIMU_GAUGE_RING_PERIOD) == REIMU_GAUGE_RING_PHASE) {
         bullet_template.group = BG_RING;
         bullet_template.count = gauge_pattern_timing[pid_current].total_frames;
         bullet_template.speed.v = TO_SP(3) + 2;

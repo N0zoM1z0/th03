@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After826: complete Reimu Chargeshot/Gauge lifecycle source
+
+- All ten functions of `cs_reimu` now use named byte-valued inactive,
+  braking and homing/Hyper states across 24 physical entity slots. The
+  authentic **12-per-player update/render vs six-slot hit-test** quirk
+  remains unchanged. The 32-frame Gauge period and 16-frame phase,
+  and the natural already-unsigned alternate hit-frame clock are now
+  source-native C++ names/expressions.
+- `af826a/b` tested signed/unsigned `%4` replacements for the animated
+  `phase &=3` and both **failed actual TC4 byte equality**. `af826c`
+  showed a named enum `angle += 0x20` changes AL/memory codegen; the
+  exact original literal increment remains. `af826d/e` then passed;
+  final `af826e` has **1,448 CODE bytes, 138 ordered native FIXUPPs,
+  10 PUBLICs**, complete original loaded Japanese MAIN and all 1,553
+  relocations in both native TC4/TLINK rounds. No cold replay or new
+  unique covered bytes. See
+  [after826 Reimu Chargeshot review](MAIN_REIMU_CHARGESHOT_STATES_AFTER826_REVIEW.md).
+
 ## After825: complete Rikako BOSS signed/unsigned native modulo recovery
 
 - The whole `ba_rikak` major BOSS now uses natural unsigned `%2` for
