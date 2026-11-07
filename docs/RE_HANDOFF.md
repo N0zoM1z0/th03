@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After924: full player effect lifetime and GRCG quadrilateral renderer
+
+- The full five-function original `effects` source now uses natural
+  `while` in whole effect-pool lifetime update and GRCG renderer,
+  explicit `kind != FREE`, and native-exact named explicit byte angle
+  assignments for both four-corner +64 and alternating +/-8 rotations.
+  Original four-polar-vertex scan and separate true hardware palette,
+  circle/quad clip, and RNG calls stay original.
+- Genuine TC4 negative trials: prefixing the 3 byte effect-ring cursors
+  emitted **640 vs 628 CODE** (`af924d`), prefixing age emitted **633**
+  (`af924f`), signed circle `y>>1`→`/2` emitted **631** (`af924h`),
+  and explicit radius assignment also emitted **631** (`af924i`).
+  Original forms restored. Final `af924j` passes two genuine original
+  compiler/normal full MAIN TLINK rounds: **628 CODE bytes, 33 ordered
+  original FIXUPPs, five PUBLICs**, complete Japanese MAIN/1,553 MZ
+  relocations, 98 other game objects/CRT reused. See
+  [after924 effects renderer review](MAIN_PLAYER_EFFECTS_NATIVE_AFTER924_REVIEW.md).
+  Existing source-backed bytes, no new distinct/Factory credit.
+
 ## After923: entire original MAIN entry, frame scheduler and round reset
 
 - The actual 3,050-CODE-byte `entry` project owner contains the full

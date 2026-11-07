@@ -10,6 +10,8 @@
 // generic polygon allocator. Each historical vertex turns 64 byte units.
 enum player_effect_native_render_timing_t {
     PLAYER_EFFECT_QUAD_VERTICES = 4,
+    PLAYER_EFFECT_QUAD_ANGLE_STEP = 64,
+    PLAYER_EFFECT_QUAD_ROTATE_DELTA = 8,
     PLAYER_EFFECT_EXPLOSION_START_RADIUS = 8,
     PLAYER_EFFECT_EXPLOSION_GROWTH = 8,
     PLAYER_EFFECT_CENTER_START_RADIUS = 136,
@@ -36,6 +38,8 @@ extern "C" void far pascal bomb_explosion_add(
 )
 {
     register player_effect_t near *effect;
+    // Original ring cursor postfix, not prefix. Changing all three
+    // changed real TC4 CODE (af924d).
     player_effect_cursor++;
     if(player_effect_cursor >= PLAYER_EFFECT_COUNT) {
         player_effect_cursor = 0;
@@ -92,14 +96,24 @@ void far player_effects_update(void)
 {
     register player_effect_t near *effect = player_effects;
     int i;
-    for(i = 0; i < PLAYER_EFFECT_COUNT; i++, effect++) {
-        if(effect->kind) {
+    // Full physical effect-pool lifetime update: native while preserves
+    // the original signed index, near pointer and post-write updates.
+    i = 0;
+    while(i < PLAYER_EFFECT_COUNT) {
+        if(effect->kind != PLAYER_EFFECT_FREE) {
+            // Preserve byte-memory postfix: prefix changes TC4 CODE
+            // (fresh native negative af924f).
             effect->age++;
             if(effect->age > PLAYER_EFFECT_EXPIRE_AFTER) {
                 effect->kind = PLAYER_EFFECT_FREE;
             }
+            // This signed radius compound update is CODE-sensitive;
+            // explicit radius=radius+delta changed real TC4 output
+            // in independent negative af924i.
             effect->radius += effect->radius_delta;
         }
+        ++i;
+        effect++;
     }
 }
 
@@ -113,8 +127,12 @@ void far player_effects_render(void)
     register int vertex;
 
     grcg_setcolor(GC_RMW, 13);
-    for(i = 0; i < PLAYER_EFFECT_COUNT; i++, effect++) {
-        if(effect->kind) {
+    // Draw the entire actual effect pool, selecting the true left/
+    // right playfield clipping per effect before GRCG rasterization.
+    // Source `kind != FREE` and native while are byte-exact (af924b/c).
+    i = 0;
+    while(i < PLAYER_EFFECT_COUNT) {
+        if(effect->kind != PLAYER_EFFECT_FREE) {
             if(effect->x < PLAYFIELD_W_BORDERED) {
                 grc_setclip(
                     PLAYER_EFFECT_LEFT_CLIP_X0, PLAYER_EFFECT_LEFT_CLIP_Y0,
@@ -130,13 +148,19 @@ void far player_effects_render(void)
                 // The circle path floors negative odd Y via signed
                 // arithmetic shift; /2 rounds differently and changed
                 // real original CODE (failed native af857d).
+                // Keep the signed shift for negative Y; switching
+                // to /2 changed native CODE (fresh af924h).
                 grcg_circle(effect->x, effect->y >> 1, effect->radius);
             } else {
-                effect->angle += ((i % 2) == 0) ? 8 : -8;
+                // Alternate real four-corner rotation direction by
+                // physical slot parity. Explicit byte assignment with
+                // named +/-8 is native exact (fresh af924g).
+                effect->angle = effect->angle + (((i % 2) == 0) ? PLAYER_EFFECT_QUAD_ROTATE_DELTA : -PLAYER_EFFECT_QUAD_ROTATE_DELTA);
                 // Exact four-corner polygon traversal: two typed locals
                 // and an ordinary while retain the original CODE (af857a).
-                // Keep literal byte angle +=64: enum-valued 64 changed
-                // TC4 instructions (failed af857b).
+                // Compound `angle += enum_64` failed old native
+                // TC4 (af857b), but explicit byte assignment with
+                // named step *does* reproduce original CODE (af924e).
                 vertex = 0;
                 angle = effect->angle;
                 while(vertex < PLAYER_EFFECT_QUAD_VERTICES) {
@@ -144,7 +168,8 @@ void far player_effects_render(void)
                     // Unlike the circle path, division truncates toward zero.
                     y[vertex] = polar(effect->y, effect->radius, SinTable8[angle]) / 2;
                     vertex++;
-                    angle += 64;
+                    // Original 90-degree step after both polar calls.
+                    angle = angle + PLAYER_EFFECT_QUAD_ANGLE_STEP;
                 }
                 grcg_line(x[0], y[0], x[1], y[1]);
                 grcg_line(x[1], y[1], x[2], y[2]);
@@ -152,6 +177,8 @@ void far player_effects_render(void)
                 grcg_line(x[3], y[3], x[0], y[0]);
             }
         }
+        ++i;
+        effect++;
     }
     // Complete hardware operation: disable GRCG using the observed word write.
     // AX is the I/O accumulator; DX is untouched. No C result is exposed.
