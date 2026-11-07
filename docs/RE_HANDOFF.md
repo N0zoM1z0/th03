@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After824 complete Yumemi major BOSS native modulo/arrival recovery
+
+- The **entire 10-function `ba_yumem` physical BOSS** now uses natural
+  unsigned `%4` ring firing and aimed warning, `%2` aimed shots, and `%16`
+  chase-beam release at the same original frame phases; the named
+  introduction cues and 8-pixel four-phase 112-pixel entrance raster
+  retain original timing, signed shifts and call/RNG order.
+- Independent genuine TC4 4.02 + full normal MAIN TLINK stages `af824a`,
+  `af824b`, `af824c` all passed; the final full object has **2,358 CODE
+  bytes, 343 literal ordered FIXUPPs and 10 PUBLICs**, full Japanese
+  124,642-byte program and all 1,553 original MZ relocations exact in
+  **both** rounds. Reused 98 unchanged project objects/CRT, no cold replay.
+  See [after824 Yumemi BOSS review](MAIN_YUMEMI_BOSS_NATURAL_CLOCKS_AFTER824_REVIEW.md).
+  This is **revalidation of an already-covered original owner**, not
+  2,358 new unique bytes or canonical packed-game acceptance.
+
 ## After821: complete Kotohime BOSS signed orbit and radial C++
 
 - The **entire 538-line `ba_koto`** major BOSS now names 256-unit full

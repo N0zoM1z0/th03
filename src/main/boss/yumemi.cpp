@@ -124,6 +124,7 @@ enum yumemi_ring_phase_t {
     YUMEMI_RING_WARNING_END = 4,
     YUMEMI_RING_BULLET_START = 0x20,
     YUMEMI_RING_FINISH_AFTER = 0x3C,
+    YUMEMI_RING_FIRE_PERIOD = 4,
 };
 
 void near yumemi_pattern_ring(void)
@@ -161,7 +162,7 @@ void near yumemi_pattern_ring(void)
 		snd_se_play(5);
 	}
 
-	if((boss_frame & 3) == 0) {
+	if((boss_frame % YUMEMI_RING_FIRE_PERIOD) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -186,6 +187,9 @@ void near yumemi_pattern_ring(void)
 // Preserve each attack's exact inclusive/exclusive frame transition.
 enum yumemi_attack_timing_t {
     YUMEMI_AIMED_WARNING_END = 0x10,
+    YUMEMI_AIMED_WARNING_PERIOD = 4,
+    YUMEMI_AIMED_WARNING_PHASE = 1,
+    YUMEMI_AIMED_FIRE_PERIOD = 2,
     YUMEMI_AIMED_FIRE_START = 0x20,
     YUMEMI_AIMED_FINISH_AFTER = 0x60,
     YUMEMI_CROSS_FINISH_AT = 0x60,
@@ -196,6 +200,9 @@ enum yumemi_attack_timing_t {
     YUMEMI_RAIN_SPREAD_END = 0x40,
     YUMEMI_RAIN_FINISH_AT = 0x60,
     YUMEMI_RAIN_DROPS_PER_WAVE = 12,
+    YUMEMI_INTRO_SOUND_FIRST_FRAME = 0x18,
+    YUMEMI_INTRO_SOUND_SECOND_FRAME = 0x48,
+    YUMEMI_INTRO_FINISH_FRAME = 0x60,
 };
 
 void near yumemi_pattern_aimed_random(void)
@@ -213,7 +220,7 @@ void near yumemi_pattern_aimed_random(void)
 	}
 
 	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
-		if((boss_frame & 3) == 1) {
+		if((boss_frame % YUMEMI_AIMED_WARNING_PERIOD) == YUMEMI_AIMED_WARNING_PHASE) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
 				boss_aux_point.y.v,
@@ -236,7 +243,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = 2;
 	}
 
-	if(!(boss_frame & 1)) {
+	if((boss_frame % YUMEMI_AIMED_FIRE_PERIOD) == 0) {
 		snd_se_play(3);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -316,7 +323,7 @@ void near yumemi_pattern_chase(void)
 	boss_move_sine();
 	boss_move_sine();
 
-	if((boss_frame & (YUMEMI_CHASE_BEAM_PERIOD - 1)) == YUMEMI_CHASE_BEAM_PHASE) {
+	if((boss_frame % YUMEMI_CHASE_BEAM_PERIOD) == YUMEMI_CHASE_BEAM_PHASE) {
 		boss_render_mode = 1;
 		bomb_axis_add(
 			boss_aux_point.x.v,
@@ -403,11 +410,11 @@ void far gba_boss_update_yumemi(void)
 
 	switch(boss_mode) {
 	case YUMEMI_MODE_INTRO:
-		if((boss_frame == 0x18) || (boss_frame == 0x48)) {
+		if((boss_frame == YUMEMI_INTRO_SOUND_FIRST_FRAME) || (boss_frame == YUMEMI_INTRO_SOUND_SECOND_FRAME)) {
 			snd_se_reset();
 			snd_se_play(5);
 		}
-		if(boss_frame != 0x60) {
+		if(boss_frame != YUMEMI_INTRO_FINISH_FRAME) {
 			return;
 		}
 		boss_frame = 0;
@@ -552,6 +559,7 @@ enum yumemi_arrival_gate_t {
     YUMEMI_ARRIVAL_PHASE4_END = 0x60,
     YUMEMI_ARRIVAL_POS_LOW_SHIFT = 3,
     YUMEMI_ARRIVAL_POS_HIGH_SHIFT = 4,
+    YUMEMI_ARRIVAL_RASTER_STEP = 8,
 };
 
 void near yumemi_render_arrival(void)
@@ -579,7 +587,7 @@ void near yumemi_render_arrival(void)
 			((boss_frame << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT) - TO_SP(104),
 			pid_other
 		);
-		for(; left <= right; left += 8) {
+		for(; left <= right; left += YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
 		}
 	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE2_END) {
@@ -589,7 +597,7 @@ void near yumemi_render_arrival(void)
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
-		for(; left <= right; left += 8) {
+		for(; left <= right; left += YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
 		}
 	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE3_END) {
@@ -599,7 +607,7 @@ void near yumemi_render_arrival(void)
 			TO_SP(272) - ((phase << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT),
 			pid_other
 		);
-		for(; left >= right; left -= 8) {
+		for(; left >= right; left -= YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
 		}
 		left = playfield_fg_x_to_screen(TO_SP(88), pid_other);
@@ -611,7 +619,7 @@ void near yumemi_render_arrival(void)
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
-		for(; left >= right; left -= 8) {
+		for(; left >= right; left -= YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
 		}
 	}
