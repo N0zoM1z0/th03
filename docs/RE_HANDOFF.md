@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After906: nine complete character resource/callback selectors
+
+- The full original `ch_setup` **3,888-CODE-byte** physical owner
+  contains all nine Extra Attack/Chargeshot/Gauge/BOSS callback selectors
+  and actual MRS resource helpers; twelve-byte template copy is now
+  native-exact natural `while` with named size/radix. Both filename
+  decimal characters use `fn[i] = fn[i] + value`, nine callback macros
+  naturally use `if(pid==0)`, and all original far/near ABI remains.
+- Fresh real TC4 negative: numeric `resource >=10` to equivalent
+  `resource >9` changed CODE at offset 165 (`af906d`). Restored.
+  Final `af906h` matches **3,888 CODE bytes, 1,135 literal ordered
+  OMF FIXUPPs and 12 PUBLICs**, full Japanese MAIN/1,553 MZ relocations
+  in two genuine TC4/full normal TLINK rounds, 98 other game objects/
+  CRT reused. See [after906 character setup review](MAIN_CHARACTER_SETUP_NATIVE_AFTER906_REVIEW.md).
+  Existing source-owned bytes, no new Factory/canonical credit.
+
 ## After905: Ellen Chargeshot full homing and Gauge native C++
 
 - Complete `cs_ellen` 10-PUBLIC physical owner: natural `while` now
