@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after877: five changed original physical sources in one exact MAIN link
+
+- `af877a` **actually recompiled five current modified original physical
+  sources simultaneously in both original Turbo C++ 4.02 and complete
+  normal MAIN TLINK rounds**: full **Chiyuri major BOSS**, full Ellen
+  and Rikako Extra Attacks, full Chiyuri Chargeshot/Gauge and original
+  PC-98 shutdown leaf. Both native rounds exactly reproduce **5,563 CODE
+  bytes, 610 literal ordered original OMF FIXUPPs, 32 PUBLICs**, original
+  segment/source ABI, the normal MAIN EXE/MAP, **124,642 Japanese loaded
+  bytes and all 1,553 ordered MZ relocations**. Independent standard DOS
+  MZ serialization also reproduces all 130,882 Japanese EXE bytes.
+  **94 other game project objects and CRT reused**, no cold replay. See
+  [after877 five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER877_REVIEW.md).
+- Earlier native `af871a`, `af865a`, `af859a`, `af853a`, `af847a`,
+  `af842a`, `af835a` represent **separate original compiler experiments**,
+  not one invented all-object replay. Preserve historical snapshot proof;
+  neither count previously source-owned CODE as new distinct bytes nor
+  claim canonical packed-game Factory acceptance from native matching.
+
 ## After876: original PC-98 VRAM shutdown leaf and repeated OUT semantics
 
 - Original 67-byte `exit` far-`__cdecl` SHARED physical TU now names
