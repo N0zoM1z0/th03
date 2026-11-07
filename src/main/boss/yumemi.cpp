@@ -161,7 +161,7 @@ void near yumemi_pattern_ring(void)
 		snd_se_play(5);
 	}
 
-	if((boss_frame % 4) == 0) {
+	if((boss_frame & 3) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -213,7 +213,7 @@ void near yumemi_pattern_aimed_random(void)
 	}
 
 	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
-		if((boss_frame % 4) == 1) {
+		if((boss_frame & 3) == 1) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
 				boss_aux_point.y.v,
@@ -236,7 +236,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = 2;
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame & 1)) {
 		snd_se_play(3);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -292,7 +292,7 @@ void near yumemi_pattern_cross_rings(void)
 
 void near yumemi_pattern_chase(void)
 {
-	if(boss_move_phase == 0) {
+	if(!boss_move_phase) {
 		if(
 			(boss_center_x > 0x380) &&
 			(boss_center_x < 0xE80)
@@ -316,7 +316,7 @@ void near yumemi_pattern_chase(void)
 	boss_move_sine();
 	boss_move_sine();
 
-	if((boss_frame % YUMEMI_CHASE_BEAM_PERIOD) == YUMEMI_CHASE_BEAM_PHASE) {
+	if((boss_frame & (YUMEMI_CHASE_BEAM_PERIOD - 1)) == YUMEMI_CHASE_BEAM_PHASE) {
 		boss_render_mode = 1;
 		bomb_axis_add(
 			boss_aux_point.x.v,
@@ -457,10 +457,10 @@ void far gba_boss_update_yumemi(void)
 		return;
 	}
 
-	if(boss_effect_radius != 0) {
+	if(boss_effect_radius) {
 		boss_effect_radius -= 8;
 	}
-	if(boss_render_frame != 0) {
+	if(boss_render_frame) {
 		boss_render_frame--;
 	}
 
@@ -497,20 +497,20 @@ void near yumemi_render_main(void)
 	top = ((boss_center_y >> 4) - 40);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_render_mode != 0) {
+	if(boss_render_mode) {
 		sprite16_put_size.set(64, 64);
 		sprite_offset = (boss_sprite_offset + 0x0E);
 		if(boss_render_mode == 2) {
 			sprite_offset += 0xA00;
 		}
 		sprite16_put((left + 32), top, sprite_offset);
-	} else if(boss_hit != 0) {
+	} else if(boss_hit) {
 		sprite16_put_size.set(80, 96);
 		left += 16;
 		sprite16_put(left, top, (boss_sprite_offset + 0x16));
 	}
 
-	if((boss_effect_radius == 0) && (boss_render_frame == 0)) {
+	if(!boss_effect_radius && !boss_render_frame) {
 		return;
 	}
 
@@ -526,7 +526,7 @@ void near yumemi_render_main(void)
 	left = playfield_fg_x_to_screen(yumemi_origin_x, pid_other);
 	top = ((yumemi_origin_y >> 5) + 8);
 
-	if(boss_render_frame == 0) {
+	if(!boss_render_frame) {
 		grcg_circle(left, top, boss_effect_radius);
 	} else {
 		target_left = playfield_fg_x_to_screen(
@@ -619,7 +619,7 @@ void far gba_boss_render_yumemi(void)
 	pid_other = (1 - pid_current);
 	sprite16_clip_set_for_pid(pid_other);
 
-	if(boss_mode == 0) {
+	if(boss_mode == YUMEMI_MODE_INTRO) {
 		yumemi_render_arrival();
 		return;
 	}
