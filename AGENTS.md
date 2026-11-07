@@ -38,7 +38,13 @@ when starting a session or when the environment/targets change.
   receipts, logs and per-file SHA-256 manifest. See
   docs/STORAGE_HANDOFF_CURRENT.md and
   scripts/cleanup_after597_handoff_storage.py --verify for the present
-  restricted policy. Never apply old after439/388/319/511-source cleanup
+  restricted policy. The later after710 handoff retired only six
+  unreferenced failed source-verifier tool-config stages (12 small
+  trial trees / 93 files / 1,847,296 allocated bytes) and regenerable
+  Python caches; it did NOT prune any completed native source proof.
+  Use docs/STORAGE_HANDOFF_AFTER710.md and its strict, one-time
+  script/manifest to audit that bounded action.
+  Never apply old after439/388/319/511-source cleanup
   tools to this checkout. A generic generated-file preview does not prove
   that native source-review dependency trees can be discarded.
   Preserve tools/targets.

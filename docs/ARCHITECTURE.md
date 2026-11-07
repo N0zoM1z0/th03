@@ -48,8 +48,18 @@ source/function denominators remain unknown.
 | MAINL | `build_th03_mainl_work.py` | TH03ML |
 | ZUN | `build_th03_zun_work.py` | TH03ZUN |
 
-Each builder recreates source and rebuilds its game objects in two independent
-rounds. MAIN additionally re-extracts its one explicitly pinned VS vendor module
+These are the heavy **cold builders**: they recreate source inputs
+and rebuild full game-object graphs in two independent rounds, when
+that scope is actually needed. Routine TH03 MAIN C++ reconstruction
+now uses the narrower
+[`probe_th03_main_exatt_layout.py` source-native overlay](RE_HANDOFF.md)
+and its independent reviewer: recompile only affected physical
+translation units, compare their complete native OBJ/OMF, and reuse
+unchanged original objects in the full normal TLINK response.
+The unchanged after596 cold parent is retained, not repeated for
+every source refactor.
+
+MAIN's cold builder additionally re-extracts its one explicitly pinned VS vendor module
 with native TLIB in each round;installed CRT/runtime remain vendor context.
 Current reports live in `.analysis/work/`. MAINL uses native TLIB extraction and
 rebuild without changing the893-member order. The historical cold normal-library

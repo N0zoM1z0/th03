@@ -22,15 +22,39 @@
    `git diff --check`, and commit substantial progress locally with
    `gpt-web: xxx`. Do not push without authorization.
 
+## Scoped current-source native check (MAIN)
+
+The preferred bounded MAIN source verification is now the
+[after709 scoped native overlay](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md):
+select **only the original physical TUs whose maintained C++ or consumed
+implementation includes changed**, and run:
+
+```sh
+PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_exatt_layout.py --stage NEW --units unitA,unitB
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage NEW
+```
+
+Use a unique DOS-safe `afNNNx` stage, the original compiler and
+normal TLINK response, two independent writer rounds, and check
+OMF source/header/`.inl` dependencies. An unchanged current source
+may use read-only review of `af709a`. Do not infer canonical Factory
+acceptance from a new target-equal normal link. The historical
+after596 complete source-native and after587 MAINL pair are separate
+retained ancestors, **not** reasons to run full cold replay per edit.
+
 ## Latest protected-storage policy
 
 The last applied source-linked CRT proof-output deletion audit covers
 ONLY the after520 prefix: **258 stages / 5,760 protected files**.
-The later [after597 disposal](STORAGE_HANDOFF_AFTER597.md) removed
+The later [after597 disposal](STORAGE_HANDOFF_CURRENT.md) removed
 exactly three externally unreferenced, superseded BOSS exploratory
 source runs, with a fixed allowlist and current native receipt hash
 guards. It did not delete after596 MAIN, after587 MAINL, active
 559/561 BOSS dual rounds, CRT, source files or original toolchains.
+The newer [after710 handoff cleanup](STORAGE_HANDOFF_AFTER710.md)
+removed only six externally unreferenced incomplete *verifier
+configuration* stage pairs and regenerable caches, with full
+path/SHA manifest; no completed source proof was pruned.
 Use [the current storage policy](STORAGE_HANDOFF_CURRENT.md);
 the old cleanup_mainl_after520_handoff.py explicitly rejects newer
 source stages. Older after439/after388 cleanup tools are historical;

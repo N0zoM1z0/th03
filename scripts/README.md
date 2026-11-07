@@ -20,6 +20,7 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 
 | Product | Entry point | Purpose |
 | --- | --- | --- |
+| MAIN selected current-source | `probe_th03_main_exatt_layout.py --stage NEW --units unitA,unitB`, `review_th03_main_source_overlay.py --stage NEW` | Preferred bounded original TC4/TLINK two-round source/OMF/MAP check for changed physical TUs. Reuse the other original objects; do not cold replay. |
 | MAIN | `replay_th03_main_native.py` | Two source cold builds and current native-owner review. |
 | MAIN | `build_th03_main_work.py --build --cold --runtime` | One source rebuild and entry/lose contracts. |
 | MAIN | `review_th03_main_native_units.py` | Review current native extents, publics/MAP, bytes and ordered relocations. |
@@ -28,7 +29,8 @@ gives current acceptance and open work. Detailed historical witnesses belong in
 | OP | `PYTHONPATH=scripts .venv/bin/python -m lib.op_select_native` | Complete two-TU character selection/score-loader CODE, source slices, native fields and ordered relocations. Run from the repository root. |
 | OP | `review_th03_op_entry_data_work.py` | Full cold/cfg/menu/startup/DATA chain; actual nested execution, semantic initialized storage and prior-observation invariance. |
 | OP | `review_th03_op_music_call_work.py` | Native same-CS far-call proof and fresh ordinary-far source control; no Music Room implementation credit. |
-| MAINL | `review_th03_mainl_text_banks_work.py` | **Current after554 selected native review:** validates retained root/picture/text banks and original EXE/ordered relocations; no cold or ancestor-runtime replay. |
+| MAINL | `review_th03_mainl_text_banks_work.py` | **Historical after554 dependency review**, retained for its root/picture/text bank native evidence; not the present source-publication gate. |
+| MAINL | `review_th03_mainl_score_input_pi_after587_work.py` | Read-only historical after587 source-native full MAINL link and 677-relocation proof; **current decoded source publication is pending** after newer source-identity changes. |
 | MAINL | `build_th03_mainl_work.py` | Two complete project/CRT builds, normal TLIB membership/order, decoded/stored equality and lifecycle scopes. |
 | MAINL | `build_th03_mainl_exception_work.py` | Scoped historical new/xalloc/xmsg producer; composes the reviewed 28-provider CRT baseline with retained project inputs, not a current Factory acceptance declaration. |
 | MAINL | `build_th03_mainl_xx_work.py`, `review_th03_mainl_xx_work.py` | Native full-xx object,normal893-member library and actual product candidate;raw-different and unaccepted. Reuse unchanged cold inputs. |
@@ -67,10 +69,11 @@ products before regenerating progress.
 | --- | --- |
 | `probe_th03_main_producers.py` | Unresolved state/shot grouping and alignment controls; no new source credit. |
 | `probe_th03_sound_nop_layout.py` | OP/MAINL natural trailing-byte investigation; annotated assembly controls are not acceptance. |
-| `build_th03_mainl_after520_work.py`, `review_th03_mainl_after520_work.py` | **Historical after520 source stage**, retained as a native dependency; not the current entrypoint. Current library binding is893/893 slots; selected MAINL link is after554. |
+| `build_th03_mainl_after520_work.py`, `review_th03_mainl_after520_work.py` | **Historical after520 source stage**, retained as a native dependency, not a current entrypoint. The historical after554 selected source link and later after587 full-MAINL link are distinct evidence; neither bypasses the pending live publication gate. |
 | `cleanup_mainl_after520_handoff.py` | **Historical applied deletion audit:** protects its258-stage/5,760-file prefix; now rejects after521+ source. The old zero-candidate preview does not authorize cleanup here. |
 | `cleanup_mainl_after439_handoff.py`, `cleanup_mainl_after388_handoff.py` | **Historical frozen cleanup guards**, not current deletion commands; deliberately reject this checkout. |
 | `clean_generated.py` | General analysis preview is **not** a dependency oracle for the live CRT; avoid blanket `--apply`. `--caches-only --apply` removes only regenerable caches/build outputs. |
+| `cleanup_after710_disposable_native_stages.py --verify` | Read-only verification of the one-time after710 retired six unreferenced native tool-config failures and preserved audit SHA manifest. **Not** a general stage-pruning tool. |
 | `closeout_cleanup.py` | Generic receipt-based planning; not an oracle for the native source-DAG dependencies. |
 | `import_targets.py`, `bootstrap_toolchain.sh`, `bootstrap_analysis_toolchain.sh` | Initial private input/tool installation. |
 

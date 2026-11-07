@@ -1,9 +1,30 @@
-# TH03 current storage and evidence policy — audited after597 (2026-11-07)
+# TH03 current storage and evidence policy — after710 handoff (2026-11-07)
 
 Use the [current source handoff](RE_HANDOFF.md) for after596 MAIN / after587
 MAINL. This page records what has ACTUALLY been deleted or packed; it is
 not a license to age-prune native work. The complete earlier after554 storage
 record is preserved as [a historical snapshot](STORAGE_HANDOFF_ARCHIVE_AFTER554.md).
+
+## Most recent applied bounded cleanup (after710)
+
+The handoff cleanup added **only six externally unreferenced, incomplete
+source-verifier tool-configuration attempts** to the retired set, and
+ran the official regenerable cache-only command. It removed **12
+private trial directories / 93 files / 1,847,296 allocated bytes
+(1.76 MiB exact)**; Python cache cleanup reported **approximately
+9.5 MiB gross**, and imports can regenerate those caches.
+Each deleted file is identified by path, size and SHA-256 in the
+preserved private after710 audit manifest. Both current after709
+and retained after703 two-round original-native MAIN proofs
+still pass read-only review after the deletion. See
+[the exact after710 cleanup record](STORAGE_HANDOFF_AFTER710.md).
+
+The **after597** audit below remains the previous (much larger)
+disposable BOSS-tree action; its 95,522,816-byte total is a
+**historical after597 subtotal**, not the current combined
+total. Do not add that amount to each newer receipt or treat
+either audit as authorization to prune the active original
+source-bound DAG.
 
 ## Protection boundary: what must stay
 

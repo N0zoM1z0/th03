@@ -11,7 +11,7 @@ This repository reconstructs the original Japanese PC-98 **Touhou 3:
 Phantasmagoria of Dim.Dream**. Work covers OP.EXE, MAIN.EXE, MAINL.EXE (the ending)
 and ZUN.COM. Reconstruction and whole-product source acceptance remain open.
 
-[Generated progress](docs/PROGRESS.md) distinguishes canonical packed-unit ledger counts from reviewed decoded source acceptance. The selected native link reproduces the original decoded MAINL EXE; its MAP layout and reviewed differences are checked separately. This does not grant canonical packed-unit acceptance. See the handoff for current source ownership.
+[Generated progress](docs/PROGRESS.md) distinguishes canonical packed-unit acceptance from reviewed decoded source and historical source-native build evidence. The historical after587 MAINL native link reproduced the decoded Japanese ending EXE and MAP, but its **live source-bound decoded publication remains pending** after later source changes invalidated an old input guard. That historic result does not grant current or canonical packed-file acceptance. See the [current handoff](docs/RE_HANDOFF.md) for the precise scope and outstanding work.
 [The handoff](docs/RE_HANDOFF.md) records the latest verified checkpoint,
 remaining work, local state and findings for the next agent. Source-present,
 bounded exact source scopes and target-equal complete builds are separate claims;
@@ -70,17 +70,21 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
 ## Maintenance and handing off
 
-The [current, concise handoff](docs/RE_HANDOFF.md) starts from the
-after596 MAIN and after587 MAINL source-native links, not the historical
-after554/after565 publication baseline. [The archived after596 chronology](docs/RE_HANDOFF_ARCHIVE_AFTER596.md)
-preserves the full sequence of experiments, native receipts and limitations.
+The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
+after709 **five-source scoped** native checkpoint and the cumulative
+58-owner evidence union. It retains after596 MAIN and historical
+after587 MAINL as *different* source-native ancestors, not current
+whole-game acceptance. The [after709 chronological archive](docs/RE_HANDOFF_ARCHIVE_AFTER709.md)
+and [earlier after596 archive](docs/RE_HANDOFF_ARCHIVE_AFTER596.md)
+preserve the detailed experiments, negative trials and limitations.
 
-MAIN's latest normal source-native linker reconstructs the complete
+MAIN's frozen after596 normal source-native link, and the later
+after709 five-object scoped overlay, reproduce the complete
 124,642-byte Japanese loaded program and all 1,553 ordered MZ relocations.
 A **separate standard DOS MZ serializer** then reproduces the entire
 original 130,882-byte Japanese MAIN.EXE; this does not prove that the
-historic compiler/linker used the same header format. MAINL's latest
-source-native link reproduces the entire 67,372-byte decoded Japanese
+historic compiler/linker used the same header format. The historical after587 MAINL
+source-native link reproduced the entire 67,372-byte decoded Japanese
 MAINL EXE and all 677 ordered relocations. Neither establishes
 canonical packed-file Factory acceptance or complete historical source
 ownership. MAINL's historical after587 decoded publication reviewed 220
@@ -92,6 +96,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af709a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_yumemi_cpu_after596_work.py
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_score_input_pi_after587_work.py
     .venv/bin/python scripts/progress.py --check

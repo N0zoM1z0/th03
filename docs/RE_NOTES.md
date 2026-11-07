@@ -1,15 +1,20 @@
 # TH03 reconstruction findings
 
-Read the [current handoff](RE_HANDOFF.md) first. It owns current sizes,accepted
-counts and open work. This file retains ABI findings and input relationships;
-it is not another verification gate. Detailed native reviews retain bounded
-proofs and qualified historical observations.
+Read the [current handoff](RE_HANDOFF.md) for the current source-native
+proof scope, and the [generated progress ledger](PROGRESS.md) for formal
+accepted units and bytes. This file retains historical ABI findings,
+working hypotheses and input relationships; it is **not** another
+verification gate. Its earlier “accepted” statements can describe
+past checkpoints and must not override the current ledger. Detailed
+native reviews retain bounded proofs and negative experiments.
 
 ## Current source and build routes
 
-The accepted MAINL library has28 source providers,including natural new/xalloc/
-xmsg. Their six owners total2258 bytes:1563 CODE,659 inline DATA,30 other
-initialized DATA and6 genuinely uninitialized file-storage bytes. The scoped
+The historical selected MAINL working library had 28 source providers,
+including natural new/xalloc/xmsg. Those six reviewed owners totaled
+2,258 bytes: 1,563 CODE, 659 inline DATA, 30 other initialized DATA,
+and 6 genuinely uninitialized storage bytes. This is historical
+source-native evidence, **not current live decoded publication acceptance**. The scoped
 producer is BCC4.5 -O1 with pinned TC4 headers. Keep its profile separate from xx.
 See [C++ native review](MAINL_EXCEPTION_CPP_REVIEW.md).
 
