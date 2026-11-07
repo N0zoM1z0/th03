@@ -51,8 +51,43 @@ SOURCES = {
     'ba_mima': 'src/main/boss/mima.cpp',
     'ba_reimu': 'src/main/boss/reimu.cpp',
     'ba_maris': 'src/main/boss/marisa.cpp',
+    'e_fireb': 'src/main/enemy/fireball.cpp',
+    'e_expl': 'src/main/enemy/expl.cpp',
+    'bullet': 'src/main/bullet/bullet.cpp',
+    'eforna': 'src/main/enemy/enemy.cpp',
+    'efornb': 'src/main/enemy/enemy.cpp',
+    'eupda': 'src/main/enemy/enemy.cpp',
+    'eupdb': 'src/main/enemy/enemy.cpp',
 }
 ENTITY = 'src/main/player/exatt_entity.hpp'
+PRODUCER_WRAPPERS = {
+    'e_fireb': 'src/main/enemy/producers/fireball_native.cpp',
+    'e_expl': 'src/main/enemy/producers/explosion_native.cpp',
+    'bullet': 'src/main/bullet/producers/bullet_native.cpp',
+    'eforna': 'src/main/enemy/producers/eforna.cpp',
+    'efornb': 'src/main/enemy/producers/efornb.cpp',
+    'eupda': 'src/main/enemy/producers/eupda.cpp',
+    'eupdb': 'src/main/enemy/producers/eupdb.cpp',
+}
+ORIGINAL_STAGES = {
+    'e_fireb': 'af589f', 'e_expl': 'af589f',
+    'bullet': 'af588b',
+    'eforna': 'af572e', 'efornb': 'af572e',
+    'eupda': 'af572e', 'eupdb': 'af572e',
+}
+# The original native MAP has CODE/DATA/BSS/empty segment rows, and
+# the enemy's compiler flags also instantiate additional empty sections.
+MAP_ROWS = {
+    'e_fireb':3, 'e_expl':3, 'bullet':4,
+    'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,
+}
+
+def wrapper_source(unit):
+    if unit in PRODUCER_WRAPPERS:
+        return (ROOT/PRODUCER_WRAPPERS[unit]).read_bytes()
+    return (('#define TH03_EXATT_REIMU_UPDATE_ONLY\n' if unit=='ex_reup' else '') +
+            f'#include "{SOURCES[unit]}"\n').encode()
+
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -84,10 +119,20 @@ def scope(actual, original, stem):
          stem + ' PUBLIC offsets differ')
     need(segment_definitions(actual) == segment_definitions(original),
          stem + ' segment definitions differ')
-    code = payload(original)
-    return {'CODE_bytes':len(code), 'ordered_native_fields':len(literal_fields(original)),
-            'PUBLICs':len(public_offsets(original)), 'all_original_CODE_and_fields_exact':True,
-            'raw_OMF_packet_identical':actual == original}
+    initialized = payload(original)
+    segs = segment_definitions(original)
+    classes = {row['index']:row['class'] for row in segs}
+    code_bytes = sum(classes[index]=='CODE' for index, offset in initialized)
+    data_bytes = sum(classes[index]=='DATA' for index, offset in initialized)
+    need(code_bytes + data_bytes == len(initialized),
+         stem + ' original initialized bytes have known CODE/DATA owners')
+    result = {'CODE_bytes':code_bytes, 'ordered_native_fields':len(literal_fields(original)),
+              'PUBLICs':len(public_offsets(original)), 'all_original_CODE_and_fields_exact':True,
+              'raw_OMF_packet_identical':actual == original}
+    if stem in ORIGINAL_STAGES:
+        result['DATA_bytes']=data_bytes
+        result['BSS_bytes']=sum(row['size'] for row in segs if row['class']=='BSS')
+    return result
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
@@ -113,6 +158,10 @@ def main():
     need(len(ref)==130882 and len(target.relocations)==1553,'pinned original Japanese MAIN')
     source_data={name:(ROOT/SOURCES[name]).read_bytes() for name in units}
     header_data=(ROOT/ENTITY).read_bytes()
+    wrapper_data={u:wrapper_source(u) for u in units}
+    need(all(w.count(f'#include "{SOURCES[u]}"'.encode())==1 for u,w in wrapper_data.items())
+         and all(b'\r' not in w for w in wrapper_data.values()),
+         'per-producer original C++ wrapper with exactly one source include')
     # The original source-only project still contains the full old graph.
     # Only these per-round overlays alter what the compiler sees.
     need(all(b'\r' not in s for s in (*source_data.values(),header_data)),
@@ -123,6 +172,7 @@ def main():
             'parent_report_sha256':sha((ROOT/parent.REPORT).read_bytes()),
             'units':units, 'source_sha256':{u:sha(s) for u,s in source_data.items()},
             'entity_header_sha256':sha(header_data),
+            'wrapper_sha256':{u:sha(w) for u,w in wrapper_data.items()},
             'whole_original_image_and_relocations_equal':False,
             'canonical_Factory_credit':False, 'rounds':[]}
     cpu=min(os.sched_getaffinity(0))
@@ -146,7 +196,7 @@ def main():
             entity=rd/ENTITY
             entity.parent.mkdir(parents=True, exist_ok=True)
             entity.write_bytes(header_data.replace(b'\n',b'\r\n'))
-            wrapper={u:(('#define TH03_EXATT_REIMU_UPDATE_ONLY\n' if u=='ex_reup' else '') + f'#include "{SOURCES[u]}"\n').encode() for u in units}
+            wrapper=wrapper_data
             for u in units:
                 (rd/(u+'.cpp')).write_bytes(wrapper[u].replace(b'\n',b'\r\n'))
             phases=[];scopes={};outputs={}
@@ -166,6 +216,7 @@ def main():
             for u in units:
                 oldpath=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
                          else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_')
+                         else f'probe\\{ORIGINAL_STAGES[u]}\\r{n}\\{u}.obj' if u in ORIGINAL_STAGES
                          else f'obj\\th03\\{u}.obj').encode()
                 newpath=f'probe\\{args.stage}\\r{n}\\{u}.obj'.encode()
                 need(response.count(oldpath)==1,'unique original link slot '+u)
@@ -193,8 +244,9 @@ def main():
                 a=f'M=probe/{args.stage}/r{n}/{u}.cpp'.encode()
                 b=(f'M=probe/{parent.STAGE}/r{n}/{u}.cpp' if u in parent.ORDER
                    else f'M=th03/{u}.cpp' if u.startswith('ba_')
+                   else f'M=probe/{ORIGINAL_STAGES[u]}/r{n}/{u}.cpp' if u in ORIGINAL_STAGES
                    else f'M=th03/{u}.cpp').encode()
-                need(newmap.count(a)==4, 'original four MAP rows '+u)
+                need(newmap.count(a)==MAP_ROWS.get(u,4), 'all original MAP rows '+u)
                 newmap=newmap.replace(a,b)
             need(newmap==prevmap,'complete original MAP layout/ownership differs')
             outputs['exe']=pins(logroot/(f'round{n}.exe'),exe)

@@ -241,6 +241,19 @@ See [after606 review](MAIN_19_GAMEPLAY_OWNERS_AFTER606_NATIVE_REVIEW.md).
 Historical after596 source pins are intentionally frozen; no new Factory
 byte credit or historical vendor OMF packet identity is claimed.
 
+### Bullet native register recovery after607
+
+The complete physical Bullet source TU (all 2,685 CODE bytes / 196 ordered
+fields / 20 PUBLICs, including large bullet update and 386 GRCG pellet
+rendering) now emits original register operations from Turbo C++ rather
+than three hand-authored `shl ax`, `xor bx`, `xor dx` instructions.
+The native `af607g` two-round original TLINK and read-only source-bound
+review pass, preserving full Japanese MAIN and all MZ relocations.
+See [after607 Bullet native review](MAIN_BULLET_REGISTER_CPP_AFTER607_NATIVE_REVIEW.md).
+The scoped overlay/reviewer also support individual Enemy/Fireball/Explosion
+producers with CODE/DATA/BSS-aware output accounting. The older historical
+after596 receipt and packed-file Factory counts remain unchanged.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

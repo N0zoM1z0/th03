@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import re
 
-from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, sha,
+from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, sha,
                                           need, scope, parent)
 from lib.pc98 import parse_mz
 from lib.main_mz_compact import compact_mz
@@ -34,6 +34,7 @@ def expected_response(stage, n, units):
     for u in units:
         old=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
              else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_')
+             else f'probe\\{ORIGINAL_STAGES[u]}\\r{n}\\{u}.obj' if u in ORIGINAL_STAGES
              else f'obj\\th03\\{u}.obj').encode()
         new=f'probe\\{stage}\\r{n}\\{u}.obj'.encode()
         need(rsp.count(old)==1, 'actual one physical original response slot '+u)
@@ -50,8 +51,9 @@ def normalize_map(raw, stage, n, units):
     for u in units:
         old=f'M=probe/{stage}/r{n}/{u}.cpp'.encode()
         new=(f'M=probe/{parent.STAGE}/r{n}/{u}.cpp' if u in parent.ORDER
+             else f'M=probe/{ORIGINAL_STAGES[u]}/r{n}/{u}.cpp' if u in ORIGINAL_STAGES
              else f'M=th03/{u}.cpp').encode()
-        need(raw.count(old)==4, 'all four native MAP module rows '+u)
+        need(raw.count(old)==MAP_ROWS.get(u,4), 'all native MAP module rows '+u)
         raw=raw.replace(old,new)
     return raw
 
@@ -77,6 +79,11 @@ def review(stage):
     # The selected *current* C++ source variants must be exactly those compiled.
     sources={u:(ROOT/SOURCES[u]).read_bytes() for u in units}
     entity=(ROOT/ENTITY).read_bytes()
+    # after606 already validates the exact compiled wrapper snapshot below,
+    # but did not store a redundant separate wrapper digest. Later receipts do.
+    need(report.get('wrapper_sha256', {u:sha(wrapper_source(u)) for u in units})==
+         {u:sha(wrapper_source(u)) for u in units},
+         'exact natural original producer wrapper input identities')
     need(all(b'\r' not in s for s in (*sources.values(),entity)) and
          report['source_sha256']=={u:sha(v) for u,v in sources.items()} and
          report['entity_header_sha256']==sha(entity),
@@ -109,8 +116,7 @@ def review(stage):
         for u in units:
             need((rd/SOURCES[u]).read_bytes()==sources[u].replace(b'\n',b'\r\n'),
                  'exact maintained source overlay '+u)
-            wrapper=(('#define TH03_EXATT_REIMU_UPDATE_ONLY\n' if u=='ex_reup' else '')+
-                     f'#include "{SOURCES[u]}"\n').encode().replace(b'\n',b'\r\n')
+            wrapper=wrapper_source(u).replace(b'\n',b'\r\n')
             need((rd/(u+'.cpp')).read_bytes()==wrapper,
                  'real original compiler wrapper '+u)
             actual=items[u+'_obj']
