@@ -61,6 +61,7 @@ SOURCES = {
     'ch_setup': 'src/main/player/character_setup.cpp',
     'p_combo': 'src/main/player/combo.cpp',
     'p_cmbhl': 'src/main/player/combo.cpp',
+    'p_exatt': 'src/main/player/exatt.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
@@ -127,6 +128,7 @@ MAP_ORIGINAL = {
 }
 MAP_ROWS = {
     'p_combo': 6, 'p_cmbhl': 6,
+    'p_exatt': 3,
     'p_gauge': 3,
     'ba_sring':5, 'ba_srest':5,
     'e_fireb':3, 'e_expl':3, 'bullet':4,

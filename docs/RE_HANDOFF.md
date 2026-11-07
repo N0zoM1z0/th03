@@ -6,6 +6,29 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Original Gauge and Extra Attack small leaf producers after700
+
+Two physical complete original small source units were
+source-OMF-attested in v2 native compiler: `p_exatt`
+(41 CODE bytes) and `p_gauge` (55 CODE bytes).
+The former now naturally chooses player 0 with
+`if(!pid)`, but original local Subpixel width-copy
+temporaries must remain: direct parameter forwarding
+changed TC4 machine instructions (`af699e`).
+The latter now expresses the saturated Gauge check
+as two ordinary C++ early returns; combining its
+original `+=charge` with overflow check or rewriting
+the increment as explicit assignment changed native
+CODE and was rejected. Two real source-bound
+`af700c` original TC4/TLINK rounds match **96
+CODE bytes, three literal ordered FIXUPPs, two PUBLICs**,
+whole normal MAIN EXE/MAP and Japanese MZ. The
+`p_exatt` object has exactly three original MAP
+rows (new native driver slot). See
+[after700 Gauge and Extra leaf review](MAIN_GAUGE_EXATT_LEAVES_AFTER700_NATIVE_REVIEW.md).
+Only two affected physical original objects compiled;
+no full cold replay or new canonical Factory credit.
+
 ## Combo scoring/trigger original split native C++ after698
 
 The single maintained `combo.cpp` now has explicit
