@@ -8,6 +8,21 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After845: full Reimu major BOSS native word clocks and byte sprite masks
+
+- The complete `ba_reimu` BOSS now uses natural unsigned-16-bit
+  `boss_frame % 2` cloud acceleration and `%16` mirrored barrage clocks;
+  named physical ring angles/radii, four-frame renderer divisor and
+  original intro scale are source-bound. The four separate **byte**
+  `anim &3` checks cannot use `%4`: fresh `af845b` candidate grew
+  from original **2,020 to 2,044 CODE bytes**, so all masks were restored.
+- Final `af845d` genuinely compiles/links the entire full BOSS twice
+  with original TC4 4.02/normal TLINK and matches **2,020 CODE bytes,
+  270 ordered FIXUPPs, 9 PUBLICs**, full Japanese MAIN and all
+  1,553 MZ relocations. 98 other game objects/CRT reused, no cold
+  replay. See [after845 full Reimu BOSS review](MAIN_REIMU_BOSS_FRAME_NATURAL_AFTER845_REVIEW.md).
+  Existing source owner, no additional unique CODE or Factory credit.
+
 ## After844: complete original Fireball controller native timing
 
 - The full 576-line `e_fireb` owner now uses **natural unsigned `%512`**

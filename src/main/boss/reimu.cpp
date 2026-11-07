@@ -85,6 +85,9 @@ enum reimu_render_timing_t {
     REIMU_INTRO_END_FRAME = 0x64,
     REIMU_INTRO_FLASH_END_FRAME = 0x40,
     REIMU_INTRO_SPRITE_COUNT = 8,
+    REIMU_RENDER_CEL_PERIOD = 4,
+    REIMU_INTRO_START_RADIUS = 0xC80,
+    REIMU_INTRO_RADIUS_STEP = 32,
 };
 
 void far pascal boss_reimu_template_init(int player_id)
@@ -113,6 +116,9 @@ void far pascal boss_reimu_template_init(int player_id)
 enum reimu_cloud_phase_t {
     REIMU_CLOUD_START_FRAME = 0,
     REIMU_CLOUD_FINISH_FRAME = 0x80,
+    REIMU_CLOUD_ACCEL_PERIOD = 2,
+    REIMU_CLOUD_ANGLE_FRAME_STEP = 2,
+    REIMU_CLOUD_ORBIT_RADIUS = TO_SP(32),
 };
 
 void near reimu_pattern_orbit_cloud(void)
@@ -126,7 +132,7 @@ void near reimu_pattern_orbit_cloud(void)
 		reimu_cloud_speed = 0x10;
 	}
 
-	angle = ((unsigned char)boss_frame * 2);
+	angle = ((unsigned char)boss_frame * REIMU_CLOUD_ANGLE_FRAME_STEP);
 	if(reimu_direction) {
 		angle = (0 - angle);
 	}
@@ -138,31 +144,31 @@ void near reimu_pattern_orbit_cloud(void)
 		bullet_template.angle = (angle * 2);
 		bullet_template.speed.v = reimu_cloud_speed;
 		bullet_template.center.x.v = polar(
-			boss_center_x, TO_SP(32), CosTable8[angle]
+			boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
 		);
 		bullet_template.center.y.v = polar(
-			boss_center_y, TO_SP(32), SinTable8[angle]
+			boss_center_y, REIMU_CLOUD_ORBIT_RADIUS, SinTable8[angle]
 		);
 		bullets_add();
 
 		bullet_template.angle = ((angle * 2) + 0x80);
 		angle += 0x80;
 		bullet_template.center.x.v = polar(
-			boss_center_x, TO_SP(32), CosTable8[angle]
+			boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
 		);
 		bullet_template.center.y.v = polar(
-			boss_center_y, TO_SP(32), SinTable8[angle]
+			boss_center_y, REIMU_CLOUD_ORBIT_RADIUS, SinTable8[angle]
 		);
 		bullets_add();
 	}
 
-	if(!(boss_frame & 1)) {
-		// Preserve postfix here: prefix ++reimu_cloud_speed changed the
-        // original TC4 byte-field codegen (negative control af691b).
-        reimu_cloud_speed++;
+	if((boss_frame % REIMU_CLOUD_ACCEL_PERIOD) == 0) {
+		// Preserve postfix here: prefix ++reimu_cloud_speed changed
+		// the original TC4 byte-field codegen (af691b).
+		reimu_cloud_speed++;
 	}
 
-	angle = ((unsigned char)boss_frame * 2);
+	angle = ((unsigned char)boss_frame * REIMU_CLOUD_ANGLE_FRAME_STEP);
 	angle += -0x40;
 	boss_center_y = polar(
 		boss_aux_point.y.v, TO_SP(48), SinTable8[angle]
@@ -304,6 +310,8 @@ void near reimu_pattern_orbit_burst(void)
 // the boss dispatcher then returns to its shared pattern selector.
 enum reimu_mirror_phase_t {
     REIMU_MIRROR_FINISH_FRAME = 0x80,
+    REIMU_MIRROR_FIRE_PERIOD = 16,
+    REIMU_MIRROR_OPPOSITE_ANGLE = 0x78,
 };
 
 void near reimu_pattern_mirrored_spread(void)
@@ -311,7 +319,7 @@ void near reimu_pattern_mirrored_spread(void)
 	boss_move_sine();
 
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
-		if(boss_frame & 15) {
+		if((boss_frame % REIMU_MIRROR_FIRE_PERIOD) != 0) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;
@@ -323,7 +331,7 @@ void near reimu_pattern_mirrored_spread(void)
 		bullet_template.group = BG_4_SPREAD_NARROW;
 		bullets_add();
 
-		bullet_template.angle = (0x78 - (unsigned char)boss_frame);
+		bullet_template.angle = (REIMU_MIRROR_OPPOSITE_ANGLE - (unsigned char)boss_frame);
 		bullets_add();
 		return;
 	}
@@ -454,7 +462,7 @@ void near reimu_render_main(void)
 
 	sprite16_put_size.set(48, 48);
 	sprite_offset = (boss_sprite_offset + 0xFFF4);
-	anim = (boss_frame / 4);
+	anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
 	if((anim & 3) == 1) {
 		sprite_offset += 6;
 	} else if(anim & 3) {
@@ -470,8 +478,10 @@ void near reimu_render_main(void)
 	}
 }
 
-// These unsigned cel/alternate frame remainders compile to the
-// original 16-bit mask instructions in both sprite renderers.
+// Both renderers take a 16-bit global frame division before truncating
+// the result to a byte-valued animation cel. The later byte &3 checks
+// must stay masks: changing all four to byte %4 expands original CODE
+// (negative native af845b). Word-sized attack clocks *can* use %2/%16.
 void near pascal reimu_render_intro(unsigned char angle, int length)
 {
 	screen_y_t top;
@@ -495,7 +505,7 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	}
 
 	sprite_offset = (pid.so_attack + 0x280);
-	anim = (boss_frame / 4);
+	anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
 	if((anim & 3) == 1) {
 		sprite_offset += 6;
 	} else if(anim & 3) {
@@ -522,7 +532,7 @@ void far gba_boss_render_reimu(void)
 	if(boss_mode == REIMU_MODE_INTRO) {
 		reimu_render_intro(
 			(unsigned char)boss_frame,
-			(0xC80 - (boss_frame * 32))
+			(REIMU_INTRO_START_RADIUS - (boss_frame * REIMU_INTRO_RADIUS_STEP))
 		);
 		return;
 	}
