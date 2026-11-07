@@ -1,6 +1,27 @@
 // Target-derived player state machine, load DA43..DE95 (1,106 bytes).
 // Current core.cpp producer binds shot_release_frames[2] at DS:4B9C.
 // Ownership excludes callees, shared storage, and adjacent player procedures.
+// Semantic byte sentinels and shot cadences in the original player/CPU
+// update. These apply to the *whole* charge/fire/knockback state machine;
+// the order of its checks, jumps and original RNG consumption is preserved.
+enum player_cpu_shot_target_t {
+    CPU_SHOT_TARGET_FIRST_FORMATION = 0,
+    CPU_SHOT_TARGET_BOSS = 0xFE,
+    CPU_SHOT_TARGET_NONE = 0xFF,
+    PLAYER_BOSS_UNLAUNCHED = 0xFF,
+    CPU_SHOT_PERIOD_FIRST_FORMATION = 6,
+    CPU_SHOT_PERIOD_BOSS = 7,
+    CPU_SHOT_PERIOD_NONE = 32,
+    CPU_SHOT_PERIOD_OTHER_FORMATION = 10,
+};
+enum player_charge_threshold_t {
+    PLAYER_CHARGE_NOTICE = 0x180,
+    PLAYER_CHARGE_SHOT = 0x400,
+    PLAYER_CHARGE_PORTRAIT = 0x800,
+    PLAYER_CHARGE_GAUGE_BULLET = 0xC00,
+    PLAYER_BOSS_COMBO_BONUS = 10240,
+};
+
 void near pascal player_state_update(input_t input_raw, player_stuff_t near *player_raw)
 {
     register player_stuff_t near *player;
@@ -19,13 +40,13 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
         damage_all_on[pid.current]--;
     }
     if(defeat_flag != DF_BANNER) {
-        if(player->lose_anim_time == 0) {
+        if(!player->lose_anim_time) {
             player_speed_base.aligned.x.v = player->speed_base.aligned.x.v;
             player_speed_base.aligned.y.v = player->speed_base.aligned.y.v;
             player_speed_base.diagonal.x.v = player->speed_base.diagonal.x.v;
             player_speed_base.diagonal.y.v = player->speed_base.diagonal.y.v;
             player->hyper();
-            if(player->move_lock_time == 0) {
+            if(!player->move_lock_time) {
                 if(!player->is_cpu) {
                     movement = input & INPUT_MOVEMENT;
                     first_attempt = true;
@@ -48,22 +69,22 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                         player->human_movement_last = movement;
                     }
                 } else {
-                    player->cpu_frame++;
+                    ++player->cpu_frame;
                     player_cpu_update(player);
-                    if(target_formation_marker == 0) {
-                        work = 6;
-                    } else if(target_formation_marker == 255) {
-                        work = 32;
-                    } else if(target_formation_marker == 254) {
-                        work = 7;
+                    if(target_formation_marker == CPU_SHOT_TARGET_FIRST_FORMATION) {
+                        work = CPU_SHOT_PERIOD_FIRST_FORMATION;
+                    } else if(target_formation_marker == CPU_SHOT_TARGET_NONE) {
+                        work = CPU_SHOT_PERIOD_NONE;
+                    } else if(target_formation_marker == CPU_SHOT_TARGET_BOSS) {
+                        work = CPU_SHOT_PERIOD_BOSS;
                     } else {
-                        work = 10;
+                        work = CPU_SHOT_PERIOD_OTHER_FORMATION;
                     }
                     if((round_or_result_frame % work) == 0) {
                         shot_release_frames[pid.current] = 4;
                         input = INPUT_SHOT;
                     }
-                    target_formation_marker = 0;
+                    target_formation_marker = CPU_SHOT_TARGET_FIRST_FORMATION;
                     if(!player->is_hit) {
                         if(player->bombs || player->halfhearts > 3) {
                             if(player->cpu_charge_at_avail_ring[player->cpu_charge_at_avail_ring_p]
@@ -105,7 +126,7 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                         player->gauge_charged = player->gauge_avail;
                         player->spell_ready_frames = 0;
                     }
-                    if(player->gauge_charged == 0x180) {
+                    if(player->gauge_charged == PLAYER_CHARGE_NOTICE) {
                         snd_se_play(9);
                     }
                 } else {
@@ -117,9 +138,9 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
             } else if(shot_release_frames[pid.current] <= 4) {
 fire_charge:
                 charged = player->gauge_charged;
-                if(charged >= 0x400) {
+                if(charged >= PLAYER_CHARGE_SHOT) {
                     player->chargeshot_add(player->center.x, player->center.y);
-                    if(charged >= 0x800) {
+                    if(charged >= PLAYER_CHARGE_PORTRAIT) {
                         warning_flag[pid.current] = WF_PORTRAIT;
                         if(charged >= GAUGE_MAX) {
                             if(gba_boss_launched_by == pid.current) {
@@ -130,13 +151,13 @@ fire_charge:
                             if(gba_boss_level < GBA_BOSS_LEVEL_MAX) {
                                 gba_boss_level++;
                             }
-                            combo_points_for_boss_attack += 10240;
-                            if(gba_boss_launched_by == 255) {
+                            combo_points_for_boss_attack += PLAYER_BOSS_COMBO_BONUS;
+                            if(gba_boss_launched_by == PLAYER_BOSS_UNLAUNCHED) {
                                 player->boss_attacks_fired++;
                             } else {
                                 player->boss_attacks_reversed++;
                             }
-                        } else if(charged >= 0xC00) {
+                        } else if(charged >= PLAYER_CHARGE_GAUGE_BULLET) {
 fire_gauge_bullet:
                             player->gauge_attacks_fired++;
                             gba_flag_next[pid.current] = GBAF_GAUGE_BULLET_INIT;
@@ -194,7 +215,7 @@ fire_gauge_bullet:
                         if(player->halfhearts < 0) {
                             player->halfhearts = 0;
                         }
-                        if(player->halfhearts == 0) {
+                        if(!player->halfhearts) {
                             player->lose_anim_time = 48;
                             round_defeated_player = pid.current;
                         } else {
@@ -212,7 +233,7 @@ fire_gauge_bullet:
             player_lose_anim_update(player);
         }
     }
-    if(player_velocity.x.v == 0) {
+    if(!player_velocity.x.v) {
         player->patnum_movement = 0;
     } else if(player_velocity.x.v < 0) {
         player->patnum_movement = 1;

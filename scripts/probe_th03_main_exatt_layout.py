@@ -118,7 +118,14 @@ OWNER_INLINE_PATHS = {
         'src/main/round/stage_round.inl',
         'src/main/core/roundfin.inl',
     ),
-    'core': ('src/main/player/hyper.inl',),
+    # One original core TU, not five independent linker objects.
+    'core': (
+        'src/main/player/move.inl',
+        'src/main/player/hyper.inl',
+        'src/main/player/state.inl',
+        'src/main/player/stuff.inl',
+        'src/main/player/shot_sprites.inl',
+    ),
     'lose': (
         'src/main/player/lose_update.inl',
         'src/main/player/lose_particle.inl',
@@ -126,6 +133,33 @@ OWNER_INLINE_PATHS = {
         'src/main/player/defeat.inl',
     ),
 }
+
+# In addition to top-level core.cpp includes, state.inl itself includes the
+# substantial per-frame player controller and four smaller render/shot helpers.
+# Root these *nested* paths too; copying state.inl alone would still let the
+# compiler resolve its original literal src/... includes out of stale WORK.
+NESTED_INLINE_CHILDREN = {
+    'src/main/player/state.inl': (
+        'src/main/player/update.inl',
+        'src/main/player/render.inl',
+        'src/main/player/overlay.inl',
+        'src/main/player/knock.inl',
+        'src/main/player/bomb.inl',
+    ),
+}
+
+def owner_inline_paths(unit):
+    direct=OWNER_INLINE_PATHS.get(unit, ())
+    nested=tuple(child for path in direct
+                 for child in NESTED_INLINE_CHILDREN.get(path, ()))
+    return direct + nested
+
+def rooted_inline_source(path, stage, n, raw):
+    for child in NESTED_INLINE_CHILDREN.get(path, ()):
+        old=f'#include "{child}"'.encode()
+        need(raw.count(old)==1, 'unique nested native source '+path+' includes '+child)
+        raw=raw.replace(old, f'#include "probe/{stage}/r{n}/{child}"'.encode())
+    return raw
 
 ORIGINAL_OBJECT_PATHS = {u: f'obj/{u}.obj' for u in CHAIN_UNITS}
 ORIGINAL_OBJECT_PATHS['bomb~cxk'] = 'obj/th03/bomb_yumemi.obj'
@@ -236,7 +270,7 @@ def check_native_dependencies(obj, unit, stage, n, source_has_entity,
             expected=f'probe/{stage}/r{n}/{header}'.encode().lower()
             need(any(expected in v for v in low),
                  'actual native OMF dependency binds forced header '+unit+' '+header)
-    for inc in OWNER_INLINE_PATHS.get(unit, ()):
+    for inc in owner_inline_paths(unit):
         expected=f'probe/{stage}/r{n}/{inc}'.encode().lower()
         need(any(expected in v for v in low),
              'actual native OMF dependency binds current source inline '+unit+' '+inc)
@@ -315,7 +349,7 @@ def main():
     header_data=(ROOT/ENTITY).read_bytes()
     template_data=(ROOT/BOSS_TEMPLATE).read_bytes()
     phase_data=(ROOT/BACKGROUND_PHASE).read_bytes()
-    inline_paths=sorted({inc for u in units for inc in OWNER_INLINE_PATHS.get(u, ())})
+    inline_paths=sorted({inc for u in units for inc in owner_inline_paths(u)})
     inline_data={path:(ROOT/path).read_bytes() for path in inline_paths}
     wrapper_data={u:wrapper_source(u) for u in units}
     need(all(w.count(f'#include "{SOURCES[u]}"'.encode())==1 for u,w in wrapper_data.items())
@@ -368,7 +402,7 @@ def main():
             for path,raw in inline_data.items():
                 include=rd/path
                 include.parent.mkdir(parents=True,exist_ok=True)
-                include.write_bytes(raw.replace(b'\n',b'\r\n'))
+                include.write_bytes(rooted_inline_source(path,args.stage,n,raw).replace(b'\n',b'\r\n'))
             wrapper=wrapper_data
             for u in units:
                 (rd/(u+'.cpp')).write_bytes(
