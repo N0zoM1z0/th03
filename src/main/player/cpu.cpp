@@ -31,43 +31,65 @@ enum cpu_retry_column_t {
     CPU_RETRY_RIGHT_COLUMN = 2,
 };
 
+// CPU movement geometry and reaction thresholds are in original 16-bit
+// subpixels, not screen pixels. Keep the branch sequence and RNG draws.
+enum cpu_response_threshold_t {
+    CPU_DODGE_RIGHT_EDGE = TO_SP(240),
+    CPU_DODGE_LEFT_EDGE = TO_SP(16),
+    CPU_DODGE_LOW_FIELD = TO_SP(128),
+    CPU_DODGE_FLOOR = TO_SP(304),
+    CPU_COLLISION_ABOVE_BOUNDARY = -TO_SP(16),
+    CPU_COLLISION_NEAR_BOUNDARY = TO_SP(32),
+    CPU_TARGET_X_MARGIN = TO_SP(16),
+    CPU_TARGET_Y_MARGIN = TO_SP(80),
+    CPU_RETRY_LEFT_LIMIT = TO_SP(80),
+    CPU_RETRY_MIDDLE_LIMIT = TO_SP(176),
+    CPU_HITTEST_CLOSE_RADIUS = 8 / 2,
+    CPU_HITTEST_RETRY_RADIUS = 40 / 2,
+    CPU_HIT_BOMB_CHARGE_LIMIT = 0x500,
+    CPU_STUCK_BOMB_CHARGE_LIMIT = 0x400,
+    CPU_DODGE_ALTERNATIVES = 2,
+    CPU_TARGET_RANDOM_REGIONS = 3,
+    CPU_HIT_BOMB_RANDOM_PERIOD = 4,
+};
+
 input_t near pascal player_cpu_direction_for_collision(
     subpixel_t collision_y_relative, subpixel_t player_x, subpixel_t player_y
 )
 {
     input_t direction;
-    if(collision_y_relative < -TO_SP(16)) {
-        if(player_x >= TO_SP(240)) {
-            if(player_y >= TO_SP(128)) {
+    if(collision_y_relative < CPU_COLLISION_ABOVE_BOUNDARY) {
+        if(player_x >= CPU_DODGE_RIGHT_EDGE) {
+            if(player_y >= CPU_DODGE_LOW_FIELD) {
                 direction = cpu_dodge_pattern[CPU_DODGE_ABOVE_RIGHT];
             } else {
                 direction = INPUT_LEFT;
             }
-        } else if(player_x >= TO_SP(16)) {
+        } else if(player_x >= CPU_DODGE_LEFT_EDGE) {
             direction = cpu_dodge_pattern[CPU_DODGE_ABOVE_MIDDLE];
-        } else if(player_y >= TO_SP(128)) {
+        } else if(player_y >= CPU_DODGE_LOW_FIELD) {
             direction = cpu_dodge_pattern[CPU_DODGE_ABOVE_LEFT];
         } else {
             direction = INPUT_RIGHT;
         }
-    } else if(collision_y_relative < TO_SP(32)) {
-        if(player_x >= TO_SP(240)) {
+    } else if(collision_y_relative < CPU_COLLISION_NEAR_BOUNDARY) {
+        if(player_x >= CPU_DODGE_RIGHT_EDGE) {
             direction = cpu_dodge_pattern[CPU_DODGE_NEAR_RIGHT];
-        } else if(player_x >= TO_SP(16)) {
+        } else if(player_x >= CPU_DODGE_LEFT_EDGE) {
             direction = cpu_dodge_pattern[CPU_DODGE_NEAR_MIDDLE];
         } else {
             direction = cpu_dodge_pattern[CPU_DODGE_NEAR_LEFT];
         }
     } else {
-        if(player_x >= TO_SP(240)) {
+        if(player_x >= CPU_DODGE_RIGHT_EDGE) {
             direction = cpu_dodge_pattern[CPU_DODGE_BELOW_RIGHT];
-        } else if(player_x >= TO_SP(16)) {
+        } else if(player_x >= CPU_DODGE_LEFT_EDGE) {
             direction = cpu_dodge_pattern[CPU_DODGE_BELOW_MIDDLE];
         } else {
             direction = cpu_dodge_pattern[CPU_DODGE_BELOW_LEFT];
         }
     }
-    if(player_y >= TO_SP(304) && direction == INPUT_DOWN) {
+    if(player_y >= CPU_DODGE_FLOOR && direction == INPUT_DOWN) {
         if(player_x >= TO_SP(128)) {
             direction = INPUT_LEFT;
         } else {
@@ -86,9 +108,9 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
     input_t direction = INPUT_NONE;
 
     ellen_target_set(pid.current);
-    attempt = ((ellen_target_x + TO_SP(16)) < x);
-    attempt |= (((ellen_target_x - TO_SP(16)) > x) << 1);
-    attempt |= (((ellen_target_y + TO_SP(80)) < y) << 2);
+    attempt = ((ellen_target_x + CPU_TARGET_X_MARGIN) < x);
+    attempt |= (((ellen_target_x - CPU_TARGET_X_MARGIN) > x) << 1);
+    attempt |= (((ellen_target_y + CPU_TARGET_Y_MARGIN) < y) << 2);
     attempt |= ((y < ellen_target_y) << 3);
     switch(attempt) {
     case CPU_TARGET_LEFT: direction = INPUT_LEFT; break;
@@ -108,15 +130,15 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
     // The original consumes a random word and calculates its remainder even
     // though it never reads this local afterward. Keep that observable draw.
     attempt = 0;
-    random_region = (randring1_next16() % 3);
+    random_region = (randring1_next16() % CPU_TARGET_RANDOM_REGIONS);
     if(player_move(direction) == MOVE_VALID) {
         player_pos_update_and_clamp(player->center);
     }
-    player_hittest(8 / 2);
+    player_hittest(CPU_HITTEST_CLOSE_RADIUS);
     if(player->is_hit) {
         player->is_hit = false;
         attempt++;
-        if(player->gauge_charged <= 0x500 && ((randring1_next16() % 4) == 0)) {
+        if(player->gauge_charged <= CPU_HIT_BOMB_CHARGE_LIMIT && ((randring1_next16() % CPU_HIT_BOMB_RANDOM_PERIOD) == 0)) {
             player_bomb(player);
         } else {
             player->is_hit = true;
@@ -159,9 +181,9 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
     if(!player->is_hit) {
         direction = INPUT_NONE;
         ellen_target_set(pid.current);
-        attempt = ((ellen_target_x + TO_SP(16)) < x);
-        attempt |= (((ellen_target_x - TO_SP(16)) > x) << 1);
-        attempt |= (((ellen_target_y + TO_SP(80)) < y) << 2);
+        attempt = ((ellen_target_x + CPU_TARGET_X_MARGIN) < x);
+        attempt |= (((ellen_target_x - CPU_TARGET_X_MARGIN) > x) << 1);
+        attempt |= (((ellen_target_y + CPU_TARGET_Y_MARGIN) < y) << 2);
         attempt |= ((y < ellen_target_y) << 3);
         switch(attempt) {
         case CPU_TARGET_LEFT: direction = INPUT_LEFT; break;
@@ -188,7 +210,7 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         } else {
             attempt = 2;
         }
-        if(player->cpu_dodge_strategy != 0) {
+        if(player->cpu_dodge_strategy) {
             attempt += (player->cpu_dodge_strategy * 3);
         }
         cpu_dodge_pattern = cpu_dodge_patterns[attempt];
@@ -202,9 +224,9 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
             player_pos_update_and_clamp(player->center);
         }
         if(radius_or_retry == 0) {
-            player_hittest(40 / 2);
+            player_hittest(CPU_HITTEST_RETRY_RADIUS);
         } else {
-            player_hittest(8 / 2);
+            player_hittest(CPU_HITTEST_CLOSE_RADIUS);
         }
         if(!player->is_hit) {
             break;
@@ -215,9 +237,9 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         attempt++;
         if(attempt < CPU_DIRECTIONS) {
             retry_region = (
-                (player_hittest_collision_top.x.v < TO_SP(80))
+                (player_hittest_collision_top.x.v < CPU_RETRY_LEFT_LIMIT)
                 ? CPU_RETRY_LEFT_COLUMN
-                : ((player_hittest_collision_top.x.v < TO_SP(176))
+                : ((player_hittest_collision_top.x.v < CPU_RETRY_MIDDLE_LIMIT)
                     ? CPU_RETRY_MIDDLE_COLUMN
                     : CPU_RETRY_RIGHT_COLUMN)
             );
@@ -225,9 +247,9 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         } else if(radius_or_retry < CPU_DIRECTIONS) {
             // Retained target branch, although attempt cannot wrap to zero
             // before this bounded retry loop finishes with ordinary state.
-            if(attempt == 0) {
+            if(!attempt) {
                 player->cpu_dodge_strategy++;
-                if(player->cpu_dodge_strategy >= 2) {
+                if(player->cpu_dodge_strategy >= CPU_DODGE_ALTERNATIVES) {
                     player->cpu_dodge_strategy = 0;
                 }
                 retry_region = (randring1_next16() % CPU_RETRY_REGIONS);
@@ -235,7 +257,7 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
             direction = cpu_retry_directions[retry_region][radius_or_retry];
             radius_or_retry++;
         } else {
-            if(player->gauge_charged <= 0x400) {
+            if(player->gauge_charged <= CPU_STUCK_BOMB_CHARGE_LIMIT) {
                 player_bomb(player);
             } else {
                 player->is_hit = true;
