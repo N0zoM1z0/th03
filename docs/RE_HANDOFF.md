@@ -6,6 +6,23 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Full Yumemi target/charged-shot and Gauge attack native source after647
+
+The v2 compiler overlay additionally supports the actual
+`cs_yume` physical source (ten complete original functions)
+outside the older 28-BOSS/gameplay scope. Its large charged-shot
+ring renderer and 8-case Gauge barrage timeline use typed, native
+C++ frame phase enums and exact unsigned `frame % 2`
+flicker. Target acquisition names boss=254, none=255 and
+first-formation=0 sentinels. Compiling a superficially equivalent
+Gauge `+=` was original-unequal and rejected. Both actual-source
+OMF-attested `af647g` native TC4/TLINK rounds verify
+**1,645 CODE bytes / 133 ordered literal FIXUPPs / 10 PUBLICs**,
+full original normal MAIN and Japanese program/1,553 relocations.
+See [after647 Yumemi charged-shot and Gauge review](MAIN_YUMEMI_CHARGESHOT_NATIVE_AFTER647_REVIEW.md).
+Only this physical object is recompiled; no cold replay or
+double canonical byte credit.
+
 ## Native full CPU target/dodge owner after646
 
 The scoped genuine Turbo C++/TLINK v2 source driver can now compile

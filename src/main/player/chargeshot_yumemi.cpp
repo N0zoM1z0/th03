@@ -20,11 +20,19 @@
 // linker relaxation of the far bullets_add ABI, not a near-return function.
 #pragma samecodeseg bullets_add
 
+// Two sentinels in the actual formation-index byte: the boss target
+// takes precedence, while 255 denotes no usable enemy formation.
+enum yumemi_target_marker_t {
+    YUME_TARGET_BOSS = 254,
+    YUME_TARGET_NO_FORMATION = 255,
+    YUME_TARGET_FIRST_FORMATION = 0,
+};
+
 void far pascal ellen_target_set(pid_t player)
 {
-    unsigned char formation = 255;
+    unsigned char formation = YUME_TARGET_NO_FORMATION;
     if(boss_active[player] != 0) {
-        target_formation_marker = 254;
+        target_formation_marker = YUME_TARGET_BOSS;
         ellen_target_x = boss_target_x;
         ellen_target_y = boss_target_y;
         return;
@@ -41,14 +49,14 @@ void far pascal ellen_target_set(pid_t player)
         }
         formation = p->formation_i;
         efe_p.enemy = p;
-        if(formation == 0) {
+        if(formation == YUME_TARGET_FIRST_FORMATION) {
             break;
         }
     }
-    if(formation == 255) {
+    if(formation == YUME_TARGET_NO_FORMATION) {
         ellen_target_x = TO_SP(144);
         ellen_target_y = TO_SP(300);
-        target_formation_marker = 255;
+        target_formation_marker = YUME_TARGET_NO_FORMATION;
         return;
     }
 
@@ -63,6 +71,21 @@ void far pascal ellen_target_set(pid_t player)
         ellen_target_y = TO_SP(300);
     }
 }
+
+// The charged projectile changes to its blooming hitbox at frame 64.
+// The ring renderer has separate eight-frame radii/phase intervals.
+enum yumemi_chargeshot_phase_t {
+    YUME_CHARGE_EFFECT_START = 24,
+    YUME_CHARGE_LIFETIME = 64,
+    YUME_RENDER_RING_8 = 8,
+    YUME_RENDER_RING_16 = 16,
+    YUME_RENDER_RING_24 = 24,
+    YUME_RENDER_RING_32 = 32,
+    YUME_RENDER_RING_40 = 40,
+    YUME_RENDER_RING_48 = 48,
+    YUME_RENDER_RING_56 = 56,
+    YUME_RENDER_RING_64 = 64,
+};
 
 void far pascal yumemi_chargeshots_reset(void)
 {
@@ -89,16 +112,16 @@ void far pascal chargeshot_update_yumemi(void)
     frame = ++p->frame;
     if(p->state == 1) {
         p->y.v -= TO_SP(4);
-        if(frame >= 64 || p->y.v <= 0) {
+        if(frame >= YUME_CHARGE_LIFETIME || p->y.v <= 0) {
             p->state = 2;
             p->frame = 0;
             snd_se_play(7);
         }
     } else {
-        if(frame >= 24 && (frame % 2) == 0) {
+        if(frame >= YUME_CHARGE_EFFECT_START && (frame % 2) == 0) {
             snd_se_play(15);
         }
-        if(frame >= 64) {
+        if(frame >= YUME_CHARGE_LIFETIME) {
             p->state = 0;
         }
     }
@@ -175,7 +198,7 @@ void far pascal chargeshot_render_yumemi(void)
     sprite16_clip_set_for_pid(pid_current);
     sprite_offset = pid.so_attack + 0xC80;
     frame = p->frame;
-    if(frame & 1) {
+    if((static_cast<unsigned int>(frame) % 2) != 0) {
         sprite_offset += 4;
     }
     if(p->state == 1) {
@@ -186,20 +209,20 @@ void far pascal chargeshot_render_yumemi(void)
     }
 
     sprite_offset += 0x500;
-    if(frame < 8) {
+    if(frame < YUME_RENDER_RING_8) {
         yumemi_chargeshot_ring_render(sprite_offset, TO_SP(frame * 8), 0);
-    } else if(frame < 16) {
+    } else if(frame < YUME_RENDER_RING_16) {
         yumemi_chargeshot_ring_render(sprite_offset, TO_SP((frame - 7) * 8), 32);
-    } else if(frame < 24) {
+    } else if(frame < YUME_RENDER_RING_24) {
         yumemi_chargeshot_ring_render(sprite_offset, TO_SP((frame - 15) * 8), 224);
-    } else if(frame < 32) {
+    } else if(frame < YUME_RENDER_RING_32) {
         yumemi_chargeshot_ring_render(sprite_offset, TO_SP((frame - 24) * 8), 0);
-    } else if(frame < 40) {
+    } else if(frame < YUME_RENDER_RING_40) {
         yumemi_chargeshot_ring_render(sprite_offset, TO_SP((frame - 31) * 8), 32);
-    } else if(frame < 48) {
+    } else if(frame < YUME_RENDER_RING_48) {
         yumemi_chargeshot_ring_render(sprite_offset, TO_SP((frame - 39) * 8), 224);
-    } else if(frame < 64) {
-        if(frame < 56) {
+    } else if(frame < YUME_RENDER_RING_64) {
+        if(frame < YUME_RENDER_RING_56) {
             yumemi_chargeshot_ring_render(
                 sprite_offset, TO_SP((frame - 47) * 8), 32
             );
@@ -210,6 +233,19 @@ void far pascal chargeshot_render_yumemi(void)
         yumemi_chargeshot_ring_render(sprite_offset, TO_SP((frame - 48) * 8), 0);
     }
 }
+
+// The original two interleaved triangular Gauge barrages are emitted
+// at these eight fixed frame counters. TC4 owns the switch jump table.
+enum yumemi_gauge_volley_t {
+    YUME_GAUGE_FIRST = 0,
+    YUME_GAUGE_SECOND = 8,
+    YUME_GAUGE_THIRD = 16,
+    YUME_GAUGE_FOURTH = 24,
+    YUME_GAUGE_FIFTH = 32,
+    YUME_GAUGE_SIXTH = 40,
+    YUME_GAUGE_SEVENTH = 48,
+    YUME_GAUGE_FINAL = 56,
+};
 
 void near pascal gauge_pattern_yumemi(unsigned int type)
 {
@@ -244,37 +280,37 @@ void near pascal gauge_pattern_yumemi(unsigned int type)
         // switch owns the original 32-byte value/jump table; no table bytes
         // are copied into source or used to constrain compiler output.
         switch(yumemi_gauge_frame[pid_current]) {
-        case 0:
+        case YUME_GAUGE_FIRST:
             x = TO_SP(144); y = TO_SP(32);
             break;
-        case 8:
+        case YUME_GAUGE_SECOND:
             x = TO_SP(96); y = TO_SP(80);
             break;
-        case 16:
+        case YUME_GAUGE_THIRD:
             x = TO_SP(192); y = TO_SP(80);
             bullet_template.center.x.v = TO_SP(144);
             bullet_template.center.y.v = TO_SP(32);
             break;
-        case 24:
+        case YUME_GAUGE_FOURTH:
             x = TO_SP(96); y = TO_SP(56);
             bullet_template.center.x.v = TO_SP(96);
             bullet_template.center.y.v = TO_SP(80);
             break;
-        case 32:
+        case YUME_GAUGE_FIFTH:
             x = TO_SP(192); y = TO_SP(56);
             bullet_template.center.x.v = TO_SP(192);
             bullet_template.center.y.v = TO_SP(80);
             break;
-        case 40:
+        case YUME_GAUGE_SIXTH:
             x = TO_SP(144); y = TO_SP(104);
             bullet_template.center.x.v = TO_SP(96);
             bullet_template.center.y.v = TO_SP(56);
             break;
-        case 48:
+        case YUME_GAUGE_SEVENTH:
             bullet_template.center.x.v = TO_SP(192);
             bullet_template.center.y.v = TO_SP(56);
             break;
-        case 56:
+        case YUME_GAUGE_FINAL:
             bullet_template.center.x.v = TO_SP(144);
             bullet_template.center.y.v = TO_SP(104);
             gba_flag_active[pid_current] = GBAF_NONE;
@@ -283,10 +319,10 @@ void near pascal gauge_pattern_yumemi(unsigned int type)
         }
         // x and y are only consumed on cases 0 through 40, which assign both.
         // The INIT/ACTIVE state machine ends at 56, so no later case executes.
-        if(yumemi_gauge_frame[pid_current] <= 40) {
+        if(yumemi_gauge_frame[pid_current] <= YUME_GAUGE_SIXTH) {
             bomb_axis_add(x, y, player_other);
         }
-        if(yumemi_gauge_frame[pid_current] >= 16) {
+        if(yumemi_gauge_frame[pid_current] >= YUME_GAUGE_THIRD) {
             bullets_add();
         }
     }
