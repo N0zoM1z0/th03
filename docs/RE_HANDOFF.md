@@ -6,6 +6,26 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Two shared BOSS physical native controllers after708
+
+The original two complete `ba_sring`/`ba_srest`
+physical BOSS TUs now compile native-exact natural
+`++i` in the 16+8 BOSS explosion ring sprite
+loops and `if(!boss_mode)` on original explosion
+completion. Genuine negative TC4 controls showed
+prefix `++boss_angle`, `++boss_pattern_i`
+and `if(pid_current)` replacing the explicit
+PID==1 comparison all change original CODE,
+so those original forms remain. Real source/packed
+BOSS template OMF-attested `af708f` dual
+TC4/TLINK rounds match **949 original CODE bytes,
+106 ordered literal FIXUPPs, eight PUBLICs**,
+complete normal MAIN/MAP and Japanese MZ.
+See [after708 shared BOSS review](MAIN_SHARED_BOSS_RING_AFTER708_REVIEW.md).
+Only the two affected physical original objects
+were compiled; no cold replay or extra canonical
+Factory packed-game byte credit.
+
 ## Player core ten-Hyper-handler source-native recovery after707
 
 The 3,135-CODE-byte complete `core` original source

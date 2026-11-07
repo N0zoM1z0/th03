@@ -77,7 +77,9 @@ signed char near pascal boss_explosion_ring(
 	length *= 8;
 	angle = length;
 
-	// Preserve the target's direct PID comparison instead of expanding the
+	// Native TC4 distinguishes pid_current==1 from if(pid_current)
+    // in this physical ring producer (negative control af708d).
+    // Preserve the target's direct PID comparison instead of expanding the
 	// generic (1 - pid) clip macro through a temporary register.
 	if(pid_current == 1) {
 		sprite16_clip.set_for_pid_0();
@@ -86,14 +88,14 @@ signed char near pascal boss_explosion_ring(
 	}
 	sprite16_put_size.set(48, 48);
 
-	for(i = 0; i < 16; (i++, angle += 0x10)) {
+	for(i = 0; i < 16; (++i, angle += 0x10)) {
 		left = (polar(x, length, CosTable8[angle]) - 24);
 		top = (polar(y, length, SinTable8[angle]) - 24);
 		sprite16_put(left, top, 0x1930);
 	}
 
 	angle = (0 - (unsigned char)length);
-	for(i = 0; i < 8; (i++, angle += 0x20)) {
+	for(i = 0; i < 8; (++i, angle += 0x20)) {
 		left = (polar(x, (length * 2), CosTable8[angle]) - 24);
 		top = (polar(y, (length * 2), SinTable8[angle]) - 24);
 		sprite16_put(left, top, 0x1930);
@@ -113,7 +115,9 @@ extern "C" void near boss_move_sine(void)
 {
 	boss_center_x += boss_velocity_x;
 	boss_center_y += boss_velocity_y;
-	boss_angle++;
+	// This 8-bit angle increment must stay postfix: prefix changes the
+    // native shared controller output (af708b).
+    boss_angle++;
 	boss_velocity_y = polar(0, 16, SinTable8[boss_angle]);
 
 	if(boss_center_x <= BOSS_TURN_LEFT_X) {
@@ -226,7 +230,9 @@ extern "C" void near boss_pattern_next(void)
 	boss_pattern_previous = pattern;
 	boss_frame = 0;
 	boss_mode = (pattern + 2);
-	boss_pattern_i++;
+	// The BOSS pattern-index postfix is also codegen-visible;
+    // ++boss_pattern_i failed original TC4 bytes (af708c).
+    boss_pattern_i++;
 	if(boss_pattern_i > boss_pattern_count) {
 		boss_mode = 0x80;
 	}
@@ -235,7 +241,7 @@ extern "C" void near boss_pattern_next(void)
 extern "C" void near boss_explosion_render(void)
 {
 	boss_mode = boss_explosion_ring(boss_center_x, boss_center_y, boss_frame);
-	if(boss_mode == 0) {
+	if(!boss_mode) {
 		gba_boss_launched_by = PID_NONE;
 	}
 }
