@@ -19,7 +19,7 @@ byte mode enumeration.
 The **first** native trial of these modified expressions, `af720a`,
 compiled two real original Turbo C++ 4.02 objects and linked each into
 the complete source-native MAIN. **All 1,675 original CODE bytes, 213
-literal ordered native FIXUPP fields and 10 PUBLIC offsets** matched,
+literal ordered native FIXUPP fields and 9 PUBLIC offsets** matched,
 including segment definitions, full original TLINK MAIN/MAP, Japanese
 loaded program and 1,553 original relocations. Independent standard MZ
 serialization reproduced the complete Japanese MAIN.EXE in both rounds.

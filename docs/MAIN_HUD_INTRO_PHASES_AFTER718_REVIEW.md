@@ -22,10 +22,10 @@ The **long HUD update and rendering state machines** now share explicit
 four-stage C++ phase names: slide, banner, star initialization and star
 motion. The reset/running/stopped flag protocol, separately initialized
 16 slide strips and two 64-star banks (128 total), and the original RNG
-draws in each bank remain distinct. Six original update/render loops
+draws in each bank remain distinct. Seven original update/render loops
 now use natural prefix `++i` for the signed register index without
 changing the original global particle-pointer mutations or codegen. The
-three low-level video functions' original hardware semantics remain intact.
+two low-level video functions' original hardware semantics remain intact.
 
 We also challenged a real limitation, rather than assuming all apparent
 C++ simplification is exact. `af718b` attempted direct natural

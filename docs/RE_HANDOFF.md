@@ -10,23 +10,34 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest current-source affected-scope MAIN proof: `af715a`.** Two
-  independent original TC4 4.02 / TLINK rounds rebuilt **four complete
-  changed original physical TUs** together: Yumemi and Chiyuri **major
-  BOSSes**, entire main **entry/stage/frame scheduler**, and all four CPU
-  direction/target/dodge functions. All **9,139 CODE bytes, 1,221 literal
-  ordered native FIXUPPs and 33 PUBLIC offsets**, native source dependencies,
-  original normal MAIN/MAP and both Japanese loaded programs/1,553 ordered MZ
-  relocations matched. 95 other original project objects and original CRT
-  were reused, **not recompiled**. Independent standard MZ serialization
-  reproduces the complete original 130,882-byte Japanese MAIN.EXE.
-- **New source-binding route:** the scoped native compiler now accepts the
-  full `entry` physical TU, rooted in current maintained `entry.cpp` and
-  four explicitly checked included `.inl` bodies. This avoids accidental
-  reuse of a stale old round-loop implementation. The source has new named
-  `0/1/2` outcome states, 16-bit frame timers, natural guard checks.
-  Yumemi, Chiyuri and CPU control, collision and rendering paths likewise
-  have native-exact natural C++ and original temporal/subpixel semantics.
+- **Latest current-source affected-scope MAIN proof: `af721a`.** Two
+  independent original TC4 4.02 / TLINK rounds simultaneously rebuilt
+  **five genuinely modified complete original physical TUs**: Marisa,
+  Mima and Ellen **large BOSSes**, full `intro` HUD particle/animation
+  and the complete Bullet/trail engine. All **9,191 CODE bytes, 1,030
+  ordered literal native FIXUPPs and 51 PUBLIC offsets**, original
+  source and intro `.inl` dependencies, full normal MAIN/MAP, Japanese
+  loaded programs and all 1,553 MZ relocations matched. 94 other original
+  project objects and original CRT were reused, **not recompiled**.
+  Independent standard MZ serialization reproduced the complete original
+  130,882-byte Japanese MAIN.EXE.
+- **Previous current-source checkpoint retained separately:** `af715a`
+  compiled four complete modified TUs together: Yumemi/Chiyuri **BOSSes**,
+  main `entry`/stage/frame scheduler and full CPU movement/dodge logic.
+  That retained scope matched 9,139 original CODE bytes, 1,221 ordered
+  fixups and 33 PUBLICs. It was not rebuilt again in after721. This is
+  **not** an additional disjoint byte-ownership count.
+- **New source-binding routes:** the scoped native compiler now accepts
+  both the full `entry` physical TU with its four current included `.inl`
+  implementations **and** the full `intro` physical TU with its three
+  current HUD particle/renderer `.inl` implementations. Borland OMF
+  dependencies are forced and independently reviewed, rather than trusting
+  stale historical include copies. Marisa/Mima hardware-masked BOSS
+  renderers now naturally allocate the historical SI local; Ellen's
+  large radial/three-strip controllers, Bullet loops and HUD particle
+  state machine have newly source-verified natural C++ operations. The
+  register-specific hardware instructions that could not compile exactly
+  from C++ are intentionally retained; see negative stages.
 - **Previous after709 proof remains separately retained:** `af709a`
   rebuilt five original Kana/split-shared-BOSS/core/lose TUs (6,622 CODE,
   701 ordered FIXUPPs and 42 PUBLICs) in two rounds, with original MAIN/MAP
@@ -50,8 +61,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the combined after715 four-source review](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
-and [the after709 five-source review](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
+Read [the combined after721 five-source review](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
+[the previous after715 four-source review](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
+and [the historical after709 union](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
 for exact scopes, controls, provenance and replay limitations.
 
 ### Fast, non-rebuilding verification
@@ -61,6 +73,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af715a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af709a
 .venv/bin/python scripts/validate_tracking.py
@@ -69,16 +82,19 @@ git diff --check
 ```
 
 The latest protected read-only proof root is
-`.analysis/work/exatt-layout-af715a/report.json`, including both actual
-rounds and source/inlined dependency snapshots.
+`.analysis/work/exatt-layout-af721a/report.json`, including both actual
+rounds and all three HUD `.inl` dependency snapshots.
+Earlier protected proof `.analysis/work/exatt-layout-af715a/report.json`
+remains source-bound and unchanged.
 Evidence roots (ignored but **protected**) also include
 `.analysis/work/exatt-layout-af709a/report.json` plus its actual
 two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [after715 native integration report](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
-and the [after709 cumulative report](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
+Review the [after721 current integration report](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
+[after715 prior integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
+and [after709 cumulative report](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
 for numbers, limits and exact commands. A new rebuild needs a **fresh
 DOS-safe stage ID**; do not overwrite prior receipts.
 
