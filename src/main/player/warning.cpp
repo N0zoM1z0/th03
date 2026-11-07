@@ -2,6 +2,17 @@
 // Source-bound original warning/Gauge controller, proven by native TC4.
 #pragma codeseg PLAYER_M_TEXT main_01
 #include "src/main/player/warning.hpp"
+// Flash and portrait stages use the original 16-bit frame and typed
+// byte gauge fields. These constants emit no extra native DATA allocation.
+enum warning_native_timing_t {
+    WARNING_FLASH_FRAME_COUNT = 27,
+    WARNING_FLASH_TONE_NORMAL = 100,
+    WARNING_FLASH_TONE_ALTERNATE = 50,
+    WARNING_CLEAR_TEXT_FIRST_ROW = 11,
+    WARNING_CLEAR_TEXT_ROW_COUNT = 6,
+    WARNING_FLASH_FADE_HALF = 15,
+    WARNING_GAUGE_PULSE_PEAK = 0x90,
+};
 
 void near round_pause_or_quit(void)
 {
@@ -13,7 +24,9 @@ void near round_pause_or_quit(void)
     snd_se_reset();
     snd_se_play(21);
     snd_se_update();
-    while(input_sp != INPUT_NONE) {
+    // This release-poll is a typed C++ for-loop; original TC4 still
+    // emits the same BIOS polling order and VSYNC delay (af850b).
+    for(; input_sp != INPUT_NONE; ) {
         input_reset_sense_key_held();
         frame_delay(1);
     }
@@ -26,7 +39,7 @@ void near round_pause_or_quit(void)
         if(input_sp & INPUT_CANCEL) break;
         frame_delay(1);
     }
-    while(input_sp != INPUT_NONE) {
+    for(; input_sp != INPUT_NONE; ) {
         input_reset_sense_key_held();
         frame_delay(1);
     }
@@ -41,7 +54,7 @@ void near round_C830(void)
     egc_on();
     asm { call near ptr hud_gauge_highlights_restore }
     egc_off();
-    if(players[0].hyper_active && ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0)) {
+    if(players[0].hyper_active && ((round_or_result_frame % 2) != 0)) {
         color = players[0].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -54,7 +67,7 @@ void near round_C830(void)
             out 07Ch, ax
         }
     }
-    if(players[1].hyper_active && ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0)) {
+    if(players[1].hyper_active && ((round_or_result_frame % 2) != 0)) {
         color = players[1].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -78,7 +91,7 @@ void near round_C8C4(void)
     register int available_p2 = players[1].gauge_avail >> 4;
     available_p1 -= static_cast<int>(charged_p1);
     if(available_p1 > 0) {
-        if(!players[0].hyper_active || ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0))
+        if(!players[0].hyper_active || ((round_or_result_frame % 2) != 0))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -88,7 +101,7 @@ void near round_C8C4(void)
     }
     available_p2 -= static_cast<int>(charged_p2);
     if(available_p2 > 0) {
-        if(!players[1].hyper_active || ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0))
+        if(!players[1].hyper_active || ((round_or_result_frame % 2) != 0))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -170,11 +183,11 @@ void far round_CA3C(void)
         warning_flag[1] = WF_FLASH_RED;
         warning_text_put(1, TX_WHITE);
     }
-    for(frame = 0; frame < 27; frame++) {
+    for(frame = 0; frame < WARNING_FLASH_FRAME_COUNT; frame++) {
         input_reset_sense_key_held();
         if(input_sp & INPUT_CANCEL) round_pause_or_quit();
         frame_delay(1);
-        PaletteTone = 100 + (static_cast<unsigned int>(frame) % 2) * 50;
+        PaletteTone = WARNING_FLASH_TONE_NORMAL + (static_cast<unsigned int>(frame) % 2) * WARNING_FLASH_TONE_ALTERNATE;
         palette_show();
     }
 }
@@ -211,11 +224,17 @@ void far pascal round_CB81(pid_t player)
     pid_t attacked = 1 - player;
     register unsigned int i;
     register unsigned int attribute_or_y;
+    // The warning flag is a physical byte, not a 16-bit frame. Keep the
+    // explicit unsigned promotion before its parity remainder; removing
+    // it compiled non-original CODE (af850d).
     if(warning_flag_bytes[player] >= WF_FLASH_RED) {
         if(warning_flag_bytes[player] == WF_FLASH_RED)
             warning_brightness[player] = 0;
         if(warning_flag_bytes[player] < WF_FLASH_RED_END) {
-            if(warning_flag_bytes[player] < (WF_FLASH_RED + 15))
+            // Literal byte +/-13 and +/-4 below reuse the original AL/
+            // memory form; enum-valued byte updates changed TC4 CODE
+            // (af850f), even though the phase bounds may be named.
+            if(warning_flag_bytes[player] < (WF_FLASH_RED + WARNING_FLASH_FADE_HALF))
                 warning_brightness[player] += 13;
             else warning_brightness[player] -= 13;
             warning_flag_bytes[player]++;
@@ -246,7 +265,7 @@ void far pascal round_CB81(pid_t player)
         } else {
             x = 4;
             if(attacked == 1) x += 40;
-            for(i = 0, attribute_or_y = 11; i < 6; (i++, attribute_or_y++)) {
+            for(i = 0, attribute_or_y = WARNING_CLEAR_TEXT_FIRST_ROW; i < WARNING_CLEAR_TEXT_ROW_COUNT; (i++, attribute_or_y++)) {
                 text_putsa(x, attribute_or_y, warning_clear_line, TX_WHITE);
             }
             // Preserve the original word push; the far-Pascal callee uses its low byte.
@@ -264,9 +283,9 @@ void far pascal round_CB81(pid_t player)
     }
     // Deliberate fall-through: first active tick runs in the completion call.
     if(gba_flag_active[player] != GBAF_NONE) {
-        if(warning_fading_out[player] == 0) {
+        if(!warning_fading_out[player]) {
             warning_brightness[player] += 4;
-            if(warning_brightness[player] >= 0x90)
+            if(warning_brightness[player] >= WARNING_GAUGE_PULSE_PEAK)
                 warning_fading_out[player] = 1;
         } else {
             warning_brightness[player] -= 4;

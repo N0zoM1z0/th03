@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After850: full warning/Gauge/portrait and palette controls
+
+- The full seven-function original `warning` owner now omits redundant
+  unsigned casts on four **16-bit word-frame `%2`** checks, uses two
+  natural C++ `for` key-release polling loops and a zero-truth Gauge
+  brightness test, with original named 27-frame flash/row/tones.
+- Fresh original TC4 negatives: removing unsigned promotion from a
+  **byte** warning flag `%2` grew the original CODE to **1,569** vs
+  **1,560** (`af850d`); naming four live byte brightness `+=/-=`
+  constants generated **1,521** bytes (`af850f`). Restored exact
+  byte operations. Final `af850h` passes two original TC4/full normal
+  MAIN TLINK rounds: **1,560 CODE bytes, 125 ordered native FIXUPPs,
+  7 PUBLICs**, original Japanese MAIN and all 1,553 relocations exact.
+  98 other objects/CRT reused, no cold replay. See
+  [after850 full warning/Gauge review](MAIN_WARNING_GAUGE_NATIVE_AFTER850_REVIEW.md).
+  Existing source owner; no additional unique CODE or canonical credit.
+
 ## After849: complete Combo HUD and BOSS/Panic helper source
 
 - The two complete original physical Combo objects (`p_combo`,
