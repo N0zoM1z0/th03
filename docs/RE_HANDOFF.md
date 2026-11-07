@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After916: full shared BOSS ring and seven core lifecycle helpers
+
+- The entire original `shared.cpp` BOSS implementation maps to two
+  real physical original owners `ba_sring,ba_srest`. The complete
+  16-sprite primary/8-sprite secondary ring renderers now use native-
+  exact natural `while`, as does the full core random BOSS pattern
+  rejection loop. Original clip calls, 32-byte `rep movsw` state ABI,
+  signed radius and separate near/far calls remain intact.
+- Fresh original TC4 negatives: unary replacement of binary negative
+  angle changed `ba_sring` CODE (`af916d`), prefixing either byte
+  BOSS angle/pattern index grew `ba_srest` **601 to 602 CODE**
+  (`af916e/f`), and explicit `length = length*8` changed native
+  original CODE (`af916g`). Restored all original forms. Final
+  `af916h` simultaneously compiled both original owners in **two
+  genuine TC4/full normal MAIN TLINK rounds**: **949 CODE bytes,
+  106 ordered native FIXUPPs and 8 PUBLICs**, original Japanese MAIN
+  and 1,553 relocations exact, 97 other project objects/CRT reused.
+  See [after916 original BOSS core review](MAIN_BOSS_SHARED_NATIVE_RING_AFTER916_REVIEW.md).
+  Historical source-covered bytes, no new Factory/canonical credit.
+
 ## Latest after915: five edited original physical MAIN owners compiled together
 
 - Actual `af915a` **simultaneously recompiled all five complete original

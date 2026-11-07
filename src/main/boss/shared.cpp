@@ -37,6 +37,10 @@ enum boss_shared_limits_t {
     BOSS_PATTERN_MODE_OFFSET = 2,
     BOSS_PATTERN_COUNT_MASK = 7,
     BOSS_RING_PRIMARY_SPRITES = 16,
+    BOSS_RING_PRIMARY_ANGLE_STEP = 0x10,
+    BOSS_RING_SECONDARY_ANGLE_STEP = 0x20,
+    BOSS_RING_SPRITE_SIZE = 48,
+    BOSS_RING_SPRITE_HALF = 24,
     BOSS_RING_SECONDARY_SPRITES = 8,
     BOSS_RING_SPRITE_OFFSET = 0x1930,
     BOSS_RING_FINISH_RADIUS = 0xC8,
@@ -89,6 +93,8 @@ signed char near pascal boss_explosion_ring(
 	y = ((y >> 4) + PLAYFIELD_TOP);
 	// Original multiply encoding cannot be replaced by <<=3
 	// (rejected complete original ring in af768d).
+	// Explicit `length = length * 8` changes native CODE (af916g);
+	// keep the original signed-word compound multiplication.
 	length *= 8;
 	angle = length;
 
@@ -101,21 +107,31 @@ signed char near pascal boss_explosion_ring(
 	} else {
 		sprite16_clip.set_for_pid_1();
 	}
-	sprite16_put_size.set(48, 48);
+	sprite16_put_size.set(BOSS_RING_SPRITE_SIZE, BOSS_RING_SPRITE_SIZE);
 
-	for(i = 0; i < BOSS_RING_PRIMARY_SPRITES; (++i, angle += 0x10)) {
-		left = (polar(x, length, CosTable8[angle]) - 24);
-		top = (polar(y, length, SinTable8[angle]) - 24);
+	// Sixteen primary sprites: exact original call order and post-draw
+	// signed index/byte angle increments (native af916a).
+	i = 0;
+	while(i < BOSS_RING_PRIMARY_SPRITES) {
+		left = (polar(x, length, CosTable8[angle]) - BOSS_RING_SPRITE_HALF);
+		top = (polar(y, length, SinTable8[angle]) - BOSS_RING_SPRITE_HALF);
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
+		++i;
+		angle += BOSS_RING_PRIMARY_ANGLE_STEP;
 	}
 
 	// Signed-angle two-operand subtraction remains byte-critical:
 	// direct unary minus changed original CODE (af768e).
 	angle = (0 - (unsigned char)length);
-	for(i = 0; i < BOSS_RING_SECONDARY_SPRITES; (++i, angle += 0x20)) {
-		left = (polar(x, (length * 2), CosTable8[angle]) - 24);
-		top = (polar(y, (length * 2), SinTable8[angle]) - 24);
+	// Eight secondary sprites at double radius. Binary zero-minus
+	// before this native while differs from unary minus (af916d).
+	i = 0;
+	while(i < BOSS_RING_SECONDARY_SPRITES) {
+		left = (polar(x, (length * 2), CosTable8[angle]) - BOSS_RING_SPRITE_HALF);
+		top = (polar(y, (length * 2), SinTable8[angle]) - BOSS_RING_SPRITE_HALF);
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
+		++i;
+		angle += BOSS_RING_SECONDARY_ANGLE_STEP;
 	}
 
 	if(length >= BOSS_RING_FINISH_RADIUS) {
@@ -134,7 +150,8 @@ extern "C" void near boss_move_sine(void)
 	boss_center_y += boss_velocity_y;
 	// This 8-bit angle increment must stay postfix: prefix changes the
     // native shared controller output (af708b).
-    boss_angle++;
+    // Keep byte postfix; prefix changed actual TC4 CODE (af916e).
+	boss_angle++;
 	boss_velocity_y = polar(0, 16, SinTable8[boss_angle]);
 
 	if(boss_center_x <= BOSS_TURN_LEFT_X) {
@@ -236,7 +253,9 @@ extern "C" void near boss_pattern_next(void)
 		return;
 	}
 
-	for(;;) {
+	// Each rejected pattern still consumes a separate RNG word;
+	// natural while preserves the exact recency window (af916b).
+	while(1) {
 		pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
 		if(!(
 			((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
@@ -251,7 +270,8 @@ extern "C" void near boss_pattern_next(void)
 	boss_mode = (pattern + BOSS_PATTERN_MODE_OFFSET);
 	// The BOSS pattern-index postfix is also codegen-visible;
     // ++boss_pattern_i failed original TC4 bytes (af708c).
-    boss_pattern_i++;
+    // Keep byte postfix; prefix changed actual TC4 CODE (af916f).
+	boss_pattern_i++;
 	if(boss_pattern_i > boss_pattern_count) {
 		boss_mode = BOSS_DESCEND_MODE;
 	}
