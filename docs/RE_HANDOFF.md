@@ -6,6 +6,23 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri full BOSS four-pass fan and native sprite arithmetic after680
+
+All **four** horizontal/vertical Chiyuri BOSS fan
+emission passes now compile from natural original-code-equal
+`(i*0x70/count)*16` centered coordinates and
+`(i*64)/count` spread angles, preserving integer
+division before scaling. The major update's palette
+angle and both ring/main sprite renderers use natural
+`boss_move_phase*16`, `boss_effect_radius*16`
+and `boss_render_frame*4`. Real source/header-OMF-attested
+`af680d` original TC4/TLINK dual rounds reproduce the
+**entire 2,654 CODE bytes, 381 ordered literal FIXUPPs
+and 11 PUBLICs**, full MAIN EXE/MAP and Japanese MZ.
+See [after680 Chiyuri BOSS fan review](MAIN_CHIYURI_FAN_NATIVE_ARITH_AFTER680_REVIEW.md).
+Only this complete original physical object rebuilt;
+no cold replay or extra Factory packed-code byte credit.
+
 ## Rikako full BOSS natural intro geometry and sprite selection after679
 
 The complete Rikako BOSS is now original-machine-code exact

@@ -278,6 +278,9 @@ enum chiyuri_fan_phase_t {
     CHIYURI_FAN_VERTICAL_FRAME = 0x40,
 };
 
+// The fan coordinates divide the 16-bit polar range BEFORE scaling
+// to subpixels. Natural C++ multiplication is original-native here;
+// changing the division order would change trajectory rounding.
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
@@ -300,10 +303,10 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
-				(((i * 0x70) / chiyuri_fan_count) << 4)
+				(((i * 0x70) / chiyuri_fan_count) * 16)
 			);
 			bullet_template.angle = (
-				0x60 - ((i << 6) / chiyuri_fan_count)
+				0x60 - ((i * 64) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -317,10 +320,10 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
-				(((i * 0x70) / chiyuri_fan_count) << 4)
+				(((i * 0x70) / chiyuri_fan_count) * 16)
 			);
 			bullet_template.angle = (
-				0x60 - ((i << 6) / chiyuri_fan_count)
+				0x60 - ((i * 64) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -352,10 +355,10 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
-			(((i * 0x70) / chiyuri_fan_count) << 4)
+			(((i * 0x70) / chiyuri_fan_count) * 16)
 		);
 		bullet_template.angle = (
-			((i << 6) / chiyuri_fan_count) - 0x20
+			((i * 64) / chiyuri_fan_count) - 0x20
 		);
 		bullets_add();
 
@@ -366,10 +369,10 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
-			(((i * 0x70) / chiyuri_fan_count) << 4)
+			(((i * 0x70) / chiyuri_fan_count) * 16)
 		);
 		bullet_template.angle = (
-			((i << 6) / chiyuri_fan_count) - 0x20
+			((i * 64) / chiyuri_fan_count) - 0x20
 		);
 		bullets_add();
 
@@ -497,7 +500,7 @@ void far gba_boss_update_chiyuri(void)
 	if(boss_move_phase != 0) {
 		boss_move_phase--;
 		if(boss_move_phase != 0) {
-			bomb_palette_step((boss_move_phase << 4), pid_other);
+			bomb_palette_step((boss_move_phase * 16), pid_other);
 		}
 	}
 
@@ -524,6 +527,7 @@ void far gba_boss_update_chiyuri(void)
 	boss_hittest_end();
 }
 
+// Natural radius*16 and render-frame*4 generate TC4's original shifts.
 void near chiyuri_render_ring(void)
 {
 	screen_y_t top;
@@ -535,13 +539,13 @@ void near chiyuri_render_ring(void)
 	register screen_x_t left;
 
 	pid_other = (1 - pid_current);
-	radius = (boss_effect_radius << 4);
+	radius = (boss_effect_radius * 16);
 
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 
 	sprite_offset = (boss_sprite_offset + 0x790);
-	sprite_offset += (boss_render_frame << 2);
+	sprite_offset += (boss_render_frame * 4);
 
 	for(
 		i = 0, angle = boss_move_phase;
@@ -600,7 +604,7 @@ void near chiyuri_render_main(void)
 
 		sprite16_put_size.w = 32;
 		sprite16_put_size.h = 24;
-		sprite_offset += ((boss_render_frame << 2) + 0x0C);
+		sprite_offset += ((boss_render_frame * 4) + 0x0C);
 		sprite16_put(left, top, sprite_offset);
 		return;
 	}
