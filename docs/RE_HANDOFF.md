@@ -6,6 +6,27 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest 38-owner original-source-native MAIN proof after663
+
+The fresh `af663a` genuine Turbo C++/TLINK two-round
+integration now recompiles **38 complete original physical
+TUs**: the prior 34 gameplay/BOSS/Extra Attack/CPU/charged-shot
+owners, plus four fully recovered Kana/Rikako/Mima/Reimu
+charged-shot/Gauge sources (after658-661). Current Chiyuri
+BOSS entrance `frame*8` source recovery is included.
+Actual edited-source/packed-header OMF COMENT dependencies
+are verified by both compiler writer and independent
+read-only review. Both native rounds match **47,709
+original CODE bytes, 4,884 literal ordered native FIXUPP
+fields, 280 PUBLIC offsets**, full original normal MAIN
+EXE/MAP, all 124,642 Japanese loaded program bytes and
+1,553 MZ relocations. Independently serialized standard
+MZ exactly matches the original 130,882-byte Japanese file.
+Other 61 original project objects and CRT reused; no
+full cold replay, newly accepted packed-game Factory credit
+or original vendor OMF packet identity is claimed. See
+[after663 38-object native integration](MAIN_THIRTYEIGHT_BOSS_CHARGESHOT_AFTER663_NATIVE_REVIEW.md).
+
 ## Chiyuri BOSS complete source and natural intro radius after662
 
 The current Chiyuri big BOSS TU uses original-byte-producing
