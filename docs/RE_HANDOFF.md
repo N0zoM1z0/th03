@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After881: full Marisa BOSS and genuinely natural native byte assignment
+
+- The complete nine-function `ba_maris` **major BOSS** now has natural
+  unsigned frame `%4/%32` truth gates, named collision and three masked
+  intro render planes. A crucial fresh TC4 discovery: while mutable
+  `marisa_bullet_angle += ENUM_7` previously failed native codegen,
+  **`marisa_bullet_angle = marisa_bullet_angle + ENUM_7` passes** with
+  every original instruction, independently repeated with a byte cast.
+- Original integer ring division `256 / byte_count` **must not be
+  explicitly widened to unsigned** (`af881h`, CODE changed at offset
+  394). Final `af881i` passes two original TC4 4.02/normal full TLINK
+  rounds: **1,431 CODE bytes, 199 ordered native FIXUPPs, 9 PUBLICs**,
+  full original Japanese MAIN and 1,553 MZ relocations exact. 98 other
+  project objects/CRT reused; no cold replay. See
+  [after881 complete Marisa BOSS review](MAIN_MARISA_BOSS_NATURAL_ANGLE_AFTER881_REVIEW.md).
+  Historical source-owned CODE, not new unique Factory packed credit.
+
 ## After880: shared Chain 1/Chain 2 original periodic state machine
 
 - The *actual shared* current `background/phase.inl` now gives all eleven

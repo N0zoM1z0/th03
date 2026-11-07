@@ -1,7 +1,7 @@
-// Maintained natural Turbo C++ reconstruction of the complete Marisa
-// contribution inside TH03 MAIN_03_TEXT. Object-level producer shape is
-// verified; full-link exact promotion remains a separate gate. Shared boss
-// helpers and historical state remain owned by the frozen carrier.
+// Complete current source-native Turbo C++ reconstruction for the
+// original Marisa major BOSS physical owner inside TH03 MAIN_03_TEXT.
+// The full original normal Japanese MAIN link is exact. Shared BOSS
+// helpers/storage and canonical Factory acceptance are separate gates.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/marisa.hpp"
@@ -106,6 +106,7 @@ enum marisa_spread_phase_t {
     MARISA_SPREAD_START = 0x20,
     MARISA_SPREAD_FINISH = 0x50,
     MARISA_SPREAD_PERIOD = 4,
+    MARISA_SPREAD_ANGLE_STEP = 7,
 };
 
 // The full BOSS update owns spread/ring clocks and main/split renderers.
@@ -118,6 +119,17 @@ enum marisa_native_frame_timing_t {
     MARISA_MAIN_FLICKER_FIRST_HALF = 2,
     MARISA_SPLIT_START_RADIUS = 0xC8,
     MARISA_RING_FULL_TURN = 256,
+    MARISA_COLLISION_TILE_SIZE = 56,
+    MARISA_COLLISION_HALF_RADIUS = TO_SP(32),
+    MARISA_RENDER_MAIN_WIDTH = 176,
+    MARISA_RENDER_MAIN_HEIGHT = 96,
+    MARISA_RENDER_MAIN_LEFT_OFFSET = 88,
+    MARISA_RENDER_MAIN_TOP_OFFSET = 32,
+    MARISA_RENDER_DAMAGE_WIDTH = 48,
+    MARISA_RENDER_DAMAGE_HEIGHT = 80,
+    MARISA_RENDER_MASK_FIRST = 0xAAAA,
+    MARISA_RENDER_MASK_SECOND = 0x5555,
+    MARISA_RENDER_MASK_RESET = 0xFFFF,
 };
 
 void near marisa_pattern_spread(void)
@@ -130,7 +142,9 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = 0;
 	}
 	if(boss_frame < MARISA_SPREAD_FINISH) {
-		if((boss_frame % MARISA_SPREAD_PERIOD) != 0) {
+		// Natural unsigned word-frame remainder truth check emits the
+	// original spread gate (fresh native TC4 af881a).
+	if(boss_frame % MARISA_SPREAD_PERIOD) {
 			return;
 		}
 
@@ -146,9 +160,10 @@ void near marisa_pattern_spread(void)
 		bullet_template.speed.v = (marisa_bullet_speed / 2);
 		bullets_add();
 
-		// Keep the literal byte-field step: enum-valued 7 selects a different
-        // AL/memory form in genuine TC4 (failed stage af830b).
-        marisa_bullet_angle += 7;
+		// Original TC4 rejects `angle += ENUM` (historical af830b)
+		// but DOES compile the natural `angle = angle + ENUM` to exactly
+		// the original byte-memory instructions (fresh af881e/f/g).
+		marisa_bullet_angle = marisa_bullet_angle + MARISA_SPREAD_ANGLE_STEP;
 		return;
 	}
 	boss_render_mode = 0;
@@ -230,7 +245,9 @@ void near marisa_pattern_ring(void)
 {
 	boss_move_sine();
 
-	if((boss_frame % MARISA_RING_PERIOD) == 0) {
+	// Same original unsigned-word period uses a natural zero remainder
+	// truth check, independent of the mutable byte angle (af881b).
+	if(!(boss_frame % MARISA_RING_PERIOD)) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
@@ -245,6 +262,8 @@ void near marisa_pattern_ring(void)
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullets_add();
 
+			// Preserve the signed 16-bit promotion/division of the byte
+			// ring count. Explicit unsigned widening changed CODE (af881h).
 			bullet_template.angle += (MARISA_RING_FULL_TURN / marisa_ring_count);
 			bullet_template.count = marisa_cloud_count_high;
 		}
@@ -361,14 +380,14 @@ void far gba_boss_update_marisa(void)
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(56);
-	collmap_tile_h.set(56);
+	collmap_stripe_tile_w.set(MARISA_COLLISION_TILE_SIZE);
+	collmap_tile_h.set(MARISA_COLLISION_TILE_SIZE);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = MARISA_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = MARISA_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -388,13 +407,13 @@ void near marisa_render_main(void)
 	register screen_y_t top;
 
 	pid_other = (1 - pid_current);
-	sprite16_put_size.set(176, 96);
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 88);
-	top = ((boss_center_y >> 4) - 32);
+	sprite16_put_size.set(MARISA_RENDER_MAIN_WIDTH, MARISA_RENDER_MAIN_HEIGHT);
+	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - MARISA_RENDER_MAIN_LEFT_OFFSET);
+	top = ((boss_center_y >> 4) - MARISA_RENDER_MAIN_TOP_OFFSET);
 	sprite16_put(left, top, boss_sprite_offset);
 
 	if(boss_hit) {
-		sprite16_put_size.set(48, 80);
+		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
 		left += 64;
 		top += 16;
 		sprite16_put(left, top, (boss_sprite_offset + 0x16));
@@ -407,7 +426,7 @@ void near marisa_render_main(void)
 		(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
 		MARISA_MAIN_FLICKER_FIRST_HALF
 	) {
-		sprite16_put_size.set(48, 80);
+		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
 		left += 64;
 		top += 16;
 		sprite16_put(left, top, (boss_sprite_offset + 0x1C));
@@ -434,22 +453,24 @@ void near pascal marisa_render_split(int offset)
 	register screen_x_t left;
 
 	pid_other = (1 - pid_current);
-	sprite16_put_size.set(176, 96);
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 88);
-	top = ((boss_center_y >> 4) - 32);
+	sprite16_put_size.set(MARISA_RENDER_MAIN_WIDTH, MARISA_RENDER_MAIN_HEIGHT);
+	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - MARISA_RENDER_MAIN_LEFT_OFFSET);
+	top = ((boss_center_y >> 4) - MARISA_RENDER_MAIN_TOP_OFFSET);
 
+	// Two distinct original alternating VRAM mask planes and the final
+	// all-bits restore stay explicit, not collapsed into generic draw calls.
 	_AH = SPRITE16_SET_MASK;
-	_DX = 0xAAAA;
+	_DX = MARISA_RENDER_MASK_FIRST;
 	geninterrupt(SPRITE16);
 	sprite16_put((left - signed_offset), top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
-	_DX = 0x5555;
+	_DX = MARISA_RENDER_MASK_SECOND;
 	geninterrupt(SPRITE16);
 	sprite16_put((left + signed_offset), top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
-	_DX = 0xFFFF;
+	_DX = MARISA_RENDER_MASK_RESET;
 	geninterrupt(SPRITE16);
 }
 
