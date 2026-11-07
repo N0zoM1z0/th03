@@ -197,6 +197,9 @@ enum ellen_extra_phase_t {
     ELLEN_EXTRA_WARN_LAST = 0x28,
     ELLEN_EXTRA_FIRST_BURST = 0x30,
     ELLEN_EXTRA_LAST_BURST = 0x60,
+    ELLEN_EXTRA_FULL_TURN_UNITS = 256,
+    ELLEN_EXTRA_FIRST_MODE = 2,
+    ELLEN_EXTRA_LAST_MODE = -2,
 };
 
 void near ellen_pattern_extra(void)
@@ -223,13 +226,13 @@ void near ellen_pattern_extra(void)
 		for(
 			i = 0, angle = randring_far_next16();
 			i < ellen_extra_count;
-			(++i, angle += (256 / ellen_extra_count))
+			(++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count))
 		) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
-				2
+				ELLEN_EXTRA_FIRST_MODE
 			);
 		}
 		return;
@@ -240,19 +243,33 @@ void near ellen_pattern_extra(void)
 		for(
 			i = 0, angle = randring_far_next16();
 			i < ellen_extra_count;
-			(++i, angle += (256 / ellen_extra_count))
+			(++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count))
 		) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
-				-2
+				ELLEN_EXTRA_LAST_MODE
 			);
 		}
 		boss_mode = 1;
 		boss_frame = 0;
 	}
 }
+
+// These three independent sprite strips share one original signed
+// nine-entry table cycle but have three separate physical call sites.
+enum ellen_native_renderer_timing_t {
+    ELLEN_STRIP_TABLE_ENTRIES = 9,
+    ELLEN_STRIP_WRAP_LAST = ELLEN_STRIP_TABLE_ENTRIES - 1,
+    ELLEN_STRIP_ANIM_PERIOD = 4,
+    ELLEN_INTRO_FLICKER_END = 0x40,
+    ELLEN_INTRO_FINISH_FRAME = 0x64,
+    ELLEN_INTRO_RADIUS_START = 0xC8,
+    ELLEN_INTRO_RADIAL_FAMILIES = 4,
+    ELLEN_INTRO_ARC_SPRITES = 8,
+    ELLEN_PELLET_FINISH_FRAME = 0x60,
+};
 
 void near ellen_pattern_pellets(void)
 {
@@ -281,7 +298,7 @@ void near ellen_pattern_pellets(void)
 		ellen_pellet_angle += 0x10;
 	}
 
-	if(boss_frame >= 0x60) {
+	if(boss_frame >= ELLEN_PELLET_FINISH_FRAME) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
@@ -309,7 +326,7 @@ void far gba_boss_update_ellen(void)
 
 	switch(boss_mode) {
 	case ELLEN_MODE_INTRO:
-		if(boss_frame != 0x64) {
+		if(boss_frame != ELLEN_INTRO_FINISH_FRAME) {
 			return;
 		}
 		boss_frame = 0;
@@ -420,16 +437,16 @@ void near ellen_render_main(void)
 	}
 	sprite16_put(left, top, sprite_offset);
 
-	i = ((boss_render_frame / 4) % 9);
+	i = ((boss_render_frame / ELLEN_STRIP_ANIM_PERIOD) % ELLEN_STRIP_TABLE_ENTRIES);
 	ellen_render_strip(i);
 	--i;
 	if(i < 0) {
-		i = 8;
+		i = ELLEN_STRIP_WRAP_LAST;
 	}
 	ellen_render_strip(i);
 	--i;
 	if(i < 0) {
-		i = 8;
+		i = ELLEN_STRIP_WRAP_LAST;
 	}
 	ellen_render_strip(i);
 }
@@ -449,20 +466,20 @@ void near pascal ellen_render_intro(
 
 	pid_other = (1 - pid_current);
 
-	i = (frame % 9);
+	i = (frame % ELLEN_STRIP_TABLE_ENTRIES);
 	ellen_render_strip(i);
 	--i;
 	if(i < 0) {
-		i = 8;
+		i = ELLEN_STRIP_WRAP_LAST;
 	}
 	ellen_render_strip(i);
 	--i;
 	if(i < 0) {
-		i = 8;
+		i = ELLEN_STRIP_WRAP_LAST;
 	}
 	ellen_render_strip(i);
 
-	if(round_frame_mod2 && (boss_frame < 0x40)) {
+	if(round_frame_mod2 && (boss_frame < ELLEN_INTRO_FLICKER_END)) {
 		return;
 	}
 
@@ -470,8 +487,8 @@ void near pascal ellen_render_intro(
 	sprite16_put_size.h = 16;
 	sprite_offset = (pid.so_attack + 0x28C);
 
-	for(i = 0; i < 4; ++i) {
-		for(j = 0; j < 8; (angle += 0x20, ++j)) {
+	for(i = 0; i < ELLEN_INTRO_RADIAL_FAMILIES; ++i) {
+		for(j = 0; j < ELLEN_INTRO_ARC_SPRITES; (angle += 0x20, ++j)) {
 			left = polar(
 				boss_center_x,
 				length,
@@ -508,7 +525,7 @@ void far gba_boss_render_ellen(void)
 
 	if(boss_mode == ELLEN_MODE_INTRO) {
 		ellen_render_intro(
-			TO_SP(0xC8 - (boss_frame * 2)),
+			TO_SP(ELLEN_INTRO_RADIUS_START - (boss_frame * 2)),
 			(unsigned char)boss_frame,
 			(unsigned char)(boss_frame * 3)
 		);

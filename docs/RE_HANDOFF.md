@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After831: complete Ellen BOSS radial/strip source
+
+- Full nine-function `ba_ellen` major BOSS uses named 256-unit signed-
+  division Extra Attack radial emission, original opposite byte Pascal
+  mode arguments, nine-entry sprite-strip cycle and four-frame renderer,
+  without merging the three original drawing calls or signed table math.
+- Three actual native rejected experiments: `af831a` combined `--i`/
+  test and generated **1,667** vs original **1,675** CODE bytes;
+  `af831b` shifted a signed table height instead of dividing (1,672);
+  `af831c` replaced byte-angle `+=0x20` with enum-valued 0x20 (1,671).
+  The exact original formulations remain. `af831d` recompiles the
+  entire final source **twice with original TC4 + full normal TLINK**:
+  1,675 CODE bytes, 213 ordered fixups, nine PUBLICs, whole Japanese
+  game and all 1,553 MZ relocations exact. No cold replay, no new
+  unique CODE credit. See
+  [after831 Ellen BOSS review](MAIN_ELLEN_BOSS_CYCLE_AFTER831_REVIEW.md).
+
 ## After830: full Marisa BOSS original native unsigned C++ clocks
 
 - Complete `ba_maris` nine-function major BOSS now uses natural `%4`
