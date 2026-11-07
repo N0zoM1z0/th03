@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After864: original TH02/TH03 shared volatile VSYNC wait leaf
+
+- Small original **`frmdely1` 21-byte** far-Pascal VSYNC leaf now uses
+  an ordinary C++ `while` poll of the real **volatile unsigned 16-bit**
+  interrupt-updated counter against the signed `int` duration, with
+  authentic old-TC4-compatible compile-time word-width checks.
+- Fresh genuine native negatives: swapping comparison operand order
+  emitted **22** instead of original **21** CODE bytes (`af864b`),
+  and forcing the counter to signed emitted different 21-byte CODE
+  (`af864c`). Final `af864d` passes **two independent original
+  TC4/full normal MAIN TLINK rounds**, 21 CODE bytes, two ordered
+  fixups, one PUBLIC, original loaded Japanese MAIN and all **1,553
+  MZ relocations**; 98 other project objects/CRT reused. See
+  [after864 native VSYNC wait review](MAIN_FRAME_DELAY_NATIVE_WHILE_AFTER864_REVIEW.md).
+  Historical shared source owner; no new distinct/Factory byte credit.
+
 ## After863: complete Rikako Chargeshot/Gauge native four-orbit controller
 
 - The complete 11-function `cs_rika` owner now uses natural C++ `while`
