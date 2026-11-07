@@ -269,8 +269,7 @@ void near mima_pattern_orbit(void)
 	boss_move_sine();
 
 	if(boss_frame == MIMA_ORBIT_DIRECTION_FRAME) {
-		_AL = (randring_far_next16_and(1) ? 7 : -7);
-		mima_orbit_delta = _AL;
+		mima_orbit_delta = (randring_far_next16_and(1) ? 7 : -7);
 		mima_orbit_angle = randring_far_next16();
 	}
 
@@ -412,6 +411,8 @@ void near mima_render_main(void)
 
 	if(boss_render_mode == 2) {
 render_mode_2:
+		// Mode 5 intentionally enters this block through the historical
+		// label; merging mode 2/5 into a C++ branch altered native CODE.
 		sprite16_put_size.set(16, 16);
 		sprite_offset = (boss_sprite_offset + 0x1A);
 		sprite16_put((left + 48), (top + 32), sprite_offset);

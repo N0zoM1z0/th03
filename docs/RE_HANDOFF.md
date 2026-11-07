@@ -6,6 +6,22 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Mima complete BOSS signed-direction natural C++ after667
+
+The complete 1,922-CODE-byte Mima BOSS now writes the original
+RNG-selected signed +7/-7 ring angle delta directly in
+C++ without staging a manual AL register. Real `af667a`
+TC4 source-bound compiler proof passes. A separate experiment
+replacing the mode-5-to-mode-2 renderer goto with a merged
+natural C++ branch changed the original CODE (`af667b`);
+the original label is retained. Current `af667c` independent
+source/OMF-attested two-round compiler/TLINK proof reproduces
+**1,922 CODE bytes, 277 literal ordered fixups and nine
+PUBLICs**, normal full MAIN EXE/MAP and Japanese MZ.
+See [after667 Mima BOSS native review](MAIN_MIMA_BOSS_DIRECT_SIGNED_AFTER667_REVIEW.md).
+Only one original project object rebuilt; no full cold replay
+or added canonical packed-game byte credit.
+
 ## Reimu full BOSS orbit geometry and render leaf C++ after666
 
 The complete Reimu BOSS TU now uses native-exact unsigned
