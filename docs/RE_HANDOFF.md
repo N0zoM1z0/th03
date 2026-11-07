@@ -8,6 +8,21 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After825: complete Rikako BOSS signed/unsigned native modulo recovery
+
+- The whole `ba_rikak` major BOSS now uses natural unsigned `%2` for
+  entrance flicker and explicit **unsigned** `%4` in both orbital
+  renderer sprite-index expressions. A real native `af825b` signed
+  `i %4` experiment **failed** (1,684 vs original 1,677 CODE bytes),
+  while `af825c` proved `(unsigned int)i %4` native exact.
+- Final `af825d` names the complete orbit's signed 256-unit angle
+  division and render geometry, with **two independent original TC4 4.02
+  / full normal TLINK rounds** matching 1,677 CODE bytes, 215 original
+  ordered FIXUPPs, eight PUBLICs, whole original loaded Japanese MAIN
+  and all 1,553 MZ relocations. No full cold replay. See
+  [after825 Rikako BOSS review](MAIN_RIKAKO_BOSS_SIGNED_MODULO_AFTER825_REVIEW.md).
+  Existing source owner reverified; **no duplicate unique CODE credit**.
+
 ## After824 complete Yumemi major BOSS native modulo/arrival recovery
 
 - The **entire 10-function `ba_yumem` physical BOSS** now uses natural

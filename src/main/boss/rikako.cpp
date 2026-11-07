@@ -87,6 +87,10 @@ enum rikako_render_timing_t {
     RIKAKO_INTRO_FLICKER_END = 0x40,
     RIKAKO_MAIN_SPRITE_COUNT = 8,
     RIKAKO_INTRO_SPRITE_COUNT = 0x10,
+    RIKAKO_CIRCLE_ANGLE_UNITS = 256,
+    RIKAKO_RING_ANIM_PERIOD = 4,
+    RIKAKO_INTRO_BLINK_PERIOD = 2,
+    RIKAKO_ORBIT_RING_RADIUS = 48,
 };
 
 void far pascal boss_rikako_template_init(int player_id)
@@ -162,7 +166,7 @@ void near rikako_pattern_orbit_spread(void)
 		);
 
 		for(i = 0; i < rikako_orbit_count; ++i) {
-			angle = ((i * 256) / rikako_orbit_count);
+			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_orbit_count);
 			bullet_template.center.x.v = polar(
 				boss_center_x,
 				TO_SP(48),
@@ -223,7 +227,7 @@ void near rikako_pattern_entities_and_pellets(void)
 		// consuming it still changes all subsequent game randomness.
 		angle = randring_far_next16();
 		for(i = 0; i < rikako_entity_count; ++i) {
-			angle = ((i * 256) / rikako_entity_count);
+			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_entity_count);
 			rikako_extra_add(
 				boss_center_x,
 				boss_center_y,
@@ -433,11 +437,11 @@ void near rikako_render_main(void)
 	top += 40;
 
 	for(i = 0; i < RIKAKO_MAIN_SPRITE_COUNT; (++i, angle += 0x20)) {
-		x = polar(left, 48, CosTable8[angle]);
-		y = polar(top, 48, SinTable8[angle]);
+		x = polar(left, RIKAKO_ORBIT_RING_RADIUS, CosTable8[angle]);
+		y = polar(top, RIKAKO_ORBIT_RING_RADIUS, SinTable8[angle]);
 
-		if(i & 3) {
-			sprite_offset = (((i & 3) * 2) + 0x167E);
+		if(static_cast<unsigned int>(i) % RIKAKO_RING_ANIM_PERIOD) {
+			sprite_offset = (((static_cast<unsigned int>(i) % RIKAKO_RING_ANIM_PERIOD) * 2) + 0x167E);
 		} else {
 			sprite_offset = 0x284;
 		}
@@ -468,7 +472,7 @@ void near rikako_render_intro(void)
 	sprite16_put_size.w = 48;
 	sprite16_put_size.h = 24;
 
-	if((boss_frame < RIKAKO_INTRO_FLICKER_END) && (round_or_result_frame & 1)) {
+	if((boss_frame < RIKAKO_INTRO_FLICKER_END) && (round_or_result_frame % RIKAKO_INTRO_BLINK_PERIOD)) {
 		return;
 	}
 
