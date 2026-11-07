@@ -34,6 +34,7 @@ ROOT = parent.ROOT
 WORK = parent.WORK
 SOURCES = {
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',
+    'p_cpu': 'src/main/player/cpu.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
@@ -67,6 +68,7 @@ ENTITY = 'src/main/player/exatt_entity.hpp'
 BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
 BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
 PRODUCER_WRAPPERS = {
+    'p_cpu': 'src/main/player/producers/cpu_native.cpp',
     'e_fireb': 'src/main/enemy/producers/fireball_native.cpp',
     'e_expl': 'src/main/enemy/producers/explosion_native.cpp',
     'bullet': 'src/main/bullet/producers/bullet_native.cpp',

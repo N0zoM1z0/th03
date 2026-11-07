@@ -11,6 +11,26 @@ enum cpu_target_flags_t {
     CPU_TARGET_DOWN = 8,
 };
 
+// Collision avoidance samples a real 3x3 direction lookup: the
+// first row is an approaching obstacle above the player, not a
+// target-location coordinate. Indices are row-major in the original.
+enum cpu_dodge_lookup_t {
+    CPU_DODGE_ABOVE_RIGHT = 0,
+    CPU_DODGE_ABOVE_MIDDLE = 1,
+    CPU_DODGE_ABOVE_LEFT = 2,
+    CPU_DODGE_NEAR_RIGHT = 3,
+    CPU_DODGE_NEAR_MIDDLE = 4,
+    CPU_DODGE_NEAR_LEFT = 5,
+    CPU_DODGE_BELOW_RIGHT = 6,
+    CPU_DODGE_BELOW_MIDDLE = 7,
+    CPU_DODGE_BELOW_LEFT = 8,
+};
+enum cpu_retry_column_t {
+    CPU_RETRY_LEFT_COLUMN = 0,
+    CPU_RETRY_MIDDLE_COLUMN = 1,
+    CPU_RETRY_RIGHT_COLUMN = 2,
+};
+
 input_t near pascal player_cpu_direction_for_collision(
     subpixel_t collision_y_relative, subpixel_t player_x, subpixel_t player_y
 )
@@ -19,32 +39,32 @@ input_t near pascal player_cpu_direction_for_collision(
     if(collision_y_relative < -TO_SP(16)) {
         if(player_x >= TO_SP(240)) {
             if(player_y >= TO_SP(128)) {
-                direction = cpu_dodge_pattern[0];
+                direction = cpu_dodge_pattern[CPU_DODGE_ABOVE_RIGHT];
             } else {
                 direction = INPUT_LEFT;
             }
         } else if(player_x >= TO_SP(16)) {
-            direction = cpu_dodge_pattern[1];
+            direction = cpu_dodge_pattern[CPU_DODGE_ABOVE_MIDDLE];
         } else if(player_y >= TO_SP(128)) {
-            direction = cpu_dodge_pattern[2];
+            direction = cpu_dodge_pattern[CPU_DODGE_ABOVE_LEFT];
         } else {
             direction = INPUT_RIGHT;
         }
     } else if(collision_y_relative < TO_SP(32)) {
         if(player_x >= TO_SP(240)) {
-            direction = cpu_dodge_pattern[3];
+            direction = cpu_dodge_pattern[CPU_DODGE_NEAR_RIGHT];
         } else if(player_x >= TO_SP(16)) {
-            direction = cpu_dodge_pattern[4];
+            direction = cpu_dodge_pattern[CPU_DODGE_NEAR_MIDDLE];
         } else {
-            direction = cpu_dodge_pattern[5];
+            direction = cpu_dodge_pattern[CPU_DODGE_NEAR_LEFT];
         }
     } else {
         if(player_x >= TO_SP(240)) {
-            direction = cpu_dodge_pattern[6];
+            direction = cpu_dodge_pattern[CPU_DODGE_BELOW_RIGHT];
         } else if(player_x >= TO_SP(16)) {
-            direction = cpu_dodge_pattern[7];
+            direction = cpu_dodge_pattern[CPU_DODGE_BELOW_MIDDLE];
         } else {
-            direction = cpu_dodge_pattern[8];
+            direction = cpu_dodge_pattern[CPU_DODGE_BELOW_LEFT];
         }
     }
     if(player_y >= TO_SP(304) && direction == INPUT_DOWN) {
@@ -96,7 +116,7 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
     if(player->is_hit) {
         player->is_hit = false;
         attempt++;
-        if(player->gauge_charged <= 0x500 && !(randring1_next16() & 3)) {
+        if(player->gauge_charged <= 0x500 && ((randring1_next16() % 4) == 0)) {
             player_bomb(player);
         } else {
             player->is_hit = true;
@@ -125,7 +145,9 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
     int8_t radius_or_retry;
     input_t direction;
 
-    if((round_or_result_frame & 3) == 0) {
+    if((round_or_result_frame % 4) == 0) {
+        // Keep the original signed-byte probe loop literals: equivalent
+        // enum bounds changed native TC4 output (after646e).
         for(radius_or_retry = (64 / 2); radius_or_retry <= (160 / 2);
             radius_or_retry += (32 / 2)) {
             player_hittest(radius_or_retry);
@@ -192,8 +214,13 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         player->center.y.v = y;
         attempt++;
         if(attempt < CPU_DIRECTIONS) {
-            retry_region = (player_hittest_collision_top.x.v < TO_SP(80)) ? 0 :
-                ((player_hittest_collision_top.x.v < TO_SP(176)) ? 1 : 2);
+            retry_region = (
+                (player_hittest_collision_top.x.v < TO_SP(80))
+                ? CPU_RETRY_LEFT_COLUMN
+                : ((player_hittest_collision_top.x.v < TO_SP(176))
+                    ? CPU_RETRY_MIDDLE_COLUMN
+                    : CPU_RETRY_RIGHT_COLUMN)
+            );
             direction = cpu_retry_directions[retry_region][attempt];
         } else if(radius_or_retry < CPU_DIRECTIONS) {
             // Retained target branch, although attempt cannot wrap to zero

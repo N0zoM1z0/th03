@@ -6,6 +6,23 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Native full CPU target/dodge owner after646
+
+The scoped genuine Turbo C++/TLINK v2 source driver can now compile
+and OMF-dependency-attest the original `p_cpu` physical object
+**outside** the existing 28-owner gameplay overlay. The full CPU
+collision/target/approach/dodge state machine now uses natural
+`round_or_result_frame % 4` and `randring1_next16() % 4`
+with original-binary equality, names the 3x3 dodge lookup and
+three retry columns, and preserves the original signed-byte
+probe-radius loop after an equal-value enum candidate was
+source-unequal. Dual `af646f` native TC4/TLINK rounds reproduce
+**1,077 original CODE bytes / 64 literal ordered fields / 4 PUBLICs**,
+full original normal MAIN and Japanese image/MZ relocations.
+See [after646 CPU native review](MAIN_CPU_DODGE_CPP_AFTER646_NATIVE_REVIEW.md).
+No full cold replay, new canonical packed-game Factory credit or
+double-counting of previously tracked code bytes.
+
 ## Current changed-source 28-owner MAIN integration after645
 
 The latest `af645a` two-round genuine Turbo C++/TLINK source-bound
