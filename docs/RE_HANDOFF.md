@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After897: complete Yumemi major BOSS native rain and phase controls
+
+- Full ten-function `ba_yumem` major BOSS now uses a natural signed-index
+  `while` for **twelve independently randomized rain pellets**, four
+  unsigned-word attack clocks as `if(!remainder)`, and explicit Boolean
+  rendering guard. Original ±3 ring steering, +8 byte speed, 56-pixel
+  collision and 32-pixel hitbox geometry are native-exact named C++.
+- Fresh original TC4 negative controls: byte signed-angle compound
+  `+= signed_delta` -> direct assignment generated **2,362** vs original
+  **2,358** CODE (`af897c`); merging arrival `<<3` then `<<4` to one
+  `<<7` gave **2,355** (`af897g`); prefix byte frame decrement gave
+  **2,362** (`af897h`). All restored. Final `af897i` recompiles and
+  links the full original owner in two independent genuine original
+  TC4 4.02/complete normal MAIN TLINK rounds: **2,358 CODE bytes,
+  343 literal ordered native FIXUPPs, 10 PUBLICs**, complete Japanese
+  MAIN and all 1,553 ordered relocations; 98 other objects/CRT reused.
+  See [after897 Yumemi BOSS review](MAIN_YUMEMI_BOSS_NATIVE_RAIN_AFTER897_REVIEW.md).
+  Prior source-covered CODE, not new distinct/canonical Factory credit.
+
 ## Latest after896: nine session-edited original MAIN objects together
 
 - `af896a` **actually recompiles all nine original physical game project

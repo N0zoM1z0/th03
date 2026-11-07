@@ -1,6 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the complete Yumemi
-// contribution inside TH03 MAIN_03_TEXT. Shared boss helpers and all historical
-// state remain external until full-link ownership is proved.
+// Entire maintained original Yumemi major BOSS native C++ in MAIN_03_TEXT.
+// Shared BOSS helper and DGROUP storage remain externally owned; the full
+// Japanese normal MAIN linker proof is separate from canonical Factory.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/yumemi.hpp"
@@ -125,6 +125,10 @@ enum yumemi_ring_phase_t {
     YUMEMI_RING_BULLET_START = 0x20,
     YUMEMI_RING_FINISH_AFTER = 0x3C,
     YUMEMI_RING_FIRE_PERIOD = 4,
+    YUMEMI_RING_INITIAL_RADIUS = 0x100,
+    YUMEMI_RING_ANGLE_DELTA_RIGHT = 3,
+    YUMEMI_RING_ANGLE_DELTA_LEFT = -3,
+    YUMEMI_RING_SPEED_ADD_STEP = 8,
 };
 
 void near yumemi_pattern_ring(void)
@@ -133,9 +137,9 @@ void near yumemi_pattern_ring(void)
 		boss_render_mode = 1;
 		yumemi_angle = randring_far_next16();
 		yumemi_speed_add = 0;
-		boss_effect_radius = 0x100;
+		boss_effect_radius = YUMEMI_RING_INITIAL_RADIUS;
 		yumemi_angle_delta = (
-			(randring_far_next16_and(1) == 0) ? 3 : -3
+			(randring_far_next16_and(1) == 0) ? YUMEMI_RING_ANGLE_DELTA_RIGHT : YUMEMI_RING_ANGLE_DELTA_LEFT
 		);
 	}
 
@@ -162,7 +166,9 @@ void near yumemi_pattern_ring(void)
 		snd_se_play(5);
 	}
 
-	if((boss_frame % YUMEMI_RING_FIRE_PERIOD) == 0) {
+	// Original 16-bit frame clock is genuinely unsigned; natural
+	// zero-remainder predicate preserves original ring timing (af897b).
+	if(!(boss_frame % YUMEMI_RING_FIRE_PERIOD)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -172,8 +178,11 @@ void near yumemi_pattern_ring(void)
 		bullet_template.count = yumemi_ring_count;
 		bullets_add();
 
+		// Keep original compound byte addition of signed delta. A
+		// direct `angle = angle + signed_delta` changed native CODE
+		// in the fresh original compiler trial af897c.
 		yumemi_angle += yumemi_angle_delta;
-		yumemi_speed_add += 8;
+		yumemi_speed_add += YUMEMI_RING_SPEED_ADD_STEP;
 	}
 
 	if(boss_frame > YUMEMI_RING_FINISH_AFTER) {
@@ -209,6 +218,11 @@ enum yumemi_attack_timing_t {
     YUMEMI_INTRO_SOUND_FIRST_FRAME = 0x18,
     YUMEMI_INTRO_SOUND_SECOND_FRAME = 0x48,
     YUMEMI_INTRO_FINISH_FRAME = 0x60,
+    YUMEMI_COLLISION_TILE_SIZE = 56,
+    YUMEMI_COLLISION_HALF_RADIUS = TO_SP(32),
+    YUMEMI_RAIN_RANDOM_ANGLE_MASK = 0x3F,
+    YUMEMI_RAIN_RANDOM_ANGLE_BIAS = 0x20,
+    YUMEMI_RAIN_SMALL_SPEED = TO_SP(2) + 4,
 };
 
 void near yumemi_pattern_aimed_random(void)
@@ -221,7 +235,7 @@ void near yumemi_pattern_aimed_random(void)
 			(boss_aux_point.y.v - yumemi_origin_y),
 			(boss_aux_point.x.v - yumemi_origin_x)
 		);
-		boss_effect_radius = 0x100;
+		boss_effect_radius = YUMEMI_RING_INITIAL_RADIUS;
 		boss_render_frame = 0x20;
 	}
 
@@ -249,7 +263,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = 2;
 	}
 
-	if((boss_frame % YUMEMI_AIMED_FIRE_PERIOD) == 0) {
+	if(!(boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
 		snd_se_play(3);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -273,7 +287,7 @@ void near yumemi_pattern_cross_rings(void)
 {
 	boss_move_sine();
 
-	if((boss_frame % yumemi_cross_interval) == 0) {
+	if(!(boss_frame % yumemi_cross_interval)) {
 		bullet_template.group = BG_4_RING;
 		bullet_template.speed.v = TO_SP(2);
 		bullet_template.type = (randring_far_next16_and(1) + 1);
@@ -356,7 +370,8 @@ void near yumemi_pattern_rain(void)
 
 	boss_move_sine();
 
-	if((boss_frame % yumemi_rain_interval) == 0) {
+	// Distinct rain clock, also native-exact as if(!remainder).
+	if(!(boss_frame % yumemi_rain_interval)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
 		if(boss_frame < YUMEMI_RAIN_SPREAD_END) {
@@ -372,15 +387,20 @@ void near yumemi_pattern_rain(void)
 
 		if(boss_frame >= YUMEMI_RAIN_BEGIN) {
 			bullet_template.group = BG_1;
-			bullet_template.speed.v = (TO_SP(2) + 4);
+			bullet_template.speed.v = YUMEMI_RAIN_SMALL_SPEED;
 			bullet_template.center.y.v = 0;
-			for(i = 0; i < YUMEMI_RAIN_DROPS_PER_WAVE; ++i) {
+			// Twelve physically separate RNG-X and byte-angle draws, with
+			// one bullet add per iteration before advancing signed i.
+			// Native original 16-bit TC4 accepts this natural while.
+			i = 0;
+			while(i < YUMEMI_RAIN_DROPS_PER_WAVE) {
 				bullet_template.center.x.v =
 					randring_far_next16_mod(TO_SP(PLAYFIELD_W));
 				bullet_template.angle = (
-					randring_far_next16_and(0x3F) + 0x20
+					randring_far_next16_and(YUMEMI_RAIN_RANDOM_ANGLE_MASK) + YUMEMI_RAIN_RANDOM_ANGLE_BIAS
 				);
 				bullets_add();
+				++i;
 			}
 		}
 	}
@@ -476,19 +496,21 @@ void far gba_boss_update_yumemi(void)
 		boss_effect_radius -= 8;
 	}
 	if(boss_render_frame) {
+		// Original byte-field postfix is codegen-visible; prefix
+		// changed actual original TC4 CODE (af897h).
 		boss_render_frame--;
 	}
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(56);
-	collmap_tile_h.set(56);
+	collmap_stripe_tile_w.set(YUMEMI_COLLISION_TILE_SIZE);
+	collmap_tile_h.set(YUMEMI_COLLISION_TILE_SIZE);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = YUMEMI_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = YUMEMI_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -525,7 +547,9 @@ void near yumemi_render_main(void)
 		sprite16_put(left, top, (boss_sprite_offset + 0x16));
 	}
 
-	if(!(boss_effect_radius || boss_render_frame)) {
+	// These are two independent original visual effect state values.
+	// Explicit natural conjunction is TC4 byte-exact (af897e).
+	if(!boss_effect_radius && !boss_render_frame) {
 		return;
 	}
 
@@ -593,6 +617,8 @@ void near yumemi_render_arrival(void)
 	top = ((boss_center_y >> 4) - 40);
 
 	if(boss_frame < YUMEMI_ARRIVAL_PHASE1_END) {
+		// Two original signed scaling stages MUST stay separate:
+		// collapsing <<3 then <<4 into <<7 changed TC4 CODE (af897g).
 		left = playfield_fg_x_to_screen(TO_SP(-104), pid_other);
 		right = playfield_fg_x_to_screen(
 			((boss_frame << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT) - TO_SP(104),
