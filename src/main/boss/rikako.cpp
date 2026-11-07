@@ -79,6 +79,16 @@ enum rikako_boss_mode_t {
     RIKAKO_MODE_EXPLODE = 0xFF,
 };
 
+// The same BOSS dispatcher owns its attack patterns, eight-sprite
+// orbital renderer and sixteen-sprite arrival. These original gates are
+// not interchangeable with the signed spin-delta update cadence.
+enum rikako_render_timing_t {
+    RIKAKO_INTRO_FINISH_FRAME = 0x64,
+    RIKAKO_INTRO_FLICKER_END = 0x40,
+    RIKAKO_MAIN_SPRITE_COUNT = 8,
+    RIKAKO_INTRO_SPRITE_COUNT = 0x10,
+};
+
 void far pascal boss_rikako_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -324,7 +334,7 @@ void far gba_boss_update_rikako(void)
 
 	switch(boss_mode) {
 	case RIKAKO_MODE_INTRO:
-		if(boss_frame != 0x64) {
+		if(boss_frame != RIKAKO_INTRO_FINISH_FRAME) {
 			return;
 		}
 		boss_frame = 0;
@@ -411,7 +421,7 @@ void near rikako_render_main(void)
 	top = ((boss_center_y >> 4) - 32);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite_offset += 0x0C;
 	}
 	sprite16_put(left, top, sprite_offset);
@@ -422,12 +432,12 @@ void near rikako_render_main(void)
 	left += 40;
 	top += 40;
 
-	for(i = 0; i < 8; (++i, angle += 0x20)) {
+	for(i = 0; i < RIKAKO_MAIN_SPRITE_COUNT; (++i, angle += 0x20)) {
 		x = polar(left, 48, CosTable8[angle]);
 		y = polar(top, 48, SinTable8[angle]);
 
-		if((static_cast<unsigned int>(i) % 4) != 0) {
-			sprite_offset = (((static_cast<unsigned int>(i) % 4) * 2) + 0x167E);
+		if(i & 3) {
+			sprite_offset = (((i & 3) * 2) + 0x167E);
 		} else {
 			sprite_offset = 0x284;
 		}
@@ -458,7 +468,7 @@ void near rikako_render_intro(void)
 	sprite16_put_size.w = 48;
 	sprite16_put_size.h = 24;
 
-	if((boss_frame < 0x40) && ((round_or_result_frame % 2) != 0)) {
+	if((boss_frame < RIKAKO_INTRO_FLICKER_END) && (round_or_result_frame & 1)) {
 		return;
 	}
 
@@ -470,7 +480,7 @@ void near rikako_render_intro(void)
 	angle = ((unsigned char)boss_frame * 4);
 	angle = (0 - angle);
 
-	for(i = 0; i < 0x10; (++i, angle += 0x10)) {
+	for(i = 0; i < RIKAKO_INTRO_SPRITE_COUNT; (++i, angle += 0x10)) {
 		left = polar(
 			boss_center_x,
 			radius,
@@ -505,11 +515,11 @@ void far gba_boss_render_rikako(void)
 
 	sprite16_clip_set_for_pid(1 - pid_current);
 
-	if(boss_mode == 0) {
+	if(boss_mode == RIKAKO_MODE_INTRO) {
 		rikako_render_intro();
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != RIKAKO_MODE_EXPLODE) {
 		rikako_render_main();
 		return;
 	}
