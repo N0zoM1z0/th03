@@ -1,7 +1,5 @@
-// Natural Turbo C++ reconstruction for the Chiyuri contribution to
-// TH03 MAIN_05_TEXT. Full-link proof confirms its CODE bytes, MAP placement,
-// relocation sites, and relocation order. It stays outside the accepted graph
-// until the complete character-bomb owner passes aggregate acceptance.
+// Source-native complete original Chiyuri bomb state machine.
+// Arithmetic phase geometry uses the original two-stage 16-bit order.
 #pragma codeseg MAIN_05_TEXT
 
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -36,13 +34,15 @@ void far chiyuri_bomb(void)
 		bomb_bg_fill();
 		grcg_off();
 
-		color = (255 - (frame << 2));
+		color = (255 - (frame * 4));
 		bomb_palette_step(color, pid_current);
 		if((frame % 8) == 0) {
 			bomb_center_add(TO_SP(144), TO_SP(184), pid_current);
 		}
 	} else if(frame < 144) {
 		palette_changed = true;
+		// The original frame&3 shake comparison is codegen-visible:
+		// unsigned %4 changed original CODE (af682d).
 		if((frame & 3) < 2) {
 			PaletteTone = 60;
 			palette_changed = true;
@@ -55,7 +55,7 @@ void far chiyuri_bomb(void)
 
 		if((frame % 16) == 0) {
 			snd_se_play(10);
-			int distance = (((frame - 64) * 2) << 4);
+			int distance = (((frame - 64) * 2) * 16);
 			bomb_axis_add((TO_SP(144) - distance), TO_SP(184), pid_current);
 			bomb_axis_add((TO_SP(144) + distance), TO_SP(184), pid_current);
 			bomb_axis_add(TO_SP(144), (TO_SP(184) - distance), pid_current);
@@ -77,7 +77,7 @@ void far chiyuri_bomb(void)
 		palette_changed = true;
 		playfield_fg_shift_x[pid_current] = 0;
 
-		frame = (255 - (frame << 3));
+		frame = (255 - (frame * 8));
 		color = (frame * 2);
 		Palettes[pid_current].c.r = color;
 		Palettes[pid_current].c.g = color;

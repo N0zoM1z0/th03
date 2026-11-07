@@ -49,6 +49,10 @@ SOURCES = {
     'chain1': 'src/main/background/chain1.cpp',
     'chain2': 'src/main/background/chain2.cpp',
     'b_ellen': 'src/main/player/bomb_ellen.cpp',
+    'b_chiyu': 'src/main/player/bomb_chiyuri.cpp',
+    'b_kana': 'src/main/player/bomb_kana.cpp',
+    'b_koto': 'src/main/player/bomb_kotohime.cpp',
+    'b_rika': 'src/main/player/bomb_rikako.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
@@ -78,6 +82,7 @@ SOURCES = {
     'eupdb': 'src/main/enemy/enemy.cpp',
 }
 BOSS_SHARED_UNITS = ('ba_sring', 'ba_srest')
+BOMB_EXTERNAL_UNITS = ('b_ellen','b_kana','b_koto','b_rika')
 ENTITY = 'src/main/player/exatt_entity.hpp'
 BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
 BACKGROUND_PHASE = 'src/main/background/phase.inl'
@@ -116,11 +121,12 @@ MAP_ROWS = {
 }
 
 def wrapper_source(unit):
-    if unit=='b_ellen':
-        # The 132-byte original Bomb particle BSS is owned by a frozen carrier.
+    if unit in BOMB_EXTERNAL_UNITS:
+        # The original bomb-private globals belong to a frozen storage carrier,
+        # never to the original character-specific CODE-only producer.
         # Compiling private BSS changes near-address relocation addends.
-        return (b'#define TH03_BOMB_EXTERNAL_STORAGE 1\n'
-                b'#include "src/main/player/bomb_ellen.cpp"\n')
+        return (f'#define TH03_BOMB_EXTERNAL_STORAGE 1\n'
+                f'#include "{SOURCES[unit]}"\n').encode()
     if unit in BOSS_SHARED_UNITS:
         partition=('TH03_BOSS_SHARED_RING_ONLY' if unit=='ba_sring'
                    else 'TH03_BOSS_SHARED_REST_ONLY')

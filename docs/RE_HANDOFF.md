@@ -6,6 +6,26 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri and Rikako full character Bomb exact C++ after683
+
+The original four single-TU character Bomb sources
+`b_chiyu,b_kana,b_koto,b_rika` have all been independently
+compiled through real v2 current-source/OMF checks (`af681b`),
+including correct original external private BSS-carrier
+semantics for Kana/Kotohime/Rikako. Chiyuri's Bomb palette
+and four-axis explosion growth now use original-native
+natural `frame*4`, `(frame-64)*2*16`, `frame*8`.
+Rikako's Bomb palette/late fade use natural `frame*4`/
+`frame*8` and `TO_SP(288)`/ `TO_SP(96)` for its
+RNG-seeded explosion row. Chiyuri's native-unequal
+`frame%4<2` shake replacement was rejected. Current
+`af683c` source-OMF-attested dual original TC4/TLINK
+rounds reproduce **1,036 CODE bytes, 104 ordered literal
+fixups, two PUBLICs**, normal full MAIN/MAP and Japanese
+MZ. Read [after683 original Bomb source review](MAIN_CHIYURI_RIKAKO_BOMB_NATIVE_AFTER683_REVIEW.md).
+Only two final affected objects rebuilt; no cold replay
+or duplicate canonical target-byte credit.
+
 ## Chiyuri full BOSS four-pass fan and native sprite arithmetic after680
 
 All **four** horizontal/vertical Chiyuri BOSS fan

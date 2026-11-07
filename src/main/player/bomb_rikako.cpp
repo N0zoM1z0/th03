@@ -43,7 +43,7 @@ void far rikako_bomb(void)
 		bomb_bg_fill();
 		grcg_off();
 
-		color = (frame << 2);
+		color = (frame * 4);
 		bomb_palette_step(color, pid_current);
 		rikako_bomb_line_offset = 0;
 	} else if(frame < 128) {
@@ -93,9 +93,11 @@ void far rikako_bomb(void)
 
 		grcg_off();
 
+		// The original randomized starting point and 96-pixel spacing
+		// must be preserved across the 288-pixel-wide row.
 		if((frame % 8) == 0) {
 			x = randring_far_next16_and(0x3FF);
-			for(; x <= 0x1200; x += 0x600) {
+			for(; x <= TO_SP(288); x += TO_SP(96)) {
 				bomb_explosion_add(x, 0x1700, pid_current);
 			}
 		}
@@ -105,7 +107,7 @@ void far rikako_bomb(void)
 		}
 	} else {
 		playfield_fg_shift_x[pid_current] = 0;
-		frame = (255 - (frame << 3));
+		frame = (255 - (frame * 8));
 		color = (frame * 2);
 		Palettes[pid_current].c.r = color;
 		Palettes[pid_current].c.g = color;
