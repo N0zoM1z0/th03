@@ -6,6 +6,20 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Mima full Extra Attack signed/unsigned parity after641
+
+The main Mima Extra Attack rebound/collision/update owner now
+expresses the original `duration & 1` as typed natural C++:
+`static_cast<unsigned int>(duration) % 2`. Ordinary signed
+`duration % 2` was real native-unequal (`af641a`). Named
+six-slot, flight and 0x10/0x20/0x50 acceleration phases preserve
+all original movement and collision semantics. The full v2
+`af641c` source/header-attested native TC4/TLINK pair matches
+**727 CODE bytes, 44 ordered fields, four PUBLICs**, entire
+normal MAIN and Japanese MZ. See
+[after641 Mima Extra Attack review](MAIN_MIMA_EXATT_UNSIGNED_PARITY_AFTER641_NATIVE_REVIEW.md).
+No full cold replay or double accepted target bytes.
+
 ## Kotohime complete Extra Attack event counter after640
 
 The eight-function Kotohime Extra Attack module now names the ten

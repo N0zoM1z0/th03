@@ -35,12 +35,25 @@ extern "C" void near pascal exatt_render_state_other(
     screen_x_t left, screen_y_t top, unsigned int state_and_frame
 );
 
+// The physical Mima Extra Attack uses six slots per player. Its
+// elapsed duration is read as an int in the full motion and collision
+// update, but the parity test must preserve its unsigned 16-bit bit.
+enum mima_exatt_phase_t {
+    MIMA_EXATT_SLOTS = 6,
+    MIMA_EXATT_INITIAL_RENDER_FRAME = 3,
+    MIMA_EXATT_START_ACCEL_FRAME = 0x10,
+    MIMA_EXATT_PARITY_ACCEL_END = 0x20,
+    MIMA_EXATT_LAST_ACCEL_FRAME = 0x50,
+    MIMA_EXATT_FLYING_STATE = 2,
+    MIMA_EXATT_APPEAR_END = 0x1C,
+};
+
 void far pascal exatt_add_mima(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
 
-    for(; i < 6; i++, p++) {
+    for(; i < MIMA_EXATT_SLOTS; i++, p++) {
         if(p->state == 0) {
             exatt_entity_p = p;
             exatt_fly_init(
@@ -50,7 +63,7 @@ void far pascal exatt_add_mima(int x, int y, unsigned char pid_)
                 pid_, 0x5A
             );
             p->duration = 0;
-            p->frame = 3;
+            p->frame = MIMA_EXATT_INITIAL_RENDER_FRAME;
             return;
         }
     }
@@ -109,7 +122,7 @@ void far pascal exatt_update_mima(void)
     collmap_pid = pid_other;
     i = 0;
 
-    for(; i < 6; i++, p++) {
+    for(; i < MIMA_EXATT_SLOTS; i++, p++) {
         if(p->state == 0) {
             continue;
         }
@@ -140,15 +153,15 @@ void far pascal exatt_update_mima(void)
             }
 
             duration = p->duration;
-            if(duration >= 0x10) {
-                if(duration < 0x20) {
-                    p->speed += (duration & 1);
-                } else if(duration < 0x50) {
+            if(duration >= MIMA_EXATT_START_ACCEL_FRAME) {
+                if(duration < MIMA_EXATT_PARITY_ACCEL_END) {
+                    p->speed += (static_cast<unsigned int>(duration) % 2);
+                } else if(duration < MIMA_EXATT_LAST_ACCEL_FRAME) {
                     p->speed++;
                 }
             }
 
-            if(duration < 0x50) {
+            if(duration < MIMA_EXATT_LAST_ACCEL_FRAME) {
                 vector2(p->velocity_x, p->velocity_y, p->angle, p->speed);
             }
 
@@ -166,7 +179,7 @@ void far pascal exatt_update_mima(void)
             collmap_center.x.v = center_x;
             collmap_center.y.v = center_y;
             collmap_set_rect_striped();
-        } else if(p->state == 2) {
+        } else if(p->state == MIMA_EXATT_FLYING_STATE) {
             exatt_entity_p = p;
             if(exatt_fly_update() != 0) {
                 p->angle = (unsigned char)randring_far_next16();
@@ -175,7 +188,7 @@ void far pascal exatt_update_mima(void)
                 p->velocity_y = 0;
                 continue;
             }
-        } else if(p->state <= 0x1C) {
+        } else if(p->state <= MIMA_EXATT_APPEAR_END) {
             p->state++;
         } else {
             p->duration = 0;
@@ -191,7 +204,7 @@ void far pascal exatt_render_mima(void)
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
     register int i = 0;
 
-    for(; i < 6; i++, p++) {
+    for(; i < MIMA_EXATT_SLOTS; i++, p++) {
         if(p->state != 0) {
             exatt_entity_p = p;
             mima_exatt_render_one();
