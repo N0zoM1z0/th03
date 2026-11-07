@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After892: full Reimu major BOSS, three orbit phases and two sprite loops
+
+- The entire nine-function original `ba_reimu` major BOSS now uses
+  natural typed `while` for **all three orbit attack phases**, normal
+  orbital sprite rendering and the 8-sprite intro, preserving original
+  signed 16-bit angle division/byte truncation and hardware call order.
+  Original unsigned 16-bit cloud/spread clocks use natural truth tests;
+  both mutable orbit angle updates accept `angle=angle+named_step`, and
+  intro byte +=0x20 accepts a named constant. Physical collision/sprite
+  sizes and screen offsets are semantically named.
+- Genuine TC4 negative: replacing the byte animation `(anim&3)==1`
+  with `%4==1` emitted **2,026 vs original 2,020 CODE bytes** (`af892g`),
+  first difference offset 1567; original bit masks restored. Final
+  `af892i` passes two actual original TC4/full normal MAIN TLINK rounds:
+  **2,020 CODE bytes, 270 literal ordered native FIXUPPs, 9 PUBLICs**,
+  exact Japanese MAIN/1,553 MZ relocations. 98 other project objects/
+  CRT reused, no cold replay. See
+  [after892 complete Reimu BOSS review](MAIN_REIMU_BOSS_NATIVE_ORBITS_AFTER892_REVIEW.md).
+  Already source-covered original CODE, not new distinct/Factory credit.
+
 ## After891: full fireball transfer/fall and collision loops
 
 - The ten-function original `e_fireb` source now uses native-exact natural

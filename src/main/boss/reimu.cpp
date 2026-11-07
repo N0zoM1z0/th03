@@ -1,6 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the complete Reimu
-// contribution inside TH03 MAIN_03_TEXT. Shared boss helpers and all historical
-// state remain external until full-link ownership is proved.
+// Complete current source-native original Reimu major BOSS in MAIN_03_TEXT.
+// Shared boss helpers and physical state remain in their historical slots;
+// full normal MAIN linking is exact, canonical packed Factory is separate.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/reimu.hpp"
@@ -85,9 +85,18 @@ enum reimu_render_timing_t {
     REIMU_INTRO_END_FRAME = 0x64,
     REIMU_INTRO_FLASH_END_FRAME = 0x40,
     REIMU_INTRO_SPRITE_COUNT = 8,
+    REIMU_INTRO_ANGLE_STEP = 0x20,
     REIMU_RENDER_CEL_PERIOD = 4,
     REIMU_INTRO_START_RADIUS = 0xC80,
     REIMU_INTRO_RADIUS_STEP = 32,
+    REIMU_COLLISION_TILE_SIZE = 56,
+    REIMU_COLLISION_HALF_RADIUS = TO_SP(32),
+    REIMU_RENDER_MAIN_SIZE = 96,
+    REIMU_RENDER_ORBIT_SIZE = 48,
+    REIMU_RENDER_MAIN_LEFT_MARGIN = 48,
+    REIMU_RENDER_MAIN_TOP_MARGIN = 32,
+    REIMU_RENDER_ORBIT_LEFT_MARGIN = 24,
+    REIMU_RENDER_ORBIT_TOP_MARGIN = 8,
 };
 
 void far pascal boss_reimu_template_init(int player_id)
@@ -137,7 +146,9 @@ void near reimu_pattern_orbit_cloud(void)
 		angle = (0 - angle);
 	}
 
-	if((boss_frame % reimu_cloud_interval) == 0) {
+	// Original unsigned-word period can use natural if(!remainder),
+	// with exactly the same two spawned projectiles and RNG schedule.
+	if(!(boss_frame % reimu_cloud_interval)) {
 		bullet_template.type = BT_PELLET_CLOUD;
 		bullet_template.group = BG_1;
 		bullet_template.pid = (1 - pid_current);
@@ -162,7 +173,7 @@ void near reimu_pattern_orbit_cloud(void)
 		bullets_add();
 	}
 
-	if((boss_frame % REIMU_CLOUD_ACCEL_PERIOD) == 0) {
+	if(!(boss_frame % REIMU_CLOUD_ACCEL_PERIOD)) {
 		// Preserve postfix here: prefix ++reimu_cloud_speed changed
 		// the original TC4 byte-field codegen (af691b).
 		reimu_cloud_speed++;
@@ -252,7 +263,11 @@ void near reimu_pattern_orbit_burst(void)
 	if(boss_frame < REIMU_ORBIT_EXPAND_END) {
         // Keep two natural 16-bit scale stages in the original order:
         // frame*32 changes TC4 instructions; (frame*16)*2 does not.
-		for(i = 0; i < reimu_orbit_count; ++i) {
+		// One of three distinct original orbit script phases. Natural C++
+		// while retains signed i*256/division before byte angle truncation,
+		// and source-order polar/call side effects (af892a).
+		i = 0;
+		while(i < reimu_orbit_count) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
@@ -264,13 +279,18 @@ void near reimu_pattern_orbit_burst(void)
 				((boss_frame * 16) * 2),
 				SinTable8[angle]
 			);
+			++i;
 		}
-		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
+		// Both original mutable byte-angle accumulators accept natural
+		// assignment `byte = byte + named_step` (af892f), unlike some
+		// other BOSS memory-field assignments.
+		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
 		return;
 	}
 
 	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
-		for(i = 0; i < reimu_orbit_count; ++i) {
+		i = 0;
+		while(i < reimu_orbit_count) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
@@ -278,8 +298,9 @@ void near reimu_pattern_orbit_burst(void)
 			reimu_orbit_y[i] = polar(
 				boss_center_y, TO_SP(48), SinTable8[angle]
 			);
+			++i;
 		}
-		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
+		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
 
 		if(!round_frame_mod16) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
@@ -296,9 +317,11 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
-		for(i = 0; i < reimu_orbit_count; ++i) {
+		i = 0;
+		while(i < reimu_orbit_count) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
+			++i;
 		}
 		boss_mode = 1;
 		boss_frame = 0;
@@ -319,7 +342,7 @@ void near reimu_pattern_mirrored_spread(void)
 	boss_move_sine();
 
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
-		if((boss_frame % REIMU_MIRROR_FIRE_PERIOD) != 0) {
+		if(boss_frame % REIMU_MIRROR_FIRE_PERIOD) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;
@@ -412,14 +435,14 @@ void far gba_boss_update_reimu(void)
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(56);
-	collmap_tile_h.set(56);
+	collmap_stripe_tile_w.set(REIMU_COLLISION_TILE_SIZE);
+	collmap_tile_h.set(REIMU_COLLISION_TILE_SIZE);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = REIMU_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = REIMU_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -439,7 +462,7 @@ void near reimu_render_main(void)
 	register int i;
 
 	pid_other = (1 - pid_current);
-	sprite16_put_size.set(96, 96);
+	sprite16_put_size.set(REIMU_RENDER_MAIN_SIZE, REIMU_RENDER_MAIN_SIZE);
 
 	if(!pid_other) {
 		sprite16_clip.set_for_pid_0();
@@ -452,29 +475,35 @@ void near reimu_render_main(void)
 		sprite_offset += 0x0C;
 	}
 
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 48);
-	top = ((boss_center_y >> 4) - 32);
+	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - REIMU_RENDER_MAIN_LEFT_MARGIN);
+	top = ((boss_center_y >> 4) - REIMU_RENDER_MAIN_TOP_MARGIN);
 	sprite16_put(left, top, sprite_offset);
 
 	if(boss_render_mode != 1) {
 		return;
 	}
 
-	sprite16_put_size.set(48, 48);
+	sprite16_put_size.set(REIMU_RENDER_ORBIT_SIZE, REIMU_RENDER_ORBIT_SIZE);
 	sprite_offset = (boss_sprite_offset + 0xFFF4);
 	anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
+	// Do not write `%4` for this *byte* animation carrier: it changed
+	// original TC4 CODE in af892g, unlike the 16-bit attack clock.
 	if((anim & 3) == 1) {
 		sprite_offset += 6;
 	} else if(anim & 3) {
 		sprite_offset += (((anim & 1) * 6) + 0x780);
 	}
 
-	for(i = 0; i < reimu_orbit_count; ++i) {
+	// All live orbit sprites draw in original signed-index order; the
+	// real original TC4 also accepts this natural while (af892b).
+	i = 0;
+	while(i < reimu_orbit_count) {
 		left = (
-			playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - 24
+			playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN
 		);
-		top = ((reimu_orbit_y[i] >> 4) - 8);
+		top = ((reimu_orbit_y[i] >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
 		sprite16_put(left, top, sprite_offset);
+		++i;
 	}
 }
 
@@ -497,7 +526,7 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 		return;
 	}
 
-	sprite16_put_size.set(48, 48);
+	sprite16_put_size.set(REIMU_RENDER_ORBIT_SIZE, REIMU_RENDER_ORBIT_SIZE);
 	if(pid_current) {
 		sprite16_clip.set_for_pid_0();
 	} else {
@@ -512,12 +541,17 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 		sprite_offset += (((anim & 1) * 6) + 0x780);
 	}
 
-	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; (++i, angle += 0x20)) {
+	// Eight original polar-sprite calls with byte-angle advancement
+	// after rendering. Named +0x20 compiles native-exact (af892c/e).
+	i = 0;
+	while(i < REIMU_INTRO_SPRITE_COUNT) {
 		left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
-		left = (playfield_fg_x_to_screen(left, pid_other) - 24);
-		top = ((top >> 4) - 8);
+		left = (playfield_fg_x_to_screen(left, pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN);
+		top = ((top >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		angle += REIMU_INTRO_ANGLE_STEP;
 	}
 }
 
