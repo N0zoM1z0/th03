@@ -148,7 +148,7 @@ void near reimu_pattern_orbit_cloud(void)
 		bullets_add();
 	}
 
-	if((boss_frame & 1) == 0) {
+	if((boss_frame % 2) == 0) {
 		reimu_cloud_speed++;
 	}
 
@@ -228,16 +228,18 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame < REIMU_ORBIT_EXPAND_END) {
+        // Keep two natural 16-bit scale stages in the original order:
+        // frame*32 changes TC4 instructions; (frame*16)*2 does not.
 		for(i = 0; i < reimu_orbit_count; i++) {
 			angle = (((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
-				((boss_frame << 4) * 2),
+				((boss_frame * 16) * 2),
 				CosTable8[angle]
 			);
 			reimu_orbit_y[i] = polar(
 				boss_center_y,
-				((boss_frame << 4) * 2),
+				((boss_frame * 16) * 2),
 				SinTable8[angle]
 			);
 		}
@@ -293,7 +295,7 @@ void near reimu_pattern_mirrored_spread(void)
 	boss_move_sine();
 
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
-		if((boss_frame & 0x0F) != 0) {
+		if((boss_frame % 16) != 0) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;
@@ -436,7 +438,7 @@ void near reimu_render_main(void)
 
 	sprite16_put_size.set(48, 48);
 	sprite_offset = (boss_sprite_offset + 0xFFF4);
-	anim = (boss_frame >> 2);
+	anim = (boss_frame / 4);
 	if((anim & 3) == 1) {
 		sprite_offset += 6;
 	} else if((anim & 3) != 0) {
@@ -475,7 +477,7 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	}
 
 	sprite_offset = (pid.so_attack + 0x280);
-	anim = (boss_frame >> 2);
+	anim = (boss_frame / 4);
 	if((anim & 3) == 1) {
 		sprite_offset += 6;
 	} else if((anim & 3) != 0) {

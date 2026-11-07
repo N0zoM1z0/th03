@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Reimu full BOSS orbit geometry and render leaf C++ after666
+
+The complete Reimu BOSS TU now uses native-exact unsigned
+`boss_frame % 2` cloud acceleration and `% 16` orbit
+attack cadence. Its large expanding orbit's original
+`((boss_frame<<4)*2)` can become natural two-stage
+`((boss_frame*16)*2)` with original TC4 code; a
+single `boss_frame*32` changed native x86 and was
+rejected (`af666b`). Two render helpers likewise use
+`anim=boss_frame/4` instead of manual right shifts.
+Current actual-source/OMF-attested native TC4/TLINK
+`af666e` dual rounds reproduce **all 2,020 original
+CODE bytes, 270 literal ordered fields, 9 PUBLICs**,
+full MAIN EXE/MAP and all Japanese relocations.
+See [after666 Reimu BOSS review](MAIN_REIMU_BOSS_NATURAL_GEOMETRY_AFTER666_REVIEW.md).
+Only the physical Reimu BOSS was compiled, with no
+cold replay or new canonical game-byte credit.
+
 ## Yumemi major BOSS real signed C++ ring and attack cadence after665
 
 The full original Yumemi BOSS TU now emits the ring direction
