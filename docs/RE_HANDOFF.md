@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After858: original Extra Attack callback leaf and signed 16-bit ABI
+
+- Small original `p_exatt` owner now uses two immutable `const subpixel_t`
+  local copies from its original Subpixel wrapper arguments, a natural
+  `if(pid == 0)` character callback selection, and TC4-compatible
+  typedef checks for signed 16-bit coordinates and byte player IDs.
+- Independent original TC4 negatives: direct wrapper-field callback
+  arguments emitted **50** vs **41** original CODE bytes (`af858c`);
+  reversing the player branches changed original CODE at equal size
+  (`af858d`). Retained two 16-bit locals and original far Pascal
+  callback order. Final `af858e` passes two actual original TC4/normal
+  MAIN TLINK rounds: **41 CODE bytes, 2 literal ordered FIXUPPs, 1
+  PUBLIC**, complete original Japanese MAIN and 1,553 ordered MZ
+  relocations; 98 other objects and CRT reused. See
+  [after858 Extra Attack leaf review](MAIN_EXATT_ABI_LEAF_AFTER858_REVIEW.md).
+  Existing source owner; not new unique CODE or Factory packed credit.
+
 ## After857: exact quad player-effects renderer and physical clip/radius geometry
 
 - Complete five-function `effects` original source now renders its
