@@ -26,7 +26,7 @@ Original Turbo C++ 4.02 generates the **identical original machine code**.
   naturally with these alternatives.
 - Stage `af791c` kept both original AL updates while proving the natural
   `%4` sprite-ring flicker condition against the whole original object.
-- The **final `af791d`** additionally names the 256-unit full-circle and
+- The **final `af791e`** additionally names the 256-unit full-circle and
   128-unit half-circle angular spans, 0x40 center offset, 0x30/0x10
   burst speed scale/base and 0xC8 intro radius in the **entire BOSS attack
   and rendering controllers**, retaining original signed integer division
@@ -34,8 +34,8 @@ Original Turbo C++ 4.02 generates the **identical original machine code**.
   native rounds; this stage supersedes `af791c` for current source.
 
 ```
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_exatt_layout.py --stage af791d --units ba_koto
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af791d
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_exatt_layout.py --stage af791e --units ba_koto
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af791e
 ```
 
 Both independent original Turbo C++ 4.02 and complete normal MAIN TLINK
@@ -45,8 +45,8 @@ MAIN EXE/MAP and **all 124,642 loaded Japanese program bytes with 1,553
 ordered relocations**. The independent DOS-MZ serializer reproduces
 the 130,882-byte Japanese original MAIN.EXE. The other 98 original
 project objects and CRT were reused; no full cold replay. Protected
-current-source native report `.analysis/work/exatt-layout-af791d/report.json`,
-SHA-256 `853f054f93163d4f27197a3dec5cf306602d5dc0558eab53943e1fdfdab77111`.
+current-source native report `.analysis/work/exatt-layout-af791e/report.json`,
+SHA-256 `13fe72001ab53f62e11f8aab62267e292aaa61e60b78b6faebc65a013c18aa98`.
 This is an improved natural C++ source recovery for an already historically
 covered BOSS owner, not new distinct CODE-byte credit or canonical
 packed-game Factory whole-product acceptance.

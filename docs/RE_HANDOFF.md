@@ -31,7 +31,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 - `af791a` (`boss_move_phase += 2`) and `af791b` (volatile near ref)
   genuinely failed full-object equality: the original extra AL load
   could not be removed. Those byte increments retain original `_AL`.
-- `af791c` proves natural flicker. Final `af791d` additionally gives the
+- `af791c` proves natural flicker. Final `af791e` additionally gives the
   original signed-angle 256/128-unit orbit divisions and 0x40/0x30/0x10
   burst angle/speed constants semantic C++ names. It passes **two original
   TC4/full normal MAIN TLINK rounds**:
