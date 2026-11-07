@@ -8,6 +8,31 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after859: five session-edited full original physical sources together
+
+- Actual original `af859a` **recompiles the five complete original
+  physical C++ TUs changed in this session together**, in two independent
+  genuine TC4 4.02 and complete normal MAIN TLINK rounds: 10-function
+  Ellen Chargeshot/Gauge, nine-function **Mima major BOSS**, 10-function
+  Yumemi Chargeshot/target/Gauge, five-function player effects renderer
+  and the small native Extra Attack callback leaf.
+- Both native compiler/normal TLINK rounds match **all 5,766 original
+  CODE bytes, 614 literal ordered native FIXUPP fields, 35 PUBLICs**,
+  original source dependency/segment ABI, complete normal MAIN EXE/MAP,
+  **124,642 Japanese loaded bytes and 1,553 ordered MZ relocations**.
+  Independent standard MZ serialization matches the full 130,882-byte
+  original Japanese file. **94 unchanged original game project objects
+  and CRT reused**, no full cold replay. See
+  [after859 five-original-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER859_REVIEW.md).
+- Read-only reviews of **separate**, unchanged physical source scopes
+  `af853a`, `af847a`, `af842a`, `af835a` still pass current checkout.
+  Freshly rechecked `af782a`, `af775a`, `af766a`, `af829a`, `af823a`
+  **fail present source-hash binding** and are *historical original native
+  evidence*, not current-source passing receipts. Do not weaken guards,
+  pretend these were built simultaneously, double-count old CODE or
+  advertise canonical Factory packed-game acceptance. The `input_s`
+  single-NOP historical parent linker gap remains separately open.
+
 ## After858: original Extra Attack callback leaf and signed 16-bit ABI
 
 - Small original `p_exatt` owner now uses two immutable `const subpixel_t`
@@ -1210,46 +1235,32 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af782a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af772a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af766a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af765g
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af764d
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af763d
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af762c
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af761c
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af760c
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af759c
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af859a af853a af847a af842a af835a
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
-# Diagnostic success means the input_s full-link failure was detected:
+# Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
 .venv/bin/python scripts/validate_tracking.py
 .venv/bin/python scripts/progress.py --check
 git diff --check
 ```
 
-This list contains **current-source checks that actually pass on this
-checkout**. Do not present `af758a`, `af753a`, `af741b`, `af730a`,
+These are **current-checkout source-bound review stages independently
+confirmed after859**. Earlier `af782a`, `af775a` and `af766a` no longer
+pass the current-source hash check: preserve their original genuine
+compiler/TLINK receipts as **historical snapshots** instead. Do not present `af758a`, `af753a`, `af741b`, `af730a`,
 `af724a`, `af721a`, `af715a`, `af709a` or `af736a` as current-input
 proof after later changed-source revisions: their source hashes
 intentionally differ. They remain protected historical native compiler
 and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
-The latest protected read-only proof root is
-`.analysis/work/exatt-layout-af782a/report.json`, with six current
-modified complete physical original C++ owners, two independent real
-TC4 4.02/TLINK rounds and original Japanese MZ evidence. The previous
-still-current eight-source receipt is
-`.analysis/work/exatt-layout-af775a/report.json`, with eight current
-complete original physical source TUs, both real TC4 4.02 full TLINK
-rounds and the independent Japanese MZ comparison. The preceding
-protected after766 source-native proof is
-`.analysis/work/exatt-layout-af766a/report.json`, with eight
-current source-bound original physical objects including both current
-Reimu Extra Attack implementation roots, two genuine TC4/TLINK rounds,
-and original full MAIN/Japanese MZ comparison. The earlier historical
+The **current** protected original-source-bound read-only proof is
+`.analysis/work/exatt-layout-af859a/report.json`: five genuinely edited
+original physical source owners and both actual original TC4/TLINK
+rounds. The older `af782a`, `af775a`, and `af766a` complete real
+compiler/TLINK receipts remain protected **historical** source-input
+snapshots (the source hashes have subsequently changed); do not call them
+current-checkout exact proofs without a new source-bound review. The earlier historical
 after758 source snapshot is
 `.analysis/work/exatt-layout-af758a/report.json`, with twelve former-current
 complete source-native original objects, both genuine full compiler and
