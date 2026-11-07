@@ -6,6 +6,19 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kotohime complete Extra Attack event counter after640
+
+The eight-function Kotohime Extra Attack module now names the ten
+physical slots (eight ordinary plus two special), both exact shot
+counts and the original post-arrival `angle` byte's actual *event
+counter* semantics at pulses 4, 8, 12 and 16. The tempting
+four-shot signed ternary changed native CODE and was **rejected**.
+The real source/header OMF-attested `af640c` two-round
+TC4/TLINK proof reproduces all **1,054 CODE bytes, 100 ordered fields
+and eight PUBLICs**, full normal MAIN and Japanese relocations.
+See [after640 Kotohime Extra Attack review](MAIN_KOTOHIME_EXATT_EVENTS_AFTER640_NATIVE_REVIEW.md).
+No full cold replay or double target-byte credit.
+
 ## Latest source-rooted 28-unit GAME3 integration after639
 
 The latest `af639a` fresh native Turbo C++/TLINK dual rounds
