@@ -6,6 +6,21 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri complete paired Extra Attack beam after649
+
+The genuine Chiyuri four-function Extra Attack owner now explicitly
+names its physical **eight pairs / sixteen 32-byte slots**, narrow,
+growing, full and shrinking GRCG trapezoid phases, 4/0x10 warning
+ticks and endpoint sloped-collmap state boundaries. Original 16-bit
+AL/AX/DX choreography and near skip-branch labels are kept: a
+natural late-beam subtraction failed the native original-CODE
+control `af649a`. Correct v2 changed-source/header-attested
+`af649b` two-round TC4/TLINK proof reproduces **978 CODE bytes,
+55 ordered FIXUPPs, 4 PUBLICs**, entire original normal MAIN
+and Japanese MZ. See
+[after649 Chiyuri beam review](MAIN_CHIYURI_PAIR_BEAM_AFTER649_NATIVE_REVIEW.md).
+No cold replay or double code-byte credit.
+
 ## Yumemi large GRCG Extra Attack beam source after648
 
 The full Yumemi Extra Attack compiler TU (five functions, including the

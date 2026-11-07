@@ -32,11 +32,26 @@ extern "C" void near pascal exatt_render_state_other(
 );
 extern "C" void far pascal bomb_center_add(int x, int y, int pid);
 
+// Paired physical entities: even/odd slots render the top and bottom
+// ends of the same GRCG beam. The real update advances the shared pointer
+// twice per pair and retains its native skip-branch register contract.
+enum chiyuri_exatt_phase_t {
+    CHIYURI_EXATT_PHYSICAL_SLOTS = 16,
+    CHIYURI_EXATT_PAIR_STRIDE = 2,
+    CHIYURI_BEAM_LINE_END = 0x10,
+    CHIYURI_BEAM_GROW_END = 0x28,
+    CHIYURI_BEAM_SHRINK_START = 0x70,
+    CHIYURI_BEAM_FINISH = 0x88,
+    CHIYURI_BEAM_FIRST_WARNING = 4,
+    CHIYURI_BEAM_SOUND_FRAME = 0x10,
+    CHIYURI_BEAM_ARRIVAL_END_STATE = 0x1C,
+};
+
 void far pascal exatt_add_chiyuri(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
-    for(; i < 16; (i += 2, p += 2)) {
+    for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; (i += CHIYURI_EXATT_PAIR_STRIDE, p += CHIYURI_EXATT_PAIR_STRIDE)) {
         if(p->state != 0) {
             continue;
         }
@@ -70,14 +85,14 @@ void near chiyuri_exatt_render_one(void)
 
     if(p->state == 1) {
         egc_off();
-        if(phase < 0x10) {
+        if(phase < CHIYURI_BEAM_LINE_END) {
             goto beam_line;
         }
-        if(phase < 0x28) {
+        if(phase < CHIYURI_BEAM_GROW_END) {
             _AX = (phase - 0x10);
             goto beam_radius;
         }
-        if(phase >= 0x70) {
+        if(phase >= CHIYURI_BEAM_SHRINK_START) {
             goto beam_late;
         }
         grcg_setcolor(GC_RMW, 9);
@@ -92,9 +107,11 @@ void near chiyuri_exatt_render_one(void)
         goto beam_end;
 
 beam_late:
-        if(phase >= 0x88) {
+        if(phase >= CHIYURI_BEAM_FINISH) {
             goto beam_end;
         }
+        // Keep the original late-beam register/stack sequence:
+        // typed C++ 0x88 - phase changes genuine TC4 native instructions.
         asm {
             mov al, phase
             mov ah, 0
@@ -151,7 +168,7 @@ void far pascal exatt_update_chiyuri(void)
     collmap_stripe_tile_w.set(4);
     collmap_pid = pid_other;
     i = 0;
-    for(; i < 16; (i += 2, exatt_entity_p++)) {
+    for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; (i += CHIYURI_EXATT_PAIR_STRIDE, exatt_entity_p++)) {
         asm {
             mov bx, exatt_entity_p
             cmp byte ptr [bx], 0
@@ -160,18 +177,18 @@ void far pascal exatt_update_chiyuri(void)
         p = exatt_entity_p;
         if(p->state == 1) {
                 p->frame++;
-                if(p->frame == 4) {
+                if(p->frame == CHIYURI_BEAM_FIRST_WARNING) {
                     bomb_center_add(p->x, 0, p->pid);
                     p++;
                     bomb_center_add(p->x, 0x1700, p->pid);
-                } else if(p->frame == 0x10) {
+                } else if(p->frame == CHIYURI_BEAM_SOUND_FRAME) {
                     snd_se_play(20);
-                } else if(p->frame > 0x28 && p->frame < 0x70) {
+                } else if(p->frame > CHIYURI_BEAM_GROW_END && p->frame < CHIYURI_BEAM_SHRINK_START) {
                     collmap_topleft.x.v = p->x;
                     p++;
                     collmap_bottomright.x.v = p->x;
                     collmap_set_slope_striped();
-                } else if(p->frame > 0x88) {
+                } else if(p->frame > CHIYURI_BEAM_FINISH) {
                     p->state = 0;
                     p++;
                     p->state = 0;
@@ -186,7 +203,7 @@ chiyuri_first_done:
                 if(exatt_fly_update() != 0) {
                     p->y = 0;
                 }
-            } else if(p->state <= 0x1C) {
+            } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
                 p->state++;
             } else {
                 p->frame = 0;
@@ -199,7 +216,7 @@ chiyuri_first_done:
                 if(exatt_fly_update() != 0) {
                     p->y = 0x1700;
                 }
-            } else if(p->state <= 0x1C) {
+            } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
                 p->state++;
             } else {
                 p->frame = 0;
@@ -218,7 +235,7 @@ void far pascal exatt_render_chiyuri(void)
     register int i;
     exatt_entity_p = &exatt_entities[pid_current][0];
     i = 0;
-    for(; i < 16; i += 2, exatt_entity_p += 2) {
+    for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; i += CHIYURI_EXATT_PAIR_STRIDE, exatt_entity_p += CHIYURI_EXATT_PAIR_STRIDE) {
         if(exatt_entity_p->state != 0) {
             chiyuri_exatt_render_one();
         }
