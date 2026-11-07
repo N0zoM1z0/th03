@@ -191,6 +191,17 @@ Historical counts remain visible here; the latest MAIN work instead has
 its own new source-native multi-unit overlays and full MAIN comparisons.
 No full cold replay was run merely to suppress this validator error.
 
+### Chiyuri major BOSS after603
+
+The full **2,654-byte/11-function Chiyuri BOSS** has exact newly source-
+compiled C++ renderer improvements: natural signed `top >>= 4` in the
+ring loop and `_DX = 0` before the mono interrupt replace both hand-ASM
+blocks. The `af603e` scoped original TC4/TLINK proof rebuilds only that
+BOSS slot in two rounds, preserves **381 ordered native fixups**, all
+PUBLIC/segment metadata, full normal MAIN EXE/MAP and Japanese file equality.
+See [after603 native review](MAIN_CHIYURI_BOSS_NATURAL_RENDER_AFTER603_NATIVE_REVIEW.md).
+The historical original BOSS sources/receipts are retained; no double credit.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

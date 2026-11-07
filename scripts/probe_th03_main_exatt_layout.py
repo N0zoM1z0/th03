@@ -42,6 +42,7 @@ SOURCES = {
     'ex_koto': 'src/main/player/exatt_kotohime.cpp',
     'ex_rfly': 'src/main/player/exatt_flight_reimu.cpp',
     'ex_reup': 'src/main/player/exatt_reimu.cpp',
+    'ba_chiyu': 'src/main/boss/chiyuri.cpp',
 }
 ENTITY = 'src/main/player/exatt_entity.hpp'
 
@@ -156,6 +157,7 @@ def main():
             response=parent.response(n)
             for u in units:
                 oldpath=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
+                         else f'probe\\af567c\\r{n}-{u}.obj' if u=='ba_chiyu'
                          else f'obj\\th03\\{u}.obj').encode()
                 newpath=f'probe\\{args.stage}\\r{n}\\{u}.obj'.encode()
                 need(response.count(oldpath)==1,'unique original link slot '+u)
@@ -181,8 +183,9 @@ def main():
             # Path spelling alone differs between the overlay and parent.
             for u in units:
                 a=f'M=probe/{args.stage}/r{n}/{u}.cpp'.encode()
-                b=(f'M=probe/{parent.STAGE}/r{n}/{u}.cpp'
-                   if u in parent.ORDER else f'M=th03/{u}.cpp').encode()
+                b=(f'M=probe/{parent.STAGE}/r{n}/{u}.cpp' if u in parent.ORDER
+                   else 'M=th03/ba_chiyu.cpp' if u=='ba_chiyu'
+                   else f'M=th03/{u}.cpp').encode()
                 need(newmap.count(a)==4, 'original four MAP rows '+u)
                 newmap=newmap.replace(a,b)
             need(newmap==prevmap,'complete original MAP layout/ownership differs')

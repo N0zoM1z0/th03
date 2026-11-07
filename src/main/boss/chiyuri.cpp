@@ -556,10 +556,8 @@ void near chiyuri_render_ring(void)
 			boss_center_y, radius, SinTable8[angle]
 		);
 		left = (playfield_fg_x_to_screen(left, pid_other) - 16);
-		_AX = top;
-		asm { sar ax, 4 }
-		top = _AX;
-		sprite16_put(left, _AX, sprite_offset);
+		top >>= 4;
+		sprite16_put(left, top, sprite_offset);
 	}
 }
 
@@ -675,7 +673,7 @@ void near pascal chiyuri_render_mono(int color)
 	geninterrupt(SPRITE16);
 	sprite16_put(left, top, sprite_offset);
 	_AH = SPRITE16_SET_MONO;
-	asm { xor dx, dx }
+	_DX = 0;
 	geninterrupt(SPRITE16);
 }
 
