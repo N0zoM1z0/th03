@@ -67,6 +67,15 @@ static const pixel_t FLY_H = 16;
 static const pixel_t FALL_W = 32;
 static const pixel_t FALL_H = 32;
 static const uint8_t FRAMES_PER_CEL = 4;
+
+// The original fireball has a two-half global 512-frame aim clock and
+// two eight-frame sprite cycles. Keep all unsigned-byte flag writes and
+// the original transfer/clip labels in their existing order.
+enum fireball_native_timing_t {
+    FIREBALL_AIM_PERIOD = 512,
+    FIREBALL_AIM_RANDOM_HALF = 256,
+    FIREBALL_SPRITE_PERIOD = 8,
+};
 // ---------
 
 // State
@@ -111,7 +120,7 @@ void fireballs_add(void)
 	pid_t pid_target = (1 - origin.pid);
 
 	subpixel_length_8_t speed;
-	for(i = 0; i < FIREBALL_COUNT; (i++, fireball_p++)) {
+	for(i = 0; i < FIREBALL_COUNT; (++i, fireball_p++)) {
 		if(fireball_p->flag != EFF_FREE) {
 			continue;
 		}
@@ -148,7 +157,10 @@ void fireballs_add(void)
 		static_assert(PLAYER_COUNT == 2);
 		screen_x = playfield_fg_x_to_screen(origin_center_x, (1 - pid_target));
 
-		if((round_or_result_frame % 512) < 256) {
+		if(
+            (round_or_result_frame & (FIREBALL_AIM_PERIOD - 1)) <
+            FIREBALL_AIM_RANDOM_HALF
+        ) {
 			origin_center_x = randring2_next16_ge_lt_sp(0.0f, PLAYFIELD_W);
 		} else {
 			origin_center_x = (
@@ -198,7 +210,7 @@ void near fireball_put(void)
 	screen_y_t top;
 	pixel_length_8_t size_half;
 
-	uint8_t cycle = (p.frame % 8u);
+	uint8_t cycle = (p.frame & (FIREBALL_SPRITE_PERIOD - 1));
 	if(p.flag == FF_FALL) {
 		// See, if [variant_as_eha] was a regular `fireball_variant_t`, ZUN
 		// wouldn't have needed to translate it back into one here.
@@ -258,7 +270,9 @@ void near fireball_explosion_put(void)
 	if(p->frame < 12) {
 		so = SO_EXPLOSIONS_64X64[0];
 	} else if(p->frame < 32) {
-		cycle = (p->frame / 4);
+		// Unlike the 8-frame sprite mask, this byte division by four
+        // must remain division: TC4 compiles an explicit >>2 differently.
+        cycle = (p->frame / 4);
 		so = SO_EXPLOSIONS_64X64[1 + (cycle & 1)];
 	} else if(p->frame < 36) {
 		// ZUN bloat: ^ The condition doesn't need to duplicate the keyframe.
@@ -286,7 +300,7 @@ void fireballs_update(void)
 	collmap_tile_h.set(FALL_H / 2);
 
 	p = fireballs;
-	for(i = 0; i < FIREBALL_COUNT; (i++, p++)) {
+	for(i = 0; i < FIREBALL_COUNT; (++i, p++)) {
 		if(p->flag == EFF_FREE) {
 			continue;
 		}
@@ -336,7 +350,7 @@ free_and_continue:
 			// hardcoding the assumption of the physical layout together with
 			// the expected horizontal velocity.
 			static_assert(PLAYER_COUNT == 2);
-			if(p->pid == 0) {
+			if(!p->pid) {
 				if(p->target_center_x_for_origin_pid.v <= next) {
 switch_to_fall:
 					p->center.x = p->target_center_x_for_target_pid;
@@ -471,7 +485,7 @@ void near fireballs_hittest(void)
 	variant = FV_RED;
 
 	// ZUN bloat: [FIREBALL_COUNT] exists.
-	for(i = (EFE_COUNT - 1); i >= (EFE_COUNT - FIREBALL_COUNT); (i--, p--)) {
+	for(i = (EFE_COUNT - 1); i >= (EFE_COUNT - FIREBALL_COUNT); (--i, p--)) {
 		if(p->flag != FF_FALL) {
 			continue;
 		}
@@ -549,7 +563,7 @@ void fireballs_hittest_and_render(void)
 	sprite16_clip.reset();
 
 	p = fireballs;
-	for(int i = 0; i < FIREBALL_COUNT; (i++, p++)) {
+	for(int i = 0; i < FIREBALL_COUNT; (++i, p++)) {
 		if(p->flag == EFF_FREE) {
 			continue;
 		}
