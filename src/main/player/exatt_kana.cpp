@@ -30,14 +30,25 @@ extern "C" void near pascal exatt_render_state_other(
     screen_x_t left, screen_y_t top, unsigned char frame
 );
 
+// The same eight original physical slots pass through distinct byte
+// entity states; preserve the original per-frame bullet RNG and clip.
+enum kana_exatt_state_t {
+    KANA_EXATT_SLOTS = 8,
+    KANA_EXATT_FREE = 0,
+    KANA_EXATT_ACTIVE = 1,
+    KANA_EXATT_FLYING = 2,
+    KANA_EXATT_APPEARING_END = 0x1C,
+    KANA_EXATT_BULLET_PERIOD = 0x10,
+};
+
 void far pascal exatt_add_kana(int x, int y, unsigned char pid_)
 {
     int target_x = randring_far_next16_mod(0x1200);
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
 
-    for(; i < 8; i++, p++) {
-        if(p->state != 0) {
+    for(; i < KANA_EXATT_SLOTS; ++i, p++) {
+        if(p->state) {
             continue;
         }
         exatt_entity_p = p;
@@ -58,9 +69,9 @@ void far pascal kana_extra_add(int x, int y, unsigned char angle_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
     register int i = 0;
-    for(; i < 8; i++, p++) {
-        if(p->state == 0) {
-            p->state = 1;
+    for(; i < KANA_EXATT_SLOTS; ++i, p++) {
+        if(!p->state) {
+            p->state = KANA_EXATT_ACTIVE;
             p->x = x;
             p->y = y;
             p->angle = angle_;
@@ -88,12 +99,14 @@ void near kana_exatt_render_one(void)
     }
     frame = p->frame;
 
-    if(p->state == 1) {
+    if(p->state == KANA_EXATT_ACTIVE) {
         sprite16_put_size.set(32, 32);
         sprite_offset = (pid.so_attack + 0x284);
+        // Both the byte /4 and following %4 must remain separate:
+        // changing either to shift/mask changed TC4 CODE (af781c/d/e).
         sprite_offset += (((frame / 4) % 4) << 5) * 0x28;
         sprite16_put(left - 16, top - 16, sprite_offset);
-    } else if(p->state == 2) {
+    } else if(p->state == KANA_EXATT_FLYING) {
         exatt_render_state2(left, top, frame);
     } else {
         exatt_render_state_other(left, top, frame);
@@ -113,17 +126,19 @@ void far pascal exatt_update_kana(void)
     playfield_clip_negative_radius.y.v = -TO_SP(24);
     i = 0;
 
-    for(; i < 8; i++, p++) {
-        if(p->state == 0) {
+    for(; i < KANA_EXATT_SLOTS; ++i, p++) {
+        if(!p->state) {
             continue;
         }
         exatt_entity_p = p;
-        if(p->state == 1) {
+        if(p->state == KANA_EXATT_ACTIVE) {
             vector2(vector_x, vector_y, p->angle, p->speed);
             p->speed++;
             p->x += vector_x;
             p->y += vector_y;
-            if((p->frame % 0x10) == 0) {
+            // Original byte %16 is not native-equal to &15 here
+            // (negative compiler stage af781b).
+            if((p->frame % KANA_EXATT_BULLET_PERIOD) == 0) {
                 bullet_template.type = BT_BULLET16_CUSTOM_WITH_ACCEL;
                 bullet_template.angle = 0x40;
                 bullet_template.group = BG_1;
@@ -139,16 +154,16 @@ void far pascal exatt_update_kana(void)
                 *(PlayfieldSubpixel near *)&p->x,
                 *(PlayfieldSubpixel near *)&p->y
             )) {
-                p->state = 0;
+                p->state = KANA_EXATT_FREE;
                 continue;
             }
-        } else if(p->state == 2) {
+        } else if(p->state == KANA_EXATT_FLYING) {
             exatt_fly_update();
-        } else if(p->state <= 0x1C) {
+        } else if(p->state <= KANA_EXATT_APPEARING_END) {
             p->state++;
         } else {
             p->frame = 0;
-            p->state = 1;
+            p->state = KANA_EXATT_ACTIVE;
             p->speed = 8;
         }
         p->frame++;
@@ -159,8 +174,8 @@ void far pascal exatt_render_kana(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
     register int i = 0;
-    for(; i < 8; i++, p++) {
-        if(p->state != 0) {
+    for(; i < KANA_EXATT_SLOTS; ++i, p++) {
+        if(p->state) {
             exatt_entity_p = p;
             kana_exatt_render_one();
         }
