@@ -116,8 +116,9 @@ enum chiyuri_lifecycle_t {
     CHIYURI_MONO_COLOR6_LATE_STEP = 0x18,
 };
 
-// The whole Chiyuri BOSS uses an eight-tick warning cadence and a
-// four-frame ring animation; only these power-of-two periods may mask.
+// The original 16-bit frame uses natural %8 trail warnings and %4 sprite
+// animation clocks. The mutable byte render frame still needs its original
+// &=3 instructions, proven distinct from byte-memory %=4 in TC4.
 enum chiyuri_boss_cadence_t {
     CHIYURI_RENDER_ANIM_PERIOD = 4,
     CHIYURI_RING_SPRITES = 16,
@@ -273,7 +274,7 @@ enum chiyuri_trail_phase_t {
 
 void near chiyuri_pattern_trail_ring(void)
 {
-	if((boss_frame & (CHIYURI_TRAIL_BOMB_PERIOD - 1)) == 0) {
+	if((boss_frame % CHIYURI_TRAIL_BOMB_PERIOD) == 0) {
 		bomb_axis_add(
 			boss_center_x, boss_center_y, (1 - pid_current)
 		);
@@ -304,6 +305,11 @@ void near chiyuri_pattern_trail_ring(void)
 enum chiyuri_fan_phase_t {
     CHIYURI_FAN_HORIZONTAL_FRAME = 0x20,
     CHIYURI_FAN_VERTICAL_FRAME = 0x40,
+    CHIYURI_FAN_SPAN_PIXELS = 0x70,
+    CHIYURI_FAN_ANGLE_UNITS = 64,
+    CHIYURI_FAN_HORIZ_ANGLE_BASE = 0x60,
+    CHIYURI_FAN_VERT_ANGLE_OFFSET = 0x20,
+    CHIYURI_FAN_SPAN_TO_SUBPIXELS = 16,
 };
 
 // The fan coordinates divide the 16-bit polar range BEFORE scaling
@@ -333,10 +339,10 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
-				(((i * 0x70) / chiyuri_fan_count) * 16)
+				(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 			);
 			bullet_template.angle = (
-				0x60 - ((i * 64) / chiyuri_fan_count)
+				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -350,10 +356,10 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
-				(((i * 0x70) / chiyuri_fan_count) * 16)
+				(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 			);
 			bullet_template.angle = (
-				0x60 - ((i * 64) / chiyuri_fan_count)
+				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -385,10 +391,10 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
-			(((i * 0x70) / chiyuri_fan_count) * 16)
+			(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 		);
 		bullet_template.angle = (
-			((i * 64) / chiyuri_fan_count) - 0x20
+			((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
 		);
 		bullets_add();
 
@@ -399,10 +405,10 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
-			(((i * 0x70) / chiyuri_fan_count) * 16)
+			(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 		);
 		bullet_template.angle = (
-			((i * 64) / chiyuri_fan_count) - 0x20
+			((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
 		);
 		bullets_add();
 
@@ -525,7 +531,7 @@ void far gba_boss_update_chiyuri(void)
 	bullet_template.is_animated = true;
 
 	boss_render_frame += (
-        (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1)) == 0
+        (round_or_result_frame % CHIYURI_RENDER_ANIM_PERIOD) == 0
     );
 	// This mutable byte field needs the original bitmask instruction:
 	// boss_render_frame %= 4 emitted different TC4 CODE (af702a).

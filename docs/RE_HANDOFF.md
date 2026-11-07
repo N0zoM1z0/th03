@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After828: complete Chiyuri BOSS natural warning/render clocks and fan geometry
+
+- The entire `ba_chiyu` eleven-function **major BOSS** now uses
+  natural 16-bit unsigned `%8` trail warnings and `%4` global-frame
+  renderer cadence, plus named **four separate horizontal/vertical fan
+  loops** with signed angle/position division before scaling. The mutable
+  **byte** `boss_render_frame &=3` remains exact; no invalid assumption
+  from the distinct word-sized clocks was made.
+- `af828d` freshly challenged intro byte-phase `_AL` arithmetic with a
+  `register unsigned char` C++ temporary and **failed** the genuine
+  original compiler CODE comparison (2,674 vs 2,654 bytes). The
+  original three-instruction byte update was restored. Final `af828e`
+  independently passed **two original TC4 4.02/full normal TLINK rounds**:
+  2,654 CODE bytes, 381 literal ordered native FIXUPPs, 11 PUBLICs,
+  all 124,642 Japanese loaded bytes and 1,553 MZ relocations match.
+  No cold replay or unique byte-credit double count. See
+  [after828 complete Chiyuri BOSS review](MAIN_CHIYURI_BOSS_FANS_MODULO_AFTER828_REVIEW.md).
+
 ## Latest after827: three newly changed complete original physical sources together
 
 - `af827a` is a genuine **simultaneous two-round original Turbo C++ 4.02
