@@ -20,10 +20,18 @@ enum kana_charge_layout_t {
     KANA_CHARGE_SAMPLES = 13,
     KANA_CHARGE_LAST = 12,
     KANA_CHARGE_RENDER_STEP = 4,
+    KANA_CHARGE_RENDER_CEL_STEP = 0x500,
+    KANA_CHARGE_ANGLE_TRAIL_3 = 0xF0,
+    KANA_CHARGE_ANGLE_TRAIL_2 = 0xC8,
+    KANA_CHARGE_ANGLE_TRAIL_1 = 0xB8,
+    KANA_CHARGE_ANGLE_TRAIL_0 = 0x90,
     KANA_CHARGE_INITIAL_LENGTH = 0x30,
     KANA_CHARGE_RELEASE_LENGTH = 0x80,
     KANA_CHARGE_RELEASE_AFTER = 0x28,
     KANA_CHARGE_END_Y = TO_SP(-16),
+    KANA_CHARGE_HITTEST_MARGIN = TO_SP(12),
+    KANA_CHARGE_SPRITE_BASE = 0x1180,
+    KANA_CHARGE_SPRITE_HALF_W = 16,
     KANA_CHARGE_SWIRLING = 1,
     KANA_CHARGE_RELEASED = 2,
 };
@@ -86,14 +94,17 @@ void far pascal chargeshot_add_kana(Subpixel center_x, Subpixel center_y)
 		p->length = KANA_CHARGE_INITIAL_LENGTH;
 	}
 
+	// The original trail initialization writes the four angles in reverse
+	// pointer order. Preserve that pointer walk and the four distinct
+	// per-trail start headings rather than sorting them or using memcpy.
 	p--;
-	p->angle = 0xF0;
+	p->angle = KANA_CHARGE_ANGLE_TRAIL_3;
 	p--;
-	p->angle = 0xC8;
+	p->angle = KANA_CHARGE_ANGLE_TRAIL_2;
 	p--;
-	p->angle = 0xB8;
+	p->angle = KANA_CHARGE_ANGLE_TRAIL_1;
 	p--;
-	p->angle = 0x90;
+	p->angle = KANA_CHARGE_ANGLE_TRAIL_0;
 }
 
 void far pascal chargeshot_update_kana(void)
@@ -149,10 +160,10 @@ void far pascal chargeshot_update_kana(void)
 
 void near kana_chargeshot_private(void)
 {
-	sprite16_offset_t sprite_offset = (pid.so_attack + 0x1180);
-	for(int i = KANA_CHARGE_LAST; i >= 0; (i -= KANA_CHARGE_RENDER_STEP, sprite_offset -= 0x500)) {
+	sprite16_offset_t sprite_offset = (pid.so_attack + KANA_CHARGE_SPRITE_BASE);
+	for(int i = KANA_CHARGE_LAST; i >= 0; (i -= KANA_CHARGE_RENDER_STEP, sprite_offset -= KANA_CHARGE_RENDER_CEL_STEP)) {
 		screen_x_t left = (
-			playfield_fg_x_to_screen(kana_chargeshot_p->x[i], pid_current) - 16
+			playfield_fg_x_to_screen(kana_chargeshot_p->x[i], pid_current) - KANA_CHARGE_SPRITE_HALF_W
 		);
 		screen_y_t top = (kana_chargeshot_p->y[i] >> 4);
 		sprite16_put(left, top, sprite_offset);
@@ -167,17 +178,19 @@ uint8_t far chargeshot_hittest_kana(void)
 
 	kana_chargeshot_t near *p = &kana_chargeshots[hitbox.pid][0];
 	for(int group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
-		for(int i = 0; i <= KANA_CHARGE_LAST; i += 4) {
-			if((p->x[i] - hitbox.right.v) > TO_SP(12)) {
+		// Only history points 0, 4, 8 and 12 can hit, matching the
+		// same four full-color sprites rendered for each charge trail.
+		for(int i = 0; i <= KANA_CHARGE_LAST; i += KANA_CHARGE_RENDER_STEP) {
+			if((p->x[i] - hitbox.right.v) > KANA_CHARGE_HITTEST_MARGIN) {
 				continue;
 			}
-			if((hitbox.origin.topleft.x.v - p->x[i]) > TO_SP(12)) {
+			if((hitbox.origin.topleft.x.v - p->x[i]) > KANA_CHARGE_HITTEST_MARGIN) {
 				continue;
 			}
-			if((p->y[i] - hitbox.bottom.v) > TO_SP(12)) {
+			if((p->y[i] - hitbox.bottom.v) > KANA_CHARGE_HITTEST_MARGIN) {
 				continue;
 			}
-			if((hitbox.origin.topleft.y.v - p->y[i]) > TO_SP(12)) {
+			if((hitbox.origin.topleft.y.v - p->y[i]) > KANA_CHARGE_HITTEST_MARGIN) {
 				continue;
 			}
 			hitcircles_enemy_add(p->x[i], p->y[i], hitbox.pid);
@@ -267,7 +280,9 @@ void near pascal gauge_pattern_kana(bullet_type_t type)
 	}
 
 	// The original unsigned byte %64 differs from an equivalent &63
-	// in TC4 machine code (actual native negative trial af773b).
+	// in TC4 machine code (native negative trial af773b). A new explicit
+	// widening to unsigned int before &63 also fails (af841c); keep
+	// the actual byte-sized source modulo and its original instructions.
 	if((kana_gauge_frame[pid_current] % KANA_GAUGE_SWEEP_PERIOD) < KANA_GAUGE_SWEEP_HALF) {
 		kana_gauge_x[pid_current] += KANA_GAUGE_MOVE_SUBPIXELS;
 	} else {

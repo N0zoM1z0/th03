@@ -8,6 +8,20 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After841: complete Kana Chargeshot/Gauge native geometry
+
+- The full nine-function `cs_kana` owner now names its four true
+  reverse-initialized 13-point beam trajectories, four-sample collision
+  step, sprite cel stride and original signed subpixel hit margin.
+  A fresh native experiment `af841c` tested byte `%64` against widened
+  `unsigned int &63` and **failed** (1,288 vs original 1,291 CODE bytes);
+  the original modulo remains. Final `af841e` passes two original
+  TC4/TLINK rounds: **1,291 CODE bytes, 117 literal ordered fixups,
+  9 PUBLICs**, whole Japanese MAIN and all 1,553 relocations. 98
+  other objects/CRT reused, no cold replay. See
+  [after841 Kana Chargeshot review](MAIN_KANA_CHARGESHOT_GEOMETRY_AFTER841_REVIEW.md).
+  Previously covered native owner, not new unique CODE or Factory credit.
+
 ## Latest after840: five edited original physical objects in one native MAIN link
 
 - `af840a` **actually recompiles the five complete original physical
