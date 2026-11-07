@@ -93,6 +93,12 @@ enum kana_boss_render_timing_t {
     KANA_RENDER_WARNING_STEP_1 = 8,
     KANA_RENDER_WARNING_STEP_2 = 0x10,
     KANA_RENDER_WARNING_STEP_3 = 0x18,
+    KANA_ACCEL_ORBIT_ANGLE_0 = 0xE0,
+    KANA_ACCEL_ORBIT_ANGLE_1 = 0x08,
+    KANA_ACCEL_ORBIT_ANGLE_2 = 0x78,
+    KANA_ACCEL_ORBIT_ANGLE_3 = 0xA0,
+    KANA_ROTATING_RING_BULLETS = 5,
+    KANA_INTRO_RADIUS_ORIGINAL_SUBPIXEL = 0xC80,
 };
 
 void far pascal boss_kana_template_init(int player_id)
@@ -147,10 +153,10 @@ void near kana_pattern_accel_ring(void)
 			boss_center_y,
 			(1 - pid_current)
 		);
-		kana_extra_add(boss_center_x, boss_center_y, 0xE0);
-		kana_extra_add(boss_center_x, boss_center_y, 0x08);
-		kana_extra_add(boss_center_x, boss_center_y, 0x78);
-		kana_extra_add(boss_center_x, boss_center_y, 0xA0);
+		kana_extra_add(boss_center_x, boss_center_y, KANA_ACCEL_ORBIT_ANGLE_0);
+		kana_extra_add(boss_center_x, boss_center_y, KANA_ACCEL_ORBIT_ANGLE_1);
+		kana_extra_add(boss_center_x, boss_center_y, KANA_ACCEL_ORBIT_ANGLE_2);
+		kana_extra_add(boss_center_x, boss_center_y, KANA_ACCEL_ORBIT_ANGLE_3);
 
 		bullet_template.type = BT_BULLET16_DEFAULT_WITH_ACCEL;
 		bullet_template.group = BG_RING;
@@ -280,8 +286,8 @@ void near kana_pattern_cloud_ring(void)
 
 	if((boss_frame % kana_cloud_interval) == 0) {
 		_AL = randring_far_next16_and(0x1F);
-		// TC4 lowers byte -= 0x10 to ADD AL,F0 (04 F0), not
-		// the original SUB AL,10 (2C 10); retain the exact opcode.
+		// Genuine TC4 keeps the original SUB AL,10; direct C++ subtraction
+		// changes the full source CODE (fresh failed af836c).
 		asm { sub al, 10h }
 		angle = _AL;
 		if(randring_far_next16_and(1)) {
@@ -356,10 +362,10 @@ void near kana_pattern_rotating_ring(void)
 		(boss_frame >= KANA_ROTATING_VOLLEY_START) &&
 		(boss_frame < KANA_ROTATING_VOLLEY_END)
 	) {
-		if(!(boss_frame & (KANA_ROTATING_RING_PERIOD - 1))) {
+		if((boss_frame % KANA_ROTATING_RING_PERIOD) == 0) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullet_template.group = BG_RING;
-			bullet_template.count = 5;
+			bullet_template.count = KANA_ROTATING_RING_BULLETS;
 			bullet_template.center.x.v = boss_center_x;
 			bullet_template.center.y.v = boss_center_y;
 			bullet_template.speed.v = kana_rotating_speed;
@@ -538,7 +544,7 @@ void near kana_render_intro(void)
 	register int i;
 	register screen_x_t left;
 
-	radius = (0xC80 - ((boss_frame * 2) * 16));
+	radius = (KANA_INTRO_RADIUS_ORIGINAL_SUBPIXEL - ((boss_frame * 2) * 16));
 
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
@@ -550,7 +556,7 @@ void near kana_render_intro(void)
 	sprite_offset = (pid.so_attack + 0x284);
 	sprite_offset = (
 		sprite_offset +
-		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) & (KANA_RENDER_ANIMATION_PERIOD - 1)) * 32) * 0x28)
+		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) % KANA_RENDER_ANIMATION_PERIOD) * 32) * 0x28)
 	);
 
 	angle = boss_move_phase;

@@ -8,6 +8,19 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After836: complete Kana major BOSS natural C++ clocks
+
+- The complete `ba_kana` BOSS now expresses both its unsigned-16-bit rotating
+  volley tick and intro animation index as natural `%4`, while naming the
+  accelerated ring's four separate angles, rotating ring count and intro
+  radius. `af836c`'s natural cloud-angle subtraction failed original CODE,
+  so exact native `SUB AL,10h` remains. Final `af836d` passed two actual
+  original TC4/TLINK rounds: **1,874 CODE bytes, 274 ordered native
+  FIXUPPs, 9 PUBLICs**, complete Japanese MAIN and 1,553 relocations.
+  98 other objects/CRT reused, no cold replay. See
+  [after836 Kana BOSS review](MAIN_KANA_BOSS_NATIVE_MODULO_AFTER836_REVIEW.md).
+  Existing native source owner; no new unique CODE credit.
+
 ## Latest after835: five full modified physical source owners built together
 
 - `af835a` **actually compiled all five original physical TUs modified
