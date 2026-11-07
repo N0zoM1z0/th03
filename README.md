@@ -71,7 +71,18 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after883 four-original-physical-object native integration**:
+**latest after889 five-original-physical-object native integration**:
+full **Kana major BOSS**, complete Marisa Extra Attack, complete
+Ellen Bomb, all seven static-HUD functions and the original DOS
+`execl` leaf. **Two genuine independent original TC4 4.02 + complete
+normal TLINK rounds simultaneously compiled all five changed project
+objects**, matching **4,191 original CODE bytes, 454 literal ordered
+native OMF FIXUPPs, 25 PUBLICs**, entire normal MAIN EXE/MAP, all
+124,642 Japanese loaded bytes and 1,553 ordered MZ relocations.
+**94 other game objects and Borland CRT were reused**, no full cold
+replay. See
+[after889 five-original-object native integration](docs/MAIN_FIVE_SOURCE_INTEGRATION_AFTER889_REVIEW.md).
+The preceding **after883 four-original-physical-object integration**:
 complete Chain 1 and Chain 2 background controllers with their shared
 current `phase.inl`, the complete **Marisa major BOSS**, and the small
 resident CFG loader leaf. **Four modified original physical objects
@@ -274,6 +285,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af889a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af883a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af880h
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af881i
@@ -284,7 +296,6 @@ To verify this checkout without replaying unchanged source or toolchains:
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af859a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af853a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af847a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af842a
     .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
     # Diagnostic reports expected input_s one-byte full-link FAILURE, not acceptance:
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -300,9 +311,10 @@ snapshots**, but their current maintained input hashes intentionally
 differ from later BOSS, player, or enemy changes. The live read-only
 reviewer rejects source drift. Preserve their original compiler/whole-link
 evidence. `af766a` likewise has a historical source snapshot now;
-use `af883a` for the latest changed physical source owners,
-plus independent source-current after880/881/882/877/871/865/859/
-853/847/842. `af835a` is now historical after the Marisa BOSS edit.
+use `af889a` for this session's five changed source owners, plus
+independent source-current after883/880/881/882/877/871/865/859/
+853/847. `af842a` and `af840a` are now historical after the Kana BOSS
+edit, and `af835a` is historical after the prior Marisa BOSS change.
 
 The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
 the historical applied after520 deletion audit (258 stages / 5,760

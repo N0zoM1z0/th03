@@ -8,6 +8,28 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after889: five edited original physical TUs together in native MAIN
+
+- `af889a` **genuinely recompiles all five full original physical source
+  owners changed in this session together**, in two independent original
+  TC4 4.02 and complete normal MAIN TLINK rounds: entire **Kana major
+  BOSS**, full Marisa Extra Attack, complete Ellen Bomb, seven-function
+  static HUD and DOS resource/`execl` leaf. Both rounds reproduce **all
+  4,191 original CODE bytes, 454 literal ordered native OMF FIXUPPs,
+  25 PUBLICs**, segment/source ABI, complete original normal MAIN EXE/MAP,
+  all **124,642 Japanese loaded bytes and 1,553 ordered MZ relocations**.
+  Independent standard MZ serialization reproduces all 130,882 Japanese
+  file bytes. **94 unchanged game objects and CRT reused**, no cold
+  replay. See
+  [after889 five-object native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER889_REVIEW.md).
+- Read-only current-source reviews of separate real `af883a`, `af877a`,
+  `af871a`, `af865a`, `af859a`, `af853a`, `af847a` still pass. Older
+  `af842a`/`af840a` are **historical source snapshots** after the Kana
+  BOSS changes, and `af835a` was already historical after the Marisa
+  BOSS edit. Keep authentic old receipts intact; never relax source
+  guards, invent a combined cold replay, double-count original CODE
+  or call this canonical Factory packed-game unit acceptance.
+
 ## After888: original DOS execl leaf and four-byte far NULL vararg
 
 - The full 79-CODE-byte `execl` far-Pascal MAIN handoff leaf now names
@@ -98,7 +120,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   [after884 Kana BOSS review](MAIN_KANA_BOSS_NATIVE_LOOPS_AFTER884_REVIEW.md).
   Already covered original CODE; not new unique/canonical Factory credit.
 
-## Latest after883: four edited original physical objects built together
+## After883: four edited original physical objects built together
 
 - The actual `af883a` **simultaneously compiles all four modified original
   physical project objects** in two independent original TC4 4.02 and
@@ -1782,7 +1804,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af883a af880h af881i af882e af877a af871a af865a af859a af853a af847a af842a
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af889a af883a af880h af881i af882e af877a af871a af865a af859a af853a af847a
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -1802,9 +1824,10 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The **latest current** protected original-source-bound read-only proof
-is `.analysis/work/exatt-layout-af883a/report.json`: four genuinely
-recompiled current original physical owners and both actual original
-TC4/TLINK rounds. The after877/871 experiments remain separate
+is `.analysis/work/exatt-layout-af889a/report.json`: five genuinely
+recompiled current original physical owners and both independent original
+TC4/TLINK rounds. The prior after883 experiment remains independently
+source-current for its own four other original physical owners. The after877/871 experiments remain separate
 current-source compiler/linker proofs for other unchanged units. Earlier `af865a` and `af859a` remain separate
 source-current independent five-owner compiler/linker experiments. The older `af782a`, `af775a`, and `af766a` complete real
 compiler/TLINK receipts remain protected **historical** source-input
