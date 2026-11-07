@@ -6,6 +6,25 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Reimu complete Bomb particle, shared lifecycle and renderer after690
+
+The full original `bm_reish` four-function Bomb physical
+producer is now exact from current maintained C++ in v2
+actual-source OMF-attested original TC4/TLINK. It uses
+native-equal natural `frame*4`/`frame*8` palette
+stages and explicitly unsigned `frame%2` sound/flash,
+plus `!particle->active` and `++i` in the full
+particle updater and sprite-render leaf. Real original
+TC4 checks the **8-byte particle record**, center
+offsets +02/+04 and vertical velocity +06, and the
+32 slots per player. Dual `af690e` original
+TC4/TLINK rounds reproduce **925 CODE bytes, 104
+ordered native fixups, four PUBLICs**, full MAIN/MAP
+and Japanese MZ relocations. See
+[after690 Reimu Bomb review](MAIN_REIMU_BOMB_NATIVE_AFTER690_REVIEW.md).
+Only this physical original object rebuilt; no
+full cold replay or new Factory canonical packed bytes.
+
 ## Mima full bomb update, eight-column renderer and palette after689
 
 The full `bm_mima` original three-function Bomb

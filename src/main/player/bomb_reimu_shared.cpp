@@ -1,10 +1,11 @@
-// Source-present shared lifecycle + Reimu bomb producer (925 CODE bytes).
-// Exact acceptance pending; see docs/reconstruction/MAIN_REIMU_SHARED_GAMEPLAY_REVIEW.md.
+// Source-native complete shared lifecycle and Reimu Bomb controller.
+// Current-source native TC4 exactness: see after690 complete proof.
 // Shared lifecycle serves Marisa, Kotohime, Kana, Rikako, Chiyuri and Yumemi
 // for both players. Reimu uses the separate updater below.
 // Existing storage remains external; no DATA/BSS definitions are introduced.
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
+#include <stddef.h>
 #include "src/main/player/reimu_gameplay.hpp"
 #pragma option -a2
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -16,6 +17,29 @@
 #include "compat/rec98/th02/snd/snd.h"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 extern "C" void far bomb_bg_fill(void); // Actual existing helper consumes BX.
+// Original physical per-player pool is 32 eight-byte Reimu Bomb
+// particles. The shared lifecycle updater also serves other characters.
+enum reimu_bomb_phase_t {
+    REIMU_BOMB_PARTICLES_PER_PLAYER = 32,
+    REIMU_BOMB_SPAWN_END = 32,
+    REIMU_BOMB_GRCG_END = 64,
+    REIMU_BOMB_RENDER_END = 96,
+    REIMU_BOMB_FLASH_END = 96,
+    REIMU_BOMB_SHAKE_END = 112,
+};
+typedef char reimu_bomb_stride_is_8[
+    (sizeof(reimu_bomb_particle_t) == 8) ? 1 : -1
+];
+typedef char reimu_bomb_x_at_2[
+    (offsetof(reimu_bomb_particle_t, x) == 2) ? 1 : -1
+];
+typedef char reimu_bomb_y_at_4[
+    (offsetof(reimu_bomb_particle_t, y) == 4) ? 1 : -1
+];
+typedef char reimu_bomb_velocity_at_6[
+    (offsetof(reimu_bomb_particle_t, velocity_y) == 6) ? 1 : -1
+];
+
 void far shared_bomb_lifecycle_update(void)
 {
     if(bomb_flag[pid_current] == BF_INACTIVE) {
@@ -42,15 +66,17 @@ void far reimu_bomb_update(void)
     if(bomb_flag[pid_current] == BF_PREPARING) {
         bomb_flag[pid_current] = BF_ACTIVE;
         bomb_frame[pid_current] = 0;
-        for(i = 0; i < 32; i++) {
+        for(i = 0; i < REIMU_BOMB_PARTICLES_PER_PLAYER; ++i) {
             reimu_bomb_particles[pid_current][i].active = 0;
         }
         snd_se_play(18);
     }
     bomb_frame[pid_current]++;
     reimu_bomb_particle_p = &reimu_bomb_particles[pid_current][0];
-    for(i = 0; i < 32; i++, reimu_bomb_particle_p++) {
-        if(reimu_bomb_particle_p->active == 0) {
+    for(i = 0; i < REIMU_BOMB_PARTICLES_PER_PLAYER; ++i, reimu_bomb_particle_p++) {
+        // Original inactive particle slots are skipped; the active list
+        // is not compacted or defensively reordered.
+        if(!reimu_bomb_particle_p->active) {
             continue;
         }
         reimu_bomb_particle_p->y += reimu_bomb_particle_p->velocity_y;
@@ -73,8 +99,8 @@ void near reimu_bomb_particles_render(void)
     sprite16_put_size.set(16, 16);
     sprite16_clip.reset();
     sprite_offset = pid.so_attack + 0x18;
-    for(int i = 0; i < 32; i++, reimu_bomb_particle_p++) {
-        if(reimu_bomb_particle_p->active == 0) {
+    for(int i = 0; i < REIMU_BOMB_PARTICLES_PER_PLAYER; ++i, reimu_bomb_particle_p++) {
+        if(!reimu_bomb_particle_p->active) {
             continue;
         }
         left = playfield_fg_x_to_screen(reimu_bomb_particle_p->x, pid_current) - 8;
@@ -91,7 +117,7 @@ void far reimu_bomb(void)
     }
     egc_off();
     frame = bomb_frame[pid_current];
-    if(frame < 64) {
+    if(frame < REIMU_BOMB_GRCG_END) {
         grcg_setcolor(GC_RMW, pid_current);
         // Real register ABI: target sub_B39E calls sub_B37C, whose first
         // fill-loop setup copies BX into DI. See raw helper audit in REVIEW.
@@ -101,23 +127,23 @@ void far reimu_bomb(void)
         }
         bomb_bg_fill();
         grcg_off();
-        if(frame < 32) {
+        if(frame < REIMU_BOMB_SPAWN_END) {
             reimu_bomb_particle_p = &reimu_bomb_particles[pid_current][frame];
             reimu_bomb_particle_p->active = 1;
             reimu_bomb_particle_p->velocity_y = -96 - randring2_next16_and(127);
             reimu_bomb_particle_p->x = randring2_next16_mod(TO_SP(PLAYFIELD_W));
             reimu_bomb_particle_p->y = TO_SP(384);
         }
-        Palettes[pid_current].c.r = frame << 2;
+        Palettes[pid_current].c.r = frame * 4;
         Palettes[pid_current].c.g = frame * 3;
         Palettes[pid_current].c.b = frame * 3;
         palette_changed = true;
-    } else if(frame < 112) {
-        if(frame & 1) {
+    } else if(frame < REIMU_BOMB_SHAKE_END) {
+        if((static_cast<unsigned int>(frame) % 2) != 0) {
             snd_se_play(16);
         }
-        if(frame <= 96) {
-            PaletteTone = (frame & 1) * 80 + 100;
+        if(frame <= REIMU_BOMB_FLASH_END) {
+            PaletteTone = (static_cast<unsigned int>(frame) % 2) * 80 + 100;
             palette_changed = true;
             // Accepted family compiler-compatibility idiom: zero-extended
             // word stack carrier for byte bool formal, not an AX ABI.
@@ -135,14 +161,14 @@ void far reimu_bomb(void)
         }
     } else {
         playfield_fg_shift_x[pid_current] = 0;
-        color = 255 - (frame << 3);
+        color = 255 - (frame * 8);
         Palettes[pid_current].c.r = color;
         Palettes[pid_current].c.g = color;
         Palettes[pid_current].c.b = color;
         palette_changed = true;
     }
     egc_on();
-    if(frame < 96) {
+    if(frame < REIMU_BOMB_RENDER_END) {
         reimu_bomb_particles_render();
     }
 }
