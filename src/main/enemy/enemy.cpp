@@ -816,6 +816,15 @@ bool near enemy_run(void);
 		chain_ring_p[pid] = 0; \
 	}
 
+// Chain thresholds for this complete hit/update controller. The original
+// round-speed slot computation and all signed hit-count comparisons remain.
+enum enemy_chain_charge_t {
+    ENEMY_CHAIN_CHARGE_ONLY_BEFORE = 2,
+    ENEMY_CHAIN_PELLET_CHARGE_BASE = 9,
+    ENEMY_CHAIN_EXATT_CHARGE_BASE = 14,
+    ENEMY_CHAIN_ROUND_SPEED_BANDS = 4,
+};
+
 void near enemy_hittest(void)
 {
 	playfield_subpixel_t radius;
@@ -889,10 +898,10 @@ void near enemy_hittest(void)
 			// ZUN quirk: Incrementing fireball and Extra Attack charge in a
 			// fixed slot depending on the round speed? Since...
 			static_assert(CHAIN_RING_SIZE >= 4);
-			chain_slot = (round_speed / ((ROUND_SPEED_MAX + 1) / 4));
-			if(hits <= 2) {
+			chain_slot = (round_speed / ((ROUND_SPEED_MAX + 1) / ENEMY_CHAIN_ROUND_SPEED_BANDS));
+			if(hits <= ENEMY_CHAIN_CHARGE_ONLY_BEFORE) {
 				chains.charge_fireball[pid][chain_slot]++;
-			} else if(hits <= (9 - chain_slot)) {
+			} else if(hits <= (ENEMY_CHAIN_PELLET_CHARGE_BASE - chain_slot)) {
 				bullet_template.group = BG_RANDOM_CONSTRAINED_ANGLE_AIMED;
 
 				/* TODO: Replace with the decompiled call
@@ -903,7 +912,7 @@ void near enemy_hittest(void)
 				}
 
 				chains.charge_fireball[pid][chain_slot] += 2;
-			} else if(hits <= (14 - (chain_slot * 2))) {
+			} else if(hits <= (ENEMY_CHAIN_EXATT_CHARGE_BASE - (chain_slot * 2))) {
 				chains.charge_fireball[pid][chain_slot] += 3;
 				if((hits & 1) == 0) {
 					bullet_template.group = BG_RANDOM_CONSTRAINED_ANGLE_AIMED;
@@ -957,7 +966,7 @@ void near enemies_hittest(void)
 {
 	explosion_hittest_against = EHA_ENEMY;
 	p = &enemies[ENEMY_COUNT - 1];
-	for(int i = (ENEMY_COUNT - 1); i >= 0; (i--, p--)) {
+	for(int i = (ENEMY_COUNT - 1); i >= 0; (--i, p--)) {
 		if(p->flag == EF_RUNNING_SPAWNED) {
 			enemy_hittest();
 		}
@@ -969,7 +978,7 @@ void near enemies_hittest(void)
 void enemies_render(void)
 {
 	efe_p.enemy = enemies;
-	for(int i = 0; i < ENEMY_COUNT; (i++, efe_p.enemy++)) {
+	for(int i = 0; i < ENEMY_COUNT; (++i, efe_p.enemy++)) {
 		enemy_t near *p = efe_p.enemy;
 		if((p->flag == EFF_FREE) || (p->flag == EF_RUNNING_UNSPAWNED)) {
 			continue;
@@ -981,7 +990,7 @@ void enemies_render(void)
 		sprite16_put_size.h = (p->size_pixels / 2);
 
 		static_assert(PLAYER_COUNT == 2);
-		if(p->pid == 0) {
+		if(!p->pid) {
 			sprite16_clip.set_for_pid_0();
 		} else {
 			sprite16_clip.set_for_pid_1();
@@ -1006,7 +1015,7 @@ void enemies_update(void)
 	enemies_alive[0] = 0;
 	enemies_alive[1] = 0;
 
-	for(int i = 0; i < ENEMY_COUNT; (i++, p++)) {
+	for(int i = 0; i < ENEMY_COUNT; (++i, p++)) {
 		if(p->flag == EFF_FREE) {
 			continue;
 		}
