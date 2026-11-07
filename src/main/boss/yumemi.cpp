@@ -133,8 +133,9 @@ void near yumemi_pattern_ring(void)
 		yumemi_angle = randring_far_next16();
 		yumemi_speed_add = 0;
 		boss_effect_radius = 0x100;
-		_AL = ((randring_far_next16_and(1) == 0) ? 3 : -3);
-		yumemi_angle_delta = _AL;
+		yumemi_angle_delta = (
+			(randring_far_next16_and(1) == 0) ? 3 : -3
+		);
 	}
 
 	if(boss_frame < YUMEMI_RING_WARNING_END) {
@@ -160,7 +161,7 @@ void near yumemi_pattern_ring(void)
 		snd_se_play(5);
 	}
 
-	if((boss_frame & 3) == 0) {
+	if((boss_frame % 4) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -196,7 +197,7 @@ void near yumemi_pattern_aimed_random(void)
 	}
 
 	if(boss_frame < 0x10) {
-		if((boss_frame & 3) == 1) {
+		if((boss_frame % 4) == 1) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
 				boss_aux_point.y.v,
@@ -219,7 +220,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = 2;
 	}
 
-	if((boss_frame & 1) == 0) {
+	if((boss_frame % 2) == 0) {
 		snd_se_play(3);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -299,7 +300,7 @@ void near yumemi_pattern_chase(void)
 	boss_move_sine();
 	boss_move_sine();
 
-	if((boss_frame & 0x0F) == 0x0F) {
+	if((boss_frame % 16) == 15) {
 		boss_render_mode = 1;
 		bomb_axis_add(
 			boss_aux_point.x.v,

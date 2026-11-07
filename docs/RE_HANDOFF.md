@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Yumemi major BOSS real signed C++ ring and attack cadence after665
+
+The full original Yumemi BOSS TU now emits the ring direction
+directly as signed C++ `yumemi_angle_delta = ... ? 3 : -3`,
+without the AL register shuttle. Its expanding ring, aimed
+random volley and chase attack warning clocks now use exact
+native compiler-generated `boss_frame %4/%2/%16` rather
+than masked bit patterns. The actual modified-source OMF
+attested original TC4/TLINK `af665b` two-round proof
+reproduces all **2,358 original CODE bytes**, all literal
+ordered fixups and PUBLICs, normal full MAIN EXE/MAP and
+Japanese program/MZ relocations. The separate intro
+shift-chain is intentionally preserved after historic
+native-unequal simplification. See
+[after665 Yumemi BOSS native review](MAIN_YUMEMI_BOSS_NATURAL_CADENCE_AFTER665_REVIEW.md).
+Only this BOSS object rebuilt; no cold replay or extra
+canonical Factory packed-code byte credit.
+
 ## Marisa complete GRCG charged-shot + Gauge source after664
 
 The scoped native compiler now includes original `cs_mari`
