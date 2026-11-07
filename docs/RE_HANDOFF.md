@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after840: five edited original physical objects in one native MAIN link
+
+- `af840a` **actually recompiles the five complete original physical
+  objects edited in after836–839 simultaneously**, across two independent
+  original TC4 4.02 and complete normal TLINK rounds: full Kana BOSS,
+  two shared BOSS carrier objects, complete CPU AI and all input modes.
+  Four maintained source files map to five historical physical objects.
+- All **4,267 CODE bytes, 502 literal ordered OMF FIXUPPs and 30 PUBLICs**,
+  source/compiler dependencies and segment geometry, complete original
+  MAIN EXE/MAP, **124,642 Japanese loaded bytes and 1,553 MZ relocations**
+  match in both rounds. Independent standard DOS MZ serialization matches
+  all 130,882 Japanese file bytes. **94 unchanged original game objects
+  and CRT reused**, no cold replay. See
+  [after840 five-object integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER840_REVIEW.md).
+- Independent `af835a`, `af829a` and `af823a` remain *separately*
+  source-current read-only passes for different unchanged original units,
+  not evidence of one fictitious all-object native replay. No overlap
+  double-counted as new distinct CODE or canonical Factory acceptance.
+
 ## After839: complete input modes and native press/release wait
 
 - The nine-function original `inp_m_w` input-mode physical owner now
