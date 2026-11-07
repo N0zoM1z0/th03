@@ -19,6 +19,9 @@
 /// ---------
 
 static const int COMBO_DIGITS = 2;
+// The original two-digit HUD uses the same decimal radix for the tens
+// check, tens division and remainder. Keep the original 8-bit local view.
+static const int COMBO_DECIMAL_RADIX = 10;
 static const unsigned int COMBO_FRAMES = 80;
 static const unsigned int COMBO_HIT_RESET_FRAMES = 32;
 static const unsigned int COMBO_BONUS_CAP = 65535;
@@ -76,6 +79,8 @@ uint16_t pascal combo_add_raw(uint8_t hits, pid_t pid, uint16_t bonus)
 	// the retained combo total (one combined expression failed in af751c).
 	uint32_t bonus_total_new = bonus;
 	bonus_total_new += combo.bonus_total;
+	// A conditional operator for saturation is source-equivalent but moves
+	// TC4's original word-register allocation (failed af849c).
 	if(bonus_total_new > COMBO_BONUS_CAP) {
 		bonus = COMBO_BONUS_CAP;
 	} else {
@@ -129,6 +134,8 @@ void combos_update_and_render(void)
 	tram_x_t left;
 	int pid;
 	uint8_t col;
+	// Keep the pointer initialization before the loop: moving it into
+	// the initializer emitted non-original source CODE (af849d).
 	for(pid = 0; pid < PLAYER_COUNT; (++pid, ++p)) {
 		if(!p->time) {
 			continue;
@@ -146,10 +153,10 @@ void combos_update_and_render(void)
 			// ZUN bloat: This digit rendering code didn't need to write to the
 			// unrelated [col] variable.
 			uint8_t hit_val_rem = p->hits_highest;
-			if(hit_val_rem >= 10) {
-				col = static_cast<gaiji_th03_t>(gb_0 + (hit_val_rem / 10));
+			if(hit_val_rem >= COMBO_DECIMAL_RADIX) {
+				col = static_cast<gaiji_th03_t>(gb_0 + (hit_val_rem / COMBO_DECIMAL_RADIX));
 				gaiji_putca(box_tram_x(left), HITS_TRAM_Y, col, TX_WHITE);
-				hit_val_rem = (hit_val_rem % 10);
+				hit_val_rem = (hit_val_rem % COMBO_DECIMAL_RADIX);
 			} else {
 				gaiji_putca(box_tram_x(left), HITS_TRAM_Y, g_SP, TX_WHITE);
 			}
@@ -180,7 +187,9 @@ void combos_update_and_render(void)
 			if(
 				(p->time < COMBO_HIT_RESET_FRAMES) &
 				(
-					(round_or_result_frame & (COMBO_FLASH_PERIOD - 1)) <
+					// 16-bit unsigned frame clock: genuine original TC4
+					// compiles %4 to the native mask (af849a).
+					(round_or_result_frame % COMBO_FLASH_PERIOD) <
 					COMBO_FLASH_FIRST_HALF
 				)
 			) {
@@ -246,6 +255,8 @@ void pascal near explosion_collision_chain_slot_fire_charged_fireball(
 		/* TODO: Replace with the decompiled call
 		 * 	fireballs_add();
 		 * once that function is part of the same segment */
+		// A normal fireballs_add() emits CALL FAR 9A, rather than
+		// the exact target's NOP; PUSH CS; CALL near (af849f).
 		_asm { nop; push cs; call near ptr fireballs_add; }
 
 		efe_p.efe = efe_p_prev;

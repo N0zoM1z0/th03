@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After849: complete Combo HUD and BOSS/Panic helper source
+
+- The two complete original physical Combo objects (`p_combo`,
+  `p_cmbhl`) now use **natural unsigned 16-bit `%4`** for the four-frame
+  HUD blink and a shared decimal-radix constant for two-digit rendering.
+  The original bitwise `&` between independent blink predicates,
+  32-bit bonus saturation/rounding, near-segment Fireball call and
+  16-bit BOSS/Panic ABI stay intact.
+- Fresh genuine TC4 negative controls: `af849c` 32-bit bonus ternary
+  generated 493 vs original 491 CODE bytes; `af849d` moving pointer
+  initialization changed CODE; `af849f` direct Fireball C++ call
+  emitted far `9A` instead of target `90 0E E8`. All rejected.
+  Final `af849g` passes two original TC4/full normal MAIN TLINK rounds:
+  **978 CODE bytes, 57 ordered FIXUPPs, 5 PUBLICs**, original Japanese
+  MAIN and all 1,553 MZ relocations exact. 97 other objects/CRT reused,
+  no cold replay. See [after849 Combo review](MAIN_COMBO_HUD_NATIVE_AFTER849_REVIEW.md).
+  Existing source owner; no additional unique CODE or canonical credit.
+
 ## After848: full Yumemi BOSS native four-stage raster control
 
 - The complete `ba_yumem` BOSS now expresses **all four original entrance
