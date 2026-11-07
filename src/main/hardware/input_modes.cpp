@@ -64,6 +64,9 @@ void far pascal input_mode_cpu_vs_cpu(void)
     input_reset_sense_key_held();
     // Keep the separate original short-circuit flag tests. A single
     // combined mask generates seven fewer bytes under TC4 (af839b).
+    // Keep original two independent short-circuit bit tests. Combining
+    // their masks produced 360 instead of 367 native CODE bytes in
+    // freshly compiled original af907d, not just historical af839b.
     if((input_sp & INPUT_CANCEL) || (input_sp & INPUT_OK)) {
         input_sp = INPUT_CANCEL;
     }
@@ -88,25 +91,31 @@ void far pascal input_wait_for_change(int frames_to_wait)
 {
     int frames_waited = 0;
 
-    // Release phase has no timeout, including when frames_to_wait is negative.
-    for(;;) {
+    // Release phase has no timeout, even for negative limits. This
+    // original old-TC4 compile lacks a defined `true` at this source
+    // point (`while(true)` failed to compile in af907a), but `while(1)`
+    // is a natural original-exact spelling (af907b).
+    while(1) {
         input_mode_interface();
-        if(!input_sp) {
+        // The source-level idle sentinel can naturally be compared
+        // explicitly without changing original TEST/Jcc instructions.
+        if(input_sp == INPUT_NONE) {
             break;
         }
         frame_delay(1);
     }
 
-    if(!frames_to_wait) {
+    if(frames_to_wait == 0) {
         frames_to_wait = INPUT_WAIT_UNLIMITED_FRAMES;
     }
 
-    // Both 0 and 9999 mean an unlimited press phase. Negative values skip it.
-    // Natural for-loop form retains original true signed frame-limit
-    // comparison and the byte-for-byte emitted interrupt polling (af839a).
-    for(; frames_waited < frames_to_wait; ) {
+    // Zero selects the original 9999-frame unlimited sentinel; negative
+    // values skip only this second press phase, never the release wait.
+    // Natural while retains the signed 16-bit limit/late-reset and all
+    // original interrupt reads, exact under genuine TC4 (af907b/c/e).
+    while(frames_waited < frames_to_wait) {
         input_mode_interface();
-        if(input_sp) {
+        if(input_sp != INPUT_NONE) {
             break;
         }
         ++frames_waited;

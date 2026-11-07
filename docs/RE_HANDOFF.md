@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After907: original input-mode and two-phase wait controller
+
+- The full nine-entrypoint `inp_m_w` physical owner now uses natural
+  `while(1)` release polling and signed-bound `while` press polling,
+  explicit `INPUT_NONE` tests and zero-timeout sentinel, preserving
+  original joystick, CPU-vs-CPU and far-Pascal ABI.
+- Original TC4 rejected `while(true)` here because the historical source
+  does not define `true` (`af907a`). Combining independent CPU-vs-CPU
+  CANCEL/OK checks into one mask emitted **360 vs original 367 CODE**
+  (`af907d`), so those tests remain. Final `af907f` passes two genuine
+  original TC4/full normal MAIN TLINK rounds: **367 CODE bytes, 58
+  literal ordered FIXUPPs, nine PUBLICs**, Japanese MAIN/1,553 ordered
+  MZ relocations exact, 98 other game objects/CRT reused.
+  See [after907 input wait review](MAIN_INPUT_MODE_NATIVE_WAIT_AFTER907_REVIEW.md).
+  Historical source-covered CODE, not new Factory accepted credit.
+
 ## After906: nine complete character resource/callback selectors
 
 - The full original `ch_setup` **3,888-CODE-byte** physical owner
