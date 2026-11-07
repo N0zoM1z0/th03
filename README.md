@@ -71,7 +71,19 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after896 nine-original-physical-object native integration**:
+**latest after903 seven-original-physical-object native integration**:
+complete **Yumemi and Mima major BOSSes**, the full **Bullet engine**
+with original 9,500-byte BSS, both physical Combo HUD/BOSS-Panic
+owners, the original **Hitbox leaf**, and the full explosion-chain
+collision engine. **Seven changed original project objects were
+genuinely recompiled together** in two independent real TC4 4.02/
+normal full MAIN TLINK rounds, matching **8,839 original CODE bytes,
+955 literal ordered native OMF FIXUPPs, and 46 PUBLICs**, full normal
+MAIN EXE/MAP, all 124,642 Japanese loaded bytes and all 1,553
+original ordered MZ relocations. **92 unchanged original project
+objects and original CRT reused**, no full cold replay. See
+[after903 seven-object native integration](docs/MAIN_SEVEN_SOURCE_INTEGRATION_AFTER903_REVIEW.md).
+The preceding **after896 nine-original-physical-object integration**:
 all four original Enemy engine and ENEDAT script interpreter objects,
 the full Fireball engine, **complete Reimu and Ellen major BOSSes**,
 Rikako Bomb and the original round-reset/result scoreboard source.
@@ -297,6 +309,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af903a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af896a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af889a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af883a
@@ -306,8 +319,6 @@ To verify this checkout without replaying unchanged source or toolchains:
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af877a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af871a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af865a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af859a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af853a
     .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
     # Diagnostic reports expected input_s one-byte full-link FAILURE, not acceptance:
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -323,11 +334,12 @@ snapshots**, but their current maintained input hashes intentionally
 differ from later BOSS, player, or enemy changes. The live read-only
 reviewer rejects source drift. Preserve their original compiler/whole-link
 evidence. `af766a` likewise has a historical source snapshot now;
-use `af896a` for this session's nine changed physical source owners,
-plus separate source-current after889/883/880/881/882/877/871/865/
-859/853. `af847a` and `af843g` are now historical after the Enemy and
-Reimu changes; `af842a`/`af840a` are historical after Kana, and
-`af835a` after the prior Marisa BOSS change.
+use `af903a` for this session's seven changed original physical owners,
+plus separate source-current `af896a`, `af889a`, `af883a`, `af880h`,
+`af881i`, `af882e`, `af877a`, `af871a`, and `af865a`. Old `af859a`
+and `af853a` now fail live source binding after Mima/Yumemi/Combo edits;
+`af847a`/`af843g` were already historical after Enemy/Reimu,
+`af842a`/`af840a` after Kana, and `af835a` after Marisa/Bullet.
 
 The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
 the historical applied after520 deletion audit (258 stages / 5,760
