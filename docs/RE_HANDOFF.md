@@ -8,6 +8,27 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After862: complete Rikako BOSS native emitter and renderer loops
+
+- The full eight-function **Rikako major BOSS** (`ba_rikak`) now uses
+  natural C++ `while` loops for **both attack ring emitters, eight-sprite
+  main and sixteen-sprite intro renderers**, preserving original
+  signed 256-angle division, RNG consumption and call ordering.
+  Byte +0x20/+0x10 sprite angles, real subpixel orbit radius, four
+  pellet volleys/speed increase and opposite half-turn are native-exact
+  named C++ values.
+- Fresh TC4 negative controls independently confirmed that replacing
+  binary zero-minus `angle=(0-angle)` with unary negation produces
+  **1,674** vs original **1,677** CODE (`af862d`), and plain signed
+  `i %4` in place of explicit `(unsigned int)i %4` produces **1,684**
+  (`af862f`). Both original compiler-sensitive semantics remain.
+  Final `af862g` passes **two independent actual TC4/complete normal
+  MAIN TLINK rounds** with **1,677 CODE bytes, 215 ordered native
+  FIXUPPs, 8 PUBLICs**, full Japanese MAIN/1,553 MZ relocations exact.
+  98 other project objects/CRT reused, no cold replay. See
+  [after862 full Rikako BOSS review](MAIN_RIKAKO_BOSS_NATIVE_LOOPS_AFTER862_REVIEW.md).
+  Already covered original owner; no duplicate unique CODE/Factory credit.
+
 ## After861: complete Kotohime Extra Attack emitter and render traversals
 
 - The eight-function original `ex_koto` source now uses natural `while`

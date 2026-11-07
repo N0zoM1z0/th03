@@ -91,6 +91,12 @@ enum rikako_render_timing_t {
     RIKAKO_RING_ANIM_PERIOD = 4,
     RIKAKO_INTRO_BLINK_PERIOD = 2,
     RIKAKO_ORBIT_RING_RADIUS = 48,
+    RIKAKO_RENDER_MAIN_ANGLE_STEP = 0x20,
+    RIKAKO_RENDER_INTRO_ANGLE_STEP = 0x10,
+    RIKAKO_ORBIT_SUBPIXEL_RADIUS = TO_SP(48),
+    RIKAKO_PELLET_VOLLEY_COUNT = 4,
+    RIKAKO_PELLET_VOLLEY_SPEED_INC = 8,
+    RIKAKO_BURST_HALF_TURN = 0x80,
 };
 
 void far pascal boss_rikako_template_init(int player_id)
@@ -165,20 +171,24 @@ void near rikako_pattern_orbit_spread(void)
 			: (signed char)-0x30
 		);
 
-		for(i = 0; i < rikako_orbit_count; ++i) {
+		// Original 256-unit angle distribution precedes signed division;
+		// ordinary C++ while retains the complete ring call order.
+		i = 0;
+		while(i < rikako_orbit_count) {
 			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_orbit_count);
 			bullet_template.center.x.v = polar(
 				boss_center_x,
-				TO_SP(48),
+				RIKAKO_ORBIT_SUBPIXEL_RADIUS,
 				CosTable8[angle]
 			);
 			bullet_template.center.y.v = polar(
 				boss_center_y,
-				TO_SP(48),
+				RIKAKO_ORBIT_SUBPIXEL_RADIUS,
 				SinTable8[angle]
 			);
 			bullet_template.angle = (angle + angle_delta);
 			bullets_add();
+			++i;
 		}
 		snd_se_play(5);
 		return;
@@ -226,13 +236,17 @@ void near rikako_pattern_entities_and_pellets(void)
 		// This RNG word is overwritten by the first ring angle, but
 		// consuming it still changes all subsequent game randomness.
 		angle = randring_far_next16();
-		for(i = 0; i < rikako_entity_count; ++i) {
+		// This separate emitter consumes the original otherwise overwritten
+		// RNG result before its same 256-step angular distribution.
+		i = 0;
+		while(i < rikako_entity_count) {
 			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_entity_count);
 			rikako_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle
 			);
+			++i;
 		}
 		snd_se_play(5);
 		return;
@@ -246,9 +260,9 @@ void near rikako_pattern_entities_and_pellets(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.speed.v = TO_SP(2);
 
-		for(i = 0; i < 4; ++i) {
+		for(i = 0; i < RIKAKO_PELLET_VOLLEY_COUNT; ++i) {
 			bullet_template.angle = randring_far_next16();
-			bullet_template.speed.v += 8;
+			bullet_template.speed.v += RIKAKO_PELLET_VOLLEY_SPEED_INC;
 			bullets_add();
 		}
 		snd_se_play(10);
@@ -305,7 +319,7 @@ void near rikako_pattern_alternating_burst(void)
 		snd_se_play(10);
 		bullets_add();
 
-		bullet_template.angle = (rikako_random_angle + 0x80);
+		bullet_template.angle = (rikako_random_angle + RIKAKO_BURST_HALF_TURN);
 		bullets_add();
 	}
 
@@ -436,7 +450,11 @@ void near rikako_render_main(void)
 	left += 40;
 	top += 40;
 
-	for(i = 0; i < RIKAKO_MAIN_SPRITE_COUNT; (++i, angle += 0x20)) {
+	// Native original sprite loop accepts signed-index C++ while,
+	// but its %4 MUST explicitly promote that signed `i` to unsigned:
+	// ordinary signed `i %4` differs in original TC4 (af862f).
+	i = 0;
+	while(i < RIKAKO_MAIN_SPRITE_COUNT) {
 		x = polar(left, RIKAKO_ORBIT_RING_RADIUS, CosTable8[angle]);
 		y = polar(top, RIKAKO_ORBIT_RING_RADIUS, SinTable8[angle]);
 
@@ -451,6 +469,8 @@ void near rikako_render_main(void)
 			y,
 			(pid.so_attack + sprite_offset)
 		);
+		++i;
+		angle += RIKAKO_RENDER_MAIN_ANGLE_STEP;
 	}
 }
 
@@ -482,9 +502,14 @@ void near rikako_render_intro(void)
 	}
 
 	angle = ((unsigned char)boss_frame * 4);
+	// Preserve binary zero-minus: the superficially natural unary
+	// -angle changed native CODE again in independent af862d.
 	angle = (0 - angle);
 
-	for(i = 0; i < RIKAKO_INTRO_SPRITE_COUNT; (++i, angle += 0x10)) {
+	// The second 16-sprite signed-step while loop and named +0x10
+	// angle mutation preserve all original original TC4 instructions.
+	i = 0;
+	while(i < RIKAKO_INTRO_SPRITE_COUNT) {
 		left = polar(
 			boss_center_x,
 			radius,
@@ -506,6 +531,8 @@ void near rikako_render_intro(void)
 		// instead changes TC4 CODE (af763c).
 		top = static_cast<screen_y_t>((top >> 4) - 8);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		angle += RIKAKO_RENDER_INTRO_ANGLE_STEP;
 	}
 }
 
