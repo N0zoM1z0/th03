@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After869: exact PMD/MIDI hardware interrupt leaf and original AX return
+
+- Original 30-CODE-byte `snd_kaja` hardware/PMD service now uses a
+  natural active-only branch with one common `return _AX`, preserving
+  original inactive unchanged AX, strict MIDI flag `==1`, PMD-first
+  `INT 60h` and MIDI `INT 61h` selection and the real 16-bit Pascal ABI.
+  Old TC4-compatible compile-time guards verify 16-bit short and 8-bit
+  flags without adding program data.
+- Fresh original compiler negative: reversing the MIDI/PMD branch
+  produced different original CODE at byte 18 (`af869a`). The restored
+  source with natural active-only branch (`af869c`) passed both original
+  compiler/link rounds; final `af869d` passes **30 CODE bytes, 2 literal
+  ordered native FIXUPPs, 1 PUBLIC**, whole Japanese MAIN/1,553 MZ
+  relocations in two independent TC4 4.02/normal TLINK rounds. 98 other
+  original objects/CRT reused. See
+  [after869 original PMD/MIDI leaf review](MAIN_KAJA_SOUND_NATIVE_BRANCH_AFTER869_REVIEW.md).
+  Previously covered original CODE, no new unique/canonical Factory credit.
+
 ## After868: all nine source loops of complete Marisa Chargeshot/Gauge
 
 - The complete `cs_mari` original nine-function Marisa Chargeshot/Gauge
