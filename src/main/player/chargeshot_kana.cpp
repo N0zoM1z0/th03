@@ -24,6 +24,8 @@ enum kana_charge_layout_t {
     KANA_CHARGE_RELEASE_LENGTH = 0x80,
     KANA_CHARGE_RELEASE_AFTER = 0x28,
     KANA_CHARGE_END_Y = TO_SP(-16),
+    KANA_CHARGE_SWIRLING = 1,
+    KANA_CHARGE_RELEASED = 2,
 };
 
 struct kana_chargeshot_t {
@@ -76,8 +78,8 @@ void far pascal chargeshot_add_kana(Subpixel center_x, Subpixel center_y)
 	kana_frame[pid.current] = 0;
 	kana_chargeshot_t near *p = &kana_chargeshots[pid.current][0];
 
-	for(int group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
-		for(int i = 0; i <= KANA_CHARGE_LAST; i++) {
+	for(int group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
+		for(int i = 0; i <= KANA_CHARGE_LAST; ++i) {
 			p->x[i] = center_x.v;
 			p->y[i] = center_y.v;
 		}
@@ -103,14 +105,14 @@ void far pascal chargeshot_update_kana(void)
 	register kana_chargeshot_t near *p;
 	register int group;
 
-	if(kana_active[pid_current] == 0) {
+	if(!kana_active[pid_current]) {
 		return;
 	}
 	players[pid_current].gauge_charged = 0;
 	state = kana_active[pid_current];
 
 	p = &kana_chargeshots[pid_current][0];
-	for(group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
+	for(group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
 		vector2(vector_x, vector_y, p->angle, p->length);
 
 		for(point = KANA_CHARGE_LAST; point > 0; --point) {
@@ -119,20 +121,20 @@ void far pascal chargeshot_update_kana(void)
 		}
 		p->x[0] += vector_x;
 		p->y[0] += vector_y;
-		if(state == 1) {
+		if(state == KANA_CHARGE_SWIRLING) {
 			p->length--;
 		}
 	}
 
-	if(state == 1) {
+	if(state == KANA_CHARGE_SWIRLING) {
 		p--;
 		p->angle -= 2;
 		p -= 3;
 		p->angle += 2;
 
 		if(kana_frame[pid_current] > KANA_CHARGE_RELEASE_AFTER) {
-			kana_active[pid_current] = 2;
-			for(group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
+			kana_active[pid_current] = KANA_CHARGE_RELEASED;
+			for(group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
 				p->length = KANA_CHARGE_RELEASE_LENGTH;
 			}
 		}
@@ -159,12 +161,12 @@ void near kana_chargeshot_private(void)
 
 uint8_t far chargeshot_hittest_kana(void)
 {
-	if(kana_active[hitbox.pid] == 0) {
+	if(!kana_active[hitbox.pid]) {
 		return 0;
 	}
 
 	kana_chargeshot_t near *p = &kana_chargeshots[hitbox.pid][0];
-	for(int group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
+	for(int group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
 		for(int i = 0; i <= KANA_CHARGE_LAST; i += 4) {
 			if((p->x[i] - hitbox.right.v) > TO_SP(12)) {
 				continue;
@@ -187,18 +189,20 @@ uint8_t far chargeshot_hittest_kana(void)
 
 void far pascal chargeshot_render_kana(void)
 {
-	if(kana_active[pid_current] == 0) {
+	if(!kana_active[pid_current]) {
 		return;
 	}
 	kana_chargeshot_p = &kana_chargeshots[pid_current][0];
 	sprite16_put_size.set(32, 32);
 	sprite16_clip_set_for_pid(pid_current);
 
+	// Original XOR DX,DX encodes the overlap mask zero setup;
+	// _DX=0 changed native CODE (negative original TC4 af773c).
 	asm xor dx, dx;
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 
-	for(int i = 0; i < 4; (i++, kana_chargeshot_p++)) {
+	for(int i = 0; i < KANA_CHARGE_TRAILS; (++i, kana_chargeshot_p++)) {
 		kana_chargeshot_private();
 	}
 
@@ -262,6 +266,8 @@ void near pascal gauge_pattern_kana(bullet_type_t type)
 		bomb_center_add(bullet_template.center.x.v, 0, pid_other);
 	}
 
+	// The original unsigned byte %64 differs from an equivalent &63
+	// in TC4 machine code (actual native negative trial af773b).
 	if((kana_gauge_frame[pid_current] % KANA_GAUGE_SWEEP_PERIOD) < KANA_GAUGE_SWEEP_HALF) {
 		kana_gauge_x[pid_current] += KANA_GAUGE_MOVE_SUBPIXELS;
 	} else {
@@ -277,14 +283,14 @@ void near pascal gauge_pattern_kana(bullet_type_t type)
 
 void far gba_gauge_pattern_pellet_kana(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_kana(BT_PELLET);
 	}
 }
 
 void far gba_gauge_pattern_bullet_kana(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_kana(BT_BULLET16_DEFAULT);
 	}
 }
