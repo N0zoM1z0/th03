@@ -127,6 +127,8 @@ void fireballs_add(void)
 	pid_t pid_target = (1 - origin.pid);
 
 	subpixel_length_8_t speed;
+	// This first-free-slot allocator's for/continue/return is CODE-sensitive:
+	// converting it to while changed real TC4 output (af891c).
 	for(i = 0; i < FIREBALL_COUNT; (++i, fireball_p++)) {
 		if(fireball_p->flag != EFF_FREE) {
 			continue;
@@ -310,10 +312,18 @@ void fireballs_update(void)
 	collmap_tile_h.set(FALL_H / 2);
 
 	p = fireballs;
-	for(i = 0; i < FIREBALL_COUNT; (++i, p++)) {
+	// All 24 original fireballs are updated in a native-exact while.
+	// The free, clipped, and transferred branches each advance the
+	// original signed index and near pointer before continuing.
+	// Both goto labels still reach their authentic common epilogues.
+	i = 0;
+	while(i < FIREBALL_COUNT) {
 		if(p->flag == EFF_FREE) {
+			++i;
+			p++;
 			continue;
 		}
+		// Byte frame prefix changed TC4 CODE (af891d); postfix stays.
 		p->frame++;
 
 		if(p->flag >= EFF_EXPLOSION_IGNORING_ENEMIES) {
@@ -328,6 +338,8 @@ void fireballs_update(void)
 			) {
 free_and_continue:
 				p->flag = EFF_FREE;
+				++i;
+				p++;
 				continue;
 			}
 			p->center.x.v = next;
@@ -369,6 +381,8 @@ switch_to_fall:
 					p->velocity.y.v = p->fall_velocity_y;
 					p->flag = FF_FALL;
 					p->pid = (1 - p->pid);
+					++i;
+					p++;
 					continue;
 				}
 			} else {
@@ -384,6 +398,8 @@ switch_to_fall:
 			next += p->velocity.y.v;
 			p->center.y.v = next;
 		}
+		++i;
+		p++;
 	}
 }
 
@@ -495,8 +511,15 @@ void near fireballs_hittest(void)
 	variant = FV_RED;
 
 	// ZUN bloat: [FIREBALL_COUNT] exists.
-	for(i = (EFE_COUNT - 1); i >= (EFE_COUNT - FIREBALL_COUNT); (--i, p--)) {
+	// Actual reverse physical 24-entity chain scan; the sentinel and
+	// no-hit continue exits retain independent near-pointer decrements.
+	// The uninitialized chain_slot below is historical, not a safe
+	// candidate for automatic initialization or an invented bug fix.
+	i = (EFE_COUNT - 1);
+	while(i >= (EFE_COUNT - FIREBALL_COUNT)) {
 		if(p->flag != FF_FALL) {
+			--i;
+			p--;
 			continue;
 		}
 		explosion_hittest_against = p->variant_as_eha();
@@ -510,6 +533,8 @@ void near fireballs_hittest(void)
 		 * once the segmentation allows us to, if ever */
 		asm { nop; push cs; call near ptr hitbox_hittest; }
 		if(_AL == 0) {
+			--i;
+			p--;
 			continue;
 		}
 
@@ -563,6 +588,8 @@ void near fireballs_hittest(void)
 		// collision. Too minor to be classified as a quirk though, and maybe
 		// even intentional.
 		p->frame = 0;
+		--i;
+		p--;
 	}
 	variant = FV_BLUE;
 }
@@ -573,8 +600,13 @@ void fireballs_hittest_and_render(void)
 	sprite16_clip.reset();
 
 	p = fireballs;
-	for(int i = 0; i < FIREBALL_COUNT; (++i, p++)) {
+	// Whole 24-projectile render pass: free slots skip drawing, but
+	// still advance near pointer and signed index in their original order.
+	int i = 0;
+	while(i < FIREBALL_COUNT) {
 		if(p->flag == EFF_FREE) {
+			++i;
+			p++;
 			continue;
 		}
 		if(p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) {
@@ -582,5 +614,7 @@ void fireballs_hittest_and_render(void)
 		} else {
 			fireball_explosion_put();
 		}
+		++i;
+		p++;
 	}
 }

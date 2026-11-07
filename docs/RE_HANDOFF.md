@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After891: full fireball transfer/fall and collision loops
+
+- The ten-function original `e_fireb` source now uses native-exact natural
+  `while` for **24-fireball transfer/fall update**, reverse collision and
+  chain hit scan, and complete sprite rendering, preserving the original
+  `goto free_and_continue`/`goto switch_to_fall` paths and distinct
+  early-`continue` near-pointer/index updates. Original one-byte DATA/BSS
+  variants and uninitialized collision `chain_slot` remain intact.
+- Fresh original compiler negatives: converting first-free-slot
+  `fireballs_add` allocator from `for` to `while` changed original CODE
+  (`af891c`), as did prefix `++p->frame` replacing byte postfix
+  (`af891d`). Reverted. Final `af891e` passes two genuine original
+  TC4/full normal TLINK rounds: **1,555 CODE bytes, 115 ordered native
+  FIXUPPs, 10 PUBLICs**, original Japanese loaded MAIN and all 1,553
+  relocations. 98 other original objects/CRT reused, no cold replay.
+  See [after891 fireball engine review](MAIN_FIREBALL_WHOLE_CONTROL_AFTER891_REVIEW.md).
+  Existing source ownership, no new distinct/Factory packed credit.
+
 ## After890: complete four-object Enemy engine and large script VM native loops
 
 - The entire maintained **1,056-line Enemy engine**, compiled as four
