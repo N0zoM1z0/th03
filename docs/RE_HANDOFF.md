@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After855: entire Mima major BOSS signed/unsigned native angles
+
+- Full nine-function `ba_mima` major BOSS uses natural unsigned `if(!(boss_frame
+  %2))` for three attack clocks, named side-bomb/center geometry,
+  mirrored intro mask/split radius, and real 16-bit sprite keyframes.
+  Crucially, **Mima's byte-angle +9, +3 and +0x80 updates do accept named
+  native-exact C++ values**, unlike some other character BOSS cases.
+- Genuine original TC4 negative controls: merging mode-5 `goto` into
+  mode-2 C++ branch made **1,924 vs original 1,922 CODE bytes** (`af855b`);
+  widening the **byte** trail modulo local made 1,900 (`af855d`). Both
+  original compiler-sensitive behaviors retained. Final `af855i` proves
+  entire **1,922 CODE bytes, 277 ordered native FIXUPPs, 9 PUBLICs**,
+  complete original Japanese MAIN and 1,553 ordered MZ relocations in
+  **two independent original TC4/full normal TLINK rounds**; 98 other
+  objects and CRT reused. See
+  [after855 Mima BOSS review](MAIN_MIMA_BOSS_NATIVE_ANGLE_AFTER855_REVIEW.md).
+  Historical source owner reverified, not new distinct CODE/Factory credit.
+
 ## After854: complete Ellen Chargeshot/Gauge byte-state reconstruction
 
 - Full ten-function `cs_ellen` module (64 physical 12-byte records) now

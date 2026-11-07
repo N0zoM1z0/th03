@@ -122,6 +122,21 @@ enum mima_native_phase_t {
     MIMA_RANDOM_BOMB_END = 0x80,
     MIMA_TRAIL_END = 0x96,
     MIMA_BOSS_INTRO_END = 0x64,
+    MIMA_FIRE_EVEN_PERIOD = 2,
+    MIMA_SPREAD_ANGLE_STEP = 9,
+    MIMA_PELLET_ANGLE_STEP = 3,
+    MIMA_BOMB_ORIGIN_X_OFFSET = TO_SP(24),
+    MIMA_BOMB_ORIGIN_Y_OFFSET = TO_SP(-32),
+    MIMA_ORBIT_RADIUS = TO_SP(48),
+    MIMA_ORBIT_SHOT_ANGLE_OFFSET = 0x40,
+    MIMA_RENDER_PARTICLE_CEL_FIRST = 0x10,
+    MIMA_RENDER_PARTICLE_CEL_SECOND = 0x20,
+    MIMA_RENDER_HALF_MASK_A = 0xAAAA,
+    MIMA_RENDER_HALF_MASK_B = 0x5555,
+    MIMA_RENDER_MASK_RESTORE = 0xFFFF,
+    MIMA_RENDER_SPLIT_OPPOSITE_ANGLE = 0x80,
+    MIMA_INTRO_START_DISTANCE = 0xC8,
+    MIMA_INTRO_FRAME_DISTANCE_SHIFT = 1,
 };
 
 void near mima_pattern_spread(void)
@@ -138,7 +153,7 @@ void near mima_pattern_spread(void)
 		return;
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
 		snd_se_play(3);
 
 		bullet_template.angle = mima_spread_angle;
@@ -150,7 +165,9 @@ void near mima_pattern_spread(void)
 		bullet_template.is_animated = false;
 		bullets_add();
 		bullet_template.is_animated = true;
-		mima_spread_angle += 9;
+		// Unlike some other BOSS byte-angle updates, named original
+		// increment constants are TC4 byte-exact here (af855f/g).
+		mima_spread_angle += MIMA_SPREAD_ANGLE_STEP;
 
 		if(
 			(mima_pellet_until > boss_frame) &&
@@ -165,7 +182,7 @@ void near mima_pattern_spread(void)
 			bullet_template.angle = (0x80 - mima_pellet_angle);
 			bullets_add();
 		}
-		mima_pellet_angle += 3;
+		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
 	}
 
 	if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
@@ -187,8 +204,8 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	x = (boss_center_x + TO_SP(24));
-	y = (boss_center_y - TO_SP(32));
+	x = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
+	y = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
 
 	if(
 		(boss_frame == MIMA_RANDOM_BOMB_FIRE_BEGIN) ||
@@ -231,7 +248,7 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
 		snd_se_play(3);
 	}
 
@@ -244,6 +261,9 @@ void near mima_pattern_bomb_random(void)
 
 void near mima_pattern_trail(void)
 {
+	// The original 16-bit frame modulo narrows to a *byte* before the
+	// two trail-phase comparisons; widening this local changed TC4 CODE
+	// (native negative af855d).
 	unsigned char remainder = (boss_frame % mima_trail_interval);
 
 	boss_move_sine();
@@ -261,8 +281,8 @@ void near mima_pattern_trail(void)
 
 		snd_se_play(10);
 		bullet_template.angle = 0;
-		bullet_template.center.x.v = (boss_center_x + TO_SP(24));
-		bullet_template.center.y.v = (boss_center_y - TO_SP(32));
+		bullet_template.center.x.v = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
+		bullet_template.center.y.v = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
 		bullet_template.speed.v = (TO_SP(5) + 8);
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.is_animated = false;
@@ -295,14 +315,14 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle = randring_far_next16();
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
 		bullet_template.center.x.v = polar(
-			boss_center_x, TO_SP(48), CosTable8[mima_orbit_angle]
+			boss_center_x, MIMA_ORBIT_RADIUS, CosTable8[mima_orbit_angle]
 		);
 		bullet_template.center.y.v = polar(
-			boss_center_y, TO_SP(48), SinTable8[mima_orbit_angle]
+			boss_center_y, MIMA_ORBIT_RADIUS, SinTable8[mima_orbit_angle]
 		);
-		bullet_template.angle = (mima_orbit_angle + 0x40);
+		bullet_template.angle = (mima_orbit_angle + MIMA_ORBIT_SHOT_ANGLE_OFFSET);
 		bullet_template.type = BT_PELLET_CLOUD;
 		bullet_template.group = BG_2_RING;
 		bullet_template.speed.v = mima_orbit_speed;
@@ -433,8 +453,8 @@ void near mima_render_main(void)
 
 	if(boss_render_mode == 2) {
 render_mode_2:
-		// Mode 5 intentionally enters this block through the historical
-		// label; merging mode 2/5 into a C++ branch altered native CODE.
+		// Mode 5 enters through the original label; merging mode 2/5
+		// into one C++ condition changed the full BOSS CODE (af855b).
 		sprite16_put_size.set(16, 16);
 		sprite_offset = (boss_sprite_offset + 0x1A);
 		sprite16_put((left + 48), (top + 32), sprite_offset);
@@ -442,9 +462,9 @@ render_mode_2:
 		sprite16_put_size.set(32, 32);
 		left += 80;
 		sprite_offset = (boss_sprite_offset + 0xEF4);
-		if(boss_render_frame >= 0x10) {
+		if(boss_render_frame >= MIMA_RENDER_PARTICLE_CEL_FIRST) {
 			sprite_offset += 4;
-			if(boss_render_frame >= 0x20) {
+			if(boss_render_frame >= MIMA_RENDER_PARTICLE_CEL_SECOND) {
 				boss_render_mode = 3;
 			}
 		}
@@ -492,22 +512,24 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	base_top = ((boss_center_y >> 4) - 40);
 
 	_AH = SPRITE16_SET_MASK;
-	_DX = 0xAAAA;
+	_DX = MIMA_RENDER_HALF_MASK_A;
 	geninterrupt(SPRITE16);
 	left = polar(base_left, split_distance, CosTable8[angle]);
 	top = polar(base_top, split_distance, SinTable8[angle]);
 	sprite16_put(left, top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
-	_DX = 0x5555;
+	_DX = MIMA_RENDER_HALF_MASK_B;
 	geninterrupt(SPRITE16);
-	angle += 0x80;
+	// The split mask's opposite half-turn is byte-valued, but its
+	// named original 0x80 increment stays native-exact (af855h).
+	angle += MIMA_RENDER_SPLIT_OPPOSITE_ANGLE;
 	left = polar(base_left, split_distance, CosTable8[angle]);
 	top = polar(base_top, split_distance, SinTable8[angle]);
 	sprite16_put(left, top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
-	_DX = 0xFFFF;
+	_DX = MIMA_RENDER_MASK_RESTORE;
 	geninterrupt(SPRITE16);
 }
 
@@ -523,7 +545,7 @@ void far gba_boss_render_mima(void)
 
 	if(boss_mode == MIMA_MODE_INTRO) {
 		mima_render_split(
-			(0xC8 - (boss_frame << 1)),
+			(MIMA_INTRO_START_DISTANCE - (boss_frame << MIMA_INTRO_FRAME_DISTANCE_SHIFT)),
 			(boss_frame * 3)
 		);
 		return;
