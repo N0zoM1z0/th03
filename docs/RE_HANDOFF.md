@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After884: entire Kana major BOSS, native staged volley and intro ring
+
+- Complete nine-function original `ba_kana` major BOSS now expresses
+  the 16-pellet staged emission and the 16-sprite intro renderer as
+  natural C++ `while`, with exact signed index, byte-angle and original
+  RNG/collision behavior. Original +0x10 intro byte angle, +6 pellet
+  angle and +3 bullet speed are now **named** native-exact constants;
+  both unsigned word-frame emission clocks use natural `if(!remainder)`.
+- Genuine TC4 negative controls: unary intro `-angle` in place of
+  binary `0-angle` produced **1,871** vs original **1,874** CODE
+  (`af884e`), while assigning rotating byte `angle = angle + signed_delta`
+  instead of `+=` produced **1,878** (`af884i`). Restored original.
+  Final `af884j` proves **1,874 CODE bytes, 274 ordered native FIXUPPs,
+  9 PUBLICs**, whole Japanese original MAIN and all 1,553 relocations
+  in two actual TC4 4.02/normal full TLINK rounds. 98 other objects/CRT
+  reused, no cold replay. See
+  [after884 Kana BOSS review](MAIN_KANA_BOSS_NATIVE_LOOPS_AFTER884_REVIEW.md).
+  Already covered original CODE; not new unique/canonical Factory credit.
+
 ## Latest after883: four edited original physical objects built together
 
 - The actual `af883a` **simultaneously compiles all four modified original

@@ -1,6 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the complete Kana
-// contribution inside TH03 MAIN_03_TEXT. Shared boss helpers and historical
-// state remain external until full-link ownership is proved.
+// Complete current source-native C++ reconstruction of the original Kana
+// major BOSS. Historical shared BOSS helpers and state remain in their
+// separate original objects; the normal complete MAIN link is exact.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/kana.hpp"
@@ -86,6 +86,9 @@ enum kana_boss_render_timing_t {
     KANA_INTRO_COMPLETE_FRAME = 0x64,
     KANA_INTRO_BLINK_END = 0x20,
     KANA_INTRO_SPRITE_COUNT = 0x10,
+    KANA_INTRO_SPRITE_ANGLE_STEP = 0x10,
+    KANA_STAGED_PELLET_ANGLE_STEP = 6,
+    KANA_STAGED_PELLET_SPEED_STEP = 3,
     KANA_MIDDLE_PELLET_COUNT = 0x10,
     KANA_ROTATING_RING_PERIOD = 4,
     KANA_RENDER_ANIMATION_PERIOD = 4,
@@ -99,6 +102,15 @@ enum kana_boss_render_timing_t {
     KANA_ACCEL_ORBIT_ANGLE_3 = 0xA0,
     KANA_ROTATING_RING_BULLETS = 5,
     KANA_INTRO_RADIUS_ORIGINAL_SUBPIXEL = 0xC80,
+    KANA_COLLISION_STRIPE_WIDTH = 64,
+    KANA_COLLISION_TILE_HEIGHT = 48,
+    KANA_COLLISION_HALF_RADIUS = TO_SP(32),
+    KANA_RENDER_MAIN_WIDTH = 128,
+    KANA_RENDER_MAIN_HEIGHT = 40,
+    KANA_RENDER_WARNING_WIDTH = 64,
+    KANA_RENDER_WARNING_HEIGHT = 32,
+    KANA_RENDER_INTRO_WIDTH = 32,
+    KANA_RENDER_INTRO_HEIGHT = 16,
 };
 
 void far pascal boss_kana_template_init(int player_id)
@@ -241,10 +253,14 @@ void near kana_pattern_staged_ring(void)
 			bullet_template.speed.v = TO_SP(1);
 			bullet_template.group =
 				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-			for(i = 0; i < KANA_MIDDLE_PELLET_COUNT; ++i) {
+			// Native 16-projectile staged volley preserves bullets_add,
+			// byte angle +6, and speed +3 ordering before index advance.
+			i = 0;
+			while(i < KANA_MIDDLE_PELLET_COUNT) {
 				bullets_add();
-				bullet_template.angle += 6;
-				bullet_template.speed.v += 3;
+				bullet_template.angle += KANA_STAGED_PELLET_ANGLE_STEP;
+				bullet_template.speed.v += KANA_STAGED_PELLET_SPEED_STEP;
+				++i;
 			}
 			return;
 		}
@@ -284,7 +300,9 @@ void near kana_pattern_cloud_ring(void)
 
 	boss_move_sine();
 
-	if((boss_frame % kana_cloud_interval) == 0) {
+	// Natural original unsigned-word zero remainder, with all RNG
+	// draws and phase transition order preserved (af884d).
+	if(!(boss_frame % kana_cloud_interval)) {
 		_AL = randring_far_next16_and(0x1F);
 		// Genuine TC4 keeps the original SUB AL,10; direct C++ subtraction
 		// changes the full source CODE (fresh failed af836c).
@@ -362,7 +380,8 @@ void near kana_pattern_rotating_ring(void)
 		(boss_frame >= KANA_ROTATING_VOLLEY_START) &&
 		(boss_frame < KANA_ROTATING_VOLLEY_END)
 	) {
-		if((boss_frame % KANA_ROTATING_RING_PERIOD) == 0) {
+		// Distinct four-frame unsigned-word clock, not byte angle.
+		if(!(boss_frame % KANA_ROTATING_RING_PERIOD)) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullet_template.group = BG_RING;
 			bullet_template.count = KANA_ROTATING_RING_BULLETS;
@@ -374,6 +393,8 @@ void near kana_pattern_rotating_ring(void)
 			snd_se_play(10);
 		}
 		if(boss_frame > KANA_ROTATING_TURN_AFTER) {
+			// The explicit byte assignment angle=angle+signed_delta
+			// changed original CODE (af884i). Keep compound update.
 			kana_rotating_angle += kana_rotating_delta;
 			return;
 		}
@@ -463,14 +484,14 @@ void far gba_boss_update_kana(void)
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(64);
-	collmap_tile_h.set(48);
+	collmap_stripe_tile_w.set(KANA_COLLISION_STRIPE_WIDTH);
+	collmap_tile_h.set(KANA_COLLISION_TILE_HEIGHT);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = KANA_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = KANA_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -486,8 +507,8 @@ void near kana_render_main(void)
 	register sprite16_offset_t sprite_offset;
 	register screen_x_t left;
 
-	sprite16_put_size.w = 128;
-	sprite16_put_size.h = 40;
+	sprite16_put_size.w = KANA_RENDER_MAIN_WIDTH;
+	sprite16_put_size.h = KANA_RENDER_MAIN_HEIGHT;
 
 	left = (
 		playfield_fg_x_to_screen(
@@ -503,8 +524,8 @@ void near kana_render_main(void)
 	}
 	sprite16_put(left, top, sprite_offset);
 
-	sprite16_put_size.w = 64;
-	sprite16_put_size.h = 32;
+	sprite16_put_size.w = KANA_RENDER_WARNING_WIDTH;
+	sprite16_put_size.h = KANA_RENDER_WARNING_HEIGHT;
 	left += 32;
 
 	if(boss_render_mode == 1) {
@@ -546,8 +567,8 @@ void near kana_render_intro(void)
 
 	radius = (KANA_INTRO_RADIUS_ORIGINAL_SUBPIXEL - ((boss_frame * 2) * 16));
 
-	sprite16_put_size.w = 32;
-	sprite16_put_size.h = 16;
+	sprite16_put_size.w = KANA_RENDER_INTRO_WIDTH;
+	sprite16_put_size.h = KANA_RENDER_INTRO_HEIGHT;
 
 	if((boss_frame < KANA_INTRO_BLINK_END) && round_frame_mod2) {
 		return;
@@ -560,9 +581,14 @@ void near kana_render_intro(void)
 	);
 
 	angle = boss_move_phase;
+	// Binary zero-minus is not the same original TC4 CODE as unary
+	// minus (genuine failed trial af884e).
 	angle = (0 - angle);
 
-	for(i = 0; i < KANA_INTRO_SPRITE_COUNT; (++i, angle += 0x10)) {
+	// Sixteen sprite calls now use natural signed-index while and a
+	// named byte angle step, both native exact (af884b/c).
+	i = 0;
+	while(i < KANA_INTRO_SPRITE_COUNT) {
 		left = polar(
 			boss_center_x,
 			radius,
@@ -583,7 +609,8 @@ void near kana_render_intro(void)
 		// assignment; compound top >>=4 changed CODE (af761b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
-
+		++i;
+		angle += KANA_INTRO_SPRITE_ANGLE_STEP;
 	}
 }
 
