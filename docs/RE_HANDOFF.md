@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After898: complete Mima major BOSS native clocks and geometry
+
+- Full nine-function original `ba_mima` major BOSS now expresses
+  unsigned-word random-bomb and supporting six-frame pellet clocks
+  as natural `if(!remainder)`. Actual 56×56 collision tiles, 32-pixel
+  hit margin and two masked sprite dimensions/placement are named,
+  preserving all original mode 2/5 render calls, signed angle and
+  external historical state layout.
+- Fresh original TC4 negatives: signed byte orbit `+= signed_delta`
+  changed CODE when written as direct assignment (**1,924** vs
+  original **1,922**, `af898b`); byte interval `/2` → `>>1` emitted
+  **1,908** (`af898d`); byte frame postfix → prefix emitted **1,926**
+  (`af898e`). All original forms restored. Final `af898f` passed two
+  genuine original TC4 4.02/full normal MAIN TLINK rounds: **1,922 CODE
+  bytes, 277 ordered native FIXUPPs, 9 PUBLICs**, complete Japanese
+  MAIN and all 1,553 ordered MZ relocations exact. 98 other original
+  objects/CRT reused. See
+  [after898 full Mima BOSS review](MAIN_MIMA_BOSS_NATIVE_CLOCKS_AFTER898_REVIEW.md).
+  Already source-backed original bytes, no new distinct/Factory credit.
+
 ## After897: complete Yumemi major BOSS native rain and phase controls
 
 - Full ten-function `ba_yumem` major BOSS now uses a natural signed-index

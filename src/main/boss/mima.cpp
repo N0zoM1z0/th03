@@ -1,7 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the complete Mima
-// contribution inside TH03 MAIN_03_TEXT. The shared boss helper prefix is
-// maintained separately; historical boss and Mima-private state stays in the
-// frozen carrier until full-link ownership is proved.
+// Complete native-source Turbo C++ reconstruction of the original Mima
+// major BOSS. Shared BOSS helpers and Mima-private state remain in their
+// separately owned original physical storage; the normal MAIN is exact.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/mima.hpp"
@@ -137,6 +136,14 @@ enum mima_native_phase_t {
     MIMA_RENDER_SPLIT_OPPOSITE_ANGLE = 0x80,
     MIMA_INTRO_START_DISTANCE = 0xC8,
     MIMA_INTRO_FRAME_DISTANCE_SHIFT = 1,
+    MIMA_COLLISION_TILE_SIZE = 56,
+    MIMA_COLLISION_HALF_RADIUS = TO_SP(32),
+    MIMA_RENDER_FULL_WIDTH = 144,
+    MIMA_RENDER_FULL_HEIGHT = 112,
+    MIMA_RENDER_HIT_WIDTH = 64,
+    MIMA_RENDER_HIT_HEIGHT = 80,
+    MIMA_RENDER_MAIN_LEFT_HALF = 72,
+    MIMA_RENDER_MAIN_TOP_HALF = 40,
 };
 
 void near mima_pattern_spread(void)
@@ -171,7 +178,9 @@ void near mima_pattern_spread(void)
 
 		if(
 			(mima_pellet_until > boss_frame) &&
-			((boss_frame % MIMA_SPREAD_PELLET_PERIOD) == 0)
+			// The original real six-frame modulo is performed on the
+			// unsigned global boss clock and accepts if(!remainder).
+			(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD))
 		) {
 			bullet_template.type = BT_PELLET;
 			bullet_template.group = BG_4_SPREAD_MEDIUM;
@@ -220,7 +229,9 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	if((boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD) == 0) {
+	// Natural unsigned 16-bit four-frame attack clock, not a byte
+	// animation division. The original hardware RNG order is unchanged.
+	if(!(boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD)) {
 		bullet_template.angle = 0;
 		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
 		bullet_template.center.x.v = x;
@@ -271,6 +282,8 @@ void near mima_pattern_trail(void)
 
 	if(
 		(remainder == 1) ||
+		// Signed 16-bit promotion of the byte interval/2 must be
+		// preserved; using `>>1` changed CODE in real TC4 af898d.
 		(remainder == (mima_trail_interval / 2))
 	) {
 		if(remainder == (mima_trail_interval / 2)) {
@@ -329,6 +342,9 @@ void near mima_pattern_orbit(void)
 		bullets_add();
 		snd_se_play(10);
 
+		// Signed byte angular steering remains compound `+=`;
+		// explicit byte = byte + signed_delta changed original CODE
+		// in independent genuine native af898b.
 		mima_orbit_angle += mima_orbit_delta;
 	}
 
@@ -414,14 +430,14 @@ void far gba_boss_update_mima(void)
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(56);
-	collmap_tile_h.set(56);
+	collmap_stripe_tile_w.set(MIMA_COLLISION_TILE_SIZE);
+	collmap_tile_h.set(MIMA_COLLISION_TILE_SIZE);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = MIMA_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = MIMA_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -438,13 +454,13 @@ void near mima_render_main(void)
 	register screen_x_t left;
 	register screen_y_t top;
 
-	sprite16_put_size.set(144, 112);
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 72);
-	top = ((boss_center_y >> 4) - 40);
+	sprite16_put_size.set(MIMA_RENDER_FULL_WIDTH, MIMA_RENDER_FULL_HEIGHT);
+	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - MIMA_RENDER_MAIN_LEFT_HALF);
+	top = ((boss_center_y >> 4) - MIMA_RENDER_MAIN_TOP_HALF);
 	sprite16_put(left, top, boss_sprite_offset);
 
 	if(boss_hit) {
-		sprite16_put_size.set(64, 80);
+		sprite16_put_size.set(MIMA_RENDER_HIT_WIDTH, MIMA_RENDER_HIT_HEIGHT);
 		left += 32;
 		top += 16;
 		sprite16_put(left, top, (boss_sprite_offset + 0x12));
@@ -469,6 +485,8 @@ render_mode_2:
 			}
 		}
 		sprite16_put(left, top, sprite_offset);
+		// Byte frame postincrement is codegen-visible; prefix
+		// changed real original CODE (af898e).
 		boss_render_frame++;
 		return;
 	}
@@ -505,11 +523,11 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	register int split_distance = distance;
 	register screen_x_t left;
 	pid_other = (1 - pid_current);
-	sprite16_put_size.set(144, 112);
+	sprite16_put_size.set(MIMA_RENDER_FULL_WIDTH, MIMA_RENDER_FULL_HEIGHT);
 	base_left = (
-		playfield_fg_x_to_screen(boss_center_x, pid_other) - 72
+		playfield_fg_x_to_screen(boss_center_x, pid_other) - MIMA_RENDER_MAIN_LEFT_HALF
 	);
-	base_top = ((boss_center_y >> 4) - 40);
+	base_top = ((boss_center_y >> 4) - MIMA_RENDER_MAIN_TOP_HALF);
 
 	_AH = SPRITE16_SET_MASK;
 	_DX = MIMA_RENDER_HALF_MASK_A;
