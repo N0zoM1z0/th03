@@ -71,22 +71,20 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-after766 **eight-current-original-physical-source simultaneous** native
-checkpoint: five major BOSSes' sprite renderers now recover their signed
-AX coordinate arithmetic from natural C++, Rikako's whole Chargeshot
-recovers the manual CX/CL initialization as a bounded natural C++ loop,
-and both original Reimu flight/Extra Attack physical TUs now force their
-three *current* implementation `.inl` sources into genuine Turbo C++
-compiler/OMF dependencies. Two full normal MAIN links match every
-original CODE byte, 1,555 ordered native FIXUPPs and 69 PUBLICs with
-**91 other game objects and original CRT reused**. No full cold replay.
-The earlier after758 12-object snapshot and preceding receipt history
-remain protected, but older source-input hashes **can drift** and must
-not be advertised as a current checkout pass. Totals are overlapping
-original owned bytes, not additional Factory canonical acceptance.
-The BIOS `input_s` original 417-byte object remains source-native exact
-but **full-MAIN blocked** by the older parent object's extra trailing
-NOP; see the read-only negative evidence.
+after775 **eight-modified-original-physical-source simultaneous** native
+checkpoint: Kotohime Chargeshot, both shared large BOSS controller/ring
+owners, complete Marisa Chargeshot/GRCG, Mima Extra Attack, complete
+Chiyuri and Kana Chargeshot/Gauge, and fourteen-slot Marisa Extra Attack.
+Two real original Turbo C++ 4.02 rounds compiled all eight current
+source objects, matched 6,853 original CODE bytes, 629 ordered OMF
+FIXUPPs and 53 PUBLICs, and linked the complete normal Japanese MAIN
+with **91 unchanged game objects and original CRT reused**. No full cold
+replay, binary padding or source substitution. The preceding after766
+eight-owner scope and historical after758 proof remain separately
+protected; do not sum overlapping source-owned bytes as fresh credit.
+The original BIOS keyboard `input_s` 417-byte source is original-object
+exact but **full-MAIN still blocked** by the historical parent object's
+single trailing NOP; it is not counted as successful native link proof.
 It retains after596 MAIN and historical after587 MAINL as *different*
 source-native ancestors, not current
 whole-game acceptance. The [after709 chronological archive](docs/RE_HANDOFF_ARCHIVE_AFTER709.md)
@@ -94,7 +92,7 @@ and [earlier after596 archive](docs/RE_HANDOFF_ARCHIVE_AFTER596.md)
 preserve the detailed experiments, negative trials and limitations.
 
 MAIN's frozen after596 normal source-native link, and the later
-after766 eight-object current-source overlay, reproduce the complete
+after775 eight-object current-source overlay, reproduce the complete
 124,642-byte Japanese loaded program and all 1,553 ordered MZ relocations.
 A **separate standard DOS MZ serializer** then reproduces the entire
 original 130,882-byte Japanese MAIN.EXE; this does not prove that the
@@ -111,6 +109,8 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af772a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af766a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af765g
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af764d

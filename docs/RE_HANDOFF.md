@@ -10,7 +10,38 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest current-source original compiler/full-link proof: `af766a`.**
+- **Latest current-source original TC4 4.02/full MAIN TLINK proof:
+  `af775a`.** Two independent original compiler/full-link rounds rebuilt
+  **eight complete genuinely modified physical TUs together**: nine-function
+  Kotohime Chargeshot, both large shared-BOSS explosion/controller owners,
+  complete Marisa Chargeshot/GRCG, Mima Extra Attack, Chiyuri Chargeshot,
+  Kana Chargeshot and fourteen-slot Marisa Extra Attack. **6,853 complete
+  original CODE bytes, 629 literal ordered OMF FIXUPP fields, 53 PUBLIC
+  offsets**, original segments/current-source dependencies, full normal
+  MAIN EXE/MAP, original 124,642-byte Japanese loaded game and all
+  1,553 ordered relocations match. The independent standard serializer
+  reproduces all original **130,882 Japanese MAIN.EXE bytes**. **91 other
+  original project objects and Borland CRT reused**, no full cold replay.
+- **Deep source experiments and exactness limits:** Kotohime's real
+  near-BX hit pointer and the shared BOSS 32-byte `REP MOVSW` were
+  challenged with multiple natural pointer/aggregate-C++ forms; genuine
+  TC4 native CODE did **not** match, so the original compiler-specific
+  operations remain. Marisa's full GRCG/Charge and dual Gauge controller,
+  Mima's six-slot bouncing Extra Attack, Chiyuri/Kana's complete
+  Chargeshot/Gauge and Marisa's 14-slot beam Extra Attack now have
+  source-native natural local loops, states, typed fields and bounded
+  parity/shift operations. `%16`/`%64` byte clock encodings, signed
+  division, mutable byte-memory postincrements and GRCG DX zeroing
+  were separately challenged and **not** falsely accepted when unequal.
+- **Current provenance:** read-only review passes `af775a`, preceding
+  current `af772a` six-owner integration and unaffected `af766a`
+  eight-owner integration. Earlier receipts such as `af758a` remain
+  protected genuine historical compiler snapshot evidence, but their
+  live-source input hashes reflect earlier modified source. No old
+  receipts were altered or their source-binding checks weakened.
+  The original keyboard `input_s` single-NOP full-link blocker remains
+  explicitly unresolved and is **not** counted in successful scopes.
+- **Previous eight-source current proof: `af766a`.**
   Two separate genuine Turbo C++ 4.02/TLINK rounds concurrently rebuilt
   **eight modified original physical TUs**: Chiyuri, Ellen, Kana,
   Kotohime and Rikako **complete major BOSSes**, Rikako's full
@@ -301,7 +332,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the latest after766 eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
+Read [the latest after775 eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER775_REVIEW.md),
+[the preceding after766 eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
 [the historical after758 twelve-source integration](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
 [the preceding after753 ten-source integration](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
 [the previous after752 nine-source integration](MAIN_NINE_SOURCE_INTEGRATION_AFTER752_REVIEW.md),
@@ -323,6 +355,8 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af772a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af766a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af765g
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af764d
@@ -348,6 +382,10 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The latest protected read-only proof root is
+`.analysis/work/exatt-layout-af775a/report.json`, with eight current
+complete original physical source TUs, both real TC4 4.02 full TLINK
+rounds and the independent Japanese MZ comparison. The preceding
+protected after766 source-native proof is
 `.analysis/work/exatt-layout-af766a/report.json`, with eight
 current source-bound original physical objects including both current
 Reimu Extra Attack implementation roots, two genuine TC4/TLINK rounds,
@@ -393,7 +431,8 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [current after766 eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
+Review the [latest after775 eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER775_REVIEW.md),
+[after766 earlier eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
 [historical after758 twelve-source report](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
 [after753 previous ten-source report](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
 [after752 preceding nine-source report](MAIN_NINE_SOURCE_INTEGRATION_AFTER752_REVIEW.md),
