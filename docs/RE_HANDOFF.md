@@ -6,6 +6,21 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Yumemi large GRCG Extra Attack beam source after648
+
+The full Yumemi Extra Attack compiler TU (five functions, including the
+very large GRCG beam/sprite renderer and dual collision/collmap updater)
+now expresses the signed-width beam extent as natural
+`static_cast<signed char>(p->duration - 8 - p->frame)`
+instead of a cast of `0xF8`, with original bytecode unchanged.
+It also names the actual ordinary/special eight-plus-eight 32-byte
+entity slot partition and original beam growth/closing frame limits.
+Source/header OMF-attested `af648b` native TC4/TLINK dual rounds
+prove **1,696 CODE bytes / 87 literal ordered fields / 5 PUBLICs**,
+full original normal MAIN and Japanese MZ. See
+[after648 Yumemi beam review](MAIN_YUMEMI_EXATT_GRCG_CPP_AFTER648_REVIEW.md).
+No whole cold replay or newly accepted packed-file bytes.
+
 ## Full Yumemi target/charged-shot and Gauge attack native source after647
 
 The v2 compiler overlay additionally supports the actual

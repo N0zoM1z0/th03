@@ -47,12 +47,27 @@ extern "C" void near pascal exatt_render_state_other(
 	unsigned int state_frame
 );
 
+// Each player owns sixteen 32-byte Extra Attack slots, partitioned
+// into eight ordinary flying entities and eight explicitly spawned
+// on-field warnings. The active beam changes width through its frame.
+enum yumemi_exatt_limits_t {
+    YUME_EXATT_ORDINARY_SLOTS = 8,
+    YUME_EXATT_SPECIAL_FIRST_SLOT = 8,
+    YUME_EXATT_ALL_SLOTS = 16,
+    YUME_EXATT_FRAME_GROW_END = 8,
+    YUME_EXATT_BEAM_WARNING_END = 0x10,
+    YUME_EXATT_CORNER_MIN_RADIUS = 0x18,
+    YUME_EXATT_APPEAR_END_STATE = 0x28,
+    YUME_EXATT_SPECIAL_DURATION = 0x20,
+    YUME_EXATT_ORDINARY_DURATION = 0x60,
+};
+
 void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
 	register int i = 0;
 
-	for(; i < 8; i++, p++) {
+	for(; i < YUME_EXATT_ORDINARY_SLOTS; i++, p++) {
 		if(p->state == 0) {
 			exatt_entity_p = p;
 			exatt_fly_init(
@@ -64,7 +79,7 @@ void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 				0x46
 			);
 			p->radius = 0;
-			p->duration = 0x60;
+			p->duration = YUME_EXATT_ORDINARY_DURATION;
 			return;
 		}
 	}
@@ -72,10 +87,10 @@ void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 
 void far pascal yumemi_extra_add(int x, int y)
 {
-	register exatt_entity_t near *p = &exatt_entities[pid_current][8];
-	int i = 8;
+	register exatt_entity_t near *p = &exatt_entities[pid_current][YUME_EXATT_SPECIAL_FIRST_SLOT];
+	int i = YUME_EXATT_SPECIAL_FIRST_SLOT;
 
-	for(; i < 16; i++, p++) {
+	for(; i < YUME_EXATT_ALL_SLOTS; i++, p++) {
 		if(p->state == 0) {
 			p->state = 3;
 			p->frame = 0;
@@ -83,7 +98,7 @@ void far pascal yumemi_extra_add(int x, int y)
 			p->y = y;
 			p->pid = (1 - pid_current);
 			p->radius = 0;
-			p->duration = 0x20;
+			p->duration = YUME_EXATT_SPECIAL_DURATION;
 			return;
 		}
 	}
@@ -118,7 +133,7 @@ void near yumemi_exatt_render_one(void)
 			grc_setclip(336, 8, 623, 191);
 		}
 
-		if(p->frame <= 0x10) {
+		if(p->frame <= YUME_EXATT_BEAM_WARNING_END) {
 			egc_off();
 			grcg_setcolor(GC_RMW, 6);
 			extent = p->frame;
@@ -168,7 +183,7 @@ void near yumemi_exatt_render_one(void)
 			);
 		} else {
 			egc_off();
-			extent = ((signed char)(p->duration + (signed char)0xF8 - p->frame));
+			extent = static_cast<signed char>(p->duration - 8 - p->frame);
 			if(extent > 0x10) {
 				grcg_setcolor(GC_RMW, 5);
 			} else {
@@ -259,7 +274,7 @@ void near yumemi_exatt_render_one(void)
 			sprite16_put(edge_x, top, (sprite_offset + 0x500));
 		}
 
-		if(p->radius > 0x18) {
+		if(p->radius > YUME_EXATT_CORNER_MIN_RADIUS) {
 			sprite16_put_size.set(32, 32);
 			sprite16_put(left, top, (sprite_offset + 4));
 		}
@@ -283,13 +298,13 @@ void far pascal exatt_update_yumemi(void)
 	collmap_pid = pid_other;
 	i = 0;
 
-	for(; i < 16; i++, p++) {
+	for(; i < YUME_EXATT_ALL_SLOTS; i++, p++) {
 		if(p->state == 0) {
 			continue;
 		}
 
 		if(p->state == 1) {
-			if(p->frame <= 8) {
+			if(p->frame <= YUME_EXATT_FRAME_GROW_END) {
 				p->radius += 6;
 			} else if(
 				(p->frame >= p->duration) &&
@@ -330,7 +345,7 @@ void far pascal exatt_update_yumemi(void)
 			if(exatt_fly_update() != 0) {
 				continue;
 			}
-		} else if(p->state <= 0x28) {
+		} else if(p->state <= YUME_EXATT_APPEAR_END_STATE) {
 			p->state++;
 		} else {
 			p->radius = 0x10;
@@ -348,7 +363,7 @@ void far pascal exatt_render_yumemi(void)
 	register int i;
 
 	exatt_entity_p = &exatt_entities[pid_current][0];
-	for(i = 0; i < 16; i++, exatt_entity_p++) {
+	for(i = 0; i < YUME_EXATT_ALL_SLOTS; i++, exatt_entity_p++) {
 		if(exatt_entity_p->state != 0) {
 			yumemi_exatt_render_one();
 		}
