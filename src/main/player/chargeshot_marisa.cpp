@@ -1,6 +1,7 @@
-// Unaccepted complete Marisa owner: charge/gauge physical producer (nine bodies).
+// Native-source-bound Marisa charge/Gauge physical producer (nine functions).
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
+#include <stddef.h>
 #include "src/main/player/chargeshot_marisa.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
 #pragma option -a2
@@ -17,18 +18,44 @@
 // Supply that relationship to TC4/TLINK; bullets_add keeps its far ABI.
 #pragma samecodeseg bullets_add
 
+// Marisa's single physical beam per player records a 12-point
+// vertical history, drawn in three overlapping GRCG pattern bands.
+enum marisa_charge_layout_t {
+    MARISA_CHARGE_HISTORY = 12,
+    MARISA_CHARGE_LAST_SAMPLE = 11,
+    MARISA_CHARGE_INITIAL_TAIL_END = 24,
+    MARISA_CHARGE_FINISH_AFTER = 36,
+    MARISA_CHARGE_GRCG_FIRST_BAND_END = 6,
+    MARISA_CHARGE_GRCG_SECOND_BAND_END = 3,
+    MARISA_CHARGE_HIT_STEP = 4,
+};
+
 struct marisa_chargeshot_t {
     unsigned char active;
     unsigned char frame;
-    playfield_subpixel_t x[12];
-    playfield_subpixel_t y[12];
+    playfield_subpixel_t x[MARISA_CHARGE_HISTORY];
+    playfield_subpixel_t y[MARISA_CHARGE_HISTORY];
 };
+typedef char marisa_charge_stride_is_50[
+    (sizeof(marisa_chargeshot_t) == 50) ? 1 : -1
+];
+typedef char marisa_charge_x_at_02[
+    (offsetof(marisa_chargeshot_t, x) == 2) ? 1 : -1
+];
+typedef char marisa_charge_y_at_1a[
+    (offsetof(marisa_chargeshot_t, y) == 0x1A) ? 1 : -1
+];
+
 struct gauge_pattern_timing_t {
     unsigned char total_frames;
     unsigned char byte_1;
     unsigned char byte_2;
     unsigned char byte_3;
 };
+typedef char marisa_gauge_timing_is_4[
+    (sizeof(gauge_pattern_timing_t) == 4) ? 1 : -1
+];
+
 // Proposed semantic aliases only: no allocation, no absolute pointer casts.
 extern marisa_chargeshot_t marisa_chargeshots[PLAYER_COUNT];
 extern marisa_chargeshot_t near *marisa_chargeshot_p;
@@ -50,7 +77,7 @@ void far pascal chargeshot_add_marisa(Subpixel center_x, Subpixel center_y)
     marisa_chargeshot_p->active = 1;
     marisa_chargeshot_p->frame = 0;
     players[pid.current].shot_active = SA_DISABLED;
-    for(int i = 0; i < 12; i++) {
+    for(int i = 0; i < MARISA_CHARGE_HISTORY; i++) {
         marisa_chargeshot_p->x[i] = center_x.v;
         marisa_chargeshot_p->y[i] = center_y.v - TO_SP(16);
     }
@@ -60,9 +87,9 @@ void far pascal chargeshot_add_marisa(Subpixel center_x, Subpixel center_y)
 void far pascal marisa_hyper_14340(void)
 {
     marisa_chargeshot_p = &marisa_chargeshots[pid.current];
-    if(marisa_chargeshot_p->active == 0) {
+    if(!marisa_chargeshot_p->active) {
         marisa_chargeshot_p->active = 1;
-        for(int i = 0; i < 12; i++) {
+        for(int i = 0; i < MARISA_CHARGE_HISTORY; i++) {
             marisa_chargeshot_p->x[i] = players[pid.current].center.x.v;
             marisa_chargeshot_p->y[i] = players[pid.current].center.y.v - TO_SP(16);
         }
@@ -75,21 +102,21 @@ void far pascal marisa_hyper_14340(void)
 void far pascal chargeshot_update_marisa(void)
 {
     marisa_chargeshot_p = &marisa_chargeshots[pid_current];
-    if(marisa_chargeshot_p->active == 0) {
+    if(!marisa_chargeshot_p->active) {
         return;
     }
     players[pid_current].gauge_charged = 0;
     marisa_chargeshot_p->frame++;
-    for(int i = 11; i > 0; i--) {
+    for(int i = MARISA_CHARGE_LAST_SAMPLE; i > 0; i--) {
         marisa_chargeshot_p->x[i] = marisa_chargeshot_p->x[i - 1];
         marisa_chargeshot_p->y[i] = marisa_chargeshot_p->y[i - 1] + 24;
     }
-    if(marisa_chargeshot_p->frame < 24) {
+    if(marisa_chargeshot_p->frame < MARISA_CHARGE_INITIAL_TAIL_END) {
         marisa_chargeshot_p->x[0] = players[pid_current].center.x.v;
         marisa_chargeshot_p->y[0] = players[pid_current].center.y.v - TO_SP(16);
         return; // The reviewed internal early RETF belongs to this body.
     }
-    if(marisa_chargeshot_p->frame > 36) {
+    if(marisa_chargeshot_p->frame > MARISA_CHARGE_FINISH_AFTER) {
         players[pid_current].shot_active = SA_ENABLED;
         marisa_chargeshot_p->active = 0;
     }
@@ -99,11 +126,11 @@ uint8_t far chargeshot_hittest_marisa(void)
 {
     unsigned char hit;
     marisa_chargeshot_p = &marisa_chargeshots[hitbox.pid];
-    if(marisa_chargeshot_p->active == 0) {
+    if(!marisa_chargeshot_p->active) {
         return 0;
     }
     hit = 0;
-    for(int i = 0; i < 12; i += 4) {
+    for(int i = 0; i < MARISA_CHARGE_HISTORY; i += MARISA_CHARGE_HIT_STEP) {
         if(
             (marisa_chargeshot_p->x[i] >= hitbox.origin.topleft.x.v) &&
             (marisa_chargeshot_p->x[i] <= hitbox.right.v) &&
@@ -127,13 +154,13 @@ void far pascal chargeshot_render_marisa(void)
     int i;
     int x;
     marisa_chargeshot_p = &marisa_chargeshots[pid_current];
-    if(marisa_chargeshot_p->active == 0) {
+    if(!marisa_chargeshot_p->active) {
         return;
     }
     egc_off();
     grcg_settile_1line(GC_RMW, 0xAA0055AAL);
     previous_x = 0;
-    for(i = 11; i > 6; i--) {
+    for(i = MARISA_CHARGE_LAST_SAMPLE; i > MARISA_CHARGE_GRCG_FIRST_BAND_END; i--) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> 5) + 8;
         if(previous_x != x) {
@@ -143,7 +170,7 @@ void far pascal chargeshot_render_marisa(void)
     }
     grcg_settile_1line(GC_RMW, 0xFF00AA55L);
     previous_x = 0;
-    for(i = 6; i > 3; i--) {
+    for(i = 6; i > MARISA_CHARGE_GRCG_SECOND_BAND_END; i--) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> 5) + 8;
         if(previous_x != x) {
@@ -169,6 +196,18 @@ void far pascal chargeshot_render_marisa(void)
     egc_on();
 }
 
+// Two alternating five-shot side volleys per 24 frames, with warnings
+// at 8 and 20. The gauge moves downward in the *original* signed
+// subpixel increments, not a newly normalized pixel coordinate.
+enum marisa_gauge_phase_t {
+    MARISA_GAUGE_PERIOD = 24,
+    MARISA_GAUGE_LEFT_FIRE = 0,
+    MARISA_GAUGE_LEFT_WARN = 8,
+    MARISA_GAUGE_RIGHT_FIRE = 12,
+    MARISA_GAUGE_RIGHT_WARN = 20,
+    MARISA_GAUGE_VOLLEY_COUNT = 5,
+};
+
 void near pascal gauge_pattern_marisa(bullet_type_t type)
 {
     unsigned char pid_other;
@@ -192,22 +231,24 @@ void near pascal gauge_pattern_marisa(bullet_type_t type)
     bullet_template.pid = pid_other;
     bullet_template.speed.v = 56;
     bullet_template.group = BG_1;
-    if((marisa_gauge_frame[pid_current] % 24) == 8) {
+    if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_LEFT_WARN) {
         bomb_center_add(0, marisa_gauge_y[pid_current], pid_other);
-    } else if((marisa_gauge_frame[pid_current] % 24) == 20) {
+    } else if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_RIGHT_WARN) {
         bomb_center_add(TO_SP(PLAYFIELD_W), marisa_gauge_y[pid_current], pid_other);
-    } else if((marisa_gauge_frame[pid_current] % 24) == 0) {
+    } else if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_LEFT_FIRE) {
         bullet_template.angle = 0x20;
         bullet_template.center.x.v = 0;
-        for(int i = 0; i < 5; i++) {
+        // The literal speed step is native-visible here: an enum of the
+        // same value changes TC4 CODE, as verified by af664h.
+        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; i++) {
             bullets_add();
             bullet_template.speed.v -= 6;
         }
         marisa_gauge_y[pid_current] += gauge_pattern_timing[pid_current].total_frames * 16;
-    } else if((marisa_gauge_frame[pid_current] % 24) == 12) {
+    } else if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_RIGHT_FIRE) {
         bullet_template.angle = 0x60;
         bullet_template.center.x.v = TO_SP(PLAYFIELD_W);
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; i++) {
             bullets_add();
             bullet_template.speed.v -= 6;
         }

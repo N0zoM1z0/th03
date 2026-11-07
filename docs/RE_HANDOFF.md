@@ -6,6 +6,25 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Marisa complete GRCG charged-shot + Gauge source after664
+
+The scoped native compiler now includes original `cs_mari`
+rather than incorrectly looking for `cs_maris`.
+Its 9-function, 1,509-CODE-byte actual producer compiles four
+natural `!active` state checks, original 50-byte/12-sample
+X/Y shot stride with compiler-checked +02/+1A offsets,
+and the large three-band GRCG rendering and 24-frame
+two-sided Gauge/5-shot volley phases. Equal-valued
+`-TO_SP(randring2_next16_and(31))` and an enum-based
+8-bit bullet-speed decrement were native-unequal, so the
+original signed multiply and literal speed step remain.
+The source-OMF-attested `af664i` native TC4/TLINK pair
+reproduces **1,509 CODE bytes, 152 literal ordered FIXUPPs,
+9 PUBLICs**, full normal MAIN/MAP and Japanese MZ.
+See [after664 Marisa charged-shot source review](MAIN_MARISA_CHARGESHOT_GRCG_AFTER664_NATIVE_REVIEW.md).
+Only the affected TU was compiled, no full cold replay
+or newly accepted canonical packed bytes.
+
 ## Latest 38-owner original-source-native MAIN proof after663
 
 The fresh `af663a` genuine Turbo C++/TLINK two-round
