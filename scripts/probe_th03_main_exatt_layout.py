@@ -151,8 +151,22 @@ NESTED_INLINE_CHILDREN = {
     ),
 }
 
-def owner_inline_paths(unit):
-    direct=OWNER_INLINE_PATHS.get(unit, ())
+# The after725 core expansion is stronger than the genuinely compiled
+# after709 hyper-only receipt. A reviewer must not demand that an old
+# compiler emitted dependencies that were not staged then, and must not
+# silently accept a new core proof with only the old one-file guard.
+CORE_FULL_INCLUDE_START = 725
+
+def owner_direct_inline_paths(unit, stage):
+    if unit=='core':
+        match=re.fullmatch(r'af([0-9]+)[a-z][0-9]*', stage)
+        need(match is not None, 'original source guard has valid native stage')
+        if int(match.group(1)) < CORE_FULL_INCLUDE_START:
+            return ('src/main/player/hyper.inl',)
+    return OWNER_INLINE_PATHS.get(unit, ())
+
+def owner_inline_paths(unit, stage):
+    direct=owner_direct_inline_paths(unit, stage)
     nested=tuple(child for path in direct
                  for child in NESTED_INLINE_CHILDREN.get(path, ()))
     return direct + nested
@@ -245,7 +259,7 @@ def rooted_source(unit, stage, n, raw):
             raw = raw.replace(
                 needle, f'#include "probe/{stage}/r{n}/{header}"'.encode()
             )
-    for inc in OWNER_INLINE_PATHS.get(unit, ()):
+    for inc in owner_direct_inline_paths(unit, stage):
         original=f'#include "{inc}"'.encode()
         need(raw.count(original)==1, 'unique current inlined original source '+unit+' '+inc)
         raw=raw.replace(original, f'#include "probe/{stage}/r{n}/{inc}"'.encode())
@@ -273,7 +287,7 @@ def check_native_dependencies(obj, unit, stage, n, source_has_entity,
             expected=f'probe/{stage}/r{n}/{header}'.encode().lower()
             need(any(expected in v for v in low),
                  'actual native OMF dependency binds forced header '+unit+' '+header)
-    for inc in owner_inline_paths(unit):
+    for inc in owner_inline_paths(unit, stage):
         expected=f'probe/{stage}/r{n}/{inc}'.encode().lower()
         need(any(expected in v for v in low),
              'actual native OMF dependency binds current source inline '+unit+' '+inc)
@@ -352,7 +366,7 @@ def main():
     header_data=(ROOT/ENTITY).read_bytes()
     template_data=(ROOT/BOSS_TEMPLATE).read_bytes()
     phase_data=(ROOT/BACKGROUND_PHASE).read_bytes()
-    inline_paths=sorted({inc for u in units for inc in owner_inline_paths(u)})
+    inline_paths=sorted({inc for u in units for inc in owner_inline_paths(u, args.stage)})
     inline_data={path:(ROOT/path).read_bytes() for path in inline_paths}
     wrapper_data={u:wrapper_source(u) for u in units}
     need(all(w.count(f'#include "{SOURCES[u]}"'.encode())==1 for u,w in wrapper_data.items())

@@ -89,7 +89,7 @@ def review(stage):
          'exact natural original producer wrapper input identities')
     needs_phase = any(u in CHAIN_UNITS for u in units)
     background_phase=(ROOT/BACKGROUND_PHASE).read_bytes()
-    inline_paths=sorted({inc for u in units for inc in owner_inline_paths(u)})
+    inline_paths=sorted({inc for u in units for inc in owner_inline_paths(u, stage)})
     inline_data={path:(ROOT/path).read_bytes() for path in inline_paths}
     needs_header = any(SOURCE_HEADER_NEEDLE in sources[u] for u in units)
     needs_boss_template = any(BOSS_TEMPLATE_NEEDLE in sources[u] for u in units)

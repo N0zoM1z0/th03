@@ -10,7 +10,33 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest current-source affected-scope MAIN proof: `af724a`.** Two
+- **Latest affected-scope, current-live-source MAIN proof: `af730a`.** Two
+  independent original TC4 4.02/full normal TLINK rounds compiled **six
+  complete original physical TUs together**: full player `core` and its
+  nested state machine, Rikako/Reimu **major BOSSes**, PMD sound effect
+  manager, signed Q8 `polar` math, and original CFG resident loader.
+  This covered **7,027 complete original CODE bytes, 769 literal ordered
+  OMF FIXUPP fields, 42 PUBLICs**, full original segment/BSS contracts,
+  the complete normal MAIN/MAP, Japanese loaded program and all 1,553 MZ
+  relocations. Original Japanese 130,882-byte MZ bytes matched after
+  independent standard serialization; 93 other original game objects
+  and CRT were **reused, not recompiled**. No cold replay.
+- **Deeper current source guards:** after725 the `core` original TU now
+  force-binds all **ten** maintained direct/nested implementation `.inl`
+  bodies (including the large `player_state_update`), not merely Hyper.
+  A regression in reading historical source evidence was discovered
+  and fixed: prior-to-725 receipts like `af709a` are reviewed against
+  their **original hyper-only** compiler input contract; post-725 proofs
+  require all ten current source paths and compiler-emitted dependencies.
+  Read-only review of old `af709a`, current `af725d` and new `af730a`
+  all passes; historical receipts were **not** repinned or mutated.
+- **Original additional physical sources now directly proved:** `snd_se`
+  (120 original CODE), `polar` (26 CODE), and `cfg_lres` (49 CODE), including
+  exact original OMF segment/fixup metadata. Natural C++ changes to the
+  BOSS renderer masks, CPU charge/target cadence, sound priority lookups
+  and Q8 polar expression were tested in actual native outputs, with
+  negative controls retained and source-unequal forms rejected.
+- **Prior seven-source affected-scope MAIN proof: `af724a`.** Two
   independent original TC4 4.02 / TLINK rounds **simultaneously rebuilt
   seven complete current original physical TUs**: three large Marisa/Mima/
   Ellen BOSSes, complete `intro` HUD, Bullet engine, newly directly
@@ -36,7 +62,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   compiled four complete modified TUs together: Yumemi/Chiyuri **BOSSes**,
   main `entry`/stage/frame scheduler and full CPU movement/dodge logic.
   That retained scope matched 9,139 original CODE bytes, 1,221 ordered
-  fixups and 33 PUBLICs. It was not rebuilt again in after721/724. This is
+  fixups and 33 PUBLICs. It was not rebuilt again in after721/724/730. This is
   **not** an additional disjoint byte-ownership count.
 - **New source-binding routes:** the scoped native compiler now accepts
   both the full `entry` physical TU with its four current included `.inl`
@@ -60,7 +86,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   covered **58 original physical source TUs, 66,407 CODE bytes, 7,303
   fixups and 367 PUBLICs**. These are a historical deduplicated union of
   separate native proofs, **not** a simultaneous 58-object compiler run or
-  an independently recomputed after724 coverage figure. Entry had already
+  an independently recomputed after730 coverage figure. Entry had already
   been source-proved historically in after594; no duplicate distinct-owner
   count is claimed here.
 - **Frozen parent/full MAIN:** ordinary after596 original 99-object source-
@@ -76,7 +102,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the current after724 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
+Read [the latest after730 six-source review](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
+[the earlier after724 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
 [the earlier after721 five-source review](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
 [the previous after715 four-source review](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
 and [the historical after709 union](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
@@ -89,6 +116,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af724a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af715a
@@ -99,6 +127,9 @@ git diff --check
 ```
 
 The latest protected read-only proof root is
+`.analysis/work/exatt-layout-af730a/report.json`, including all ten nested
+`core` source snapshots and both actual six-unit compiler/linker rounds.
+The earlier protected seven-TU integration root is
 `.analysis/work/exatt-layout-af724a/report.json`, including both actual
 rounds, the two newly bound physical owners and all three HUD `.inl`
 dependency snapshots. The earlier five-source `af721a` proof is retained.
@@ -110,7 +141,8 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [after724 current seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
+Review the [after730 current six-source report](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
+[after724 seven-source integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
 [after721 prior five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
 [after715 prior integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
 and [after709 cumulative report](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
