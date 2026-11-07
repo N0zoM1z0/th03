@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After923: entire original MAIN entry, frame scheduler and round reset
+
+- The actual 3,050-CODE-byte `entry` project owner contains the full
+  MAIN entry, 200-line frame scheduler, stage setup, round initialization
+  and `_CX` BCD score-commit leaf. All genuine story-score copy,
+  character callback/speed setup, EFE/Extra Attack/Shotpair reset and
+  two-player CPU charge RNG loops now use original-native `while`.
+  The global 16-bit frame clocks accept natural prefix and both
+  unsigned-word parity checks accept `%2`, preserving the original
+  PC-98 page flips, state and exit/goto boundaries.
+- Actual TC4 negatives: replacing the byte `round_frame_mod16 &15`
+  with `%16` grew **3,050 to 3,060 CODE** (`af923h`); prefix byte
+  speed and round-ID separately grew to **3,054** (`af923i/l`).
+  Original forms restored. Final `af923m` compiled and linked the entire
+  original owner twice: **3,050 CODE bytes, 433 ordered FIXUPPs and
+  eight PUBLICs**, full Japanese MAIN/1,553 relocations exact;
+  98 other original objects/CRT reused, no cold replay. See
+  [after923 complete entry review](MAIN_ENTRY_ROUND_NATIVE_AFTER923_REVIEW.md).
+  Previously source-owned game CODE, no new Factory packed acceptance.
+
 ## After922: full Chiyuri major BOSS native cardinal and four-fan arithmetic
 
 - Complete 11-function original `ba_chiyu` major BOSS now naturally

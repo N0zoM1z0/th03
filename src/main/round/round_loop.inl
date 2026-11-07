@@ -54,7 +54,9 @@ unsigned char near round_loop(void)
         round_CB81(0);
         round_CB81(1);
         round_render_hook();
-        if(stage_render_timing_flag && !(round_or_result_frame & 1)) {
+        // The unsigned-word even/odd cadence CAN use natural `%2`.
+        // Keep this original goto frame_advance and all page flip calls.
+        if(stage_render_timing_flag && !(round_or_result_frame % 2)) {
             goto frame_advance;
         }
         egc_on();
@@ -154,7 +156,7 @@ unsigned char near round_loop(void)
             }
             vsync_Count1 = 0;
             round_reset_flag = 1;
-        } else if(!(round_or_result_frame & 1)) {
+        } else if(!(round_or_result_frame % 2)) {
             vsync_Count1 = 0;
             while(round_reset_flag > vsync_Count1) {
             }
@@ -188,14 +190,21 @@ unsigned char near round_loop(void)
         grcg_off();
 
     frame_advance:
-        round_frame++;
-        round_or_result_frame++;
+        // Both original global 16-bit clocks admit natural prefix
+        // (af923f); these differ from the byte speed and scratch
+        // frame-mask counters below.
+        ++round_frame;
+        ++round_or_result_frame;
+        // Preserve original byte-frame &15: replacing with %16
+        // changed real TC4 CODE (af923h), unlike word-valued modulo.
         round_frame_mod16 = (unsigned char)round_frame & 15;
         round_frame_mod8 = round_frame_mod16 & 7;
         round_frame_mod4 = round_frame_mod8 & 3;
         round_frame_mod2 = round_frame_mod4 & 1;
         if(!(round_or_result_frame & ROUND_SPEED_UPDATE_MASK)) {
             if(round_speed < ROUND_ENTRY_SPEED_MAX) {
+                // Keep original mutable speed byte postfix: changing it
+                // to prefix changes native original CODE (af923i).
                 round_speed++;
             }
             if(!(round_or_result_frame & ROUND_RANDOM_REFILL_MASK)) {

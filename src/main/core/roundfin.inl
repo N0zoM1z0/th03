@@ -27,6 +27,8 @@ extern "C" void near round_start_next(void)
     grcg_fill();
     graph_showpage(1);
     grcg_off();
+    // Original round ID remains postfix: prefix changed genuine
+    // original TC4 CODE (af923j), unlike global frame word counters.
     round_id++;
     round_prepare_players();
     round_background_reset();
@@ -40,8 +42,14 @@ extern "C" void near round_start_next(void)
 
 void near pascal round_score_commit(register unsigned int player)
 {
-    for(_CX = 0; (int)_CX < SCORE_DIGITS; _CX++) {
+    // The original score writer deliberately uses CX as the *actual*
+    // hardware/compiler register index, not an extra stack-local loop
+    // counter. Natural while preserves the two real BCD writes per digit
+    // and the CX postfix (actual full-entry native TC4 af923e).
+    _CX = 0;
+    while((int)_CX < SCORE_DIGITS) {
         resident->score_last[player].digits[_CX] = score_p1[player].digits[_CX];
         resident->score_last[1 - player].digits[_CX] = 0;
+        _CX++;
     }
 }

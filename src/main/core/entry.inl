@@ -17,7 +17,10 @@ void far cdecl main(void)
         gaiji_entry_bfnt(main_gaiji_font);
         stage_setup();
         main_background_init();
-        for(;;) {
+        // Preserve original game/result round loop exit sites. The
+        // natural unbounded while(1) compiles to identical original
+        // TC4 CODE and keeps the same renderer/MAINL handoff (af923a).
+        while(1) {
             PaletteTone = 100;
             palette_show();
             outcome = round_loop();
