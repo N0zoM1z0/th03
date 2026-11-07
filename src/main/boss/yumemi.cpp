@@ -520,7 +520,9 @@ void near yumemi_render_arrival(void)
 	register screen_x_t left;
 	register screen_x_t right;
 
-	_DX = 0;
+	// TC4 DX = 0 selects XOR DX,DX as 33 D2; original uses 31 D2.
+	// Keep this explicit original register encoding.
+	asm { xor dx, dx }
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 

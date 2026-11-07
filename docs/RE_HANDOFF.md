@@ -389,6 +389,17 @@ emits original-unequal ADD AL,F0. See
 This replaces, not supplements, the invalid v1 after603/604/605
 changed-source verification claims; no duplicate byte credit.
 
+### All nine original BOSS TUs genuinely source-rooted after621
+
+`af621c` now passes two real original 16-bit Turbo C++/TLINK rounds for
+**all nine BOSS TUs together** (17,451 CODE bytes, 2,434 ordered fields,
+85 PUBLICs, entire normal MAIN and Japanese program/1,553 relocations).
+The five signed C++ AX shift improvements are included. Yumemi's prior
+`_DX=0` was rejected by v2 (different XOR encoding); original inline
+XOR DX,DX is restored with a source comment. See
+[after621 native nine-BOSS review](MAIN_NINE_BOSS_SOURCE_ROOTED_AFTER621_NATIVE_REVIEW.md).
+The earlier `af605c` v1 result is **not** a valid changed-source proof.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
