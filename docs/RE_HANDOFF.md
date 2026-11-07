@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After876: original PC-98 VRAM shutdown leaf and repeated OUT semantics
+
+- Original 67-byte `exit` far-`__cdecl` SHARED physical TU now names
+  the two page values for **four actual PC-98 OUTs**, with genuine
+  16-bit port and byte page compile-time ABI checks. Port 0xA6
+  display page and 0xA4 access page operations, original double
+  page-zero selection, and cleanup order remain intact.
+- Fresh real original TC4 negative controls: removing 'redundant'
+  third display-page DX/AL writes generated **62** vs original **67**
+  CODE (`af876b`); routing page one via a `const unsigned char`
+  local generated **72** (`af876c`). Both rejected. Final `af876d`
+  passes two independent original TC4/full normal MAIN TLINK rounds:
+  **67 CODE bytes, 8 ordered native FIXUPPs, 1 PUBLIC**, full original
+  Japanese MAIN/1,553 MZ relocations. 98 other project objects/CRT
+  reused, no cold replay. See
+  [after876 exact PC-98 VRAM exit review](MAIN_EXIT_VRAM_NATIVE_AFTER876_REVIEW.md).
+  Existing source-covered original CODE; no new unique/Factory credit.
+
 ## After875: complete Chiyuri Chargeshot/Gauge native state and reset
 
 - The complete nine-function `cs_chiyu` source now uses natural
