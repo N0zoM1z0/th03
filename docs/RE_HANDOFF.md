@@ -6,6 +6,26 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kotohime full BOSS attack/renderer native C++ after701
+
+The complete Kotohime eleven-function original BOSS now
+uses native-exact `if(randomize_angle)` in the full
+ring projectile emitter, four natural `++i` loop
+increments in its ring/nested radial/renderer code,
+and ordinary `if(boss_render_mode)`/`if(boss_hit)`
+sprite-state checks. The original signed 16-bit
+angle division and player collision/attack ordering
+remain intact. A typed direct `boss_move_phase+2`
+write was native-unequal (`af701a`) and rejected;
+both original AL loads/stores remain. Fresh modified
+source and packed-header OMF-attested dual TC4/TLINK
+`af701e` rounds reproduce **1,840 original CODE
+bytes, 262 ordered literal FIXUPPs, eleven PUBLICs**,
+normal whole MAIN/MAP and Japanese MZ.
+See [after701 Kotohime BOSS native review](MAIN_KOTOHIME_BOSS_SOURCE_AFTER701_REVIEW.md).
+Only its full physical BOSS object rebuilt, no
+full cold replay or new canonical Factory target credit.
+
 ## Original Gauge and Extra Attack small leaf producers after700
 
 Two physical complete original small source units were

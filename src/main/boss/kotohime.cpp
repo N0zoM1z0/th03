@@ -97,6 +97,8 @@ void far pascal boss_kotohime_template_init(int player_id)
 
 // Full-circle angles use natural 256-step division, keeping the
 // original signed 16-bit multiply BEFORE division and byte truncation.
+// The optional per-pellet RNG draw is gated by ordinary C++ truthiness,
+// preserving exactly one random word per requested randomized bullet.
 void near pascal kotohime_ring_emit(int randomize_angle)
 {
 	int x;
@@ -105,8 +107,8 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 	register int i;
 
 	bullet_template.type = BT_BULLET16_DEFAULT;
-	for(i = 0; i < kotohime_orbit_count; i++) {
-		if(randomize_angle != 0) {
+	for(i = 0; i < kotohime_orbit_count; ++i) {
+		if(randomize_angle) {
 			bullet_template.angle = randring_far_next16();
 		}
 		angle = (
@@ -137,6 +139,9 @@ enum kotohime_ring_phase_t {
     KOTOHIME_RING_RELEASE_AFTER = 0x40,
 };
 
+// TC4 requires the original AL-mediated byte update in the two ring
+// patterns: even an explicitly truncated C++ phase+2 assignment changed
+// real native CODE (negative control af701a).
 void near kotohime_pattern_random_ring(void)
 {
 	if(boss_frame == KOTOHIME_RING_START_FRAME) {
@@ -284,7 +289,7 @@ void near kotohime_pattern_radial_burst(void)
 	bullet_template.group = BG_1;
 	bullet_template.type = BT_BULLET16_DEFAULT;
 
-	for(center_i = 0; center_i < kotohime_orbit_count; center_i++) {
+	for(center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
 		center_angle = (
 			((center_i * 256) / kotohime_orbit_count) +
 			boss_move_phase
@@ -302,7 +307,7 @@ void near kotohime_pattern_radial_burst(void)
 		bullet_template.center.x.v = x;
 		bullet_template.center.y.v = y;
 
-		for(bullet_i = 0; bullet_i < kotohime_burst_count; bullet_i++) {
+		for(bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
 			bullet_template.angle = (
 				((bullet_i * 128) / kotohime_burst_count) +
 				center_angle +
@@ -435,7 +440,7 @@ void near pascal kotohime_render_ring(int count)
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 
-	for(i = 0; i < count; i++) {
+	for(i = 0; i < count; ++i) {
 		angle = (((i * 256) / count) + boss_move_phase);
 		left = polar(
 			boss_center_x,
@@ -475,12 +480,12 @@ void near kotohime_render_main(void)
 	top = ((boss_center_y >> 4) - 32);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite_offset += 0x10;
 	}
 	sprite16_put(left, top, sprite_offset);
 
-	if(boss_render_mode != 0) {
+	if(boss_render_mode) {
 		kotohime_render_ring(kotohime_orbit_count);
 	}
 }
