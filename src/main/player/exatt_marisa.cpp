@@ -28,12 +28,30 @@ extern "C" void near pascal exatt_render_state_other(
 );
 extern "C" void far pascal bomb_center_add(int x, int y, int pid);
 
+// Fourteen original entity slots carry one mutable byte state and distinct
+// beam/sprite phase clocks; do not merge their frame increments or RNG calls.
+enum marisa_exatt_phases_t {
+    MARISA_EXTRA_SLOTS = 14,
+    MARISA_EXTRA_FREE = 0,
+    MARISA_EXTRA_BEAM = 1,
+    MARISA_EXTRA_FLYING = 2,
+    MARISA_EXTRA_APPEARING = 3,
+    MARISA_EXTRA_SHRINK_BEGIN = 0x30,
+    MARISA_EXTRA_SECOND_CEL = 0x60,
+    MARISA_EXTRA_THIRD_CEL = 0x66,
+    MARISA_EXTRA_FOURTH_CEL = 0x6C,
+    MARISA_EXTRA_FIFTH_CEL = 0x72,
+    MARISA_EXTRA_BEAM_COLLISION_END = 0x64,
+    MARISA_EXTRA_BEAM_END = 0x78,
+    MARISA_EXTRA_APPEARING_END = 0x1C,
+};
+
 void far pascal exatt_add_marisa(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
-    for(; i < 14; i++, p++) {
-        if(p->state == 0) {
+    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+        if(!p->state) {
             exatt_entity_p = p;
             exatt_fly_init(
                 x, y, randring_far_next16_mod(0x1200),
@@ -48,9 +66,9 @@ void far pascal marisa_exatt_add(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[1 - pid_][0];
     register int i = 0;
-    for(; i < 14; i++, p++) {
-        if(p->state == 0) {
-            p->state = 3;
+    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+        if(!p->state) {
+            p->state = MARISA_EXTRA_APPEARING;
             p->frame = 0;
             p->x = x;
             p->y = y;
@@ -75,28 +93,28 @@ void near marisa_exatt_render_one(void)
     } else {
         sprite16_clip.set_for_pid_1();
     }
-    if(p->state == 1) {
+    if(p->state == MARISA_EXTRA_BEAM) {
         sprite16_put_size.set(16, 16);
         sprite_offset = (pid.so_attack + 0x1A);
         left -= 8;
         top -= 8;
         frame = p->frame;
-        if(frame < 0x30) {
+        if(frame < MARISA_EXTRA_SHRINK_BEGIN) {
             sprite16_put(left, top, sprite_offset);
             sprite_offset += 2;
-        } else if(frame < 0x60) {
+        } else if(frame < MARISA_EXTRA_SECOND_CEL) {
             sprite_offset += 2;
-        } else if(frame < 0x66) {
+        } else if(frame < MARISA_EXTRA_THIRD_CEL) {
             sprite_offset += 4;
-        } else if(frame < 0x6C) {
+        } else if(frame < MARISA_EXTRA_FOURTH_CEL) {
             sprite_offset += 6;
-        } else if(frame < 0x72) {
+        } else if(frame < MARISA_EXTRA_FIFTH_CEL) {
             sprite_offset += 8;
         } else {
             sprite_offset += 10;
         }
         sprite16_putx(left, top + 16, sprite_offset, SPF_DOWNWARDS_COLUMN);
-    } else if(p->state == 2) {
+    } else if(p->state == MARISA_EXTRA_FLYING) {
         exatt_render_state2(left, top, *(unsigned int near *)&p->frame);
     } else {
         exatt_render_state_other(left, top, *(unsigned int near *)p);
@@ -114,19 +132,19 @@ void far pascal exatt_update_marisa(void)
     collmap_stripe_tile_w.set(4);
     p = &exatt_entities[pid_current][0];
     i = 0;
-    for(; i < 14; i++, p++) {
-        if(p->state == 0) {
+    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+        if(!p->state) {
             continue;
         }
-        if(p->state == 1) {
-            if(p->frame < 0x30) {
+        if(p->state == MARISA_EXTRA_BEAM) {
+            if(p->frame < MARISA_EXTRA_SHRINK_BEGIN) {
                 p->y -= 0x100;
                 if(p->y < -0x100) {
-                    p->frame = 0x30;
+                    p->frame = MARISA_EXTRA_SHRINK_BEGIN;
                     p->y = -0x100;
                 }
-            } else if(p->frame >= 0x78) {
-                p->state = 0;
+            } else if(p->frame >= MARISA_EXTRA_BEAM_END) {
+                p->state = MARISA_EXTRA_FREE;
                 continue;
             }
             center_x = p->x;
@@ -135,29 +153,33 @@ void far pascal exatt_update_marisa(void)
                 bottom = 0;
             }
             height = 0x1700 - bottom;
-            if(p->frame < 0x64) {
+            if(p->frame < MARISA_EXTRA_BEAM_COLLISION_END) {
                 collmap_center.x.v = center_x;
                 collmap_center.y.v = bottom + (height / 2);
+                // Original signed 16-bit collision height uses truncating
+                // division, not arithmetic shift (af774b negative).
                 collmap_tile_h.v = height / 32;
                 collmap_pid = (1 - pid_current);
                 collmap_set_rect_striped();
             }
-        } else if(p->state == 2) {
+        } else if(p->state == MARISA_EXTRA_FLYING) {
             exatt_entity_p = p;
-            if(exatt_fly_update() != 0) {
+            if(exatt_fly_update()) {
                 p->y = 0x1700;
                 continue;
             }
-        } else if(p->state <= 0x1C) {
+        } else if(p->state <= MARISA_EXTRA_APPEARING_END) {
             p->state++;
             if(p->state == 0x0C) {
                 bomb_center_add(p->x, 0x1820, p->pid);
             }
         } else {
             p->frame = 0;
-            p->state = 1;
+            p->state = MARISA_EXTRA_BEAM;
             snd_se_play(20);
         }
+        // The mutable 8-bit frame must retain postfix codegen;
+        // ++p->frame changed original CODE in af774c.
         p->frame++;
     }
 }
@@ -166,8 +188,8 @@ void far pascal exatt_render_marisa(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
     register int i = 0;
-    for(; i < 14; i++, p++) {
-        if(p->state != 0) {
+    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+        if(p->state) {
             exatt_entity_p = p;
             marisa_exatt_render_one();
         }
