@@ -466,10 +466,10 @@ void near pascal kotohime_render_ring(int count)
 		left = (
 			playfield_fg_x_to_screen(left, (1 - pid_current)) - 16
 		);
-		_AX = top;
-		static_cast<int16_t>(_AX) >>= 4;
-		top = _AX;
-		sprite16_put(left, _AX, sprite_offset);
+		// The signed Y conversion is exact as an assigned C++ expression.
+		// Compound top >>=4 changed original TC4 CODE (af762b).
+		top = static_cast<screen_y_t>(top >> 4);
+		sprite16_put(left, top, sprite_offset);
 	}
 }
 
