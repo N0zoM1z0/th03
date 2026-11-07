@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After830: full Marisa BOSS original native unsigned C++ clocks
+
+- Complete `ba_maris` nine-function major BOSS now uses natural `%4`
+  spread period, `%32` rotating-ring period and unsigned `%4` render
+  flicker, with named wide/narrow 16-bit columns and split entrance
+  geometry, preserving distinct release times, RNG and mask sprite I/O.
+- `af830b` genuinely **failed** original TC4 CODE comparison when a
+  literal byte `marisa_bullet_angle += 7` was replaced by a named enum:
+  1,427 candidate vs original 1,431 CODE bytes. The literal was restored.
+- Final `af830c` passed **two independent original TC4 4.02 / full normal
+  MAIN TLINK rounds**: 1,431 CODE bytes, 199 ordered FIXUPPs, nine
+  PUBLICs, complete Japanese original loaded MAIN and all 1,553 MZ
+  relocations matched; 98 other objects and CRT reused, no cold replay.
+  See [after830 Marisa BOSS review](MAIN_MARISA_BOSS_NATIVE_MODULO_AFTER830_REVIEW.md).
+  Existing native source owner reverified, **not new unique CODE credit**.
+
 ## Latest after829: four session-modified complete original physical owners together
 
 - Actual original **TC4 4.02 + full normal MAIN TLINK** stage `af829a`

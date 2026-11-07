@@ -109,12 +109,15 @@ enum marisa_spread_phase_t {
 };
 
 // The full BOSS update owns spread/ring clocks and main/split renderers.
-// Unsigned 16-bit periods permit masking; division by the *byte* ring
-// count and by two in the projectile speed remain independent operations.
+// Original unsigned 16-bit periods admit natural %4 and %32 C++ clocks;
+// division by the *byte* ring count and by two in projectile speed
+// remain independent operations with the original TC4 signedness.
 enum marisa_native_frame_timing_t {
     MARISA_BOSS_INTRO_END = 0x64,
     MARISA_MAIN_FLICKER_PERIOD = 4,
     MARISA_MAIN_FLICKER_FIRST_HALF = 2,
+    MARISA_SPLIT_START_RADIUS = 0xC8,
+    MARISA_RING_FULL_TURN = 256,
 };
 
 void near marisa_pattern_spread(void)
@@ -127,7 +130,7 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = 0;
 	}
 	if(boss_frame < MARISA_SPREAD_FINISH) {
-		if(boss_frame & (MARISA_SPREAD_PERIOD - 1)) {
+		if((boss_frame % MARISA_SPREAD_PERIOD) != 0) {
 			return;
 		}
 
@@ -143,7 +146,9 @@ void near marisa_pattern_spread(void)
 		bullet_template.speed.v = (marisa_bullet_speed / 2);
 		bullets_add();
 
-		marisa_bullet_angle += 7;
+		// Keep the literal byte-field step: enum-valued 7 selects a different
+        // AL/memory form in genuine TC4 (failed stage af830b).
+        marisa_bullet_angle += 7;
 		return;
 	}
 	boss_render_mode = 0;
@@ -160,6 +165,24 @@ enum marisa_column_phase_t {
     MARISA_COLUMN_THIRD = 0x60,
     MARISA_COLUMN_FOURTH = 0x70,
     MARISA_COLUMN_WIDE_FINISH = 0x84,
+    MARISA_COLUMN_SPAWN_Y = 0x1700,
+    MARISA_COLUMN_PAIR_0_LEFT = 0x80,
+    MARISA_COLUMN_PAIR_0_RIGHT = 0x1180,
+    MARISA_COLUMN_PAIR_1_LEFT = 0x380,
+    MARISA_COLUMN_PAIR_1_RIGHT = 0xE80,
+    MARISA_COLUMN_PAIR_2_LEFT = 0x680,
+    MARISA_COLUMN_PAIR_2_RIGHT = 0xB80,
+    MARISA_COLUMN_PAIR_3_LEFT = 0x980,
+    MARISA_COLUMN_PAIR_3_RIGHT = 0x880,
+};
+
+enum marisa_narrow_column_x_t {
+    MARISA_NARROW_PAIR_0_LEFT = 0x200,
+    MARISA_NARROW_PAIR_0_RIGHT = 0x1000,
+    MARISA_NARROW_PAIR_1_LEFT = 0x500,
+    MARISA_NARROW_PAIR_1_RIGHT = 0xD00,
+    MARISA_NARROW_PAIR_2_LEFT = 0x800,
+    MARISA_NARROW_PAIR_2_RIGHT = 0xA00,
 };
 
 void near marisa_pattern_columns_wide(void)
@@ -171,23 +194,23 @@ void near marisa_pattern_columns_wide(void)
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_FIRST) {
-		marisa_exatt_add(0x80, 0x1700, pid_other);
-		marisa_exatt_add(0x1180, 0x1700, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_0_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_0_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_SECOND) {
-		marisa_exatt_add(0x380, 0x1700, pid_other);
-		marisa_exatt_add(0xE80, 0x1700, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_1_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_1_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_THIRD) {
-		marisa_exatt_add(0x680, 0x1700, pid_other);
-		marisa_exatt_add(0xB80, 0x1700, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_2_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_FOURTH) {
-		marisa_exatt_add(0x980, 0x1700, pid_other);
-		marisa_exatt_add(0x880, 0x1700, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_3_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
+		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
@@ -207,7 +230,7 @@ void near marisa_pattern_ring(void)
 {
 	boss_move_sine();
 
-	if(!(boss_frame & (MARISA_RING_PERIOD - 1))) {
+	if((boss_frame % MARISA_RING_PERIOD) == 0) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
@@ -222,7 +245,7 @@ void near marisa_pattern_ring(void)
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullets_add();
 
-			bullet_template.angle += (256 / marisa_ring_count);
+			bullet_template.angle += (MARISA_RING_FULL_TURN / marisa_ring_count);
 			bullet_template.count = marisa_cloud_count_high;
 		}
 		bullet_template.speed.v = marisa_cloud_speed;
@@ -245,18 +268,18 @@ void near marisa_pattern_columns_narrow(void)
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_FIRST) {
-		marisa_exatt_add(0x200, 0x1700, pid_other);
-		marisa_exatt_add(0x1000, 0x1700, pid_other);
+		marisa_exatt_add(MARISA_NARROW_PAIR_0_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
+		marisa_exatt_add(MARISA_NARROW_PAIR_0_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_SECOND) {
-		marisa_exatt_add(0x500, 0x1700, pid_other);
-		marisa_exatt_add(0xD00, 0x1700, pid_other);
+		marisa_exatt_add(MARISA_NARROW_PAIR_1_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
+		marisa_exatt_add(MARISA_NARROW_PAIR_1_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_THIRD) {
-		marisa_exatt_add(0x800, 0x1700, pid_other);
-		marisa_exatt_add(0xA00, 0x1700, pid_other);
+		marisa_exatt_add(MARISA_NARROW_PAIR_2_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
+		marisa_exatt_add(MARISA_NARROW_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_FOURTH) {
@@ -381,7 +404,7 @@ void near marisa_render_main(void)
 		return;
 	}
 	if(
-		(round_or_result_frame & (MARISA_MAIN_FLICKER_PERIOD - 1)) <
+		(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
 		MARISA_MAIN_FLICKER_FIRST_HALF
 	) {
 		sprite16_put_size.set(48, 80);
@@ -441,7 +464,7 @@ void far gba_boss_render_marisa(void)
 	sprite16_clip_set_for_pid(pid_other);
 
 	if(boss_mode == MARISA_MODE_INTRO) {
-		marisa_render_split(0xC8 - (boss_frame << 1));
+		marisa_render_split(MARISA_SPLIT_START_RADIUS - (boss_frame << 1));
 		return;
 	}
 	if(boss_mode != MARISA_MODE_EXPLODE) {
