@@ -6,6 +6,34 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest five modified original source objects, 58-owner proof union after709
+
+Fresh `af709a` two-round original Turbo C++ 4.02/TLINK
+integration **recompiles only five actually modified
+physical original project TUs**: the full major Kana
+BOSS, two original shared BOSS controllers, the
+3,135-CODE-byte `core` Hyper/player owner and
+664-CODE-byte `lose` owner. The actual maintained
+`hyper.inl` and four loss/particle/winner `.inl`
+files are explicitly staged and OMF dependency-attested
+from current source, together with original packed
+BOSS templates. Both rounds reproduce **6,622 original
+CODE bytes, 701 literal ordered FIXUPP fields and
+42 PUBLICs**, complete normal MAIN EXE/MAP, original
+124,642-byte Japanese program, all 1,553 MZ relocations
+and independently serialized exact original 130,882-byte
+Japanese MAIN.EXE. Other **94 original objects and
+startup/CRT libraries reused**; no full cold replay.
+The prior 56-owner union gains two new distinct full
+original `core`/`lose` TUs for **58 cumulative proof
+owners / 66,407 existing CODE bytes / 7,303 ordered
+native fixups / 367 PUBLICs** across independent
+source-bound receipts. **Only five objects were
+freshly compiled in af709a**, not 58. See
+[after709 five-source native proof and union review](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md).
+No new Factory canonical packed-game credit or
+historic vendor raw OMF packet identity claim.
+
 ## Two shared BOSS physical native controllers after708
 
 The original two complete `ba_sring`/`ba_srest`
