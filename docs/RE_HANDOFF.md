@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After863: complete Rikako Chargeshot/Gauge native four-orbit controller
+
+- The complete 11-function `cs_rika` owner now uses natural C++ `while`
+  for **four-shot allocation, signed polar orbit update, and rendering**,
+  with physically named initial angle/radius, signed ±8 rotation, hit
+  margin and 32×32 sprites. The core signed-index parity can become
+  natural `%2` only **after explicit unsigned promotion** (native
+  `af863e`); signed `%2` fails (`af863d`: **1,287** vs **1,280** CODE).
+- Fresh TC4 negative `af863g` showed a prefix byte frame increment
+  generated **1,294** CODE bytes instead of original 1,280; postfix
+  remains. Final `af863h` compiles/links all original 11 functions in
+  two independent original TC4 4.02/full normal TLINK rounds: **1,280
+  CODE bytes, 137 ordered OMF FIXUPPs, 11 PUBLICs**, full original
+  Japanese MAIN/1,553 relocations exact; 98 other project objects/CRT
+  reused, no cold replay. See
+  [after863 full Rikako Chargeshot review](MAIN_RIKAKO_CHARGESHOT_LOOPS_AFTER863_REVIEW.md).
+  Existing historical owner; no added unique CODE/Factory packed credit.
+
 ## After862: complete Rikako BOSS native emitter and renderer loops
 
 - The full eight-function **Rikako major BOSS** (`ba_rikak`) now uses
