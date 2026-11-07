@@ -1,6 +1,6 @@
-// Natural Turbo C++ reconstruction candidate for the complete Ellen
-// contribution inside TH03 MAIN_03_TEXT. Shared boss helpers and historical
-// state remain external until full-link ownership is proved.
+// Complete current native-source Turbo C++ reconstruction of Ellen's
+// original major BOSS in MAIN_03_TEXT. Shared BOSS helpers and state
+// remain in their own historical original physical project objects.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/ellen.hpp"
@@ -118,6 +118,7 @@ enum ellen_spread_phase_t {
     ELLEN_SPREAD_WARMUP_END = 0x1C,
     ELLEN_SPREAD_SINGLE_END = 0x24,
     ELLEN_SPREAD_FINISH = 0x2C,
+    ELLEN_SPREAD_ANGLE_STEP = 8,
 };
 
 // The two low-bit checks compile from natural unsigned C++ %2.
@@ -155,31 +156,36 @@ void near ellen_pattern_spread(void)
 	}
 
 	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
-		if((boss_frame % 2) == 0) {
+		if(!(boss_frame % 2)) {
 			goto fire_single;
 		}
 		goto done;
 	}
 	if(boss_frame == ELLEN_SPREAD_SINGLE_END) {
 		snd_se_play(3);
-		for(i = 0; i < 8; ++i) {
+		// Eight native spread calls in original sound/angle order.
+		// A named mutable byte step is exact as C++ `angle=angle+enum`
+		// (af893k), unlike replacing literal `angle +=8` with enum.
+		i = 0;
+		while(i < 8) {
 			bullets_add();
-			ellen_spread_angle += 8;
+			ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 			bullet_template.angle = ellen_spread_angle;
+			++i;
 		}
 		goto done;
 	}
 	if(boss_frame > ELLEN_SPREAD_FINISH) {
 		goto done;
 	}
-	if((boss_frame % 2) != 0) {
+	if(boss_frame % 2) {
 		goto done;
 	}
 
 fire_single:
 	snd_se_play(3);
 	bullets_add();
-	ellen_spread_angle += 8;
+	ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 
 done:
 	if(boss_frame >= ELLEN_SPREAD_FINISH) {
@@ -223,34 +229,37 @@ void near ellen_pattern_extra(void)
 	}
 
 	if(boss_frame == ELLEN_EXTRA_FIRST_BURST) {
-		for(
-			i = 0, angle = randring_far_next16();
-			i < ellen_extra_count;
-			(++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count))
-		) {
+		// Each independent original radial burst draws its own RNG angle,
+		// divides 256 by the byte count at each native iteration, then
+		// updates the byte angle AFTER the far Extra Attack spawn.
+		i = 0;
+		angle = randring_far_next16();
+		while(i < ellen_extra_count) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
 				ELLEN_EXTRA_FIRST_MODE
 			);
+			++i;
+			angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		return;
 	}
 
 	// Byte-valued 0xFE is a signed -2 offset in this final volley.
 	if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
-		for(
-			i = 0, angle = randring_far_next16();
-			i < ellen_extra_count;
-			(++i, angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count))
-		) {
+		i = 0;
+		angle = randring_far_next16();
+		while(i < ellen_extra_count) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
 				ELLEN_EXTRA_LAST_MODE
 			);
+			++i;
+			angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		boss_mode = 1;
 		boss_frame = 0;
@@ -268,7 +277,20 @@ enum ellen_native_renderer_timing_t {
     ELLEN_INTRO_RADIUS_START = 0xC8,
     ELLEN_INTRO_RADIAL_FAMILIES = 4,
     ELLEN_INTRO_ARC_SPRITES = 8,
+    ELLEN_INTRO_ARC_ANGLE_STEP = 0x20,
+    ELLEN_INTRO_GROUP_ANGLE_STEP = 3,
     ELLEN_PELLET_FINISH_FRAME = 0x60,
+    ELLEN_PELLET_ANGLE_STEP = 0x10,
+    ELLEN_COLLISION_TILE_WIDTH = 40,
+    ELLEN_COLLISION_TILE_HEIGHT = 48,
+    ELLEN_COLLISION_HALF_RADIUS = TO_SP(24),
+    ELLEN_RENDER_STRIP_WIDTH = 96,
+    ELLEN_RENDER_MAIN_WIDTH = 64,
+    ELLEN_RENDER_MAIN_HEIGHT = 48,
+    ELLEN_RENDER_MAIN_LEFT = 32,
+    ELLEN_RENDER_MAIN_TOP = 32,
+    ELLEN_RENDER_INTRO_WIDTH = 32,
+    ELLEN_RENDER_INTRO_HEIGHT = 16,
 };
 
 void near ellen_pattern_pellets(void)
@@ -295,7 +317,9 @@ void near ellen_pattern_pellets(void)
 		bullet_template.angle = ellen_pellet_angle;
 		bullets_add();
 
-		ellen_pellet_angle += 0x10;
+		// Natural assignment with named +0x10 keeps the original
+		// mutable byte-angle codegen (af893l).
+		ellen_pellet_angle = ellen_pellet_angle + ELLEN_PELLET_ANGLE_STEP;
 	}
 
 	if(boss_frame >= ELLEN_PELLET_FINISH_FRAME) {
@@ -372,14 +396,14 @@ void far gba_boss_update_ellen(void)
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(40);
-	collmap_tile_h.set(48);
+	collmap_stripe_tile_w.set(ELLEN_COLLISION_TILE_WIDTH);
+	collmap_tile_h.set(ELLEN_COLLISION_TILE_HEIGHT);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(24);
-	hitbox.radius.y.v = TO_SP(24);
+	hitbox.radius.x.v = ELLEN_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = ELLEN_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -401,7 +425,7 @@ void near pascal ellen_render_strip(int frame_i)
 		boss_sprite_offset +
 		0xFB10
 	);
-	sprite16_put_size.w = 96;
+	sprite16_put_size.w = ELLEN_RENDER_STRIP_WIDTH;
 	sprite16_put_size.h = (ellen_render_heights[i] / 2);
 
 	left = (
@@ -426,10 +450,10 @@ void near ellen_render_main(void)
 	register int i;
 	register sprite16_offset_t sprite_offset;
 
-	sprite16_put_size.w = 64;
-	sprite16_put_size.h = 48;
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 32);
-	top = ((boss_center_y >> 4) - 32);
+	sprite16_put_size.w = ELLEN_RENDER_MAIN_WIDTH;
+	sprite16_put_size.h = ELLEN_RENDER_MAIN_HEIGHT;
+	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - ELLEN_RENDER_MAIN_LEFT);
+	top = ((boss_center_y >> 4) - ELLEN_RENDER_MAIN_TOP);
 
 	sprite_offset = boss_sprite_offset;
 	if(boss_hit) {
@@ -483,12 +507,17 @@ void near pascal ellen_render_intro(
 		return;
 	}
 
-	sprite16_put_size.w = 32;
-	sprite16_put_size.h = 16;
+	sprite16_put_size.w = ELLEN_RENDER_INTRO_WIDTH;
+	sprite16_put_size.h = ELLEN_RENDER_INTRO_HEIGHT;
 	sprite_offset = (pid.so_attack + 0x28C);
 
-	for(i = 0; i < ELLEN_INTRO_RADIAL_FAMILIES; ++i) {
-		for(j = 0; j < ELLEN_INTRO_ARC_SPRITES; (angle += 0x20, ++j)) {
+	// Four families of eight genuine sprites. Two nested natural
+	// while loops keep both byte-angle steps and sprite-offset updates
+	// in the original post-render order (native af893c).
+	i = 0;
+	while(i < ELLEN_INTRO_RADIAL_FAMILIES) {
+		j = 0;
+		while(j < ELLEN_INTRO_ARC_SPRITES) {
 			left = polar(
 				boss_center_x,
 				length,
@@ -507,9 +536,16 @@ void near pascal ellen_render_intro(
 			// sprite16_put changes the whole BOSS CODE (af760b).
 			top = static_cast<screen_y_t>(top >> 4);
 			sprite16_put(left, top, sprite_offset);
+			// Enum-valued `+=` changed code; ordinary byte assignment
+			// with named +0x20 restores original TC4 instructions (af893j).
+			angle = angle + ELLEN_INTRO_ARC_ANGLE_STEP;
+			++j;
 		}
-		angle += 3;
+		// The next family's +3 byte angle has the same native-exact
+		// C++ assignment pattern (af893i), without changing wraparound.
+		angle = angle + ELLEN_INTRO_GROUP_ANGLE_STEP;
 		sprite_offset -= 4;
+		++i;
 	}
 }
 

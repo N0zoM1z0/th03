@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After893: complete Ellen BOSS natural radial and 4×8 intro loops
+
+- The whole nine-function `ba_ellen` major BOSS now expresses the
+  eight-shot spread, **both RNG-seeded radial Extra Attack loops** and
+  the **nested 4×8 intro sprite renderer** as genuine native C++ `while`,
+  preserving byte-angle, signed quotient, RNG and original far sprite
+  call order. Two unsigned-word `%2` frame clocks use natural truth
+  predicates; physical collision/sprite geometry is named.
+- Critical fresh real TC4 result: while direct `angle += enum_value`
+  for +8/+0x20/+3 shortened original 1,675 CODE to **1,660** in
+  `af893e`, natural **`angle = angle + named_value`** is exact for
+  spread +8, intro +0x20/+3 and pellet +0x10 (`af893i/j/k/l`). Final
+  `af893o` passes two independent original TC4/full normal TLINK rounds:
+  **1,675 CODE bytes, 213 literal ordered FIXUPPs, 9 PUBLICs**, complete
+  Japanese MAIN and 1,553 MZ relocations exact; 98 other project
+  objects/CRT reused. See
+  [after893 complete Ellen BOSS review](MAIN_ELLEN_BOSS_NATIVE_RADIAL_AFTER893_REVIEW.md).
+  Historical CODE source-owned; no additional distinct Factory credit.
+
 ## After892: full Reimu major BOSS, three orbit phases and two sprite loops
 
 - The entire nine-function original `ba_reimu` major BOSS now uses
