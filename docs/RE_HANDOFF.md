@@ -6,6 +6,18 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## BOSS template and core unified through after626
+
+The current `boss_template_state_t` also replaces duplicated
+Chiyuri/Ellen/Rikako/Reimu templates and the shared BOSS controller's
+32-byte state view. Explicit v2 source/header OMF dependency attestation,
+two TC4/TLINK rounds and complete original MAIN/MAP/Japanese MZ matching
+passed for **six more physical units: 8,975 CODE bytes, 1,185 ordered
+native fixups and 45 PUBLICs**. The original REP MOVSW state copy and
+signed per-character byte semantics are preserved. See
+[after626 native review](MAIN_BOSS_TEMPLATE_CORE_AFTER626_NATIVE_REVIEW.md).
+No new accepted game-byte credit is claimed.
+
 ## Latest BOSS physical ABI after625
 
 Kana, Kotohime and Yumemi major BOSS source TUs now include a maintained

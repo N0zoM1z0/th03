@@ -16,23 +16,9 @@
 #include "src/main/boss/shared.hpp"
 #pragma option -a2
 
-struct boss_state_t {
-	int center_x;
-	int center_y;
-	int unused_04;
-	int unused_06;
-	int velocity_x;
-	int velocity_y;
-	int hp;
-	sprite16_offset_t sprite_offset;
-	unsigned char byte_10;
-	unsigned char mode;
-	unsigned char angle;
-	unsigned char pattern_i;
-	unsigned char pattern_count;
-	unsigned char byte_15;
-	unsigned char tail[10];
-};
+// Shared controller copies the identical physical per-player BOSS record.
+#include "src/main/boss/template_state.hpp"
+typedef boss_template_state_t boss_state_t;
 
 // Bounds and rewards are global to the shared boss controller, not
 // character-specific attacks. These remain compile-time 16-bit constants.
