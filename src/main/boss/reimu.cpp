@@ -149,7 +149,9 @@ void near reimu_pattern_orbit_cloud(void)
 	}
 
 	if((boss_frame % 2) == 0) {
-		reimu_cloud_speed++;
+		// Preserve postfix here: prefix ++reimu_cloud_speed changed the
+        // original TC4 byte-field codegen (negative control af691b).
+        reimu_cloud_speed++;
 	}
 
 	angle = ((unsigned char)boss_frame * 2);
@@ -215,6 +217,8 @@ enum reimu_orbit_phase_t {
     REIMU_ORBIT_RELEASE_FRAME = 0x50,
 };
 
+// The four radial loops use natural signed i*256 BEFORE the original
+// integer division; collapsing or reordering would change ring angles.
 void near reimu_pattern_orbit_burst(void)
 {
 	unsigned char angle;
@@ -230,8 +234,8 @@ void near reimu_pattern_orbit_burst(void)
 	if(boss_frame < REIMU_ORBIT_EXPAND_END) {
         // Keep two natural 16-bit scale stages in the original order:
         // frame*32 changes TC4 instructions; (frame*16)*2 does not.
-		for(i = 0; i < reimu_orbit_count; i++) {
-			angle = (((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
+		for(i = 0; i < reimu_orbit_count; ++i) {
+			angle = (((i * 256) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
 				((boss_frame * 16) * 2),
@@ -248,8 +252,8 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
-		for(i = 0; i < reimu_orbit_count; i++) {
-			angle = (((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
+		for(i = 0; i < reimu_orbit_count; ++i) {
+			angle = (((i * 256) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
 			);
@@ -274,8 +278,8 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
-		for(i = 0; i < reimu_orbit_count; i++) {
-			angle = (((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
+		for(i = 0; i < reimu_orbit_count; ++i) {
+			angle = (((i * 256) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
 		}
 		boss_mode = 1;
@@ -445,7 +449,7 @@ void near reimu_render_main(void)
 		sprite_offset += (((static_cast<unsigned int>(anim) % 2) * 6) + 0x780);
 	}
 
-	for(i = 0; i < reimu_orbit_count; i++) {
+	for(i = 0; i < reimu_orbit_count; ++i) {
 		left = (
 			playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - 24
 		);
@@ -486,7 +490,7 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 		sprite_offset += (((static_cast<unsigned int>(anim) % 2) * 6) + 0x780);
 	}
 
-	for(i = 0; i < 8; (i++, angle += 0x20)) {
+	for(i = 0; i < 8; (++i, angle += 0x20)) {
 		left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
 		left = (playfield_fg_x_to_screen(left, pid_other) - 24);

@@ -6,6 +6,27 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Reimu full BOSS native orbit distribution source after691
+
+The large Reimu BOSS orbit burst now uses the original
+signed sixteen-bit `(i*256)/reimu_orbit_count`
+in THREE separate radial angular calculation paths,
+rather than hand-authored `i<<8`, preserving
+division order and one-byte wrap. Four entire
+BOSS orbit loops and the eight-sprite renderer
+leaf use native-equal C++ `++i`. Replacing
+the cloud's `reimu_cloud_speed++` with prefix
+increment changed original CODE (`af691b`);
+the original form was restored. The full current
+source/packed-BOSS-header OMF-attested `af691e`
+two-round Turbo C++/TLINK proof reproduces
+**2,020 CODE bytes, 270 ordered native fixups,
+nine PUBLICs**, entire original MAIN/MAP and
+Japanese MZ. See
+[after691 Reimu BOSS orbit review](MAIN_REIMU_BOSS_ORBIT_NATIVE_AFTER691_REVIEW.md).
+Only the affected BOSS source recompiled, no
+full cold replay or new canonical game byte credit.
+
 ## Reimu complete Bomb particle, shared lifecycle and renderer after690
 
 The full original `bm_reish` four-function Bomb physical
