@@ -40,6 +40,8 @@ SOURCES = {
     'ex_maris': 'src/main/player/exatt_marisa.cpp',
     'ex_chyu': 'src/main/player/exatt_chiyuri.cpp',
     'ex_koto': 'src/main/player/exatt_kotohime.cpp',
+    'ex_rfly': 'src/main/player/exatt_flight_reimu.cpp',
+    'ex_reup': 'src/main/player/exatt_reimu.cpp',
 }
 ENTITY = 'src/main/player/exatt_entity.hpp'
 
@@ -135,7 +137,7 @@ def main():
             entity=rd/ENTITY
             entity.parent.mkdir(parents=True, exist_ok=True)
             entity.write_bytes(header_data.replace(b'\n',b'\r\n'))
-            wrapper={u:f'#include "{SOURCES[u]}"\n'.encode() for u in units}
+            wrapper={u:(('#define TH03_EXATT_REIMU_UPDATE_ONLY\n' if u=='ex_reup' else '') + f'#include "{SOURCES[u]}"\n').encode() for u in units}
             for u in units:
                 (rd/(u+'.cpp')).write_bytes(wrapper[u].replace(b'\n',b'\r\n'))
             phases=[];scopes={};outputs={}

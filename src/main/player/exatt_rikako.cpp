@@ -15,24 +15,8 @@
 
 #pragma option -a2
 
-struct exatt_entity_t {
-	unsigned char state;
-	unsigned char frame;
-	int x;
-	int y;
-	int velocity_x;
-	int velocity_y;
-	int target_x;
-	int boundary_x;
-	int duration;
-	unsigned char pid;
-	unsigned char unknown_11;
-	unsigned char angle;
-	unsigned char speed;
-	int radius;
-	unsigned char tail[10];
-};
-typedef char exatt_entity_size_must_be_20[(sizeof(exatt_entity_t) == 0x20) ? 1 : -1];
+// Shared 32-byte entity view with the original per-Rikako homing flag.
+#include "src/main/player/exatt_entity.hpp"
 
 struct exatt_player_view_t {
 	PlayfieldPoint center;
@@ -80,7 +64,7 @@ void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 				pid_,
 				0x64
 			);
-			p->tail[1] = randring_far_next16_and(1);
+			p->character.rikako.homing_disabled = randring_far_next16_and(1);
 			p->angle = 0x40;
 			p->speed = (randring_far_next16_and(0x0F) + 0x20);
 			return;
@@ -96,7 +80,7 @@ void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 	for(; i < 14; i++, p++) {
 		if(p->state == 0) {
 			p->state = 1;
-			p->tail[1] = 1;
+			p->character.rikako.homing_disabled = 1;
 			p->frame = 0x40;
 			p->x = x;
 			p->y = y;
@@ -173,7 +157,7 @@ void far pascal exatt_update_rikako(void)
 			p->y += vector_y;
 
 			if(
-				(p->tail[1] == 0) &&
+				(p->character.rikako.homing_disabled == 0) &&
 				(p->frame >= 0x40) &&
 				(p->frame <= 0x50)
 			) {

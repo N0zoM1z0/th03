@@ -104,6 +104,18 @@ complete original normal MAIN EXE/MAP and 1,553 MZ relocations. See
 scope is claimed. Historical after596 receipt source pins remain frozen;
 validate new source with the scoped overlay, not by repinning that receipt.
 
+### Rikako state after599
+
+The `af599t` native overlay covers five physically distinct Extra Attack TUs:
+Yumemi, Mima, Rikako, shared flight/Reimu prefix and Reimu update. The original
+32-byte entity now exposes Rikako's byte +0x17 as a character-specific
+`homing_disabled` state without imposing that meaning on other characters.
+Both TC4/TLINK rounds reproduce all 4,281 CODE bytes, 262 ordered fields,
+24 PUBLICs and unchanged full Japanese MAIN image/relocations. See
+[scoped native review](MAIN_RIKAKO_EXATT_HOMING_AFTER599_NATIVE_REVIEW.md).
+The `af598v` frozen source refresh remains separately retained. No extra
+owned bytes or historical OMF provenance are claimed.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
