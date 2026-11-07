@@ -96,7 +96,7 @@ void far pascal boss_kana_template_init(int player_id)
 	p->pattern_i = 0;
 	p->effect_radius = 0;
 	p->sprite_offset = 0x288;
-	if(player_id != 0) {
+	if(player_id) {
 		p->sprite_offset += 0x28;
 	}
 	p->render_mode = 0;
@@ -220,7 +220,7 @@ void near kana_pattern_staged_ring(void)
 			bullet_template.speed.v = TO_SP(1);
 			bullet_template.group =
 				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-			for(i = 0; i < 0x10; i++) {
+			for(i = 0; i < 0x10; ++i) {
 				bullets_add();
 				bullet_template.angle += 6;
 				bullet_template.speed.v += 3;
@@ -255,6 +255,8 @@ enum kana_cloud_phase_t {
     KANA_CLOUD_FINISH_AFTER = 0x64,
 };
 
+// The random cloud's single parity draw remains exactly once per
+// emission tick. A natural truthiness condition compiles identical x86.
 void near kana_pattern_cloud_ring(void)
 {
 	signed char angle;
@@ -267,7 +269,7 @@ void near kana_pattern_cloud_ring(void)
 		// the original SUB AL,10 (2C 10); retain the exact opcode.
 		asm { sub al, 10h }
 		angle = _AL;
-		if(randring_far_next16_and(1) != 0) {
+		if(randring_far_next16_and(1)) {
 			angle = (0x80 - angle);
 		}
 		kana_extra_add(
@@ -319,6 +321,9 @@ void near kana_pattern_rotating_ring(void)
 		);
 		kana_rotating_angle = (unsigned char)-0x40;
 		kana_rotating_delta = randring_far_next16_and(3);
+		// These four signed angular choices must keep the AL-mediated
+		// write: direct byte assignments changed original TC4 CODE
+		// (native negative control af704a).
 		if(kana_rotating_delta == 0) {
 			_AL = (unsigned char)-3;
 		} else if(kana_rotating_delta == 1) {
@@ -472,7 +477,7 @@ void near kana_render_main(void)
 	top = ((boss_center_y >> 4) - 24);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite_offset += 0x10;
 	}
 	sprite16_put(left, top, sprite_offset);
@@ -523,7 +528,7 @@ void near kana_render_intro(void)
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 
-	if((boss_frame < 0x20) && (round_frame_mod2 != 0)) {
+	if((boss_frame < 0x20) && (round_frame_mod2)) {
 		return;
 	}
 
@@ -536,7 +541,7 @@ void near kana_render_intro(void)
 	angle = boss_move_phase;
 	angle = (0 - angle);
 
-	for(i = 0; i < 0x10; (i++, angle += 0x10)) {
+	for(i = 0; i < 0x10; (++i, angle += 0x10)) {
 		left = polar(
 			boss_center_x,
 			radius,

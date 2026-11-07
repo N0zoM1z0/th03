@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kana full BOSS rotating loop and native register constraint after704
+
+The full 1,874-CODE-byte Kana BOSS TU has been
+source/packed-header-OMF-attested in two original
+TC4/TLINK rounds `af704d`. Its original sixteen-shot
+and sixteen-sprite loops use natural prefix `++i`;
+cloud RNG parity, BOSS hit, player and arrival gates
+use natural C++ truthiness and preserve the original
+RNG and render order. Direct byte assignment replacing
+the four-way signed angular AL intermediate was
+tested and produced original-unequal CODE (`af704a`),
+so the original register form remains. Complete
+CODE, 274 literal ordered FIXUPPs, nine PUBLICs,
+MAIN/MAP and Japanese relocations are exact.
+See [after704 Kana BOSS review](MAIN_KANA_BOSS_CONTROL_AFTER704_REVIEW.md).
+Only Kana's full original BOSS TU was recompiled,
+with no cold replay or new canonical packed-game credit.
+
 ## Latest seven actually rebuilt native sources, 56-owner proof union after703
 
 Current original Turbo C++ 4.02/TLINK `af703a`
