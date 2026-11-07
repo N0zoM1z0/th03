@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After908: exact PMD sound effect register service and byte timing
+
+- Entire physical `snd_se` PMD/PC-98 sound effect leaf: natural
+  explicit active/zero-frame tests and `frame > duration` expiry
+  preserve the original `INT 60h`, AH 0x0C/AL byte effect, original
+  priorities, none sentinel and far register ABI.
+- Fresh original TC4 negatives: byte-frame postfix → prefix emitted
+  **124 vs original 120 CODE bytes** (`af908c`); reversing priority
+  lookup operands emitted **121** (`af908e`), whereas reversing the
+  separate expiry compare passed. Final `af908f` matches **120 CODE
+  bytes, 18 literal ordered FIXUPPs and two PUBLICs** in two original
+  TC4/full normal TLINK rounds, complete Japanese MAIN/1,553 ordered
+  MZ relocations; 98 other project objects/CRT reused.
+  See [after908 PMD sound review](MAIN_SOUND_SE_NATIVE_AFTER908_REVIEW.md).
+  Historical source-owned CODE, not new Factory accepted credit.
+
 ## After907: original input-mode and two-phase wait controller
 
 - The full nine-entrypoint `inp_m_w` physical owner now uses natural
