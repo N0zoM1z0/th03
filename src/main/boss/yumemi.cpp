@@ -67,6 +67,31 @@ void far pascal bomb_explosion_add(int x, int y, int pid);
 void far pascal yumemi_extra_add(int x, int y);
 }
 
+// The original boss scheduler selects a value in 2..17 for each attack.
+// These mode *values* are shared; Yumemi's grouping of them is character-specific.
+enum yumemi_boss_mode_t {
+    YUMEMI_MODE_INTRO = 0,
+    YUMEMI_MODE_SELECT = 1,
+    YUMEMI_MODE_RING_0 = 2,
+    YUMEMI_MODE_RING_1 = 3,
+    YUMEMI_MODE_RING_2 = 4,
+    YUMEMI_MODE_RAIN_0 = 5,
+    YUMEMI_MODE_RAIN_1 = 6,
+    YUMEMI_MODE_AIMED_0 = 7,
+    YUMEMI_MODE_AIMED_1 = 8,
+    YUMEMI_MODE_AIMED_2 = 9,
+    YUMEMI_MODE_RAIN_2 = 0x0A,
+    YUMEMI_MODE_CROSS_0 = 0x0B,
+    YUMEMI_MODE_CROSS_1 = 0x0C,
+    YUMEMI_MODE_CROSS_2 = 0x0D,
+    YUMEMI_MODE_CROSS_3 = 0x0E,
+    YUMEMI_MODE_CHASE_0 = 0x0F,
+    YUMEMI_MODE_CHASE_1 = 0x10,
+    YUMEMI_MODE_CHASE_2 = 0x11,
+    YUMEMI_MODE_DESCEND = 0x80,
+    YUMEMI_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_yumemi_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -91,22 +116,28 @@ void far pascal boss_yumemi_template_init(int player_id)
 	p->render_mode = 0;
 }
 
+// Yumemi's expanding/rotating ring pattern has a distinct warning
+// interval before bullets appear. The frame comparisons retain the
+// original unsigned 16-bit timer behavior.
+enum yumemi_ring_phase_t {
+    YUMEMI_RING_INIT_FRAME = 1,
+    YUMEMI_RING_WARNING_END = 4,
+    YUMEMI_RING_BULLET_START = 0x20,
+    YUMEMI_RING_FINISH_AFTER = 0x3C,
+};
+
 void near yumemi_pattern_ring(void)
 {
-	if(boss_frame == 1) {
+	if(boss_frame == YUMEMI_RING_INIT_FRAME) {
 		boss_render_mode = 1;
 		yumemi_angle = randring_far_next16();
 		yumemi_speed_add = 0;
 		boss_effect_radius = 0x100;
-		if(randring_far_next16_and(1) == 0) {
-			_AL = 3;
-		} else {
-			_AL = -3;
-		}
+		_AL = ((randring_far_next16_and(1) == 0) ? 3 : -3);
 		yumemi_angle_delta = _AL;
 	}
 
-	if(boss_frame < 4) {
+	if(boss_frame < YUMEMI_RING_WARNING_END) {
 		bomb_axis_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
@@ -115,11 +146,11 @@ void near yumemi_pattern_ring(void)
 		return;
 	}
 
-	if(boss_frame < 0x20) {
+	if(boss_frame < YUMEMI_RING_BULLET_START) {
 		return;
 	}
 
-	if(boss_frame == 0x20) {
+	if(boss_frame == YUMEMI_RING_BULLET_START) {
 		bomb_explosion_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
@@ -143,7 +174,7 @@ void near yumemi_pattern_ring(void)
 		yumemi_speed_add += 8;
 	}
 
-	if(boss_frame > 0x3C) {
+	if(boss_frame > YUMEMI_RING_FINISH_AFTER) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
@@ -354,7 +385,7 @@ void far gba_boss_update_yumemi(void)
 	yumemi_origin_y = (boss_center_y - 0x180);
 
 	switch(boss_mode) {
-	case 0:
+	case YUMEMI_MODE_INTRO:
 		if((boss_frame == 0x18) || (boss_frame == 0x48)) {
 			snd_se_reset();
 			snd_se_play(5);
@@ -366,46 +397,46 @@ void far gba_boss_update_yumemi(void)
 		boss_mode = 1;
 		break;
 
-	case 1:
+	case YUMEMI_MODE_SELECT:
 		boss_pattern_next();
 		break;
 
-	case 2:
-	case 3:
-	case 4:
+	case YUMEMI_MODE_RING_0:
+	case YUMEMI_MODE_RING_1:
+	case YUMEMI_MODE_RING_2:
 		yumemi_pattern_ring();
 		break;
 
-	case 7:
-	case 8:
-	case 9:
+	case YUMEMI_MODE_AIMED_0:
+	case YUMEMI_MODE_AIMED_1:
+	case YUMEMI_MODE_AIMED_2:
 		yumemi_pattern_aimed_random();
 		break;
 
-	case 0x0B:
-	case 0x0C:
-	case 0x0D:
-	case 0x0E:
+	case YUMEMI_MODE_CROSS_0:
+	case YUMEMI_MODE_CROSS_1:
+	case YUMEMI_MODE_CROSS_2:
+	case YUMEMI_MODE_CROSS_3:
 		yumemi_pattern_cross_rings();
 		break;
 
-	case 0x0F:
-	case 0x10:
-	case 0x11:
+	case YUMEMI_MODE_CHASE_0:
+	case YUMEMI_MODE_CHASE_1:
+	case YUMEMI_MODE_CHASE_2:
 		yumemi_pattern_chase();
 		break;
 
-	case 5:
-	case 6:
-	case 0x0A:
+	case YUMEMI_MODE_RAIN_0:
+	case YUMEMI_MODE_RAIN_1:
+	case YUMEMI_MODE_RAIN_2:
 		yumemi_pattern_rain();
 		break;
 
-	case 0x80:
+	case YUMEMI_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case YUMEMI_MODE_EXPLODE:
 		return;
 	}
 

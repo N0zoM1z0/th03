@@ -6,6 +6,19 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Yumemi large BOSS mode dispatch / ring recovery after628
+
+The complete 2,358-byte Yumemi original-source BOSS TU now uses a
+natural signed ternary for the rotating-ring `_AL` angular step,
+plus named character-specific attack mode and ring phase enums in
+the actual large pattern scheduler/renderer. Two independent
+OMF-source-attested native TC4/TLINK rounds (`af628f`) match all
+2,358 CODE bytes, 343 literal fixups, ten PUBLICs, full normal
+MAIN and 1,553 original relocations. The failed single-shift
+animation variant `af628b` was rejected, not smuggled into the
+accepted code. See
+[after628 Yumemi BOSS review](MAIN_YUMEMI_PATTERN_NATIVE_AFTER628_REVIEW.md).
+
 ## Eleven complete BOSS native owners share a single ABI after627
 
 All nine character BOSS controller sources plus shared ring and core
