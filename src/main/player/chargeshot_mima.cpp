@@ -1,4 +1,5 @@
-// Natural semantic hypothesis, not historical source or compiled exactness.
+// Maintained natural Turbo C++ 4.02 reconstruction of the complete
+// original 30-projectile Mima Chargeshot and Gauge physical source.
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
 #include <stddef.h>
@@ -29,6 +30,8 @@ enum mima_charge_phase_t {
     MIMA_GAUGE_RING_PERIOD = 8,
     MIMA_GAUGE_DOUBLE_RING_PERIOD = 16,
     MIMA_GAUGE_FINISH_AFTER = 64,
+    MIMA_CHARGE_INACTIVE = 0,
+    MIMA_CHARGE_ACTIVE = 1,
 };
 
 typedef char mima_charge_stride_is_10[
@@ -44,8 +47,8 @@ typedef char mima_charge_vx_at_06[
 void far pascal mima_chargeshots_reset(void)
 {
     mima_chargeshot_p = &mima_chargeshots[0][0];
-    for(int i = 0; i < MIMA_CHARGE_TOTAL_SLOTS; i++, mima_chargeshot_p++) {
-        mima_chargeshot_p->active = 0;
+    for(int i = 0; i < MIMA_CHARGE_TOTAL_SLOTS; ++i, mima_chargeshot_p++) {
+        mima_chargeshot_p->active = MIMA_CHARGE_INACTIVE;
     }
 }
 void far pascal chargeshot_add_mima(Subpixel center_x, Subpixel center_y)
@@ -53,10 +56,10 @@ void far pascal chargeshot_add_mima(Subpixel center_x, Subpixel center_y)
     mima_chargeshot_p = &mima_chargeshots[pid.current][0];
     mima_chargeshot_active[pid.current] = 1;
     mima_chargeshot_frame[pid.current] = 0;
-    mima_chargeshot_p->active = 1;
-    for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
+    mima_chargeshot_p->active = MIMA_CHARGE_ACTIVE;
+    for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; ++i, mima_chargeshot_p++) {
         if(i != 0) {
-            mima_chargeshot_p->active = 0;
+            mima_chargeshot_p->active = MIMA_CHARGE_INACTIVE;
         }
         mima_chargeshot_p->x.v = center_x.v;
         mima_chargeshot_p->y.v = center_y.v;
@@ -68,7 +71,7 @@ void far pascal chargeshot_add_mima(Subpixel center_x, Subpixel center_y)
 void near pascal mima_chargeshot_activate(unsigned char player, unsigned char slot)
 {
     mima_chargeshot_p = &mima_chargeshots[player][slot];
-    mima_chargeshot_p->active = 1;
+    mima_chargeshot_p->active = MIMA_CHARGE_ACTIVE;
     mima_chargeshot_p->x.v = players[player].center.x.v;
     mima_chargeshot_p->y.v = players[player].center.y.v;
     snd_se_play(13);
@@ -76,24 +79,26 @@ void near pascal mima_chargeshot_activate(unsigned char player, unsigned char sl
 void far pascal chargeshot_update_mima(void)
 {
     unsigned char frame;
-    if(mima_chargeshot_active[pid_current] != 0) {
+    if(mima_chargeshot_active[pid_current]) {
         playfield_clip_negative_radius.x.v = -TO_SP(16);
         playfield_clip_negative_radius.y.v = -TO_SP(16);
         mima_chargeshot_p = &mima_chargeshots[pid_current][0];
         frame = ++mima_chargeshot_frame[pid_current];
-        for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
-            if(mima_chargeshot_p->active == 0) {
+        for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; ++i, mima_chargeshot_p++) {
+            if(!mima_chargeshot_p->active) {
                 continue;
             }
             mima_chargeshot_p->x.v += mima_chargeshot_p->velocity_x;
             mima_chargeshot_p->y.v += mima_chargeshot_p->velocity_y;
             if(playfield_clip(mima_chargeshot_p->x, mima_chargeshot_p->y)) {
-                mima_chargeshot_p->active = 0;
+                mima_chargeshot_p->active = MIMA_CHARGE_INACTIVE;
                 if(i == MIMA_CHARGE_LAST_SLOT) {
-                    mima_chargeshot_active[pid_current] = 0;
+                    mima_chargeshot_active[pid_current] = MIMA_CHARGE_INACTIVE;
                 }
             }
         }
+        // The unsigned byte `%4` release check is also native-visible;
+        // the direct `&3` mask failed the isolated TC4 test af778c.
         if(frame < MIMA_CHARGE_RELEASE_END && (frame % MIMA_CHARGE_RELEASE_PERIOD) == 0) {
             mima_chargeshot_activate(pid_current, frame / MIMA_CHARGE_RELEASE_PERIOD);
         }
@@ -103,13 +108,13 @@ void far pascal chargeshot_update_mima(void)
 uint8_t far chargeshot_hittest_mima(void)
 {
     unsigned char hits;
-    if(mima_chargeshot_active[hitbox.pid] == 0) {
+    if(!mima_chargeshot_active[hitbox.pid]) {
         return 0;
     }
     hits = 0;
     mima_chargeshot_p = &mima_chargeshots[hitbox.pid][0];
-    for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
-        if(mima_chargeshot_p->active == 0) {
+    for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; ++i, mima_chargeshot_p++) {
+        if(!mima_chargeshot_p->active) {
             continue;
         }
         if(mima_chargeshot_p->x.v - TO_SP(16) <= hitbox.right.v &&
@@ -131,13 +136,13 @@ void near pascal mima_chargeshot_sprite_put(int x, int y, int sprite_offset)
 void far pascal chargeshot_render_mima(void)
 {
     sprite16_offset_t sprite_offset;
-    if(mima_chargeshot_active[pid_current] != 0) {
+    if(mima_chargeshot_active[pid_current]) {
         mima_chargeshot_p = &mima_chargeshots[pid_current][0];
         sprite16_clip_set_for_pid(pid_current);
         sprite_offset = pid.so_attack + 0x10;
         sprite16_put_size.set(32, 16);
-        for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; i++, mima_chargeshot_p++) {
-            if(mima_chargeshot_p->active == 0) {
+        for(int i = 0; i < MIMA_CHARGE_SLOTS_PER_PLAYER; ++i, mima_chargeshot_p++) {
+            if(!mima_chargeshot_p->active) {
                 continue;
             }
             mima_chargeshot_sprite_put(mima_chargeshot_p->x.v,
@@ -165,6 +170,8 @@ void near pascal gauge_pattern_mima(unsigned int type)
         return;
     }
     pid_other = 1 - pid_current;
+    // This byte-clock `%8` is an original TC4 opcode choice;
+    // `&7` failed full physical CODE equality (af778d).
     if((mima_gauge_frame[pid_current] % MIMA_GAUGE_RING_PERIOD) == 0) {
         bullet_template.type = static_cast<bullet_type_t>(type);
         if(mima_gauge_angle_step[pid_current] > 7) {
@@ -180,6 +187,7 @@ void near pascal gauge_pattern_mima(unsigned int type)
         bullet_template.group = BG_5_SPREAD_NARROW;
         bomb_center_add(bullet_template.center.x.v, TO_SP(16), pid_other);
         bullets_add();
+        // Separate byte `%16` also cannot be replaced by `&15` (af778e).
         if((mima_gauge_frame[pid_current] % MIMA_GAUGE_DOUBLE_RING_PERIOD) != 0) {
             bullet_template.group = BG_RING;
             bullet_template.count = gauge_pattern_timing[pid_current].total_frames;
@@ -198,13 +206,13 @@ void near pascal gauge_pattern_mima(unsigned int type)
 }
 void far gba_gauge_pattern_pellet_mima(void)
 {
-    if(gba_flag_active[pid_current] != GBAF_NONE) {
+    if(gba_flag_active[pid_current]) {
         gauge_pattern_mima(BT_PELLET);
     }
 }
 void far gba_gauge_pattern_bullet_mima(void)
 {
-    if(gba_flag_active[pid_current] != GBAF_NONE) {
+    if(gba_flag_active[pid_current]) {
         gauge_pattern_mima(BT_BULLET16_DEFAULT);
     }
 }
