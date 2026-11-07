@@ -2,7 +2,9 @@
 
 #include "src/main/hardware/input.hpp"
 
-// Each expansion senses the joystick only when the driver reports one.
+// The original source must expand these reads in each caller. A natural
+// input_t& inline function changes the TC4 register/layout and adds 8 CODE
+// bytes (native negative af839c); keep the source-level expansion here.
 #define merge_joystick(destination) \
     if(js_bexist) { \
         js_sense(); \
@@ -60,6 +62,8 @@ void far pascal input_mode_cpu_vs_1p(void)
 void far pascal input_mode_cpu_vs_cpu(void)
 {
     input_reset_sense_key_held();
+    // Keep the separate original short-circuit flag tests. A single
+    // combined mask generates seven fewer bytes under TC4 (af839b).
     if((input_sp & INPUT_CANCEL) || (input_sp & INPUT_OK)) {
         input_sp = INPUT_CANCEL;
     }
@@ -98,7 +102,9 @@ void far pascal input_wait_for_change(int frames_to_wait)
     }
 
     // Both 0 and 9999 mean an unlimited press phase. Negative values skip it.
-    while(frames_waited < frames_to_wait) {
+    // Natural for-loop form retains original true signed frame-limit
+    // comparison and the byte-for-byte emitted interrupt polling (af839a).
+    for(; frames_waited < frames_to_wait; ) {
         input_mode_interface();
         if(input_sp) {
             break;

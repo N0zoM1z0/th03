@@ -8,6 +8,21 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After839: complete input modes and native press/release wait
+
+- The nine-function original `inp_m_w` input-mode physical owner now
+  expresses press-phase `input_wait_for_change` as natural C++ `for`,
+  keeping release phase, signed timeouts, joystick reads and 9999 sentinel.
+- Actual compiler negative controls `af839b` (combined Cancel/OK mask
+  360 vs original 367 CODE bytes) and `af839c` (inline `input_t&`
+  joystick helper 375 bytes) were reverted. The exact macro expansion
+  and short-circuit tests remain. Final `af839d` passes two original
+  TC4/full normal MAIN TLINK rounds: **367 CODE bytes, 58 ordered OMF
+  fixups, 9 PUBLICs**, full Japanese loaded image and 1,553 relocations;
+  98 other objects/CRT reused. See
+  [after839 input mode review](MAIN_INPUT_MODES_NATIVE_WAIT_AFTER839_REVIEW.md).
+  Existing owner; no new distinct byte or canonical Factory credit.
+
 ## After838: complete CPU collision avoidance and pursuit controller
 
 - The full four-function `p_cpu` AI object now uses natural `for(;;)`
