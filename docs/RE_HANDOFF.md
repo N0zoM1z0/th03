@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After834: direct original PMD sound-effect service leaf
+
+- Complete original two-function `snd_se` owner now issues the original
+  `AH=PMD_SE_PLAY`, `AL=current effect`, fixed `INT 0x60` **directly**
+  from natural `snd_se_update`, removing an unnecessary unsigned-byte
+  reference helper. The original 8-bit priority/preemption/expiration
+  ordering and byte-frame postfix mutation are preserved.
+- Real TC4 `af834a` proves the direct hardware call; `af834b` **rejects**
+  reversed but semantically equivalent priority operands (121 candidate
+  vs 120 original CODE bytes). Final `af834d` proves the exact current
+  source: **120 CODE bytes, 18 ordered fixups, two PUBLICs**, entire
+  original MAIN and all 1,553 ordered MZ relocations in two native
+  original TC4/TLINK rounds. 98 other objects/CRT reused, no cold replay.
+  See [after834 PMD SE review](MAIN_SOUND_PMD_DIRECT_AFTER834_REVIEW.md).
+  Existing source owner, not extra unique CODE or Factory packed credit.
+
 ## After833: signed-Q8 original polar leaf exact ABI
 
 - The 26-CODE-byte original far-`__cdecl` signed `polar` leaf now explicitly
