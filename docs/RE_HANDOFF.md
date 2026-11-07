@@ -6,6 +6,17 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri full BOSS modes and natural modulo after635
+
+The current Chiyuri BOSS includes all 18 character-specific scheduler
+modes, typed trail warning/firing and two independent fan timelines,
+and true original-equal C++ `% 8` and `% 4` for warning and animation
+cadence. Both real source/OMF-bound Turbo C++/TLINK rounds `af635c`
+preserve the full **2,654 original CODE bytes, 381 ordered fields,
+11 PUBLICs**, normal MAIN and Japanese MZ/1,553 relocations. See
+[after635 Chiyuri native review](MAIN_CHIYURI_BOSS_TIMING_AFTER635_NATIVE_REVIEW.md).
+No new Factory packed byte credit or full cold replay.
+
 ## Current 28-unit GAME3 native source pair after634
 
 The `af634a` actual-source/OMF-dependency-attested Turbo C++/TLINK

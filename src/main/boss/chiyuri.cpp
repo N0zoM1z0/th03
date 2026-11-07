@@ -72,6 +72,31 @@ void far pascal bomb_center_add(int x, int y, int pid);
 void far pascal bomb_axis_add(int x, int y, int pid);
 }
 
+// The shared BOSS scheduler draws byte modes 2..17; Chiyuri's
+// pattern grouping and the intro/descend behavior are character-specific.
+enum chiyuri_boss_mode_t {
+    CHIYURI_MODE_INTRO = 0x00,
+    CHIYURI_MODE_SELECT = 0x01,
+    CHIYURI_MODE_CARDINAL_0 = 0x02,
+    CHIYURI_MODE_CARDINAL_1 = 0x03,
+    CHIYURI_MODE_CARDINAL_2 = 0x04,
+    CHIYURI_MODE_CARDINAL_3 = 0x05,
+    CHIYURI_MODE_RINGS_0 = 0x06,
+    CHIYURI_MODE_RINGS_1 = 0x07,
+    CHIYURI_MODE_RINGS_2 = 0x08,
+    CHIYURI_MODE_RINGS_3 = 0x09,
+    CHIYURI_MODE_TRAIL_0 = 0x0A,
+    CHIYURI_MODE_TRAIL_1 = 0x0B,
+    CHIYURI_MODE_TRAIL_2 = 0x0C,
+    CHIYURI_MODE_TRAIL_3 = 0x0D,
+    CHIYURI_MODE_FANS_0 = 0x0E,
+    CHIYURI_MODE_FANS_1 = 0x0F,
+    CHIYURI_MODE_FANS_2 = 0x10,
+    CHIYURI_MODE_FANS_3 = 0x11,
+    CHIYURI_MODE_DESCEND = 0x80,
+    CHIYURI_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_chiyuri_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -221,15 +246,22 @@ void near chiyuri_pattern_rings(void)
 	bullets_add();
 }
 
+// Bomb warnings repeat every eight ticks before the single 48-shot
+// trailing ring is released at the original 0x30 frame.
+enum chiyuri_trail_phase_t {
+    CHIYURI_TRAIL_BOMB_PERIOD = 8,
+    CHIYURI_TRAIL_FIRE_FRAME = 0x30,
+};
+
 void near chiyuri_pattern_trail_ring(void)
 {
-	if((boss_frame & 7) == 0) {
+	if((boss_frame % CHIYURI_TRAIL_BOMB_PERIOD) == 0) {
 		bomb_axis_add(
 			boss_center_x, boss_center_y, (1 - pid_current)
 		);
 	}
 
-	if(boss_frame != 0x30) {
+	if(boss_frame != CHIYURI_TRAIL_FIRE_FRAME) {
 		return;
 	}
 
@@ -249,12 +281,19 @@ void near chiyuri_pattern_trail_ring(void)
 	boss_render_mode = 0x20;
 }
 
+// The horizontal fans fire at 0x20 and vertical fans at 0x40;
+// both retain separate ascending/descending bullet velocity passes.
+enum chiyuri_fan_phase_t {
+    CHIYURI_FAN_HORIZONTAL_FRAME = 0x20,
+    CHIYURI_FAN_VERTICAL_FRAME = 0x40,
+};
+
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
 	register int i;
 
-	if(boss_frame == 0x20) {
+	if(boss_frame == CHIYURI_FAN_HORIZONTAL_FRAME) {
 		bomb_axis_add(
 			(boss_center_x - TO_SP(56)), boss_center_y, pid_other
 		);
@@ -311,7 +350,7 @@ void near chiyuri_pattern_fans(void)
 		return;
 	}
 
-	if(boss_frame != 0x40) {
+	if(boss_frame != CHIYURI_FAN_VERTICAL_FRAME) {
 		return;
 	}
 
@@ -390,7 +429,7 @@ void far gba_boss_update_chiyuri(void)
 	boss_frame++;
 
 	switch(boss_mode) {
-	case 0:
+	case CHIYURI_MODE_INTRO:
 		if(boss_frame == 0x60) {
 			boss_frame = 0;
 			boss_mode = 1;
@@ -417,7 +456,7 @@ void far gba_boss_update_chiyuri(void)
 		bullet_template.is_animated = true;
 		return;
 
-	case 1:
+	case CHIYURI_MODE_SELECT:
 		if(boss_render_mode == 0x10) {
 			random_i = (randring_far_next16_mod(5) * 2);
 			boss_center_x = chiyuri_boss_x_words[random_i];
@@ -434,47 +473,47 @@ void far gba_boss_update_chiyuri(void)
 		}
 		break;
 
-	case 2:
-	case 3:
-	case 4:
-	case 5:
+	case CHIYURI_MODE_CARDINAL_0:
+	case CHIYURI_MODE_CARDINAL_1:
+	case CHIYURI_MODE_CARDINAL_2:
+	case CHIYURI_MODE_CARDINAL_3:
 		chiyuri_pattern_cardinal();
 		break;
 
-	case 6:
-	case 7:
-	case 8:
-	case 9:
+	case CHIYURI_MODE_RINGS_0:
+	case CHIYURI_MODE_RINGS_1:
+	case CHIYURI_MODE_RINGS_2:
+	case CHIYURI_MODE_RINGS_3:
 		chiyuri_pattern_rings();
 		break;
 
-	case 0x0A:
-	case 0x0B:
-	case 0x0C:
-	case 0x0D:
+	case CHIYURI_MODE_TRAIL_0:
+	case CHIYURI_MODE_TRAIL_1:
+	case CHIYURI_MODE_TRAIL_2:
+	case CHIYURI_MODE_TRAIL_3:
 		chiyuri_pattern_trail_ring();
 		break;
 
-	case 0x0E:
-	case 0x0F:
-	case 0x10:
-	case 0x11:
+	case CHIYURI_MODE_FANS_0:
+	case CHIYURI_MODE_FANS_1:
+	case CHIYURI_MODE_FANS_2:
+	case CHIYURI_MODE_FANS_3:
 		chiyuri_pattern_fans();
 		break;
 
-	case 0x80:
+	case CHIYURI_MODE_DESCEND:
 		boss_fall();
 		palette_restore_for_pid(pid_other);
 		break;
 
-	case 0xFF:
+	case CHIYURI_MODE_EXPLODE:
 		bullet_template.is_animated = true;
 		return;
 	}
 
 	bullet_template.is_animated = true;
 
-	boss_render_frame += ((round_or_result_frame & 3) == 0);
+	boss_render_frame += ((round_or_result_frame % 4) == 0);
 	boss_render_frame &= 3;
 
 	if(boss_move_phase != 0) {
