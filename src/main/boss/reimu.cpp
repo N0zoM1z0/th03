@@ -439,10 +439,10 @@ void near reimu_render_main(void)
 	sprite16_put_size.set(48, 48);
 	sprite_offset = (boss_sprite_offset + 0xFFF4);
 	anim = (boss_frame / 4);
-	if((anim & 3) == 1) {
+	if((static_cast<unsigned int>(anim) % 4) == 1) {
 		sprite_offset += 6;
-	} else if((anim & 3) != 0) {
-		sprite_offset += (((anim & 1) * 6) + 0x780);
+	} else if((static_cast<unsigned int>(anim) % 4) != 0) {
+		sprite_offset += (((static_cast<unsigned int>(anim) % 2) * 6) + 0x780);
 	}
 
 	for(i = 0; i < reimu_orbit_count; i++) {
@@ -454,6 +454,8 @@ void near reimu_render_main(void)
 	}
 }
 
+// These unsigned cel/alternate frame remainders compile to the
+// original 16-bit mask instructions in both sprite renderers.
 void near pascal reimu_render_intro(unsigned char angle, int length)
 {
 	screen_y_t top;
@@ -478,10 +480,10 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 
 	sprite_offset = (pid.so_attack + 0x280);
 	anim = (boss_frame / 4);
-	if((anim & 3) == 1) {
+	if((static_cast<unsigned int>(anim) % 4) == 1) {
 		sprite_offset += 6;
-	} else if((anim & 3) != 0) {
-		sprite_offset += (((anim & 1) * 6) + 0x780);
+	} else if((static_cast<unsigned int>(anim) % 4) != 0) {
+		sprite_offset += (((static_cast<unsigned int>(anim) % 2) * 6) + 0x780);
 	}
 
 	for(i = 0; i < 8; (i++, angle += 0x20)) {
@@ -493,6 +495,8 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	}
 }
 
+// The arrival render radius's single <<5 has native-exact natural
+// C++ *32 codegen; unlike the orbit pattern's two-stage scale.
 void far gba_boss_render_reimu(void)
 {
 	if(pid_current != gba_boss_launched_by) {
@@ -502,7 +506,7 @@ void far gba_boss_render_reimu(void)
 	if(boss_mode == 0) {
 		reimu_render_intro(
 			(unsigned char)boss_frame,
-			(0xC80 - (boss_frame << 5))
+			(0xC80 - (boss_frame * 32))
 		);
 		return;
 	}

@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Reimu BOSS intro radius and both native sprite leaves after676
+
+The full Reimu BOSS TU now uses native-original C++
+`0xC80-boss_frame*32` for its single-stage entrance radius,
+plus explicit unsigned `anim%4` in four cel tests and
+`anim%2` in two alternate sprite choices across BOTH
+original sprite leaf renderers. All changes compile the
+original x86 bytecode in independent native controls
+`af676a`-`af676c`. This differs from the large BOSS
+orbit's two-stage `(boss_frame*16)*2`, which cannot
+be collapsed into *32 without losing native equality.
+Two source/template-OMF-attested `af676d` TC4/TLINK rounds
+prove all **2,020 CODE bytes, 270 ordered native FIXUPPs,
+9 PUBLICs**, complete normal MAIN/MAP and Japanese MZ.
+See [after676 Reimu BOSS render review](MAIN_REIMU_BOSS_RENDER_AFTER676_NATIVE_REVIEW.md).
+Only this physical BOSS object recompiled, no full
+cold replay or new canonical packed-game credit.
+
 ## Yumemi BOSS four-stage natural entrance sprite geometry after675
 
 The current large Yumemi BOSS intro sprite renderer now has
