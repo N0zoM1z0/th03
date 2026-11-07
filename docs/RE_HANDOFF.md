@@ -8,6 +8,30 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after865: five session-modified original sources built together
+
+- `af865a` **actually recompiles all five complete original physical
+  TUs changed in this session simultaneously**, through two independent
+  original TC4 4.02 and complete normal MAIN TLINK rounds: full Yumemi
+  and Kotohime **Extra Attack** controllers, the full **Rikako major
+  BOSS**, complete Rikako Chargeshot/Gauge and the shared far-Pascal
+  volatile-VSYNC frame-delay leaf. Every **5,728 original CODE byte,
+  541 ordered native OMF FIXUPPs and 33 PUBLICs**, complete source/
+  ABI/segment dependencies, normal MAIN EXE/MAP, all **124,642 Japanese
+  loaded program bytes and 1,553 original MZ relocations** match in
+  both rounds. Independent standard DOS MZ serialization matches all
+  130,882 original Japanese MAIN.EXE bytes. The **94 other unchanged
+  game project objects and CRT were reused**, no cold replay. See
+  [after865 five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER865_REVIEW.md).
+- `af859a`, `af853a`, `af847a`, `af842a`, `af835a` remain separately
+  current-source-bound read-only passes for their own other original
+  physical owners. Earlier `af825d` (Rikako BOSS), `af750d`
+  (Kotohime Extra Attack) and `af740c` (VSYNC leaf) were real original
+  native proofs but are now *historical source snapshots*; preserve
+  old receipts and require current hashes. Never claim a fabricated
+  multi-scope cold build or count historically covered CODE as new
+  distinct Factory packed-game acceptance.
+
 ## After864: original TH02/TH03 shared volatile VSYNC wait leaf
 
 - Small original **`frmdely1` 21-byte** far-Pascal VSYNC leaf now uses
@@ -1328,7 +1352,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af859a af853a af847a af842a af835a
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af865a af859a af853a af847a af842a af835a
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -1347,10 +1371,11 @@ intentionally differ. They remain protected historical native compiler
 and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
-The **current** protected original-source-bound read-only proof is
-`.analysis/work/exatt-layout-af859a/report.json`: five genuinely edited
-original physical source owners and both actual original TC4/TLINK
-rounds. The older `af782a`, `af775a`, and `af766a` complete real
+The **latest current** protected original-source-bound read-only proof
+is `.analysis/work/exatt-layout-af865a/report.json`: five genuinely
+edited original physical source owners and both actual original
+TC4/TLINK rounds. `af859a` remains a separately source-current
+independent five-owner compiler/linker experiment. The older `af782a`, `af775a`, and `af766a` complete real
 compiler/TLINK receipts remain protected **historical** source-input
 snapshots (the source hashes have subsequently changed); do not call them
 current-checkout exact proofs without a new source-bound review. The earlier historical
