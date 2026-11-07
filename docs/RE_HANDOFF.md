@@ -6,6 +6,27 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chain 1 complete native background source and physical TLINK path after671
+
+The v2 source-rooted native overlay has been extended outside
+the existing 41-owner GAME3 scope to the six-function original
+Chain 1 background. Its original physical object lives at
+`obj/chain1.obj` (not `obj/th03/chain1.obj`); the original
+MAP module is `src/main/background/chain1.cpp`. The
+complete actual `background/phase.inl` shared state
+transition include is explicitly staged and verified
+through genuine Borland OMF dependencies and read-only
+source snapshots, avoiding historical stale-source errors.
+The 48-particle initializer's native RNG sprite choice is
+now natural unsigned C++ `irand()%2`, with original
+speed and physical capacity compiler-time names. Both
+actual native `af671f` TC4/TLINK rounds match **695
+CODE bytes, 43 ordered fixups and six PUBLICs**, full
+normal MAIN EXE/MAP and original Japanese MZ.
+See [after671 Chain 1 native review](MAIN_CHAIN1_NATIVE_AFTER671_REVIEW.md).
+Only the affected object was compiled; no cold replay
+or new canonical game byte credit.
+
 ## Latest 41 complete current-source native MAIN owners after670
 
 The fresh `af670a` two-round genuine Turbo C++/TLINK

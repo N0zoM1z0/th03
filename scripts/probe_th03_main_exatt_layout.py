@@ -46,6 +46,8 @@ SOURCES = {
     'cs_mari': 'src/main/player/chargeshot_marisa.cpp',
     'effects': 'src/main/player/effects.cpp',
     'warning': 'src/main/player/warning.cpp',
+    'chain1': 'src/main/background/chain1.cpp',
+    'chain2': 'src/main/background/chain2.cpp',
     'b_ellen': 'src/main/player/bomb_ellen.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
@@ -78,6 +80,9 @@ SOURCES = {
 BOSS_SHARED_UNITS = ('ba_sring', 'ba_srest')
 ENTITY = 'src/main/player/exatt_entity.hpp'
 BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
+BACKGROUND_PHASE = 'src/main/background/phase.inl'
+CHAIN_UNITS = ('chain1', 'chain2')
+ORIGINAL_OBJECT_PATHS = {u: f'obj/{u}.obj' for u in CHAIN_UNITS}
 BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
 PRODUCER_WRAPPERS = {
     'p_cpu': 'src/main/player/producers/cpu_native.cpp',
@@ -101,6 +106,8 @@ ORIGINAL_STAGES = {
 MAP_ORIGINAL = {
     'effects': 'src/main/player/effects.cpp',
     'warning': 'src/main/player/warning.cpp',
+    'chain1': 'src/main/background/chain1.cpp',
+    'chain2': 'src/main/background/chain2.cpp',
 }
 MAP_ROWS = {
     'ba_sring':5, 'ba_srest':5,
@@ -132,7 +139,8 @@ BINDING_MODE = 'explicit-native-include-with-omf-dependency-check-v2'
 
 def rooted_source(unit, stage, n, raw):
     for header, needle in ((ENTITY, SOURCE_HEADER_NEEDLE),
-                           (BOSS_TEMPLATE, BOSS_TEMPLATE_NEEDLE)):
+                           (BOSS_TEMPLATE, BOSS_TEMPLATE_NEEDLE),
+                           (BACKGROUND_PHASE, f'#include "{BACKGROUND_PHASE}"'.encode())):
         if needle in raw:
             raw = raw.replace(
                 needle, f'#include "probe/{stage}/r{n}/{header}"'.encode()
@@ -155,7 +163,8 @@ def check_native_dependencies(obj, unit, stage, n, source_has_entity,
     need(any(name in v for v in low),
          'actual native OMF dependency binds forced overlay source '+unit)
     for header, used in ((ENTITY,source_has_entity),
-                         (BOSS_TEMPLATE,source_has_boss_template)):
+                         (BOSS_TEMPLATE,source_has_boss_template),
+                         (BACKGROUND_PHASE,unit in CHAIN_UNITS)):
         if used:
             expected=f'probe/{stage}/r{n}/{header}'.encode().lower()
             need(any(expected in v for v in low),
@@ -225,7 +234,8 @@ def main():
     prior=json.loads((ROOT/parent.REPORT).read_text())
     need(len(prior['rounds'])==2 and prior['complete'], 'historical after596 native full-MAIN parent')
     old=(WORK/'obj/th03')
-    originals={u:(old/(u+'.obj')).read_bytes() for u in units}
+    originals={u:(WORK/ORIGINAL_OBJECT_PATHS[u] if u in ORIGINAL_OBJECT_PATHS
+                  else old/(u+'.obj')).read_bytes() for u in units}
     ref=read_verified_artifact(ROOT,find_artifact(
         load_target_manifest(ROOT/'config/targets.toml'),'th03-main'))
     target=parse_mz(ref)
@@ -233,13 +243,14 @@ def main():
     source_data={name:(ROOT/SOURCES[name]).read_bytes() for name in units}
     header_data=(ROOT/ENTITY).read_bytes()
     template_data=(ROOT/BOSS_TEMPLATE).read_bytes()
+    phase_data=(ROOT/BACKGROUND_PHASE).read_bytes()
     wrapper_data={u:wrapper_source(u) for u in units}
     need(all(w.count(f'#include "{SOURCES[u]}"'.encode())==1 for u,w in wrapper_data.items())
          and all(b'\r' not in w for w in wrapper_data.values()),
          'per-producer original C++ wrapper with exactly one source include')
     # The original source-only project still contains the full old graph.
     # Only these per-round overlays alter what the compiler sees.
-    need(all(b'\r' not in s for s in (*source_data.values(),header_data)),
+    need(all(b'\r' not in s for s in (*source_data.values(),header_data,phase_data)),
          'maintained sources must use LF')
     rows=[]
     result={'schema':'th03-main-source-rooted-overlay-v2', 'stage':args.stage,
@@ -248,6 +259,7 @@ def main():
             'units':units, 'source_sha256':{u:sha(s) for u,s in source_data.items()},
             'entity_header_sha256':sha(header_data),
             'boss_template_header_sha256':sha(template_data),
+            'background_phase_header_sha256':sha(phase_data),
             'wrapper_sha256':{u:sha(w) for u,w in wrapper_data.items()},
             'whole_original_image_and_relocations_equal':False,
             'canonical_Factory_credit':False, 'rounds':[],
@@ -276,6 +288,9 @@ def main():
             template=rd/BOSS_TEMPLATE
             template.parent.mkdir(parents=True, exist_ok=True)
             template.write_bytes(template_data.replace(b'\n',b'\r\n'))
+            phase=rd/BACKGROUND_PHASE
+            phase.parent.mkdir(parents=True, exist_ok=True)
+            phase.write_bytes(phase_data.replace(b'\n',b'\r\n'))
             wrapper=wrapper_data
             for u in units:
                 (rd/(u+'.cpp')).write_bytes(
@@ -301,6 +316,7 @@ def main():
                 oldpath=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
                          else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_') and u not in BOSS_SHARED_UNITS
                          else f'probe\\{ORIGINAL_STAGES[u]}\\r{n}\\{u}.obj' if u in ORIGINAL_STAGES
+                         else ORIGINAL_OBJECT_PATHS[u].replace('/', chr(92)) if u in ORIGINAL_OBJECT_PATHS
                          else f'obj\\th03\\{u}.obj').encode()
                 newpath=f'probe\\{args.stage}\\r{n}\\{u}.obj'.encode()
                 need(response.count(oldpath)==1,'unique original link slot '+u)

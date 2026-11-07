@@ -1,4 +1,4 @@
-// Complete first six-function source-present candidate, D031..D2E8. No exact acceptance.
+// Complete original 6-function Chain 1 player-background native C++ owner.
 #pragma codeseg PLAYER_M_TEXT main_01
 #include "src/main/background/background.hpp"
 
@@ -33,20 +33,29 @@ void far background_velocity_reset(void)
     }
 }
 
+// The original first chain initializes 48 physical 16-byte particles
+// out of the shared 80-slot background pool and two alternating sprites.
+enum chain1_initial_t {
+    CHAIN1_VISIBLE_PARTICLES = 48,
+    CHAIN1_DEFAULT_ANGLE = 64,
+    CHAIN1_INIT_VELOCITY = 16,
+    CHAIN1_INIT_SPEED = 32,
+};
+
 void far background_chain1_init(void)
 {
     register background_particle_t near *particle;
     register int i;
-    background_angle = 64;
+    background_angle = CHAIN1_DEFAULT_ANGLE;
     particle = background_particles;
-    for(i = 0; i < 48; i++, particle++) {
+    for(i = 0; i < CHAIN1_VISIBLE_PARTICLES; i++, particle++) {
         particle->x = irand() % (640 * 16);
         particle->y = irand() % (400 * 16);
         particle->vx = 0;
-        particle->vy = 16;
-        particle->speed = 32;
+        particle->vy = CHAIN1_INIT_VELOCITY;
+        particle->speed = CHAIN1_INIT_SPEED;
         particle->sprite = 0x210E;
-        if(irand() & 1) {
+        if((static_cast<unsigned int>(irand()) % 2) != 0) {
             particle->sprite += 0x0280;
         }
         particle->random_aux = irand() % 4000;
