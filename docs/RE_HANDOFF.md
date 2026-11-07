@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After843: full 1,049-line Enemy formation and VM current-source recovery
+
+- All **four original physical Enemy TUs** (`eforna`, `efornb`, `eupda`,
+  `eupdb`) were genuinely compiled together from maintained `enemy.cpp`.
+  Its ENEDAT loader now uses a natural `for(;;)` and `!enemy_count`
+  sentinel; the formation-spawn loop has original dual byte/word
+  post-call increments expressed naturally as C++ `for`.
+- New original-compiler negative controls confirm that flattening the
+  VM's `EO_MOVE` branch (`af843c`), converting RNG `do/while` to
+  `for/break` (`af843d`) and duplicating the `clip` early return
+  (`af843f`) do **not** reproduce original TC4 instructions, so the
+  originals remain. Final `af843g` proves **3,325 CODE bytes, 222 literal
+  ordered OMF FIXUPPs, 19 PUBLICs**, full Japanese MAIN and all 1,553
+  relocations exact in **two independent TC4/full normal TLINK rounds**.
+  95 other objects/CRT reused, no cold replay. See
+  [after843 full Enemy review](MAIN_ENEMY_FORMATION_NATIVE_AFTER843_REVIEW.md).
+  This is previously source-owned CODE, not additional unique credit.
+
 ## Latest after842: six modified original physical sources in one exact normal MAIN link
 
 - `af842a` **simultaneously compiles all six changed original physical

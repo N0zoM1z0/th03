@@ -275,10 +275,14 @@ void pascal near enemy_formation_spawn(
 	int script_i = (formation_type * FORMATION_ENEMIES_MAX);
 	enemy_formation_type = formation_type;
 	enemy_formation_i = 0;
-	while(enemy_formation_i < formation_enemy_count[formation_type]) {
+	// The signed script index and the physical byte formation index
+	// must advance in the same post-call order. This real C++ for-loop
+	// compiles to the original enemy_formation_spawn machine code.
+	for(;
+		enemy_formation_i < formation_enemy_count[formation_type];
+		(enemy_formation_i++, script_i++)
+	) {
 		enemies_add(formation_scripts[script_i], pid, pos_type);
-		enemy_formation_i++;
-		script_i++;
 	}
 }
 
@@ -332,10 +336,13 @@ void enemy_formations_load(void)
 	int enemy_count;
 	unsigned int script_size;
 	int formation_i = 0;
-	while(1) {
+	// ENEDAT's formation stream is terminated by its original zero
+	// enemy-count word, not by a separate validated file-length check.
+	// Natural for(;;) and Boolean count termination are TC4 exact.
+	for(;;) {
 		// ZUN landmine: Not validated against [FORMATION_ENEMIES_MAX].
 		enemy_count = *reinterpret_cast<uint16_t *>(&enedat[enedat_p]);
-		if(enemy_count == 0) {
+		if(!enemy_count) {
 			break;
 		}
 
