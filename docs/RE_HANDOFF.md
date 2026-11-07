@@ -6,6 +6,27 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Ellen bomb actual zero-private-BSS source ABI after653
+
+The full original `b_ellen` three-function TU has 1,023 CODE
+bytes and 116 fixups, with **zero private BSS**, unlike the
+default source mode. `af653a` proved that compiling with the
+private 132-byte bomb storage silently changes 18 code
+address/addend bytes even when CODE length and PUBLIC offsets
+match. The native v2 wrapper now defines
+`TH03_BOMB_EXTERNAL_STORAGE` and compiler-asserts the exact
+8-byte particle, 128-byte pool and +04 velocity offset.
+Real C++ `static_cast<unsigned int>(frame) % 2` compiles the
+original palette/sound tick; real native-unequal `%4` shake and
+fallthrough respawn rewrites were rejected. Two original
+source/OMF-attested `af653g` TC4/TLINK rounds preserve
+**1,023 CODE bytes, 116 literal native fixups, three PUBLICs**,
+all segment/BSS definitions, full original MAIN EXE/MAP
+and Japanese MZ. Read
+[after653 Ellen bomb native ownership](MAIN_ELLEN_BOMB_EXTERNAL_ABI_AFTER653_REVIEW.md).
+No full cold replay and no double-counted packed-game
+Factory acceptance.
+
 ## Ellen full charged-shot/Gauge owner after652
 
 The v2 native compiler overlay now supports the complete original

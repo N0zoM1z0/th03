@@ -37,6 +37,7 @@ SOURCES = {
     'p_cpu': 'src/main/player/cpu.cpp',
     'cs_yume': 'src/main/player/chargeshot_yumemi.cpp',
     'cs_ellen': 'src/main/player/chargeshot_ellen.cpp',
+    'b_ellen': 'src/main/player/bomb_ellen.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
@@ -95,6 +96,11 @@ MAP_ROWS = {
 }
 
 def wrapper_source(unit):
+    if unit=='b_ellen':
+        # The 132-byte original Bomb particle BSS is owned by a frozen carrier.
+        # Compiling private BSS changes near-address relocation addends.
+        return (b'#define TH03_BOMB_EXTERNAL_STORAGE 1\n'
+                b'#include "src/main/player/bomb_ellen.cpp"\n')
     if unit in BOSS_SHARED_UNITS:
         partition=('TH03_BOSS_SHARED_RING_ONLY' if unit=='ba_sring'
                    else 'TH03_BOSS_SHARED_REST_ONLY')
