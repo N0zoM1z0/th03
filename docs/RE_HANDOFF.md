@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After857: exact quad player-effects renderer and physical clip/radius geometry
+
+- Complete five-function `effects` original source now renders its
+  four-vertex BOSS explosion axis from a natural typed `while` loop,
+  preserves four explicit GRCG lines and original post-call byte angle
+  advancement. Named two player clip rectangles, full-screen clip and
+  signed circle/center/axis radius-delta pairs are native exact.
+- Fresh TC4 rejects enum-valued live byte `angle +=64` (**627** vs 628
+  CODE bytes, `af857b`), and signed circle Y `/2` instead of original
+  arithmetic `>>1` (**631** vs 628, `af857d`). Both originals restored.
+  Final `af857g` passes two original TC4/full normal MAIN TLINK rounds:
+  **628 CODE bytes, 33 literal ordered FIXUPPs, 5 PUBLICs**, original
+  Japanese loaded MAIN and 1,553 ordered MZ relocations. 98 other game
+  objects/CRT reused. See
+  [after857 player effects review](MAIN_EFFECTS_QUAD_NATIVE_AFTER857_REVIEW.md).
+  Historical source-owned CODE, not new unique/Factory accepted credit.
+
 ## After856: complete Yumemi Chargeshot/target and sixteen-sprite rings
 
 - Full ten-function `cs_yume` source now expresses the sixteen-sprite
