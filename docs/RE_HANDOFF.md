@@ -1,4 +1,4 @@
-# TH03 agent handoff — after595 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after596 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -491,6 +491,27 @@ historical function/Factory acceptance credit was added.
 
   .analysis/work/main-round-hud-after595-native-build.json
   scripts/review_th03_main_round_hud_after595_work.py
+
+## MAIN Yumemi Extra Attack / charged shot / CPU source C++ (after596)
+
+Three new first-use native Turbo C++ GAME=3/BINARY='M' wrapper TUs now
+source-link the complete natural Yumemi Extra Attack (1,696 CODE bytes),
+Yumemi charged-shot controller (1,645 CODE) and CPU player targeting/
+strategy (1,077 CODE). Both genuine source rounds emit 4,418 total
+original CODE bytes, 19 PUBLIC addresses, 284 ordered OMF fixup fields
+and exact segment geometry. Existing original C++ type-conversion and
+unused-state warnings are preserved instead of changing game logic.
+
+Both three-object native replacements link simultaneously with the
+after595 core/entry/character/BOSS/bullet/collision/HUD source graph.
+The entire original Japanese 124,642-byte loaded program and all 1,553
+ordered MZ relocations match. Separately formatting the standard DOS MZ
+container yields the *entire 130,882-byte original Japanese MAIN.EXE*
+byte-for-byte in both rounds. These functions were already maintained
+original owners, not new Factory credits or original vendor packet proof.
+
+  .analysis/work/main-yumemi-cpu-after596-native-build.json
+  scripts/review_th03_main_yumemi_cpu_after596_work.py
 
 ## Start here
 

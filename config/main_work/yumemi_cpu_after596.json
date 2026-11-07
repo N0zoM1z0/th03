@@ -1,0 +1,47 @@
+{
+  "schema": "th03-main-yumemi-cpu-after596-native-v1",
+  "parent_report": ".analysis/work/main-round-hud-after595-native-build.json",
+  "parent_report_sha256": "6e1cef35d75f54f929b90c46fb3a4043b74c52fe27b22c3987c5eaaa56e1f934",
+  "units": [
+    {
+      "stem": "ex_yume",
+      "source": "src/main/player/exatt_yumemi.cpp",
+      "wrapper": "src/main/player/producers/yumemi_exatt_native.cpp",
+      "CODE_bytes": 1696,
+      "PUBLICs": 5,
+      "ordered_fixups": 87,
+      "CODE_segment": "MAIN_06_TEXT",
+      "original_MAP_module": "th03/ex_yume.cpp"
+    },
+    {
+      "stem": "cs_yume",
+      "source": "src/main/player/chargeshot_yumemi.cpp",
+      "wrapper": "src/main/player/producers/yumemi_chargeshot_native.cpp",
+      "CODE_bytes": 1645,
+      "PUBLICs": 10,
+      "ordered_fixups": 133,
+      "CODE_segment": "PELLET_PUT",
+      "original_MAP_module": "th03/cs_yume.cpp"
+    },
+    {
+      "stem": "p_cpu",
+      "source": "src/main/player/cpu.cpp",
+      "wrapper": "src/main/player/producers/cpu_native.cpp",
+      "CODE_bytes": 1077,
+      "PUBLICs": 4,
+      "ordered_fixups": 64,
+      "CODE_segment": "PLAYER_M_TEXT",
+      "original_MAP_module": "th03/p_cpu.cpp"
+    }
+  ],
+  "first_use_GAME": 3,
+  "first_use_BINARY": "M",
+  "original_total_CODE_bytes": 4418,
+  "original_total_public_functions": 19,
+  "original_ordered_fixups": 284,
+  "original_main_relocations": 1553,
+  "original_full_japanese_file_bytes": 130882,
+  "historic_raw_vendor_OMF_packet_identity": false,
+  "canonical_factory_credit_changed": false,
+  "whole_project_source_accepted": false
+}
