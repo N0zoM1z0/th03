@@ -1,5 +1,5 @@
-// Natural Turbo C++ reconstruction candidate for the complete Yumemi
-// Extra Attack contribution in TH03 MAIN_06_TEXT.
+// Complete current source-native original Yumemi Extra Attack in
+// MAIN_06_TEXT, including the full two-mode beam/flight lifecycle.
 //
 // The historical entity pool and shared Extra Attack helpers remain external.
 // This translation unit intentionally owns CODE only until full-link ownership
@@ -91,8 +91,11 @@ void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
 	register int i = 0;
 
-	for(; i < YUME_EXATT_ORDINARY_SLOTS; ++i, p++) {
-		if(!p->state) {
+	// Native-exact eight ordinary flight slots. The first-free
+	// allocator advances both original near pointer and index only
+	// after each occupied slot (actual original TC4 af912a).
+	while(i < YUME_EXATT_ORDINARY_SLOTS) {
+		if(p->state == YUME_EXATT_FREE) {
 			exatt_entity_p = p;
 			exatt_fly_init(
 				x,
@@ -106,6 +109,8 @@ void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 			p->duration = YUME_EXATT_ORDINARY_DURATION;
 			return;
 		}
+		++i;
+		p++;
 	}
 }
 
@@ -114,8 +119,10 @@ void far pascal yumemi_extra_add(int x, int y)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][YUME_EXATT_SPECIAL_FIRST_SLOT];
 	int i = YUME_EXATT_SPECIAL_FIRST_SLOT;
 
-	for(; i < YUME_EXATT_ALL_SLOTS; ++i, p++) {
-		if(!p->state) {
+	// Special WARNING slots 8..15, distinct from the ordinary first
+	// eight. Typed while and explicit free state are both native exact.
+	while(i < YUME_EXATT_ALL_SLOTS) {
+		if(p->state == YUME_EXATT_FREE) {
 			p->state = YUME_EXATT_APPEARING_FIRST;
 			p->frame = 0;
 			p->x = x;
@@ -125,6 +132,8 @@ void far pascal yumemi_extra_add(int x, int y)
 			p->duration = YUME_EXATT_SPECIAL_DURATION;
 			return;
 		}
+		++i;
+		p++;
 	}
 }
 
@@ -164,6 +173,8 @@ void near yumemi_exatt_render_one(void)
 			// Original signed halves truncate toward zero. Replacing
 			// with an arithmetic shift changes PC-98 CODE and negative
 			// odd values (failed genuine native af860c/af860d).
+			// Signed 16-bit quotient must truncate toward zero, not
+			// arithmetic shift; real TC4 rejected >>1 in af912e.
 			mid_y = (top / 2);
 			extent_half = (extent / 2);
 
@@ -336,8 +347,14 @@ void far pascal exatt_update_yumemi(void)
 	collmap_pid = pid_other;
 	i = 0;
 
-	for(; i < YUME_EXATT_ALL_SLOTS; ++i, p++) {
-		if(!p->state) {
+	// Whole 16-entity beam/flight collision/update controller, including
+	// separate inactive and exatt_fly_update early-continue paths.
+	// Both advance the original near entity pointer and signed index
+	// before continuing (native trial af912b).
+	while(i < YUME_EXATT_ALL_SLOTS) {
+		if(p->state == YUME_EXATT_FREE) {
+			++i;
+			p++;
 			continue;
 		}
 
@@ -381,6 +398,8 @@ void far pascal exatt_update_yumemi(void)
 		} else if(p->state == YUME_EXATT_FLYING) {
 			exatt_entity_p = p;
 			if(exatt_fly_update()) {
+				++i;
+				p++;
 				continue;
 			}
 		} else if(p->state <= YUME_EXATT_APPEAR_END_STATE) {
@@ -392,9 +411,12 @@ void far pascal exatt_update_yumemi(void)
 			snd_se_play(7);
 		}
 
-		// Genuine TC4 rejects the superficially interchangeable
-		// ++p->frame spelling (af860e), so keep byte postfix update.
+		// Original byte postfix remains CODE-sensitive: prefix
+		// again differed under a fresh genuine TC4 trial af912d.
+		// Both state transitions and duration accounting remain intact.
 		p->frame++;
+		++i;
+		p++;
 	}
 }
 
@@ -403,9 +425,15 @@ void far pascal exatt_render_yumemi(void)
 	register int i;
 
 	exatt_entity_p = &exatt_entities[pid_current][0];
-	for(i = 0; i < YUME_EXATT_ALL_SLOTS; ++i, exatt_entity_p++) {
+	// Original all-16-slot render pass and four separately traversed
+	// signed screen-clip beam perimeters. Native while preserves the
+	// near renderer call and both post-call increments (af912c).
+	i = 0;
+	while(i < YUME_EXATT_ALL_SLOTS) {
 		if(exatt_entity_p->state) {
 			yumemi_exatt_render_one();
 		}
+		++i;
+		exatt_entity_p++;
 	}
 }

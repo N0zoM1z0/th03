@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After912: complete Yumemi Extra Attack and native beam/flight loops
+
+- Full five-function original `ex_yume` physical owner now uses natural
+  `while` in both ordinary eight-slot and special 8..15 allocators,
+  the **complete 16-slot flying/beam/collision state machine** with two
+  original continue exits, and full sixteen-entity render dispatcher.
+  Four original signed 16-pixel beam perimeter loops and hardware GRCG
+  calls remain native exact; explicit `state==FREE` is accepted.
+- Fresh genuine TC4 negatives: byte projectile frame postfix→prefix
+  emitted **1,701 vs original 1,696 CODE** (`af912d`); signed screen
+  `top/2`→`>>1` emitted **1,690** (`af912e`). Both original forms stay.
+  Final `af912g` passes two independent real original TC4/full normal
+  MAIN TLINK rounds: **1,696 CODE bytes, 87 literal ordered FIXUPPs,
+  five PUBLICs**, full Japanese MAIN/1,553 MZ relocations exact, 98
+  other game project objects/CRT reused. See
+  [after912 Yumemi Extra Attack review](MAIN_YUMEMI_EXATT_WHOLE_NATIVE_AFTER912_REVIEW.md).
+  Historical source-owned CODE, not new unique/canonical Factory credit.
+
 ## After911: full Reimu Chargeshot native history, collision and Gauge
 
 - Complete original `cs_reimu` physical owner now uses native-exact
