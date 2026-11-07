@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After861: complete Kotohime Extra Attack emitter and render traversals
+
+- The eight-function original `ex_koto` source now uses natural `while`
+  loops for **both four- and ten-shot ring emitters** and the ten-entity
+  renderer, keeping the exact bullet/byte-angle/postcall ordering.
+  Named target RNG ranges, ordinary/special flight speeds, signed
+  ±12/±7 ring angles, 12-pixel stripe, collision radius and 2-subpixel
+  speed rise are all native exact in actual TC4.
+- `af861e` genuinely **failed** original byte CODE when replacing
+  mutable event counter `p->angle++` with prefix (1,059 vs original
+  **1,054**); `af861f` likewise rejected replacing `p->y += radius`
+  with explicit assignment (1,057). Final `af861g` recompiles the
+  complete original source in **two genuine TC4 4.02/normal full MAIN
+  TLINK rounds**: **1,054 CODE bytes, 100 ordered original FIXUPPs,
+  8 PUBLICs**, exact Japanese MAIN/1,553 relocations; 98 unchanged
+  original game objects/CRT reused. See
+  [after861 Kotohime Extra Attack review](MAIN_KOTOHIME_EXATT_NATIVE_LOOPS_AFTER861_REVIEW.md).
+  Historically covered physical CODE; no new unique/Factory accepted credit.
+
 ## After860: full Yumemi Extra Attack active beam and four raster loops
 
 - The **entire five-function `ex_yume` original physical owner** now

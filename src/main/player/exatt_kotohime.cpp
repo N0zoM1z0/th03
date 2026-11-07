@@ -61,6 +61,17 @@ enum kotohime_exatt_limits_t {
     KOTO_EXATT_RING10_COUNT = 10,
     KOTO_EXATT_FLYING_STATE = 2,
     KOTO_EXATT_APPEARING_MAX_STATE = 0x1C,
+    KOTO_EXATT_TARGET_X_RANGE = 0x1200,
+    KOTO_EXATT_TARGET_Y_RANGE = 0x400,
+    KOTO_EXATT_INITIAL_FLY_SPEED = 0x5A,
+    KOTO_EXATT_SPECIAL_FLY_SPEED = 0x78,
+    KOTO_EXATT_FOUR_DELTA_RIGHT = 12,
+    KOTO_EXATT_FOUR_DELTA_LEFT = -12,
+    KOTO_EXATT_TEN_DELTA_RIGHT = 7,
+    KOTO_EXATT_TEN_DELTA_LEFT = -7,
+    KOTO_EXATT_PATTERN_SPEED_STEP = 2,
+    KOTO_EXATT_COLLISION_TILE_W = 12,
+    KOTO_EXATT_COLLISION_HALF_WIDTH = TO_SP(16),
 };
 
 // The original 32-byte entity byte-state protocol is shared by all eight
@@ -94,9 +105,9 @@ void far pascal exatt_add_kotohime(int x, int y, unsigned char pid_)
             exatt_entity_p = p;
             exatt_fly_init(
                 x, y,
-                randring_far_next16_mod(0x1200),
-                randring_far_next16_mod(0x400),
-                pid_, 0x5A
+                randring_far_next16_mod(KOTO_EXATT_TARGET_X_RANGE),
+                randring_far_next16_mod(KOTO_EXATT_TARGET_Y_RANGE),
+                pid_, KOTO_EXATT_INITIAL_FLY_SPEED
             );
             p->duration = (randring_far_next16_and(0xFFF) + 0x600);
             p->radius = (randring_far_next16_and(0x1F) + 0x10);
@@ -119,7 +130,7 @@ void far pascal kotohime_extra_add(int target_x, int target_y)
         player->center.x.v, player->center.y.v,
         target_x, target_y,
         *(unsigned short near *)&pid_current,
-        0x78
+        KOTO_EXATT_SPECIAL_FLY_SPEED
     );
     p->duration = 0xC00;
     p->radius = 0x20;
@@ -186,16 +197,19 @@ void near kotohime_exatt_pattern_four(void)
     );
     bullet_template.count = kotohime_exatt_pattern[pid_current].bullet_count;
     if(kotohime_exatt_pattern[pid_current].direction) {
-        delta = -12;
+        delta = KOTO_EXATT_FOUR_DELTA_LEFT;
     } else {
-        delta = 12;
+        delta = KOTO_EXATT_FOUR_DELTA_RIGHT;
     }
     bullet_template.speed.v = TO_SP(1);
     i = 0;
-    for(; i < KOTO_EXATT_RING4_COUNT; ++i) {
+    // Four shot group: this typed while loop preserves original
+    // bullet spawn, speed increase and byte-angle update order.
+    while(i < KOTO_EXATT_RING4_COUNT) {
         bullets_add();
-        bullet_template.speed.v += 2;
+        bullet_template.speed.v += KOTO_EXATT_PATTERN_SPEED_STEP;
         bullet_template.angle += delta;
+        ++i;
     }
 }
 
@@ -210,15 +224,18 @@ void near kotohime_exatt_pattern_ten(void)
     bullet_template.speed.v = TO_SP(1);
     bullet_template.count = kotohime_exatt_pattern[pid_current].bullet_count;
     if(kotohime_exatt_pattern[pid_current].direction) {
-        delta = 7;
+        delta = KOTO_EXATT_TEN_DELTA_RIGHT;
     } else {
-        delta = -7;
+        delta = KOTO_EXATT_TEN_DELTA_LEFT;
     }
     i = 0;
-    for(; i < KOTO_EXATT_RING10_COUNT; ++i) {
+    // Ten shot group: the same source-level traversal is byte-exact,
+    // despite the distinct negative angle delta and bullet counts.
+    while(i < KOTO_EXATT_RING10_COUNT) {
         bullets_add();
-        bullet_template.speed.v += 2;
+        bullet_template.speed.v += KOTO_EXATT_PATTERN_SPEED_STEP;
         bullet_template.angle += delta;
+        ++i;
     }
 }
 
@@ -230,8 +247,8 @@ void far pascal exatt_update_kotohime(void)
 
     exatt_entity_p = &exatt_entities[pid_current][0];
     pid_other = (1 - pid_current);
-    collmap_stripe_tile_w.set(12);
-    collmap_tile_h.set(12);
+    collmap_stripe_tile_w.set(KOTO_EXATT_COLLISION_TILE_W);
+    collmap_tile_h.set(KOTO_EXATT_COLLISION_TILE_W);
     collmap_pid = pid_other;
     i = 0;
     for(; i < KOTO_EXATT_ALL_SLOTS; ++i, exatt_entity_p++) {
@@ -271,14 +288,17 @@ void far pascal exatt_update_kotohime(void)
                     }
                     p->state = KOTO_EXATT_FREE;
                 }
-                // Original mutable event byte postfix is codegen-visible: prefix
-                // changed the original full CODE in af750c.
+                // This angle is an 8-bit event counter after reaching
+                // its target. Prefix ++p->angle changes original TC4
+                // CODE again in independent native trial af861e.
                 p->angle++;
             } else {
+                // Preserve original word compound addition. An explicit
+                // p->y = p->y + p->radius changes TC4 CODE (af861f).
                 p->y += p->radius;
                 hitbox_hittest_skip_explosions = true;
-                hitbox.radius.x.v = TO_SP(16);
-                hitbox.radius.y.v = TO_SP(16);
+                hitbox.radius.x.v = KOTO_EXATT_COLLISION_HALF_WIDTH;
+                hitbox.radius.y.v = KOTO_EXATT_COLLISION_HALF_WIDTH;
                 hitbox.pid = pid_other;
                 hitbox.origin.center.x.v = p->x;
                 hitbox.origin.center.y.v = p->y;
@@ -305,9 +325,13 @@ void far pascal exatt_render_kotohime(void)
     register int i;
     exatt_entity_p = &exatt_entities[pid_current][0];
     i = 0;
-    for(; i < KOTO_EXATT_ALL_SLOTS; ++i, exatt_entity_p++) {
+    // Both loop and pointer advance are real original ten-slot
+    // traversal. Native TC4 emits the exact source CODE (af861b).
+    while(i < KOTO_EXATT_ALL_SLOTS) {
         if(exatt_entity_p->state) {
             kotohime_exatt_render_one();
         }
+        ++i;
+        exatt_entity_p++;
     }
 }
