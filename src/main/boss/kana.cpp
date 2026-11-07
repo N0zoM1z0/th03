@@ -506,6 +506,9 @@ void near kana_render_main(void)
 	sprite16_put(left, top, sprite_offset);
 }
 
+// Original TC4 emits native matching shifts from the two-stage
+// natural multiplications below. Collapsing the animation scale
+// to one *1280 changes its machine instructions (af674e).
 void near kana_render_intro(void)
 {
 	screen_y_t top;
@@ -515,7 +518,7 @@ void near kana_render_intro(void)
 	register int i;
 	register screen_x_t left;
 
-	radius = (0xC80 - ((boss_frame * 2) << 4));
+	radius = (0xC80 - ((boss_frame * 2) * 16));
 
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
@@ -527,7 +530,7 @@ void near kana_render_intro(void)
 	sprite_offset = (pid.so_attack + 0x284);
 	sprite_offset = (
 		sprite_offset +
-		((((boss_frame >> 2) & 3) << 5) * 0x28)
+		((((boss_frame / 4) % 4) * 32) * 0x28)
 	);
 
 	angle = boss_move_phase;

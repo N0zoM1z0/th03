@@ -6,6 +6,25 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kana major BOSS exact natural intro radius/cel geometry after674
+
+The full nine-function Kana BOSS producer now expresses
+its spinning entry ring radius as natural two-stage
+`(boss_frame * 2) * 16` and its animated sprite cel
+as `((boss_frame / 4) % 4) * 32 * 0x28`, preserving
+the original operation stages and actual TC4 x86 bytes.
+Independent compiler controls `af674a` through
+`af674d` pass the full 1,874-CODE-byte object.
+Collapsing the sprite offset into one `*1280`
+was native-unequal (`af674e`) and rejected. Fresh
+actual-source/OMF-attested original TC4/TLINK
+`af674f` dual rounds match **1,874 CODE bytes,
+274 literal ordered native fields, 9 PUBLICs**,
+full original MAIN/MAP and Japanese MZ. See
+[after674 Kana BOSS geometry review](MAIN_KANA_BOSS_INTRO_GEOMETRY_AFTER674_REVIEW.md).
+Only one BOSS object recompiled, no cold replay or
+new canonical Factory packed-game credit.
+
 ## Chain 2 physical background original source recovery after673
 
 The complete original Chain 2 background particle/accelerator/
