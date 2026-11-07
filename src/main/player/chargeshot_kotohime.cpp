@@ -73,8 +73,8 @@ void far pascal chargeshot_add_kotohime(Subpixel center_x, Subpixel center_y)
 	kotohime_chargeshot_p = &kotohime_chargeshots[pid.current];
 	kotohime_chargeshot_p->active = KOTO_CHARGE_ACTIVE;
 	kotohime_chargeshot_p->anim = 0;
-	kotohime_chargeshot_p->center.x = center_x;
-	kotohime_chargeshot_p->center.y = center_y;
+	kotohime_chargeshot_p->center.x.v = center_x.v;
+	kotohime_chargeshot_p->center.y.v = center_y.v;
 	kotohime_chargeshot_p->velocity_y = KOTO_CHARGE_START_VELOCITY;
 	snd_se_play(6);
 }
@@ -114,8 +114,9 @@ uint8_t far chargeshot_hittest_kotohime(void)
 {
 	kotohime_chargeshot_p = &kotohime_chargeshots[hitbox.pid];
 	if(kotohime_chargeshot_p->active) {
-		// This original BX register ABI is not implied by an ordinary
-		// register-near pointer (TC4 uses SI and saves it: af655b).
+		// An ordinary register-near pointer, an unsigned 16-bit register
+		// address and a near reference were independently compiled at
+		// af767a/af767b/af767d: none reproduces the original BX encoding.
 		_BX = (unsigned int)kotohime_chargeshot_p;
 		#define p (*(kotohime_chargeshot_t near *)_BX)
 		if(
@@ -171,7 +172,7 @@ void near pascal gauge_pattern_kotohime(bullet_type_t type)
 		return;
 	}
 
-	if(kotohime_gauge_frame[pid_current] == KOTO_GAUGE_FIRST_FRAME) {
+	if(!kotohime_gauge_frame[pid_current]) {
 		kotohime_extra_add(
 			(randring_far_next16_mod(0xA00) + 0x400),
 			0
@@ -185,14 +186,14 @@ void near pascal gauge_pattern_kotohime(bullet_type_t type)
 
 void far gba_gauge_pattern_pellet_kotohime(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_kotohime(BT_PELLET);
 	}
 }
 
 void far gba_gauge_pattern_bullet_kotohime(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_kotohime(BT_BULLET16_DEFAULT);
 	}
 }
