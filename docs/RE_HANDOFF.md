@@ -346,6 +346,18 @@ image/relocations. See
 [the reviewed native source](MAIN_EXPLOSION_NATIVE_CPP_AFTER615_REVIEW.md).
 The v1 false-positive experiments are not cited as proof.
 
+### Bullet exact instruction encoding recertified after616
+
+The v2 forced-source native compiler disproved three seemingly natural
+Bullet register rewrites: `SHL AX,1` became `ADD AX,AX`, while `_BX=0`
+and `_DX=0` selected different XOR ModR/M encodings. The three
+necessary original-encoding inline assembly sites are restored with
+explanatory comments. Current `af612d` v2 native and OMF dependency review
+confirms the full 2,685 CODE bytes, 196 ordered fields, 20 PUBLICs and
+complete Japanese MAIN link. Historical `af607g` v1 is **not evidence**
+that those three rewritten C++ expressions produced exact target bytes.
+See [native opcode review](MAIN_BULLET_CODEGEN_ENCODING_AFTER616_REVIEW.md).
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

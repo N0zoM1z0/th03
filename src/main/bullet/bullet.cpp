@@ -142,7 +142,8 @@ void __fastcall near grcg_pellet_put(
 	// ZUN bloat: _DI = vram_offset_shift_fast((left & ~1), top)
 	_AX = left;
 	_AX >>= 4;
-	_AX <<= 1;
+	// TC4 AX <<= 1 emits ADD AX,AX (03 C0), original requires SHL AX,1 (D1 E0).
+	asm { shl ax, 1 };
 	top <<= 6;
 	_AX += top;
 	static_cast<uvram_y_t>(top) >>= 2;
@@ -753,7 +754,8 @@ void bullets_update(void)
 
 				coord_max.v = CENTER_X_MAX;
 				static_assert(offsetof(bullet_trail_t, center_x) == 0);
-				_BX = 0;
+				// TC4 BX = 0 emits XOR BX,BX as 33 DB; original is 31 DB.
+				asm { xor bx, bx }
 				bullet_trail_update_and_clip(
 					_AX,
 					_DX,
@@ -1055,7 +1057,8 @@ void bullets_render(void)
 
 			// Already counted as bloat inside that function.
 			static_assert(C_PELLET == 0);
-			_DX = 0;
+			// TC4 DX = 0 emits 33 D2 instead of original 31 D2.
+			asm { xor dx, dx }
 			if(pellet_p->flag != BF_PELLET) {
 				_DH = C_PELLET_TRANSFER;
 			}
