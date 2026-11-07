@@ -44,6 +44,7 @@ SOURCES = {
     'cs_mima': 'src/main/player/chargeshot_mima.cpp',
     'cs_reimu': 'src/main/player/chargeshot_reimu.cpp',
     'cs_mari': 'src/main/player/chargeshot_marisa.cpp',
+    'effects': 'src/main/player/effects.cpp',
     'b_ellen': 'src/main/player/bomb_ellen.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
@@ -96,6 +97,7 @@ ORIGINAL_STAGES = {
 }
 # The original native MAP has CODE/DATA/BSS/empty segment rows, and
 # the enemy's compiler flags also instantiate additional empty sections.
+MAP_ORIGINAL = {'effects': 'src/main/player/effects.cpp'}
 MAP_ROWS = {
     'ba_sring':5, 'ba_srest':5,
     'e_fireb':3, 'e_expl':3, 'bullet':4,
@@ -323,6 +325,7 @@ def main():
                 b=(f'M=probe/{parent.STAGE}/r{n}/{u}.cpp' if u in parent.ORDER
                    else f'M=th03/{u}.cpp' if u.startswith('ba_')
                    else f'M=probe/{ORIGINAL_STAGES[u]}/r{n}/{u}.cpp' if u in ORIGINAL_STAGES
+                   else f'M={MAP_ORIGINAL[u]}' if u in MAP_ORIGINAL
                    else f'M=th03/{u}.cpp').encode()
                 need(newmap.count(a)==MAP_ROWS.get(u,4), 'all original MAP rows '+u)
                 newmap=newmap.replace(a,b)

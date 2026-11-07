@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Original player effects: native lifetime and GRCG renderer after668
+
+The v2 original source-native compiler and independent reviewer
+now also handle the `effects` original physical object and its
+actual `src/main/player/effects.cpp` MAP module. Its
+three small effect-spawners, lifetime updater and large GRCG
+circle/quad renderer compile **628 original CODE bytes,
+33 literal ordered FIXUPP fields and five PUBLICs** exactly.
+The active-effect tests now use native-equal C++
+`if(effect->kind)` in the updater and renderer; attempts to
+combine age/cursor increments into conditionals changed original
+code and were rejected. Two real TC4/TLINK `af668e`
+source/OMF-attested rounds reproduce full MAIN/MAP and
+Japanese MZ. See
+[after668 original player effects review](MAIN_PLAYER_EFFECTS_NATIVE_AFTER668_REVIEW.md).
+Only that original object was compiled; no cold replay or
+new canonical packed-file credit.
+
 ## Mima complete BOSS signed-direction natural C++ after667
 
 The complete 1,922-CODE-byte Mima BOSS now writes the original

@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import re
 
-from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, rooted_source, rooted_wrapper, check_native_dependencies, SOURCE_HEADER_NEEDLE, BOSS_TEMPLATE, BOSS_TEMPLATE_NEEDLE, BINDING_MODE, BOSS_SHARED_UNITS, sha,
+from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, rooted_source, rooted_wrapper, check_native_dependencies, SOURCE_HEADER_NEEDLE, BOSS_TEMPLATE, BOSS_TEMPLATE_NEEDLE, BINDING_MODE, BOSS_SHARED_UNITS, MAP_ORIGINAL, sha,
                                           need, scope, parent)
 from lib.pc98 import parse_mz
 from lib.main_mz_compact import compact_mz
@@ -52,6 +52,7 @@ def normalize_map(raw, stage, n, units):
         old=f'M=probe/{stage}/r{n}/{u}.cpp'.encode()
         new=(f'M=probe/{parent.STAGE}/r{n}/{u}.cpp' if u in parent.ORDER
              else f'M=probe/{ORIGINAL_STAGES[u]}/r{n}/{u}.cpp' if u in ORIGINAL_STAGES
+             else f'M={MAP_ORIGINAL[u]}' if u in MAP_ORIGINAL
              else f'M=th03/{u}.cpp').encode()
         need(raw.count(old)==MAP_ROWS.get(u,4), 'all native MAP module rows '+u)
         raw=raw.replace(old,new)

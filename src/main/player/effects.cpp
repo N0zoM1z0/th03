@@ -1,4 +1,4 @@
-// Complete target-derived CDBD..D031 source proposal; not compiled or accepted.
+// Source-attested original CDBD..D031 complete player effect compiler unit.
 #pragma codeseg PLAYER_M_TEXT main_01
 #include "src/main/player/effects.hpp"
 #include "src/main/math/polar.hpp"
@@ -6,6 +6,8 @@
 #include "compat/rec98/libs/master.lib/master.hpp"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 
+// The cursor wraps only *after* incrementing, and current-source TC4
+// requires that as separate statements; if(++cursor >= COUNT) differs.
 extern "C" void far pascal bomb_explosion_add(
     playfield_subpixel_t x, playfield_subpixel_t y, pid2 pid
 )
@@ -61,12 +63,14 @@ extern "C" void far pascal bomb_axis_add(
     effect->angle = randring_far_next16();
 }
 
+// Separate increment and expiry check are native-visible: replacing
+// them with if(++effect->age > 16) changed genuine original TC4 CODE.
 void far player_effects_update(void)
 {
     register player_effect_t near *effect = player_effects;
     int i;
     for(i = 0; i < PLAYER_EFFECT_COUNT; i++, effect++) {
-        if(effect->kind != PLAYER_EFFECT_FREE) {
+        if(effect->kind) {
             effect->age++;
             if(effect->age > 16) {
                 effect->kind = PLAYER_EFFECT_FREE;
@@ -87,7 +91,7 @@ void far player_effects_render(void)
 
     grcg_setcolor(GC_RMW, 13);
     for(i = 0; i < PLAYER_EFFECT_COUNT; i++, effect++) {
-        if(effect->kind != PLAYER_EFFECT_FREE) {
+        if(effect->kind) {
             if(effect->x < PLAYFIELD_W_BORDERED) {
                 grc_setclip(16, 8, 303, 191);
             } else {
