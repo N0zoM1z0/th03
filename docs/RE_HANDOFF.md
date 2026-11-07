@@ -6,6 +6,23 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Rikako full BOSS natural intro geometry and sprite selection after679
+
+The complete Rikako BOSS is now original-machine-code exact
+with natural two-stage `(boss_frame*2)*16` intro radius,
+two native `frame%2` clocks, two unsigned `i%4`
+sprite pattern selections and `(unsigned char)boss_frame*4`
+angle steps. Flat `frame*32` and unary `-angle`
+were independently tested and original-native-unequal,
+so the original 16-bit staged arithmetic and binary
+`0-angle` remain. Fresh actual edited-source/packed-header
+OMF-attested `af679g` original TC4/TLINK dual rounds
+verify **1,677 CODE bytes, 215 ordered literal FIXUPPs,
+eight PUBLICs**, full normal MAIN EXE/MAP and Japanese MZ.
+See [after679 Rikako BOSS render review](MAIN_RIKAKO_BOSS_RENDER_AFTER679_REVIEW.md).
+Only the one affected original BOSS TU recompiled;
+no full cold replay or new canonical Factory byte credit.
+
 ## Ellen full BOSS signed Extra burst and natural attack cadence after678
 
 The complete original Ellen BOSS controller now uses

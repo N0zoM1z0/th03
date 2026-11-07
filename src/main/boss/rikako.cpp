@@ -422,8 +422,8 @@ void near rikako_render_main(void)
 		x = polar(left, 48, CosTable8[angle]);
 		y = polar(top, 48, SinTable8[angle]);
 
-		if((i & 3) != 0) {
-			sprite_offset = (((i & 3) * 2) + 0x167E);
+		if((static_cast<unsigned int>(i) % 4) != 0) {
+			sprite_offset = (((static_cast<unsigned int>(i) % 4) * 2) + 0x167E);
 		} else {
 			sprite_offset = 0x284;
 		}
@@ -436,6 +436,10 @@ void near rikako_render_main(void)
 	}
 }
 
+// The signed intro radius keeps two natural 16-bit scale stages:
+// flattening to frame*32 changes TC4 CODE (af679f). Keep the
+// original binary zero-minus angle form; unary negation differs
+// in native code (af679e).
 void near rikako_render_intro(void)
 {
 	screen_y_t top;
@@ -445,21 +449,21 @@ void near rikako_render_intro(void)
 	register int i;
 	register screen_x_t left;
 
-	radius = (0xC80 - ((boss_frame * 2) << 4));
+	radius = (0xC80 - ((boss_frame * 2) * 16));
 
 	sprite16_put_size.w = 48;
 	sprite16_put_size.h = 24;
 
-	if((boss_frame < 0x40) && ((round_or_result_frame & 1) != 0)) {
+	if((boss_frame < 0x40) && ((round_or_result_frame % 2) != 0)) {
 		return;
 	}
 
 	sprite_offset = (pid.so_attack + 0x780);
-	if((boss_frame & 1) != 0) {
+	if((boss_frame % 2) != 0) {
 		sprite_offset += 0x780;
 	}
 
-	angle = ((unsigned char)boss_frame << 2);
+	angle = ((unsigned char)boss_frame * 4);
 	angle = (0 - angle);
 
 	for(i = 0; i < 0x10; (i++, angle += 0x10)) {
