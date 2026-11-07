@@ -1,4 +1,6 @@
-// Maintained exact natural Turbo C++ reconstruction of TH03 MAIN_08_TEXT.
+// Complete source-native Turbo C++ for original Ellen Chargeshot/Gauge,
+// including the full 32-slot homing/arrival state engine, sprite and
+// collision dispatch and original 16-bit/byte ownership in MAIN_08_TEXT.
 #pragma codeseg MAIN_08_TEXT
 
 #include <stddef.h>
@@ -33,6 +35,7 @@ enum ellen_chargeshot_limits_t {
     ELLEN_CHARGE_SPRITE_ANGLE_BIAS = 0x10,
     ELLEN_CHARGE_SPRITE_ANGLE_SHIFT = 5,
     ELLEN_CHARGE_SPRITE_CEL_SHIFT = 1,
+    ELLEN_CHARGE_HIT_DAMAGE = 2,
 };
 
 struct ellen_chargeshot_t {
@@ -86,27 +89,41 @@ extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 void far pascal chargeshots_reset_ellen(void)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[0][0];
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_TOTAL; (++i, ellen_chargeshot_p++)) {
+	// Clear all 64 original 12-byte physical shot records, not only
+	// a per-player slice. This whole-source while is native-exact.
+	int i = 0;
+	while(i < ELLEN_CHARGE_SLOTS_TOTAL) {
 		ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
+		++i;
+		ellen_chargeshot_p++;
 	}
 }
 
 void far pascal chargeshot_add_ellen(Subpixel center_x, Subpixel center_y)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[pid.current][0];
-	for(int state = 0; state < ELLEN_CHARGE_SPREAD_STATE_END; (state += 2, ellen_chargeshot_p++)) {
+	// Every second byte state creates one of 32 separately randomized
+	// physical shots. Its signed state and near pointer advance AFTER
+	// each original independent RNG call (native af905a).
+	int state = 0;
+	while(state < ELLEN_CHARGE_SPREAD_STATE_END) {
 		ellen_chargeshot_p->state = state;
 		ellen_chargeshot_p->phase = ELLEN_CHARGE_DECELERATE_PHASE;
 		ellen_chargeshot_p->center.x = center_x;
 		ellen_chargeshot_p->center.y = center_y;
 		ellen_chargeshot_p->angle = randring_far_next16();
 		ellen_chargeshot_p->length = ELLEN_CHARGE_LENGTH_INIT;
+		state += 2;
+		ellen_chargeshot_p++;
 	}
 }
 
 void far pascal ellen_hyper(Subpixel center_x, Subpixel center_y)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[pid.current][0];
+	// Unlike the complete update/hit/render loops, this first-free-slot
+	// Hyper allocator must keep for/continue/return: natural while
+	// changed actual TC4 CODE (negative af905e).
 	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
 		if(ellen_chargeshot_p->state) {
 			continue;
@@ -131,10 +148,15 @@ void far pascal chargeshot_update_ellen(void)
 
 	ellen_chargeshot_p = &ellen_chargeshots[pid_current][0];
 	int i;
-	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+	// Original active-scan enters the same historical label immediately;
+	// explicit pointer/index while preserves native goto register state.
+	i = 0;
+	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
 		if(ellen_chargeshot_p->state) {
 			goto active;
 		}
+		++i;
+		ellen_chargeshot_p++;
 	}
 	return;
 
@@ -151,8 +173,14 @@ active:
 	playfield_clip_negative_radius.x.v = ELLEN_CHARGE_CLIP_NEGATIVE_RADIUS;
 	playfield_clip_negative_radius.y.v = ELLEN_CHARGE_CLIP_NEGATIVE_RADIUS;
 
-	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+	// Complete 32-slot decelerating/homing/arrival update, including
+	// the inactive continue that advances both original near pointer
+	// and signed index; natural while is byte-exact (af905d).
+	i = 0;
+	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
 		if(!ellen_chargeshot_p->state) {
+			++i;
+			ellen_chargeshot_p++;
 			continue;
 		}
 		if(ellen_chargeshot_p->state == ELLEN_CHARGE_ACTIVE_STATE) {
@@ -189,12 +217,17 @@ active:
 		} else {
 			// Preserve byte predecrement as part of the comparison; spelling
 			// this as separate state-- and ==ACTIVE changed CODE (af854c).
+			// Predecrement must remain INSIDE this byte comparison:
+			// splitting state-- and ==ACTIVE changed native CODE again
+			// (af905i). Original sound onset and phase remain intact.
 			if((--ellen_chargeshot_p->state) == 1) {
 				snd_se_play(1);
 			}
 			ellen_chargeshot_p->center.x.v = player_x;
 			ellen_chargeshot_p->center.y.v = player_y;
 		}
+		++i;
+		ellen_chargeshot_p++;
 	}
 }
 
@@ -224,8 +257,13 @@ uint8_t far chargeshot_hittest_ellen(void)
 	unsigned char hits = 0;
 	ellen_chargeshot_p = &ellen_chargeshots[hitbox.pid][0];
 
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+	// Native-exact full thirty-two-slot active-only scan: every skipped
+	// state advances index and near pointer before continuing (af905b).
+	int i = 0;
+	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
 		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
+			++i;
+			ellen_chargeshot_p++;
 			continue;
 		}
 		if(
@@ -240,8 +278,13 @@ uint8_t far chargeshot_hittest_ellen(void)
 				hitbox.pid
 			);
 			ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
-			hits += 2;
+			// Original byte `hits += 2` accepts a named enum ONLY through
+			// the natural explicit assignment (af905h), not an assumed
+			// compiler-neutral mutation.
+			hits = hits + ELLEN_CHARGE_HIT_DAMAGE;
 		}
+		++i;
+		ellen_chargeshot_p++;
 	}
 	return hits;
 }
@@ -252,14 +295,19 @@ void far pascal chargeshot_render_ellen(void)
 	sprite16_put_size.set(16, 16);
 	sprite16_clip_set_for_pid(pid_current);
 
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+	int i = 0;
+	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
 		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
+			++i;
+			ellen_chargeshot_p++;
 			continue;
 		}
 		ellen_chargeshot_private(
 			ellen_chargeshot_p->center.x,
 			ellen_chargeshot_p->center.y
 		);
+		++i;
+		ellen_chargeshot_p++;
 	}
 }
 
@@ -298,7 +346,9 @@ void near pascal gauge_pattern_ellen(bullet_type_t type)
 		return;
 	}
 
-	if((ellen_gauge_frame[pid_current] % ELLEN_GAUGE_VOLLEY_PERIOD) == 0) {
+	// This byte-valued eight-frame Gauge event accepts natural
+	// `if(!remainder)` in original TC4 (af905f), unlike some masks.
+	if(!(ellen_gauge_frame[pid_current] % ELLEN_GAUGE_VOLLEY_PERIOD)) {
 		bullet_template.type = type;
 		bullet_template.center.y.v = TO_SP(8);
 		pid_other = (1 - pid_current);
@@ -345,6 +395,8 @@ void near pascal gauge_pattern_ellen(bullet_type_t type)
 			palette_restore_for_pid(pid_other);
 		}
 	}
+	// Byte-memory postfix is required: changing to prefix changed
+	// original native CODE (af905g).
 	ellen_gauge_frame[pid_current]++;
 }
 

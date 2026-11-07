@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After905: Ellen Chargeshot full homing and Gauge native C++
+
+- Complete `cs_ellen` 10-PUBLIC physical owner: natural `while` now
+  covers 64 reset slots, 32 staggered RNG creations, the pre-update
+  `goto active` scan, full 32-slot deceleration/homing/arrival controller,
+  collision and render loops. The byte Gauge `%8` event uses natural
+  `if(!remainder)`; hit damage accepts `hits = hits + named_2`.
+- Real original TC4 negative trials: the first-free Hyper `for` cannot
+  become `while` (**1,532 vs 1,530 CODE**, `af905e`), byte Gauge frame
+  prefix grew to **1,544** (`af905g`), and splitting an inline byte
+  predecrement/compare grew to **1,531** (`af905i`). Original forms stay.
+  Final `af905j` passes two original TC4/normal full MAIN TLINK rounds:
+  **1,530 CODE bytes, 169 ordered FIXUPPs, 10 PUBLICs**, full Japanese
+  MAIN and 1,553 relocations; 98 other original game objects/CRT reused.
+  See [after905 full Ellen Chargeshot review](MAIN_ELLEN_CHARGESHOT_NATIVE_AFTER905_REVIEW.md).
+  Already source-owned original bytes, not new Factory accepted credit.
+
 ## After904: entire Rikako major BOSS native pellet and frame control
 
 - `ba_rikak` complete eight-function original BOSS: four-RNG-pellet
