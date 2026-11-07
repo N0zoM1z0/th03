@@ -71,18 +71,22 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-after758 **twelve-modified-original-physical-source simultaneous** native
-checkpoint: three major BOSSes, complete Fireball/Explosion, Ellen/Kotohime
-Extra Attack, both Combo scoring/BOSS/panic owners, the full Ellen
-Chargeshot with **natural C++ SI/DI register allocation**, and two
-Extra Attack/Gauge leaf owners. All twelve were genuinely recompiled
-in two original Turbo C++ 4.02 rounds and linked to normal full MAIN
-with **87 other project objects and original CRT reused**. Previous
-five/seven/nine/ten-source integration proofs remain independently
-protected; their original CODE totals must not be double-counted.
-The BIOS `input_s` original 417-byte source is object-exact but **full-MAIN
-blocked** by the historical parent object's one trailing NOP. See the
-explicit read-only negative proof, not as canonical acceptance.
+after766 **eight-current-original-physical-source simultaneous** native
+checkpoint: five major BOSSes' sprite renderers now recover their signed
+AX coordinate arithmetic from natural C++, Rikako's whole Chargeshot
+recovers the manual CX/CL initialization as a bounded natural C++ loop,
+and both original Reimu flight/Extra Attack physical TUs now force their
+three *current* implementation `.inl` sources into genuine Turbo C++
+compiler/OMF dependencies. Two full normal MAIN links match every
+original CODE byte, 1,555 ordered native FIXUPPs and 69 PUBLICs with
+**91 other game objects and original CRT reused**. No full cold replay.
+The earlier after758 12-object snapshot and preceding receipt history
+remain protected, but older source-input hashes **can drift** and must
+not be advertised as a current checkout pass. Totals are overlapping
+original owned bytes, not additional Factory canonical acceptance.
+The BIOS `input_s` original 417-byte object remains source-native exact
+but **full-MAIN blocked** by the older parent object's extra trailing
+NOP; see the read-only negative evidence.
 It retains after596 MAIN and historical after587 MAINL as *different*
 source-native ancestors, not current
 whole-game acceptance. The [after709 chronological archive](docs/RE_HANDOFF_ARCHIVE_AFTER709.md)
@@ -90,7 +94,7 @@ and [earlier after596 archive](docs/RE_HANDOFF_ARCHIVE_AFTER596.md)
 preserve the detailed experiments, negative trials and limitations.
 
 MAIN's frozen after596 normal source-native link, and the later
-after758 twelve-object changed-source overlay, reproduce the complete
+after766 eight-object current-source overlay, reproduce the complete
 124,642-byte Japanese loaded program and all 1,553 ordered MZ relocations.
 A **separate standard DOS MZ serializer** then reproduces the entire
 original 130,882-byte Japanese MAIN.EXE; this does not prove that the
@@ -107,13 +111,15 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af758a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af753a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af752a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af751a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af748a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af741b
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af766a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af765g
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af764d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af763d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af762c
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af761c
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af760c
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af759c
+    .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
     # Diagnostic reports expected input_s one-byte full-link FAILURE, not acceptance:
     PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_yumemi_cpu_after596_work.py
@@ -122,12 +128,12 @@ To verify this checkout without replaying unchanged source or toolchains:
     .venv/bin/python scripts/validate_tracking.py
     git diff --check
 
-Older `af736a`, `af724a`, `af721a`, `af715a`, and `af709a`
-receipts are **historical source snapshots**, not current-live-source
-checks after subsequent enemy/Kana/Yumemi/Marisa/Chiyuri edits. The read-only current-source reviewer properly detects their input
-drift. Preserve their original compiler and linker evidence without
-repinning or weakening the reviewer; use `af741b` for current shared
-enemy source and Kana BOSS coverage.
+Earlier `af758a`, `af753a`, `af741b`, `af730a`, `af736a`, `af724a`,
+`af721a`, `af715a` and `af709a` remain protected **historical source
+snapshots**, but their current maintained input hashes intentionally
+differ from later BOSS, player, or enemy changes. The live read-only
+reviewer rejects source drift. Preserve their original compiler/whole-link
+evidence; use `af766a` for the latest eight changed physical source owners.
 
 The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
 the historical applied after520 deletion audit (258 stages / 5,760

@@ -10,7 +10,43 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest current-source original TC4/TLINK integration: `af758a`.** Two
+- **Latest current-source original compiler/full-link proof: `af766a`.**
+  Two separate genuine Turbo C++ 4.02/TLINK rounds concurrently rebuilt
+  **eight modified original physical TUs**: Chiyuri, Ellen, Kana,
+  Kotohime and Rikako **complete major BOSSes**, Rikako's full
+  11-function Chargeshot/Gauge owner, and both original Reimu shared
+  flight/Extra Attack update source objects. All **12,156 original
+  CODE bytes, 1,555 ordered literal OMF FIXUPP fields, 69 PUBLICs**,
+  original segment/source dependencies, the complete normal MAIN/MAP,
+  Japanese 124,642-byte loaded program and 1,553 MZ relocations match.
+  Standard MZ serialization reproduces all 130,882 Japanese original
+  MAIN.EXE bytes. **91 other original game objects and CRT reused**;
+  no complete cold replay, binary padding or source/target substitution.
+- **Substantial natural C++ register recovery:** five big BOSS orbit and
+  entrance sprite renderers now compile the original signed AX shifts
+  from natural typed `top` assignments, with no explicit `_AX` register
+  writes; Rikako's original ADD AX,-8 is also generated naturally.
+  The full Rikako Chargeshot now uses natural signed `register int i`
+  to generate the original CX/CL four-projectile loop/angle, rather
+  than manually writing `_CX` and `_CL`. These were independently
+  source-native tested, with rejected compound-shift/inline-expression
+  negative experiments preserved, not accepted.
+- **Live Reimu Extra Attack `.inl` source provenance:** the `ex_rfly`
+  and `ex_reup` original physical owners now force the current
+  `exatt_flight.inl`, `exatt_reimu_prefix.inl` and
+  `exatt_reimu_update.inl`, and actual native compiler OMF COMENT
+  source dependencies are checked. Original earlier receipts had a
+  narrower source-binding scope; the after765+ contract is strict and
+  historically versioned. Seven targeted source guard tests pass.
+- **Historical source drift audited, not concealed:** the read-only
+  reviewer currently passes `af766a` and all seven individual current
+  source stages from after759..765; it correctly rejects old `af758a`,
+  `af753a`, `af741b` and `af730a` because their source hashes reflect
+  older BOSS/Chargeshot versions. Preserve those historical genuine
+  compiler receipts as snapshots, not live checkout passing claims.
+  The separate original keyboard `input_s` single-NOP link blocker
+  remains unresolved and is not included as accepted native full link.
+- **Previous twelve-source historical proof: `af758a`.** Two
   independent original TC4 4.02 and complete normal MAIN TLINK rounds
   simultaneously rebuilt **12 complete original physical TUs**, covering
   Chiyuri/Marisa/Mima **large BOSSes**, full Fireball/Explosion engines,
@@ -265,7 +301,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the current after758 twelve-source integration](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
+Read [the latest after766 eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
+[the historical after758 twelve-source integration](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
 [the preceding after753 ten-source integration](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
 [the previous after752 nine-source integration](MAIN_NINE_SOURCE_INTEGRATION_AFTER752_REVIEW.md),
 [the prior after751 seven-source integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER751_REVIEW.md),
@@ -286,13 +323,15 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af758a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af753a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af752a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af751a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af748a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af741b
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af766a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af765g
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af764d
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af763d
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af762c
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af761c
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af760c
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af759c
+.venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
 .venv/bin/python scripts/validate_tracking.py
@@ -301,12 +340,20 @@ git diff --check
 ```
 
 This list contains **current-source checks that actually pass on this
-checkout**. Do not run `af736a`, `af724a`, `af721a`, `af715a` or
-`af709a` as current-input validation: their source input hashes intentionally differ from later
-maintained files. They remain immutable historical native evidence.
+checkout**. Do not present `af758a`, `af753a`, `af741b`, `af730a`,
+`af724a`, `af721a`, `af715a`, `af709a` or `af736a` as current-input
+proof after later changed-source revisions: their source hashes
+intentionally differ. They remain protected historical native compiler
+and full-link evidence, not current live-source acceptance. Never weaken
+the independent reviewer to conceal drift.
 
 The latest protected read-only proof root is
-`.analysis/work/exatt-layout-af758a/report.json`, with twelve current
+`.analysis/work/exatt-layout-af766a/report.json`, with eight
+current source-bound original physical objects including both current
+Reimu Extra Attack implementation roots, two genuine TC4/TLINK rounds,
+and original full MAIN/Japanese MZ comparison. The earlier historical
+after758 source snapshot is
+`.analysis/work/exatt-layout-af758a/report.json`, with twelve former-current
 complete source-native original objects, both genuine full compiler and
 TLINK rounds. The previous ten-source root is
 `.analysis/work/exatt-layout-af753a/report.json`, with all ten
@@ -346,7 +393,8 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [current after758 twelve-source report](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
+Review the [current after766 eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER766_REVIEW.md),
+[historical after758 twelve-source report](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
 [after753 previous ten-source report](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
 [after752 preceding nine-source report](MAIN_NINE_SOURCE_INTEGRATION_AFTER752_REVIEW.md),
 [after751 preceding seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER751_REVIEW.md),
