@@ -10,7 +10,27 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest affected-scope, current-live-source MAIN proof: `af730a`.** Two
+- **Latest affected source-native proof: `af736a`.** Two independent original
+  TC4 4.02 / TLINK rounds compiled **seven complete original physical
+  current-source TUs together**: Kotohime/Yumemi **large BOSSes**, the
+  large ENEDAT enemy script interpreter `efornb`, and original input
+  modes, PI loader, KAJA driver and PC-98 exit owners. All **5,796 original
+  CODE bytes, 716 literal ordered OMF FIXUPPs, 37 PUBLICs** and complete
+  segment/source dependencies match; the complete normal MAIN/MAP,
+  Japanese 124,642-byte loaded program, 1,553 relocations and separately
+  serialized 130,882-byte original MAIN.EXE match in both rounds.
+  **92 other project objects and CRT reused**, no full cold replay.
+- **New original-source routes:** the scoped compiler now directly
+  validates `inp_m_w` (nine input/CPU/joystick/wait routines), `pi_load`
+  (original PI load/unload), `snd_kaja` (PMD/MIDI interrupt) and `exit`
+  (PC-98 display/access page registers) as four distinct original physical
+  source TUs. Input release/press polling has natural signed-loop/Boolean
+  C++ while preserving the original 9999-frame sentinel. Kotohime/Yumemi
+  fixed power-of-two phase masks and the full enemy script VM now have
+  fresh current-source native codegen proof. Rejected AL-byte, coordinate
+  local, Spawn flag, PI return and input-bit rewrites remain protected
+  negative-control evidence, **not accepted source**.
+- **Previous affected-scope, current-live-source MAIN proof: `af730a`.** Two
   independent original TC4 4.02/full normal TLINK rounds compiled **six
   complete original physical TUs together**: full player `core` and its
   nested state machine, Rikako/Reimu **major BOSSes**, PMD sound effect
@@ -102,7 +122,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the latest after730 six-source review](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
+Read [the latest after736 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
+[the earlier after730 six-source review](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
 [the earlier after724 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
 [the earlier after721 five-source review](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
 [the previous after715 four-source review](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
@@ -116,6 +137,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af736a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af724a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
@@ -127,6 +149,9 @@ git diff --check
 ```
 
 The latest protected read-only proof root is
+`.analysis/work/exatt-layout-af736a/report.json`, containing the seven
+new current-source original native object rounds and full TLINK receipts.
+The earlier six-TU root is
 `.analysis/work/exatt-layout-af730a/report.json`, including all ten nested
 `core` source snapshots and both actual six-unit compiler/linker rounds.
 The earlier protected seven-TU integration root is
@@ -141,7 +166,8 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [after730 current six-source report](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
+Review the [after736 current seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
+[after730 prior six-source report](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
 [after724 seven-source integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
 [after721 prior five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
 [after715 prior integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
