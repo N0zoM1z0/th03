@@ -140,6 +140,18 @@ real Turbo C++/TLINK rounds; see
 `.analysis/work/exatt-layout-af601n/report.json`. Historical evidence
 remains immutable; no additional accepted byte claim.
 
+### Natural Chiyuri control flow after601
+
+The full Chiyuri beam renderer and paired projectile update no longer need
+handwritten ASM for their state==0 jump or phase taper. Native TC4 produces
+all original 978 CODE bytes (and original ordered native fields/segdefs) from
+the maintained C++ source in two independently compiled and full-linked
+rounds, latest `af601e`. The beam renderer still uses the observed AX return
+register interface at its shared phase-label boundary. Read
+[after601 native review](MAIN_CHIYURI_NATURAL_CONTROL_AFTER601_NATIVE_REVIEW.md)
+for the exact accepted and rejected variants. This changes expression
+recoverability, not the amount of previously owned target CODE.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

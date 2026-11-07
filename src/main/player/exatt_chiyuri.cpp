@@ -145,62 +145,63 @@ void far pascal exatt_update_chiyuri(void)
     collmap_pid = pid_other;
     i = 0;
     for(; i < 16; (i += 2, exatt_entity_p++)) {
+        // The first entity in a two-slot beam may be free; both the
+        // empty and active-beam paths still advance the second slot.
         if(exatt_entity_p->state == 0) {
             exatt_entity_p++;
             continue;
         }
         p = exatt_entity_p;
         if(p->state == 1) {
-                p->frame++;
-                if(p->frame == 4) {
-                    bomb_center_add(p->x, 0, p->pid);
-                    p++;
-                    bomb_center_add(p->x, 0x1700, p->pid);
-                } else if(p->frame == 0x10) {
-                    snd_se_play(20);
-                } else if(p->frame > 0x28 && p->frame < 0x70) {
-                    collmap_topleft.x.v = p->x;
-                    p++;
-                    collmap_bottomright.x.v = p->x;
-                    collmap_set_slope_striped();
-                } else if(p->frame > 0x88) {
-                    p->state = 0;
-                    p++;
-                    p->state = 0;
-                }
-                exatt_entity_p++;
-                continue;
-            }
-
-            first_arrived = 0;
-            if(p->state == 2) {
-                if(exatt_fly_update() != 0) {
-                    p->y = 0;
-                }
-            } else if(p->state <= 0x1C) {
-                p->state++;
-            } else {
-                p->frame = 0;
-                first_arrived = 1;
-            }
             p->frame++;
-            p++;
+            if(p->frame == 4) {
+                bomb_center_add(p->x, 0, p->pid);
+                p++;
+                bomb_center_add(p->x, 0x1700, p->pid);
+            } else if(p->frame == 0x10) {
+                snd_se_play(20);
+            } else if(p->frame > 0x28 && p->frame < 0x70) {
+                collmap_topleft.x.v = p->x;
+                p++;
+                collmap_bottomright.x.v = p->x;
+                collmap_set_slope_striped();
+            } else if(p->frame > 0x88) {
+                p->state = 0;
+                p++;
+                p->state = 0;
+            }
             exatt_entity_p++;
-            if(p->state == 2) {
-                if(exatt_fly_update() != 0) {
-                    p->y = 0x1700;
-                }
-            } else if(p->state <= 0x1C) {
-                p->state++;
-            } else {
-                p->frame = 0;
-                if(first_arrived != 0) {
-                    p--;
-                    p->state = 1;
-                }
-            }
-            p->frame++;
+            continue;
+        }
 
+        first_arrived = 0;
+        if(p->state == 2) {
+            if(exatt_fly_update() != 0) {
+                p->y = 0;
+            }
+        } else if(p->state <= 0x1C) {
+            p->state++;
+        } else {
+            p->frame = 0;
+            first_arrived = 1;
+        }
+        p->frame++;
+        p++;
+        exatt_entity_p++;
+        if(p->state == 2) {
+            if(exatt_fly_update() != 0) {
+                p->y = 0x1700;
+            }
+        } else if(p->state <= 0x1C) {
+            p->state++;
+        } else {
+            p->frame = 0;
+            if(first_arrived != 0) {
+                p--;
+                p->state = 1;
+            }
+        }
+        p->frame++;
     }
 }
 
