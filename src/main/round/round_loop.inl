@@ -6,7 +6,7 @@
 
 unsigned char near round_loop(void)
 {
-    while(round_quit_requested == 0) {
+    while(!round_quit_requested) {
         collmap_reset();
         bullet_template_reset_stuff();
         pid_current = 0;
@@ -99,10 +99,10 @@ unsigned char near round_loop(void)
             if(resident->game_mode == GM_STORY) {
                 goto story_result;
             }
-            if(players[0].rounds_won >= 2 || players[1].rounds_won >= 2) {
+            if(players[0].rounds_won >= ROUND_VICTORY_ROUNDS || players[1].rounds_won >= ROUND_VICTORY_ROUNDS) {
                 goto match_result;
             }
-            if(round_or_result_frame == 160) {
+            if(round_or_result_frame == ROUND_RESULT_FINISH_BACKGROUND_AT) {
                 goto finish_background;
             }
             if(playfield_transition_midpoint) {
@@ -117,7 +117,7 @@ unsigned char near round_loop(void)
             }
             if(playfield_transition_midpoint) {
                 round_score_commit(resident->pid_winner);
-                return 2; // Target RET 9972: distinct match-completion exit.
+                return ROUND_LOOP_END_MATCH; // Target RET 9972: distinct match-completion exit.
             }
             goto render_hud;
 
@@ -125,17 +125,17 @@ unsigned char near round_loop(void)
             if(resident->pid_winner == 0) {
                 goto match_result;
             }
-            if(round_or_result_frame == 160) {
+            if(round_or_result_frame == ROUND_RESULT_FINISH_BACKGROUND_AT) {
             finish_background:
                 stage_background_update = stage_demo_finish;
             } else if(playfield_transition_midpoint) {
                 if(resident->story_lives) {
                     resident->story_lives--;
                 next_round:
-                    return 1; // Target RET 99A7.
+                    return ROUND_LOOP_PLAY_NEXT; // Target RET 99A7.
                 }
                 round_score_commit(0);
-                return 2; // Target RET 99B0: distinct game-over exit.
+                return ROUND_LOOP_END_MATCH; // Target RET 99B0: distinct game-over exit.
             }
         }
 
@@ -149,7 +149,7 @@ unsigned char near round_loop(void)
         combos_update_and_render();
         stage_background_update();
         stage_demo_update();
-        if(stage_render_timing_flag == 0) {
+        if(!stage_render_timing_flag) {
             while(round_reset_flag > vsync_Count1) {
             }
             vsync_Count1 = 0;
@@ -191,11 +191,11 @@ unsigned char near round_loop(void)
         round_frame_mod8 = round_frame_mod16 & 7;
         round_frame_mod4 = round_frame_mod8 & 3;
         round_frame_mod2 = round_frame_mod4 & 1;
-        if(!(round_or_result_frame & 63)) {
-            if(round_speed < 127) {
+        if(!(round_or_result_frame & ROUND_SPEED_UPDATE_MASK)) {
+            if(round_speed < ROUND_ENTRY_SPEED_MAX) {
                 round_speed++;
             }
-            if(!(round_or_result_frame & 1023)) {
+            if(!(round_or_result_frame & ROUND_RANDOM_REFILL_MASK)) {
                 randring_fill();
                 if(players[0].hit_damage_next < 6) {
                     players[0].hit_damage_next++;
@@ -204,11 +204,11 @@ unsigned char near round_loop(void)
                     players[1].hit_damage_next++;
                 }
             }
-            if(round_or_result_frame < 2000) {
+            if(round_or_result_frame < ROUND_CPU_RESET_WINDOW_END) {
                 players[0].cpu_frame = 0;
                 players[1].cpu_frame = 0;
             }
         }
     }
-    return 0; // RET 9AD5
+    return ROUND_LOOP_RETURN_TO_OP; // RET 9AD5
 }

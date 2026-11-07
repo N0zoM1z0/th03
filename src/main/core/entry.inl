@@ -22,14 +22,14 @@ void far cdecl main(void)
             palette_show();
             outcome = round_loop();
             resident->rand = round_frame;
-            if(outcome != 1) {
+            if(outcome != ROUND_LOOP_PLAY_NEXT) {
                 break;
             }
             round_start_next();
         }
         enemy_formations_free();
         snd_kaja_func(KAJA_SONG_STOP, 0);
-        if(outcome == 0) {
+        if(outcome == ROUND_LOOP_RETURN_TO_OP) {
             main_exec(main_op_name);
         } else {
             resident->story_stage++;

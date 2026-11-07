@@ -34,6 +34,7 @@ ROOT = parent.ROOT
 WORK = parent.WORK
 SOURCES = {
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',
+    'entry': 'src/main/core/entry.cpp',
     'p_cpu': 'src/main/player/cpu.cpp',
     'cs_yume': 'src/main/player/chargeshot_yumemi.cpp',
     'cs_ellen': 'src/main/player/chargeshot_ellen.cpp',
@@ -99,6 +100,14 @@ BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
 BACKGROUND_PHASE = 'src/main/background/phase.inl'
 CHAIN_UNITS = ('chain1', 'chain2')
 OWNER_INLINE_PATHS = {
+    # The original entry.cpp owns MAIN, the 200+-line frame scheduler,
+    # stage initialization and score commitment as ONE physical TU.
+    'entry': (
+        'src/main/core/entry.inl',
+        'src/main/round/round_loop.inl',
+        'src/main/round/stage_round.inl',
+        'src/main/core/roundfin.inl',
+    ),
     'core': ('src/main/player/hyper.inl',),
     'lose': (
         'src/main/player/lose_update.inl',
@@ -112,6 +121,7 @@ ORIGINAL_OBJECT_PATHS = {u: f'obj/{u}.obj' for u in CHAIN_UNITS}
 ORIGINAL_OBJECT_PATHS['bomb~cxk'] = 'obj/th03/bomb_yumemi.obj'
 BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
 PRODUCER_WRAPPERS = {
+    'entry': 'src/main/core/producers/entry_native.cpp',
     'p_cpu': 'src/main/player/producers/cpu_native.cpp',
     'cs_yume': 'src/main/player/producers/yumemi_chargeshot_native.cpp',
     'e_fireb': 'src/main/enemy/producers/fireball_native.cpp',
@@ -123,6 +133,7 @@ PRODUCER_WRAPPERS = {
     'eupdb': 'src/main/enemy/producers/eupdb.cpp',
 }
 ORIGINAL_STAGES = {
+    'entry': 'af594e',
     'ch_setup': 'af592p',
     'core': 'af593p',
     'e_fireb': 'af589f', 'e_expl': 'af589f',
