@@ -6,15 +6,38 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## URGENT: v1 source-binding flaw, corrected native proof after614
+
+**DO NOT cite after598–610 overlay reports as proof that changed source
+compiled.** Their literal `#include "src/...cpp"` silently loaded old
+`TH03WORK/src/...`, even as the overlay copied the modified source to a
+separate directory. Original OMF dependency records exposed the problem;
+invalid `chains.hitsue` in the new C++ compiled successfully in v1 but was
+correctly rejected in explicit-source v2. This invalidates the source-exact
+claim of the after606 nineteen-owner v1 receipt and supersedes the claims
+in the following chronological sections. Do not delete those experiments.
+
+After614 native v2 **does** prove current 10 Extra Attack TUs from actually
+consumed source/header overlays: **8,781 CODE / 563 native fields / 52 PUBLICs**
+in two real Turbo C++ / full TLINK rounds, entire MAIN/Japanese target exact.
+The 32-byte entity requires local byte packing under original TC4; original
+Chiyuri Extra Attack branch/beam instructions have been restored after
+negative compiler trials. See
+[after614 source-binding audit](MAIN_NATIVE_SOURCE_BINDING_AFTER614_REVIEW.md)
+and v2 read-only review `scripts/review_th03_main_source_overlay.py --stage af614a`.
+The remaining v1 BOSS, Bullet, Fireball and Enemy source claims need
+source-rooted confirmation or correction. Do not treat `progress.py` ledger
+counts as proof of newly changed source bytes.
+
 ## Immediate next-agent start
 
 - Inspect git status --short --branch and git log; do not reset or discard
-  dirty/untracked/ignored work. At this handoff the last confirmed HEAD was
-  94ca133a (Yumemi/CPU); the origin/main relationship can change.
+  dirty/untracked/ignored work. The working HEAD may have advanced past after614; inspect it again.
 - Use .venv/bin/python scripts/preflight.py when starting or changing the
   toolchain. Check scripts/validate_tracking.py and scripts/progress.py --check.
-- For current MAIN native evidence, run the READ-ONLY
-  scripts/review_th03_main_yumemi_cpu_after596_work.py.
+- For CURRENT changed MAIN source evidence, run the v2 source-bound
+  scripts/review_th03_main_source_overlay.py --stage af614a; the after596
+  reader is an older pinned-source historical control.
   For MAINL, run the READ-ONLY
   scripts/review_th03_mainl_score_input_pi_after587_work.py.
   Set DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts and use one allowed CPU

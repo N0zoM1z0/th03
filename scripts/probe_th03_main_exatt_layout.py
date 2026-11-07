@@ -28,6 +28,7 @@ from lib.pc98 import parse_mz
 from lib.main_mz_compact import compact_mz
 from lib.targets import find_artifact, load_target_manifest, read_verified_artifact
 from probe_th03_main_bomb_rikako_cpp import segment_definitions
+from lib.omf import parse_omf
 
 ROOT = parent.ROOT
 WORK = parent.WORK
@@ -88,6 +89,40 @@ def wrapper_source(unit):
     return (('#define TH03_EXATT_REIMU_UPDATE_ONLY\n' if unit=='ex_reup' else '') +
             f'#include "{SOURCES[unit]}"\n').encode()
 
+
+# Explicit include paths are mandatory: with the original literal
+# #include "src/..." the TC4 search order can silently choose the old
+# WORK/src/... first. A copied overlay is NOT proof of compilation.
+SOURCE_HEADER_NEEDLE = b'#include "src/main/player/exatt_entity.hpp"'
+BINDING_MODE = 'explicit-native-include-with-omf-dependency-check-v2'
+
+def rooted_source(unit, stage, n, raw):
+    if SOURCE_HEADER_NEEDLE not in raw:
+        return raw
+    return raw.replace(
+        SOURCE_HEADER_NEEDLE,
+        f'#include "probe/{stage}/r{n}/{ENTITY}"'.encode(),
+    )
+
+def rooted_wrapper(unit, stage, n, raw):
+    literal=f'#include "{SOURCES[unit]}"'.encode()
+    need(raw.count(literal)==1, 'one real source include '+unit)
+    return raw.replace(
+        literal, f'#include "probe/{stage}/r{n}/{SOURCES[unit]}"'.encode(),
+    )
+
+def check_native_dependencies(obj, unit, stage, n, source_has_entity):
+    records=[r.data for r in parse_omf(obj) if r.record_type==0x88 and
+             r.data.startswith(b'\x00\xe9')]
+    low=[v.lower() for v in records]
+    name=f'probe/{stage}/r{n}/{SOURCES[unit]}'.encode().lower()
+    need(any(name in v for v in low),
+         'actual native OMF dependency binds forced overlay source '+unit)
+    if source_has_entity:
+        header=f'probe/{stage}/r{n}/{ENTITY}'.encode().lower()
+        need(any(header in v for v in low),
+             'actual native OMF dependency binds forced overlay header '+unit)
+    return {'source':name.decode(), 'entity_header_bound':source_has_entity}
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -167,14 +202,15 @@ def main():
     need(all(b'\r' not in s for s in (*source_data.values(),header_data)),
          'maintained sources must use LF')
     rows=[]
-    result={'schema':'th03-exatt-current-source-overlay-v1', 'stage':args.stage,
+    result={'schema':'th03-main-source-rooted-overlay-v2', 'stage':args.stage,
             'parent_report':parent.REPORT,
             'parent_report_sha256':sha((ROOT/parent.REPORT).read_bytes()),
             'units':units, 'source_sha256':{u:sha(s) for u,s in source_data.items()},
             'entity_header_sha256':sha(header_data),
             'wrapper_sha256':{u:sha(w) for u,w in wrapper_data.items()},
             'whole_original_image_and_relocations_equal':False,
-            'canonical_Factory_credit':False, 'rounds':[]}
+            'canonical_Factory_credit':False, 'rounds':[],
+            'compiler_source_binding': BINDING_MODE}
     cpu=min(os.sched_getaffinity(0))
     env=dict(os.environ, DISPLAY='', WAYLAND_DISPLAY='', WINEDEBUG='-all',
              WINEPREFIX=str(ROOT/'.analysis/toolchain/wineprefix'),
@@ -192,13 +228,14 @@ def main():
             for u in units:
                 file=rd/SOURCES[u]
                 file.parent.mkdir(parents=True, exist_ok=True)
-                file.write_bytes(source_data[u].replace(b'\n',b'\r\n'))
+                file.write_bytes(rooted_source(u,args.stage,n,source_data[u]).replace(b'\n',b'\r\n'))
             entity=rd/ENTITY
             entity.parent.mkdir(parents=True, exist_ok=True)
             entity.write_bytes(header_data.replace(b'\n',b'\r\n'))
             wrapper=wrapper_data
             for u in units:
-                (rd/(u+'.cpp')).write_bytes(wrapper[u].replace(b'\n',b'\r\n'))
+                (rd/(u+'.cpp')).write_bytes(
+                    rooted_wrapper(u,args.stage,n,wrapper[u]).replace(b'\n',b'\r\n'))
             phases=[];scopes={};outputs={}
             def exec_cmd(argv,label):
                 prefix=['taskset','-c',str(cpu),'nice','-n','10']
@@ -210,6 +247,8 @@ def main():
                               f'probe/{args.stage}/r{n}/{u}.cpp'],
                           f'round{n}-{u}-TC4')
                 raw=(rd/(u+'.obj')).read_bytes()
+                check_native_dependencies(raw,u,args.stage,n,
+                    SOURCE_HEADER_NEEDLE in source_data[u])
                 scopes[u]=scope(raw,originals[u],u)
                 outputs[u+'_obj']=pins(logroot/(f'round{n}-{u}.obj'),raw)
             response=parent.response(n)

@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import re
 
-from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, sha,
+from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, rooted_source, rooted_wrapper, check_native_dependencies, SOURCE_HEADER_NEEDLE, BINDING_MODE, sha,
                                           need, scope, parent)
 from lib.pc98 import parse_mz
 from lib.main_mz_compact import compact_mz
@@ -67,7 +67,8 @@ def review(stage):
          'complete recorded proof '+stage)
     report=json.loads(report_path.read_text())
     units=report['units']
-    need(report['schema']=='th03-exatt-current-source-overlay-v1' and
+    need(report['schema']=='th03-main-source-rooted-overlay-v2' and
+         report.get('compiler_source_binding')==BINDING_MODE and
          report['stage']==stage and len(units)==len(set(units)) and
          all(u in SOURCES for u in units) and
          len(report['rounds'])==2 and
@@ -79,10 +80,9 @@ def review(stage):
     # The selected *current* C++ source variants must be exactly those compiled.
     sources={u:(ROOT/SOURCES[u]).read_bytes() for u in units}
     entity=(ROOT/ENTITY).read_bytes()
-    # after606 already validates the exact compiled wrapper snapshot below,
-    # but did not store a redundant separate wrapper digest. Later receipts do.
-    need(report.get('wrapper_sha256', {u:sha(wrapper_source(u)) for u in units})==
-         {u:sha(wrapper_source(u)) for u in units},
+    # Explicit OMF dependency validation is mandatory. Old v1 receipts
+    # verified a copied source snapshot, NOT which copy TC4 actually read.
+    need(report['wrapper_sha256']=={u:sha(wrapper_source(u)) for u in units},
          'exact natural original producer wrapper input identities')
     need(all(b'\r' not in s for s in (*sources.values(),entity)) and
          report['source_sha256']=={u:sha(v) for u,v in sources.items()} and
@@ -114,14 +114,17 @@ def review(stage):
              'complete OBJ/EXE/MAP/vector native outputs')
         items={k:file_pin(v,saved) for k,v in output.items()}
         for u in units:
-            need((rd/SOURCES[u]).read_bytes()==sources[u].replace(b'\n',b'\r\n'),
-                 'exact maintained source overlay '+u)
-            wrapper=wrapper_source(u).replace(b'\n',b'\r\n')
+            need((rd/SOURCES[u]).read_bytes()==
+                 rooted_source(u,stage,n,sources[u]).replace(b'\n',b'\r\n'),
+                 'compiler-forced maintained source overlay '+u)
+            wrapper=rooted_wrapper(u,stage,n,wrapper_source(u)).replace(b'\n',b'\r\n')
             need((rd/(u+'.cpp')).read_bytes()==wrapper,
-                 'real original compiler wrapper '+u)
+                 'compiler-forced original source wrapper '+u)
             actual=items[u+'_obj']
             need((rd/(u+'.obj')).read_bytes()==actual,
                  'actual native built OBJ '+u)
+            check_native_dependencies(actual,u,stage,n,
+                SOURCE_HEADER_NEEDLE in sources[u])
             need(scope(actual,originals[u],u)==row['scopes'][u],
                  'complete CODE, native fields, PUBLICs and segment layout '+u)
         phases=row['phases']

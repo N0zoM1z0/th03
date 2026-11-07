@@ -4,6 +4,9 @@
 #include <stddef.h>
 
 // Existing shared entity storage stays in the root DATA/BSS owner.
+// TC4 aligns nested unions to 2 under -a2, introducing artificial padding.
+// The original shared 32-byte entity is byte-packed; restore caller packing.
+#pragma option -a1
 struct exatt_entity_t {
     unsigned char state;
     unsigned char frame;
@@ -38,6 +41,7 @@ struct exatt_entity_t {
         } rikako;
     } character;
 };
+#pragma option -a2
 typedef char exatt_entity_size_must_be_20[(sizeof(exatt_entity_t) == 0x20) ? 1 : -1];
 typedef char exatt_entity_mode_offset_must_be_11[
     (offsetof(exatt_entity_t, character_mode) == 0x11) ? 1 : -1
