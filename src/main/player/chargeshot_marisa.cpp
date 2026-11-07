@@ -77,7 +77,7 @@ void far pascal chargeshot_add_marisa(Subpixel center_x, Subpixel center_y)
     marisa_chargeshot_p->active = 1;
     marisa_chargeshot_p->frame = 0;
     players[pid.current].shot_active = SA_DISABLED;
-    for(int i = 0; i < MARISA_CHARGE_HISTORY; i++) {
+    for(int i = 0; i < MARISA_CHARGE_HISTORY; ++i) {
         marisa_chargeshot_p->x[i] = center_x.v;
         marisa_chargeshot_p->y[i] = center_y.v - TO_SP(16);
     }
@@ -89,7 +89,7 @@ void far pascal marisa_hyper_14340(void)
     marisa_chargeshot_p = &marisa_chargeshots[pid.current];
     if(!marisa_chargeshot_p->active) {
         marisa_chargeshot_p->active = 1;
-        for(int i = 0; i < MARISA_CHARGE_HISTORY; i++) {
+        for(int i = 0; i < MARISA_CHARGE_HISTORY; ++i) {
             marisa_chargeshot_p->x[i] = players[pid.current].center.x.v;
             marisa_chargeshot_p->y[i] = players[pid.current].center.y.v - TO_SP(16);
         }
@@ -106,8 +106,10 @@ void far pascal chargeshot_update_marisa(void)
         return;
     }
     players[pid_current].gauge_charged = 0;
+    // Original mutable byte postincrement must remain: prefix changed
+    // the full native TC4 CODE in rejected after769c.
     marisa_chargeshot_p->frame++;
-    for(int i = MARISA_CHARGE_LAST_SAMPLE; i > 0; i--) {
+    for(int i = MARISA_CHARGE_LAST_SAMPLE; i > 0; --i) {
         marisa_chargeshot_p->x[i] = marisa_chargeshot_p->x[i - 1];
         marisa_chargeshot_p->y[i] = marisa_chargeshot_p->y[i - 1] + 24;
     }
@@ -160,7 +162,7 @@ void far pascal chargeshot_render_marisa(void)
     egc_off();
     grcg_settile_1line(GC_RMW, 0xAA0055AAL);
     previous_x = 0;
-    for(i = MARISA_CHARGE_LAST_SAMPLE; i > MARISA_CHARGE_GRCG_FIRST_BAND_END; i--) {
+    for(i = MARISA_CHARGE_LAST_SAMPLE; i > MARISA_CHARGE_GRCG_FIRST_BAND_END; --i) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> 5) + 8;
         if(previous_x != x) {
@@ -170,7 +172,8 @@ void far pascal chargeshot_render_marisa(void)
     }
     grcg_settile_1line(GC_RMW, 0xFF00AA55L);
     previous_x = 0;
-    for(i = 6; i > MARISA_CHARGE_GRCG_SECOND_BAND_END; i--) {
+    for(i = MARISA_CHARGE_GRCG_FIRST_BAND_END;
+        i > MARISA_CHARGE_GRCG_SECOND_BAND_END; --i) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> 5) + 8;
         if(previous_x != x) {
@@ -180,7 +183,7 @@ void far pascal chargeshot_render_marisa(void)
     }
     grcg_settile_1line(GC_RMW, 0xFF55FF55L);
     previous_x = 0;
-    for(i = 3; i > 0; i--) {
+    for(i = MARISA_CHARGE_GRCG_SECOND_BAND_END; i > 0; --i) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> 5) + 8;
         if(previous_x != x) {
@@ -240,19 +243,21 @@ void near pascal gauge_pattern_marisa(bullet_type_t type)
         bullet_template.center.x.v = 0;
         // The literal speed step is native-visible here: an enum of the
         // same value changes TC4 CODE, as verified by af664h.
-        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; i++) {
+        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; ++i) {
             bullets_add();
             bullet_template.speed.v -= 6;
         }
-        marisa_gauge_y[pid_current] += gauge_pattern_timing[pid_current].total_frames * 16;
+        marisa_gauge_y[pid_current] +=
+            (gauge_pattern_timing[pid_current].total_frames << 4);
     } else if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_RIGHT_FIRE) {
         bullet_template.angle = 0x60;
         bullet_template.center.x.v = TO_SP(PLAYFIELD_W);
-        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; i++) {
+        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; ++i) {
             bullets_add();
             bullet_template.speed.v -= 6;
         }
-        marisa_gauge_y[pid_current] += gauge_pattern_timing[pid_current].total_frames * 16;
+        marisa_gauge_y[pid_current] +=
+            (gauge_pattern_timing[pid_current].total_frames << 4);
     }
     if(marisa_gauge_y[pid_current] >= TO_SP(PLAYFIELD_H)) {
         gba_flag_active[pid_current] = GBAF_NONE;
@@ -265,13 +270,13 @@ void near pascal gauge_pattern_marisa(bullet_type_t type)
 
 void far gba_gauge_pattern_pellet_marisa(void)
 {
-    if(gba_flag_active[pid_current] != GBAF_NONE) {
+    if(gba_flag_active[pid_current]) {
         gauge_pattern_marisa(BT_PELLET);
     }
 }
 void far gba_gauge_pattern_bullet_marisa(void)
 {
-    if(gba_flag_active[pid_current] != GBAF_NONE) {
+    if(gba_flag_active[pid_current]) {
         gauge_pattern_marisa(BT_BULLET16_DEFAULT);
     }
 }
