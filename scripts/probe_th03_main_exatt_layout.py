@@ -45,6 +45,7 @@ SOURCES = {
     'cs_reimu': 'src/main/player/chargeshot_reimu.cpp',
     'cs_mari': 'src/main/player/chargeshot_marisa.cpp',
     'effects': 'src/main/player/effects.cpp',
+    'warning': 'src/main/player/warning.cpp',
     'b_ellen': 'src/main/player/bomb_ellen.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
@@ -97,7 +98,10 @@ ORIGINAL_STAGES = {
 }
 # The original native MAP has CODE/DATA/BSS/empty segment rows, and
 # the enemy's compiler flags also instantiate additional empty sections.
-MAP_ORIGINAL = {'effects': 'src/main/player/effects.cpp'}
+MAP_ORIGINAL = {
+    'effects': 'src/main/player/effects.cpp',
+    'warning': 'src/main/player/warning.cpp',
+}
 MAP_ROWS = {
     'ba_sring':5, 'ba_srest':5,
     'e_fireb':3, 'e_expl':3, 'bullet':4,

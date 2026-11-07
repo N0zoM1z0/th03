@@ -6,6 +6,26 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Player warning/Gauge large state machine native C++ after669
+
+The v2 original source-rooted scoped compiler/reviewer now
+handles the complete `warning` physical C++ module,
+preserving the historical `src/main/player/warning.cpp`
+MAP module path. Across seven functions, natural explicit
+unsigned `%2` replaces six low-bit tests in the
+hyper/Gauge highlight, warning transition and 27-frame
+palette flash functions. The long warning-state updater's
+six-line text clear loop is a genuine native-equal C++
+`for` rewrite; completion still falls through to active
+Gauge brightness updates on the same tick. Source/OMF
+attested TC4/TLINK stage `af669f` verifies **1,560
+CODE bytes, 125 literal ordered fixups and seven PUBLICs**,
+full original normal MAIN executable/MAP and Japanese
+MZ relocations. See
+[after669 warning source native review](MAIN_PLAYER_WARNING_NATIVE_AFTER669_REVIEW.md).
+Only this original TU was recompiled, no cold replay or
+double-counted canonical packed-file byte credit.
+
 ## Original player effects: native lifetime and GRCG renderer after668
 
 The v2 original source-native compiler and independent reviewer

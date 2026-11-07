@@ -1,5 +1,5 @@
 // Complete pause, gauge, portrait, flash and warning-state source cohort.
-// Source-present only; see docs/reconstruction/MAIN_PLAYER_WARNING_REVIEW.md.
+// Source-bound original warning/Gauge controller, proven by native TC4.
 #pragma codeseg PLAYER_M_TEXT main_01
 #include "src/main/player/warning.hpp"
 
@@ -41,7 +41,7 @@ void near round_C830(void)
     egc_on();
     asm { call near ptr hud_gauge_highlights_restore }
     egc_off();
-    if(players[0].hyper_active && (round_or_result_frame & 1)) {
+    if(players[0].hyper_active && ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0)) {
         color = players[0].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -54,7 +54,7 @@ void near round_C830(void)
             out 07Ch, ax
         }
     }
-    if(players[1].hyper_active && (round_or_result_frame & 1)) {
+    if(players[1].hyper_active && ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0)) {
         color = players[1].gauge_avail >> 10;
         if(color == 1) color = 8;
         else if(color == 2) color = 12;
@@ -78,7 +78,7 @@ void near round_C8C4(void)
     register int available_p2 = players[1].gauge_avail >> 4;
     available_p1 -= static_cast<int>(charged_p1);
     if(available_p1 > 0) {
-        if(!players[0].hyper_active || (round_or_result_frame & 1))
+        if(!players[0].hyper_active || ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -88,7 +88,7 @@ void near round_C8C4(void)
     }
     available_p2 -= static_cast<int>(charged_p2);
     if(available_p2 > 0) {
-        if(!players[1].hyper_active || (round_or_result_frame & 1))
+        if(!players[1].hyper_active || ((static_cast<unsigned int>(round_or_result_frame) % 2) != 0))
             grcg_setcolor(GC_RMW, 9);
         else grcg_setcolor(GC_RMW, 15);
         // Genuine B3F6 input contract; do not name C locals inside asm.
@@ -138,6 +138,8 @@ void far pascal round_C9FE(pid_t player)
     warning_flag[player] = WF_FLASH_WHITE;
 }
 
+// The 27-frame physical flash loop preserves its original signed
+// frame local; unsigned parity only describes the actual low bit.
 void far round_CA3C(void)
 {
     register int frame;
@@ -172,7 +174,7 @@ void far round_CA3C(void)
         input_reset_sense_key_held();
         if(input_sp & INPUT_CANCEL) round_pause_or_quit();
         frame_delay(1);
-        PaletteTone = 100 + (frame & 1) * 50;
+        PaletteTone = 100 + (static_cast<unsigned int>(frame) % 2) * 50;
         palette_show();
     }
 }
@@ -200,6 +202,9 @@ void near pascal warning_text_put(pid_t player, unsigned int attribute)
 // No new allocation, symbol, global enum change, or widened access.
 #define warning_flag_bytes (reinterpret_cast<unsigned char near *>(warning_flag))
 
+// Original two-stage warning fade plus active Gauge brightness wave.
+// The completion branch deliberately executes the active update
+// on the same tick, rather than starting it one frame later.
 void far pascal round_CB81(pid_t player)
 {
     unsigned int x;
@@ -215,7 +220,7 @@ void far pascal round_CB81(pid_t player)
             else warning_brightness[player] -= 13;
             warning_flag_bytes[player]++;
             attribute_or_y = 1;
-            if(warning_flag_bytes[player] & 1) {
+            if((static_cast<unsigned int>(warning_flag_bytes[player]) % 2) != 0) {
                 if(gba_flag_next[player] == GBAF_GAUGE_PELLET_INIT)
                     attribute_or_y = 0xA1;
                 else if(gba_flag_next[player] == GBAF_GAUGE_BULLET_INIT)
@@ -241,12 +246,8 @@ void far pascal round_CB81(pid_t player)
         } else {
             x = 4;
             if(attacked == 1) x += 40;
-            i = 0;
-            attribute_or_y = 11;
-            while(i < 6) {
+            for(i = 0, attribute_or_y = 11; i < 6; (i++, attribute_or_y++)) {
                 text_putsa(x, attribute_or_y, warning_clear_line, TX_WHITE);
-                i++;
-                attribute_or_y++;
             }
             // Preserve the original word push; the far-Pascal callee uses its low byte.
             asm {
