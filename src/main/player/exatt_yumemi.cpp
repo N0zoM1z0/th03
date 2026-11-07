@@ -20,25 +20,8 @@
 
 #pragma option -a2
 
-struct exatt_entity_t {
-	unsigned char state;       // +00
-	unsigned char frame;       // +01
-	int x;                     // +02
-	int y;                     // +04
-	int velocity_x;            // +06
-	int velocity_y;            // +08
-	int target_x;              // +0A
-	int boundary_x;            // +0C
-	int duration;              // +0E
-	unsigned char pid;         // +10
-	unsigned char unknown_11;  // +11
-	unsigned char angle;       // +12
-	unsigned char speed;       // +13
-	int radius;                // +14
-	unsigned char tail[10];    // +16..+1F
-};
-
-typedef char exatt_entity_size_must_be_20[(sizeof(exatt_entity_t) == 0x20) ? 1 : -1];
+// The same 32-byte live entity view used by the shared flight/Reimu code.
+#include "src/main/player/exatt_entity.hpp"
 
 extern exatt_entity_t exatt_entities[PLAYER_COUNT][16];
 extern exatt_entity_t near *exatt_entity_p;

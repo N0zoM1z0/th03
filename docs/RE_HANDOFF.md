@@ -91,6 +91,19 @@ formal Factory/whole-product ownership acceptance.
   not a reason to re-credit already completed cplx2 or to claim all
   893 vendor library members were independently source-linked.
 
+## Latest scoped source refresh (after598)
+
+After the frozen after596 MAIN proof, the large Yumemi Extra Attack producer
+and Mima Extra Attack producer now share `src/main/player/exatt_entity.hpp`
+instead of maintaining two redundant 32-byte record definitions. Two native
+TC4/TLINK rounds in the `af598v` overlay preserve all 2,423 CODE bytes,
+131 ordered native fixup fields, nine PUBLICs, segment definitions, the
+complete original normal MAIN EXE/MAP and 1,553 MZ relocations. See
+[review](MAIN_EXATT_ENTITY_SHARED_AFTER598_NATIVE_REVIEW.md) and
+`scripts/probe_th03_main_exatt_layout.py`. No additional accepted byte
+scope is claimed. Historical after596 receipt source pins remain frozen;
+validate new source with the scoped overlay, not by repinning that receipt.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
