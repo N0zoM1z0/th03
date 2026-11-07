@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After875: complete Chiyuri Chargeshot/Gauge native state and reset
+
+- The complete nine-function `cs_chiyu` source now uses natural
+  `while` for all five original projectile loops, including the
+  staggered update's clip `continue` and the collision tester's
+  **five separate `continue` index/pointer paths**. Original eight
+  6-byte projectiles per player, signed stagger ages, clipping and
+  hitbox margins remain source-native exact.
+- Genuine original TC4 negative controls: sprite byte `anim &1` cannot
+  be replaced by `%2` (**1,020** vs original **1,011** CODE, `af875d`);
+  and the reset REALLY clears the *same first slot 16 times* — inserting
+  a pointer advance changes original CODE to **1,014** (`af875g`).
+  Original behavior preserved. Gauge `%16` natural truth spelling passes.
+  Final `af875h` compiles/links all nine original functions twice:
+  **1,011 CODE bytes, 96 ordered native FIXUPPs, 9 PUBLICs**, exact
+  Japanese MAIN/1,553 relocations; 98 other game objects/CRT reused.
+  See [after875 Chiyuri Chargeshot review](MAIN_CHIYURI_CHARGESHOT_NATIVE_STATE_AFTER875_REVIEW.md).
+  Existing source-covered CODE; no new distinct/Factory credit.
+
 ## After874: Rikako complete Extra Attack homing and fourteen-slot control
 
 - Complete five-function `ex_rika` has **natural `while` across all four

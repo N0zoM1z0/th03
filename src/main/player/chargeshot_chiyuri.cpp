@@ -1,4 +1,5 @@
-// Maintained exact natural Turbo C++ reconstruction of TH03 MAIN_07_TEXT.
+// Complete current-source exact native Turbo C++ reconstruction of the
+// original Chiyuri Chargeshot/Gauge owner in TH03 MAIN_07_TEXT.
 #pragma codeseg MAIN_07_TEXT
 
 #include <stddef.h>
@@ -21,6 +22,15 @@ enum chiyuri_charge_limits_t {
     CHIYURI_CHARGE_INACTIVE_AGE = 0,
     CHIYURI_CHARGE_ACTIVE_AGE = 1,
     CHIYURI_GAUGE_BOMB_PERIOD = 16,
+    CHIYURI_CHARGE_INITIAL_AGE_STEP = 4,
+    CHIYURI_CHARGE_INITIAL_AGE_BASE = 2,
+    CHIYURI_CHARGE_FLY_SPEED = 0xE0,
+    CHIYURI_CHARGE_CLIP_TOP = TO_SP(-48),
+    CHIYURI_CHARGE_HIT_MARGIN_X = TO_SP(14),
+    CHIYURI_CHARGE_HIT_MARGIN_BOTTOM = TO_SP(32),
+    CHIYURI_CHARGE_HIT_MARGIN_TOP = TO_SP(-16),
+    CHIYURI_CHARGE_RENDER_WIDTH = 32,
+    CHIYURI_CHARGE_RENDER_HEIGHT = 48,
 };
 
 struct chiyuri_chargeshot_t {
@@ -62,10 +72,13 @@ extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 void far chargeshots_reset_chiyuri(void)
 {
 	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[0][0];
-	for(int i = 0; i < CHIYURI_CHARGE_TOTAL_SLOTS; ++i) {
-		// Original-game quirk: only the first physical slot is cleared
-		// repeatedly. Advancing p would change gameplay and CODE.
+	int i = 0;
+	while(i < CHIYURI_CHARGE_TOTAL_SLOTS) {
+		// Original-game quirk: this loop clears only the first physical
+		// slot 16 times. A fresh genuine TC4 trial af875g adding p++
+		// changed original CODE: do NOT silently repair this behavior.
 		p->age = CHIYURI_CHARGE_INACTIVE_AGE;
+		++i;
 	}
 }
 
@@ -77,8 +90,11 @@ void far pascal chargeshot_add_chiyuri(Subpixel center_x, Subpixel center_y)
 	p->center.y.v = center_y.v;
 	players[pid.current].shot_active = SA_DISABLED;
 
-	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, p++)) {
-		p->age = ((i * 4) + 2);
+	int i = 0;
+	while(i < CHIYURI_CHARGE_SLOTS_PER_PLAYER) {
+		p->age = ((i * CHIYURI_CHARGE_INITIAL_AGE_STEP) + CHIYURI_CHARGE_INITIAL_AGE_BASE);
+		++i;
+		p++;
 	}
 }
 
@@ -90,7 +106,11 @@ void far pascal chargeshot_update_chiyuri(void)
 	}
 	players[pid_current].gauge_charged = 0;
 
-	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, p--)) {
+	// Original backward eight-projectile update: the clip/continue
+	// path advances the same signed index and descending near pointer
+	// as the normal byte-animation path. Natural while is exact (af875b).
+	int i = 0;
+	while(i < CHIYURI_CHARGE_SLOTS_PER_PLAYER) {
 		if(!p->age) {
 			return;
 		}
@@ -102,22 +122,28 @@ void far pascal chargeshot_update_chiyuri(void)
 				snd_se_play(15);
 			}
 		} else {
-			p->center.y.v -= 0xE0;
-			if(p->center.y.v < TO_SP(-48)) {
+			p->center.y.v -= CHIYURI_CHARGE_FLY_SPEED;
+			if(p->center.y.v < CHIYURI_CHARGE_CLIP_TOP) {
 				if(i == 0) {
 					players[pid_current].shot_active = SA_ENABLED;
 				}
 				p->age = CHIYURI_CHARGE_INACTIVE_AGE;
+				++i;
+				p--;
 				continue;
 			}
 		}
 		p->anim++;
+		++i;
+		p--;
 	}
 }
 
 void near chiyuri_chargeshot_private(void)
 {
 	sprite16_offset_t so = (pid.so_attack + 0x280);
+	// Byte-valued animation must retain this bit mask: replacing it
+	// with natural byte %2 generated non-original CODE in af875d.
 	if(chiyuri_chargeshot_p->anim & 1) {
 		so += 4;
 	}
@@ -136,27 +162,42 @@ uint8_t far chargeshot_hittest_chiyuri(void)
 	int i = 0;
 	unsigned char hits = 0;
 
-	for(; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, p--)) {
+	// Five original short-circuit reject cases all preserve the same
+	// signed-index and near-pointer continuation before the next test.
+	// A complete native while with those paths matches TC4 (af875c).
+	while(i < CHIYURI_CHARGE_SLOTS_PER_PLAYER) {
 		if(!p->age) {
 			return hits;
 		}
 		if(p->age != CHIYURI_CHARGE_ACTIVE_AGE) {
+			++i;
+			p--;
 			continue;
 		}
-		if((p->center.x.v - hitbox.right.v) > TO_SP(14)) {
+		if((p->center.x.v - hitbox.right.v) > CHIYURI_CHARGE_HIT_MARGIN_X) {
+			++i;
+			p--;
 			continue;
 		}
-		if((hitbox.origin.topleft.x.v - p->center.x.v) > TO_SP(14)) {
+		if((hitbox.origin.topleft.x.v - p->center.x.v) > CHIYURI_CHARGE_HIT_MARGIN_X) {
+			++i;
+			p--;
 			continue;
 		}
-		if((p->center.y.v - hitbox.bottom.v) > TO_SP(32)) {
+		if((p->center.y.v - hitbox.bottom.v) > CHIYURI_CHARGE_HIT_MARGIN_BOTTOM) {
+			++i;
+			p--;
 			continue;
 		}
-		if((hitbox.origin.topleft.y.v - p->center.y.v) > TO_SP(-16)) {
+		if((hitbox.origin.topleft.y.v - p->center.y.v) > CHIYURI_CHARGE_HIT_MARGIN_TOP) {
+			++i;
+			p--;
 			continue;
 		}
 		hitcircles_enemy_add(p->center.x.v, p->center.y.v, hitbox.pid);
 		hits++;
+		++i;
+		p--;
 	}
 	return hits;
 }
@@ -164,16 +205,19 @@ uint8_t far chargeshot_hittest_chiyuri(void)
 void far pascal chargeshot_render_chiyuri(void)
 {
 	chiyuri_chargeshot_p = &chiyuri_chargeshots[pid_current][CHIYURI_CHARGE_LAST_SLOT];
-	sprite16_put_size.set(32, 48);
+	sprite16_put_size.set(CHIYURI_CHARGE_RENDER_WIDTH, CHIYURI_CHARGE_RENDER_HEIGHT);
 	sprite16_clip_set_for_pid(pid_current);
 
-	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, chiyuri_chargeshot_p--)) {
+	int i = 0;
+	while(i < CHIYURI_CHARGE_SLOTS_PER_PLAYER) {
 		if(!chiyuri_chargeshot_p->age) {
 			return;
 		}
 		if(chiyuri_chargeshot_p->age == CHIYURI_CHARGE_ACTIVE_AGE) {
 			chiyuri_chargeshot_private();
 		}
+		++i;
+		chiyuri_chargeshot_p--;
 	}
 }
 
@@ -204,7 +248,9 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 
 	// The historical unsigned-byte %16 condition is codegen-visible:
 	// a direct &15 mask changed original TC4 CODE (af771c).
-	if((chiyuri_gauge_frame[pid_current] % CHIYURI_GAUGE_BOMB_PERIOD) == 0) {
+	// This *different* byte-valued Gauge `%16` condition safely uses
+	// natural `if(!(frame %16))` under original TC4 (af875e).
+	if(!(chiyuri_gauge_frame[pid_current] % CHIYURI_GAUGE_BOMB_PERIOD)) {
 		chiyuri_gauge_x[pid_current] += TO_SP(24);
 		x += TO_SP(24);
 		bomb_center_add(x, 0, pid_other);
