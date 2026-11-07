@@ -73,6 +73,17 @@ enum kotohime_boss_mode_t {
     KOTOHIME_MODE_EXPLODE = 0xFF,
 };
 
+// The intro transition, shared ring display and alternating sprites
+// belong to the entire BOSS controller, not an unrelated render leaf.
+enum kotohime_boss_timing_t {
+    KOTOHIME_INTRO_FINISH_FRAME = 0x64,
+    KOTOHIME_INTRO_BLINK_END_FRAME = 0x40,
+    KOTOHIME_RENDER_FLICKER_PERIOD = 4,
+    KOTOHIME_RENDER_ALT_FRAMES = 2,
+    KOTOHIME_INTRO_RING_COUNT = 8,
+    KOTOHIME_PELLET_RING_COUNT = 4,
+};
+
 void far pascal boss_kotohime_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -228,7 +239,7 @@ void near kotohime_pattern_pellet_arc(void)
 		bullet_template.angle = (unsigned char)boss_frame;
 		bullet_template.speed.v = kotohime_pellet_speed;
 		bullet_template.group = BG_RING;
-		bullet_template.count = 4;
+		bullet_template.count = KOTOHIME_PELLET_RING_COUNT;
 
 		bullet_template.center.x.v = (boss_center_x - TO_SP(48));
 		bullet_template.center.y.v = boss_center_y;
@@ -356,7 +367,7 @@ void far gba_boss_update_kotohime(void)
 
 	switch(boss_mode) {
 	case KOTOHIME_MODE_INTRO:
-		if(boss_frame != 0x64) {
+		if(boss_frame != KOTOHIME_INTRO_FINISH_FRAME) {
 			return;
 		}
 		boss_frame = 0;
@@ -433,7 +444,7 @@ void near pascal kotohime_render_ring(int count)
 
 	radius = boss_effect_radius;
 	sprite_offset = (pid.so_attack + 0x502);
-	if((boss_render_mode == 2) && ((boss_frame % 4) < 2)) {
+	if((boss_render_mode == 2) && ((boss_frame & (KOTOHIME_RENDER_FLICKER_PERIOD - 1)) < KOTOHIME_RENDER_ALT_FRAMES)) {
 		sprite_offset += 0xA00;
 	}
 
@@ -492,7 +503,7 @@ void near kotohime_render_main(void)
 
 void near pascal kotohime_render_intro(int radius)
 {
-	if((round_frame_mod2 != 0) && (boss_frame < 0x40)) {
+	if(round_frame_mod2 && (boss_frame < KOTOHIME_INTRO_BLINK_END_FRAME)) {
 		return;
 	}
 
@@ -501,7 +512,7 @@ void near pascal kotohime_render_intro(int radius)
 	boss_render_mode = 1;
 	boss_move_phase += 2;
 	boss_effect_radius = radius;
-	kotohime_render_ring(8);
+	kotohime_render_ring(KOTOHIME_INTRO_RING_COUNT);
 	boss_render_mode = 0;
 }
 
@@ -513,13 +524,13 @@ void far gba_boss_render_kotohime(void)
 
 	sprite16_clip_set_for_pid(1 - pid_current);
 
-	if(boss_mode == 0) {
+	if(boss_mode == KOTOHIME_MODE_INTRO) {
 		kotohime_render_intro(
 			TO_SP(0xC8 - (boss_frame * 2))
 		);
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != KOTOHIME_MODE_EXPLODE) {
 		kotohime_render_main();
 		return;
 	}
