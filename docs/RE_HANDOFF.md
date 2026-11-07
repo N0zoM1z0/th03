@@ -428,6 +428,22 @@ Turbo C++ emits a FAR copy call instead of the original REP MOVSW
 in `boss_update_start()`. Preserve that original machine interface.
 See [after623 shared-BOSS review](MAIN_BOSS_SHARED_NATIVE_AFTER623_REVIEW.md).
 
+### 28 complete MAIN source TUs in one genuine native link (after624)
+
+Latest `af624a` extends the validated source-rooted 26-owner link with
+both BOSS shared ring/state core objects. Two independent original
+TC4/TLINK rounds now recompile/relink **28 complete original TUs**:
+**35,376 original CODE bytes, 3,685 literal ordered native fields,
+195 PUBLICs**, original segment/BSS layouts and one Fireball initialized
+DATA byte. Both complete normal MAIN EXE/MAP outputs, all 1,553
+Japanese ordered MZ relocations and separate full Japanese MAIN
+serialization are exact. Source and shared-header OMF dependencies are
+explicitly verified; the other 71 project objects and vendor libraries
+were reused. This is not a full cold replay. See
+[after624 28-owner native proof](MAIN_28_GAMEPLAY_BOSS_OWNERS_AFTER624_NATIVE_REVIEW.md).
+No new packed-file Factory credit, historical OMF packet identity or
+untested hardware behavior claim is added.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
