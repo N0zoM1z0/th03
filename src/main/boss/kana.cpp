@@ -80,6 +80,21 @@ enum kana_boss_mode_t {
     KANA_MODE_EXPLODE = 0xFF,
 };
 
+// Timing gates shared by Kana's whole BOSS dispatcher and both sprite
+// renderers. The mutable 8-bit phase/rotation counters stay byte-accurate.
+enum kana_boss_render_timing_t {
+    KANA_INTRO_COMPLETE_FRAME = 0x64,
+    KANA_INTRO_BLINK_END = 0x20,
+    KANA_INTRO_SPRITE_COUNT = 0x10,
+    KANA_MIDDLE_PELLET_COUNT = 0x10,
+    KANA_ROTATING_RING_PERIOD = 4,
+    KANA_RENDER_ANIMATION_PERIOD = 4,
+    KANA_RENDER_ANIMATION_SHIFT = 2,
+    KANA_RENDER_WARNING_STEP_1 = 8,
+    KANA_RENDER_WARNING_STEP_2 = 0x10,
+    KANA_RENDER_WARNING_STEP_3 = 0x18,
+};
+
 void far pascal boss_kana_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -220,7 +235,7 @@ void near kana_pattern_staged_ring(void)
 			bullet_template.speed.v = TO_SP(1);
 			bullet_template.group =
 				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-			for(i = 0; i < 0x10; ++i) {
+			for(i = 0; i < KANA_MIDDLE_PELLET_COUNT; ++i) {
 				bullets_add();
 				bullet_template.angle += 6;
 				bullet_template.speed.v += 3;
@@ -341,7 +356,7 @@ void near kana_pattern_rotating_ring(void)
 		(boss_frame >= KANA_ROTATING_VOLLEY_START) &&
 		(boss_frame < KANA_ROTATING_VOLLEY_END)
 	) {
-		if((boss_frame % 4) == 0) {
+		if(!(boss_frame & (KANA_ROTATING_RING_PERIOD - 1))) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullet_template.group = BG_RING;
 			bullet_template.count = 5;
@@ -391,7 +406,7 @@ void far gba_boss_update_kana(void)
 
 	switch(boss_mode) {
 	case KANA_MODE_INTRO:
-		if(boss_frame != 0x64) {
+		if(boss_frame != KANA_INTRO_COMPLETE_FRAME) {
 			return;
 		}
 		boss_frame = 0;
@@ -499,11 +514,11 @@ void near kana_render_main(void)
 	}
 
 	sprite_offset = (boss_sprite_offset + 0xC80);
-	if(boss_render_frame < 8) {
+	if(boss_render_frame < KANA_RENDER_WARNING_STEP_1) {
 		;
-	} else if(boss_render_frame < 0x10) {
+	} else if(boss_render_frame < KANA_RENDER_WARNING_STEP_2) {
 		sprite_offset += 8;
-	} else if(boss_render_frame < 0x18) {
+	} else if(boss_render_frame < KANA_RENDER_WARNING_STEP_3) {
 		sprite_offset += 0x10;
 	} else {
 		sprite_offset += 0x18;
@@ -528,20 +543,20 @@ void near kana_render_intro(void)
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 
-	if((boss_frame < 0x20) && (round_frame_mod2)) {
+	if((boss_frame < KANA_INTRO_BLINK_END) && round_frame_mod2) {
 		return;
 	}
 
 	sprite_offset = (pid.so_attack + 0x284);
 	sprite_offset = (
 		sprite_offset +
-		((((boss_frame / 4) % 4) * 32) * 0x28)
+		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) & (KANA_RENDER_ANIMATION_PERIOD - 1)) * 32) * 0x28)
 	);
 
 	angle = boss_move_phase;
 	angle = (0 - angle);
 
-	for(i = 0; i < 0x10; (++i, angle += 0x10)) {
+	for(i = 0; i < KANA_INTRO_SPRITE_COUNT; (++i, angle += 0x10)) {
 		left = polar(
 			boss_center_x,
 			radius,
@@ -574,11 +589,11 @@ void far gba_boss_render_kana(void)
 
 	sprite16_clip_set_for_pid(1 - pid_current);
 
-	if(boss_mode == 0) {
+	if(boss_mode == KANA_MODE_INTRO) {
 		kana_render_intro();
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != KANA_MODE_EXPLODE) {
 		kana_render_main();
 		return;
 	}
