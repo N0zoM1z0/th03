@@ -95,6 +95,8 @@ void far pascal boss_kotohime_template_init(int player_id)
 	p->render_mode = 0;
 }
 
+// Full-circle angles use natural 256-step division, keeping the
+// original signed 16-bit multiply BEFORE division and byte truncation.
 void near pascal kotohime_ring_emit(int randomize_angle)
 {
 	int x;
@@ -108,7 +110,7 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 			bullet_template.angle = randring_far_next16();
 		}
 		angle = (
-			((i << 8) / kotohime_orbit_count) +
+			((i * 256) / kotohime_orbit_count) +
 			boss_move_phase
 		);
 		x = polar(
@@ -250,6 +252,8 @@ void near kotohime_pattern_pellet_arc(void)
 	}
 }
 
+// Radial burst divides each 256-step central orbit and each
+// 128-step local spread with original signed 16-bit operations.
 void near kotohime_pattern_radial_burst(void)
 {
 	int x;
@@ -282,7 +286,7 @@ void near kotohime_pattern_radial_burst(void)
 
 	for(center_i = 0; center_i < kotohime_orbit_count; center_i++) {
 		center_angle = (
-			((center_i << 8) / kotohime_orbit_count) +
+			((center_i * 256) / kotohime_orbit_count) +
 			boss_move_phase
 		);
 		x = polar(
@@ -300,7 +304,7 @@ void near kotohime_pattern_radial_burst(void)
 
 		for(bullet_i = 0; bullet_i < kotohime_burst_count; bullet_i++) {
 			bullet_template.angle = (
-				((bullet_i << 7) / kotohime_burst_count) +
+				((bullet_i * 128) / kotohime_burst_count) +
 				center_angle +
 				0x40
 			);
@@ -432,7 +436,7 @@ void near pascal kotohime_render_ring(int count)
 	sprite16_put_size.h = 16;
 
 	for(i = 0; i < count; i++) {
-		angle = (((i << 8) / count) + boss_move_phase);
+		angle = (((i * 256) / count) + boss_move_phase);
 		left = polar(
 			boss_center_x,
 			radius,

@@ -346,6 +346,8 @@ void far gba_boss_update_marisa(void)
 	boss_hittest_end();
 }
 
+// Unsigned global four-frame flicker lowers from natural %4
+// to the original masked native comparison in this renderer.
 void near marisa_render_main(void)
 {
 	sprite16_offset_t sprite_offset;
@@ -369,7 +371,7 @@ void near marisa_render_main(void)
 	if(boss_render_mode != 1) {
 		return;
 	}
-	if((round_or_result_frame & 3) < 2) {
+	if((round_or_result_frame % 4) < 2) {
 		sprite16_put_size.set(48, 80);
 		left += 64;
 		top += 16;

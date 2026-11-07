@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kotohime and Marisa complete BOSS natural angular geometry after685
+
+The real Kotohime BOSS's four full ring/radial/renderer angle
+distribution sites now use compiler-original natural C++
+`i*256`, `center_i*256` and `bullet_i*128` instead
+of `<<8`/`<<7`, with signed integer division still
+executing in original order. The full Marisa BOSS sprite
+renderer now uses natural unsigned `round_or_result_frame%4`
+flicker, generating the original masked x86 instructions.
+Both source/packed-template OMF-attested `af685c`
+original TC4/TLINK compiler rounds match **3,271 original
+CODE bytes, 461 literal ordered native fixups and
+20 PUBLICs**, whole normal MAIN/MAP and Japanese MZ.
+See [after685 Kotohime/Marisa BOSS review](MAIN_KOTOHIME_MARISA_BOSS_AFTER685_REVIEW.md).
+Only these two original physical objects recompiled,
+no cold replay or new canonical Factory packed-game
+target byte credit.
+
 ## Kana and Kotohime complete Bomb source geometry after684
 
 The two physically original CODE-only bomb sources
