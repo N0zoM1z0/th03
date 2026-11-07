@@ -97,6 +97,25 @@ enum chiyuri_boss_mode_t {
     CHIYURI_MODE_EXPLODE = 0xFF,
 };
 
+// The 16-bit frame and 8-bit render-state gates describe one whole
+// Chiyuri BOSS lifecycle, not a shared timer for all nine characters.
+enum chiyuri_lifecycle_t {
+    CHIYURI_PATTERN_END_AT = 0x80,
+    CHIYURI_INTRO_CROSS_EFFECT_FRAME = 0x50,
+    CHIYURI_INTRO_DONE_FRAME = 0x60,
+    CHIYURI_SELECT_TIME_AT = 0x30,
+    CHIYURI_PALETTE_CYCLE_START = 0x10,
+    CHIYURI_POST_ATTACK_PALETTE = 0x20,
+    CHIYURI_INTRO_RENDER_FIRST_END = 0x20,
+    CHIYURI_INTRO_RENDER_SECOND_END = 0x40,
+    CHIYURI_INTRO_RENDER_LAST_END = 0x40,
+    CHIYURI_MONO_WHITE_STEP = 4,
+    CHIYURI_MONO_COLOR5_STEP = 8,
+    CHIYURI_MONO_COLOR2_STEP = 0x0C,
+    CHIYURI_MONO_COLOR5_LATE_STEP = 0x14,
+    CHIYURI_MONO_COLOR6_LATE_STEP = 0x18,
+};
+
 void far pascal boss_chiyuri_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -147,17 +166,17 @@ void near chiyuri_pattern_cardinal(void)
 		);
 	}
 
-	else if(boss_frame >= 0x80) {
+	else if(boss_frame >= CHIYURI_PATTERN_END_AT) {
 		boss_mode = 1;
 		boss_frame = 0;
-		boss_render_mode = 0x20;
+		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 	}
 
 	bullet_template.type = BT_PELLET;
 	bullet_template.group = BG_1;
 	bullet_template.speed.v = chiyuri_cardinal_speed;
 
-	if(chiyuri_cardinal_reverse == 0) {
+	if(!chiyuri_cardinal_reverse) {
 		chiyuri_cardinal_angle += 8;
 		if(chiyuri_cardinal_angle == 0x20) {
 			chiyuri_cardinal_reverse = 1;
@@ -202,10 +221,10 @@ void near chiyuri_pattern_rings(void)
 		boss_center_x, boss_center_y, (1 - pid_current)
 	);
 
-	if(boss_frame >= 0x80) {
+	if(boss_frame >= CHIYURI_PATTERN_END_AT) {
 		boss_mode = 1;
 		boss_frame = 0;
-		boss_render_mode = 0x20;
+		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 	}
 
 	bullet_template.center.x.v = boss_center_x;
@@ -268,7 +287,7 @@ void near chiyuri_pattern_trail_ring(void)
 
 	boss_mode = 1;
 	boss_frame = 0;
-	boss_render_mode = 0x20;
+	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 }
 
 // The horizontal fans fire at 0x20 and vertical fans at 0x40;
@@ -413,15 +432,15 @@ void far gba_boss_update_chiyuri(void)
 
 	switch(boss_mode) {
 	case CHIYURI_MODE_INTRO:
-		if(boss_frame == 0x60) {
+		if(boss_frame == CHIYURI_INTRO_DONE_FRAME) {
 			boss_frame = 0;
 			boss_mode = 1;
 			bomb_palette_step(0xFF, pid_other);
-			boss_move_phase = 0x10;
-			boss_render_mode = 0x10;
+			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
+			boss_render_mode = CHIYURI_PALETTE_CYCLE_START;
 			break;
 		}
-		if(boss_frame == 0x50) {
+		if(boss_frame == CHIYURI_INTRO_CROSS_EFFECT_FRAME) {
 			bomb_center_add(
 				(boss_center_x - TO_SP(56)), boss_center_y, pid_other
 			);
@@ -440,13 +459,13 @@ void far gba_boss_update_chiyuri(void)
 		return;
 
 	case CHIYURI_MODE_SELECT:
-		if(boss_render_mode == 0x10) {
+		if(boss_render_mode == CHIYURI_PALETTE_CYCLE_START) {
 			random_i = (randring_far_next16_mod(5) * 2);
 			boss_center_x = chiyuri_boss_x_words[random_i];
 			boss_center_y = chiyuri_boss_y_words[random_i];
-			boss_move_phase = 0x10;
+			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 		}
-		if(boss_frame >= 0x30) {
+		if(boss_frame >= CHIYURI_SELECT_TIME_AT) {
 			boss_frame = 0;
 			boss_mode = (randring_far_next16_and(0x0F) + 2);
 			boss_pattern_i++;
@@ -580,7 +599,7 @@ void near chiyuri_render_main(void)
 	register sprite16_offset_t sprite_offset;
 	register screen_x_t left;
 
-	if(boss_render_mode == 0) {
+	if(!boss_render_mode) {
 		sprite16_put_size.w = 128;
 		sprite16_put_size.h = 64;
 
@@ -596,7 +615,7 @@ void near chiyuri_render_main(void)
 		left += 48;
 		top += 32;
 
-		if(boss_hit != 0) {
+		if(boss_hit) {
 			sprite16_put_size.w = 48;
 			sprite16_put_size.h = 40;
 			sprite_offset += 0x778;
@@ -604,7 +623,7 @@ void near chiyuri_render_main(void)
 			return;
 		}
 
-		if(boss_render_frame == 0) {
+		if(!boss_render_frame) {
 			return;
 		}
 
@@ -615,15 +634,15 @@ void near chiyuri_render_main(void)
 		return;
 	}
 
-	if(boss_render_mode >= 0x18) {
+	if(boss_render_mode >= CHIYURI_MONO_COLOR6_LATE_STEP) {
 		chiyuri_render_mono(6);
-	} else if(boss_render_mode >= 0x14) {
+	} else if(boss_render_mode >= CHIYURI_MONO_COLOR5_LATE_STEP) {
 		chiyuri_render_mono(5);
-	} else if(boss_render_mode >= 0x0C) {
+	} else if(boss_render_mode >= CHIYURI_MONO_COLOR2_STEP) {
 		chiyuri_render_mono(2);
-	} else if(boss_render_mode >= 8) {
+	} else if(boss_render_mode >= CHIYURI_MONO_COLOR5_STEP) {
 		chiyuri_render_mono(5);
-	} else if(boss_render_mode >= 4) {
+	} else if(boss_render_mode >= CHIYURI_MONO_WHITE_STEP) {
 		chiyuri_render_mono(6);
 	} else {
 		chiyuri_render_mono(V_WHITE);
@@ -634,7 +653,7 @@ void near chiyuri_render_intro(void)
 {
 	register int frame;
 
-	if((round_frame_mod2 != 0) && (boss_frame < 0x40)) {
+	if(round_frame_mod2 && (boss_frame < CHIYURI_INTRO_RENDER_LAST_END)) {
 		return;
 	}
 
@@ -642,12 +661,12 @@ void near chiyuri_render_intro(void)
 	// adjacent byte phase updates still require their AL expression:
 	// direct +=4, =phase+4 and -=4 changed original native code.
 	frame = boss_frame;
-	if(frame < 0x20) {
+	if(frame < CHIYURI_INTRO_RENDER_FIRST_END) {
 		boss_effect_radius = (0x100 - (frame * 8));
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
-	} else if(frame < 0x40) {
+	} else if(frame < CHIYURI_INTRO_RENDER_SECOND_END) {
 		boss_effect_radius = (0x200 - (frame * 8));
 		_AL = boss_move_phase;
 		_AL += (unsigned char)0xFC;
@@ -699,11 +718,11 @@ void far gba_boss_render_chiyuri(void)
 
 	sprite16_clip_set_for_pid(1 - pid_current);
 
-	if(boss_mode == 0) {
+	if(boss_mode == CHIYURI_MODE_INTRO) {
 		chiyuri_render_intro();
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != CHIYURI_MODE_EXPLODE) {
 		chiyuri_render_main();
 		return;
 	}
