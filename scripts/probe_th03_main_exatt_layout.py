@@ -39,6 +39,7 @@ SOURCES = {
     'hud_stat': 'src/main/hud/static.cpp',
     'initmain': 'src/main/core/initmain.cpp',
     'snd_se': 'src/main/sound/se.cpp',
+    'input_s': 'src/main/hardware/input_sense.cpp',
     'inp_m_w': 'src/main/hardware/input_modes.cpp',
     'snd_kaja': 'src/main/sound/kaja.cpp',
     'pi_load': 'src/main/formats/pi_load.cpp',
@@ -229,7 +230,7 @@ MAP_ROWS = {
     'ba_sring':5, 'ba_srest':5,
     'frmdely1':3, 'execl':4,
     'hud_stat':3, 'initmain':3, 'snd_se':3, 'polar':3, 'cfg_lres':3,
-    'inp_m_w':3, 'snd_kaja':3, 'pi_load':3, 'exit':3,
+    'input_s':3, 'inp_m_w':3, 'snd_kaja':3, 'pi_load':3, 'exit':3,
     'e_fireb':3, 'e_expl':3, 'bullet':4,
     'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,
 }
@@ -454,7 +455,7 @@ def main():
             response=parent.response(n)
             for u in units:
                 oldpath=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
-                         else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_') and u not in BOSS_SHARED_UNITS
+                         else f'probe\\af567c\\r{n}-{u}.obj' if (u=='input_s' or (u.startswith('ba_') and u not in BOSS_SHARED_UNITS))
                          else f'probe\\{ORIGINAL_STAGES[u]}\\r{n}\\{u}.obj' if u in ORIGINAL_STAGES
                          else ORIGINAL_OBJECT_PATHS[u].replace('/', chr(92)) if u in ORIGINAL_OBJECT_PATHS
                          else f'obj\\th03\\{u}.obj').encode()

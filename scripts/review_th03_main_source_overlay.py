@@ -33,7 +33,7 @@ def expected_response(stage, n, units):
     rsp=parent.response(n)
     for u in units:
         old=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
-             else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_') and u not in BOSS_SHARED_UNITS
+             else f'probe\\af567c\\r{n}-{u}.obj' if (u=='input_s' or (u.startswith('ba_') and u not in BOSS_SHARED_UNITS))
              else f'probe\\{ORIGINAL_STAGES[u]}\\r{n}\\{u}.obj' if u in ORIGINAL_STAGES
              else ORIGINAL_OBJECT_PATHS[u].replace('/', chr(92)) if u in ORIGINAL_OBJECT_PATHS
              else f'obj\\th03\\{u}.obj').encode()

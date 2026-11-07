@@ -49,6 +49,13 @@ inline char input_peekb(unsigned int segment, unsigned int offset)
     return *((char far *)((void __seg *)(segment) + (void near *)(offset)));
 }
 
+// BIOS state is scanned twice; the original short port-delay loop runs
+// between these two passes. Never remove the original zero-distance jump.
+enum input_native_sampling_t {
+    INPUT_BIOS_SCAN_PASSES = 2,
+    INPUT_BIOS_PORT_DELAY_LOOPS = 1024,
+};
+
 #define FLAGS_ZERO (_FLAGS & 0x40)
 
 void far __cdecl input_reset_sense_key_held(void)
@@ -60,10 +67,10 @@ void far __cdecl input_reset_sense_key_held(void)
     // codestring, it does not inject target bytes or claim the trailing NOP.
     _asm { jmp sense; }
 sense:
-    _BL = 2;
+    _BL = INPUT_BIOS_SCAN_PASSES;
     _ES = 0;
 
-    do {
+    for(;;) {
         _AH = input_peekb(_ES, KEYGROUP_7);
         if(_AH & K7_ARROW_UP) {
             input_sp |= INPUT_UP;
@@ -177,11 +184,11 @@ sense:
             break;
         }
 
-        _CX = 1024;
+        _CX = INPUT_BIOS_PORT_DELAY_LOOPS;
 delay_loop:
         asm {
             out 0x5F, al;
             loop delay_loop;
         }
-    } while(1);
+    }
 }
