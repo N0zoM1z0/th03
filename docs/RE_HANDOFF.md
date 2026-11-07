@@ -10,8 +10,19 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest current-source affected-scope MAIN proof: `af721a`.** Two
-  independent original TC4 4.02 / TLINK rounds simultaneously rebuilt
+- **Latest current-source affected-scope MAIN proof: `af724a`.** Two
+  independent original TC4 4.02 / TLINK rounds **simultaneously rebuilt
+  seven complete current original physical TUs**: three large Marisa/Mima/
+  Ellen BOSSes, complete `intro` HUD, Bullet engine, newly directly
+  source-proved original `initmain` and `hud_stat`. All **9,792 initialized
+  CODE bytes, 1,055 ordered native FIXUPPs and 59 PUBLIC offsets**,
+  original segment/group ABI and native source dependencies, full normal
+  MAIN EXE/MAP, Japanese loaded image and all 1,553 ordered relocations
+  matched. 92 other original project objects and CRT were reused. The
+  independent standard MZ serializer reproduced the complete original
+  130,882-byte Japanese MAIN.EXE. No full cold replay.
+- **Earlier `af721a` five-source integration remains separately retained.**
+  Two independent original TC4/TLINK rounds rebuilt
   **five genuinely modified complete original physical TUs**: Marisa,
   Mima and Ellen **large BOSSes**, full `intro` HUD particle/animation
   and the complete Bullet/trail engine. All **9,191 CODE bytes, 1,030
@@ -21,11 +32,11 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   project objects and original CRT were reused, **not recompiled**.
   Independent standard MZ serialization reproduced the complete original
   130,882-byte Japanese MAIN.EXE.
-- **Previous current-source checkpoint retained separately:** `af715a`
+- **Earlier four-source checkpoint retained separately:** `af715a`
   compiled four complete modified TUs together: Yumemi/Chiyuri **BOSSes**,
   main `entry`/stage/frame scheduler and full CPU movement/dodge logic.
   That retained scope matched 9,139 original CODE bytes, 1,221 ordered
-  fixups and 33 PUBLICs. It was not rebuilt again in after721. This is
+  fixups and 33 PUBLICs. It was not rebuilt again in after721/724. This is
   **not** an additional disjoint byte-ownership count.
 - **New source-binding routes:** the scoped native compiler now accepts
   both the full `entry` physical TU with its four current included `.inl`
@@ -37,7 +48,11 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   large radial/three-strip controllers, Bullet loops and HUD particle
   state machine have newly source-verified natural C++ operations. The
   register-specific hardware instructions that could not compile exactly
-  from C++ are intentionally retained; see negative stages.
+  from C++ are intentionally retained; see negative stages. The current
+  compiler additionally binds original `initmain` and `hud_stat` source
+  owners, whose direct original compiler segment/BSS and fixup contracts
+  were newly source-verified. `hud_stat` cannot declare an extra C++
+  `main_01` group without changing its original OMF relocation frames.
 - **Previous after709 proof remains separately retained:** `af709a`
   rebuilt five original Kana/split-shared-BOSS/core/lose TUs (6,622 CODE,
   701 ordered FIXUPPs and 42 PUBLICs) in two rounds, with original MAIN/MAP
@@ -45,7 +60,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   covered **58 original physical source TUs, 66,407 CODE bytes, 7,303
   fixups and 367 PUBLICs**. These are a historical deduplicated union of
   separate native proofs, **not** a simultaneous 58-object compiler run or
-  an independently recomputed after715 coverage figure. Entry had already
+  an independently recomputed after724 coverage figure. Entry had already
   been source-proved historically in after594; no duplicate distinct-owner
   count is claimed here.
 - **Frozen parent/full MAIN:** ordinary after596 original 99-object source-
@@ -61,7 +76,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the combined after721 five-source review](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
+Read [the current after724 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
+[the earlier after721 five-source review](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
 [the previous after715 four-source review](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
 and [the historical after709 union](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
 for exact scopes, controls, provenance and replay limitations.
@@ -73,6 +89,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af724a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af715a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af709a
@@ -82,8 +99,9 @@ git diff --check
 ```
 
 The latest protected read-only proof root is
-`.analysis/work/exatt-layout-af721a/report.json`, including both actual
-rounds and all three HUD `.inl` dependency snapshots.
+`.analysis/work/exatt-layout-af724a/report.json`, including both actual
+rounds, the two newly bound physical owners and all three HUD `.inl`
+dependency snapshots. The earlier five-source `af721a` proof is retained.
 Earlier protected proof `.analysis/work/exatt-layout-af715a/report.json`
 remains source-bound and unchanged.
 Evidence roots (ignored but **protected**) also include
@@ -92,7 +110,8 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [after721 current integration report](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
+Review the [after724 current seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
+[after721 prior five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
 [after715 prior integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER715_REVIEW.md)
 and [after709 cumulative report](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
 for numbers, limits and exact commands. A new rebuild needs a **fresh
