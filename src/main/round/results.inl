@@ -52,6 +52,9 @@ void near round_match_result_render(void)
                 extends_gained = 255;
             }
             value = result_bonus_remaining / RESULTS_BONUS_DURATION;
+            // Original 32-bit value is compared with an unsigned long
+            // 65535 boundary; rewriting to >=65536UL changed TC4 CODE
+            // (af895b) even for mathematically equivalent integer data.
             if(value > 65535UL) {
                 result_bonus_step = 65535U;
             } else {
@@ -89,7 +92,10 @@ void near round_match_result_render(void)
         hud_dynamic_5_digit_points_put(x + 192, 160, 0, 12);
     }
     round_result_high_digits_put(x + 184, 160, result_bonus_high, 12);
-    if((long)result_bonus_step < result_bonus_remaining) {
+    // Preserve the original signed long comparison and score-add
+    // ordering. Native TC4 also accepts this natural reversed operand
+    // order (af895c), with the same 16-bit step and 32-bit remaining.
+    if(result_bonus_remaining > (long)result_bonus_step) {
         score_add(result_bonus_step, winner);
         result_bonus_remaining -= result_bonus_step;
     } else if(result_bonus_remaining > 0) {

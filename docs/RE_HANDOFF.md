@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After895: round reset leaf and complete original result scoreboard
+
+- The original `results` physical owner, comprising actual maintained
+  `results.cpp`, `objects_reset.inl` and `results.inl`, now uses natural
+  `while` for the small but real **shot-pair + all EFE-slot reset** leaf,
+  including exact near-pointer/index order. The complete original
+  result renderer still performs 32-bit bonus amortization, and its
+  final signed-long comparison can naturally swap operands while
+  retaining the explicit `(long)` cast.
+- Real original TC4 negative: changing the 32-bit cap `>65535UL` to
+  `>=65536UL` changed CODE at offset 610 (`af895b`), so the original
+  threshold stays. Final `af895d` passes two genuine original TC4/full
+  normal TLINK rounds: **1,060 CODE bytes, 89 ordered native FIXUPPs,
+  3 PUBLICs**, full Japanese MAIN/1,553 MZ relocations exact. 98 other
+  project objects/CRT reused. See
+  [after895 reset/results review](MAIN_RESULTS_RESET_NATIVE_AFTER895_REVIEW.md).
+  Existing historical CODE coverage, not new distinct/Factory credit.
+
 ## After894: exact Rikako Bomb row and live 16-bit line-offset phase
 
 - The full physical `b_rika` 546-CODE-byte Bomb controller now uses a
