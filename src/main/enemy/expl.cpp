@@ -58,8 +58,15 @@ uint8_t far __cdecl explosions_hittest(void)
     expl_p = efes;
     explosion_collision_in_last_hittest = false;
 
-    for(i = 0; i < EFE_COUNT; (++i, expl_p++)) {
+    // Full real Enemy/Fireball explosion carrier traversal. All six
+    // early-continue paths advance the original signed 16-bit index
+    // and near pointer before the next check. This natural while
+    // matches genuine original TC4 byte-for-byte (af902a).
+    i = 0;
+    while(i < EFE_COUNT) {
         if(expl_p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) {
+            ++i;
+            expl_p++;
             continue;
         }
 
@@ -70,15 +77,22 @@ uint8_t far __cdecl explosions_hittest(void)
                 (expl_p->explosion_max_enemy_hits_half * 2)
             ))
         )) {
+            ++i;
+            expl_p++;
             continue;
         }
 
         if(expl_p->pid != hitbox.pid) {
+            ++i;
+            expl_p++;
             continue;
         }
         // Byte-valued animation cadence retains its original bit test.
-        // Natural byte %4 changes the real original TC4 CODE (af846a).
+        // Natural byte %4 independently changed real original CODE
+        // again in af902c (as in prior af846a).
         if(expl_p->frame & (EXPLOSION_HIT_PERIOD - 1)) {
+            ++i;
+            expl_p++;
             continue;
         }
 
@@ -86,6 +100,8 @@ uint8_t far __cdecl explosions_hittest(void)
         x.v = (expl_p->center.x.v - extent.v);
         y.v = (expl_p->center.y.v - extent.v);
         if((hitbox.right.v < x.v) || (hitbox.bottom.v < y.v)) {
+            ++i;
+            expl_p++;
             continue;
         }
 
@@ -97,16 +113,21 @@ uint8_t far __cdecl explosions_hittest(void)
             (hitbox.origin.topleft.x.v > x.v) ||
             (hitbox.origin.topleft.y.v > y.v)
         ) {
+            ++i;
+            expl_p++;
             continue;
         }
 
         explosion_collision_chain_slot = expl_p->chain_slot;
         if(explosion_hittest_against == EHA_ENEMY) {
+            // Original byte flag postfix is CODE-visible. Prefix
+            // ++expl_p->flag changed original TC4 instructions (af902d).
             expl_p->flag++;
         } else {
             hits = chains.hits[hitbox.pid][explosion_collision_chain_slot];
-            // Preserve a strict uint8 saturation comparison: even a
-            // semantically equivalent !=255 changed TC4 CODE (af846b).
+            // Preserve strict uint8 saturation <255; semantically
+            // equivalent !=255 again changed CODE (af902b), so the
+            // original full chain counter condition stays intact.
             if(hits < EXPLOSION_HITS_SATURATION) {
                 hits++;
             }
@@ -183,6 +204,9 @@ uint8_t far __cdecl explosions_hittest(void)
 
         ++collision_count;
         explosion_collision_in_last_hittest = true;
+        // The success path also advances both original registers.
+        ++i;
+        expl_p++;
     }
     return collision_count;
 }

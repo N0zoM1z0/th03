@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After902: full explosion-chain collision engine and six native continue paths
+
+- Original `e_expl` full 630-CODE-byte far-`__cdecl` collision/chain
+  engine now expresses its entire Enemy/Fireball EFE hit scan as a natural
+  `while`, with **all six distinct early-continue near-pointer/index
+  updates** and the original successful-hit score/Gauge/BOSS/chain work.
+- Fresh genuine native TC4 negative controls: changing the strict
+  uint8 `hits <255` to `!=255` changed original CODE (`af902b`), the
+  byte animation `frame &3` to `%4` emitted **639** vs **630** bytes
+  (`af902c`), and byte explosion flag postfix to prefix generated
+  **634** (`af902d`). All reverted. Final `af902e` passes two real
+  original TC4/normal full TLINK rounds: **630 CODE bytes, 49 literal
+  ordered native FIXUPPs, one PUBLIC**, complete Japanese MAIN and all
+  1,553 relocations exact; 98 other original project objects/CRT reused.
+  See [after902 original explosion engine review](MAIN_EXPLOSION_NATIVE_SIX_SKIP_AFTER902_REVIEW.md).
+  Already source-owned original CODE, not new unique/Factory credit.
+
 ## After901: complete shotpair hitbox collision leaf, real byte/word semantics
 
 - The original single-function `hitbox` 266-CODE-byte physical owner
