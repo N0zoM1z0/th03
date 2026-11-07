@@ -70,36 +70,40 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
 ## Maintenance and handing off
 
-The [current handoff](docs/RE_HANDOFF.md) starts at the validated **after554**
-MAINL link, retaining the after548 shared runtime. MAINL has **220 reviewed
-extents / 290 procedures / 37,968 source bytes**. The compiler library has
-**893/893 source-bound slots / 209,272 CODE-extent bytes**, including unlinked
-members; those totals are not authored-game credit or a whole-game denominator.
-Formal MAINL canonical Factory acceptance remains **0/250**.
+The [current, concise handoff](docs/RE_HANDOFF.md) starts from the
+after596 MAIN and after587 MAINL source-native links, not the historical
+after554/after565 publication baseline. [The archived after596 chronology](docs/RE_HANDOFF_ARCHIVE_AFTER596.md)
+preserves the full sequence of experiments, native receipts and limitations.
 
-The unfinished after555 research was archived outside the product tree; it was
-never built or accepted. Read its [research note](docs/AFTER555_UNBUILT_RESEARCH.md)
-before restoring any draft. Historical recipes and evidence remain frozen.
+MAIN's latest normal source-native linker reconstructs the complete
+124,642-byte Japanese loaded program and all 1,553 ordered MZ relocations.
+A **separate standard DOS MZ serializer** then reproduces the entire
+original 130,882-byte Japanese MAIN.EXE; this does not prove that the
+historic compiler/linker used the same header format. MAINL's latest
+source-native link reproduces the entire 67,372-byte decoded Japanese
+MAINL EXE and all 677 ordered relocations. Neither establishes
+canonical packed-file Factory acceptance or complete historical source
+ownership. MAINL's current decoded publication is 220 reviewed extents
+and 37,968 reviewed bytes; its formal packed-unit credit remains 0/250.
 
-```sh
-git status -sb
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_text_banks_work.py
-.venv/bin/python scripts/clean_generated.py --caches-only # optional preview
-```
+To verify this checkout without replaying unchanged source or toolchains:
 
-The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) separates the historical
-applied after520 deletion audit from current after554 evidence. The old deletion
-guard **rejects this checkout**; its 258-stage / 5,760-file count describes the
-old prefix, not today's complete DAG. Native output pruning requires a fresh
-source-DAG/hash audit. Cache-only cleanup leaves `.analysis` intact. The latest
-handoff maintenance also repacks Git with `--no-prune` and verifies that every
-Git object and every private work artifact remains present and unchanged.
+    git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts       .venv/bin/python scripts/review_th03_main_yumemi_cpu_after596_work.py
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts       .venv/bin/python scripts/review_th03_mainl_score_input_pi_after587_work.py
+    .venv/bin/python scripts/progress.py --check
+    .venv/bin/python scripts/validate_tracking.py
+    git diff --check
 
-Preserve targets, Wine/Borland tools, Ghidra/JDK, both complete raw native rounds,
-writer logs, source provenance and reference archives. Never blanket-apply
-`clean_generated.py --apply`, prune unreferenced receipts or infer disposability
-from age. Avoid unchanged full cold/runtime replay. Commit substantive work as
-`gpt-web: xxx`; push only when requested.
+The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
+the historical applied after520 deletion audit (258 stages / 5,760
+protected native files) from current retained evidence, and records
+subsequent **audited disposable-only maintenance**. Do not apply the
+old cleanup script to a newer source graph or delete full old
+compiler stages by age. Cache-only cleanup is separate from original
+evidence retention; preserve Japanese targets, installed Wine/Borland
+tools, source root, native OBJ/EXE/MAP, both rounds, scripts/receipts
+and writer logs. Prefer changed-scope validation, not full cold replay.
 
 Historical details: [after554 handoff archive](docs/RE_HANDOFF_ARCHIVE_AFTER554.md),
 [after520 storage record](docs/STORAGE_HANDOFF_AFTER520.md) and
