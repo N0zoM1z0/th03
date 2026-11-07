@@ -6,6 +6,20 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Ellen seven-sample orbit/trail Extra Attack after642
+
+The six-function Ellen Extra Attack uses 12 original 30-byte physical
+slots per player, each a near entity pointer plus two seven-word
+history arrays. Native TC4 checks the +02/+10 history offsets and
+30-byte stride. The large orbit/history/collision update's descending
+history copy and seven-sample flight completion loops, plus the
+four-sprite renderer's 6/4/2/0 loop, are now natural C++ for-loops.
+The actual source/header-attested `af642c` two-round TC4/TLINK
+proof reproduces all **1,129 CODE bytes, 79 ordered fields, six
+PUBLICs**, original complete MAIN/MAP/Japanese MZ. Read
+[after642 Ellen Extra Attack review](MAIN_ELLEN_EXATT_TRAIL_AFTER642_NATIVE_REVIEW.md).
+No full cold replay or new canonical byte credit.
+
 ## Mima full Extra Attack signed/unsigned parity after641
 
 The main Mima Extra Attack rebound/collision/update owner now
