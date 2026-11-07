@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After918: complete Kana Extra Attack, two distinct allocator codegen paths
+
+- Full five-function `ex_kana` original owner: the entire eight-entity
+  flight/clip/accelerated-bullet update and all-eight renderer now use
+  native-exact natural `while` with two early-continue pointer/index
+  paths; the **special** first-free allocator also accepts `while`,
+  whereas the ordinary `for/continue/return` does not. The byte 16-frame
+  bullet cadence accepts natural `if(!remainder)`, and real RNG/sprite
+  geometry is source-named without changing draw order.
+- Fresh TC4 negatives: changing both allocator loops or just the
+  ordinary one to `while` emitted **665 vs original 663 CODE bytes**
+  (`af918b/c`); byte frame postfix→prefix emitted **668** (`af918h`),
+  and sprite frame `/4`→`>>2` changed original CODE (`af918i`).
+  Final `af918j` passes two original TC4/full normal MAIN TLINK rounds:
+  **663 CODE bytes, 44 ordered native FIXUPPs, five PUBLICs**, complete
+  Japanese MAIN and 1,553 MZ relocations exact; 98 other original
+  game objects/CRT reused. See
+  [after918 Kana Extra Attack review](MAIN_KANA_EXATT_NATIVE_ENTITY_AFTER918_REVIEW.md).
+  Already source-owned bytes, no new distinct/Factory credit.
+
 ## After917: complete CPU collision dodge/retry and target strategy
 
 - Original four-function `p_cpu` owner now uses native-exact natural
