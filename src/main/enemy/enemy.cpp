@@ -174,6 +174,9 @@ void pascal enemies_add(
 )
 {
 	enemy_t near *p = enemies;
+	// NOTE: unlike the other full enemy loops, the first-free-slot
+	// allocator's `for/continue/break` is codegen-sensitive. An explicit
+	// `while` continuation changed eforna CODE (af890c), so keep it.
 	for(int i = 0; i < ENEMY_COUNT; (i++, p++)) {
 		if(p->flag != EFF_FREE) {
 			continue;
@@ -278,11 +281,13 @@ void pascal near enemy_formation_spawn(
 	// The signed script index and the physical byte formation index
 	// must advance in the same post-call order. This real C++ for-loop
 	// compiles to the original enemy_formation_spawn machine code.
-	for(;
-		enemy_formation_i < formation_enemy_count[formation_type];
-		(enemy_formation_i++, script_i++)
-	) {
+	// The unsigned byte formation counter and signed script index advance
+	// together AFTER the real same-segment enemy creation call; native
+	// TC4 emits identical CODE for this natural while (af890d).
+	while(enemy_formation_i < formation_enemy_count[formation_type]) {
 		enemies_add(formation_scripts[script_i], pid, pos_type);
+		enemy_formation_i++;
+		script_i++;
 	}
 }
 
@@ -348,7 +353,10 @@ void enemy_formations_load(void)
 
 		formation_enemy_count[formation_i] = enemy_count;
 		enedat_p += sizeof(uint16_t);
-		for(enemy_i = 0; enemy_i < enemy_count; enemy_i++) {
+		// Keep the original 16-bit formation count and byte-sized script
+		// lengths. This natural while preserves every stream read/offset.
+		enemy_i = 0;
+		while(enemy_i < enemy_count) {
 			script_size = enedat[enedat_p];
 			enedat_p++;
 			*(
@@ -357,6 +365,7 @@ void enemy_formations_load(void)
 			) = reinterpret_cast<uint8_t near *>(enedat_p);
 
 			enedat_p += script_size;
+			enemy_i++;
 		}
 		formation_i++;
 	};
@@ -377,14 +386,19 @@ void enemy_formations_randomize(void)
 	// behavior.
 	uint8_t prev;
 
-	for(int i = 0; i < FORMATION_RING_SIZE; i++) {
+	// All 256 original formation rolls remain in their physical RNG
+	// order; `prev` must remain the original uninitialized stack byte.
+	int i = 0;
+	while(i < FORMATION_RING_SIZE) {
 		do {
+
 			next = (irand() % formation_count);
 		} while(next == prev);
 		formation_type_ring[i] = next;
 		prev = next;
 
 		formation_pos_type_ring[i] = ((irand() & 1) * EPT_DO_NOT_MIRROR_X);
+		++i;
 	}
 	static_assert(PLAYER_COUNT == 2);
 	formation_p[0] = 0;
@@ -552,8 +566,9 @@ bool near enemy_run(void)
 	script += enemy.script_ip;
 
 	// ZUN bloat: Every clipped branch that returns `true` redundantly sets the
-	// [enemy.flag] to [EFF_FREE].
-	for(;;) {
+	// [enemy.flag] to [EFF_FREE]. This full segmented script interpreter
+	// also emits native-exact CODE as a natural while(true) (af890g).
+	while(true) {
 		switch(reinterpret_cast<enedat_op_t __es *>(script)->code) {
 		case EO_MOVE_LINEAR:
 		case EO_MOVE_LINEAR_STOP_AT_PLAYER_Y:
@@ -973,10 +988,16 @@ void near enemies_hittest(void)
 {
 	explosion_hittest_against = EHA_ENEMY;
 	p = &enemies[ENEMY_COUNT - 1];
-	for(int i = (ENEMY_COUNT - 1); i >= 0; (--i, p--)) {
+	// Backwards scan all forty real physical enemy slots. The near
+	// pointer and signed index both descend after each hit test, and
+	// the original hitbox near-call carrier is still compiler visible.
+	int i = (ENEMY_COUNT - 1);
+	while(i >= 0) {
 		if(p->flag == EF_RUNNING_SPAWNED) {
 			enemy_hittest();
 		}
+		--i;
+		p--;
 	}
 }
 
@@ -985,9 +1006,15 @@ void near enemies_hittest(void)
 void enemies_render(void)
 {
 	efe_p.enemy = enemies;
-	for(int i = 0; i < ENEMY_COUNT; (++i, efe_p.enemy++)) {
+	// The render path has an inactive/queued `continue` before choosing
+	// ordinary or exploding sprites. Both branches advance the same
+	// original near pointer and signed index (af890a).
+	int i = 0;
+	while(i < ENEMY_COUNT) {
 		enemy_t near *p = efe_p.enemy;
 		if((p->flag == EFF_FREE) || (p->flag == EF_RUNNING_UNSPAWNED)) {
+			++i;
+			efe_p.enemy++;
 			continue;
 		}
 
@@ -1008,6 +1035,8 @@ void enemies_render(void)
 		} else {
 			enemy_explosion_put();
 		}
+		++i;
+		efe_p.enemy++;
 	}
 }
 
@@ -1022,14 +1051,22 @@ void enemies_update(void)
 	enemies_alive[0] = 0;
 	enemies_alive[1] = 0;
 
-	for(int i = 0; i < ENEMY_COUNT; (++i, p++)) {
+	// Entire forty-enemy frame update is a native-exact `while`, with
+	// two distinct early-continue paths and the original near-pascal
+	// state/script/collision calls in unchanged order (af890b).
+	int i = 0;
+	while(i < ENEMY_COUNT) {
 		if(p->flag == EFF_FREE) {
+			++i;
+			p++;
 			continue;
 		}
 		p->frame++;
 		if(p->flag >= EFF_EXPLOSION_IGNORING_ENEMIES) {
 			enemy_explosion_flag_update();
 		} else if(enemy_run()) {
+			++i;
+			p++;
 			continue;
 		} else {
 			enemies_alive[p->pid]++;
@@ -1047,6 +1084,8 @@ void enemies_update(void)
 				asm { nop; push cs; call near ptr collmap_set_rect_striped; }
 			}
 		}
+		++i;
+		p++;
 	}
 	enemies_hittest();
 	#undef p

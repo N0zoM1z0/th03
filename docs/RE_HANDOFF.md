@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After890: complete four-object Enemy engine and large script VM native loops
+
+- The entire maintained **1,056-line Enemy engine**, compiled as four
+  original physical objects `eforna,efornb,eupda,eupdb`, now expresses
+  whole 40-slot reverse hit testing, full render and update/controller,
+  formation spawn/file-script traversal, 256 formation randomizer and
+  the segmented ES ENEDAT script VM as natural C++ `while`/`while(true)`.
+  All original RNG ordering, 16-bit script indices, unusual chain logic
+  and the **uninitialized formation `prev` byte** stay original.
+- Fresh genuine TC4 negative: converting `enemies_add`'s first-free-slot
+  `for/continue/break` to `while` changes original `eforna` CODE from
+  **729 to 731 bytes** (`af890c`), so it remains original. Final
+  `af890h` actually recompiles **all four complete original physical
+  owners together**, in two independent original TC4 4.02/full normal
+  MAIN TLINK rounds: **3,325 CODE bytes, 222 literal ordered native
+  FIXUPPs, 19 PUBLICs**, complete Japanese MAIN/1,553 relocations
+  exact; 95 other project objects/CRT reused. See
+  [after890 entire Enemy source review](MAIN_ENEMY_WHOLE_VM_LOOPS_AFTER890_REVIEW.md).
+  Historical source-owned CODE, not additional unique/Factory credit.
+
 ## Latest after889: five edited original physical TUs together in native MAIN
 
 - `af889a` **genuinely recompiles all five full original physical source
