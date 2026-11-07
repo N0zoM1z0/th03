@@ -11,6 +11,8 @@ enum chain2_init_limits_t {
     CHAIN2_START_ANGLE = 64,
     CHAIN2_VELOCITY_Y = 16,
     CHAIN2_INIT_SPEED = 16,
+    CHAIN2_SPRITE_RANDOMIZED = 0x233E,
+    CHAIN2_SPRITE_FINAL = 0x20BE,
 };
 
 void far background_chain2_init(void)
@@ -19,7 +21,10 @@ void far background_chain2_init(void)
     register int i;
     background_angle = CHAIN2_START_ANGLE;
     particle = background_particles;
-    for(i = 0; i < CHAIN2_VISIBLE_PARTICLES; i++, particle++) {
+    // Preserve all fifty particle initialization calls and original RNG
+    // draw order. Signed-index/near-pointer `while` is TC4 exact.
+    i = 0;
+    while(i < CHAIN2_VISIBLE_PARTICLES) {
         particle->x = irand() % TO_SP(640);
         particle->y = irand() % TO_SP(400);
         particle->vx = 0;
@@ -27,11 +32,15 @@ void far background_chain2_init(void)
         particle->speed = CHAIN2_INIT_SPEED;
         // Keep separate branch stores; a same-valued ternary selected
         // original-unequal 16-bit instruction order (af673a).
+        // Two independent original sprite stores: a conditional
+        // assignment emits different instructions (negative af879c).
         if(i < CHAIN2_RANDOMIZED_PARTICLES) {
-            particle->sprite = 0x233E;
+            particle->sprite = CHAIN2_SPRITE_RANDOMIZED;
         } else {
-            particle->sprite = 0x20BE;
+            particle->sprite = CHAIN2_SPRITE_FINAL;
         }
+        ++i;
+        particle++;
     }
 }
 
@@ -107,7 +116,9 @@ void far background_chain2_accelerate(void)
         cmp si, PARTICLE_COUNT
         jb chain2_accelerate_draw_sprites
     }
-    if(round_frame > 144UL) {
+    // Native-equivalent named unsigned-long cutoff. The numerical
+    // rewrite `>=145UL` changes TC4 CODE (negative af879d).
+    if(round_frame > static_cast<unsigned long>(ACCELERATION_LAST_FRAME)) {
         background_render = background_chain2_periodic;
     }
     egc_off();

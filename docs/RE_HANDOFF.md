@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After879: complete Chain 2 particle initialization and native transition
+
+- The original three-function `chain2` owner now expresses its full
+  50-particle initializer as natural C++ `while`, preserves the
+  original 40/10 sprite-store distinction, and names both sprites
+  and the exact unsigned long 144-frame transition. Original ES:DI
+  acceleration/periodic controllers and shared live `phase.inl` remain.
+- Genuine TC4 negatives: replacing the two sprite branches with a
+  ternary emitted **549 vs original 550 CODE bytes** (`af879c`);
+  rewriting `round_frame >144UL` as `>=145UL` changed original CODE
+  (`af879d`). Both restored. Final `af879e` passes two original
+  TC4/full normal TLINK rounds: **550 CODE bytes, 43 ordered FIXUPPs,
+  3 PUBLICs**, complete Japanese MAIN/1,553 MZ relocations exact;
+  98 other project objects/CRT reused, no cold replay. See
+  [after879 complete Chain 2 review](MAIN_CHAIN2_NATIVE_INIT_AFTER879_REVIEW.md).
+  Previously source-owned bytes, no new distinct/Factory credit.
+
 ## After878: complete Chain 1 background initialization and acceleration control
 
 - Full original six-function `chain1` owner now uses natural `while` in
