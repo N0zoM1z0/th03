@@ -6,6 +6,20 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kotohime four full BOSS patterns after637
+
+Kotohime's aimed/radial ring helpers now use exact original C++
+`boss_move_phase -= 2` in two locations and its ring renderer uses
+natural `boss_frame % 4` flicker. Original native-unequal
+direct +2 / -4 angle substitutes were tested and rejected.
+The full 18-mode scheduler and ring expansion, release and
+pellet phases use named compile-time constants. Actual v2
+`af637f` Turbo C++/TLINK pair reproduces all **1,840 original CODE
+bytes, 262 ordered FIXUPP fields, 11 PUBLICs**, full normal MAIN
+and 1,553 Japanese relocations. See
+[after637 Kotohime review](MAIN_KOTOHIME_BOSS_NATIVE_AFTER637_REVIEW.md).
+No cold replay or newly accepted packed bytes.
+
 ## Rikako native signed spin and BOSS phases after636
 
 Rikako's large update and three attack routines now lower from

@@ -48,6 +48,31 @@ extern unsigned char kotohime_burst_count;
 extern int SinTable8[256];
 extern int CosTable8[256];
 
+// The shared scheduler draws 2..17; Kotohime dispatches four distinct
+// ring/arc/volley families by their original byte-valued mode IDs.
+enum kotohime_boss_mode_t {
+    KOTOHIME_MODE_INTRO = 0x00,
+    KOTOHIME_MODE_SELECT = 0x01,
+    KOTOHIME_MODE_RANDOM_RING_0 = 0x02,
+    KOTOHIME_MODE_RANDOM_RING_1 = 0x03,
+    KOTOHIME_MODE_RANDOM_RING_2 = 0x04,
+    KOTOHIME_MODE_RANDOM_RING_3 = 0x05,
+    KOTOHIME_MODE_RANDOM_RING_4 = 0x06,
+    KOTOHIME_MODE_AIMED_RING_0 = 0x07,
+    KOTOHIME_MODE_AIMED_RING_1 = 0x08,
+    KOTOHIME_MODE_AIMED_RING_2 = 0x09,
+    KOTOHIME_MODE_RADIAL_0 = 0x0A,
+    KOTOHIME_MODE_RADIAL_1 = 0x0B,
+    KOTOHIME_MODE_PELLET_ARC_0 = 0x0C,
+    KOTOHIME_MODE_PELLET_ARC_1 = 0x0D,
+    KOTOHIME_MODE_PELLET_ARC_2 = 0x0E,
+    KOTOHIME_MODE_RADIAL_2 = 0x0F,
+    KOTOHIME_MODE_RADIAL_3 = 0x10,
+    KOTOHIME_MODE_RADIAL_4 = 0x11,
+    KOTOHIME_MODE_DESCEND = 0x80,
+    KOTOHIME_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_kotohime_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -102,9 +127,17 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 	}
 }
 
+// The ring grows past 0x400 before the 0x40-frame release phase;
+// the aimed and random rings share these physical animation boundaries.
+enum kotohime_ring_phase_t {
+    KOTOHIME_RING_START_FRAME = 1,
+    KOTOHIME_RING_EXPAND_LIMIT = 0x400,
+    KOTOHIME_RING_RELEASE_AFTER = 0x40,
+};
+
 void near kotohime_pattern_random_ring(void)
 {
-	if(boss_frame == 1) {
+	if(boss_frame == KOTOHIME_RING_START_FRAME) {
 		boss_render_mode = 1;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -112,13 +145,13 @@ void near kotohime_pattern_random_ring(void)
 
 	boss_move_phase += 4;
 
-	if(boss_effect_radius > 0x400) {
+	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = 2;
 		_AL = boss_move_phase;
 		_AL += 2;
 		boss_move_phase = _AL;
 		boss_render_frame++;
-		if(boss_render_frame > 0x40) {
+		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
 			bullet_template.group = BG_16_RING;
 			bullet_template.speed.v = kotohime_random_ring_speed;
 			kotohime_ring_emit(1);
@@ -135,25 +168,23 @@ void near kotohime_pattern_random_ring(void)
 
 void near kotohime_pattern_aimed_ring(void)
 {
-	if(boss_frame == 1) {
+	if(boss_frame == KOTOHIME_RING_START_FRAME) {
 		boss_render_mode = 1;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
 		boss_move_phase = 0;
 	}
 
-	_AL = boss_move_phase;
-	_AL += (unsigned char)0xFE;
-	boss_move_phase = _AL;
+	boss_move_phase -= 2;
 
-	if(boss_effect_radius > 0x400) {
+	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = 2;
 		boss_effect_radius += 8;
 		_AL = boss_move_phase;
 		_AL += 2;
 		boss_move_phase = _AL;
 		boss_render_frame++;
-		if(boss_render_frame > 0x40) {
+		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
 			bullet_template.group = BG_2_SPREAD_NARROW_AIMED;
 			bullet_template.angle = 0;
 			bullet_template.speed.v = kotohime_aimed_speed_fast;
@@ -175,11 +206,16 @@ void near kotohime_pattern_aimed_ring(void)
 	}
 }
 
+enum kotohime_pellet_phase_t {
+    KOTOHIME_PELLET_FIRE_REMAINDER = 1,
+    KOTOHIME_PELLET_FINISH_FRAME = 0x60,
+};
+
 void near kotohime_pattern_pellet_arc(void)
 {
 	boss_move_sine();
 
-	if((boss_frame % kotohime_pellet_interval) == 1) {
+	if((boss_frame % kotohime_pellet_interval) == KOTOHIME_PELLET_FIRE_REMAINDER) {
 		snd_se_play(3);
 		bullet_template.type = BT_PELLET;
 		bullet_template.angle = (unsigned char)boss_frame;
@@ -208,7 +244,7 @@ void near kotohime_pattern_pellet_arc(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= 0x60) {
+	if(boss_frame >= KOTOHIME_PELLET_FINISH_FRAME) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
@@ -222,7 +258,7 @@ void near kotohime_pattern_radial_burst(void)
 	register int bullet_i;
 	register int center_i;
 
-	if(boss_frame == 1) {
+	if(boss_frame == KOTOHIME_RING_START_FRAME) {
 		boss_render_mode = 1;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -232,14 +268,12 @@ void near kotohime_pattern_radial_burst(void)
 	_AL += (unsigned char)0xFC;
 	boss_move_phase = _AL;
 
-	if(boss_effect_radius > 0x400) {
+	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = 2;
 	boss_effect_radius += 8;
-	_AL = boss_move_phase;
-	_AL += (unsigned char)0xFE;
-	boss_move_phase = _AL;
+	boss_move_phase -= 2;
 	boss_render_frame++;
-	if(boss_render_frame <= 0x40) {
+	if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
 		return;
 	}
 
@@ -312,7 +346,7 @@ void far gba_boss_update_kotohime(void)
 	boss_frame++;
 
 	switch(boss_mode) {
-	case 0:
+	case KOTOHIME_MODE_INTRO:
 		if(boss_frame != 0x64) {
 			return;
 		}
@@ -320,43 +354,43 @@ void far gba_boss_update_kotohime(void)
 		boss_mode = 1;
 		break;
 
-	case 1:
+	case KOTOHIME_MODE_SELECT:
 		boss_pattern_next();
 		break;
 
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-	case 6:
+	case KOTOHIME_MODE_RANDOM_RING_0:
+	case KOTOHIME_MODE_RANDOM_RING_1:
+	case KOTOHIME_MODE_RANDOM_RING_2:
+	case KOTOHIME_MODE_RANDOM_RING_3:
+	case KOTOHIME_MODE_RANDOM_RING_4:
 		kotohime_pattern_random_ring();
 		break;
 
-	case 7:
-	case 8:
-	case 9:
+	case KOTOHIME_MODE_AIMED_RING_0:
+	case KOTOHIME_MODE_AIMED_RING_1:
+	case KOTOHIME_MODE_AIMED_RING_2:
 		kotohime_pattern_aimed_ring();
 		break;
 
-	case 0x0C:
-	case 0x0D:
-	case 0x0E:
+	case KOTOHIME_MODE_PELLET_ARC_0:
+	case KOTOHIME_MODE_PELLET_ARC_1:
+	case KOTOHIME_MODE_PELLET_ARC_2:
 		kotohime_pattern_pellet_arc();
 		break;
 
-	case 0x0A:
-	case 0x0B:
-	case 0x0F:
-	case 0x10:
-	case 0x11:
+	case KOTOHIME_MODE_RADIAL_0:
+	case KOTOHIME_MODE_RADIAL_1:
+	case KOTOHIME_MODE_RADIAL_2:
+	case KOTOHIME_MODE_RADIAL_3:
+	case KOTOHIME_MODE_RADIAL_4:
 		kotohime_pattern_radial_burst();
 		break;
 
-	case 0x80:
+	case KOTOHIME_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case KOTOHIME_MODE_EXPLODE:
 		return;
 	}
 
@@ -390,7 +424,7 @@ void near pascal kotohime_render_ring(int count)
 
 	radius = boss_effect_radius;
 	sprite_offset = (pid.so_attack + 0x502);
-	if((boss_render_mode == 2) && ((boss_frame & 3) < 2)) {
+	if((boss_render_mode == 2) && ((boss_frame % 4) < 2)) {
 		sprite_offset += 0xA00;
 	}
 
