@@ -6,6 +6,23 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Current changed-source 28-owner MAIN integration after645
+
+The latest `af645a` two-round genuine Turbo C++/TLINK source-bound
+native pair rebuilt **28 complete original TUs simultaneously**,
+including new Kotohime/Mima/Ellen/Rikako Extra Attack semantics,
+typed parity/history loops, and natural Chiyuri BOSS cardinal/fan
+C++ arithmetic. The v2 read-only reviewer checked actual OMF
+source/header dependencies and verified **35,376 previously owned
+CODE bytes, 3,685 literal ordered FIXUPPs, 195 PUBLICs**, full
+normal MAIN EXE/MAP, Japanese loaded image, 1,553 original MZ
+relocations and separately serialized original 130,882-byte EXE
+in both rounds. See
+[after645 native integration review](MAIN_TWENTYEIGHT_EXATT_BOSS_AFTER645_NATIVE_REVIEW.md).
+Only selected 28 physical objects recompiled; other 71 original
+objects plus CRT libraries unchanged, no full cold replay or double
+Factory packed-game byte credit.
+
 ## Chiyuri full BOSS cardinal/fan natural C++ after644
 
 The two major Chiyuri cardinal and fan barrage functions no longer
