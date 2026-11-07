@@ -45,6 +45,9 @@ enum chiyuri_exatt_phase_t {
     CHIYURI_BEAM_FIRST_WARNING = 4,
     CHIYURI_BEAM_SOUND_FRAME = 0x10,
     CHIYURI_BEAM_ARRIVAL_END_STATE = 0x1C,
+    CHIYURI_EXATT_FREE = 0,
+    CHIYURI_EXATT_ACTIVE = 1,
+    CHIYURI_EXATT_FLYING = 2,
 };
 
 void far pascal exatt_add_chiyuri(int x, int y, unsigned char pid_)
@@ -52,7 +55,7 @@ void far pascal exatt_add_chiyuri(int x, int y, unsigned char pid_)
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
     for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; (i += CHIYURI_EXATT_PAIR_STRIDE, p += CHIYURI_EXATT_PAIR_STRIDE)) {
-        if(p->state != 0) {
+        if(p->state) {
             continue;
         }
         exatt_entity_p = p;
@@ -83,7 +86,7 @@ void near chiyuri_exatt_render_one(void)
     top_other = ((p->y >> 4) + 16);
     p--;
 
-    if(p->state == 1) {
+    if(p->state == CHIYURI_EXATT_ACTIVE) {
         egc_off();
         if(phase < CHIYURI_BEAM_LINE_END) {
             goto beam_line;
@@ -110,8 +113,9 @@ beam_late:
         if(phase >= CHIYURI_BEAM_FINISH) {
             goto beam_end;
         }
-        // Keep the original late-beam register/stack sequence:
-        // typed C++ 0x88 - phase changes genuine TC4 native instructions.
+        // The late-beam signed radius keeps its original AX/DX and
+        // stack ordering: typed CHIYURI_BEAM_FINISH - phase changed
+        // original CODE independently in af779c.
         asm {
             mov al, phase
             mov ah, 0
@@ -139,7 +143,7 @@ beam_end:
         grcg_off();
         egc_on();
     } else {
-        if(p->state == 2) {
+        if(p->state == CHIYURI_EXATT_FLYING) {
             exatt_render_state2(left, top, phase);
         } else {
             exatt_render_state_other(left, top, phase);
@@ -147,7 +151,7 @@ beam_end:
         exatt_entity_p++;
         p++;
         phase = p->frame;
-        if(p->state == 2) {
+        if(p->state == CHIYURI_EXATT_FLYING) {
             exatt_render_state2(left_other, top_other, phase);
         } else {
             exatt_render_state_other(left_other, top_other, phase);
@@ -169,13 +173,13 @@ void far pascal exatt_update_chiyuri(void)
     collmap_pid = pid_other;
     i = 0;
     for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; (i += CHIYURI_EXATT_PAIR_STRIDE, exatt_entity_p++)) {
-        asm {
-            mov bx, exatt_entity_p
-            cmp byte ptr [bx], 0
-            je short chiyuri_first_done
+        // The original BX/memory CMP/Jcc sequence is emitted naturally
+        // by this direct C++ byte-state test (proved in af779b).
+        if(!exatt_entity_p->state) {
+            goto chiyuri_first_done;
         }
         p = exatt_entity_p;
-        if(p->state == 1) {
+        if(p->state == CHIYURI_EXATT_ACTIVE) {
                 p->frame++;
                 if(p->frame == CHIYURI_BEAM_FIRST_WARNING) {
                     bomb_center_add(p->x, 0, p->pid);
@@ -189,9 +193,9 @@ void far pascal exatt_update_chiyuri(void)
                     collmap_bottomright.x.v = p->x;
                     collmap_set_slope_striped();
                 } else if(p->frame > CHIYURI_BEAM_FINISH) {
-                    p->state = 0;
+                    p->state = CHIYURI_EXATT_FREE;
                     p++;
-                    p->state = 0;
+                    p->state = CHIYURI_EXATT_FREE;
                 }
 chiyuri_first_done:
                 exatt_entity_p++;
@@ -199,8 +203,8 @@ chiyuri_first_done:
             }
 
             first_arrived = 0;
-            if(p->state == 2) {
-                if(exatt_fly_update() != 0) {
+            if(p->state == CHIYURI_EXATT_FLYING) {
+                if(exatt_fly_update()) {
                     p->y = 0;
                 }
             } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
@@ -212,17 +216,17 @@ chiyuri_first_done:
             p->frame++;
             p++;
             exatt_entity_p++;
-            if(p->state == 2) {
-                if(exatt_fly_update() != 0) {
+            if(p->state == CHIYURI_EXATT_FLYING) {
+                if(exatt_fly_update()) {
                     p->y = 0x1700;
                 }
             } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
                 p->state++;
             } else {
                 p->frame = 0;
-                if(first_arrived != 0) {
+                if(first_arrived) {
                     p--;
-                    p->state = 1;
+                    p->state = CHIYURI_EXATT_ACTIVE;
                 }
             }
             p->frame++;
@@ -236,7 +240,7 @@ void far pascal exatt_render_chiyuri(void)
     exatt_entity_p = &exatt_entities[pid_current][0];
     i = 0;
     for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; i += CHIYURI_EXATT_PAIR_STRIDE, exatt_entity_p += CHIYURI_EXATT_PAIR_STRIDE) {
-        if(exatt_entity_p->state != 0) {
+        if(exatt_entity_p->state) {
             chiyuri_exatt_render_one();
         }
     }
