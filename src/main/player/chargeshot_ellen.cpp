@@ -28,6 +28,11 @@ enum ellen_chargeshot_limits_t {
     ELLEN_CHARGE_INACTIVE_STATE = 0,
     ELLEN_CHARGE_DECELERATE_PHASE = 0,
     ELLEN_CHARGE_TARGET_PHASE = 1,
+    ELLEN_CHARGE_TARGET_Y_OFFSET = TO_SP(-110),
+    ELLEN_CHARGE_CLIP_NEGATIVE_RADIUS = TO_SP(-8),
+    ELLEN_CHARGE_SPRITE_ANGLE_BIAS = 0x10,
+    ELLEN_CHARGE_SPRITE_ANGLE_SHIFT = 5,
+    ELLEN_CHARGE_SPRITE_CEL_SHIFT = 1,
 };
 
 struct ellen_chargeshot_t {
@@ -133,16 +138,18 @@ void far pascal chargeshot_update_ellen(void)
 	}
 	return;
 
+// The original active-scan jumps here immediately on the first live slot.
+// A bounded for/break plus a final index check changes TC4 CODE (af854b).
 active:
 	ellen_chargeshot_p = &ellen_chargeshots[pid_current][0];
 	ellen_target_set(pid_current);
 	target_x = ellen_target_x;
-	target_y = (ellen_target_y + TO_SP(-110));
+	target_y = (ellen_target_y + ELLEN_CHARGE_TARGET_Y_OFFSET);
 	players[pid_current].gauge_charged = 0;
 	player_x = players[pid_current].center.x.v;
 	player_y = players[pid_current].center.y.v;
-	playfield_clip_negative_radius.x.v = TO_SP(-8);
-	playfield_clip_negative_radius.y.v = TO_SP(-8);
+	playfield_clip_negative_radius.x.v = ELLEN_CHARGE_CLIP_NEGATIVE_RADIUS;
+	playfield_clip_negative_radius.y.v = ELLEN_CHARGE_CLIP_NEGATIVE_RADIUS;
 
 	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
 		if(!ellen_chargeshot_p->state) {
@@ -180,6 +187,8 @@ active:
 				ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
 			}
 		} else {
+			// Preserve byte predecrement as part of the comparison; spelling
+			// this as separate state-- and ==ACTIVE changed CODE (af854c).
 			if((--ellen_chargeshot_p->state) == 1) {
 				snd_se_play(1);
 			}
@@ -197,9 +206,12 @@ void near pascal ellen_chargeshot_private(Subpixel x, Subpixel y)
 	register screen_x_t left = x.v;
 	register screen_y_t top = y.v;
 	sprite16_offset_t sprite_offset = (pid.so_attack + 0x10);
-	unsigned char cel = (ellen_chargeshot_p->angle + 0x10);
-	cel >>= 5;
-	cel <<= 1;
+	// Preserve the byte carrier before the two separate angular shifts.
+	// Collapsing the expression before byte truncation is not equivalent
+	// near 0xFF and changes native CODE (negative original af854a).
+	unsigned char cel = (ellen_chargeshot_p->angle + ELLEN_CHARGE_SPRITE_ANGLE_BIAS);
+	cel >>= ELLEN_CHARGE_SPRITE_ANGLE_SHIFT;
+	cel <<= ELLEN_CHARGE_SPRITE_CEL_SHIFT;
 	sprite_offset += cel;
 
 	left = (playfield_fg_x_to_screen(left, pid_current) - 8);
@@ -338,14 +350,14 @@ void near pascal gauge_pattern_ellen(bullet_type_t type)
 
 void far gba_gauge_pattern_pellet_ellen(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_ellen(BT_PELLET);
 	}
 }
 
 void far gba_gauge_pattern_bullet_ellen(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_ellen(BT_BULLET16_DEFAULT);
 	}
 }

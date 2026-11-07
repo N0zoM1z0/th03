@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After854: complete Ellen Chargeshot/Gauge byte-state reconstruction
+
+- Full ten-function `cs_ellen` module (64 physical 12-byte records) now
+  has explicit native -110-subpixel homing target offset, -8 clip
+  margin, original 0x10 sprite angle bias, separately evaluated 5/1
+  cel shifts and naturally true-valued Gauge entrypoint checks.
+- Genuinely failed original TC4 alternatives: collapsed byte cel shifts
+  produced 1,528 vs original 1,530 CODE (`af854a`); replacing the
+  original `goto active` scan with `break` grew to 1,534 (`af854b`);
+  splitting byte predecrement gave 1,527 (`af854c`); inverted sprite
+  loop gave 1,526 (`af854f`). All original codegen-sensitive layouts
+  were restored, not patched. Final `af854g` passes both original
+  TC4/full normal MAIN TLINK rounds: **1,530 CODE bytes, 169 ordered
+  native FIXUPPs, 10 PUBLICs**, original Japanese loaded MAIN and all
+  1,553 ordered MZ relocations. 98 other original game objects/CRT
+  reused, no cold replay. See
+  [after854 Ellen Chargeshot review](MAIN_ELLEN_CHARGESHOT_CODEGEN_AFTER854_REVIEW.md).
+  Historical source-owned bytes, not new unique CODE or Factory credit.
+
 ## Latest after853: six modified original MAIN physical owners rebuilt together
 
 - Genuine original `af853a` **simultaneously recompiles all six physical
