@@ -108,6 +108,15 @@ enum marisa_spread_phase_t {
     MARISA_SPREAD_PERIOD = 4,
 };
 
+// The full BOSS update owns spread/ring clocks and main/split renderers.
+// Unsigned 16-bit periods permit masking; division by the *byte* ring
+// count and by two in the projectile speed remain independent operations.
+enum marisa_native_frame_timing_t {
+    MARISA_BOSS_INTRO_END = 0x64,
+    MARISA_MAIN_FLICKER_PERIOD = 4,
+    MARISA_MAIN_FLICKER_FIRST_HALF = 2,
+};
+
 void near marisa_pattern_spread(void)
 {
 	boss_render_mode = 1;
@@ -118,7 +127,7 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = 0;
 	}
 	if(boss_frame < MARISA_SPREAD_FINISH) {
-		if((boss_frame % MARISA_SPREAD_PERIOD) != 0) {
+		if(boss_frame & (MARISA_SPREAD_PERIOD - 1)) {
 			return;
 		}
 
@@ -198,7 +207,7 @@ void near marisa_pattern_ring(void)
 {
 	boss_move_sine();
 
-	if((boss_frame % MARISA_RING_PERIOD) == 0) {
+	if(!(boss_frame & (MARISA_RING_PERIOD - 1))) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
@@ -280,7 +289,7 @@ void far gba_boss_update_marisa(void)
 
 	switch(boss_mode) {
 	case MARISA_MODE_INTRO:
-		if(boss_frame != 0x64) {
+		if(boss_frame != MARISA_BOSS_INTRO_END) {
 			return;
 		}
 		boss_frame = 0;
@@ -361,7 +370,7 @@ void near marisa_render_main(void)
 	top = ((boss_center_y >> 4) - 32);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite16_put_size.set(48, 80);
 		left += 64;
 		top += 16;
@@ -371,7 +380,10 @@ void near marisa_render_main(void)
 	if(boss_render_mode != 1) {
 		return;
 	}
-	if((round_or_result_frame % 4) < 2) {
+	if(
+		(round_or_result_frame & (MARISA_MAIN_FLICKER_PERIOD - 1)) <
+		MARISA_MAIN_FLICKER_FIRST_HALF
+	) {
 		sprite16_put_size.set(48, 80);
 		left += 64;
 		top += 16;
@@ -428,11 +440,11 @@ void far gba_boss_render_marisa(void)
 	pid_other = (1 - pid_current);
 	sprite16_clip_set_for_pid(pid_other);
 
-	if(boss_mode == 0) {
-		marisa_render_split(0xC8 - (boss_frame * 2));
+	if(boss_mode == MARISA_MODE_INTRO) {
+		marisa_render_split(0xC8 - (boss_frame << 1));
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != MARISA_MODE_EXPLODE) {
 		marisa_render_main();
 		return;
 	}
