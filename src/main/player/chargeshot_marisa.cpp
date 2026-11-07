@@ -1,4 +1,5 @@
-// Native-source-bound Marisa charge/Gauge physical producer (nine functions).
+// Complete current source-native Marisa Chargeshot/Gauge (nine real
+// original functions), retaining true PC-98 GRCG and segmented ABI.
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
 #include <stddef.h>
@@ -96,7 +97,9 @@ void far pascal chargeshot_add_marisa(Subpixel center_x, Subpixel center_y)
 void far pascal marisa_hyper_14340(void)
 {
     marisa_chargeshot_p = &marisa_chargeshots[pid.current];
-    if(!marisa_chargeshot_p->active) {
+    // The original byte-active guard naturally spells ==0 under
+    // original TC4 (af920a), without changing its early return.
+    if(marisa_chargeshot_p->active == 0) {
         marisa_chargeshot_p->active = 1;
         int i = 0;
         while(i < MARISA_CHARGE_HISTORY) {
@@ -113,12 +116,14 @@ void far pascal marisa_hyper_14340(void)
 void far pascal chargeshot_update_marisa(void)
 {
     marisa_chargeshot_p = &marisa_chargeshots[pid_current];
-    if(!marisa_chargeshot_p->active) {
+    if(marisa_chargeshot_p->active == 0) {
         return;
     }
     players[pid_current].gauge_charged = 0;
     // Keep native byte postfix: original TC4 also rejected prefix
     // in fresh af868g (independently of older after769 evidence).
+    // Keep the byte shot-frame postfix: prefix produced nonoriginal
+    // code (af920c), independently of historical compiler notes.
     marisa_chargeshot_p->frame++;
     // Shift history from sample 11 down to 1 before replacing its head.
     // The descending while preserves the original signed subpixel delay.
@@ -128,7 +133,9 @@ void far pascal chargeshot_update_marisa(void)
         marisa_chargeshot_p->y[i] = marisa_chargeshot_p->y[i - 1] + MARISA_CHARGE_HISTORY_Y_DROP;
         --i;
     }
-    if(marisa_chargeshot_p->frame < MARISA_CHARGE_INITIAL_TAIL_END) {
+    // The signed/byte initial-tail cutoff can have its operands
+    // reversed with exact native TC4 codegen (af920g).
+    if(MARISA_CHARGE_INITIAL_TAIL_END > marisa_chargeshot_p->frame) {
         marisa_chargeshot_p->x[0] = players[pid_current].center.x.v;
         marisa_chargeshot_p->y[0] = players[pid_current].center.y.v - MARISA_CHARGE_START_Y_OFFSET;
         return; // The reviewed internal early RETF belongs to this body.
@@ -143,7 +150,7 @@ uint8_t far chargeshot_hittest_marisa(void)
 {
     unsigned char hit;
     marisa_chargeshot_p = &marisa_chargeshots[hitbox.pid];
-    if(!marisa_chargeshot_p->active) {
+    if(marisa_chargeshot_p->active == 0) {
         return 0;
     }
     hit = 0;
@@ -175,15 +182,17 @@ void far pascal chargeshot_render_marisa(void)
     int i;
     int x;
     marisa_chargeshot_p = &marisa_chargeshots[pid_current];
-    if(!marisa_chargeshot_p->active) {
+    if(marisa_chargeshot_p->active == 0) {
         return;
     }
     egc_off();
     grcg_settile_1line(GC_RMW, 0xAA0055AAL);
     previous_x = 0;
-    // The three original GRCG bands draw samples 11..7, 6..4 and 3..1,
-    // resetting previous-X before each band. Signed >>5 is retained:
-    // it is not identical to /32 for negative subpixel coordinates.
+    // The complete original GRCG beam paints 11..7, 6..4 and 3..1
+    // history samples in independent hardware tile/clip passes, resetting
+    // previous X between each. The signed coordinate >>5 must remain:
+    // replacing four uses with /32 changed actual TC4 CODE in af920d,
+    // and signed negative rounding differs as well.
     i = MARISA_CHARGE_LAST_SAMPLE;
     while(i > MARISA_CHARGE_GRCG_FIRST_BAND_END) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
@@ -273,11 +282,17 @@ void near pascal gauge_pattern_marisa(bullet_type_t type)
     bullet_template.pid = pid_other;
     bullet_template.speed.v = 56;
     bullet_template.group = BG_1;
-    if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_LEFT_WARN) {
+    // All four original byte-frame phases keep their distinct order:
+    // left warning, right warning, left volley, right volley. Equality
+    // operand reversal is native-exact (af920b/f), but event ordering
+    // and original RNG and bomb warning calls must not be collapsed.
+    if(MARISA_GAUGE_LEFT_WARN == (marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD)) {
         bomb_center_add(0, marisa_gauge_y[pid_current], pid_other);
-    } else if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_RIGHT_WARN) {
+    } else if(MARISA_GAUGE_RIGHT_WARN == (marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD)) {
         bomb_center_add(TO_SP(PLAYFIELD_W), marisa_gauge_y[pid_current], pid_other);
-    } else if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_LEFT_FIRE) {
+    // This is the one *zero-remainder* 24-frame phase. Native TC4
+    // accepts if(!remainder), unlike some other byte-value masks.
+    } else if(!(marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD)) {
         bullet_template.angle = 0x20;
         bullet_template.center.x.v = 0;
         // The original mutable speed -=6 must remain literal: a
@@ -290,7 +305,7 @@ void near pascal gauge_pattern_marisa(bullet_type_t type)
         }
         marisa_gauge_y[pid_current] +=
             (gauge_pattern_timing[pid_current].total_frames << 4);
-    } else if((marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD) == MARISA_GAUGE_RIGHT_FIRE) {
+    } else if(MARISA_GAUGE_RIGHT_FIRE == (marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD)) {
         bullet_template.angle = 0x60;
         bullet_template.center.x.v = TO_SP(PLAYFIELD_W);
         int i = 0;
@@ -308,18 +323,20 @@ void near pascal gauge_pattern_marisa(bullet_type_t type)
         // No invented word load or local overlap: probe natural TC4 lowering.
         palette_restore_for_pid(pid_other);
     }
+    // This mutable byte timing must retain postfix: prefix changed
+    // original CODE in the fresh af920e trial.
     marisa_gauge_frame[pid_current]++;
 }
 
 void far gba_gauge_pattern_pellet_marisa(void)
 {
-    if(gba_flag_active[pid_current]) {
+    if(gba_flag_active[pid_current] != GBAF_NONE) {
         gauge_pattern_marisa(BT_PELLET);
     }
 }
 void far gba_gauge_pattern_bullet_marisa(void)
 {
-    if(gba_flag_active[pid_current]) {
+    if(gba_flag_active[pid_current] != GBAF_NONE) {
         gauge_pattern_marisa(BT_BULLET16_DEFAULT);
     }
 }

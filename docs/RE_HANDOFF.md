@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After920: full Marisa Chargeshot/Gauge, four native cadence phases
+
+- The original nine-function `cs_mari` owner now uses explicit active
+  and GBAF_NONE byte checks, natural zero remainder and phase equality
+  comparisons for all four modulo-24 Gauge warning/firing states, and
+  a native-exact reversed initial beam byte-frame cutoff. Its full
+  12-history-sample update/hit, three independent GRCG beam bands,
+  original signed subpixel shifts and five-shot side volleys remain.
+- Fresh original TC4 negatives: byte shot-frame postfix→prefix emitted
+  **1,514 vs original 1,509 CODE** (`af920c`), signed GRCG `>>5`→`/32`
+  emitted **1,521** (`af920d`), and byte Gauge frame prefix emitted
+  **1,523** (`af920e`). All original forms retained. Final `af920h`
+  matches **1,509 CODE bytes, 152 literal ordered native FIXUPPs,
+  nine PUBLICs** in two original TC4/full normal MAIN TLINK rounds,
+  entire Japanese MAIN and all 1,553 MZ relocations exact, 98 other
+  project objects/CRT reused. See
+  [after920 Marisa Chargeshot review](MAIN_MARISA_CHARGESHOT_NATIVE_PHASES_AFTER920_REVIEW.md).
+  Previously source-owned original CODE, not new distinct Factory credit.
+
 ## After919: complete HitCircle lifetime and PC-98 sprite leaf
 
 - The entire original four-function `hitcirc` owner now uses natural
