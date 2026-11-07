@@ -1,30 +1,54 @@
-/* TC4 C++ SOURCE HYPOTHESIS; NOT PORTABLE DEFINED C++.
- * Include text inside EACH complete periodic renderer, after its ordinary
- * local declarations. `frame` is signed16, `changed` is unsigned char,
- * `background_angle` is the existing unsigned-byte direction variable.
- * There is deliberately no default assignment to changed.
- * Its indeterminate read later is not portable defined C++ behavior.
- * The original modulo-128 direction branch must keep its &127 mask:
- * a typed unsigned %128 expression changed genuine original TC4 CODE.
- * The 4096-/8-/4-frame modular clocks DO compile original-native.
+/* Current native TC4 4.02 C++ hypothesis, NOT portable defined C++.
+ * Include text inside BOTH complete original periodic renderers, after
+ * their local declarations. `frame` is a signed 16-bit int, whereas
+ * `round_or_result_frame` is already an unsigned 16-bit global clock;
+ * `changed` is a byte and is intentionally NOT initialized on 416
+ * phase paths. The original later indeterminate read is real target
+ * behavior, not a reason to invent default initialization.
+ *
+ * Natural C++ `frame = global % 4096`, plus the unsigned 8-/4-frame
+ * `if(!remainder)` guards, compiles original-exact in BOTH physical
+ * background objects (`af880a/c/d`). However, dropping the explicit
+ * unsigned conversion from signed local `frame` before `%8` changes
+ * CODE (`af880b`); switching the wave `&127` test to `%128`
+ * (`af880e`) OR using `!(frame&64)` (`af880g`) also changes CODE.
+ * Keep the original mask and all register/branch/byte semantics.
  */
-frame = (static_cast<unsigned int>(round_or_result_frame) % 4096);
-if(frame < 1024) {
+// Each include expands inside its original periodic controller. This enum
+// introduces no object DATA/BSS and preserves the real 16-bit signed
+// local frame and the externally maintained unsigned-word global clock.
+enum {
+    BG_PHASE_FULL_PERIOD = 4096,
+    BG_PHASE_REST_1_END = 1024,
+    BG_PHASE_INCREMENT_1_END = 1280,
+    BG_PHASE_REST_2_END = 2048,
+    BG_PHASE_DECREMENT_1_END = 2304,
+    BG_PHASE_REST_3_END = 3072,
+    BG_PHASE_WAVE_END = 4064,
+    BG_PHASE_INCREMENT_TICK = 8,
+    BG_PHASE_DECREMENT_TICK = 4,
+    BG_PHASE_WAVE_MASK = 127,
+    BG_PHASE_WAVE_UP_TIME = 64
+};
+frame = (round_or_result_frame % BG_PHASE_FULL_PERIOD);
+if(frame < BG_PHASE_REST_1_END) {
     changed = 0;
-} else if(frame < 1280) {
-    if((static_cast<unsigned int>(frame) % 8) == 0) {
+} else if(frame < BG_PHASE_INCREMENT_1_END) {
+    if(!(static_cast<unsigned int>(frame) % BG_PHASE_INCREMENT_TICK)) {
         goto background_phase_increment;
     }
-} else if(frame < 2048) {
+} else if(frame < BG_PHASE_REST_2_END) {
     changed = 0;
-} else if(frame < 2304) {
-    if((static_cast<unsigned int>(frame) % 4) == 0) {
+} else if(frame < BG_PHASE_DECREMENT_1_END) {
+    if(!(static_cast<unsigned int>(frame) % BG_PHASE_DECREMENT_TICK)) {
         goto background_phase_decrement;
     }
-} else if(frame < 3072) {
+} else if(frame < BG_PHASE_REST_3_END) {
     changed = 0;
-} else if(frame < 4064) {
-    if((frame & 127) < 64) {
+} else if(frame < BG_PHASE_WAVE_END) {
+    // The 128-tick direction wave is signed-local but uses the original
+    // mask/compare sequence. Even a bit-64 test emits different TC4 CODE.
+    if((frame & BG_PHASE_WAVE_MASK) < BG_PHASE_WAVE_UP_TIME) {
 background_phase_increment:
         background_angle++;
     } else {

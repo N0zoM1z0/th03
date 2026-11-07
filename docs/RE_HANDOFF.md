@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After880: shared Chain 1/Chain 2 original periodic state machine
+
+- The *actual shared* current `background/phase.inl` now gives all eleven
+  original phase cutoffs/tick/wave values native-exact C++ names and
+  removes a redundant cast on an already unsigned global `%4096`.
+  Natural `if(!unsigned_frame %8)`/`%4` truth checks are proven exact,
+  while explicit unsigned promotion of the **signed local** remains.
+- Fresh genuine negative TC4 controls: signed-local `%8` without cast
+  grew Chain 1 **702 vs original 695** CODE (`af880b`), changing
+  original `&127` to `%128` altered CODE (`af880e`), and simplifying
+  to `!(frame&64)` emitted **690** bytes (`af880g`). The uninitialized
+  `changed` byte on 416 original paths is preserved, not 'fixed'.
+  Final `af880h` **genuinely recompiles both complete `chain1` and
+  `chain2` original physical objects together**, two original TC4 4.02/
+  full normal TLINK rounds: **1,245 CODE bytes, 86 literal ordered
+  fixups, 9 PUBLICs**, complete Japanese MAIN and 1,553 MZ relocations;
+  97 other project objects/CRT reused, no cold replay. See
+  [after880 shared phase review](MAIN_BACKGROUND_PHASE_NATIVE_AFTER880_REVIEW.md).
+  Existing native source ownership, not new unique/Factory packed credit.
+
 ## After879: complete Chain 2 particle initialization and native transition
 
 - The original three-function `chain2` owner now expresses its full
