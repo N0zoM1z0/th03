@@ -6,6 +6,28 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest current-source 47-owner original gameplay/BOSS/Bomb MAIN after686
+
+The fresh native `af686a` two-round original Turbo C++
+4.02/TLINK integration now recompiles **47 complete physical
+project TUs**: the previous 43 BOSS/Extra Attack/Bullet/Enemy/
+CPU/charged-shot/background/effects/warning owners plus the
+four source-recovered original Chiyuri/Kana/Kotohime/Rikako
+character Bomb physical CODE producers. The latter use
+original external BSS carriers where applicable; all
+current changed C++/packed headers were actually read and
+attested through compiler OMF COMENT dependencies, including
+the current shared background phase. Both rounds verify
+**54,741 original CODE bytes, 5,487 literal ordered
+native FIXUPPs, 314 PUBLICs**, original full normal
+MAIN EXE/MAP, exact 124,642-byte Japanese loaded program,
+all 1,553 ordered MZ relocations and separately serialized
+exact original 130,882-byte Japanese MAIN.EXE.
+The other **52** original project objects and startup/CRT
+libraries were reused. This is not a full cold replay
+or newly accepted canonical packed-game Factory credit.
+Read [after686 47-owner source-native review](MAIN_FORTYSEVEN_BOSS_BOMB_AFTER686_NATIVE_REVIEW.md).
+
 ## Kotohime and Marisa complete BOSS natural angular geometry after685
 
 The real Kotohime BOSS's four full ring/radial/renderer angle
