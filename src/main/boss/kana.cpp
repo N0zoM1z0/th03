@@ -234,7 +234,7 @@ void near kana_pattern_cloud_ring(void)
 
 	if((boss_frame % kana_cloud_interval) == 0) {
 		_AL = randring_far_next16_and(0x1F);
-		asm { sub al, 10h }
+		_AL -= 0x10;
 		angle = _AL;
 		if(randring_far_next16_and(1) != 0) {
 			angle = (0x80 - angle);
@@ -506,10 +506,8 @@ void near kana_render_intro(void)
 				(1 - pid_current)
 			) - 16
 		);
-		_AX = top;
-		asm { sar ax, 4 }
-		top = _AX;
-		sprite16_put(left, _AX, sprite_offset);
+		top >>= 4;
+		sprite16_put(left, top, sprite_offset);
 
 	}
 }

@@ -202,6 +202,18 @@ PUBLIC/segment metadata, full normal MAIN EXE/MAP and Japanese file equality.
 See [after603 native review](MAIN_CHIYURI_BOSS_NATURAL_RENDER_AFTER603_NATIVE_REVIEW.md).
 The historical original BOSS sources/receipts are retained; no double credit.
 
+### Five complete BOSS C++ modules after604
+
+The `af604f` native overlay recompiles five whole Chiyuri/Kana/Kotohime/
+Ellen/Rikako BOSS TUs after replacing hand-authored AX shifts in their
+large renderer loops with natural signed C++ expressions, plus Kana's
+cloud-angle `_AL -= 0x10`. Both actual TC4/TLINK rounds preserve the
+**9,720 original CODE bytes**, **1,345 ordered native fields**, **48 PUBLICs**,
+complete normal MAIN EXE/MAP and Japanese target relocations. See
+[after604 native review](MAIN_FIVE_BOSS_RENDER_AFTER604_NATIVE_REVIEW.md).
+The old source-bound after596 proof remains frozen and these are not
+incremental accepted byte credits.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

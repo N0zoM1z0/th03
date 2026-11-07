@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scoped, original-TC4 source/object/full-MAIN check for Extra Attack layout edits.
+"""Scoped original-TC4 source/object/full-MAIN check for Extra Attacks and major BOSSes.
 
 The after596 parent is a *frozen* historical source proof. Never overwrite its
 source snapshots or claim that its stored source hash describes later edits.
@@ -43,6 +43,10 @@ SOURCES = {
     'ex_rfly': 'src/main/player/exatt_flight_reimu.cpp',
     'ex_reup': 'src/main/player/exatt_reimu.cpp',
     'ba_chiyu': 'src/main/boss/chiyuri.cpp',
+    'ba_kana': 'src/main/boss/kana.cpp',
+    'ba_koto': 'src/main/boss/kotohime.cpp',
+    'ba_ellen': 'src/main/boss/ellen.cpp',
+    'ba_rikak': 'src/main/boss/rikako.cpp',
 }
 ENTITY = 'src/main/player/exatt_entity.hpp'
 
@@ -157,7 +161,7 @@ def main():
             response=parent.response(n)
             for u in units:
                 oldpath=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
-                         else f'probe\\af567c\\r{n}-{u}.obj' if u=='ba_chiyu'
+                         else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_')
                          else f'obj\\th03\\{u}.obj').encode()
                 newpath=f'probe\\{args.stage}\\r{n}\\{u}.obj'.encode()
                 need(response.count(oldpath)==1,'unique original link slot '+u)
@@ -184,7 +188,7 @@ def main():
             for u in units:
                 a=f'M=probe/{args.stage}/r{n}/{u}.cpp'.encode()
                 b=(f'M=probe/{parent.STAGE}/r{n}/{u}.cpp' if u in parent.ORDER
-                   else 'M=th03/ba_chiyu.cpp' if u=='ba_chiyu'
+                   else f'M=th03/{u}.cpp' if u.startswith('ba_')
                    else f'M=th03/{u}.cpp').encode()
                 need(newmap.count(a)==4, 'original four MAP rows '+u)
                 newmap=newmap.replace(a,b)

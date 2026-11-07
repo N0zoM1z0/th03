@@ -431,10 +431,8 @@ void near pascal kotohime_render_ring(int count)
 		left = (
 			playfield_fg_x_to_screen(left, (1 - pid_current)) - 16
 		);
-		_AX = top;
-		asm { sar ax, 4 }
-		top = _AX;
-		sprite16_put(left, _AX, sprite_offset);
+		top >>= 4;
+		sprite16_put(left, top, sprite_offset);
 	}
 }
 
