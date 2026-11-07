@@ -60,6 +60,20 @@ enum yumemi_exatt_limits_t {
     YUME_EXATT_APPEAR_END_STATE = 0x28,
     YUME_EXATT_SPECIAL_DURATION = 0x20,
     YUME_EXATT_ORDINARY_DURATION = 0x60,
+    YUME_EXATT_RENDER_EDGE_STEP = 16,
+    YUME_EXATT_BEAM_RADIUS_CHANGE = 6,
+    YUME_EXATT_BEAM_NARROW_HIT_HALF_SIZE = TO_SP(4),
+    YUME_EXATT_BEAM_INITIAL_RADIUS = 0x10,
+    YUME_EXATT_RANDOM_TARGET_X_RANGE = 0x1200,
+    YUME_EXATT_RANDOM_TARGET_Y_RANGE = 0x1000,
+    YUME_EXATT_RANDOM_TARGET_Y_BIAS = 0x600,
+    YUME_EXATT_INITIAL_FLY_SPEED = 0x46,
+    YUME_EXATT_RADIUS_TO_SUBPIXEL_SHIFT = 3,
+    YUME_EXATT_RENDER_LEFT_CLIP_RIGHT = 303,
+    YUME_EXATT_RENDER_RIGHT_CLIP_LEFT = 336,
+    YUME_EXATT_RENDER_RIGHT_CLIP_RIGHT = 623,
+    YUME_EXATT_RENDER_CLIP_TOP = 8,
+    YUME_EXATT_RENDER_CLIP_BOTTOM = 191,
 };
 
 // All sixteen Extra Attack slots share an original byte-valued lifecycle.
@@ -83,10 +97,10 @@ void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 			exatt_fly_init(
 				x,
 				y,
-				randring_far_next16_mod(0x1200),
-				(randring_far_next16_mod(0x1000) + 0x600),
+				randring_far_next16_mod(YUME_EXATT_RANDOM_TARGET_X_RANGE),
+				(randring_far_next16_mod(YUME_EXATT_RANDOM_TARGET_Y_RANGE) + YUME_EXATT_RANDOM_TARGET_Y_BIAS),
 				pid_,
-				0x46
+				YUME_EXATT_INITIAL_FLY_SPEED
 			);
 			p->radius = 0;
 			p->duration = YUME_EXATT_ORDINARY_DURATION;
@@ -138,15 +152,18 @@ void near yumemi_exatt_render_one(void)
 
 	if(p->state == YUME_EXATT_BEAM) {
 		if(pid_current == 1) {
-			grc_setclip(16, 8, 303, 191);
+			grc_setclip(16, YUME_EXATT_RENDER_CLIP_TOP, YUME_EXATT_RENDER_LEFT_CLIP_RIGHT, YUME_EXATT_RENDER_CLIP_BOTTOM);
 		} else {
-			grc_setclip(336, 8, 623, 191);
+			grc_setclip(YUME_EXATT_RENDER_RIGHT_CLIP_LEFT, YUME_EXATT_RENDER_CLIP_TOP, YUME_EXATT_RENDER_RIGHT_CLIP_RIGHT, YUME_EXATT_RENDER_CLIP_BOTTOM);
 		}
 
 		if(p->frame <= YUME_EXATT_BEAM_WARNING_END) {
 			egc_off();
 			grcg_setcolor(GC_RMW, 6);
 			extent = p->frame;
+			// Original signed halves truncate toward zero. Replacing
+			// with an arithmetic shift changes PC-98 CODE and negative
+			// odd values (failed genuine native af860c/af860d).
 			mid_y = (top / 2);
 			extent_half = (extent / 2);
 
@@ -253,10 +270,15 @@ void near yumemi_exatt_render_one(void)
 		sprite16_put_size.set(32, 16);
 		sprite_offset = (pid.so_attack + 0x280);
 
+		// Four independent top/bottom/left/right perimeter traversals.
+		// These ordinary while loops compile exactly like the original
+		// for-loops, preserving signed endpoints and the 16-pixel steps.
 		mid_y = (top - p->radius);
 		sprite16_put(left, mid_y, sprite_offset);
-		for(mid_y += 16; mid_y < (top - 16); mid_y += 16) {
+		mid_y += 16;
+		while(mid_y < (top - 16)) {
 			sprite16_put(left, mid_y, (sprite_offset + 0x502));
+			mid_y += YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		mid_y = (
@@ -265,8 +287,10 @@ void near yumemi_exatt_render_one(void)
 			16
 		);
 		sprite16_put(left, mid_y, (sprite_offset + 0x280));
-		for(mid_y -= 16; mid_y > top; mid_y -= 16) {
+		mid_y -= 16;
+		while(mid_y > top) {
 			sprite16_put(left, mid_y, (sprite_offset + 0x502));
+			mid_y -= YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		sprite16_put_size.set(16, 32);
@@ -274,14 +298,18 @@ void near yumemi_exatt_render_one(void)
 
 		edge_x = (left - p->radius + 16);
 		sprite16_put(edge_x, top, sprite_offset);
-		for(edge_x += 16; edge_x < left; edge_x += 16) {
+		edge_x += 16;
+		while(edge_x < left) {
 			sprite16_put(edge_x, top, (sprite_offset + 0x500));
+			edge_x += YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		edge_x = (p->radius + left);
 		sprite16_put(edge_x, top, (sprite_offset + 2));
-		for(edge_x -= 16; edge_x > (left + 16); edge_x -= 16) {
+		edge_x -= 16;
+		while(edge_x > (left + 16)) {
 			sprite16_put(edge_x, top, (sprite_offset + 0x500));
+			edge_x -= YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		if(p->radius > YUME_EXATT_CORNER_MIN_RADIUS) {
@@ -315,26 +343,26 @@ void far pascal exatt_update_yumemi(void)
 
 		if(p->state == YUME_EXATT_BEAM) {
 			if(p->frame <= YUME_EXATT_FRAME_GROW_END) {
-				p->radius += 6;
+				p->radius += YUME_EXATT_BEAM_RADIUS_CHANGE;
 			} else if(
 				(p->frame >= p->duration) &&
 				(p->frame < (p->duration + 8))
 			) {
-				p->radius -= 6;
+				p->radius -= YUME_EXATT_BEAM_RADIUS_CHANGE;
 			} else if(p->frame >= (p->duration + 8)) {
 				p->state = YUME_EXATT_FREE;
 			}
 
 			hitbox_hittest_skip_explosions = true;
 			hitbox.pid = pid_other;
-			hitbox.radius.x.v = (p->radius << 3);
-			hitbox.radius.y.v = TO_SP(4);
+			hitbox.radius.x.v = (p->radius << YUME_EXATT_RADIUS_TO_SUBPIXEL_SHIFT);
+			hitbox.radius.y.v = YUME_EXATT_BEAM_NARROW_HIT_HALF_SIZE;
 			hitbox.origin.center.x.v = p->x;
 			hitbox.origin.center.y.v = p->y;
 			hitbox_hittest();
 
-			hitbox.radius.x.v = TO_SP(4);
-			hitbox.radius.y.v = (p->radius << 3);
+			hitbox.radius.x.v = YUME_EXATT_BEAM_NARROW_HIT_HALF_SIZE;
+			hitbox.radius.y.v = (p->radius << YUME_EXATT_RADIUS_TO_SUBPIXEL_SHIFT);
 			hitbox.origin.center.x.v = p->x;
 			hitbox.origin.center.y.v = p->y;
 			hitbox_hittest();
@@ -358,12 +386,14 @@ void far pascal exatt_update_yumemi(void)
 		} else if(p->state <= YUME_EXATT_APPEAR_END_STATE) {
 			p->state++;
 		} else {
-			p->radius = 0x10;
+			p->radius = YUME_EXATT_BEAM_INITIAL_RADIUS;
 			p->frame = 0;
 			p->state = YUME_EXATT_BEAM;
 			snd_se_play(7);
 		}
 
+		// Genuine TC4 rejects the superficially interchangeable
+		// ++p->frame spelling (af860e), so keep byte postfix update.
 		p->frame++;
 	}
 }

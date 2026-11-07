@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After860: full Yumemi Extra Attack active beam and four raster loops
+
+- The **entire five-function `ex_yume` original physical owner** now
+  renders the active beam's four signed-step sprite perimeter strips
+  through normal `while` loops; original 8+8 entity slots, distinct
+  16-bit clip rectangles, radius/hitbox phase, RNG target offsets and
+  launch speed are source-native exact.
+- Genuine original TC4 rejected signed-char `extent /2` → `>>1`
+  (`af860c`: **1,690** instead of original **1,696** CODE bytes),
+  signed `top /2` → `>>1` (`af860d`: also 1,690), and byte
+  `p->frame++` → `++p->frame` (`af860e`: 1,701). Original arithmetic
+  and postfix remain. Final `af860g` passes two genuine original
+  TC4 4.02/complete normal TLINK rounds: **1,696 CODE bytes, 87
+  ordered native OMF FIXUPPs, five PUBLICs**, complete original Japanese
+  MAIN and all 1,553 MZ relocations. 98 other project objects/CRT
+  reused, no cold replay. See
+  [after860 Yumemi Extra Attack review](MAIN_YUMEMI_EXATT_BEAM_AFTER860_REVIEW.md).
+  Previously source-covered CODE; no duplicate unique byte/Factory credit.
+
 ## Latest after859: five session-edited full original physical sources together
 
 - Actual original `af859a` **recompiles the five complete original
