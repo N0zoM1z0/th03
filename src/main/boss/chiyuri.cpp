@@ -116,6 +116,15 @@ enum chiyuri_lifecycle_t {
     CHIYURI_MONO_COLOR6_LATE_STEP = 0x18,
 };
 
+// The whole Chiyuri BOSS uses an eight-tick warning cadence and a
+// four-frame ring animation; only these power-of-two periods may mask.
+enum chiyuri_boss_cadence_t {
+    CHIYURI_RENDER_ANIM_PERIOD = 4,
+    CHIYURI_RING_SPRITES = 16,
+    CHIYURI_RING_RADIUS_SHIFT = 4,
+    CHIYURI_INTRO_RADIUS_SHIFT = 3,
+};
+
 void far pascal boss_chiyuri_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -264,7 +273,7 @@ enum chiyuri_trail_phase_t {
 
 void near chiyuri_pattern_trail_ring(void)
 {
-	if((boss_frame % CHIYURI_TRAIL_BOMB_PERIOD) == 0) {
+	if((boss_frame & (CHIYURI_TRAIL_BOMB_PERIOD - 1)) == 0) {
 		bomb_axis_add(
 			boss_center_x, boss_center_y, (1 - pid_current)
 		);
@@ -515,10 +524,12 @@ void far gba_boss_update_chiyuri(void)
 
 	bullet_template.is_animated = true;
 
-	boss_render_frame += ((round_or_result_frame % 4) == 0);
+	boss_render_frame += (
+        (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1)) == 0
+    );
 	// This mutable byte field needs the original bitmask instruction:
 	// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
-	boss_render_frame &= 3;
+	boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
 
 	if(boss_move_phase) {
 		// The original postfix byte decrement is CODE-visible; prefix
@@ -552,7 +563,7 @@ void far gba_boss_update_chiyuri(void)
 	boss_hittest_end();
 }
 
-// Natural radius*16 and render-frame*4 generate TC4's original shifts.
+// Natural 16-bit radius and frame left shifts preserve original TC4 codegen.
 void near chiyuri_render_ring(void)
 {
 	screen_y_t top;
@@ -564,17 +575,17 @@ void near chiyuri_render_ring(void)
 	register screen_x_t left;
 
 	pid_other = (1 - pid_current);
-	radius = (boss_effect_radius * 16);
+	radius = (boss_effect_radius << CHIYURI_RING_RADIUS_SHIFT);
 
 	sprite16_put_size.w = 32;
 	sprite16_put_size.h = 16;
 
 	sprite_offset = (boss_sprite_offset + 0x790);
-	sprite_offset += (boss_render_frame * 4);
+	sprite_offset += (boss_render_frame << 2);
 
 	for(
 		i = 0, angle = boss_move_phase;
-		i < 16;
+		i < CHIYURI_RING_SPRITES;
 		(++i, angle += 0x10)
 	) {
 		left = polar(
@@ -657,22 +668,22 @@ void near chiyuri_render_intro(void)
 		return;
 	}
 
-	// TC4 compiles signed frame*8 to the original left shift. The
+	// TC4 compiles the signed frame << 3 to the original shift. The
 	// adjacent byte phase updates still require their AL expression:
 	// direct +=4, =phase+4 and -=4 changed original native code.
 	frame = boss_frame;
 	if(frame < CHIYURI_INTRO_RENDER_FIRST_END) {
-		boss_effect_radius = (0x100 - (frame * 8));
+		boss_effect_radius = (0x100 - (frame << CHIYURI_INTRO_RADIUS_SHIFT));
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
 	} else if(frame < CHIYURI_INTRO_RENDER_SECOND_END) {
-		boss_effect_radius = (0x200 - (frame * 8));
+		boss_effect_radius = (0x200 - (frame << CHIYURI_INTRO_RADIUS_SHIFT));
 		_AL = boss_move_phase;
 		_AL += (unsigned char)0xFC;
 		boss_move_phase = _AL;
 	} else {
-		boss_effect_radius = (0x300 - (frame * 8));
+		boss_effect_radius = (0x300 - (frame << CHIYURI_INTRO_RADIUS_SHIFT));
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
