@@ -71,11 +71,12 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-after736 **seven-physical-source simultaneous** native checkpoint,
-including both Kotohime/Yumemi large BOSSes, the large enemy script
-interpreter and newly direct source-bound input/PI/KAJA/exit runtime owners.
-It separately preserves after730 and after724 native integration scopes,
-after721/715 results and the historical after709 58-owner union.
+after741 **eight-physical-source simultaneous** native checkpoint,
+including complete Kana BOSS and Yumemi Extra Attack, all four original
+enemy source partitions, and newly direct source-attested frame-delay and
+MAIN executable-handoff owners. It separately preserves the after736,
+after730 and after724 native integration scopes, after721/715 results
+and the historical after709 58-owner union.
 It retains after596 MAIN and historical after587 MAINL as *different*
 source-native ancestors, not current
 whole-game acceptance. The [after709 chronological archive](docs/RE_HANDOFF_ARCHIVE_AFTER709.md)
@@ -83,7 +84,7 @@ and [earlier after596 archive](docs/RE_HANDOFF_ARCHIVE_AFTER596.md)
 preserve the detailed experiments, negative trials and limitations.
 
 MAIN's frozen after596 normal source-native link, and the later
-after736 seven-object current-source overlay, reproduce the complete
+after741 eight-object current-source overlay, reproduce the complete
 124,642-byte Japanese loaded program and all 1,553 ordered MZ relocations.
 A **separate standard DOS MZ serializer** then reproduces the entire
 original 130,882-byte Japanese MAIN.EXE; this does not prove that the
@@ -100,17 +101,22 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af736a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af741b
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af724a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af715a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af709a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_yumemi_cpu_after596_work.py
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_score_input_pi_after587_work.py
     .venv/bin/python scripts/progress.py --check
     .venv/bin/python scripts/validate_tracking.py
     git diff --check
+
+Older `af736a`, `af715a`, and `af709a` receipts are **historical source
+snapshots**, not current-live-source checks after recent enemy/Kana/Yumemi
+edits. The read-only current-source reviewer properly detects their input
+drift. Preserve their original compiler and linker evidence without
+repinning or weakening the reviewer; use `af741b` for current shared
+enemy source and Kana BOSS coverage.
 
 The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
 the historical applied after520 deletion audit (258 stages / 5,760

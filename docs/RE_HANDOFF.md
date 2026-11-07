@@ -10,7 +10,30 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest affected source-native proof: `af736a`.** Two independent original
+- **Latest affected current-source proof: `af741b`.** Two original
+  TC4 4.02/TLINK rounds **simultaneously rebuilt eight complete
+  original physical TUs**: large Kana BOSS, large Yumemi Extra Attack,
+  all four physical `enemy.cpp` formation/script/hittest/update objects,
+  and original `frmdely1` VSYNC delay and MAIN `execl` handoff.
+  All **6,995 original CODE bytes, 596 literal ordered OMF FIXUPPs,
+  35 PUBLICs**, segments and compiler-consumed source dependencies
+  match. The entire normal MAIN/MAP, Japanese 124,642-byte loaded
+  program, all 1,553 relocations and separately serialized original
+  130,882-byte Japanese MAIN.EXE match both rounds. **91 other original
+  objects and CRT reused**, no full cold replay or object byte patch.
+- **Newly current-source-bound owners:** the original `frmdely1` shared
+  object lives at `obj/th02/frmdely1.obj` and occupies 21 CODE bytes in
+  TH03; the original TH03 `execl` occupies 79 CODE bytes, including the
+  genuine 16-bit far/near vararg handoff. Both now have actual current
+  C++ source dependencies, whole-object native OMF fields and complete
+  linked MAIN acceptance in this scoped proof. The source-native
+  `enemy.cpp` also now passes **all four current compiled partitions**
+  after the changed enemy hit/chain controller, not only `eupdb`.
+- **Source-codegen negative controls:** direct Kana signed-AL expression,
+  simplified Yumemi clip-side selection, enemy parity-expression
+  negation, and modern far/near `execl` pointer casts failed actual
+  compiler/code comparisons and were **restored**, not credited.
+- **Previous affected source-native proof: `af736a`.** Two independent original
   TC4 4.02 / TLINK rounds compiled **seven complete original physical
   current-source TUs together**: Kotohime/Yumemi **large BOSSes**, the
   large ENEDAT enemy script interpreter `efornb`, and original input
@@ -48,8 +71,12 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   and fixed: prior-to-725 receipts like `af709a` are reviewed against
   their **original hyper-only** compiler input contract; post-725 proofs
   require all ten current source paths and compiler-emitted dependencies.
-  Read-only review of old `af709a`, current `af725d` and new `af730a`
-  all passes; historical receipts were **not** repinned or mutated.
+  The original after730 review of `af709a`, `af725d` and `af730a`
+  passed with those appropriate contracts. After new Kana/enemy source
+  changes, the **current-live-source reviewer correctly rejects** older
+  `af709a` / `af736a` receipts due to changed source hashes. This does
+  not invalidate their immutable original snapshot proofs; they are
+  **historical**, not current checkout validation, and are not repinned.
 - **Original additional physical sources now directly proved:** `snd_se`
   (120 original CODE), `polar` (26 CODE), and `cfg_lres` (49 CODE), including
   exact original OMF segment/fixup metadata. Natural C++ changes to the
@@ -122,7 +149,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the latest after736 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
+Read [the latest after741 eight-source review](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER741_REVIEW.md),
+[the prior after736 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
 [the earlier after730 six-source review](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
 [the earlier after724 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
 [the earlier after721 five-source review](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
@@ -137,20 +165,30 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af736a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af741b
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af724a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af715a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af709a
 .venv/bin/python scripts/validate_tracking.py
 .venv/bin/python scripts/progress.py --check
 git diff --check
 ```
 
+This list contains **current-source checks that actually pass on this
+checkout**. Do not run `af736a`, `af715a` or `af709a` as current-input
+validation: their source input hashes intentionally differ from later
+maintained files. They remain immutable historical native evidence.
+
 The latest protected read-only proof root is
-`.analysis/work/exatt-layout-af736a/report.json`, containing the seven
-new current-source original native object rounds and full TLINK receipts.
+`.analysis/work/exatt-layout-af741b/report.json`, including eight current
+source-native physical objects and all four original enemy partitions.
+The **historical** after736 root is
+`.analysis/work/exatt-layout-af736a/report.json`, preserving its seven
+source-snapshot original native object rounds and full TLINK receipts.
+Its live-source hash check now **correctly fails** after `enemy.cpp`
+changes. Historical `af709a` (Kana) and `af715a` (Yumemi) likewise
+must not be advertised as current-source passes; retain their original
+snapshots and do not modify the source-bound native reviewer to hide drift.
 The earlier six-TU root is
 `.analysis/work/exatt-layout-af730a/report.json`, including all ten nested
 `core` source snapshots and both actual six-unit compiler/linker rounds.
@@ -166,7 +204,8 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [after736 current seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
+Review the [after741 current eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER741_REVIEW.md),
+[after736 previous seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
 [after730 prior six-source report](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
 [after724 seven-source integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
 [after721 prior five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER721_REVIEW.md),
