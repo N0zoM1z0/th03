@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After837: full shared BOSS movement, template and pattern selector
+
+- The original shared BOSS source's **two physical owners** (`ba_sring`
+  and `ba_srest`) now use natural `if/else if` horizontal turns and
+  `for(;;)` random-pattern rejection with explicit `break`, both proven
+  exact in real TC4 and complete normal TLINK. The 24-sprite ring,
+  32-byte template ABI and RNG order are unchanged; original sprite,
+  score, radius and target offsets are named semantic constants.
+- Fresh negatives: `length=length*8` changed ring CODE (`af837c`);
+  direct C++ 32-byte struct copy changed original 601-byte `ba_srest`
+  to 597 bytes (`af837d`). Both are rejected. Final `af837e` passes
+  **949 original CODE bytes, 106 ordered FIXUPPs, 8 PUBLICs**, complete
+  Japanese MAIN and all 1,553 relocations in two original TC4/TLINK
+  rounds; 97 other objects and CRT reused, no cold replay. See
+  [after837 BOSS shared review](MAIN_BOSS_SHARED_NATURAL_CONTROL_AFTER837_REVIEW.md).
+  Existing owners, no new unique CODE or canonical Factory credit.
+
 ## After836: complete Kana major BOSS natural C++ clocks
 
 - The complete `ba_kana` BOSS now expresses both its unsigned-16-bit rotating

@@ -36,6 +36,13 @@ enum boss_shared_limits_t {
     BOSS_PATTERN_RECENT_RADIUS = 2,
     BOSS_PATTERN_MODE_OFFSET = 2,
     BOSS_PATTERN_COUNT_MASK = 7,
+    BOSS_RING_PRIMARY_SPRITES = 16,
+    BOSS_RING_SECONDARY_SPRITES = 8,
+    BOSS_RING_SPRITE_OFFSET = 0x1930,
+    BOSS_RING_FINISH_RADIUS = 0xC8,
+    BOSS_RING_REWARD = 2560,
+    BOSS_RING_START_SOUND = 16,
+    BOSS_TARGET_Y_AHEAD = 0x800,
 };
 
 extern boss_state_t boss_state;
@@ -75,7 +82,7 @@ signed char near pascal boss_explosion_ring(
 	register int i;
 
 	if(length == 1) {
-		snd_se_play(16);
+		snd_se_play(BOSS_RING_START_SOUND);
 	}
 
 	x = playfield_fg_x_to_screen(x, (1 - pid_current));
@@ -96,23 +103,23 @@ signed char near pascal boss_explosion_ring(
 	}
 	sprite16_put_size.set(48, 48);
 
-	for(i = 0; i < 16; (++i, angle += 0x10)) {
+	for(i = 0; i < BOSS_RING_PRIMARY_SPRITES; (++i, angle += 0x10)) {
 		left = (polar(x, length, CosTable8[angle]) - 24);
 		top = (polar(y, length, SinTable8[angle]) - 24);
-		sprite16_put(left, top, 0x1930);
+		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
 	}
 
 	// Signed-angle two-operand subtraction remains byte-critical:
 	// direct unary minus changed original CODE (af768e).
 	angle = (0 - (unsigned char)length);
-	for(i = 0; i < 8; (++i, angle += 0x20)) {
+	for(i = 0; i < BOSS_RING_SECONDARY_SPRITES; (++i, angle += 0x20)) {
 		left = (polar(x, (length * 2), CosTable8[angle]) - 24);
 		top = (polar(y, (length * 2), SinTable8[angle]) - 24);
-		sprite16_put(left, top, 0x1930);
+		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
 	}
 
-	if(length >= 0xC8) {
-		score_add(2560, (1 - pid_current));
+	if(length >= BOSS_RING_FINISH_RADIUS) {
+		score_add(BOSS_RING_REWARD, (1 - pid_current));
 		return 0;
 	}
 	return -1;
@@ -132,9 +139,7 @@ extern "C" void near boss_move_sine(void)
 
 	if(boss_center_x <= BOSS_TURN_LEFT_X) {
 		boss_velocity_x = BOSS_HORIZONTAL_STEP;
-		return;
-	}
-	if(boss_center_x >= BOSS_TURN_RIGHT_X) {
+	} else if(boss_center_x >= BOSS_TURN_RIGHT_X) {
 		boss_velocity_x = -BOSS_HORIZONTAL_STEP;
 	}
 }
@@ -218,7 +223,7 @@ extern "C" void near boss_target_update(void)
 {
 	if(boss_mode != BOSS_DESCEND_MODE) {
 		boss_target_x = boss_center_x;
-		boss_target_y = (boss_center_y + 0x800);
+		boss_target_y = (boss_center_y + BOSS_TARGET_Y_AHEAD);
 	}
 }
 
@@ -231,12 +236,15 @@ extern "C" void near boss_pattern_next(void)
 		return;
 	}
 
-	do {
+	for(;;) {
 		pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
-	} while(
-		((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
-		((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
-	);
+		if(!(
+			((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
+			((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
+		)) {
+			break;
+		}
+	}
 
 	boss_pattern_previous = pattern;
 	boss_frame = 0;
