@@ -8,6 +8,28 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after835: five full modified physical source owners built together
+
+- `af835a` **actually compiled all five original physical TUs modified
+  this session in each of two independent original TC4 4.02 rounds**:
+  full Marisa/Ellen **major BOSSes**, full Bullet simulation/render/
+  GRCG engine, the exact signed-Q8 `polar` leaf and direct PMD `snd_se`
+  source. Both complete normal MAIN TLINK rounds matched **all 5,937
+  CODE bytes, 626 literal ordered native FIXUPPs, 41 PUBLICs**, original
+  BSS/segment/source dependencies, full normal MAIN EXE/MAP, all
+  **124,642 Japanese loaded bytes and 1,553 ordered MZ relocations**.
+  Independently serialized original Japanese MZ also matches all
+  **130,882 bytes**; 94 other original project objects and CRT reused,
+  **no full cold replay**. See
+  [after835 five-original-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER835_REVIEW.md).
+- The unchanged, different source owners from earlier simultaneous `af829a`
+  (four original TUs) and `af823a` (nine original TUs) still pass separate
+  live-source **read-only** native reviews. **Do not combine these into a
+  claimed simultaneous eighteen-object build.** Historical exact covered
+  bytes from these scopes cannot be counted again as unique ownership or
+  canonical packed-file Factory acceptance. The original `input_s` one-NOP
+  historical parent blocker remains unresolved.
+
 ## After834: direct original PMD sound-effect service leaf
 
 - Complete original two-function `snd_se` owner now issues the original

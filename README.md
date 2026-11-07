@@ -71,7 +71,16 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after829 original-source four-object integration**: three
+**latest after835 five-original-physical-source integration**: complete
+Marisa and Ellen major BOSSes, the large Bullet/GRCG engine, signed-Q8
+`polar` and the original PMD sound-effect leaf. Both real original TC4
+4.02/full normal TLINK rounds **simultaneously** compile only these five
+changed sources and match **5,937 CODE bytes, 626 ordered FIXUPPs,
+41 PUBLICs**, normal MAIN EXE/MAP, 124,642 Japanese loaded bytes and
+all 1,553 MZ relocations. The remaining **94 original project objects
+and CRT are reused**, without cold replay. See
+[after835 five-source native integration](docs/MAIN_FIVE_SOURCE_INTEGRATION_AFTER835_REVIEW.md).
+The earlier separately source-current **after829 four-object integration**: three
 complete major BOSSes (Yumemi, Rikako and Chiyuri) plus full Reimu
 Chargeshot/Gauge. Two real original TC4/TLINK rounds recompile **these
 four genuinely modified original physical sources together** and match
@@ -92,7 +101,7 @@ The distinct earlier nine-source proof remains current for its **nine
 other unchanged source owners**; the two experiments must not be
 incorrectly represented as one simultaneous 12-object build.
 The earlier
-**latest after823 nine-current-source-original-physical-owner simultaneous
+**historical but still source-current after823 nine-original-physical-owner simultaneous
 native proof**: complete Reimu, Mima and Kotohime major BOSSes, main entry/frame
 scheduler, Kana Bomb, hitbox damage, HitCircle sprites, full shot and
 scoreboard/bonus pipelines. All nine *actually compile together* with
@@ -163,6 +172,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af835a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af829a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af827a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af823a
