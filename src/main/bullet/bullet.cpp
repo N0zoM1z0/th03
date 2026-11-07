@@ -210,7 +210,7 @@ narrow:
 
 void bullets_reset(void)
 {
-	for(int i = 0; i < BULLET_COUNT; i++) {
+	for(int i = 0; i < BULLET_COUNT; ++i) {
 		bullets[i].flag = BF_FREE;
 	}
 	bullet_trail_ring_i = 0;
@@ -395,7 +395,7 @@ void bullets_add(void)
 		bullet_template.speed.v = to_sp8(1.0f);
 	}
 
-	for(bullet_i = 0; bullet_i < BULLET_COUNT; (bullet_i++, p++)) {
+	for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, p++)) {
 		if(p->flag != BF_FREE) {
 			continue;
 		}
@@ -417,7 +417,7 @@ void bullets_add(void)
 			if(bullet_trail_ring_i >= TRAIL_RING_SIZE) {
 				bullet_trail_ring_i = 0;
 			}
-			for(trail_i = 0; trail_i < TRAIL_POINT_COUNT; trail_i++) {
+			for(trail_i = 0; trail_i < TRAIL_POINT_COUNT; ++trail_i) {
 				p->trail->center_x.v[trail_i] = bullet_template.center.x;
 				p->trail->center_y.v[trail_i] = bullet_template.center.y;
 			}
@@ -481,7 +481,7 @@ void bullets_add(void)
 			if(done) {
 				break;
 			}
-			group_i++;
+			++group_i;
 		}
 	}
 
@@ -962,7 +962,7 @@ void bullets_render(void)
 	sprite16_put_size.set(BULLET16_W, BULLET16_H);
 	bullet_t near *bullet_p = bullets;
 	bool need_cloud_pass = false;
-	for(bullet_i = 0; bullet_i < BULLET_COUNT; (bullet_i++, bullet_p++)) {
+	for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, bullet_p++)) {
 		if(bullet_p->flag == BF_BULLET16) {
 			so = bullet_p->sprite_offset;
 			if(bullet_p->has_trail) {
@@ -1012,7 +1012,7 @@ void bullets_render(void)
 		sprite16_mono_color_(V_WHITE);
 		sprite16_put_size.set(PELLET_CLOUD_W, PELLET_CLOUD_H);
 		bullet_p = bullets;
-		for(bullet_i = 0; bullet_i < BULLET_COUNT; (bullet_i++, bullet_p++)) {
+		for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, bullet_p++)) {
 			if(bullet_p->flag == BF_PELLET_CLOUD) {
 				topleft_set(
 					topleft,
