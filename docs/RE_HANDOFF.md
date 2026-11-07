@@ -254,6 +254,18 @@ The scoped overlay/reviewer also support individual Enemy/Fireball/Explosion
 producers with CODE/DATA/BSS-aware output accounting. The older historical
 after596 receipt and packed-file Factory counts remain unchanged.
 
+### Fireball full-state-machine C++ after608
+
+The actual Fireball 1,555-CODE-byte / 115-native-fixup source owner now
+uses natural `if`/`continue` for both the falling Y release and the
+player-dependent horizontal transfer completion, replacing
+`free_and_continue` and `switch_to_fall` jumps. Two independent
+original TC4/TLINK rounds in `af608c` prove all CODE + 1 DATA + 1 BSS,
+10 PUBLICs, normalized full MAIN MAP, complete Japanese program and MZ
+vector. See [after608 fireball review](MAIN_FIREBALL_TRANSFER_CPP_AFTER608_NATIVE_REVIEW.md).
+The `af608b` seven-unit Enemy/Fireball/Explosion/Bullet control also
+passed, with unrelated originals reused. No newly accepted bytes.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

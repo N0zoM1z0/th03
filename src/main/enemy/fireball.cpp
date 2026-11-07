@@ -302,7 +302,6 @@ void fireballs_update(void)
 				(next <= to_sp(          0 - (FALL_W / 2))) ||
 				(next >= to_sp(PLAYFIELD_W + (FALL_W / 2)))
 			) {
-free_and_continue:
 				p->flag = EFF_FREE;
 				continue;
 			}
@@ -311,7 +310,8 @@ free_and_continue:
 			next = p->center.y.v;
 			next += p->velocity.y.v;
 			if(next >= to_sp(PLAYFIELD_H + (FALL_H / 2))) {
-				goto free_and_continue;
+				p->flag = EFF_FREE;
+				continue;
 			}
 			p->center.y.v = next;
 
@@ -336,21 +336,17 @@ free_and_continue:
 			// hardcoding the assumption of the physical layout together with
 			// the expected horizontal velocity.
 			static_assert(PLAYER_COUNT == 2);
-			if(p->pid == 0) {
-				if(p->target_center_x_for_origin_pid.v <= next) {
-switch_to_fall:
-					p->center.x = p->target_center_x_for_target_pid;
-					p->center.y.set(0.0f);
-					p->velocity.x.set(0.0f);
-					p->velocity.y.v = p->fall_velocity_y;
-					p->flag = FF_FALL;
-					p->pid = (1 - p->pid);
-					continue;
-				}
-			} else {
-				if(p->target_center_x_for_origin_pid.v >= next) {
-					goto switch_to_fall;
-				}
+			if(
+				((p->pid == 0) && (p->target_center_x_for_origin_pid.v <= next)) ||
+				((p->pid != 0) && (p->target_center_x_for_origin_pid.v >= next))
+			) {
+				p->center.x = p->target_center_x_for_target_pid;
+				p->center.y.set(0.0f);
+				p->velocity.x.set(0.0f);
+				p->velocity.y.v = p->fall_velocity_y;
+				p->flag = FF_FALL;
+				p->pid = (1 - p->pid);
+				continue;
 			}
 
 			p->center.x.v = next;
