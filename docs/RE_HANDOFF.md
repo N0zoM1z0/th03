@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After868: all nine source loops of complete Marisa Chargeshot/Gauge
+
+- The complete `cs_mari` original nine-function Marisa Chargeshot/Gauge
+  now expresses all **nine original beam/GRCG/Gauge loops** as natural
+  C++ `while`: two 12-point initializers, descending 11-to-1 history
+  shift, sparse hit samples 0/4/8, three different GRCG tile bands
+  and two five-shot Gauge emitters. Original signed Y `>>5`, 24-subpixel
+  trail drop, 16-pixel beam offsets and VRAM clips are named/retained.
+- Fresh TC4 codegen negatives: naming the two byte-memory Gauge
+  `speed.v -=6` operations emitted **1,503** vs original **1,509**
+  CODE bytes (`af868f`); converting byte frame postfix to prefix
+  emitted **1,514** (`af868g`). Both original byte updates restored.
+  Final `af868i` proves **1,509 CODE bytes, 152 ordered native FIXUPPs,
+  9 PUBLICs**, full Japanese MAIN and all 1,553 relocations exact
+  in two genuine original TC4 4.02/full normal TLINK rounds. 98 other
+  game objects/CRT reused, no cold replay. See
+  [after868 Marisa Chargeshot review](MAIN_MARISA_CHARGESHOT_WHOLE_LOOPS_AFTER868_REVIEW.md).
+  Already historically covered original CODE, no new unique/Factory credit.
+
 ## After867: complete Chiyuri Extra Attack paired-entity and beam loops
 
 - Full four-function `ex_chyu` (~518-byte GRCG beam renderer, ~298-byte
