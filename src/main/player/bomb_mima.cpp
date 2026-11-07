@@ -1,6 +1,7 @@
-// Complete Mima bomb hypothesis, in original target function order.
+// Original source-native full Mima Bomb update, column renderer and palette state.
 #pragma codeseg BULLET_TEXT main_04
 #pragma option -a1
+#include <stddef.h>
 #include "src/main/player/mima_gameplay.hpp"
 #pragma option -a2
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -13,6 +14,21 @@
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
 extern "C" void far bomb_bg_fill(void); // Existing genuine BX hardware ABI.
 
+// The physical original has eight consecutive four-byte bomb columns per
+// player; each new column starts on an eight-frame boundary.
+enum mima_bomb_phase_t {
+    MIMA_BOMB_COLUMNS = 8,
+    MIMA_BOMB_COLUMN_PERIOD = 8,
+    MIMA_BOMB_FLASH_LAST = 80,
+    MIMA_BOMB_SHAKE_END = 144,
+};
+typedef char mima_bomb_column_stride_is_4[
+    (sizeof(mima_bomb_column_t) == 4) ? 1 : -1
+];
+typedef char mima_bomb_column_sprite_at_02[
+    (offsetof(mima_bomb_column_t, sprite_offset) == 2) ? 1 : -1
+];
+
 void far mima_bomb_update(void)
 {
     int i;
@@ -22,14 +38,14 @@ void far mima_bomb_update(void)
     if(bomb_flag[pid_current] == BF_PREPARING) {
         bomb_flag[pid_current] = BF_ACTIVE;
         bomb_frame[pid_current] = 0;
-        for(i = 0; i < 8; i++) {
+        for(i = 0; i < MIMA_BOMB_COLUMNS; ++i) {
             mima_bomb_columns[pid_current][i].sprite_offset = 0;
         }
         snd_se_play(18);
     }
     bomb_frame[pid_current]++;
-    i = bomb_frame[pid_current] / 8 - 1;
-    if(i < 8 && (bomb_frame[pid_current] % 8) == 0) {
+    i = bomb_frame[pid_current] / MIMA_BOMB_COLUMN_PERIOD - 1;
+    if(i < MIMA_BOMB_COLUMNS && (bomb_frame[pid_current] % MIMA_BOMB_COLUMN_PERIOD) == 0) {
         mima_bomb_columns[pid_current][i].x = randring2_next16_mod(TO_SP(PLAYFIELD_W));
         mima_bomb_columns[pid_current][i].sprite_offset =
             (i / 3) * 2 + pid.so_attack + 0x1C;
@@ -45,8 +61,10 @@ void near mima_bomb_columns_render(void)
     mima_bomb_column_p = &mima_bomb_columns[pid_current][0];
     sprite16_put_size.set(16, 16);
     sprite16_clip.reset();
-    for(int i = 0; i < 8; i++, mima_bomb_column_p++) {
-        if(mima_bomb_column_p->sprite_offset == 0) {
+    for(int i = 0; i < MIMA_BOMB_COLUMNS; ++i, mima_bomb_column_p++) {
+        // Original sentinel terminates rendering at the *first* empty slot,
+        // rather than skipping past a possible later column.
+        if(!mima_bomb_column_p->sprite_offset) {
             break; // Target stops on the first uninitialized column.
         }
         x = playfield_fg_x_to_screen(mima_bomb_column_p->x, pid_current);
@@ -63,7 +81,7 @@ void far mima_bomb(void)
     }
     egc_off();
     frame = bomb_frame[pid_current];
-    if(frame <= 80) {
+    if(frame <= MIMA_BOMB_FLASH_LAST) {
         grcg_setcolor(GC_RMW, pid_current);
         // Hardware boundary: target B39E calls B37C, which copies BX to DI
         // for its VRAM fill. Same maintained Marisa/Reimu helper convention.
@@ -80,8 +98,8 @@ void far mima_bomb(void)
         palette_changed = true;
         egc_on();
         mima_bomb_columns_render();
-    } else if(frame < 144) {
-        if((frame & 1) == 0) {
+    } else if(frame < MIMA_BOMB_SHAKE_END) {
+        if((static_cast<unsigned int>(frame) % 2) == 0) {
             snd_se_play(16);
             Palettes[pid_current].c.r = 100;
         } else {
@@ -90,7 +108,7 @@ void far mima_bomb(void)
         Palettes[pid_current].c.g = 0;
         Palettes[pid_current].c.b = 0;
         palette_changed = true;
-        color = frame % 8;
+        color = frame % MIMA_BOMB_COLUMN_PERIOD;
         if(color == 0) {
             bomb_explosion_add(TO_SP(144), TO_SP(184), pid_current);
         }
@@ -107,7 +125,7 @@ void far mima_bomb(void)
             PLAYFIELD_TOP, pid_current + 2, (_AX = pid_current));
     } else {
         playfield_fg_shift_x[pid_current] = 0;
-        color = 255 - (frame << 3);
+        color = 255 - (frame * 8);
         Palettes[pid_current].c.r = color;
         Palettes[pid_current].c.g = color;
         Palettes[pid_current].c.b = color;

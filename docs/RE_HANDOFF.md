@@ -6,6 +6,25 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Mima full bomb update, eight-column renderer and palette after689
+
+The full `bm_mima` original three-function Bomb
+producer is now actually source/OMF-verified. Its large
+state machine uses native-original unsigned `frame%2`
+and `frame*8` late fade, and the sprite helper
+uses `if(!column->sprite_offset) break` with
+natural preincrement. Original TC4 asserts the real
+four-byte bomb-column stride, +02 sprite offset, and
+eight physical slots/player; the first empty column
+terminates rendering, rather than skipping it.
+Two genuine `af689c` original TC4/TLINK native rounds
+reproduce **833 CODE bytes, 93 ordered native fixups,
+three PUBLICs**, complete original normal MAIN/MAP
+and Japanese relocations. See
+[after689 Mima Bomb review](MAIN_MIMA_BOMB_NATIVE_AFTER689_REVIEW.md).
+Only the affected TU rebuilt, no full cold replay or
+new packed-game canonical byte credit.
+
 ## Marisa complete Bomb original palette and sound C++ after688
 
 The full Marisa `bm_mari` original Bomb source (one
