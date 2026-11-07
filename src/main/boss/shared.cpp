@@ -30,6 +30,12 @@ enum boss_shared_limits_t {
     BOSS_DESPAWN_Y = 0x1A00,
     BOSS_PATTERN_WAIT_FRAMES = 0x50,
     BOSS_COMBO_POINTS = 5120,
+    BOSS_EXPLODE_MODE = 0xFF,
+    BOSS_DESCEND_MODE = 0x80,
+    BOSS_PATTERN_VARIANTS_MASK = 0x0F,
+    BOSS_PATTERN_RECENT_RADIUS = 2,
+    BOSS_PATTERN_MODE_OFFSET = 2,
+    BOSS_PATTERN_COUNT_MASK = 7,
 };
 
 extern boss_state_t boss_state;
@@ -74,6 +80,8 @@ signed char near pascal boss_explosion_ring(
 
 	x = playfield_fg_x_to_screen(x, (1 - pid_current));
 	y = ((y >> 4) + PLAYFIELD_TOP);
+	// Original multiply encoding cannot be replaced by <<=3
+	// (rejected complete original ring in af768d).
 	length *= 8;
 	angle = length;
 
@@ -94,6 +102,8 @@ signed char near pascal boss_explosion_ring(
 		sprite16_put(left, top, 0x1930);
 	}
 
+	// Signed-angle two-operand subtraction remains byte-critical:
+	// direct unary minus changed original CODE (af768e).
 	angle = (0 - (unsigned char)length);
 	for(i = 0; i < 8; (++i, angle += 0x20)) {
 		left = (polar(x, (length * 2), CosTable8[angle]) - 24);
@@ -155,8 +165,9 @@ extern "C" unsigned char near boss_update_start(void)
 	}
 
 	if(gba_boss_launched_by == PID_NONE) {
-		// The original TC4 producer performs this fixed 32-byte state copy
-		// inline with SI/DI and REP MOVSW rather than calling F_SCOPY@.
+		// The original fixed 32-byte state copy explicitly uses SI/DI,
+		// the current DS and REP MOVSW; direct struct assignment and
+		// near-pointer assignment changed original CODE (af768a/b).
 		_SI = FP_OFF(&boss_character_template[0]);
 		if(pid_current == 1) {
 			_SI += sizeof(boss_state_t);
@@ -166,7 +177,7 @@ extern "C" unsigned char near boss_update_start(void)
 		_ES = _AX;
 		_CX = (sizeof(boss_state_t) / 2);
 		asm { rep movsw }
-		boss_pattern_count = (randring_far_next16_and(7) + 1);
+		boss_pattern_count = (randring_far_next16_and(BOSS_PATTERN_COUNT_MASK) + 1);
 		boss_frame = 0;
 		gba_boss_launched_by = pid_current;
 		gba_flag_active[pid_current] = GBAF_NONE;
@@ -176,7 +187,7 @@ extern "C" unsigned char near boss_update_start(void)
 		return 1;
 	}
 
-	if(boss_mode != static_cast<unsigned char>(-1)) {
+	if(boss_mode != BOSS_EXPLODE_MODE) {
 		boss_mode = -1;
 		boss_frame = 0;
 		palette_restore_for_pid(1 - pid_current);
@@ -189,7 +200,7 @@ extern "C" void far boss_hittest_end(void)
 {
 	pid_t pid_other = (1 - pid_current);
 
-	if((boss_hp <= 0) && (boss_mode != static_cast<unsigned char>(-1))) {
+	if((boss_hp <= 0) && (boss_mode != BOSS_EXPLODE_MODE)) {
 		boss_mode = -1;
 		boss_frame = 0;
 		palette_restore_for_pid(pid_other);
@@ -205,7 +216,7 @@ extern "C" void far boss_hittest_end(void)
 
 extern "C" void near boss_target_update(void)
 {
-	if(boss_mode != 0x80) {
+	if(boss_mode != BOSS_DESCEND_MODE) {
 		boss_target_x = boss_center_x;
 		boss_target_y = (boss_center_y + 0x800);
 	}
@@ -221,20 +232,20 @@ extern "C" void near boss_pattern_next(void)
 	}
 
 	do {
-		pattern = randring_far_next16_and(0x0F);
+		pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
 	} while(
-		((boss_pattern_previous + 2) >= pattern) &&
-		((boss_pattern_previous - 2) <= pattern)
+		((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
+		((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
 	);
 
 	boss_pattern_previous = pattern;
 	boss_frame = 0;
-	boss_mode = (pattern + 2);
+	boss_mode = (pattern + BOSS_PATTERN_MODE_OFFSET);
 	// The BOSS pattern-index postfix is also codegen-visible;
     // ++boss_pattern_i failed original TC4 bytes (af708c).
     boss_pattern_i++;
 	if(boss_pattern_i > boss_pattern_count) {
-		boss_mode = 0x80;
+		boss_mode = BOSS_DESCEND_MODE;
 	}
 }
 
