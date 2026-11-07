@@ -230,9 +230,7 @@ void near rikako_pattern_entities_and_pellets(void)
 
 		for(i = 0; i < 4; i++) {
 			bullet_template.angle = randring_far_next16();
-			_AL = bullet_template.speed.v;
-			_AL += 8;
-			bullet_template.speed.v = _AL;
+			bullet_template.speed.v += 8;
 			bullets_add();
 		}
 		snd_se_play(10);
@@ -483,6 +481,8 @@ void near rikako_render_intro(void)
 		);
 		_AX = top;
 		static_cast<int16_t>(_AX) >>= 4;
+		// A direct -= 8 emits a different 16-bit opcode than
+		// this original ADD AX,-8; preserve the original register form.
 		_AX += -8;
 		top = _AX;
 		sprite16_put(left, _AX, sprite_offset);

@@ -6,6 +6,21 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Mima and Rikako full BOSS native C++ after656
+
+Mima's large BOSS update now recomputes the opponent bullet PID
+directly in natural C++ after the shared helper, preserving
+the original order and exact codegen. Rikako's entity/pellet
+BOSS attack now uses direct byte-field speed += 8 instead of an
+AL load/add/store. A shorter-looking AX -= 8 in Rikako's
+sprite renderer changed original CODE and was rejected.
+The after656d source-OMF-attested original TC4/TLINK dual rounds
+verify both complete BOSS objects together: 3,599 CODE bytes,
+492 ordered fixups, 17 PUBLICs, full original MAIN/MAP and
+Japanese MZ. See MAIN_MIMA_RIKAKO_CPP_AFTER656_REVIEW.md.
+Only these two source objects were recompiled, no full
+cold replay or newly accepted canonical game-byte credit.
+
 ## Kotohime original nine-function charged-shot source after655
 
 The full cs_koto native original source is now verified from real

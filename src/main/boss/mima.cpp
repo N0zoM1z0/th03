@@ -319,9 +319,7 @@ void far gba_boss_update_mima(void)
 	boss_target_update();
 	// The target deliberately recomputes this after the shared helper call
 	// instead of reusing [pid_other].
-	_AL = 1;
-	_AL -= pid_current;
-	bullet_template.pid = _AL;
+	bullet_template.pid = (1 - pid_current);
 	boss_frame++;
 
 	switch(boss_mode) {
