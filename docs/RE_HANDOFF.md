@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After846: full explosion collision/chain/bonus original source
+
+- Complete 630-byte `e_expl` collision owner now names original signed
+  bonus, enemy/pellet/red-blue score, 255-saturating 8-bit hit count,
+  and exact four-region 2/5/2/2 progressive chain charge values.
+  These are current C++ semantics, not a replacement for the original
+  multi-stage signed bonus arithmetic.
+- Actual original TC4 negative controls: byte `%4` replacing the hit
+  clock mask failed (**639** vs 630 original CODE, `af846a`), and
+  `hits !=0xFF` replacing `hits <255` also changed original CODE
+  (`af846b`). Both originals stay. Final `af846e` fully compiles/links
+  in two original TC4/normal MAIN TLINK rounds with **630 CODE bytes,
+  49 ordered native FIXUPPs, one PUBLIC, full Japanese original MAIN
+  and 1,553 ordered relocations** exact. 98 other project objects and
+  CRT reused; no cold replay. See
+  [after846 explosion-chain review](MAIN_EXPLOSION_CHAIN_NATIVE_AFTER846_REVIEW.md).
+  Previously covered owner, not additional unique byte or Factory credit.
+
 ## After845: full Reimu major BOSS native word clocks and byte sprite masks
 
 - The complete `ba_reimu` BOSS now uses natural unsigned-16-bit

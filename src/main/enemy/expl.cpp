@@ -9,6 +9,21 @@ enum explosion_native_timing_t {
     EXPLOSION_CHAIN_THIRD_END = 20,
     EXPLOSION_BONUS_HALVE_THROUGH = 48,
     EXPLOSION_BONUS_DOUBLE_FROM = 96,
+    EXPLOSION_SUBPIXEL_RADIUS_SCALE = 6,
+    EXPLOSION_BLUE_SCORE = 40,
+    EXPLOSION_RED_SCORE = 80,
+    EXPLOSION_PELLET_SCORE = 1,
+    EXPLOSION_BLUE_BONUS_BASE = 100,
+    EXPLOSION_RED_BONUS_BASE = 444,
+    EXPLOSION_BULLET_BONUS_PER_HIT = 16,
+    EXPLOSION_PELLET_BONUS_PER_HIT = 2,
+    EXPLOSION_PELLET_GAUGE_CHARGE = 4,
+    EXPLOSION_FIREBALL_GAUGE_MULTIPLIER = 3,
+    EXPLOSION_HITS_SATURATION = 255,
+    EXPLOSION_CHAIN_INITIAL_CHARGE = 2,
+    EXPLOSION_CHAIN_MIDDLE_CHARGE = 5,
+    EXPLOSION_CHAIN_LATE_CHARGE = 2,
+    EXPLOSION_CHAIN_EXATT_END_CHARGE = 2,
 };
 
 uint8_t far __cdecl explosions_hittest(void)
@@ -61,11 +76,13 @@ uint8_t far __cdecl explosions_hittest(void)
         if(expl_p->pid != hitbox.pid) {
             continue;
         }
+        // Byte-valued animation cadence retains its original bit test.
+        // Natural byte %4 changes the real original TC4 CODE (af846a).
         if(expl_p->frame & (EXPLOSION_HIT_PERIOD - 1)) {
             continue;
         }
 
-        extent.v = (expl_p->size_pixels * 6);
+        extent.v = (expl_p->size_pixels * EXPLOSION_SUBPIXEL_RADIUS_SCALE);
         x.v = (expl_p->center.x.v - extent.v);
         y.v = (expl_p->center.y.v - extent.v);
         if((hitbox.right.v < x.v) || (hitbox.bottom.v < y.v)) {
@@ -88,20 +105,28 @@ uint8_t far __cdecl explosions_hittest(void)
             expl_p->flag++;
         } else {
             hits = chains.hits[hitbox.pid][explosion_collision_chain_slot];
-            if(hits < 255) {
+            // Preserve a strict uint8 saturation comparison: even a
+            // semantically equivalent !=255 changed TC4 CODE (af846b).
+            if(hits < EXPLOSION_HITS_SATURATION) {
                 hits++;
             }
             chains.hits[hitbox.pid][explosion_collision_chain_slot] = hits;
 
             if(against2 == EHA2_PELLET) {
-                bonus = (hits * 2);
-                score_add(1, hitbox.pid);
+                bonus = (hits * EXPLOSION_PELLET_BONUS_PER_HIT);
+                score_add(EXPLOSION_PELLET_SCORE, hitbox.pid);
             } else if(against2 == EHA2_FIREBALL_BLUE) {
-                bonus = (100 + (hits * 16));
-                score_add(40, hitbox.pid);
+                bonus = (
+                    EXPLOSION_BLUE_BONUS_BASE +
+                    (hits * EXPLOSION_BULLET_BONUS_PER_HIT)
+                );
+                score_add(EXPLOSION_BLUE_SCORE, hitbox.pid);
             } else if(against2 == EHA2_FIREBALL_RED) {
-                bonus = (444 + (hits * 16));
-                score_add(80, hitbox.pid);
+                bonus = (
+                    EXPLOSION_RED_BONUS_BASE +
+                    (hits * EXPLOSION_BULLET_BONUS_PER_HIT)
+                );
+                score_add(EXPLOSION_RED_SCORE, hitbox.pid);
             }
 
             bonus += round_speed;
@@ -109,8 +134,8 @@ uint8_t far __cdecl explosions_hittest(void)
                 bonus >>= 1;
             } else if(round_speed >= EXPLOSION_BONUS_DOUBLE_FROM) {
                 // Preserve original signed addition: <<=1 changes TC4's
-            // actual full physical CODE (negative control af747c).
-            bonus += bonus;
+                // full physical CODE (negative control af747c).
+                bonus += bonus;
             }
 
             charge_fireball_p = (
@@ -125,24 +150,26 @@ uint8_t far __cdecl explosions_hittest(void)
                 explosion_collision_chain_slot
             ];
             if(against2 == EHA2_PELLET) {
-                gauge_avail_add(hitbox.pid, 4);
+                gauge_avail_add(hitbox.pid, EXPLOSION_PELLET_GAUGE_CHARGE);
             } else {
-                gauge_avail_add(hitbox.pid, (against2 * 3));
+                gauge_avail_add(
+                    hitbox.pid, (against2 * EXPLOSION_FIREBALL_GAUGE_MULTIPLIER)
+                );
             }
 
             if(hits < EXPLOSION_CHAIN_FIRST_END) {
-                *charge_fireball_p += 2;
+                *charge_fireball_p += EXPLOSION_CHAIN_INITIAL_CHARGE;
             } else if(hits < EXPLOSION_CHAIN_SECOND_END) {
-                *charge_fireball_p += 5;
+                *charge_fireball_p += EXPLOSION_CHAIN_MIDDLE_CHARGE;
             } else if(hits < EXPLOSION_CHAIN_THIRD_END) {
-                *charge_fireball_p += 2;
+                *charge_fireball_p += EXPLOSION_CHAIN_LATE_CHARGE;
                 chains.charge_exatt[hitbox.pid][
                     explosion_collision_chain_slot
                 ]++;
             } else {
                 chains.charge_exatt[hitbox.pid][
                     explosion_collision_chain_slot
-                ] += 2;
+                ] += EXPLOSION_CHAIN_EXATT_END_CHARGE;
             }
 
             bonus = combo_add(
