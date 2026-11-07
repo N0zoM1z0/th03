@@ -8,9 +8,14 @@ import cleanup_mainl_after520_handoff as cleanup
 from cleanup_mainl_after439_handoff import verify_active_hashes
 
 class ProtectedAfter520NativeEvidence(unittest.TestCase):
+    """Historical evidence is inspectable; old apply guard remains closed."""
     @classmethod
     def setUpClass(cls):
-        cls.graph=cleanup.layers()
+        # The historical deletion guard MUST refuse today's after521+
+        # checkout. Read-only inspection of that frozen after520 graph
+        # is allowed here, but NEVER use this mock in deletion/apply.
+        with patch.object(cleanup,'guard',return_value=None):
+            cls.graph=cleanup.layers()
         cls.protected=cleanup.protected_paths(cls.graph)
     def test_exact_live_258_stage_source_dag_and_both_native_rounds(self):
         self.assertEqual(len(self.graph),258)
@@ -24,8 +29,9 @@ class ProtectedAfter520NativeEvidence(unittest.TestCase):
                        'round1-linked.map','round2-linked.map'):
             self.assertTrue(any('after520' in p.name and p.name.endswith(suffix)
                                 for p in self.protected),suffix)
-    def test_guard_fails_closed_on_changed_latest_receipt(self):
-        cleanup.guard()
+    def test_guard_fails_closed_on_newer_source_stage_and_changed_receipts(self):
+        with self.assertRaisesRegex(ValueError,'newer source stage exists'):
+            cleanup.guard()
         with patch.object(cleanup,'CURRENT_SHA256','0'*64):
             with self.assertRaisesRegex(ValueError,'after520 root'):
                 cleanup.guard()

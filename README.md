@@ -89,8 +89,8 @@ and 37,968 reviewed bytes; its formal packed-unit credit remains 0/250.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts       .venv/bin/python scripts/review_th03_main_yumemi_cpu_after596_work.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts       .venv/bin/python scripts/review_th03_mainl_score_input_pi_after587_work.py
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_yumemi_cpu_after596_work.py
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_score_input_pi_after587_work.py
     .venv/bin/python scripts/progress.py --check
     .venv/bin/python scripts/validate_tracking.py
     git diff --check

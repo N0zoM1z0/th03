@@ -24,15 +24,18 @@
 
 ## Latest protected-storage policy
 
-The last applied native-deletion audit covers the after520 CRT prefix:
-**258-stage, 5,760-file active native proof graph**. Use
-[the current storage policy](STORAGE_HANDOFF_CURRENT.md)
-and the pinned `cleanup_mainl_after520_handoff.py` for
-dry-run-first, SHA-verified retired-output cleanup. It fails
-closed on after521+ source stages. Older after439/after388
-cleanup tools are historical; never bypass their guards
-or infer disposability from a generic cleanup preview.
-Cache-only cleanup is separate and does not touch `.analysis`.
+The last applied source-linked CRT proof-output deletion audit covers
+ONLY the after520 prefix: **258 stages / 5,760 protected files**.
+The later [after597 disposal](STORAGE_HANDOFF_AFTER597.md) removed
+exactly three externally unreferenced, superseded BOSS exploratory
+source runs, with a fixed allowlist and current native receipt hash
+guards. It did not delete after596 MAIN, after587 MAINL, active
+559/561 BOSS dual rounds, CRT, source files or original toolchains.
+Use [the current storage policy](STORAGE_HANDOFF_CURRENT.md);
+the old cleanup_mainl_after520_handoff.py explicitly rejects newer
+source stages. Older after439/after388 cleanup tools are historical;
+never bypass their guards or infer disposability from an unrelated
+general cleanup preview. Cache-only cleanup is separate and does not touch `.analysis`.
 
 ## Keep verification proportional
 

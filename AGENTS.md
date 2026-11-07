@@ -30,15 +30,18 @@ when starting a session or when the environment/targets change.
   Preserve the *entire active source-bound receipt DAG*, including both raw
   OBJ/LIB/EXE/MAP rounds and writer logs. Delete only audited superseded
   branches and disposable experiments, not files inferred "unused" from age.
-  The latest applied storage audit is the pinned after520 guard:
-  `docs/STORAGE_HANDOFF_CURRENT.md` and
-  `scripts/cleanup_mainl_after520_handoff.py` (258 active stages,
-  5,760 protected evidence files in its historical prefix, not the entire
-  current graph; see the handoff for the latest native root). The old after439 storage audit
-  remains historical; any after521+ source layer requires a fresh
-  source-DAG and SHA-256 audit before deleting any native outputs. The after388/511-source and earlier 319-source reports and
-  cleanup commands are historical; do not apply them to this checkout. General clean_generated previews are not an oracle
-  of native reviewer dependencies. Preserve tools/targets.
+  The last source-linked CRT-native-output deletion audit is the historical
+  after520 guard (258 stages / 5,760 protected files); it is NOT a current
+  after596/after587 DAG prune authorization. The after597 maintenance retired
+  only three externally unreferenced, exploratory BOSS compiler trees
+  (5,331 files / 78,938,112 allocated bytes), preserving their original
+  receipts, logs and per-file SHA-256 manifest. See
+  docs/STORAGE_HANDOFF_CURRENT.md and
+  scripts/cleanup_after597_handoff_storage.py --verify for the present
+  restricted policy. Never apply old after439/388/319/511-source cleanup
+  tools to this checkout. A generic generated-file preview does not prove
+  that native source-review dependency trees can be discarded.
+  Preserve tools/targets.
 
 Finish with affected checks and `git diff --check`. Full `python3 scripts/ci.py`
 is available for broad infrastructure changes; it is not a per-turn gate or a
