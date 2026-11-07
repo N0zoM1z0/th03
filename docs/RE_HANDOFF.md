@@ -8,6 +8,30 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after909: five edited original physical owners built together
+
+- Actual `af909a` **simultaneously recompiles all five complete original
+  physical project TUs changed in this session** in two independent
+  genuine original TC4 4.02 and complete normal MAIN TLINK rounds:
+  **Rikako major BOSS**, complete Ellen Chargeshot/Gauge, the nine
+  character resource/callback selectors, all nine input-mode functions
+  and the PMD sound-effect hardware leaf. Both rounds match **7,582
+  original CODE bytes, 1,595 literal ordered native OMF FIXUPPs and 41
+  PUBLICs**, original compiler-emitted source/header bindings, 16-bit
+  ABI, complete original normal MAIN EXE/MAP, **124,642 loaded Japanese
+  bytes and all 1,553 ordered MZ relocations**. Independently verified
+  standard MZ serialization reproduces the 130,882-byte original
+  Japanese EXE. **94 unchanged original game objects/CRT reused**, no
+  cold replay. See
+  [after909 five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER909_REVIEW.md).
+- Live-source verification rechecked **separate**, authentic `af903a`,
+  `af896a`, `af889a`, `af883a`, `af877a`, `af871a`: they still pass for
+  other unchanged owners. `af865a` now fails live-source binding after
+  the Rikako BOSS edit, and `af859a` after Ellen Chargeshot; `af853a`,
+  `af842a`, `af835a` were already historical. Keep all old original
+  compiler receipts intact, without repinning or counting previously
+  source-owned CODE as new canonical packed Factory credit.
+
 ## After908: exact PMD sound effect register service and byte timing
 
 - Entire physical `snd_se` PMD/PC-98 sound effect leaf: natural
@@ -90,7 +114,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   See [after904 Rikako BOSS review](MAIN_RIKAKO_BOSS_NATIVE_AFTER904_REVIEW.md).
   Historical source-owned bytes, not new distinct/Factory credit.
 
-## Latest after903: seven session-edited original MAIN objects built together
+## After903: seven session-edited original MAIN objects built together
 
 - Actual `af903a` **simultaneously recompiles all seven changed original
   physical project objects** in two independent genuine original TC4
@@ -2165,7 +2189,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af903a af896a af889a af883a af880h af881i af882e af877a af871a af865a
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af909a af903a af896a af889a af883a af880h af881i af882e af877a af871a
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -2185,14 +2209,16 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The **latest current** protected original-source-bound read-only proof
-is `.analysis/work/exatt-layout-af903a/report.json`: seven genuinely
+is `.analysis/work/exatt-layout-af909a/report.json`: five genuinely
 recompiled current original physical owners and both independent
-original TC4/TLINK rounds. Earlier after896 remains independently
+original TC4/TLINK rounds. The older after903/896/889 experiments remain
+separately source-current for their other unchanged original owners. Earlier after896 remains independently
 source-current for nine other unchanged original physical owners. Earlier `af889a` remains separately
 source-current for its five other physical original sources. The prior after883 experiment remains independently
 source-current for its own four other original physical owners. The after877/871 experiments remain separate
-current-source compiler/linker proofs for other unchanged units. Earlier `af865a` and `af859a` remain separate
-source-current independent five-owner compiler/linker experiments. The older `af782a`, `af775a`, and `af766a` complete real
+current-source compiler/linker proofs for their unchanged owners.
+Old `af865a` and `af859a` are historical snapshots after the newer
+Rikako BOSS and Ellen Chargeshot source edits. The older `af782a`, `af775a`, and `af766a` complete real
 compiler/TLINK receipts remain protected **historical** source-input
 snapshots (the source hashes have subsequently changed); do not call them
 current-checkout exact proofs without a new source-bound review. The earlier historical
