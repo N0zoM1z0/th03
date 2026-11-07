@@ -62,13 +62,23 @@ enum yumemi_exatt_limits_t {
     YUME_EXATT_ORDINARY_DURATION = 0x60,
 };
 
+// All sixteen Extra Attack slots share an original byte-valued lifecycle.
+// Keep the original transition through the 3..0x28 appearance states, and
+// keep frame/state memory postincrement semantics even for inactive slots.
+enum yumemi_exatt_state_t {
+    YUME_EXATT_FREE = 0,
+    YUME_EXATT_BEAM = 1,
+    YUME_EXATT_FLYING = 2,
+    YUME_EXATT_APPEARING_FIRST = 3,
+};
+
 void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
 	register int i = 0;
 
-	for(; i < YUME_EXATT_ORDINARY_SLOTS; i++, p++) {
-		if(p->state == 0) {
+	for(; i < YUME_EXATT_ORDINARY_SLOTS; ++i, p++) {
+		if(!p->state) {
 			exatt_entity_p = p;
 			exatt_fly_init(
 				x,
@@ -90,9 +100,9 @@ void far pascal yumemi_extra_add(int x, int y)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][YUME_EXATT_SPECIAL_FIRST_SLOT];
 	int i = YUME_EXATT_SPECIAL_FIRST_SLOT;
 
-	for(; i < YUME_EXATT_ALL_SLOTS; i++, p++) {
-		if(p->state == 0) {
-			p->state = 3;
+	for(; i < YUME_EXATT_ALL_SLOTS; ++i, p++) {
+		if(!p->state) {
+			p->state = YUME_EXATT_APPEARING_FIRST;
 			p->frame = 0;
 			p->x = x;
 			p->y = y;
@@ -126,7 +136,7 @@ void near yumemi_exatt_render_one(void)
 		sprite16_clip.set_for_pid_1();
 	}
 
-	if(p->state == 1) {
+	if(p->state == YUME_EXATT_BEAM) {
 		if(pid_current == 1) {
 			grc_setclip(16, 8, 303, 191);
 		} else {
@@ -281,7 +291,7 @@ void near yumemi_exatt_render_one(void)
 		return;
 	}
 
-	if(p->state == 2) {
+	if(p->state == YUME_EXATT_FLYING) {
 		exatt_render_state2(left, top, *((unsigned int near *)&p->frame));
 	} else {
 		exatt_render_state_other(left, top, *((unsigned int near *)&p->frame));
@@ -298,12 +308,12 @@ void far pascal exatt_update_yumemi(void)
 	collmap_pid = pid_other;
 	i = 0;
 
-	for(; i < YUME_EXATT_ALL_SLOTS; i++, p++) {
-		if(p->state == 0) {
+	for(; i < YUME_EXATT_ALL_SLOTS; ++i, p++) {
+		if(!p->state) {
 			continue;
 		}
 
-		if(p->state == 1) {
+		if(p->state == YUME_EXATT_BEAM) {
 			if(p->frame <= YUME_EXATT_FRAME_GROW_END) {
 				p->radius += 6;
 			} else if(
@@ -312,7 +322,7 @@ void far pascal exatt_update_yumemi(void)
 			) {
 				p->radius -= 6;
 			} else if(p->frame >= (p->duration + 8)) {
-				p->state = 0;
+				p->state = YUME_EXATT_FREE;
 			}
 
 			hitbox_hittest_skip_explosions = true;
@@ -340,9 +350,9 @@ void far pascal exatt_update_yumemi(void)
 			collmap_stripe_tile_w.v = (16 / COLLMAP_TILE_W);
 			collmap_tile_h.v = ((p->radius / 4) + p->radius);
 			collmap_set_rect_striped();
-		} else if(p->state == 2) {
+		} else if(p->state == YUME_EXATT_FLYING) {
 			exatt_entity_p = p;
-			if(exatt_fly_update() != 0) {
+			if(exatt_fly_update()) {
 				continue;
 			}
 		} else if(p->state <= YUME_EXATT_APPEAR_END_STATE) {
@@ -350,7 +360,7 @@ void far pascal exatt_update_yumemi(void)
 		} else {
 			p->radius = 0x10;
 			p->frame = 0;
-			p->state = 1;
+			p->state = YUME_EXATT_BEAM;
 			snd_se_play(7);
 		}
 
@@ -363,8 +373,8 @@ void far pascal exatt_render_yumemi(void)
 	register int i;
 
 	exatt_entity_p = &exatt_entities[pid_current][0];
-	for(i = 0; i < YUME_EXATT_ALL_SLOTS; i++, exatt_entity_p++) {
-		if(exatt_entity_p->state != 0) {
+	for(i = 0; i < YUME_EXATT_ALL_SLOTS; ++i, exatt_entity_p++) {
+		if(exatt_entity_p->state) {
 			yumemi_exatt_render_one();
 		}
 	}
