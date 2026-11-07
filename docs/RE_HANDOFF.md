@@ -6,6 +6,20 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Current 28-unit GAME3 native source pair after634
+
+The `af634a` actual-source/OMF-dependency-attested Turbo C++/TLINK
+pair **recompiled all 28** BOSS, shared BOSS, Extra Attack, Bullet,
+Fireball, Explosion and four Enemy TUs together after the current
+Mima/Ellen/Reimu/Marisa source changes. It preserves **35,376
+original CODE bytes / 3,685 literal ordered FIXUPP fields / 195 PUBLICs**,
+complete original normal MAIN EXE/MAP, Japanese program image,
+1,553 MZ relocations and the separately serialized exact original
+file. Native proof and current caveats are in
+[after634 source-bound integration](MAIN_TWENTYEIGHT_GAMEPLAY_AFTER634_NATIVE_REVIEW.md).
+Other 71 original objects and libraries were retained; no whole
+cold replay or new packed-file Factory byte acceptance was claimed.
+
 ## Mima original signed-orbit and attack cadence after633
 
 Original-source-rooted Turbo C++ compiles `boss_frame % 2` for
