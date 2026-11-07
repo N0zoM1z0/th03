@@ -1,7 +1,5 @@
-// Natural Turbo C++ reconstruction for the Kana contribution to
-// TH03 MAIN_05_TEXT. Full-link proof confirms its CODE/MAP/relocation producer
-// behavior; private BSS placement remains open until the complete bomb owner is
-// physically reconstructed.
+// Original source-bound Kana Bomb controller; private angle storage
+// belongs to the external Bomb carrier in the physical CODE producer.
 #pragma codeseg MAIN_05_TEXT
 
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -44,6 +42,8 @@ void far kana_bomb(void)
 
 	if(frame < 128) {
 		egc_off();
+		// A natural unsigned %4 shake test is codegen-different here:
+		// preserve the actual mask instruction (af684d).
 		if((frame & 3) < 2) {
 			snd_se_play(10);
 			bomb_palette_step(160, pid_current);
@@ -58,12 +58,12 @@ void far kana_bomb(void)
 			int y;
 			x = polar(144, 144, CosTable8[kana_bomb_angle]);
 			y = polar(184, 144, SinTable8[kana_bomb_angle]);
-			bomb_explosion_add((x << 4), (y << 4), pid_current);
+			bomb_explosion_add((x * 16), (y * 16), pid_current);
 
 			kana_bomb_angle = (0x80 - kana_bomb_angle);
 			x = polar(144, 144, CosTable8[kana_bomb_angle]);
 			y = polar(184, 144, SinTable8[kana_bomb_angle]);
-			bomb_explosion_add((x << 4), (y << 4), pid_current);
+			bomb_explosion_add((x * 16), (y * 16), pid_current);
 
 			kana_bomb_angle = (0x80 - kana_bomb_angle);
 			kana_bomb_angle += 0x10;
@@ -84,7 +84,7 @@ void far kana_bomb(void)
 	}
 
 	playfield_fg_shift_x[pid_current] = 0;
-	frame = (255 - (frame << 3));
+	frame = (255 - (frame * 8));
 	color = (frame * 2);
 	Palettes[pid_current].c.r = color;
 	Palettes[pid_current].c.g = color;

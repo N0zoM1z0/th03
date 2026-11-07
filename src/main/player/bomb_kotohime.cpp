@@ -1,6 +1,5 @@
-// Natural Turbo C++ reconstruction for the Kotohime contribution to
-// TH03 MAIN_05_TEXT. Full-link proof confirms its CODE/MAP/relocation producer
-// behavior; the two-byte private BSS placement remains outside exactness.
+// Original source-bound Kotohime Bomb controller; its two-byte explosion
+// Y private state belongs to the separately preserved Bomb data carrier.
 #pragma codeseg MAIN_05_TEXT
 
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -68,7 +67,7 @@ void far kotohime_bomb(void)
 		if((frame % 8) == 0) {
 			x = 0;
 			i = ((frame % 16) / 2);
-			for(; x <= 0x1200; (x += 0x600, i++)) {
+			for(; x <= TO_SP(288); (x += TO_SP(96), ++i)) {
 				bomb_explosion_add(x, kotohime_bomb_explosion_y, pid_current);
 			}
 			kotohime_bomb_explosion_y -= 0x2E0;
@@ -88,9 +87,11 @@ void far kotohime_bomb(void)
 		PaletteTone = 100;
 		palette_changed = true;
 		playfield_fg_shift_x[pid_current] = 0;
-		frame = (255 - (frame << 3));
+		frame = (255 - (frame * 8));
 
-		// Target behavior: color is read from the uninitialized stack local here.
+		// Target behavior: color is read from the uninitialized stack local.
+		// Do not zero-initialize it: this original branch has undefined C++
+		// behavior and the real 16-bit target reads the existing stack byte.
 		color = (color * 2);
 		Palettes[pid_current].c.r = color;
 		Palettes[pid_current].c.g = color;

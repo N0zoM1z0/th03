@@ -6,6 +6,28 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kana and Kotohime complete Bomb source geometry after684
+
+The two physically original CODE-only bomb sources
+`b_kana` (526 CODE bytes) and `b_koto`
+(528 bytes) are now source-native-attested with their
+external 1-byte/2-byte private state carrier, not
+duplicate BSS. Kana's two mirrored 16-bit polar
+explosion positions use actual-native `x*16`/`y*16`;
+both Bomb final palette fades use natural `frame*8`.
+Kotohime's explosion row uses `TO_SP(288)` and
+`TO_SP(96)` with a native-equal preincrement.
+Kana's %4 shake candidate was TC4-original-unequal
+and rejected. Kotohime's original uninitialized
+`color` stack read remains untouched. Current
+source/OMF-attested `af684f` original TC4/TLINK
+dual rounds reproduce **1,054 CODE bytes, 103
+literal ordered fixups, two PUBLICs**, complete
+normal MAIN EXE/MAP and Japanese MZ.
+See [after684 Kana/Kotohime bomb native review](MAIN_KANA_KOTOHIME_BOMB_NATIVE_AFTER684_REVIEW.md).
+Only the two affected native objects compiled, no
+cold replay or newly accepted packed-game bytes.
+
 ## Chiyuri and Rikako full character Bomb exact C++ after683
 
 The original four single-TU character Bomb sources
