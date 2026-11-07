@@ -400,6 +400,22 @@ XOR DX,DX is restored with a source comment. See
 [after621 native nine-BOSS review](MAIN_NINE_BOSS_SOURCE_ROOTED_AFTER621_NATIVE_REVIEW.md).
 The earlier `af605c` v1 result is **not** a valid changed-source proof.
 
+### Current combined 26-owner original native integration (after622)
+
+The latest genuinely **source-rooted v2** compiler/linker receipt is
+`af622a`: all **nine major BOSS, ten Extra Attack and seven Bullet/
+Enemy/Fireball/Explosion source units simultaneously** rebuilt and
+relinked in two Turbo C++/TLINK rounds. It proves **34,427 original
+CODE bytes**, **3,579 ordered native fields**, **187 PUBLICs**, correct
+segment DATA/BSS ownership and the entire normal MAIN EXE/MAP;
+the Japanese MAIN load image and all 1,553 ordered MZ relocations match.
+The current compiler OMF dependencies explicitly bind the changed
+candidate source and shared header; v1 stages are not promoted. No
+full cold replay occurred, and the 73 remaining project objects and
+vendor CRT were reused. See
+[after622 source-attested integration](MAIN_26_GAMEPLAY_OWNERS_AFTER622_NATIVE_REVIEW.md).
+No new canonical Factory byte or historical raw OMF packet credit.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
