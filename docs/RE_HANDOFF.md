@@ -6,6 +6,26 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Ellen full charged-shot/Gauge owner after652
+
+The v2 native compiler overlay now supports the complete original
+Ellen `cs_ellen` controller source/TLINK slot in addition to
+after650's 30 current owners. Its ten functions (large
+homing/clip/collision update, 64-slot pool, sprite renderer and
+two-region Gauge volleys) now use natural native-exact
+`--ellen_chargeshot_p->state` and direct signed-register C++
+instead of a temporary `#define _AX`. Real original TC4
+checks the 12-byte projectile's center/velocity offsets and
+four-byte Gauge timing record. An attempt to remove the
+full updater's `goto active` changed original code and was
+rejected (`af652b`). Source-OMF-attested `af652g`
+dual original TC4/TLINK rounds prove **1,530 CODE bytes,
+169 ordered native fixups, ten PUBLICs**, whole MAIN and
+the Japanese loaded program/1,553 original MZ relocations.
+See [after652 Ellen native review](MAIN_ELLEN_CHARGESHOT_NATIVE_AFTER652_REVIEW.md).
+Only this affected object was recompiled; no full cold replay
+or new canonical packed-byte credit.
+
 ## Latest complete 30-owner source-native MAIN after650
 
 The v2 explicitly source/header-rooted `af650a` Turbo C++/TLINK

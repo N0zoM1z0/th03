@@ -1,6 +1,7 @@
 // Maintained exact natural Turbo C++ reconstruction of TH03 MAIN_08_TEXT.
 #pragma codeseg MAIN_08_TEXT
 
+#include <stddef.h>
 #include "src/main/player/chargeshot_ellen.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
@@ -14,6 +15,21 @@
 #include "compat/rec98/th02/snd/snd.h"
 #include "compat/rec98/libs/master.lib/master.hpp"
 
+// Each Ellen charged projectile occupies one 12-byte DGROUP record.
+// Slot arrays have 32 projectiles per player, with a total of 64.
+enum ellen_chargeshot_limits_t {
+    ELLEN_CHARGE_SLOTS_PER_PLAYER = 32,
+    ELLEN_CHARGE_SLOTS_TOTAL = 64,
+    ELLEN_CHARGE_SPREAD_STATE_END = 0x40,
+    ELLEN_CHARGE_LENGTH_INIT = 0x50,
+    ELLEN_CHARGE_LENGTH_DECAY = 2,
+    ELLEN_CHARGE_HOMING_SPEED = 160,
+    ELLEN_CHARGE_ACTIVE_STATE = 1,
+    ELLEN_CHARGE_INACTIVE_STATE = 0,
+    ELLEN_CHARGE_DECELERATE_PHASE = 0,
+    ELLEN_CHARGE_TARGET_PHASE = 1,
+};
+
 struct ellen_chargeshot_t {
 	unsigned char state;
 	unsigned char phase;
@@ -23,12 +39,26 @@ struct ellen_chargeshot_t {
 	SPPoint velocity;
 };
 
+typedef char ellen_charge_12byte_stride[
+    (sizeof(ellen_chargeshot_t) == 12) ? 1 : -1
+];
+typedef char ellen_charge_center_at_04[
+    (offsetof(ellen_chargeshot_t, center) == 4) ? 1 : -1
+];
+typedef char ellen_charge_velocity_at_08[
+    (offsetof(ellen_chargeshot_t, velocity) == 8) ? 1 : -1
+];
+
 struct gauge_pattern_timing_t {
 	unsigned char total_frames;
 	unsigned char byte_1;
 	unsigned char byte_2;
 	unsigned char byte_3;
 };
+
+typedef char ellen_gauge_timing_4bytes[
+    (sizeof(gauge_pattern_timing_t) == 4) ? 1 : -1
+];
 
 extern int ellen_gauge_x[PLAYER_COUNT];
 extern int ellen_gauge_y[PLAYER_COUNT];
@@ -46,37 +76,37 @@ extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 void far pascal chargeshots_reset_ellen(void)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[0][0];
-	for(int i = 0; i < 64; (i++, ellen_chargeshot_p++)) {
-		ellen_chargeshot_p->state = 0;
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_TOTAL; (i++, ellen_chargeshot_p++)) {
+		ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
 	}
 }
 
 void far pascal chargeshot_add_ellen(Subpixel center_x, Subpixel center_y)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[pid.current][0];
-	for(int state = 0; state < 0x40; (state += 2, ellen_chargeshot_p++)) {
+	for(int state = 0; state < ELLEN_CHARGE_SPREAD_STATE_END; (state += 2, ellen_chargeshot_p++)) {
 		ellen_chargeshot_p->state = state;
-		ellen_chargeshot_p->phase = 0;
+		ellen_chargeshot_p->phase = ELLEN_CHARGE_DECELERATE_PHASE;
 		ellen_chargeshot_p->center.x = center_x;
 		ellen_chargeshot_p->center.y = center_y;
 		ellen_chargeshot_p->angle = randring_far_next16();
-		ellen_chargeshot_p->length = 0x50;
+		ellen_chargeshot_p->length = ELLEN_CHARGE_LENGTH_INIT;
 	}
 }
 
 void far pascal ellen_hyper(Subpixel center_x, Subpixel center_y)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[pid.current][0];
-	for(int i = 0; i < 32; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state != 0) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
+		if(ellen_chargeshot_p->state != ELLEN_CHARGE_INACTIVE_STATE) {
 			continue;
 		}
-		ellen_chargeshot_p->state = 1;
-		ellen_chargeshot_p->phase = 0;
+		ellen_chargeshot_p->state = ELLEN_CHARGE_ACTIVE_STATE;
+		ellen_chargeshot_p->phase = ELLEN_CHARGE_DECELERATE_PHASE;
 		ellen_chargeshot_p->center.x = center_x;
 		ellen_chargeshot_p->center.y = center_y;
 		ellen_chargeshot_p->angle = randring_far_next16();
-		ellen_chargeshot_p->length = 0x50;
+		ellen_chargeshot_p->length = ELLEN_CHARGE_LENGTH_INIT;
 		return;
 	}
 }
@@ -91,8 +121,8 @@ void far pascal chargeshot_update_ellen(void)
 
 	ellen_chargeshot_p = &ellen_chargeshots[pid_current][0];
 	int i;
-	for(i = 0; i < 32; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state != 0) {
+	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
+		if(ellen_chargeshot_p->state != ELLEN_CHARGE_INACTIVE_STATE) {
 			goto active;
 		}
 	}
@@ -109,15 +139,15 @@ active:
 	playfield_clip_negative_radius.x.v = TO_SP(-8);
 	playfield_clip_negative_radius.y.v = TO_SP(-8);
 
-	for(i = 0; i < 32; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state == 0) {
+	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
+		if(ellen_chargeshot_p->state == ELLEN_CHARGE_INACTIVE_STATE) {
 			continue;
 		}
-		if(ellen_chargeshot_p->state == 1) {
+		if(ellen_chargeshot_p->state == ELLEN_CHARGE_ACTIVE_STATE) {
 			ellen_chargeshot_p->center.x.v += ellen_chargeshot_p->velocity.x.v;
 			ellen_chargeshot_p->center.y.v += ellen_chargeshot_p->velocity.y.v;
-			if(ellen_chargeshot_p->phase == 0) {
-				length = (ellen_chargeshot_p->length - 2);
+			if(ellen_chargeshot_p->phase == ELLEN_CHARGE_DECELERATE_PHASE) {
+				length = (ellen_chargeshot_p->length - ELLEN_CHARGE_LENGTH_DECAY);
 				vector2(
 					ellen_chargeshot_p->velocity.x.v,
 					ellen_chargeshot_p->velocity.y.v,
@@ -126,7 +156,7 @@ active:
 				);
 				ellen_chargeshot_p->length = length;
 				if(length == 0) {
-					ellen_chargeshot_p->phase = 1;
+					ellen_chargeshot_p->phase = ELLEN_CHARGE_TARGET_PHASE;
 					ellen_chargeshot_p->angle = iatan2(
 						(target_y - ellen_chargeshot_p->center.y.v),
 						(target_x - ellen_chargeshot_p->center.x.v)
@@ -135,17 +165,17 @@ active:
 						ellen_chargeshot_p->velocity.x.v,
 						ellen_chargeshot_p->velocity.y.v,
 						ellen_chargeshot_p->angle,
-						160
+						ELLEN_CHARGE_HOMING_SPEED
 					);
 				}
 			} else if(playfield_clip(
 				ellen_chargeshot_p->center.x,
 				ellen_chargeshot_p->center.y
 			)) {
-				ellen_chargeshot_p->state = 0;
+				ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
 			}
 		} else {
-			if((ellen_chargeshot_p->state = (ellen_chargeshot_p->state - 1)) == 1) {
+			if((--ellen_chargeshot_p->state) == 1) {
 				snd_se_play(1);
 			}
 			ellen_chargeshot_p->center.x.v = player_x;
@@ -166,12 +196,10 @@ void near pascal ellen_chargeshot_private(Subpixel x, Subpixel y)
 
 	_SI = (playfield_fg_x_to_screen(_SI, pid_current) - 8);
 	_AX = _DI;
-	#define _AX static_cast<int16_t>(_AX)
-	_AX >>= 4;
-	_AX += 8;
-	_DI = _AX;
-	#undef _AX
-	sprite16_put(_SI, _AX, sprite_offset);
+	static_cast<int16_t>(_AX) >>= 4;
+	static_cast<int16_t>(_AX) += 8;
+	_DI = static_cast<int16_t>(_AX);
+	sprite16_put(_SI, static_cast<int16_t>(_AX), sprite_offset);
 }
 
 uint8_t far chargeshot_hittest_ellen(void)
@@ -179,8 +207,8 @@ uint8_t far chargeshot_hittest_ellen(void)
 	unsigned char hits = 0;
 	ellen_chargeshot_p = &ellen_chargeshots[hitbox.pid][0];
 
-	for(int i = 0; i < 32; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state != 1) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
+		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
 			continue;
 		}
 		if(
@@ -194,7 +222,7 @@ uint8_t far chargeshot_hittest_ellen(void)
 				ellen_chargeshot_p->center.y.v,
 				hitbox.pid
 			);
-			ellen_chargeshot_p->state = 0;
+			ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
 			hits += 2;
 		}
 	}
@@ -207,8 +235,8 @@ void far pascal chargeshot_render_ellen(void)
 	sprite16_put_size.set(16, 16);
 	sprite16_clip_set_for_pid(pid_current);
 
-	for(int i = 0; i < 32; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state != 1) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
+		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
 			continue;
 		}
 		ellen_chargeshot_private(
@@ -217,6 +245,16 @@ void far pascal chargeshot_render_ellen(void)
 		);
 	}
 }
+
+// The Gauge attack first traverses the upper row from both sides, then
+// fires successive mirrored side volleys every eight frames. These
+// phase limits are unrelated to the charged-projectile length counter.
+enum ellen_gauge_phase_t {
+    ELLEN_GAUGE_VOLLEY_PERIOD = 8,
+    ELLEN_GAUGE_FIRST_X = TO_SP(144),
+    ELLEN_GAUGE_SIDE_Y_LIMIT = TO_SP(144),
+    ELLEN_GAUGE_STEP = TO_SP(24),
+};
 
 void near pascal gauge_pattern_ellen(bullet_type_t type)
 {
@@ -229,7 +267,7 @@ void near pascal gauge_pattern_ellen(bullet_type_t type)
 	if(gba_flag_active[pid_current] == flag_expected) {
 		ellen_gauge_frame[pid_current] = 0;
 		gba_flag_active[pid_current]++;
-		ellen_gauge_x[pid_current] = TO_SP(144);
+		ellen_gauge_x[pid_current] = ELLEN_GAUGE_FIRST_X;
 		ellen_gauge_y[pid_current] = 0;
 		gauge_pattern_timing[pid_current].total_frames = (
 			gba_gauge_level[pid_current] + 0x0E
@@ -243,7 +281,7 @@ void near pascal gauge_pattern_ellen(bullet_type_t type)
 		return;
 	}
 
-	if((ellen_gauge_frame[pid_current] % 8) == 0) {
+	if((ellen_gauge_frame[pid_current] % ELLEN_GAUGE_VOLLEY_PERIOD) == 0) {
 		bullet_template.type = type;
 		bullet_template.center.y.v = TO_SP(8);
 		pid_other = (1 - pid_current);
@@ -266,8 +304,8 @@ void near pascal gauge_pattern_ellen(bullet_type_t type)
 			bullet_template.center.x.v = _DX;
 			bomb_center_add(_DX, 0, pid_other);
 			bullets_add();
-			ellen_gauge_x[pid_current] -= TO_SP(24);
-		} else if(ellen_gauge_y[pid_current] < TO_SP(144)) {
+			ellen_gauge_x[pid_current] -= ELLEN_GAUGE_STEP;
+		} else if(ellen_gauge_y[pid_current] < ELLEN_GAUGE_SIDE_Y_LIMIT) {
 			bullet_template.angle = randring_far_next16();
 			bullet_template.speed.v = gauge_pattern_timing[pid_current].byte_1;
 			bullet_template.group = BG_16_RING;
@@ -284,7 +322,7 @@ void near pascal gauge_pattern_ellen(bullet_type_t type)
 			);
 			bullets_add();
 			bullet_template.angle = randring_far_next16();
-			ellen_gauge_y[pid_current] += TO_SP(24);
+			ellen_gauge_y[pid_current] += ELLEN_GAUGE_STEP;
 		} else {
 			gba_flag_active[pid_current] = GBAF_NONE;
 			palette_restore_for_pid(pid_other);

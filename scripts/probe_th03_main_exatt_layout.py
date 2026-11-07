@@ -36,6 +36,7 @@ SOURCES = {
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',
     'p_cpu': 'src/main/player/cpu.cpp',
     'cs_yume': 'src/main/player/chargeshot_yumemi.cpp',
+    'cs_ellen': 'src/main/player/chargeshot_ellen.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
