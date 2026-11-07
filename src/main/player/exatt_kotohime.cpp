@@ -18,24 +18,8 @@
 
 #pragma option -a2
 
-struct exatt_entity_t {
-    unsigned char state;
-    unsigned char frame;
-    int x;
-    int y;
-    int velocity_x;
-    int velocity_y;
-    int target_x;
-    int boundary_x;
-    int duration;
-    unsigned char pid;
-    unsigned char mode;
-    unsigned char angle;
-    unsigned char speed;
-    int radius;
-    unsigned char tail[10];
-};
-typedef char exatt_entity_size_is_32[(sizeof(exatt_entity_t)==32)?1:-1];
+// Kotohime reuses byte +0x11 as an extra projectile mode.
+#include "src/main/player/exatt_entity.hpp"
 
 struct exatt_kotohime_player_view_t {
     PlayfieldPoint center;
@@ -84,7 +68,7 @@ void far pascal exatt_add_kotohime(int x, int y, unsigned char pid_)
             p->duration = (randring_far_next16_and(0xFFF) + 0x600);
             p->radius = (randring_far_next16_and(0x1F) + 0x10);
             p->angle = 0;
-            p->mode = 0;
+            p->character_mode.kotohime_extra_mode = 0;
             return;
         }
     }
@@ -107,7 +91,7 @@ void far pascal kotohime_extra_add(int target_x, int target_y)
     p->duration = 0xC00;
     p->radius = 0x20;
     p->angle = 0;
-    p->mode = 1;
+    p->character_mode.kotohime_extra_mode = 1;
 }
 
 void near kotohime_exatt_render_one(void)
@@ -131,7 +115,7 @@ void near kotohime_exatt_render_one(void)
             }
         }
 
-        if(p->mode == 0) {
+        if(p->character_mode.kotohime_extra_mode == 0) {
             sprite_offset += 0x282;
             sprite16_put_size.set(32, 32);
             sprite16_put(left - 16, top - 16, sprite_offset);
@@ -223,7 +207,7 @@ void far pascal exatt_update_kotohime(void)
             if(p->y >= p->duration) {
                 if(p->angle == 4) {
                     kotohime_exatt_effect();
-                    if(p->mode != 0) {
+                    if(p->character_mode.kotohime_extra_mode != 0) {
                         bullet_template.speed.v = TO_SP(1) + 12;
                         bullet_template.angle = (unsigned char)randring_far_next16();
                         bullet_template.group = BG_RING;
@@ -242,7 +226,7 @@ void far pascal exatt_update_kotohime(void)
                     bullet_template.pid = pid_other;
                     bullet_template.center.x.v = p->x;
                     bullet_template.center.y.v = p->y;
-                    if(p->mode == 0) {
+                    if(p->character_mode.kotohime_extra_mode == 0) {
                         bullet_template.type = BT_BULLET16_DEFAULT;
                         bullet_template.count = 10;
                         bullets_add();

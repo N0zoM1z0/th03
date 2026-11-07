@@ -15,7 +15,14 @@ struct exatt_entity_t {
     int boundary_x;
     int duration;
     unsigned char pid;
-    unsigned char unknown_11;
+    // The 0x11 byte has different meanings in different character scripts:
+    // a signed angular step for Ellen and a projectile kind for Kotohime.
+    // These are alternative views of one physical byte, not two fields.
+    union {
+        unsigned char unclassified;
+        signed char ellen_spin_delta;
+        unsigned char kotohime_extra_mode;
+    } character_mode;
     unsigned char angle;
     unsigned char speed;
     int radius;
@@ -32,6 +39,9 @@ struct exatt_entity_t {
     } character;
 };
 typedef char exatt_entity_size_must_be_20[(sizeof(exatt_entity_t) == 0x20) ? 1 : -1];
+typedef char exatt_entity_mode_offset_must_be_11[
+    (offsetof(exatt_entity_t, character_mode) == 0x11) ? 1 : -1
+];
 typedef char exatt_entity_character_offset_must_be_16[
     (offsetof(exatt_entity_t, character) == 0x16) ? 1 : -1
 ];

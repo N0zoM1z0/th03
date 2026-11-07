@@ -30,9 +30,9 @@ object sizes and native ordered fields:
 | ex_yume (large renderer) | 1696 | 87 | 5 |
 | ex_mima | 727 | 44 | 4 |
 | ex_rika (homing update) | 702 | 46 | 5 |
-| ex_rfly (shared flight + Reimu prefix) | 825 | 57 | 8 |
-| ex_reup (Reimu update/render) | 331 | 28 | 2 |
-| **Total** | **4281** | **262** | **24** |
+| ex_rfly (shared flight + Reimu prefix) | 825 | 51 | 8 |
+| ex_reup (Reimu update/render) | 331 | 22 | 2 |
+| **Total** | **4281** | **250** | **24** |
 
 The emitted CODE, ordered 16-bit relocation fields, PUBLIC offsets and
 segment definitions in **both rounds** match each original OBJ. Both linked

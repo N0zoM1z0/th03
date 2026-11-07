@@ -110,11 +110,24 @@ The `af599t` native overlay covers five physically distinct Extra Attack TUs:
 Yumemi, Mima, Rikako, shared flight/Reimu prefix and Reimu update. The original
 32-byte entity now exposes Rikako's byte +0x17 as a character-specific
 `homing_disabled` state without imposing that meaning on other characters.
-Both TC4/TLINK rounds reproduce all 4,281 CODE bytes, 262 ordered fields,
+Both TC4/TLINK rounds reproduce all 4,281 CODE bytes, 250 ordered fields,
 24 PUBLICs and unchanged full Japanese MAIN image/relocations. See
 [scoped native review](MAIN_RIKAKO_EXATT_HOMING_AFTER599_NATIVE_REVIEW.md).
 The `af598v` frozen source refresh remains separately retained. No extra
 owned bytes or historical OMF provenance are claimed.
+
+### Character-specific +0x11 after600
+
+`af600b` recompiled eight complete Extra Attack owners (7,442 original CODE
+bytes / 484 ordered fields / 42 PUBLICs) in two real TC4/TLINK rounds while
+preserving the full MAIN program/1,553 relocations and normalized MAP. Ellen's
++0x11 is a **signed spin delta**, Kotohime's is the **unsigned extra mode**;
+Chiyuri uses the same 32-byte entity but currently does not read that byte.
+The shared struct keeps both alternatives in a one-byte union and retains the
+Rikako +0x17 overlay. See
+[after600 native review](MAIN_EXATT_CHARACTER_BYTE11_AFTER600_NATIVE_REVIEW.md).
+The historical after599 handoff's 262 count was a transcription error: the
+live proof records 250 (after600 includes 484). No new accepted bytes.
 
 ## Remaining priorities for real reconstruction
 

@@ -17,21 +17,8 @@
 
 #pragma option -a2
 
-struct exatt_entity_t {
-    unsigned char state;
-    unsigned char frame;
-    int x, y;
-    int velocity_x, velocity_y;
-    int target_x, boundary_x;
-    int duration;
-    unsigned char pid;
-    signed char spin_delta;
-    unsigned char angle;
-    unsigned char speed;
-    int radius;
-    unsigned char tail[10];
-};
-typedef char ellen_exatt_entity_size_is_32[(sizeof(exatt_entity_t) == 32)?1:-1];
+// Ellen interprets byte +0x11 as a signed spin step.
+#include "src/main/player/exatt_entity.hpp"
 
 struct ellen_exatt_slot_t {
     exatt_entity_t near *entity;
@@ -91,7 +78,7 @@ void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
         exatt_entity_p = ellen_exatt_slot_p->entity;
         exatt_fly_init(x, y, target_x, target_y, pid_, 0x46);
         exatt_entity_p->radius = 0;
-        exatt_entity_p->spin_delta = spin;
+        exatt_entity_p->character_mode.ellen_spin_delta = spin;
         if(added == 0) {
             exatt_entity_p->angle = angle;
             added++;
@@ -116,7 +103,7 @@ void far pascal ellen_extra_add(int x, int y, unsigned char angle_, unsigned cha
         p->x = x;
         p->y = y;
         p->radius = 0;
-        p->spin_delta = mode;
+        p->character_mode.ellen_spin_delta = mode;
         p->angle = angle_;
         p->pid = (1 - pid_current);
         return;
@@ -204,7 +191,7 @@ void far pascal exatt_update_ellen(void)
                 slot->entity->velocity_x = slot->history_x[0] - slot->history_x[1];
                 slot->entity->velocity_y = slot->history_y[0] - slot->history_y[1];
                 slot->entity->radius += 0x18;
-                slot->entity->angle += slot->entity->spin_delta;
+                slot->entity->angle += slot->entity->character_mode.ellen_spin_delta;
             } else {
                 if(
                     playfield_clip(
