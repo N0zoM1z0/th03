@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After844: complete original Fireball controller native timing
+
+- The full 576-line `e_fireb` owner now uses **natural unsigned `%512`**
+  for its 16-bit global targeting cycle and named 12/14/32/36-frame
+  sprite/hit/fade/expiry phases, while retaining the original **byte**
+  `&7` animation cycle and the two-step falling coordinates.
+- Genuine original TC4 counterexamples: byte `%8` in place of the
+  sprite mask (`af844b`), rewriting `<=3` as `<4` (`af844c`), and
+  coalescing `next=x; next+=vx` (`af844e`) all changed CODE and were
+  reverted. Final `af844f` passes two original TC4/normal TLINK
+  rounds with **1,555 CODE bytes, 115 ordered native FIXUPPs,
+  ten PUBLICs**, full Japanese MAIN and all 1,553 ordered relocations.
+  98 other original project objects and CRT reused, no cold replay.
+  See [after844 full Fireball review](MAIN_FIREBALL_NATIVE_TIMING_AFTER844_REVIEW.md).
+  Already covered physical source, no extra distinct byte credit.
+
 ## After843: full 1,049-line Enemy formation and VM current-source recovery
 
 - All **four original physical Enemy TUs** (`eforna`, `efornb`, `eupda`,

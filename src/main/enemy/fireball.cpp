@@ -75,6 +75,13 @@ enum fireball_native_timing_t {
     FIREBALL_AIM_PERIOD = 512,
     FIREBALL_AIM_RANDOM_HALF = 256,
     FIREBALL_SPRITE_PERIOD = 8,
+    FIREBALL_EXPLOSION_SPRITE_BEGIN = 12,
+    FIREBALL_EXPLOSION_HIT_FRAME = 14,
+    FIREBALL_EXPLOSION_FADE_FRAME = 32,
+    FIREBALL_EXPLOSION_DONE_FRAME = 36,
+    FIREBALL_EXPLOSION_CEL_PERIOD = 4,
+    FIREBALL_FLY_SIZE_HALF = FLY_W / 2,
+    FIREBALL_FALL_SIZE_HALF = FALL_W / 2,
 };
 // ---------
 
@@ -158,7 +165,7 @@ void fireballs_add(void)
 		screen_x = playfield_fg_x_to_screen(origin_center_x, (1 - pid_target));
 
 		if(
-            (round_or_result_frame & (FIREBALL_AIM_PERIOD - 1)) <
+            (round_or_result_frame % FIREBALL_AIM_PERIOD) <
             FIREBALL_AIM_RANDOM_HALF
         ) {
 			origin_center_x = randring2_next16_ge_lt_sp(0.0f, PLAYFIELD_W);
@@ -210,6 +217,9 @@ void near fireball_put(void)
 	screen_y_t top;
 	pixel_length_8_t size_half;
 
+	// Local byte frame is a distinct source type from the global unsigned
+	// 16-bit aim frame. Natural %8 on this byte value selects different
+	// TC4 codegen (af844b), unlike the exact global %512 (af844a).
 	uint8_t cycle = (p.frame & (FIREBALL_SPRITE_PERIOD - 1));
 	if(p.flag == FF_FALL) {
 		// See, if [variant_as_eha] was a regular `fireball_variant_t`, ZUN
@@ -223,7 +233,7 @@ void near fireball_put(void)
 			so += (FALL_W / BYTE_DOTS);
 		}
 		sprite16_put_size.set(FALL_W, FALL_H);
-		size_half = (FALL_W / 2);
+		size_half = FIREBALL_FALL_SIZE_HALF;
 	} else {
 		// Or here.
 		so = (
@@ -235,7 +245,7 @@ void near fireball_put(void)
 			so += (FLY_W / BYTE_DOTS);
 		}
 		sprite16_put_size.set(FLY_W, FLY_H);
-		size_half = (FLY_W / 2);
+		size_half = FIREBALL_FLY_SIZE_HALF;
 	}
 
 	sprite16_clip.reset();
@@ -252,11 +262,11 @@ void near fireball_explosion_flag_update(void)
 	// sprite. This is why we don't use keyframes here, unlike for enemies.
 	// (And yes, it's also one cycle later than enemy-originating explosions
 	// start hitting enemies.)
-	if(p->frame == 14) {
+	if(p->frame == FIREBALL_EXPLOSION_HIT_FRAME) {
 		p->flag = EFF_EXPLOSION_HITTING_ENEMIES;
-	} else if(p->frame == 32) {
+	} else if(p->frame == FIREBALL_EXPLOSION_FADE_FRAME) {
 		p->flag = EFF_EXPLOSION_IGNORING_ENEMIES;
-	} else if(p->frame >= 36) {
+	} else if(p->frame >= FIREBALL_EXPLOSION_DONE_FRAME) {
 		p->flag = EFF_FREE;
 	}
 }
@@ -267,14 +277,14 @@ void near fireball_explosion_put(void)
 	uint8_t cycle;
 
 	static_assert(EXPLOSION_CELS == 4);
-	if(p->frame < 12) {
+	if(p->frame < FIREBALL_EXPLOSION_SPRITE_BEGIN) {
 		so = SO_EXPLOSIONS_64X64[0];
-	} else if(p->frame < 32) {
+	} else if(p->frame < FIREBALL_EXPLOSION_FADE_FRAME) {
 		// Unlike the 8-frame sprite mask, this byte division by four
         // must remain division: TC4 compiles an explicit >>2 differently.
-        cycle = (p->frame / 4);
+        cycle = (p->frame / FIREBALL_EXPLOSION_CEL_PERIOD);
 		so = SO_EXPLOSIONS_64X64[1 + (cycle & 1)];
-	} else if(p->frame < 36) {
+	} else if(p->frame < FIREBALL_EXPLOSION_DONE_FRAME) {
 		// ZUN bloat: ^ The condition doesn't need to duplicate the keyframe.
 		so = SO_EXPLOSIONS_64X64[3];
 	}
