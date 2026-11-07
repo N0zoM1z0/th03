@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After851: original 55-byte Gauge saturation leaf
+
+- The complete `p_gauge` Gauge charge leaf merges the native original
+  Hyper/full-gauge early return into natural C++ `||` and now has
+  historical TC4-compatible file-scope typedef checks for **16-bit
+  Gauge, 8-bit charge and 0xFF0 saturation**. The original compound
+  memory `+=` and strictly `>GAUGE_MAX` clipping are left exact.
+- Genuine original TC4 negative controls: explicit `= old+charge`
+  generated 58 rather than original 55 CODE (`af851b`); mathematical
+  `>=MAX+1` changed CODE (`af851c`); global `static_assert` was not
+  accepted by the old compiler (`af851d`). Final `af851e` passes two
+  real TC4/complete MAIN TLINK rounds: **55 CODE bytes, one ordered
+  native FIXUPP, one PUBLIC**, full Japanese loaded MAIN and 1,553
+  MZ relocations; 98 other objects and CRT reused, no cold replay.
+  See [after851 Gauge ABI review](MAIN_GAUGE_NATIVE_SATURATION_AFTER851_REVIEW.md).
+  Previously covered source owner; no new unique CODE/Factory credit.
+
 ## After850: full warning/Gauge/portrait and palette controls
 
 - The full seven-function original `warning` owner now omits redundant
