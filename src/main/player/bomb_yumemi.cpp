@@ -1,4 +1,4 @@
-// Natural complete-function proposal. Original 698-byte P_COMBO_TEXT owner.
+// Source-native complete Yumemi triangle/GRCG Bomb producer.
 // All storage remains external; this file does not claim DATA/BSS ownership.
 #pragma codeseg P_COMBO_TEXT main_04
 #pragma option -a1
@@ -12,6 +12,17 @@
 #include "compat/rec98/th02/snd/snd.h"
 #include "compat/rec98/libs/master.lib/master.hpp"
 #include "compat/rec98/libs/master.lib/pc98_gfx.hpp"
+
+// The two three-vertex triangles have separate first/second phases.
+// Preserve the original unadjusted 200-line vertical raster domain
+// and the explicit original shift-mask shake comparison.
+enum yumemi_bomb_phase_t {
+    YUMEMI_BOMB_TRIANGLE_FIRST_END = 32,
+    YUMEMI_BOMB_TRIANGLE_FINAL_FRAME = 64,
+    YUMEMI_BOMB_SECOND_TRIANGLE_START = 32,
+    YUMEMI_BOMB_SHAKE_END = 144,
+    YUMEMI_BOMB_VERTICES_PER_TRIANGLE = 3,
+};
 
 void far yumemi_bomb(void)
 {
@@ -28,8 +39,8 @@ void far yumemi_bomb(void)
     }
     egc_off();
     frame = bomb_frame[pid_current];
-    if(frame <= 64) {
-        if(frame < 32) {
+    if(frame <= YUMEMI_BOMB_TRIANGLE_FINAL_FRAME) {
+        if(frame < YUMEMI_BOMB_TRIANGLE_FIRST_END) {
             radius = 224 - frame * 3;
             grcg_setcolor(GC_RMW, 8);
         } else {
@@ -44,16 +55,16 @@ void far yumemi_bomb(void)
             grc_setclip(336, 8, 623, 191);
             playfield_left = 336;
         }
-        for(i = 0; i < 3; i++) {
+        for(i = 0; i < YUMEMI_BOMB_VERTICES_PER_TRIANGLE; ++i) {
             x[i] = polar(144, radius, CosTable8[yumemi_bomb_triangle_angles[i]])
                 + playfield_left;
             y[i] = polar(200, radius, SinTable8[yumemi_bomb_triangle_angles[i]]) / 2;
         }
         grcg_triangle(x[0], y[0], x[1], y[1], x[2], y[2]);
-        if(frame > 32) {
+        if(frame > YUMEMI_BOMB_SECOND_TRIANGLE_START) {
             radius = 320 - frame * 3;
             grcg_setcolor(GC_RMW, 8);
-            for(i = 3; i < 6; i++) {
+            for(i = YUMEMI_BOMB_VERTICES_PER_TRIANGLE; i < 6; ++i) {
                 x[i - 3] = polar(
                     144, radius, CosTable8[yumemi_bomb_triangle_angles[i]]
                 ) + playfield_left;
@@ -65,9 +76,9 @@ void far yumemi_bomb(void)
         }
         grc_setclip(0, 0, 639, 199);
         grcg_off();
-        color = frame << 2;
-    } else if(frame < 144) {
-        if((frame & 7) == 0) {
+        color = frame * 4;
+    } else if(frame < YUMEMI_BOMB_SHAKE_END) {
+        if((static_cast<unsigned int>(frame) % 8) == 0) {
             snd_se_play(5);
             PaletteTone = 140;
             palette_show();
@@ -77,6 +88,8 @@ void far yumemi_bomb(void)
             palette_show();
         }
         color = frame % 8;
+        // The typed unsigned %4 form was original-native-unequal (af687f);
+        // retain this exact original shake mask.
         if((color & 3) < 2) {
             playfield_fg_shift_x[pid_current] = 4;
         } else {
@@ -95,7 +108,7 @@ void far yumemi_bomb(void)
         PaletteTone = 100;
         palette_show();
         playfield_fg_shift_x[pid_current] = 0;
-        color = 255 - (frame << 3);
+        color = 255 - (frame * 8);
     }
     Palettes[pid_current].c.r = color;
     Palettes[pid_current].c.g = color;

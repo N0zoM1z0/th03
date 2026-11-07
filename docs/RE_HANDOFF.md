@@ -6,6 +6,30 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Yumemi complete GRCG triangle Bomb original-native after687
+
+The v2 native source-rooted compiler now covers the entire
+698-CODE-byte Yumemi `bomb_yumemi.cpp` large triangle/GRCG
+Bomb controller in its genuine original 8.3 physical compiler
+name **`bomb~cxk`**; the original TLINK slot is
+`obj/th03/bomb_yumemi.obj` but its MAP module is
+`src/main/player/bomb~cxk.cpp`. The old driver mistook
+the source long name for the generated shortname and
+could not bind its object (`af687a`); corrected
+`af687b` source/OMF-attested control works. The full
+Bomb now uses native-exact natural `frame*4`/`*8`
+palette math, `++i` double-triangle GRCG loops,
+unsigned `frame%8` warning cadence and named
+32/64/144 tick phases. Unsigned `color%4` for the
+shake comparison changed original CODE and was rejected
+(`af687f`). Final dual original TC4/TLINK
+`af687g` reproduces **698 CODE bytes, 53 ordered
+literal FIXUPP fields, 1 PUBLIC**, full normal
+MAIN EXE/MAP and original Japanese MZ.
+See [after687 Yumemi Bomb review](MAIN_YUMEMI_BOMB_SHORTNAME_AFTER687_NATIVE_REVIEW.md).
+Only the affected original object was recompiled, no
+full cold replay or newly accepted canonical bytes.
+
 ## Latest current-source 47-owner original gameplay/BOSS/Bomb MAIN after686
 
 The fresh native `af686a` two-round original Turbo C++

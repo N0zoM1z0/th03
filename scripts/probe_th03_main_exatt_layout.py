@@ -53,6 +53,7 @@ SOURCES = {
     'b_kana': 'src/main/player/bomb_kana.cpp',
     'b_koto': 'src/main/player/bomb_kotohime.cpp',
     'b_rika': 'src/main/player/bomb_rikako.cpp',
+    'bomb~cxk': 'src/main/player/bomb_yumemi.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
@@ -88,6 +89,7 @@ BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
 BACKGROUND_PHASE = 'src/main/background/phase.inl'
 CHAIN_UNITS = ('chain1', 'chain2')
 ORIGINAL_OBJECT_PATHS = {u: f'obj/{u}.obj' for u in CHAIN_UNITS}
+ORIGINAL_OBJECT_PATHS['bomb~cxk'] = 'obj/th03/bomb_yumemi.obj'
 BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
 PRODUCER_WRAPPERS = {
     'p_cpu': 'src/main/player/producers/cpu_native.cpp',
@@ -113,6 +115,7 @@ MAP_ORIGINAL = {
     'warning': 'src/main/player/warning.cpp',
     'chain1': 'src/main/background/chain1.cpp',
     'chain2': 'src/main/background/chain2.cpp',
+    'bomb~cxk': 'src/main/player/bomb~cxk.cpp',
 }
 MAP_ROWS = {
     'ba_sring':5, 'ba_srest':5,
