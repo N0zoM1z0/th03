@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After911: full Reimu Chargeshot native history, collision and Gauge
+
+- Complete original `cs_reimu` physical owner now uses native-exact
+  `while` for 24-shot reset, four RNG-angle launches and seven-point
+  history, twelve-shot update with backward 6..1 history shift, **only
+  six collision scan slots** with two continue paths, and twelve-shot
+  mono/color sprite rendering. Explicit byte angle addition with a
+  named 0x20 step and Gauge zero-remainder spellings are native exact.
+- Genuine original TC4 negatives: first-free Hyper `for`→`while`
+  emitted **1,450 vs 1,448 CODE** (`af911b`); byte projectile frame
+  postfix→prefix emitted **1,453** (`af911h`). Original spellings stay.
+  Final `af911j` matches **1,448 CODE bytes, 138 ordered native
+  FIXUPPs, 10 PUBLICs**, exact Japanese MAIN/1,553 relocations in two
+  independent original TC4/full normal MAIN TLINK rounds; 98 other
+  project objects/CRT reused. See
+  [after911 complete Reimu Chargeshot review](MAIN_REIMU_CHARGESHOT_WHOLE_NATIVE_AFTER911_REVIEW.md).
+  Historical source-owned CODE; no distinct/Factory packed credit.
+
 ## After910: complete Kotohime BOSS native render and ring geometry
 
 - Full eleven-function physical `ba_koto` major BOSS now uses natural
