@@ -6,6 +6,23 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest source-rooted 28-unit GAME3 integration after639
+
+The latest `af639a` fresh native Turbo C++/TLINK dual rounds
+recompile **28** complete project objects together *after* Chiyuri,
+Rikako, Kotohime and Kana natural C++ source recovery. Source/OMF
+dependency attestation confirms the compiler consumed the current
+changed sources, including both 32-byte BOSS/Extra Attack headers.
+Both rounds match **35,376 previously owned CODE bytes, 3,685
+literal ordered native FIXUPP fields, 195 PUBLICs**, complete
+normal MAIN EXE/MAP and the Japanese target program and 1,553
+ordered MZ relocations. The separately generated standard MZ
+serialization gives the original 130,882-byte Japanese MAIN.EXE.
+Read [after639 native integration](MAIN_TWENTYEIGHT_GAMEPLAY_AFTER639_NATIVE_REVIEW.md).
+Only the 28 affected TUs were newly compiled; other 71 project objects
+and startup libraries were reused. No full cold replay or double
+Factory packed-file acceptance credit.
+
 ## Kana staged ring and rotating attack native C++ after638
 
 Kana's full nine-function original BOSS now uses actual-byte-equal
