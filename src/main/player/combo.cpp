@@ -26,6 +26,9 @@ static const unsigned int COMBO_BONUS_CAP = 65535;
 // Only applies to the total combo. [player_stuff_t::combo_hits_max] is allowed
 // to hold the full unsigned 8-bit range.
 static const int COMBO_HIT_CAP = 99;
+static const int COMBO_CONTINUATION_HITS_BEGIN = 2;
+static const unsigned int COMBO_FLASH_PERIOD = 4;
+static const unsigned int COMBO_FLASH_FIRST_HALF = 2;
 /// ---------
 
 /// Coordinates
@@ -64,11 +67,13 @@ uint16_t pascal combo_add_raw(uint8_t hits, pid_t pid, uint16_t bonus)
 	combo_t near& combo = combos[pid];
 
 	// The combo isn't continued with chains that just started.
-	if(hits < 2) {
+	if(hits < COMBO_CONTINUATION_HITS_BEGIN) {
 		return combo.bonus_total;
 	}
 	player_stuff_t near& player = players[pid];
 
+	// TC4's original 32-bit temporary first widens the bonus, then adds
+	// the retained combo total (one combined expression failed in af751c).
 	uint32_t bonus_total_new = bonus;
 	bonus_total_new += combo.bonus_total;
 	if(bonus_total_new > COMBO_BONUS_CAP) {
@@ -161,7 +166,7 @@ void combos_update_and_render(void)
 			#define left static_cast<screen_x_t>(left)
 
 			static_assert(PLAYER_COUNT == 2);
-			if(pid == 0) {
+			if(!pid) {
 				left = playfield_x(0, SCORE_LEFT);
 			} else {
 				left = playfield_x(1, SCORE_LEFT);
@@ -174,7 +179,10 @@ void combos_update_and_render(void)
 			// and would have created shorter code.
 			if(
 				(p->time < COMBO_HIT_RESET_FRAMES) &
-				((round_or_result_frame % 4) < 2)
+				(
+					(round_or_result_frame & (COMBO_FLASH_PERIOD - 1)) <
+					COMBO_FLASH_FIRST_HALF
+				)
 			) {
 				col = 8;
 			}
