@@ -34,6 +34,7 @@ ROOT = parent.ROOT
 WORK = parent.WORK
 SOURCES = {
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',
+    'intro': 'src/main/hud/intro.cpp',
     'entry': 'src/main/core/entry.cpp',
     'p_cpu': 'src/main/player/cpu.cpp',
     'cs_yume': 'src/main/player/chargeshot_yumemi.cpp',
@@ -100,6 +101,13 @@ BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
 BACKGROUND_PHASE = 'src/main/background/phase.inl'
 CHAIN_UNITS = ('chain1', 'chain2')
 OWNER_INLINE_PATHS = {
+    # The original HUD intro contains its particle state machine, rendering,
+    # and hardware-specific tiny pixel/strip providers in separate includes.
+    'intro': (
+        'src/main/hud/start_anim.inl',
+        'src/main/hud/start_lowlevel.inl',
+        'src/main/hud/start_render.inl',
+    ),
     # The original entry.cpp owns MAIN, the 200+-line frame scheduler,
     # stage initialization and score commitment as ONE physical TU.
     'entry': (
@@ -121,6 +129,7 @@ ORIGINAL_OBJECT_PATHS = {u: f'obj/{u}.obj' for u in CHAIN_UNITS}
 ORIGINAL_OBJECT_PATHS['bomb~cxk'] = 'obj/th03/bomb_yumemi.obj'
 BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
 PRODUCER_WRAPPERS = {
+    'intro': 'src/main/hud/producers/intro_native.cpp',
     'entry': 'src/main/core/producers/entry_native.cpp',
     'p_cpu': 'src/main/player/producers/cpu_native.cpp',
     'cs_yume': 'src/main/player/producers/yumemi_chargeshot_native.cpp',
@@ -133,6 +142,7 @@ PRODUCER_WRAPPERS = {
     'eupdb': 'src/main/enemy/producers/eupdb.cpp',
 }
 ORIGINAL_STAGES = {
+    'intro': 'af595h',
     'entry': 'af594e',
     'ch_setup': 'af592p',
     'core': 'af593p',

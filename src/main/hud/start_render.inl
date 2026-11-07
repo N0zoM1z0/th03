@@ -1,14 +1,14 @@
 void near hud_start_anim_render(void)
 {
     register int i;
-    if(hud_start_flag == 0) {
+    if(hud_start_flag == HUD_INTRO_STOPPED) {
         return;
     }
-    if(hud_intro_phase == 0) {
+    if(hud_intro_phase == HUD_PHASE_SLIDE) {
         grcg_setcolor(GC_RMW, 15);
         hud_start_particle_p = &hud_start_particles[0];
         i = 0;
-        for(; i < 16; i++, hud_start_particle_p++) {
+        for(; i < HUD_SLIDE_STRIPS; ++i, hud_start_particle_p++) {
             hud_start_sprite_strip_put(hud_start_particle_p->x,
                 hud_start_particle_p->y, hud_intro_sprite, i);
             hud_start_sprite_strip_put(hud_start_particle_p->x + 0x20,
@@ -28,7 +28,7 @@ void near hud_start_anim_render(void)
         }
         hud_intro_x = hud_intro_destination_x;
         grcg_off();
-    } else if(hud_intro_phase == 1) {
+    } else if(hud_intro_phase == HUD_PHASE_BANNER) {
         // Original TC4 control flow places versus first, story second.
         if(resident->game_mode != GM_STORY) {
             if((hud_intro_frame >= 0x18) && (hud_intro_frame < 0x40)) {
@@ -55,7 +55,7 @@ void near hud_start_anim_render(void)
         super_put(hud_intro_x + 352, 84, hud_intro_sprite + 1);
         super_put(hud_intro_x + 384, 84, hud_intro_sprite + 2);
         super_put(hud_intro_x + 416, 84, hud_intro_sprite + 3);
-    } else if(hud_intro_phase == 3) {
+    } else if(hud_intro_phase == HUD_PHASE_MOVE_STARS) {
         grcg_setcolor(GC_RMW, 15);
         asm {
             mov ax, 0A800h
@@ -63,7 +63,7 @@ void near hud_start_anim_render(void)
         }
         hud_start_particle_p = &hud_start_particles[0];
         i = 0;
-        for(; i < 128; i++, hud_start_particle_p++) {
+        for(; i < HUD_TOTAL_STARS; ++i, hud_start_particle_p++) {
             if(hud_start_particle_p->active != 0) {
                 // Preserve the original near Pascal device helper ABI.
                 // These are symbolic operations; no raw instruction blobs.

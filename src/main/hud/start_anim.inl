@@ -5,31 +5,31 @@ void near hud_start_anim_update(void)
     register int i;
     register int x;
 
-    if(hud_start_flag == 1) {
+    if(hud_start_flag == HUD_INTRO_RESET_REQUEST) {
         hud_intro_frame = 0;
         hud_start_particle_p = &hud_start_particles[0];
         x = -0x120;
         speed_y = 0x54;
         i = 0;
-        for(; i < 16; i++, hud_start_particle_p++, speed_y++, x += 8) {
+        for(; i < HUD_SLIDE_STRIPS; ++i, hud_start_particle_p++, speed_y++, x += 8) {
             hud_start_particle_p->x = x;
             hud_start_particle_p->y = speed_y;
             hud_start_particle_p->velocity = 8;
             hud_start_particle_p->active = 1;
         }
-        hud_intro_phase = 0;
+        hud_intro_phase = HUD_PHASE_SLIDE;
         if(resident->game_mode == GM_STORY) {
             hud_intro_sprite = 0x16;
         } else {
             hud_intro_sprite = 0x1A;
         }
-        hud_start_flag = 2;
+        hud_start_flag = HUD_INTRO_RUNNING;
         hud_intro_x = 0;
     }
-    if(hud_intro_phase == 0) {
+    if(hud_intro_phase == HUD_PHASE_SLIDE) {
         hud_start_particle_p = &hud_start_particles[0];
         i = 0;
-        for(; i < 16; i++, hud_start_particle_p++) {
+        for(; i < HUD_SLIDE_STRIPS; ++i, hud_start_particle_p++) {
             if(hud_start_particle_p->active != 0) {
                 asm { mov bx, hud_start_particle_p }
                 ((hud_start_particle_t near *)_BX)->x +=
@@ -51,16 +51,16 @@ void near hud_start_anim_update(void)
                 }
             }
         }
-    } else if(hud_intro_phase == 1) {
+    } else if(hud_intro_phase == HUD_PHASE_BANNER) {
         hud_intro_frame++;
         if(hud_intro_frame > 0x56) {
             hud_intro_phase++;
         }
-    } else if(hud_intro_phase == 2) {
+    } else if(hud_intro_phase == HUD_PHASE_CREATE_STARS) {
         hud_start_particle_p = &hud_start_particles[0];
         x = 0x600;
         i = 0;
-        for(; i < 64; i++, hud_start_particle_p++, x += 0x20) {
+        for(; i < HUD_STARS_PER_SIDE; ++i, hud_start_particle_p++, x += 0x20) {
             hud_start_particle_p->x = x;
             hud_start_particle_p->y = randring1_next16_and(0x01FF) + 0x0A80;
             hud_start_particle_p->angle = static_cast<unsigned char>(randring1_next16());
@@ -70,7 +70,7 @@ void near hud_start_anim_update(void)
         }
         x = 0x1A00;
         i = 0;
-        for(; i < 64; i++, hud_start_particle_p++, x += 0x20) {
+        for(; i < HUD_STARS_PER_SIDE; ++i, hud_start_particle_p++, x += 0x20) {
             hud_start_particle_p->x = x;
             hud_start_particle_p->y = randring1_next16_and(0x01FF) + 0x0A80;
             hud_start_particle_p->angle = static_cast<unsigned char>(randring1_next16());
@@ -80,14 +80,14 @@ void near hud_start_anim_update(void)
         }
         hud_intro_phase++;
         hud_intro_frame = 0;
-    } else if(hud_intro_phase == 3) {
+    } else if(hud_intro_phase == HUD_PHASE_MOVE_STARS) {
         hud_intro_frame++;
         if(hud_intro_frame >= 0x40) {
             hud_intro_phase++;
         }
         hud_start_particle_p = &hud_start_particles[0];
         i = 0;
-        for(; i < 128; i++, hud_start_particle_p++) {
+        for(; i < HUD_TOTAL_STARS; ++i, hud_start_particle_p++) {
             if(hud_start_particle_p->active != 0) {
                 asm { mov bx, hud_start_particle_p }
                 x = polar(0, 80, CosTable8[((hud_start_particle_t near *)_BX)->angle]);
@@ -111,6 +111,6 @@ void near hud_start_anim_update(void)
             }
         }
     } else {
-        hud_start_flag = 0;
+        hud_start_flag = HUD_INTRO_STOPPED;
     }
 }
