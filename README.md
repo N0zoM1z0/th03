@@ -83,8 +83,11 @@ historic compiler/linker used the same header format. MAINL's latest
 source-native link reproduces the entire 67,372-byte decoded Japanese
 MAINL EXE and all 677 ordered relocations. Neither establishes
 canonical packed-file Factory acceptance or complete historical source
-ownership. MAINL's current decoded publication is 220 reviewed extents
-and 37,968 reviewed bytes; its formal packed-unit credit remains 0/250.
+ownership. MAINL's historical after587 decoded publication reviewed 220
+extents / 37,968 bytes, but the live decoded source gate is **pending**
+after later MAIN source edits invalidated an older broad source-snapshot
+guard. Its formal packed-unit credit remains 0/250; see the handoff
+for the unchanged historical linker evidence and recertification blocker.
 
 To verify this checkout without replaying unchanged source or toolchains:
 

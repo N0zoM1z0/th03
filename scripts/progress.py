@@ -784,6 +784,15 @@ def main() -> int:
                       "Earlier runtime observations remain supporting history, not a per-unit test requirement. "
                       "Unowned context, physical devices and whole-product source ownership remain open; "
                       "canonical packed-file unit credit is unchanged.", ""])
+    else:
+        lines.extend([
+            "MAINL **current** decoded source acceptance: **PENDING**. "
+            "The current source-bound publication did not pass validation; "
+            "retained earlier native equalities and previously reviewed extents "
+            "are historical evidence, not live accepted source credit. "
+            "See [current handoff](RE_HANDOFF.md) for the precise blocker.",
+            "",
+        ])
     from status import zun_product_status
     zun_status = zun_product_status(ROOT, units)
     if zun_status.get("decoded_accepted"):

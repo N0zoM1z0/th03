@@ -27,7 +27,7 @@ Read AGENTS.md and the relevant source review, not every historical note.
 | Product | Current verified scope | Formal/remaining boundary |
 | --- | --- | --- |
 | MAIN | after596 source-native 99-object link; 124,642 program bytes and 1,553 ordered MZ relocations exactly original; standard DOS MZ serializer gives the exact 130,882-byte Japanese file | Direct newer TLINK emits a 132,322-byte MZ with a different header. Source-owned ledger is 459/459 functions and 78,737/78,737 *reviewed authored bytes*, not all program/library bytes or vendor tool identity |
-| MAINL (ending) | after587 source-native multi-TU link: entire 67,372-byte Japanese decoded EXE and all 677 ordered relocations exact | Current decoded accepted source remains 220/259 extents, 290 procedures, 37,968 bytes = 17,717 authored + 20,251 library. Historical canonical packed-unit Factory credit 0/250; no whole-game acceptance |
+| MAINL (ending) | Historical after587 source-native multi-TU link: entire 67,372-byte Japanese decoded EXE and all 677 ordered relocations exact; targeted historical reviewer still passes | **Current source-bound decoded acceptance pending** after later MAIN source edits invalidate the earlier all-source preservation guard. Historical 220/259 extents / 37,968 bytes (17,717 authored + 20,251 library) are retained *as past reviewed evidence*, not present accepted source credit. Canonical Factory credit 0/250 |
 | OP | Retained decoded source publication: 60 extents, 92 procedures, 14,985 reviewed bytes | Canonical packed product/source ownership still open |
 | ZUN | Retained decoded publication: 77 extents, 89 procedures/entries and 8,635 reviewed CODE+DATA bytes | Canonical packed product/source ownership still open |
 
@@ -163,6 +163,33 @@ original-equal natural Chiyuri control and beam expression. See
 [after602 review](MAIN_EXATT_ALL_TEN_AFTER602_NATIVE_REVIEW.md) and the
 SHA-bound ignored report; do not treat a historical after596 source-hash
 reviewer as suitable for these later changed sources. No extra accepted bytes.
+
+### Active MAINL source-bound gate after602 (not a binary mismatch)
+
+The original after587 MAINL native pair and all 677 relocations are still
+retained. The **read-only**
+`scripts/review_th03_mainl_score_input_pi_after587_work.py` currently passes
+its 425-byte three-unit / two-exact-MAINL-link review. However
+`scripts/status.py` now correctly reports **pending decoded source
+acceptance: 0 currently admissible extents**, instead of previously
+reviewed historical 220. The reason is specific: the after552
+`scripts/build_th03_mainl_root_state_work.py` parent graph pins an
+all-`src/` archive to early commit `0feb71f8`, including unrelated MAIN
+Extra Attack sources. Our natural C++ changes to
+`src/main/player/exatt_chiyuri.cpp` make the broad source-preservation
+check fail (`unchanged preserved native input ...`). This is a
+**current evidence/source-binding failure**, not observed changed MAINL
+bytes or lost prior archive evidence. Later changed MAIN source files
+would also need audited binding; restoring just one pinned hash would
+not resolve the integrity question.
+
+`scripts/progress.py` now publishes the current **pending** gate instead
+of carrying over stale source credit. Do not regenerate a historical
+receipt, amend its checksums, waive the parent input check, or claim
+current 220 decoded extents without a source-scoped recertification.
+Historical counts remain visible here; the latest MAIN work instead has
+its own new source-native multi-unit overlays and full MAIN comparisons.
+No full cold replay was run merely to suppress this validator error.
 
 ## Remaining priorities for real reconstruction
 
