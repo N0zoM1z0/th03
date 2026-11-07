@@ -8,6 +8,30 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after883: four edited original physical objects built together
+
+- The actual `af883a` **simultaneously compiles all four modified original
+  physical project objects** in two independent original TC4 4.02 and
+  complete normal MAIN TLINK rounds: full **Chain 1 and Chain 2
+  background controllers using the same changed `phase.inl`**, the
+  full nine-function **Marisa major BOSS**, and the 49-byte resident CFG
+  leaf. Five modified maintained C++/include files map to those four
+  original physical objects. Both rounds match **2,725 original CODE
+  bytes, 291 literal ordered native OMF FIXUPPs, 19 PUBLICs**, compiler
+  source and segment ABI, complete normal MAIN EXE/MAP, **124,642
+  Japanese loaded bytes and all 1,553 ordered MZ relocations**.
+  Independent standard MZ serialization recreates all 130,882 Japanese
+  file bytes. **95 unchanged game objects/CRT reused**, no cold replay.
+  See [after883 four-object integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER883_REVIEW.md).
+- Current source binding has been rechecked: `af880h`, `af881i`, `af882e`,
+  `af877a`, `af871a`, `af865a`, `af859a`, `af853a`, `af847a`, `af842a`
+  remain **separate** current-source read-only passes. Previous
+  `af878h`/`af879e` are historical due to the changed shared phase;
+  `af835a` is historical due to the Marisa BOSS edit. Preserve those
+  earlier genuine writer receipts without repinning or claiming one
+  fabricated combined all-object cold replay. Already-covered CODE
+  must not be double-counted as canonical Factory accepted source.
+
 ## After882: original resident CFG loader leaf and external filename ABI
 
 - The original 49-CODE-byte `cfg_lres` resident config loader now uses
@@ -97,7 +121,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   [after878 full Chain 1 review](MAIN_CHAIN1_NATIVE_INIT_AFTER878_REVIEW.md).
   Existing source-covered CODE, not new distinct/Factory packed credit.
 
-## Latest after877: five changed original physical sources in one exact MAIN link
+## After877: five changed original physical sources in one exact MAIN link
 
 - `af877a` **actually recompiled five current modified original physical
   sources simultaneously in both original Turbo C++ 4.02 and complete
@@ -1668,7 +1692,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af871a af865a af859a af853a af847a af842a af835a
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af883a af880h af881i af882e af877a af871a af865a af859a af853a af847a af842a
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -1688,9 +1712,10 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The **latest current** protected original-source-bound read-only proof
-is `.analysis/work/exatt-layout-af871a/report.json`: five genuinely
-edited original physical source owners and both actual original
-TC4/TLINK rounds. Earlier `af865a` and `af859a` remain separate
+is `.analysis/work/exatt-layout-af883a/report.json`: four genuinely
+recompiled current original physical owners and both actual original
+TC4/TLINK rounds. The after877/871 experiments remain separate
+current-source compiler/linker proofs for other unchanged units. Earlier `af865a` and `af859a` remain separate
 source-current independent five-owner compiler/linker experiments. The older `af782a`, `af775a`, and `af766a` complete real
 compiler/TLINK receipts remain protected **historical** source-input
 snapshots (the source hashes have subsequently changed); do not call them
