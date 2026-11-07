@@ -497,13 +497,11 @@ void near rikako_render_intro(void)
 				(1 - pid_current)
 			) - 24
 		);
-		_AX = top;
-		static_cast<int16_t>(_AX) >>= 4;
-		// A direct -= 8 emits a different 16-bit opcode than
-		// this original ADD AX,-8; preserve the original register form.
-		_AX += -8;
-		top = _AX;
-		sprite16_put(left, _AX, sprite_offset);
+		// The original signed AX shift and ADD AX,-8 both arise naturally
+		// from this local assignment; passing it as an inline argument
+		// instead changes TC4 CODE (af763c).
+		top = static_cast<screen_y_t>((top >> 4) - 8);
+		sprite16_put(left, top, sprite_offset);
 	}
 }
 
