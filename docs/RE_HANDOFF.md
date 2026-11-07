@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after787 simultaneous complete original-source integration
+
+- `af787a` genuinely rebuilt **four modified original physical TUs at once**,
+  not a union inferred from separate trials: complete Reimu and Mima major
+  **BOSSes**, the entire main `entry`/200+-line frame/stage/score scheduler
+  (four current implementation `.inl` bodies), and complete Kana Bomb.
+  Two separate original TC4 4.02 / complete normal TLINK rounds reproduce
+  **7,518 CODE bytes, 1,033 ordered original OMF FIXUPPs, 27 PUBLICs**,
+  complete original MAIN EXE and MAP, all **124,642 Japanese loaded bytes**
+  and **1,553 relocations**, plus the original **130,882-byte Japanese MZ**
+  through the separately checked standard serializer. Original native
+  compiler source/header/include dependencies are checked for both rounds.
+- **95 unchanged original game objects and CRT reused**, no cold replay,
+  target-byte padding or overwritten historical receipts. This is a new
+  combined current-source proof for already covered physical owners;
+  **do not add its 7,518 bytes again** to source-ownership coverage or claim
+  canonical Factory packed-unit acceptance. See the
+  [after787 four-source integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER787_REVIEW.md).
+
 ## After786 major Mima BOSS naturally recovered unsigned clocks
 
 - Four bit-mask scheduler expressions across **three substantial Mima BOSS
@@ -70,7 +89,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   distinct exact ownership or packed-file Factory acceptance. See
   [after783 Reimu BOSS review](MAIN_REIMU_BOSS_ORBIT_AFTER783_REVIEW.md).
 
-## Current verified checkpoint — what it proves, and what it does not
+## Earlier major checkpoints (through after782) — limits and provenance
 
 - **Latest affected complete original-source native proof: `af782a`.**
   Two independently compiled Turbo C++ 4.02/complete normal TLINK rounds

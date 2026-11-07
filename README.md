@@ -71,7 +71,18 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-after782 **six-genuinely-modified-original-physical-source simultaneous**
+**newer after787 four-physical-source simultaneous native proof**: full
+Reimu and Mima major BOSSes, complete main/frame/stage/score `entry`
+(including all four live implementation `.inl` files) and complete Kana
+Bomb. Both genuine original TC4/TLINK rounds match **7,518 original CODE
+bytes, 1,033 ordered OMF FIXUPPs, 27 PUBLICs**, the full normal MAIN
+EXE/MAP, loaded Japanese program and all MZ relocations; original
+130,882-byte MZ equality is independently serialized. 95 other original
+project objects and CRT were reused; no full cold replay. See
+[after787 source integration](docs/MAIN_FOUR_SOURCE_INTEGRATION_AFTER787_REVIEW.md).
+These original source owners were already covered and are **not** extra
+distinct bytes or canonical packed-file acceptance. The earlier
+**after782** **six-genuinely-modified-original-physical-source simultaneous**
 native proof: full Yumemi Chargeshot/target and **major Yumemi BOSS**,
 Rikako's homing Extra Attack, Mima's complete 30-projectile Chargeshot,
 Chiyuri's paired GRCG beam Extra Attack and Kana's eight-slot Extra
@@ -113,6 +124,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af787a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af782a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af772a
