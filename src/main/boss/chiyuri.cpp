@@ -595,10 +595,11 @@ void near chiyuri_render_ring(void)
 			boss_center_y, radius, SinTable8[angle]
 		);
 		left = (playfield_fg_x_to_screen(left, pid_other) - 16);
-		_AX = top;
-		static_cast<int16_t>(_AX) >>= 4;
-		top = _AX;
-		sprite16_put(left, _AX, sprite_offset);
+		// Natural signed coordinate conversion replaces manual _AX
+		// loading/shifting/storing. A compound >>= on top generated
+		// different TC4 CODE (native negative trial af759b).
+		top = static_cast<screen_y_t>(top >> 4);
+		sprite16_put(left, top, sprite_offset);
 	}
 }
 
