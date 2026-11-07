@@ -182,6 +182,22 @@ void near yumemi_pattern_ring(void)
 	}
 }
 
+// Timing gates for the long aimed, cross, chase and rain BOSS attacks.
+// Preserve each attack's exact inclusive/exclusive frame transition.
+enum yumemi_attack_timing_t {
+    YUMEMI_AIMED_WARNING_END = 0x10,
+    YUMEMI_AIMED_FIRE_START = 0x20,
+    YUMEMI_AIMED_FINISH_AFTER = 0x60,
+    YUMEMI_CROSS_FINISH_AT = 0x60,
+    YUMEMI_CHASE_TRACK_END = 0x20,
+    YUMEMI_CHASE_BEAM_PERIOD = 16,
+    YUMEMI_CHASE_BEAM_PHASE = 15,
+    YUMEMI_RAIN_BEGIN = 0x20,
+    YUMEMI_RAIN_SPREAD_END = 0x40,
+    YUMEMI_RAIN_FINISH_AT = 0x60,
+    YUMEMI_RAIN_DROPS_PER_WAVE = 12,
+};
+
 void near yumemi_pattern_aimed_random(void)
 {
 	if(boss_frame == 1) {
@@ -196,7 +212,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_frame = 0x20;
 	}
 
-	if(boss_frame < 0x10) {
+	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
 		if((boss_frame % 4) == 1) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
@@ -207,11 +223,11 @@ void near yumemi_pattern_aimed_random(void)
 		return;
 	}
 
-	if(boss_frame < 0x20) {
+	if(boss_frame < YUMEMI_AIMED_FIRE_START) {
 		return;
 	}
 
-	if(boss_frame == 0x20) {
+	if(boss_frame == YUMEMI_AIMED_FIRE_START) {
 		bomb_explosion_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
@@ -233,7 +249,7 @@ void near yumemi_pattern_aimed_random(void)
 		bullets_add();
 	}
 
-	if(boss_frame > 0x60) {
+	if(boss_frame > YUMEMI_AIMED_FINISH_AFTER) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
@@ -268,7 +284,7 @@ void near yumemi_pattern_cross_rings(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= 0x60) {
+	if(boss_frame >= YUMEMI_CROSS_FINISH_AT) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
@@ -293,14 +309,14 @@ void near yumemi_pattern_chase(void)
 	boss_aux_point.x = players[bullet_template.pid].center.x;
 	boss_aux_point.y = players[bullet_template.pid].center.y;
 
-	if(boss_frame < 0x20) {
+	if(boss_frame < YUMEMI_CHASE_TRACK_END) {
 		return;
 	}
 
 	boss_move_sine();
 	boss_move_sine();
 
-	if((boss_frame % 16) == 15) {
+	if((boss_frame % YUMEMI_CHASE_BEAM_PERIOD) == YUMEMI_CHASE_BEAM_PHASE) {
 		boss_render_mode = 1;
 		bomb_axis_add(
 			boss_aux_point.x.v,
@@ -328,7 +344,7 @@ void near yumemi_pattern_rain(void)
 	if((boss_frame % yumemi_rain_interval) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
-		if(boss_frame < 0x40) {
+		if(boss_frame < YUMEMI_RAIN_SPREAD_END) {
 			bullet_template.center.x.v = yumemi_origin_x;
 			bullet_template.center.y.v = yumemi_origin_y;
 			bullet_template.angle = -0x40;
@@ -339,11 +355,11 @@ void near yumemi_pattern_rain(void)
 			bullets_add();
 		}
 
-		if(boss_frame >= 0x20) {
+		if(boss_frame >= YUMEMI_RAIN_BEGIN) {
 			bullet_template.group = BG_1;
 			bullet_template.speed.v = (TO_SP(2) + 4);
 			bullet_template.center.y.v = 0;
-			for(i = 0; i < 12; i++) {
+			for(i = 0; i < YUMEMI_RAIN_DROPS_PER_WAVE; ++i) {
 				bullet_template.center.x.v =
 					randring_far_next16_mod(TO_SP(PLAYFIELD_W));
 				bullet_template.angle = (
@@ -354,7 +370,7 @@ void near yumemi_pattern_rain(void)
 		}
 	}
 
-	if(boss_frame >= 0x60) {
+	if(boss_frame >= YUMEMI_RAIN_FINISH_AT) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
@@ -607,7 +623,7 @@ void far gba_boss_render_yumemi(void)
 		yumemi_render_arrival();
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != YUMEMI_MODE_EXPLODE) {
 		yumemi_render_main();
 		return;
 	}
