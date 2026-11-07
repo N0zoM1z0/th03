@@ -6,6 +6,22 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Current bounded 28-owner source-native integration after629
+
+The latest `af629a` original compiler/TLINK pair rebuilt **all nine
+large BOSS TUs, two shared BOSS owners, ten Extra Attack units, Bullet,
+Fireball, Explosion and four Enemy units** together, after the actual
+shared-template and Yumemi source changes: **28 native producer TUs /
+35,376 CODE bytes / 3,685 literal ordered native fields / 195 PUBLICs**.
+The v2 read-only reviewer checks the exact consumed current sources
+including the separately maintained BOSS and Extra Attack 32-byte
+headers. Both complete normal MAIN EXE/MAP outputs, Japanese loaded
+program bytes, all 1,553 ordered MZ relocations and independent
+standard MZ serialization match original. See
+[after629 native integration review](MAIN_TWENTYEIGHT_SHARED_TEMPLATE_AFTER629_NATIVE_REVIEW.md).
+Only 28 affected objects were built, **not** a whole-project cold
+replay; no double source-byte or Factory packed-file acceptance credit.
+
 ## Yumemi large BOSS mode dispatch / ring recovery after628
 
 The complete 2,358-byte Yumemi original-source BOSS TU now uses a
