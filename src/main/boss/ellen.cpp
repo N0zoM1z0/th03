@@ -223,7 +223,7 @@ void near ellen_pattern_extra(void)
 		for(
 			i = 0, angle = randring_far_next16();
 			i < ellen_extra_count;
-			(i++, angle += (256 / ellen_extra_count))
+			(++i, angle += (256 / ellen_extra_count))
 		) {
 			ellen_extra_add(
 				boss_center_x,
@@ -240,7 +240,7 @@ void near ellen_pattern_extra(void)
 		for(
 			i = 0, angle = randring_far_next16();
 			i < ellen_extra_count;
-			(i++, angle += (256 / ellen_extra_count))
+			(++i, angle += (256 / ellen_extra_count))
 		) {
 			ellen_extra_add(
 				boss_center_x,
@@ -415,19 +415,19 @@ void near ellen_render_main(void)
 	top = ((boss_center_y >> 4) - 32);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite_offset += 8;
 	}
 	sprite16_put(left, top, sprite_offset);
 
 	i = ((boss_render_frame / 4) % 9);
 	ellen_render_strip(i);
-	i--;
+	--i;
 	if(i < 0) {
 		i = 8;
 	}
 	ellen_render_strip(i);
-	i--;
+	--i;
 	if(i < 0) {
 		i = 8;
 	}
@@ -451,18 +451,18 @@ void near pascal ellen_render_intro(
 
 	i = (frame % 9);
 	ellen_render_strip(i);
-	i--;
+	--i;
 	if(i < 0) {
 		i = 8;
 	}
 	ellen_render_strip(i);
-	i--;
+	--i;
 	if(i < 0) {
 		i = 8;
 	}
 	ellen_render_strip(i);
 
-	if((round_frame_mod2 != 0) && (boss_frame < 0x40)) {
+	if(round_frame_mod2 && (boss_frame < 0x40)) {
 		return;
 	}
 
@@ -505,7 +505,7 @@ void far gba_boss_render_ellen(void)
 	pid_other = (1 - pid_current);
 	sprite16_clip_set_for_pid(pid_other);
 
-	if(boss_mode == 0) {
+	if(boss_mode == ELLEN_MODE_INTRO) {
 		ellen_render_intro(
 			TO_SP(0xC8 - (boss_frame * 2)),
 			(unsigned char)boss_frame,
@@ -513,7 +513,7 @@ void far gba_boss_render_ellen(void)
 		);
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != ELLEN_MODE_EXPLODE) {
 		ellen_render_main();
 		return;
 	}
