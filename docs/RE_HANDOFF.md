@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Marisa complete Bomb original palette and sound C++ after688
+
+The full Marisa `bm_mari` original Bomb source (one
+large 449-CODE-byte physical state machine) now uses
+byte-exact natural `frame*4`, `frame*8` for the
+palette waves, and unsigned `frame%2` for the
+odd-frame sound tick. Original 64/128-frame boundaries
+and 8-frame explosion scheduling are named in C++.
+Both `frame%4<2` replacements for shake/animated
+sprite tests were TC4-original-native unequal
+(`af688d`), so original `frame&3` remains.
+Current source/OMF-attested dual native TC4/TLINK
+`af688e` proves **449 CODE bytes, 50 ordered literal
+fixups and one PUBLIC**, full MAIN and Japanese MZ.
+See [after688 Marisa Bomb review](MAIN_MARISA_BOMB_NATIVE_AFTER688_REVIEW.md).
+Only the affected object compiled, no full cold replay
+or new packed-game Factory credit.
+
 ## Yumemi complete GRCG triangle Bomb original-native after687
 
 The v2 native source-rooted compiler now covers the entire

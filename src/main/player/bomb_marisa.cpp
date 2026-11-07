@@ -1,4 +1,4 @@
-// Unaccepted complete Marisa owner: bomb physical producer (one complete body).
+// Source-native original Marisa full Bomb state-machine physical producer.
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
 #include "src/main/player/chargeshot_marisa.hpp"
@@ -18,6 +18,14 @@ extern SPPoint marisa_bomb_point;
 extern "C" void far bomb_bg_fill(void);
 extern "C" void far pascal bomb_explosion_add(int x, int y, int pid);
 
+// Original Marisa Bomb: 64-frame full-screen palette flash followed by
+// 64 frames of sprite movement and randomized explosions, then fade.
+enum marisa_bomb_phase_t {
+    MARISA_BOMB_PALETTE_END = 64,
+    MARISA_BOMB_SHAKE_END = 128,
+    MARISA_BOMB_EXPLOSION_PERIOD = 8,
+};
+
 void far marisa_bomb(void)
 {
     unsigned char frame;
@@ -29,7 +37,7 @@ void far marisa_bomb(void)
     }
     egc_off();
     frame = bomb_frame[pid_current];
-    if(frame < 64) {
+    if(frame < MARISA_BOMB_PALETTE_END) {
         grcg_setcolor(GC_RMW, pid_current);
         // Real hardware ABI, not register allocation tuning: the existing
         // named helper consumes BX as a VRAM offset. Reference sub_B39E
@@ -41,15 +49,17 @@ void far marisa_bomb(void)
         }
         bomb_bg_fill();
         grcg_off();
-        color = 0 - (frame << 2);
+        color = 0 - (frame * 4);
         Palettes[pid_current].c.r = color;
         Palettes[pid_current].c.g = color;
         Palettes[pid_current].c.b = color;
         palette_changed = true;
-    } else if(frame < 128) {
-        if(frame & 1) {
+    } else if(frame < MARISA_BOMB_SHAKE_END) {
+        if((static_cast<unsigned int>(frame) % 2) != 0) {
             snd_se_play(16);
         }
+        // The original bitmask must remain: equal-valued unsigned %4
+        // was native-code-unequal in the two shake/sprite tests (af688d).
         if((frame & 3) < 2) {
             playfield_fg_shift_x[pid_current] = 4;
             left = 16;
@@ -64,7 +74,7 @@ void far marisa_bomb(void)
         // Preserve the byte bool formal and zero-extend its word stack carrier;
         // this is not an AX-parameter ABI or a claim about original source text.
         mrs_put_noalpha_8(left, PLAYFIELD_TOP, pid_current + 2, (_AX = pid_current));
-        if((frame % 8) == 0) {
+        if((frame % MARISA_BOMB_EXPLOSION_PERIOD) == 0) {
             marisa_bomb_point.x.v = randring2_next16_mod(TO_SP(PLAYFIELD_W));
             marisa_bomb_point.y.v = randring2_next16_mod(TO_SP(PLAYFIELD_H));
             bomb_explosion_add(marisa_bomb_point.x.v, marisa_bomb_point.y.v, pid_current);
@@ -73,14 +83,14 @@ void far marisa_bomb(void)
         }
     } else {
         playfield_fg_shift_x[pid_current] = 0;
-        color = 255 - (frame << 3);
+        color = 255 - (frame * 8);
         Palettes[pid_current].c.r = color;
         Palettes[pid_current].c.g = color;
         Palettes[pid_current].c.b = color;
         palette_changed = true;
     }
     egc_on();
-    if((frame >= 64) && (frame < 128)) {
+    if((frame >= MARISA_BOMB_PALETTE_END) && (frame < MARISA_BOMB_SHAKE_END)) {
         sprite16_put_size.set(48, 48);
         sprite16_clip.reset();
         sprite_offset = pid.so_attack + 0xF16;
