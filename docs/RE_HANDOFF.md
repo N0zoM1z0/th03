@@ -8,6 +8,18 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After783 Reimu BOSS signed-angle experiment (newer than after782)
+
+- The **complete** original `ba_reimu` BOSS owner now uses semantic 256-unit
+  turn / 8-unit rotation names in all three signed orbit-division phases.
+  Original `angle = (0 - angle)` must **not** be simplified to unary `-angle`:
+  the native `af783a` negative comparison failed; it was reverted.
+- `af783b` independently passes two original TC4 / full MAIN TLINK rounds:
+  2,020 CODE bytes, 270 ordered FIXUPPs, 9 PUBLICs, full Japanese MAIN loaded
+  image and 1,553 relocations. This rechecks an existing owner, not new
+  distinct exact ownership or packed-file Factory acceptance. See
+  [after783 Reimu BOSS review](MAIN_REIMU_BOSS_ORBIT_AFTER783_REVIEW.md).
+
 ## Current verified checkpoint — what it proves, and what it does not
 
 - **Latest affected complete original-source native proof: `af782a`.**

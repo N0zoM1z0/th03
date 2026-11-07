@@ -223,6 +223,10 @@ enum reimu_orbit_phase_t {
     REIMU_ORBIT_INIT_FRAME = 0,
     REIMU_ORBIT_EXPAND_END = 0x18,
     REIMU_ORBIT_RELEASE_FRAME = 0x50,
+    // One full turn has 256 native byte-angle units, distributed by
+    // the *signed* integer quotient before truncation to byte angle.
+    REIMU_ORBIT_ANGLE_UNITS = 256,
+    REIMU_ORBIT_ANGLE_STEP = 8,
 };
 
 // The four radial loops use natural signed i*256 BEFORE the original
@@ -243,7 +247,7 @@ void near reimu_pattern_orbit_burst(void)
         // Keep two natural 16-bit scale stages in the original order:
         // frame*32 changes TC4 instructions; (frame*16)*2 does not.
 		for(i = 0; i < reimu_orbit_count; ++i) {
-			angle = (((i * 256) / reimu_orbit_count) + reimu_orbit_angle);
+			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
 				((boss_frame * 16) * 2),
@@ -255,13 +259,13 @@ void near reimu_pattern_orbit_burst(void)
 				SinTable8[angle]
 			);
 		}
-		reimu_orbit_angle += 8;
+		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 		return;
 	}
 
 	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
 		for(i = 0; i < reimu_orbit_count; ++i) {
-			angle = (((i * 256) / reimu_orbit_count) + reimu_orbit_angle);
+			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
 			);
@@ -269,7 +273,7 @@ void near reimu_pattern_orbit_burst(void)
 				boss_center_y, TO_SP(48), SinTable8[angle]
 			);
 		}
-		reimu_orbit_angle += 8;
+		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 
 		if(!round_frame_mod16) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
@@ -287,7 +291,7 @@ void near reimu_pattern_orbit_burst(void)
 
 	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
 		for(i = 0; i < reimu_orbit_count; ++i) {
-			angle = (((i * 256) / reimu_orbit_count) + reimu_orbit_angle);
+			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
 		}
 		boss_mode = 1;
