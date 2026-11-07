@@ -6,6 +6,33 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest seven actually rebuilt native sources, 56-owner proof union after703
+
+Current original Turbo C++ 4.02/TLINK `af703a`
+two-round integration **freshly recompiles only seven
+actually modified physical original TUs**: the large
+`ch_setup` nine-character callback/resource owner;
+the split `p_combo`/`p_cmbhl` scoring and BOSS/panic
+helper producers; small `p_exatt`/`p_gauge` dispatch/
+saturation leaves; and both complete Kotohime/Chiyuri
+major BOSS objects. Both modified-source/packed-header
+OMF-COMENT-attested rounds reproduce **9,456 original
+CODE bytes, 1,838 literal ordered native FIXUPP
+fields, 41 PUBLIC offsets**, complete normal MAIN/MAP,
+the exact 124,642-byte Japanese program, all 1,553
+ordered MZ relocations and separately serialized
+original 130,882-byte Japanese MAIN.EXE. Other **92**
+original project objects and startup/CRT inputs reused.
+The previous 51-owner native-proof union remains
+preserved; this session adds five new distinct physical
+TUs and rechecks two BOSSes, giving **56 cumulative
+source-proof owners**, 62,608 existing CODE bytes,
+6,982 literal fixups and 342 PUBLICs **across
+separate receipts, NOT freshly compiled 56 TUs**.
+See [after703 seven-source native proof and union review](MAIN_FIFTYSIX_SCOPED_NATIVE_AFTER703_REVIEW.md).
+No cold replay, historic raw vendor OMF identity
+or new canonical Factory accepted game bytes claimed.
+
 ## Chiyuri complete BOSS fan/ring iteration and update phases after702
 
 The full Chiyuri 2,654-CODE-byte major BOSS
