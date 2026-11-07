@@ -55,6 +55,31 @@ void far pascal bomb_explosion_add(int x, int y, int pid);
 void far pascal kana_extra_add(int x, int y, unsigned char angle);
 }
 
+// Original scheduler IDs, grouped by Kana's four distinct whole attack
+// controllers; the shared 2..17 selection distribution is unchanged.
+enum kana_boss_mode_t {
+    KANA_MODE_INTRO = 0x00,
+    KANA_MODE_SELECT = 0x01,
+    KANA_MODE_ACCEL_0 = 0x02,
+    KANA_MODE_ACCEL_1 = 0x03,
+    KANA_MODE_ACCEL_2 = 0x04,
+    KANA_MODE_ROTATING_0 = 0x05,
+    KANA_MODE_ROTATING_1 = 0x06,
+    KANA_MODE_STAGED_0 = 0x07,
+    KANA_MODE_STAGED_1 = 0x08,
+    KANA_MODE_STAGED_2 = 0x09,
+    KANA_MODE_STAGED_3 = 0x0A,
+    KANA_MODE_STAGED_4 = 0x0B,
+    KANA_MODE_STAGED_5 = 0x0C,
+    KANA_MODE_CLOUD_0 = 0x0D,
+    KANA_MODE_CLOUD_1 = 0x0E,
+    KANA_MODE_CLOUD_2 = 0x0F,
+    KANA_MODE_ROTATING_2 = 0x10,
+    KANA_MODE_ROTATING_3 = 0x11,
+    KANA_MODE_DESCEND = 0x80,
+    KANA_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_kana_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -77,13 +102,21 @@ void far pascal boss_kana_template_init(int player_id)
 	p->render_mode = 0;
 }
 
+// Original clock phases for this full Kana attack; no new state.
+enum kana_accel_phase_t {
+    KANA_ACCEL_START = 1,
+    KANA_ACCEL_WARN = 0x10,
+    KANA_ACCEL_RELEASE = 0x28,
+    KANA_ACCEL_FINISH_AFTER = 0x50,
+};
+
 void near kana_pattern_accel_ring(void)
 {
-	if(boss_frame == 1) {
+	if(boss_frame == KANA_ACCEL_START) {
 		boss_render_mode = 1;
 		return;
 	}
-	if(boss_frame == 0x10) {
+	if(boss_frame == KANA_ACCEL_WARN) {
 		boss_render_frame = 0;
 		boss_render_mode = 2;
 		bomb_center_add(
@@ -93,7 +126,7 @@ void near kana_pattern_accel_ring(void)
 		);
 		return;
 	}
-	if(boss_frame == 0x28) {
+	if(boss_frame == KANA_ACCEL_RELEASE) {
 		bomb_explosion_add(
 			boss_center_x,
 			boss_center_y,
@@ -115,36 +148,50 @@ void near kana_pattern_accel_ring(void)
 		snd_se_play(10);
 		return;
 	}
-	if(boss_frame > 0x50) {
+	if(boss_frame > KANA_ACCEL_FINISH_AFTER) {
 		boss_render_mode = 0;
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = KANA_MODE_SELECT;
 	}
 }
+
+// Original clock phases for this full Kana attack; no new state.
+enum kana_staged_phase_t {
+    KANA_STAGED_START = 1,
+    KANA_STAGED_WARN = 0x10,
+    KANA_STAGED_SLOW = 0x28,
+    KANA_STAGED_MIDDLE = 0x40,
+    KANA_STAGED_FAST = 0x48,
+    KANA_STAGED_EMISSION_END = 0x50,
+    KANA_STAGED_FINISH_AFTER = 0x60,
+};
 
 void near kana_pattern_staged_ring(void)
 {
 	pid_t pid_other = (1 - pid_current);
 	register int i;
 
-	if(boss_frame == 1) {
+	if(boss_frame == KANA_STAGED_START) {
 		boss_render_mode = 1;
 		return;
 	}
-	if(boss_frame == 0x10) {
+	if(boss_frame == KANA_STAGED_WARN) {
 		boss_render_frame = 0;
 		boss_render_mode = 2;
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
 		return;
 	}
 
-	if((boss_frame >= 0x28) && (boss_frame < 0x50)) {
+	if(
+		(boss_frame >= KANA_STAGED_SLOW) &&
+		(boss_frame < KANA_STAGED_EMISSION_END)
+	) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
 		bullet_template.center.y.v = boss_center_y;
 
-		if(boss_frame == 0x28) {
+		if(boss_frame == KANA_STAGED_SLOW) {
 			bomb_explosion_add(
 				boss_center_x,
 				boss_center_y,
@@ -157,7 +204,7 @@ void near kana_pattern_staged_ring(void)
 			return;
 		}
 
-		if(boss_frame == 0x40) {
+		if(boss_frame == KANA_STAGED_MIDDLE) {
 			bomb_explosion_add(
 				boss_center_x,
 				boss_center_y,
@@ -175,17 +222,13 @@ void near kana_pattern_staged_ring(void)
 				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 			for(i = 0; i < 0x10; i++) {
 				bullets_add();
-				_AL = bullet_template.angle;
-				_AL += 6;
-				bullet_template.angle = _AL;
-				_AL = bullet_template.speed.v;
-				_AL += 3;
-				bullet_template.speed.v = _AL;
+				bullet_template.angle += 6;
+				bullet_template.speed.v += 3;
 			}
 			return;
 		}
 
-		if(boss_frame == 0x48) {
+		if(boss_frame == KANA_STAGED_FAST) {
 			bomb_explosion_add(
 				boss_center_x,
 				boss_center_y,
@@ -200,12 +243,17 @@ void near kana_pattern_staged_ring(void)
 		return;
 	}
 
-	if(boss_frame > 0x60) {
+	if(boss_frame > KANA_STAGED_FINISH_AFTER) {
 		boss_render_mode = 0;
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = KANA_MODE_SELECT;
 	}
 }
+
+// Original clock phases for this full Kana attack; no new state.
+enum kana_cloud_phase_t {
+    KANA_CLOUD_FINISH_AFTER = 0x64,
+};
 
 void near kana_pattern_cloud_ring(void)
 {
@@ -238,20 +286,30 @@ void near kana_pattern_cloud_ring(void)
 		snd_se_play(10);
 	}
 
-	if(boss_frame > 0x64) {
+	if(boss_frame > KANA_CLOUD_FINISH_AFTER) {
 		boss_render_mode = 0;
 		boss_frame = 0;
 		boss_mode = 1;
 	}
 }
 
+// Original clock phases for this full Kana attack; no new state.
+enum kana_rotating_phase_t {
+    KANA_ROTATING_START = 1,
+    KANA_ROTATING_WARN = 0x10,
+    KANA_ROTATING_VOLLEY_START = 0x20,
+    KANA_ROTATING_TURN_AFTER = 0x40,
+    KANA_ROTATING_VOLLEY_END = 0x6C,
+    KANA_ROTATING_FINISH_AFTER = 0x70,
+};
+
 void near kana_pattern_rotating_ring(void)
 {
-	if(boss_frame == 1) {
+	if(boss_frame == KANA_ROTATING_START) {
 		boss_render_mode = 1;
 		return;
 	}
-	if(boss_frame == 0x10) {
+	if(boss_frame == KANA_ROTATING_WARN) {
 		boss_render_frame = 0;
 		boss_render_mode = 2;
 		bomb_center_add(
@@ -274,8 +332,11 @@ void near kana_pattern_rotating_ring(void)
 		return;
 	}
 
-	if((boss_frame >= 0x20) && (boss_frame < 0x6C)) {
-		if((boss_frame & 3) == 0) {
+	if(
+		(boss_frame >= KANA_ROTATING_VOLLEY_START) &&
+		(boss_frame < KANA_ROTATING_VOLLEY_END)
+	) {
+		if((boss_frame % 4) == 0) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullet_template.group = BG_RING;
 			bullet_template.count = 5;
@@ -286,17 +347,17 @@ void near kana_pattern_rotating_ring(void)
 			bullets_add();
 			snd_se_play(10);
 		}
-		if(boss_frame > 0x40) {
+		if(boss_frame > KANA_ROTATING_TURN_AFTER) {
 			kana_rotating_angle += kana_rotating_delta;
 			return;
 		}
 		return;
 	}
 
-	if(boss_frame > 0x70) {
+	if(boss_frame > KANA_ROTATING_FINISH_AFTER) {
 		boss_render_mode = 0;
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = KANA_MODE_SELECT;
 	}
 }
 
@@ -324,7 +385,7 @@ void far gba_boss_update_kana(void)
 	boss_frame++;
 
 	switch(boss_mode) {
-	case 0:
+	case KANA_MODE_INTRO:
 		if(boss_frame != 0x64) {
 			return;
 		}
@@ -332,43 +393,43 @@ void far gba_boss_update_kana(void)
 		boss_mode = 1;
 		break;
 
-	case 1:
+	case KANA_MODE_SELECT:
 		boss_pattern_next();
 		break;
 
-	case 2:
-	case 3:
-	case 4:
+	case KANA_MODE_ACCEL_0:
+	case KANA_MODE_ACCEL_1:
+	case KANA_MODE_ACCEL_2:
 		kana_pattern_accel_ring();
 		break;
 
-	case 7:
-	case 8:
-	case 9:
-	case 0x0A:
-	case 0x0B:
-	case 0x0C:
+	case KANA_MODE_STAGED_0:
+	case KANA_MODE_STAGED_1:
+	case KANA_MODE_STAGED_2:
+	case KANA_MODE_STAGED_3:
+	case KANA_MODE_STAGED_4:
+	case KANA_MODE_STAGED_5:
 		kana_pattern_staged_ring();
 		break;
 
-	case 0x0D:
-	case 0x0E:
-	case 0x0F:
+	case KANA_MODE_CLOUD_0:
+	case KANA_MODE_CLOUD_1:
+	case KANA_MODE_CLOUD_2:
 		kana_pattern_cloud_ring();
 		break;
 
-	case 5:
-	case 6:
-	case 0x10:
-	case 0x11:
+	case KANA_MODE_ROTATING_0:
+	case KANA_MODE_ROTATING_1:
+	case KANA_MODE_ROTATING_2:
+	case KANA_MODE_ROTATING_3:
 		kana_pattern_rotating_ring();
 		break;
 
-	case 0x80:
+	case KANA_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case KANA_MODE_EXPLODE:
 		return;
 	}
 

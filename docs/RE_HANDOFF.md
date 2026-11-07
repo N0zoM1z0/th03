@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kana staged ring and rotating attack native C++ after638
+
+Kana's full nine-function original BOSS now uses actual-byte-equal
+C++ direct `bullet_template.angle += 6`,
+`bullet_template.speed.v += 3` and rotating-ring
+`boss_frame % 4`. All 18 scheduler IDs and accel/staged/cloud/
+rotating phases are named. Same-valued *non-time* numeric literals
+were deliberately kept distinct after hand-checking the first
+compiled enum pass: PID, render mode, angle and iteration count
+must not accidentally acquire frame-limit names. The one-line
+signed rotating-direction arithmetic failed native comparison,
+so the actual four-branch AL implementation remains. Final
+v2 `af638f` dual original Turbo C++/TLINK rounds prove all
+**1,874 CODE bytes, 274 ordered fields, nine PUBLICs**, full
+normal MAIN and all Japanese relocations. See
+[after638 Kana native review](MAIN_KANA_BOSS_NATIVE_AFTER638_REVIEW.md).
+No full cold replay or newly accepted packed game bytes.
+
 ## Kotohime four full BOSS patterns after637
 
 Kotohime's aimed/radial ring helpers now use exact original C++
