@@ -31,7 +31,7 @@ enum yumemi_target_marker_t {
 void far pascal ellen_target_set(pid_t player)
 {
     unsigned char formation = YUME_TARGET_NO_FORMATION;
-    if(boss_active[player] != 0) {
+    if(boss_active[player]) {
         target_formation_marker = YUME_TARGET_BOSS;
         ellen_target_x = boss_target_x;
         ellen_target_y = boss_target_y;
@@ -39,7 +39,7 @@ void far pascal ellen_target_set(pid_t player)
     }
 
     enemy_t near *p = reinterpret_cast<enemy_t near *>(&efes[0]);
-    for(int i = 0; i < TARGET_ENEMY_COUNT; i++, p++) {
+    for(int i = 0; i < TARGET_ENEMY_COUNT; ++i, p++) {
         if(p->flag != EF_RUNNING_SPAWNED || p->pid != player ||
            p->center.x.v < 0 || p->center.x.v > TO_SP(PLAYFIELD_W) ||
            p->center.y.v < 0 ||
@@ -75,6 +75,9 @@ void far pascal ellen_target_set(pid_t player)
 // The charged projectile changes to its blooming hitbox at frame 64.
 // The ring renderer has separate eight-frame radii/phase intervals.
 enum yumemi_chargeshot_phase_t {
+    YUME_CHARGE_INACTIVE = 0,
+    YUME_CHARGE_FLYING = 1,
+    YUME_CHARGE_BLOOMING = 2,
     YUME_CHARGE_EFFECT_START = 24,
     YUME_CHARGE_LIFETIME = 64,
     YUME_RENDER_RING_8 = 8,
@@ -96,7 +99,7 @@ void far pascal yumemi_chargeshots_reset(void)
 void far pascal chargeshot_add_yumemi(Subpixel center_x, Subpixel center_y)
 {
     yumemi_chargeshot_t near *p = &yumemi_chargeshots[pid.current];
-    p->state = 1;
+    p->state = YUME_CHARGE_FLYING;
     p->frame = 0;
     p->x.v = center_x.v;
     p->y.v = center_y.v;
@@ -106,23 +109,25 @@ void far pascal chargeshot_update_yumemi(void)
 {
     unsigned char frame;
     yumemi_chargeshot_t near *p = &yumemi_chargeshots[pid_current];
-    if(p->state == 0) {
+    if(!p->state) {
         return;
     }
     frame = ++p->frame;
-    if(p->state == 1) {
+    if(p->state == YUME_CHARGE_FLYING) {
         p->y.v -= TO_SP(4);
         if(frame >= YUME_CHARGE_LIFETIME || p->y.v <= 0) {
-            p->state = 2;
+            p->state = YUME_CHARGE_BLOOMING;
             p->frame = 0;
             snd_se_play(7);
         }
     } else {
+        // This native byte-frame equality cannot be replaced by !(&1),
+        // which changed actual TC4 CODE (rejected af776d).
         if(frame >= YUME_CHARGE_EFFECT_START && (frame % 2) == 0) {
             snd_se_play(15);
         }
         if(frame >= YUME_CHARGE_LIFETIME) {
-            p->state = 0;
+            p->state = YUME_CHARGE_INACTIVE;
         }
     }
     players[pid_current].gauge_charged = 0;
@@ -131,15 +136,15 @@ void far pascal chargeshot_update_yumemi(void)
 uint8_t far chargeshot_hittest_yumemi(void)
 {
     yumemi_chargeshot_t near *p = &yumemi_chargeshots[hitbox.pid];
-    if(p->state == 0) {
+    if(!p->state) {
         return 0;
     }
-    if(p->state == 1) {
+    if(p->state == YUME_CHARGE_FLYING) {
         if(p->x.v - TO_SP(8) <= hitbox.right.v &&
            p->x.v + TO_SP(8) >= hitbox.origin.topleft.x.v &&
            p->y.v - TO_SP(8) <= hitbox.bottom.v &&
            p->y.v + TO_SP(8) >= hitbox.origin.topleft.y.v) {
-            p->state = 2;
+            p->state = YUME_CHARGE_BLOOMING;
             p->frame = 0;
             snd_se_play(7);
         }
@@ -173,7 +178,7 @@ void near pascal yumemi_chargeshot_ring_render(
     frame = p->frame;
     center_x = p->x.v - TO_SP(16);
     center_y = p->y.v - TO_SP(16);
-    for(i = 0, angle = frame * 2; i < 16; i++, angle += 16) {
+    for(i = 0, angle = (frame << 1); i < 16; ++i, angle += 16) {
         left = polar(center_x, radius, CosTable8[angle]);
         top = polar(
             center_y, radius, SinTable8[static_cast<unsigned char>(angle + y_phase)]
@@ -191,17 +196,17 @@ void far pascal chargeshot_render_yumemi(void)
     unsigned char frame;
     sprite16_offset_t sprite_offset;
     yumemi_chargeshot_t near *p = &yumemi_chargeshots[pid_current];
-    if(p->state == 0) {
+    if(!p->state) {
         return;
     }
     sprite16_put_size.set(32, 32); // Stored VRAM height is 16 rows.
     sprite16_clip_set_for_pid(pid_current);
     sprite_offset = pid.so_attack + 0xC80;
     frame = p->frame;
-    if((static_cast<unsigned int>(frame) % 2) != 0) {
+    if(frame & 1) {
         sprite_offset += 4;
     }
-    if(p->state == 1) {
+    if(p->state == YUME_CHARGE_FLYING) {
         left = playfield_fg_x_to_screen(p->x.v, pid_current) - 16;
         top = p->y.v >> 4;
         sprite16_put(left, top, sprite_offset);
@@ -269,6 +274,8 @@ void near pascal gauge_pattern_yumemi(unsigned int type)
         return;
     }
     player_other = 1 - pid_current;
+    // Original byte-clock division remains `%8`: direct &7 changed
+    // original CODE by six bytes in the native af776a trial.
     if((yumemi_gauge_frame[pid_current] % 8) == 0) {
         bullet_template.type = static_cast<bullet_type_t>(type);
         bullet_template.speed.v = gauge_pattern_timing[pid_current].byte_1;
@@ -331,14 +338,14 @@ void near pascal gauge_pattern_yumemi(unsigned int type)
 
 void far gba_gauge_pattern_pellet_yumemi(void)
 {
-    if(gba_flag_active[pid_current] != GBAF_NONE) {
+    if(gba_flag_active[pid_current]) {
         gauge_pattern_yumemi(BT_PELLET);
     }
 }
 
 void far gba_gauge_pattern_bullet_yumemi(void)
 {
-    if(gba_flag_active[pid_current] != GBAF_NONE) {
+    if(gba_flag_active[pid_current]) {
         gauge_pattern_yumemi(BT_BULLET16_DEFAULT);
     }
 }
