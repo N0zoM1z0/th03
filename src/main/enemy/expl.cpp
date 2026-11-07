@@ -1,5 +1,16 @@
 #include "src/main/enemy/expl.hpp"
 
+// The original large collision routine counts hits and charges in distinct
+// bounded levels. Keep all byte mutations and signed bonus arithmetic.
+enum explosion_native_timing_t {
+    EXPLOSION_HIT_PERIOD = 4,
+    EXPLOSION_CHAIN_FIRST_END = 4,
+    EXPLOSION_CHAIN_SECOND_END = 10,
+    EXPLOSION_CHAIN_THIRD_END = 20,
+    EXPLOSION_BONUS_HALVE_THROUGH = 48,
+    EXPLOSION_BONUS_DOUBLE_FROM = 96,
+};
+
 uint8_t far __cdecl explosions_hittest(void)
 {
     efe_t near *expl_p;
@@ -24,7 +35,7 @@ uint8_t far __cdecl explosions_hittest(void)
     uint8_t against2;
 
     if(explosion_hittest_against == EHA_PELLET) {
-        against2 = 1;
+        against2 = EHA2_PELLET;
     } else {
         against2 = (3 * explosion_hittest_against);
     }
@@ -32,7 +43,7 @@ uint8_t far __cdecl explosions_hittest(void)
     expl_p = efes;
     explosion_collision_in_last_hittest = false;
 
-    for(i = 0; i < EFE_COUNT; (i++, expl_p++)) {
+    for(i = 0; i < EFE_COUNT; (++i, expl_p++)) {
         if(expl_p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) {
             continue;
         }
@@ -50,7 +61,7 @@ uint8_t far __cdecl explosions_hittest(void)
         if(expl_p->pid != hitbox.pid) {
             continue;
         }
-        if((expl_p->frame & 3) != 0) {
+        if(expl_p->frame & (EXPLOSION_HIT_PERIOD - 1)) {
             continue;
         }
 
@@ -94,10 +105,12 @@ uint8_t far __cdecl explosions_hittest(void)
             }
 
             bonus += round_speed;
-            if(round_speed <= 48) {
+            if(round_speed <= EXPLOSION_BONUS_HALVE_THROUGH) {
                 bonus >>= 1;
-            } else if(round_speed >= 96) {
-                bonus += bonus;
+            } else if(round_speed >= EXPLOSION_BONUS_DOUBLE_FROM) {
+                // Preserve original signed addition: <<=1 changes TC4's
+            // actual full physical CODE (negative control af747c).
+            bonus += bonus;
             }
 
             charge_fireball_p = (
@@ -117,11 +130,11 @@ uint8_t far __cdecl explosions_hittest(void)
                 gauge_avail_add(hitbox.pid, (against2 * 3));
             }
 
-            if(hits < 4) {
+            if(hits < EXPLOSION_CHAIN_FIRST_END) {
                 *charge_fireball_p += 2;
-            } else if(hits < 10) {
+            } else if(hits < EXPLOSION_CHAIN_SECOND_END) {
                 *charge_fireball_p += 5;
-            } else if(hits < 20) {
+            } else if(hits < EXPLOSION_CHAIN_THIRD_END) {
                 *charge_fireball_p += 2;
                 chains.charge_exatt[hitbox.pid][
                     explosion_collision_chain_slot
@@ -141,7 +154,7 @@ uint8_t far __cdecl explosions_hittest(void)
             );
         }
 
-        collision_count++;
+        ++collision_count;
         explosion_collision_in_last_hittest = true;
     }
     return collision_count;
