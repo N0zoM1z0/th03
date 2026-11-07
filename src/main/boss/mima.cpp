@@ -460,9 +460,8 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	screen_y_t base_top;
 	screen_y_t top;
 	pid_t pid_other;
+	register int split_distance = distance;
 	register screen_x_t left;
-
-	_SI = distance;
 	pid_other = (1 - pid_current);
 	sprite16_put_size.set(144, 112);
 	base_left = (
@@ -473,16 +472,16 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	_AH = SPRITE16_SET_MASK;
 	_DX = 0xAAAA;
 	geninterrupt(SPRITE16);
-	left = polar(base_left, _SI, CosTable8[angle]);
-	top = polar(base_top, _SI, SinTable8[angle]);
+	left = polar(base_left, split_distance, CosTable8[angle]);
+	top = polar(base_top, split_distance, SinTable8[angle]);
 	sprite16_put(left, top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
 	_DX = 0x5555;
 	geninterrupt(SPRITE16);
 	angle += 0x80;
-	left = polar(base_left, _SI, CosTable8[angle]);
-	top = polar(base_top, _SI, SinTable8[angle]);
+	left = polar(base_left, split_distance, CosTable8[angle]);
+	top = polar(base_top, split_distance, SinTable8[angle]);
 	sprite16_put(left, top, boss_sprite_offset);
 
 	_AH = SPRITE16_SET_MASK;
