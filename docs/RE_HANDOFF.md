@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After784 Kana Bomb byte-timeline and original MRS ABI (newer than after783)
+
+- The complete `b_kana` Bomb owner now uses named phase boundaries,
+  distinct 8/4-frame firing clocks, signed circular geometry and explicit
+  byte-wrapping palette fade; byte-sized angle storage is asserted.
+- `af784a`/`b`/`c` tested natural C++ for the MRS byte formal's stack
+  carrier, but produced a **different** TC4 `PUSH word ptr` sequence;
+  the original `_AX`-carrier form stays. `af784d` proved that even
+  changing the literal `kana_bomb_angle += 0x10` to a named enum changes
+  original AL codegen; it too was reverted.
+- Final `af784f` passes two actual original TC4/TLINK rounds on this
+  complete physical object: 526 CODE bytes, 53 ordered FIXUPPs,
+  one PUBLIC, full MAIN image and 1,553 relocations. No cold replay,
+  extra unique-byte coverage or packed-file credit. See
+  [after784 Kana Bomb review](MAIN_KANA_BOMB_TIMING_AFTER784_REVIEW.md).
+
 ## After783 Reimu BOSS signed-angle experiment (newer than after782)
 
 - The **complete** original `ba_reimu` BOSS owner now uses semantic 256-unit

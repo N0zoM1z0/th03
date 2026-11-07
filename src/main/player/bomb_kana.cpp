@@ -17,6 +17,23 @@ extern unsigned char kana_bomb_angle;
 static unsigned char kana_bomb_angle;
 #endif
 
+// Original Kana Bomb timeline and circular explosion geometry. These
+// byte-timed phases are not the generic shared Bomb lifecycle: the final
+// palette calculation intentionally truncates back to `unsigned char`.
+enum kana_bomb_timing_t {
+    KANA_BOMB_PALETTE_END = 64,
+    KANA_BOMB_SHAKE_END = 128,
+    KANA_BOMB_CENTER_PERIOD = 8,
+    KANA_BOMB_EXPLOSION_PERIOD = 4,
+    KANA_BOMB_MIRROR_ANGLE = 0x80,
+    KANA_BOMB_CIRCLE_X = 144,
+    KANA_BOMB_CIRCLE_Y = 184,
+    KANA_BOMB_CIRCLE_RADIUS = 144,
+    KANA_BOMB_FADE_WHITE = 255,
+    KANA_BOMB_FADE_STEP = 8,
+};
+typedef char kana_bomb_angle_must_be_byte[(sizeof(kana_bomb_angle) == 1) ? 1 : -1];
+
 extern "C" void far pascal bomb_palette_step(int level, pid_t pid);
 extern "C" void far pascal bomb_center_add(int x, int y, int pid);
 extern "C" void far pascal bomb_explosion_add(int x, int y, int pid);
@@ -30,17 +47,17 @@ void far kana_bomb(void)
 	}
 	frame = bomb_frame[pid_current];
 
-	if(frame < 64) {
-		color = (64 - frame);
+	if(frame < KANA_BOMB_PALETTE_END) {
+		color = (KANA_BOMB_PALETTE_END - frame);
 		bomb_palette_step(color, pid_current);
-		if((frame % 8) == 0) {
-			bomb_center_add(TO_SP(144), TO_SP(184), pid_current);
+		if((frame % KANA_BOMB_CENTER_PERIOD) == 0) {
+			bomb_center_add(TO_SP(KANA_BOMB_CIRCLE_X), TO_SP(KANA_BOMB_CIRCLE_Y), pid_current);
 		}
 		kana_bomb_angle = 0;
 		return;
 	}
 
-	if(frame < 128) {
+	if(frame < KANA_BOMB_SHAKE_END) {
 		egc_off();
 		// A natural unsigned %4 shake test is codegen-different here:
 		// preserve the actual mask instruction (af684d).
@@ -53,19 +70,22 @@ void far kana_bomb(void)
 			bomb_palette_step(0, pid_current);
 		}
 
-		if((frame % 4) == 0) {
+		if((frame % KANA_BOMB_EXPLOSION_PERIOD) == 0) {
 			int x;
 			int y;
-			x = polar(144, 144, CosTable8[kana_bomb_angle]);
-			y = polar(184, 144, SinTable8[kana_bomb_angle]);
+			x = polar(KANA_BOMB_CIRCLE_X, KANA_BOMB_CIRCLE_RADIUS, CosTable8[kana_bomb_angle]);
+			y = polar(KANA_BOMB_CIRCLE_Y, KANA_BOMB_CIRCLE_RADIUS, SinTable8[kana_bomb_angle]);
 			bomb_explosion_add((x * 16), (y * 16), pid_current);
 
-			kana_bomb_angle = (0x80 - kana_bomb_angle);
-			x = polar(144, 144, CosTable8[kana_bomb_angle]);
-			y = polar(184, 144, SinTable8[kana_bomb_angle]);
+			kana_bomb_angle = (KANA_BOMB_MIRROR_ANGLE - kana_bomb_angle);
+			x = polar(KANA_BOMB_CIRCLE_X, KANA_BOMB_CIRCLE_RADIUS, CosTable8[kana_bomb_angle]);
+			y = polar(KANA_BOMB_CIRCLE_Y, KANA_BOMB_CIRCLE_RADIUS, SinTable8[kana_bomb_angle]);
 			bomb_explosion_add((x * 16), (y * 16), pid_current);
 
-			kana_bomb_angle = (0x80 - kana_bomb_angle);
+			kana_bomb_angle = (KANA_BOMB_MIRROR_ANGLE - kana_bomb_angle);
+			// TC4 must reuse the preceding AL subtraction and store the result.
+			// A named enum 0x10 creates an equivalent direct memory ADD
+			// instead (native rejected stage af784d).
 			kana_bomb_angle += 0x10;
 		}
 
@@ -84,7 +104,7 @@ void far kana_bomb(void)
 	}
 
 	playfield_fg_shift_x[pid_current] = 0;
-	frame = (255 - (frame * 8));
+	frame = (KANA_BOMB_FADE_WHITE - (frame * KANA_BOMB_FADE_STEP));
 	color = (frame * 2);
 	Palettes[pid_current].c.r = color;
 	Palettes[pid_current].c.g = color;
