@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After899: complete original Bullet engine render and trail loops
+
+- The **complete `bullet` original engine**, including its 9,500-byte
+  physical BSS and register-sensitive GRCG/fastcall sprite paths, now
+  uses natural `while` for global bullet reset, saved trail sample
+  initialization, both full-color/mono-cloud rendering passes, trail
+  sprite iteration, and `while(true)` for the full original bullet
+  state/transfer/collision update loop.
+- Genuine original TC4 negative controls: the substantial `bullets_add`
+  first-free-slot `for/continue/break` changed native CODE when written
+  as `while` (`af899c`), and replacing the hardware pellet writer's
+  bottom-tested `do/while` with top-tested `while` generated **2,687**
+  vs original **2,685** CODE bytes (`af899f`). Both original structures
+  stay. Final `af899g` passes two independent original TC4 4.02/full
+  normal TLINK rounds: **2,685 CODE bytes, 196 ordered native FIXUPPs,
+  20 PUBLICs**, entire original Japanese MAIN/1,553 relocations exact.
+  98 other game objects/CRT reused, no cold replay. See
+  [after899 full Bullet engine review](MAIN_BULLET_ENGINE_WHOLE_NATIVE_AFTER899_REVIEW.md).
+  Already source-backed original CODE, not new unique/Factory credit.
+
 ## After898: complete Mima major BOSS native clocks and geometry
 
 - Full nine-function original `ba_mima` major BOSS now expresses

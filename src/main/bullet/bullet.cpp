@@ -212,8 +212,12 @@ narrow:
 
 void bullets_reset(void)
 {
-	for(int i = 0; i < BULLET_COUNT; ++i) {
+	// Reset every original physical bullet flag before touching the
+	// near trail-ring index. Native TC4 accepts the typed while.
+	int i = 0;
+	while(i < BULLET_COUNT) {
 		bullets[i].flag = BF_FREE;
+		++i;
 	}
 	bullet_trail_ring_i = 0;
 }
@@ -397,6 +401,9 @@ void bullets_add(void)
 		bullet_template.speed.v = to_sp8(1.0f);
 	}
 
+	// This first-free-slot allocator uses compiler-sensitive
+	// for/continue/break; the natural while version changed original
+	// CODE in af899c. Keep the original shape and break behavior.
 	for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, p++)) {
 		if(p->flag != BF_FREE) {
 			continue;
@@ -419,9 +426,13 @@ void bullets_add(void)
 			if(bullet_trail_ring_i >= TRAIL_RING_SIZE) {
 				bullet_trail_ring_i = 0;
 			}
-			for(trail_i = 0; trail_i < TRAIL_POINT_COUNT; ++trail_i) {
+			// Every physical saved XY point gets an independent store,
+			// in original signed-index order; no repeated pointer aliasing.
+			trail_i = 0;
+			while(trail_i < TRAIL_POINT_COUNT) {
 				p->trail->center_x.v[trail_i] = bullet_template.center.x;
 				p->trail->center_y.v[trail_i] = bullet_template.center.y;
+				++trail_i;
 			}
 		}
 
@@ -632,7 +643,10 @@ void bullets_update(void)
 	// ZUN bloat: A `for` loop would have been more readable.
 	int i = (BULLET_COUNT + 1);
 	p = (bullets - 1);
-	while(1) {
+	// The complete register-sensitive update loop is original-native
+	// as a natural C++ while(true). Do not replace its _AX/FLAGS/asm
+	// carriers with guessed modern C++ compiler behavior (af899d).
+	while(true) {
 		p++;
 
 		// ZUN bloat: `if(--i == 0)` compiles into DEC+JZ. This… doesn't.
@@ -964,7 +978,11 @@ void bullets_render(void)
 	sprite16_put_size.set(BULLET16_W, BULLET16_H);
 	bullet_t near *bullet_p = bullets;
 	bool need_cloud_pass = false;
-	for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, bullet_p++)) {
+	// Main 16×16 sprite and trail pass: every full-color bullet and
+	// cloud marker is visited; original index/pointer updates follow
+	// the real sprite calls (af899b).
+	bullet_i = 0;
+	while(bullet_i < BULLET_COUNT) {
 		if(bullet_p->flag == BF_BULLET16) {
 			so = bullet_p->sprite_offset;
 			if(bullet_p->has_trail) {
@@ -973,14 +991,11 @@ void bullets_render(void)
 				// The last buffered trail sample is drawn first. Each sprite
 				// consumes exactly TRAIL_POINTS_PER_SPRITE history points and
 				// the corresponding VRAM cel decrements in the same iteration.
-				// This complete C++ for-loop is native exact (af832a); moving
-				// those two mutations into a while-body is also valid, but
-				// changing the 8x8 pellet do/while below into a for is not.
+				// The original C++ for was native-exact (af832a), AND
+				// a natural while with both post-render mutations is native
+				// exact (af899e). The 8×8 pellet do/while is different.
 				trail_i = (TRAIL_POINT_COUNT - 1);
-				for(; trail_i > 0; (
-					trail_i -= TRAIL_POINTS_PER_SPRITE,
-					so -= (BULLET16_W / BYTE_DOTS)
-				)) {
+				while(trail_i > 0) {
 					topleft_set(
 						topleft,
 						bullet_p,
@@ -990,6 +1005,8 @@ void bullets_render(void)
 						BULLET16_H
 					);
 					sprite16_put_noclip(topleft.x, topleft.y, so);
+					trail_i -= TRAIL_POINTS_PER_SPRITE;
+					so -= (BULLET16_W / BYTE_DOTS);
 				}
 			}
 
@@ -1010,6 +1027,8 @@ void bullets_render(void)
 		} else if(bullet_p->flag == BF_PELLET_CLOUD) {
 			need_cloud_pass = true;
 		}
+		++bullet_i;
+		bullet_p++;
 	}
 	// --------------------------
 
@@ -1021,7 +1040,10 @@ void bullets_render(void)
 		sprite16_mono_color_(V_WHITE);
 		sprite16_put_size.set(PELLET_CLOUD_W, PELLET_CLOUD_H);
 		bullet_p = bullets;
-		for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, bullet_p++)) {
+		// A separate second pass draws only mono cloud sprites, after
+		// switching the original GRCG/sprite state (af899b).
+		bullet_i = 0;
+		while(bullet_i < BULLET_COUNT) {
 			if(bullet_p->flag == BF_PELLET_CLOUD) {
 				topleft_set(
 					topleft,
@@ -1033,6 +1055,8 @@ void bullets_render(void)
 				);
 				sprite16_put(topleft.x, topleft.y, bullet_p->sprite_offset);
 			}
+			++bullet_i;
+			bullet_p++;
 		}
 		sprite16_mono_(keep_0(false));
 	}
@@ -1047,6 +1071,8 @@ void bullets_render(void)
 	_ES = SEG_PLANE_B;
 	pellet_p = bullets;
 	pellet_i = keep_0(0);
+	// This low-level pellet writer must retain the original do/while
+	// layout: natural top-tested while changes TC4 CODE (af899f).
 	do {
 		static_assert(BF_PELLET == 1);
 		static_assert(BF_PELLET_TRANSFER == 3);
