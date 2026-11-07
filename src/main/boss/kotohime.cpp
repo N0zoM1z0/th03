@@ -82,6 +82,13 @@ enum kotohime_boss_timing_t {
     KOTOHIME_RENDER_ALT_FRAMES = 2,
     KOTOHIME_INTRO_RING_COUNT = 8,
     KOTOHIME_PELLET_RING_COUNT = 4,
+    // Signed 16-bit loop division precedes byte-angle truncation.
+    KOTOHIME_FULL_TURN_STEPS = 256,
+    KOTOHIME_BURST_HALF_TURN_STEPS = 128,
+    KOTOHIME_BURST_CENTER_ANGLE_OFFSET = 0x40,
+    KOTOHIME_BURST_SPEED_SCALE = 0x30,
+    KOTOHIME_BURST_SPEED_BASE = 0x10,
+    KOTOHIME_INTRO_RADIUS_PIXELS = 0xC8,
 };
 
 void far pascal boss_kotohime_template_init(int player_id)
@@ -123,7 +130,7 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 			bullet_template.angle = randring_far_next16();
 		}
 		angle = (
-			((i * 256) / kotohime_orbit_count) +
+			((i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
 			boss_move_phase
 		);
 		x = polar(
@@ -302,7 +309,7 @@ void near kotohime_pattern_radial_burst(void)
 
 	for(center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
 		center_angle = (
-			((center_i * 256) / kotohime_orbit_count) +
+			((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
 			boss_move_phase
 		);
 		x = polar(
@@ -320,13 +327,13 @@ void near kotohime_pattern_radial_burst(void)
 
 		for(bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
 			bullet_template.angle = (
-				((bullet_i * 128) / kotohime_burst_count) +
+				((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
 				center_angle +
-				0x40
+				KOTOHIME_BURST_CENTER_ANGLE_OFFSET
 			);
 			bullet_template.speed.v = (
-				((bullet_i * 0x30) / kotohime_burst_count) +
-				0x10
+				((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count) +
+				KOTOHIME_BURST_SPEED_BASE
 			);
 			bullets_add();
 		}
@@ -444,7 +451,7 @@ void near pascal kotohime_render_ring(int count)
 
 	radius = boss_effect_radius;
 	sprite_offset = (pid.so_attack + 0x502);
-	if((boss_render_mode == 2) && ((boss_frame & (KOTOHIME_RENDER_FLICKER_PERIOD - 1)) < KOTOHIME_RENDER_ALT_FRAMES)) {
+	if((boss_render_mode == 2) && ((boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD) < KOTOHIME_RENDER_ALT_FRAMES)) {
 		sprite_offset += 0xA00;
 	}
 
@@ -452,7 +459,7 @@ void near pascal kotohime_render_ring(int count)
 	sprite16_put_size.h = 16;
 
 	for(i = 0; i < count; ++i) {
-		angle = (((i * 256) / count) + boss_move_phase);
+		angle = (((i * KOTOHIME_FULL_TURN_STEPS) / count) + boss_move_phase);
 		left = polar(
 			boss_center_x,
 			radius,
@@ -526,7 +533,7 @@ void far gba_boss_render_kotohime(void)
 
 	if(boss_mode == KOTOHIME_MODE_INTRO) {
 		kotohime_render_intro(
-			TO_SP(0xC8 - (boss_frame * 2))
+			TO_SP(KOTOHIME_INTRO_RADIUS_PIXELS - (boss_frame * 2))
 		);
 		return;
 	}

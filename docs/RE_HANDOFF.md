@@ -8,18 +8,37 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
-## After789 full result scoreboard native C++ bonus recovery
+## After821: complete Kotohime BOSS signed orbit and radial C++
 
-- The **complete original `results` physical owner** (round reset, >100-line
-  scoreboard/bonus update) now uses a natural `round_or_result_frame % 8`
-  display tick and Boolean winner/bonus checks, with named statistic
-  coefficients, 192-frame payout window, and final-stage score rules.
-- Actual original TC4/TLINK stages `af789a`, `af789b`, `af789c` all passed;
-  the latest preserves **1,060 original CODE bytes, 89 ordered FIXUPPs,
-  3 PUBLICs**, two current `.inl` source bindings, full Japanese MAIN
-  loaded image and 1,553 ordered MZ relocations. This is an existing
-  owner revalidated, **not added distinct coverage or canonical credit**.
-  See [after789 results source review](MAIN_RESULTS_NATURAL_BONUS_AFTER789_REVIEW.md).
+- The **entire 538-line `ba_koto`** major BOSS now names 256-unit full
+  orbit, 128-unit burst arc, per-projectile angular offset and speed
+  scaling, and natural unsigned `%4` ring-sprite flicker, with the original
+  signed 16-bit division and byte-angle truncation kept in order.
+- Fresh original TC4/TLINK negative trials `af821a`, `af821b/c`,
+  `af821f` independently reject natural `+=2` / `-=4` replacements for
+  the remaining AL-mediated byte-phase instructions. They stay intact.
+- `af821e` passes two original TC4/TLINK whole-MAIN rounds: **1,840
+  CODE bytes, 262 ordered FIXUPPs, 11 PUBLICs, 1,553 Japanese MZ
+  relocations** and all 124,642 Japanese loaded bytes exact. This is
+  existing BOSS source verified again, not incremental unique ownership.
+  See [after791/821 Kotohime source review](MAIN_KOTOHIME_BOSS_FLICKER_AFTER791_REVIEW.md).
+
+## After791 Kotohime major BOSS natural native sprite-flicker clock
+
+- The complete Kotohime 1,840-CODE-byte BOSS physical owner now uses
+  natural unsigned `% KOTOHIME_RENDER_FLICKER_PERIOD` in the four-frame
+  ring sprite flicker; original TC4 produces exactly the former mask.
+- `af791a` (`boss_move_phase += 2`) and `af791b` (volatile near ref)
+  genuinely failed full-object equality: the original extra AL load
+  could not be removed. Those byte increments retain original `_AL`.
+- `af791c` proves natural flicker. Final `af791d` additionally gives the
+  original signed-angle 256/128-unit orbit divisions and 0x40/0x30/0x10
+  burst angle/speed constants semantic C++ names. It passes **two original
+  TC4/full normal MAIN TLINK rounds**:
+  1,840 CODE bytes, 262 ordered FIXUPPs, 11 PUBLICs, full Japanese loaded
+  MAIN and all 1,553 relocations. Recovered existing owner, not new
+  distinct byte credit or canonical packed-game acceptance. See
+  [after791 Kotohime BOSS review](MAIN_KOTOHIME_BOSS_FLICKER_AFTER791_REVIEW.md).
 
 ## After789 round result / scoreboard natural C++ recovery
 
