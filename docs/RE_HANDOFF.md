@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After888: original DOS execl leaf and four-byte far NULL vararg
+
+- The full 79-CODE-byte `execl` far-Pascal MAIN handoff leaf now names
+  the original two distinct MRS resource slots while preserving full
+  PI/sprite/gaiji/DOS cleanup order and true **four-byte segmented
+  NULL vararg** in the original large memory model.
+- Fresh original TC4 negative controls: merging two MRS calls into a
+  loop emitted **83** instead of original **79** CODE bytes (`af888b`),
+  and using ordinary integer `0` instead of `(void far *)0` emitted
+  **78** and changed the actual vararg width (`af888c`). Both restored.
+  Final `af888d` passes two actual TC4 4.02/complete normal TLINK
+  rounds: **79 CODE bytes, 11 ordered native FIXUPPs, 1 PUBLIC**, full
+  original Japanese MAIN and 1,553 MZ relocations, 98 other original
+  project objects/CRT reused, no cold replay. See
+  [after888 exact DOS handoff review](MAIN_EXECL_DOS_NATIVE_HANDOFF_AFTER888_REVIEW.md).
+  Existing source-owned original CODE, not new unique/Factory credit.
+
 ## After887: complete static HUD native C++ loops and player routing
 
 - Full seven-function `hud_stat` owner now uses natural signed-index
