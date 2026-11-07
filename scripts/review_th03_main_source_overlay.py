@@ -84,9 +84,10 @@ def review(stage):
     # verified a copied source snapshot, NOT which copy TC4 actually read.
     need(report['wrapper_sha256']=={u:sha(wrapper_source(u)) for u in units},
          'exact natural original producer wrapper input identities')
+    needs_header = any(SOURCE_HEADER_NEEDLE in sources[u] for u in units)
     need(all(b'\r' not in s for s in (*sources.values(),entity)) and
          report['source_sha256']=={u:sha(v) for u,v in sources.items()} and
-         report['entity_header_sha256']==sha(entity),
+         (not needs_header or report['entity_header_sha256']==sha(entity)),
          'native compiler inputs remain bound to maintained live source')
     previous=json.loads((ROOT/parent.REPORT).read_text())
     need(previous['complete'] and len(previous['rounds'])==2,
@@ -107,8 +108,10 @@ def review(stage):
              row['response_sha256']==sha(expected),
              'actual original 99-object TLINK response')
         rd=scratch/f'r{n}'
-        need((rd/ENTITY).read_bytes()==entity.replace(b'\n',b'\r\n'),
-             'compiler header overlay snapshot round '+str(n))
+        saved_header = (rd/ENTITY).read_bytes()
+        need(sha(saved_header.replace(b'\r\n',b'\n'))==report['entity_header_sha256'] and
+             (not needs_header or saved_header==entity.replace(b'\n',b'\r\n')),
+             'retained header snapshot and consumed-input identity round '+str(n))
         output=row['outputs']
         need(set(output)=={u+'_obj' for u in units}|{'exe','map','compact_mz'},
              'complete OBJ/EXE/MAP/vector native outputs')

@@ -47,6 +47,18 @@ byte packing and restored Chiyuri register/branch operations. See
 All earlier after598–610 positive statements below are *historical*
 and should not be promoted without new v2 compiler evidence.
 
+### New large source-verified collision routine after611
+
+The full 630-byte `explosions_hittest()` collision/score/charge dispatcher
+now compiles from the *actual changed* natural C++ source under v2,
+verified in four incremental positive controls and two complete real
+TC4/TLINK rounds (`af611g`). The code removes alias macros/enum and
+radius unions while preserving the original stack frame, 49 ordered
+native fields, original MAIN linker and Japanese MZ. See
+[after611 actual-source review](MAIN_EXPLOSION_GENUINE_CPP_AFTER611_REVIEW.md).
+This is not new accepted byte credit. The old v1 collision reports
+are invalid for changed-source attribution.
+
 ## Immediate next-agent start
 
 - Inspect git status --short --branch and git log; do not reset or discard
