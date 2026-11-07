@@ -8,6 +8,21 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After833: signed-Q8 original polar leaf exact ABI
+
+- The 26-CODE-byte original far-`__cdecl` signed `polar` leaf now explicitly
+  casts its **16-bit returned coordinate**, retaining the signed 32-bit
+  multiply and genuine TC4 **arithmetic Q8 shift**. Two original native
+  positive source trials passed (`af833a/b`).
+- A real TC4 trial `af833c` replaced `>>8` with signed `/256` and **failed**
+  (33 vs original 26 CODE bytes); negative products round differently.
+  The divide was rejected. `af833d` recompiles the final current source
+  in two original TC4/normal full MAIN TLINK rounds: 26 CODE bytes,
+  zero native OMF fixups, one PUBLIC, original Japanese image and all
+  1,553 MZ relocations exact, 98 other project objects/CRT reused.
+  See [after833 signed-Q8 polar review](MAIN_POLAR_SIGNED_Q8_AFTER833_REVIEW.md).
+  Existing CODE owner reverified, no unique-byte or canonical credit.
+
 ## After832: complete Bullet engine source-native trail loop
 
 - `bullet` is an original **1,080-line full physical TC4 TU** with the
