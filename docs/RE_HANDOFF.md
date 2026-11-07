@@ -6,6 +6,32 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest locally rebuilt six sources, 51 cumulative owners after693
+
+The current `af693a` original Turbo C++/TLINK
+two-round source-native integration **only compiled
+six actually modified physical TUs**, not a new
+47- or 51-object replay: Yumemi Bomb `bomb~cxk`,
+Marisa/Mima/Reimu Bomb owners, and Reimu/Rikako
+large BOSSes. Both current source/packed-header
+OMF-COMENT-attested native rounds reproduce
+**6,602 original CODE bytes, 785 literal ordered
+FIXUPP fields, 26 PUBLICs**, full normal
+MAIN EXE/MAP, original 124,642-byte Japanese
+loaded image and 1,553 ordered relocations plus
+the exact 130,882-byte Japanese MZ serialization.
+The earlier `af686a` 47-TU proof remains retained;
+only two of those 47 original sources changed and
+are freshly verified here, while four new complete
+Bomb originals were added. **51 distinct physical
+source owners** are thus covered by the union of
+proofs (57,646 existing CODE bytes/5,787 ordered
+fixups/323 PUBLICs), not by a fresh 51-TU build.
+The other 93 project objects and CRT were reused.
+See [after693 scoped six-source and cumulative 51-owner review](MAIN_FIFTYONE_SOURCE_SCOPED_AFTER693_REVIEW.md).
+No cold replay, no double canonical Factory packed-byte
+credit or historic raw vendor OMF packet claim.
+
 ## Rikako full BOSS radial and entity orbital distribution after692
 
 The original Rikako BOSS's two large orbit and entity
