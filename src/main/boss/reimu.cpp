@@ -79,6 +79,14 @@ enum reimu_boss_mode_t {
     REIMU_MODE_EXPLODE = 0xFF,
 };
 
+// The full BOSS update and both eight-sprite character renderers share
+// their own start/flicker gates, independent of bullet-wave intervals.
+enum reimu_render_timing_t {
+    REIMU_INTRO_END_FRAME = 0x64,
+    REIMU_INTRO_FLASH_END_FRAME = 0x40,
+    REIMU_INTRO_SPRITE_COUNT = 8,
+};
+
 void far pascal boss_reimu_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -119,7 +127,7 @@ void near reimu_pattern_orbit_cloud(void)
 	}
 
 	angle = ((unsigned char)boss_frame * 2);
-	if(reimu_direction != 0) {
+	if(reimu_direction) {
 		angle = (0 - angle);
 	}
 
@@ -148,7 +156,7 @@ void near reimu_pattern_orbit_cloud(void)
 		bullets_add();
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame & 1)) {
 		// Preserve postfix here: prefix ++reimu_cloud_speed changed the
         // original TC4 byte-field codegen (negative control af691b).
         reimu_cloud_speed++;
@@ -184,7 +192,7 @@ void near reimu_pattern_spreads(void)
 	bullet_template.center.y.v = boss_center_y;
 
 	if(boss_frame < REIMU_SPREAD_NARROW_END) {
-		if(round_frame_mod16 != 0) {
+		if(round_frame_mod16) {
 			return;
 		}
 		bullet_template.angle = 0x20;
@@ -196,7 +204,7 @@ void near reimu_pattern_spreads(void)
 	}
 
 	if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
-		if(round_frame_mod16 != 0) {
+		if(round_frame_mod16) {
 			return;
 		}
 		bullet_template.group = BG_5_SPREAD_MEDIUM;
@@ -263,7 +271,7 @@ void near reimu_pattern_orbit_burst(void)
 		}
 		reimu_orbit_angle += 8;
 
-		if(round_frame_mod16 == 0) {
+		if(!round_frame_mod16) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullet_template.speed.v = reimu_ring_speed;
 			bullet_template.pid = (1 - pid_current);
@@ -299,7 +307,7 @@ void near reimu_pattern_mirrored_spread(void)
 	boss_move_sine();
 
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
-		if((boss_frame % 16) != 0) {
+		if(boss_frame & 15) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;
@@ -342,7 +350,7 @@ void far gba_boss_update_reimu(void)
 	boss_frame++;
 
 	if(boss_mode == REIMU_MODE_INTRO) {
-		if(boss_frame != 0x64) {
+		if(boss_frame != REIMU_INTRO_END_FRAME) {
 			return;
 		}
 		boss_frame = 0;
@@ -421,14 +429,14 @@ void near reimu_render_main(void)
 	pid_other = (1 - pid_current);
 	sprite16_put_size.set(96, 96);
 
-	if(pid_other == 0) {
+	if(!pid_other) {
 		sprite16_clip.set_for_pid_0();
 	} else {
 		sprite16_clip.set_for_pid_1();
 	}
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite_offset += 0x0C;
 	}
 
@@ -443,10 +451,10 @@ void near reimu_render_main(void)
 	sprite16_put_size.set(48, 48);
 	sprite_offset = (boss_sprite_offset + 0xFFF4);
 	anim = (boss_frame / 4);
-	if((static_cast<unsigned int>(anim) % 4) == 1) {
+	if((anim & 3) == 1) {
 		sprite_offset += 6;
-	} else if((static_cast<unsigned int>(anim) % 4) != 0) {
-		sprite_offset += (((static_cast<unsigned int>(anim) % 2) * 6) + 0x780);
+	} else if(anim & 3) {
+		sprite_offset += (((anim & 1) * 6) + 0x780);
 	}
 
 	for(i = 0; i < reimu_orbit_count; ++i) {
@@ -471,12 +479,12 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 
 	pid_other = (1 - pid_current);
 
-	if((round_frame_mod2 != 0) && (boss_frame < 0x40)) {
+	if(round_frame_mod2 && (boss_frame < REIMU_INTRO_FLASH_END_FRAME)) {
 		return;
 	}
 
 	sprite16_put_size.set(48, 48);
-	if(pid_current != 0) {
+	if(pid_current) {
 		sprite16_clip.set_for_pid_0();
 	} else {
 		sprite16_clip.set_for_pid_1();
@@ -484,13 +492,13 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 
 	sprite_offset = (pid.so_attack + 0x280);
 	anim = (boss_frame / 4);
-	if((static_cast<unsigned int>(anim) % 4) == 1) {
+	if((anim & 3) == 1) {
 		sprite_offset += 6;
-	} else if((static_cast<unsigned int>(anim) % 4) != 0) {
-		sprite_offset += (((static_cast<unsigned int>(anim) % 2) * 6) + 0x780);
+	} else if(anim & 3) {
+		sprite_offset += (((anim & 1) * 6) + 0x780);
 	}
 
-	for(i = 0; i < 8; (++i, angle += 0x20)) {
+	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; (++i, angle += 0x20)) {
 		left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
 		left = (playfield_fg_x_to_screen(left, pid_other) - 24);
@@ -507,7 +515,7 @@ void far gba_boss_render_reimu(void)
 		return;
 	}
 
-	if(boss_mode == 0) {
+	if(boss_mode == REIMU_MODE_INTRO) {
 		reimu_render_intro(
 			(unsigned char)boss_frame,
 			(0xC80 - (boss_frame * 32))
@@ -515,7 +523,7 @@ void far gba_boss_render_reimu(void)
 		return;
 	}
 
-	if(boss_mode != 0xFF) {
+	if(boss_mode != REIMU_MODE_EXPLODE) {
 		reimu_render_main();
 		return;
 	}
