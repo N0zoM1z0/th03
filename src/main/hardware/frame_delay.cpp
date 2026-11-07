@@ -12,12 +12,13 @@ typedef char frame_delay_original_native_word_abi[
 
 void far pascal frame_delay(int frames)
 {
-    vsync_Count1 = 0;
-    // Natural while loop emits the original polling instructions.
-    // Swapping comparison operands changed TC4 CODE (af864b), as did
-    // forcing the volatile unsigned counter to signed int (af864c).
-    // Keep the original mixed signed/unsigned source expression and
-    // its real hardware polling order, without timeout or sleeps.
-    while(vsync_Count1 < frames) {
+    // The original volatile, unsigned 16-bit VSYNC counter is reset
+    // exactly once, then genuinely reread on every iteration. A natural
+    // for-init spelling remains original TC4 CODE (af914a), WITHOUT
+    // introducing a timeout or replacing hardware polling with a sleep.
+    // Reversing the comparison operands changed CODE (af914b), and
+    // forcing signed counter interpretation also changed CODE (af914c).
+    // Keep the original mixed signed/unsigned 16-bit expression.
+    for(vsync_Count1 = 0; vsync_Count1 < frames; ) {
     }
 }

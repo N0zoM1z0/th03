@@ -8,6 +8,21 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After914: original volatile PC-98 VSYNC frame-delay leaf
+
+- The original complete 21-byte `frmdely1` far-Pascal hardware delay
+  leaf now expresses the once-only volatile counter reset and each
+  real signed/unsigned 16-bit comparison as a natural C++ `for` with
+  no increment, native-exact without sleeps or a fabricated timeout.
+- Genuine TC4 negative controls: reversing the comparison operands
+  (`af914b`) or forcing the unsigned volatile counter to signed int
+  (`af914c`) changed original CODE. Both original semantics retained.
+  Final `af914d` passes two genuine original compiler/full normal MAIN
+  TLINK rounds: **21 CODE bytes, two ordered native FIXUPPs and one
+  PUBLIC**, full Japanese MAIN/1,553 relocations, 98 other objects/CRT
+  reused. See [after914 VSYNC delay review](MAIN_FRAME_DELAY_NATIVE_FOR_AFTER914_REVIEW.md).
+  Existing source-owned byte coverage, not new Factory credit.
+
 ## After913: full Kotohime Extra Attack 10-entity controller
 
 - The complete eight-function `ex_koto` source now uses natural C++
