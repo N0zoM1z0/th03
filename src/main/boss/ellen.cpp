@@ -120,6 +120,10 @@ enum ellen_spread_phase_t {
     ELLEN_SPREAD_FINISH = 0x2C,
 };
 
+// The two low-bit checks compile from natural unsigned C++ %2.
+// The original fire_single/done labels still preserve native branch
+// layout; merging the decrement and negative test in strip rendering
+// changed original CODE (af678b).
 void near ellen_pattern_spread(void)
 {
 	pid_t pid_other = (1 - pid_current);
@@ -151,14 +155,14 @@ void near ellen_pattern_spread(void)
 	}
 
 	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
-		if((boss_frame & 1) == 0) {
+		if((boss_frame % 2) == 0) {
 			goto fire_single;
 		}
 		goto done;
 	}
 	if(boss_frame == ELLEN_SPREAD_SINGLE_END) {
 		snd_se_play(3);
-		for(i = 0; i < 8; i++) {
+		for(i = 0; i < 8; ++i) {
 			bullets_add();
 			ellen_spread_angle += 8;
 			bullet_template.angle = ellen_spread_angle;
@@ -168,7 +172,7 @@ void near ellen_pattern_spread(void)
 	if(boss_frame > ELLEN_SPREAD_FINISH) {
 		goto done;
 	}
-	if((boss_frame & 1) != 0) {
+	if((boss_frame % 2) != 0) {
 		goto done;
 	}
 
@@ -231,6 +235,7 @@ void near ellen_pattern_extra(void)
 		return;
 	}
 
+	// Byte-valued 0xFE is a signed -2 offset in this final volley.
 	if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
 		for(
 			i = 0, angle = randring_far_next16();
@@ -241,7 +246,7 @@ void near ellen_pattern_extra(void)
 				boss_center_x,
 				boss_center_y,
 				angle,
-				0xFE
+				-2
 			);
 		}
 		boss_mode = 1;
@@ -465,8 +470,8 @@ void near pascal ellen_render_intro(
 	sprite16_put_size.h = 16;
 	sprite_offset = (pid.so_attack + 0x28C);
 
-	for(i = 0; i < 4; i++) {
-		for(j = 0; j < 8; (angle += 0x20, j++)) {
+	for(i = 0; i < 4; ++i) {
+		for(j = 0; j < 8; (angle += 0x20, ++j)) {
 			left = polar(
 				boss_center_x,
 				length,

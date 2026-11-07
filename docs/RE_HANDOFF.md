@@ -6,6 +6,25 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Ellen full BOSS signed Extra burst and natural attack cadence after678
+
+The complete original Ellen BOSS controller now uses
+original-native natural `boss_frame %2` in both
+spread firing branches; the final Extra Attack byte
+parameter is naturally signed `-2` instead of opaque
+`0xFE`, and eight-shot and intro-render loops use
+normal C++ preincrement. Original `goto` fire flow and
+four strip-render `i--;if(i<0)` paths remain:
+the shorter combined `if(--i<0)` was actual
+native-unequal (`af678b`). Fresh edited-source
+OMF-attested `af678f` two-round original TC4/TLINK
+proof verifies **all 1,675 CODE bytes, 213 literal
+ordered FIXUPPs, nine PUBLICs**, complete normal
+MAIN EXE/MAP and Japanese MZ. Read
+[after678 Ellen BOSS native review](MAIN_ELLEN_BOSS_NATIVE_ATTACK_AFTER678_REVIEW.md).
+Only its full physical object rebuilt; no cold replay
+or new canonical packed-file acceptance.
+
 ## Latest 43-owner background/BOSS source-native MAIN after677
 
 The fresh `af677a` genuine original Turbo C++/TLINK two-round
