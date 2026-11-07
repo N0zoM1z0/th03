@@ -28,8 +28,14 @@ void far background_velocity_reset(void)
     register int i;
     background_angle = 64;
     particle = background_particles;
-    for(i = 0; i < BACKGROUND_CAPACITY; i++, particle++) {
+    // All eighty physical 16-byte records are part of the reset, even
+    // though Chain 1 renders fewer. The native `while` retains original
+    // vector2() calls and post-call pointer mutation (af878a).
+    i = 0;
+    while(i < BACKGROUND_CAPACITY) {
         vector2(particle->vx, particle->vy, 64, particle->speed);
+        ++i;
+        particle++;
     }
 }
 
@@ -40,6 +46,13 @@ enum chain1_initial_t {
     CHAIN1_DEFAULT_ANGLE = 64,
     CHAIN1_INIT_VELOCITY = 16,
     CHAIN1_INIT_SPEED = 32,
+    CHAIN1_RANDOM_X_RANGE = TO_SP(640),
+    CHAIN1_RANDOM_Y_RANGE = TO_SP(400),
+    CHAIN1_AUX_RANDOM_RANGE = 4000,
+    CHAIN1_SPRITE_DEFAULT = 0x210E,
+    CHAIN1_SPRITE_ALTERNATE_DELTA = 0x0280,
+    // These initializers and the two historical renderers share the
+    // real 16-byte particle layout. No new DATA/BSS owner is declared.
 };
 
 void far background_chain1_init(void)
@@ -48,17 +61,24 @@ void far background_chain1_init(void)
     register int i;
     background_angle = CHAIN1_DEFAULT_ANGLE;
     particle = background_particles;
-    for(i = 0; i < CHAIN1_VISIBLE_PARTICLES; i++, particle++) {
-        particle->x = irand() % (640 * 16);
-        particle->y = irand() % (400 * 16);
+    // Exactly forty-eight particle slots receive independent RNG draws.
+    // Do not change their draw order or merge these loops with Chain 2.
+    i = 0;
+    while(i < CHAIN1_VISIBLE_PARTICLES) {
+        particle->x = irand() % CHAIN1_RANDOM_X_RANGE;
+        particle->y = irand() % CHAIN1_RANDOM_Y_RANGE;
         particle->vx = 0;
         particle->vy = CHAIN1_INIT_VELOCITY;
         particle->speed = CHAIN1_INIT_SPEED;
-        particle->sprite = 0x210E;
+        particle->sprite = CHAIN1_SPRITE_DEFAULT;
+        // Keep the explicit 16-bit unsigned promotion: simply using
+        // signed irand() %2 changed original TC4 CODE (af878e).
         if((static_cast<unsigned int>(irand()) % 2) != 0) {
-            particle->sprite += 0x0280;
+            particle->sprite += CHAIN1_SPRITE_ALTERNATE_DELTA;
         }
-        particle->random_aux = irand() % 4000;
+        particle->random_aux = irand() % CHAIN1_AUX_RANDOM_RANGE;
+        ++i;
+        particle++;
     }
 }
 
@@ -169,7 +189,10 @@ void far background_chain1_accelerate(void)
         cmp si, PARTICLE_COUNT
         jb chain1_accelerate_draw_sprites
     }
-    if(round_frame > 128UL) {
+    // A natural named 32-bit threshold matches the original native
+    // `> 128UL`, while changing the predicate to >=129UL does not
+    // (actual original compiler negative trial af878f).
+    if(round_frame > static_cast<unsigned long>(ACCELERATION_LAST_FRAME)) {
         background_render = background_chain1_periodic;
     }
     egc_off();

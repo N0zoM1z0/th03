@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After878: complete Chain 1 background initialization and acceleration control
+
+- Full original six-function `chain1` owner now uses natural `while` in
+  **80-particle vector reset and 48-particle randomized initialization**,
+  true signed C++ subpixel X/Y RNG bounds, named initial sprite states
+  and typed unsigned-long 128-frame acceleration exit. Both large
+  register-contract background animation controllers remain physically
+  original-exact, with actual shared phase inclusion.
+- Original TC4 negative trials: dropping unsigned RNG parity promotion
+  grew CODE to **701 vs original 695** (`af878e`); rewriting 32-bit
+  `>128UL` as `>=129UL` changed CODE (`af878f`). Final `af878h` passes
+  both genuine compiler/full normal TLINK rounds: **695 CODE bytes, 43
+  literal ordered native FIXUPPs, six PUBLICs**, complete Japanese MAIN
+  and all 1,553 MZ relocations, 98 other game objects/CRT reused. See
+  [after878 full Chain 1 review](MAIN_CHAIN1_NATIVE_INIT_AFTER878_REVIEW.md).
+  Existing source-covered CODE, not new distinct/Factory packed credit.
+
 ## Latest after877: five changed original physical sources in one exact MAIN link
 
 - `af877a` **actually recompiled five current modified original physical
