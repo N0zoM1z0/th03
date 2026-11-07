@@ -36,6 +36,7 @@ SOURCES = {
     'ex_yume': 'src/main/player/exatt_yumemi.cpp',
     'hud_stat': 'src/main/hud/static.cpp',
     'initmain': 'src/main/core/initmain.cpp',
+    'snd_se': 'src/main/sound/se.cpp',
     'intro': 'src/main/hud/intro.cpp',
     'entry': 'src/main/core/entry.cpp',
     'p_cpu': 'src/main/player/cpu.cpp',
@@ -202,7 +203,7 @@ MAP_ROWS = {
     'p_exatt': 3,
     'p_gauge': 3,
     'ba_sring':5, 'ba_srest':5,
-    'hud_stat':3, 'initmain':3, 'e_fireb':3, 'e_expl':3, 'bullet':4,
+    'hud_stat':3, 'initmain':3, 'snd_se':3, 'e_fireb':3, 'e_expl':3, 'bullet':4,
     'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,
 }
 
