@@ -64,6 +64,8 @@ SOURCES = {
 }
 BOSS_SHARED_UNITS = ('ba_sring', 'ba_srest')
 ENTITY = 'src/main/player/exatt_entity.hpp'
+BOSS_TEMPLATE = 'src/main/boss/template_state.hpp'
+BOSS_TEMPLATE_NEEDLE = f'#include "{BOSS_TEMPLATE}"'.encode()
 PRODUCER_WRAPPERS = {
     'e_fireb': 'src/main/enemy/producers/fireball_native.cpp',
     'e_expl': 'src/main/enemy/producers/explosion_native.cpp',
@@ -105,12 +107,13 @@ SOURCE_HEADER_NEEDLE = b'#include "src/main/player/exatt_entity.hpp"'
 BINDING_MODE = 'explicit-native-include-with-omf-dependency-check-v2'
 
 def rooted_source(unit, stage, n, raw):
-    if SOURCE_HEADER_NEEDLE not in raw:
-        return raw
-    return raw.replace(
-        SOURCE_HEADER_NEEDLE,
-        f'#include "probe/{stage}/r{n}/{ENTITY}"'.encode(),
-    )
+    for header, needle in ((ENTITY, SOURCE_HEADER_NEEDLE),
+                           (BOSS_TEMPLATE, BOSS_TEMPLATE_NEEDLE)):
+        if needle in raw:
+            raw = raw.replace(
+                needle, f'#include "probe/{stage}/r{n}/{header}"'.encode()
+            )
+    return raw
 
 def rooted_wrapper(unit, stage, n, raw):
     literal=f'#include "{SOURCES[unit]}"'.encode()
@@ -119,18 +122,22 @@ def rooted_wrapper(unit, stage, n, raw):
         literal, f'#include "probe/{stage}/r{n}/{SOURCES[unit]}"'.encode(),
     )
 
-def check_native_dependencies(obj, unit, stage, n, source_has_entity):
+def check_native_dependencies(obj, unit, stage, n, source_has_entity,
+                              source_has_boss_template=False):
     records=[r.data for r in parse_omf(obj) if r.record_type==0x88 and
              r.data.startswith(b'\x00\xe9')]
     low=[v.lower() for v in records]
     name=f'probe/{stage}/r{n}/{SOURCES[unit]}'.encode().lower()
     need(any(name in v for v in low),
          'actual native OMF dependency binds forced overlay source '+unit)
-    if source_has_entity:
-        header=f'probe/{stage}/r{n}/{ENTITY}'.encode().lower()
-        need(any(header in v for v in low),
-             'actual native OMF dependency binds forced overlay header '+unit)
-    return {'source':name.decode(), 'entity_header_bound':source_has_entity}
+    for header, used in ((ENTITY,source_has_entity),
+                         (BOSS_TEMPLATE,source_has_boss_template)):
+        if used:
+            expected=f'probe/{stage}/r{n}/{header}'.encode().lower()
+            need(any(expected in v for v in low),
+                 'actual native OMF dependency binds forced header '+unit+' '+header)
+    return {'source':name.decode(), 'entity_header_bound':source_has_entity,
+            'boss_template_header_bound':source_has_boss_template}
 
 def sha(raw):
     return hashlib.sha256(raw).hexdigest()
@@ -201,6 +208,7 @@ def main():
     need(len(ref)==130882 and len(target.relocations)==1553,'pinned original Japanese MAIN')
     source_data={name:(ROOT/SOURCES[name]).read_bytes() for name in units}
     header_data=(ROOT/ENTITY).read_bytes()
+    template_data=(ROOT/BOSS_TEMPLATE).read_bytes()
     wrapper_data={u:wrapper_source(u) for u in units}
     need(all(w.count(f'#include "{SOURCES[u]}"'.encode())==1 for u,w in wrapper_data.items())
          and all(b'\r' not in w for w in wrapper_data.values()),
@@ -215,6 +223,7 @@ def main():
             'parent_report_sha256':sha((ROOT/parent.REPORT).read_bytes()),
             'units':units, 'source_sha256':{u:sha(s) for u,s in source_data.items()},
             'entity_header_sha256':sha(header_data),
+            'boss_template_header_sha256':sha(template_data),
             'wrapper_sha256':{u:sha(w) for u,w in wrapper_data.items()},
             'whole_original_image_and_relocations_equal':False,
             'canonical_Factory_credit':False, 'rounds':[],
@@ -240,6 +249,9 @@ def main():
             entity=rd/ENTITY
             entity.parent.mkdir(parents=True, exist_ok=True)
             entity.write_bytes(header_data.replace(b'\n',b'\r\n'))
+            template=rd/BOSS_TEMPLATE
+            template.parent.mkdir(parents=True, exist_ok=True)
+            template.write_bytes(template_data.replace(b'\n',b'\r\n'))
             wrapper=wrapper_data
             for u in units:
                 (rd/(u+'.cpp')).write_bytes(
@@ -256,7 +268,8 @@ def main():
                           f'round{n}-{u}-TC4')
                 raw=(rd/(u+'.obj')).read_bytes()
                 check_native_dependencies(raw,u,args.stage,n,
-                    SOURCE_HEADER_NEEDLE in source_data[u])
+                    SOURCE_HEADER_NEEDLE in source_data[u],
+                    BOSS_TEMPLATE_NEEDLE in source_data[u])
                 scopes[u]=scope(raw,originals[u],u)
                 outputs[u+'_obj']=pins(logroot/(f'round{n}-{u}.obj'),raw)
             response=parent.response(n)

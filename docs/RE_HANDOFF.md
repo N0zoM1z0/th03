@@ -6,6 +6,18 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest BOSS physical ABI after625
+
+Kana, Kotohime and Yumemi major BOSS source TUs now include a maintained
+single physical 32-byte `boss_template_state_t` instead of three duplicate
+structs. Native after625b source-bound two-round TC4/TLINK proof covers
+**6,072 CODE bytes / 879 ordered fields / 30 PUBLICs**, original complete
+MAIN/1,553 relocations and explicitly verified OMF COMENT dependency on
+the new template header. See
+[after625 template ABI review](MAIN_BOSS_SHARED_TEMPLATE_AFTER625_NATIVE_REVIEW.md).
+Historical receipts are kept unchanged, and no new canonical game bytes
+are credited.
+
 ## URGENT: v1 source-binding flaw, corrected native proof after614
 
 **DO NOT cite after598–610 overlay reports as proof that changed source

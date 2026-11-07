@@ -26,28 +26,9 @@ struct yumemi_player_view_t {
 };
 extern yumemi_player_view_t players[PLAYER_COUNT];
 
-struct boss_character_template_yumemi_t {
-	int center_x;
-	int center_y;
-	int scratch_x;
-	int scratch_y;
-	int velocity_x;
-	int velocity_y;
-	int hp;
-	sprite16_offset_t sprite_offset;
-	unsigned char hit;
-	unsigned char mode;
-	unsigned char angle;
-	unsigned char pattern_i;
-	unsigned char pattern_count;
-	unsigned char render_mode;
-	unsigned char render_frame;
-	unsigned char move_phase;
-	unsigned int effect_radius;
-	unsigned char tail[6];
-};
+#include "src/main/boss/template_state.hpp"
 
-extern boss_character_template_yumemi_t boss_character_template[PLAYER_COUNT];
+extern boss_template_state_t boss_character_template[PLAYER_COUNT];
 
 extern int boss_center_x;
 extern int boss_center_y;
@@ -88,7 +69,7 @@ void far pascal yumemi_extra_add(int x, int y);
 
 void far pascal boss_yumemi_template_init(int player_id)
 {
-	boss_character_template_yumemi_t near *p =
+	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
 	p->center_x = 0x900;
