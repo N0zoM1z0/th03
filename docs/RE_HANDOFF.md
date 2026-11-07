@@ -334,6 +334,18 @@ and full Japanese MAIN EXE/MAP/relocation match. See
 The game's original broken LOOP displacement/op_size behavior is retained;
 no newly accepted byte count or physical behavior claim is added.
 
+### Explosion collision native C++ recertified after615
+
+The full `explosions_hittest()` collision/chain/score/charge function
+now uses natural saturating hit-count C++, direct near-pointer accesses,
+a single radius/diameter value and a byte mode (no fake returning macros
+or extra struct unions). Real v2 native `af611g` source- and OMF-bound
+two-round proof reproduces all 630 original CODE bytes, 49 literal
+ordered fields, the entire normal MAIN map/link and original Japanese
+image/relocations. See
+[the reviewed native source](MAIN_EXPLOSION_NATIVE_CPP_AFTER615_REVIEW.md).
+The v1 false-positive experiments are not cited as proof.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
