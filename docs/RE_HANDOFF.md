@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Rikako full charged-shot orbit/Gauge source after659
+
+The new physical `cs_rika` eleven-function original source is
+source/OMF-attested in v2 compiler stages. Its large four-projectile
+orbit update now uses original-native natural
+`p->angle += ((static_cast<unsigned int>(i) % 2) ? 8 : -8)`
+instead of opaque `&1`, `0xF8` and explicit field reassignments.
+Real TC4 validates the six-byte orbiting-shot record, center +00,
+angle +04 and four-byte Gauge timing ABI, with original
+0x20/0x80/0x90 phases and two player attachment modes.
+The Gauge mirror must keep unary angle negation: binary
+zero-minus was tested and found native-unequal. Both current-source
+`af659e` compiler/TLINK rounds match **1,280 original CODE bytes,
+137 ordered native fields, eleven PUBLICs**, full normal MAIN
+and Japanese MZ. See
+[after659 Rikako charged-shot review](MAIN_RIKAKO_CHARGESHOT_ORBIT_AFTER659_NATIVE_REVIEW.md).
+No cold replay or newly accepted canonical packed game bytes.
+
 ## Kana complete 54-byte four-trail charged-shot owner after658
 
 The true original `cs_kana` source (nine functions including

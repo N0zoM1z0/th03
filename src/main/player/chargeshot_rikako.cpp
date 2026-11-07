@@ -3,6 +3,7 @@
 // exact producer acceptance requires the object-shape and full-link Oracles.
 #pragma codeseg MAIN_11_TEXT
 
+#include <stddef.h>
 #include "src/main/player/chargeshot_rikako.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
@@ -14,11 +15,32 @@
 #include "compat/rec98/th03/math/polar.hpp"
 #include "compat/rec98/libs/master.lib/master.hpp"
 
+// Four orbiting projectiles per player; each record has one
+// 4-byte center, one byte angle and one reserved byte.
+enum rikako_charge_phase_t {
+    RIKAKO_CHARGE_PROJECTILES = 4,
+    RIKAKO_CHARGE_SWIRL_START = 0x20,
+    RIKAKO_CHARGE_SWIRL_END = 0x80,
+    RIKAKO_CHARGE_FINISH_AFTER = 0x90,
+    RIKAKO_CHARGE_RADIUS_GROWTH = 0x20,
+    RIKAKO_CHARGE_EXIT_GROWTH = 0x60,
+    RIKAKO_CHARGE_FIELD_MOVING = 1,
+    RIKAKO_CHARGE_PLAYER_CENTERED = 2,
+    RIKAKO_GAUGE_END_FRAME = 0x80,
+};
+
 struct rikako_chargeshot_t {
 	PlayfieldPoint center;
 	unsigned char angle;
 	unsigned char unused;
 };
+
+typedef char rikako_chargeshot_stride_is_6[
+    (sizeof(rikako_chargeshot_t) == 6) ? 1 : -1
+];
+typedef char rikako_chargeshot_angle_at_04[
+    (offsetof(rikako_chargeshot_t, angle) == 4) ? 1 : -1
+];
 
 struct gauge_pattern_timing_t {
 	unsigned char total_frames;
@@ -27,8 +49,12 @@ struct gauge_pattern_timing_t {
 	unsigned char byte_3;
 };
 
+typedef char rikako_gauge_timing_is_4[
+    (sizeof(gauge_pattern_timing_t) == 4) ? 1 : -1
+];
+
 extern unsigned char rikako_gauge_frame[PLAYER_COUNT];
-extern rikako_chargeshot_t rikako_chargeshots[PLAYER_COUNT][4];
+extern rikako_chargeshot_t rikako_chargeshots[PLAYER_COUNT][RIKAKO_CHARGE_PROJECTILES];
 extern rikako_chargeshot_t near *rikako_chargeshot_p;
 extern unsigned char rikako_active[PLAYER_COUNT];
 extern unsigned char rikako_frame[PLAYER_COUNT];
@@ -52,12 +78,12 @@ void far pascal chargeshot_add_rikako(Subpixel center_x, Subpixel center_y)
 	register int center_x_raw;
 
 	center_x_raw = center_x.v;
-	rikako_active[pid.current] = 1;
+	rikako_active[pid.current] = RIKAKO_CHARGE_FIELD_MOVING;
 	rikako_frame[pid.current] = 0;
 	rikako_radius[pid.current] = 0x80;
 	p = &rikako_chargeshots[pid.current][0];
 
-	for(_CX = 0; ((int)_CX) < 4; (_CX++, p++)) {
+	for(_CX = 0; ((int)_CX) < RIKAKO_CHARGE_PROJECTILES; (_CX++, p++)) {
 		p->center.x.v = center_x_raw;
 		p->center.y = center_y;
 		p->angle = ((_CL << 6) + 0x20);
@@ -70,7 +96,7 @@ void far pascal chargeshot_add_rikako(Subpixel center_x, Subpixel center_y)
 void far pascal rikako_charge_add_private(Subpixel center_x, Subpixel center_y)
 {
 	chargeshot_add_rikako(center_x, center_y);
-	rikako_active[pid.current] = 2;
+	rikako_active[pid.current] = RIKAKO_CHARGE_PLAYER_CENTERED;
 }
 
 void far rikako_chargeshot_cancel(void)
@@ -96,14 +122,14 @@ void far pascal chargeshot_update_rikako(void)
 	radius = rikako_radius[pid_current];
 	p = &rikako_chargeshots[pid_current][0];
 
-	if(rikako_active[pid_current] == 1) {
+	if(rikako_active[pid_current] == RIKAKO_CHARGE_FIELD_MOVING) {
 		rikako_center_y[pid_current] -= 0x20;
 	} else {
 		rikako_center_x[pid_current] = player->center.x.v;
 		rikako_center_y[pid_current] = player->center.y.v;
 	}
 
-	for(i = 0; i < 4; (i++, p++)) {
+	for(i = 0; i < RIKAKO_CHARGE_PROJECTILES; (i++, p++)) {
 		p->center.x.v = polar(
 			rikako_center_x[pid_current],
 			radius,
@@ -114,17 +140,15 @@ void far pascal chargeshot_update_rikako(void)
 			radius,
 			SinTable8[p->angle]
 		);
-		p->angle = (
-			p->angle + ((i & 1) ? 8 : 0xF8)
-		);
+		p->angle += ((static_cast<unsigned int>(i) % 2) ? 8 : -8);
 	}
 
-	if(frame < 0x20) {
-		radius += 0x20;
-	} else if(rikako_active[pid_current] == 1) {
-		if(frame > 0x80) {
-			radius += 0x60;
-			if(frame > 0x90) {
+	if(frame < RIKAKO_CHARGE_SWIRL_START) {
+		radius += RIKAKO_CHARGE_RADIUS_GROWTH;
+	} else if(rikako_active[pid_current] == RIKAKO_CHARGE_FIELD_MOVING) {
+		if(frame > RIKAKO_CHARGE_SWIRL_END) {
+			radius += RIKAKO_CHARGE_EXIT_GROWTH;
+			if(frame > RIKAKO_CHARGE_FINISH_AFTER) {
 				rikako_active[pid_current] = 0;
 			}
 		}
@@ -162,7 +186,7 @@ uint8_t far chargeshot_hittest_rikako(void)
 
 	hit_count = 0;
 	p = &rikako_chargeshots[hitbox.pid][0];
-	for(i = 0; i < 4; (i++, p++)) {
+	for(i = 0; i < RIKAKO_CHARGE_PROJECTILES; (i++, p++)) {
 		if((p->center.x.v - hitbox.right.v) > TO_SP(12)) {
 			continue;
 		}
@@ -191,7 +215,7 @@ void far pascal chargeshot_render_rikako(void)
 	sprite16_put_size.set(32, 32);
 	sprite16_clip_set_for_pid(pid_current);
 
-	for(int i = 0; i < 4; (i++, rikako_chargeshot_p++)) {
+	for(int i = 0; i < RIKAKO_CHARGE_PROJECTILES; (i++, rikako_chargeshot_p++)) {
 		rikako_chargeshot_private();
 	}
 }
@@ -246,7 +270,7 @@ void near pascal gauge_pattern_rikako(bullet_type_t type)
 		bomb_center_add(TO_SP(PLAYFIELD_W), 0, pid_other);
 	}
 
-	if(rikako_gauge_frame[pid_current] >= 0x80) {
+	if(rikako_gauge_frame[pid_current] >= RIKAKO_GAUGE_END_FRAME) {
 		gba_flag_active[pid_current] = GBAF_NONE;
 		palette_restore_for_pid(1 - pid_current);
 	}
