@@ -6,6 +6,26 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest 41 complete current-source native MAIN owners after670
+
+The fresh `af670a` two-round genuine Turbo C++/TLINK
+source-native integration recompiles **41 complete original
+physical TUs**, including all after663 BOSS/Extra Attack/CPU/
+charged-shot sources, plus the newly source-recovered original
+Marisa `cs_mari`, player effects and player warning/Gauge
+TUs. Both actual Borland compiler OMF-COMENT source/header
+dependencies and the complete original linker MAP owners
+are independently reviewed. Both rounds reproduce **51,406
+original CODE bytes, 5,194 literal ordered native FIXUPPs,
+301 PUBLIC offsets**, the full normal MAIN EXE/MAP,
+the original Japanese loaded program, all 1,553 original
+MZ relocations and independently serialized original
+130,882-byte Japanese MAIN.EXE. The other **58** original
+project objects and startup/CRT libraries were reused.
+See [after670 41-owner native source review](MAIN_FORTYONE_GAMEPLAY_SOURCE_AFTER670_NATIVE_REVIEW.md).
+No full cold replay, historic raw vendor OMF packet identity
+or new canonical Factory packed-code byte credit.
+
 ## Player warning/Gauge large state machine native C++ after669
 
 The v2 original source-rooted scoped compiler/reviewer now
