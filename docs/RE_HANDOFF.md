@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After786 major Mima BOSS naturally recovered unsigned clocks
+
+- Four bit-mask scheduler expressions across **three substantial Mima BOSS
+  attack functions** are now actual source-level unsigned `%2`/`%4`
+  C++ clocks; genuine original TC4 matches every original instruction.
+  Their shared `boss_frame` is unsigned 16-bit. The unrelated six-frame
+  volley retains `%6`, and no byte-clock inference is made.
+- Complete random attack warning/launch/ring phases now have explicit
+  0x20/0x24/0x28, 0x30 and 0x40 symbols, preserving the original three
+  discrete warning emissions. `af786a` and `af786b` are successful
+  incremental native variants; final `af786c` proves the whole maintained
+  source with two independent TC4 / full MAIN TLINK rounds:
+  **1,922 CODE bytes, 277 ordered FIXUPPs, 9 PUBLICs, full Japanese loaded
+  image and 1,553 relocations**. Existing owner, no double-counted new
+  coverage or canonical Factory packed-file acceptance. See
+  [after786 Mima BOSS review](MAIN_MIMA_BOSS_NATURAL_CLOCKS_AFTER786_REVIEW.md).
+
 ## After785 entire MAIN entry/round scheduler, dual-player selection
 
 - The complete 3,050-CODE-byte `entry` physical owner (main, 200+-line

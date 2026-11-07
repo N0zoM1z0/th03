@@ -102,15 +102,23 @@ void far pascal boss_mima_template_init(int player_id)
 	p->render_mode = 0;
 }
 
-// Full BOSS pattern clocks are unsigned 16-bit. Power-of-two periods may
-// use natural bit tests, but the six-frame side volley must retain division.
+// Full BOSS pattern clocks are unsigned 16-bit. The original TC4 emits its
+// literal masks naturally from unsigned %2 and %4; the six-frame side volley
+// must retain a real integer division. Do not apply this conclusion to
+// byte-valued clocks in the Bomb/Extra Attack implementations.
 enum mima_native_phase_t {
+    MIMA_SPREAD_INITIAL_SETUP_END = 2,
     MIMA_SPREAD_FIRE_BEGIN = 0x20,
     MIMA_SPREAD_FIRE_END_AFTER = 0x82,
     MIMA_SPREAD_PELLET_PERIOD = 6,
     MIMA_RANDOM_BOMB_WARN = 0x10,
     MIMA_RANDOM_BOMB_FIRE_BEGIN = 0x20,
     MIMA_RANDOM_BOMB_FIRE_PERIOD = 4,
+    // Three separate warning explosions precede the first live barrage.
+    MIMA_RANDOM_BOMB_MARK_SECOND = 0x24,
+    MIMA_RANDOM_BOMB_MARK_THIRD = 0x28,
+    MIMA_RANDOM_BOMB_BULLET_WAIT_END = 0x30,
+    MIMA_RANDOM_BOMB_RING_FRAME = 0x40,
     MIMA_RANDOM_BOMB_END = 0x80,
     MIMA_TRAIL_END = 0x96,
     MIMA_BOSS_INTRO_END = 0x64,
@@ -118,7 +126,7 @@ enum mima_native_phase_t {
 
 void near mima_pattern_spread(void)
 {
-	if(boss_frame < 2) {
+	if(boss_frame < MIMA_SPREAD_INITIAL_SETUP_END) {
 		boss_render_mode = 2;
 		boss_render_frame = 0;
 		mima_spread_angle = 0;
@@ -130,7 +138,7 @@ void near mima_pattern_spread(void)
 		return;
 	}
 
-	if(!(boss_frame & 1)) {
+	if((boss_frame % 2) == 0) {
 		snd_se_play(3);
 
 		bullet_template.angle = mima_spread_angle;
@@ -183,19 +191,19 @@ void near mima_pattern_bomb_random(void)
 	y = (boss_center_y - TO_SP(32));
 
 	if(
-		(boss_frame == 0x20) ||
-		(boss_frame == 0x24) ||
-		(boss_frame == 0x28)
+		(boss_frame == MIMA_RANDOM_BOMB_FIRE_BEGIN) ||
+		(boss_frame == MIMA_RANDOM_BOMB_MARK_SECOND) ||
+		(boss_frame == MIMA_RANDOM_BOMB_MARK_THIRD)
 	) {
 		bomb_center_add(x, y, pid_other);
 		return;
 	}
 
-	if(boss_frame <= 0x30) {
+	if(boss_frame <= MIMA_RANDOM_BOMB_BULLET_WAIT_END) {
 		return;
 	}
 
-	if(!(boss_frame & (MIMA_RANDOM_BOMB_FIRE_PERIOD - 1))) {
+	if((boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD) == 0) {
 		bullet_template.angle = 0;
 		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
 		bullet_template.center.x.v = x;
@@ -211,7 +219,7 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(boss_frame == 0x40) {
+	if(boss_frame == MIMA_RANDOM_BOMB_RING_FRAME) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_32_RING;
 		bullet_template.center.x.v = x;
@@ -223,7 +231,7 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(!(boss_frame & 1)) {
+	if((boss_frame % 2) == 0) {
 		snd_se_play(3);
 	}
 
@@ -287,7 +295,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle = randring_far_next16();
 	}
 
-	if(!(boss_frame & 1)) {
+	if((boss_frame % 2) == 0) {
 		bullet_template.center.x.v = polar(
 			boss_center_x, TO_SP(48), CosTable8[mima_orbit_angle]
 		);
