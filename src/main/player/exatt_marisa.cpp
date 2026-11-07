@@ -1,6 +1,6 @@
-// Natural Turbo C++ reconstruction of the complete 676-byte Marisa Extra
-// Attack CODE owner in TH03 P_EXATT_TEXT. Historical 32-byte entity
-// storage and shared flight/render helpers remain separately owned.
+// Complete native-source C++ for the original Marisa Extra Attack
+// physical owner in TH03 P_EXATT_TEXT. Its 32-byte entity records
+// and shared flight/render helpers remain in their historical slots.
 #pragma codeseg P_EXATT_TEXT
 #include "src/main/player/exatt_marisa.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
@@ -44,21 +44,33 @@ enum marisa_exatt_phases_t {
     MARISA_EXTRA_BEAM_COLLISION_END = 0x64,
     MARISA_EXTRA_BEAM_END = 0x78,
     MARISA_EXTRA_APPEARING_END = 0x1C,
+    MARISA_EXTRA_TARGET_X_RANGE = 0x1200,
+    MARISA_EXTRA_START_SPEED = 0x6E,
+    MARISA_EXTRA_BEAM_Y_END = 0x1700,
+    MARISA_EXTRA_BEAM_RISE_STEP = 0x100,
+    MARISA_EXTRA_BEAM_MIN_Y = -0x100,
+    MARISA_EXTRA_BEAM_COLLISION_STRIPE = 4,
+    MARISA_EXTRA_BEAM_HEIGHT_DIVISOR = 32,
+    MARISA_EXTRA_SPAWN_WARNING_Y = 0x1820,
 };
 
 void far pascal exatt_add_marisa(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
-    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+    // Natural C++ full fourteen-slot allocator; each occupied slot
+    // advances both the signed index and near pointer (af885a).
+    while(i < MARISA_EXTRA_SLOTS) {
         if(!p->state) {
             exatt_entity_p = p;
             exatt_fly_init(
-                x, y, randring_far_next16_mod(0x1200),
-                TO_SP(PLAYFIELD_H), pid_, 0x6E
+                x, y, randring_far_next16_mod(MARISA_EXTRA_TARGET_X_RANGE),
+                TO_SP(PLAYFIELD_H), pid_, MARISA_EXTRA_START_SPEED
             );
             return;
         }
+        ++i;
+        p++;
     }
 }
 
@@ -66,7 +78,7 @@ void far pascal marisa_exatt_add(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[1 - pid_][0];
     register int i = 0;
-    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+    while(i < MARISA_EXTRA_SLOTS) {
         if(!p->state) {
             p->state = MARISA_EXTRA_APPEARING;
             p->frame = 0;
@@ -75,6 +87,8 @@ void far pascal marisa_exatt_add(int x, int y, unsigned char pid_)
             p->pid = pid_;
             return;
         }
+        ++i;
+        p++;
     }
 }
 
@@ -129,22 +143,28 @@ void far pascal exatt_update_marisa(void)
     register exatt_entity_t near *p;
     register int bottom;
 
-    collmap_stripe_tile_w.set(4);
+    collmap_stripe_tile_w.set(MARISA_EXTRA_BEAM_COLLISION_STRIPE);
     p = &exatt_entities[pid_current][0];
     i = 0;
-    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+    // This substantial update has THREE separate `continue` paths,
+    // each advancing both registers before the next slot (af885c).
+    while(i < MARISA_EXTRA_SLOTS) {
         if(!p->state) {
+            ++i;
+            p++;
             continue;
         }
         if(p->state == MARISA_EXTRA_BEAM) {
             if(p->frame < MARISA_EXTRA_SHRINK_BEGIN) {
-                p->y -= 0x100;
-                if(p->y < -0x100) {
+                p->y -= MARISA_EXTRA_BEAM_RISE_STEP;
+                if(p->y < MARISA_EXTRA_BEAM_MIN_Y) {
                     p->frame = MARISA_EXTRA_SHRINK_BEGIN;
-                    p->y = -0x100;
+                    p->y = MARISA_EXTRA_BEAM_MIN_Y;
                 }
             } else if(p->frame >= MARISA_EXTRA_BEAM_END) {
                 p->state = MARISA_EXTRA_FREE;
+                ++i;
+                p++;
                 continue;
             }
             center_x = p->x;
@@ -152,35 +172,40 @@ void far pascal exatt_update_marisa(void)
             if(bottom < 0) {
                 bottom = 0;
             }
-            height = 0x1700 - bottom;
+            height = MARISA_EXTRA_BEAM_Y_END - bottom;
             if(p->frame < MARISA_EXTRA_BEAM_COLLISION_END) {
                 collmap_center.x.v = center_x;
                 collmap_center.y.v = bottom + (height / 2);
-                // Original signed 16-bit collision height uses truncating
-                // division, not arithmetic shift (af774b negative).
-                collmap_tile_h.v = height / 32;
+                // Signed collision height truncates toward zero;
+                // >>5 changes original CODE and negative rounding
+                // (independent native negative af885d).
+                collmap_tile_h.v = height / MARISA_EXTRA_BEAM_HEIGHT_DIVISOR;
                 collmap_pid = (1 - pid_current);
                 collmap_set_rect_striped();
             }
         } else if(p->state == MARISA_EXTRA_FLYING) {
             exatt_entity_p = p;
             if(exatt_fly_update()) {
-                p->y = 0x1700;
+                p->y = MARISA_EXTRA_BEAM_Y_END;
+                ++i;
+                p++;
                 continue;
             }
         } else if(p->state <= MARISA_EXTRA_APPEARING_END) {
             p->state++;
             if(p->state == 0x0C) {
-                bomb_center_add(p->x, 0x1820, p->pid);
+                bomb_center_add(p->x, MARISA_EXTRA_SPAWN_WARNING_Y, p->pid);
             }
         } else {
             p->frame = 0;
             p->state = MARISA_EXTRA_BEAM;
             snd_se_play(20);
         }
-        // The mutable 8-bit frame must retain postfix codegen;
-        // ++p->frame changed original CODE in af774c.
+        // Keep byte-memory postfix: prefix changed complete CODE
+        // in fresh negative af885e, independently of older evidence.
         p->frame++;
+        ++i;
+        p++;
     }
 }
 
@@ -188,10 +213,14 @@ void far pascal exatt_render_marisa(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
     register int i = 0;
-    for(; i < MARISA_EXTRA_SLOTS; ++i, p++) {
+    // Every physical slot is visited, native-exact with the original
+    // post-render near pointer and signed index mutations (af885b).
+    while(i < MARISA_EXTRA_SLOTS) {
         if(p->state) {
             exatt_entity_p = p;
             marisa_exatt_render_one();
         }
+        ++i;
+        p++;
     }
 }

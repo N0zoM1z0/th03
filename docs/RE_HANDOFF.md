@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After885: complete Marisa Extra Attack and three early-continue paths
+
+- The full five-function `ex_maris` original owner now uses natural C++
+  `while` in both fourteen-slot allocators, fourteen-slot render and
+  the complete beam/fly/arrival state machine with **three explicit
+  early-continue index/pointer advances**. Named real signed beam
+  height/clip/target/launch values preserve original physical order.
+- Fresh actual TC4 negatives: converting signed beam `height /32` to
+  arithmetic `>>5` emitted **673** instead of **676** CODE bytes
+  (`af885d`); byte `p->frame++` to prefix emitted **681** (`af885e`).
+  Both original forms retained. Final `af885g` passes two independent
+  original TC4/full normal MAIN TLINK rounds: **676 CODE bytes, 35
+  literal ordered OMF FIXUPPs, five PUBLICs**, entire original Japanese
+  MAIN/1,553 ordered relocations. 98 other project objects/CRT reused,
+  no cold replay. See
+  [after885 full Marisa Extra Attack review](MAIN_MARISA_EXATT_NATIVE_LOOPS_AFTER885_REVIEW.md).
+  Already source-covered original CODE, no new distinct/Factory credit.
+
 ## After884: entire Kana major BOSS, native staged volley and intro ring
 
 - Complete nine-function original `ba_kana` major BOSS now expresses
