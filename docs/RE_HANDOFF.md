@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest complete 30-owner source-native MAIN after650
+
+The v2 explicitly source/header-rooted `af650a` Turbo C++/TLINK
+two-round proof now recompiles **30 complete original physical TUs**:
+the earlier 28 BOSS/Extra Attack/Bullet/Fireball/Enemy objects
+**plus** CPU collision/dodge and Yumemi target/charged-shot/Gauge
+(whose full sources changed in after646/647). All selected sources
+actually consumed are verified through OMF COMENT dependencies,
+including maintained packed BOSS and Extra Attack headers.
+Both rounds match **38,098 original CODE bytes, 3,882 literal ordered
+native FIXUPPs, 209 PUBLIC offsets, complete normal MAIN EXE/MAP**,
+the Japanese loaded program, 1,553 ordered MZ relocations and
+separately serialized exact original 130,882-byte Japanese file.
+See [after650 thirty native gameplay owners](MAIN_THIRTY_CPU_GAUGE_GAMEPLAY_AFTER650_NATIVE_REVIEW.md).
+Other 69 original objects and startup/CRT libraries reused unchanged,
+**no full cold replay**, no new canonical packed-byte credit or
+historic vendor OMF packet identity claim.
+
 ## Chiyuri complete paired Extra Attack beam after649
 
 The genuine Chiyuri four-function Extra Attack owner now explicitly
