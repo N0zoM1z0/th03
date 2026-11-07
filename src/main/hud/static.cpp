@@ -1,3 +1,6 @@
+// The entire static HUD is one original physical HUD_STAT_TEXT CODE owner.
+#pragma option -zCHUD_STAT_TEXT
+
 #include "src/main/hud/static.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
 #include "compat/rec98/th03/main/player/gba.hpp"
@@ -83,7 +86,7 @@ void pascal hud_static_bombs_put(pid_t pid)
 	while(i < bombs) {
 		gaiji_putca(x, y, gs_BOMB, TX_WHITE);
 		x += step;
-		i++;
+		++i;
 	}
 
 	// In case we lost a single bomb on this frame… Very clever!
@@ -104,7 +107,7 @@ void pascal near hud_static_rounds_won_put(pid_t pid)
 	while(i < rounds_won) {
 		gaiji_putca(x, PLAYFIELD_TRAM_TOP, gs_THALIA, TX_WHITE);
 		x += GAIJI_TRAM_W;
-		i++;
+		++i;
 	}
 }
 
@@ -116,7 +119,7 @@ void near hud_static_story_lives_put(void)
 	while(i < lives) {
 		gaiji_putca(x, (PLAYFIELD_TRAM_TOP + 1), gs_YINYANG, TX_WHITE);
 		x -= GAIJI_TRAM_W;
-		i++;
+		++i;
 	}
 }
 
@@ -147,7 +150,7 @@ void pascal hud_static_gauge_levels_put(pid2 pid)
 
 void hud_static_put(void)
 {
-	for(int i = 0; i < PLAYER_COUNT; i++) {
+	for(int i = 0; i < PLAYER_COUNT; ++i) {
 		hud_static_halfhearts_put(i);
 		hud_static_bombs_put(i);
 		hud_static_rounds_won_put(i);
