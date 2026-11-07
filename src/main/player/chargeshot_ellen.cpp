@@ -73,10 +73,15 @@ extern "C" void far pascal ellen_target_set(pid_t pid);
 extern "C" void far pascal bomb_center_add(int x, int y, int pid);
 extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 
+// The whole source owns the 32-slot scan, spread allocator, decelerate /
+// homing controller and gauge emission alongside its sprite leaf. Preserve
+// byte-memory state and length mutation order, including the original
+// predecrement of the per-projectile state at the activation boundary.
+
 void far pascal chargeshots_reset_ellen(void)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[0][0];
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_TOTAL; (i++, ellen_chargeshot_p++)) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_TOTAL; (++i, ellen_chargeshot_p++)) {
 		ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
 	}
 }
@@ -97,8 +102,8 @@ void far pascal chargeshot_add_ellen(Subpixel center_x, Subpixel center_y)
 void far pascal ellen_hyper(Subpixel center_x, Subpixel center_y)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[pid.current][0];
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state != ELLEN_CHARGE_INACTIVE_STATE) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+		if(ellen_chargeshot_p->state) {
 			continue;
 		}
 		ellen_chargeshot_p->state = ELLEN_CHARGE_ACTIVE_STATE;
@@ -121,8 +126,8 @@ void far pascal chargeshot_update_ellen(void)
 
 	ellen_chargeshot_p = &ellen_chargeshots[pid_current][0];
 	int i;
-	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state != ELLEN_CHARGE_INACTIVE_STATE) {
+	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+		if(ellen_chargeshot_p->state) {
 			goto active;
 		}
 	}
@@ -139,8 +144,8 @@ active:
 	playfield_clip_negative_radius.x.v = TO_SP(-8);
 	playfield_clip_negative_radius.y.v = TO_SP(-8);
 
-	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
-		if(ellen_chargeshot_p->state == ELLEN_CHARGE_INACTIVE_STATE) {
+	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+		if(!ellen_chargeshot_p->state) {
 			continue;
 		}
 		if(ellen_chargeshot_p->state == ELLEN_CHARGE_ACTIVE_STATE) {
@@ -155,7 +160,7 @@ active:
 					length
 				);
 				ellen_chargeshot_p->length = length;
-				if(length == 0) {
+				if(!length) {
 					ellen_chargeshot_p->phase = ELLEN_CHARGE_TARGET_PHASE;
 					ellen_chargeshot_p->angle = iatan2(
 						(target_y - ellen_chargeshot_p->center.y.v),
@@ -186,20 +191,20 @@ active:
 
 void near pascal ellen_chargeshot_private(Subpixel x, Subpixel y)
 {
-	_SI = x.v;
-	_DI = y.v;
+	// TC4 naturally assigns SI to left and DI to top in this order.
+	// Swapping declarations changes original CODE (af752d); no manual
+	// _SI/_DI/_AX register writes are required here anymore.
+	register screen_x_t left = x.v;
+	register screen_y_t top = y.v;
 	sprite16_offset_t sprite_offset = (pid.so_attack + 0x10);
 	unsigned char cel = (ellen_chargeshot_p->angle + 0x10);
 	cel >>= 5;
 	cel <<= 1;
 	sprite_offset += cel;
 
-	_SI = (playfield_fg_x_to_screen(_SI, pid_current) - 8);
-	_AX = _DI;
-	static_cast<int16_t>(_AX) >>= 4;
-	static_cast<int16_t>(_AX) += 8;
-	_DI = static_cast<int16_t>(_AX);
-	sprite16_put(_SI, static_cast<int16_t>(_AX), sprite_offset);
+	left = (playfield_fg_x_to_screen(left, pid_current) - 8);
+	top = ((top >> 4) + 8);
+	sprite16_put(left, top, sprite_offset);
 }
 
 uint8_t far chargeshot_hittest_ellen(void)
@@ -207,7 +212,7 @@ uint8_t far chargeshot_hittest_ellen(void)
 	unsigned char hits = 0;
 	ellen_chargeshot_p = &ellen_chargeshots[hitbox.pid][0];
 
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
 		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
 			continue;
 		}
@@ -235,7 +240,7 @@ void far pascal chargeshot_render_ellen(void)
 	sprite16_put_size.set(16, 16);
 	sprite16_clip_set_for_pid(pid_current);
 
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (i++, ellen_chargeshot_p++)) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
 		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
 			continue;
 		}
