@@ -1,4 +1,4 @@
-# TH03 agent handoff — after592 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after593 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -429,6 +429,25 @@ published Factory acceptances were not repinned.
 
   .analysis/work/main-character-after592-native-build.json
   scripts/review_th03_main_character_after592_work.py
+
+## MAIN complete native player movement/hit/damage controller (after593)
+
+A fresh GAME=3/BINARY=M Turbo C++ compilation of the complete natural
+player-core C++ source now source-links the original 3,135 MAIN_010_TEXT
+CODE bytes, all 21 original public functions, 260 original ordered OMF
+fixups and exact segment geometry. Two independent compiler/linker
+rounds integrate this non-leaf player controller into the after592
+character callback/BOSS/bullet/collision source graph, preserving the
+entire 124,642 Japanese original program and all 1,553 ordered
+relocations. The independent standard MZ-format step produces the full
+130,882-byte Japanese original EXE in both rounds.
+
+The underlying original player C++ source and historically accepted
+ledger remain untouched. These functions were already source owners;
+no duplicate canonical Factory or original OMF metadata credit.
+
+  .analysis/work/main-core-after593-native-build.json
+  scripts/review_th03_main_core_after593_work.py
 
 ## Start here
 

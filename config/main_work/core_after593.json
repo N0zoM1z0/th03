@@ -1,0 +1,22 @@
+{
+  "schema": "th03-main-large-cpp-forward-native-v1",
+  "stage": "af593p",
+  "parent_report": ".analysis/work/main-character-after592-native-build.json",
+  "parent_report_sha256": "a73f8453bff9699db5f74ea6afde1c37242696269f08a564c2c0b6097eb624bc",
+  "stem": "core",
+  "source": "src/main/player/core.cpp",
+  "wrapper": "src/main/player/producers/core_native.cpp",
+  "original_object": "obj/th03/core.obj",
+  "original_MAP_module": "src/main/player/core.cpp",
+  "GAME": 3,
+  "BINARY": "M",
+  "original_CODE_segment_index": 4,
+  "CODE_bytes": 3135,
+  "original_PUBLICs": 21,
+  "ordered_FIXUPP_fields": 260,
+  "original_Japanese_file_bytes": 130882,
+  "original_ordered_MZ_relocations": 1553,
+  "historic_vendor_raw_OMF_packet_identity": false,
+  "canonical_factory_credit_changed": false,
+  "whole_project_source_accepted": false
+}
