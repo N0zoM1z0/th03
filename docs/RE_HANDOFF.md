@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after827: three newly changed complete original physical sources together
+
+- `af827a` is a genuine **simultaneous two-round original Turbo C++ 4.02
+  and complete normal TLINK** rebuild of this session's **three edited
+  entire physical TUs**: full Yumemi and Rikako major BOSSes plus the
+  complete ten-function Reimu Chargeshot/Gauge owner. All **5,483 original
+  CODE bytes, 696 ordered native FIXUPPs and 28 PUBLICs**, full normal
+  MAIN EXE/MAP, 124,642 Japanese loaded bytes and all **1,553 ordered
+  original MZ relocations** match in both rounds. Independent serializer
+  reproduces the complete Japanese 130,882-byte MAIN.EXE.
+- The original **96 other project objects and CRT were reused**; no
+  cold replay, old receipt overwriting, byte-padding or source-bound
+  guard weakening. Previous `af823a` nine-object current-source review
+  remains separately valid for *different, unchanged* original owners;
+  **do not describe these as a simultaneously built 12-object scope**.
+  Existing source owner CODE must not be added as new unique coverage.
+  See [after827 scoped three-source integration](MAIN_THREE_SOURCE_INTEGRATION_AFTER827_REVIEW.md).
+
 ## After826: complete Reimu Chargeshot/Gauge lifecycle source
 
 - All ten functions of `cs_reimu` now use named byte-valued inactive,
