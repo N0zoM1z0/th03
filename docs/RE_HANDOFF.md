@@ -6,6 +6,19 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Eleven complete BOSS native owners share a single ABI after627
+
+All nine character BOSS controller sources plus shared ring and core
+(11 physical native objects, **18,400 CODE bytes / 2,540 ordered fields /
+93 PUBLICs**) now compile against the one checked **32-byte**
+`boss_template_state_t`. In Mima/Marisa, anonymous physical fields
+have been renamed to their true initializer semantics without changing
+field byte locations or code. Two actual source-and-header-rooted
+Turbo C++ / full TLINK rounds `af627b` reproduce original complete
+MAIN EXE/MAP, 1,553 ordered Japanese relocations and serialized file.
+Read [after627 original BOSS template review](MAIN_ELEVEN_BOSS_PHYSICAL_TEMPLATE_AFTER627_NATIVE_REVIEW.md).
+All previously owned bytes remain credited only once.
+
 ## BOSS template and core unified through after626
 
 The current `boss_template_state_t` also replaces duplicated

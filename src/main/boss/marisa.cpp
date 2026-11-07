@@ -18,25 +18,11 @@
 
 #pragma option -a2
 
-struct boss_character_template_t {
-	int center_x;
-	int center_y;
-	int unused_04;
-	int unused_06;
-	int velocity_x;
-	int velocity_y;
-	int hp;
-	sprite16_offset_t sprite_offset;
-	unsigned char byte_10;
-	unsigned char byte_11;
-	unsigned char byte_12;
-	unsigned char byte_13;
-	unsigned char byte_14;
-	unsigned char byte_15;
-	unsigned char tail[10];
-};
+// Reuse the same physical 32-byte shared BOSS template, with semantic
+// names for the historical +10..+15 state bytes.
+#include "src/main/boss/template_state.hpp"
 
-extern boss_character_template_t boss_character_template[PLAYER_COUNT];
+extern boss_template_state_t boss_character_template[PLAYER_COUNT];
 
 extern int boss_center_x;
 extern int boss_center_y;
@@ -74,22 +60,22 @@ void far pascal marisa_exatt_add(int x, int y, pid_t pid);
 
 void far pascal boss_marisa_template_init(int player_id)
 {
-	boss_character_template_t near *p = &boss_character_template[player_id];
+	boss_template_state_t near *p = &boss_character_template[player_id];
 
 	p->center_x = 0x900;
 	p->center_y = 0x500;
 	p->velocity_x = -0x20;
 	p->velocity_y = 0;
-	p->byte_12 = 0;
-	p->byte_10 = 0;
-	p->byte_11 = 0;
+	p->angle = 0;
+	p->hit = 0;
+	p->mode = 0;
 	p->hp = 0x6E;
-	p->byte_13 = 0;
+	p->pattern_i = 0;
 	p->sprite_offset = 0x280;
 	if(player_id != 0) {
 		p->sprite_offset += 0x28;
 	}
-	p->byte_15 = 0;
+	p->render_mode = 0;
 }
 
 void near marisa_pattern_spread(void)
