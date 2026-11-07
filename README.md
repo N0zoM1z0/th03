@@ -71,7 +71,19 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after915 five-original-physical-object native integration**:
+**latest after921 six-original-physical-object native integration**:
+both complete **shared BOSS ring/lifecycle owners**, the entire CPU
+combat AI, full Kana Extra Attack, full original HitCircle leaf, and
+the complete nine-function Marisa Chargeshot/Gauge. Five maintained C++
+files produce six historical original project objects. **All six were
+genuinely compiled together** in two independent original TC4 4.02
+and complete normal MAIN TLINK rounds, matching **4,643 original CODE
+bytes, 396 literal ordered native OMF FIXUPPs and 30 PUBLICs**,
+full original normal MAIN EXE/MAP, all 124,642 Japanese loaded program
+bytes and all 1,553 ordered MZ relocations. **93 other unchanged
+original game objects and CRT reused**, no cold replay. See
+[after921 six-original-object native integration](docs/MAIN_SIX_SOURCE_INTEGRATION_AFTER921_REVIEW.md).
+The preceding **after915 five-original-physical-object integration**:
 complete **Kotohime major BOSS**, full Reimu Chargeshot/Gauge,
 complete Yumemi and Kotohime Extra Attack controllers, and the
 original far-Pascal **PC-98 volatile VSYNC frame-delay leaf**. All five
@@ -317,7 +329,7 @@ after782 six-object native overlay reproduced the complete 124,642-byte
 Japanese loaded program and all 1,553 ordered MZ relocations at their
 original source checkpoints. `af782a` no longer passes this checkout's
 source-hash binding after subsequent C++ changes. `af859a` is also now a *historical*
-source snapshot after the later Ellen Chargeshot edit; use `af915a`
+source snapshot after the later Ellen Chargeshot edit; use `af921a`
 for the latest genuine compiler proof of current changed sources.
 A **separate standard DOS MZ serializer** then reproduces the entire
 original 130,882-byte Japanese MAIN.EXE; this does not prove that the
@@ -334,6 +346,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af921a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af915a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af909a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af903a
@@ -359,13 +372,14 @@ snapshots**, but their current maintained input hashes intentionally
 differ from later BOSS, player, or enemy changes. The live read-only
 reviewer rejects source drift. Preserve their original compiler/whole-link
 evidence. `af766a` likewise has a historical source snapshot now;
-use `af915a` for this session's five current changed physical owners,
-plus separate source-current `af909a`, `af903a`, `af896a`, `af889a`,
-`af883a`, `af880h`, `af881i`, `af882e`, `af877a` for unchanged owners.
-`af871a` is now historical after Kotohime BOSS changes. Older `af865a`
-is historical after Rikako BOSS, `af859a` after Ellen Chargeshot,
-`af853a` after Mima/Yumemi/Combo, `af847a`/`af843g` after Enemy/Reimu,
-`af842a`/`af840a` after Kana, and `af835a` after Marisa/Bullet.
+use `af921a` for this session's six changed original physical owners,
+plus separate source-current `af915a`, `af909a`, `af903a`, `af896a`,
+`af889a`, `af883a`, `af880h`, `af881i`, `af882e`, `af877a` for their
+unchanged physical source scopes. Earlier `af871a` is historical after
+Kotohime BOSS/CPU edits; `af865a` after Rikako BOSS, `af859a` after
+Ellen Chargeshot, `af853a` after Mima/Yumemi/Combo, `af847a`/`af843g`
+after Enemy/Reimu, `af842a`/`af840a` after Kana and `af835a` after
+Marisa/Bullet.
 
 The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
 the historical applied after520 deletion audit (258 stages / 5,760

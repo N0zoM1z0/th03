@@ -8,6 +8,33 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after921: six edited original physical owners compiled together
+
+- Actual `af921a` **simultaneously recompiles all six original physical
+  project objects modified in this session** with two independent
+  genuine original TC4 4.02 and complete normal MAIN TLINK rounds:
+  both full shared BOSS ring/lifecycle owners, entire CPU AI controller,
+  complete Kana Extra Attack, full HitCircle leaf and nine-function
+  Marisa Chargeshot/Gauge. Five edited maintained source files produce
+  these six real original project objects. Both rounds reproduce
+  **4,643 CODE bytes, 396 literal ordered original OMF FIXUPPs and 30
+  PUBLICs**, compiler-emitted source/segment/ABI dependencies,
+  complete normal MAIN EXE/MAP, **124,642 loaded Japanese program
+  bytes and all 1,553 ordered MZ relocations**. Independent checked
+  standard MZ serialization produces the 130,882-byte original
+  Japanese EXE. **93 other original game objects and CRT reused**;
+  no all-project cold replay. See
+  [after921 six-owner native integration](MAIN_SIX_SOURCE_INTEGRATION_AFTER921_REVIEW.md).
+- Live-source verification also rechecked separate authentic `af915a`,
+  `af909a`, `af903a`, `af896a`, `af889a`, `af883a` and `af877a`:
+  each still passes on its own other currently unchanged sources.
+  Previous `af871a` now fails source binding because its CPU owner
+  changed (and Kotohime BOSS was edited earlier); `af842a`/`af835a`
+  are already historical source snapshots. Keep the genuine old TC4/
+  TLINK receipts intact; do not weaken guards, invent a combined cold
+  replay or double-count historically source-covered CODE as new
+  canonical Factory packed-game credit.
+
 ## After920: full Marisa Chargeshot/Gauge, four native cadence phases
 
 - The original nine-function `cs_mari` owner now uses explicit active
@@ -104,7 +131,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   See [after916 original BOSS core review](MAIN_BOSS_SHARED_NATIVE_RING_AFTER916_REVIEW.md).
   Historical source-covered bytes, no new Factory/canonical credit.
 
-## Latest after915: five edited original physical MAIN owners compiled together
+## After915: five edited original physical MAIN owners compiled together
 
 - Actual `af915a` **simultaneously recompiled all five complete original
   physical game project objects changed in this session** in two
@@ -2394,7 +2421,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af915a af909a af903a af896a af889a af883a af880h af881i af882e af877a
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af921a af915a af909a af903a af896a af889a af883a af880h af881i af882e af877a
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -2414,9 +2441,10 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The **latest current** protected original-source-bound read-only proof
-is `.analysis/work/exatt-layout-af915a/report.json`: five genuinely
+is `.analysis/work/exatt-layout-af921a/report.json`: six genuinely
 recompiled current original physical project owners and both original
-TC4/TLINK rounds. After909 remains a separately current-source native
+TC4/TLINK rounds. After915 and after909 remain separate current-source
+original compiler/linker receipts for their other unchanged owners. After909 remains a separately current-source native
 proof of its five other unchanged real original owners. The older after903/896/889 experiments remain
 separately source-current for their other unchanged original owners. Earlier after896 remains independently
 source-current for nine other unchanged original physical owners. Earlier `af889a` remains separately
