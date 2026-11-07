@@ -1,5 +1,5 @@
-// Natural Turbo C++ reconstruction candidate for the complete Rikako
-// Extra Attack contribution in TH03 MAIN_06_TEXT.
+// Complete current native-source Turbo C++ reconstruction of Rikako's
+// physical Extra Attack in TH03 MAIN_06_TEXT, with original DGROUP state.
 #pragma codeseg MAIN_06_TEXT
 
 #include "src/main/player/exatt_rikako.hpp"
@@ -61,6 +61,15 @@ enum rikako_exatt_limits_t {
     RIKAKO_EXATT_APPEARING_END = 0x1C,
     RIKAKO_EXATT_FREE = 0,
     RIKAKO_EXATT_ACTIVE = 1,
+    RIKAKO_EXATT_TARGET_X_RANGE = 0x1200,
+    RIKAKO_EXATT_TARGET_Y = 0x100,
+    RIKAKO_EXATT_INITIAL_FLY_SPEED = 0x64,
+    RIKAKO_EXATT_START_ANGLE = 0x40,
+    RIKAKO_EXATT_SPEED_BASE = 0x20,
+    RIKAKO_EXATT_HIT_RADIUS = TO_SP(16),
+    RIKAKO_EXATT_CLIP_RADIUS = TO_SP(32),
+    RIKAKO_EXATT_SPRITE_SIZE = 48,
+    RIKAKO_EXATT_SPRITE_OFFSET = 0x780,
 };
 
 void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
@@ -68,22 +77,26 @@ void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
 	register int i = 0;
 
-	for(; i < RIKAKO_EXATT_NORMAL_SLOTS; ++i, p++) {
+	// Normal spawn scans eight slots; the special spawn below scans
+	// fourteen. Preserve the original per-slot RNG/return ordering.
+	while(i < RIKAKO_EXATT_NORMAL_SLOTS) {
 		if(!p->state) {
 			exatt_entity_p = p;
 			exatt_fly_init(
 				x,
 				y,
-				randring_far_next16_mod(0x1200),
-				0x100,
+				randring_far_next16_mod(RIKAKO_EXATT_TARGET_X_RANGE),
+				RIKAKO_EXATT_TARGET_Y,
 				pid_,
-				0x64
+				RIKAKO_EXATT_INITIAL_FLY_SPEED
 			);
 			p->character.rikako.homing_disabled = randring_far_next16_and(1);
-			p->angle = 0x40;
-			p->speed = (randring_far_next16_and(0x0F) + 0x20);
+			p->angle = RIKAKO_EXATT_START_ANGLE;
+			p->speed = (randring_far_next16_and(0x0F) + RIKAKO_EXATT_SPEED_BASE);
 			return;
 		}
+		++i;
+		p++;
 	}
 }
 
@@ -92,7 +105,7 @@ void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 	int i = 0;
 
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, p++) {
+	while(i < RIKAKO_EXATT_ALL_SLOTS) {
 		if(!p->state) {
 			p->state = RIKAKO_EXATT_ACTIVE;
 			p->character.rikako.homing_disabled = 1;
@@ -100,10 +113,12 @@ void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 			p->x = x;
 			p->y = y;
 			p->angle = angle_;
-			p->speed = 0x20;
+			p->speed = RIKAKO_EXATT_SPEED_BASE;
 			p->pid = (1 - pid_current);
 			return;
 		}
+		++i;
+		p++;
 	}
 }
 
@@ -115,7 +130,7 @@ void near rikako_exatt_render_one(void)
 	register exatt_entity_t near *p = exatt_entity_p;
 	register sprite16_offset_t sprite_offset;
 
-	sprite16_put_size.set(48, 48);
+	sprite16_put_size.set(RIKAKO_EXATT_SPRITE_SIZE, RIKAKO_EXATT_SPRITE_SIZE);
 	left = playfield_fg_x_to_screen(p->x, p->pid);
 	top = ((p->y >> 4) + 0x10);
 
@@ -127,9 +142,9 @@ void near rikako_exatt_render_one(void)
 
 	frame = p->frame;
 	if(p->state == RIKAKO_EXATT_ACTIVE) {
-		sprite_offset = (pid.so_attack + 0x780);
+		sprite_offset = (pid.so_attack + RIKAKO_EXATT_SPRITE_OFFSET);
 		if(frame & 1) {
-			sprite_offset += 0x780;
+			sprite_offset += RIKAKO_EXATT_SPRITE_OFFSET;
 		}
 		sprite16_put((left - 24), (top - 24), sprite_offset);
 		return;
@@ -153,16 +168,21 @@ void far pascal exatt_update_rikako(void)
 	register int i;
 
 	pid_other = (1 - pid_current);
-	playfield_clip_negative_radius.x.v = -TO_SP(32);
-	playfield_clip_negative_radius.y.v = -TO_SP(32);
+	playfield_clip_negative_radius.x.v = -RIKAKO_EXATT_CLIP_RADIUS;
+	playfield_clip_negative_radius.y.v = -RIKAKO_EXATT_CLIP_RADIUS;
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(16);
-	hitbox.radius.y.v = TO_SP(16);
+	hitbox.radius.x.v = RIKAKO_EXATT_HIT_RADIUS;
+	hitbox.radius.y.v = RIKAKO_EXATT_HIT_RADIUS;
 	hitbox.pid = pid_other;
 	i = 0;
 
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, p++) {
+	// The update loop has two distinct continue exits. Both must advance
+	// the original signed slot index and 32-byte near pointer in order:
+	// natural while is native-exact here (af874c).
+	while(i < RIKAKO_EXATT_ALL_SLOTS) {
 		if(!p->state) {
+			++i;
+			p++;
 			continue;
 		}
 
@@ -180,14 +200,14 @@ void far pascal exatt_update_rikako(void)
 					(players[pid_other].center.y.v - p->y),
 					(players[pid_other].center.x.v - p->x)
 				);
-				// Original unsigned-byte postincrement is codegen-visible:
-                // ++p->speed changed CODE (af777c).
+				// Original byte-memory postfix is codegen-visible. A fresh
+				// native TC4 trial af874f independently rejects ++p->speed.
                 p->speed++;
 				angle_delta = (target_angle - p->angle);
 				// Keep the literal 8 here. Replacing it with an enum of
 				// equal value changes TC4's 16-bit signed-division codegen.
-				// Original *signed* division truncates, unlike arithmetic
-                // right-shift for negative deltas (af777b failed).
+				// Signed division truncates toward zero, unlike arithmetic
+				// right shift for negative deltas (fresh af874d failed).
                 angle_delta /= 8;
 				p->angle += angle_delta;
 			}
@@ -197,6 +217,8 @@ void far pascal exatt_update_rikako(void)
 				*(PlayfieldSubpixel near *)&p->y
 			)) {
 				p->state = RIKAKO_EXATT_FREE;
+				++i;
+				p++;
 				continue;
 			}
 
@@ -215,6 +237,8 @@ void far pascal exatt_update_rikako(void)
 		}
 
 		p->frame++;
+		++i;
+		p++;
 	}
 
 	hitbox_hittest_skip_explosions = false;
@@ -225,10 +249,14 @@ void far pascal exatt_render_rikako(void)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 	register int i = 0;
 
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, p++) {
+	// Each real render call advances original near pointer afterwards;
+	// all fourteen slots are visited in this natural while.
+	while(i < RIKAKO_EXATT_ALL_SLOTS) {
 		if(p->state) {
 			exatt_entity_p = p;
 			rikako_exatt_render_one();
 		}
+		++i;
+		p++;
 	}
 }

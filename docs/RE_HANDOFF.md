@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After874: Rikako complete Extra Attack homing and fourteen-slot control
+
+- Complete five-function `ex_rika` has **natural `while` across all four
+  entity allocator/update/renderer loops**, including two original
+  `continue` exits of its substantial homing/collision control. All
+  original 14-slot scan order, 8 normal launch slots, original character-
+  specific +0x17 homing-disable byte and 0x40..0x50 steering window
+  are retained with newly named target/hitbox/sprite geometry.
+- Independent genuine original TC4 negative controls: replacing signed
+  byte `angle_delta /=8` with arithmetic `>>3` emitted **699** vs
+  original **702** CODE bytes (`af874d`); changing mutable `p->speed++`
+  to prefix emitted **710** (`af874f`). Original forms restored. Final
+  `af874g` compiles/links the complete original unit twice: **702 CODE
+  bytes, 46 ordered native FIXUPPs, 5 PUBLICs**, full Japanese MAIN
+  and 1,553 MZ relocations exact; 98 other project objects/CRT reused,
+  no cold replay. See
+  [after874 full Rikako Extra Attack review](MAIN_RIKAKO_EXATT_NATIVE_HOMING_AFTER874_REVIEW.md).
+  Existing source-owned original bytes, not new unique/Factory credit.
+
 ## After873: full Ellen Extra Attack history and spiral native C++
 
 - The full six-function `ex_ellen` source now uses native-exact natural
