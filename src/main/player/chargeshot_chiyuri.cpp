@@ -62,7 +62,7 @@ extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 void far chargeshots_reset_chiyuri(void)
 {
 	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[0][0];
-	for(int i = 0; i < CHIYURI_CHARGE_TOTAL_SLOTS; i++) {
+	for(int i = 0; i < CHIYURI_CHARGE_TOTAL_SLOTS; ++i) {
 		// Original-game quirk: only the first physical slot is cleared
 		// repeatedly. Advancing p would change gameplay and CODE.
 		p->age = CHIYURI_CHARGE_INACTIVE_AGE;
@@ -73,11 +73,11 @@ void far pascal chargeshot_add_chiyuri(Subpixel center_x, Subpixel center_y)
 {
 	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[pid.current][0];
 	p->anim = 0;
-	p->center.x = center_x;
-	p->center.y = center_y;
+	p->center.x.v = center_x.v;
+	p->center.y.v = center_y.v;
 	players[pid.current].shot_active = SA_DISABLED;
 
-	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, p++)) {
+	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, p++)) {
 		p->age = ((i * 4) + 2);
 	}
 }
@@ -85,13 +85,13 @@ void far pascal chargeshot_add_chiyuri(Subpixel center_x, Subpixel center_y)
 void far pascal chargeshot_update_chiyuri(void)
 {
 	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[pid_current][CHIYURI_CHARGE_LAST_SLOT];
-	if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
+	if(!p->age) {
 		return;
 	}
 	players[pid_current].gauge_charged = 0;
 
-	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, p--)) {
-		if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
+	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, p--)) {
+		if(!p->age) {
 			return;
 		}
 		if(p->age != CHIYURI_CHARGE_ACTIVE_AGE) {
@@ -118,7 +118,7 @@ void far pascal chargeshot_update_chiyuri(void)
 void near chiyuri_chargeshot_private(void)
 {
 	sprite16_offset_t so = (pid.so_attack + 0x280);
-	if((static_cast<unsigned int>(chiyuri_chargeshot_p->anim) % 2) != 0) {
+	if(chiyuri_chargeshot_p->anim & 1) {
 		so += 4;
 	}
 	screen_x_t left = (
@@ -136,8 +136,8 @@ uint8_t far chargeshot_hittest_chiyuri(void)
 	int i = 0;
 	unsigned char hits = 0;
 
-	for(; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, p--)) {
-		if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
+	for(; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, p--)) {
+		if(!p->age) {
 			return hits;
 		}
 		if(p->age != CHIYURI_CHARGE_ACTIVE_AGE) {
@@ -167,8 +167,8 @@ void far pascal chargeshot_render_chiyuri(void)
 	sprite16_put_size.set(32, 48);
 	sprite16_clip_set_for_pid(pid_current);
 
-	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, chiyuri_chargeshot_p--)) {
-		if(chiyuri_chargeshot_p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
+	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (++i, chiyuri_chargeshot_p--)) {
+		if(!chiyuri_chargeshot_p->age) {
 			return;
 		}
 		if(chiyuri_chargeshot_p->age == CHIYURI_CHARGE_ACTIVE_AGE) {
@@ -202,6 +202,8 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 	int x = chiyuri_gauge_x[pid_current];
 	pid_other = (1 - pid_current);
 
+	// The historical unsigned-byte %16 condition is codegen-visible:
+	// a direct &15 mask changed original TC4 CODE (af771c).
 	if((chiyuri_gauge_frame[pid_current] % CHIYURI_GAUGE_BOMB_PERIOD) == 0) {
 		chiyuri_gauge_x[pid_current] += TO_SP(24);
 		x += TO_SP(24);
@@ -209,7 +211,8 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 		bomb_center_add((TO_SP(PLAYFIELD_W) - x), 0, pid_other);
 	}
 
-	if((static_cast<unsigned int>(chiyuri_gauge_frame[pid_current]) % 2) != 0) {
+	// In contrast, the odd-tick gauge volley is byte-exact with &1.
+	if((chiyuri_gauge_frame[pid_current] & 1)) {
 		bullet_template.type = type;
 		bullet_template.pid = pid_other;
 		bullet_template.speed.v = (
@@ -239,14 +242,14 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 
 void far gba_gauge_pattern_pellet_chiyuri(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_chiyuri(BT_PELLET);
 	}
 }
 
 void far gba_gauge_pattern_bullet_chiyuri(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_NONE) {
+	if(gba_flag_active[pid_current]) {
 		gauge_pattern_chiyuri(BT_BULLET16_DEFAULT);
 	}
 }
