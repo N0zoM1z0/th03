@@ -6,6 +6,28 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri complete BOSS fan/ring iteration and update phases after702
+
+The full Chiyuri 2,654-CODE-byte major BOSS
+now has native-code-exact natural C++ `++i`
+in all four full fan emission passes and the
+16-sprite ring renderer, and ordinary
+`if(boss_move_phase)`/`if(boss_render_mode)`
+state gates in the large update/collision
+controller. Real native controls proved
+`boss_render_frame%=4` and the prefix
+`--boss_move_phase` native-unequal, so the
+original mutable mask and postdecrement remain.
+The fresh current-source/header-OMF-attested
+`af702e` TC4/TLINK two-round proof matches
+**2,654 original CODE bytes, 381 literal
+ordered FIXUPPs, eleven PUBLICs**, full
+normal MAIN EXE/MAP and Japanese MZ.
+See [after702 Chiyuri BOSS review](MAIN_CHIYURI_BOSS_PHASE_LOOP_AFTER702_REVIEW.md).
+Only this original BOSS object rebuilt;
+no full cold replay or newly accepted
+canonical Factory game bytes.
+
 ## Kotohime full BOSS attack/renderer native C++ after701
 
 The complete Kotohime eleven-function original BOSS now

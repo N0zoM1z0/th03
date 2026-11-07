@@ -281,6 +281,8 @@ enum chiyuri_fan_phase_t {
 // The fan coordinates divide the 16-bit polar range BEFORE scaling
 // to subpixels. Natural C++ multiplication is original-native here;
 // changing the division order would change trajectory rounding.
+// All four fan passes use a natural ++i iteration, preserving the
+// original 16-bit count and per-projectile side-effect sequence.
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
@@ -299,7 +301,7 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.type = BT_PELLET;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		for(i = 0; i < chiyuri_fan_count; i++) {
+		for(i = 0; i < chiyuri_fan_count; ++i) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -316,7 +318,7 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.speed.v += 2;
 		}
 
-		for(i = 0; i < chiyuri_fan_count; i++) {
+		for(i = 0; i < chiyuri_fan_count; ++i) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -351,7 +353,7 @@ void near chiyuri_pattern_fans(void)
 	bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 	bullet_template.speed.v = chiyuri_fan_speed;
 
-	for(i = 0; i < chiyuri_fan_count; i++) {
+	for(i = 0; i < chiyuri_fan_count; ++i) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
@@ -365,7 +367,7 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.speed.v += 2;
 	}
 
-	for(i = 0; i < chiyuri_fan_count; i++) {
+	for(i = 0; i < chiyuri_fan_count; ++i) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
@@ -495,16 +497,20 @@ void far gba_boss_update_chiyuri(void)
 	bullet_template.is_animated = true;
 
 	boss_render_frame += ((round_or_result_frame % 4) == 0);
+	// This mutable byte field needs the original bitmask instruction:
+	// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
 	boss_render_frame &= 3;
 
-	if(boss_move_phase != 0) {
+	if(boss_move_phase) {
+		// The original postfix byte decrement is CODE-visible; prefix
+		// --boss_move_phase was native-unequal (af702d).
 		boss_move_phase--;
-		if(boss_move_phase != 0) {
+		if(boss_move_phase) {
 			bomb_palette_step((boss_move_phase * 16), pid_other);
 		}
 	}
 
-	if(boss_render_mode != 0) {
+	if(boss_render_mode) {
 		boss_render_mode--;
 	}
 
@@ -550,7 +556,7 @@ void near chiyuri_render_ring(void)
 	for(
 		i = 0, angle = boss_move_phase;
 		i < 16;
-		(i++, angle += 0x10)
+		(++i, angle += 0x10)
 	) {
 		left = polar(
 			boss_center_x, radius, CosTable8[angle]
