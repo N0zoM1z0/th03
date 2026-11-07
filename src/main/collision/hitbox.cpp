@@ -10,6 +10,13 @@
 #include "compat/rec98/th03/main/player/ch_shot.hpp"
 #include "compat/rec98/th03/main/player/shot.hpp"
 
+// Original per-shot and alternate-frame Bomb damage are byte quantities.
+// These source-only values generate no new DATA or hitbox state.
+enum hitbox_native_damage_t {
+    HITBOX_SHOTPAIR_DAMAGE = 2,
+    HITBOX_BOMB_DAMAGE_PERIOD = 2,
+};
+
 uint8_t hitbox_hittest(void)
 {
 	shotpair_t near *p;
@@ -32,7 +39,12 @@ uint8_t hitbox_hittest(void)
 	hitbox.origin.topleft.x.v = (hitbox.origin.center.x.v - hitbox.radius.x.v);
 	hitbox.origin.topleft.y.v = (hitbox.origin.center.y.v - hitbox.radius.y.v);
 	hitcircles_enemy_add_do_not_randomly_center_within_hitbox = true;
+	// This first-order physical shotpair scan has *two* compiler-sensitive
+	// continues. An explicit while with both near-pointer/index updates
+	// changes original CODE (native negative af901a), so keep for.
 	for(i = 0; i < SHOTPAIR_COUNT; (i++, p++)) {
+		// The original `alive != true` must stay explicit: `!alive`
+		// and `alive == false` changed original CODE (af901d/e).
 		if((p->alive != true) || (p->pid != hitbox.pid)) {
 			continue;
 		}
@@ -47,7 +59,9 @@ uint8_t hitbox_hittest(void)
 			continue;
 		}
 		p->alive = false;
-		damage += 2;
+		// A named enum in `damage += enum_2` altered original byte CODE;
+		// natural C++ `damage = damage + enum_2` is exact (af901g).
+		damage = damage + HITBOX_SHOTPAIR_DAMAGE;
 		hitcircles_enemy_add(center_x, center_y, hitbox.pid);
 	}
 	hitcircles_enemy_add_do_not_randomly_center_within_hitbox = false;
@@ -63,7 +77,9 @@ uint8_t hitbox_hittest(void)
 
 	// ZUN bloat: `damage += chargeshot_hittest[hitbox.pid]();`
 	static_assert(PLAYER_COUNT == 2);
-	if(hitbox.pid == 0) {
+	// The two-player byte pid branch is naturally `if(!pid)` in
+	// the real original TC4, preserving the far callback ABI (af901b).
+	if(!hitbox.pid) {
 		damage += chargeshot_hittest[0]();
 	} else {
 		damage += chargeshot_hittest[1]();
@@ -73,8 +89,12 @@ uint8_t hitbox_hittest(void)
 	// fireballs_update().
 	if(
 		(bomb_flag[hitbox.pid] != BF_INACTIVE) &&
-		((round_or_result_frame & 1) == 0)
+		// This is the original 16-bit frame, not a byte animation clock;
+		// natural `%2` and if(!remainder) are both native-exact (af901c/i).
+		(!(round_or_result_frame % HITBOX_BOMB_DAMAGE_PERIOD))
 	) {
+		// Original damage byte uses postfix, not prefix; changing it
+		// generated 271 instead of 266 CODE bytes (af901h).
 		damage++;
 	}
 	return damage;

@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After901: complete shotpair hitbox collision leaf, real byte/word semantics
+
+- The original single-function `hitbox` 266-CODE-byte physical owner
+  now uses natural `if(!hitbox.pid)` for the two-player Chargeshot
+  callback, natural `%2`/`if(!remainder)` for the **unsigned 16-bit**
+  Bomb damage clock, and a named shotpair hit contribution through
+  native-exact `damage = damage + HITBOX_SHOTPAIR_DAMAGE`.
+- Fresh original TC4 negatives: transforming its two-continue scan to
+  `while` emitted **267** vs original **266** CODE bytes (`af901a`),
+  replacing `shotpair.alive != true` with `!alive` or `==false` altered
+  CODE (`af901d/e`), enum-valued byte compound `+=2` emitted **262**
+  (`af901f`) while direct byte assignment passed (`af901g`), and prefix
+  Bomb damage emitted **271** (`af901h`). Restored all original
+  compiler-sensitive forms. Final `af901j` passes two genuine original
+  TC4/full normal MAIN TLINK rounds: **266 CODE bytes, 33 ordered
+  native FIXUPPs, one PUBLIC**, exact Japanese MAIN and all 1,553
+  ordered MZ relocations; 98 other project objects/CRT reused.
+  See [after901 hitbox leaf review](MAIN_HITBOX_NATIVE_BOOL_AFTER901_REVIEW.md).
+  Prior source-owned CODE, not new distinct/canonical Factory credit.
+
 ## After900: complete two-player Combo HUD and BOSS/Panic helper owners
 
 - The original `combo.cpp` actually maps to *two* complete original
