@@ -1,6 +1,7 @@
-// Natural Turbo C++ reconstruction candidate for the complete Chiyuri
-// contribution inside TH03 MAIN_03_TEXT. Shared boss helpers and historical
-// state remain external until full-link ownership is proved.
+// Complete current source-native reconstruction of the original Chiyuri
+// BOSS in MAIN_03_TEXT. Shared BOSS helpers and state stay in their own
+// physical objects: the complete Japanese normal MAIN link is exact,
+// while canonical Factory packed-unit ownership is a separate open gate.
 #pragma codeseg MAIN_03_TEXT
 
 #include "src/main/boss/chiyuri.hpp"
@@ -124,6 +125,13 @@ enum chiyuri_boss_cadence_t {
     CHIYURI_RING_SPRITES = 16,
     CHIYURI_RING_RADIUS_SHIFT = 4,
     CHIYURI_INTRO_RADIUS_SHIFT = 3,
+    CHIYURI_RING_SPRITE_WIDTH = 32,
+    CHIYURI_RING_SPRITE_HEIGHT = 16,
+    CHIYURI_RING_SPRITE_OFFSET = 0x790,
+    CHIYURI_RING_SPRITE_ANIM_SHIFT = 2,
+    CHIYURI_INTRO_RADIUS_FIRST = 0x100,
+    CHIYURI_INTRO_RADIUS_SECOND = 0x200,
+    CHIYURI_INTRO_RADIUS_FINAL = 0x300,
 };
 
 void far pascal boss_chiyuri_template_init(int player_id)
@@ -274,7 +282,10 @@ enum chiyuri_trail_phase_t {
 
 void near chiyuri_pattern_trail_ring(void)
 {
-	if((boss_frame % CHIYURI_TRAIL_BOMB_PERIOD) == 0) {
+	// `boss_frame` is the unsigned 16-bit clock, so the natural truth
+	// predicate around %8 remains native-exact (af872d). This is not
+	// a license to use byte %=4 on the mutable render frame.
+	if(!(boss_frame % CHIYURI_TRAIL_BOMB_PERIOD)) {
 		bomb_axis_add(
 			boss_center_x, boss_center_y, (1 - pid_current)
 		);
@@ -315,8 +326,10 @@ enum chiyuri_fan_phase_t {
 // The fan coordinates divide the 16-bit polar range BEFORE scaling
 // to subpixels. Natural C++ multiplication is original-native here;
 // changing the division order would change trajectory rounding.
-// All four fan passes use a natural ++i iteration, preserving the
-// original 16-bit count and per-projectile side-effect sequence.
+// All four fan passes now use native-exact natural C++ while loops;
+// original signed 16-bit count, division-before-scale, RNG and dual
+// bullets_add call ordering are preserved (af872a). Live bullet-speed
+// byte-field +=/-=2 must remain literal (enum failed af872e).
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
@@ -335,7 +348,8 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.type = BT_PELLET;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		for(i = 0; i < chiyuri_fan_count; ++i) {
+		i = 0;
+		while(i < chiyuri_fan_count) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -350,9 +364,11 @@ void near chiyuri_pattern_fans(void)
 			bullets_add();
 
 			bullet_template.speed.v += 2;
+			++i;
 		}
 
-		for(i = 0; i < chiyuri_fan_count; ++i) {
+		i = 0;
+		while(i < chiyuri_fan_count) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -367,6 +383,7 @@ void near chiyuri_pattern_fans(void)
 			bullets_add();
 
 			bullet_template.speed.v -= 2;
+			++i;
 		}
 		return;
 	}
@@ -387,7 +404,8 @@ void near chiyuri_pattern_fans(void)
 	bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 	bullet_template.speed.v = chiyuri_fan_speed;
 
-	for(i = 0; i < chiyuri_fan_count; ++i) {
+	i = 0;
+	while(i < chiyuri_fan_count) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
@@ -399,9 +417,11 @@ void near chiyuri_pattern_fans(void)
 		bullets_add();
 
 		bullet_template.speed.v += 2;
+		++i;
 	}
 
-	for(i = 0; i < chiyuri_fan_count; ++i) {
+	i = 0;
+	while(i < chiyuri_fan_count) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
@@ -413,6 +433,7 @@ void near chiyuri_pattern_fans(void)
 		bullets_add();
 
 		bullet_template.speed.v -= 2;
+		++i;
 	}
 
 	boss_mode = 1;
@@ -569,7 +590,10 @@ void far gba_boss_update_chiyuri(void)
 	boss_hittest_end();
 }
 
-// Natural 16-bit radius and frame left shifts preserve original TC4 codegen.
+// Natural signed 16-bit radius and sprite-frame shifts remain exact.
+// The original two-carrier 16-sprite ring emits unchanged instructions
+// with `while`, but named enum `angle += 0x10` shortens the original
+// byte-reg update (negative TC4 stage af872c).
 void near chiyuri_render_ring(void)
 {
 	screen_y_t top;
@@ -583,17 +607,15 @@ void near chiyuri_render_ring(void)
 	pid_other = (1 - pid_current);
 	radius = (boss_effect_radius << CHIYURI_RING_RADIUS_SHIFT);
 
-	sprite16_put_size.w = 32;
-	sprite16_put_size.h = 16;
+	sprite16_put_size.w = CHIYURI_RING_SPRITE_WIDTH;
+	sprite16_put_size.h = CHIYURI_RING_SPRITE_HEIGHT;
 
-	sprite_offset = (boss_sprite_offset + 0x790);
-	sprite_offset += (boss_render_frame << 2);
+	sprite_offset = (boss_sprite_offset + CHIYURI_RING_SPRITE_OFFSET);
+	sprite_offset += (boss_render_frame << CHIYURI_RING_SPRITE_ANIM_SHIFT);
 
-	for(
-		i = 0, angle = boss_move_phase;
-		i < CHIYURI_RING_SPRITES;
-		(++i, angle += 0x10)
-	) {
+	i = 0;
+	angle = boss_move_phase;
+	while(i < CHIYURI_RING_SPRITES) {
 		left = polar(
 			boss_center_x, radius, CosTable8[angle]
 		);
@@ -606,6 +628,8 @@ void near chiyuri_render_ring(void)
 		// different TC4 CODE (native negative trial af759b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
+		++i;
+		angle += 0x10;
 	}
 }
 
@@ -679,18 +703,29 @@ void near chiyuri_render_intro(void)
 	// adjacent byte phase updates still require their AL expression:
 	// direct +=4, =phase+4 and -=4 changed original native code.
 	frame = boss_frame;
+	// The three raster phases are separate signed 16-bit origin radii;
+	// keep each original byte phase update in the original AL carrier.
 	if(frame < CHIYURI_INTRO_RENDER_FIRST_END) {
-		boss_effect_radius = (0x100 - (frame << CHIYURI_INTRO_RADIUS_SHIFT));
+		boss_effect_radius = (
+            CHIYURI_INTRO_RADIUS_FIRST -
+            (frame << CHIYURI_INTRO_RADIUS_SHIFT)
+        );
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
 	} else if(frame < CHIYURI_INTRO_RENDER_SECOND_END) {
-		boss_effect_radius = (0x200 - (frame << CHIYURI_INTRO_RADIUS_SHIFT));
+		boss_effect_radius = (
+            CHIYURI_INTRO_RADIUS_SECOND -
+            (frame << CHIYURI_INTRO_RADIUS_SHIFT)
+        );
 		_AL = boss_move_phase;
 		_AL += (unsigned char)0xFC;
 		boss_move_phase = _AL;
 	} else {
-		boss_effect_radius = (0x300 - (frame << CHIYURI_INTRO_RADIUS_SHIFT));
+		boss_effect_radius = (
+            CHIYURI_INTRO_RADIUS_FINAL -
+            (frame << CHIYURI_INTRO_RADIUS_SHIFT)
+        );
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;

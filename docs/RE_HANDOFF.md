@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After872: complete Chiyuri BOSS four fan loops and sixteen-sprite ring
+
+- Whole original **11-function `ba_chiyu` major BOSS** now uses native-exact
+  natural `while` loops in *all four* signed horizontal/vertical fan
+  passes and the two-variable **16-sprite orbit renderer**. The 16-bit
+  frame `%8` warning condition has a natural truth predicate; sprite
+  geometry and three independent signed intro radii are named.
+- Fresh negative original TC4 compiler controls: enum-valued *live
+  byte* `angle +=0x10` produced **2,653** vs original **2,654** CODE
+  bytes (`af872c`); naming byte-memory fan speed `+=2/-=2` produced
+  **2,642** (`af872e`). Original memory forms retained. Final `af872g`
+  passes two genuine TC4 4.02/complete normal MAIN TLINK rounds with
+  **2,654 CODE bytes, 381 ordered OMF FIXUPPs and 11 PUBLICs**, full
+  original Japanese MAIN/1,553 MZ relocations exact; 98 other game
+  objects and CRT reused, no cold replay. See
+  [after872 full Chiyuri BOSS review](MAIN_CHIYURI_BOSS_WHOLE_LOOPS_AFTER872_REVIEW.md).
+  Previously source-owned CODE; not new unique/Factory packed-unit credit.
+
 ## Latest after871: five session-edited original MAIN physical sources together
 
 - `af871a` **actually recompiles all five full original physical C++
