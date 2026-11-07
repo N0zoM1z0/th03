@@ -102,6 +102,20 @@ void far pascal boss_mima_template_init(int player_id)
 	p->render_mode = 0;
 }
 
+// Full BOSS pattern clocks are unsigned 16-bit. Power-of-two periods may
+// use natural bit tests, but the six-frame side volley must retain division.
+enum mima_native_phase_t {
+    MIMA_SPREAD_FIRE_BEGIN = 0x20,
+    MIMA_SPREAD_FIRE_END_AFTER = 0x82,
+    MIMA_SPREAD_PELLET_PERIOD = 6,
+    MIMA_RANDOM_BOMB_WARN = 0x10,
+    MIMA_RANDOM_BOMB_FIRE_BEGIN = 0x20,
+    MIMA_RANDOM_BOMB_FIRE_PERIOD = 4,
+    MIMA_RANDOM_BOMB_END = 0x80,
+    MIMA_TRAIL_END = 0x96,
+    MIMA_BOSS_INTRO_END = 0x64,
+};
+
 void near mima_pattern_spread(void)
 {
 	if(boss_frame < 2) {
@@ -112,11 +126,11 @@ void near mima_pattern_spread(void)
 		return;
 	}
 
-	if(boss_frame < 0x20) {
+	if(boss_frame < MIMA_SPREAD_FIRE_BEGIN) {
 		return;
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame & 1)) {
 		snd_se_play(3);
 
 		bullet_template.angle = mima_spread_angle;
@@ -132,7 +146,7 @@ void near mima_pattern_spread(void)
 
 		if(
 			(mima_pellet_until > boss_frame) &&
-			((boss_frame % 6) == 0)
+			((boss_frame % MIMA_SPREAD_PELLET_PERIOD) == 0)
 		) {
 			bullet_template.type = BT_PELLET;
 			bullet_template.group = BG_4_SPREAD_MEDIUM;
@@ -146,7 +160,7 @@ void near mima_pattern_spread(void)
 		mima_pellet_angle += 3;
 	}
 
-	if(boss_frame > 0x82) {
+	if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
@@ -159,9 +173,9 @@ void near mima_pattern_bomb_random(void)
 	register int x;
 	register int y;
 
-	if(boss_frame == 0x10) {
+	if(boss_frame == MIMA_RANDOM_BOMB_WARN) {
 		boss_render_mode = 5;
-	} else if(boss_frame < 0x20) {
+	} else if(boss_frame < MIMA_RANDOM_BOMB_FIRE_BEGIN) {
 		return;
 	}
 
@@ -181,7 +195,7 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	if((boss_frame % 4) == 0) {
+	if(!(boss_frame & (MIMA_RANDOM_BOMB_FIRE_PERIOD - 1))) {
 		bullet_template.angle = 0;
 		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
 		bullet_template.center.x.v = x;
@@ -209,11 +223,11 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame & 1)) {
 		snd_se_play(3);
 	}
 
-	if(boss_frame >= 0x80) {
+	if(boss_frame >= MIMA_RANDOM_BOMB_END) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
@@ -250,7 +264,7 @@ void near mima_pattern_trail(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(boss_frame >= 0x96) {
+	if(boss_frame >= MIMA_TRAIL_END) {
 		boss_render_mode = 0;
 		boss_mode = 1;
 		boss_frame = 0;
@@ -273,7 +287,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle = randring_far_next16();
 	}
 
-	if((boss_frame % 2) == 0) {
+	if(!(boss_frame & 1)) {
 		bullet_template.center.x.v = polar(
 			boss_center_x, TO_SP(48), CosTable8[mima_orbit_angle]
 		);
@@ -317,13 +331,13 @@ void far gba_boss_update_mima(void)
 	pid_other = (1 - pid_current);
 	boss_target_update();
 	// The target deliberately recomputes this after the shared helper call
-	// instead of reusing [pid_other].
+	// instead of reusing [pid_other] (native negative control af749c).
 	bullet_template.pid = (1 - pid_current);
 	boss_frame++;
 
 	switch(boss_mode) {
 	case MIMA_MODE_INTRO:
-		if(boss_frame != 0x64) {
+		if(boss_frame != MIMA_BOSS_INTRO_END) {
 			return;
 		}
 		boss_frame = 0;
@@ -401,7 +415,7 @@ void near mima_render_main(void)
 	top = ((boss_center_y >> 4) - 40);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite16_put_size.set(64, 80);
 		left += 32;
 		top += 16;
@@ -499,14 +513,14 @@ void far gba_boss_render_mima(void)
 	pid_other = (1 - pid_current);
 	sprite16_clip_set_for_pid(pid_other);
 
-	if(boss_mode == 0) {
+	if(boss_mode == MIMA_MODE_INTRO) {
 		mima_render_split(
-			(0xC8 - (boss_frame * 2)),
+			(0xC8 - (boss_frame << 1)),
 			(boss_frame * 3)
 		);
 		return;
 	}
-	if(boss_mode != 0xFF) {
+	if(boss_mode != MIMA_MODE_EXPLODE) {
 		mima_render_main();
 		return;
 	}
