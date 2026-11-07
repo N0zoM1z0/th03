@@ -511,6 +511,14 @@ subpixel_length_8_t pascal near chain_pellet_speed(subpixel_length_8_t base)
 	return v;
 }
 
+// ENEDAT opcode durations are scaled *after* each independent signed
+// division. Reassociating into a single division changes short scripts.
+enum enemy_script_timing_t {
+    ENEMY_SCRIPT_HALF_PERIOD_DIVISOR = 2,
+    ENEMY_SCRIPT_BASE_PERIOD_SCALE = 3,
+    ENEMY_SCRIPT_SPEED_DIVISOR = 6,
+};
+
 bool near enemy_run(void)
 {
 	enemy_t near& enemy = *efe_p.enemy;
@@ -538,13 +546,13 @@ bool near enemy_run(void)
 
 	// ZUN bloat: Every clipped branch that returns `true` redundantly sets the
 	// [enemy.flag] to [EFF_FREE].
-	while(1) {
+	for(;;) {
 		switch(reinterpret_cast<enedat_op_t __es *>(script)->code) {
 		case EO_MOVE_LINEAR:
 		case EO_MOVE_LINEAR_STOP_AT_PLAYER_Y:
 		case EO_MOVE_LINEAR_STOP_AT_PLAYER_X:
 			#define p reinterpret_cast<enedat_op_linear_t __es *>(script)
-			if(enemy.script_op_frame == 0) {
+			if(!enemy.script_op_frame) {
 				enemy.speed = p->speed;
 				enemy.angle.split.coarse = p->angle;
 				enemy.angle.split.fine = 0;
@@ -596,7 +604,7 @@ bool near enemy_run(void)
 
 		case EO_MOVE_WITH_SPEED:
 			#define p reinterpret_cast<enedat_op_speed_t __es *>(script)
-			if(enemy.script_op_frame == 0) {
+			if(!enemy.script_op_frame) {
 				enemy.speed = p->speed;
 				enemy_velocity_set_from_angle_and_speed();
 			}
@@ -613,7 +621,7 @@ bool near enemy_run(void)
 		case EO_MOVE_CIRCULAR:
 		case EO_MOVE_CIRCULAR_PLUS:
 			#define p reinterpret_cast<enedat_op_circular_base_t __es *>(script)
-			if(enemy.script_op_frame == 0) {
+			if(!enemy.script_op_frame) {
 				enemy.angle.split.coarse = p->angle_start;
 				enemy.angle.split.fine = 0;
 				enemy.angle_speed = p->angle_speed;
@@ -656,7 +664,7 @@ bool near enemy_run(void)
 		case EO_MOVE_SINE_X:
 		case EO_MOVE_SINE_Y:
 			#define p reinterpret_cast<enedat_op_sine_t __es *>(script)
-			if(enemy.script_op_frame == 0) {
+			if(!enemy.script_op_frame) {
 				enemy.angle.wide = 0x00;
 				enemy.angle_speed = p->angle_speed;
 			}
@@ -768,7 +776,9 @@ bool near enemy_run(void)
 		default:
 		wait_and_return:
 			var = op_duration;
-			var = (((var / 2) * 3) - ((enemy_speed * var) / 6));
+			var = (((var / ENEMY_SCRIPT_HALF_PERIOD_DIVISOR) *
+				ENEMY_SCRIPT_BASE_PERIOD_SCALE) -
+				((enemy_speed * var) / ENEMY_SCRIPT_SPEED_DIVISOR));
 			if(var <= enemy.script_op_frame) {
 				enemy.script_op_frame = 0;
 				enemy.script_ip += op_size;
