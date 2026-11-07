@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After785 entire MAIN entry/round scheduler, dual-player selection
+
+- The complete 3,050-CODE-byte `entry` physical owner (main, 200+-line
+  `round_loop`, stage and score) now explicitly names left/right player
+  indices and the original independent 0/40 sprite source offsets at all
+  repeated scheduling sites. It preserves the two different current PID
+  storage views and every original update/render call boundary.
+- Natural `page_front = page_back` is **not** target CODE exact: `af785b`
+  emits an extra two-byte `MOV AL,[page_back]` following the native
+  hardware `OUT`, so the original AL reuse remains essential.
+- Final `af785c` passes two original TC4/TLINK full-MAIN rounds with 3,050
+  CODE bytes, 433 ordered FIXUPPs, 8 PUBLICs, the full Japanese game
+  image and 1,553 relocations. Five maintained source/.inl inputs are
+  explicitly bound. This is a reverified owner, **not additional distinct
+  source bytes or canonical Factory acceptance**. See
+  [after785 entry scheduler review](MAIN_ROUND_SCHEDULER_IDENTITY_AFTER785_REVIEW.md).
+
 ## After784 Kana Bomb byte-timeline and original MRS ABI (newer than after783)
 
 - The complete `b_kana` Bomb owner now uses named phase boundaries,

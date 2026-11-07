@@ -22,6 +22,15 @@ enum round_loop_timing_t {
     ROUND_RANDOM_REFILL_MASK = 1023,
     ROUND_CPU_RESET_WINDOW_END = 2000,
 };
+// The frame scheduler alternates the two physical playfields several times
+// per tick. `pid_current` and `pid.current` serve different native owners;
+// only their selected *player index* is the same. Sprite slots stay 40 apart.
+enum round_playfield_selection_t {
+    ROUND_PLAYER_LEFT = 0,
+    ROUND_PLAYER_RIGHT = 1,
+    ROUND_SPRITE_BASE_LEFT = 0,
+    ROUND_SPRITE_BASE_RIGHT = 40,
+};
 #include "src/main/core/entry.inl"
 #include "src/main/round/round_loop.inl"
 #include "src/main/round/stage_round.inl"
