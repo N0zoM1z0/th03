@@ -1,4 +1,6 @@
-// The entire static HUD is one original physical HUD_STAT_TEXT CODE owner.
+// The complete original HUD_STAT_TEXT physical owner: all static HUD
+// character routines and the full two-player dispatcher. Every typed
+// C++ loop below is source-native byte-exact under original TC4 4.02.
 #pragma option -zCHUD_STAT_TEXT
 
 #include "src/main/hud/static.hpp"
@@ -37,7 +39,7 @@ void pascal hud_static_halfhearts_put(pid_t pid)
 
 	tram_x_t x;
 	int halfheart_i = 0;
-	if(pid == 0) {
+	if(!pid) {
 		x = (playfield_tram_x(0, ((PLAYFIELD_W / 2) - (HALFHEARTS_W / 2))));
 	} else {
 		x = (playfield_tram_x(1, ((PLAYFIELD_W / 2) - (HALFHEARTS_W / 2))));
@@ -46,20 +48,22 @@ void pascal hud_static_halfhearts_put(pid_t pid)
 	tram_y_t y = PLAYFIELD_TRAM_TOP;
 
 	halfhearts = players[pid].halfhearts;
-	while(halfheart_i < halfhearts) {
+	// The original full-/half-heart renderer is exact as a natural for,
+	// with the signed two-halfheart step after the individual gaiji call.
+	for(; halfheart_i < halfhearts; halfheart_i += 2) {
 		if((halfhearts - halfheart_i) >= 2) {
 			gaiji_putca(x, y, gs_HEART_FULL, TX_WHITE);
 		} else {
 			gaiji_putca(x, y, gs_HEART_HALF, TX_WHITE);
 		}
 		x += GAIJI_TRAM_W;
-		halfheart_i += 2;
 	}
 
-	while(halfheart_i < HALFHEARTS_MAX) {
+	// Fill remaining space with empty hearts, not a second independent
+	// counter: the same signed index continues from the prior loop.
+	for(; halfheart_i < HALFHEARTS_MAX; halfheart_i += 2) {
 		gaiji_putca(x, y, gs_HEART_EMPTY, TX_WHITE);
 		x += GAIJI_TRAM_W;
-		halfheart_i += 2;
 	}
 }
 
@@ -73,7 +77,7 @@ void pascal hud_static_bombs_put(pid_t pid)
 	int bombs;
 	tram_y_t y;
 	tram_cell_amount_t step;
-	if(pid == 0) {
+	if(!pid) {
 		x = playfield_tram_x(0, (PLAYFIELD_W - GAIJI_W));
 		step = -GAIJI_TRAM_W;
 	} else {
@@ -83,10 +87,11 @@ void pascal hud_static_bombs_put(pid_t pid)
 	y = ((PLAYFIELD_BOTTOM - GLYPH_H) / GLYPH_H);
 
 	bombs = players[pid].bombs;
-	while(i < bombs) {
+	// Bomb glyphs traverse in opposite directions for the two players;
+	// this native for preserves step sign and one final clear-cell write.
+	for(; i < bombs; ++i) {
 		gaiji_putca(x, y, gs_BOMB, TX_WHITE);
 		x += step;
-		++i;
 	}
 
 	// In case we lost a single bomb on this frame… Very clever!
@@ -97,17 +102,16 @@ void pascal near hud_static_rounds_won_put(pid_t pid)
 {
 	tram_x_t x;
 	int i = 0;
-	if(pid == 0) {
+	if(!pid) {
 		x = playfield_tram_x(0, 0);
 	} else {
 		x = playfield_tram_x(1, 0);
 	}
 
 	int rounds_won = players[pid].rounds_won;
-	while(i < rounds_won) {
+	for(; i < rounds_won; ++i) {
 		gaiji_putca(x, PLAYFIELD_TRAM_TOP, gs_THALIA, TX_WHITE);
 		x += GAIJI_TRAM_W;
-		++i;
 	}
 }
 
@@ -116,10 +120,9 @@ void near hud_static_story_lives_put(void)
 	int i = 0;
 	tram_x_t x = playfield_tram_x(0, (PLAYFIELD_W - GAIJI_W));
 	int lives = resident->story_lives;
-	while(i < lives) {
+	for(; i < lives; ++i) {
 		gaiji_putca(x, (PLAYFIELD_TRAM_TOP + 1), gs_YINYANG, TX_WHITE);
 		x -= GAIJI_TRAM_W;
-		++i;
 	}
 }
 
@@ -139,6 +142,8 @@ void pascal hud_static_gauge_levels_put(pid2 pid)
 	// display the *next* Boss Attack level, not the current one. If the level
 	// is already at the maximum, additional attacks won't increase it further.
 	level = gba_boss_level;
+	// Preserve >=MAX (TC4 machine code differs from >MAX-1 even though
+	// ordinary integer comparisons are equivalent, negative af887f).
 	if(level >= GBA_BOSS_LEVEL_MAX) {
 		// A bit brave to assume that [level] will never be greater than
 		// [GBA_BOSS_LEVEL_MAX]. On the other hand, it's great for debugging as
@@ -150,11 +155,15 @@ void pascal hud_static_gauge_levels_put(pid2 pid)
 
 void hud_static_put(void)
 {
-	for(int i = 0; i < PLAYER_COUNT; ++i) {
+	// Native two-player HUD dispatcher, with all four per-player calls
+	// and their exact original order before incrementing the index.
+	int i = 0;
+	while(i < PLAYER_COUNT) {
 		hud_static_halfhearts_put(i);
 		hud_static_bombs_put(i);
 		hud_static_rounds_won_put(i);
 		hud_static_gauge_levels_put(i);
+		++i;
 	}
 	if(resident->game_mode == GM_STORY) {
 		hud_static_story_lives_put();

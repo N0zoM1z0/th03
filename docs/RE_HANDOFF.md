@@ -8,6 +8,23 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After887: complete static HUD native C++ loops and player routing
+
+- Full seven-function `hud_stat` owner now uses natural signed-index
+  `for` for heart/empty-heart, Bomb, round-win and story-lives glyphs,
+  a native `while` for the two-player HUD dispatcher, and three
+  native-exact `if(!pid)` byte-player predicates. All external TRAM
+  and original score/Gauge storage remains separate.
+- Fresh genuine original TC4 negative: the BOSS level cap
+  `level >= MAX` cannot be substituted with mathematically equivalent
+  `level > MAX-1`; original 539-byte CODE differed at offset 465
+  (`af887f`). Original guard restored. Final `af887g` matches **539
+  CODE bytes, 18 ordered native FIXUPPs, 7 PUBLICs**, complete Japanese
+  MAIN/1,553 relocations in two original TC4 4.02/full normal TLINK
+  rounds, 98 other project objects/CRT reused. See
+  [after887 native static HUD review](MAIN_STATIC_HUD_NATIVE_LOOPS_AFTER887_REVIEW.md).
+  Existing historical source-covered CODE, no new unique/Factory credit.
+
 ## After886: full Ellen Bomb native eight-particle loop and respawn controller
 
 - The complete three-function original `b_ellen` Bomb now uses natural
