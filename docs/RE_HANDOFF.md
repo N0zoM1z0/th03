@@ -8,6 +8,35 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After789 full result scoreboard native C++ bonus recovery
+
+- The **complete original `results` physical owner** (round reset, >100-line
+  scoreboard/bonus update) now uses a natural `round_or_result_frame % 8`
+  display tick and Boolean winner/bonus checks, with named statistic
+  coefficients, 192-frame payout window, and final-stage score rules.
+- Actual original TC4/TLINK stages `af789a`, `af789b`, `af789c` all passed;
+  the latest preserves **1,060 original CODE bytes, 89 ordered FIXUPPs,
+  3 PUBLICs**, two current `.inl` source bindings, full Japanese MAIN
+  loaded image and 1,553 ordered MZ relocations. This is an existing
+  owner revalidated, **not added distinct coverage or canonical credit**.
+  See [after789 results source review](MAIN_RESULTS_NATURAL_BONUS_AFTER789_REVIEW.md).
+
+## After789 round result / scoreboard natural C++ recovery
+
+- The complete original 1,060-byte `results` owner now uses natural
+  unsigned `%8` scoreboard cadence, named five-category scoring
+  multipliers, the original 192-frame bonus payout, decimal 10/100/10000
+  divisions and two natural Boolean predicates. All original signed
+  32-bit bonus arithmetic, uint16 cap, main HUD calls and story-clear
+  conditions remain intact. The current `results.cpp` plus two live
+  `.inl` implementations are forced into the compiler, not stale copies.
+- `af789a`/`b`/`c`/`d` are four successful incremental native experiments;
+  final `af789d` passes two original TC4 and full normal MAIN TLINK
+  rounds: 1,060 CODE bytes, 89 ordered FIXUPPs, three PUBLICs, original
+  Japanese loaded game and all 1,553 relocations. No cold replay or
+  canonical packed-game Factory acceptance. See
+  [after789 natural scoreboard review](MAIN_RESULTS_SCOREBOARD_NATURAL_AFTER789_REVIEW.md).
+
 ## Latest after788: eight original physical MAIN owners built together
 
 - `af788c` **simultaneously rebuilt eight complete original physical
