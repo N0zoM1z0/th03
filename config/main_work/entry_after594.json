@@ -1,0 +1,22 @@
+{
+  "schema": "th03-main-large-cpp-forward-native-v1",
+  "stage": "af594e",
+  "parent_report": ".analysis/work/main-core-after593-native-build.json",
+  "parent_report_sha256": "cdae29cfac710042c4e6b653f83542472388ec65eca41cc3aecd7ddaea89900f",
+  "stem": "entry",
+  "source": "src/main/core/entry.cpp",
+  "wrapper": "src/main/core/producers/entry_native.cpp",
+  "original_object": "obj/th03/entry.obj",
+  "original_MAP_module": "src/main/core/entry.cpp",
+  "GAME": 3,
+  "BINARY": "M",
+  "original_CODE_segment_index": 4,
+  "CODE_bytes": 3050,
+  "original_PUBLICs": 8,
+  "ordered_FIXUPP_fields": 433,
+  "original_Japanese_file_bytes": 130882,
+  "original_ordered_MZ_relocations": 1553,
+  "historic_vendor_raw_OMF_packet_identity": false,
+  "canonical_factory_credit_changed": false,
+  "whole_project_source_accepted": false
+}

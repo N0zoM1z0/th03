@@ -1,4 +1,4 @@
-# TH03 agent handoff — after593 source-native follow-on (2026-11-06)
+# TH03 agent handoff — after594 source-native follow-on (2026-11-06)
 
 The earlier after554 handoff was written before reconstruction resumed. That
 archive accurately had no after555 native build at the time. This repository
@@ -448,6 +448,27 @@ no duplicate canonical Factory or original OMF metadata credit.
 
   .analysis/work/main-core-after593-native-build.json
   scripts/review_th03_main_core_after593_work.py
+
+## MAIN full top-level game entry/round/stage control C++ (after594)
+
+The maintained natural 16-bit entry/round-loop/stage-setup C++ has now
+been freshly compiled in two independent real Turbo C++ GAME=3/BINARY=M
+rounds. Both original objects contain the complete 3,050-byte
+PLAYFLD_TEXT CODE, all eight original public function addresses,
+433 ordered original OMF FIXUPP fields, and exact segment declarations.
+
+Replacing just this large source unit in the after593 native MAIN
+link maintains the complete program image, all 1,553 ordered MZ
+relocations and original MAP geometry alongside nine large BOSSes,
+character callbacks, large player movement/hit/damage, bullets,
+fireballs and collision. The separate source-derived standard DOS MZ
+format step reproduces the full original 130,882-byte Japanese EXE
+in both native rounds. These are already existing authored owner
+functions, not new canonical Factory credit or historical vendor
+compiler metadata evidence.
+
+  .analysis/work/main-entry-after594-native-build.json
+  scripts/review_th03_main_entry_after594_work.py
 
 ## Start here
 
