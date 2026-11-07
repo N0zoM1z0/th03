@@ -2,6 +2,7 @@
 // See docs/reconstruction/MAIN_REIMU_SHARED_GAMEPLAY_REVIEW.md.
 #pragma codeseg HITBOX_TEXT main_04
 #pragma option -a1
+#include <stddef.h>
 #include "src/main/player/reimu_gameplay.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
 #pragma option -a2
@@ -17,10 +18,39 @@
 // Revalidate native fixups; this does not change bullets_add's far ABI.
 #pragma samecodeseg bullets_add
 
+// The physical 32-byte charged-shot entity holds seven X and seven Y
+// historical positions. The original hitbox only scans SIX entries,
+// although update/render scan TWELVE per player.
+enum reimu_charge_limits_t {
+    REIMU_CHARGE_SLOTS_PER_PLAYER = 12,
+    REIMU_CHARGE_TOTAL_SLOTS = 24,
+    REIMU_CHARGE_HITTEST_SLOTS = 6,
+    REIMU_CHARGE_HISTORY_SAMPLES = 7,
+    REIMU_CHARGE_LAST_SAMPLE = 6,
+    REIMU_CHARGE_STANDARD_LAUNCH = 4,
+    REIMU_CHARGE_FIRST_PAIR = 2,
+    REIMU_CHARGE_STOP_FRAME = 64,
+    REIMU_CHARGE_SPRITE_PHASE_MASK = 3,
+    REIMU_GAUGE_FINISH_AFTER = 64,
+};
+
+typedef char reimu_charge_stride_is_32[
+    (sizeof(reimu_chargeshot_t) == 32) ? 1 : -1
+];
+typedef char reimu_charge_x_at_02[
+    (offsetof(reimu_chargeshot_t, x) == 2) ? 1 : -1
+];
+typedef char reimu_charge_y_at_10[
+    (offsetof(reimu_chargeshot_t, y) == 0x10) ? 1 : -1
+];
+typedef char reimu_charge_angle_at_1e[
+    (offsetof(reimu_chargeshot_t, angle) == 0x1E) ? 1 : -1
+];
+
 void far pascal reimu_chargeshots_reset(void)
 {
     reimu_chargeshot_p = &reimu_chargeshots[0][0];
-    for(int i = 0; i < 24; i++, reimu_chargeshot_p++) {
+    for(int i = 0; i < REIMU_CHARGE_TOTAL_SLOTS; i++, reimu_chargeshot_p++) {
         reimu_chargeshot_p->state = 0;
     }
 }
@@ -31,10 +61,10 @@ void far pascal chargeshot_add_reimu(Subpixel center_x, Subpixel center_y)
     unsigned char angle;
     reimu_chargeshot_p = &reimu_chargeshots[pid.current][0];
     angle = 0x90;
-    for(i = 0; i < 4; i++, reimu_chargeshot_p++) {
+    for(i = 0; i < REIMU_CHARGE_STANDARD_LAUNCH; i++, reimu_chargeshot_p++) {
         reimu_chargeshot_p->state = 1;
         reimu_chargeshot_p->frame = 0;
-        for(j = 0; j < 7; j++) {
+        for(j = 0; j < REIMU_CHARGE_HISTORY_SAMPLES; j++) {
             reimu_chargeshot_p->x[j].v = center_x.v;
             reimu_chargeshot_p->y[j].v = center_y.v;
         }
@@ -47,13 +77,13 @@ void far pascal chargeshot_add_reimu(Subpixel center_x, Subpixel center_y)
 void far pascal reimu_hyper_shot_add(Subpixel center_x, Subpixel center_y)
 {
     reimu_chargeshot_p = &reimu_chargeshots[pid.current][0];
-    for(int i = 0; i < 12; i++, reimu_chargeshot_p++) {
+    for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; i++, reimu_chargeshot_p++) {
         if(reimu_chargeshot_p->state != 0) {
             continue;
         }
         reimu_chargeshot_p->state = 2;
         reimu_chargeshot_p->frame = 0;
-        for(int j = 0; j < 7; j++) {
+        for(int j = 0; j < REIMU_CHARGE_HISTORY_SAMPLES; j++) {
             reimu_chargeshot_p->x[j].v = center_x.v;
             reimu_chargeshot_p->y[j].v = center_y.v;
         }
@@ -70,10 +100,10 @@ void far pascal chargeshot_update_reimu(void)
     reimu_chargeshot_p = &reimu_chargeshots[pid_current][0];
     playfield_clip_negative_radius.x.v = -TO_SP(24);
     playfield_clip_negative_radius.y.v = -TO_SP(24);
-    for(int i = 0; i < 12; i++, reimu_chargeshot_p++) {
+    for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; i++, reimu_chargeshot_p++) {
         if(reimu_chargeshot_p->state != 0) {
             players[pid_current].gauge_charged = 0;
-            for(int j = 6; j > 0; j--) {
+            for(int j = REIMU_CHARGE_LAST_SAMPLE; j > 0; j--) {
                 reimu_chargeshot_p->x[j].v = reimu_chargeshot_p->x[j - 1].v;
                 reimu_chargeshot_p->y[j].v = reimu_chargeshot_p->y[j - 1].v;
             }
@@ -84,9 +114,9 @@ void far pascal chargeshot_update_reimu(void)
             if(reimu_chargeshot_p->state == 1) {
                 if(reimu_chargeshot_p->speed > 0) {
                     reimu_chargeshot_p->speed -= 4;
-                } else if(reimu_chargeshot_p->frame >= 64) {
+                } else if(reimu_chargeshot_p->frame >= REIMU_CHARGE_STOP_FRAME) {
                     reimu_chargeshot_p->state = 2;
-                    if(i < 2) {
+                    if(i < REIMU_CHARGE_FIRST_PAIR) {
                         reimu_chargeshot_p->angle = 0xB0;
                     } else {
                         reimu_chargeshot_p->angle = 0xD0;
@@ -95,7 +125,7 @@ void far pascal chargeshot_update_reimu(void)
                 }
             }
             reimu_chargeshot_p->frame++;
-            if(playfield_clip(reimu_chargeshot_p->x[6], reimu_chargeshot_p->y[6])) {
+            if(playfield_clip(reimu_chargeshot_p->x[REIMU_CHARGE_LAST_SAMPLE], reimu_chargeshot_p->y[REIMU_CHARGE_LAST_SAMPLE])) {
                 reimu_chargeshot_p->state = 0;
             }
         }
@@ -105,7 +135,7 @@ void near pascal reimu_chargeshot_sprite_put(int x, int y, int phase)
 {
     sprite16_offset_t sprite_offset;
     phase += round_or_result_frame;
-    phase &= 3;
+    phase &= REIMU_CHARGE_SPRITE_PHASE_MASK;
     sprite_offset = phase * 6 + pid.so_attack + 0x1180;
     x = playfield_fg_x_to_screen(x, pid_current) - 24;
     y = (y >> 4) - 8;
@@ -113,12 +143,12 @@ void near pascal reimu_chargeshot_sprite_put(int x, int y, int phase)
 }
 uint8_t far chargeshot_hittest_reimu(void)
 {
-    if(reimu_chargeshot_alternate_hit_frame && (round_or_result_frame & 1)) {
+    if(reimu_chargeshot_alternate_hit_frame && (static_cast<unsigned int>(round_or_result_frame) % 2)) {
         return 0;
     }
     reimu_chargeshot_p = &reimu_chargeshots[hitbox.pid][0];
     // Target really scans six slots, despite twelve updated/rendered slots.
-    for(int i = 0; i < 6; i++, reimu_chargeshot_p++) {
+    for(int i = 0; i < REIMU_CHARGE_HITTEST_SLOTS; i++, reimu_chargeshot_p++) {
         if(reimu_chargeshot_p->state == 0) {
             continue;
         }
@@ -143,13 +173,13 @@ void far pascal chargeshot_render_reimu(void)
     reimu_chargeshot_p = &reimu_chargeshots[pid_current][0];
     sprite16_clip_set_for_pid(pid_current);
     sprite16_put_size.set(48, 48);
-    for(int i = 0; i < 12; i++, reimu_chargeshot_p++) {
+    for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; i++, reimu_chargeshot_p++) {
         if(reimu_chargeshot_p->state == 0) {
             continue;
         }
         sprite16_mono_(true);
         sprite16_mono_color_(2);
-        reimu_chargeshot_sprite_put(reimu_chargeshot_p->x[6].v, reimu_chargeshot_p->y[6].v, 3);
+        reimu_chargeshot_sprite_put(reimu_chargeshot_p->x[REIMU_CHARGE_LAST_SAMPLE].v, reimu_chargeshot_p->y[REIMU_CHARGE_LAST_SAMPLE].v, 3);
         sprite16_mono_color_(5);
         reimu_chargeshot_sprite_put(reimu_chargeshot_p->x[4].v, reimu_chargeshot_p->y[4].v, 2);
         sprite16_mono_color_(6);
@@ -205,7 +235,7 @@ void near pascal gauge_pattern_reimu(bullet_type_t type)
         bomb_center_add(TO_SP(PLAYFIELD_W - 64), TO_SP(8), pid_other);
         bullets_add();
     }
-    if(reimu_gauge_frame[pid_current] > 64) {
+    if(reimu_gauge_frame[pid_current] > REIMU_GAUGE_FINISH_AFTER) {
         gba_flag_active[pid_current] = GBAF_NONE;
         palette_restore_for_pid(pid_other);
     }

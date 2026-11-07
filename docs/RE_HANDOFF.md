@@ -6,6 +6,22 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Reimu full seven-trail charged-shot native source after661
+
+The original `cs_reimu` ten-function physical charged-shot
+producer now names the original 32-byte entity's X+02, Y+10,
+angle+1E layout and true **twelve-slot update/render versus
+six-slot collision** behavior. The native hit-test's every
+other-frame gate is now explicit unsigned `% 2`, generating
+original x86 bytes. The signed sprite `phase &= 3`
+must remain: a candidate typed `%4` expression was
+native-unequal (`af661a`). Both source/OMF-verified
+original TC4/TLINK rounds `af661c` reproduce **1,448
+CODE bytes, 138 ordered literal FIXUPP fields, ten PUBLICs**,
+full normal MAIN EXE/MAP and Japanese MZ. See
+[after661 Reimu native trail review](MAIN_REIMU_CHARGESHOT_TRAIL_AFTER661_NATIVE_REVIEW.md).
+No full cold replay or additional canonical packed-game credit.
+
 ## Mima full fifteen-shot charged-shot/Gauge source after660
 
 Original physical `cs_mima` now compiles all ten functions
