@@ -47,6 +47,10 @@ SOURCES = {
     'ba_koto': 'src/main/boss/kotohime.cpp',
     'ba_ellen': 'src/main/boss/ellen.cpp',
     'ba_rikak': 'src/main/boss/rikako.cpp',
+    'ba_yumem': 'src/main/boss/yumemi.cpp',
+    'ba_mima': 'src/main/boss/mima.cpp',
+    'ba_reimu': 'src/main/boss/reimu.cpp',
+    'ba_maris': 'src/main/boss/marisa.cpp',
 }
 ENTITY = 'src/main/player/exatt_entity.hpp'
 

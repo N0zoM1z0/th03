@@ -520,7 +520,7 @@ void near yumemi_render_arrival(void)
 	register screen_x_t left;
 	register screen_x_t right;
 
-	asm { xor dx, dx }
+	_DX = 0;
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 

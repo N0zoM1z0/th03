@@ -214,6 +214,19 @@ complete normal MAIN EXE/MAP and Japanese target relocations. See
 The old source-bound after596 proof remains frozen and these are not
 incremental accepted byte credits.
 
+### All nine large BOSS source TUs after605
+
+The new `af605c` source-compiled native checkpoint relinks **all nine major
+BOSS TUs together** (17,451 original CODE bytes, 2,434 ordered fields,
+85 complete functions/PUBLICs) in two real Turbo C++/TLINK rounds, preserving
+the full original Japanese MAIN program and all 1,553 relocations. Yumemi
+arrival rendering now uses native `_DX = 0` instead of hand-ASM; the
+Chiyuri/Kana/Kotohime/Ellen/Rikako C++ ring and other recovery from
+`af603e`/`af604f` is retained. The unchanged Mima, Reimu and Marisa
+source TUs were independently rebuilt and linked at the same time. Read
+[after605 nine-BOSS review](MAIN_NINE_BOSSES_AFTER605_NATURAL_CPP_REVIEW.md).
+This is not new accepted CODE credit or a canonical Factory completion.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
