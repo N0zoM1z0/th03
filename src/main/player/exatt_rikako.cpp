@@ -59,6 +59,8 @@ enum rikako_exatt_limits_t {
     RIKAKO_EXATT_HOMING_END = 0x50,
     RIKAKO_EXATT_FLYING_STATE = 2,
     RIKAKO_EXATT_APPEARING_END = 0x1C,
+    RIKAKO_EXATT_FREE = 0,
+    RIKAKO_EXATT_ACTIVE = 1,
 };
 
 void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
@@ -66,8 +68,8 @@ void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
 	register int i = 0;
 
-	for(; i < RIKAKO_EXATT_NORMAL_SLOTS; i++, p++) {
-		if(p->state == 0) {
+	for(; i < RIKAKO_EXATT_NORMAL_SLOTS; ++i, p++) {
+		if(!p->state) {
 			exatt_entity_p = p;
 			exatt_fly_init(
 				x,
@@ -90,9 +92,9 @@ void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 	int i = 0;
 
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; i++, p++) {
-		if(p->state == 0) {
-			p->state = 1;
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, p++) {
+		if(!p->state) {
+			p->state = RIKAKO_EXATT_ACTIVE;
 			p->character.rikako.homing_disabled = 1;
 			p->frame = RIKAKO_EXATT_HOMING_START;
 			p->x = x;
@@ -117,23 +119,23 @@ void near rikako_exatt_render_one(void)
 	left = playfield_fg_x_to_screen(p->x, p->pid);
 	top = ((p->y >> 4) + 0x10);
 
-	if(pid_current != 0) {
+	if(pid_current) {
 		sprite16_clip.set_for_pid_0();
 	} else {
 		sprite16_clip.set_for_pid_1();
 	}
 
 	frame = p->frame;
-	if(p->state == 1) {
+	if(p->state == RIKAKO_EXATT_ACTIVE) {
 		sprite_offset = (pid.so_attack + 0x780);
-		if((static_cast<unsigned int>(frame) % 2) != 0) {
+		if(frame & 1) {
 			sprite_offset += 0x780;
 		}
 		sprite16_put((left - 24), (top - 24), sprite_offset);
 		return;
 	}
 
-	if(p->state == 2) {
+	if(p->state == RIKAKO_EXATT_FLYING_STATE) {
 		exatt_render_state2(left, top, frame);
 	} else {
 		exatt_render_state_other(left, top, frame);
@@ -159,18 +161,18 @@ void far pascal exatt_update_rikako(void)
 	hitbox.pid = pid_other;
 	i = 0;
 
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; i++, p++) {
-		if(p->state == 0) {
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, p++) {
+		if(!p->state) {
 			continue;
 		}
 
-		if(p->state == 1) {
+		if(p->state == RIKAKO_EXATT_ACTIVE) {
 			vector2(vector_x, vector_y, p->angle, p->speed);
 			p->x += vector_x;
 			p->y += vector_y;
 
 			if(
-				(p->character.rikako.homing_disabled == 0) &&
+				(!p->character.rikako.homing_disabled) &&
 				(p->frame >= RIKAKO_EXATT_HOMING_START) &&
 				(p->frame <= RIKAKO_EXATT_HOMING_END)
 			) {
@@ -178,11 +180,15 @@ void far pascal exatt_update_rikako(void)
 					(players[pid_other].center.y.v - p->y),
 					(players[pid_other].center.x.v - p->x)
 				);
-				p->speed++;
+				// Original unsigned-byte postincrement is codegen-visible:
+                // ++p->speed changed CODE (af777c).
+                p->speed++;
 				angle_delta = (target_angle - p->angle);
 				// Keep the literal 8 here. Replacing it with an enum of
 				// equal value changes TC4's 16-bit signed-division codegen.
-				angle_delta /= 8;
+				// Original *signed* division truncates, unlike arithmetic
+                // right-shift for negative deltas (af777b failed).
+                angle_delta /= 8;
 				p->angle += angle_delta;
 			}
 
@@ -190,7 +196,7 @@ void far pascal exatt_update_rikako(void)
 				*(PlayfieldSubpixel near *)&p->x,
 				*(PlayfieldSubpixel near *)&p->y
 			)) {
-				p->state = 0;
+				p->state = RIKAKO_EXATT_FREE;
 				continue;
 			}
 
@@ -205,7 +211,7 @@ void far pascal exatt_update_rikako(void)
 			p->state++;
 		} else {
 			p->frame = 0;
-			p->state = 1;
+			p->state = RIKAKO_EXATT_ACTIVE;
 		}
 
 		p->frame++;
@@ -219,8 +225,8 @@ void far pascal exatt_render_rikako(void)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 	register int i = 0;
 
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; i++, p++) {
-		if(p->state != 0) {
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, p++) {
+		if(p->state) {
 			exatt_entity_p = p;
 			rikako_exatt_render_one();
 		}
