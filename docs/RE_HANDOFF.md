@@ -6,6 +6,22 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri BOSS complete source and natural intro radius after662
+
+The current Chiyuri big BOSS TU uses original-byte-producing
+natural `frame * 8` for all three signed radius branches in
+`chiyuri_render_intro` instead of manual left shifts. Real TC4
+retains the original shift instruction bytes; surrounding
+original 8-bit AL phase operations **cannot** be expressed as
+`+=4`, `=phase+4` or `-=4` without original CODE changes
+(negative controls af651a/af662b/af662c). The actual
+source/OMF-attested two-round `af662d` compiler/full MAIN
+TLINK proof preserves **all 2,654 CODE bytes, 381 literal
+ordered FIXUPP fields, 11 PUBLICs**, full original MAIN/MAP
+and Japanese MZ. See
+[after662 Chiyuri BOSS intro review](MAIN_CHIYURI_INTRO_NATIVE_AFTER662_REVIEW.md).
+No full cold replay or new packed-game Factory credit.
+
 ## Reimu full seven-trail charged-shot native source after661
 
 The original `cs_reimu` ten-function physical charged-shot

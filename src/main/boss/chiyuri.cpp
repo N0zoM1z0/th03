@@ -628,19 +628,22 @@ void near chiyuri_render_intro(void)
 		return;
 	}
 
+	// TC4 compiles signed frame*8 to the original left shift. The
+	// adjacent byte phase updates still require their AL expression:
+	// direct +=4, =phase+4 and -=4 changed original native code.
 	frame = boss_frame;
 	if(frame < 0x20) {
-		boss_effect_radius = (0x100 - (frame << 3));
+		boss_effect_radius = (0x100 - (frame * 8));
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
 	} else if(frame < 0x40) {
-		boss_effect_radius = (0x200 - (frame << 3));
+		boss_effect_radius = (0x200 - (frame * 8));
 		_AL = boss_move_phase;
 		_AL += (unsigned char)0xFC;
 		boss_move_phase = _AL;
 	} else {
-		boss_effect_radius = (0x300 - (frame << 3));
+		boss_effect_radius = (0x300 - (frame * 8));
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
