@@ -71,17 +71,24 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after788 eight-original-physical-source simultaneous native proof**:
-complete Reimu/Mima major BOSSes, the main frame scheduler and Kana Bomb,
-plus complete hitbox/HitCircle collision, shot movement/render and full
-result/scoreboard owners. The latter four now use **new strict live-source
-OMF dependencies**; eight independently maintained `.inl` implementations
-are bound across `entry`, `shots` and `results`. Two genuine original
-TC4/TLINK rounds reproduce **9,738 CODE bytes, 1,202 ordered FIXUPPs,
-38 PUBLICs**, the entire normal Japanese MAIN image and 1,553 relocations.
-91 other original objects and CRT reused; no cold replay. This is not
-new distinct ownership or canonical Factory packed-game credit. See
-[after788 eight-source integration](docs/MAIN_EIGHT_SOURCE_INTEGRATION_AFTER788_REVIEW.md).
+**latest after823 nine-current-source-original-physical-owner simultaneous
+native proof**: complete Reimu, Mima and Kotohime major BOSSes, main entry/frame
+scheduler, Kana Bomb, hitbox damage, HitCircle sprites, full shot and
+scoreboard/bonus pipelines. All nine *actually compile together* with
+current original TC4 4.02 and full normal MAIN TLINK in two independent
+rounds. All **11,578 CODE bytes, 1,464 ordered OMF FIXUPPs, 49 PUBLICs**,
+the entire Japanese MAIN program/MAP and all 1,553 relocations match;
+independent MZ serialization reproduces every byte of the original
+130,882-byte MAIN.EXE. 90 unchanged original objects and CRT reused,
+not cold-rebuilt. Full current `.inl` implementations are source-bound;
+no byte patches or new canonical Factory packed-game credit. See
+[after823 nine-source integration](docs/MAIN_NINE_SOURCE_INTEGRATION_AFTER823_REVIEW.md).
+This also includes the new exact natural C++ HitCircle update and render
+loops, not present in the older after792 source snapshot. The after792
+receipt remains historical evidence, not a current checkout source review.
+The earlier [after788 eight-source integration](docs/MAIN_EIGHT_SOURCE_INTEGRATION_AFTER788_REVIEW.md)
+passed at its time but its `results` source hash is **historical** after
+the after789 source edits: review **after823** for this current checkout.
 The earlier **after787 four-physical-source proof**: full
 Reimu and Mima major BOSSes, complete main/frame/stage/score `entry`
 (including all four live implementation `.inl` files) and complete Kana
@@ -135,7 +142,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af788c
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af823a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af787a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af782a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a

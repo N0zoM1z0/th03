@@ -23,6 +23,53 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   existing BOSS source verified again, not incremental unique ownership.
   See [after791/821 Kotohime source review](MAIN_KOTOHIME_BOSS_FLICKER_AFTER791_REVIEW.md).
 
+## Latest after823: nine current original C++ owners with recovered HitCircle loops
+
+- `af823a` recompiled **nine complete original physical TUs together** in
+  two independent original Turbo C++ 4.02 / complete normal TLINK rounds:
+  full Reimu, Mima, Kotohime **major BOSSes**, entire main 200+-line
+  frame/stage scheduler, Kana Bomb, full hitbox, HitCircle, shots and
+  match-result controllers. Current `results` (natural `%8`, 32-bit bonus),
+  Kotohime (signed radial geometry, `%4` flicker) and **both complete
+  HitCircle update/render `for` loops** are all compiler-source-bound in
+  the same normal MAIN link. Eight nested implementation `.inl` files
+  across main/shot/results are pinned to actual TC4 OMF dependencies.
+- All **11,578 original CODE bytes, 1,464 literal ordered FIXUPPs and
+  49 PUBLICs**, full normal MAIN EXE/MAP, all **124,642 Japanese loaded
+  bytes and 1,553 MZ relocations** match, with independent complete
+  130,882-byte Japanese MZ serialization. **90 unchanged original
+  project objects and original CRT reused; no full cold replay**.
+- Previous `af792b` still proves its older physical source snapshots but
+  is *historical*, not live-source-current after the HitCircle loops;
+  `af823a` is now the live source-bound complete nine-TU verification.
+  All these original owners were previously covered: **do not count their
+  overlapping CODE again** or claim canonical packed-game acceptance.
+  See [after823 nine-source integration](MAIN_NINE_SOURCE_INTEGRATION_AFTER823_REVIEW.md)
+  and [HitCircle native loop recovery](MAIN_HITCIRCLE_NATURAL_LOOPS_AFTER822_REVIEW.md).
+
+## Earlier after792 nine-original source integration (source snapshot historical)
+
+- `af792b` genuinely rebuilt **nine complete original TC4 C++ physical
+  owners together** in **two independent original compiler + full normal
+  MAIN TLINK rounds**: full Reimu, Mima and Kotohime **major BOSSes**,
+  entire entry/frame/stage/score scheduler, Kana Bomb, HitBox, HitCircle,
+  and whole shot and result renderers. Eight current implementation
+  `.inl` files across entry/shots/results have real compiler OMF source
+  dependency checks in each round.
+- **All 11,578 original CODE bytes, 1,464 literal ordered FIXUPPs, 49
+  PUBLICs**, full normal original MAIN and MAP, 124,642 Japanese loaded
+  program bytes, 1,553 ordered relocations and independent standard
+  MZ serialization of all 130,882 original Japanese MAIN.EXE bytes match.
+  **90 unchanged original project objects and CRT reused, no cold replay.**
+- An attempted natural `_DX &= 1` in HitCircle (`af792a`) genuinely failed:
+  TC4 generated `83 E2 01` rather than original 16-bit immediate
+  `81 E2 01 00`; the exact original inline assembler was preserved.
+  `af792b` then passed native/independent source review; old `af788c`
+  must be treated as *historical* after the current `results` edit.
+  These are reverified **previously owned** original CODE bytes, **not
+  extra distinct coverage or canonical packed-unit Factory acceptance**.
+  See [after792 nine-source integration](MAIN_NINE_SOURCE_INTEGRATION_AFTER792_REVIEW.md).
+
 ## After791 Kotohime major BOSS natural native sprite-flicker clock
 
 - The complete Kotohime 1,840-CODE-byte BOSS physical owner now uses
@@ -56,7 +103,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   canonical packed-game Factory acceptance. See
   [after789 natural scoreboard review](MAIN_RESULTS_SCOREBOARD_NATURAL_AFTER789_REVIEW.md).
 
-## Latest after788: eight original physical MAIN owners built together
+## Earlier after788: eight original physical MAIN owners (historical after results edit)
 
 - `af788c` **simultaneously rebuilt eight complete original physical
   TUs** in **two independent original TC4 4.02 and full normal TLINK
@@ -81,7 +128,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   file Factory acceptance. `input_s` one-NOP parent-link issue remains.
   See [after788 original eight-source integration](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER788_REVIEW.md).
 
-## Latest after787 simultaneous complete original-source integration
+## Earlier after787 simultaneous complete original-source integration
 
 - `af787a` genuinely rebuilt **four modified original physical TUs at once**,
   not a union inferred from separate trials: complete Reimu and Mima major
