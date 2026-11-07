@@ -10,7 +10,123 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
 ## Current verified checkpoint — what it proves, and what it does not
 
-- **Latest affected current-source proof: `af741b`.** Two original
+- **Latest current-source original TC4/TLINK integration: `af758a`.** Two
+  independent original TC4 4.02 and complete normal MAIN TLINK rounds
+  simultaneously rebuilt **12 complete original physical TUs**, covering
+  Chiyuri/Marisa/Mima **large BOSSes**, full Fireball/Explosion engines,
+  Ellen/Kotohime Extra Attacks, both Combo scoring/BOSS-panic partitions,
+  complete Ellen Chargeshot and the two Extra Attack/Gauge leaf owners.
+  All **12,979 initialized original CODE bytes, 1,429 literal ordered OMF
+  FIXUPPs, 71 PUBLICs**, complete segment/current-source dependency
+  metadata, full normal MAIN/MAP, Japanese 124,642-byte loaded game and
+  **all 1,553 original MZ relocations** match. Independent standard MZ
+  serialization reproduces the **130,882-byte original Japanese MAIN.EXE**.
+  **87 other project objects and CRT reused**, no full cold replay.
+- **New original-native C++ register recovery:** Ellen's 10-function
+  Chargeshot module `cs_ellen` now uses **normal typed C++ `register`
+  SI/DI sprite-coordinate locals** in place of manual `_SI`/`_DI`/`_AX`
+  writes. Actual TC4 emits original code with the restored declaration
+  order; reversing the locals failed native codegen. Its full deceleration,
+  tracking, collision and Gauge emitters are compiled as one object.
+  Kotohime's complete eight-function Extra Attack, both Combo source
+  partitions and both leaf objects also have actual codegen-verified
+  natural C++ recovery and retained negative-control trials.
+- **Keyboard `input_s` remains blocked** (not part of `af758a`): its
+  current C++ matches the true original 417-byte physical OBJ, but the
+  frozen after596 parent linker used an extra trailing 0x90 NOP in a
+  418-byte experimental OBJ, so full MAIN link exactness fails by one
+  byte. Never count this as accepted original full-link reconstruction.
+- **Previous ten-source checkpoint: `af753a`.** Two real
+  independent original Turbo C++ 4.02/full TLINK rounds simultaneously
+  rebuilt **ten complete modified original physical TUs**: Chiyuri,
+  Marisa and Mima **major BOSSes**, Fireball, Ellen/Kotohime Extra
+  Attacks, explosion-chain collision, **both** separately linked Combo
+  scoring/BOSS panic source partitions, and full Ellen charged-shot
+  targeting/Hyper/Gauge. All **12,883 CODE bytes, 1,426 literal
+  ordered original OMF FIXUPP fields and 69 PUBLICs**, real native
+  source dependencies, segment and DATA/BSS ABI, complete normal
+  MAIN EXE/MAP, Japanese 124,642-byte loaded program and all 1,553
+  ordered relocations match. Independently serialized original Japanese
+  **130,882-byte MAIN.EXE** also matches both rounds. **89 other
+  original project objects and CRT reused**, no full cold replay.
+- **Additional dirty C++ source fully recovered:** complete Ellen charged-
+  shot's 10-function original `cs_ellen` owner now uses natural register
+  SI/DI allocation in its sprite leaf, along with native-exact 32-slot
+  scan/update/hit/render C++ loops. Its final `af752e` codegen proof
+  matches **1,530 original CODE bytes, 169 fixups and 10 PUBLICs**;
+  reversing the register declaration order failed native CODE, so the
+  original ordering is preserved. This owner joins all preceding nine
+  changed source objects in the current ten-source `af753a` proof.
+- **Previous nine-modified-TU current-source checkpoint: `af752a`.** Two
+  genuinely independent original Turbo C++ 4.02/full TLINK rounds
+  **compiled nine complete original physical TUs simultaneously**:
+  Chiyuri/Marisa/Mima **major BOSSes**, full Fireball, Ellen/Kotohime
+  Extra Attacks, large explosion collision and the two **distinct**
+  physical Combo score/HUD and BOSS/panic producers from one current
+  `combo.cpp`. All **11,353 original initialized CODE bytes, 1,257
+  literal ordered OMF FIXUPP fields and 59 PUBLICs**, original
+  DATA/BSS/segment/source dependencies, complete normal MAIN/MAP,
+  Japanese 124,642-byte loaded program and all 1,553 relocations
+  matched. Independent standard MZ serialization matches the original
+  **130,882-byte Japanese MAIN.EXE** in both rounds. **90 other project
+  objects and original CRT reused**, no cold replay or byte patch.
+- **No dirty changed owners abandoned:** Mima's whole BOSS `af749d`,
+  Kotohime's eight-function Extra Attack `af750d`, and **both original
+  Combo physical partitions together** `af751d` were resumed, byte-
+  checked and saved separately as `gpt-web:` commits, then **all three
+  added to the joint after752 proof**. The older after748 five-TU
+  receipt remains protected and still live-source reviewable.
+- **Previous original-source affected-scope checkpoint: `af751a`.** Two
+  independent real original Turbo C++ 4.02/full TLINK rounds rebuilt
+  **seven complete modified physical original TUs together**: Chiyuri,
+  Marisa and Mima **major BOSSes**, complete Fireball, Ellen and Kotohime
+  Extra Attack controllers and the large explosion/chain collision
+  function. All **10,375 original CODE bytes, 1,200 ordered OMF FIXUPP
+  fields and 54 PUBLICs**, original DATA/BSS/segment contracts and actual
+  compiler source dependencies, full normal MAIN EXE/normalized MAP,
+  Japanese 124,642-byte loaded program and all 1,553 MZ relocations
+  matched both rounds. Independent normal MZ serialization matched the
+  complete **130,882-byte original Japanese MAIN.EXE**. **92 other project
+  objects and original CRT were reused**, with no cold replay.
+- **Dirty worktree owner recovery included:** Mima's full BOSS natural
+  attack-phase/renderer edits were preserved and independently source-
+  verified (`af749d`; 1,922 CODE / 277 fixups / 9 PUBLICs). The modified
+  Kotohime Extra Attack 8-function state/volley owner was likewise
+  continued and independently verified (`af750d`; 1,054 CODE / 100
+  fixups / 8 PUBLICs). Rejected Mima opponent-ID register reuse and
+  Kotohime byte `%4` mask / event-byte prefix remain native negative
+  controls, **not** accepted source. Both are included in `af751a`.
+- **Previous affected current-source original MAIN proof: `af748a`.** Two
+  independent genuine Turbo C++ 4.02/full TLINK rounds **simultaneously
+  rebuilt five complete changed original physical TUs**: full Chiyuri
+  and Marisa major BOSSes, complete Fireball engine (including its one
+  initialized DATA byte), six-function Ellen Extra Attack with original
+  seven-point trail, and the large explosion collision/chain controller.
+  All **7,399 original CODE bytes, 823 ordered OMF FIXUPP fields, 37
+  PUBLICs**, segments/source dependencies, normal full MAIN EXE/MAP,
+  Japanese 124,642-byte loaded image and all 1,553 MZ relocations matched.
+  Independent standard MZ serialization matched all **130,882 original
+  Japanese MAIN.EXE bytes**. **94 other project objects and original CRT
+  reused**, no complete cold replay or object patching.
+- **New exact-object but blocked-full-link native keyboard finding:**
+  `input_s` now naturally expresses its two-pass BIOS/port-delay polling
+  in current `src/main/hardware/input_sense.cpp`. Real TC4 compiles match
+  the original **417 CODE bytes, 42 ordered original FIXUPPs and one
+  PUBLIC**, but the frozen parent MAIN link used an older **418-byte**
+  object with an additional trailing **0x90 NOP** (at CODE offset 417).
+  Switching to the true 417-byte object changes **only raw EXE file byte
+  68,141 from 90 to 00**, so **full MAIN exactness fails** for that unit.
+  No padding/byte patch was added. Read
+  [the explicit blocked-input proof](MAIN_INPUT_S_LINK_GAP_AFTER744_REVIEW.md)
+  and the read-only `scripts/review_th03_input_s_link_gap_after744.py`
+  diagnostic; it deliberately returns `normal_MAIN_exact=false`.
+- **Current source-drift audit:** the read-only current reviewer passes
+  `af748a`, unaffected `af741b` and unaffected `af730a`. It **rejects**
+  older `af724a`, `af721a`, `af715a` current-input hashes after this
+  turn's Marisa/Chiyuri changes; these remain intact historical native
+  source/OBJ/linker snapshots, not live-current-source passes. The
+  previously source-drifted `af736a` and `af709a` also remain historical.
+- **Previous affected current-source proof: `af741b`.** Two original
   TC4 4.02/TLINK rounds **simultaneously rebuilt eight complete
   original physical TUs**: large Kana BOSS, large Yumemi Extra Attack,
   all four physical `enemy.cpp` formation/script/hittest/update objects,
@@ -109,7 +225,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   compiled four complete modified TUs together: Yumemi/Chiyuri **BOSSes**,
   main `entry`/stage/frame scheduler and full CPU movement/dodge logic.
   That retained scope matched 9,139 original CODE bytes, 1,221 ordered
-  fixups and 33 PUBLICs. It was not rebuilt again in after721/724/730. This is
+  fixups and 33 PUBLICs. It was not rebuilt again in after721/724/730/748. This is
   **not** an additional disjoint byte-ownership count.
 - **New source-binding routes:** the scoped native compiler now accepts
   both the full `entry` physical TU with its four current included `.inl`
@@ -149,7 +265,12 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   acceptance. OP/ZUN have their own retained decoded evidence and
   outstanding canonical packed-file/whole-product claims.
 
-Read [the latest after741 eight-source review](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER741_REVIEW.md),
+Read [the current after758 twelve-source integration](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
+[the preceding after753 ten-source integration](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
+[the previous after752 nine-source integration](MAIN_NINE_SOURCE_INTEGRATION_AFTER752_REVIEW.md),
+[the prior after751 seven-source integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER751_REVIEW.md),
+[the previous after748 five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER748_REVIEW.md),
+[the previous after741 eight-source review](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER741_REVIEW.md),
 [the prior after736 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
 [the earlier after730 six-source review](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
 [the earlier after724 seven-source review](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),
@@ -165,30 +286,51 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af758a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af753a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af752a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af751a
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af748a
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af741b
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af724a
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
+# Diagnostic success means the input_s full-link failure was detected:
+PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
 .venv/bin/python scripts/validate_tracking.py
 .venv/bin/python scripts/progress.py --check
 git diff --check
 ```
 
 This list contains **current-source checks that actually pass on this
-checkout**. Do not run `af736a`, `af715a` or `af709a` as current-input
-validation: their source input hashes intentionally differ from later
+checkout**. Do not run `af736a`, `af724a`, `af721a`, `af715a` or
+`af709a` as current-input validation: their source input hashes intentionally differ from later
 maintained files. They remain immutable historical native evidence.
 
 The latest protected read-only proof root is
-`.analysis/work/exatt-layout-af741b/report.json`, including eight current
-source-native physical objects and all four original enemy partitions.
+`.analysis/work/exatt-layout-af758a/report.json`, with twelve current
+complete source-native original objects, both genuine full compiler and
+TLINK rounds. The previous ten-source root is
+`.analysis/work/exatt-layout-af753a/report.json`, with all ten
+modified original physical sources, both Combo partitions, Ellen
+charged-shot and both independent real compiler/full linker rounds.
+The previous after752 proof is
+`.analysis/work/exatt-layout-af752a/report.json`, with all nine
+current original physical source owners, both Combo partitions and full
+independent TC4/TLINK writer evidence. The previous after751 root is
+`.analysis/work/exatt-layout-af751a/report.json`, with all seven
+modified original physical source owners and both real TC4/TLINK rounds.
+The earlier after748 proof `.analysis/work/exatt-layout-af748a/report.json`
+retains two actual native
+compiler/TLINK rounds for five current modified physical originals. The
+previous after741 root is `.analysis/work/exatt-layout-af741b/report.json`,
+which still reviews successfully with its eight unaffected sources.
 The **historical** after736 root is
 `.analysis/work/exatt-layout-af736a/report.json`, preserving its seven
 source-snapshot original native object rounds and full TLINK receipts.
 Its live-source hash check now **correctly fails** after `enemy.cpp`
-changes. Historical `af709a` (Kana) and `af715a` (Yumemi) likewise
-must not be advertised as current-source passes; retain their original
-snapshots and do not modify the source-bound native reviewer to hide drift.
+changes. Historical `af709a` (Kana), `af715a` (Chiyuri), and `af724a` /
+`af721a` (Marisa) must likewise **not** be advertised as current-source
+passes. Retain their original snapshots and never weaken the source-bound
+reviewer to conceal input drift.
 The earlier six-TU root is
 `.analysis/work/exatt-layout-af730a/report.json`, including all ten nested
 `core` source snapshots and both actual six-unit compiler/linker rounds.
@@ -204,7 +346,12 @@ two-round OBJ, EXE, MAP, writer logs, source/header snapshots and
 the `TH03WORK/probe/af709a` compiler worktree. Other relevant
 receipts: `af703a` (7 edited TUs), `af693a` (6 edited TUs),
 `af686a` (47 selected TUs) and frozen after596 MAIN.
-Review the [after741 current eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER741_REVIEW.md),
+Review the [current after758 twelve-source report](MAIN_TWELVE_SOURCE_INTEGRATION_AFTER758_REVIEW.md),
+[after753 previous ten-source report](MAIN_TEN_SOURCE_INTEGRATION_AFTER753_REVIEW.md),
+[after752 preceding nine-source report](MAIN_NINE_SOURCE_INTEGRATION_AFTER752_REVIEW.md),
+[after751 preceding seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER751_REVIEW.md),
+[after748 prior five-source report](MAIN_FIVE_SOURCE_INTEGRATION_AFTER748_REVIEW.md),
+[after741 preceding eight-source report](MAIN_EIGHT_SOURCE_INTEGRATION_AFTER741_REVIEW.md),
 [after736 previous seven-source report](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER736_REVIEW.md),
 [after730 prior six-source report](MAIN_SIX_SOURCE_INTEGRATION_AFTER730_REVIEW.md),
 [after724 seven-source integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER724_REVIEW.md),

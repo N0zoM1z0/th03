@@ -71,12 +71,18 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-after741 **eight-physical-source simultaneous** native checkpoint,
-including complete Kana BOSS and Yumemi Extra Attack, all four original
-enemy source partitions, and newly direct source-attested frame-delay and
-MAIN executable-handoff owners. It separately preserves the after736,
-after730 and after724 native integration scopes, after721/715 results
-and the historical after709 58-owner union.
+after758 **twelve-modified-original-physical-source simultaneous** native
+checkpoint: three major BOSSes, complete Fireball/Explosion, Ellen/Kotohime
+Extra Attack, both Combo scoring/BOSS/panic owners, the full Ellen
+Chargeshot with **natural C++ SI/DI register allocation**, and two
+Extra Attack/Gauge leaf owners. All twelve were genuinely recompiled
+in two original Turbo C++ 4.02 rounds and linked to normal full MAIN
+with **87 other project objects and original CRT reused**. Previous
+five/seven/nine/ten-source integration proofs remain independently
+protected; their original CODE totals must not be double-counted.
+The BIOS `input_s` original 417-byte source is object-exact but **full-MAIN
+blocked** by the historical parent object's one trailing NOP. See the
+explicit read-only negative proof, not as canonical acceptance.
 It retains after596 MAIN and historical after587 MAINL as *different*
 source-native ancestors, not current
 whole-game acceptance. The [after709 chronological archive](docs/RE_HANDOFF_ARCHIVE_AFTER709.md)
@@ -84,7 +90,7 @@ and [earlier after596 archive](docs/RE_HANDOFF_ARCHIVE_AFTER596.md)
 preserve the detailed experiments, negative trials and limitations.
 
 MAIN's frozen after596 normal source-native link, and the later
-after741 eight-object current-source overlay, reproduce the complete
+after758 twelve-object changed-source overlay, reproduce the complete
 124,642-byte Japanese loaded program and all 1,553 ordered MZ relocations.
 A **separate standard DOS MZ serializer** then reproduces the entire
 original 130,882-byte Japanese MAIN.EXE; this does not prove that the
@@ -101,19 +107,24 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af758a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af753a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af752a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af751a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af748a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af741b
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af730a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af724a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af721a
+    # Diagnostic reports expected input_s one-byte full-link FAILURE, not acceptance:
+    PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_yumemi_cpu_after596_work.py
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_mainl_score_input_pi_after587_work.py
     .venv/bin/python scripts/progress.py --check
     .venv/bin/python scripts/validate_tracking.py
     git diff --check
 
-Older `af736a`, `af715a`, and `af709a` receipts are **historical source
-snapshots**, not current-live-source checks after recent enemy/Kana/Yumemi
-edits. The read-only current-source reviewer properly detects their input
+Older `af736a`, `af724a`, `af721a`, `af715a`, and `af709a`
+receipts are **historical source snapshots**, not current-live-source
+checks after subsequent enemy/Kana/Yumemi/Marisa/Chiyuri edits. The read-only current-source reviewer properly detects their input
 drift. Preserve their original compiler and linker evidence without
 repinning or weakening the reviewer; use `af741b` for current shared
 enemy source and Kana BOSS coverage.
