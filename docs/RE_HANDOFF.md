@@ -8,6 +8,30 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after829: four session-modified complete original physical owners together
+
+- Actual original **TC4 4.02 + full normal MAIN TLINK** stage `af829a`
+  recompiles **four complete current modified physical TUs simultaneously**
+  in two independent rounds: entire Yumemi, Rikako and Chiyuri **major
+  BOSSes** and Reimu's **ten-function Chargeshot/Gauge**. Every **8,137
+  original initialized CODE byte, 1,077 ordered native FIXUPPs and
+  39 PUBLICs**, full normal MAIN EXE/MAP, all 124,642 Japanese loaded
+  bytes and all 1,553 MZ relocations match in both rounds. Independent
+  standard MZ serialization reproduces the 130,882-byte Japanese file.
+- **95 other original game objects and CRT are reused** without a full
+  cold replay; complete original compiler source dependencies are
+  checked, and the preserved report has both original OBJ and full
+  link writer rounds. Earlier nine-object `af823a` remains separately
+  current and passes read-only review for **different unchanged TUs**;
+  **do not combine them into an invented thirteen-object compile**.
+  See [after829 four-source integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER829_REVIEW.md).
+- The named and native-exact C++ fixes include whole-BOSS unsigned
+  clocks, signed/unsigned rendering arithmetic, Reimu's 24-slot byte
+  lifecycle and Chiyuri's four signed-angle fan loops. Rejected AL/
+  byte-memory and `%4` compiler-unequal forms remain **rejected**. These
+  original physical owners already had prior exact source coverage;
+  **no new distinct CODE byte or canonical packed-file Factory credit**.
+
 ## After828: complete Chiyuri BOSS natural warning/render clocks and fan geometry
 
 - The entire `ba_chiyu` eleven-function **major BOSS** now uses

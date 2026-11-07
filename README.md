@@ -71,7 +71,16 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**newer after827 original-source three-object integration**: complete Yumemi
+**latest after829 original-source four-object integration**: three
+complete major BOSSes (Yumemi, Rikako and Chiyuri) plus full Reimu
+Chargeshot/Gauge. Two real original TC4/TLINK rounds recompile **these
+four genuinely modified original physical sources together** and match
+**8,137 CODE bytes, 1,077 ordered native FIXUPPs, 39 PUBLICs**, the full
+normal MAIN EXE/MAP, 124,642 Japanese loaded bytes and all 1,553
+original MZ relocations; 95 other original game objects and CRT reused.
+No full cold replay. See
+[after829 four-source integration](docs/MAIN_FOUR_SOURCE_INTEGRATION_AFTER829_REVIEW.md).
+Earlier **after827 original-source three-object integration**: complete Yumemi
 and Rikako major BOSSes plus the full Reimu Chargeshot/Gauge, all modified
 this session. Two real original TC4/TLINK rounds simultaneously rebuild
 these three original physical sources and match **5,483 CODE bytes,
@@ -154,6 +163,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af829a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af827a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af823a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af787a
