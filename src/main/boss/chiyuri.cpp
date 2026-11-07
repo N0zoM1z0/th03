@@ -158,17 +158,13 @@ void near chiyuri_pattern_cardinal(void)
 	bullet_template.speed.v = chiyuri_cardinal_speed;
 
 	if(chiyuri_cardinal_reverse == 0) {
-		_AL = chiyuri_cardinal_angle;
-		_AL += 8;
-		chiyuri_cardinal_angle = _AL;
+		chiyuri_cardinal_angle += 8;
 		if(chiyuri_cardinal_angle == 0x20) {
 			chiyuri_cardinal_reverse = 1;
 			chiyuri_cardinal_angle = 0x24;
 		}
 	} else {
-		_AL = chiyuri_cardinal_angle;
-		_AL += (unsigned char)0xF8;
-		chiyuri_cardinal_angle = _AL;
+		chiyuri_cardinal_angle -= 8;
 		if(chiyuri_cardinal_angle == 0xE4) {
 			chiyuri_cardinal_reverse = 0;
 			chiyuri_cardinal_angle = 0xE0;
@@ -182,23 +178,17 @@ void near chiyuri_pattern_cardinal(void)
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = (boss_center_y + TO_SP(56));
-	_AL = bullet_template.angle;
-	_AL += 0x40;
-	bullet_template.angle = _AL;
+	bullet_template.angle += 0x40;
 	bullets_add();
 
 	bullet_template.center.x.v = (boss_center_x - TO_SP(56));
 	bullet_template.center.y.v = boss_center_y;
-	_AL = bullet_template.angle;
-	_AL += 0x40;
-	bullet_template.angle = _AL;
+	bullet_template.angle += 0x40;
 	bullets_add();
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
-	_AL = bullet_template.angle;
-	_AL += 0x40;
-	bullet_template.angle = _AL;
+	bullet_template.angle += 0x40;
 	bullets_add();
 }
 
@@ -317,14 +307,10 @@ void near chiyuri_pattern_fans(void)
 			);
 			bullets_add();
 
-			_AL = 0;
-			_AL -= bullet_template.angle;
-			bullet_template.angle = _AL;
+			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			_AL = bullet_template.speed.v;
-			_AL += 2;
-			bullet_template.speed.v = _AL;
+			bullet_template.speed.v += 2;
 		}
 
 		for(i = 0; i < chiyuri_fan_count; i++) {
@@ -338,14 +324,10 @@ void near chiyuri_pattern_fans(void)
 			);
 			bullets_add();
 
-			_AL = 0;
-			_AL -= bullet_template.angle;
-			bullet_template.angle = _AL;
+			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			_AL = bullet_template.speed.v;
-			_AL += (unsigned char)-2;
-			bullet_template.speed.v = _AL;
+			bullet_template.speed.v -= 2;
 		}
 		return;
 	}
@@ -377,9 +359,7 @@ void near chiyuri_pattern_fans(void)
 		);
 		bullets_add();
 
-		_AL = bullet_template.speed.v;
-		_AL += 2;
-		bullet_template.speed.v = _AL;
+		bullet_template.speed.v += 2;
 	}
 
 	for(i = 0; i < chiyuri_fan_count; i++) {
@@ -393,9 +373,7 @@ void near chiyuri_pattern_fans(void)
 		);
 		bullets_add();
 
-		_AL = bullet_template.speed.v;
-		_AL += (unsigned char)-2;
-		bullet_template.speed.v = _AL;
+		bullet_template.speed.v -= 2;
 	}
 
 	boss_mode = 1;

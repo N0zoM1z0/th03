@@ -6,6 +6,20 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri full BOSS cardinal/fan natural C++ after644
+
+The two major Chiyuri cardinal and fan barrage functions no longer
+need explicit AL load/add/store for cardinal +8/-8, three cumulative
+quarter-turn shots, four fan +2/-2 speed steps or both mirrored fan
+angles. The original-exact mirror form is **binary**
+`bullet_template.angle = (0 - bullet_template.angle)`;
+the shorter unary negation was native-unequal (`af644f`).
+The real modified-source-attested TC4/TLINK proof `af644h`
+matches **2,654 CODE bytes, 381 ordered fields and 11 PUBLICs**,
+full MAIN and all Japanese relocations in both native rounds. See
+[after644 Chiyuri C++ review](MAIN_CHIYURI_BOSS_NATURAL_ARITH_AFTER644_REVIEW.md).
+No cold replay or new accepted packed-game CODE bytes.
+
 ## Rikako full homing and typed native parity after643
 
 The real Rikako Extra Attack now has named eight ordinary/fourteen total
