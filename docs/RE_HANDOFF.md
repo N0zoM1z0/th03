@@ -6,6 +6,33 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Full character setup and nine callbacks native C++ after695
+
+The v2 current-source/OMF-attested compiler overlay
+now supports the original `ch_setup` physical
+translation unit (twelve public helpers/selectors,
+nine complete character callback sets). Its
+actual historic source-native TLINK slot is
+`probe/af592p/rN/ch_setup.obj`, **not** the
+generic `obj/th03/ch_setup.obj` assumption.
+The full maintained source now uses natural
+`++i` filename copy and `if(!pid)` in all nine
+callback selectors, names the nine physical
+odd resource-pair IDs, and naturally assigns
+the ones-place decimal `resource=resource%10`.
+A typed unsigned `%2` for the palette bit
+changed TC4 CODE and was rejected. Two
+modified-source native `af695c` TC4/TLINK
+rounds match **3,888 original CODE bytes,
+1,135 ordered literal fixups, 12 PUBLICs**,
+normal full MAIN/MAP and Japanese MZ.
+See [after695 character setup review](MAIN_CHARACTER_SETUP_AFTER695_NATIVE_REVIEW.md).
+The `p_gauge` owner needs only three MAP rows,
+also checked in the prior `af694c` control.
+Only selected original objects were rebuilt,
+not a full cold replay or new canonical
+Factory game-byte acceptance.
+
 ## Latest locally rebuilt six sources, 51 cumulative owners after693
 
 The current `af693a` original Turbo C++/TLINK

@@ -57,6 +57,8 @@ SOURCES = {
     'bm_mari': 'src/main/player/bomb_marisa.cpp',
     'bm_mima': 'src/main/player/bomb_mima.cpp',
     'bm_reish': 'src/main/player/bomb_reimu_shared.cpp',
+    'p_gauge': 'src/main/player/gauge.cpp',
+    'ch_setup': 'src/main/player/character_setup.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',
     'ex_kana': 'src/main/player/exatt_kana.cpp',
@@ -106,6 +108,7 @@ PRODUCER_WRAPPERS = {
     'eupdb': 'src/main/enemy/producers/eupdb.cpp',
 }
 ORIGINAL_STAGES = {
+    'ch_setup': 'af592p',
     'e_fireb': 'af589f', 'e_expl': 'af589f',
     'bullet': 'af588b',
     'eforna': 'af572e', 'efornb': 'af572e',
@@ -121,6 +124,7 @@ MAP_ORIGINAL = {
     'bomb~cxk': 'src/main/player/bomb~cxk.cpp',
 }
 MAP_ROWS = {
+    'p_gauge': 3,
     'ba_sring':5, 'ba_srest':5,
     'e_fireb':3, 'e_expl':3, 'bullet':4,
     'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,

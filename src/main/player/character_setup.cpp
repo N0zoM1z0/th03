@@ -1,5 +1,6 @@
-// MAIN A44C..B37C: resource loading and all nine character callback sets.
-// Historical names and translation-unit grouping remain inferred.
+// Original source-bound native character callback/resource producer:
+// nine complete callback selectors and three shared resource helpers.
+// This full 16-bit compiled owner has exact 3888 CODE bytes.
 #pragma codeseg HITCIRC_TEXT main_01
 #pragma option -a1
 #include "src/main/player/stuff.hpp"
@@ -82,17 +83,36 @@ extern "C" void near character_sprites_finalize(void)
 extern "C" void near pascal character_resources_load(int pid, int resource)
 {
     char fn[12];
-    for(int i=0; i<12; i++) {
+    for(int i=0; i<12; ++i) {
         fn[i]=character_filename_template[i];
     }
+    // TC4 must retain this native bitmask expression: an unsigned %2
+    // variant selected different x86 CODE (negative af694e).
     resource -= (players[pid].playchar_paletted.v & 1);
+    // Decimal filename digits are constructed in place. The explicit
+    // ones-digit remainder assignment is original-codegen-equal.
     if(resource>=10) {
         fn[0] += resource / 10;
-        resource %= 10;
+        resource = (resource % 10);
     }
     fn[1] += resource;
     character_sprite_pair_load(pid, fn);
 }
+// Character pair resource slot IDs are odd. Player-specific palette mode
+// subtracts one for the alternate palette file; the pairing is preserved
+// for all nine callback sets without allocating runtime DATA.
+enum character_mrs_resource_t {
+    CHARACTER_MRS_REIMU = 1,
+    CHARACTER_MRS_MIMA = 3,
+    CHARACTER_MRS_MARISA = 5,
+    CHARACTER_MRS_ELLEN = 7,
+    CHARACTER_MRS_KOTOHIME = 9,
+    CHARACTER_MRS_KANA = 11,
+    CHARACTER_MRS_RIKAKO = 13,
+    CHARACTER_MRS_CHIYURI = 15,
+    CHARACTER_MRS_YUMEMI = 17,
+};
+
 // No-argument Pascal/C callbacks share the far zero-argument stack ABI.
 #define BIND_CHARACTER(c, p, hook, bomb, bomb_update) \
     exatt_funcs[p].add = exatt_add_##c; \
@@ -115,7 +135,7 @@ extern "C" void near pascal character_resources_load(int pid, int resource)
 extern "C" void near pascal set_callbacks_##c(int pid) \
 { \
     character_resources_load(pid, resource); \
-    if(pid == 0) { \
+    if(!pid) { \
         BIND_CHARACTER(c, 0, round_player_hook_p1, round_bomb_p1, bomb_update) \
     } else { \
         BIND_CHARACTER(c, 1, round_player_hook_p2, round_bomb_p2, bomb_update) \
@@ -126,14 +146,14 @@ extern "C" void near pascal set_callbacks_##c(int pid) \
     round_background_reset = background_velocity_reset; \
     boss_##c##_template_init(pid); \
 }
-DEFINE_CHARACTER(reimu, 1, 1, reimu_bomb_update)
-DEFINE_CHARACTER(mima, 3, 1, mima_bomb_update)
-DEFINE_CHARACTER(marisa, 5, 2, shared_bomb_lifecycle_update)
-DEFINE_CHARACTER(ellen, 7, 2, ellen_bomb_update)
-DEFINE_CHARACTER(kotohime, 9, 2, shared_bomb_lifecycle_update)
-DEFINE_CHARACTER(kana, 11, 2, shared_bomb_lifecycle_update)
-DEFINE_CHARACTER(rikako, 13, 1, shared_bomb_lifecycle_update)
-DEFINE_CHARACTER(chiyuri, 15, 2, shared_bomb_lifecycle_update)
-DEFINE_CHARACTER(yumemi, 17, 2, shared_bomb_lifecycle_update)
+DEFINE_CHARACTER(reimu, CHARACTER_MRS_REIMU, 1, reimu_bomb_update)
+DEFINE_CHARACTER(mima, CHARACTER_MRS_MIMA, 1, mima_bomb_update)
+DEFINE_CHARACTER(marisa, CHARACTER_MRS_MARISA, 2, shared_bomb_lifecycle_update)
+DEFINE_CHARACTER(ellen, CHARACTER_MRS_ELLEN, 2, ellen_bomb_update)
+DEFINE_CHARACTER(kotohime, CHARACTER_MRS_KOTOHIME, 2, shared_bomb_lifecycle_update)
+DEFINE_CHARACTER(kana, CHARACTER_MRS_KANA, 2, shared_bomb_lifecycle_update)
+DEFINE_CHARACTER(rikako, CHARACTER_MRS_RIKAKO, 1, shared_bomb_lifecycle_update)
+DEFINE_CHARACTER(chiyuri, CHARACTER_MRS_CHIYURI, 2, shared_bomb_lifecycle_update)
+DEFINE_CHARACTER(yumemi, CHARACTER_MRS_YUMEMI, 2, shared_bomb_lifecycle_update)
 #undef DEFINE_CHARACTER
 #undef BIND_CHARACTER
