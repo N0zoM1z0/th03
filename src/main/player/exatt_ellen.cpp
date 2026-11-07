@@ -1,5 +1,5 @@
-// Maintained natural TC4 reconstruction of the complete TH03 Ellen Extra
-// Attack P_EXATT_TEXT owner. The 30-byte trailing-history slots and each
+// Complete current-source native TC4 reconstruction for Ellen's entire
+// original Extra Attack P_EXATT_TEXT owner. The 30-byte trailing-history slots and each
 // referenced 32-byte entity stay in historical DGROUP. The slot initializer
 // precedes the other five functions in this native compiler producer.
 #pragma codeseg P_EXATT_TEXT
@@ -31,6 +31,15 @@ enum ellen_exatt_limits_t {
     ELLEN_RADIUS_GROWTH = 0x18,
     ELLEN_APPEARING_END = 0x1C,
     ELLEN_FLYING_STATE = 2,
+    ELLEN_RANDOM_TARGET_X_RANGE = 0x0C80,
+    ELLEN_RANDOM_TARGET_X_BIAS = 0x2C0,
+    ELLEN_RANDOM_TARGET_Y_RANGE = 0x0C80,
+    ELLEN_RANDOM_TARGET_Y_BIAS = 0x500,
+    ELLEN_FLY_INITIAL_SPEED = 0x46,
+    ELLEN_TRAIL_SPRITE_WIDTH = 32,
+    ELLEN_TRAIL_SPRITE_HEIGHT = 32,
+    ELLEN_HITTEST_MARGIN = TO_SP(16),
+    ELLEN_CLIP_MARGIN = TO_SP(24),
 };
 
 // The original two-player Extra Attack follows a byte-valued state
@@ -76,9 +85,14 @@ void far pascal exatt_ellen_slots_init(void)
     register ellen_exatt_slot_t near *p0 = &ellen_exatt_slots[0][0];
     register ellen_exatt_slot_t near *p1 = &ellen_exatt_slots[1][0];
     register int i = 0;
-    for(; i < ELLEN_EXATT_SLOTS; ++i, p0++, p1++) {
+    // Original paired 12-slot initializer; both pointers advance only
+    // after both history records receive the physical entity link.
+    while(i < ELLEN_EXATT_SLOTS) {
         p0->entity = &exatt_entities[0][i];
         p1->entity = &exatt_entities[1][i];
+        ++i;
+        p0++;
+        p1++;
     }
 }
 
@@ -90,8 +104,8 @@ void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
     signed char spin;
     unsigned char angle;
     added = 0;
-    target_x = randring_far_next16_mod(0x0C80) + 0x2C0;
-    target_y = randring_far_next16_mod(0x0C80) + 0x500;
+    target_x = randring_far_next16_mod(ELLEN_RANDOM_TARGET_X_RANGE) + ELLEN_RANDOM_TARGET_X_BIAS;
+    target_y = randring_far_next16_mod(ELLEN_RANDOM_TARGET_Y_RANGE) + ELLEN_RANDOM_TARGET_Y_BIAS;
     spin = (randring_far_next16_and(1) == 0) ? -1 : 1;
     angle = (unsigned char)randring_far_next16();
 
@@ -102,7 +116,7 @@ void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
             continue;
         }
         exatt_entity_p = ellen_exatt_slot_p->entity;
-        exatt_fly_init(x, y, target_x, target_y, pid_, 0x46);
+        exatt_fly_init(x, y, target_x, target_y, pid_, ELLEN_FLY_INITIAL_SPEED);
         exatt_entity_p->radius = 0;
         exatt_entity_p->character_mode.ellen_spin_delta = spin;
         if(!added) {
@@ -161,10 +175,12 @@ void near ellen_exatt_render_one(void)
     frame = ellen_exatt_slot_p->entity->frame;
 
     if(ellen_exatt_slot_p->entity->state == ELLEN_EXATT_ACTIVE) {
-        sprite16_put_size.set(32, 32);
+        sprite16_put_size.set(ELLEN_TRAIL_SPRITE_WIDTH, ELLEN_TRAIL_SPRITE_HEIGHT);
         sprite_offset = pid.so_attack + 0x28C;
         i = ELLEN_HISTORY_LAST;
-        for(; i >= 0; i -= ELLEN_HISTORY_RENDER_STEP) {
+        // Active spiral draws history samples 6, 4, 2, 0, in reverse.
+        // Natural signed-index while preserves the native sprite calls.
+        while(i >= 0) {
             trail_left = playfield_fg_x_to_screen(
                 ellen_exatt_slot_p->history_x[i],
                 ellen_exatt_slot_p->entity->pid
@@ -172,6 +188,7 @@ void near ellen_exatt_render_one(void)
             trail_top = ((ellen_exatt_slot_p->history_y[i] >> 4) + 16);
             sprite16_put(trail_left - 16, trail_top - 16, sprite_offset);
             sprite_offset -= 4;
+            i -= ELLEN_HISTORY_RENDER_STEP;
         }
     } else if(ellen_exatt_slot_p->entity->state == ELLEN_FLYING_STATE) {
         exatt_render_state2(left, top, frame);
@@ -190,8 +207,8 @@ void far pascal exatt_update_ellen(void)
     register ellen_exatt_slot_t near *slot = &ellen_exatt_slots[pid_current][0];
 
     pid_other = (1 - pid_current);
-    playfield_clip_negative_radius.x.v = -TO_SP(24);
-    playfield_clip_negative_radius.y.v = -TO_SP(24);
+    playfield_clip_negative_radius.x.v = -ELLEN_CLIP_MARGIN;
+    playfield_clip_negative_radius.y.v = -ELLEN_CLIP_MARGIN;
     collmap_stripe_tile_w.set(12);
     collmap_tile_h.set(12);
     collmap_pid = pid_other;
@@ -202,9 +219,12 @@ void far pascal exatt_update_ellen(void)
             continue;
         }
         if(slot->entity->state == ELLEN_EXATT_ACTIVE) {
-            for(j = ELLEN_HISTORY_LAST; j > 0; --j) {
+            // Shift history 6..1 BACKWARDS before computing sample zero.
+            j = ELLEN_HISTORY_LAST;
+            while(j > 0) {
                 slot->history_x[j] = slot->history_x[j - 1];
                 slot->history_y[j] = slot->history_y[j - 1];
+                --j;
             }
             if(slot->entity->radius <= ELLEN_EXPAND_RADIUS_LIMIT) {
                 slot->history_x[0] = polar(
@@ -237,8 +257,8 @@ void far pascal exatt_update_ellen(void)
                 slot->history_y[0] += slot->entity->velocity_y;
             }
             hitbox_hittest_skip_explosions = true;
-            hitbox.radius.x.v = TO_SP(16);
-            hitbox.radius.y.v = TO_SP(16);
+            hitbox.radius.x.v = ELLEN_HITTEST_MARGIN;
+            hitbox.radius.y.v = ELLEN_HITTEST_MARGIN;
             hitbox.pid = pid_other;
             hitbox.origin.center.x.v = slot->history_x[0];
             hitbox.origin.center.y.v = slot->history_y[0];
@@ -251,9 +271,13 @@ void far pascal exatt_update_ellen(void)
         } else if(slot->entity->state == ELLEN_FLYING_STATE) {
             exatt_entity_p = slot->entity;
             if(exatt_fly_update()) {
-                for(j = 0; j < ELLEN_HISTORY_SAMPLES; ++j) {
+                // On arrival initialize all seven history samples,
+                // not only the four visible spiral sprites.
+                j = 0;
+                while(j < ELLEN_HISTORY_SAMPLES) {
                     slot->history_x[j] = exatt_entity_p->x;
                     slot->history_y[j] = exatt_entity_p->y;
+                    ++j;
                 }
             }
         } else if(slot->entity->state <= ELLEN_APPEARING_END) {
@@ -263,6 +287,8 @@ void far pascal exatt_update_ellen(void)
             slot->entity->state = ELLEN_EXATT_ACTIVE;
             snd_se_play(10);
         }
+        // Keep original byte postfix; prefix changed original
+        // TC4 CODE in fresh negative control af873f.
         slot->entity->frame++;
     }
 }
@@ -272,10 +298,13 @@ void far pascal exatt_render_ellen(void)
 {
     register ellen_exatt_slot_t near *p = &ellen_exatt_slots[pid_current][0];
     register int i = 0;
-    for(; i < ELLEN_EXATT_SLOTS; ++i, p++) {
+    // Every real render call preserves per-slot post-call pointer order.
+    while(i < ELLEN_EXATT_SLOTS) {
         if(p->entity->state) {
             ellen_exatt_slot_p = p;
             ellen_exatt_render_one();
         }
+        ++i;
+        p++;
     }
 }

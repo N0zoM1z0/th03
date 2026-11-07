@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After873: full Ellen Extra Attack history and spiral native C++
+
+- The full six-function `ex_ellen` source now uses native-exact natural
+  `while` for twelve paired slot initialization, the four-sample spiral
+  renderer, reverse history shift, seven-point landing history fill
+  and complete twelve-slot render dispatcher. Original 30-byte history
+  storage, signed 16-bit RNG target/clip/hit geometry are preserved.
+- Fresh genuine TC4 negatives: converting both allocator `continue`
+  loops to `while` gave **1,133** instead of original **1,129** CODE
+  bytes (`af873b`), while byte frame prefix increment gave **1,134**
+  (`af873f`). Both original expressions restored. Final `af873g`
+  compiles the entire original source twice through TC4 4.02 and
+  complete normal MAIN TLINK: **1,129 CODE bytes, 79 ordered native
+  FIXUPPs, 6 PUBLICs**, original Japanese MAIN and all 1,553 MZ
+  relocations exact. 98 other project objects/CRT reused, no cold replay.
+  See [after873 complete Ellen Extra Attack review](MAIN_ELLEN_EXATT_NATIVE_HISTORY_AFTER873_REVIEW.md).
+  Already source covered; no additional unique CODE/Factory credit.
+
 ## After872: complete Chiyuri BOSS four fan loops and sixteen-sprite ring
 
 - Whole original **11-function `ba_chiyu` major BOSS** now uses native-exact
