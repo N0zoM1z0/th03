@@ -29,6 +29,24 @@ The remaining v1 BOSS, Bullet, Fireball and Enemy source claims need
 source-rooted confirmation or correction. Do not treat `progress.py` ledger
 counts as proof of newly changed source bytes.
 
+## Critical correction: v2 native source binding
+
+**Do not treat the historical after598–610 scoped overlay results as
+proof that the edited source compiled.** Turbo C++ resolved their
+`#include "src/..."` to the old TH03WORK tree even though the probe
+recorded hashes of copied candidate source files. The v2 compiler
+driver/read-only reviewer now force original-source and shared-header
+include paths, check the OMF dependency COMENT records, and reject v1
+receipts. It caught an intentionally-invalid Explosion member name,
+and reanalysis showed actual Bullet register-encoding failures and
+Fireball/Enemy control-flow changes. Original baseline programs remain
+available and unchanged; no historical receipts were deleted.
+`af614a` is a genuine v2 full ten-Extra-Attack proof with correct
+byte packing and restored Chiyuri register/branch operations. See
+[after615 source-binding review](MAIN_NATIVE_OVERLAY_SOURCE_BINDING_AFTER615_REVIEW.md).
+All earlier after598–610 positive statements below are *historical*
+and should not be promoted without new v2 compiler evidence.
+
 ## Immediate next-agent start
 
 - Inspect git status --short --branch and git log; do not reset or discard
