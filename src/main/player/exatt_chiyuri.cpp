@@ -48,23 +48,44 @@ enum chiyuri_exatt_phase_t {
     CHIYURI_EXATT_FREE = 0,
     CHIYURI_EXATT_ACTIVE = 1,
     CHIYURI_EXATT_FLYING = 2,
+    CHIYURI_EXATT_RANDOM_X_RANGE = 0x1140,
+    CHIYURI_EXATT_RANDOM_X_BIAS = 0x60,
+    // Spawn target is 0x1780; after flight it SNAPS to 0x1700.
+    // They are genuinely different original 16-bit coordinates.
+    CHIYURI_EXATT_TARGET_BOTTOM_Y = 0x1780,
+    CHIYURI_EXATT_LAUNCH_SPEED = 0x50,
+    CHIYURI_EXATT_BEAM_BOTTOM_Y = 0x1700,
+    CHIYURI_EXATT_COLLISION_TILE_WIDTH = 4,
 };
 
 void far pascal exatt_add_chiyuri(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
     register int i = 0;
-    for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; (i += CHIYURI_EXATT_PAIR_STRIDE, p += CHIYURI_EXATT_PAIR_STRIDE)) {
-        if(p->state) {
-            continue;
+    // The original two RNG target rolls and paired 32-byte entities
+    // are consumed only for the first free *pair*. This native while
+    // retains the original return/skip register allocation (af867b).
+    while(i < CHIYURI_EXATT_PHYSICAL_SLOTS) {
+        if(!p->state) {
+            exatt_entity_p = p;
+            exatt_fly_init(
+                x, y,
+                (randring_far_next16_mod(CHIYURI_EXATT_RANDOM_X_RANGE) +
+                 CHIYURI_EXATT_RANDOM_X_BIAS),
+                0, pid_, CHIYURI_EXATT_LAUNCH_SPEED
+            );
+            exatt_entity_p++;
+            exatt_fly_init(
+                x, y,
+                (randring_far_next16_mod(CHIYURI_EXATT_RANDOM_X_RANGE) +
+                 CHIYURI_EXATT_RANDOM_X_BIAS),
+                CHIYURI_EXATT_TARGET_BOTTOM_Y,
+                pid_, CHIYURI_EXATT_LAUNCH_SPEED
+            );
+            return;
         }
-        exatt_entity_p = p;
-        exatt_fly_init(x, y, (randring_far_next16_mod(0x1140) + 0x60),
-                       0, pid_, 0x50);
-        exatt_entity_p++;
-        exatt_fly_init(x, y, (randring_far_next16_mod(0x1140) + 0x60),
-                       0x1780, pid_, 0x50);
-        return;
+        i += CHIYURI_EXATT_PAIR_STRIDE;
+        p += CHIYURI_EXATT_PAIR_STRIDE;
     }
 }
 
@@ -126,6 +147,8 @@ beam_late:
         _AX -= _DX;
 
 beam_radius:
+        // Original signed division rounds toward zero; arithmetic >>2
+        // rounds negative values differently and changed CODE (af867f).
         radius = (static_cast<int>(_AX) / 4);
         grcg_setcolor(GC_RMW, 9);
         grcg_trapezoid(8, left - radius, left + radius,
@@ -169,10 +192,14 @@ void far pascal exatt_update_chiyuri(void)
 
     exatt_entity_p = &exatt_entities[pid_current][0];
     pid_other = (1 - pid_current);
-    collmap_stripe_tile_w.set(4);
+    collmap_stripe_tile_w.set(CHIYURI_EXATT_COLLISION_TILE_WIDTH);
     collmap_pid = pid_other;
     i = 0;
-    for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; (i += CHIYURI_EXATT_PAIR_STRIDE, exatt_entity_p++)) {
+    // The original update has two independent pair-step paths: active
+    // beam/empty use a continue; flying/arriving fall through. The
+    // explicit two increments in this while each preserve source order,
+    // including the extra pointer hop at chiyuri_first_done (af867e).
+    while(i < CHIYURI_EXATT_PHYSICAL_SLOTS) {
         // The original BX/memory CMP/Jcc sequence is emitted naturally
         // by this direct C++ byte-state test (proved in af779b).
         if(!exatt_entity_p->state) {
@@ -180,57 +207,60 @@ void far pascal exatt_update_chiyuri(void)
         }
         p = exatt_entity_p;
         if(p->state == CHIYURI_EXATT_ACTIVE) {
-                p->frame++;
-                if(p->frame == CHIYURI_BEAM_FIRST_WARNING) {
-                    bomb_center_add(p->x, 0, p->pid);
-                    p++;
-                    bomb_center_add(p->x, 0x1700, p->pid);
-                } else if(p->frame == CHIYURI_BEAM_SOUND_FRAME) {
-                    snd_se_play(20);
-                } else if(p->frame > CHIYURI_BEAM_GROW_END && p->frame < CHIYURI_BEAM_SHRINK_START) {
-                    collmap_topleft.x.v = p->x;
-                    p++;
-                    collmap_bottomright.x.v = p->x;
-                    collmap_set_slope_striped();
-                } else if(p->frame > CHIYURI_BEAM_FINISH) {
-                    p->state = CHIYURI_EXATT_FREE;
-                    p++;
-                    p->state = CHIYURI_EXATT_FREE;
-                }
+            p->frame++;
+            if(p->frame == CHIYURI_BEAM_FIRST_WARNING) {
+                bomb_center_add(p->x, 0, p->pid);
+                p++;
+                bomb_center_add(p->x, CHIYURI_EXATT_BEAM_BOTTOM_Y, p->pid);
+            } else if(p->frame == CHIYURI_BEAM_SOUND_FRAME) {
+                snd_se_play(20);
+            } else if(p->frame > CHIYURI_BEAM_GROW_END && p->frame < CHIYURI_BEAM_SHRINK_START) {
+                collmap_topleft.x.v = p->x;
+                p++;
+                collmap_bottomright.x.v = p->x;
+                collmap_set_slope_striped();
+            } else if(p->frame > CHIYURI_BEAM_FINISH) {
+                p->state = CHIYURI_EXATT_FREE;
+                p++;
+                p->state = CHIYURI_EXATT_FREE;
+            }
 chiyuri_first_done:
-                exatt_entity_p++;
-                continue;
-            }
-
-            first_arrived = 0;
-            if(p->state == CHIYURI_EXATT_FLYING) {
-                if(exatt_fly_update()) {
-                    p->y = 0;
-                }
-            } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
-                p->state++;
-            } else {
-                p->frame = 0;
-                first_arrived = 1;
-            }
-            p->frame++;
-            p++;
             exatt_entity_p++;
-            if(p->state == CHIYURI_EXATT_FLYING) {
-                if(exatt_fly_update()) {
-                    p->y = 0x1700;
-                }
-            } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
-                p->state++;
-            } else {
-                p->frame = 0;
-                if(first_arrived) {
-                    p--;
-                    p->state = CHIYURI_EXATT_ACTIVE;
-                }
-            }
-            p->frame++;
+            i += CHIYURI_EXATT_PAIR_STRIDE;
+            exatt_entity_p++;
+            continue;
+        }
 
+        first_arrived = 0;
+        if(p->state == CHIYURI_EXATT_FLYING) {
+            if(exatt_fly_update()) {
+                p->y = 0;
+            }
+        } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
+            p->state++;
+        } else {
+            p->frame = 0;
+            first_arrived = 1;
+        }
+        p->frame++;
+        p++;
+        exatt_entity_p++;
+        if(p->state == CHIYURI_EXATT_FLYING) {
+            if(exatt_fly_update()) {
+                p->y = CHIYURI_EXATT_BEAM_BOTTOM_Y;
+            }
+        } else if(p->state <= CHIYURI_BEAM_ARRIVAL_END_STATE) {
+            p->state++;
+        } else {
+            p->frame = 0;
+            if(first_arrived) {
+                p--;
+                p->state = CHIYURI_EXATT_ACTIVE;
+            }
+        }
+        p->frame++;
+        i += CHIYURI_EXATT_PAIR_STRIDE;
+        exatt_entity_p++;
     }
 }
 
@@ -239,9 +269,12 @@ void far pascal exatt_render_chiyuri(void)
     register int i;
     exatt_entity_p = &exatt_entities[pid_current][0];
     i = 0;
-    for(; i < CHIYURI_EXATT_PHYSICAL_SLOTS; i += CHIYURI_EXATT_PAIR_STRIDE, exatt_entity_p += CHIYURI_EXATT_PAIR_STRIDE) {
+    // Every real render call consumes two physical entity records.
+    while(i < CHIYURI_EXATT_PHYSICAL_SLOTS) {
         if(exatt_entity_p->state) {
             chiyuri_exatt_render_one();
         }
+        i += CHIYURI_EXATT_PAIR_STRIDE;
+        exatt_entity_p += CHIYURI_EXATT_PAIR_STRIDE;
     }
 }

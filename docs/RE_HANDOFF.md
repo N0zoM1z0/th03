@@ -8,6 +8,24 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After867: complete Chiyuri Extra Attack paired-entity and beam loops
+
+- Full four-function `ex_chyu` (~518-byte GRCG beam renderer, ~298-byte
+  update) now uses natural `while` for **all three physical 2-entity
+  spawn, update/arrival/collision and render traversals**, preserving
+  original `goto/continue` two-hop pointer lifetime and byte frame order.
+- Genuine original compiler experiment `af867c` caught a mistaken source
+  assumption: Chiyuri's second entity **spawns toward Y=0x1780, but
+  snaps to Y=0x1700** on arrival, used by the beam warning; mixing those
+  changed original CODE at offset 877. Restored both distinct physical
+  positions. Signed `/4` → `>>2` in the beam renderer also **failed**
+  (`af867f`: **975** vs original **978** CODE bytes); signed division
+  remains. Final `af867g` proves **978 CODE bytes, 55 ordered native
+  FIXUPPs, 4 PUBLICs**, full Japanese MAIN and 1,553 relocations
+  in two actual TC4/normal TLINK rounds, 98 other objects/CRT reused.
+  See [after867 Chiyuri Extra Attack review](MAIN_CHIYURI_EXATT_PAIRED_WHILE_AFTER867_REVIEW.md).
+  Historical source-owned CODE, not new unique/canonical Factory credit.
+
 ## After866: complete Kotohime BOSS natural nested radial and ring control
 
 - Full 11-function Kotohime **major BOSS** (`ba_koto`) now uses
