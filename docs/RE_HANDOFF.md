@@ -8,6 +8,22 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After910: complete Kotohime BOSS native render and ring geometry
+
+- Full eleven-function physical `ba_koto` major BOSS now uses natural
+  remainder comparisons and explicit C++ nonzero guards; original
+  64×48 collision tiles, 32-pixel hit margin, 128×48 main sprite and
+  32×16 ring geometry have exact named source constants. All original
+  nested ring generators, RNG and AL-mediated phase updates remain.
+- Real TC4 negative: prefixing three byte render frame updates generated
+  **1,852 vs original 1,840 CODE bytes** (`af910c`); restored postfix.
+  Final `af910e` passes two real original TC4 4.02/normal full MAIN TLINK
+  rounds: **1,840 CODE bytes, 262 ordered native FIXUPPs, 11 PUBLICs**,
+  entire Japanese MAIN and 1,553 MZ relocations exact; 98 other game
+  objects/CRT reused. See
+  [after910 Kotohime major BOSS review](MAIN_KOTOHIME_BOSS_NATIVE_RENDER_AFTER910_REVIEW.md).
+  Previously source-owned original bytes; no new unique/Factory credit.
+
 ## Latest after909: five edited original physical owners built together
 
 - Actual `af909a` **simultaneously recompiles all five complete original

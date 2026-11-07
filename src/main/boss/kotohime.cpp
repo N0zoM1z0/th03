@@ -1,5 +1,5 @@
-// Complete source-native Turbo C++ reconstruction for the original
-// Kotohime major BOSS physical contribution inside TH03 MAIN_03_TEXT.
+// Complete current native-source Turbo C++ reconstruction for the
+// original Kotohime major BOSS physical owner inside MAIN_03_TEXT.
 // Shared BOSS helpers and storage remain in their own historical slots;
 // the full normal Japanese MAIN link is original-exact, while canonical
 // packed-game Factory acceptance is an independent open claim.
@@ -96,6 +96,17 @@ enum kotohime_boss_timing_t {
     KOTOHIME_PELLET_ARC_X_MIDDLE = TO_SP(24),
     KOTOHIME_PELLET_ARC_Y_MIDDLE = TO_SP(12),
     KOTOHIME_PELLET_ARC_Y_CENTER = TO_SP(24),
+    KOTOHIME_COLLISION_STRIPE_WIDTH = 64,
+    KOTOHIME_COLLISION_TILE_HEIGHT = 48,
+    KOTOHIME_COLLISION_HALF_RADIUS = TO_SP(32),
+    KOTOHIME_MAIN_SPRITE_WIDTH = 128,
+    KOTOHIME_MAIN_SPRITE_HEIGHT = 48,
+    KOTOHIME_MAIN_LEFT_OFFSET = 64,
+    KOTOHIME_MAIN_TOP_OFFSET = 32,
+    KOTOHIME_RING_SPRITE_WIDTH = 32,
+    KOTOHIME_RING_SPRITE_HEIGHT = 16,
+    KOTOHIME_RING_SPRITE_OFFSET = 0x502,
+    KOTOHIME_RING_SPRITE_ALTERNATE_OFFSET = 0xA00,
 };
 
 void far pascal boss_kotohime_template_init(int player_id)
@@ -137,7 +148,9 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 	// while compiles byte-exactly (native af866a).
 	i = 0;
 	while(i < kotohime_orbit_count) {
-		if(randomize_angle) {
+		// Original signed-word nonzero RNG selector is exact with an
+		// explicit `!=0` (genuine TC4 native test af910d).
+		if(randomize_angle != 0) {
 			bullet_template.angle = randring_far_next16();
 		}
 		angle = (
@@ -189,6 +202,8 @@ void near kotohime_pattern_random_ring(void)
 		_AL = boss_move_phase;
 		_AL += 2;
 		boss_move_phase = _AL;
+		// Byte-memory postfix is real original codegen. Changing all
+		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
 		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
 			bullet_template.group = BG_16_RING;
@@ -222,6 +237,8 @@ void near kotohime_pattern_aimed_ring(void)
 		_AL = boss_move_phase;
 		_AL += 2;
 		boss_move_phase = _AL;
+		// Byte-memory postfix is real original codegen. Changing all
+		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
 		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
 			bullet_template.group = BG_2_SPREAD_NARROW_AIMED;
@@ -254,7 +271,9 @@ void near kotohime_pattern_pellet_arc(void)
 {
 	boss_move_sine();
 
-	if((boss_frame % kotohime_pellet_interval) == KOTOHIME_PELLET_FIRE_REMAINDER) {
+	// The unsigned 16-bit BOSS clock fires exactly at remainder 1.
+	// Its natural reversed comparison is TC4 native-exact (af910a).
+	if(KOTOHIME_PELLET_FIRE_REMAINDER == (boss_frame % kotohime_pellet_interval)) {
 		snd_se_play(3);
 		bullet_template.type = BT_PELLET;
 		bullet_template.angle = (unsigned char)boss_frame;
@@ -313,6 +332,8 @@ void near kotohime_pattern_radial_burst(void)
 		boss_render_mode = 2;
 		boss_effect_radius += 8;
 		boss_move_phase -= 2;
+		// Byte-memory postfix is real original codegen. Changing all
+		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
 		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
 			return;
@@ -444,14 +465,14 @@ void far gba_boss_update_kotohime(void)
 
 	collmap_center.x.v = boss_center_x;
 	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(64);
-	collmap_tile_h.set(48);
+	collmap_stripe_tile_w.set(KOTOHIME_COLLISION_STRIPE_WIDTH);
+	collmap_tile_h.set(KOTOHIME_COLLISION_TILE_HEIGHT);
 	collmap_pid = pid_other;
 	collmap_set_rect_striped();
 
 	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = TO_SP(32);
-	hitbox.radius.y.v = TO_SP(32);
+	hitbox.radius.x.v = KOTOHIME_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = KOTOHIME_COLLISION_HALF_RADIUS;
 	hitbox.pid = pid_other;
 	hitbox.origin.center.x.v = boss_center_x;
 	hitbox.origin.center.y.v = boss_center_y;
@@ -471,13 +492,15 @@ void near pascal kotohime_render_ring(int count)
 	register screen_x_t left;
 
 	radius = boss_effect_radius;
-	sprite_offset = (pid.so_attack + 0x502);
-	if((boss_render_mode == 2) && ((boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD) < KOTOHIME_RENDER_ALT_FRAMES)) {
-		sprite_offset += 0xA00;
+	sprite_offset = (pid.so_attack + KOTOHIME_RING_SPRITE_OFFSET);
+	// The alternating ring sprites use a signed/unsigned native
+	// modulo test. Comparison reversal remains exact (af910a).
+	if((boss_render_mode == 2) && (KOTOHIME_RENDER_ALT_FRAMES > (boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD))) {
+		sprite_offset += KOTOHIME_RING_SPRITE_ALTERNATE_OFFSET;
 	}
 
-	sprite16_put_size.w = 32;
-	sprite16_put_size.h = 16;
+	sprite16_put_size.w = KOTOHIME_RING_SPRITE_WIDTH;
+	sprite16_put_size.h = KOTOHIME_RING_SPRITE_HEIGHT;
 
 	// The same signed 256-step division is used by the 8-/N-sprite
 	// renderer. A while preserves the original 16-bit signed result.
@@ -511,16 +534,16 @@ void near kotohime_render_main(void)
 	screen_y_t top;
 	register sprite16_offset_t sprite_offset;
 
-	sprite16_put_size.w = 128;
-	sprite16_put_size.h = 48;
+	sprite16_put_size.w = KOTOHIME_MAIN_SPRITE_WIDTH;
+	sprite16_put_size.h = KOTOHIME_MAIN_SPRITE_HEIGHT;
 
 	left = (
 		playfield_fg_x_to_screen(
 			boss_center_x,
 			(1 - pid_current)
-		) - 64
+		) - KOTOHIME_MAIN_LEFT_OFFSET
 	);
-	top = ((boss_center_y >> 4) - 32);
+	top = ((boss_center_y >> 4) - KOTOHIME_MAIN_TOP_OFFSET);
 
 	sprite_offset = boss_sprite_offset;
 	if(boss_hit) {
@@ -528,7 +551,9 @@ void near kotohime_render_main(void)
 	}
 	sprite16_put(left, top, sprite_offset);
 
-	if(boss_render_mode) {
+	// This byte render-mode guard naturally spells `!=0`, without
+	// changing the physical ring's signed-angle/near-pascal ABI.
+	if(boss_render_mode != 0) {
 		kotohime_render_ring(kotohime_orbit_count);
 	}
 }
@@ -539,8 +564,8 @@ void near pascal kotohime_render_intro(int radius)
 		return;
 	}
 
-	sprite16_put_size.w = 32;
-	sprite16_put_size.h = 16;
+	sprite16_put_size.w = KOTOHIME_RING_SPRITE_WIDTH;
+	sprite16_put_size.h = KOTOHIME_RING_SPRITE_HEIGHT;
 	boss_render_mode = 1;
 	boss_move_phase += 2;
 	boss_effect_radius = radius;
