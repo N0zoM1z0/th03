@@ -71,7 +71,17 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after840 five-original-physical-object integration**: full Kana
+**latest after842 six-original-physical-object integration**: full Kana
+major BOSS, both shared BOSS ring/controller carriers, complete CPU AI,
+all input modes and Kana's complete four-trail Chargeshot/Gauge. Five
+modified C++ source files were genuinely recompiled as six historical
+original TUs in each of two original TC4 4.02/complete normal TLINK
+rounds. All **5,558 original CODE bytes, 619 literal ordered native
+FIXUPPs, 39 PUBLICs**, full original MAIN EXE/MAP, all 124,642 Japanese
+loaded bytes and 1,553 ordered MZ relocations match; **93 other original
+game objects and CRT reused**, no whole cold replay. See
+[after842 six-object native integration](docs/MAIN_SIX_SOURCE_INTEGRATION_AFTER842_REVIEW.md).
+The preceding **after840 five-object source-native integration**: full Kana
 BOSS, shared BOSS ring/lifecycle carrier, complete CPU AI collision/retry
 and all original input modes. Four modified maintained C++ source files
 produce five historical original physical objects. Two genuine independent
@@ -181,6 +191,7 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af842a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af840a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af835a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af829a

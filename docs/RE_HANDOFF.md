@@ -8,6 +8,27 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after842: six modified original physical sources in one exact normal MAIN link
+
+- `af842a` **simultaneously compiles all six changed original physical
+  objects** in two independent original Turbo C++ 4.02 and complete
+  normal TLINK rounds: full Kana major BOSS, both shared BOSS carriers,
+  the whole CPU AI, complete input modes and full Kana Chargeshot/Gauge.
+  Five current modified maintained C++ files map onto six original
+  physical project TUs; no fake sum of individual passes is substituted.
+- Every **5,558 original CODE bytes, 619 literal ordered native FIXUPPs,
+  39 PUBLICs**, original source/segment ABI, full original MAIN EXE/MAP,
+  all **124,642 Japanese loaded bytes and 1,553 ordered MZ relocations**
+  match in both real native rounds. Independent standard MZ serialization
+  matches all 130,882 original Japanese file bytes. **93 unchanged game
+  objects and CRT reused**, no whole cold replay. Protected report:
+  [after842 six-object native integration](MAIN_SIX_SOURCE_INTEGRATION_AFTER842_REVIEW.md).
+- `af840a`, `af835a`, `af829a`, `af823a` remain separate actual live-
+  source-bound read-only passes for their own source sets; **do not claim
+  they were all rebuilt in one run** or add historically covered bytes
+  again to unique CODE ownership. Canonical packed-file Factory
+  acceptance and the BIOS `input_s` single-NOP link gap remain open.
+
 ## After841: complete Kana Chargeshot/Gauge native geometry
 
 - The full nine-function `cs_kana` owner now names its four true
