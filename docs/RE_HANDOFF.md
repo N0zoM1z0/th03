@@ -8,6 +8,30 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after853: six modified original MAIN physical owners rebuilt together
+
+- Genuine original `af853a` **simultaneously recompiles all six physical
+  source owners changed in this session** in two independent TC4 4.02
+  plus full normal MAIN TLINK rounds: full Yumemi **major BOSS**, both
+  Combo HUD/BOSS helper slots, complete seven-function Warning, original
+  55-byte Gauge saturation leaf and full six-entity Mima Extra Attack.
+  Five current maintained C++ sources map to six real linker objects.
+- All **5,678 original CODE bytes, 570 literal ordered native FIXUPPs,
+  27 PUBLICs**, original segment and current-source OMF dependencies,
+  full normal MAIN EXE/MAP, **124,642 Japanese loaded bytes and 1,553
+  ordered MZ relocations** match in both real compiler/linker rounds.
+  Independent standard MZ serialization matches all 130,882 Japanese
+  file bytes. **93 other unchanged original project objects and CRT
+  reused**, no full cold replay. See
+  [after853 six-source integration](MAIN_SIX_SOURCE_INTEGRATION_AFTER853_REVIEW.md).
+- Checked source provenance now: separate `af847a`, `af842a`, `af835a`
+  read-only reviews still **pass** current source. Older `af829a` and
+  `af827a` now **fail current-source hash checks** after the Yumemi
+  BOSS edit (and `af823a` was already historical after Reimu changed).
+  Preserve their genuine historical receipts; never weaken source guards,
+  claim one invented all-object compile, double-count original CODE
+  as new unique bytes or grant canonical Factory acceptance.
+
 ## After852: full Mima Extra Attack native unsigned parity recovery
 
 - The complete four-function original `ex_mima` Extra Attack now uses
@@ -107,8 +131,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   MZ serialization reproduces all 130,882 bytes. **92 unchanged game
   objects and CRT reused, no full cold replay**. See
   [after847 seven-original-object integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER847_REVIEW.md).
-- Crucial evidence boundary: `af842a`, `af835a` and `af829a` still pass
-  live-source read-only review, but old `af823a` is **historical source
+- Later current-checkout boundary: `af842a` and `af835a` still pass
+  live-source review; `af829a` is historical after the Yumemi edit,
+  while old `af823a` is also **historical source
   evidence only** after the current `ba_reimu` source change: its
   read-only source hash check now **fails**, as expected. The new
   `af847a` proves the *current* Reimu source. Do not alter old receipts,
@@ -197,8 +222,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   matches all 130,882 original Japanese file bytes. **93 unchanged game
   objects and CRT reused**, no whole cold replay. Protected report:
   [after842 six-object native integration](MAIN_SIX_SOURCE_INTEGRATION_AFTER842_REVIEW.md).
-- `af840a`, `af835a`, `af829a` remain separate live-source read-only
-  passes; `af823a` is now historical after the Reimu BOSS edit.
+- `af840a` and `af835a` still pass current source checks; `af829a`
+  is now historical after the Yumemi source edit, and `af823a` was
+  already historical after the Reimu BOSS edit.
   **Do not claim** they were all rebuilt together or add covered bytes
   again to unique CODE ownership. Canonical packed-file Factory
   acceptance and the BIOS `input_s` single-NOP link gap remain open.
@@ -231,9 +257,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   all 130,882 Japanese file bytes. **94 unchanged original game objects
   and CRT reused**, no cold replay. See
   [after840 five-object integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER840_REVIEW.md).
-- Independent `af835a` and `af829a` remain current source-bound
-  checks; `af823a` was current at that earlier checkpoint but is now
-  historical because `ba_reimu` changed. No fictitious combined replay. No overlap
+- Independent `af835a` remains current source-bound; `af829a` is
+  historical after the Yumemi edit, while `af823a` was current at its
+  earlier checkpoint but is historical after `ba_reimu` changed. No fictitious combined replay. No overlap
   double-counted as new distinct CODE or canonical Factory acceptance.
 
 ## After839: complete input modes and native press/release wait
@@ -309,9 +335,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   **130,882 bytes**; 94 other original project objects and CRT reused,
   **no full cold replay**. See
   [after835 five-original-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER835_REVIEW.md).
-- Earlier simultaneous `af829a` (four different original TUs) still
-  passes live-source read-only review; `af823a` (nine TUs) now has a
-  historical Reimu source snapshot, not a current live-source pass. **Do not combine these into a
+- Earlier simultaneous `af829a` (four original TUs) had an authentic
+  compiler proof then, but has a historical Yumemi source snapshot now;
+  `af823a` (nine TUs) has a historical Reimu source snapshot. **Do not combine these into a
   claimed simultaneous eighteen-object build.** Historical exact covered
   bytes from these scopes cannot be counted again as unique ownership or
   canonical packed-file Factory acceptance. The original `input_s` one-NOP
@@ -415,7 +441,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   link writer rounds. Earlier nine-object `af823a` was source-current
   then, but its Reimu input has since changed; it is now historical;
   **do not combine them into an invented thirteen-object compile**.
-  See [after829 four-source integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER829_REVIEW.md).
+  See [after829 four-source integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER829_REVIEW.md),
+  retained as historical source evidence after the newer Yumemi edit.
 - The named and native-exact C++ fixes include whole-BOSS unsigned
   clocks, signed/unsigned rendering arithmetic, Reimu's 24-slot byte
   lifecycle and Chiyuri's four signed-angle fan loops. Rejected AL/
