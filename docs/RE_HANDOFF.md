@@ -6,6 +6,21 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Rikako full homing and typed native parity after643
+
+The real Rikako Extra Attack now has named eight ordinary/fourteen total
+slots, inclusive 0x40..0x50 homing window, special +0x17
+`homing_disabled` semantics and original flying/arrival state
+boundaries. Natural `static_cast<unsigned int>(frame) % 2` in
+the renderer produces original parity bytes, unlike plain `frame % 2`
+(`af643a`). Replacing the signed `angle_delta /= 8` divisor with
+an equal-valued enum changed codegen and was rejected (`af643c`).
+Correct v2 `af643e` full source/header-bound native TC4/TLINK
+pair reproduces **702 CODE bytes, 46 ordered FIXUPPs, five PUBLICs**,
+complete original MAIN and Japanese MZ. See
+[after643 Rikako Extra Attack review](MAIN_RIKAKO_EXATT_HOMING_AFTER643_NATIVE_REVIEW.md).
+No full cold replay or duplicate accepted byte count.
+
 ## Ellen seven-sample orbit/trail Extra Attack after642
 
 The six-function Ellen Extra Attack uses 12 original 30-byte physical

@@ -48,12 +48,25 @@ extern "C" void near pascal exatt_render_state_other(
 );
 extern "C" void near pascal exatt_collmap_set(int x, int y);
 
+// Rikako's Extra Attack uses 14 slots per player, of which its normal
+// spawner scans the first 8. The +0x17 character-specific mode is the
+// original homing-disable bit, and the 0x40..0x50 frame range is the
+// only span during which motion can adjust the aimed direction.
+enum rikako_exatt_limits_t {
+    RIKAKO_EXATT_NORMAL_SLOTS = 8,
+    RIKAKO_EXATT_ALL_SLOTS = 14,
+    RIKAKO_EXATT_HOMING_START = 0x40,
+    RIKAKO_EXATT_HOMING_END = 0x50,
+    RIKAKO_EXATT_FLYING_STATE = 2,
+    RIKAKO_EXATT_APPEARING_END = 0x1C,
+};
+
 void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
 	register int i = 0;
 
-	for(; i < 8; i++, p++) {
+	for(; i < RIKAKO_EXATT_NORMAL_SLOTS; i++, p++) {
 		if(p->state == 0) {
 			exatt_entity_p = p;
 			exatt_fly_init(
@@ -77,11 +90,11 @@ void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 	int i = 0;
 
-	for(; i < 14; i++, p++) {
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; i++, p++) {
 		if(p->state == 0) {
 			p->state = 1;
 			p->character.rikako.homing_disabled = 1;
-			p->frame = 0x40;
+			p->frame = RIKAKO_EXATT_HOMING_START;
 			p->x = x;
 			p->y = y;
 			p->angle = angle_;
@@ -113,7 +126,7 @@ void near rikako_exatt_render_one(void)
 	frame = p->frame;
 	if(p->state == 1) {
 		sprite_offset = (pid.so_attack + 0x780);
-		if((frame & 1) != 0) {
+		if((static_cast<unsigned int>(frame) % 2) != 0) {
 			sprite_offset += 0x780;
 		}
 		sprite16_put((left - 24), (top - 24), sprite_offset);
@@ -146,7 +159,7 @@ void far pascal exatt_update_rikako(void)
 	hitbox.pid = pid_other;
 	i = 0;
 
-	for(; i < 14; i++, p++) {
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; i++, p++) {
 		if(p->state == 0) {
 			continue;
 		}
@@ -158,8 +171,8 @@ void far pascal exatt_update_rikako(void)
 
 			if(
 				(p->character.rikako.homing_disabled == 0) &&
-				(p->frame >= 0x40) &&
-				(p->frame <= 0x50)
+				(p->frame >= RIKAKO_EXATT_HOMING_START) &&
+				(p->frame <= RIKAKO_EXATT_HOMING_END)
 			) {
 				target_angle = iatan2(
 					(players[pid_other].center.y.v - p->y),
@@ -167,6 +180,8 @@ void far pascal exatt_update_rikako(void)
 				);
 				p->speed++;
 				angle_delta = (target_angle - p->angle);
+				// Keep the literal 8 here. Replacing it with an enum of
+				// equal value changes TC4's 16-bit signed-division codegen.
 				angle_delta /= 8;
 				p->angle += angle_delta;
 			}
@@ -183,10 +198,10 @@ void far pascal exatt_update_rikako(void)
 			hitbox.origin.center.y.v = p->y;
 			hitbox_hittest();
 			exatt_collmap_set(p->x, p->y);
-		} else if(p->state == 2) {
+		} else if(p->state == RIKAKO_EXATT_FLYING_STATE) {
 			exatt_entity_p = p;
 			exatt_fly_update();
-		} else if(p->state <= 0x1C) {
+		} else if(p->state <= RIKAKO_EXATT_APPEARING_END) {
 			p->state++;
 		} else {
 			p->frame = 0;
@@ -204,7 +219,7 @@ void far pascal exatt_render_rikako(void)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 	register int i = 0;
 
-	for(; i < 14; i++, p++) {
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; i++, p++) {
 		if(p->state != 0) {
 			exatt_entity_p = p;
 			rikako_exatt_render_one();
