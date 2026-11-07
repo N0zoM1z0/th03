@@ -54,6 +54,31 @@ void far pascal bomb_explosion_add(int x, int y, int pid);
 void far pascal rikako_extra_add(int x, int y, unsigned char angle);
 }
 
+// Values selected by the shared BOSS scheduler, with Rikako's original
+// per-character orbit / entity / alternating barrage mapping.
+enum rikako_boss_mode_t {
+    RIKAKO_MODE_INTRO = 0x00,
+    RIKAKO_MODE_SELECT = 0x01,
+    RIKAKO_MODE_ORBIT_0 = 0x02,
+    RIKAKO_MODE_ORBIT_1 = 0x03,
+    RIKAKO_MODE_ORBIT_2 = 0x04,
+    RIKAKO_MODE_ORBIT_3 = 0x05,
+    RIKAKO_MODE_ALTERNATE_0 = 0x06,
+    RIKAKO_MODE_ENTITIES_0 = 0x07,
+    RIKAKO_MODE_ENTITIES_1 = 0x08,
+    RIKAKO_MODE_ENTITIES_2 = 0x09,
+    RIKAKO_MODE_ENTITIES_3 = 0x0A,
+    RIKAKO_MODE_ENTITIES_4 = 0x0B,
+    RIKAKO_MODE_ENTITIES_5 = 0x0C,
+    RIKAKO_MODE_ALTERNATE_1 = 0x0D,
+    RIKAKO_MODE_ALTERNATE_2 = 0x0E,
+    RIKAKO_MODE_ALTERNATE_3 = 0x0F,
+    RIKAKO_MODE_ALTERNATE_4 = 0x10,
+    RIKAKO_MODE_ALTERNATE_5 = 0x11,
+    RIKAKO_MODE_DESCEND = 0x80,
+    RIKAKO_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_rikako_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -77,6 +102,15 @@ void far pascal boss_rikako_template_init(int player_id)
 	p->render_mode = 0;
 }
 
+// The same 0x10 warning and 0x28 release drive Rikako's orbiting
+// spread and the unrelated entity barrage, but the shots differ.
+enum rikako_orbit_phase_t {
+    RIKAKO_ORBIT_WARNING_FRAME = 0x10,
+    RIKAKO_ORBIT_FIRE_FRAME = 0x28,
+    RIKAKO_ORBIT_FINISH_AFTER = 0x50,
+    RIKAKO_SPIN_TICK_PERIOD = 8,
+};
+
 void near rikako_pattern_orbit_spread(void)
 {
 	unsigned char angle;
@@ -84,12 +118,12 @@ void near rikako_pattern_orbit_spread(void)
 	register int i;
 
 	if(boss_spin_delta <= 8) {
-		if((boss_frame & 7) == 0) {
+		if((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0) {
 			boss_spin_delta++;
 		}
 	}
 
-	if(boss_frame == 0x10) {
+	if(boss_frame == RIKAKO_ORBIT_WARNING_FRAME) {
 		bomb_center_add(
 			boss_center_x,
 			boss_center_y,
@@ -98,7 +132,7 @@ void near rikako_pattern_orbit_spread(void)
 		return;
 	}
 
-	if(boss_frame == 0x28) {
+	if(boss_frame == RIKAKO_ORBIT_FIRE_FRAME) {
 		bomb_explosion_add(
 			boss_center_x,
 			boss_center_y,
@@ -134,11 +168,18 @@ void near rikako_pattern_orbit_spread(void)
 		return;
 	}
 
-	if(boss_frame > 0x50) {
+	if(boss_frame > RIKAKO_ORBIT_FINISH_AFTER) {
 		boss_frame = 0;
 		boss_mode = 1;
 	}
 }
+
+enum rikako_entities_phase_t {
+    RIKAKO_ENTITIES_WARNING_FRAME = 0x10,
+    RIKAKO_ENTITIES_RELEASE_FRAME = 0x28,
+    RIKAKO_ENTITIES_PELLET_FRAME = 0x40,
+    RIKAKO_ENTITIES_FINISH_AFTER = 0x50,
+};
 
 void near rikako_pattern_entities_and_pellets(void)
 {
@@ -146,12 +187,12 @@ void near rikako_pattern_entities_and_pellets(void)
 	register int i;
 
 	if(boss_spin_delta >= -8) {
-		if((boss_frame & 7) == 0) {
+		if((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0) {
 			boss_spin_delta--;
 		}
 	}
 
-	if(boss_frame == 0x10) {
+	if(boss_frame == RIKAKO_ENTITIES_WARNING_FRAME) {
 		bomb_axis_add(
 			boss_center_x,
 			boss_center_y,
@@ -160,7 +201,7 @@ void near rikako_pattern_entities_and_pellets(void)
 		return;
 	}
 
-	if(boss_frame == 0x28) {
+	if(boss_frame == RIKAKO_ENTITIES_RELEASE_FRAME) {
 		bomb_explosion_add(
 			boss_center_x,
 			boss_center_y,
@@ -179,7 +220,7 @@ void near rikako_pattern_entities_and_pellets(void)
 		return;
 	}
 
-	if(boss_frame == 0x40) {
+	if(boss_frame == RIKAKO_ENTITIES_PELLET_FRAME) {
 		bullet_template.type = BT_PELLET;
 		bullet_template.group = BG_RING;
 		bullet_template.count = rikako_pellet_count;
@@ -198,11 +239,21 @@ void near rikako_pattern_entities_and_pellets(void)
 		return;
 	}
 
-	if(boss_frame > 0x50) {
+	if(boss_frame > RIKAKO_ENTITIES_FINISH_AFTER) {
 		boss_frame = 0;
 		boss_mode = 1;
 	}
 }
+
+// Alternating bursts draw RNG at remainder 1, then fire paired volleys
+// at 1/5/9/13; the speed and signed angle delta are unchanged.
+enum rikako_burst_phase_t {
+    RIKAKO_BURST_FIRST = 1,
+    RIKAKO_BURST_SECOND = 5,
+    RIKAKO_BURST_THIRD = 9,
+    RIKAKO_BURST_FOURTH = 0x0D,
+    RIKAKO_BURST_FINISH_FRAME = 0x80,
+};
 
 void near rikako_pattern_alternating_burst(void)
 {
@@ -211,19 +262,13 @@ void near rikako_pattern_alternating_burst(void)
 	boss_move_sine();
 
 	if(boss_spin_delta != 2) {
-		if((boss_frame & 7) == 0) {
-			if(boss_spin_delta > 2) {
-				_AL = (unsigned char)-1;
-			} else {
-				_AL = 1;
-			}
-			_AL += boss_spin_delta;
-			boss_spin_delta = _AL;
+		if((boss_frame % RIKAKO_SPIN_TICK_PERIOD) == 0) {
+			boss_spin_delta += ((boss_spin_delta > 2) ? -1 : 1);
 		}
 	}
 
 	remainder = (boss_frame % rikako_burst_interval);
-	if(remainder == 1) {
+	if(remainder == RIKAKO_BURST_FIRST) {
 		rikako_random_angle = randring_far_next16();
 		rikako_bullet_type = (randring_far_next16_and(1) + 1);
 	}
@@ -236,10 +281,10 @@ void near rikako_pattern_alternating_burst(void)
 	bullet_template.speed.v = rikako_burst_speed;
 
 	if(
-		(remainder == 1) ||
-		(remainder == 5) ||
-		(remainder == 9) ||
-		(remainder == 0x0D)
+		(remainder == RIKAKO_BURST_FIRST) ||
+		(remainder == RIKAKO_BURST_SECOND) ||
+		(remainder == RIKAKO_BURST_THIRD) ||
+		(remainder == RIKAKO_BURST_FOURTH)
 	) {
 		snd_se_play(10);
 		bullets_add();
@@ -248,7 +293,7 @@ void near rikako_pattern_alternating_burst(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= 0x80) {
+	if(boss_frame >= RIKAKO_BURST_FINISH_FRAME) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
@@ -276,7 +321,7 @@ void far gba_boss_update_rikako(void)
 	boss_frame++;
 
 	switch(boss_mode) {
-	case 0:
+	case RIKAKO_MODE_INTRO:
 		if(boss_frame != 0x64) {
 			return;
 		}
@@ -284,40 +329,40 @@ void far gba_boss_update_rikako(void)
 		boss_mode = 1;
 		break;
 
-	case 1:
+	case RIKAKO_MODE_SELECT:
 		boss_pattern_next();
 		break;
 
-	case 2:
-	case 3:
-	case 4:
-	case 5:
+	case RIKAKO_MODE_ORBIT_0:
+	case RIKAKO_MODE_ORBIT_1:
+	case RIKAKO_MODE_ORBIT_2:
+	case RIKAKO_MODE_ORBIT_3:
 		rikako_pattern_orbit_spread();
 		break;
 
-	case 7:
-	case 8:
-	case 9:
-	case 0x0A:
-	case 0x0B:
-	case 0x0C:
+	case RIKAKO_MODE_ENTITIES_0:
+	case RIKAKO_MODE_ENTITIES_1:
+	case RIKAKO_MODE_ENTITIES_2:
+	case RIKAKO_MODE_ENTITIES_3:
+	case RIKAKO_MODE_ENTITIES_4:
+	case RIKAKO_MODE_ENTITIES_5:
 		rikako_pattern_entities_and_pellets();
 		break;
 
-	case 6:
-	case 0x0D:
-	case 0x0E:
-	case 0x0F:
-	case 0x10:
-	case 0x11:
+	case RIKAKO_MODE_ALTERNATE_0:
+	case RIKAKO_MODE_ALTERNATE_1:
+	case RIKAKO_MODE_ALTERNATE_2:
+	case RIKAKO_MODE_ALTERNATE_3:
+	case RIKAKO_MODE_ALTERNATE_4:
+	case RIKAKO_MODE_ALTERNATE_5:
 		rikako_pattern_alternating_burst();
 		break;
 
-	case 0x80:
+	case RIKAKO_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case RIKAKO_MODE_EXPLODE:
 		return;
 	}
 

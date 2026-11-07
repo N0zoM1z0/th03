@@ -6,6 +6,19 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Rikako native signed spin and BOSS phases after636
+
+Rikako's large update and three attack routines now lower from
+natural `boss_frame % 8` in all three spin-clock paths, plus
+`boss_spin_delta += ((boss_spin_delta > 2) ? -1 : 1)` in the
+alternating burst. The full 18-mode dispatcher and warning, entity,
+pellet and four alternating burst phases have typed names. Genuine
+v2 Turbo C++/TLINK dual rounds `af636d` prove **all 1,677 original
+CODE bytes, 215 ordered native fixups, eight PUBLICs**, complete
+normal MAIN EXE/MAP and all Japanese relocations. See
+[after636 Rikako review](MAIN_RIKAKO_BOSS_NATIVE_AFTER636_REVIEW.md).
+No cold replay or duplicate accepted bytes.
+
 ## Chiyuri full BOSS modes and natural modulo after635
 
 The current Chiyuri BOSS includes all 18 character-specific scheduler
