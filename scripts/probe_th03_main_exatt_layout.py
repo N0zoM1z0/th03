@@ -37,6 +37,7 @@ SOURCES = {
     'p_cpu': 'src/main/player/cpu.cpp',
     'cs_yume': 'src/main/player/chargeshot_yumemi.cpp',
     'cs_ellen': 'src/main/player/chargeshot_ellen.cpp',
+    'cs_chiyu': 'src/main/player/chargeshot_chiyuri.cpp',
     'b_ellen': 'src/main/player/bomb_ellen.cpp',
     'ex_mima': 'src/main/player/exatt_mima.cpp',
     'ex_rika': 'src/main/player/exatt_rikako.cpp',

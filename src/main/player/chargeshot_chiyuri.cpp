@@ -1,6 +1,7 @@
 // Maintained exact natural Turbo C++ reconstruction of TH03 MAIN_07_TEXT.
 #pragma codeseg MAIN_07_TEXT
 
+#include <stddef.h>
 #include "src/main/player/chargeshot_chiyuri.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
@@ -11,11 +12,29 @@
 #include "compat/rec98/th03/main/playfld.hpp"
 #include "compat/rec98/th02/snd/snd.h"
 
+// Eight 6-byte staggered projectiles per player; the game checks
+// collision and draws in reverse storage order (slot 7 down to slot 0).
+enum chiyuri_charge_limits_t {
+    CHIYURI_CHARGE_SLOTS_PER_PLAYER = 8,
+    CHIYURI_CHARGE_TOTAL_SLOTS = 16,
+    CHIYURI_CHARGE_LAST_SLOT = 7,
+    CHIYURI_CHARGE_INACTIVE_AGE = 0,
+    CHIYURI_CHARGE_ACTIVE_AGE = 1,
+    CHIYURI_GAUGE_BOMB_PERIOD = 16,
+};
+
 struct chiyuri_chargeshot_t {
 	unsigned char age;
 	unsigned char anim;
 	PlayfieldPoint center;
 };
+
+typedef char chiyuri_charge_stride_is_6[
+    (sizeof(chiyuri_chargeshot_t) == 6) ? 1 : -1
+];
+typedef char chiyuri_charge_center_at_02[
+    (offsetof(chiyuri_chargeshot_t, center) == 2) ? 1 : -1
+];
 
 struct gauge_pattern_timing_t {
 	unsigned char total_frames;
@@ -24,12 +43,16 @@ struct gauge_pattern_timing_t {
 	unsigned char byte_3;
 };
 
+typedef char chiyuri_gauge_timing_is_4[
+    (sizeof(gauge_pattern_timing_t) == 4) ? 1 : -1
+];
+
 // These names describe target state inferred from indexing shape. The aggregate
 // owner will later bind them to the historical carrier storage after the TC4J
 // code producer has been proved independently.
 extern int chiyuri_gauge_x[PLAYER_COUNT];
 extern unsigned char chiyuri_gauge_frame[PLAYER_COUNT];
-extern chiyuri_chargeshot_t chiyuri_chargeshots[PLAYER_COUNT][8];
+extern chiyuri_chargeshot_t chiyuri_chargeshots[PLAYER_COUNT][CHIYURI_CHARGE_SLOTS_PER_PLAYER];
 extern chiyuri_chargeshot_t near *chiyuri_chargeshot_p;
 extern gauge_pattern_timing_t gauge_pattern_timing[PLAYER_COUNT];
 
@@ -39,9 +62,10 @@ extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 void far chargeshots_reset_chiyuri(void)
 {
 	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[0][0];
-	for(int i = 0; i < 16; i++) {
-		// Target quirk: [p] is deliberately not advanced.
-		p->age = 0;
+	for(int i = 0; i < CHIYURI_CHARGE_TOTAL_SLOTS; i++) {
+		// Original-game quirk: only the first physical slot is cleared
+		// repeatedly. Advancing p would change gameplay and CODE.
+		p->age = CHIYURI_CHARGE_INACTIVE_AGE;
 	}
 }
 
@@ -53,26 +77,26 @@ void far pascal chargeshot_add_chiyuri(Subpixel center_x, Subpixel center_y)
 	p->center.y = center_y;
 	players[pid.current].shot_active = SA_DISABLED;
 
-	for(int i = 0; i < 8; (i++, p++)) {
-		p->age = ((i << 2) + 2);
+	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, p++)) {
+		p->age = ((i * 4) + 2);
 	}
 }
 
 void far pascal chargeshot_update_chiyuri(void)
 {
-	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[pid_current][7];
-	if(p->age == 0) {
+	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[pid_current][CHIYURI_CHARGE_LAST_SLOT];
+	if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 		return;
 	}
 	players[pid_current].gauge_charged = 0;
 
-	for(int i = 0; i < 8; (i++, p--)) {
-		if(p->age == 0) {
+	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, p--)) {
+		if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 			return;
 		}
-		if(p->age != 1) {
+		if(p->age != CHIYURI_CHARGE_ACTIVE_AGE) {
 			p->age--;
-			if(p->age == 1) {
+			if(p->age == CHIYURI_CHARGE_ACTIVE_AGE) {
 				p->center.x = players[pid_current].center.x;
 				p->center.y = players[pid_current].center.y;
 				snd_se_play(15);
@@ -83,7 +107,7 @@ void far pascal chargeshot_update_chiyuri(void)
 				if(i == 0) {
 					players[pid_current].shot_active = SA_ENABLED;
 				}
-				p->age = 0;
+				p->age = CHIYURI_CHARGE_INACTIVE_AGE;
 				continue;
 			}
 		}
@@ -94,7 +118,7 @@ void far pascal chargeshot_update_chiyuri(void)
 void near chiyuri_chargeshot_private(void)
 {
 	sprite16_offset_t so = (pid.so_attack + 0x280);
-	if(chiyuri_chargeshot_p->anim & 1) {
+	if((static_cast<unsigned int>(chiyuri_chargeshot_p->anim) % 2) != 0) {
 		so += 4;
 	}
 	screen_x_t left = (
@@ -108,15 +132,15 @@ void near chiyuri_chargeshot_private(void)
 
 uint8_t far chargeshot_hittest_chiyuri(void)
 {
-	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[hitbox.pid][7];
+	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[hitbox.pid][CHIYURI_CHARGE_LAST_SLOT];
 	int i = 0;
 	unsigned char hits = 0;
 
-	for(; i < 8; (i++, p--)) {
-		if(p->age == 0) {
+	for(; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, p--)) {
+		if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 			return hits;
 		}
-		if(p->age != 1) {
+		if(p->age != CHIYURI_CHARGE_ACTIVE_AGE) {
 			continue;
 		}
 		if((p->center.x.v - hitbox.right.v) > TO_SP(14)) {
@@ -139,15 +163,15 @@ uint8_t far chargeshot_hittest_chiyuri(void)
 
 void far pascal chargeshot_render_chiyuri(void)
 {
-	chiyuri_chargeshot_p = &chiyuri_chargeshots[pid_current][7];
+	chiyuri_chargeshot_p = &chiyuri_chargeshots[pid_current][CHIYURI_CHARGE_LAST_SLOT];
 	sprite16_put_size.set(32, 48);
 	sprite16_clip_set_for_pid(pid_current);
 
-	for(int i = 0; i < 8; (i++, chiyuri_chargeshot_p--)) {
-		if(chiyuri_chargeshot_p->age == 0) {
+	for(int i = 0; i < CHIYURI_CHARGE_SLOTS_PER_PLAYER; (i++, chiyuri_chargeshot_p--)) {
+		if(chiyuri_chargeshot_p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 			return;
 		}
-		if(chiyuri_chargeshot_p->age == 1) {
+		if(chiyuri_chargeshot_p->age == CHIYURI_CHARGE_ACTIVE_AGE) {
 			chiyuri_chargeshot_private();
 		}
 	}
@@ -178,18 +202,18 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 	int x = chiyuri_gauge_x[pid_current];
 	pid_other = (1 - pid_current);
 
-	if((chiyuri_gauge_frame[pid_current] % 16) == 0) {
+	if((chiyuri_gauge_frame[pid_current] % CHIYURI_GAUGE_BOMB_PERIOD) == 0) {
 		chiyuri_gauge_x[pid_current] += TO_SP(24);
 		x += TO_SP(24);
 		bomb_center_add(x, 0, pid_other);
 		bomb_center_add((TO_SP(PLAYFIELD_W) - x), 0, pid_other);
 	}
 
-	if(chiyuri_gauge_frame[pid_current] & 1) {
+	if((static_cast<unsigned int>(chiyuri_gauge_frame[pid_current]) % 2) != 0) {
 		bullet_template.type = type;
 		bullet_template.pid = pid_other;
 		bullet_template.speed.v = (
-			((chiyuri_gauge_frame[pid_current] % 16) << 2) + 0x18
+			((chiyuri_gauge_frame[pid_current] % CHIYURI_GAUGE_BOMB_PERIOD) << 2) + 0x18
 		);
 		bullet_template.group = BG_1_AIMED;
 		bullet_template.angle = 0;

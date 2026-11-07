@@ -6,6 +6,21 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Chiyuri nine-function charged-shot source after654
+
+The original cs_chiyu full native producer now uses original-code-equal
+natural i * 4 + 2 staggered ages and explicitly unsigned % 2 sprite
+and Gauge attack parity. Real TC4 checks the six-byte per-projectile
+stride and center offset +02. Its update, collision and rendering
+traverse slots backwards; the original reset loop mistakenly clears
+only the first slot sixteen times, which is intentionally not fixed.
+Both after654e current-source/OMF-attested native TC4/TLINK rounds
+match all 1,011 CODE bytes, 96 literal ordered fixups, 9 PUBLICs,
+complete original MAIN and Japanese MZ relocations. Full details:
+MAIN_CHIYURI_CHARGESHOT_CPP_AFTER654_REVIEW.md.
+Only this affected object recompiled; no full cold replay or
+double-counted canonical packed-file acceptance.
+
 ## Ellen bomb actual zero-private-BSS source ABI after653
 
 The full original `b_ellen` three-function TU has 1,023 CODE
