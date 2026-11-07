@@ -6,6 +6,29 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Latest 43-owner background/BOSS source-native MAIN after677
+
+The fresh `af677a` genuine original Turbo C++/TLINK two-round
+native integration compiles **43 complete physical original
+project TUs** from current changed source: the previous 41
+BOSS/Extra Attack/Bullet/Enemy/CPU/charged-shot/effects/
+warning units, **plus** original background Chain 1 and 2.
+The current shared `background/phase.inl` is explicitly
+staged and verified by actual compiler OMF COMENT dependencies
+and independent read-only source-header review. Both chain
+physical objects are linked from real `obj/chain1.obj`/
+`obj/chain2.obj` source slots with original MAP module names.
+Kana/Yumemi/Reimu major BOSS C++ arithmetic improvements
+after674-676 are included. Both native rounds match
+**52,651 original CODE bytes, 5,280 literal ordered native
+FIXUPPs, 310 PUBLICs**, full normal MAIN EXE/MAP, the exact
+124,642-byte Japanese loaded program, all 1,553 original
+ordered MZ relocations and independently serialized original
+130,882-byte Japanese MAIN.EXE. Other **56** original project
+objects and CRT/startup inputs were reused; no full cold replay
+and no new canonical Factory packed-code credit.
+Read [after677 43-owner native review](MAIN_FORTYTHREE_BACKGROUND_BOSS_AFTER677_NATIVE_REVIEW.md).
+
 ## Reimu BOSS intro radius and both native sprite leaves after676
 
 The full Reimu BOSS TU now uses native-original C++
