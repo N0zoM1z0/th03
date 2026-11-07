@@ -1,6 +1,7 @@
 // Maintained exact natural Turbo C++ reconstruction of TH03 MAIN_09_TEXT.
 #pragma codeseg MAIN_09_TEXT
 
+#include <stddef.h>
 #include "src/main/player/chargeshot_kana.hpp"
 #include "compat/rec98/th03/main/player/cur.hpp"
 #include "compat/rec98/th03/main/player/stuff.hpp"
@@ -12,12 +13,38 @@
 #include "compat/rec98/th03/math/vector.hpp"
 #include "compat/rec98/libs/sprite16/sprite16.h"
 
+// Four independently animated trails of thirteen two-byte X/Y samples,
+// giving the original fixed 54-byte per-trail DGROUP layout.
+enum kana_charge_layout_t {
+    KANA_CHARGE_TRAILS = 4,
+    KANA_CHARGE_SAMPLES = 13,
+    KANA_CHARGE_LAST = 12,
+    KANA_CHARGE_RENDER_STEP = 4,
+    KANA_CHARGE_INITIAL_LENGTH = 0x30,
+    KANA_CHARGE_RELEASE_LENGTH = 0x80,
+    KANA_CHARGE_RELEASE_AFTER = 0x28,
+    KANA_CHARGE_END_Y = TO_SP(-16),
+};
+
 struct kana_chargeshot_t {
-	playfield_subpixel_t x[13];
-	playfield_subpixel_t y[13];
+	playfield_subpixel_t x[KANA_CHARGE_SAMPLES];
+	playfield_subpixel_t y[KANA_CHARGE_SAMPLES];
 	unsigned char angle;
 	unsigned char length;
 };
+
+typedef char kana_charge_stride_is_54[
+    (sizeof(kana_chargeshot_t) == 54) ? 1 : -1
+];
+typedef char kana_charge_y_at_1a[
+    (offsetof(kana_chargeshot_t, y) == 0x1A) ? 1 : -1
+];
+typedef char kana_charge_angle_at_34[
+    (offsetof(kana_chargeshot_t, angle) == 0x34) ? 1 : -1
+];
+typedef char kana_charge_length_at_35[
+    (offsetof(kana_chargeshot_t, length) == 0x35) ? 1 : -1
+];
 
 struct gauge_pattern_timing_t {
 	unsigned char total_frames;
@@ -49,12 +76,12 @@ void far pascal chargeshot_add_kana(Subpixel center_x, Subpixel center_y)
 	kana_frame[pid.current] = 0;
 	kana_chargeshot_t near *p = &kana_chargeshots[pid.current][0];
 
-	for(int group = 0; group < 4; (group++, p++)) {
-		for(int i = 0; i <= 12; i++) {
+	for(int group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
+		for(int i = 0; i <= KANA_CHARGE_LAST; i++) {
 			p->x[i] = center_x.v;
 			p->y[i] = center_y.v;
 		}
-		p->length = 0x30;
+		p->length = KANA_CHARGE_INITIAL_LENGTH;
 	}
 
 	p--;
@@ -83,14 +110,12 @@ void far pascal chargeshot_update_kana(void)
 	state = kana_active[pid_current];
 
 	p = &kana_chargeshots[pid_current][0];
-	for(group = 0; group < 4; (group++, p++)) {
+	for(group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
 		vector2(vector_x, vector_y, p->angle, p->length);
 
-		point = 12;
-		while(point > 0) {
+		for(point = KANA_CHARGE_LAST; point > 0; --point) {
 			p->x[point] = p->x[point - 1];
 			p->y[point] = p->y[point - 1];
-			point--;
 		}
 		p->x[0] += vector_x;
 		p->y[0] += vector_y;
@@ -105,16 +130,16 @@ void far pascal chargeshot_update_kana(void)
 		p -= 3;
 		p->angle += 2;
 
-		if(kana_frame[pid_current] > 0x28) {
+		if(kana_frame[pid_current] > KANA_CHARGE_RELEASE_AFTER) {
 			kana_active[pid_current] = 2;
-			for(group = 0; group < 4; (group++, p++)) {
-				p->length = 0x80;
+			for(group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
+				p->length = KANA_CHARGE_RELEASE_LENGTH;
 			}
 		}
 	}
 
 	p = &kana_chargeshots[pid_current][0];
-	if(p->y[12] <= TO_SP(-16)) {
+	if(p->y[KANA_CHARGE_LAST] <= KANA_CHARGE_END_Y) {
 		kana_active[pid_current] = 0;
 	}
 	kana_frame[pid_current]++;
@@ -123,7 +148,7 @@ void far pascal chargeshot_update_kana(void)
 void near kana_chargeshot_private(void)
 {
 	sprite16_offset_t sprite_offset = (pid.so_attack + 0x1180);
-	for(int i = 12; i >= 0; (i -= 4, sprite_offset -= 0x500)) {
+	for(int i = KANA_CHARGE_LAST; i >= 0; (i -= KANA_CHARGE_RENDER_STEP, sprite_offset -= 0x500)) {
 		screen_x_t left = (
 			playfield_fg_x_to_screen(kana_chargeshot_p->x[i], pid_current) - 16
 		);
@@ -139,8 +164,8 @@ uint8_t far chargeshot_hittest_kana(void)
 	}
 
 	kana_chargeshot_t near *p = &kana_chargeshots[hitbox.pid][0];
-	for(int group = 0; group < 4; (group++, p++)) {
-		for(int i = 0; i <= 12; i += 4) {
+	for(int group = 0; group < KANA_CHARGE_TRAILS; (group++, p++)) {
+		for(int i = 0; i <= KANA_CHARGE_LAST; i += 4) {
 			if((p->x[i] - hitbox.right.v) > TO_SP(12)) {
 				continue;
 			}
@@ -182,6 +207,15 @@ void far pascal chargeshot_render_kana(void)
 	geninterrupt(SPRITE16);
 }
 
+// 64-frame left-right Gauge sweep: 32 frames per direction,
+// then the original Gauge state expires after 128 frames.
+enum kana_gauge_phase_t {
+    KANA_GAUGE_SWEEP_PERIOD = 0x40,
+    KANA_GAUGE_SWEEP_HALF = 0x20,
+    KANA_GAUGE_MOVE_SUBPIXELS = 0x80,
+    KANA_GAUGE_END_FRAME = 0x80,
+};
+
 void near pascal gauge_pattern_kana(bullet_type_t type)
 {
 	unsigned char pid_other;
@@ -221,19 +255,20 @@ void near pascal gauge_pattern_kana(bullet_type_t type)
 		bullets_add();
 		bomb_center_add(bullet_template.center.x.v, 0, pid_other);
 
-		_DX = (TO_SP(PLAYFIELD_W) - kana_gauge_x[pid_current]);
-		bullet_template.center.x.v = _DX;
+		bullet_template.center.x.v = (
+			TO_SP(PLAYFIELD_W) - kana_gauge_x[pid_current]
+		);
 		bullets_add();
 		bomb_center_add(bullet_template.center.x.v, 0, pid_other);
 	}
 
-	if((kana_gauge_frame[pid_current] % 0x40) < 0x20) {
-		kana_gauge_x[pid_current] += 0x80;
+	if((kana_gauge_frame[pid_current] % KANA_GAUGE_SWEEP_PERIOD) < KANA_GAUGE_SWEEP_HALF) {
+		kana_gauge_x[pid_current] += KANA_GAUGE_MOVE_SUBPIXELS;
 	} else {
-		kana_gauge_x[pid_current] -= 0x80;
+		kana_gauge_x[pid_current] -= KANA_GAUGE_MOVE_SUBPIXELS;
 	}
 
-	if(kana_gauge_frame[pid_current] >= 0x80) {
+	if(kana_gauge_frame[pid_current] >= KANA_GAUGE_END_FRAME) {
 		gba_flag_active[pid_current] = GBAF_NONE;
 		palette_restore_for_pid(1 - pid_current);
 	}

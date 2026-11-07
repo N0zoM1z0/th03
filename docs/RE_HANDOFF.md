@@ -6,6 +6,24 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Kana complete 54-byte four-trail charged-shot owner after658
+
+The true original `cs_kana` source (nine functions including
+the large four-trail physics and Gauge update) now uses a native-exact
+natural descending 13-sample history `for` loop and directly assigns
+the reflected Gauge X coordinate without `_DX` mediation.
+TC4 checks the original 54-byte projectile stride, +1A Y array,
++34 angle, +35 length offsets and four trails per player. The
+original release, sprite-sample stride and Gauge sweep frame
+phases have named compile-time constants. Current-source/OMF-attested
+`af658e` original Turbo C++/TLINK two-round proof matches every
+**1,291 original CODE bytes, 117 literal ordered fixups and
+nine PUBLICs**, full original MAIN executable/MAP and Japanese
+MZ relocations. See
+[after658 Kana charged-shot native review](MAIN_KANA_CHARGESHOT_TRAIL_AFTER658_NATIVE_REVIEW.md).
+Only the one affected object compiled, no full cold replay or
+new canonical packed-file byte credit.
+
 ## Latest 34-owner current-source native MAIN after657
 
 The new af657a original Turbo C++/TLINK two-round full MAIN
