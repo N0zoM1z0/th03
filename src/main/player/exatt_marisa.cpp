@@ -12,14 +12,8 @@
 #include "compat/rec98/libs/master.lib/master.hpp"
 #pragma option -a2
 
-struct exatt_entity_t {
-    unsigned char state, frame;
-    int x, y, velocity_x, velocity_y, target_x, boundary_x, duration;
-    unsigned char pid, unused_11, angle, speed;
-    int radius;
-    unsigned char tail[10];
-};
-typedef char exatt_entity_size_is_32[(sizeof(exatt_entity_t)==32)?1:-1];
+// All characters use the same 32-byte entity pool; +0x11 is per-character.
+#include "src/main/player/exatt_entity.hpp"
 extern exatt_entity_t exatt_entities[PLAYER_COUNT][16];
 extern exatt_entity_t near *exatt_entity_p;
 extern "C" void near pascal exatt_fly_init(

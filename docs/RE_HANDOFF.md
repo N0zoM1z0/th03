@@ -152,6 +152,18 @@ register interface at its shared phase-label boundary. Read
 for the exact accepted and rejected variants. This changes expression
 recoverability, not the amount of previously owned target CODE.
 
+### Ten complete Extra Attack producers after602
+
+The current `af602a` source overlay compiles/links all **ten** complete
+physical Extra Attack owners: 8,781 original CODE bytes, 563 ordered fields
+and 52 PUBLICs in two fresh native TC4/TLINK rounds. Source now shares one
+32-byte entity view for Marisa/Kana as well as the prior Ellen/Kotohime/
+Chiyuri/Yumemi/Mima/Rikako and Reimu/flight producers. It includes the
+original-equal natural Chiyuri control and beam expression. See
+[after602 review](MAIN_EXATT_ALL_TEN_AFTER602_NATIVE_REVIEW.md) and the
+SHA-bound ignored report; do not treat a historical after596 source-hash
+reviewer as suitable for these later changed sources. No extra accepted bytes.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

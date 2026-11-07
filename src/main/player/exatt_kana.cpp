@@ -14,24 +14,8 @@
 
 #pragma option -a2
 
-struct exatt_entity_t {
-    unsigned char state;
-    unsigned char frame;
-    int x;
-    int y;
-    int velocity_x;
-    int velocity_y;
-    int target_x;
-    int boundary_x;
-    int duration;
-    unsigned char pid;
-    unsigned char unused_11;
-    unsigned char angle;
-    unsigned char speed;
-    int radius;
-    unsigned char tail[10];
-};
-typedef char kana_exatt_entity_is_32[(sizeof(exatt_entity_t)==32)?1:-1];
+// All characters use the same 32-byte entity pool; +0x11 is per-character.
+#include "src/main/player/exatt_entity.hpp"
 
 extern exatt_entity_t exatt_entities[PLAYER_COUNT][16];
 extern exatt_entity_t near *exatt_entity_p;
