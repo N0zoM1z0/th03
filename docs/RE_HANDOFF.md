@@ -8,6 +8,28 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after847: seven current original physical Enemy/Fireball/Reimu/Explosion sources
+
+- `af847a` genuinely **recompiled seven current changed physical
+  original TUs together**, not an arithmetic union: four original
+  Enemy source partitions (formation, full ENEDAT VM, update and
+  collision), full Fireball, full **Reimu major BOSS** and original
+  explosion-chain collision/bonus. Two independent original TC4 4.02
+  / complete normal MAIN TLINK rounds match **7,530 CODE bytes,
+  656 literal ordered native FIXUPPs, 39 PUBLICs**, original source
+  and segment ABI, full normal MAIN EXE/MAP, **124,642 Japanese loaded
+  bytes and all 1,553 ordered MZ relocations**. Independent standard
+  MZ serialization reproduces all 130,882 bytes. **92 unchanged game
+  objects and CRT reused, no full cold replay**. See
+  [after847 seven-original-object integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER847_REVIEW.md).
+- Crucial evidence boundary: `af842a`, `af835a` and `af829a` still pass
+  live-source read-only review, but old `af823a` is **historical source
+  evidence only** after the current `ba_reimu` source change: its
+  read-only source hash check now **fails**, as expected. The new
+  `af847a` proves the *current* Reimu source. Do not alter old receipts,
+  claim a fictitious combined all-object replay, double-count previously
+  owned CODE or promote canonical Factory packed-game acceptance.
+
 ## After846: full explosion collision/chain/bonus original source
 
 - Complete 630-byte `e_expl` collision owner now names original signed
@@ -90,9 +112,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   matches all 130,882 original Japanese file bytes. **93 unchanged game
   objects and CRT reused**, no whole cold replay. Protected report:
   [after842 six-object native integration](MAIN_SIX_SOURCE_INTEGRATION_AFTER842_REVIEW.md).
-- `af840a`, `af835a`, `af829a`, `af823a` remain separate actual live-
-  source-bound read-only passes for their own source sets; **do not claim
-  they were all rebuilt in one run** or add historically covered bytes
+- `af840a`, `af835a`, `af829a` remain separate live-source read-only
+  passes; `af823a` is now historical after the Reimu BOSS edit.
+  **Do not claim** they were all rebuilt together or add covered bytes
   again to unique CODE ownership. Canonical packed-file Factory
   acceptance and the BIOS `input_s` single-NOP link gap remain open.
 
@@ -124,9 +146,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   all 130,882 Japanese file bytes. **94 unchanged original game objects
   and CRT reused**, no cold replay. See
   [after840 five-object integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER840_REVIEW.md).
-- Independent `af835a`, `af829a` and `af823a` remain *separately*
-  source-current read-only passes for different unchanged original units,
-  not evidence of one fictitious all-object native replay. No overlap
+- Independent `af835a` and `af829a` remain current source-bound
+  checks; `af823a` was current at that earlier checkpoint but is now
+  historical because `ba_reimu` changed. No fictitious combined replay. No overlap
   double-counted as new distinct CODE or canonical Factory acceptance.
 
 ## After839: complete input modes and native press/release wait
@@ -202,9 +224,9 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   **130,882 bytes**; 94 other original project objects and CRT reused,
   **no full cold replay**. See
   [after835 five-original-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER835_REVIEW.md).
-- The unchanged, different source owners from earlier simultaneous `af829a`
-  (four original TUs) and `af823a` (nine original TUs) still pass separate
-  live-source **read-only** native reviews. **Do not combine these into a
+- Earlier simultaneous `af829a` (four different original TUs) still
+  passes live-source read-only review; `af823a` (nine TUs) now has a
+  historical Reimu source snapshot, not a current live-source pass. **Do not combine these into a
   claimed simultaneous eighteen-object build.** Historical exact covered
   bytes from these scopes cannot be counted again as unique ownership or
   canonical packed-file Factory acceptance. The original `input_s` one-NOP
@@ -305,8 +327,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 - **95 other original game objects and CRT are reused** without a full
   cold replay; complete original compiler source dependencies are
   checked, and the preserved report has both original OBJ and full
-  link writer rounds. Earlier nine-object `af823a` remains separately
-  current and passes read-only review for **different unchanged TUs**;
+  link writer rounds. Earlier nine-object `af823a` was source-current
+  then, but its Reimu input has since changed; it is now historical;
   **do not combine them into an invented thirteen-object compile**.
   See [after829 four-source integration](MAIN_FOUR_SOURCE_INTEGRATION_AFTER829_REVIEW.md).
 - The named and native-exact C++ fixes include whole-BOSS unsigned
@@ -346,8 +368,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   reproduces the complete Japanese 130,882-byte MAIN.EXE.
 - The original **96 other project objects and CRT were reused**; no
   cold replay, old receipt overwriting, byte-padding or source-bound
-  guard weakening. Previous `af823a` nine-object current-source review
-  remains separately valid for *different, unchanged* original owners;
+  guard weakening. Previous `af823a` nine-object source proof was
+  current at that checkpoint; its Reimu source hash is historical now;
   **do not describe these as a simultaneously built 12-object scope**.
   Existing source owner CODE must not be added as new unique coverage.
   See [after827 scoped three-source integration](MAIN_THREE_SOURCE_INTEGRATION_AFTER827_REVIEW.md).
@@ -416,7 +438,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   existing BOSS source verified again, not incremental unique ownership.
   See [after791/821 Kotohime source review](MAIN_KOTOHIME_BOSS_FLICKER_AFTER791_REVIEW.md).
 
-## Latest after823: nine current original C++ owners with recovered HitCircle loops
+## Historical after823: nine original C++ owners before the after845 Reimu edit
 
 - `af823a` recompiled **nine complete original physical TUs together** in
   two independent original Turbo C++ 4.02 / complete normal TLINK rounds:
@@ -434,7 +456,8 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   project objects and original CRT reused; no full cold replay**.
 - Previous `af792b` still proves its older physical source snapshots but
   is *historical*, not live-source-current after the HitCircle loops;
-  `af823a` is now the live source-bound complete nine-TU verification.
+  `af823a` was live source-bound at that earlier checkpoint, but its
+  Reimu BOSS snapshot is historical after the current after845 edit.
   All these original owners were previously covered: **do not count their
   overlapping CODE again** or claim canonical packed-game acceptance.
   See [after823 nine-source integration](MAIN_NINE_SOURCE_INTEGRATION_AFTER823_REVIEW.md)

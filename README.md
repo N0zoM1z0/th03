@@ -71,7 +71,17 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 ## Maintenance and handing off
 
 The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after842 six-original-physical-object integration**: full Kana
+**latest after847 seven-original-physical-object integration**: full
+1,049-line Enemy source (four historical physical TUs), complete Fireball,
+full Reimu major BOSS and original explosion-chain collision. Both
+original TC4 4.02/complete normal TLINK rounds compile all **seven
+changed physical objects simultaneously**, matching **7,530 original
+CODE bytes, 656 ordered OMF FIXUPPs, 39 PUBLICs**, complete original
+MAIN EXE/MAP, all 124,642 loaded Japanese bytes and 1,553 ordered
+MZ relocations. The **92 other original project objects and CRT are
+reused**, without full cold replay. See
+[after847 source-native integration](docs/MAIN_SEVEN_SOURCE_INTEGRATION_AFTER847_REVIEW.md).
+The previous **after842 six-original-physical-object integration**: full Kana
 major BOSS, both shared BOSS ring/controller carriers, complete CPU AI,
 all input modes and Kana's complete four-trail Chargeshot/Gauge. Five
 modified C++ source files were genuinely recompiled as six historical
@@ -120,7 +130,7 @@ The distinct earlier nine-source proof remains current for its **nine
 other unchanged source owners**; the two experiments must not be
 incorrectly represented as one simultaneous 12-object build.
 The earlier
-**historical but still source-current after823 nine-original-physical-owner simultaneous
+**historical after823 nine-original-physical-owner simultaneous
 native proof**: complete Reimu, Mima and Kotohime major BOSSes, main entry/frame
 scheduler, Kana Bomb, hitbox damage, HitCircle sprites, full shot and
 scoreboard/bonus pipelines. All nine *actually compile together* with
@@ -137,7 +147,9 @@ loops, not present in the older after792 source snapshot. The after792
 receipt remains historical evidence, not a current checkout source review.
 The earlier [after788 eight-source integration](docs/MAIN_EIGHT_SOURCE_INTEGRATION_AFTER788_REVIEW.md)
 passed at its time but its `results` source hash is **historical** after
-the after789 source edits: review **after823** for this current checkout.
+the after789 source edits; `af823a` itself is historical after the
+current Reimu BOSS edit. Review **after847** for current Reimu, and
+**after842/835/829** for their separate unchanged physical sources.
 The earlier **after787 four-physical-source proof**: full
 Reimu and Mima major BOSSes, complete main/frame/stage/score `entry`
 (including all four live implementation `.inl` files) and complete Kana
@@ -191,14 +203,12 @@ for the unchanged historical linker evidence and recertification blocker.
 To verify this checkout without replaying unchanged source or toolchains:
 
     git status -sb
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af847a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af842a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af840a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af835a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af829a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af827a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af823a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af787a
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af782a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af775a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af772a
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af766a
