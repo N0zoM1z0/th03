@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After856: complete Yumemi Chargeshot/target and sixteen-sprite rings
+
+- Full ten-function `cs_yume` source now expresses the sixteen-sprite
+  ring's dual byte-angle/index traversal as a natural **C++ `while`**,
+  names actual signed target fallback/formation biases, narrow versus
+  56-pixel blooming hitboxes, flight speed, center offset and the byte
+  Gauge's original `%8` cadence. The natural `if(!(byte_frame % 8))`
+  expression passed genuine original TC4 with the full gauge jump table.
+- Genuine failed compiler forms: naming a live `angle += 16` byte
+  increment changed original CODE at offset 615 (`af856b`); replacing
+  renderer `frame &1` with byte `%2` emitted **1,651** vs **1,645**
+  CODE bytes (`af856d`). Both original byte forms remain. Final
+  `af856h` passes two original TC4/full normal MAIN TLINK rounds:
+  **1,645 CODE bytes, 133 literal ordered native FIXUPPs, 10 PUBLICs**,
+  whole original Japanese MAIN and all 1,553 ordered MZ relocations;
+  98 other project objects/CRT reused, no cold replay. See
+  [after856 Yumemi Chargeshot review](MAIN_YUMEMI_CHARGESHOT_RING_AFTER856_REVIEW.md).
+  Historical source owner reverified, no additional unique CODE or
+  canonical Factory packed credit.
+
 ## After855: entire Mima major BOSS signed/unsigned native angles
 
 - Full nine-function `ba_mima` major BOSS uses natural unsigned `if(!(boss_frame

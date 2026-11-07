@@ -1,6 +1,7 @@
-// Natural complete-function proposal from the attested TH03 target.
-// Complete reviewed source; full-link acceptance pending. Owner: PELLET_PUT,
-// MAIN_04 group. The first function is shared target acquisition.
+// Complete current natural C++ for the original physical Yumemi gameplay
+// owner in PELLET_PUT, MAIN_04 group. Genuine original TC4 and normal MAIN
+// native link are exact; canonical packed-game Factory remains separate.
+// The first function also provides the shared target acquisition service.
 #pragma codeseg PELLET_PUT main_04
 #pragma option -a1
 #include "src/main/player/yumemi_gameplay.hpp"
@@ -26,6 +27,10 @@ enum yumemi_target_marker_t {
     YUME_TARGET_BOSS = 254,
     YUME_TARGET_NO_FORMATION = 255,
     YUME_TARGET_FIRST_FORMATION = 0,
+    YUME_TARGET_FALLBACK_X = TO_SP(144),
+    YUME_TARGET_FALLBACK_Y = TO_SP(300),
+    YUME_TARGET_ENEMY_X_BIAS = TO_SP(16),
+    YUME_TARGET_ENEMY_Y_BIAS = TO_SP(110),
 };
 
 void far pascal ellen_target_set(pid_t player)
@@ -54,21 +59,22 @@ void far pascal ellen_target_set(pid_t player)
         }
     }
     if(formation == YUME_TARGET_NO_FORMATION) {
-        ellen_target_x = TO_SP(144);
-        ellen_target_y = TO_SP(300);
+        ellen_target_x = YUME_TARGET_FALLBACK_X;
+        ellen_target_y = YUME_TARGET_FALLBACK_Y;
         target_formation_marker = YUME_TARGET_NO_FORMATION;
         return;
     }
 
-    ellen_target_x = efe_p.enemy->center.x.v - TO_SP(16);
-    ellen_target_y = efe_p.enemy->center.y.v + TO_SP(110);
+    ellen_target_x = efe_p.enemy->center.x.v - YUME_TARGET_ENEMY_X_BIAS;
+    ellen_target_y = efe_p.enemy->center.y.v + YUME_TARGET_ENEMY_Y_BIAS;
     target_formation_marker = formation;
     if(ellen_target_x <= 0 || ellen_target_x >= TO_SP(PLAYFIELD_W) ||
        ellen_target_y <= 0 ||
        ellen_target_y >= TO_SP(PLAYFIELD_H + PLAYFIELD_BORDER)) {
-        // The formation marker remains selected, even after this fallback.
-        ellen_target_x = TO_SP(144);
-        ellen_target_y = TO_SP(300);
+        // The selected formation marker survives this fallback. These
+        // are original signed-16-bit target coordinates (af856g).
+        ellen_target_x = YUME_TARGET_FALLBACK_X;
+        ellen_target_y = YUME_TARGET_FALLBACK_Y;
     }
 }
 
@@ -88,12 +94,19 @@ enum yumemi_chargeshot_phase_t {
     YUME_RENDER_RING_48 = 48,
     YUME_RENDER_RING_56 = 56,
     YUME_RENDER_RING_64 = 64,
+    YUME_RING_SPRITES_PER_WAVE = 16,
+    YUME_GAUGE_VOLLEY_PERIOD = 8,
+    YUME_CHARGE_FLY_SPEED = TO_SP(4),
+    YUME_CHARGE_FLY_HIT_MARGIN = TO_SP(8),
+    YUME_CHARGE_BLOOM_HIT_MARGIN = TO_SP(56),
+    YUME_RING_CENTER_OFFSET = TO_SP(16),
+    YUME_RING_SCREEN_TOP_OFFSET = 16,
 };
 
 void far pascal yumemi_chargeshots_reset(void)
 {
-    yumemi_chargeshots[0].state = 0;
-    yumemi_chargeshots[1].state = 0;
+    yumemi_chargeshots[0].state = YUME_CHARGE_INACTIVE;
+    yumemi_chargeshots[1].state = YUME_CHARGE_INACTIVE;
 }
 
 void far pascal chargeshot_add_yumemi(Subpixel center_x, Subpixel center_y)
@@ -114,7 +127,7 @@ void far pascal chargeshot_update_yumemi(void)
     }
     frame = ++p->frame;
     if(p->state == YUME_CHARGE_FLYING) {
-        p->y.v -= TO_SP(4);
+        p->y.v -= YUME_CHARGE_FLY_SPEED;
         if(frame >= YUME_CHARGE_LIFETIME || p->y.v <= 0) {
             p->state = YUME_CHARGE_BLOOMING;
             p->frame = 0;
@@ -140,10 +153,10 @@ uint8_t far chargeshot_hittest_yumemi(void)
         return 0;
     }
     if(p->state == YUME_CHARGE_FLYING) {
-        if(p->x.v - TO_SP(8) <= hitbox.right.v &&
-           p->x.v + TO_SP(8) >= hitbox.origin.topleft.x.v &&
-           p->y.v - TO_SP(8) <= hitbox.bottom.v &&
-           p->y.v + TO_SP(8) >= hitbox.origin.topleft.y.v) {
+        if(p->x.v - YUME_CHARGE_FLY_HIT_MARGIN <= hitbox.right.v &&
+           p->x.v + YUME_CHARGE_FLY_HIT_MARGIN >= hitbox.origin.topleft.x.v &&
+           p->y.v - YUME_CHARGE_FLY_HIT_MARGIN <= hitbox.bottom.v &&
+           p->y.v + YUME_CHARGE_FLY_HIT_MARGIN >= hitbox.origin.topleft.y.v) {
             p->state = YUME_CHARGE_BLOOMING;
             p->frame = 0;
             snd_se_play(7);
@@ -151,10 +164,10 @@ uint8_t far chargeshot_hittest_yumemi(void)
         // Triggering the effect itself does not report a hit.
         return 0;
     }
-    if(p->x.v - TO_SP(56) <= hitbox.right.v &&
-       p->x.v + TO_SP(56) >= hitbox.origin.topleft.x.v &&
-       p->y.v - TO_SP(56) <= hitbox.bottom.v &&
-       p->y.v + TO_SP(56) >= hitbox.origin.topleft.y.v) {
+    if(p->x.v - YUME_CHARGE_BLOOM_HIT_MARGIN <= hitbox.right.v &&
+       p->x.v + YUME_CHARGE_BLOOM_HIT_MARGIN >= hitbox.origin.topleft.x.v &&
+       p->y.v - YUME_CHARGE_BLOOM_HIT_MARGIN <= hitbox.bottom.v &&
+       p->y.v + YUME_CHARGE_BLOOM_HIT_MARGIN >= hitbox.origin.topleft.y.v) {
         hitcircles_enemy_add(
             hitbox.origin.topleft.x.v, hitbox.origin.topleft.y.v, hitbox.pid
         );
@@ -176,16 +189,23 @@ void near pascal yumemi_chargeshot_ring_render(
     unsigned char angle;
     yumemi_chargeshot_t near *p = &yumemi_chargeshots[pid_current];
     frame = p->frame;
-    center_x = p->x.v - TO_SP(16);
-    center_y = p->y.v - TO_SP(16);
-    for(i = 0, angle = (frame << 1); i < 16; ++i, angle += 16) {
+    center_x = p->x.v - YUME_RING_CENTER_OFFSET;
+    center_y = p->y.v - YUME_RING_CENTER_OFFSET;
+    // One ring contains sixteen actual sprite calls, with two independently
+    // advanced local carriers. The natural while emits native-exact CODE
+    // (af856a), but naming the live byte `angle += 16` changes it (af856b).
+    i = 0;
+    angle = (frame << 1);
+    while(i < YUME_RING_SPRITES_PER_WAVE) {
         left = polar(center_x, radius, CosTable8[angle]);
         top = polar(
             center_y, radius, SinTable8[static_cast<unsigned char>(angle + y_phase)]
         );
         left = playfield_fg_x_to_screen(left, pid_current);
-        top = (top >> 4) + 16;
+        top = (top >> 4) + YUME_RING_SCREEN_TOP_OFFSET;
         sprite16_put(left, top, sprite_offset);
+        ++i;
+        angle += 16;
     }
 }
 
@@ -203,6 +223,9 @@ void far pascal chargeshot_render_yumemi(void)
     sprite16_clip_set_for_pid(pid_current);
     sprite_offset = pid.so_attack + 0xC80;
     frame = p->frame;
+    // Original byte phase is deliberately masked here. Natural byte
+    // `% 2` produces a different TC4 object (af856d), unlike the Gauge
+    // division predicate below.
     if(frame & 1) {
         sprite_offset += 4;
     }
@@ -275,8 +298,9 @@ void near pascal gauge_pattern_yumemi(unsigned int type)
     }
     player_other = 1 - pid_current;
     // Original byte-clock division remains `%8`: direct &7 changed
-    // original CODE by six bytes in the native af776a trial.
-    if((yumemi_gauge_frame[pid_current] % 8) == 0) {
+    // original CODE by six bytes in native af776a. The natural
+    // `if(!(byte_frame % 8))` truth spelling is exact (af856f).
+    if(!(yumemi_gauge_frame[pid_current] % YUME_GAUGE_VOLLEY_PERIOD)) {
         bullet_template.type = static_cast<bullet_type_t>(type);
         bullet_template.speed.v = gauge_pattern_timing[pid_current].byte_1;
         bullet_template.pid = player_other;
