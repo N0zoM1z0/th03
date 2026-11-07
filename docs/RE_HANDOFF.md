@@ -227,6 +227,20 @@ source TUs were independently rebuilt and linked at the same time. Read
 [after605 nine-BOSS review](MAIN_NINE_BOSSES_AFTER605_NATURAL_CPP_REVIEW.md).
 This is not new accepted CODE credit or a canonical Factory completion.
 
+### Current 19-unit BOSS + Extra Attack integration after606
+
+The newest `af606a` source-native **two-round** proof simultaneously
+recompiles and relinks all **9 large BOSS + 10 Extra Attack** units, totaling
+**26,232 original CODE bytes, 2,997 ordered native fields and 137 PUBLICs**.
+The complete normal MAIN EXE/MAP and all 1,553 original Japanese relocations
+remain equal; no full cold replay was performed. New read-only
+`scripts/review_th03_main_source_overlay.py --stage af602a af605c af606a`
+checks all three current source-bound proof receipts, maintained source
+snapshots, full original object fields, compiler logs, MAP and whole MZ.
+See [after606 review](MAIN_19_GAMEPLAY_OWNERS_AFTER606_NATIVE_REVIEW.md).
+Historical after596 source pins are intentionally frozen; no new Factory
+byte credit or historical vendor OMF packet identity is claimed.
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not
