@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 import re
 
-from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, rooted_source, rooted_wrapper, check_native_dependencies, SOURCE_HEADER_NEEDLE, BINDING_MODE, sha,
+from probe_th03_main_exatt_layout import (ROOT, WORK, ENTITY, SOURCES, ORIGINAL_STAGES, MAP_ROWS, wrapper_source, rooted_source, rooted_wrapper, check_native_dependencies, SOURCE_HEADER_NEEDLE, BINDING_MODE, BOSS_SHARED_UNITS, sha,
                                           need, scope, parent)
 from lib.pc98 import parse_mz
 from lib.main_mz_compact import compact_mz
@@ -33,7 +33,7 @@ def expected_response(stage, n, units):
     rsp=parent.response(n)
     for u in units:
         old=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
-             else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_')
+             else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_') and u not in BOSS_SHARED_UNITS
              else f'probe\\{ORIGINAL_STAGES[u]}\\r{n}\\{u}.obj' if u in ORIGINAL_STAGES
              else f'obj\\th03\\{u}.obj').encode()
         new=f'probe\\{stage}\\r{n}\\{u}.obj'.encode()

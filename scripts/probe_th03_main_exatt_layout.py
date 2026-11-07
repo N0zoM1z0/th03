@@ -52,6 +52,8 @@ SOURCES = {
     'ba_mima': 'src/main/boss/mima.cpp',
     'ba_reimu': 'src/main/boss/reimu.cpp',
     'ba_maris': 'src/main/boss/marisa.cpp',
+    'ba_sring': 'src/main/boss/shared.cpp',
+    'ba_srest': 'src/main/boss/shared.cpp',
     'e_fireb': 'src/main/enemy/fireball.cpp',
     'e_expl': 'src/main/enemy/expl.cpp',
     'bullet': 'src/main/bullet/bullet.cpp',
@@ -60,6 +62,7 @@ SOURCES = {
     'eupda': 'src/main/enemy/enemy.cpp',
     'eupdb': 'src/main/enemy/enemy.cpp',
 }
+BOSS_SHARED_UNITS = ('ba_sring', 'ba_srest')
 ENTITY = 'src/main/player/exatt_entity.hpp'
 PRODUCER_WRAPPERS = {
     'e_fireb': 'src/main/enemy/producers/fireball_native.cpp',
@@ -79,11 +82,16 @@ ORIGINAL_STAGES = {
 # The original native MAP has CODE/DATA/BSS/empty segment rows, and
 # the enemy's compiler flags also instantiate additional empty sections.
 MAP_ROWS = {
+    'ba_sring':5, 'ba_srest':5,
     'e_fireb':3, 'e_expl':3, 'bullet':4,
     'eforna':8, 'efornb':8, 'eupda':8, 'eupdb':9,
 }
 
 def wrapper_source(unit):
+    if unit in BOSS_SHARED_UNITS:
+        partition=('TH03_BOSS_SHARED_RING_ONLY' if unit=='ba_sring'
+                   else 'TH03_BOSS_SHARED_REST_ONLY')
+        return f'#define {partition} 1\n#include "{SOURCES[unit]}"\n'.encode()
     if unit in PRODUCER_WRAPPERS:
         return (ROOT/PRODUCER_WRAPPERS[unit]).read_bytes()
     return (('#define TH03_EXATT_REIMU_UPDATE_ONLY\n' if unit=='ex_reup' else '') +
@@ -254,7 +262,7 @@ def main():
             response=parent.response(n)
             for u in units:
                 oldpath=(f'probe\\{parent.STAGE}\\r{n}\\{u}.obj' if u in parent.ORDER
-                         else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_')
+                         else f'probe\\af567c\\r{n}-{u}.obj' if u.startswith('ba_') and u not in BOSS_SHARED_UNITS
                          else f'probe\\{ORIGINAL_STAGES[u]}\\r{n}\\{u}.obj' if u in ORIGINAL_STAGES
                          else f'obj\\th03\\{u}.obj').encode()
                 newpath=f'probe\\{args.stage}\\r{n}\\{u}.obj'.encode()

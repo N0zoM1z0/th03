@@ -416,6 +416,18 @@ vendor CRT were reused. See
 [after622 source-attested integration](MAIN_26_GAMEPLAY_OWNERS_AFTER622_NATIVE_REVIEW.md).
 No new canonical Factory byte or historical raw OMF packet credit.
 
+### Shared BOSS ring and seven-function state/scheduler core (after623)
+
+The native v2 source-overlay now covers the two physical
+`ba_sring`/`ba_srest` objects from `src/main/boss/shared.cpp`.
+Shared bounce/despawn/pattern/reward constants have semantic C++ enum
+names; both original rounds prove **949 CODE bytes / 106 ordered fields /
+8 PUBLICs**, complete normal MAIN EXE/MAP and Japanese MZ equality
+(`af623c`). Simple C++ struct assignment was independently rejected:
+Turbo C++ emits a FAR copy call instead of the original REP MOVSW
+in `boss_update_start()`. Preserve that original machine interface.
+See [after623 shared-BOSS review](MAIN_BOSS_SHARED_NATIVE_AFTER623_REVIEW.md).
+
 ## Remaining priorities for real reconstruction
 
 Prioritize truly unowned byte/OMF/segment scopes or semantics; do not

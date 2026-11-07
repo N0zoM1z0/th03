@@ -34,6 +34,18 @@ struct boss_state_t {
 	unsigned char tail[10];
 };
 
+// Bounds and rewards are global to the shared boss controller, not
+// character-specific attacks. These remain compile-time 16-bit constants.
+enum boss_shared_limits_t {
+    BOSS_TURN_LEFT_X = 0x300,
+    BOSS_TURN_RIGHT_X = 0xF00,
+    BOSS_HORIZONTAL_STEP = 0x20,
+    BOSS_DESCEND_STEP = 0x20,
+    BOSS_DESPAWN_Y = 0x1A00,
+    BOSS_PATTERN_WAIT_FRAMES = 0x50,
+    BOSS_COMBO_POINTS = 5120,
+};
+
 extern boss_state_t boss_state;
 extern boss_state_t boss_character_template[PLAYER_COUNT];
 
@@ -118,31 +130,31 @@ extern "C" void near boss_move_sine(void)
 	boss_angle++;
 	boss_velocity_y = polar(0, 16, SinTable8[boss_angle]);
 
-	if(boss_center_x <= 0x300) {
-		boss_velocity_x = 0x20;
+	if(boss_center_x <= BOSS_TURN_LEFT_X) {
+		boss_velocity_x = BOSS_HORIZONTAL_STEP;
 		return;
 	}
-	if(boss_center_x >= 0xF00) {
-		boss_velocity_x = -0x20;
+	if(boss_center_x >= BOSS_TURN_RIGHT_X) {
+		boss_velocity_x = -BOSS_HORIZONTAL_STEP;
 	}
 }
 
 extern "C" void near boss_fall(void)
 {
 	boss_center_x += boss_velocity_x;
-	boss_center_y += 0x20;
+	boss_center_y += BOSS_DESCEND_STEP;
 
-	if(boss_center_x <= 0x300) {
-		boss_velocity_x = 0x20;
-	} else if(boss_center_x >= 0xF00) {
-		boss_velocity_x = -0x20;
+	if(boss_center_x <= BOSS_TURN_LEFT_X) {
+		boss_velocity_x = BOSS_HORIZONTAL_STEP;
+	} else if(boss_center_x >= BOSS_TURN_RIGHT_X) {
+		boss_velocity_x = -BOSS_HORIZONTAL_STEP;
 	}
 
 	boss_active[1 - pid_current] = 0;
-	if(boss_center_y >= 0x1A00) {
+	if(boss_center_y >= BOSS_DESPAWN_Y) {
 		boss_mode = 0;
 		gba_boss_launched_by = PID_NONE;
-		combo_points_for_boss_attack = 5120;
+		combo_points_for_boss_attack = BOSS_COMBO_POINTS;
 	}
 }
 
@@ -192,7 +204,7 @@ extern "C" void far boss_hittest_end(void)
 		boss_frame = 0;
 		palette_restore_for_pid(pid_other);
 		if(gba_flag_active[pid_other] != GBAF_BOSS) {
-			combo_points_for_boss_attack = 5120;
+			combo_points_for_boss_attack = BOSS_COMBO_POINTS;
 		}
 		boss_active[pid_other] = 0;
 		if(gba_boss_level < GBA_BOSS_LEVEL_MAX) {
@@ -214,7 +226,7 @@ extern "C" void near boss_pattern_next(void)
 	unsigned char pattern;
 
 	boss_move_sine();
-	if(boss_frame < 0x50) {
+	if(boss_frame < BOSS_PATTERN_WAIT_FRAMES) {
 		return;
 	}
 
