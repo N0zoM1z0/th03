@@ -57,6 +57,31 @@ extern int CosTable8[256];
 
 extern "C" void far pascal bomb_center_add(int x, int y, int pid);
 
+// The shared BOSS scheduler selects 2..17; Mima maps those IDs to
+// four different full bullet-pattern controllers.
+enum mima_boss_mode_t {
+    MIMA_MODE_INTRO = 0x00,
+    MIMA_MODE_SELECT = 0x01,
+    MIMA_MODE_SPREAD_0 = 0x02,
+    MIMA_MODE_SPREAD_1 = 0x03,
+    MIMA_MODE_SPREAD_2 = 0x04,
+    MIMA_MODE_SPREAD_3 = 0x05,
+    MIMA_MODE_RANDOM_0 = 0x06,
+    MIMA_MODE_RANDOM_1 = 0x07,
+    MIMA_MODE_RANDOM_2 = 0x08,
+    MIMA_MODE_RANDOM_3 = 0x09,
+    MIMA_MODE_RANDOM_4 = 0x0A,
+    MIMA_MODE_TRAIL_0 = 0x0B,
+    MIMA_MODE_TRAIL_1 = 0x0C,
+    MIMA_MODE_TRAIL_2 = 0x0D,
+    MIMA_MODE_ORBIT_0 = 0x0E,
+    MIMA_MODE_ORBIT_1 = 0x0F,
+    MIMA_MODE_ORBIT_2 = 0x10,
+    MIMA_MODE_ORBIT_3 = 0x11,
+    MIMA_MODE_DESCEND = 0x80,
+    MIMA_MODE_EXPLODE = 0xFF,
+};
+
 void far pascal boss_mima_template_init(int player_id)
 {
 	boss_template_state_t near *p = &boss_character_template[player_id];
@@ -232,16 +257,19 @@ void near mima_pattern_trail(void)
 	}
 }
 
+// The orbit fires only on even timer ticks after its signed direction
+// has been chosen at the first frame.
+enum mima_orbit_phase_t {
+    MIMA_ORBIT_DIRECTION_FRAME = 1,
+    MIMA_ORBIT_FINISH_FRAME = 0x48,
+};
+
 void near mima_pattern_orbit(void)
 {
 	boss_move_sine();
 
-	if(boss_frame == 1) {
-		if(randring_far_next16_and(1)) {
-			_AL = 7;
-		} else {
-			_AL = -7;
-		}
+	if(boss_frame == MIMA_ORBIT_DIRECTION_FRAME) {
+		_AL = (randring_far_next16_and(1) ? 7 : -7);
 		mima_orbit_delta = _AL;
 		mima_orbit_angle = randring_far_next16();
 	}
@@ -263,7 +291,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle += mima_orbit_delta;
 	}
 
-	if(boss_frame >= 0x48) {
+	if(boss_frame >= MIMA_ORBIT_FINISH_FRAME) {
 		boss_mode = 1;
 		boss_frame = 0;
 	}
@@ -297,7 +325,7 @@ void far gba_boss_update_mima(void)
 	boss_frame++;
 
 	switch(boss_mode) {
-	case 0:
+	case MIMA_MODE_INTRO:
 		if(boss_frame != 0x64) {
 			return;
 		}
@@ -305,43 +333,43 @@ void far gba_boss_update_mima(void)
 		boss_mode = 1;
 		break;
 
-	case 1:
+	case MIMA_MODE_SELECT:
 		boss_pattern_next();
 		break;
 
-	case 2:
-	case 3:
-	case 4:
-	case 5:
+	case MIMA_MODE_SPREAD_0:
+	case MIMA_MODE_SPREAD_1:
+	case MIMA_MODE_SPREAD_2:
+	case MIMA_MODE_SPREAD_3:
 		mima_pattern_spread();
 		break;
 
-	case 6:
-	case 7:
-	case 8:
-	case 9:
-	case 0x0A:
+	case MIMA_MODE_RANDOM_0:
+	case MIMA_MODE_RANDOM_1:
+	case MIMA_MODE_RANDOM_2:
+	case MIMA_MODE_RANDOM_3:
+	case MIMA_MODE_RANDOM_4:
 		mima_pattern_bomb_random();
 		break;
 
-	case 0x0B:
-	case 0x0C:
-	case 0x0D:
+	case MIMA_MODE_TRAIL_0:
+	case MIMA_MODE_TRAIL_1:
+	case MIMA_MODE_TRAIL_2:
 		mima_pattern_trail();
 		break;
 
-	case 0x0E:
-	case 0x0F:
-	case 0x10:
-	case 0x11:
+	case MIMA_MODE_ORBIT_0:
+	case MIMA_MODE_ORBIT_1:
+	case MIMA_MODE_ORBIT_2:
+	case MIMA_MODE_ORBIT_3:
 		mima_pattern_orbit();
 		break;
 
-	case 0x80:
+	case MIMA_MODE_DESCEND:
 		boss_fall();
 		break;
 
-	case 0xFF:
+	case MIMA_MODE_EXPLODE:
 		return;
 	}
 

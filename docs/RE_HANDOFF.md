@@ -6,6 +6,18 @@ Old after554/after565 instructions and the 258-stage after520 storage audit
 are historical baselines, not the latest native source-link or deletion roots.
 Read AGENTS.md and the relevant source review, not every historical note.
 
+## Mima full BOSS source recovery after630
+
+The current Mima BOSS now expresses its signed `+7/-7` orbit direction
+as genuine original-byte-producing C++ and identifies the 18 attack
+scheduler modes and real frame boundaries in typed enums. The
+source/OMF-attested `af630c` dual native compiler/TLINK rounds preserve
+the complete 1,922 CODE bytes, 277 ordered fields, nine PUBLICs, full
+original MAIN and 1,553 Japanese relocations. See
+[after630 Mima source review](MAIN_MIMA_PATTERN_NATIVE_AFTER630_REVIEW.md).
+An inverted Ellen branch tested in `af630a` was original-unequal and
+is not retained. No double byte credit or full cold replay.
+
 ## Current bounded 28-owner source-native integration after629
 
 The latest `af629a` original compiler/TLINK pair rebuilt **all nine
