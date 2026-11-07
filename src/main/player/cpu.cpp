@@ -51,6 +51,11 @@ enum cpu_response_threshold_t {
     CPU_DODGE_ALTERNATIVES = 2,
     CPU_TARGET_RANDOM_REGIONS = 3,
     CPU_HIT_BOMB_RANDOM_PERIOD = 4,
+    CPU_COLLISION_SCAN_PERIOD = 4,
+    CPU_COLLISION_SIDE_LEFT = -TO_SP(16),
+    CPU_COLLISION_SIDE_RIGHT = TO_SP(16),
+    CPU_COLLISION_SIDE_COUNT = 3,
+    CPU_BOTTOM_ESCAPE_X = TO_SP(128),
 };
 
 input_t near pascal player_cpu_direction_for_collision(
@@ -90,7 +95,7 @@ input_t near pascal player_cpu_direction_for_collision(
         }
     }
     if(player_y >= CPU_DODGE_FLOOR && direction == INPUT_DOWN) {
-        if(player_x >= TO_SP(128)) {
+        if(player_x >= CPU_BOTTOM_ESCAPE_X) {
             direction = INPUT_LEFT;
         } else {
             direction = INPUT_RIGHT;
@@ -109,6 +114,8 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
 
     ellen_target_set(pid.current);
     attempt = ((ellen_target_x + CPU_TARGET_X_MARGIN) < x);
+    // Preserve the original Boolean shift and OR sequence: an equivalent
+    // flag-valued conditional changed TC4 CODE (af838d).
     attempt |= (((ellen_target_x - CPU_TARGET_X_MARGIN) > x) << 1);
     attempt |= (((ellen_target_y + CPU_TARGET_Y_MARGIN) < y) << 2);
     attempt |= ((y < ellen_target_y) << 3);
@@ -167,7 +174,7 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
     int8_t radius_or_retry;
     input_t direction;
 
-    if((round_or_result_frame % 4) == 0) {
+    if((round_or_result_frame % CPU_COLLISION_SCAN_PERIOD) == 0) {
         // Keep the original signed-byte probe loop literals: equivalent
         // enum bounds changed native TC4 output (after646e).
         for(radius_or_retry = (64 / 2); radius_or_retry <= (160 / 2);
@@ -203,26 +210,31 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         collision_x_relative = (player_hittest_collision_top.x.v - x);
         collision_y_relative = (player_hittest_collision_top.y.v - y);
         player->is_hit = false;
-        if(collision_x_relative <= -TO_SP(16)) {
+        if(collision_x_relative <= CPU_COLLISION_SIDE_LEFT) {
             attempt = 0;
-        } else if(collision_x_relative <= TO_SP(16)) {
+        } else if(collision_x_relative <= CPU_COLLISION_SIDE_RIGHT) {
             attempt = 1;
         } else {
             attempt = 2;
         }
         if(player->cpu_dodge_strategy) {
-            attempt += (player->cpu_dodge_strategy * 3);
+            attempt += (player->cpu_dodge_strategy * CPU_COLLISION_SIDE_COUNT);
         }
         cpu_dodge_pattern = cpu_dodge_patterns[attempt];
         direction = player_cpu_direction_for_collision(collision_y_relative, x, y);
     }
 
+    // The real collision retry strategy has an unbounded control loop,
+    // bounded internally by the original nine-direction lattice. A
+    // natural C++ for(;;) retains the original TC4 branches (af838a).
     attempt = 0;
     radius_or_retry = 0;
-    while(true) {
+    for(;;) {
         if(player_move(direction) == MOVE_VALID) {
             player_pos_update_and_clamp(player->center);
         }
+        // Keep the distinct original hit-test call paths. Collapsing
+        // these into a ternary argument changed native CODE (af838b).
         if(radius_or_retry == 0) {
             player_hittest(CPU_HITTEST_RETRY_RADIUS);
         } else {

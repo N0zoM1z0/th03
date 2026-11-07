@@ -8,6 +8,20 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After838: complete CPU collision avoidance and pursuit controller
+
+- The full four-function `p_cpu` AI object now uses natural `for(;;)`
+  collision/retry control and explicitly named original 16-bit collision
+  bands, four-frame scan, floor escape and three-column strategy stride.
+  `af838b` ternary hit-test (1,081 vs original 1,077 CODE bytes) and
+  `af838d` ternary direction bit flag (1,073 vs 1,077) were genuine
+  negative compiler trials, both restored. Final `af838e` passes two
+  original TC4/TLINK rounds: **1,077 CODE bytes, 64 ordered FIXUPPs,
+  4 PUBLICs**, full Japanese MAIN and 1,553 relocations exact. 98 other
+  objects/CRT reused, no cold replay. See
+  [after838 complete CPU AI review](MAIN_CPU_RETRY_NATIVE_CONTROL_AFTER838_REVIEW.md).
+  Historical source owner reverified, not additional unique CODE.
+
 ## After837: full shared BOSS movement, template and pattern selector
 
 - The original shared BOSS source's **two physical owners** (`ba_sring`
