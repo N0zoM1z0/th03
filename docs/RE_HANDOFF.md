@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af927a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af935a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -26,18 +26,27 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   `config/targets.toml` with `candidate-local-attested` provenance.
   Do not use translated/reference binaries as targets or alter original
   target/OBJ/compiler/CRT/linker inputs to create equality.
-- **Latest source-current native MAIN experiment: `af927a`.** Two
-  genuinely independent original Turbo C++ 4.02 compiler rounds rebuilt
-  the **five edited original physical project objects together** and
-  twice ran the actual complete **99-game-object normal MAIN TLINK**
-  response, reusing **94 other original game objects and Borland CRT**.
-  Source/header OMF COMENT dependencies and all 16-bit ABI/layout were
-  checked. **7,833 CODE bytes, 991 literal ordered native OMF FIXUPPs,
-  34 PUBLICs**, full normal MAIN EXE/MAP, **124,642 Japanese loaded
-  program bytes and all 1,553 ordered original MZ relocations** match.
-  A separate reviewed standard DOS MZ serializer also matches the
-  original **130,882-byte Japanese MAIN.EXE**.
-- The five scopes are **complete Chiyuri major BOSS** (`ba_chiyu`,
+- **Latest source-current native MAIN experiment: `af935a`.** Two
+  independent original Turbo C++ 4.02 rounds recompiled **seven original
+  physical project objects together**: the complete Marisa BOSS
+  (`ba_maris`), HitCircle (`hitcirc`), all **four** Enemy source consumers
+  (`eforna`, `efornb`, `eupda`, `eupdb`) and the complete Bullet engine.
+  The normal complete **99-game-object MAIN TLINK** ran twice, reusing
+  **92 unchanged original game objects and Borland CRT**. All **7,886 CODE
+  bytes, 647 ordered native OMF FIXUPP fields, 52 PUBLICs**, source/header
+  dependencies, 16-bit segment/ABI layout, complete MAIN EXE/MAP,
+  **124,642 Japanese loaded bytes and all 1,553 original ordered MZ
+  relocations** match. See [after935 integrated source](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af935a/report.json`,
+  SHA-256 `924fdd7943c428064b1a26d9a3a4b4b99303d4204f7c4d7bfd682965d35c3620`.
+- **Independent earlier source-current experiment: `af927a`.** Two
+  original compiler and normal-link rounds rebuilt five original objects,
+  reusing 94 other game objects and CRT. Their **7,833 CODE bytes,
+  991 ordered OMF FIXUPPs and 34 PUBLICs** remain source-current, with
+  full original Japanese MAIN and 1,553 relocations matched. A separately
+  reviewed standard DOS MZ serializer also matches the original
+  **130,882-byte Japanese MAIN.EXE**.
+- These earlier five scopes are **complete Chiyuri major BOSS** (`ba_chiyu`,
   2,654 CODE), **complete MAIN entry/round scheduler** (`entry`, 3,050),
   **full player-effects/GRCG engine** (`effects`, 628), **Chiyuri
   Chargeshot/Gauge** (`cs_chiyu`, 1,011) and **Chiyuri Bomb** (`b_chiyu`,
@@ -47,35 +56,35 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
-- This is **current-source native normal MAIN proof**, **not** historical
-  vendor raw OMF packet identity, complete original source ownership or
-  **canonical packed-file Factory acceptance**. These 7,833 game CODE
-  bytes were already historically source-covered: do **not** award
-  7,833 additional distinct original CODE bytes for this cleanup.
+- Both independent scopes are **current-source native normal MAIN proof**,
+  **not** vendor packet-identical OMF, full original source ownership or
+  canonical packed-file Factory acceptance. The 7,886 and 7,833 CODE bytes
+  were already historically source-covered; do not award new distinct
+  original CODE bytes or add these overlapping historical proof scopes.
 
 ## Independent current-source receipts versus historical snapshots
 
-The following real two-round original compiler/linker receipts were
-rechecked against the checkout **after** the after927 source edits;
-they cover **other unchanged original physical sources** and are **not
-one combined whole-project replay**:
+These genuine two-round native compiler/linker reports were rechecked against
+the current checkout after `af935a`. They are **independent physical-object
+scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af935a` | 7 | 7,886 |
 | `af927a` | 5 | 7,833 |
-| `af921a` | 6 | 4,643 |
 | `af915a` | 5 | 6,059 |
 | `af909a` | 5 | 7,582 |
-| `af903a` | 7 | 8,839 |
-| `af896a` | 9 | 10,181 |
 | `af889a` | 5 | 4,191 |
-| `af883a` | 4 | 2,725 |
 | `af880h` | 2 | 1,245 |
-| `af881i` | 1 | 1,431 |
 | `af882e` | 1 | 49 |
 
-All of these are **independent scopes with possible historically related
-ownership**, not additive distinct-coverage or product acceptance totals.
+`af921a` (`hitcirc`), `af903a` (`bullet`), `af896a` (all four physical
+`enemy.cpp` consumers), `af883a` and `af881i` (`ba_maris`) no longer
+bind to the changed maintained source hashes. Their original native outputs
+are authentic **historical** evidence; `af935a` establishes the entire
+currently changed physical scope together. These independent receipts may
+have related/overlapping ownership: never add their bytes as distinct
+coverage or infer whole-product source exactness.
 The genuine older `af877a` now **fails current maintained-source hash
 binding** because both Chiyuri BOSS and Chiyuri Chargeshot changed.
 `af871a` also fails after earlier Kotohime/other source changes.
@@ -151,13 +160,14 @@ The latest `scripts/preflight.py` (2026-11-08) reports:
  .venv/bin/python scripts/preflight.py
  DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts \
    .venv/bin/python scripts/review_th03_main_source_overlay.py \
-   --stage af927a af921a af915a af909a af903a af896a af889a af883a af880h af881i af882e
+   --stage af935a af927a af915a af909a af889a af880h af882e
 
 # If a maintained physical source or its actual .inl changed:
 # replace the examples with real original TUs and a UNIQUE unused stage.
+# Shared enemy.cpp has FOUR physical consumers, even if one code path changes.
  DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts \
    .venv/bin/python scripts/probe_th03_main_exatt_layout.py \
-   --stage afNEWa --units ba_chiyu,entry
+   --stage afNEWa --units eforna,efornb,eupda,eupdb
  DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts \
    .venv/bin/python scripts/review_th03_main_source_overlay.py --stage afNEWa
 
@@ -181,7 +191,8 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Latest source/native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)
+- [Latest seven-object source/native integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md)
+- [Earlier five-object source/native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)
 - [Historical source and compiler trials through after927](RE_HANDOFF_ARCHIVE_AFTER927.md)
 - [Storage policy and prior safe cleanup audits](STORAGE_HANDOFF_CURRENT.md)
 - [After928 applied Git/cache storage recovery](STORAGE_HANDOFF_AFTER928.md)

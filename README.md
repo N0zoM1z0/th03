@@ -72,8 +72,14 @@ The bounded ZUN emitter is installed through `scripts/bootstrap_jwasm.py`.
 
 ## Maintenance and handing off
 
-The [current, concise handoff](docs/RE_HANDOFF.md) begins with the
-**latest after927 five-original-physical-object native integration**:
+The [current, concise handoff](docs/RE_HANDOFF.md) now begins with
+[after935 seven-original-physical-object integration](docs/MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md):
+Marisa BOSS, HitCircle, the **entire four-object Enemy source family**, and
+Bullet, compiled together in two original TC4/normal MAIN TLINK rounds.
+Both rounds match **7,886 CODE bytes, 647 literal ordered native OMF
+FIXUPP fields, 52 PUBLICs**, the full Japanese MAIN loaded program and
+all 1,553 ordered MZ relocations; 92 other original game objects and CRT
+were reused. The independent, previous **after927 five-object integration**:
 full **Chiyuri major BOSS**, the complete **MAIN entry and 200-line
 frame/round scheduler**, the whole player GRCG effects engine,
 complete Chiyuri Chargeshot/Gauge and the small original Chiyuri Bomb
