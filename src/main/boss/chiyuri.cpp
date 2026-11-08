@@ -425,10 +425,7 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
 		}
 		return;
-	} else if(CHIYURI_FAN_VERTICAL_FRAME != boss_frame) {
-		return;
-	}
-
+	} else if(CHIYURI_FAN_VERTICAL_FRAME == boss_frame) {
 	bomb_axis_add(
 		boss_center_x, (boss_center_y - TO_SP(56)), pid_other
 	);
@@ -472,6 +469,7 @@ void near chiyuri_pattern_fans(void)
 	boss_mode = CHIYURI_MODE_SELECT;
 	boss_frame = 0;
 	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
+	}
 }
 
 void far gba_boss_update_chiyuri(void)
