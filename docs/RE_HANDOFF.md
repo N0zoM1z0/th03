@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af1014e`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af1016d`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -117,7 +117,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Chiyuri orbit-render for-header, and both BOSSes' natural byte-state
   renderer conditions. See
   [Kotohime and Chiyuri renderer recovery after1012](MAIN_KOTOHIME_CHIYURI_NATURAL_RENDER_LOOPS_AFTER1012_REVIEW.md).
-- **Latest twelve-owner MAIN integration: `af1014e`.**
+- **Earlier twelve-owner MAIN integration: `af1014e`.**
   Two independent original TC4 4.02 rounds rebuilt all nine major BOSS
   owners with complete Hitbox, HitCircle and explosion-chain owners:
   **18,792 CODE bytes, 2,546 ordered OMF FIXUPPs and 91 PUBLICs**. Both
@@ -127,6 +127,36 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   updates, Kotohime's explicit Intro transition, and HitCircle's natural
   age guards and early-continue render loop. See
   [Chiyuri, Kotohime and HitCircle recovery after1014](MAIN_CHIYURI_KOTOHIME_HITCIRCLE_NATURAL_CONTROL_AFTER1014_REVIEW.md).
+- **Latest twelve-owner MAIN integration: `af1016d`.**
+  Two independent original TC4 4.02 rounds rebuilt all nine major BOSS
+  owners with complete Hitbox, HitCircle and explosion-chain owners:
+  **18,792 CODE bytes, 2,546 ordered OMF FIXUPPs and 91 PUBLICs**. Both
+  normal MAIN links reproduce all 124,642 Japanese loaded bytes and 1,553
+  ordered MZ relocations, reusing the other 87 original game objects and
+  Borland CRT. This includes Chiyuri's scoped cardinal PID and named
+  first-frame constant, Kotohime's positive active-player dispatcher, and
+  HitCircle's early-continue update loop. See
+  [Chiyuri, Kotohime and HitCircle control recovery after1016](MAIN_CHIYURI_KOTOHIME_HITCIRCLE_NATURAL_CONTROL_AFTER1016_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af1016d/report.json,
+  SHA-256 85b842b589a4bd839e1bdca1adbc3f1dc6fe13010742cf8cad98f490b607b742.
+- **Current Chiyuri complete BOSS source proof: `af1016c`.**
+  The complete ba_chiyu owner preserves **2,654 CODE bytes, 381 ordered
+  OMF FIXUPPs and 11 PUBLICs** with block-local cardinal PID storage and
+  the named first-frame constant. Two original TC4 rounds match.
+  Protected report: .analysis/work/exatt-layout-af1016c/report.json,
+  SHA-256 ad24fbbdacb1fce89436e5870edc76336f0927b38a6ae508aa029f3546c64ff3.
+- **Current Kotohime complete BOSS source proof: `af1015e`.**
+  The complete ba_koto owner preserves **1,840 CODE bytes, 262 ordered
+  OMF FIXUPPs and 11 PUBLICs** with the positive active-player dispatch
+  and explicit Intro completion branch. Two original TC4 rounds match.
+  Protected report: .analysis/work/exatt-layout-af1015e/report.json,
+  SHA-256 b5b49782235e27f6f1fe1a807dbfd501561189bdd6f5807d4c5a6d379728b315.
+- **Current HitCircle update/render source proof: `af1016a`.**
+  The complete hitcirc owner preserves **445 CODE bytes, 30 ordered OMF
+  FIXUPPs and four PUBLICs** with three natural age truth tests and early
+  continues in both update and enemy-render loops. Two original TC4 rounds
+  match. Protected report: .analysis/work/exatt-layout-af1016a/report.json,
+  SHA-256 a116f75e4f08561a6f65755086d7bc20b11bbb6aacb058ba77cb7e48cb391ef8.
   Protected report: .analysis/work/exatt-layout-af1014e/report.json,
   SHA-256 9bde7e2cdb79408067660e7722c3beac1e21db5fd0f4fb25d46b3ed903fd2cbe.
 - **Simultaneous Kotohime/Chiyuri cardinal and dispatcher scope: `af1014a`.**
@@ -136,7 +166,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [after1014 source review](MAIN_CHIYURI_KOTOHIME_HITCIRCLE_NATURAL_CONTROL_AFTER1014_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af1014a/report.json,
   SHA-256 e679446c6bd88d6eebe9bb28dc57a6e8b0003ec696b23e363991809b2c534300.
-- **Current HitCircle update/render source proof: `af1014d`.**
+- **Earlier HitCircle update/render source proof: `af1014d`.**
   The complete hitcirc owner preserves **445 CODE bytes, 30 ordered OMF
   FIXUPPs and four PUBLICs** with natural byte-age truth tests and an
   early-continue enemy render loop. Both original TC4 rounds and complete
@@ -144,20 +174,18 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [after1014 source review](MAIN_CHIYURI_KOTOHIME_HITCIRCLE_NATURAL_CONTROL_AFTER1014_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af1014d/report.json,
   SHA-256 a5b2b4f8ecfc27d398fbd5f9c19fa0be7f96fb53d3753239c84ad1d32439de1e.
-- **Current Chiyuri complete BOSS source proof: `af1013h`.**
+- **Earlier Chiyuri complete BOSS source proof: `af1013h`.**
   The complete 11-function ba_chiyu owner preserves **2,654 CODE bytes,
   381 ordered OMF FIXUPPs and 11 PUBLICs** with named compound cardinal
   byte-angle steps and quarter-turn rotations. Two original TC4 rounds
   match. Protected report: .analysis/work/exatt-layout-af1013h/report.json,
   SHA-256 23b2d265f55e5fd0506c0090beeb0ffde54830e36ad8672c47afbf1c8398214e.
-- **Current Kotohime complete BOSS source proof: `af1013c`.**
+- **Earlier Kotohime complete BOSS source proof: `af1013c`.**
   The complete 11-function ba_koto owner preserves **1,840 CODE bytes,
   262 ordered OMF FIXUPPs and 11 PUBLICs** with the explicit Intro
   completion branch. Two original TC4 rounds match. Protected report:
   .analysis/work/exatt-layout-af1013c/report.json,
   SHA-256 2e17b4f8bf1a2b4f7464fe5fce0758031732e3c929c1c784f667204b56a21e15.
-  Protected report: .analysis/work/exatt-layout-af1012d/report.json,
-  SHA-256 3b719bd58e0fa975a2df6c9d9ea49c0768e16948f8bea555120dfc7d104621c3.
 - **Simultaneous Kotohime/Chiyuri renderer scope: `af1012c`.**
   The two complete BOSS owners were rebuilt together in both original
   compiler rounds: **4,494 CODE bytes, 643 ordered OMF FIXUPPs and 22
@@ -453,6 +481,10 @@ kept as historical receipts below:
 
 | Native proof stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af1016d` | 12 | 18,792 |
+| `af1016c` | 1 | 2,654 |
+| `af1016a` | 1 | 445 |
+| `af1015e` | 1 | 1,840 |
 | `af1014e` | 12 | 18,792 |
 | `af1014a` | 2 | 4,494 |
 | `af1014d` | 1 | 445 |
@@ -507,18 +539,18 @@ current e_expl proof af997e; the original while-based traversal is retained
 in that historical note, not the current source.
 Hitbox af986b and earlier af983c are historical after current source proof
 af998d; the split early-return form remains in its historical review.
-The twelve-owner integration af1012d is now historical after the current
-twelve-owner integration af1014e. The latter adds Chiyuri's named compound
-cardinal rotations, Kotohime's explicit Intro transition and HitCircle's
-natural age guards/early-continue renderer, then rechecks all twelve owners
-together. The earlier Kotohime af1013c and Chiyuri af1013h standalone proofs
-bind the same final sources; af1014a proves them together. The older
-Kotohime af1006g and Chiyuri af1006h snapshots are superseded by af1014e.
-Mima af1001c is historical after the complete-BOSS phase-chain proof
-af1002d. The nine-owner integration af993d and earlier individual BOSS
-receipts remain useful historical compiler trials. Older explosion and
-Hitbox source receipts are likewise superseded as current-source bindings
-by af1014e.
+The twelve-owner integration af1014e is now historical after the current
+twelve-owner integration af1016d. The latter adds Chiyuri's block-local
+cardinal PID and named first-frame constant, Kotohime's positive
+active-player dispatcher and HitCircle's early-continue update loop, then
+rechecks all twelve owners together. The standalone source proofs af1016c
+(Chiyuri), af1015e (Kotohime) and af1016a (HitCircle) bind the final
+maintained files. The older af1014d, af1013h and af1013c standalone proofs
+are superseded by those newer source bindings. Mima af1001c is historical
+after the complete-BOSS phase-chain proof af1002d. The nine-owner
+integration af993d and earlier individual BOSS receipts remain useful
+historical compiler trials. Older explosion and Hitbox source receipts
+are likewise superseded as current-source bindings by af1016d.
 
 Compiler-sensitive negative results remain important. Reimu af981b/af981d
 loop variants and unary negative-angle form changed complete CODE; the
@@ -533,7 +565,7 @@ variants, plus af984c explicit signed-orbit cast, are preserved negative
 compiler results. HitCircle cel local/register arithmetic trials af976b-f, af987a/af989a-b
 and af993e changed complete CODE; retain the verified BX sequence.
 
-Current source bindings: af1014e for all nine major BOSSes, Hitbox,
+Current source bindings: af1016d for all nine major BOSSes, Hitbox,
 HitCircle and e_expl; af964e remains the current Fireball source proof.
 HitCircle af931b and
 older af919g/af921a receipts are historical after af985b. Hitbox af983c
@@ -670,7 +702,8 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current twelve-owner MAIN integration and Chiyuri/Kotohime/HitCircle recovery](MAIN_CHIYURI_KOTOHIME_HITCIRCLE_NATURAL_CONTROL_AFTER1014_REVIEW.md)
+- [Current twelve-owner MAIN integration and Chiyuri/Kotohime/HitCircle control recovery](MAIN_CHIYURI_KOTOHIME_HITCIRCLE_NATURAL_CONTROL_AFTER1016_REVIEW.md)
+- [Earlier Chiyuri/Kotohime/HitCircle renderer and age guards](MAIN_CHIYURI_KOTOHIME_HITCIRCLE_NATURAL_CONTROL_AFTER1014_REVIEW.md)
 - [Earlier Kotohime/Chiyuri ring renderers](MAIN_KOTOHIME_CHIYURI_NATURAL_RENDER_LOOPS_AFTER1012_REVIEW.md)
 - [Earlier Kotohime/Chiyuri nested attack loops](MAIN_KOTOHIME_CHIYURI_NATURAL_NESTED_FOR_AFTER1007_REVIEW.md)
 - [Earlier twelve-owner MAIN integration and six-BOSS phase chains](MAIN_SIX_BOSS_NATURAL_PHASE_CHAINS_AFTER1004_REVIEW.md)
