@@ -596,6 +596,19 @@ complete 2,358-byte Yumemi owner in two original TC4 rounds, with all 343
 ordered native fields, ten PUBLICs and the Japanese MAIN image/relocations
 exact. See the [after1048 Yumemi arrival review](MAIN_YUMEMI_ARRIVAL_NATURAL_CPP_AFTER1048_REVIEW.md).
 
+Yumemi's full 368-byte update controller now uses a register PID local, a
+mismatch early return, `pid_other = 1 - pid_current`, explicit nonzero
+scheduler return handling, `boss_frame += 1` and base-first origin Y. Its
+333-byte main renderer uses register-qualified locals, base-first sprite and
+effect coordinates, constant-first mode/hit predicates and explicit zero
+state tests. The switch, RNG, collision, hitbox, clip and hardware drawing
+order remain intact. Ordinary HP/frame assignments, reversed PID operands,
+reversed circle/line branches and ordinary sprite-offset addition changed
+native output and were rejected. Stage af1051j rebuilt the full 2,358-byte
+Yumemi object in two original TC4 rounds, with all 343 ordered native fields,
+ten PUBLICs and the Japanese MAIN image/relocations exact. See the
+[after1051 Yumemi update/render review](MAIN_YUMEMI_UPDATE_AND_MAIN_RENDER_NATURAL_CPP_AFTER1051_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
