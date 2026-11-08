@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af993d`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af997e`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -68,6 +68,17 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Nine-BOSS cadence recovery after993](MAIN_NINE_BOSS_NATURAL_CADENCE_PREDICATES_AFTER993_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af993d/report.json,
   SHA-256 32c364c85247438b143a39b5f22d54c9163caa1aceccfd5faa76b399dd214854.
+- **Latest explosion-chain collision source-current proof: `af997e`.**
+  The complete far-__cdecl e_expl owner was rebuilt in two independent
+  original TC4 4.02 rounds and complete normal MAIN links: **630 CODE
+  bytes, 49 ordered OMF FIXUPPs and one PUBLIC**. The six duplicated
+  continue-path index/pointer updates are now a natural for-header, and
+  all state/player/frame prefilters share one ordered short-circuit guard.
+  Both links reproduce all 124,642 Japanese loaded bytes and 1,553 ordered
+  MZ relocations, reusing the other 98 original game objects and CRT. See
+  [Explosion for-loop and guard recovery after997](MAIN_EXPLOSION_NATURAL_FOR_AND_GUARDS_AFTER997_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af997e/report.json,
+  SHA-256 f33b52becbfbd8f817265fd118158fb8568e5477f8975fd7a7bb1d938e9f13f0.
 - **Earlier eight-major-BOSS source-current integration: `af988b`.**
   Two independent original TC4 4.02 rounds rebuilt all eight major BOSS
   physical owners together: ba_mima, ba_reimu, ba_yumem, ba_ellen, ba_kana,
@@ -301,7 +312,7 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
-| `af993d` | 9 | 17,451 |
+| `af997e` | 1 | 630 |\n| `af993d` | 9 | 17,451 |
 | `af988b` | 8 | 14,797 |
 | `af976a` | 1 | 1,874 |
 | `af973b` | 1 | 2,654 |
@@ -328,6 +339,9 @@ scopes**, not one combined 99-original-source replay:
 
 The Kana `af965b` and Kotohime `af965a` receipts are earlier
 source snapshots superseded by `af966a` and `af965e`, respectively.
+The older explosion-chain source receipt af902e is historical after
+current e_expl proof af997e; the original while-based traversal is retained
+in that historical note, not the current source.
 The eight-owner integration af988b is now historical after the current
 nine-owner cadence proof af993d. The earlier individual BOSS receipts and
 intermediate integrations af992a/af992e/af993a are superseded by af993d.
@@ -349,8 +363,8 @@ variants, plus af984c explicit signed-orbit cast, are preserved negative
 compiler results. HitCircle cel local/register arithmetic trials af976b-f, af987a/af989a-b
 and af993e changed complete CODE; retain the verified BX sequence.
 
-Current source bindings: af993d for all nine major BOSSes, af986b for
-Hitbox, af985b for HitCircle and af964e for Fireball. HitCircle af931b and
+Current source bindings: af997e for e_expl, af993d for all nine major
+BOSSes, af986b for Hitbox, af985b for HitCircle and af964e for Fireball. HitCircle af931b and
 older af919g/af921a receipts are historical after af985b. Hitbox af983c is
 historical after af986b. Marisa af935a/af930e, the prior individual BOSS
 receipts and the eight-owner af988b integration are historical after
@@ -485,6 +499,7 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Current explosion for-loop and guard recovery](MAIN_EXPLOSION_NATURAL_FOR_AND_GUARDS_AFTER997_REVIEW.md)
 - [Current nine-BOSS cadence integration](MAIN_NINE_BOSS_NATURAL_CADENCE_PREDICATES_AFTER993_REVIEW.md)
 - [Earlier eight-major-BOSS frame-clock integration](MAIN_EIGHT_BOSS_NATURAL_GLOBAL_FRAME_PREFIX_INTEGRATION_AFTER988_REVIEW.md)
 - [Earlier Reimu prefix loops and cloud byte wrap](MAIN_REIMU_BOSS_NATURAL_PREFIX_AND_CLOUD_BYTE_AFTER986_REVIEW.md)
