@@ -285,6 +285,12 @@ fields and 20 PUBLICs, with two original TC4 rounds and the complete Japanese
 MAIN image/relocations exact. See the
 [after1029 Mima/Chiyuri integration review](MAIN_BOSS_MIMA_CHIYURI_INTEGRATION_AFTER1029_REVIEW.md).
 
+After the Kotohime radial-index declaration-order change, all three BOSS
+owners were rebuilt together at af1029m: 6,416 CODE bytes, 920 ordered native
+fields and 31 PUBLICs, with two original TC4 rounds and the complete Japanese
+MAIN image/relocations exact. See the
+[after1029 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1029_REVIEW.md).
+
 See
 [the after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md),
 [the after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md),
