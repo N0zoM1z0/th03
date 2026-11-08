@@ -346,8 +346,8 @@ Hitbox af983d pointer-first scan update and af984d direct explosion call
 also changed complete CODE; the index-first scan and explicit far/near
 bridge remain. Mima af980a/af980c/af980d control-flow and frame/angle
 variants, plus af984c explicit signed-orbit cast, are preserved negative
-compiler results. HitCircle cel local/register arithmetic trials af976b-f
-and af987a/af989a-b changed complete CODE; retain the verified BX sequence.
+compiler results. HitCircle cel local/register arithmetic trials af976b-f, af987a/af989a-b
+and af993e changed complete CODE; retain the verified BX sequence.
 
 Current source bindings: af993d for all nine major BOSSes, af986b for
 Hitbox, af985b for HitCircle and af964e for Fireball. HitCircle af931b and
