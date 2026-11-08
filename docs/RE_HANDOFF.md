@@ -412,7 +412,8 @@ in that historical note, not the current source.
 Hitbox af986b and earlier af983c are historical after current source proof
 af998d; the split early-return form remains in its historical review.
 The twelve-owner integration af1001e is now historical after the current
-twelve-owner integration af1004a. The latter includes natural attack
+twelve-owner integration af1004a. Mima af1001c is historical after the
+newer complete-BOSS phase-chain proof af1002d and the af1004a integration. The latter includes natural attack
 phase-chain improvements across six complete BOSS owners and rechecks all
 twelve owners together. The nine-owner integration af993d and earlier
 individual BOSS receipts remain useful historical compiler trials.
@@ -571,7 +572,7 @@ target. Preserve dirty source changes and commit meaningful progress as
   [Original fixed targets](../config/targets.toml)
 - [Current twelve-owner MAIN integration and six-BOSS phase chains](MAIN_SIX_BOSS_NATURAL_PHASE_CHAINS_AFTER1004_REVIEW.md)
 - [Earlier twelve-owner MAIN integration](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md)
-- [Current Mima trail-byte and hit-render source](MAIN_MIMA_NATURAL_TRAIL_BYTE_AND_HIT_RENDER_AFTER1001_REVIEW.md)
+- [Earlier Mima trail-byte and hit-render source](MAIN_MIMA_NATURAL_TRAIL_BYTE_AND_HIT_RENDER_AFTER1001_REVIEW.md)
 - [Current HitCircle cel register and VRAM stride](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md)
 - [Current explosion for-loop and guard recovery](MAIN_EXPLOSION_NATURAL_FOR_AND_GUARDS_AFTER997_REVIEW.md)
 - [Current Hitbox combined early guard](MAIN_HITBOX_NATURAL_COMBINED_GUARDS_AFTER998_REVIEW.md)
