@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af963a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af964e`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,6 +56,28 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Fireball source-current follow-up: `af964e`.** The complete
+  24-projectile, ten-function `e_fireb` object was rebuilt in two original
+  TC4 rounds with the complete normal MAIN link: **1,555 CODE bytes,
+  115 ordered OMF FIXUPP fields, ten PUBLICs, one DATA byte and one BSS
+  byte**. Both rounds reproduce the 124,642-byte Japanese MAIN loaded image
+  and all 1,553 ordered MZ relocations. The other 98 original game objects
+  and CRT were reused. The source now uses natural zero predicates for the
+  fireball flag, HP and hitbox result, and names the distinct 64x64 explosion
+  sprite / 64x48 collision geometry. See
+  [Fireball predicates after964](MAIN_FIREBALL_NATURAL_BYTE_PREDICATES_AFTER964_REVIEW.md)
+  and [Fireball geometry after964](MAIN_FIREBALL_EXPLOSION_GEOMETRY_AFTER964_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af964e/report.json`,
+  SHA-256 `3f03d78b2808918c5377e79bb14a164d86c38d585642db79e95358fd2f287cba`.
+- **Latest Ellen major-BOSS source-current follow-up: `af964a`.** Both
+  independent radial Extra Attack volleys in the complete nine-function
+  `ba_ellen` controller now use natural byte-angle addition/assignment,
+  preserving the runtime 256/count division and spawn order. Two original
+  TC4 rounds match **1,675 CODE bytes, 213 ordered OMF FIXUPPs and nine
+  PUBLICs**, with complete normal MAIN and all 1,553 MZ relocations exact.
+  See [Ellen radial Extra angle after964](MAIN_ELLEN_BOSS_NATURAL_EXTRA_ANGLE_AFTER964_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af964a/report.json`,
+  SHA-256 `d0d4384d45de700bbe3f9fd7a0ff71a2b6d1684467331d41cb90e21bbca2b1fe`.
 - **Latest Ellen major-BOSS source-current follow-up: `af962a`.** The
   complete nine-function `ba_ellen` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,675 CODE bytes, 213
@@ -134,8 +156,9 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af964e` | 1 | 1,555 |
+| `af964a` | 1 | 1,675 |
 | `af963a` | 1 | 1,677 |
-| `af962a` | 1 | 1,675 |
 | `af959b` | 1 | 2,654 |
 | `af956a` | 1 | 2,358 |
 | `af952a` | 1 | 1,922 |
@@ -148,7 +171,13 @@ scopes**, not one combined 99-original-source replay:
 | `af880h` | 2 | 1,245 |
 | `af882e` | 1 | 49 |
 
-The Rikako `af961c` receipt is now a historical source snapshot after
+The Ellen `af962a` receipt is now a historical source snapshot after
+`af964a` changed the same physical owner; preserve it, but use `af964a`
+for current source binding. Fireball `af964d` is the source snapshot before
+the explosion-geometry naming in `af964e`; `af964b` and `af964c` are
+earlier predicate experiments. The failed direct-call trial `af964f`
+remains preserved as a negative compiler result. Use `af964e` for current
+Fireball source binding. The Rikako `af961c` receipt is now a historical source snapshot after
 `af963a` changed the same physical owner; preserve it, but use `af963a` for
 current source binding. The older Ellen `af960a` receipt is now a historical source snapshot after
 `af962a` changed the same physical owner; preserve it, but use `af962a` for
@@ -285,7 +314,10 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Latest Ellen BOSS level/cadence source/native follow-up](MAIN_ELLEN_BOSS_LEVEL_AND_CADENCE_AFTER962_REVIEW.md)
+- [Current Fireball byte-predicate native work](MAIN_FIREBALL_NATURAL_BYTE_PREDICATES_AFTER964_REVIEW.md)
+- [Current Fireball explosion-geometry native work](MAIN_FIREBALL_EXPLOSION_GEOMETRY_AFTER964_REVIEW.md)
+- [Current Ellen radial Extra angle native work](MAIN_ELLEN_BOSS_NATURAL_EXTRA_ANGLE_AFTER964_REVIEW.md)
+- [Earlier Ellen BOSS level/cadence native work](MAIN_ELLEN_BOSS_LEVEL_AND_CADENCE_AFTER962_REVIEW.md)
 - [Latest Rikako signed-angle source/native follow-up](MAIN_RIKAKO_BOSS_NATURAL_SIGNED_ANGLE_AFTER963_REVIEW.md)
 - [Rikako BOSS template/level/render follow-up](MAIN_RIKAKO_BOSS_TEMPLATE_LEVEL_RENDER_AFTER961_REVIEW.md)
 - [Latest Ellen BOSS source/native follow-up](MAIN_ELLEN_BOSS_TEMPLATE_RENDER_AFTER960_REVIEW.md)
