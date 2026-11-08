@@ -519,6 +519,12 @@ rebuilt again at af1038x: 17,451 CODE bytes, 2,434 ordered native fields and
 85 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
 image/relocations exact. See the [current after1038x nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1038X_REVIEW.md).
 
+After the HitCircle spawn pointer/coordinate refinements were integrated with
+the nine current BOSS owners, all ten complete physical owners were rebuilt
+together at af1039g: 17,896 CODE bytes, 2,464 ordered native fields and 89
+PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the [after1039g nine-BOSS+HitCircle integration review](MAIN_NINE_BOSS_HITCIRCLE_INTEGRATION_AFTER1039G_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
