@@ -19,14 +19,27 @@ descending passes. The vertical path remains an independent second test; its
 warning pair, fan-angle calculations, ascending/descending speed updates and
 final SELECT transition are unchanged.
 
-A nearby natural unary-negation spelling was also tested:
+Several natural ways to avoid the explicit mirrored-angle expression were
+also tested and rejected against the complete owner:
+
+- `bullet_template.angle = -bullet_template.angle;`
+- `bullet_template.angle = (unsigned char)(-bullet_template.angle);`
+- A register-local `fan_angle` reused for the positive and mirrored shots.
+
+Each changed complete `ba_chiyu` CODE. The explicit
+`(0 - bullet_template.angle)` expression remains necessary for the mirrored
+horizontal shot.
+
+The four explicit speed mutations were also tested as compound assignments:
 
 ```cpp
-bullet_template.angle = -bullet_template.angle;
+bullet_template.speed.v += CHIYURI_FAN_SPEED_STEP;
+bullet_template.speed.v -= CHIYURI_FAN_SPEED_STEP;
 ```
 
-It changed complete `ba_chiyu` CODE and was reverted. Keep the exact
-`(0 - bullet_template.angle)` spelling for the mirrored horizontal shot.
+That form changed complete CODE as well. Keep the explicit byte-field
+assignments `speed.v = speed.v +/- CHIYURI_FAN_SPEED_STEP`; their named step
+and four separate pass bodies are part of the exact compiler shape.
 
 Stage `af1033q` rebuilt the complete `ba_chiyu` physical owner in two
 independent original TC4 4.02 rounds. All 2,654 CODE bytes, 381 ordered native
