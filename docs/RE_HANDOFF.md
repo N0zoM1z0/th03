@@ -68,6 +68,16 @@ acceptance.
 All five component reports are source-current. The af1024e report is the
 current simultaneous integration for the full twelve-owner set.
 
+### Subsequent scoped BOSS continuation
+
+The shared BOSS pattern selector's `while(1)`/`break` rejection loop is now a
+natural `do-while` in `src/main/boss/shared.cpp`. Stage af1025a rebuilt the
+complete `ba_srest` object in two independent original TC4 rounds: 601 CODE
+bytes, 84 ordered native fields and seven PUBLICs, with both normal MAIN links
+and ordered relocations exact. Its current-source review passed. See
+[the focused after1025 review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md).
+
+
 Current report locations and SHA-256 identities:
 
 - af1024e: .analysis/work/exatt-layout-af1024e/report.json
@@ -101,8 +111,9 @@ owner in the stage.
 
 ## Latest source recovery and next work
 
-The latest source work is concentrated in Kotohime, HitCircle, Mima and
-Chiyuri. See
+The latest source work includes the shared BOSS pattern selector's natural
+rejection loop (af1025a), alongside Kotohime, HitCircle, Mima and Chiyuri. See
+[the after1025 BOSS review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md),
 [the after1024 source review](MAIN_KOTOHIME_RADIAL_AND_HITCIRCLE_ENUMS_AFTER1024_REVIEW.md)
 and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.md).
 
