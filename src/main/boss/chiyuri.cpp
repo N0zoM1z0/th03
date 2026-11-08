@@ -627,9 +627,9 @@ void far gba_boss_update_chiyuri(void)
 }
 
 // Natural signed 16-bit radius and sprite-frame shifts remain exact.
-// The original two-carrier 16-sprite ring emits unchanged instructions
-// with `while`, but named enum `angle += 0x10` shortens the original
-// byte-reg update (negative TC4 stage af872c).
+// The original two-carrier 16-sprite ring now uses a natural for-header.
+// Its update advances the signed index before the byte-angle assignment;
+// enum-valued compound += still shortens the original byte-reg update.
 void near chiyuri_render_ring(void)
 {
 	screen_y_t top;
@@ -638,7 +638,6 @@ void near chiyuri_render_ring(void)
 	int radius;
 	unsigned char angle;
 	register int i;
-	register screen_x_t left;
 
 	pid_other = (1 - pid_current);
 	radius = (boss_effect_radius * CHIYURI_RING_RADIUS_SCALE);
@@ -649,9 +648,12 @@ void near chiyuri_render_ring(void)
 	sprite_offset = (boss_sprite_offset + CHIYURI_RING_SPRITE_OFFSET);
 	sprite_offset += (boss_render_frame * CHIYURI_RING_SPRITE_ANIM_SCALE);
 
-	i = 0;
-	angle = boss_move_phase;
-	while(i < CHIYURI_RING_SPRITES) {
+	for(
+		i = 0, angle = boss_move_phase;
+		i < CHIYURI_RING_SPRITES;
+		++i, angle = angle + CHIYURI_RING_SPRITE_ANGLE_STEP
+	) {
+		register screen_x_t left;
 		left = polar(
 			boss_center_x, radius, CosTable8[angle]
 		);
@@ -664,10 +666,6 @@ void near chiyuri_render_ring(void)
 		// different TC4 CODE (native negative trial af759b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
-		++i;
-		// Explicit named byte angle assignment is original-exact (af922f);
-		// enum-valued compound += was unequal in earlier native work.
-		angle = angle + CHIYURI_RING_SPRITE_ANGLE_STEP;
 	}
 }
 
@@ -679,7 +677,7 @@ void near chiyuri_render_main(void)
 	register sprite16_offset_t sprite_offset;
 	register screen_x_t left;
 
-	if(boss_render_mode == CHIYURI_RENDER_MODE_NORMAL) {
+	if(!boss_render_mode) {
 		sprite16_put_size.w = CHIYURI_RENDER_MAIN_WIDTH;
 		sprite16_put_size.h = CHIYURI_RENDER_MAIN_HEIGHT;
 
@@ -695,7 +693,7 @@ void near chiyuri_render_main(void)
 		left += CHIYURI_RENDER_HIT_LEFT_OFF;
 		top += CHIYURI_RENDER_HIT_TOP_OFF;
 
-		if(boss_hit != 0) {
+		if(boss_hit) {
 			sprite16_put_size.w = CHIYURI_RENDER_HIT_WIDTH;
 			sprite16_put_size.h = CHIYURI_RENDER_HIT_HEIGHT;
 			sprite_offset += CHIYURI_RENDER_HIT_SPRITE_DELTA;
@@ -703,7 +701,7 @@ void near chiyuri_render_main(void)
 			return;
 		}
 
-		if(boss_render_frame == 0) {
+		if(!boss_render_frame) {
 			return;
 		}
 
@@ -714,7 +712,7 @@ void near chiyuri_render_main(void)
 		return;
 	}
 
-	if(boss_render_mode >= CHIYURI_MONO_COLOR6_LATE_STEP) {
+	else if(boss_render_mode >= CHIYURI_MONO_COLOR6_LATE_STEP) {
 		chiyuri_render_mono(6);
 	} else if(boss_render_mode >= CHIYURI_MONO_COLOR5_LATE_STEP) {
 		chiyuri_render_mono(5);
