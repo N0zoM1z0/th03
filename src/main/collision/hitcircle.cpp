@@ -50,14 +50,6 @@ struct HitCircle {
 	}
 };
 
-// ZUN bloat: Merge into HitCircle::spawn().
-#define hitcircle_set_topleft(p, center_x, center_y, pid) { \
-	p.topleft.x = ( \
-		playfield_fg_x_to_screen(center_x, pid) - (HITCIRCLE_W / 2) \
-	); \
-	p.topleft.y = (TO_PIXEL(center_y) + PLAYFIELD_TOP - (HITCIRCLE_H / 2)); \
-}
-
 extern HitCircle hitcircles[HITCIRCLE_COUNT];
 
 void pascal hitcircles_enemy_add(
@@ -86,7 +78,11 @@ void pascal hitcircles_enemy_add(
 			randring_far_next16_mod(hitbox.radius.y * 2)
 		);
 	}
-	hitcircle_set_topleft(p, center_x, center_y, pid);
+	// Keep the original near-record stores directly at each spawn site.
+	p.topleft.x = (
+		playfield_fg_x_to_screen(center_x, pid) - (HITCIRCLE_W / 2)
+	);
+	p.topleft.y = (TO_PIXEL(center_y) + PLAYFIELD_TOP - (HITCIRCLE_H / 2));
 
 	#undef last_id
 }
@@ -97,7 +93,11 @@ void pascal hitcircles_player_add(
 {
 	HitCircle near& p = hitcircles[HITCIRCLE_ENEMY_COUNT];
 	p.spawn(pid);
-	hitcircle_set_topleft(p, center_x, center_y, pid);
+	// Keep the original near-record stores directly at each spawn site.
+	p.topleft.x = (
+		playfield_fg_x_to_screen(center_x, pid) - (HITCIRCLE_W / 2)
+	);
+	p.topleft.y = (TO_PIXEL(center_y) + PLAYFIELD_TOP - (HITCIRCLE_H / 2));
 }
 
 void near hitcircles_update(void)
