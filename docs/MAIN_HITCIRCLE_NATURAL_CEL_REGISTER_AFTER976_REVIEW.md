@@ -55,6 +55,14 @@ Several fresh attempts tried to express that work as ordinary C++:
   _BX + (_BX << 1), and af1000a tried 2 * _BX for the scale step.
   All three changed complete CODE; retain the three original BX additions
   and the compound multiply.
+- af1000c replaced the literal multiply-by-two with
+  _BX *= (HITCIRCLE_VRAM_W / 3). The compiler constant-folded the
+  semantic stride and preserved all original instructions.
+- af1000d named that compile-time term as
+  HITCIRCLE_VRAM_W_PER_CEL_TERM = (HITCIRCLE_VRAM_W / 3) and used
+  _BX *= HITCIRCLE_VRAM_W_PER_CEL_TERM. The complete physical object
+  still matched, so the cel calculation now derives its stride from the
+  actual six-byte VRAM width instead of a standalone magic 2.
 
 The direct formula is cleaner algebraically but does not reproduce the
 original target's intentionally unoptimized multiply/add sequence. The
@@ -64,12 +72,12 @@ keeps the original intermediate BX/AX code without changing the surrounding
 record-pointer allocation. The multiply and return expression remain in
 their original forms.
 
-The current self-division assignment is source-bound to af999c: two
-original TC4 rounds reproduce all **445 CODE bytes, 30 literal ordered
+The current self-division and named VRAM-term assignments are source-bound
+to af1000d: two original TC4 rounds reproduce all **445 CODE bytes, 30 literal ordered
 OMF FIXUPP fields and four PUBLIC offsets**, with complete normal MAIN
 image and all 1,553 ordered relocations exact. The other 98 original game
-objects and Borland CRT were reused. The earlier af985b proof is historical
-after this source improvement.
+objects and Borland CRT were reused. The earlier af985b and af999c proofs are historical after this source
+improvement.
 
 Protected current-source report:
 .analysis/work/exatt-layout-af999c/report.json, SHA-256
