@@ -9,6 +9,7 @@
 static const pixel_t HITCIRCLE_W = 48;
 static const pixel_t HITCIRCLE_H = 48;
 static const uvram_byte_amount_t HITCIRCLE_VRAM_W = (HITCIRCLE_W / BYTE_DOTS);
+static const uvram_byte_amount_t HITCIRCLE_VRAM_W_PER_CEL_TERM = (HITCIRCLE_VRAM_W / 3);
 
 static const int HITCIRCLE_CELS = 4;
 static const unsigned int HITCIRCLE_FRAMES_PER_CEL = 4;
@@ -45,7 +46,7 @@ struct HitCircle {
 		static_assert(HITCIRCLE_VRAM_W == 6);
 		_BX = (age - 1);
 		_BX = (_BX / HITCIRCLE_FRAMES_PER_CEL);
-		_BX *= 2;
+		_BX *= HITCIRCLE_VRAM_W_PER_CEL_TERM;
 		return (SO_HITCIRCLE + _BX + _BX + _BX);
 	}
 };
