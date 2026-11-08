@@ -425,6 +425,12 @@ ordered native fields and 31 PUBLICs, with two original TC4 rounds and the
 complete Japanese MAIN image/relocations exact. See the
 [after1030x three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030X_REVIEW.md).
 
+After Kotohime's radial nested loops were rewritten as scoped register-local
+`while` traversals, all three owners were rebuilt together at af1031i: 6,416
+CODE bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[after1031i three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1031I_REVIEW.md).
+
 After the Mima INTRO and Chiyuri update/leaf changes, the two complete owners
 were rebuilt together at af1030k: 4,576 CODE bytes, 658 ordered native fields
 and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
