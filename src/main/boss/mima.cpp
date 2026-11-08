@@ -288,7 +288,7 @@ void near mima_pattern_bomb_random(void)
 
 	// Natural unsigned 16-bit four-frame attack clock, not a byte
 	// animation division. The original hardware RNG order is unchanged.
-	if(!(boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD)) {
+	if((boss_frame & (MIMA_RANDOM_BOMB_FIRE_PERIOD - 1)) == 0) {
 		bullet_template.angle = 0;
 		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
 		bullet_template.center.x.v = x;
