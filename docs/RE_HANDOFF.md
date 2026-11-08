@@ -441,6 +441,12 @@ fields and 31 PUBLICs, with two original TC4 rounds and the complete Japanese
 MAIN image/relocations exact. See the
 [after1031t three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1031T_REVIEW.md).
 
+After the three BOSS update controllers were changed to positive launched-
+player scopes, all three owners were rebuilt together at af1032q: 6,416 CODE
+bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4 rounds
+and the complete Japanese MAIN image/relocations exact. See the
+[after1032q three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1032Q_REVIEW.md).
+
 After the Mima INTRO and Chiyuri update/leaf changes, the two complete owners
 were rebuilt together at af1030k: 4,576 CODE bytes, 658 ordered native fields
 and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
