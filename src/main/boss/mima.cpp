@@ -280,48 +280,46 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	if(boss_frame <= MIMA_RANDOM_BOMB_BULLET_WAIT_END) {
-		return;
-	}
+	if(boss_frame > MIMA_RANDOM_BOMB_BULLET_WAIT_END) {
+		// Natural unsigned 16-bit four-frame attack clock, not a byte
+		// animation division. The original hardware RNG order is unchanged.
+		if((boss_frame & (MIMA_RANDOM_BOMB_FIRE_PERIOD - 1)) == 0) {
+			bullet_template.angle = 0;
+			bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
+			bullet_template.center.x.v = x;
+			bullet_template.center.y.v = y;
+			bullet_template.count = mima_random_count;
+			bullet_template.speed.v = mima_random_speed;
+			bullet_template.type = BT_BULLET16_DEFAULT;
+			bullet_template.is_animated = false;
+			bullets_add();
 
-	// Natural unsigned 16-bit four-frame attack clock, not a byte
-	// animation division. The original hardware RNG order is unchanged.
-	if((boss_frame & (MIMA_RANDOM_BOMB_FIRE_PERIOD - 1)) == 0) {
-		bullet_template.angle = 0;
-		bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
-		bullet_template.center.x.v = x;
-		bullet_template.center.y.v = y;
-		bullet_template.count = mima_random_count;
-		bullet_template.speed.v = mima_random_speed;
-		bullet_template.type = BT_BULLET16_DEFAULT;
-		bullet_template.is_animated = false;
-		bullets_add();
+			bullet_template.type = BT_PELLET;
+			bullets_add();
+			bullet_template.is_animated = true;
+		}
 
-		bullet_template.type = BT_PELLET;
-		bullets_add();
-		bullet_template.is_animated = true;
-	}
+		if(boss_frame == MIMA_RANDOM_BOMB_RING_FRAME) {
+			bullet_template.angle = randring_far_next16();
+			bullet_template.group = BG_32_RING;
+			bullet_template.center.x.v = x;
+			bullet_template.center.y.v = y;
+			bullet_template.speed.v = TO_SP(2);
+			bullet_template.type = BT_BULLET16_DEFAULT;
+			bullet_template.is_animated = false;
+			bullets_add();
+			bullet_template.is_animated = true;
+		}
 
-	if(boss_frame == MIMA_RANDOM_BOMB_RING_FRAME) {
-		bullet_template.angle = randring_far_next16();
-		bullet_template.group = BG_32_RING;
-		bullet_template.center.x.v = x;
-		bullet_template.center.y.v = y;
-		bullet_template.speed.v = TO_SP(2);
-		bullet_template.type = BT_BULLET16_DEFAULT;
-		bullet_template.is_animated = false;
-		bullets_add();
-		bullet_template.is_animated = true;
-	}
+		if((boss_frame & (MIMA_FIRE_EVEN_PERIOD - 1)) == 0) {
+			snd_se_play(MIMA_SOUND_SPREAD);
+		}
 
-	if((boss_frame & (MIMA_FIRE_EVEN_PERIOD - 1)) == 0) {
-		snd_se_play(MIMA_SOUND_SPREAD);
-	}
-
-	if(boss_frame >= MIMA_RANDOM_BOMB_END) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+		if(boss_frame >= MIMA_RANDOM_BOMB_END) {
+			boss_render_mode = MIMA_RMODE_NORMAL;
+			boss_mode = MIMA_MODE_SELECT;
+			boss_frame = 0;
+		}
 	}
 }
 

@@ -360,8 +360,8 @@ owner in the stage.
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
-phase guards, update INTRO branch, positive Spread fire-window guard and
-orbit/Trail finish predicates (af1029g/af1030f/af1030n/af1030v/af1031m),
+phase guards, update INTRO branch, positive Spread/Random Bomb guards and
+orbit/Trail finish predicates (af1029g/af1030f/af1030n/af1030v/af1031m/af1031s),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
 scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
@@ -462,10 +462,14 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   Replacing those additions with a multiplication changed complete CODE.
 - **Mima:** the 214-byte Spread leaf now scopes its volley/pellet/finish
   path under a positive `boss_frame >= MIMA_SPREAD_FIRE_BEGIN` guard after
-  the independent initial-setup return (af1031m). The hit-render path also
-  chains into Particle with else-if; keep the original Trail-to-Particle
+  the independent initial-setup return (af1031m). The 262-byte Random Bomb
+  leaf now scopes its live barrage/ring/sound/finish under the positive
+  `boss_frame > MIMA_RANDOM_BOMB_BULLET_WAIT_END` guard while retaining the
+  three marker bombs and their early return (af1031s). The hit-render path
+  also chains into Particle with else-if; keep the original Trail-to-Particle
   label/goto and nested Particle thresholds. See the
-  [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md).
+  [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md)
+  and [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md).
 - **Chiyuri:** Cardinal, ring, fan and trail clocks have natural named
   thresholds and state tests. Preserve compiler-sensitive operand order
   and the original bullet-call ordering.
