@@ -465,6 +465,12 @@ CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
 rounds and the complete Japanese MAIN image/relocations exact. See the
 [current after1033r nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1033R_REVIEW.md).
 
+After the Kotohime Radial Burst and Mima Trail natural-source refinements, the
+two complete owners were rebuilt together at af1034b: 3,762 CODE bytes, 539
+ordered native fields and 20 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1034b two-owner integration review](MAIN_KOTOHIME_MIMA_TWO_OWNER_INTEGRATION_AFTER1034B_REVIEW.md).
+
 After Reimu's update controller was moved to the same positive PID scope, all
 four current BOSS owners were rebuilt together at af1032t: 8,436 CODE bytes,
 1,190 ordered native fields and 40 PUBLICs, with two original TC4 rounds and
