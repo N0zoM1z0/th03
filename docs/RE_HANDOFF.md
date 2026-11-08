@@ -719,6 +719,13 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   [timer review](MAIN_CHIYURI_UPDATE_SELECT_TIMER_VARIABLE_FIRST_AFTER1032_REVIEW.md),
   [palette guard review](MAIN_CHIYURI_UPDATE_PALETTE_GUARD_VARIABLE_FIRST_AFTER1032_REVIEW.md),
   and [random-mode base review](MAIN_CHIYURI_UPDATE_RANDOM_MODE_BASE_ENUM_AFTER1032_REVIEW.md).
+  The four Chiyuri render leaves now use base-first sprite/radius arithmetic,
+  `TO_PIXEL()` coordinate conversion, natural signed pixel-center placement,
+  postfix ring-loop indexing and constant-first INTRO phase comparisons
+  (af1040a/b/c/d/e/f/g/h/i/k/l/p/q/r/s/t, af1041e/f/g/h/i/j). The ring's
+  loop-local X scratch is hoisted without changing the owner; hit-offset
+  compound updates and the separate INTRO frame assignment remain required.
+  See the [after1041 Chiyuri renderer review](MAIN_CHIYURI_RENDERERS_NATURAL_COORDINATES_AFTER1041_REVIEW.md).
 
 Recommended next targets:
 

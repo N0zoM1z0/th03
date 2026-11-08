@@ -643,33 +643,33 @@ void near chiyuri_render_ring(void)
 	int radius;
 	unsigned char angle;
 	register int i;
+	register screen_x_t left;
 
 	pid_other = (1 - pid_current);
-	radius = (boss_effect_radius * CHIYURI_RING_RADIUS_SCALE);
+	radius = (CHIYURI_RING_RADIUS_SCALE * boss_effect_radius);
 
 	sprite16_put_size.w = CHIYURI_RING_SPRITE_WIDTH;
 	sprite16_put_size.h = CHIYURI_RING_SPRITE_HEIGHT;
 
-	sprite_offset = (boss_sprite_offset + CHIYURI_RING_SPRITE_OFFSET);
-	sprite_offset += (boss_render_frame * CHIYURI_RING_SPRITE_ANIM_SCALE);
+	sprite_offset = (CHIYURI_RING_SPRITE_OFFSET + boss_sprite_offset);
+	sprite_offset += (CHIYURI_RING_SPRITE_ANIM_SCALE * boss_render_frame);
 
 	for(
 		i = 0, angle = boss_move_phase;
 		i < CHIYURI_RING_SPRITES;
-		++i, angle = angle + CHIYURI_RING_SPRITE_ANGLE_STEP
+		i++, angle = CHIYURI_RING_SPRITE_ANGLE_STEP + angle
 	) {
-		register screen_x_t left;
 		left = polar(
 			boss_center_x, radius, CosTable8[angle]
 		);
 		top = polar(
 			boss_center_y, radius, SinTable8[angle]
 		);
-		left = (playfield_fg_x_to_screen(left, pid_other) - 16);
+		left = (-(CHIYURI_RING_SPRITE_WIDTH / 2) + playfield_fg_x_to_screen(left, pid_other));
 		// Natural signed coordinate conversion replaces manual _AX
 		// loading/shifting/storing. A compound >>= on top generated
 		// different TC4 CODE (native negative trial af759b).
-		top = static_cast<screen_y_t>(top >> 4);
+		top = TO_PIXEL(top);
 		sprite16_put(left, top, sprite_offset);
 	}
 }
@@ -687,11 +687,12 @@ void near chiyuri_render_main(void)
 		sprite16_put_size.h = CHIYURI_RENDER_MAIN_HEIGHT;
 
 		left = (
+			(-CHIYURI_RENDER_MAIN_LEFT_HALF) +
 			playfield_fg_x_to_screen(
 				boss_center_x, (1 - pid_current)
-			) - CHIYURI_RENDER_MAIN_LEFT_HALF
+			)
 		);
-		top = ((boss_center_y >> 4) - CHIYURI_RENDER_MAIN_TOP_OFF);
+		top = ((-CHIYURI_RENDER_MAIN_TOP_OFF) + TO_PIXEL(boss_center_y));
 		sprite_offset = boss_sprite_offset;
 		sprite16_put(left, top, sprite_offset);
 
@@ -712,7 +713,7 @@ void near chiyuri_render_main(void)
 
 		sprite16_put_size.w = CHIYURI_RENDER_ANIM_WIDTH;
 		sprite16_put_size.h = CHIYURI_RENDER_ANIM_HEIGHT;
-		sprite_offset += ((boss_render_frame * CHIYURI_RENDER_ANIM_PERIOD) + CHIYURI_RENDER_ANIM_SPRITE_BASE);
+		sprite_offset += (CHIYURI_RENDER_ANIM_SPRITE_BASE + (CHIYURI_RENDER_ANIM_PERIOD * boss_render_frame));
 		sprite16_put(left, top, sprite_offset);
 		return;
 	}
@@ -736,7 +737,7 @@ void near chiyuri_render_intro(void)
 {
 	register int frame;
 
-	if(round_frame_mod2 && (boss_frame < CHIYURI_INTRO_RENDER_LAST_END)) {
+	if(round_frame_mod2 && (CHIYURI_INTRO_RENDER_LAST_END > boss_frame)) {
 		return;
 	}
 
@@ -744,9 +745,10 @@ void near chiyuri_render_intro(void)
 	// adjacent byte phase updates still require their AL expression:
 	// direct +=4, =phase+4 and -=4 changed original native code.
 	frame = boss_frame;
+
 	// The three raster phases are separate signed 16-bit origin radii;
 	// keep each original byte phase update in the original AL carrier.
-	if(frame < CHIYURI_INTRO_RENDER_FIRST_END) {
+	if(CHIYURI_INTRO_RENDER_FIRST_END > frame) {
 		boss_effect_radius = (
             CHIYURI_INTRO_RADIUS_FIRST -
             (frame << CHIYURI_INTRO_RADIUS_SHIFT)
@@ -754,7 +756,7 @@ void near chiyuri_render_intro(void)
 		_AL = boss_move_phase;
 		_AL += 4;
 		boss_move_phase = _AL;
-	} else if(frame < CHIYURI_INTRO_RENDER_SECOND_END) {
+	} else if(CHIYURI_INTRO_RENDER_SECOND_END > frame) {
 		boss_effect_radius = (
             CHIYURI_INTRO_RADIUS_SECOND -
             (frame << CHIYURI_INTRO_RADIUS_SHIFT)
@@ -785,11 +787,12 @@ void near pascal chiyuri_render_mono(int color)
 	sprite16_put_size.h = CHIYURI_RENDER_MAIN_HEIGHT;
 
 	left = (
+		(-CHIYURI_RENDER_MAIN_LEFT_HALF) +
 		playfield_fg_x_to_screen(
 			boss_center_x, (1 - pid_current)
-		) - 64
+		)
 	);
-	top = ((boss_center_y >> 4) - 48);
+	top = (-CHIYURI_RENDER_MAIN_TOP_OFF + TO_PIXEL(boss_center_y));
 	sprite_offset = boss_sprite_offset;
 
 	_AH = SPRITE16_SET_MONO;
