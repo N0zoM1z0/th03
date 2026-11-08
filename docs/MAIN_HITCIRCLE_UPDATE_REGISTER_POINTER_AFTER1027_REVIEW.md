@@ -23,6 +23,27 @@ Protected report: `.analysis/work/exatt-layout-af1027f/report.json`
 
 SHA-256: `f30f312eaea6842d320320627c28156e3a07f4b9e7f4ddc22171167dbdda8eb9`
 
+## Explicit AX loop counter
+
+The same update function now also declares its signed record counter as a
+register local:
+
+```cpp
+register HitCircle near* p = hitcircles;
+register int i;
+```
+
+The target uses AX for the thirteen-record counter (`XOR AX,AX`, `INC AX`,
+`CMP AX,0x0D`) while SI holds the record pointer. With both register locals,
+stage `af1027g` again rebuilt the complete `hitcirc` object in two independent
+original TC4 rounds: all 445 CODE bytes, 30 ordered native fields and four
+PUBLICs exact, with both normal MAIN links reproducing the Japanese loaded
+image and ordered relocations.
+
+Protected report: `.analysis/work/exatt-layout-af1027g/report.json`
+
+SHA-256: `97438d7d62c4680fd51dca3dcf215da2d73af3ca8a6613f21bd6466aa541a8be`
+
 ## Additional `HitCircle::cel()` type experiments
 
 The renderer's inline cel calculation was inspected directly in the target
