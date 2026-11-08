@@ -166,6 +166,13 @@ ordered native fields and four PUBLICs, with the full Japanese MAIN image and
 relocations exact. See the
 [after1028 HitCircle renderer review](MAIN_HITCIRCLE_RENDER_REGISTER_LOCALS_AFTER1028_REVIEW.md).
 
+The same renderer now uses a positive `p->age` guard for each of the twelve
+enemy slots instead of a zero-age `continue`. Stage af1028d again rebuilt the
+complete `hitcirc` owner in two original TC4 rounds with all 445 CODE bytes,
+30 ordered native fields, four PUBLICs and the full Japanese MAIN image and
+relocations exact. See the
+[after1028 HitCircle active-guard review](MAIN_HITCIRCLE_RENDER_ACTIVE_GUARD_AFTER1028_REVIEW.md).
+
 
 Current report locations and SHA-256 identities:
 
@@ -205,8 +212,8 @@ rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g),
 Chiyuri's intro phase chain/default path (af1026h/af1027h) and fan-loop SI
 index (af1027a), Kotohime's explicit radial register indices (af1026i), and
-HitCircle's age-update and render register locals (af1025d/af1027f/af1027g/af1028c).
-The three current
+HitCircle's age-update/render register locals and active guard
+(af1025d/af1027f/af1027g/af1028c/af1028d). The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
 ordered native fields and 31 PUBLICs, with both original TC4 rounds and the
 complete Japanese MAIN image/relocations exact. See the

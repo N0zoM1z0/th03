@@ -139,12 +139,11 @@ void near hitcircles_render(void)
 	// hit circle uses its own monochrome palette after the signed-index
 	// and near-pointer for loop.
 	for(i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
-		if(!p->age) {
-			continue;
+		if(p->age) {
+			sprite16_clip_set_for_pid(p->pid);
+			sprite16_offset_t so = p->cel();
+			sprite16_put(p->topleft.x, p->topleft.y, so);
 		}
-		sprite16_clip_set_for_pid(p->pid);
-		sprite16_offset_t so = p->cel();
-		sprite16_put(p->topleft.x, p->topleft.y, so);
 	}
 
 	// Player circle
