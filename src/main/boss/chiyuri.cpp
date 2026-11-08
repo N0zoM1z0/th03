@@ -148,27 +148,47 @@ enum chiyuri_boss_cadence_t {
     CHIYURI_INTRO_RADIUS_FINAL = 0x300,
 };
 
+enum chiyuri_template_layout_t {
+    CHIYURI_TEMPLATE_CENTER_X = 0x900,
+    CHIYURI_TEMPLATE_CENTER_Y = 0x500,
+    CHIYURI_TEMPLATE_VELOCITY_X = -0x20,
+    CHIYURI_TEMPLATE_HP = 0x8C,
+    CHIYURI_TEMPLATE_SPRITE_OFF = 0x288,
+    CHIYURI_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
+enum chiyuri_render_mode_t {
+    CHIYURI_RENDER_MODE_NORMAL = 0,
+};
+
+enum chiyuri_render_placement_t {
+    CHIYURI_RENDER_MAIN_LEFT_HALF = 64,
+    CHIYURI_RENDER_MAIN_TOP_OFF = 48,
+    CHIYURI_RENDER_HIT_LEFT_OFF = 48,
+    CHIYURI_RENDER_HIT_TOP_OFF = 32,
+};
+
 void far pascal boss_chiyuri_template_init(int player_id)
 {
 	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = CHIYURI_TEMPLATE_CENTER_X;
+	p->center_y = CHIYURI_TEMPLATE_CENTER_Y;
+	p->velocity_x = CHIYURI_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
 	p->mode = 0;
-	p->hp = 0x8C;
+	p->hp = CHIYURI_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->move_phase = 0;
 	p->effect_radius = 0;
-	p->sprite_offset = 0x288;
+	p->sprite_offset = CHIYURI_TEMPLATE_SPRITE_OFF;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += CHIYURI_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = CHIYURI_RENDER_MODE_NORMAL;
 }
 
 void near chiyuri_pattern_cardinal(void)
@@ -201,7 +221,7 @@ void near chiyuri_pattern_cardinal(void)
 	}
 
 	else if(boss_frame >= CHIYURI_PATTERN_END_AT) {
-		boss_mode = 1;
+		boss_mode = CHIYURI_MODE_SELECT;
 		boss_frame = 0;
 		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 	}
@@ -260,7 +280,7 @@ void near chiyuri_pattern_rings(void)
 	);
 
 	if(boss_frame >= CHIYURI_PATTERN_END_AT) {
-		boss_mode = 1;
+		boss_mode = CHIYURI_MODE_SELECT;
 		boss_frame = 0;
 		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 	}
@@ -326,7 +346,7 @@ void near chiyuri_pattern_trail_ring(void)
 	bullets_add();
 	bullet_template.has_trail = false;
 
-	boss_mode = 1;
+	boss_mode = CHIYURI_MODE_SELECT;
 	boss_frame = 0;
 	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 }
@@ -459,9 +479,9 @@ void near chiyuri_pattern_fans(void)
 		++i;
 	}
 
-	boss_mode = 1;
+	boss_mode = CHIYURI_MODE_SELECT;
 	boss_frame = 0;
-	boss_render_mode = 0x20;
+	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 }
 
 void far gba_boss_update_chiyuri(void)
@@ -495,7 +515,7 @@ void far gba_boss_update_chiyuri(void)
 	case CHIYURI_MODE_INTRO:
 		if(boss_frame == CHIYURI_INTRO_DONE_FRAME) {
 			boss_frame = 0;
-			boss_mode = 1;
+			boss_mode = CHIYURI_MODE_SELECT;
 			bomb_palette_step(0xFF, pid_other);
 			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 			boss_render_mode = CHIYURI_PALETTE_CYCLE_START;
@@ -531,7 +551,7 @@ void far gba_boss_update_chiyuri(void)
 			boss_mode = (randring_far_next16_and(0x0F) + 2);
 			boss_pattern_i++;
 			if(boss_pattern_i > boss_pattern_count) {
-				boss_mode = 0x80;
+				boss_mode = CHIYURI_MODE_DESCEND;
 			}
 		}
 		break;
@@ -594,7 +614,7 @@ void far gba_boss_update_chiyuri(void)
 		}
 	}
 
-	if(boss_render_mode) {
+	if(boss_render_mode != CHIYURI_RENDER_MODE_NORMAL) {
 		boss_render_mode--;
 	}
 
@@ -670,21 +690,21 @@ void near chiyuri_render_main(void)
 	register sprite16_offset_t sprite_offset;
 	register screen_x_t left;
 
-	if(!boss_render_mode) {
+	if(boss_render_mode == CHIYURI_RENDER_MODE_NORMAL) {
 		sprite16_put_size.w = CHIYURI_RENDER_MAIN_WIDTH;
 		sprite16_put_size.h = CHIYURI_RENDER_MAIN_HEIGHT;
 
 		left = (
 			playfield_fg_x_to_screen(
 				boss_center_x, (1 - pid_current)
-			) - 64
+			) - CHIYURI_RENDER_MAIN_LEFT_HALF
 		);
-		top = ((boss_center_y >> 4) - 48);
+		top = ((boss_center_y >> 4) - CHIYURI_RENDER_MAIN_TOP_OFF);
 		sprite_offset = boss_sprite_offset;
 		sprite16_put(left, top, sprite_offset);
 
-		left += 48;
-		top += 32;
+		left += CHIYURI_RENDER_HIT_LEFT_OFF;
+		top += CHIYURI_RENDER_HIT_TOP_OFF;
 
 		if(boss_hit) {
 			sprite16_put_size.w = CHIYURI_RENDER_HIT_WIDTH;
@@ -700,7 +720,7 @@ void near chiyuri_render_main(void)
 
 		sprite16_put_size.w = CHIYURI_RENDER_ANIM_WIDTH;
 		sprite16_put_size.h = CHIYURI_RENDER_ANIM_HEIGHT;
-		sprite_offset += ((boss_render_frame * 4) + CHIYURI_RENDER_ANIM_SPRITE_BASE);
+		sprite_offset += ((boss_render_frame * CHIYURI_RENDER_ANIM_PERIOD) + CHIYURI_RENDER_ANIM_SPRITE_BASE);
 		sprite16_put(left, top, sprite_offset);
 		return;
 	}
