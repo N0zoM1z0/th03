@@ -438,13 +438,12 @@ void far gba_boss_update_kotohime(void)
 
 		switch(boss_mode) {
 		case KOTOHIME_MODE_INTRO:
-			if(boss_frame == KOTOHIME_INTRO_FINISH_FRAME) {
-				boss_frame = 0;
-				boss_mode = KOTOHIME_MODE_SELECT;
-				break;
-			} else {
+			if(boss_frame != KOTOHIME_INTRO_FINISH_FRAME) {
 				return;
 			}
+			boss_frame = 0;
+			boss_mode = KOTOHIME_MODE_SELECT;
+			break;
 
 		case KOTOHIME_MODE_SELECT:
 			boss_pattern_next();

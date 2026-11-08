@@ -77,6 +77,14 @@ bytes, 84 ordered native fields and seven PUBLICs, with both normal MAIN links
 and ordered relocations exact. Its current-source review passed. See
 [the focused after1025 review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md).
 
+The larger Kotohime update controller also now uses a direct intro-completion
+guard in `gba_boss_update_kotohime()` rather than a nested `if/else`. Stage
+af1025c rebuilt the complete `ba_koto` object in two independent original TC4
+rounds: 1,840 CODE bytes, 262 ordered native fields and eleven PUBLICs, with
+both normal MAIN links and ordered relocations exact. The attempted shared
+`level / 2` local changed CODE and was reverted. See
+[the focused Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
+
 
 Current report locations and SHA-256 identities:
 
@@ -112,7 +120,9 @@ owner in the stage.
 ## Latest source recovery and next work
 
 The latest source work includes the shared BOSS pattern selector's natural
-rejection loop (af1025a), alongside Kotohime, HitCircle, Mima and Chiyuri. See
+rejection loop (af1025a) and Kotohime's large update-controller intro guard
+(af1025c), alongside HitCircle, Mima and Chiyuri. See
+[the after1025 Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md),
 [the after1025 BOSS review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md),
 [the after1024 source review](MAIN_KOTOHIME_RADIAL_AND_HITCIRCLE_ENUMS_AFTER1024_REVIEW.md)
 and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.md).
