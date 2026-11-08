@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af1001e`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af1004a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -68,7 +68,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Nine-BOSS cadence recovery after993](MAIN_NINE_BOSS_NATURAL_CADENCE_PREDICATES_AFTER993_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af993d/report.json,
   SHA-256 32c364c85247438b143a39b5f22d54c9163caa1aceccfd5faa76b399dd214854.
-- **Latest simultaneous twelve-owner MAIN integration: `af1001e`.**
+- **Earlier simultaneous twelve-owner MAIN integration: `af1001e`.**
   Two independent original TC4 4.02 rounds rebuilt all nine major BOSS
   owners together with the complete Hitbox, HitCircle and explosion-chain
   owners: **18,792 CODE bytes, 2,546 ordered OMF FIXUPPs and 91 PUBLICs**.
@@ -81,6 +81,19 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Twelve-owner integration after1001](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af1001e/report.json,
   SHA-256 139acc3f4f193d073a638043e0d1f2323b8e7ff83b9612bd8c0844988d54eeb6.
+- **Latest twelve-owner MAIN integration: `af1004a`.**
+  Two independent original TC4 4.02 rounds rebuilt all nine major BOSS
+  owners with complete Hitbox, HitCircle and explosion-chain owners:
+  **18,792 CODE bytes, 2,546 ordered OMF FIXUPPs and 91 PUBLICs**. Both
+  complete normal MAIN links reproduce all 124,642 Japanese loaded bytes
+  and 1,553 ordered MZ relocations, reusing the other 87 original game
+  objects and Borland CRT. This rechecks the latest natural attack-phase
+  chains across Mima, Reimu, Yumemi, Ellen, Kana and Marisa alongside the
+  previously recovered collision owners. See
+  [Six-BOSS phase chains after1004](MAIN_SIX_BOSS_NATURAL_PHASE_CHAINS_AFTER1004_REVIEW.md)
+  and [Earlier twelve-owner integration after1001](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af1004a/report.json,
+  SHA-256 958570ce186dc75e33a10d0b63d6a90edfd8c7ef1f63defbc2626e41c4b646c9.
 - **Earlier explosion-chain collision source proof: `af997e`.**
   The complete far-__cdecl e_expl owner was rebuilt in two independent
   original TC4 4.02 rounds and complete normal MAIN links: **630 CODE
@@ -112,7 +125,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [HitCircle cel register and stride recovery](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af1000d/report.json,
   SHA-256 f04fd95708946cb4c0dd0c9a904154eae504188b9dc64307d1064ea5f3db04c2.
-- **Current Mima BOSS source proof: `af1001c`.** The complete
+- **Earlier Mima BOSS source proof: `af1001c`.** The complete
   ba_mima owner preserves all **1,922 CODE bytes, 277 ordered OMF FIXUPPs
   and nine PUBLICs**. The trail remainder now explicitly narrows to its
   original byte local, and the damaged-sprite branch uses a natural hit
@@ -354,7 +367,7 @@ kept as historical receipts below:
 
 | Native proof stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
-| `af1001e` | 12 | 18,792 |
+| `af1004a` | 12 | 18,792 |\n| `af1003f` | 1 | 1,431 |\n| `af1003e` | 1 | 1,874 |\n| `af1003d` | 1 | 1,675 |\n| `af1003c` | 1 | 2,358 |\n| `af1003a` | 1 | 2,020 |\n| `af1002d` | 1 | 1,922 |\n| `af1001e` | 12 | 18,792 |
 | `af1001c` | 1 | 1,922 |
 | `af1000d` | 1 | 445 |
 | `af997e` | 1 | 630 |
@@ -391,12 +404,13 @@ current e_expl proof af997e; the original while-based traversal is retained
 in that historical note, not the current source.
 Hitbox af986b and earlier af983c are historical after current source proof
 af998d; the split early-return form remains in its historical review.
-The nine-owner integration af993d is now historical after the current
-twelve-owner integration af1001e; the Mima and HitCircle improvements are
-included in the latter. Earlier individual BOSS receipts and intermediate
-integrations af992a/af992e/af993a remain useful historical compiler trials.
+The twelve-owner integration af1001e is now historical after the current
+twelve-owner integration af1004a. The latter includes natural attack
+phase-chain improvements across six complete BOSS owners and rechecks all
+twelve owners together. The nine-owner integration af993d and earlier
+individual BOSS receipts remain useful historical compiler trials.
 The older explosion and Hitbox source receipts are likewise superseded as
-current-source bindings by af1001e.
+current-source bindings by af1004a.
 
 Compiler-sensitive negative results remain important. Reimu af981b/af981d
 loop variants and unary negative-angle form changed complete CODE; the
@@ -411,7 +425,7 @@ variants, plus af984c explicit signed-orbit cast, are preserved negative
 compiler results. HitCircle cel local/register arithmetic trials af976b-f, af987a/af989a-b
 and af993e changed complete CODE; retain the verified BX sequence.
 
-Current source bindings: af1001e for all nine major BOSSes, Hitbox,
+Current source bindings: af1004a for all nine major BOSSes, Hitbox,
 HitCircle and e_expl; af964e remains the current Fireball source proof.
 HitCircle af931b and
 older af919g/af921a receipts are historical after af985b. Hitbox af983c
@@ -548,7 +562,8 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current twelve-owner MAIN integration](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md)
+- [Current twelve-owner MAIN integration and six-BOSS phase chains](MAIN_SIX_BOSS_NATURAL_PHASE_CHAINS_AFTER1004_REVIEW.md)
+- [Earlier twelve-owner MAIN integration](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md)
 - [Current Mima trail-byte and hit-render source](MAIN_MIMA_NATURAL_TRAIL_BYTE_AND_HIT_RENDER_AFTER1001_REVIEW.md)
 - [Current HitCircle cel register and VRAM stride](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md)
 - [Current explosion for-loop and guard recovery](MAIN_EXPLOSION_NATURAL_FOR_AND_GUARDS_AFTER997_REVIEW.md)
