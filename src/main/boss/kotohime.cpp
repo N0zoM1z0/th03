@@ -331,7 +331,7 @@ void near kotohime_pattern_pellet_arc(void)
 		bullets_add();
 	}
 
-	if(KOTOHIME_PELLET_FINISH_FRAME <= boss_frame) {
+	if(boss_frame >= KOTOHIME_PELLET_FINISH_FRAME) {
 		boss_mode = KOTOHIME_MODE_SELECT;
 		boss_frame = 0;
 	}

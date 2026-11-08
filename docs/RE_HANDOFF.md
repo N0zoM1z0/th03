@@ -272,6 +272,13 @@ the complete `ba_koto` owner in two original TC4 rounds: 1,840 CODE bytes,
 image and relocations exact. See the
 [after1030 Kotohime INTRO branch review](MAIN_KOTOHIME_UPDATE_INTRO_SUCCESS_BRANCH_AFTER1030_REVIEW.md).
 
+The 302-byte Pellet Arc leaf now spells its finish threshold as
+`boss_frame >= KOTOHIME_PELLET_FINISH_FRAME`. Stage af1030w rebuilt the
+complete `ba_koto` owner in two original TC4 rounds: 1,840 CODE bytes, 262
+ordered native fields and eleven PUBLICs, with the full Japanese MAIN image
+and relocations exact. See the
+[after1030 Kotohime Pellet finish review](MAIN_KOTOHIME_PELLET_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
 The same radial review records four rejected complete-owner experiments:
 af1026b/c (early-return and inverted expansion/release branches) and
 af1026e/f (local `PlayfieldPoint` aggregate/field copies). All changed the
@@ -360,8 +367,8 @@ scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
 (af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q/af1030s/af1030t), and update
 SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
-explicit radial register indices/order and positive update INTRO branch
-(af1026i/af1029l/af1030m), and
+explicit radial register indices/order, positive update INTRO branch and
+Pellet Arc finish predicate (af1026i/af1029l/af1030m/af1030w), and
 HitCircle's age-update/render register locals and active guard
 (af1025d/af1027f/af1027g/af1028c/af1028d). The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
