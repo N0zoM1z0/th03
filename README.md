@@ -352,8 +352,11 @@ canonical packed-file Factory acceptance or complete historical source
 ownership. MAINL's historical after587 decoded publication reviewed 220
 extents / 37,968 bytes, but the live decoded source gate is **pending**
 after later MAIN source edits invalidated an older broad source-snapshot
-guard. Its formal packed-unit credit remains 0/250; see the handoff
-for the unchanged historical linker evidence and recertification blocker.
+guard. The **current 2026-11-08 preflight** instead reports **MAINL decoded
+accepted units 0/259** and Factory acceptance false. The historical
+0/250 packed-unit denominator is a *different tracking population*;
+do not present it as current decoded acceptance. See the handoff
+for the original after587 linker evidence and recertification blocker.
 
 To verify this checkout without replaying unchanged source or toolchains:
 
@@ -402,7 +405,9 @@ evidence retention; preserve Japanese targets, installed Wine/Borland
 tools, source root, native OBJ/EXE/MAP, both rounds, scripts/receipts
 and writer logs. Prefer changed-scope validation, not full cold replay.
 
-Historical details: [after554 handoff archive](docs/RE_HANDOFF_ARCHIVE_AFTER554.md),
+Historical details: [full earlier handoff through after927](docs/RE_HANDOFF_ARCHIVE_AFTER927.md),
+[after709 archive](docs/RE_HANDOFF_ARCHIVE_AFTER709.md),
+[after554 archive](docs/RE_HANDOFF_ARCHIVE_AFTER554.md),
 [after520 storage record](docs/STORAGE_HANDOFF_AFTER520.md) and
 [CRT recovery index](docs/MAINL_WORKING_CRT_RECOVERY_INDEX.md).
 

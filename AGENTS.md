@@ -1,7 +1,9 @@
 # TH03 reconstruction
 
-Prioritize natural source recovery and exact native output. Read the concise
-`docs/RE_HANDOFF.md` and relevant parts of `docs/RE_WORKFLOW.md`,
+Prioritize natural source recovery and exact native output. Read the **active
+short** `docs/RE_HANDOFF.md` (the older 2,713-line handoff is now
+`docs/RE_HANDOFF_ARCHIVE_AFTER927.md`, with historical "latest" claims)
+and relevant parts of `docs/RE_WORKFLOW.md`,
 `docs/ARCHITECTURE.md` and the local `th03-re` skill. Inspect Git; run preflight
 when starting a session or when the environment/targets change.
 

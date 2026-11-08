@@ -24,21 +24,29 @@
 
 ## Scoped current-source native check (MAIN)
 
-The preferred bounded MAIN source verification is now the
-[after709 scoped native overlay](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md):
-select **only the original physical TUs whose maintained C++ or consumed
-implementation includes changed**, and run:
+The preferred bounded MAIN source verification uses the original
+Turbo C++ 4.02 + full normal TLINK scoped overlay, established in
+[historical after709](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
+and **currently source-bound at [after927](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)**.
+Select **only the original physical TUs whose maintained C++ or actually
+consumed implementation `.inl` includes changed** (for example, the
+complete `entry` owner for `round_loop.inl` edits), and run:
 
 ```sh
-PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_exatt_layout.py --stage NEW --units unitA,unitB
-PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage NEW
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_exatt_layout.py --stage afNEWa --units ba_chiyu,entry
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage afNEWa
 ```
 
-Use a unique DOS-safe `afNNNx` stage, the original compiler and
-normal TLINK response, two independent writer rounds, and check
-OMF source/header/`.inl` dependencies. An unchanged current source
-may use read-only review of `af709a`. Do not infer canonical Factory
-acceptance from a new target-equal normal link. The historical
+Use a **new unused** DOS-safe `afNNNx` stage (not the literal
+`afNEWa` example), actual original compiler and *unchanged complete*
+normal 99-project-object TLINK response, two independent native writer
+rounds, and compare original CODE, literal ordered FIXUPP, PUBLIC,
+source/header/`.inl` binding, segment geometry, whole normal MAIN and
+ordered MZ relocations. For unchanged scopes, use **current** read-only
+review of `af927a`, `af921a`, `af915a` and their separately verified
+unchanged other owners; **`af709a` is historical and source-stale**.
+The active receipt list is in [RE_HANDOFF.md](RE_HANDOFF.md).
+Do not infer canonical Factory acceptance from a target-equal normal link. The historical
 after596 complete source-native and after587 MAINL pair are separate
 retained ancestors, **not** reasons to run full cold replay per edit.
 
