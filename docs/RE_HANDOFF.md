@@ -197,6 +197,12 @@ native fields and eleven PUBLICs, with the full Japanese MAIN image and
 relocations exact. See the
 [after1030 Cardinal cadence review](MAIN_CHIYURI_CARDINAL_POSITIVE_CADENCE_GUARD_AFTER1030_REVIEW.md).
 
+The 208-byte Rings leaf now uses the same positive cadence-scope form. Stage
+af1030i rebuilt the complete `ba_chiyu` owner in two original TC4 rounds:
+2,654 CODE bytes, 381 ordered native fields and eleven PUBLICs, with the full
+Japanese MAIN image and relocations exact. See the
+[after1030 Rings cadence review](MAIN_CHIYURI_RINGS_POSITIVE_CADENCE_GUARD_AFTER1030_REVIEW.md).
+
 Kotohime's radial burst now declares the outer center index and inner bullet
 index as `register int`, matching the original DI/SI loop-index allocation.
 Stage af1026i rebuilt the complete `ba_koto` owner in two original TC4 rounds:
@@ -293,8 +299,8 @@ The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
 phase guards and update INTRO branch (af1029g/af1030f),
-Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal positive cadence scope
-(af1027a/af1029j/af1030h), and update
+Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
+scopes (af1027a/af1029j/af1030h/af1030i), and update
 SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order (af1026i/af1029l), and
 HitCircle's age-update/render register locals and active guard

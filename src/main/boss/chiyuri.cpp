@@ -274,9 +274,7 @@ void near chiyuri_pattern_cardinal(void)
 void near chiyuri_pattern_rings(void)
 {
 	// This distinct ring cadence also allows natural comparison order.
-	if((boss_frame % chiyuri_ring_interval) != 1) {
-		return;
-	}
+	if((boss_frame % chiyuri_ring_interval) == 1) {
 
 	bomb_axis_add(
 		boss_center_x, boss_center_y, (1 - pid_current)
@@ -314,6 +312,7 @@ void near chiyuri_pattern_rings(void)
 	bullets_add();
 	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
 	bullets_add();
+	}
 }
 
 // Bomb warnings repeat every eight ticks before the single 48-shot
