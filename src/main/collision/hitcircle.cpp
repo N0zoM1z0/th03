@@ -103,7 +103,7 @@ void pascal hitcircles_player_add(
 
 void near hitcircles_update(void)
 {
-	HitCircle near* p = hitcircles;
+	register HitCircle near* p = hitcircles;
 	int i;
 	// The thirteen-record age walk keeps its signed index and near-pointer
 	// increments together in the for header after each byte-state update.
