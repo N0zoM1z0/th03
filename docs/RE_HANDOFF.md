@@ -105,6 +105,13 @@ CODE bytes, 277 ordered native fields, nine PUBLICs and the complete Japanese
 MAIN image/relocations exact. See the
 [after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md).
 
+Two natural alternatives for the register-sensitive Mima split-render distance
+were also tested and reverted: parameter-qualified `register int distance`
+(af1028a) moved the parameter into DI and displaced the left-coordinate
+register; an ordinary `int split_distance` local (af1028b) changed complete
+CODE as well. Keep the existing SI distance local and DI left local. See the
+[after1028 Mima split allocation review](MAIN_MIMA_RENDER_SPLIT_REGISTER_ALLOCATION_AFTER1028_REVIEW.md).
+
 Chiyuri's intro controller now expresses its two mutually exclusive frame
 phases as an `if`/`else if` chain, retaining the four cross-effect spawn order
 and the common update tail. Stage af1026h rebuilt the complete `ba_chiyu`
