@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af997e`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af998d`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -79,6 +79,18 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Explosion for-loop and guard recovery after997](MAIN_EXPLOSION_NATURAL_FOR_AND_GUARDS_AFTER997_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af997e/report.json,
   SHA-256 f33b52becbfbd8f817265fd118158fb8568e5477f8975fd7a7bb1d938e9f13f0.
+- **Latest Hitbox source-current proof: `af998d`.** The complete
+  hitbox_hittest() physical owner was rebuilt in two original TC4 4.02
+  rounds with the complete normal MAIN link: **266 CODE bytes, 33 ordered
+  OMF FIXUPPs and one PUBLIC**. The negative-Y and banner early returns
+  now share one ordered short-circuit guard; the two-player far Chargeshot
+  dispatch remains explicit because direct indexed callback invocation
+  changed CODE. Both links reproduce all 124,642 Japanese loaded bytes and
+  1,553 ordered MZ relocations, reusing the other 98 original game objects
+  and CRT. See
+  [Hitbox combined guards after998](MAIN_HITBOX_NATURAL_COMBINED_GUARDS_AFTER998_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af998d/report.json,
+  SHA-256 71e32d8a441ad584c96ac721e90e6852b867b751bd82e761278a627deec203b3.
 - **Earlier eight-major-BOSS source-current integration: `af988b`.**
   Two independent original TC4 4.02 rounds rebuilt all eight major BOSS
   physical owners together: ba_mima, ba_reimu, ba_yumem, ba_ellen, ba_kana,
@@ -306,13 +318,15 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
 
 ## Independent current-source receipts versus historical snapshots
 
-These genuine two-round native compiler/linker reports were rechecked against
-the current checkout after `af935a`. They are **independent physical-object
-scopes**, not one combined 99-original-source replay:
+These genuine two-round native compiler/linker reports document independent
+complete physical-object scopes, not one combined 99-original-source replay.
+Their source-current status is limited by later source changes called out
+below:
 
-| Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
+| Native proof stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
 | `af997e` | 1 | 630 |
+| `af998d` | 1 | 266 |
 | `af993d` | 9 | 17,451 |
 | `af988b` | 8 | 14,797 |
 | `af976a` | 1 | 1,874 |
@@ -343,6 +357,8 @@ source snapshots superseded by `af966a` and `af965e`, respectively.
 The older explosion-chain source receipt af902e is historical after
 current e_expl proof af997e; the original while-based traversal is retained
 in that historical note, not the current source.
+Hitbox af986b and earlier af983c are historical after current source proof
+af998d; the split early-return form remains in its historical review.
 The eight-owner integration af988b is now historical after the current
 nine-owner cadence proof af993d. The earlier individual BOSS receipts and
 intermediate integrations af992a/af992e/af993a are superseded by af993d.
@@ -364,8 +380,8 @@ variants, plus af984c explicit signed-orbit cast, are preserved negative
 compiler results. HitCircle cel local/register arithmetic trials af976b-f, af987a/af989a-b
 and af993e changed complete CODE; retain the verified BX sequence.
 
-Current source bindings: af997e for e_expl, af993d for all nine major
-BOSSes, af986b for Hitbox, af985b for HitCircle and af964e for Fireball.
+Current source bindings: af997e for e_expl, af998d for Hitbox, af993d
+for all nine major BOSSes, af985b for HitCircle and af964e for Fireball.
 HitCircle af931b and
 older af919g/af921a receipts are historical after af985b. Hitbox af983c is
 historical after af986b. Marisa af935a/af930e, the prior individual BOSS
@@ -502,10 +518,11 @@ target. Preserve dirty source changes and commit meaningful progress as
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
 - [Current explosion for-loop and guard recovery](MAIN_EXPLOSION_NATURAL_FOR_AND_GUARDS_AFTER997_REVIEW.md)
+- [Current Hitbox combined early guard](MAIN_HITBOX_NATURAL_COMBINED_GUARDS_AFTER998_REVIEW.md)
 - [Current nine-BOSS cadence integration](MAIN_NINE_BOSS_NATURAL_CADENCE_PREDICATES_AFTER993_REVIEW.md)
 - [Earlier eight-major-BOSS frame-clock integration](MAIN_EIGHT_BOSS_NATURAL_GLOBAL_FRAME_PREFIX_INTEGRATION_AFTER988_REVIEW.md)
 - [Earlier Reimu prefix loops and cloud byte wrap](MAIN_REIMU_BOSS_NATURAL_PREFIX_AND_CLOUD_BYTE_AFTER986_REVIEW.md)
-- [Current Hitbox early guard clauses](MAIN_HITBOX_NATURAL_EARLY_GUARDS_AFTER986_REVIEW.md)
+- [Earlier Hitbox split early guard clauses](MAIN_HITBOX_NATURAL_EARLY_GUARDS_AFTER986_REVIEW.md)
 - [Current HitCircle lifetime and render for loops](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md)
 - [Earlier Mima spread-angle assignments](MAIN_MIMA_BOSS_NATURAL_SPREAD_ANGLE_ASSIGNMENTS_AFTER984_REVIEW.md)
 - [Earlier Reimu orbit and intro loops](MAIN_REIMU_BOSS_NATURAL_ORBIT_AND_INTRO_LOOPS_AFTER982_REVIEW.md)
