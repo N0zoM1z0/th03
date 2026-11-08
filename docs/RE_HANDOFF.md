@@ -315,59 +315,39 @@ scopes**, not one combined 99-original-source replay:
 
 The Kana `af965b` and Kotohime `af965a` receipts are earlier
 source snapshots superseded by `af966a` and `af965e`, respectively.
-Kotohime `af965e` is now historical after `af968c`; Kana `af966a` and
-`af974c` are historical after `af976a`; Chiyuri `af972a` is historical
-after `af973b`; and Marisa `af969a` and `af971b` are historical after
-`af975d`. The Kana intermediate `af974a` and `af974b` reports are
-superseded by `af974c`, which is itself superseded by the postfix-loop
-source proof `af976a`. The Marisa `af971a` and `af971b` stages are
-superseded by the combined renderer/register source proof `af975d`.
-The individual current-source receipts for Kana `af976a`, Marisa
-`af975d`, Kotohime `af968c`, Ellen `af964a`, Rikako
-`af963a`, Yumemi `af983a`, Mima `af984b` and Reimu
-`af986a` are now historical after the simultaneous eight-owner source
-proof `af988b`. Use that integration for all eight major BOSSes.
-Yumemi `af956a`, `af979a` and `af980e` are historical after the
-current full-BOSS source proof `af983a`. Mima `af952a`, `af977d` and
-`af980f` are historical after `af984b`. Reimu `af944a`, `af982c` and
-`af982e` are historical after `af986a`. HitCircle `af931b` is historical
-after `af985b`; Hitbox `af983c` is historical after `af986b`. Reimu
-af981b/af981d loop variants and unary negative-angle form changed complete
-CODE; the prefix comma-expression and explicit unsigned-byte subtraction
-are the current native-exact forms. The direct cloud-speed assignment in
-af982d also changed complete BOSS CODE; the original postfix increment
-remains. HitCircle af985c pointer-first for-header order changed complete
-CODE. Hitbox af983d pointer-first scan update and af984d direct explosion
-call also changed complete CODE; the current index-first scan and explicit
-far/near bridge remain. Mima af980a/af980c/af980d control-flow and
-frame/angle variants, plus af984c explicit signed-orbit cast, are
-preserved negative compiler results. Use af988b for the eight major BOSSes, af986b for Hitbox, af985b for
-HitCircle, af973b for Chiyuri and af964e for Fireball source binding.
-Marisa's
-`af935a` and older single-object `af930e` receipts are now historical for
-ba_maris after `af969a`. Use `af968c` and `af969a` for current
-source binding. The Ellen `af962a`
-receipt is now a historical source snapshot after
-`af964a` changed the same physical owner; preserve it, but use `af964a`
-for current source binding. Fireball `af964d` is the source snapshot before
-the explosion-geometry naming in `af964e`; `af964b` and `af964c` are
-earlier predicate experiments. The failed direct-call trial `af964f`
-remains preserved as a negative compiler result. Use `af964e` for current
-Fireball source binding. The Rikako `af961c` receipt is now a historical source snapshot after
-`af963a` changed the same physical owner; preserve it, but use `af963a` for
-current source binding. The older Ellen `af960a` receipt is now a historical source snapshot after
-`af962a` changed the same physical owner; preserve it, but use `af962a` for
-current source binding. `af961b` and `af961a` are likewise earlier Rikako
-source snapshots superseded by `af961c`.
-HitCircle `af919g` and `af921a` are historical source snapshots after
-the direct spawn-store edit; `af931b` is the current source-bound proof.
-`af903a` (`bullet`), `af896a` (all four physical
-`enemy.cpp` consumers), `af883a` and `af881i` (`ba_maris`) no longer
-bind to the changed maintained source hashes. Their original native outputs
-are authentic **historical** evidence; `af935a` establishes the entire
-currently changed physical scope together. These independent receipts may
-have related/overlapping ownership: never add their bytes as distinct
-coverage or infer whole-product source exactness.
+The earlier individual BOSS receipts are superseded by the simultaneous
+af988b integration above. Intermediate source snapshots remain useful for
+their isolated findings: Kana af966a/af974c precede af976a; Marisa
+af969a/af971b precede af975d; Kotohime af965e precedes af968c; and the
+earlier Ellen/Rikako receipts precede af964a/af963a. Those eight latest
+individual snapshots are all historical after af988b. Chiyuri af972a is
+historical after af973b, which remains the current Chiyuri source proof.
+
+Compiler-sensitive negative results remain important. Reimu af981b/af981d
+loop variants and unary negative-angle form changed complete CODE; the
+prefix comma-expression and explicit unsigned-byte subtraction are the
+current native-exact forms. The direct cloud-speed assignment in af982d
+also changed complete BOSS CODE; the original postfix increment remains.
+HitCircle af985c pointer-first for-header order changed complete CODE.
+Hitbox af983d pointer-first scan update and af984d direct explosion call
+also changed complete CODE; the index-first scan and explicit far/near
+bridge remain. Mima af980a/af980c/af980d control-flow and frame/angle
+variants, plus af984c explicit signed-orbit cast, are preserved negative
+compiler results.
+
+Current source bindings: af988b for the eight major BOSSes, af986b for
+Hitbox, af985b for HitCircle, af973b for Chiyuri and af964e for Fireball.
+HitCircle af931b and older af919g/af921a receipts are historical after
+af985b. Hitbox af983c is historical after af986b. Marisa af935a and
+af930e are historical for ba_maris after af988b. Ellen af962a/af960a and
+Rikako af961c/af961b/af961a are historical after af988b. Fireball af964d
+is the source snapshot before geometry naming in af964e; af964b/af964c
+are earlier predicate experiments and af964f is a failed direct-call
+trial. The older af903a bullet, af896a enemy-consumer, af883a and af881i
+Marisa receipts no longer bind to changed maintained sources; af935a
+preserves their historical native outputs. Never add overlapping receipts
+as distinct CODE ownership.
+
 The genuine older `af877a` now **fails current maintained-source hash
 binding** because both Chiyuri BOSS and Chiyuri Chargeshot changed.
 `af871a` also fails after earlier Kotohime/other source changes.
@@ -509,19 +489,19 @@ target. Preserve dirty source changes and commit meaningful progress as
 - [Earlier Kana staged-volley natural C++ work](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md)
 - [Current Chiyuri natural ring-render scaling](MAIN_CHIYURI_BOSS_NATURAL_RENDER_SCALE_AFTER973_REVIEW.md)
 - [Current Chiyuri lifecycle predicates](MAIN_CHIYURI_BOSS_NATURAL_LIFECYCLE_PREDICATES_AFTER972_REVIEW.md)
-- [Current Marisa natural ring-angle assignment](MAIN_MARISA_BOSS_NATURAL_RING_ANGLE_AND_RENDER_AFTER971_REVIEW.md)
+- [Earlier Marisa natural ring-angle assignment](MAIN_MARISA_BOSS_NATURAL_RING_ANGLE_AND_RENDER_AFTER971_REVIEW.md)
 - [Earlier Marisa BOSS template/level work](MAIN_MARISA_BOSS_TEMPLATE_AND_LEVEL_AFTER969_REVIEW.md)
-- [Current Kotohime phase-reload native C++ work](MAIN_KOTOHIME_BOSS_NATURAL_PHASE_RELOAD_AFTER968_REVIEW.md)
-- [Current Kana BOSS native C++ work](MAIN_KANA_BOSS_NATURAL_TEMPLATE_LEVEL_AND_RENDER_AFTER966_REVIEW.md)
+- [Earlier Kotohime phase-reload native C++ work](MAIN_KOTOHIME_BOSS_NATURAL_PHASE_RELOAD_AFTER968_REVIEW.md)
+- [Earlier Kana BOSS native C++ work](MAIN_KANA_BOSS_NATURAL_TEMPLATE_LEVEL_AND_RENDER_AFTER966_REVIEW.md)
 - [Kana cloud SUB AL codegen finding](MAIN_KANA_CLOUD_BYTE_SUBTRACTION_AFTER967_REVIEW.md)
 - [Current Fireball byte-predicate native work](MAIN_FIREBALL_NATURAL_BYTE_PREDICATES_AFTER964_REVIEW.md)
 - [Current Fireball explosion-geometry native work](MAIN_FIREBALL_EXPLOSION_GEOMETRY_AFTER964_REVIEW.md)
-- [Current Ellen radial Extra angle native work](MAIN_ELLEN_BOSS_NATURAL_EXTRA_ANGLE_AFTER964_REVIEW.md)
+- [Earlier Ellen radial Extra angle native work](MAIN_ELLEN_BOSS_NATURAL_EXTRA_ANGLE_AFTER964_REVIEW.md)
 - [Earlier Ellen BOSS level/cadence native work](MAIN_ELLEN_BOSS_LEVEL_AND_CADENCE_AFTER962_REVIEW.md)
-- [Latest Rikako signed-angle source/native follow-up](MAIN_RIKAKO_BOSS_NATURAL_SIGNED_ANGLE_AFTER963_REVIEW.md)
+- [Earlier Rikako signed-angle source/native follow-up](MAIN_RIKAKO_BOSS_NATURAL_SIGNED_ANGLE_AFTER963_REVIEW.md)
 - [Rikako BOSS template/level/render follow-up](MAIN_RIKAKO_BOSS_TEMPLATE_LEVEL_RENDER_AFTER961_REVIEW.md)
-- [Latest Ellen BOSS source/native follow-up](MAIN_ELLEN_BOSS_TEMPLATE_RENDER_AFTER960_REVIEW.md)
-- [Latest Chiyuri BOSS source/native follow-up](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md)
+- [Earlier Ellen BOSS source/native follow-up](MAIN_ELLEN_BOSS_TEMPLATE_RENDER_AFTER960_REVIEW.md)
+- [Earlier Chiyuri BOSS source/native follow-up](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md)
 - [Earlier Yumemi BOSS render/template work](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md)
 - [Earlier Mima BOSS render/state work](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md)
 - [Earlier Reimu cloud-angle work](MAIN_REIMU_BOSS_CLOUD_NATURAL_AFTER944_REVIEW.md)
