@@ -204,6 +204,12 @@ ordered native fields and 31 PUBLICs, with both original TC4 rounds and the
 complete Japanese MAIN image/relocations exact. See the
 [after1026 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1026_REVIEW.md).
 
+The latest Chiyuri and HitCircle source changes were then rebuilt together at
+af1027i: two complete owners, 3,099 CODE bytes, 411 ordered native fields and
+15 PUBLICs, with both original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the
+[after1027 Chiyuri/HitCircle integration review](MAIN_CHIYURI_HITCIRCLE_INTEGRATION_AFTER1027_REVIEW.md).
+
 See
 [the after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md),
 [the after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md),
