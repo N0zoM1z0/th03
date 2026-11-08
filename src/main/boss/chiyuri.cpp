@@ -366,7 +366,7 @@ enum chiyuri_fan_phase_t {
 // The fan coordinates divide the 16-bit polar range BEFORE scaling
 // to subpixels. Natural C++ multiplication is original-native here;
 // changing the division order would change trajectory rounding.
-// All four fan passes now use native-exact natural C++ while loops;
+// All four fan passes now use native-exact natural C++ for loops;
 // original signed 16-bit count, division-before-scale, RNG and dual
 // bullets_add call ordering are preserved (af872a). The earlier native
 // `speed += enum` trial failed; fresh af922h proves that explicit
@@ -374,7 +374,7 @@ enum chiyuri_fan_phase_t {
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	register int i;
+	int i;
 
 	if(boss_frame == CHIYURI_FAN_HORIZONTAL_FRAME) {
 		bomb_axis_add(
@@ -389,8 +389,7 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.type = BT_PELLET;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		i = 0;
-		while(i < chiyuri_fan_count) {
+		for(i = 0; i < chiyuri_fan_count; ++i) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -406,11 +405,9 @@ void near chiyuri_pattern_fans(void)
 
 			// Explicit byte speed assignment + named step is exact (af922h).
 			bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
-			++i;
 		}
 
-		i = 0;
-		while(i < chiyuri_fan_count) {
+		for(i = 0; i < chiyuri_fan_count; ++i) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -425,12 +422,9 @@ void near chiyuri_pattern_fans(void)
 			bullets_add();
 
 			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
-			++i;
 		}
 		return;
-	}
-
-	if(boss_frame != CHIYURI_FAN_VERTICAL_FRAME) {
+	} else if(boss_frame != CHIYURI_FAN_VERTICAL_FRAME) {
 		return;
 	}
 
@@ -446,8 +440,7 @@ void near chiyuri_pattern_fans(void)
 	bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 	bullet_template.speed.v = chiyuri_fan_speed;
 
-	i = 0;
-	while(i < chiyuri_fan_count) {
+	for(i = 0; i < chiyuri_fan_count; ++i) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
@@ -459,11 +452,9 @@ void near chiyuri_pattern_fans(void)
 		bullets_add();
 
 		bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
-		++i;
 	}
 
-	i = 0;
-	while(i < chiyuri_fan_count) {
+	for(i = 0; i < chiyuri_fan_count; ++i) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
@@ -475,7 +466,6 @@ void near chiyuri_pattern_fans(void)
 		bullets_add();
 
 		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
-		++i;
 	}
 
 	boss_mode = CHIYURI_MODE_SELECT;
