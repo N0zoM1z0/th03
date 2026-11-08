@@ -590,7 +590,7 @@ void far gba_boss_update_chiyuri(void)
 	bullet_template.is_animated = true;
 
 	boss_render_frame += (
-        (round_or_result_frame % CHIYURI_RENDER_ANIM_PERIOD) == 0
+        (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1)) == 0
     );
 	// This mutable byte field needs the original bitmask instruction:
 	// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
