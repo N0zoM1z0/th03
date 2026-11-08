@@ -388,11 +388,12 @@ void far gba_boss_update_reimu(void)
 		++boss_frame;
 
 		if(boss_mode == REIMU_MODE_INTRO) {
-			if(boss_frame != REIMU_INTRO_END_FRAME) {
+			if(boss_frame == REIMU_INTRO_END_FRAME) {
+				boss_frame = 0;
+				boss_mode = REIMU_MODE_SELECT;
+			} else {
 				return;
 			}
-			boss_frame = 0;
-			boss_mode = REIMU_MODE_SELECT;
 		}
 
 		if(boss_mode == REIMU_MODE_SELECT) {

@@ -526,8 +526,10 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
 - **Reimu:** the complete BOSS update controller now scopes its pre-switch
   SELECT logic, four attack-family dispatches and collision/hitbox tail under
   the positive `pid_current == gba_boss_launched_by` guard (af1032r). Its
-  INTRO/EXPLODE returns and all pattern/collision ordering remain unchanged.
-  See the [after1032 Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+  INTRO completion also uses a positive equality branch with an explicit
+  `else return` (af1033i); the separate SELECT test still follows immediately.
+  See the [after1032 PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  and [after1033 INTRO-branch review](MAIN_REIMU_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
 - **Mima:** the 298-byte update controller now scopes its complete active
   player path under `if(pid_current == gba_boss_launched_by)`, retaining the
   post-target-update recomputation of `bullet_template.pid`, all mode cases
