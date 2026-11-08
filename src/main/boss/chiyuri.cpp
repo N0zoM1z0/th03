@@ -607,7 +607,7 @@ void far gba_boss_update_chiyuri(void)
 		}
 	}
 
-	if(boss_render_mode != CHIYURI_RENDER_MODE_NORMAL) {
+	if(boss_render_mode) {
 		boss_render_mode--;
 	}
 
