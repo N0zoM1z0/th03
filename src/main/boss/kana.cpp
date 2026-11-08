@@ -462,83 +462,81 @@ void far gba_boss_update_kana(void)
 		kana_rotating_speed = (gba_boss_level + KANA_LEVEL_ROTATING_SPEED_BASE);
 	}
 
-	if(pid_current != gba_boss_launched_by) {
-		return;
-	}
+	if(pid_current == gba_boss_launched_by) {
+		pid_other = (1 - pid_current);
+		bullet_template.pid = pid_other;
+		boss_target_update();
+		++boss_frame;
 
-	pid_other = (1 - pid_current);
-	bullet_template.pid = pid_other;
-	boss_target_update();
-	++boss_frame;
+		switch(boss_mode) {
+		case KANA_MODE_INTRO:
+			if(boss_frame != KANA_INTRO_COMPLETE_FRAME) {
+				return;
+			}
+			boss_frame = 0;
+			boss_mode = KANA_MODE_SELECT;
+			break;
 
-	switch(boss_mode) {
-	case KANA_MODE_INTRO:
-		if(boss_frame != KANA_INTRO_COMPLETE_FRAME) {
+		case KANA_MODE_SELECT:
+			boss_pattern_next();
+			break;
+
+		case KANA_MODE_ACCEL_0:
+		case KANA_MODE_ACCEL_1:
+		case KANA_MODE_ACCEL_2:
+			kana_pattern_accel_ring();
+			break;
+
+		case KANA_MODE_STAGED_0:
+		case KANA_MODE_STAGED_1:
+		case KANA_MODE_STAGED_2:
+		case KANA_MODE_STAGED_3:
+		case KANA_MODE_STAGED_4:
+		case KANA_MODE_STAGED_5:
+			kana_pattern_staged_ring();
+			break;
+
+		case KANA_MODE_CLOUD_0:
+		case KANA_MODE_CLOUD_1:
+		case KANA_MODE_CLOUD_2:
+			kana_pattern_cloud_ring();
+			break;
+
+		case KANA_MODE_ROTATING_0:
+		case KANA_MODE_ROTATING_1:
+		case KANA_MODE_ROTATING_2:
+		case KANA_MODE_ROTATING_3:
+			kana_pattern_rotating_ring();
+			break;
+
+		case KANA_MODE_DESCEND:
+			boss_fall();
+			break;
+
+		case KANA_MODE_EXPLODE:
 			return;
 		}
-		boss_frame = 0;
-		boss_mode = KANA_MODE_SELECT;
-		break;
 
-	case KANA_MODE_SELECT:
-		boss_pattern_next();
-		break;
+		boss_render_frame++;
 
-	case KANA_MODE_ACCEL_0:
-	case KANA_MODE_ACCEL_1:
-	case KANA_MODE_ACCEL_2:
-		kana_pattern_accel_ring();
-		break;
+		collmap_center.x.v = boss_center_x;
+		collmap_center.y.v = boss_center_y;
+		collmap_stripe_tile_w.set(KANA_COLLISION_STRIPE_WIDTH);
+		collmap_tile_h.set(KANA_COLLISION_TILE_HEIGHT);
+		collmap_pid = pid_other;
+		collmap_set_rect_striped();
 
-	case KANA_MODE_STAGED_0:
-	case KANA_MODE_STAGED_1:
-	case KANA_MODE_STAGED_2:
-	case KANA_MODE_STAGED_3:
-	case KANA_MODE_STAGED_4:
-	case KANA_MODE_STAGED_5:
-		kana_pattern_staged_ring();
-		break;
-
-	case KANA_MODE_CLOUD_0:
-	case KANA_MODE_CLOUD_1:
-	case KANA_MODE_CLOUD_2:
-		kana_pattern_cloud_ring();
-		break;
-
-	case KANA_MODE_ROTATING_0:
-	case KANA_MODE_ROTATING_1:
-	case KANA_MODE_ROTATING_2:
-	case KANA_MODE_ROTATING_3:
-		kana_pattern_rotating_ring();
-		break;
-
-	case KANA_MODE_DESCEND:
-		boss_fall();
-		break;
-
-	case KANA_MODE_EXPLODE:
-		return;
+		hitbox_hittest_skip_explosions = true;
+		hitbox.radius.x.v = KANA_COLLISION_HALF_RADIUS;
+		hitbox.radius.y.v = KANA_COLLISION_HALF_RADIUS;
+		hitbox.pid = pid_other;
+		hitbox.origin.center.x.v = boss_center_x;
+		hitbox.origin.center.y.v = boss_center_y;
+		boss_hit = hitbox_hittest();
+		boss_hp -= boss_hit;
+		hitbox_hittest_skip_explosions = false;
+		boss_hittest_end();
 	}
-
-	boss_render_frame++;
-
-	collmap_center.x.v = boss_center_x;
-	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(KANA_COLLISION_STRIPE_WIDTH);
-	collmap_tile_h.set(KANA_COLLISION_TILE_HEIGHT);
-	collmap_pid = pid_other;
-	collmap_set_rect_striped();
-
-	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = KANA_COLLISION_HALF_RADIUS;
-	hitbox.radius.y.v = KANA_COLLISION_HALF_RADIUS;
-	hitbox.pid = pid_other;
-	hitbox.origin.center.x.v = boss_center_x;
-	hitbox.origin.center.y.v = boss_center_y;
-	boss_hit = hitbox_hittest();
-	boss_hp -= boss_hit;
-	hitbox_hittest_skip_explosions = false;
-	boss_hittest_end();
 }
 
 void near kana_render_main(void)
