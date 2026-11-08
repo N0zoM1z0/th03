@@ -81,22 +81,31 @@ enum mima_boss_mode_t {
     MIMA_MODE_EXPLODE = 0xFF,
 };
 
+enum mima_template_layout_t {
+    MIMA_TEMPLATE_CENTER_X = 0x900,
+    MIMA_TEMPLATE_CENTER_Y = 0x500,
+    MIMA_TEMPLATE_VELOCITY_X = -0x20,
+    MIMA_TEMPLATE_HP = 0x6E,
+    MIMA_TEMPLATE_SPRITE_OFFSET = 0x28C,
+    MIMA_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
 void far pascal boss_mima_template_init(int player_id)
 {
 	boss_template_state_t near *p = &boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = MIMA_TEMPLATE_CENTER_X;
+	p->center_y = MIMA_TEMPLATE_CENTER_Y;
+	p->velocity_x = MIMA_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
 	p->mode = 0;
-	p->hp = 0x6E;
+	p->hp = MIMA_TEMPLATE_HP;
 	p->pattern_i = 0;
-	p->sprite_offset = 0x28C;
+	p->sprite_offset = MIMA_TEMPLATE_SPRITE_OFFSET;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += MIMA_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = 0;
 }
@@ -105,6 +114,42 @@ void far pascal boss_mima_template_init(int player_id)
 // literal masks naturally from unsigned %2 and %4; the six-frame side volley
 // must retain a real integer division. Do not apply this conclusion to
 // byte-valued clocks in the Bomb/Extra Attack implementations.
+enum mima_render_mode_t {
+    MIMA_RMODE_NORMAL = 0,
+    MIMA_RMODE_PARTICLE = 2,
+    MIMA_RMODE_EXPAND = 3,
+    MIMA_RMODE_FLASH = 4,
+    MIMA_RMODE_TRAIL = 5,
+    MIMA_PART_SPRITE_OFF = 0x1A,
+    MIMA_PART_SPRITE_LEFT = 48,
+    MIMA_PART_SPRITE_TOP = 32,
+    MIMA_PART_CARRIER_OFF = 0xEF4,
+    MIMA_EXPAND_SPRITE_OFF = 0xC92,
+    MIMA_DAMAGED_SPRITE_OFF = 0x12,
+    MIMA_DAMAGED_LEFT = 32,
+    MIMA_DAMAGED_TOP = 16,
+    MIMA_PART_SPRITE_SIZE = 16,
+    MIMA_PART_CARRIER_SIZE = 32,
+    MIMA_PART_CARRIER_LEFT = 80,
+    MIMA_EXPAND_SPRITE_WIDTH = 80,
+    MIMA_EXPAND_SPRITE_HEIGHT = 48,
+    MIMA_EXPAND_SPRITE_LEFT = 32,
+    MIMA_EXPAND_SPRITE_TOP = 16,
+};
+
+enum mima_sound_effect_t {
+    MIMA_SOUND_SPREAD = 3,
+    MIMA_SOUND_ORBIT = 10,
+    MIMA_SOUND_TRAIL = 10,
+};
+
+enum mima_spread_angle_t {
+    MIMA_SPREAD_INITIAL_PELLET_ANGLE = 0xC0,
+    MIMA_PELLET_OPPOSITE_ANGLE = 0x80,
+    MIMA_ORBIT_ANGLE_STEP = 7,
+    MIMA_TRAIL_FIRST_PHASE = 1,
+};
+
 enum mima_native_phase_t {
     MIMA_SPREAD_INITIAL_SETUP_END = 2,
     MIMA_SPREAD_FIRE_BEGIN = 0x20,
@@ -149,10 +194,10 @@ enum mima_native_phase_t {
 void near mima_pattern_spread(void)
 {
 	if(boss_frame < MIMA_SPREAD_INITIAL_SETUP_END) {
-		boss_render_mode = 2;
+		boss_render_mode = MIMA_RMODE_PARTICLE;
 		boss_render_frame = 0;
 		mima_spread_angle = 0;
-		mima_pellet_angle = 0xC0;
+		mima_pellet_angle = MIMA_SPREAD_INITIAL_PELLET_ANGLE;
 		return;
 	}
 
@@ -161,7 +206,7 @@ void near mima_pattern_spread(void)
 	}
 
 	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
-		snd_se_play(3);
+		snd_se_play(MIMA_SOUND_SPREAD);
 
 		bullet_template.angle = mima_spread_angle;
 		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
@@ -188,15 +233,15 @@ void near mima_pattern_spread(void)
 			bullet_template.angle = mima_pellet_angle;
 			bullets_add();
 
-			bullet_template.angle = (0x80 - mima_pellet_angle);
+			bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
 			bullets_add();
 		}
 		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
 	}
 
 	if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -208,7 +253,7 @@ void near mima_pattern_bomb_random(void)
 	register int y;
 
 	if(boss_frame == MIMA_RANDOM_BOMB_WARN) {
-		boss_render_mode = 5;
+		boss_render_mode = MIMA_RMODE_TRAIL;
 	} else if(boss_frame < MIMA_RANDOM_BOMB_FIRE_BEGIN) {
 		return;
 	}
@@ -260,12 +305,12 @@ void near mima_pattern_bomb_random(void)
 	}
 
 	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
-		snd_se_play(3);
+		snd_se_play(MIMA_SOUND_SPREAD);
 	}
 
 	if(boss_frame >= MIMA_RANDOM_BOMB_END) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -278,10 +323,10 @@ void near mima_pattern_trail(void)
 	unsigned char remainder = (boss_frame % mima_trail_interval);
 
 	boss_move_sine();
-	boss_render_mode = 5;
+	boss_render_mode = MIMA_RMODE_TRAIL;
 
 	if(
-		(remainder == 1) ||
+		(remainder == MIMA_TRAIL_FIRST_PHASE) ||
 		// Signed 16-bit promotion of the byte interval/2 must be
 		// preserved; using `>>1` changed CODE in real TC4 af898d.
 		(remainder == (mima_trail_interval / 2))
@@ -292,7 +337,7 @@ void near mima_pattern_trail(void)
 			bullet_template.group = BG_5_SPREAD_MEDIUM_AIMED;
 		}
 
-		snd_se_play(10);
+		snd_se_play(MIMA_SOUND_TRAIL);
 		bullet_template.angle = 0;
 		bullet_template.center.x.v = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
 		bullet_template.center.y.v = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
@@ -306,8 +351,8 @@ void near mima_pattern_trail(void)
 	}
 
 	if(boss_frame >= MIMA_TRAIL_END) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = MIMA_RMODE_NORMAL;
+		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -324,7 +369,7 @@ void near mima_pattern_orbit(void)
 	boss_move_sine();
 
 	if(boss_frame == MIMA_ORBIT_DIRECTION_FRAME) {
-		mima_orbit_delta = (randring_far_next16_and(1) ? 7 : -7);
+		mima_orbit_delta = (randring_far_next16_and(1) ? MIMA_ORBIT_ANGLE_STEP : -MIMA_ORBIT_ANGLE_STEP);
 		mima_orbit_angle = randring_far_next16();
 	}
 
@@ -340,7 +385,7 @@ void near mima_pattern_orbit(void)
 		bullet_template.group = BG_2_RING;
 		bullet_template.speed.v = mima_orbit_speed;
 		bullets_add();
-		snd_se_play(10);
+		snd_se_play(MIMA_SOUND_ORBIT);
 
 		// Signed byte angular steering remains compound `+=`;
 		// explicit byte = byte + signed_delta changed original CODE
@@ -349,7 +394,7 @@ void near mima_pattern_orbit(void)
 	}
 
 	if(boss_frame >= MIMA_ORBIT_FINISH_FRAME) {
-		boss_mode = 1;
+		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -385,7 +430,7 @@ void far gba_boss_update_mima(void)
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = MIMA_MODE_SELECT;
 		break;
 
 	case MIMA_MODE_SELECT:
@@ -461,27 +506,27 @@ void near mima_render_main(void)
 
 	if(boss_hit) {
 		sprite16_put_size.set(MIMA_RENDER_HIT_WIDTH, MIMA_RENDER_HIT_HEIGHT);
-		left += 32;
-		top += 16;
-		sprite16_put(left, top, (boss_sprite_offset + 0x12));
+		left += MIMA_DAMAGED_LEFT;
+		top += MIMA_DAMAGED_TOP;
+		sprite16_put(left, top, (boss_sprite_offset + MIMA_DAMAGED_SPRITE_OFF));
 		return;
 	}
 
-	if(boss_render_mode == 2) {
+	if(boss_render_mode == MIMA_RMODE_PARTICLE) {
 render_mode_2:
 		// Mode 5 enters through the original label; merging mode 2/5
 		// into one C++ condition changed the full BOSS CODE (af855b).
-		sprite16_put_size.set(16, 16);
-		sprite_offset = (boss_sprite_offset + 0x1A);
-		sprite16_put((left + 48), (top + 32), sprite_offset);
+		sprite16_put_size.set(MIMA_PART_SPRITE_SIZE, MIMA_PART_SPRITE_SIZE);
+		sprite_offset = (boss_sprite_offset + MIMA_PART_SPRITE_OFF);
+		sprite16_put((left + MIMA_PART_SPRITE_LEFT), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
 
-		sprite16_put_size.set(32, 32);
-		left += 80;
-		sprite_offset = (boss_sprite_offset + 0xEF4);
+		sprite16_put_size.set(MIMA_PART_CARRIER_SIZE, MIMA_PART_CARRIER_SIZE);
+		left += MIMA_PART_CARRIER_LEFT;
+		sprite_offset = (boss_sprite_offset + MIMA_PART_CARRIER_OFF);
 		if(boss_render_frame >= MIMA_RENDER_PARTICLE_CEL_FIRST) {
 			sprite_offset += 4;
 			if(boss_render_frame >= MIMA_RENDER_PARTICLE_CEL_SECOND) {
-				boss_render_mode = 3;
+				boss_render_mode = MIMA_RMODE_EXPAND;
 			}
 		}
 		sprite16_put(left, top, sprite_offset);
@@ -491,27 +536,28 @@ render_mode_2:
 		return;
 	}
 
-	if(boss_render_mode == 3) {
-		sprite16_put_size.set(80, 48);
+	if(boss_render_mode == MIMA_RMODE_EXPAND) {
+		sprite16_put_size.set(MIMA_EXPAND_SPRITE_WIDTH, MIMA_EXPAND_SPRITE_HEIGHT);
 		sprite16_put(
-			(left + 32),
-			(top + 16),
-			(boss_sprite_offset + 0xC92)
+			(left + MIMA_EXPAND_SPRITE_LEFT),
+			(top + MIMA_EXPAND_SPRITE_TOP),
+			(boss_sprite_offset + MIMA_EXPAND_SPRITE_OFF)
 		);
 		return;
 	}
 
-	if(boss_render_mode == 4) {
-		sprite16_put_size.set(16, 16);
-		sprite_offset = (boss_sprite_offset + 0x1A);
-		sprite16_put((left + 48), (top + 32), sprite_offset);
+	if(boss_render_mode == MIMA_RMODE_FLASH) {
+		sprite16_put_size.set(MIMA_PART_SPRITE_SIZE, MIMA_PART_SPRITE_SIZE);
+		sprite_offset = (boss_sprite_offset + MIMA_PART_SPRITE_OFF);
+		sprite16_put((left + MIMA_PART_SPRITE_LEFT), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
 		return;
 	}
 
-	if(boss_render_mode == 5) {
+	if(boss_render_mode == MIMA_RMODE_TRAIL) {
 		boss_render_frame = 0;
 		goto render_mode_2;
 	}
+
 }
 
 void near pascal mima_render_split(int distance, unsigned char angle)

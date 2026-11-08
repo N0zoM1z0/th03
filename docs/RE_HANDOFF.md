@@ -56,6 +56,14 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Mima major-BOSS source-current follow-up: `af952a`.** The full
+  nine-function `ba_mima` BOSS was rebuilt in two original TC4 rounds with
+  the complete normal MAIN link: **1,922 CODE bytes, 277 ordered OMF
+  FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded bytes and
+  1,553 ordered MZ relocations exact. The other 98 original game objects
+  and CRT were reused. See [Mima BOSS native C++ after952](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af952a/report.json`,
+  SHA-256 `d780002d0d8b5daf2756232c0b6e92d461813e045d15a9397b5478b8b7ecee13`.
 - **Latest single-object source-current MAIN follow-up: `af944a`.** The
   complete nine-function Reimu major BOSS (`ba_reimu`) was recompiled in
   two original TC4 rounds with its complete normal MAIN link: **2,020 CODE
@@ -78,6 +86,7 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af952a` | 1 | 1,922 |
 | `af944a` | 1 | 2,020 |
 | `af935a` | 7 | 7,886 |
 | `af927a` | 5 | 7,833 |
@@ -218,6 +227,7 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Latest Mima BOSS source/native follow-up](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md)
 - [Latest Reimu BOSS source/native follow-up](MAIN_REIMU_BOSS_CLOUD_NATURAL_AFTER944_REVIEW.md)
 - [Latest seven-object source/native integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md)
 - [Earlier five-object source/native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)
