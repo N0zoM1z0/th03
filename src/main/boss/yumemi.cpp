@@ -477,11 +477,11 @@ void far gba_boss_update_yumemi(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		yumemi_ring_speed = ((gba_boss_level / YUMEMI_LEVEL_HALF) + YUMEMI_LEVEL_RING_BASE);
-		yumemi_ring_count = ((gba_boss_level / YUMEMI_LEVEL_HALF) + YUMEMI_LEVEL_RING_BASE);
-		yumemi_aimed_speed_base = (gba_boss_level + YUMEMI_LEVEL_AIMED_SPEED_BASE);
+		yumemi_ring_speed = (YUMEMI_LEVEL_RING_BASE + (gba_boss_level / YUMEMI_LEVEL_HALF));
+		yumemi_ring_count = (YUMEMI_LEVEL_RING_BASE + (gba_boss_level / YUMEMI_LEVEL_HALF));
+		yumemi_aimed_speed_base = (YUMEMI_LEVEL_AIMED_SPEED_BASE + gba_boss_level);
 		yumemi_cross_interval = (YUMEMI_LEVEL_CROSS_INTERVAL_BASE - gba_boss_level);
-		yumemi_chase_until = ((gba_boss_level * YUMEMI_LEVEL_CHASE_MULTIPLIER) + YUMEMI_LEVEL_CHASE_BASE);
+		yumemi_chase_until = (YUMEMI_LEVEL_CHASE_BASE + (YUMEMI_LEVEL_CHASE_MULTIPLIER * gba_boss_level));
 		yumemi_rain_interval = (YUMEMI_LEVEL_RAIN_INTERVAL_BASE - (gba_boss_level / YUMEMI_LEVEL_HALF));
 	}
 
@@ -489,18 +489,18 @@ void far gba_boss_update_yumemi(void)
 		pid_other = (1 - pid_current);
 		bullet_template.pid = pid_other;
 		boss_target_update();
-		++boss_frame;
+		boss_frame++;
 
-		yumemi_origin_x = (boss_center_x + YUMEMI_ORIGIN_X_OFFSET);
+		yumemi_origin_x = (YUMEMI_ORIGIN_X_OFFSET + boss_center_x);
 		yumemi_origin_y = (boss_center_y - YUMEMI_ORIGIN_Y_OFFSET);
 
 		switch(boss_mode) {
 		case YUMEMI_MODE_INTRO:
-			if((boss_frame == YUMEMI_INTRO_SOUND_FIRST_FRAME) || (boss_frame == YUMEMI_INTRO_SOUND_SECOND_FRAME)) {
+			if((YUMEMI_INTRO_SOUND_FIRST_FRAME == boss_frame) || (YUMEMI_INTRO_SOUND_SECOND_FRAME == boss_frame)) {
 				snd_se_reset();
 				snd_se_play(YUMEMI_SOUND_EXPLOSION);
 			}
-			if(boss_frame == YUMEMI_INTRO_FINISH_FRAME) {
+			if(YUMEMI_INTRO_FINISH_FRAME == boss_frame) {
 				boss_frame = 0;
 				boss_mode = YUMEMI_MODE_SELECT;
 			} else {
@@ -551,10 +551,10 @@ void far gba_boss_update_yumemi(void)
 			return;
 		}
 
-		if(boss_effect_radius != 0) {
+		if(boss_effect_radius) {
 			boss_effect_radius -= YUMEMI_EFFECT_RADIUS_DECAY;
 		}
-		if(boss_render_frame != 0) {
+		if(boss_render_frame) {
 			// Original byte-field postfix is codegen-visible; prefix
 			// changed actual original TC4 CODE (af897h).
 			boss_render_frame--;

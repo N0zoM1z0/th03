@@ -563,7 +563,13 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   `pid_current == gba_boss_launched_by` guard (af1032x). Its bullet PID
   assignment remains before `boss_target_update()`. After the two original
   INTRO sound-frame checks, completion now uses a positive equality branch
-  with an explicit `else return` (af1033j). See the [after1032 PID-scope review](MAIN_YUMEMI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  with an explicit `else return` (af1033j). The latest pass uses constant-first
+  level formulas, postfix BOSS-frame increment, constant-first INTRO sound
+  and finish comparisons, X-origin base-first addition, and direct truth
+  guards for both effect/render countdowns (af1036j/k). The level-derived
+  divisions by two remain divisions; replacing them with shifts changed CODE.
+  See the [after1036 update review](MAIN_YUMEMI_UPDATE_LEVEL_AND_COUNTDOWN_AFTER1036_REVIEW.md),
+  [after1032 PID-scope review](MAIN_YUMEMI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
   and [after1033 INTRO-branch review](MAIN_YUMEMI_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
 - **Marisa:** the complete 269-byte update controller now scopes its
   mode switch and collision/hitbox tail under the positive
