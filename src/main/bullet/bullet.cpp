@@ -671,8 +671,11 @@ void bullets_update(void)
 		p->age++;
 
 		if(p->flag == BF_PELLET_CLOUD) {
-			// ZUN bloat: `if((p->age & 3) == 0)`
-			_AL = (p->age & 3);
+			// The cloud advances one sprite cel every four byte-age
+			// frames. Keep the original AL flags-producing operation:
+			// a direct C++ predicate compiled to a shorter TEST (af933a).
+			enum { BULLET_CLOUD_FRAME_MASK = 3 };
+			_AL = (p->age & BULLET_CLOUD_FRAME_MASK);
 			if(FLAGS_ZERO) {
 				#define so_next static_cast<vram_byte_amount_t>(_AX)
 				so_next = (p->sprite_offset + XY(PELLET_CLOUD_W, 0));
@@ -877,23 +880,20 @@ void bullets_update(void)
 				HITBOX_SIZE = TO_SP(12),
 			};
 
-			#define coord_y coord_next
 			#define coord_x static_cast<playfield_subpixel_t>(_DX)
 
 			coord_x = p->center.x;
 			coord_x -= (HITBOX_SIZE / 2);
-			coord_y = coord_next;
-			coord_y -= (HITBOX_SIZE / 2);
+			coord_next -= (HITBOX_SIZE / 2);
 			hitbox.origin.topleft.x.v = coord_x;
-			hitbox.origin.topleft.y.v = coord_y;
+			hitbox.origin.topleft.y.v = coord_next;
 
 			coord_x += HITBOX_SIZE;
-			coord_y += HITBOX_SIZE;
+			coord_next += HITBOX_SIZE;
 			hitbox.right.v = coord_x;
-			hitbox.bottom.v = coord_y;
+			hitbox.bottom.v = coord_next;
 
 			#undef coord_x
-			#undef coord_y
 
 			// ZUN bloat: One byte more than through AL, as Turbo C++ 4.0J
 			// would usually generate...
