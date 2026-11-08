@@ -495,6 +495,12 @@ CODE bytes, 620 ordered native fields and 19 PUBLICs, with two original TC4
 rounds and the complete Japanese MAIN image/relocations exact. See the
 [after1036t Mima+Yumemi integration review](MAIN_MIMA_YUMEMI_TWO_OWNER_INTEGRATION_AFTER1036T_REVIEW.md).
 
+After the Chiyuri Fans subpixel/loop arithmetic and Kotohime Radial/Update
+arithmetic refinements, the two complete owners were rebuilt together at
+af1037s: 4,494 CODE bytes, 643 ordered native fields and 22 PUBLICs, with
+two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [after1037s Chiyuri+Kotohime integration review](MAIN_CHIYURI_KOTOHIME_TWO_OWNER_INTEGRATION_AFTER1037S_REVIEW.md).
+
 After these Mima and Yumemi refinements were integrated with all nine current
 BOSS owners, the full nine-owner set was rebuilt together at af1036u: 17,451
 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
