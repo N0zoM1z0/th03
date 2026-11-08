@@ -75,6 +75,36 @@ enum kotohime_boss_mode_t {
     KOTOHIME_MODE_EXPLODE = 0xFF,
 };
 
+enum kotohime_template_layout_t {
+    KOTOHIME_TEMPLATE_CENTER_X = 0x900,
+    KOTOHIME_TEMPLATE_CENTER_Y = 0x500,
+    KOTOHIME_TEMPLATE_VELOCITY_X = -0x20,
+    KOTOHIME_TEMPLATE_HP = 0x6E,
+    KOTOHIME_TEMPLATE_SPRITE_OFF = 0x288,
+    KOTOHIME_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
+enum kotohime_render_mode_t {
+    KOTOHIME_RENDER_MODE_NORMAL = 0,
+    KOTOHIME_RENDER_MODE_EXPANDING = 1,
+    KOTOHIME_RENDER_MODE_WARNING = 2,
+};
+
+enum kotohime_level_scaling_t {
+    KOTOHIME_LEVEL_HALF = 2,
+    KOTOHIME_LEVEL_ORBIT_DIV = 3,
+    KOTOHIME_LEVEL_ORBIT_BASE = 6,
+    KOTOHIME_LEVEL_SPEED_BASE = 0x10,
+    KOTOHIME_LEVEL_AIMED_FAST_BASE = 0x20,
+    KOTOHIME_LEVEL_PELLET_BASE = 0x18,
+    KOTOHIME_LEVEL_INTERVAL_BASE = 0x20,
+    KOTOHIME_LEVEL_BURST_BASE = 8,
+};
+
+enum kotohime_sound_effect_t {
+    KOTOHIME_SOUND_ATTACK = 3,
+};
+
 // The intro transition, shared ring display and alternating sprites
 // belong to the entire BOSS controller, not an unrelated render leaf.
 enum kotohime_boss_timing_t {
@@ -114,21 +144,21 @@ void far pascal boss_kotohime_template_init(int player_id)
 	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = KOTOHIME_TEMPLATE_CENTER_X;
+	p->center_y = KOTOHIME_TEMPLATE_CENTER_Y;
+	p->velocity_x = KOTOHIME_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
-	p->hp = 0x6E;
+	p->mode = KOTOHIME_MODE_INTRO;
+	p->hp = KOTOHIME_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->effect_radius = 0;
-	p->sprite_offset = 0x288;
+	p->sprite_offset = KOTOHIME_TEMPLATE_SPRITE_OFF;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += KOTOHIME_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = KOTOHIME_RENDER_MODE_NORMAL;
 }
 
 // Full-circle angles use natural 256-step division, keeping the
@@ -190,7 +220,7 @@ enum kotohime_ring_phase_t {
 void near kotohime_pattern_random_ring(void)
 {
 	if(boss_frame == KOTOHIME_RING_START_FRAME) {
-		boss_render_mode = 1;
+		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
 	}
@@ -198,7 +228,7 @@ void near kotohime_pattern_random_ring(void)
 	boss_move_phase += 4;
 
 	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
-		boss_render_mode = 2;
+		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		_AL = boss_move_phase;
 		_AL += 2;
 		boss_move_phase = _AL;
@@ -209,9 +239,9 @@ void near kotohime_pattern_random_ring(void)
 			bullet_template.group = BG_16_RING;
 			bullet_template.speed.v = kotohime_random_ring_speed;
 			kotohime_ring_emit(1);
-			snd_se_play(3);
-			boss_render_mode = 0;
-			boss_mode = 1;
+			snd_se_play(KOTOHIME_SOUND_ATTACK);
+			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+			boss_mode = KOTOHIME_MODE_SELECT;
 			boss_frame = 0;
 		}
 	} else {
@@ -223,7 +253,7 @@ void near kotohime_pattern_random_ring(void)
 void near kotohime_pattern_aimed_ring(void)
 {
 	if(boss_frame == KOTOHIME_RING_START_FRAME) {
-		boss_render_mode = 1;
+		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
 		boss_move_phase = 0;
@@ -232,7 +262,7 @@ void near kotohime_pattern_aimed_ring(void)
 	boss_move_phase -= 2;
 
 	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
-		boss_render_mode = 2;
+		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		boss_effect_radius += 8;
 		_AL = boss_move_phase;
 		_AL += 2;
@@ -251,9 +281,9 @@ void near kotohime_pattern_aimed_ring(void)
 			bullet_template.speed.v = kotohime_aimed_speed_slow;
 			kotohime_ring_emit(0);
 
-			snd_se_play(3);
-			boss_render_mode = 0;
-			boss_mode = 1;
+			snd_se_play(KOTOHIME_SOUND_ATTACK);
+			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+			boss_mode = KOTOHIME_MODE_SELECT;
 			boss_frame = 0;
 		}
 	} else {
@@ -274,7 +304,7 @@ void near kotohime_pattern_pellet_arc(void)
 	// The unsigned 16-bit BOSS clock fires exactly at remainder 1.
 	// Its natural reversed comparison is TC4 native-exact (af910a).
 	if(KOTOHIME_PELLET_FIRE_REMAINDER == (boss_frame % kotohime_pellet_interval)) {
-		snd_se_play(3);
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
 		bullet_template.type = BT_PELLET;
 		bullet_template.angle = (unsigned char)boss_frame;
 		bullet_template.speed.v = kotohime_pellet_speed;
@@ -303,7 +333,7 @@ void near kotohime_pattern_pellet_arc(void)
 	}
 
 	if(boss_frame >= KOTOHIME_PELLET_FINISH_FRAME) {
-		boss_mode = 1;
+		boss_mode = KOTOHIME_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -319,7 +349,7 @@ void near kotohime_pattern_radial_burst(void)
 	register int center_i;
 
 	if(boss_frame == KOTOHIME_RING_START_FRAME) {
-		boss_render_mode = 1;
+		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
 	}
@@ -329,7 +359,7 @@ void near kotohime_pattern_radial_burst(void)
 	boss_move_phase = _AL;
 
 	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
-		boss_render_mode = 2;
+		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		boss_effect_radius += 8;
 		boss_move_phase -= 2;
 		// Byte-memory postfix is real original codegen. Changing all
@@ -381,9 +411,9 @@ void near kotohime_pattern_radial_burst(void)
 			++center_i;
 		}
 
-		snd_se_play(3);
-		boss_render_mode = 0;
-		boss_mode = 1;
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
+		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+		boss_mode = KOTOHIME_MODE_SELECT;
 		boss_frame = 0;
 	} else {
 		boss_move_sine();
@@ -396,13 +426,13 @@ void far gba_boss_update_kotohime(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		kotohime_random_ring_speed = ((gba_boss_level / 2) + 0x10);
-		kotohime_orbit_count = ((gba_boss_level / 3) + 6);
-		kotohime_aimed_speed_slow = ((gba_boss_level / 2) + 0x10);
-		kotohime_aimed_speed_fast = ((gba_boss_level / 2) + 0x20);
-		kotohime_pellet_speed = ((gba_boss_level / 2) + 0x18);
-		kotohime_pellet_interval = (0x20 - (gba_boss_level / 2));
-		kotohime_burst_count = ((gba_boss_level / 2) + 8);
+		kotohime_random_ring_speed = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_SPEED_BASE);
+		kotohime_orbit_count = ((gba_boss_level / KOTOHIME_LEVEL_ORBIT_DIV) + KOTOHIME_LEVEL_ORBIT_BASE);
+		kotohime_aimed_speed_slow = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_SPEED_BASE);
+		kotohime_aimed_speed_fast = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_AIMED_FAST_BASE);
+		kotohime_pellet_speed = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_PELLET_BASE);
+		kotohime_pellet_interval = (KOTOHIME_LEVEL_INTERVAL_BASE - (gba_boss_level / KOTOHIME_LEVEL_HALF));
+		kotohime_burst_count = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_BURST_BASE);
 	}
 
 	if(pid_current != gba_boss_launched_by) {
@@ -420,7 +450,7 @@ void far gba_boss_update_kotohime(void)
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = KOTOHIME_MODE_SELECT;
 		break;
 
 	case KOTOHIME_MODE_SELECT:
@@ -495,7 +525,7 @@ void near pascal kotohime_render_ring(int count)
 	sprite_offset = (pid.so_attack + KOTOHIME_RING_SPRITE_OFFSET);
 	// The alternating ring sprites use a signed/unsigned native
 	// modulo test. Comparison reversal remains exact (af910a).
-	if((boss_render_mode == 2) && (KOTOHIME_RENDER_ALT_FRAMES > (boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD))) {
+	if((boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) && (KOTOHIME_RENDER_ALT_FRAMES > (boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD))) {
 		sprite_offset += KOTOHIME_RING_SPRITE_ALTERNATE_OFFSET;
 	}
 
@@ -546,14 +576,14 @@ void near kotohime_render_main(void)
 	top = ((boss_center_y >> 4) - KOTOHIME_MAIN_TOP_OFFSET);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit) {
+	if(boss_hit != 0) {
 		sprite_offset += 0x10;
 	}
 	sprite16_put(left, top, sprite_offset);
 
 	// This byte render-mode guard naturally spells `!=0`, without
 	// changing the physical ring's signed-angle/near-pascal ABI.
-	if(boss_render_mode != 0) {
+	if(boss_render_mode != KOTOHIME_RENDER_MODE_NORMAL) {
 		kotohime_render_ring(kotohime_orbit_count);
 	}
 }
@@ -566,11 +596,11 @@ void near pascal kotohime_render_intro(int radius)
 
 	sprite16_put_size.w = KOTOHIME_RING_SPRITE_WIDTH;
 	sprite16_put_size.h = KOTOHIME_RING_SPRITE_HEIGHT;
-	boss_render_mode = 1;
+	boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 	boss_move_phase += 2;
 	boss_effect_radius = radius;
 	kotohime_render_ring(KOTOHIME_INTRO_RING_COUNT);
-	boss_render_mode = 0;
+	boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
 }
 
 void far gba_boss_render_kotohime(void)
