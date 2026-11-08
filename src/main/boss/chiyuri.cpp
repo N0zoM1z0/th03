@@ -396,12 +396,12 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP, ++i
 		) {
 			bullet_template.center.x.v = (
-				boss_center_x -
-				CHIYURI_FAN_EDGE_OFFSET +
-				(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
+				boss_center_x +
+				(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
+				CHIYURI_FAN_EDGE_OFFSET
 			);
 			bullet_template.angle = (
-				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count)
+				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -416,12 +416,12 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
 		) {
 			bullet_template.center.x.v = (
-				boss_center_x -
-				CHIYURI_FAN_EDGE_OFFSET +
-				(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
+				boss_center_x +
+				(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
+				CHIYURI_FAN_EDGE_OFFSET
 			);
 			bullet_template.angle = (
-				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count)
+				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count)
 			);
 			bullets_add();
 
@@ -451,12 +451,12 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP, ++i
 	) {
 		bullet_template.center.y.v = (
-			boss_center_y -
-			CHIYURI_FAN_EDGE_OFFSET +
-			(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
+			boss_center_y +
+			(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
+			CHIYURI_FAN_EDGE_OFFSET
 		);
 		bullet_template.angle = (
-			((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
+			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
 		);
 		bullets_add();
 
@@ -468,12 +468,12 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
 	) {
 		bullet_template.center.y.v = (
-			boss_center_y -
-			CHIYURI_FAN_EDGE_OFFSET +
-			(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
+			boss_center_y +
+			(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
+			CHIYURI_FAN_EDGE_OFFSET
 		);
 		bullet_template.angle = (
-			((i * CHIYURI_FAN_ANGLE_UNITS) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
+			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
 		);
 		bullets_add();
 

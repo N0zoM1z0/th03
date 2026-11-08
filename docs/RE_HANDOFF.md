@@ -595,9 +595,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   clocks and original bullet-call ordering. The 528-byte Fans leaf now uses
   variable-first horizontal/vertical frame tests and advances speed plus
   index together in each of its four for-loop iteration expressions. Its
-  shared `TO_SP(56)` warning/coordinate edge is named. The signed
-  multiply/divide-before-scale order and all shot ordering remain exact
-  (af1034l/m/n/o/p). Unary-minus, a register-local mirrored angle and
+  shared `TO_SP(56)` warning/coordinate edge is named; centers use
+  base + scaled offset - edge, and span/angle products use constant-first
+  multiplication. The signed multiply/divide-before-scale order and all shot
+  ordering remain exact (af1034l/m/n/o/p/r/s/t). Reversing the speed/index
+  comma-expression order, unary-minus, a register-local mirrored angle and
   compound speed updates changed complete CODE and were reverted. See the
   [after1034 Fans loop-step review](MAIN_CHIYURI_FANS_SPEED_AND_EDGE_LOOP_STEPS_AFTER1034_REVIEW.md),
   the
