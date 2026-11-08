@@ -417,82 +417,80 @@ void far gba_boss_update_rikako(void)
 		rikako_burst_speed = (gba_boss_level + RIKAKO_BURST_SPEED_BASE);
 	}
 
-	if(pid_current != gba_boss_launched_by) {
-		return;
-	}
+	if(pid_current == gba_boss_launched_by) {
+		pid_other = (1 - pid_current);
+		bullet_template.pid = pid_other;
+		boss_target_update();
+		++boss_frame;
 
-	pid_other = (1 - pid_current);
-	bullet_template.pid = pid_other;
-	boss_target_update();
-	++boss_frame;
+		switch(boss_mode) {
+		case RIKAKO_MODE_INTRO:
+			if(boss_frame != RIKAKO_INTRO_FINISH_FRAME) {
+				return;
+			}
+			boss_frame = 0;
+			boss_mode = RIKAKO_MODE_SELECT;
+			break;
 
-	switch(boss_mode) {
-	case RIKAKO_MODE_INTRO:
-		if(boss_frame != RIKAKO_INTRO_FINISH_FRAME) {
+		case RIKAKO_MODE_SELECT:
+			boss_pattern_next();
+			break;
+
+		case RIKAKO_MODE_ORBIT_0:
+		case RIKAKO_MODE_ORBIT_1:
+		case RIKAKO_MODE_ORBIT_2:
+		case RIKAKO_MODE_ORBIT_3:
+			rikako_pattern_orbit_spread();
+			break;
+
+		case RIKAKO_MODE_ENTITIES_0:
+		case RIKAKO_MODE_ENTITIES_1:
+		case RIKAKO_MODE_ENTITIES_2:
+		case RIKAKO_MODE_ENTITIES_3:
+		case RIKAKO_MODE_ENTITIES_4:
+		case RIKAKO_MODE_ENTITIES_5:
+			rikako_pattern_entities_and_pellets();
+			break;
+
+		case RIKAKO_MODE_ALTERNATE_0:
+		case RIKAKO_MODE_ALTERNATE_1:
+		case RIKAKO_MODE_ALTERNATE_2:
+		case RIKAKO_MODE_ALTERNATE_3:
+		case RIKAKO_MODE_ALTERNATE_4:
+		case RIKAKO_MODE_ALTERNATE_5:
+			rikako_pattern_alternating_burst();
+			break;
+
+		case RIKAKO_MODE_DESCEND:
+			boss_fall();
+			break;
+
+		case RIKAKO_MODE_EXPLODE:
 			return;
 		}
-		boss_frame = 0;
-		boss_mode = RIKAKO_MODE_SELECT;
-		break;
 
-	case RIKAKO_MODE_SELECT:
-		boss_pattern_next();
-		break;
+		// Keep compound signed-byte spin mutation: writing an explicit
+		// byte = byte + signed_delta changed original CODE (af904c).
+		boss_render_frame += boss_spin_delta;
 
-	case RIKAKO_MODE_ORBIT_0:
-	case RIKAKO_MODE_ORBIT_1:
-	case RIKAKO_MODE_ORBIT_2:
-	case RIKAKO_MODE_ORBIT_3:
-		rikako_pattern_orbit_spread();
-		break;
+		collmap_center.x.v = boss_center_x;
+		collmap_center.y.v = boss_center_y;
+		collmap_stripe_tile_w.set(RIKAKO_COLLISION_STRIPE_WIDTH);
+		collmap_tile_h.set(RIKAKO_COLLISION_TILE_HEIGHT);
+		collmap_pid = pid_other;
+		collmap_set_rect_striped();
 
-	case RIKAKO_MODE_ENTITIES_0:
-	case RIKAKO_MODE_ENTITIES_1:
-	case RIKAKO_MODE_ENTITIES_2:
-	case RIKAKO_MODE_ENTITIES_3:
-	case RIKAKO_MODE_ENTITIES_4:
-	case RIKAKO_MODE_ENTITIES_5:
-		rikako_pattern_entities_and_pellets();
-		break;
-
-	case RIKAKO_MODE_ALTERNATE_0:
-	case RIKAKO_MODE_ALTERNATE_1:
-	case RIKAKO_MODE_ALTERNATE_2:
-	case RIKAKO_MODE_ALTERNATE_3:
-	case RIKAKO_MODE_ALTERNATE_4:
-	case RIKAKO_MODE_ALTERNATE_5:
-		rikako_pattern_alternating_burst();
-		break;
-
-	case RIKAKO_MODE_DESCEND:
-		boss_fall();
-		break;
-
-	case RIKAKO_MODE_EXPLODE:
-		return;
+		hitbox_hittest_skip_explosions = true;
+		hitbox.radius.x.v = RIKAKO_COLLISION_HALF_RADIUS;
+		hitbox.radius.y.v = RIKAKO_COLLISION_HALF_RADIUS;
+		hitbox.pid = pid_other;
+		hitbox.origin.center.x.v = boss_center_x;
+		hitbox.origin.center.y.v = boss_center_y;
+		boss_hit = hitbox_hittest();
+		boss_hp -= boss_hit;
+		hitbox_hittest_skip_explosions = false;
+		boss_hittest_end();
 	}
-
-	// Keep compound signed-byte spin mutation: writing an explicit
-	// byte = byte + signed_delta changed original CODE (af904c).
-	boss_render_frame += boss_spin_delta;
-
-	collmap_center.x.v = boss_center_x;
-	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(RIKAKO_COLLISION_STRIPE_WIDTH);
-	collmap_tile_h.set(RIKAKO_COLLISION_TILE_HEIGHT);
-	collmap_pid = pid_other;
-	collmap_set_rect_striped();
-
-	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = RIKAKO_COLLISION_HALF_RADIUS;
-	hitbox.radius.y.v = RIKAKO_COLLISION_HALF_RADIUS;
-	hitbox.pid = pid_other;
-	hitbox.origin.center.x.v = boss_center_x;
-	hitbox.origin.center.y.v = boss_center_y;
-	boss_hit = hitbox_hittest();
-	boss_hp -= boss_hit;
-	hitbox_hittest_skip_explosions = false;
-	boss_hittest_end();
 }
 
 void near rikako_render_main(void)

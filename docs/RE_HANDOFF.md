@@ -485,6 +485,12 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
   Replacing those additions with a multiplication changed complete CODE.
+- **Rikako:** the complete 285-byte update controller now scopes its
+  mode dispatch, signed-byte spin compound update and collision/hitbox tail
+  under the positive `pid_current == gba_boss_launched_by` guard (af1033e).
+  The bullet PID assignment stays before `boss_target_update()`, and the
+  original `boss_render_frame += boss_spin_delta` remains after the switch.
+  See the [after1033 Rikako PID-scope review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 - **Kana:** the complete 316-byte update controller now scopes its
   mode dispatch, render-frame postfix increment and collision/hitbox tail
   under the positive `pid_current == gba_boss_launched_by` guard (af1033c).
