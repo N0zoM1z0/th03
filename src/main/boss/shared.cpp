@@ -36,6 +36,7 @@ enum boss_shared_limits_t {
     BOSS_PATTERN_RECENT_RADIUS = 2,
     BOSS_PATTERN_MODE_OFFSET = 2,
     BOSS_PATTERN_COUNT_MASK = 7,
+    BOSS_PATTERN_COUNT_BASE = 1,
     BOSS_RING_PRIMARY_SPRITES = 16,
     BOSS_RING_PRIMARY_ANGLE_STEP = 0x10,
     BOSS_RING_SECONDARY_ANGLE_STEP = 0x20,
@@ -113,7 +114,7 @@ signed char near pascal boss_explosion_ring(
 
 	// Sixteen primary sprites: the for-header preserves the original
 	// post-draw signed-index then byte-angle update order.
-	for(i = 0; i < BOSS_RING_PRIMARY_SPRITES; ++i, angle += BOSS_RING_PRIMARY_ANGLE_STEP) {
+	for(i = 0; i < BOSS_RING_PRIMARY_SPRITES; i++, angle = angle + BOSS_RING_PRIMARY_ANGLE_STEP) {
 		left = (-BOSS_RING_SPRITE_HALF + polar(x, length, CosTable8[angle]));
 		top = (-BOSS_RING_SPRITE_HALF + polar(y, length, SinTable8[angle]));
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
@@ -124,7 +125,7 @@ signed char near pascal boss_explosion_ring(
 	angle = static_cast<unsigned char>(0 - static_cast<unsigned char>(length));
 	// Eight secondary sprites at double radius. Binary zero-minus
 	// before this for-header differs from unary minus (af916d).
-	for(i = 0; i < BOSS_RING_SECONDARY_SPRITES; ++i, angle += BOSS_RING_SECONDARY_ANGLE_STEP) {
+	for(i = 0; i < BOSS_RING_SECONDARY_SPRITES; i++, angle = angle + BOSS_RING_SECONDARY_ANGLE_STEP) {
 		left = (-BOSS_RING_SPRITE_HALF + polar(x, (BOSS_RING_SECONDARY_RADIUS_SCALE * length), CosTable8[angle]));
 		top = (-BOSS_RING_SPRITE_HALF + polar(y, (BOSS_RING_SECONDARY_RADIUS_SCALE * length), SinTable8[angle]));
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
@@ -150,9 +151,9 @@ extern "C" void near boss_move_sine(void)
 	boss_angle++;
 	boss_velocity_y = polar(0, 16, SinTable8[boss_angle]);
 
-	if(boss_center_x <= BOSS_TURN_LEFT_X) {
+	if(BOSS_TURN_LEFT_X >= boss_center_x) {
 		boss_velocity_x = BOSS_HORIZONTAL_STEP;
-	} else if(boss_center_x >= BOSS_TURN_RIGHT_X) {
+	} else if(BOSS_TURN_RIGHT_X <= boss_center_x) {
 		boss_velocity_x = -BOSS_HORIZONTAL_STEP;
 	}
 }
@@ -162,50 +163,50 @@ extern "C" void near boss_fall(void)
 	boss_center_x += boss_velocity_x;
 	boss_center_y += BOSS_DESCEND_STEP;
 
-	if(boss_center_x <= BOSS_TURN_LEFT_X) {
+	if(BOSS_TURN_LEFT_X >= boss_center_x) {
 		boss_velocity_x = BOSS_HORIZONTAL_STEP;
-	} else if(boss_center_x >= BOSS_TURN_RIGHT_X) {
+	} else if(BOSS_TURN_RIGHT_X <= boss_center_x) {
 		boss_velocity_x = -BOSS_HORIZONTAL_STEP;
 	}
 
 	boss_active[1 - pid_current] = 0;
-	if(boss_center_y >= BOSS_DESPAWN_Y) {
-		boss_mode = 0;
-		gba_boss_launched_by = PID_NONE;
-		combo_points_for_boss_attack = BOSS_COMBO_POINTS;
+	if(BOSS_DESPAWN_Y > boss_center_y) {
+		return;
 	}
+	boss_mode = 0;
+	gba_boss_launched_by = PID_NONE;
+	combo_points_for_boss_attack = BOSS_COMBO_POINTS;
 }
 
 extern "C" unsigned char near boss_update_start(void)
 {
-	if(gba_flag_active[pid_current] != GBAF_BOSS) {
-		return 0;
-	}
-
-	if(gba_boss_launched_by == PID_NONE) {
-		// The original fixed 32-byte state copy explicitly uses SI/DI,
-		// the current DS and REP MOVSW; direct struct assignment and
-		// near-pointer assignment changed original CODE (af768a/b).
-		_SI = FP_OFF(&boss_character_template[0]);
-		if(pid_current == 1) {
-			_SI += sizeof(boss_state_t);
+	if(GBAF_BOSS == gba_flag_active[pid_current]) {
+		if(PID_NONE == gba_boss_launched_by) {
+			// The original fixed 32-byte state copy explicitly uses SI/DI,
+			// the current DS and REP MOVSW; direct struct assignment and
+			// near-pointer assignment changed original CODE (af768a/b).
+			_SI = FP_OFF(&boss_character_template[0]);
+			if(1 == pid_current) {
+				_SI += sizeof(boss_state_t);
+			}
+			_DI = FP_OFF(&boss_state);
+			_AX = _DS;
+			_ES = _AX;
+			_CX = (sizeof(boss_state_t) / 2);
+			asm { rep movsw }
+			boss_pattern_count = (BOSS_PATTERN_COUNT_BASE + randring_far_next16_and(BOSS_PATTERN_COUNT_MASK));
+			boss_frame = 0;
+			gba_boss_launched_by = pid_current;
+			gba_flag_active[pid_current] = GBAF_NONE;
+			snd_se_play(18);
+			palette_restore_for_pid(1 - pid_current);
+			boss_active[1 - pid_current] = 1;
+			return 1;
 		}
-		_DI = FP_OFF(&boss_state);
-		_AX = _DS;
-		_ES = _AX;
-		_CX = (sizeof(boss_state_t) / 2);
-		asm { rep movsw }
-		boss_pattern_count = (randring_far_next16_and(BOSS_PATTERN_COUNT_MASK) + 1);
-		boss_frame = 0;
-		gba_boss_launched_by = pid_current;
-		gba_flag_active[pid_current] = GBAF_NONE;
-		snd_se_play(18);
-		palette_restore_for_pid(1 - pid_current);
-		boss_active[1 - pid_current] = 1;
-		return 1;
-	}
 
-	if(boss_mode != BOSS_EXPLODE_MODE) {
+		if(BOSS_EXPLODE_MODE == boss_mode) {
+			return 0;
+		}
 		boss_mode = -1;
 		boss_frame = 0;
 		palette_restore_for_pid(1 - pid_current);
@@ -216,55 +217,58 @@ extern "C" unsigned char near boss_update_start(void)
 
 extern "C" void far boss_hittest_end(void)
 {
-	pid_t pid_other = (1 - pid_current);
+	register pid_t pid_other = (1 - pid_current);
 
-	if((boss_hp <= 0) && (boss_mode != BOSS_EXPLODE_MODE)) {
-		boss_mode = -1;
-		boss_frame = 0;
-		palette_restore_for_pid(pid_other);
-		if(gba_flag_active[pid_other] != GBAF_BOSS) {
-			combo_points_for_boss_attack = BOSS_COMBO_POINTS;
-		}
-		boss_active[pid_other] = 0;
-		if(gba_boss_level < GBA_BOSS_LEVEL_MAX) {
-			gba_boss_level++;
-		}
+	if((boss_hp > 0) || (boss_mode == BOSS_EXPLODE_MODE)) {
+		return;
+	}
+	boss_mode = -1;
+	boss_frame = 0;
+	palette_restore_for_pid(pid_other);
+	if(GBAF_BOSS != gba_flag_active[pid_other]) {
+		combo_points_for_boss_attack = BOSS_COMBO_POINTS;
+	}
+	boss_active[pid_other] = 0;
+	if(GBA_BOSS_LEVEL_MAX > gba_boss_level) {
+		gba_boss_level++;
 	}
 }
 
 extern "C" void near boss_target_update(void)
 {
-	if(boss_mode != BOSS_DESCEND_MODE) {
-		boss_target_x = boss_center_x;
-		boss_target_y = (boss_center_y + BOSS_TARGET_Y_AHEAD);
+	if(BOSS_DESCEND_MODE == boss_mode) {
+		return;
 	}
+	boss_target_x = boss_center_x;
+	boss_target_y = (BOSS_TARGET_Y_AHEAD + boss_center_y);
 }
 
 extern "C" void near boss_pattern_next(void)
 {
-	unsigned char pattern;
+	register unsigned char pattern;
 
 	boss_move_sine();
-	if(boss_frame < BOSS_PATTERN_WAIT_FRAMES) {
-		return;
-	}
+	if(BOSS_PATTERN_WAIT_FRAMES <= boss_frame) {
+		// Each rejected pattern still consumes a separate RNG word.
+		while(1) {
+			pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
+			if(!(
+				((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
+				((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
+			)) {
+				break;
+			}
+		}
 
-	// Each rejected pattern still consumes a separate RNG word.
-	do {
-		pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
-	} while(
-		((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
-		((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
-	);
-
-	boss_pattern_previous = pattern;
-	boss_frame = 0;
-	boss_mode = (pattern + BOSS_PATTERN_MODE_OFFSET);
-	// The BOSS pattern-index postfix is also codegen-visible;
-    // ++boss_pattern_i failed original TC4 bytes (af708c).
-    // Keep byte postfix; prefix changed actual TC4 CODE (af916f).
-	boss_pattern_i++;
-	if(boss_pattern_i > boss_pattern_count) {
+		boss_pattern_previous = pattern;
+		boss_frame = 0;
+		boss_mode = (BOSS_PATTERN_MODE_OFFSET + pattern);
+		// The BOSS pattern-index postfix is also codegen-visible;
+		// prefix ++boss_pattern_i changed original TC4 bytes (af916f).
+		boss_pattern_i++;
+		if(boss_pattern_i <= boss_pattern_count) {
+			return;
+		}
 		boss_mode = BOSS_DESCEND_MODE;
 	}
 }
@@ -272,7 +276,7 @@ extern "C" void near boss_pattern_next(void)
 extern "C" void near boss_explosion_render(void)
 {
 	boss_mode = boss_explosion_ring(boss_center_x, boss_center_y, boss_frame);
-	if(!boss_mode) {
+	if(0 == boss_mode) {
 		gba_boss_launched_by = PID_NONE;
 	}
 }

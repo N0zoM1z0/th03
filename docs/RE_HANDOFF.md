@@ -358,10 +358,22 @@ owner in the stage.
 
 ## Latest source recovery and next work
 
-The latest source work includes the shared BOSS explosion ring's two
-natural `for` loops, base-first sprite placement, named length/secondary-radius
-scales, explicit byte casts and constant-first predicates (af1045a/b/c/d/e/f/g/h/i/j/k/l/m/n/q/r). The `register` angle is exact, while register X/Y scratch locals and explicit `length = length * scale` changed CODE and were rejected. See the
-[after1045 shared explosion-ring review](MAIN_BOSS_SHARED_EXPLOSION_RING_NATURAL_CPP_AFTER1045_REVIEW.md).
+The shared BOSS explosion ring now uses two natural `for` loops with postfix
+index updates and ordinary byte-angle additions, base-first sprite placement,
+named length/secondary-radius scales, explicit byte casts and a register byte
+angle. The shared movement, fall, launch, hit/death, target and pattern
+controllers also use native-exact positive guards, early returns, register
+locals and constant-first arithmetic. The original `REP MOVSW` state copy,
+postfix pattern counter and random-rejection comparison/RNG order remain
+compiler-sensitive. Direct template-array indexing, multiply-derived template
+offsets, reordered random-range comparisons, register X/Y scratch locals and
+ordinary assignment replacements for compound movement changed CODE and were
+rejected. Stage af1047k rebuilt both complete shared physical owners in two
+original TC4 rounds, with all 949 CODE bytes, 106 ordered native fields, eight
+PUBLICs and the complete Japanese MAIN image/relocations exact. See the
+[after1047 shared-core review](MAIN_BOSS_SHARED_CORE_NATURAL_CONTROL_AFTER1047_REVIEW.md)
+and the earlier
+[after1045 explosion-ring review](MAIN_BOSS_SHARED_EXPLOSION_RING_NATURAL_CPP_AFTER1045_REVIEW.md).
 
 The shared BOSS pattern selector's natural rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
