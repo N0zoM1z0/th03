@@ -485,6 +485,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
   Replacing those additions with a multiplication changed complete CODE.
+- **Marisa:** the complete 269-byte update controller now scopes its
+  mode switch and collision/hitbox tail under the positive
+  `pid_current == gba_boss_launched_by` guard (af1032v). Its INTRO/EXPLODE
+  returns and Spread/Wide/Ring/Narrow dispatch order remain unchanged. See
+  the [after1032 Marisa PID-scope review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 - **Reimu:** the complete BOSS update controller now scopes its pre-switch
   SELECT logic, four attack-family dispatches and collision/hitbox tail under
   the positive `pid_current == gba_boss_launched_by` guard (af1032r). Its

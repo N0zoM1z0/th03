@@ -350,80 +350,78 @@ void far gba_boss_update_marisa(void)
 		marisa_cloud_count_high = (gba_boss_level + MARISA_LEVEL_RING_COUNT_BASE);
 	}
 
-	if(pid_current != gba_boss_launched_by) {
-		return;
-	}
+	if(pid_current == gba_boss_launched_by) {
+		pid_other = (1 - pid_current);
+		boss_target_update();
+		++boss_frame;
 
-	pid_other = (1 - pid_current);
-	boss_target_update();
-	++boss_frame;
+		switch(boss_mode) {
+		case MARISA_MODE_INTRO:
+			if(boss_frame != MARISA_BOSS_INTRO_END) {
+				return;
+			}
+			boss_frame = 0;
+			boss_mode = MARISA_MODE_SELECT;
+			break;
 
-	switch(boss_mode) {
-	case MARISA_MODE_INTRO:
-		if(boss_frame != MARISA_BOSS_INTRO_END) {
+		case MARISA_MODE_SELECT:
+			boss_pattern_next();
+			break;
+
+		case MARISA_MODE_SPREAD_0:
+		case MARISA_MODE_SPREAD_1:
+		case MARISA_MODE_SPREAD_2:
+		case MARISA_MODE_SPREAD_3:
+			marisa_pattern_spread();
+			break;
+
+		case MARISA_MODE_WIDE_0:
+		case MARISA_MODE_WIDE_1:
+		case MARISA_MODE_WIDE_2:
+			marisa_pattern_columns_wide();
+			break;
+
+		case MARISA_MODE_RING_0:
+		case MARISA_MODE_RING_1:
+		case MARISA_MODE_RING_2:
+		case MARISA_MODE_RING_3:
+		case MARISA_MODE_RING_4:
+		case MARISA_MODE_RING_5:
+			marisa_pattern_ring();
+			break;
+
+		case MARISA_MODE_NARROW_0:
+		case MARISA_MODE_NARROW_1:
+		case MARISA_MODE_NARROW_2:
+			marisa_pattern_columns_narrow();
+			break;
+
+		case MARISA_MODE_DESCEND:
+			boss_fall();
+			break;
+
+		case MARISA_MODE_EXPLODE:
 			return;
 		}
-		boss_frame = 0;
-		boss_mode = MARISA_MODE_SELECT;
-		break;
 
-	case MARISA_MODE_SELECT:
-		boss_pattern_next();
-		break;
+		collmap_center.x.v = boss_center_x;
+		collmap_center.y.v = boss_center_y;
+		collmap_stripe_tile_w.set(MARISA_COLLISION_TILE_SIZE);
+		collmap_tile_h.set(MARISA_COLLISION_TILE_SIZE);
+		collmap_pid = pid_other;
+		collmap_set_rect_striped();
 
-	case MARISA_MODE_SPREAD_0:
-	case MARISA_MODE_SPREAD_1:
-	case MARISA_MODE_SPREAD_2:
-	case MARISA_MODE_SPREAD_3:
-		marisa_pattern_spread();
-		break;
-
-	case MARISA_MODE_WIDE_0:
-	case MARISA_MODE_WIDE_1:
-	case MARISA_MODE_WIDE_2:
-		marisa_pattern_columns_wide();
-		break;
-
-	case MARISA_MODE_RING_0:
-	case MARISA_MODE_RING_1:
-	case MARISA_MODE_RING_2:
-	case MARISA_MODE_RING_3:
-	case MARISA_MODE_RING_4:
-	case MARISA_MODE_RING_5:
-		marisa_pattern_ring();
-		break;
-
-	case MARISA_MODE_NARROW_0:
-	case MARISA_MODE_NARROW_1:
-	case MARISA_MODE_NARROW_2:
-		marisa_pattern_columns_narrow();
-		break;
-
-	case MARISA_MODE_DESCEND:
-		boss_fall();
-		break;
-
-	case MARISA_MODE_EXPLODE:
-		return;
+		hitbox_hittest_skip_explosions = true;
+		hitbox.radius.x.v = MARISA_COLLISION_HALF_RADIUS;
+		hitbox.radius.y.v = MARISA_COLLISION_HALF_RADIUS;
+		hitbox.pid = pid_other;
+		hitbox.origin.center.x.v = boss_center_x;
+		hitbox.origin.center.y.v = boss_center_y;
+		boss_hit = hitbox_hittest();
+		boss_hp -= boss_hit;
+		hitbox_hittest_skip_explosions = false;
+		boss_hittest_end();
 	}
-
-	collmap_center.x.v = boss_center_x;
-	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(MARISA_COLLISION_TILE_SIZE);
-	collmap_tile_h.set(MARISA_COLLISION_TILE_SIZE);
-	collmap_pid = pid_other;
-	collmap_set_rect_striped();
-
-	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = MARISA_COLLISION_HALF_RADIUS;
-	hitbox.radius.y.v = MARISA_COLLISION_HALF_RADIUS;
-	hitbox.pid = pid_other;
-	hitbox.origin.center.x.v = boss_center_x;
-	hitbox.origin.center.y.v = boss_center_y;
-	boss_hit = hitbox_hittest();
-	boss_hp -= boss_hit;
-	hitbox_hittest_skip_explosions = false;
-	boss_hittest_end();
 }
 
 // Unsigned global four-frame flicker lowers from natural %4
