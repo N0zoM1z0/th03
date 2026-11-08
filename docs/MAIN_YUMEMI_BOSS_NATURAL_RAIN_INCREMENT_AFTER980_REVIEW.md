@@ -18,9 +18,9 @@ arrival raster loops.
 ## Original compiler verification
 
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
-      scripts/probe_th03_main_exatt_layout.py --stage af980e --units ba_yumem
+      scripts/probe_th03_main_exatt_layout.py --stage af983a --units ba_yumem
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
-      scripts/review_th03_main_source_overlay.py --stage af980e
+      scripts/review_th03_main_source_overlay.py --stage af983a
 
 Two independent genuine original Turbo C++ 4.02 rounds recompiled the
 entire ten-function, 2,358-byte Yumemi BOSS, preserving all 343 literal
@@ -30,5 +30,5 @@ MAIN links reproduce the 124,642-byte Japanese loaded image and all
 Borland CRT were reused.
 
 Protected current-source report:
-.analysis/work/exatt-layout-af980e/report.json, SHA-256
-8b8f307afdccf1dd0dcb1080654c1c08d76ea429d4954664adbd25c1ed0ad6da.
+.analysis/work/exatt-layout-af983a/report.json, SHA-256
+53a363645f48f4b17ef8cae6c119812b4fa6737504fc8249f88a2bd581645c9b.
