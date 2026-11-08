@@ -179,7 +179,7 @@ void far pascal boss_chiyuri_template_init(int player_id)
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
+	p->mode = CHIYURI_MODE_INTRO;
 	p->hp = CHIYURI_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->move_phase = 0;
@@ -604,12 +604,12 @@ void far gba_boss_update_chiyuri(void)
 	// Preserve the original byte-memory mask, NOT %=4 (af922i).
 	boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
 
-	if(boss_move_phase) {
+	if(boss_move_phase != 0) {
 		// The original postfix byte decrement is CODE-visible; prefix
 		// --boss_move_phase was native-unequal (af702d).
 		// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
 		boss_move_phase--;
-		if(boss_move_phase) {
+		if(boss_move_phase != 0) {
 			bomb_palette_step((boss_move_phase * 16), pid_other);
 		}
 	}
@@ -706,7 +706,7 @@ void near chiyuri_render_main(void)
 		left += CHIYURI_RENDER_HIT_LEFT_OFF;
 		top += CHIYURI_RENDER_HIT_TOP_OFF;
 
-		if(boss_hit) {
+		if(boss_hit != 0) {
 			sprite16_put_size.w = CHIYURI_RENDER_HIT_WIDTH;
 			sprite16_put_size.h = CHIYURI_RENDER_HIT_HEIGHT;
 			sprite_offset += CHIYURI_RENDER_HIT_SPRITE_DELTA;
@@ -714,7 +714,7 @@ void near chiyuri_render_main(void)
 			return;
 		}
 
-		if(!boss_render_frame) {
+		if(boss_render_frame == 0) {
 			return;
 		}
 
