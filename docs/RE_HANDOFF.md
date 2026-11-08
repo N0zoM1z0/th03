@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af983a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af986b`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -85,18 +85,25 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Kana staged volley after974](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af974c/report.json,
   SHA-256 ac9f32893af05350b6880577f39229e1e8a3e4dc06b2746d324706aa084dc206.
-- **Latest HitCircle source-current follow-up: `af931b`.** The
-  complete four-function hitcirc owner was rebuilt in two original TC4
-  rounds with the complete normal MAIN link: **445 CODE bytes, 30 ordered
-  OMF FIXUPPs and four PUBLICs**, preserving the direct natural C++ spawn
-  coordinate stores. The Japanese MAIN image and all 1,553 relocations match.
-  See [HitCircle spawn stores after931](MAIN_HITCIRCLE_NATURAL_SPAWN_AFTER931_REVIEW.md).
-  Fresh af976b–af976f experiments tried to replace the inline BX cel
-  arithmetic with natural register locals or a direct formula; all changed
-  the complete object. Keep the current explicit BX sequence. See
-  [HitCircle cel register trials after976](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md).
-  Protected report: .analysis/work/exatt-layout-af931b/report.json,
-  SHA-256 b45ab57e8467c700c2c03f4840e5f82488d02438dd60ed13116af363bde74243.
+- **Latest Hitbox source-current follow-up: `af986b`.** The complete
+  hitbox_hittest() physical owner was rebuilt in two original TC4 rounds
+  with the complete normal MAIN link: **266 CODE bytes, 33 ordered OMF
+  FIXUPPs and one PUBLIC**. The shotpair loop uses prefix index/pointer
+  updates, the bomb clock uses a low-bit test, and the two early exits are
+  separate natural guard clauses. See
+  [Hitbox scan and bomb clock after983](MAIN_HITBOX_NATURAL_SCAN_AND_BOMB_CLOCK_AFTER983_REVIEW.md)
+  and [Hitbox early guards after986](MAIN_HITBOX_NATURAL_EARLY_GUARDS_AFTER986_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af986b/report.json,
+  SHA-256 f9fb84eddb743fa3f2ff961eb11e87362ec1ba5ef09703310f25d1ec1755d2e5.
+- **Latest HitCircle source-current follow-up: `af985b`.** The complete
+  four-function hitcirc owner was rebuilt in two original TC4 rounds with
+  the complete normal MAIN link: **445 CODE bytes, 30 ordered OMF FIXUPPs
+  and four PUBLICs**. Both thirteen-slot lifetime traversal and twelve-slot
+  enemy rendering now use natural for headers with prefix index-before-pointer
+  updates; the player sprite remains a separate final draw. See
+  [HitCircle lifetime/render loops after985](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af985b/report.json,
+  SHA-256 000fc1edb8af9c71f4daa3c91f14a9c64825f8fb4b06e89c1b25853d804641a1.
 - **Latest Chiyuri major-BOSS source-current follow-up: `af973b`.** The
   complete eleven-function ba_chiyu owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,654 CODE bytes, 381
@@ -231,29 +238,25 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   and [Yumemi rain/arrival loops after979](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af983a/report.json,
   SHA-256 53a363645f48f4b17ef8cae6c119812b4fa6737504fc8249f88a2bd581645c9b.
-- **Latest Mima major-BOSS source-current follow-up: `af980f`.** The
+- **Latest Mima major-BOSS source-current follow-up: `af984b`.** The
   complete nine-function ba_mima BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,922 CODE bytes, 277
-  ordered OMF FIXUPPs and nine PUBLICs**. The random-bomb four-frame clock
-  now uses a natural unsigned low-bit test, in addition to the three
-  even-frame gates and natural split-angle assignment. Both links reproduce
-  the 124,642-byte Japanese MAIN image and all 1,553 MZ relocations. See
-  [Mima quarter clock after980](MAIN_MIMA_BOSS_NATURAL_QUARTER_CLOCK_AFTER980_REVIEW.md)
-  and [Mima split angle/clocks after977](MAIN_MIMA_BOSS_NATURAL_SPLIT_AND_CLOCK_AFTER977_REVIEW.md).
-  Protected report: .analysis/work/exatt-layout-af980f/report.json,
-  SHA-256 c53ba6e23cda9bdc02a0ce238aa6ed074b615e0760e87a679f1ff32155046fae.
-- **Latest Reimu major-BOSS source-current follow-up: `af982e`.** The
+  ordered OMF FIXUPPs and nine PUBLICs**. The spread and medium-pellet
+  byte-angle updates now use ordinary addition/assignment; the separate
+  signed orbit-steering byte retains its compound update. See
+  [Mima spread-angle assignments after984](MAIN_MIMA_BOSS_NATURAL_SPREAD_ANGLE_ASSIGNMENTS_AFTER984_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af984b/report.json,
+  SHA-256 01f13a472e8979f2a4b67f35a8c38e38d5c1672bb391632873fb24f80147ad75.
+- **Latest Reimu major-BOSS source-current follow-up: `af986a`.** The
   complete nine-function ba_reimu BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,020 CODE bytes, 270
-  ordered OMF FIXUPPs and nine PUBLICs**. All five orbit/renderer/intro
-  loops now use natural for headers; the intro comma-expression preserves
-  index-before-angle update order. Template and render states are named,
-  and both local cloud-angle updates use ordinary byte-angle assignment.
-  Both links reproduce the 124,642-byte Japanese MAIN image and all 1,553
-  MZ relocations. See
-  [Reimu orbit and intro loops after982](MAIN_REIMU_BOSS_NATURAL_ORBIT_AND_INTRO_LOOPS_AFTER982_REVIEW.md).
-  Protected report: .analysis/work/exatt-layout-af982e/report.json,
-  SHA-256 6f63301c51bfb45cbd7716d20e28fc5d9b21ac70cbe8c8229b12d4213140c176.
+  ordered OMF FIXUPPs and nine PUBLICs**. All five loops use prefix
+  increments; the intro comma-expression keeps index-before-angle order.
+  The cloud direction predicate is explicit and its negative byte angle
+  uses an explicit unsigned-byte conversion. See
+  [Reimu prefix loops and cloud byte wrap after986](MAIN_REIMU_BOSS_NATURAL_PREFIX_AND_CLOUD_BYTE_AFTER986_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af986a/report.json,
+  SHA-256 95dca00485bf6eec6b02c95caa377fe7264be5e0727270c6b72122e26553102c.
 - **Earlier Reimu source-current follow-up: `af944a`.** The complete
   nine-function BOSS was rebuilt in two original TC4 rounds with its normal
   MAIN link: 2,020 CODE bytes, 270 ordered OMF FIXUPPs and nine PUBLICs.
@@ -278,15 +281,16 @@ scopes**, not one combined 99-original-source replay:
 | `af973b` | 1 | 2,654 |
 | `af975d` | 1 | 1,431 |
 | `af968c` | 1 | 1,840 |
-| `af931b` | 1 | 445 |
+| `af985b` | 1 | 445 |
 | `af966a` | 1 | 1,874 |
 | `af964e` | 1 | 1,555 |
 | `af964a` | 1 | 1,675 |
 | `af963a` | 1 | 1,677 |
 | `af959b` | 1 | 2,654 |
 | `af983a` | 1 | 2,358 |
-| `af982e` | 1 | 2,020 |
-| `af980f` | 1 | 1,922 |
+| `af986b` | 1 | 266 |
+| `af986a` | 1 | 2,020 |
+| `af984b` | 1 | 1,922 |
 | `af944a` | 1 | 2,020 |
 | `af935a` | 7 | 7,886 |
 | `af927a` | 5 | 7,833 |
@@ -306,17 +310,21 @@ superseded by `af974c`, which is itself superseded by the postfix-loop
 source proof `af976a`. The Marisa `af971a` and `af971b` stages are
 superseded by the combined renderer/register source proof `af975d`.
 Yumemi `af956a`, `af979a` and `af980e` are historical after the
-current full-BOSS source proof `af983a`; Mima `af952a` and `af977d` are
-historical after `af980f`. Reimu `af944a` and `af982c` are historical after
-`af982e`. Reimu's af981b and af981d loop combinations are negative
-compiler results; the intro loop requires its index update before the
-angle update in the for-header comma-expression. The direct cloud-speed
-assignment in af982d also changed complete BOSS CODE; the current postfix
-increment remains. Mima's af980a, af980c
-and af980d trials are preserved negative compiler results: the combined
-trail/particle branch, byte-frame assignment, and reversed signed-angle
-assignment each changed complete BOSS CODE. Use af982e, af983a, af980f,
-af976a, af975d, af973b, af968c and af931b for current source binding.
+current full-BOSS source proof `af983a`. Mima `af952a`, `af977d` and
+`af980f` are historical after `af984b`. Reimu `af944a`, `af982c` and
+`af982e` are historical after `af986a`. HitCircle `af931b` is historical
+after `af985b`; Hitbox `af983c` is historical after `af986b`. Reimu
+af981b/af981d loop variants and unary negative-angle form changed complete
+CODE; the prefix comma-expression and explicit unsigned-byte subtraction
+are the current native-exact forms. The direct cloud-speed assignment in
+af982d also changed complete BOSS CODE; the original postfix increment
+remains. HitCircle af985c pointer-first for-header order changed complete
+CODE. Hitbox af983d pointer-first scan update and af984d direct explosion
+call also changed complete CODE; the current index-first scan and explicit
+far/near bridge remain. Mima af980a/af980c/af980d control-flow and
+frame/angle variants, plus af984c explicit signed-orbit cast, are
+preserved negative compiler results. Use af986b, af985b, af986a, af984b,
+af983a, af976a, af975d, af973b, af968c and af931b for current source binding.
 Marisa's
 `af935a` and older single-object `af930e` receipts are now historical for
 ba_maris after `af969a`. Use `af968c` and `af969a` for current
@@ -466,15 +474,19 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current Reimu orbit and intro loops](MAIN_REIMU_BOSS_NATURAL_ORBIT_AND_INTRO_LOOPS_AFTER982_REVIEW.md)
+- [Current Reimu prefix loops and cloud byte wrap](MAIN_REIMU_BOSS_NATURAL_PREFIX_AND_CLOUD_BYTE_AFTER986_REVIEW.md)
+- [Current Hitbox early guard clauses](MAIN_HITBOX_NATURAL_EARLY_GUARDS_AFTER986_REVIEW.md)
+- [Current HitCircle lifetime and render for loops](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md)
+- [Current Mima spread-angle assignments](MAIN_MIMA_BOSS_NATURAL_SPREAD_ANGLE_ASSIGNMENTS_AFTER984_REVIEW.md)
+- [Earlier Reimu orbit and intro loops](MAIN_REIMU_BOSS_NATURAL_ORBIT_AND_INTRO_LOOPS_AFTER982_REVIEW.md)
 - [Current Yumemi rain-loop prefix increment](MAIN_YUMEMI_BOSS_NATURAL_RAIN_INCREMENT_AFTER980_REVIEW.md)
-- [Current Mima random-bomb quarter clock](MAIN_MIMA_BOSS_NATURAL_QUARTER_CLOCK_AFTER980_REVIEW.md)
+- [Earlier Mima random-bomb quarter clock](MAIN_MIMA_BOSS_NATURAL_QUARTER_CLOCK_AFTER980_REVIEW.md)
 - [Current Yumemi rain and arrival for-loop source work](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md)
 - [Current Mima split-angle and even-frame clock source work](MAIN_MIMA_BOSS_NATURAL_SPLIT_AND_CLOCK_AFTER977_REVIEW.md)
 - [Current Kana postfix for-loop source work](MAIN_KANA_BOSS_NATURAL_FOR_POSTFIX_AFTER976_REVIEW.md)
 - [Current Marisa flicker and split renderer](MAIN_MARISA_BOSS_NATURAL_FLICKER_AND_SPLIT_AFTER975_REVIEW.md)
 - [HitCircle cel register allocation experiments](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md)
-- [Current HitCircle natural spawn stores](MAIN_HITCIRCLE_NATURAL_SPAWN_AFTER931_REVIEW.md)
+- [Earlier HitCircle natural spawn stores](MAIN_HITCIRCLE_NATURAL_SPAWN_AFTER931_REVIEW.md)
 - [Earlier Kana staged-volley natural C++ work](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md)
 - [Current Chiyuri natural ring-render scaling](MAIN_CHIYURI_BOSS_NATURAL_RENDER_SCALE_AFTER973_REVIEW.md)
 - [Current Chiyuri lifecycle predicates](MAIN_CHIYURI_BOSS_NATURAL_LIFECYCLE_PREDICATES_AFTER972_REVIEW.md)
