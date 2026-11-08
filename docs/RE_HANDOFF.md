@@ -367,8 +367,9 @@ scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
 (af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q/af1030s/af1030t), and update
 SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
-explicit radial register indices/order, positive update INTRO branch and
-Pellet Arc finish predicate (af1026i/af1029l/af1030m/af1030w), and
+explicit radial register indices/order, scoped radial while loops,
+positive update INTRO branch and Pellet Arc finish predicate
+(af1026i/af1029l/af1030m/af1030w/af1031h), and
 HitCircle's age-update/render register locals and active guard
 (af1025d/af1027f/af1027g/af1028c/af1028d). The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
@@ -441,12 +442,14 @@ See
 [the after1024 source review](MAIN_KOTOHIME_RADIAL_AND_HITCIRCLE_ENUMS_AFTER1024_REVIEW.md)
 and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.md).
 
-- **Kotohime Radial Burst:** the complete nested generator now has one
-  release-branch scratch scope for x, y, center_angle, bullet_i and
-  center_i. Both natural loops use postfix index increments and
-  constant-first count comparisons. The original signed 16-bit
-  multiply/divide order, byte-angle truncation, polar calls and bullet
-  emission order remain. Replacing either loop bound with != changed CODE.
+- **Kotohime Radial Burst:** the complete nested generator now uses two
+  pre-tested `while` loops with explicit register DI/SI indices and
+  per-center scratch scope. `x`, `y` and `center_angle` live in the outer
+  body; `bullet_i` is initialized at its inner-loop declaration. Both
+  `index < count` guards and prefix increments compile to the original
+  instructions. The signed 16-bit multiply/divide order, byte-angle
+  truncation, polar calls and bullet emission order remain exact (af1031h).
+  See the [after1031 radial-loop review](MAIN_KOTOHIME_RADIAL_SCOPED_WHILE_LOOPS_AFTER1031_REVIEW.md).
 - **HitCircle:** layout/animation and capacity constants are grouped into
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.

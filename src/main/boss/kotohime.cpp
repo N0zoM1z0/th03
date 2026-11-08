@@ -365,16 +365,15 @@ void near kotohime_pattern_radial_burst(void)
 		bullet_template.group = BG_1;
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
-		// Original inner burst is a genuine nested O(center_count *
-		// burst_count) traversal, retaining division before angle truncation.
-		// Both natural for-headers preserve the original TC4 code.
-		int x;
-		int y;
-		unsigned char center_angle;
-		register int center_i;
-		register int bullet_i;
-		for(center_i = 0; kotohime_orbit_count > center_i; center_i++) {
-
+		// The nested O(center_count * burst_count) traversal keeps the
+		// original DI/SI order and division before angle truncation.
+		// Center scratch lives for one outer iteration; bullet_i only for
+		// that center's inner burst. Both pre-tested while loops are exact.
+		register int center_i = 0;
+		while(center_i < kotohime_orbit_count) {
+			register int x;
+			register int y;
+			register unsigned char center_angle;
 			center_angle = (
 				((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
 				boss_move_phase
@@ -392,7 +391,8 @@ void near kotohime_pattern_radial_burst(void)
 			bullet_template.center.x.v = x;
 			bullet_template.center.y.v = y;
 
-			for(bullet_i = 0; kotohime_burst_count > bullet_i; bullet_i++) {
+			register int bullet_i = 0;
+			while(bullet_i < kotohime_burst_count) {
 				bullet_template.angle = (
 					((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
 					center_angle +
@@ -403,7 +403,9 @@ void near kotohime_pattern_radial_burst(void)
 					KOTOHIME_BURST_SPEED_BASE
 				);
 				bullets_add();
+				++bullet_i;
 			}
+			++center_i;
 		}
 
 		snd_se_play(KOTOHIME_SOUND_ATTACK);
