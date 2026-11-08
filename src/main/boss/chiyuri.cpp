@@ -193,8 +193,6 @@ void far pascal boss_chiyuri_template_init(int player_id)
 
 void near chiyuri_pattern_cardinal(void)
 {
-	pid_t pid_other;
-
 	// The unsigned-word frame remainder comparison is native-exact with
 	// the natural remainder-first spelling as well (af1013e).
 	if((boss_frame % chiyuri_cardinal_interval) != 1) {
@@ -202,6 +200,8 @@ void near chiyuri_pattern_cardinal(void)
 	}
 
 	if(boss_frame == 1) {
+		pid_t pid_other;
+
 		chiyuri_cardinal_angle = 0xE0;
 		chiyuri_cardinal_reverse = 0;
 		pid_other = (1 - pid_current);
