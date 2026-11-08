@@ -261,6 +261,12 @@ ordered native fields and 15 PUBLICs, with both original TC4 rounds and the
 complete Japanese MAIN image/relocations exact. See the
 [after1028 Chiyuri/HitCircle integration review](MAIN_CHIYURI_HITCIRCLE_INTEGRATION_AFTER1028_REVIEW.md).
 
+After the Mima render-phase and Chiyuri fan-loop changes, both complete BOSS
+owners were rebuilt together at af1029k: 4,576 CODE bytes, 658 ordered native
+fields and 20 PUBLICs, with two original TC4 rounds and the complete Japanese
+MAIN image/relocations exact. See the
+[after1029 Mima/Chiyuri integration review](MAIN_BOSS_MIMA_CHIYURI_INTEGRATION_AFTER1029_REVIEW.md).
+
 See
 [the after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md),
 [the after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md),
