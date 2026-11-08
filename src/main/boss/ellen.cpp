@@ -106,6 +106,20 @@ enum ellen_render_layout_t {
     ELLEN_RENDER_INTRO_HALF = 16,
 };
 
+enum ellen_level_scaling_t {
+    ELLEN_BULLET_SPEED_SCALE = 2,
+    ELLEN_BULLET_SPEED_BASE = 0x32,
+    ELLEN_EXTRA_COUNT_DIVISOR = 10,
+    ELLEN_EXTRA_COUNT_BASE = 4,
+    ELLEN_PELLET_SPEED_BASE = 0x30,
+    ELLEN_PELLET_INTERVAL_BASE = 10,
+    ELLEN_PELLET_INTERVAL_DIVISOR = 3,
+    ELLEN_EXTRA_RENDER_STEP = 3,
+    ELLEN_SPREAD_PERIOD = 2,
+    ELLEN_SPREAD_VOLLEY_COUNT = 8,
+    ELLEN_STRIP_HEIGHT_DIVISOR = 2,
+};
+
 enum ellen_attack_sound_t {
     ELLEN_SOUND_SPREAD = 3,
     ELLEN_SOUND_PELLET = 10,
@@ -185,7 +199,7 @@ void near ellen_pattern_spread(void)
 	}
 
 	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
-		if(!(boss_frame % 2)) {
+		if(!(boss_frame % ELLEN_SPREAD_PERIOD)) {
 			goto fire_single;
 		}
 		goto done;
@@ -196,7 +210,7 @@ void near ellen_pattern_spread(void)
 		// A named mutable byte step is exact as C++ `angle=angle+enum`
 		// (af893k), unlike replacing literal `angle +=8` with enum.
 		i = 0;
-		while(i < 8) {
+		while(i < ELLEN_SPREAD_VOLLEY_COUNT) {
 			bullets_add();
 			ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 			bullet_template.angle = ellen_spread_angle;
@@ -207,7 +221,7 @@ void near ellen_pattern_spread(void)
 	if(boss_frame > ELLEN_SPREAD_FINISH) {
 		goto done;
 	}
-	if(boss_frame % 2) {
+	if(boss_frame % ELLEN_SPREAD_PERIOD) {
 		goto done;
 	}
 
@@ -243,7 +257,7 @@ void near ellen_pattern_extra(void)
 	unsigned char angle;
 	register int i;
 
-	boss_render_frame += 3;
+	boss_render_frame = boss_render_frame + ELLEN_EXTRA_RENDER_STEP;
 
 	if(boss_frame < ELLEN_EXTRA_WARN_START) {
 		return;
@@ -362,10 +376,10 @@ void far gba_boss_update_ellen(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		ellen_bullet_speed = ((gba_boss_level * 2) + 0x32);
-		ellen_extra_count = ((gba_boss_level / 10) + 4);
-		ellen_pellet_speed = (gba_boss_level + 0x30);
-		ellen_pellet_interval = (10 - (gba_boss_level / 3));
+		ellen_bullet_speed = ((gba_boss_level * ELLEN_BULLET_SPEED_SCALE) + ELLEN_BULLET_SPEED_BASE);
+		ellen_extra_count = ((gba_boss_level / ELLEN_EXTRA_COUNT_DIVISOR) + ELLEN_EXTRA_COUNT_BASE);
+		ellen_pellet_speed = (gba_boss_level + ELLEN_PELLET_SPEED_BASE);
+		ellen_pellet_interval = (ELLEN_PELLET_INTERVAL_BASE - (gba_boss_level / ELLEN_PELLET_INTERVAL_DIVISOR));
 	}
 
 	if(pid_current != gba_boss_launched_by) {
@@ -455,7 +469,7 @@ void near pascal ellen_render_strip(int frame_i)
 		ELLEN_RENDER_STRIP_BASE
 	);
 	sprite16_put_size.w = ELLEN_RENDER_STRIP_WIDTH;
-	sprite16_put_size.h = (ellen_render_heights[i] / 2);
+	sprite16_put_size.h = (ellen_render_heights[i] / ELLEN_STRIP_HEIGHT_DIVISOR);
 
 	left = (
 		playfield_fg_x_to_screen(

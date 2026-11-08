@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af961c`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af962a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,6 +56,14 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Ellen major-BOSS source-current follow-up: `af962a`.** The
+  complete nine-function `ba_ellen` BOSS was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,675 CODE bytes, 213
+  ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese
+  loaded bytes and 1,553 ordered MZ relocations exact. The other 98 original
+  game objects and CRT were reused. See [Ellen BOSS native C++ after962](MAIN_ELLEN_BOSS_LEVEL_AND_CADENCE_AFTER962_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af962a/report.json`,
+  SHA-256 `0d4c188c64c0a551c2fa4c43cadf65f2ddfc7f2ae5bda69d6ad0a5cfaa5d7b71`.
 - **Latest Rikako major-BOSS source-current follow-up: `af961c`.** The
   complete eight-function `ba_rikak` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,677 CODE bytes, 215
@@ -118,8 +126,8 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af962a` | 1 | 1,675 |
 | `af961c` | 1 | 1,677 |
-| `af960a` | 1 | 1,675 |
 | `af959b` | 1 | 2,654 |
 | `af956a` | 1 | 2,358 |
 | `af952a` | 1 | 1,922 |
@@ -132,6 +140,10 @@ scopes**, not one combined 99-original-source replay:
 | `af880h` | 2 | 1,245 |
 | `af882e` | 1 | 49 |
 
+The older Ellen `af960a` receipt is now a historical source snapshot after
+`af962a` changed the same physical owner; preserve it, but use `af962a` for
+current source binding. `af961b` and `af961a` are likewise earlier Rikako
+source snapshots superseded by `af961c`.
 `af921a` (`hitcirc`), `af903a` (`bullet`), `af896a` (all four physical
 `enemy.cpp` consumers), `af883a` and `af881i` (`ba_maris`) no longer
 bind to the changed maintained source hashes. Their original native outputs
@@ -263,6 +275,7 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Latest Ellen BOSS level/cadence source/native follow-up](MAIN_ELLEN_BOSS_LEVEL_AND_CADENCE_AFTER962_REVIEW.md)
 - [Latest Rikako BOSS source/native follow-up](MAIN_RIKAKO_BOSS_TEMPLATE_LEVEL_RENDER_AFTER961_REVIEW.md)
 - [Latest Ellen BOSS source/native follow-up](MAIN_ELLEN_BOSS_TEMPLATE_RENDER_AFTER960_REVIEW.md)
 - [Latest Chiyuri BOSS source/native follow-up](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md)
