@@ -458,8 +458,8 @@ void near yumemi_pattern_rain(void)
 			bullet_template.center.y.v = 0;
 			// Twelve physically separate RNG-X and byte-angle draws, with
 			// one bullet add per iteration before advancing signed i.
-			// Native original 16-bit TC4 accepts this natural while.
-			for(i = 0; i < YUMEMI_RAIN_DROPS_PER_WAVE; i++) {
+			// Both prefix and postfix for-header increments are TC4-exact.
+			for(i = 0; i < YUMEMI_RAIN_DROPS_PER_WAVE; ++i) {
 				bullet_template.center.x.v =
 					randring_far_next16_mod(TO_SP(PLAYFIELD_W));
 				bullet_template.angle = (
