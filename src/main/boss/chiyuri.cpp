@@ -332,9 +332,7 @@ void near chiyuri_pattern_trail_ring(void)
 		);
 	}
 
-	if(CHIYURI_TRAIL_FIRE_FRAME != boss_frame) {
-		return;
-	}
+	if(CHIYURI_TRAIL_FIRE_FRAME == boss_frame) {
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = boss_center_y;
@@ -350,6 +348,7 @@ void near chiyuri_pattern_trail_ring(void)
 	boss_mode = CHIYURI_MODE_SELECT;
 	boss_frame = 0;
 	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
+	}
 }
 
 // The horizontal fans fire at 0x20 and vertical fans at 0x40;
