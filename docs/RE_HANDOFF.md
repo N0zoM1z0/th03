@@ -568,7 +568,10 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   and finish comparisons, X-origin base-first addition, and direct truth
   guards for both effect/render countdowns (af1036j/k). The level-derived
   divisions by two remain divisions; replacing them with shifts changed CODE.
-  See the [after1036 update review](MAIN_YUMEMI_UPDATE_LEVEL_AND_COUNTDOWN_AFTER1036_REVIEW.md),
+  Its Ring attack leaf now uses constant-first phase tests, a constant-first
+  RNG bit test, modulo-four firing cadence and compound byte-speed progression
+  (af1036m). See the [after1036 Ring review](MAIN_YUMEMI_RING_PHASE_AND_SPEED_AFTER1036_REVIEW.md),
+  [after1036 update review](MAIN_YUMEMI_UPDATE_LEVEL_AND_COUNTDOWN_AFTER1036_REVIEW.md),
   [after1032 PID-scope review](MAIN_YUMEMI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
   and [after1033 INTRO-branch review](MAIN_YUMEMI_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
 - **Marisa:** the complete 269-byte update controller now scopes its

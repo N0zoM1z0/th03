@@ -194,28 +194,28 @@ enum yumemi_ring_phase_t {
 
 void near yumemi_pattern_ring(void)
 {
-	if(boss_frame == YUMEMI_RING_INIT_FRAME) {
+	if(YUMEMI_RING_INIT_FRAME == boss_frame) {
 		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		yumemi_angle = randring_far_next16();
 		yumemi_speed_add = 0;
 		boss_effect_radius = YUMEMI_RING_INITIAL_RADIUS;
 		yumemi_angle_delta = (
-			(randring_far_next16_and(1) == 0) ? YUMEMI_RING_ANGLE_DELTA_RIGHT : YUMEMI_RING_ANGLE_DELTA_LEFT
+			(0 == randring_far_next16_and(1)) ? YUMEMI_RING_ANGLE_DELTA_RIGHT : YUMEMI_RING_ANGLE_DELTA_LEFT
 		);
 	}
 
-	if(boss_frame < YUMEMI_RING_WARNING_END) {
+	if(YUMEMI_RING_WARNING_END > boss_frame) {
 		bomb_axis_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
 			bullet_template.pid
 		);
 		return;
-	} else if(boss_frame < YUMEMI_RING_BULLET_START) {
+	} else if(YUMEMI_RING_BULLET_START > boss_frame) {
 		return;
 	}
 
-	if(boss_frame == YUMEMI_RING_BULLET_START) {
+	if(YUMEMI_RING_BULLET_START == boss_frame) {
 		bomb_explosion_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
@@ -226,7 +226,7 @@ void near yumemi_pattern_ring(void)
 	}
 
 	// The unsigned 16-bit ring cadence is a natural low-bit test.
-	if((boss_frame & (YUMEMI_RING_FIRE_PERIOD - 1)) == 0) {
+	if(0 == (boss_frame % YUMEMI_RING_FIRE_PERIOD)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -240,10 +240,10 @@ void near yumemi_pattern_ring(void)
 		// direct `angle = angle + signed_delta` changed native CODE
 		// in the fresh original compiler trial af897c.
 		yumemi_angle += yumemi_angle_delta;
-		yumemi_speed_add = yumemi_speed_add + YUMEMI_RING_SPEED_ADD_STEP;
+		yumemi_speed_add += YUMEMI_RING_SPEED_ADD_STEP;
 	}
 
-	if(boss_frame > YUMEMI_RING_FINISH_AFTER) {
+	if(YUMEMI_RING_FINISH_AFTER < boss_frame) {
 		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
