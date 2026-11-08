@@ -538,7 +538,7 @@ void far gba_boss_update_chiyuri(void)
 		}
 		if(boss_frame >= CHIYURI_SELECT_TIME_AT) {
 			boss_frame = 0;
-			boss_mode = (randring_far_next16_and(0x0F) + 2);
+			boss_mode = (randring_far_next16_and(0x0F) + CHIYURI_MODE_CARDINAL_0);
 			boss_pattern_i++;
 			if(boss_pattern_i > boss_pattern_count) {
 				boss_mode = CHIYURI_MODE_DESCEND;

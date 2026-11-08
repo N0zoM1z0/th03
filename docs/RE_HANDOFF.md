@@ -366,8 +366,8 @@ Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/po
 scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
 (af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q/af1030s/af1030t), and update
-SELECT register byte/index scaling/timer/palette guards/render cadence/phase
-truth (af1028f/af1032b/af1032c/af1032e/af1030c/af1030d/af1030e), Kotohime's
+SELECT register byte/index scaling/timer/palette/random-mode guards/render
+cadence/phase truth (af1028f/af1032b/af1032c/af1032e/af1032f/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order, scoped radial while loops,
 positive update INTRO branch and Pellet Arc finish predicate
 (af1026i/af1029l/af1030m/af1030w/af1031h), and
@@ -478,16 +478,17 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md)
   and [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md).
 - **Chiyuri:** the 613-byte update controller's SELECT path now expresses
-  its paired-center word index as `randring_far_next16_mod(5) << 1` and its
-  unsigned timer threshold as `boss_frame >= CHIYURI_SELECT_TIME_AT`
-  and its palette-cycle guard in variable-first form (af1032b/c/e). The
-  random call remains single-evaluation and the shared X/Y index is unchanged.
-  Caching the seven level-derived formulas through one
-  local byte changed complete CODE and was reverted. Cardinal, Rings, Fans
-  and Trail retain their named clocks and original bullet-call ordering. See
-  the [SELECT index review](MAIN_CHIYURI_UPDATE_SELECT_INDEX_SHIFT_AFTER1032_REVIEW.md)
-  and [timer review](MAIN_CHIYURI_UPDATE_SELECT_TIMER_VARIABLE_FIRST_AFTER1032_REVIEW.md)
-  and [palette guard review](MAIN_CHIYURI_UPDATE_PALETTE_GUARD_VARIABLE_FIRST_AFTER1032_REVIEW.md).
+  its paired-center word index as `randring_far_next16_mod(5) << 1`, its
+  unsigned timer threshold as `boss_frame >= CHIYURI_SELECT_TIME_AT`, its
+  palette-cycle guard in variable-first form, and its random mode base as
+  `CHIYURI_MODE_CARDINAL_0` (af1032b/c/e/f). The random call remains
+  single-evaluation and the shared X/Y index is unchanged. Caching the seven
+  level-derived formulas through one local byte changed complete CODE and was
+  reverted. Cardinal, Rings, Fans and Trail retain their named clocks and
+  original bullet-call ordering. See the [SELECT index review](MAIN_CHIYURI_UPDATE_SELECT_INDEX_SHIFT_AFTER1032_REVIEW.md),
+  [timer review](MAIN_CHIYURI_UPDATE_SELECT_TIMER_VARIABLE_FIRST_AFTER1032_REVIEW.md),
+  [palette guard review](MAIN_CHIYURI_UPDATE_PALETTE_GUARD_VARIABLE_FIRST_AFTER1032_REVIEW.md),
+  and [random-mode base review](MAIN_CHIYURI_UPDATE_RANDOM_MODE_BASE_ENUM_AFTER1032_REVIEW.md).
 
 Recommended next targets:
 
