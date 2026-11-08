@@ -428,11 +428,8 @@ void far gba_boss_update_kotohime(void)
 		kotohime_burst_count = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_BURST_BASE);
 	}
 
-	if(pid_current != gba_boss_launched_by) {
-		return;
-	}
-
-	pid_other = (1 - pid_current);
+	if(pid_current == gba_boss_launched_by) {
+		pid_other = (1 - pid_current);
 	boss_target_update();
 	bullet_template.pid = pid_other;
 	++boss_frame;
@@ -504,6 +501,9 @@ void far gba_boss_update_kotohime(void)
 	boss_hp -= boss_hit;
 	hitbox_hittest_skip_explosions = false;
 	boss_hittest_end();
+	} else {
+		return;
+	}
 }
 
 void near pascal kotohime_render_ring(int count)
