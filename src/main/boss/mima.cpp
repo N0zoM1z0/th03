@@ -231,7 +231,7 @@ void near mima_pattern_spread(void)
 		bullet_template.is_animated = true;
 		// Unlike some other BOSS byte-angle updates, named original
 		// increment constants are TC4 byte-exact here (af855f/g).
-		mima_spread_angle += MIMA_SPREAD_ANGLE_STEP;
+		mima_spread_angle = mima_spread_angle + MIMA_SPREAD_ANGLE_STEP;
 
 		if(
 			(mima_pellet_until > boss_frame) &&
@@ -248,7 +248,7 @@ void near mima_pattern_spread(void)
 			bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
 			bullets_add();
 		}
-		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
+		mima_pellet_angle = mima_pellet_angle + MIMA_PELLET_ANGLE_STEP;
 	}
 
 	if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
