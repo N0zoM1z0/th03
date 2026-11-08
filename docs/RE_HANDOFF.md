@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af976a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af979a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -220,22 +220,28 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   game objects and CRT were reused. See [Chiyuri BOSS native C++ after959](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af959b/report.json`,
   SHA-256 `2a3f864b74ed5c01b6b0217833ce46ecb04ea8930cd8af301503658329baba69`.
-- **Latest Yumemi major-BOSS source-current follow-up: `af956a`.** The
-  full ten-function `ba_yumem` BOSS was rebuilt in two original TC4 rounds
-  with the complete normal MAIN link: **2,358 CODE bytes, 343 ordered OMF
-  FIXUPPs and ten PUBLICs**, with all 124,642 Japanese loaded bytes and
-  1,553 ordered MZ relocations exact. The other 98 original game objects
-  and CRT were reused. See [Yumemi BOSS native C++ after956](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md).
-  Protected report: `.analysis/work/exatt-layout-af956a/report.json`,
-  SHA-256 `418f24c6cf9c7aa8b2bb5480ef4b7fb808642da2b46ff37e052157c614b35c7a`.
-- **Latest Mima major-BOSS source-current follow-up: `af952a`.** The full
-  nine-function `ba_mima` BOSS was rebuilt in two original TC4 rounds with
-  the complete normal MAIN link: **1,922 CODE bytes, 277 ordered OMF
-  FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded bytes and
-  1,553 ordered MZ relocations exact. The other 98 original game objects
-  and CRT were reused. See [Mima BOSS native C++ after952](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md).
-  Protected report: `.analysis/work/exatt-layout-af952a/report.json`,
-  SHA-256 `d780002d0d8b5daf2756232c0b6e92d461813e045d15a9397b5478b8b7ecee13`.
+- **Latest Yumemi major-BOSS source-current follow-up: `af979a`.** The
+  complete ten-function ba_yumem BOSS was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **2,358 CODE bytes, 343
+  ordered OMF FIXUPPs and ten PUBLICs**. The twelve-drop rain attack and
+  all four arrival raster loops now use natural for headers; template,
+  chase state, level setup and ring-speed assignment are naturalized too.
+  Both complete links reproduce the 124,642-byte Japanese MAIN image and
+  all 1,553 MZ relocations. See
+  [Yumemi rain and arrival loops after979](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af979a/report.json,
+  SHA-256 5c7c99e5d98807825788fbd30878fd82505954e68334f617a6879c2f7aac7d09.
+- **Latest Mima major-BOSS source-current follow-up: `af977d`.** The
+  complete nine-function ba_mima BOSS was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,922 CODE bytes, 277
+  ordered OMF FIXUPPs and nine PUBLICs**. The split renderer uses natural
+  byte-angle assignment; all three even-frame attack clocks use a natural
+  unsigned low-bit test; template states, seven level parameters and the
+  main hit predicate are named. Both complete links reproduce the 124,642
+  Japanese MAIN image and all 1,553 MZ relocations. See
+  [Mima split angle and attack clocks after977](MAIN_MIMA_BOSS_NATURAL_SPLIT_AND_CLOCK_AFTER977_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af977d/report.json,
+  SHA-256 7daf60464eb63bb7bf3ec43cd7f2f9d2a73cf86b9e72a3c5acacc8dd79f762a3.
 - **Latest single-object source-current MAIN follow-up: `af944a`.** The
   complete nine-function Reimu major BOSS (`ba_reimu`) was recompiled in
   two original TC4 rounds with its complete normal MAIN link: **2,020 CODE
@@ -268,8 +274,8 @@ scopes**, not one combined 99-original-source replay:
 | `af964a` | 1 | 1,675 |
 | `af963a` | 1 | 1,677 |
 | `af959b` | 1 | 2,654 |
-| `af956a` | 1 | 2,358 |
-| `af952a` | 1 | 1,922 |
+| `af979a` | 1 | 2,358 |
+| `af977d` | 1 | 1,922 |
 | `af944a` | 1 | 2,020 |
 | `af935a` | 7 | 7,886 |
 | `af927a` | 5 | 7,833 |
@@ -288,7 +294,10 @@ after `af973b`; and Marisa `af969a` and `af971b` are historical after
 superseded by `af974c`, which is itself superseded by the postfix-loop
 source proof `af976a`. The Marisa `af971a` and `af971b` stages are
 superseded by the combined renderer/register source proof `af975d`.
-Use af976a, af975d, af973b, af968c and af931b for current source binding.
+Yumemi `af956a` is historical after the current full-BOSS source proof
+`af979a`; Mima `af952a` is historical after `af977d`. Use af979a,
+af977d, af976a, af975d, af973b, af968c and af931b for current source
+binding.
 Marisa's
 `af935a` and older single-object `af930e` receipts are now historical for
 ba_maris after `af969a`. Use `af968c` and `af969a` for current
@@ -438,6 +447,8 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Current Yumemi rain and arrival for-loop source work](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md)
+- [Current Mima split-angle and even-frame clock source work](MAIN_MIMA_BOSS_NATURAL_SPLIT_AND_CLOCK_AFTER977_REVIEW.md)
 - [Current Kana postfix for-loop source work](MAIN_KANA_BOSS_NATURAL_FOR_POSTFIX_AFTER976_REVIEW.md)
 - [Current Marisa flicker and split renderer](MAIN_MARISA_BOSS_NATURAL_FLICKER_AND_SPLIT_AFTER975_REVIEW.md)
 - [HitCircle cel register allocation experiments](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md)
@@ -458,8 +469,8 @@ target. Preserve dirty source changes and commit meaningful progress as
 - [Rikako BOSS template/level/render follow-up](MAIN_RIKAKO_BOSS_TEMPLATE_LEVEL_RENDER_AFTER961_REVIEW.md)
 - [Latest Ellen BOSS source/native follow-up](MAIN_ELLEN_BOSS_TEMPLATE_RENDER_AFTER960_REVIEW.md)
 - [Latest Chiyuri BOSS source/native follow-up](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md)
-- [Latest Yumemi BOSS source/native follow-up](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md)
-- [Latest Mima BOSS source/native follow-up](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md)
+- [Earlier Yumemi BOSS render/template work](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md)
+- [Earlier Mima BOSS render/state work](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md)
 - [Latest Reimu BOSS source/native follow-up](MAIN_REIMU_BOSS_CLOUD_NATURAL_AFTER944_REVIEW.md)
 - [Seven-object integration snapshot (historical for Marisa)](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md)
 - [Earlier five-object source/native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)
