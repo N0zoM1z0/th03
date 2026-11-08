@@ -14,6 +14,30 @@ extern const char mainl_logo_palette[];
 extern char near *mainl_stage_bg;
 extern const char near *mainl_stage_number;
 extern const char mainl_stage_blank[];
+enum mainl_story_dispatch_result_t {
+ MAINL_STORY_RESULT_START = 0,
+ MAINL_STORY_RESULT_NOT_ACTIVE = 1,
+ MAINL_STORY_RESULT_BOSS_CUTSCENE = 3,
+ MAINL_STORY_RESULT_CLEAR_CUTSCENE = 4,
+ MAINL_STORY_RESULT_ENDING = 5,
+ MAINL_STORY_STAGE_BOSS = 7,
+ MAINL_STORY_STAGE_CLEAR = 8,
+ MAINL_STORY_STAGE_ENDING = 9,
+};
+
+enum mainl_win_animation_timing_t {
+ MAINL_WIN_FIRST_MEASURE = 6,
+ MAINL_WIN_FIRST_MEASURE_TICKS = 16,
+ MAINL_WIN_SECOND_MEASURE = 10,
+ MAINL_WIN_SECOND_MEASURE_TICKS = 64,
+ MAINL_WIN_LAST_MEASURE = 11,
+ MAINL_WIN_LAST_MEASURE_TICKS = 4,
+};
+
+enum mainl_character_decimal_t {
+ MAINL_CHARACTER_DECIMAL_BASE = 10,
+};
+
 extern "C" int near mainl_story_dispatch(void);
 extern "C" void near mainl_stage_load(void);
 extern "C" void near pascal cdg_free_all(void)
@@ -37,12 +61,12 @@ extern "C" void near mainl_win_animate(void)
  cdg_put_noalpha_8(352, 300, 0);
  snd_kaja_func(KAJA_SONG_PLAY, 0);
  palette_black_in(2);
- snd_delay_until_measure(6, 16);
+ snd_delay_until_measure(MAINL_WIN_FIRST_MEASURE, MAINL_WIN_FIRST_MEASURE_TICKS);
  for(cel = 1; cel < 5; cel++) {
   cdg_put_noalpha_8(352, 300, cel);
   frame_delay(6);
  }
- snd_delay_until_measure(10, 64);
+ snd_delay_until_measure(MAINL_WIN_SECOND_MEASURE, MAINL_WIN_SECOND_MEASURE_TICKS);
  PaletteTone = 200;
  palette_show();
  cdg_put_noalpha_8(224, 64, 6);
@@ -50,7 +74,7 @@ extern "C" void near mainl_win_animate(void)
  palette_entry_rgb(mainl_logo_palette);
  palette_show();
  cdg_free_all();
- snd_delay_until_measure(11, 4);
+ snd_delay_until_measure(MAINL_WIN_LAST_MEASURE, MAINL_WIN_LAST_MEASURE_TICKS);
  palette_white_in(1);
  frame_delay(8);
  win_text_put();
@@ -70,15 +94,15 @@ extern "C" int near mainl_story_dispatch(void)
 {
  int char_id;
  if(resident->game_mode != GM_STORY) {
-  return 1;
+  return MAINL_STORY_RESULT_NOT_ACTIVE;
  }
  if(resident->pid_winner != 0) {
-  return 1;
+  return MAINL_STORY_RESULT_NOT_ACTIVE;
  }
  resident->playchar_paletted[1].v = resident->story_opponents[resident->story_stage].v;
- if(resident->story_stage == 7) { return 3; }
- if(resident->story_stage == 8) { return 4; }
- if(resident->story_stage == 9) { return 5; }
+ if(resident->story_stage == MAINL_STORY_STAGE_BOSS) { return MAINL_STORY_RESULT_BOSS_CUTSCENE; }
+ if(resident->story_stage == MAINL_STORY_STAGE_CLEAR) { return MAINL_STORY_RESULT_CLEAR_CUTSCENE; }
+ if(resident->story_stage == MAINL_STORY_STAGE_ENDING) { return MAINL_STORY_RESULT_ENDING; }
  char_id = (resident->playchar_paletted[1].v - 1) / 2;
  if(char_id >= 7) {
   resident->playchar_paletted[1].v = TO_OPTIONAL_PALETTED(PLAYCHAR_REIMU);
@@ -172,7 +196,7 @@ extern "C" void near mainl_stage_intro(void)
  }
  pi_put_interlace_8(0, 304, 0);
  char_id = (resident->playchar_paletted[1].v - 1) / 2;
- if(char_id >= 10) {
+ if(char_id >= MAINL_CHARACTER_DECIMAL_BASE) {
   bgm_fn[0] = char_id / 10 + bgm_fn[0];
   char_id %= 10;
  }
@@ -201,13 +225,17 @@ extern "C" void near mainl_stage_intro(void)
 
 // Two complete shot helpers. The original template is seven characters plus five NULs.
 extern char SHOT_FN[12];
+enum mainl_shot_filename_extension_t {
+ MAINL_SHOT_EXTENSION_E = 'e',
+ MAINL_SHOT_EXTENSION_X = 'x',
+};
 extern "C" void near pascal mainl_shot_pair(int player, char far *fn)
 {
  pi_load(0, fn);
  pi_put_interlace_8(player * 320, 200, 0);
  pi_free(0);
- fn[2] = 'e';
- fn[3] = 'x';
+ fn[2] = MAINL_SHOT_EXTENSION_E;
+ fn[3] = MAINL_SHOT_EXTENSION_X;
  pi_load(0, fn);
  pi_put_interlace_8(player * 320, 208, 0);
  pi_free(0);
@@ -221,7 +249,7 @@ extern "C" void near pascal mainl_shot_load(int player)
   fn[i] = SHOT_FN[i];
  }
  char_id = resident->playchar_paletted[player].v - 1;
- if(char_id >= 10) {
+ if(char_id >= MAINL_CHARACTER_DECIMAL_BASE) {
   fn[0] = char_id / 10 + fn[0];
   char_id %= 10;
  }
@@ -281,7 +309,7 @@ void far cdecl main(void)
    cmp outcome, 4
    je story_cutscene
   }
-  if(outcome == 5) {
+  if(outcome == MAINL_STORY_RESULT_ENDING) {
    mainl_ending();
   }
  }
@@ -291,22 +319,22 @@ void far cdecl main(void)
  snd_kaja_func(KAJA_SONG_STOP, 0);
  if(resident->game_mode == GM_STORY) {
   outcome = mainl_story_dispatch();
-  if(outcome == 0) {
+  if(outcome == MAINL_STORY_RESULT_START) {
 intro:
    mainl_stage_intro();
    goto launch_main;
   }
-  if(outcome == 3 || outcome == 4) {
+  if(outcome == MAINL_STORY_RESULT_BOSS_CUTSCENE || outcome == MAINL_STORY_RESULT_CLEAR_CUTSCENE) {
 story_cutscene:
    cdg_free_all();
    pi_free(0);
    char_id = playchar[0].v / 2;
-   if(char_id >= 10) {
+   if(char_id >= MAINL_CHARACTER_DECIMAL_BASE) {
     mainl_story_script[1] += char_id / 10;
     char_id %= 10;
    }
    mainl_story_script[2] += char_id;
-   if(outcome == 4) {
+   if(outcome == MAINL_STORY_RESULT_CLEAR_CUTSCENE) {
     mainl_story_script[5]++;
    }
    graph_accesspage(0);

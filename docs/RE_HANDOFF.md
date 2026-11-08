@@ -131,6 +131,15 @@ The latest `scripts/preflight.py` (2026-11-08) reports:
   See [MAINL Staff native C++ after942](MAINL_STAFF_NATURAL_CPP_AFTER942_REVIEW.md).
   The old broad cold-source graph still pins the pre-edit `staff/data.cpp`;
   do not call it current or repin it just to satisfy cold-dependent tests.
+- A separate **scoped current-source MAINL root-controller build `af944r`**
+  recompiles the complete 11-function `rootdata` owner in two independent
+  original TC4 rounds: **2,458 CODE + 112 DATA + 186 BSS bytes, 278 literal
+  ordered OMF FIXUPPs and all 17 PUBLICs**. Both complete normal MAINL links
+  reproduce the Japanese 67,372-byte EXE and all 677 relocations. The other
+  35 original game objects and C0/CRT were reused; no full cold replay.
+  See [MAINL root native C++ after944](MAINL_ROOT_CONTROLLER_NATURAL_CPP_AFTER944_REVIEW.md).
+  The old after580 root receipt is now a historical source snapshot; this
+  new report binds the edited `root/complete_data.cpp` source.
 - **OP:** current decoded source acceptance **60 extents / 92
   procedures / 14,985 bytes** (13,221 CODE + 1,764 DATA), with a
   validated source-only cold pair and native ownership/ABI. This is
@@ -216,5 +225,6 @@ target. Preserve dirty source changes and commit meaningful progress as
 - [Storage policy and prior safe cleanup audits](STORAGE_HANDOFF_CURRENT.md)
 - [After928 applied Git/cache storage recovery](STORAGE_HANDOFF_AFTER928.md)
 - [Current MAINL Staff source/native work](MAINL_STAFF_NATURAL_CPP_AFTER942_REVIEW.md)
+- [Current MAINL root controller source/native work](MAINL_ROOT_CONTROLLER_NATURAL_CPP_AFTER944_REVIEW.md)
 - [MAINL original CRT/source recovery index](MAINL_WORKING_CRT_RECOVERY_INDEX.md)
 - [Generated source/acceptance progress](PROGRESS.md)
