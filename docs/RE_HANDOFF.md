@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af982e`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af983a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -220,7 +220,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   game objects and CRT were reused. See [Chiyuri BOSS native C++ after959](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af959b/report.json`,
   SHA-256 `2a3f864b74ed5c01b6b0217833ce46ecb04ea8930cd8af301503658329baba69`.
-- **Latest Yumemi major-BOSS source-current follow-up: `af980e`.** The
+- **Latest Yumemi major-BOSS source-current follow-up: `af983a`.** The
   complete ten-function ba_yumem BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,358 CODE bytes, 343
   ordered OMF FIXUPPs and ten PUBLICs**. Its rain volley uses a natural
@@ -229,8 +229,8 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   MAIN image and all 1,553 MZ relocations. See
   [Yumemi rain increment after980](MAIN_YUMEMI_BOSS_NATURAL_RAIN_INCREMENT_AFTER980_REVIEW.md)
   and [Yumemi rain/arrival loops after979](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md).
-  Protected report: .analysis/work/exatt-layout-af980e/report.json,
-  SHA-256 8b8f307afdccf1dd0dcb1080654c1c08d76ea429d4954664adbd25c1ed0ad6da.
+  Protected report: .analysis/work/exatt-layout-af983a/report.json,
+  SHA-256 53a363645f48f4b17ef8cae6c119812b4fa6737504fc8249f88a2bd581645c9b.
 - **Latest Mima major-BOSS source-current follow-up: `af980f`.** The
   complete nine-function ba_mima BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,922 CODE bytes, 277
@@ -284,7 +284,7 @@ scopes**, not one combined 99-original-source replay:
 | `af964a` | 1 | 1,675 |
 | `af963a` | 1 | 1,677 |
 | `af959b` | 1 | 2,654 |
-| `af980e` | 1 | 2,358 |
+| `af983a` | 1 | 2,358 |
 | `af982e` | 1 | 2,020 |
 | `af980f` | 1 | 1,922 |
 | `af944a` | 1 | 2,020 |
@@ -305,8 +305,8 @@ after `af973b`; and Marisa `af969a` and `af971b` are historical after
 superseded by `af974c`, which is itself superseded by the postfix-loop
 source proof `af976a`. The Marisa `af971a` and `af971b` stages are
 superseded by the combined renderer/register source proof `af975d`.
-Yumemi `af956a` and `af979a` are historical after the current
-full-BOSS source proof `af980e`; Mima `af952a` and `af977d` are
+Yumemi `af956a`, `af979a` and `af980e` are historical after the
+current full-BOSS source proof `af983a`; Mima `af952a` and `af977d` are
 historical after `af980f`. Reimu `af944a` and `af982c` are historical after
 `af982e`. Reimu's af981b and af981d loop combinations are negative
 compiler results; the intro loop requires its index update before the
@@ -315,7 +315,7 @@ assignment in af982d also changed complete BOSS CODE; the current postfix
 increment remains. Mima's af980a, af980c
 and af980d trials are preserved negative compiler results: the combined
 trail/particle branch, byte-frame assignment, and reversed signed-angle
-assignment each changed complete BOSS CODE. Use af982e, af980e, af980f,
+assignment each changed complete BOSS CODE. Use af982e, af983a, af980f,
 af976a, af975d, af973b, af968c and af931b for current source binding.
 Marisa's
 `af935a` and older single-object `af930e` receipts are now historical for
