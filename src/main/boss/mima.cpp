@@ -88,6 +88,18 @@ enum mima_template_layout_t {
     MIMA_TEMPLATE_HP = 0x6E,
     MIMA_TEMPLATE_SPRITE_OFFSET = 0x28C,
     MIMA_TEMPLATE_PLAYER2_OFF = 0x28,
+    MIMA_TEMPLATE_RENDER_MODE_NORMAL = 0,
+};
+
+enum mima_level_scaling_t {
+    MIMA_LEVEL_QUARTER = 4,
+    MIMA_LEVEL_BULLET_BASE = 0x20,
+    MIMA_LEVEL_RANDOM_COUNT_BASE = 2,
+    MIMA_LEVEL_TRAIL_INTERVAL_BASE = 0x40,
+    MIMA_LEVEL_PELLET_SPEED_BASE = 0x28,
+    MIMA_LEVEL_PELLET_UNTIL_MULTIPLIER = 4,
+    MIMA_LEVEL_PELLET_UNTIL_BASE = 0x40,
+    MIMA_LEVEL_ORBIT_SPEED_BASE = 0x36,
 };
 
 void far pascal boss_mima_template_init(int player_id)
@@ -100,14 +112,14 @@ void far pascal boss_mima_template_init(int player_id)
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
+	p->mode = MIMA_MODE_INTRO;
 	p->hp = MIMA_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->sprite_offset = MIMA_TEMPLATE_SPRITE_OFFSET;
 	if(player_id != 0) {
 		p->sprite_offset += MIMA_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = MIMA_TEMPLATE_RENDER_MODE_NORMAL;
 }
 
 // Full BOSS pattern clocks are unsigned 16-bit. The original TC4 emits its
@@ -205,7 +217,7 @@ void near mima_pattern_spread(void)
 		return;
 	}
 
-	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+	if((boss_frame & (MIMA_FIRE_EVEN_PERIOD - 1)) == 0) {
 		snd_se_play(MIMA_SOUND_SPREAD);
 
 		bullet_template.angle = mima_spread_angle;
@@ -304,7 +316,7 @@ void near mima_pattern_bomb_random(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+	if((boss_frame & (MIMA_FIRE_EVEN_PERIOD - 1)) == 0) {
 		snd_se_play(MIMA_SOUND_SPREAD);
 	}
 
@@ -373,7 +385,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle = randring_far_next16();
 	}
 
-	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+	if((boss_frame & (MIMA_FIRE_EVEN_PERIOD - 1)) == 0) {
 		bullet_template.center.x.v = polar(
 			boss_center_x, MIMA_ORBIT_RADIUS, CosTable8[mima_orbit_angle]
 		);
@@ -404,13 +416,13 @@ void far gba_boss_update_mima(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		mima_bullet_speed = (gba_boss_level + 0x20);
-		mima_random_count = ((gba_boss_level / 4) + 2);
-		mima_random_speed = (gba_boss_level + 0x20);
-		mima_trail_interval = (0x40 - (gba_boss_level * 2));
-		mima_pellet_speed = (gba_boss_level + 0x28);
-		mima_pellet_until = ((gba_boss_level * 4) + 0x40);
-		mima_orbit_speed = (gba_boss_level + 0x36);
+		mima_bullet_speed = (gba_boss_level + MIMA_LEVEL_BULLET_BASE);
+		mima_random_count = ((gba_boss_level / MIMA_LEVEL_QUARTER) + MIMA_LEVEL_RANDOM_COUNT_BASE);
+		mima_random_speed = (gba_boss_level + MIMA_LEVEL_BULLET_BASE);
+		mima_trail_interval = (MIMA_LEVEL_TRAIL_INTERVAL_BASE - (gba_boss_level * 2));
+		mima_pellet_speed = (gba_boss_level + MIMA_LEVEL_PELLET_SPEED_BASE);
+		mima_pellet_until = ((gba_boss_level * MIMA_LEVEL_PELLET_UNTIL_MULTIPLIER) + MIMA_LEVEL_PELLET_UNTIL_BASE);
+		mima_orbit_speed = (gba_boss_level + MIMA_LEVEL_ORBIT_SPEED_BASE);
 	}
 
 	if(pid_current != gba_boss_launched_by) {
@@ -504,7 +516,7 @@ void near mima_render_main(void)
 	top = ((boss_center_y >> 4) - MIMA_RENDER_MAIN_TOP_HALF);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_hit) {
+	if(boss_hit != 0) {
 		sprite16_put_size.set(MIMA_RENDER_HIT_WIDTH, MIMA_RENDER_HIT_HEIGHT);
 		left += MIMA_DAMAGED_LEFT;
 		top += MIMA_DAMAGED_TOP;
@@ -587,7 +599,7 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	geninterrupt(SPRITE16);
 	// The split mask's opposite half-turn is byte-valued, but its
 	// named original 0x80 increment stays native-exact (af855h).
-	angle += MIMA_RENDER_SPLIT_OPPOSITE_ANGLE;
+	angle = angle + MIMA_RENDER_SPLIT_OPPOSITE_ANGLE;
 	left = polar(base_left, split_distance, CosTable8[angle]);
 	top = polar(base_top, split_distance, SinTable8[angle]);
 	sprite16_put(left, top, boss_sprite_offset);
