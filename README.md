@@ -395,7 +395,11 @@ BOSS and Chargeshot edits, `af871a` after Kotohime BOSS/CPU; older
 `af865a`/`af859a`/`af853a`/`af847a`/`af843g`/`af842a`/`af840a`/
 `af835a` are also authentic historical, not current source snapshots.
 
-The [storage handoff](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
+The [latest after928 applied safe storage audit](docs/STORAGE_HANDOFF_AFTER928.md)
+records **24,928,256 gross reclaimed Git/cache bytes**, preserving all
+20,463 Git object IDs (including unreachable history) and every
+native proof tree. The
+[storage policy](docs/STORAGE_HANDOFF_CURRENT.md) distinguishes
 the historical applied after520 deletion audit (258 stages / 5,760
 protected native files) from current retained evidence, and records
 subsequent **audited disposable-only maintenance**. Do not apply the

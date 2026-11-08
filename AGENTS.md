@@ -45,7 +45,11 @@ when starting a session or when the environment/targets change.
   trial trees / 93 files / 1,847,296 allocated bytes) and regenerable
   Python caches; it did NOT prune any completed native source proof.
   Use docs/STORAGE_HANDOFF_AFTER710.md and its strict, one-time
-  script/manifest to audit that bounded action.
+  script/manifest to audit that bounded action. The after928 handoff
+  documents a separate **no-prune Git repack** (all 20,463 object IDs,
+  refs and reflogs preserved) and official bytecode cache-only cleanup,
+  with **no native proof-tree deletion**. See
+  docs/STORAGE_HANDOFF_AFTER928.md.
   Never apply old after439/388/319/511-source cleanup
   tools to this checkout. A generic generated-file preview does not prove
   that native source-review dependency trees can be discarded.

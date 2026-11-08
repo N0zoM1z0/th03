@@ -63,6 +63,9 @@ The newer [after710 handoff cleanup](STORAGE_HANDOFF_AFTER710.md)
 removed only six externally unreferenced incomplete *verifier
 configuration* stage pairs and regenerable caches, with full
 path/SHA manifest; no completed source proof was pruned.
+The latest [after928 audited safe Git/cache cleanup](STORAGE_HANDOFF_AFTER928.md)
+kept all 20,463 Git object identities, branch refs, reflogs and entire
+native proof DAG intact; only regenerable bytecode caches were deleted.
 Use [the current storage policy](STORAGE_HANDOFF_CURRENT.md);
 the old cleanup_mainl_after520_handoff.py explicitly rejects newer
 source stages. Older after439/after388 cleanup tools are historical;

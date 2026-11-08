@@ -1,11 +1,30 @@
-# TH03 current storage and evidence policy — after710 handoff (2026-11-07)
+# TH03 current storage and evidence policy — after928 handoff (2026-11-08)
 
 Use the [current source handoff](RE_HANDOFF.md) for after596 MAIN / after587
 MAINL. This page records what has ACTUALLY been deleted or packed; it is
 not a license to age-prune native work. The complete earlier after554 storage
 record is preserved as [a historical snapshot](STORAGE_HANDOFF_ARCHIVE_AFTER554.md).
 
-## Most recent applied bounded cleanup (after710)
+## Most recent applied safe cleanup (after928)
+
+The [after928 actual cleanup audit](STORAGE_HANDOFF_AFTER928.md)
+records **24,928,256 gross allocated bytes (~23.77 MiB)** reclaimed:
+**24,117,248 bytes** by an audited **non-pruning Git repack** and
+**811,008 bytes** by the official Python bytecode **cache-only** cleaner.
+The full inventory of **20,463 Git objects** (including unreachable
+objects), all branch refs, all **2,788 reflog records**, and full `fsck`
+were identical before and after repacking. The 41 deleted Python
+cache files have a preserved per-file SHA-256 manifest.
+
+The cleanup **did not delete any `.analysis` proof stage, original
+OBJ/EXE/MAP, Wine/Borland tool, target, historical compiler receipt or
+negative experiment**. The large `.analysis` proof dependency trees
+remain protected. Unlike prior source-proof audits, after928 claims
+**zero deleted native proof files**. The cache saving may regenerate
+on later imports. Do not repeat the gross savings when calculating
+storage reclaimed in a future maintenance session.
+
+## Earlier applied bounded cleanup (after710)
 
 The handoff cleanup added **only six externally unreferenced, incomplete
 source-verifier tool-configuration attempts** to the retired set, and

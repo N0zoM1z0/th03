@@ -132,7 +132,10 @@ The latest `scripts/preflight.py` (2026-11-08) reports:
    original inputs and successful two-round OBJ/EXE/MAP/writer logs.
    Never bulk-remove source-bound stages or prune by age. Only audited
    unreferenced failed trials and official regenerable caches may be
-   removed. See [current storage policy](STORAGE_HANDOFF_CURRENT.md).
+   removed. The latest bounded safe repack/cache cleanup reclaimed
+   about 23.77 MiB **without deleting proof trees**; see
+   [after928 applied storage audit](STORAGE_HANDOFF_AFTER928.md) and
+   [current storage policy](STORAGE_HANDOFF_CURRENT.md).
 
 ## Minimal repeatable commands (no full cold replay)
 
@@ -175,5 +178,6 @@ target. Preserve dirty source changes and commit meaningful progress as
 - [Latest source/native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)
 - [Historical source and compiler trials through after927](RE_HANDOFF_ARCHIVE_AFTER927.md)
 - [Storage policy and prior safe cleanup audits](STORAGE_HANDOFF_CURRENT.md)
+- [After928 applied Git/cache storage recovery](STORAGE_HANDOFF_AFTER928.md)
 - [MAINL original CRT/source recovery index](MAINL_WORKING_CRT_RECOVERY_INDEX.md)
 - [Generated source/acceptance progress](PROGRESS.md)
