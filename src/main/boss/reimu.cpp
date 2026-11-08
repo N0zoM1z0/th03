@@ -100,7 +100,17 @@ enum reimu_render_timing_t {
 };
 
 enum reimu_template_layout_t {
+    REIMU_TEMPLATE_CENTER_X = 0x900,
+    REIMU_TEMPLATE_CENTER_Y = 0x500,
+    REIMU_TEMPLATE_VELOCITY_X = -0x20,
+    REIMU_TEMPLATE_HP = 0x6E,
+    REIMU_TEMPLATE_SPRITE_OFFSET = 0x28C,
     REIMU_SECOND_PLAYER_SPRITE_OFFSET = 0x28,
+};
+
+enum reimu_render_mode_t {
+    REIMU_RENDER_MODE_NONE = 0,
+    REIMU_RENDER_MODE_ORBIT = 1,
 };
 
 void far pascal boss_reimu_template_init(int player_id)
@@ -108,17 +118,17 @@ void far pascal boss_reimu_template_init(int player_id)
 	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = REIMU_TEMPLATE_CENTER_X;
+	p->center_y = REIMU_TEMPLATE_CENTER_Y;
+	p->velocity_x = REIMU_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
-	p->hp = 0x6E;
+	p->mode = REIMU_MODE_INTRO;
+	p->hp = REIMU_TEMPLATE_HP;
 	p->pattern_i = 0;
-	p->render_mode = 0;
-	p->sprite_offset = 0x28C;
+	p->render_mode = REIMU_RENDER_MODE_NONE;
+	p->sprite_offset = REIMU_TEMPLATE_SPRITE_OFFSET;
 	if(player_id != 0) {
 		p->sprite_offset += REIMU_SECOND_PLAYER_SPRITE_OFFSET;
 	}
@@ -170,7 +180,7 @@ void near reimu_pattern_orbit_cloud(void)
 		bullets_add();
 
 		bullet_template.angle = ((angle * 2) + REIMU_CLOUD_OPPOSITE_ANGLE);
-		angle += REIMU_CLOUD_OPPOSITE_ANGLE;
+		angle = angle + REIMU_CLOUD_OPPOSITE_ANGLE;
 		bullet_template.center.x.v = polar(
 			boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
 		);
@@ -193,7 +203,7 @@ void near reimu_pattern_orbit_cloud(void)
 	);
 
 	if(boss_frame >= REIMU_CLOUD_FINISH_FRAME) {
-		boss_mode = 1;
+		boss_mode = REIMU_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -237,7 +247,7 @@ void near reimu_pattern_spreads(void)
 		return;
 	}
 
-	boss_mode = 1;
+	boss_mode = REIMU_MODE_SELECT;
 	boss_frame = 0;
 }
 
@@ -263,7 +273,7 @@ void near reimu_pattern_orbit_burst(void)
 	boss_move_sine();
 
 	if(boss_frame == REIMU_ORBIT_INIT_FRAME) {
-		boss_render_mode = 1;
+		boss_render_mode = REIMU_RENDER_MODE_ORBIT;
 		reimu_orbit_angle = randring_far_next16();
 	}
 
@@ -273,8 +283,7 @@ void near reimu_pattern_orbit_burst(void)
 		// One of three distinct original orbit script phases. Natural C++
 		// while retains signed i*256/division before byte angle truncation,
 		// and source-order polar/call side effects (af892a).
-		i = 0;
-		while(i < reimu_orbit_count) {
+		for(i = 0; i < reimu_orbit_count; i++) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
@@ -286,7 +295,6 @@ void near reimu_pattern_orbit_burst(void)
 				((boss_frame * 16) * 2),
 				SinTable8[angle]
 			);
-			++i;
 		}
 		// Both original mutable byte-angle accumulators accept natural
 		// assignment `byte = byte + named_step` (af892f), unlike some
@@ -296,8 +304,7 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
-		i = 0;
-		while(i < reimu_orbit_count) {
+		for(i = 0; i < reimu_orbit_count; i++) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
@@ -305,7 +312,6 @@ void near reimu_pattern_orbit_burst(void)
 			reimu_orbit_y[i] = polar(
 				boss_center_y, TO_SP(48), SinTable8[angle]
 			);
-			++i;
 		}
 		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
 
@@ -324,15 +330,13 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
-		i = 0;
-		while(i < reimu_orbit_count) {
+		for(i = 0; i < reimu_orbit_count; i++) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
-			++i;
 		}
-		boss_mode = 1;
+		boss_mode = REIMU_MODE_SELECT;
 		boss_frame = 0;
-		boss_render_mode = 0;
+		boss_render_mode = REIMU_RENDER_MODE_NONE;
 	}
 }
 
@@ -366,7 +370,7 @@ void near reimu_pattern_mirrored_spread(void)
 		return;
 	}
 
-	boss_mode = 1;
+	boss_mode = REIMU_MODE_SELECT;
 	boss_frame = 0;
 }
 
@@ -396,7 +400,7 @@ void far gba_boss_update_reimu(void)
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = REIMU_MODE_SELECT;
 	}
 
 	if(boss_mode == REIMU_MODE_SELECT) {
@@ -478,7 +482,7 @@ void near reimu_render_main(void)
 	}
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit) {
+	if(boss_hit != 0) {
 		sprite_offset += 0x0C;
 	}
 
@@ -486,7 +490,7 @@ void near reimu_render_main(void)
 	top = ((boss_center_y >> 4) - REIMU_RENDER_MAIN_TOP_MARGIN);
 	sprite16_put(left, top, sprite_offset);
 
-	if(boss_render_mode != 1) {
+	if(boss_render_mode != REIMU_RENDER_MODE_ORBIT) {
 		return;
 	}
 
@@ -501,16 +505,14 @@ void near reimu_render_main(void)
 		sprite_offset += (((anim & 1) * 6) + 0x780);
 	}
 
-	// All live orbit sprites draw in original signed-index order; the
-	// real original TC4 also accepts this natural while (af892b).
-	i = 0;
-	while(i < reimu_orbit_count) {
+	// All live orbit sprites draw in original signed-index order;
+	// TC4 accepts this natural for loop (af981c).
+	for(i = 0; i < reimu_orbit_count; i++) {
 		left = (
 			playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN
 		);
 		top = ((reimu_orbit_y[i] >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
 		sprite16_put(left, top, sprite_offset);
-		++i;
 	}
 }
 
@@ -549,16 +551,14 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	}
 
 	// Eight original polar-sprite calls with byte-angle advancement
-	// after rendering. Named +0x20 compiles native-exact (af892c/e).
-	i = 0;
-	while(i < REIMU_INTRO_SPRITE_COUNT) {
+	// after rendering. The for-header comma preserves increment order
+	// (index first, angle second) and is native-exact (af981e).
+	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; i++, angle += REIMU_INTRO_ANGLE_STEP) {
 		left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
 		left = (playfield_fg_x_to_screen(left, pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN);
 		top = ((top >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
 		sprite16_put(left, top, sprite_offset);
-		++i;
-		angle += REIMU_INTRO_ANGLE_STEP;
 	}
 }
 
