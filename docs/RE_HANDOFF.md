@@ -447,6 +447,12 @@ bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4 rounds
 and the complete Japanese MAIN image/relocations exact. See the
 [after1032q three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1032Q_REVIEW.md).
 
+After Reimu's update controller was moved to the same positive PID scope, all
+four current BOSS owners were rebuilt together at af1032t: 8,436 CODE bytes,
+1,190 ordered native fields and 40 PUBLICs, with two original TC4 rounds and
+the complete Japanese MAIN image/relocations exact. See the
+[after1032t four-owner integration review](MAIN_BOSS_FOUR_OWNER_INTEGRATION_AFTER1032T_REVIEW.md).
+
 After the Mima INTRO and Chiyuri update/leaf changes, the two complete owners
 were rebuilt together at af1030k: 4,576 CODE bytes, 658 ordered native fields
 and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
