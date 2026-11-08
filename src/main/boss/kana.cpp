@@ -420,8 +420,8 @@ void near kana_pattern_rotating_ring(void)
 		(boss_frame >= KANA_ROTATING_VOLLEY_START) &&
 		(boss_frame < KANA_ROTATING_VOLLEY_END)
 	) {
-		// Distinct four-frame unsigned-word clock, not byte angle.
-		if(!(boss_frame % KANA_ROTATING_RING_PERIOD)) {
+		// Distinct four-frame unsigned-word low-bit clock, not byte angle.
+		if((boss_frame & (KANA_ROTATING_RING_PERIOD - 1)) == 0) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullet_template.group = BG_RING;
 			bullet_template.count = KANA_ROTATING_RING_BULLETS;
@@ -617,7 +617,7 @@ void near kana_render_intro(void)
 	sprite_offset = (pid.so_attack + KANA_RENDER_INTRO_SPRITE);
 	sprite_offset = (
 		sprite_offset +
-		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) % KANA_RENDER_ANIMATION_PERIOD) * KANA_RENDER_INTRO_FRAME_WIDTH) * KANA_RENDER_INTRO_FRAME_HEIGHT)
+		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) & (KANA_RENDER_ANIMATION_PERIOD - 1)) * KANA_RENDER_INTRO_FRAME_WIDTH) * KANA_RENDER_INTRO_FRAME_HEIGHT)
 	);
 
 	angle = boss_move_phase;

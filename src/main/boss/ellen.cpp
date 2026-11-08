@@ -198,8 +198,9 @@ void near ellen_pattern_spread(void)
 		bullet_template.sprite_offset += (8 * ROW_SIZE);
 	}
 
+	// Both two-frame spread gates use the unsigned-word low bit.
 	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
-		if(!(boss_frame % ELLEN_SPREAD_PERIOD)) {
+		if((boss_frame & (ELLEN_SPREAD_PERIOD - 1)) == 0) {
 			goto fire_single;
 		}
 		goto done;
@@ -221,7 +222,7 @@ void near ellen_pattern_spread(void)
 	if(boss_frame > ELLEN_SPREAD_FINISH) {
 		goto done;
 	}
-	if(boss_frame % ELLEN_SPREAD_PERIOD) {
+	if((boss_frame & (ELLEN_SPREAD_PERIOD - 1)) != 0) {
 		goto done;
 	}
 

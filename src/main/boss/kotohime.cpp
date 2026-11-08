@@ -525,9 +525,8 @@ void near pascal kotohime_render_ring(int count)
 
 	radius = boss_effect_radius;
 	sprite_offset = (pid.so_attack + KOTOHIME_RING_SPRITE_OFFSET);
-	// The alternating ring sprites use a signed/unsigned native
-	// modulo test. Comparison reversal remains exact (af910a).
-	if((boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) && (KOTOHIME_RENDER_ALT_FRAMES > (boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD))) {
+	// The warning flicker uses the unsigned-word low two bits.
+	if((boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) && (KOTOHIME_RENDER_ALT_FRAMES > (boss_frame & (KOTOHIME_RENDER_FLICKER_PERIOD - 1)))) {
 		sprite_offset += KOTOHIME_RING_SPRITE_ALTERNATE_OFFSET;
 	}
 

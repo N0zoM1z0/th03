@@ -208,10 +208,10 @@ void near rikako_pattern_orbit_spread(void)
 	signed char angle_delta;
 	register int i;
 
-	// Original unsigned-word 8-frame spin clock accepts the readable
-	// if(!remainder), distinct from the signed byte spin delta.
+	// The unsigned-word eight-frame spin clock uses a low-bit test,
+	// distinct from the signed byte spin delta.
 	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+		if((boss_frame & (RIKAKO_SPIN_TICK_PERIOD - 1)) == 0) {
 			boss_spin_delta++;
 		}
 	}
@@ -284,7 +284,7 @@ void near rikako_pattern_entities_and_pellets(void)
 	register int i;
 
 	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+		if((boss_frame & (RIKAKO_SPIN_TICK_PERIOD - 1)) == 0) {
 			boss_spin_delta--;
 		}
 	}
@@ -368,7 +368,7 @@ void near rikako_pattern_alternating_burst(void)
 	boss_move_sine();
 
 	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+		if((boss_frame & (RIKAKO_SPIN_TICK_PERIOD - 1)) == 0) {
 			boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
 		}
 	}
@@ -574,12 +574,12 @@ void near rikako_render_intro(void)
 	sprite16_put_size.w = RIKAKO_RENDER_INTRO_W;
 	sprite16_put_size.h = RIKAKO_RENDER_INTRO_H;
 
-	if((boss_frame < RIKAKO_INTRO_FLICKER_END) && (round_or_result_frame % RIKAKO_INTRO_BLINK_PERIOD)) {
+	if((boss_frame < RIKAKO_INTRO_FLICKER_END) && (round_or_result_frame & (RIKAKO_INTRO_BLINK_PERIOD - 1))) {
 		return;
 	}
 
 	sprite_offset = (pid.so_attack + RIKAKO_RENDER_INTRO_SPRITE_BASE);
-	if(boss_frame % RIKAKO_INTRO_BLINK_PERIOD) {
+	if(boss_frame & (RIKAKO_INTRO_BLINK_PERIOD - 1)) {
 		sprite_offset += RIKAKO_RENDER_INTRO_SPRITE_ALT;
 	}
 

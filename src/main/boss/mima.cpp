@@ -235,9 +235,9 @@ void near mima_pattern_spread(void)
 
 		if(
 			(mima_pellet_until > boss_frame) &&
-			// The original real six-frame modulo is performed on the
-			// unsigned global boss clock and accepts if(!remainder).
-			(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD))
+			// The six-frame unsigned-word cadence compares the remainder
+			// explicitly with zero; unlike powers of two, it is not a mask.
+			((boss_frame % MIMA_SPREAD_PELLET_PERIOD) == 0)
 		) {
 			bullet_template.type = BT_PELLET;
 			bullet_template.group = BG_4_SPREAD_MEDIUM;

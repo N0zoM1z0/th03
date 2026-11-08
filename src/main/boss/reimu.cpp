@@ -163,9 +163,9 @@ void near reimu_pattern_orbit_cloud(void)
 		angle = (unsigned char)(0 - angle);
 	}
 
-	// Original unsigned-word period can use natural if(!remainder),
-	// with exactly the same two spawned projectiles and RNG schedule.
-	if(!(boss_frame % reimu_cloud_interval)) {
+	// The variable unsigned-word interval compares its remainder with
+	// zero; both projectile emissions and RNG order remain unchanged.
+	if((boss_frame % reimu_cloud_interval) == 0) {
 		bullet_template.type = BT_PELLET_CLOUD;
 		bullet_template.group = BG_1;
 		bullet_template.pid = (1 - pid_current);
@@ -190,7 +190,7 @@ void near reimu_pattern_orbit_cloud(void)
 		bullets_add();
 	}
 
-	if(!(boss_frame % REIMU_CLOUD_ACCEL_PERIOD)) {
+	if((boss_frame & (REIMU_CLOUD_ACCEL_PERIOD - 1)) == 0) {
 		// Preserve postfix here: prefix ++reimu_cloud_speed changed
 		// the original TC4 byte-field codegen (af691b).
 		reimu_cloud_speed++;
@@ -352,8 +352,9 @@ void near reimu_pattern_mirrored_spread(void)
 {
 	boss_move_sine();
 
+	// The sixteen-frame mirrored spread uses the unsigned-word low bits.
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
-		if(boss_frame % REIMU_MIRROR_FIRE_PERIOD) {
+		if((boss_frame & (REIMU_MIRROR_FIRE_PERIOD - 1)) != 0) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;

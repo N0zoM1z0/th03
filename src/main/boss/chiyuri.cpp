@@ -322,10 +322,9 @@ enum chiyuri_trail_phase_t {
 
 void near chiyuri_pattern_trail_ring(void)
 {
-	// `boss_frame` is the unsigned 16-bit clock, so the natural truth
-	// predicate around %8 remains native-exact (af872d). This is not
-	// a license to use byte %=4 on the mutable render frame.
-	if(!(boss_frame % CHIYURI_TRAIL_BOMB_PERIOD)) {
+	// The unsigned 16-bit eight-frame cadence is a natural low-bit test.
+	// This does not generalize to byte %=4 on the mutable render frame.
+	if((boss_frame & (CHIYURI_TRAIL_BOMB_PERIOD - 1)) == 0) {
 		bomb_axis_add(
 			boss_center_x, boss_center_y, (1 - pid_current)
 		);

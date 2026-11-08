@@ -172,9 +172,8 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = 0;
 	}
 	if(boss_frame < MARISA_SPREAD_FINISH) {
-		// Natural unsigned word-frame remainder truth check emits the
-	// original spread gate (fresh native TC4 af881a).
-	if(boss_frame % MARISA_SPREAD_PERIOD) {
+		// The four-frame spread gate is the natural unsigned-word low bit.
+		if(boss_frame & (MARISA_SPREAD_PERIOD - 1)) {
 			return;
 		}
 
@@ -275,9 +274,9 @@ void near marisa_pattern_ring(void)
 {
 	boss_move_sine();
 
-	// Same original unsigned-word period uses a natural zero remainder
-	// truth check, independent of the mutable byte angle (af881b).
-	if(!(boss_frame % MARISA_RING_PERIOD)) {
+	// The 32-frame ring cadence is a natural unsigned-word low-bit test,
+	// independent of the mutable byte angle.
+	if((boss_frame & (MARISA_RING_PERIOD - 1)) == 0) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;

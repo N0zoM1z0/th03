@@ -227,9 +227,8 @@ void near yumemi_pattern_ring(void)
 		snd_se_play(YUMEMI_SOUND_EXPLOSION);
 	}
 
-	// Original 16-bit frame clock is genuinely unsigned; natural
-	// zero-remainder predicate preserves original ring timing (af897b).
-	if(!(boss_frame % YUMEMI_RING_FIRE_PERIOD)) {
+	// The unsigned 16-bit ring cadence is a natural low-bit test.
+	if((boss_frame & (YUMEMI_RING_FIRE_PERIOD - 1)) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -307,7 +306,7 @@ void near yumemi_pattern_aimed_random(void)
 	}
 
 	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
-		if((boss_frame % YUMEMI_AIMED_WARNING_PERIOD) == YUMEMI_AIMED_WARNING_PHASE) {
+		if((boss_frame & (YUMEMI_AIMED_WARNING_PERIOD - 1)) == YUMEMI_AIMED_WARNING_PHASE) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
 				boss_aux_point.y.v,
@@ -330,7 +329,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
-	if(!(boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
+	if((boss_frame & (YUMEMI_AIMED_FIRE_PERIOD - 1)) == 0) {
 		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -412,7 +411,7 @@ void near yumemi_pattern_chase(void)
 	boss_move_sine();
 	boss_move_sine();
 
-	if((boss_frame % YUMEMI_CHASE_BEAM_PERIOD) == YUMEMI_CHASE_BEAM_PHASE) {
+	if((boss_frame & (YUMEMI_CHASE_BEAM_PERIOD - 1)) == YUMEMI_CHASE_BEAM_PHASE) {
 		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		bomb_axis_add(
 			boss_aux_point.x.v,
