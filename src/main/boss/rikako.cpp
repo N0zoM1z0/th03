@@ -239,7 +239,7 @@ void near rikako_pattern_orbit_spread(void)
 		angle_delta = (
 			randring_far_next16_and(1)
 			? RIKAKO_ORBIT_ANGLE_DELTA
-			: (signed char)RIKAKO_ORBIT_ANGLE_DELTA_NEG
+			: RIKAKO_ORBIT_ANGLE_DELTA_NEG
 		);
 
 		// Original 256-unit angle distribution precedes signed division;
