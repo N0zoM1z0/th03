@@ -334,7 +334,7 @@ void near chiyuri_pattern_trail_ring(void)
 		);
 	}
 
-	if(boss_frame != CHIYURI_TRAIL_FIRE_FRAME) {
+	if(CHIYURI_TRAIL_FIRE_FRAME != boss_frame) {
 		return;
 	}
 
@@ -380,7 +380,7 @@ void near chiyuri_pattern_fans(void)
 	pid_t pid_other = (1 - pid_current);
 	int i;
 
-	if(boss_frame == CHIYURI_FAN_HORIZONTAL_FRAME) {
+	if(CHIYURI_FAN_HORIZONTAL_FRAME == boss_frame) {
 		bomb_axis_add(
 			(boss_center_x - TO_SP(56)), boss_center_y, pid_other
 		);
@@ -428,7 +428,7 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
 		}
 		return;
-	} else if(boss_frame != CHIYURI_FAN_VERTICAL_FRAME) {
+	} else if(CHIYURI_FAN_VERTICAL_FRAME != boss_frame) {
 		return;
 	}
 
@@ -533,7 +533,7 @@ void far gba_boss_update_chiyuri(void)
 		return;
 
 	case CHIYURI_MODE_SELECT:
-		if(boss_render_mode == CHIYURI_PALETTE_CYCLE_START) {
+		if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
 			random_i = (randring_far_next16_mod(5) * 2);
 			boss_center_x = chiyuri_boss_x_words[random_i];
 			boss_center_y = chiyuri_boss_y_words[random_i];
