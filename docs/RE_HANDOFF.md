@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af982c`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af982e`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -242,18 +242,18 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   and [Mima split angle/clocks after977](MAIN_MIMA_BOSS_NATURAL_SPLIT_AND_CLOCK_AFTER977_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af980f/report.json,
   SHA-256 c53ba6e23cda9bdc02a0ce238aa6ed074b615e0760e87a679f1ff32155046fae.
-- **Latest Reimu major-BOSS source-current follow-up: `af982c`.** The
+- **Latest Reimu major-BOSS source-current follow-up: `af982e`.** The
   complete nine-function ba_reimu BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,020 CODE bytes, 270
   ordered OMF FIXUPPs and nine PUBLICs**. All five orbit/renderer/intro
   loops now use natural for headers; the intro comma-expression preserves
   index-before-angle update order. Template and render states are named,
-  and the cloud's local half-turn uses ordinary byte-angle assignment.
+  and both local cloud-angle updates use ordinary byte-angle assignment.
   Both links reproduce the 124,642-byte Japanese MAIN image and all 1,553
   MZ relocations. See
   [Reimu orbit and intro loops after982](MAIN_REIMU_BOSS_NATURAL_ORBIT_AND_INTRO_LOOPS_AFTER982_REVIEW.md).
-  Protected report: .analysis/work/exatt-layout-af982c/report.json,
-  SHA-256 a64963c61d23a637578f0e008bf1da8c02294b728282f0c6be51edf8785c9db7.
+  Protected report: .analysis/work/exatt-layout-af982e/report.json,
+  SHA-256 6f63301c51bfb45cbd7716d20e28fc5d9b21ac70cbe8c8229b12d4213140c176.
 - **Earlier Reimu source-current follow-up: `af944a`.** The complete
   nine-function BOSS was rebuilt in two original TC4 rounds with its normal
   MAIN link: 2,020 CODE bytes, 270 ordered OMF FIXUPPs and nine PUBLICs.
@@ -285,7 +285,7 @@ scopes**, not one combined 99-original-source replay:
 | `af963a` | 1 | 1,677 |
 | `af959b` | 1 | 2,654 |
 | `af980e` | 1 | 2,358 |
-| `af982c` | 1 | 2,020 |
+| `af982e` | 1 | 2,020 |
 | `af980f` | 1 | 1,922 |
 | `af944a` | 1 | 2,020 |
 | `af935a` | 7 | 7,886 |
@@ -307,13 +307,15 @@ source proof `af976a`. The Marisa `af971a` and `af971b` stages are
 superseded by the combined renderer/register source proof `af975d`.
 Yumemi `af956a` and `af979a` are historical after the current
 full-BOSS source proof `af980e`; Mima `af952a` and `af977d` are
-historical after `af980f`. Reimu `af944a` is historical after
-`af982c`. Reimu's af981b and af981d loop combinations are negative
+historical after `af980f`. Reimu `af944a` and `af982c` are historical after
+`af982e`. Reimu's af981b and af981d loop combinations are negative
 compiler results; the intro loop requires its index update before the
-angle update in the for-header comma-expression. Mima's af980a, af980c
+angle update in the for-header comma-expression. The direct cloud-speed
+assignment in af982d also changed complete BOSS CODE; the current postfix
+increment remains. Mima's af980a, af980c
 and af980d trials are preserved negative compiler results: the combined
 trail/particle branch, byte-frame assignment, and reversed signed-angle
-assignment each changed complete BOSS CODE. Use af982c, af980e, af980f,
+assignment each changed complete BOSS CODE. Use af982e, af980e, af980f,
 af976a, af975d, af973b, af968c and af931b for current source binding.
 Marisa's
 `af935a` and older single-object `af930e` receipts are now historical for
