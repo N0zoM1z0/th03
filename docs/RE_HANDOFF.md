@@ -8,6 +8,26 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After925: complete Chiyuri Chargeshot/Gauge state and warning control
+
+- The full nine-function original `cs_chiyu` source now expresses all
+  four byte inactive-age tests as `age==FREE`, both Gauge entry guards
+  as `flag!=NONE`, natural reversed Gauge initial flag comparison,
+  and named 24-pixel compound warning-X steps. Full eight-shot
+  staggered/reverse update, five-skip collision scan and 32×48 sprite
+  rendering retain exact near pointer order, including the original
+  first-slot-only reset quirk.
+- Fresh TC4 negatives: byte `anim&1`→`%2` emitted **1,020 vs 1,011
+  CODE** (`af925b`), byte hits prefix emitted **1,016** (`af925c`),
+  16-bit direct warning X assignments altered code (`af925d/e`),
+  and byte age prefix emitted **1,015** (`af925h`). Reverted.
+  Final `af925i` passes two real original TC4/full normal MAIN TLINK
+  rounds: **1,011 CODE bytes, 96 literal ordered FIXUPPs, nine PUBLICs**,
+  full Japanese MAIN/1,553 relocations exact; 98 other original game
+  objects and CRT reused. See
+  [after925 full Chiyuri charge review](MAIN_CHIYURI_CHARGESHOT_NATIVE_AFTER925_REVIEW.md).
+  Prior source-covered CODE, not additional Factory accepted credit.
+
 ## After924: full player effect lifetime and GRCG quadrilateral renderer
 
 - The full five-function original `effects` source now uses natural

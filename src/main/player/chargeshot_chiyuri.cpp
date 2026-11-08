@@ -1,5 +1,6 @@
-// Complete current-source exact native Turbo C++ reconstruction of the
-// original Chiyuri Chargeshot/Gauge owner in TH03 MAIN_07_TEXT.
+// Complete native-source Turbo C++ of the original Chiyuri Chargeshot/
+// Gauge owner in MAIN_07_TEXT, including eight-slot reverse physics,
+// five-continue hit testing and real 16-byte frame/Gauge semantics.
 #pragma codeseg MAIN_07_TEXT
 
 #include <stddef.h>
@@ -31,6 +32,7 @@ enum chiyuri_charge_limits_t {
     CHIYURI_CHARGE_HIT_MARGIN_TOP = TO_SP(-16),
     CHIYURI_CHARGE_RENDER_WIDTH = 32,
     CHIYURI_CHARGE_RENDER_HEIGHT = 48,
+    CHIYURI_GAUGE_WARNING_X_STEP = TO_SP(24),
 };
 
 struct chiyuri_chargeshot_t {
@@ -101,7 +103,7 @@ void far pascal chargeshot_add_chiyuri(Subpixel center_x, Subpixel center_y)
 void far pascal chargeshot_update_chiyuri(void)
 {
 	chiyuri_chargeshot_t near *p = &chiyuri_chargeshots[pid_current][CHIYURI_CHARGE_LAST_SLOT];
-	if(!p->age) {
+	if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 		return;
 	}
 	players[pid_current].gauge_charged = 0;
@@ -111,10 +113,15 @@ void far pascal chargeshot_update_chiyuri(void)
 	// as the normal byte-animation path. Natural while is exact (af875b).
 	int i = 0;
 	while(i < CHIYURI_CHARGE_SLOTS_PER_PLAYER) {
-		if(!p->age) {
+		// The exact original byte-value state 0 permits a natural FREE
+		// equality check under real TC4 (af925a); do not fix the
+		// separate reset-loop's original first-slot-only behavior.
+		if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 			return;
 		}
 		if(p->age != CHIYURI_CHARGE_ACTIVE_AGE) {
+			// Keep byte-memory postfix decrement: prefix changed
+			// native CODE in fresh af925h, despite behavior equivalence.
 			p->age--;
 			if(p->age == CHIYURI_CHARGE_ACTIVE_AGE) {
 				p->center.x = players[pid_current].center.x;
@@ -144,6 +151,8 @@ void near chiyuri_chargeshot_private(void)
 	sprite16_offset_t so = (pid.so_attack + 0x280);
 	// Byte-valued animation must retain this bit mask: replacing it
 	// with natural byte %2 generated non-original CODE in af875d.
+	// The animation is a byte and its original &1 test must stay:
+	// `%2` selected nonoriginal TC4 instructions (af925b).
 	if(chiyuri_chargeshot_p->anim & 1) {
 		so += 4;
 	}
@@ -166,7 +175,7 @@ uint8_t far chargeshot_hittest_chiyuri(void)
 	// signed-index and near-pointer continuation before the next test.
 	// A complete native while with those paths matches TC4 (af875c).
 	while(i < CHIYURI_CHARGE_SLOTS_PER_PLAYER) {
-		if(!p->age) {
+		if(p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 			return hits;
 		}
 		if(p->age != CHIYURI_CHARGE_ACTIVE_AGE) {
@@ -195,6 +204,7 @@ uint8_t far chargeshot_hittest_chiyuri(void)
 			continue;
 		}
 		hitcircles_enemy_add(p->center.x.v, p->center.y.v, hitbox.pid);
+		// Original byte hit-count postfix, not prefix: af925c failed.
 		hits++;
 		++i;
 		p--;
@@ -210,7 +220,7 @@ void far pascal chargeshot_render_chiyuri(void)
 
 	int i = 0;
 	while(i < CHIYURI_CHARGE_SLOTS_PER_PLAYER) {
-		if(!chiyuri_chargeshot_p->age) {
+		if(chiyuri_chargeshot_p->age == CHIYURI_CHARGE_INACTIVE_AGE) {
 			return;
 		}
 		if(chiyuri_chargeshot_p->age == CHIYURI_CHARGE_ACTIVE_AGE) {
@@ -229,7 +239,9 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 		flag_expected = (flag_expected + GBAF_PELLET_TO_BULLET);
 	}
 
-	if(gba_flag_active[pid_current] == flag_expected) {
+	// The original initial Gauge enum equality allows the natural
+	// constant-first form, still native exact (af925g).
+	if(flag_expected == gba_flag_active[pid_current]) {
 		chiyuri_gauge_frame[pid_current] = 0;
 		gba_flag_active[pid_current]++;
 		gauge_pattern_timing[pid_current].total_frames = (
@@ -251,8 +263,11 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 	// This *different* byte-valued Gauge `%16` condition safely uses
 	// natural `if(!(frame %16))` under original TC4 (af875e).
 	if(!(chiyuri_gauge_frame[pid_current] % CHIYURI_GAUGE_BOMB_PERIOD)) {
-		chiyuri_gauge_x[pid_current] += TO_SP(24);
-		x += TO_SP(24);
+		// The 16-bit word storage allows a named +24-pixel compound
+		// update, while direct `word = word + enum` changed native
+		// CODE (af925d/e). The local x uses the same named compound step.
+		chiyuri_gauge_x[pid_current] += CHIYURI_GAUGE_WARNING_X_STEP;
+		x += CHIYURI_GAUGE_WARNING_X_STEP;
 		bomb_center_add(x, 0, pid_other);
 		bomb_center_add((TO_SP(PLAYFIELD_W) - x), 0, pid_other);
 	}
@@ -288,14 +303,14 @@ void near pascal gauge_pattern_chiyuri(bullet_type_t type)
 
 void far gba_gauge_pattern_pellet_chiyuri(void)
 {
-	if(gba_flag_active[pid_current]) {
+	if(gba_flag_active[pid_current] != GBAF_NONE) {
 		gauge_pattern_chiyuri(BT_PELLET);
 	}
 }
 
 void far gba_gauge_pattern_bullet_chiyuri(void)
 {
-	if(gba_flag_active[pid_current]) {
+	if(gba_flag_active[pid_current] != GBAF_NONE) {
 		gauge_pattern_chiyuri(BT_BULLET16_DEFAULT);
 	}
 }
