@@ -82,24 +82,47 @@ enum marisa_boss_mode_t {
     MARISA_MODE_EXPLODE = 0xFF,
 };
 
+enum marisa_template_layout_t {
+    MARISA_TEMPLATE_CENTER_X = 0x900,
+    MARISA_TEMPLATE_CENTER_Y = 0x500,
+    MARISA_TEMPLATE_VELOCITY_X = -0x20,
+    MARISA_TEMPLATE_HP = 0x6E,
+    MARISA_TEMPLATE_SPRITE_OFF = 0x280,
+    MARISA_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
+enum marisa_render_mode_t {
+    MARISA_RENDER_MODE_NORMAL = 0,
+    MARISA_RENDER_MODE_ATTACK = 1,
+};
+
+enum marisa_level_scaling_t {
+    MARISA_LEVEL_DOUBLE = 2,
+    MARISA_LEVEL_BULLET_BASE = 0x32,
+    MARISA_LEVEL_CLOUD_COUNT_BASE = 0x18,
+    MARISA_LEVEL_CLOUD_SPEED_BASE = 0x20,
+    MARISA_LEVEL_RING_SPEED_BASE = 0x0A,
+    MARISA_LEVEL_RING_COUNT_BASE = 0x16,
+};
+
 void far pascal boss_marisa_template_init(int player_id)
 {
 	boss_template_state_t near *p = &boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = MARISA_TEMPLATE_CENTER_X;
+	p->center_y = MARISA_TEMPLATE_CENTER_Y;
+	p->velocity_x = MARISA_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
-	p->hp = 0x6E;
+	p->mode = MARISA_MODE_INTRO;
+	p->hp = MARISA_TEMPLATE_HP;
 	p->pattern_i = 0;
-	p->sprite_offset = 0x280;
+	p->sprite_offset = MARISA_TEMPLATE_SPRITE_OFF;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += MARISA_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = MARISA_RENDER_MODE_NORMAL;
 }
 
 enum marisa_spread_phase_t {
@@ -141,7 +164,7 @@ enum marisa_native_frame_timing_t {
 
 void near marisa_pattern_spread(void)
 {
-	boss_render_mode = 1;
+	boss_render_mode = MARISA_RENDER_MODE_ATTACK;
 	if(boss_frame < MARISA_SPREAD_START) {
 		return;
 	}
@@ -173,8 +196,8 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = marisa_bullet_angle + MARISA_SPREAD_ANGLE_STEP;
 		return;
 	}
-	boss_render_mode = 0;
-	boss_mode = 1;
+	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+	boss_mode = MARISA_MODE_SELECT;
 	boss_frame = 0;
 }
 
@@ -210,7 +233,7 @@ enum marisa_narrow_column_x_t {
 void near marisa_pattern_columns_wide(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	boss_render_mode = 1;
+	boss_render_mode = MARISA_RENDER_MODE_ATTACK;
 
 	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
@@ -236,8 +259,8 @@ void near marisa_pattern_columns_wide(void)
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -280,7 +303,7 @@ void near marisa_pattern_ring(void)
 	}
 
 	if(boss_frame >= MARISA_RING_FINISH) {
-		boss_mode = 1;
+		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -288,7 +311,7 @@ void near marisa_pattern_ring(void)
 void near marisa_pattern_columns_narrow(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	boss_render_mode = 1;
+	boss_render_mode = MARISA_RENDER_MODE_ATTACK;
 
 	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
@@ -309,8 +332,8 @@ void near marisa_pattern_columns_narrow(void)
 		return;
 	}
 	if(boss_frame == MARISA_COLUMN_FOURTH) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -320,12 +343,12 @@ void far gba_boss_update_marisa(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		marisa_bullet_speed = ((gba_boss_level * 2) + 0x32);
-		marisa_cloud_count_low = ((gba_boss_level * 2) + 0x18);
-		marisa_cloud_speed = (gba_boss_level + 0x20);
-		marisa_ring_speed = (gba_boss_level + 0x0A);
-		marisa_ring_count = (gba_boss_level + 0x16);
-		marisa_cloud_count_high = (gba_boss_level + 0x16);
+		marisa_bullet_speed = ((gba_boss_level * MARISA_LEVEL_DOUBLE) + MARISA_LEVEL_BULLET_BASE);
+		marisa_cloud_count_low = ((gba_boss_level * MARISA_LEVEL_DOUBLE) + MARISA_LEVEL_CLOUD_COUNT_BASE);
+		marisa_cloud_speed = (gba_boss_level + MARISA_LEVEL_CLOUD_SPEED_BASE);
+		marisa_ring_speed = (gba_boss_level + MARISA_LEVEL_RING_SPEED_BASE);
+		marisa_ring_count = (gba_boss_level + MARISA_LEVEL_RING_COUNT_BASE);
+		marisa_cloud_count_high = (gba_boss_level + MARISA_LEVEL_RING_COUNT_BASE);
 	}
 
 	if(pid_current != gba_boss_launched_by) {
@@ -342,7 +365,7 @@ void far gba_boss_update_marisa(void)
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = MARISA_MODE_SELECT;
 		break;
 
 	case MARISA_MODE_SELECT:
