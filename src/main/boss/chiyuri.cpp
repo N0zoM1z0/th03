@@ -136,6 +136,8 @@ enum chiyuri_boss_cadence_t {
     CHIYURI_RENDER_HIT_SPRITE_DELTA = 0x778,
     CHIYURI_RENDER_ANIM_SPRITE_BASE = 0x0C,
     CHIYURI_CARDINAL_FIRST_FRAME = 1,
+    CHIYURI_CARDINAL_FORWARD_END = 0x20,
+    CHIYURI_CARDINAL_REVERSE_END = 0xE4,
     CHIYURI_CARDINAL_QUARTER_TURN = 0x40,
     CHIYURI_CARDINAL_STEP = 8,
     CHIYURI_RING_RADIUS_SCALE = 16,
@@ -231,17 +233,17 @@ void near chiyuri_pattern_cardinal(void)
 	bullet_template.group = BG_1;
 	bullet_template.speed.v = chiyuri_cardinal_speed;
 
-	if(chiyuri_cardinal_reverse == 0) {
+	if(!chiyuri_cardinal_reverse) {
 		// Named compound byte-angle steps preserve the original CODE
 		// in both directions (af1013a).
 		chiyuri_cardinal_angle += CHIYURI_CARDINAL_STEP;
-		if(chiyuri_cardinal_angle == 0x20) {
+		if(chiyuri_cardinal_angle == CHIYURI_CARDINAL_FORWARD_END) {
 			chiyuri_cardinal_reverse = 1;
 			chiyuri_cardinal_angle = 0x24;
 		}
 	} else {
 		chiyuri_cardinal_angle -= CHIYURI_CARDINAL_STEP;
-		if(chiyuri_cardinal_angle == 0xE4) {
+		if(chiyuri_cardinal_angle == CHIYURI_CARDINAL_REVERSE_END) {
 			chiyuri_cardinal_reverse = 0;
 			chiyuri_cardinal_angle = 0xE0;
 		}
