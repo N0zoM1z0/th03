@@ -297,12 +297,10 @@ void near kana_pattern_staged_ring(void)
 				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 			// Native 16-projectile staged volley preserves bullets_add,
 			// byte angle +6, and speed +3 ordering before index advance.
-			i = 0;
-			while(i < KANA_MIDDLE_PELLET_COUNT) {
+			for(i = 0; i < KANA_MIDDLE_PELLET_COUNT; ++i) {
 				bullets_add();
-				bullet_template.angle += KANA_STAGED_PELLET_ANGLE_STEP;
-				bullet_template.speed.v += KANA_STAGED_PELLET_SPEED_STEP;
-				++i;
+				bullet_template.angle = bullet_template.angle + KANA_STAGED_PELLET_ANGLE_STEP;
+				bullet_template.speed.v = bullet_template.speed.v + KANA_STAGED_PELLET_SPEED_STEP;
 			}
 			return;
 		}
