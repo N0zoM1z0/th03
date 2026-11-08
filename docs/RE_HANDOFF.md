@@ -525,6 +525,13 @@ together at af1039g: 17,896 CODE bytes, 2,464 ordered native fields and 89
 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
 image/relocations exact. See the [after1039g nine-BOSS+HitCircle integration review](MAIN_NINE_BOSS_HITCIRCLE_INTEGRATION_AFTER1039G_REVIEW.md).
 
+After the latest Chiyuri renderer, Mima Trail/Orbit/Update and Mima main/split
+renderer refinements were integrated with HitCircle, all three complete
+physical owners were rebuilt together at af1042j: 5,021 CODE bytes, 688
+ordered native fields and 24 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1042j Chiyuri+Mima+HitCircle integration review](MAIN_CHIYURI_MIMA_HITCIRCLE_THREE_OWNER_INTEGRATION_AFTER1042J_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
