@@ -357,11 +357,12 @@ void far gba_boss_update_marisa(void)
 
 		switch(boss_mode) {
 		case MARISA_MODE_INTRO:
-			if(boss_frame != MARISA_BOSS_INTRO_END) {
+			if(boss_frame == MARISA_BOSS_INTRO_END) {
+				boss_frame = 0;
+				boss_mode = MARISA_MODE_SELECT;
+			} else {
 				return;
 			}
-			boss_frame = 0;
-			boss_mode = MARISA_MODE_SELECT;
 			break;
 
 		case MARISA_MODE_SELECT:

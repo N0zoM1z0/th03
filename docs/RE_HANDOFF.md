@@ -518,9 +518,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   [after1032 Yumemi PID-scope review](MAIN_YUMEMI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 - **Marisa:** the complete 269-byte update controller now scopes its
   mode switch and collision/hitbox tail under the positive
-  `pid_current == gba_boss_launched_by` guard (af1032v). Its INTRO/EXPLODE
-  returns and Spread/Wide/Ring/Narrow dispatch order remain unchanged. See
-  the [after1032 Marisa PID-scope review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+  `pid_current == gba_boss_launched_by` guard (af1032v). Its INTRO case also
+  expresses completion as a positive equality branch with an explicit
+  `else return` (af1033g); EXPLODE and Spread/Wide/Ring/Narrow dispatch order
+  remain unchanged. See the [after1032 PID-scope review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  and [after1033 INTRO-branch review](MAIN_MARISA_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
 - **Reimu:** the complete BOSS update controller now scopes its pre-switch
   SELECT logic, four attack-family dispatches and collision/hitbox tail under
   the positive `pid_current == gba_boss_launched_by` guard (af1032r). Its
