@@ -58,41 +58,31 @@ uint8_t far __cdecl explosions_hittest(void)
     expl_p = efes;
     explosion_collision_in_last_hittest = false;
 
-    // Full real Enemy/Fireball explosion carrier traversal. All six
-    // early-continue paths advance the original signed 16-bit index
-    // and near pointer before the next check. This natural while
-    // matches genuine original TC4 byte-for-byte (af902a).
-    i = 0;
-    while(i < EFE_COUNT) {
-        if(expl_p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) {
-            ++i;
-            expl_p++;
-            continue;
-        }
-
-        if((explosion_hittest_against == EHA_ENEMY) && (
-            (expl_p->flag == EFF_EXPLOSION_IGNORING_ENEMIES) ||
-            (expl_p->flag >= (
-                EFF_EXPLOSION_HITTING_ENEMIES +
-                (expl_p->explosion_max_enemy_hits_half * 2)
+    // Full real Enemy/Fireball explosion carrier traversal. The for
+    // header advances the original signed 16-bit index and near pointer
+    // after every continue path and completed collision, matching the
+    // original TC4 iterator order byte-for-byte (af996d).
+    for(i = 0; i < EFE_COUNT; i++, expl_p++) {
+        if(
+            (expl_p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) ||
+            ((explosion_hittest_against == EHA_ENEMY) && (
+                (expl_p->flag == EFF_EXPLOSION_IGNORING_ENEMIES) ||
+                (expl_p->flag >= (
+                    EFF_EXPLOSION_HITTING_ENEMIES +
+                    (expl_p->explosion_max_enemy_hits_half * 2)
+                ))
             ))
-        )) {
-            ++i;
-            expl_p++;
+        ) {
             continue;
         }
 
-        if(expl_p->pid != hitbox.pid) {
-            ++i;
-            expl_p++;
-            continue;
-        }
         // Byte-valued animation cadence retains its original bit test.
         // Natural byte %4 independently changed real original CODE
         // again in af902c (as in prior af846a).
-        if(expl_p->frame & (EXPLOSION_HIT_PERIOD - 1)) {
-            ++i;
-            expl_p++;
+        if(
+            (expl_p->pid != hitbox.pid) ||
+            (expl_p->frame & (EXPLOSION_HIT_PERIOD - 1))
+        ) {
             continue;
         }
 
@@ -100,8 +90,6 @@ uint8_t far __cdecl explosions_hittest(void)
         x.v = (expl_p->center.x.v - extent.v);
         y.v = (expl_p->center.y.v - extent.v);
         if((hitbox.right.v < x.v) || (hitbox.bottom.v < y.v)) {
-            ++i;
-            expl_p++;
             continue;
         }
 
@@ -113,8 +101,6 @@ uint8_t far __cdecl explosions_hittest(void)
             (hitbox.origin.topleft.x.v > x.v) ||
             (hitbox.origin.topleft.y.v > y.v)
         ) {
-            ++i;
-            expl_p++;
             continue;
         }
 
@@ -204,9 +190,6 @@ uint8_t far __cdecl explosions_hittest(void)
 
         ++collision_count;
         explosion_collision_in_last_hittest = true;
-        // The success path also advances both original registers.
-        ++i;
-        expl_p++;
     }
     return collision_count;
 }
