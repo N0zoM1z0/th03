@@ -383,8 +383,8 @@ and af993e changed complete CODE; retain the verified BX sequence.
 Current source bindings: af997e for e_expl, af998d for Hitbox, af993d
 for all nine major BOSSes, af985b for HitCircle and af964e for Fireball.
 HitCircle af931b and
-older af919g/af921a receipts are historical after af985b. Hitbox af983c is
-historical after af986b. Marisa af935a/af930e, the prior individual BOSS
+older af919g/af921a receipts are historical after af985b. Hitbox af983c
+and af986b are historical after af998d. Marisa af935a/af930e, the prior individual BOSS
 receipts and the eight-owner af988b integration are historical after
 af993d. Fireball af964d is the source snapshot before geometry naming in
 af964e; af964b/af964c are earlier predicate experiments and af964f is a
