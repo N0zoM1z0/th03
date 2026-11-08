@@ -235,9 +235,7 @@ void near reimu_pattern_spreads(void)
 		bullet_template.angle = 0x60;
 		bullets_add();
 		return;
-	}
-
-	if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
+	} else if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
 		if(round_frame_mod16) {
 			return;
 		}
@@ -301,9 +299,7 @@ void near reimu_pattern_orbit_burst(void)
 		// other BOSS memory-field assignments.
 		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
 		return;
-	}
-
-	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
+	} else if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
 		for(i = 0; i < reimu_orbit_count; ++i) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
@@ -327,9 +323,7 @@ void near reimu_pattern_orbit_burst(void)
 			bullets_add();
 		}
 		return;
-	}
-
-	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
+	} else if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
 		for(i = 0; i < reimu_orbit_count; ++i) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
