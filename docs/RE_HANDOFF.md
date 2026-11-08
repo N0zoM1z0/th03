@@ -378,6 +378,12 @@ bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4 rounds
 and the complete Japanese MAIN image/relocations exact. See the
 [after1030 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030_REVIEW.md).
 
+After the Mima orbit finish and Chiyuri Fans positive-branch refinements, all
+three owners were rebuilt together again at af1030r: 6,416 CODE bytes, 920
+ordered native fields and 31 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1030r three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030R_REVIEW.md).
+
 After the Mima INTRO and Chiyuri update/leaf changes, the two complete owners
 were rebuilt together at af1030k: 4,576 CODE bytes, 658 ordered native fields
 and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
