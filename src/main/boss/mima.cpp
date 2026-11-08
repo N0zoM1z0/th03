@@ -508,15 +508,15 @@ void near mima_render_main(void)
 	register screen_y_t top;
 
 	sprite16_put_size.set(MIMA_RENDER_FULL_WIDTH, MIMA_RENDER_FULL_HEIGHT);
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - MIMA_RENDER_MAIN_LEFT_HALF);
-	top = ((boss_center_y >> 4) - MIMA_RENDER_MAIN_TOP_HALF);
+	left = ((-MIMA_RENDER_MAIN_LEFT_HALF) + playfield_fg_x_to_screen(boss_center_x, pid_other));
+	top = ((-MIMA_RENDER_MAIN_TOP_HALF) + TO_PIXEL(boss_center_y));
 	sprite16_put(left, top, boss_sprite_offset);
 
 	if(boss_hit) {
 		sprite16_put_size.set(MIMA_RENDER_HIT_WIDTH, MIMA_RENDER_HIT_HEIGHT);
 		left += MIMA_DAMAGED_LEFT;
 		top += MIMA_DAMAGED_TOP;
-		sprite16_put(left, top, (boss_sprite_offset + MIMA_DAMAGED_SPRITE_OFF));
+		sprite16_put(left, top, (MIMA_DAMAGED_SPRITE_OFF + boss_sprite_offset));
 		return;
 	}
 
@@ -525,12 +525,12 @@ render_mode_2:
 		// Mode 5 enters through the original label; merging mode 2/5
 		// into one C++ condition changed the full BOSS CODE (af855b).
 		sprite16_put_size.set(MIMA_PART_SPRITE_SIZE, MIMA_PART_SPRITE_SIZE);
-		sprite_offset = (boss_sprite_offset + MIMA_PART_SPRITE_OFF);
-		sprite16_put((left + MIMA_PART_SPRITE_LEFT), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
+		sprite_offset = (MIMA_PART_SPRITE_OFF + boss_sprite_offset);
+		sprite16_put((MIMA_PART_SPRITE_LEFT + left), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
 
 		sprite16_put_size.set(MIMA_PART_CARRIER_SIZE, MIMA_PART_CARRIER_SIZE);
 		left += MIMA_PART_CARRIER_LEFT;
-		sprite_offset = (boss_sprite_offset + MIMA_PART_CARRIER_OFF);
+		sprite_offset = (MIMA_PART_CARRIER_OFF + boss_sprite_offset);
 		if(MIMA_RENDER_PARTICLE_CEL_FIRST <= boss_render_frame) {
 			sprite_offset += 4;
 			if(MIMA_RENDER_PARTICLE_CEL_SECOND <= boss_render_frame) {
@@ -556,8 +556,8 @@ render_mode_2:
 
 	if(boss_render_mode == MIMA_RMODE_FLASH) {
 		sprite16_put_size.set(MIMA_PART_SPRITE_SIZE, MIMA_PART_SPRITE_SIZE);
-		sprite_offset = (boss_sprite_offset + MIMA_PART_SPRITE_OFF);
-		sprite16_put((left + MIMA_PART_SPRITE_LEFT), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
+		sprite_offset = (MIMA_PART_SPRITE_OFF + boss_sprite_offset);
+		sprite16_put((MIMA_PART_SPRITE_LEFT + left), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
 		return;
 	}
 
@@ -580,9 +580,10 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	pid_other = (1 - pid_current);
 	sprite16_put_size.set(MIMA_RENDER_FULL_WIDTH, MIMA_RENDER_FULL_HEIGHT);
 	base_left = (
-		playfield_fg_x_to_screen(boss_center_x, pid_other) - MIMA_RENDER_MAIN_LEFT_HALF
+		(-MIMA_RENDER_MAIN_LEFT_HALF) +
+			playfield_fg_x_to_screen(boss_center_x, pid_other)
 	);
-	base_top = ((boss_center_y >> 4) - MIMA_RENDER_MAIN_TOP_HALF);
+	base_top = ((-MIMA_RENDER_MAIN_TOP_HALF) + TO_PIXEL(boss_center_y));
 
 	_AH = SPRITE16_SET_MASK;
 	_DX = MIMA_RENDER_HALF_MASK_A;

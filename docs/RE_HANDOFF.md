@@ -688,6 +688,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   equality changed ordered native fields and was reverted; retain
   `pid_current == gba_boss_launched_by`. See the
   [after1041 Trail/Orbit/Update review](MAIN_MIMA_TRAIL_ORBIT_UPDATE_NATURAL_EXPRESSIONS_AFTER1041_REVIEW.md).
+  The main and split renderers now use base-first half-sprite placement plus
+  `TO_PIXEL()`. The main renderer also uses base-first damaged/Particle/
+  carrier/Flash sprite-bank offsets and Particle X placement; split keeps its
+  original register distance and hardware-mask sequence (af1042a/b/c/d/e/f/i).
+  See the [after1042 Mima renderer review](MAIN_MIMA_RENDER_COORDINATES_AFTER1042_REVIEW.md).
 - **Chiyuri:** the 613-byte update controller now scopes its complete
   active-player path under `if(pid_current == gba_boss_launched_by)`,
   preserving the shared mode dispatch and collision/hitbox tail (af1032l).
