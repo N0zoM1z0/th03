@@ -1,28 +1,40 @@
-# TH03 current storage and evidence policy — after928 handoff (2026-11-08)
+# TH03 current storage and evidence policy — after1024 handoff (2026-11-08)
 
 Use the [current source handoff](RE_HANDOFF.md) for after596 MAIN / after587
 MAINL. This page records what has ACTUALLY been deleted or packed; it is
 not a license to age-prune native work. The complete earlier after554 storage
 record is preserved as [a historical snapshot](STORAGE_HANDOFF_ARCHIVE_AFTER554.md).
 
-## Most recent applied safe cleanup (after928)
+## Most recent applied safe cleanup (after1024)
+
+The [after1024 actual cleanup audit](STORAGE_HANDOFF_AFTER1024.md)
+removed **448 Python bytecode cache files**: 10,503,368 logical bytes
+and **11,243,520 allocated bytes**. It then repacked Git with
+--no-prune and all reflog expiry disabled. All **21,319 Git object
+IDs, types and sizes**, both refs, all three reflog files and the full
+fsck output were identical before and after. The .git apparent size
+fell by **4,201,304 bytes** (24,424,896 to 20,223,592).
+
+The cleanup deleted **zero .analysis proof files or native receipt
+trees**. Original OBJ/LIB/EXE/MAP, targets, Wine/Borland tools, Ghidra
+state, source snapshots, writer logs and both compiler rounds remain
+untouched. Python caches can regenerate after later imports. The
+before/after inventories and per-file cache hashes are retained under
+.analysis/handoff/after1024-safe-git-cache/.
+
+## Earlier applied safe cleanup (after928)
 
 The [after928 actual cleanup audit](STORAGE_HANDOFF_AFTER928.md)
 records **24,928,256 gross allocated bytes (~23.77 MiB)** reclaimed:
 **24,117,248 bytes** by an audited **non-pruning Git repack** and
 **811,008 bytes** by the official Python bytecode **cache-only** cleaner.
 The full inventory of **20,463 Git objects** (including unreachable
-objects), all branch refs, all **2,788 reflog records**, and full `fsck`
-were identical before and after repacking. The 41 deleted Python
+objects), all branch refs, all **2,788 reflog records**, and full
+fsck were identical before and after repacking. The 41 deleted Python
 cache files have a preserved per-file SHA-256 manifest.
 
-The cleanup **did not delete any `.analysis` proof stage, original
-OBJ/EXE/MAP, Wine/Borland tool, target, historical compiler receipt or
-negative experiment**. The large `.analysis` proof dependency trees
-remain protected. Unlike prior source-proof audits, after928 claims
-**zero deleted native proof files**. The cache saving may regenerate
-on later imports. Do not repeat the gross savings when calculating
-storage reclaimed in a future maintenance session.
+The after928 cleanup also deleted **zero native proof files**. Its
+savings are historical and must not be added again to after1024.
 
 ## Earlier applied bounded cleanup (after710)
 
@@ -38,7 +50,7 @@ and retained after703 two-round original-native MAIN proofs
 still pass read-only review after the deletion. See
 [the exact after710 cleanup record](STORAGE_HANDOFF_AFTER710.md).
 
-The **after597** audit below remains the previous (much larger)
+The **after597** audit below remains an earlier (much larger)
 disposable BOSS-tree action; its 95,522,816-byte total is a
 **historical after597 subtotal**, not the current combined
 total. Do not add that amount to each newer receipt or treat
