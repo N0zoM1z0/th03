@@ -119,6 +119,13 @@ Stage af1026i rebuilt the complete `ba_koto` owner in two original TC4 rounds:
 Japanese MAIN image and relocations exact. See the
 [after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md).
 
+The same radial review records four rejected complete-owner experiments:
+af1026b/c (early-return and inverted expansion/release branches) and
+af1026e/f (local `PlayfieldPoint` aggregate/field copies). All changed the
+complete `ba_koto` CODE and were reverted. Do not repeat those forms without a
+new disassembly-led hypothesis; the detailed results are in the
+[after1026 radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md).
+
 The HitCircle age walk also now uses a direct positive `p->age` guard in
 `hitcircles_update()` instead of a zero-age `continue`. Stage af1025d rebuilt
 the complete `hitcirc` object in two independent original TC4 rounds: 445 CODE

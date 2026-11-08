@@ -27,3 +27,20 @@ Japanese loaded image and ordered MZ relocations.
 Protected report: `.analysis/work/exatt-layout-af1026i/report.json`
 
 SHA-256: `3209edcbd2b482854e9c41c486e8c4689b7c403ebca92cb1a81bf1a57f9ae854`
+
+## Additional radial-branch and coordinate-type experiments
+
+The following natural alternatives were compiled against the same complete
+`ba_koto` owner and rejected because the complete CODE payload differed:
+
+- `af1026b`: move the expansion/movement path to an early-return guard and
+  leave release as the fallthrough path.
+- `af1026c`: invert the expansion/release branches without an early return.
+- `af1026e`: replace the two `int` coordinate locals with a `PlayfieldPoint`
+  and copy the complete point to `bullet_template.center`.
+- `af1026f`: use the same local `PlayfieldPoint` but copy its X and Y fields
+  individually into the bullet template.
+
+All four source experiments were reverted. The original expansion/release
+branch and separate integer coordinate temporaries remain. The successful
+`register int` index declarations are independent of those rejected trials.
