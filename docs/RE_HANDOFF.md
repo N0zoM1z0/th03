@@ -173,8 +173,6 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   ring/radial phase comparisons. Two original TC4 rounds match. Protected
   report: .analysis/work/exatt-layout-af1019d/report.json,
   SHA-256 bdead77076b04735cc9afba6ac73270c9a321ad7e97557a69cf55751929c1272.
-  Protected report: .analysis/work/exatt-layout-af1016d/report.json,
-  SHA-256 85b842b589a4bd839e1bdca1adbc3f1dc6fe13010742cf8cad98f490b607b742.
 - **Earlier Chiyuri complete BOSS source proof: `af1016c`.**
   The complete ba_chiyu owner preserves **2,654 CODE bytes, 381 ordered
   OMF FIXUPPs and 11 PUBLICs** with block-local cardinal PID storage and
