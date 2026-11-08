@@ -647,6 +647,15 @@ original TC4 rounds, with all 343 ordered native fields, ten PUBLICs and the
 Japanese MAIN image/relocations exact. See the
 [after1053 Yumemi pattern cadence review](MAIN_YUMEMI_PATTERN_CADENCE_NATURAL_CPP_AFTER1053_REVIEW.md).
 
+The modulo/phase recovery was extended across all five ring, aimed, chase and
+rain cadence predicates. A seemingly natural aggregate `boss_aux_point =
+players[pid].center` copy was separately tested in the aimed and chase leaves
+and rejected because it changes CODE; retain the two explicit X/Y member
+assignments. Stage af1053j rebuilt the complete 2,358-byte Yumemi owner in two
+original TC4 rounds, with all 343 ordered native fields, ten PUBLICs and the
+Japanese MAIN image/relocations exact. See the
+[after1053 Yumemi modulo/phase review](MAIN_YUMEMI_ATTACK_MODULO_AND_PHASE_NATURAL_CPP_AFTER1053_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
