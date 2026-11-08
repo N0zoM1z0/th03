@@ -263,9 +263,9 @@ void near mima_pattern_bomb_random(void)
 	register int x;
 	register int y;
 
-	if(boss_frame == MIMA_RANDOM_BOMB_WARN) {
+	if(MIMA_RANDOM_BOMB_WARN == boss_frame) {
 		boss_render_mode = MIMA_RMODE_TRAIL;
-	} else if(boss_frame < MIMA_RANDOM_BOMB_FIRE_BEGIN) {
+	} else if(MIMA_RANDOM_BOMB_FIRE_BEGIN > boss_frame) {
 		return;
 	}
 
@@ -281,7 +281,7 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	if(boss_frame > MIMA_RANDOM_BOMB_BULLET_WAIT_END) {
+	if(MIMA_RANDOM_BOMB_BULLET_WAIT_END < boss_frame) {
 		// Natural unsigned 16-bit four-frame attack clock, not a byte
 		// animation division. The original hardware RNG order is unchanged.
 		if((boss_frame & (MIMA_RANDOM_BOMB_FIRE_PERIOD - 1)) == 0) {
@@ -300,7 +300,7 @@ void near mima_pattern_bomb_random(void)
 			bullet_template.is_animated = true;
 		}
 
-		if(boss_frame == MIMA_RANDOM_BOMB_RING_FRAME) {
+		if(MIMA_RANDOM_BOMB_RING_FRAME == boss_frame) {
 			bullet_template.angle = randring_far_next16();
 			bullet_template.group = BG_32_RING;
 			bullet_template.center.x.v = x;
@@ -316,7 +316,7 @@ void near mima_pattern_bomb_random(void)
 			snd_se_play(MIMA_SOUND_SPREAD);
 		}
 
-		if(boss_frame >= MIMA_RANDOM_BOMB_END) {
+		if(MIMA_RANDOM_BOMB_END <= boss_frame) {
 			boss_render_mode = MIMA_RMODE_NORMAL;
 			boss_mode = MIMA_MODE_SELECT;
 			boss_frame = 0;
@@ -428,11 +428,11 @@ void far gba_boss_update_mima(void)
 		// The target deliberately recomputes this after the shared helper call
 		// instead of reusing [pid_other] (native negative control af749c).
 		bullet_template.pid = (1 - pid_current);
-		++boss_frame;
+		boss_frame++;
 
 		switch(boss_mode) {
 		case MIMA_MODE_INTRO:
-			if(boss_frame == MIMA_BOSS_INTRO_END) {
+			if(MIMA_BOSS_INTRO_END == boss_frame) {
 				boss_frame = 0;
 				boss_mode = MIMA_MODE_SELECT;
 				break;

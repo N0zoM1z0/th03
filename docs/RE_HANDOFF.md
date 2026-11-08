@@ -591,14 +591,20 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   The 223-byte split renderer uses `angle += MIMA_RENDER_SPLIT_OPPOSITE_ANGLE`,
   and the 101-byte far render controller scopes its active path under the
   positive launched-player guard with constant-first INTRO/EXPLODE comparisons
-  (af1034x/y/1035a/b/d). Keep the SI/DI local declaration order, ordinary top
-  local, Trail-to-Particle label/goto and byte-frame postfix. See the
+  (af1034x/y/1035a/b/d). The 298-byte update uses postfix BOSS-frame increment
+  and a constant-first INTRO completion test; Random Bomb uses constant-first
+  warning/fire/wait/ring/end frame comparisons (af1035f/g/l/m/n/o). Keep the
+  SI/DI local declaration order, ordinary top local, Trail-to-Particle
+  label/goto and byte-frame postfix. See the
+  [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
+  [after1035 update/Random Bomb review](MAIN_MIMA_UPDATE_AND_RANDOM_BOMB_AFTER1035_REVIEW.md),
+  and
   [after1034 Mima main renderer review](MAIN_MIMA_RENDER_MAIN_TRAIL_GUARD_AND_PHASE_COMPARISONS_AFTER1034_REVIEW.md),
   [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
   the
   [after1032 Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
   [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md),
-  [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md)
+  [Random Bomb guard review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md)
   and [after1034 Trail review](MAIN_MIMA_TRAIL_NATURAL_NARROWING_AND_SPEED_AFTER1034_REVIEW.md).
 - **Chiyuri:** the 613-byte update controller now scopes its complete
   active-player path under `if(pid_current == gba_boss_launched_by)`,
