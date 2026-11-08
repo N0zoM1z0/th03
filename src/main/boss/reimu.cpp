@@ -159,8 +159,8 @@ void near reimu_pattern_orbit_cloud(void)
 	}
 
 	angle = ((unsigned char)boss_frame * REIMU_CLOUD_ANGLE_FRAME_STEP);
-	if(reimu_direction) {
-		angle = (0 - angle);
+	if(reimu_direction != 0) {
+		angle = (unsigned char)(0 - angle);
 	}
 
 	// Original unsigned-word period can use natural if(!remainder),
@@ -280,10 +280,10 @@ void near reimu_pattern_orbit_burst(void)
 	if(boss_frame < REIMU_ORBIT_EXPAND_END) {
         // Keep two natural 16-bit scale stages in the original order:
         // frame*32 changes TC4 instructions; (frame*16)*2 does not.
-		// One of three distinct original orbit script phases. Natural C++
-		// while retains signed i*256/division before byte angle truncation,
-		// and source-order polar/call side effects (af892a).
-		for(i = 0; i < reimu_orbit_count; i++) {
+		// Three orbit phases retain signed i*256 before division and byte
+		// angle truncation. Prefix for-header increments preserve each
+		// phase's polar and Extra Attack call order (af985d).
+		for(i = 0; i < reimu_orbit_count; ++i) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
@@ -304,7 +304,7 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
-		for(i = 0; i < reimu_orbit_count; i++) {
+		for(i = 0; i < reimu_orbit_count; ++i) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
@@ -330,7 +330,7 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
-		for(i = 0; i < reimu_orbit_count; i++) {
+		for(i = 0; i < reimu_orbit_count; ++i) {
 			angle = (((i * REIMU_ORBIT_ANGLE_UNITS) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
 		}
@@ -505,9 +505,9 @@ void near reimu_render_main(void)
 		sprite_offset += (((anim & 1) * 6) + 0x780);
 	}
 
-	// All live orbit sprites draw in original signed-index order;
-	// TC4 accepts this natural for loop (af981c).
-	for(i = 0; i < reimu_orbit_count; i++) {
+	// All live orbit sprites draw in signed-index order; the prefix
+	// for-header increment preserves the original register sequence.
+	for(i = 0; i < reimu_orbit_count; ++i) {
 		left = (
 			playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN
 		);
@@ -551,9 +551,9 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	}
 
 	// Eight original polar-sprite calls with byte-angle advancement
-	// after rendering. The for-header comma preserves increment order
-	// (index first, angle second) and is native-exact (af981e).
-	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; i++, angle += REIMU_INTRO_ANGLE_STEP) {
+	// after rendering. The comma-expression increments the signed index
+	// first and the byte angle second (af985d).
+	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; ++i, angle += REIMU_INTRO_ANGLE_STEP) {
 		left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
 		left = (playfield_fg_x_to_screen(left, pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN);
