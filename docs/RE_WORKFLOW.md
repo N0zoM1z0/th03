@@ -31,52 +31,60 @@
 ## Scoped current-source native check (MAIN)
 
 The preferred bounded MAIN source verification uses the original
-Turbo C++ 4.02 + full normal TLINK scoped overlay, established in
-[historical after709](MAIN_FIFTYEIGHT_SCOPED_SOURCE_AFTER709_REVIEW.md)
-and **currently source-bound at [after927](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)**.
+Turbo C++ 4.02 plus the complete normal TLINK response. The current
+twelve-owner source-bound integration is af1024e; its four-owner subset
+is af1024d. Current standalone source proofs are af1024b (HitCircle),
+af1024c (Kotohime), af1021a (Chiyuri) and af1021b (Mima). See the
+[active handoff](RE_HANDOFF.md) for exact scopes and report hashes.
+
 Select **only the original physical TUs whose maintained C++ or actually
-consumed implementation `.inl` includes changed** (for example, the
-complete `entry` owner for `round_loop.inl` edits), and run:
+consumed implementation .inl files changed**. Use a new unused DOS-safe
+stage, two independent original compiler rounds and two complete normal
+MAIN links:
 
-```sh
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_exatt_layout.py --stage afNEWa --units ba_chiyu,entry
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage afNEWa
-```
+    STAGE=afNNNx  # choose an actually unused stage
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/probe_th03_main_exatt_layout.py --stage "$STAGE" --units ba_koto,hitcirc
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage "$STAGE"
 
-Use a **new unused** DOS-safe `afNNNx` stage (not the literal
-`afNEWa` example), actual original compiler and *unchanged complete*
-normal 99-project-object TLINK response, two independent native writer
-rounds, and compare original CODE, literal ordered FIXUPP, PUBLIC,
-source/header/`.inl` binding, segment geometry, whole normal MAIN and
-ordered MZ relocations. For unchanged scopes, use **current** read-only
-review of `af927a`, `af921a`, `af915a` and their separately verified
-unchanged other owners; **`af709a` is historical and source-stale**.
-The active receipt list is in [RE_HANDOFF.md](RE_HANDOFF.md).
-Do not infer canonical Factory acceptance from a target-equal normal link. The historical
-after596 complete source-native and after587 MAINL pair are separate
+Compare complete CODE, literal ordered FIXUPPs, PUBLICs, source/header/.inl
+bindings, segment geometry, full normal MAIN and ordered MZ relocations.
+Do not infer canonical Factory acceptance from a target-equal normal link.
+
+**Historical composite-stage correction:** af927a is no longer a current
+whole-stage review because its ba_chiyu source hash differs from the
+maintained Chiyuri source. Its entry, effects, cs_chiyu and b_chiyu source
+hashes still match, but the stage-wide reviewer correctly rejects the
+stale ba_chiyu member. Likewise af935a is historical for ba_maris.
+Do not list either composite stage as a current all-owner source proof.
+Use af1024e for the current nine-BOSS/collision set. The active receipt
+list and other source-current scopes are in RE_HANDOFF.md.
+
+The historical after596 MAIN and after587 MAINL pairs are separate
 retained ancestors, **not** reasons to run full cold replay per edit.
 
 ## Latest protected-storage policy
 
-The last applied source-linked CRT proof-output deletion audit covers
-ONLY the after520 prefix: **258 stages / 5,760 protected files**.
-The later [after597 disposal](STORAGE_HANDOFF_CURRENT.md) removed
-exactly three externally unreferenced, superseded BOSS exploratory
-source runs, with a fixed allowlist and current native receipt hash
-guards. It did not delete after596 MAIN, after587 MAINL, active
-559/561 BOSS dual rounds, CRT, source files or original toolchains.
-The newer [after710 handoff cleanup](STORAGE_HANDOFF_AFTER710.md)
-removed only six externally unreferenced incomplete *verifier
-configuration* stage pairs and regenerable caches, with full
-path/SHA manifest; no completed source proof was pruned.
-The latest [after928 audited safe Git/cache cleanup](STORAGE_HANDOFF_AFTER928.md)
-kept all 20,463 Git object identities, branch refs, reflogs and entire
-native proof DAG intact; only regenerable bytecode caches were deleted.
-Use [the current storage policy](STORAGE_HANDOFF_CURRENT.md);
-the old cleanup_mainl_after520_handoff.py explicitly rejects newer
-source stages. Older after439/after388 cleanup tools are historical;
-never bypass their guards or infer disposability from an unrelated
-general cleanup preview. Cache-only cleanup is separate and does not touch `.analysis`.
+The latest applied cleanup is the [after1024 safe storage audit]
+(STORAGE_HANDOFF_AFTER1024.md): it removed only 448 regenerable Python
+bytecode files and repacked Git with no pruning. All 21,319 Git object
+IDs/types/sizes, refs, reflog files and fsck output remained identical.
+No .analysis proof file, native receipt tree, target or toolchain file
+was deleted. The earlier [after928 audit](STORAGE_HANDOFF_AFTER928.md)
+is historical.
+
+The after710 cleanup removed only six externally unreferenced incomplete
+verifier-configuration stage pairs; after597 retired three explicitly
+audited exploratory BOSS trees. The after520 source-linked CRT proof-output
+audit covers only its historical prefix. These bounded historical actions
+do not authorize further source-proof deletion.
+
+Use [the current storage policy](STORAGE_HANDOFF_CURRENT.md). The old
+cleanup_mainl_after520_handoff.py explicitly rejects newer source stages.
+Older after439/after388 cleanup tools are historical; never bypass their
+guards or infer disposability from an unrelated cleanup preview. Only the
+official cache-only cleaner is a routine deletion route. Do not use
+unreferenced-receipt pruning or bulk-delete .analysis.
+
 
 ## Keep verification proportional
 

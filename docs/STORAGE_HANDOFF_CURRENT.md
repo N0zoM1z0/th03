@@ -61,7 +61,7 @@ source-bound DAG.
 
 - Original Japanese targets, ReC98 sources/reference archives, Wine/Borland
   prefix, Ghidra/JDK, pinned library/CRT files and tooling are immutable inputs.
-- Current after596 MAIN and after587 MAINL source-native receipt DAGs, all
+- Preserved historical after596 MAIN and after587 MAINL source-native receipt DAGs, all
   parent stages, actual consumed source snapshots, OBJ/LIB/EXE/MAP,
   linker responses, writer logs and BOTH independent rounds must stay.
 - Historical active BOSS proof directories: after559 Chiyuri
