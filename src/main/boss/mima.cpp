@@ -116,7 +116,7 @@ void far pascal boss_mima_template_init(int player_id)
 	p->hp = MIMA_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->sprite_offset = MIMA_TEMPLATE_SPRITE_OFFSET;
-	if(player_id != 0) {
+	if(0 != player_id) {
 		p->sprite_offset += MIMA_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = MIMA_TEMPLATE_RENDER_MODE_NORMAL;
@@ -413,13 +413,13 @@ void far gba_boss_update_mima(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		mima_bullet_speed = (gba_boss_level + MIMA_LEVEL_BULLET_BASE);
-		mima_random_count = ((gba_boss_level / MIMA_LEVEL_QUARTER) + MIMA_LEVEL_RANDOM_COUNT_BASE);
-		mima_random_speed = (gba_boss_level + MIMA_LEVEL_BULLET_BASE);
-		mima_trail_interval = (MIMA_LEVEL_TRAIL_INTERVAL_BASE - (gba_boss_level * 2));
-		mima_pellet_speed = (gba_boss_level + MIMA_LEVEL_PELLET_SPEED_BASE);
-		mima_pellet_until = ((gba_boss_level * MIMA_LEVEL_PELLET_UNTIL_MULTIPLIER) + MIMA_LEVEL_PELLET_UNTIL_BASE);
-		mima_orbit_speed = (gba_boss_level + MIMA_LEVEL_ORBIT_SPEED_BASE);
+		mima_bullet_speed = (MIMA_LEVEL_BULLET_BASE + gba_boss_level);
+		mima_random_count = (MIMA_LEVEL_RANDOM_COUNT_BASE + (gba_boss_level / MIMA_LEVEL_QUARTER));
+		mima_random_speed = (MIMA_LEVEL_BULLET_BASE + gba_boss_level);
+		mima_trail_interval = (MIMA_LEVEL_TRAIL_INTERVAL_BASE - (2 * gba_boss_level));
+		mima_pellet_speed = (MIMA_LEVEL_PELLET_SPEED_BASE + gba_boss_level);
+		mima_pellet_until = (MIMA_LEVEL_PELLET_UNTIL_BASE + (MIMA_LEVEL_PELLET_UNTIL_MULTIPLIER * gba_boss_level));
+		mima_orbit_speed = (MIMA_LEVEL_ORBIT_SPEED_BASE + gba_boss_level);
 	}
 
 	if(pid_current == gba_boss_launched_by) {

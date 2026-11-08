@@ -599,11 +599,16 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   positive launched-player guard with constant-first INTRO/EXPLODE comparisons
   (af1034x/y/1035a/b/d). The 298-byte update uses postfix BOSS-frame increment
   and a constant-first INTRO completion test; Random Bomb uses constant-first
-  warning/fire/wait/ring/end frame comparisons (af1035f/g/l/m/n/o). Keep the
-  SI/DI local declaration order, ordinary top local, Trail-to-Particle
+  warning/fire/wait/ring/end frame comparisons (af1035f/g/l/m/n/o). Its
+  seven level-derived attack parameters now use constant-first additions
+  and multiplications; the division-by-four remains an actual division, as
+  replacing it with a shift changed CODE. The template initializer's
+  player-ID test is constant-first, while the sprite-offset `+=` remains
+  necessary (af1035r/u/v/w/y). Keep the SI/DI local declaration order, ordinary top local, Trail-to-Particle
   label/goto and byte-frame postfix. See the
   [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
   [after1035 update/Random Bomb review](MAIN_MIMA_UPDATE_AND_RANDOM_BOMB_AFTER1035_REVIEW.md),
+  [level scaling/template review](MAIN_MIMA_LEVEL_SCALING_AND_TEMPLATE_INIT_AFTER1035_REVIEW.md),
   and
   [after1034 Mima main renderer review](MAIN_MIMA_RENDER_MAIN_TRAIL_GUARD_AND_PHASE_COMPARISONS_AFTER1034_REVIEW.md),
   [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
