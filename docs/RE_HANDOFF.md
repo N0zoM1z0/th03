@@ -533,13 +533,16 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
 - **Kotohime:** the 332-byte update controller now scopes its complete
   active-player path under `if(pid_current == gba_boss_launched_by)`, keeping
   its INTRO/EXPLODE returns, mode dispatch and collision/hitbox tail together
-  (af1032p). The 302-byte Radial Burst now uses scoped, pre-tested `for`
-  loops with register DI/SI indices and per-center scratch scope. Its release
-  check is a positive completion branch; the warning-radius step is named,
-  and the center-angle and speed expressions use base-first additions. The
-  signed 16-bit multiply/divide order, byte-angle truncation, polar calls and
-  bullet emission order remain exact. A natural `boss_move_phase -= 4` form
-  changed CODE and was reverted (af1033s/u/v/w/x/y). See the
+  (af1032p). Its six additive level formulas are now base-first; BOSS-frame
+  increment is postfix and INTRO completion is constant-first (af1037o/p).
+  The 302-byte Radial Burst retains its nested pre-tested `for` loops but now
+  declares DI/SI indices and x/y/angle scratch once in outer-to-inner order
+  in the release scope. Its center-angle, burst-angle and speed multipliers
+  use constant-first operands; the burst-angle offset is first in the sum.
+  Signed multiply/divide order, byte-angle truncation, polar calls and bullet
+  emission order remain exact (af1037c/d/e/f/g/h/i/r). Direct C++ replacement
+  of the AL-mediated phase-byte update changed CODE and was reverted
+  (af1037a/b/j). See the [after1037 Radial/Update review](MAIN_KOTOHIME_RADIAL_AND_UPDATE_ARITHMETIC_AFTER1037_REVIEW.md),
   [after1033 radial recovery review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_ARITHMETIC_AFTER1033_REVIEW.md)
   and [after1031 scoped-loop review](MAIN_KOTOHIME_RADIAL_SCOPED_WHILE_LOOPS_AFTER1031_REVIEW.md).
 - **HitCircle:** layout/animation and capacity constants are grouped into

@@ -363,17 +363,19 @@ void near kotohime_pattern_radial_burst(void)
 			bullet_template.group = BG_1;
 			bullet_template.type = BT_BULLET16_DEFAULT;
 
-			// The nested O(center_count * burst_count) traversal keeps the
-			// original DI/SI order and division before angle truncation.
-			// Center scratch lives for one outer iteration; bullet_i only for
-			// that center's inner burst. Both pre-tested for loops are exact.
-			for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
-				register int x;
-				register int y;
-				register unsigned char center_angle;
+			// The nested O(center_count * burst_count) traversal declares
+			// DI/SI indices outer-to-inner and reuses its x/y/angle scratch
+			// for each center. bullet_i resets per center; both loops are
+			// pre-tested and retain signed division before angle truncation.
+			register int center_i;
+			register int bullet_i;
+			register int x;
+			register int y;
+			register unsigned char center_angle;
+			for(center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
 				center_angle = (
 					boss_move_phase +
-					((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count)
+					((KOTOHIME_FULL_TURN_STEPS * center_i) / kotohime_orbit_count)
 				);
 				x = polar(
 					boss_center_x,
@@ -388,15 +390,15 @@ void near kotohime_pattern_radial_burst(void)
 				bullet_template.center.x.v = x;
 				bullet_template.center.y.v = y;
 
-				for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
+				for(bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
 					bullet_template.angle = (
-						((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
+						KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
 						center_angle +
-						KOTOHIME_BURST_CENTER_ANGLE_OFFSET
+						((KOTOHIME_BURST_HALF_TURN_STEPS * bullet_i) / kotohime_burst_count)
 					);
 					bullet_template.speed.v = (
 						KOTOHIME_BURST_SPEED_BASE +
-						((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count)
+						((KOTOHIME_BURST_SPEED_SCALE * bullet_i) / kotohime_burst_count)
 					);
 					bullets_add();
 				}
@@ -421,24 +423,24 @@ void far gba_boss_update_kotohime(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		kotohime_random_ring_speed = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_SPEED_BASE);
-		kotohime_orbit_count = ((gba_boss_level / KOTOHIME_LEVEL_ORBIT_DIV) + KOTOHIME_LEVEL_ORBIT_BASE);
-		kotohime_aimed_speed_slow = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_SPEED_BASE);
-		kotohime_aimed_speed_fast = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_AIMED_FAST_BASE);
-		kotohime_pellet_speed = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_PELLET_BASE);
+		kotohime_random_ring_speed = (KOTOHIME_LEVEL_SPEED_BASE + (gba_boss_level / KOTOHIME_LEVEL_HALF));
+		kotohime_orbit_count = (KOTOHIME_LEVEL_ORBIT_BASE + (gba_boss_level / KOTOHIME_LEVEL_ORBIT_DIV));
+		kotohime_aimed_speed_slow = (KOTOHIME_LEVEL_SPEED_BASE + (gba_boss_level / KOTOHIME_LEVEL_HALF));
+		kotohime_aimed_speed_fast = (KOTOHIME_LEVEL_AIMED_FAST_BASE + (gba_boss_level / KOTOHIME_LEVEL_HALF));
+		kotohime_pellet_speed = (KOTOHIME_LEVEL_PELLET_BASE + (gba_boss_level / KOTOHIME_LEVEL_HALF));
 		kotohime_pellet_interval = (KOTOHIME_LEVEL_INTERVAL_BASE - (gba_boss_level / KOTOHIME_LEVEL_HALF));
-		kotohime_burst_count = ((gba_boss_level / KOTOHIME_LEVEL_HALF) + KOTOHIME_LEVEL_BURST_BASE);
+		kotohime_burst_count = (KOTOHIME_LEVEL_BURST_BASE + (gba_boss_level / KOTOHIME_LEVEL_HALF));
 	}
 
 	if(pid_current == gba_boss_launched_by) {
 		pid_other = (1 - pid_current);
 		boss_target_update();
 		bullet_template.pid = pid_other;
-		++boss_frame;
+		boss_frame++;
 
 		switch(boss_mode) {
 		case KOTOHIME_MODE_INTRO:
-			if(boss_frame == KOTOHIME_INTRO_FINISH_FRAME) {
+			if(KOTOHIME_INTRO_FINISH_FRAME == boss_frame) {
 				boss_frame = 0;
 				boss_mode = KOTOHIME_MODE_SELECT;
 				break;
