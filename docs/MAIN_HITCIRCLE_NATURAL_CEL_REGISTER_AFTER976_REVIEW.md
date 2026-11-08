@@ -23,6 +23,19 @@ Several fresh attempts tried to express that work as ordinary C++:
 - af976f explicitly declared the record pointer, loop index and cel value
   as ordered register locals. The complete object still differed.
 
+- af987a used an ordinary unsigned local with sequential divide and
+  multiply assignments. TC4 placed the intermediate in DI, moved the
+  renderer index from DI to a stack slot, and expanded the object to
+  **447 CODE bytes**.
+- af989a repeated the experiment with explicit register declarations for
+  the record pointer, loop index and cel local. The compiler still chose
+  DI for the cel, moved the index to the stack, and emitted a four-byte
+  ENTER frame; the complete object remained **447 bytes**.
+- af989b expressed the scale as three natural cel-times-two terms. The
+  object returned to **445 bytes**, but TC4 spilled cel to [bp-4] and
+  generated repeated DX loads/additions instead of the original BX
+  multiply/add sequence. Equal size did not mean equal CODE.
+
 The direct formula is cleaner algebraically but does not reproduce the
 original target's intentionally unoptimized multiply/add sequence. The
 register-local variants also change SI/DI lifetime and stack layout. Keep
