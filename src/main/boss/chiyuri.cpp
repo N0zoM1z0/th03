@@ -378,7 +378,7 @@ enum chiyuri_fan_phase_t {
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	int i;
+	register int i;
 
 	if(CHIYURI_FAN_HORIZONTAL_FRAME == boss_frame) {
 		bomb_axis_add(
