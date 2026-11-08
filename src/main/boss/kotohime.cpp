@@ -178,7 +178,7 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 
 		// Original signed-word nonzero RNG selector is exact with an
 		// explicit `!=0` (genuine TC4 native test af910d).
-		if(randomize_angle != 0) {
+		if(randomize_angle) {
 			bullet_template.angle = randring_far_next16();
 		}
 		angle = (
@@ -216,7 +216,7 @@ enum kotohime_ring_phase_t {
 // Do not replace these register-visible expressions by C++ assumptions.
 void near kotohime_pattern_random_ring(void)
 {
-	if(boss_frame == KOTOHIME_RING_START_FRAME) {
+	if(KOTOHIME_RING_START_FRAME == boss_frame) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -224,7 +224,7 @@ void near kotohime_pattern_random_ring(void)
 
 	boss_move_phase += 4;
 
-	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
+	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		// Force the original phase-byte reload after the preceding +4.
 		// Without volatile, TC4 reuses AL and omits this load (af967c).
@@ -234,7 +234,7 @@ void near kotohime_pattern_random_ring(void)
 		// Byte-memory postfix is real original codegen. Changing all
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
-		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
+		if(KOTOHIME_RING_RELEASE_AFTER < boss_render_frame) {
 			bullet_template.group = BG_16_RING;
 			bullet_template.speed.v = kotohime_random_ring_speed;
 			kotohime_ring_emit(1);
@@ -251,7 +251,7 @@ void near kotohime_pattern_random_ring(void)
 
 void near kotohime_pattern_aimed_ring(void)
 {
-	if(boss_frame == KOTOHIME_RING_START_FRAME) {
+	if(KOTOHIME_RING_START_FRAME == boss_frame) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -260,7 +260,7 @@ void near kotohime_pattern_aimed_ring(void)
 
 	boss_move_phase -= 2;
 
-	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
+	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		boss_effect_radius += 8;
 		_AL = boss_move_phase;
@@ -269,7 +269,7 @@ void near kotohime_pattern_aimed_ring(void)
 		// Byte-memory postfix is real original codegen. Changing all
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
-		if(boss_render_frame > KOTOHIME_RING_RELEASE_AFTER) {
+		if(KOTOHIME_RING_RELEASE_AFTER < boss_render_frame) {
 			bullet_template.group = BG_2_SPREAD_NARROW_AIMED;
 			bullet_template.angle = 0;
 			bullet_template.speed.v = kotohime_aimed_speed_fast;
@@ -331,7 +331,7 @@ void near kotohime_pattern_pellet_arc(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= KOTOHIME_PELLET_FINISH_FRAME) {
+	if(KOTOHIME_PELLET_FINISH_FRAME <= boss_frame) {
 		boss_mode = KOTOHIME_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -341,7 +341,7 @@ void near kotohime_pattern_pellet_arc(void)
 // 128-step local spread with original signed 16-bit operations.
 void near kotohime_pattern_radial_burst(void)
 {
-	if(boss_frame == KOTOHIME_RING_START_FRAME) {
+	if(KOTOHIME_RING_START_FRAME == boss_frame) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
 		boss_render_frame = 0;
@@ -351,7 +351,7 @@ void near kotohime_pattern_radial_burst(void)
 	_AL += (unsigned char)0xFC;
 	boss_move_phase = _AL;
 
-	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
+	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
 		boss_effect_radius += 8;
 		boss_move_phase -= 2;
