@@ -78,11 +78,11 @@ uint8_t hitbox_hittest(void)
 		damage += _AL;
 	}
 
-	// ZUN bloat: `damage += chargeshot_hittest[hitbox.pid]();`
+	// Keep the explicit two-player far-callback branches: the compact
+	// indexed expression changed complete CODE (af998b).
 	static_assert(PLAYER_COUNT == 2);
-	// The two-player byte pid branch is naturally `if(!pid)` in
-	// the real original TC4, preserving the far callback ABI (af901b).
-	if(!hitbox.pid) {
+	// TC4 emits the original far callback sequence for explicit pid == 0.
+	if(hitbox.pid == 0) {
 		damage += chargeshot_hittest[0]();
 	} else {
 		damage += chargeshot_hittest[1]();
