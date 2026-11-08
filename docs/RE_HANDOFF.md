@@ -650,6 +650,17 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   `else return` (af1033i); the separate SELECT test still follows immediately.
   See the [after1032 PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
   and [after1033 INTRO-branch review](MAIN_REIMU_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
+  The 443-byte Orbit Burst now uses constant-first phase tests, independent
+  early-return guards, a register byte angle, postfix radial loops, base-first
+  signed-angle distribution and `TO_SP(frame) * 2` for its two-stage radius
+  scale. Both global byte-angle updates accept compound `+=`. The 339-byte
+  Orbit Cloud now names its 48-pixel center trajectory, uses natural unsigned
+  modulo cadence checks, explicit C++ byte casts and compound local-angle
+  updates; postfix cloud-speed increment remains required. The 296-byte Update
+  uses a register PID local, postfix frame increment and constant-first level
+  and scheduler expressions (af1043a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/r/s/t/u/v/w/x/z,
+  af1044a/c/d/e/g/h/i/j/k/l/m). See the
+  [after1044 Reimu Orbit/Cloud/Update review](MAIN_REIMU_ORBIT_BURST_CLOUD_AND_UPDATE_NATURAL_CPP_AFTER1044_REVIEW.md).
 - **Mima:** the 298-byte update controller now scopes its complete active
   player path under `if(pid_current == gba_boss_launched_by)`, retaining the
   post-target-update recomputation of `bullet_template.pid`, all mode cases
