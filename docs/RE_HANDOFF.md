@@ -566,7 +566,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   variable-first form, and the random mode base as `CHIYURI_MODE_CARDINAL_0`
   (af1032b/c/e/f). The random call remains single-evaluation and the shared
   X/Y index is unchanged. Cardinal, Rings, Fans and Trail retain their named
-  clocks and original bullet-call ordering. See the [PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
+  clocks and original bullet-call ordering. The 528-byte Fans leaf now uses
+  variable-first horizontal/vertical frame tests; the horizontal return and
+  both vertical speed passes remain distinct. A natural unary-minus form
+  changed complete CODE and was reverted (af1033q). See the [Fans guard review](MAIN_CHIYURI_FANS_VARIABLE_FIRST_FRAME_GUARDS_AFTER1033_REVIEW.md),
+  [PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
   [SELECT index review](MAIN_CHIYURI_UPDATE_SELECT_INDEX_SHIFT_AFTER1032_REVIEW.md),
   [timer review](MAIN_CHIYURI_UPDATE_SELECT_TIMER_VARIABLE_FIRST_AFTER1032_REVIEW.md),
   [palette guard review](MAIN_CHIYURI_UPDATE_PALETTE_GUARD_VARIABLE_FIRST_AFTER1032_REVIEW.md),

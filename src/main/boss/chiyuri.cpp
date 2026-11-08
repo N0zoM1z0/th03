@@ -377,7 +377,7 @@ void near chiyuri_pattern_fans(void)
 	pid_t pid_other = (1 - pid_current);
 	register int i;
 
-	if(CHIYURI_FAN_HORIZONTAL_FRAME == boss_frame) {
+	if(boss_frame == CHIYURI_FAN_HORIZONTAL_FRAME) {
 		bomb_axis_add(
 			(boss_center_x - TO_SP(56)), boss_center_y, pid_other
 		);
@@ -427,7 +427,7 @@ void near chiyuri_pattern_fans(void)
 		return;
 	}
 
-	if(CHIYURI_FAN_VERTICAL_FRAME == boss_frame) {
+	if(boss_frame == CHIYURI_FAN_VERTICAL_FRAME) {
 	bomb_axis_add(
 		boss_center_x, (boss_center_y - TO_SP(56)), pid_other
 	);
