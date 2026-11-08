@@ -55,6 +55,36 @@ void far pascal bomb_explosion_add(int x, int y, int pid);
 void far pascal kana_extra_add(int x, int y, unsigned char angle);
 }
 
+enum kana_template_layout_t {
+    KANA_TEMPLATE_CENTER_X = 0x900,
+    KANA_TEMPLATE_CENTER_Y = 0x500,
+    KANA_TEMPLATE_VELOCITY_X = -0x20,
+    KANA_TEMPLATE_HP = 0x64,
+    KANA_TEMPLATE_SPRITE_OFF = 0x288,
+    KANA_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
+enum kana_render_mode_t {
+    KANA_RENDER_MODE_NORMAL = 0,
+    KANA_RENDER_MODE_EXPANDING = 1,
+    KANA_RENDER_MODE_WARNING = 2,
+};
+
+enum kana_level_scaling_t {
+    KANA_LEVEL_HALF = 2,
+    KANA_LEVEL_ACCEL_BASE = 0x10,
+    KANA_LEVEL_RING_SLOW_BASE = 0x18,
+    KANA_LEVEL_RING_MID_BASE = 0x10,
+    KANA_LEVEL_RING_FAST_BASE = 0x14,
+    KANA_LEVEL_CLOUD_INTERVAL_BASE = 0x20,
+    KANA_LEVEL_CLOUD_COUNT_BASE = 0x18,
+    KANA_LEVEL_ROTATING_SPEED_BASE = 0x40,
+};
+
+enum kana_sound_effect_t {
+    KANA_SOUND_ATTACK = 10,
+};
+
 // Original scheduler IDs, grouped by Kana's four distinct whole attack
 // controllers; the shared 2..17 selection distribution is unchanged.
 enum kana_boss_mode_t {
@@ -111,6 +141,18 @@ enum kana_boss_render_timing_t {
     KANA_RENDER_WARNING_HEIGHT = 32,
     KANA_RENDER_INTRO_WIDTH = 32,
     KANA_RENDER_INTRO_HEIGHT = 16,
+    KANA_RENDER_MAIN_LEFT = 64,
+    KANA_RENDER_MAIN_TOP = 24,
+    KANA_RENDER_HIT_OFF = 0x10,
+    KANA_RENDER_WARN_LEFT = 32,
+    KANA_RENDER_WARN_SPRITE = 0xC80,
+    KANA_RENDER_WARN_FRAME_2 = 8,
+    KANA_RENDER_WARN_FRAME_3 = 0x10,
+    KANA_RENDER_WARN_FRAME_4 = 0x18,
+    KANA_RENDER_INTRO_SPRITE = 0x284,
+    KANA_RENDER_INTRO_FRAME_WIDTH = 32,
+    KANA_RENDER_INTRO_FRAME_HEIGHT = 0x28,
+    KANA_RENDER_INTRO_HALF = 16,
 };
 
 void far pascal boss_kana_template_init(int player_id)
@@ -118,21 +160,21 @@ void far pascal boss_kana_template_init(int player_id)
 	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = KANA_TEMPLATE_CENTER_X;
+	p->center_y = KANA_TEMPLATE_CENTER_Y;
+	p->velocity_x = KANA_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
-	p->hp = 0x64;
+	p->mode = KANA_MODE_INTRO;
+	p->hp = KANA_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->effect_radius = 0;
-	p->sprite_offset = 0x288;
+	p->sprite_offset = KANA_TEMPLATE_SPRITE_OFF;
 	if(player_id) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += KANA_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = KANA_RENDER_MODE_NORMAL;
 }
 
 // Original clock phases for this full Kana attack; no new state.
@@ -146,12 +188,12 @@ enum kana_accel_phase_t {
 void near kana_pattern_accel_ring(void)
 {
 	if(boss_frame == KANA_ACCEL_START) {
-		boss_render_mode = 1;
+		boss_render_mode = KANA_RENDER_MODE_EXPANDING;
 		return;
 	}
 	if(boss_frame == KANA_ACCEL_WARN) {
 		boss_render_frame = 0;
-		boss_render_mode = 2;
+		boss_render_mode = KANA_RENDER_MODE_WARNING;
 		bomb_center_add(
 			boss_center_x,
 			boss_center_y,
@@ -178,11 +220,11 @@ void near kana_pattern_accel_ring(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.speed.v = TO_SP(3);
 		bullets_add();
-		snd_se_play(10);
+		snd_se_play(KANA_SOUND_ATTACK);
 		return;
 	}
 	if(boss_frame > KANA_ACCEL_FINISH_AFTER) {
-		boss_render_mode = 0;
+		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
 	}
@@ -205,12 +247,12 @@ void near kana_pattern_staged_ring(void)
 	register int i;
 
 	if(boss_frame == KANA_STAGED_START) {
-		boss_render_mode = 1;
+		boss_render_mode = KANA_RENDER_MODE_EXPANDING;
 		return;
 	}
 	if(boss_frame == KANA_STAGED_WARN) {
 		boss_render_frame = 0;
-		boss_render_mode = 2;
+		boss_render_mode = KANA_RENDER_MODE_WARNING;
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
 		return;
 	}
@@ -233,7 +275,7 @@ void near kana_pattern_staged_ring(void)
 			bullet_template.speed.v = TO_SP(1);
 			bullet_template.count = kana_ring_count_slow;
 			bullets_add();
-			snd_se_play(10);
+			snd_se_play(KANA_SOUND_ATTACK);
 			return;
 		}
 
@@ -246,7 +288,7 @@ void near kana_pattern_staged_ring(void)
 			bullet_template.speed.v = (TO_SP(2) + 8);
 			bullet_template.count = kana_ring_count_mid;
 			bullets_add();
-			snd_se_play(10);
+			snd_se_play(KANA_SOUND_ATTACK);
 
 			bullet_template.type = BT_PELLET;
 			bullet_template.angle = 0x20;
@@ -274,14 +316,14 @@ void near kana_pattern_staged_ring(void)
 			bullet_template.speed.v = (TO_SP(3) + 8);
 			bullet_template.count = kana_ring_count_fast;
 			bullets_add();
-			snd_se_play(10);
+			snd_se_play(KANA_SOUND_ATTACK);
 			return;
 		}
 		return;
 	}
 
 	if(boss_frame > KANA_STAGED_FINISH_AFTER) {
-		boss_render_mode = 0;
+		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
 	}
@@ -324,13 +366,13 @@ void near kana_pattern_cloud_ring(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.speed.v = TO_SP(3);
 		bullets_add();
-		snd_se_play(10);
+		snd_se_play(KANA_SOUND_ATTACK);
 	}
 
 	if(boss_frame > KANA_CLOUD_FINISH_AFTER) {
-		boss_render_mode = 0;
+		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = KANA_MODE_SELECT;
 	}
 }
 
@@ -347,12 +389,12 @@ enum kana_rotating_phase_t {
 void near kana_pattern_rotating_ring(void)
 {
 	if(boss_frame == KANA_ROTATING_START) {
-		boss_render_mode = 1;
+		boss_render_mode = KANA_RENDER_MODE_EXPANDING;
 		return;
 	}
 	if(boss_frame == KANA_ROTATING_WARN) {
 		boss_render_frame = 0;
-		boss_render_mode = 2;
+		boss_render_mode = KANA_RENDER_MODE_WARNING;
 		bomb_center_add(
 			boss_center_x,
 			boss_center_y,
@@ -390,7 +432,7 @@ void near kana_pattern_rotating_ring(void)
 			bullet_template.speed.v = kana_rotating_speed;
 			bullet_template.angle = kana_rotating_angle;
 			bullets_add();
-			snd_se_play(10);
+			snd_se_play(KANA_SOUND_ATTACK);
 		}
 		if(boss_frame > KANA_ROTATING_TURN_AFTER) {
 			// The explicit byte assignment angle=angle+signed_delta
@@ -402,7 +444,7 @@ void near kana_pattern_rotating_ring(void)
 	}
 
 	if(boss_frame > KANA_ROTATING_FINISH_AFTER) {
-		boss_render_mode = 0;
+		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
 	}
@@ -413,13 +455,13 @@ void far gba_boss_update_kana(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		kana_accel_count = ((gba_boss_level / 2) + 0x10);
-		kana_ring_count_slow = ((gba_boss_level / 2) + 0x18);
-		kana_ring_count_mid = ((gba_boss_level / 2) + 0x10);
-		kana_ring_count_fast = ((gba_boss_level / 2) + 0x14);
-		kana_cloud_interval = (0x20 - gba_boss_level);
-		kana_cloud_count = ((gba_boss_level / 2) + 0x18);
-		kana_rotating_speed = (gba_boss_level + 0x40);
+		kana_accel_count = ((gba_boss_level / KANA_LEVEL_HALF) + KANA_LEVEL_ACCEL_BASE);
+		kana_ring_count_slow = ((gba_boss_level / KANA_LEVEL_HALF) + KANA_LEVEL_RING_SLOW_BASE);
+		kana_ring_count_mid = ((gba_boss_level / KANA_LEVEL_HALF) + KANA_LEVEL_RING_MID_BASE);
+		kana_ring_count_fast = ((gba_boss_level / KANA_LEVEL_HALF) + KANA_LEVEL_RING_FAST_BASE);
+		kana_cloud_interval = (KANA_LEVEL_CLOUD_INTERVAL_BASE - gba_boss_level);
+		kana_cloud_count = ((gba_boss_level / KANA_LEVEL_HALF) + KANA_LEVEL_CLOUD_COUNT_BASE);
+		kana_rotating_speed = (gba_boss_level + KANA_LEVEL_ROTATING_SPEED_BASE);
 	}
 
 	if(pid_current != gba_boss_launched_by) {
@@ -437,7 +479,7 @@ void far gba_boss_update_kana(void)
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = KANA_MODE_SELECT;
 		break;
 
 	case KANA_MODE_SELECT:
@@ -514,29 +556,29 @@ void near kana_render_main(void)
 		playfield_fg_x_to_screen(
 			boss_center_x,
 			(1 - pid_current)
-		) - 64
+		) - KANA_RENDER_MAIN_LEFT
 	);
-	top = ((boss_center_y >> 4) - 24);
+	top = ((boss_center_y >> 4) - KANA_RENDER_MAIN_TOP);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit) {
-		sprite_offset += 0x10;
+	if(boss_hit != 0) {
+		sprite_offset += KANA_RENDER_HIT_OFF;
 	}
 	sprite16_put(left, top, sprite_offset);
 
 	sprite16_put_size.w = KANA_RENDER_WARNING_WIDTH;
 	sprite16_put_size.h = KANA_RENDER_WARNING_HEIGHT;
-	left += 32;
+	left += KANA_RENDER_WARN_LEFT;
 
-	if(boss_render_mode == 1) {
+	if(boss_render_mode == KANA_RENDER_MODE_EXPANDING) {
 		sprite16_put(
 			left,
 			top,
-			(boss_sprite_offset + 0xC80)
+			(boss_sprite_offset + KANA_RENDER_WARN_SPRITE)
 		);
 		return;
 	}
-	if(boss_render_mode != 2) {
+	if(boss_render_mode != KANA_RENDER_MODE_WARNING) {
 		return;
 	}
 
@@ -544,11 +586,11 @@ void near kana_render_main(void)
 	if(boss_render_frame < KANA_RENDER_WARNING_STEP_1) {
 		;
 	} else if(boss_render_frame < KANA_RENDER_WARNING_STEP_2) {
-		sprite_offset += 8;
+		sprite_offset += KANA_RENDER_WARN_FRAME_2;
 	} else if(boss_render_frame < KANA_RENDER_WARNING_STEP_3) {
-		sprite_offset += 0x10;
+		sprite_offset += KANA_RENDER_WARN_FRAME_3;
 	} else {
-		sprite_offset += 0x18;
+		sprite_offset += KANA_RENDER_WARN_FRAME_4;
 	}
 	sprite16_put(left, top, sprite_offset);
 }
@@ -574,10 +616,10 @@ void near kana_render_intro(void)
 		return;
 	}
 
-	sprite_offset = (pid.so_attack + 0x284);
+	sprite_offset = (pid.so_attack + KANA_RENDER_INTRO_SPRITE);
 	sprite_offset = (
 		sprite_offset +
-		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) % KANA_RENDER_ANIMATION_PERIOD) * 32) * 0x28)
+		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) % KANA_RENDER_ANIMATION_PERIOD) * KANA_RENDER_INTRO_FRAME_WIDTH) * KANA_RENDER_INTRO_FRAME_HEIGHT)
 	);
 
 	angle = boss_move_phase;
@@ -603,7 +645,7 @@ void near kana_render_intro(void)
 			playfield_fg_x_to_screen(
 				left,
 				(1 - pid_current)
-			) - 16
+			) - KANA_RENDER_INTRO_HALF
 		);
 		// Original signed AX conversion is native-exact as this C++
 		// assignment; compound top >>=4 changed CODE (af761b).
