@@ -250,14 +250,14 @@ void near kana_pattern_staged_ring(void)
 		boss_render_mode = KANA_RENDER_MODE_EXPANDING;
 		return;
 	}
-	if(boss_frame == KANA_STAGED_WARN) {
+	else if(boss_frame == KANA_STAGED_WARN) {
 		boss_render_frame = 0;
 		boss_render_mode = KANA_RENDER_MODE_WARNING;
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
 		return;
 	}
 
-	if(
+	else if(
 		(boss_frame >= KANA_STAGED_SLOW) &&
 		(boss_frame < KANA_STAGED_EMISSION_END)
 	) {
@@ -320,7 +320,7 @@ void near kana_pattern_staged_ring(void)
 		return;
 	}
 
-	if(boss_frame > KANA_STAGED_FINISH_AFTER) {
+	else if(boss_frame > KANA_STAGED_FINISH_AFTER) {
 		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
