@@ -480,7 +480,7 @@ void near chiyuri_pattern_fans(void)
 void far gba_boss_update_chiyuri(void)
 {
 	pid_t pid_other;
-	unsigned char random_i;
+	register unsigned char random_i;
 
 	if(boss_update_start()) {
 		chiyuri_cardinal_speed = (gba_boss_level + 0x30);

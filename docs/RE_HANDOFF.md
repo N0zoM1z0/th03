@@ -120,6 +120,13 @@ native fields and eleven PUBLICs, with the full Japanese MAIN image and
 relocations exact. See the
 [after1027 Chiyuri intro-default review](MAIN_CHIYURI_INTRO_DEFAULT_ELSE_AFTER1027_REVIEW.md).
 
+The same update controller now declares its SELECT center-array index as
+`register unsigned char random_i`. Stage af1028f rebuilt the complete
+`ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered
+native fields and eleven PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1028 Chiyuri selector review](MAIN_CHIYURI_UPDATE_REGISTER_SELECTOR_AFTER1028_REVIEW.md).
+
 The 528-byte Chiyuri fan generator now declares its shared four-pass loop index
 as `register int`, matching the original SI allocation. Stage af1027a rebuilt
 the complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes,
@@ -210,8 +217,9 @@ owner in the stage.
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g),
-Chiyuri's intro phase chain/default path (af1026h/af1027h) and fan-loop SI
-index (af1027a), Kotohime's explicit radial register indices (af1026i), and
+Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI
+index (af1027a), and update SELECT register byte (af1028f), Kotohime's
+explicit radial register indices (af1026i), and
 HitCircle's age-update/render register locals and active guard
 (af1025d/af1027f/af1027g/af1028c/af1028d). The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
