@@ -26,7 +26,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   `config/targets.toml` with `candidate-local-attested` provenance.
   Do not use translated/reference binaries as targets or alter original
   target/OBJ/compiler/CRT/linker inputs to create equality.
-- **Latest multi-object source-current MAIN integration: `af935a`.** Two
+- **Seven-object MAIN integration snapshot: `af935a` (now historical for ba_maris).** Two
   independent original Turbo C++ 4.02 rounds recompiled **seven original
   physical project objects together**: the complete Marisa BOSS
   (`ba_maris`), HitCircle (`hitcirc`), all **four** Enemy source consumers
@@ -379,7 +379,7 @@ target. Preserve dirty source changes and commit meaningful progress as
 - [Latest Yumemi BOSS source/native follow-up](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md)
 - [Latest Mima BOSS source/native follow-up](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md)
 - [Latest Reimu BOSS source/native follow-up](MAIN_REIMU_BOSS_CLOUD_NATURAL_AFTER944_REVIEW.md)
-- [Latest seven-object source/native integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md)
+- [Seven-object integration snapshot (historical for Marisa)](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md)
 - [Earlier five-object source/native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)
 - [Historical source and compiler trials through after927](RE_HANDOFF_ARCHIVE_AFTER927.md)
 - [Storage policy and prior safe cleanup audits](STORAGE_HANDOFF_CURRENT.md)
