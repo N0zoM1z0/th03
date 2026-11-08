@@ -207,6 +207,7 @@ enum kotohime_ring_phase_t {
     KOTOHIME_RING_START_FRAME = 1,
     KOTOHIME_RING_EXPAND_LIMIT = 0x400,
     KOTOHIME_RING_RELEASE_AFTER = 0x40,
+    KOTOHIME_RING_WARNING_EXPAND_STEP = 8,
 };
 
 // The ring and radial variants deliberately use AL-mediated byte phase
@@ -262,7 +263,7 @@ void near kotohime_pattern_aimed_ring(void)
 
 	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
-		boss_effect_radius += 8;
+		boss_effect_radius += KOTOHIME_RING_WARNING_EXPAND_STEP;
 		_AL = boss_move_phase;
 		_AL += 2;
 		boss_move_phase = _AL;
@@ -353,65 +354,62 @@ void near kotohime_pattern_radial_burst(void)
 
 	if(KOTOHIME_RING_EXPAND_LIMIT < boss_effect_radius) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
-		boss_effect_radius += 8;
+		boss_effect_radius += KOTOHIME_RING_WARNING_EXPAND_STEP;
 		boss_move_phase -= 2;
 		// Byte-memory postfix is real original codegen. Changing all
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
-		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
+		if(KOTOHIME_RING_RELEASE_AFTER < boss_render_frame) {
+			bullet_template.group = BG_1;
+			bullet_template.type = BT_BULLET16_DEFAULT;
+
+			// The nested O(center_count * burst_count) traversal keeps the
+			// original DI/SI order and division before angle truncation.
+			// Center scratch lives for one outer iteration; bullet_i only for
+			// that center's inner burst. Both pre-tested for loops are exact.
+			for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
+				register int x;
+				register int y;
+				register unsigned char center_angle;
+				center_angle = (
+					boss_move_phase +
+					((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count)
+				);
+				x = polar(
+					boss_center_x,
+					boss_effect_radius,
+					CosTable8[center_angle]
+				);
+				y = polar(
+					boss_center_y,
+					boss_effect_radius,
+					SinTable8[center_angle]
+				);
+				bullet_template.center.x.v = x;
+				bullet_template.center.y.v = y;
+
+				for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
+					bullet_template.angle = (
+						((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
+						center_angle +
+						KOTOHIME_BURST_CENTER_ANGLE_OFFSET
+					);
+					bullet_template.speed.v = (
+						KOTOHIME_BURST_SPEED_BASE +
+						((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count)
+					);
+					bullets_add();
+				}
+			}
+
+			snd_se_play(KOTOHIME_SOUND_ATTACK);
+			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+			boss_mode = KOTOHIME_MODE_SELECT;
+			boss_frame = 0;
+		} else {
 			return;
 		}
 
-		bullet_template.group = BG_1;
-		bullet_template.type = BT_BULLET16_DEFAULT;
-
-		// The nested O(center_count * burst_count) traversal keeps the
-		// original DI/SI order and division before angle truncation.
-		// Center scratch lives for one outer iteration; bullet_i only for
-		// that center's inner burst. Both pre-tested while loops are exact.
-		register int center_i = 0;
-		while(center_i < kotohime_orbit_count) {
-			register int x;
-			register int y;
-			register unsigned char center_angle;
-			center_angle = (
-				((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
-				boss_move_phase
-			);
-			x = polar(
-				boss_center_x,
-				boss_effect_radius,
-				CosTable8[center_angle]
-			);
-			y = polar(
-				boss_center_y,
-				boss_effect_radius,
-				SinTable8[center_angle]
-			);
-			bullet_template.center.x.v = x;
-			bullet_template.center.y.v = y;
-
-			register int bullet_i = 0;
-			while(bullet_i < kotohime_burst_count) {
-				bullet_template.angle = (
-					((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
-					center_angle +
-					KOTOHIME_BURST_CENTER_ANGLE_OFFSET
-				);
-				bullet_template.speed.v = (
-					((bullet_i * KOTOHIME_BURST_SPEED_SCALE) / kotohime_burst_count) +
-					KOTOHIME_BURST_SPEED_BASE
-				);
-				bullets_add();
-				++bullet_i;
-			}
-			++center_i;
-		}
-
-		snd_se_play(KOTOHIME_SOUND_ATTACK);
-		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
-		boss_mode = KOTOHIME_MODE_SELECT;
-		boss_frame = 0;
 	} else {
 		boss_move_sine();
 		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;

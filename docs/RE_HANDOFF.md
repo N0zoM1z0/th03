@@ -491,14 +491,15 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
 - **Kotohime:** the 332-byte update controller now scopes its complete
   active-player path under `if(pid_current == gba_boss_launched_by)`, keeping
   its INTRO/EXPLODE returns, mode dispatch and collision/hitbox tail together
-  (af1032p). The Radial Burst generator uses two pre-tested `while` loops
-  with explicit register DI/SI indices and per-center scratch scope. `x`,
-  `y` and `center_angle` live in the outer body; `bullet_i` is initialized
-  at its inner-loop declaration. Both `index < count` guards and prefix
-  increments compile to the original instructions. The signed 16-bit
-  multiply/divide order, byte-angle truncation, polar calls and bullet
-  emission order remain exact (af1031h).
-  See the [after1031 radial-loop review](MAIN_KOTOHIME_RADIAL_SCOPED_WHILE_LOOPS_AFTER1031_REVIEW.md).
+  (af1032p). The 302-byte Radial Burst now uses scoped, pre-tested `for`
+  loops with register DI/SI indices and per-center scratch scope. Its release
+  check is a positive completion branch; the warning-radius step is named,
+  and the center-angle and speed expressions use base-first additions. The
+  signed 16-bit multiply/divide order, byte-angle truncation, polar calls and
+  bullet emission order remain exact. A natural `boss_move_phase -= 4` form
+  changed CODE and was reverted (af1033s/u/v/w/x/y). See the
+  [after1033 radial recovery review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_ARITHMETIC_AFTER1033_REVIEW.md)
+  and [after1031 scoped-loop review](MAIN_KOTOHIME_RADIAL_SCOPED_WHILE_LOOPS_AFTER1031_REVIEW.md).
 - **HitCircle:** layout/animation and capacity constants are grouped into
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
