@@ -99,6 +99,10 @@ enum reimu_render_timing_t {
     REIMU_RENDER_ORBIT_TOP_MARGIN = 8,
 };
 
+enum reimu_template_layout_t {
+    REIMU_SECOND_PLAYER_SPRITE_OFFSET = 0x28,
+};
+
 void far pascal boss_reimu_template_init(int player_id)
 {
 	boss_template_state_t near *p =
@@ -116,7 +120,7 @@ void far pascal boss_reimu_template_init(int player_id)
 	p->render_mode = 0;
 	p->sprite_offset = 0x28C;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += REIMU_SECOND_PLAYER_SPRITE_OFFSET;
 	}
 }
 
@@ -128,6 +132,9 @@ enum reimu_cloud_phase_t {
     REIMU_CLOUD_ACCEL_PERIOD = 2,
     REIMU_CLOUD_ANGLE_FRAME_STEP = 2,
     REIMU_CLOUD_ORBIT_RADIUS = TO_SP(32),
+    REIMU_CLOUD_INITIAL_SPEED = 0x10,
+    REIMU_CLOUD_OPPOSITE_ANGLE = 0x80,
+    REIMU_CLOUD_ANGLE_ROTATION = -0x40,
 };
 
 void near reimu_pattern_orbit_cloud(void)
@@ -138,7 +145,7 @@ void near reimu_pattern_orbit_cloud(void)
 		boss_aux_point.x.v = boss_center_x;
 		boss_aux_point.y.v = (boss_center_y + TO_SP(48));
 		reimu_direction = randring_far_next16_and(1);
-		reimu_cloud_speed = 0x10;
+		reimu_cloud_speed = REIMU_CLOUD_INITIAL_SPEED;
 	}
 
 	angle = ((unsigned char)boss_frame * REIMU_CLOUD_ANGLE_FRAME_STEP);
@@ -162,8 +169,8 @@ void near reimu_pattern_orbit_cloud(void)
 		);
 		bullets_add();
 
-		bullet_template.angle = ((angle * 2) + 0x80);
-		angle += 0x80;
+		bullet_template.angle = ((angle * 2) + REIMU_CLOUD_OPPOSITE_ANGLE);
+		angle += REIMU_CLOUD_OPPOSITE_ANGLE;
 		bullet_template.center.x.v = polar(
 			boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
 		);
@@ -180,7 +187,7 @@ void near reimu_pattern_orbit_cloud(void)
 	}
 
 	angle = ((unsigned char)boss_frame * REIMU_CLOUD_ANGLE_FRAME_STEP);
-	angle += -0x40;
+	angle += REIMU_CLOUD_ANGLE_ROTATION;
 	boss_center_y = polar(
 		boss_aux_point.y.v, TO_SP(48), SinTable8[angle]
 	);

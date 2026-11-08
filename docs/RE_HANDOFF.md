@@ -26,7 +26,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   `config/targets.toml` with `candidate-local-attested` provenance.
   Do not use translated/reference binaries as targets or alter original
   target/OBJ/compiler/CRT/linker inputs to create equality.
-- **Latest source-current native MAIN experiment: `af935a`.** Two
+- **Latest multi-object source-current MAIN integration: `af935a`.** Two
   independent original Turbo C++ 4.02 rounds recompiled **seven original
   physical project objects together**: the complete Marisa BOSS
   (`ba_maris`), HitCircle (`hitcirc`), all **four** Enemy source consumers
@@ -56,7 +56,15 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
-- Both independent scopes are **current-source native normal MAIN proof**,
+- **Latest single-object source-current MAIN follow-up: `af944a`.** The
+  complete nine-function Reimu major BOSS (`ba_reimu`) was recompiled in
+  two original TC4 rounds with its complete normal MAIN link: **2,020 CODE
+  bytes, 270 ordered OMF FIXUPPs, nine PUBLICs**, all 124,642 loaded bytes
+  and 1,553 MZ relocations match. See
+  [Reimu BOSS native C++ after944](MAIN_REIMU_BOSS_CLOUD_NATURAL_AFTER944_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af944a/report.json`,
+  SHA-256 `2691ea3727c53fc41646c5d7c9408324d2e874c8f2a38aae79efa946f9cf99c6`.
+- Both independent multi-object scopes are **current-source native normal MAIN proof**,
   **not** vendor packet-identical OMF, full original source ownership or
   canonical packed-file Factory acceptance. The 7,886 and 7,833 CODE bytes
   were already historically source-covered; do not award new distinct
@@ -70,6 +78,7 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af944a` | 1 | 2,020 |
 | `af935a` | 7 | 7,886 |
 | `af927a` | 5 | 7,833 |
 | `af915a` | 5 | 6,059 |
@@ -200,6 +209,7 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Latest Reimu BOSS source/native follow-up](MAIN_REIMU_BOSS_CLOUD_NATURAL_AFTER944_REVIEW.md)
 - [Latest seven-object source/native integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md)
 - [Earlier five-object source/native integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md)
 - [Historical source and compiler trials through after927](RE_HANDOFF_ARCHIVE_AFTER927.md)
