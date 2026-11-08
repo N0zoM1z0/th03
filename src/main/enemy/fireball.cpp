@@ -318,7 +318,7 @@ void fireballs_update(void)
 	// Both goto labels still reach their authentic common epilogues.
 	i = 0;
 	while(i < FIREBALL_COUNT) {
-		if(p->flag == EFF_FREE) {
+		if(!p->flag) {
 			++i;
 			p++;
 			continue;
@@ -532,7 +532,7 @@ void near fireballs_hittest(void)
 		 * 	if(!hitbox_hittest()) {
 		 * once the segmentation allows us to, if ever */
 		asm { nop; push cs; call near ptr hitbox_hittest; }
-		if(_AL == 0) {
+		if(!_AL) {
 			--i;
 			p--;
 			continue;
@@ -541,7 +541,7 @@ void near fireballs_hittest(void)
 		// Checking HP *before* decrementing means that fireballs still live at
 		// 0 HP, and are only destroyed if their HP would reach -1, just like
 		// enemies.
-		if((p->hp == 0) || explosion_collision_in_last_hittest || ef_onehit) {
+		if((!p->hp) || explosion_collision_in_last_hittest || ef_onehit) {
 			generation_prev = p->generation;
 			if(explosion_collision_in_last_hittest) {
 				// Fireballs only turn into explosions when destroyed by an
@@ -604,7 +604,7 @@ void fireballs_hittest_and_render(void)
 	// still advance near pointer and signed index in their original order.
 	int i = 0;
 	while(i < FIREBALL_COUNT) {
-		if(p->flag == EFF_FREE) {
+		if(!p->flag) {
 			++i;
 			p++;
 			continue;
