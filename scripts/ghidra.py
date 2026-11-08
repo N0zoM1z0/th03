@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+from shared_runtime import command as shared_command
+
 import argparse
 import os
 from pathlib import Path
@@ -164,7 +166,7 @@ def main() -> int:
                     ]
                 )
             run_checked(
-                [str(analyzer), str(project_root), name, *import_options, *postscript, *common],
+                [*shared_command("ghidra"), str(project_root), name, *import_options, *postscript, *common],
                 env=env,
             )
         else:
@@ -172,7 +174,7 @@ def main() -> int:
                 raise AnalysisError(f"missing Ghidra project: {project_file}; run import first")
             run_checked(
                 [
-                    str(analyzer),
+                    *shared_command("ghidra"),
                     str(project_root),
                     name,
                     "-process",
