@@ -496,7 +496,7 @@ void far gba_boss_update_yumemi(void)
 	pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	boss_frame++;
+	++boss_frame;
 
 	yumemi_origin_x = (boss_center_x + YUMEMI_ORIGIN_X_OFFSET);
 	yumemi_origin_y = (boss_center_y - YUMEMI_ORIGIN_Y_OFFSET);

@@ -393,7 +393,7 @@ void far gba_boss_update_reimu(void)
 
 	pid_other = (1 - pid_current);
 	boss_target_update();
-	boss_frame++;
+	++boss_frame;
 
 	if(boss_mode == REIMU_MODE_INTRO) {
 		if(boss_frame != REIMU_INTRO_END_FRAME) {

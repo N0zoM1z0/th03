@@ -434,7 +434,7 @@ void far gba_boss_update_mima(void)
 	// The target deliberately recomputes this after the shared helper call
 	// instead of reusing [pid_other] (native negative control af749c).
 	bullet_template.pid = (1 - pid_current);
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case MIMA_MODE_INTRO:
