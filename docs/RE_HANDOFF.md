@@ -21,34 +21,35 @@ and the focused experiment reviews linked below.
 
 ## Current source-bound MAIN evidence
 
-**Latest integration: af1024e**
+**Latest integration: af1047l**
 
 Two independent original Turbo C++ 4.02 rounds rebuilt these twelve complete
 physical owners together:
 
+- Shared BOSS providers: `ba_sring` and `ba_srest`.
 - Nine major BOSS owners: Mima, Reimu, Yumemi, Ellen, Kana, Kotohime,
   Marisa, Rikako and Chiyuri.
-- Collision/effect owners: Hitbox, HitCircle and the explosion chain.
+- The complete four-function HitCircle owner.
 
 Both normal MAIN links match the original Japanese loaded image and all
 ordered MZ relocations. The other 87 original game objects and Borland CRT
 were reused; no full cold replay was run.
 
-| Measure | af1024e result |
+| Measure | af1047l result |
 | --- | ---: |
 | Complete physical owners rebuilt | 12 |
-| CODE | 18,792 bytes |
-| Ordered OMF FIXUPPs | 2,546 |
-| PUBLICs | 91 |
+| CODE | 18,845 bytes |
+| Ordered native fields | 2,570 |
+| PUBLICs | 97 |
 | Japanese MAIN loaded image | 124,642 bytes |
 | Ordered MZ relocations | 1,553 |
 | Independent original compiler rounds | 2 |
 
 Protected report:
-.analysis/work/exatt-layout-af1024e/report.json
+.analysis/work/exatt-layout-af1047l/report.json
 
 Report SHA-256:
-a37060b2d80d066ab2058774a606f522ecf6f43d726e0bc2983fdbda2416cc7c
+3f0ce5c021307f20997ce97ad2d833cc8853722b7e4d9f37c19e1bad023db544
 
 The report's twelve source hashes were checked against all twelve current
 maintained files. The complete normal link is strong scoped native evidence;
@@ -59,6 +60,7 @@ acceptance.
 
 | Stage | Complete owner(s) | CODE | Ordered FIXUPPs | PUBLICs |
 | --- | --- | ---: | ---: | ---: |
+| af1047l | Shared BOSS, nine BOSS owners, HitCircle | 18,845 | 2,570 | 97 |
 | af1024d | Mima, Kotohime, Chiyuri, HitCircle | 6,861 | 950 | 35 |
 | af1024c | Kotohime | 1,840 | 262 | 11 |
 | af1024b | HitCircle | 445 | 30 | 4 |
@@ -565,6 +567,12 @@ nine complete BOSS owners and HitCircle, the twelve physical owners were
 rebuilt together at af1045u: 18,845 CODE bytes, 2,570 ordered native fields
 and 97 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
 image/relocations exact. See the [current after1045u twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1045U_REVIEW.md).
+
+After the shared BOSS controller and ring natural-C++ refinements, the same
+twelve physical owners were rebuilt together at af1047l: 18,845 CODE bytes,
+2,570 ordered native fields and 97 PUBLICs, with two original TC4 rounds and
+the complete Japanese MAIN image/relocations exact. See the
+[current after1047l twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1047L_REVIEW.md).
 
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
