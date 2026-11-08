@@ -6,14 +6,15 @@
 #include "compat/rec98/th03/main/v_colors.hpp"
 #include "compat/rec98/th03/sprites/main_s16.hpp"
 
-static const pixel_t HITCIRCLE_W = 48;
-static const pixel_t HITCIRCLE_H = 48;
-static const uvram_byte_amount_t HITCIRCLE_VRAM_W = (HITCIRCLE_W / BYTE_DOTS);
-static const uvram_byte_amount_t HITCIRCLE_VRAM_W_PER_CEL_TERM = (HITCIRCLE_VRAM_W / 3);
-
-static const int HITCIRCLE_CELS = 4;
-static const unsigned int HITCIRCLE_FRAMES_PER_CEL = 4;
-static const int HITCIRCLE_FRAMES = (HITCIRCLE_FRAMES_PER_CEL * HITCIRCLE_CELS);
+enum hitcircle_layout_t {
+	HITCIRCLE_W = 48,
+	HITCIRCLE_H = 48,
+	HITCIRCLE_VRAM_W = (HITCIRCLE_W / BYTE_DOTS),
+	HITCIRCLE_VRAM_W_PER_CEL_TERM = (HITCIRCLE_VRAM_W / 3),
+	HITCIRCLE_CELS = 4,
+	HITCIRCLE_FRAMES_PER_CEL = 4,
+	HITCIRCLE_FRAMES = (HITCIRCLE_FRAMES_PER_CEL * HITCIRCLE_CELS),
+};
 
 static const int HITCIRCLE_ENEMY_COUNT = 12;
 
