@@ -85,6 +85,13 @@ both normal MAIN links and ordered relocations exact. The attempted shared
 `level / 2` local changed CODE and was reverted. See
 [the focused Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
 
+The same large Kotohime controller now exits immediately when the current PID
+is not the launched boss PID, replacing the outer `if(equal) ... else return`
+with a direct guard. Stage af1026a independently rebuilt the complete 1,840-
+byte `ba_koto` owner in two original TC4 rounds, with 262 ordered native fields,
+eleven PUBLICs and the complete Japanese MAIN image/relocations exact. See the
+[after1026 Kotohime controller review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
+
 The HitCircle age walk also now uses a direct positive `p->age` guard in
 `hitcircles_update()` instead of a zero-age `continue`. Stage af1025d rebuilt
 the complete `hitcirc` object in two independent original TC4 rounds: 445 CODE
@@ -127,9 +134,9 @@ owner in the stage.
 ## Latest source recovery and next work
 
 The latest source work includes the shared BOSS pattern selector's natural
-rejection loop (af1025a), Kotohime's large update-controller intro guard
-(af1025c), and HitCircle's age-update leaf (af1025d), alongside Mima and
-Chiyuri. See
+rejection loop (af1025a), two large Kotohime update-controller guards
+(af1025c/af1026a), and HitCircle's age-update leaf (af1025d), alongside Mima
+and Chiyuri. See
 [the after1025 HitCircle update review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md),
 [the after1025 Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md),
 [the after1025 BOSS review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md),

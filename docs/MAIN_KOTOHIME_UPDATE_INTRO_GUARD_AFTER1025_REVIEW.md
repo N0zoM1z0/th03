@@ -32,3 +32,31 @@ remain until a native-exact natural form is found.
 Protected report: `.analysis/work/exatt-layout-af1025c/report.json`
 
 SHA-256: `024db141ba0924a156d377b8efb9dd2c122e0664daa9e2b470e5ac08af8a18ce`
+
+## Outer launched-player guard recovery
+
+The same 332-byte `gba_boss_update_kotohime()` controller now uses the direct
+inactive-player return before its main update body:
+
+```cpp
+if(pid_current != gba_boss_launched_by) {
+    return;
+}
+
+pid_other = (1 - pid_current);
+```
+
+This removes the outer `if(equal) { ... } else { return; }` nesting without
+changing the one active player's update sequence, the mode switch, the shared
+collision-map setup, or the final boss hit test. It is deliberately a guard
+at the controller boundary, before target tracking, frame advancement and
+bullet-template PID assignment.
+
+Stage `af1026a` rebuilt the complete `ba_koto` owner in two independent
+original Turbo C++ 4.02 rounds. All 1,840 CODE bytes, 262 ordered native
+fields and eleven PUBLIC offsets match, and both normal MAIN links reproduce
+the original Japanese loaded image and ordered MZ relocations.
+
+Protected report: `.analysis/work/exatt-layout-af1026a/report.json`
+
+SHA-256: `316468b7dcc6a3a8ba02aeccb7803633356553e450bda55e812a9a2bfb948079`
