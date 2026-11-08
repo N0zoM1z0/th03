@@ -66,24 +66,24 @@ void pascal hitcircles_enemy_add(
 		last_id = 0;
 	}
 
-	HitCircle near& p = hitcircles[last_id];
+	HitCircle near& p = *(hitcircles + last_id);
 	p.spawn(pid);
 
 	if(!hitcircles_enemy_add_do_not_randomly_center_within_hitbox) {
 		center_x = (
-			hitbox.origin.topleft.x.v +
-			randring_far_next16_mod(hitbox.radius.x * 2)
+			randring_far_next16_mod(2 * hitbox.radius.x) +
+			hitbox.origin.topleft.x.v
 		);
 		center_y = (
-			hitbox.origin.topleft.y.v +
-			randring_far_next16_mod(hitbox.radius.y * 2)
+			randring_far_next16_mod(2 * hitbox.radius.y) +
+			hitbox.origin.topleft.y.v
 		);
 	}
 	// Keep the original near-record stores directly at each spawn site.
 	p.topleft.x = (
-		playfield_fg_x_to_screen(center_x, pid) - (HITCIRCLE_W / 2)
+		(-(HITCIRCLE_W / 2)) + playfield_fg_x_to_screen(center_x, pid)
 	);
-	p.topleft.y = (TO_PIXEL(center_y) + PLAYFIELD_TOP - (HITCIRCLE_H / 2));
+	p.topleft.y = ((PLAYFIELD_TOP - (HITCIRCLE_H / 2)) + TO_PIXEL(center_y));
 
 	#undef last_id
 }
@@ -92,13 +92,13 @@ void pascal hitcircles_player_add(
 	subpixel_t center_x, subpixel_t center_y, pid2 pid
 )
 {
-	HitCircle near& p = hitcircles[HITCIRCLE_ENEMY_COUNT];
+	HitCircle near& p = *(hitcircles + HITCIRCLE_ENEMY_COUNT);
 	p.spawn(pid);
 	// Keep the original near-record stores directly at each spawn site.
 	p.topleft.x = (
-		playfield_fg_x_to_screen(center_x, pid) - (HITCIRCLE_W / 2)
+		(-(HITCIRCLE_W / 2)) + playfield_fg_x_to_screen(center_x, pid)
 	);
-	p.topleft.y = (TO_PIXEL(center_y) + PLAYFIELD_TOP - (HITCIRCLE_H / 2));
+	p.topleft.y = ((PLAYFIELD_TOP - (HITCIRCLE_H / 2)) + TO_PIXEL(center_y));
 }
 
 void near hitcircles_update(void)

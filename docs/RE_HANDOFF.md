@@ -564,9 +564,15 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   [after1033 radial recovery review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_ARITHMETIC_AFTER1033_REVIEW.md)
   and [after1031 scoped-loop review](MAIN_KOTOHIME_RADIAL_SCOPED_WHILE_LOOPS_AFTER1031_REVIEW.md).
 - **HitCircle:** layout/animation and capacity constants are grouped into
-  named enums; the enemy ring-wrap guard uses the named count first.
-  Preserve the BX/AX cel sequence and its three final BX additions.
-  Replacing those additions with a multiplication changed complete CODE.
+  named enums; the enemy ring-wrap guard uses the named count first. Both
+  spawn paths now select records with pointer addition/dereference; enemy
+  random-center offsets and radii are constant-first, and both spawn paths
+  use base-first screen-coordinate groupings (af1039b/c/d/e/f). Keep the
+  byte ring postfix, RNG X-before-Y order and direct record stores. Splitting
+  the cel's `_BX = age - 1` into assignment plus postfix decrement changed
+  complete CODE; preserve the BX/AX cel sequence and its three final BX
+  additions (af1039a). See the [after1039 HitCircle spawn review](MAIN_HITCIRCLE_SPAWN_POINTER_AND_COORDINATE_ARITHMETIC_AFTER1039_REVIEW.md)
+  and the [after1029 cel register-allocation review](MAIN_HITCIRCLE_CEL_REGISTER_ALLOCATION_AFTER1029_REVIEW.md).
 - **Rikako:** the complete 285-byte update controller now scopes its
   mode dispatch, signed-byte spin compound update and collision/hitbox tail
   under the positive `pid_current == gba_boss_launched_by` guard (af1033e).
