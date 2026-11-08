@@ -538,6 +538,12 @@ at af1042k: 17,896 CODE bytes, 2,464 ordered native fields and 89 PUBLICs,
 with two original TC4 rounds and the complete Japanese MAIN image/relocations
 exact. See the [current after1042k ten-owner integration review](MAIN_TEN_OWNER_CURRENT_INTEGRATION_AFTER1042K_REVIEW.md).
 
+After the Reimu Orbit Burst, Orbit Cloud and Update refinements, all nine
+complete BOSS owners and HitCircle were rebuilt together again at af1044n:
+17,896 CODE bytes, 2,464 ordered native fields and 89 PUBLICs, with two
+original TC4 rounds and the complete Japanese MAIN image/relocations exact.
+See the [current after1044n ten-owner integration review](MAIN_TEN_OWNER_CURRENT_INTEGRATION_AFTER1044N_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
