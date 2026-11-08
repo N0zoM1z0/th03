@@ -168,6 +168,13 @@ Stage af1026i rebuilt the complete `ba_koto` owner in two original TC4 rounds:
 Japanese MAIN image and relocations exact. See the
 [after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md).
 
+The same radial function now declares `center_i` before `bullet_i`, matching
+the natural outer-to-inner traversal order while retaining DI/SI allocation.
+Stage af1029l rebuilt the complete `ba_koto` owner in two original TC4 rounds:
+1,840 CODE bytes, 262 ordered native fields and eleven PUBLICs, with the full
+Japanese MAIN image and relocations exact. See the
+[after1029 Kotohime index-order review](MAIN_KOTOHIME_RADIAL_INDEX_DECLARATION_ORDER_AFTER1029_REVIEW.md).
+
 The same radial review records four rejected complete-owner experiments:
 af1026b/c (early-return and inverted expansion/release branches) and
 af1026e/f (local `PlayfieldPoint` aggregate/field copies). All changed the
@@ -252,7 +259,7 @@ rejection loop (af1025a), two large Kotohime update-controller guards
 phase guards (af1029g),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index and postfix increments (af1027a/af1029j), and update
 SELECT register byte (af1028f), Kotohime's
-explicit radial register indices (af1026i), and
+explicit radial register indices/order (af1026i/af1029l), and
 HitCircle's age-update/render register locals and active guard
 (af1025d/af1027f/af1027g/af1028c/af1028d). The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
