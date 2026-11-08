@@ -349,6 +349,12 @@ fields and 31 PUBLICs, with two original TC4 rounds and the complete Japanese
 MAIN image/relocations exact. See the
 [after1029 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1029_REVIEW.md).
 
+After the Kotohime/Mima INTRO branches and Chiyuri update/attack-leaf changes,
+all three complete BOSS owners were rebuilt together at af1030l: 6,416 CODE
+bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4 rounds
+and the complete Japanese MAIN image/relocations exact. See the
+[after1030 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030_REVIEW.md).
+
 After the Mima INTRO and Chiyuri update/leaf changes, the two complete owners
 were rebuilt together at af1030k: 4,576 CODE bytes, 658 ordered native fields
 and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
