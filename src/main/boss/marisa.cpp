@@ -127,6 +127,13 @@ enum marisa_native_frame_timing_t {
     MARISA_RENDER_MAIN_TOP_OFFSET = 32,
     MARISA_RENDER_DAMAGE_WIDTH = 48,
     MARISA_RENDER_DAMAGE_HEIGHT = 80,
+    MARISA_RENDER_STRIP_WIDTH = 112,
+    MARISA_RENDER_STRIP_HEIGHT = 16,
+    MARISA_RENDER_HIT_SPRITE_OFFSET = 0x16,
+    MARISA_RENDER_FLICKER_SPRITE_OFFSET = 0x1C,
+    MARISA_RENDER_FLICKER_STRIP_OFFSET = 0xF00,
+    MARISA_RENDER_ALTERNATE_STRIP_OFFSET = 0x1180,
+    MARISA_RING_DENSE_LEVEL = 8,
     MARISA_RENDER_MASK_FIRST = 0xAAAA,
     MARISA_RENDER_MASK_SECOND = 0x5555,
     MARISA_RENDER_MASK_RESET = 0xFFFF,
@@ -254,7 +261,7 @@ void near marisa_pattern_ring(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.pid = (1 - pid_current);
 
-		if(gba_boss_level < 8) {
+		if(gba_boss_level < MARISA_RING_DENSE_LEVEL) {
 			bullet_template.count = marisa_cloud_count_low;
 		} else {
 			bullet_template.speed.v = marisa_ring_speed;
@@ -416,7 +423,7 @@ void near marisa_render_main(void)
 		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
 		left += 64;
 		top += 16;
-		sprite16_put(left, top, (boss_sprite_offset + 0x16));
+		sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_HIT_SPRITE_OFFSET));
 		return;
 	}
 	if(boss_render_mode != 1) {
@@ -429,16 +436,16 @@ void near marisa_render_main(void)
 		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
 		left += 64;
 		top += 16;
-		sprite16_put(left, top, (boss_sprite_offset + 0x1C));
+		sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_FLICKER_SPRITE_OFFSET));
 		left -= 32;
 		top += 32;
-		sprite_offset = (boss_sprite_offset + 0xF00);
+		sprite_offset = (boss_sprite_offset + MARISA_RENDER_FLICKER_STRIP_OFFSET);
 	} else {
 		left += 32;
 		top += 48;
-		sprite_offset = (boss_sprite_offset + 0x1180);
+		sprite_offset = (boss_sprite_offset + MARISA_RENDER_ALTERNATE_STRIP_OFFSET);
 	}
-	sprite16_put_size.set(112, 16);
+	sprite16_put_size.set(MARISA_RENDER_STRIP_WIDTH, MARISA_RENDER_STRIP_HEIGHT);
 	sprite16_put(left, top, sprite_offset);
 }
 
