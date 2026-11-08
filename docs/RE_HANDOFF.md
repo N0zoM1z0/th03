@@ -85,6 +85,13 @@ both normal MAIN links and ordered relocations exact. The attempted shared
 `level / 2` local changed CODE and was reverted. See
 [the focused Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
 
+The HitCircle age walk also now uses a direct positive `p->age` guard in
+`hitcircles_update()` instead of a zero-age `continue`. Stage af1025d rebuilt
+the complete `hitcirc` object in two independent original TC4 rounds: 445 CODE
+bytes, 30 ordered native fields and four PUBLICs, with both normal MAIN links
+and ordered relocations exact. See
+[the focused HitCircle update review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md).
+
 
 Current report locations and SHA-256 identities:
 
@@ -120,8 +127,10 @@ owner in the stage.
 ## Latest source recovery and next work
 
 The latest source work includes the shared BOSS pattern selector's natural
-rejection loop (af1025a) and Kotohime's large update-controller intro guard
-(af1025c), alongside HitCircle, Mima and Chiyuri. See
+rejection loop (af1025a), Kotohime's large update-controller intro guard
+(af1025c), and HitCircle's age-update leaf (af1025d), alongside Mima and
+Chiyuri. See
+[the after1025 HitCircle update review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md),
 [the after1025 Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md),
 [the after1025 BOSS review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md),
 [the after1024 source review](MAIN_KOTOHIME_RADIAL_AND_HITCIRCLE_ENUMS_AFTER1024_REVIEW.md)

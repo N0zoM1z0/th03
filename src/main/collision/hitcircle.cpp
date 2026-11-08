@@ -108,12 +108,11 @@ void near hitcircles_update(void)
 	// The thirteen-record age walk keeps its signed index and near-pointer
 	// increments together in the for header after each byte-state update.
 	for(i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
-		if(!p->age) {
-			continue;
-		}
-		p->age++;
-		if(HITCIRCLE_FRAMES < p->age) {
-			p->age = 0;
+		if(p->age) {
+			p->age++;
+			if(HITCIRCLE_FRAMES < p->age) {
+				p->age = 0;
+			}
 		}
 	}
 }
