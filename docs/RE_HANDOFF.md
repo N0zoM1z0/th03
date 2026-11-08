@@ -447,6 +447,12 @@ bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4 rounds
 and the complete Japanese MAIN image/relocations exact. See the
 [after1032q three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1032Q_REVIEW.md).
 
+After the remaining six character update controllers were moved to the same
+positive launched-player scope, all nine BOSS owners were rebuilt together at
+af1033f: 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with
+two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [after1033f nine-BOSS update integration review](MAIN_NINE_BOSS_UPDATE_POSITIVE_PID_SCOPES_AFTER1033_REVIEW.md).
+
 After Reimu's update controller was moved to the same positive PID scope, all
 four current BOSS owners were rebuilt together at af1032t: 8,436 CODE bytes,
 1,190 ordered native fields and 40 PUBLICs, with two original TC4 rounds and
