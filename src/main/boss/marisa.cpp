@@ -237,27 +237,27 @@ void near marisa_pattern_columns_wide(void)
 	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_FIRST) {
+	else if(boss_frame == MARISA_COLUMN_FIRST) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_0_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_0_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_SECOND) {
+	else if(boss_frame == MARISA_COLUMN_SECOND) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_1_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_1_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_THIRD) {
+	else if(boss_frame == MARISA_COLUMN_THIRD) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_2_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_FOURTH) {
+	else if(boss_frame == MARISA_COLUMN_FOURTH) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
+	else if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
 		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
 		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
@@ -315,22 +315,22 @@ void near marisa_pattern_columns_narrow(void)
 	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_FIRST) {
+	else if(boss_frame == MARISA_COLUMN_FIRST) {
 		marisa_exatt_add(MARISA_NARROW_PAIR_0_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_NARROW_PAIR_0_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_SECOND) {
+	else if(boss_frame == MARISA_COLUMN_SECOND) {
 		marisa_exatt_add(MARISA_NARROW_PAIR_1_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_NARROW_PAIR_1_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_THIRD) {
+	else if(boss_frame == MARISA_COLUMN_THIRD) {
 		marisa_exatt_add(MARISA_NARROW_PAIR_2_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_NARROW_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_FOURTH) {
+	else if(boss_frame == MARISA_COLUMN_FOURTH) {
 		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
 		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
