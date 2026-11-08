@@ -80,6 +80,10 @@ enum fireball_native_timing_t {
     FIREBALL_EXPLOSION_FADE_FRAME = 32,
     FIREBALL_EXPLOSION_DONE_FRAME = 36,
     FIREBALL_EXPLOSION_CEL_PERIOD = 4,
+    FIREBALL_EXPLOSION_SPRITE_WIDTH = 64,
+    FIREBALL_EXPLOSION_SPRITE_HEIGHT = 64,
+    FIREBALL_EXPLOSION_HITBOX_WIDTH = 64,
+    FIREBALL_EXPLOSION_HITBOX_HEIGHT = 48,
     FIREBALL_FLY_SIZE_HALF = FLY_W / 2,
     FIREBALL_FALL_SIZE_HALF = FALL_W / 2,
 };
@@ -290,14 +294,23 @@ void near fireball_explosion_put(void)
 		// ZUN bloat: ^ The condition doesn't need to duplicate the keyframe.
 		so = SO_EXPLOSIONS_64X64[3];
 	}
-	sprite16_put_size.set(64, 64);
+	sprite16_put_size.set(
+		FIREBALL_EXPLOSION_SPRITE_WIDTH,
+		FIREBALL_EXPLOSION_SPRITE_HEIGHT
+	);
 
-	// ZUN bug: (16 / 2) pixels lower than where they should be, and where
-	// collision detection constructs its hitbox.
+	// ZUN bug: the 64x64 explosion sprite is placed using the 64x48
+	// collision box, leaving it 16 pixels below its visual center.
 	screen_x_t left;
 	screen_y_t top;
-	left = (playfield_fg_x_to_screen(p->center.x, p->pid) - (64 / 2));
-	top  = (playfield_fg_y_to_screen(p->center.y, p->pid) - (48 / 2));
+	left = (
+		playfield_fg_x_to_screen(p->center.x, p->pid) -
+		(FIREBALL_EXPLOSION_HITBOX_WIDTH / 2)
+	);
+	top = (
+		playfield_fg_y_to_screen(p->center.y, p->pid) -
+		(FIREBALL_EXPLOSION_HITBOX_HEIGHT / 2)
+	);
 
 	sprite16_put(left, top, so);
 }
