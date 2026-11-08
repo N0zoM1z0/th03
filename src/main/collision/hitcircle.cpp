@@ -119,7 +119,7 @@ void near hitcircles_update(void)
 
 void near hitcircles_render(void)
 {
-	const HitCircle near* p = hitcircles;
+	register const HitCircle near* p = hitcircles;
 
 	sprite16_mono_(true);
 
@@ -134,7 +134,7 @@ void near hitcircles_render(void)
 
 	sprite16_put_size.set(HITCIRCLE_W, HITCIRCLE_H);
 
-	int i;
+	register int i;
 	// Only twelve enemy slots draw in this pass. The thirteenth player
 	// hit circle uses its own monochrome palette after the signed-index
 	// and near-pointer for loop.

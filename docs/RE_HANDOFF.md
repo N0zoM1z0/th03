@@ -159,6 +159,13 @@ the inline `HitCircle::cel()` leaf (af1027c/d/e) changed CODE and were
 reverted. See the
 [after1027 HitCircle register review](MAIN_HITCIRCLE_UPDATE_REGISTER_POINTER_AFTER1027_REVIEW.md).
 
+The 236-byte HitCircle renderer now likewise declares its SI record cursor
+and DI enemy-slot counter as register locals. Stage af1028c rebuilt the
+complete `hitcirc` owner in two original TC4 rounds: 445 CODE bytes, 30
+ordered native fields and four PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1028 HitCircle renderer review](MAIN_HITCIRCLE_RENDER_REGISTER_LOCALS_AFTER1028_REVIEW.md).
+
 
 Current report locations and SHA-256 identities:
 
@@ -198,7 +205,8 @@ rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g),
 Chiyuri's intro phase chain/default path (af1026h/af1027h) and fan-loop SI
 index (af1027a), Kotohime's explicit radial register indices (af1026i), and
-HitCircle's age-update leaf/registers (af1025d/af1027f/af1027g). The three current
+HitCircle's age-update and render register locals (af1025d/af1027f/af1027g/af1028c).
+The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
 ordered native fields and 31 PUBLICs, with both original TC4 rounds and the
 complete Japanese MAIN image/relocations exact. See the
