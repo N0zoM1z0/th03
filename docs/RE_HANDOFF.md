@@ -367,7 +367,14 @@ kept as historical receipts below:
 
 | Native proof stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
-| `af1004a` | 12 | 18,792 |\n| `af1003f` | 1 | 1,431 |\n| `af1003e` | 1 | 1,874 |\n| `af1003d` | 1 | 1,675 |\n| `af1003c` | 1 | 2,358 |\n| `af1003a` | 1 | 2,020 |\n| `af1002d` | 1 | 1,922 |\n| `af1001e` | 12 | 18,792 |
+| `af1004a` | 12 | 18,792 |
+| `af1003f` | 1 | 1,431 |
+| `af1003e` | 1 | 1,874 |
+| `af1003d` | 1 | 1,675 |
+| `af1003c` | 1 | 2,358 |
+| `af1003a` | 1 | 2,020 |
+| `af1002d` | 1 | 1,922 |
+| `af1001e` | 12 | 18,792 |
 | `af1001c` | 1 | 1,922 |
 | `af1000d` | 1 | 445 |
 | `af997e` | 1 | 630 |
