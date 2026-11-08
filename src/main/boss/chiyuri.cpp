@@ -527,9 +527,10 @@ void far gba_boss_update_chiyuri(void)
 				boss_center_x, (boss_center_y + TO_SP(56)), pid_other
 			);
 			break;
+		} else {
+			bullet_template.is_animated = true;
+			return;
 		}
-		bullet_template.is_animated = true;
-		return;
 
 	case CHIYURI_MODE_SELECT:
 		if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
