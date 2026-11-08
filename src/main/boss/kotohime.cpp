@@ -167,17 +167,15 @@ void far pascal boss_kotohime_template_init(int player_id)
 // preserving exactly one random word per requested randomized bullet.
 void near pascal kotohime_ring_emit(int randomize_angle)
 {
-	int x;
-	int y;
-	unsigned char angle;
-	register int i;
-
 	bullet_template.type = BT_BULLET16_DEFAULT;
 	// This original signed angle calculation and conditional RNG draw must
-	// run in the same order for every physical ring projectile. Typed
-	// while compiles byte-exactly (native af866a).
-	i = 0;
-	while(i < kotohime_orbit_count) {
+	// run in the same order for every physical ring projectile. The natural
+	// for-header preserves the original signed-angle and RNG instruction order.
+	for(int i = 0; i < kotohime_orbit_count; ++i) {
+		int x;
+		int y;
+		unsigned char angle;
+
 		// Original signed-word nonzero RNG selector is exact with an
 		// explicit `!=0` (genuine TC4 native test af910d).
 		if(randomize_angle != 0) {
@@ -200,7 +198,6 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 		bullet_template.center.x.v = x;
 		bullet_template.center.y.v = y;
 		bullets_add();
-		++i;
 	}
 }
 
@@ -344,12 +341,6 @@ void near kotohime_pattern_pellet_arc(void)
 // 128-step local spread with original signed 16-bit operations.
 void near kotohime_pattern_radial_burst(void)
 {
-	int x;
-	int y;
-	unsigned char center_angle;
-	register int bullet_i;
-	register int center_i;
-
 	if(boss_frame == KOTOHIME_RING_START_FRAME) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_EXPANDING;
 		boss_effect_radius = 0;
@@ -376,9 +367,12 @@ void near kotohime_pattern_radial_burst(void)
 
 		// Original inner burst is a genuine nested O(center_count *
 		// burst_count) traversal, retaining division before angle truncation.
-		// Both typed while loops preserve the original TC4 code (af866b).
-		center_i = 0;
-		while(center_i < kotohime_orbit_count) {
+		// Both natural for-headers preserve the original TC4 code.
+		for(int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
+			int x;
+			int y;
+			unsigned char center_angle;
+
 			center_angle = (
 				((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
 				boss_move_phase
@@ -396,8 +390,7 @@ void near kotohime_pattern_radial_burst(void)
 			bullet_template.center.x.v = x;
 			bullet_template.center.y.v = y;
 
-			bullet_i = 0;
-			while(bullet_i < kotohime_burst_count) {
+			for(int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
 				bullet_template.angle = (
 					((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
 					center_angle +
@@ -408,9 +401,7 @@ void near kotohime_pattern_radial_burst(void)
 					KOTOHIME_BURST_SPEED_BASE
 				);
 				bullets_add();
-				++bullet_i;
 			}
-			++center_i;
 		}
 
 		snd_se_play(KOTOHIME_SOUND_ATTACK);
