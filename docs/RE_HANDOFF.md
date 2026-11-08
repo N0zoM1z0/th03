@@ -377,6 +377,18 @@ PUBLICs and the complete Japanese MAIN image/relocations exact. See the
 and the earlier
 [after1045 explosion-ring review](MAIN_BOSS_SHARED_EXPLOSION_RING_NATURAL_CPP_AFTER1045_REVIEW.md).
 
+Yumemi's 404-byte four-phase `yumemi_render_arrival()` now uses constant-first
+phase guards, natural two-stage `* 8` then `* 16` geometry, base-first Y
+placement and register-qualified Y/phase/PID locals. Its 83-byte far render
+dispatcher uses a positive launched-PID scope and constant-first mode tests.
+The original signed raster bounds/compound steps and hardware overlap protocol
+remain exact; folded `* 128`, reversed raster comparisons, ordinary step
+assignments and reordered PID inequality operands changed CODE or ordered
+fields and were rejected. Stage af1048t rebuilt the complete 2,358-byte
+`ba_yumem` owner in two original TC4 rounds, with 343 ordered native fields,
+ten PUBLICs and the complete Japanese MAIN image/relocations exact. See the
+[after1048 Yumemi arrival review](MAIN_YUMEMI_ARRIVAL_RENDERER_NATURAL_GEOMETRY_AFTER1048_REVIEW.md).
+
 The shared BOSS pattern selector's natural rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
 phase guards, positive PID scope, update INTRO branch, positive Spread/Random
