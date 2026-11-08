@@ -224,6 +224,13 @@ TC4 rounds: 2,654 CODE bytes, 381 ordered native fields and eleven PUBLICs,
 with the full Japanese MAIN image and relocations exact. See the
 [after1030 Fans vertical guard review](MAIN_CHIYURI_FANS_POSITIVE_VERTICAL_GUARD_AFTER1030_REVIEW.md).
 
+The same Fans leaf now expresses the horizontal and vertical frame tests as
+independent `if` statements, since the horizontal branch returns before the
+second test. Stage af1030q rebuilt the complete `ba_chiyu` owner in two
+original TC4 rounds: 2,654 CODE bytes, 381 ordered native fields and eleven
+PUBLICs, with the full Japanese MAIN image and relocations exact. See the
+[after1030 independent Fans test review](MAIN_CHIYURI_FANS_INDEPENDENT_VERTICAL_TEST_AFTER1030_REVIEW.md).
+
 Kotohime's radial burst now declares the outer center index and inner bullet
 index as `register int`, matching the original DI/SI loop-index allocation.
 Stage af1026i rebuilt the complete `ba_koto` owner in two original TC4 rounds:
@@ -330,7 +337,7 @@ phase guards, update INTRO branch and orbit finish predicate
 (af1029g/af1030f/af1030n),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
 scopes plus Trail positive fire and Fans positive vertical guards
-(af1027a/af1029j/af1030h/af1030i/af1030j/af1030p), and update
+(af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q), and update
 SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order and positive update INTRO branch
 (af1026i/af1029l/af1030m), and

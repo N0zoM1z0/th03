@@ -425,7 +425,9 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
 		}
 		return;
-	} else if(CHIYURI_FAN_VERTICAL_FRAME == boss_frame) {
+	}
+
+	if(CHIYURI_FAN_VERTICAL_FRAME == boss_frame) {
 	bomb_axis_add(
 		boss_center_x, (boss_center_y - TO_SP(56)), pid_other
 	);
