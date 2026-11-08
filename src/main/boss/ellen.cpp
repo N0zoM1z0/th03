@@ -86,25 +86,54 @@ enum ellen_boss_mode_t {
     ELLEN_MODE_EXPLODE = 0xFF,
 };
 
+enum ellen_template_layout_t {
+    ELLEN_TEMPLATE_CENTER_X = 0x900,
+    ELLEN_TEMPLATE_CENTER_Y = 0x500,
+    ELLEN_TEMPLATE_VELOCITY_X = -0x20,
+    ELLEN_TEMPLATE_HP = 0x64,
+    ELLEN_TEMPLATE_SPRITE_OFF = 0x780,
+    ELLEN_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
+enum ellen_render_layout_t {
+    ELLEN_RENDER_MODE_NORMAL = 0,
+    ELLEN_RENDER_STRIP_Y_SCALE = 0x28,
+    ELLEN_RENDER_STRIP_BASE = 0xFB10,
+    ELLEN_RENDER_STRIP_LEFT = 48,
+    ELLEN_RENDER_STRIP_TOP = 40,
+    ELLEN_RENDER_HIT_SPRITE_OFF = 8,
+    ELLEN_RENDER_INTRO_SPRITE_OFF = 0x28C,
+    ELLEN_RENDER_INTRO_HALF = 16,
+};
+
+enum ellen_attack_sound_t {
+    ELLEN_SOUND_SPREAD = 3,
+    ELLEN_SOUND_PELLET = 10,
+};
+
+enum ellen_angle_t {
+    ELLEN_PELLET_OPPOSITE_ANGLE = 0x80,
+};
+
 void far pascal boss_ellen_template_init(int player_id)
 {
 	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = ELLEN_TEMPLATE_CENTER_X;
+	p->center_y = ELLEN_TEMPLATE_CENTER_Y;
+	p->velocity_x = ELLEN_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
 	p->mode = 0;
-	p->hp = 0x64;
+	p->hp = ELLEN_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->render_frame = 0;
 	p->move_phase = 0;
-	p->sprite_offset = 0x780;
+	p->sprite_offset = ELLEN_TEMPLATE_SPRITE_OFF;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += ELLEN_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = 0;
 }
@@ -162,7 +191,7 @@ void near ellen_pattern_spread(void)
 		goto done;
 	}
 	if(boss_frame == ELLEN_SPREAD_SINGLE_END) {
-		snd_se_play(3);
+		snd_se_play(ELLEN_SOUND_SPREAD);
 		// Eight native spread calls in original sound/angle order.
 		// A named mutable byte step is exact as C++ `angle=angle+enum`
 		// (af893k), unlike replacing literal `angle +=8` with enum.
@@ -183,14 +212,14 @@ void near ellen_pattern_spread(void)
 	}
 
 fire_single:
-	snd_se_play(3);
+	snd_se_play(ELLEN_SOUND_SPREAD);
 	bullets_add();
 	ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 
 done:
 	if(boss_frame >= ELLEN_SPREAD_FINISH) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = ELLEN_RENDER_MODE_NORMAL;
+		boss_mode = ELLEN_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -261,7 +290,7 @@ void near ellen_pattern_extra(void)
 			++i;
 			angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
-		boss_mode = 1;
+		boss_mode = ELLEN_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -298,7 +327,7 @@ void near ellen_pattern_pellets(void)
 	boss_move_sine();
 
 	if((boss_frame % ellen_pellet_interval) == 1) {
-		snd_se_play(10);
+		snd_se_play(ELLEN_SOUND_PELLET);
 		bullet_template.group = BG_4_SPREAD_NARROW;
 		bullet_template.center.x.v = boss_center_x;
 		bullet_template.center.y.v = boss_center_y;
@@ -308,7 +337,7 @@ void near ellen_pattern_pellets(void)
 		bullet_template.pid = (1 - pid_current);
 		bullets_add();
 
-		bullet_template.angle = (ellen_pellet_angle + 0x80);
+		bullet_template.angle = (ellen_pellet_angle + ELLEN_PELLET_OPPOSITE_ANGLE);
 		bullets_add();
 
 		bullet_template.speed.v = (ellen_pellet_speed / 2);
@@ -323,7 +352,7 @@ void near ellen_pattern_pellets(void)
 	}
 
 	if(boss_frame >= ELLEN_PELLET_FINISH_FRAME) {
-		boss_mode = 1;
+		boss_mode = ELLEN_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -354,7 +383,7 @@ void far gba_boss_update_ellen(void)
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = ELLEN_MODE_SELECT;
 		break;
 
 	case ELLEN_MODE_SELECT:
@@ -421,9 +450,9 @@ void near pascal ellen_render_strip(int frame_i)
 	register int i = frame_i;
 
 	sprite_offset = (
-		(ellen_render_y_offsets[i] * 0x28) +
+		(ellen_render_y_offsets[i] * ELLEN_RENDER_STRIP_Y_SCALE) +
 		boss_sprite_offset +
-		0xFB10
+		ELLEN_RENDER_STRIP_BASE
 	);
 	sprite16_put_size.w = ELLEN_RENDER_STRIP_WIDTH;
 	sprite16_put_size.h = (ellen_render_heights[i] / 2);
@@ -432,12 +461,12 @@ void near pascal ellen_render_strip(int frame_i)
 		playfield_fg_x_to_screen(
 			boss_center_x,
 			(1 - pid_current)
-		) - 48
+		) - ELLEN_RENDER_STRIP_LEFT
 	);
 	top = (
 		(boss_center_y >> 4) +
 		ellen_render_y_offsets[i] -
-		40
+		ELLEN_RENDER_STRIP_TOP
 	);
 	sprite16_put(left, top, sprite_offset);
 }
@@ -457,7 +486,7 @@ void near ellen_render_main(void)
 
 	sprite_offset = boss_sprite_offset;
 	if(boss_hit) {
-		sprite_offset += 8;
+		sprite_offset += ELLEN_RENDER_HIT_SPRITE_OFF;
 	}
 	sprite16_put(left, top, sprite_offset);
 
@@ -509,7 +538,7 @@ void near pascal ellen_render_intro(
 
 	sprite16_put_size.w = ELLEN_RENDER_INTRO_WIDTH;
 	sprite16_put_size.h = ELLEN_RENDER_INTRO_HEIGHT;
-	sprite_offset = (pid.so_attack + 0x28C);
+	sprite_offset = (pid.so_attack + ELLEN_RENDER_INTRO_SPRITE_OFF);
 
 	// Four families of eight genuine sprites. Two nested natural
 	// while loops keep both byte-angle steps and sprite-offset updates
@@ -529,7 +558,7 @@ void near pascal ellen_render_intro(
 				SinTable8[angle]
 			);
 			left = (
-				playfield_fg_x_to_screen(left, pid_other) - 16
+				playfield_fg_x_to_screen(left, pid_other) - ELLEN_RENDER_INTRO_HALF
 			);
 			// TC4 naturally emits the original signed AX shift with a
 			// separate C++ assignment to top. Inlining this into
