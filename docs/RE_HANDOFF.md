@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af986b`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af988b`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,7 +56,19 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
-- **Latest Kana major-BOSS source-current follow-up: `af976a`.** The
+- **Latest eight-major-BOSS source-current integration: `af988b`.**
+  Two independent original TC4 4.02 rounds rebuilt all eight major BOSS
+  physical owners together: ba_mima, ba_reimu, ba_yumem, ba_ellen, ba_kana,
+  ba_koto, ba_maris and ba_rikak. The simultaneous objects preserve
+  **14,797 CODE bytes, 2,053 ordered OMF FIXUPPs and 74 PUBLICs**; both
+  complete normal MAIN links reproduce all 124,642 Japanese loaded bytes
+  and 1,553 ordered MZ relocations, reusing the other 91 original game
+  objects and Borland CRT. All eight global 16-bit BOSS frame increments
+  now use natural prefix form. See
+  [Eight-BOSS frame-clock integration after988](MAIN_EIGHT_BOSS_NATURAL_GLOBAL_FRAME_PREFIX_INTEGRATION_AFTER988_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af988b/report.json,
+  SHA-256 409055acc70a43c445e26039d863ee9da88f40f7897a5ac58468178d61bc355e.
+- **Earlier Kana major-BOSS source-current follow-up: `af976a`.** The
   complete nine-function ba_kana owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,874 CODE bytes, 274
   ordered OMF FIXUPPs and nine PUBLICs**. The sixteen-pellet staged volley
@@ -65,7 +77,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   See [Kana postfix loop after976](MAIN_KANA_BOSS_NATURAL_FOR_POSTFIX_AFTER976_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af976a/report.json,
   SHA-256 45c0d81edc7473d3014ff4343c7049c867cd117cdd8d2dd7fb49bb0756c96fd3.
-- **Latest Marisa major-BOSS source-current follow-up: `af975d`.** The
+- **Earlier Marisa major-BOSS source-current follow-up: `af975d`.** The
   complete nine-function ba_maris owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,431 CODE bytes, 199
   ordered OMF FIXUPPs and nine PUBLICs**. The four-frame flicker uses a
@@ -75,7 +87,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Marisa flicker/split after975](MAIN_MARISA_BOSS_NATURAL_FLICKER_AND_SPLIT_AFTER975_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af975d/report.json,
   SHA-256 138823acc2036573271773d98d3cd367e96c092c8dde16e8c65b6501d0b420e5.
-- **Latest Kana major-BOSS source-current follow-up: `af974c`.** The
+- **Earlier Kana major-BOSS source-current follow-up: `af974c`.** The
   complete nine-function ba_kana owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,874 CODE bytes, 274
   ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded
@@ -115,7 +127,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   and [Chiyuri lifecycle after972](MAIN_CHIYURI_BOSS_NATURAL_LIFECYCLE_PREDICATES_AFTER972_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af973b/report.json,
   SHA-256 2b41bf9a0c0fc3bca5b88b9bc8c02b0ac27e73559b225beaa7ed7574772d3bb4.
-- **Latest Marisa major-BOSS source-current follow-up: `af971b`.** The
+- **Earlier Marisa major-BOSS source-current follow-up: `af971b`.** The
   complete nine-function ba_maris owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,431 CODE bytes, 199
   ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded
@@ -124,7 +136,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   See [Marisa ring angle after971](MAIN_MARISA_BOSS_NATURAL_RING_ANGLE_AND_RENDER_AFTER971_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af971b/report.json,
   SHA-256 14348b7868d9a8af655daf93999adbf3d4fcdd13dfb756568d8d7f4a72cd23d6.
-- **Latest Marisa major-BOSS source-current follow-up: `af969a`.** The
+- **Earlier Marisa major-BOSS source-current follow-up: `af969a`.** The
   complete nine-function ba_maris owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,431 CODE bytes, 199
   ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded
@@ -134,7 +146,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Marisa BOSS native C++ after969](MAIN_MARISA_BOSS_TEMPLATE_AND_LEVEL_AFTER969_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af969a/report.json,
   SHA-256 ac37d9c2b6f5877c19e0aa15af96eee017ddddd4fa1ddeafe089ed4a8e97e3c2.
-- **Latest Kana major-BOSS source-current follow-up: `af966a`.** The
+- **Earlier Kana major-BOSS source-current follow-up: `af966a`.** The
   complete nine-function ba_kana owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,874 CODE bytes, 274
   ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese
@@ -146,7 +158,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   A fresh cloud-angle trial confirms that _AL -= 0x10 emits ADD AL,F0,
   not the original SUB AL,10; the explicit instruction remains. See
   [Kana cloud byte subtraction after967](MAIN_KANA_CLOUD_BYTE_SUBTRACTION_AFTER967_REVIEW.md).
-- **Latest Kotohime major-BOSS source-current follow-up: `af968c`.** The
+- **Earlier Kotohime major-BOSS source-current follow-up: `af968c`.** The
   complete eleven-function ba_koto owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,840 CODE bytes, 262
   ordered OMF FIXUPPs and eleven PUBLICs**, with all 124,642 Japanese
@@ -178,7 +190,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   and [Fireball geometry after964](MAIN_FIREBALL_EXPLOSION_GEOMETRY_AFTER964_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af964e/report.json`,
   SHA-256 `3f03d78b2808918c5377e79bb14a164d86c38d585642db79e95358fd2f287cba`.
-- **Latest Ellen major-BOSS source-current follow-up: `af964a`.** Both
+- **Earlier Ellen major-BOSS source-current follow-up: `af964a`.** Both
   independent radial Extra Attack volleys in the complete nine-function
   `ba_ellen` controller now use natural byte-angle addition/assignment,
   preserving the runtime 256/count division and spawn order. Two original
@@ -187,7 +199,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   See [Ellen radial Extra angle after964](MAIN_ELLEN_BOSS_NATURAL_EXTRA_ANGLE_AFTER964_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af964a/report.json`,
   SHA-256 `d0d4384d45de700bbe3f9fd7a0ff71a2b6d1684467331d41cb90e21bbca2b1fe`.
-- **Latest Ellen major-BOSS source-current follow-up: `af962a`.** The
+- **Earlier Ellen major-BOSS source-current follow-up: `af962a`.** The
   complete nine-function `ba_ellen` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,675 CODE bytes, 213
   ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese
@@ -195,7 +207,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   game objects and CRT were reused. See [Ellen BOSS native C++ after962](MAIN_ELLEN_BOSS_LEVEL_AND_CADENCE_AFTER962_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af962a/report.json`,
   SHA-256 `0d4c188c64c0a551c2fa4c43cadf65f2ddfc7f2ae5bda69d6ad0a5cfaa5d7b71`.
-- **Latest Rikako major-BOSS source-current follow-up: `af963a`.** The
+- **Earlier Rikako major-BOSS source-current follow-up: `af963a`.** The
   complete eight-function `ba_rikak` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,677 CODE bytes, 215
   ordered OMF FIXUPPs and eight PUBLICs**, with all 124,642 Japanese
@@ -203,7 +215,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   game objects and CRT were reused. See [Rikako signed-angle native C++ after963](MAIN_RIKAKO_BOSS_NATURAL_SIGNED_ANGLE_AFTER963_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af963a/report.json`,
   SHA-256 `78fa528372b3450e59d4b9ae5467e04018390feb3601f56fc76b8f6d677302ff`.
-- **Latest Rikako major-BOSS source-current follow-up: `af961c`.** The
+- **Earlier Rikako major-BOSS source-current follow-up: `af961c`.** The
   complete eight-function `ba_rikak` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,677 CODE bytes, 215
   ordered OMF FIXUPPs and eight PUBLICs**, with all 124,642 Japanese
@@ -211,7 +223,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   game objects and CRT were reused. See [Rikako BOSS native C++ after961](MAIN_RIKAKO_BOSS_TEMPLATE_LEVEL_RENDER_AFTER961_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af961c/report.json`,
   SHA-256 `9fcbae796cef4dca161be6373e8d97e0c6d34c65c6243e717a2438929ffb5987`.
-- **Latest Ellen major-BOSS source-current follow-up: `af960a`.** The
+- **Earlier Ellen major-BOSS source-current follow-up: `af960a`.** The
   complete nine-function `ba_ellen` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,675 CODE bytes, 213
   ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese
@@ -219,7 +231,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   game objects and CRT were reused. See [Ellen BOSS native C++ after960](MAIN_ELLEN_BOSS_TEMPLATE_RENDER_AFTER960_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af960a/report.json`,
   SHA-256 `448760cfd873930a2e15b3b61fa692fbf5145c9dbca62f20a4d862950f7abc5c`.
-- **Latest Chiyuri major-BOSS source-current follow-up: `af959b`.** The
+- **Earlier Chiyuri major-BOSS source-current follow-up: `af959b`.** The
   complete 11-function `ba_chiyu` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,654 CODE bytes, 381
   ordered OMF FIXUPPs and eleven PUBLICs**, with all 124,642 Japanese
@@ -227,7 +239,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   game objects and CRT were reused. See [Chiyuri BOSS native C++ after959](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af959b/report.json`,
   SHA-256 `2a3f864b74ed5c01b6b0217833ce46ecb04ea8930cd8af301503658329baba69`.
-- **Latest Yumemi major-BOSS source-current follow-up: `af983a`.** The
+- **Earlier Yumemi major-BOSS source-current follow-up: `af983a`.** The
   complete ten-function ba_yumem BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,358 CODE bytes, 343
   ordered OMF FIXUPPs and ten PUBLICs**. Its rain volley uses a natural
@@ -238,7 +250,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   and [Yumemi rain/arrival loops after979](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af983a/report.json,
   SHA-256 53a363645f48f4b17ef8cae6c119812b4fa6737504fc8249f88a2bd581645c9b.
-- **Latest Mima major-BOSS source-current follow-up: `af984b`.** The
+- **Earlier Mima major-BOSS source-current follow-up: `af984b`.** The
   complete nine-function ba_mima BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,922 CODE bytes, 277
   ordered OMF FIXUPPs and nine PUBLICs**. The spread and medium-pellet
@@ -247,7 +259,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Mima spread-angle assignments after984](MAIN_MIMA_BOSS_NATURAL_SPREAD_ANGLE_ASSIGNMENTS_AFTER984_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af984b/report.json,
   SHA-256 01f13a472e8979f2a4b67f35a8c38e38d5c1672bb391632873fb24f80147ad75.
-- **Latest Reimu major-BOSS source-current follow-up: `af986a`.** The
+- **Earlier Reimu major-BOSS source-current follow-up: `af986a`.** The
   complete nine-function ba_reimu BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,020 CODE bytes, 270
   ordered OMF FIXUPPs and nine PUBLICs**. All five loops use prefix
@@ -277,6 +289,7 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af988b` | 8 | 14,797 |
 | `af976a` | 1 | 1,874 |
 | `af973b` | 1 | 2,654 |
 | `af975d` | 1 | 1,431 |
@@ -309,6 +322,11 @@ after `af973b`; and Marisa `af969a` and `af971b` are historical after
 superseded by `af974c`, which is itself superseded by the postfix-loop
 source proof `af976a`. The Marisa `af971a` and `af971b` stages are
 superseded by the combined renderer/register source proof `af975d`.
+The individual current-source receipts for Kana `af976a`, Marisa
+`af975d`, Kotohime `af968c`, Ellen `af964a`, Rikako
+`af963a`, Yumemi `af983a`, Mima `af984b` and Reimu
+`af986a` are now historical after the simultaneous eight-owner source
+proof `af988b`. Use that integration for all eight major BOSSes.
 Yumemi `af956a`, `af979a` and `af980e` are historical after the
 current full-BOSS source proof `af983a`. Mima `af952a`, `af977d` and
 `af980f` are historical after `af984b`. Reimu `af944a`, `af982c` and
@@ -323,8 +341,8 @@ CODE. Hitbox af983d pointer-first scan update and af984d direct explosion
 call also changed complete CODE; the current index-first scan and explicit
 far/near bridge remain. Mima af980a/af980c/af980d control-flow and
 frame/angle variants, plus af984c explicit signed-orbit cast, are
-preserved negative compiler results. Use af986b, af985b, af986a, af984b,
-af983a, af976a, af975d, af973b, af968c and af931b for current source binding.
+preserved negative compiler results. Use af988b for the eight major BOSSes, af986b for Hitbox, af985b for
+HitCircle, af973b for Chiyuri and af964e for Fireball source binding.
 Marisa's
 `af935a` and older single-object `af930e` receipts are now historical for
 ba_maris after `af969a`. Use `af968c` and `af969a` for current
@@ -474,17 +492,18 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current Reimu prefix loops and cloud byte wrap](MAIN_REIMU_BOSS_NATURAL_PREFIX_AND_CLOUD_BYTE_AFTER986_REVIEW.md)
+- [Current eight-major-BOSS frame-clock integration](MAIN_EIGHT_BOSS_NATURAL_GLOBAL_FRAME_PREFIX_INTEGRATION_AFTER988_REVIEW.md)
+- [Earlier Reimu prefix loops and cloud byte wrap](MAIN_REIMU_BOSS_NATURAL_PREFIX_AND_CLOUD_BYTE_AFTER986_REVIEW.md)
 - [Current Hitbox early guard clauses](MAIN_HITBOX_NATURAL_EARLY_GUARDS_AFTER986_REVIEW.md)
 - [Current HitCircle lifetime and render for loops](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md)
-- [Current Mima spread-angle assignments](MAIN_MIMA_BOSS_NATURAL_SPREAD_ANGLE_ASSIGNMENTS_AFTER984_REVIEW.md)
+- [Earlier Mima spread-angle assignments](MAIN_MIMA_BOSS_NATURAL_SPREAD_ANGLE_ASSIGNMENTS_AFTER984_REVIEW.md)
 - [Earlier Reimu orbit and intro loops](MAIN_REIMU_BOSS_NATURAL_ORBIT_AND_INTRO_LOOPS_AFTER982_REVIEW.md)
-- [Current Yumemi rain-loop prefix increment](MAIN_YUMEMI_BOSS_NATURAL_RAIN_INCREMENT_AFTER980_REVIEW.md)
+- [Earlier Yumemi rain-loop prefix increment](MAIN_YUMEMI_BOSS_NATURAL_RAIN_INCREMENT_AFTER980_REVIEW.md)
 - [Earlier Mima random-bomb quarter clock](MAIN_MIMA_BOSS_NATURAL_QUARTER_CLOCK_AFTER980_REVIEW.md)
-- [Current Yumemi rain and arrival for-loop source work](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md)
-- [Current Mima split-angle and even-frame clock source work](MAIN_MIMA_BOSS_NATURAL_SPLIT_AND_CLOCK_AFTER977_REVIEW.md)
-- [Current Kana postfix for-loop source work](MAIN_KANA_BOSS_NATURAL_FOR_POSTFIX_AFTER976_REVIEW.md)
-- [Current Marisa flicker and split renderer](MAIN_MARISA_BOSS_NATURAL_FLICKER_AND_SPLIT_AFTER975_REVIEW.md)
+- [Earlier Yumemi rain and arrival for-loop source work](MAIN_YUMEMI_BOSS_NATURAL_RAIN_AND_ARRIVAL_LOOPS_AFTER979_REVIEW.md)
+- [Earlier Mima split-angle and even-frame clock source work](MAIN_MIMA_BOSS_NATURAL_SPLIT_AND_CLOCK_AFTER977_REVIEW.md)
+- [Earlier Kana postfix for-loop source work](MAIN_KANA_BOSS_NATURAL_FOR_POSTFIX_AFTER976_REVIEW.md)
+- [Earlier Marisa flicker and split renderer](MAIN_MARISA_BOSS_NATURAL_FLICKER_AND_SPLIT_AFTER975_REVIEW.md)
 - [HitCircle cel register allocation experiments](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md)
 - [Earlier HitCircle natural spawn stores](MAIN_HITCIRCLE_NATURAL_SPAWN_AFTER931_REVIEW.md)
 - [Earlier Kana staged-volley natural C++ work](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md)
