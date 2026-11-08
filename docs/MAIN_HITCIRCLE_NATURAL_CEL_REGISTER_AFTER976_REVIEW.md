@@ -73,12 +73,12 @@ record-pointer allocation. The multiply and return expression remain in
 their original forms.
 
 The current self-division and named VRAM-term assignments are source-bound
-to af1000d: two original TC4 rounds reproduce all **445 CODE bytes, 30 literal ordered
-OMF FIXUPP fields and four PUBLIC offsets**, with complete normal MAIN
-image and all 1,553 ordered relocations exact. The other 98 original game
-objects and Borland CRT were reused. The earlier af985b and af999c proofs are historical after this source
-improvement.
+to af1000d: two original TC4 rounds reproduce all **445 CODE bytes,
+30 literal ordered OMF FIXUPP fields and four PUBLIC offsets**, with
+complete normal MAIN image and all 1,553 ordered relocations exact. The
+other 98 original game objects and Borland CRT were reused. The earlier
+af985b and af999c proofs are historical after this source improvement.
 
 Protected current-source report:
-.analysis/work/exatt-layout-af999c/report.json, SHA-256
-fce7038dc10ab00c9b42e0a8d62c912b929e2fb93653b95518d6d51bddf5ad88.
+.analysis/work/exatt-layout-af1000d/report.json, SHA-256
+f04fd95708946cb4c0dd0c9a904154eae504188b9dc64307d1064ea5f3db04c2.
