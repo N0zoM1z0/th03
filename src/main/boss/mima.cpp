@@ -520,7 +520,9 @@ void near mima_render_main(void)
 		top += MIMA_DAMAGED_TOP;
 		sprite16_put(left, top, (boss_sprite_offset + MIMA_DAMAGED_SPRITE_OFF));
 		return;
-	} else if(MIMA_RMODE_PARTICLE == boss_render_mode) {
+	}
+
+	if(MIMA_RMODE_PARTICLE == boss_render_mode) {
 render_mode_2:
 		// Mode 5 enters through the original label; merging mode 2/5
 		// into one C++ condition changed the full BOSS CODE (af855b).
@@ -544,7 +546,7 @@ render_mode_2:
 		return;
 	}
 
-	else if(MIMA_RMODE_EXPAND == boss_render_mode) {
+	if(MIMA_RMODE_EXPAND == boss_render_mode) {
 		sprite16_put_size.set(MIMA_EXPAND_SPRITE_WIDTH, MIMA_EXPAND_SPRITE_HEIGHT);
 		sprite16_put(
 			(left + MIMA_EXPAND_SPRITE_LEFT),
@@ -554,14 +556,14 @@ render_mode_2:
 		return;
 	}
 
-	else if(MIMA_RMODE_FLASH == boss_render_mode) {
+	if(MIMA_RMODE_FLASH == boss_render_mode) {
 		sprite16_put_size.set(MIMA_PART_SPRITE_SIZE, MIMA_PART_SPRITE_SIZE);
 		sprite_offset = (boss_sprite_offset + MIMA_PART_SPRITE_OFF);
 		sprite16_put((left + MIMA_PART_SPRITE_LEFT), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
 		return;
 	}
 
-	else if(MIMA_RMODE_TRAIL == boss_render_mode) {
+	if(MIMA_RMODE_TRAIL == boss_render_mode) {
 		boss_render_frame = 0;
 		goto render_mode_2;
 	}

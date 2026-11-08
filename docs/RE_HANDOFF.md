@@ -98,6 +98,14 @@ Mima's orbit leaf now spells its inclusive finish test as the constant-first
 fields and nine PUBLICs, with the full Japanese MAIN image and relocations
 exact. See the [after1026 Mima orbit review](MAIN_MIMA_ORBIT_FINISH_COMPARE_AFTER1026_REVIEW.md).
 
+Mima's 305-byte `mima_render_main()` now uses independent early-return guards
+for hit, Particle, Expand, Flash and Trail phases. The shared Particle/Trail
+label and byte-frame postincrement remain intact. Stage af1029g rebuilt the
+complete `ba_mima` owner in two original TC4 rounds: 1,922 CODE bytes, 277
+ordered native fields and nine PUBLICs, with the complete Japanese MAIN image
+and relocations exact. See the
+[after1029 Mima renderer review](MAIN_MIMA_RENDER_MAIN_INDEPENDENT_PHASE_GUARDS_AFTER1029_REVIEW.md).
+
 Mima's Trail leaf now uses the same constant-first form for its inclusive end
 frame, after the byte-narrowed modulo phases and optional shot. Stage af1026g
 rebuilt the complete `ba_mima` owner in two original TC4 rounds with all 1,922
@@ -223,7 +231,8 @@ owner in the stage.
 
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
-(af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g),
+(af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
+phase guards (af1029g),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI
 index (af1027a), and update SELECT register byte (af1028f), Kotohime's
 explicit radial register indices (af1026i), and
