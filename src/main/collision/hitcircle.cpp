@@ -108,18 +108,12 @@ void near hitcircles_update(void)
 	// The thirteen-record age walk keeps its signed index and near-pointer
 	// increments together in the for header after each byte-state update.
 	for(i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
-		if(p->age) {
-			// Mutable byte age postfix is native-visible: prefix emitted
-			// nonoriginal instructions (af919d), so keep the original.
-			p->age++;
-
-			// Not off-by-one, since [age] starts at 1.
-			// Unlike the byte postfix, this limit can read naturally as
-			// `FRAME_LIMIT < age`; original TC4 emitted the same CODE
-			// as `age > FRAME_LIMIT` (af919e).
-			if(HITCIRCLE_FRAMES < p->age) {
-				p->age = 0;
-			}
+		if(!p->age) {
+			continue;
+		}
+		p->age++;
+		if(HITCIRCLE_FRAMES < p->age) {
+			p->age = 0;
 		}
 	}
 }
