@@ -425,11 +425,12 @@ void far gba_boss_update_rikako(void)
 
 		switch(boss_mode) {
 		case RIKAKO_MODE_INTRO:
-			if(boss_frame != RIKAKO_INTRO_FINISH_FRAME) {
+			if(boss_frame == RIKAKO_INTRO_FINISH_FRAME) {
+				boss_frame = 0;
+				boss_mode = RIKAKO_MODE_SELECT;
+			} else {
 				return;
 			}
-			boss_frame = 0;
-			boss_mode = RIKAKO_MODE_SELECT;
 			break;
 
 		case RIKAKO_MODE_SELECT:
