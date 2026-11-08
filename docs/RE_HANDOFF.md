@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af935a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af956a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,6 +56,14 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Yumemi major-BOSS source-current follow-up: `af956a`.** The
+  full ten-function `ba_yumem` BOSS was rebuilt in two original TC4 rounds
+  with the complete normal MAIN link: **2,358 CODE bytes, 343 ordered OMF
+  FIXUPPs and ten PUBLICs**, with all 124,642 Japanese loaded bytes and
+  1,553 ordered MZ relocations exact. The other 98 original game objects
+  and CRT were reused. See [Yumemi BOSS native C++ after956](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af956a/report.json`,
+  SHA-256 `418f24c6cf9c7aa8b2bb5480ef4b7fb808642da2b46ff37e052157c614b35c7a`.
 - **Latest Mima major-BOSS source-current follow-up: `af952a`.** The full
   nine-function `ba_mima` BOSS was rebuilt in two original TC4 rounds with
   the complete normal MAIN link: **1,922 CODE bytes, 277 ordered OMF
@@ -86,6 +94,7 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af956a` | 1 | 2,358 |
 | `af952a` | 1 | 1,922 |
 | `af944a` | 1 | 2,020 |
 | `af935a` | 7 | 7,886 |
@@ -227,6 +236,7 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Latest Yumemi BOSS source/native follow-up](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md)
 - [Latest Mima BOSS source/native follow-up](MAIN_MIMA_BOSS_NATURAL_RENDER_AND_STATE_AFTER952_REVIEW.md)
 - [Latest Reimu BOSS source/native follow-up](MAIN_REIMU_BOSS_CLOUD_NATURAL_AFTER944_REVIEW.md)
 - [Latest seven-object source/native integration](MAIN_SEVEN_SOURCE_INTEGRATION_AFTER935_REVIEW.md)

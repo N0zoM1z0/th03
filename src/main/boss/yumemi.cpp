@@ -92,26 +92,72 @@ enum yumemi_boss_mode_t {
     YUMEMI_MODE_EXPLODE = 0xFF,
 };
 
+enum yumemi_template_layout_t {
+    YUMEMI_TEMPLATE_CENTER_X = 0x900,
+    YUMEMI_TEMPLATE_CENTER_Y = 0x500,
+    YUMEMI_TEMPLATE_VELOCITY_X = -0x20,
+    YUMEMI_TEMPLATE_HP = 0x82,
+    YUMEMI_TEMPLATE_SPRITE_OFFSET = 0x288,
+    YUMEMI_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
+enum yumemi_render_mode_t {
+    YUMEMI_RENDER_MODE_NONE = 0,
+    YUMEMI_RENDER_MODE_PRIMARY = 1,
+    YUMEMI_RENDER_MODE_ALTERNATE = 2,
+};
+
+enum yumemi_render_geometry_t {
+    YUMEMI_RENDER_MAIN_SIZE = 112,
+    YUMEMI_RENDER_MAIN_LEFT_HALF = 56,
+    YUMEMI_RENDER_MAIN_TOP_OFFSET = 40,
+    YUMEMI_RENDER_EFFECT_SIZE = 64,
+    YUMEMI_RENDER_EFFECT_SPRITE_OFF = 0x0E,
+    YUMEMI_RENDER_EFFECT_ALT_OFF = 0xA00,
+    YUMEMI_RENDER_EFFECT_LEFT = 32,
+    YUMEMI_RENDER_HIT_WIDTH = 80,
+    YUMEMI_RENDER_HIT_HEIGHT = 96,
+    YUMEMI_RENDER_HIT_LEFT = 16,
+    YUMEMI_RENDER_HIT_SPRITE_OFF = 0x16,
+    YUMEMI_RENDER_EFFECT_ORIGIN_SHIFT = 5,
+    YUMEMI_RENDER_EFFECT_ORIGIN_BIAS = 8,
+    YUMEMI_RENDER_EFFECT_COLOR = 10,
+};
+
+enum yumemi_render_clip_t {
+    YUMEMI_CLIP_PLAYER0_LEFT = 16,
+    YUMEMI_CLIP_PLAYER1_LEFT = 0x150,
+    YUMEMI_CLIP_TOP = 8,
+    YUMEMI_CLIP_PLAYER0_RIGHT = 0x12F,
+    YUMEMI_CLIP_PLAYER1_RIGHT = 0x26F,
+    YUMEMI_CLIP_BOTTOM = 0xBF,
+};
+
+enum yumemi_sound_effect_t {
+    YUMEMI_SOUND_EXPLOSION = 5,
+    YUMEMI_SOUND_AIMED_SHOT = 3,
+};
+
 void far pascal boss_yumemi_template_init(int player_id)
 {
 	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = YUMEMI_TEMPLATE_CENTER_X;
+	p->center_y = YUMEMI_TEMPLATE_CENTER_Y;
+	p->velocity_x = YUMEMI_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
 	p->mode = 0;
-	p->hp = 0x82;
+	p->hp = YUMEMI_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->render_frame = 0;
 	p->move_phase = 0;
 	p->effect_radius = 0;
-	p->sprite_offset = 0x288;
+	p->sprite_offset = YUMEMI_TEMPLATE_SPRITE_OFFSET;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += YUMEMI_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = 0;
 }
@@ -134,7 +180,7 @@ enum yumemi_ring_phase_t {
 void near yumemi_pattern_ring(void)
 {
 	if(boss_frame == YUMEMI_RING_INIT_FRAME) {
-		boss_render_mode = 1;
+		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		yumemi_angle = randring_far_next16();
 		yumemi_speed_add = 0;
 		boss_effect_radius = YUMEMI_RING_INITIAL_RADIUS;
@@ -162,8 +208,8 @@ void near yumemi_pattern_ring(void)
 			yumemi_origin_y,
 			bullet_template.pid
 		);
-		boss_render_mode = 2;
-		snd_se_play(5);
+		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
+		snd_se_play(YUMEMI_SOUND_EXPLOSION);
 	}
 
 	// Original 16-bit frame clock is genuinely unsigned; natural
@@ -186,8 +232,8 @@ void near yumemi_pattern_ring(void)
 	}
 
 	if(boss_frame > YUMEMI_RING_FINISH_AFTER) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -195,6 +241,7 @@ void near yumemi_pattern_ring(void)
 // Timing gates for the long aimed, cross, chase and rain BOSS attacks.
 // Preserve each attack's exact inclusive/exclusive frame transition.
 enum yumemi_attack_timing_t {
+    YUMEMI_AIMED_INIT_FRAME = 1,
     YUMEMI_AIMED_WARNING_END = 0x10,
     YUMEMI_AIMED_WARNING_PERIOD = 4,
     YUMEMI_AIMED_WARNING_PHASE = 1,
@@ -223,12 +270,17 @@ enum yumemi_attack_timing_t {
     YUMEMI_RAIN_RANDOM_ANGLE_MASK = 0x3F,
     YUMEMI_RAIN_RANDOM_ANGLE_BIAS = 0x20,
     YUMEMI_RAIN_SMALL_SPEED = TO_SP(2) + 4,
+    YUMEMI_RAIN_INITIAL_ANGLE = -0x40,
+    YUMEMI_RAIN_SPREAD_SPEED = TO_SP(6),
+    YUMEMI_CHASE_RENDER_FRAME = 2,
+    YUMEMI_EFFECT_RADIUS_DECAY = 8,
+    YUMEMI_AIMED_RENDER_FRAME_START = 0x20,
 };
 
 void near yumemi_pattern_aimed_random(void)
 {
-	if(boss_frame == 1) {
-		boss_render_mode = 1;
+	if(boss_frame == YUMEMI_AIMED_INIT_FRAME) {
+		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		boss_aux_point.x = players[bullet_template.pid].center.x;
 		boss_aux_point.y = players[bullet_template.pid].center.y;
 		yumemi_angle = iatan2(
@@ -236,7 +288,7 @@ void near yumemi_pattern_aimed_random(void)
 			(boss_aux_point.x.v - yumemi_origin_x)
 		);
 		boss_effect_radius = YUMEMI_RING_INITIAL_RADIUS;
-		boss_render_frame = 0x20;
+		boss_render_frame = YUMEMI_AIMED_RENDER_FRAME_START;
 	}
 
 	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
@@ -260,11 +312,11 @@ void near yumemi_pattern_aimed_random(void)
 			yumemi_origin_y,
 			bullet_template.pid
 		);
-		boss_render_mode = 2;
+		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
 	if(!(boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
-		snd_se_play(3);
+		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
 		bullet_template.angle = yumemi_angle;
@@ -277,8 +329,8 @@ void near yumemi_pattern_aimed_random(void)
 	}
 
 	if(boss_frame > YUMEMI_AIMED_FINISH_AFTER) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -312,7 +364,7 @@ void near yumemi_pattern_cross_rings(void)
 	}
 
 	if(boss_frame >= YUMEMI_CROSS_FINISH_AT) {
-		boss_mode = 1;
+		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -334,7 +386,7 @@ void near yumemi_pattern_chase(void)
 		return;
 	}
 
-	boss_render_frame = 2;
+	boss_render_frame = YUMEMI_CHASE_RENDER_FRAME;
 	boss_aux_point.x = players[bullet_template.pid].center.x;
 	boss_aux_point.y = players[bullet_template.pid].center.y;
 
@@ -346,7 +398,7 @@ void near yumemi_pattern_chase(void)
 	boss_move_sine();
 
 	if((boss_frame % YUMEMI_CHASE_BEAM_PERIOD) == YUMEMI_CHASE_BEAM_PHASE) {
-		boss_render_mode = 1;
+		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		bomb_axis_add(
 			boss_aux_point.x.v,
 			boss_aux_point.y.v,
@@ -357,8 +409,8 @@ void near yumemi_pattern_chase(void)
 	}
 
 	if(boss_frame > yumemi_chase_until) {
-		boss_render_mode = 0;
-		boss_mode = 1;
+		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 		boss_move_phase = 0;
 	}
@@ -377,8 +429,8 @@ void near yumemi_pattern_rain(void)
 		if(boss_frame < YUMEMI_RAIN_SPREAD_END) {
 			bullet_template.center.x.v = yumemi_origin_x;
 			bullet_template.center.y.v = yumemi_origin_y;
-			bullet_template.angle = -0x40;
-			bullet_template.speed.v = TO_SP(6);
+			bullet_template.angle = YUMEMI_RAIN_INITIAL_ANGLE;
+			bullet_template.speed.v = YUMEMI_RAIN_SPREAD_SPEED;
 			bullet_template.group = BG_5_SPREAD_WIDE;
 			bullets_add();
 			bullet_template.group = BG_4_SPREAD_WIDE;
@@ -406,7 +458,7 @@ void near yumemi_pattern_rain(void)
 	}
 
 	if(boss_frame >= YUMEMI_RAIN_FINISH_AT) {
-		boss_mode = 1;
+		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -440,13 +492,13 @@ void far gba_boss_update_yumemi(void)
 	case YUMEMI_MODE_INTRO:
 		if((boss_frame == YUMEMI_INTRO_SOUND_FIRST_FRAME) || (boss_frame == YUMEMI_INTRO_SOUND_SECOND_FRAME)) {
 			snd_se_reset();
-			snd_se_play(5);
+			snd_se_play(YUMEMI_SOUND_EXPLOSION);
 		}
 		if(boss_frame != YUMEMI_INTRO_FINISH_FRAME) {
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = YUMEMI_MODE_SELECT;
 		break;
 
 	case YUMEMI_MODE_SELECT:
@@ -492,10 +544,10 @@ void far gba_boss_update_yumemi(void)
 		return;
 	}
 
-	if(boss_effect_radius) {
-		boss_effect_radius -= 8;
+	if(boss_effect_radius != 0) {
+		boss_effect_radius -= YUMEMI_EFFECT_RADIUS_DECAY;
 	}
-	if(boss_render_frame) {
+	if(boss_render_frame != 0) {
 		// Original byte-field postfix is codegen-visible; prefix
 		// changed actual original TC4 CODE (af897h).
 		boss_render_frame--;
@@ -529,22 +581,22 @@ void near yumemi_render_main(void)
 	register screen_x_t left;
 	register vram_y_t top;
 
-	sprite16_put_size.set(112, 112);
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - 56);
-	top = ((boss_center_y >> 4) - 40);
+	sprite16_put_size.set(YUMEMI_RENDER_MAIN_SIZE, YUMEMI_RENDER_MAIN_SIZE);
+	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - YUMEMI_RENDER_MAIN_LEFT_HALF);
+	top = ((boss_center_y >> 4) - YUMEMI_RENDER_MAIN_TOP_OFFSET);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_render_mode) {
-		sprite16_put_size.set(64, 64);
-		sprite_offset = (boss_sprite_offset + 0x0E);
-		if(boss_render_mode == 2) {
-			sprite_offset += 0xA00;
+	if(boss_render_mode != YUMEMI_RENDER_MODE_NONE) {
+		sprite16_put_size.set(YUMEMI_RENDER_EFFECT_SIZE, YUMEMI_RENDER_EFFECT_SIZE);
+		sprite_offset = (boss_sprite_offset + YUMEMI_RENDER_EFFECT_SPRITE_OFF);
+		if(boss_render_mode == YUMEMI_RENDER_MODE_ALTERNATE) {
+			sprite_offset += YUMEMI_RENDER_EFFECT_ALT_OFF;
 		}
-		sprite16_put((left + 32), top, sprite_offset);
+		sprite16_put((left + YUMEMI_RENDER_EFFECT_LEFT), top, sprite_offset);
 	} else if(boss_hit) {
-		sprite16_put_size.set(80, 96);
-		left += 16;
-		sprite16_put(left, top, (boss_sprite_offset + 0x16));
+		sprite16_put_size.set(YUMEMI_RENDER_HIT_WIDTH, YUMEMI_RENDER_HIT_HEIGHT);
+		left += YUMEMI_RENDER_HIT_LEFT;
+		sprite16_put(left, top, (boss_sprite_offset + YUMEMI_RENDER_HIT_SPRITE_OFF));
 	}
 
 	// These are two independent original visual effect state values.
@@ -554,24 +606,24 @@ void near yumemi_render_main(void)
 	}
 
 	if(pid_current != 0) {
-		grc_setclip(16, 8, 0x12F, 0xBF);
+		grc_setclip(YUMEMI_CLIP_PLAYER0_LEFT, YUMEMI_CLIP_TOP, YUMEMI_CLIP_PLAYER0_RIGHT, YUMEMI_CLIP_BOTTOM);
 	} else {
-		grc_setclip(0x150, 8, 0x26F, 0xBF);
+		grc_setclip(YUMEMI_CLIP_PLAYER1_LEFT, YUMEMI_CLIP_TOP, YUMEMI_CLIP_PLAYER1_RIGHT, YUMEMI_CLIP_BOTTOM);
 	}
 
 	egc_off();
-	grcg_setcolor(GC_RMW, 10);
+	grcg_setcolor(GC_RMW, YUMEMI_RENDER_EFFECT_COLOR);
 
 	left = playfield_fg_x_to_screen(yumemi_origin_x, pid_other);
-	top = ((yumemi_origin_y >> 5) + 8);
+	top = ((yumemi_origin_y >> YUMEMI_RENDER_EFFECT_ORIGIN_SHIFT) + YUMEMI_RENDER_EFFECT_ORIGIN_BIAS);
 
-	if(!boss_render_frame) {
+	if(boss_render_frame == 0) {
 		grcg_circle(left, top, boss_effect_radius);
 	} else {
 		target_left = playfield_fg_x_to_screen(
 			boss_aux_point.x.v, pid_other
 		);
-		target_top = ((boss_aux_point.y.v >> 5) + 8);
+		target_top = ((boss_aux_point.y.v >> YUMEMI_RENDER_EFFECT_ORIGIN_SHIFT) + YUMEMI_RENDER_EFFECT_ORIGIN_BIAS);
 		grcg_line(left, top, target_left, target_top);
 	}
 
@@ -613,8 +665,8 @@ void near yumemi_render_arrival(void)
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 
-	sprite16_put_size.set(112, 112);
-	top = ((boss_center_y >> 4) - 40);
+	sprite16_put_size.set(YUMEMI_RENDER_MAIN_SIZE, YUMEMI_RENDER_MAIN_SIZE);
+	top = ((boss_center_y >> 4) - YUMEMI_RENDER_MAIN_TOP_OFFSET);
 
 	if(boss_frame < YUMEMI_ARRIVAL_PHASE1_END) {
 		// Two original signed scaling stages MUST stay separate:
