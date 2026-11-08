@@ -113,6 +113,15 @@ The latest `scripts/preflight.py` (2026-11-08) reports:
   current source and ownership before calling that result current.
   Historical older “0/250” uses a *different tracking population*;
   do not substitute it for the current preflight **0/259**.
+- A fresh **scoped current-source MAINL Staff Roll build `af942s`** now
+  recompiles the entire 19-procedure `staffdat` owner in two independent
+  original TC4 rounds: **3,695 CODE + 224 DATA bytes, 342 literal ordered
+  OMF FIXUPPs, six DATA PUBLICs**, with both complete normal MAINL links
+  reproducing the Japanese 67,372-byte EXE and all 677 relocations. The
+  other 35 original game objects and CRT were reused; no full cold replay.
+  See [MAINL Staff native C++ after942](MAINL_STAFF_NATURAL_CPP_AFTER942_REVIEW.md).
+  The old broad cold-source graph still pins the pre-edit `staff/data.cpp`;
+  do not call it current or repin it just to satisfy cold-dependent tests.
 - **OP:** current decoded source acceptance **60 extents / 92
   procedures / 14,985 bytes** (13,221 CODE + 1,764 DATA), with a
   validated source-only cold pair and native ownership/ABI. This is
@@ -196,5 +205,6 @@ target. Preserve dirty source changes and commit meaningful progress as
 - [Historical source and compiler trials through after927](RE_HANDOFF_ARCHIVE_AFTER927.md)
 - [Storage policy and prior safe cleanup audits](STORAGE_HANDOFF_CURRENT.md)
 - [After928 applied Git/cache storage recovery](STORAGE_HANDOFF_AFTER928.md)
+- [Current MAINL Staff source/native work](MAINL_STAFF_NATURAL_CPP_AFTER942_REVIEW.md)
 - [MAINL original CRT/source recovery index](MAINL_WORKING_CRT_RECOVERY_INDEX.md)
 - [Generated source/acceptance progress](PROGRESS.md)

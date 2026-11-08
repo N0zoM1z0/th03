@@ -239,7 +239,7 @@ extern "C" void near mainl_snow_spawn(void)
  register int i;
  flake = mainl_spawn_flakes;
  for(i = 0; i < mainl_snow_slot_limit; i++, flake++) {
-  if(flake->alive == 0 && (i << 3) <= mainl_snow_frame) {
+  if(!flake->alive && (i << 3) <= mainl_snow_frame) {
    flake->alive = 1;
    if(i & 3) {
     flake->left = IRand() % ((640 - 8) * 16);
@@ -397,13 +397,19 @@ extern "C" void near pascal mainl_staff_enter(int slot)
  }
 }
 
+enum mainl_staff_transition_frame_t {
+ MAINL_STAFF_LEAVE_LAST_FRAME = 161,
+ MAINL_STAFF_DISSOLVE_LAST_FRAME = 160,
+ MAINL_STAFF_GALLERY_LAST_FRAME = 160,
+};
+
 extern "C" void near pascal mainl_staff_leave(int slot)
 {
  register int strength;
  register int selected_slot = slot;
  mainl_clear_blue();
- if(mainl_snow_frame <= 161) {
-  if(mainl_snow_frame < 160) {
+ if(mainl_snow_frame <= MAINL_STAFF_LEAVE_LAST_FRAME) {
+  if(mainl_snow_frame < MAINL_STAFF_DISSOLVE_LAST_FRAME) {
    cdg_unput_for_upwards_motion_e_8(320, stf_center_y_on_page[page_back], selected_slot);
    stf_center_y_on_page[page_back]--;
    strength = mainl_snow_frame / 20;
@@ -425,22 +431,29 @@ extern "C" void near pascal mainl_staff_leave(int slot)
 extern "C" void near pascal mainl_staff_gallery(int x_center, int y_center, int slot)
 {
  register int strength;
- if(mainl_snow_frame <= 160) {
+ if(mainl_snow_frame <= MAINL_STAFF_GALLERY_LAST_FRAME) {
   strength = 7 - mainl_snow_frame / 20;
   if(strength < 0) { strength = 0; }
   cdg_put_dissolve_e_8(x_center, y_center, slot, strength);
  }
 }
 
+enum mainl_staff_center_layout_t {
+ MAINL_STAFF_FAST_SPEED = 2,
+ MAINL_STAFF_FAST_CENTER_FRONT = 264,
+ MAINL_STAFF_FAST_CENTER_BACK = 263,
+ MAINL_STAFF_CENTER_BASE = 280,
+};
+
 extern "C" void near pascal mainl_staff_single(int slot, unsigned int enter_measure, unsigned int leave_measure)
 {
  register int selected_slot = slot;
- if(mainl_staff_speed == 2) {
-  stf_center_y_on_page[page_back] = 264;
-  stf_center_y_on_page[page_back ^ 1] = 263;
+ if(mainl_staff_speed == MAINL_STAFF_FAST_SPEED) {
+  stf_center_y_on_page[page_back] = MAINL_STAFF_FAST_CENTER_FRONT;
+  stf_center_y_on_page[page_back ^ 1] = MAINL_STAFF_FAST_CENTER_BACK;
  } else {
-  stf_center_y_on_page[page_back] = 280 - mainl_staff_height_offset;
-  stf_center_y_on_page[page_back ^ 1] = 280 - mainl_staff_height_offset;
+  stf_center_y_on_page[page_back] = MAINL_STAFF_CENTER_BASE - mainl_staff_height_offset;
+  stf_center_y_on_page[page_back ^ 1] = MAINL_STAFF_CENTER_BASE - mainl_staff_height_offset;
  }
  mainl_snow_frame = 0;
  do {
@@ -471,11 +484,11 @@ extern "C" void near pascal mainl_staff_pair(int slot, unsigned int enter_measur
 {
  register int selected_slot = slot;
  register int strength;
- if(mainl_staff_speed == 2) {
-  stf_center_y_on_page[page_back] = 264;
-  stf_center_y_on_page[page_back ^ 1] = 263;
+ if(mainl_staff_speed == MAINL_STAFF_FAST_SPEED) {
+  stf_center_y_on_page[page_back] = MAINL_STAFF_FAST_CENTER_FRONT;
+  stf_center_y_on_page[page_back ^ 1] = MAINL_STAFF_FAST_CENTER_BACK;
  } else {
-  stf_center_y_on_page[1] = stf_center_y_on_page[0] = 280 - mainl_staff_height_offset;
+  stf_center_y_on_page[1] = stf_center_y_on_page[0] = MAINL_STAFF_CENTER_BASE - mainl_staff_height_offset;
  }
  mainl_snow_frame = 0;
  do {
@@ -488,16 +501,16 @@ extern "C" void near pascal mainl_staff_pair(int slot, unsigned int enter_measur
  } while(!mainl_snow_gate(enter_measure, 256));
  mainl_snow_frame = 0;
  do {
-  if(mainl_snow_frame <= 161) {
+  if(mainl_snow_frame <= MAINL_STAFF_LEAVE_LAST_FRAME) {
    cdg_unput_for_upwards_motion_e_8(320, mainl_staff_secondary_y, selected_slot - 1);
   }
   mainl_staff_leave(selected_slot);
-  if(mainl_snow_frame <= 161) {
+  if(mainl_snow_frame <= MAINL_STAFF_LEAVE_LAST_FRAME) {
    strength = (mainl_snow_frame - 1) / 20;
    if(strength > 7) { strength = 7; }
    if(page_back == 0) { mainl_staff_secondary_y--; }
    mainl_dissolve_alpha_enabled = 1;
-   if(mainl_snow_frame < 160) {
+   if(mainl_snow_frame < MAINL_STAFF_DISSOLVE_LAST_FRAME) {
     cdg_put_dissolve_e_8(320, mainl_staff_secondary_y, selected_slot - 1, strength);
    } else {
     grcg_setcolor(GC_RMW, 0);
@@ -521,11 +534,11 @@ extern "C" void near pascal mainl_staff_pair(int slot, unsigned int enter_measur
 
 extern "C" void near pascal mainl_staff_hold(int slot, unsigned int enter_measure, unsigned int hold_measure)
 {
- if(mainl_staff_speed == 2) {
-  stf_center_y_on_page[page_back] = 264;
-  stf_center_y_on_page[page_back ^ 1] = 263;
+ if(mainl_staff_speed == MAINL_STAFF_FAST_SPEED) {
+  stf_center_y_on_page[page_back] = MAINL_STAFF_FAST_CENTER_FRONT;
+  stf_center_y_on_page[page_back ^ 1] = MAINL_STAFF_FAST_CENTER_BACK;
  } else {
-  stf_center_y_on_page[1] = stf_center_y_on_page[0] = 280 - mainl_staff_height_offset;
+  stf_center_y_on_page[1] = stf_center_y_on_page[0] = MAINL_STAFF_CENTER_BASE - mainl_staff_height_offset;
  }
  mainl_snow_frame = 0;
  do {
@@ -553,15 +566,26 @@ extern unsigned char mainl_verdict_playchar;
 extern unsigned char mainl_verdict_rank;
 extern unsigned char mainl_verdict_skill;
 
+enum mainl_staff_verdict_layout_t {
+ MAINL_VERDICT_PLAYCHAR_X = 352,
+ MAINL_VERDICT_PLAYCHAR_Y = 174,
+ MAINL_VERDICT_RANK_X = 360,
+ MAINL_VERDICT_RANK_Y = 199,
+ MAINL_VERDICT_SCORE_RIGHT = 408,
+ MAINL_VERDICT_SCORE_Y = 224,
+ MAINL_VERDICT_CONTINUES_Y = 248,
+ MAINL_VERDICT_SKILL_Y = 291,
+};
+
 extern "C" void near mainl_staff_verdict(void)
 {
  int digits;
  int seen;
  register int x;
  register int digit;
- graph_putsa_fx(352, 174, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_playchars[mainl_verdict_playchar]);
- graph_putsa_fx(360, 199, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_ranks[mainl_verdict_rank]);
- x = 408;
+ graph_putsa_fx(MAINL_VERDICT_PLAYCHAR_X, MAINL_VERDICT_PLAYCHAR_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_playchars[mainl_verdict_playchar]);
+ graph_putsa_fx(MAINL_VERDICT_RANK_X, MAINL_VERDICT_RANK_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_ranks[mainl_verdict_rank]);
+ x = MAINL_VERDICT_SCORE_RIGHT;
  seen = 0;
  for(digits = SCORE_DIGITS; digits > 0; digits--) {
   digit = score.digits[digits];
@@ -570,20 +594,20 @@ extern "C" void near mainl_staff_verdict(void)
    seen = 1;
   }
   if(seen) {
-   graph_putsa_fx(x, 224, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
+   graph_putsa_fx(x, MAINL_VERDICT_SCORE_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
    x += 16;
   }
  }
  digit = score.continues_used;
- graph_putsa_fx(x, 224, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
- graph_putsa_fx(408, 248, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
+ graph_putsa_fx(x, MAINL_VERDICT_SCORE_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
+ graph_putsa_fx(MAINL_VERDICT_SCORE_RIGHT, MAINL_VERDICT_CONTINUES_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
  digit = mainl_verdict_skill / 100;
- x = 408;
+ x = MAINL_VERDICT_SCORE_RIGHT;
  seen = 0;
  if(digit) {
   x -= 16;
   seen = 1;
-  graph_putsa_fx(x, 291, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
+  graph_putsa_fx(x, MAINL_VERDICT_SKILL_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
   x += 16;
  }
  digit = (mainl_verdict_skill % 100) / 10;
@@ -592,12 +616,12 @@ extern "C" void near mainl_staff_verdict(void)
   x -= 8;
  }
  if(seen) {
-  graph_putsa_fx(x, 291, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
+  graph_putsa_fx(x, MAINL_VERDICT_SKILL_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
   x += 16;
  }
  digit = mainl_verdict_skill % 10;
- graph_putsa_fx(x, 291, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
- graph_putsa_fx(x + 16, 291, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_unit);
+ graph_putsa_fx(x, MAINL_VERDICT_SKILL_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_numbers[digit]);
+ graph_putsa_fx(x + 16, MAINL_VERDICT_SKILL_Y, V_WHITE | FX_WEIGHT_BOLD, mainl_verdict_unit);
 }
 
 // Genuine staff-roll orchestration. Asset names remain existing symbolic storage.
@@ -611,6 +635,19 @@ extern const char mainl_staff_palette[];
 extern const char mainl_stf1[], mainl_stf11[], mainl_stf3[], mainl_stf4[];
 extern const char mainl_stf5[], mainl_stf6[], mainl_stf7[], mainl_stf8[];
 extern const char mainl_stf9[], mainl_stf10[], mainl_stf2[], mainl_stf12[];
+
+enum mainl_staff_skill_score_t {
+ MAINL_STAFF_SCORE_RANK_DIGIT = 7,
+ MAINL_STAFF_SCORE_SUBRANK_DIGIT = 6,
+ MAINL_STAFF_SCORE_TOP_DIGIT = 8,
+ MAINL_STAFF_SKILL_RANK_THREE = 3,
+ MAINL_STAFF_SKILL_RANK_FOUR = 4,
+ MAINL_STAFF_SKILL_RANK_FIVE = 5,
+ MAINL_STAFF_SKILL_RANK_THREE_BONUS = 2,
+ MAINL_STAFF_SKILL_RANK_FOUR_BONUS = 7,
+ MAINL_STAFF_SKILL_RANK_FIVE_BONUS = 15,
+ MAINL_STAFF_SKILL_MAX = 100,
+};
 
 extern "C" void near mainl_staff_roll(void)
 {
@@ -628,16 +665,16 @@ extern "C" void near mainl_staff_roll(void)
  mainl_verdict_playchar = (resident->playchar_paletted[0].v - 1) / 2;
  mainl_verdict_rank = resident->rank;
  mainl_verdict_skill = resident->skill;
- switch(score.digits[7]) {
- case 3:
-  mainl_verdict_skill += score.digits[6] / 2 + 2;
+ switch(score.digits[MAINL_STAFF_SCORE_RANK_DIGIT]) {
+ case MAINL_STAFF_SKILL_RANK_THREE:
+  mainl_verdict_skill += score.digits[MAINL_STAFF_SCORE_SUBRANK_DIGIT] / 2 + MAINL_STAFF_SKILL_RANK_THREE_BONUS;
   // Original case3 deliberately falls through to case4.
- case 4:
-  mainl_verdict_skill += score.digits[6] / 2 + 7;
+ case MAINL_STAFF_SKILL_RANK_FOUR:
+  mainl_verdict_skill += score.digits[MAINL_STAFF_SCORE_SUBRANK_DIGIT] / 2 + MAINL_STAFF_SKILL_RANK_FOUR_BONUS;
  }
- if(score.digits[7] >= 5) { mainl_verdict_skill += 15; }
- if(score.digits[8]) { mainl_verdict_skill = 100; }
- if(mainl_verdict_skill > 100) { mainl_verdict_skill = 100; }
+ if(score.digits[MAINL_STAFF_SCORE_RANK_DIGIT] >= MAINL_STAFF_SKILL_RANK_FIVE) { mainl_verdict_skill = mainl_verdict_skill + MAINL_STAFF_SKILL_RANK_FIVE_BONUS; }
+ if(score.digits[MAINL_STAFF_SCORE_TOP_DIGIT]) { mainl_verdict_skill = MAINL_STAFF_SKILL_MAX; }
+ if(mainl_verdict_skill > MAINL_STAFF_SKILL_MAX) { mainl_verdict_skill = MAINL_STAFF_SKILL_MAX; }
  snd_load(mainl_staff_music, SND_LOAD_SONG);
  PaletteTone = 0;
  palette_show();
