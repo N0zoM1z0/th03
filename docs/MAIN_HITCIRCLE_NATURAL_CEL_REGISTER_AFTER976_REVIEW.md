@@ -35,6 +35,11 @@ Several fresh attempts tried to express that work as ordinary C++:
   object returned to **445 bytes**, but TC4 spilled cel to [bp-4] and
   generated repeated DX loads/additions instead of the original BX
   multiply/add sequence. Equal size did not mean equal CODE.
+- af993e used a register unsigned local with an explicit right shift
+  before scaling. TC4 assigned the record pointer to DI, the cel to SI and
+  the loop index to a stack slot; it also emitted a four-byte ENTER frame
+  and reduced the complete object to **443 CODE bytes**. The explicit BX
+  sequence remains necessary for the original SI/DI lifetime and code.
 
 The direct formula is cleaner algebraically but does not reproduce the
 original target's intentionally unoptimized multiply/add sequence. The
