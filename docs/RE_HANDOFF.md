@@ -21,7 +21,7 @@ and the focused experiment reviews linked below.
 
 ## Current source-bound MAIN evidence
 
-**Latest integration: af1047l**
+**Latest integration: af1051k**
 
 Two independent original Turbo C++ 4.02 rounds rebuilt these twelve complete
 physical owners together:
@@ -35,7 +35,7 @@ Both normal MAIN links match the original Japanese loaded image and all
 ordered MZ relocations. The other 87 original game objects and Borland CRT
 were reused; no full cold replay was run.
 
-| Measure | af1047l result |
+| Measure | af1051k result |
 | --- | ---: |
 | Complete physical owners rebuilt | 12 |
 | CODE | 18,845 bytes |
@@ -46,10 +46,10 @@ were reused; no full cold replay was run.
 | Independent original compiler rounds | 2 |
 
 Protected report:
-.analysis/work/exatt-layout-af1047l/report.json
+.analysis/work/exatt-layout-af1051k/report.json
 
 Report SHA-256:
-3f0ce5c021307f20997ce97ad2d833cc8853722b7e4d9f37c19e1bad023db544
+f1a95695b6eadcf3a91ad75d972cdf7f3fedef878cb3ca6ffa3ee7117ae871f1
 
 The report's twelve source hashes were checked against all twelve current
 maintained files. The complete normal link is strong scoped native evidence;
@@ -67,8 +67,9 @@ acceptance.
 | af1021b | Mima | 1,922 | 277 | 9 |
 | af1021a | Chiyuri | 2,654 | 381 | 11 |
 
-All five component reports are source-current. The af1024e report is the
-current simultaneous integration for the full twelve-owner set.
+The component reports below remain useful source-current focused proofs.
+The af1051k report is the latest simultaneous integration for the full
+twelve-owner set.
 
 ### Subsequent scoped BOSS continuation
 
@@ -585,6 +586,12 @@ twelve physical owners were rebuilt together at af1047l: 18,845 CODE bytes,
 2,570 ordered native fields and 97 PUBLICs, with two original TC4 rounds and
 the complete Japanese MAIN image/relocations exact. See the
 [current after1047l twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1047L_REVIEW.md).
+
+After Yumemi's four-phase arrival, complete update-controller and main-renderer
+natural-C++ refinements, the same twelve physical owners were rebuilt together
+at af1051k: 18,845 CODE bytes, 2,570 ordered native fields and 97 PUBLICs,
+with two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [current after1051k twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1051K_REVIEW.md).
 
 Yumemi's 404-byte four-phase arrival raster now uses constant-first phase
 gates, named `* 8` then `* 16` scale stages, register-qualified coordinate /
