@@ -103,11 +103,10 @@ void pascal hitcircles_player_add(
 void near hitcircles_update(void)
 {
 	HitCircle near* p = hitcircles;
-	int i = 0;
-	// Original thirteen-record (12 enemy + 1 player) age progression:
-	// every physical 6-byte slot advances after the native byte-state
-	// update, and the player slot shares the same lifetime clock.
-	while(i < HITCIRCLE_COUNT) {
+	int i;
+	// The thirteen-record age walk keeps its signed index and near-pointer
+	// increments together in the for header after each byte-state update.
+	for(i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
 		if(p->age != 0) {
 			// Mutable byte age postfix is native-visible: prefix emitted
 			// nonoriginal instructions (af919d), so keep the original.
@@ -121,8 +120,6 @@ void near hitcircles_update(void)
 				p->age = 0;
 			}
 		}
-		++i;
-		p++;
 	}
 }
 
@@ -143,18 +140,16 @@ void near hitcircles_render(void)
 
 	sprite16_put_size.set(HITCIRCLE_W, HITCIRCLE_H);
 
-	int i = 0;
-	// Only twelve enemy slots draw in this pass. The thirteenth
-	// player hit circle uses a separate monochrome palette and is
-	// drawn AFTER the signed-index/near-pointer loop (af919a).
-	while(i < HITCIRCLE_ENEMY_COUNT) {
+	int i;
+	// Only twelve enemy slots draw in this pass. The thirteenth player
+	// hit circle uses its own monochrome palette after the signed-index
+	// and near-pointer for loop.
+	for(i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
 		if(p->age != 0) {
 			sprite16_clip_set_for_pid(p->pid);
 			sprite16_offset_t so = p->cel();
 			sprite16_put(p->topleft.x, p->topleft.y, so);
 		}
-		++i;
-		p++;
 	}
 
 	// Player circle
