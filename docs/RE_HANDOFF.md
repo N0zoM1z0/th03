@@ -593,10 +593,14 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   (af1032b/c/e/f). The random call remains single-evaluation and the shared
   X/Y index is unchanged. Cardinal, Rings, Fans and Trail retain their named
   clocks and original bullet-call ordering. The 528-byte Fans leaf now uses
-  variable-first horizontal/vertical frame tests; the horizontal return and
-  both vertical speed passes remain distinct. Unary-minus (with and without
-  a byte cast), a register-local mirrored angle, and compound speed updates
-  all changed complete CODE and were reverted (af1033q/af1034c/e). See the
+  variable-first horizontal/vertical frame tests and advances speed plus
+  index together in each of its four for-loop iteration expressions. Its
+  shared `TO_SP(56)` warning/coordinate edge is named. The signed
+  multiply/divide-before-scale order and all shot ordering remain exact
+  (af1034l/m/n/o/p). Unary-minus, a register-local mirrored angle and
+  compound speed updates changed complete CODE and were reverted. See the
+  [after1034 Fans loop-step review](MAIN_CHIYURI_FANS_SPEED_AND_EDGE_LOOP_STEPS_AFTER1034_REVIEW.md),
+  the
   [Fans guard review](MAIN_CHIYURI_FANS_VARIABLE_FIRST_FRAME_GUARDS_AFTER1033_REVIEW.md),
   [PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
   [SELECT index review](MAIN_CHIYURI_UPDATE_SELECT_INDEX_SHIFT_AFTER1032_REVIEW.md),

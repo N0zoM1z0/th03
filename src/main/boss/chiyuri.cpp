@@ -357,6 +357,7 @@ enum chiyuri_fan_phase_t {
     CHIYURI_FAN_HORIZONTAL_FRAME = 0x20,
     CHIYURI_FAN_VERTICAL_FRAME = 0x40,
     CHIYURI_FAN_SPAN_PIXELS = 0x70,
+    CHIYURI_FAN_EDGE_OFFSET = TO_SP(56),
     CHIYURI_FAN_ANGLE_UNITS = 64,
     CHIYURI_FAN_HORIZ_ANGLE_BASE = 0x60,
     CHIYURI_FAN_VERT_ANGLE_OFFSET = 0x20,
@@ -364,14 +365,13 @@ enum chiyuri_fan_phase_t {
     CHIYURI_FAN_SPAN_TO_SUBPIXELS = 16,
 };
 
-// The fan coordinates divide the 16-bit polar range BEFORE scaling
-// to subpixels. Natural C++ multiplication is original-native here;
-// changing the division order would change trajectory rounding.
-// All four fan passes now use native-exact natural C++ for loops;
-// original signed 16-bit count, division-before-scale, RNG and dual
-// bullets_add call ordering are preserved (af872a). The earlier native
-// `speed += enum` trial failed; fresh af922h proves that explicit
-// `speed = speed +/- NAMED_STEP` is byte exact for all four fan passes.
+// Fan coordinates divide the signed 16-bit polar range BEFORE scaling
+// to subpixels; changing this order changes trajectory rounding. The four
+// independent passes advance byte speed and index together in their for
+// iteration expressions, after the original bullets_add() calls. The named
+// edge offset is shared by warning-bomb and projectile-center placement.
+// Original count widths, division order and all four emission sequences stay
+// intact. Compound speed assignment remains non-exact (af922h/af1033q).
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
@@ -379,10 +379,10 @@ void near chiyuri_pattern_fans(void)
 
 	if(boss_frame == CHIYURI_FAN_HORIZONTAL_FRAME) {
 		bomb_axis_add(
-			(boss_center_x - TO_SP(56)), boss_center_y, pid_other
+			(boss_center_x - CHIYURI_FAN_EDGE_OFFSET), boss_center_y, pid_other
 		);
 		bomb_axis_add(
-			(boss_center_x + TO_SP(56)), boss_center_y, pid_other
+			(boss_center_x + CHIYURI_FAN_EDGE_OFFSET), boss_center_y, pid_other
 		);
 
 		bullet_template.center.y.v = boss_center_y;
@@ -390,10 +390,14 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.type = BT_PELLET;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		for(i = 0; i < chiyuri_fan_count; i++) {
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP, ++i
+		) {
 			bullet_template.center.x.v = (
 				boss_center_x -
-				TO_SP(56) +
+				CHIYURI_FAN_EDGE_OFFSET +
 				(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 			);
 			bullet_template.angle = (
@@ -404,14 +408,16 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			// Explicit byte speed assignment + named step is exact (af922h).
-			bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
 		}
 
-		for(i = 0; i < chiyuri_fan_count; i++) {
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+		) {
 			bullet_template.center.x.v = (
 				boss_center_x -
-				TO_SP(56) +
+				CHIYURI_FAN_EDGE_OFFSET +
 				(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 			);
 			bullet_template.angle = (
@@ -422,17 +428,16 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
 		}
 		return;
 	}
 
 	if(boss_frame == CHIYURI_FAN_VERTICAL_FRAME) {
 	bomb_axis_add(
-		boss_center_x, (boss_center_y - TO_SP(56)), pid_other
+		boss_center_x, (boss_center_y - CHIYURI_FAN_EDGE_OFFSET), pid_other
 	);
 	bomb_axis_add(
-		boss_center_x, (boss_center_y + TO_SP(56)), pid_other
+		boss_center_x, (boss_center_y + CHIYURI_FAN_EDGE_OFFSET), pid_other
 	);
 
 	bullet_template.center.x.v = boss_center_x;
@@ -440,10 +445,14 @@ void near chiyuri_pattern_fans(void)
 	bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 	bullet_template.speed.v = chiyuri_fan_speed;
 
-	for(i = 0; i < chiyuri_fan_count; i++) {
+	for(
+		i = 0;
+		i < chiyuri_fan_count;
+		bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP, ++i
+	) {
 		bullet_template.center.y.v = (
 			boss_center_y -
-			TO_SP(56) +
+			CHIYURI_FAN_EDGE_OFFSET +
 			(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 		);
 		bullet_template.angle = (
@@ -451,13 +460,16 @@ void near chiyuri_pattern_fans(void)
 		);
 		bullets_add();
 
-		bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
 	}
 
-	for(i = 0; i < chiyuri_fan_count; i++) {
+	for(
+		i = 0;
+		i < chiyuri_fan_count;
+		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+	) {
 		bullet_template.center.y.v = (
 			boss_center_y -
-			TO_SP(56) +
+			CHIYURI_FAN_EDGE_OFFSET +
 			(((i * CHIYURI_FAN_SPAN_PIXELS) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS)
 		);
 		bullet_template.angle = (
@@ -465,7 +477,6 @@ void near chiyuri_pattern_fans(void)
 		);
 		bullets_add();
 
-		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
 	}
 
 	boss_mode = CHIYURI_MODE_SELECT;
