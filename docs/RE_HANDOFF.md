@@ -471,6 +471,12 @@ ordered native fields and 20 PUBLICs, with two original TC4 rounds and the
 complete Japanese MAIN image/relocations exact. See the
 [after1034b two-owner integration review](MAIN_KOTOHIME_MIMA_TWO_OWNER_INTEGRATION_AFTER1034B_REVIEW.md).
 
+After the Mima renderer and Chiyuri Fans refinements, the two complete owners
+were rebuilt together at af1034u: 4,576 CODE bytes, 658 ordered native fields
+and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the
+[after1034u two-owner integration review](MAIN_MIMA_CHIYURI_TWO_OWNER_INTEGRATION_AFTER1034U_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
