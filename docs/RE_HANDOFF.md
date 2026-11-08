@@ -681,6 +681,13 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md),
   [Random Bomb guard review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md)
   and [after1034 Trail review](MAIN_MIMA_TRAIL_NATURAL_NARROWING_AND_SPEED_AFTER1034_REVIEW.md).
+  The latest pass puts Trail's X/Y origin offsets and speed base first,
+  makes its finish test constant-first, makes Orbit's direction/finish frame
+  tests constant-first, and declares the complete Update's `pid_other` as a
+  register local (af1040v/w/x/y/z, af1041b/d). Reversing the launched-player
+  equality changed ordered native fields and was reverted; retain
+  `pid_current == gba_boss_launched_by`. See the
+  [after1041 Trail/Orbit/Update review](MAIN_MIMA_TRAIL_ORBIT_UPDATE_NATURAL_EXPRESSIONS_AFTER1041_REVIEW.md).
 - **Chiyuri:** the 613-byte update controller now scopes its complete
   active-player path under `if(pid_current == gba_boss_launched_by)`,
   preserving the shared mode dispatch and collision/hitbox tail (af1032l).

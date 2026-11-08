@@ -348,9 +348,9 @@ void near mima_pattern_trail(void)
 
 		snd_se_play(MIMA_SOUND_TRAIL);
 		bullet_template.angle = 0;
-		bullet_template.center.x.v = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
-		bullet_template.center.y.v = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
-		bullet_template.speed.v = (TO_SP(5) + MIMA_TRAIL_BULLET_SPEED_OFFSET);
+		bullet_template.center.x.v = (MIMA_BOMB_ORIGIN_X_OFFSET + boss_center_x);
+		bullet_template.center.y.v = (MIMA_BOMB_ORIGIN_Y_OFFSET + boss_center_y);
+		bullet_template.speed.v = (MIMA_TRAIL_BULLET_SPEED_OFFSET + TO_SP(5));
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.is_animated = false;
 		bullet_template.has_trail = true;
@@ -359,7 +359,7 @@ void near mima_pattern_trail(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(boss_frame >= MIMA_TRAIL_END) {
+	if(MIMA_TRAIL_END <= boss_frame) {
 		boss_render_mode = MIMA_RMODE_NORMAL;
 		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;
@@ -377,7 +377,7 @@ void near mima_pattern_orbit(void)
 {
 	boss_move_sine();
 
-	if(boss_frame == MIMA_ORBIT_DIRECTION_FRAME) {
+	if(MIMA_ORBIT_DIRECTION_FRAME == boss_frame) {
 		mima_orbit_delta = (randring_far_next16_and(1) ? MIMA_ORBIT_ANGLE_STEP : -MIMA_ORBIT_ANGLE_STEP);
 		mima_orbit_angle = randring_far_next16();
 	}
@@ -402,7 +402,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle += mima_orbit_delta;
 	}
 
-	if(boss_frame >= MIMA_ORBIT_FINISH_FRAME) {
+	if(MIMA_ORBIT_FINISH_FRAME <= boss_frame) {
 		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -410,7 +410,7 @@ void near mima_pattern_orbit(void)
 
 void far gba_boss_update_mima(void)
 {
-	pid_t pid_other;
+	register pid_t pid_other;
 
 	if(boss_update_start()) {
 		mima_bullet_speed = (MIMA_LEVEL_BULLET_BASE + gba_boss_level);
