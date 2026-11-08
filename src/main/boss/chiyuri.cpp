@@ -198,9 +198,7 @@ void near chiyuri_pattern_cardinal(void)
 {
 	// The unsigned-word frame remainder comparison is native-exact with
 	// the natural remainder-first spelling as well (af1013e).
-	if((boss_frame % chiyuri_cardinal_interval) != 1) {
-		return;
-	}
+	if((boss_frame % chiyuri_cardinal_interval) == 1) {
 
 	if(boss_frame == CHIYURI_CARDINAL_FIRST_FRAME) {
 		pid_t pid_other;
@@ -270,6 +268,7 @@ void near chiyuri_pattern_cardinal(void)
 	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
 	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
+	}
 }
 
 void near chiyuri_pattern_rings(void)
