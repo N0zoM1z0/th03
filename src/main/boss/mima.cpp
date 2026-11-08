@@ -520,9 +520,7 @@ void near mima_render_main(void)
 		top += MIMA_DAMAGED_TOP;
 		sprite16_put(left, top, (boss_sprite_offset + MIMA_DAMAGED_SPRITE_OFF));
 		return;
-	}
-
-	if(boss_render_mode == MIMA_RMODE_PARTICLE) {
+	} else if(boss_render_mode == MIMA_RMODE_PARTICLE) {
 render_mode_2:
 		// Mode 5 enters through the original label; merging mode 2/5
 		// into one C++ condition changed the full BOSS CODE (af855b).
