@@ -135,6 +135,7 @@ enum chiyuri_boss_cadence_t {
     CHIYURI_RENDER_ANIM_HEIGHT = 24,
     CHIYURI_RENDER_HIT_SPRITE_DELTA = 0x778,
     CHIYURI_RENDER_ANIM_SPRITE_BASE = 0x0C,
+    CHIYURI_CARDINAL_FIRST_FRAME = 1,
     CHIYURI_CARDINAL_QUARTER_TURN = 0x40,
     CHIYURI_CARDINAL_STEP = 8,
     CHIYURI_RING_RADIUS_SCALE = 16,
@@ -199,7 +200,7 @@ void near chiyuri_pattern_cardinal(void)
 		return;
 	}
 
-	if(boss_frame == 1) {
+	if(boss_frame == CHIYURI_CARDINAL_FIRST_FRAME) {
 		pid_t pid_other;
 
 		chiyuri_cardinal_angle = 0xE0;
