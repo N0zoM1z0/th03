@@ -106,6 +106,11 @@ ordered native fields and nine PUBLICs, with the complete Japanese MAIN image
 and relocations exact. See the
 [after1029 Mima renderer review](MAIN_MIMA_RENDER_MAIN_INDEPENDENT_PHASE_GUARDS_AFTER1029_REVIEW.md).
 
+A `switch(boss_render_mode)` alternative with the same cases and Trail goto
+was rejected at af1029i because it changed complete `ba_mima` CODE. Keep the
+independent guards; see the
+[after1029 Mima switch experiment](MAIN_MIMA_RENDER_SWITCH_DISPATCH_AFTER1029_REVIEW.md).
+
 Mima's Trail leaf now uses the same constant-first form for its inclusive end
 frame, after the byte-narrowed modulo phases and optional shot. Stage af1026g
 rebuilt the complete `ba_mima` owner in two original TC4 rounds with all 1,922
@@ -193,6 +198,12 @@ complete `hitcirc` owner in two original TC4 rounds: 445 CODE bytes, 30
 ordered native fields and four PUBLICs, with the full Japanese MAIN image and
 relocations exact. See the
 [after1028 HitCircle renderer review](MAIN_HITCIRCLE_RENDER_REGISTER_LOCALS_AFTER1028_REVIEW.md).
+
+Further `HitCircle::cel()` rewrites using signed/unsigned locals, moving the
+calculation into the renderer, or replacing unsigned division with a shift
+were tested in af1029a-d/e/f/h and all changed complete CODE. The target's
+SI/DI/BX allocation still requires the existing `_BX` source form; see the
+[after1029 HitCircle cel allocation review](MAIN_HITCIRCLE_CEL_REGISTER_ALLOCATION_AFTER1029_REVIEW.md).
 
 The same renderer now uses a positive `p->age` guard for each of the twelve
 enemy slots instead of a zero-age `continue`. Stage af1028d again rebuilt the
