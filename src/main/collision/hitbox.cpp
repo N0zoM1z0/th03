@@ -42,7 +42,7 @@ uint8_t hitbox_hittest(void)
 	// This first-order physical shotpair scan has *two* compiler-sensitive
 	// continues. An explicit while with both near-pointer/index updates
 	// changes original CODE (native negative af901a), so keep for.
-	for(i = 0; i < SHOTPAIR_COUNT; (i++, p++)) {
+	for(i = 0; i < SHOTPAIR_COUNT; (++i, ++p)) {
 		// The original `alive != true` must stay explicit: `!alive`
 		// and `alive == false` changed original CODE (af901d/e).
 		if((p->alive != true) || (p->pid != hitbox.pid)) {
@@ -91,7 +91,7 @@ uint8_t hitbox_hittest(void)
 		(bomb_flag[hitbox.pid] != BF_INACTIVE) &&
 		// This is the original 16-bit frame, not a byte animation clock;
 		// natural `%2` and if(!remainder) are both native-exact (af901c/i).
-		(!(round_or_result_frame % HITBOX_BOMB_DAMAGE_PERIOD))
+		((round_or_result_frame & (HITBOX_BOMB_DAMAGE_PERIOD - 1)) == 0)
 	) {
 		// Original damage byte uses postfix, not prefix; changing it
 		// generated 271 instead of 266 CODE bytes (af901h).
