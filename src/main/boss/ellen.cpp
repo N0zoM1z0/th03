@@ -263,7 +263,7 @@ void near ellen_pattern_extra(void)
 	if(boss_frame < ELLEN_EXTRA_WARN_START) {
 		return;
 	}
-	if(
+	else if(
 		(boss_frame == ELLEN_EXTRA_WARN_START) ||
 		(boss_frame == ELLEN_EXTRA_WARN_NEXT) ||
 		(boss_frame == ELLEN_EXTRA_WARN_LAST)
@@ -272,7 +272,7 @@ void near ellen_pattern_extra(void)
 		return;
 	}
 
-	if(boss_frame == ELLEN_EXTRA_FIRST_BURST) {
+	else if(boss_frame == ELLEN_EXTRA_FIRST_BURST) {
 		// Each independent original radial burst draws its own RNG angle,
 		// divides 256 by the byte count at each native iteration, then
 		// updates the byte angle AFTER the far Extra Attack spawn.
@@ -292,7 +292,7 @@ void near ellen_pattern_extra(void)
 	}
 
 	// Byte-valued 0xFE is a signed -2 offset in this final volley.
-	if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
+	else if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
 		i = 0;
 		angle = randring_far_next16();
 		while(i < ellen_extra_count) {
