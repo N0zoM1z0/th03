@@ -453,7 +453,7 @@ void near marisa_render_main(void)
 		return;
 	}
 	if(
-		(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
+		(round_or_result_frame & (MARISA_MAIN_FLICKER_PERIOD - 1)) <
 		MARISA_MAIN_FLICKER_FIRST_HALF
 	) {
 		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
@@ -479,7 +479,7 @@ void near pascal marisa_render_split(int offset)
 	// Allocation order is essential to original TC4: the first register
 	// local takes SI for the two split offsets, then left takes DI.
 	// This is source-native C++ without manually assigning _SI.
-	register int signed_offset = offset;
+	register screen_x_t signed_offset = offset;
 	register screen_x_t left;
 
 	pid_other = (1 - pid_current);
@@ -515,7 +515,7 @@ void far gba_boss_render_marisa(void)
 	sprite16_clip_set_for_pid(pid_other);
 
 	if(boss_mode == MARISA_MODE_INTRO) {
-		marisa_render_split(MARISA_SPLIT_START_RADIUS - (boss_frame << 1));
+		marisa_render_split(MARISA_SPLIT_START_RADIUS - (boss_frame * 2));
 		return;
 	}
 	if(boss_mode != MARISA_MODE_EXPLODE) {
