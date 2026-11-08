@@ -233,6 +233,12 @@ af1027i: two complete owners, 3,099 CODE bytes, 411 ordered native fields and
 image/relocations exact. See the
 [after1027 Chiyuri/HitCircle integration review](MAIN_CHIYURI_HITCIRCLE_INTEGRATION_AFTER1027_REVIEW.md).
 
+After the additional HitCircle render and Chiyuri SELECT-local changes, the
+same two owners were rebuilt together again at af1028g: 3,099 CODE bytes, 411
+ordered native fields and 15 PUBLICs, with both original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1028 Chiyuri/HitCircle integration review](MAIN_CHIYURI_HITCIRCLE_INTEGRATION_AFTER1028_REVIEW.md).
+
 See
 [the after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md),
 [the after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md),
