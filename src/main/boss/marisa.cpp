@@ -357,7 +357,7 @@ void far gba_boss_update_marisa(void)
 
 	pid_other = (1 - pid_current);
 	boss_target_update();
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case MARISA_MODE_INTRO:

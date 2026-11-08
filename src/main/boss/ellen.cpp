@@ -389,7 +389,7 @@ void far gba_boss_update_ellen(void)
 	pid_other = (1 - pid_current);
 	boss_target_update();
 	boss_render_frame++;
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case ELLEN_MODE_INTRO:

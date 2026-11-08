@@ -444,7 +444,7 @@ void far gba_boss_update_kotohime(void)
 	pid_other = (1 - pid_current);
 	boss_target_update();
 	bullet_template.pid = pid_other;
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case KOTOHIME_MODE_INTRO:

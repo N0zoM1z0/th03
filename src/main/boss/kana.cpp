@@ -469,7 +469,7 @@ void far gba_boss_update_kana(void)
 	pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case KANA_MODE_INTRO:
