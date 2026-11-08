@@ -195,9 +195,9 @@ void near chiyuri_pattern_cardinal(void)
 {
 	pid_t pid_other;
 
-	// Original unsigned-word frame cadence permits constant-first
-	// remainder test (native af922a).
-	if(1 != (boss_frame % chiyuri_cardinal_interval)) {
+	// The unsigned-word frame remainder comparison is native-exact with
+	// the natural remainder-first spelling as well (af1013e).
+	if((boss_frame % chiyuri_cardinal_interval) != 1) {
 		return;
 	}
 
@@ -230,15 +230,16 @@ void near chiyuri_pattern_cardinal(void)
 	bullet_template.group = BG_1;
 	bullet_template.speed.v = chiyuri_cardinal_speed;
 
-	if(!chiyuri_cardinal_reverse) {
-		// Natural byte-angle assignment with named +8 preserved CODE (af922e).
-		chiyuri_cardinal_angle = chiyuri_cardinal_angle + CHIYURI_CARDINAL_STEP;
+	if(chiyuri_cardinal_reverse == 0) {
+		// Named compound byte-angle steps preserve the original CODE
+		// in both directions (af1013a).
+		chiyuri_cardinal_angle += CHIYURI_CARDINAL_STEP;
 		if(chiyuri_cardinal_angle == 0x20) {
 			chiyuri_cardinal_reverse = 1;
 			chiyuri_cardinal_angle = 0x24;
 		}
 	} else {
-		chiyuri_cardinal_angle = chiyuri_cardinal_angle - CHIYURI_CARDINAL_STEP;
+		chiyuri_cardinal_angle -= CHIYURI_CARDINAL_STEP;
 		if(chiyuri_cardinal_angle == 0xE4) {
 			chiyuri_cardinal_reverse = 0;
 			chiyuri_cardinal_angle = 0xE0;
@@ -252,19 +253,19 @@ void near chiyuri_pattern_cardinal(void)
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = (boss_center_y + TO_SP(56));
-	// Each real 90-degree turn stays after the previous bullet call;
-	// named explicit byte assignment is TC4-exact (af922c).
-	bullet_template.angle = bullet_template.angle + CHIYURI_CARDINAL_QUARTER_TURN;
+	// Each 90-degree compound rotation stays after the previous bullet
+	// call; all three named updates are TC4-exact (af1013b).
+	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
 
 	bullet_template.center.x.v = (boss_center_x - TO_SP(56));
 	bullet_template.center.y.v = boss_center_y;
-	bullet_template.angle = bullet_template.angle + CHIYURI_CARDINAL_QUARTER_TURN;
+	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
-	bullet_template.angle = bullet_template.angle + CHIYURI_CARDINAL_QUARTER_TURN;
+	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
 }
 
