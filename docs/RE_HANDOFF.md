@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af966a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af969a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,6 +56,16 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Marisa major-BOSS source-current follow-up: `af969a`.** The
+  complete nine-function ba_maris owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,431 CODE bytes, 199
+  ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded
+  bytes and 1,553 ordered MZ relocations exact. The other 98 original game
+  objects and CRT were reused. The template, scheduler/render states and
+  six level parameters now use semantic C++ names. See
+  [Marisa BOSS native C++ after969](MAIN_MARISA_BOSS_TEMPLATE_AND_LEVEL_AFTER969_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af969a/report.json,
+  SHA-256 ac37d9c2b6f5877c19e0aa15af96eee017ddddd4fa1ddeafe089ed4a8e97e3c2.
 - **Latest Kana major-BOSS source-current follow-up: `af966a`.** The
   complete nine-function ba_kana owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,874 CODE bytes, 274
@@ -65,7 +75,20 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Kana BOSS native C++ after966](MAIN_KANA_BOSS_NATURAL_TEMPLATE_LEVEL_AND_RENDER_AFTER966_REVIEW.md).
   Protected report: `.analysis/work/exatt-layout-af966a/report.json`,
   SHA-256 `da17ec634a93ca022f7270d58aeb53d350f05b3b5b1610c4acf4c14e07520bb2`.
-- **Latest Kotohime major-BOSS source-current follow-up: `af965e`.** The
+  A fresh cloud-angle trial confirms that _AL -= 0x10 emits ADD AL,F0,
+  not the original SUB AL,10; the explicit instruction remains. See
+  [Kana cloud byte subtraction after967](MAIN_KANA_CLOUD_BYTE_SUBTRACTION_AFTER967_REVIEW.md).
+- **Latest Kotohime major-BOSS source-current follow-up: `af968c`.** The
+  complete eleven-function ba_koto owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,840 CODE bytes, 262
+  ordered OMF FIXUPPs and eleven PUBLICs**, with all 124,642 Japanese
+  loaded bytes and 1,553 ordered MZ relocations exact. A volatile byte
+  dereference forces the original phase reload after the preceding +4,
+  while retaining the native AL increment/store. See
+  [Kotohime phase reload after968](MAIN_KOTOHIME_BOSS_NATURAL_PHASE_RELOAD_AFTER968_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af968c/report.json,
+  SHA-256 4e85046a9c0d4a959b28e736d339392fda2732e25a086bfa0abecaee0834a598.
+- **Earlier Kotohime major-BOSS source-current follow-up: `af965e`.** The
   complete eleven-function ba_koto owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,840 CODE bytes, 262
   ordered OMF FIXUPPs and eleven PUBLICs**, with all 124,642 Japanese
@@ -174,8 +197,9 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af969a` | 1 | 1,431 |
+| `af968c` | 1 | 1,840 |
 | `af966a` | 1 | 1,874 |
-| `af965e` | 1 | 1,840 |
 | `af964e` | 1 | 1,555 |
 | `af964a` | 1 | 1,675 |
 | `af963a` | 1 | 1,677 |
@@ -192,8 +216,11 @@ scopes**, not one combined 99-original-source replay:
 | `af882e` | 1 | 49 |
 
 The Kana `af965b` and Kotohime `af965a` receipts are earlier
-source snapshots superseded by `af966a` and `af965e`, respectively;
-use the latter two for current source binding. The Ellen `af962a`
+source snapshots superseded by `af966a` and `af965e`, respectively.
+Kotohime `af965e` is now historical after `af968c`; Marisa's
+`af935a` and older single-object `af930e` receipts are now historical for
+ba_maris after `af969a`. Use `af968c` and `af969a` for current
+source binding. The Ellen `af962a`
 receipt is now a historical source snapshot after
 `af964a` changed the same physical owner; preserve it, but use `af964a`
 for current source binding. Fireball `af964d` is the source snapshot before
@@ -337,8 +364,10 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Current Marisa BOSS native C++ work](MAIN_MARISA_BOSS_TEMPLATE_AND_LEVEL_AFTER969_REVIEW.md)
+- [Current Kotohime phase-reload native C++ work](MAIN_KOTOHIME_BOSS_NATURAL_PHASE_RELOAD_AFTER968_REVIEW.md)
 - [Current Kana BOSS native C++ work](MAIN_KANA_BOSS_NATURAL_TEMPLATE_LEVEL_AND_RENDER_AFTER966_REVIEW.md)
-- [Current Kotohime BOSS native C++ work](MAIN_KOTOHIME_BOSS_NATURAL_STATES_AND_LEVEL_AFTER965_REVIEW.md)
+- [Kana cloud SUB AL codegen finding](MAIN_KANA_CLOUD_BYTE_SUBTRACTION_AFTER967_REVIEW.md)
 - [Current Fireball byte-predicate native work](MAIN_FIREBALL_NATURAL_BYTE_PREDICATES_AFTER964_REVIEW.md)
 - [Current Fireball explosion-geometry native work](MAIN_FIREBALL_EXPLOSION_GEOMETRY_AFTER964_REVIEW.md)
 - [Current Ellen radial Extra angle native work](MAIN_ELLEN_BOSS_NATURAL_EXTRA_ANGLE_AFTER964_REVIEW.md)
