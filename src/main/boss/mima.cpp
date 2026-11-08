@@ -436,12 +436,13 @@ void far gba_boss_update_mima(void)
 
 	switch(boss_mode) {
 	case MIMA_MODE_INTRO:
-		if(boss_frame != MIMA_BOSS_INTRO_END) {
+		if(boss_frame == MIMA_BOSS_INTRO_END) {
+			boss_frame = 0;
+			boss_mode = MIMA_MODE_SELECT;
+			break;
+		} else {
 			return;
 		}
-		boss_frame = 0;
-		boss_mode = MIMA_MODE_SELECT;
-		break;
 
 	case MIMA_MODE_SELECT:
 		boss_pattern_next();

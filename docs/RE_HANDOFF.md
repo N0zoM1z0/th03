@@ -106,6 +106,13 @@ ordered native fields and nine PUBLICs, with the complete Japanese MAIN image
 and relocations exact. See the
 [after1029 Mima renderer review](MAIN_MIMA_RENDER_MAIN_INDEPENDENT_PHASE_GUARDS_AFTER1029_REVIEW.md).
 
+The 298-byte Mima update controller now spells the INTRO completion path as a
+positive equality branch with an explicit `else return`. Stage af1030f rebuilt
+the complete `ba_mima` owner in two original TC4 rounds: 1,922 CODE bytes,
+277 ordered native fields and nine PUBLICs, with the full Japanese MAIN image
+and relocations exact. See the
+[after1030 Mima INTRO branch review](MAIN_MIMA_UPDATE_INTRO_SUCCESS_BRANCH_AFTER1030_REVIEW.md).
+
 A `switch(boss_render_mode)` alternative with the same cases and Trail goto
 was rejected at af1029i because it changed complete `ba_mima` CODE. Keep the
 independent guards; see the
@@ -277,7 +284,7 @@ owner in the stage.
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
-phase guards (af1029g),
+phase guards and update INTRO branch (af1029g/af1030f),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index and postfix increments (af1027a/af1029j), and update
 SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order (af1026i/af1029l), and
