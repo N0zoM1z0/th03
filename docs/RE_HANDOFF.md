@@ -161,6 +161,13 @@ the complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes,
 image and relocations exact. See the
 [after1030 render-mode guard review](MAIN_CHIYURI_UPDATE_NONZERO_RENDER_MODE_AFTER1030_REVIEW.md).
 
+The palette countdown's two byte-zero comparisons are now direct truth tests,
+while retaining the nested checks and postfix phase decrement. Stage af1030e
+rebuilt the complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE
+bytes, 381 ordered native fields and eleven PUBLICs, with the full Japanese
+MAIN image and relocations exact. See the
+[after1030 phase truth-test review](MAIN_CHIYURI_UPDATE_PHASE_TRUTH_TESTS_AFTER1030_REVIEW.md).
+
 The 528-byte Chiyuri fan generator now declares its shared four-pass loop index
 as `register int`, matching the original SI allocation. Stage af1027a rebuilt
 the complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes,
@@ -272,7 +279,7 @@ rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
 phase guards (af1029g),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index and postfix increments (af1027a/af1029j), and update
-SELECT register byte/render cadence/nonzero guard (af1028f/af1030c/af1030d), Kotohime's
+SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order (af1026i/af1029l), and
 HitCircle's age-update/render register locals and active guard
 (af1025d/af1027f/af1027g/af1028c/af1028d). The three current

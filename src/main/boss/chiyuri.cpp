@@ -597,12 +597,12 @@ void far gba_boss_update_chiyuri(void)
 	// Preserve the original byte-memory mask, NOT %=4 (af922i).
 	boss_render_frame &= (CHIYURI_RENDER_ANIM_PERIOD - 1);
 
-	if(boss_move_phase != 0) {
+	if(boss_move_phase) {
 		// The original postfix byte decrement is CODE-visible; prefix
 		// --boss_move_phase was native-unequal (af702d).
 		// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
 		boss_move_phase--;
-		if(boss_move_phase != 0) {
+		if(boss_move_phase) {
 			bomb_palette_step((boss_move_phase * 16), pid_other);
 		}
 	}
