@@ -44,7 +44,7 @@ struct HitCircle {
 		// and ADDs in between...
 		static_assert(HITCIRCLE_VRAM_W == 6);
 		_BX = (age - 1);
-		_BX /= HITCIRCLE_FRAMES_PER_CEL;
+		_BX = (_BX / HITCIRCLE_FRAMES_PER_CEL);
 		_BX *= 2;
 		return (SO_HITCIRCLE + _BX + _BX + _BX);
 	}
