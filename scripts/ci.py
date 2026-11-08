@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Run portable TH03 checks and available private headless identity gates."""
-
+"""Check changed machine inputs; exact comparisons are selected by affected scope."""
 from pathlib import Path
-from importlib.util import find_spec
+import ast
+import json
+import os
 import subprocess
 import sys
 import tomllib
@@ -10,45 +11,42 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def run(*arguments: str) -> None:
-    subprocess.run([sys.executable, *arguments], cwd=ROOT, check=True)
-
-
-def main() -> int:
-    try:
-        missing = [name for name in ("capstone", "unicorn") if find_spec(name) is None]
-        if missing:
-            raise ValueError(
-                f"missing CI dependencies for {sys.executable}: {', '.join(missing)}. "
-                "Create/activate .venv, install requirements-ci.txt, then run scripts/ci.py."
-            )
-        run("-m", "unittest", "discover", "-s", "tests", "-q")
-        run("-m", "compileall", "-q", "scripts", "tests")
-        run("scripts/validate_tracking.py")
-        run("scripts/progress.py", "--check")
-        run("scripts/review_rec98_th03_mainl_intake.py", "--check")
-        if (ROOT / "_reference/ReC98/.git").exists():
-            run("scripts/inventory_rec98_th03.py", "--check")
-        targets = tomllib.loads((ROOT / "config/targets.toml").read_text())["artifacts"]
-        if all((ROOT / a["private_path"]).is_file() for a in targets if a["required"]):
-            run("scripts/verify_targets.py", "--game", "th03")
-        if all((ROOT / a["private_path"]).is_file() for a in targets):
-            run("scripts/smoke_oracles.py")
-        if (ROOT / ".analysis/toolchain/wineprefix/drive_c/TC4/BIN/TCC.EXE").is_file():
-            run("scripts/attest_toolchain.py")
-        if (ROOT / ".tools/ghidra/support/analyzeHeadless").is_file():
-            run("scripts/attest_analysis_toolchain.py")
-            for artifact in (a for a in targets if a["required"]):
-                if (ROOT / f"ghidra-project/TH03-{artifact['id']}.gpr").is_file():
-                    run("scripts/ghidra.py", artifact["id"], "check")
-                    run("scripts/smoke_ghidra_oracle.py", artifact["id"])
-        subprocess.run(["git", "diff", "--check"], cwd=ROOT, check=True)
-        print("CI: PASS")
+def main():
+    if sys.argv[1:] in (["--help"], ["-h"]):
+        print("usage: ci.py [--full | existing explicit check options]\nDefault: changed machine-input syntax and diff checks. Run affected exact/tool commands for the task.")
         return 0
-    except (OSError, ValueError, subprocess.CalledProcessError) as error:
-        print(f"CI: FAIL: {error}", file=sys.stderr)
-        return 1
+    if len(sys.argv) > 1:
+        arguments = sys.argv[1:]
+        if not any(flag in arguments for flag in ('--full',)):
+            print("Unknown CI option; use no arguments for scoped checks or --full for the broad suite.", file=sys.stderr)
+            return 2
+        arguments = [arg for arg in arguments if arg != "--full"]
+        return subprocess.call([sys.executable, str(ROOT / "scripts/ci-full.py"), *arguments], cwd=ROOT)
+    names = set()
+    for command in (["git", "diff", "HEAD", "--name-only", "-z"],
+                    ["git", "ls-files", "--others", "--exclude-standard", "-z"]):
+        names.update(n for n in subprocess.check_output(command, cwd=ROOT).decode().split("\0") if n)
+    if os.environ.get("CI"):
+        # Clean CI checkouts have no worktree diff. Inspect the commit being checked.
+        names.update(n for n in subprocess.check_output(
+            ["git", "show", "--format=", "--first-parent", "--name-only", "-z", "HEAD"],
+            cwd=ROOT).decode().split("\0") if n)
+    for name in sorted(names):
+        path = ROOT / name
+        if not path.is_file() or path.is_symlink():
+            continue
+        if path.suffix == ".py":
+            ast.parse(path.read_text(), filename=name)
+        elif path.suffix == ".json":
+            json.loads(path.read_text())
+        elif path.suffix == ".toml":
+            tomllib.loads(path.read_text())
+        elif path.suffix == ".sh":
+            subprocess.run(["bash", "-n", str(path)], check=True)
+    subprocess.run(["git", "diff", "--check"], cwd=ROOT, check=True)
+    print("Changed machine inputs checked. Use affected exact/tool checks; --full explicitly selects the broad suite.")
+    return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())
