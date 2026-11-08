@@ -660,12 +660,16 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   clocks and original bullet-call ordering. The 528-byte Fans leaf now uses
   variable-first horizontal/vertical frame tests and advances speed plus
   index together in each of its four for-loop iteration expressions. Its
-  shared `TO_SP(56)` warning/coordinate edge is named; centers use
-  base + scaled offset - edge, and span/angle products use constant-first
-  multiplication. The signed multiply/divide-before-scale order and all shot
-  ordering remain exact (af1034l/m/n/o/p/r/s/t). Reversing the speed/index
-  comma-expression order, unary-minus, a register-local mirrored angle and
+  shared `TO_SP(56)` warning/coordinate edge is named; the four fan
+  centers now use edge-first grouping plus `TO_SP((span * i) / count)`,
+  keeping signed division before subpixel scaling. The ascending speed
+  additions are constant-first and all four loop steps use postfix `i++`
+  after the speed update; shot order is unchanged (af1034l/m/n/o/p/r/s/t,
+  af1037k/l/m/n/q). The signed multiply/divide-before-scale order remains
+  exact. Reversing the speed/index comma-expression order, unary-minus,
+  a register-local mirrored angle and
   compound speed updates changed complete CODE and were reverted. See the
+  [after1037 Fans arithmetic review](MAIN_CHIYURI_FANS_SUBPIXEL_AND_LOOP_ARITHMETIC_AFTER1037_REVIEW.md),
   [after1034 Fans loop-step review](MAIN_CHIYURI_FANS_SPEED_AND_EDGE_LOOP_STEPS_AFTER1034_REVIEW.md),
   the
   [Fans guard review](MAIN_CHIYURI_FANS_VARIABLE_FIRST_FRAME_GUARDS_AFTER1033_REVIEW.md),

@@ -362,16 +362,15 @@ enum chiyuri_fan_phase_t {
     CHIYURI_FAN_HORIZ_ANGLE_BASE = 0x60,
     CHIYURI_FAN_VERT_ANGLE_OFFSET = 0x20,
     CHIYURI_FAN_SPEED_STEP = 2,
-    CHIYURI_FAN_SPAN_TO_SUBPIXELS = 16,
 };
 
-// Fan coordinates divide the signed 16-bit polar range BEFORE scaling
-// to subpixels; changing this order changes trajectory rounding. The four
-// independent passes advance byte speed and index together in their for
-// iteration expressions, after the original bullets_add() calls. The named
-// edge offset is shared by warning-bomb and projectile-center placement.
-// Original count widths, division order and all four emission sequences stay
-// intact. Compound speed assignment remains non-exact (af922h/af1033q).
+// Fan coordinates divide the signed 16-bit polar range BEFORE TO_SP
+// scaling; moving the scale into the quotient changes trajectory rounding.
+// The four independent passes advance byte speed and postfix index together
+// in their for iteration expressions, after the original bullets_add() calls.
+// Projectile centers subtract the shared edge offset before adding the scaled
+// displacement. Original count widths, division order and emission sequences
+// stay intact. Compound speed assignment remains non-exact (af922h/af1033q).
 void near chiyuri_pattern_fans(void)
 {
 	pid_t pid_other = (1 - pid_current);
@@ -393,12 +392,11 @@ void near chiyuri_pattern_fans(void)
 		for(
 			i = 0;
 			i < chiyuri_fan_count;
-			bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP, ++i
+			bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, i++
 		) {
 			bullet_template.center.x.v = (
-				boss_center_x +
-				(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
-				CHIYURI_FAN_EDGE_OFFSET
+				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
+				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
 			);
 			bullet_template.angle = (
 				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count)
@@ -413,12 +411,11 @@ void near chiyuri_pattern_fans(void)
 		for(
 			i = 0;
 			i < chiyuri_fan_count;
-			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, i++
 		) {
 			bullet_template.center.x.v = (
-				boss_center_x +
-				(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
-				CHIYURI_FAN_EDGE_OFFSET
+				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
+				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
 			);
 			bullet_template.angle = (
 				CHIYURI_FAN_HORIZ_ANGLE_BASE - ((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count)
@@ -448,12 +445,11 @@ void near chiyuri_pattern_fans(void)
 	for(
 		i = 0;
 		i < chiyuri_fan_count;
-		bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP, ++i
+		bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, i++
 	) {
 		bullet_template.center.y.v = (
-			boss_center_y +
-			(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
-			CHIYURI_FAN_EDGE_OFFSET
+			(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
+			TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
 		);
 		bullet_template.angle = (
 			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
@@ -465,12 +461,11 @@ void near chiyuri_pattern_fans(void)
 	for(
 		i = 0;
 		i < chiyuri_fan_count;
-		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, i++
 	) {
 		bullet_template.center.y.v = (
-			boss_center_y +
-			(((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count) * CHIYURI_FAN_SPAN_TO_SUBPIXELS) -
-			CHIYURI_FAN_EDGE_OFFSET
+			(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
+			TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
 		);
 		bullet_template.angle = (
 			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
