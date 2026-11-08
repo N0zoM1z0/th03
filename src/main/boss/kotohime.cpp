@@ -430,77 +430,77 @@ void far gba_boss_update_kotohime(void)
 
 	if(pid_current == gba_boss_launched_by) {
 		pid_other = (1 - pid_current);
-	boss_target_update();
-	bullet_template.pid = pid_other;
-	++boss_frame;
+		boss_target_update();
+		bullet_template.pid = pid_other;
+		++boss_frame;
 
-	switch(boss_mode) {
-	case KOTOHIME_MODE_INTRO:
-		if(boss_frame == KOTOHIME_INTRO_FINISH_FRAME) {
-			boss_frame = 0;
-			boss_mode = KOTOHIME_MODE_SELECT;
+		switch(boss_mode) {
+		case KOTOHIME_MODE_INTRO:
+			if(boss_frame == KOTOHIME_INTRO_FINISH_FRAME) {
+				boss_frame = 0;
+				boss_mode = KOTOHIME_MODE_SELECT;
+				break;
+			} else {
+				return;
+			}
+
+		case KOTOHIME_MODE_SELECT:
+			boss_pattern_next();
 			break;
-		} else {
+
+		case KOTOHIME_MODE_RANDOM_RING_0:
+		case KOTOHIME_MODE_RANDOM_RING_1:
+		case KOTOHIME_MODE_RANDOM_RING_2:
+		case KOTOHIME_MODE_RANDOM_RING_3:
+		case KOTOHIME_MODE_RANDOM_RING_4:
+			kotohime_pattern_random_ring();
+			break;
+
+		case KOTOHIME_MODE_AIMED_RING_0:
+		case KOTOHIME_MODE_AIMED_RING_1:
+		case KOTOHIME_MODE_AIMED_RING_2:
+			kotohime_pattern_aimed_ring();
+			break;
+
+		case KOTOHIME_MODE_PELLET_ARC_0:
+		case KOTOHIME_MODE_PELLET_ARC_1:
+		case KOTOHIME_MODE_PELLET_ARC_2:
+			kotohime_pattern_pellet_arc();
+			break;
+
+		case KOTOHIME_MODE_RADIAL_0:
+		case KOTOHIME_MODE_RADIAL_1:
+		case KOTOHIME_MODE_RADIAL_2:
+		case KOTOHIME_MODE_RADIAL_3:
+		case KOTOHIME_MODE_RADIAL_4:
+			kotohime_pattern_radial_burst();
+			break;
+
+		case KOTOHIME_MODE_DESCEND:
+			boss_fall();
+			break;
+
+		case KOTOHIME_MODE_EXPLODE:
 			return;
 		}
 
-	case KOTOHIME_MODE_SELECT:
-		boss_pattern_next();
-		break;
+		collmap_center.x.v = boss_center_x;
+		collmap_center.y.v = boss_center_y;
+		collmap_stripe_tile_w.set(KOTOHIME_COLLISION_STRIPE_WIDTH);
+		collmap_tile_h.set(KOTOHIME_COLLISION_TILE_HEIGHT);
+		collmap_pid = pid_other;
+		collmap_set_rect_striped();
 
-	case KOTOHIME_MODE_RANDOM_RING_0:
-	case KOTOHIME_MODE_RANDOM_RING_1:
-	case KOTOHIME_MODE_RANDOM_RING_2:
-	case KOTOHIME_MODE_RANDOM_RING_3:
-	case KOTOHIME_MODE_RANDOM_RING_4:
-		kotohime_pattern_random_ring();
-		break;
-
-	case KOTOHIME_MODE_AIMED_RING_0:
-	case KOTOHIME_MODE_AIMED_RING_1:
-	case KOTOHIME_MODE_AIMED_RING_2:
-		kotohime_pattern_aimed_ring();
-		break;
-
-	case KOTOHIME_MODE_PELLET_ARC_0:
-	case KOTOHIME_MODE_PELLET_ARC_1:
-	case KOTOHIME_MODE_PELLET_ARC_2:
-		kotohime_pattern_pellet_arc();
-		break;
-
-	case KOTOHIME_MODE_RADIAL_0:
-	case KOTOHIME_MODE_RADIAL_1:
-	case KOTOHIME_MODE_RADIAL_2:
-	case KOTOHIME_MODE_RADIAL_3:
-	case KOTOHIME_MODE_RADIAL_4:
-		kotohime_pattern_radial_burst();
-		break;
-
-	case KOTOHIME_MODE_DESCEND:
-		boss_fall();
-		break;
-
-	case KOTOHIME_MODE_EXPLODE:
-		return;
-	}
-
-	collmap_center.x.v = boss_center_x;
-	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(KOTOHIME_COLLISION_STRIPE_WIDTH);
-	collmap_tile_h.set(KOTOHIME_COLLISION_TILE_HEIGHT);
-	collmap_pid = pid_other;
-	collmap_set_rect_striped();
-
-	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = KOTOHIME_COLLISION_HALF_RADIUS;
-	hitbox.radius.y.v = KOTOHIME_COLLISION_HALF_RADIUS;
-	hitbox.pid = pid_other;
-	hitbox.origin.center.x.v = boss_center_x;
-	hitbox.origin.center.y.v = boss_center_y;
-	boss_hit = hitbox_hittest();
-	boss_hp -= boss_hit;
-	hitbox_hittest_skip_explosions = false;
-	boss_hittest_end();
+		hitbox_hittest_skip_explosions = true;
+		hitbox.radius.x.v = KOTOHIME_COLLISION_HALF_RADIUS;
+		hitbox.radius.y.v = KOTOHIME_COLLISION_HALF_RADIUS;
+		hitbox.pid = pid_other;
+		hitbox.origin.center.x.v = boss_center_x;
+		hitbox.origin.center.y.v = boss_center_y;
+		boss_hit = hitbox_hittest();
+		boss_hp -= boss_hit;
+		hitbox_hittest_skip_explosions = false;
+		boss_hittest_end();
 	} else {
 		return;
 	}
