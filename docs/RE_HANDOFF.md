@@ -489,6 +489,12 @@ together at af1035p: 17,451 CODE bytes, 2,434 ordered native fields and 85
 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
 image/relocations exact. See the [current after1035p nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1035P_REVIEW.md).
 
+After the Mima level/template/attack-clock and Yumemi update/attack-pattern
+refinements, the two complete owners were rebuilt together at af1036t: 4,280
+CODE bytes, 620 ordered native fields and 19 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[after1036t Mima+Yumemi integration review](MAIN_MIMA_YUMEMI_TWO_OWNER_INTEGRATION_AFTER1036T_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
