@@ -104,7 +104,7 @@ enum mima_level_scaling_t {
 
 void far pascal boss_mima_template_init(int player_id)
 {
-	boss_template_state_t near *p = &boss_character_template[player_id];
+	boss_template_state_t near *p = boss_character_template + player_id;
 
 	p->center_x = MIMA_TEMPLATE_CENTER_X;
 	p->center_y = MIMA_TEMPLATE_CENTER_Y;
@@ -116,7 +116,7 @@ void far pascal boss_mima_template_init(int player_id)
 	p->hp = MIMA_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->sprite_offset = MIMA_TEMPLATE_SPRITE_OFFSET;
-	if(0 != player_id) {
+	if(player_id) {
 		p->sprite_offset += MIMA_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = MIMA_TEMPLATE_RENDER_MODE_NORMAL;

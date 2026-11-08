@@ -602,9 +602,10 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   warning/fire/wait/ring/end frame comparisons (af1035f/g/l/m/n/o). Its
   seven level-derived attack parameters now use constant-first additions
   and multiplications; the division-by-four remains an actual division, as
-  replacing it with a shift changed CODE. The template initializer's
-  player-ID test is constant-first, while the sprite-offset `+=` remains
-  necessary (af1035r/u/v/w/y). Keep the SI/DI local declaration order, ordinary top local, Trail-to-Particle
+  replacing it with a shift changed CODE. The template initializer now uses
+  array-pointer addition and a direct player-ID truth test; explicit
+  sprite-offset assignment changed CODE, so retain `+=` (af1035r/u/v/w/y,
+  af1036a/b). Keep the SI/DI local declaration order, ordinary top local, Trail-to-Particle
   label/goto and byte-frame postfix. See the
   [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
   [after1035 update/Random Bomb review](MAIN_MIMA_UPDATE_AND_RANDOM_BOMB_AFTER1035_REVIEW.md),

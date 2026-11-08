@@ -22,17 +22,22 @@ and `MIMA_LEVEL_PELLET_UNTIL_MULTIPLIER * level`) is exact, as are all
 constant-first additions. The `boss_update_start()` gate and assignment
 sequence remain unchanged.
 
-The 79-byte Pascal `boss_mima_template_init()` now uses a constant-first
-player test:
+The 79-byte Pascal `boss_mima_template_init()` now uses natural pointer
+arithmetic for its selected player template and a direct truth test:
 
 ```cpp
-if(0 != player_id) {
+boss_template_state_t near *p = boss_character_template + player_id;
+...
+if(player_id) {
     p->sprite_offset += MIMA_TEMPLATE_PLAYER2_OFF;
 }
 ```
 
-This is exact and leaves the pointer-based initialization, all field stores,
-and the player-two sprite adjustment in their original order.
+Both forms are exact. The pointer still selects one element of the same
+near template array; all field stores and the player-two sprite adjustment
+remain in their original order. The intermediate constant-first test
+`if(0 != player_id)` was also exact in af1035y, before the final direct truth
+test.
 
 A superficially more explicit assignment was also tested:
 
@@ -47,6 +52,14 @@ independent original TC4 4.02 rounds. All 1,922 CODE bytes, 277 ordered native
 fields and nine PUBLIC offsets match. Both normal Japanese MAIN links
 reproduce the original loaded image and ordered MZ relocations.
 
-Protected report: `.analysis/work/exatt-layout-af1035y/report.json`
+The final pointer-arithmetic/truth-test combination was rebuilt at `af1036b`
+in two independent original TC4 4.02 rounds. All 1,922 CODE bytes, 277
+ordered native fields and nine PUBLIC offsets match; both normal Japanese
+MAIN links reproduce the original loaded image and ordered MZ relocations.
 
-SHA-256: `5695f6c45a11dcc9f4f4a35214c4a255775cde06ef1c1f659520d38b17ce7452`
+Protected current-source report: `.analysis/work/exatt-layout-af1036b/report.json`
+
+SHA-256: `ac629fec2711f1bf0940e4c4abfddf67c0308883f59a077d86f21c68c65e0c75`
+
+The earlier level-scaling proof remains `.analysis/work/exatt-layout-af1035y/report.json`
+(SHA-256 `5695f6c45a11dcc9f4f4a35214c4a255775cde06ef1c1f659520d38b17ce7452`).
