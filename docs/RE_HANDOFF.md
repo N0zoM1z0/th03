@@ -558,12 +558,16 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   initial-setup return (af1031m). The 262-byte Random Bomb
   leaf now scopes its live barrage/ring/sound/finish under the positive
   `boss_frame > MIMA_RANDOM_BOMB_BULLET_WAIT_END` guard while retaining the
-  three marker bombs and their early return (af1031s). The hit-render path
+  three marker bombs and their early return (af1031s). The 186-byte Trail
+  leaf now relies on natural destination-byte narrowing for its modulo result
+  and names the fixed bullet-speed offset (af1034a); the original unsigned
+  word division and byte-phase comparisons remain exact. The hit-render path
   also chains into Particle with else-if; keep the original Trail-to-Particle
   label/goto and nested Particle thresholds. See the
   [after1032 Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
-  [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md)
-  and [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md).
+  [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md),
+  [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md)
+  and [after1034 Trail review](MAIN_MIMA_TRAIL_NATURAL_NARROWING_AND_SPEED_AFTER1034_REVIEW.md).
 - **Chiyuri:** the 613-byte update controller now scopes its complete
   active-player path under `if(pid_current == gba_boss_launched_by)`,
   preserving the shared mode dispatch and collision/hitbox tail (af1032l).

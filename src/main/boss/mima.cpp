@@ -177,6 +177,7 @@ enum mima_native_phase_t {
     MIMA_RANDOM_BOMB_RING_FRAME = 0x40,
     MIMA_RANDOM_BOMB_END = 0x80,
     MIMA_TRAIL_END = 0x96,
+    MIMA_TRAIL_BULLET_SPEED_OFFSET = 8,
     MIMA_BOSS_INTRO_END = 0x64,
     MIMA_FIRE_EVEN_PERIOD = 2,
     MIMA_SPREAD_ANGLE_STEP = 9,
@@ -328,7 +329,7 @@ void near mima_pattern_trail(void)
 	// The original 16-bit frame modulo narrows to a *byte* before the
 	// two trail-phase comparisons; widening this local changed TC4 CODE
 	// (native negative af855d).
-	unsigned char remainder = static_cast<unsigned char>(boss_frame % mima_trail_interval);
+	unsigned char remainder = (boss_frame % mima_trail_interval);
 
 	boss_move_sine();
 	boss_render_mode = MIMA_RMODE_TRAIL;
@@ -349,7 +350,7 @@ void near mima_pattern_trail(void)
 		bullet_template.angle = 0;
 		bullet_template.center.x.v = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
 		bullet_template.center.y.v = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
-		bullet_template.speed.v = (TO_SP(5) + 8);
+		bullet_template.speed.v = (TO_SP(5) + MIMA_TRAIL_BULLET_SPEED_OFFSET);
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.is_animated = false;
 		bullet_template.has_trail = true;
