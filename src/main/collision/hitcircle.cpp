@@ -108,7 +108,7 @@ void near hitcircles_update(void)
 	// The thirteen-record age walk keeps its signed index and near-pointer
 	// increments together in the for header after each byte-state update.
 	for(i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
-		if(p->age != 0) {
+		if(p->age) {
 			// Mutable byte age postfix is native-visible: prefix emitted
 			// nonoriginal instructions (af919d), so keep the original.
 			p->age++;
@@ -146,18 +146,19 @@ void near hitcircles_render(void)
 	// hit circle uses its own monochrome palette after the signed-index
 	// and near-pointer for loop.
 	for(i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
-		if(p->age != 0) {
-			sprite16_clip_set_for_pid(p->pid);
-			sprite16_offset_t so = p->cel();
-			sprite16_put(p->topleft.x, p->topleft.y, so);
+		if(!p->age) {
+			continue;
 		}
+		sprite16_clip_set_for_pid(p->pid);
+		sprite16_offset_t so = p->cel();
+		sprite16_put(p->topleft.x, p->topleft.y, so);
 	}
 
 	// Player circle
 	static_assert(HITCIRCLE_PLAYER_COUNT == 1);
 	_DX = V_WHITE;
 	sprite16_mono_color(_DX);
-	if(p->age != 0) {
+	if(p->age) {
 		sprite16_clip_set_for_pid(p->pid);
 		sprite16_offset_t so = p->cel();
 		sprite16_put(p->topleft.x, p->topleft.y, so);
