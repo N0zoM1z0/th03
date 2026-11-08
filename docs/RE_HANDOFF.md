@@ -224,6 +224,13 @@ Stage af1029l rebuilt the complete `ba_koto` owner in two original TC4 rounds:
 Japanese MAIN image and relocations exact. See the
 [after1029 Kotohime index-order review](MAIN_KOTOHIME_RADIAL_INDEX_DECLARATION_ORDER_AFTER1029_REVIEW.md).
 
+The 332-byte Kotohime update controller now expresses INTRO completion as a
+positive equality branch with an explicit `else return`. Stage af1030m rebuilt
+the complete `ba_koto` owner in two original TC4 rounds: 1,840 CODE bytes,
+262 ordered native fields and eleven PUBLICs, with the full Japanese MAIN
+image and relocations exact. See the
+[after1030 Kotohime INTRO branch review](MAIN_KOTOHIME_UPDATE_INTRO_SUCCESS_BRANCH_AFTER1030_REVIEW.md).
+
 The same radial review records four rejected complete-owner experiments:
 af1026b/c (early-return and inverted expansion/release branches) and
 af1026e/f (local `PlayfieldPoint` aggregate/field copies). All changed the
@@ -309,7 +316,8 @@ phase guards and update INTRO branch (af1029g/af1030f),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
 scopes plus Trail positive fire guard (af1027a/af1029j/af1030h/af1030i/af1030j), and update
 SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
-explicit radial register indices/order (af1026i/af1029l), and
+explicit radial register indices/order and positive update INTRO branch
+(af1026i/af1029l/af1030m), and
 HitCircle's age-update/render register locals and active guard
 (af1025d/af1027f/af1027g/af1028c/af1028d). The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
