@@ -403,7 +403,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle += mima_orbit_delta;
 	}
 
-	if(boss_frame >= MIMA_ORBIT_FINISH_FRAME) {
+	if(MIMA_ORBIT_FINISH_FRAME <= boss_frame) {
 		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;
 	}
