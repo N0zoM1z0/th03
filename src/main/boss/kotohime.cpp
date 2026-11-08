@@ -510,9 +510,7 @@ void near pascal kotohime_render_ring(int count)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
 	int radius;
-	unsigned char angle;
 	register int i;
-	register screen_x_t left;
 
 	radius = boss_effect_radius;
 	sprite_offset = (pid.so_attack + KOTOHIME_RING_SPRITE_OFFSET);
@@ -524,10 +522,11 @@ void near pascal kotohime_render_ring(int count)
 	sprite16_put_size.w = KOTOHIME_RING_SPRITE_WIDTH;
 	sprite16_put_size.h = KOTOHIME_RING_SPRITE_HEIGHT;
 
-	// The same signed 256-step division is used by the 8-/N-sprite
-	// renderer. A while preserves the original 16-bit signed result.
-	i = 0;
-	while(i < count) {
+	// The natural for-header preserves the original signed 16-bit
+	// 256-step angle division before byte truncation.
+	for(i = 0; i < count; ++i) {
+		register screen_x_t left;
+		unsigned char angle;
 		angle = (((i * KOTOHIME_FULL_TURN_STEPS) / count) + boss_move_phase);
 		left = polar(
 			boss_center_x,
@@ -546,7 +545,6 @@ void near pascal kotohime_render_ring(int count)
 		// Compound top >>=4 changed original TC4 CODE (af762b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
-		++i;
 	}
 }
 
@@ -568,14 +566,14 @@ void near kotohime_render_main(void)
 	top = ((boss_center_y >> 4) - KOTOHIME_MAIN_TOP_OFFSET);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite_offset += 0x10;
 	}
 	sprite16_put(left, top, sprite_offset);
 
 	// This byte render-mode guard naturally spells `!=0`, without
 	// changing the physical ring's signed-angle/near-pascal ABI.
-	if(boss_render_mode != KOTOHIME_RENDER_MODE_NORMAL) {
+	if(boss_render_mode) {
 		kotohime_render_ring(kotohime_orbit_count);
 	}
 }
