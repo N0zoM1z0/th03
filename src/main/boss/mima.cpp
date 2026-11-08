@@ -596,7 +596,7 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	geninterrupt(SPRITE16);
 	// The split mask's opposite half-turn is byte-valued, but its
 	// named original 0x80 increment stays native-exact (af855h).
-	angle = angle + MIMA_RENDER_SPLIT_OPPOSITE_ANGLE;
+	angle += MIMA_RENDER_SPLIT_OPPOSITE_ANGLE;
 	left = polar(base_left, split_distance, CosTable8[angle]);
 	top = polar(base_top, split_distance, SinTable8[angle]);
 	sprite16_put(left, top, boss_sprite_offset);
@@ -610,22 +610,21 @@ void far gba_boss_render_mima(void)
 {
 	pid_t pid_other;
 
-	if(pid_current != gba_boss_launched_by) {
-		return;
-	}
-	pid_other = (1 - pid_current);
-	sprite16_clip_set_for_pid(pid_other);
+	if(pid_current == gba_boss_launched_by) {
+		pid_other = (1 - pid_current);
+		sprite16_clip_set_for_pid(pid_other);
 
-	if(boss_mode == MIMA_MODE_INTRO) {
-		mima_render_split(
-			(MIMA_INTRO_START_DISTANCE - (boss_frame << MIMA_INTRO_FRAME_DISTANCE_SHIFT)),
-			(boss_frame * 3)
-		);
-		return;
+		if(MIMA_MODE_INTRO == boss_mode) {
+			mima_render_split(
+				(MIMA_INTRO_START_DISTANCE - (boss_frame << MIMA_INTRO_FRAME_DISTANCE_SHIFT)),
+				(boss_frame * 3)
+			);
+			return;
+		}
+		if(MIMA_MODE_EXPLODE != boss_mode) {
+			mima_render_main();
+			return;
+		}
+		boss_explosion_render();
 	}
-	if(boss_mode != MIMA_MODE_EXPLODE) {
-		mima_render_main();
-		return;
-	}
-	boss_explosion_render();
 }

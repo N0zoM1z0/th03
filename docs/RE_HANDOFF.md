@@ -588,8 +588,13 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   word division and byte-phase comparisons remain exact. `mima_render_main()`
   now uses a positive Trail early-return guard, constant-first nested Particle
   thresholds and variable-first Particle/Expand/Flash mode checks (af1034g-i).
-  Keep the original Trail-to-Particle label/goto and byte-frame postfix. See
-  the [after1034 Mima renderer review](MAIN_MIMA_RENDER_MAIN_TRAIL_GUARD_AND_PHASE_COMPARISONS_AFTER1034_REVIEW.md),
+  The 223-byte split renderer uses `angle += MIMA_RENDER_SPLIT_OPPOSITE_ANGLE`,
+  and the 101-byte far render controller scopes its active path under the
+  positive launched-player guard with constant-first INTRO/EXPLODE comparisons
+  (af1034x/y/1035a/b/d). Keep the SI/DI local declaration order, ordinary top
+  local, Trail-to-Particle label/goto and byte-frame postfix. See the
+  [after1034 Mima main renderer review](MAIN_MIMA_RENDER_MAIN_TRAIL_GUARD_AND_PHASE_COMPARISONS_AFTER1034_REVIEW.md),
+  [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
   the
   [after1032 Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
   [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md),
