@@ -217,6 +217,13 @@ af1030i rebuilt the complete `ba_chiyu` owner in two original TC4 rounds:
 Japanese MAIN image and relocations exact. See the
 [after1030 Rings cadence review](MAIN_CHIYURI_RINGS_POSITIVE_CADENCE_GUARD_AFTER1030_REVIEW.md).
 
+The same Rings leaf now uses the variable-first `boss_frame >=
+CHIYURI_PATTERN_END_AT` finish predicate. Stage af1030t rebuilt the complete
+`ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered
+native fields and eleven PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1030 Rings finish review](MAIN_CHIYURI_RINGS_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
 The 115-byte Trail leaf now scopes its one-time release sequence under the
 positive fire-frame condition, while its periodic warning bombs remain
 independent and earlier. Stage af1030j rebuilt the complete `ba_chiyu` owner
@@ -343,9 +350,9 @@ rejection loop (af1025a), two large Kotohime update-controller guards
 phase guards, update INTRO branch and orbit finish predicate
 (af1029g/af1030f/af1030n),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
-scopes plus Cardinal finish predicate, Trail positive fire and Fans
+scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
-(af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q/af1030s), and update
+(af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q/af1030s/af1030t), and update
 SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order and positive update INTRO branch
 (af1026i/af1029l/af1030m), and
