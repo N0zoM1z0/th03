@@ -221,7 +221,7 @@ void near chiyuri_pattern_cardinal(void)
 		);
 	}
 
-	else if(CHIYURI_PATTERN_END_AT <= boss_frame) {
+	else if(boss_frame >= CHIYURI_PATTERN_END_AT) {
 		boss_mode = CHIYURI_MODE_SELECT;
 		boss_frame = 0;
 		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
