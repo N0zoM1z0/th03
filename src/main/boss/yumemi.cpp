@@ -353,7 +353,7 @@ void near yumemi_pattern_cross_rings(void)
 {
 	boss_move_sine();
 
-	if(!(boss_frame % yumemi_cross_interval)) {
+	if((boss_frame % yumemi_cross_interval) == 0) {
 		bullet_template.group = BG_4_RING;
 		bullet_template.speed.v = TO_SP(2);
 		bullet_template.type = (randring_far_next16_and(1) + 1);
@@ -436,8 +436,9 @@ void near yumemi_pattern_rain(void)
 
 	boss_move_sine();
 
-	// Distinct rain clock, also native-exact as if(!remainder).
-	if(!(boss_frame % yumemi_rain_interval)) {
+	// The variable unsigned-word rain interval compares its remainder
+	// explicitly with zero.
+	if((boss_frame % yumemi_rain_interval) == 0) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
 		if(boss_frame < YUMEMI_RAIN_SPREAD_END) {

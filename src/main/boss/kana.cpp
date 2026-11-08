@@ -340,9 +340,9 @@ void near kana_pattern_cloud_ring(void)
 
 	boss_move_sine();
 
-	// Natural original unsigned-word zero remainder, with all RNG
-	// draws and phase transition order preserved (af884d).
-	if(!(boss_frame % kana_cloud_interval)) {
+	// The variable unsigned-word cloud interval compares its remainder
+	// with zero; the original RNG order is unchanged.
+	if((boss_frame % kana_cloud_interval) == 0) {
 		_AL = randring_far_next16_and(0x1F);
 		// Genuine TC4 keeps the original SUB AL,10; direct C++ subtraction
 		// changes the full source CODE (fresh failed af836c).
