@@ -332,7 +332,7 @@ void near mima_pattern_trail(void)
 	// The original 16-bit frame modulo narrows to a *byte* before the
 	// two trail-phase comparisons; widening this local changed TC4 CODE
 	// (native negative af855d).
-	unsigned char remainder = (boss_frame % mima_trail_interval);
+	unsigned char remainder = static_cast<unsigned char>(boss_frame % mima_trail_interval);
 
 	boss_move_sine();
 	boss_render_mode = MIMA_RMODE_TRAIL;
@@ -516,7 +516,7 @@ void near mima_render_main(void)
 	top = ((boss_center_y >> 4) - MIMA_RENDER_MAIN_TOP_HALF);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite16_put_size.set(MIMA_RENDER_HIT_WIDTH, MIMA_RENDER_HIT_HEIGHT);
 		left += MIMA_DAMAGED_LEFT;
 		top += MIMA_DAMAGED_TOP;
