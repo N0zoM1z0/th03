@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af969a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af974c`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,6 +56,36 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Kana major-BOSS source-current follow-up: `af974c`.** The
+  complete nine-function ba_kana owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,874 CODE bytes, 274
+  ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded
+  bytes and 1,553 ordered MZ relocations exact. Its 16-pellet staged volley
+  now uses natural byte-field assignment and a for loop while preserving
+  emit/angle/speed/index order. See
+  [Kana staged volley after974](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af974c/report.json,
+  SHA-256 ac9f32893af05350b6880577f39229e1e8a3e4dc06b2746d324706aa084dc206.
+- **Latest Chiyuri major-BOSS source-current follow-up: `af973b`.** The
+  complete eleven-function ba_chiyu owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **2,654 CODE bytes, 381
+  ordered OMF FIXUPPs and eleven PUBLICs**, with all 124,642 Japanese
+  loaded bytes and 1,553 ordered MZ relocations exact. Lifecycle byte
+  predicates are explicit, and the sixteen-sprite ring renderer now uses
+  natural named multiplication for its radius and sprite-frame scales.
+  See [Chiyuri ring scaling after973](MAIN_CHIYURI_BOSS_NATURAL_RENDER_SCALE_AFTER973_REVIEW.md)
+  and [Chiyuri lifecycle after972](MAIN_CHIYURI_BOSS_NATURAL_LIFECYCLE_PREDICATES_AFTER972_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af973b/report.json,
+  SHA-256 2b41bf9a0c0fc3bca5b88b9bc8c02b0ac27e73559b225beaa7ed7574772d3bb4.
+- **Latest Marisa major-BOSS source-current follow-up: `af971b`.** The
+  complete nine-function ba_maris owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,431 CODE bytes, 199
+  ordered OMF FIXUPPs and nine PUBLICs**, with all 124,642 Japanese loaded
+  bytes and 1,553 ordered MZ relocations exact. The ring attack now uses
+  natural byte-angle assignment; render hit/state predicates are explicit.
+  See [Marisa ring angle after971](MAIN_MARISA_BOSS_NATURAL_RING_ANGLE_AND_RENDER_AFTER971_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af971b/report.json,
+  SHA-256 14348b7868d9a8af655daf93999adbf3d4fcdd13dfb756568d8d7f4a72cd23d6.
 - **Latest Marisa major-BOSS source-current follow-up: `af969a`.** The
   complete nine-function ba_maris owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,431 CODE bytes, 199
@@ -197,7 +227,9 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
-| `af969a` | 1 | 1,431 |
+| `af974c` | 1 | 1,874 |
+| `af973b` | 1 | 2,654 |
+| `af971b` | 1 | 1,431 |
 | `af968c` | 1 | 1,840 |
 | `af966a` | 1 | 1,874 |
 | `af964e` | 1 | 1,555 |
@@ -217,7 +249,12 @@ scopes**, not one combined 99-original-source replay:
 
 The Kana `af965b` and Kotohime `af965a` receipts are earlier
 source snapshots superseded by `af966a` and `af965e`, respectively.
-Kotohime `af965e` is now historical after `af968c`; Marisa's
+Kotohime `af965e` is now historical after `af968c`; Kana `af966a` is now
+historical after `af974c`; Chiyuri `af972a` is now historical after
+`af973b`; and Marisa `af969a` is historical after `af971b`.
+The Kana intermediate `af974a` and `af974b` reports are superseded by
+the final combined for-loop source proof `af974c`. Use af974c,
+af973b, af971b and af968c for current source binding. Marisa's
 `af935a` and older single-object `af930e` receipts are now historical for
 ba_maris after `af969a`. Use `af968c` and `af969a` for current
 source binding. The Ellen `af962a`
@@ -364,7 +401,11 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current Marisa BOSS native C++ work](MAIN_MARISA_BOSS_TEMPLATE_AND_LEVEL_AFTER969_REVIEW.md)
+- [Current Kana staged-volley natural C++ work](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md)
+- [Current Chiyuri natural ring-render scaling](MAIN_CHIYURI_BOSS_NATURAL_RENDER_SCALE_AFTER973_REVIEW.md)
+- [Current Chiyuri lifecycle predicates](MAIN_CHIYURI_BOSS_NATURAL_LIFECYCLE_PREDICATES_AFTER972_REVIEW.md)
+- [Current Marisa natural ring-angle assignment](MAIN_MARISA_BOSS_NATURAL_RING_ANGLE_AND_RENDER_AFTER971_REVIEW.md)
+- [Earlier Marisa BOSS template/level work](MAIN_MARISA_BOSS_TEMPLATE_AND_LEVEL_AFTER969_REVIEW.md)
 - [Current Kotohime phase-reload native C++ work](MAIN_KOTOHIME_BOSS_NATURAL_PHASE_RELOAD_AFTER968_REVIEW.md)
 - [Current Kana BOSS native C++ work](MAIN_KANA_BOSS_NATURAL_TEMPLATE_LEVEL_AND_RENDER_AFTER966_REVIEW.md)
 - [Kana cloud SUB AL codegen finding](MAIN_KANA_CLOUD_BYTE_SUBTRACTION_AFTER967_REVIEW.md)
