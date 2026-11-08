@@ -147,6 +147,8 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   comparisons, Chiyuri's natural attack/frame thresholds, and Kotohime's
   constant-first ring/radial phase tests. See
   [Natural BOSS phase tests after1021](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af1021d/report.json,
+  SHA-256 52b8eb9698a45d15c5ed662cbac979b3554233a489301bafeed160a05649fa4a.
 - **Latest twelve-owner MAIN integration: `af1024e`.**
   Two independent original TC4 4.02 rounds rebuilt all nine major BOSS
   owners with complete Hitbox, HitCircle and explosion-chain owners:
@@ -178,8 +180,6 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   TC4 rounds match. Protected report:
   .analysis/work/exatt-layout-af1024c/report.json,
   SHA-256 6f0ea0a0ca95731e8ebdf90a6b4c6c7f601288ee4d902faad3713a363fadde82.
-  Protected report: .analysis/work/exatt-layout-af1021d/report.json,
-  SHA-256 52b8eb9698a45d15c5ed662cbac979b3554233a489301bafeed160a05649fa4a.
 - **Simultaneous Mima/Chiyuri/Kotohime scope: `af1021c`.**
   The three complete BOSS owners rebuilt together in both compiler rounds:
   **6,416 CODE bytes, 920 ordered OMF FIXUPPs and 31 PUBLICs**, with
