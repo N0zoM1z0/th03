@@ -573,9 +573,12 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   three marker bombs and their early return (af1031s). The 186-byte Trail
   leaf now relies on natural destination-byte narrowing for its modulo result
   and names the fixed bullet-speed offset (af1034a); the original unsigned
-  word division and byte-phase comparisons remain exact. The hit-render path
-  also chains into Particle with else-if; keep the original Trail-to-Particle
-  label/goto and nested Particle thresholds. See the
+  word division and byte-phase comparisons remain exact. `mima_render_main()`
+  now uses a positive Trail early-return guard, constant-first nested Particle
+  thresholds and variable-first Particle/Expand/Flash mode checks (af1034g-i).
+  Keep the original Trail-to-Particle label/goto and byte-frame postfix. See
+  the [after1034 Mima renderer review](MAIN_MIMA_RENDER_MAIN_TRAIL_GUARD_AND_PHASE_COMPARISONS_AFTER1034_REVIEW.md),
+  the
   [after1032 Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
   [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md),
   [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md)
