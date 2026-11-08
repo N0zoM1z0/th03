@@ -399,6 +399,12 @@ ordered native fields and 31 PUBLICs, with two original TC4 rounds and the
 complete Japanese MAIN image/relocations exact. See the
 [after1030r three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030R_REVIEW.md).
 
+After the Chiyuri Cardinal/Rings finish-predicate changes, all three owners
+were rebuilt together again at af1030u: 6,416 CODE bytes, 920 ordered native
+fields and 31 PUBLICs, with two original TC4 rounds and the complete Japanese
+MAIN image/relocations exact. See the
+[after1030u three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030U_REVIEW.md).
+
 After the Mima INTRO and Chiyuri update/leaf changes, the two complete owners
 were rebuilt together at af1030k: 4,576 CODE bytes, 658 ordered native fields
 and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
