@@ -670,8 +670,15 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   `randring_far_next16_mod(5) << 1`, the unsigned timer threshold as
   `boss_frame >= CHIYURI_SELECT_TIME_AT`, the palette-cycle guard in
   variable-first form, and the random mode base as `CHIYURI_MODE_CARDINAL_0`
-  (af1032b/c/e/f). The random call remains single-evaluation and the shared
-  X/Y index is unchanged. Cardinal, Rings, Fans and Trail retain their named
+  (af1032b/c/e/f). The latest complete-update pass uses constant-first
+  INTRO/SELECT frame comparisons, postfix BOSS-frame increment, five
+  base-first level formulas, multiplication for the doubled random selector,
+  pointer-addition array reads, constant-first random-mode and palette
+  expressions, constant-first intro cross offsets, a constant-first render
+  cadence test, and a register-qualified `pid_other` (af1038b/c/d/f/g/h/i/j/k/m/n/o/q/t/w).
+  The original pattern-counter comparison, `1 - pid_current`, PID local
+  declaration order, byte countdowns and HP compound subtraction remain
+  necessary (af1038e/l/p/r/s/u/v). Cardinal, Rings, Fans and Trail retain their named
   clocks and original bullet-call ordering. The 528-byte Fans leaf now uses
   variable-first horizontal/vertical frame tests and advances speed plus
   index together in each of its four for-loop iteration expressions. Its
@@ -688,6 +695,7 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   [after1034 Fans loop-step review](MAIN_CHIYURI_FANS_SPEED_AND_EDGE_LOOP_STEPS_AFTER1034_REVIEW.md),
   the
   [Fans guard review](MAIN_CHIYURI_FANS_VARIABLE_FIRST_FRAME_GUARDS_AFTER1033_REVIEW.md),
+  [after1038 Update arithmetic/lifetime review](MAIN_CHIYURI_UPDATE_NATURAL_ARITHMETIC_AND_LIFETIMES_AFTER1038_REVIEW.md),
   [PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
   [SELECT index review](MAIN_CHIYURI_UPDATE_SELECT_INDEX_SHIFT_AFTER1032_REVIEW.md),
   [timer review](MAIN_CHIYURI_UPDATE_SELECT_TIMER_VARIABLE_FIRST_AFTER1032_REVIEW.md),

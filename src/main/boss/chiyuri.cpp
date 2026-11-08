@@ -482,17 +482,17 @@ void near chiyuri_pattern_fans(void)
 
 void far gba_boss_update_chiyuri(void)
 {
-	pid_t pid_other;
+	register pid_t pid_other;
 	register unsigned char random_i;
 
 	if(boss_update_start()) {
-		chiyuri_cardinal_speed = (gba_boss_level + 0x30);
+		chiyuri_cardinal_speed = (0x30 + gba_boss_level);
 		chiyuri_cardinal_interval = (6 - (gba_boss_level / 4));
-		chiyuri_ring_speed = (gba_boss_level + 0x34);
+		chiyuri_ring_speed = (0x34 + gba_boss_level);
 		chiyuri_ring_interval = (0x20 - gba_boss_level);
-		chiyuri_trail_speed = ((gba_boss_level * 2) + 0x38);
-		chiyuri_fan_speed = (gba_boss_level + 0x10);
-		chiyuri_fan_count = ((gba_boss_level / 2) + 0x0C);
+		chiyuri_trail_speed = (0x38 + (2 * gba_boss_level));
+		chiyuri_fan_speed = (0x10 + gba_boss_level);
+		chiyuri_fan_count = (0x0C + (gba_boss_level / 2));
 	}
 
 	if(pid_current == gba_boss_launched_by) {
@@ -502,29 +502,29 @@ void far gba_boss_update_chiyuri(void)
 		bullet_template.pid = pid_other;
 		// The original unsigned-word BOSS frame admits natural prefix;
 		// byte-valued movement state below does not (af922j/k).
-		++boss_frame;
+		boss_frame++;
 
 		switch(boss_mode) {
 		case CHIYURI_MODE_INTRO:
-			if(boss_frame == CHIYURI_INTRO_DONE_FRAME) {
+			if(CHIYURI_INTRO_DONE_FRAME == boss_frame) {
 				boss_frame = 0;
 				boss_mode = CHIYURI_MODE_SELECT;
 				bomb_palette_step(0xFF, pid_other);
 				boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 				boss_render_mode = CHIYURI_PALETTE_CYCLE_START;
 				break;
-			} else if(boss_frame == CHIYURI_INTRO_CROSS_EFFECT_FRAME) {
+			} else if(CHIYURI_INTRO_CROSS_EFFECT_FRAME == boss_frame) {
 				bomb_center_add(
-					(boss_center_x - TO_SP(56)), boss_center_y, pid_other
+					((-TO_SP(56)) + boss_center_x), boss_center_y, pid_other
 				);
 				bomb_center_add(
-					(boss_center_x + TO_SP(56)), boss_center_y, pid_other
+					(TO_SP(56) + boss_center_x), boss_center_y, pid_other
 				);
 				bomb_center_add(
-					boss_center_x, (boss_center_y - TO_SP(56)), pid_other
+					boss_center_x, ((-TO_SP(56)) + boss_center_y), pid_other
 				);
 				bomb_center_add(
-					boss_center_x, (boss_center_y + TO_SP(56)), pid_other
+					boss_center_x, (TO_SP(56) + boss_center_y), pid_other
 				);
 				break;
 			} else {
@@ -533,15 +533,15 @@ void far gba_boss_update_chiyuri(void)
 			}
 
 		case CHIYURI_MODE_SELECT:
-			if(boss_render_mode == CHIYURI_PALETTE_CYCLE_START) {
-				random_i = (randring_far_next16_mod(5) << 1);
-				boss_center_x = chiyuri_boss_x_words[random_i];
-				boss_center_y = chiyuri_boss_y_words[random_i];
+			if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
+				random_i = (2 * randring_far_next16_mod(5));
+				boss_center_x = *(chiyuri_boss_x_words + random_i);
+				boss_center_y = *(chiyuri_boss_y_words + random_i);
 				boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 			}
-			if(boss_frame >= CHIYURI_SELECT_TIME_AT) {
+			if(CHIYURI_SELECT_TIME_AT <= boss_frame) {
 				boss_frame = 0;
-				boss_mode = (randring_far_next16_and(0x0F) + CHIYURI_MODE_CARDINAL_0);
+				boss_mode = (CHIYURI_MODE_CARDINAL_0 + randring_far_next16_and(0x0F));
 				boss_pattern_i++;
 				if(boss_pattern_i > boss_pattern_count) {
 					boss_mode = CHIYURI_MODE_DESCEND;
@@ -590,7 +590,7 @@ void far gba_boss_update_chiyuri(void)
 		bullet_template.is_animated = true;
 
 		boss_render_frame += (
-	        (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1)) == 0
+	        0 == (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1))
 	    );
 		// This mutable byte field needs the original bitmask instruction:
 		// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
@@ -603,7 +603,7 @@ void far gba_boss_update_chiyuri(void)
 			// Preserve the byte postfix: prefix changed TC4 CODE (af922k).
 			boss_move_phase--;
 			if(boss_move_phase) {
-				bomb_palette_step((boss_move_phase * 16), pid_other);
+				bomb_palette_step((16 * boss_move_phase), pid_other);
 			}
 		}
 
