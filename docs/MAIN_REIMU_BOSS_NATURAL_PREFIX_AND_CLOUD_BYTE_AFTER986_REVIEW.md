@@ -41,3 +41,12 @@ relocations. The other 98 original game objects and Borland CRT were reused.
 Protected current-source report:
 `.analysis/work/exatt-layout-af986a/report.json`, SHA-256
 `95dca00485bf6eec6b02c95caa377fe7264be5e0727270c6b72122e26553102c`.
+
+
+## Additional scheduler control-flow trial
+
+The af987e trial rewrote the nested INTRO frame check as a combined
+early-return condition followed by a second INTRO check. The complete
+ba_reimu object changed, so the original nested scheduler branches remain.
+The isolated af986a receipt is now historical after the simultaneous
+eight-BOSS source proof af988b.

@@ -42,12 +42,14 @@ register-local variants also change SI/DI lifetime and stack layout. Keep
 the explicit BX sequence until a natural expression is found that preserves
 both the intermediate code and the surrounding record-pointer allocation.
 
-The current source remains the independently verified af931b version:
-two original TC4 rounds reproduce all **445 CODE bytes, 30 literal ordered
+The explicit BX cel calculation remains unchanged in the current
+complete hitcirc source. The latest full-owner proof is af985b: two
+original TC4 rounds reproduce all **445 CODE bytes, 30 literal ordered
 OMF FIXUPP fields and four PUBLIC offsets**, with complete normal MAIN
 image and all 1,553 ordered relocations exact. The other 98 original game
-objects and Borland CRT were reused.
+objects and Borland CRT were reused. The af931b receipt is historical after
+the later HitCircle loop recovery; the cel arithmetic itself was retained.
 
 Protected current-source report:
-.analysis/work/exatt-layout-af931b/report.json, SHA-256
-b45ab57e8467c700c2c03f4840e5f82488d02438dd60ed13116af363bde74243.
+.analysis/work/exatt-layout-af985b/report.json, SHA-256
+000fc1edb8af9c71f4daa3c91f14a9c64825f8fb4b06e89c1b25853d804641a1.

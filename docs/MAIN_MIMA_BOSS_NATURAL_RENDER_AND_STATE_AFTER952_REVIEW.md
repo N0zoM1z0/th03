@@ -54,3 +54,12 @@ The full BOSS had historical source coverage already; this pass improves
 current natural C++ semantics and native-source provenance, not distinct
 original CODE ownership, vendor raw OMF packet identity or canonical Factory
 packed-file acceptance.
+
+
+## Additional natural trail-branch trial
+
+The af987b trial reset the trail frame first, then shared the particle body
+through a natural particle-or-trail condition. The complete ba_mima object
+still changed. Keep the original cross-branch label and goto. The isolated
+af952a report is historical after the current eight-owner integration
+af988b.
