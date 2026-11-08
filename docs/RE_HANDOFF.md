@@ -485,6 +485,12 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
   Replacing those additions with a multiplication changed complete CODE.
+- **Ellen:** the complete 269-byte update controller now scopes its
+  mode dispatch and collision/hitbox tail under the positive
+  `pid_current == gba_boss_launched_by` guard (af1032z). The render-frame
+  postfix increment still precedes the BOSS frame increment; INTRO/EXPLODE
+  returns and Spread/Extra/Pellets ordering are unchanged. See the
+  [after1032 Ellen PID-scope review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 - **Yumemi:** the complete 368-byte update controller now scopes its
   pre-switch origin-coordinate setup, nine-mode dispatch, effect/render
   countdowns and collision/hitbox tail under the positive

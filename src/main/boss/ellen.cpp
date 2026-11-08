@@ -383,78 +383,76 @@ void far gba_boss_update_ellen(void)
 		ellen_pellet_interval = (ELLEN_PELLET_INTERVAL_BASE - (gba_boss_level / ELLEN_PELLET_INTERVAL_DIVISOR));
 	}
 
-	if(pid_current != gba_boss_launched_by) {
-		return;
-	}
+	if(pid_current == gba_boss_launched_by) {
+		pid_other = (1 - pid_current);
+		boss_target_update();
+		boss_render_frame++;
+		++boss_frame;
 
-	pid_other = (1 - pid_current);
-	boss_target_update();
-	boss_render_frame++;
-	++boss_frame;
+		switch(boss_mode) {
+		case ELLEN_MODE_INTRO:
+			if(boss_frame != ELLEN_INTRO_FINISH_FRAME) {
+				return;
+			}
+			boss_frame = 0;
+			boss_mode = ELLEN_MODE_SELECT;
+			break;
 
-	switch(boss_mode) {
-	case ELLEN_MODE_INTRO:
-		if(boss_frame != ELLEN_INTRO_FINISH_FRAME) {
+		case ELLEN_MODE_SELECT:
+			boss_pattern_next();
+			break;
+
+		case ELLEN_MODE_SPREAD_0:
+		case ELLEN_MODE_SPREAD_1:
+		case ELLEN_MODE_SPREAD_2:
+		case ELLEN_MODE_SPREAD_3:
+			ellen_pattern_spread();
+			break;
+
+		case ELLEN_MODE_EXTRA_0:
+		case ELLEN_MODE_EXTRA_1:
+		case ELLEN_MODE_EXTRA_2:
+		case ELLEN_MODE_EXTRA_3:
+		case ELLEN_MODE_EXTRA_4:
+			ellen_pattern_extra();
+			break;
+
+		case ELLEN_MODE_PELLETS_0:
+		case ELLEN_MODE_PELLETS_1:
+		case ELLEN_MODE_PELLETS_2:
+		case ELLEN_MODE_PELLETS_3:
+		case ELLEN_MODE_PELLETS_4:
+		case ELLEN_MODE_PELLETS_5:
+		case ELLEN_MODE_PELLETS_6:
+			ellen_pattern_pellets();
+			break;
+
+		case ELLEN_MODE_DESCEND:
+			boss_fall();
+			break;
+
+		case ELLEN_MODE_EXPLODE:
 			return;
 		}
-		boss_frame = 0;
-		boss_mode = ELLEN_MODE_SELECT;
-		break;
 
-	case ELLEN_MODE_SELECT:
-		boss_pattern_next();
-		break;
+		collmap_center.x.v = boss_center_x;
+		collmap_center.y.v = boss_center_y;
+		collmap_stripe_tile_w.set(ELLEN_COLLISION_TILE_WIDTH);
+		collmap_tile_h.set(ELLEN_COLLISION_TILE_HEIGHT);
+		collmap_pid = pid_other;
+		collmap_set_rect_striped();
 
-	case ELLEN_MODE_SPREAD_0:
-	case ELLEN_MODE_SPREAD_1:
-	case ELLEN_MODE_SPREAD_2:
-	case ELLEN_MODE_SPREAD_3:
-		ellen_pattern_spread();
-		break;
-
-	case ELLEN_MODE_EXTRA_0:
-	case ELLEN_MODE_EXTRA_1:
-	case ELLEN_MODE_EXTRA_2:
-	case ELLEN_MODE_EXTRA_3:
-	case ELLEN_MODE_EXTRA_4:
-		ellen_pattern_extra();
-		break;
-
-	case ELLEN_MODE_PELLETS_0:
-	case ELLEN_MODE_PELLETS_1:
-	case ELLEN_MODE_PELLETS_2:
-	case ELLEN_MODE_PELLETS_3:
-	case ELLEN_MODE_PELLETS_4:
-	case ELLEN_MODE_PELLETS_5:
-	case ELLEN_MODE_PELLETS_6:
-		ellen_pattern_pellets();
-		break;
-
-	case ELLEN_MODE_DESCEND:
-		boss_fall();
-		break;
-
-	case ELLEN_MODE_EXPLODE:
-		return;
+		hitbox_hittest_skip_explosions = true;
+		hitbox.radius.x.v = ELLEN_COLLISION_HALF_RADIUS;
+		hitbox.radius.y.v = ELLEN_COLLISION_HALF_RADIUS;
+		hitbox.pid = pid_other;
+		hitbox.origin.center.x.v = boss_center_x;
+		hitbox.origin.center.y.v = boss_center_y;
+		boss_hit = hitbox_hittest();
+		boss_hp -= boss_hit;
+		hitbox_hittest_skip_explosions = false;
+		boss_hittest_end();
 	}
-
-	collmap_center.x.v = boss_center_x;
-	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(ELLEN_COLLISION_TILE_WIDTH);
-	collmap_tile_h.set(ELLEN_COLLISION_TILE_HEIGHT);
-	collmap_pid = pid_other;
-	collmap_set_rect_striped();
-
-	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = ELLEN_COLLISION_HALF_RADIUS;
-	hitbox.radius.y.v = ELLEN_COLLISION_HALF_RADIUS;
-	hitbox.pid = pid_other;
-	hitbox.origin.center.x.v = boss_center_x;
-	hitbox.origin.center.y.v = boss_center_y;
-	boss_hit = hitbox_hittest();
-	boss_hp -= boss_hit;
-	hitbox_hittest_skip_explosions = false;
-	boss_hittest_end();
 }
 
 void near pascal ellen_render_strip(int frame_i)
