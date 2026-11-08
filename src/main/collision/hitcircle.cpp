@@ -16,17 +16,17 @@ enum hitcircle_layout_t {
 	HITCIRCLE_FRAMES = (HITCIRCLE_FRAMES_PER_CEL * HITCIRCLE_CELS),
 };
 
+// ZUN quirk: Should *maybe* be [PLAYER_COUNT]? If both players get hit within
+// [HITCIRCLE_FRAMES], the earlier animation is cut off. It's too obvious of an
+// oversight to classify it as a bug, though. The sudden stop of the animation
+// could also be supposed to telegraph that the other player got hit, without
+// having to peek over to the other playfield.
 enum hitcircle_capacity_t {
 	HITCIRCLE_ENEMY_COUNT = 12,
 	HITCIRCLE_PLAYER_COUNT = 1,
 	HITCIRCLE_COUNT = (HITCIRCLE_ENEMY_COUNT + HITCIRCLE_PLAYER_COUNT),
 };
 
-// ZUN quirk: Should *maybe* be [PLAYER_COUNT]? If both players get hit within
-// [HITCIRCLE_FRAMES], the earlier animation is cut off. It's too obvious of an
-// oversight to classify it as a bug, though. The sudden stop of the animation
-// could also be supposed to telegraph that the other player got hit, without
-// having to peek over to the other playfield.
 
 struct HitCircle {
 	uint8_t age; // Alive if ≥1.
@@ -62,7 +62,7 @@ void pascal hitcircles_enemy_add(
 	// This byte ring index must stay postfix: prefix changed actual
 	// original TC4 CODE in the independent af919c negative trial.
 	last_id++;
-	if(last_id >= HITCIRCLE_ENEMY_COUNT) {
+	if(HITCIRCLE_ENEMY_COUNT <= last_id) {
 		last_id = 0;
 	}
 
