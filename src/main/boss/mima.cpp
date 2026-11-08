@@ -360,7 +360,7 @@ void near mima_pattern_trail(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(boss_frame >= MIMA_TRAIL_END) {
+	if(MIMA_TRAIL_END <= boss_frame) {
 		boss_render_mode = MIMA_RMODE_NORMAL;
 		boss_mode = MIMA_MODE_SELECT;
 		boss_frame = 0;

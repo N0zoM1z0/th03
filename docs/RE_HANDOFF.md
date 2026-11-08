@@ -98,6 +98,13 @@ Mima's orbit leaf now spells its inclusive finish test as the constant-first
 fields and nine PUBLICs, with the full Japanese MAIN image and relocations
 exact. See the [after1026 Mima orbit review](MAIN_MIMA_ORBIT_FINISH_COMPARE_AFTER1026_REVIEW.md).
 
+Mima's Trail leaf now uses the same constant-first form for its inclusive end
+frame, after the byte-narrowed modulo phases and optional shot. Stage af1026g
+rebuilt the complete `ba_mima` owner in two original TC4 rounds with all 1,922
+CODE bytes, 277 ordered native fields, nine PUBLICs and the complete Japanese
+MAIN image/relocations exact. See the
+[after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md).
+
 The HitCircle age walk also now uses a direct positive `p->age` guard in
 `hitcircles_update()` instead of a zero-age `continue`. Stage af1025d rebuilt
 the complete `hitcirc` object in two independent original TC4 rounds: 445 CODE
@@ -141,8 +148,9 @@ owner in the stage.
 
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
-(af1025c/af1026a), Mima's orbit finish phase (af1026d), and HitCircle's
-age-update leaf (af1025d), alongside Chiyuri. See
+(af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g), and
+HitCircle's age-update leaf (af1025d), alongside Chiyuri. See
+[the after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md),
 [the after1026 Mima orbit review](MAIN_MIMA_ORBIT_FINISH_COMPARE_AFTER1026_REVIEW.md),
 [the after1025 HitCircle update review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md),
 [the after1025 Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md),
