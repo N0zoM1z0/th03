@@ -349,27 +349,27 @@ void near yumemi_pattern_cross_rings(void)
 {
 	boss_move_sine();
 
-	if(0 == (boss_frame % yumemi_cross_interval)) {
+	if(!(boss_frame % yumemi_cross_interval)) {
 		bullet_template.group = BG_4_RING;
 		bullet_template.speed.v = TO_SP(2);
-		bullet_template.type = (1 + randring_far_next16_and(1));
+		bullet_template.type = 1 + randring_far_next16_and(1);
 
 		bullet_template.angle = randring_far_next16();
 		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = (boss_center_y - YUMEMI_CROSS_RING_DISPLACEMENT);
+		bullet_template.center.y.v = (-YUMEMI_CROSS_RING_DISPLACEMENT + boss_center_y);
 		bullets_add();
 
 		bullet_template.angle = randring_far_next16();
-		bullet_template.center.y.v = (boss_center_y + YUMEMI_CROSS_RING_DISPLACEMENT);
+		bullet_template.center.y.v = (YUMEMI_CROSS_RING_DISPLACEMENT + boss_center_y);
 		bullets_add();
 
 		bullet_template.angle = randring_far_next16();
-		bullet_template.center.x.v = (boss_center_x - YUMEMI_CROSS_RING_DISPLACEMENT);
+		bullet_template.center.x.v = (-YUMEMI_CROSS_RING_DISPLACEMENT + boss_center_x);
 		bullet_template.center.y.v = boss_center_y;
 		bullets_add();
 
 		bullet_template.angle = randring_far_next16();
-		bullet_template.center.x.v = (boss_center_x + YUMEMI_CROSS_RING_DISPLACEMENT);
+		bullet_template.center.x.v = (YUMEMI_CROSS_RING_DISPLACEMENT + boss_center_x);
 		bullets_add();
 	}
 

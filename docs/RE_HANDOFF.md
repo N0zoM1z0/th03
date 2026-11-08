@@ -616,6 +616,14 @@ Yumemi object in two original TC4 rounds, with all 343 ordered native fields,
 ten PUBLICs and the Japanese MAIN image/relocations exact. See the
 [after1051 Yumemi update/render review](MAIN_YUMEMI_UPDATE_AND_MAIN_RENDER_NATURAL_CPP_AFTER1051_REVIEW.md).
 
+Yumemi's four-way cross-ring producer now uses natural base-first X/Y
+coordinates and a remainder truth test while retaining all four separate RNG
+angle draws and bullet additions in their original order. Stage af1052f
+rebuilt the complete 2,358-byte Yumemi owner in two original TC4 rounds, with
+all 343 ordered native fields, ten PUBLICs and the Japanese MAIN
+image/relocations exact. See the
+[after1052 Yumemi cross-ring review](MAIN_YUMEMI_CROSS_RING_NATURAL_CPP_AFTER1052_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
