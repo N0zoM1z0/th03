@@ -393,7 +393,7 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.type = BT_PELLET;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		for(i = 0; i < chiyuri_fan_count; ++i) {
+		for(i = 0; i < chiyuri_fan_count; i++) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -411,7 +411,7 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
 		}
 
-		for(i = 0; i < chiyuri_fan_count; ++i) {
+		for(i = 0; i < chiyuri_fan_count; i++) {
 			bullet_template.center.x.v = (
 				boss_center_x -
 				TO_SP(56) +
@@ -444,7 +444,7 @@ void near chiyuri_pattern_fans(void)
 	bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 	bullet_template.speed.v = chiyuri_fan_speed;
 
-	for(i = 0; i < chiyuri_fan_count; ++i) {
+	for(i = 0; i < chiyuri_fan_count; i++) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
@@ -458,7 +458,7 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.speed.v = bullet_template.speed.v + CHIYURI_FAN_SPEED_STEP;
 	}
 
-	for(i = 0; i < chiyuri_fan_count; ++i) {
+	for(i = 0; i < chiyuri_fan_count; i++) {
 		bullet_template.center.y.v = (
 			boss_center_y -
 			TO_SP(56) +
