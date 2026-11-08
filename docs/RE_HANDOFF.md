@@ -507,6 +507,12 @@ CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
 rounds and the complete Japanese MAIN image/relocations exact. See the
 [current after1036u nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1036U_REVIEW.md).
 
+After the Chiyuri Fans and Kotohime Radial/Update refinements were integrated
+with all nine current BOSS owners, the full nine-owner set was rebuilt again
+at af1037t: 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs,
+with two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [current after1037t nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1037T_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
