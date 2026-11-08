@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af960a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af961c`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,6 +56,14 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Rikako major-BOSS source-current follow-up: `af961c`.** The
+  complete eight-function `ba_rikak` BOSS was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,677 CODE bytes, 215
+  ordered OMF FIXUPPs and eight PUBLICs**, with all 124,642 Japanese
+  loaded bytes and 1,553 ordered MZ relocations exact. The other 98 original
+  game objects and CRT were reused. See [Rikako BOSS native C++ after961](MAIN_RIKAKO_BOSS_TEMPLATE_LEVEL_RENDER_AFTER961_REVIEW.md).
+  Protected report: `.analysis/work/exatt-layout-af961c/report.json`,
+  SHA-256 `9fcbae796cef4dca161be6373e8d97e0c6d34c65c6243e717a2438929ffb5987`.
 - **Latest Ellen major-BOSS source-current follow-up: `af960a`.** The
   complete nine-function `ba_ellen` BOSS was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,675 CODE bytes, 213
@@ -110,6 +118,7 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af961c` | 1 | 1,677 |
 | `af960a` | 1 | 1,675 |
 | `af959b` | 1 | 2,654 |
 | `af956a` | 1 | 2,358 |
@@ -254,6 +263,7 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
+- [Latest Rikako BOSS source/native follow-up](MAIN_RIKAKO_BOSS_TEMPLATE_LEVEL_RENDER_AFTER961_REVIEW.md)
 - [Latest Ellen BOSS source/native follow-up](MAIN_ELLEN_BOSS_TEMPLATE_RENDER_AFTER960_REVIEW.md)
 - [Latest Chiyuri BOSS source/native follow-up](MAIN_CHIYURI_BOSS_TEMPLATE_RENDER_AFTER959_REVIEW.md)
 - [Latest Yumemi BOSS source/native follow-up](MAIN_YUMEMI_BOSS_NATURAL_RENDER_AND_TEMPLATE_AFTER956_REVIEW.md)

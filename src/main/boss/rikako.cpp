@@ -110,27 +110,85 @@ enum rikako_render_timing_t {
     RIKAKO_RENDER_INTRO_H = 24,
 };
 
+enum rikako_template_layout_t {
+    RIKAKO_TEMPLATE_CENTER_X = 0x900,
+    RIKAKO_TEMPLATE_CENTER_Y = 0x500,
+    RIKAKO_TEMPLATE_VELOCITY_X = -0x20,
+    RIKAKO_TEMPLATE_HP = 0x6E,
+    RIKAKO_TEMPLATE_SPIN = 4,
+    RIKAKO_TEMPLATE_SPRITE_OFF = 0x286,
+    RIKAKO_TEMPLATE_PLAYER2_OFF = 0x28,
+};
+
+enum rikako_render_layout_t {
+    RIKAKO_RENDER_HIT_SPRITE_OFF = 0x0C,
+    RIKAKO_RENDER_RING_CENTER_OFF = 40,
+    RIKAKO_RENDER_RING_SPRITE_BASE = 0x167E,
+    RIKAKO_RENDER_RING_SPRITE_STEP = 2,
+    RIKAKO_RENDER_INTRO_RADIUS = 0xC80,
+    RIKAKO_INTRO_RAD_SCALE_A = 2,
+    RIKAKO_INTRO_RAD_SCALE_B = 16,
+    RIKAKO_RENDER_INTRO_SPRITE_BASE = 0x780,
+    RIKAKO_RENDER_INTRO_SPRITE_ALT = 0x780,
+    RIKAKO_RENDER_INTRO_LEFT_HALF = 24,
+    RIKAKO_RENDER_INTRO_TOP_SHIFT = 4,
+    RIKAKO_RENDER_INTRO_TOP_BIAS = 8,
+    RIKAKO_RENDER_INTRO_ANGLE_SCALE = 4,
+};
+
+enum rikako_level_scaling_t {
+    RIKAKO_ORBIT_COUNT_DIV = 2,
+    RIKAKO_ORBIT_COUNT_BASE = 0x10,
+    RIKAKO_ENTITY_COUNT_DIV = 4,
+    RIKAKO_ENTITY_COUNT_BASE = 8,
+    RIKAKO_PELLET_COUNT_DIV = 2,
+    RIKAKO_PELLET_COUNT_BASE = 0x1C,
+    RIKAKO_BURST_INTERVAL_BASE = 0x20,
+    RIKAKO_BURST_SPEED_BASE = 0x40,
+};
+
+enum rikako_spin_limits_t {
+    RIKAKO_SPIN_POSITIVE_LIMIT = 8,
+    RIKAKO_SPIN_NEGATIVE_LIMIT = -8,
+    RIKAKO_SPIN_NEUTRAL = 2,
+};
+
+enum rikako_render_state_t {
+    RIKAKO_RENDER_MODE_NORMAL = 0,
+    RIKAKO_RENDER_RING_STATIC_OFF = 0x284,
+};
+
+enum rikako_orbit_angle_t {
+    RIKAKO_ORBIT_ANGLE_DELTA = 0x30,
+    RIKAKO_ORBIT_ANGLE_DELTA_NEG = -0x30,
+};
+
+enum rikako_sound_effect_t {
+    RIKAKO_SOUND_BOMB = 5,
+    RIKAKO_SOUND_BULLET = 10,
+};
+
 void far pascal boss_rikako_template_init(int player_id)
 {
 	boss_template_state_t near *p =
 		&boss_character_template[player_id];
 
-	p->center_x = 0x900;
-	p->center_y = 0x500;
-	p->velocity_x = -0x20;
+	p->center_x = RIKAKO_TEMPLATE_CENTER_X;
+	p->center_y = RIKAKO_TEMPLATE_CENTER_Y;
+	p->velocity_x = RIKAKO_TEMPLATE_VELOCITY_X;
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
-	p->hp = 0x6E;
+	p->mode = RIKAKO_MODE_INTRO;
+	p->hp = RIKAKO_TEMPLATE_HP;
 	p->pattern_i = 0;
-	p->spin_delta = 4;
+	p->spin_delta = RIKAKO_TEMPLATE_SPIN;
 	p->effect_radius = 0;
-	p->sprite_offset = 0x286;
+	p->sprite_offset = RIKAKO_TEMPLATE_SPRITE_OFF;
 	if(player_id != 0) {
-		p->sprite_offset += 0x28;
+		p->sprite_offset += RIKAKO_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = RIKAKO_RENDER_MODE_NORMAL;
 }
 
 // The same 0x10 warning and 0x28 release drive Rikako's orbiting
@@ -152,7 +210,7 @@ void near rikako_pattern_orbit_spread(void)
 
 	// Original unsigned-word 8-frame spin clock accepts the readable
 	// if(!remainder), distinct from the signed byte spin delta.
-	if(boss_spin_delta <= 8) {
+	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT) {
 		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta++;
 		}
@@ -180,8 +238,8 @@ void near rikako_pattern_orbit_spread(void)
 
 		angle_delta = (
 			randring_far_next16_and(1)
-			? 0x30
-			: (signed char)-0x30
+			? RIKAKO_ORBIT_ANGLE_DELTA
+			: (signed char)RIKAKO_ORBIT_ANGLE_DELTA_NEG
 		);
 
 		// Original 256-unit angle distribution precedes signed division;
@@ -203,13 +261,13 @@ void near rikako_pattern_orbit_spread(void)
 			bullets_add();
 			++i;
 		}
-		snd_se_play(5);
+		snd_se_play(RIKAKO_SOUND_BOMB);
 		return;
 	}
 
 	if(boss_frame > RIKAKO_ORBIT_FINISH_AFTER) {
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = RIKAKO_MODE_SELECT;
 	}
 }
 
@@ -225,7 +283,7 @@ void near rikako_pattern_entities_and_pellets(void)
 	unsigned char angle;
 	register int i;
 
-	if(boss_spin_delta >= -8) {
+	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT) {
 		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta--;
 		}
@@ -261,7 +319,7 @@ void near rikako_pattern_entities_and_pellets(void)
 			);
 			++i;
 		}
-		snd_se_play(5);
+		snd_se_play(RIKAKO_SOUND_BOMB);
 		return;
 	}
 
@@ -283,13 +341,13 @@ void near rikako_pattern_entities_and_pellets(void)
 			bullets_add();
 			++i;
 		}
-		snd_se_play(10);
+		snd_se_play(RIKAKO_SOUND_BULLET);
 		return;
 	}
 
 	if(boss_frame > RIKAKO_ENTITIES_FINISH_AFTER) {
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = RIKAKO_MODE_SELECT;
 	}
 }
 
@@ -309,9 +367,9 @@ void near rikako_pattern_alternating_burst(void)
 
 	boss_move_sine();
 
-	if(boss_spin_delta != 2) {
+	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL) {
 		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-			boss_spin_delta += ((boss_spin_delta > 2) ? -1 : 1);
+			boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
 		}
 	}
 
@@ -334,7 +392,7 @@ void near rikako_pattern_alternating_burst(void)
 		(remainder == RIKAKO_BURST_THIRD) ||
 		(remainder == RIKAKO_BURST_FOURTH)
 	) {
-		snd_se_play(10);
+		snd_se_play(RIKAKO_SOUND_BULLET);
 		bullets_add();
 
 		bullet_template.angle = (rikako_random_angle + RIKAKO_BURST_HALF_TURN);
@@ -342,7 +400,7 @@ void near rikako_pattern_alternating_burst(void)
 	}
 
 	if(boss_frame >= RIKAKO_BURST_FINISH_FRAME) {
-		boss_mode = 1;
+		boss_mode = RIKAKO_MODE_SELECT;
 		boss_frame = 0;
 	}
 }
@@ -352,11 +410,11 @@ void far gba_boss_update_rikako(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		rikako_orbit_count = ((gba_boss_level / 2) + 0x10);
-		rikako_entity_count = ((gba_boss_level / 4) + 8);
-		rikako_pellet_count = ((gba_boss_level / 2) + 0x1C);
-		rikako_burst_interval = (0x20 - gba_boss_level);
-		rikako_burst_speed = (gba_boss_level + 0x40);
+		rikako_orbit_count = ((gba_boss_level / RIKAKO_ORBIT_COUNT_DIV) + RIKAKO_ORBIT_COUNT_BASE);
+		rikako_entity_count = ((gba_boss_level / RIKAKO_ENTITY_COUNT_DIV) + RIKAKO_ENTITY_COUNT_BASE);
+		rikako_pellet_count = ((gba_boss_level / RIKAKO_PELLET_COUNT_DIV) + RIKAKO_PELLET_COUNT_BASE);
+		rikako_burst_interval = (RIKAKO_BURST_INTERVAL_BASE - gba_boss_level);
+		rikako_burst_speed = (gba_boss_level + RIKAKO_BURST_SPEED_BASE);
 	}
 
 	if(pid_current != gba_boss_launched_by) {
@@ -374,7 +432,7 @@ void far gba_boss_update_rikako(void)
 			return;
 		}
 		boss_frame = 0;
-		boss_mode = 1;
+		boss_mode = RIKAKO_MODE_SELECT;
 		break;
 
 	case RIKAKO_MODE_SELECT:
@@ -460,15 +518,15 @@ void near rikako_render_main(void)
 
 	sprite_offset = boss_sprite_offset;
 	if(boss_hit) {
-		sprite_offset += 0x0C;
+		sprite_offset += RIKAKO_RENDER_HIT_SPRITE_OFF;
 	}
 	sprite16_put(left, top, sprite_offset);
 
 	sprite16_put_size.w = RIKAKO_RENDER_RING_W;
 	sprite16_put_size.h = RIKAKO_RENDER_RING_H;
 	angle = boss_render_frame;
-	left += 40;
-	top += 40;
+	left += RIKAKO_RENDER_RING_CENTER_OFF;
+	top += RIKAKO_RENDER_RING_CENTER_OFF;
 
 	// Native original sprite loop accepts signed-index C++ while,
 	// but its %4 MUST explicitly promote that signed `i` to unsigned:
@@ -481,9 +539,9 @@ void near rikako_render_main(void)
 		// This signed *index* needs unsigned promotion before %4;
 		// plain signed modulo changed original CODE (af904e).
 		if(static_cast<unsigned int>(i) % RIKAKO_RING_ANIM_PERIOD) {
-			sprite_offset = (((static_cast<unsigned int>(i) % RIKAKO_RING_ANIM_PERIOD) * 2) + 0x167E);
+			sprite_offset = (((static_cast<unsigned int>(i) % RIKAKO_RING_ANIM_PERIOD) * RIKAKO_RENDER_RING_SPRITE_STEP) + RIKAKO_RENDER_RING_SPRITE_BASE);
 		} else {
-			sprite_offset = 0x284;
+			sprite_offset = RIKAKO_RENDER_RING_STATIC_OFF;
 		}
 
 		sprite16_put(
@@ -511,7 +569,7 @@ void near rikako_render_intro(void)
 	register int i;
 	register screen_x_t left;
 
-	radius = (0xC80 - ((boss_frame * 2) * 16));
+	radius = (RIKAKO_RENDER_INTRO_RADIUS - ((boss_frame * RIKAKO_INTRO_RAD_SCALE_A) * RIKAKO_INTRO_RAD_SCALE_B));
 
 	sprite16_put_size.w = RIKAKO_RENDER_INTRO_W;
 	sprite16_put_size.h = RIKAKO_RENDER_INTRO_H;
@@ -520,12 +578,12 @@ void near rikako_render_intro(void)
 		return;
 	}
 
-	sprite_offset = (pid.so_attack + 0x780);
+	sprite_offset = (pid.so_attack + RIKAKO_RENDER_INTRO_SPRITE_BASE);
 	if(boss_frame % RIKAKO_INTRO_BLINK_PERIOD) {
-		sprite_offset += 0x780;
+		sprite_offset += RIKAKO_RENDER_INTRO_SPRITE_ALT;
 	}
 
-	angle = ((unsigned char)boss_frame * 4);
+	angle = ((unsigned char)boss_frame * RIKAKO_RENDER_INTRO_ANGLE_SCALE);
 	// Preserve binary zero-minus: the superficially natural unary
 	// -angle changed native CODE again in independent af862d.
 	angle = (0 - angle);
@@ -548,12 +606,12 @@ void near rikako_render_intro(void)
 			playfield_fg_x_to_screen(
 				left,
 				(1 - pid_current)
-			) - 24
+			) - RIKAKO_RENDER_INTRO_LEFT_HALF
 		);
 		// The original signed AX shift and ADD AX,-8 both arise naturally
 		// from this local assignment; passing it as an inline argument
 		// instead changes TC4 CODE (af763c).
-		top = static_cast<screen_y_t>((top >> 4) - 8);
+		top = static_cast<screen_y_t>((top >> RIKAKO_RENDER_INTRO_TOP_SHIFT) - RIKAKO_RENDER_INTRO_TOP_BIAS);
 		sprite16_put(left, top, sprite_offset);
 		++i;
 		angle = angle + RIKAKO_RENDER_INTRO_ANGLE_STEP;
