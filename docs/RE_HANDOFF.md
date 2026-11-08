@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af1004a`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af1007a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -81,7 +81,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Twelve-owner integration after1001](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af1001e/report.json,
   SHA-256 139acc3f4f193d073a638043e0d1f2323b8e7ff83b9612bd8c0844988d54eeb6.
-- **Latest twelve-owner MAIN integration: `af1004a`.**
+- **Earlier twelve-owner MAIN integration: `af1004a`.**
   Two independent original TC4 4.02 rounds rebuilt all nine major BOSS
   owners with complete Hitbox, HitCircle and explosion-chain owners:
   **18,792 CODE bytes, 2,546 ordered OMF FIXUPPs and 91 PUBLICs**. Both
@@ -94,6 +94,35 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   and [Earlier twelve-owner integration after1001](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af1004a/report.json,
   SHA-256 958570ce186dc75e33a10d0b63d6a90edfd8c7ef1f63defbc2626e41c4b646c9.
+- **Latest twelve-owner MAIN integration: `af1007a`.**
+  Two independent original TC4 4.02 rounds rebuilt all nine major BOSS
+  owners with complete Hitbox, HitCircle and explosion-chain owners:
+  **18,792 CODE bytes, 2,546 ordered OMF FIXUPPs and 91 PUBLICs**. Both
+  complete normal MAIN links reproduce all 124,642 Japanese loaded bytes
+  and 1,553 ordered MZ relocations, reusing the other 87 original game
+  objects and Borland CRT. The new source changes naturalize Kotohime's
+  ring emitter and nested radial-burst loops, plus all four Chiyuri fan
+  passes and their horizontal/vertical dispatch. See
+  [Kotohime and Chiyuri nested for recovery](MAIN_KOTOHIME_CHIYURI_NATURAL_NESTED_FOR_AFTER1007_REVIEW.md)
+  and [Earlier six-BOSS phase chains](MAIN_SIX_BOSS_NATURAL_PHASE_CHAINS_AFTER1004_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af1007a/report.json,
+  SHA-256 fffad35d10b614090bc408d14cfba5794ebd452a312788299a49a09feafd3b50.
+- **Current Kotohime complete BOSS source proof: `af1006g`.**
+  The complete 11-function ba_koto owner preserves **1,840 CODE bytes,
+  262 ordered OMF FIXUPPs and 11 PUBLICs** with the natural ring-emitter
+  and nested radial-burst for-loops. Two original TC4 rounds and normal
+  MAIN links match. See
+  [Kotohime and Chiyuri nested for recovery](MAIN_KOTOHIME_CHIYURI_NATURAL_NESTED_FOR_AFTER1007_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af1006g/report.json,
+  SHA-256 000d8a1b91179226d194eede2b4109847797e653e4a3cd11a2dce12751163b97.
+- **Current Chiyuri complete BOSS source proof: `af1006h`.**
+  The complete 11-PUBLIC ba_chiyu owner preserves **2,654 CODE bytes and
+  381 ordered OMF FIXUPPs** with four natural fan for-loops and an explicit
+  mutually exclusive axis chain. Two original TC4 rounds and normal MAIN
+  links match. See
+  [Kotohime and Chiyuri nested for recovery](MAIN_KOTOHIME_CHIYURI_NATURAL_NESTED_FOR_AFTER1007_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af1006h/report.json,
+  SHA-256 bb1dae5e061eb186ffdf57e92d4fc0a5d8d2015331628c931f57b85ee61df554.
 - **Earlier explosion-chain collision source proof: `af997e`.**
   The complete far-__cdecl e_expl owner was rebuilt in two independent
   original TC4 4.02 rounds and complete normal MAIN links: **630 CODE
@@ -367,7 +396,7 @@ kept as historical receipts below:
 
 | Native proof stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
-| `af1004a` | 12 | 18,792 |
+| `af1007a` | 12 | 18,792 |\n| `af1006g` | 1 | 1,840 |\n| `af1006h` | 1 | 2,654 |\n| `af1004a` | 12 | 18,792 |
 | `af1003f` | 1 | 1,431 |
 | `af1003e` | 1 | 1,874 |
 | `af1003d` | 1 | 1,675 |
@@ -411,14 +440,14 @@ current e_expl proof af997e; the original while-based traversal is retained
 in that historical note, not the current source.
 Hitbox af986b and earlier af983c are historical after current source proof
 af998d; the split early-return form remains in its historical review.
-The twelve-owner integration af1001e is now historical after the current
-twelve-owner integration af1004a. Mima af1001c is historical after the
-newer complete-BOSS phase-chain proof af1002d and the af1004a integration. The latter includes natural attack
-phase-chain improvements across six complete BOSS owners and rechecks all
-twelve owners together. The nine-owner integration af993d and earlier
-individual BOSS receipts remain useful historical compiler trials.
-The older explosion and Hitbox source receipts are likewise superseded as
-current-source bindings by af1004a.
+The twelve-owner integration af1004a is now historical after the current
+twelve-owner integration af1007a. The latter includes the six-BOSS attack
+phase chains plus the new Kotohime and Chiyuri loop recoveries, and rechecks
+all twelve owners together. Mima af1001c is historical after the newer
+complete-BOSS phase-chain proof af1002d. The nine-owner integration af993d
+and earlier individual BOSS receipts remain useful historical compiler
+trials. The older explosion and Hitbox source receipts are likewise
+superseded as current-source bindings by af1007a.
 
 Compiler-sensitive negative results remain important. Reimu af981b/af981d
 loop variants and unary negative-angle form changed complete CODE; the
@@ -433,7 +462,7 @@ variants, plus af984c explicit signed-orbit cast, are preserved negative
 compiler results. HitCircle cel local/register arithmetic trials af976b-f, af987a/af989a-b
 and af993e changed complete CODE; retain the verified BX sequence.
 
-Current source bindings: af1004a for all nine major BOSSes, Hitbox,
+Current source bindings: af1007a for all nine major BOSSes, Hitbox,
 HitCircle and e_expl; af964e remains the current Fireball source proof.
 HitCircle af931b and
 older af919g/af921a receipts are historical after af985b. Hitbox af983c
@@ -570,7 +599,8 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current twelve-owner MAIN integration and six-BOSS phase chains](MAIN_SIX_BOSS_NATURAL_PHASE_CHAINS_AFTER1004_REVIEW.md)
+- [Current twelve-owner MAIN integration and Kotohime/Chiyuri nested loops](MAIN_KOTOHIME_CHIYURI_NATURAL_NESTED_FOR_AFTER1007_REVIEW.md)
+- [Earlier twelve-owner MAIN integration and six-BOSS phase chains](MAIN_SIX_BOSS_NATURAL_PHASE_CHAINS_AFTER1004_REVIEW.md)
 - [Earlier twelve-owner MAIN integration](MAIN_TWELVE_OWNER_INTEGRATION_AFTER1001_REVIEW.md)
 - [Earlier Mima trail-byte and hit-render source](MAIN_MIMA_NATURAL_TRAIL_BYTE_AND_HIT_RENDER_AFTER1001_REVIEW.md)
 - [Current HitCircle cel register and VRAM stride](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md)
