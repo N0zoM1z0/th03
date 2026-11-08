@@ -12,6 +12,12 @@ the paired horizontal-symmetric bullet emissions; the second remains after
 the optional medium-pellet pair. The original 16-bit frame gates, byte
 truncation, projectile ordering and all nine BOSS functions are unchanged.
 
+The separate signed orbit-steering byte remains compound `+=`. A fresh
+full-object trial using an explicit `(unsigned char)(angle + signed_delta)`
+assignment still changed the original CODE; the compiler-sensitive signed
+byte operation is not generalized from the two successful unsigned-angle
+updates above.
+
 ## Original compiler verification
 
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
