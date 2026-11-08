@@ -513,6 +513,12 @@ at af1037t: 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs,
 with two original TC4 rounds and the complete Japanese MAIN image/relocations
 exact. See the [current after1037t nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1037T_REVIEW.md).
 
+After the latest Chiyuri Update arithmetic and local-lifetime refinements were
+integrated with all nine current BOSS owners, the full nine-owner set was
+rebuilt again at af1038x: 17,451 CODE bytes, 2,434 ordered native fields and
+85 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the [current after1038x nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1038X_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
