@@ -156,8 +156,10 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
 Recommended next targets:
 
 1. Continue the HitCircle::cel() leaf. Explore natural C++ forms without
-   disturbing the observed BX/AX register sequence; previous local arithmetic
-   and multiply-return attempts changed CODE.
+   disturbing the observed BX/AX register sequence. The af1025e signed
+   `register int` and af1025f ordinary signed `int` sequential-local variants
+   both changed the complete `hitcirc` CODE and were reverted; see the
+   [after1025 HitCircle review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md).
 2. Continue Kotohime Radial Burst's actual center/angle/speed arithmetic and
    variable lifetimes, not just more cosmetic predicate rewrites.
 3. Continue Mima's shared Trail/Particle renderer and Chiyuri's four fan

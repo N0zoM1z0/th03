@@ -25,3 +25,18 @@ reproduce the original Japanese loaded image and ordered MZ relocations.
 Protected report: `.analysis/work/exatt-layout-af1025d/report.json`
 
 SHA-256: `6f687da2688a861ee63e1943b7eb362691a48bd2f4665410075afe1f122809e6`
+
+## Additional `HitCircle::cel()` leaf probes
+
+Two more natural-local variants were tested against the complete `hitcirc`
+object after this update:
+
+- `af1025e`: a sequential `register int cel` local for `(age - 1)`, `/ 4`,
+  `* 2`, then three additions. The complete CODE payload differed.
+- `af1025f`: the same sequential arithmetic with an ordinary signed `int`
+  local. The complete CODE payload differed.
+
+Both experiments were reverted. The existing explicit `_BX` sequence remains
+in the source; neither local-variable form is a valid native replacement. The
+leaf is still open for further disassembly-led exploration, not considered
+semantically finished merely because its current bytes are exact.
