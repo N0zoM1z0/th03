@@ -52,6 +52,11 @@ Gauge, charged-fireball and BOSS side-effect order are unchanged.
 - The byte animation %4 replacement, strict <255 saturation and
   prefix explosion-flag mutation remain known negative compiler results
   from the earlier af902/af846 experiments.
+- af1000b tried to merge both geometry tests, the intermediate diameter
+  expansion and both coordinate additions into one comma-expression guard.
+  The complete e_expl CODE changed. Keep the two geometry guards separate:
+  the first tests radius bounds, then the routine expands to diameter and
+  mutates x/y before the second test.
 
 ## Complete original-object verification
 

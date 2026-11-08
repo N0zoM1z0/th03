@@ -1,11 +1,11 @@
 # TH03 MAIN HitCircle: TC4 register allocation blocks natural cel arithmetic
 
-The four-frame HitCircle sprite-cel calculation still needs the original
-explicit BX register sequence. The maintained source computes
-(age - 1) / 4, scales the cel by six VRAM bytes, and returns the sprite bank
-offset. The original 445-byte hitcirc object uses BX for the intermediate
-word while keeping the HitCircle record pointer in SI and the loop index
-in DI.
+The four-frame HitCircle sprite-cel calculation now uses a natural
+self-assignment for division while preserving the original BX register
+sequence. The maintained source computes (age - 1) / 4, scales the cel by
+six VRAM bytes, and returns the sprite bank offset. The original 445-byte
+hitcirc object uses BX for the intermediate word while keeping the
+HitCircle record pointer in SI and the loop index in DI.
 
 Several fresh attempts tried to express that work as ordinary C++:
 
@@ -40,21 +40,37 @@ Several fresh attempts tried to express that work as ordinary C++:
   the loop index to a stack slot; it also emitted a four-byte ENTER frame
   and reduced the complete object to **443 CODE bytes**. The explicit BX
   sequence remains necessary for the original SI/DI lifetime and code.
+- af999a replaced the division assignment with _BX >>= 2. TC4 shifted
+  BX directly, whereas the original sequence copies BX to AX, shifts AX,
+  then copies the result back to BX. The complete object changed.
+- af999b combined (age - 1) / 4 into the initial BX assignment. TC4
+  removed the original BX-to-AX round trip before SHR, changing CODE.
+- af999c expressed the division as _BX = (_BX / HITCIRCLE_FRAMES_PER_CEL).
+  This ordinary self-assignment preserves the original BX/AX round trip
+  and reproduces the complete 445-byte object in two original compiler
+  rounds.
+- af999d changed the following multiply to _BX = (_BX * 2); this altered
+  the original IMUL/register sequence. Keep _BX *= 2.
+- af999e tried _BX * 3 in the return expression, af999f tried
+  _BX + (_BX << 1), and af1000a tried 2 * _BX for the scale step.
+  All three changed complete CODE; retain the three original BX additions
+  and the compound multiply.
 
 The direct formula is cleaner algebraically but does not reproduce the
 original target's intentionally unoptimized multiply/add sequence. The
-register-local variants also change SI/DI lifetime and stack layout. Keep
-the explicit BX sequence until a natural expression is found that preserves
-both the intermediate code and the surrounding record-pointer allocation.
+register-local variants also change SI/DI lifetime and stack layout. The
+self-division assignment is the useful exception: it is natural C++ and
+keeps the original intermediate BX/AX code without changing the surrounding
+record-pointer allocation. The multiply and return expression remain in
+their original forms.
 
-The explicit BX cel calculation remains unchanged in the current
-complete hitcirc source. The latest full-owner proof is af985b: two
+The current self-division assignment is source-bound to af999c: two
 original TC4 rounds reproduce all **445 CODE bytes, 30 literal ordered
 OMF FIXUPP fields and four PUBLIC offsets**, with complete normal MAIN
 image and all 1,553 ordered relocations exact. The other 98 original game
-objects and Borland CRT were reused. The af931b receipt is historical after
-the later HitCircle loop recovery; the cel arithmetic itself was retained.
+objects and Borland CRT were reused. The earlier af985b proof is historical
+after this source improvement.
 
 Protected current-source report:
-.analysis/work/exatt-layout-af985b/report.json, SHA-256
-000fc1edb8af9c71f4daa3c91f14a9c64825f8fb4b06e89c1b25853d804641a1.
+.analysis/work/exatt-layout-af999c/report.json, SHA-256
+fce7038dc10ab00c9b42e0a8d62c912b929e2fb93653b95518d6d51bddf5ad88.
