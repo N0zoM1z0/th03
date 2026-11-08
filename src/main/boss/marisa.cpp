@@ -294,7 +294,7 @@ void near marisa_pattern_ring(void)
 
 			// Preserve the signed 16-bit promotion/division of the byte
 			// ring count. Explicit unsigned widening changed CODE (af881h).
-			bullet_template.angle += (MARISA_RING_FULL_TURN / marisa_ring_count);
+			bullet_template.angle = bullet_template.angle + (MARISA_RING_FULL_TURN / marisa_ring_count);
 			bullet_template.count = marisa_cloud_count_high;
 		}
 		bullet_template.speed.v = marisa_cloud_speed;
@@ -442,14 +442,14 @@ void near marisa_render_main(void)
 	top = ((boss_center_y >> 4) - MARISA_RENDER_MAIN_TOP_OFFSET);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_hit) {
+	if(boss_hit != 0) {
 		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
 		left += 64;
 		top += 16;
 		sprite16_put(left, top, (boss_sprite_offset + MARISA_RENDER_HIT_SPRITE_OFFSET));
 		return;
 	}
-	if(boss_render_mode != 1) {
+	if(boss_render_mode != MARISA_RENDER_MODE_ATTACK) {
 		return;
 	}
 	if(
