@@ -368,10 +368,12 @@ void near kotohime_pattern_radial_burst(void)
 		// Original inner burst is a genuine nested O(center_count *
 		// burst_count) traversal, retaining division before angle truncation.
 		// Both natural for-headers preserve the original TC4 code.
-		for(int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
-			int x;
-			int y;
-			unsigned char center_angle;
+		int x;
+		int y;
+		unsigned char center_angle;
+		int bullet_i;
+		int center_i;
+		for(center_i = 0; center_i < kotohime_orbit_count; center_i++) {
 
 			center_angle = (
 				((center_i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
@@ -390,7 +392,7 @@ void near kotohime_pattern_radial_burst(void)
 			bullet_template.center.x.v = x;
 			bullet_template.center.y.v = y;
 
-			for(int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
+			for(bullet_i = 0; bullet_i < kotohime_burst_count; bullet_i++) {
 				bullet_template.angle = (
 					((bullet_i * KOTOHIME_BURST_HALF_TURN_STEPS) / kotohime_burst_count) +
 					center_angle +
