@@ -485,6 +485,13 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
   Replacing those additions with a multiplication changed complete CODE.
+- **Yumemi:** the complete 368-byte update controller now scopes its
+  pre-switch origin-coordinate setup, nine-mode dispatch, effect/render
+  countdowns and collision/hitbox tail under the positive
+  `pid_current == gba_boss_launched_by` guard (af1032x). Its bullet PID
+  assignment remains before `boss_target_update()`, and all INTRO sound,
+  early-return and attack ordering is unchanged. See the
+  [after1032 Yumemi PID-scope review](MAIN_YUMEMI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 - **Marisa:** the complete 269-byte update controller now scopes its
   mode switch and collision/hitbox tail under the positive
   `pid_current == gba_boss_launched_by` guard (af1032v). Its INTRO/EXPLODE
