@@ -358,8 +358,12 @@ owner in the stage.
 
 ## Latest source recovery and next work
 
-The latest source work includes the shared BOSS pattern selector's natural
-rejection loop (af1025a), two large Kotohime update-controller guards
+The latest source work includes the shared BOSS explosion ring's two
+natural `for` loops, base-first sprite placement, named length/secondary-radius
+scales, explicit byte casts and constant-first predicates (af1045a/b/c/d/e/f/g/h/i/j/k/l/m/n/q/r). The `register` angle is exact, while register X/Y scratch locals and explicit `length = length * scale` changed CODE and were rejected. See the
+[after1045 shared explosion-ring review](MAIN_BOSS_SHARED_EXPLOSION_RING_NATURAL_CPP_AFTER1045_REVIEW.md).
+
+The shared BOSS pattern selector's natural rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
 phase guards, positive PID scope, update INTRO branch, positive Spread/Random
 Bomb guards and orbit/Trail finish predicates
@@ -543,6 +547,12 @@ complete BOSS owners and HitCircle were rebuilt together again at af1044n:
 17,896 CODE bytes, 2,464 ordered native fields and 89 PUBLICs, with two
 original TC4 rounds and the complete Japanese MAIN image/relocations exact.
 See the [current after1044n ten-owner integration review](MAIN_TEN_OWNER_CURRENT_INTEGRATION_AFTER1044N_REVIEW.md).
+
+After the shared BOSS explosion-ring refinements were integrated with all
+nine complete BOSS owners and HitCircle, the twelve physical owners were
+rebuilt together at af1045u: 18,845 CODE bytes, 2,570 ordered native fields
+and 97 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the [current after1045u twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1045U_REVIEW.md).
 
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:

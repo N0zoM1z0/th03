@@ -42,8 +42,10 @@ enum boss_shared_limits_t {
     BOSS_RING_SPRITE_SIZE = 48,
     BOSS_RING_SPRITE_HALF = 24,
     BOSS_RING_SECONDARY_SPRITES = 8,
+    BOSS_RING_SECONDARY_RADIUS_SCALE = 2,
     BOSS_RING_SPRITE_OFFSET = 0x1930,
     BOSS_RING_FINISH_RADIUS = 0xC8,
+    BOSS_RING_LENGTH_SCALE = 8,
     BOSS_RING_REWARD = 2560,
     BOSS_RING_START_SOUND = 16,
     BOSS_TARGET_Y_AHEAD = 0x800,
@@ -82,59 +84,53 @@ signed char near pascal boss_explosion_ring(
 {
 	screen_x_t left;
 	screen_y_t top;
-	unsigned char angle;
+	register unsigned char angle;
 	register int i;
 
-	if(length == 1) {
+	if(1 == length) {
 		snd_se_play(BOSS_RING_START_SOUND);
 	}
 
 	x = playfield_fg_x_to_screen(x, (1 - pid_current));
-	y = ((y >> 4) + PLAYFIELD_TOP);
+	y = (PLAYFIELD_TOP + (y >> 4));
 	// Original multiply encoding cannot be replaced by <<=3
 	// (rejected complete original ring in af768d).
 	// Explicit `length = length * 8` changes native CODE (af916g);
 	// keep the original signed-word compound multiplication.
-	length *= 8;
-	angle = length;
+	length *= BOSS_RING_LENGTH_SCALE;
+	angle = static_cast<unsigned char>(length);
 
 	// Native TC4 distinguishes pid_current==1 from if(pid_current)
-    // in this physical ring producer (negative control af708d).
-    // Preserve the target's direct PID comparison instead of expanding the
-	// generic (1 - pid) clip macro through a temporary register.
-	if(pid_current == 1) {
+	// in this physical ring producer (negative control af708d).
+	// Preserve the direct PID comparison rather than expanding the generic
+	// (1 - pid) clip macro through a temporary register.
+	if(1 == pid_current) {
 		sprite16_clip.set_for_pid_0();
 	} else {
 		sprite16_clip.set_for_pid_1();
 	}
 	sprite16_put_size.set(BOSS_RING_SPRITE_SIZE, BOSS_RING_SPRITE_SIZE);
 
-	// Sixteen primary sprites: exact original call order and post-draw
-	// signed index/byte angle increments (native af916a).
-	i = 0;
-	while(i < BOSS_RING_PRIMARY_SPRITES) {
-		left = (polar(x, length, CosTable8[angle]) - BOSS_RING_SPRITE_HALF);
-		top = (polar(y, length, SinTable8[angle]) - BOSS_RING_SPRITE_HALF);
+	// Sixteen primary sprites: the for-header preserves the original
+	// post-draw signed-index then byte-angle update order.
+	for(i = 0; i < BOSS_RING_PRIMARY_SPRITES; ++i, angle += BOSS_RING_PRIMARY_ANGLE_STEP) {
+		left = (-BOSS_RING_SPRITE_HALF + polar(x, length, CosTable8[angle]));
+		top = (-BOSS_RING_SPRITE_HALF + polar(y, length, SinTable8[angle]));
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
-		++i;
-		angle += BOSS_RING_PRIMARY_ANGLE_STEP;
 	}
 
 	// Signed-angle two-operand subtraction remains byte-critical:
 	// direct unary minus changed original CODE (af768e).
-	angle = (0 - (unsigned char)length);
+	angle = static_cast<unsigned char>(0 - static_cast<unsigned char>(length));
 	// Eight secondary sprites at double radius. Binary zero-minus
-	// before this native while differs from unary minus (af916d).
-	i = 0;
-	while(i < BOSS_RING_SECONDARY_SPRITES) {
-		left = (polar(x, (length * 2), CosTable8[angle]) - BOSS_RING_SPRITE_HALF);
-		top = (polar(y, (length * 2), SinTable8[angle]) - BOSS_RING_SPRITE_HALF);
+	// before this for-header differs from unary minus (af916d).
+	for(i = 0; i < BOSS_RING_SECONDARY_SPRITES; ++i, angle += BOSS_RING_SECONDARY_ANGLE_STEP) {
+		left = (-BOSS_RING_SPRITE_HALF + polar(x, (BOSS_RING_SECONDARY_RADIUS_SCALE * length), CosTable8[angle]));
+		top = (-BOSS_RING_SPRITE_HALF + polar(y, (BOSS_RING_SECONDARY_RADIUS_SCALE * length), SinTable8[angle]));
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
-		++i;
-		angle += BOSS_RING_SECONDARY_ANGLE_STEP;
 	}
 
-	if(length >= BOSS_RING_FINISH_RADIUS) {
+	if(BOSS_RING_FINISH_RADIUS <= length) {
 		score_add(BOSS_RING_REWARD, (1 - pid_current));
 		return 0;
 	}
