@@ -132,7 +132,7 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Kana staged volley after974](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af974c/report.json,
   SHA-256 ac9f32893af05350b6880577f39229e1e8a3e4dc06b2746d324706aa084dc206.
-- **Latest Hitbox source-current follow-up: `af986b`.** The complete
+- **Earlier Hitbox source-current follow-up: `af986b`.** The complete
   hitbox_hittest() physical owner was rebuilt in two original TC4 rounds
   with the complete normal MAIN link: **266 CODE bytes, 33 ordered OMF
   FIXUPPs and one PUBLIC**. The shotpair loop uses prefix index/pointer
