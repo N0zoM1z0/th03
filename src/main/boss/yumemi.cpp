@@ -225,8 +225,8 @@ void near yumemi_pattern_ring(void)
 		snd_se_play(YUMEMI_SOUND_EXPLOSION);
 	}
 
-	// The unsigned 16-bit ring cadence is a natural low-bit test.
-	if(0 == (boss_frame % YUMEMI_RING_FIRE_PERIOD)) {
+	// The unsigned 16-bit ring cadence is a natural remainder truth test.
+	if(!(boss_frame % YUMEMI_RING_FIRE_PERIOD)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.group = BG_RING;
@@ -304,7 +304,7 @@ void near yumemi_pattern_aimed_random(void)
 	}
 
 	if(YUMEMI_AIMED_WARNING_END > boss_frame) {
-		if((boss_frame % YUMEMI_AIMED_WARNING_PERIOD) == YUMEMI_AIMED_WARNING_PHASE) {
+		if(YUMEMI_AIMED_WARNING_PHASE == (boss_frame % YUMEMI_AIMED_WARNING_PERIOD)) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
 				boss_aux_point.y.v,
@@ -325,7 +325,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
-	if(0 == (boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
+	if(!(boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
 		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -407,7 +407,7 @@ void near yumemi_pattern_chase(void)
 	boss_move_sine();
 	boss_move_sine();
 
-	if((boss_frame % YUMEMI_CHASE_BEAM_PERIOD) == YUMEMI_CHASE_BEAM_PHASE) {
+	if(YUMEMI_CHASE_BEAM_PHASE == (boss_frame % YUMEMI_CHASE_BEAM_PERIOD)) {
 		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		bomb_axis_add(
 			boss_aux_point.x.v,
@@ -432,9 +432,9 @@ void near yumemi_pattern_rain(void)
 
 	boss_move_sine();
 
-	// The variable unsigned-word rain interval compares its remainder
-	// explicitly with zero.
-	if(0 == (boss_frame % yumemi_rain_interval)) {
+	// The variable unsigned-word rain interval uses a natural
+	// remainder truth test.
+	if(!(boss_frame % yumemi_rain_interval)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
 		if(YUMEMI_RAIN_SPREAD_END > boss_frame) {
