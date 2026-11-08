@@ -574,6 +574,16 @@ twelve physical owners were rebuilt together at af1047l: 18,845 CODE bytes,
 the complete Japanese MAIN image/relocations exact. See the
 [current after1047l twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1047L_REVIEW.md).
 
+Yumemi's 404-byte four-phase arrival raster now uses constant-first phase
+gates, named `* 8` then `* 16` scale stages, register-qualified coordinate /
+phase locals, base-first top placement and unparenthesized phase differences.
+Its 83-byte render caller also uses register PID and constant-first mode
+tests. Both increasing/decreasing inclusive raster inequalities and the
+explicit hardware XOR remain compiler-sensitive. Stage af1048r rebuilt the
+complete 2,358-byte Yumemi owner in two original TC4 rounds, with all 343
+ordered native fields, ten PUBLICs and the Japanese MAIN image/relocations
+exact. See the [after1048 Yumemi arrival review](MAIN_YUMEMI_ARRIVAL_NATURAL_CPP_AFTER1048_REVIEW.md).
+
 After the Kotohime and Mima source refinements were integrated with the full
 nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
