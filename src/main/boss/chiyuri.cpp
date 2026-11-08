@@ -137,12 +137,12 @@ enum chiyuri_boss_cadence_t {
     CHIYURI_RENDER_ANIM_SPRITE_BASE = 0x0C,
     CHIYURI_CARDINAL_QUARTER_TURN = 0x40,
     CHIYURI_CARDINAL_STEP = 8,
-    CHIYURI_RING_RADIUS_SHIFT = 4,
+    CHIYURI_RING_RADIUS_SCALE = 16,
     CHIYURI_INTRO_RADIUS_SHIFT = 3,
     CHIYURI_RING_SPRITE_WIDTH = 32,
     CHIYURI_RING_SPRITE_HEIGHT = 16,
     CHIYURI_RING_SPRITE_OFFSET = 0x790,
-    CHIYURI_RING_SPRITE_ANIM_SHIFT = 2,
+    CHIYURI_RING_SPRITE_ANIM_SCALE = 4,
     CHIYURI_INTRO_RADIUS_FIRST = 0x100,
     CHIYURI_INTRO_RADIUS_SECOND = 0x200,
     CHIYURI_INTRO_RADIUS_FINAL = 0x300,
@@ -652,13 +652,13 @@ void near chiyuri_render_ring(void)
 	register screen_x_t left;
 
 	pid_other = (1 - pid_current);
-	radius = (boss_effect_radius << CHIYURI_RING_RADIUS_SHIFT);
+	radius = (boss_effect_radius * CHIYURI_RING_RADIUS_SCALE);
 
 	sprite16_put_size.w = CHIYURI_RING_SPRITE_WIDTH;
 	sprite16_put_size.h = CHIYURI_RING_SPRITE_HEIGHT;
 
 	sprite_offset = (boss_sprite_offset + CHIYURI_RING_SPRITE_OFFSET);
-	sprite_offset += (boss_render_frame << CHIYURI_RING_SPRITE_ANIM_SHIFT);
+	sprite_offset += (boss_render_frame * CHIYURI_RING_SPRITE_ANIM_SCALE);
 
 	i = 0;
 	angle = boss_move_phase;
