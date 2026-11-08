@@ -270,7 +270,8 @@ positive equality branch with an explicit `else return`. Stage af1030m rebuilt
 the complete `ba_koto` owner in two original TC4 rounds: 1,840 CODE bytes,
 262 ordered native fields and eleven PUBLICs, with the full Japanese MAIN
 image and relocations exact. See the
-[after1030 Kotohime INTRO branch review](MAIN_KOTOHIME_UPDATE_INTRO_SUCCESS_BRANCH_AFTER1030_REVIEW.md).
+[after1030 Kotohime INTRO branch review](MAIN_KOTOHIME_UPDATE_INTRO_SUCCESS_BRANCH_AFTER1030_REVIEW.md)
+  and [after1032 positive PID-scope review](MAIN_KOTOHIME_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 The 302-byte Pellet Arc leaf now spells its finish threshold as
 `boss_frame >= KOTOHIME_PELLET_FINISH_FRAME`. Stage af1030w rebuilt the
@@ -371,8 +372,8 @@ SELECT register byte/index scaling/timer/palette/random-mode guards, positive
 PID scope, render cadence/phase truth
 (af1028f/af1032b/af1032c/af1032e/af1032f/af1032l/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order, scoped radial while loops,
-positive update INTRO branch and Pellet Arc finish predicate
-(af1026i/af1029l/af1030m/af1030w/af1031h), and
+positive update INTRO/PID scopes and Pellet Arc finish predicate
+(af1026i/af1029l/af1030m/af1030w/af1031h/af1032p), and
 HitCircle's age-update/render register locals and active guard
 (af1025d/af1027f/af1027g/af1028c/af1028d). The three current
 BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
@@ -457,13 +458,16 @@ See
 [the after1024 source review](MAIN_KOTOHIME_RADIAL_AND_HITCIRCLE_ENUMS_AFTER1024_REVIEW.md)
 and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.md).
 
-- **Kotohime Radial Burst:** the complete nested generator now uses two
-  pre-tested `while` loops with explicit register DI/SI indices and
-  per-center scratch scope. `x`, `y` and `center_angle` live in the outer
-  body; `bullet_i` is initialized at its inner-loop declaration. Both
-  `index < count` guards and prefix increments compile to the original
-  instructions. The signed 16-bit multiply/divide order, byte-angle
-  truncation, polar calls and bullet emission order remain exact (af1031h).
+- **Kotohime:** the 332-byte update controller now scopes its complete
+  active-player path under `if(pid_current == gba_boss_launched_by)`, keeping
+  its INTRO/EXPLODE returns, mode dispatch and collision/hitbox tail together
+  (af1032p). The Radial Burst generator uses two pre-tested `while` loops
+  with explicit register DI/SI indices and per-center scratch scope. `x`,
+  `y` and `center_angle` live in the outer body; `bullet_i` is initialized
+  at its inner-loop declaration. Both `index < count` guards and prefix
+  increments compile to the original instructions. The signed 16-bit
+  multiply/divide order, byte-angle truncation, polar calls and bullet
+  emission order remain exact (af1031h).
   See the [after1031 radial-loop review](MAIN_KOTOHIME_RADIAL_SCOPED_WHILE_LOOPS_AFTER1031_REVIEW.md).
 - **HitCircle:** layout/animation and capacity constants are grouped into
   named enums; the enemy ring-wrap guard uses the named count first.
