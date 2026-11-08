@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af988b`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af993d`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,7 +56,19 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
-- **Latest eight-major-BOSS source-current integration: `af988b`.**
+- **Latest nine-major-BOSS cadence integration: `af993d`.**
+  Two independent original TC4 4.02 rounds rebuilt all nine complete BOSS
+  physical owners together: ba_mima, ba_reimu, ba_yumem, ba_ellen, ba_kana,
+  ba_koto, ba_maris, ba_rikak and ba_chiyu. The simultaneous objects preserve
+  **17,451 CODE bytes, 2,434 ordered OMF FIXUPPs and 85 PUBLICs**; both
+  complete normal MAIN links reproduce all 124,642 Japanese loaded bytes
+  and 1,553 ordered MZ relocations, reusing the other 90 original game
+  objects and Borland CRT. Twenty-four periodic attack/render predicates
+  now use natural explicit remainder comparisons or low-bit masks. See
+  [Nine-BOSS cadence recovery after993](MAIN_NINE_BOSS_NATURAL_CADENCE_PREDICATES_AFTER993_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af993d/report.json,
+  SHA-256 32c364c85247438b143a39b5f22d54c9163caa1aceccfd5faa76b399dd214854.
+- **Earlier eight-major-BOSS source-current integration: `af988b`.**
   Two independent original TC4 4.02 rounds rebuilt all eight major BOSS
   physical owners together: ba_mima, ba_reimu, ba_yumem, ba_ellen, ba_kana,
   ba_koto, ba_maris and ba_rikak. The simultaneous objects preserve
@@ -289,6 +301,7 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
+| `af993d` | 9 | 17,451 |
 | `af988b` | 8 | 14,797 |
 | `af976a` | 1 | 1,874 |
 | `af973b` | 1 | 2,654 |
@@ -315,13 +328,13 @@ scopes**, not one combined 99-original-source replay:
 
 The Kana `af965b` and Kotohime `af965a` receipts are earlier
 source snapshots superseded by `af966a` and `af965e`, respectively.
-The earlier individual BOSS receipts are superseded by the simultaneous
-af988b integration above. Intermediate source snapshots remain useful for
-their isolated findings: Kana af966a/af974c precede af976a; Marisa
-af969a/af971b precede af975d; Kotohime af965e precedes af968c; and the
-earlier Ellen/Rikako receipts precede af964a/af963a. Those eight latest
-individual snapshots are all historical after af988b. Chiyuri af972a is
-historical after af973b, which remains the current Chiyuri source proof.
+The eight-owner integration af988b is now historical after the current
+nine-owner cadence proof af993d. The earlier individual BOSS receipts and
+intermediate integrations af992a/af992e/af993a are superseded by af993d.
+The isolated trials remain useful for their findings: they established
+native-exact remainder equality and low-bit forms before the final
+nine-object integration. The earlier Chiyuri af973b source receipt is also
+historical after af993d.
 
 Compiler-sensitive negative results remain important. Reimu af981b/af981d
 loop variants and unary negative-angle form changed complete CODE; the
@@ -333,20 +346,20 @@ Hitbox af983d pointer-first scan update and af984d direct explosion call
 also changed complete CODE; the index-first scan and explicit far/near
 bridge remain. Mima af980a/af980c/af980d control-flow and frame/angle
 variants, plus af984c explicit signed-orbit cast, are preserved negative
-compiler results.
+compiler results. HitCircle cel local/register arithmetic trials af976b-f
+and af987a/af989a-b changed complete CODE; retain the verified BX sequence.
 
-Current source bindings: af988b for the eight major BOSSes, af986b for
-Hitbox, af985b for HitCircle, af973b for Chiyuri and af964e for Fireball.
-HitCircle af931b and older af919g/af921a receipts are historical after
-af985b. Hitbox af983c is historical after af986b. Marisa af935a and
-af930e are historical for ba_maris after af988b. Ellen af962a/af960a and
-Rikako af961c/af961b/af961a are historical after af988b. Fireball af964d
-is the source snapshot before geometry naming in af964e; af964b/af964c
-are earlier predicate experiments and af964f is a failed direct-call
-trial. The older af903a bullet, af896a enemy-consumer, af883a and af881i
-Marisa receipts no longer bind to changed maintained sources; af935a
-preserves their historical native outputs. Never add overlapping receipts
-as distinct CODE ownership.
+Current source bindings: af993d for all nine major BOSSes, af986b for
+Hitbox, af985b for HitCircle and af964e for Fireball. HitCircle af931b and
+older af919g/af921a receipts are historical after af985b. Hitbox af983c is
+historical after af986b. Marisa af935a/af930e, the prior individual BOSS
+receipts and the eight-owner af988b integration are historical after
+af993d. Fireball af964d is the source snapshot before geometry naming in
+af964e; af964b/af964c are earlier predicate experiments and af964f is a
+failed direct-call trial. The older af903a bullet, af896a enemy-consumer,
+af883a and af881i Marisa receipts no longer bind to changed maintained
+sources; af935a preserves their historical native outputs. Never add
+overlapping receipts as distinct CODE ownership.
 
 The genuine older `af877a` now **fails current maintained-source hash
 binding** because both Chiyuri BOSS and Chiyuri Chargeshot changed.
@@ -472,7 +485,8 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current eight-major-BOSS frame-clock integration](MAIN_EIGHT_BOSS_NATURAL_GLOBAL_FRAME_PREFIX_INTEGRATION_AFTER988_REVIEW.md)
+- [Current nine-BOSS cadence integration](MAIN_NINE_BOSS_NATURAL_CADENCE_PREDICATES_AFTER993_REVIEW.md)
+- [Earlier eight-major-BOSS frame-clock integration](MAIN_EIGHT_BOSS_NATURAL_GLOBAL_FRAME_PREFIX_INTEGRATION_AFTER988_REVIEW.md)
 - [Earlier Reimu prefix loops and cloud byte wrap](MAIN_REIMU_BOSS_NATURAL_PREFIX_AND_CLOUD_BYTE_AFTER986_REVIEW.md)
 - [Current Hitbox early guard clauses](MAIN_HITBOX_NATURAL_EARLY_GUARDS_AFTER986_REVIEW.md)
 - [Current HitCircle lifetime and render for loops](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md)
