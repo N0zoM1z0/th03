@@ -459,6 +459,12 @@ CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
 rounds and the complete Japanese MAIN image/relocations exact. See the
 [after1033o nine-BOSS INTRO integration review](MAIN_NINE_BOSS_INTRO_BRANCHES_AFTER1033O_REVIEW.md).
 
+After the Chiyuri Fans frame guards were changed to variable-first comparisons,
+all nine current BOSS owners were rebuilt together again at af1033r: 17,451
+CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[current after1033r nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1033R_REVIEW.md).
+
 After Reimu's update controller was moved to the same positive PID scope, all
 four current BOSS owners were rebuilt together at af1032t: 8,436 CODE bytes,
 1,190 ordered native fields and 40 PUBLICs, with two original TC4 rounds and
