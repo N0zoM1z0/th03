@@ -391,11 +391,12 @@ void far gba_boss_update_ellen(void)
 
 		switch(boss_mode) {
 		case ELLEN_MODE_INTRO:
-			if(boss_frame != ELLEN_INTRO_FINISH_FRAME) {
+			if(boss_frame == ELLEN_INTRO_FINISH_FRAME) {
+				boss_frame = 0;
+				boss_mode = ELLEN_MODE_SELECT;
+			} else {
 				return;
 			}
-			boss_frame = 0;
-			boss_mode = ELLEN_MODE_SELECT;
 			break;
 
 		case ELLEN_MODE_SELECT:

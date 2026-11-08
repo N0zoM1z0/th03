@@ -507,10 +507,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   and [INTRO-branch review](MAIN_KANA_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
 - **Ellen:** the complete 269-byte update controller now scopes its
   mode dispatch and collision/hitbox tail under the positive
-  `pid_current == gba_boss_launched_by` guard (af1032z). The render-frame
-  postfix increment still precedes the BOSS frame increment; INTRO/EXPLODE
-  returns and Spread/Extra/Pellets ordering are unchanged. See the
-  [after1032 Ellen PID-scope review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+  `pid_current == gba_boss_launched_by` guard (af1032z). Its INTRO completion
+  uses a positive equality branch with an explicit `else return` (af1033m).
+  The render-frame postfix increment still precedes the BOSS frame increment.
+  See the [after1032 PID-scope review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  and [after1033 INTRO-branch review](MAIN_ELLEN_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
 - **Yumemi:** the complete 368-byte update controller now scopes its
   pre-switch origin-coordinate setup, nine-mode dispatch, effect/render
   countdowns and collision/hitbox tail under the positive
