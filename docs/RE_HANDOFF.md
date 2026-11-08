@@ -113,6 +113,12 @@ native fields and nine PUBLICs, with the full Japanese MAIN image and
 relocations exact. See the
 [after1030 Mima orbit finish review](MAIN_MIMA_ORBIT_FINISH_PREDICATE_AFTER1030_REVIEW.md).
 
+The 186-byte Mima Trail leaf now spells its finish predicate as
+`boss_frame >= MIMA_TRAIL_END`. Stage af1030v rebuilt the complete `ba_mima`
+owner in two original TC4 rounds: 1,922 CODE bytes, 277 ordered native fields
+and nine PUBLICs, with the full Japanese MAIN image and relocations exact.
+See the [after1030 Mima Trail finish review](MAIN_MIMA_TRAIL_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
 The 298-byte Mima update controller now spells the INTRO completion path as a
 positive equality branch with an explicit `else return`. Stage af1030f rebuilt
 the complete `ba_mima` owner in two original TC4 rounds: 1,922 CODE bytes,
@@ -347,8 +353,8 @@ owner in the stage.
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
-phase guards, update INTRO branch and orbit finish predicate
-(af1029g/af1030f/af1030n),
+phase guards, update INTRO branch and orbit/Trail finish predicates
+(af1029g/af1030f/af1030n/af1030v),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
 scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
