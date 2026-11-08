@@ -211,9 +211,7 @@ void near yumemi_pattern_ring(void)
 			bullet_template.pid
 		);
 		return;
-	}
-
-	if(boss_frame < YUMEMI_RING_BULLET_START) {
+	} else if(boss_frame < YUMEMI_RING_BULLET_START) {
 		return;
 	}
 
@@ -314,9 +312,7 @@ void near yumemi_pattern_aimed_random(void)
 			);
 		}
 		return;
-	}
-
-	if(boss_frame < YUMEMI_AIMED_FIRE_START) {
+	} else if(boss_frame < YUMEMI_AIMED_FIRE_START) {
 		return;
 	}
 
