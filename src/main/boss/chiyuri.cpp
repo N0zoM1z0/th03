@@ -531,7 +531,7 @@ void far gba_boss_update_chiyuri(void)
 
 	case CHIYURI_MODE_SELECT:
 		if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
-			random_i = (randring_far_next16_mod(5) * 2);
+			random_i = (randring_far_next16_mod(5) << 1);
 			boss_center_x = chiyuri_boss_x_words[random_i];
 			boss_center_y = chiyuri_boss_y_words[random_i];
 			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
