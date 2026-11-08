@@ -6,7 +6,7 @@
 > Older broad validation instructions apply only when their impact is relevant.
 
 
-**Checked 2026-11-08 · current maintained-source native MAIN proof: `af974c`.**
+**Checked 2026-11-08 · current maintained-source native MAIN proof: `af976a`.**
 This is the **active, intentionally short handoff**. The previous 2,713-line
 handoff is preserved without substantive deletion in
 [RE_HANDOFF_ARCHIVE_AFTER927.md](RE_HANDOFF_ARCHIVE_AFTER927.md). Its many
@@ -56,6 +56,25 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   Protected actual native writer receipt:
   `.analysis/work/exatt-layout-af927a/report.json`, SHA-256
   `3b64374f73e81bfedaf86227724544664f18d5b5ffe39ed5b381001c168ab6d5`.
+- **Latest Kana major-BOSS source-current follow-up: `af976a`.** The
+  complete nine-function ba_kana owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,874 CODE bytes, 274
+  ordered OMF FIXUPPs and nine PUBLICs**. The sixteen-pellet staged volley
+  now uses postfix increment in its natural for header; both rounds preserve
+  the complete 124,642-byte Japanese MAIN image and all 1,553 MZ relocations.
+  See [Kana postfix loop after976](MAIN_KANA_BOSS_NATURAL_FOR_POSTFIX_AFTER976_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af976a/report.json,
+  SHA-256 45c0d81edc7473d3014ff4343c7049c867cd117cdd8d2dd7fb49bb0756c96fd3.
+- **Latest Marisa major-BOSS source-current follow-up: `af975d`.** The
+  complete nine-function ba_maris owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **1,431 CODE bytes, 199
+  ordered OMF FIXUPPs and nine PUBLICs**. The four-frame flicker uses a
+  natural low-bit mask, the intro split radius uses multiplication by two,
+  and the SI/DI split local is typed as screen_x_t while preserving its
+  declaration order. See
+  [Marisa flicker/split after975](MAIN_MARISA_BOSS_NATURAL_FLICKER_AND_SPLIT_AFTER975_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af975d/report.json,
+  SHA-256 138823acc2036573271773d98d3cd367e96c092c8dde16e8c65b6501d0b420e5.
 - **Latest Kana major-BOSS source-current follow-up: `af974c`.** The
   complete nine-function ba_kana owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **1,874 CODE bytes, 274
@@ -66,6 +85,18 @@ Older archives: [after709](RE_HANDOFF_ARCHIVE_AFTER709.md),
   [Kana staged volley after974](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md).
   Protected report: .analysis/work/exatt-layout-af974c/report.json,
   SHA-256 ac9f32893af05350b6880577f39229e1e8a3e4dc06b2746d324706aa084dc206.
+- **Latest HitCircle source-current follow-up: `af931b`.** The
+  complete four-function hitcirc owner was rebuilt in two original TC4
+  rounds with the complete normal MAIN link: **445 CODE bytes, 30 ordered
+  OMF FIXUPPs and four PUBLICs**, preserving the direct natural C++ spawn
+  coordinate stores. The Japanese MAIN image and all 1,553 relocations match.
+  See [HitCircle spawn stores after931](MAIN_HITCIRCLE_NATURAL_SPAWN_AFTER931_REVIEW.md).
+  Fresh af976b–af976f experiments tried to replace the inline BX cel
+  arithmetic with natural register locals or a direct formula; all changed
+  the complete object. Keep the current explicit BX sequence. See
+  [HitCircle cel register trials after976](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md).
+  Protected report: .analysis/work/exatt-layout-af931b/report.json,
+  SHA-256 b45ab57e8467c700c2c03f4840e5f82488d02438dd60ed13116af363bde74243.
 - **Latest Chiyuri major-BOSS source-current follow-up: `af973b`.** The
   complete eleven-function ba_chiyu owner was rebuilt in two original TC4
   rounds with the complete normal MAIN link: **2,654 CODE bytes, 381
@@ -227,10 +258,11 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
-| `af974c` | 1 | 1,874 |
+| `af976a` | 1 | 1,874 |
 | `af973b` | 1 | 2,654 |
-| `af971b` | 1 | 1,431 |
+| `af975d` | 1 | 1,431 |
 | `af968c` | 1 | 1,840 |
+| `af931b` | 1 | 445 |
 | `af966a` | 1 | 1,874 |
 | `af964e` | 1 | 1,555 |
 | `af964a` | 1 | 1,675 |
@@ -249,12 +281,15 @@ scopes**, not one combined 99-original-source replay:
 
 The Kana `af965b` and Kotohime `af965a` receipts are earlier
 source snapshots superseded by `af966a` and `af965e`, respectively.
-Kotohime `af965e` is now historical after `af968c`; Kana `af966a` is now
-historical after `af974c`; Chiyuri `af972a` is now historical after
-`af973b`; and Marisa `af969a` is historical after `af971b`.
-The Kana intermediate `af974a` and `af974b` reports are superseded by
-the final combined for-loop source proof `af974c`. Use af974c,
-af973b, af971b and af968c for current source binding. Marisa's
+Kotohime `af965e` is now historical after `af968c`; Kana `af966a` and
+`af974c` are historical after `af976a`; Chiyuri `af972a` is historical
+after `af973b`; and Marisa `af969a` and `af971b` are historical after
+`af975d`. The Kana intermediate `af974a` and `af974b` reports are
+superseded by `af974c`, which is itself superseded by the postfix-loop
+source proof `af976a`. The Marisa `af971a` and `af971b` stages are
+superseded by the combined renderer/register source proof `af975d`.
+Use af976a, af975d, af973b, af968c and af931b for current source binding.
+Marisa's
 `af935a` and older single-object `af930e` receipts are now historical for
 ba_maris after `af969a`. Use `af968c` and `af969a` for current
 source binding. The Ellen `af962a`
@@ -270,7 +305,9 @@ current source binding. The older Ellen `af960a` receipt is now a historical sou
 `af962a` changed the same physical owner; preserve it, but use `af962a` for
 current source binding. `af961b` and `af961a` are likewise earlier Rikako
 source snapshots superseded by `af961c`.
-`af921a` (`hitcirc`), `af903a` (`bullet`), `af896a` (all four physical
+HitCircle `af919g` and `af921a` are historical source snapshots after
+the direct spawn-store edit; `af931b` is the current source-bound proof.
+`af903a` (`bullet`), `af896a` (all four physical
 `enemy.cpp` consumers), `af883a` and `af881i` (`ba_maris`) no longer
 bind to the changed maintained source hashes. Their original native outputs
 are authentic **historical** evidence; `af935a` establishes the entire
@@ -401,7 +438,11 @@ target. Preserve dirty source changes and commit meaningful progress as
 
 - [Workflow](RE_WORKFLOW.md) · [Architecture](ARCHITECTURE.md) ·
   [Original fixed targets](../config/targets.toml)
-- [Current Kana staged-volley natural C++ work](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md)
+- [Current Kana postfix for-loop source work](MAIN_KANA_BOSS_NATURAL_FOR_POSTFIX_AFTER976_REVIEW.md)
+- [Current Marisa flicker and split renderer](MAIN_MARISA_BOSS_NATURAL_FLICKER_AND_SPLIT_AFTER975_REVIEW.md)
+- [HitCircle cel register allocation experiments](MAIN_HITCIRCLE_NATURAL_CEL_REGISTER_AFTER976_REVIEW.md)
+- [Current HitCircle natural spawn stores](MAIN_HITCIRCLE_NATURAL_SPAWN_AFTER931_REVIEW.md)
+- [Earlier Kana staged-volley natural C++ work](MAIN_KANA_BOSS_NATURAL_STAGED_VOLLEY_AFTER974_REVIEW.md)
 - [Current Chiyuri natural ring-render scaling](MAIN_CHIYURI_BOSS_NATURAL_RENDER_SCALE_AFTER973_REVIEW.md)
 - [Current Chiyuri lifecycle predicates](MAIN_CHIYURI_BOSS_NATURAL_LIFECYCLE_PREDICATES_AFTER972_REVIEW.md)
 - [Current Marisa natural ring-angle assignment](MAIN_MARISA_BOSS_NATURAL_RING_ANGLE_AND_RENDER_AFTER971_REVIEW.md)
