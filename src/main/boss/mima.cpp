@@ -211,9 +211,7 @@ void near mima_pattern_spread(void)
 		mima_spread_angle = 0;
 		mima_pellet_angle = MIMA_SPREAD_INITIAL_PELLET_ANGLE;
 		return;
-	}
-
-	if(boss_frame < MIMA_SPREAD_FIRE_BEGIN) {
+	} else if(boss_frame < MIMA_SPREAD_FIRE_BEGIN) {
 		return;
 	}
 
@@ -548,7 +546,7 @@ render_mode_2:
 		return;
 	}
 
-	if(boss_render_mode == MIMA_RMODE_EXPAND) {
+	else if(boss_render_mode == MIMA_RMODE_EXPAND) {
 		sprite16_put_size.set(MIMA_EXPAND_SPRITE_WIDTH, MIMA_EXPAND_SPRITE_HEIGHT);
 		sprite16_put(
 			(left + MIMA_EXPAND_SPRITE_LEFT),
@@ -558,14 +556,14 @@ render_mode_2:
 		return;
 	}
 
-	if(boss_render_mode == MIMA_RMODE_FLASH) {
+	else if(boss_render_mode == MIMA_RMODE_FLASH) {
 		sprite16_put_size.set(MIMA_PART_SPRITE_SIZE, MIMA_PART_SPRITE_SIZE);
 		sprite_offset = (boss_sprite_offset + MIMA_PART_SPRITE_OFF);
 		sprite16_put((left + MIMA_PART_SPRITE_LEFT), (top + MIMA_PART_SPRITE_TOP), sprite_offset);
 		return;
 	}
 
-	if(boss_render_mode == MIMA_RMODE_TRAIL) {
+	else if(boss_render_mode == MIMA_RMODE_TRAIL) {
 		boss_render_frame = 0;
 		goto render_mode_2;
 	}
