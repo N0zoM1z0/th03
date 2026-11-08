@@ -421,84 +421,82 @@ void far gba_boss_update_mima(void)
 		mima_orbit_speed = (gba_boss_level + MIMA_LEVEL_ORBIT_SPEED_BASE);
 	}
 
-	if(pid_current != gba_boss_launched_by) {
-		return;
-	}
+	if(pid_current == gba_boss_launched_by) {
+		pid_other = (1 - pid_current);
+		boss_target_update();
+		// The target deliberately recomputes this after the shared helper call
+		// instead of reusing [pid_other] (native negative control af749c).
+		bullet_template.pid = (1 - pid_current);
+		++boss_frame;
 
-	pid_other = (1 - pid_current);
-	boss_target_update();
-	// The target deliberately recomputes this after the shared helper call
-	// instead of reusing [pid_other] (native negative control af749c).
-	bullet_template.pid = (1 - pid_current);
-	++boss_frame;
+		switch(boss_mode) {
+		case MIMA_MODE_INTRO:
+			if(boss_frame == MIMA_BOSS_INTRO_END) {
+				boss_frame = 0;
+				boss_mode = MIMA_MODE_SELECT;
+				break;
+			} else {
+				return;
+			}
 
-	switch(boss_mode) {
-	case MIMA_MODE_INTRO:
-		if(boss_frame == MIMA_BOSS_INTRO_END) {
-			boss_frame = 0;
-			boss_mode = MIMA_MODE_SELECT;
+		case MIMA_MODE_SELECT:
+			boss_pattern_next();
 			break;
-		} else {
+
+		case MIMA_MODE_SPREAD_0:
+		case MIMA_MODE_SPREAD_1:
+		case MIMA_MODE_SPREAD_2:
+		case MIMA_MODE_SPREAD_3:
+			mima_pattern_spread();
+			break;
+
+		case MIMA_MODE_RANDOM_0:
+		case MIMA_MODE_RANDOM_1:
+		case MIMA_MODE_RANDOM_2:
+		case MIMA_MODE_RANDOM_3:
+		case MIMA_MODE_RANDOM_4:
+			mima_pattern_bomb_random();
+			break;
+
+		case MIMA_MODE_TRAIL_0:
+		case MIMA_MODE_TRAIL_1:
+		case MIMA_MODE_TRAIL_2:
+			mima_pattern_trail();
+			break;
+
+		case MIMA_MODE_ORBIT_0:
+		case MIMA_MODE_ORBIT_1:
+		case MIMA_MODE_ORBIT_2:
+		case MIMA_MODE_ORBIT_3:
+			mima_pattern_orbit();
+			break;
+
+		case MIMA_MODE_DESCEND:
+			boss_fall();
+			break;
+
+		case MIMA_MODE_EXPLODE:
 			return;
 		}
 
-	case MIMA_MODE_SELECT:
-		boss_pattern_next();
-		break;
+		collmap_center.x.v = boss_center_x;
+		collmap_center.y.v = boss_center_y;
+		collmap_stripe_tile_w.set(MIMA_COLLISION_TILE_SIZE);
+		collmap_tile_h.set(MIMA_COLLISION_TILE_SIZE);
+		collmap_pid = pid_other;
+		collmap_set_rect_striped();
 
-	case MIMA_MODE_SPREAD_0:
-	case MIMA_MODE_SPREAD_1:
-	case MIMA_MODE_SPREAD_2:
-	case MIMA_MODE_SPREAD_3:
-		mima_pattern_spread();
-		break;
-
-	case MIMA_MODE_RANDOM_0:
-	case MIMA_MODE_RANDOM_1:
-	case MIMA_MODE_RANDOM_2:
-	case MIMA_MODE_RANDOM_3:
-	case MIMA_MODE_RANDOM_4:
-		mima_pattern_bomb_random();
-		break;
-
-	case MIMA_MODE_TRAIL_0:
-	case MIMA_MODE_TRAIL_1:
-	case MIMA_MODE_TRAIL_2:
-		mima_pattern_trail();
-		break;
-
-	case MIMA_MODE_ORBIT_0:
-	case MIMA_MODE_ORBIT_1:
-	case MIMA_MODE_ORBIT_2:
-	case MIMA_MODE_ORBIT_3:
-		mima_pattern_orbit();
-		break;
-
-	case MIMA_MODE_DESCEND:
-		boss_fall();
-		break;
-
-	case MIMA_MODE_EXPLODE:
-		return;
+		hitbox_hittest_skip_explosions = true;
+		hitbox.radius.x.v = MIMA_COLLISION_HALF_RADIUS;
+		hitbox.radius.y.v = MIMA_COLLISION_HALF_RADIUS;
+		hitbox.pid = pid_other;
+		hitbox.origin.center.x.v = boss_center_x;
+		hitbox.origin.center.y.v = boss_center_y;
+		boss_hit = hitbox_hittest();
+		boss_hp -= boss_hit;
+		hitbox_hittest_skip_explosions = false;
+		boss_hittest_end();
 	}
-
-	collmap_center.x.v = boss_center_x;
-	collmap_center.y.v = boss_center_y;
-	collmap_stripe_tile_w.set(MIMA_COLLISION_TILE_SIZE);
-	collmap_tile_h.set(MIMA_COLLISION_TILE_SIZE);
-	collmap_pid = pid_other;
-	collmap_set_rect_striped();
-
-	hitbox_hittest_skip_explosions = true;
-	hitbox.radius.x.v = MIMA_COLLISION_HALF_RADIUS;
-	hitbox.radius.y.v = MIMA_COLLISION_HALF_RADIUS;
-	hitbox.pid = pid_other;
-	hitbox.origin.center.x.v = boss_center_x;
-	hitbox.origin.center.y.v = boss_center_y;
-	boss_hit = hitbox_hittest();
-	boss_hp -= boss_hit;
-	hitbox_hittest_skip_explosions = false;
-	boss_hittest_end();
 }
 
 void near mima_render_main(void)

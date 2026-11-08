@@ -360,8 +360,9 @@ owner in the stage.
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
-phase guards, update INTRO branch, positive Spread/Random Bomb guards and
-orbit/Trail finish predicates (af1029g/af1030f/af1030n/af1030v/af1031m/af1031s),
+phase guards, positive PID scope, update INTRO branch, positive Spread/Random
+Bomb guards and orbit/Trail finish predicates
+(af1029g/af1030f/af1030n/af1030v/af1031m/af1031s/af1032o),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
 scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
@@ -468,14 +469,19 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
   Replacing those additions with a multiplication changed complete CODE.
-- **Mima:** the 214-byte Spread leaf now scopes its volley/pellet/finish
-  path under a positive `boss_frame >= MIMA_SPREAD_FIRE_BEGIN` guard after
-  the independent initial-setup return (af1031m). The 262-byte Random Bomb
+- **Mima:** the 298-byte update controller now scopes its complete active
+  player path under `if(pid_current == gba_boss_launched_by)`, retaining the
+  post-target-update recomputation of `bullet_template.pid`, all mode cases
+  and the collision/hitbox tail (af1032o). The 214-byte Spread leaf scopes
+  its volley/pellet/finish path under a positive
+  `boss_frame >= MIMA_SPREAD_FIRE_BEGIN` guard after the independent
+  initial-setup return (af1031m). The 262-byte Random Bomb
   leaf now scopes its live barrage/ring/sound/finish under the positive
   `boss_frame > MIMA_RANDOM_BOMB_BULLET_WAIT_END` guard while retaining the
   three marker bombs and their early return (af1031s). The hit-render path
   also chains into Particle with else-if; keep the original Trail-to-Particle
   label/goto and nested Particle thresholds. See the
+  [after1032 Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
   [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md)
   and [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md).
 - **Chiyuri:** the 613-byte update controller now scopes its complete
