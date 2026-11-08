@@ -112,6 +112,13 @@ owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered native fields
 and eleven PUBLICs, with the full Japanese MAIN image and relocations exact.
 See the [after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md).
 
+Kotohime's radial burst now declares the outer center index and inner bullet
+index as `register int`, matching the original DI/SI loop-index allocation.
+Stage af1026i rebuilt the complete `ba_koto` owner in two original TC4 rounds:
+1,840 CODE bytes, 262 ordered native fields and eleven PUBLICs, with the full
+Japanese MAIN image and relocations exact. See the
+[after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md).
+
 The HitCircle age walk also now uses a direct positive `p->age` guard in
 `hitcircles_update()` instead of a zero-age `continue`. Stage af1025d rebuilt
 the complete `hitcirc` object in two independent original TC4 rounds: 445 CODE
@@ -156,8 +163,9 @@ owner in the stage.
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g),
-Chiyuri's intro phase chain (af1026h), and HitCircle's age-update leaf
-(af1025d). See
+Chiyuri's intro phase chain (af1026h), Kotohime's explicit radial register
+indices (af1026i), and HitCircle's age-update leaf (af1025d). See
+[the after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md),
 [the after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md),
 [the after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md),
 [the after1026 Mima orbit review](MAIN_MIMA_ORBIT_FINISH_COMPARE_AFTER1026_REVIEW.md),

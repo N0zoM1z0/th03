@@ -371,8 +371,8 @@ void near kotohime_pattern_radial_burst(void)
 		int x;
 		int y;
 		unsigned char center_angle;
-		int bullet_i;
-		int center_i;
+		register int bullet_i;
+		register int center_i;
 		for(center_i = 0; kotohime_orbit_count > center_i; center_i++) {
 
 			center_angle = (
