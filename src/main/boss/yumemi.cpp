@@ -101,6 +101,21 @@ enum yumemi_template_layout_t {
     YUMEMI_TEMPLATE_PLAYER2_OFF = 0x28,
 };
 
+enum yumemi_level_scaling_t {
+    YUMEMI_LEVEL_HALF = 2,
+    YUMEMI_LEVEL_RING_BASE = 0x10,
+    YUMEMI_LEVEL_AIMED_SPEED_BASE = 0x40,
+    YUMEMI_LEVEL_CROSS_INTERVAL_BASE = 0x12,
+    YUMEMI_LEVEL_CHASE_MULTIPLIER = 4,
+    YUMEMI_LEVEL_CHASE_BASE = 0x50,
+    YUMEMI_LEVEL_RAIN_INTERVAL_BASE = 0x10,
+};
+
+enum yumemi_move_phase_t {
+    YUMEMI_MOVE_PHASE_SEEK = 0,
+    YUMEMI_MOVE_PHASE_TRACK = 1,
+};
+
 enum yumemi_render_mode_t {
     YUMEMI_RENDER_MODE_NONE = 0,
     YUMEMI_RENDER_MODE_PRIMARY = 1,
@@ -149,7 +164,7 @@ void far pascal boss_yumemi_template_init(int player_id)
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
+	p->mode = YUMEMI_MODE_INTRO;
 	p->hp = YUMEMI_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->render_frame = 0;
@@ -159,7 +174,7 @@ void far pascal boss_yumemi_template_init(int player_id)
 	if(player_id != 0) {
 		p->sprite_offset += YUMEMI_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = YUMEMI_RENDER_MODE_NONE;
 }
 
 // Yumemi's expanding/rotating ring pattern has a distinct warning
@@ -228,7 +243,7 @@ void near yumemi_pattern_ring(void)
 		// direct `angle = angle + signed_delta` changed native CODE
 		// in the fresh original compiler trial af897c.
 		yumemi_angle += yumemi_angle_delta;
-		yumemi_speed_add += YUMEMI_RING_SPEED_ADD_STEP;
+		yumemi_speed_add = yumemi_speed_add + YUMEMI_RING_SPEED_ADD_STEP;
 	}
 
 	if(boss_frame > YUMEMI_RING_FINISH_AFTER) {
@@ -371,7 +386,7 @@ void near yumemi_pattern_cross_rings(void)
 
 void near yumemi_pattern_chase(void)
 {
-	if(!boss_move_phase) {
+	if(boss_move_phase == YUMEMI_MOVE_PHASE_SEEK) {
 		// Keep the original positive, short-circuit range test. Reversing
 		// this into an early exit changes original TC4 branching (af848d).
 		if(
@@ -381,7 +396,7 @@ void near yumemi_pattern_chase(void)
 			boss_move_sine();
 			return;
 		}
-		boss_move_phase = 1;
+		boss_move_phase = YUMEMI_MOVE_PHASE_TRACK;
 		boss_frame = 0;
 		return;
 	}
@@ -412,7 +427,7 @@ void near yumemi_pattern_chase(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
-		boss_move_phase = 0;
+		boss_move_phase = YUMEMI_MOVE_PHASE_SEEK;
 	}
 }
 
@@ -444,15 +459,13 @@ void near yumemi_pattern_rain(void)
 			// Twelve physically separate RNG-X and byte-angle draws, with
 			// one bullet add per iteration before advancing signed i.
 			// Native original 16-bit TC4 accepts this natural while.
-			i = 0;
-			while(i < YUMEMI_RAIN_DROPS_PER_WAVE) {
+			for(i = 0; i < YUMEMI_RAIN_DROPS_PER_WAVE; i++) {
 				bullet_template.center.x.v =
 					randring_far_next16_mod(TO_SP(PLAYFIELD_W));
 				bullet_template.angle = (
 					randring_far_next16_and(YUMEMI_RAIN_RANDOM_ANGLE_MASK) + YUMEMI_RAIN_RANDOM_ANGLE_BIAS
 				);
 				bullets_add();
-				++i;
 			}
 		}
 	}
@@ -468,12 +481,12 @@ void far gba_boss_update_yumemi(void)
 	pid_t pid_other;
 
 	if(boss_update_start()) {
-		yumemi_ring_speed = ((gba_boss_level / 2) + 0x10);
-		yumemi_ring_count = ((gba_boss_level / 2) + 0x10);
-		yumemi_aimed_speed_base = (gba_boss_level + 0x40);
-		yumemi_cross_interval = (0x12 - gba_boss_level);
-		yumemi_chase_until = ((gba_boss_level * 4) + 0x50);
-		yumemi_rain_interval = (0x10 - (gba_boss_level / 2));
+		yumemi_ring_speed = ((gba_boss_level / YUMEMI_LEVEL_HALF) + YUMEMI_LEVEL_RING_BASE);
+		yumemi_ring_count = ((gba_boss_level / YUMEMI_LEVEL_HALF) + YUMEMI_LEVEL_RING_BASE);
+		yumemi_aimed_speed_base = (gba_boss_level + YUMEMI_LEVEL_AIMED_SPEED_BASE);
+		yumemi_cross_interval = (YUMEMI_LEVEL_CROSS_INTERVAL_BASE - gba_boss_level);
+		yumemi_chase_until = ((gba_boss_level * YUMEMI_LEVEL_CHASE_MULTIPLIER) + YUMEMI_LEVEL_CHASE_BASE);
+		yumemi_rain_interval = (YUMEMI_LEVEL_RAIN_INTERVAL_BASE - (gba_boss_level / YUMEMI_LEVEL_HALF));
 	}
 
 	if(pid_current != gba_boss_launched_by) {
@@ -593,7 +606,7 @@ void near yumemi_render_main(void)
 			sprite_offset += YUMEMI_RENDER_EFFECT_ALT_OFF;
 		}
 		sprite16_put((left + YUMEMI_RENDER_EFFECT_LEFT), top, sprite_offset);
-	} else if(boss_hit) {
+	} else if(boss_hit != 0) {
 		sprite16_put_size.set(YUMEMI_RENDER_HIT_WIDTH, YUMEMI_RENDER_HIT_HEIGHT);
 		left += YUMEMI_RENDER_HIT_LEFT;
 		sprite16_put(left, top, (boss_sprite_offset + YUMEMI_RENDER_HIT_SPRITE_OFF));
@@ -676,9 +689,8 @@ void near yumemi_render_arrival(void)
 			((boss_frame << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT) - TO_SP(104),
 			pid_other
 		);
-		while(left <= right) {
+		for(; left <= right; left += YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
-			left += YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE2_END) {
 		phase = (boss_frame - YUMEMI_ARRIVAL_PHASE1_END);
@@ -687,9 +699,8 @@ void near yumemi_render_arrival(void)
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
-		while(left <= right) {
+		for(; left <= right; left += YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
-			left += YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 	} else if(boss_frame < YUMEMI_ARRIVAL_PHASE3_END) {
 		phase = (boss_frame - YUMEMI_ARRIVAL_PHASE2_END);
@@ -698,9 +709,8 @@ void near yumemi_render_arrival(void)
 			TO_SP(272) - ((phase << YUMEMI_ARRIVAL_POS_LOW_SHIFT) << YUMEMI_ARRIVAL_POS_HIGH_SHIFT),
 			pid_other
 		);
-		while(left >= right) {
+		for(; left >= right; left -= YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
-			left -= YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 		left = playfield_fg_x_to_screen(TO_SP(88), pid_other);
 		sprite16_put(left, top, boss_sprite_offset);
@@ -711,9 +721,8 @@ void near yumemi_render_arrival(void)
 			pid_other
 		);
 		right = playfield_fg_x_to_screen(TO_SP(88), pid_other);
-		while(left >= right) {
+		for(; left >= right; left -= YUMEMI_ARRIVAL_RASTER_STEP) {
 			sprite16_put(left, top, boss_sprite_offset);
-			left -= YUMEMI_ARRIVAL_RASTER_STEP;
 		}
 	}
 
