@@ -105,6 +105,13 @@ CODE bytes, 277 ordered native fields, nine PUBLICs and the complete Japanese
 MAIN image/relocations exact. See the
 [after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md).
 
+Chiyuri's intro controller now expresses its two mutually exclusive frame
+phases as an `if`/`else if` chain, retaining the four cross-effect spawn order
+and the common update tail. Stage af1026h rebuilt the complete `ba_chiyu`
+owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered native fields
+and eleven PUBLICs, with the full Japanese MAIN image and relocations exact.
+See the [after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md).
+
 The HitCircle age walk also now uses a direct positive `p->age` guard in
 `hitcircles_update()` instead of a zero-age `continue`. Stage af1025d rebuilt
 the complete `hitcirc` object in two independent original TC4 rounds: 445 CODE
@@ -148,8 +155,10 @@ owner in the stage.
 
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
-(af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g), and
-HitCircle's age-update leaf (af1025d), alongside Chiyuri. See
+(af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g),
+Chiyuri's intro phase chain (af1026h), and HitCircle's age-update leaf
+(af1025d). See
+[the after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md),
 [the after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md),
 [the after1026 Mima orbit review](MAIN_MIMA_ORBIT_FINISH_COMPARE_AFTER1026_REVIEW.md),
 [the after1025 HitCircle update review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md),

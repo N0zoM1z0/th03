@@ -513,8 +513,7 @@ void far gba_boss_update_chiyuri(void)
 			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 			boss_render_mode = CHIYURI_PALETTE_CYCLE_START;
 			break;
-		}
-		if(boss_frame == CHIYURI_INTRO_CROSS_EFFECT_FRAME) {
+		} else if(boss_frame == CHIYURI_INTRO_CROSS_EFFECT_FRAME) {
 			bomb_center_add(
 				(boss_center_x - TO_SP(56)), boss_center_y, pid_other
 			);
