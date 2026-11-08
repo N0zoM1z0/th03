@@ -223,7 +223,7 @@ void near chiyuri_pattern_cardinal(void)
 		);
 	}
 
-	else if(boss_frame >= CHIYURI_PATTERN_END_AT) {
+	else if(CHIYURI_PATTERN_END_AT <= boss_frame) {
 		boss_mode = CHIYURI_MODE_SELECT;
 		boss_frame = 0;
 		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
@@ -275,7 +275,7 @@ void near chiyuri_pattern_cardinal(void)
 void near chiyuri_pattern_rings(void)
 {
 	// This distinct ring cadence also allows natural comparison order.
-	if(1 != (boss_frame % chiyuri_ring_interval)) {
+	if((boss_frame % chiyuri_ring_interval) != 1) {
 		return;
 	}
 
@@ -283,7 +283,7 @@ void near chiyuri_pattern_rings(void)
 		boss_center_x, boss_center_y, (1 - pid_current)
 	);
 
-	if(boss_frame >= CHIYURI_PATTERN_END_AT) {
+	if(CHIYURI_PATTERN_END_AT <= boss_frame) {
 		boss_mode = CHIYURI_MODE_SELECT;
 		boss_frame = 0;
 		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
@@ -539,7 +539,7 @@ void far gba_boss_update_chiyuri(void)
 			boss_center_y = chiyuri_boss_y_words[random_i];
 			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 		}
-		if(boss_frame >= CHIYURI_SELECT_TIME_AT) {
+		if(CHIYURI_SELECT_TIME_AT <= boss_frame) {
 			boss_frame = 0;
 			boss_mode = (randring_far_next16_and(0x0F) + 2);
 			boss_pattern_i++;
