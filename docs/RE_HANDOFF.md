@@ -366,7 +366,8 @@ Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/po
 scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
 (af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q/af1030s/af1030t), and update
-SELECT register byte/render cadence/phase truth tests (af1028f/af1030c/af1030d/af1030e), Kotohime's
+SELECT register byte/index scaling/render cadence/phase truth tests
+(af1028f/af1032b/af1030c/af1030d/af1030e), Kotohime's
 explicit radial register indices/order, scoped radial while loops,
 positive update INTRO branch and Pellet Arc finish predicate
 (af1026i/af1029l/af1030m/af1030w/af1031h), and
@@ -476,9 +477,13 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   label/goto and nested Particle thresholds. See the
   [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md)
   and [Random Bomb review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md).
-- **Chiyuri:** Cardinal, ring, fan and trail clocks have natural named
-  thresholds and state tests. Preserve compiler-sensitive operand order
-  and the original bullet-call ordering.
+- **Chiyuri:** the 613-byte update controller's SELECT path now expresses
+  its paired-center word index as `randring_far_next16_mod(5) << 1`; the
+  random call remains single-evaluation and the shared X/Y index is unchanged
+  (af1032b). Caching the seven level-derived formulas through one local byte
+  changed complete CODE and was reverted. Cardinal, Rings, Fans and Trail
+  retain their named clocks and original bullet-call ordering. See the
+  [after1032 Chiyuri SELECT review](MAIN_CHIYURI_UPDATE_SELECT_INDEX_SHIFT_AFTER1032_REVIEW.md).
 
 Recommended next targets:
 
