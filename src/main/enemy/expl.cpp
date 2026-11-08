@@ -63,6 +63,9 @@ uint8_t far __cdecl explosions_hittest(void)
     // after every continue path and completed collision, matching the
     // original TC4 iterator order byte-for-byte (af996d).
     for(i = 0; i < EFE_COUNT; i++, expl_p++) {
+        // State, player and byte-frame filters remain ordered short-circuit
+        // guards. The byte phase stays a low-bit test: natural %4 changed
+        // original TC4 CODE (af902c).
         if(
             (expl_p->flag < EFF_EXPLOSION_IGNORING_ENEMIES) ||
             ((explosion_hittest_against == EHA_ENEMY) && (
@@ -71,15 +74,7 @@ uint8_t far __cdecl explosions_hittest(void)
                     EFF_EXPLOSION_HITTING_ENEMIES +
                     (expl_p->explosion_max_enemy_hits_half * 2)
                 ))
-            ))
-        ) {
-            continue;
-        }
-
-        // Byte-valued animation cadence retains its original bit test.
-        // Natural byte %4 independently changed real original CODE
-        // again in af902c (as in prior af846a).
-        if(
+            )) ||
             (expl_p->pid != hitbox.pid) ||
             (expl_p->frame & (EXPLOSION_HIT_PERIOD - 1))
         ) {
