@@ -8,6 +8,25 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## After926: complete small Chiyuri Bomb palette and axis hardware leaf
+
+- The real single-function original `b_chiyu` owner now uses native-
+  exact `if(!remainder)` for two distinct byte 8/16-frame warning
+  cadences and natural player index truth guards. Actual signed center
+  coordinates, original 64/144-frame phase thresholds and 8/16-frame
+  periods are named, preserving all PC-98 GRCG, palette, MRS and
+  far-Pascal four-axis effect call order.
+- Fresh original TC4 negatives: byte shake `&3`→`%4` emitted
+  **493 vs original 490 CODE** (`af926c`) and collapsing the
+  original signed two-stage `*2 *16` axis spread to `*32`
+  emitted **488** (`af926e`). Restored original. Final `af926h`
+  passed two genuine original TC4/full normal MAIN TLINK rounds:
+  **490 CODE bytes, 48 ordered native FIXUPPs, one PUBLIC**, full
+  Japanese MAIN/1,553 MZ relocations exact, 98 other original game
+  objects/CRT reused. See
+  [after926 Chiyuri Bomb review](MAIN_CHIYURI_BOMB_NATIVE_AFTER926_REVIEW.md).
+  Previously source-owned CODE, not new Factory/canonical credit.
+
 ## After925: complete Chiyuri Chargeshot/Gauge state and warning control
 
 - The full nine-function original `cs_chiyu` source now expresses all
