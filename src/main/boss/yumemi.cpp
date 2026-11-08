@@ -500,11 +500,12 @@ void far gba_boss_update_yumemi(void)
 				snd_se_reset();
 				snd_se_play(YUMEMI_SOUND_EXPLOSION);
 			}
-			if(boss_frame != YUMEMI_INTRO_FINISH_FRAME) {
+			if(boss_frame == YUMEMI_INTRO_FINISH_FRAME) {
+				boss_frame = 0;
+				boss_mode = YUMEMI_MODE_SELECT;
+			} else {
 				return;
 			}
-			boss_frame = 0;
-			boss_mode = YUMEMI_MODE_SELECT;
 			break;
 
 		case YUMEMI_MODE_SELECT:
