@@ -197,7 +197,7 @@ void near reimu_pattern_orbit_cloud(void)
 	}
 
 	angle = ((unsigned char)boss_frame * REIMU_CLOUD_ANGLE_FRAME_STEP);
-	angle += REIMU_CLOUD_ANGLE_ROTATION;
+	angle = angle + REIMU_CLOUD_ANGLE_ROTATION;
 	boss_center_y = polar(
 		boss_aux_point.y.v, TO_SP(48), SinTable8[angle]
 	);

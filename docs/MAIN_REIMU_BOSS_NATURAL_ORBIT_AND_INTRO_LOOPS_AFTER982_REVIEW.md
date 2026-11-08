@@ -28,9 +28,13 @@ trial also passed.
 The template now names its center, velocity, HP and sprite-bank layout.
 The scheduler and render-mode transitions use INTRO/SELECT and
 NONE/ORBIT names; the main renderer's hit byte is explicitly nonzero.
-The cloud attack's local byte half-turn now uses ordinary assignment:
+Both local cloud-angle updates now use ordinary addition and
+assignment: the opposite-projectile half-turn and the signed -0x40
+center-orbit rotation. Their byte truncation and use in the two distinct
+polar paths remain in original order:
 
     angle = angle + REIMU_CLOUD_OPPOSITE_ANGLE;
+    angle = angle + REIMU_CLOUD_ANGLE_ROTATION;
 
 A direct assignment rewrite of the global cloud-speed increment did not
 match the original complete object, so the original postfix increment
@@ -39,9 +43,9 @@ remains.
 ## Original compiler verification
 
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
-      scripts/probe_th03_main_exatt_layout.py --stage af982c --units ba_reimu
+      scripts/probe_th03_main_exatt_layout.py --stage af982e --units ba_reimu
     DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python \
-      scripts/review_th03_main_source_overlay.py --stage af982c
+      scripts/review_th03_main_source_overlay.py --stage af982e
 
 Two independent genuine original Turbo C++ 4.02 rounds recompiled the
 entire nine-function, 2,020-byte Reimu BOSS, preserving all 270
@@ -51,5 +55,5 @@ and all 1,553 ordered MZ relocations. The other 98 original game
 objects and Borland CRT were reused; no full cold replay.
 
 Protected current-source report:
-.analysis/work/exatt-layout-af982c/report.json, SHA-256
-a64963c61d23a637578f0e008bf1da8c02294b728282f0c6be51edf8785c9db7.
+.analysis/work/exatt-layout-af982e/report.json, SHA-256
+6f63301c51bfb45cbd7716d20e28fc5d9b21ac70cbe8c8229b12d4213140c176.
