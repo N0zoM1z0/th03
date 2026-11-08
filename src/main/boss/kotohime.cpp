@@ -229,7 +229,9 @@ void near kotohime_pattern_random_ring(void)
 
 	if(boss_effect_radius > KOTOHIME_RING_EXPAND_LIMIT) {
 		boss_render_mode = KOTOHIME_RENDER_MODE_WARNING;
-		_AL = boss_move_phase;
+		// Force the original phase-byte reload after the preceding +4.
+		// Without volatile, TC4 reuses AL and omits this load (af967c).
+		_AL = *(volatile unsigned char near *)&boss_move_phase;
 		_AL += 2;
 		boss_move_phase = _AL;
 		// Byte-memory postfix is real original codegen. Changing all
