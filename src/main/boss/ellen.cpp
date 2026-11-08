@@ -285,7 +285,7 @@ void near ellen_pattern_extra(void)
 				ELLEN_EXTRA_FIRST_MODE
 			);
 			++i;
-			angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
+			angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		return;
 	}
@@ -302,7 +302,7 @@ void near ellen_pattern_extra(void)
 				ELLEN_EXTRA_LAST_MODE
 			);
 			++i;
-			angle += (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
+			angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		boss_mode = ELLEN_MODE_SELECT;
 		boss_frame = 0;
