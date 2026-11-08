@@ -8,6 +8,32 @@ Older roots are [after596](RE_HANDOFF_ARCHIVE_AFTER596.md) and
 “latest” paragraphs as current state.** Read [AGENTS.md](../AGENTS.md)
 and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
 
+## Latest after927: five current original project sources compiled together
+
+- The genuine `af927a` two-round original TC4 4.02/full normal MAIN
+  TLINK experiment **simultaneously recompiles all five original
+  physical project objects edited in this session**: entire 11-function
+  **Chiyuri major BOSS**, complete 3,050-CODE-byte **MAIN entry and
+  frame/round initializer**, whole player GRCG effect engine, complete
+  Chiyuri Chargeshot/Gauge, and the small Chiyuri Bomb hardware leaf.
+  Eight edited maintained C++/include files map to these five objects.
+- Both original compiler/linker rounds match **7,833 CODE bytes, 991
+  literal ordered native OMF FIXUPPs and 34 PUBLICs**, genuine source/
+  header dependencies and 16-bit ABI, complete original normal MAIN
+  EXE/MAP, **124,642 Japanese loaded program bytes and 1,553 literal
+  ordered MZ relocations**. Independently checked standard MZ output
+  matches the 130,882-byte original Japanese file. **94 unchanged
+  game project objects and original CRT reused**, no cold replay.
+  See [after927 five-source integration](MAIN_FIVE_SOURCE_INTEGRATION_AFTER927_REVIEW.md).
+- Fresh live-source read-only checks: separate `af921a`, `af915a`,
+  `af909a`, `af903a`, `af896a`, `af889a` and `af883a` still pass for
+  their other unchanged original physical source owners. The older
+  `af877a` is now **historical** after this session changed both
+  Chiyuri BOSS and Chargeshot; `af871a` was previously historical.
+  Preserve the authentic older original compiler/linker receipts;
+  do not repin them, run a fake all-object cold replay or double-count
+  already-covered original CODE as new Factory canonical credit.
+
 ## After926: complete small Chiyuri Bomb palette and axis hardware leaf
 
 - The real single-function original `b_chiyu` owner now uses native-
@@ -107,7 +133,7 @@ and [the workflow](RE_WORKFLOW.md) before modifying native evidence.
   See [after922 full Chiyuri BOSS review](MAIN_CHIYURI_BOSS_NAMED_NATIVE_AFTER922_REVIEW.md).
   Previously covered original CODE, not new distinct/Factory credit.
 
-## Latest after921: six edited original physical owners compiled together
+## After921: six edited original physical owners compiled together
 
 - Actual `af921a` **simultaneously recompiles all six original physical
   project objects modified in this session** with two independent
@@ -2520,7 +2546,7 @@ From the repository root (keep the original Japanese pinned targets):
 ```sh
 git status -sb
 .venv/bin/python scripts/preflight.py
-DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af921a af915a af909a af903a af896a af889a af883a af880h af881i af882e af877a
+DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af927a af921a af915a af909a af903a af896a af889a af883a af880h af881i af882e
 .venv/bin/python -m unittest discover -s tests -p test_main_source_overlay_inline_contract.py -q
 # Diagnostic success means the known input_s full-link failure was detected:
 PYTHONPATH=scripts .venv/bin/python scripts/review_th03_input_s_link_gap_after744.py
@@ -2540,9 +2566,10 @@ and full-link evidence, not current live-source acceptance. Never weaken
 the independent reviewer to conceal drift.
 
 The **latest current** protected original-source-bound read-only proof
-is `.analysis/work/exatt-layout-af921a/report.json`: six genuinely
+is `.analysis/work/exatt-layout-af927a/report.json`: five genuinely
 recompiled current original physical project owners and both original
-TC4/TLINK rounds. After915 and after909 remain separate current-source
+TC4/TLINK rounds. After921 and after915 remain independently
+source-current for their other unchanged physical game objects. After915 and after909 remain separate current-source
 original compiler/linker receipts for their other unchanged owners. After909 remains a separately current-source native
 proof of its five other unchanged real original owners. The older after903/896/889 experiments remain
 separately source-current for their other unchanged original owners. Earlier after896 remains independently
