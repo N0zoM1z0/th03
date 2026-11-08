@@ -500,9 +500,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
 - **Kana:** the complete 316-byte update controller now scopes its
   mode dispatch, render-frame postfix increment and collision/hitbox tail
   under the positive `pid_current == gba_boss_launched_by` guard (af1033c).
-  The bullet PID assignment remains before `boss_target_update()`, and the
-  render counter remains after the switch. See the
-  [after1033 Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+  Its INTRO completion also uses a positive equality branch with an explicit
+  `else return` (af1033k). The bullet PID assignment remains before
+  `boss_target_update()`, and the render counter remains after the switch.
+  See the [after1033 PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md)
+  and [INTRO-branch review](MAIN_KANA_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
 - **Ellen:** the complete 269-byte update controller now scopes its
   mode dispatch and collision/hitbox tail under the positive
   `pid_current == gba_boss_launched_by` guard (af1032z). The render-frame

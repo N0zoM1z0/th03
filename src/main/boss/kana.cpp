@@ -470,11 +470,12 @@ void far gba_boss_update_kana(void)
 
 		switch(boss_mode) {
 		case KANA_MODE_INTRO:
-			if(boss_frame != KANA_INTRO_COMPLETE_FRAME) {
+			if(boss_frame == KANA_INTRO_COMPLETE_FRAME) {
+				boss_frame = 0;
+				boss_mode = KANA_MODE_SELECT;
+			} else {
 				return;
 			}
-			boss_frame = 0;
-			boss_mode = KANA_MODE_SELECT;
 			break;
 
 		case KANA_MODE_SELECT:
