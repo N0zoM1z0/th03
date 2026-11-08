@@ -312,7 +312,8 @@ scopes**, not one combined 99-original-source replay:
 
 | Source-current stage | Complete physically rebuilt original owners | Original CODE bytes |
 | --- | ---: | ---: |
-| `af997e` | 1 | 630 |\n| `af993d` | 9 | 17,451 |
+| `af997e` | 1 | 630 |
+| `af993d` | 9 | 17,451 |
 | `af988b` | 8 | 14,797 |
 | `af976a` | 1 | 1,874 |
 | `af973b` | 1 | 2,654 |
@@ -364,7 +365,8 @@ compiler results. HitCircle cel local/register arithmetic trials af976b-f, af987
 and af993e changed complete CODE; retain the verified BX sequence.
 
 Current source bindings: af997e for e_expl, af993d for all nine major
-BOSSes, af986b for Hitbox, af985b for HitCircle and af964e for Fireball. HitCircle af931b and
+BOSSes, af986b for Hitbox, af985b for HitCircle and af964e for Fireball.
+HitCircle af931b and
 older af919g/af921a receipts are historical after af985b. Hitbox af983c is
 historical after af986b. Marisa af935a/af930e, the prior individual BOSS
 receipts and the eight-owner af988b integration are historical after
