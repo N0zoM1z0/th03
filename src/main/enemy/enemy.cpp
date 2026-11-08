@@ -826,17 +826,9 @@ bool near enemy_run(void);
 #ifndef TH03_ENEMY_FORMATIONS_ONLY
 #define p (efe_p.enemy)
 
-#define chain_start_next_in_ring(pid) \
-	/* Sneaky! That's how we can pretend this is an actual function that */ \
-	/* returns a value. */ \
-	chain_ring_p[pid]; \
-	p->chain_slot = chain_slot; \
-	chains.hits[pid][chain_slot] = 1; \
-	chains.pellet_and_fireball_value[pid][chain_slot] = 0; \
-	chain_ring_p[pid]++; \
-	if(chain_ring_p[pid] >= CHAIN_RING_SIZE) { \
-		chain_ring_p[pid] = 0; \
-	}
+// Each chain receives the ring's current slot, clears the counters,
+// then advances the original byte ring index. Keep these stores in their
+// original order at both branches that start an enemy explosion chain.
 
 // Chain thresholds for this complete hit/update controller. The original
 // round-speed slot computation and all signed hit-count comparisons remain.
@@ -867,7 +859,14 @@ void near enemy_hittest(void)
 	if(damage_all_on[pid]) {
 		p->hp = 0;
 		p->flag = EFF_EXPLOSION_IGNORING_ENEMIES;
-		chain_slot = chain_start_next_in_ring(pid);
+		chain_slot = chain_ring_p[pid];
+		p->chain_slot = chain_slot;
+		chains.hits[pid][chain_slot] = 1;
+		chains.pellet_and_fireball_value[pid][chain_slot] = 0;
+		chain_ring_p[pid]++;
+		if(chain_ring_p[pid] >= CHAIN_RING_SIZE) {
+			chain_ring_p[pid] = 0;
+		}
 		p->frame = 0;
 		return;
 	}
@@ -897,7 +896,14 @@ void near enemy_hittest(void)
 		p->flag = EFF_EXPLOSION_IGNORING_ENEMIES;
 		enemy_killed_in_previous_hittest = true;
 		if(!explosion_collision_in_last_hittest) {
-			chain_slot = chain_start_next_in_ring(pid);
+			chain_slot = chain_ring_p[pid];
+			p->chain_slot = chain_slot;
+			chains.hits[pid][chain_slot] = 1;
+			chains.pellet_and_fireball_value[pid][chain_slot] = 0;
+			chain_ring_p[pid]++;
+			if(chain_ring_p[pid] >= CHAIN_RING_SIZE) {
+				chain_ring_p[pid] = 0;
+			}
 		} else {
 			// Enemy continues the chain of the explosion that destroyed it
 			gauge_avail_add(pid, 32);
