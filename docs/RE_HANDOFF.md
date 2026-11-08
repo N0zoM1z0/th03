@@ -479,6 +479,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
   Replacing those additions with a multiplication changed complete CODE.
+- **Reimu:** the complete BOSS update controller now scopes its pre-switch
+  SELECT logic, four attack-family dispatches and collision/hitbox tail under
+  the positive `pid_current == gba_boss_launched_by` guard (af1032r). Its
+  INTRO/EXPLODE returns and all pattern/collision ordering remain unchanged.
+  See the [after1032 Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 - **Mima:** the 298-byte update controller now scopes its complete active
   player path under `if(pid_current == gba_boss_launched_by)`, retaining the
   post-target-update recomputation of `bullet_template.pid`, all mode cases
