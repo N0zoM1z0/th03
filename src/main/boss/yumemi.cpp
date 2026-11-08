@@ -291,7 +291,7 @@ enum yumemi_attack_timing_t {
 
 void near yumemi_pattern_aimed_random(void)
 {
-	if(boss_frame == YUMEMI_AIMED_INIT_FRAME) {
+	if(YUMEMI_AIMED_INIT_FRAME == boss_frame) {
 		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		boss_aux_point.x = players[bullet_template.pid].center.x;
 		boss_aux_point.y = players[bullet_template.pid].center.y;
@@ -303,8 +303,8 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_frame = YUMEMI_AIMED_RENDER_FRAME_START;
 	}
 
-	if(boss_frame < YUMEMI_AIMED_WARNING_END) {
-		if((boss_frame & (YUMEMI_AIMED_WARNING_PERIOD - 1)) == YUMEMI_AIMED_WARNING_PHASE) {
+	if(YUMEMI_AIMED_WARNING_END > boss_frame) {
+		if((boss_frame % YUMEMI_AIMED_WARNING_PERIOD) == YUMEMI_AIMED_WARNING_PHASE) {
 			bomb_axis_add(
 				boss_aux_point.x.v,
 				boss_aux_point.y.v,
@@ -312,11 +312,11 @@ void near yumemi_pattern_aimed_random(void)
 			);
 		}
 		return;
-	} else if(boss_frame < YUMEMI_AIMED_FIRE_START) {
+	} else if(YUMEMI_AIMED_FIRE_START > boss_frame) {
 		return;
 	}
 
-	if(boss_frame == YUMEMI_AIMED_FIRE_START) {
+	if(YUMEMI_AIMED_FIRE_START == boss_frame) {
 		bomb_explosion_add(
 			yumemi_origin_x,
 			yumemi_origin_y,
@@ -325,20 +325,20 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
-	if((boss_frame & (YUMEMI_AIMED_FIRE_PERIOD - 1)) == 0) {
+	if(0 == (boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
 		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
 		bullet_template.angle = yumemi_angle;
 		bullet_template.speed.v = (
-			randring_far_next16_and(0x1F) + yumemi_aimed_speed_base
+			yumemi_aimed_speed_base + randring_far_next16_and(0x1F)
 		);
-		bullet_template.type = (randring_far_next16_and(1) + 1);
+		bullet_template.type = (1 + randring_far_next16_and(1));
 		bullet_template.group = yumemi_groups[randring_far_next16_mod(5)];
 		bullets_add();
 	}
 
-	if(boss_frame > YUMEMI_AIMED_FINISH_AFTER) {
+	if(YUMEMI_AIMED_FINISH_AFTER < boss_frame) {
 		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
@@ -349,10 +349,10 @@ void near yumemi_pattern_cross_rings(void)
 {
 	boss_move_sine();
 
-	if((boss_frame % yumemi_cross_interval) == 0) {
+	if(0 == (boss_frame % yumemi_cross_interval)) {
 		bullet_template.group = BG_4_RING;
 		bullet_template.speed.v = TO_SP(2);
-		bullet_template.type = (randring_far_next16_and(1) + 1);
+		bullet_template.type = (1 + randring_far_next16_and(1));
 
 		bullet_template.angle = randring_far_next16();
 		bullet_template.center.x.v = boss_center_x;
@@ -373,7 +373,7 @@ void near yumemi_pattern_cross_rings(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= YUMEMI_CROSS_FINISH_AT) {
+	if(YUMEMI_CROSS_FINISH_AT <= boss_frame) {
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -381,7 +381,7 @@ void near yumemi_pattern_cross_rings(void)
 
 void near yumemi_pattern_chase(void)
 {
-	if(boss_move_phase == YUMEMI_MOVE_PHASE_SEEK) {
+	if(YUMEMI_MOVE_PHASE_SEEK == boss_move_phase) {
 		// Keep the original positive, short-circuit range test. Reversing
 		// this into an early exit changes original TC4 branching (af848d).
 		if(
@@ -400,14 +400,14 @@ void near yumemi_pattern_chase(void)
 	boss_aux_point.x = players[bullet_template.pid].center.x;
 	boss_aux_point.y = players[bullet_template.pid].center.y;
 
-	if(boss_frame < YUMEMI_CHASE_TRACK_END) {
+	if(YUMEMI_CHASE_TRACK_END > boss_frame) {
 		return;
 	}
 
 	boss_move_sine();
 	boss_move_sine();
 
-	if((boss_frame & (YUMEMI_CHASE_BEAM_PERIOD - 1)) == YUMEMI_CHASE_BEAM_PHASE) {
+	if((boss_frame % YUMEMI_CHASE_BEAM_PERIOD) == YUMEMI_CHASE_BEAM_PHASE) {
 		boss_render_mode = YUMEMI_RENDER_MODE_PRIMARY;
 		bomb_axis_add(
 			boss_aux_point.x.v,
@@ -418,7 +418,7 @@ void near yumemi_pattern_chase(void)
 		return;
 	}
 
-	if(boss_frame > yumemi_chase_until) {
+	if(yumemi_chase_until < boss_frame) {
 		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
@@ -434,10 +434,10 @@ void near yumemi_pattern_rain(void)
 
 	// The variable unsigned-word rain interval compares its remainder
 	// explicitly with zero.
-	if((boss_frame % yumemi_rain_interval) == 0) {
+	if(0 == (boss_frame % yumemi_rain_interval)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
-		if(boss_frame < YUMEMI_RAIN_SPREAD_END) {
+		if(YUMEMI_RAIN_SPREAD_END > boss_frame) {
 			bullet_template.center.x.v = yumemi_origin_x;
 			bullet_template.center.y.v = yumemi_origin_y;
 			bullet_template.angle = YUMEMI_RAIN_INITIAL_ANGLE;
@@ -448,7 +448,7 @@ void near yumemi_pattern_rain(void)
 			bullets_add();
 		}
 
-		if(boss_frame >= YUMEMI_RAIN_BEGIN) {
+		if(YUMEMI_RAIN_BEGIN <= boss_frame) {
 			bullet_template.group = BG_1;
 			bullet_template.speed.v = YUMEMI_RAIN_SMALL_SPEED;
 			bullet_template.center.y.v = 0;
@@ -459,14 +459,14 @@ void near yumemi_pattern_rain(void)
 				bullet_template.center.x.v =
 					randring_far_next16_mod(TO_SP(PLAYFIELD_W));
 				bullet_template.angle = (
-					randring_far_next16_and(YUMEMI_RAIN_RANDOM_ANGLE_MASK) + YUMEMI_RAIN_RANDOM_ANGLE_BIAS
+					YUMEMI_RAIN_RANDOM_ANGLE_BIAS + randring_far_next16_and(YUMEMI_RAIN_RANDOM_ANGLE_MASK)
 				);
 				bullets_add();
 			}
 		}
 	}
 
-	if(boss_frame >= YUMEMI_RAIN_FINISH_AT) {
+	if(YUMEMI_RAIN_FINISH_AT <= boss_frame) {
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}

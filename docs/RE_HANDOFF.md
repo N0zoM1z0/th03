@@ -570,7 +570,11 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   divisions by two remain divisions; replacing them with shifts changed CODE.
   Its Ring attack leaf now uses constant-first phase tests, a constant-first
   RNG bit test, modulo-four firing cadence and compound byte-speed progression
-  (af1036m). See the [after1036 Ring review](MAIN_YUMEMI_RING_PHASE_AND_SPEED_AFTER1036_REVIEW.md),
+  (af1036m). Aimed Random, Cross Rings, Chase and Rain now use constant-first
+  phase checks, natural modulo clocks and base-first RNG arithmetic where
+  exact; all original bullet/RNG ordering is retained (af1036n/o/p/q/r/s).
+  See the [after1036 attack-pattern review](MAIN_YUMEMI_ATTACK_PATTERNS_NATURAL_PHASES_AFTER1036_REVIEW.md),
+  [after1036 Ring review](MAIN_YUMEMI_RING_PHASE_AND_SPEED_AFTER1036_REVIEW.md),
   [after1036 update review](MAIN_YUMEMI_UPDATE_LEVEL_AND_COUNTDOWN_AFTER1036_REVIEW.md),
   [after1032 PID-scope review](MAIN_YUMEMI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
   and [after1033 INTRO-branch review](MAIN_YUMEMI_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
