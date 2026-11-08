@@ -211,48 +211,48 @@ void near mima_pattern_spread(void)
 		mima_spread_angle = 0;
 		mima_pellet_angle = MIMA_SPREAD_INITIAL_PELLET_ANGLE;
 		return;
-	} else if(boss_frame < MIMA_SPREAD_FIRE_BEGIN) {
-		return;
 	}
 
-	if((boss_frame & (MIMA_FIRE_EVEN_PERIOD - 1)) == 0) {
-		snd_se_play(MIMA_SOUND_SPREAD);
+	if(boss_frame >= MIMA_SPREAD_FIRE_BEGIN) {
+		if((boss_frame & (MIMA_FIRE_EVEN_PERIOD - 1)) == 0) {
+			snd_se_play(MIMA_SOUND_SPREAD);
 
-		bullet_template.angle = mima_spread_angle;
-		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.center.y.v = boss_center_y;
-		bullet_template.speed.v = mima_bullet_speed;
-		bullet_template.type = BT_BULLET16_DEFAULT;
-		bullet_template.is_animated = false;
-		bullets_add();
-		bullet_template.is_animated = true;
-		// Unlike some other BOSS byte-angle updates, named original
-		// increment constants are TC4 byte-exact here (af855f/g).
-		mima_spread_angle = mima_spread_angle + MIMA_SPREAD_ANGLE_STEP;
-
-		if(
-			(mima_pellet_until > boss_frame) &&
-			// The six-frame unsigned-word cadence compares the remainder
-			// explicitly with zero; unlike powers of two, it is not a mask.
-			((boss_frame % MIMA_SPREAD_PELLET_PERIOD) == 0)
-		) {
-			bullet_template.type = BT_PELLET;
-			bullet_template.group = BG_4_SPREAD_MEDIUM;
-			bullet_template.speed.v = mima_pellet_speed;
-			bullet_template.angle = mima_pellet_angle;
+			bullet_template.angle = mima_spread_angle;
+			bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
+			bullet_template.center.x.v = boss_center_x;
+			bullet_template.center.y.v = boss_center_y;
+			bullet_template.speed.v = mima_bullet_speed;
+			bullet_template.type = BT_BULLET16_DEFAULT;
+			bullet_template.is_animated = false;
 			bullets_add();
+			bullet_template.is_animated = true;
+			// Unlike some other BOSS byte-angle updates, named original
+			// increment constants are TC4 byte-exact here (af855f/g).
+			mima_spread_angle = mima_spread_angle + MIMA_SPREAD_ANGLE_STEP;
 
-			bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
-			bullets_add();
+			if(
+				(mima_pellet_until > boss_frame) &&
+				// The six-frame unsigned-word cadence compares the remainder
+				// explicitly with zero; unlike powers of two, it is not a mask.
+				((boss_frame % MIMA_SPREAD_PELLET_PERIOD) == 0)
+			) {
+				bullet_template.type = BT_PELLET;
+				bullet_template.group = BG_4_SPREAD_MEDIUM;
+				bullet_template.speed.v = mima_pellet_speed;
+				bullet_template.angle = mima_pellet_angle;
+				bullets_add();
+
+				bullet_template.angle = (MIMA_PELLET_OPPOSITE_ANGLE - mima_pellet_angle);
+				bullets_add();
+			}
+			mima_pellet_angle = mima_pellet_angle + MIMA_PELLET_ANGLE_STEP;
 		}
-		mima_pellet_angle = mima_pellet_angle + MIMA_PELLET_ANGLE_STEP;
-	}
 
-	if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+		if(boss_frame > MIMA_SPREAD_FIRE_END_AFTER) {
+			boss_render_mode = MIMA_RMODE_NORMAL;
+			boss_mode = MIMA_MODE_SELECT;
+			boss_frame = 0;
+		}
 	}
 }
 

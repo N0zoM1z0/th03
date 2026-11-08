@@ -360,8 +360,8 @@ owner in the stage.
 The latest source work includes the shared BOSS pattern selector's natural
 rejection loop (af1025a), two large Kotohime update-controller guards
 (af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
-phase guards, update INTRO branch and orbit/Trail finish predicates
-(af1029g/af1030f/af1030n/af1030v),
+phase guards, update INTRO branch, positive Spread fire-window guard and
+orbit/Trail finish predicates (af1029g/af1030f/af1030n/af1030v/af1031m),
 Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
 scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
 positive vertical/independent tests
@@ -460,9 +460,12 @@ and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.m
   named enums; the enemy ring-wrap guard uses the named count first.
   Preserve the BX/AX cel sequence and its three final BX additions.
   Replacing those additions with a multiplication changed complete CODE.
-- **Mima:** the hit-render path chains into the Particle renderer with
-  else-if; named render-mode comparisons are constant-first. Keep the
-  original Trail-to-Particle label/goto and nested Particle thresholds.
+- **Mima:** the 214-byte Spread leaf now scopes its volley/pellet/finish
+  path under a positive `boss_frame >= MIMA_SPREAD_FIRE_BEGIN` guard after
+  the independent initial-setup return (af1031m). The hit-render path also
+  chains into Particle with else-if; keep the original Trail-to-Particle
+  label/goto and nested Particle thresholds. See the
+  [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md).
 - **Chiyuri:** Cardinal, ring, fan and trail clocks have natural named
   thresholds and state tests. Preserve compiler-sensitive operand order
   and the original bullet-call ordering.
