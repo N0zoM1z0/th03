@@ -474,9 +474,8 @@ void near yumemi_pattern_rain(void)
 
 void far gba_boss_update_yumemi(void)
 {
-	register pid_t pid_other;
 
-	if(0 != boss_update_start()) {
+	if(boss_update_start()) {
 		yumemi_ring_speed = (YUMEMI_LEVEL_RING_BASE + (gba_boss_level / YUMEMI_LEVEL_HALF));
 		yumemi_ring_count = (YUMEMI_LEVEL_RING_BASE + (gba_boss_level / YUMEMI_LEVEL_HALF));
 		yumemi_aimed_speed_base = (YUMEMI_LEVEL_AIMED_SPEED_BASE + gba_boss_level);
@@ -488,10 +487,10 @@ void far gba_boss_update_yumemi(void)
 	if(pid_current != gba_boss_launched_by) {
 		return;
 	}
-	pid_other = 1 - pid_current;
+	register pid_t pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	boss_frame += 1;
+	boss_frame++;
 
 	yumemi_origin_x = (YUMEMI_ORIGIN_X_OFFSET + boss_center_x);
 	yumemi_origin_y = (-YUMEMI_ORIGIN_Y_OFFSET + boss_center_y);
@@ -553,10 +552,10 @@ void far gba_boss_update_yumemi(void)
 		return;
 	}
 
-	if(0 != boss_effect_radius) {
+	if(boss_effect_radius) {
 		boss_effect_radius -= YUMEMI_EFFECT_RADIUS_DECAY;
 	}
-	if(0 != boss_render_frame) {
+	if(boss_render_frame) {
 		// Original byte-field postfix is codegen-visible; prefix
 		// changed actual original TC4 CODE (af897h).
 		boss_render_frame--;
@@ -661,7 +660,6 @@ void near yumemi_render_arrival(void)
 {
 	register screen_y_t top;
 	register pid_t pid_other = (1 - pid_current);
-	register unsigned char phase;
 	register screen_x_t left;
 	register screen_x_t right;
 
@@ -688,7 +686,7 @@ void near yumemi_render_arrival(void)
 			sprite16_put(left, top, boss_sprite_offset);
 		}
 	} else if(YUMEMI_ARRIVAL_PHASE2_END > boss_frame) {
-		phase = boss_frame - YUMEMI_ARRIVAL_PHASE1_END;
+		register unsigned char phase = boss_frame - YUMEMI_ARRIVAL_PHASE1_END;
 		left = playfield_fg_x_to_screen(
 			(((phase * YUMEMI_ARRIVAL_POS_LOW_SCALE) * YUMEMI_ARRIVAL_POS_HIGH_SCALE) - TO_SP(104)),
 			pid_other
@@ -698,7 +696,7 @@ void near yumemi_render_arrival(void)
 			sprite16_put(left, top, boss_sprite_offset);
 		}
 	} else if(YUMEMI_ARRIVAL_PHASE3_END > boss_frame) {
-		phase = boss_frame - YUMEMI_ARRIVAL_PHASE2_END;
+		register unsigned char phase = boss_frame - YUMEMI_ARRIVAL_PHASE2_END;
 		left = playfield_fg_x_to_screen(TO_SP(272), pid_other);
 		right = playfield_fg_x_to_screen(
 			TO_SP(272) - ((phase * YUMEMI_ARRIVAL_POS_LOW_SCALE) * YUMEMI_ARRIVAL_POS_HIGH_SCALE),
@@ -710,7 +708,7 @@ void near yumemi_render_arrival(void)
 		left = playfield_fg_x_to_screen(TO_SP(88), pid_other);
 		sprite16_put(left, top, boss_sprite_offset);
 	} else if(YUMEMI_ARRIVAL_PHASE4_END > boss_frame) {
-		phase = boss_frame - YUMEMI_ARRIVAL_PHASE3_END;
+		register unsigned char phase = boss_frame - YUMEMI_ARRIVAL_PHASE3_END;
 		left = playfield_fg_x_to_screen(
 			TO_SP(272) - ((phase * YUMEMI_ARRIVAL_POS_LOW_SCALE) * YUMEMI_ARRIVAL_POS_HIGH_SCALE),
 			pid_other

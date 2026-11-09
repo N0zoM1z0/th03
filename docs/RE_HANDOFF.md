@@ -55,9 +55,9 @@ Report SHA-256:
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1069b`,
-`ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`,
-`ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`, `ba_rikak` uses `af1066a`,
-and `hitcirc` uses `af1068s`. Only `ba_yumem` remains bound to `af1053k`.
+`ba_yumem` uses `af1069l`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_reimu` uses `af1061b`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
+`ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
 probe reports are not Factory Oracle receipts or accepted facts.
@@ -105,6 +105,17 @@ MAIN image and ordered relocations. The 528-byte `chiyuri_pattern_fans()` now
 uses a register-qualified opposite-player PID; all four fan passes, byte-speed
 updates and projectile ordering remain intact. See the
 [current fan PID lifetime review](MAIN_CHIYURI_FANS_REGISTER_PID_AFTER1069_REVIEW.md).
+
+Yumemi current-source refresh: `.analysis/work/exatt-layout-af1069l/report.json`
+SHA-256: `b6d2f059081a14dee97a8228974df4f072ce53297aaffeb4a1a1f03391afc4b2`.
+It recompiled the complete 2,358-byte `ba_yumem` owner with 343 ordered native
+fields and ten PUBLICs in two original TC4 rounds, preserving the Japanese
+MAIN image and ordered relocations. The 368-byte update controller now uses
+natural update-start/effect-countdown truth tests, initializes its register
+PID only after the launched-player guard, and advances the unsigned-word clock
+with postfix increment. The 404-byte arrival renderer now scopes its byte
+`phase` scratch to each of the three branches that use it. See the
+[current Yumemi update/arrival review](MAIN_YUMEMI_UPDATE_AND_ARRIVAL_LIFETIMES_AFTER1069_REVIEW.md).
 
 Mima current-source refresh: `.analysis/work/exatt-layout-af1059a/report.json`
 SHA-256: `397144dec5bda10fd68ba3740c4409cd1adb38073fe30b2605235599d009f0a7`.
@@ -319,13 +330,19 @@ and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
 Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
+The current Yumemi + Chiyuri source integration is `af1069o`: `ba_yumem` and
+`ba_chiyu`, 5,012 CODE bytes, 724 ordered native fields and 21 PUBLICs. Both
+original TC4 rounds and both normal MAIN links match. Report:
+`.analysis/work/exatt-layout-af1069o/report.json`, SHA-256
+`149d2e29ea2acc3d1cf976d3280d3a740a1cb3ccd5d093273f930e3038c9c553`.
+
 Recommended next work:
 
-1. Continue `HitCircle::cel()` and Kotohime Radial Burst with substantive
-   function-level recovery: the spawn paths, thirteen-record update loop and
-   renderer lifetime are now naturalized, but the BX cel calculation and
-   Radial projectile arithmetic still deserve deeper register/operand-order
-   experiments. Compare the complete affected physical owner each time.
+1. Continue `HitCircle::cel()`, Kotohime Radial Burst, Yumemi arrival and
+   Chiyuri fan generation with substantive function-level recovery. The new
+   Yumemi update/arrival and Chiyuri fan PID changes are current-source native
+   matches; continue deeper register/operand-order and geometry experiments.
+   Compare the complete affected physical owner each time.
 2. Expand beyond the already integrated nine character BOSS owners. Use
    `config/units.csv`, `config/evidence.csv`, current source and focused
    reviews to identify genuinely unowned large functions or engine areas.
