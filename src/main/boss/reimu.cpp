@@ -234,22 +234,24 @@ void near reimu_pattern_spreads(void)
 	bullet_template.center.y.v = boss_center_y;
 
 	if(boss_frame < REIMU_SPREAD_NARROW_END) {
-		if(!round_frame_mod16) {
-			bullet_template.angle = 0x20;
-			bullet_template.group = BG_3_SPREAD_NARROW;
-			bullets_add();
-			bullet_template.angle = 0x60;
-			bullets_add();
+		if(round_frame_mod16) {
+			return;
 		}
+		bullet_template.angle = 0x20;
+		bullet_template.group = BG_3_SPREAD_NARROW;
+		bullets_add();
+		bullet_template.angle = 0x60;
+		bullets_add();
 		return;
 	}
 
 	if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
-		if(!round_frame_mod16) {
-			bullet_template.group = BG_5_SPREAD_MEDIUM;
-			bullet_template.angle = 0x40;
-			bullets_add();
+		if(round_frame_mod16) {
+			return;
 		}
+		bullet_template.group = BG_5_SPREAD_MEDIUM;
+		bullet_template.angle = 0x40;
+		bullets_add();
 		return;
 	}
 
@@ -500,10 +502,12 @@ void near reimu_render_main(void)
 		sprite16_put(left, top, sprite_offset);
 	}
 
-	if(boss_render_mode == REIMU_RENDER_MODE_ORBIT) {
-		sprite16_put_size.set(REIMU_RENDER_ORBIT_SIZE, REIMU_RENDER_ORBIT_SIZE);
-		{
-			register sprite16_offset_t sprite_offset = (boss_sprite_offset + 0xFFF4);
+	if(boss_render_mode != REIMU_RENDER_MODE_ORBIT) {
+		return;
+	}
+	sprite16_put_size.set(REIMU_RENDER_ORBIT_SIZE, REIMU_RENDER_ORBIT_SIZE);
+	{
+		register sprite16_offset_t sprite_offset = (boss_sprite_offset + 0xFFF4);
 		unsigned char anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
 		// Do not write `%4` for this *byte* animation carrier: it changed
 		// original TC4 CODE in af892g, unlike the 16-bit attack clock.
@@ -522,7 +526,6 @@ void near reimu_render_main(void)
 			top = ((reimu_orbit_y[i] >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
 			sprite16_put(left, top, sprite_offset);
 		}
-	}
 	}
 }
 
