@@ -324,9 +324,9 @@ enum chiyuri_trail_phase_t {
 
 void near chiyuri_pattern_trail_ring(void)
 {
-	// The unsigned 16-bit eight-frame cadence is a natural low-bit test.
+	// The unsigned 16-bit eight-frame cadence uses natural remainder.
 	// This does not generalize to byte %=4 on the mutable render frame.
-	if((boss_frame & (CHIYURI_TRAIL_BOMB_PERIOD - 1)) == 0) {
+	if((boss_frame % CHIYURI_TRAIL_BOMB_PERIOD) == 0) {
 		bomb_axis_add(
 			boss_center_x, boss_center_y, (1 - pid_current)
 		);
@@ -507,7 +507,7 @@ void far gba_boss_update_chiyuri(void)
 	bullet_template.pid = pid_other;
 	// The original unsigned-word BOSS frame admits natural prefix;
 	// byte-valued movement state below does not (af922j/k).
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case CHIYURI_MODE_INTRO:
@@ -595,7 +595,7 @@ void far gba_boss_update_chiyuri(void)
 	bullet_template.is_animated = true;
 
 	boss_render_frame += (
-        0 == (round_or_result_frame & (CHIYURI_RENDER_ANIM_PERIOD - 1))
+        0 == (round_or_result_frame % CHIYURI_RENDER_ANIM_PERIOD)
     );
 	// This mutable byte field needs the original bitmask instruction:
 	// boss_render_frame %= 4 emitted different TC4 CODE (af702a).
@@ -662,7 +662,7 @@ void near chiyuri_render_ring(void)
 	for(
 		i = 0, angle = boss_move_phase;
 		i < CHIYURI_RING_SPRITES;
-		i++, angle = CHIYURI_RING_SPRITE_ANGLE_STEP + angle
+		++i, angle = CHIYURI_RING_SPRITE_ANGLE_STEP + angle
 	) {
 		left = polar(
 			boss_center_x, radius, CosTable8[angle]
@@ -723,7 +723,7 @@ void near chiyuri_render_main(void)
 		return;
 	}
 
-	else if(boss_render_mode >= CHIYURI_MONO_COLOR6_LATE_STEP) {
+	if(boss_render_mode >= CHIYURI_MONO_COLOR6_LATE_STEP) {
 		chiyuri_render_mono(6);
 	} else if(boss_render_mode >= CHIYURI_MONO_COLOR5_LATE_STEP) {
 		chiyuri_render_mono(5);
