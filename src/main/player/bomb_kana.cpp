@@ -50,7 +50,7 @@ void far kana_bomb(void)
 	if(frame < KANA_BOMB_PALETTE_END) {
 		color = (KANA_BOMB_PALETTE_END - frame);
 		bomb_palette_step(color, pid_current);
-		if((frame % KANA_BOMB_CENTER_PERIOD) == 0) {
+		if(!(frame % KANA_BOMB_CENTER_PERIOD)) {
 			bomb_center_add(TO_SP(KANA_BOMB_CIRCLE_X), TO_SP(KANA_BOMB_CIRCLE_Y), pid_current);
 		}
 		kana_bomb_angle = 0;
@@ -70,11 +70,9 @@ void far kana_bomb(void)
 			bomb_palette_step(0, pid_current);
 		}
 
-		if((frame % KANA_BOMB_EXPLOSION_PERIOD) == 0) {
-			int x;
-			int y;
-			x = polar(KANA_BOMB_CIRCLE_X, KANA_BOMB_CIRCLE_RADIUS, CosTable8[kana_bomb_angle]);
-			y = polar(KANA_BOMB_CIRCLE_Y, KANA_BOMB_CIRCLE_RADIUS, SinTable8[kana_bomb_angle]);
+		if(!(frame % KANA_BOMB_EXPLOSION_PERIOD)) {
+			int x = polar(KANA_BOMB_CIRCLE_X, KANA_BOMB_CIRCLE_RADIUS, CosTable8[kana_bomb_angle]);
+			int y = polar(KANA_BOMB_CIRCLE_Y, KANA_BOMB_CIRCLE_RADIUS, SinTable8[kana_bomb_angle]);
 			bomb_explosion_add((x * 16), (y * 16), pid_current);
 
 			kana_bomb_angle = (KANA_BOMB_MIRROR_ANGLE - kana_bomb_angle);
@@ -90,7 +88,7 @@ void far kana_bomb(void)
 		}
 
 		int left = PLAYFIELD_LEFT;
-		if(pid_current != 0) {
+		if(pid_current) {
 			left += PLAYFIELD_W_BORDERED;
 		}
 		mrs_put_noalpha_8(
