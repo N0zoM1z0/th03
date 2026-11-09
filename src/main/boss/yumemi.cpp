@@ -428,13 +428,12 @@ void near yumemi_pattern_chase(void)
 
 void near yumemi_pattern_rain(void)
 {
-	register int i;
 
 	boss_move_sine();
 
 	// The variable unsigned-word rain interval uses a natural
 	// remainder truth test.
-	if(!(boss_frame % yumemi_rain_interval)) {
+	if(0 == (boss_frame % yumemi_rain_interval)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
 		if(YUMEMI_RAIN_SPREAD_END > boss_frame) {
@@ -455,7 +454,7 @@ void near yumemi_pattern_rain(void)
 			// Twelve physically separate RNG-X and byte-angle draws, with
 			// one bullet add per iteration before advancing signed i.
 			// Both prefix and postfix for-header increments are TC4-exact.
-			for(i = 0; i < YUMEMI_RAIN_DROPS_PER_WAVE; ++i) {
+			for(register int i = 0; i < YUMEMI_RAIN_DROPS_PER_WAVE; ++i) {
 				bullet_template.center.x.v =
 					randring_far_next16_mod(TO_SP(PLAYFIELD_W));
 				bullet_template.angle = (
