@@ -35,8 +35,8 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Kana BOSS | af1117f | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1119b | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1123e | Verified | 1 | 1,840 | — |
-| th03-main / Reimu BOSS | af1104e | Verified | 1 | 2,020 | — |
-| th03-main / Mima BOSS | af1105d | Verified | 1 | 1,922 | — |
+| th03-main / Reimu BOSS | af1139c | Verified | 1 | 2,020 | — |
+| th03-main / Mima BOSS | af1137b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1110d | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1111e | Verified | 1 | 1,675 | — |
 | th03-main / Yumemi BOSS | af1130c | Verified | 1 | 2,358 | — |
@@ -48,6 +48,11 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Background chains | af1115b | Verified | 2 | 1,245 | — |
 | th03-main / MAIN entry and round | af1126c | Verified | 1 | 3,050 | — |
 | th03-main / Player core | af1116g | Verified | 1 | 3,135 | — |
+| th03-main / Marisa Chargeshot | af1134f | Verified | 1 | 1,509 | — |
+| th03-main / Chiyuri Chargeshot | af1135h | Verified | 1 | 1,011 | — |
+| th03-main / Reimu Chargeshot | af1136f | Verified | 1 | 1,448 | — |
+| th03-main / Ellen Chargeshot | af1138f | Verified | 1 | 1,530 | — |
+| th03-main / Rikako Chargeshot | af1140e | Verified | 1 | 1,280 | — |
 | th03-main / Combo HUD and chain | af1131a | Verified | 2 | 978 | — |
 | th03-main / Player shots | af1132b | Verified | 1 | 449 | — |
 | th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
@@ -83,9 +88,9 @@ th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1119b/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1123e/report.json`.
 
-th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1104e/report.json`.
+th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1139c/report.json`.
 
-th03-main Mima BOSS: `.analysis/work/exatt-layout-af1105d/report.json`.
+th03-main Mima BOSS: `.analysis/work/exatt-layout-af1137b/report.json`.
 
 th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1110d/report.json`.
 
@@ -108,6 +113,16 @@ th03-main Background chains: `.analysis/work/exatt-layout-af1115b/report.json`.
 th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1126c/report.json`.
 
 th03-main Player core: `.analysis/work/exatt-layout-af1116g/report.json`.
+
+th03-main Marisa Chargeshot: `.analysis/work/exatt-layout-af1134f/report.json`.
+
+th03-main Chiyuri Chargeshot: `.analysis/work/exatt-layout-af1135h/report.json`.
+
+th03-main Reimu Chargeshot: `.analysis/work/exatt-layout-af1136f/report.json`.
+
+th03-main Ellen Chargeshot: `.analysis/work/exatt-layout-af1138f/report.json`.
+
+th03-main Rikako Chargeshot: `.analysis/work/exatt-layout-af1140e/report.json`.
 
 th03-main Combo HUD and chain: `.analysis/work/exatt-layout-af1131a/report.json`.
 

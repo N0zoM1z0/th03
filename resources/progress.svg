@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="788" height="1354" viewBox="0 0 788 1354" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+<svg xmlns="http://www.w3.org/2000/svg" width="788" height="1474" viewBox="0 0 788 1474" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>All bars count tracked unit extents. MAIN ledger exactness and decoded source publications are labeled separately. Pending publication is not zero reconstruction. Whole-game totals remain unknown.</desc>
-  <rect x="0.5" y="0.5" width="787" height="1353" rx="16" fill="#1f2335" stroke="#353b52"/>
+  <rect x="0.5" y="0.5" width="787" height="1473" rx="16" fill="#1f2335" stroke="#353b52"/>
   <text x="24" y="39" fill="#f4f4f5" font-family="sans-serif" font-size="22" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked unit extents · whole-game completion unknown</text>
   <text x="200" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary review / source</text>
@@ -73,8 +73,8 @@
 <text x="24" y="778" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kana BOSS (af1117f): 1 physical owners / 1,874 CODE B</text>
 <text x="24" y="802" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Chiyuri BOSS (af1119b): 1 physical owners / 2,654 CODE B</text>
 <text x="24" y="826" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kotohime BOSS (af1123e): 1 physical owners / 1,840 CODE B</text>
-<text x="24" y="850" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Reimu BOSS (af1104e): 1 physical owners / 2,020 CODE B</text>
-<text x="24" y="874" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Mima BOSS (af1105d): 1 physical owners / 1,922 CODE B</text>
+<text x="24" y="850" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Reimu BOSS (af1139c): 1 physical owners / 2,020 CODE B</text>
+<text x="24" y="874" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Mima BOSS (af1137b): 1 physical owners / 1,922 CODE B</text>
 <text x="24" y="898" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Marisa BOSS (af1110d): 1 physical owners / 1,431 CODE B</text>
 <text x="24" y="922" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Ellen BOSS (af1111e): 1 physical owners / 1,675 CODE B</text>
 <text x="24" y="946" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Yumemi BOSS (af1130c): 1 physical owners / 2,358 CODE B</text>
@@ -86,12 +86,17 @@
 <text x="24" y="1090" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Background chains (af1115b): 2 physical owners / 1,245 CODE B</text>
 <text x="24" y="1114" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main MAIN entry and round (af1126c): 1 physical owners / 3,050 CODE B</text>
 <text x="24" y="1138" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Player core (af1116g): 1 physical owners / 3,135 CODE B</text>
-<text x="24" y="1162" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Combo HUD and chain (af1131a): 2 physical owners / 978 CODE B</text>
-<text x="24" y="1186" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Player shots (af1132b): 1 physical owners / 449 CODE B</text>
-<text x="24" y="1210" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Player effects (af1133a): 1 physical owners / 628 CODE B</text>
-<text x="24" y="1234" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main CPU controller (af1103d): 1 physical owners / 1,077 CODE B</text>
-<text x="24" y="1258" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Staff Roll (af942s): 1 physical owners / 3,695 CODE B</text>
-<text x="24" y="1282" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Root controller (af944r): 1 physical owners / 2,458 CODE B</text>
-  <text x="24" y="1326" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
+<text x="24" y="1162" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Marisa Chargeshot (af1134f): 1 physical owners / 1,509 CODE B</text>
+<text x="24" y="1186" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Chiyuri Chargeshot (af1135h): 1 physical owners / 1,011 CODE B</text>
+<text x="24" y="1210" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Reimu Chargeshot (af1136f): 1 physical owners / 1,448 CODE B</text>
+<text x="24" y="1234" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Ellen Chargeshot (af1138f): 1 physical owners / 1,530 CODE B</text>
+<text x="24" y="1258" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Rikako Chargeshot (af1140e): 1 physical owners / 1,280 CODE B</text>
+<text x="24" y="1282" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Combo HUD and chain (af1131a): 2 physical owners / 978 CODE B</text>
+<text x="24" y="1306" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Player shots (af1132b): 1 physical owners / 449 CODE B</text>
+<text x="24" y="1330" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Player effects (af1133a): 1 physical owners / 628 CODE B</text>
+<text x="24" y="1354" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main CPU controller (af1103d): 1 physical owners / 1,077 CODE B</text>
+<text x="24" y="1378" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Staff Roll (af942s): 1 physical owners / 3,695 CODE B</text>
+<text x="24" y="1402" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Root controller (af944r): 1 physical owners / 2,458 CODE B</text>
+  <text x="24" y="1446" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
   <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
 </svg>
