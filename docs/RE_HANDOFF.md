@@ -15,13 +15,13 @@ ledger and separate function inventory remain unchanged. Recent work improves
 natural C++ while preserving original native output, so ledger totals need
 not increase. The whole-game completion percentage remains unknown.
 
-`status.py` and generated progress select the nineteen current disjoint MAIN
+`status.py` and generated progress select the twenty-two current disjoint MAIN
 source reports below. The old `af1053k` and `af1092k` composites and shared
 BOSS `af1056c` are historical after source changes, not current all-owner proofs.
 
 ## Current MAIN native evidence
 
-These nineteen disjoint stage reports have passed read-only source/native review.
+These twenty-two disjoint stage reports have passed read-only source/native review.
 Each retains two original TC4 compiler rounds, complete physical CODE/DATA,
 literal ordered native fields, PUBLICs and segment geometry, plus normal MAIN
 links matching the Japanese loaded image and all ordered MZ relocations.
@@ -32,9 +32,9 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1094e` | Ellen Extra Attack `ex_ellen` |
 | `af1112h` | Reimu Extra Attack flight/prefix and update `ex_rfly`, `ex_reup` |
 | `af1113c` | Marisa Extra Attack `ex_maris` |
-| `af1095w` | Rikako BOSS `ba_rikak` |
-| `af1096g` | Kana BOSS `ba_kana` |
-| `af1101a` | Chiyuri BOSS `ba_chiyu` |
+| `af1118e` | Rikako BOSS `ba_rikak` |
+| `af1117f` | Kana BOSS `ba_kana` |
+| `af1119b` | Chiyuri BOSS `ba_chiyu` |
 | `af1101d` | Kotohime BOSS `ba_koto` |
 | `af1104e` | Reimu BOSS `ba_reimu` |
 | `af1105d` | Mima BOSS `ba_mima` |
@@ -44,8 +44,11 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1107c` | Bullet engine `bullet` |
 | `af1108e` | Fireball engine `e_fireb` |
 | `af1114e` | Enemy formation/VM/update engine `eforna`, `efornb`, `eupda`, `eupdb` |
+| `af1120c` | Explosion collision `e_expl` |
 | `af1101g` | Hitbox `hitbox` and HitCircle `hitcirc` |
+| `af1115b` | Both background chain controllers `chain1`, `chain2` |
 | `af1102b` | Large MAIN entry/round controller `entry` |
+| `af1116g` | Complete player core `core` |
 | `af1103d` | Four-function CPU controller `p_cpu` |
 
 Reports live at `.analysis/work/exatt-layout-STAGE/report.json`. These are
@@ -58,6 +61,25 @@ source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Background chains:** full Chain 1 / Chain 2 reset and particle
+  initializers use natural `for` loops, preserving all RNG and drawing
+  order. `af1115b` is the current dual-owner source proof (1,245 CODE bytes);
+  the low-level DS:DI renderer and uninitialized phase byte remain unchanged.
+- **Player core:** the complete 3,135-byte `core` physical owner at `af1116g`
+  contains natural `while(1)` human movement retry, CPU shot remainder and
+  named charge/Hyper thresholds. The narrowed `first_attempt` Boolean is
+  native-exact, but narrowing `movement` is not.
+- **Kana, Rikako and Chiyuri BOSS:** current full-owner proofs are `af1117f`
+  (1,874 bytes, natural staged/rotating branches), `af1118e` (1,677 bytes,
+  three signed-spin clock tests and separate emission indices) and `af1119b`
+  (2,654 bytes, trail/render word clocks and normal/mono dispatch).
+  Their original byte-angle and register-sensitive branches were tested
+  independently and retained where natural alternatives changed CODE.
+- **Explosion collision:** original `e_expl` is source-bound at `af1120c`
+  (630 CODE bytes). Its near-pointer collision scan uses natural prefix
+  progression, and the non-pellet charge multiplier is now named. A ternary
+  selector and narrower collision hit-count local both changed TC4 CODE.
 
 - **Marisa and Ellen BOSS:** full attack/update/render owners were refined
   with original word-frame modulo and natural early-return column/Extra Attack
@@ -167,9 +189,10 @@ protected ancestor.
 
 ## Next useful work and open limits
 
-1. Continue unselected original gameplay engine/character owners, including
-   the remaining collision and background systems, or revisit major BOSS
-   state-machine control flow with a fresh native compiler hypothesis.
+1. Continue unselected original gameplay engine/character owners, and
+   challenge BOSS and round-controller state machines with new original
+   compiler hypotheses. The background chains and explosion collision now
+   have updated current local native evidence.
    Inspect current source and focused evidence before choosing a function;
    recently naturalized leaves are not an unowned work queue.
 2. Select genuinely unowned regions from `config/units.csv`,
@@ -193,7 +216,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1094e af1112h af1113c af1095w af1096g af1101a af1101d af1104e af1105d af1110d af1111e af1106d af1107c af1108e af1114e af1101g af1102b af1103d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1094e af1112h af1113c af1118e af1117f af1119b af1101d af1104e af1105d af1110d af1111e af1106d af1107c af1108e af1114e af1120c af1101g af1115b af1102b af1116g af1103d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both
