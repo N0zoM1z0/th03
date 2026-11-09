@@ -24,6 +24,15 @@ enum kotohime_chargeshot_phase_t {
     KOTO_CHARGE_CULL_Y = TO_SP(-16),
     KOTO_GAUGE_FIRST_FRAME = 0,
     KOTO_GAUGE_EXPIRE_FRAME = 0x80,
+    KOTO_CHARGE_RENDER_SPRITE_OFF = 0x1188,
+    KOTO_CHARGE_RENDER_LEFT = 48,
+    KOTO_CHARGE_RENDER_TOP = 8,
+    KOTO_CHARGE_RENDER_WIDTH = 96,
+    KOTO_CHARGE_RENDER_HEIGHT = 32,
+    KOTO_CHARGE_COLLISION_MARGIN_X = TO_SP(40),
+    KOTO_CHARGE_HIT_DAMAGE = 3,
+    KOTO_GAUGE_SPAWN_X_RANGE = 0xA00,
+    KOTO_GAUGE_SPAWN_X_BIAS = 0x400,
 };
 
 struct kotohime_chargeshot_t {
@@ -102,40 +111,41 @@ void near kotohime_chargeshot_private(void)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
 
-	sprite_offset = (pid.so_attack + 0x1188);
+	sprite_offset = (pid.so_attack + KOTO_CHARGE_RENDER_SPRITE_OFF);
 	left = (
-		playfield_fg_x_to_screen(kotohime_chargeshot_p->center.x.v, pid_current) - 48
+		playfield_fg_x_to_screen(kotohime_chargeshot_p->center.x.v, pid_current) - KOTO_CHARGE_RENDER_LEFT
 	);
-	top = (kotohime_chargeshot_p->center.y.to_pixel() + 8);
+	top = (kotohime_chargeshot_p->center.y.to_pixel() + KOTO_CHARGE_RENDER_TOP);
 	sprite16_put(left, top, sprite_offset);
 }
 
 uint8_t far chargeshot_hittest_kotohime(void)
 {
 	kotohime_chargeshot_p = &kotohime_chargeshots[hitbox.pid];
-	if(kotohime_chargeshot_p->active) {
+	if(!kotohime_chargeshot_p->active) {
+		return 0;
+	}
 		// An ordinary register-near pointer, an unsigned 16-bit register
 		// address and a near reference were independently compiled at
 		// af767a/af767b/af767d: none reproduces the original BX encoding.
-		_BX = (unsigned int)kotohime_chargeshot_p;
-		#define p (*(kotohime_chargeshot_t near *)_BX)
-		if(
-			((p.center.x.v - hitbox.right.v) <= TO_SP(40)) &&
-			((hitbox.origin.topleft.x.v - p.center.x.v) <= TO_SP(40)) &&
-			(p.center.y.v >= hitbox.origin.topleft.y.v) &&
-			(p.center.y.v <= hitbox.bottom.v)
-		) {
-			ef_onehit = true;
-			hitcircles_enemy_add(
-				(hitbox.origin.topleft.x.v + hitbox.radius.x.v),
-				p.center.y.v,
-				hitbox.pid
-			);
-			#undef p
-			return 3;
+	_BX = (unsigned int)kotohime_chargeshot_p;
+	#define p (*(kotohime_chargeshot_t near *)_BX)
+	if(
+		((p.center.x.v - hitbox.right.v) <= KOTO_CHARGE_COLLISION_MARGIN_X) &&
+		((hitbox.origin.topleft.x.v - p.center.x.v) <= KOTO_CHARGE_COLLISION_MARGIN_X) &&
+		(p.center.y.v >= hitbox.origin.topleft.y.v) &&
+		(p.center.y.v <= hitbox.bottom.v)
+	) {
+		ef_onehit = true;
+		hitcircles_enemy_add(
+			(hitbox.origin.topleft.x.v + hitbox.radius.x.v),
+			p.center.y.v,
+			hitbox.pid
+		);
+		#undef p
+			return KOTO_CHARGE_HIT_DAMAGE;
 		}
 		#undef p
-	}
 	return 0;
 }
 
@@ -145,7 +155,7 @@ void far pascal chargeshot_render_kotohime(void)
 	if(!kotohime_chargeshot_p->active) {
 		return;
 	}
-	sprite16_put_size.set(96, 32);
+	sprite16_put_size.set(KOTO_CHARGE_RENDER_WIDTH, KOTO_CHARGE_RENDER_HEIGHT);
 	sprite16_clip_set_for_pid(pid_current);
 	kotohime_chargeshot_private();
 }
@@ -174,7 +184,7 @@ void near pascal gauge_pattern_kotohime(bullet_type_t type)
 
 	if(!kotohime_gauge_frame[pid_current]) {
 		kotohime_extra_add(
-			(randring_far_next16_mod(0xA00) + 0x400),
+			(randring_far_next16_mod(KOTO_GAUGE_SPAWN_X_RANGE) + KOTO_GAUGE_SPAWN_X_BIAS),
 			0
 		);
 	} else if(kotohime_gauge_frame[pid_current] >= KOTO_GAUGE_EXPIRE_FRAME) {
