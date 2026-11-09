@@ -73,11 +73,8 @@ void far pascal reimu_chargeshots_reset(void)
     reimu_chargeshot_p = &reimu_chargeshots[0][0];
     // Clear all 24 actual 32-byte projectile slots, both players.
     // Signed-index and near-pointer increments happen after each store.
-    int i = 0;
-    while(i < REIMU_CHARGE_TOTAL_SLOTS) {
+    for(int i = 0; i < REIMU_CHARGE_TOTAL_SLOTS; ++i, ++reimu_chargeshot_p) {
         reimu_chargeshot_p->state = REIMU_SHOT_INACTIVE;
-        ++i;
-        reimu_chargeshot_p++;
     }
 }
 void far pascal chargeshot_add_reimu(Subpixel center_x, Subpixel center_y)
@@ -90,15 +87,12 @@ void far pascal chargeshot_add_reimu(Subpixel center_x, Subpixel center_y)
     // Four independently seeded spiral projectiles, with seven real
     // X/Y history samples per shot and mutable byte-angle step after
     // each full initialization (native source test af911a).
-    i = 0;
-    while(i < REIMU_CHARGE_STANDARD_LAUNCH) {
+    for(i = 0; i < REIMU_CHARGE_STANDARD_LAUNCH; ++i, ++reimu_chargeshot_p) {
         reimu_chargeshot_p->state = REIMU_SHOT_SLOWING;
         reimu_chargeshot_p->frame = 0;
-        j = 0;
-        while(j < REIMU_CHARGE_HISTORY_SAMPLES) {
+        for(j = 0; j < REIMU_CHARGE_HISTORY_SAMPLES; ++j) {
             reimu_chargeshot_p->x[j].v = center_x.v;
             reimu_chargeshot_p->y[j].v = center_y.v;
-            ++j;
         }
         reimu_chargeshot_p->angle = angle;
         // Direct `angle += enum_step` changed CODE (af826c), but
@@ -106,8 +100,6 @@ void far pascal chargeshot_add_reimu(Subpixel center_x, Subpixel center_y)
         // in the new original TC4 experiment af911f.
         angle = angle + REIMU_CHARGE_LAUNCH_ANGLE_STEP;
         reimu_chargeshot_p->speed = REIMU_CHARGE_LAUNCH_SPEED;
-        ++i;
-        reimu_chargeshot_p++;
     }
     reimu_chargeshot_alternate_hit_frame = 1;
 }
@@ -117,13 +109,13 @@ void far pascal reimu_hyper_shot_add(Subpixel center_x, Subpixel center_y)
     // The first-free Hyper allocator cannot use a natural while with
     // explicit post-skip increments: it changed original CODE (af911b).
     // Keep original for/continue/break exactly, without dummy padding.
-    for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; i++, reimu_chargeshot_p++) {
+    for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; ++i, ++reimu_chargeshot_p) {
         if(reimu_chargeshot_p->state != REIMU_SHOT_INACTIVE) {
             continue;
         }
         reimu_chargeshot_p->state = REIMU_SHOT_HOMING;
         reimu_chargeshot_p->frame = 0;
-        for(int j = 0; j < REIMU_CHARGE_HISTORY_SAMPLES; j++) {
+        for(int j = 0; j < REIMU_CHARGE_HISTORY_SAMPLES; ++j) {
             reimu_chargeshot_p->x[j].v = center_x.v;
             reimu_chargeshot_p->y[j].v = center_y.v;
         }
@@ -141,18 +133,15 @@ void far pascal chargeshot_update_reimu(void)
     playfield_clip_negative_radius.x.v = -REIMU_CHARGE_CLIP_RADIUS;
     playfield_clip_negative_radius.y.v = -REIMU_CHARGE_CLIP_RADIUS;
     // Full twelve-entity deceleration/homing/clip update, including
-    // backward 6..1 history shift, can use native-exact natural while.
-    int i = 0;
-    while(i < REIMU_CHARGE_SLOTS_PER_PLAYER) {
+    // a descending 6..1 history shift, uses native-exact nested for loops.
+    for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; ++i, ++reimu_chargeshot_p) {
         if(reimu_chargeshot_p->state != REIMU_SHOT_INACTIVE) {
             players[pid_current].gauge_charged = 0;
             // Do not overwrite earlier history before consuming it.
             // Backward signed-index loop preserves physical slot order.
-            int j = REIMU_CHARGE_LAST_SAMPLE;
-            while(j > 0) {
+            for(int j = REIMU_CHARGE_LAST_SAMPLE; j > 0; --j) {
                 reimu_chargeshot_p->x[j].v = reimu_chargeshot_p->x[j - 1].v;
                 reimu_chargeshot_p->y[j].v = reimu_chargeshot_p->y[j - 1].v;
-                --j;
             }
             vector2(vector_x, vector_y, reimu_chargeshot_p->angle,
                 reimu_chargeshot_p->speed);
@@ -178,8 +167,6 @@ void far pascal chargeshot_update_reimu(void)
                 reimu_chargeshot_p->state = REIMU_SHOT_INACTIVE;
             }
         }
-        ++i;
-        reimu_chargeshot_p++;
     }
 }
 void near pascal reimu_chargeshot_sprite_put(int x, int y, int phase)
@@ -198,22 +185,15 @@ uint8_t far chargeshot_hittest_reimu(void)
         return 0;
     }
     reimu_chargeshot_p = &reimu_chargeshots[hitbox.pid][0];
-    // Target really scans six slots, despite twelve updated/rendered slots.
-    // Target really tests only six slots, not the twelve updated;
-    // both independent continue paths advance original near pointer
-    // and index BEFORE continuing (native af911d).
-    int i = 0;
-    while(i < REIMU_CHARGE_HITTEST_SLOTS) {
+    // Scan the original six hit-test slots, not all twelve visible slots;
+    // both continue paths advance the index and near pointer in the header.
+    for(int i = 0; i < REIMU_CHARGE_HITTEST_SLOTS; ++i, ++reimu_chargeshot_p) {
         if(reimu_chargeshot_p->state == REIMU_SHOT_INACTIVE) {
-            ++i;
-            reimu_chargeshot_p++;
             continue;
         }
         if(reimu_chargeshot_p->x[0].v <= -TO_SP(16) ||
            reimu_chargeshot_p->x[0].v >= TO_SP(PLAYFIELD_W) ||
            reimu_chargeshot_p->y[0].v <= -TO_SP(16)) {
-            ++i;
-            reimu_chargeshot_p++;
             continue;
         }
         if(reimu_chargeshot_p->x[0].v - hitbox.right.v <= REIMU_CHARGE_HIT_MARGIN &&
@@ -224,8 +204,6 @@ uint8_t far chargeshot_hittest_reimu(void)
                 reimu_chargeshot_p->y[0].v, hitbox.pid);
             return 1;
         }
-        ++i;
-        reimu_chargeshot_p++;
     }
     return 0;
 }
@@ -236,11 +214,8 @@ void far pascal chargeshot_render_reimu(void)
     sprite16_put_size.set(REIMU_CHARGE_RENDER_SPRITE_WIDTH, REIMU_CHARGE_RENDER_SPRITE_HEIGHT);
     // Full 12-slot real GRCG mono-and-color sprite loop, retaining
     // the original DX=0 hardware service after the third mono cel.
-    int i = 0;
-    while(i < REIMU_CHARGE_SLOTS_PER_PLAYER) {
+    for(int i = 0; i < REIMU_CHARGE_SLOTS_PER_PLAYER; ++i, ++reimu_chargeshot_p) {
         if(reimu_chargeshot_p->state == REIMU_SHOT_INACTIVE) {
-            ++i;
-            reimu_chargeshot_p++;
             continue;
         }
         sprite16_mono_(true);
@@ -256,8 +231,6 @@ void far pascal chargeshot_render_reimu(void)
         _AH = SPRITE16_SET_MONO;
         geninterrupt(SPRITE16);
         reimu_chargeshot_sprite_put(reimu_chargeshot_p->x[0].v, reimu_chargeshot_p->y[0].v, 0);
-        ++i;
-        reimu_chargeshot_p++;
     }
 }
 void near pascal gauge_pattern_reimu(bullet_type_t type)
