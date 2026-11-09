@@ -53,14 +53,14 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. Eight later scoped refreshes now bind the current
-source for nine owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
+files at that checkpoint. Nine later scoped refreshes now bind the current
+source for ten owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
 uses `af1057d`, `ba_chiyu` uses `af1058a`, `ba_mima` uses `af1059a`,
 `ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`, `ba_ellen` uses
-`af1063a`, and `ba_maris` uses `af1065a`. The other three owners remain
-bound to `af1053k`. The complete normal links are strong scoped native
-evidence; they are not whole-game source ownership or canonical Factory
-packed-file acceptance.
+`af1063a`, `ba_maris` uses `af1065a`, and `ba_rikak` uses `af1066a`. The
+other two owners remain bound to `af1053k`. The complete normal links are
+strong scoped native evidence; they are not whole-game source ownership or
+canonical Factory packed-file acceptance.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -134,14 +134,23 @@ uses the direct inactive-player return before its mode dispatch and collision/
 hitbox tail. See the
 [current Marisa PID-scope review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
+Rikako current-source refresh: `.analysis/work/exatt-layout-af1066a/report.json`
+SHA-256: `17e3ec6f9a147a36d35f77af3f6e73742efbe4605b7b9832f4773b6474fdc1b4`.
+It recompiled the complete 1,677-byte `ba_rikak` owner with 215 ordered native
+fields and eight PUBLICs in two original TC4 rounds, preserving the full Japanese
+MAIN image and ordered relocations. The complete Rikako update controller now
+uses the direct inactive-player return before its mode dispatch, preserving the
+signed-byte spin update and collision/hitbox tail. See the
+[current Rikako PID-scope review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+
 ### Evidence interpretation
 
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
 source bindings are split by the subsequent scoped refreshes: the shared pair
 uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, Mima uses
 `af1059a`, Kana uses `af1060a`, Reimu uses `af1061b`, Ellen uses `af1063a`,
-Marisa uses `af1065a`, and the other three owners remain bound to `af1053k`.
-The earlier
+Marisa uses `af1065a`, Rikako uses `af1066a`, and the other two owners remain
+bound to `af1053k`. The earlier
 `af1053i`, `af1052g`,
 `af1051k` and `af1047l` full-set checkpoints are historical snapshots, not
 additional current proof. Older standalone
@@ -250,6 +259,15 @@ bytes, 199 ordered native fields and nine PUBLICs match, with both normal MAIN
 images and ordered relocations exact. The level setup, full attack-mode switch
 and collision/hitbox tail remain in order. See the
 [af1065a current-source review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
+Rikako's complete `gba_boss_update_rikako()` controller now uses the direct
+inactive-player return before target/frame updates. The current `ba_rikak`
+owner was rebuilt in two original TC4 rounds: 1,677 CODE bytes, 215 ordered
+native fields and eight PUBLICs match, with both normal MAIN images and ordered
+relocations exact. The five level parameters remain before the guard; the
+Orbit/Entities/Alternating Burst switch, signed-byte spin update and full
+collision/hitbox tail remain after it. See the
+[af1066a current-source review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
 Recommended next work:
 
