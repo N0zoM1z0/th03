@@ -57,8 +57,7 @@ files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
-`ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, and `bullet` uses
-`af1085x`.
+`ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, and `bullet` uses `af1086y`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
 probe reports are not Factory Oracle receipts or accepted facts.
@@ -360,19 +359,20 @@ MAIN images and ordered relocations exact. See the
 [Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
 
 The current eight-owner Bullet + Kotohime + Reimu + Yumemi + Chiyuri / Reimu
-Extra Attack / HitCircle source integration is `af1085x`: `bullet`, `ba_koto`,
+Extra Attack / HitCircle source integration is `af1086z`: `bullet`, `ba_koto`,
 `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and `hitcirc`, 13,158
 CODE bytes, 1,555 ordered native fields and 75 PUBLICs. Both original TC4
 rounds and both normal Japanese MAIN links match. Report:
-`.analysis/work/exatt-layout-af1085x/report.json`, SHA-256
-`8e5883fb880311c5d785ccc16243c496309387ce5b81b6f1aef5eae2bdc249b7`.
-It includes the Bullet group velocity ring increment and first-use allocator
-pointer, Kotohime's current radial/update source, Reimu's four attack leaves,
-update controller and both main/intro renderers, the 205-byte
-`reimu_exatt_render_one()` recovery, both physical Reimu Extra Attack owners,
-Chiyuri's fan source, Yumemi's update/arrival/Aimed Random/Rain/Cross-Rain
-changes, and HitCircle's register-bound cel arithmetic plus narrowed
-update/render scratch lifetimes.
+`.analysis/work/exatt-layout-af1086z/report.json`, SHA-256
+`ffee5155082a891c3ef83553341cc609d014b160e70faf40dcd75820c8736f0d`.
+It includes the Bullet group velocity ring increment, first-use allocator
+pointer, natural trail initialization, register-sensitive update exit test,
+and both `for`-header render passes plus the reverse trail-sprite walk;
+Kotohime's current radial/update source, Reimu's four attack leaves, update
+controller and both main/intro renderers, the 205-byte `reimu_exatt_render_one()`
+recovery, both physical Reimu Extra Attack owners, Chiyuri's fan source,
+Yumemi's update/arrival/Aimed Random/Rain/Cross-Rain changes, and HitCircle's
+register-bound cel arithmetic plus narrowed update/render scratch lifetimes.
 
 Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
 `ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
@@ -389,10 +389,17 @@ the full 2,685-byte Bullet owner, including 9,500-byte BSS, in two original
 TC4 rounds and is part of the eight-owner integration; see the
 [Bullet add pointer review](MAIN_BULLET_ADD_POINTER_FIRST_USE_AFTER1085_REVIEW.md).
 
-The 562-byte `bullets_add()` allocator now initializes its near bullet pointer
-at first use after the early bounds guard. The full Bullet owner and eight-owner
-integration both match in two original TC4 rounds; see the
-[Bullet allocator pointer-lifetime review](MAIN_BULLET_ADD_POINTER_LIFETIME_AFTER1085_REVIEW.md).
+
+The 562-byte `bullets_add()` now initializes its near bullet-record pointer
+at first use after the center bounds guard, and its trail-history initializer
+uses a natural `for` loop. The 438-byte `bullets_update()` now uses a natural
+`for(;;)` and places the AX counter assignment in the zero-test condition.
+Both 477-byte `bullets_render()` sprite passes and its reverse trail-sprite
+walk use natural `for` headers. The complete Bullet owner and eight-owner
+integration match in two original TC4 rounds; rejected age-counter, loop-index
+scope and AX-loop rewrites remain reverted. See the
+[Bullet update/render review](MAIN_BULLET_UPDATE_RENDER_NATURAL_FOR_AFTER1086_REVIEW.md)
+and [allocator pointer review](MAIN_BULLET_ADD_POINTER_FIRST_USE_AFTER1085_REVIEW.md).
 
 The 819-byte `group_velocity_set()` dispatcher now uses prefix increment for
 the terminal count update in both ordinary and aimed ring fallthrough chains.

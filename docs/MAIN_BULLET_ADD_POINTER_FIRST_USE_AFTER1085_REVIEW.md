@@ -66,7 +66,7 @@ Report: `.analysis/work/exatt-layout-af1085w/report.json`
 
 SHA-256: `340af6d938b01be5342a8fc0aace3cb044fad6ab2da02fb213ffe33baaa9bc6a`
 
-Current `bullet.cpp` SHA-256:
+`bullet.cpp` SHA-256 at this initial pointer-only checkpoint:
 `87c48268237fb4e75677bd3ce4e47b02a7762fb7f5f356022c09966304dba6c6`
 
 ## Eight-owner integration
@@ -83,3 +83,14 @@ SHA-256: `8e5883fb880311c5d785ccc16243c496309387ce5b81b6f1aef5eae2bdc249b7`
 
 This is scoped original-toolchain source evidence, not a Factory Oracle
 receipt, raw vendor OMF identity claim, or canonical packed-file acceptance.
+
+## Later current-source refresh
+
+The pointer lifetime remains part of the current source. Subsequent natural
+C++ work in `bullets_add()`, `bullets_update()` and `bullets_render()` now
+supersedes the initial `af1085w` source binding. Current Bullet source is
+`af1086y` (SHA-256
+`18e1c0293dca14b2de64f1c8d0e92164383c2ab9df5acd8e33a5ff234913dd5f`), and the
+current eight-owner integration is `af1086z` (report SHA-256
+`ffee5155082a891c3ef83553341cc609d014b160e70faf40dcd75820c8736f0d`). See the
+[update/render natural-loop review](MAIN_BULLET_UPDATE_RENDER_NATURAL_FOR_AFTER1086_REVIEW.md).

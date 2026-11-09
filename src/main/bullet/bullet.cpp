@@ -427,11 +427,9 @@ void bullets_add(void)
 			}
 			// Every physical saved XY point gets an independent store,
 			// in original signed-index order; no repeated pointer aliasing.
-			trail_i = 0;
-			while(trail_i < TRAIL_POINT_COUNT) {
+			for(trail_i = 0; trail_i < TRAIL_POINT_COUNT; ++trail_i) {
 				p->trail->center_x.v[trail_i] = bullet_template.center.x;
 				p->trail->center_y.v[trail_i] = bullet_template.center.y;
-				++trail_i;
 			}
 		}
 
@@ -493,7 +491,7 @@ void bullets_add(void)
 			if(done) {
 				break;
 			}
-			++group_i;
+			group_i++;
 		}
 	}
 
@@ -643,14 +641,13 @@ void bullets_update(void)
 	int i = (BULLET_COUNT + 1);
 	p = (bullets - 1);
 	// The complete register-sensitive update loop is original-native
-	// as a natural C++ while(true). Do not replace its _AX/FLAGS/asm
-	// carriers with guessed modern C++ compiler behavior (af899d).
-	while(true) {
+	// as a natural C++ for(;;) with the AX assignment in its exit test.
+	// Keep its _AX/FLAGS/asm carriers; guessed C++ counter tests change CODE.
+	for(;;) {
 		p++;
 
 		// ZUN bloat: `if(--i == 0)` compiles into DEC+JZ. This… doesn't.
-		_AX = --i;
-		if(static_cast<int16_t>(_AX) == 0) {
+		if(!(_AX = --i)) {
 			break;
 		}
 
@@ -980,8 +977,7 @@ void bullets_render(void)
 	// Main 16×16 sprite and trail pass: every full-color bullet and
 	// cloud marker is visited; original index/pointer updates follow
 	// the real sprite calls (af899b).
-	bullet_i = 0;
-	while(bullet_i < BULLET_COUNT) {
+	for(bullet_i = 0; bullet_i < BULLET_COUNT; (bullet_i++, ++bullet_p)) {
 		if(bullet_p->flag == BF_BULLET16) {
 			so = bullet_p->sprite_offset;
 			if(bullet_p->has_trail) {
@@ -993,8 +989,12 @@ void bullets_render(void)
 				// The original C++ for was native-exact (af832a), AND
 				// a natural while with both post-render mutations is native
 				// exact (af899e). The 8×8 pellet do/while is different.
-				trail_i = (TRAIL_POINT_COUNT - 1);
-				while(trail_i > 0) {
+				for(
+					trail_i = (TRAIL_POINT_COUNT - 1);
+					trail_i > 0;
+					(trail_i -= TRAIL_POINTS_PER_SPRITE,
+					 so -= (BULLET16_W / BYTE_DOTS))
+				) {
 					topleft_set(
 						topleft,
 						bullet_p,
@@ -1004,8 +1004,6 @@ void bullets_render(void)
 						BULLET16_H
 					);
 					sprite16_put_noclip(topleft.x, topleft.y, so);
-					trail_i -= TRAIL_POINTS_PER_SPRITE;
-					so -= (BULLET16_W / BYTE_DOTS);
 				}
 			}
 
@@ -1026,8 +1024,6 @@ void bullets_render(void)
 		} else if(bullet_p->flag == BF_PELLET_CLOUD) {
 			need_cloud_pass = true;
 		}
-		++bullet_i;
-		bullet_p++;
 	}
 	// --------------------------
 
@@ -1041,8 +1037,7 @@ void bullets_render(void)
 		bullet_p = bullets;
 		// A separate second pass draws only mono cloud sprites, after
 		// switching the original GRCG/sprite state (af899b).
-		bullet_i = 0;
-		while(bullet_i < BULLET_COUNT) {
+		for(bullet_i = 0; bullet_i < BULLET_COUNT; (bullet_i++, ++bullet_p)) {
 			if(bullet_p->flag == BF_PELLET_CLOUD) {
 				topleft_set(
 					topleft,
@@ -1054,8 +1049,6 @@ void bullets_render(void)
 				);
 				sprite16_put(topleft.x, topleft.y, bullet_p->sprite_offset);
 			}
-			++bullet_i;
-			bullet_p++;
 		}
 		sprite16_mono_(keep_0(false));
 	}
