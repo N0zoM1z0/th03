@@ -49,6 +49,7 @@ enum boss_shared_limits_t {
     BOSS_RING_LENGTH_SCALE = 8,
     BOSS_RING_REWARD = 2560,
     BOSS_RING_START_SOUND = 16,
+    BOSS_LAUNCH_SOUND = 18,
     BOSS_TARGET_Y_AHEAD = 0x800,
 };
 
@@ -85,7 +86,6 @@ signed char near pascal boss_explosion_ring(
 {
 	screen_x_t left;
 	screen_y_t top;
-	register unsigned char angle;
 	register int i;
 
 	if(1 == length) {
@@ -99,7 +99,7 @@ signed char near pascal boss_explosion_ring(
 	// Explicit `length = length * 8` changes native CODE (af916g);
 	// keep the original signed-word compound multiplication.
 	length *= BOSS_RING_LENGTH_SCALE;
-	angle = static_cast<unsigned char>(length);
+	register unsigned char angle = static_cast<unsigned char>(length);
 
 	// Native TC4 distinguishes pid_current==1 from if(pid_current)
 	// in this physical ring producer (negative control af708d).
@@ -114,7 +114,7 @@ signed char near pascal boss_explosion_ring(
 
 	// Sixteen primary sprites: the for-header preserves the original
 	// post-draw signed-index then byte-angle update order.
-	for(i = 0; i < BOSS_RING_PRIMARY_SPRITES; i++, angle = angle + BOSS_RING_PRIMARY_ANGLE_STEP) {
+	for(i = 0; i < BOSS_RING_PRIMARY_SPRITES; ++i, angle += BOSS_RING_PRIMARY_ANGLE_STEP) {
 		left = (-BOSS_RING_SPRITE_HALF + polar(x, length, CosTable8[angle]));
 		top = (-BOSS_RING_SPRITE_HALF + polar(y, length, SinTable8[angle]));
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
@@ -125,7 +125,7 @@ signed char near pascal boss_explosion_ring(
 	angle = static_cast<unsigned char>(0 - static_cast<unsigned char>(length));
 	// Eight secondary sprites at double radius. Binary zero-minus
 	// before this for-header differs from unary minus (af916d).
-	for(i = 0; i < BOSS_RING_SECONDARY_SPRITES; i++, angle = angle + BOSS_RING_SECONDARY_ANGLE_STEP) {
+	for(i = 0; i < BOSS_RING_SECONDARY_SPRITES; ++i, angle += BOSS_RING_SECONDARY_ANGLE_STEP) {
 		left = (-BOSS_RING_SPRITE_HALF + polar(x, (BOSS_RING_SECONDARY_RADIUS_SCALE * length), CosTable8[angle]));
 		top = (-BOSS_RING_SPRITE_HALF + polar(y, (BOSS_RING_SECONDARY_RADIUS_SCALE * length), SinTable8[angle]));
 		sprite16_put(left, top, BOSS_RING_SPRITE_OFFSET);
@@ -198,7 +198,7 @@ extern "C" unsigned char near boss_update_start(void)
 			boss_frame = 0;
 			gba_boss_launched_by = pid_current;
 			gba_flag_active[pid_current] = GBAF_NONE;
-			snd_se_play(18);
+			snd_se_play(BOSS_LAUNCH_SOUND);
 			palette_restore_for_pid(1 - pid_current);
 			boss_active[1 - pid_current] = 1;
 			return 1;
@@ -245,10 +245,9 @@ extern "C" void near boss_target_update(void)
 
 extern "C" void near boss_pattern_next(void)
 {
-	register unsigned char pattern;
-
 	boss_move_sine();
 	if(BOSS_PATTERN_WAIT_FRAMES <= boss_frame) {
+		register unsigned char pattern;
 		// Each rejected pattern still consumes a separate RNG word.
 		do {
 			pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
