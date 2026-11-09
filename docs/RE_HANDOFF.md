@@ -15,13 +15,13 @@ ledger and separate function inventory remain unchanged. Recent work improves
 natural C++ while preserving original native output, so ledger totals need
 not increase. The whole-game completion percentage remains unknown.
 
-`status.py` and generated progress select the fifty-seven current disjoint MAIN
+`status.py` and generated progress select the sixty-two current disjoint MAIN
 source reports below. The old `af1053k` and `af1092k` composites and shared
 BOSS `af1056c` are historical after source changes, not current all-owner proofs.
 
 ## Current MAIN native evidence
 
-These fifty-seven disjoint stage reports have passed read-only source/native review.
+These sixty-two disjoint stage reports have passed read-only source/native review.
 Each retains two original TC4 compiler rounds, complete physical CODE/DATA,
 literal ordered native fields, PUBLICs and segment geometry, plus normal MAIN
 links matching the Japanese loaded image and all ordered MZ relocations.
@@ -30,6 +30,11 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | --- | --- |
 | `af1172f` | Shared BOSS providers `ba_sring`, `ba_srest` |
 | `af1173c` | PI image loader `pi_load` |
+| `af1174e` | Input modes and key-wait `inp_m_w` |
+| `af1176e` | PMD/MIDI and SE services `snd_kaja`, `snd_se` |
+| `af1178a` | Polar Q8 geometry `polar` |
+| `af1179a` | VSYNC frame delay `frmdely1` |
+| `af1180b` | DOS MAIN initializer `initmain` |
 | `af1129e` | Ellen Extra Attack `ex_ellen` |
 | `af1127g` | Yumemi Extra Attack `ex_yume` |
 | `af1128c` | Mima Extra Attack `ex_mima` |
@@ -43,13 +48,13 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1150c` | Kana BOSS `ba_kana` |
 | `af1151d` | Chiyuri BOSS `ba_chiyu` |
 | `af1158e` | Kotohime BOSS `ba_koto` |
-| `af1139c` | Reimu BOSS `ba_reimu` |
+| `af1175f` | Reimu BOSS `ba_reimu` |
 | `af1168b` | Mima BOSS `ba_mima` |
 | `af1144c` | Marisa BOSS `ba_maris` |
 | `af1145c` | Ellen BOSS `ba_ellen` |
 | `af1162c` | Yumemi BOSS `ba_yumem` |
 | `af1107c` | Bullet engine `bullet` |
-| `af1108e` | Fireball engine `e_fireb` |
+| `af1177g` | Fireball engine `e_fireb` |
 | `af1167c` | Enemy formation/VM/update engine `eforna`, `efornb`, `eupda`, `eupdb` |
 | `af1120c` | Explosion collision `e_expl` |
 | `af1101g` | Hitbox `hitbox` and HitCircle `hitcirc` |
@@ -96,6 +101,17 @@ source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Reimu BOSS and Fireballs:** native receipts `af1175f` and `af1177g`
+  cover the complete 2,020-byte BOSS and 1,555-byte engine. Both spread
+  stages and the orbit renderer have natural early exits; the Fireball
+  explosion keyframes and two complete 24-slot walks have native-exact
+  first-use index lifetimes. Its original uninitialized chain slot remains.
+- **Main services and bootstrap:** native stages `af1174e` (input modes),
+  `af1176e` (audio), `af1178a` (signed Q8 polar), `af1179a` (VSYNC delay)
+  and `af1180b` (DOS init) verify previously unselected original owners.
+  Exact ABI/control effects, including register interrupts and the original
+  allocation error exit, are retained.
 
 - **Shared BOSS and PI loader:** `af1172f` verifies the two shared BOSS
   owners after naturalizing launch and RNG-wait early returns; `af1173c`
@@ -328,7 +344,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1172f af1173c af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1157c af1150c af1151d af1158e af1139c af1168b af1144c af1145c af1162c af1107c af1108e af1167c af1120c af1101g af1115b af1171d af1164e af1166i af1165h af1116g af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1172f af1173c af1174e af1176e af1178a af1179a af1180b af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1157c af1150c af1151d af1158e af1175f af1168b af1144c af1145c af1162c af1107c af1177g af1167c af1120c af1101g af1115b af1171d af1164e af1166i af1165h af1116g af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

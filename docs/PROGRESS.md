@@ -23,6 +23,11 @@ These read-only checks validate maintained source bindings, both original compil
 | --- | --- | --- | ---: | ---: | ---: |
 | th03-main / Shared BOSS | af1172f | Verified | 2 | 949 | — |
 | th03-main / PI image loader | af1173c | Verified | 1 | 70 | — |
+| th03-main / Input modes and keyboard wait | af1174e | Verified | 1 | 367 | — |
+| th03-main / PMD/MIDI audio services | af1176e | Verified | 2 | 150 | — |
+| th03-main / Signed Q8 polar geometry | af1178a | Verified | 1 | 26 | — |
+| th03-main / Volatile VSYNC frame delay | af1179a | Verified | 1 | 21 | — |
+| th03-main / DOS MAIN initializer | af1180b | Verified | 1 | 62 | — |
 | th03-main / Ellen Extra Attack | af1129e | Verified | 1 | 1,129 | — |
 | th03-main / Yumemi Extra Attack | af1127g | Verified | 1 | 1,696 | — |
 | th03-main / Mima Extra Attack | af1128c | Verified | 1 | 727 | — |
@@ -36,13 +41,13 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Kana BOSS | af1150c | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1151d | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1158e | Verified | 1 | 1,840 | — |
-| th03-main / Reimu BOSS | af1139c | Verified | 1 | 2,020 | — |
+| th03-main / Reimu BOSS | af1175f | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1168b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1144c | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1145c | Verified | 1 | 1,675 | — |
 | th03-main / Yumemi BOSS | af1162c | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
-| th03-main / Fireball engine | af1108e | Verified | 1 | 1,555 | — |
+| th03-main / Fireball engine | af1177g | Verified | 1 | 1,555 | — |
 | th03-main / Enemy engine | af1167c | Verified | 4 | 3,325 | — |
 | th03-main / Explosion collision | af1120c | Verified | 1 | 630 | — |
 | th03-main / Hitbox and HitCircle | af1101g | Verified | 2 | 711 | — |
@@ -85,6 +90,16 @@ th03-main Shared BOSS: `.analysis/work/exatt-layout-af1172f/report.json`.
 
 th03-main PI image loader: `.analysis/work/exatt-layout-af1173c/report.json`.
 
+th03-main Input modes and keyboard wait: `.analysis/work/exatt-layout-af1174e/report.json`.
+
+th03-main PMD/MIDI audio services: `.analysis/work/exatt-layout-af1176e/report.json`.
+
+th03-main Signed Q8 polar geometry: `.analysis/work/exatt-layout-af1178a/report.json`.
+
+th03-main Volatile VSYNC frame delay: `.analysis/work/exatt-layout-af1179a/report.json`.
+
+th03-main DOS MAIN initializer: `.analysis/work/exatt-layout-af1180b/report.json`.
+
 th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1129e/report.json`.
 
 th03-main Yumemi Extra Attack: `.analysis/work/exatt-layout-af1127g/report.json`.
@@ -111,7 +126,7 @@ th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1151d/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1158e/report.json`.
 
-th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1139c/report.json`.
+th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1175f/report.json`.
 
 th03-main Mima BOSS: `.analysis/work/exatt-layout-af1168b/report.json`.
 
@@ -123,7 +138,7 @@ th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1162c/report.json`.
 
 th03-main Bullet engine: `.analysis/work/exatt-layout-af1107c/report.json`.
 
-th03-main Fireball engine: `.analysis/work/exatt-layout-af1108e/report.json`.
+th03-main Fireball engine: `.analysis/work/exatt-layout-af1177g/report.json`.
 
 th03-main Enemy engine: `.analysis/work/exatt-layout-af1167c/report.json`.
 

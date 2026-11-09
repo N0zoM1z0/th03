@@ -23,12 +23,13 @@ class NativeProgress(unittest.TestCase):
         run.assert_not_called()
 
     def test_main_native_selection_excludes_superseded_composite(self):
-        expected = ['af1172f', 'af1173c', 'af1129e', 'af1127g', 'af1128c',
+        expected = ['af1172f', 'af1173c', 'af1174e', 'af1176e',
+                    'af1178a', 'af1179a', 'af1180b', 'af1129e', 'af1127g', 'af1128c',
                     'af1112h', 'af1113c', 'af1121d', 'af1122c',
                     'af1124d', 'af1125e', 'af1157c', 'af1150c',
-                    'af1151d', 'af1158e', 'af1139c', 'af1168b',
+                    'af1151d', 'af1158e', 'af1175f', 'af1168b',
                     'af1144c', 'af1145c', 'af1162c', 'af1107c',
-                    'af1108e', 'af1167c', 'af1120c', 'af1101g',
+                    'af1177g', 'af1167c', 'af1120c', 'af1101g',
                     'af1115b', 'af1171d', 'af1164e', 'af1166i',
                     'af1165h', 'af1116g', 'af1163i', 'af1169a',
                     'af1134f',
@@ -48,8 +49,10 @@ class NativeProgress(unittest.TestCase):
     def test_main_source_review_requires_complete_two_round_link(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)
-            for stage in ('af1101g', 'af1170d', 'af1139c', 'af1168b',
-                          'af1106d', 'af1107c', 'af1108e', 'af1172f', 'af1173c',
+            for stage in ('af1101g', 'af1170d', 'af1175f', 'af1168b',
+                          'af1106d', 'af1107c', 'af1177g', 'af1172f', 'af1173c',
+                          'af1174e', 'af1176e', 'af1178a', 'af1179a',
+                          'af1180b',
                           'af1144c', 'af1145c', 'af1112h', 'af1113c',
                           'af1167c', 'af1115b', 'af1116g', 'af1150c',
                           'af1157c', 'af1151d', 'af1120c', 'af1121d',
@@ -63,7 +66,9 @@ class NativeProgress(unittest.TestCase):
                           'af1155b', 'af1156b', 'af1159d', 'af1160e',
                           'af1161f', 'af1162c', 'af1163i', 'af1164e',
                           'af1165h', 'af1166i', 'af1167c', 'af1168b',
-                          'af1169a', 'af1170d', 'af1171d', 'af1172f', 'af1173c'):
+                          'af1169a', 'af1170d', 'af1171d', 'af1172f', 'af1173c',
+                          'af1174e', 'af1175f', 'af1176e', 'af1177g',
+                          'af1178a', 'af1179a', 'af1180b'):
                 path = root / f'.analysis/work/exatt-layout-{stage}/report.json'
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('{}')
@@ -76,8 +81,8 @@ class NativeProgress(unittest.TestCase):
                 with self.subTest(link_ok=value['full_Japanese_MAIN_equal']), \
                      patch.object(status.subprocess, 'run', return_value=result):
                     rows = status.native_source_reviews(root, 'th03-main')
-                fresh = [row for row in rows if row['stage'].startswith(('af110', 'af111', 'af112', 'af113', 'af114', 'af115', 'af116', 'af117'))]
-                self.assertEqual(len(fresh), 57)
+                fresh = [row for row in rows if row['stage'].startswith(('af110', 'af111', 'af112', 'af113', 'af114', 'af115', 'af116', 'af117', 'af118'))]
+                self.assertEqual(len(fresh), 62)
                 self.assertTrue(all(row['verified'] == value['full_Japanese_MAIN_equal']
                                     for row in fresh))
 
