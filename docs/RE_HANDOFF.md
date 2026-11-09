@@ -53,13 +53,13 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. Six later scoped refreshes now bind the current
-source for seven owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
+files at that checkpoint. Seven later scoped refreshes now bind the current
+source for eight owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
 uses `af1057d`, `ba_chiyu` uses `af1058a`, `ba_mima` uses `af1059a`,
-`ba_kana` uses `af1060a`, and `ba_reimu` uses `af1061b`. The other five
-owners remain bound to `af1053k`. The complete normal links are strong scoped
-native evidence; they are not whole-game source ownership or canonical
-Factory packed-file acceptance.
+`ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`, and `ba_ellen` uses
+`af1063a`. The other four owners remain bound to `af1053k`. The complete
+normal links are strong scoped native evidence; they are not whole-game
+source ownership or canonical Factory packed-file acceptance.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -114,13 +114,23 @@ advancement, while preserving its INTRO/SELECT logic, four attack families and
 collision/hitbox tail. See the
 [current Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
+Ellen current-source refresh: `.analysis/work/exatt-layout-af1063a/report.json`
+SHA-256: `9965bf3ad20cf6fe5fadb5ec5522529f19e086a6618d6598660629c85ef9c513`.
+It recompiled the complete 1,675-byte `ba_ellen` owner with 213 ordered native
+fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
+MAIN image and ordered relocations. The complete Ellen update controller now
+uses the direct inactive-player return before target tracking and frame
+advancement, preserving its level setup, attack-mode dispatch and collision/
+hitbox tail. See the
+[current Ellen PID-scope review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
 ### Evidence interpretation
 
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
 source bindings are split by the subsequent scoped refreshes: the shared pair
 uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, Mima uses
-`af1059a`, Kana uses `af1060a`, Reimu uses `af1061b`, and the other five
-owners remain bound to `af1053k`. The earlier
+`af1059a`, Kana uses `af1060a`, Reimu uses `af1061b`, Ellen uses `af1063a`,
+and the other four owners remain bound to `af1053k`. The earlier
 `af1053i`, `af1052g`,
 `af1051k` and `af1047l` full-set checkpoints are historical snapshots, not
 additional current proof. Older standalone
@@ -213,6 +223,14 @@ native fields and nine PUBLICs match, with both normal MAIN images and ordered
 relocations exact. The INTRO/SELECT logic, four attack families and complete
 collision/hitbox tail remain in order. See the
 [af1061b current-source review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
+Ellen's complete `gba_boss_update_ellen()` controller now uses the direct
+inactive-player return before target tracking and frame advancement. The
+current `ba_ellen` owner was rebuilt in two original TC4 rounds: 1,675 CODE
+bytes, 213 ordered native fields and nine PUBLICs match, with both normal MAIN
+images and ordered relocations exact. The level setup, four attack-mode groups
+and collision/hitbox tail remain in order. See the
+[af1063a current-source review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Recommended next work:
 
