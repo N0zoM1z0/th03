@@ -12,7 +12,10 @@ void pascal near gauge_avail_add(pid_t pid, uint8_t charge)
 {
 	player_stuff_t near& p = players[pid];
 	// Refuse a charge while Hyper or an already-full gauge is active.
-	if(p.hyper_active || p.gauge_avail >= GAUGE_MAX) {
+	if(p.hyper_active) {
+		return;
+	}
+	if(p.gauge_avail >= GAUGE_MAX) {
 		return;
 	}
 	// TC4's original compound memory addition is bytecode-sensitive:

@@ -21,7 +21,7 @@ void pascal exatt_add(Subpixel center_x_, Subpixel center_y_, pid_t pid)
 	// Natural `pid == 0` also preserves the original zero-player
 	// branch (af858a). Reversing the branch and callbacks changed
 	// codegen at unchanged CODE size (af858d). Keep original call order.
-	if(pid == 0) {
+	if(!pid) {
 		exatt_funcs[0].add(center_x, center_y, 0);
 	} else {
 		exatt_funcs[1].add(center_x, center_y, 1);
