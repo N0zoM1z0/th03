@@ -15,13 +15,13 @@ ledger and separate function inventory remain unchanged. Recent work improves
 natural C++ while preserving original native output, so ledger totals need
 not increase. The whole-game completion percentage remains unknown.
 
-`status.py` and generated progress select the twenty-two current disjoint MAIN
+`status.py` and generated progress select the twenty-six current disjoint MAIN
 source reports below. The old `af1053k` and `af1092k` composites and shared
 BOSS `af1056c` are historical after source changes, not current all-owner proofs.
 
 ## Current MAIN native evidence
 
-These twenty-two disjoint stage reports have passed read-only source/native review.
+These twenty-six disjoint stage reports have passed read-only source/native review.
 Each retains two original TC4 compiler rounds, complete physical CODE/DATA,
 literal ordered native fields, PUBLICs and segment geometry, plus normal MAIN
 links matching the Japanese loaded image and all ordered MZ relocations.
@@ -32,10 +32,14 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1094e` | Ellen Extra Attack `ex_ellen` |
 | `af1112h` | Reimu Extra Attack flight/prefix and update `ex_rfly`, `ex_reup` |
 | `af1113c` | Marisa Extra Attack `ex_maris` |
+| `af1121d` | Kotohime Extra Attack `ex_koto` |
+| `af1122c` | Chiyuri Extra Attack `ex_chyu` |
+| `af1124d` | Rikako Extra Attack `ex_rika` |
+| `af1125e` | Kana Extra Attack `ex_kana` |
 | `af1118e` | Rikako BOSS `ba_rikak` |
 | `af1117f` | Kana BOSS `ba_kana` |
 | `af1119b` | Chiyuri BOSS `ba_chiyu` |
-| `af1101d` | Kotohime BOSS `ba_koto` |
+| `af1123e` | Kotohime BOSS `ba_koto` |
 | `af1104e` | Reimu BOSS `ba_reimu` |
 | `af1105d` | Mima BOSS `ba_mima` |
 | `af1110d` | Marisa BOSS `ba_maris` |
@@ -47,7 +51,7 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1120c` | Explosion collision `e_expl` |
 | `af1101g` | Hitbox `hitbox` and HitCircle `hitcirc` |
 | `af1115b` | Both background chain controllers `chain1`, `chain2` |
-| `af1102b` | Large MAIN entry/round controller `entry` |
+| `af1126c` | Large MAIN entry/round controller `entry` |
 | `af1116g` | Complete player core `core` |
 | `af1103d` | Four-function CPU controller `p_cpu` |
 
@@ -61,6 +65,18 @@ source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Kotohime, Chiyuri, Rikako and Kana Extra Attacks:** real first-free
+  allocation, full physical entity update and rendering passes now use natural
+  `for` headers. Native receipts `af1121d`, `af1122c`, `af1124d`, `af1125e`
+  each passed two original TC4/full MAIN links. Chiyuri's paired-beam path
+  and Kotohime's 10-slot event state are preserved, including their original
+  separate pointer hops and byte state mutations.
+- **Kotohime BOSS and MAIN scheduler:** `af1123e` independently reverified
+  the complete BOSS after naturalizing intro/renderer controls, and `af1126c`
+  verified the complete MAIN entry/round scheduler with natural unsigned-word
+  cadence and VSync predicates. The byte masks and special register/I/O
+  contracts remain unchanged.
 
 - **Background chains:** full Chain 1 / Chain 2 reset and particle
   initializers use natural `for` loops, preserving all RNG and drawing
@@ -216,7 +232,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1094e af1112h af1113c af1118e af1117f af1119b af1101d af1104e af1105d af1110d af1111e af1106d af1107c af1108e af1114e af1120c af1101g af1115b af1102b af1116g af1103d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1094e af1112h af1113c af1121d af1122c af1124d af1125e af1118e af1117f af1119b af1123e af1104e af1105d af1110d af1111e af1106d af1107c af1108e af1114e af1120c af1101g af1115b af1126c af1116g af1103d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

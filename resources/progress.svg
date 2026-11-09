@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="788" height="1138" viewBox="0 0 788 1138" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+<svg xmlns="http://www.w3.org/2000/svg" width="788" height="1234" viewBox="0 0 788 1234" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
   <desc>All bars count tracked unit extents. MAIN ledger exactness and decoded source publications are labeled separately. Pending publication is not zero reconstruction. Whole-game totals remain unknown.</desc>
-  <rect x="0.5" y="0.5" width="787" height="1137" rx="16" fill="#1f2335" stroke="#353b52"/>
+  <rect x="0.5" y="0.5" width="787" height="1233" rx="16" fill="#1f2335" stroke="#353b52"/>
   <text x="24" y="39" fill="#f4f4f5" font-family="sans-serif" font-size="22" font-weight="600">TH03 reconstruction progress</text>
   <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked unit extents · whole-game completion unknown</text>
   <text x="200" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary review / source</text>
@@ -63,26 +63,30 @@
 <text x="24" y="538" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Ellen Extra Attack (af1094e): 1 physical owners / 1,129 CODE B</text>
 <text x="24" y="562" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Reimu Extra Attack (af1112h): 2 physical owners / 1,156 CODE B</text>
 <text x="24" y="586" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Marisa Extra Attack (af1113c): 1 physical owners / 676 CODE B</text>
-<text x="24" y="610" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Rikako BOSS (af1118e): 1 physical owners / 1,677 CODE B</text>
-<text x="24" y="634" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kana BOSS (af1117f): 1 physical owners / 1,874 CODE B</text>
-<text x="24" y="658" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Chiyuri BOSS (af1119b): 1 physical owners / 2,654 CODE B</text>
-<text x="24" y="682" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kotohime BOSS (af1101d): 1 physical owners / 1,840 CODE B</text>
-<text x="24" y="706" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Reimu BOSS (af1104e): 1 physical owners / 2,020 CODE B</text>
-<text x="24" y="730" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Mima BOSS (af1105d): 1 physical owners / 1,922 CODE B</text>
-<text x="24" y="754" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Marisa BOSS (af1110d): 1 physical owners / 1,431 CODE B</text>
-<text x="24" y="778" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Ellen BOSS (af1111e): 1 physical owners / 1,675 CODE B</text>
-<text x="24" y="802" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Yumemi BOSS (af1106d): 1 physical owners / 2,358 CODE B</text>
-<text x="24" y="826" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Bullet engine (af1107c): 1 physical owners / 2,685 CODE B</text>
-<text x="24" y="850" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Fireball engine (af1108e): 1 physical owners / 1,555 CODE B</text>
-<text x="24" y="874" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Enemy engine (af1114e): 4 physical owners / 3,325 CODE B</text>
-<text x="24" y="898" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Explosion collision (af1120c): 1 physical owners / 630 CODE B</text>
-<text x="24" y="922" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Hitbox and HitCircle (af1101g): 2 physical owners / 711 CODE B</text>
-<text x="24" y="946" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Background chains (af1115b): 2 physical owners / 1,245 CODE B</text>
-<text x="24" y="970" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main MAIN entry and round (af1102b): 1 physical owners / 3,050 CODE B</text>
-<text x="24" y="994" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Player core (af1116g): 1 physical owners / 3,135 CODE B</text>
-<text x="24" y="1018" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main CPU controller (af1103d): 1 physical owners / 1,077 CODE B</text>
-<text x="24" y="1042" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Staff Roll (af942s): 1 physical owners / 3,695 CODE B</text>
-<text x="24" y="1066" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Root controller (af944r): 1 physical owners / 2,458 CODE B</text>
-  <text x="24" y="1110" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
+<text x="24" y="610" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kotohime Extra Attack (af1121d): 1 physical owners / 1,054 CODE B</text>
+<text x="24" y="634" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Chiyuri Extra Attack (af1122c): 1 physical owners / 978 CODE B</text>
+<text x="24" y="658" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Rikako Extra Attack (af1124d): 1 physical owners / 702 CODE B</text>
+<text x="24" y="682" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kana Extra Attack (af1125e): 1 physical owners / 663 CODE B</text>
+<text x="24" y="706" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Rikako BOSS (af1118e): 1 physical owners / 1,677 CODE B</text>
+<text x="24" y="730" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kana BOSS (af1117f): 1 physical owners / 1,874 CODE B</text>
+<text x="24" y="754" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Chiyuri BOSS (af1119b): 1 physical owners / 2,654 CODE B</text>
+<text x="24" y="778" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Kotohime BOSS (af1123e): 1 physical owners / 1,840 CODE B</text>
+<text x="24" y="802" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Reimu BOSS (af1104e): 1 physical owners / 2,020 CODE B</text>
+<text x="24" y="826" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Mima BOSS (af1105d): 1 physical owners / 1,922 CODE B</text>
+<text x="24" y="850" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Marisa BOSS (af1110d): 1 physical owners / 1,431 CODE B</text>
+<text x="24" y="874" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Ellen BOSS (af1111e): 1 physical owners / 1,675 CODE B</text>
+<text x="24" y="898" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Yumemi BOSS (af1106d): 1 physical owners / 2,358 CODE B</text>
+<text x="24" y="922" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Bullet engine (af1107c): 1 physical owners / 2,685 CODE B</text>
+<text x="24" y="946" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Fireball engine (af1108e): 1 physical owners / 1,555 CODE B</text>
+<text x="24" y="970" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Enemy engine (af1114e): 4 physical owners / 3,325 CODE B</text>
+<text x="24" y="994" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Explosion collision (af1120c): 1 physical owners / 630 CODE B</text>
+<text x="24" y="1018" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Hitbox and HitCircle (af1101g): 2 physical owners / 711 CODE B</text>
+<text x="24" y="1042" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Background chains (af1115b): 2 physical owners / 1,245 CODE B</text>
+<text x="24" y="1066" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main MAIN entry and round (af1126c): 1 physical owners / 3,050 CODE B</text>
+<text x="24" y="1090" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main Player core (af1116g): 1 physical owners / 3,135 CODE B</text>
+<text x="24" y="1114" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main CPU controller (af1103d): 1 physical owners / 1,077 CODE B</text>
+<text x="24" y="1138" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Staff Roll (af942s): 1 physical owners / 3,695 CODE B</text>
+<text x="24" y="1162" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Root controller (af944r): 1 physical owners / 2,458 CODE B</text>
+  <text x="24" y="1206" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
   <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
 </svg>
