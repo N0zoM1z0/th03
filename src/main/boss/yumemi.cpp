@@ -244,11 +244,12 @@ void near yumemi_pattern_ring(void)
 		yumemi_speed_add += YUMEMI_RING_SPEED_ADD_STEP;
 	}
 
-	if(YUMEMI_RING_FINISH_AFTER < boss_frame) {
-		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame <= YUMEMI_RING_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Timing gates for the long aimed, cross, chase and rain BOSS attacks.
@@ -342,11 +343,12 @@ void near yumemi_pattern_aimed_random(void)
 		bullets_add();
 	}
 
-	if(YUMEMI_AIMED_FINISH_AFTER < boss_frame) {
-		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame <= YUMEMI_AIMED_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near yumemi_pattern_cross_rings(void)
@@ -377,10 +379,11 @@ void near yumemi_pattern_cross_rings(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= YUMEMI_CROSS_FINISH_AT) {
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < YUMEMI_CROSS_FINISH_AT) {
+		return;
 	}
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near yumemi_pattern_chase(void)
@@ -422,12 +425,13 @@ void near yumemi_pattern_chase(void)
 		return;
 	}
 
-	if(boss_frame > yumemi_chase_until) {
-		boss_render_mode = YUMEMI_RENDER_MODE_NONE;
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
-		boss_move_phase = YUMEMI_MOVE_PHASE_SEEK;
+	if(boss_frame <= yumemi_chase_until) {
+		return;
 	}
+	boss_render_mode = YUMEMI_RENDER_MODE_NONE;
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
+	boss_move_phase = YUMEMI_MOVE_PHASE_SEEK;
 }
 
 void near yumemi_pattern_rain(void)
@@ -469,10 +473,11 @@ void near yumemi_pattern_rain(void)
 		}
 	}
 
-	if(boss_frame >= YUMEMI_RAIN_FINISH_AT) {
-		boss_mode = YUMEMI_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < YUMEMI_RAIN_FINISH_AT) {
+		return;
 	}
+	boss_mode = YUMEMI_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_yumemi(void)
