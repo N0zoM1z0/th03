@@ -334,7 +334,9 @@ void near chiyuri_pattern_trail_ring(void)
 		);
 	}
 
-	if(CHIYURI_TRAIL_FIRE_FRAME == boss_frame) {
+	if(boss_frame != CHIYURI_TRAIL_FIRE_FRAME) {
+		return;
+	}
 
 	bullet_template.center.x.v = boss_center_x;
 	bullet_template.center.y.v = boss_center_y;
@@ -350,7 +352,6 @@ void near chiyuri_pattern_trail_ring(void)
 	boss_mode = CHIYURI_MODE_SELECT;
 	boss_frame = 0;
 	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
-	}
 }
 
 // The horizontal fans fire at 0x20 and vertical fans at 0x40;
@@ -431,57 +432,58 @@ void near chiyuri_pattern_fans(void)
 		return;
 	}
 
-	if(boss_frame == CHIYURI_FAN_VERTICAL_FRAME) {
-		bomb_axis_add(
-			boss_center_x, (boss_center_y - CHIYURI_FAN_EDGE_OFFSET), pid_other
-		);
-		bomb_axis_add(
-			boss_center_x, (boss_center_y + CHIYURI_FAN_EDGE_OFFSET), pid_other
-		);
-
-		bullet_template.center.x.v = boss_center_x;
-		bullet_template.type = BT_PELLET;
-		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
-		bullet_template.speed.v = chiyuri_fan_speed;
-
-		for(
-			i = 0;
-			i < chiyuri_fan_count;
-			bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, ++i
-		) {
-			bullet_template.center.y.v = (
-				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
-				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
-			);
-			bullet_template.angle = (
-				((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
-			);
-			bullets_add();
-
-
-		}
-
-		for(
-			i = 0;
-			i < chiyuri_fan_count;
-			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
-		) {
-			bullet_template.center.y.v = (
-				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
-				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
-			);
-			bullet_template.angle = (
-				((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
-			);
-			bullets_add();
-
-
-		}
-
-		boss_mode = CHIYURI_MODE_SELECT;
-		boss_frame = 0;
-		boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
+	if(boss_frame != CHIYURI_FAN_VERTICAL_FRAME) {
+		return;
 	}
+	bomb_axis_add(
+		boss_center_x, (boss_center_y - CHIYURI_FAN_EDGE_OFFSET), pid_other
+	);
+	bomb_axis_add(
+		boss_center_x, (boss_center_y + CHIYURI_FAN_EDGE_OFFSET), pid_other
+	);
+
+	bullet_template.center.x.v = boss_center_x;
+	bullet_template.type = BT_PELLET;
+	bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
+	bullet_template.speed.v = chiyuri_fan_speed;
+
+	for(
+		i = 0;
+		i < chiyuri_fan_count;
+		bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, ++i
+	) {
+		bullet_template.center.y.v = (
+			(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
+			TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
+		);
+		bullet_template.angle = (
+			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
+		);
+		bullets_add();
+
+
+	}
+
+	for(
+		i = 0;
+		i < chiyuri_fan_count;
+		bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+	) {
+		bullet_template.center.y.v = (
+			(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
+			TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
+		);
+		bullet_template.angle = (
+			((CHIYURI_FAN_ANGLE_UNITS * i) / chiyuri_fan_count) - CHIYURI_FAN_VERT_ANGLE_OFFSET
+		);
+		bullets_add();
+
+
+	}
+
+	boss_mode = CHIYURI_MODE_SELECT;
+	boss_frame = 0;
+	boss_render_mode = CHIYURI_POST_ATTACK_PALETTE;
 }
 
 void far gba_boss_update_chiyuri(void)
