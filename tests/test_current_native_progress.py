@@ -23,8 +23,9 @@ class NativeProgress(unittest.TestCase):
         run.assert_not_called()
 
     def test_main_native_selection_excludes_superseded_composite(self):
-        expected = ['af1056c', 'af1094e', 'af1095w', 'af1096g', 'af1101a',
-                    'af1101d', 'af1101g', 'af1102b', 'af1103d']
+        expected = ['af1109c', 'af1094e', 'af1095w', 'af1096g', 'af1101a',
+                    'af1101d', 'af1104e', 'af1105d', 'af1106d', 'af1107c',
+                    'af1108e', 'af1101g', 'af1102b', 'af1103d']
         with TemporaryDirectory() as folder, patch.object(status.subprocess, 'run') as run:
             rows = status.native_source_reviews(Path(folder), 'th03-main')
         self.assertEqual([row['stage'] for row in rows], expected)
@@ -35,7 +36,9 @@ class NativeProgress(unittest.TestCase):
     def test_main_source_review_requires_complete_two_round_link(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)
-            for stage in ('af1101a', 'af1101d', 'af1101g', 'af1102b', 'af1103d'):
+            for stage in ('af1101a', 'af1101d', 'af1101g', 'af1102b', 'af1103d',
+                          'af1104e', 'af1105d', 'af1106d', 'af1107c', 'af1108e',
+                          'af1109c'):
                 path = root / f'.analysis/work/exatt-layout-{stage}/report.json'
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('{}')
@@ -49,7 +52,7 @@ class NativeProgress(unittest.TestCase):
                      patch.object(status.subprocess, 'run', return_value=result):
                     rows = status.native_source_reviews(root, 'th03-main')
                 fresh = [row for row in rows if row['stage'].startswith('af110')]
-                self.assertEqual(len(fresh), 5)
+                self.assertEqual(len(fresh), 11)
                 self.assertTrue(all(row['verified'] == value['full_Japanese_MAIN_equal']
                                     for row in fresh))
 

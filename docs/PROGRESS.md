@@ -21,19 +21,24 @@ These read-only checks validate maintained source bindings, both original compil
 
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
-| th03-main / Shared BOSS | af1056c | Verified | 2 | 949 | — |
+| th03-main / Shared BOSS | af1109c | Verified | 2 | 949 | — |
 | th03-main / Ellen Extra Attack | af1094e | Verified | 1 | 1,129 | — |
 | th03-main / Rikako BOSS | af1095w | Verified | 1 | 1,677 | — |
 | th03-main / Kana BOSS | af1096g | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1101a | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1101d | Verified | 1 | 1,840 | — |
+| th03-main / Reimu BOSS | af1104e | Verified | 1 | 2,020 | — |
+| th03-main / Mima BOSS | af1105d | Verified | 1 | 1,922 | — |
+| th03-main / Yumemi BOSS | af1106d | Verified | 1 | 2,358 | — |
+| th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
+| th03-main / Fireball engine | af1108e | Verified | 1 | 1,555 | — |
 | th03-main / Hitbox and HitCircle | af1101g | Verified | 2 | 711 | — |
 | th03-main / MAIN entry and round | af1102b | Verified | 1 | 3,050 | — |
 | th03-main / CPU controller | af1103d | Verified | 1 | 1,077 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
-th03-main Shared BOSS: `.analysis/work/exatt-layout-af1056c/report.json`.
+th03-main Shared BOSS: `.analysis/work/exatt-layout-af1109c/report.json`.
 
 th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1094e/report.json`.
 
@@ -44,6 +49,16 @@ th03-main Kana BOSS: `.analysis/work/exatt-layout-af1096g/report.json`.
 th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1101a/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1101d/report.json`.
+
+th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1104e/report.json`.
+
+th03-main Mima BOSS: `.analysis/work/exatt-layout-af1105d/report.json`.
+
+th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1106d/report.json`.
+
+th03-main Bullet engine: `.analysis/work/exatt-layout-af1107c/report.json`.
+
+th03-main Fireball engine: `.analysis/work/exatt-layout-af1108e/report.json`.
 
 th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1101g/report.json`.
 
