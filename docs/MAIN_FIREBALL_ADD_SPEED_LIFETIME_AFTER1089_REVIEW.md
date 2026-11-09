@@ -58,15 +58,16 @@ Current `fireball.cpp` SHA-256:
 
 ## Ten-owner integration
 
-Stage `af1089k` rebuilt the current Fireball owner together with `bullet`,
-`ba_mima`, `ba_koto`, `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup`
-and `hitcirc` in two independent original TC4 rounds: 16,635 CODE bytes,
-1,947 ordered native fields and 94 PUBLIC offsets match. Both normal Japanese
-MAIN links reproduce the original loaded image and ordered MZ relocations.
+Stage `af1090j` rebuilt the current Fireball owner together with `bullet`,
+`ba_mima`, `ba_maris`, `ba_koto`, `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly`,
+`ex_reup` and `hitcirc` in two independent original TC4 rounds: 18,066 CODE
+bytes, 2,146 ordered native fields and 103 PUBLIC offsets match. Both normal
+Japanese MAIN links reproduce the original loaded image and ordered MZ
+relocations.
 
-Report: `.analysis/work/exatt-layout-af1089k/report.json`
+Report: `.analysis/work/exatt-layout-af1090j/report.json`
 
-SHA-256: `2b732ac99f269133adcbf848539d64b99aa5a79c2332a57649434c81476b010e`
+SHA-256: `7397a4101bc767b7126defdf63395b963720610475e53ee00b5b717f88f0f6da`
 
 This is scoped original-toolchain source evidence, not a Factory Oracle
 receipt, raw vendor OMF identity claim, or canonical packed-file acceptance.

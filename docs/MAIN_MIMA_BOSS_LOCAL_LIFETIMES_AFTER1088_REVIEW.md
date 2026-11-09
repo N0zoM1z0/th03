@@ -121,6 +121,6 @@ receipt, raw vendor OMF identity claim, or canonical packed-file acceptance.
 
 The Mima source binding remains `af1088o` (source SHA-256
 `47f582b8ddb44b6aab621a506f458aeb6d130553dacc814f629e859ac9f59b7f`). Its
-current ten-owner integration was refreshed at `af1089k` after the Fireball
-allocator speed-local recovery; report SHA-256
-`2b732ac99f269133adcbf848539d64b99aa5a79c2332a57649434c81476b010e`.
+current eleven-owner integration was refreshed at `af1090j` after the Marisa
+BOSS PID-lifetime recovery; report SHA-256
+`7397a4101bc767b7126defdf63395b963720610475e53ee00b5b717f88f0f6da`.

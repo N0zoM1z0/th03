@@ -339,8 +339,6 @@ void near marisa_pattern_columns_narrow(void)
 
 void far gba_boss_update_marisa(void)
 {
-	pid_t pid_other;
-
 	if(boss_update_start()) {
 		marisa_bullet_speed = ((gba_boss_level * MARISA_LEVEL_DOUBLE) + MARISA_LEVEL_BULLET_BASE);
 		marisa_cloud_count_low = ((gba_boss_level * MARISA_LEVEL_DOUBLE) + MARISA_LEVEL_CLOUD_COUNT_BASE);
@@ -354,7 +352,7 @@ void far gba_boss_update_marisa(void)
 		return;
 	}
 
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	boss_target_update();
 	++boss_frame;
 
@@ -433,11 +431,9 @@ void far gba_boss_update_marisa(void)
 void near marisa_render_main(void)
 {
 	sprite16_offset_t sprite_offset;
-	pid_t pid_other;
 	register screen_x_t left;
 	register screen_y_t top;
-
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	sprite16_put_size.set(MARISA_RENDER_MAIN_WIDTH, MARISA_RENDER_MAIN_HEIGHT);
 	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - MARISA_RENDER_MAIN_LEFT_OFFSET);
 	top = ((boss_center_y >> 4) - MARISA_RENDER_MAIN_TOP_OFFSET);
@@ -476,14 +472,12 @@ void near marisa_render_main(void)
 void near pascal marisa_render_split(int offset)
 {
 	screen_y_t top;
-	pid_t pid_other;
 	// Allocation order is essential to original TC4: the first register
 	// local takes SI for the two split offsets, then left takes DI.
 	// This is source-native C++ without manually assigning _SI.
 	register screen_x_t signed_offset = offset;
 	register screen_x_t left;
-
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	sprite16_put_size.set(MARISA_RENDER_MAIN_WIDTH, MARISA_RENDER_MAIN_HEIGHT);
 	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - MARISA_RENDER_MAIN_LEFT_OFFSET);
 	top = ((boss_center_y >> 4) - MARISA_RENDER_MAIN_TOP_OFFSET);
@@ -507,12 +501,10 @@ void near pascal marisa_render_split(int offset)
 
 void far gba_boss_render_marisa(void)
 {
-	pid_t pid_other;
-
 	if(pid_current != gba_boss_launched_by) {
 		return;
 	}
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	sprite16_clip_set_for_pid(pid_other);
 
 	if(boss_mode == MARISA_MODE_INTRO) {

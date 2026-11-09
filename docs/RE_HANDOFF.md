@@ -56,7 +56,7 @@ The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1088o`, `ba_kana` uses `af1060a`,
-`ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
+`ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1090i`,
 `ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, `bullet` uses
 `af1086y`, and `e_fireb` uses `af1089j`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
@@ -359,19 +359,20 @@ rebuilds the complete 1,840-byte `ba_koto` owner in two original TC4 rounds:
 MAIN images and ordered relocations exact. See the
 [Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
 
-The current ten-owner Bullet + Fireball + Mima + Kotohime + Reimu + Yumemi +
-Chiyuri / Reimu Extra Attack / HitCircle source integration is `af1089k`:
-`bullet`, `e_fireb`, `ba_mima`, `ba_koto`, `ba_reimu`, `ba_yumem`, `ba_chiyu`,
-`ex_rfly`, `ex_reup` and `hitcirc`, 16,635 CODE bytes, 1,947 ordered native
-fields and 94 PUBLICs. Both original TC4 rounds and both normal Japanese MAIN
-links match. Report: `.analysis/work/exatt-layout-af1089k/report.json`, SHA-256
-`2b732ac99f269133adcbf848539d64b99aa5a79c2332a57649434c81476b010e`.
+The current eleven-owner Bullet + Fireball + Mima + Marisa + Kotohime +
+Reimu + Yumemi + Chiyuri / Reimu Extra Attack / HitCircle source integration
+is `af1090j`: `bullet`, `e_fireb`, `ba_mima`, `ba_maris`, `ba_koto`, `ba_reimu`,
+`ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and `hitcirc`, 18,066 CODE bytes,
+2,146 ordered native fields and 103 PUBLICs. Both original TC4 rounds and both
+normal Japanese MAIN links match. Report:
+`.analysis/work/exatt-layout-af1090j/report.json`, SHA-256
+`7397a4101bc767b7126defdf63395b963720610475e53ee00b5b717f88f0f6da`.
 It includes the Bullet group velocity ring increment, first-use allocator
 pointer, natural trail initialization, register-sensitive update exit test,
 and all natural `for` render passes; the Fireball allocator's first-use speed
-local, 24-slot update, reverse hit-test and render dispatcher; Mima's current
-random-bomb/update/split-render
-local lifetimes; Kotohime's current radial/update source, Reimu's four attack
+local, 24-slot update, reverse hit-test and render dispatcher; Marisa's full
+update and three render PID lifetimes; Mima's current random-bomb/update/
+split-render local lifetimes; Kotohime's current radial/update source, Reimu's four attack
 leaves, update controller and both main/intro renderers, the 205-byte
 `reimu_exatt_render_one()` recovery, both physical Reimu Extra Attack owners,
 Chiyuri's fan source, Yumemi's update/arrival/Aimed Random/Rain/Cross-Rain
@@ -424,9 +425,28 @@ reverted. The complete 1,555-byte owner and ten-owner integration match in two
 original TC4 rounds; see the
 [Fireball allocator speed-lifetime review](MAIN_FIREBALL_ADD_SPEED_LIFETIME_AFTER1089_REVIEW.md).
 
+Marisa's complete nine-function BOSS now has current-source coverage at
+`af1090i`. The 269-byte update controller initializes its opponent PID after
+the inactive-owner return; the main and split renderers initialize PID after
+their register-qualified coordinate locals; and the top-level renderer scopes
+PID after its inactive-owner return. Moving either column attack's PID below
+the warmup guard or into a narrower block changed CODE, so both leaf functions
+retain their original entry initialization. The complete 1,431-byte owner and
+eleven-owner integration match in two original TC4 rounds; see the
+[Marisa BOSS local-lifetime review](MAIN_MARISA_BOSS_LOCAL_LIFETIMES_AFTER1090_REVIEW.md).
+
+The 329-byte `fireballs_add()` allocator now declares its `subpixel_length_8_t`
+speed local at the first randomized assignment, after the free-slot guard and
+initial entity stores. The local remains live through the original clamp,
+fall-speed store and velocity calculation. Moving the target PID, origin
+coordinates, screen-X scratch or loop index changed CODE; those changes remain
+reverted. The complete 1,555-byte owner and eleven-owner integration match in
+two original TC4 rounds; see the
+[Fireball allocator speed-lifetime review](MAIN_FIREBALL_ADD_SPEED_LIFETIME_AFTER1089_REVIEW.md).
+
 The Fireball engine's current source binding is `af1089j`; its current
-ten-owner integration is `af1089k` (the older `af1087f` / `af1088p` reports
-are historical). The 1,555-byte `e_fireb` object uses natural `for`
+eleven-owner integration is `af1090j` (the older `af1087f` / `af1088p` /
+`af1089k` reports are historical). The 1,555-byte `e_fireb` object uses natural `for`
 headers in its 276-byte 24-slot update controller, 441-byte reverse collision
 scan and 69-byte hit-test/render dispatcher. The `fireballs_update()` free,
 clipped and transferred `continue` paths share the same pointer/index
