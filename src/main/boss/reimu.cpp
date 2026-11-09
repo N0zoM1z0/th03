@@ -97,6 +97,7 @@ enum reimu_render_timing_t {
     REIMU_RENDER_MAIN_TOP_MARGIN = 32,
     REIMU_RENDER_ORBIT_LEFT_MARGIN = 24,
     REIMU_RENDER_ORBIT_TOP_MARGIN = 8,
+    REIMU_RENDER_HIT_SPRITE_OFFSET = 0x0C,
 };
 
 enum reimu_template_layout_t {
@@ -158,8 +159,9 @@ void near reimu_pattern_orbit_cloud(void)
 	}
 
 	{
-		unsigned char angle;
-		angle = (static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP);
+		unsigned char angle = (
+			static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP
+		);
 		if(reimu_direction != 0) {
 			angle = 0 - angle;
 		}
@@ -192,15 +194,16 @@ void near reimu_pattern_orbit_cloud(void)
 		}
 	}
 
-	if((boss_frame & (REIMU_CLOUD_ACCEL_PERIOD - 1)) == 0) {
+	if((boss_frame % REIMU_CLOUD_ACCEL_PERIOD) == 0) {
 		// Keep postfix on this byte field: prefix, compound and explicit
 		// self-addition all changed the complete original owner.
 		reimu_cloud_speed++;
 	}
 
 	{
-		unsigned char angle;
-		angle = (static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP);
+		unsigned char angle = (
+			static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP
+		);
 		angle = angle + REIMU_CLOUD_ANGLE_ROTATION;
 		boss_center_y = polar(
 			boss_aux_point.y.v, REIMU_CLOUD_CENTER_ORBIT_RADIUS, SinTable8[angle]
@@ -267,7 +270,8 @@ enum reimu_orbit_phase_t {
 };
 
 // The three radial loops use signed i*256 BEFORE the original integer
-// division; collapsing or reordering would change ring angles.
+// division; independent natural for headers preserve the original ordered
+// polar stores and Extra Attack calls.
 void near reimu_pattern_orbit_burst(void)
 {
 	boss_move_sine();
@@ -283,10 +287,10 @@ void near reimu_pattern_orbit_burst(void)
 		// Each phase owns a signed index and a byte angle scratch. Shift
 		// before signed division; prefix advancement follows each phase's
 		// original polar and Extra Attack call order.
-		int i = 0;
-		while(i < reimu_orbit_count) {
-			unsigned char angle;
-			angle = static_cast<unsigned char>(((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
+		for(int i = 0; i < reimu_orbit_count; ++i) {
+			unsigned char angle = static_cast<unsigned char>(
+				((i << 8) / reimu_orbit_count) + reimu_orbit_angle
+			);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
 				(TO_SP(boss_frame) * 2),
@@ -297,7 +301,6 @@ void near reimu_pattern_orbit_burst(void)
 				(TO_SP(boss_frame) * 2),
 				SinTable8[angle]
 			);
-			++i;
 		}
 		// Explicit self-addition preserves the unsigned-byte orbit wrap;
 		// signed-byte fields in other BOSS owners can differ.
@@ -306,10 +309,10 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
-		int i = 0;
-		while(i < reimu_orbit_count) {
-			unsigned char angle;
-			angle = static_cast<unsigned char>(((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
+		for(int i = 0; i < reimu_orbit_count; ++i) {
+			unsigned char angle = static_cast<unsigned char>(
+				((i << 8) / reimu_orbit_count) + reimu_orbit_angle
+			);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
 			);
@@ -317,7 +320,6 @@ void near reimu_pattern_orbit_burst(void)
 				boss_center_y, TO_SP(48), SinTable8[angle]
 			);
 
-			++i;
 		}
 		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
 
@@ -337,13 +339,12 @@ void near reimu_pattern_orbit_burst(void)
 	}
 
 	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
-		int i = 0;
-		while(i < reimu_orbit_count) {
-			unsigned char angle;
-			angle = static_cast<unsigned char>(((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
+		for(int i = 0; i < reimu_orbit_count; ++i) {
+			unsigned char angle = static_cast<unsigned char>(
+				((i << 8) / reimu_orbit_count) + reimu_orbit_angle
+			);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
 
-			++i;
 		}
 		boss_mode = REIMU_MODE_SELECT;
 		boss_frame = 0;
@@ -365,7 +366,7 @@ void near reimu_pattern_mirrored_spread(void)
 
 	// The sixteen-frame mirrored spread uses the unsigned-word low bits.
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
-		if((boss_frame & (REIMU_MIRROR_FIRE_PERIOD - 1)) != 0) {
+		if((boss_frame % REIMU_MIRROR_FIRE_PERIOD) != 0) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;
@@ -403,7 +404,7 @@ void far gba_boss_update_reimu(void)
 
 	pid_t pid_other = 1 - pid_current;
 	boss_target_update();
-	boss_frame += 1;
+	++boss_frame;
 
 	if(boss_mode == REIMU_MODE_INTRO) {
 		if(boss_frame != REIMU_INTRO_END_FRAME) {
@@ -491,7 +492,7 @@ void near reimu_render_main(void)
 	{
 		register sprite16_offset_t sprite_offset = boss_sprite_offset;
 		if(boss_hit) {
-			sprite_offset += 0x0C;
+			sprite_offset += REIMU_RENDER_HIT_SPRITE_OFFSET;
 		}
 
 		left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - REIMU_RENDER_MAIN_LEFT_MARGIN);
