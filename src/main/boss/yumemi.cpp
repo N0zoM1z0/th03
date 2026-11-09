@@ -325,7 +325,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
-	if((boss_frame & (YUMEMI_AIMED_FIRE_PERIOD - 1)) == 0) {
+	if((boss_frame % YUMEMI_AIMED_FIRE_PERIOD) == 0) {
 		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -334,7 +334,7 @@ void near yumemi_pattern_aimed_random(void)
 			yumemi_aimed_speed_base + randring_far_next16_and(0x1F)
 		);
 		bullet_template.type = (1 + randring_far_next16_and(1));
-		bullet_template.group = yumemi_groups[randring_far_next16_mod(5)];
+		bullet_template.group = yumemi_groups[randring_far_next16_mod(sizeof(yumemi_groups))];
 		bullets_add();
 	}
 
@@ -489,7 +489,7 @@ void far gba_boss_update_yumemi(void)
 	register pid_t pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	boss_frame++;
+	++boss_frame;
 
 	yumemi_origin_x = (YUMEMI_ORIGIN_X_OFFSET + boss_center_x);
 	yumemi_origin_y = (-YUMEMI_ORIGIN_Y_OFFSET + boss_center_y);
@@ -607,8 +607,8 @@ void near yumemi_render_main(void)
 	}
 
 	// These are two independent original visual effect state values.
-	// Explicit natural conjunction is TC4 byte-exact (af897e).
-	if((0 == boss_effect_radius) && (0 == boss_render_frame)) {
+	// Both animation clocks must be empty before exiting this renderer.
+	if(!boss_effect_radius && !boss_render_frame) {
 		return;
 	}
 
@@ -725,20 +725,19 @@ void near yumemi_render_arrival(void)
 
 void far gba_boss_render_yumemi(void)
 {
-	register pid_t pid_other;
-
-	if(pid_current == gba_boss_launched_by) {
-		pid_other = (1 - pid_current);
-		sprite16_clip_set_for_pid(pid_other);
-
-		if(YUMEMI_MODE_INTRO == boss_mode) {
-			yumemi_render_arrival();
-			return;
-		}
-		if(YUMEMI_MODE_EXPLODE != boss_mode) {
-			yumemi_render_main();
-			return;
-		}
-		boss_explosion_render();
+	if(pid_current != gba_boss_launched_by) {
+		return;
 	}
+	register pid_t pid_other = (1 - pid_current);
+	sprite16_clip_set_for_pid(pid_other);
+
+	if(YUMEMI_MODE_INTRO == boss_mode) {
+		yumemi_render_arrival();
+		return;
+	}
+	if(YUMEMI_MODE_EXPLODE != boss_mode) {
+		yumemi_render_main();
+		return;
+	}
+	boss_explosion_render();
 }
