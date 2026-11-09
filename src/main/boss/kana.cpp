@@ -171,7 +171,7 @@ void far pascal boss_kana_template_init(int player_id)
 	p->pattern_i = 0;
 	p->effect_radius = 0;
 	p->sprite_offset = KANA_TEMPLATE_SPRITE_OFF;
-	if(player_id != 0) {
+	if(player_id) {
 		p->sprite_offset += KANA_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = KANA_RENDER_MODE_NORMAL;
@@ -223,7 +223,7 @@ void near kana_pattern_accel_ring(void)
 		snd_se_play(KANA_SOUND_ATTACK);
 		return;
 	}
-	if(boss_frame > KANA_ACCEL_FINISH_AFTER) {
+	if(KANA_ACCEL_FINISH_AFTER < boss_frame) {
 		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
@@ -366,7 +366,7 @@ void near kana_pattern_cloud_ring(void)
 		snd_se_play(KANA_SOUND_ATTACK);
 	}
 
-	if(boss_frame > KANA_CLOUD_FINISH_AFTER) {
+	if(KANA_CLOUD_FINISH_AFTER < boss_frame) {
 		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
@@ -439,7 +439,7 @@ void near kana_pattern_rotating_ring(void)
 		return;
 	}
 
-	if(boss_frame > KANA_ROTATING_FINISH_AFTER) {
+	if(KANA_ROTATING_FINISH_AFTER < boss_frame) {
 		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
@@ -469,12 +469,11 @@ void far gba_boss_update_kana(void)
 
 	switch(boss_mode) {
 	case KANA_MODE_INTRO:
-		if(boss_frame == KANA_INTRO_COMPLETE_FRAME) {
-			boss_frame = 0;
-			boss_mode = KANA_MODE_SELECT;
-		} else {
+		if(boss_frame != KANA_INTRO_COMPLETE_FRAME) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = KANA_MODE_SELECT;
 		break;
 
 	case KANA_MODE_SELECT:
@@ -579,14 +578,14 @@ void near kana_render_main(void)
 	}
 
 	sprite_offset = (boss_sprite_offset + 0xC80);
-	if(boss_render_frame < KANA_RENDER_WARNING_STEP_1) {
-		;
-	} else if(boss_render_frame < KANA_RENDER_WARNING_STEP_2) {
-		sprite_offset += KANA_RENDER_WARN_FRAME_2;
-	} else if(boss_render_frame < KANA_RENDER_WARNING_STEP_3) {
-		sprite_offset += KANA_RENDER_WARN_FRAME_3;
-	} else {
-		sprite_offset += KANA_RENDER_WARN_FRAME_4;
+	if(boss_render_frame >= KANA_RENDER_WARNING_STEP_1) {
+		if(boss_render_frame < KANA_RENDER_WARNING_STEP_2) {
+			sprite_offset += KANA_RENDER_WARN_FRAME_2;
+		} else if(boss_render_frame < KANA_RENDER_WARNING_STEP_3) {
+			sprite_offset += KANA_RENDER_WARN_FRAME_3;
+		} else {
+			sprite_offset += KANA_RENDER_WARN_FRAME_4;
+		}
 	}
 	sprite16_put(left, top, sprite_offset);
 }
@@ -598,7 +597,6 @@ void near kana_render_intro(void)
 {
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
-	register int i;
 
 	int radius = (KANA_INTRO_RADIUS_ORIGINAL_SUBPIXEL - ((boss_frame * 2) * 16));
 
@@ -622,7 +620,7 @@ void near kana_render_intro(void)
 
 	// Sixteen sprite calls now use a natural signed-index for and a
 	// named byte angle step, both native exact (af884b/c).
-	for(i = 0; i < KANA_INTRO_SPRITE_COUNT; ++i, angle += KANA_INTRO_SPRITE_ANGLE_STEP) {
+	for(register int i = 0; i < KANA_INTRO_SPRITE_COUNT; ++i, angle += KANA_INTRO_SPRITE_ANGLE_STEP) {
 		register screen_x_t left = polar(
 			boss_center_x,
 			radius,
