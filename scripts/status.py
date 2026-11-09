@@ -102,7 +102,8 @@ def native_source_reviews(root, artifact):
         # or Factory credit from any historical composite.
         selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
                      'review_th03_main_source_overlay.py', []) for label, stage in (
-            ('Shared BOSS', 'af1109c'),
+            ('Shared BOSS', 'af1172f'),
+            ('PI image loader', 'af1173c'),
             ('Ellen Extra Attack', 'af1129e'),
             ('Yumemi Extra Attack', 'af1127g'),
             ('Mima Extra Attack', 'af1128c'),

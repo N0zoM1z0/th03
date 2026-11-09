@@ -15,20 +15,21 @@ ledger and separate function inventory remain unchanged. Recent work improves
 natural C++ while preserving original native output, so ledger totals need
 not increase. The whole-game completion percentage remains unknown.
 
-`status.py` and generated progress select the fifty-six current disjoint MAIN
+`status.py` and generated progress select the fifty-seven current disjoint MAIN
 source reports below. The old `af1053k` and `af1092k` composites and shared
 BOSS `af1056c` are historical after source changes, not current all-owner proofs.
 
 ## Current MAIN native evidence
 
-These fifty-six disjoint stage reports have passed read-only source/native review.
+These fifty-seven disjoint stage reports have passed read-only source/native review.
 Each retains two original TC4 compiler rounds, complete physical CODE/DATA,
 literal ordered native fields, PUBLICs and segment geometry, plus normal MAIN
 links matching the Japanese loaded image and all ordered MZ relocations.
 
 | Stage | Current physical owners |
 | --- | --- |
-| `af1109c` | Shared BOSS providers `ba_sring`, `ba_srest` |
+| `af1172f` | Shared BOSS providers `ba_sring`, `ba_srest` |
+| `af1173c` | PI image loader `pi_load` |
 | `af1129e` | Ellen Extra Attack `ex_ellen` |
 | `af1127g` | Yumemi Extra Attack `ex_yume` |
 | `af1128c` | Mima Extra Attack `ex_mima` |
@@ -95,6 +96,11 @@ source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Shared BOSS and PI loader:** `af1172f` verifies the two shared BOSS
+  owners after naturalizing launch and RNG-wait early returns; `af1173c`
+  adds the previously unselected far-Pascal PI loader. A direct return from
+  `graph_pi_load_pack` changed native CODE, so the named result remains.
 
 - **Enemy and Mima BOSS:** the four-owner Enemy clip/speed recovery is
   source-bound at `af1167c`; Mima's two full attack state machines now use
@@ -322,7 +328,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1157c af1150c af1151d af1158e af1139c af1168b af1144c af1145c af1162c af1107c af1108e af1167c af1120c af1101g af1115b af1171d af1164e af1166i af1165h af1116g af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1172f af1173c af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1157c af1150c af1151d af1158e af1139c af1168b af1144c af1145c af1162c af1107c af1108e af1167c af1120c af1101g af1115b af1171d af1164e af1166i af1165h af1116g af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

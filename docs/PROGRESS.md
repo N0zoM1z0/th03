@@ -21,7 +21,8 @@ These read-only checks validate maintained source bindings, both original compil
 
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
-| th03-main / Shared BOSS | af1109c | Verified | 2 | 949 | — |
+| th03-main / Shared BOSS | af1172f | Verified | 2 | 949 | — |
+| th03-main / PI image loader | af1173c | Verified | 1 | 70 | — |
 | th03-main / Ellen Extra Attack | af1129e | Verified | 1 | 1,129 | — |
 | th03-main / Yumemi Extra Attack | af1127g | Verified | 1 | 1,696 | — |
 | th03-main / Mima Extra Attack | af1128c | Verified | 1 | 727 | — |
@@ -80,7 +81,9 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
-th03-main Shared BOSS: `.analysis/work/exatt-layout-af1109c/report.json`.
+th03-main Shared BOSS: `.analysis/work/exatt-layout-af1172f/report.json`.
+
+th03-main PI image loader: `.analysis/work/exatt-layout-af1173c/report.json`.
 
 th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1129e/report.json`.
 

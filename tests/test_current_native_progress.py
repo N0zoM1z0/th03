@@ -23,7 +23,7 @@ class NativeProgress(unittest.TestCase):
         run.assert_not_called()
 
     def test_main_native_selection_excludes_superseded_composite(self):
-        expected = ['af1109c', 'af1129e', 'af1127g', 'af1128c',
+        expected = ['af1172f', 'af1173c', 'af1129e', 'af1127g', 'af1128c',
                     'af1112h', 'af1113c', 'af1121d', 'af1122c',
                     'af1124d', 'af1125e', 'af1157c', 'af1150c',
                     'af1151d', 'af1158e', 'af1139c', 'af1168b',
@@ -49,7 +49,7 @@ class NativeProgress(unittest.TestCase):
         with TemporaryDirectory() as folder:
             root = Path(folder)
             for stage in ('af1101g', 'af1170d', 'af1139c', 'af1168b',
-                          'af1106d', 'af1107c', 'af1108e', 'af1109c',
+                          'af1106d', 'af1107c', 'af1108e', 'af1172f', 'af1173c',
                           'af1144c', 'af1145c', 'af1112h', 'af1113c',
                           'af1167c', 'af1115b', 'af1116g', 'af1150c',
                           'af1157c', 'af1151d', 'af1120c', 'af1121d',
@@ -63,7 +63,7 @@ class NativeProgress(unittest.TestCase):
                           'af1155b', 'af1156b', 'af1159d', 'af1160e',
                           'af1161f', 'af1162c', 'af1163i', 'af1164e',
                           'af1165h', 'af1166i', 'af1167c', 'af1168b',
-                          'af1169a', 'af1170d', 'af1171d'):
+                          'af1169a', 'af1170d', 'af1171d', 'af1172f', 'af1173c'):
                 path = root / f'.analysis/work/exatt-layout-{stage}/report.json'
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('{}')
@@ -77,7 +77,7 @@ class NativeProgress(unittest.TestCase):
                      patch.object(status.subprocess, 'run', return_value=result):
                     rows = status.native_source_reviews(root, 'th03-main')
                 fresh = [row for row in rows if row['stage'].startswith(('af110', 'af111', 'af112', 'af113', 'af114', 'af115', 'af116', 'af117'))]
-                self.assertEqual(len(fresh), 56)
+                self.assertEqual(len(fresh), 57)
                 self.assertTrue(all(row['verified'] == value['full_Japanese_MAIN_equal']
                                     for row in fresh))
 
