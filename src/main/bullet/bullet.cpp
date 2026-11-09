@@ -256,7 +256,7 @@ bool16 pascal near group_velocity_set(int i)
 	case BG_8_RING:  ring_remaining += 4; ring_i_shift--;	// fallthrough
 	case BG_4_RING:  ring_remaining += 2; ring_i_shift--;	// fallthrough
 	case BG_2_RING:
-		ring_remaining += 1;
+		++ring_remaining;
 		ring_i_shift--;
 		i_angle = (i << ring_i_shift);
 		if(ring_remaining <= i) {
@@ -272,7 +272,7 @@ bool16 pascal near group_velocity_set(int i)
 	case BG_8_RING_AIMED:  ring_remaining += 4; ring_i_shift--;	// fallthrough
 	case BG_4_RING_AIMED:  ring_remaining += 2; ring_i_shift--;	// fallthrough
 	case BG_2_RING_AIMED:
-		ring_remaining += 1;
+		++ring_remaining;
 		ring_i_shift--;
 		i_angle = (i << ring_i_shift);
 		if(ring_remaining <= i) {

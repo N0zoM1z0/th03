@@ -57,7 +57,8 @@ files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
-`ba_rikak` uses `af1066a`, and `hitcirc` uses `af1085f`.
+`ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, and `bullet` uses
+`af1085u`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
 probe reports are not Factory Oracle receipts or accepted facts.
@@ -358,19 +359,19 @@ rebuilds the complete 1,840-byte `ba_koto` owner in two original TC4 rounds:
 MAIN images and ordered relocations exact. See the
 [Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
 
-The current seven-owner Kotohime + Reimu + Yumemi + Chiyuri / Reimu Extra
-Attack / HitCircle source integration is `af1085f`: `ba_koto`, `ba_reimu`,
-`ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and `hitcirc`, 10,473 CODE bytes,
-1,359 ordered native fields and 55 PUBLICs. Both original TC4 rounds and both
-normal Japanese MAIN links match. Report:
-`.analysis/work/exatt-layout-af1085f/report.json`, SHA-256
-`072f2f02aad253e656f4f821f53bb483492f43362dc6f370ae4209624b1a27fe`.
-It includes Kotohime's current radial/update source, Reimu's four attack
-leaves, update controller and both main/intro renderers, the 205-byte
-`reimu_exatt_render_one()` recovery, both physical Reimu Extra Attack owners,
-Chiyuri's fan source, Yumemi's update/arrival/Aimed Random/Rain/Cross-Rain
-changes, and HitCircle's current register-bound cel arithmetic plus
-its narrowed update/render scratch lifetimes.
+The current eight-owner Bullet + Kotohime + Reimu + Yumemi + Chiyuri / Reimu
+Extra Attack / HitCircle source integration is `af1085v`: `bullet`, `ba_koto`,
+`ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and `hitcirc`, 13,158
+CODE bytes, 1,555 ordered native fields and 75 PUBLICs. Both original TC4
+rounds and both normal Japanese MAIN links match. Report:
+`.analysis/work/exatt-layout-af1085v/report.json`, SHA-256
+`c3d5f5ba9b80eef6462e1c8ac33779c6b588779dd4cd08d4824f0e138d8e0ba3`.
+It includes the Bullet group velocity ring increment, Kotohime's current
+radial/update source, Reimu's four attack leaves, update controller and both
+main/intro renderers, the 205-byte `reimu_exatt_render_one()` recovery, both
+physical Reimu Extra Attack owners, Chiyuri's fan source, Yumemi's update/
+arrival/Aimed Random/Rain/Cross-Rain changes, and HitCircle's register-bound
+cel arithmetic plus narrowed update/render scratch lifetimes.
 
 Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
 `ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
@@ -380,6 +381,13 @@ The update uses an ordinary entity pointer, a `for`-scope index, variable-first
 state tests, and an RNG-initialized byte angle with compound addition. The
 current inline source dependency is checked by the source overlay. See the
 [Reimu Extra Attack Update review](MAIN_REIMU_EXTRA_ATTACK_UPDATE_NATURAL_CPP_AFTER1077_REVIEW.md).
+
+The 819-byte `group_velocity_set()` dispatcher now uses prefix increment for
+the terminal count update in both ordinary and aimed ring fallthrough chains.
+The complete 2,685-byte Bullet owner, including its 9,500-byte BSS, matches in
+two original TC4 rounds; the eight-owner integration also matches. Several
+other tempting local-scope and byte-decrement rewrites changed CODE and were
+reverted. See the [Bullet group-velocity review](MAIN_BULLET_GROUP_VELOCITY_RING_INCREMENT_AFTER1085_REVIEW.md).
 
 HitCircle's `HitCircle::cel()` uses the natural compound self-division
 `_BX /= HITCIRCLE_FRAMES_PER_CEL` while keeping the intermediate in BX. Its
@@ -422,15 +430,12 @@ and [Reimu intro-renderer review](MAIN_REIMU_RENDER_INTRO_NATURAL_CPP_AFTER1083_
 Recommended next work:
 
 1. Continue the Hitbox/collision family and inspect the next large engine/BOSS
-   controller. HitCircle's 445-byte owner now has current-source cel arithmetic
-   and narrowed update/render scratch lifetimes. Kotohime's 302-byte Radial Burst
-   and 332-byte BOSS Update now
-   have current-source native matches. Reimu's 443-byte Orbit Burst, 339-byte
-   Orbit Cloud, 118-byte spreads,
-   98-byte mirrored spread, 296-byte Reimu BOSS Update, 281-byte Extra Attack
-   Update, 205-byte Extra Attack renderer, and both 259-byte main/intro
-   renderers now have current-source native matches. Compare the complete
-   affected physical owner each time.
+   controller. The 819-byte Bullet group dispatcher, HitCircle's 445-byte owner,
+   Kotohime's 302-byte Radial Burst and 332-byte BOSS Update, and Reimu's 443-byte
+   Orbit Burst, 339-byte Orbit Cloud, 118-byte spreads, 98-byte mirrored spread,
+   296-byte BOSS Update, 281-byte Extra Attack Update, 205-byte Extra Attack
+   renderer, and both 259-byte main/intro renderers now have current-source
+   native matches. Compare the complete affected physical owner each time.
 2. Revisit adjacent Reimu Extra Attack creation and remaining rendering
    helpers, then expand into the next large engine/BOSS controller. Recheck
    current source and disassembly rather than inheriting old assumptions.
