@@ -37,6 +37,7 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1101d` | Kotohime BOSS `ba_koto` |
 | `af1101g` | Hitbox `hitbox` and HitCircle `hitcirc` |
 | `af1102b` | Large MAIN entry/round controller `entry` |
+| `af1103d` | Four-function CPU controller `p_cpu` |
 
 Reports live at `.analysis/work/exatt-layout-STAGE/report.json`. The current
 review log is `.analysis/work/progress-review-current-main.log`. These are
@@ -44,6 +45,16 @@ separate scoped links, not a new combined build of all listed owners.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **CPU:** the complete four-function dodge/aim/retry controller uses a
+  bounded `for` over its original signed-byte collision radii, retaining
+  the early-break behavior. Target steering's byte flag initializes at
+  first use after `ellen_target_set`. Final `af1103d` matches all 1,077
+  CPU CODE bytes, 64 original ordered native fields and full Japanese
+  MAIN in two rounds. A structured if/else retry-column rewrite
+  (`af1103a`), a ternary bottom-escape rewrite (`af1103b`) and a narrower
+  unused-but-observable RNG remainder local (`af1103e`) changed CODE;
+  those variants were not kept.
 
 - **MAIN entry/round reset:** eight fixed-length digit, player, callback,
   EFE, Extra Attack, shotpair and random charge-threshold traversals now
@@ -136,7 +147,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1092k af1056c af1094e af1095w af1096g af1101a af1101d af1101g af1102b
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1092k af1056c af1094e af1095w af1096g af1101a af1101d af1101g af1102b af1103d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

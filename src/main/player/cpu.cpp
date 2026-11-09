@@ -109,11 +109,10 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
     subpixel_t x = player->center.x.v;
     subpixel_t y = player->center.y.v;
     unsigned int random_region;
-    unsigned char attempt;
     input_t direction = INPUT_NONE;
 
     ellen_target_set(pid.current);
-    attempt = ((ellen_target_x + CPU_TARGET_X_MARGIN) < x);
+    unsigned char attempt = ((ellen_target_x + CPU_TARGET_X_MARGIN) < x);
     // Preserve the original Boolean shift and OR sequence: an equivalent
     // flag-valued conditional changed TC4 CODE (af838d).
     attempt |= (((ellen_target_x - CPU_TARGET_X_MARGIN) > x) << 1);
@@ -185,15 +184,17 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         // Keep the original signed-byte probe loop literals: equivalent
         // enum bounds changed native TC4 output (after646e).
         // Sweep the four original signed-byte collision radii until
-        // the first hit. Keep the 16-subpixel increment AFTER the hit
-        // test, so an early break skips it (native af917b).
-        radius_or_retry = (64 / 2);
-        while(radius_or_retry <= (160 / 2)) {
+        // the first hit. The for-header increment runs only when the
+        // preceding hit test does not break out of the scan.
+        for(
+            radius_or_retry = (64 / 2);
+            radius_or_retry <= (160 / 2);
+            radius_or_retry += (32 / 2)
+        ) {
             player_hittest(radius_or_retry);
             if(player->is_hit) {
                 break;
             }
-            radius_or_retry += (32 / 2);
         }
     }
     if(!player->is_hit) {
