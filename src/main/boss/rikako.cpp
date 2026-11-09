@@ -205,12 +205,11 @@ enum rikako_orbit_phase_t {
 void near rikako_pattern_orbit_spread(void)
 {
 	unsigned char angle;
-	signed char angle_delta;
 
-	// The unsigned-word eight-frame spin clock uses a low-bit test,
+	// The unsigned-word eight-frame spin clock uses natural remainder,
 	// distinct from the signed byte spin delta.
 	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT) {
-		if((boss_frame & (RIKAKO_SPIN_TICK_PERIOD - 1)) == 0) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta++;
 		}
 	}
@@ -235,7 +234,7 @@ void near rikako_pattern_orbit_spread(void)
 		bullet_template.group = BG_5_SPREAD_WIDE;
 		bullet_template.speed.v = (TO_SP(1) + 12);
 
-		angle_delta = (
+		signed char angle_delta = (
 			randring_far_next16_and(1)
 			? RIKAKO_ORBIT_ANGLE_DELTA
 			: RIKAKO_ORBIT_ANGLE_DELTA_NEG
@@ -278,10 +277,9 @@ enum rikako_entities_phase_t {
 void near rikako_pattern_entities_and_pellets(void)
 {
 	unsigned char angle;
-	register int i;
 
 	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT) {
-		if((boss_frame & (RIKAKO_SPIN_TICK_PERIOD - 1)) == 0) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta--;
 		}
 	}
@@ -306,7 +304,7 @@ void near rikako_pattern_entities_and_pellets(void)
 		angle = randring_far_next16();
 		// This separate emitter consumes the original otherwise overwritten
 		// RNG result before its same 256-step angular distribution.
-		for(i = 0; i < rikako_entity_count; ++i) {
+		for(register int i = 0; i < rikako_entity_count; ++i) {
 			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_entity_count);
 			rikako_extra_add(
 				boss_center_x,
@@ -328,7 +326,7 @@ void near rikako_pattern_entities_and_pellets(void)
 
 		// Four distinct RNG angles and speed increments precede their
 		// bullets_add calls; the for header advances after each emitted shot.
-		for(i = 0; i < RIKAKO_PELLET_VOLLEY_COUNT; ++i) {
+		for(register int i = 0; i < RIKAKO_PELLET_VOLLEY_COUNT; ++i) {
 			bullet_template.angle = randring_far_next16();
 			bullet_template.speed.v += RIKAKO_PELLET_VOLLEY_SPEED_INC;
 			bullets_add();
@@ -355,17 +353,15 @@ enum rikako_burst_phase_t {
 
 void near rikako_pattern_alternating_burst(void)
 {
-	unsigned char remainder;
-
 	boss_move_sine();
 
 	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL) {
-		if((boss_frame & (RIKAKO_SPIN_TICK_PERIOD - 1)) == 0) {
+		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
 			boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
 		}
 	}
 
-	remainder = (boss_frame % rikako_burst_interval);
+	unsigned char remainder = (boss_frame % rikako_burst_interval);
 	if(remainder == RIKAKO_BURST_FIRST) {
 		rikako_random_angle = randring_far_next16();
 		rikako_bullet_type = (randring_far_next16_and(1) + 1);
@@ -414,7 +410,7 @@ void far gba_boss_update_rikako(void)
 	pid_t pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case RIKAKO_MODE_INTRO:
