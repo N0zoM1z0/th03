@@ -22,7 +22,7 @@ page, not archived next-target lists, for current priorities.
 
 ## Current source-bound MAIN evidence
 
-**Latest integration: af1053k**
+**Latest broad source integration: af1053k**
 
 Two independent original Turbo C++ 4.02 rounds rebuilt these twelve complete
 physical owners together:
@@ -52,11 +52,15 @@ Protected report:
 Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
+The later focused BOSS/engine integration is `af1092k`: 12 current physical
+owners, 19,741 CODE bytes, 2,359 ordered native fields and 112 PUBLIC offsets.
+Its source overlay and report are recorded below.
+
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1088o`, `ba_kana` uses `af1060a`,
-`ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1090i`,
+`ba_reimu` uses `af1083h`, `ba_ellen` uses `af1092j`, `ba_maris` uses `af1090i`,
 `ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, `bullet` uses
 `af1086y`, and `e_fireb` uses `af1089j`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
@@ -161,15 +165,17 @@ Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
 [Update controller review](MAIN_REIMU_UPDATE_CONTROLLER_NATURAL_CPP_AFTER1074_REVIEW.md)
 and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
-Ellen current-source refresh: `.analysis/work/exatt-layout-af1063a/report.json`
-SHA-256: `9965bf3ad20cf6fe5fadb5ec5522529f19e086a6618d6598660629c85ef9c513`.
-It recompiled the complete 1,675-byte `ba_ellen` owner with 213 ordered native
-fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
-MAIN image and ordered relocations. The complete Ellen update controller now
-uses the direct inactive-player return before target tracking and frame
-advancement, preserving its level setup, attack-mode dispatch and collision/
-hitbox tail. See the
-[current Ellen PID-scope review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+Ellen current-source refresh: `.analysis/work/exatt-layout-af1092j/report.json`
+SHA-256: `380e6f08c9e07365534c88af16785b2113df831588e170858017434f27fd9daf`.
+It recompiled the complete nine-function, 1,675-byte `ba_ellen` owner with 213
+ordered native fields and nine PUBLICs in two original TC4 rounds, preserving
+the full Japanese MAIN image and ordered relocations. The current source now
+uses natural `for` loops for the eight-shot spread, both radial Extra Attack
+bursts and the four-by-eight intro sprite nest. It also narrows first-use
+scratch in the strip/main/intro renderers while preserving the full update,
+collision/hitbox and top-level render dispatch. See the
+[Ellen attack/render review](MAIN_ELLEN_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1092_REVIEW.md)
+and [Ellen update PID-scope review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Marisa current-source refresh: `.analysis/work/exatt-layout-af1065a/report.json`
 SHA-256: `85c25305bb19ad8683e49d10c616d23de3d91abb57ca97e6c666b4afdb4f75b8`.
@@ -304,13 +310,15 @@ native matches. See the [Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_
 [Update controller review](MAIN_REIMU_UPDATE_CONTROLLER_NATURAL_CPP_AFTER1074_REVIEW.md)
 and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
-Ellen's complete `gba_boss_update_ellen()` controller now uses the direct
-inactive-player return before target tracking and frame advancement. The
-current `ba_ellen` owner was rebuilt in two original TC4 rounds: 1,675 CODE
-bytes, 213 ordered native fields and nine PUBLICs match, with both normal MAIN
-images and ordered relocations exact. The level setup, four attack-mode groups
-and collision/hitbox tail remain in order. See the
-[af1063a current-source review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+Ellen's complete `gba_boss_update_ellen()` controller retains the direct
+inactive-player return before target tracking and frame advancement. Its full
+owner is now source-bound at `af1092j`: 1,675 CODE bytes, 213 ordered native
+fields and nine PUBLICs match in two original TC4 rounds, with both normal MAIN
+images and ordered relocations exact. The 8-shot spread leaf, both radial Extra
+Attack bursts and the intro radial renderer now use natural `for` headers; the
+main/intro renderer scratch has also been narrowed where native-exact. The
+level setup, four attack-mode groups and collision/hitbox tail remain in order.
+See the [Ellen attack/render review](MAIN_ELLEN_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1092_REVIEW.md).
 
 Marisa's complete `gba_boss_update_marisa()` controller now uses the direct
 inactive-player return before target tracking and frame advancement. The
@@ -359,7 +367,7 @@ rebuilds the complete 1,840-byte `ba_koto` owner in two original TC4 rounds:
 MAIN images and ordered relocations exact. See the
 [Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
 
-The current eleven-owner Bullet + Fireball + Mima + Marisa + Kotohime +
+The preceding eleven-owner Bullet + Fireball + Mima + Marisa + Kotohime +
 Reimu + Yumemi + Chiyuri / Reimu Extra Attack / HitCircle source integration
 is `af1090j`: `bullet`, `e_fireb`, `ba_mima`, `ba_maris`, `ba_koto`, `ba_reimu`,
 `ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and `hitcirc`, 18,066 CODE bytes,
@@ -378,6 +386,17 @@ leaves, update controller and both main/intro renderers, the 205-byte
 Chiyuri's fan source, Yumemi's update/arrival/Aimed Random/Rain/Cross-Rain
 changes, and HitCircle's register-bound cel arithmetic plus narrowed
 update/render scratch lifetimes.
+
+The current 12-owner integration `af1092k` adds the refreshed Ellen owner to
+that eleven-owner set: `bullet`, `e_fireb`, `ba_mima`, `ba_maris`, `ba_ellen`,
+`ba_koto`, `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and
+`hitcirc`. Two independent original TC4 rounds match 19,741 CODE bytes, 2,359
+ordered native fields and 112 PUBLIC offsets; both normal Japanese MAIN links
+match the original loaded image and ordered relocations. Report:
+`.analysis/work/exatt-layout-af1092k/report.json`, SHA-256
+`063763924bc64038dbb7a11ca7ef234ab4907e28701b8b14a4b12a05820cf597`.
+This is a scoped current-source integration, not a full cold replay or a
+Factory Oracle receipt.
 
 Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
 `ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
@@ -614,6 +633,8 @@ do not require compiler, analyzer, preflight, cold replay or receipt refresh.
 - [AGENTS.md](../AGENTS.md) · [Workflow](RE_WORKFLOW.md) ·
   [Architecture](ARCHITECTURE.md) · [Japanese targets](../config/targets.toml)
 - [Latest twelve-owner integration](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1053K_REVIEW.md)
+- [Ellen BOSS attack loops and render lifetimes](MAIN_ELLEN_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1092_REVIEW.md) ·
+  [Ellen update PID scope](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
 - [Yumemi update and renderer](MAIN_YUMEMI_UPDATE_AND_MAIN_RENDER_NATURAL_CPP_AFTER1051_REVIEW.md) ·
   [cross-ring](MAIN_YUMEMI_CROSS_RING_NATURAL_CPP_AFTER1052_REVIEW.md) ·
   [attack cadence](MAIN_YUMEMI_ATTACK_MODULO_AND_PHASE_NATURAL_CPP_AFTER1053_REVIEW.md)
