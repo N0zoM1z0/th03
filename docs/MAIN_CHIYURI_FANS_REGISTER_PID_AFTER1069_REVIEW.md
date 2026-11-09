@@ -41,3 +41,13 @@ Source SHA-256: `2bce7be8094c79b220fb184b843686a18fb3feac2d56ddbd40ad32a49fed04b
 
 The TC4 failures and complete-owner byte comparisons are distinct evidence;
 none of the rejected forms is retained in maintained source.
+
+
+## Superseding current-source fan-loop recovery
+
+The register-qualified `pid_other` remains in the current source. The four
+fan passes were subsequently rewritten as natural `while` loops with explicit
+speed mutation followed by prefix index increment; see
+[the current four-while review](MAIN_CHIYURI_FANS_NATURAL_WHILE_AFTER1069_REVIEW.md).
+The latest source binding is `af1069u`, which rebuilds the complete owner in
+two original TC4 rounds.

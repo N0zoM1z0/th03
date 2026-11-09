@@ -54,7 +54,7 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1069b`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1069u`,
 `ba_yumem` uses `af1069l`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1061b`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
@@ -97,14 +97,15 @@ between enemy and player draws. The `_BX` cel and symbolic monochrome hardware
 operations remain because their natural rewrites still change CODE. See the
 [current HitCircle lifetime review](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md).
 
-Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1069b/report.json`
-SHA-256: `fb64d17e3ad3bc36e02c49e956f0343ccd3174cc1d45946b0920930f4390953f`.
+Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1069u/report.json`
+SHA-256: `c4ac3dce799ad355973af2c11a9628b956da5150f0dcd10b5db8c332416152e3`.
 It recompiled the complete 2,654-byte `ba_chiyu` owner with 381 ordered native
 fields and eleven PUBLICs in two original TC4 rounds, preserving the Japanese
 MAIN image and ordered relocations. The 528-byte `chiyuri_pattern_fans()` now
-uses a register-qualified opposite-player PID; all four fan passes, byte-speed
-updates and projectile ordering remain intact. See the
-[current fan PID lifetime review](MAIN_CHIYURI_FANS_REGISTER_PID_AFTER1069_REVIEW.md).
+uses a register-qualified opposite-player PID and four natural `while` passes;
+each pass preserves emission, byte-speed and index-update order. See the
+[current fan-loop review](MAIN_CHIYURI_FANS_NATURAL_WHILE_AFTER1069_REVIEW.md)
+and [PID lifetime review](MAIN_CHIYURI_FANS_REGISTER_PID_AFTER1069_REVIEW.md).
 
 Yumemi current-source refresh: `.analysis/work/exatt-layout-af1069l/report.json`
 SHA-256: `b6d2f059081a14dee97a8228974df4f072ce53297aaffeb4a1a1f03391afc4b2`.
@@ -335,6 +336,14 @@ The current Yumemi + Chiyuri source integration is `af1069o`: `ba_yumem` and
 original TC4 rounds and both normal MAIN links match. Report:
 `.analysis/work/exatt-layout-af1069o/report.json`, SHA-256
 `149d2e29ea2acc3d1cf976d3280d3a740a1cb3ccd5d093273f930e3038c9c553`.
+
+The newer Chiyuri four-while source refresh is integrated with the current
+Yumemi owner at `af1069v`: the same two physical objects, 5,012 CODE bytes,
+724 ordered native fields and 21 PUBLICs. Both original TC4 rounds and both
+normal MAIN links match. Report: `.analysis/work/exatt-layout-af1069v/report.json`,
+SHA-256 `df1f19a221c9898b0ea988a73bb24f9503903fbdadb721c57069373b62ad8339`.
+This supersedes the Chiyuri binding in `af1069o`; Yumemi's source hash is
+unchanged from `af1069l`.
 
 Recommended next work:
 
