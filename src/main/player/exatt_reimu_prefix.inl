@@ -64,14 +64,9 @@ void near pascal exatt_render_state_other(
 
 void near reimu_exatt_render_one(void)
 {
-    screen_x_t left;
-    screen_y_t top;
-    unsigned char phase;
     register exatt_entity_t near *p = exatt_entity_p;
-    register sprite16_offset_t sprite_offset;
-
-    left = playfield_fg_x_to_screen(p->x, p->pid);
-    top = ((p->y >> 4) + 16);
+    screen_x_t left = playfield_fg_x_to_screen(p->x, p->pid);
+    screen_y_t top = (p->y >> 4) + 16;
     sprite16_put_size.set(48, 48);
     if(pid_current == 1) {
         sprite16_clip.set_for_pid_0();
@@ -79,21 +74,22 @@ void near reimu_exatt_render_one(void)
         sprite16_clip.set_for_pid_1();
     }
 
-    if(p->state == REIMU_FLY_STATE_ACTIVE) {
-        sprite_offset = (pid.so_attack + 0x280);
-        phase = (p->frame / 4);
+    if(REIMU_FLY_STATE_ACTIVE == p->state) {
+        register sprite16_offset_t sprite_offset;
+        sprite_offset = pid.so_attack + 0x280;
+        unsigned char phase = (p->frame / 4);
         if((phase & 3) == 1) {
             sprite_offset += 6;
-        } else if((phase & 3) != 0) {
-            sprite_offset += (0x780 + ((phase & 1) * 6));
+        } else if(phase & 3) {
+            sprite_offset += 0x780 + ((phase & 1) * 6);
         }
         sprite16_put(left - 24, top - 24, sprite_offset);
         return;
     }
-    if(p->state == REIMU_FLY_STATE_FLYING) {
-        exatt_render_state2(left, top, *(unsigned int near *)&p->frame);
+    if(REIMU_FLY_STATE_FLYING == p->state) {
+        exatt_render_state2(left, top, *reinterpret_cast<unsigned int near *>(&p->frame));
     } else {
-        exatt_render_state_other(left, top, *(unsigned int near *)&p->state);
+        exatt_render_state_other(left, top, *reinterpret_cast<unsigned int near *>(&p->state));
     }
 }
 
