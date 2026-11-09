@@ -180,38 +180,39 @@ extern "C" void near boss_fall(void)
 
 extern "C" unsigned char near boss_update_start(void)
 {
-	if(GBAF_BOSS == gba_flag_active[pid_current]) {
-		if(PID_NONE == gba_boss_launched_by) {
-			// The original fixed 32-byte state copy explicitly uses SI/DI,
-			// the current DS and REP MOVSW; direct struct assignment and
-			// near-pointer assignment changed original CODE (af768a/b).
-			_SI = FP_OFF(&boss_character_template[0]);
-			if(1 == pid_current) {
-				_SI += sizeof(boss_state_t);
-			}
-			_DI = FP_OFF(&boss_state);
-			_AX = _DS;
-			_ES = _AX;
-			_CX = (sizeof(boss_state_t) / 2);
-			asm { rep movsw }
-			boss_pattern_count = (BOSS_PATTERN_COUNT_BASE + randring_far_next16_and(BOSS_PATTERN_COUNT_MASK));
-			boss_frame = 0;
-			gba_boss_launched_by = pid_current;
-			gba_flag_active[pid_current] = GBAF_NONE;
-			snd_se_play(BOSS_LAUNCH_SOUND);
-			palette_restore_for_pid(1 - pid_current);
-			boss_active[1 - pid_current] = 1;
-			return 1;
-		}
-
-		if(BOSS_EXPLODE_MODE == boss_mode) {
-			return 0;
-		}
-		boss_mode = -1;
-		boss_frame = 0;
-		palette_restore_for_pid(1 - pid_current);
-		boss_active[pid_current] = 0;
+	if(GBAF_BOSS != gba_flag_active[pid_current]) {
+		return 0;
 	}
+	if(PID_NONE == gba_boss_launched_by) {
+		// The original fixed 32-byte state copy explicitly uses SI/DI,
+		// the current DS and REP MOVSW; direct struct assignment and
+		// near-pointer assignment changed original CODE (af768a/b).
+		_SI = FP_OFF(&boss_character_template[0]);
+		if(1 == pid_current) {
+			_SI += sizeof(boss_state_t);
+		}
+		_DI = FP_OFF(&boss_state);
+		_AX = _DS;
+		_ES = _AX;
+		_CX = (sizeof(boss_state_t) / 2);
+		asm { rep movsw }
+		boss_pattern_count = (BOSS_PATTERN_COUNT_BASE + randring_far_next16_and(BOSS_PATTERN_COUNT_MASK));
+		boss_frame = 0;
+		gba_boss_launched_by = pid_current;
+		gba_flag_active[pid_current] = GBAF_NONE;
+		snd_se_play(BOSS_LAUNCH_SOUND);
+		palette_restore_for_pid(1 - pid_current);
+		boss_active[1 - pid_current] = 1;
+		return 1;
+	}
+
+	if(BOSS_EXPLODE_MODE == boss_mode) {
+		return 0;
+	}
+	boss_mode = -1;
+	boss_frame = 0;
+	palette_restore_for_pid(1 - pid_current);
+	boss_active[pid_current] = 0;
 	return 0;
 }
 
@@ -246,33 +247,34 @@ extern "C" void near boss_target_update(void)
 extern "C" void near boss_pattern_next(void)
 {
 	boss_move_sine();
-	if(BOSS_PATTERN_WAIT_FRAMES <= boss_frame) {
-		register unsigned char pattern;
-		// Each rejected pattern still consumes a separate RNG word.
-		do {
-			pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
-		} while(
-			((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
-			((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
-		);
-
-		boss_pattern_previous = pattern;
-		boss_frame = 0;
-		boss_mode = (BOSS_PATTERN_MODE_OFFSET + pattern);
-		// The BOSS pattern-index postfix is also codegen-visible;
-		// prefix ++boss_pattern_i changed original TC4 bytes (af916f).
-		boss_pattern_i++;
-		if(boss_pattern_i <= boss_pattern_count) {
-			return;
-		}
-		boss_mode = BOSS_DESCEND_MODE;
+	if(boss_frame < BOSS_PATTERN_WAIT_FRAMES) {
+		return;
 	}
+	register unsigned char pattern;
+	// Each rejected pattern still consumes a separate RNG word.
+	do {
+		pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
+	} while(
+		((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
+		((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
+	);
+
+	boss_pattern_previous = pattern;
+	boss_frame = 0;
+	boss_mode = (BOSS_PATTERN_MODE_OFFSET + pattern);
+	// The BOSS pattern-index postfix is also codegen-visible;
+	// prefix ++boss_pattern_i changed original TC4 bytes (af916f).
+	boss_pattern_i++;
+	if(boss_pattern_i <= boss_pattern_count) {
+		return;
+	}
+	boss_mode = BOSS_DESCEND_MODE;
 }
 
 extern "C" void near boss_explosion_render(void)
 {
 	boss_mode = boss_explosion_ring(boss_center_x, boss_center_y, boss_frame);
-	if(0 == boss_mode) {
+	if(!boss_mode) {
 		gba_boss_launched_by = PID_NONE;
 	}
 }
