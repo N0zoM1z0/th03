@@ -79,17 +79,19 @@ void far pascal exatt_add_kana(int x, int y, unsigned char pid_)
 void far pascal kana_extra_add(int x, int y, unsigned char angle_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    // Advance through the same eight actual slots after occupied entries.
+    // Skip occupied records in all eight original physical slots before
+    // installing the special projectile state.
     for(register int i = 0; i < KANA_EXATT_SLOTS; ++i, ++p) {
-        if(!p->state) {
-            p->state = KANA_EXATT_ACTIVE;
-            p->x = x;
-            p->y = y;
-            p->angle = angle_;
-            p->speed = KANA_EXATT_ACTIVE_SPEED;
-            p->frame = 0;
-            return;
+        if(p->state) {
+            continue;
         }
+        p->state = KANA_EXATT_ACTIVE;
+        p->x = x;
+        p->y = y;
+        p->angle = angle_;
+        p->speed = KANA_EXATT_ACTIVE_SPEED;
+        p->frame = 0;
+        return;
     }
 }
 
@@ -97,7 +99,6 @@ void near kana_exatt_render_one(void)
 {
     screen_x_t left;
     screen_y_t top;
-    unsigned char frame;
     register exatt_entity_t near *p = exatt_entity_p;
     register sprite16_offset_t sprite_offset;
 
@@ -108,7 +109,7 @@ void near kana_exatt_render_one(void)
     } else {
         sprite16_clip.set_for_pid_1();
     }
-    frame = p->frame;
+    unsigned char frame = p->frame;
 
     if(p->state == KANA_EXATT_ACTIVE) {
         sprite16_put_size.set(KANA_EXATT_ACTIVE_SPRITE_DIM, KANA_EXATT_ACTIVE_SPRITE_DIM);
@@ -118,21 +119,22 @@ void near kana_exatt_render_one(void)
         // Keep /4 then %4: >>2 changed native CODE again (af918i).
         sprite_offset += (((frame / 4) % 4) << 5) * 0x28;
         sprite16_put(left - 16, top - 16, sprite_offset);
-    } else if(p->state == KANA_EXATT_FLYING) {
-        exatt_render_state2(left, top, frame);
-    } else {
-        exatt_render_state_other(left, top, frame);
+        return;
     }
+    if(p->state == KANA_EXATT_FLYING) {
+        exatt_render_state2(left, top, frame);
+        return;
+    }
+    exatt_render_state_other(left, top, frame);
 }
 
 void far pascal exatt_update_kana(void)
 {
     int vector_x;
     int vector_y;
-    unsigned char pid_other;
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 
-    pid_other = (1 - pid_current);
+    unsigned char pid_other = (1 - pid_current);
     playfield_clip_negative_radius.x.v = -TO_SP(24);
     playfield_clip_negative_radius.y.v = -TO_SP(24);
 
@@ -188,11 +190,13 @@ void far pascal exatt_update_kana(void)
 void far pascal exatt_render_kana(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    // Render all eight real slots in the same near-pointer order.
+    // Skip inactive slots with a common near-pointer advance, then render
+    // each live entity using the original global entity pointer.
     for(register int i = 0; i < KANA_EXATT_SLOTS; ++i, ++p) {
-        if(p->state) {
-            exatt_entity_p = p;
-            kana_exatt_render_one();
+        if(!p->state) {
+            continue;
         }
+        exatt_entity_p = p;
+        kana_exatt_render_one();
     }
 }
