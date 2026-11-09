@@ -172,8 +172,8 @@ void near marisa_pattern_spread(void)
 		marisa_bullet_angle = 0;
 	}
 	if(boss_frame < MARISA_SPREAD_FINISH) {
-		// The four-frame spread gate is the natural unsigned-word low bit.
-		if(boss_frame & (MARISA_SPREAD_PERIOD - 1)) {
+		// The four-frame spread gate uses the original unsigned-word remainder.
+		if(boss_frame % MARISA_SPREAD_PERIOD) {
 			return;
 		}
 
@@ -237,27 +237,27 @@ void near marisa_pattern_columns_wide(void)
 	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_FIRST) {
+	if(boss_frame == MARISA_COLUMN_FIRST) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_0_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_0_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_SECOND) {
+	if(boss_frame == MARISA_COLUMN_SECOND) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_1_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_1_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_THIRD) {
+	if(boss_frame == MARISA_COLUMN_THIRD) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_2_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_FOURTH) {
+	if(boss_frame == MARISA_COLUMN_FOURTH) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
+	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
 		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
 		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
@@ -274,9 +274,9 @@ void near marisa_pattern_ring(void)
 {
 	boss_move_sine();
 
-	// The 32-frame ring cadence is a natural unsigned-word low-bit test,
+	// The 32-frame ring cadence uses natural unsigned-word remainder,
 	// independent of the mutable byte angle.
-	if((boss_frame & (MARISA_RING_PERIOD - 1)) == 0) {
+	if((boss_frame % MARISA_RING_PERIOD) == 0) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
@@ -315,22 +315,22 @@ void near marisa_pattern_columns_narrow(void)
 	if(boss_frame < MARISA_COLUMN_WARMUP_END) {
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_FIRST) {
+	if(boss_frame == MARISA_COLUMN_FIRST) {
 		marisa_exatt_add(MARISA_NARROW_PAIR_0_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_NARROW_PAIR_0_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_SECOND) {
+	if(boss_frame == MARISA_COLUMN_SECOND) {
 		marisa_exatt_add(MARISA_NARROW_PAIR_1_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_NARROW_PAIR_1_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_THIRD) {
+	if(boss_frame == MARISA_COLUMN_THIRD) {
 		marisa_exatt_add(MARISA_NARROW_PAIR_2_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_NARROW_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	else if(boss_frame == MARISA_COLUMN_FOURTH) {
+	if(boss_frame == MARISA_COLUMN_FOURTH) {
 		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
 		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
@@ -439,7 +439,7 @@ void near marisa_render_main(void)
 	top = ((boss_center_y >> 4) - MARISA_RENDER_MAIN_TOP_OFFSET);
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
 		left += 64;
 		top += 16;
@@ -450,7 +450,7 @@ void near marisa_render_main(void)
 		return;
 	}
 	if(
-		(round_or_result_frame & (MARISA_MAIN_FLICKER_PERIOD - 1)) <
+		(round_or_result_frame % MARISA_MAIN_FLICKER_PERIOD) <
 		MARISA_MAIN_FLICKER_FIRST_HALF
 	) {
 		sprite16_put_size.set(MARISA_RENDER_DAMAGE_WIDTH, MARISA_RENDER_DAMAGE_HEIGHT);
