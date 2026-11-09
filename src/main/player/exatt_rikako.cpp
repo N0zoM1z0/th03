@@ -75,11 +75,10 @@ enum rikako_exatt_limits_t {
 void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
-	register int i = 0;
 
-	// Normal spawn scans eight slots; the special spawn below scans
-	// fourteen. Preserve the original per-slot RNG/return ordering.
-	for(; i < RIKAKO_EXATT_NORMAL_SLOTS; ++i, ++p) {
+	// Normal spawn scans eight slots; the special allocator below scans
+	// fourteen. Both signed indices now begin at their first-use for headers.
+	for(register int i = 0; i < RIKAKO_EXATT_NORMAL_SLOTS; ++i, ++p) {
 		if(!p->state) {
 			exatt_entity_p = p;
 			exatt_fly_init(
@@ -101,9 +100,8 @@ void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-	int i = 0;
 
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, ++p) {
+	for(int i = 0; i < RIKAKO_EXATT_ALL_SLOTS; ++i, ++p) {
 		if(!p->state) {
 			p->state = RIKAKO_EXATT_ACTIVE;
 			p->character.rikako.homing_disabled = 1;
@@ -122,7 +120,6 @@ void near rikako_exatt_render_one(void)
 {
 	screen_x_t left;
 	screen_y_t top;
-	unsigned char frame;
 	register exatt_entity_t near *p = exatt_entity_p;
 	register sprite16_offset_t sprite_offset;
 
@@ -136,7 +133,7 @@ void near rikako_exatt_render_one(void)
 		sprite16_clip.set_for_pid_1();
 	}
 
-	frame = p->frame;
+	unsigned char frame = p->frame;
 	if(p->state == RIKAKO_EXATT_ACTIVE) {
 		sprite_offset = (pid.so_attack + RIKAKO_EXATT_SPRITE_OFFSET);
 		if(frame & 1) {
@@ -148,9 +145,9 @@ void near rikako_exatt_render_one(void)
 
 	if(p->state == RIKAKO_EXATT_FLYING_STATE) {
 		exatt_render_state2(left, top, frame);
-	} else {
-		exatt_render_state_other(left, top, frame);
+		return;
 	}
+	exatt_render_state_other(left, top, frame);
 }
 
 void far pascal exatt_update_rikako(void)
@@ -234,14 +231,14 @@ void far pascal exatt_update_rikako(void)
 void far pascal exatt_render_rikako(void)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-	register int i = 0;
 
-	// Each real render call advances original near pointer afterwards;
-	// all fourteen slots are visited in this natural while.
-	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, ++p) {
-		if(p->state) {
-			exatt_entity_p = p;
-			rikako_exatt_render_one();
+	// All fourteen physical slots share one near-pointer advance;
+	// inactive slots continue without changing the global render pointer.
+	for(register int i = 0; i < RIKAKO_EXATT_ALL_SLOTS; ++i, ++p) {
+		if(!p->state) {
+			continue;
 		}
+		exatt_entity_p = p;
+		rikako_exatt_render_one();
 	}
 }
