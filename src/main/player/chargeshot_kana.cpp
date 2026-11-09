@@ -86,7 +86,7 @@ void far pascal chargeshot_add_kana(Subpixel center_x, Subpixel center_y)
 	kana_frame[pid.current] = 0;
 	kana_chargeshot_t near *p = &kana_chargeshots[pid.current][0];
 
-	for(int group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
+	for(int group = 0; group < KANA_CHARGE_TRAILS; (++group, ++p)) {
 		for(int i = 0; i <= KANA_CHARGE_LAST; ++i) {
 			p->x[i] = center_x.v;
 			p->y[i] = center_y.v;
@@ -97,13 +97,13 @@ void far pascal chargeshot_add_kana(Subpixel center_x, Subpixel center_y)
 	// The original trail initialization writes the four angles in reverse
 	// pointer order. Preserve that pointer walk and the four distinct
 	// per-trail start headings rather than sorting them or using memcpy.
-	p--;
+	--p;
 	p->angle = KANA_CHARGE_ANGLE_TRAIL_3;
-	p--;
+	--p;
 	p->angle = KANA_CHARGE_ANGLE_TRAIL_2;
-	p--;
+	--p;
 	p->angle = KANA_CHARGE_ANGLE_TRAIL_1;
-	p--;
+	--p;
 	p->angle = KANA_CHARGE_ANGLE_TRAIL_0;
 }
 
@@ -123,7 +123,7 @@ void far pascal chargeshot_update_kana(void)
 	state = kana_active[pid_current];
 
 	p = &kana_chargeshots[pid_current][0];
-	for(group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
+	for(group = 0; group < KANA_CHARGE_TRAILS; (++group, ++p)) {
 		vector2(vector_x, vector_y, p->angle, p->length);
 
 		for(point = KANA_CHARGE_LAST; point > 0; --point) {
@@ -145,7 +145,7 @@ void far pascal chargeshot_update_kana(void)
 
 		if(kana_frame[pid_current] > KANA_CHARGE_RELEASE_AFTER) {
 			kana_active[pid_current] = KANA_CHARGE_RELEASED;
-			for(group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
+			for(group = 0; group < KANA_CHARGE_TRAILS; (++group, ++p)) {
 				p->length = KANA_CHARGE_RELEASE_LENGTH;
 			}
 		}
@@ -177,7 +177,7 @@ uint8_t far chargeshot_hittest_kana(void)
 	}
 
 	kana_chargeshot_t near *p = &kana_chargeshots[hitbox.pid][0];
-	for(int group = 0; group < KANA_CHARGE_TRAILS; (++group, p++)) {
+	for(int group = 0; group < KANA_CHARGE_TRAILS; (++group, ++p)) {
 		// Only history points 0, 4, 8 and 12 can hit, matching the
 		// same four full-color sprites rendered for each charge trail.
 		for(int i = 0; i <= KANA_CHARGE_LAST; i += KANA_CHARGE_RENDER_STEP) {
@@ -215,7 +215,7 @@ void far pascal chargeshot_render_kana(void)
 	_AH = SPRITE16_SET_OVERLAP;
 	geninterrupt(SPRITE16);
 
-	for(int i = 0; i < KANA_CHARGE_TRAILS; (++i, kana_chargeshot_p++)) {
+	for(int i = 0; i < KANA_CHARGE_TRAILS; (++i, ++kana_chargeshot_p)) {
 		kana_chargeshot_private();
 	}
 
@@ -257,10 +257,8 @@ void near pascal gauge_pattern_kana(bullet_type_t type)
 		return;
 	}
 
-	if(
-		(kana_gauge_frame[pid_current] %
-		 gauge_pattern_timing[pid_current].total_frames) == 0
-	) {
+	if(!(kana_gauge_frame[pid_current] %
+	     gauge_pattern_timing[pid_current].total_frames)) {
 		pid_other = (1 - pid_current);
 		bullet_template.type = type;
 		bullet_template.pid = pid_other;
