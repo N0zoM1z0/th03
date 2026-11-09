@@ -141,25 +141,23 @@ void near pascal player_cpu_approach_target(player_stuff_t near *player)
         player_pos_update_and_clamp(player->center);
     }
     player_hittest(CPU_HITTEST_CLOSE_RADIUS);
-    if(player->is_hit) {
-        player->is_hit = false;
-        // The mutable byte `attempt++` must remain postfix: changing
-        // both sites to prefix changed native CODE (af917f).
-        attempt++;
-        if(player->gauge_charged <= CPU_HIT_BOMB_CHARGE_LIMIT && ((randring1_next16() % CPU_HIT_BOMB_RANDOM_PERIOD) == 0)) {
-            player_bomb(player);
-        } else {
-            player->is_hit = true;
-        }
+    if(!player->is_hit) {
+        return;
+    }
+    player->is_hit = false;
+    // Preserve the original mutable byte postincrement and RNG draw.
+    attempt++;
+    if(player->gauge_charged <= CPU_HIT_BOMB_CHARGE_LIMIT && (!(randring1_next16() % CPU_HIT_BOMB_RANDOM_PERIOD))) {
+        player_bomb(player);
+    } else {
+        player->is_hit = true;
     }
 }
 
 void near pascal player_cpu_update(player_stuff_t near *player)
 {
-    // Equality still takes the careful branch; these counters are unsigned.
-    // Keep this specific <= operand order. Swapping it to
-    // `cpu_safety_frames >= cpu_frame` changed actual CODE (af917c),
-    // despite equivalent unsigned counters and frame logic.
+    // Equality still takes the careful/defensive branch. Preserve
+    // this comparison order and the two original near calls.
     if(player->cpu_frame <= player->cpu_safety_frames) {
         player_cpu_dodge_and_aim(player);
     } else {
@@ -248,14 +246,14 @@ void near pascal player_cpu_dodge_and_aim(player_stuff_t near *player)
         }
         // Keep the distinct original hit-test call paths. Collapsing
         // these into a ternary argument changed native CODE (af838b).
-        if(radius_or_retry == 0) {
+        if(!radius_or_retry) {
             player_hittest(CPU_HITTEST_RETRY_RADIUS);
         } else {
             player_hittest(CPU_HITTEST_CLOSE_RADIUS);
         }
-        // Explicit `is_hit == false` is native-exact for this retry
-        // exit (af917e), independently of bool rewrites elsewhere.
-        if(player->is_hit == false) {
+        // The clear hit flag naturally leaves the retry loop before
+        // any additional movement, radius probe or random draw.
+        if(!player->is_hit) {
             break;
         }
         player->is_hit = false;
