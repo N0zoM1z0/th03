@@ -20,6 +20,15 @@ enum player_charge_threshold_t {
     PLAYER_CHARGE_PORTRAIT = 0x800,
     PLAYER_CHARGE_GAUGE_BULLET = 0xC00,
     PLAYER_BOSS_COMBO_BONUS = 10240,
+    PLAYER_GAUGE_MIN_AFTER_ATTACK = 0x400,
+    PLAYER_GAUGE_BULLET_SPEND = 0x800,
+    PLAYER_GAUGE_PELLET_SPEND = 0x400,
+    PLAYER_HYPER_GAUGE_DRAIN_PER_FRAME = 6,
+    PLAYER_SHOT_HOLD_CPU = 4,
+    PLAYER_SHOT_RELEASE_CHARGE_TICK = 2,
+    PLAYER_SHOT_RELEASE_FIRE_TICK = 4,
+    PLAYER_SHOT_RELEASE_MAX_TICK = 8,
+    PLAYER_POST_CHARGESHOT_INVINCIBILITY = 6,
 };
 
 void near pascal player_state_update(input_t input_raw, player_stuff_t near *player_raw)
@@ -29,7 +38,6 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
     int charged;
     input_t movement;
     unsigned char work;
-    bool first_attempt;
 
     player = player_raw;
     player_cur = &players[pid.current];
@@ -49,8 +57,8 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
             if(!player->move_lock_time) {
                 if(!player->is_cpu) {
                     movement = input & INPUT_MOVEMENT;
-                    first_attempt = true;
-                    for(;;) {
+                    bool first_attempt = true;
+                    while(1) {
                         work = player_move(movement);
                         if(work == MOVE_INVALID && first_attempt) {
                             if(player->human_movement_last != movement) {
@@ -80,8 +88,8 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                     } else {
                         work = CPU_SHOT_PERIOD_OTHER_FORMATION;
                     }
-                    if((round_or_result_frame % work) == 0) {
-                        shot_release_frames[pid.current] = 4;
+                    if(!(round_or_result_frame % work)) {
+                        shot_release_frames[pid.current] = PLAYER_SHOT_HOLD_CPU;
                         input = INPUT_SHOT;
                     }
                     target_formation_marker = CPU_SHOT_TARGET_FIRST_FORMATION;
@@ -93,7 +101,7 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                                 shot_release_frames[pid.current] = 0;
                                 input = INPUT_SHOT;
                                 if(player->gauge_charged >= player->gauge_avail) {
-                                    shot_release_frames[pid.current] = 4;
+                                    shot_release_frames[pid.current] = PLAYER_SHOT_HOLD_CPU;
                                     input = 0;
                                     player->cpu_charge_at_avail_ring_p++;
                                     if(player->cpu_charge_at_avail_ring_p >= CHARGE_AT_AVAIL_RING_SIZE) {
@@ -104,7 +112,7 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                         }
                     } else {
                         player->is_hit = false;
-                        shot_release_frames[pid.current] = 4;
+                        shot_release_frames[pid.current] = PLAYER_SHOT_HOLD_CPU;
                         input = 0;
                     }
                 }
@@ -119,7 +127,7 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                 player->gauge_charged = 0;
                 player->cpu_frame = 0;
                 work = true;
-            } else if(shot_release_frames[pid.current] <= 2 && !player->hyper_active) {
+            } else if(shot_release_frames[pid.current] <= PLAYER_SHOT_RELEASE_CHARGE_TICK && !player->hyper_active) {
                 if(player->gauge_charged < player->gauge_avail) {
                     player->gauge_charged += player->gauge_charge_speed;
                     if(player->gauge_charged > player->gauge_avail) {
@@ -135,7 +143,7 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                         goto fire_charge;
                     }
                 }
-            } else if(shot_release_frames[pid.current] <= 4) {
+            } else if(shot_release_frames[pid.current] <= PLAYER_SHOT_RELEASE_FIRE_TICK) {
 fire_charge:
                 charged = player->gauge_charged;
                 if(charged >= PLAYER_CHARGE_SHOT) {
@@ -147,7 +155,7 @@ fire_charge:
                                 goto fire_gauge_bullet;
                             }
                             gba_flag_next[pid.current] = GBAF_BOSS;
-                            player->gauge_avail = 0x400;
+                            player->gauge_avail = PLAYER_GAUGE_MIN_AFTER_ATTACK;
                             if(gba_boss_level < GBA_BOSS_LEVEL_MAX) {
                                 gba_boss_level++;
                             }
@@ -161,20 +169,20 @@ fire_charge:
 fire_gauge_bullet:
                             player->gauge_attacks_fired++;
                             gba_flag_next[pid.current] = GBAF_GAUGE_BULLET_INIT;
-                            player->gauge_avail -= 0x800;
+                            player->gauge_avail -= PLAYER_GAUGE_BULLET_SPEND;
                             if(gba_gauge_level[pid.current] < GBA_GAUGE_LEVEL_MAX) {
                                 gba_gauge_level[pid.current]++;
                             }
                         } else {
                             player->gauge_attacks_fired++;
                             gba_flag_next[pid.current] = GBAF_GAUGE_PELLET_INIT;
-                            player->gauge_avail -= 0x400;
+                            player->gauge_avail -= PLAYER_GAUGE_PELLET_SPEND;
                             if(gba_gauge_level[pid.current] < GBA_GAUGE_LEVEL_MAX) {
                                 gba_gauge_level[pid.current]++;
                             }
                         }
                     }
-                    player->invincibility_time += 6;
+                    player->invincibility_time += PLAYER_POST_CHARGESHOT_INVINCIBILITY;
                     work = true;
                 }
                 player->gauge_charged = 0;
@@ -184,10 +192,10 @@ fire_gauge_bullet:
             }
             if(player->move_lock_time == 0 && player->shot_active != SA_DISABLED) {
                 if(((input & INPUT_SHOT) || player->shot_active == SA_BLOCKED_FOR_THIS_FRAME)
-                    && shot_release_frames[pid.current] > 2) {
+                    && shot_release_frames[pid.current] > PLAYER_SHOT_RELEASE_CHARGE_TICK) {
                     player_shots_add();
                     shot_release_frames[pid.current] = 0;
-                } else if(!(input & INPUT_SHOT) && shot_release_frames[pid.current] < 8) {
+                } else if(!(input & INPUT_SHOT) && shot_release_frames[pid.current] < PLAYER_SHOT_RELEASE_MAX_TICK) {
                     shot_release_frames[pid.current]++;
                 }
                 if(input & INPUT_BOMB) {
@@ -198,11 +206,11 @@ fire_gauge_bullet:
                 }
             }
             if(player->hyper_active) {
-                if(player->gauge_avail > 0x400) {
-                    player->gauge_avail -= 6;
+                if(player->gauge_avail > PLAYER_GAUGE_MIN_AFTER_ATTACK) {
+                    player->gauge_avail -= PLAYER_HYPER_GAUGE_DRAIN_PER_FRAME;
                 } else {
                     player->hyper_active = false;
-                    player->gauge_avail = 0x400;
+                    player->gauge_avail = PLAYER_GAUGE_MIN_AFTER_ATTACK;
                 }
                 work = true;
             }
