@@ -215,7 +215,7 @@ void near mima_pattern_spread(void)
 	}
 
 	if(MIMA_SPREAD_FIRE_BEGIN <= boss_frame) {
-		if(0 == (boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+		if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
 			snd_se_play(MIMA_SOUND_SPREAD);
 
 			bullet_template.angle = mima_spread_angle;
@@ -235,7 +235,7 @@ void near mima_pattern_spread(void)
 				(boss_frame < mima_pellet_until) &&
 				// The six-frame unsigned-word cadence compares the remainder
 				// explicitly with zero; unlike powers of two, it is not a mask.
-				(0 == (boss_frame % MIMA_SPREAD_PELLET_PERIOD))
+				(!(boss_frame % MIMA_SPREAD_PELLET_PERIOD))
 			) {
 				bullet_template.type = BT_PELLET;
 				bullet_template.group = BG_4_SPREAD_MEDIUM;
@@ -281,7 +281,7 @@ void near mima_pattern_bomb_random(void)
 	if(MIMA_RANDOM_BOMB_BULLET_WAIT_END < boss_frame) {
 		// Natural unsigned 16-bit four-frame attack clock, not a byte
 		// animation division. The original hardware RNG order is unchanged.
-		if(0 == (boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD)) {
+		if(!(boss_frame % MIMA_RANDOM_BOMB_FIRE_PERIOD)) {
 			bullet_template.angle = 0;
 			bullet_template.group = BG_RANDOM_ANGLE_AND_SPEED;
 			bullet_template.center.x.v = x;
@@ -309,7 +309,7 @@ void near mima_pattern_bomb_random(void)
 			bullet_template.is_animated = true;
 		}
 
-		if(0 == (boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+		if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
 			snd_se_play(MIMA_SOUND_SPREAD);
 		}
 
@@ -379,7 +379,7 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle = randring_far_next16();
 	}
 
-	if(0 == (boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
+	if(!(boss_frame % MIMA_FIRE_EVEN_PERIOD)) {
 		bullet_template.center.x.v = polar(
 			boss_center_x, MIMA_ORBIT_RADIUS, CosTable8[mima_orbit_angle]
 		);
@@ -430,13 +430,12 @@ void far gba_boss_update_mima(void)
 
 	switch(boss_mode) {
 	case MIMA_MODE_INTRO:
-		if(MIMA_BOSS_INTRO_END == boss_frame) {
-			boss_frame = 0;
-			boss_mode = MIMA_MODE_SELECT;
-			break;
-		} else {
+		if(MIMA_BOSS_INTRO_END != boss_frame) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = MIMA_MODE_SELECT;
+		break;
 
 	case MIMA_MODE_SELECT:
 		boss_pattern_next();
