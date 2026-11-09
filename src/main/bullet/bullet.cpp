@@ -213,11 +213,9 @@ narrow:
 void bullets_reset(void)
 {
 	// Reset every original physical bullet flag before touching the
-	// near trail-ring index. Native TC4 accepts the typed while.
-	int i = 0;
-	while(i < BULLET_COUNT) {
+	// near trail-ring index, using the original signed index.
+	for(int i = 0; i < BULLET_COUNT; ++i) {
 		bullets[i].flag = BF_FREE;
-		++i;
 	}
 	bullet_trail_ring_i = 0;
 }
@@ -403,7 +401,7 @@ void bullets_add(void)
 	// This first-free-slot allocator uses compiler-sensitive
 	// for/continue/break; the natural while version changed original
 	// CODE in af899c. Keep the original shape and break behavior.
-	for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, p++)) {
+	for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, ++p)) {
 		if(p->flag != BF_FREE) {
 			continue;
 		}
@@ -491,7 +489,7 @@ void bullets_add(void)
 			if(done) {
 				break;
 			}
-			group_i++;
+			++group_i;
 		}
 	}
 
@@ -977,7 +975,7 @@ void bullets_render(void)
 	// Main 16×16 sprite and trail pass: every full-color bullet and
 	// cloud marker is visited; original index/pointer updates follow
 	// the real sprite calls (af899b).
-	for(bullet_i = 0; bullet_i < BULLET_COUNT; (bullet_i++, ++bullet_p)) {
+	for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, ++bullet_p)) {
 		if(bullet_p->flag == BF_BULLET16) {
 			so = bullet_p->sprite_offset;
 			if(bullet_p->has_trail) {
@@ -1037,7 +1035,7 @@ void bullets_render(void)
 		bullet_p = bullets;
 		// A separate second pass draws only mono cloud sprites, after
 		// switching the original GRCG/sprite state (af899b).
-		for(bullet_i = 0; bullet_i < BULLET_COUNT; (bullet_i++, ++bullet_p)) {
+		for(bullet_i = 0; bullet_i < BULLET_COUNT; (++bullet_i, ++bullet_p)) {
 			if(bullet_p->flag == BF_PELLET_CLOUD) {
 				topleft_set(
 					topleft,
@@ -1094,8 +1092,8 @@ void bullets_render(void)
 			#undef top
 			#undef left
 		}
-		pellet_p++;
-		pellet_i++;
+		++pellet_p;
+		++pellet_i;
 	} while(pellet_i < BULLET_COUNT);
 
 	// ZUN bloat: Just a grcg_off();
