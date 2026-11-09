@@ -119,7 +119,7 @@ void far pascal boss_marisa_template_init(int player_id)
 	p->hp = MARISA_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->sprite_offset = MARISA_TEMPLATE_SPRITE_OFF;
-	if(player_id != 0) {
+	if(player_id) {
 		p->sprite_offset += MARISA_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = MARISA_RENDER_MODE_NORMAL;
@@ -252,12 +252,12 @@ void near marisa_pattern_columns_wide(void)
 		marisa_exatt_add(MARISA_COLUMN_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_FOURTH) {
+	if(MARISA_COLUMN_FOURTH == boss_frame) {
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_LEFT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_WIDE_FINISH) {
+	if(MARISA_COLUMN_WIDE_FINISH == boss_frame) {
 		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
 		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
@@ -276,7 +276,7 @@ void near marisa_pattern_ring(void)
 
 	// The 32-frame ring cadence uses natural unsigned-word remainder,
 	// independent of the mutable byte angle.
-	if((boss_frame % MARISA_RING_PERIOD) == 0) {
+	if(!(boss_frame % MARISA_RING_PERIOD)) {
 		bullet_template.angle = randring_far_next16();
 		bullet_template.group = BG_RING;
 		bullet_template.center.x.v = boss_center_x;
@@ -301,7 +301,7 @@ void near marisa_pattern_ring(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= MARISA_RING_FINISH) {
+	if(MARISA_RING_FINISH <= boss_frame) {
 		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -330,7 +330,7 @@ void near marisa_pattern_columns_narrow(void)
 		marisa_exatt_add(MARISA_NARROW_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(boss_frame == MARISA_COLUMN_FOURTH) {
+	if(MARISA_COLUMN_FOURTH == boss_frame) {
 		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
 		boss_mode = MARISA_MODE_SELECT;
 		boss_frame = 0;
@@ -358,12 +358,11 @@ void far gba_boss_update_marisa(void)
 
 	switch(boss_mode) {
 	case MARISA_MODE_INTRO:
-		if(boss_frame == MARISA_BOSS_INTRO_END) {
-			boss_frame = 0;
-			boss_mode = MARISA_MODE_SELECT;
-		} else {
+		if(boss_frame != MARISA_BOSS_INTRO_END) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = MARISA_MODE_SELECT;
 		break;
 
 	case MARISA_MODE_SELECT:
