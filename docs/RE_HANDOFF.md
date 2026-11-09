@@ -55,7 +55,7 @@ Report SHA-256:
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1069u`,
-`ba_yumem` uses `af1069l`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_yumem` uses `af1070a`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1061b`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
@@ -107,16 +107,19 @@ each pass preserves emission, byte-speed and index-update order. See the
 [current fan-loop review](MAIN_CHIYURI_FANS_NATURAL_WHILE_AFTER1069_REVIEW.md)
 and [PID lifetime review](MAIN_CHIYURI_FANS_REGISTER_PID_AFTER1069_REVIEW.md).
 
-Yumemi current-source refresh: `.analysis/work/exatt-layout-af1069l/report.json`
-SHA-256: `b6d2f059081a14dee97a8228974df4f072ce53297aaffeb4a1a1f03391afc4b2`.
-It recompiled the complete 2,358-byte `ba_yumem` owner with 343 ordered native
+Yumemi current-source refresh is now included in the joint
+`.analysis/work/exatt-layout-af1070a/report.json` (SHA-256
+`efb3df5395b7952a6652ce13920de53c65a4edfeeba5b5b305c1cbdec34884e3`). It
+recompiles the complete 2,358-byte `ba_yumem` owner with 343 ordered native
 fields and ten PUBLICs in two original TC4 rounds, preserving the Japanese
-MAIN image and ordered relocations. The 368-byte update controller now uses
-natural update-start/effect-countdown truth tests, initializes its register
-PID only after the launched-player guard, and advances the unsigned-word clock
-with postfix increment. The 404-byte arrival renderer now scopes its byte
-`phase` scratch to each of the three branches that use it. See the
-[current Yumemi update/arrival review](MAIN_YUMEMI_UPDATE_AND_ARRIVAL_LIFETIMES_AFTER1069_REVIEW.md).
+MAIN image and ordered relocations. The 368-byte update controller uses natural
+update-start/effect-countdown truth tests, initializes its register PID only
+after the launched-player guard, and advances the unsigned-word clock with
+postfix increment. The 404-byte arrival renderer scopes its byte `phase`
+scratch to each of the three branches that use it. The 266-byte Aimed Random
+leaf now uses a variable-first period-mask firing gate. See the
+[current Yumemi update/arrival review](MAIN_YUMEMI_UPDATE_AND_ARRIVAL_LIFETIMES_AFTER1069_REVIEW.md)
+and [Aimed Random mask review](MAIN_YUMEMI_AIMED_RANDOM_PERIOD_MASK_AFTER1070_REVIEW.md).
 
 Mima current-source refresh: `.analysis/work/exatt-layout-af1059a/report.json`
 SHA-256: `397144dec5bda10fd68ba3740c4409cd1adb38073fe30b2605235599d009f0a7`.
@@ -331,19 +334,14 @@ and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
 Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
-The current Yumemi + Chiyuri source integration is `af1069o`: `ba_yumem` and
+The current Yumemi + Chiyuri source integration is `af1070a`: `ba_yumem` and
 `ba_chiyu`, 5,012 CODE bytes, 724 ordered native fields and 21 PUBLICs. Both
 original TC4 rounds and both normal MAIN links match. Report:
-`.analysis/work/exatt-layout-af1069o/report.json`, SHA-256
-`149d2e29ea2acc3d1cf976d3280d3a740a1cb3ccd5d093273f930e3038c9c553`.
-
-The newer Chiyuri four-while source refresh is integrated with the current
-Yumemi owner at `af1069v`: the same two physical objects, 5,012 CODE bytes,
-724 ordered native fields and 21 PUBLICs. Both original TC4 rounds and both
-normal MAIN links match. Report: `.analysis/work/exatt-layout-af1069v/report.json`,
-SHA-256 `df1f19a221c9898b0ea988a73bb24f9503903fbdadb721c57069373b62ad8339`.
-This supersedes the Chiyuri binding in `af1069o`; Yumemi's source hash is
-unchanged from `af1069l`.
+`.analysis/work/exatt-layout-af1070a/report.json`, SHA-256
+`efb3df5395b7952a6652ce13920de53c65a4edfeeba5b5b305c1cbdec34884e3`.
+It includes the current Chiyuri four-while fan source and Yumemi's period-mask
+Aimed Random gate, along with the previously recovered Yumemi update/arrival
+lifetime changes.
 
 Recommended next work:
 

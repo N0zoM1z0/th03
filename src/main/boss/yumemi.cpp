@@ -325,7 +325,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
-	if(!(boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
+	if((boss_frame & (YUMEMI_AIMED_FIRE_PERIOD - 1)) == 0) {
 		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
