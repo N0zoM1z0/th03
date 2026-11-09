@@ -206,7 +206,6 @@ void near rikako_pattern_orbit_spread(void)
 {
 	unsigned char angle;
 	signed char angle_delta;
-	register int i;
 
 	// The unsigned-word eight-frame spin clock uses a low-bit test,
 	// distinct from the signed byte spin delta.
@@ -243,9 +242,8 @@ void near rikako_pattern_orbit_spread(void)
 		);
 
 		// Original 256-unit angle distribution precedes signed division;
-		// ordinary C++ while retains the complete ring call order.
-		i = 0;
-		while(i < rikako_orbit_count) {
+		// ordinary C++ for retains the complete ring call order.
+		for(register int i = 0; i < rikako_orbit_count; ++i) {
 			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_orbit_count);
 			bullet_template.center.x.v = polar(
 				boss_center_x,
@@ -259,7 +257,6 @@ void near rikako_pattern_orbit_spread(void)
 			);
 			bullet_template.angle = (angle + angle_delta);
 			bullets_add();
-			++i;
 		}
 		snd_se_play(RIKAKO_SOUND_BOMB);
 		return;
@@ -502,7 +499,6 @@ void near rikako_render_main(void)
 	int x;
 	int y;
 	register sprite16_offset_t sprite_offset;
-	register int i;
 
 	sprite16_put_size.w = RIKAKO_RENDER_MAIN_W;
 	sprite16_put_size.h = RIKAKO_RENDER_MAIN_H;
@@ -527,11 +523,10 @@ void near rikako_render_main(void)
 	left += RIKAKO_RENDER_RING_CENTER_OFF;
 	top += RIKAKO_RENDER_RING_CENTER_OFF;
 
-	// Native original sprite loop accepts signed-index C++ while,
+	// Native original sprite loop accepts signed-index C++ for,
 	// but its %4 MUST explicitly promote that signed `i` to unsigned:
 	// ordinary signed `i %4` differs in original TC4 (af862f).
-	i = 0;
-	while(i < RIKAKO_MAIN_SPRITE_COUNT) {
+	for(register int i = 0; i < RIKAKO_MAIN_SPRITE_COUNT; ++i, angle = angle + RIKAKO_RENDER_MAIN_ANGLE_STEP) {
 		x = polar(left, RIKAKO_ORBIT_RING_RADIUS, CosTable8[angle]);
 		y = polar(top, RIKAKO_ORBIT_RING_RADIUS, SinTable8[angle]);
 
@@ -548,10 +543,8 @@ void near rikako_render_main(void)
 			y,
 			(pid.so_attack + sprite_offset)
 		);
-		++i;
 		// Original mutable byte += can naturally use explicit
 		// assignment with named step, unlike signed spin_delta (af904f).
-		angle = angle + RIKAKO_RENDER_MAIN_ANGLE_STEP;
 	}
 }
 
@@ -564,8 +557,6 @@ void near rikako_render_intro(void)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
 	int radius;
-	register int i;
-	register screen_x_t left;
 
 	radius = (RIKAKO_RENDER_INTRO_RADIUS - ((boss_frame * RIKAKO_INTRO_RAD_SCALE_A) * RIKAKO_INTRO_RAD_SCALE_B));
 
@@ -586,11 +577,10 @@ void near rikako_render_intro(void)
 	// -angle changed native CODE again in independent af862d.
 	angle = (0 - angle);
 
-	// The second 16-sprite signed-step while loop and named +0x10
+	// The second 16-sprite signed-step for loop and named +0x10
 	// angle mutation preserve all original original TC4 instructions.
-	i = 0;
-	while(i < RIKAKO_INTRO_SPRITE_COUNT) {
-		left = polar(
+	for(register int i = 0; i < RIKAKO_INTRO_SPRITE_COUNT; ++i, angle = angle + RIKAKO_RENDER_INTRO_ANGLE_STEP) {
+		register screen_x_t left = polar(
 			boss_center_x,
 			radius,
 			CosTable8[angle]
@@ -611,8 +601,6 @@ void near rikako_render_intro(void)
 		// instead changes TC4 CODE (af763c).
 		top = static_cast<screen_y_t>((top >> RIKAKO_RENDER_INTRO_TOP_SHIFT) - RIKAKO_RENDER_INTRO_TOP_BIAS);
 		sprite16_put(left, top, sprite_offset);
-		++i;
-		angle = angle + RIKAKO_RENDER_INTRO_ANGLE_STEP;
 	}
 }
 
