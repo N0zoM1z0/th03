@@ -89,12 +89,10 @@ enum yumemi_exatt_state_t {
 void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_][0];
-	register int i = 0;
 
-	// Native-exact eight ordinary flight slots. The first-free
-	// allocator advances both original near pointer and index only
-	// after each occupied slot (actual original TC4 af912a).
-	while(i < YUME_EXATT_ORDINARY_SLOTS) {
+	// Scan the original eight ordinary slots in a bounded for loop;
+	// an occupied slot advances the index and near pointer together.
+	for(register int i = 0; i < YUME_EXATT_ORDINARY_SLOTS; ++i, ++p) {
 		if(p->state == YUME_EXATT_FREE) {
 			exatt_entity_p = p;
 			exatt_fly_init(
@@ -109,19 +107,15 @@ void far pascal exatt_add_yumemi(int x, int y, unsigned char pid_)
 			p->duration = YUME_EXATT_ORDINARY_DURATION;
 			return;
 		}
-		++i;
-		p++;
 	}
 }
 
 void far pascal yumemi_extra_add(int x, int y)
 {
 	register exatt_entity_t near *p = &exatt_entities[pid_current][YUME_EXATT_SPECIAL_FIRST_SLOT];
-	int i = YUME_EXATT_SPECIAL_FIRST_SLOT;
 
-	// Special WARNING slots 8..15, distinct from the ordinary first
-	// eight. Typed while and explicit free state are both native exact.
-	while(i < YUME_EXATT_ALL_SLOTS) {
+	// Special warning slots 8..15 use an independent eight-slot scan.
+	for(int i = YUME_EXATT_SPECIAL_FIRST_SLOT; i < YUME_EXATT_ALL_SLOTS; ++i, ++p) {
 		if(p->state == YUME_EXATT_FREE) {
 			p->state = YUME_EXATT_APPEARING_FIRST;
 			p->frame = 0;
@@ -132,8 +126,6 @@ void far pascal yumemi_extra_add(int x, int y)
 			p->duration = YUME_EXATT_SPECIAL_DURATION;
 			return;
 		}
-		++i;
-		p++;
 	}
 }
 
@@ -144,13 +136,10 @@ void near yumemi_exatt_render_one(void)
 	screen_y_t top;
 	signed char extent;
 	signed char extent_half;
-	exatt_entity_t near *p;
+	exatt_entity_t near *p = exatt_entity_p;
 
 	register screen_y_t mid_y;
-	register screen_x_t left;
-
-	p = exatt_entity_p;
-	left = playfield_fg_x_to_screen(p->x, p->pid);
+	register screen_x_t left = playfield_fg_x_to_screen(p->x, p->pid);
 	top = ((p->y >> 4) + 0x10);
 
 	if(pid_current == 1) {
@@ -281,15 +270,13 @@ void near yumemi_exatt_render_one(void)
 		sprite16_put_size.set(32, 16);
 		sprite_offset = (pid.so_attack + 0x280);
 
-		// Four independent top/bottom/left/right perimeter traversals.
-		// These ordinary while loops compile exactly like the original
-		// for-loops, preserving signed endpoints and the 16-pixel steps.
+		// Four independent top/bottom/left/right sprite perimeters,
+		// each retaining its signed bounds and 16-pixel progression.
 		mid_y = (top - p->radius);
 		sprite16_put(left, mid_y, sprite_offset);
-		mid_y += 16;
-		while(mid_y < (top - 16)) {
+		for(mid_y += 16; mid_y < (top - 16);
+		    mid_y += YUME_EXATT_RENDER_EDGE_STEP) {
 			sprite16_put(left, mid_y, (sprite_offset + 0x502));
-			mid_y += YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		mid_y = (
@@ -298,10 +285,9 @@ void near yumemi_exatt_render_one(void)
 			16
 		);
 		sprite16_put(left, mid_y, (sprite_offset + 0x280));
-		mid_y -= 16;
-		while(mid_y > top) {
+		for(mid_y -= 16; mid_y > top;
+		    mid_y -= YUME_EXATT_RENDER_EDGE_STEP) {
 			sprite16_put(left, mid_y, (sprite_offset + 0x502));
-			mid_y -= YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		sprite16_put_size.set(16, 32);
@@ -309,18 +295,16 @@ void near yumemi_exatt_render_one(void)
 
 		edge_x = (left - p->radius + 16);
 		sprite16_put(edge_x, top, sprite_offset);
-		edge_x += 16;
-		while(edge_x < left) {
+		for(edge_x += 16; edge_x < left;
+		    edge_x += YUME_EXATT_RENDER_EDGE_STEP) {
 			sprite16_put(edge_x, top, (sprite_offset + 0x500));
-			edge_x += YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		edge_x = (p->radius + left);
 		sprite16_put(edge_x, top, (sprite_offset + 2));
-		edge_x -= 16;
-		while(edge_x > (left + 16)) {
+		for(edge_x -= 16; edge_x > (left + 16);
+		    edge_x -= YUME_EXATT_RENDER_EDGE_STEP) {
 			sprite16_put(edge_x, top, (sprite_offset + 0x500));
-			edge_x -= YUME_EXATT_RENDER_EDGE_STEP;
 		}
 
 		if(p->radius > YUME_EXATT_CORNER_MIN_RADIUS) {
@@ -341,20 +325,13 @@ void far pascal exatt_update_yumemi(void)
 {
 	unsigned char pid_other;
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-	register int i;
 
 	pid_other = (1 - pid_current);
 	collmap_pid = pid_other;
-	i = 0;
-
-	// Whole 16-entity beam/flight collision/update controller, including
-	// separate inactive and exatt_fly_update early-continue paths.
-	// Both advance the original near entity pointer and signed index
-	// before continuing (native trial af912b).
-	while(i < YUME_EXATT_ALL_SLOTS) {
+	// Full beam/flight collision state machine; both early continues
+	// join the original signed-index and pointer advance in the header.
+	for(register int i = 0; i < YUME_EXATT_ALL_SLOTS; ++i, ++p) {
 		if(p->state == YUME_EXATT_FREE) {
-			++i;
-			p++;
 			continue;
 		}
 
@@ -398,8 +375,6 @@ void far pascal exatt_update_yumemi(void)
 		} else if(p->state == YUME_EXATT_FLYING) {
 			exatt_entity_p = p;
 			if(exatt_fly_update()) {
-				++i;
-				p++;
 				continue;
 			}
 		} else if(p->state <= YUME_EXATT_APPEAR_END_STATE) {
@@ -415,25 +390,17 @@ void far pascal exatt_update_yumemi(void)
 		// again differed under a fresh genuine TC4 trial af912d.
 		// Both state transitions and duration accounting remain intact.
 		p->frame++;
-		++i;
-		p++;
 	}
 }
 
 void far pascal exatt_render_yumemi(void)
 {
-	register int i;
 
 	exatt_entity_p = &exatt_entities[pid_current][0];
-	// Original all-16-slot render pass and four separately traversed
-	// signed screen-clip beam perimeters. Native while preserves the
-	// near renderer call and both post-call increments (af912c).
-	i = 0;
-	while(i < YUME_EXATT_ALL_SLOTS) {
+	// Render all sixteen physical slots in their original order.
+	for(register int i = 0; i < YUME_EXATT_ALL_SLOTS; ++i, ++exatt_entity_p) {
 		if(exatt_entity_p->state) {
 			yumemi_exatt_render_one();
 		}
-		++i;
-		exatt_entity_p++;
 	}
 }
