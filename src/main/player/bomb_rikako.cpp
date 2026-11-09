@@ -51,7 +51,7 @@ void far rikako_bomb(void)
 	if(frame < RIKAKO_BOMB_FIRST_PHASE_END) {
 		grcg_setcolor(GC_RMW, pid_current);
 		_BX = 0x3932;
-		if(pid_current != 0) {
+		if(pid_current) {
 			_BX += 40;
 		}
 		bomb_bg_fill();
@@ -70,7 +70,7 @@ void far rikako_bomb(void)
 		}
 
 		x = PLAYFIELD_LEFT;
-		if(pid_current != 0) {
+		if(pid_current) {
 			x += PLAYFIELD_W_BORDERED;
 		}
 		mrs_put_noalpha_8(
@@ -105,7 +105,7 @@ void far rikako_bomb(void)
 		// This is a live signed word line-offset, not a byte frame.
 		// The original +0x41 and >=0x480 reset are separately tested.
 		rikako_bomb_line_offset += RIKAKO_BOMB_OFFSET_STEP;
-		if(rikako_bomb_line_offset >= RIKAKO_BOMB_OFFSET_RESET) {
+		if(RIKAKO_BOMB_OFFSET_RESET <= rikako_bomb_line_offset) {
 			rikako_bomb_line_offset = 0;
 		}
 
@@ -117,12 +117,10 @@ void far rikako_bomb(void)
 		// `if(!remainder)` under original TC4 (af894b).
 		if(!(frame % RIKAKO_BOMB_EXPLOSION_PERIOD)) {
 			x = randring_far_next16_and(0x3FF);
-			// Real 96-pixel explosion row with randomized first X and
-			// the original per-call signed offset update. Natural while
-			// emitted original machine CODE (af894a).
-			while(x <= RIKAKO_BOMB_ROW_END_X) {
+			// Real 96-pixel explosion row, starting at the original RNG
+			// position and advancing after each explosion in the for header.
+			for(; x <= RIKAKO_BOMB_ROW_END_X; x += RIKAKO_BOMB_ROW_STEP_X) {
 				bomb_explosion_add(x, RIKAKO_BOMB_EXPLOSION_Y, pid_current);
-				x += RIKAKO_BOMB_ROW_STEP_X;
 			}
 		}
 
