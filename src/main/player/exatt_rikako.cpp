@@ -79,7 +79,7 @@ void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 
 	// Normal spawn scans eight slots; the special spawn below scans
 	// fourteen. Preserve the original per-slot RNG/return ordering.
-	while(i < RIKAKO_EXATT_NORMAL_SLOTS) {
+	for(; i < RIKAKO_EXATT_NORMAL_SLOTS; ++i, ++p) {
 		if(!p->state) {
 			exatt_entity_p = p;
 			exatt_fly_init(
@@ -95,8 +95,6 @@ void far pascal exatt_add_rikako(int x, int y, unsigned char pid_)
 			p->speed = (randring_far_next16_and(0x0F) + RIKAKO_EXATT_SPEED_BASE);
 			return;
 		}
-		++i;
-		p++;
 	}
 }
 
@@ -105,7 +103,7 @@ void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 	int i = 0;
 
-	while(i < RIKAKO_EXATT_ALL_SLOTS) {
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, ++p) {
 		if(!p->state) {
 			p->state = RIKAKO_EXATT_ACTIVE;
 			p->character.rikako.homing_disabled = 1;
@@ -117,8 +115,6 @@ void far pascal rikako_extra_add(int x, int y, unsigned char angle_)
 			p->pid = (1 - pid_current);
 			return;
 		}
-		++i;
-		p++;
 	}
 }
 
@@ -165,7 +161,6 @@ void far pascal exatt_update_rikako(void)
 	unsigned char target_angle;
 	signed char angle_delta;
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-	register int i;
 
 	pid_other = (1 - pid_current);
 	playfield_clip_negative_radius.x.v = -RIKAKO_EXATT_CLIP_RADIUS;
@@ -174,15 +169,11 @@ void far pascal exatt_update_rikako(void)
 	hitbox.radius.x.v = RIKAKO_EXATT_HIT_RADIUS;
 	hitbox.radius.y.v = RIKAKO_EXATT_HIT_RADIUS;
 	hitbox.pid = pid_other;
-	i = 0;
 
-	// The update loop has two distinct continue exits. Both must advance
-	// the original signed slot index and 32-byte near pointer in order:
-	// natural while is native-exact here (af874c).
-	while(i < RIKAKO_EXATT_ALL_SLOTS) {
+	// Both early continue paths join the signed-index and near-pointer
+	// progression at the same natural for-header boundary.
+	for(register int i = 0; i < RIKAKO_EXATT_ALL_SLOTS; ++i, ++p) {
 		if(!p->state) {
-			++i;
-			p++;
 			continue;
 		}
 
@@ -217,8 +208,6 @@ void far pascal exatt_update_rikako(void)
 				*(PlayfieldSubpixel near *)&p->y
 			)) {
 				p->state = RIKAKO_EXATT_FREE;
-				++i;
-				p++;
 				continue;
 			}
 
@@ -237,8 +226,6 @@ void far pascal exatt_update_rikako(void)
 		}
 
 		p->frame++;
-		++i;
-		p++;
 	}
 
 	hitbox_hittest_skip_explosions = false;
@@ -251,12 +238,10 @@ void far pascal exatt_render_rikako(void)
 
 	// Each real render call advances original near pointer afterwards;
 	// all fourteen slots are visited in this natural while.
-	while(i < RIKAKO_EXATT_ALL_SLOTS) {
+	for(; i < RIKAKO_EXATT_ALL_SLOTS; ++i, ++p) {
 		if(p->state) {
 			exatt_entity_p = p;
 			rikako_exatt_render_one();
 		}
-		++i;
-		p++;
 	}
 }
