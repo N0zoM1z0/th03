@@ -370,8 +370,7 @@ void near kotohime_pattern_radial_burst(void)
 			for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
 				register int x;
 				register int y;
-				register unsigned char center_angle;
-				center_angle = (
+				register unsigned char center_angle = (
 					boss_move_phase +
 					((KOTOHIME_FULL_TURN_STEPS * center_i) / kotohime_orbit_count)
 				);

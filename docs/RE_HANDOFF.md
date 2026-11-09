@@ -54,7 +54,7 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1084b`, `ba_chiyu` uses `af1083h`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
@@ -358,16 +358,17 @@ rebuilds the complete 1,840-byte `ba_koto` owner in two original TC4 rounds:
 MAIN images and ordered relocations exact. See the
 [Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
 
-The current five-owner Reimu + Yumemi + Chiyuri / Reimu Extra Attack source
-integration is `af1083h`: `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly` and
-`ex_reup`, 8,188 CODE bytes, 1,067 ordered native fields and 40 PUBLICs. Both
-original TC4 rounds and both normal Japanese MAIN links match. Report:
-`.analysis/work/exatt-layout-af1083h/report.json`, SHA-256
-`3a7cfff996b15547a5ff4f30dcc697c79cdccd3a9d2e5baf2ebf4e25cc3a74d8`.
-It includes Reimu's four attack leaves, update controller, main and intro
-renderers, the 205-byte `reimu_exatt_render_one()` recovery, both physical
-Reimu Extra Attack owners, Chiyuri's fan source and Yumemi's update, arrival,
-Aimed Random, Rain and Cross/Rain changes.
+The current six-owner Kotohime + Reimu + Yumemi + Chiyuri / Reimu Extra
+Attack source integration is `af1084l`: `ba_koto`, `ba_reimu`, `ba_yumem`,
+`ba_chiyu`, `ex_rfly` and `ex_reup`, 10,028 CODE bytes, 1,329 ordered native
+fields and 51 PUBLICs. Both original TC4 rounds and both normal Japanese MAIN
+links match. Report: `.analysis/work/exatt-layout-af1084l/report.json`, SHA-256
+`7fc3be1cb249f6b092f253f5a2f947a3ff30abad91e66704cc36628213673f62`.
+It includes Kotohime's current radial/update source, Reimu's four attack
+leaves, update controller and both main/intro renderers, the 205-byte
+`reimu_exatt_render_one()` recovery, both physical Reimu Extra Attack owners,
+Chiyuri's fan source and Yumemi's update, arrival, Aimed Random, Rain and
+Cross/Rain changes.
 
 Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
 `ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
@@ -377,6 +378,14 @@ The update uses an ordinary entity pointer, a `for`-scope index, variable-first
 state tests, and an RNG-initialized byte angle with compound addition. The
 current inline source dependency is checked by the source overlay. See the
 [Reimu Extra Attack Update review](MAIN_REIMU_EXTRA_ATTACK_UPDATE_NATURAL_CPP_AFTER1077_REVIEW.md).
+
+Kotohime's 302-byte `kotohime_pattern_radial_burst()` now initializes its
+per-center angle at declaration while retaining the original signed division
+and AL-mediated byte-phase update. The latter remains inline assembly: three
+natural C alternatives changed CODE, as did prefix increment of the warning
+frame and declaration-initializing the x/y polar scratches. The complete
+1,840-byte `ba_koto` owner is exact in two original TC4 rounds; see the
+[Kotohime radial review](MAIN_KOTOHIME_RADIAL_CENTER_ANGLE_LIFETIME_AFTER1084_REVIEW.md).
 
 The 118-byte `reimu_pattern_spreads()` and 98-byte
 `reimu_pattern_mirrored_spread()` leaves were also rechecked against Ghidra and
@@ -401,9 +410,10 @@ and [Reimu intro-renderer review](MAIN_REIMU_RENDER_INTRO_NATURAL_CPP_AFTER1083_
 
 Recommended next work:
 
-1. Continue Kotohime's 302-byte Radial Burst and `HitCircle::cel()`; the
-   332-byte Kotohime BOSS Update has now also been rechecked and naturalized.
-   Reimu's 443-byte Orbit Burst, 339-byte Orbit Cloud, 118-byte spreads,
+1. Continue `HitCircle::cel()` and inspect the next large engine/BOSS
+   controller. Kotohime's 302-byte Radial Burst and 332-byte BOSS Update now
+   have current-source native matches. Reimu's 443-byte Orbit Burst, 339-byte
+   Orbit Cloud, 118-byte spreads,
    98-byte mirrored spread, 296-byte Reimu BOSS Update, 281-byte Extra Attack
    Update, 205-byte Extra Attack renderer, and both 259-byte main/intro
    renderers now have current-source native matches. Compare the complete
