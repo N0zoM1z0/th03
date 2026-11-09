@@ -150,60 +150,64 @@ enum reimu_cloud_phase_t {
 
 void near reimu_pattern_orbit_cloud(void)
 {
-	unsigned char angle;
-
-	if(REIMU_CLOUD_START_FRAME == boss_frame) {
+	if(boss_frame == REIMU_CLOUD_START_FRAME) {
 		boss_aux_point.x.v = boss_center_x;
 		boss_aux_point.y.v = (REIMU_CLOUD_CENTER_ORBIT_RADIUS + boss_center_y);
 		reimu_direction = randring_far_next16_and(1);
 		reimu_cloud_speed = REIMU_CLOUD_INITIAL_SPEED;
 	}
 
-	angle = (REIMU_CLOUD_ANGLE_FRAME_STEP * static_cast<unsigned char>(boss_frame));
-	if(reimu_direction) {
-		angle = static_cast<unsigned char>(0 - angle);
+	{
+		unsigned char angle;
+		angle = (static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP);
+		if(reimu_direction != 0) {
+			angle = 0 - angle;
+		}
+
+		// The variable unsigned-word interval compares its remainder with
+		// zero; both projectile emissions and RNG order remain unchanged.
+		if(0 == (boss_frame % reimu_cloud_interval)) {
+			bullet_template.type = BT_PELLET_CLOUD;
+			bullet_template.group = BG_1;
+			bullet_template.pid = (1 - pid_current);
+			bullet_template.angle = (angle << 1);
+			bullet_template.speed.v = reimu_cloud_speed;
+			bullet_template.center.x.v = polar(
+				boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
+			);
+			bullet_template.center.y.v = polar(
+				boss_center_y, REIMU_CLOUD_ORBIT_RADIUS, SinTable8[angle]
+			);
+			bullets_add();
+
+			bullet_template.angle = ((angle << 1) + REIMU_CLOUD_OPPOSITE_ANGLE);
+			angle = angle + REIMU_CLOUD_OPPOSITE_ANGLE;
+			bullet_template.center.x.v = polar(
+				boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
+			);
+			bullet_template.center.y.v = polar(
+				boss_center_y, REIMU_CLOUD_ORBIT_RADIUS, SinTable8[angle]
+			);
+			bullets_add();
+		}
 	}
 
-	// The variable unsigned-word interval compares its remainder with
-	// zero; both projectile emissions and RNG order remain unchanged.
-	if(!(boss_frame % reimu_cloud_interval)) {
-		bullet_template.type = BT_PELLET_CLOUD;
-		bullet_template.group = BG_1;
-		bullet_template.pid = (1 - pid_current);
-		bullet_template.angle = (angle * 2);
-		bullet_template.speed.v = reimu_cloud_speed;
-		bullet_template.center.x.v = polar(
-			boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
-		);
-		bullet_template.center.y.v = polar(
-			boss_center_y, REIMU_CLOUD_ORBIT_RADIUS, SinTable8[angle]
-		);
-		bullets_add();
-
-		bullet_template.angle = ((angle * 2) + REIMU_CLOUD_OPPOSITE_ANGLE);
-		angle += REIMU_CLOUD_OPPOSITE_ANGLE;
-		bullet_template.center.x.v = polar(
-			boss_center_x, REIMU_CLOUD_ORBIT_RADIUS, CosTable8[angle]
-		);
-		bullet_template.center.y.v = polar(
-			boss_center_y, REIMU_CLOUD_ORBIT_RADIUS, SinTable8[angle]
-		);
-		bullets_add();
-	}
-
-	if(!(boss_frame % REIMU_CLOUD_ACCEL_PERIOD)) {
-		// Preserve postfix here: prefix ++reimu_cloud_speed changed
-		// the original TC4 byte-field codegen (af691b).
+	if((boss_frame & (REIMU_CLOUD_ACCEL_PERIOD - 1)) == 0) {
+		// Keep postfix on this byte field: prefix, compound and explicit
+		// self-addition all changed the complete original owner.
 		reimu_cloud_speed++;
 	}
 
-	angle = (REIMU_CLOUD_ANGLE_FRAME_STEP * static_cast<unsigned char>(boss_frame));
-	angle += REIMU_CLOUD_ANGLE_ROTATION;
-	boss_center_y = polar(
-		boss_aux_point.y.v, REIMU_CLOUD_CENTER_ORBIT_RADIUS, SinTable8[angle]
-	);
+	{
+		unsigned char angle;
+		angle = (static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP);
+		angle = angle + REIMU_CLOUD_ANGLE_ROTATION;
+		boss_center_y = polar(
+			boss_aux_point.y.v, REIMU_CLOUD_CENTER_ORBIT_RADIUS, SinTable8[angle]
+		);
+	}
 
-	if(REIMU_CLOUD_FINISH_FRAME <= boss_frame) {
+	if(boss_frame >= REIMU_CLOUD_FINISH_FRAME) {
 		boss_mode = REIMU_MODE_SELECT;
 		boss_frame = 0;
 	}
