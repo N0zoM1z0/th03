@@ -162,13 +162,13 @@ void near reimu_pattern_orbit_cloud(void)
 		unsigned char angle = (
 			static_cast<unsigned char>(boss_frame) * REIMU_CLOUD_ANGLE_FRAME_STEP
 		);
-		if(reimu_direction != 0) {
+		if(reimu_direction) {
 			angle = 0 - angle;
 		}
 
 		// The variable unsigned-word interval compares its remainder with
 		// zero; both projectile emissions and RNG order remain unchanged.
-		if(0 == (boss_frame % reimu_cloud_interval)) {
+		if(!(boss_frame % reimu_cloud_interval)) {
 			bullet_template.type = BT_PELLET_CLOUD;
 			bullet_template.group = BG_1;
 			bullet_template.pid = (1 - pid_current);
@@ -194,7 +194,7 @@ void near reimu_pattern_orbit_cloud(void)
 		}
 	}
 
-	if((boss_frame % REIMU_CLOUD_ACCEL_PERIOD) == 0) {
+	if(!(boss_frame % REIMU_CLOUD_ACCEL_PERIOD)) {
 		// Keep postfix on this byte field: prefix, compound and explicit
 		// self-addition all changed the complete original owner.
 		reimu_cloud_speed++;
@@ -323,7 +323,7 @@ void near reimu_pattern_orbit_burst(void)
 		}
 		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
 
-		if(round_frame_mod16 != 0) {
+		if(round_frame_mod16) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;
@@ -366,7 +366,7 @@ void near reimu_pattern_mirrored_spread(void)
 
 	// The sixteen-frame mirrored spread uses the unsigned-word low bits.
 	if(boss_frame < REIMU_MIRROR_FINISH_FRAME) {
-		if((boss_frame % REIMU_MIRROR_FIRE_PERIOD) != 0) {
+		if(boss_frame % REIMU_MIRROR_FIRE_PERIOD) {
 			return;
 		}
 		bullet_template.type = BT_BULLET16_DEFAULT;
@@ -483,7 +483,7 @@ void near reimu_render_main(void)
 
 	sprite16_put_size.set(REIMU_RENDER_MAIN_SIZE, REIMU_RENDER_MAIN_SIZE);
 
-	if(pid_other == 0) {
+	if(!pid_other) {
 		sprite16_clip.set_for_pid_0();
 	} else {
 		sprite16_clip.set_for_pid_1();
@@ -560,7 +560,7 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	// Eight original polar-sprite calls with byte-angle advancement
 	// after rendering. The comma-expression increments the signed index
 	// first and the byte angle second (af985d).
-	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; i++, angle += REIMU_INTRO_ANGLE_STEP) {
+	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; ++i, angle += REIMU_INTRO_ANGLE_STEP) {
 		register screen_x_t left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
 		left = (playfield_fg_x_to_screen(left, pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN);
