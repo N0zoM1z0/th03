@@ -59,9 +59,9 @@ Its source overlay and report are recorded below.
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
-`ba_yumem` uses `af1083h`, `ba_mima` uses `af1088o`, `ba_kana` uses `af1060a`,
+`ba_yumem` uses `af1083h`, `ba_mima` uses `af1088o`, `ba_kana` uses `af1096g`,
 `ba_reimu` uses `af1083h`, `ba_ellen` uses `af1092j`, `ba_maris` uses `af1090i`,
-`ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, `bullet` uses
+`ba_rikak` uses `af1095w`, `hitcirc` uses `af1085f`, `bullet` uses
 `af1086y`, `e_fireb` uses `af1089j`, and the separate Ellen Extra Attack
 physical owner `ex_ellen` uses `af1094e`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
@@ -139,14 +139,16 @@ uses the direct inactive-player return while retaining its level setup, mode
 dispatch and collision/hitbox tail. See the
 [current Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
-Kana current-source refresh: `.analysis/work/exatt-layout-af1060a/report.json`
-SHA-256: `da7b824a76578facb835758886e2ca95e2a6d5788b5548b3b2084cfb59bb3d29`.
+Kana current-source refresh: `.analysis/work/exatt-layout-af1096g/report.json`
+SHA-256: `946dd46ab532f4635b8d1421166df2053cf0b4e4a3ed40676e6a5b7a62a09af7`.
 It recompiled the complete 1,874-byte `ba_kana` owner with 274 ordered native
 fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
-MAIN image and ordered relocations. The complete Kana update controller now
-uses the direct inactive-player return before its attack-mode dispatch and
-collision/hitbox tail. See the
-[current Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+MAIN image and ordered relocations. The sixteen-sprite intro now uses a natural
+`for` with the original shared register index and byte-angle mutation order;
+its radius, angle and X-coordinate scratch are initialized at first use. The
+update PID is declared after the inactive-player return and the unused frame
+increment is postfix. See the [Kana intro/update review](MAIN_KANA_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1096_REVIEW.md)
+and [Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
 Reimu current-source refresh is now included in the five-owner integration
 `.analysis/work/exatt-layout-af1077k/report.json` (SHA-256
@@ -187,14 +189,15 @@ uses the direct inactive-player return before its mode dispatch and collision/
 hitbox tail. See the
 [current Marisa PID-scope review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
-Rikako current-source refresh: `.analysis/work/exatt-layout-af1066a/report.json`
-SHA-256: `17e3ec6f9a147a36d35f77af3f6e73742efbe4605b7b9832f4773b6474fdc1b4`.
+Rikako current-source refresh: `.analysis/work/exatt-layout-af1095w/report.json`
+SHA-256: `3c5a97764efebea286e22dbe72f356f99187a3a3a5354fa093653a72fda7cf8a`.
 It recompiled the complete 1,677-byte `ba_rikak` owner with 215 ordered native
 fields and eight PUBLICs in two original TC4 rounds, preserving the full Japanese
-MAIN image and ordered relocations. The complete Rikako update controller now
-uses the direct inactive-player return before its mode dispatch, preserving the
-signed-byte spin update and collision/hitbox tail. See the
-[current Rikako PID-scope review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+MAIN image and ordered relocations. All five attack/render iteration sites are
+now natural `for` loops; the update PID and both renderer angle locals are
+initialized at first use, and the unused frame increment is postfix. See the
+[Rikako BOSS loop/lifetime review](MAIN_RIKAKO_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1095_REVIEW.md)
+and [Rikako PID-scope review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
 Current-source ten-owner integration: `.analysis/work/exatt-layout-af1067a/report.json`
 SHA-256: `857551a78dd400b20c72940c186dc53835c1385fa0bcb69131920e389d47c689`.
@@ -210,8 +213,8 @@ bound to the `af1053k` baseline; no full cold replay was run.
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
 source bindings are split by the subsequent scoped refreshes: the shared pair
 uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, Mima uses
-`af1059a`, Kana uses `af1060a`, Reimu uses `af1061b`, Ellen uses `af1063a`,
-Marisa uses `af1065a`, Rikako uses `af1066a`, and the other two owners remain
+`af1059a`, Kana uses `af1096g`, Reimu uses `af1061b`, Ellen uses `af1063a`,
+Marisa uses `af1065a`, Rikako uses `af1095w`, and the other two owners remain
 bound to `af1053k`. The earlier
 `af1053i`, `af1052g`,
 `af1051k` and `af1047l` full-set checkpoints are historical snapshots, not
@@ -290,13 +293,16 @@ The seven level-parameter initializations remain before the guard; the launched
 player's mode switch and collision/hitbox tail remain after it. See the
 [af1059a current-source review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
-Kana's complete `gba_boss_update_kana()` controller now uses the same direct
-inactive-player return. Its seven level parameters remain before the guard;
-the full INTRO/SELECT/attack dispatch, render-frame update and collision/hitbox
-tail remain in order. Stage `af1060a` rebuilt `ba_kana` in two original TC4
-rounds: 1,874 CODE bytes, 274 ordered native fields and nine PUBLICs match,
-with both normal MAIN images and ordered relocations exact. See the
-[af1060a current-source review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+Kana's complete `gba_boss_update_kana()` controller retains the direct
+inactive-player return, with `pid_other` initialized after that guard and the
+unused frame increment expressed as postfix. Its seven level parameters remain
+before the guard; the full INTRO/SELECT/attack dispatch, render-frame update and
+collision/hitbox tail remain in order. The sixteen-sprite intro renderer now
+uses a native-exact `for` loop with first-use radius, angle and X-coordinate
+locals. Stage `af1096g` rebuilt `ba_kana` in two original TC4 rounds: 1,874 CODE
+bytes, 274 ordered native fields and nine PUBLICs match, with both normal MAIN
+images and ordered relocations exact. See the [Kana intro/update review](MAIN_KANA_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1096_REVIEW.md)
+and [Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
 Reimu's complete `gba_boss_update_reimu()` controller has a first-use PID
 local, natural level-derived setup arithmetic, compound frame advancement and
@@ -342,14 +348,17 @@ images and ordered relocations exact. The level setup, full attack-mode switch
 and collision/hitbox tail remain in order. See the
 [af1065a current-source review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
-Rikako's complete `gba_boss_update_rikako()` controller now uses the direct
-inactive-player return before target/frame updates. The current `ba_rikak`
-owner was rebuilt in two original TC4 rounds: 1,677 CODE bytes, 215 ordered
-native fields and eight PUBLICs match, with both normal MAIN images and ordered
-relocations exact. The five level parameters remain before the guard; the
-Orbit/Entities/Alternating Burst switch, signed-byte spin update and full
-collision/hitbox tail remain after it. See the
-[af1066a current-source review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+Rikako's complete `gba_boss_update_rikako()` controller retains the direct
+inactive-player return before target/frame updates; `pid_other` is initialized
+at first active-player use and the unused frame increment is postfix. Its five
+level parameters remain before the guard; the Orbit/Entities/Alternating Burst
+switch, signed-byte spin update and full collision/hitbox tail remain after it.
+The complete owner now uses natural `for` loops for orbit emission, entity
+release, pellet volley, main-ring rendering and intro-ring rendering. Stage
+`af1095w` rebuilt `ba_rikak` in two original TC4 rounds: 1,677 CODE bytes, 215
+ordered native fields and eight PUBLICs match, with both normal MAIN images and
+ordered relocations exact. See the [Rikako BOSS loop/lifetime review](MAIN_RIKAKO_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1095_REVIEW.md)
+and [Rikako PID-scope review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
 The current-source integration after these updates combines both Shared
 BOSS providers with Kotohime, Chiyuri, Mima, Kana, Reimu, Ellen, Marisa and
@@ -650,6 +659,8 @@ do not require compiler, analyzer, preflight, cold replay or receipt refresh.
 - [Ellen BOSS attack loops and render lifetimes](MAIN_ELLEN_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1092_REVIEW.md) ·
   [Ellen update PID scope](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
 - [Ellen Extra Attack six-function owner and native history/for loops](MAIN_ELLEN_EXATT_NATIVE_HISTORY_AFTER873_REVIEW.md)
+- [Rikako complete BOSS loops and renderer lifetimes](MAIN_RIKAKO_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1095_REVIEW.md)
+- [Kana complete BOSS intro loop and update lifetimes](MAIN_KANA_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1096_REVIEW.md)
 - [Yumemi update and renderer](MAIN_YUMEMI_UPDATE_AND_MAIN_RENDER_NATURAL_CPP_AFTER1051_REVIEW.md) ·
   [cross-ring](MAIN_YUMEMI_CROSS_RING_NATURAL_CPP_AFTER1052_REVIEW.md) ·
   [attack cadence](MAIN_YUMEMI_ATTACK_MODULO_AND_PHASE_NATURAL_CPP_AFTER1053_REVIEW.md)
