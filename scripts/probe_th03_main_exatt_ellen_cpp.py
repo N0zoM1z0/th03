@@ -34,6 +34,7 @@ TARGET_SIZE = 0x0469
 
 SUPPORT = (
     HEADER,
+    "src/main/player/exatt_entity.hpp",
     "compat/rec98/th03/common.h",
     "src/main/math/polar.hpp",
     "compat/rec98/th03/main/player/cur.hpp",

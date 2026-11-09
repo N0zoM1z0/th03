@@ -87,12 +87,9 @@ void far pascal exatt_ellen_slots_init(void)
     register int i = 0;
     // Original paired 12-slot initializer; both pointers advance only
     // after both history records receive the physical entity link.
-    while(i < ELLEN_EXATT_SLOTS) {
+    for(; i < ELLEN_EXATT_SLOTS; ++i, p0++, p1++) {
         p0->entity = &exatt_entities[0][i];
         p1->entity = &exatt_entities[1][i];
-        ++i;
-        p0++;
-        p1++;
     }
 }
 
@@ -159,8 +156,6 @@ void near ellen_exatt_render_one(void)
     screen_y_t trail_top;
     screen_x_t trail_left;
     unsigned char frame;
-    register int i;
-    register sprite16_offset_t sprite_offset;
 
     left = playfield_fg_x_to_screen(
         ellen_exatt_slot_p->entity->x,
@@ -176,11 +171,10 @@ void near ellen_exatt_render_one(void)
 
     if(ellen_exatt_slot_p->entity->state == ELLEN_EXATT_ACTIVE) {
         sprite16_put_size.set(ELLEN_TRAIL_SPRITE_WIDTH, ELLEN_TRAIL_SPRITE_HEIGHT);
-        sprite_offset = pid.so_attack + 0x28C;
-        i = ELLEN_HISTORY_LAST;
+        register sprite16_offset_t sprite_offset = pid.so_attack + 0x28C;
         // Active spiral draws history samples 6, 4, 2, 0, in reverse.
-        // Natural signed-index while preserves the native sprite calls.
-        while(i >= 0) {
+        // The signed index advances in the loop header after each sprite.
+        for(register int i = ELLEN_HISTORY_LAST; i >= 0; i -= ELLEN_HISTORY_RENDER_STEP) {
             trail_left = playfield_fg_x_to_screen(
                 ellen_exatt_slot_p->history_x[i],
                 ellen_exatt_slot_p->entity->pid
@@ -188,7 +182,6 @@ void near ellen_exatt_render_one(void)
             trail_top = ((ellen_exatt_slot_p->history_y[i] >> 4) + 16);
             sprite16_put(trail_left - 16, trail_top - 16, sprite_offset);
             sprite_offset -= 4;
-            i -= ELLEN_HISTORY_RENDER_STEP;
         }
     } else if(ellen_exatt_slot_p->entity->state == ELLEN_FLYING_STATE) {
         exatt_render_state2(left, top, frame);
@@ -203,10 +196,9 @@ void far pascal exatt_update_ellen(void)
 {
     int i;
     int j;
-    unsigned char pid_other;
     register ellen_exatt_slot_t near *slot = &ellen_exatt_slots[pid_current][0];
 
-    pid_other = (1 - pid_current);
+    unsigned char pid_other = (1 - pid_current);
     playfield_clip_negative_radius.x.v = -ELLEN_CLIP_MARGIN;
     playfield_clip_negative_radius.y.v = -ELLEN_CLIP_MARGIN;
     collmap_stripe_tile_w.set(12);
@@ -220,11 +212,9 @@ void far pascal exatt_update_ellen(void)
         }
         if(slot->entity->state == ELLEN_EXATT_ACTIVE) {
             // Shift history 6..1 BACKWARDS before computing sample zero.
-            j = ELLEN_HISTORY_LAST;
-            while(j > 0) {
+            for(j = ELLEN_HISTORY_LAST; j > 0; --j) {
                 slot->history_x[j] = slot->history_x[j - 1];
                 slot->history_y[j] = slot->history_y[j - 1];
-                --j;
             }
             if(slot->entity->radius <= ELLEN_EXPAND_RADIUS_LIMIT) {
                 slot->history_x[0] = polar(
@@ -273,11 +263,9 @@ void far pascal exatt_update_ellen(void)
             if(exatt_fly_update()) {
                 // On arrival initialize all seven history samples,
                 // not only the four visible spiral sprites.
-                j = 0;
-                while(j < ELLEN_HISTORY_SAMPLES) {
+                for(j = 0; j < ELLEN_HISTORY_SAMPLES; ++j) {
                     slot->history_x[j] = exatt_entity_p->x;
                     slot->history_y[j] = exatt_entity_p->y;
-                    ++j;
                 }
             }
         } else if(slot->entity->state <= ELLEN_APPEARING_END) {
@@ -297,14 +285,11 @@ void far pascal exatt_update_ellen(void)
 void far pascal exatt_render_ellen(void)
 {
     register ellen_exatt_slot_t near *p = &ellen_exatt_slots[pid_current][0];
-    register int i = 0;
     // Every real render call preserves per-slot post-call pointer order.
-    while(i < ELLEN_EXATT_SLOTS) {
+    for(register int i = 0; i < ELLEN_EXATT_SLOTS; ++i, p++) {
         if(p->entity->state) {
             ellen_exatt_slot_p = p;
             ellen_exatt_render_one();
         }
-        ++i;
-        p++;
     }
 }
