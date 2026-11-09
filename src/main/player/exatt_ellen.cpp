@@ -40,6 +40,8 @@ enum ellen_exatt_limits_t {
     ELLEN_TRAIL_SPRITE_HEIGHT = 32,
     ELLEN_HITTEST_MARGIN = TO_SP(16),
     ELLEN_CLIP_MARGIN = TO_SP(24),
+    ELLEN_COLLMAP_STRIPE_TILES = 12,
+    ELLEN_ACTIVE_SOUND = 10,
 };
 
 // The original two-player Extra Attack follows a byte-valued state
@@ -84,10 +86,9 @@ void far pascal exatt_ellen_slots_init(void)
 {
     register ellen_exatt_slot_t near *p0 = &ellen_exatt_slots[0][0];
     register ellen_exatt_slot_t near *p1 = &ellen_exatt_slots[1][0];
-    register int i = 0;
     // Original paired 12-slot initializer; both pointers advance only
     // after both history records receive the physical entity link.
-    for(; i < ELLEN_EXATT_SLOTS; ++i, p0++, p1++) {
+    for(register int i = 0; i < ELLEN_EXATT_SLOTS; ++i, ++p0, ++p1) {
         p0->entity = &exatt_entities[0][i];
         p1->entity = &exatt_entities[1][i];
     }
@@ -107,8 +108,7 @@ void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
     angle = (unsigned char)randring_far_next16();
 
     ellen_exatt_slot_p = &ellen_exatt_slots[pid_][0];
-    register int i = 0;
-    for(; i < ELLEN_EXATT_SLOTS; ++i, ellen_exatt_slot_p++) {
+    for(register int i = 0; i < ELLEN_EXATT_SLOTS; ++i, ++ellen_exatt_slot_p) {
         if(ellen_exatt_slot_p->entity->state) {
             continue;
         }
@@ -131,8 +131,7 @@ void far pascal exatt_add_ellen(int x, int y, unsigned char pid_)
 void far pascal ellen_extra_add(int x, int y, unsigned char angle_, unsigned char mode)
 {
     ellen_exatt_slot_p = &ellen_exatt_slots[pid_current][0];
-    int i = 0;
-    for(; i < ELLEN_EXATT_SLOTS; ++i, ellen_exatt_slot_p++) {
+    for(int i = 0; i < ELLEN_EXATT_SLOTS; ++i, ++ellen_exatt_slot_p) {
         if(ellen_exatt_slot_p->entity->state) {
             continue;
         }
@@ -201,12 +200,12 @@ void far pascal exatt_update_ellen(void)
     unsigned char pid_other = (1 - pid_current);
     playfield_clip_negative_radius.x.v = -ELLEN_CLIP_MARGIN;
     playfield_clip_negative_radius.y.v = -ELLEN_CLIP_MARGIN;
-    collmap_stripe_tile_w.set(12);
-    collmap_tile_h.set(12);
+    collmap_stripe_tile_w.set(ELLEN_COLLMAP_STRIPE_TILES);
+    collmap_tile_h.set(ELLEN_COLLMAP_STRIPE_TILES);
     collmap_pid = pid_other;
     i = 0;
 
-    for(; i < ELLEN_EXATT_SLOTS; ++i, slot++) {
+    for(; i < ELLEN_EXATT_SLOTS; ++i, ++slot) {
         if(!slot->entity->state) {
             continue;
         }
@@ -273,7 +272,7 @@ void far pascal exatt_update_ellen(void)
         } else {
             slot->entity->frame = 0;
             slot->entity->state = ELLEN_EXATT_ACTIVE;
-            snd_se_play(10);
+            snd_se_play(ELLEN_ACTIVE_SOUND);
         }
         // Keep original byte postfix; prefix changed original
         // TC4 CODE in fresh negative control af873f.
@@ -286,7 +285,7 @@ void far pascal exatt_render_ellen(void)
 {
     register ellen_exatt_slot_t near *p = &ellen_exatt_slots[pid_current][0];
     // Every real render call preserves per-slot post-call pointer order.
-    for(register int i = 0; i < ELLEN_EXATT_SLOTS; ++i, p++) {
+    for(register int i = 0; i < ELLEN_EXATT_SLOTS; ++i, ++p) {
         if(p->entity->state) {
             ellen_exatt_slot_p = p;
             ellen_exatt_render_one();
