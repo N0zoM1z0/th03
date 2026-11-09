@@ -66,9 +66,8 @@ enum mima_exatt_phase_t {
 void far pascal exatt_add_mima(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
-    register int i = 0;
 
-    for(; i < MIMA_EXATT_SLOTS; ++i, p++) {
+    for(register int i = 0; i < MIMA_EXATT_SLOTS; ++i, ++p) {
         if(!p->state) {
             exatt_entity_p = p;
             exatt_fly_init(
@@ -137,7 +136,7 @@ void far pascal exatt_update_mima(void)
     collmap_pid = pid_other;
     i = 0;
 
-    for(; i < MIMA_EXATT_SLOTS; ++i, p++) {
+    for(; i < MIMA_EXATT_SLOTS; ++i, ++p) {
         if(!p->state) {
             continue;
         }
@@ -227,9 +226,8 @@ void far pascal exatt_update_mima(void)
 void far pascal exatt_render_mima(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    register int i = 0;
 
-    for(; i < MIMA_EXATT_SLOTS; ++i, p++) {
+    for(register int i = 0; i < MIMA_EXATT_SLOTS; ++i, ++p) {
         if(p->state) {
             exatt_entity_p = p;
             mima_exatt_render_one();
