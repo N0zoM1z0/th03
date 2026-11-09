@@ -424,11 +424,16 @@ void enemy_formations_free(void)
 // off by 1 at regular intervals.
 // (The result for [v] == 1.0f and [enemy_speed] == 3 is 0.9375f, not the 1.0f
 // you'd get from the simplified formula.)
+enum enemy_tuning_scale_t {
+    ENEMY_TUNE_SPEED_DIV = 9,
+    ENEMY_TUNE_RATIO_NUM = 2,
+    ENEMY_TUNE_RATIO_DIV = 3,
+};
 inline subpixel_t enemy_speedtune_1(subpixel_t v) {
-	return ((enemy_speed * v) / 9);
+	return ((enemy_speed * v) / ENEMY_TUNE_SPEED_DIV);
 }
 inline subpixel_t enemy_speedtune_2(subpixel_t v) {
-	return ((2 * v) / 3);
+	return ((ENEMY_TUNE_RATIO_NUM * v) / ENEMY_TUNE_RATIO_DIV);
 }
 
 #if TH03_ENEMY_PRODUCER_PART == 1
@@ -443,22 +448,19 @@ bool near enemy_move_and_clip(void)
 	} else {
 		p.center.x.v -= velocity;
 	}
-	if(p.pos_type & EPT_CLIP_X) {
-		if(
-			(p.center.x.v <= to_sp(-32.0f)) ||
-			(p.center.x.v >= to_sp(PLAYFIELD_W + 32.0f))
-		) {
-			goto clip;
-		}
+	if((p.pos_type & EPT_CLIP_X) && (
+		(p.center.x.v <= to_sp(-32.0f)) ||
+		(p.center.x.v >= to_sp(PLAYFIELD_W + 32.0f))
+	)) {
+		goto clip;
 	}
 
 	velocity = p.velocity.y.v;
 	velocity = (enemy_speedtune_1(velocity) + enemy_speedtune_2(velocity));
 	p.center.y.v += velocity;
-	if(p.pos_type & EPT_CLIP_BOTTOM) {
-		if((p.center.y.v >= to_sp(PLAYFIELD_H + 32.0f))) {
-			goto clip;
-		}
+	if((p.pos_type & EPT_CLIP_BOTTOM) &&
+	   (p.center.y.v >= to_sp(PLAYFIELD_H + 32.0f))) {
+		goto clip;
 	}
 	return false;
 
