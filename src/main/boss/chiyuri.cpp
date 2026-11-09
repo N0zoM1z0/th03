@@ -196,9 +196,11 @@ void far pascal boss_chiyuri_template_init(int player_id)
 
 void near chiyuri_pattern_cardinal(void)
 {
-	// The unsigned-word frame remainder comparison is native-exact with
-	// the natural remainder-first spelling as well (af1013e).
-	if((boss_frame % chiyuri_cardinal_interval) == 1) {
+	// The unchanged unsigned-word remainder gates the entire four-shot
+	// cardinal emission; inactive ticks return before modifying bullets.
+	if((boss_frame % chiyuri_cardinal_interval) != 1) {
+		return;
+	}
 
 	if(boss_frame == CHIYURI_CARDINAL_FIRST_FRAME) {
 		pid_t pid_other;
@@ -268,13 +270,14 @@ void near chiyuri_pattern_cardinal(void)
 	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
 	bullet_template.angle += CHIYURI_CARDINAL_QUARTER_TURN;
 	bullets_add();
-	}
 }
 
 void near chiyuri_pattern_rings(void)
 {
 	// This distinct ring cadence also allows natural comparison order.
-	if((boss_frame % chiyuri_ring_interval) == 1) {
+	if((boss_frame % chiyuri_ring_interval) != 1) {
+		return;
+	}
 
 	bomb_axis_add(
 		boss_center_x, boss_center_y, (1 - pid_current)
@@ -312,7 +315,6 @@ void near chiyuri_pattern_rings(void)
 	bullets_add();
 	bullet_template.center.y.v = (boss_center_y - TO_SP(56));
 	bullets_add();
-	}
 }
 
 // Bomb warnings repeat every eight ticks before the single 48-shot
@@ -518,7 +520,8 @@ void far gba_boss_update_chiyuri(void)
 			boss_move_phase = CHIYURI_PALETTE_CYCLE_START;
 			boss_render_mode = CHIYURI_PALETTE_CYCLE_START;
 			break;
-		} else if(CHIYURI_INTRO_CROSS_EFFECT_FRAME == boss_frame) {
+		}
+		if(CHIYURI_INTRO_CROSS_EFFECT_FRAME == boss_frame) {
 			bomb_center_add(
 				((-TO_SP(56)) + boss_center_x), boss_center_y, pid_other
 			);
@@ -532,10 +535,9 @@ void far gba_boss_update_chiyuri(void)
 				boss_center_x, (TO_SP(56) + boss_center_y), pid_other
 			);
 			break;
-		} else {
-			bullet_template.is_animated = true;
-			return;
 		}
+		bullet_template.is_animated = true;
+		return;
 
 	case CHIYURI_MODE_SELECT:
 		if(CHIYURI_PALETTE_CYCLE_START == boss_render_mode) {
