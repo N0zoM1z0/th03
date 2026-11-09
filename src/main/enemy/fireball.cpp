@@ -275,9 +275,13 @@ void near fireball_explosion_flag_update(void)
 	// start hitting enemies.)
 	if(p->frame == FIREBALL_EXPLOSION_HIT_FRAME) {
 		p->flag = EFF_EXPLOSION_HITTING_ENEMIES;
-	} else if(p->frame == FIREBALL_EXPLOSION_FADE_FRAME) {
+		return;
+	}
+	if(p->frame == FIREBALL_EXPLOSION_FADE_FRAME) {
 		p->flag = EFF_EXPLOSION_IGNORING_ENEMIES;
-	} else if(p->frame >= FIREBALL_EXPLOSION_DONE_FRAME) {
+		return;
+	}
+	if(p->frame >= FIREBALL_EXPLOSION_DONE_FRAME) {
 		p->flag = EFF_FREE;
 	}
 }
@@ -321,17 +325,16 @@ void near fireball_explosion_put(void)
 void fireballs_update(void)
 {
 	playfield_subpixel_t next;
-	int i;
 
 	// Players can only collide with falling fireballs.
 	collmap_stripe_tile_w.set(FALL_W / 2);
 	collmap_tile_h.set(FALL_H / 2);
 
 	p = fireballs;
-	// All 24 original fireballs are updated in a native-exact for loop.
-	// Free, clipped and transferred branches share its signed-index and
-	// near-pointer progression, including both original goto destinations.
-	for(i = 0; i < FIREBALL_COUNT; (++i, ++p)) {
+	// All 24 fireballs share one native index/pointer update in the for
+	// header after their free, falling and cross-field transfer paths.
+	// Both original goto destinations remain byte-exact.
+	for(int i = 0; i < FIREBALL_COUNT; (++i, ++p)) {
 		if(!p->flag) {
 			continue;
 		}
@@ -423,7 +426,6 @@ void pascal near chain_fire_charged_exatt(pid_t pid, unsigned int slot)
 
 void near fireballs_hittest(void)
 {
-	int i;
 
 	// ZUN landmine: This uninitialized variable is the cause behind the
 	// infamous rare score reduction and extend glitches. The collision branch
@@ -517,12 +519,12 @@ void near fireballs_hittest(void)
 	variant = FV_RED;
 
 	// ZUN bloat: [FIREBALL_COUNT] exists.
-	// Actual reverse physical 24-entity chain scan; non-falling and no-hit
-	// continue exits share the for-header signed-index/pointer decrement.
+	// This reverse 24-entity scan scopes its signed index to the for header;
+	// non-falling and no-hit continues use the same pointer decrement.
 	// The uninitialized chain_slot below is historical, not a safe
 	// candidate for automatic initialization or an invented bug fix.
 	for(
-		i = (EFE_COUNT - 1);
+		int i = (EFE_COUNT - 1);
 		i >= (EFE_COUNT - FIREBALL_COUNT);
 		(--i, --p)
 	) {
