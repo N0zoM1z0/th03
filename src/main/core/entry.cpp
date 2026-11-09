@@ -18,8 +18,10 @@ enum round_loop_timing_t {
     ROUND_RESULT_FINISH_BACKGROUND_AT = 160,
     ROUND_VICTORY_ROUNDS = 2,
     ROUND_ENTRY_SPEED_MAX = 127,
-    ROUND_SPEED_UPDATE_MASK = 63,
-    ROUND_RANDOM_REFILL_MASK = 1023,
+    ROUND_SPEED_UPDATE_PERIOD = 64,
+    ROUND_RANDOM_REFILL_PERIOD = 1024,
+    ROUND_RENDER_SKIP_PERIOD = 2,
+    ROUND_HIT_RECOVERY_CAP = 6,
     ROUND_CPU_RESET_WINDOW_END = 2000,
 };
 // The frame scheduler alternates the two physical playfields several times

@@ -56,7 +56,7 @@ unsigned char near round_loop(void)
         round_render_hook();
         // The unsigned-word even/odd cadence CAN use natural `%2`.
         // Keep this original goto frame_advance and all page flip calls.
-        if(stage_render_timing_flag && !(round_or_result_frame % 2)) {
+        if(stage_render_timing_flag && !(round_or_result_frame % ROUND_RENDER_SKIP_PERIOD)) {
             goto frame_advance;
         }
         egc_on();
@@ -152,13 +152,13 @@ unsigned char near round_loop(void)
         stage_background_update();
         stage_demo_update();
         if(!stage_render_timing_flag) {
-            while(round_reset_flag > vsync_Count1) {
+            while(vsync_Count1 < round_reset_flag) {
             }
             vsync_Count1 = 0;
             round_reset_flag = 1;
-        } else if(!(round_or_result_frame % 2)) {
+        } else if(!(round_or_result_frame % ROUND_RENDER_SKIP_PERIOD)) {
             vsync_Count1 = 0;
-            while(round_reset_flag > vsync_Count1) {
+            while(vsync_Count1 < round_reset_flag) {
             }
             round_reset_flag = 2;
         }
@@ -201,18 +201,18 @@ unsigned char near round_loop(void)
         round_frame_mod8 = round_frame_mod16 & 7;
         round_frame_mod4 = round_frame_mod8 & 3;
         round_frame_mod2 = round_frame_mod4 & 1;
-        if(!(round_or_result_frame & ROUND_SPEED_UPDATE_MASK)) {
+        if(!(round_or_result_frame % ROUND_SPEED_UPDATE_PERIOD)) {
             if(round_speed < ROUND_ENTRY_SPEED_MAX) {
                 // Keep original mutable speed byte postfix: changing it
                 // to prefix changes native original CODE (af923i).
                 round_speed++;
             }
-            if(!(round_or_result_frame & ROUND_RANDOM_REFILL_MASK)) {
+            if(!(round_or_result_frame % ROUND_RANDOM_REFILL_PERIOD)) {
                 randring_fill();
-                if(players[0].hit_damage_next < 6) {
+                if(players[0].hit_damage_next < ROUND_HIT_RECOVERY_CAP) {
                     players[0].hit_damage_next++;
                 }
-                if(players[1].hit_damage_next < 6) {
+                if(players[1].hit_damage_next < ROUND_HIT_RECOVERY_CAP) {
                     players[1].hit_damage_next++;
                 }
             }
