@@ -54,9 +54,9 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1072v`,
-`ba_yumem` uses `af1072v`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
-`ba_reimu` uses `af1072v`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1074n`,
+`ba_yumem` uses `af1074n`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_reimu` uses `af1074n`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
@@ -143,17 +143,18 @@ collision/hitbox tail. See the
 [current Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
 Reimu current-source refresh is included in the joint
-`.analysis/work/exatt-layout-af1072v/report.json` (SHA-256
-`6892e75dc0c0628e7cbb4d8f7875a460b785cd345a5c9e02357be4c582235920`). It
+`.analysis/work/exatt-layout-af1074n/report.json` (SHA-256
+`badc35d10c7959d8afa7e11cb34b8a05d7ce0f4966feca573617f07b3609d91f`). It
 recompiles the complete 2,020-byte `ba_reimu` owner with 270 ordered native
 fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
 MAIN image and ordered relocations. The 443-byte Orbit Burst has three
 phase-local signed indices, byte-angle scratches and natural `while` loops;
-the 339-byte Orbit Cloud now has two disjoint byte-angle scopes, a variable
-interval zero test, fixed period mask and natural variable-first phase gates.
-The update controller still uses the direct inactive-player return before
-target tracking and frame advancement. See the [Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
-[Orbit Cloud review](MAIN_REIMU_ORBIT_CLOUD_PHASE_LOCAL_ANGLE_AFTER1072_REVIEW.md)
+the 339-byte Orbit Cloud has two disjoint byte-angle scopes and natural
+variable/fixed cadence predicates. The 296-byte Update controller now has a
+first-use PID local, natural level arithmetic, compound frame increment and a
+simplified INTRO return guard. See the [Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
+[Orbit Cloud review](MAIN_REIMU_ORBIT_CLOUD_PHASE_LOCAL_ANGLE_AFTER1072_REVIEW.md),
+[Update controller review](MAIN_REIMU_UPDATE_CONTROLLER_NATURAL_CPP_AFTER1074_REVIEW.md)
 and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Ellen current-source refresh: `.analysis/work/exatt-layout-af1063a/report.json`
@@ -286,16 +287,16 @@ rounds: 1,874 CODE bytes, 274 ordered native fields and nine PUBLICs match,
 with both normal MAIN images and ordered relocations exact. See the
 [af1060a current-source review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
-Reimu's complete `gba_boss_update_reimu()` controller continues to use the
-direct inactive-player return before target/frame updates. The current
-`ba_reimu` source is bound by the three-owner integration `af1072v`: 2,020 CODE
-bytes, 270 ordered native fields and nine PUBLICs match in two original TC4
-rounds, with both normal MAIN images and ordered relocations exact. The 443-byte
-Orbit Burst has three phase-local while loops with signed shift-before-division
-angle distribution; the 339-byte Orbit Cloud has disjoint angle scopes and
-natural variable/fixed cadence predicates. See the
-[Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
-[Orbit Cloud review](MAIN_REIMU_ORBIT_CLOUD_PHASE_LOCAL_ANGLE_AFTER1072_REVIEW.md)
+Reimu's complete `gba_boss_update_reimu()` controller now has a first-use
+PID local, natural level-derived setup arithmetic, compound frame advancement
+and a direct INTRO early-return guard. The current `ba_reimu` source is bound
+by the three-owner integration `af1074n`: 2,020 CODE bytes, 270 ordered native
+fields and nine PUBLICs match in two original TC4 rounds, with both normal MAIN
+images and ordered relocations exact. The 443-byte Orbit Burst has three
+phase-local while loops; the 339-byte Orbit Cloud has disjoint angle scopes.
+See the [Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
+[Orbit Cloud review](MAIN_REIMU_ORBIT_CLOUD_PHASE_LOCAL_ANGLE_AFTER1072_REVIEW.md),
+[Update controller review](MAIN_REIMU_UPDATE_CONTROLLER_NATURAL_CPP_AFTER1074_REVIEW.md)
 and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Ellen's complete `gba_boss_update_ellen()` controller now uses the direct
@@ -345,26 +346,30 @@ and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
 Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
-The current Reimu + Yumemi + Chiyuri source integration is `af1072v`:
+The current Reimu + Yumemi + Chiyuri source integration is `af1074n`:
 `ba_reimu`, `ba_yumem` and `ba_chiyu`, 7,032 CODE bytes, 994 ordered native
 fields and 30 PUBLICs. Both original TC4 rounds and both normal MAIN links
-match. Report: `.analysis/work/exatt-layout-af1072v/report.json`, SHA-256
-`6892e75dc0c0628e7cbb4d8f7875a460b785cd345a5c9e02357be4c582235920`.
-It includes Reimu's phase-local Orbit Burst and Orbit Cloud source, Chiyuri's
-four-while fan source and Yumemi's update, arrival, Aimed Random, Rain and
-Cross/Rain changes.
+match. Report: `.analysis/work/exatt-layout-af1074n/report.json`, SHA-256
+`badc35d10c7959d8afa7e11cb34b8a05d7ce0f4966feca573617f07b3609d91f`.
+It includes Reimu's phase-local Orbit Burst and Orbit Cloud source plus the
+updated 296-byte Reimu Update controller, Chiyuri's four-while fan source and
+Yumemi's update, arrival, Aimed Random, Rain and Cross/Rain changes.
 
 Recommended next work:
 
-1. Continue `HitCircle::cel()`, Kotohime Radial Burst, Reimu Orbit Cloud and
-   Reimu's full update controller with substantive function-level recovery.
-   The three-phase Orbit Burst is now naturalized and current-source exact;
-   continue deeper register/operand-order, geometry and state-transition
-   experiments. Compare the complete affected physical owner each time.
-2. Expand beyond the already integrated nine character BOSS owners. Use
+1. Continue `HitCircle::cel()`, Kotohime Radial Burst and Reimu's remaining
+   small pattern leaves (`reimu_pattern_spreads()` and
+   `reimu_pattern_mirrored_spread()`). The 443-byte Orbit Burst, 339-byte Orbit
+   Cloud and 296-byte Reimu Update controller now have current-source native
+   matches. Compare the complete affected physical owner each time.
+2. Move to the 281-byte `exatt_update_reimu()` controller for a substantial
+   next leaf, then continue into the adjacent Extra Attack lifetime/render
+   logic. Recheck current source and disassembly rather than inheriting old
+   assumptions.
+3. Expand beyond the already integrated nine character BOSS owners. Use
    `config/units.csv`, `config/evidence.csv`, current source and focused
    reviews to identify genuinely unowned large functions or engine areas.
-3. Treat all older next-target recommendations as historical. Recheck current
+4. Treat all older next-target recommendations as historical. Recheck current
    source and evidence before selecting work; do not assume an old note or
    decompiler boundary is correct.
 

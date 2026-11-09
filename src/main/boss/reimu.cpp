@@ -388,35 +388,32 @@ void near reimu_pattern_mirrored_spread(void)
 
 void far gba_boss_update_reimu(void)
 {
-	register pid_t pid_other;
-
 	if(boss_update_start()) {
 		reimu_cloud_interval = (5 - (gba_boss_level / 5));
-		reimu_unused_param = (0x18 + gba_boss_level);
-		reimu_bullet_speed = (0x28 + (2 * gba_boss_level));
-		reimu_orbit_count = (4 + (gba_boss_level / 8));
-		reimu_ring_speed = (0x10 + gba_boss_level);
-		reimu_ring_count = (0x10 + gba_boss_level);
+		reimu_unused_param = (gba_boss_level + 0x18);
+		reimu_bullet_speed = ((2 * gba_boss_level) + 0x28);
+		reimu_orbit_count = ((gba_boss_level / 8) + 4);
+		reimu_ring_speed = (gba_boss_level + 0x10);
+		reimu_ring_count = (gba_boss_level + 0x10);
 	}
 
 	if(pid_current != gba_boss_launched_by) {
 		return;
 	}
 
-	pid_other = (1 - pid_current);
+	pid_t pid_other = 1 - pid_current;
 	boss_target_update();
-	boss_frame++;
+	boss_frame += 1;
 
-	if(REIMU_MODE_INTRO == boss_mode) {
-		if(REIMU_INTRO_END_FRAME == boss_frame) {
-			boss_frame = 0;
-			boss_mode = REIMU_MODE_SELECT;
-		} else {
+	if(boss_mode == REIMU_MODE_INTRO) {
+		if(boss_frame != REIMU_INTRO_END_FRAME) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = REIMU_MODE_SELECT;
 	}
 
-	if(REIMU_MODE_SELECT == boss_mode) {
+	if(boss_mode == REIMU_MODE_SELECT) {
 		boss_pattern_next();
 	}
 
