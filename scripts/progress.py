@@ -603,7 +603,10 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   </g>""")
             if product.get("current_cold_source_scopes"):
                 rows.append(f'<desc>Current decoded: {product["decoded_exact_units"]} extents / {product.get("decoded_procedures", product.get("decoded_authored_procedures", product["decoded_exact_units"]))} procedures / {product.get("decoded_source_bytes",product["decoded_authored_bytes"]):,} B · CODE {product.get("decoded_code_bytes",product.get("decoded_authored_code_bytes",product["decoded_authored_bytes"])):,} / DATA {product.get("decoded_initialized_data_bytes",product.get("decoded_authored_initialized_data_bytes",0))+product.get("decoded_uninitialized_file_data_bytes",0):,} · product open</desc>')
-                rows.append(f'<desc>Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</desc>')
+                if product.get('native_refresh_stage'):
+                    rows.append(f'<desc>Retained cold pair: 938 raw outputs · current native refresh {product["native_refresh_stage"]}: two physical owners / two rounds · complete original decoded links</desc>')
+                else:
+                    rows.append(f'<desc>Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</desc>')
             continue
         y = 144 + index * 76
         if artifact in {'th03-op', 'th03-main', 'th03-zun'}:
@@ -718,8 +721,16 @@ def render_markdown(units, functions, targets, op_status, mainl_status, zun_stat
     lines.extend([decoded_summary(op_status), ''])
     if mainl_status.get('current_cold_source_scopes'):
         lines.extend([f"MAINL decoded source acceptance: {mainl_status['decoded_exact_units']} extents / "
-                      f"{mainl_status['decoded_source_bytes']:,} bytes. Authored and library ownership remain separate; "
-                      "whole-product acceptance is open.", ''])
+                      f"{mainl_status['decoded_procedures']} procedures or entries / {mainl_status['decoded_source_bytes']:,} bytes "
+                      f"({mainl_status['decoded_code_bytes']:,} CODE, {mainl_status['decoded_initialized_data_bytes']:,} initialized DATA "
+                      f"and {mainl_status['decoded_uninitialized_file_data_bytes']} reserved file DATA). "
+                      f"Origins: {mainl_status['decoded_authored_bytes']:,} authored and {mainl_status['decoded_library_bytes']:,} library bytes. "
+                      "Whole-product acceptance is open.", ''])
+        if mainl_status.get('native_refresh_stage'):
+            lines.extend([f"Current native refresh `{mainl_status['native_refresh_stage']}` recompiles the complete Staff/root owners "
+                          "in two original TC4 rounds, with target-equal complete decoded EXE/MAP and ordered relocations. "
+                          "The unchanged 938-output cold pair and other selected native providers are revalidated and reused. "
+                          "No full cold rebuild or ancestor runtime replay was performed.", ''])
     else:
         lines.extend(['MAINL broad decoded acceptance is **pending**, rather than zero reconstruction. '
                       'The retained publication does not bind the current complete source graph. '

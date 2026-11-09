@@ -67,6 +67,23 @@ from historical stage snapshots.
 The historical after596 MAIN and after587 MAINL pairs are separate
 retained ancestors, **not** reasons to run full cold replay per edit.
 
+## Scoped current-source native check (MAINL)
+
+The current Staff/root route uses `build_th03_mainl_current.py`. It recompiles
+both complete physical owners in a new `afNNNm` stage, compares complete
+CODE/DATA/ordered FIXUPP/PUBLIC/segment geometry and repeats the full normal
+link. The unchanged cold ancestor remains in place. Current publication selects
+`af1055m`; see the [focused review](MAINL_CURRENT_SOURCE_REFRESH_AFTER1055_REVIEW.md).
+
+    .venv/bin/python scripts/build_th03_mainl_current.py --stage afNNNm --build
+    .venv/bin/python scripts/publish_th03_mainl_work_scopes.py --stage afNNNm
+    .venv/bin/python scripts/progress.py
+
+Omit `--build` to review an existing stage without native execution. The
+publisher checks the specified stage against current source before adoption.
+Changes outside these two producers need their affected native scope handled
+explicitly; do not run the old cold builder in place over protected evidence.
+
 ## Latest protected-storage policy
 
 The latest applied cleanup is the [after1024 safe storage audit]

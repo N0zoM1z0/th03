@@ -68,6 +68,18 @@ those stages; do not call them current source proofs. The focused reviews and
 detailed compiler chronology are preserved in
 [the after1053 archive](RE_HANDOFF_ARCHIVE_AFTER1053.md).
 
+## Current source-bound MAINL evidence
+
+The `af1055m` refresh rebuilds the complete Staff/root owners in two original
+TC4 rounds. Both complete decoded EXE/MAP pairs and all ordered relocations
+match the Japanese target. It preserves and revalidates the unchanged cold pair;
+no full cold replay was run. The current decoded publication is restored.
+
+Report: `.analysis/work/mainl-current-af1055m.json`, SHA-256
+`79caf379d74222bb546b8d482f5c0e52fce31aeadf0279ca18fdbeabe6ae45d9`.
+See the [focused review](MAINL_CURRENT_SOURCE_REFRESH_AFTER1055_REVIEW.md) for
+source transport, current native evidence and the next-build commands.
+
 ## Latest source recovery and next work
 
 The latest work concentrated on the complete Yumemi BOSS owner rather than
@@ -121,10 +133,9 @@ The 2026-11-09 preflight and script audit distinguish these current scopes:
 - **OP:** current decoded source acceptance 60 extents / 92 procedures /
   14,985 bytes (13,221 CODE + 1,764 initialized DATA). Canonical packed
   unit and whole-product acceptance remain separate.
-- **MAINL:** broad decoded publication pending; all 259 tracked extents have
-  source. Current Staff `af942s` and root-controller `af944r` read-only native
-  reviews both pass. They remain separate from broad publication and Factory
-  acceptance; generated progress now shows them independently.
+- **MAINL:** current decoded publication is restored through `af1055m`.
+  All tracked extents have source; accepted scopes and their origins are in
+  generated progress. Whole-product and canonical Factory acceptance remain open.
 - **ZUN:** 77 decoded extents; 2,179 authored, 1,390 original-ASM and
   5,066 library bytes. Whole-product source ownership remains open.
 
@@ -136,9 +147,8 @@ Whole-game completion percentage is unknown. Use generated
 - The original BIOS input_s object remains source-native exact at 417 CODE
   bytes but the full MAIN link has a historical one-byte trailing-NOP gap.
   Do not insert a synthetic NOP or claim full-link acceptance.
-- MAINL broad decoded publication and source binding need recertification
-  against current sources and retained ancestry; its cold Staff backend still rejects the current source pin.
-  Do not refresh historical hashes to imply a native rebuild.
+- MAINL scopes beyond the current decoded publication remain open. Extend
+  affected native evidence before claiming additional ownership.
 - Vendor OMF packet identity and original raw MZ-header writer identity are
   separate from CODE/FIXUPP/PUBLIC and normal-link image/relocation equality.
   Canonical Factory packed-file acceptance remains open.
@@ -165,7 +175,8 @@ Default `ci.py` checks changed machine-input syntax and whitespace; `--full`
 selects the broad suite. The [script index](../scripts/README.md) records the
 1,358-file syntax/dependency audit and broad-test failures rooted in the stale
 MAINL cold graph and historical cleanup expectations. Use affected current
-checks; no full-suite pass or MAINL broad acceptance was claimed.
+checks; the historical all-tests run was not repeated as a completion gate.
+The later `af1055m` source refresh restores current MAINL decoded publication.
 
 ## Minimal commands
 

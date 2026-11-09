@@ -25,13 +25,16 @@ class MainlWorkAcceptance(unittest.TestCase):
         # tests. The retained publication on disk is never refreshed.
         self.publication['proof_inputs'] = proof_inputs(ROOT)
 
-    def test_live_publication_reports_stale_source_graph_without_credit(self):
+    def test_live_publication_binds_current_native_refresh_without_product_credit(self):
         units = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
         result = mainl_product_status(ROOT, units)
-        self.assertEqual(result['decoded_exact_units'], 0)
+        self.assertTrue(result['current_cold_source_scopes'])
         self.assertFalse(result['product_exact'])
-        self.assertIn('src/mainl/root/complete_data.cpp', result['reason'])
-        self.assertIn('src/mainl/staff/data.cpp', result['reason'])
+        self.assertEqual(set(result['decoded_exact_unit_ids']),
+                         {o['unit_id'] for o in self.publication['audit']['scope']['owners']})
+        self.assertEqual(result['native_refresh_stage'],
+                         self.publication['audit']['scope']['current_native_refresh']['stage'])
+        self.assertEqual(result['native_objects_rebuilt_per_round'], 2)
 
     def test_stale_verifier_hash_fails_before_the_physical_audit(self):
         self.publication["proof_inputs"]["scripts/lib/decoded_mainl_acceptance.py"] = "0" * 64

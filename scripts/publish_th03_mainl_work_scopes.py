@@ -2,6 +2,7 @@
 """Publish current decoded MAINL source owners, excluding unowned context."""
 
 from datetime import datetime, timezone
+import argparse
 import json
 import os
 from pathlib import Path
@@ -11,11 +12,14 @@ from lib.decoded_mainl_acceptance import PUBLICATION, audit, oracle_rows, proof_
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--stage', help='verified current afNNNm native refresh; otherwise use the installed stage')
+    args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     os.sched_setaffinity(0, {min(os.sched_getaffinity(0))})
     if os.nice(0) < 10:
         os.nice(10 - os.nice(0))
-    proof = audit(root)
+    proof = audit(root, stage=args.stage)
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     policy = tomllib.loads((root / "config/oracles.toml").read_text())
     publication = dict(schema="mainl-current-source-acceptance-v1", state="repository-local-accepted",

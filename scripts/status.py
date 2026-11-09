@@ -65,12 +65,13 @@ def mainl_product_status(root, units):
             reason = str(error)
             # A stale publication can stop before inspecting the native graph.
             # Report its first real source/recipe blocker too, without rebuilding.
-            try:
-                from lib.decoded_mainl_acceptance import audit
-                audit(Path(root))
-            except (OSError, ValueError, KeyError, TypeError, ImportError) as audit_error:
-                if str(audit_error) != reason:
-                    reason += '; native audit: ' + str(audit_error)
+            if 'verifier input drift' in reason:
+                try:
+                    from lib.decoded_mainl_acceptance import audit
+                    audit(Path(root))
+                except (OSError, ValueError, KeyError, TypeError, ImportError) as audit_error:
+                    if str(audit_error) != reason:
+                        reason += '; native audit: ' + str(audit_error)
             return dict(repository_local=True, factory_accepted=False, product_exact=False,
                         mixed_physical_exact_bytes=0, mixed_authored_credit_bytes=0,
                         decoded_exact_units=0, decoded_authored_exact_units=0, decoded_library_exact_units=0,

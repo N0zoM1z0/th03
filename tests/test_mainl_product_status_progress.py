@@ -38,11 +38,12 @@ class MainlStatus(unittest.TestCase):
                     [dict(self.rows[0], source='wrong'), self.rows[1]]]
         for rows in variants:
             with self.subTest(rows=rows), patch('lib.decoded_mainl_acceptance.verify') as verify, \
-                    patch('lib.decoded_mainl_acceptance.audit', side_effect=ValueError('source graph drift')):
+                    patch('lib.decoded_mainl_acceptance.audit') as audit:
                 result = status.mainl_product_status(self.root, rows)
             self.assertFalse(result['product_exact'])
             self.assertEqual(result['decoded_exact_units'], 0)
             verify.assert_not_called()
+            audit.assert_not_called()
 
     def test_excluded_or_unrelated_rows_do_not_change_the_active_inventory(self):
         rows = self.rows + [dict(id='old', artifact='th03-mainl', state='excluded'),

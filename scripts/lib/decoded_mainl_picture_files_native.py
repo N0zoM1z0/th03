@@ -8,6 +8,7 @@ from lib.pc98 import parse_mz
 from lib.op_shared_native import address
 from probe_th03_main_bomb_rikako_cpp import segment_definitions
 from probe_th03_main_boss_marisa_cpp import code_publics
+from lib.decoded_mainl_root_state_native import historical_parent
 
 UNIT = 'th03-mainl-decoded-picture-file-pointers'
 SOURCE = 'src/mainl/root/picture_files.c'
@@ -28,8 +29,8 @@ def selected(root, work, graph):
     import build_th03_mainl_picture_files_work as b
     config, config_hash = b.inputs()
     parent_config, parent_config_hash = b.parent.inputs()
-    _, preservation = b.parent.parent_inputs(parent_config)
     parent, parent_hash = b.base.load(b.parent.REPORT)
+    _, preservation = historical_parent(root, b.parent, parent_config, parent)
     record, digest = b.base.load(b.REPORT)
     source = (root / SOURCE).read_bytes()
     producer, = [g for g in graph if g['output'] == OBJECT]

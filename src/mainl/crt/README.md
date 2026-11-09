@@ -1,9 +1,9 @@
 # MAINL CRT reconstruction
 
-Current broad MAINL decoded publication is pending because its cold source graph
-predates the maintained Staff/root owners. The provider results below are retained
-historical scopes. Use [generated progress](../../../docs/PROGRESS.md) for current
-publication and independent source-native owner checks.
+Current MAINL decoded publication is restored through the `af1055m` Staff/root
+refresh and revalidated retained ancestry. The provider chronology below remains
+historical. Use [generated progress](../../../docs/PROGRESS.md) for current
+accepted scopes and independent source-native owner checks.
 
 The historical accepted normal893-member library has28 source providers. Natural
 `new.cpp`,`xalloc.cpp` and `xmsg.cpp` are accepted through the scoped BCC4.5 -O1

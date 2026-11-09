@@ -2,13 +2,16 @@
 No native tools, cached objects, target bytes, or output products are consumed.
 """
 from pathlib import Path
-import sys,inspect,importlib,json,hashlib,re
+import sys,inspect,importlib,json,hashlib,re,subprocess
 sys.path.insert(0,str(Path.cwd()/'scripts'))
 import stage_th03_mainl_cold as base
 sha=base.sha
 FAMILIES=['snow','regmusic','regdata','staff_prefix','staff_extension','staff_transition','staff_paired','staff_verdict','staff_complete','staff_data','continue','root_prefix','root_intro','root_shots','root_data','root_complete_data']
 ALIASES={'root':'th03_mainl.asm','response':'obj/th03/mainl.@l','snow':'src/mainl/staff/snow.asm','staff':'src/mainl/staff/staff.asm','staff_body':'src/mainl/staff/staff.asm','root_body':'src/mainl/root/root.asm','flow':'src/mainl/linked_game/staff_flow.asm','tail':'regtail.asm','snow_prefix':'snowpre.inc','rootpre':'rootpre.asm'}
-def compose_all(context=None):
+FROZEN_CPP_REV='3e7e9dd87dd6899596c1c73295e3ee62d87e443c'
+LIVE_CPP={'staff_data':'staffdat.cpp','root_complete_data':'rootdata.cpp'}
+
+def compose_chain(context=None, *, current=True):
  files,provenance,stages,oldgraph,archive_sha=base.compose_all(context)
  response=files['obj/th03/mainl.@l'];assert response.count(b' cl.lib')==1
  files['obj/th03/mainl.@l']=response.replace(b' cl.lib',b' crt.lib')
@@ -16,23 +19,35 @@ def compose_all(context=None):
  for family in FAMILIES:
   proof=json.loads(base.read('config/mainl_'+family+'_backend/proof.json'))
   module=importlib.import_module('lib.mainl_'+family+'_backend')
-  args=[];transport={}
+  args=[];transport={};live_cpp=None
   for name in inspect.signature(module.generate).parameters:
    path=proof['cpp_path'] if name=='cpp' else ALIASES[name]
    if family=='regmusic' and name=='staff':path='src/mainl/linked_game/staff_flow.asm'
    raw=base.read(path) if name=='cpp' else files[path]
+   if name=='cpp' and family in LIVE_CPP:
+    # These frozen composers only pass the C++ through while transforming the
+    # surrounding ASM ownership. Keep their historical guards intact, then
+    # stage the maintained C++ verbatim for the real compiler below.
+    live_cpp=raw if current else None
+    raw=subprocess.check_output(['git','show',FROZEN_CPP_REV+':'+path],cwd=base.ROOT)
    variants={'unchanged':raw,'LF':base.lf(raw),'CRLF':base.crlf(raw)}
    matches=[(style,b) for style,b in variants.items() if sha(b)==module.PINS[name]]
    if not matches:raise ValueError(f'{family} {name} {path}: pin mismatch '+sha(raw))
    style,b=matches[0];args.append(b);transport[name]=dict(path=path,line_endings=style,sha256=sha(b))
   payload=module.generate(*args)
+  if family in LIVE_CPP and current:
+   name=LIVE_CPP[family]
+   if payload[name]!=args[list(inspect.signature(module.generate).parameters).index('cpp')]:
+    raise ValueError('live C++ overlay requires a literal pass-through composer: '+family)
+   payload[name]=live_cpp
+   transport['cpp']=dict(path=proof['cpp_path'],line_endings='unchanged',sha256=sha(live_cpp),
+                         composer_revision=FROZEN_CPP_REV)
   for n,b in payload.items():files[n]=b;provenance[n]='maintained '+family+' composer'
   stages.append(dict(name='maintained '+family,outputs=sorted(payload),source_inputs=transport))
  return files,provenance,stages,oldgraph,archive_sha
 
-_compose_chain=compose_all
-def compose_all(context=None):
- files,provenance,stages,oldgraph,archive_sha=_compose_chain(context)
+def compose_all(context=None, *, current=True):
+ files,provenance,stages,oldgraph,archive_sha=compose_chain(context,current=current)
  # These two maintained declarations were staged LF in the aligned producer.
  for name in ['src/mainl/display_hardware/cdg_data.asm','src/mainl/display_hardware/vsync_data.asm']:
   files[name]=base.lf(files[name])

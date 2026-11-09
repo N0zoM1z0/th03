@@ -1,8 +1,4 @@
-"""Current cold-source proof for decoded MAINL lifecycle, input and sound owners.
-
-This consumes the live 938-output build, not any archived receipt. The remaining
-MAINL source scopes and vendor context retain their separate acceptance state.
-"""
+"""Current decoded MAINL scopes from retained cold evidence and native refreshes."""
 
 import contextlib
 import csv
@@ -119,6 +115,7 @@ PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03
                 "scripts/lib/decoded_mainl_staff_roll_runtime.py", "scripts/lib/decoded_mainl_staff_roll_proofs.py")
 
 PROOF_INPUTS = tuple(dict.fromkeys((*PROOF_INPUTS, *CUTSCENE_INPUTS, *REGISTRATION_INPUTS, *SCOREDAT_INPUTS, *ROOT_ORCHESTRATION_INPUTS, *TEXT_INPUTS,
+    "scripts/build_th03_mainl_current.py", "scripts/stage_th03_mainl_fullcold.py",
     "scripts/lib/decoded_mainl_pi_decoder_native.py", "scripts/lib/op_asset_native.py", "scripts/lib/op_shared_native.py",
     "scripts/lib/decoded_mainl_resources_native.py", "scripts/build_th03_mainl_resources_work.py",
     "scripts/lib/decoded_mainl_file_native.py", "scripts/build_th03_mainl_file_work.py",
@@ -159,12 +156,19 @@ def proof_inputs(root):
 
 
 def oracle_rows(proof, now, policy):
-    return shared_oracle_rows(proof, now, policy, artifact="th03-mainl", publication_path=PUBLICATION,
+    rows = shared_oracle_rows(proof, now, policy, artifact="th03-mainl", publication_path=PUBLICATION,
                               prefix="ev-mainl-current-", command=COMMAND)
+    if 'current_native_refresh' in proof['scope']:
+        for owner_rows in rows.values():
+            for row in owner_rows.values():
+                row['tool'] = 'retained MAINL cold pair plus two current physical-owner builds and complete native links'
+                row['command'] = COMMAND + ' --stage ' + proof['scope']['current_native_refresh']['stage']
+    return rows
 
 
-def audit(root):
+def audit(root, *, stage=None):
     import build_th03_mainl_work as build
+    from build_th03_mainl_current import CURRENT_STAGE, SOURCES, source_graph, review as current_review
     from build_th03_op_work import compare_mz
     import validate_tracking as tracking
     root = Path(root)
@@ -174,12 +178,19 @@ def audit(root):
     report = json.loads(raw_report)
     need(report["complete"] and report["raw_repeat_equal"] and report["retained_project_objects"] == 0,
          "complete source-only cold pair")
-    need(report["recipe_sha256"] == build.recipe_inventory(), "cold recipe drift")
+    if stage is None:
+        installed = root / PUBLICATION
+        published = json.loads(installed.read_bytes()) if installed.is_file() else {}
+        stage = published.get('audit', {}).get('scope', {}).get('current_native_refresh', {}).get('stage', CURRENT_STAGE)
+    refresh = current_review(stage)
+    current_work = root / refresh['current_work']
+    current_files = {n: (current_work / n).read_bytes()
+                     for n in refresh['current_source_inventory_sha256']}
     need(report["vendor_header_sha256"] == build.vendor_header_inventory(), "consumed vendor header drift")
-    files, graph, archive_sha = build.sources()
+    files, graph, archive_sha = source_graph(False)
     need(report["source_sha256"] == {n: sha(b) for n, b in sorted(files.items())}
-         and report["archive_sha256"] == archive_sha, "current source graph drift")
-    need(all((work / n).read_bytes() == b for n, b in files.items()), "staged source drift")
+         and report["archive_sha256"] == archive_sha, "retained cold source graph drift")
+    need(all((work / n).read_bytes() == b for n, b in files.items()), "retained cold source snapshot drift")
     need([r["round"] for r in report["rounds"]] == [1, 2], "two independent rounds")
     outputs = report["rounds"][0]["outputs"]
     need(len(outputs) == 938 and outputs == report["rounds"][1]["outputs"], "complete raw cold output vector")
@@ -240,7 +251,9 @@ def audit(root):
     need(previous['schema'] == 'mainl-current-source-acceptance-v1' and
          previous['state'] == 'repository-local-accepted', 'reviewed prior97 checkpoint')
     adapted = {'scripts/lib/decoded_mainl_acceptance.py', 'scripts/status.py',
-               'scripts/lib/decoded_mainl_farheap_native.py', 'scripts/lib/decoded_mainl_stdio_native.py'}
+               'scripts/publish_th03_mainl_work_scopes.py',
+               'scripts/lib/decoded_mainl_farheap_native.py', 'scripts/lib/decoded_mainl_stdio_native.py',
+               *SOURCES.values()}
     # status.py only presents this result. Its spelling is not a native or
     # verifier input; caller-inventory validation belongs in the status adapter.
     for name, expected_hash in previous['proof_inputs'].items():
@@ -257,6 +270,8 @@ def audit(root):
          'complete previous scoped gate evidence remains intact')
     scope = json.loads(json.dumps(prior['scope']))
     old_scope_digest = digest(scope)
+    scope['current_native_refresh'] = {k: v for k, v in refresh.items()
+                                       if k != 'current_source_inventory_sha256'}
     owners = scope['owners']
     need(len(owners) == 97 and sum(o['size'] for o in owners) == 16362 and
          sum(o.get('procedure_count', 1) for o in owners) == 102,
@@ -334,7 +349,7 @@ def audit(root):
              for o in completion_native['owners']), 'disjoint complete project procedures and pointer DATA')
     owners.extend(completion_native['owners'])
     scope['completion_native'] = completion_native
-    switches = switch_scope(root, work, target, candidate, graph, files)
+    switches = switch_scope(root, current_work, target, candidate, graph, current_files)
     occupied = {site for o in owners for site in range(o['start'], o['start'] + o['size'])}
     need(not ({o['unit_id'] for o in owners} & {o['unit_id'] for o in switches['owners']}) and
          all(not (set(range(o['start'], o['start'] + o['size'])) & occupied)
@@ -365,6 +380,13 @@ def audit(root):
     with (root / "config/units.csv").open() as stream:
         units = {u["id"]: u for u in csv.DictReader(stream)}
     for o in owners:
+        # Only these two physical producers changed. Their compiler-consumed
+        # input snapshots and complete native objects are revalidated above;
+        # all other owners retain the unchanged cold/selected native inputs.
+        rebound = o['source'] in SOURCES.values()
+        bound_work = current_work if rebound else work
+        bound_files = current_files if rebound else files
+        bound_inventory = refresh['current_source_inventory_sha256'] if rebound else report['source_sha256']
         u = units[o["unit_id"]]
         segment = o.get("segment", 0xC7E)
         need(u["artifact"] == "th03-mainl" and u["segment"].lower() == f"decoded:{segment:04x}"
@@ -428,7 +450,7 @@ def audit(root):
         if o["object"] == ROOT_OBJECT:
             need(row["wrapper"] == ROOT_WRAPPER and row["source"] == ROOT_WRAPPER
                  and row["game"] == 3 and row["binary"] == "L" and row["first_binary"] == "mainl"
-                 and (o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT) or o['unit_id'] in GRAPHICS_DATA_SOURCES or o['unit_id'] in DISPLAY_DATA_SOURCES or o['unit_id'] in RESIDENT_DATA_SOURCES or ('include '+o["source"]).encode() in files[ROOT_WRAPPER]), "actual maintained root include producer")
+                 and (o['unit_id'] in (TABLE_UNIT, FILE_DATA_UNIT, BFNT_DATA_UNIT, ARCHIVE_DATA_UNIT) or o['unit_id'] in GRAPHICS_DATA_SOURCES or o['unit_id'] in DISPLAY_DATA_SOURCES or o['unit_id'] in RESIDENT_DATA_SOURCES or ('include '+o["source"]).encode() in bound_files[ROOT_WRAPPER]), "actual maintained root include producer")
             if o['unit_id'] == TABLE_UNIT:
                 need(o['source'] == TABLE_SOURCE and o['maintained_native_object'] == '.analysis/work/resources-round1.obj',
                      'actual separately rebuilt generated table producer; frozen cold wrapper remains contextual')
@@ -487,7 +509,7 @@ def audit(root):
         elif o['unit_id'] == FARHEAP_UNIT:
             need(sha((root / o['source']).read_bytes()) == farheap_native['source_sha256'], 'complete maintained far-heap TU consumed by both fresh native rounds')
         elif o['unit_id'] in CRT_SOURCE_MAP:
-            need(files[row['wrapper']] == (root / o['source']).read_bytes(), 'literal maintained CRT TU source transport')
+            need(bound_files[row['wrapper']] == (root / o['source']).read_bytes(), 'literal maintained CRT TU source transport')
         elif o['unit_id'] in RESIDENT_DATA_SOURCES:
             need(o['source'] == RESIDENT_DATA_SOURCES[o['unit_id']], 'explicit actual resident/joystick DATA source')
         elif o['unit_id'] in DISPLAY_DATA_SOURCES:
@@ -501,29 +523,29 @@ def audit(root):
         elif o["source"] in ('src/mainl/root/complete_data.cpp', 'src/mainl/root/continue.cpp'):
             # The bounded native layout verifies the literal composer transform;
             # no generic source-equality bypass is introduced for other owners.
-            need(files[row['wrapper']].replace(b"\r\n", b"\n") == root_transport(o['source'], (root / o['source']).read_bytes()),
+            need(bound_files[row['wrapper']].replace(b"\r\n", b"\n") == root_transport(o['source'], (root / o['source']).read_bytes()),
                  "declared root/continue source transport")
         else:
             transported = {ENDING_SOURCE: ENDING_WRAPPER, REGISTRATION_SOURCE: REGISTRATION_WRAPPER}.get(o["source"], o["source"])
-            need(files[transported].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
+            need(bound_files[transported].replace(b"\r\n", b"\n") == (root / o["source"]).read_bytes().replace(b"\r\n", b"\n"),
                  "maintained source and declared line-ending transport")
         if o['unit_id'] in EXCEPTION_SOURCE_MAP or o['unit_id'] in ROOT_STATE_SOURCE_MAP or o['unit_id'] in PICTURE_FILES_SOURCE_MAP or o['unit_id'] in TEXT_BANKS_SOURCE_MAP:
             # The selected optimizing pair binds its own actual source and all
             # consumed pinned SDK headers, rather than a contextual old TU.
             continue
-        for name in describe_omf((work / o["object"]).read_bytes())["dependency_paths"]:
+        for name in describe_omf((bound_work / o["object"]).read_bytes())["dependency_paths"]:
             name = name.replace(chr(92), "/")
             if name.startswith("C:/TC4/INCLUDE/"):
                 need(name in report["vendor_header_sha256"], "undeclared consumed vendor header")
             else:
                 if o['unit_id'] in CRT_SOURCE_MAP:
                     name = 'owned/' + name  # Native CRT assembly runs in the actual owned/ cwd.
-                need(name in files and sha((work / name).read_bytes()) == report["source_sha256"][name], "complete consumed header/source binding")
+                need(name in bound_files and sha((bound_work / name).read_bytes()) == bound_inventory[name], "complete consumed header/source binding")
     with contextlib.redirect_stdout(io.StringIO()):
         need(tracking.main(root, validate_product=False) == 0, "current ledger consistency")
     return dict(cold_report_sha256=sha(raw_report), recipe_sha256=report["recipe_sha256"],
                 vendor_header_sha256=report["vendor_header_sha256"],
-                source_inventory_sha256=digest(report["source_sha256"]), source_files=len(files),
+                source_inventory_sha256=digest(refresh['current_source_inventory_sha256']), source_files=len(files),
                 outputs_per_round=938, project_objects_per_round=36, crt_objects_per_round=6, rounds=2,
                 library=library, decoded_sha256=sha(decoded), stored_sha256=sha(stored), scope=scope,
                 prior_acceptance=dict(baseline_commit=BASELINE, publication_sha256=sha(previous_raw),
@@ -544,7 +566,7 @@ def verify(root, publication):
                     if recorded_inputs.get(name) != current_inputs.get(name)),
                    key=lambda name: (not name.startswith('src/'), name))
     need(not drift, "proof verifier input drift: " + ", ".join(drift))
-    proof = audit(root)
+    proof = audit(root, stage=publication['audit']['scope'].get('current_native_refresh', {}).get('stage'))
     need(publication["audit"] == proof, "current source-bound physical audit drift")
     now = publication["observed_utc"]
     need(now.endswith("Z"), "UTC Z observation time")
@@ -564,6 +586,8 @@ def verify(root, publication):
     libraries = [o for o in owners if o.get('origin') == 'library']
     need(len(authored) + len(libraries) == len(owners), 'every accepted owner has an explicit supported origin')
     return dict(repository_local=True, current_cold_source_scopes=True, reviewed_proof_ready=True,
+                native_refresh_stage=proof['scope'].get('current_native_refresh', {}).get('stage'),
+                native_objects_rebuilt_per_round=2 if 'current_native_refresh' in proof['scope'] else 0,
                 decoded_exact_units=len(owners), decoded_authored_exact_units=len(authored), decoded_library_exact_units=len(libraries),
                 decoded_authored_procedures=sum(o.get('procedure_count',1) for o in authored),
                 decoded_authored_code_bytes=sum(o.get('code_bytes',o['size']) for o in authored),

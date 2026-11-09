@@ -1,6 +1,9 @@
 """Complete natural root TU, 28 initialized far pointers and true reserved BSS."""
 import json
+import io
 from pathlib import Path
+import subprocess
+import tarfile
 
 from build_th03_mainl_resources_work import need, sha
 from lib.omf import describe_omf, parse_omf
@@ -16,13 +19,59 @@ OBJECT = 'obj/th03/rootdata.obj'
 SOURCE_MAP = {UNIT: (SOURCE, OBJECT)}
 
 
+def historical_parent(root, builder, config, record):
+    """Validate the retained after548 parent in its recorded source checkout.
+
+    That inventory includes unrelated MAIN sources and old staging code. It is
+    historical provenance, not a live-source gate for this unchanged DATA owner.
+    selected() separately checks its actual current source, SDK and raw outputs.
+    """
+    preservation = record['parent_review']
+    commit = config['preservation_commit']
+    need(commit == preservation['preservation_commit'] ==
+         '0feb71f8ebc6cd0f708388afff0f3a604024d404', 'fixed retained runtime source checkpoint')
+    recipes = set(builder.cold.recipe_inventory())
+    def selected_name(name):
+        if name.startswith(('src/', 'compat/')):
+            return True
+        if name.startswith('config/'):
+            return not (name.endswith(('.csv', '/scoped_acceptance.json', '/publication.json'))
+                        or name == 'config/oracles.toml')
+        return name in recipes or name.startswith(('scripts/build_th03_', 'scripts/stage_th03_', 'scripts/lib/mainl_'))
+    archive = subprocess.check_output(['git', 'archive', commit, 'src', 'compat', 'config', 'scripts'], cwd=root)
+    expected = {}
+    with tarfile.open(fileobj=io.BytesIO(archive)) as tree:
+        for entry in tree:
+            if not entry.isfile() or not selected_name(entry.name):
+                continue
+            raw = tree.extractfile(entry).read()
+            if entry.name in preservation['source_text_transports']:
+                transport = preservation['source_text_transports'][entry.name]
+                need(entry.name == 'src/main/player/bombs.inl' and b'\r' not in raw and
+                     transport['git_bytes'] == len(raw) and transport['git_sha256'] == sha(raw),
+                     'recorded historical LF/CRLF transport')
+                raw = raw.replace(b'\n', b'\r\n')
+                need(transport['checkout_bytes'] == len(raw) and transport['checkout_sha256'] == sha(raw),
+                     'complete historical text transport')
+            expected[entry.name] = dict(bytes=len(raw), sha256=sha(raw))
+    need(expected == preservation['source_inventory'], 'complete historical source/recipe inventory')
+    parent, digest = builder.base.load(builder.runtime.REPORT)
+    need(parent['complete'] and digest == config['parent_report_sha256'] == preservation['parent_report_sha256'] and
+         parent['source_sha256'] == sha((root / parent['source']).read_bytes()) and
+         parent['driver_sha256'] == sha((root / builder.runtime.DRIVER).read_bytes()),
+         'actual unchanged runtime source and compiler recipe')
+    vectors = [{k: builder.base.checked(v) for k, v in row['outputs'].items()} for row in parent['rounds']]
+    need(len(vectors) == 2 and vectors[0] == vectors[1], 'complete retained runtime raw pair')
+    return parent, preservation
+
+
 def selected(root, work, graph, files):
     # The preserved runtime builders import acceptance's proof_inputs. Load
     # them only after that module has finished defining its public API.
     import build_th03_mainl_root_state_work as b
     config, config_hash = b.inputs()
-    parent, preservation = b.parent_inputs(config)
     record, digest = b.base.load(b.REPORT)
+    parent, preservation = historical_parent(root, b, config, record)
     original = (work / OBJECT).read_bytes()
     producer, = [g for g in graph if g['output'] == OBJECT]
     sources = {n: (root / n).read_bytes() for n in config['inputs']}

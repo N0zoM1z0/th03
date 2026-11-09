@@ -6,7 +6,7 @@ All counts describe tracked scopes. The whole-game completion percentage is unkn
 | --- | ---: | --- | ---: |
 | th03-op | 61/62 | Decoded: 60 extents / 14,985 bytes | 36,041 |
 | th03-main | 106/106 | Ledger: 106 extents / 78,737 bytes | 130,882 |
-| th03-mainl | 259/259 | **Pending revalidation** | 37,975 |
+| th03-mainl | 259/259 | Decoded: 220 extents / 37,968 bytes | 37,975 |
 | th03-zun | 77/78 | Decoded: 77 extents / 8,635 bytes | 16,242 |
 
 Source-present means a maintained source path exists; it does not grant exact acceptance. Tracked extents can be functions, modules or DATA owners. All chart bars use these extents.
@@ -35,11 +35,9 @@ th03-mainl Root controller / 11 procedures: `.analysis/work/mainl-root-af944r-na
 
 OP current decoded source acceptance: 60 extents / 92 procedures / 14,985 bytes (13,221 CODE + 1,764 initialized DATA). Validated source-only cold pair and complete native ownership/ABI pass; older runtime observations remain historical support. Canonical packed-file unit credit and whole-product source exactness remain unchanged; whole-game percentage is unknown.
 
-MAINL broad decoded acceptance is **pending**, rather than zero reconstruction. The retained publication does not bind the current complete source graph. The independent Staff Roll and root-controller reviews above remain visible.
+MAINL decoded source acceptance: 220 extents / 290 procedures or entries / 37,968 bytes (34,431 CODE, 3,531 initialized DATA and 6 reserved file DATA). Origins: 17,717 authored and 20,251 library bytes. Whole-product acceptance is open.
 
-Current blocker: `current MAINL acceptance: proof verifier input drift: src/mainl/root/complete_data.cpp, scripts/lib/decoded_mainl_acceptance.py; native audit: staff_data cpp src/mainl/staff/data.cpp: pin mismatch bb4dc75429e41d750e63eea09c1c8488ab426ee590bb1eba183eacf06122fda4`.
-
-Revalidate the changed native dependency scopes and compose their retained evidence before publishing again. Do not update historical hashes to imply a new compiler run.
+Current native refresh `af1055m` recompiles the complete Staff/root owners in two original TC4 rounds, with target-equal complete decoded EXE/MAP and ordered relocations. The unchanged 938-output cold pair and other selected native providers are revalidated and reused. No full cold rebuild or ancestor runtime replay was performed.
 
 ZUN decoded source acceptance: 77 extents / 89 procedures or entries / 6,179 CODE + 2,456 DATA bytes. Origins: 2,179 authored, 1,390 original ASM and 5,066 library bytes. Twelve reserved DATA bytes and physical devices remain open.
 
