@@ -53,12 +53,13 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. Five later scoped refreshes now bind the current
-source for six owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
-uses `af1057d`, `ba_chiyu` uses `af1058a`, `ba_mima` uses `af1059a`, and
-`ba_kana` uses `af1060a`. The other six owners remain bound to `af1053k`.
-The complete normal links are strong scoped native evidence; they are not
-whole-game source ownership or canonical Factory packed-file acceptance.
+files at that checkpoint. Six later scoped refreshes now bind the current
+source for seven owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
+uses `af1057d`, `ba_chiyu` uses `af1058a`, `ba_mima` uses `af1059a`,
+`ba_kana` uses `af1060a`, and `ba_reimu` uses `af1061b`. The other five
+owners remain bound to `af1053k`. The complete normal links are strong scoped
+native evidence; they are not whole-game source ownership or canonical
+Factory packed-file acceptance.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -103,13 +104,23 @@ uses the direct inactive-player return before its attack-mode dispatch and
 collision/hitbox tail. See the
 [current Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
+Reimu current-source refresh: `.analysis/work/exatt-layout-af1061b/report.json`
+SHA-256: `2b36c1dae2ce97a8803cf443bf2f3346e47744a080d07fdc06225e6cca975c4f`.
+It recompiled the complete 2,020-byte `ba_reimu` owner with 270 ordered native
+fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
+MAIN image and ordered relocations. The complete Reimu update controller now
+uses the direct inactive-player return before target tracking and frame
+advancement, while preserving its INTRO/SELECT logic, four attack families and
+collision/hitbox tail. See the
+[current Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
 ### Evidence interpretation
 
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
 source bindings are split by the subsequent scoped refreshes: the shared pair
 uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, Mima uses
-`af1059a`, Kana uses `af1060a`, and the other six owners remain bound to
-`af1053k`. The earlier
+`af1059a`, Kana uses `af1060a`, Reimu uses `af1061b`, and the other five
+owners remain bound to `af1053k`. The earlier
 `af1053i`, `af1052g`,
 `af1051k` and `af1047l` full-set checkpoints are historical snapshots, not
 additional current proof. Older standalone
@@ -194,6 +205,14 @@ tail remain in order. Stage `af1060a` rebuilt `ba_kana` in two original TC4
 rounds: 1,874 CODE bytes, 274 ordered native fields and nine PUBLICs match,
 with both normal MAIN images and ordered relocations exact. See the
 [af1060a current-source review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+
+Reimu's complete `gba_boss_update_reimu()` controller now uses the direct
+inactive-player return before target/frame updates. The current `ba_reimu`
+owner was rebuilt in two original TC4 rounds: 2,020 CODE bytes, 270 ordered
+native fields and nine PUBLICs match, with both normal MAIN images and ordered
+relocations exact. The INTRO/SELECT logic, four attack families and complete
+collision/hitbox tail remain in order. See the
+[af1061b current-source review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Recommended next work:
 

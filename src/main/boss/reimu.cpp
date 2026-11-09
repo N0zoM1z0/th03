@@ -386,78 +386,81 @@ void far gba_boss_update_reimu(void)
 		reimu_ring_count = (0x10 + gba_boss_level);
 	}
 
-	if(pid_current == gba_boss_launched_by) {
-		pid_other = (1 - pid_current);
-		boss_target_update();
-		boss_frame++;
+	if(pid_current != gba_boss_launched_by) {
+		return;
+	}
 
-		if(REIMU_MODE_INTRO == boss_mode) {
-			if(REIMU_INTRO_END_FRAME == boss_frame) {
-				boss_frame = 0;
-				boss_mode = REIMU_MODE_SELECT;
-			} else {
-				return;
-			}
-		}
+	pid_other = (1 - pid_current);
+	boss_target_update();
+	boss_frame++;
 
-		if(REIMU_MODE_SELECT == boss_mode) {
-			boss_pattern_next();
-		}
-
-		switch(boss_mode) {
-		case REIMU_MODE_CLOUD_0:
-		case REIMU_MODE_CLOUD_1:
-		case REIMU_MODE_CLOUD_2:
-		case REIMU_MODE_CLOUD_3:
-		case REIMU_MODE_CLOUD_4:
-			reimu_pattern_orbit_cloud();
-			break;
-
-		case REIMU_MODE_SPREAD_0:
-		case REIMU_MODE_SPREAD_1:
-		case REIMU_MODE_SPREAD_2:
-		case REIMU_MODE_SPREAD_3:
-			reimu_pattern_spreads();
-			break;
-
-		case REIMU_MODE_ORBIT_BURST_0:
-		case REIMU_MODE_ORBIT_BURST_1:
-		case REIMU_MODE_ORBIT_BURST_2:
-			reimu_pattern_orbit_burst();
-			break;
-
-		case REIMU_MODE_MIRROR_0:
-		case REIMU_MODE_MIRROR_1:
-		case REIMU_MODE_MIRROR_2:
-		case REIMU_MODE_MIRROR_3:
-			reimu_pattern_mirrored_spread();
-			break;
-
-		case REIMU_MODE_DESCEND:
-			boss_fall();
-			break;
-
-		case REIMU_MODE_EXPLODE:
+	if(REIMU_MODE_INTRO == boss_mode) {
+		if(REIMU_INTRO_END_FRAME == boss_frame) {
+			boss_frame = 0;
+			boss_mode = REIMU_MODE_SELECT;
+		} else {
 			return;
 		}
+	}
 
-		collmap_center.x.v = boss_center_x;
-		collmap_center.y.v = boss_center_y;
-		collmap_stripe_tile_w.set(REIMU_COLLISION_TILE_SIZE);
-		collmap_tile_h.set(REIMU_COLLISION_TILE_SIZE);
-		collmap_pid = pid_other;
-		collmap_set_rect_striped();
+	if(REIMU_MODE_SELECT == boss_mode) {
+		boss_pattern_next();
+	}
 
-		hitbox_hittest_skip_explosions = true;
-		hitbox.radius.x.v = REIMU_COLLISION_HALF_RADIUS;
-		hitbox.radius.y.v = REIMU_COLLISION_HALF_RADIUS;
-		hitbox.pid = pid_other;
-		hitbox.origin.center.x.v = boss_center_x;
-		hitbox.origin.center.y.v = boss_center_y;
-		boss_hit = hitbox_hittest();
-		boss_hp -= boss_hit;
-		hitbox_hittest_skip_explosions = false;
-		boss_hittest_end();	}
+	switch(boss_mode) {
+	case REIMU_MODE_CLOUD_0:
+	case REIMU_MODE_CLOUD_1:
+	case REIMU_MODE_CLOUD_2:
+	case REIMU_MODE_CLOUD_3:
+	case REIMU_MODE_CLOUD_4:
+		reimu_pattern_orbit_cloud();
+		break;
+
+	case REIMU_MODE_SPREAD_0:
+	case REIMU_MODE_SPREAD_1:
+	case REIMU_MODE_SPREAD_2:
+	case REIMU_MODE_SPREAD_3:
+		reimu_pattern_spreads();
+		break;
+
+	case REIMU_MODE_ORBIT_BURST_0:
+	case REIMU_MODE_ORBIT_BURST_1:
+	case REIMU_MODE_ORBIT_BURST_2:
+		reimu_pattern_orbit_burst();
+		break;
+
+	case REIMU_MODE_MIRROR_0:
+	case REIMU_MODE_MIRROR_1:
+	case REIMU_MODE_MIRROR_2:
+	case REIMU_MODE_MIRROR_3:
+		reimu_pattern_mirrored_spread();
+		break;
+
+	case REIMU_MODE_DESCEND:
+		boss_fall();
+		break;
+
+	case REIMU_MODE_EXPLODE:
+		return;
+	}
+
+	collmap_center.x.v = boss_center_x;
+	collmap_center.y.v = boss_center_y;
+	collmap_stripe_tile_w.set(REIMU_COLLISION_TILE_SIZE);
+	collmap_tile_h.set(REIMU_COLLISION_TILE_SIZE);
+	collmap_pid = pid_other;
+	collmap_set_rect_striped();
+
+	hitbox_hittest_skip_explosions = true;
+	hitbox.radius.x.v = REIMU_COLLISION_HALF_RADIUS;
+	hitbox.radius.y.v = REIMU_COLLISION_HALF_RADIUS;
+	hitbox.pid = pid_other;
+	hitbox.origin.center.x.v = boss_center_x;
+	hitbox.origin.center.y.v = boss_center_y;
+	boss_hit = hitbox_hittest();
+	boss_hp -= boss_hit;
+	hitbox_hittest_skip_explosions = false;
+	boss_hittest_end();
 
 }
 
