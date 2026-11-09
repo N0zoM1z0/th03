@@ -33,11 +33,9 @@ void near player_shots_add(void)
     // Invalid shot modes retain the original uninitialized-local behavior.
     shotpair = shotpairs;
     snd_se_play(1);
-    while(left.v <= to_sp(-32.0f)) {
-        left.v += to_sp(32.0f);
-        pair++;
+    for(; left.v <= to_sp(-32.0f); left.v += to_sp(32.0f), ++pair) {
     }
-    for(i = 0; i < SHOTPAIR_COUNT; i++, shotpair++) {
+    for(i = 0; i < SHOTPAIR_COUNT; ++i, ++shotpair) {
         if(!shotpair->alive) {
             shotpair->alive = true;
             shotpair->unused_1 = 0;
