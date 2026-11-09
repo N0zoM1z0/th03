@@ -57,7 +57,8 @@ files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
-`ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, and `bullet` uses `af1086y`.
+`ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, `bullet` uses
+`af1086y`, and `e_fireb` uses `af1087e`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
 probe reports are not Factory Oracle receipts or accepted facts.
@@ -358,21 +359,22 @@ rebuilds the complete 1,840-byte `ba_koto` owner in two original TC4 rounds:
 MAIN images and ordered relocations exact. See the
 [Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
 
-The current eight-owner Bullet + Kotohime + Reimu + Yumemi + Chiyuri / Reimu
-Extra Attack / HitCircle source integration is `af1086z`: `bullet`, `ba_koto`,
-`ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and `hitcirc`, 13,158
-CODE bytes, 1,555 ordered native fields and 75 PUBLICs. Both original TC4
-rounds and both normal Japanese MAIN links match. Report:
-`.analysis/work/exatt-layout-af1086z/report.json`, SHA-256
-`ffee5155082a891c3ef83553341cc609d014b160e70faf40dcd75820c8736f0d`.
+The current nine-owner Bullet + Fireball + Kotohime + Reimu + Yumemi +
+Chiyuri / Reimu Extra Attack / HitCircle source integration is `af1087f`:
+`bullet`, `e_fireb`, `ba_koto`, `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly`,
+`ex_reup` and `hitcirc`, 14,713 CODE bytes, 1,670 ordered native fields and
+85 PUBLICs. Both original TC4 rounds and both normal Japanese MAIN links
+match. Report: `.analysis/work/exatt-layout-af1087f/report.json`, SHA-256
+`e1983561ed4dedbea01c2c9a395929bf69ff76d44ca2b05e461306dc09cd4c8f`.
 It includes the Bullet group velocity ring increment, first-use allocator
 pointer, natural trail initialization, register-sensitive update exit test,
-and both `for`-header render passes plus the reverse trail-sprite walk;
-Kotohime's current radial/update source, Reimu's four attack leaves, update
-controller and both main/intro renderers, the 205-byte `reimu_exatt_render_one()`
-recovery, both physical Reimu Extra Attack owners, Chiyuri's fan source,
-Yumemi's update/arrival/Aimed Random/Rain/Cross-Rain changes, and HitCircle's
-register-bound cel arithmetic plus narrowed update/render scratch lifetimes.
+and all natural `for` render passes; the Fireball 24-slot update, reverse
+hit-test and render dispatcher; Kotohime's current radial/update source,
+Reimu's four attack leaves, update controller and both main/intro renderers,
+the 205-byte `reimu_exatt_render_one()` recovery, both physical Reimu Extra
+Attack owners, Chiyuri's fan source, Yumemi's update/arrival/Aimed Random/
+Rain/Cross-Rain changes, and HitCircle's register-bound cel arithmetic plus
+narrowed update/render scratch lifetimes.
 
 Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
 `ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
@@ -400,6 +402,18 @@ integration match in two original TC4 rounds; rejected age-counter, loop-index
 scope and AX-loop rewrites remain reverted. See the
 [Bullet update/render review](MAIN_BULLET_UPDATE_RENDER_NATURAL_FOR_AFTER1086_REVIEW.md)
 and [allocator pointer review](MAIN_BULLET_ADD_POINTER_FIRST_USE_AFTER1085_REVIEW.md).
+
+The Fireball engine's current source binding is `af1087e`; its nine-owner
+integration is `af1087f`. The 1,555-byte `e_fireb` object uses natural `for`
+headers in its 276-byte 24-slot update controller, 441-byte reverse collision
+scan and 69-byte hit-test/render dispatcher. The `fireballs_update()` free,
+clipped and transferred `continue` paths share the same pointer/index
+progression, while `fireballs_hittest()` centralizes its reverse decrement.
+The uninitialized historical `chain_slot` remains untouched, and the
+one-byte DATA/BSS state is preserved. Prefix-incrementing the byte frame was
+retested and rejected. Both the complete owner and nine-owner integration
+match in two original TC4 rounds; see the
+[Fireball update/hit/render review](MAIN_FIREBALL_FOR_HEADER_COLLISION_AND_UPDATE_AFTER1087_REVIEW.md).
 
 The 819-byte `group_velocity_set()` dispatcher now uses prefix increment for
 the terminal count update in both ordinary and aimed ring fallthrough chains.
