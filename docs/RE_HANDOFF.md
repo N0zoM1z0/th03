@@ -62,7 +62,8 @@ files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1088o`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1083h`, `ba_ellen` uses `af1092j`, `ba_maris` uses `af1090i`,
 `ba_rikak` uses `af1066a`, `hitcirc` uses `af1085f`, `bullet` uses
-`af1086y`, and `e_fireb` uses `af1089j`.
+`af1086y`, `e_fireb` uses `af1089j`, and the separate Ellen Extra Attack
+physical owner `ex_ellen` uses `af1094e`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
 probe reports are not Factory Oracle receipts or accepted facts.
@@ -319,6 +320,19 @@ Attack bursts and the intro radial renderer now use natural `for` headers; the
 main/intro renderer scratch has also been narrowed where native-exact. The
 level setup, four attack-mode groups and collision/hitbox tail remain in order.
 See the [Ellen attack/render review](MAIN_ELLEN_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1092_REVIEW.md).
+
+Ellen's separate six-function Extra Attack owner `ex_ellen` is now source-bound
+at `af1094e`. Its maintained `src/main/player/exatt_ellen.cpp` uses natural
+`for` loops for paired 12-slot initialization, reverse spiral rendering,
+history shifting, seven-sample arrival initialization and 12-slot render
+dispatch. The update PID is initialized at declaration, the active spiral
+sprite offset is scoped to its branch, and the render index is scoped to its
+loop. Two independent original TC4 rounds match all 1,129 CODE bytes, 79
+ordered native fields and six PUBLICs, with both normal Japanese MAIN images
+and ordered relocations exact. Report:
+`.analysis/work/exatt-layout-af1094e/report.json`, SHA-256
+`f7042dd9db9bfef65d83588b33259c9cebdf30f0319a158bb9c15cd492398164`.
+See the [Ellen Extra Attack history/for-loop review](MAIN_ELLEN_EXATT_NATIVE_HISTORY_AFTER873_REVIEW.md).
 
 Marisa's complete `gba_boss_update_marisa()` controller now uses the direct
 inactive-player return before target tracking and frame advancement. The
@@ -635,6 +649,7 @@ do not require compiler, analyzer, preflight, cold replay or receipt refresh.
 - [Latest twelve-owner integration](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1053K_REVIEW.md)
 - [Ellen BOSS attack loops and render lifetimes](MAIN_ELLEN_BOSS_NATURAL_FOR_AND_LIFETIMES_AFTER1092_REVIEW.md) ·
   [Ellen update PID scope](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+- [Ellen Extra Attack six-function owner and native history/for loops](MAIN_ELLEN_EXATT_NATIVE_HISTORY_AFTER873_REVIEW.md)
 - [Yumemi update and renderer](MAIN_YUMEMI_UPDATE_AND_MAIN_RENDER_NATURAL_CPP_AFTER1051_REVIEW.md) ·
   [cross-ring](MAIN_YUMEMI_CROSS_RING_NATURAL_CPP_AFTER1052_REVIEW.md) ·
   [attack cadence](MAIN_YUMEMI_ATTACK_MODULO_AND_PHASE_NATURAL_CPP_AFTER1053_REVIEW.md)
