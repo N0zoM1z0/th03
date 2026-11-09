@@ -57,10 +57,9 @@ enum marisa_exatt_phases_t {
 void far pascal exatt_add_marisa(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
-    register int i = 0;
     // Natural C++ full fourteen-slot allocator; each occupied slot
     // advances both the signed index and near pointer (af885a).
-    while(i < MARISA_EXTRA_SLOTS) {
+    for(register int i = 0; i < MARISA_EXTRA_SLOTS; ++i, ++p) {
         if(!p->state) {
             exatt_entity_p = p;
             exatt_fly_init(
@@ -69,16 +68,13 @@ void far pascal exatt_add_marisa(int x, int y, unsigned char pid_)
             );
             return;
         }
-        ++i;
-        p++;
     }
 }
 
 void far pascal marisa_exatt_add(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[1 - pid_][0];
-    register int i = 0;
-    while(i < MARISA_EXTRA_SLOTS) {
+    for(register int i = 0; i < MARISA_EXTRA_SLOTS; ++i, ++p) {
         if(!p->state) {
             p->state = MARISA_EXTRA_APPEARING;
             p->frame = 0;
@@ -87,8 +83,6 @@ void far pascal marisa_exatt_add(int x, int y, unsigned char pid_)
             p->pid = pid_;
             return;
         }
-        ++i;
-        p++;
     }
 }
 
@@ -140,18 +134,14 @@ void far pascal exatt_update_marisa(void)
     int i;
     int height;
     int center_x;
-    register exatt_entity_t near *p;
     register int bottom;
 
     collmap_stripe_tile_w.set(MARISA_EXTRA_BEAM_COLLISION_STRIPE);
-    p = &exatt_entities[pid_current][0];
-    i = 0;
-    // This substantial update has THREE separate `continue` paths,
-    // each advancing both registers before the next slot (af885c).
-    while(i < MARISA_EXTRA_SLOTS) {
+    register exatt_entity_t near *p = &exatt_entities[pid_current][0];
+    // All three continue paths arrive at the same natural for-header
+    // signed-index and near-pointer progression after their state effects.
+    for(i = 0; i < MARISA_EXTRA_SLOTS; ++i, ++p) {
         if(!p->state) {
-            ++i;
-            p++;
             continue;
         }
         if(p->state == MARISA_EXTRA_BEAM) {
@@ -163,8 +153,6 @@ void far pascal exatt_update_marisa(void)
                 }
             } else if(p->frame >= MARISA_EXTRA_BEAM_END) {
                 p->state = MARISA_EXTRA_FREE;
-                ++i;
-                p++;
                 continue;
             }
             center_x = p->x;
@@ -187,8 +175,6 @@ void far pascal exatt_update_marisa(void)
             exatt_entity_p = p;
             if(exatt_fly_update()) {
                 p->y = MARISA_EXTRA_BEAM_Y_END;
-                ++i;
-                p++;
                 continue;
             }
         } else if(p->state <= MARISA_EXTRA_APPEARING_END) {
@@ -204,23 +190,18 @@ void far pascal exatt_update_marisa(void)
         // Keep byte-memory postfix: prefix changed complete CODE
         // in fresh negative af885e, independently of older evidence.
         p->frame++;
-        ++i;
-        p++;
     }
 }
 
 void far pascal exatt_render_marisa(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    register int i = 0;
     // Every physical slot is visited, native-exact with the original
     // post-render near pointer and signed index mutations (af885b).
-    while(i < MARISA_EXTRA_SLOTS) {
+    for(register int i = 0; i < MARISA_EXTRA_SLOTS; ++i, ++p) {
         if(p->state) {
             exatt_entity_p = p;
             marisa_exatt_render_one();
         }
-        ++i;
-        p++;
     }
 }
