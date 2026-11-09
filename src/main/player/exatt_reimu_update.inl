@@ -10,47 +10,43 @@ enum reimu_update_state_t {
 
 void far pascal exatt_update_reimu(void)
 {
-    unsigned char angle;
-    register exatt_entity_t near *p;
-    register int i;
     hitbox_hittest_skip_explosions = true;
     hitbox.radius.x.v = TO_SP(16);
     hitbox.radius.y.v = TO_SP(16);
-    hitbox.pid = (1 - pid_current);
-    p = &exatt_entities[pid_current][0];
-
-    i = 0;
-    for(; i < 8; ++i, p++) {
-        if(!p->state) {
+    hitbox.pid = 1 - pid_current;
+    exatt_entity_t near *p = exatt_entities[pid_current];
+    for(int i = 0; i < 8; ++i, ++p) {
+        if(REIMU_UPDATE_FREE == p->state) {
             continue;
         }
-        if(p->state == REIMU_UPDATE_ACTIVE) {
+        if(REIMU_UPDATE_ACTIVE == p->state) {
             p->x += p->velocity_x;
-            if((p->x <= 0) || (p->x >= TO_SP(PLAYFIELD_W))) {
+            if((0 >= p->x) || (TO_SP(PLAYFIELD_W) <= p->x)) {
                 // Original compound negation is codegen-visible:
                 // direct = -value failed independently in af765e.
                 p->velocity_x *= -1;
                 p->x += p->velocity_x;
             }
             p->y += p->velocity_y;
-            if(p->y < TO_SP(-24)) {
+            if(TO_SP(-24) > p->y) {
                 // Direct = -value also failed separately for vertical
                 // bounce (native negative control af765f).
                 p->velocity_y *= -1;
                 p->y = TO_SP(-24);
             }
-            if(p->y >= TO_SP(PLAYFIELD_H)) {
+            if(TO_SP(PLAYFIELD_H) <= p->y) {
                 p->state = REIMU_UPDATE_FREE;
                 continue;
             }
-            p->velocity_y++;
+            p->velocity_y += 1;
             hitbox.origin.center.x.v = p->x;
             hitbox.origin.center.y.v = p->y;
             hitbox_hittest();
             exatt_collmap_set(p->x, p->y);
-        } else if(p->state == REIMU_UPDATE_FLYING) {
+        } else if(REIMU_UPDATE_FLYING == p->state) {
             exatt_entity_p = p;
             if(exatt_fly_update()) {
+                unsigned char angle;
                 angle = randring_far_next16_and(0x1F);
                 angle = ((randring_far_next16_and(1) * 0x60) + angle + 0x80);
                 vector2(
@@ -58,7 +54,7 @@ void far pascal exatt_update_reimu(void)
                     angle, ((round_speed / 8) + 0x32)
                 );
             }
-        } else if(p->state <= REIMU_UPDATE_APPEARING_END) {
+        } else if(REIMU_UPDATE_APPEARING_END >= p->state) {
             p->state++;
         } else {
             p->state = REIMU_UPDATE_ACTIVE;

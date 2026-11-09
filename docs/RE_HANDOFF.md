@@ -355,17 +355,26 @@ It includes Reimu's phase-local Orbit Burst and Orbit Cloud source plus the
 updated 296-byte Reimu Update controller, Chiyuri's four-while fan source and
 Yumemi's update, arrival, Aimed Random, Rain and Cross/Rain changes.
 
+Reimu's 281-byte `exatt_update_reimu()` is now naturalized in the separate
+`ex_reup` physical unit. The 331-byte `ex_reup` owner has two-round native
+CODE/field/PUBLIC equality at `af1075w`; the current inline update source is
+explicitly bound through the TC4 dependency record. The combined
+`ba_reimu` + `ex_rfly` + `ex_reup` integration is `af1075y`: 3,176 CODE bytes,
+343 ordered native fields and 19 PUBLICs match in two original TC4 rounds,
+with both normal MAIN images and ordered relocations exact. See the
+[Reimu Extra Attack Update review](MAIN_REIMU_EXTRA_ATTACK_UPDATE_NATURAL_CPP_AFTER1075_REVIEW.md).
+
 Recommended next work:
 
 1. Continue `HitCircle::cel()`, Kotohime Radial Burst and Reimu's remaining
-   small pattern leaves (`reimu_pattern_spreads()` and
+   pattern leaves (`reimu_pattern_spreads()` and
    `reimu_pattern_mirrored_spread()`). The 443-byte Orbit Burst, 339-byte Orbit
-   Cloud and 296-byte Reimu Update controller now have current-source native
-   matches. Compare the complete affected physical owner each time.
-2. Move to the 281-byte `exatt_update_reimu()` controller for a substantial
-   next leaf, then continue into the adjacent Extra Attack lifetime/render
-   logic. Recheck current source and disassembly rather than inheriting old
-   assumptions.
+   Cloud, 296-byte BOSS Update and 281-byte Extra Attack Update now have
+   current-source native matches. Compare the complete affected physical
+   owner each time.
+2. Move to the 205-byte `reimu_exatt_render_one()` in `ex_repre`, then examine
+   the adjacent Extra Attack creation and rendering helpers. Recheck current
+   source and disassembly rather than inheriting old assumptions.
 3. Expand beyond the already integrated nine character BOSS owners. Use
    `config/units.csv`, `config/evidence.csv`, current source and focused
    reviews to identify genuinely unowned large functions or engine areas.
