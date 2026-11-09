@@ -27,12 +27,12 @@ class NativeProgress(unittest.TestCase):
                     'af1184d', 'af1174e', 'af1176e',
                     'af1178a', 'af1179a', 'af1180b', 'af1129e', 'af1127g', 'af1128c',
                     'af1112h', 'af1113c', 'af1121d', 'af1122c',
-                    'af1124d', 'af1125e', 'af1157c', 'af1150c',
-                    'af1151d', 'af1158e', 'af1175f', 'af1168b',
+                    'af1124d', 'af1125e', 'af1188c', 'af1189d',
+                    'af1190d', 'af1158e', 'af1175f', 'af1168b',
                     'af1183f', 'af1187e', 'af1185e', 'af1107c',
-                    'af1177g', 'af1167c', 'af1120c', 'af1101g',
+                    'af1177g', 'af1192d', 'af1120c', 'af1194c',
                     'af1115b', 'af1171d', 'af1164e', 'af1166i',
-                    'af1165h', 'af1116g', 'af1163i', 'af1169a',
+                    'af1165h', 'af1191e', 'af1163i', 'af1169a',
                     'af1134f',
                     'af1135h', 'af1136f', 'af1138f', 'af1140e',
                     'af1141f', 'af1142d', 'af1143h', 'af1146d', 'af1147c',
@@ -50,13 +50,13 @@ class NativeProgress(unittest.TestCase):
     def test_main_source_review_requires_complete_two_round_link(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)
-            for stage in ('af1101g', 'af1170d', 'af1175f', 'af1168b',
+            for stage in ('af1194c', 'af1170d', 'af1175f', 'af1168b',
                           'af1106d', 'af1107c', 'af1177g', 'af1172f', 'af1173c', 'af1181b', 'af1182a', 'af1184d',
                           'af1174e', 'af1176e', 'af1178a', 'af1179a',
                           'af1180b',
                           'af1183f', 'af1187e', 'af1112h', 'af1113c',
-                          'af1167c', 'af1115b', 'af1116g', 'af1150c',
-                          'af1157c', 'af1151d', 'af1120c', 'af1121d',
+                          'af1192d', 'af1115b', 'af1191e', 'af1189d',
+                          'af1188c', 'af1190d', 'af1120c', 'af1121d',
                           'af1122c', 'af1158e', 'af1124d', 'af1125e',
                           'af1171d', 'af1127g', 'af1128c', 'af1129e',
                           'af1185e', 'af1131a', 'af1132b', 'af1133a',
@@ -66,7 +66,7 @@ class NativeProgress(unittest.TestCase):
                           'af1149e', 'af1152f', 'af1153d', 'af1154d',
                           'af1155b', 'af1156b', 'af1159d', 'af1160e',
                           'af1161f', 'af1185e', 'af1163i', 'af1164e',
-                          'af1165h', 'af1166i', 'af1167c', 'af1168b',
+                          'af1165h', 'af1166i', 'af1192d', 'af1168b',
                           'af1169a', 'af1170d', 'af1171d', 'af1172f', 'af1173c', 'af1181b', 'af1182a', 'af1184d',
                           'af1174e', 'af1175f', 'af1176e', 'af1177g',
                           'af1178a', 'af1179a', 'af1180b'):
@@ -82,7 +82,7 @@ class NativeProgress(unittest.TestCase):
                 with self.subTest(link_ok=value['full_Japanese_MAIN_equal']), \
                      patch.object(status.subprocess, 'run', return_value=result):
                     rows = status.native_source_reviews(root, 'th03-main')
-                fresh = [row for row in rows if row['stage'].startswith(('af110', 'af111', 'af112', 'af113', 'af114', 'af115', 'af116', 'af117', 'af118'))]
+                fresh = [row for row in rows if row['stage'].startswith(('af110', 'af111', 'af112', 'af113', 'af114', 'af115', 'af116', 'af117', 'af118', 'af119'))]
                 self.assertEqual(len(fresh), 65)
                 self.assertTrue(all(row['verified'] == value['full_Japanese_MAIN_equal']
                                     for row in fresh))

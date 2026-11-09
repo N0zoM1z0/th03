@@ -47,9 +47,9 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1122c` | Chiyuri Extra Attack `ex_chyu` |
 | `af1124d` | Rikako Extra Attack `ex_rika` |
 | `af1125e` | Kana Extra Attack `ex_kana` |
-| `af1157c` | Rikako BOSS `ba_rikak` |
-| `af1150c` | Kana BOSS `ba_kana` |
-| `af1151d` | Chiyuri BOSS `ba_chiyu` |
+| `af1188c` | Rikako BOSS `ba_rikak` |
+| `af1189d` | Kana BOSS `ba_kana` |
+| `af1190d` | Chiyuri BOSS `ba_chiyu` |
 | `af1158e` | Kotohime BOSS `ba_koto` |
 | `af1175f` | Reimu BOSS `ba_reimu` |
 | `af1168b` | Mima BOSS `ba_mima` |
@@ -58,15 +58,15 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1185e` | Yumemi BOSS `ba_yumem` |
 | `af1107c` | Bullet engine `bullet` |
 | `af1177g` | Fireball engine `e_fireb` |
-| `af1167c` | Enemy formation/VM/update engine `eforna`, `efornb`, `eupda`, `eupdb` |
+| `af1192d` | Enemy formation/VM/update engine `eforna`, `efornb`, `eupda`, `eupdb` |
 | `af1120c` | Explosion collision `e_expl` |
-| `af1101g` | Hitbox `hitbox` and HitCircle `hitcirc` |
+| `af1194c` | Hitbox `hitbox` and HitCircle `hitcirc` |
 | `af1115b` | Both background chain controllers `chain1`, `chain2` |
 | `af1171d` | Large MAIN entry/round controller `entry` |
 | `af1164e` | Round result/reset `results` |
 | `af1166i` | Round intro HUD `intro` |
 | `af1165h` | Static HUD `hud_stat` |
-| `af1116g` | Complete player core `core` |
+| `af1191e` | Complete player core `core` |
 | `af1163i` | Player loss/defeat `lose` |
 | `af1169a` | Gauge and shared Extra Attack `p_gauge`, `p_exatt` |
 | `af1134f` | Marisa Chargeshot/Gauge `cs_mari` |
@@ -104,6 +104,19 @@ source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Rikako/Kana/Chiyuri BOSS:** exact new full-owner stages `af1188c`,
+  `af1189d` and `af1190d` retain original RNG and signed projectile cadence
+  after restoring natural attack terminal and release-frame exits.
+- **Player and Enemy state:** `af1191e` rechecks the complete player-core
+  movement retry/glow conditions; `af1192d` rechecks four Enemy owners with
+  natural explosion and per-frame update continues. `af1194c` covers Hitbox
+  guards and HitCircle update/render live-slot skips.
+- **Input scan remains excluded:** the fresh current-source `af1193a` TC4
+  overlay reproduced the original 417-byte object and literal fixups, but
+  its normal MAIN link differed at exactly file offset 68141 (`90` vs `00`).
+  File-scope `asm { even }` failed actual TC4 compilation at `af1193b`.
+  The working source was restored; no trailing filler was introduced.
 
 - **Three complete BOSS controllers:** Marisa `af1183f` has exact terminal
   returns for ring, wide and narrow columns; Yumemi `af1185e` recovers five
@@ -360,7 +373,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1172f af1173c af1181b af1182a af1184d af1174e af1176e af1178a af1179a af1180b af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1157c af1150c af1151d af1158e af1175f af1168b af1183f af1187e af1185e af1107c af1177g af1167c af1120c af1101g af1115b af1171d af1164e af1166i af1165h af1116g af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1172f af1173c af1181b af1182a af1184d af1174e af1176e af1178a af1179a af1180b af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1188c af1189d af1190d af1158e af1175f af1168b af1183f af1187e af1185e af1107c af1177g af1192d af1120c af1194c af1115b af1171d af1164e af1166i af1165h af1191e af1163i af1169a af1134f af1135h af1136f af1138f af1140e af1141f af1142d af1143h af1146d af1147c af1148f af1149e af1152f af1153d af1154d af1155b af1156b af1159d af1131a af1132b af1133a af1160e af1161f af1170d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

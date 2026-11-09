@@ -40,9 +40,9 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Chiyuri Extra Attack | af1122c | Verified | 1 | 978 | — |
 | th03-main / Rikako Extra Attack | af1124d | Verified | 1 | 702 | — |
 | th03-main / Kana Extra Attack | af1125e | Verified | 1 | 663 | — |
-| th03-main / Rikako BOSS | af1157c | Verified | 1 | 1,677 | — |
-| th03-main / Kana BOSS | af1150c | Verified | 1 | 1,874 | — |
-| th03-main / Chiyuri BOSS | af1151d | Verified | 1 | 2,654 | — |
+| th03-main / Rikako BOSS | af1188c | Verified | 1 | 1,677 | — |
+| th03-main / Kana BOSS | af1189d | Verified | 1 | 1,874 | — |
+| th03-main / Chiyuri BOSS | af1190d | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1158e | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1175f | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1168b | Verified | 1 | 1,922 | — |
@@ -51,15 +51,15 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Yumemi BOSS | af1185e | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1177g | Verified | 1 | 1,555 | — |
-| th03-main / Enemy engine | af1167c | Verified | 4 | 3,325 | — |
+| th03-main / Enemy engine | af1192d | Verified | 4 | 3,325 | — |
 | th03-main / Explosion collision | af1120c | Verified | 1 | 630 | — |
-| th03-main / Hitbox and HitCircle | af1101g | Verified | 2 | 711 | — |
+| th03-main / Hitbox and HitCircle | af1194c | Verified | 2 | 711 | — |
 | th03-main / Background chains | af1115b | Verified | 2 | 1,245 | — |
 | th03-main / MAIN entry and round | af1171d | Verified | 1 | 3,050 | — |
 | th03-main / Round results and reset | af1164e | Verified | 1 | 1,060 | — |
 | th03-main / Round intro HUD | af1166i | Verified | 1 | 1,478 | — |
 | th03-main / Static HUD | af1165h | Verified | 1 | 539 | — |
-| th03-main / Player core | af1116g | Verified | 1 | 3,135 | — |
+| th03-main / Player core | af1191e | Verified | 1 | 3,135 | — |
 | th03-main / Player loss and defeat | af1163i | Verified | 1 | 664 | — |
 | th03-main / Gauge and shared Extra Attack | af1169a | Verified | 2 | 96 | — |
 | th03-main / Marisa Chargeshot | af1134f | Verified | 1 | 1,509 | — |
@@ -127,11 +127,11 @@ th03-main Rikako Extra Attack: `.analysis/work/exatt-layout-af1124d/report.json`
 
 th03-main Kana Extra Attack: `.analysis/work/exatt-layout-af1125e/report.json`.
 
-th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1157c/report.json`.
+th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1188c/report.json`.
 
-th03-main Kana BOSS: `.analysis/work/exatt-layout-af1150c/report.json`.
+th03-main Kana BOSS: `.analysis/work/exatt-layout-af1189d/report.json`.
 
-th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1151d/report.json`.
+th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1190d/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1158e/report.json`.
 
@@ -149,11 +149,11 @@ th03-main Bullet engine: `.analysis/work/exatt-layout-af1107c/report.json`.
 
 th03-main Fireball engine: `.analysis/work/exatt-layout-af1177g/report.json`.
 
-th03-main Enemy engine: `.analysis/work/exatt-layout-af1167c/report.json`.
+th03-main Enemy engine: `.analysis/work/exatt-layout-af1192d/report.json`.
 
 th03-main Explosion collision: `.analysis/work/exatt-layout-af1120c/report.json`.
 
-th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1101g/report.json`.
+th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1194c/report.json`.
 
 th03-main Background chains: `.analysis/work/exatt-layout-af1115b/report.json`.
 
@@ -165,7 +165,7 @@ th03-main Round intro HUD: `.analysis/work/exatt-layout-af1166i/report.json`.
 
 th03-main Static HUD: `.analysis/work/exatt-layout-af1165h/report.json`.
 
-th03-main Player core: `.analysis/work/exatt-layout-af1116g/report.json`.
+th03-main Player core: `.analysis/work/exatt-layout-af1191e/report.json`.
 
 th03-main Player loss and defeat: `.analysis/work/exatt-layout-af1163i/report.json`.
 
