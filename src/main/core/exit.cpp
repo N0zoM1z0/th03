@@ -1,13 +1,12 @@
 #pragma option -zCSHARED
 
 #include "src/main/core/exit.hpp"
+#include <dos.h>
 
-// PC-98 display and access VRAM page registers. Preserve individual OUTs,
-// including the deliberate repeated page-0 selection before shutdown.
-// Removing the repeated DX/AL writes changes original TC4 CODE (af876b),
-// and routing the page through a local const also changed CODE (af876c).
-// These are hardware-visible register effects, not a deduplicatable
-// ordinary memory store or a generic C++ output-port helper.
+// Preserve all four physical PC-98 VRAM page writes, including the
+// repeated display-page 0 selection. TC4's <dos.h> outportb() intrinsic
+// produces the original DX/AL/OUT sequence at each site, unlike a local
+// page variable or an attempt to remove a supposedly redundant write.
 enum {
     TH03_VRAM_DISPLAY_PAGE_PORT = 0xA6,
     TH03_VRAM_ACCESS_PAGE_PORT = 0xA4,
@@ -15,8 +14,8 @@ enum {
     TH03_VRAM_PAGE_BACK = 0,
 };
 
-// Original DOS large-memory model requires 16-bit DX and 8-bit AL.
-// Use file-scope typedef guards accepted by the actual historical TC4.
+// The Borland intrinsic uses a 16-bit port number and an 8-bit value;
+// these actual TC4-compatible source guards allocate no DATA.
 typedef char th03_exit_original_port_word[(sizeof(unsigned int) == 2) ? 1 : -1];
 typedef char th03_exit_original_page_byte[(sizeof(unsigned char) == 1) ? 1 : -1];
 
@@ -24,24 +23,17 @@ void far __cdecl game_exit(void)
 {
     pfend();
 
-    _DX = TH03_VRAM_DISPLAY_PAGE_PORT;
-    _AL = TH03_VRAM_PAGE_FRONT;
-    asm out dx, al;
+    outportb(TH03_VRAM_DISPLAY_PAGE_PORT, TH03_VRAM_PAGE_FRONT);
     graph_clear();
 
-    _DX = TH03_VRAM_DISPLAY_PAGE_PORT;
-    _AL = TH03_VRAM_PAGE_BACK;
-    asm out dx, al;
+    outportb(TH03_VRAM_DISPLAY_PAGE_PORT, TH03_VRAM_PAGE_BACK);
     graph_clear();
 
-    // This extra page-0 display selection is a real separate original
-    // OUT, not redundant implementation noise.
-    _DX = TH03_VRAM_DISPLAY_PAGE_PORT;
-    _AL = TH03_VRAM_PAGE_BACK;
-    asm out dx, al;
+    // This additional page-0 selection is a distinct original OUT,
+    // even though the previous selection also chose page 0.
+    outportb(TH03_VRAM_DISPLAY_PAGE_PORT, TH03_VRAM_PAGE_BACK);
 
-    _DX = TH03_VRAM_ACCESS_PAGE_PORT;
-    asm out dx, al;
+    outportb(TH03_VRAM_ACCESS_PAGE_PORT, TH03_VRAM_PAGE_BACK);
 
     vsync_end();
     mem_unassign();
