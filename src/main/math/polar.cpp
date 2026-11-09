@@ -9,11 +9,9 @@ enum { POLAR_FRACTION_BITS = 8 };
 // The original ABI takes three signed 16-bit integers; the multiplication
 // widens to signed 32-bit *before* a Q8 arithmetic shift. In pinned TC4,
 // negative products shift toward negative infinity, unlike signed /256.
-// The final explicit cast records the original 16-bit return truncation;
-// it has no extra native instructions (af833b).
+// The signed 16-bit return type truncates the widened result in the
+// original calling convention, with no separate source-level cast required.
 int far __cdecl polar(int center, int radius, int ratio)
 {
-    return static_cast<int>(
-        ((static_cast<long>(radius) * ratio) >> POLAR_FRACTION_BITS) + center
-    );
+    return ((static_cast<long>(radius) * ratio) >> POLAR_FRACTION_BITS) + center;
 }
