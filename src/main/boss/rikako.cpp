@@ -501,7 +501,6 @@ void near rikako_render_main(void)
 	screen_y_t top;
 	int x;
 	int y;
-	unsigned char angle;
 	register sprite16_offset_t sprite_offset;
 	register int i;
 
@@ -524,7 +523,7 @@ void near rikako_render_main(void)
 
 	sprite16_put_size.w = RIKAKO_RENDER_RING_W;
 	sprite16_put_size.h = RIKAKO_RENDER_RING_H;
-	angle = boss_render_frame;
+	unsigned char angle = boss_render_frame;
 	left += RIKAKO_RENDER_RING_CENTER_OFF;
 	top += RIKAKO_RENDER_RING_CENTER_OFF;
 
@@ -565,7 +564,6 @@ void near rikako_render_intro(void)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
 	int radius;
-	unsigned char angle;
 	register int i;
 	register screen_x_t left;
 
@@ -583,7 +581,7 @@ void near rikako_render_intro(void)
 		sprite_offset += RIKAKO_RENDER_INTRO_SPRITE_ALT;
 	}
 
-	angle = ((unsigned char)boss_frame * RIKAKO_RENDER_INTRO_ANGLE_SCALE);
+	unsigned char angle = ((unsigned char)boss_frame * RIKAKO_RENDER_INTRO_ANGLE_SCALE);
 	// Preserve binary zero-minus: the superficially natural unary
 	// -angle changed native CODE again in independent af862d.
 	angle = (0 - angle);
