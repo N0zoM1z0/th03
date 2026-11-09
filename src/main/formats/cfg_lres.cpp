@@ -12,8 +12,8 @@ resident_t __seg* near cfg_load_resident_ptr(void)
 {
 	// The original helper consumes this true stack-allocated scratch CFG.
 	// Zero-initializing it emitted non-original CODE (af882d).
-	cfg_t cfg;
-	// Return the helper result directly: inserting a named near pointer
-	// temporary changed TC4 registers/stack layout (af882c).
-	return cfg_load_and_set_resident(cfg, CFG_FN);
+	cfg_t resident_cfg;
+	// Return the genuine resident far/segment pointer directly. A separate
+	// result local changes the original TC4 register and stack layout.
+	return cfg_load_and_set_resident(resident_cfg, CFG_FN);
 }
