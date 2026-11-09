@@ -65,3 +65,49 @@ reproduce the original loaded image and ordered MZ relocations.
 Protected report: `.analysis/work/exatt-layout-af1033y/report.json`
 
 SHA-256: `11606da3926cd36593629424ce9d5f63ead29c7e5bd19f1258f26e1eb389b498`
+
+
+## Current-source loop lifetime revalidation (af1068e)
+
+The current maintained radial traversal was re-tested with both indices
+initialized in their own natural `for` headers and coordinate/angle scratch
+scoped to one outer iteration:
+
+```cpp
+for(register int center_i = 0;
+    center_i < kotohime_orbit_count;
+    ++center_i) {
+    register int x;
+    register int y;
+    register unsigned char center_angle;
+    // compute center_angle and the two polar coordinates
+    for(register int bullet_i = 0;
+        bullet_i < kotohime_burst_count;
+        ++bullet_i) {
+        // angle, speed and bullets_add()
+    }
+}
+```
+
+This is a current-source revalidation rather than a transfer of the earlier
+`af1031h` or `af1037r` results. It preserves DI for the outer index and SI for
+the inner index, resets the inner index for each center, and narrows the
+coordinate/angle scratch lifetime to one center. Signed 16-bit multiplication
+and division, byte-angle truncation, polar-call order, coordinate-store order,
+projectile angle/speed expressions, and `bullets_add()` order are unchanged.
+
+Stage `af1068e` rebuilt the complete `ba_koto` owner in two independent
+original TC4 4.02 rounds: all 1,840 CODE bytes, 262 ordered native fields and
+eleven PUBLIC offsets match. Both normal Japanese MAIN links reproduce the
+loaded image and ordered relocations.
+
+Protected report: `.analysis/work/exatt-layout-af1068e/report.json`
+
+SHA-256: `a51759a9529f0da12dc9dd9cded1492aedf828405599ddafefc354876a25669c`
+
+### Additional current-source negative control
+
+Stage `af1068g` tried assigning each `polar()` result directly into
+`bullet_template.center.x.v` and `.y.v`, removing the `x` and `y` scratch
+locals. The first complete `ba_koto` CODE comparison differed, so the
+experiment was restored. Keep the separate coordinate temporaries.

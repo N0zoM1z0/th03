@@ -86,3 +86,21 @@ reproduce the original loaded image and ordered MZ relocations.
 Protected report: `.analysis/work/exatt-layout-af1037r/report.json`
 
 SHA-256: `1789957b2e67391ec9bcec84d01368108226819d1f7fd6f4dde9bfa1a629ef07`
+
+
+## Current-source revalidation (af1068e)
+
+After the later update-controller and shared BOSS changes, the full current
+`ba_koto` owner was recompiled with the Radial Burst indices initialized in
+their `for` headers and `x`, `y`, and `center_angle` scoped to one center.
+The direct `polar()`-to-template-store alternative was separately rejected at
+af1068g; retain the coordinate scratch stores.
+
+Two independent original TC4 4.02 rounds at `af1068e` match all 1,840 CODE
+bytes, 262 ordered native fields and eleven PUBLIC offsets. Both normal
+Japanese MAIN links reproduce the original loaded image and ordered
+relocations.
+
+Report: `.analysis/work/exatt-layout-af1068e/report.json`
+
+SHA-256: `a51759a9529f0da12dc9dd9cded1492aedf828405599ddafefc354876a25669c`

@@ -364,15 +364,13 @@ void near kotohime_pattern_radial_burst(void)
 			bullet_template.type = BT_BULLET16_DEFAULT;
 
 			// The nested O(center_count * burst_count) traversal declares
-			// DI/SI indices outer-to-inner and reuses its x/y/angle scratch
-			// for each center. bullet_i resets per center; both loops are
-			// pre-tested and retain signed division before angle truncation.
-			register int center_i;
-			register int bullet_i;
-			register int x;
-			register int y;
-			register unsigned char center_angle;
-			for(center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
+			// DI/SI indices in outer-to-inner for headers. x/y/angle scratch
+			// lives for one center, and the inner SI index resets each time.
+			// Both loops are pre-tested; signed division precedes byte truncation.
+			for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
+				register int x;
+				register int y;
+				register unsigned char center_angle;
 				center_angle = (
 					boss_move_phase +
 					((KOTOHIME_FULL_TURN_STEPS * center_i) / kotohime_orbit_count)
@@ -390,7 +388,7 @@ void near kotohime_pattern_radial_burst(void)
 				bullet_template.center.x.v = x;
 				bullet_template.center.y.v = y;
 
-				for(bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
+				for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
 					bullet_template.angle = (
 						KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
 						center_angle +

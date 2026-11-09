@@ -53,14 +53,14 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. Nine later scoped refreshes now bind the current
-source for ten owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
-uses `af1057d`, `ba_chiyu` uses `af1058a`, `ba_mima` uses `af1059a`,
-`ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`, `ba_ellen` uses
-`af1063a`, `ba_maris` uses `af1065a`, and `ba_rikak` uses `af1066a`. The
-other two owners remain bound to `af1053k`. The complete normal links are
-strong scoped native evidence; they are not whole-game source ownership or
-canonical Factory packed-file acceptance.
+files at that checkpoint. Current scoped source bindings are: `ba_sring` and
+`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1058a`,
+`ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`,
+`ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`, and `ba_rikak` uses
+`af1066a`. The other two owners remain bound to `af1053k`. The `af1067a`
+ten-owner integration is historical for the later Kotohime source change;
+its other nine owner bindings remain unchanged. Local native probe reports
+are not Factory Oracle receipts or accepted facts.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -70,13 +70,16 @@ ordered relocations equal in two independent rounds. See the
 [updated shared-core review](MAIN_BOSS_SHARED_CORE_NATURAL_CONTROL_AFTER1047_REVIEW.md)
 and [pattern-rejection review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md).
 
-Kotohime current-source refresh: `.analysis/work/exatt-layout-af1057d/report.json`
-SHA-256: `724edd6dae328c47bc1dcb15d4e2a966603662c022cbc989850fba04e69d5cf0`.
-It recompiled the complete 1,840-byte `ba_koto` owner with 262 ordered native
-fields and eleven PUBLICs in two original TC4 rounds, preserving the complete
-Japanese MAIN image and ordered relocations. The current controller uses the
-direct inactive-player return, not the positive-scope spelling in the older
-af1032 review. See the [current intro-guard review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
+Kotohime's previous current-source refresh was `af1057d`; the newer Radial
+Burst source is now bound by `af1068e`. It recompiled the complete 1,840-byte
+`ba_koto` owner with 262 ordered native fields and eleven PUBLICs in two
+original TC4 rounds, preserving the Japanese MAIN image and ordered
+relocations. The update controller retains its direct inactive-player return.
+The Radial Burst now has loop-header register indices and per-center scratch
+lifetime. See the [current Radial review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_ARITHMETIC_AFTER1033_REVIEW.md).
+
+Current Kotohime report: `.analysis/work/exatt-layout-af1068e/report.json`
+SHA-256: `a51759a9529f0da12dc9dd9cded1492aedf828405599ddafefc354876a25669c`.
 
 Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1058a/report.json`
 SHA-256: `dde32e0ba6923503b17958abcc9524f64c30f6e3918c552fc72e30edb384d970`.
@@ -286,6 +289,11 @@ PUBLICs match, as do both complete normal MAIN images and ordered relocations.
 Only the unchanged Yumemi and HitCircle owners remain on the prior af1053k
 source binding. See the [af1067a ten-owner integration report](#current-source-bound-main-evidence).
 
+The later Kotohime Radial Burst source-only refresh `af1068e` supersedes the
+`ba_koto` binding in that ten-owner integration. It revalidates the complete
+1,840-byte owner in two original TC4 rounds; the other nine objects were not
+changed. No full cold replay was run.
+
 Recommended next work:
 
 1. Continue `HitCircle::cel()` and Kotohime Radial Burst with substantive
@@ -303,6 +311,15 @@ For every source change, choose an unused DOS-safe stage, rebuild only affected
 physical TUs, compare the complete native extents/ordered fields and normal
 link, and preserve both original compiler rounds. Do not run full cold replay
 for ordinary scoped changes.
+
+## Factory replay availability
+
+The repository shell and scoped original-TC4 probes are available, but the
+Factory-controlled replay queue currently rejects TH03 submissions because
+`th03` is not registered with the configured replay worker. The accepted
+snapshot therefore has no OracleResults for these imported claims. Do not
+promote local probe output, Ghidra output, or Git commits to accepted exactness;
+retry canonical replay only after worker registration is restored.
 
 ## Current product status and limits
 
