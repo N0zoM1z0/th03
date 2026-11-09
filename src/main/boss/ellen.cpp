@@ -171,7 +171,6 @@ enum ellen_spread_phase_t {
 void near ellen_pattern_spread(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	register int i;
 
 	if((boss_frame == ELLEN_SPREAD_WARNING_0) || (boss_frame == ELLEN_SPREAD_WARNING_1)) {
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
@@ -210,12 +209,10 @@ void near ellen_pattern_spread(void)
 		// Eight native spread calls in original sound/angle order.
 		// A named mutable byte step is exact as C++ `angle=angle+enum`
 		// (af893k), unlike replacing literal `angle +=8` with enum.
-		i = 0;
-		while(i < ELLEN_SPREAD_VOLLEY_COUNT) {
+		for(register int i = 0; i < ELLEN_SPREAD_VOLLEY_COUNT; ++i) {
 			bullets_add();
 			ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 			bullet_template.angle = ellen_spread_angle;
-			++i;
 		}
 		goto done;
 	}
@@ -255,9 +252,6 @@ enum ellen_extra_phase_t {
 void near ellen_pattern_extra(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	unsigned char angle;
-	register int i;
-
 	boss_render_frame = boss_render_frame + ELLEN_EXTRA_RENDER_STEP;
 
 	if(boss_frame < ELLEN_EXTRA_WARN_START) {
@@ -276,34 +270,30 @@ void near ellen_pattern_extra(void)
 		// Each independent original radial burst draws its own RNG angle,
 		// divides 256 by the byte count at each native iteration, then
 		// updates the byte angle AFTER the far Extra Attack spawn.
-		i = 0;
-		angle = randring_far_next16();
-		while(i < ellen_extra_count) {
+		register int i = 0;
+		unsigned char angle = randring_far_next16();
+		for(; i < ellen_extra_count; ++i, angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
 				ELLEN_EXTRA_FIRST_MODE
 			);
-			++i;
-			angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		return;
 	}
 
 	// Byte-valued 0xFE is a signed -2 offset in this final volley.
 	else if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
-		i = 0;
-		angle = randring_far_next16();
-		while(i < ellen_extra_count) {
+		register int i = 0;
+		unsigned char angle = randring_far_next16();
+		for(; i < ellen_extra_count; ++i, angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
 			ellen_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle,
 				ELLEN_EXTRA_LAST_MODE
 			);
-			++i;
-			angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count);
 		}
 		boss_mode = ELLEN_MODE_SELECT;
 		boss_frame = 0;
@@ -374,8 +364,6 @@ void near ellen_pattern_pellets(void)
 
 void far gba_boss_update_ellen(void)
 {
-	pid_t pid_other;
-
 	if(boss_update_start()) {
 		ellen_bullet_speed = ((gba_boss_level * ELLEN_BULLET_SPEED_SCALE) + ELLEN_BULLET_SPEED_BASE);
 		ellen_extra_count = ((gba_boss_level / ELLEN_EXTRA_COUNT_DIVISOR) + ELLEN_EXTRA_COUNT_BASE);
@@ -387,7 +375,7 @@ void far gba_boss_update_ellen(void)
 		return;
 	}
 
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	boss_target_update();
 	boss_render_frame++;
 	++boss_frame;
@@ -463,10 +451,8 @@ void near pascal ellen_render_strip(int frame_i)
 {
 	screen_x_t left;
 	screen_y_t top;
-	sprite16_offset_t sprite_offset;
 	register int i = frame_i;
-
-	sprite_offset = (
+	sprite16_offset_t sprite_offset = (
 		(ellen_render_y_offsets[i] * ELLEN_RENDER_STRIP_Y_SCALE) +
 		boss_sprite_offset +
 		ELLEN_RENDER_STRIP_BASE
@@ -493,21 +479,19 @@ void near ellen_render_main(void)
 	screen_x_t left;
 	screen_y_t top;
 	pid_t pid_other = (1 - pid_current);
-	register int i;
-	register sprite16_offset_t sprite_offset;
 
 	sprite16_put_size.w = ELLEN_RENDER_MAIN_WIDTH;
 	sprite16_put_size.h = ELLEN_RENDER_MAIN_HEIGHT;
 	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - ELLEN_RENDER_MAIN_LEFT);
 	top = ((boss_center_y >> 4) - ELLEN_RENDER_MAIN_TOP);
 
-	sprite_offset = boss_sprite_offset;
+	register sprite16_offset_t sprite_offset = boss_sprite_offset;
 	if(boss_hit) {
 		sprite_offset += ELLEN_RENDER_HIT_SPRITE_OFF;
 	}
 	sprite16_put(left, top, sprite_offset);
 
-	i = ((boss_render_frame / ELLEN_STRIP_ANIM_PERIOD) % ELLEN_STRIP_TABLE_ENTRIES);
+	register int i = ((boss_render_frame / ELLEN_STRIP_ANIM_PERIOD) % ELLEN_STRIP_TABLE_ENTRIES);
 	ellen_render_strip(i);
 	--i;
 	if(i < 0) {
@@ -528,15 +512,9 @@ void near pascal ellen_render_intro(
 )
 {
 	screen_y_t top;
-	int pid_other;
-	sprite16_offset_t sprite_offset;
-	int j;
-	register int i;
-	register screen_x_t left;
+	int pid_other = (1 - pid_current);
+	register int i = (frame % ELLEN_STRIP_TABLE_ENTRIES);
 
-	pid_other = (1 - pid_current);
-
-	i = (frame % ELLEN_STRIP_TABLE_ENTRIES);
 	ellen_render_strip(i);
 	--i;
 	if(i < 0) {
@@ -553,17 +531,16 @@ void near pascal ellen_render_intro(
 		return;
 	}
 
+	register screen_x_t left;
 	sprite16_put_size.w = ELLEN_RENDER_INTRO_WIDTH;
 	sprite16_put_size.h = ELLEN_RENDER_INTRO_HEIGHT;
-	sprite_offset = (pid.so_attack + ELLEN_RENDER_INTRO_SPRITE_OFF);
+	sprite16_offset_t sprite_offset = (pid.so_attack + ELLEN_RENDER_INTRO_SPRITE_OFF);
 
 	// Four families of eight genuine sprites. Two nested natural
-	// while loops keep both byte-angle steps and sprite-offset updates
+	// for loops keep both byte-angle steps and sprite-offset updates
 	// in the original post-render order (native af893c).
-	i = 0;
-	while(i < ELLEN_INTRO_RADIAL_FAMILIES) {
-		j = 0;
-		while(j < ELLEN_INTRO_ARC_SPRITES) {
+	for(i = 0; i < ELLEN_INTRO_RADIAL_FAMILIES; ++i) {
+		for(int j = 0; j < ELLEN_INTRO_ARC_SPRITES; ++j) {
 			left = polar(
 				boss_center_x,
 				length,
@@ -585,24 +562,20 @@ void near pascal ellen_render_intro(
 			// Enum-valued `+=` changed code; ordinary byte assignment
 			// with named +0x20 restores original TC4 instructions (af893j).
 			angle = angle + ELLEN_INTRO_ARC_ANGLE_STEP;
-			++j;
 		}
 		// The next family's +3 byte angle has the same native-exact
 		// C++ assignment pattern (af893i), without changing wraparound.
 		angle = angle + ELLEN_INTRO_GROUP_ANGLE_STEP;
 		sprite_offset -= 4;
-		++i;
 	}
 }
 
 void far gba_boss_render_ellen(void)
 {
-	pid_t pid_other;
-
 	if(pid_current != gba_boss_launched_by) {
 		return;
 	}
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	sprite16_clip_set_for_pid(pid_other);
 
 	if(boss_mode == ELLEN_MODE_INTRO) {
