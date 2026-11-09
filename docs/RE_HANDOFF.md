@@ -15,13 +15,13 @@ ledger and separate function inventory remain unchanged. Recent work improves
 natural C++ while preserving original native output, so ledger totals need
 not increase. The whole-game completion percentage remains unknown.
 
-`status.py` and generated progress select the fourteen current disjoint MAIN
+`status.py` and generated progress select the nineteen current disjoint MAIN
 source reports below. The old `af1053k` and `af1092k` composites and shared
 BOSS `af1056c` are historical after source changes, not current all-owner proofs.
 
 ## Current MAIN native evidence
 
-These fourteen disjoint stage reports have passed read-only source/native review.
+These nineteen disjoint stage reports have passed read-only source/native review.
 Each retains two original TC4 compiler rounds, complete physical CODE/DATA,
 literal ordered native fields, PUBLICs and segment geometry, plus normal MAIN
 links matching the Japanese loaded image and all ordered MZ relocations.
@@ -30,30 +30,52 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | --- | --- |
 | `af1109c` | Shared BOSS providers `ba_sring`, `ba_srest` |
 | `af1094e` | Ellen Extra Attack `ex_ellen` |
+| `af1112h` | Reimu Extra Attack flight/prefix and update `ex_rfly`, `ex_reup` |
+| `af1113c` | Marisa Extra Attack `ex_maris` |
 | `af1095w` | Rikako BOSS `ba_rikak` |
 | `af1096g` | Kana BOSS `ba_kana` |
 | `af1101a` | Chiyuri BOSS `ba_chiyu` |
 | `af1101d` | Kotohime BOSS `ba_koto` |
 | `af1104e` | Reimu BOSS `ba_reimu` |
 | `af1105d` | Mima BOSS `ba_mima` |
+| `af1110d` | Marisa BOSS `ba_maris` |
+| `af1111e` | Ellen BOSS `ba_ellen` |
 | `af1106d` | Yumemi BOSS `ba_yumem` |
 | `af1107c` | Bullet engine `bullet` |
 | `af1108e` | Fireball engine `e_fireb` |
+| `af1114e` | Enemy formation/VM/update engine `eforna`, `efornb`, `eupda`, `eupdb` |
 | `af1101g` | Hitbox `hitbox` and HitCircle `hitcirc` |
 | `af1102b` | Large MAIN entry/round controller `entry` |
 | `af1103d` | Four-function CPU controller `p_cpu` |
 
 Reports live at `.analysis/work/exatt-layout-STAGE/report.json`. These are
 separate scoped links, not a new combined build of all listed owners.
-The older `af1092k` retains historical native evidence for Bullet,
-Fireball, Mima, Marisa, Ellen BOSS, Reimu BOSS, Yumemi and both Reimu Extra
-Attack owners. Its full live-source binding is stale after newer BOSS, engine
-and collision changes. This table includes the reverified current owners;
-remaining unchanged owners need their own scoped refresh before status may
-call them current. Do not replace the old report or invent a combined build.
+The older `af1092k` retains historical native evidence, but its full
+live-source binding is stale after newer BOSS, engine, collision and Extra
+Attack changes. Its formerly selected owners now have disjoint current native
+proofs above. These are still separate scoped links, not a new combined
+source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Marisa and Ellen BOSS:** full attack/update/render owners were refined
+  with original word-frame modulo and natural early-return column/Extra Attack
+  phase dispatch. The current original TC4 matches are `af1110d` (Marisa,
+  1,431 CODE bytes) and `af1111e` (Ellen, 1,675 CODE bytes). Attempts to
+  change Marisa's compound sprite steps and Ellen's byte render-frame compound
+  update were rejected by direct compiler comparisons.
+- **Reimu and Marisa Extra Attack:** Reimu's two physical owners share the
+  current `af1112h` source proof (1,156 CODE bytes). Creation loops, collision
+  stripes and renderer-local values are naturalized while the original flight
+  transition label stays. Marisa's `af1113c` (676 CODE bytes) proves all four
+  fourteen-slot entity traversals using for-header advancement, including
+  three substantial update `continue` paths. Both retain exact native links.
+- **Complete Enemy engine:** all four physical producers are bound together
+  at `af1114e` (3,325 CODE bytes). Enemy update/render, reverse hit-testing,
+  formation parsing, emission and RNG walks use natural for-loops. The native
+  ENEDAT VM pointer lifetime and original uninitialized RNG history stay
+  unchanged after a real-compiler negative test.
 
 - **Shared BOSS:** the ring's primary/secondary sprite loops use natural
   prefix index and compound angle progression; active RNG and angle scratch
@@ -145,8 +167,9 @@ protected ancestor.
 
 ## Next useful work and open limits
 
-1. Continue the remaining Marisa/Ellen BOSS owners and Reimu Extra Attack
-   creation/rendering, or select another large engine/controller.
+1. Continue unselected original gameplay engine/character owners, including
+   the remaining collision and background systems, or revisit major BOSS
+   state-machine control flow with a fresh native compiler hypothesis.
    Inspect current source and focused evidence before choosing a function;
    recently naturalized leaves are not an unowned work queue.
 2. Select genuinely unowned regions from `config/units.csv`,
@@ -170,7 +193,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1094e af1095w af1096g af1101a af1101d af1104e af1105d af1106d af1107c af1108e af1101g af1102b af1103d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1094e af1112h af1113c af1095w af1096g af1101a af1101d af1104e af1105d af1110d af1111e af1106d af1107c af1108e af1114e af1101g af1102b af1103d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

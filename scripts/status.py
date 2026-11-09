@@ -96,22 +96,28 @@ def native_source_reviews(root, artifact):
     root = Path(root)
     if artifact == 'th03-main':
         # Select disjoint current source-bound overlays. The former full
-        # af1092k composite has superseded owners and the old shared BOSS
-        # af1056c source was separately refined. Keep those reports as
-        # historical evidence, not current whole-graph or Factory credit.
+        # af1092k composite had superseded owners and the old shared BOSS
+        # af1056c source was separately refined. The replaced owners now
+        # have separate current reports; don't claim an all-owner live link
+        # or Factory credit from any historical composite.
         selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
                      'review_th03_main_source_overlay.py', []) for label, stage in (
             ('Shared BOSS', 'af1109c'),
             ('Ellen Extra Attack', 'af1094e'),
+            ('Reimu Extra Attack', 'af1112h'),
+            ('Marisa Extra Attack', 'af1113c'),
             ('Rikako BOSS', 'af1095w'),
             ('Kana BOSS', 'af1096g'),
             ('Chiyuri BOSS', 'af1101a'),
             ('Kotohime BOSS', 'af1101d'),
             ('Reimu BOSS', 'af1104e'),
             ('Mima BOSS', 'af1105d'),
+            ('Marisa BOSS', 'af1110d'),
+            ('Ellen BOSS', 'af1111e'),
             ('Yumemi BOSS', 'af1106d'),
             ('Bullet engine', 'af1107c'),
             ('Fireball engine', 'af1108e'),
+            ('Enemy engine', 'af1114e'),
             ('Hitbox and HitCircle', 'af1101g'),
             ('MAIN entry and round', 'af1102b'),
             ('CPU controller', 'af1103d'),
