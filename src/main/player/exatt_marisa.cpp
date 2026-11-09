@@ -122,11 +122,13 @@ void near marisa_exatt_render_one(void)
             sprite_offset += 10;
         }
         sprite16_putx(left, top + 16, sprite_offset, SPF_DOWNWARDS_COLUMN);
-    } else if(p->state == MARISA_EXTRA_FLYING) {
-        exatt_render_state2(left, top, *(unsigned int near *)&p->frame);
-    } else {
-        exatt_render_state_other(left, top, *(unsigned int near *)p);
+        return;
     }
+    if(p->state == MARISA_EXTRA_FLYING) {
+        exatt_render_state2(left, top, *(unsigned int near *)&p->frame);
+        return;
+    }
+    exatt_render_state_other(left, top, *(unsigned int near *)p);
 }
 
 void far pascal exatt_update_marisa(void)
@@ -199,9 +201,10 @@ void far pascal exatt_render_marisa(void)
     // Every physical slot is visited, native-exact with the original
     // post-render near pointer and signed index mutations (af885b).
     for(register int i = 0; i < MARISA_EXTRA_SLOTS; ++i, ++p) {
-        if(p->state) {
-            exatt_entity_p = p;
-            marisa_exatt_render_one();
+        if(!p->state) {
+            continue;
         }
+        exatt_entity_p = p;
+        marisa_exatt_render_one();
     }
 }
