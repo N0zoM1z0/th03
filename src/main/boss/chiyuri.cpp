@@ -366,12 +366,11 @@ enum chiyuri_fan_phase_t {
 
 // Fan coordinates divide the signed 16-bit polar range BEFORE TO_SP
 // scaling; moving the scale into the quotient changes trajectory rounding.
-// The four independent passes advance byte speed and the signed index at
-// the end of each while body, with the speed mutation before prefix ++i.
-// Both projectile calls stay before those updates. The shared edge offset is
-// subtracted before each scaled displacement. Original count widths, division
-// order and emission sequences
-// stay intact. Compound speed assignment remains non-exact (af922h/af1033q).
+// Each of the four fan passes expresses its independent speed and index
+// progression in the for header, after the body emits its projectiles.
+// Keep the byte speed assignment before the signed ++i, the signed division
+// before TO_SP, and the original angle reflection and emission order.
+// Compound speed assignment remains non-exact (af922h/af1033q).
 void near chiyuri_pattern_fans(void)
 {
 	register pid_t pid_other = (1 - pid_current);
@@ -390,8 +389,11 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.type = BT_PELLET;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		i = 0;
-		while(i < chiyuri_fan_count) {
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, ++i
+		) {
 			bullet_template.center.x.v = (
 				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
@@ -404,12 +406,13 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v;
-			++i;
 		}
 
-		i = 0;
-		while(i < chiyuri_fan_count) {
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+		) {
 			bullet_template.center.x.v = (
 				(boss_center_x - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
@@ -422,8 +425,6 @@ void near chiyuri_pattern_fans(void)
 			bullet_template.angle = (0 - bullet_template.angle);
 			bullets_add();
 
-			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
-			++i;
 		}
 		return;
 	}
@@ -441,8 +442,11 @@ void near chiyuri_pattern_fans(void)
 		bullet_template.group = BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 		bullet_template.speed.v = chiyuri_fan_speed;
 
-		i = 0;
-		while(i < chiyuri_fan_count) {
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v, ++i
+		) {
 			bullet_template.center.y.v = (
 				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
@@ -453,12 +457,13 @@ void near chiyuri_pattern_fans(void)
 			bullets_add();
 
 
-			bullet_template.speed.v = CHIYURI_FAN_SPEED_STEP + bullet_template.speed.v;
-			++i;
 		}
 
-		i = 0;
-		while(i < chiyuri_fan_count) {
+		for(
+			i = 0;
+			i < chiyuri_fan_count;
+			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP, ++i
+		) {
 			bullet_template.center.y.v = (
 				(boss_center_y - CHIYURI_FAN_EDGE_OFFSET) +
 				TO_SP((CHIYURI_FAN_SPAN_PIXELS * i) / chiyuri_fan_count)
@@ -469,8 +474,6 @@ void near chiyuri_pattern_fans(void)
 			bullets_add();
 
 
-			bullet_template.speed.v = bullet_template.speed.v - CHIYURI_FAN_SPEED_STEP;
-			++i;
 		}
 
 		boss_mode = CHIYURI_MODE_SELECT;
