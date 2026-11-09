@@ -373,7 +373,7 @@ enum chiyuri_fan_phase_t {
 // stay intact. Compound speed assignment remains non-exact (af922h/af1033q).
 void near chiyuri_pattern_fans(void)
 {
-	pid_t pid_other = (1 - pid_current);
+	register pid_t pid_other = (1 - pid_current);
 	register int i;
 
 	if(boss_frame == CHIYURI_FAN_HORIZONTAL_FRAME) {

@@ -54,7 +54,7 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1058a`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1069b`,
 `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`,
 `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`, `ba_rikak` uses `af1066a`,
 and `hitcirc` uses `af1068s`. Only `ba_yumem` remains bound to `af1053k`.
@@ -97,14 +97,14 @@ between enemy and player draws. The `_BX` cel and symbolic monochrome hardware
 operations remain because their natural rewrites still change CODE. See the
 [current HitCircle lifetime review](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md).
 
-Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1058a/report.json`
-SHA-256: `dde32e0ba6923503b17958abcc9524f64c30f6e3918c552fc72e30edb384d970`.
+Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1069b/report.json`
+SHA-256: `fb64d17e3ad3bc36e02c49e956f0343ccd3174cc1d45946b0920930f4390953f`.
 It recompiled the complete 2,654-byte `ba_chiyu` owner with 381 ordered native
 fields and eleven PUBLICs in two original TC4 rounds, preserving the Japanese
-MAIN image and ordered relocations. The 613-byte `gba_boss_update_chiyuri()`
-controller now uses the direct inactive-player return before the complete mode
-switch and collision/hitbox tail. See the
-[current Chiyuri PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+MAIN image and ordered relocations. The 528-byte `chiyuri_pattern_fans()` now
+uses a register-qualified opposite-player PID; all four fan passes, byte-speed
+updates and projectile ordering remain intact. See the
+[current fan PID lifetime review](MAIN_CHIYURI_FANS_REGISTER_PID_AFTER1069_REVIEW.md).
 
 Mima current-source refresh: `.analysis/work/exatt-layout-af1059a/report.json`
 SHA-256: `397144dec5bda10fd68ba3740c4409cd1adb38073fe30b2605235599d009f0a7`.
