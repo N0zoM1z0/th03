@@ -260,17 +260,14 @@ void near mima_pattern_spread(void)
 void near mima_pattern_bomb_random(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	register int x;
-	register int y;
-
 	if(MIMA_RANDOM_BOMB_WARN == boss_frame) {
 		boss_render_mode = MIMA_RMODE_TRAIL;
 	} else if(MIMA_RANDOM_BOMB_FIRE_BEGIN > boss_frame) {
 		return;
 	}
 
-	x = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
-	y = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
+	int x = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
+	int y = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
 
 	if(
 		(boss_frame == MIMA_RANDOM_BOMB_FIRE_BEGIN) ||
@@ -410,8 +407,6 @@ void near mima_pattern_orbit(void)
 
 void far gba_boss_update_mima(void)
 {
-	register pid_t pid_other;
-
 	if(boss_update_start()) {
 		mima_bullet_speed = (MIMA_LEVEL_BULLET_BASE + gba_boss_level);
 		mima_random_count = (MIMA_LEVEL_RANDOM_COUNT_BASE + (gba_boss_level / MIMA_LEVEL_QUARTER));
@@ -426,7 +421,7 @@ void far gba_boss_update_mima(void)
 		return;
 	}
 
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	boss_target_update();
 	// The target deliberately recomputes this after the shared helper call
 	// instead of reusing [pid_other] (native negative control af749c).
@@ -577,10 +572,9 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 	screen_x_t base_left;
 	screen_y_t base_top;
 	screen_y_t top;
-	pid_t pid_other;
 	register int split_distance = distance;
 	register screen_x_t left;
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	sprite16_put_size.set(MIMA_RENDER_FULL_WIDTH, MIMA_RENDER_FULL_HEIGHT);
 	base_left = (
 		(-MIMA_RENDER_MAIN_LEFT_HALF) +
@@ -612,10 +606,8 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 
 void far gba_boss_render_mima(void)
 {
-	pid_t pid_other;
-
 	if(pid_current == gba_boss_launched_by) {
-		pid_other = (1 - pid_current);
+		pid_t pid_other = (1 - pid_current);
 		sprite16_clip_set_for_pid(pid_other);
 
 		if(MIMA_MODE_INTRO == boss_mode) {
