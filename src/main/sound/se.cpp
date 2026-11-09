@@ -10,16 +10,17 @@ enum { TH03_SE_PMD_VECTOR = 0x60 };
 void far pascal snd_se_play(int new_se)
 {
     register int se = new_se;
-    // Explicit original byte/word-active check is native-exact in TC4;
-    // it still returns before any priority-table access (af908a).
-    if(snd_se_active() == 0) {
+    // A disabled sound driver returns before any priority lookup.
+    if(!snd_se_active()) {
         return;
     }
-    // Keep original priority lookup order: reversing operands
-    // re-failed genuine original TC4 in af908e, after older af834b.
+    // Selecting the first effect returns before the priority comparison.
+    // Keep the original priority operands for the replacement case.
     if(snd_se_playing == SE_NONE) {
         snd_se_playing = se;
-    } else if(snd_se_priorities[snd_se_playing] <= snd_se_priorities[se]) {
+        return;
+    }
+    if(snd_se_priorities[snd_se_playing] <= snd_se_priorities[se]) {
         snd_se_playing = se;
         snd_se_frame = 0;
     }
@@ -28,16 +29,15 @@ void far pascal snd_se_play(int new_se)
 void far snd_se_update(void)
 {
     // The second service only emits an interrupt while FM is active
-    // and a real effect is selected. Explicit ==0 is native-exact
-    // while preserving the original short-circuit read order (af908b).
-    if((snd_se_active() == 0) || (snd_se_playing == SE_NONE)) {
+    // and a real effect is selected; the driver-active check comes first.
+    if((!snd_se_active()) || (snd_se_playing == SE_NONE)) {
         return;
     }
     // This direct register-service source compiles the exact original
     // PMD INT vector; the previous tiny reference helper is unnecessary.
     // Only the zero frame emits AH=0x0C/AL=effect at INT 60h;
     // the original two byte registers are not ordinary C++ args.
-    if(snd_se_frame == 0) {
+    if(!snd_se_frame) {
         _AH = PMD_SE_PLAY;
         _AL = snd_se_playing;
         geninterrupt(TH03_SE_PMD_VECTOR);
