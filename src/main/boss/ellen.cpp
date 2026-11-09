@@ -140,7 +140,7 @@ void far pascal boss_ellen_template_init(int player_id)
 	p->velocity_y = 0;
 	p->angle = 0;
 	p->hit = 0;
-	p->mode = 0;
+	p->mode = ELLEN_MODE_INTRO;
 	p->hp = ELLEN_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->render_frame = 0;
@@ -149,7 +149,7 @@ void far pascal boss_ellen_template_init(int player_id)
 	if(player_id != 0) {
 		p->sprite_offset += ELLEN_TEMPLATE_PLAYER2_OFF;
 	}
-	p->render_mode = 0;
+	p->render_mode = ELLEN_RENDER_MODE_NORMAL;
 }
 
 // Collision warning, ring firing and termination are distinct timed
@@ -164,7 +164,7 @@ enum ellen_spread_phase_t {
     ELLEN_SPREAD_ANGLE_STEP = 8,
 };
 
-// The two low-bit checks compile from natural unsigned C++ %2.
+// Both spread gates use the natural unsigned 16-bit frame remainder.
 // The original fire_single/done labels still preserve native branch
 // layout; merging the decrement and negative test in strip rendering
 // changed original CODE (af678b).
@@ -197,9 +197,9 @@ void near ellen_pattern_spread(void)
 		bullet_template.sprite_offset += (8 * ROW_SIZE);
 	}
 
-	// Both two-frame spread gates use the unsigned-word low bit.
+	// Both two-frame spread gates use the unsigned-word remainder.
 	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
-		if((boss_frame & (ELLEN_SPREAD_PERIOD - 1)) == 0) {
+		if((boss_frame % ELLEN_SPREAD_PERIOD) == 0) {
 			goto fire_single;
 		}
 		goto done;
@@ -219,7 +219,7 @@ void near ellen_pattern_spread(void)
 	if(boss_frame > ELLEN_SPREAD_FINISH) {
 		goto done;
 	}
-	if((boss_frame & (ELLEN_SPREAD_PERIOD - 1)) != 0) {
+	if((boss_frame % ELLEN_SPREAD_PERIOD) != 0) {
 		goto done;
 	}
 
@@ -257,7 +257,7 @@ void near ellen_pattern_extra(void)
 	if(boss_frame < ELLEN_EXTRA_WARN_START) {
 		return;
 	}
-	else if(
+	if(
 		(boss_frame == ELLEN_EXTRA_WARN_START) ||
 		(boss_frame == ELLEN_EXTRA_WARN_NEXT) ||
 		(boss_frame == ELLEN_EXTRA_WARN_LAST)
@@ -266,7 +266,7 @@ void near ellen_pattern_extra(void)
 		return;
 	}
 
-	else if(boss_frame == ELLEN_EXTRA_FIRST_BURST) {
+	if(boss_frame == ELLEN_EXTRA_FIRST_BURST) {
 		// Each independent original radial burst draws its own RNG angle,
 		// divides 256 by the byte count at each native iteration, then
 		// updates the byte angle AFTER the far Extra Attack spawn.
@@ -284,7 +284,7 @@ void near ellen_pattern_extra(void)
 	}
 
 	// Byte-valued 0xFE is a signed -2 offset in this final volley.
-	else if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
+	if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
 		register int i = 0;
 		unsigned char angle = randring_far_next16();
 		for(; i < ellen_extra_count; ++i, angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
