@@ -171,7 +171,7 @@ void far pascal boss_kana_template_init(int player_id)
 	p->pattern_i = 0;
 	p->effect_radius = 0;
 	p->sprite_offset = KANA_TEMPLATE_SPRITE_OFF;
-	if(player_id) {
+	if(player_id != 0) {
 		p->sprite_offset += KANA_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = KANA_RENDER_MODE_NORMAL;
@@ -244,20 +244,19 @@ enum kana_staged_phase_t {
 void near kana_pattern_staged_ring(void)
 {
 	pid_t pid_other = (1 - pid_current);
-	register int i;
 
 	if(boss_frame == KANA_STAGED_START) {
 		boss_render_mode = KANA_RENDER_MODE_EXPANDING;
 		return;
 	}
-	else if(boss_frame == KANA_STAGED_WARN) {
+	if(boss_frame == KANA_STAGED_WARN) {
 		boss_render_frame = 0;
 		boss_render_mode = KANA_RENDER_MODE_WARNING;
 		bomb_center_add(boss_center_x, boss_center_y, pid_other);
 		return;
 	}
 
-	else if(
+	if(
 		(boss_frame >= KANA_STAGED_SLOW) &&
 		(boss_frame < KANA_STAGED_EMISSION_END)
 	) {
@@ -297,7 +296,7 @@ void near kana_pattern_staged_ring(void)
 				BG_2_SPREAD_HORIZONTALLY_SYMMETRIC;
 			// Native 16-projectile staged volley preserves bullets_add,
 			// byte angle +6, and speed +3 ordering before index advance.
-			for(i = 0; i < KANA_MIDDLE_PELLET_COUNT; i++) {
+			for(register int i = 0; i < KANA_MIDDLE_PELLET_COUNT; ++i) {
 				bullets_add();
 				bullet_template.angle = bullet_template.angle + KANA_STAGED_PELLET_ANGLE_STEP;
 				bullet_template.speed.v = bullet_template.speed.v + KANA_STAGED_PELLET_SPEED_STEP;
@@ -320,7 +319,7 @@ void near kana_pattern_staged_ring(void)
 		return;
 	}
 
-	else if(boss_frame > KANA_STAGED_FINISH_AFTER) {
+	if(boss_frame > KANA_STAGED_FINISH_AFTER) {
 		boss_render_mode = KANA_RENDER_MODE_NORMAL;
 		boss_frame = 0;
 		boss_mode = KANA_MODE_SELECT;
@@ -342,7 +341,7 @@ void near kana_pattern_cloud_ring(void)
 
 	// The variable unsigned-word cloud interval compares its remainder
 	// with zero; the original RNG order is unchanged.
-	if((boss_frame % kana_cloud_interval) == 0) {
+	if(!(boss_frame % kana_cloud_interval)) {
 		_AL = randring_far_next16_and(0x1F);
 		// Genuine TC4 keeps the original SUB AL,10; direct C++ subtraction
 		// changes the full source CODE (fresh failed af836c).
@@ -420,8 +419,8 @@ void near kana_pattern_rotating_ring(void)
 		(boss_frame >= KANA_ROTATING_VOLLEY_START) &&
 		(boss_frame < KANA_ROTATING_VOLLEY_END)
 	) {
-		// Distinct four-frame unsigned-word low-bit clock, not byte angle.
-		if((boss_frame & (KANA_ROTATING_RING_PERIOD - 1)) == 0) {
+		// Distinct four-frame unsigned-word remainder clock, not byte angle.
+		if(!(boss_frame % KANA_ROTATING_RING_PERIOD)) {
 			bullet_template.type = BT_BULLET16_DEFAULT;
 			bullet_template.group = BG_RING;
 			bullet_template.count = KANA_ROTATING_RING_BULLETS;
@@ -436,7 +435,6 @@ void near kana_pattern_rotating_ring(void)
 			// The explicit byte assignment angle=angle+signed_delta
 			// changed original CODE (af884i). Keep compound update.
 			kana_rotating_angle += kana_rotating_delta;
-			return;
 		}
 		return;
 	}
@@ -467,7 +465,7 @@ void far gba_boss_update_kana(void)
 	pid_t pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case KANA_MODE_INTRO:
@@ -559,7 +557,7 @@ void near kana_render_main(void)
 	top = ((boss_center_y >> 4) - KANA_RENDER_MAIN_TOP);
 
 	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
+	if(boss_hit) {
 		sprite_offset += KANA_RENDER_HIT_OFF;
 	}
 	sprite16_put(left, top, sprite_offset);
