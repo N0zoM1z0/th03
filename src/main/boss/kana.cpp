@@ -223,11 +223,12 @@ void near kana_pattern_accel_ring(void)
 		snd_se_play(KANA_SOUND_ATTACK);
 		return;
 	}
-	if(KANA_ACCEL_FINISH_AFTER < boss_frame) {
-		boss_render_mode = KANA_RENDER_MODE_NORMAL;
-		boss_frame = 0;
-		boss_mode = KANA_MODE_SELECT;
+	if(boss_frame <= KANA_ACCEL_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = KANA_RENDER_MODE_NORMAL;
+	boss_frame = 0;
+	boss_mode = KANA_MODE_SELECT;
 }
 
 // Original clock phases for this full Kana attack; no new state.
@@ -319,11 +320,12 @@ void near kana_pattern_staged_ring(void)
 		return;
 	}
 
-	if(boss_frame > KANA_STAGED_FINISH_AFTER) {
-		boss_render_mode = KANA_RENDER_MODE_NORMAL;
-		boss_frame = 0;
-		boss_mode = KANA_MODE_SELECT;
+	if(boss_frame <= KANA_STAGED_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = KANA_RENDER_MODE_NORMAL;
+	boss_frame = 0;
+	boss_mode = KANA_MODE_SELECT;
 }
 
 // Original clock phases for this full Kana attack; no new state.
@@ -366,11 +368,12 @@ void near kana_pattern_cloud_ring(void)
 		snd_se_play(KANA_SOUND_ATTACK);
 	}
 
-	if(KANA_CLOUD_FINISH_AFTER < boss_frame) {
-		boss_render_mode = KANA_RENDER_MODE_NORMAL;
-		boss_frame = 0;
-		boss_mode = KANA_MODE_SELECT;
+	if(boss_frame <= KANA_CLOUD_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = KANA_RENDER_MODE_NORMAL;
+	boss_frame = 0;
+	boss_mode = KANA_MODE_SELECT;
 }
 
 // Original clock phases for this full Kana attack; no new state.
@@ -439,11 +442,12 @@ void near kana_pattern_rotating_ring(void)
 		return;
 	}
 
-	if(KANA_ROTATING_FINISH_AFTER < boss_frame) {
-		boss_render_mode = KANA_RENDER_MODE_NORMAL;
-		boss_frame = 0;
-		boss_mode = KANA_MODE_SELECT;
+	if(boss_frame <= KANA_ROTATING_FINISH_AFTER) {
+		return;
 	}
+	boss_render_mode = KANA_RENDER_MODE_NORMAL;
+	boss_frame = 0;
+	boss_mode = KANA_MODE_SELECT;
 }
 
 void far gba_boss_update_kana(void)
