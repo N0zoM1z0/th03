@@ -21,15 +21,17 @@ These read-only checks validate maintained source bindings, both original compil
 
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
-| th03-main / Engine and BOSS | af1092k | Verified | 12 | 19,741 | — |
 | th03-main / Shared BOSS | af1056c | Verified | 2 | 949 | — |
 | th03-main / Ellen Extra Attack | af1094e | Verified | 1 | 1,129 | — |
 | th03-main / Rikako BOSS | af1095w | Verified | 1 | 1,677 | — |
 | th03-main / Kana BOSS | af1096g | Verified | 1 | 1,874 | — |
+| th03-main / Chiyuri BOSS | af1101a | Verified | 1 | 2,654 | — |
+| th03-main / Kotohime BOSS | af1101d | Verified | 1 | 1,840 | — |
+| th03-main / Hitbox and HitCircle | af1101g | Verified | 2 | 711 | — |
+| th03-main / MAIN entry and round | af1102b | Verified | 1 | 3,050 | — |
+| th03-main / CPU controller | af1103d | Verified | 1 | 1,077 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
-
-th03-main Engine and BOSS: `.analysis/work/exatt-layout-af1092k/report.json`.
 
 th03-main Shared BOSS: `.analysis/work/exatt-layout-af1056c/report.json`.
 
@@ -38,6 +40,16 @@ th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1094e/report.json`.
 th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1095w/report.json`.
 
 th03-main Kana BOSS: `.analysis/work/exatt-layout-af1096g/report.json`.
+
+th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1101a/report.json`.
+
+th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1101d/report.json`.
+
+th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1101g/report.json`.
+
+th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1102b/report.json`.
+
+th03-main CPU controller: `.analysis/work/exatt-layout-af1103d/report.json`.
 
 th03-mainl Staff Roll / 19 procedures: `.analysis/work/mainl-staff-af942s-native-build.json`.
 

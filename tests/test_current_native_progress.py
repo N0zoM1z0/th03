@@ -22,6 +22,37 @@ class NativeProgress(unittest.TestCase):
         self.assertTrue(all(not row['verified'] and 'unavailable' in row['reason'] for row in rows))
         run.assert_not_called()
 
+    def test_main_native_selection_excludes_superseded_composite(self):
+        expected = ['af1056c', 'af1094e', 'af1095w', 'af1096g', 'af1101a',
+                    'af1101d', 'af1101g', 'af1102b', 'af1103d']
+        with TemporaryDirectory() as folder, patch.object(status.subprocess, 'run') as run:
+            rows = status.native_source_reviews(Path(folder), 'th03-main')
+        self.assertEqual([row['stage'] for row in rows], expected)
+        self.assertTrue(all(not row['verified'] and 'unavailable' in row['reason']
+                            for row in rows))
+        run.assert_not_called()
+
+    def test_main_source_review_requires_complete_two_round_link(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            for stage in ('af1101a', 'af1101d', 'af1101g', 'af1102b', 'af1103d'):
+                path = root / f'.analysis/work/exatt-layout-{stage}/report.json'
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('{}')
+            for value in (dict(full_Japanese_MAIN_equal=True, native_rounds=2,
+                               complete_original_units=1,
+                               original_scope=dict(CODE_bytes=32, PUBLICs=1,
+                                                   ordered_native_fields=4)),
+                          dict(full_Japanese_MAIN_equal=False, native_rounds=2)):
+                result = SimpleNamespace(returncode=0, stderr='', stdout=json.dumps(value))
+                with self.subTest(link_ok=value['full_Japanese_MAIN_equal']), \
+                     patch.object(status.subprocess, 'run', return_value=result):
+                    rows = status.native_source_reviews(root, 'th03-main')
+                fresh = [row for row in rows if row['stage'].startswith('af110')]
+                self.assertEqual(len(fresh), 5)
+                self.assertTrue(all(row['verified'] == value['full_Japanese_MAIN_equal']
+                                    for row in fresh))
+
     def test_failed_or_incomplete_review_cannot_earn_native_credit(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)

@@ -95,15 +95,22 @@ def native_source_reviews(root, artifact):
     """
     root = Path(root)
     if artifact == 'th03-main':
-        # These reports cover disjoint owners. A composite stage is current
-        # only while every source input it compiled still matches.
+        # Select disjoint current source-bound overlays, not the historical
+        # af1092k composite: its Kotohime, Chiyuri and HitCircle inputs were
+        # superseded independently, so reviewing it as a whole is now stale.
+        # Unmodified owners in that old composite remain historical evidence;
+        # do not present it as a current all-owner proof or invent a cold link.
         selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
                      'review_th03_main_source_overlay.py', []) for label, stage in (
-            ('Engine and BOSS', 'af1092k'),
             ('Shared BOSS', 'af1056c'),
             ('Ellen Extra Attack', 'af1094e'),
             ('Rikako BOSS', 'af1095w'),
             ('Kana BOSS', 'af1096g'),
+            ('Chiyuri BOSS', 'af1101a'),
+            ('Kotohime BOSS', 'af1101d'),
+            ('Hitbox and HitCircle', 'af1101g'),
+            ('MAIN entry and round', 'af1102b'),
+            ('CPU controller', 'af1103d'),
         )]
     elif artifact == 'th03-mainl':
         selected = [
