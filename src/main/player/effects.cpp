@@ -98,8 +98,7 @@ void far player_effects_update(void)
     int i;
     // Full physical effect-pool lifetime update: native while preserves
     // the original signed index, near pointer and post-write updates.
-    i = 0;
-    while(i < PLAYER_EFFECT_COUNT) {
+    for(i = 0; i < PLAYER_EFFECT_COUNT; ++i, ++effect) {
         if(effect->kind != PLAYER_EFFECT_FREE) {
             // Preserve byte-memory postfix: prefix changes TC4 CODE
             // (fresh native negative af924f).
@@ -112,8 +111,6 @@ void far player_effects_update(void)
             // in independent negative af924i.
             effect->radius += effect->radius_delta;
         }
-        ++i;
-        effect++;
     }
 }
 
@@ -130,8 +127,7 @@ void far player_effects_render(void)
     // Draw the entire actual effect pool, selecting the true left/
     // right playfield clipping per effect before GRCG rasterization.
     // Source `kind != FREE` and native while are byte-exact (af924b/c).
-    i = 0;
-    while(i < PLAYER_EFFECT_COUNT) {
+    for(i = 0; i < PLAYER_EFFECT_COUNT; ++i, ++effect) {
         if(effect->kind != PLAYER_EFFECT_FREE) {
             if(effect->x < PLAYFIELD_W_BORDERED) {
                 grc_setclip(
@@ -177,8 +173,6 @@ void far player_effects_render(void)
                 grcg_line(x[3], y[3], x[0], y[0]);
             }
         }
-        ++i;
-        effect++;
     }
     // Complete hardware operation: disable GRCG using the observed word write.
     // AX is the I/O accumulator; DX is untouched. No C result is exposed.
