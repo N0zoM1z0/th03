@@ -260,10 +260,11 @@ void near rikako_pattern_orbit_spread(void)
 		return;
 	}
 
-	if(RIKAKO_ORBIT_FINISH_AFTER < boss_frame) {
-		boss_frame = 0;
-		boss_mode = RIKAKO_MODE_SELECT;
+	if(boss_frame <= RIKAKO_ORBIT_FINISH_AFTER) {
+		return;
 	}
+	boss_frame = 0;
+	boss_mode = RIKAKO_MODE_SELECT;
 }
 
 enum rikako_entities_phase_t {
@@ -333,10 +334,11 @@ void near rikako_pattern_entities_and_pellets(void)
 		return;
 	}
 
-	if(RIKAKO_ENTITIES_FINISH_AFTER < boss_frame) {
-		boss_frame = 0;
-		boss_mode = RIKAKO_MODE_SELECT;
+	if(boss_frame <= RIKAKO_ENTITIES_FINISH_AFTER) {
+		return;
 	}
+	boss_frame = 0;
+	boss_mode = RIKAKO_MODE_SELECT;
 }
 
 // Alternating bursts draw RNG at remainder 1, then fire paired volleys
@@ -384,10 +386,11 @@ void near rikako_pattern_alternating_burst(void)
 		bullets_add();
 	}
 
-	if(RIKAKO_BURST_FINISH_FRAME <= boss_frame) {
-		boss_mode = RIKAKO_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < RIKAKO_BURST_FINISH_FRAME) {
+		return;
 	}
+	boss_mode = RIKAKO_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_rikako(void)
