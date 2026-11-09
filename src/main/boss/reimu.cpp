@@ -499,13 +499,10 @@ void near reimu_render_main(void)
 		sprite16_put(left, top, sprite_offset);
 	}
 
-	if(boss_render_mode != REIMU_RENDER_MODE_ORBIT) {
-		return;
-	}
-
-	sprite16_put_size.set(REIMU_RENDER_ORBIT_SIZE, REIMU_RENDER_ORBIT_SIZE);
-	{
-		register sprite16_offset_t sprite_offset = (boss_sprite_offset + 0xFFF4);
+	if(boss_render_mode == REIMU_RENDER_MODE_ORBIT) {
+		sprite16_put_size.set(REIMU_RENDER_ORBIT_SIZE, REIMU_RENDER_ORBIT_SIZE);
+		{
+			register sprite16_offset_t sprite_offset = (boss_sprite_offset + 0xFFF4);
 		unsigned char anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
 		// Do not write `%4` for this *byte* animation carrier: it changed
 		// original TC4 CODE in af892g, unlike the 16-bit attack clock.
@@ -525,6 +522,7 @@ void near reimu_render_main(void)
 			sprite16_put(left, top, sprite_offset);
 		}
 	}
+	}
 }
 
 // Both renderers take a 16-bit global frame division before truncating
@@ -536,11 +534,8 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	screen_y_t top;
 	int i;
 	unsigned char anim;
-	pid_t pid_other;
-	register sprite16_offset_t sprite_offset;
-	register screen_x_t left;
+	pid_t pid_other = 1 - pid_current;
 
-	pid_other = (1 - pid_current);
 
 	if(round_frame_mod2 && (boss_frame < REIMU_INTRO_FLASH_END_FRAME)) {
 		return;
@@ -553,7 +548,7 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 		sprite16_clip.set_for_pid_1();
 	}
 
-	sprite_offset = (pid.so_attack + 0x280);
+	register sprite16_offset_t sprite_offset = (pid.so_attack + 0x280);
 	anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
 	if((anim & 3) == 1) {
 		sprite_offset += 6;
@@ -564,8 +559,8 @@ void near pascal reimu_render_intro(unsigned char angle, int length)
 	// Eight original polar-sprite calls with byte-angle advancement
 	// after rendering. The comma-expression increments the signed index
 	// first and the byte angle second (af985d).
-	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; ++i, angle += REIMU_INTRO_ANGLE_STEP) {
-		left = polar(boss_center_x, length, CosTable8[angle]);
+	for(i = 0; i < REIMU_INTRO_SPRITE_COUNT; i++, angle += REIMU_INTRO_ANGLE_STEP) {
+		register screen_x_t left = polar(boss_center_x, length, CosTable8[angle]);
 		top = polar(boss_center_y, length, SinTable8[angle]);
 		left = (playfield_fg_x_to_screen(left, pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN);
 		top = ((top >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
