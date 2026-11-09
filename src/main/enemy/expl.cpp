@@ -4,6 +4,7 @@
 // bounded levels. Keep all byte mutations and signed bonus arithmetic.
 enum explosion_native_timing_t {
     EXPLOSION_HIT_PERIOD = 4,
+    EXPLOSION_NONPELLET_CHARGE_MULTIPLIER = 3,
     EXPLOSION_CHAIN_FIRST_END = 4,
     EXPLOSION_CHAIN_SECOND_END = 10,
     EXPLOSION_CHAIN_THIRD_END = 20,
@@ -40,10 +41,10 @@ uint8_t far __cdecl explosions_hittest(void)
     uint8_t hits;
 
     enum against2_t {
-        EHA2_ENEMY = (3 * EHA_ENEMY),
+        EHA2_ENEMY = (EXPLOSION_NONPELLET_CHARGE_MULTIPLIER * EHA_ENEMY),
         EHA2_PELLET = EHA_PELLET,
-        EHA2_FIREBALL_BLUE = (3 * EHA_FIREBALL_BLUE),
-        EHA2_FIREBALL_RED = (3 * EHA_FIREBALL_RED),
+        EHA2_FIREBALL_BLUE = (EXPLOSION_NONPELLET_CHARGE_MULTIPLIER * EHA_FIREBALL_BLUE),
+        EHA2_FIREBALL_RED = (EXPLOSION_NONPELLET_CHARGE_MULTIPLIER * EHA_FIREBALL_RED),
 
         _against2_FORCE_UINT8 = 0xFF
     };
@@ -52,7 +53,7 @@ uint8_t far __cdecl explosions_hittest(void)
     if(explosion_hittest_against == EHA_PELLET) {
         against2 = EHA2_PELLET;
     } else {
-        against2 = (3 * explosion_hittest_against);
+        against2 = (EXPLOSION_NONPELLET_CHARGE_MULTIPLIER * explosion_hittest_against);
     }
 
     expl_p = efes;
@@ -62,7 +63,7 @@ uint8_t far __cdecl explosions_hittest(void)
     // header advances the original signed 16-bit index and near pointer
     // after every continue path and completed collision, matching the
     // original TC4 iterator order byte-for-byte (af996d).
-    for(i = 0; i < EFE_COUNT; i++, expl_p++) {
+    for(i = 0; i < EFE_COUNT; ++i, ++expl_p) {
         // State, player and byte-frame filters remain ordered short-circuit
         // guards. The byte phase stays a low-bit test: natural %4 changed
         // original TC4 CODE (af902c).
