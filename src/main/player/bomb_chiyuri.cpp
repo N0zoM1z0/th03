@@ -23,6 +23,15 @@ enum chiyuri_bomb_physical_t {
     CHIYURI_BOMB_AXIS_PERIOD = 16,
     CHIYURI_BOMB_CENTER_X = TO_SP(144),
     CHIYURI_BOMB_CENTER_Y = TO_SP(184),
+    CHIYURI_BOMB_INITIAL_PALETTE_WHITE = 255,
+    CHIYURI_BOMB_INITIAL_PALETTE_STEP = 4,
+    CHIYURI_BOMB_TONE_LEFT = 60,
+    CHIYURI_BOMB_TONE_RIGHT = 120,
+    CHIYURI_BOMB_FADE_PALETTE_TONE = 100,
+    CHIYURI_BOMB_SHAKE_SHIFT = 4,
+    CHIYURI_BOMB_DISTANCE_SCALE = 2,
+    CHIYURI_BOMB_DISTANCE_SUBPIX = 16,
+    CHIYURI_BOMB_FADE_STEP = 8,
 };
 
 void far chiyuri_bomb(void)
@@ -51,7 +60,7 @@ void far chiyuri_bomb(void)
 		bomb_bg_fill();
 		grcg_off();
 
-		color = (255 - (frame * 4));
+		color = (CHIYURI_BOMB_INITIAL_PALETTE_WHITE - (frame * CHIYURI_BOMB_INITIAL_PALETTE_STEP));
 		bomb_palette_step(color, pid_current);
 		// Byte modulo zero cadence accepts the natural predicate;
 		// keep the one far-pascal explosion-add call (af926a/d).
@@ -65,12 +74,12 @@ void far chiyuri_bomb(void)
 		// This *different* byte shake cadence must retain &3:
 		// substituting %4 changed native CODE in fresh af926c.
 		if((frame & 3) < 2) {
-			PaletteTone = 60;
+			PaletteTone = CHIYURI_BOMB_TONE_LEFT;
 			palette_changed = true;
-			playfield_fg_shift_x[pid_current] = 4;
+			playfield_fg_shift_x[pid_current] = CHIYURI_BOMB_SHAKE_SHIFT;
 		} else {
-			playfield_fg_shift_x[pid_current] = -4;
-			PaletteTone = 120;
+			playfield_fg_shift_x[pid_current] = -CHIYURI_BOMB_SHAKE_SHIFT;
+			PaletteTone = CHIYURI_BOMB_TONE_RIGHT;
 			palette_changed = true;
 		}
 
@@ -80,7 +89,7 @@ void far chiyuri_bomb(void)
 			snd_se_play(10);
 			// Preserve two successive 16-bit multiplications, not
 			// a single equivalent *32 (real original negative af926e).
-			int distance = (((frame - CHIYURI_BOMB_PALETTE_END) * 2) * 16);
+			int distance = (((frame - CHIYURI_BOMB_PALETTE_END) * CHIYURI_BOMB_DISTANCE_SCALE) * CHIYURI_BOMB_DISTANCE_SUBPIX);
 			bomb_axis_add((CHIYURI_BOMB_CENTER_X - distance), CHIYURI_BOMB_CENTER_Y, pid_current);
 			bomb_axis_add((CHIYURI_BOMB_CENTER_X + distance), CHIYURI_BOMB_CENTER_Y, pid_current);
 			bomb_axis_add(CHIYURI_BOMB_CENTER_X, (CHIYURI_BOMB_CENTER_Y - distance), pid_current);
@@ -98,11 +107,11 @@ void far chiyuri_bomb(void)
 			(_AX = pid_current)
 		);
 	} else {
-		PaletteTone = 100;
+		PaletteTone = CHIYURI_BOMB_FADE_PALETTE_TONE;
 		palette_changed = true;
 		playfield_fg_shift_x[pid_current] = 0;
 
-		frame = (255 - (frame * 8));
+		frame = (CHIYURI_BOMB_INITIAL_PALETTE_WHITE - (frame * CHIYURI_BOMB_FADE_STEP));
 		color = (frame * 2);
 		Palettes[pid_current].c.r = color;
 		Palettes[pid_current].c.g = color;
