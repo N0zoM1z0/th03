@@ -44,7 +44,7 @@ void far pascal ellen_target_set(pid_t player)
     }
 
     enemy_t near *p = reinterpret_cast<enemy_t near *>(&efes[0]);
-    for(int i = 0; i < TARGET_ENEMY_COUNT; ++i, p++) {
+    for(int i = 0; i < TARGET_ENEMY_COUNT; ++i, ++p) {
         if(p->flag != EF_RUNNING_SPAWNED || p->pid != player ||
            p->center.x.v < 0 || p->center.x.v > TO_SP(PLAYFIELD_W) ||
            p->center.y.v < 0 ||
@@ -191,9 +191,8 @@ void near pascal yumemi_chargeshot_ring_render(
     frame = p->frame;
     center_x = p->x.v - YUME_RING_CENTER_OFFSET;
     center_y = p->y.v - YUME_RING_CENTER_OFFSET;
-    // One ring contains sixteen actual sprite calls, with two independently
-    // advanced local carriers. The natural while emits native-exact CODE
-    // (af856a), but naming the live byte `angle += 16` changes it (af856b).
+    // Sixteen real sprite calls share signed-index and byte-angle carriers.
+    // Their separate body updates preserve the register allocation of TC4.
     i = 0;
     angle = (frame << 1);
     while(i < YUME_RING_SPRITES_PER_WAVE) {
@@ -213,16 +212,14 @@ void far pascal chargeshot_render_yumemi(void)
 {
     int left;
     int top;
-    unsigned char frame;
-    sprite16_offset_t sprite_offset;
     yumemi_chargeshot_t near *p = &yumemi_chargeshots[pid_current];
     if(!p->state) {
         return;
     }
     sprite16_put_size.set(32, 32); // Stored VRAM height is 16 rows.
     sprite16_clip_set_for_pid(pid_current);
-    sprite_offset = pid.so_attack + 0xC80;
-    frame = p->frame;
+    sprite16_offset_t sprite_offset = pid.so_attack + 0xC80;
+    unsigned char frame = p->frame;
     // Original byte phase is deliberately masked here. Natural byte
     // `% 2` produces a different TC4 object (af856d), unlike the Gauge
     // division predicate below.
