@@ -6,6 +6,7 @@ enum reimu_update_state_t {
     REIMU_UPDATE_ACTIVE = 1,
     REIMU_UPDATE_FLYING = 2,
     REIMU_UPDATE_APPEARING_END = 0x14,
+    REIMU_UPDATE_SLOT_COUNT = 8,
 };
 
 void far pascal exatt_update_reimu(void)
@@ -14,8 +15,8 @@ void far pascal exatt_update_reimu(void)
     hitbox.radius.x.v = TO_SP(16);
     hitbox.radius.y.v = TO_SP(16);
     hitbox.pid = 1 - pid_current;
-    exatt_entity_t near *p = exatt_entities[pid_current];
-    for(int i = 0; i < 8; ++i, ++p) {
+    exatt_entity_t near *p = &exatt_entities[pid_current][0];
+    for(int i = 0; i < REIMU_UPDATE_SLOT_COUNT; ++i, ++p) {
         if(p->state == REIMU_UPDATE_FREE) {
             continue;
         }
@@ -65,8 +66,7 @@ void far pascal exatt_update_reimu(void)
 void far pascal exatt_render_reimu(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    register int i = 0;
-    for(; i < 8; ++i, p++) {
+    for(register int i = 0; i < REIMU_UPDATE_SLOT_COUNT; ++i, ++p) {
         if(p->state) {
             exatt_entity_p = p;
             reimu_exatt_render_one();
