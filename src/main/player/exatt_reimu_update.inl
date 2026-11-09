@@ -16,10 +16,10 @@ void far pascal exatt_update_reimu(void)
     hitbox.pid = 1 - pid_current;
     exatt_entity_t near *p = exatt_entities[pid_current];
     for(int i = 0; i < 8; ++i, ++p) {
-        if(REIMU_UPDATE_FREE == p->state) {
+        if(p->state == REIMU_UPDATE_FREE) {
             continue;
         }
-        if(REIMU_UPDATE_ACTIVE == p->state) {
+        if(p->state == REIMU_UPDATE_ACTIVE) {
             p->x += p->velocity_x;
             if((0 >= p->x) || (TO_SP(PLAYFIELD_W) <= p->x)) {
                 // Original compound negation is codegen-visible:
@@ -43,12 +43,11 @@ void far pascal exatt_update_reimu(void)
             hitbox.origin.center.y.v = p->y;
             hitbox_hittest();
             exatt_collmap_set(p->x, p->y);
-        } else if(REIMU_UPDATE_FLYING == p->state) {
+        } else if(p->state == REIMU_UPDATE_FLYING) {
             exatt_entity_p = p;
             if(exatt_fly_update()) {
-                unsigned char angle;
-                angle = randring_far_next16_and(0x1F);
-                angle = ((randring_far_next16_and(1) * 0x60) + angle + 0x80);
+                unsigned char angle = randring_far_next16_and(0x1F);
+                angle += ((randring_far_next16_and(1) * 0x60) + 0x80);
                 vector2(
                     p->velocity_x, p->velocity_y,
                     angle, ((round_speed / 8) + 0x32)

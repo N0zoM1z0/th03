@@ -54,9 +54,9 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1074n`,
-`ba_yumem` uses `af1074n`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
-`ba_reimu` uses `af1074n`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1077k`,
+`ba_yumem` uses `af1077k`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_reimu` uses `af1077k`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
@@ -142,18 +142,21 @@ uses the direct inactive-player return before its attack-mode dispatch and
 collision/hitbox tail. See the
 [current Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
-Reimu current-source refresh is included in the joint
-`.analysis/work/exatt-layout-af1074n/report.json` (SHA-256
-`badc35d10c7959d8afa7e11cb34b8a05d7ce0f4966feca573617f07b3609d91f`). It
+Reimu current-source refresh is now included in the five-owner integration
+`.analysis/work/exatt-layout-af1077k/report.json` (SHA-256
+`ac71f4eff35a78362537d81d8d01b1d306c8a86d4dfa137830c0775de65742b8`). It
 recompiles the complete 2,020-byte `ba_reimu` owner with 270 ordered native
 fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
 MAIN image and ordered relocations. The 443-byte Orbit Burst has three
 phase-local signed indices, byte-angle scratches and natural `while` loops;
-the 339-byte Orbit Cloud has two disjoint byte-angle scopes and natural
-variable/fixed cadence predicates. The 296-byte Update controller now has a
-first-use PID local, natural level arithmetic, compound frame increment and a
-simplified INTRO return guard. See the [Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
+the 339-byte Orbit Cloud has disjoint byte-angle scopes and natural cadence
+tests. The 118-byte spread leaf now has positive cadence guards in both frame
+phases, and the 98-byte mirrored spread uses explicit byte casts. The 296-byte
+Update controller has a first-use PID local, natural level arithmetic,
+compound frame increment and a simplified INTRO return guard. See the [Orbit
+Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
 [Orbit Cloud review](MAIN_REIMU_ORBIT_CLOUD_PHASE_LOCAL_ANGLE_AFTER1072_REVIEW.md),
+[spread-leaf review](MAIN_REIMU_SPREAD_PHASE_GUARDS_NATURAL_CPP_AFTER1077_REVIEW.md),
 [Update controller review](MAIN_REIMU_UPDATE_CONTROLLER_NATURAL_CPP_AFTER1074_REVIEW.md)
 and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
@@ -287,15 +290,16 @@ rounds: 1,874 CODE bytes, 274 ordered native fields and nine PUBLICs match,
 with both normal MAIN images and ordered relocations exact. See the
 [af1060a current-source review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
-Reimu's complete `gba_boss_update_reimu()` controller now has a first-use
-PID local, natural level-derived setup arithmetic, compound frame advancement
-and a direct INTRO early-return guard. The current `ba_reimu` source is bound
-by the three-owner integration `af1074n`: 2,020 CODE bytes, 270 ordered native
+Reimu's complete `gba_boss_update_reimu()` controller has a first-use PID
+local, natural level-derived setup arithmetic, compound frame advancement and
+a direct INTRO early-return guard. The current `ba_reimu` source is bound by
+the five-owner integration `af1077k`: 2,020 CODE bytes, 270 ordered native
 fields and nine PUBLICs match in two original TC4 rounds, with both normal MAIN
-images and ordered relocations exact. The 443-byte Orbit Burst has three
-phase-local while loops; the 339-byte Orbit Cloud has disjoint angle scopes.
-See the [Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
+images and ordered relocations exact. The 443-byte Orbit Burst, 339-byte Orbit
+Cloud, 118-byte spreads and 98-byte mirrored spread all have current-source
+native matches. See the [Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md),
 [Orbit Cloud review](MAIN_REIMU_ORBIT_CLOUD_PHASE_LOCAL_ANGLE_AFTER1072_REVIEW.md),
+[spread-leaf review](MAIN_REIMU_SPREAD_PHASE_GUARDS_NATURAL_CPP_AFTER1077_REVIEW.md),
 [Update controller review](MAIN_REIMU_UPDATE_CONTROLLER_NATURAL_CPP_AFTER1074_REVIEW.md)
 and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
@@ -346,30 +350,36 @@ and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
 Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
-The current Reimu + Yumemi + Chiyuri source integration is `af1074n`:
-`ba_reimu`, `ba_yumem` and `ba_chiyu`, 7,032 CODE bytes, 994 ordered native
-fields and 30 PUBLICs. Both original TC4 rounds and both normal MAIN links
-match. Report: `.analysis/work/exatt-layout-af1074n/report.json`, SHA-256
-`badc35d10c7959d8afa7e11cb34b8a05d7ce0f4966feca573617f07b3609d91f`.
-It includes Reimu's phase-local Orbit Burst and Orbit Cloud source plus the
-updated 296-byte Reimu Update controller, Chiyuri's four-while fan source and
-Yumemi's update, arrival, Aimed Random, Rain and Cross/Rain changes.
+The current five-owner Reimu + Yumemi + Chiyuri / Reimu Extra Attack source
+integration is `af1077k`: `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly` and
+`ex_reup`, 8,188 CODE bytes, 1,067 ordered native fields and 40 PUBLICs. Both
+original TC4 rounds and both normal Japanese MAIN links match. Report:
+`.analysis/work/exatt-layout-af1077k/report.json`, SHA-256
+`ac71f4eff35a78362537d81d8d01b1d306c8a86d4dfa137830c0775de65742b8`.
+It includes Reimu's four attack leaves and update controller, both physical
+Reimu Extra Attack owners, Chiyuri's fan source and Yumemi's update, arrival,
+Aimed Random, Rain and Cross/Rain changes.
 
-Reimu's 281-byte `exatt_update_reimu()` is now naturalized in the separate
-`ex_reup` physical unit. The 331-byte `ex_reup` owner has two-round native
-CODE/field/PUBLIC equality at `af1075w`; the current inline update source is
-explicitly bound through the TC4 dependency record. The combined
-`ba_reimu` + `ex_rfly` + `ex_reup` integration is `af1075y`: 3,176 CODE bytes,
-343 ordered native fields and 19 PUBLICs match in two original TC4 rounds,
-with both normal MAIN images and ordered relocations exact. See the
-[Reimu Extra Attack Update review](MAIN_REIMU_EXTRA_ATTACK_UPDATE_NATURAL_CPP_AFTER1075_REVIEW.md).
+Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
+`ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
+original TC4 rounds: 331 CODE bytes, 22 ordered native fields and two PUBLICs
+match, with both normal Japanese MAIN images and ordered relocations exact.
+The update uses an ordinary entity pointer, a `for`-scope index, variable-first
+state tests, and an RNG-initialized byte angle with compound addition. The
+current inline source dependency is checked by the source overlay. See the
+[Reimu Extra Attack Update review](MAIN_REIMU_EXTRA_ATTACK_UPDATE_NATURAL_CPP_AFTER1077_REVIEW.md).
+
+The 118-byte `reimu_pattern_spreads()` and 98-byte
+`reimu_pattern_mirrored_spread()` leaves were also rechecked against Ghidra and
+the complete `ba_reimu` owner. Positive cadence guards and explicit byte casts
+match in two original TC4 rounds; see the
+[Reimu spread-leaf review](MAIN_REIMU_SPREAD_PHASE_GUARDS_NATURAL_CPP_AFTER1077_REVIEW.md).
 
 Recommended next work:
 
-1. Continue `HitCircle::cel()`, Kotohime Radial Burst and Reimu's remaining
-   pattern leaves (`reimu_pattern_spreads()` and
-   `reimu_pattern_mirrored_spread()`). The 443-byte Orbit Burst, 339-byte Orbit
-   Cloud, 296-byte BOSS Update and 281-byte Extra Attack Update now have
+1. Continue `HitCircle::cel()` and Kotohime Radial Burst. Reimu's 443-byte
+   Orbit Burst, 339-byte Orbit Cloud, 118-byte spreads, 98-byte mirrored
+   spread, 296-byte BOSS Update and 281-byte Extra Attack Update now have
    current-source native matches. Compare the complete affected physical
    owner each time.
 2. Move to the 205-byte `reimu_exatt_render_one()` in `ex_repre`, then examine

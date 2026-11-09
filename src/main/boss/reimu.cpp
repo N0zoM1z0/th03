@@ -231,22 +231,22 @@ void near reimu_pattern_spreads(void)
 	bullet_template.center.y.v = boss_center_y;
 
 	if(boss_frame < REIMU_SPREAD_NARROW_END) {
-		if(round_frame_mod16) {
-			return;
+		if(!round_frame_mod16) {
+			bullet_template.angle = 0x20;
+			bullet_template.group = BG_3_SPREAD_NARROW;
+			bullets_add();
+			bullet_template.angle = 0x60;
+			bullets_add();
 		}
-		bullet_template.angle = 0x20;
-		bullet_template.group = BG_3_SPREAD_NARROW;
-		bullets_add();
-		bullet_template.angle = 0x60;
-		bullets_add();
 		return;
-	} else if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
-		if(round_frame_mod16) {
-			return;
+	}
+
+	if(boss_frame < REIMU_SPREAD_MEDIUM_END) {
+		if(!round_frame_mod16) {
+			bullet_template.group = BG_5_SPREAD_MEDIUM;
+			bullet_template.angle = 0x40;
+			bullets_add();
 		}
-		bullet_template.group = BG_5_SPREAD_MEDIUM;
-		bullet_template.angle = 0x40;
-		bullets_add();
 		return;
 	}
 
@@ -373,11 +373,11 @@ void near reimu_pattern_mirrored_spread(void)
 		bullet_template.pid = (1 - pid_current);
 		bullet_template.center.x.v = boss_center_x;
 		bullet_template.center.y.v = boss_center_y;
-		bullet_template.angle = (unsigned char)boss_frame;
+		bullet_template.angle = static_cast<unsigned char>(boss_frame);
 		bullet_template.group = BG_4_SPREAD_NARROW;
 		bullets_add();
 
-		bullet_template.angle = (REIMU_MIRROR_OPPOSITE_ANGLE - (unsigned char)boss_frame);
+		bullet_template.angle = (REIMU_MIRROR_OPPOSITE_ANGLE - static_cast<unsigned char>(boss_frame));
 		bullets_add();
 		return;
 	}
