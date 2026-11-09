@@ -26,6 +26,15 @@ enum reimu_bomb_phase_t {
     REIMU_BOMB_RENDER_END = 96,
     REIMU_BOMB_FLASH_END = 96,
     REIMU_BOMB_SHAKE_END = 112,
+    REIMU_BOMB_SPRITE_SIZE = 16,
+    REIMU_BOMB_SPRITE_OFFSET = 0x18,
+    REIMU_BOMB_SPRITE_X_MARGIN = 8,
+    REIMU_BOMB_SPRITE_Y_MARGIN = 8,
+    REIMU_BOMB_FALL_LIMIT_Y = -TO_SP(8),
+    REIMU_BOMB_RESET_Y = TO_SP(384),
+    REIMU_BOMB_FALL_ACCELERATION = 8,
+    REIMU_BOMB_INITIAL_SPEED = 96,
+    REIMU_BOMB_RANDOM_SPEED_MASK = 127,
 };
 typedef char reimu_bomb_stride_is_8[
     (sizeof(reimu_bomb_particle_t) == 8) ? 1 : -1
@@ -73,16 +82,16 @@ void far reimu_bomb_update(void)
     }
     bomb_frame[pid_current]++;
     reimu_bomb_particle_p = &reimu_bomb_particles[pid_current][0];
-    for(i = 0; i < REIMU_BOMB_PARTICLES_PER_PLAYER; ++i, reimu_bomb_particle_p++) {
+    for(i = 0; i < REIMU_BOMB_PARTICLES_PER_PLAYER; ++i, ++reimu_bomb_particle_p) {
         // Original inactive particle slots are skipped; the active list
         // is not compacted or defensively reordered.
         if(!reimu_bomb_particle_p->active) {
             continue;
         }
         reimu_bomb_particle_p->y += reimu_bomb_particle_p->velocity_y;
-        if(reimu_bomb_particle_p->y <= -TO_SP(8)) {
-            reimu_bomb_particle_p->y = TO_SP(384);
-            reimu_bomb_particle_p->velocity_y += 8;
+        if(reimu_bomb_particle_p->y <= REIMU_BOMB_FALL_LIMIT_Y) {
+            reimu_bomb_particle_p->y = REIMU_BOMB_RESET_Y;
+            reimu_bomb_particle_p->velocity_y += REIMU_BOMB_FALL_ACCELERATION;
         }
     }
     if(bomb_frame[pid_current] >= BOMB_FRAMES) {
@@ -94,17 +103,16 @@ void near reimu_bomb_particles_render(void)
 {
     int left;
     int top;
-    sprite16_offset_t sprite_offset;
     reimu_bomb_particle_p = &reimu_bomb_particles[pid_current][0];
-    sprite16_put_size.set(16, 16);
+    sprite16_put_size.set(REIMU_BOMB_SPRITE_SIZE, REIMU_BOMB_SPRITE_SIZE);
     sprite16_clip.reset();
-    sprite_offset = pid.so_attack + 0x18;
-    for(int i = 0; i < REIMU_BOMB_PARTICLES_PER_PLAYER; ++i, reimu_bomb_particle_p++) {
+    sprite16_offset_t sprite_offset = pid.so_attack + REIMU_BOMB_SPRITE_OFFSET;
+    for(int i = 0; i < REIMU_BOMB_PARTICLES_PER_PLAYER; ++i, ++reimu_bomb_particle_p) {
         if(!reimu_bomb_particle_p->active) {
             continue;
         }
-        left = playfield_fg_x_to_screen(reimu_bomb_particle_p->x, pid_current) - 8;
-        top = (reimu_bomb_particle_p->y >> 4) + 8;
+        left = playfield_fg_x_to_screen(reimu_bomb_particle_p->x, pid_current) - REIMU_BOMB_SPRITE_X_MARGIN;
+        top = (reimu_bomb_particle_p->y >> 4) + REIMU_BOMB_SPRITE_Y_MARGIN;
         sprite16_put(left, top, sprite_offset);
     }
 }
@@ -122,7 +130,7 @@ void far reimu_bomb(void)
         // Real register ABI: target sub_B39E calls sub_B37C, whose first
         // fill-loop setup copies BX into DI. See raw helper audit in REVIEW.
         _BX = 0x3932;
-        if(pid_current != 0) {
+        if(pid_current) {
             _BX += 40;
         }
         bomb_bg_fill();
@@ -130,9 +138,9 @@ void far reimu_bomb(void)
         if(frame < REIMU_BOMB_SPAWN_END) {
             reimu_bomb_particle_p = &reimu_bomb_particles[pid_current][frame];
             reimu_bomb_particle_p->active = 1;
-            reimu_bomb_particle_p->velocity_y = -96 - randring2_next16_and(127);
+            reimu_bomb_particle_p->velocity_y = -REIMU_BOMB_INITIAL_SPEED - randring2_next16_and(REIMU_BOMB_RANDOM_SPEED_MASK);
             reimu_bomb_particle_p->x = randring2_next16_mod(TO_SP(PLAYFIELD_W));
-            reimu_bomb_particle_p->y = TO_SP(384);
+            reimu_bomb_particle_p->y = REIMU_BOMB_RESET_Y;
         }
         Palettes[pid_current].c.r = frame * 4;
         Palettes[pid_current].c.g = frame * 3;
