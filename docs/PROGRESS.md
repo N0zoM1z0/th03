@@ -31,10 +31,10 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Chiyuri Extra Attack | af1122c | Verified | 1 | 978 | — |
 | th03-main / Rikako Extra Attack | af1124d | Verified | 1 | 702 | — |
 | th03-main / Kana Extra Attack | af1125e | Verified | 1 | 663 | — |
-| th03-main / Rikako BOSS | af1118e | Verified | 1 | 1,677 | — |
+| th03-main / Rikako BOSS | af1157c | Verified | 1 | 1,677 | — |
 | th03-main / Kana BOSS | af1150c | Verified | 1 | 1,874 | — |
 | th03-main / Chiyuri BOSS | af1151d | Verified | 1 | 2,654 | — |
-| th03-main / Kotohime BOSS | af1123e | Verified | 1 | 1,840 | — |
+| th03-main / Kotohime BOSS | af1158e | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1139c | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1137b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1144c | Verified | 1 | 1,431 | — |
@@ -63,9 +63,14 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Yumemi Bomb | af1152f | Verified | 1 | 698 | — |
 | th03-main / Reimu Bomb and shared lifecycle | af1153d | Verified | 1 | 925 | — |
 | th03-main / Kotohime Bomb | af1154d | Verified | 1 | 528 | — |
+| th03-main / Kana Bomb | af1155b | Verified | 1 | 526 | — |
+| th03-main / Chiyuri Bomb | af1156b | Verified | 1 | 490 | — |
+| th03-main / Marisa Bomb | af1159d | Verified | 1 | 449 | — |
 | th03-main / Combo HUD and chain | af1131a | Verified | 2 | 978 | — |
 | th03-main / Player shots | af1132b | Verified | 1 | 449 | — |
 | th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
+| th03-main / Warning and Gauge HUD | af1160e | Verified | 1 | 1,560 | — |
+| th03-main / Character callback setup | af1161f | Verified | 1 | 3,888 | — |
 | th03-main / CPU controller | af1103d | Verified | 1 | 1,077 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
@@ -90,13 +95,13 @@ th03-main Rikako Extra Attack: `.analysis/work/exatt-layout-af1124d/report.json`
 
 th03-main Kana Extra Attack: `.analysis/work/exatt-layout-af1125e/report.json`.
 
-th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1118e/report.json`.
+th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1157c/report.json`.
 
 th03-main Kana BOSS: `.analysis/work/exatt-layout-af1150c/report.json`.
 
 th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1151d/report.json`.
 
-th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1123e/report.json`.
+th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1158e/report.json`.
 
 th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1139c/report.json`.
 
@@ -154,11 +159,21 @@ th03-main Reimu Bomb and shared lifecycle: `.analysis/work/exatt-layout-af1153d/
 
 th03-main Kotohime Bomb: `.analysis/work/exatt-layout-af1154d/report.json`.
 
+th03-main Kana Bomb: `.analysis/work/exatt-layout-af1155b/report.json`.
+
+th03-main Chiyuri Bomb: `.analysis/work/exatt-layout-af1156b/report.json`.
+
+th03-main Marisa Bomb: `.analysis/work/exatt-layout-af1159d/report.json`.
+
 th03-main Combo HUD and chain: `.analysis/work/exatt-layout-af1131a/report.json`.
 
 th03-main Player shots: `.analysis/work/exatt-layout-af1132b/report.json`.
 
 th03-main Player effects: `.analysis/work/exatt-layout-af1133a/report.json`.
+
+th03-main Warning and Gauge HUD: `.analysis/work/exatt-layout-af1160e/report.json`.
+
+th03-main Character callback setup: `.analysis/work/exatt-layout-af1161f/report.json`.
 
 th03-main CPU controller: `.analysis/work/exatt-layout-af1103d/report.json`.
 
