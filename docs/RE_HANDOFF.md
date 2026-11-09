@@ -54,9 +54,9 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1078g`,
-`ba_yumem` uses `af1078g`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
-`ba_reimu` uses `af1078g`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1078r`,
+`ba_yumem` uses `af1078r`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_reimu` uses `af1078r`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
@@ -351,15 +351,15 @@ Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
 The current five-owner Reimu + Yumemi + Chiyuri / Reimu Extra Attack source
-integration is `af1078g`: `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly` and
+integration is `af1078r`: `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly` and
 `ex_reup`, 8,188 CODE bytes, 1,067 ordered native fields and 40 PUBLICs. Both
 original TC4 rounds and both normal Japanese MAIN links match. Report:
-`.analysis/work/exatt-layout-af1078g/report.json`, SHA-256
-`72099aefd64f188f12591c77ad74fb72761fce80e0920c849255e0b645172838`.
-It includes Reimu's four attack leaves, update controller and 205-byte
-`reimu_exatt_render_one()` recovery, both physical Reimu Extra Attack owners,
-Chiyuri's fan source and Yumemi's update, arrival, Aimed Random, Rain and
-Cross/Rain changes.
+`.analysis/work/exatt-layout-af1078r/report.json`, SHA-256
+`e5aa2a5f4a4efc2075db8509f1e16d5ea43ca872e658f7c34cc15a404b2812ff`.
+It includes Reimu's four attack leaves, update controller, 259-byte main
+renderer and 205-byte `reimu_exatt_render_one()` recovery, both physical Reimu
+Extra Attack owners, Chiyuri's fan source and Yumemi's update, arrival, Aimed
+Random, Rain and Cross/Rain changes.
 
 Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
 `ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
@@ -380,18 +380,22 @@ sprite scratch lifetimes, initialized screen coordinates and explicit
 `reinterpret_cast` word loads. It was rebuilt with the full 825-byte owner in
 two original TC4 rounds; see the
 [Reimu Extra Attack renderer review](MAIN_REIMU_EXATT_RENDER_ONE_NATURAL_CPP_AFTER1078_REVIEW.md).
+The 259-byte `reimu_render_main()` now has declaration-initialized PID,
+disjoint main/orbit sprite-offset scopes, an orbit-local animation byte and a
+loop-local signed index. Its 2,020-byte `ba_reimu` owner and the five-owner
+integration match in two original TC4 rounds; see the
+[Reimu main-renderer review](MAIN_REIMU_RENDER_MAIN_NATURAL_CPP_AFTER1078_REVIEW.md).
 
 Recommended next work:
 
 1. Continue `HitCircle::cel()` and Kotohime Radial Burst. Reimu's 443-byte
    Orbit Burst, 339-byte Orbit Cloud, 118-byte spreads, 98-byte mirrored
-   spread, 296-byte BOSS Update, 281-byte Extra Attack Update and 205-byte
-   Extra Attack renderer now have current-source native matches. Compare the
-   complete affected physical owner each time.
-2. Move to the 259-byte `reimu_render_main()` and 259-byte
-   `reimu_render_intro()` in `ba_reimu`, then examine the adjacent Extra Attack
-   creation and remaining rendering helpers. Recheck current source and
-   disassembly rather than inheriting old assumptions.
+   spread, 296-byte BOSS Update, 281-byte Extra Attack Update, 205-byte Extra
+   Attack renderer and 259-byte main renderer now have current-source native
+   matches. Compare the complete affected physical owner each time.
+2. Move to the 259-byte `reimu_render_intro()` in `ba_reimu`, then examine the
+   adjacent Extra Attack creation and remaining rendering helpers. Recheck
+   current source and disassembly rather than inheriting old assumptions.
 3. Expand beyond the already integrated nine character BOSS owners. Use
    `config/units.csv`, `config/evidence.csv`, current source and focused
    reviews to identify genuinely unowned large functions or engine areas.

@@ -478,52 +478,52 @@ void near reimu_render_main(void)
 {
 	screen_x_t left;
 	screen_y_t top;
-	pid_t pid_other;
-	unsigned char anim;
-	register sprite16_offset_t sprite_offset;
-	register int i;
+	pid_t pid_other = 1 - pid_current;
 
-	pid_other = (1 - pid_current);
 	sprite16_put_size.set(REIMU_RENDER_MAIN_SIZE, REIMU_RENDER_MAIN_SIZE);
 
-	if(!pid_other) {
+	if(pid_other == 0) {
 		sprite16_clip.set_for_pid_0();
 	} else {
 		sprite16_clip.set_for_pid_1();
 	}
 
-	sprite_offset = boss_sprite_offset;
-	if(boss_hit != 0) {
-		sprite_offset += 0x0C;
-	}
+	{
+		register sprite16_offset_t sprite_offset = boss_sprite_offset;
+		if(boss_hit) {
+			sprite_offset += 0x0C;
+		}
 
-	left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - REIMU_RENDER_MAIN_LEFT_MARGIN);
-	top = ((boss_center_y >> 4) - REIMU_RENDER_MAIN_TOP_MARGIN);
-	sprite16_put(left, top, sprite_offset);
+		left = (playfield_fg_x_to_screen(boss_center_x, pid_other) - REIMU_RENDER_MAIN_LEFT_MARGIN);
+		top = ((boss_center_y >> 4) - REIMU_RENDER_MAIN_TOP_MARGIN);
+		sprite16_put(left, top, sprite_offset);
+	}
 
 	if(boss_render_mode != REIMU_RENDER_MODE_ORBIT) {
 		return;
 	}
 
 	sprite16_put_size.set(REIMU_RENDER_ORBIT_SIZE, REIMU_RENDER_ORBIT_SIZE);
-	sprite_offset = (boss_sprite_offset + 0xFFF4);
-	anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
-	// Do not write `%4` for this *byte* animation carrier: it changed
-	// original TC4 CODE in af892g, unlike the 16-bit attack clock.
-	if((anim & 3) == 1) {
-		sprite_offset += 6;
-	} else if(anim & 3) {
-		sprite_offset += (((anim & 1) * 6) + 0x780);
-	}
+	{
+		register sprite16_offset_t sprite_offset = (boss_sprite_offset + 0xFFF4);
+		unsigned char anim = (boss_frame / REIMU_RENDER_CEL_PERIOD);
+		// Do not write `%4` for this *byte* animation carrier: it changed
+		// original TC4 CODE in af892g, unlike the 16-bit attack clock.
+		if((anim & 3) == 1) {
+			sprite_offset += 6;
+		} else if(anim & 3) {
+			sprite_offset += (((anim & 1) * 6) + 0x780);
+		}
 
-	// All live orbit sprites draw in signed-index order; the prefix
-	// for-header increment preserves the original register sequence.
-	for(i = 0; i < reimu_orbit_count; ++i) {
-		left = (
-			playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN
-		);
-		top = ((reimu_orbit_y[i] >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
-		sprite16_put(left, top, sprite_offset);
+		// All live orbit sprites draw in signed-index order; the prefix
+		// for-header increment preserves the original register sequence.
+		for(register int i = 0; i < reimu_orbit_count; ++i) {
+			left = (
+				playfield_fg_x_to_screen(reimu_orbit_x[i], pid_other) - REIMU_RENDER_ORBIT_LEFT_MARGIN
+			);
+			top = ((reimu_orbit_y[i] >> 4) - REIMU_RENDER_ORBIT_TOP_MARGIN);
+			sprite16_put(left, top, sprite_offset);
+		}
 	}
 }
 
