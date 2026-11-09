@@ -450,8 +450,6 @@ void near kana_pattern_rotating_ring(void)
 
 void far gba_boss_update_kana(void)
 {
-	pid_t pid_other;
-
 	if(boss_update_start()) {
 		kana_accel_count = ((gba_boss_level / KANA_LEVEL_HALF) + KANA_LEVEL_ACCEL_BASE);
 		kana_ring_count_slow = ((gba_boss_level / KANA_LEVEL_HALF) + KANA_LEVEL_RING_SLOW_BASE);
@@ -466,10 +464,10 @@ void far gba_boss_update_kana(void)
 		return;
 	}
 
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	++boss_frame;
+	boss_frame++;
 
 	switch(boss_mode) {
 	case KANA_MODE_INTRO:
@@ -602,12 +600,9 @@ void near kana_render_intro(void)
 {
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
-	int radius;
-	unsigned char angle;
 	register int i;
-	register screen_x_t left;
 
-	radius = (KANA_INTRO_RADIUS_ORIGINAL_SUBPIXEL - ((boss_frame * 2) * 16));
+	int radius = (KANA_INTRO_RADIUS_ORIGINAL_SUBPIXEL - ((boss_frame * 2) * 16));
 
 	sprite16_put_size.w = KANA_RENDER_INTRO_WIDTH;
 	sprite16_put_size.h = KANA_RENDER_INTRO_HEIGHT;
@@ -622,16 +617,15 @@ void near kana_render_intro(void)
 		((((boss_frame >> KANA_RENDER_ANIMATION_SHIFT) & (KANA_RENDER_ANIMATION_PERIOD - 1)) * KANA_RENDER_INTRO_FRAME_WIDTH) * KANA_RENDER_INTRO_FRAME_HEIGHT)
 	);
 
-	angle = boss_move_phase;
+	unsigned char angle = boss_move_phase;
 	// Binary zero-minus is not the same original TC4 CODE as unary
 	// minus (genuine failed trial af884e).
 	angle = (0 - angle);
 
-	// Sixteen sprite calls now use natural signed-index while and a
+	// Sixteen sprite calls now use a natural signed-index for and a
 	// named byte angle step, both native exact (af884b/c).
-	i = 0;
-	while(i < KANA_INTRO_SPRITE_COUNT) {
-		left = polar(
+	for(i = 0; i < KANA_INTRO_SPRITE_COUNT; ++i, angle += KANA_INTRO_SPRITE_ANGLE_STEP) {
+		register screen_x_t left = polar(
 			boss_center_x,
 			radius,
 			CosTable8[angle]
@@ -651,8 +645,6 @@ void near kana_render_intro(void)
 		// assignment; compound top >>=4 changed CODE (af761b).
 		top = static_cast<screen_y_t>(top >> 4);
 		sprite16_put(left, top, sprite_offset);
-		++i;
-		angle += KANA_INTRO_SPRITE_ANGLE_STEP;
 	}
 }
 
