@@ -36,18 +36,23 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Chiyuri BOSS | af1151d | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1158e | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1139c | Verified | 1 | 2,020 | — |
-| th03-main / Mima BOSS | af1137b | Verified | 1 | 1,922 | — |
+| th03-main / Mima BOSS | af1168b | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1144c | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1145c | Verified | 1 | 1,675 | — |
-| th03-main / Yumemi BOSS | af1130c | Verified | 1 | 2,358 | — |
+| th03-main / Yumemi BOSS | af1162c | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1108e | Verified | 1 | 1,555 | — |
-| th03-main / Enemy engine | af1114e | Verified | 4 | 3,325 | — |
+| th03-main / Enemy engine | af1167c | Verified | 4 | 3,325 | — |
 | th03-main / Explosion collision | af1120c | Verified | 1 | 630 | — |
 | th03-main / Hitbox and HitCircle | af1101g | Verified | 2 | 711 | — |
 | th03-main / Background chains | af1115b | Verified | 2 | 1,245 | — |
-| th03-main / MAIN entry and round | af1126c | Verified | 1 | 3,050 | — |
+| th03-main / MAIN entry and round | af1171d | Verified | 1 | 3,050 | — |
+| th03-main / Round results and reset | af1164e | Verified | 1 | 1,060 | — |
+| th03-main / Round intro HUD | af1166i | Verified | 1 | 1,478 | — |
+| th03-main / Static HUD | af1165h | Verified | 1 | 539 | — |
 | th03-main / Player core | af1116g | Verified | 1 | 3,135 | — |
+| th03-main / Player loss and defeat | af1163i | Verified | 1 | 664 | — |
+| th03-main / Gauge and shared Extra Attack | af1169a | Verified | 2 | 96 | — |
 | th03-main / Marisa Chargeshot | af1134f | Verified | 1 | 1,509 | — |
 | th03-main / Chiyuri Chargeshot | af1135h | Verified | 1 | 1,011 | — |
 | th03-main / Reimu Chargeshot | af1136f | Verified | 1 | 1,448 | — |
@@ -71,7 +76,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
 | th03-main / Warning and Gauge HUD | af1160e | Verified | 1 | 1,560 | — |
 | th03-main / Character callback setup | af1161f | Verified | 1 | 3,888 | — |
-| th03-main / CPU controller | af1103d | Verified | 1 | 1,077 | — |
+| th03-main / CPU controller | af1170d | Verified | 1 | 1,077 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
@@ -105,19 +110,19 @@ th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1158e/report.json`.
 
 th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1139c/report.json`.
 
-th03-main Mima BOSS: `.analysis/work/exatt-layout-af1137b/report.json`.
+th03-main Mima BOSS: `.analysis/work/exatt-layout-af1168b/report.json`.
 
 th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1144c/report.json`.
 
 th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1145c/report.json`.
 
-th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1130c/report.json`.
+th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1162c/report.json`.
 
 th03-main Bullet engine: `.analysis/work/exatt-layout-af1107c/report.json`.
 
 th03-main Fireball engine: `.analysis/work/exatt-layout-af1108e/report.json`.
 
-th03-main Enemy engine: `.analysis/work/exatt-layout-af1114e/report.json`.
+th03-main Enemy engine: `.analysis/work/exatt-layout-af1167c/report.json`.
 
 th03-main Explosion collision: `.analysis/work/exatt-layout-af1120c/report.json`.
 
@@ -125,9 +130,19 @@ th03-main Hitbox and HitCircle: `.analysis/work/exatt-layout-af1101g/report.json
 
 th03-main Background chains: `.analysis/work/exatt-layout-af1115b/report.json`.
 
-th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1126c/report.json`.
+th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1171d/report.json`.
+
+th03-main Round results and reset: `.analysis/work/exatt-layout-af1164e/report.json`.
+
+th03-main Round intro HUD: `.analysis/work/exatt-layout-af1166i/report.json`.
+
+th03-main Static HUD: `.analysis/work/exatt-layout-af1165h/report.json`.
 
 th03-main Player core: `.analysis/work/exatt-layout-af1116g/report.json`.
+
+th03-main Player loss and defeat: `.analysis/work/exatt-layout-af1163i/report.json`.
+
+th03-main Gauge and shared Extra Attack: `.analysis/work/exatt-layout-af1169a/report.json`.
 
 th03-main Marisa Chargeshot: `.analysis/work/exatt-layout-af1134f/report.json`.
 
@@ -175,7 +190,7 @@ th03-main Warning and Gauge HUD: `.analysis/work/exatt-layout-af1160e/report.jso
 
 th03-main Character callback setup: `.analysis/work/exatt-layout-af1161f/report.json`.
 
-th03-main CPU controller: `.analysis/work/exatt-layout-af1103d/report.json`.
+th03-main CPU controller: `.analysis/work/exatt-layout-af1170d/report.json`.
 
 th03-mainl Staff Roll / 19 procedures: `.analysis/work/mainl-staff-af942s-native-build.json`.
 
