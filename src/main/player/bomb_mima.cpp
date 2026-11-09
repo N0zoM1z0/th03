@@ -45,7 +45,7 @@ void far mima_bomb_update(void)
     }
     bomb_frame[pid_current]++;
     i = bomb_frame[pid_current] / MIMA_BOMB_COLUMN_PERIOD - 1;
-    if(i < MIMA_BOMB_COLUMNS && (bomb_frame[pid_current] % MIMA_BOMB_COLUMN_PERIOD) == 0) {
+    if(i < MIMA_BOMB_COLUMNS && !(bomb_frame[pid_current] % MIMA_BOMB_COLUMN_PERIOD)) {
         mima_bomb_columns[pid_current][i].x = randring2_next16_mod(TO_SP(PLAYFIELD_W));
         mima_bomb_columns[pid_current][i].sprite_offset =
             (i / 3) * 2 + pid.so_attack + 0x1C;
@@ -61,7 +61,7 @@ void near mima_bomb_columns_render(void)
     mima_bomb_column_p = &mima_bomb_columns[pid_current][0];
     sprite16_put_size.set(16, 16);
     sprite16_clip.reset();
-    for(int i = 0; i < MIMA_BOMB_COLUMNS; ++i, mima_bomb_column_p++) {
+    for(int i = 0; i < MIMA_BOMB_COLUMNS; ++i, ++mima_bomb_column_p) {
         // Original sentinel terminates rendering at the *first* empty slot,
         // rather than skipping past a possible later column.
         if(!mima_bomb_column_p->sprite_offset) {
@@ -109,7 +109,7 @@ void far mima_bomb(void)
         Palettes[pid_current].c.b = 0;
         palette_changed = true;
         color = frame % MIMA_BOMB_COLUMN_PERIOD;
-        if(color == 0) {
+        if(!color) {
             bomb_explosion_add(TO_SP(144), TO_SP(184), pid_current);
         }
         if((color & 3) < 2) {
