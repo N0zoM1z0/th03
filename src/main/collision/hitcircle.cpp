@@ -104,11 +104,12 @@ void near hitcircles_update(void)
 	// The thirteen-record age walk keeps its signed index and near-pointer
 	// increments together after each byte-state update.
 	for(register int i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
-		if(p->age) {
-			p->age++;
-			if(HITCIRCLE_FRAMES < p->age) {
-				p->age = 0;
-			}
+		if(!p->age) {
+			continue;
+		}
+		p->age++;
+		if(HITCIRCLE_FRAMES < p->age) {
+			p->age = 0;
 		}
 	}
 }
@@ -134,11 +135,12 @@ void near hitcircles_render(void)
 	// hit circle uses its own monochrome palette after the signed-index
 	// and near-pointer for loop.
 	for(register int i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
-		if(p->age) {
-			sprite16_clip_set_for_pid(p->pid);
-			sprite16_offset_t so = p->cel();
-			sprite16_put(p->topleft.x, p->topleft.y, so);
+		if(!p->age) {
+			continue;
 		}
+		sprite16_clip_set_for_pid(p->pid);
+		sprite16_offset_t so = p->cel();
+		sprite16_put(p->topleft.x, p->topleft.y, so);
 	}
 
 	// Player circle

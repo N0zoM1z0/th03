@@ -27,10 +27,10 @@ uint8_t hitbox_hittest(void)
 	playfield_subpixel_t center_y;
 	uint8_t damage = 0;
 
-	if(
-		(hitbox.origin.center.y.v < 0) ||
-		(defeat_flag == DF_BANNER)
-	) {
+	if(hitbox.origin.center.y.v < 0) {
+		return 0;
+	}
+	if(defeat_flag == DF_BANNER) {
 		return 0;
 	}
 
