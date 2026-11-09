@@ -146,11 +146,9 @@ extern "C" void near stage_setup(void)
     }
     if(resident->game_mode == GM_STORY) {
         // Original story score copies each real 0..7 BCD digit before
-        // any character/CPU setup. A typed while is native-exact.
-        i = 0;
-        while(i < SCORE_DIGITS) {
+        // any character/CPU setup. A bounded for keeps the original digit order.
+        for(i = 0; i < SCORE_DIGITS; ++i) {
             score_p1[0].digits[i] = resident->score_last[0].digits[i];
-            ++i;
         }
         switch(resident->story_stage) {
         case 0: case 1: cpu_hit_damage_additional = 3; break;
@@ -186,16 +184,13 @@ extern "C" void near stage_setup(void)
         stage_score_credit_digit_set(3);
     }
     // Clear per-player gauge/combo state with the same physical near
-    // player pointer and signed index; post-store increments are exact.
+    // player pointer and signed index; for-header post-store increments are exact.
     player = players;
-    i = 0;
-    while(i < PLAYER_COUNT) {
+    for(i = 0; i < PLAYER_COUNT; ++i, player++) {
         player->rounds_won = 0;
         player->gauge_avail = (64 << 4);
         player->combo_hits_max = 0;
         player->combo_bonus_max = 0;
-        ++i;
-        player++;
     }
     if(resident->demo_num == 0) {
         stage_demo_update = stage_demo_update_none;
@@ -226,9 +221,8 @@ extern "C" void near stage_setup(void)
     }
     // Character selector reads each real resident byte and the five
     // speed bytes in order, then binds the nine original far callbacks.
-    // Natural while does not alter the near speed-pointer mutations.
-    i = 0;
-    while(i < PLAYER_COUNT) {
+    // Natural for does not alter the near speed-pointer mutations.
+    for(i = 0; i < PLAYER_COUNT; ++i) {
         playchar = (players[i].playchar_paletted.v - 1) / 2;
         speed = (unsigned char near *)&PLAYCHAR_SPEEDS[playchar];
         player = &players[i];
@@ -248,7 +242,6 @@ extern "C" void near stage_setup(void)
         case 7: set_callbacks_chiyuri(i); break;
         case 8: set_callbacks_yumemi(i); break;
         }
-        ++i;
     }
     super_entry_bfnt(stage_lose_bfnt);
     super_entry_bfnt(stage_round_bfnt);
@@ -290,25 +283,19 @@ extern "C" void near round_prepare_players(void)
     bullets_reset();
     // Reset the entire combined Enemy/Fireball physical EFE pool,
     // not just visible enemies; preserve byte flag store ordering.
-    pid = 0;
-    while(pid < EFE_COUNT) {
+    for(pid = 0; pid < EFE_COUNT; ++pid) {
         efes[pid].flag = EFF_FREE;
-        ++pid;
     }
     // Explicitly clear BOTH players' sixteen original 32-byte Extra
     // Attack entities. No new BSS or alternate state is allocated.
-    pid = 0;
-    while(pid < 16) {
+    for(pid = 0; pid < 16; ++pid) {
         exatt_entities[0][pid].state = 0;
         exatt_entities[1][pid].state = 0;
-        ++pid;
     }
     // Reset every original shotpair after EFE and Extra Attack state;
     // the order is source-native (af923c).
-    pid = 0;
-    while(pid < SHOTPAIR_COUNT) {
+    for(pid = 0; pid < SHOTPAIR_COUNT; ++pid) {
         shotpairs[pid].alive = false;
-        ++pid;
     }
     reimu_chargeshots_reset();
     mima_chargeshots_reset();
@@ -397,8 +384,7 @@ extern "C" void near round_prepare_players(void)
     // Each of the two genuine physical player records is initialized
     // in the original order. Preserve duplicate `is_hit=false` stores,
     // all low-level byte fields and the near pointer post-update.
-    pid = 0;
-    while(pid < PLAYER_COUNT) {
+    for(pid = 0; pid < PLAYER_COUNT; ++pid, player++) {
         enemies_alive[pid] = 0;
         player->playchar_paletted = resident->playchar_paletted[pid];
         player->is_cpu = resident->is_cpu[pid];
@@ -417,11 +403,9 @@ extern "C" void near round_prepare_players(void)
         player->shot_active = SA_ENABLED;
         player->hit_damage_next = 1;
         // Every actual CPU charge threshold consumes a fresh IRand()
-        // word. This nested while must not fold or reorder the calls.
-        i = 0;
-        while(i < CHARGE_AT_AVAIL_RING_SIZE) {
+        // word. This nested for must not fold or reorder the calls.
+        for(i = 0; i < CHARGE_AT_AVAIL_RING_SIZE; ++i) {
             player->cpu_charge_at_avail_ring[i] = (((IRand() & 3) << 6) + 0x3F);
-            ++i;
         }
         player->cpu_charge_at_avail_ring_p = 0;
         player->bombs = 2;
@@ -436,8 +420,6 @@ extern "C" void near round_prepare_players(void)
         playfield_fg_shift_x[pid] = 0;
         damage_all_on[pid] = false;
         warning_flag[pid] = WF_NONE;
-        ++pid;
-        player++;
     }
     enemy_formations_randomize();
 }

@@ -36,6 +36,7 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1101a` | Chiyuri BOSS `ba_chiyu` |
 | `af1101d` | Kotohime BOSS `ba_koto` |
 | `af1101g` | Hitbox `hitbox` and HitCircle `hitcirc` |
+| `af1102b` | Large MAIN entry/round controller `entry` |
 
 Reports live at `.analysis/work/exatt-layout-STAGE/report.json`. The current
 review log is `.analysis/work/progress-review-current-main.log`. These are
@@ -43,6 +44,14 @@ separate scoped links, not a new combined build of all listed owners.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **MAIN entry/round reset:** eight fixed-length digit, player, callback,
+  EFE, Extra Attack, shotpair and random charge-threshold traversals now
+  use natural `for` loops. The original 3,050-byte physical controller
+  (`main`, frame scheduler, stage setup and round reset) is verified by
+  independent full MAIN link rounds at `af1102a` and final `af1102b`;
+  all 433 ordered native fields and Japanese MZ relocations match. Source
+  keeps every original `IRand()` draw and duplicated hit-flag store.
 
 - **Collision:** `hitbox_hittest` now expresses both shot-pair half-extents
   explicitly, with a natural negative-Y guard and two-frame bomb remainder.
@@ -127,7 +136,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1092k af1056c af1094e af1095w af1096g af1101a af1101d af1101g
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1092k af1056c af1094e af1095w af1096g af1101a af1101d af1101g af1102b
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both
