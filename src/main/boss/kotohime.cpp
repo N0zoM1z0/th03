@@ -439,13 +439,12 @@ void far gba_boss_update_kotohime(void)
 
 	switch(boss_mode) {
 	case KOTOHIME_MODE_INTRO:
-		if(KOTOHIME_INTRO_FINISH_FRAME == boss_frame) {
-			boss_frame = 0;
-			boss_mode = KOTOHIME_MODE_SELECT;
-			break;
-		} else {
+		if(KOTOHIME_INTRO_FINISH_FRAME != boss_frame) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = KOTOHIME_MODE_SELECT;
+		break;
 
 	case KOTOHIME_MODE_SELECT:
 		boss_pattern_next();
@@ -512,12 +511,12 @@ void near pascal kotohime_render_ring(int count)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
 	int radius;
-	register int i;
 
 	radius = boss_effect_radius;
 	sprite_offset = (pid.so_attack + KOTOHIME_RING_SPRITE_OFFSET);
 	// The warning flicker uses the unsigned-word low two bits.
-	if((boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) && (KOTOHIME_RENDER_ALT_FRAMES > (boss_frame & (KOTOHIME_RENDER_FLICKER_PERIOD - 1)))) {
+	if((boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) &&
+       ((boss_frame % KOTOHIME_RENDER_FLICKER_PERIOD) < KOTOHIME_RENDER_ALT_FRAMES)) {
 		sprite_offset += KOTOHIME_RING_SPRITE_ALTERNATE_OFFSET;
 	}
 
@@ -526,7 +525,7 @@ void near pascal kotohime_render_ring(int count)
 
 	// The natural for-header preserves the original signed 16-bit
 	// 256-step angle division before byte truncation.
-	for(i = 0; i < count; ++i) {
+	for(register int i = 0; i < count; ++i) {
 		register screen_x_t left;
 		unsigned char angle = (
 			((i * KOTOHIME_FULL_TURN_STEPS) / count) + boss_move_phase
