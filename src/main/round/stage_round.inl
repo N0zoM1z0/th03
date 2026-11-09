@@ -65,6 +65,13 @@ typedef char round_storage_shapes[(sizeof(player_stuff_t) == 128 &&
     sizeof(exatt_entity_t) == 32 && sizeof(int) == 2 && sizeof(long) == 4) ? 1 : -1];
 
 extern exatt_entity_t exatt_entities[PLAYER_COUNT][16];
+enum {
+    ROUND_EXATT_SLOTS = sizeof(exatt_entities[0]) / sizeof(exatt_entities[0][0]),
+    ROUND_CPU_CHARGE_MASK = 3,
+    ROUND_CPU_CHARGE_SHIFT = 6,
+    ROUND_CPU_CHARGE_BASE = 0x3F,
+    ROUND_SAFETY_INDEX_MAX = 5,
+};
 extern int boss_active[PLAYER_COUNT];
 // Inferred transition semantics; aliases of existing DS:2662/2663 only.
 extern unsigned char playfield_transition_frame;
@@ -103,10 +110,10 @@ extern "C" void near stage_demo_update_active(void)
     } else if(demo_frame == DEMO_FRAME_LIMIT) {
         stage_background_update = stage_demo_finish;
     }
-    if(playfield_transition_midpoint != 0) {
+    if(playfield_transition_midpoint) {
         round_reset_clear_flag = 1;
     }
-    if(input_sp != INPUT_NONE) {
+    if(input_sp) {
         round_reset_clear_flag = 1;
     }
 }
@@ -186,13 +193,13 @@ extern "C" void near stage_setup(void)
     // Clear per-player gauge/combo state with the same physical near
     // player pointer and signed index; for-header post-store increments are exact.
     player = players;
-    for(i = 0; i < PLAYER_COUNT; ++i, player++) {
+    for(i = 0; i < PLAYER_COUNT; ++i, ++player) {
         player->rounds_won = 0;
         player->gauge_avail = (64 << 4);
         player->combo_hits_max = 0;
         player->combo_bonus_max = 0;
     }
-    if(resident->demo_num == 0) {
+    if(!resident->demo_num) {
         stage_demo_update = stage_demo_update_none;
     } else {
         demo_frame = 0;
@@ -204,7 +211,7 @@ extern "C" void near stage_setup(void)
         gba_gauge_level[1] = 9;
     }
     stage_background_update = stage_background_update_none;
-    if(resident->demo_num != 0) {
+    if(resident->demo_num) {
         input_mode = input_mode_attract;
     } else if(resident->is_cpu[1] && resident->is_cpu[0]) {
         input_mode = input_mode_cpu_vs_cpu;
@@ -288,7 +295,7 @@ extern "C" void near round_prepare_players(void)
     }
     // Explicitly clear BOTH players' sixteen original 32-byte Extra
     // Attack entities. No new BSS or alternate state is allocated.
-    for(pid = 0; pid < 16; ++pid) {
+    for(pid = 0; pid < ROUND_EXATT_SLOTS; ++pid) {
         exatt_entities[0][pid].state = 0;
         exatt_entities[1][pid].state = 0;
     }
@@ -305,8 +312,8 @@ extern "C" void near round_prepare_players(void)
 
     if(resident->game_mode == GM_STORY) {
         pid = (round_id - resident->rem_credits + 3);
-        if(pid > 5) {
-            pid = 5;
+        if(pid > ROUND_SAFETY_INDEX_MAX) {
+            pid = ROUND_SAFETY_INDEX_MAX;
         }
         // No invented lower clamp: original assumes this index is valid.
         safety_frames = story_cpu_safety_frames[resident->story_stage][pid];
@@ -384,7 +391,7 @@ extern "C" void near round_prepare_players(void)
     // Each of the two genuine physical player records is initialized
     // in the original order. Preserve duplicate `is_hit=false` stores,
     // all low-level byte fields and the near pointer post-update.
-    for(pid = 0; pid < PLAYER_COUNT; ++pid, player++) {
+    for(pid = 0; pid < PLAYER_COUNT; ++pid, ++player) {
         enemies_alive[pid] = 0;
         player->playchar_paletted = resident->playchar_paletted[pid];
         player->is_cpu = resident->is_cpu[pid];
@@ -405,7 +412,10 @@ extern "C" void near round_prepare_players(void)
         // Every actual CPU charge threshold consumes a fresh IRand()
         // word. This nested for must not fold or reorder the calls.
         for(i = 0; i < CHARGE_AT_AVAIL_RING_SIZE; ++i) {
-            player->cpu_charge_at_avail_ring[i] = (((IRand() & 3) << 6) + 0x3F);
+            player->cpu_charge_at_avail_ring[i] = (
+                ((IRand() & ROUND_CPU_CHARGE_MASK) << ROUND_CPU_CHARGE_SHIFT) +
+                ROUND_CPU_CHARGE_BASE
+            );
         }
         player->cpu_charge_at_avail_ring_p = 0;
         player->bombs = 2;
