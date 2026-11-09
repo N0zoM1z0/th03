@@ -104,7 +104,7 @@ enum mima_level_scaling_t {
 
 void far pascal boss_mima_template_init(int player_id)
 {
-	boss_template_state_t near *p = boss_character_template + player_id;
+	boss_template_state_t near *p = &boss_character_template[player_id];
 
 	p->center_x = MIMA_TEMPLATE_CENTER_X;
 	p->center_y = MIMA_TEMPLATE_CENTER_Y;
@@ -116,7 +116,7 @@ void far pascal boss_mima_template_init(int player_id)
 	p->hp = MIMA_TEMPLATE_HP;
 	p->pattern_i = 0;
 	p->sprite_offset = MIMA_TEMPLATE_SPRITE_OFFSET;
-	if(player_id) {
+	if(player_id != 0) {
 		p->sprite_offset += MIMA_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = MIMA_TEMPLATE_RENDER_MODE_NORMAL;
@@ -266,8 +266,8 @@ void near mima_pattern_bomb_random(void)
 		return;
 	}
 
-	int x = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
-	int y = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
+	const int x = (boss_center_x + MIMA_BOMB_ORIGIN_X_OFFSET);
+	const int y = (boss_center_y + MIMA_BOMB_ORIGIN_Y_OFFSET);
 
 	if(
 		(boss_frame == MIMA_RANDOM_BOMB_FIRE_BEGIN) ||
@@ -426,7 +426,7 @@ void far gba_boss_update_mima(void)
 	// The target deliberately recomputes this after the shared helper call
 	// instead of reusing [pid_other] (native negative control af749c).
 	bullet_template.pid = (1 - pid_current);
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case MIMA_MODE_INTRO:
@@ -606,21 +606,22 @@ void near pascal mima_render_split(int distance, unsigned char angle)
 
 void far gba_boss_render_mima(void)
 {
-	if(pid_current == gba_boss_launched_by) {
-		pid_t pid_other = (1 - pid_current);
-		sprite16_clip_set_for_pid(pid_other);
-
-		if(MIMA_MODE_INTRO == boss_mode) {
-			mima_render_split(
-				(MIMA_INTRO_START_DISTANCE - (boss_frame << MIMA_INTRO_FRAME_DISTANCE_SHIFT)),
-				(boss_frame * 3)
-			);
-			return;
-		}
-		if(MIMA_MODE_EXPLODE != boss_mode) {
-			mima_render_main();
-			return;
-		}
-		boss_explosion_render();
+	if(pid_current != gba_boss_launched_by) {
+		return;
 	}
+	pid_t pid_other = (1 - pid_current);
+	sprite16_clip_set_for_pid(pid_other);
+
+	if(MIMA_MODE_INTRO == boss_mode) {
+		mima_render_split(
+			(MIMA_INTRO_START_DISTANCE - (boss_frame << MIMA_INTRO_FRAME_DISTANCE_SHIFT)),
+			(boss_frame * 3)
+		);
+		return;
+	}
+	if(MIMA_MODE_EXPLODE != boss_mode) {
+		mima_render_main();
+		return;
+	}
+	boss_explosion_render();
 }
