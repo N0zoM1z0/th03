@@ -91,27 +91,25 @@ extern "C" void near pascal character_resources_load(int pid, int resource)
     char fn[CHARACTER_RESOURCE_FILENAME_LEN];
     // All 12 original physical filename bytes, including the implicit
     // terminator, are copied before modifying any digit or extension.
-    // The natural while is genuine TC4-exact (af906a/b).
-    int i = 0;
-    while(i < CHARACTER_RESOURCE_FILENAME_LEN) {
+    // The natural for preserves all twelve ordered physical byte stores.
+    for(int i = 0; i < CHARACTER_RESOURCE_FILENAME_LEN; ++i) {
         fn[i] = character_filename_template[i];
-        ++i;
     }
     // TC4 must retain this native bitmask expression: an unsigned %2
     // variant selected different x86 CODE (negative af694e).
     resource -= (players[pid].playchar_paletted.v & 1);
-    // Decimal filename digits are constructed in place. The explicit
-    // ones-digit remainder assignment is original-codegen-equal.
+    // Decimal filename digits are constructed in place. The compound
+    // remainder assignment retains the original signed-word arithmetic.
     // Keep the original >=10 comparison; numerically equivalent >9
     // changed native TC4 CODE in af906d. Its 16-bit integer division
     // and remainder must precede the individual character updates.
-    if(resource>=CHARACTER_RESOURCE_DECIMAL_RADIX) {
-        fn[0] = fn[0] + (resource / CHARACTER_RESOURCE_DECIMAL_RADIX);
-        resource = (resource % CHARACTER_RESOURCE_DECIMAL_RADIX);
+    if(CHARACTER_RESOURCE_DECIMAL_RADIX <= resource) {
+        fn[0] += (resource / CHARACTER_RESOURCE_DECIMAL_RADIX);
+        resource %= CHARACTER_RESOURCE_DECIMAL_RADIX;
     }
-    // Both digit stores accept natural explicit C++ assignment with
-    // named decimal base (af906f/g), without changing register/stack ABI.
-    fn[1] = fn[1] + resource;
+    // The filename digit stores accept natural compound C++ assignment with
+    // the named decimal base without changing the register/stack ABI.
+    fn[1] += resource;
     character_sprite_pair_load(pid, fn);
 }
 // Character pair resource slot IDs are odd. Player-specific palette mode
@@ -152,8 +150,8 @@ extern "C" void near pascal set_callbacks_##c(int pid) \
 { \
     character_resources_load(pid, resource); \
     /* Exactly nine original call selectors share this branch. */ \
-    /* Natural explicit pid == 0 is TC4-exact (af906c). */ \
-    if(pid == 0) { \
+    /* Byte truthiness selects the original player-zero callback branch. */ \
+    if(!pid) { \
         BIND_CHARACTER(c, 0, round_player_hook_p1, round_bomb_p1, bomb_update) \
     } else { \
         BIND_CHARACTER(c, 1, round_player_hook_p2, round_bomb_p2, bomb_update) \
