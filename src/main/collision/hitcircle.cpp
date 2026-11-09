@@ -103,16 +103,13 @@ void near hitcircles_update(void)
 	register HitCircle near* p = hitcircles;
 	// The thirteen-record age walk keeps its signed index and near-pointer
 	// increments together after each byte-state update.
-	register int i = 0;
-	while(i < HITCIRCLE_COUNT) {
+	for(register int i = 0; i < HITCIRCLE_COUNT; (++i, ++p)) {
 		if(p->age) {
 			p->age++;
 			if(HITCIRCLE_FRAMES < p->age) {
 				p->age = 0;
 			}
 		}
-		++i;
-		++p;
 	}
 }
 
@@ -133,15 +130,13 @@ void near hitcircles_render(void)
 
 	sprite16_put_size.set(HITCIRCLE_W, HITCIRCLE_H);
 
-	register int i;
-	sprite16_offset_t so;
 	// Only twelve enemy slots draw in this pass. The thirteenth player
 	// hit circle uses its own monochrome palette after the signed-index
 	// and near-pointer for loop.
-	for(i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
+	for(register int i = 0; i < HITCIRCLE_ENEMY_COUNT; (++i, ++p)) {
 		if(p->age) {
 			sprite16_clip_set_for_pid(p->pid);
-			so = p->cel();
+			sprite16_offset_t so = p->cel();
 			sprite16_put(p->topleft.x, p->topleft.y, so);
 		}
 	}
@@ -152,7 +147,7 @@ void near hitcircles_render(void)
 	sprite16_mono_color(_DX);
 	if(p->age) {
 		sprite16_clip_set_for_pid(p->pid);
-		so = p->cel();
+		sprite16_offset_t so = p->cel();
 		sprite16_put(p->topleft.x, p->topleft.y, so);
 	}
 
