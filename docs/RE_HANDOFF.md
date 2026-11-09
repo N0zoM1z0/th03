@@ -53,13 +53,11 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. A later scoped refresh, `af1056c`, now binds the
-current shared BOSS source: both `ba_sring` and `ba_srest` were rebuilt in two
-original TC4 rounds after restoring the natural `do-while` pattern-rejection
-loop under the current positive wait-frame scope. The other ten owners remain
-bound to `af1053k`. The complete normal link is strong scoped native evidence;
-it is not whole-game source ownership or canonical Factory packed-file
-acceptance.
+files at that checkpoint. Two later scoped refreshes now bind the current
+source for three owners: `ba_sring` and `ba_srest` use `af1056c`, while
+`ba_koto` uses `af1057d`. The other nine owners remain bound to `af1053k`.
+The complete normal links are strong scoped native evidence; they are not
+whole-game source ownership or canonical Factory packed-file acceptance.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -68,6 +66,14 @@ across both shared physical owners, with the full Japanese MAIN image and
 ordered relocations equal in two independent rounds. See the
 [updated shared-core review](MAIN_BOSS_SHARED_CORE_NATURAL_CONTROL_AFTER1047_REVIEW.md)
 and [pattern-rejection review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md).
+
+Kotohime current-source refresh: `.analysis/work/exatt-layout-af1057d/report.json`
+SHA-256: `724edd6dae328c47bc1dcb15d4e2a966603662c022cbc989850fba04e69d5cf0`.
+It recompiled the complete 1,840-byte `ba_koto` owner with 262 ordered native
+fields and eleven PUBLICs in two original TC4 rounds, preserving the complete
+Japanese MAIN image and ordered relocations. The current controller uses the
+direct inactive-player return, not the positive-scope spelling in the older
+af1032 review. See the [current intro-guard review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
 
 ### Evidence interpretation
 
@@ -125,6 +131,15 @@ original TC4 rounds: 949 CODE bytes, 106 ordered native fields and eight
 PUBLICs, with both normal MAIN links and ordered relocations exact. The other
 ten owners remain source-bound to `af1053k`; see the
 [af1056c shared-core review](MAIN_BOSS_SHARED_CORE_NATURAL_CONTROL_AFTER1047_REVIEW.md).
+
+Kotohime's complete 332-byte `gba_boss_update_kotohime()` controller now
+uses the direct inactive-player return before target tracking and mode
+advancement. This re-applies the natural guard under the current Radial/Pellet
+and arithmetic source, and preserves the entire switch plus collision/hitbox
+tail. Stage `af1057d` rebuilt `ba_koto` in two original TC4 rounds: 1,840 CODE
+bytes, 262 ordered native fields and eleven PUBLICs, with the full Japanese
+MAIN image and ordered relocations exact. See the
+[af1057d current-source review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
 
 Recommended next work:
 

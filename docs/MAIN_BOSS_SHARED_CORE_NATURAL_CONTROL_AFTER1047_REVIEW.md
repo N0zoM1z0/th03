@@ -69,6 +69,10 @@ objects and rejected when they changed CODE:
   `&boss_character_template[pid_current]` or
   `pid_current * sizeof(boss_state_t)` changes `ba_srest`. Keep the proven
   SI initialization and conditional 32-byte increment.
+- Stage af1057a replaced the fixed SI/DI/ES/CX `REP MOVSW` template copy
+  with `memcpy(&boss_state, &boss_character_template[pid_current],
+  sizeof(boss_state_t))`. The first complete `ba_srest` CODE comparison
+  differed, so the C library copy was restored to the original inline transfer.
 - Replacing the signed-word compound descent/movement updates with ordinary
   assignment changes `ba_srest`.
 - Register-qualified ring X/Y scratch locals change `ba_sring`; only the byte
