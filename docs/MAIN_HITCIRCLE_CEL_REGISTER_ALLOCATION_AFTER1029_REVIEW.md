@@ -42,6 +42,8 @@ The maintained `_BX` expression was re-tested against the current complete
   without a local register variable.
 - `af1068i/j`: a register `cel` local with either three explicit stride terms
   or the original staged divide/multiply/three-add expression.
+- `af1068l`: a register monochrome-color local replacing the explicit DX
+  setup and word-sized AND; the complete CODE comparison differed.
 
 Every complete CODE comparison differed, and every source experiment was
 restored. The earlier signed/unsigned local, register-order and shift trials

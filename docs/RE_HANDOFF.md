@@ -56,11 +56,11 @@ The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1058a`,
 `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`,
-`ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`, and `ba_rikak` uses
-`af1066a`. The other two owners remain bound to `af1053k`. The `af1067a`
-ten-owner integration is historical for the later Kotohime source change;
-its other nine owner bindings remain unchanged. Local native probe reports
-are not Factory Oracle receipts or accepted facts.
+`ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`, `ba_rikak` uses `af1066a`,
+and `hitcirc` uses `af1068n`. Only `ba_yumem` remains bound to `af1053k`.
+The `af1067a` ten-owner integration is historical for the later Kotohime
+source change; its other nine owner bindings remain unchanged. Local native
+probe reports are not Factory Oracle receipts or accepted facts.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -80,6 +80,16 @@ lifetime. See the [current Radial review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_A
 
 Current Kotohime report: `.analysis/work/exatt-layout-af1068e/report.json`
 SHA-256: `a51759a9529f0da12dc9dd9cded1492aedf828405599ddafefc354876a25669c`.
+
+HitCircle current-source refresh: `.analysis/work/exatt-layout-af1068n/report.json`
+SHA-256: `3c88d02174b30f1f9acbe4511f3494e8a4ce2f3b907e5d983717e7cd637464fd`.
+It recompiled the complete 445-byte `hitcirc` owner with 30 ordered native
+fields and four PUBLICs in two original TC4 rounds, preserving the full Japanese
+MAIN image and ordered relocations. The two spawn paths now write `age` and
+`pid` directly in source order; the now-unused `HitCircle::spawn` member was
+removed. The `_BX` cel and symbolic monochrome hardware operations remain
+because their natural rewrites still change CODE. See the
+[current HitCircle spawn review](MAIN_HITCIRCLE_SPAWN_POINTER_AND_COORDINATE_ARITHMETIC_AFTER1039_REVIEW.md).
 
 Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1058a/report.json`
 SHA-256: `dde32e0ba6923503b17958abcc9524f64c30f6e3918c552fc72e30edb384d970`.
@@ -293,6 +303,9 @@ The later Kotohime Radial Burst source-only refresh `af1068e` supersedes the
 `ba_koto` binding in that ten-owner integration. It revalidates the complete
 1,840-byte owner in two original TC4 rounds; the other nine objects were not
 changed. No full cold replay was run.
+HitCircle's later `af1068n` source-only refresh similarly supersedes its
+`af1053k` baseline binding. It revalidates the complete 445-byte `hitcirc`
+owner in two original TC4 rounds; no other physical owner was rebuilt.
 
 Recommended next work:
 

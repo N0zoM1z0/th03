@@ -77,3 +77,29 @@ loaded image and ordered MZ relocations.
 Protected report: `.analysis/work/exatt-layout-af1039f/report.json`
 
 SHA-256: `04592562692c98a3ca0d5df449f03cc8e6dfe598a231dbeaac68371b1e1f6750`
+
+
+## Current-source spawn lifetime revalidation (af1068n)
+
+Both spawn sites now express the two record-state writes directly in their
+natural source order:
+
+```cpp
+p.age = 1;
+p.pid = pid;
+```
+
+The previous `HitCircle::spawn(const pid2&)` member only performed those two
+stores. After replacing both calls with the direct assignments, the now-unused
+member was removed. This leaves the record's state transition visible at each
+spawn site without changing the near-record reference, random-center path,
+coordinate calculation, or store order.
+
+Stage `af1068n` rebuilt the complete `hitcirc` physical owner in two
+independent original TC4 4.02 rounds: all 445 CODE bytes, 30 ordered native
+fields and four PUBLIC offsets match. Both normal Japanese MAIN links
+reproduce the original loaded image and ordered relocations.
+
+Current-source report: `.analysis/work/exatt-layout-af1068n/report.json`
+
+SHA-256: `3c88d02174b30f1f9acbe4511f3494e8a4ce2f3b907e5d983717e7cd637464fd`

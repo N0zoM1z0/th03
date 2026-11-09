@@ -33,11 +33,6 @@ struct HitCircle {
 	pid_t pid;
 	screen_point_t topleft;
 
-	void spawn(const pid2& pid_) {
-		age = 1;
-		pid = pid_;
-	}
-
 	sprite16_offset_t cel(void) const {
 		// ZUN bloat: (SO_HITCIRCLE + (
 		// 	((age - 1) / HITCIRCLE_FRAMES_PER_CEL) * HITCIRCLE_VRAM_W)
@@ -67,7 +62,8 @@ void pascal hitcircles_enemy_add(
 	}
 
 	HitCircle near& p = *(hitcircles + last_id);
-	p.spawn(pid);
+	p.age = 1;
+	p.pid = pid;
 
 	if(!hitcircles_enemy_add_do_not_randomly_center_within_hitbox) {
 		center_x = (
@@ -93,7 +89,8 @@ void pascal hitcircles_player_add(
 )
 {
 	HitCircle near& p = *(hitcircles + HITCIRCLE_ENEMY_COUNT);
-	p.spawn(pid);
+	p.age = 1;
+	p.pid = pid;
 	// Keep the original near-record stores directly at each spawn site.
 	p.topleft.x = (
 		(-(HITCIRCLE_W / 2)) + playfield_fg_x_to_screen(center_x, pid)
