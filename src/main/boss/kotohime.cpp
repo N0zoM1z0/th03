@@ -235,15 +235,16 @@ void near kotohime_pattern_random_ring(void)
 		// Byte-memory postfix is real original codegen. Changing all
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
-		if(KOTOHIME_RING_RELEASE_AFTER < boss_render_frame) {
-			bullet_template.group = BG_16_RING;
-			bullet_template.speed.v = kotohime_random_ring_speed;
-			kotohime_ring_emit(1);
-			snd_se_play(KOTOHIME_SOUND_ATTACK);
-			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
-			boss_mode = KOTOHIME_MODE_SELECT;
-			boss_frame = 0;
+		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
+			return;
 		}
+		bullet_template.group = BG_16_RING;
+		bullet_template.speed.v = kotohime_random_ring_speed;
+		kotohime_ring_emit(1);
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
+		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+		boss_mode = KOTOHIME_MODE_SELECT;
+		boss_frame = 0;
 	} else {
 		boss_move_sine();
 		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
@@ -270,22 +271,23 @@ void near kotohime_pattern_aimed_ring(void)
 		// Byte-memory postfix is real original codegen. Changing all
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
-		if(KOTOHIME_RING_RELEASE_AFTER < boss_render_frame) {
-			bullet_template.group = BG_2_SPREAD_NARROW_AIMED;
-			bullet_template.angle = 0;
-			bullet_template.speed.v = kotohime_aimed_speed_fast;
-			kotohime_ring_emit(0);
-
-			bullet_template.group = BG_5_SPREAD_MEDIUM_AIMED;
-			bullet_template.angle = 0;
-			bullet_template.speed.v = kotohime_aimed_speed_slow;
-			kotohime_ring_emit(0);
-
-			snd_se_play(KOTOHIME_SOUND_ATTACK);
-			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
-			boss_mode = KOTOHIME_MODE_SELECT;
-			boss_frame = 0;
+		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
+			return;
 		}
+		bullet_template.group = BG_2_SPREAD_NARROW_AIMED;
+		bullet_template.angle = 0;
+		bullet_template.speed.v = kotohime_aimed_speed_fast;
+		kotohime_ring_emit(0);
+
+		bullet_template.group = BG_5_SPREAD_MEDIUM_AIMED;
+		bullet_template.angle = 0;
+		bullet_template.speed.v = kotohime_aimed_speed_slow;
+		kotohime_ring_emit(0);
+
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
+		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+		boss_mode = KOTOHIME_MODE_SELECT;
+		boss_frame = 0;
 	} else {
 		boss_move_sine();
 		boss_effect_radius += KOTOHIME_EFFECT_RADIUS_EXPAND_STEP;
@@ -332,10 +334,11 @@ void near kotohime_pattern_pellet_arc(void)
 		bullets_add();
 	}
 
-	if(KOTOHIME_PELLET_FINISH_FRAME <= boss_frame) {
-		boss_mode = KOTOHIME_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < KOTOHIME_PELLET_FINISH_FRAME) {
+		return;
 	}
+	boss_mode = KOTOHIME_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Radial burst divides each 256-step central orbit and each
