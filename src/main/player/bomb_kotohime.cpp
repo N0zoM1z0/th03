@@ -39,7 +39,6 @@ void far kotohime_bomb(void)
 	unsigned char frame;
 	unsigned char color;
 	int x;
-	int i;
 
 	if(bomb_flag[pid_current] == BF_INACTIVE) {
 		return;
@@ -50,7 +49,7 @@ void far kotohime_bomb(void)
 	if(frame < KOTO_BOMB_PALETTE_START_END) {
 		grcg_setcolor(GC_RMW, pid_current);
 		_BX = 0x3932;
-		if(pid_current != 0) {
+		if(pid_current) {
 			_BX += 40;
 		}
 		bomb_bg_fill();
@@ -96,17 +95,15 @@ void far kotohime_bomb(void)
 			// This apparently dead signed 16-bit index still generates
 			// original machine CODE. Eliminating it changed 528 -> 505
 			// bytes in genuine TC4 negative trial af870e.
-			i = ((frame % KOTO_BOMB_ROW_CLOCK_PERIOD) / 2);
-			while(x <= KOTO_BOMB_ROW_END_X) {
+			int i = ((frame % KOTO_BOMB_ROW_CLOCK_PERIOD) / 2);
+			for(; x <= KOTO_BOMB_ROW_END_X; x += KOTO_BOMB_ROW_STEP_X, ++i) {
 				bomb_explosion_add(x, kotohime_bomb_explosion_y, pid_current);
-				x += KOTO_BOMB_ROW_STEP_X;
-				++i;
 			}
 			kotohime_bomb_explosion_y -= KOTO_BOMB_ROW_Y_DECAY;
 		}
 
 		x = PLAYFIELD_LEFT;
-		if(pid_current != 0) {
+		if(pid_current) {
 			x += PLAYFIELD_W_BORDERED;
 		}
 		mrs_put_noalpha_8(
