@@ -1,0 +1,837 @@
+# TH03 detailed handoff chronology through af1053k
+
+This archive preserves the detailed owner-by-owner compiler/source history
+that was removed from the active handoff to make it useful at session start.
+It is historical context, not a current task list. Old recommended-next-target
+lists and per-stage "latest" statements below are snapshots from their
+original sessions; use `docs/RE_HANDOFF.md` for the current verified stage,
+open blockers and next actions. Focused experiment notes remain linked inline.
+
+---
+
+### Subsequent scoped BOSS continuation
+
+The shared BOSS pattern selector's `while(1)`/`break` rejection loop is now a
+natural `do-while` in `src/main/boss/shared.cpp`. Stage af1025a rebuilt the
+complete `ba_srest` object in two independent original TC4 rounds: 601 CODE
+bytes, 84 ordered native fields and seven PUBLICs, with both normal MAIN links
+and ordered relocations exact. Its current-source review passed. See
+[the focused after1025 review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md).
+
+The larger Kotohime update controller also now uses a direct intro-completion
+guard in `gba_boss_update_kotohime()` rather than a nested `if/else`. Stage
+af1025c rebuilt the complete `ba_koto` object in two independent original TC4
+rounds: 1,840 CODE bytes, 262 ordered native fields and eleven PUBLICs, with
+both normal MAIN links and ordered relocations exact. The attempted shared
+`level / 2` local changed CODE and was reverted. See
+[the focused Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
+
+The same large Kotohime controller now exits immediately when the current PID
+is not the launched boss PID, replacing the outer `if(equal) ... else return`
+with a direct guard. Stage af1026a independently rebuilt the complete 1,840-
+byte `ba_koto` owner in two original TC4 rounds, with 262 ordered native fields,
+eleven PUBLICs and the complete Japanese MAIN image/relocations exact. See the
+[after1026 Kotohime controller review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md).
+
+Mima's orbit leaf now spells its inclusive finish test as the constant-first
+`MIMA_ORBIT_FINISH_FRAME <= boss_frame`. Stage af1026d rebuilt the complete
+`ba_mima` owner in two original TC4 rounds: 1,922 CODE bytes, 277 ordered native
+fields and nine PUBLICs, with the full Japanese MAIN image and relocations
+exact. See the [after1026 Mima orbit review](MAIN_MIMA_ORBIT_FINISH_COMPARE_AFTER1026_REVIEW.md).
+
+Mima's 305-byte `mima_render_main()` now uses independent early-return guards
+for hit, Particle, Expand, Flash and Trail phases. The shared Particle/Trail
+label and byte-frame postincrement remain intact. Stage af1029g rebuilt the
+complete `ba_mima` owner in two original TC4 rounds: 1,922 CODE bytes, 277
+ordered native fields and nine PUBLICs, with the complete Japanese MAIN image
+and relocations exact. See the
+[after1029 Mima renderer review](MAIN_MIMA_RENDER_MAIN_INDEPENDENT_PHASE_GUARDS_AFTER1029_REVIEW.md).
+
+The 173-byte Mima orbit leaf now spells its finish predicate as
+`boss_frame >= MIMA_ORBIT_FINISH_FRAME`. Stage af1030n rebuilt the complete
+`ba_mima` owner in two original TC4 rounds: 1,922 CODE bytes, 277 ordered
+native fields and nine PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1030 Mima orbit finish review](MAIN_MIMA_ORBIT_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
+The 186-byte Mima Trail leaf now spells its finish predicate as
+`boss_frame >= MIMA_TRAIL_END`. Stage af1030v rebuilt the complete `ba_mima`
+owner in two original TC4 rounds: 1,922 CODE bytes, 277 ordered native fields
+and nine PUBLICs, with the full Japanese MAIN image and relocations exact.
+See the [after1030 Mima Trail finish review](MAIN_MIMA_TRAIL_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
+The 298-byte Mima update controller now spells the INTRO completion path as a
+positive equality branch with an explicit `else return`. Stage af1030f rebuilt
+the complete `ba_mima` owner in two original TC4 rounds: 1,922 CODE bytes,
+277 ordered native fields and nine PUBLICs, with the full Japanese MAIN image
+and relocations exact. See the
+[after1030 Mima INTRO branch review](MAIN_MIMA_UPDATE_INTRO_SUCCESS_BRANCH_AFTER1030_REVIEW.md).
+
+A `switch(boss_render_mode)` alternative with the same cases and Trail goto
+was rejected at af1029i because it changed complete `ba_mima` CODE. Keep the
+independent guards; see the
+[after1029 Mima switch experiment](MAIN_MIMA_RENDER_SWITCH_DISPATCH_AFTER1029_REVIEW.md).
+
+Mima's Trail leaf now uses the same constant-first form for its inclusive end
+frame, after the byte-narrowed modulo phases and optional shot. Stage af1026g
+rebuilt the complete `ba_mima` owner in two original TC4 rounds with all 1,922
+CODE bytes, 277 ordered native fields, nine PUBLICs and the complete Japanese
+MAIN image/relocations exact. See the
+[after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md).
+
+Two natural alternatives for the register-sensitive Mima split-render distance
+were also tested and reverted: parameter-qualified `register int distance`
+(af1028a) moved the parameter into DI and displaced the left-coordinate
+register; an ordinary `int split_distance` local (af1028b) changed complete
+CODE as well. Keep the existing SI distance local and DI left local. See the
+[after1028 Mima split allocation review](MAIN_MIMA_RENDER_SPLIT_REGISTER_ALLOCATION_AFTER1028_REVIEW.md).
+
+Chiyuri's intro controller now expresses its two mutually exclusive frame
+phases as an `if`/`else if` chain, retaining the four cross-effect spawn order
+and the common update tail. Stage af1026h rebuilt the complete `ba_chiyu`
+owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered native fields
+and eleven PUBLICs, with the full Japanese MAIN image and relocations exact.
+See the [after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md).
+
+The 613-byte Chiyuri update controller's INTRO case now puts the default
+animation/return path in an explicit final `else`, completing the mutually
+exclusive done/cross/default frame chain. Stage af1027h rebuilt the complete
+`ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered
+native fields and eleven PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1027 Chiyuri intro-default review](MAIN_CHIYURI_INTRO_DEFAULT_ELSE_AFTER1027_REVIEW.md).
+
+The same update controller now declares its SELECT center-array index as
+`register unsigned char random_i`. Stage af1028f rebuilt the complete
+`ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered
+native fields and eleven PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1028 Chiyuri selector review](MAIN_CHIYURI_UPDATE_REGISTER_SELECTOR_AFTER1028_REVIEW.md).
+
+The same 613-byte controller now spells its four-frame render cadence as an
+unsigned-clock low-bit test instead of `% 4 == 0`. Stage af1030c rebuilt the
+complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381
+ordered native fields and eleven PUBLICs, with the full Japanese MAIN image
+and relocations exact. See the
+[after1030 Chiyuri cadence review](MAIN_CHIYURI_UPDATE_RENDER_CADENCE_MASK_AFTER1030_REVIEW.md).
+
+The same controller now uses `if(boss_render_mode)` for its zero-valued normal
+mode test while retaining the postfix byte decrement. Stage af1030d rebuilt
+the complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes,
+381 ordered native fields and eleven PUBLICs, with the full Japanese MAIN
+image and relocations exact. See the
+[after1030 render-mode guard review](MAIN_CHIYURI_UPDATE_NONZERO_RENDER_MODE_AFTER1030_REVIEW.md).
+
+The palette countdown's two byte-zero comparisons are now direct truth tests,
+while retaining the nested checks and postfix phase decrement. Stage af1030e
+rebuilt the complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE
+bytes, 381 ordered native fields and eleven PUBLICs, with the full Japanese
+MAIN image and relocations exact. See the
+[after1030 phase truth-test review](MAIN_CHIYURI_UPDATE_PHASE_TRUTH_TESTS_AFTER1030_REVIEW.md).
+
+The 528-byte Chiyuri fan generator now declares its shared four-pass loop index
+as `register int`, matching the original SI allocation. Stage af1027a rebuilt
+the complete `ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes,
+381 ordered native fields and eleven PUBLICs, with the full Japanese MAIN
+image and relocations exact. A horizontal two-pass factoring trial at af1027b
+changed complete CODE and was reverted. See the
+[after1027 Chiyuri fan review](MAIN_CHIYURI_FAN_REGISTER_INDEX_AFTER1027_REVIEW.md).
+
+The same four fan loops now use postfix `i++` in their natural for-headers.
+Stage af1029j rebuilt the complete `ba_chiyu` owner in two original TC4
+rounds: 2,654 CODE bytes, 381 ordered native fields and eleven PUBLICs, with
+the full Japanese MAIN image and relocations exact. See the
+[after1029 Chiyuri fan-loop review](MAIN_CHIYURI_FAN_POSTINCREMENT_LOOPS_AFTER1029_REVIEW.md).
+
+The 352-byte Cardinal leaf now scopes its complete attack body under the
+positive `(boss_frame % chiyuri_cardinal_interval) == 1` firing condition
+instead of returning early on the inverse. Stage af1030h rebuilt the complete
+`ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered
+native fields and eleven PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1030 Cardinal cadence review](MAIN_CHIYURI_CARDINAL_POSITIVE_CADENCE_GUARD_AFTER1030_REVIEW.md).
+
+The same Cardinal leaf now uses the variable-first `boss_frame >=
+CHIYURI_PATTERN_END_AT` finish predicate. Stage af1030s rebuilt the complete
+`ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered
+native fields and eleven PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1030 Cardinal finish review](MAIN_CHIYURI_CARDINAL_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
+The 208-byte Rings leaf now uses the same positive cadence-scope form. Stage
+af1030i rebuilt the complete `ba_chiyu` owner in two original TC4 rounds:
+2,654 CODE bytes, 381 ordered native fields and eleven PUBLICs, with the full
+Japanese MAIN image and relocations exact. See the
+[after1030 Rings cadence review](MAIN_CHIYURI_RINGS_POSITIVE_CADENCE_GUARD_AFTER1030_REVIEW.md).
+
+The same Rings leaf now uses the variable-first `boss_frame >=
+CHIYURI_PATTERN_END_AT` finish predicate. Stage af1030t rebuilt the complete
+`ba_chiyu` owner in two original TC4 rounds: 2,654 CODE bytes, 381 ordered
+native fields and eleven PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1030 Rings finish review](MAIN_CHIYURI_RINGS_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
+The 115-byte Trail leaf now scopes its one-time release sequence under the
+positive fire-frame condition, while its periodic warning bombs remain
+independent and earlier. Stage af1030j rebuilt the complete `ba_chiyu` owner
+in two original TC4 rounds: 2,654 CODE bytes, 381 ordered native fields and
+eleven PUBLICs, with the full Japanese MAIN image and relocations exact. See
+the [after1030 Trail fire review](MAIN_CHIYURI_TRAIL_POSITIVE_FIRE_GUARD_AFTER1030_REVIEW.md).
+
+The 528-byte Fans leaf now uses a positive vertical-frame guard around its
+two vertical speed passes; the horizontal branch still returns after its own
+passes. Stage af1030p rebuilt the complete `ba_chiyu` owner in two original
+TC4 rounds: 2,654 CODE bytes, 381 ordered native fields and eleven PUBLICs,
+with the full Japanese MAIN image and relocations exact. See the
+[after1030 Fans vertical guard review](MAIN_CHIYURI_FANS_POSITIVE_VERTICAL_GUARD_AFTER1030_REVIEW.md).
+
+The same Fans leaf now expresses the horizontal and vertical frame tests as
+independent `if` statements, since the horizontal branch returns before the
+second test. Stage af1030q rebuilt the complete `ba_chiyu` owner in two
+original TC4 rounds: 2,654 CODE bytes, 381 ordered native fields and eleven
+PUBLICs, with the full Japanese MAIN image and relocations exact. See the
+[after1030 independent Fans test review](MAIN_CHIYURI_FANS_INDEPENDENT_VERTICAL_TEST_AFTER1030_REVIEW.md).
+
+Kotohime's radial burst now declares the outer center index and inner bullet
+index as `register int`, matching the original DI/SI loop-index allocation.
+Stage af1026i rebuilt the complete `ba_koto` owner in two original TC4 rounds:
+1,840 CODE bytes, 262 ordered native fields and eleven PUBLICs, with the full
+Japanese MAIN image and relocations exact. See the
+[after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md).
+
+The same radial function now declares `center_i` before `bullet_i`, matching
+the natural outer-to-inner traversal order while retaining DI/SI allocation.
+Stage af1029l rebuilt the complete `ba_koto` owner in two original TC4 rounds:
+1,840 CODE bytes, 262 ordered native fields and eleven PUBLICs, with the full
+Japanese MAIN image and relocations exact. See the
+[after1029 Kotohime index-order review](MAIN_KOTOHIME_RADIAL_INDEX_DECLARATION_ORDER_AFTER1029_REVIEW.md).
+
+The 332-byte Kotohime update controller now expresses INTRO completion as a
+positive equality branch with an explicit `else return`. Stage af1030m rebuilt
+the complete `ba_koto` owner in two original TC4 rounds: 1,840 CODE bytes,
+262 ordered native fields and eleven PUBLICs, with the full Japanese MAIN
+image and relocations exact. See the
+[after1030 Kotohime INTRO branch review](MAIN_KOTOHIME_UPDATE_INTRO_SUCCESS_BRANCH_AFTER1030_REVIEW.md)
+  and [after1032 positive PID-scope review](MAIN_KOTOHIME_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
+The 302-byte Pellet Arc leaf now spells its finish threshold as
+`boss_frame >= KOTOHIME_PELLET_FINISH_FRAME`. Stage af1030w rebuilt the
+complete `ba_koto` owner in two original TC4 rounds: 1,840 CODE bytes, 262
+ordered native fields and eleven PUBLICs, with the full Japanese MAIN image
+and relocations exact. See the
+[after1030 Kotohime Pellet finish review](MAIN_KOTOHIME_PELLET_FINISH_PREDICATE_AFTER1030_REVIEW.md).
+
+The same radial review records four rejected complete-owner experiments:
+af1026b/c (early-return and inverted expansion/release branches) and
+af1026e/f (local `PlayfieldPoint` aggregate/field copies). All changed the
+complete `ba_koto` CODE and were reverted. Do not repeat those forms without a
+new disassembly-led hypothesis; the detailed results are in the
+[after1026 radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md).
+
+The HitCircle age walk also now uses a direct positive `p->age` guard in
+`hitcircles_update()` instead of a zero-age `continue`. Stage af1025d rebuilt
+the complete `hitcirc` object in two independent original TC4 rounds: 445 CODE
+bytes, 30 ordered native fields and four PUBLICs, with both normal MAIN links
+and ordered relocations exact. See
+[the focused HitCircle update review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md).
+
+The same 38-byte HitCircle update leaf now declares both its record cursor
+and signed counter as register locals (`register HitCircle near* p` and
+`register int i`), matching the original SI/AX allocations. Stages af1027f and
+af1027g each rebuilt the complete `hitcirc` owner in two original TC4 rounds:
+445 CODE bytes, 30 ordered native fields and four PUBLICs, with the full
+Japanese MAIN image and relocations exact. Three unsigned-local rewrites of
+the inline `HitCircle::cel()` leaf (af1027c/d/e) changed CODE and were
+reverted. See the
+[after1027 HitCircle register review](MAIN_HITCIRCLE_UPDATE_REGISTER_POINTER_AFTER1027_REVIEW.md).
+
+The 236-byte HitCircle renderer now likewise declares its SI record cursor
+and DI enemy-slot counter as register locals. Stage af1028c rebuilt the
+complete `hitcirc` owner in two original TC4 rounds: 445 CODE bytes, 30
+ordered native fields and four PUBLICs, with the full Japanese MAIN image and
+relocations exact. See the
+[after1028 HitCircle renderer review](MAIN_HITCIRCLE_RENDER_REGISTER_LOCALS_AFTER1028_REVIEW.md).
+
+Further `HitCircle::cel()` rewrites using signed/unsigned locals, moving the
+calculation into the renderer, or replacing unsigned division with a shift
+were tested in af1029a-d/e/f/h and all changed complete CODE. The target's
+SI/DI/BX allocation still requires the existing `_BX` source form; see the
+[after1029 HitCircle cel allocation review](MAIN_HITCIRCLE_CEL_REGISTER_ALLOCATION_AFTER1029_REVIEW.md).
+
+The same renderer now uses a positive `p->age` guard for each of the twelve
+enemy slots instead of a zero-age `continue`. Stage af1028d again rebuilt the
+complete `hitcirc` owner in two original TC4 rounds with all 445 CODE bytes,
+30 ordered native fields, four PUBLICs and the full Japanese MAIN image and
+relocations exact. See the
+[after1028 HitCircle active-guard review](MAIN_HITCIRCLE_RENDER_ACTIVE_GUARD_AFTER1028_REVIEW.md).
+
+
+Current report locations and SHA-256 identities:
+
+- af1024e: .analysis/work/exatt-layout-af1024e/report.json
+  (a37060b2d80d066ab2058774a606f522ecf6f43d726e0bc2983fdbda2416cc7c)
+- af1024d: .analysis/work/exatt-layout-af1024d/report.json
+  (85a09bd39ea4f01f7f0a730951e223d50ae9b65e79b1917faec62f2b96532b64)
+- af1024c: .analysis/work/exatt-layout-af1024c/report.json
+  (6f0ea0a0ca95731e8ebdf90a6b4c6c7f601288ee4d902faad3713a363fadde82)
+- af1024b: .analysis/work/exatt-layout-af1024b/report.json
+  (62b731c48a1910f261b2b16e00baf2186fc6557b8002de3029c3c3ce0ad8d750)
+- af1021b: .analysis/work/exatt-layout-af1021b/report.json
+  (4c0d0961e91bee8e81c2125b9ce5c9bea18198a46bfecdbb3515924883b3e16c)
+- af1021a: .analysis/work/exatt-layout-af1021a/report.json
+  (2b9cd91524f458397fd628b52afacd756fed2747a94e9eb80c3a05300a110f41)
+
+### Corrected historical stage bindings
+
+- af927a is **not** a current whole-stage source review: its ba_chiyu
+  source hash differs from maintained src/main/boss/chiyuri.cpp.
+  Its entry, effects, cs_chiyu and b_chiyu source hashes still match, but
+  the stage-wide reviewer correctly rejects the stale BOSS member.
+- af935a is historical for ba_maris; the current Marisa owner is included
+  in af1024e.
+- af1021d and earlier twelve-owner integrations are historical snapshots
+  superseded by af1024e. Their original reports and review notes remain
+  useful history; do not describe them as current source bindings.
+
+Do not use a composite historical stage as a current proof merely because
+most of its source hashes still match. The current reviewer checks every
+owner in the stage.
+
+## Latest source recovery and next work
+
+The shared BOSS explosion ring now uses two natural `for` loops with postfix
+index updates and ordinary byte-angle additions, base-first sprite placement,
+named length/secondary-radius scales, explicit byte casts and a register byte
+angle. The shared movement, fall, launch, hit/death, target and pattern
+controllers also use native-exact positive guards, early returns, register
+locals and constant-first arithmetic. The original `REP MOVSW` state copy,
+postfix pattern counter and random-rejection comparison/RNG order remain
+compiler-sensitive. Direct template-array indexing, multiply-derived template
+offsets, reordered random-range comparisons, register X/Y scratch locals and
+ordinary assignment replacements for compound movement changed CODE and were
+rejected. Stage af1047k rebuilt both complete shared physical owners in two
+original TC4 rounds, with all 949 CODE bytes, 106 ordered native fields, eight
+PUBLICs and the complete Japanese MAIN image/relocations exact. See the
+[after1047 shared-core review](MAIN_BOSS_SHARED_CORE_NATURAL_CONTROL_AFTER1047_REVIEW.md)
+and the earlier
+[after1045 explosion-ring review](MAIN_BOSS_SHARED_EXPLOSION_RING_NATURAL_CPP_AFTER1045_REVIEW.md).
+
+Yumemi's 404-byte four-phase `yumemi_render_arrival()` now uses constant-first
+phase guards, natural two-stage `* 8` then `* 16` geometry, base-first Y
+placement and register-qualified Y/phase/PID locals. Its 83-byte far render
+dispatcher uses a positive launched-PID scope and constant-first mode tests.
+The original signed raster bounds/compound steps and hardware overlap protocol
+remain exact; folded `* 128`, reversed raster comparisons, ordinary step
+assignments and reordered PID inequality operands changed CODE or ordered
+fields and were rejected. Stage af1048t rebuilt the complete 2,358-byte
+`ba_yumem` owner in two original TC4 rounds, with 343 ordered native fields,
+ten PUBLICs and the complete Japanese MAIN image/relocations exact. See the
+[after1048 Yumemi arrival review](MAIN_YUMEMI_ARRIVAL_RENDERER_NATURAL_GEOMETRY_AFTER1048_REVIEW.md).
+
+The shared BOSS pattern selector's natural rejection loop (af1025a), two large Kotohime update-controller guards
+(af1025c/af1026a), Mima's orbit/Trail finish phases (af1026d/af1026g) and independent render
+phase guards, positive PID scope, update INTRO branch, positive Spread/Random
+Bomb guards and orbit/Trail finish predicates
+(af1029g/af1030f/af1030n/af1030v/af1031m/af1031s/af1032o),
+Chiyuri's intro phase chain/default path (af1026h/af1027h), fan-loop SI index/postfix increments and Cardinal/Rings positive cadence
+scopes plus Cardinal/Rings finish predicates, Trail positive fire and Fans
+positive vertical/independent tests
+(af1027a/af1029j/af1030h/af1030i/af1030j/af1030p/af1030q/af1030s/af1030t), and update
+SELECT register byte/index scaling/timer/palette/random-mode guards, positive
+PID scope, render cadence/phase truth
+(af1028f/af1032b/af1032c/af1032e/af1032f/af1032l/af1030c/af1030d/af1030e), Kotohime's
+explicit radial register indices/order, scoped radial while loops,
+positive update INTRO/PID scopes and Pellet Arc finish predicate
+(af1026i/af1029l/af1030m/af1030w/af1031h/af1032p), and
+HitCircle's age-update/render register locals and active guard
+(af1025d/af1027f/af1027g/af1028c/af1028d). The three current
+BOSS owners were then rebuilt together at af1026j: 6,416 CODE bytes, 920
+ordered native fields and 31 PUBLICs, with both original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1026 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1026_REVIEW.md).
+
+The latest Chiyuri and HitCircle source changes were then rebuilt together at
+af1027i: two complete owners, 3,099 CODE bytes, 411 ordered native fields and
+15 PUBLICs, with both original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the
+[after1027 Chiyuri/HitCircle integration review](MAIN_CHIYURI_HITCIRCLE_INTEGRATION_AFTER1027_REVIEW.md).
+
+After the additional HitCircle render and Chiyuri SELECT-local changes, the
+same two owners were rebuilt together again at af1028g: 3,099 CODE bytes, 411
+ordered native fields and 15 PUBLICs, with both original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1028 Chiyuri/HitCircle integration review](MAIN_CHIYURI_HITCIRCLE_INTEGRATION_AFTER1028_REVIEW.md).
+
+After the Mima render-phase and Chiyuri fan-loop changes, both complete BOSS
+owners were rebuilt together at af1029k: 4,576 CODE bytes, 658 ordered native
+fields and 20 PUBLICs, with two original TC4 rounds and the complete Japanese
+MAIN image/relocations exact. See the
+[after1029 Mima/Chiyuri integration review](MAIN_BOSS_MIMA_CHIYURI_INTEGRATION_AFTER1029_REVIEW.md).
+
+After the Kotohime radial-index declaration-order change, all three BOSS
+owners were rebuilt together at af1029m: 6,416 CODE bytes, 920 ordered native
+fields and 31 PUBLICs, with two original TC4 rounds and the complete Japanese
+MAIN image/relocations exact. See the
+[after1029 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1029_REVIEW.md).
+
+After the Kotohime/Mima INTRO branches and Chiyuri update/attack-leaf changes,
+all three complete BOSS owners were rebuilt together at af1030l: 6,416 CODE
+bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4 rounds
+and the complete Japanese MAIN image/relocations exact. See the
+[after1030 three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030_REVIEW.md).
+
+After the Mima orbit finish and Chiyuri Fans positive-branch refinements, all
+three owners were rebuilt together again at af1030r: 6,416 CODE bytes, 920
+ordered native fields and 31 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1030r three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030R_REVIEW.md).
+
+After the Chiyuri Cardinal/Rings finish-predicate changes, all three owners
+were rebuilt together again at af1030u: 6,416 CODE bytes, 920 ordered native
+fields and 31 PUBLICs, with two original TC4 rounds and the complete Japanese
+MAIN image/relocations exact. See the
+[after1030u three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030U_REVIEW.md).
+
+After the Mima Trail and Kotohime Pellet Arc finish-predicate changes, all
+three owners were rebuilt together again at af1030x: 6,416 CODE bytes, 920
+ordered native fields and 31 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1030x three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1030X_REVIEW.md).
+
+After Kotohime's radial nested loops were rewritten as scoped register-local
+`while` traversals, all three owners were rebuilt together at af1031i: 6,416
+CODE bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[after1031i three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1031I_REVIEW.md).
+
+After Mima's Spread and Random Bomb positive-window rewrites, all three owners
+were rebuilt together again at af1031t: 6,416 CODE bytes, 920 ordered native
+fields and 31 PUBLICs, with two original TC4 rounds and the complete Japanese
+MAIN image/relocations exact. See the
+[after1031t three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1031T_REVIEW.md).
+
+After the three BOSS update controllers were changed to positive launched-
+player scopes, all three owners were rebuilt together at af1032q: 6,416 CODE
+bytes, 920 ordered native fields and 31 PUBLICs, with two original TC4 rounds
+and the complete Japanese MAIN image/relocations exact. See the
+[after1032q three-owner integration review](MAIN_BOSS_THREE_OWNER_INTEGRATION_AFTER1032Q_REVIEW.md).
+
+After the remaining six character update controllers were moved to the same
+positive launched-player scope, all nine BOSS owners were rebuilt together at
+af1033f: 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with
+two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [after1033f nine-BOSS update integration review](MAIN_NINE_BOSS_UPDATE_POSITIVE_PID_SCOPES_AFTER1033_REVIEW.md).
+
+After five more INTRO completion paths were rewritten as positive equality
+branches, all nine BOSS owners were rebuilt together again at af1033o: 17,451
+CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[after1033o nine-BOSS INTRO integration review](MAIN_NINE_BOSS_INTRO_BRANCHES_AFTER1033O_REVIEW.md).
+
+After the Chiyuri Fans frame guards were changed to variable-first comparisons,
+all nine current BOSS owners were rebuilt together again at af1033r: 17,451
+CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[current after1033r nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1033R_REVIEW.md).
+
+After the Kotohime Radial Burst and Mima Trail natural-source refinements, the
+two complete owners were rebuilt together at af1034b: 3,762 CODE bytes, 539
+ordered native fields and 20 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1034b two-owner integration review](MAIN_KOTOHIME_MIMA_TWO_OWNER_INTEGRATION_AFTER1034B_REVIEW.md).
+
+After the Mima renderer and Chiyuri Fans refinements, the two complete owners
+were rebuilt together at af1034u: 4,576 CODE bytes, 658 ordered native fields
+and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the
+[after1034u two-owner integration review](MAIN_MIMA_CHIYURI_TWO_OWNER_INTEGRATION_AFTER1034U_REVIEW.md).
+
+After those refinements were integrated with the complete nine-BOSS set, all
+nine physical owners were rebuilt together at af1034v: 17,451 CODE bytes,
+2,434 ordered native fields and 85 PUBLICs, with two original TC4 rounds and
+the complete Japanese MAIN image/relocations exact. See the
+[current after1034v nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1034V_REVIEW.md).
+
+After the Mima split renderer, top-level render dispatch, update controller
+and Random Bomb refinements, all nine current physical owners were rebuilt
+together at af1035p: 17,451 CODE bytes, 2,434 ordered native fields and 85
+PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the [current after1035p nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1035P_REVIEW.md).
+
+After the Mima level/template/attack-clock and Yumemi update/attack-pattern
+refinements, the two complete owners were rebuilt together at af1036t: 4,280
+CODE bytes, 620 ordered native fields and 19 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[after1036t Mima+Yumemi integration review](MAIN_MIMA_YUMEMI_TWO_OWNER_INTEGRATION_AFTER1036T_REVIEW.md).
+
+After the Chiyuri Fans subpixel/loop arithmetic and Kotohime Radial/Update
+arithmetic refinements, the two complete owners were rebuilt together at
+af1037s: 4,494 CODE bytes, 643 ordered native fields and 22 PUBLICs, with
+two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [after1037s Chiyuri+Kotohime integration review](MAIN_CHIYURI_KOTOHIME_TWO_OWNER_INTEGRATION_AFTER1037S_REVIEW.md).
+
+After these Mima and Yumemi refinements were integrated with all nine current
+BOSS owners, the full nine-owner set was rebuilt together at af1036u: 17,451
+CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two original TC4
+rounds and the complete Japanese MAIN image/relocations exact. See the
+[current after1036u nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1036U_REVIEW.md).
+
+After the Chiyuri Fans and Kotohime Radial/Update refinements were integrated
+with all nine current BOSS owners, the full nine-owner set was rebuilt again
+at af1037t: 17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs,
+with two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [current after1037t nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1037T_REVIEW.md).
+
+After the latest Chiyuri Update arithmetic and local-lifetime refinements were
+integrated with all nine current BOSS owners, the full nine-owner set was
+rebuilt again at af1038x: 17,451 CODE bytes, 2,434 ordered native fields and
+85 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the [current after1038x nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1038X_REVIEW.md).
+
+After the HitCircle spawn pointer/coordinate refinements were integrated with
+the nine current BOSS owners, all ten complete physical owners were rebuilt
+together at af1039g: 17,896 CODE bytes, 2,464 ordered native fields and 89
+PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the [after1039g nine-BOSS+HitCircle integration review](MAIN_NINE_BOSS_HITCIRCLE_INTEGRATION_AFTER1039G_REVIEW.md).
+
+After the latest Chiyuri renderer, Mima Trail/Orbit/Update and Mima main/split
+renderer refinements were integrated with HitCircle, all three complete
+physical owners were rebuilt together at af1042j: 5,021 CODE bytes, 688
+ordered native fields and 24 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[after1042j Chiyuri+Mima+HitCircle integration review](MAIN_CHIYURI_MIMA_HITCIRCLE_THREE_OWNER_INTEGRATION_AFTER1042J_REVIEW.md).
+
+After these Chiyuri and Mima refinements were integrated with all nine BOSS
+owners and HitCircle, the complete ten-owner set was rebuilt together again
+at af1042k: 17,896 CODE bytes, 2,464 ordered native fields and 89 PUBLICs,
+with two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [current after1042k ten-owner integration review](MAIN_TEN_OWNER_CURRENT_INTEGRATION_AFTER1042K_REVIEW.md).
+
+After the Reimu Orbit Burst, Orbit Cloud and Update refinements, all nine
+complete BOSS owners and HitCircle were rebuilt together again at af1044n:
+17,896 CODE bytes, 2,464 ordered native fields and 89 PUBLICs, with two
+original TC4 rounds and the complete Japanese MAIN image/relocations exact.
+See the [current after1044n ten-owner integration review](MAIN_TEN_OWNER_CURRENT_INTEGRATION_AFTER1044N_REVIEW.md).
+
+After the shared BOSS explosion-ring refinements were integrated with all
+nine complete BOSS owners and HitCircle, the twelve physical owners were
+rebuilt together at af1045u: 18,845 CODE bytes, 2,570 ordered native fields
+and 97 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the [current after1045u twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1045U_REVIEW.md).
+
+After the shared BOSS controller and ring natural-C++ refinements, the same
+twelve physical owners were rebuilt together at af1047l: 18,845 CODE bytes,
+2,570 ordered native fields and 97 PUBLICs, with two original TC4 rounds and
+the complete Japanese MAIN image/relocations exact. See the
+[current after1047l twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1047L_REVIEW.md).
+
+After Yumemi's four-phase arrival, complete update-controller and main-renderer
+natural-C++ refinements, the same twelve physical owners were rebuilt together
+at af1051k: 18,845 CODE bytes, 2,570 ordered native fields and 97 PUBLICs,
+with two original TC4 rounds and the complete Japanese MAIN image/relocations
+exact. See the [current after1051k twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1051K_REVIEW.md).
+
+After the Yumemi cross-ring geometry and cadence refinements, the same twelve
+physical owners were rebuilt together at af1052g: 18,845 CODE bytes, 2,570
+ordered native fields and 97 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[current after1052g twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1052G_REVIEW.md).
+
+After the Yumemi ring, aimed, chase and rain modulo/phase refinements, the same
+twelve physical owners were rebuilt together at af1053i: 18,845 CODE bytes,
+2,570 ordered native fields and 97 PUBLICs, with two original TC4 rounds and
+the complete Japanese MAIN image/relocations exact. See the
+[current after1053i twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1053I_REVIEW.md).
+
+After the follow-up Yumemi modulo/phase predicate recovery, the same twelve
+physical owners were rebuilt together at af1053k: 18,845 CODE bytes, 2,570
+ordered native fields and 97 PUBLICs, with two original TC4 rounds and the
+complete Japanese MAIN image/relocations exact. See the
+[current after1053k twelve-owner integration review](MAIN_TWELVE_OWNER_CURRENT_INTEGRATION_AFTER1053K_REVIEW.md).
+
+Yumemi's 404-byte four-phase arrival raster now uses constant-first phase
+gates, named `* 8` then `* 16` scale stages, register-qualified coordinate /
+phase locals, base-first top placement and unparenthesized phase differences.
+Its 83-byte render caller also uses register PID and constant-first mode
+tests. Both increasing/decreasing inclusive raster inequalities and the
+explicit hardware XOR remain compiler-sensitive. Stage af1048r rebuilt the
+complete 2,358-byte Yumemi owner in two original TC4 rounds, with all 343
+ordered native fields, ten PUBLICs and the Japanese MAIN image/relocations
+exact. See the [after1048 Yumemi arrival review](MAIN_YUMEMI_ARRIVAL_NATURAL_CPP_AFTER1048_REVIEW.md).
+
+Yumemi's full 368-byte update controller now uses a register PID local, a
+mismatch early return, `pid_other = 1 - pid_current`, explicit nonzero
+scheduler return handling, `boss_frame += 1` and base-first origin Y. Its
+333-byte main renderer uses register-qualified locals, base-first sprite and
+effect coordinates, constant-first mode/hit predicates and explicit zero
+state tests. The switch, RNG, collision, hitbox, clip and hardware drawing
+order remain intact. Ordinary HP/frame assignments, reversed PID operands,
+reversed circle/line branches and ordinary sprite-offset addition changed
+native output and were rejected. Stage af1051j rebuilt the full 2,358-byte
+Yumemi object in two original TC4 rounds, with all 343 ordered native fields,
+ten PUBLICs and the Japanese MAIN image/relocations exact. See the
+[after1051 Yumemi update/render review](MAIN_YUMEMI_UPDATE_AND_MAIN_RENDER_NATURAL_CPP_AFTER1051_REVIEW.md).
+
+Yumemi's four-way cross-ring producer now uses natural base-first X/Y
+coordinates and a remainder truth test while retaining all four separate RNG
+angle draws and bullet additions in their original order. Stage af1052f
+rebuilt the complete 2,358-byte Yumemi owner in two original TC4 rounds, with
+all 343 ordered native fields, ten PUBLICs and the Japanese MAIN
+image/relocations exact. See the
+[after1052 Yumemi cross-ring review](MAIN_YUMEMI_CROSS_RING_NATURAL_CPP_AFTER1052_REVIEW.md).
+
+Yumemi's ring, aimed, chase and rain cadence tests now use natural remainder
+truth predicates or constant-first modulo phase comparisons. The original
+attack periods, four-way RNG/bullet ordering and two-call chase movement are
+preserved. Stage af1053h rebuilt the complete 2,358-byte Yumemi owner in two
+original TC4 rounds, with all 343 ordered native fields, ten PUBLICs and the
+Japanese MAIN image/relocations exact. See the
+[after1053 Yumemi pattern cadence review](MAIN_YUMEMI_PATTERN_CADENCE_NATURAL_CPP_AFTER1053_REVIEW.md).
+
+The modulo/phase recovery was extended across all five ring, aimed, chase and
+rain cadence predicates. A seemingly natural aggregate `boss_aux_point =
+players[pid].center` copy was separately tested in the aimed and chase leaves
+and rejected because it changes CODE; retain the two explicit X/Y member
+assignments. Stage af1053j rebuilt the complete 2,358-byte Yumemi owner in two
+original TC4 rounds, with all 343 ordered native fields, ten PUBLICs and the
+Japanese MAIN image/relocations exact. See the
+[after1053 Yumemi modulo/phase review](MAIN_YUMEMI_ATTACK_MODULO_AND_PHASE_NATURAL_CPP_AFTER1053_REVIEW.md).
+
+After the Kotohime and Mima source refinements were integrated with the full
+nine-BOSS set, all nine complete owners were rebuilt together at af1034f:
+17,451 CODE bytes, 2,434 ordered native fields and 85 PUBLICs, with two
+original TC4 rounds and the complete Japanese MAIN image/relocations exact.
+See the [current after1034f nine-BOSS integration review](MAIN_NINE_BOSS_CURRENT_INTEGRATION_AFTER1034F_REVIEW.md).
+
+After Reimu's update controller was moved to the same positive PID scope, all
+four current BOSS owners were rebuilt together at af1032t: 8,436 CODE bytes,
+1,190 ordered native fields and 40 PUBLICs, with two original TC4 rounds and
+the complete Japanese MAIN image/relocations exact. See the
+[after1032t four-owner integration review](MAIN_BOSS_FOUR_OWNER_INTEGRATION_AFTER1032T_REVIEW.md).
+
+After the Mima INTRO and Chiyuri update/leaf changes, the two complete owners
+were rebuilt together at af1030k: 4,576 CODE bytes, 658 ordered native fields
+and 20 PUBLICs, with two original TC4 rounds and the complete Japanese MAIN
+image/relocations exact. See the
+[after1030 Mima/Chiyuri integration review](MAIN_BOSS_MIMA_CHIYURI_INTEGRATION_AFTER1030_REVIEW.md).
+
+See
+[the after1026 Kotohime radial-index review](MAIN_KOTOHIME_RADIAL_REGISTER_INDICES_AFTER1026_REVIEW.md),
+[the after1026 Chiyuri intro review](MAIN_CHIYURI_INTRO_EXCLUSIVE_PHASES_AFTER1026_REVIEW.md),
+[the after1026 Mima Trail review](MAIN_MIMA_TRAIL_FINISH_COMPARE_AFTER1026_REVIEW.md),
+[the after1026 Mima orbit review](MAIN_MIMA_ORBIT_FINISH_COMPARE_AFTER1026_REVIEW.md),
+[the after1025 HitCircle update review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md),
+[the after1025 Kotohime update review](MAIN_KOTOHIME_UPDATE_INTRO_GUARD_AFTER1025_REVIEW.md),
+[the after1025 BOSS review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md),
+[the after1024 source review](MAIN_KOTOHIME_RADIAL_AND_HITCIRCLE_ENUMS_AFTER1024_REVIEW.md)
+and [the after1021 BOSS review](MAIN_BOSS_NATURAL_PHASE_TESTS_AFTER1021_REVIEW.md).
+
+- **Kotohime:** the 332-byte update controller now scopes its complete
+  active-player path under `if(pid_current == gba_boss_launched_by)`, keeping
+  its INTRO/EXPLODE returns, mode dispatch and collision/hitbox tail together
+  (af1032p). Its six additive level formulas are now base-first; BOSS-frame
+  increment is postfix and INTRO completion is constant-first (af1037o/p).
+  The 302-byte Radial Burst retains its nested pre-tested `for` loops but now
+  declares DI/SI indices and x/y/angle scratch once in outer-to-inner order
+  in the release scope. Its center-angle, burst-angle and speed multipliers
+  use constant-first operands; the burst-angle offset is first in the sum.
+  Signed multiply/divide order, byte-angle truncation, polar calls and bullet
+  emission order remain exact (af1037c/d/e/f/g/h/i/r). Direct C++ replacement
+  of the AL-mediated phase-byte update changed CODE and was reverted
+  (af1037a/b/j). See the [after1037 Radial/Update review](MAIN_KOTOHIME_RADIAL_AND_UPDATE_ARITHMETIC_AFTER1037_REVIEW.md),
+  [after1033 radial recovery review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_ARITHMETIC_AFTER1033_REVIEW.md)
+  and [after1031 scoped-loop review](MAIN_KOTOHIME_RADIAL_SCOPED_WHILE_LOOPS_AFTER1031_REVIEW.md).
+- **HitCircle:** layout/animation and capacity constants are grouped into
+  named enums; the enemy ring-wrap guard uses the named count first. Both
+  spawn paths now select records with pointer addition/dereference; enemy
+  random-center offsets and radii are constant-first, and both spawn paths
+  use base-first screen-coordinate groupings (af1039b/c/d/e/f). Keep the
+  byte ring postfix, RNG X-before-Y order and direct record stores. Splitting
+  the cel's `_BX = age - 1` into assignment plus postfix decrement changed
+  complete CODE; preserve the BX/AX cel sequence and its three final BX
+  additions (af1039a). See the [after1039 HitCircle spawn review](MAIN_HITCIRCLE_SPAWN_POINTER_AND_COORDINATE_ARITHMETIC_AFTER1039_REVIEW.md)
+  and the [after1029 cel register-allocation review](MAIN_HITCIRCLE_CEL_REGISTER_ALLOCATION_AFTER1029_REVIEW.md).
+- **Rikako:** the complete 285-byte update controller now scopes its
+  mode dispatch, signed-byte spin compound update and collision/hitbox tail
+  under the positive `pid_current == gba_boss_launched_by` guard (af1033e).
+  Its INTRO completion also uses a positive equality branch with an explicit
+  `else return` (af1033n). The bullet PID assignment stays before
+  `boss_target_update()`, and `boss_render_frame += boss_spin_delta` remains
+  after the switch. See the [after1033 PID-scope review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md)
+  and [INTRO-branch review](MAIN_RIKAKO_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
+- **Kana:** the complete 316-byte update controller now scopes its
+  mode dispatch, render-frame postfix increment and collision/hitbox tail
+  under the positive `pid_current == gba_boss_launched_by` guard (af1033c).
+  Its INTRO completion also uses a positive equality branch with an explicit
+  `else return` (af1033k). The bullet PID assignment remains before
+  `boss_target_update()`, and the render counter remains after the switch.
+  See the [after1033 PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md)
+  and [INTRO-branch review](MAIN_KANA_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
+- **Ellen:** the complete 269-byte update controller now scopes its
+  mode dispatch and collision/hitbox tail under the positive
+  `pid_current == gba_boss_launched_by` guard (af1032z). Its INTRO completion
+  uses a positive equality branch with an explicit `else return` (af1033m).
+  The render-frame postfix increment still precedes the BOSS frame increment.
+  See the [after1032 PID-scope review](MAIN_ELLEN_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  and [after1033 INTRO-branch review](MAIN_ELLEN_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
+- **Yumemi:** the complete 368-byte update controller now scopes its
+  pre-switch origin-coordinate setup, nine-mode dispatch, effect/render
+  countdowns and collision/hitbox tail under the positive
+  `pid_current == gba_boss_launched_by` guard (af1032x). Its bullet PID
+  assignment remains before `boss_target_update()`. After the two original
+  INTRO sound-frame checks, completion now uses a positive equality branch
+  with an explicit `else return` (af1033j). The latest pass uses constant-first
+  level formulas, postfix BOSS-frame increment, constant-first INTRO sound
+  and finish comparisons, X-origin base-first addition, and direct truth
+  guards for both effect/render countdowns (af1036j/k). The level-derived
+  divisions by two remain divisions; replacing them with shifts changed CODE.
+  Its Ring attack leaf now uses constant-first phase tests, a constant-first
+  RNG bit test, modulo-four firing cadence and compound byte-speed progression
+  (af1036m). Aimed Random, Cross Rings, Chase and Rain now use constant-first
+  phase checks, natural modulo clocks and base-first RNG arithmetic where
+  exact; all original bullet/RNG ordering is retained (af1036n/o/p/q/r/s).
+  See the [after1036 attack-pattern review](MAIN_YUMEMI_ATTACK_PATTERNS_NATURAL_PHASES_AFTER1036_REVIEW.md),
+  [after1036 Ring review](MAIN_YUMEMI_RING_PHASE_AND_SPEED_AFTER1036_REVIEW.md),
+  [after1036 update review](MAIN_YUMEMI_UPDATE_LEVEL_AND_COUNTDOWN_AFTER1036_REVIEW.md),
+  [after1032 PID-scope review](MAIN_YUMEMI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  and [after1033 INTRO-branch review](MAIN_YUMEMI_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
+- **Marisa:** the complete 269-byte update controller now scopes its
+  mode switch and collision/hitbox tail under the positive
+  `pid_current == gba_boss_launched_by` guard (af1032v). Its INTRO case also
+  expresses completion as a positive equality branch with an explicit
+  `else return` (af1033g); EXPLODE and Spread/Wide/Ring/Narrow dispatch order
+  remain unchanged. See the [after1032 PID-scope review](MAIN_MARISA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  and [after1033 INTRO-branch review](MAIN_MARISA_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
+- **Reimu:** the complete BOSS update controller now scopes its pre-switch
+  SELECT logic, four attack-family dispatches and collision/hitbox tail under
+  the positive `pid_current == gba_boss_launched_by` guard (af1032r). Its
+  INTRO completion also uses a positive equality branch with an explicit
+  `else return` (af1033i); the separate SELECT test still follows immediately.
+  See the [after1032 PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md)
+  and [after1033 INTRO-branch review](MAIN_REIMU_UPDATE_INTRO_POSITIVE_BRANCH_AFTER1033_REVIEW.md).
+  The 443-byte Orbit Burst now uses constant-first phase tests, independent
+  early-return guards, a register byte angle, postfix radial loops, base-first
+  signed-angle distribution and `TO_SP(frame) * 2` for its two-stage radius
+  scale. Both global byte-angle updates accept compound `+=`. The 339-byte
+  Orbit Cloud now names its 48-pixel center trajectory, uses natural unsigned
+  modulo cadence checks, explicit C++ byte casts and compound local-angle
+  updates; postfix cloud-speed increment remains required. The 296-byte Update
+  uses a register PID local, postfix frame increment and constant-first level
+  and scheduler expressions (af1043a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/r/s/t/u/v/w/x/z,
+  af1044a/c/d/e/g/h/i/j/k/l/m). See the
+  [after1044 Reimu Orbit/Cloud/Update review](MAIN_REIMU_ORBIT_BURST_CLOUD_AND_UPDATE_NATURAL_CPP_AFTER1044_REVIEW.md).
+- **Mima:** the 298-byte update controller now scopes its complete active
+  player path under `if(pid_current == gba_boss_launched_by)`, retaining the
+  post-target-update recomputation of `bullet_template.pid`, all mode cases
+  and the collision/hitbox tail (af1032o). The 214-byte Spread leaf scopes
+  its volley/pellet/finish path under a positive
+  `boss_frame >= MIMA_SPREAD_FIRE_BEGIN` guard after the independent
+  initial-setup return (af1031m). The 262-byte Random Bomb
+  leaf now scopes its live barrage/ring/sound/finish under the positive
+  `boss_frame > MIMA_RANDOM_BOMB_BULLET_WAIT_END` guard while retaining the
+  three marker bombs and their early return (af1031s). The 186-byte Trail
+  leaf now relies on natural destination-byte narrowing for its modulo result
+  and names the fixed bullet-speed offset (af1034a); the original unsigned
+  word division and byte-phase comparisons remain exact. `mima_render_main()`
+  now uses a positive Trail early-return guard, constant-first nested Particle
+  thresholds and variable-first Particle/Expand/Flash mode checks (af1034g-i).
+  The 223-byte split renderer uses `angle += MIMA_RENDER_SPLIT_OPPOSITE_ANGLE`,
+  and the 101-byte far render controller scopes its active path under the
+  positive launched-player guard with constant-first INTRO/EXPLODE comparisons
+  (af1034x/y/1035a/b/d). The 298-byte update uses postfix BOSS-frame increment
+  and a constant-first INTRO completion test; Random Bomb uses constant-first
+  warning/fire/wait/ring/end frame comparisons (af1035f/g/l/m/n/o). Its
+  seven level-derived attack parameters now use constant-first additions
+  and multiplications; the division-by-four remains an actual division, as
+  replacing it with a shift changed CODE. The template initializer now uses
+  array-pointer addition and a direct player-ID truth test; explicit
+  sprite-offset assignment changed CODE, so retain `+=` (af1035r/u/v/w/y,
+  af1036a/b). Spread now uses constant-first phase guards, compound byte-angle
+  increments and modulo tests. All period-2 and period-4 attack clocks in
+  Spread, Random Bomb and Orbit use natural unsigned-word `% period` tests;
+  original TC4 emits the same masks (af1036c/d/e/g/h/i). Keep the SI/DI local
+  declaration order, ordinary top local, Trail-to-Particle
+  label/goto and byte-frame postfix. See the
+  [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
+  [after1035 update/Random Bomb review](MAIN_MIMA_UPDATE_AND_RANDOM_BOMB_AFTER1035_REVIEW.md),
+  [level scaling/template review](MAIN_MIMA_LEVEL_SCALING_AND_TEMPLATE_INIT_AFTER1035_REVIEW.md),
+  [Spread/attack-clock review](MAIN_MIMA_SPREAD_AND_ATTACK_CLOCK_MODULO_AFTER1036_REVIEW.md),
+  and
+  [after1034 Mima main renderer review](MAIN_MIMA_RENDER_MAIN_TRAIL_GUARD_AND_PHASE_COMPARISONS_AFTER1034_REVIEW.md),
+  [after1035 split/top-level renderer review](MAIN_MIMA_SPLIT_AND_RENDER_DISPATCH_AFTER1035_REVIEW.md),
+  the
+  [after1032 Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
+  [after1031 Mima Spread review](MAIN_MIMA_SPREAD_POSITIVE_FIRE_GUARD_AFTER1031_REVIEW.md),
+  [Random Bomb guard review](MAIN_MIMA_RANDOM_BOMB_POSITIVE_WAIT_GUARD_AFTER1031_REVIEW.md)
+  and [after1034 Trail review](MAIN_MIMA_TRAIL_NATURAL_NARROWING_AND_SPEED_AFTER1034_REVIEW.md).
+  The latest pass puts Trail's X/Y origin offsets and speed base first,
+  makes its finish test constant-first, makes Orbit's direction/finish frame
+  tests constant-first, and declares the complete Update's `pid_other` as a
+  register local (af1040v/w/x/y/z, af1041b/d). Reversing the launched-player
+  equality changed ordered native fields and was reverted; retain
+  `pid_current == gba_boss_launched_by`. See the
+  [after1041 Trail/Orbit/Update review](MAIN_MIMA_TRAIL_ORBIT_UPDATE_NATURAL_EXPRESSIONS_AFTER1041_REVIEW.md).
+  The main and split renderers now use base-first half-sprite placement plus
+  `TO_PIXEL()`. The main renderer also uses base-first damaged/Particle/
+  carrier/Flash sprite-bank offsets and Particle X placement; split keeps its
+  original register distance and hardware-mask sequence (af1042a/b/c/d/e/f/i).
+  See the [after1042 Mima renderer review](MAIN_MIMA_RENDER_COORDINATES_AFTER1042_REVIEW.md).
+- **Chiyuri:** the 613-byte update controller now scopes its complete
+  active-player path under `if(pid_current == gba_boss_launched_by)`,
+  preserving the shared mode dispatch and collision/hitbox tail (af1032l).
+  Its SELECT path expresses the paired-center word index as
+  `randring_far_next16_mod(5) << 1`, the unsigned timer threshold as
+  `boss_frame >= CHIYURI_SELECT_TIME_AT`, the palette-cycle guard in
+  variable-first form, and the random mode base as `CHIYURI_MODE_CARDINAL_0`
+  (af1032b/c/e/f). The latest complete-update pass uses constant-first
+  INTRO/SELECT frame comparisons, postfix BOSS-frame increment, five
+  base-first level formulas, multiplication for the doubled random selector,
+  pointer-addition array reads, constant-first random-mode and palette
+  expressions, constant-first intro cross offsets, a constant-first render
+  cadence test, and a register-qualified `pid_other` (af1038b/c/d/f/g/h/i/j/k/m/n/o/q/t/w).
+  The original pattern-counter comparison, `1 - pid_current`, PID local
+  declaration order, byte countdowns and HP compound subtraction remain
+  necessary (af1038e/l/p/r/s/u/v). Cardinal, Rings, Fans and Trail retain their named
+  clocks and original bullet-call ordering. The 528-byte Fans leaf now uses
+  variable-first horizontal/vertical frame tests and advances speed plus
+  index together in each of its four for-loop iteration expressions. Its
+  shared `TO_SP(56)` warning/coordinate edge is named; the four fan
+  centers now use edge-first grouping plus `TO_SP((span * i) / count)`,
+  keeping signed division before subpixel scaling. The ascending speed
+  additions are constant-first and all four loop steps use postfix `i++`
+  after the speed update; shot order is unchanged (af1034l/m/n/o/p/r/s/t,
+  af1037k/l/m/n/q). The signed multiply/divide-before-scale order remains
+  exact. Reversing the speed/index comma-expression order, unary-minus,
+  a register-local mirrored angle and
+  compound speed updates changed complete CODE and were reverted. See the
+  [after1037 Fans arithmetic review](MAIN_CHIYURI_FANS_SUBPIXEL_AND_LOOP_ARITHMETIC_AFTER1037_REVIEW.md),
+  [after1034 Fans loop-step review](MAIN_CHIYURI_FANS_SPEED_AND_EDGE_LOOP_STEPS_AFTER1034_REVIEW.md),
+  the
+  [Fans guard review](MAIN_CHIYURI_FANS_VARIABLE_FIRST_FRAME_GUARDS_AFTER1033_REVIEW.md),
+  [after1038 Update arithmetic/lifetime review](MAIN_CHIYURI_UPDATE_NATURAL_ARITHMETIC_AND_LIFETIMES_AFTER1038_REVIEW.md),
+  [PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md),
+  [SELECT index review](MAIN_CHIYURI_UPDATE_SELECT_INDEX_SHIFT_AFTER1032_REVIEW.md),
+  [timer review](MAIN_CHIYURI_UPDATE_SELECT_TIMER_VARIABLE_FIRST_AFTER1032_REVIEW.md),
+  [palette guard review](MAIN_CHIYURI_UPDATE_PALETTE_GUARD_VARIABLE_FIRST_AFTER1032_REVIEW.md),
+  and [random-mode base review](MAIN_CHIYURI_UPDATE_RANDOM_MODE_BASE_ENUM_AFTER1032_REVIEW.md).
+  The four Chiyuri render leaves now use base-first sprite/radius arithmetic,
+  `TO_PIXEL()` coordinate conversion, natural signed pixel-center placement,
+  postfix ring-loop indexing and constant-first INTRO phase comparisons
+  (af1040a/b/c/d/e/f/g/h/i/k/l/p/q/r/s/t, af1041e/f/g/h/i/j). The ring's
+  loop-local X scratch is hoisted without changing the owner; hit-offset
+  compound updates and the separate INTRO frame assignment remain required.
+  See the [after1041 Chiyuri renderer review](MAIN_CHIYURI_RENDERERS_NATURAL_COORDINATES_AFTER1041_REVIEW.md).
+
+Recommended next targets:
+
+1. Continue the HitCircle::cel() leaf. Explore natural C++ forms without
+   disturbing the observed BX/AX register sequence. The af1025e signed
+   `register int` and af1025f ordinary signed `int` sequential-local variants
+   both changed the complete `hitcirc` CODE and were reverted; see the
+   [after1025 HitCircle review](MAIN_HITCIRCLE_UPDATE_NESTED_GUARD_AFTER1025_REVIEW.md).
+2. Continue Kotohime Radial Burst's actual center/angle/speed arithmetic and
+   variable lifetimes, not just more cosmetic predicate rewrites.
+3. Continue Mima's shared Trail/Particle renderer and Chiyuri's four fan
+   passes, preserving draw and bullet ordering.
+4. Pursue genuinely unowned original source and larger BOSS/engine functions
+   alongside the small leaves. Do not count refactors as new source ownership.
