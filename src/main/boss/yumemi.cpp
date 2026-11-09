@@ -349,7 +349,7 @@ void near yumemi_pattern_cross_rings(void)
 {
 	boss_move_sine();
 
-	if(!(boss_frame % yumemi_cross_interval)) {
+	if(0 == (boss_frame % yumemi_cross_interval)) {
 		bullet_template.group = BG_4_RING;
 		bullet_template.speed.v = TO_SP(2);
 		bullet_template.type = 1 + randring_far_next16_and(1);
@@ -373,7 +373,7 @@ void near yumemi_pattern_cross_rings(void)
 		bullets_add();
 	}
 
-	if(YUMEMI_CROSS_FINISH_AT <= boss_frame) {
+	if(boss_frame >= YUMEMI_CROSS_FINISH_AT) {
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -465,7 +465,7 @@ void near yumemi_pattern_rain(void)
 		}
 	}
 
-	if(YUMEMI_RAIN_FINISH_AT <= boss_frame) {
+	if(boss_frame >= YUMEMI_RAIN_FINISH_AT) {
 		boss_mode = YUMEMI_MODE_SELECT;
 		boss_frame = 0;
 	}

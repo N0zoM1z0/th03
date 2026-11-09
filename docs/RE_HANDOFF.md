@@ -55,7 +55,7 @@ Report SHA-256:
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1069u`,
-`ba_yumem` uses `af1070d`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_yumem` uses `af1070h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1061b`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
@@ -108,8 +108,8 @@ each pass preserves emission, byte-speed and index-update order. See the
 and [PID lifetime review](MAIN_CHIYURI_FANS_REGISTER_PID_AFTER1069_REVIEW.md).
 
 Yumemi current-source refresh is now included in the joint
-`.analysis/work/exatt-layout-af1070d/report.json` (SHA-256
-`355f608a6951c8cb462495e3b42b7c237f80b418e1808d0ba58931f39ea9b60d`). It
+`.analysis/work/exatt-layout-af1070h/report.json` (SHA-256
+`878048b4f927d4afa219d30ecf5c8a1660cfa8395fc7b4865bd7b9fceb3a68f4`). It
 recompiles the complete 2,358-byte `ba_yumem` owner with 343 ordered native
 fields and ten PUBLICs in two original TC4 rounds, preserving the Japanese
 MAIN image and ordered relocations. The 368-byte update controller uses natural
@@ -117,11 +117,12 @@ update-start/effect-countdown truth tests, initializes its register PID only
 after the launched-player guard, and advances the unsigned-word clock with
 postfix increment. The 404-byte arrival renderer scopes its byte `phase`
 scratch to each of the three branches that use it. The 266-byte Aimed Random
-leaf now uses a variable-first period-mask firing gate. The Rain leaf now has a
-loop-local signed index and an explicit zero remainder test for its variable
-interval. See the [Yumemi update/arrival review](MAIN_YUMEMI_UPDATE_AND_ARRIVAL_LIFETIMES_AFTER1069_REVIEW.md),
-[Aimed Random mask review](MAIN_YUMEMI_AIMED_RANDOM_PERIOD_MASK_AFTER1070_REVIEW.md)
-and [Rain loop review](MAIN_YUMEMI_RAIN_LOCAL_INDEX_AND_MODULO_AFTER1070_REVIEW.md).
+leaf uses a variable-first period-mask firing gate. The Rain leaf has a
+loop-local signed index and explicit zero remainder test; Cross Rings and Rain
+both use variable-first finish guards. See the [Yumemi update/arrival review](MAIN_YUMEMI_UPDATE_AND_ARRIVAL_LIFETIMES_AFTER1069_REVIEW.md),
+[Aimed Random mask review](MAIN_YUMEMI_AIMED_RANDOM_PERIOD_MASK_AFTER1070_REVIEW.md),
+[Rain loop review](MAIN_YUMEMI_RAIN_LOCAL_INDEX_AND_MODULO_AFTER1070_REVIEW.md)
+and [Cross/Rain guard review](MAIN_YUMEMI_CROSS_RAIN_NATURAL_GUARDS_AFTER1070_REVIEW.md).
 
 Mima current-source refresh: `.analysis/work/exatt-layout-af1059a/report.json`
 SHA-256: `397144dec5bda10fd68ba3740c4409cd1adb38073fe30b2605235599d009f0a7`.
@@ -336,14 +337,15 @@ and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
 Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
-The current Yumemi + Chiyuri source integration is `af1070d`: `ba_yumem` and
+The current Yumemi + Chiyuri source integration is `af1070h`: `ba_yumem` and
 `ba_chiyu`, 5,012 CODE bytes, 724 ordered native fields and 21 PUBLICs. Both
 original TC4 rounds and both normal MAIN links match. Report:
-`.analysis/work/exatt-layout-af1070d/report.json`, SHA-256
-`355f608a6951c8cb462495e3b42b7c237f80b418e1808d0ba58931f39ea9b60d`.
+`.analysis/work/exatt-layout-af1070h/report.json`, SHA-256
+`878048b4f927d4afa219d30ecf5c8a1660cfa8395fc7b4865bd7b9fceb3a68f4`.
 It includes the current Chiyuri four-while fan source and Yumemi's period-mask
-Aimed Random gate, Rain loop-local index and variable-interval zero test,
-along with the previously recovered Yumemi update/arrival lifetime changes.
+Aimed Random gate, Rain loop-local index and zero test, and Cross/Rain
+variable-first finish guards, along with the previously recovered Yumemi
+update/arrival lifetime changes.
 
 Recommended next work:
 
