@@ -130,7 +130,6 @@ void fireballs_add(void)
 	static_assert(PLAYER_COUNT == 2);
 	pid_t pid_target = (1 - origin.pid);
 
-	subpixel_length_8_t speed;
 	// This first-free-slot allocator's for/continue/return is CODE-sensitive:
 	// converting it to while changed real TC4 output (af891c).
 	for(i = 0; i < FIREBALL_COUNT; (++i, fireball_p++)) {
@@ -142,7 +141,7 @@ void fireballs_add(void)
 		fireball_p->center.y.v = origin_center_y;
 		fireball_p->pid = origin.pid;
 
-		speed = (
+		subpixel_length_8_t speed = (
 			to_sp(1.25f) +
 			(round_speed / 2) +
 			randring2_next16_ge_lt_sp(0.0f, 2.0f)

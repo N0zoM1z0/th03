@@ -116,3 +116,11 @@ SHA-256: `babb2696f9416f9b3f760c70c7689b3cd55d2564b309cba459c6d55180e33304`
 
 This is scoped original-toolchain source evidence, not a Factory Oracle
 receipt, raw vendor OMF identity claim, or canonical packed-file acceptance.
+
+## Later current-source integration refresh
+
+The Mima source binding remains `af1088o` (source SHA-256
+`47f582b8ddb44b6aab621a506f458aeb6d130553dacc814f629e859ac9f59b7f`). Its
+current ten-owner integration was refreshed at `af1089k` after the Fireball
+allocator speed-local recovery; report SHA-256
+`2b732ac99f269133adcbf848539d64b99aa5a79c2332a57649434c81476b010e`.
