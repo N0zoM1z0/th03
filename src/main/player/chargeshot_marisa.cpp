@@ -85,11 +85,9 @@ void far pascal chargeshot_add_marisa(Subpixel center_x, Subpixel center_y)
     marisa_chargeshot_p->frame = 0;
     players[pid.current].shot_active = SA_DISABLED;
     // All twelve original 16-bit X/Y history slots are initialized.
-    int i = 0;
-    while(i < MARISA_CHARGE_HISTORY) {
+    for(int i = 0; i < MARISA_CHARGE_HISTORY; ++i) {
         marisa_chargeshot_p->x[i] = center_x.v;
         marisa_chargeshot_p->y[i] = center_y.v - MARISA_CHARGE_START_Y_OFFSET;
-        ++i;
     }
     snd_se_play(6);
 }
@@ -101,11 +99,9 @@ void far pascal marisa_hyper_14340(void)
     // original TC4 (af920a), without changing its early return.
     if(marisa_chargeshot_p->active == 0) {
         marisa_chargeshot_p->active = 1;
-        int i = 0;
-        while(i < MARISA_CHARGE_HISTORY) {
+        for(int i = 0; i < MARISA_CHARGE_HISTORY; ++i) {
             marisa_chargeshot_p->x[i] = players[pid.current].center.x.v;
             marisa_chargeshot_p->y[i] = players[pid.current].center.y.v - MARISA_CHARGE_START_Y_OFFSET;
-            ++i;
         }
         snd_se_play(6);
     }
@@ -126,12 +122,10 @@ void far pascal chargeshot_update_marisa(void)
     // code (af920c), independently of historical compiler notes.
     marisa_chargeshot_p->frame++;
     // Shift history from sample 11 down to 1 before replacing its head.
-    // The descending while preserves the original signed subpixel delay.
-    int i = MARISA_CHARGE_LAST_SAMPLE;
-    while(i > 0) {
+    // The descending for preserves the original signed subpixel delay.
+    for(int i = MARISA_CHARGE_LAST_SAMPLE; i > 0; --i) {
         marisa_chargeshot_p->x[i] = marisa_chargeshot_p->x[i - 1];
         marisa_chargeshot_p->y[i] = marisa_chargeshot_p->y[i - 1] + MARISA_CHARGE_HISTORY_Y_DROP;
-        --i;
     }
     // The signed/byte initial-tail cutoff can have its operands
     // reversed with exact native TC4 codegen (af920g).
@@ -156,8 +150,7 @@ uint8_t far chargeshot_hittest_marisa(void)
     hit = 0;
     // Collision examines samples 0, 4 and 8, not all 12 visible
     // samples; a hit breaks before the next index increment.
-    int i = 0;
-    while(i < MARISA_CHARGE_HISTORY) {
+    for(int i = 0; i < MARISA_CHARGE_HISTORY; i += MARISA_CHARGE_HIT_STEP) {
         if(
             (marisa_chargeshot_p->x[i] >= hitbox.origin.topleft.x.v) &&
             (marisa_chargeshot_p->x[i] <= hitbox.right.v) &&
@@ -170,7 +163,6 @@ uint8_t far chargeshot_hittest_marisa(void)
             hit = 1;
             break;
         }
-        i += MARISA_CHARGE_HIT_STEP;
     }
     return hit;
 }
@@ -193,8 +185,7 @@ void far pascal chargeshot_render_marisa(void)
     // previous X between each. The signed coordinate >>5 must remain:
     // replacing four uses with /32 changed actual TC4 CODE in af920d,
     // and signed negative rounding differs as well.
-    i = MARISA_CHARGE_LAST_SAMPLE;
-    while(i > MARISA_CHARGE_GRCG_FIRST_BAND_END) {
+    for(i = MARISA_CHARGE_LAST_SAMPLE; i > MARISA_CHARGE_GRCG_FIRST_BAND_END; --i) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> MARISA_GRCG_Y_SHIFT) + MARISA_GRCG_TOP_Y;
         if(previous_x != x) {
@@ -204,12 +195,10 @@ void far pascal chargeshot_render_marisa(void)
             );
         }
         previous_x = x;
-        --i;
     }
     grcg_settile_1line(GC_RMW, 0xFF00AA55L);
     previous_x = 0;
-    i = MARISA_CHARGE_GRCG_FIRST_BAND_END;
-    while(i > MARISA_CHARGE_GRCG_SECOND_BAND_END) {
+    for(i = MARISA_CHARGE_GRCG_FIRST_BAND_END; i > MARISA_CHARGE_GRCG_SECOND_BAND_END; --i) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> MARISA_GRCG_Y_SHIFT) + MARISA_GRCG_TOP_Y;
         if(previous_x != x) {
@@ -219,12 +208,10 @@ void far pascal chargeshot_render_marisa(void)
             );
         }
         previous_x = x;
-        --i;
     }
     grcg_settile_1line(GC_RMW, 0xFF55FF55L);
     previous_x = 0;
-    i = MARISA_CHARGE_GRCG_SECOND_BAND_END;
-    while(i > 0) {
+    for(i = MARISA_CHARGE_GRCG_SECOND_BAND_END; i > 0; --i) {
         x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[i], pid_current);
         bottom = (marisa_chargeshot_p->y[i] >> MARISA_GRCG_Y_SHIFT) + MARISA_GRCG_TOP_Y;
         if(previous_x != x) {
@@ -234,7 +221,6 @@ void far pascal chargeshot_render_marisa(void)
             );
         }
         previous_x = x;
-        --i;
     }
     grcg_setcolor(GC_RMW, V_WHITE);
     x = playfield_fg_x_to_screen(marisa_chargeshot_p->x[0], pid_current);
@@ -297,22 +283,18 @@ void near pascal gauge_pattern_marisa(bullet_type_t type)
         bullet_template.center.x.v = 0;
         // The original mutable speed -=6 must remain literal: a
         // fresh real TC4 compile rejected the named constant (af868f).
-        int i = 0;
-        while(i < MARISA_GAUGE_VOLLEY_COUNT) {
+        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; ++i) {
             bullets_add();
             bullet_template.speed.v -= 6;
-            ++i;
         }
         marisa_gauge_y[pid_current] +=
             (gauge_pattern_timing[pid_current].total_frames << 4);
     } else if(MARISA_GAUGE_RIGHT_FIRE == (marisa_gauge_frame[pid_current] % MARISA_GAUGE_PERIOD)) {
         bullet_template.angle = 0x60;
         bullet_template.center.x.v = TO_SP(PLAYFIELD_W);
-        int i = 0;
-        while(i < MARISA_GAUGE_VOLLEY_COUNT) {
+        for(int i = 0; i < MARISA_GAUGE_VOLLEY_COUNT; ++i) {
             bullets_add();
             bullet_template.speed.v -= 6;
-            ++i;
         }
         marisa_gauge_y[pid_current] +=
             (gauge_pattern_timing[pid_current].total_frames << 4);
