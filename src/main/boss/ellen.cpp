@@ -229,11 +229,12 @@ fire_single:
 	ellen_spread_angle = ellen_spread_angle + ELLEN_SPREAD_ANGLE_STEP;
 
 done:
-	if(boss_frame >= ELLEN_SPREAD_FINISH) {
-		boss_render_mode = ELLEN_RENDER_MODE_NORMAL;
-		boss_mode = ELLEN_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < ELLEN_SPREAD_FINISH) {
+		return;
 	}
+	boss_render_mode = ELLEN_RENDER_MODE_NORMAL;
+	boss_mode = ELLEN_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Warning pulses and radial Extra Attack bursts happen at these
@@ -284,7 +285,11 @@ void near ellen_pattern_extra(void)
 	}
 
 	// Byte-valued 0xFE is a signed -2 offset in this final volley.
-	if(boss_frame == ELLEN_EXTRA_LAST_BURST) {
+	if(boss_frame != ELLEN_EXTRA_LAST_BURST) {
+		return;
+	}
+	// Keep the original burst-local DI/SI lifetime in its own scope.
+	{
 		register int i = 0;
 		unsigned char angle = randring_far_next16();
 		for(; i < ellen_extra_count; ++i, angle = angle + (ELLEN_EXTRA_FULL_TURN_UNITS / ellen_extra_count)) {
@@ -356,10 +361,11 @@ void near ellen_pattern_pellets(void)
 		ellen_pellet_angle = ellen_pellet_angle + ELLEN_PELLET_ANGLE_STEP;
 	}
 
-	if(ELLEN_PELLET_FINISH_FRAME <= boss_frame) {
-		boss_mode = ELLEN_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < ELLEN_PELLET_FINISH_FRAME) {
+		return;
 	}
+	boss_mode = ELLEN_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_ellen(void)
