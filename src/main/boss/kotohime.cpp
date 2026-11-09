@@ -418,7 +418,6 @@ void near kotohime_pattern_radial_burst(void)
 
 void far gba_boss_update_kotohime(void)
 {
-	pid_t pid_other;
 
 	if(boss_update_start()) {
 		kotohime_random_ring_speed = (KOTOHIME_LEVEL_SPEED_BASE + (gba_boss_level / KOTOHIME_LEVEL_HALF));
@@ -434,10 +433,10 @@ void far gba_boss_update_kotohime(void)
 		return;
 	}
 
-	pid_other = (1 - pid_current);
+	pid_t pid_other = 1 - pid_current;
 	boss_target_update();
 	bullet_template.pid = pid_other;
-	boss_frame++;
+	++boss_frame;
 
 	switch(boss_mode) {
 	case KOTOHIME_MODE_INTRO:

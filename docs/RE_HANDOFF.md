@@ -54,9 +54,9 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1078r`,
-`ba_yumem` uses `af1078r`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
-`ba_reimu` uses `af1078r`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1084b`, `ba_chiyu` uses `af1083h`,
+`ba_yumem` uses `af1083h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
@@ -350,6 +350,14 @@ and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
 Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
+Kotohime's complete 332-byte `gba_boss_update_kotohime()` controller now
+places the opponent PID local after the inactive-player guard and initializes
+it at declaration; the boss frame uses prefix increment. Stage `af1084b`
+rebuilds the complete 1,840-byte `ba_koto` owner in two original TC4 rounds:
+262 ordered native fields and eleven PUBLICs match, with both normal Japanese
+MAIN images and ordered relocations exact. See the
+[Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
+
 The current five-owner Reimu + Yumemi + Chiyuri / Reimu Extra Attack source
 integration is `af1083h`: `ba_reimu`, `ba_yumem`, `ba_chiyu`, `ex_rfly` and
 `ex_reup`, 8,188 CODE bytes, 1,067 ordered native fields and 40 PUBLICs. Both
@@ -393,12 +401,13 @@ and [Reimu intro-renderer review](MAIN_REIMU_RENDER_INTRO_NATURAL_CPP_AFTER1083_
 
 Recommended next work:
 
-1. Continue `HitCircle::cel()` and Kotohime Radial Burst. Reimu's 443-byte
-   Orbit Burst, 339-byte Orbit Cloud, 118-byte spreads, 98-byte mirrored
-   spread, 296-byte BOSS Update, 281-byte Extra Attack Update, 205-byte Extra
-   Attack renderer, and both 259-byte main/intro renderers now have
-   current-source native matches. Compare the complete affected physical
-   owner each time.
+1. Continue Kotohime's 302-byte Radial Burst and `HitCircle::cel()`; the
+   332-byte Kotohime BOSS Update has now also been rechecked and naturalized.
+   Reimu's 443-byte Orbit Burst, 339-byte Orbit Cloud, 118-byte spreads,
+   98-byte mirrored spread, 296-byte Reimu BOSS Update, 281-byte Extra Attack
+   Update, 205-byte Extra Attack renderer, and both 259-byte main/intro
+   renderers now have current-source native matches. Compare the complete
+   affected physical owner each time.
 2. Revisit adjacent Reimu Extra Attack creation and remaining rendering
    helpers, then expand into the next large engine/BOSS controller. Recheck
    current source and disassembly rather than inheriting old assumptions.
