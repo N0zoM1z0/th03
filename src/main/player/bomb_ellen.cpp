@@ -78,12 +78,9 @@ void far ellen_bomb_update(void)
 	if(bomb_flag[pid_current] == BF_PREPARING) {
 		bomb_flag[pid_current] = BF_ACTIVE;
 		bomb_frame[pid_current] = 0;
-		i = 0;
-		// Initialize eight original 8-byte particle slots. The native
-		// while preserves individual signed-word stores (af886a).
-		while(i < ELLEN_BOMB_PARTICLES_PER_PLAYER) {
+		// Initialize the eight original 8-byte physical slots.
+		for(i = 0; i < ELLEN_BOMB_PARTICLES_PER_PLAYER; ++i) {
 			ellen_bomb_particles[pid_current][i].center.x.v = ELLEN_BOMB_SPAWN_X;
-			++i;
 		}
 		snd_se_play(17);
 	}
@@ -93,26 +90,20 @@ void far ellen_bomb_update(void)
 	playfield_clip_negative_radius.y.v = ELLEN_BOMB_CLIP_RADIUS;
 	ellen_bomb_particle_p = &ellen_bomb_particles[pid_current][0];
 
-	i = 0;
-	// Both early-continue and the goto-respawn paths advance the
-	// original signed index and near pointer in this native while
-	// (full original compiler proof af886b).
-	while(i < ELLEN_BOMB_PARTICLES_PER_PLAYER) {
+	// Both skipped and respawned particles advance through one header,
+	// retaining the original direct goto to the common respawn block.
+	for(i = 0; i < ELLEN_BOMB_PARTICLES_PER_PLAYER; ++i, ++ellen_bomb_particle_p) {
 		// The original goto to the common respawn block is codegen-visible:
 		// a falling-through C++ branch changed native CODE.
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_RESPAWN_X) {
 			goto respawn;
 		}
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_SPAWN_X) {
-			++i;
-			ellen_bomb_particle_p++;
 			continue;
 		}
 		ellen_bomb_particle_p->center.x.v += ellen_bomb_particle_p->velocity.x.v;
 		ellen_bomb_particle_p->center.y.v += ellen_bomb_particle_p->velocity.y.v;
 		if(!playfield_clip(ellen_bomb_particle_p->center.x, ellen_bomb_particle_p->center.y)) {
-			++i;
-			ellen_bomb_particle_p++;
 			continue;
 		}
 
@@ -125,8 +116,6 @@ void far ellen_bomb_update(void)
 			randring_far_next16(),
 			ELLEN_BOMB_PARTICLE_SPEED
 		);
-		++i;
-		ellen_bomb_particle_p++;
 	}
 
 	if(bomb_frame[pid_current] >= BOMB_FRAMES) {
@@ -145,20 +134,15 @@ void near ellen_bomb_render(void)
 	screen_y_t top;
 	sprite16_offset_t sprite_offset = (pid.so_attack + ELLEN_BOMB_SPRITE_OFFSET);
 
-	int i = 0;
-	// Both offscreen/sentinel checks skip drawing but preserve the
-	// same original signed index and near pointer post-call updates.
-	while(i < ELLEN_BOMB_PARTICLES_PER_PLAYER) {
+	// Both offscreen sentinels and rendered particles use the same
+	// signed-index and near-pointer step after their state checks.
+	for(int i = 0; i < ELLEN_BOMB_PARTICLES_PER_PLAYER; ++i, ++ellen_bomb_particle_p) {
 		// Keeping these as two source-level conditions is material: TC4J
 		// reloads [ellen_bomb_particle_p] for the second comparison, as in the target.
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_SPAWN_X) {
-			++i;
-			ellen_bomb_particle_p++;
 			continue;
 		}
 		if(ellen_bomb_particle_p->center.x.v == ELLEN_BOMB_RESPAWN_X) {
-			++i;
-			ellen_bomb_particle_p++;
 			continue;
 		}
 		left = (
@@ -166,8 +150,6 @@ void near ellen_bomb_render(void)
 		);
 		top = (ellen_bomb_particle_p->center.y.to_pixel() - ELLEN_BOMB_DRAW_TOP_MARGIN);
 		sprite16_put(left, top, sprite_offset);
-		++i;
-		ellen_bomb_particle_p++;
 	}
 }
 
@@ -201,7 +183,7 @@ void far ellen_bomb(void)
 	} else if(frame < ELLEN_BOMB_SHAKE_END) {
 		// Byte-valued frame must explicitly promote to unsigned int;
 		// removing the cast changed original CODE (af886c).
-		if((static_cast<unsigned int>(frame) % 2) != 0) {
+		if(static_cast<unsigned int>(frame) % 2) {
 			snd_se_play(10);
 			Palettes[pid_current].c.r = 255;
 			Palettes[pid_current].c.g = 128;
