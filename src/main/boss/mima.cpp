@@ -251,11 +251,12 @@ void near mima_pattern_spread(void)
 		mima_pellet_angle += MIMA_PELLET_ANGLE_STEP;
 	}
 
-	if(MIMA_SPREAD_FIRE_END_AFTER < boss_frame) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame <= MIMA_SPREAD_FIRE_END_AFTER) {
+		return;
 	}
+	boss_render_mode = MIMA_RMODE_NORMAL;
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near mima_pattern_bomb_random(void)
@@ -316,11 +317,12 @@ void near mima_pattern_bomb_random(void)
 		snd_se_play(MIMA_SOUND_SPREAD);
 	}
 
-	if(MIMA_RANDOM_BOMB_END <= boss_frame) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < MIMA_RANDOM_BOMB_END) {
+		return;
 	}
+	boss_render_mode = MIMA_RMODE_NORMAL;
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near mima_pattern_trail(void)
@@ -358,11 +360,12 @@ void near mima_pattern_trail(void)
 		bullet_template.is_animated = true;
 	}
 
-	if(MIMA_TRAIL_END <= boss_frame) {
-		boss_render_mode = MIMA_RMODE_NORMAL;
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < MIMA_TRAIL_END) {
+		return;
 	}
+	boss_render_mode = MIMA_RMODE_NORMAL;
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // The orbit fires only on even timer ticks after its signed direction
@@ -401,10 +404,11 @@ void near mima_pattern_orbit(void)
 		mima_orbit_angle += mima_orbit_delta;
 	}
 
-	if(MIMA_ORBIT_FINISH_FRAME <= boss_frame) {
-		boss_mode = MIMA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < MIMA_ORBIT_FINISH_FRAME) {
+		return;
 	}
+	boss_mode = MIMA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_mima(void)
