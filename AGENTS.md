@@ -48,10 +48,12 @@ actual exactness, target identity, natural-source and state-isolation rules.
 
 Prioritize natural source recovery and exact native output. Read the **active
 short** `docs/RE_HANDOFF.md` (the older 2,713-line handoff is now
-`docs/RE_HANDOFF_ARCHIVE_AFTER927.md`, with historical "latest" claims)
-and relevant parts of `docs/RE_WORKFLOW.md`,
-`docs/ARCHITECTURE.md` and the local `th03-re` skill. Inspect Git; run preflight
-when starting a session or when the environment/targets change.
+`docs/RE_HANDOFF_ARCHIVE_AFTER927.md`; the detailed post-af927 continuation
+is in `docs/RE_HANDOFF_ARCHIVE_AFTER1053.md`). Archived "latest" statements
+and next-target lists are historical snapshots, not current instructions.
+Read relevant parts of `docs/RE_WORKFLOW.md`, `docs/ARCHITECTURE.md` and the
+local `th03-re` skill. Inspect Git; run preflight when starting a session or
+when the environment/targets change.
 
 - Use the Japanese targets pinned in `config/targets.toml`, with
   `candidate-local-attested` provenance. Never substitute translated, patched
@@ -92,11 +94,14 @@ when starting a session or when the environment/targets change.
   Python caches; it did NOT prune any completed native source proof.
   Use docs/STORAGE_HANDOFF_AFTER710.md and its strict, one-time
   script/manifest to audit that bounded action. The after1024 handoff is
-  the latest safe storage maintenance: official cache-only removal of
+  the latest applied storage maintenance: official cache-only removal of
   448 regenerable bytecode files plus a **no-prune Git repack** preserving
   all 21,319 object IDs, refs, reflog files and fsck output. It deleted
-  **no native proof files or receipt trees**. See
-  docs/STORAGE_HANDOFF_AFTER1024.md and docs/STORAGE_HANDOFF_CURRENT.md.
+  **no native proof files or receipt trees**. A 2026-11-09 cache-only preview
+  found 0.0 MiB eligible; no deletion was performed. The 5.6 GiB `.analysis`
+  tree is dominated by the protected 2.7 GiB Wine/toolchain area and 2.0 GiB
+  work/proof area. See docs/STORAGE_HANDOFF_AFTER1024.md and
+  docs/STORAGE_HANDOFF_CURRENT.md.
   The after928 audit is historical.
   Never apply old after439/388/319/511-source cleanup
   tools to this checkout. A generic generated-file preview does not prove

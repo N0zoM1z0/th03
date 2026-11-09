@@ -1,9 +1,11 @@
-# TH03 current storage and evidence policy — after1024 handoff (2026-11-08)
+# TH03 current storage and evidence policy — after1024 baseline (rechecked 2026-11-09)
 
-Use the [current source handoff](RE_HANDOFF.md) for after596 MAIN / after587
-MAINL. This page records what has ACTUALLY been deleted or packed; it is
-not a license to age-prune native work. The complete earlier after554 storage
-record is preserved as [a historical snapshot](STORAGE_HANDOFF_ARCHIVE_AFTER554.md).
+Use the [current source handoff](RE_HANDOFF.md) for current MAIN, OP, MAINL
+and ZUN status. The after596 MAIN and after587 MAINL pairs are historical
+ancestors, not current broad source acceptance. This page records what has
+ACTUALLY been deleted or packed; it is not a license to age-prune native work.
+The complete earlier after554 storage record is preserved as
+[a historical snapshot](STORAGE_HANDOFF_ARCHIVE_AFTER554.md).
 
 ## Most recent applied safe cleanup (after1024)
 
@@ -21,6 +23,31 @@ state, source snapshots, writer logs and both compiler rounds remain
 untouched. Python caches can regenerate after later imports. The
 before/after inventories and per-file cache hashes are retained under
 .analysis/handoff/after1024-safe-git-cache/.
+
+## 2026-11-09 read-only storage re-audit
+
+The official cache-only preview was rerun:
+
+    .venv/bin/python scripts/clean_generated.py --caches-only
+
+It reported **0.0 MiB eligible** under the approved `scripts/` and `tests/`
+cache paths. No cleanup was applied because there was nothing eligible to
+remove. Other discovered bytecode caches (for example inside `.venv/` and
+`src/shared/math/`) are outside this cleaner's allowlist and were left alone.
+
+The repository occupies about **5.8 GiB**, of which `.analysis/` is about
+**5.6 GiB**. The largest protected areas are `.analysis/toolchain/` (about
+2.7 GiB, including the game's Wine prefix) and `.analysis/work/` (about
+2.0 GiB, containing native build/proof work). The nine character BOSS proof
+workspaces, both-round outputs, source-bound reports, Ghidra state, targets
+and toolchain inputs remain protected. This inventory did not establish a
+safe unreferenced native-output set, so no `.analysis` file or receipt tree
+was deleted.
+
+The after1024 cache-only cleanup and non-pruning Git repack therefore remain
+the latest applied storage cleanup. Any future native-output retirement still
+requires a fresh complete dependency audit, a one-time explicit allowlist and
+post-deletion review; age and directory size are not evidence of disposability.
 
 ## Earlier applied safe cleanup (after928)
 
