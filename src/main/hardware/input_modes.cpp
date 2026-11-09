@@ -26,21 +26,23 @@ void far pascal input_mode_key_vs_key(void)
 void far pascal input_mode_joy_vs_key(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist) {
-        js_sense();
+    if(!js_bexist) {
+        return;
+    }
+    js_sense();
         input_mp_p1 = js_stat[0];
         input_mp_p2 = input_sp;
-    }
 }
 
 void far pascal input_mode_key_vs_joy(void)
 {
     input_reset_sense_key_held();
-    if(js_bexist) {
-        js_sense();
+    if(!js_bexist) {
+        return;
+    }
+    js_sense();
         input_mp_p2 = js_stat[0];
         input_mp_p1 = input_sp;
-    }
 }
 
 void far pascal input_mode_1p_vs_cpu(void)
@@ -99,13 +101,13 @@ void far pascal input_wait_for_change(int frames_to_wait)
         input_mode_interface();
         // The source-level idle sentinel can naturally be compared
         // explicitly without changing original TEST/Jcc instructions.
-        if(input_sp == INPUT_NONE) {
+        if(!input_sp) {
             break;
         }
         frame_delay(1);
     }
 
-    if(frames_to_wait == 0) {
+    if(!frames_to_wait) {
         frames_to_wait = INPUT_WAIT_UNLIMITED_FRAMES;
     }
 
@@ -115,7 +117,7 @@ void far pascal input_wait_for_change(int frames_to_wait)
     // original interrupt reads, exact under genuine TC4 (af907b/c/e).
     while(frames_waited < frames_to_wait) {
         input_mode_interface();
-        if(input_sp != INPUT_NONE) {
+        if(input_sp) {
             break;
         }
         ++frames_waited;
