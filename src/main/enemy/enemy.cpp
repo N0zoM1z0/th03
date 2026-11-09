@@ -226,9 +226,13 @@ void near enemy_explosion_flag_update(void)
 	if(p->frame == KEYFRAME_HIT_ENEMIES) {
 		p->flag = EFF_EXPLOSION_HITTING_ENEMIES;
 		snd_se_play(3);
-	} else if(p->frame == KEYFRAME_DECAY) {
+		return;
+	}
+	if(p->frame == KEYFRAME_DECAY) {
 		p->flag = EFF_EXPLOSION_IGNORING_ENEMIES;
-	} else if(p->frame >= KEYFRAME_DONE) {
+		return;
+	}
+	if(p->frame >= KEYFRAME_DONE) {
 		p->flag = EFF_FREE;
 	}
 }
@@ -1008,7 +1012,7 @@ void enemies_render(void)
 	efe_p.enemy = enemies;
 	// The render path skips inactive/queued entities via its native `continue`,
 	// then advances the same near pointer and signed index in the for header.
-	for(int i = 0; i < ENEMY_COUNT; ++i, efe_p.enemy++) {
+	for(int i = 0; i < ENEMY_COUNT; ++i, ++efe_p.enemy) {
 		enemy_t near *p = efe_p.enemy;
 		if((p->flag == EFF_FREE) || (p->flag == EF_RUNNING_UNSPAWNED)) {
 			continue;
@@ -1048,30 +1052,31 @@ void enemies_update(void)
 	// The forty-enemy frame update uses a natural for header for both
 	// early-continue paths, preserving original near-pascal
 	// state/script/collision call order.
-	for(int i = 0; i < ENEMY_COUNT; ++i, p++) {
+	for(int i = 0; i < ENEMY_COUNT; ++i, ++p) {
 		if(p->flag == EFF_FREE) {
 			continue;
 		}
 		p->frame++;
 		if(p->flag >= EFF_EXPLOSION_IGNORING_ENEMIES) {
 			enemy_explosion_flag_update();
-		} else if(enemy_run()) {
 			continue;
-		} else {
-			enemies_alive[p->pid]++;
-			if(p->flag == EF_RUNNING_SPAWNED) {
-				collmap_tile_amount_t tiles = ((p->size_pixels * 3) / 16);
-				collmap_center.x = p->center.x;
-				collmap_center.y = p->center.y;
-				collmap_stripe_tile_w.v = tiles;
-				collmap_tile_h.v = tiles;
-				collmap_pid = p->pid;
+		}
+		if(enemy_run()) {
+			continue;
+		}
+		enemies_alive[p->pid]++;
+		if(p->flag == EF_RUNNING_SPAWNED) {
+			collmap_tile_amount_t tiles = ((p->size_pixels * 3) / 16);
+			collmap_center.x = p->center.x;
+			collmap_center.y = p->center.y;
+			collmap_stripe_tile_w.v = tiles;
+			collmap_tile_h.v = tiles;
+			collmap_pid = p->pid;
 
-				/* TODO: Replace with the decompiled call
-				 * 	collmap_set_rect_striped();
-				 * once the segmentation allows us to, if ever */
-				asm { nop; push cs; call near ptr collmap_set_rect_striped; }
-			}
+			/* TODO: Replace with the decompiled call
+			 * 	collmap_set_rect_striped();
+			 * once the segmentation allows us to, if ever */
+			asm { nop; push cs; call near ptr collmap_set_rect_striped; }
 		}
 	}
 	enemies_hittest();
