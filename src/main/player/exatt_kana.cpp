@@ -46,6 +46,7 @@ enum kana_exatt_state_t {
     KANA_EXATT_BULLET_ANGLE_RANDOM_MASK = 0x1F,
     KANA_EXATT_BULLET_ANGLE_RANDOM_BIAS = 0x0F,
     KANA_EXATT_BULLET_ANGLE_EXTRA_HALF_TURN = 0x80,
+    KANA_EXATT_ACTIVE_SPEED = 8,
     KANA_EXATT_ACTIVE_SPRITE_DIM = 32,
     KANA_EXATT_ACTIVE_SPRITE_BASE = 0x284,
 };
@@ -54,11 +55,10 @@ void far pascal exatt_add_kana(int x, int y, unsigned char pid_)
 {
     int target_x = randring_far_next16_mod(KANA_EXATT_TARGET_X_RANGE);
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
-    register int i = 0;
 
-    // Ordinary first-free allocation remains for/continue/return;
-    // genuine TC4 rejected its natural while (af918c).
-    for(; i < KANA_EXATT_SLOTS; ++i, p++) {
+    // The first-free allocator keeps its original RNG-before-scan and
+    // continue/return paths, advancing both loop carriers in the header.
+    for(register int i = 0; i < KANA_EXATT_SLOTS; ++i, ++p) {
         if(p->state) {
             continue;
         }
@@ -79,21 +79,17 @@ void far pascal exatt_add_kana(int x, int y, unsigned char pid_)
 void far pascal kana_extra_add(int x, int y, unsigned char angle_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    register int i = 0;
-    // Special first-free allocation *does* accept natural while,
-    // despite the different ordinary allocator (af918d).
-    while(i < KANA_EXATT_SLOTS) {
+    // Advance through the same eight actual slots after occupied entries.
+    for(register int i = 0; i < KANA_EXATT_SLOTS; ++i, ++p) {
         if(!p->state) {
             p->state = KANA_EXATT_ACTIVE;
             p->x = x;
             p->y = y;
             p->angle = angle_;
-            p->speed = 8;
+            p->speed = KANA_EXATT_ACTIVE_SPEED;
             p->frame = 0;
             return;
         }
-        ++i;
-        p++;
     }
 }
 
@@ -135,19 +131,15 @@ void far pascal exatt_update_kana(void)
     int vector_y;
     unsigned char pid_other;
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    register int i;
 
     pid_other = (1 - pid_current);
     playfield_clip_negative_radius.x.v = -TO_SP(24);
     playfield_clip_negative_radius.y.v = -TO_SP(24);
-    i = 0;
 
-    // Full eight-entity move/clip/accelerated-shot controller with
-    // both early-continue paths native exact as while (af918a).
-    while(i < KANA_EXATT_SLOTS) {
+    // Both early-continue paths share one native index/near-pointer
+    // progression, after the complete move/clip/shot state changes.
+    for(register int i = 0; i < KANA_EXATT_SLOTS; ++i, ++p) {
         if(!p->state) {
-            ++i;
-            p++;
             continue;
         }
         exatt_entity_p = p;
@@ -177,8 +169,6 @@ void far pascal exatt_update_kana(void)
                 *(PlayfieldSubpixel near *)&p->y
             )) {
                 p->state = KANA_EXATT_FREE;
-                ++i;
-                p++;
                 continue;
             }
         } else if(p->state == KANA_EXATT_FLYING) {
@@ -188,27 +178,21 @@ void far pascal exatt_update_kana(void)
         } else {
             p->frame = 0;
             p->state = KANA_EXATT_ACTIVE;
-            p->speed = 8;
+            p->speed = KANA_EXATT_ACTIVE_SPEED;
         }
         // Byte frame postfix cannot be replaced by prefix (af918h).
         p->frame++;
-        ++i;
-        p++;
     }
 }
 
 void far pascal exatt_render_kana(void)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_current][0];
-    register int i = 0;
-    // All eight physical sprite slots retain their original
-    // near-pointer render order (af918e).
-    while(i < KANA_EXATT_SLOTS) {
+    // Render all eight real slots in the same near-pointer order.
+    for(register int i = 0; i < KANA_EXATT_SLOTS; ++i, ++p) {
         if(p->state) {
             exatt_entity_p = p;
             kana_exatt_render_one();
         }
-        ++i;
-        p++;
     }
 }
