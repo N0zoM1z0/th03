@@ -389,6 +389,11 @@ the full 2,685-byte Bullet owner, including 9,500-byte BSS, in two original
 TC4 rounds and is part of the eight-owner integration; see the
 [Bullet add pointer review](MAIN_BULLET_ADD_POINTER_FIRST_USE_AFTER1085_REVIEW.md).
 
+The 562-byte `bullets_add()` allocator now initializes its near bullet pointer
+at first use after the early bounds guard. The full Bullet owner and eight-owner
+integration both match in two original TC4 rounds; see the
+[Bullet allocator pointer-lifetime review](MAIN_BULLET_ADD_POINTER_LIFETIME_AFTER1085_REVIEW.md).
+
 The 819-byte `group_velocity_set()` dispatcher now uses prefix increment for
 the terminal count update in both ordinary and aimed ring fallthrough chains.
 The complete 2,685-byte Bullet owner, including its 9,500-byte BSS, matches in
