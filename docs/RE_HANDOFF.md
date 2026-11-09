@@ -383,7 +383,8 @@ current inline source dependency is checked by the source overlay. See the
 HitCircle's `HitCircle::cel()` now uses the natural compound self-division
 `_BX /= HITCIRCLE_FRAMES_PER_CEL` while keeping the intermediate in BX. This
 reproduces the full 445-byte `hitcirc` owner in two original TC4 rounds; see
-the [HitCircle cel allocation review](MAIN_HITCIRCLE_CEL_REGISTER_ALLOCATION_AFTER1029_REVIEW.md).
+the [HitCircle cel allocation review](MAIN_HITCIRCLE_CEL_REGISTER_ALLOCATION_AFTER1029_REVIEW.md)
+and [compound-division integration review](MAIN_HITCIRCLE_CEL_COMPOUND_DIVISION_AFTER1084_REVIEW.md).
 
 Kotohime's 302-byte `kotohime_pattern_radial_burst()` now initializes its
 per-center angle at declaration while retaining the original signed division
