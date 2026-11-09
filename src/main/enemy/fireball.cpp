@@ -86,6 +86,12 @@ enum fireball_native_timing_t {
     FIREBALL_EXPLOSION_HITBOX_HEIGHT = 48,
     FIREBALL_FLY_SIZE_HALF = FLY_W / 2,
     FIREBALL_FALL_SIZE_HALF = FALL_W / 2,
+    FIREBALL_SPAWN_EXPLOSION_SIZE = 48,
+    FIREBALL_MAX_RED_GENERATION = 4,
+    FIREBALL_CHARGE_EXATT_THRESHOLD_BASE = 6,
+    FIREBALL_CHAIN_EXATT_THRESHOLD_BASE = 7,
+    FIREBALL_TRANSFER_GAUGE_BONUS = 16,
+    FIREBALL_TRANSFER_SCORE_BONUS = 50,
 };
 // ---------
 
@@ -132,7 +138,7 @@ void fireballs_add(void)
 
 	// This first-free-slot allocator's for/continue/return is CODE-sensitive:
 	// converting it to while changed real TC4 output (af891c).
-	for(i = 0; i < FIREBALL_COUNT; (++i, fireball_p++)) {
+	for(i = 0; i < FIREBALL_COUNT; (++i, ++fireball_p)) {
 		if(fireball_p->flag != EFF_FREE) {
 			continue;
 		}
@@ -159,7 +165,7 @@ void fireballs_add(void)
 		fireball_p->variant_as_eha() = static_cast<explosion_hittest_against_t>(
 			EHA_FIREBALL + variant
 		);
-		fireball_p->size_pixels = 48;
+		fireball_p->size_pixels = FIREBALL_SPAWN_EXPLOSION_SIZE;
 		fireball_p->unused_4[1] = 0; // ZUN bloat
 		fireball_p->generation = (
 			(variant == FV_BLUE) ? 0 : (generation_prev + 1)
@@ -300,13 +306,11 @@ void near fireball_explosion_put(void)
 
 	// ZUN bug: the 64x64 explosion sprite is placed using the 64x48
 	// collision box, leaving it 16 pixels below its visual center.
-	screen_x_t left;
-	screen_y_t top;
-	left = (
+	screen_x_t left = (
 		playfield_fg_x_to_screen(p->center.x, p->pid) -
 		(FIREBALL_EXPLOSION_HITBOX_WIDTH / 2)
 	);
-	top = (
+	screen_y_t top = (
 		playfield_fg_y_to_screen(p->center.y, p->pid) -
 		(FIREBALL_EXPLOSION_HITBOX_HEIGHT / 2)
 	);
@@ -327,7 +331,7 @@ void fireballs_update(void)
 	// All 24 original fireballs are updated in a native-exact for loop.
 	// Free, clipped and transferred branches share its signed-index and
 	// near-pointer progression, including both original goto destinations.
-	for(i = 0; i < FIREBALL_COUNT; (++i, p++)) {
+	for(i = 0; i < FIREBALL_COUNT; (++i, ++p)) {
 		if(!p->flag) {
 			continue;
 		}
@@ -411,7 +415,7 @@ switch_to_fall:
 // fireballs_add() calls and thus have an even worse effect on code quality.
 void pascal near chain_fire_charged_exatt(pid_t pid, unsigned int slot)
 {
-	if(chains.charge_exatt[pid][slot] >= (6 - (round_speed / to_sp(2.0f)))) {
+	if(chains.charge_exatt[pid][slot] >= (FIREBALL_CHARGE_EXATT_THRESHOLD_BASE - (round_speed / to_sp(2.0f)))) {
 		chains.charge_exatt[pid][slot] = 0;
 		exatt_add(efe_p.efe->center.x, efe_p.efe->center.y, pid);
 	}
@@ -520,7 +524,7 @@ void near fireballs_hittest(void)
 	for(
 		i = (EFE_COUNT - 1);
 		i >= (EFE_COUNT - FIREBALL_COUNT);
-		(--i, p--)
+		(--i, --p)
 	) {
 		if(p->flag != FF_FALL) {
 			continue;
@@ -555,12 +559,12 @@ void near fireballs_hittest(void)
 				}
 				if(
 					chains.charge_exatt[pid][chain_slot] >=
-					(7 - (round_speed / to_sp8(2.0f)))
+					(FIREBALL_CHAIN_EXATT_THRESHOLD_BASE - (round_speed / to_sp8(2.0f)))
 				) {
 					chains.charge_exatt[pid][chain_slot] = 0;
 					exatt_add(p->center.x, p->center.y, pid);
 				}
-				if(generation_prev < 4) {
+				if(generation_prev < FIREBALL_MAX_RED_GENERATION) {
 					fireballs_add();
 				}
 			} else {
@@ -573,8 +577,8 @@ void near fireballs_hittest(void)
 				);
 				p->flag = EFF_FREE;
 				chain_fire_charged_exatt(pid, chain_ring_p[pid]);
-				gauge_avail_add(pid, 16);
-				score_add(50, pid);
+				gauge_avail_add(pid, FIREBALL_TRANSFER_GAUGE_BONUS);
+				score_add(FIREBALL_TRANSFER_SCORE_BONUS, pid);
 				fireballs_add();
 			}
 
@@ -601,7 +605,7 @@ void fireballs_hittest_and_render(void)
 	p = fireballs;
 	// Whole 24-projectile render pass: free slots skip drawing, but
 	// still advance near pointer and signed index in their original order.
-	for(int i = 0; i < FIREBALL_COUNT; (++i, p++)) {
+	for(int i = 0; i < FIREBALL_COUNT; (++i, ++p)) {
 		if(!p->flag) {
 			continue;
 		}
