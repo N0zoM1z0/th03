@@ -146,7 +146,7 @@ void far pascal boss_ellen_template_init(int player_id)
 	p->render_frame = 0;
 	p->move_phase = 0;
 	p->sprite_offset = ELLEN_TEMPLATE_SPRITE_OFF;
-	if(player_id != 0) {
+	if(player_id) {
 		p->sprite_offset += ELLEN_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = ELLEN_RENDER_MODE_NORMAL;
@@ -164,7 +164,7 @@ enum ellen_spread_phase_t {
     ELLEN_SPREAD_ANGLE_STEP = 8,
 };
 
-// Both spread gates use the natural unsigned 16-bit frame remainder.
+// Both spread gates keep unsigned-word remainder in natural truth tests.
 // The original fire_single/done labels still preserve native branch
 // layout; merging the decrement and negative test in strip rendering
 // changed original CODE (af678b).
@@ -199,7 +199,7 @@ void near ellen_pattern_spread(void)
 
 	// Both two-frame spread gates use the unsigned-word remainder.
 	if(boss_frame < ELLEN_SPREAD_SINGLE_END) {
-		if((boss_frame % ELLEN_SPREAD_PERIOD) == 0) {
+		if(!(boss_frame % ELLEN_SPREAD_PERIOD)) {
 			goto fire_single;
 		}
 		goto done;
@@ -219,7 +219,7 @@ void near ellen_pattern_spread(void)
 	if(boss_frame > ELLEN_SPREAD_FINISH) {
 		goto done;
 	}
-	if((boss_frame % ELLEN_SPREAD_PERIOD) != 0) {
+	if(boss_frame % ELLEN_SPREAD_PERIOD) {
 		goto done;
 	}
 
@@ -356,7 +356,7 @@ void near ellen_pattern_pellets(void)
 		ellen_pellet_angle = ellen_pellet_angle + ELLEN_PELLET_ANGLE_STEP;
 	}
 
-	if(boss_frame >= ELLEN_PELLET_FINISH_FRAME) {
+	if(ELLEN_PELLET_FINISH_FRAME <= boss_frame) {
 		boss_mode = ELLEN_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -382,12 +382,11 @@ void far gba_boss_update_ellen(void)
 
 	switch(boss_mode) {
 	case ELLEN_MODE_INTRO:
-		if(boss_frame == ELLEN_INTRO_FINISH_FRAME) {
-			boss_frame = 0;
-			boss_mode = ELLEN_MODE_SELECT;
-		} else {
+		if(boss_frame != ELLEN_INTRO_FINISH_FRAME) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = ELLEN_MODE_SELECT;
 		break;
 
 	case ELLEN_MODE_SELECT:
