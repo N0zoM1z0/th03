@@ -106,11 +106,9 @@ enum kotohime_exatt_event_t {
 void far pascal exatt_add_kotohime(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
-    register int i = 0;
-    // The ordinary eight-slot first-free allocator really can use
-    // a natural while with post-occupied near pointer/index advance
-    // (actual original TC4 test af913b), unlike some other owners.
-    while(i < KOTO_EXATT_NORMAL_SLOTS) {
+    // All eight ordinary physical slots are checked in source order.
+    // The occupied-slot path advances the signed index and near pointer.
+    for(register int i = 0; i < KOTO_EXATT_NORMAL_SLOTS; ++i, ++p) {
         if(p->state == KOTO_EXATT_FREE) {
             exatt_entity_p = p;
             exatt_fly_init(
@@ -125,8 +123,6 @@ void far pascal exatt_add_kotohime(int x, int y, unsigned char pid_)
             p->character_mode.kotohime_extra_mode = 0;
             return;
         }
-        ++i;
-        p++;
     }
 }
 
@@ -214,14 +210,12 @@ void near kotohime_exatt_pattern_four(void)
         delta = KOTO_EXATT_FOUR_DELTA_RIGHT;
     }
     bullet_template.speed.v = TO_SP(1);
-    i = 0;
     // Four shot group: this typed while loop preserves original
     // bullet spawn, speed increase and byte-angle update order.
-    while(i < KOTO_EXATT_RING4_COUNT) {
+    for(i = 0; i < KOTO_EXATT_RING4_COUNT; ++i) {
         bullets_add();
         bullet_template.speed.v += KOTO_EXATT_PATTERN_SPEED_STEP;
         bullet_template.angle += delta;
-        ++i;
     }
 }
 
@@ -240,21 +234,18 @@ void near kotohime_exatt_pattern_ten(void)
     } else {
         delta = KOTO_EXATT_TEN_DELTA_LEFT;
     }
-    i = 0;
     // Ten shot group: the same source-level traversal is byte-exact,
     // despite the distinct negative angle delta and bullet counts.
-    while(i < KOTO_EXATT_RING10_COUNT) {
+    for(i = 0; i < KOTO_EXATT_RING10_COUNT; ++i) {
         bullets_add();
         bullet_template.speed.v += KOTO_EXATT_PATTERN_SPEED_STEP;
         bullet_template.angle += delta;
-        ++i;
     }
 }
 
 void far pascal exatt_update_kotohime(void)
 {
     unsigned char pid_other;
-    register int i;
     register exatt_entity_t near *p;
 
     exatt_entity_p = &exatt_entities[pid_current][0];
@@ -262,14 +253,10 @@ void far pascal exatt_update_kotohime(void)
     collmap_stripe_tile_w.set(KOTO_EXATT_COLLISION_TILE_W);
     collmap_tile_h.set(KOTO_EXATT_COLLISION_TILE_W);
     collmap_pid = pid_other;
-    i = 0;
-    // The full ten-slot beam/flying/arrival state machine now uses
-    // native-exact while. The skip path advances BOTH original
-    // registers before continue; the active path advances afterward.
-    while(i < KOTO_EXATT_ALL_SLOTS) {
+    // Every skip and completed event joins the same original signed
+    // index and physical entity pointer progression after the iteration.
+    for(register int i = 0; i < KOTO_EXATT_ALL_SLOTS; ++i, ++exatt_entity_p) {
         if(exatt_entity_p->state == KOTO_EXATT_FREE) {
-            ++i;
-            exatt_entity_p++;
             continue;
         }
         p = exatt_entity_p;
@@ -339,23 +326,16 @@ void far pascal exatt_update_kotohime(void)
         // Original mutable byte frame postfix is codegen-visible:
         // ++p->frame changed CODE in fresh native af913e.
         p->frame++;
-        ++i;
-        exatt_entity_p++;
     }
 }
 
 void far pascal exatt_render_kotohime(void)
 {
-    register int i;
     exatt_entity_p = &exatt_entities[pid_current][0];
-    i = 0;
-    // Both loop and pointer advance are real original ten-slot
-    // traversal. Native TC4 emits the exact source CODE (af861b).
-    while(i < KOTO_EXATT_ALL_SLOTS) {
+    // Render each of the ten real slots with its original global pointer.
+    for(register int i = 0; i < KOTO_EXATT_ALL_SLOTS; ++i, ++exatt_entity_p) {
         if(exatt_entity_p->state) {
             kotohime_exatt_render_one();
         }
-        ++i;
-        exatt_entity_p++;
     }
 }
