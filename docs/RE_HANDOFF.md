@@ -28,12 +28,13 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 
 | Stage | Current physical owners |
 | --- | --- |
-| `af1092k` | Bullet, Fireball, Mima, Marisa, Ellen BOSS, Kotohime, Reimu BOSS, Yumemi, both Reimu Extra Attack owners and HitCircle |
+| `af1092k` | Bullet, Fireball, Mima, Marisa, Ellen BOSS, Reimu BOSS, Yumemi, both Reimu Extra Attack owners and HitCircle |
 | `af1056c` | Shared BOSS providers `ba_sring`, `ba_srest` |
 | `af1094e` | Ellen Extra Attack `ex_ellen` |
 | `af1095w` | Rikako BOSS `ba_rikak` |
 | `af1096g` | Kana BOSS `ba_kana` |
 | `af1101a` | Chiyuri BOSS `ba_chiyu` |
+| `af1101d` | Kotohime BOSS `ba_koto` |
 
 Reports live at `.analysis/work/exatt-layout-STAGE/report.json`. The current
 review log is `.analysis/work/progress-review-current-main.log`. These are
@@ -48,6 +49,12 @@ Local native proof is separate from Factory acceptance.
   BOSS owner twice and matched all 2,654 CODE bytes, 381 ordered native fields,
   complete Japanese MAIN image and ordered relocations.
 
+- **Kotohime:** the angle in the projectile-ring emitter and renderer
+  initializes at first use, and sprite hit-offset/half-width are named.
+  Fresh `af1101d` compiled the entire eleven-function BOSS twice and matched
+  all 1,840 CODE bytes, 262 ordered native fields and complete normal MAIN.
+  A trial that also moved the projectile x/y declarations (`af1101b`)
+  changed CODE; those lifetimes were restored.
 - **Rikako:** all five BOSS attack/render iteration sites use natural `for`
   loops; the update PID and renderer angles initialize at first use. Preserve
   the shared entity index, signed/unsigned arithmetic and RNG/emission order.
@@ -112,7 +119,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1092k af1056c af1094e af1095w af1096g af1101a
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1092k af1056c af1094e af1095w af1096g af1101a af1101d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

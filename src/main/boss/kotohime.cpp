@@ -133,6 +133,7 @@ enum kotohime_boss_timing_t {
     KOTOHIME_MAIN_SPRITE_HEIGHT = 48,
     KOTOHIME_MAIN_LEFT_OFFSET = 64,
     KOTOHIME_MAIN_TOP_OFFSET = 32,
+    KOTOHIME_RENDER_HIT_SPRITE_DELTA = 0x10,
     KOTOHIME_RING_SPRITE_WIDTH = 32,
     KOTOHIME_RING_SPRITE_HEIGHT = 16,
     KOTOHIME_RING_SPRITE_OFFSET = 0x502,
@@ -174,14 +175,13 @@ void near pascal kotohime_ring_emit(int randomize_angle)
 	for(int i = 0; i < kotohime_orbit_count; ++i) {
 		int x;
 		int y;
-		unsigned char angle;
 
 		// Original signed-word nonzero RNG selector is exact with an
 		// explicit `!=0` (genuine TC4 native test af910d).
 		if(randomize_angle) {
 			bullet_template.angle = randring_far_next16();
 		}
-		angle = (
+		unsigned char angle = (
 			((i * KOTOHIME_FULL_TURN_STEPS) / kotohime_orbit_count) +
 			boss_move_phase
 		);
@@ -528,8 +528,9 @@ void near pascal kotohime_render_ring(int count)
 	// 256-step angle division before byte truncation.
 	for(i = 0; i < count; ++i) {
 		register screen_x_t left;
-		unsigned char angle;
-		angle = (((i * KOTOHIME_FULL_TURN_STEPS) / count) + boss_move_phase);
+		unsigned char angle = (
+			((i * KOTOHIME_FULL_TURN_STEPS) / count) + boss_move_phase
+		);
 		left = polar(
 			boss_center_x,
 			radius,
@@ -541,7 +542,8 @@ void near pascal kotohime_render_ring(int count)
 			SinTable8[angle]
 		);
 		left = (
-			playfield_fg_x_to_screen(left, (1 - pid_current)) - 16
+			playfield_fg_x_to_screen(left, (1 - pid_current)) -
+			(KOTOHIME_RING_SPRITE_WIDTH / 2)
 		);
 		// The signed Y conversion is exact as an assigned C++ expression.
 		// Compound top >>=4 changed original TC4 CODE (af762b).
@@ -569,7 +571,7 @@ void near kotohime_render_main(void)
 
 	sprite_offset = boss_sprite_offset;
 	if(boss_hit) {
-		sprite_offset += 0x10;
+		sprite_offset += KOTOHIME_RENDER_HIT_SPRITE_DELTA;
 	}
 	sprite16_put(left, top, sprite_offset);
 
