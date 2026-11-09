@@ -24,6 +24,13 @@ enum marisa_bomb_phase_t {
     MARISA_BOMB_PALETTE_END = 64,
     MARISA_BOMB_SHAKE_END = 128,
     MARISA_BOMB_EXPLOSION_PERIOD = 8,
+    MARISA_BOMB_SPRITE_WIDTH = 48,
+    MARISA_BOMB_SPRITE_HEIGHT = 48,
+    MARISA_BOMB_SPRITE_OFFSET = 0xF16,
+    MARISA_BOMB_SPRITE_ANIM_OFFSET = 6,
+    MARISA_BOMB_SPRITE_CENTER_OFFSET = 24,
+    MARISA_BOMB_PHASE_PALETTE_WHITE = 255,
+    MARISA_BOMB_PHASE_PALETTE_STEP = 8,
 };
 
 void far marisa_bomb(void)
@@ -31,7 +38,6 @@ void far marisa_bomb(void)
     unsigned char frame;
     unsigned char color;
     int left;
-    sprite16_offset_t sprite_offset;
     if(bomb_flag[pid_current] == BF_INACTIVE) {
         return;
     }
@@ -44,7 +50,7 @@ void far marisa_bomb(void)
         // calls sub_B37C, which copies BX to DI before filling VRAM.
         // Independently revalidate this caller/helper chain against target.
         _BX = 0x3932;
-        if(pid_current != 0) {
+        if(pid_current) {
             _BX += 40;
         }
         bomb_bg_fill();
@@ -67,14 +73,14 @@ void far marisa_bomb(void)
             playfield_fg_shift_x[pid_current] = -4;
             left = 8;
         }
-        if(pid_current != 0) {
+        if(pid_current) {
             left += PLAYFIELD_W_BORDERED;
         }
         // TC4 caller-lowering compatibility, as in the maintained bomb owners.
         // Preserve the byte bool formal and zero-extend its word stack carrier;
         // this is not an AX-parameter ABI or a claim about original source text.
         mrs_put_noalpha_8(left, PLAYFIELD_TOP, pid_current + 2, (_AX = pid_current));
-        if((frame % MARISA_BOMB_EXPLOSION_PERIOD) == 0) {
+        if(!(frame % MARISA_BOMB_EXPLOSION_PERIOD)) {
             marisa_bomb_point.x.v = randring2_next16_mod(TO_SP(PLAYFIELD_W));
             marisa_bomb_point.y.v = randring2_next16_mod(TO_SP(PLAYFIELD_H));
             bomb_explosion_add(marisa_bomb_point.x.v, marisa_bomb_point.y.v, pid_current);
@@ -83,20 +89,21 @@ void far marisa_bomb(void)
         }
     } else {
         playfield_fg_shift_x[pid_current] = 0;
-        color = 255 - (frame * 8);
+        color = MARISA_BOMB_PHASE_PALETTE_WHITE - (frame * MARISA_BOMB_PHASE_PALETTE_STEP);
         Palettes[pid_current].c.r = color;
         Palettes[pid_current].c.g = color;
         Palettes[pid_current].c.b = color;
         palette_changed = true;
     }
     egc_on();
-    if((frame >= MARISA_BOMB_PALETTE_END) && (frame < MARISA_BOMB_SHAKE_END)) {
-        sprite16_put_size.set(48, 48);
-        sprite16_clip.reset();
-        sprite_offset = pid.so_attack + 0xF16;
-        if((frame & 3) < 2) {
-            sprite_offset += 6;
-        }
-        sprite16_put(marisa_bomb_point.x.v - 24, marisa_bomb_point.y.v - 24, sprite_offset);
+    if(frame < MARISA_BOMB_PALETTE_END || frame >= MARISA_BOMB_SHAKE_END) {
+        return;
     }
+    sprite16_put_size.set(MARISA_BOMB_SPRITE_WIDTH, MARISA_BOMB_SPRITE_HEIGHT);
+    sprite16_clip.reset();
+    sprite16_offset_t sprite_offset = pid.so_attack + MARISA_BOMB_SPRITE_OFFSET;
+    if((frame & 3) < 2) {
+        sprite_offset += MARISA_BOMB_SPRITE_ANIM_OFFSET;
+    }
+    sprite16_put(marisa_bomb_point.x.v - MARISA_BOMB_SPRITE_CENTER_OFFSET, marisa_bomb_point.y.v - MARISA_BOMB_SPRITE_CENTER_OFFSET, sprite_offset);
 }
