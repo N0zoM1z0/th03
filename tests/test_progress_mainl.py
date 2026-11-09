@@ -55,7 +55,7 @@ class MainlProgressTests(unittest.TestCase):
         svg = progress.render_svg(rows, fake_functions, evidence())
         self.assertIn("2 tracked unit extents", svg)
         self.assertIn("Reviewed 2 · Source 1/2", svg)
-        self.assertIn("Unit acceptance: exact 0/2", svg)
+        self.assertIn("Decoded acceptance: pending", svg)
         self.assertNotIn("17 tracked", svg)
         self.assertIn('width="125.00" height="5" fill="#e0af68"', svg)
 
@@ -64,9 +64,9 @@ class MainlProgressTests(unittest.TestCase):
         self.assertTrue(progress.mainl_heap_retained(rows, evidence()))
         self.assertEqual(progress.mainl_unit_progress(rows)["exact"], 0)
         svg = progress.render_svg(rows, [], evidence())
-        self.assertIn("8 procedures / 628 B retained-only", svg)
-        self.assertIn("Unit acceptance: exact 0/2", svg)
-        self.assertIn("MAIN verified exact extents: 0 bytes · 0 owners", svg)
+        self.assertNotIn("8 procedures / 628 B retained-only", svg)
+        self.assertIn("Decoded acceptance: pending", svg)
+        self.assertIn("MAIN ledger: 0 bytes · 0 extents", svg)
         self.assertIn("no whole-game completion percentage", svg)
 
     def test_source_requires_state_and_path(self):
@@ -121,12 +121,12 @@ class MainlProgressTests(unittest.TestCase):
         for name in ("OP.EXE", "MAIN.EXE", "ZUN.COM"):
             with self.subTest(name=name):
                 self.assertEqual(artifact_row(before, name), artifact_row(after, name))
-        self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
+        self.assertIn("MAIN ledger: 10 bytes · 1 extents", after)
 
     def test_empty_mainl_inventory_has_no_percentage_or_retained_credit(self):
         svg = progress.render_svg([], [], [])
         self.assertIn("0 tracked unit extents", svg)
-        self.assertIn("Unit acceptance: exact 0/0", svg)
+        self.assertIn("Decoded acceptance: pending", svg)
         self.assertNotIn("628 B retained-only", svg)
 
 

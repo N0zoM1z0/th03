@@ -1,0 +1,77 @@
+"""Current native scopes remain independent of the broad decoded publication."""
+import csv
+import json
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import sys
+from types import SimpleNamespace
+import unittest
+from unittest.mock import patch
+import xml.etree.ElementTree as ET
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+import progress
+import status
+
+
+class NativeProgress(unittest.TestCase):
+    def test_missing_private_evidence_is_visible_and_does_not_run_a_reviewer(self):
+        with TemporaryDirectory() as folder, patch.object(status.subprocess, 'run') as run:
+            rows = status.native_source_reviews(Path(folder), 'th03-mainl')
+        self.assertEqual(len(rows), 2)
+        self.assertTrue(all(not row['verified'] and 'unavailable' in row['reason'] for row in rows))
+        run.assert_not_called()
+
+    def test_failed_or_incomplete_review_cannot_earn_native_credit(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            for path in ('.analysis/work/mainl-staff-af942s-native-build.json',
+                         '.analysis/work/mainl-root-af944r-native-build.json'):
+                target = root / path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text('{}')
+            for result in (SimpleNamespace(returncode=1, stderr='source binding drift', stdout=''),
+                           SimpleNamespace(returncode=0, stderr='', stdout='{}')):
+                with self.subTest(result=result), patch.object(status.subprocess, 'run', return_value=result):
+                    rows = status.native_source_reviews(root, 'th03-mainl')
+                self.assertTrue(all(not row['verified'] for row in rows))
+
+    def test_pending_publication_does_not_erase_scoped_native_work(self):
+        units = list(csv.DictReader((status.ROOT / 'config/units.csv').read_text().splitlines()))
+        functions = list(csv.DictReader((status.ROOT / 'config/th03_main_authored_functions.csv').read_text().splitlines()))
+        pending = dict(product_exact=False, decoded_exact_units=0, reason='source graph drift')
+        scopes = [dict(artifact='th03-mainl', scope='Staff Roll', stage='af942s', verified=True,
+                       modules=1, code_bytes=3695, initialized_data_bytes=224, procedures=19,
+                       report='.analysis/work/mainl-staff-af942s-native-build.json')]
+        svg = progress.render_svg(units, functions, [], op_status={'decoded_accepted': False},
+                                  op_products={'retained_equality': False}, zun_status={'decoded_accepted': False},
+                                  mainl_status=pending, native_reviews=scopes)
+        ET.fromstring(svg)
+        self.assertIn('Decoded acceptance: pending', svg)
+        self.assertNotIn('Unit acceptance: exact 0/259', svg)
+        self.assertIn('Staff Roll (af942s): 1 physical owners / 3,695 CODE B', svg)
+        self.assertIn('106 tracked unit extents', svg)
+        self.assertNotIn('459 tracked functions', svg)
+        self.assertEqual(pending['decoded_exact_units'], 0)
+
+    def test_publication_inventory_validation_has_no_frozen_count(self):
+        rows = [dict(id='one', artifact='th03-zun', state='source-present')]
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            publication = root / status.ZUN_SCOPED_PUBLICATION
+            publication.parent.mkdir(parents=True)
+            publication.write_text('{}')
+            with (root / 'config/units.csv').open('w', newline='') as stream:
+                writer = csv.DictWriter(stream, fieldnames=['id', 'artifact', 'state'])
+                writer.writeheader()
+                writer.writerows(rows)
+            with patch('lib.decoded_zun_acceptance.verify', return_value={'decoded_accepted': True}) as verify:
+                self.assertTrue(status.zun_product_status(root, rows)['decoded_accepted'])
+                verify.assert_called_once()
+                verify.reset_mock()
+                self.assertFalse(status.zun_product_status(root, rows + rows)['decoded_accepted'])
+                verify.assert_not_called()
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check changed machine inputs; exact comparisons are selected by affected scope."""
 from pathlib import Path
+import argparse
 import ast
 import json
 import os
@@ -11,17 +12,12 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def main():
-    if sys.argv[1:] in (["--help"], ["-h"]):
-        print("usage: ci.py [--full | existing explicit check options]\nDefault: changed machine-input syntax and diff checks. Run affected exact/tool commands for the task.")
-        return 0
-    if len(sys.argv) > 1:
-        arguments = sys.argv[1:]
-        if not any(flag in arguments for flag in ('--full',)):
-            print("Unknown CI option; use no arguments for scoped checks or --full for the broad suite.", file=sys.stderr)
-            return 2
-        arguments = [arg for arg in arguments if arg != "--full"]
-        return subprocess.call([sys.executable, str(ROOT / "scripts/ci-full.py"), *arguments], cwd=ROOT)
+def main(argv=None):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--full', action='store_true', help='run the broad test and private identity suite')
+    args = parser.parse_args(argv)
+    if args.full:
+        return subprocess.call([sys.executable, str(ROOT / 'scripts/ci-full.py')], cwd=ROOT)
     names = set()
     for command in (["git", "diff", "HEAD", "--name-only", "-z"],
                     ["git", "ls-files", "--others", "--exclude-standard", "-z"]):

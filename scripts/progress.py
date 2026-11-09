@@ -10,11 +10,12 @@ import tomllib
 # Support importlib.spec_from_file_location callers without PYTHONPATH.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lib.op_decoded_progress import op_decoded_status, decoded_summary
-from lib.op_product_diagnostics import retained_op_products, product_diagnostic_summary
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
+# Historical evidence helpers below are retained for their frozen diagnostic
+# callers. The current renderer does not use these snapshots as progress.
 MAINL_HEAP_UNIT = "th03-mainl-decoded-heap-manager"
 MAINL_HEAP_RETAINED = {
     "ev-th03-mainl-heap-retained-structural": (
@@ -566,15 +567,14 @@ def op_fullcold_retained(evidence):
 
 
 def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
-               evidence: list[dict[str, str]] | None = None, *, op_status=None, op_products=None, zun_status=None) -> str:
+               evidence: list[dict[str, str]] | None = None, *, op_status=None, op_products=None,
+               zun_status=None, mainl_status=None, native_reviews=()) -> str:
     from status import mainl_product_status, zun_product_status
-    product = mainl_product_status(ROOT, units)
+    product = mainl_product_status(ROOT, units) if mainl_status is None else mainl_status
     op_status = op_decoded_status(ROOT, units) if op_status is None else op_status
-    op_products = retained_op_products(ROOT) if op_products is None else op_products
     zun_status = zun_product_status(ROOT, units) if zun_status is None else zun_status
     # Keep scoped diagnostics as metadata; the chart shows only current counters.
     rows = []
-    graphics_pending = mainl_graphics_producer_pending()
     for index, (artifact, label) in enumerate((
         ("th03-op", "OP.EXE"), ("th03-main", "MAIN.EXE"),
         ("th03-mainl", "MAINL.EXE"), ("th03-zun", "ZUN.COM"),
@@ -586,10 +586,9 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
             source = counts["source"]
             decoded_mainl = product["product_exact"] or product.get("current_cold_source_scopes", False)
             exact = product["decoded_exact_units"] if decoded_mainl else counts["exact"]
-            acceptance_label = "Decoded acceptance" if decoded_mainl else "Unit acceptance"
+            acceptance_text = (f"Decoded acceptance: exact {exact}/{total}" if decoded_mainl
+                               else "Decoded acceptance: pending")
             y = 144 + index * 76
-            retained = (" · Heap: 8 procedures / 628 B retained-only"
-                        if not product["product_exact"] and mainl_heap_retained(units, evidence or []) else "")
             rows.append(f"""  <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">{label}</text>
   <text x="24" y="{y+20}" fill="#c8cad2" font-family="sans-serif" font-size="12">{total} tracked unit extents</text>
@@ -599,48 +598,15 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <rect x="200" y="{y}" width="{250*source/total if total else 0:.2f}" height="5" fill="#e0af68"/>
   <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
   <text x="200" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed {reviewed} · Source {source}/{total}</text>
-  <text x="488" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">{acceptance_label}: exact {exact}/{total}</text>
-  <desc>Source-present: {counts['source_bytes']:,} B{retained}</desc>
+  <text x="488" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">{acceptance_text}</text>
+  <desc>Source-present: {counts['source_bytes']:,} B</desc>
   </g>""")
             if product.get("current_cold_source_scopes"):
                 rows.append(f'<desc>Current decoded: {product["decoded_exact_units"]} extents / {product.get("decoded_procedures", product.get("decoded_authored_procedures", product["decoded_exact_units"]))} procedures / {product.get("decoded_source_bytes",product["decoded_authored_bytes"]):,} B · CODE {product.get("decoded_code_bytes",product.get("decoded_authored_code_bytes",product["decoded_authored_bytes"])):,} / DATA {product.get("decoded_initialized_data_bytes",product.get("decoded_authored_initialized_data_bytes",0))+product.get("decoded_uninitialized_file_data_bytes",0):,} · product open</desc>')
                 rows.append(f'<desc>Cold pair: 938 raw outputs · complete decoded + DIET stored files target-equal</desc>')
-            elif mainl_pi_composed(units, evidence or []):
-                rows.append(f'<desc>Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</desc>')
-            elif mainl_regist_source_pending(units):
-                rows.append(f'<desc>Registration + score: 17 bodies / 2,949 B owned · native proof pending · not counted</desc>')
-            elif mainl_regist_hybrid_source(units, evidence or []):
-                rows.append(f'<desc>Regist + score: 2,949 B source · repeat OBJ/EXE/MAP · 6 PI bytes still differ</desc>')
-            elif mainl_cutscene_source_pending(units):
-                rows.append(f'<desc>Cutscene owner: 13 bodies / 3,195 B · native proof pending · not counted</desc>')
-            elif mainl_cutscene_hybrid_source(units, evidence or []):
-                rows.append(f'<desc>Cutscene: 3,195 B source · repeat OBJ/EXE/MAP · 3 PI bytes still differ</desc>')
-            if not product["product_exact"] and not product.get("current_cold_source_scopes"):
-                if mainl_crt_source_proven(units, evidence or []) and mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>CRT + prior source: 24,680 B target-equal · {'full program equal / order open' if mainl_vsync_alignment_proven() else '1 DATA byte / relocation order open'}</desc>')
-                elif mainl_linked_game_source_proven(units, evidence or []) and mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>Linked game + prior source: 24,052 B target-equal · 1 DATA byte / relocation order open</desc>')
-                elif mainl_root_tail_source_proven(units, evidence or []) and mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>Root-tail + prior source: 22,287 B target-equal · 1 DATA byte / relocation order open</desc>')
-                elif mainl_display_hardware_source_proven(units, evidence or []) and mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>Display + prior source: 21,565 B target-equal · 1 DATA byte / relocation order open</desc>')
-                elif mainl_archive_io_source_proven(units, evidence or []) and mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>Archive + prior source: 19,449 B target-equal · 1 DATA byte / relocation order open</desc>')
-                elif mainl_resources_source_proven(units, evidence or []) and mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>Resources + prior source: 16,970 B target-equal · 1 DATA byte / relocation order open</desc>')
-                elif mainl_pi_decoder_source_proven(units, evidence or []) and mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>PI + root + staff: composed 13,495 B target-equal · 1 DATA byte / relocation order open</desc>')
-                elif mainl_root_source_proven(units, evidence or []) and mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>Root + staff source: composed 11,971 B target-equal · 1 DATA byte / relocation order open</desc>')
-                elif mainl_staff_source_proven(units, evidence or []):
-                    rows.append(f'<desc>Staff + graphics: 3,339 B source · composed 9,483 B target-equal · exact acceptance open</desc>')
-                elif mainl_graphics_linked():
-                    rows.append(f'<desc>Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</desc>')
-                elif graphics_pending:
-                    rows.append(f'<desc>Graphics: 355 B compiled · 333 non-fixup B match · 9 fixups / 22 B await link · not counted</desc>')
             continue
         y = 144 + index * 76
-        if artifact in {'th03-op', 'th03-zun'}:
+        if artifact in {'th03-op', 'th03-main', 'th03-zun'}:
             counts = tracked_unit_progress(units, artifact)
             total, reviewed, source, exact = (counts[k] for k in ('total', 'reviewed', 'source', 'exact'))
             decoded_op = artifact == 'th03-op' and op_status['decoded_accepted']
@@ -649,7 +615,8 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
                 exact = op_status['decoded_exact_units']
             if decoded_zun:
                 exact = zun_status['decoded_exact_units']
-            acceptance_label = 'Decoded extents' if decoded_op or decoded_zun else 'Unit acceptance: exact'
+            acceptance_label = ('Ledger exact extents' if artifact == 'th03-main' else
+                                'Decoded extents' if decoded_op or decoded_zun else 'Unit acceptance: exact')
             rows.append(f'''  <g aria-label="{label} bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">{label}</text>
   <text x="24" y="{y+20}" fill="#c8cad2" font-family="sans-serif" font-size="12">{total} tracked unit extents</text>
@@ -661,158 +628,154 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
   <text x="200" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed {reviewed} · Source {source}/{total}</text>
   <text x="488" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">{acceptance_label} {exact}/{total}</text>
   </g>''')
-        else:
-            candidates = [f for f in functions if f["artifact"] == artifact]
-            reviewed = sum(f["boundary_state"] in {"reviewed", "shared"} for f in candidates)
-            exact = sum(f["state"] == "exact" for f in candidates)
-            total = len(candidates)
-            inventory = f"{total} tracked functions" if total else "Inventory pending"
-            rows.append(f'''  <text x="24" y="{y}" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">{label}</text>
-      <text x="24" y="{y+20}" fill="#c8cad2" font-family="sans-serif" font-size="12">{inventory}</text>
-      <rect x="200" y="{y-7}" width="250" height="12" rx="4" fill="#353b52"/>
-      <rect x="488" y="{y-7}" width="270" height="12" rx="4" fill="#353b52"/>
-      <rect x="200" y="{y-7}" width="{250*reviewed/total if total else 0:.2f}" height="12" fill="#9b6de3"/>
-      <rect x="488" y="{y-7}" width="{270*exact/total if total else 0:.2f}" height="12" fill="#55c7a6"/>
-      <text x="200" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed {reviewed} · Pending {total-reviewed}</text>
-      <text x="488" y="{y+22}" fill="#c8cad2" font-family="sans-serif" font-size="12">Exact {exact} · Pending {total-exact}</text>''')
         if artifact == "th03-op" and op_status['decoded_accepted']:
             rows.append(f'<desc>Published decoded scopes: {op_status["decoded_authored_bytes"]:,} B · canonical exact 0 · product acceptance open</desc>')
-        elif artifact == "th03-op" and op_fullcold_retained(evidence or []):
-            rows.append(f'<desc>Retained cold pair: 29 raw pairs · 33 scopes / 9,530 B raw+order · build proof only</desc>')
-        if artifact == "th03-op" and op_products['retained_equality']:
+        if artifact == "th03-op" and op_products and op_products.get('retained_equality'):
             rows.append(f'<desc>Retained: cold decoded 63,866 B = target · separate packed 36,041 B = canonical</desc>')
-        elif artifact == "th03-op":
+        elif artifact == "th03-op" and op_products:
             rows.append(f'<desc>Retained equality check unavailable · product acceptance open</desc>')
         if artifact == "th03-zun" and zun_status.get('decoded_accepted'):
             rows.append(f'<desc>Current wrapper + -1..-5: {zun_status["decoded_exact_units"]} extents · {zun_status["decoded_code_bytes"]:,} CODE B · ASM/library separate · product open</desc>')
             rows.append(f'<desc>Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</desc>')
-            rows.append(f'<desc>220 instruction + 50 DATA runtime mutations · native directory owned · 12 reserved driver B open</desc>')
-        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_init_standalone_retained(units):
-            rows.append(f'<desc>Retained standalone init: 2 materializations · 9 procedures / 1,390 B · no exact credit</desc>')
-        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_driver_hybrid_retained(units):
-            rows.append(f'<desc aria-label="Two equal 22,812-byte mixed-source outputs: maintained init (-2) and driver (-4), three retained other payloads and retained wrapper scaffold. Two independent driver materializations have raw OBJ/COM/MAP equality, no normalization or object reuse; first was not a predeclared pair, and second source mtimes were declared from observed first inputs. Fourteen wrapper-only observations and wrong-transfer negative pass; no payload execution or native composition build. Ten target differences remain; no exact acceptance or DIET closure">Maintained -2/-4 composition: 22,812 B · mixed retained inputs · 10 target differences · no exact credit</desc>')
-        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zunsoft_root_source_proven(units, evidence or []):
-            if zunsoft_root_repeat_proven(units, evidence or []):
-                rows.append(f'<desc aria-label="Ten maintained logo root source units, 1299 CODE bytes; raw identical OBJ COM MAP from two cold builds, vendor context unowned, 2600 retained target and first-candidate model calls, no new model or exact acceptance">Logo root: 10 source units / 1,299 B · 2 cold builds · 2,600 retained calls · exact 0</desc>')
-            else:
-                rows.append(f'<desc aria-label="Ten maintained logo root source units, 1299 CODE bytes; vendor context remains unowned, one native build and no second cold build, 2600 modeled root calls, no exact acceptance">Logo root: 10 source units / 1,299 B · 2,600 modeled calls · one build · exact 0</desc>')
-        if artifact == "th03-zun" and not zun_status.get('decoded_accepted') and zun_resident_root_source_proven(units, evidence or []):
-            rows.append('<desc aria-label="Two maintained resident source units, 322 CODE bytes and separate 307 DATA bytes; two cold builds, forty retained target and first-candidate modeled calls, no whole payload or exact acceptance">Resident root: 2 source units / 322 B · 2 cold builds · 40 modeled calls · exact 0</desc>')
     exact_units = [u for u in units if u["artifact"] == "th03-main" and u["state"] == "exact"]
     exact_bytes = sum(int(u["size"], 0) for u in exact_units)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="500" viewBox="0 0 788 500" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+    from html import escape
+    native_lines = []
+    for index, review in enumerate(native_reviews):
+        label = f"{review.get('artifact', '')} {review['scope']} ({review['stage']})".strip()
+        text = (f"{label}: {review['modules']} physical owners / {review['code_bytes']:,} CODE B"
+                if review['verified'] else f"{label}: verification unavailable")
+        native_lines.append(f'<text x="24" y="{514 + index * 24}" fill="#c8cad2" font-family="sans-serif" font-size="12">{escape(text)}</text>')
+    height = 562 + len(native_lines) * 24
+    main_functions = [f for f in functions if f['artifact'] == 'th03-main']
+    main_exact_functions = sum(f['state'] == 'exact' for f in main_functions)
+    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="788" height="{height}" viewBox="0 0 788 {height}" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
-  <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. OP scoped decoded acceptance and MAINL decoded acceptance are separate published axes, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect x="0.5" y="0.5" width="787" height="499" rx="16" fill="#1f2335" stroke="#353b52"/>
+  <desc>All bars count tracked unit extents. MAIN ledger exactness and decoded source publications are labeled separately. Pending publication is not zero reconstruction. Whole-game totals remain unknown.</desc>
+  <rect x="0.5" y="0.5" width="787" height="{height-1}" rx="16" fill="#1f2335" stroke="#353b52"/>
   <text x="24" y="39" fill="#f4f4f5" font-family="sans-serif" font-size="22" font-weight="600">TH03 reconstruction progress</text>
-  <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked scopes only · whole-game totals remain unknown</text>
+  <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked unit extents · whole-game completion unknown</text>
   <text x="200" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary review / source</text>
   <text x="488" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Verified scope</text>
 {chr(10).join(rows)}
   <path d="M24 426 H764" stroke="#353b52"/>
-  <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: {exact_bytes:,} bytes · {len(exact_units)} owners</text>
-  <text x="24" y="478" fill="#c8cad2" font-family="sans-serif" font-size="13">Details and acceptance criteria: docs/PROGRESS.md</text>
+  <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN ledger: {exact_bytes:,} bytes · {len(exact_units)} extents · {main_exact_functions}/{len(main_functions)} functions</text>
+  <text x="24" y="486" fill="#f4f4f5" font-family="sans-serif" font-size="13">Current source-native reviews (separate from broad acceptance)</text>
+{chr(10).join(native_lines)}
+  <text x="24" y="{height-28}" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
   <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
-{('<desc>MAINL DIET: control 37,975 B exact · source 38,048 B / 2,259 differences · exact credit 0</desc>' if mainl_diet_packing_diagnostic() and not mainl_vsync_alignment_proven() else '')}
-{('<desc>MAINL full program equal · packed 38,050 B / 1,212 differences · relocation order 461 · exact 0</desc>' if mainl_vsync_alignment_proven() and not mainl_regdata_backend_proven() else '')}
-{('<desc>MAINL program equal · order 460 · prior DIET 1,212 differences · exact 0</desc>' if mainl_regdata_backend_proven() and not mainl_continue_backend_proven() else '')}
-{('<desc>MAINL program equal · order 144 · prior DIET 1,212 differences · exact 0</desc>' if mainl_continue_backend_proven() and not mainl_root_prefix_backend_proven() else '')}
-{('<desc>MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</desc>' if mainl_root_prefix_backend_proven() and not mainl_root_intro_backend_proven() else '')}
-{('<desc>MAINL program equal · order 101 · prior DIET 1,212 differences · exact 0</desc>' if mainl_root_intro_backend_proven() and not mainl_root_data_backend_proven() else '')}
-{('<desc>MAINL program equal · order 102 · prior DIET 1,212 differences · exact 0</desc>' if mainl_root_data_backend_proven() and not mainl_root_complete_data_backend_proven() else '')}
-{('<desc>MAINL decoded + packed equal · order 0 / 677 · cold/runtime pending · exact 0</desc>' if mainl_root_complete_data_backend_proven() and mainl_diet_exact_packing_proven() and not mainl_fullcold_current_proven() else '')}
-{('<desc>MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</desc>' if mainl_fullcold_current_proven() and not product['product_exact'] else '')}
-{('<desc>MAINL product + decoded accepted · ' + str(product['decoded_exact_units']) + ' units · mixed 37,975 B · whole-game % unknown</desc>' if product['product_exact'] else '')}
 </svg>
 '''
 
 
+def render_markdown(units, functions, targets, op_status, mainl_status, zun_status, native_reviews):
+    """Keep inventory, accepted decoded scopes and current native reviews distinct."""
+    lines = ["# TH03 reconstruction progress", "",
+             "All counts describe tracked scopes. The whole-game completion percentage is unknown.", "",
+             "| Product | Source-present / tracked extents | Current accepted scope | Stored target bytes |",
+             "| --- | ---: | --- | ---: |"]
+    for target in (a for a in targets if a['game'] == 'th03'):
+        artifact = target['id']
+        rows = [u for u in units if u['artifact'] == artifact and u['state'] != 'excluded']
+        present = sum(bool(u['source']) and (ROOT / u['source']).is_file() for u in rows)
+        if artifact == 'th03-main':
+            exact = [u for u in rows if u['state'] == 'exact']
+            accepted = f"Ledger: {len(exact)} extents / {sum(int(u['size'], 0) for u in exact):,} bytes"
+        else:
+            result = {'th03-op': op_status, 'th03-mainl': mainl_status, 'th03-zun': zun_status}[artifact]
+            if result.get('decoded_accepted') or result.get('current_cold_source_scopes'):
+                size = result.get('decoded_source_bytes', result.get('decoded_authored_bytes', 0))
+                accepted = f"Decoded: {result['decoded_exact_units']} extents / {size:,} bytes"
+            else:
+                accepted = '**Pending revalidation**'
+        lines.append(f"| {artifact} | {present}/{len(rows)} | {accepted} | {target['size']:,} |")
+    main_functions = [f for f in functions if f['artifact'] == 'th03-main']
+    lines.extend(['',
+        'Source-present means a maintained source path exists; it does not grant exact acceptance. '
+        'Tracked extents can be functions, modules or DATA owners. All chart bars use these extents.', '',
+        f"MAIN's separate function ledger records {sum(f['state'] == 'exact' for f in main_functions)}/{len(main_functions)} exact entries. "
+        'The other products have no equivalent function ledger; a zero function count would be misleading. '
+        'Ledger acceptance is distinct from revalidation against current source; selected current native reviews follow below.', '',
+        'Stored target sizes are original file sizes, including DIET packing for OP/MAINL/ZUN. '
+        'They are not decoded CODE denominators. OP/MAINL/ZUN canonical packed-unit credit remains zero; '
+        'that does not erase decoded or scoped native work.', '',
+        '## Current source-native reviews', '',
+        'These read-only checks validate maintained source bindings, both original compiler rounds, '
+        'complete physical owners, ordered native fields and normal target-equal links. '
+        'Other link inputs are reused; these results do not grant broad decoded publication or whole-product ownership.', '',
+        '| Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |',
+        '| --- | --- | --- | ---: | ---: | ---: |'])
+    for row in native_reviews:
+        data = f"{row['initialized_data_bytes']:,}" if row['verified'] and 'initialized_data_bytes' in row else '—'
+        lines.append(f"| {row['artifact']} / {row['scope']} | {row['stage']} | "
+                     + (f"Verified | {row['modules']} | {row['code_bytes']:,} | {data} |" if row['verified']
+                        else f"Unavailable: {row['reason']} | — | — | — |"))
+    for row in native_reviews:
+        if row['verified']:
+            procedures = f" / {row['procedures']} procedures" if 'procedures' in row else ''
+            lines.extend(['', f"{row['artifact']} {row['scope']}{procedures}: `{row['report']}`."])
+    lines.extend(['', '## Decoded publication status', ''])
+    lines.extend([decoded_summary(op_status), ''])
+    if mainl_status.get('current_cold_source_scopes'):
+        lines.extend([f"MAINL decoded source acceptance: {mainl_status['decoded_exact_units']} extents / "
+                      f"{mainl_status['decoded_source_bytes']:,} bytes. Authored and library ownership remain separate; "
+                      "whole-product acceptance is open.", ''])
+    else:
+        lines.extend(['MAINL broad decoded acceptance is **pending**, rather than zero reconstruction. '
+                      'The retained publication does not bind the current complete source graph. '
+                      'The independent Staff Roll and root-controller reviews above remain visible.', '',
+                      'Current blocker: `' + mainl_status.get('reason', 'publication unavailable') + '`.', '',
+                      'Revalidate the changed native dependency scopes and compose their retained evidence before '
+                      'publishing again. Do not update historical hashes to imply a new compiler run.', ''])
+    if zun_status.get('decoded_accepted'):
+        lines.extend([f"ZUN decoded source acceptance: {zun_status['decoded_exact_units']} extents / "
+                      f"{zun_status['decoded_procedures']} procedures or entries / "
+                      f"{zun_status['decoded_code_bytes']:,} CODE + "
+                      f"{zun_status['decoded_source_bytes'] - zun_status['decoded_code_bytes']:,} DATA bytes. "
+                      f"Origins: {zun_status['decoded_authored_bytes']:,} authored, "
+                      f"{zun_status['decoded_original_asm_bytes']:,} original ASM and "
+                      f"{zun_status['decoded_library_bytes']:,} library bytes. "
+                      'Twelve reserved DATA bytes and physical devices remain open.', ''])
+    else:
+        lines.extend(['ZUN decoded acceptance pending: ' + zun_status.get('reason', 'publication unavailable') + '.', ''])
+    lines.extend(['Factory whole-product acceptance remains open for every product. '
+                  'See the [current handoff](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).', ''])
+    return '\n'.join(lines)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--check", action="store_true")
+    parser.add_argument('--check', action='store_true', help='verify generated files without writing')
     args = parser.parse_args()
-    with (ROOT / "config/units.csv").open(newline="") as stream:
+    with (ROOT / 'config/units.csv').open(newline='') as stream:
         units = list(csv.DictReader(stream))
-    with (ROOT / "config/th03_main_authored_functions.csv").open(newline="") as stream:
+    with (ROOT / 'config/th03_main_authored_functions.csv').open(newline='') as stream:
         functions = list(csv.DictReader(stream))
-    with (ROOT / "config/evidence.csv").open(newline="") as stream:
+    with (ROOT / 'config/evidence.csv').open(newline='') as stream:
         evidence = list(csv.DictReader(stream))
-    targets = tomllib.loads((ROOT / "config/targets.toml").read_text())["artifacts"]
-    lines = ["# TH03 reconstruction progress", "",
-             "| Artifact | Target bytes | Source-present units | Ledger exact units | Exact functions | Ledger exact owned bytes |",
-             "| --- | ---: | ---: | ---: | ---: | ---: |"]
-    for target in (a for a in targets if a["game"] == "th03"):
-        rows = [u for u in units if u["artifact"] == target["id"] and u["state"] != "excluded"]
-        present = sum(bool(u["source"]) and (ROOT / u["source"]).is_file() for u in rows)
-        exact = sum(u["state"] == "exact" for u in rows)
-        exact_functions = sum(f["state"] == "exact" for f in functions if f["artifact"] == target["id"])
-        exact_bytes = sum(int(u["size"], 0) for u in rows if u["state"] == "exact")
-        lines.append(f"| {target['id']} | {target['size']} | {present} | {exact} | {exact_functions} | {exact_bytes} |")
-    lines.extend([
-        "",
-        "**Reading this table:** Target bytes are the pinned original packed-file sizes, "
-        "not decoded native EXE sizes. Source-present units count existing source paths; "
-        "ledger exact units/owned bytes count only the canonical packed-file unit ledger. "
-        "An exact-function count is a separately reviewed function scope, not a "
-        "whole-executable percentage.",
-        "",
-        "**Decoded source acceptance is separate from this packed-unit ledger.** "
-        "For example, decoded MAINL accepted ownership below can be nonzero even "
-        "when its canonical packed-file unit exact column above remains zero. "
-        "A separately verified source-only CRT normal link may reproduce the "
-        "complete original decoded EXE and MAP while still being **unaccepted "
-        "working evidence**, not extra accepted ledger credit. The source-module "
-        "count and byte scope are in the [current agent handoff](RE_HANDOFF.md).",
-        "",
-        "Validate the affected native scope; reuse an unchanged cold pair when its inputs still match.",
-        "See [current work](RE_HANDOFF.md) and [workflow](RE_WORKFLOW.md).",
-        "",
-    ])
+    targets = tomllib.loads((ROOT / 'config/targets.toml').read_text())['artifacts']
+    from status import mainl_product_status, zun_product_status, native_source_reviews
     op_status = op_decoded_status(ROOT, units)
-    op_products = retained_op_products(ROOT)
-    lines.extend(["OP decoded publication: " + ("installed." if op_status.get("decoded_accepted") else "not installed; regenerate from fresh verification."), ""])
-    if op_status.get("current_cold_source_scopes"):
-        lines.extend([decoded_summary(op_status), ""])
-    from status import mainl_product_status
     mainl_status = mainl_product_status(ROOT, units)
-    if mainl_status.get("current_cold_source_scopes"):
-        reserved = mainl_status.get('decoded_uninitialized_file_data_bytes',0)
-        storage = f" + {reserved:,} uninitialized file DATA" if reserved else ""
-        lines.extend([f"MAINL current decoded source acceptance: {mainl_status['decoded_exact_units']} extents / {mainl_status.get('decoded_procedures', mainl_status.get('decoded_authored_procedures', mainl_status['decoded_exact_units']))} procedures / {mainl_status.get('decoded_source_bytes',mainl_status['decoded_authored_bytes']):,} bytes ({mainl_status.get('decoded_code_bytes',mainl_status.get('decoded_authored_code_bytes',mainl_status['decoded_authored_bytes'])):,} CODE + {mainl_status.get('decoded_initialized_data_bytes',mainl_status.get('decoded_authored_initialized_data_bytes',0)):,} initialized DATA{storage}). "
-                      f"Accepted source comprises {mainl_status['decoded_authored_bytes']:,} authored and {mainl_status.get('decoded_library_bytes',0):,} library bytes. "
-                      "Complete native ownership/ABI and the retained source-only cold pair are validated. "
-                      "Earlier runtime observations remain supporting history, not a per-unit test requirement. "
-                      "Unowned context, physical devices and whole-product source ownership remain open; "
-                      "canonical packed-file unit credit is unchanged.", ""])
-    else:
-        lines.extend([
-            "MAINL **current** decoded source acceptance: **PENDING**. "
-            "The current source-bound publication did not pass validation; "
-            "retained earlier native equalities and previously reviewed extents "
-            "are historical evidence, not live accepted source credit. "
-            "See [current handoff](RE_HANDOFF.md) for the precise blocker.",
-            "",
-        ])
-    from status import zun_product_status
     zun_status = zun_product_status(ROOT, units)
-    if zun_status.get("decoded_accepted"):
-        lines.extend(["ZUN current decoded source acceptance: 77 extents / 89 procedures or entries / 6,179 CODE + 2,456 DATA bytes. "
-                      "Accepted bytes comprise 2,179 authored, 1,390 original ASM and 5,066 library bytes. "
-                      "Complete native ownership/layout, ordered relocations and the retained source-only cold pair are validated. "
-                      "Earlier runtime observations remain supporting history. Twelve reserved DATA bytes and physical devices remain open. "
-                      "Original source/assembler identity, canonical packed-file unit credit and whole-product source ownership remain unchanged.", ""])
-    content = "\n".join(lines)
-    destination = ROOT / "docs/PROGRESS.md"
-    svg = render_svg(units, functions, evidence, op_status=op_status, op_products=op_products)
-    svg_path = ROOT / "resources/progress.svg"
+    native_reviews = [dict(row, artifact=artifact) for artifact in ('th03-main', 'th03-mainl')
+                      for row in native_source_reviews(ROOT, artifact)]
+    content = render_markdown(units, functions, targets, op_status, mainl_status, zun_status, native_reviews)
+    svg = render_svg(units, functions, evidence, op_status=op_status,
+                     zun_status=zun_status, mainl_status=mainl_status, native_reviews=native_reviews)
+    destination = ROOT / 'docs/PROGRESS.md'
+    svg_path = ROOT / 'resources/progress.svg'
     if args.check:
-        return 0 if (destination.is_file() and destination.read_text() == content
-                     and svg_path.is_file() and svg_path.read_text() == svg) else 1
+        stale = [str(path.relative_to(ROOT)) for path, expected in ((destination, content), (svg_path, svg))
+                 if not path.is_file() or path.read_text() != expected]
+        if stale:
+            print('Stale progress: ' + ', '.join(stale) + '; run .venv/bin/python scripts/progress.py')
+        return int(bool(stale))
     destination.write_text(content)
     svg_path.parent.mkdir(parents=True, exist_ok=True)
     svg_path.write_text(svg)
     return 0
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+if __name__ == '__main__':
+    raise SystemExit(main())

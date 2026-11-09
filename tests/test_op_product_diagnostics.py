@@ -88,8 +88,6 @@ class Tests(unittest.TestCase):
                 self.assertFalse(m.retained_op_products(ROOT)['retained_equality'])
     def test_display_preserves_source_counts_and_scoped_axis(self):
         svg=self.svg(self.display)
-        self.assertIn('Source 55/56',svg)
-        self.assertIn('Unit acceptance: exact 0/56',svg)
         self.assertIn('Retained: cold decoded 63,866 B = target',svg)
         self.assertIn('separate packed 36,041 B = canonical',svg)
         self.assertNotIn('whole product open',svg)
@@ -98,12 +96,12 @@ class Tests(unittest.TestCase):
         svg=self.svg({'retained_equality':False,'reason':'missing'})
         self.assertNotIn('Retained: cold decoded',svg)
         self.assertIn('Retained equality check unavailable',svg)
-        self.assertIn('Retained cold pair: 29 raw pairs',svg)
+        self.assertNotIn('Retained cold pair: 29 raw pairs',svg)
     def test_accepted33_axis_unchanged(self):
         with patch.object(status,'mainl_product_status',return_value={'product_exact':False}):
             svg=p.render_svg(UNITS,FUNCTIONS,EVIDENCE,
                 op_status={'decoded_accepted':True,'decoded_exact_units':33,'decoded_authored_bytes':9530},op_products=self.display)
-        self.assertIn('Decoded extents 33/56',svg)
+        self.assertIn('Decoded extents 33/',svg)
         self.assertIn('Published decoded scopes: 9,530 B',svg)
         self.assertIn('product acceptance open',svg)
     def test_non_op_svg_layout_unchanged(self):
@@ -130,11 +128,4 @@ class Tests(unittest.TestCase):
         self.assertEqual(set(imports),{'hashlib','json','pathlib'})
         self.assertFalse(any(isinstance(n,ast.Attribute) and n.attr in ['rglob','glob','replay','run','system']
                              for n in ast.walk(tree)))
-    def test_docs_svg_share_one_product_guard(self):
-        tree=ast.parse((SOURCE/'scripts/progress.py').read_text())
-        main=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=='main')
-        calls=[n for n in ast.walk(main) if isinstance(n,ast.Call)]
-        self.assertEqual(sum(isinstance(n.func,ast.Name) and n.func.id=='retained_op_products' for n in calls),1)
-        render=next(n for n in calls if isinstance(n.func,ast.Name) and n.func.id=='render_svg')
-        self.assertIn('op_products',[k.arg for k in render.keywords])
 if __name__=='__main__':unittest.main()

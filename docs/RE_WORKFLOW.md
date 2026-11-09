@@ -109,10 +109,12 @@ Existing historical runtime receipts are records of earlier observations. They
 do not require preserving or rerunning their diagnostic harnesses. Keep the
 original receipts honest; do not refresh their hashes to imply a new replay.
 
-Full `scripts/ci.py` is appropriate for changes to shared build, verifier or
-tracking infrastructure. A bounded source change normally needs its native
-comparison and directly relevant checks, rather than every product's runtime
-suite and database check.
+`scripts/ci.py` checks changed machine-input syntax and Git whitespace.
+`scripts/ci.py --full` explicitly selects the broad suite for infrastructure
+work. Historical private tests can require their recorded source snapshots;
+the [script index](../scripts/README.md) records the current audit limits.
+A bounded source change needs its native comparison and directly relevant
+checks rather than every product's runtime suite and database check.
 
 ## Local tools and commands
 
@@ -139,15 +141,18 @@ Existing product builders are `build_th03_main_work.py`, `build_th03_op_work.py`
 `--current-cold` route where available. A stale native source/recipe binding
 requires rebuilding its affected dependency chain, not editing receipt hashes.
 
-When an accepted source scope changes, update its publication and regenerate
-progress with `scripts/progress.py`. Source presence and accepted ownership are
-separate; complete executable equality can still contain unowned vendor context.
+When an accepted source scope changes, revalidate its affected evidence before
+updating publication and regenerating `scripts/progress.py`. Current physical
+owner reviews remain visible independently of a pending broad publication.
+Status and progress use the same source-native reviewers; neither rebuilds native
+inputs. Source presence and accepted ownership are separate; complete executable
+equality can still contain unowned vendor context.
 OP/MAINL/ZUN also compare canonical DIET storage. MAIN retains its documented
 CODE alignment/header differences.
 
 ## Working files and retention
 
-The [latest applied after520 deletion audit](STORAGE_HANDOFF_CURRENT.md)
+The [historical after520 deletion audit](STORAGE_HANDOFF_CURRENT.md)
 protects its historical prefix of **258 stages / 5,760 uniquely referenced receipt,
 writer-log and native output files**, with both full raw
 OBJ/LIB/EXE/MAP rounds retained. The older after439 audit

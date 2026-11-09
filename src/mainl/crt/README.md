@@ -1,6 +1,11 @@
 # MAINL CRT reconstruction
 
-The accepted normal893-member library has28 source providers. Natural
+Current broad MAINL decoded publication is pending because its cold source graph
+predates the maintained Staff/root owners. The provider results below are retained
+historical scopes. Use [generated progress](../../../docs/PROGRESS.md) for current
+publication and independent source-native owner checks.
+
+The historical accepted normal893-member library has28 source providers. Natural
 `new.cpp`,`xalloc.cpp` and `xmsg.cpp` are accepted through the scoped BCC4.5 -O1
 route;their six owners total2258 bytes. See the
 [C++ native review](../../../docs/MAINL_EXCEPTION_CPP_REVIEW.md),

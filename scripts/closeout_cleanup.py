@@ -198,10 +198,14 @@ def output_path(value):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output', required=True)
-    parser.add_argument('--apply', action='store_true')
+    parser.add_argument('--apply', action='store_true', help='retired; generic deletion is rejected')
     parser.add_argument('--retire-proof', action='append', default=[],
-                        help='explicit superseded top-level unaccepted diagnostic; reject all live references')
+                        help='retired; proof retirement requires a separate audited allowlist')
     args = parser.parse_args()
+    if args.apply or args.retire_proof:
+        parser.error('generic proof retirement/deletion is retired; this command is preview-only. '
+                     'Use clean_generated.py --caches-only --apply for caches; native proof '
+                     'cleanup requires a separate audited allowlist (docs/STORAGE_HANDOFF_CURRENT.md)')
     output = output_path(args.output)
     inputs = {p: digest(ROOT/p) for p in ['scripts/closeout_cleanup.py', 'scripts/clean_generated.py', 'tests/test_closeout_cleanup.py']}
     report = dict(kind='th03-closeout-disposable-output-cleanup', observed_utc=datetime.now(timezone.utc).isoformat(),

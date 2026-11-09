@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Run portable TH03 checks and available private headless identity gates."""
+"""Run the broad TH03 tests and available private headless identity gates."""
 
 from pathlib import Path
+import argparse
 from importlib.util import find_spec
 import subprocess
 import sys
@@ -14,13 +15,14 @@ def run(*arguments: str) -> None:
     subprocess.run([sys.executable, *arguments], cwd=ROOT, check=True)
 
 
-def main() -> int:
+def main(argv=None) -> int:
+    argparse.ArgumentParser(description=__doc__).parse_args(argv)
     try:
         missing = [name for name in ("capstone", "unicorn") if find_spec(name) is None]
         if missing:
             raise ValueError(
                 f"missing CI dependencies for {sys.executable}: {', '.join(missing)}. "
-                "Create/activate .venv, install requirements-ci.txt, then run scripts/ci.py."
+                "Create/activate .venv, install requirements-ci.txt, then run scripts/ci.py --full."
             )
         run("-m", "unittest", "discover", "-s", "tests", "-q")
         run("-m", "compileall", "-q", "scripts", "tests")

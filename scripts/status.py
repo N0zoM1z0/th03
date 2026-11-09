@@ -7,7 +7,9 @@ import argparse
 from collections import Counter, defaultdict
 import csv
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import tomllib
 
@@ -33,7 +35,8 @@ def zun_product_status(root, units):
         with (Path(root) / 'config/units.csv').open() as stream:
             expected = [u for u in csv.DictReader(stream) if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
         provided = [u for u in units if u['artifact'] == 'th03-zun' and u['state'] != 'excluded']
-        if len(expected) != 78 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
+        if (not expected or len({u['id'] for u in provided}) != len(provided)
+                or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id'])):
             raise ValueError('caller inventory does not match the current ZUN ledger')
         from lib.decoded_zun_acceptance import verify
         return verify(Path(root), json.loads(current.read_bytes()))
@@ -53,29 +56,109 @@ def mainl_product_status(root, units):
             with (Path(root) / 'config/units.csv').open() as stream:
                 expected = [u for u in csv.DictReader(stream) if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
             provided = [u for u in units if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
-            if len(expected) < 193 or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id']):
+            if (not expected or len({u['id'] for u in provided}) != len(provided)
+                    or sorted(provided, key=lambda u: u['id']) != sorted(expected, key=lambda u: u['id'])):
                 raise ValueError('caller inventory does not match the current MAINL ledger')
             from lib.decoded_mainl_acceptance import verify
             return verify(Path(root), json.loads(current.read_bytes()))
         except (OSError, ValueError, KeyError, TypeError, ImportError) as error:
+            reason = str(error)
+            # A stale publication can stop before inspecting the native graph.
+            # Report its first real source/recipe blocker too, without rebuilding.
+            try:
+                from lib.decoded_mainl_acceptance import audit
+                audit(Path(root))
+            except (OSError, ValueError, KeyError, TypeError, ImportError) as audit_error:
+                if str(audit_error) != reason:
+                    reason += '; native audit: ' + str(audit_error)
             return dict(repository_local=True, factory_accepted=False, product_exact=False,
                         mixed_physical_exact_bytes=0, mixed_authored_credit_bytes=0,
                         decoded_exact_units=0, decoded_authored_exact_units=0, decoded_library_exact_units=0,
                         decoded_authored_bytes=0, decoded_library_bytes=0, decoded_exact_unit_ids=[],
-                        whole_game_percentage=None, reason=str(error))
-    from lib.mainl_product_acceptance import load_status
-    result = load_status(root)
-    ids = [u['id'] for u in units if u['artifact'] == 'th03-mainl' and u['state'] != 'excluded']
-    accepted_ids = result.get('decoded_exact_unit_ids', [])
-    if (not result.get('product_exact') or len(ids) != 145 or len(set(ids)) != 145
-            or len(accepted_ids) != 145 or len(set(accepted_ids)) != 145
-            or set(ids) != set(accepted_ids) or result.get('decoded_exact_units') != 145):
-        result = dict(result, product_exact=False, decoded_exact_units=0,
-                      decoded_exact_unit_ids=[], decoded_authored_exact_units=0,
-                      decoded_library_exact_units=0, decoded_authored_bytes=0,
-                      decoded_library_bytes=0, mixed_physical_exact_bytes=0,
-                      mixed_authored_credit_bytes=0)
-    return result
+                        whole_game_percentage=None, reason=reason)
+    # The frozen mixed-product proposal is a historical diagnostic. Missing
+    # current evidence must not silently select its obsolete 145-owner cohort.
+    return dict(repository_local=True, factory_accepted=False, product_exact=False,
+                mixed_physical_exact_bytes=0, mixed_authored_credit_bytes=0,
+                decoded_exact_units=0, decoded_authored_exact_units=0, decoded_library_exact_units=0,
+                decoded_authored_bytes=0, decoded_library_bytes=0, decoded_exact_unit_ids=[],
+                whole_game_percentage=None, reason='current MAINL source publication missing')
+
+
+def native_source_reviews(root, artifact):
+    """Recheck selected current physical owners, independently of cold publication.
+
+    Existing read-only reviewers own the complete source/output/relocation checks.
+    Run them in separate interpreters: historical builders hold mutable globals.
+    These scopes never contribute decoded publication or canonical ledger credit.
+    """
+    root = Path(root)
+    if artifact == 'th03-main':
+        selected = [('BOSS and HitCircle', 'af1053k',
+                     '.analysis/work/exatt-layout-af1053k/report.json',
+                     'review_th03_main_source_overlay.py', [])]
+    elif artifact == 'th03-mainl':
+        selected = [
+            ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',
+             'review_th03_mainl_staff_native_probe.py', ['--check']),
+            ('Root controller', 'af944r', '.analysis/work/mainl-root-af944r-native-build.json',
+             'review_th03_mainl_root_native_probe.py', ['--check']),
+        ]
+    else:
+        return []
+    results = []
+    python = root / '.venv/bin/python'
+    for label, stage, report, script, options in selected:
+        row = dict(scope=label, stage=stage, report=report, verified=False)
+        if not (root / report).is_file():
+            results.append(dict(row, reason='native evidence unavailable in this checkout'))
+            continue
+        try:
+            command = [str(python) if python.is_file() else sys.executable,
+                       '-B', str(root / 'scripts' / script), '--stage', stage, *options]
+            run = subprocess.run(command, cwd=root, capture_output=True, text=True,
+                                 timeout=60, env={**os.environ, 'DISPLAY': '', 'WAYLAND_DISPLAY': ''})
+            if run.returncode:
+                reason = (run.stderr or run.stdout).strip().splitlines()
+                raise ValueError(reason[-1] if reason else f'reviewer exited {run.returncode}')
+            proof = json.loads(run.stdout)
+            if artifact == 'th03-main':
+                if proof.get('full_Japanese_MAIN_equal') is not True or proof.get('native_rounds') != 2:
+                    raise ValueError('incomplete current MAIN native review')
+                row.update(modules=proof['complete_original_units'],
+                           code_bytes=proof['original_scope']['CODE_bytes'],
+                           public_symbols=proof['original_scope']['PUBLICs'],
+                           ordered_native_fields=proof['original_scope']['ordered_native_fields'],
+                           native_rounds=proof['native_rounds'])
+            elif stage == 'af942s':
+                if (proof.get('complete') is not True or proof.get('native_Turbo_CPP_rounds') != 2
+                        or proof.get('complete_original_native_CODE_and_DATA_equal') is not True
+                        or proof.get('original_67372_byte_japanese_decoded_MAINL_EXE_equal') is not True
+                        or proof.get('original_ordered_677_MZ_relocations_equal') is not True):
+                    raise ValueError('incomplete current Staff Roll native review')
+                row.update(modules=1, procedures=proof['original_exported_code_procedures'],
+                           code_bytes=proof['complete_original_CODE_bytes'],
+                           initialized_data_bytes=proof['original_initialized_DATA_bytes'],
+                           ordered_native_fields=proof['original_literal_OMF_fixups'],
+                           native_rounds=proof['native_Turbo_CPP_rounds'])
+            else:
+                if (proof.get('complete') is not True or proof.get('native_Turbo_CPP_rounds') != 2
+                        or proof.get('original_complete_67372_byte_japanese_MAINL_EXE_equal') is not True
+                        or proof.get('original_ordered_MZ_relocations') != 677):
+                    raise ValueError('incomplete current root-controller native review')
+                row.update(modules=1, procedures=proof['major_original_root_functions'],
+                           code_bytes=proof['original_CODE_bytes'],
+                           initialized_data_bytes=proof['initialized_DATA_bytes'],
+                           bss_bytes=proof['original_BSS_bytes'],
+                           ordered_native_fields=proof['original_ordered_OMF_FIXUPP_fields'],
+                           native_rounds=proof['native_Turbo_CPP_rounds'])
+            row.update(verified=True, report_sha256=proof.get('report_sha256') or
+                       proof.get('independent_source_build_report_sha256') or
+                       proof.get('native_source_build_report_sha256'))
+        except (OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired) as error:
+            row['reason'] = str(error)
+        results.append(row)
+    return results
 
 
 def reviewed_authored_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
@@ -105,6 +188,7 @@ def artifact_report(
 
     artifact_id = str(artifact["id"])
     rows = [row for row in units if row["artifact"] == artifact_id]
+    active = [row for row in rows if row['state'] != 'excluded']
     state_counts = Counter(row["state"] for row in rows)
     state_bytes: dict[str, int] = defaultdict(int)
     for row in rows:
@@ -136,6 +220,10 @@ def artifact_report(
     return {
         "target_size": artifact["size"],
         "unit_count": len(rows),
+        "active_unit_count": len(active),
+        "excluded_unit_count": len(rows) - len(active),
+        "source_present_units": sum(bool(row.get('source')) and (ROOT / row['source']).is_file()
+                                    for row in active),
         "states": dict(sorted(state_counts.items())),
         "state_bytes": dict(sorted(state_bytes.items())),
         "known_authored_bytes": known_authored,
@@ -205,6 +293,8 @@ def main() -> int:
     per_artifact["th03-op"]["decoded_acceptance"] = op_decoded_status(ROOT, units)
     per_artifact["th03-mainl"]["product_acceptance"] = mainl_product_status(ROOT, units)
     per_artifact["th03-zun"]["decoded_acceptance"] = zun_product_status(ROOT, units)
+    for artifact_id in ('th03-main', 'th03-mainl'):
+        per_artifact[artifact_id]['native_source_reviews'] = native_source_reviews(ROOT, artifact_id)
     output = {
         "schema_version": 1,
         "canonicality": manifest["source"]["canonicality"],
@@ -231,41 +321,55 @@ def main() -> int:
                 f"({function_percent_text})"
                 if report["reviewed_authored_functions"] is not None else "n/a"
             )
-            print(
-                f"{artifact_id:12} units={report['unit_count']:4} "
-                f"file-backed-authored={report['exact_authored_bytes']}/"
-                f"{report['known_authored_bytes']} ({percent_text}) "
-                f"main-function-ledger={function_text} "
-                f"decoded-authored-owner-bytes={report['decoded_only_source_owner_bytes']}"
-            )
+            byte_text = (f"{report['exact_authored_bytes']}/{report['known_authored_bytes']} ({percent_text})"
+                         if report['known_authored_bytes'] else 'n/a (decoded coordinates)')
+            print(f"{artifact_id:12} active-units={report['active_unit_count']:4} "
+                  f"source={report['source_present_units']}/{report['active_unit_count']} "
+                  f"file-backed-ledger={byte_text} main-function-ledger={function_text}")
             candidate_states = report["authored_candidate_states"]
             boundary_states = report["authored_boundary_states"]
-            print(
-                f"{'':12} boundary-observations={report['boundary_observations']:4} "
-                f"authored-candidates={report['authored_function_candidates']:4} "
-                f"boundary-r/c/p={boundary_states.get('reviewed', 0)}/"
-                f"{boundary_states.get('corroborated', 0)}/"
-                f"{boundary_states.get('provisional', 0)} "
-                f"function-exact={report['accepted_exact_authored_functions']:3} "
-                f"blocked={candidate_states.get('blocked', 0):2} "
-                f"unreviewed={candidate_states.get('unreviewed', 0):3} "
-                f"origin-open={report['unresolved_target_derived_asm_candidates']:2} "
-                f"asm-attest={report['original_asm_attestation_candidates']:2} "
-                f"asm-provisional={report['original_asm_provisional_boundaries']:2}"
-            )
+            if report['boundary_observations']:
+                print(
+                    f"{'':12} boundary-observations={report['boundary_observations']:4} "
+                    f"authored-candidates={report['authored_function_candidates']:4} "
+                    f"boundary-r/c/p={boundary_states.get('reviewed', 0)}/"
+                    f"{boundary_states.get('corroborated', 0)}/"
+                    f"{boundary_states.get('provisional', 0)} "
+                    f"function-exact={report['accepted_exact_authored_functions']:3} "
+                    f"blocked={candidate_states.get('blocked', 0):2} "
+                    f"unreviewed={candidate_states.get('unreviewed', 0):3} "
+                    f"origin-open={report['unresolved_target_derived_asm_candidates']:2} "
+                    f"asm-attest={report['original_asm_attestation_candidates']:2} "
+                    f"asm-provisional={report['original_asm_provisional_boundaries']:2}"
+                )
         product = per_artifact['th03-mainl']['product_acceptance']
         print('MAINL repository-local mixed product: ' + ('accepted' if product['product_exact'] else 'pending'))
         mainl_total = sum(u['artifact']=='th03-mainl' and u['state']!='excluded' for u in units)
-        print(f"MAINL decoded accepted units={product['decoded_exact_units']}/{mainl_total} "
-              f"authored={product['decoded_authored_bytes']} B library={product['decoded_library_bytes']} B; "
-              f"mixed stored product={product['mixed_physical_exact_bytes']} B, additional authored credit=0; "
-              "whole-game percentage=unknown; Factory acceptance=false")
+        if product.get('current_cold_source_scopes') or product.get('product_exact'):
+            print(f"MAINL decoded accepted units={product['decoded_exact_units']}/{mainl_total} "
+                  f"authored={product['decoded_authored_bytes']} B library={product['decoded_library_bytes']} B")
+        else:
+            print(f"MAINL broad decoded acceptance: PENDING ({mainl_total} tracked extents); "
+                  "current scoped native reviews are independent")
+        if product.get('reason'):
+            print('MAINL broad decoded acceptance pending: ' + product['reason'])
+        for artifact_id in ('th03-main', 'th03-mainl'):
+            for review in per_artifact[artifact_id]['native_source_reviews']:
+                if review['verified']:
+                    print(f"{artifact_id} current source-native {review['scope']} ({review['stage']}): "
+                          f"{review['modules']} physical owners / {review['code_bytes']:,} CODE B; "
+                          "two original compiler rounds and complete normal links verified")
+                else:
+                    print(f"{artifact_id} source-native {review['scope']} unavailable: {review['reason']}")
         print(decoded_summary(per_artifact["th03-op"]["decoded_acceptance"]))
         zun = per_artifact['th03-zun']['decoded_acceptance']
-        print(f"ZUN current decoded source acceptance: {zun['decoded_exact_units']} extents; "
-              f"authored={zun['decoded_authored_bytes']} B original-ASM={zun.get('decoded_original_asm_bytes', 0)} B "
-              f"library={zun.get('decoded_library_bytes', 0)} B; "
-              "canonical unit credit unchanged; whole-product source ownership open")
+        if zun.get('decoded_accepted'):
+            print(f"ZUN current decoded source acceptance: {zun['decoded_exact_units']} extents; "
+                  f"authored={zun['decoded_authored_bytes']} B original-ASM={zun.get('decoded_original_asm_bytes', 0)} B "
+                  f"library={zun.get('decoded_library_bytes', 0)} B; "
+                  "canonical unit credit unchanged; whole-product source ownership open")
+        else:
+            print('ZUN decoded acceptance PENDING: ' + zun.get('reason', 'publication unavailable'))
         print(output["warning"])
     return 0
 

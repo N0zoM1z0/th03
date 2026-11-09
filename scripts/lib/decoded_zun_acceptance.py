@@ -40,7 +40,7 @@ from lib.op_work_acceptance import GATES, sha, digest, oracle_rows as shared_ora
 PUBLICATION = "config/zun_work/scoped_acceptance.json"
 COMMAND = ".venv/bin/python scripts/publish_th03_zun_work_scopes.py"
 PROOF_INPUTS = ("scripts/lib/decoded_zun_acceptance.py", "scripts/publish_th03_zun_work_scopes.py",
-                "scripts/lib/op_work_acceptance.py", "scripts/status.py", "scripts/validate_tracking.py",
+                "scripts/lib/op_work_acceptance.py", "scripts/validate_tracking.py",
                 "config/oracles.toml", "scripts/review_th03_zun_format_work.py",
                 "scripts/lib/zun_driver_format_layout.py", "scripts/lib/zun_driver_format_runtime.py",
                 "scripts/review_th03_zun_graphics_work.py", "scripts/lib/zun_driver_graphics_layout.py", "scripts/lib/zun_driver_graphics_runtime.py",

@@ -15,10 +15,10 @@ class PendingTests(unittest.TestCase):
         rows = units()
         self.assertTrue(progress.mainl_regist_source_pending(rows))
         svg = progress.render_svg(rows, [])
-        self.assertIn("17 bodies / 2,949 B owned", svg)
-        self.assertIn("native proof pending", svg)
+        self.assertNotIn("17 bodies / 2,949 B owned", svg)
+        self.assertNotIn("native proof pending", svg)
         self.assertIn("Source 0/2", svg)
-        self.assertIn("exact 0/2", svg)
+        self.assertIn("Decoded acceptance: pending", svg)
     def test_mutated_or_incomplete_scopes_rejected(self):
         for key, value in {"state": "source-present", "size": "2721", "source": "src/mainl/regist.cpp"}.items():
             rows = units(); rows[0][key] = value
@@ -51,9 +51,9 @@ class SourceCaptionTests(unittest.TestCase):
         rows=accepted_units(); evidence=accepted_evidence()
         self.assertTrue(progress.mainl_regist_hybrid_source(rows,evidence))
         svg=progress.render_svg(rows,[],evidence)
-        self.assertIn("6 PI bytes still differ",svg)
+        self.assertNotIn("6 PI bytes still differ",svg)
         self.assertIn("Source 2/2",svg)
-        self.assertIn("exact 0/2",svg)
+        self.assertIn("Decoded acceptance: pending",svg)
         self.assertEqual(progress.mainl_unit_progress(rows)["source_bytes"],2949)
     def test_missing_or_mutated_proof_hides_caption(self):
         for changes in ({"result":"fail"},{"output_sha256":"0"*64},{"evidence_class":"binary"}):

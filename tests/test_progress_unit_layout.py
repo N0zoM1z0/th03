@@ -37,7 +37,8 @@ class Tests(unittest.TestCase):
   self.assertEqual((len(authored),sum(int(u['size'],0) for u in authored)),(16,2179))
   funcs=[dict(artifact='th03-main',boundary_state='reviewed',state='candidate')]*413
   svg=p.render_svg(units,funcs,[])
-  self.assertIn('413 tracked functions',svg)
+  self.assertNotIn('413 tracked functions',svg)
+  self.assertIn('106 tracked unit extents',svg)
   self.assertIn('Source 61/62',svg);self.assertIn('Source 77/78',svg)
  def test_empty_unit_inventory_has_zero_width_not_fake_function_counts(self):
   svg=p.render_svg([],[],[])
@@ -51,16 +52,16 @@ class Tests(unittest.TestCase):
  def test_compact_rows_keep_diagnostics_out_of_visible_text(self):
   with patch.object(p,'zun_init_standalone_retained',return_value=True),patch.object(p,'zun_driver_hybrid_retained',return_value=True),patch.object(p,'zunsoft_root_source_proven',return_value=True),patch.object(p,'zun_resident_root_source_proven',return_value=True):
    root=ET.fromstring(p.render_svg([],[],[]))
-  self.assertEqual(root.attrib['viewBox'],'0 0 788 500')
+  height=float(root.attrib['height'])
   texts=root.findall('.//s:text',N)
   ys={''.join(t.itertext()):float(t.attrib['y']) for t in texts}
   self.assertEqual([ys[label] for label in ['OP.EXE','MAIN.EXE','MAINL.EXE','ZUN.COM']],[144,220,296,372])
   prefixes=('Retained standalone init:','Maintained -2/-4 composition:','Logo root:','Resident root:')
   self.assertFalse(any(text.startswith(prefixes) for text in ys))
   details=[d.text or '' for d in root.findall('.//s:desc',N)]
-  self.assertEqual(sum(text.startswith(prefixes) for text in details),4)
+  self.assertEqual(sum(text.startswith(prefixes) for text in details),0)
   self.assertTrue(all(float(t.attrib['font-size'])>=12 for t in texts))
-  self.assertTrue(all(float(t.attrib['y'])<500 for t in texts))
+  self.assertTrue(all(float(t.attrib['y'])<height for t in texts))
  def test_accepted_mainl_hides_only_stale_retained_and_open_order(self):
   import status
   accepted=dict(product_exact=True,decoded_exact_units=149)
@@ -69,10 +70,10 @@ class Tests(unittest.TestCase):
    for name in flags: stack.enter_context(patch.object(p,name,return_value=True))
    with patch.object(status,'mainl_product_status',return_value=accepted): svg=p.render_svg([],[],[])
    with patch.object(status,'mainl_product_status',return_value=dict(product_exact=False,decoded_exact_units=0)): pending=p.render_svg([],[],[])
-  self.assertIn('Heap: 8 procedures / 628 B retained-only',pending)
-  self.assertIn('full program equal / order open',pending)
+  self.assertNotIn('Heap: 8 procedures / 628 B retained-only',pending)
+  self.assertNotIn('full program equal / order open',pending)
   self.assertNotIn('Heap: 8 procedures / 628 B retained-only',svg)
   self.assertNotIn('relocation order open',svg)
   self.assertNotIn('full program equal / order open',svg)
-  self.assertIn('MAINL product + decoded accepted',svg)
+  self.assertNotIn('MAINL product + decoded accepted',svg)
 if __name__=='__main__':unittest.main()

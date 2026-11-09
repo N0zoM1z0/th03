@@ -73,32 +73,6 @@ class ProtectedAfter520NativeEvidence(unittest.TestCase):
         for entry in audit['entries']:
             self.assertFalse((ROOT/entry['path']).exists(),entry['path'])
         self.assertFalse(cleanup.selected_paths(self.graph,self.protected))
-    def test_live_handoff_and_archives_do_not_confuse_current_stage(self):
-        live=(ROOT/'docs/RE_HANDOFF.md').read_text()
-        storage=(ROOT/'docs/STORAGE_HANDOFF_CURRENT.md').read_text()
-        old=(ROOT/'docs/RE_HANDOFF_ARCHIVE_PRE_CLEANUP_AFTER520.md').read_text()
-        old_storage=(ROOT/'docs/STORAGE_HANDOFF_AFTER439.md').read_text()
-        self.assertLess(len(live.splitlines()),180)
-        for item in ('after520','728','893','194,292','258','5,760','0/250',
-                     'isteldbl','h_ldiv'):
-            self.assertIn(item,live)
-        self.assertIn('after520',storage)
-        self.assertIn('258',storage)
-        self.assertIn('5,760',storage)
-        self.assertIn('1,642,496',storage)
-        self.assertIn('NOT the current',old)
-        self.assertIn('Historical snapshot',old_storage)
-        self.assertEqual(
-            old.split('---\n\n',1)[1],
-            subprocess.check_output(['git','show','ad05750:docs/RE_HANDOFF.md'],
-                                    cwd=ROOT).decode())
-        self.assertEqual(
-            old_storage.split('---\n\n',1)[1],
-            subprocess.check_output(['git','show',
-                   'ad05750:docs/STORAGE_HANDOFF_CURRENT.md'],cwd=ROOT).decode())
-        for doc in ('README.md','AGENTS.md','scripts/README.md',
-                    'src/mainl/crt/README.md','docs/RE_WORKFLOW.md'):
-            self.assertIn('after520',(ROOT/doc).read_text(),doc)
     def test_hash_all_258_source_driver_logs_and_original_native_outputs(self):
         verify_active_hashes(self.graph)
 

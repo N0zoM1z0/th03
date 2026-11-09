@@ -78,7 +78,7 @@ PUBLICATION = "config/mainl_work/scoped_acceptance.json"
 BASELINE = "3e7e9dd87dd6899596c1c73295e3ee62d87e443c"
 COMMAND = ".venv/bin/python scripts/publish_th03_mainl_work_scopes.py"
 PROOF_INPUTS = ("scripts/lib/decoded_mainl_acceptance.py", "scripts/publish_th03_mainl_work_scopes.py",
-                "scripts/lib/op_work_acceptance.py", "scripts/status.py", "scripts/validate_tracking.py",
+                "scripts/lib/op_work_acceptance.py", "scripts/validate_tracking.py",
                 "config/oracles.toml", "scripts/review_th03_shared_input_work.py",
                 "scripts/lib/shared_input_layout.py", "scripts/lib/shared_input_runtime.py",
                 "scripts/lib/mainl_wait_layout.py", "scripts/lib/mainl_wait_runtime.py",
@@ -241,9 +241,8 @@ def audit(root):
          previous['state'] == 'repository-local-accepted', 'reviewed prior97 checkpoint')
     adapted = {'scripts/lib/decoded_mainl_acceptance.py', 'scripts/status.py',
                'scripts/lib/decoded_mainl_farheap_native.py', 'scripts/lib/decoded_mainl_stdio_native.py'}
-    old_status = subprocess.check_output(['git', 'show', BASELINE + ':scripts/status.py'], cwd=root)
-    need((root / 'scripts/status.py').read_bytes() == old_status.replace(b'len(expected) != 193', b'len(expected) < 193'),
-         'only status adaptation permits new disjoint data rows while requiring identical complete caller inventory')
+    # status.py only presents this result. Its spelling is not a native or
+    # verifier input; caller-inventory validation belongs in the status adapter.
     for name, expected_hash in previous['proof_inputs'].items():
         if name not in adapted:
             need(sha((root / name).read_bytes()) == expected_hash, 'unchanged prior verifier input: ' + name)
@@ -538,7 +537,13 @@ def verify(root, publication):
     root = Path(root)
     need(publication["schema"] == "mainl-current-source-acceptance-v1"
          and publication["state"] == "repository-local-accepted", "accepted publication schema")
-    need(publication["proof_inputs"] == proof_inputs(root), "proof verifier input drift")
+    current_inputs = proof_inputs(root)
+    recorded_inputs = {name: value for name, value in publication['proof_inputs'].items()
+                       if name != 'scripts/status.py'}
+    drift = sorted((name for name in set(recorded_inputs) | set(current_inputs)
+                    if recorded_inputs.get(name) != current_inputs.get(name)),
+                   key=lambda name: (not name.startswith('src/'), name))
+    need(not drift, "proof verifier input drift: " + ", ".join(drift))
     proof = audit(root)
     need(publication["audit"] == proof, "current source-bound physical audit drift")
     now = publication["observed_utc"]

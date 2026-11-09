@@ -1,9 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="788" height="500" viewBox="0 0 788 500" role="img" aria-label="TH03 reviewed subset reconstruction progress">
+<svg xmlns="http://www.w3.org/2000/svg" width="788" height="634" viewBox="0 0 788 634" role="img" aria-label="TH03 reviewed subset reconstruction progress">
   <title>TH03 reconstruction progress by artifact</title>
-  <desc>OP, MAINL and ZUN bars count tracked unit extents; MAIN counts tracked functions. OP scoped decoded acceptance and MAINL decoded acceptance are separate published axes, not canonical-file ownership. Whole-game function and authored-byte totals remain unknown.</desc>
-  <rect x="0.5" y="0.5" width="787" height="499" rx="16" fill="#1f2335" stroke="#353b52"/>
+  <desc>All bars count tracked unit extents. MAIN ledger exactness and decoded source publications are labeled separately. Pending publication is not zero reconstruction. Whole-game totals remain unknown.</desc>
+  <rect x="0.5" y="0.5" width="787" height="633" rx="16" fill="#1f2335" stroke="#353b52"/>
   <text x="24" y="39" fill="#f4f4f5" font-family="sans-serif" font-size="22" font-weight="600">TH03 reconstruction progress</text>
-  <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked scopes only · whole-game totals remain unknown</text>
+  <text x="24" y="64" fill="#c8cad2" font-family="sans-serif" font-size="13">Tracked unit extents · whole-game completion unknown</text>
   <text x="200" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Boundary review / source</text>
   <text x="488" y="103" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">Verified scope</text>
   <g aria-label="OP.EXE bars count tracked unit extents, not functions; source-present is not exact">
@@ -18,15 +18,17 @@
   <text x="488" y="166" fill="#c8cad2" font-family="sans-serif" font-size="12">Decoded extents 60/62</text>
   </g>
 <desc>Published decoded scopes: 14,985 B · canonical exact 0 · product acceptance open</desc>
-<desc>Retained equality check unavailable · product acceptance open</desc>
+  <g aria-label="MAIN.EXE bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="220" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">MAIN.EXE</text>
-      <text x="24" y="240" fill="#c8cad2" font-family="sans-serif" font-size="12">459 tracked functions</text>
-      <rect x="200" y="213" width="250" height="12" rx="4" fill="#353b52"/>
-      <rect x="488" y="213" width="270" height="12" rx="4" fill="#353b52"/>
-      <rect x="200" y="213" width="250.00" height="12" fill="#9b6de3"/>
-      <rect x="488" y="213" width="270.00" height="12" fill="#55c7a6"/>
-      <text x="200" y="242" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 459 · Pending 0</text>
-      <text x="488" y="242" fill="#c8cad2" font-family="sans-serif" font-size="12">Exact 459 · Pending 0</text>
+  <text x="24" y="240" fill="#c8cad2" font-family="sans-serif" font-size="12">106 tracked unit extents</text>
+  <rect x="200" y="213" width="250" height="12" rx="4" fill="#353b52"/>
+  <rect x="488" y="213" width="270" height="12" rx="4" fill="#353b52"/>
+  <rect x="200" y="213" width="250.00" height="5" fill="#9b6de3"/>
+  <rect x="200" y="220" width="250.00" height="5" fill="#e0af68"/>
+  <rect x="488" y="213" width="270.00" height="12" fill="#55c7a6"/>
+  <text x="200" y="242" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 106 · Source 106/106</text>
+  <text x="488" y="242" fill="#c8cad2" font-family="sans-serif" font-size="12">Ledger exact extents 106/106</text>
+  </g>
   <g aria-label="MAINL bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="296" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">MAINL.EXE</text>
   <text x="24" y="316" fill="#c8cad2" font-family="sans-serif" font-size="12">259 tracked unit extents</text>
@@ -36,11 +38,9 @@
   <rect x="200" y="296" width="250.00" height="5" fill="#e0af68"/>
   <rect x="488" y="289" width="0.00" height="12" fill="#55c7a6"/>
   <text x="200" y="318" fill="#c8cad2" font-family="sans-serif" font-size="12">Reviewed 259 · Source 259/259</text>
-  <text x="488" y="318" fill="#c8cad2" font-family="sans-serif" font-size="12">Unit acceptance: exact 0/259</text>
-  <desc>Source-present: 61,050 B · Heap: 8 procedures / 628 B retained-only</desc>
+  <text x="488" y="318" fill="#c8cad2" font-family="sans-serif" font-size="12">Decoded acceptance: pending</text>
+  <desc>Source-present: 61,050 B</desc>
   </g>
-<desc>Historical PI composition: 6,144 B target-equal · 9 gaps closed · not current total</desc>
-<desc>Linked graphics: 355 B target-equal · decoded 1 DATA byte remains · no exact credit</desc>
   <g aria-label="ZUN.COM bars count tracked unit extents, not functions; source-present is not exact">
   <text x="24" y="372" fill="#f4f4f5" font-family="sans-serif" font-size="16" font-weight="600">ZUN.COM</text>
   <text x="24" y="392" fill="#c8cad2" font-family="sans-serif" font-size="12">78 tracked unit extents</text>
@@ -54,19 +54,12 @@
   </g>
 <desc>Current wrapper + -1..-5: 77 extents · 6,179 CODE B · ASM/library separate · product open</desc>
 <desc>Natural CODE layout: 71 linker bytes + EVEN · cold decoded/stored files target-equal</desc>
-<desc>220 instruction + 50 DATA runtime mutations · native directory owned · 12 reserved driver B open</desc>
   <path d="M24 426 H764" stroke="#353b52"/>
-  <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN verified exact extents: 78,737 bytes · 106 owners</text>
-  <text x="24" y="478" fill="#c8cad2" font-family="sans-serif" font-size="13">Details and acceptance criteria: docs/PROGRESS.md</text>
+  <text x="24" y="454" fill="#f4f4f5" font-family="sans-serif" font-size="13" font-weight="600">MAIN ledger: 78,737 bytes · 106 extents · 459/459 functions</text>
+  <text x="24" y="486" fill="#f4f4f5" font-family="sans-serif" font-size="13">Current source-native reviews (separate from broad acceptance)</text>
+<text x="24" y="514" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-main BOSS and HitCircle (af1053k): 12 physical owners / 18,845 CODE B</text>
+<text x="24" y="538" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Staff Roll (af942s): 1 physical owners / 3,695 CODE B</text>
+<text x="24" y="562" fill="#c8cad2" font-family="sans-serif" font-size="12">th03-mainl Root controller (af944r): 1 physical owners / 2,458 CODE B</text>
+  <text x="24" y="606" fill="#c8cad2" font-family="sans-serif" font-size="12">Pending = publication needs revalidation. Details: docs/PROGRESS.md</text>
   <desc>Whole-game source/link/product graph: OPEN · no whole-game completion percentage</desc>
-
-
-
-
-
-
-
-
-<desc>MAINL cold x2 · decoded + packed equal · order 0 / 677 · exact 0</desc>
-
 </svg>

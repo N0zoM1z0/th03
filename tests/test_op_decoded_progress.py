@@ -69,7 +69,7 @@ class Tests(unittest.TestCase):
         for reason in ['publication missing','binding drift config/units.csv','publication schema']:
             s=self.accepted(a.unavailable(reason))
             self.assertFalse(s['decoded_accepted']);self.assertIn(reason,a.decoded_summary(s))
-            self.assertIn('Retained cold pair: 29 raw pairs',self.render(s))
+            self.assertNotIn('Retained cold pair: 29 raw pairs',self.render(s))
             self.assertIn(f'Unit acceptance: exact 0/{OP_TRACKED}',self.render(s))
     def test_duplicate_accepted_ids_reject(self):
         self.assertFalse(self.accepted(dict(VALID,decoded_exact_unit_ids=IDS[:-1]+[IDS[0]]))['decoded_accepted'])
@@ -100,8 +100,8 @@ class Tests(unittest.TestCase):
         self.assertIn(f'Unit acceptance: exact 0/{zun_units}',texts)
         baseline=ET.fromstring(self.render(a.unavailable('missing')))
         # Every non-OP element remains byte-identical in this branch.
-        self.assertEqual([ET.tostring(x) for x in list(root)[15:]],
-                         [ET.tostring(x) for x in list(baseline)[15:]])
+        self.assertEqual([ET.tostring(x) for x in root if x.tag.endswith('g') and not x.attrib.get('aria-label', '').startswith('OP.EXE')],
+                         [ET.tostring(x) for x in baseline if x.tag.endswith('g') and not x.attrib.get('aria-label', '').startswith('OP.EXE')])
     def test_docs_scope_and_no_whole_completion(self):
         text=a.decoded_summary(self.accepted())
         for needle in [f'33/{OP_TRACKED} tracked decoded extents','9,530 scoped decoded bytes',

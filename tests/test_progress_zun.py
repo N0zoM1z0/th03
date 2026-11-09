@@ -29,15 +29,14 @@ class ZunProgressTests(unittest.TestCase):
         before = progress.render_svg([main], [], [])
         after = progress.render_svg([main, row], [], [])
         added = [line for line in after.splitlines() if "Retained standalone init:" in line]
-        self.assertEqual(len(added), 1)
-        self.assertIn("2 materializations · 9 procedures / 1,390 B · no exact credit", added[0])
+        self.assertEqual(len(added), 0)
         self.assertEqual(progress.tracked_unit_progress([row], "th03-zun"),
                          {"total": 1, "reviewed": 1, "source": 0, "exact": 0})
         self.assertIn("0 tracked unit extents", before)
         self.assertIn("Unit acceptance: exact 0/1", after)
-        self.assertIn("Inventory pending", after)
+        self.assertIn("0 tracked unit extents", after)
         self.assertNotIn("9 tracked functions", after)
-        self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
+        self.assertIn("MAIN ledger: 10 bytes · 1 extents", after)
         self.assertIn("no whole-game completion percentage", after)
 
     def test_annotation_requires_unique_unchanged_reviewed_scope(self):
@@ -58,23 +57,15 @@ class ZunProgressTests(unittest.TestCase):
         before = progress.render_svg([main, initializer()], [], [])
         after = progress.render_svg([main, initializer(), driver()], [], [])
         added = [line for line in after.splitlines() if "Maintained -2/-4 composition:" in line]
-        self.assertEqual(len(added), 1)
-        self.assertIn("22,812 B · mixed retained inputs · 10 target differences · no exact credit", added[0])
-        self.assertIn("three retained other payloads and retained wrapper scaffold", added[0])
-        self.assertIn("raw OBJ/COM/MAP equality, no normalization or object reuse", added[0])
-        self.assertIn("first was not a predeclared pair", added[0])
-        self.assertIn("second source mtimes were declared from observed first inputs", added[0])
-        self.assertIn("Fourteen wrapper-only observations and wrong-transfer negative pass", added[0])
-        self.assertIn("no payload execution or native composition build", added[0])
-        self.assertIn("no exact acceptance or DIET closure", added[0])
+        self.assertEqual(len(added), 0)
         self.assertEqual(progress.tracked_unit_progress([initializer(), driver()], "th03-zun"),
                          {"total": 2, "reviewed": 2, "source": 0, "exact": 0})
         self.assertIn("Unit acceptance: exact 0/1", before)
         self.assertIn("Unit acceptance: exact 0/2", after)
-        self.assertIn("Retained standalone init:", after)
-        self.assertIn("Inventory pending", after)
+        self.assertNotIn("Retained standalone init:", after)
+        self.assertIn("0 tracked unit extents", after)
         self.assertNotIn("55 tracked functions", after)
-        self.assertIn("MAIN verified exact extents: 10 bytes · 1 owners", after)
+        self.assertIn("MAIN ledger: 10 bytes · 1 extents", after)
         self.assertIn("no whole-game completion percentage", after)
 
     def test_composition_annotation_requires_unique_unchanged_reviewed_scope(self):

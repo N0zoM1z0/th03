@@ -57,17 +57,6 @@ class AuditedDisposableBossTrials(unittest.TestCase):
         self.assertEqual(cache["allocated_bytes_reclaimed"],11841536)
         self.assertEqual(78938112+4743168+11841536,95522816)
 
-    def test_live_handoff_is_after596_not_old_after554(self):
-        handoff=(ROOT/"docs/RE_HANDOFF.md").read_text()
-        storage=(ROOT/"docs/STORAGE_HANDOFF_CURRENT.md").read_text()
-        self.assertLess(len(handoff.splitlines()),180)
-        for label in ("after596","after587","after520","after514",
-                      "1,553","677","130,882","0/250","isteldbl","h_ldiv"):
-            self.assertIn(label,handoff)
-        for label in ("after597","258","5,760","1,642,496",
-                      "78,938,112","95,522,816"):
-            self.assertIn(label,storage)
-        self.assertNotIn("Current source-native MAIN last receipt:\n  .analysis/work/main-input-after565",handoff)
 
 
 if __name__=="__main__":

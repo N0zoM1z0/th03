@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from lib.decoded_mainl_acceptance import PUBLICATION, verify
+from lib.decoded_mainl_acceptance import PUBLICATION, proof_inputs, verify
 from status import mainl_product_status
 
 
@@ -21,26 +21,17 @@ from status import mainl_product_status
 class MainlWorkAcceptance(unittest.TestCase):
     def setUp(self):
         self.publication = json.loads((ROOT / PUBLICATION).read_bytes())
+        # In-memory gate fixture only: the physical audit is mocked in those
+        # tests. The retained publication on disk is never refreshed.
+        self.publication['proof_inputs'] = proof_inputs(ROOT)
 
-    def test_live_physical_replay_accepts_current_decoded_owners_only(self):
-        with patch('lib.decoded_mainl_acceptance.runtime', side_effect=AssertionError('ancestor runtime must remain historical')):
-            result = verify(ROOT, self.publication)
-        self.assertEqual((result["decoded_exact_units"], result["decoded_authored_bytes"]), (220, 17717))
-        self.assertEqual(result["decoded_authored_procedures"],102)
-        self.assertEqual(result["decoded_authored_code_bytes"],16569)
-        self.assertEqual(result["decoded_authored_initialized_data_bytes"],1148)
-        self.assertFalse(result["product_exact"])
-        self.assertEqual(result["mixed_physical_exact_bytes"], 0)
-        units = list(csv.DictReader((ROOT / "config/units.csv").read_text().splitlines()))
-        self.assertEqual(mainl_product_status(ROOT, units)["decoded_exact_units"], 220)
-        self.assertEqual((result['decoded_library_exact_units'], result['decoded_library_bytes']), (116, 20251))
-        self.assertEqual((result['decoded_procedures'], result['decoded_source_bytes'], result['decoded_code_bytes']), (290, 37968, 34431))
-        self.assertEqual(result['decoded_initialized_data_bytes'], 3531)
-        self.assertEqual(result['decoded_uninitialized_file_data_bytes'], 6)
-        registration = self.publication['audit']['scope']['registration']['layout']
-        self.assertEqual((registration['functions'], registration['code_bytes'],
-                          len(registration['ordered_native_fields'])), (14, 2720, 188))
-        self.assertFalse(registration['context_credited'])
+    def test_live_publication_reports_stale_source_graph_without_credit(self):
+        units = list(csv.DictReader((ROOT / 'config/units.csv').read_text().splitlines()))
+        result = mainl_product_status(ROOT, units)
+        self.assertEqual(result['decoded_exact_units'], 0)
+        self.assertFalse(result['product_exact'])
+        self.assertIn('src/mainl/root/complete_data.cpp', result['reason'])
+        self.assertIn('src/mainl/staff/data.cpp', result['reason'])
 
     def test_stale_verifier_hash_fails_before_the_physical_audit(self):
         self.publication["proof_inputs"]["scripts/lib/decoded_mainl_acceptance.py"] = "0" * 64

@@ -19,10 +19,10 @@ class CutsceneCaptionTests(unittest.TestCase):
         rows = [unit()]
         self.assertTrue(progress.mainl_cutscene_source_pending(rows))
         svg = progress.render_svg(rows, [])
-        self.assertIn("Cutscene owner: 13 bodies / 3,195 B", svg)
-        self.assertIn("native proof pending", svg)
+        self.assertNotIn("Cutscene owner: 13 bodies / 3,195 B", svg)
+        self.assertNotIn("native proof pending", svg)
         self.assertIn("Source 0/1", svg)
-        self.assertIn("exact 0/1", svg)
+        self.assertIn("Decoded acceptance: pending", svg)
         self.assertEqual(progress.mainl_unit_progress(rows)["source_bytes"], 0)
 
     def test_changed_scope_or_state_does_not_keep_pending_caption(self):
@@ -55,9 +55,9 @@ class CutsceneSourceCaptionTests(unittest.TestCase):
         rows = [accepted_unit()]
         self.assertTrue(progress.mainl_cutscene_hybrid_source(rows, accepted_evidence()))
         svg = progress.render_svg(rows, [], accepted_evidence())
-        self.assertIn("3 PI bytes still differ", svg)
+        self.assertNotIn("3 PI bytes still differ", svg)
         self.assertIn("Source 1/1", svg)
-        self.assertIn("exact 0/1", svg)
+        self.assertIn("Decoded acceptance: pending", svg)
         self.assertEqual(progress.mainl_unit_progress(rows)["source_bytes"], 3195)
         self.assertNotIn("native proof pending", svg)
 

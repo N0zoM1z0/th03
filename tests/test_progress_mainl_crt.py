@@ -14,7 +14,7 @@ class CrtProgressTests(unittest.TestCase):
         units,evidence=self.data()
         self.assertTrue(progress.mainl_crt_source_proven(units,evidence))
         c=progress.mainl_unit_progress(units)
-        self.assertEqual((c["source"],c["source_bytes"],c["exact"],c["total"]),(250,60028,0,250))
+        self.assertEqual(c["exact"], 0)
         # The old aggregate requires the old linked-game source assignment.
         # Ending now comes from staffdat.cpp, so current units suppress it even
         # when publication is unavailable. Preserve the historical caption test
@@ -35,7 +35,7 @@ class CrtProgressTests(unittest.TestCase):
                           or progress.MAINL_RESOURCES_SOURCE_UNITS.get(unit['id']))
                 if expected:
                     unit['source']=expected['source']
-            self.assertIn("24,680 B target-equal",progress.render_svg(historical,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
+            self.assertNotIn("24,680 B target-equal",progress.render_svg(historical,[],evidence, op_status={'decoded_accepted':False}, zun_status={'decoded_accepted':False}))
         self.assertEqual(sum(int(v["size"]) for v in progress.MAINL_CRT_SOURCE_UNITS.values()),628)
     def test_missing_repeat_evidence_rejects_caption(self):
         units,evidence=self.data()

@@ -112,7 +112,7 @@ for ordinary scoped changes.
 
 ## Current product status and limits
 
-The last recorded session-start preflight (2026-11-08) reported; this documentation-only handoff refresh did not rerun it:
+The 2026-11-09 preflight and script audit distinguish these current scopes:
 
 - **MAIN:** 106 units; file-backed authored source 78,737/78,737 bytes;
   main-function ledger 459/459; 335 boundary observations and 335
@@ -121,11 +121,10 @@ The last recorded session-start preflight (2026-11-08) reported; this documentat
 - **OP:** current decoded source acceptance 60 extents / 92 procedures /
   14,985 bytes (13,221 CODE + 1,764 initialized DATA). Canonical packed
   unit and whole-product acceptance remain separate.
-- **MAINL:** decoded source acceptance 0/259; Factory acceptance false.
-  The after587 native link is historical, not current broad source binding.
-  Scoped Staff and root-controller native work is documented separately
-  in MAINL_STAFF_NATURAL_CPP_AFTER942_REVIEW.md and
-  MAINL_ROOT_CONTROLLER_NATURAL_CPP_AFTER944_REVIEW.md.
+- **MAINL:** broad decoded publication pending; all 259 tracked extents have
+  source. Current Staff `af942s` and root-controller `af944r` read-only native
+  reviews both pass. They remain separate from broad publication and Factory
+  acceptance; generated progress now shows them independently.
 - **ZUN:** 77 decoded extents; 2,179 authored, 1,390 original-ASM and
   5,066 library bytes. Whole-product source ownership remains open.
 
@@ -138,31 +137,35 @@ Whole-game completion percentage is unknown. Use generated
   bytes but the full MAIN link has a historical one-byte trailing-NOP gap.
   Do not insert a synthetic NOP or claim full-link acceptance.
 - MAINL broad decoded publication and source binding need recertification
-  against current sources and retained ancestry; current acceptance remains
-  0/259.
+  against current sources and retained ancestry; its cold Staff backend still rejects the current source pin.
+  Do not refresh historical hashes to imply a native rebuild.
 - Vendor OMF packet identity and original raw MZ-header writer identity are
   separate from CODE/FIXUPP/PUBLIC and normal-link image/relocation equality.
   Canonical Factory packed-file acceptance remains open.
 
 ## Storage and handoff safety
 
-The latest applied storage maintenance is
-[after1024](STORAGE_HANDOFF_AFTER1024.md), summarized by the
-[current storage policy](STORAGE_HANDOFF_CURRENT.md). It removed only
-448 regenerable Python bytecode files and repacked Git without pruning.
-All 21,319 Git object IDs/types/sizes, refs, reflog files and fsck output
-were preserved. No .analysis proof file or native receipt tree was deleted.
+The [after1024 storage audit](STORAGE_HANDOFF_AFTER1024.md) and
+[current policy](STORAGE_HANDOFF_CURRENT.md) remain authoritative. Preserve
+all source-bound receipt ancestry, both raw rounds, logs, Japanese targets,
+compiler/Wine and analyzer state. No native proof tree was removed in the
+script audit. Generic cleanup now refuses receipt pruning and analysis
+`--apply`; only `clean_generated.py --caches-only --apply` is supported.
 
-Preserve the entire active source-bound receipt DAG, both original compiler
-rounds, OBJ/LIB/EXE/MAP outputs, writer logs, Japanese targets, Wine/Borland
-prefix and Ghidra/JDK state. Do not use unreferenced-receipt pruning, old
-after439/388/319/511 cleanup tools, or generic generated-file previews to
-justify native proof deletion. Only the official cache-only cleaner is a
-routine deletion route. The 2026-11-09 cache-only preview found 0.0 MiB
-eligible, so no files were removed. The 5.6 GiB `.analysis` tree is mainly
-protected toolchain/Wine state and native work/proof outputs; no safe
-unreferenced native-output set was established. A native proof purge requires
-a new full dependency audit and explicit one-time allowlist.
+## Script audit and current reporting
+
+`status.py` and generated progress separate ledger, decoded publication and
+current native owner checks. All bars count extents; MAIN's function ledger
+is separate. The MAINL reviewers support read-only `--check`; the obsolete
+145-owner publication fallback and presentation-source verifier gate are retired.
+ZUN was republished after removing that presentation dependency; its complete
+physical audit is unchanged. OP's publication remains valid.
+
+Default `ci.py` checks changed machine-input syntax and whitespace; `--full`
+selects the broad suite. The [script index](../scripts/README.md) records the
+1,358-file syntax/dependency audit and broad-test failures rooted in the stale
+MAINL cold graph and historical cleanup expectations. Use affected current
+checks; no full-suite pass or MAINL broad acceptance was claimed.
 
 ## Minimal commands
 

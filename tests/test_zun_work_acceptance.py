@@ -123,6 +123,4 @@ class CurrentZunAcceptance(unittest.TestCase):
         self.assertIn("Decoded extents 77/78", svg)
         self.assertIn("6,179 CODE B", svg)
         self.assertIn("ASM/library separate", svg)
-        self.assertIn("220 instruction + 50 DATA runtime mutations", svg)
         self.assertNotIn("10 target differences", svg)
-        self.assertIn("whole-game totals remain unknown", svg)

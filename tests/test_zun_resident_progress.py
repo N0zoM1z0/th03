@@ -29,5 +29,5 @@ class ResidentProgressTests(unittest.TestCase):
   texts=root.findall('.//{http://www.w3.org/2000/svg}text')
   details=root.findall('.//{http://www.w3.org/2000/svg}desc')
   self.assertFalse(any(''.join(t.itertext()).startswith(prefixes) for t in texts))
-  self.assertEqual(sum((d.text or '').startswith(prefixes) for d in details),4)
+  self.assertEqual(sum((d.text or '').startswith(prefixes) for d in details),0)
 if __name__=='__main__':unittest.main()

@@ -514,8 +514,7 @@ def main() -> int:
         "--prune-unreferenced-receipts",
         action="store_true",
         help=(
-            "also remove receipt runs that are unreachable from current evidence, "
-            "tracked concrete .analysis references and retained JSON input guards"
+            "retired option: rejected because reachability alone cannot authorize native proof deletion"
         ),
     )
     parser.add_argument(
@@ -529,8 +528,12 @@ def main() -> int:
         ),
     )
     args = parser.parse_args()
-    if args.caches_only and args.prune_unreferenced_receipts:
-        parser.error("--caches-only cannot be combined with --prune-unreferenced-receipts")
+    if args.apply and not args.caches_only:
+        parser.error('only --caches-only --apply is supported; native proof cleanup requires '
+                     'a separate audited allowlist (docs/STORAGE_HANDOFF_CURRENT.md)')
+    if args.prune_unreferenced_receipts:
+        parser.error('generic receipt pruning is retired; preserve the complete native proof DAG '
+                     '(docs/STORAGE_HANDOFF_CURRENT.md)')
 
     extra_preserved: set[Path] = set()
     for raw in args.keep_analysis:
@@ -542,8 +545,6 @@ def main() -> int:
 
     dry_run = not args.apply
     removed = 0
-    if args.prune_unreferenced_receipts:
-        removed += prune_unreferenced_receipts(dry_run, extra_preserved)
     if not args.caches_only:
         removed += clean_analysis(dry_run, extra_preserved)
     removed += clean_caches(dry_run, extra_preserved)

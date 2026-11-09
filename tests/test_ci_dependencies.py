@@ -1,4 +1,5 @@
 import contextlib
+import importlib.util
 import io
 from pathlib import Path
 import sys
@@ -6,7 +7,9 @@ import unittest
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-import ci
+spec = importlib.util.spec_from_file_location('ci_full', Path(__file__).resolve().parents[1] / 'scripts/ci-full.py')
+ci = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(ci)
 
 
 class DependencyControls(unittest.TestCase):
@@ -17,7 +20,7 @@ class DependencyControls(unittest.TestCase):
                     patch.object(ci, 'run') as run:
                 output = io.StringIO()
                 with contextlib.redirect_stderr(output):
-                    self.assertEqual(ci.main(), 1)
+                    self.assertEqual(ci.main([]), 1)
                 run.assert_not_called()
                 self.assertIn(missing, output.getvalue())
                 self.assertIn('requirements-ci.txt', output.getvalue())
