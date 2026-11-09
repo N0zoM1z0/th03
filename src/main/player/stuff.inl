@@ -155,7 +155,7 @@ shalfhearts_t near pascal players_hit_damage_update(
 
 void near story_skill_decrement(void)
 {
-	if((pid.current == 0) && (resident->skill > 0)) {
+	if(!pid.current && (resident->skill > 0)) {
 		resident->skill--;
 	}
 }

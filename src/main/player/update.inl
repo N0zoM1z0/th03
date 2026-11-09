@@ -58,7 +58,7 @@ void near pascal player_state_update(input_t input_raw, player_stuff_t near *pla
                 if(!player->is_cpu) {
                     movement = input & INPUT_MOVEMENT;
                     bool first_attempt = true;
-                    while(1) {
+                    for(;;) {
                         work = player_move(movement);
                         if(work == MOVE_INVALID && first_attempt) {
                             if(player->human_movement_last != movement) {
@@ -249,11 +249,12 @@ fire_gauge_bullet:
         player->patnum_movement = 2;
     }
     player->patnum_glow = 0;
-    if(page_back) {
-        if(player->hyper_active) {
-            player->patnum_glow = 2;
-        } else if(player->invincibility_time) {
-            player->patnum_glow = 1;
-        }
+    if(!page_back) {
+        return;
+    }
+    if(player->hyper_active) {
+        player->patnum_glow = 2;
+    } else if(player->invincibility_time) {
+        player->patnum_glow = 1;
     }
 }
