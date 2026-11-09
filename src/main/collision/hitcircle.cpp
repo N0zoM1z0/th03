@@ -61,7 +61,7 @@ void pascal hitcircles_enemy_add(
 		last_id = 0;
 	}
 
-	HitCircle near& p = *(hitcircles + last_id);
+	HitCircle near& p = hitcircles[last_id];
 	p.age = 1;
 	p.pid = pid;
 
@@ -88,7 +88,7 @@ void pascal hitcircles_player_add(
 	subpixel_t center_x, subpixel_t center_y, pid2 pid
 )
 {
-	HitCircle near& p = *(hitcircles + HITCIRCLE_ENEMY_COUNT);
+	HitCircle near& p = hitcircles[HITCIRCLE_ENEMY_COUNT];
 	p.age = 1;
 	p.pid = pid;
 	// Keep the original near-record stores directly at each spawn site.

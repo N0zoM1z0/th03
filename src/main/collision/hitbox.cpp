@@ -14,6 +14,8 @@
 // These source-only values generate no new DATA or hitbox state.
 enum hitbox_native_damage_t {
     HITBOX_SHOTPAIR_DAMAGE = 2,
+    HITBOX_SHOTPAIR_HALF_W = SHOTPAIR_W / 2,
+    HITBOX_SHOTPAIR_HALF_H = SHOTPAIR_H / 2,
     HITBOX_BOMB_DAMAGE_PERIOD = 2,
 };
 
@@ -26,7 +28,7 @@ uint8_t hitbox_hittest(void)
 	uint8_t damage = 0;
 
 	if(
-		(hitbox.origin.center.y.v < to_sp(0.0f)) ||
+		(hitbox.origin.center.y.v < 0) ||
 		(defeat_flag == DF_BANNER)
 	) {
 		return 0;
@@ -51,11 +53,11 @@ uint8_t hitbox_hittest(void)
 		if((p->alive != true) || (p->pid != hitbox.pid)) {
 			continue;
 		}
-		center_x = (p->topleft.x.v + to_sp(SHOTPAIR_W / 2));
-		center_y = (p->topleft.y.v + to_sp(SHOTPAIR_H / 2));
+		center_x = (p->topleft.x.v + to_sp(HITBOX_SHOTPAIR_HALF_W));
+		center_y = (p->topleft.y.v + to_sp(HITBOX_SHOTPAIR_HALF_H));
 		if(
-			((center_x - to_sp(SHOTPAIR_W / 2)) > hitbox.right.v) ||
-			((center_x + to_sp(SHOTPAIR_W / 2)) < hitbox.origin.topleft.x.v) ||
+			((center_x - to_sp(HITBOX_SHOTPAIR_HALF_W)) > hitbox.right.v) ||
+			((center_x + to_sp(HITBOX_SHOTPAIR_HALF_W)) < hitbox.origin.topleft.x.v) ||
 			(center_y < hitbox.origin.topleft.y.v) ||
 			(center_y > hitbox.bottom.v)
 		) {
@@ -93,8 +95,8 @@ uint8_t hitbox_hittest(void)
 	if(
 		(bomb_flag[hitbox.pid] != BF_INACTIVE) &&
 		// This is the original 16-bit frame, not a byte animation clock;
-		// natural `%2` and if(!remainder) are both native-exact (af901c/i).
-		((round_or_result_frame & (HITBOX_BOMB_DAMAGE_PERIOD - 1)) == 0)
+		// Keep the natural two-frame remainder before the original postfix damage.
+		((round_or_result_frame % HITBOX_BOMB_DAMAGE_PERIOD) == 0)
 	) {
 		// Original damage byte uses postfix, not prefix; changing it
 		// generated 271 instead of 266 CODE bytes (af901h).
