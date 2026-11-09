@@ -15,13 +15,13 @@ ledger and separate function inventory remain unchanged. Recent work improves
 natural C++ while preserving original native output, so ledger totals need
 not increase. The whole-game completion percentage remains unknown.
 
-`status.py` and generated progress select the twenty-six current disjoint MAIN
+`status.py` and generated progress select the thirty-one current disjoint MAIN
 source reports below. The old `af1053k` and `af1092k` composites and shared
 BOSS `af1056c` are historical after source changes, not current all-owner proofs.
 
 ## Current MAIN native evidence
 
-These twenty-six disjoint stage reports have passed read-only source/native review.
+These thirty-one disjoint stage reports have passed read-only source/native review.
 Each retains two original TC4 compiler rounds, complete physical CODE/DATA,
 literal ordered native fields, PUBLICs and segment geometry, plus normal MAIN
 links matching the Japanese loaded image and all ordered MZ relocations.
@@ -29,7 +29,9 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | Stage | Current physical owners |
 | --- | --- |
 | `af1109c` | Shared BOSS providers `ba_sring`, `ba_srest` |
-| `af1094e` | Ellen Extra Attack `ex_ellen` |
+| `af1129e` | Ellen Extra Attack `ex_ellen` |
+| `af1127g` | Yumemi Extra Attack `ex_yume` |
+| `af1128c` | Mima Extra Attack `ex_mima` |
 | `af1112h` | Reimu Extra Attack flight/prefix and update `ex_rfly`, `ex_reup` |
 | `af1113c` | Marisa Extra Attack `ex_maris` |
 | `af1121d` | Kotohime Extra Attack `ex_koto` |
@@ -44,7 +46,7 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1105d` | Mima BOSS `ba_mima` |
 | `af1110d` | Marisa BOSS `ba_maris` |
 | `af1111e` | Ellen BOSS `ba_ellen` |
-| `af1106d` | Yumemi BOSS `ba_yumem` |
+| `af1130c` | Yumemi BOSS `ba_yumem` |
 | `af1107c` | Bullet engine `bullet` |
 | `af1108e` | Fireball engine `e_fireb` |
 | `af1114e` | Enemy formation/VM/update engine `eforna`, `efornb`, `eupda`, `eupdb` |
@@ -53,6 +55,9 @@ links matching the Japanese loaded image and all ordered MZ relocations.
 | `af1115b` | Both background chain controllers `chain1`, `chain2` |
 | `af1126c` | Large MAIN entry/round controller `entry` |
 | `af1116g` | Complete player core `core` |
+| `af1131a` | Combo HUD and chain `p_combo`, `p_cmbhl` |
+| `af1132b` | Shotpair creation/update/render `shots` |
+| `af1133a` | Player effects `effects` |
 | `af1103d` | Four-function CPU controller `p_cpu` |
 
 Reports live at `.analysis/work/exatt-layout-STAGE/report.json`. These are
@@ -65,6 +70,16 @@ source-native replay. Do not overwrite the old report or invent one.
 Local native proof is separate from Factory acceptance.
 
 ## Latest natural-source recovery
+
+- **Yumemi BOSS and Extra Attack:** `af1130c` refines the full attack-phase
+  and render guards in the BOSS owner, and `af1127g` rechecks the entire
+  16-entity Extra Attack update and its four beam sprite perimeters.
+- **Mima and Ellen Extra Attacks:** `af1128c` and `af1129e` naturalize the
+  six-slot Mima and twelve-slot Ellen pointer/allocator progressions. The
+  original wider update scratch lifetimes remain after negative TC4 tests.
+- **Combo, shotpairs and effects:** `af1131a`, `af1132b`, `af1133a` verify
+  full physical owners with natural index/pointer progressions, including
+  Combo's early-continue path, shotpair allocation/render and effect expiry.
 
 - **Kotohime, Chiyuri, Rikako and Kana Extra Attacks:** real first-free
   allocation, full physical entity update and rendering passes now use natural
@@ -232,7 +247,7 @@ keep Factory receipt acceptance separate.
 
     git status -sb
     .venv/bin/python scripts/preflight.py
-    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1094e af1112h af1113c af1121d af1122c af1124d af1125e af1118e af1117f af1119b af1123e af1104e af1105d af1110d af1111e af1106d af1107c af1108e af1114e af1120c af1101g af1115b af1126c af1116g af1103d
+    DISPLAY= WAYLAND_DISPLAY= PYTHONPATH=scripts .venv/bin/python scripts/review_th03_main_source_overlay.py --stage af1109c af1129e af1127g af1128c af1112h af1113c af1121d af1122c af1124d af1125e af1118e af1117f af1119b af1123e af1104e af1105d af1110d af1111e af1130c af1107c af1108e af1114e af1120c af1101g af1115b af1126c af1116g af1131a af1132b af1133a af1103d
 
 For source changes use a fresh DOS-safe stage, compile only the affected
 original physical TUs with `probe_th03_main_exatt_layout.py`, compare both

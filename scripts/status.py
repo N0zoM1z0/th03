@@ -103,7 +103,9 @@ def native_source_reviews(root, artifact):
         selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
                      'review_th03_main_source_overlay.py', []) for label, stage in (
             ('Shared BOSS', 'af1109c'),
-            ('Ellen Extra Attack', 'af1094e'),
+            ('Ellen Extra Attack', 'af1129e'),
+            ('Yumemi Extra Attack', 'af1127g'),
+            ('Mima Extra Attack', 'af1128c'),
             ('Reimu Extra Attack', 'af1112h'),
             ('Marisa Extra Attack', 'af1113c'),
             ('Kotohime Extra Attack', 'af1121d'),
@@ -118,7 +120,7 @@ def native_source_reviews(root, artifact):
             ('Mima BOSS', 'af1105d'),
             ('Marisa BOSS', 'af1110d'),
             ('Ellen BOSS', 'af1111e'),
-            ('Yumemi BOSS', 'af1106d'),
+            ('Yumemi BOSS', 'af1130c'),
             ('Bullet engine', 'af1107c'),
             ('Fireball engine', 'af1108e'),
             ('Enemy engine', 'af1114e'),
@@ -127,6 +129,9 @@ def native_source_reviews(root, artifact):
             ('Background chains', 'af1115b'),
             ('MAIN entry and round', 'af1126c'),
             ('Player core', 'af1116g'),
+            ('Combo HUD and chain', 'af1131a'),
+            ('Player shots', 'af1132b'),
+            ('Player effects', 'af1133a'),
             ('CPU controller', 'af1103d'),
         )]
     elif artifact == 'th03-mainl':

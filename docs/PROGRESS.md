@@ -22,7 +22,9 @@ These read-only checks validate maintained source bindings, both original compil
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
 | th03-main / Shared BOSS | af1109c | Verified | 2 | 949 | — |
-| th03-main / Ellen Extra Attack | af1094e | Verified | 1 | 1,129 | — |
+| th03-main / Ellen Extra Attack | af1129e | Verified | 1 | 1,129 | — |
+| th03-main / Yumemi Extra Attack | af1127g | Verified | 1 | 1,696 | — |
+| th03-main / Mima Extra Attack | af1128c | Verified | 1 | 727 | — |
 | th03-main / Reimu Extra Attack | af1112h | Verified | 2 | 1,156 | — |
 | th03-main / Marisa Extra Attack | af1113c | Verified | 1 | 676 | — |
 | th03-main / Kotohime Extra Attack | af1121d | Verified | 1 | 1,054 | — |
@@ -37,7 +39,7 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Mima BOSS | af1105d | Verified | 1 | 1,922 | — |
 | th03-main / Marisa BOSS | af1110d | Verified | 1 | 1,431 | — |
 | th03-main / Ellen BOSS | af1111e | Verified | 1 | 1,675 | — |
-| th03-main / Yumemi BOSS | af1106d | Verified | 1 | 2,358 | — |
+| th03-main / Yumemi BOSS | af1130c | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1108e | Verified | 1 | 1,555 | — |
 | th03-main / Enemy engine | af1114e | Verified | 4 | 3,325 | — |
@@ -46,13 +48,20 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Background chains | af1115b | Verified | 2 | 1,245 | — |
 | th03-main / MAIN entry and round | af1126c | Verified | 1 | 3,050 | — |
 | th03-main / Player core | af1116g | Verified | 1 | 3,135 | — |
+| th03-main / Combo HUD and chain | af1131a | Verified | 2 | 978 | — |
+| th03-main / Player shots | af1132b | Verified | 1 | 449 | — |
+| th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
 | th03-main / CPU controller | af1103d | Verified | 1 | 1,077 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
 th03-main Shared BOSS: `.analysis/work/exatt-layout-af1109c/report.json`.
 
-th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1094e/report.json`.
+th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1129e/report.json`.
+
+th03-main Yumemi Extra Attack: `.analysis/work/exatt-layout-af1127g/report.json`.
+
+th03-main Mima Extra Attack: `.analysis/work/exatt-layout-af1128c/report.json`.
 
 th03-main Reimu Extra Attack: `.analysis/work/exatt-layout-af1112h/report.json`.
 
@@ -82,7 +91,7 @@ th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1110d/report.json`.
 
 th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1111e/report.json`.
 
-th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1106d/report.json`.
+th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1130c/report.json`.
 
 th03-main Bullet engine: `.analysis/work/exatt-layout-af1107c/report.json`.
 
@@ -99,6 +108,12 @@ th03-main Background chains: `.analysis/work/exatt-layout-af1115b/report.json`.
 th03-main MAIN entry and round: `.analysis/work/exatt-layout-af1126c/report.json`.
 
 th03-main Player core: `.analysis/work/exatt-layout-af1116g/report.json`.
+
+th03-main Combo HUD and chain: `.analysis/work/exatt-layout-af1131a/report.json`.
+
+th03-main Player shots: `.analysis/work/exatt-layout-af1132b/report.json`.
+
+th03-main Player effects: `.analysis/work/exatt-layout-af1133a/report.json`.
 
 th03-main CPU controller: `.analysis/work/exatt-layout-af1103d/report.json`.
 

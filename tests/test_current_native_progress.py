@@ -23,13 +23,14 @@ class NativeProgress(unittest.TestCase):
         run.assert_not_called()
 
     def test_main_native_selection_excludes_superseded_composite(self):
-        expected = ['af1109c', 'af1094e', 'af1112h', 'af1113c',
-                    'af1121d', 'af1122c', 'af1124d', 'af1125e',
-                    'af1118e', 'af1117f', 'af1119b', 'af1123e',
-                    'af1104e', 'af1105d', 'af1110d', 'af1111e',
-                    'af1106d', 'af1107c', 'af1108e', 'af1114e',
-                    'af1120c', 'af1101g', 'af1115b', 'af1126c',
-                    'af1116g', 'af1103d']
+        expected = ['af1109c', 'af1129e', 'af1127g', 'af1128c',
+                    'af1112h', 'af1113c', 'af1121d', 'af1122c',
+                    'af1124d', 'af1125e', 'af1118e', 'af1117f',
+                    'af1119b', 'af1123e', 'af1104e', 'af1105d',
+                    'af1110d', 'af1111e', 'af1130c', 'af1107c',
+                    'af1108e', 'af1114e', 'af1120c', 'af1101g',
+                    'af1115b', 'af1126c', 'af1116g', 'af1131a',
+                    'af1132b', 'af1133a', 'af1103d']
         with TemporaryDirectory() as folder, patch.object(status.subprocess, 'run') as run:
             rows = status.native_source_reviews(Path(folder), 'th03-main')
         self.assertEqual([row['stage'] for row in rows], expected)
@@ -46,7 +47,8 @@ class NativeProgress(unittest.TestCase):
                           'af1114e', 'af1115b', 'af1116g', 'af1117f',
                           'af1118e', 'af1119b', 'af1120c', 'af1121d',
                           'af1122c', 'af1123e', 'af1124d', 'af1125e',
-                          'af1126c'):
+                          'af1126c', 'af1127g', 'af1128c', 'af1129e',
+                          'af1130c', 'af1131a', 'af1132b', 'af1133a'):
                 path = root / f'.analysis/work/exatt-layout-{stage}/report.json'
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('{}')
@@ -59,8 +61,8 @@ class NativeProgress(unittest.TestCase):
                 with self.subTest(link_ok=value['full_Japanese_MAIN_equal']), \
                      patch.object(status.subprocess, 'run', return_value=result):
                     rows = status.native_source_reviews(root, 'th03-main')
-                fresh = [row for row in rows if row['stage'].startswith(('af110', 'af111', 'af112'))]
-                self.assertEqual(len(fresh), 25)
+                fresh = [row for row in rows if row['stage'].startswith(('af110', 'af111', 'af112', 'af113'))]
+                self.assertEqual(len(fresh), 31)
                 self.assertTrue(all(row['verified'] == value['full_Japanese_MAIN_equal']
                                     for row in fresh))
 
