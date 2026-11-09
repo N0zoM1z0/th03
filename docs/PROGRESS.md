@@ -32,8 +32,8 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Rikako Extra Attack | af1124d | Verified | 1 | 702 | — |
 | th03-main / Kana Extra Attack | af1125e | Verified | 1 | 663 | — |
 | th03-main / Rikako BOSS | af1118e | Verified | 1 | 1,677 | — |
-| th03-main / Kana BOSS | af1117f | Verified | 1 | 1,874 | — |
-| th03-main / Chiyuri BOSS | af1119b | Verified | 1 | 2,654 | — |
+| th03-main / Kana BOSS | af1150c | Verified | 1 | 1,874 | — |
+| th03-main / Chiyuri BOSS | af1151d | Verified | 1 | 2,654 | — |
 | th03-main / Kotohime BOSS | af1123e | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1139c | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1137b | Verified | 1 | 1,922 | — |
@@ -58,6 +58,11 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Yumemi Chargeshot | af1143h | Verified | 1 | 1,645 | — |
 | th03-main / Kotohime Chargeshot | af1146d | Verified | 1 | 690 | — |
 | th03-main / Ellen Bomb | af1147c | Verified | 1 | 1,023 | — |
+| th03-main / Rikako Bomb | af1148f | Verified | 1 | 546 | — |
+| th03-main / Mima Bomb | af1149e | Verified | 1 | 833 | — |
+| th03-main / Yumemi Bomb | af1152f | Verified | 1 | 698 | — |
+| th03-main / Reimu Bomb and shared lifecycle | af1153d | Verified | 1 | 925 | — |
+| th03-main / Kotohime Bomb | af1154d | Verified | 1 | 528 | — |
 | th03-main / Combo HUD and chain | af1131a | Verified | 2 | 978 | — |
 | th03-main / Player shots | af1132b | Verified | 1 | 449 | — |
 | th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
@@ -87,9 +92,9 @@ th03-main Kana Extra Attack: `.analysis/work/exatt-layout-af1125e/report.json`.
 
 th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1118e/report.json`.
 
-th03-main Kana BOSS: `.analysis/work/exatt-layout-af1117f/report.json`.
+th03-main Kana BOSS: `.analysis/work/exatt-layout-af1150c/report.json`.
 
-th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1119b/report.json`.
+th03-main Chiyuri BOSS: `.analysis/work/exatt-layout-af1151d/report.json`.
 
 th03-main Kotohime BOSS: `.analysis/work/exatt-layout-af1123e/report.json`.
 
@@ -138,6 +143,16 @@ th03-main Yumemi Chargeshot: `.analysis/work/exatt-layout-af1143h/report.json`.
 th03-main Kotohime Chargeshot: `.analysis/work/exatt-layout-af1146d/report.json`.
 
 th03-main Ellen Bomb: `.analysis/work/exatt-layout-af1147c/report.json`.
+
+th03-main Rikako Bomb: `.analysis/work/exatt-layout-af1148f/report.json`.
+
+th03-main Mima Bomb: `.analysis/work/exatt-layout-af1149e/report.json`.
+
+th03-main Yumemi Bomb: `.analysis/work/exatt-layout-af1152f/report.json`.
+
+th03-main Reimu Bomb and shared lifecycle: `.analysis/work/exatt-layout-af1153d/report.json`.
+
+th03-main Kotohime Bomb: `.analysis/work/exatt-layout-af1154d/report.json`.
 
 th03-main Combo HUD and chain: `.analysis/work/exatt-layout-af1131a/report.json`.
 
