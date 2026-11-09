@@ -131,7 +131,7 @@ void far pascal kotohime_extra_add(int target_x, int target_y)
     register exatt_kotohime_player_view_t near *player = &players[pid_current];
     register exatt_entity_t near *p = &exatt_entities[pid_current][8];
     if(p->state) {
-        p++;
+        ++p;
     }
     exatt_entity_p = p;
     exatt_fly_init(
@@ -150,14 +150,13 @@ void near kotohime_exatt_render_one(void)
 {
     screen_x_t left;
     screen_y_t top;
-    unsigned char frame;
     register exatt_entity_t near *p = exatt_entity_p;
     register sprite16_offset_t sprite_offset;
 
     left = playfield_fg_x_to_screen(p->x, p->pid);
     top = ((p->y >> 4) + 16);
     sprite16_clip.reset();
-    frame = p->frame;
+    unsigned char frame = p->frame;
 
     if(p->state == KOTO_EXATT_BEAM) {
         sprite_offset = (pid.so_attack + KOTO_EXATT_BEAM_SPRITE_BASE);
@@ -178,11 +177,13 @@ void near kotohime_exatt_render_one(void)
             sprite16_put_size.set(KOTO_EXATT_LARGE_SPRITE_SIZE, KOTO_EXATT_LARGE_SPRITE_SIZE);
             sprite16_put(left - 32, top - 32, sprite_offset);
         }
-    } else if(p->state == KOTO_EXATT_FLYING) {
-        exatt_render_state2(left, top, frame);
-    } else {
-        exatt_render_state_other(left, top, frame);
+        return;
     }
+    if(p->state == KOTO_EXATT_FLYING) {
+        exatt_render_state2(left, top, frame);
+        return;
+    }
+    exatt_render_state_other(left, top, frame);
 }
 
 void near kotohime_exatt_effect(void)
@@ -198,7 +199,6 @@ void near kotohime_exatt_effect(void)
 void near kotohime_exatt_pattern_four(void)
 {
     unsigned char delta;
-    register int i;
 
     bullet_template.type = static_cast<bullet_type_t>(
         kotohime_exatt_pattern[pid_current].bullet_type
@@ -212,7 +212,7 @@ void near kotohime_exatt_pattern_four(void)
     bullet_template.speed.v = TO_SP(1);
     // Four shot group: this typed while loop preserves original
     // bullet spawn, speed increase and byte-angle update order.
-    for(i = 0; i < KOTO_EXATT_RING4_COUNT; ++i) {
+    for(register int i = 0; i < KOTO_EXATT_RING4_COUNT; ++i) {
         bullets_add();
         bullet_template.speed.v += KOTO_EXATT_PATTERN_SPEED_STEP;
         bullet_template.angle += delta;
@@ -222,7 +222,6 @@ void near kotohime_exatt_pattern_four(void)
 void near kotohime_exatt_pattern_ten(void)
 {
     unsigned char delta;
-    register int i;
 
     bullet_template.type = static_cast<bullet_type_t>(
         kotohime_exatt_pattern[pid_current].bullet_type
@@ -236,7 +235,7 @@ void near kotohime_exatt_pattern_ten(void)
     }
     // Ten shot group: the same source-level traversal is byte-exact,
     // despite the distinct negative angle delta and bullet counts.
-    for(i = 0; i < KOTO_EXATT_RING10_COUNT; ++i) {
+    for(register int i = 0; i < KOTO_EXATT_RING10_COUNT; ++i) {
         bullets_add();
         bullet_template.speed.v += KOTO_EXATT_PATTERN_SPEED_STEP;
         bullet_template.angle += delta;
@@ -334,8 +333,9 @@ void far pascal exatt_render_kotohime(void)
     exatt_entity_p = &exatt_entities[pid_current][0];
     // Render each of the ten real slots with its original global pointer.
     for(register int i = 0; i < KOTO_EXATT_ALL_SLOTS; ++i, ++exatt_entity_p) {
-        if(exatt_entity_p->state) {
-            kotohime_exatt_render_one();
+        if(!exatt_entity_p->state) {
+            continue;
         }
+        kotohime_exatt_render_one();
     }
 }
