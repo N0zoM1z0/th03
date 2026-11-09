@@ -306,15 +306,13 @@ void near rikako_pattern_entities_and_pellets(void)
 		angle = randring_far_next16();
 		// This separate emitter consumes the original otherwise overwritten
 		// RNG result before its same 256-step angular distribution.
-		i = 0;
-		while(i < rikako_entity_count) {
+		for(i = 0; i < rikako_entity_count; ++i) {
 			angle = ((i * RIKAKO_CIRCLE_ANGLE_UNITS) / rikako_entity_count);
 			rikako_extra_add(
 				boss_center_x,
 				boss_center_y,
 				angle
 			);
-			++i;
 		}
 		snd_se_play(RIKAKO_SOUND_BOMB);
 		return;
@@ -328,15 +326,12 @@ void near rikako_pattern_entities_and_pellets(void)
 		bullet_template.center.y.v = boss_center_y;
 		bullet_template.speed.v = TO_SP(2);
 
-		// Four genuinely distinct RNG angles, speed +8 and bullets_add
-		// calls. This natural while preserves the original mutation order
-		// and all original CODE bytes (native TC4 trial af904a).
-		i = 0;
-		while(i < RIKAKO_PELLET_VOLLEY_COUNT) {
+		// Four distinct RNG angles and speed increments precede their
+		// bullets_add calls; the for header advances after each emitted shot.
+		for(i = 0; i < RIKAKO_PELLET_VOLLEY_COUNT; ++i) {
 			bullet_template.angle = randring_far_next16();
 			bullet_template.speed.v += RIKAKO_PELLET_VOLLEY_SPEED_INC;
 			bullets_add();
-			++i;
 		}
 		snd_se_play(RIKAKO_SOUND_BULLET);
 		return;
