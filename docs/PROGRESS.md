@@ -23,6 +23,9 @@ These read-only checks validate maintained source bindings, both original compil
 | --- | --- | --- | ---: | ---: | ---: |
 | th03-main / Shared BOSS | af1172f | Verified | 2 | 949 | — |
 | th03-main / PI image loader | af1173c | Verified | 1 | 70 | — |
+| th03-main / DOS executable handoff | af1181b | Verified | 1 | 79 | — |
+| th03-main / Resident CFG loader | af1182a | Verified | 1 | 49 | — |
+| th03-main / PC-98 shutdown | af1184d | Verified | 1 | 67 | — |
 | th03-main / Input modes and keyboard wait | af1174e | Verified | 1 | 367 | — |
 | th03-main / PMD/MIDI audio services | af1176e | Verified | 2 | 150 | — |
 | th03-main / Signed Q8 polar geometry | af1178a | Verified | 1 | 26 | — |
@@ -43,9 +46,9 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Kotohime BOSS | af1158e | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1175f | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1168b | Verified | 1 | 1,922 | — |
-| th03-main / Marisa BOSS | af1144c | Verified | 1 | 1,431 | — |
-| th03-main / Ellen BOSS | af1145c | Verified | 1 | 1,675 | — |
-| th03-main / Yumemi BOSS | af1162c | Verified | 1 | 2,358 | — |
+| th03-main / Marisa BOSS | af1183f | Verified | 1 | 1,431 | — |
+| th03-main / Ellen BOSS | af1187e | Verified | 1 | 1,675 | — |
+| th03-main / Yumemi BOSS | af1185e | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1177g | Verified | 1 | 1,555 | — |
 | th03-main / Enemy engine | af1167c | Verified | 4 | 3,325 | — |
@@ -90,6 +93,12 @@ th03-main Shared BOSS: `.analysis/work/exatt-layout-af1172f/report.json`.
 
 th03-main PI image loader: `.analysis/work/exatt-layout-af1173c/report.json`.
 
+th03-main DOS executable handoff: `.analysis/work/exatt-layout-af1181b/report.json`.
+
+th03-main Resident CFG loader: `.analysis/work/exatt-layout-af1182a/report.json`.
+
+th03-main PC-98 shutdown: `.analysis/work/exatt-layout-af1184d/report.json`.
+
 th03-main Input modes and keyboard wait: `.analysis/work/exatt-layout-af1174e/report.json`.
 
 th03-main PMD/MIDI audio services: `.analysis/work/exatt-layout-af1176e/report.json`.
@@ -130,11 +139,11 @@ th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1175f/report.json`.
 
 th03-main Mima BOSS: `.analysis/work/exatt-layout-af1168b/report.json`.
 
-th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1144c/report.json`.
+th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1183f/report.json`.
 
-th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1145c/report.json`.
+th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1187e/report.json`.
 
-th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1162c/report.json`.
+th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1185e/report.json`.
 
 th03-main Bullet engine: `.analysis/work/exatt-layout-af1107c/report.json`.
 
