@@ -185,7 +185,7 @@ void far pascal boss_rikako_template_init(int player_id)
 	p->spin_delta = RIKAKO_TEMPLATE_SPIN;
 	p->effect_radius = 0;
 	p->sprite_offset = RIKAKO_TEMPLATE_SPRITE_OFF;
-	if(player_id != 0) {
+	if(player_id) {
 		p->sprite_offset += RIKAKO_TEMPLATE_PLAYER2_OFF;
 	}
 	p->render_mode = RIKAKO_RENDER_MODE_NORMAL;
@@ -208,10 +208,9 @@ void near rikako_pattern_orbit_spread(void)
 
 	// The unsigned-word eight-frame spin clock uses natural remainder,
 	// distinct from the signed byte spin delta.
-	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-			boss_spin_delta++;
-		}
+	if(boss_spin_delta <= RIKAKO_SPIN_POSITIVE_LIMIT &&
+	   !(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+		boss_spin_delta++;
 	}
 
 	if(boss_frame == RIKAKO_ORBIT_WARNING_FRAME) {
@@ -261,7 +260,7 @@ void near rikako_pattern_orbit_spread(void)
 		return;
 	}
 
-	if(boss_frame > RIKAKO_ORBIT_FINISH_AFTER) {
+	if(RIKAKO_ORBIT_FINISH_AFTER < boss_frame) {
 		boss_frame = 0;
 		boss_mode = RIKAKO_MODE_SELECT;
 	}
@@ -278,10 +277,9 @@ void near rikako_pattern_entities_and_pellets(void)
 {
 	unsigned char angle;
 
-	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-			boss_spin_delta--;
-		}
+	if(boss_spin_delta >= RIKAKO_SPIN_NEGATIVE_LIMIT &&
+	   !(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+		boss_spin_delta--;
 	}
 
 	if(boss_frame == RIKAKO_ENTITIES_WARNING_FRAME) {
@@ -335,7 +333,7 @@ void near rikako_pattern_entities_and_pellets(void)
 		return;
 	}
 
-	if(boss_frame > RIKAKO_ENTITIES_FINISH_AFTER) {
+	if(RIKAKO_ENTITIES_FINISH_AFTER < boss_frame) {
 		boss_frame = 0;
 		boss_mode = RIKAKO_MODE_SELECT;
 	}
@@ -355,10 +353,9 @@ void near rikako_pattern_alternating_burst(void)
 {
 	boss_move_sine();
 
-	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL) {
-		if(!(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
-			boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
-		}
+	if(boss_spin_delta != RIKAKO_SPIN_NEUTRAL &&
+	   !(boss_frame % RIKAKO_SPIN_TICK_PERIOD)) {
+		boss_spin_delta += ((boss_spin_delta > RIKAKO_SPIN_NEUTRAL) ? -1 : 1);
 	}
 
 	unsigned char remainder = (boss_frame % rikako_burst_interval);
@@ -387,7 +384,7 @@ void near rikako_pattern_alternating_burst(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= RIKAKO_BURST_FINISH_FRAME) {
+	if(RIKAKO_BURST_FINISH_FRAME <= boss_frame) {
 		boss_mode = RIKAKO_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -414,12 +411,11 @@ void far gba_boss_update_rikako(void)
 
 	switch(boss_mode) {
 	case RIKAKO_MODE_INTRO:
-		if(boss_frame == RIKAKO_INTRO_FINISH_FRAME) {
-			boss_frame = 0;
-			boss_mode = RIKAKO_MODE_SELECT;
-		} else {
+		if(boss_frame != RIKAKO_INTRO_FINISH_FRAME) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = RIKAKO_MODE_SELECT;
 		break;
 
 	case RIKAKO_MODE_SELECT:
