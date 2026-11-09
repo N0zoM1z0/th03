@@ -37,8 +37,8 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Kotohime BOSS | af1123e | Verified | 1 | 1,840 | — |
 | th03-main / Reimu BOSS | af1139c | Verified | 1 | 2,020 | — |
 | th03-main / Mima BOSS | af1137b | Verified | 1 | 1,922 | — |
-| th03-main / Marisa BOSS | af1110d | Verified | 1 | 1,431 | — |
-| th03-main / Ellen BOSS | af1111e | Verified | 1 | 1,675 | — |
+| th03-main / Marisa BOSS | af1144c | Verified | 1 | 1,431 | — |
+| th03-main / Ellen BOSS | af1145c | Verified | 1 | 1,675 | — |
 | th03-main / Yumemi BOSS | af1130c | Verified | 1 | 2,358 | — |
 | th03-main / Bullet engine | af1107c | Verified | 1 | 2,685 | — |
 | th03-main / Fireball engine | af1108e | Verified | 1 | 1,555 | — |
@@ -53,6 +53,11 @@ These read-only checks validate maintained source bindings, both original compil
 | th03-main / Reimu Chargeshot | af1136f | Verified | 1 | 1,448 | — |
 | th03-main / Ellen Chargeshot | af1138f | Verified | 1 | 1,530 | — |
 | th03-main / Rikako Chargeshot | af1140e | Verified | 1 | 1,280 | — |
+| th03-main / Kana Chargeshot | af1141f | Verified | 1 | 1,291 | — |
+| th03-main / Mima Chargeshot | af1142d | Verified | 1 | 1,338 | — |
+| th03-main / Yumemi Chargeshot | af1143h | Verified | 1 | 1,645 | — |
+| th03-main / Kotohime Chargeshot | af1146d | Verified | 1 | 690 | — |
+| th03-main / Ellen Bomb | af1147c | Verified | 1 | 1,023 | — |
 | th03-main / Combo HUD and chain | af1131a | Verified | 2 | 978 | — |
 | th03-main / Player shots | af1132b | Verified | 1 | 449 | — |
 | th03-main / Player effects | af1133a | Verified | 1 | 628 | — |
@@ -92,9 +97,9 @@ th03-main Reimu BOSS: `.analysis/work/exatt-layout-af1139c/report.json`.
 
 th03-main Mima BOSS: `.analysis/work/exatt-layout-af1137b/report.json`.
 
-th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1110d/report.json`.
+th03-main Marisa BOSS: `.analysis/work/exatt-layout-af1144c/report.json`.
 
-th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1111e/report.json`.
+th03-main Ellen BOSS: `.analysis/work/exatt-layout-af1145c/report.json`.
 
 th03-main Yumemi BOSS: `.analysis/work/exatt-layout-af1130c/report.json`.
 
@@ -123,6 +128,16 @@ th03-main Reimu Chargeshot: `.analysis/work/exatt-layout-af1136f/report.json`.
 th03-main Ellen Chargeshot: `.analysis/work/exatt-layout-af1138f/report.json`.
 
 th03-main Rikako Chargeshot: `.analysis/work/exatt-layout-af1140e/report.json`.
+
+th03-main Kana Chargeshot: `.analysis/work/exatt-layout-af1141f/report.json`.
+
+th03-main Mima Chargeshot: `.analysis/work/exatt-layout-af1142d/report.json`.
+
+th03-main Yumemi Chargeshot: `.analysis/work/exatt-layout-af1143h/report.json`.
+
+th03-main Kotohime Chargeshot: `.analysis/work/exatt-layout-af1146d/report.json`.
+
+th03-main Ellen Bomb: `.analysis/work/exatt-layout-af1147c/report.json`.
 
 th03-main Combo HUD and chain: `.analysis/work/exatt-layout-af1131a/report.json`.
 
