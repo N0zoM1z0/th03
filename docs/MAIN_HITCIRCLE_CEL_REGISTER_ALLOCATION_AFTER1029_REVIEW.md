@@ -50,11 +50,39 @@ The maintained `_BX` expression was re-tested against the current complete
 - `af1068v`: use a `register int cel` local with the staged age decrement,
   divide, multiply-by-two and three-add return; complete CODE differed.
 
-Every complete CODE comparison differed, and every source experiment was
-restored. The earlier signed/unsigned local, register-order and shift trials
-remain negative controls; the maintained `_BX` sequence is still the only
-source form verified against the full 445-byte owner by the available local
-TC4 probe.
+Every complete CODE comparison in the listed local-variable, shift,
+scaled-accumulation and direct-return trials differed, and those experiments
+were restored. The earlier signed/unsigned local, register-order and shift
+trials remain negative controls. The accepted register-bound alternatives are
+the original `_BX = (_BX / HITCIRCLE_FRAMES_PER_CEL)` self-assignment and the
+later natural `_BX /= HITCIRCLE_FRAMES_PER_CEL` compound form.
+
+## Current natural compound self-division (af1084n)
+
+The current source replaces the redundant self-assignment with the more
+natural compound operation:
+
+```cpp
+_BX = (age - 1);
+_BX /= HITCIRCLE_FRAMES_PER_CEL;
+_BX *= HITCIRCLE_VRAM_W_PER_CEL_TERM;
+return (SO_HITCIRCLE + _BX + _BX + _BX);
+```
+
+This is not a C local-variable rewrite: the intermediate remains bound to BX,
+so the original compiler register allocation and the renderer's SI/DI
+lifetimes are preserved. Stage `af1084n` rebuilt the complete 445-byte
+`hitcirc` owner in two original TC4 rounds: all 445 CODE bytes, 30 ordered
+native fields and four PUBLIC offsets match. Both normal Japanese MAIN links
+reproduce the original loaded image and ordered relocations, and the current
+source overlay checked the live `hitcircle.cpp` producer.
+
+Report: `.analysis/work/exatt-layout-af1084n/report.json`
+
+SHA-256: `7a7f948b1849023be10bb5c20e483c6d64f40d16eb13e0a8236de5af8bf79250`
+
+Current `hitcirc` source SHA-256:
+`ad008ef753ebf1ae30b52e90730ce25757c0057a810dd9192fa9c503563ac503`
 
 A fresh exploratory Ghidra disassembly at `0x1B80B` independently shows the
 renderer computing `((age - 1) >> 2) * 6 + 0x1910`; the inlined sequence uses

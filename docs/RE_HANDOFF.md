@@ -57,7 +57,7 @@ files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1084e`, `ba_chiyu` uses `af1083h`,
 `ba_yumem` uses `af1083h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
 `ba_reimu` uses `af1083h`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
-`ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
+`ba_rikak` uses `af1066a`, and `hitcirc` uses `af1084n`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
 probe reports are not Factory Oracle receipts or accepted facts.
@@ -358,17 +358,18 @@ rebuilds the complete 1,840-byte `ba_koto` owner in two original TC4 rounds:
 MAIN images and ordered relocations exact. See the
 [Kotohime update review](MAIN_KOTOHIME_BOSS_UPDATE_NATURAL_CPP_AFTER1084_REVIEW.md).
 
-The current six-owner Kotohime + Reimu + Yumemi + Chiyuri / Reimu Extra
-Attack source integration is `af1084l`: `ba_koto`, `ba_reimu`, `ba_yumem`,
-`ba_chiyu`, `ex_rfly` and `ex_reup`, 10,028 CODE bytes, 1,329 ordered native
-fields and 51 PUBLICs. Both original TC4 rounds and both normal Japanese MAIN
-links match. Report: `.analysis/work/exatt-layout-af1084l/report.json`, SHA-256
-`7fc3be1cb249f6b092f253f5a2f947a3ff30abad91e66704cc36628213673f62`.
+The current seven-owner Kotohime + Reimu + Yumemi + Chiyuri / Reimu Extra
+Attack / HitCircle source integration is `af1084p`: `ba_koto`, `ba_reimu`,
+`ba_yumem`, `ba_chiyu`, `ex_rfly`, `ex_reup` and `hitcirc`, 10,473 CODE bytes,
+1,359 ordered native fields and 55 PUBLICs. Both original TC4 rounds and both
+normal Japanese MAIN links match. Report:
+`.analysis/work/exatt-layout-af1084p/report.json`, SHA-256
+`92ce981cad470a6faeccddc87742e915c2483e567034f145eb148a38c495bcef`.
 It includes Kotohime's current radial/update source, Reimu's four attack
 leaves, update controller and both main/intro renderers, the 205-byte
 `reimu_exatt_render_one()` recovery, both physical Reimu Extra Attack owners,
-Chiyuri's fan source and Yumemi's update, arrival, Aimed Random, Rain and
-Cross/Rain changes.
+Chiyuri's fan source, Yumemi's update/arrival/Aimed Random/Rain/Cross-Rain
+changes, and HitCircle's current register-bound cel arithmetic.
 
 Reimu's 281-byte `exatt_update_reimu()` is further naturalized in the separate
 `ex_reup` physical unit. Stage `af1077d` rebuilt the 331-byte owner in two
@@ -378,6 +379,11 @@ The update uses an ordinary entity pointer, a `for`-scope index, variable-first
 state tests, and an RNG-initialized byte angle with compound addition. The
 current inline source dependency is checked by the source overlay. See the
 [Reimu Extra Attack Update review](MAIN_REIMU_EXTRA_ATTACK_UPDATE_NATURAL_CPP_AFTER1077_REVIEW.md).
+
+HitCircle's `HitCircle::cel()` now uses the natural compound self-division
+`_BX /= HITCIRCLE_FRAMES_PER_CEL` while keeping the intermediate in BX. This
+reproduces the full 445-byte `hitcirc` owner in two original TC4 rounds; see
+the [HitCircle cel allocation review](MAIN_HITCIRCLE_CEL_REGISTER_ALLOCATION_AFTER1029_REVIEW.md).
 
 Kotohime's 302-byte `kotohime_pattern_radial_burst()` now initializes its
 per-center angle at declaration while retaining the original signed division
@@ -410,8 +416,9 @@ and [Reimu intro-renderer review](MAIN_REIMU_RENDER_INTRO_NATURAL_CPP_AFTER1083_
 
 Recommended next work:
 
-1. Continue `HitCircle::cel()` and inspect the next large engine/BOSS
-   controller. Kotohime's 302-byte Radial Burst and 332-byte BOSS Update now
+1. Continue the Hitbox/collision family and inspect the next large engine/BOSS
+   controller. HitCircle's 445-byte owner now has a current-source cel
+   naturalization. Kotohime's 302-byte Radial Burst and 332-byte BOSS Update now
    have current-source native matches. Reimu's 443-byte Orbit Burst, 339-byte
    Orbit Cloud, 118-byte spreads,
    98-byte mirrored spread, 296-byte Reimu BOSS Update, 281-byte Extra Attack
