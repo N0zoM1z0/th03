@@ -53,12 +53,12 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. Four later scoped refreshes now bind the current
-source for five owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
-uses `af1057d`, `ba_chiyu` uses `af1058a`, and `ba_mima` uses `af1059a`. The
-other seven owners remain bound to `af1053k`. The complete normal links are
-strong scoped native evidence; they are not whole-game source ownership or
-canonical Factory packed-file acceptance.
+files at that checkpoint. Five later scoped refreshes now bind the current
+source for six owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
+uses `af1057d`, `ba_chiyu` uses `af1058a`, `ba_mima` uses `af1059a`, and
+`ba_kana` uses `af1060a`. The other six owners remain bound to `af1053k`.
+The complete normal links are strong scoped native evidence; they are not
+whole-game source ownership or canonical Factory packed-file acceptance.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -94,12 +94,22 @@ uses the direct inactive-player return while retaining its level setup, mode
 dispatch and collision/hitbox tail. See the
 [current Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
+Kana current-source refresh: `.analysis/work/exatt-layout-af1060a/report.json`
+SHA-256: `da7b824a76578facb835758886e2ca95e2a6d5788b5548b3b2084cfb59bb3d29`.
+It recompiled the complete 1,874-byte `ba_kana` owner with 274 ordered native
+fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
+MAIN image and ordered relocations. The complete Kana update controller now
+uses the direct inactive-player return before its attack-mode dispatch and
+collision/hitbox tail. See the
+[current Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+
 ### Evidence interpretation
 
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
 source bindings are split by the subsequent scoped refreshes: the shared pair
 uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, Mima uses
-`af1059a`, and the other seven owners remain bound to `af1053k`. The earlier
+`af1059a`, Kana uses `af1060a`, and the other six owners remain bound to
+`af1053k`. The earlier
 `af1053i`, `af1052g`,
 `af1051k` and `af1047l` full-set checkpoints are historical snapshots, not
 additional current proof. Older standalone
@@ -176,6 +186,14 @@ PUBLICs match, with the full Japanese MAIN image and ordered relocations exact.
 The seven level-parameter initializations remain before the guard; the launched
 player's mode switch and collision/hitbox tail remain after it. See the
 [af1059a current-source review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
+Kana's complete `gba_boss_update_kana()` controller now uses the same direct
+inactive-player return. Its seven level parameters remain before the guard;
+the full INTRO/SELECT/attack dispatch, render-frame update and collision/hitbox
+tail remain in order. Stage `af1060a` rebuilt `ba_kana` in two original TC4
+rounds: 1,874 CODE bytes, 274 ordered native fields and nine PUBLICs match,
+with both normal MAIN images and ordered relocations exact. See the
+[af1060a current-source review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
 Recommended next work:
 
