@@ -15,9 +15,7 @@ void near pascal round_result_number_put(int x, int y, int value)
 void near round_match_result_render(void)
 {
     int winner = 1 - round_defeated_player;
-    long value;
     int x = 4;
-    player_stuff_t near *player;
     if(winner) {
         x += 40;
     }
@@ -34,7 +32,7 @@ void near round_match_result_render(void)
             text_putsa(x, 6, result_label_clear, TX_WHITE);
             text_putsa(x, 18, result_label_lives, TX_WHITE);
         }
-        player = &players[winner];
+        player_stuff_t near *player = &players[winner];
         if(round_or_result_frame == RESULTS_FIRST_FRAME) {
             defeat_combo_hits_max = player->combo_hits_max;
             defeat_gauge_attacks_fired = player->gauge_attacks_fired;
@@ -51,7 +49,7 @@ void near round_match_result_render(void)
                 result_bonus_remaining += (long)result_lives_remaining * 100000L;
                 extends_gained = 255;
             }
-            value = result_bonus_remaining / RESULTS_BONUS_DURATION;
+            long value = result_bonus_remaining / RESULTS_BONUS_DURATION;
             // Original 32-bit value is compared with an unsigned long
             // 65535 boundary; rewriting to >=65536UL changed TC4 CODE
             // (af895b) even for mathematically equivalent integer data.
