@@ -9,6 +9,8 @@ enum chain2_init_limits_t {
     CHAIN2_VISIBLE_PARTICLES = 50,
     CHAIN2_RANDOMIZED_PARTICLES = 40,
     CHAIN2_START_ANGLE = 64,
+    CHAIN2_RANDOM_X_RANGE = TO_SP(640),
+    CHAIN2_RANDOM_Y_RANGE = TO_SP(400),
     CHAIN2_VELOCITY_Y = 16,
     CHAIN2_INIT_SPEED = 16,
     CHAIN2_SPRITE_RANDOMIZED = 0x233E,
@@ -21,12 +23,11 @@ void far background_chain2_init(void)
     register int i;
     background_angle = CHAIN2_START_ANGLE;
     particle = background_particles;
-    // Preserve all fifty particle initialization calls and original RNG
-    // draw order. Signed-index/near-pointer `while` is TC4 exact.
-    i = 0;
-    while(i < CHAIN2_VISIBLE_PARTICLES) {
-        particle->x = irand() % TO_SP(640);
-        particle->y = irand() % TO_SP(400);
+    // All fifty particles retain their original RNG and sprite store order;
+    // the signed index and near pointer advance after every complete record.
+    for(i = 0; i < CHAIN2_VISIBLE_PARTICLES; ++i, ++particle) {
+        particle->x = irand() % CHAIN2_RANDOM_X_RANGE;
+        particle->y = irand() % CHAIN2_RANDOM_Y_RANGE;
         particle->vx = 0;
         particle->vy = CHAIN2_VELOCITY_Y;
         particle->speed = CHAIN2_INIT_SPEED;
@@ -39,8 +40,6 @@ void far background_chain2_init(void)
         } else {
             particle->sprite = CHAIN2_SPRITE_FINAL;
         }
-        ++i;
-        particle++;
     }
 }
 

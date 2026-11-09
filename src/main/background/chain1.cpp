@@ -22,23 +22,6 @@ void near background_pixel_di(void)
     }
 }
 
-void far background_velocity_reset(void)
-{
-    register background_particle_t near *particle;
-    register int i;
-    background_angle = 64;
-    particle = background_particles;
-    // All eighty physical 16-byte records are part of the reset, even
-    // though Chain 1 renders fewer. The native `while` retains original
-    // vector2() calls and post-call pointer mutation (af878a).
-    i = 0;
-    while(i < BACKGROUND_CAPACITY) {
-        vector2(particle->vx, particle->vy, 64, particle->speed);
-        ++i;
-        particle++;
-    }
-}
-
 // The original first chain initializes 48 physical 16-byte particles
 // out of the shared 80-slot background pool and two alternating sprites.
 enum chain1_initial_t {
@@ -55,6 +38,19 @@ enum chain1_initial_t {
     // real 16-byte particle layout. No new DATA/BSS owner is declared.
 };
 
+void far background_velocity_reset(void)
+{
+    register background_particle_t near *particle;
+    register int i;
+    background_angle = CHAIN1_DEFAULT_ANGLE;
+    particle = background_particles;
+    // Reset all eighty physical 16-byte records, including those
+    // outside Chain 1's visible subset, in their original call order.
+    for(i = 0; i < BACKGROUND_CAPACITY; ++i, ++particle) {
+        vector2(particle->vx, particle->vy, CHAIN1_DEFAULT_ANGLE, particle->speed);
+    }
+}
+
 void far background_chain1_init(void)
 {
     register background_particle_t near *particle;
@@ -63,8 +59,7 @@ void far background_chain1_init(void)
     particle = background_particles;
     // Exactly forty-eight particle slots receive independent RNG draws.
     // Do not change their draw order or merge these loops with Chain 2.
-    i = 0;
-    while(i < CHAIN1_VISIBLE_PARTICLES) {
+    for(i = 0; i < CHAIN1_VISIBLE_PARTICLES; ++i, ++particle) {
         particle->x = irand() % CHAIN1_RANDOM_X_RANGE;
         particle->y = irand() % CHAIN1_RANDOM_Y_RANGE;
         particle->vx = 0;
@@ -77,8 +72,6 @@ void far background_chain1_init(void)
             particle->sprite += CHAIN1_SPRITE_ALTERNATE_DELTA;
         }
         particle->random_aux = irand() % CHAIN1_AUX_RANDOM_RANGE;
-        ++i;
-        particle++;
     }
 }
 
