@@ -316,17 +316,16 @@ void near yumemi_exatt_render_one(void)
 
 	if(p->state == YUME_EXATT_FLYING) {
 		exatt_render_state2(left, top, *((unsigned int near *)&p->frame));
-	} else {
-		exatt_render_state_other(left, top, *((unsigned int near *)&p->frame));
+		return;
 	}
+	exatt_render_state_other(left, top, *((unsigned int near *)&p->frame));
 }
 
 void far pascal exatt_update_yumemi(void)
 {
-	unsigned char pid_other;
 	register exatt_entity_t near *p = &exatt_entities[pid_current][0];
 
-	pid_other = (1 - pid_current);
+	unsigned char pid_other = (1 - pid_current);
 	collmap_pid = pid_other;
 	// Full beam/flight collision state machine; both early continues
 	// join the original signed-index and pointer advance in the header.
@@ -399,8 +398,9 @@ void far pascal exatt_render_yumemi(void)
 	exatt_entity_p = &exatt_entities[pid_current][0];
 	// Render all sixteen physical slots in their original order.
 	for(register int i = 0; i < YUME_EXATT_ALL_SLOTS; ++i, ++exatt_entity_p) {
-		if(exatt_entity_p->state) {
-			yumemi_exatt_render_one();
+		if(!exatt_entity_p->state) {
+			continue;
 		}
+		yumemi_exatt_render_one();
 	}
 }
