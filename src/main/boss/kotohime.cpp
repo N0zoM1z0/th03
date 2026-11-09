@@ -332,7 +332,7 @@ void near kotohime_pattern_pellet_arc(void)
 		bullets_add();
 	}
 
-	if(boss_frame >= KOTOHIME_PELLET_FINISH_FRAME) {
+	if(KOTOHIME_PELLET_FINISH_FRAME <= boss_frame) {
 		boss_mode = KOTOHIME_MODE_SELECT;
 		boss_frame = 0;
 	}
@@ -359,55 +359,54 @@ void near kotohime_pattern_radial_burst(void)
 		// Byte-memory postfix is real original codegen. Changing all
 		// three to prefix altered native CODE (negative af910c).
 		boss_render_frame++;
-		if(KOTOHIME_RING_RELEASE_AFTER < boss_render_frame) {
-			bullet_template.group = BG_1;
-			bullet_template.type = BT_BULLET16_DEFAULT;
-
-			// The nested O(center_count * burst_count) traversal declares
-			// DI/SI indices in outer-to-inner for headers. x/y/angle scratch
-			// lives for one center, and the inner SI index resets each time.
-			// Both loops are pre-tested; signed division precedes byte truncation.
-			for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
-				register int x;
-				register int y;
-				register unsigned char center_angle = (
-					boss_move_phase +
-					((KOTOHIME_FULL_TURN_STEPS * center_i) / kotohime_orbit_count)
-				);
-				x = polar(
-					boss_center_x,
-					boss_effect_radius,
-					CosTable8[center_angle]
-				);
-				y = polar(
-					boss_center_y,
-					boss_effect_radius,
-					SinTable8[center_angle]
-				);
-				bullet_template.center.x.v = x;
-				bullet_template.center.y.v = y;
-
-				for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
-					bullet_template.angle = (
-						KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
-						center_angle +
-						((KOTOHIME_BURST_HALF_TURN_STEPS * bullet_i) / kotohime_burst_count)
-					);
-					bullet_template.speed.v = (
-						KOTOHIME_BURST_SPEED_BASE +
-						((KOTOHIME_BURST_SPEED_SCALE * bullet_i) / kotohime_burst_count)
-					);
-					bullets_add();
-				}
-			}
-
-			snd_se_play(KOTOHIME_SOUND_ATTACK);
-			boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
-			boss_mode = KOTOHIME_MODE_SELECT;
-			boss_frame = 0;
-		} else {
+		if(boss_render_frame <= KOTOHIME_RING_RELEASE_AFTER) {
 			return;
 		}
+		bullet_template.group = BG_1;
+		bullet_template.type = BT_BULLET16_DEFAULT;
+
+		// The nested O(center_count * burst_count) traversal declares
+		// DI/SI indices in outer-to-inner for headers. x/y/angle scratch
+		// lives for one center, and the inner SI index resets each time.
+		// Both loops are pre-tested; signed division precedes byte truncation.
+		for(register int center_i = 0; center_i < kotohime_orbit_count; ++center_i) {
+			register int x;
+			register int y;
+			register unsigned char center_angle = (
+				boss_move_phase +
+				((KOTOHIME_FULL_TURN_STEPS * center_i) / kotohime_orbit_count)
+			);
+			x = polar(
+				boss_center_x,
+				boss_effect_radius,
+				CosTable8[center_angle]
+			);
+			y = polar(
+				boss_center_y,
+				boss_effect_radius,
+				SinTable8[center_angle]
+			);
+			bullet_template.center.x.v = x;
+			bullet_template.center.y.v = y;
+
+			for(register int bullet_i = 0; bullet_i < kotohime_burst_count; ++bullet_i) {
+				bullet_template.angle = (
+					KOTOHIME_BURST_CENTER_ANGLE_OFFSET +
+					center_angle +
+					((KOTOHIME_BURST_HALF_TURN_STEPS * bullet_i) / kotohime_burst_count)
+				);
+				bullet_template.speed.v = (
+					KOTOHIME_BURST_SPEED_BASE +
+					((KOTOHIME_BURST_SPEED_SCALE * bullet_i) / kotohime_burst_count)
+				);
+				bullets_add();
+			}
+		}
+
+		snd_se_play(KOTOHIME_SOUND_ATTACK);
+		boss_render_mode = KOTOHIME_RENDER_MODE_NORMAL;
+		boss_mode = KOTOHIME_MODE_SELECT;
+		boss_frame = 0;
 
 	} else {
 		boss_move_sine();
@@ -510,9 +509,7 @@ void near pascal kotohime_render_ring(int count)
 {
 	screen_y_t top;
 	sprite16_offset_t sprite_offset;
-	int radius;
-
-	radius = boss_effect_radius;
+	int radius = boss_effect_radius;
 	sprite_offset = (pid.so_attack + KOTOHIME_RING_SPRITE_OFFSET);
 	// The warning flicker uses the unsigned-word low two bits.
 	if((boss_render_mode == KOTOHIME_RENDER_MODE_WARNING) &&
@@ -576,9 +573,10 @@ void near kotohime_render_main(void)
 
 	// This byte render-mode guard naturally spells `!=0`, without
 	// changing the physical ring's signed-angle/near-pascal ABI.
-	if(boss_render_mode) {
-		kotohime_render_ring(kotohime_orbit_count);
+	if(!boss_render_mode) {
+		return;
 	}
+	kotohime_render_ring(kotohime_orbit_count);
 }
 
 void near pascal kotohime_render_intro(int radius)
