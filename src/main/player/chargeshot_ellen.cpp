@@ -89,13 +89,10 @@ extern "C" void far pascal palette_restore_for_pid(pid_t pid);
 void far pascal chargeshots_reset_ellen(void)
 {
 	ellen_chargeshot_p = &ellen_chargeshots[0][0];
-	// Clear all 64 original 12-byte physical shot records, not only
-	// a per-player slice. This whole-source while is native-exact.
-	int i = 0;
-	while(i < ELLEN_CHARGE_SLOTS_TOTAL) {
+	// Clear all 64 original 12-byte records in a single bounded for,
+	// including both physical player pools.
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_TOTAL; ++i, ++ellen_chargeshot_p) {
 		ellen_chargeshot_p->state = ELLEN_CHARGE_INACTIVE_STATE;
-		++i;
-		ellen_chargeshot_p++;
 	}
 }
 
@@ -105,16 +102,13 @@ void far pascal chargeshot_add_ellen(Subpixel center_x, Subpixel center_y)
 	// Every second byte state creates one of 32 separately randomized
 	// physical shots. Its signed state and near pointer advance AFTER
 	// each original independent RNG call (native af905a).
-	int state = 0;
-	while(state < ELLEN_CHARGE_SPREAD_STATE_END) {
+	for(int state = 0; state < ELLEN_CHARGE_SPREAD_STATE_END; state += 2, ++ellen_chargeshot_p) {
 		ellen_chargeshot_p->state = state;
 		ellen_chargeshot_p->phase = ELLEN_CHARGE_DECELERATE_PHASE;
 		ellen_chargeshot_p->center.x = center_x;
 		ellen_chargeshot_p->center.y = center_y;
 		ellen_chargeshot_p->angle = randring_far_next16();
 		ellen_chargeshot_p->length = ELLEN_CHARGE_LENGTH_INIT;
-		state += 2;
-		ellen_chargeshot_p++;
 	}
 }
 
@@ -124,7 +118,7 @@ void far pascal ellen_hyper(Subpixel center_x, Subpixel center_y)
 	// Unlike the complete update/hit/render loops, this first-free-slot
 	// Hyper allocator must keep for/continue/return: natural while
 	// changed actual TC4 CODE (negative af905e).
-	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ellen_chargeshot_p++)) {
+	for(int i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; (++i, ++ellen_chargeshot_p)) {
 		if(ellen_chargeshot_p->state) {
 			continue;
 		}
@@ -148,15 +142,12 @@ void far pascal chargeshot_update_ellen(void)
 
 	ellen_chargeshot_p = &ellen_chargeshots[pid_current][0];
 	int i;
-	// Original active-scan enters the same historical label immediately;
-	// explicit pointer/index while preserves native goto register state.
-	i = 0;
-	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
+	// This bounded scan keeps the original direct goto to the active
+	// controller without skipping a live entity.
+	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; ++i, ++ellen_chargeshot_p) {
 		if(ellen_chargeshot_p->state) {
 			goto active;
 		}
-		++i;
-		ellen_chargeshot_p++;
 	}
 	return;
 
@@ -173,14 +164,10 @@ active:
 	playfield_clip_negative_radius.x.v = ELLEN_CHARGE_CLIP_NEGATIVE_RADIUS;
 	playfield_clip_negative_radius.y.v = ELLEN_CHARGE_CLIP_NEGATIVE_RADIUS;
 
-	// Complete 32-slot decelerating/homing/arrival update, including
-	// the inactive continue that advances both original near pointer
-	// and signed index; natural while is byte-exact (af905d).
-	i = 0;
-	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
+	// Complete 32-slot decelerating/homing/arrival update, with the
+	// inactive continue sharing the for-header index/pointer advance.
+	for(i = 0; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; ++i, ++ellen_chargeshot_p) {
 		if(!ellen_chargeshot_p->state) {
-			++i;
-			ellen_chargeshot_p++;
 			continue;
 		}
 		if(ellen_chargeshot_p->state == ELLEN_CHARGE_ACTIVE_STATE) {
@@ -226,8 +213,7 @@ active:
 			ellen_chargeshot_p->center.x.v = player_x;
 			ellen_chargeshot_p->center.y.v = player_y;
 		}
-		++i;
-		ellen_chargeshot_p++;
+
 	}
 }
 
@@ -257,13 +243,11 @@ uint8_t far chargeshot_hittest_ellen(void)
 	unsigned char hits = 0;
 	ellen_chargeshot_p = &ellen_chargeshots[hitbox.pid][0];
 
-	// Native-exact full thirty-two-slot active-only scan: every skipped
-	// state advances index and near pointer before continuing (af905b).
+	// Scan all thirty-two slots, skipping inactive states through the
+	// same signed-index and near-pointer progression.
 	int i = 0;
-	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
+	for(; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; ++i, ++ellen_chargeshot_p) {
 		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
-			++i;
-			ellen_chargeshot_p++;
 			continue;
 		}
 		if(
@@ -283,8 +267,7 @@ uint8_t far chargeshot_hittest_ellen(void)
 			// compiler-neutral mutation.
 			hits = hits + ELLEN_CHARGE_HIT_DAMAGE;
 		}
-		++i;
-		ellen_chargeshot_p++;
+
 	}
 	return hits;
 }
@@ -296,18 +279,15 @@ void far pascal chargeshot_render_ellen(void)
 	sprite16_clip_set_for_pid(pid_current);
 
 	int i = 0;
-	while(i < ELLEN_CHARGE_SLOTS_PER_PLAYER) {
+	for(; i < ELLEN_CHARGE_SLOTS_PER_PLAYER; ++i, ++ellen_chargeshot_p) {
 		if(ellen_chargeshot_p->state != ELLEN_CHARGE_ACTIVE_STATE) {
-			++i;
-			ellen_chargeshot_p++;
 			continue;
 		}
 		ellen_chargeshot_private(
 			ellen_chargeshot_p->center.x,
 			ellen_chargeshot_p->center.y
 		);
-		++i;
-		ellen_chargeshot_p++;
+
 	}
 }
 
