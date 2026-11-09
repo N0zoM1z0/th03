@@ -95,9 +95,16 @@ def native_source_reviews(root, artifact):
     """
     root = Path(root)
     if artifact == 'th03-main':
-        selected = [('BOSS and HitCircle', 'af1053k',
-                     '.analysis/work/exatt-layout-af1053k/report.json',
-                     'review_th03_main_source_overlay.py', [])]
+        # These reports cover disjoint owners. A composite stage is current
+        # only while every source input it compiled still matches.
+        selected = [(label, stage, f'.analysis/work/exatt-layout-{stage}/report.json',
+                     'review_th03_main_source_overlay.py', []) for label, stage in (
+            ('Engine and BOSS', 'af1092k'),
+            ('Shared BOSS', 'af1056c'),
+            ('Ellen Extra Attack', 'af1094e'),
+            ('Rikako BOSS', 'af1095w'),
+            ('Kana BOSS', 'af1096g'),
+        )]
     elif artifact == 'th03-mainl':
         selected = [
             ('Staff Roll', 'af942s', '.analysis/work/mainl-staff-af942s-native-build.json',

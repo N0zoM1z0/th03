@@ -146,7 +146,8 @@ MAINL's source composer preserves the historical ownership transformations and
 stages maintained Staff/root C++ verbatim. The `af1055m` refresh recompiles both
 physical owners and restores decoded publication using unchanged retained cold
 evidence. The standalone `af942s`/`af944r` owner reviews remain valid; MAIN's
-`af1053k` review validates its selected twelve-owner integration. Reporting
+`af1092k` engine/BOSS integration and the current shared, Ellen Extra Attack,
+Rikako and Kana reports together cover the selected current MAIN owners. Reporting
 shows their verified scopes alongside publication state. All progress bars use
 tracked unit extents; MAIN's function ledger is a separate measure. Missing
 publication never selects the historical 145-owner mixed-product proposal.

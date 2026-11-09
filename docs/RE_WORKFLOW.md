@@ -32,14 +32,15 @@
 
 The preferred bounded MAIN source verification uses the original
 Turbo C++ 4.02 plus the complete normal TLINK response. The latest
-source-bound integration is `af1053k`: both shared BOSS providers, all nine
-character BOSS owners and the complete HitCircle owner (12 physical TUs,
-18,845 CODE bytes, 2,570 ordered native fields and 97 PUBLICs). It passed two
-independent original TC4 rounds and both normal Japanese MAIN links. The old
+engine/BOSS integration is `af1092k`, with current shared BOSS, Ellen Extra
+Attack, Rikako and Kana owners separately bound by `af1056c`, `af1094e`,
+`af1095w` and `af1096g`. All five reports pass current-source read-only review;
+they are separate scoped links. See [generated progress](PROGRESS.md) for their
+native scope and the [active handoff](RE_HANDOFF.md) for current work. The old
 `af1024e`, `af1024d`, `af1024c`, `af1024b` and `af1021*` checkpoints are
 historical for owners changed since those stages; do not cite them as current
-source bindings. See the [active handoff](RE_HANDOFF.md) for the report hash,
-latest owner-level work and next targets.
+source bindings. The active handoff links the current reports, latest
+owner-level work and next targets.
 
 Select **only the original physical TUs whose maintained C++ or actually
 consumed implementation .inl files changed**. Use a new unused DOS-safe
@@ -60,9 +61,9 @@ maintained Chiyuri source. Its entry, effects, cs_chiyu and b_chiyu source
 hashes still match, but the stage-wide reviewer correctly rejects the
 stale ba_chiyu member. Likewise af935a is historical for ba_maris.
 Do not list either composite stage as a current all-owner source proof.
-Use af1053k for the current twelve-owner BOSS/collision set. The active
-handoff and its after1053 archive distinguish the latest source-bound proof
-from historical stage snapshots.
+`af1053k` is likewise a historical twelve-owner checkpoint after later source
+changes. Use the five current stages above; the active handoff and archives
+distinguish source-bound evidence from earlier snapshots.
 
 The historical after596 MAIN and after587 MAINL pairs are separate
 retained ancestors, **not** reasons to run full cold replay per edit.

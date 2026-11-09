@@ -1,6 +1,6 @@
 # TH03 reconstruction progress
 
-All counts describe tracked scopes. The whole-game completion percentage is unknown.
+All counts describe repository-local tracked scopes. The whole-game completion percentage is unknown.
 
 | Product | Source-present / tracked extents | Current accepted scope | Stored target bytes |
 | --- | ---: | --- | ---: |
@@ -9,7 +9,7 @@ All counts describe tracked scopes. The whole-game completion percentage is unkn
 | th03-mainl | 259/259 | Decoded: 220 extents / 37,968 bytes | 37,975 |
 | th03-zun | 77/78 | Decoded: 77 extents / 8,635 bytes | 16,242 |
 
-Source-present means a maintained source path exists; it does not grant exact acceptance. Tracked extents can be functions, modules or DATA owners. All chart bars use these extents.
+Source-present means a maintained source path exists; it does not grant exact acceptance. Tracked extents can be functions, modules or DATA owners. All chart bars use these extents. Unaccepted inventory rows can contain finer accepted scopes, so their count is not a count of missing functions.
 
 MAIN's separate function ledger records 459/459 exact entries. The other products have no equivalent function ledger; a zero function count would be misleading. Ledger acceptance is distinct from revalidation against current source; selected current native reviews follow below.
 
@@ -21,11 +21,23 @@ These read-only checks validate maintained source bindings, both original compil
 
 | Product / scope | Stage | Current check | Physical owners | CODE bytes | Initialized DATA bytes |
 | --- | --- | --- | ---: | ---: | ---: |
-| th03-main / BOSS and HitCircle | af1053k | Verified | 12 | 18,845 | — |
+| th03-main / Engine and BOSS | af1092k | Verified | 12 | 19,741 | — |
+| th03-main / Shared BOSS | af1056c | Verified | 2 | 949 | — |
+| th03-main / Ellen Extra Attack | af1094e | Verified | 1 | 1,129 | — |
+| th03-main / Rikako BOSS | af1095w | Verified | 1 | 1,677 | — |
+| th03-main / Kana BOSS | af1096g | Verified | 1 | 1,874 | — |
 | th03-mainl / Staff Roll | af942s | Verified | 1 | 3,695 | 224 |
 | th03-mainl / Root controller | af944r | Verified | 1 | 2,458 | 112 |
 
-th03-main BOSS and HitCircle: `.analysis/work/exatt-layout-af1053k/report.json`.
+th03-main Engine and BOSS: `.analysis/work/exatt-layout-af1092k/report.json`.
+
+th03-main Shared BOSS: `.analysis/work/exatt-layout-af1056c/report.json`.
+
+th03-main Ellen Extra Attack: `.analysis/work/exatt-layout-af1094e/report.json`.
+
+th03-main Rikako BOSS: `.analysis/work/exatt-layout-af1095w/report.json`.
+
+th03-main Kana BOSS: `.analysis/work/exatt-layout-af1096g/report.json`.
 
 th03-mainl Staff Roll / 19 procedures: `.analysis/work/mainl-staff-af942s-native-build.json`.
 

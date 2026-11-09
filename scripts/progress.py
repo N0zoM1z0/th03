@@ -674,7 +674,7 @@ def render_svg(units: list[dict[str, str]], functions: list[dict[str, str]],
 def render_markdown(units, functions, targets, op_status, mainl_status, zun_status, native_reviews):
     """Keep inventory, accepted decoded scopes and current native reviews distinct."""
     lines = ["# TH03 reconstruction progress", "",
-             "All counts describe tracked scopes. The whole-game completion percentage is unknown.", "",
+             "All counts describe repository-local tracked scopes. The whole-game completion percentage is unknown.", "",
              "| Product | Source-present / tracked extents | Current accepted scope | Stored target bytes |",
              "| --- | ---: | --- | ---: |"]
     for target in (a for a in targets if a['game'] == 'th03'):
@@ -695,7 +695,8 @@ def render_markdown(units, functions, targets, op_status, mainl_status, zun_stat
     main_functions = [f for f in functions if f['artifact'] == 'th03-main']
     lines.extend(['',
         'Source-present means a maintained source path exists; it does not grant exact acceptance. '
-        'Tracked extents can be functions, modules or DATA owners. All chart bars use these extents.', '',
+        'Tracked extents can be functions, modules or DATA owners. All chart bars use these extents. '
+        'Unaccepted inventory rows can contain finer accepted scopes, so their count is not a count of missing functions.', '',
         f"MAIN's separate function ledger records {sum(f['state'] == 'exact' for f in main_functions)}/{len(main_functions)} exact entries. "
         'The other products have no equivalent function ledger; a zero function count would be misleading. '
         'Ledger acceptance is distinct from revalidation against current source; selected current native reviews follow below.', '',
