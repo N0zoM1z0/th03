@@ -22,6 +22,13 @@ enum yumemi_bomb_phase_t {
     YUMEMI_BOMB_SECOND_TRIANGLE_START = 32,
     YUMEMI_BOMB_SHAKE_END = 144,
     YUMEMI_BOMB_VERTICES_PER_TRIANGLE = 3,
+    YUMEMI_BOMB_BOTH_TRIANGLES = 6,
+    YUMEMI_BOMB_FIRST_RADIUS = 224,
+    YUMEMI_BOMB_SECOND_RADIUS = 320,
+    YUMEMI_BOMB_RADIUS_DECAY = 3,
+    YUMEMI_BOMB_CENTER_X = 144,
+    YUMEMI_BOMB_RASTER_ORIGIN_Y = 200,
+    YUMEMI_BOMB_RASTER_HALF_Y_DIVISOR = 2,
 };
 
 void far yumemi_bomb(void)
@@ -41,14 +48,14 @@ void far yumemi_bomb(void)
     frame = bomb_frame[pid_current];
     if(frame <= YUMEMI_BOMB_TRIANGLE_FINAL_FRAME) {
         if(frame < YUMEMI_BOMB_TRIANGLE_FIRST_END) {
-            radius = 224 - frame * 3;
+            radius = YUMEMI_BOMB_FIRST_RADIUS - frame * YUMEMI_BOMB_RADIUS_DECAY;
             grcg_setcolor(GC_RMW, 8);
         } else {
             radius = 128;
             grcg_setcolor(GC_RMW, 7);
         }
         // GRC triangle coordinates use the 200-line vertical domain here.
-        if(pid_current == 0) {
+        if(!pid_current) {
             grc_setclip(16, 8, 303, 191);
             playfield_left = 16;
         } else {
@@ -56,21 +63,21 @@ void far yumemi_bomb(void)
             playfield_left = 336;
         }
         for(i = 0; i < YUMEMI_BOMB_VERTICES_PER_TRIANGLE; ++i) {
-            x[i] = polar(144, radius, CosTable8[yumemi_bomb_triangle_angles[i]])
+            x[i] = polar(YUMEMI_BOMB_CENTER_X, radius, CosTable8[yumemi_bomb_triangle_angles[i]])
                 + playfield_left;
-            y[i] = polar(200, radius, SinTable8[yumemi_bomb_triangle_angles[i]]) / 2;
+            y[i] = polar(YUMEMI_BOMB_RASTER_ORIGIN_Y, radius, SinTable8[yumemi_bomb_triangle_angles[i]]) / YUMEMI_BOMB_RASTER_HALF_Y_DIVISOR;
         }
         grcg_triangle(x[0], y[0], x[1], y[1], x[2], y[2]);
         if(frame > YUMEMI_BOMB_SECOND_TRIANGLE_START) {
-            radius = 320 - frame * 3;
+            radius = YUMEMI_BOMB_SECOND_RADIUS - frame * YUMEMI_BOMB_RADIUS_DECAY;
             grcg_setcolor(GC_RMW, 8);
-            for(i = YUMEMI_BOMB_VERTICES_PER_TRIANGLE; i < 6; ++i) {
-                x[i - 3] = polar(
-                    144, radius, CosTable8[yumemi_bomb_triangle_angles[i]]
+            for(i = YUMEMI_BOMB_VERTICES_PER_TRIANGLE; i < YUMEMI_BOMB_BOTH_TRIANGLES; ++i) {
+                x[i - YUMEMI_BOMB_VERTICES_PER_TRIANGLE] = polar(
+                    YUMEMI_BOMB_CENTER_X, radius, CosTable8[yumemi_bomb_triangle_angles[i]]
                 ) + playfield_left;
-                y[i - 3] = polar(
-                    200, radius, SinTable8[yumemi_bomb_triangle_angles[i]]
-                ) / 2;
+                y[i - YUMEMI_BOMB_VERTICES_PER_TRIANGLE] = polar(
+                    YUMEMI_BOMB_RASTER_ORIGIN_Y, radius, SinTable8[yumemi_bomb_triangle_angles[i]]
+                ) / YUMEMI_BOMB_RASTER_HALF_Y_DIVISOR;
             }
             grcg_triangle(x[0], y[0], x[1], y[1], x[2], y[2]);
         }
