@@ -53,12 +53,12 @@ Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
 The report's twelve source hashes were checked against all twelve maintained
-files at that checkpoint. Three later scoped refreshes now bind the current
-source for four owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
-uses `af1057d`, and `ba_chiyu` uses `af1058a`. The other eight owners remain
-bound to `af1053k`. The complete normal links are strong scoped native
-evidence; they are not whole-game source ownership or canonical Factory
-packed-file acceptance.
+files at that checkpoint. Four later scoped refreshes now bind the current
+source for five owners: `ba_sring` and `ba_srest` use `af1056c`, `ba_koto`
+uses `af1057d`, `ba_chiyu` uses `af1058a`, and `ba_mima` uses `af1059a`. The
+other seven owners remain bound to `af1053k`. The complete normal links are
+strong scoped native evidence; they are not whole-game source ownership or
+canonical Factory packed-file acceptance.
 
 Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
 SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
@@ -85,12 +85,22 @@ controller now uses the direct inactive-player return before the complete mode
 switch and collision/hitbox tail. See the
 [current Chiyuri PID-scope review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
+Mima current-source refresh: `.analysis/work/exatt-layout-af1059a/report.json`
+SHA-256: `397144dec5bda10fd68ba3740c4409cd1adb38073fe30b2605235599d009f0a7`.
+It recompiled the complete 1,922-byte `ba_mima` owner with 277 ordered native
+fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
+MAIN image and ordered relocations. The complete Mima update controller now
+uses the direct inactive-player return while retaining its level setup, mode
+dispatch and collision/hitbox tail. See the
+[current Mima PID-scope review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
 ### Evidence interpretation
 
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
 source bindings are split by the subsequent scoped refreshes: the shared pair
-uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, and the other
-eight owners remain bound to `af1053k`. The earlier `af1053i`, `af1052g`,
+uses `af1056c`, Kotohime uses `af1057d`, Chiyuri uses `af1058a`, Mima uses
+`af1059a`, and the other seven owners remain bound to `af1053k`. The earlier
+`af1053i`, `af1052g`,
 `af1051k` and `af1047l` full-set checkpoints are historical snapshots, not
 additional current proof. Older standalone
 `af1024*` and `af1021*` reports are also historical for owners changed since
@@ -158,6 +168,14 @@ advancement. The current 2,654-byte `ba_chiyu` owner was rebuilt in two original
 TC4 rounds: 381 ordered native fields and eleven PUBLICs match, as do both
 normal MAIN images and ordered relocations. See the
 [af1058a current-source review](MAIN_CHIYURI_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+
+Mima's complete `gba_boss_update_mima()` controller now uses the direct
+inactive-player return as well. The current `ba_mima` owner was rebuilt in two
+original TC4 rounds: 1,922 CODE bytes, 277 ordered native fields and nine
+PUBLICs match, with the full Japanese MAIN image and ordered relocations exact.
+The seven level-parameter initializations remain before the guard; the launched
+player's mode switch and collision/hitbox tail remain after it. See the
+[af1059a current-source review](MAIN_MIMA_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Recommended next work:
 
