@@ -10,8 +10,7 @@ void near hud_start_anim_update(void)
         hud_start_particle_p = &hud_start_particles[0];
         x = -0x120;
         speed_y = 0x54;
-        i = 0;
-        for(; i < HUD_SLIDE_STRIPS; ++i, hud_start_particle_p++, speed_y++, x += 8) {
+        for(i = 0; i < HUD_SLIDE_STRIPS; ++i, ++hud_start_particle_p, speed_y++, x += 8) {
             hud_start_particle_p->x = x;
             hud_start_particle_p->y = speed_y;
             hud_start_particle_p->velocity = 8;
@@ -26,11 +25,12 @@ void near hud_start_anim_update(void)
         hud_start_flag = HUD_INTRO_RUNNING;
         hud_intro_x = 0;
     }
+    // Finish exactly one active animation phase per update; even when
+    // its state advances, the next phase does not run on the same tick.
     if(hud_intro_phase == HUD_PHASE_SLIDE) {
         hud_start_particle_p = &hud_start_particles[0];
-        i = 0;
-        for(; i < HUD_SLIDE_STRIPS; ++i, hud_start_particle_p++) {
-            if(hud_start_particle_p->active != 0) {
+        for(i = 0; i < HUD_SLIDE_STRIPS; ++i, ++hud_start_particle_p) {
+            if(hud_start_particle_p->active) {
                 asm { mov bx, hud_start_particle_p }
                 ((hud_start_particle_t near *)_BX)->x +=
                     ((hud_start_particle_t near *)_BX)->velocity;
@@ -51,16 +51,19 @@ void near hud_start_anim_update(void)
                 }
             }
         }
-    } else if(hud_intro_phase == HUD_PHASE_BANNER) {
+        return;
+    }
+    if(hud_intro_phase == HUD_PHASE_BANNER) {
         hud_intro_frame++;
         if(hud_intro_frame > 0x56) {
             hud_intro_phase++;
         }
-    } else if(hud_intro_phase == HUD_PHASE_CREATE_STARS) {
+        return;
+    }
+    if(hud_intro_phase == HUD_PHASE_CREATE_STARS) {
         hud_start_particle_p = &hud_start_particles[0];
         x = 0x600;
-        i = 0;
-        for(; i < HUD_STARS_PER_SIDE; ++i, hud_start_particle_p++, x += 0x20) {
+        for(i = 0; i < HUD_STARS_PER_SIDE; ++i, ++hud_start_particle_p, x += 0x20) {
             hud_start_particle_p->x = x;
             hud_start_particle_p->y = randring1_next16_and(0x01FF) + 0x0A80;
             hud_start_particle_p->angle = static_cast<unsigned char>(randring1_next16());
@@ -69,8 +72,7 @@ void near hud_start_anim_update(void)
             hud_start_particle_p->active = 1;
         }
         x = 0x1A00;
-        i = 0;
-        for(; i < HUD_STARS_PER_SIDE; ++i, hud_start_particle_p++, x += 0x20) {
+        for(i = 0; i < HUD_STARS_PER_SIDE; ++i, ++hud_start_particle_p, x += 0x20) {
             hud_start_particle_p->x = x;
             hud_start_particle_p->y = randring1_next16_and(0x01FF) + 0x0A80;
             hud_start_particle_p->angle = static_cast<unsigned char>(randring1_next16());
@@ -80,15 +82,16 @@ void near hud_start_anim_update(void)
         }
         hud_intro_phase++;
         hud_intro_frame = 0;
-    } else if(hud_intro_phase == HUD_PHASE_MOVE_STARS) {
+        return;
+    }
+    if(hud_intro_phase == HUD_PHASE_MOVE_STARS) {
         hud_intro_frame++;
         if(hud_intro_frame >= 0x40) {
             hud_intro_phase++;
         }
         hud_start_particle_p = &hud_start_particles[0];
-        i = 0;
-        for(; i < HUD_TOTAL_STARS; ++i, hud_start_particle_p++) {
-            if(hud_start_particle_p->active != 0) {
+        for(i = 0; i < HUD_TOTAL_STARS; ++i, ++hud_start_particle_p) {
+            if(hud_start_particle_p->active) {
                 asm { mov bx, hud_start_particle_p }
                 x = polar(0, 80, CosTable8[((hud_start_particle_t near *)_BX)->angle]);
                 speed_y = polar(0, 80, SinTable8[hud_start_particle_p->angle]);
