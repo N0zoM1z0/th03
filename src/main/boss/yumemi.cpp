@@ -211,7 +211,8 @@ void near yumemi_pattern_ring(void)
 			bullet_template.pid
 		);
 		return;
-	} else if(YUMEMI_RING_BULLET_START > boss_frame) {
+	}
+	if(YUMEMI_RING_BULLET_START > boss_frame) {
 		return;
 	}
 
@@ -312,7 +313,8 @@ void near yumemi_pattern_aimed_random(void)
 			);
 		}
 		return;
-	} else if(YUMEMI_AIMED_FIRE_START > boss_frame) {
+	}
+	if(YUMEMI_AIMED_FIRE_START > boss_frame) {
 		return;
 	}
 
@@ -325,7 +327,7 @@ void near yumemi_pattern_aimed_random(void)
 		boss_render_mode = YUMEMI_RENDER_MODE_ALTERNATE;
 	}
 
-	if((boss_frame % YUMEMI_AIMED_FIRE_PERIOD) == 0) {
+	if(!(boss_frame % YUMEMI_AIMED_FIRE_PERIOD)) {
 		snd_se_play(YUMEMI_SOUND_AIMED_SHOT);
 		bullet_template.center.x.v = yumemi_origin_x;
 		bullet_template.center.y.v = yumemi_origin_y;
@@ -349,7 +351,7 @@ void near yumemi_pattern_cross_rings(void)
 {
 	boss_move_sine();
 
-	if(0 == (boss_frame % yumemi_cross_interval)) {
+	if(!(boss_frame % yumemi_cross_interval)) {
 		bullet_template.group = BG_4_RING;
 		bullet_template.speed.v = TO_SP(2);
 		bullet_template.type = 1 + randring_far_next16_and(1);
@@ -433,7 +435,7 @@ void near yumemi_pattern_rain(void)
 
 	// The variable unsigned-word rain interval uses a natural
 	// remainder truth test.
-	if(0 == (boss_frame % yumemi_rain_interval)) {
+	if(!(boss_frame % yumemi_rain_interval)) {
 		bullet_template.type = BT_BULLET16_DEFAULT;
 
 		if(YUMEMI_RAIN_SPREAD_END > boss_frame) {
@@ -500,12 +502,11 @@ void far gba_boss_update_yumemi(void)
 			snd_se_reset();
 			snd_se_play(YUMEMI_SOUND_EXPLOSION);
 		}
-		if(YUMEMI_INTRO_FINISH_FRAME == boss_frame) {
-			boss_frame = 0;
-			boss_mode = YUMEMI_MODE_SELECT;
-		} else {
+		if(YUMEMI_INTRO_FINISH_FRAME != boss_frame) {
 			return;
 		}
+		boss_frame = 0;
+		boss_mode = YUMEMI_MODE_SELECT;
 		break;
 
 	case YUMEMI_MODE_SELECT:
@@ -593,14 +594,14 @@ void near yumemi_render_main(void)
 	top = (-YUMEMI_RENDER_MAIN_TOP_OFFSET + (boss_center_y >> 4));
 	sprite16_put(left, top, boss_sprite_offset);
 
-	if(YUMEMI_RENDER_MODE_NONE != boss_render_mode) {
+	if(boss_render_mode) {
 		sprite16_put_size.set(YUMEMI_RENDER_EFFECT_SIZE, YUMEMI_RENDER_EFFECT_SIZE);
 		sprite_offset = boss_sprite_offset + YUMEMI_RENDER_EFFECT_SPRITE_OFF;
 		if(YUMEMI_RENDER_MODE_ALTERNATE == boss_render_mode) {
 			sprite_offset += YUMEMI_RENDER_EFFECT_ALT_OFF;
 		}
 		sprite16_put((YUMEMI_RENDER_EFFECT_LEFT + left), top, sprite_offset);
-	} else if(0 != boss_hit) {
+	} else if(boss_hit) {
 		sprite16_put_size.set(YUMEMI_RENDER_HIT_WIDTH, YUMEMI_RENDER_HIT_HEIGHT);
 		left += YUMEMI_RENDER_HIT_LEFT;
 		sprite16_put(left, top, boss_sprite_offset + YUMEMI_RENDER_HIT_SPRITE_OFF);
@@ -624,7 +625,7 @@ void near yumemi_render_main(void)
 	left = playfield_fg_x_to_screen(yumemi_origin_x, pid_other);
 	top = (YUMEMI_RENDER_EFFECT_ORIGIN_BIAS + (yumemi_origin_y >> YUMEMI_RENDER_EFFECT_ORIGIN_SHIFT));
 
-	if(0 == boss_render_frame) {
+	if(!boss_render_frame) {
 		grcg_circle(left, top, boss_effect_radius);
 	} else {
 		target_left = playfield_fg_x_to_screen(
