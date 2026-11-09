@@ -61,11 +61,9 @@ enum chiyuri_exatt_phase_t {
 void far pascal exatt_add_chiyuri(int x, int y, unsigned char pid_)
 {
     register exatt_entity_t near *p = &exatt_entities[pid_][0];
-    register int i = 0;
-    // The original two RNG target rolls and paired 32-byte entities
-    // are consumed only for the first free *pair*. This native while
-    // retains the original return/skip register allocation (af867b).
-    while(i < CHIYURI_EXATT_PHYSICAL_SLOTS) {
+    // Advance by complete two-entity pairs after checking each free slot.
+    for(register int i = 0; i < CHIYURI_EXATT_PHYSICAL_SLOTS;
+        i += CHIYURI_EXATT_PAIR_STRIDE, p += CHIYURI_EXATT_PAIR_STRIDE) {
         if(!p->state) {
             exatt_entity_p = p;
             exatt_fly_init(
@@ -84,8 +82,6 @@ void far pascal exatt_add_chiyuri(int x, int y, unsigned char pid_)
             );
             return;
         }
-        i += CHIYURI_EXATT_PAIR_STRIDE;
-        p += CHIYURI_EXATT_PAIR_STRIDE;
     }
 }
 
@@ -188,18 +184,15 @@ void far pascal exatt_update_chiyuri(void)
     int first_arrived;
     unsigned char pid_other;
     register exatt_entity_t near *p;
-    register int i;
 
     exatt_entity_p = &exatt_entities[pid_current][0];
     pid_other = (1 - pid_current);
     collmap_stripe_tile_w.set(CHIYURI_EXATT_COLLISION_TILE_WIDTH);
     collmap_pid = pid_other;
-    i = 0;
-    // The original update has two independent pair-step paths: active
-    // beam/empty use a continue; flying/arriving fall through. The
-    // explicit two increments in this while each preserve source order,
-    // including the extra pointer hop at chiyuri_first_done (af867e).
-    while(i < CHIYURI_EXATT_PHYSICAL_SLOTS) {
+    // Both completion paths advance the signed index and shared pointer
+    // at the same physical pair boundary, including the active `continue`.
+    for(register int i = 0; i < CHIYURI_EXATT_PHYSICAL_SLOTS;
+        i += CHIYURI_EXATT_PAIR_STRIDE, ++exatt_entity_p) {
         // The original BX/memory CMP/Jcc sequence is emitted naturally
         // by this direct C++ byte-state test (proved in af779b).
         if(!exatt_entity_p->state) {
@@ -225,9 +218,7 @@ void far pascal exatt_update_chiyuri(void)
                 p->state = CHIYURI_EXATT_FREE;
             }
 chiyuri_first_done:
-            exatt_entity_p++;
-            i += CHIYURI_EXATT_PAIR_STRIDE;
-            exatt_entity_p++;
+            ++exatt_entity_p;
             continue;
         }
 
@@ -259,22 +250,18 @@ chiyuri_first_done:
             }
         }
         p->frame++;
-        i += CHIYURI_EXATT_PAIR_STRIDE;
-        exatt_entity_p++;
     }
 }
 
 void far pascal exatt_render_chiyuri(void)
 {
-    register int i;
     exatt_entity_p = &exatt_entities[pid_current][0];
-    i = 0;
-    // Every real render call consumes two physical entity records.
-    while(i < CHIYURI_EXATT_PHYSICAL_SLOTS) {
+    // Every rendered beam consumes two physical entity records.
+    for(register int i = 0; i < CHIYURI_EXATT_PHYSICAL_SLOTS;
+        i += CHIYURI_EXATT_PAIR_STRIDE,
+        exatt_entity_p += CHIYURI_EXATT_PAIR_STRIDE) {
         if(exatt_entity_p->state) {
             chiyuri_exatt_render_one();
         }
-        i += CHIYURI_EXATT_PAIR_STRIDE;
-        exatt_entity_p += CHIYURI_EXATT_PAIR_STRIDE;
     }
 }
