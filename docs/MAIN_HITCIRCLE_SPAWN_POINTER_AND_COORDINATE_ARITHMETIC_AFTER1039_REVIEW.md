@@ -103,3 +103,21 @@ reproduce the original loaded image and ordered relocations.
 Current-source report: `.analysis/work/exatt-layout-af1068n/report.json`
 
 SHA-256: `3c88d02174b30f1f9acbe4511f3494e8a4ce2f3b907e5d983717e7cd637464fd`
+
+
+## Superseding current-source form (af1068s)
+
+The af1068n direct spawn stores and removal of the now-unused `spawn()` member
+remain in the current source. Two later lifetime changes were then re-tested
+together: `hitcircles_update()` now uses a declaration-initialized signed-index
+`while` loop with index-before-pointer increments, and `hitcircles_render()`
+shares one `sprite16_offset_t so` between the enemy and player draw paths.
+
+Stage `af1068s` rebuilt the complete `hitcirc` owner in two independent
+original TC4 4.02 rounds: 445 CODE bytes, 30 ordered native fields and four
+PUBLIC offsets match. Both normal Japanese MAIN links reproduce the original
+loaded image and ordered relocations.
+
+Current report: `.analysis/work/exatt-layout-af1068s/report.json`
+
+SHA-256: `af14a3b0d2de5b3b25d324d7725caf693c5363b12bd4b9c98be1e565af35e50b`

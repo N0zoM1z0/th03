@@ -33,3 +33,42 @@ The other 98 original game objects and Borland CRT were reused.
 Protected current-source report:
 `.analysis/work/exatt-layout-af985b/report.json`, SHA-256
 `000fc1edb8af9c71f4daa3c91f14a9c64825f8fb4b06e89c1b25853d804641a1`.
+
+
+## Current-source age walk and shared cel temporary (af1068s)
+
+The current `hitcircles_update()` now uses a natural pre-tested `while` loop
+with the signed index initialized at its declaration. The index and near
+record pointer advance in the original order after each record's age update:
+
+```cpp
+register int i = 0;
+while(i < HITCIRCLE_COUNT) {
+    if(p->age) {
+        p->age++;
+        if(HITCIRCLE_FRAMES < p->age) {
+            p->age = 0;
+        }
+    }
+    ++i;
+    ++p;
+}
+```
+
+The original `for` header form and this natural `while` form both preserve the
+complete current owner. The age postfix and expiry comparison remain unchanged.
+
+`hitcircles_render()` now declares one `sprite16_offset_t so` before the enemy
+loop and reuses it for both the twelve enemy draws and the separate player
+circle draw. This shortens the source duplication without changing the
+compiler's stack slot, `cel()` inlining, sprite call order, monochrome palette
+transition or final hardware reset.
+
+Stage `af1068s` rebuilt the complete 445-byte `hitcirc` owner in two original
+TC4 4.02 rounds: 30 ordered native fields and four PUBLICs match, and both
+normal Japanese MAIN links reproduce the original loaded image and ordered
+relocations.
+
+Report: `.analysis/work/exatt-layout-af1068s/report.json`
+
+SHA-256: `af14a3b0d2de5b3b25d324d7725caf693c5363b12bd4b9c98be1e565af35e50b`

@@ -57,7 +57,7 @@ files at that checkpoint. Current scoped source bindings are: `ba_sring` and
 `ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1058a`,
 `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`, `ba_reimu` uses `af1061b`,
 `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`, `ba_rikak` uses `af1066a`,
-and `hitcirc` uses `af1068n`. Only `ba_yumem` remains bound to `af1053k`.
+and `hitcirc` uses `af1068s`. Only `ba_yumem` remains bound to `af1053k`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
 probe reports are not Factory Oracle receipts or accepted facts.
@@ -81,15 +81,16 @@ lifetime. See the [current Radial review](MAIN_KOTOHIME_RADIAL_NATURAL_FOR_AND_A
 Current Kotohime report: `.analysis/work/exatt-layout-af1068e/report.json`
 SHA-256: `a51759a9529f0da12dc9dd9cded1492aedf828405599ddafefc354876a25669c`.
 
-HitCircle current-source refresh: `.analysis/work/exatt-layout-af1068n/report.json`
-SHA-256: `3c88d02174b30f1f9acbe4511f3494e8a4ce2f3b907e5d983717e7cd637464fd`.
+HitCircle current-source refresh: `.analysis/work/exatt-layout-af1068s/report.json`
+SHA-256: `af14a3b0d2de5b3b25d324d7725caf693c5363b12bd4b9c98be1e565af35e50b`.
 It recompiled the complete 445-byte `hitcirc` owner with 30 ordered native
 fields and four PUBLICs in two original TC4 rounds, preserving the full Japanese
-MAIN image and ordered relocations. The two spawn paths now write `age` and
-`pid` directly in source order; the now-unused `HitCircle::spawn` member was
-removed. The `_BX` cel and symbolic monochrome hardware operations remain
-because their natural rewrites still change CODE. See the
-[current HitCircle spawn review](MAIN_HITCIRCLE_SPAWN_POINTER_AND_COORDINATE_ARITHMETIC_AFTER1039_REVIEW.md).
+MAIN image and ordered relocations. The two spawn paths write `age` and `pid`
+directly; the unused `HitCircle::spawn` member is removed. The thirteen-record
+update uses a natural `while` loop, and the renderer shares one cel temporary
+between enemy and player draws. The `_BX` cel and symbolic monochrome hardware
+operations remain because their natural rewrites still change CODE. See the
+[current HitCircle lifetime review](MAIN_HITCIRCLE_NATURAL_LIFETIME_AND_RENDER_FOR_AFTER985_REVIEW.md).
 
 Chiyuri current-source refresh: `.analysis/work/exatt-layout-af1058a/report.json`
 SHA-256: `dde32e0ba6923503b17958abcc9524f64c30f6e3918c552fc72e30edb384d970`.
@@ -303,16 +304,23 @@ The later Kotohime Radial Burst source-only refresh `af1068e` supersedes the
 `ba_koto` binding in that ten-owner integration. It revalidates the complete
 1,840-byte owner in two original TC4 rounds; the other nine objects were not
 changed. No full cold replay was run.
-HitCircle's later `af1068n` source-only refresh similarly supersedes its
+HitCircle's later `af1068s` source-only refresh similarly supersedes its
 `af1053k` baseline binding. It revalidates the complete 445-byte `hitcirc`
 owner in two original TC4 rounds; no other physical owner was rebuilt.
+
+The current two-owner integration after the Radial and HitCircle updates is
+`af1068t`: `ba_koto` and `hitcirc`, 2,285 CODE bytes, 292 ordered native fields
+and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
+Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
+`527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
 Recommended next work:
 
 1. Continue `HitCircle::cel()` and Kotohime Radial Burst with substantive
-   function-level recovery: inspect their current sources and focused reviews,
-   explore natural C/C++ arithmetic and variable lifetimes, and compare the
-   complete affected physical owner. Do not stop at cosmetic leaf rewrites.
+   function-level recovery: the spawn paths, thirteen-record update loop and
+   renderer lifetime are now naturalized, but the BX cel calculation and
+   Radial projectile arithmetic still deserve deeper register/operand-order
+   experiments. Compare the complete affected physical owner each time.
 2. Expand beyond the already integrated nine character BOSS owners. Use
    `config/units.csv`, `config/evidence.csv`, current source and focused
    reviews to identify genuinely unowned large functions or engine areas.
