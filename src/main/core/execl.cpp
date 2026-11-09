@@ -16,11 +16,12 @@ int far pascal gaiji_restore(void);
 enum main_exec_mrs_slot_t {
  MAIN_EXEC_FIRST_MRS = 0,
  MAIN_EXEC_SECOND_MRS = 1,
+ MAIN_EXEC_PRIMARY_PI = 0,
 };
 
 extern "C" int far pascal main_exec(const char far *binary_fn)
 {
- graph_pi_free(&pi_headers[0], pi_buffers[0]);
+ graph_pi_free(&pi_headers[MAIN_EXEC_PRIMARY_PI], pi_buffers[MAIN_EXEC_PRIMARY_PI]);
  super_free();
  graph_hide();
  text_clear();
@@ -30,9 +31,8 @@ extern "C" int far pascal main_exec(const char far *binary_fn)
  mrs_free(MAIN_EXEC_FIRST_MRS);
  mrs_free(MAIN_EXEC_SECOND_MRS);
  game_exit();
- // Under the original large memory model, the execl vararg
- // terminator is a FOUR-BYTE far pointer. A plain integer `0` changes
- // native CODE and the argument width (af888c). Do not modernize this
- // without a real original-compiler and ABI check.
+ // The DOS vararg terminator must be a four-byte FAR null pointer in
+ // the game's 16-bit large memory model, rather than a near integer zero.
+ // Both executable-name arguments preserve the original pointer ABI.
  return execl((char *)binary_fn, (char *)binary_fn, (void far *)0);
 }
