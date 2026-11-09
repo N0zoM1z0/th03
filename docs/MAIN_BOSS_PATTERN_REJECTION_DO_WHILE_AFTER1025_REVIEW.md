@@ -26,3 +26,21 @@ relocations.
 Protected report: `.analysis/work/exatt-layout-af1025a/report.json`
 
 SHA-256: `c75ba24faaed0e6e3fa2ec0d1104b2bba37adfe5e133ab46b7d204d999418313`
+
+
+## Current-source revalidation (af1056c)
+
+The original af1025a result established the `do-while` form before the shared
+controller's later positive wait-frame scope. That later source revision used
+`while(1)`/`break`; this pass reapplied the natural `do-while` under the current
+controller shape and verified it again rather than assuming the older result
+still transferred.
+
+Two independent original TC4 4.02 rounds rebuilt both shared physical owners:
+`ba_sring` and `ba_srest`. All 949 CODE bytes, 106 ordered native fields and
+eight PUBLIC offsets match. Both normal MAIN links reproduce the original
+Japanese loaded image and ordered relocations.
+
+Current-source report: `.analysis/work/exatt-layout-af1056c/report.json`
+
+SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`

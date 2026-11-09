@@ -92,6 +92,10 @@ The following apparently natural alternatives were tested and restored:
   CODE; retain the separate assignment after the early-return gate.
 - Replacing the existing signed `TO_PIXEL`-equivalent conversion with
   compound `>>=` changed complete CODE.
+- Stage af1056a tried one shared `register unsigned char phase` local for
+  the INTRO renderer's three `+4`/`-4` byte updates. The first complete
+  `ba_chiyu` CODE comparison differed, so the experiment was restored; keep
+  the original AL-mediated load/add/store sequence.
 
 ## Complete-owner verification
 

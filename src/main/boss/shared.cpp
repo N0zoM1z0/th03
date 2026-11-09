@@ -250,15 +250,12 @@ extern "C" void near boss_pattern_next(void)
 	boss_move_sine();
 	if(BOSS_PATTERN_WAIT_FRAMES <= boss_frame) {
 		// Each rejected pattern still consumes a separate RNG word.
-		while(1) {
+		do {
 			pattern = randring_far_next16_and(BOSS_PATTERN_VARIANTS_MASK);
-			if(!(
-				((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
-				((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
-			)) {
-				break;
-			}
-		}
+		} while(
+			((boss_pattern_previous + BOSS_PATTERN_RECENT_RADIUS) >= pattern) &&
+			((boss_pattern_previous - BOSS_PATTERN_RECENT_RADIUS) <= pattern)
+		);
 
 		boss_pattern_previous = pattern;
 		boss_frame = 0;

@@ -52,17 +52,30 @@ Protected report:
 Report SHA-256:
 44fdc9bb483c928f4e47d9c916c94a228ecbea4e19c0703c349cd912e6235ea0
 
-The report's twelve source hashes were checked against all twelve current
-maintained files. The complete normal link is strong scoped native evidence;
+The report's twelve source hashes were checked against all twelve maintained
+files at that checkpoint. A later scoped refresh, `af1056c`, now binds the
+current shared BOSS source: both `ba_sring` and `ba_srest` were rebuilt in two
+original TC4 rounds after restoring the natural `do-while` pattern-rejection
+loop under the current positive wait-frame scope. The other ten owners remain
+bound to `af1053k`. The complete normal link is strong scoped native evidence;
 it is not whole-game source ownership or canonical Factory packed-file
 acceptance.
 
+Shared BOSS current-source refresh: `.analysis/work/exatt-layout-af1056c/report.json`
+SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`.
+It covers 949 CODE bytes, 106 ordered native fields and eight PUBLIC offsets
+across both shared physical owners, with the full Japanese MAIN image and
+ordered relocations equal in two independent rounds. See the
+[updated shared-core review](MAIN_BOSS_SHARED_CORE_NATURAL_CONTROL_AFTER1047_REVIEW.md)
+and [pattern-rejection review](MAIN_BOSS_PATTERN_REJECTION_DO_WHILE_AFTER1025_REVIEW.md).
+
 ### Evidence interpretation
 
-`af1053k` is the latest source-bound integration for all twelve physical
-owners. It supersedes the earlier `af1053i`, `af1052g`, `af1051k` and `af1047l`
-full-set checkpoints for current source binding. Their reports remain useful
-historical snapshots, not additional current proof. Older standalone
+`af1053k` remains the latest twelve-owner integration checkpoint. Current
+source bindings are split by the subsequent scoped refresh: `ba_sring` and
+`ba_srest` use `af1056c`, while the other ten physical owners remain bound to
+`af1053k`. The earlier `af1053i`, `af1052g`, `af1051k` and `af1047l` full-set
+checkpoints are historical snapshots, not additional current proof. Older standalone
 `af1024*` and `af1021*` reports are also historical for owners changed since
 those stages; do not call them current source proofs. The focused reviews and
 detailed compiler chronology are preserved in
@@ -103,6 +116,15 @@ original TC4 rounds and reproduce the Japanese MAIN image and ordered MZ
 relocations. Recent source checkpoints include `a15e7b4b` (arrival geometry),
 `0fe02754` (update/main renderer), `e71406d8` (cross-ring geometry) and
 `f7b0ef44` (pattern cadence). The final integration checkpoint is `7fe6d95c`.
+
+The shared BOSS scheduler has also been re-naturalized under the current
+controller scope. `boss_pattern_next()` now uses a `do-while` rejection loop,
+preserving the inclusive recent-pattern window and one RNG draw per candidate.
+Stage `af1056c` rebuilt both shared owners (`ba_sring` and `ba_srest`) in two
+original TC4 rounds: 949 CODE bytes, 106 ordered native fields and eight
+PUBLICs, with both normal MAIN links and ordered relocations exact. The other
+ten owners remain source-bound to `af1053k`; see the
+[af1056c shared-core review](MAIN_BOSS_SHARED_CORE_NATURAL_CONTROL_AFTER1047_REVIEW.md).
 
 Recommended next work:
 

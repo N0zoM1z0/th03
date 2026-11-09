@@ -51,8 +51,11 @@ The center angle and speed expressions use the natural base-first additions:
 Both operand orders compile to the same complete owner.
 
 A natural `boss_move_phase -= 4` replacement for the AL-mediated byte update
-was also tested and rejected because it changes complete CODE. The original
-AL load/add/store sequence remains.
+was also tested and rejected because it changes complete CODE. Stage af1056b
+also tried a shared `register unsigned char phase` local initialized from
+`boss_move_phase`, incremented by `(unsigned char)0xFC`, and stored back; the
+complete `ba_koto` CODE comparison differed in the first round. Both variants
+were restored, and the original AL load/add/store sequence remains.
 
 Stage `af1033y` rebuilt the complete `ba_koto` physical owner in two
 independent original TC4 4.02 rounds. All 1,840 CODE bytes, 262 ordered native

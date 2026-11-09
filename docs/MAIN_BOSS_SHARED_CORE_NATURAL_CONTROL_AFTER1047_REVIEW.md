@@ -48,7 +48,7 @@ compiler-sensitive and are preserved in their proven forms.
   writes the original target coordinates with base-first Y addition.
 - `boss_pattern_next()` uses a register byte for the selected pattern and a
   positive wait-frame scope. Its random rejection is now a natural
-  `while(1)`/`break` loop; every rejected draw still consumes exactly one RNG
+  `do-while` loop; every rejected draw still consumes exactly one RNG
   word. The mode offset is base-first, the pattern-index postfix remains, and
   the DESCEND transition is a positive `pattern_i <= pattern_count` early
   return followed by the mode assignment.
@@ -94,3 +94,23 @@ SHA-256: `a9c21a2a889b66e73466a277fb3ac6ecafdabdd4422a454e7d27d2fd3827c821`
 This is a source-native improvement to already-owned original code, not new
 CODE ownership, raw vendor OMF packet identity or canonical packed-game
 acceptance.
+
+
+## Current-source scheduler revalidation (af1056c)
+
+The current positive wait-frame scope was re-tested with the original natural
+`do-while` rejection form rather than relying only on the earlier af1025a
+snapshot. The register-qualified pattern local, inclusive two-sided recent
+pattern window, one-RNG-draw-per-candidate behavior, mode/frame update order
+and pattern-index postfix are unchanged.
+
+Stage `af1056c` rebuilt both shared physical owners in two independent
+original TC4 4.02 rounds: `ba_sring` (348 CODE bytes, 22 ordered native fields,
+1 PUBLIC) and `ba_srest` (601 CODE bytes, 84 ordered native fields, 7 PUBLICs).
+Both complete normal MAIN links reproduce the Japanese loaded image and all
+ordered MZ relocations. The full 949-byte shared CODE payload, 106 ordered
+native fields and eight PUBLIC offsets match.
+
+Protected current-source report: `.analysis/work/exatt-layout-af1056c/report.json`
+
+SHA-256: `f23dfc1120fdf36091ccc6b890ac6a7382af9790b5b1662c06a830a13aa7dad5`
