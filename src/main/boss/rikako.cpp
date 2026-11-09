@@ -407,8 +407,6 @@ void near rikako_pattern_alternating_burst(void)
 
 void far gba_boss_update_rikako(void)
 {
-	pid_t pid_other;
-
 	if(boss_update_start()) {
 		rikako_orbit_count = ((gba_boss_level / RIKAKO_ORBIT_COUNT_DIV) + RIKAKO_ORBIT_COUNT_BASE);
 		rikako_entity_count = ((gba_boss_level / RIKAKO_ENTITY_COUNT_DIV) + RIKAKO_ENTITY_COUNT_BASE);
@@ -421,10 +419,10 @@ void far gba_boss_update_rikako(void)
 		return;
 	}
 
-	pid_other = (1 - pid_current);
+	pid_t pid_other = (1 - pid_current);
 	bullet_template.pid = pid_other;
 	boss_target_update();
-	++boss_frame;
+	boss_frame++;
 
 	switch(boss_mode) {
 	case RIKAKO_MODE_INTRO:
