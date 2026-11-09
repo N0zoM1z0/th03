@@ -257,11 +257,12 @@ void near marisa_pattern_columns_wide(void)
 		marisa_exatt_add(MARISA_COLUMN_PAIR_3_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(MARISA_COLUMN_WIDE_FINISH == boss_frame) {
-		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
-		boss_mode = MARISA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame != MARISA_COLUMN_WIDE_FINISH) {
+		return;
 	}
+	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+	boss_mode = MARISA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 // Regular 32-frame volley, ending at the original 0x82 timer.
@@ -301,10 +302,11 @@ void near marisa_pattern_ring(void)
 		bullets_add();
 	}
 
-	if(MARISA_RING_FINISH <= boss_frame) {
-		boss_mode = MARISA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame < MARISA_RING_FINISH) {
+		return;
 	}
+	boss_mode = MARISA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void near marisa_pattern_columns_narrow(void)
@@ -330,11 +332,12 @@ void near marisa_pattern_columns_narrow(void)
 		marisa_exatt_add(MARISA_NARROW_PAIR_2_RIGHT, MARISA_COLUMN_SPAWN_Y, pid_other);
 		return;
 	}
-	if(MARISA_COLUMN_FOURTH == boss_frame) {
-		boss_render_mode = MARISA_RENDER_MODE_NORMAL;
-		boss_mode = MARISA_MODE_SELECT;
-		boss_frame = 0;
+	if(boss_frame != MARISA_COLUMN_FOURTH) {
+		return;
 	}
+	boss_render_mode = MARISA_RENDER_MODE_NORMAL;
+	boss_mode = MARISA_MODE_SELECT;
+	boss_frame = 0;
 }
 
 void far gba_boss_update_marisa(void)
