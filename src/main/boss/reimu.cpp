@@ -262,28 +262,27 @@ enum reimu_orbit_phase_t {
     REIMU_ORBIT_ANGLE_STEP = 8,
 };
 
-// The four radial loops use natural signed i*256 BEFORE the original
-// integer division; collapsing or reordering would change ring angles.
+// The three radial loops use signed i*256 BEFORE the original integer
+// division; collapsing or reordering would change ring angles.
 void near reimu_pattern_orbit_burst(void)
 {
-	register unsigned char angle;
-	register int i;
-
 	boss_move_sine();
 
-	if(REIMU_ORBIT_INIT_FRAME == boss_frame) {
+	if(boss_frame == REIMU_ORBIT_INIT_FRAME) {
 		boss_render_mode = REIMU_RENDER_MODE_ORBIT;
 		reimu_orbit_angle = randring_far_next16();
 	}
 
-	if(REIMU_ORBIT_EXPAND_END > boss_frame) {
+	if(boss_frame < REIMU_ORBIT_EXPAND_END) {
 		// Keep the subpixel conversion before doubling: TO_SP(frame) * 2
 		// is exact, while a single frame * 32 expression changes TC4 CODE.
-		// Three orbit phases retain signed i*256 before division and byte
-		// angle truncation. Postfix for-header increments preserve each
-		// phase's polar and Extra Attack call order.
-		for(i = 0; i < reimu_orbit_count; i++) {
-			angle = reimu_orbit_angle + (REIMU_ORBIT_ANGLE_UNITS * i) / reimu_orbit_count;
+		// Each phase owns a signed index and a byte angle scratch. Shift
+		// before signed division; prefix advancement follows each phase's
+		// original polar and Extra Attack call order.
+		int i = 0;
+		while(i < reimu_orbit_count) {
+			unsigned char angle;
+			angle = static_cast<unsigned char>(((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x,
 				(TO_SP(boss_frame) * 2),
@@ -294,43 +293,53 @@ void near reimu_pattern_orbit_burst(void)
 				(TO_SP(boss_frame) * 2),
 				SinTable8[angle]
 			);
+			++i;
 		}
-		// This unsigned-byte orbit angle accepts compound += in both
-		// phases; signed-byte fields in other BOSS owners can differ.
-		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
+		// Explicit self-addition preserves the unsigned-byte orbit wrap;
+		// signed-byte fields in other BOSS owners can differ.
+		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
 		return;
 	}
 
-	if(REIMU_ORBIT_RELEASE_FRAME > boss_frame) {
-		for(i = 0; i < reimu_orbit_count; i++) {
-			angle = reimu_orbit_angle + (REIMU_ORBIT_ANGLE_UNITS * i) / reimu_orbit_count;
+	if(boss_frame < REIMU_ORBIT_RELEASE_FRAME) {
+		int i = 0;
+		while(i < reimu_orbit_count) {
+			unsigned char angle;
+			angle = static_cast<unsigned char>(((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_orbit_x[i] = polar(
 				boss_center_x, TO_SP(48), CosTable8[angle]
 			);
 			reimu_orbit_y[i] = polar(
 				boss_center_y, TO_SP(48), SinTable8[angle]
 			);
-		}
-		reimu_orbit_angle += REIMU_ORBIT_ANGLE_STEP;
 
-		if(!round_frame_mod16) {
-			bullet_template.type = BT_BULLET16_DEFAULT;
-			bullet_template.speed.v = reimu_ring_speed;
-			bullet_template.pid = (1 - pid_current);
-			bullet_template.center.x.v = boss_center_x;
-			bullet_template.center.y.v = boss_center_y;
-			bullet_template.angle = randring_far_next16();
-			bullet_template.group = BG_RING;
-			bullet_template.count = reimu_ring_count;
-			bullets_add();
+			++i;
 		}
+		reimu_orbit_angle = reimu_orbit_angle + REIMU_ORBIT_ANGLE_STEP;
+
+		if(round_frame_mod16 != 0) {
+			return;
+		}
+		bullet_template.type = BT_BULLET16_DEFAULT;
+		bullet_template.speed.v = reimu_ring_speed;
+		bullet_template.pid = (1 - pid_current);
+		bullet_template.center.x.v = boss_center_x;
+		bullet_template.center.y.v = boss_center_y;
+		bullet_template.angle = randring_far_next16();
+		bullet_template.group = BG_RING;
+		bullet_template.count = reimu_ring_count;
+		bullets_add();
 		return;
 	}
 
-	if(REIMU_ORBIT_RELEASE_FRAME == boss_frame) {
-		for(i = 0; i < reimu_orbit_count; i++) {
-			angle = reimu_orbit_angle + (REIMU_ORBIT_ANGLE_UNITS * i) / reimu_orbit_count;
+	if(boss_frame == REIMU_ORBIT_RELEASE_FRAME) {
+		int i = 0;
+		while(i < reimu_orbit_count) {
+			unsigned char angle;
+			angle = static_cast<unsigned char>(((i << 8) / reimu_orbit_count) + reimu_orbit_angle);
 			reimu_extra_add(reimu_orbit_x[i], reimu_orbit_y[i], angle);
+
+			++i;
 		}
 		boss_mode = REIMU_MODE_SELECT;
 		boss_frame = 0;

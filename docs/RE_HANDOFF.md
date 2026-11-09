@@ -54,9 +54,9 @@ Report SHA-256:
 
 The report's twelve source hashes were checked against all twelve maintained
 files at that checkpoint. Current scoped source bindings are: `ba_sring` and
-`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1069u`,
-`ba_yumem` uses `af1070h`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
-`ba_reimu` uses `af1061b`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
+`ba_srest` use `af1056c`, `ba_koto` uses `af1068e`, `ba_chiyu` uses `af1071r`,
+`ba_yumem` uses `af1071r`, `ba_mima` uses `af1059a`, `ba_kana` uses `af1060a`,
+`ba_reimu` uses `af1071r`, `ba_ellen` uses `af1063a`, `ba_maris` uses `af1065a`,
 `ba_rikak` uses `af1066a`, and `hitcirc` uses `af1068s`.
 The `af1067a` ten-owner integration is historical for the later Kotohime
 source change; its other nine owner bindings remain unchanged. Local native
@@ -142,15 +142,18 @@ uses the direct inactive-player return before its attack-mode dispatch and
 collision/hitbox tail. See the
 [current Kana PID-scope review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
-Reimu current-source refresh: `.analysis/work/exatt-layout-af1061b/report.json`
-SHA-256: `2b36c1dae2ce97a8803cf443bf2f3346e47744a080d07fdc06225e6cca975c4f`.
-It recompiled the complete 2,020-byte `ba_reimu` owner with 270 ordered native
+Reimu current-source refresh is included in the joint
+`.analysis/work/exatt-layout-af1071r/report.json` (SHA-256
+`38e27eb2acb2293e369d5a2057b227498181d16cc48872b5d7df611e03915e9a`). It
+recompiles the complete 2,020-byte `ba_reimu` owner with 270 ordered native
 fields and nine PUBLICs in two original TC4 rounds, preserving the full Japanese
-MAIN image and ordered relocations. The complete Reimu update controller now
-uses the direct inactive-player return before target tracking and frame
-advancement, while preserving its INTRO/SELECT logic, four attack families and
-collision/hitbox tail. See the
-[current Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+MAIN image and ordered relocations. The 443-byte Orbit Burst now has three
+phase-local signed indices, byte-angle scratches and natural `while` loops;
+the polar distribution uses signed shift-before-division, and the hold phase
+uses an explicit non-ring early return. The update controller still uses the
+direct inactive-player return before target tracking and frame advancement.
+See the [current Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md)
+and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Ellen current-source refresh: `.analysis/work/exatt-layout-af1063a/report.json`
 SHA-256: `9965bf3ad20cf6fe5fadb5ec5522529f19e086a6618d6598660629c85ef9c513`.
@@ -282,13 +285,15 @@ rounds: 1,874 CODE bytes, 274 ordered native fields and nine PUBLICs match,
 with both normal MAIN images and ordered relocations exact. See the
 [af1060a current-source review](MAIN_KANA_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
-Reimu's complete `gba_boss_update_reimu()` controller now uses the direct
-inactive-player return before target/frame updates. The current `ba_reimu`
-owner was rebuilt in two original TC4 rounds: 2,020 CODE bytes, 270 ordered
-native fields and nine PUBLICs match, with both normal MAIN images and ordered
-relocations exact. The INTRO/SELECT logic, four attack families and complete
-collision/hitbox tail remain in order. See the
-[af1061b current-source review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
+Reimu's complete `gba_boss_update_reimu()` controller continues to use the
+direct inactive-player return before target/frame updates. The current
+`ba_reimu` source is bound by the three-owner integration `af1071r`: 2,020 CODE
+bytes, 270 ordered native fields and nine PUBLICs match in two original TC4
+rounds, with both normal MAIN images and ordered relocations exact. The 443-byte
+Orbit Burst is now naturalized as three phase-local while loops with signed
+shift-before-division angle distribution. See the
+[af1071q Orbit Burst review](MAIN_REIMU_ORBIT_BURST_PHASE_LOCAL_WHILE_AFTER1071_REVIEW.md)
+and [Reimu PID-scope review](MAIN_REIMU_UPDATE_POSITIVE_PID_SCOPE_AFTER1032_REVIEW.md).
 
 Ellen's complete `gba_boss_update_ellen()` controller now uses the direct
 inactive-player return before target tracking and frame advancement. The
@@ -337,23 +342,21 @@ and 15 PUBLICs. Both original TC4 rounds and both normal MAIN links match.
 Report: `.analysis/work/exatt-layout-af1068t/report.json`, SHA-256
 `527dd1fa061231d33e796217ba7f6b41fdeb505c0a28abe348d5613647d675a2`.
 
-The current Yumemi + Chiyuri source integration is `af1070h`: `ba_yumem` and
-`ba_chiyu`, 5,012 CODE bytes, 724 ordered native fields and 21 PUBLICs. Both
-original TC4 rounds and both normal MAIN links match. Report:
-`.analysis/work/exatt-layout-af1070h/report.json`, SHA-256
-`878048b4f927d4afa219d30ecf5c8a1660cfa8395fc7b4865bd7b9fceb3a68f4`.
-It includes the current Chiyuri four-while fan source and Yumemi's period-mask
-Aimed Random gate, Rain loop-local index and zero test, and Cross/Rain
-variable-first finish guards, along with the previously recovered Yumemi
-update/arrival lifetime changes.
+The current Reimu + Yumemi + Chiyuri source integration is `af1071r`:
+`ba_reimu`, `ba_yumem` and `ba_chiyu`, 7,032 CODE bytes, 994 ordered native
+fields and 30 PUBLICs. Both original TC4 rounds and both normal MAIN links
+match. Report: `.analysis/work/exatt-layout-af1071r/report.json`, SHA-256
+`38e27eb2acb2293e369d5a2057b227498181d16cc48872b5d7df611e03915e9a`.
+It includes Reimu's phase-local Orbit Burst loops, Chiyuri's four-while fan
+source and Yumemi's update, arrival, Aimed Random, Rain and Cross/Rain changes.
 
 Recommended next work:
 
-1. Continue `HitCircle::cel()`, Kotohime Radial Burst, Yumemi arrival and
-   Chiyuri fan generation with substantive function-level recovery. The new
-   Yumemi update/arrival and Chiyuri fan PID changes are current-source native
-   matches; continue deeper register/operand-order and geometry experiments.
-   Compare the complete affected physical owner each time.
+1. Continue `HitCircle::cel()`, Kotohime Radial Burst, Reimu Orbit Cloud and
+   Reimu's full update controller with substantive function-level recovery.
+   The three-phase Orbit Burst is now naturalized and current-source exact;
+   continue deeper register/operand-order, geometry and state-transition
+   experiments. Compare the complete affected physical owner each time.
 2. Expand beyond the already integrated nine character BOSS owners. Use
    `config/units.csv`, `config/evidence.csv`, current source and focused
    reviews to identify genuinely unowned large functions or engine areas.
