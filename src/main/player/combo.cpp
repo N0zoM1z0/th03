@@ -136,19 +136,12 @@ void combos_update_and_render(void)
 	tram_x_t left;
 	int pid;
 	uint8_t col;
-	// Keep the pointer initialization before the loop: moving it into
-	// the initializer emitted non-original source CODE (af849d).
-	// This two-player full bonus/HUD dispatcher admits a natural
-	// while with explicit near-pointer and signed-index advances on
-	// BOTH paths. The skipped/expired combo must still advance before
-	// continue (genuine original native af900a).
-	pid = 0;
-	while(pid < PLAYER_COUNT) {
+	// Preserve the pointer initialization before the loop. Both active
+	// and skipped combos join one native index/pointer progression.
+	for(pid = 0; pid < PLAYER_COUNT; ++pid, ++p) {
 		if(!p->time) {
 			// Original inactive path skips all TRAM writes and bonuses,
 			// but still advances both physical registers.
-			++pid;
-			++p;
 			continue;
 		}
 		if(p->time == COMBO_FRAMES) {
@@ -224,8 +217,6 @@ void combos_update_and_render(void)
 			score_add(p->bonus_total, pid);
 			p->bonus_total = 0;
 		}
-		++pid;
-		++p;
 	}
 }
 
