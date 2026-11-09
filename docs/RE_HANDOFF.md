@@ -143,6 +143,15 @@ uses the direct inactive-player return before its mode dispatch, preserving the
 signed-byte spin update and collision/hitbox tail. See the
 [current Rikako PID-scope review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
 
+Current-source ten-owner integration: `.analysis/work/exatt-layout-af1067a/report.json`
+SHA-256: `857551a78dd400b20c72940c186dc53835c1385fa0bcb69131920e389d47c689`.
+This integration rebuilt the current shared pair plus all eight updated
+character BOSS owners together in two original TC4 4.02 rounds: 10 complete
+physical owners, 16,042 CODE bytes, 2,197 ordered native fields and 83 PUBLICs.
+Both normal MAIN links reproduce the original Japanese loaded image and all
+ordered relocations. The two unchanged owners, Yumemi and HitCircle, remain
+bound to the `af1053k` baseline; no full cold replay was run.
+
 ### Evidence interpretation
 
 `af1053k` remains the latest twelve-owner integration checkpoint. Current
@@ -268,6 +277,14 @@ relocations exact. The five level parameters remain before the guard; the
 Orbit/Entities/Alternating Burst switch, signed-byte spin update and full
 collision/hitbox tail remain after it. See the
 [af1066a current-source review](MAIN_RIKAKO_UPDATE_POSITIVE_PID_SCOPE_AFTER1033_REVIEW.md).
+
+The current-source integration after these updates combines both Shared
+BOSS providers with Kotohime, Chiyuri, Mima, Kana, Reimu, Ellen, Marisa and
+Rikako. Stage `af1067a` rebuilt all ten complete physical owners in two
+original TC4 rounds: 16,042 CODE bytes, 2,197 ordered native fields and 83
+PUBLICs match, as do both complete normal MAIN images and ordered relocations.
+Only the unchanged Yumemi and HitCircle owners remain on the prior af1053k
+source binding. See the [af1067a ten-owner integration report](#current-source-bound-main-evidence).
 
 Recommended next work:
 
